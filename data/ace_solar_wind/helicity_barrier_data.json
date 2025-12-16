@@ -1,0 +1,42 @@
+{
+  "description": "Helicity barrier measurements from ACE and PSP",
+  "sources": [
+    "Squire et al. 2022, Nature Astronomy 6, 715-723",
+    "McIntyre et al. 2025, Phys. Rev. X 15, 031008"
+  ],
+  "constitutive_law": {
+    "form": "|Delta_zeta_4| = a_0 + a_1 * C_B + a_2 * C_B^2",
+    "parameters": {
+      "a_0": {"value": 0.1843, "error": 0.01},
+      "a_1": {"value": -0.2051, "error": 0.02},
+      "a_2_tau": {"value": 0.022, "error": 0.008}
+    }
+  },
+  "critical_thresholds": {
+    "beta_c": {
+      "value": 0.5,
+      "error": 0.1,
+      "description": "Critical plasma beta for barrier activation"
+    },
+    "sigma_c_threshold": {
+      "value": 0.4,
+      "error": 0.05,
+      "description": "Cross-helicity threshold"
+    }
+  },
+  "psp_encounters": [
+    {"number": 1, "perihelion_Rs": 35.7, "date": "2018-11-05", "barrier_detected": false},
+    {"number": 4, "perihelion_Rs": 27.8, "date": "2020-01-29", "barrier_detected": false},
+    {"number": 6, "perihelion_Rs": 20.4, "date": "2020-09-27", "barrier_detected": true},
+    {"number": 10, "perihelion_Rs": 13.3, "date": "2021-11-21", "barrier_detected": true},
+    {"number": 12, "perihelion_Rs": 13.3, "date": "2022-06-01", "barrier_detected": true},
+    {"number": 16, "perihelion_Rs": 13.3, "date": "2023-06-22", "barrier_detected": true},
+    {"number": 17, "perihelion_Rs": 11.4, "date": "2023-09-27", "barrier_detected": true},
+    {"number": 22, "perihelion_Rs": 9.86, "date": "2024-12-24", "barrier_detected": true}
+  ],
+  "physical_interpretation": {
+    "mechanism": "Ion-cyclotron resonance blocks cascade at low beta",
+    "consequence": "Energy diverted to ion heating instead of continuing cascade",
+    "observable": "Steepening of turbulent spectrum at sub-ion scales"
+  }
+}
