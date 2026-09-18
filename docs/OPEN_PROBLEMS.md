@@ -65,6 +65,21 @@ chart's machine cover to absolute `d₀`. Rides `D3-LEMMA-RN-UNIF`.
 * Build the whitened `env_form` orders 2–4 runnable smoke (currently missing);
   order-1 chi-squared white is a nearest neighbour only.
 
+*Repository state (code, not status):* the annulus driver recorded as
+unwritten now exists at `research/cover/`, with the accept / refine / reject /
+pending ledger as its first-class output and `total()` refusing to return
+while any cell is pending. Two exact facts it established about the recipe
+above: the acceptance rule's cell-area factor cancels, so a zeroth-order sup
+cover imposes a uniform oscillation bound per cell wherever the cell sits —
+that is the near-axis refinement cost stated in one line — and a uniform
+cover of `0.1 ≤ |y| ≤ 5` at Cartesian cell diameter 1/10 needs exactly
+98 × 629 = 61,642 polar cells, the 50× inner/outer anisotropy being
+`r_hi/r_lo` exactly. For the T4 region `d ∈ [5, 17]`, θ-halving alone cannot
+tighten a radial integrand's enclosure past the shell's radial floor, however
+much depth is granted. Every integrand exercised is a labelled reference; no
+cell of the program's actual cover is certified, and the frozen engine
+`engine/rn_engine/frozen/` is `mpmath` throughout. Both Pieces remain OPEN.
+
 ### A6. `PERC-DECAY`
 
 The `o(r³)` far-lane reading is not reachable. Use the `Θ(r³)` restatement with

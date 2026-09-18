@@ -10,6 +10,7 @@ source identity and status; anything added here is clearly marked as new.
 | `lpw/headline.py` | the LPW headline constant as an exact fraction and the admissibility of each rounded decimal by asserted direction |
 | `identities/gaussian_moments.py` | Gaussian absolute-moment identities exact in the basis `{1, 1/π}`; refutes `E(\|ξ\|+\|η\|)⁴ = 12 + 16/π` (true value `12 + 32/π`) |
 | `bands/` | lane A1 machinery for `OBL-H5-JETMOD`: the published rung ladder as exact data with the implied-modulus analysis, a certified periodized lattice-sum evaluator with a proved tail bound uniform over an interval box, and the obligation's own falsifier with `INSUFFICIENT_DATA` as a first-class outcome. Reference kernels only — no band bound for any jet of the program is computed |
+| `cover/` | lane A5's spatial cover driver, the one `LANE_RN_UNIF.md` records as unwritten: partition exactness decided structurally over `Fraction` (never by area — an equal-area cover can carry both a gap and an overlap), `total()` raises while any cell is `PENDING` with no bypass, every rejected cell retained with its boundary bound, and the RN5 annulus `0.1 ≤ \|y\| ≤ 5` and the T4 polar region `d ∈ [5, 17]` instantiated separately and never merged. Reference integrands only — no cell of the program's actual cover is certified |
 
 See `docs/RESEARCH_MAP.md` for the lane-by-lane map and
 `docs/OPEN_PROBLEMS.md` for the exact next actions.
