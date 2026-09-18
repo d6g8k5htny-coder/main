@@ -1,3 +1,7 @@
+<!-- Ported verbatim from Google Drive file 12nId_WFjz10b_S0WlTSzQv2S0G8TjmSK
+     ("FULL_DOCS_MATH_READ.md", 2026-09-16). Author-side deep read of the math
+     carriers; status labels are as written by their sources. No promotions. -->
+
 # Full docs — math deep-read
 
 **Written:** 2026-09-16 ~22:22 CDT (America/Chicago).  
