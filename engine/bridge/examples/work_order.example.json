@@ -1,0 +1,67 @@
+{
+  "authorization": {
+    "approved_principal_ids": [],
+    "authorized_outside_this_repository": true,
+    "authorizing_record_drive_id": null,
+    "policy_change_authorized_by": null,
+    "source_ref": null,
+    "verification_status": "NOT_VERIFIED"
+  },
+  "claim": {
+    "lease_until_utc": null,
+    "work_events_event_id": null
+  },
+  "does_not_establish": "This is a design example, not a work order. It authorizes nothing: no principal is approved, no Drive record verifies it, no lease is held and no path may be written under it. It establishes nothing mathematical and changes no status; the contract it illustrates is PROPOSED / NOT DEPLOYED.",
+  "expected_old_output_head": null,
+  "governing_sources": [
+    {
+      "bytes": 13535,
+      "drive_id": "1kX7EF0Pks2v8IXVQ95Zh6dUji-Ax9LP9",
+      "extraction_rule": "raw bytes as downloaded (text/markdown); no transformation",
+      "revision_if_native": null,
+      "sha256": "788451eb94ef5d557681ce7d896026c7e811402f062090046b48c083fc45d556"
+    },
+    {
+      "bytes": 11730,
+      "drive_id": "1YlJkziKCkqxoqot4vQctrrD3LUt2NBgACg6H-WsN3Pw",
+      "extraction_rule": "text/plain export of a native Google Doc as returned (UTF-8 BOM, CRLF); a reading copy, not the object's bytes",
+      "revision_if_native": "NOT_RECORDED: the export was taken without a revision id; a real order must record one",
+      "sha256": "5511e6055ce65de54457189786e926b3c7f859d624dc29432abb1a25eff479ab"
+    }
+  ],
+  "limits": {
+    "memory_mib": 1024,
+    "network_policy": "NONE",
+    "wall_time_seconds": 600
+  },
+  "public_disclosure": {
+    "approved": false,
+    "approved_paths": []
+  },
+  "record_kind": "EXAMPLE",
+  "repository": {
+    "base_commit_sha": null,
+    "full_name": "d6g8k5htny-coder/main",
+    "id": 1117225690
+  },
+  "schema": "q0.bridge.work_order/v1",
+  "scientific_status_change_authorized": false,
+  "scope": {
+    "acceptance_tests": [
+      "tests/test_bridge.py"
+    ],
+    "allowed_commands": [
+      "python3 -m pytest -q tests/test_bridge.py"
+    ],
+    "allowed_paths": [
+      "sandbox/EXAMPLE-DG-EXEC-NOT-A-TASK/"
+    ],
+    "objective": "EXAMPLE ONLY. Illustrates the v1 work-order shape ported from work_order.example.json (DG-EXEC-20260918-49291487). It authorizes no work.",
+    "required_negative_controls": [
+      "a record that breaks each rule in exactly one way is refused"
+    ]
+  },
+  "status": "PREPARED",
+  "task_id": "EXAMPLE-DG-EXEC-NOT-A-TASK",
+  "work_order_digest": "a98f0d7fe5b392bba316de002cc70eaab84abcbf002e809f72346488620f9426"
+}

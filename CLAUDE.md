@@ -63,7 +63,7 @@ deletion and machine-root replacement. This repository changes none of that.
 | `registers/` | the 42 coupled register tabs as JSON and CSV, plus the source export |
 | `drive/` | the source map: `inventory.jsonl` (4,456 items) and the accessibility CSVs; `deltas/` (dated, byte-exact copies of what changed on the Drive after the snapshot, with `PATH_CHANGES.jsonl`); `mirrors/` (byte-exact copies of selected lane objects, one `_MANIFEST.jsonl` per directory, README quoting the source banners) |
 | `claims/` | the machine-checked claim graph and its firewalls |
-| `engine/` | the active layer: lanes, bound carriers, the runner, receipts |
+| `engine/` | the active layer: lanes, bound carriers, the runner, receipts; `bridge/` holds the work-order and run-receipt schemas of the proposed (not deployed) Drive–GitHub execution contract and nothing that enforces it |
 | `research/` | the mathematics: certified intervals and the per-lane drivers |
 | `reviews/` | nonauthor technical review records, all at zero independence credit |
 | `recovery/` | recovered accessibility exceptions, with provenance |
@@ -99,7 +99,7 @@ python3 -m pytest -q                        # unit tests and negative controls
 
 `tools/` also holds `carriers_verify.py`, `lanes_check.py`, `receipts_check.py`,
 `reviews_check.py`, `recovery_check.py`, `collision_proposal_check.py`, `slack_check.py` and
-`frozen_check.py` as the active layer lands them; CI runs whichever exist.
+`frozen_check.py` and `bridge_check.py` as the active layer lands them; CI runs whichever exist.
 
 ## A note on what "active" means here
 

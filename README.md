@@ -83,7 +83,9 @@ drive/          complete source map: inventory.jsonl (4,456 items) + accessibili
                 deltas/ (what changed after the snapshot, byte-exact, dated) and
                 mirrors/ (byte-exact copies of selected lane objects, manifest-verified)
 claims/         the machine-checked claim graph and its firewalls
-engine/         the active layer: lanes, bound carriers, the recovered RN engine, runner
+engine/         the active layer: lanes, bound carriers, the recovered RN engine, runner;
+                bridge/ (work-order and run-receipt schemas of the PROPOSED, NOT DEPLOYED
+                Drive–GitHub execution contract; holds no orders and no receipts)
 research/       the mathematics: certified intervals and the per-lane drivers
 reviews/        R17 §4 nonauthor technical reviews, all at zero independence credit
 recovery/       recovered accessibility exceptions, with provenance and what is missing
@@ -130,6 +132,7 @@ python3 tools/carriers_verify.py            # every bound carrier blob matches i
 python3 tools/receipts_check.py             # receipts: schema, append-only, none claims a status change
 python3 tools/slack_check.py                # bound-slack registry bookkeeping; utility never correctness
 python3 tools/frozen_check.py               # frozen-object register vs source-map digests, offline; classes B/C not comparable
+python3 tools/bridge_check.py               # execution-bridge orders/receipts: schema, digests, git freeze; no enforcement
 python3 -m pytest -q                        # negative controls throughout
 ```
 
