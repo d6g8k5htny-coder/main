@@ -74,6 +74,11 @@ __all__ = [
 _HALF = Fraction(1, 2)
 _UNIT = Interval(-1, 1)
 
+#: Width, in reduced-index units, past which ``_sin_cos`` gives up and returns
+#: ``[-1, 1]``. Documented at its use site; believed unreachable, and pinned by
+#: a test that measures the span directly.
+_J_SPAN_GUARD = 32
+
 #: A certified strict LOWER bound on ``log2(e) = 1.4426950408889634...``.
 #: Used only to decide whether an ``exp`` result is past ``EXP_BIT_LIMIT``;
 #: because it is a lower bound, the test it drives is conservative in the
@@ -614,16 +619,36 @@ def _sin_cos_reduced(s: Interval, target: Fraction, sig: int
     return sin_enc, cos_enc
 
 
+def _decimal_digits(n: int) -> int:
+    """An upper bound on ``len(str(abs(n)))``, built without the string.
+
+    ``|n| < 2**b`` with ``b = bit_length(|n|)`` and ``log10(2) < 0.30103``, so
+    the digit count is at most ``floor(b * 30103 / 100000) + 1``. This must not
+    be ``len(str(n))``: CPython 3.11 refuses ``int`` -> ``str`` above
+    ``sys.get_int_max_str_digits()`` (default 4300), so ``sin`` and ``cos`` of an
+    argument with 4300 or more digits used to raise ``ValueError`` *before any
+    arithmetic happened* — in the step that decides how much certified ``pi`` the
+    reduction needs. An upper bound is the safe direction: it can only ask for
+    more precision than the exact digit count would.
+    """
+    b = abs(n).bit_length()
+    if b == 0:
+        return 1
+    return b * 30103 // 100000 + 1
+
+
 def _pi_for(x: Interval, prec: int) -> Interval:
     """``pi`` at enough extra digits to absorb the reduction of ``x``.
 
     Reducing an argument of size ``V`` subtracts about ``2V/pi`` copies of
     ``pi/2``, which multiplies the uncertainty in ``pi`` by that factor. So the
     enclosure of ``pi`` is taken with ``digits(V)`` extra decimal digits plus a
-    fixed guard.
+    fixed guard of 14. The inequality this has to support is written out in
+    :func:`_sin_cos_point`, and the margin it leaves is about ``10**-15``
+    against a requirement of ``1 - pi/4 = 0.2146``.
     """
     v = int(x.mag()) + 1
-    return pi(max(int(prec), 1) + len(str(v)) + 14)
+    return pi(max(int(prec), 1) + _decimal_digits(v) + 14)
 
 
 def _sin_cos_point(v: Fraction, half_pi: Interval, target: Fraction, sig: int
@@ -640,9 +665,41 @@ def _sin_cos_point(v: Fraction, half_pi: Interval, target: Fraction, sig: int
     ``tests/test_interval.py`` contains a negative control that exhibits that
     loss.
 
-    The true reduced argument ``s = v - j*(pi/2)`` lies in ``S`` and satisfies
-    ``|s| <= pi/4``, so ``mag(S) <= pi/4 + j*width(HP) < 1`` and
-    ``_sin_cos_reduced`` applies. Finally
+    THE REDUCTION INEQUALITY, WRITTEN OUT. Let ``w = width(HP)``, let
+    ``rho = v/(pi/2)`` be the true ratio and ``q`` its enclosure, so
+    ``rho in q``. ``j = round(mid(q))`` is the nearest integer to the MIDPOINT of
+    ``q``, not to ``rho``, so all that follows is
+
+        |rho - j| <= 1/2 + width(q)/2,
+        |s| = |rho - j| * (pi/2) <= pi/4 + (pi/4) * width(q),
+
+    which is weaker than the bare ``|s| <= pi/4`` an exact ``j`` would give.
+    Since ``S = [v] - j*HP`` is an interval of width ``|j| w`` containing ``s``,
+
+        mag(S) <= |s| + |j| w <= pi/4 + (pi/4) width(q) + |j| w,
+
+    with ``width(q) = |v| w / (hp_lo * hp_hi) <= 1.1 |v| w`` (using
+    ``hp_lo, hp_hi >= 1.57``) and ``|j| <= |rho| + 1/2 + width(q)/2 <=
+    0.64 |v| + 1`` for any ``|v|`` of interest. So
+
+        mag(S) <= pi/4 + (0.87 + 0.64) |v| w + w <= pi/4 + 1.6 |v| w + w.
+
+    ``_pi_for`` takes ``pi`` at ``prec + digits(V) + 14`` decimal digits with
+    ``V = |v| + 1``, and ``pi(P)`` has width below ``10**-P``, so
+    ``w <= 10**-P / 2 <= 10**-(digits(V) + 14)/2 <= 10**-14 / (2 V)`` and
+    ``|v| w <= 10**-14 / 2``. Hence ``mag(S) <= pi/4 + 10**-14 < 1``, against a
+    requirement of ``pi/4 = 0.7854 < 1``: a margin of ``0.2146``, exceeded only
+    if ``pi`` were certified about ``10**13`` times more loosely than it is.
+
+    Note ``|j|``, not ``j``: for negative ``v`` the index is negative and the
+    bound must be taken in absolute value.
+
+    THE CONSTRUCTION IS FAIL-CLOSED INDEPENDENTLY OF THAT ARGUMENT.
+    ``_sin_cos_reduced`` re-tests ``mag(s) <= 1`` on the interval it is actually
+    given and raises ``ArithmeticError`` otherwise, so if the inequality above
+    were ever violated the result would be a refusal, never a wrong enclosure.
+    A reviewer checking this function has to check the inequality for TIGHTNESS;
+    containment does not rest on it. Finally
 
         sin(j*(pi/2) + s) = sin s, cos s, -sin s, -cos s   for j = 0,1,2,3 mod 4
         cos(j*(pi/2) + s) = cos s, -sin s, -cos s, sin s   for j = 0,1,2,3 mod 4
@@ -687,7 +744,20 @@ def _sin_cos(x: Interval, prec: int, which: str) -> Interval:
     # the conservative direction is the safe one.
     a = x / half_pi
     j_lo, j_hi = _floor_frac(a.lo), _ceil_frac(a.hi)
-    if j_hi - j_lo > 32:
+    if j_hi - j_lo > _J_SPAN_GUARD:
+        # DEFENSIVE, AND BELIEVED UNREACHABLE. The full-period test above has
+        # already established width(x) < 2*pi_hi, so
+        #   width(a) <= width(x)/hp_lo + mag(x)*width(HP)/hp_lo**2
+        #            <= 2*pi_hi/hp_lo + (a tiny reduction term, see
+        #               _sin_cos_point: mag(x)*w stays below 1e-14)
+        #            <  4.1,
+        # and j_hi - j_lo <= width(a) + 2 <= 7. So this branch should never
+        # fire, and ``test_reduced_index_span_stays_small`` pins the span
+        # directly rather than leaving this as the only guard. It is kept
+        # because returning [-1, 1] is sound for sin and cos at any width, so a
+        # future regression in the full-period test degrades tightness here
+        # instead of costing an unbounded loop -- but the span test is what
+        # would catch such a regression, not this line.
         return Interval(-1, 1)
     for j in range(j_lo, j_hi + 1):
         if not a.lo <= j <= a.hi:
