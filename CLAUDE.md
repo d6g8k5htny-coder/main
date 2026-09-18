@@ -61,7 +61,7 @@ deletion and machine-root replacement. This repository changes none of that.
 |---|---|
 | `governance/` | operator protocols and how each Drive construct maps onto git |
 | `registers/` | the 42 coupled register tabs as JSON and CSV, plus the source export |
-| `drive/` | the source map: `inventory.jsonl` (4,456 items) and the accessibility CSVs |
+| `drive/` | the source map: `inventory.jsonl` (4,456 items) and the accessibility CSVs; `deltas/` (dated, byte-exact copies of what changed on the Drive after the snapshot, with `PATH_CHANGES.jsonl`); `mirrors/` (byte-exact copies of selected lane objects, one `_MANIFEST.jsonl` per directory, README quoting the source banners) |
 | `claims/` | the machine-checked claim graph and its firewalls |
 | `engine/` | the active layer: lanes, bound carriers, the runner, receipts |
 | `research/` | the mathematics: certified intervals and the per-lane drivers |

@@ -79,7 +79,9 @@ floor; **hi side OPEN**), `OBL-H5-REMOTE-THRESHOLD` (OPEN, rides premise 2).
 ```
 governance/     operator protocols (reading copies — see PROVENANCE.json) + git mapping
 registers/      the 42 coupled register tabs as JSON and CSV, plus the source export
-drive/          complete source map: inventory.jsonl (4,456 items) + accessibility CSVs
+drive/          complete source map: inventory.jsonl (4,456 items) + accessibility CSVs;
+                deltas/ (what changed after the snapshot, byte-exact, dated) and
+                mirrors/ (byte-exact copies of selected lane objects, manifest-verified)
 claims/         the machine-checked claim graph and its firewalls
 engine/         the active layer: lanes, bound carriers, the recovered RN engine, runner
 research/       the mathematics: certified intervals and the per-lane drivers
