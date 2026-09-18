@@ -27,17 +27,19 @@ jobs:
       - name: Content manifests (SHA-256 and byte counts)
         run: python tools/verify_manifests.py
       - name: Review records (zero independence credit, no gate moved)
-        run: test -f tools/reviews_check.py && python tools/reviews_check.py || echo "skipped"
+        run: if [ -f tools/reviews_check.py ]; then python tools/reviews_check.py; else echo "skipped (tool absent)"; fi
       - name: Recovered exceptions (candidates never stored as recoveries)
-        run: test -f tools/recovery_check.py && python tools/recovery_check.py || echo "skipped"
+        run: if [ -f tools/recovery_check.py ]; then python tools/recovery_check.py; else echo "skipped (tool absent)"; fi
       - name: Collision proposal (additive only, exported registers untouched)
-        run: test -f tools/collision_proposal_check.py && python tools/collision_proposal_check.py || echo "skipped"
+        run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py; else echo "skipped (tool absent)"; fi
       - name: Bound carriers (content-addressed, digests match)
-        run: test -f tools/carriers_verify.py && python tools/carriers_verify.py || echo "skipped"
+        run: if [ -f tools/carriers_verify.py ]; then python tools/carriers_verify.py; else echo "skipped (tool absent)"; fi
       - name: Lane invariants (no lane reads stronger than the claim graph)
-        run: test -f tools/lanes_check.py && python tools/lanes_check.py || echo "skipped"
+        run: if [ -f tools/lanes_check.py ]; then python tools/lanes_check.py; else echo "skipped (tool absent)"; fi
+      - name: Bound-slack registry (bookkeeping; utility never correctness)
+        run: if [ -f tools/slack_check.py ]; then python tools/slack_check.py; else echo "skipped (tool absent)"; fi
       - name: Receipts (schema, append-only, no receipt claims a status change)
-        run: test -f tools/receipts_check.py && python tools/receipts_check.py || echo "skipped"
+        run: if [ -f tools/receipts_check.py ]; then python tools/receipts_check.py; else echo "skipped (tool absent)"; fi
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Unit tests and negative controls

@@ -116,6 +116,9 @@ python3 tools/reviews_check.py              # zero independence credit, no gate 
 python3 tools/recovery_check.py             # candidates never stored as recoveries
 python3 tools/collision_proposal_check.py   # additive only, exported registers untouched
 python3 tools/lanes_check.py                # no lane's status is stronger than the claim graph's
+python3 tools/carriers_verify.py            # every bound carrier blob matches its manifest digest
+python3 tools/receipts_check.py             # receipts: schema, append-only, none claims a status change
+python3 tools/slack_check.py                # bound-slack registry bookkeeping; utility never correctness
 python3 -m pytest -q                        # negative controls throughout
 ```
 
