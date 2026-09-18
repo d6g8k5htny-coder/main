@@ -319,12 +319,12 @@ Every grade below is quoted from those bytes.
   `NUMBER_THEORY`; that label is the key the prize firewalls test, not a
   description — 53 of the lane's 72 proof notes are discrete Talagrand /
   hypergraph-threshold work.
-* **The intake registry** — `CLAIM_REGISTRY_VERIFIED_INTAKE.json` grades 27
+* **The intake registry** — `CLAIM_REGISTRY_VERIFIED_INTAKE.json` grades 28
   claims: PR-AP-001…015, PR-SID-001, PR-COL-001, PR-SP-001 and PR-TAL-001…010.
-  Twenty-five carry `declared_proof_grade: AUTHOR_SIDE_PROOF_PRESENT`; PR-TAL-009
+  Twenty-six carry `declared_proof_grade: AUTHOR_SIDE_PROOF_PRESENT`; PR-TAL-009
   carries `SOURCE_DECLARED_AUTHOR_ARGUMENT` and PR-TAL-010
   `SOURCE_DECLARED_FINITE_CERTIFICATE_NOTE` ("source read and containing archive
-  manifest; additional checker not replayed"). All 27: `external_review:
+  manifest; additional checker not replayed"). All 28: `external_review:
   PENDING`, `historical_novelty: UNESTABLISHED`, `original_prize_closed: false`.
   The registry's own note: "Scoped proof-note registry, not a count of novel
   publishable theorems; classical ingredients and reconstructed results are

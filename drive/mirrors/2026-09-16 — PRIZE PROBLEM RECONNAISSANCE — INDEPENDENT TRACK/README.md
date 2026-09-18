@@ -42,7 +42,7 @@ they are indexed in `drive/inventory.jsonl` and `drive/source_map/`.
   NOVELTY_UNESTABLISHED"`, `"original_prizes_solved": 0`, `"q0_modified": false`;
   among its `forbidden_inferences`: "test counts are not independent
   confirmations", "operator permission does not supply mathematical evidence".
-* `CLAIM_REGISTRY_VERIFIED_INTAKE.json` (27 claims): "Scoped proof-note registry,
+* `CLAIM_REGISTRY_VERIFIED_INTAKE.json` (28 claims): "Scoped proof-note registry,
   not a count of novel publishable theorems; classical ingredients and
   reconstructed results are included. Earlier phase source declarations are
   preserved, not re-endorsed." Every claim: `external_review: PENDING`,
