@@ -11,6 +11,9 @@ assertions a CI run can fail on, so that a future edit cannot quietly:
   * let a prize-track claim leak into the q0 dependency graph;
   * drop `original_prize_closed: false` from a prize claim;
   * attach a numerical constant to the qualitative rate or to Theorem B;
+  * restore an unconditional grade on a claim whose register carries a
+    retraction (Theorem B: GP-AUD-187 retracted the historical PROVEN-HERE
+    label; "Do not cite ... historical PROVEN-HERE labels as current proof");
   * mark the RV-LM011 synthesis route satisfiable while a prerequisite is open,
     or count a same-provider technical pass as organizational independence;
   * let a receipt, a green test run, a reproduction or a carrier binding raise a
@@ -69,6 +72,7 @@ GRADE_STRENGTH = {
     "OPEN": 0, "REFUTED_AS_WRITTEN": 0, "NEEDS_RECONCILIATION": 0,
     "AMEND_REQUIRED": 0, "PROPOSED": 0,
     "CONDITIONAL": 1, "AUTHOR_SIDE_PARTIAL": 1, "PASS_TECHNICAL": 1,
+    "RETRACTED_TO_CANDIDATE": 1,   # an unconditional label withdrawn by audit; what survives is conditional
     "AUTHOR_SIDE_PROOF_PRESENT": 2,
     "AUTHOR_SIDE_COMPLETE_ARGUMENTS_WITH_EXACT_FINITE_COMPANIONS": 2,
     "ACCEPTED_AT_REVIEW_SCOPE": 3, "AUTHOR_SIDE_CERTIFIED": 3, "CERTIFIED_RUNG": 3,
@@ -279,6 +283,24 @@ def main(argv: list[str] | None = None) -> int:
         if not any(forbidden in x for x in claim.get("forbidden_extrapolations", [])):
             problems.append(
                 f"FW-DECIMAL-KILL: {name} does not forbid a {forbidden} constant")
+
+    # FW-RETRACTED-NOT-UNCONDITIONAL. A claim that carries a retraction record,
+    # or whose transcribed register status says RETRACTED, cannot carry an
+    # unconditional grade: the historical label is exactly what the audit
+    # withdrew, and a graph edit must not quietly put it back.
+    for name, claim in claims.items():
+        retracted = claim.get("retraction") is not None or \
+            "RETRACTED" in str(claim.get("register_status", "")).upper()
+        if not retracted:
+            continue
+        if claim.get("retraction") is not None and not claim.get("register_status"):
+            problems.append(f"FW-RETRACTED-NOT-UNCONDITIONAL: {name} carries a retraction record "
+                            f"but no register_status transcribing the register's current word")
+        if claim.get("grade") in UNCONDITIONAL_GRADES:
+            problems.append(
+                f"FW-RETRACTED-NOT-UNCONDITIONAL: {name} is graded {claim['grade']} but its register "
+                f"status is a retraction ({str(claim.get('register_status'))[:60]}...); the historical "
+                f"unconditional label is not current proof")
 
     # A conditional claim must actually name at least one premise.
     for name, claim in claims.items():

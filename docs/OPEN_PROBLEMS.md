@@ -192,3 +192,72 @@ Reported, not repaired — the export is kept faithful. See
   different types, objects and timestamps.
 * Three Quarantine Index rows use class `EXISTING_CONTAINER`, which
   OP-PROT-019 §6 does not define. Proposal: add `CONTAINER_POINTER` to the table.
+* Artifact Index row `GP-PRP-130-v1.1` (Modified UTC 2026-07-22, Status
+  "HUMAN CLARIFICATION REQUIRED") predates the operator notice the same
+  document now opens with — "OPERATOR DECISION NOTICE — 2026-07-23 HA-008 adopts
+  EC-019 Independence Option A … [[STATUS:OPTION-A-ADOPTED]]
+  [[QUEUE:EC-019-HUMAN-READY]] [[NO_TERMINAL_APPROVAL]]" — and Closure Log row
+  `GP-CLS-EC019-20260730` records the later closure. Reported by the 2026-09-18
+  coverage audit (Drive `1_Q1___VfRoN9IHvG5ueXcalNLQ1e7A4ynVI7dxHx4pY`).
+  Proposal: a successor row, not an edit.
+* Closure Log row `GP-CLS-137-A` carries the terminal label without the article
+  "THE" that the closure document's own "Terminal label:" line contains
+  ("… ROUTES TO THE CONSOLIDATED Q0 CANON"). Semantically inert; recorded as a
+  transcription variance (Drive `15pRBxEcL5iOHAtjK9TWrqDX8382Ifmf4SCcwk56rlVs`).
+  `GP-CLS-141-v1.0` and `GP-CLS-BATCH-129-A..E` match verbatim.
+
+## G. Theorem B — status retraction and repair program
+
+*Status (transcribed from `registers/json/automation_config.json`,
+`THEOREM_B_CURRENT_STATUS`):*
+`CANDIDATE_UNCONDITIONAL_PROVEN_HERE_RETRACTED_EXACT_JACOBIAN_PROVED_CONDITIONAL_B0_PROVED`
+— "Do not cite Q0_C104 or Q0_MASTER historical PROVEN-HERE labels as current
+proof; preserve exact Jacobian and conditional B0; five analytic bridges remain
+open" (sources named by the row: GP-AUD-187; OQ-011; HB-043).
+
+The retraction: `GP-AUD-187-v1.0` (Activity Log 2026-07-24T21:25:00Z,
+"AUD / STATUS CORRECTION", label "CRITICAL SCOPE NARROWING — THEOREM NOT KILLED
+/ NO PROMOTION") "retracted current unconditional `PROVEN-HERE` label after
+primary-source audit; preserved exact Jacobian and proved conditional
+compact-mark B0; opened five analytic bridges and seven repair tasks." The
+controlling routing banner is the READ_FIRST the register names
+(`THEOREM_B_CURRENT_READ_FIRST_ID` = `1GCxx8Th9C5J8SrddCjwNa30O2LuYiwEB4pEYLxXK5pg`):
+"Canonical Theorem B remains RETRACTED / NOT RESTORED / NOT PROMOTED. Package
+remains UNSEALED." What survives, in its words: "Conditional compact-mark
+pushforward Theorem B0: PROVED under explicit assumptions A1–A5"; the
+unconditional full-κ positive-coefficient Theorem B for the actual persistence
+lifetime density is "CANDIDATE / CANNOT VERIFY / former PROVEN-HERE status
+RETRACTED".
+
+**Open gates** (`THEOREM_B_OPEN_GATES`, "named restoration obligations for any
+future unconditional theorem claim; no status promotion until the complete
+chain is proved under one consistent exact object and independently reviewed"):
+`TB_G1_MULTIPLICITY`, `TB_G2_CONTACT`, `TB_G3_SELECTION`, `TB_G4_TAILS`,
+`TB_G5_OFF_FOLD`, `TB_G6_INDEPENDENT_RECONSTRUCTION`,
+`TB_G7_CONTINUUM_FALSIFICATION`. The same-family successor
+`LS-DER-040-v1.0` is frozen as "ACTIVE GLOBAL-BIRTH COMPLETE FINITE-TORUS
+THEOREM CANDIDATE / REVIEW DEFERRED" (Frozen Objects). The help-board request
+`HB-043` (P0) asks for the missing analytic bridges to be proved or falsified.
+
+**Next exact action (the register's own dispatch, `THEOREM_B_TBG1_DISPATCH`):**
+`DQ-009` — "Direct exact candidate-process and multiplicity derivation" for
+TB-G1; "Does not restore theorem status."
+
+**Not a substitute, and not composed:** `LS-CLS-077-v1.0` closes a *reviewed-scope*
+absolute coefficient `c_(3,24)` for the `d = 3`, `L = 24` field ("MATHEMATICAL
+SIDE-24 COEFFICIENT CHAIN CLOSED AT REVIEWED SCOPE"; "Canonical impact: NONE BY
+ITSELF"; "Not closed or implied: other L; arbitrary Gaussian field classes;
+arbitrary dimensions … canonical restoration, package sealing, publication
+readiness, or release authorization"). It is a 3D-track object and is never
+composed with the 2D tracks. The planar `C24` candidate in the READ_FIRST carries
+`[[REVIEW:DEFERRED]] [[CANONICAL:UNCHANGED]]`. None of these is `C*`, and no
+numerical `C*` is admitted (`FW-DECIMAL-KILL`).
+
+*Repository state (code, not status):* until 2026-09-18 this repository's
+README, research map and claim graph carried the historical `LIVE_ROOT_THEOREM`
+label for `Q0-C104-THEOREM-B` while the registers it ships said otherwise; the
+node now transcribes the register row, `tools/claims_check.py` refuses an
+unconditional grade on any claim carrying a retraction
+(`FW-RETRACTED-NOT-UNCONDITIONAL`), and a test binds the node's
+`register_status` to the register row verbatim. No Theorem B computation exists
+here.

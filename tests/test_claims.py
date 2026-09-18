@@ -340,11 +340,45 @@ def test_carrier_manifest_is_skipped_cleanly_when_it_does_not_exist():
     assert run_on(graph(), manifest=os.path.join(ROOT, "no", "such", "MANIFEST.json")) == 0
 
 
+def test_rejects_restoring_an_unconditional_grade_on_a_retracted_claim():
+    """Theorem B's unconditional PROVEN-HERE label was retracted by GP-AUD-187;
+    the register says not to cite the historical label as current proof. Putting
+    LIVE_ROOT_THEOREM back on the node — which is exactly what the first port
+    did — must be refused."""
+    g = graph()
+    g["claims"]["Q0-C104-THEOREM-B"]["grade"] = "LIVE_ROOT_THEOREM"
+    g["claims"]["Q0-C104-THEOREM-B"]["technical_status"] = "LIVE_ROOT_THEOREM"
+    assert run_on(g) == 1
+    # and the firewall is the one that fires, not a side effect
+    problems = claims_check.check(g, None) if hasattr(claims_check, "check") else None
+    if problems is not None:
+        assert any("FW-RETRACTED-NOT-UNCONDITIONAL" in p for p in problems)
+
+
+def test_a_retraction_record_without_a_register_status_is_refused():
+    g = graph()
+    del g["claims"]["Q0-C104-THEOREM-B"]["register_status"]
+    assert run_on(g) == 1
+
+
+def test_theorem_b_register_status_is_the_register_row_verbatim():
+    """The graph node transcribes the register; it may not paraphrase it."""
+    import json as _json
+    ac = _json.load(open(os.path.join(ROOT, "registers", "json", "automation_config.json"), encoding="utf-8"))
+    row = [r for r in ac["rows"] if r[0] == "THEOREM_B_CURRENT_STATUS"][0]
+    node = graph()["claims"]["Q0-C104-THEOREM-B"]
+    assert node["register_status"] == row[1]
+    assert "RETRACTED" in node["register_status"]
+    assert node["grade"] == "RETRACTED_TO_CANDIDATE"
+    gates = [r for r in ac["rows"] if r[0] == "THEOREM_B_OPEN_GATES"][0][1].split("__")
+    assert node["open_gates"] == gates and len(gates) == 7
+
+
 def test_the_five_original_firewalls_are_still_declared():
     ids = [f["id"] for f in graph()["firewalls"]]
     for original in ("FW-2D-3D-COMPOSITION", "FW-PRIZE-ISOLATION", "FW-UNCONDITIONAL",
                      "FW-NO-PRIZE-CLOSURE", "FW-DECIMAL-KILL"):
         assert original in ids
     for added in ("FW-LM011-PRECONDITION", "FW-NO-RECEIPT-PROMOTION",
-                  "FW-FLOAT-NOT-CERTIFIED"):
+                  "FW-FLOAT-NOT-CERTIFIED", "FW-RETRACTED-NOT-UNCONDITIONAL"):
         assert added in ids

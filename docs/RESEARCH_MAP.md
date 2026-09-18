@@ -56,7 +56,7 @@ is the consolidated spine. Its navigation companion divides it into six parts:
   is the canonical theorem: `0 ≤ 1 − q ≤ C_Q0 r³`, `q → 1`, proved through defect
   decomposition, a global interceptor, Γ and collars, with **no typing division
   and no decimals**. `Q0_C104_THEOREM_B_PACKAGE` gives `ν_B(ℓ) = C*·ℓ^(−1/3)(1+o(1))`
-  in conditional-MS form with **no numerical `C*`**. `C102_REFEREE_OBJECTION_LEDGER`
+  in conditional-MS form with **no numerical `C*`** — and its unconditional `PROVEN-HERE` status is **retracted**: `GP-AUD-187-v1.0` (2026-07-24, "CRITICAL SCOPE NARROWING — THEOREM NOT KILLED / NO PROMOTION") withdrew it, and the register's current status reads `CANDIDATE_UNCONDITIONAL_PROVEN_HERE_RETRACTED_EXACT_JACOBIAN_PROVED_CONDITIONAL_B0_PROVED` with "Do not cite Q0_C104 or Q0_MASTER historical PROVEN-HERE labels as current proof" (see `docs/OPEN_PROBLEMS.md` §G). `C102_REFEREE_OBJECTION_LEDGER`
   answers fourteen simulated adversarial objections.
 * **Part II — Successor closure chain C094 → C101 (2659–4440).** How the frozen
   core's residues were closed or killed; the two cubic closures (near at 3598,
@@ -323,7 +323,7 @@ Query with `python3 tools/drive_index.py archive <carrier substring>`.
 * No unconditional all-small-r 2D theorem.
 * No closed two-sided 2D law; the 2D and 3D tracks are never composed.
 * No sharp limiting constant `C`; every finite decimal for `C_Q0` has a kill.
-* No numerical `C*` in Theorem B.
+* No numerical `C*` in Theorem B, whose unconditional status is retracted (`docs/OPEN_PROBLEMS.md` §G). The reviewed-scope `d = 3`, `L = 24` coefficient `c_(3,24)` of `LS-CLS-077-v1.0` ("CLOSED AT REVIEWED SCOPE", "Canonical impact: NONE BY ITSELF") sits on the 3D track and is not `C*`; the planar `C24` candidate in the Theorem B READ_FIRST carries `[[REVIEW:DEFERRED]] [[CANONICAL:UNCHANGED]]`. Neither is composed with anything here.
 * `D3-LEMMA-RN-UNIF` is not closed.
 * No original prize problem is solved.
 * No external release is approved.
