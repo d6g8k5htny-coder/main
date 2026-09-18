@@ -40,8 +40,20 @@ WHAT THIS MODULE DOES **NOT** ESTABLISH
   ``OBL-H5-JETMOD`` asks for and this module does not compute one. What it shows
   is why the point ladder cannot stand in for one: the supremum over a band is
   not constrained by the values at its endpoints absent an independently
-  certified modulus, and these three points do not themselves exhibit a single
-  constant under the natural reading.
+  certified modulus.
+* It does **not** show the published points are mutually inconsistent, and an
+  earlier draft of this docstring said something close to that. THE CORRECTED
+  STATEMENT, which is what the arithmetic supports: a modulus is an INEQUALITY
+  ``|Delta| <= C*delta^kappa``, so two bands forcing different *minimal*
+  constants are perfectly compatible with one admissible constant -- namely the
+  larger of the two. :func:`common_admissible_constant` computes it and checks
+  it: at ``kappa = 1/8`` a single ``C`` around ``23.1709`` satisfies BOTH
+  published bands, and at every ``kappa`` in :func:`ratio_table`'s default
+  sweep ``max(C_1, C_2)`` satisfies both. What the two bands differ in is the
+  minimum each one forces, by a factor of about ``4.47``. That is a statement
+  about TIGHTNESS -- about how much slack a single constant has to carry to
+  cover both bands -- and not about consistency. Saying otherwise would be
+  exactly the kind of false inference this package exists to refuse.
 * The ladder's engineering status is untouched: ``r = 0.0177`` stands at 42/70
   cells and ``r = 0.0125`` at 21/70, and no line count anywhere promotes that.
 
@@ -63,6 +75,7 @@ __all__ = [
     "DISPLAYED_KAPPA", "IMPLIED_MODULUS_ASSUMPTION", "STATUS_NOTE",
     "points_for_line", "same_r_version_spread", "adjacent_bands",
     "implied_modulus_constant", "implied_modulus_table",
+    "common_admissible_constant",
     "implied_modulus_ratio", "ratio_table", "format_report",
 ]
 
@@ -382,6 +395,65 @@ def implied_modulus_table(
     return [implied_modulus_constant(b, kappa, prec) for b in adjacent_bands(line)]
 
 
+def common_admissible_constant(
+    kappa: F = DISPLAYED_KAPPA,
+    prec: int = 40,
+    line: str = LINE_LIVE_V3,
+) -> Dict[str, object]:
+    """A single constant ``C`` admissible on EVERY adjacent band, and the check.
+
+    WHY THIS FUNCTION EXISTS. It is easy, and wrong, to read "the two bands
+    force different constants" as "the published points are inconsistent with
+    any single modulus". A modulus of continuity is an inequality,
+    ``|Delta| <= C*delta^kappa``. If band 1 forces ``C >= C_1`` and band 2
+    forces ``C >= C_2``, then ``C = max(C_1, C_2)`` satisfies both. There is
+    nothing to reconcile. What differs between the bands is the MINIMUM each
+    one forces, and that is a statement about how much slack a common constant
+    carries, not about whether one exists.
+
+    ``C`` is taken as the maximum over bands of ``constant.hi`` -- the upper
+    endpoint of each certified enclosure, so ``C`` is at least the true forced
+    minimum on every band whatever the enclosure's width. Each band is then
+    re-checked EXACTLY, comparing the rational ``|Delta|`` against
+    ``C * delta_pow_kappa.lo`` (the enclosure's LOWER endpoint, which
+    under-estimates ``delta^kappa`` and so makes the test harder to pass).
+    Both directions of rounding are chosen against the conclusion.
+
+    Returns the constant, the per-band verdicts and ``all_satisfied``. It
+    carries :data:`IMPLIED_MODULUS_ASSUMPTION` and :data:`STATUS_NOTE` like
+    everything else here, and it promotes, refutes and discharges nothing: a
+    single admissible constant existing is not evidence that the displayed
+    modulus is right, and is certainly not a band enclosure.
+    """
+    table = implied_modulus_table(kappa, prec, line)
+    if not table:
+        raise ValueError(f"line {line!r} has no adjacent bands")
+    C = max(im.constant.hi for im in table)
+    bands = []
+    for im in table:
+        # delta_pow_kappa.lo <= true delta^kappa, so C * lo <= C * true value:
+        # passing this test is strictly harder than passing the true one.
+        bands.append({
+            "band": im.band.name,
+            "abs_delta_value": str(im.band.abs_diff),
+            "forced_minimum": [str(im.constant.lo), str(im.constant.hi)],
+            "satisfied_by_common_C": im.band.abs_diff <= C * im.delta_pow_kappa.lo,
+        })
+    return {
+        "kappa": kappa,
+        "common_constant": C,
+        "bands": bands,
+        "all_satisfied": all(b["satisfied_by_common_C"] for b in bands),
+        "reading": (
+            "A single admissible C exists and is exhibited. The two bands "
+            "differ in the MINIMUM constant each forces, not in whether a "
+            "common one exists. Tightness, not consistency."
+        ),
+        "assumption": IMPLIED_MODULUS_ASSUMPTION,
+        "status_note": STATUS_NOTE,
+    }
+
+
 def implied_modulus_ratio(
     kappa: F = DISPLAYED_KAPPA,
     prec: int = 40,
@@ -406,6 +478,15 @@ def implied_modulus_ratio(
 
     This is an observation about published numbers under a stated reading. It
     is not a refutation, not a defect report, and not a status change.
+
+    AND IT IS NOT AN INCONSISTENCY. A ratio far from 1 means the two bands
+    force very different MINIMAL constants; a single admissible constant still
+    exists, and :func:`common_admissible_constant` exhibits and checks one at
+    every ``kappa`` in the default sweep. The ratio measures how much slack a
+    common constant must carry, which is a tightness statement. "The ratio
+    crosses 1 between kappa = 4 and kappa = 5" is the point where the two
+    MINIMA coincide -- not the point at which reconciliation first becomes
+    possible, which is every kappa.
     """
     table = implied_modulus_table(kappa, prec, line)
     if len(table) != 2:
@@ -497,9 +578,20 @@ def format_report(kappa: F = DISPLAYED_KAPPA, prec: int = 40,
             f"forced C >= {_dec(im.constant, 4)}"
         )
     rt = implied_modulus_ratio(kappa, prec, line)
-    out.append(f"   ratio of the two forced constants: {_dec(rt['ratio'], 4)}")
+    out.append(f"   ratio of the two forced MINIMA: {_dec(rt['ratio'], 4)}")
     out.append("")
-    out.append("   ratio as a function of kappa (it is strictly decreasing):")
+    cac = common_admissible_constant(kappa, prec, line)
+    out.append("   A SINGLE ADMISSIBLE CONSTANT EXISTS AND IS EXHIBITED.")
+    out.append(f"   C = {float(cac['common_constant']):.6f} (exact rational) "
+               f"satisfies every band above:")
+    for b in cac["bands"]:
+        out.append(f"     {b['band']:<28} satisfied = {b['satisfied_by_common_C']}")
+    out.append("   The two bands differ in the MINIMUM each forces, not in")
+    out.append("   whether a common constant exists. That is a statement about")
+    out.append("   tightness, not about consistency, and it refutes nothing.")
+    out.append("")
+    out.append("   ratio of the MINIMA as a function of kappa (strictly decreasing;")
+    out.append("   a common admissible constant exists at every one of them):")
     for row in ratio_table(prec=prec, line=line):
         out.append(f"     kappa = {str(row['kappa']):<6}  ratio = {_dec(row['ratio'], 4)}")
     out.append("")

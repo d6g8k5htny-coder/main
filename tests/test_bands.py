@@ -21,12 +21,39 @@ WHAT IS UNDER TEST, in four groups.
 4. ``falsifier`` TRUTH TABLE, including that equality does not falsify and that
    a band with no data is never a ``PASS``.
 
-5. **NEGATIVE CONTROLS** (twelve of them, each named ``test_control_*``). Each builds a deliberately weakened variant *locally
-   inside this file* -- never by editing the package -- and asserts that the
-   weakening is caught. Each names its mutation. The controls were additionally
-   run against deliberately broken copies of the package in a scratch
-   directory; the mutations tried and the controls that fired are recorded in
-   the docstrings of the controls concerned.
+5. **NEGATIVE CONTROLS** (twenty of them, each named ``test_control_*``). Each
+   builds a deliberately weakened variant *locally inside this file* -- never
+   by editing the package -- and asserts that the weakening is caught. Each
+   names its mutation. The controls were additionally run against deliberately
+   broken copies of the package in a scratch directory; the mutations tried and
+   the controls that fired are recorded in the docstrings of the controls
+   concerned.
+
+6. **CONTROLS ADDED AFTER AN ADVERSARIAL AUDIT (2026-09-18)**, in the last
+   section. Each closes a defect the audit demonstrated on the shipped code:
+
+   * a ``DecayEnvelope`` that is wrong by a factor of 2.45e24 could produce a
+     record whose ``to_dict()["certified"]`` read ``true``, because
+     ``PlaneKernel.certified`` defaulted to ``True`` and covered only the
+     evaluator while the envelope was validated by nothing but a non-empty
+     justification string. Both flags now default to ``False`` and the record's
+     ``certified`` is their conjunction;
+   * ``normalized_band_enclosure`` handed back the obligation's own quantity as
+     a bare ``Interval`` with no flag, note or caveat attached;
+   * ``falsifier.format_report`` rendered two exact ``Fraction``s as ``%.6g``
+     floats with no NON-CERTIFYING marker, so two rows with opposite verdicts
+     could print byte-identical columns;
+   * ``ladder``'s "the published points do not themselves exhibit a single
+     constant" was FALSE. A single admissible ``C`` exists at every ``kappa``
+     in the sweep; what the two bands differ in is the MINIMUM each forces.
+
+   Two coverage gaps were closed in place rather than in this section: the
+   uniformity test sampled only the diagonal of a two-dimensional box, and no
+   test came near the truncation edge where ``a = L(N+1) - R`` is small.
+
+   None of this changed a bound. Four of the five were LABELLING defects, and
+   the false-envelope control asserts explicitly that the wrong number is still
+   exactly as wrong as it was -- labelling it honestly is not repairing it.
 
 WHAT A GREEN RUN OF THIS FILE DOES **NOT** ESTABLISH
 ----------------------------------------------------
@@ -296,21 +323,150 @@ def test_power_tail_bound_dominates_the_omitted_terms_at_period_24():
 
 
 def test_tail_bound_is_uniform_over_the_box():
-    """ONE constant covers EVERY displacement in the box.
+    """ONE constant covers EVERY displacement in the box -- the WHOLE box.
 
     This is the property ``OBL-H5-JETMOD`` asks for in the words "lattice-tail
     constants re-certified uniformly in the band", and the property the frozen
     engine's ``tail_bound`` lacks: it hard-codes ``rho = m*_LT - 17``, a point
     separation.
+
+    AN EARLIER VERSION OF THIS TEST SAMPLED ONLY THE DIAGONAL. ``box`` built by
+    ``diagonal_displacement`` is the SQUARE ``[1/4, 3/4] x [1/4, 3/4]``, but the
+    five sampled points were ``(r, r)`` -- a one-dimensional slice of the
+    two-dimensional object the docstring named. The corners, where the box
+    radius argument actually bites, were never touched. The sweep below is the
+    full 5 x 5 grid of the square, corners included, plus the four corners
+    called out separately so a regression cannot quietly drop them.
     """
     box = Interval(F(1, 4), F(3, 4))
     dx, dy = LT.diagonal_displacement(box)
     band_bound = LT.tail_bound(GAUSS.envelope, dx, dy, n_trunc=1,
                                period=F(2), prec=30)
-    for r in (F(1, 4), F(3, 8), F(1, 2), F(5, 8), F(3, 4)):
-        p = Interval.exact(r)
-        here = _omitted_mass(GAUSS, p, p, 1, 10, F(2), 30)
-        assert here.hi <= band_bound, (r, float(here.hi), float(band_bound))
+    grid = (F(1, 4), F(3, 8), F(1, 2), F(5, 8), F(3, 4))
+    for a in grid:
+        for c in grid:
+            here = _omitted_mass(GAUSS, Interval.exact(a), Interval.exact(c),
+                                 1, 10, F(2), 30)
+            assert here.hi <= band_bound, (a, c, float(here.hi),
+                                           float(band_bound))
+    # The four corners named explicitly. (1/4, 3/4) and (3/4, 1/4) are the
+    # OFF-DIAGONAL corners the old test never reached.
+    for a, c in ((F(1, 4), F(1, 4)), (F(1, 4), F(3, 4)),
+                 (F(3, 4), F(1, 4)), (F(3, 4), F(3, 4))):
+        here = _omitted_mass(GAUSS, Interval.exact(a), Interval.exact(c),
+                             1, 10, F(2), 30)
+        assert here.hi <= band_bound, ("corner", a, c)
+
+
+def test_tail_bound_is_uniform_over_an_asymmetric_box():
+    """Uniformity must not depend on the box being a square about the diagonal.
+
+    ``diagonal_displacement`` happens to produce a square, so a test built only
+    on it cannot tell a genuinely uniform bound from one that accidentally works
+    on squares. Here the two factors are different intervals and the grid over
+    the resulting rectangle is swept in full.
+    """
+    dx = Interval(F(1, 5), F(4, 5))
+    dy = Interval(F(-1, 2), F(1, 10))
+    band_bound = LT.tail_bound(GAUSS.envelope, dx, dy, n_trunc=1,
+                               period=F(2), prec=30)
+    xs = (F(1, 5), F(2, 5), F(3, 5), F(4, 5))
+    ys = (F(-1, 2), F(-1, 4), F(0), F(1, 10))
+    for a in xs:
+        for c in ys:
+            here = _omitted_mass(GAUSS, Interval.exact(a), Interval.exact(c),
+                                 1, 10, F(2), 30)
+            assert here.hi <= band_bound, (a, c, float(here.hi))
+
+
+@pytest.mark.parametrize("radius", [F("0.9"), F("0.99"), F("0.999999")])
+def test_tail_bound_dominates_just_inside_the_truncation_edge(radius):
+    """The NEAR-EDGE regime: ``a = L*(N+1) - R`` small and strictly positive.
+
+    No earlier test came anywhere near this. The refusal test sits at
+    ``R = 56.57`` against ``L*M = 48``, comfortably past the boundary, and every
+    domination test sits at ``a >= 2.9``. The edge is where the Gaussian
+    geometric ratio ``q = exp(-B(2aL+L^2))`` approaches its floor and where the
+    closed form is under the most strain, so it is exactly where an auditor
+    expects the argument pinned.
+
+    Here ``L = 1`` and ``n_trunc = 0``, so ``M = 1`` and ``a = 1 - R`` runs down
+    to ``1e-6``. The bound must still dominate the omitted mass.
+    """
+    box = Interval(F(0), radius)
+    zero = Interval.exact(F(0))
+    bound = LT.tail_bound(GAUSS.envelope, box, zero, n_trunc=0,
+                          period=F(1), prec=40)
+    assert bound > 0
+    for a in (F(0), radius / 2, radius):
+        here = _omitted_mass(GAUSS, Interval.exact(a), zero, 0, 8, F(1), 40)
+        assert here.hi <= bound, (float(radius), float(a), float(here.hi),
+                                  float(bound))
+
+
+def test_tail_bound_near_edge_grows_as_the_box_reaches_the_omitted_image():
+    """As ``a -> 0+`` the bound must blow up, not quietly stay small.
+
+    A bound that did not grow as the nearest omitted image approached the
+    evaluation box would be ignoring the geometry the whole argument rests on.
+    """
+    zero = Interval.exact(F(0))
+    bounds = [LT.tail_bound(GAUSS.envelope, Interval(F(0), r), zero,
+                            n_trunc=0, period=F(1), prec=40)
+              for r in (F(1, 2), F("0.9"), F("0.99"), F("0.999999"))]
+    assert bounds == sorted(bounds), [float(b) for b in bounds]
+    assert bounds[-1] > bounds[0]
+
+
+def test_the_shrink_factor_guard_cannot_fire_while_a_is_positive():
+    """``c.lo <= 0`` in the POWER branch is DEFENSIVE AND UNREACHABLE. Pinned.
+
+    A guard that cannot fire is not a tested guard, and writing a test that
+    pretends otherwise would be worse than writing none. ``c`` is built as
+    ``1 - Interval.exact(R) / Interval.exact(L*M)`` from two exact rational
+    POINTS, so the division is exact and ``c.lo = 1 - R/(L*M) = a/(L*M)``, which
+    the earlier ``a > 0`` check has already forced positive.
+
+    This test pins that implication over a sweep, so that a change making either
+    operand a non-degenerate interval -- which is the change that would make the
+    guard live -- is caught here rather than discovered by a wrong bound.
+    """
+    for L in (F(1), F(2), F(24)):
+        for n_trunc in (0, 1, 2):
+            M = n_trunc + 1
+            for frac in (F(1, 1000), F(1, 2), F("0.9"), F("0.999999")):
+                R = L * M * frac
+                a = L * M - R
+                assert a > 0
+                c = (Interval.exact(F(1))
+                     - Interval.exact(R) / Interval.exact(L * M))
+                assert c.lo == a / (L * M)
+                assert c.lo > 0
+
+
+def test_the_geometric_ratio_guard_IS_reachable_and_refuses():
+    """``q.hi >= 1`` in the GAUSSIAN branch is reachable, and it refuses.
+
+    The true ``q = exp(-B*(2aL+L^2))`` is below 1 for every positive ``B``,
+    ``a`` and ``L``, but a certified enclosure of it need not prove that: for a
+    tiny exponent the outward-rounded upper endpoint lands at or above 1, and
+    then ``1/(1-q)`` and ``q/(1-q)^2`` are bounded by nothing this code
+    computes. Refusing is the only honest exit.
+
+    Built with ``B = 1e-60``, so ``B*(2aL+L^2)`` is around ``3e-60`` and the
+    ``exp`` enclosure cannot separate it from 1.
+    """
+    tiny = LT.DecayEnvelope(
+        kind=LT.GAUSSIAN, A=F(1), B=F(1, 10 ** 60), valid_from=F(0),
+        justification=(
+            "CONTROL ONLY. A legitimate envelope shape with an absurdly slow "
+            "decay rate, used to drive the geometric-ratio enclosure against "
+            "its guard. It is not claimed to dominate any kernel."
+        ),
+    )
+    with pytest.raises(ValueError, match="does not certify q < 1"):
+        LT.tail_bound(tiny, Interval.exact(F(0)), Interval.exact(F(0)),
+                      n_trunc=0, period=F(1), prec=30)
 
 
 def test_tail_bound_shrinks_as_the_truncation_radius_grows():
@@ -913,3 +1069,249 @@ def test_control_truncation_alone_is_not_the_infinite_sum_at_period_24():
     assert enc.total.lo < enc.truncated.lo
     assert enc.total.hi > enc.truncated.hi
     assert enc.total.width() == enc.truncated.width() + 2 * enc.tail
+
+
+# ===========================================================================
+# 6. Regression controls added after an adversarial audit (2026-09-18)
+#
+# Each of these closes a defect the audit demonstrated on the shipped code.
+# They are written so that reverting the corresponding fix makes them fail;
+# that was checked against broken copies in the scratchpad and is recorded in
+# each docstring.
+# ===========================================================================
+
+_HONEST_JUSTIFICATION = (
+    "CONTROL ONLY. Shape-valid envelope used to exercise the certification "
+    "flags; it is not claimed to dominate any kernel."
+)
+
+
+def test_control_a_false_envelope_cannot_produce_a_certified_record():
+    """THE AUDIT'S HEADLINE DEFECT. Reproduced, then closed.
+
+    Before the fix, ``PlaneKernel.certified`` DEFAULTED to ``True`` and
+    ``BandEnclosure.certified`` was copied from it alone. A ``DecayEnvelope``
+    was validated only by ``justification.strip()`` being non-empty, so a
+    record whose ``to_dict()["certified"]`` read ``true`` could be built from an
+    envelope claiming ``B = 7`` for a kernel that decays at ``B = 1/2``. The
+    audit measured the damage: a tail of 8.687e-26 where the honest bound is
+    2.129e-1, a factor of 2.45e24, and the record still said certified.
+
+    Two things now stand between that envelope and the word "certified":
+    ``DecayEnvelope.certified`` defaults to ``False``, and
+    ``band_enclosure`` writes ``certified`` only as the conjunction of the
+    evaluator flag and the envelope flag. This test asserts both, and asserts
+    that the arithmetic is still exactly as wrong as it was -- the fix is a
+    labelling fix and must not be mistaken for a repair of the number.
+    """
+    bad = LT.DecayEnvelope(
+        kind=LT.GAUSSIAN, A=F(1), B=F(7), valid_from=F(0),
+        justification="DELIBERATELY FALSE, control only: the unit Gaussian "
+                      "decays at B = 1/2, not B = 7.",
+    )
+    assert bad.certified is False          # the default, and the point
+
+    kern = LT.PlaneKernel(name="float stand-in", evaluate=GAUSS.evaluate,
+                          envelope=bad)    # certified= deliberately not passed
+    assert kern.certified is False         # the evaluator default is False too
+    assert kern.envelope_certified is False
+    assert kern.fully_certified is False
+
+    box = Interval(F(1, 4), F(3, 4))
+    enc = LT.band_enclosure(kern, box, displacement=LT.diagonal_displacement,
+                            n_trunc=1, period=F(2), prec=20)
+    assert enc.certified is False
+    assert enc.to_dict()["certified"] is False
+    assert enc.to_dict()["envelope_certified"] is False
+    assert any("DecayEnvelope.certified is False" in c for c in enc.caveats)
+    assert any("envelope" in c.lower() and "INPUT" in c.upper()
+               for c in enc.caveats)
+
+    # The NUMBER is still wrong by the factor the audit measured. Labelling it
+    # honestly does not make it a bound, and this test says so out loud.
+    dx, dy = LT.diagonal_displacement(box)
+    honest = LT.tail_bound(GAUSS.envelope, dx, dy, n_trunc=1, period=F(2),
+                           prec=20)
+    assert enc.tail < honest / 10 ** 20
+
+
+def test_control_an_honest_envelope_still_needs_a_certified_evaluator():
+    """The conjunction must be a conjunction: neither flag alone is enough.
+
+    MUTATION this catches: ``certified=kernel.certified`` (the old code) would
+    make the second case below read ``True``, and
+    ``certified=kernel.envelope_certified`` would make the first.
+    """
+    good_env = LT.DecayEnvelope(
+        kind=LT.GAUSSIAN, A=F(1), B=F(1, 2), valid_from=F(0),
+        justification=_HONEST_JUSTIFICATION, certified=True)
+    weak_env = LT.DecayEnvelope(
+        kind=LT.GAUSSIAN, A=F(1), B=F(1, 2), valid_from=F(0),
+        justification=_HONEST_JUSTIFICATION)          # certified False
+
+    band = Interval(F(1, 100), F(2, 100))
+
+    # good envelope, uncertified evaluator
+    k1 = LT.PlaneKernel(name="k1", evaluate=GAUSS.evaluate,
+                        envelope=good_env, certified=False)
+    e1 = LT.band_enclosure(k1, band, prec=20)
+    assert (e1.evaluator_certified, e1.envelope_certified) == (False, True)
+    assert e1.certified is False
+
+    # certified evaluator, unflagged envelope
+    k2 = LT.PlaneKernel(name="k2", evaluate=GAUSS.evaluate,
+                        envelope=weak_env, certified=True)
+    e2 = LT.band_enclosure(k2, band, prec=20)
+    assert (e2.evaluator_certified, e2.envelope_certified) == (True, False)
+    assert e2.certified is False
+
+    # both flagged
+    k3 = LT.PlaneKernel(name="k3", evaluate=GAUSS.evaluate,
+                        envelope=good_env, certified=True)
+    e3 = LT.band_enclosure(k3, band, prec=20)
+    assert e3.certified is True
+
+
+def test_control_both_certification_flags_default_to_false():
+    """A flag meaning "this was checked" must default to "it was not".
+
+    MUTATION this catches: restoring either ``certified: bool = True`` default.
+    """
+    env = LT.DecayEnvelope(kind=LT.GAUSSIAN, A=F(1), B=F(1, 2),
+                           valid_from=F(0), justification=_HONEST_JUSTIFICATION)
+    assert env.certified is False
+    k = LT.PlaneKernel(name="k", evaluate=GAUSS.evaluate, envelope=env)
+    assert k.certified is False
+    # The two shipped reference kernels are the only things that opt in, and
+    # they do so explicitly, with one-line justifications.
+    assert GAUSS.certified is True and GAUSS.envelope.certified is True
+    assert POW3.certified is True and POW3.envelope.certified is True
+
+
+def test_control_the_normalized_ratio_cannot_be_separated_from_its_caveats():
+    """The quantity the obligation's content line names must carry its flags.
+
+    ``J(B)/r^{p_J}`` is the number most likely to be quoted out of context.
+    Before the fix it came back as a bare ``Interval`` with no ``certified``
+    flag, no REFERENCE-KERNEL note and none of ``_BAND_CAVEATS``; the companion
+    breakdown was in the tuple but nothing forced a caller to keep it.
+
+    MUTATION this catches: returning ``enc.total / (r_band ** power)`` bare.
+    """
+    k = LT.PlaneKernel(name="x", evaluate=GAUSS.evaluate,
+                       envelope=GAUSS.envelope, certified=False,
+                       notes=GAUSS.notes)
+    rec = LT.normalized_band_enclosure(k, Interval(F(2, 100), F(6, 100)), 3,
+                                       prec=20)
+    assert isinstance(rec, LT.NormalizedBandEnclosure)
+    assert rec.certified is False
+    assert rec.evaluator_certified is False
+    assert rec.envelope_certified is True
+    assert rec.caveats and any("OBL-H5-JETMOD" in c for c in rec.caveats)
+    assert "REFERENCE KERNEL" in rec.notes
+    d = rec.to_dict()
+    assert d["certified"] is False and d["caveats"]
+    # and the older tuple call site still works, with the flags intact
+    ratio, enc = rec
+    assert ratio is rec and enc is rec.enclosure
+    assert ratio.lo == rec.ratio.lo and ratio.hi == rec.ratio.hi
+    # ``x in ratio`` still asks the containment question, not an equality scan.
+    assert Interval.exact(rec.ratio.mid()) in ratio
+
+
+def test_control_the_falsifier_report_labels_its_float_rendering():
+    """Two rows, opposite verdicts, byte-identical decimals -- and the output
+    must say the decimals are NON-CERTIFYING and print the exact values.
+
+    The verdict was always exact; the ARTIFACT A HUMAN READS was not, and that
+    artifact is what gets pasted into a status discussion. Repository rule:
+    every float path is labelled NON-CERTIFYING in code AND in output.
+
+    MUTATION this catches: dropping the ``exact:`` line, or the header note.
+    """
+    w = F(1, 1000)
+    rows = FZ.band_report([
+        FZ.BandCheck("band-A", w, w + F(1, 10 ** 15)),
+        FZ.BandCheck("band-B", w, w - F(1, 10 ** 15)),
+    ])
+    assert [r.verdict for r in rows] == [FZ.PASS, FZ.FALSIFIED]
+
+    # The decimal renderings really are identical -- that is the hazard.
+    assert f"{float(rows[0].claimed_modulus):.6g}" == \
+           f"{float(rows[1].claimed_modulus):.6g}"
+
+    text = FZ.format_report(rows)
+    assert "NON-CERTIFYING" in text
+    # Every row prints its exact Fractions, and those DO differ.
+    assert f"modulus={rows[0].claimed_modulus}" in text
+    assert f"modulus={rows[1].claimed_modulus}" in text
+    assert str(rows[0].claimed_modulus) != str(rows[1].claimed_modulus)
+    # No row is representable only by its lossy columns.
+    for r in rows:
+        assert f"exact: width={r.width} modulus={r.claimed_modulus}" in text
+
+
+def test_control_a_single_admissible_modulus_constant_exists():
+    """THE SECOND AUDIT DEFECT. 'The published points do not exhibit a single
+    constant' was FALSE, and this test pins the true statement.
+
+    A modulus is an INEQUALITY ``|Delta| <= C*delta^kappa``. Two bands forcing
+    different MINIMAL constants are compatible with one admissible constant --
+    the larger. The check below is deliberately biased against itself: ``C`` is
+    the max over bands of the enclosure's UPPER endpoint, and each band is then
+    tested against ``C * delta_pow_kappa.lo``, the LOWER endpoint of the power
+    enclosure, which under-estimates ``delta^kappa``.
+
+    MUTATION this catches: any reintroduction of a "no single constant" claim,
+    since the table below would then have to show a False.
+    """
+    for kappa in (F(0), F(1, 8), F(1, 2), F(1), F(2), F(4), F(5)):
+        d = LD.common_admissible_constant(kappa, prec=40)
+        assert d["all_satisfied"] is True, kappa
+        assert len(d["bands"]) == 2
+        for b in d["bands"]:
+            assert b["satisfied_by_common_C"] is True
+        assert IS_ASSUMPTION_ATTACHED(d)
+
+    # At the displayed kappa the constant is the larger of the two forced
+    # minima, ~23.1709, and it is exhibited rather than asserted.
+    d = LD.common_admissible_constant(F(1, 8), prec=40)
+    C = d["common_constant"]
+    assert F("23.17") < C < F("23.18")
+    table = LD.implied_modulus_table(F(1, 8), prec=40)
+    assert C == max(im.constant.hi for im in table)
+    # And what the two bands really differ in is the MINIMUM each forces.
+    ratio = LD.implied_modulus_ratio(F(1, 8), prec=40)["ratio"]
+    assert F("4.47") < ratio.lo <= ratio.hi < F("4.48")
+
+
+def IS_ASSUMPTION_ATTACHED(d) -> bool:
+    """The reading these numbers depend on must travel with them."""
+    return (d["assumption"] == LD.IMPLIED_MODULUS_ASSUMPTION
+            and d["status_note"] == LD.STATUS_NOTE)
+
+
+def test_control_the_common_constant_report_line_is_printed():
+    """The corrected statement has to reach the human-readable report too."""
+    text = LD.format_report(F(1, 8), prec=30)
+    assert "SINGLE ADMISSIBLE CONSTANT EXISTS" in text
+    assert "tightness, not about consistency" in text
+    assert "forced MINIMA" in text
+    assert LD.IMPLIED_MODULUS_ASSUMPTION.split(". ")[0] in text
+
+
+def test_control_a_common_constant_below_a_forced_minimum_is_rejected():
+    """The satisfaction check must have teeth: shrink C and it must fail.
+
+    MUTATION this catches: ``common_admissible_constant`` reporting
+    ``all_satisfied`` unconditionally, or comparing against the wrong endpoint.
+    """
+    table = LD.implied_modulus_table(F(1, 8), prec=40)
+    C = max(im.constant.hi for im in table)
+    too_small = min(im.constant.lo for im in table)     # only the narrow band
+    assert too_small < C
+    ok = [im.band.abs_diff <= C * im.delta_pow_kappa.lo for im in table]
+    bad = [im.band.abs_diff <= too_small * im.delta_pow_kappa.hi
+           for im in table]
+    assert all(ok)
+    assert not all(bad)          # the small constant fails the wider band

@@ -30,6 +30,20 @@ WHAT THIS PACKAGE DOES NOT ESTABLISH
 * It solves no prize problem and bears on none.
 * A run of this driver is a run. A green receipt is a record of a computation,
   not evidence for any mathematical claim.
+* A green ``tests/test_cover.py`` establishes that the mutations enumerated in
+  that file's docstring are caught. It does **not** establish that the package
+  cannot lie in some way nobody has tried: an adversarial audit on 2026-09-18
+  exhibited two mutations (MX3, MX4) that left all 29 tests of the previous
+  version green while producing a ``Total`` labelled ``certified=True`` whose
+  enclosure excluded the true integral. Controls 22-24 close those two.
+  Completeness is not claimed.
+
+PUBLISHING A NUMBER FROM HERE. ``Total.enclosure`` encloses the region integral
+only when ``covers_region`` is ``True``; otherwise it is a number about the
+accounted part, whatever the field is called. Use
+``Total.certified_enclosure()``, which raises ``UncertifiedTotalError`` unless
+``certified`` and ``covers_region`` are both ``True``, wherever the word
+"certified" is going to be stamped on the result.
 
 Standard library only (``fractions``, ``dataclasses``, ``json``). Python 3.11.
 Certified enclosures come from ``research/interval/``; every float path in this
@@ -38,7 +52,7 @@ package is labelled NON-CERTIFYING in the code and in the receipt.
 from .ledger import (
     ACCEPTED, DISPOSITIONS, PENDING, REFINED, REJECTED, Box, Cell, Ledger,
     PartitionError, PendingCellsError, RejectKind, Total,
-    check_exact_partition,
+    UncertifiedTotalError, check_exact_partition,
 )
 from .regions import (
     INSIDE, OUTSIDE, STRADDLE, CartesianBracketRegion, PolarRegion,
@@ -53,7 +67,8 @@ __all__ = [
     # ledger
     "ACCEPTED", "REFINED", "REJECTED", "PENDING", "DISPOSITIONS",
     "Box", "Cell", "Ledger", "Total", "RejectKind",
-    "PartitionError", "PendingCellsError", "check_exact_partition",
+    "PartitionError", "PendingCellsError", "UncertifiedTotalError",
+    "check_exact_partition",
     # regions
     "INSIDE", "OUTSIDE", "STRADDLE",
     "PolarRegion", "CartesianBracketRegion",

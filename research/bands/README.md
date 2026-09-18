@@ -32,7 +32,7 @@ and the proof step it names (`H5_PROMOTE.md` §3(iii)):
 | `ladder.py` | the three published `I_hi/r³` **point** certifications as exact `Fraction` data with their packages and totals digests, plus the display-vs-enclosure gap made numerical |
 | `lattice.py` | a certified periodized lattice-sum evaluator: interval-`r` truncated sum **plus a proved tail bound uniform over the band**, with a pluggable kernel protocol |
 | `falsifier.py` | the obligation's own falsifier as an executable check, with `INSUFFICIENT_DATA` as a first-class outcome |
-| `../../tests/test_bands.py` | 57 tests (48 functions, 12 of them negative controls) plus two closed-form faithfulness harnesses |
+| `../../tests/test_bands.py` | 72 tests (61 functions, 20 of them negative controls) plus two closed-form faithfulness harnesses |
 
 Standard library only, plus `research/interval/`. Python 3.11. No `mpmath`, no
 `numpy`, no `float` anywhere a bound is claimed.
@@ -97,10 +97,27 @@ from research.interval import Interval
 from research.bands import band_enclosure, gaussian_reference
 
 enc = band_enclosure(gaussian_reference(), Interval(F("0.025"), F("0.035355")))
-enc.total       # certified enclosure, valid for EVERY r in the band
-enc.tail        # the proved omitted-lattice bound, ~1e-498 at L = 24
-enc.width()     # the quantity the falsifier tests
+enc.total                # certified enclosure over EVERY DISPLACEMENT IN THE BOX
+enc.tail                 # the proved omitted-lattice bound, ~1e-498 at L = 24
+enc.width()              # the quantity the falsifier tests
+enc.certified            # evaluator_certified AND envelope_certified, both default False
+enc.envelope_certified   # the decay envelope is a PREMISE; this says whether it was checked
 ```
+
+**Read `enc.total` as "valid for every displacement in the box", and stop
+there.** Carrying it to "hence for every `r` in the band" runs entirely through
+the `displacement` map, and the maps shipped here — `axial_displacement`,
+`diagonal_displacement` — are documented PLACEHOLDERS. With a stand-in map the
+second half is a statement about the stand-in geometry, not about the program's
+six-pin configuration. `enc.caveats` says so on every record.
+
+**Two independent certification flags, both defaulting to `False`.**
+`PlaneKernel.certified` covers the *evaluator* only. `DecayEnvelope.certified`
+covers the *envelope*, which is a premise nothing here can check: hand
+`tail_bound` an envelope claiming `B = 7` for a kernel that decays at `B = 1/2`
+and it returns, in exact arithmetic, a "bound" 2.4e24 times too small.
+`band_enclosure` writes `certified: true` only when both flags are set, and
+attaches a NON-CERTIFYING caveat naming whichever is missing.
 
 ### `ladder.py` — the published numbers, and the gap
 
@@ -117,7 +134,9 @@ transcriptions rather than copied from prose:
    exactly `83.6263`, which is `836263/6478048 = 12.9091819…%` of the live value.
    A point certification is therefore not by itself stable across engine
    versions at fixed `r`.
-2. **The implied modulus constant is not constant.** Under
+2. **The *minimal* implied modulus constant differs between the two bands.**
+   (Not "there is no single constant" — there is one, and
+   `common_admissible_constant` exhibits it; see below.) Under
    `|Δ(I_hi/r³)| ≤ C·δ^κ` at the displayed `κ = 1/8`:
 
    | band | δ | \|Δ\| | forced `C ≥` |
@@ -125,10 +144,13 @@ transcriptions rather than copied from prose:
    | [0.035355, 0.050000] | 0.014645 | 13.6664 | **23.1709028…** |
    | [0.025000, 0.035355] | 0.010355 | 2.9267 | **5.1818453…** |
 
-   a ratio of **4.4715543…**. `implied_modulus_constant(kappa)` takes `κ` as an
-   argument — nothing is hardcoded to `1/8` — and `ratio_table()` reports the
-   ratio across a sweep, where it is strictly decreasing in `κ` and crosses 1
-   between `κ = 4` and `κ = 5` (both bracketing evaluations certified).
+   a ratio of **4.4715543…** between the two forced **minima**.
+   `implied_modulus_constant(kappa)` takes `κ` as an argument — nothing is
+   hardcoded to `1/8` — and `ratio_table()` reports the ratio across a sweep,
+   where it is strictly decreasing in `κ` and crosses 1 between `κ = 4` and
+   `κ = 5` (both bracketing evaluations certified). The crossing is where the
+   two minima coincide. It is **not** the point at which a common constant
+   first becomes possible: see the paragraph below.
 
 > **THE ASSUMPTION, which travels with every one of those numbers.** This is the
 > *natural reading* of the shipped display: a modulus of continuity on the
@@ -144,9 +166,24 @@ transcriptions rather than copied from prose:
 show the displayed modulus is wrong. What it shows is why three point
 certifications cannot stand in for a band enclosure: the supremum over a band is
 unconstrained by the values at its endpoints absent an independently certified
-modulus, and the published points do not themselves exhibit a single constant
-under this reading. That is the display-vs-enclosure distinction the sources
-already draw, made numerical.
+modulus. That is the display-vs-enclosure distinction the sources already draw,
+made numerical.
+
+**And it is not an inconsistency — say the true version.** An earlier version of
+this section said the published points "do not themselves exhibit a single
+constant". *That is false, and the package now computes the correction.* A
+modulus is an **inequality** `|Δ| ≤ C·δ^κ`; two bands forcing different
+*minimal* constants are entirely compatible with one admissible constant, namely
+the larger. `common_admissible_constant(κ)` exhibits it and re-checks both bands
+exactly: at `κ = 1/8` a single `C ≈ 23.1709028` satisfies both, and
+`max(C₁, C₂)` satisfies both at every `κ` in `ratio_table`'s default sweep
+(`0, 1/8, 1/2, 1, 2, 4, 5`). What the two bands differ in is the **minimum each
+forces**, by 4.4716×. That is a statement about **tightness** — how much slack a
+common constant has to carry — and not about consistency. Likewise the ratio
+crossing 1 between `κ = 4` and `κ = 5` is where the two *minima* coincide, not
+where reconciliation first becomes possible; reconciliation is possible at every
+`κ`. A package whose stated purpose is to refuse false inferences has to state
+this the right way round.
 
 ### `falsifier.py` — the obligation's own test
 
@@ -157,6 +194,12 @@ falsifies(enclosure_width, claimed_modulus)  ->  width > modulus
 exactly the source's sentence, *"a band enclosure whose width exceeds the
 claimed modulus"*. Strict: equality does not falsify. Both arguments are exact
 `Fraction`s; `float` and `None` are refused rather than silently answered.
+
+`format_report` prints a decimal column *and* the exact `Fraction`s for every
+row, and labels the decimal column **NON-CERTIFYING** in the output itself: two
+rows whose widths differ in the sixteenth digit print the same `%.6g` string and
+can carry opposite verdicts. The verdict is decided on the exact values; the
+column is for reading. Quote the `exact:` line.
 
 `band_report` returns one row per band with `PASS` / `FALSIFIED` /
 `INSUFFICIENT_DATA`. **`INSUFFICIENT_DATA` is a first-class outcome**: a band
@@ -260,7 +303,7 @@ it.
 python3 -m pytest -q tests/test_bands.py
 ```
 
-57 tests, 12 of them negative controls, and the controls are the point of the
+72 tests, 20 of them negative controls, and the controls are the point of the
 file: dropping the tail
 bound breaks containment; a weakened tail breaks containment; a false decay
 envelope (`B = 1` for a kernel that decays at `B = 1/2`) loses domination;
@@ -271,6 +314,21 @@ moves the forced constant outside its asserted window; a band with no data comes
 back `INSUFFICIENT_DATA` and never `PASS`; and shrinking a claimed modulus below
 a real certified width flips the falsifier.
 
+Eight controls were added after an adversarial audit on 2026-09-18, each closing
+a defect the audit demonstrated on the shipped code: a false decay envelope can
+no longer produce a record reading `certified: true`; neither certification flag
+alone suffices; both default to `False`; the normalised ratio `J(B)/r^{p_J}`
+cannot be separated from its caveats; the falsifier's printed report labels its
+lossy decimal columns and prints the exact `Fraction`s beneath them; and a
+single admissible modulus constant is exhibited and checked at every `κ` in the
+sweep. The uniformity test now sweeps the whole 2-D box including its
+off-diagonal corners rather than the diagonal alone, and three parametrised
+near-edge tests pin domination down to `a = L(N+1) − R = 1e-6`, where the
+geometric ratio is nearest its floor. The `q.hi ≥ 1` guard is exercised
+directly; the `c.lo ≤ 0` guard is documented as **defensive and unreachable
+while `a > 0`** — with a test pinning that implication — rather than covered by
+a control that could not fire.
+
 Every control was additionally run against a deliberately broken copy of this
 package in a scratch directory. Seven mutations were tried and all seven were
 caught:
@@ -278,12 +336,23 @@ caught:
 | broken copy | mutation | caught by |
 |---|---|---|
 | 1 | `band_enclosure` returns the truncated sum, tail dropped — the frozen engine's shape | 4 tests |
-| 2 | `a = L*M + R`, the reverse triangle inequality reversed | 8 tests |
+| 2 | `a = L*M + R`, the reverse triangle inequality reversed | 9 tests |
 | 3 | `4 * envelope.A` — a 4m shell count instead of 8m | 4 tests |
 | 4 | `w >= m` in `falsifies` — equality now falsifies | 4 tests |
 | 5 | `band_verdict` returns `PASS` for a missing input | 3 tests |
 | 6 | `664.3979` → `664.3978`, one published digit | 5 tests |
 | 7 | `_box_radius` uses `mig()` instead of `mag()` — an inward box radius | 3 tests |
+
+An earlier version of this table recorded row 2 as caught by **8** tests. Rerun
+on a scratch copy it is **9**: `test_band_enclosure_at_a_point_band_is_not_
+contained_without_the_tail`, the three `test_gaussian_tail_bound_dominates_the_
+omitted_terms` parametrisations, `test_tail_bound_is_uniform_over_the_box`,
+`test_tail_bound_refuses_a_box_that_reaches_the_first_omitted_image`,
+`test_control_dropping_the_tail_bound_breaks_containment`,
+`test_control_a_false_decay_envelope_loses_domination` and
+`test_local_reimplementation_is_faithful_to_the_package`. A table offered as a
+reproducible receipt has to reproduce, so the miscount is corrected here rather
+than left standing.
 
 Two of those runs found real gaps in the first draft of this file and the tests
 were strengthened rather than the runs reported as clean: mutations 1 and 3 were

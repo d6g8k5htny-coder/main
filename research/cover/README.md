@@ -78,7 +78,8 @@ What that run actually produces, as the receipt records it:
 | region | `RN5-annulus 0.1<=|y|<=5 (polar)`, `coords = polar(radius, turn)` |
 | cells | 2,036 total — 1,020 ACCEPTED, 1,016 REFINED, 0 REJECTED, **0 PENDING** |
 | refine depth | 10 |
-| max cell width | 10 (a full-turn ring; the cap `2·r_max`) |
+| max cell width | 10 — **saturated**; see the warning below, this is not the achieved resolution |
+| min cell width | `17/80 = 0.2125` — the finest leaf, and the value that actually moves |
 | area rejected | **0** — the polar boundary is exact |
 | area accounted | `π·(5² − (1/10)²)`, enclosed to ~1e-11 |
 | total | `[6.2286534, 6.2784424]`, width `0.0498`, `certified: true` |
@@ -86,6 +87,22 @@ What that run actually produces, as the receipt records it:
 
 Both numbers enclose the same integral of a REFERENCE function. Neither bears
 on any claim.
+
+> **`max_cell_width` is the COARSEST leaf, not the achieved resolution, and it
+> does not track the tolerance.** Two reasons, both real here. (1) Adaptive
+> refinement leaves flat parts of the domain coarse *on purpose*, so the widest
+> leaf can stop moving while the rest of the cover is refined. (2)
+> `PolarRegion.diameter_bound` caps at `2·r_max`, which is correct and is the
+> right cap for a full-turn ring — but under `split="radius"` theta is never
+> subdivided, so **every leaf is a full-turn ring and every leaf reports the
+> cap**. On this region that value is exactly `10`, the annulus's full outer
+> diameter, at every depth and every tolerance: runs at `tol = 1, 1/4, 1/16`
+> give `(10, 10, 10)` while the total width falls from `0.398` to `0.0335`.
+> Reported next to a certified total of width `0.0498`, the `10` says nothing
+> about the resolution achieved. The receipt now also carries `min_cell_width`
+> and a `cell_width_note` saying this, and the quantities that do move with the
+> tolerance are `refine_depth` (6 → 8 → 10 across those three runs) and
+> `min_cell_width` (`0.3` → `0.25` → `0.2125`).
 
 `run` returns the **ledger**, never a number. Getting a number means calling
 `total()`, and `total()` refuses — by raising `PendingCellsError` — while any
@@ -148,6 +165,29 @@ kinds, and the distinction matters:
 | `OUTSIDE` | proved disjoint from the region by an exact rational test | contributes nothing; the total stays an enclosure |
 | `UNRESOLVED_BOUNDARY` | straddles the boundary, unresolved at the depth limit | contributes its `residual`; without one, `covers_region=False` and `certified=False` |
 | `EXCLUDED` | excluded by a stated predicate (unused here) | as above |
+
+> **`boundary_area_bound` is the right name for two of those three kinds.** An
+> `OUTSIDE` cell is *proved disjoint* from the region: it holds no boundary and
+> contributes exactly zero. Its area is still retained — the recipe says retain
+> every rejected cell — but summing it into one receipt field named after the
+> boundary **overstates the unresolved boundary**. On the showcased bracket run
+> the single figure `area_rejected_bound` is `28.90625`, of which `16.40625` is
+> `OUTSIDE` (60 cells) and only `12.5` is genuinely `UNRESOLVED_BOUNDARY` (128
+> cells). The direction is conservative so no bound is unsound, but the number
+> does not mean what its name says. `Total.area_rejected_by_kind`,
+> `Total.area_unresolved_boundary_bound` and the receipt's
+> `area_rejected_by_kind` give the split without walking the cell list.
+
+> **`Total.enclosure` is an enclosure of the region integral only when
+> `covers_region` is `True`.** Otherwise it is a number about the *accounted*
+> part, whatever the field is called. `Ledger.total()` raises on a PENDING cell
+> but *returns* on an `UNRESOLVED_BOUNDARY` cell with no residual, with
+> `covers_region=False`, `certified=False` and the caveat as free text — and a
+> consumer that publishes the field under a `provenance="certified_interval"`
+> stamp would publish a number about a strict subset. `Total.certified_enclosure()`
+> makes the two failure modes symmetric: it raises `UncertifiedTotalError`
+> unless both flags are `True`. **Any lane that stamps the word "certified" on a
+> number from this package should call that accessor, not read the field.**
 
 ### The boundary, handled honestly
 
@@ -225,8 +265,14 @@ bound is already a *jet* bound, not a constant one — which is the higher-order
 route point 3 above argues for, and the reason the constant-per-cell cost model
 above is an upper bound on what a real cover would have to pay per unit of
 tolerance, not a prediction of it.
-4. **The receipt always carries `max_cell_width` and `refine_depth`** next to
-   any total, so the achieved resolution is visible.
+4. **The receipt carries `refine_depth`, `min_cell_width` and
+   `max_cell_width`** next to any total. Read the first two for the resolution
+   actually achieved: `max_cell_width` is the coarsest leaf and can saturate at
+   a region's diameter cap, which it does in this package's own showcase
+   configuration (see the warning above). An earlier version of this line said
+   the receipt made "the achieved resolution always visible"; with a saturating
+   cap that was satisfied only nominally, which is why the other two fields and
+   the `cell_width_note` were added.
 
 ### `T4`: what the factory does and does not do
 
@@ -300,6 +346,11 @@ integrand over a geometry. It is infrastructure, not a result.
   driver run that exhausts its depth budget;
 * a rejected cell must survive into the receipt with its reason and its
   boundary-area bound;
+* the bracket run's **accounted area plus retained rejected area must equal the
+  bracket area exactly**, and its certified total must **contain the true region
+  integral** — computed for the constant reference integrand `f ≡ 1` from the
+  region's own exact radii and the certified `π`, independently of any cover
+  run. These are the two controls the reject path previously lacked;
 * refinement must reduce total width monotonically, and the refined enclosure
   must be **contained in** the coarse one (the subdivision theorem, asserted
   directly);
@@ -308,11 +359,62 @@ integrand over a geometry. It is infrastructure, not a result.
   the independently derived closed form;
 * a non-certifying integrand must reach `certified=False` in the receipt.
 
-Every control in the file was run against a deliberately broken copy of the
-package and confirmed to fail there; each names its mutation in its docstring.
+**The mutations enumerated in the test module's docstring were run against a
+deliberately broken copy of the package and confirmed to fail there.** That is
+the coverage claim, and it is the whole of it.
 
-**One mutation survived the first version of that file**, and it is recorded
-there rather than quietly fixed. Disabling the interior-gap branch
+An earlier version of this section said "Every control in the file was run
+against a deliberately broken copy of the package and confirmed to fail there;
+each names its mutation in its docstring." Both halves were false. A mechanical
+scan of the test docstrings shows that **17 of 29 named no mutation at all**
+(`test_1`, `test_1b`, `test_2c`, `test_3c`, `test_4`, `test_4b`, `test_6b`,
+`test_7b`, `test_8`, `test_11`, `test_15`, `test_16`, `test_17`, `test_18`,
+`test_19`, `test_20`, `test_21`), and the mutation-to-control table maps its
+mutations onto controls 2b, 3, 3b, 4, 5, 6, 6b, 7, 7b, 9, 10, 11, 12, 13, 14,
+15 and 17 only — so ten controls were never confirmed to fail against any broken
+copy. Those are ordinary behaviour tests, which is fine; calling them all
+confirmed controls generalised past the evidence, and it is the sentence a
+reader would rely on when deciding how much the suite is worth.
+
+The honest version is the one the test module's own docstring makes: a specific,
+enumerated list of mutations was run and caught. That claim is checkable.
+
+### Mutations that survived, recorded rather than fixed quietly
+
+**Three surviving mutations are on record**, two of them found by an adversarial
+audit on 2026-09-18 and closed by controls 22–24:
+
+* **MX3** — `CartesianBracketRegion.area_rational_upper` returning
+  `param_area()/4`, understating every retained boundary bound fourfold *and*
+  shrinking the driver's residual by the same factor.
+* **MX4** — the driver's `UNRESOLVED_BOUNDARY` residual shrunk 1000×, leaving
+  `boundary_area_bound` intact so the old control 9's `> 0` still passed.
+
+**Both left all 29 tests green**, and both then produced a `Total` with
+`certified=True`, `covers_region=True`, `caveats=()` whose `enclosure` **did not
+contain the true region integral**. With the constant REFERENCE integrand
+`f ≡ 1`, whose integral over the annulus is exactly `π(25 − 1/100) =
+78.50840041…`, the bracket at `tol=30, max_depth=5` gives baseline
+`[71.09375, 83.59375]` (contains it), MX3 `[71.09375, 74.21875]` and MX4
+`[71.09375, 71.10625]` (both exclude it).
+
+The shipped code was correct in both cases. **The controls were the hole**, and
+it was precisely the hole the "negative controls are the deliverable" framing
+claimed not to have: control 9 asserted only that the retained bound and the
+residual were positive, control 10 supplied its residual by hand, and every
+containment control ran on `rn5_annulus_polar`, which by construction rejects no
+cells. The entire reject path — the only path where a boundary sliver is
+*bounded* rather than represented exactly — had no containment control at all.
+
+Controls 22 (exact area bookkeeping on the bracket: accounted + retained
+rejected `== 100`, no slack), 23 (the bracket total must contain the true
+annulus area, computed from the region's own exact radii and the certified `π`)
+and 24 (the degenerate all-OUTSIDE classification fault, which balances the
+bookkeeping and is caught only by containment) close them. Nothing here
+establishes that no fourth mutation exists.
+
+**And one mutation survived the first version of that file**, recorded there
+rather than quietly fixed. Disabling the interior-gap branch
 (`lo > cur`) of `check_exact_partition` left the whole suite green, because the
 gap controls written first both had gaps running to the *top* of the domain and
 so were caught by the trailing check instead. Two controls were added for the

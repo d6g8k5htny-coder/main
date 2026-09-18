@@ -12,6 +12,12 @@ exceeds; equality is not a falsification. Both quantities are exact
 ``Fraction``s and the comparison is exact, so no floating-point margin decides a
 verdict.
 
+THE DECISION IS EXACT; THE PRINTED REPORT IS NOT. :func:`format_report` renders
+a decimal view of each pair, and a decimal view is lossy: two rows differing in
+the sixteenth digit print the same string and can carry opposite verdicts. That
+rendering is labelled NON-CERTIFYING in the output itself and every row also
+prints its exact ``Fraction``s. Quote the exact line, not the column.
+
 INSUFFICIENT_DATA IS A FIRST-CLASS OUTCOME. A band for which either the
 enclosure width or the claimed modulus is missing is **not** a pass. It has not
 been checked. Treating an unevaluated band as passing is the precise failure
@@ -52,7 +58,7 @@ __all__ = [
     "FALSIFIER_RULE",
     "BandCheck", "BandResult",
     "falsifies", "band_verdict", "band_report", "report_summary",
-    "report_is_clean", "format_report",
+    "report_is_clean", "format_report", "RENDERING_NOTE",
 ]
 
 PASS = "PASS"
@@ -234,17 +240,49 @@ def report_is_clean(rows: Sequence[BandResult]) -> bool:
     return bool(rows) and all(r.verdict == PASS for r in rows)
 
 
+#: Printed on every rendered report. The decimal columns are a lossy view of
+#: exact Fractions and are never what decides a verdict.
+RENDERING_NOTE = (
+    "NON-CERTIFYING RENDERING. The decimal columns below are float(Fraction) "
+    "views, six significant digits, for reading only. They are LOSSY: two rows "
+    "carrying opposite verdicts can print identical decimals, because the "
+    "verdict is decided on the exact Fractions and the display is not. The "
+    "exact values are printed underneath each row and are the only thing to "
+    "quote. Nothing in this rendering is a bound."
+)
+
+
+def _exact_pair(r: BandResult) -> str:
+    """The exact Fractions behind one row, as the string a reader should quote."""
+    w = "None" if r.width is None else str(r.width)
+    m = "None" if r.claimed_modulus is None else str(r.claimed_modulus)
+    return f"exact: width={w} modulus={m}"
+
+
 def format_report(rows: Sequence[BandResult]) -> str:
-    """A plain-text table, NON-PROMOTING, with the rule and the caveat printed."""
+    """A plain-text table, NON-PROMOTING, with the rule and the caveat printed.
+
+    THE DECIMAL COLUMNS ARE A NON-CERTIFYING RENDERING AND THE OUTPUT SAYS SO.
+    The verdict is computed by :func:`falsifies` on exact ``Fraction``s, so no
+    floating-point margin decides it -- but ``%.6g`` of two Fractions that
+    differ in the 16th digit prints the same string twice, and this report is
+    the artifact a human pastes into a status discussion. Every row therefore
+    also prints its exact numerator/denominator pair, and the header carries
+    :data:`RENDERING_NOTE`. Repository rule: every float path is labelled
+    NON-CERTIFYING in code AND in output.
+    """
     out = [
         "OBL-H5-JETMOD falsifier report",
         "rule: " + FALSIFIER_RULE,
-        "=" * 78,
+        "",
     ]
+    out.extend("  " + line for line in _wrap(RENDERING_NOTE, 76))
+    out.append("=" * 78)
     for r in rows:
         w = "-" if r.width is None else f"{float(r.width):.6g}"
         m = "-" if r.claimed_modulus is None else f"{float(r.claimed_modulus):.6g}"
-        out.append(f"  {r.band:<28} width={w:<14} modulus={m:<14} {r.verdict}")
+        out.append(f"  {r.band:<28} width~={w:<13} modulus~={m:<13} {r.verdict}")
+        out.append(f"       {_exact_pair(r)}")
         if r.reason:
             out.append(f"       reason: {r.reason}")
         if r.modulus_source:
@@ -253,9 +291,25 @@ def format_report(rows: Sequence[BandResult]) -> str:
     out.append("-" * 78)
     out.append("  " + "  ".join(f"{k}={counts[k]}" for k in OUTCOMES))
     out.append("")
+    out.append("  The width~= and modulus~= columns are NON-CERTIFYING decimal")
+    out.append("  views. Read the 'exact:' line under each row.")
     out.append("  A PASS row is NOT a discharge of OBL-H5-JETMOD and is not")
     out.append("  evidence for it. The obligation is over the full 24-jet set,")
     out.append("  the program's kernel and the program's r-bands, none of which")
     out.append("  is bound in this repository. OBL-H5-JETMOD stays OPEN.")
     out.append("  An INSUFFICIENT_DATA row is an outstanding band, not a pass.")
     return "\n".join(out)
+
+
+def _wrap(text: str, width: int) -> List[str]:
+    """Greedy word wrap. Display only; no arithmetic depends on it."""
+    words, lines, cur = text.split(), [], ""
+    for wd in words:
+        if cur and len(cur) + 1 + len(wd) > width:
+            lines.append(cur)
+            cur = wd
+        else:
+            cur = f"{cur} {wd}" if cur else wd
+    if cur:
+        lines.append(cur)
+    return lines

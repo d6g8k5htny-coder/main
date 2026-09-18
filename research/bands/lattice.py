@@ -68,7 +68,7 @@ __all__ = [
     "gaussian_reference", "inverse_power_reference",
     "axial_displacement", "diagonal_displacement",
     "truncated_sum", "tail_bound", "band_enclosure",
-    "normalized_band_enclosure",
+    "normalized_band_enclosure", "NormalizedBandEnclosure",
     "SIDE24_PERIOD", "ENGINE_TRUNCATION",
 ]
 
@@ -117,6 +117,24 @@ class DecayEnvelope:
     That is a discipline against the failure mode this program exists to avoid
     -- an uncertified constant travelling inside a structure whose name says
     "certified".
+
+    ``certified`` -- DEFAULT ``False``, AND THAT DEFAULT IS THE POINT. A
+    non-empty ``justification`` string is a *claim* that the envelope holds; it
+    is not a check that it does, and this module cannot check it: ``A``, ``B``
+    and ``p`` are constants about a function whose global behaviour no finite
+    computation here inspects. ``certified`` is the caller's explicit assertion
+    that the written justification is a proof a human has read. Nothing in this
+    package sets it to ``True`` except the two reference kernels, whose
+    envelopes are one-line consequences of their own definitions.
+
+    Why this flag exists at all: the module's own negative control
+    ``test_control_a_false_decay_envelope_loses_domination`` demonstrates that
+    the envelope is the load-bearing assumption of the entire tail bound. An
+    envelope claiming ``B = 7`` for a kernel that decays at ``B = 1/2`` yields a
+    "tail bound" 2.4e24 times too small, and every arithmetic step downstream of
+    it is still exact. The arithmetic cannot save a false premise, so the
+    premise gets its own flag and :func:`band_enclosure` refuses to call a
+    record certified unless that flag is ``True``.
     """
 
     kind: str
@@ -125,6 +143,7 @@ class DecayEnvelope:
     justification: str
     B: Optional[F] = None
     p: Optional[F] = None
+    certified: bool = False
 
     def __post_init__(self) -> None:
         if self.kind not in (GAUSSIAN, POWER):
@@ -151,6 +170,20 @@ class DecayEnvelope:
                 )
             if self.B is not None:
                 raise ValueError("power envelope must not carry B")
+        if not isinstance(self.certified, bool):
+            raise TypeError("DecayEnvelope.certified must be a bool")
+
+    def to_dict(self) -> Dict[str, object]:
+        """A JSON-ready view, with the certification flag in it."""
+        return {
+            "kind": self.kind,
+            "A": str(self.A),
+            "B": None if self.B is None else str(self.B),
+            "p": None if self.p is None else str(self.p),
+            "valid_from": str(self.valid_from),
+            "certified": self.certified,
+            "justification": self.justification,
+        }
 
 
 @dataclass(frozen=True)
@@ -161,19 +194,44 @@ class PlaneKernel:
     displacements and a precision hint and returns an ``Interval`` that
     **contains** ``kplane(dx', dy')`` for every ``dx' in dx`` and ``dy' in dy``.
 
-    ``certified`` records whether ``evaluate`` really meets that contract. It
-    exists so that an uncertified evaluator (a float or ``mpmath`` stand-in) can
-    be plugged in for exploration without silently acquiring the word
-    "certified" downstream: :func:`band_enclosure` propagates the flag into its
-    result and every consumer must look at it. A ``False`` here makes the whole
-    output NON-CERTIFYING.
+    ``certified`` records whether ``evaluate`` really meets that contract, and
+    **it covers the evaluator only**. It exists so that an uncertified
+    evaluator (a float or ``mpmath`` stand-in) can be plugged in for
+    exploration without silently acquiring the word "certified" downstream:
+    :func:`band_enclosure` propagates the flag into its result and every
+    consumer must look at it. A ``False`` here makes the whole output
+    NON-CERTIFYING.
+
+    IT DOES NOT COVER THE ENVELOPE. ``envelope.certified`` is a separate flag
+    for a separate assumption, and :func:`band_enclosure` requires **both**
+    before it will write ``certified: True`` on a record. A correct evaluator
+    combined with a false envelope produces a tail bound that is wrong by any
+    factor you like; see :class:`DecayEnvelope`.
+
+    ``certified`` DEFAULTS TO ``False``. The safe default for a flag that means
+    "this was checked" is the one that says it was not. Passing ``True`` is an
+    assertion the caller makes and must be able to defend.
     """
 
     name: str
     evaluate: Callable[[Interval, Interval, int], Interval]
     envelope: DecayEnvelope
-    certified: bool = True
+    certified: bool = False
     notes: str = ""
+
+    @property
+    def envelope_certified(self) -> bool:
+        """The envelope's own flag, surfaced so a caller cannot read past it."""
+        return bool(self.envelope.certified)
+
+    @property
+    def fully_certified(self) -> bool:
+        """``True`` only when the evaluator AND the envelope are both flagged.
+
+        This is the conjunction :func:`band_enclosure` uses. Neither half
+        implies the other and neither alone is enough.
+        """
+        return bool(self.certified) and self.envelope_certified
 
 
 # ---------------------------------------------------------------------------
@@ -222,6 +280,9 @@ def gaussian_reference() -> PlaneKernel:
                 "The envelope holds with equality, so A = 1 and B = 1/2 are "
                 "exact and valid_from = 0."
             ),
+            # The justification above is a one-line identity, readable in full
+            # from the kernel's own definition, so this flag is defensible.
+            certified=True,
         ),
         certified=True,
         notes=_GAUSSIAN_NOTE,
@@ -264,6 +325,9 @@ def inverse_power_reference(m: int) -> PlaneKernel:
                 f"(1 + |z|^2)^(-{m}) < (|z|^2)^(-{m}) = |z|^(-{2 * m}). "
                 f"Hence A = 1 and p = {2 * m} > 2."
             ),
+            # A two-step inequality between elementary functions; flagged for
+            # the same reason as the Gaussian reference envelope.
+            certified=True,
         ),
         certified=True,
         notes=(
@@ -413,6 +477,16 @@ def tail_bound(
     engine's ``tail_bound`` does not have: that function hard-codes
     ``rho = m*_LT - 17``, a POINT separation.
 
+    THE ENVELOPE IS A PREMISE, NOT A RESULT. Every line below is conditional on
+    ``envelope`` actually dominating ``|kplane|``. This function does not and
+    cannot check that: it never sees ``kplane``. Hand it a false envelope and
+    it returns, exactly and in certified interval arithmetic, a bound on a
+    kernel that is not yours. ``DecayEnvelope.certified`` is where a caller
+    records that the justification has been read, and
+    :func:`band_enclosure` refuses the word "certified" without it. The return
+    value here is a bare ``Fraction`` and carries no flag, so a caller reading
+    it directly must read ``envelope.certified`` too.
+
     ------------------------------------------------------------------ setup
     Let ``D = dx x dy``, let ``R`` be a certified upper bound on ``|d|`` for
     ``d in D`` (Euclidean norm; see ``_box_radius``), let ``L > 0`` be the
@@ -527,6 +601,13 @@ def tail_bound(
         head = exp(Interval.exact(-B * a * a), prec)                 # exp(-B a^2)
         q = exp(Interval.exact(-B * (2 * a * L + L * L)), prec)      # q
         if q.hi >= 1:
+            # REACHABLE, and exercised by a test. The true q = exp(-B(2aL+L^2))
+            # is < 1 for every B, a, L > 0, but a certified enclosure of it need
+            # not prove that: for a tiny B*(2aL+L^2) the outward-rounded upper
+            # endpoint can land at or above 1, and the two geometric series
+            # 1/(1-q) and q/(1-q)^2 are then not bounded by anything this code
+            # computes. Refusing is the only honest exit; it is not a claim
+            # that q >= 1.
             raise ValueError(
                 f"tail bound refused: the geometric ratio enclosure {q!r} does "
                 "not certify q < 1; raise prec"
@@ -540,6 +621,14 @@ def tail_bound(
     p = envelope.p
     c = Interval.exact(F(1)) - Interval.exact(R) / Interval.exact(L * M)
     if c.lo <= 0:
+        # DEFENSIVE AND, AS THE CODE STANDS, UNREACHABLE -- said plainly rather
+        # than covered by a test that cannot fire. ``c`` is built from two
+        # exact rational points, so interval division is exact and
+        # c.lo = 1 - R/(L*M) = a/(L*M), which the ``a > 0`` check above has
+        # already forced positive. The guard stays because it would become
+        # reachable the moment R or L*M arrived as a non-degenerate interval,
+        # and a test in tests/test_bands.py pins the implication a > 0 => c.lo
+        # > 0 so that a change making it inexact is caught there.
         raise ValueError(
             f"tail bound refused: the shrink factor enclosure {c!r} does not "
             "certify c > 0; raise prec"
@@ -561,18 +650,41 @@ class BandEnclosure:
     """The result of :func:`band_enclosure`: the enclosure plus its breakdown.
 
     ``total`` is the certified enclosure of the infinite periodized sum (1)
-    valid for every displacement in the box, hence for every ``r`` in the band.
+    **valid for every displacement in the box** ``dx x dy``. That much is
+    established by this module and by nothing else.
+
+    "HENCE FOR EVERY ``r`` IN THE BAND" IS A SEPARATE STEP AND IS NOT
+    ESTABLISHED HERE. It holds exactly as far as the ``displacement`` map
+    handed to :func:`band_enclosure` is the real one. With the stand-ins this
+    package ships -- :func:`axial_displacement`, :func:`diagonal_displacement`,
+    both documented PLACEHOLDER -- the implication runs through a geometry that
+    is not the program's, so what the record states is: certified over this
+    box, for the stand-in map from ``r`` to that box. Bind the program's six-pin
+    geometry and the second half becomes a statement about the program; until
+    then it does not.
+
     ``truncated`` and ``tail`` are its two pieces, reported separately because
     the whole point of this module is that the frozen engine reports only the
     first and asserts about the second.
 
-    ``certified`` is ``False`` whenever the plugged-in kernel's evaluator is
-    not certified. A ``False`` here makes the entire record NON-CERTIFYING and
-    every consumer must say so.
+    ``certified`` is the CONJUNCTION of two independent flags, both of which
+    must be ``True``:
+
+    * ``evaluator_certified`` -- the plugged-in ``PlaneKernel.evaluate`` meets
+      its enclosure contract;
+    * ``envelope_certified`` -- the ``DecayEnvelope`` handed to the tail bound
+      has a justification a human has checked.
+
+    A ``False`` in either makes the entire record NON-CERTIFYING and every
+    consumer must say so. Splitting them is not pedantry: exact arithmetic on
+    top of a false envelope is exactly as wrong as the envelope, and the
+    evaluator flag says nothing about the envelope.
     """
 
     kernel_name: str
     certified: bool
+    evaluator_certified: bool
+    envelope_certified: bool
     r_lo: F
     r_hi: F
     dx: Interval
@@ -584,6 +696,7 @@ class BandEnclosure:
     truncated: Interval
     tail: F
     total: Interval
+    envelope: Optional[DecayEnvelope] = None
     notes: str = ""
     caveats: Tuple[str, ...] = field(default_factory=tuple)
 
@@ -599,6 +712,9 @@ class BandEnclosure:
         return {
             "kernel": self.kernel_name,
             "certified": self.certified,
+            "evaluator_certified": self.evaluator_certified,
+            "envelope_certified": self.envelope_certified,
+            "envelope": self.envelope.to_dict() if self.envelope is not None else None,
             "band": {"r_lo": str(self.r_lo), "r_hi": str(self.r_hi)},
             "displacement_box": {
                 "dx": [str(self.dx.lo), str(self.dx.hi)],
@@ -622,10 +738,30 @@ _BAND_CAVEATS = (
     "Does NOT discharge, reduce or reclassify OBL-H5-JETMOD, which stays OPEN.",
     "The kernel here is a REFERENCE KERNEL unless the program's own kplane has "
     "been bound, with a certified decay envelope for it.",
+    "The DECAY ENVELOPE IS AN INPUT, NOT A CHECKED FACT. Nothing in this "
+    "package verifies that |kplane(z)| really obeys the A, B (or A, p) handed "
+    "to it; the tail bound is only as true as that premise. A false envelope "
+    "produces an exact computation of a wrong number -- the package's own "
+    "negative control exhibits one 2.4e24 times too small. Read "
+    "envelope_certified, and read the envelope's justification.",
     "The displacement map from r to the covariance displacement box is a "
-    "stand-in unless the program's six-pin geometry has been bound.",
+    "stand-in unless the program's six-pin geometry has been bound. Until it "
+    "is, 'for every r in the band' is a statement about the stand-in geometry "
+    "and not about the program's.",
     "This is not a jet. The 24-jet set and its powers p_J are not defined here.",
     "A certified enclosure of a reference kernel is machinery, not a result.",
+)
+
+_UNCERTIFIED_EVALUATOR_CAVEAT = (
+    "NON-CERTIFYING: PlaneKernel.certified is False, so the evaluator is not "
+    "claimed to meet its enclosure contract. Every number in this record is a "
+    "computation, not a bound."
+)
+
+_UNCERTIFIED_ENVELOPE_CAVEAT = (
+    "NON-CERTIFYING: DecayEnvelope.certified is False, so the decay constants "
+    "behind the tail bound are an unchecked claim. The tail figure in this "
+    "record bounds nothing until that claim is proved."
 )
 
 
@@ -640,23 +776,34 @@ def band_enclosure(
 ) -> BandEnclosure:
     """Certified enclosure of the periodized sum over a whole r-band.
 
-    This is the source's own proof step, executed: *"evaluating those sums with
-    r as an interval over the band yields G12-band enclosures ... a FINITE
-    computation per band, never a fitted exponent."* The computation here is
-    finite and per band: ``(2*n_trunc+1)^2`` certified kernel evaluations plus
-    one closed-form tail bound. No exponent is fitted anywhere, no sampling is
-    taken, and the result holds for every ``r`` in ``r_band`` at once rather
-    than at sampled points.
+    THE SHAPE OF THE SOURCE'S PROOF STEP, RUN ON A REFERENCE KERNEL. The
+    source's step is *"evaluating those sums with r as an interval over the
+    band yields G12-band enclosures ... a FINITE computation per band, never a
+    fitted exponent"* -- and "those sums" are the PROGRAM'S G12 lattice sums,
+    over the program's bands, with the program's kernel and the program's
+    six-pin geometry. This function runs that shape: ``(2*n_trunc+1)^2``
+    interval kernel evaluations plus one closed-form tail bound, finite, per
+    band, with no exponent fitted and no sampling taken, on a kernel and a
+    displacement map the caller supplies. With the reference kernels and the
+    stand-in displacement maps this package ships, what comes out is the shape
+    and not the step. Calling it "the source's proof step, executed" would
+    claim the bindings named below, which do not exist here.
 
     ``total = [truncated.lo - tail, truncated.hi + tail]``: the truncated sum
     encloses the finite part over the whole box, and the omitted part is
     bounded in absolute value by ``tail`` uniformly over the same box, so their
-    combination encloses (1) over the box.
+    combination encloses (1) over the box. The uniformity over the *box* is
+    genuine and is the thing this module adds; carrying it to "every r in the
+    band" is the ``displacement`` map's job and the stand-ins are not the
+    program's map.
 
     WHAT IT IS NOT. It is not a band bound for any jet of this program, because
     neither the program's kernel nor its jets nor its band endpoints are bound
     in this repository. See ``research/bands/README.md`` for the three bindings
     that would be required.
+
+    ``certified`` on the returned record is ``kernel.certified and
+    kernel.envelope.certified``. Both default to ``False``.
     """
     if r_band.lo <= 0:
         raise ValueError(
@@ -671,9 +818,16 @@ def band_enclosure(
         kernel.envelope, dx, dy, n_trunc=n_trunc, period=period, prec=prec
     )
     total = Interval(trunc.lo - tail, trunc.hi + tail)
+    caveats = list(_BAND_CAVEATS)
+    if not kernel.certified:
+        caveats.insert(0, _UNCERTIFIED_EVALUATOR_CAVEAT)
+    if not kernel.envelope_certified:
+        caveats.insert(0, _UNCERTIFIED_ENVELOPE_CAVEAT)
     return BandEnclosure(
         kernel_name=kernel.name,
-        certified=kernel.certified,
+        certified=kernel.fully_certified,
+        evaluator_certified=bool(kernel.certified),
+        envelope_certified=kernel.envelope_certified,
         r_lo=r_band.lo,
         r_hi=r_band.hi,
         dx=dx,
@@ -685,9 +839,83 @@ def band_enclosure(
         truncated=trunc,
         tail=tail,
         total=total,
+        envelope=kernel.envelope,
         notes=kernel.notes,
-        caveats=_BAND_CAVEATS,
+        caveats=tuple(caveats),
     )
+
+
+@dataclass(frozen=True)
+class NormalizedBandEnclosure:
+    """``S(B)/r^power`` over a band, WITH its flags and caveats attached.
+
+    This is the one quantity in this package whose *shape* matches the
+    obligation's content line -- ``J(B)/r^{p_J} in a certified interval`` --
+    and so the one most likely to be quoted out of context. It therefore does
+    not travel as a bare :class:`~research.interval.Interval`. Every number
+    this package hands out carries its caveats by construction, and this one
+    is no exception: ``certified``, ``notes`` and ``caveats`` are copied from
+    the underlying :class:`BandEnclosure` and mean exactly what they mean
+    there.
+
+    It unpacks as the pair ``(ratio, enclosure)`` for callers written against
+    the older tuple return, so the companion breakdown stays reachable; but
+    the first element of that pair is this object, not a bare ``Interval``,
+    and it still carries the flags.
+    """
+
+    ratio: Interval
+    power: int
+    certified: bool
+    evaluator_certified: bool
+    envelope_certified: bool
+    enclosure: "BandEnclosure"
+
+    @property
+    def lo(self) -> F:
+        return self.ratio.lo
+
+    @property
+    def hi(self) -> F:
+        return self.ratio.hi
+
+    @property
+    def notes(self) -> str:
+        return self.enclosure.notes
+
+    @property
+    def caveats(self) -> Tuple[str, ...]:
+        return self.enclosure.caveats
+
+    def width(self) -> F:
+        return self.ratio.width()
+
+    def __iter__(self):
+        """``ratio_record, enc = normalized_band_enclosure(...)`` still works."""
+        yield self
+        yield self.enclosure
+
+    def __contains__(self, other) -> bool:
+        """``x in record`` delegates to the ratio interval, as before.
+
+        Defined explicitly so that ``__iter__`` (which exists only for the
+        tuple-unpacking call site) cannot silently turn a containment question
+        into an equality scan over two elements and answer ``False``.
+        """
+        return other in self.ratio
+
+    def to_dict(self) -> Dict[str, object]:
+        return {
+            "ratio": [str(self.ratio.lo), str(self.ratio.hi)],
+            "ratio_width": str(self.ratio.width()),
+            "power": self.power,
+            "certified": self.certified,
+            "evaluator_certified": self.evaluator_certified,
+            "envelope_certified": self.envelope_certified,
+            "notes": self.notes,
+            "caveats": list(self.caveats),
+            "band_enclosure": self.enclosure.to_dict(),
+        }
 
 
 def normalized_band_enclosure(
@@ -695,8 +923,8 @@ def normalized_band_enclosure(
     r_band: Interval,
     power: int,
     **kwargs,
-) -> Tuple[Interval, BandEnclosure]:
-    """``S(B) / r^power`` as a certified interval over the band, plus the breakdown.
+) -> NormalizedBandEnclosure:
+    """``S(B) / r^power`` over the band, as a flagged record.
 
     The obligation's content line is *"for each jet J and band B,
     J(B)/r^{p_J} in a certified interval"*. This is the shape of that
@@ -711,8 +939,20 @@ def normalized_band_enclosure(
     outward bound and generally not the exact range, since the numerator and
     the denominator move together with ``r`` and interval division cannot see
     that.
+
+    Returns a :class:`NormalizedBandEnclosure` rather than a bare ``Interval``
+    so that the ``certified`` flags, the REFERENCE-KERNEL note and
+    ``_BAND_CAVEATS`` cannot be separated from the number. It unpacks as
+    ``(record, enclosure)``.
     """
     if not isinstance(power, int) or isinstance(power, bool):
         raise TypeError("power must be a plain int")
     enc = band_enclosure(kernel, r_band, **kwargs)
-    return enc.total / (r_band ** power), enc
+    return NormalizedBandEnclosure(
+        ratio=enc.total / (r_band ** power),
+        power=power,
+        certified=enc.certified,
+        evaluator_certified=enc.evaluator_certified,
+        envelope_certified=enc.envelope_certified,
+        enclosure=enc,
+    )

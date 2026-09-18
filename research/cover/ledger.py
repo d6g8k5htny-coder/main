@@ -56,7 +56,7 @@ are being summed over those rectangles. See ``research/cover/README.md``.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field as dc_field
 from fractions import Fraction
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -86,7 +86,14 @@ class RejectKind:
     not resolved within the depth budget. Part of it *is* in the region, so the
     total is only an enclosure if the cell carries a ``residual``: a certified
     enclosure of ``integral over (cell and region)``. Without one the ledger
-    reports ``covers_region=False`` and refuses the ``certified`` label.
+    reports ``covers_region=False`` and refuses the ``certified`` label --
+    though ``total()`` still RETURNS, handing back an object whose field is
+    called ``enclosure`` and is not one. Publish through
+    :meth:`Total.certified_enclosure`, which refuses instead.
+
+    An ``OUTSIDE`` cell's retained area is NOT boundary area: it is proved
+    disjoint from the region and holds no boundary. See
+    :attr:`Total.area_unresolved_boundary_bound`.
 
     ``EXCLUDED`` -- excluded by a stated predicate other than the region test
     (available for callers; nothing in this package uses it).
@@ -100,6 +107,17 @@ class RejectKind:
 
 class PartitionError(Exception):
     """The cells do not exactly tile the domain: a gap, an overlap or an escape."""
+
+
+class UncertifiedTotalError(Exception):
+    """Raised by :meth:`Total.certified_enclosure` on a Total that is not one.
+
+    The symmetric partner of :class:`PendingCellsError`. That one refuses a
+    total while cells are unvisited; this one refuses the WORD "certified" on a
+    total whose region is not fully accounted for, or whose arithmetic came off
+    a non-certifying path. Both exist because the failure they prevent is the
+    same failure: a partial result published as a whole one.
+    """
 
 
 class PendingCellsError(Exception):
@@ -310,11 +328,30 @@ class CellRecord:
 class Total:
     """The result of :meth:`Ledger.total`.
 
-    ``enclosure`` is a certified enclosure of the integral over the
-    **accounted** part of the domain. ``covers_region`` says whether the
-    accounted part provably contains the whole region; ``certified`` says
-    whether every contributing enclosure came from a certifying path. Read
-    both. A ``Total`` with ``certified=False`` is a number, not a bound.
+    ``enclosure`` is an enclosure of the integral over the **ACCOUNTED** part
+    of the domain -- and over the region itself only when ``covers_region`` is
+    ``True``. ``covers_region`` says whether the accounted part provably
+    contains the whole region; ``certified`` says whether every contributing
+    enclosure came from a certifying path. Read both. A ``Total`` with
+    ``certified=False`` is a number, not a bound; a ``Total`` with
+    ``covers_region=False`` is a number about a subset, whatever its field is
+    called.
+
+    THE FIELD NAME IS NOT THE GUARANTEE. Publishing ``total.enclosure`` under a
+    ``certified`` label without first reading ``certified`` and
+    ``covers_region`` is the one way this package's API can be turned into a
+    false claim. :meth:`certified_enclosure` exists so that a consumer which
+    intends to stamp the word "certified" on the number can ask for it and be
+    refused instead of shipping a caveat as free text. Any lane that publishes
+    a certified interval should call that, not this field.
+
+    ``area_rejected_by_kind`` breaks the retained rejected area down by
+    :class:`RejectKind`. RN5's phrase is "retaining boundary-area bounds", and
+    a cell rejected ``OUTSIDE`` is proved DISJOINT from the region: it holds no
+    boundary and contributes exactly zero. Summing it into one field named
+    after the boundary overstates the unresolved boundary, conservatively but
+    misleadingly. The breakdown lets a reader separate the two without walking
+    the cell list.
     """
 
     enclosure: Interval
@@ -324,20 +361,71 @@ class Total:
     area_accounted: Interval
     area_rejected_bound: Fraction
     integrand: str
+    area_rejected_by_kind: Dict[str, Fraction] = dc_field(default_factory=dict)
+
+    @property
+    def area_unresolved_boundary_bound(self) -> Fraction:
+        """The retained area of cells that really do straddle the boundary.
+
+        This -- not ``area_rejected_bound`` -- is the number RN5's phrase
+        "boundary-area bounds" names. ``OUTSIDE`` cells are excluded because
+        they are proved disjoint from the region.
+        """
+        return sum(
+            (v for k, v in self.area_rejected_by_kind.items()
+             if k != RejectKind.OUTSIDE),
+            Fraction(0),
+        )
+
+    def certified_enclosure(self) -> Interval:
+        """The enclosure, or a refusal. Use this wherever the word is published.
+
+        Raises :class:`UncertifiedTotalError` unless ``certified`` and
+        ``covers_region`` are both ``True``. The failure modes of this package
+        are then symmetric: a PENDING cell makes :meth:`Ledger.total` raise, and
+        an unaccounted region or a non-certifying path makes this raise. Neither
+        can be published by accident.
+        """
+        if not (self.certified and self.covers_region):
+            raise UncertifiedTotalError(
+                "this Total is not a certified enclosure of the region "
+                f"integral: certified={self.certified}, "
+                f"covers_region={self.covers_region}. Caveats: "
+                + (" | ".join(self.caveats) or "(none recorded)")
+                + ". Read Total.enclosure directly if a number about the "
+                "ACCOUNTED part is what is wanted, and do not label it "
+                "certified."
+            )
+        return self.enclosure
 
     def as_json(self) -> Dict[str, object]:
         return {
             "enclosure_lo": str(self.enclosure.lo),
             "enclosure_hi": str(self.enclosure.hi),
             "enclosure_width": str(self.enclosure.width()),
+            "enclosure_is_of_the_region": self.covers_region,
             "certified": self.certified,
             "covers_region": self.covers_region,
             "caveats": list(self.caveats),
             "area_accounted_lo": str(self.area_accounted.lo),
             "area_accounted_hi": str(self.area_accounted.hi),
             "area_rejected_bound": str(self.area_rejected_bound),
+            "area_rejected_by_kind": {
+                k: str(v) for k, v in sorted(self.area_rejected_by_kind.items())
+            },
+            "area_unresolved_boundary_bound": str(
+                self.area_unresolved_boundary_bound),
             "integrand": self.integrand,
         }
+
+
+def _by_kind(rej) -> Dict[str, Fraction]:
+    """Retained rejected area, per :class:`RejectKind`. Exact rationals."""
+    out: Dict[str, Fraction] = {}
+    for r in rej:
+        out[r.reject_kind] = (out.get(r.reject_kind, Fraction(0))
+                              + (r.boundary_area_bound or Fraction(0)))
+    return out
 
 
 DOES_NOT_ESTABLISH = (
@@ -429,6 +517,19 @@ class Ledger:
         cell's geometric area -- the area this rejection removes from the
         accounted part of the cover. RN5's recipe says to retain it; the ledger
         makes it a required argument so it cannot be forgotten.
+
+        THE NAME IS RIGHT FOR ``UNRESOLVED_BOUNDARY`` AND ``EXCLUDED`` AND IS
+        LOOSE FOR ``OUTSIDE``. An ``OUTSIDE`` cell is proved disjoint from the
+        region: it holds no boundary and contributes exactly zero. Its area is
+        still retained here -- the recipe says retain every rejected cell --
+        but summing it into a single field named after the boundary OVERSTATES
+        the unresolved boundary. On the showcased bracket run the single figure
+        is ``28.90625`` of which ``16.40625`` is ``OUTSIDE`` (60 cells) and only
+        ``12.5`` is genuinely unresolved boundary (128 cells). The direction is
+        conservative, so no bound is unsound -- but the number does not mean
+        what its name says, and ``Total.area_rejected_by_kind`` plus
+        ``Total.area_unresolved_boundary_bound`` exist so a reader does not have
+        to walk the cell list to find that out.
         """
         rec = self._require(cid)
         self._assert_open(rec)
@@ -486,10 +587,49 @@ class Ledger:
     def max_depth(self) -> int:
         return max((r.cell.depth for r in self.cells()), default=0)
 
+    def _leaf_diameters(self) -> List[Fraction]:
+        return [r.diameter_bound for r in self.leaves()
+                if r.diameter_bound is not None]
+
     def max_cell_width(self) -> Optional[Fraction]:
-        """Largest recorded geometric diameter bound over LEAF cells."""
-        ds = [r.diameter_bound for r in self.leaves() if r.diameter_bound is not None]
+        """Largest recorded geometric diameter bound over LEAF cells.
+
+        READ THIS AS "THE COARSEST LEAF", NOT AS "THE ACHIEVED RESOLUTION", AND
+        DO NOT EXPECT IT TO MOVE WITH THE TOLERANCE. Two reasons, both real and
+        both observed in this package's own showcase runs:
+
+        1. Adaptive refinement leaves flat parts of the domain coarse ON
+           PURPOSE. A cell where the integrand barely varies meets the
+           tolerance at depth 1 and is never split, so it stays the widest leaf
+           however far the rest of the cover is refined.
+        2. A region's ``diameter_bound`` may SATURATE. ``PolarRegion`` caps its
+           bound at ``2*r_max``, which is correct and is the right cap for a
+           full-turn ring; but under ``split='radius'`` theta is never
+           subdivided, so every leaf is a full-turn ring and every leaf reports
+           the cap. On ``rn5_annulus_polar(split='radius')`` this value is
+           exactly ``10`` -- the annulus's outer diameter -- at every depth and
+           at every tolerance, including a 16x tightening that cuts the total
+           width by 12x.
+
+        So a monotone comparison of this number across tolerances is not a
+        refinement control; on the annulus in polar coordinates it is the
+        constant ``10 >= 10 >= 10``. :meth:`min_cell_width` and
+        :meth:`max_depth` are the fields that do move, and the receipt carries
+        all three.
+        """
+        ds = self._leaf_diameters()
         return max(ds) if ds else None
+
+    def min_cell_width(self) -> Optional[Fraction]:
+        """Smallest recorded geometric diameter bound over LEAF cells.
+
+        The finest leaf. Where :meth:`max_cell_width` can saturate at a
+        region's diameter cap and sit still, this one moves with the
+        refinement, so the pair brackets the resolution actually achieved
+        instead of advertising one end of it.
+        """
+        ds = self._leaf_diameters()
+        return min(ds) if ds else None
 
     # ------------------------------------------------------------- invariants
 
@@ -547,9 +687,12 @@ class Ledger:
             area = area + r.area
 
         rejected_area = Fraction(0)
+        by_kind: Dict[str, Fraction] = {}
         covers = True
         for r in rej:
-            rejected_area += r.boundary_area_bound or Fraction(0)
+            bab = r.boundary_area_bound or Fraction(0)
+            rejected_area += bab
+            by_kind[r.reject_kind] = by_kind.get(r.reject_kind, Fraction(0)) + bab
             if r.reject_kind == RejectKind.OUTSIDE:
                 continue
             if r.residual is None:
@@ -571,15 +714,52 @@ class Ledger:
         return Total(enclosure=total, certified=certified, covers_region=covers,
                      caveats=tuple(caveats), area_accounted=area,
                      area_rejected_bound=rejected_area,
-                     integrand=self.integrand)
+                     integrand=self.integrand,
+                     area_rejected_by_kind=by_kind)
+
+    def provisional_leaf_counts(self) -> Dict[str, int]:
+        """How many leaves :meth:`provisional_enclosure` sums, and how many not.
+
+        ``omitted`` counts leaves whose ``contribution`` and ``residual`` are
+        both ``None`` -- cells the driver never evaluated, which is EVERY cell
+        dropped by the ``max_cells`` guard. Read it alongside the provisional
+        number: an omitted count above zero means the number is a sum over a
+        strict subset of the cover and is low by an unknown amount.
+        """
+        summed = omitted = 0
+        for r in self.leaves():
+            if r.contribution is not None or r.residual is not None:
+                summed += 1
+            else:
+                omitted += 1
+        return {"summed": summed, "omitted": omitted,
+                "leaves": summed + omitted}
 
     def provisional_enclosure(self) -> Interval:
-        """Sum over ALL leaves including PENDING ones. **NOT a total.**
+        """Sum over the leaves THAT HAVE A NUMBER. **NOT a total, NOT a bound.**
 
-        Never certified, never a coverage certificate, and deliberately given a
-        different name and a different return type from :meth:`total` so the
-        two can never be confused at a call site. It exists so that refinement
-        progress can be measured while cells are still pending.
+        WHAT IT ACTUALLY SUMS, precisely -- an earlier docstring said "sum over
+        ALL leaves including PENDING ones", and that is not what the body does.
+        A leaf contributes ``contribution`` if it has one, else ``residual`` if
+        it has one, and **is silently skipped when it has neither**. A cell
+        dropped by the driver's ``max_cells`` guard is left PENDING before the
+        integrand is ever evaluated, so it has neither and is skipped. Every
+        such cell contributes zero to this number.
+
+        THE RETURNED INTERVAL IS THEREFORE NOT AN ENCLOSURE, NOT A BOUND, AND
+        NOT EVEN A LOWER BOUND of anything. Measured on a real run
+        (``rn5_annulus_polar(split='both')``, ``max_cells=40``): 16 leaves
+        omitted, all 16 contributing nothing, and the number comes back around
+        ``[3.0e-5, 5.0e-5]`` for an integral whose value is ``6.2518`` -- five
+        orders of magnitude low. A caller watching it for "progress" would read
+        that collapse toward zero as convergence.
+
+        Call :meth:`provisional_leaf_counts` beside it. While ``omitted`` is
+        non-zero the number is a sum over a strict subset of the cover and says
+        nothing about the rest. It is never certified, never a coverage
+        certificate, and is deliberately given a different name and a different
+        return type from :meth:`total` so the two cannot be confused at a call
+        site.
         """
         out = Interval.exact(Fraction(0))
         for r in self.leaves():
@@ -603,6 +783,8 @@ class Ledger:
             total_error = f"{type(exc).__name__}: {exc}"
 
         mcw = self.max_cell_width()
+        mnw = self.min_cell_width()
+        prov_counts = self.provisional_leaf_counts()
         return {
             "region": self.region_name,
             "coords": self.coords,
@@ -620,8 +802,27 @@ class Ledger:
             "refine_depth": self.max_depth(),
             "max_cell_width": None if mcw is None else str(mcw),
             "max_cell_width_decimal": None if mcw is None else f"{float(mcw):.9g}",
+            "min_cell_width": None if mnw is None else str(mnw),
+            "min_cell_width_decimal": None if mnw is None else f"{float(mnw):.9g}",
+            "cell_width_note": (
+                "max_cell_width is the COARSEST leaf, not the achieved "
+                "resolution: adaptive refinement leaves flat regions coarse on "
+                "purpose, and a region's diameter_bound may saturate at its cap "
+                "(PolarRegion caps at 2*r_max, so under split='radius' every "
+                "full-turn ring reports the cap at every depth). It is not "
+                "monotone in the tolerance. Read refine_depth and "
+                "min_cell_width beside it."),
+            "provisional_leaf_counts": prov_counts,
             "area_rejected_bound": str(
                 sum((r.boundary_area_bound or Fraction(0)) for r in rej)),
+            "area_rejected_by_kind": {
+                k: str(v) for k, v in sorted(_by_kind(rej).items())},
+            "area_rejected_bound_note": (
+                "area_rejected_bound sums EVERY rejected cell's retained area, "
+                "including OUTSIDE cells that are proved disjoint from the "
+                "region and hold no boundary at all. RN5's phrase "
+                "'boundary-area bounds' names only the UNRESOLVED_BOUNDARY "
+                "part; see area_rejected_by_kind for the split."),
             "rejected_cells": [
                 {
                     "cid": r.cell.cid,
