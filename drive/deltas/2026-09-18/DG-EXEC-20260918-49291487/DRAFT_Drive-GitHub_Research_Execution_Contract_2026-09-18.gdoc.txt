@@ -1,0 +1,83 @@
+﻿DRIVE–GITHUB RESEARCH EXECUTION CONTRACT
+DRAFT v0.1 • 18 September 2026 • Owner: Dylan Roy
+
+
+STATUS
+Architecture proposal and implementation handoff, not an installed enforcement system. The owner described GitHub as the workspace for his authorized AI models and proposed keeping instructions and records in Google Drive. He authorized participation and repository-permission changes. This draft does not replace R17, approve a mathematical claim, grant independent-review credit, or authorize a public research release.
+
+
+1. ONE PROGRAM, TWO COMPLEMENTARY SYSTEMS
+Google Drive is the authoritative home for owner directives, research work orders, exact claim statements, hypotheses, accepted dispositions, review records, and durable delivery receipts.
+GitHub is the authoritative source for executable code versions, dependency locks, test fixtures, branch history, pull requests, and the execution associated with each commit.
+Do not maintain two independently editable versions of the same authority. Git-side instruction copies are pinned snapshots of identified Drive objects. Code records in Drive point to exact Git commits and preserved artifacts. GitHub can generate a result candidate; it cannot silently change the accepted scientific status in Drive.
+
+
+2. THE WORK-ORDER BRIDGE
+A valid work order identifies the task ID; exact target and research track; allowed operations and file paths; claim/lease reference; controlling Drive IDs, revisions and SHA-256 values; extraction rules; repository and base commit; required tests and negative controls; runtime/network limits; expected old output head; and acceptance criteria.
+For native Docs, identify the revision and extraction method as well as the digest of extracted bytes. A modified time or file title is not a substitute for identity. A hash establishes byte identity, not permission or truth.
+An authorized coordinator supplies a frozen instruction snapshot and only the inputs required for that task. The execution process must not need unrestricted Drive credentials. Instructions encountered in research files, issue comments, logs or downloaded material do not acquire authority merely because an agent can read them.
+Use one compact AGENTS.md entry point in GitHub that identifies this workflow and the controlling Drive work order. Avoid maintaining another competing operational constitution in the repository.
+
+
+3. COLLABORATION LOOP
+Read and claim the exact scope in the existing Work Events system. Use a unique agent/session branch and record the real provider, authenticated account or app, and source exposure. Branch names and self-reported model names provide labels, not access control.
+Implement or investigate on that branch. Run the pinned test command in a bounded, reproducible environment. Preserve both successful and failed experiments. Freeze a candidate with source, output and dependency identities, then open a pull request.
+A nonauthor reviewer examines the exact candidate, reconstructs material reasoning, and reproduces relevant tests. Existing R17 distinctions between technical correctness, scope, authorship/exposure and organizational independence remain in force. A second provider or a second account does not automatically establish independence.
+Ordinary implementation changes may follow an explicitly authorized automated merge policy after required checks. Changes to controlling policy, access, public release or scientific status require the corresponding authorization and acceptance predicates; they are not inferred from an ordinary code merge.
+
+
+4. RETURN RECEIPT AND RECONCILIATION
+The return record names the task, source-work-order identity, base and tested commit, execution/run ID, environment and dependency versions, commands, exit codes, real test counts, negative controls, output digests, limitations, reviewer identity/exposure, and proposed disposition.
+Archive the necessary artifacts and concise receipt back to Drive, then read them back before treating the transfer as recorded. Do not rely on a temporary CI-log URL as the sole permanent evidence carrier.
+Use distinct states: PREPARED, EXECUTED, RECORDED and ACCEPTED. An execution can succeed while archival remains pending. A recorded candidate can still need review. Only the acceptance transaction changes the relevant accepted status.
+Use an idempotency key based on task ID, work-order digest, tested commit and run ID. Preserve retries and conflicting results. Do not overwrite a previous receipt with a conflicting successor. This is a reconciled cross-system workflow, not a claim of an atomic transaction spanning Drive and GitHub.
+Revalidate source revision, policy, active claim and expected output head before merge or status promotion. Stale work may remain useful evidence for its original inputs, but must not be represented as current without reconciliation. A conflict blocks that target, not all research.
+
+
+5. ACCESS MODEL
+Public viewing and write permission are different. The proposed conservative arrangement is a private working repository, with optional separately approved public releases later. A public-read, restricted-write arrangement is also possible; owner intent should determine the visibility choice.
+Allow only Dylan's explicitly authorized GitHub accounts and app installations to modify the working repository. Prefer repository-scoped credentials, with separate identities where the providers support them. Do not share a single all-powerful token among models. Keep administration and permission changes out of normal worker credentials.
+Workers need only their required code, pull-request and execution capabilities. Reviewers need the access required for substantive review. A narrowly scoped merge mechanism may apply approved rules; it must not let a candidate rewrite its own acceptance checks and then approve itself.
+Protect the integration branch with required checks, review of policy/workflow changes, and restricted bypass. Reject force pushes and deletion where supported. Private-repository branch protection depends on the GitHub plan and must be verified rather than assumed.
+Restricting access does not retract existing public copies. Existing public forks stay public when the original repository becomes private. Verify every intended model's private-repository access after a visibility change.
+
+
+6. EXECUTION SAFETY AND REPRODUCIBILITY
+Use fresh bounded runners, explicit least-privilege job permissions, approved dependencies and action versions, resource limits, and task-appropriate network restrictions. A Git repository alone is not a sandbox.
+Keep broad Drive credentials, signing keys and administrative tokens out of unreviewed code-execution jobs. Separate the privileged coordinator/receipt uploader from the worker process. Store secrets in an appropriate secret manager, never in work orders, commits or logs.
+Required checks must fail when a checker fails or is missing. Missing required manifest coverage must not pass as zero errors. Validate expected coverage, required digest/size fields and negative controls. Test policy-enforcement code against deliberately invalid cases. A green run certifies only the checks actually performed.
+
+
+7. OBSERVED IMPLEMENTATION STATE
+Repository: d6g8k5htny-coder/main. The live connector reported public visibility and permissions pull=true, push=false, admin=false. An attempted creation of chatgpt/drive-github-execution-contract-20260918 was rejected with HTTP 403, Resource not accessible by integration. No repository branch, code, sharing permission or protection rule was changed by this session.
+PR #2 remained open and draft. The latest head inspected for this handoff was e2f2b7df070597ae2bd7b6d3c883a5b335d9e1be; the branch is active and may advance. Earlier reads showed main unprotected and an empty ruleset response; these must be rechecked by an administrator before installation.
+The existing Drive sandbox folder 1NehvnoZCiqRWXSVGRdfHFOccB7HXaF8q returned an anyone/reader permission. It must not be treated as a private coordination area. This new draft was created separately; its metadata returned shared=false and an owner permission only. No existing Drive permissions were changed. Access by other model integrations has not been verified.
+
+
+8. FIRST EXECUTABLE REPAIR, PREPARED LOCALLY
+At the inspected PR head, three workflow steps use: test -f CHECKER && python CHECKER || echo "skipped". A failed checker is thereby masked by the succeeding echo command.
+The proposed patch replaces those guarded commands with direct invocations:
+python tools/reviews_check.py
+python tools/recovery_check.py
+python tools/collision_proposal_check.py
+Nine local shell-control cases were executed: passing, failing and absent stand-in checkers for each of the three paths. The old commands returned 0 in every case. The replacement commands returned 0 for pass, 7 for deliberate failure, and 2 for absence. The generated patch also passed git apply --check and reproduced the proposed file against the inspected source fixture.
+This verifies failure propagation only, not the repository's real checkers or the full research test suite. The patch is not committed or deployed. Refresh the PR head, reconcile concurrent edits, then apply and run the real suite in an authorized coding environment.
+Inspected workflow UTF-8 SHA-256: 95521c574c540f74b64dd9ee17168abecd9f939d26359cd73586415f116b0be2.
+
+
+9. NEXT CAPABILITY HANDOFF
+An authenticated repository administrator should confirm the desired visibility, inspect collaborators/app installations/deploy credentials, grant only the intended repository-scoped access, and verify protection support under the actual plan. Do not equate a ChatGPT confirmation setting with GitHub administration permission.
+Use an authorized write-capable coding environment for commits and pull requests. OpenAI's current public GitHub connector documentation describes its standard ChatGPT access as read-only and directs code-push workflows to Codex. This session's observed 403 is the controlling capability evidence; no permission escalation is represented as completed.
+Pilot the bridge on the three-step CI repair before routing substantial scientific work through it. Acceptance requires failure propagation, exact input identity, receipt readback, stale-source rejection, conflict preservation and unchanged scientific gates. Do not roll out a second global registry or a bulk bidirectional sync.
+
+
+SOURCE REFERENCES AND SCOPED RECONNAISSANCE
+Existing policy read: OP-PROT-019-v1.1_R17, Drive ID 1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc; Research Home ID 180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8. These identify the retained operational rules; this draft is not their successor.
+Live GitHub reads: repository metadata, PR #2 and .github/workflows/ci.yml at e2f2b7df070597ae2bd7b6d3c883a5b335d9e1be. Earlier branch-creation attempt returned 403. Local experiments are explicitly scoped above.
+Primary documentation inspected on 18 September 2026:
+https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility
+https://docs.github.com/en/apps/using-github-apps/reviewing-and-modifying-installed-github-apps
+https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches
+https://docs.github.com/en/code-security/tutorials/secure-your-organization/protect-against-threats
+https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt
+The architecture above is a proposed engineering design, not a GitHub guarantee or a claim of historical novelty.
