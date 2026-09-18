@@ -204,11 +204,19 @@ lives under `registers/source/`, which this pass could not edit in any case.
 
 ## 6. Consequences for other files (not edited by this pass)
 
-* `tests/test_provenance.py` encodes the pre-repair state as fact. As of this
-  repair `python3 -m pytest -q tests/test_provenance.py` reports **5 failed,
-  6 passed**, and every failure is a test whose premise is now false rather
-  than a defect in the record or the checker (`tools/provenance_check.py`
-  exits 0 with `artifacts=7 byte_exact=3 count_only_traps=0 problems=0`):
+* `tests/test_provenance.py` encoded the pre-repair state as fact. Immediately
+  after this repair `python3 -m pytest -q tests/test_provenance.py` reported
+  **5 failed, 6 passed**, and every failure was a test whose premise had become
+  false rather than a defect in the record or the checker
+  (`tools/provenance_check.py` exited 0 with
+  `artifacts=7 byte_exact=3 count_only_traps=0 problems=0`). *Resolved the
+  same afternoon by the test owner:* the five tests now assert properties
+  rather than state — every `byte_exact` claim rests on a full declared digest
+  equal to the on-disk digest; the sharp case hashes to what the register
+  declares; the byte-count trap is still named when constructed; the
+  reintroduced-verbatim control targets `OP-PROT-012.md`, which can never
+  legitimately be called verbatim — and the file is **12 passed**. The
+  itemisation below is kept as the record of what had to change and why:
   * `test_nothing_currently_claims_byte_exactness` — three records now do;
   * `test_the_byte_count_trap_is_recorded_not_hidden` — the trap is repaired,
     so `byte_exact` is `true` and the declared digest equals `repo_sha256`;

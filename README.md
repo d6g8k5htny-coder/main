@@ -86,11 +86,16 @@ tests/          CI-enforced invariants and negative controls
 docs/           research map, open problems, contribution plan, findings, ported reports
 ```
 
-**Nothing under `governance/` or `docs/` that mirrors a Drive object is
-byte-identical to it.** `OP-PROT-019-v1.1_R17.md` has the same byte count as
-the object the register names and a different digest. These are reading
-copies; `governance/PROVENANCE.json` records every digest and
-`tools/provenance_check.py` refuses to let any file call one verbatim.
+**Of the seven artifacts under `governance/` and `docs/` that mirror a Drive
+object, three are byte-identical to it and four are not.** The three are
+proved by a full SHA-256 match to a digest the corpus declares; the four have
+no payload digest anywhere in the corpus, so their exactness is unverifiable —
+and two of them have known content divergences. Until 2026-09-18 the count was
+zero: `OP-PROT-019-v1.1_R17.md` had the same byte count as the object the
+register names and a different digest, so a byte-count check confirmed the
+wrong bytes. `governance/PROVENANCE.json` records every digest and outcome and
+`tools/provenance_check.py` refuses to let any file call a non-exact copy
+verbatim.
 
 Start with [`docs/RESEARCH_MAP.md`](docs/RESEARCH_MAP.md), then
 [`docs/OPEN_PROBLEMS.md`](docs/OPEN_PROBLEMS.md), then

@@ -8,13 +8,22 @@ program, mirrored from the Drive's `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES`,
 > says otherwise. None of them is the object.**
 >
 > As of 2026-09-18, three of the seven mirrored artifacts in this repository are
-> byte-identical to the Drive objects the registers name, each verified by a full
-> SHA-256 match: `protocols/OP-PROT-019-v1.1_R17.md` (14,073 bytes, `04987ba4…`,
-> the digest `registers/json/review_queue.json` row `RV-OPS-R17` declares),
-> `docs/FULL_DOCS_MATH_READ.md` and `docs/R17_IMPLEMENTATION_REPORT.md`. The
-> other four — the three native Google Docs protocols in this directory and the
-> register export — have no payload digest anywhere in the corpus, so their
-> exactness is unverifiable and they remain reading copies.
+> byte-identical to their Drive objects, each verified by a full SHA-256 match —
+> and it matters *who* declares the digest. `protocols/OP-PROT-019-v1.1_R17.md`
+> (14,073 bytes, `04987ba4…`) matches the digest a **register** declares:
+> `registers/json/review_queue.json` row `RV-OPS-R17`. `docs/FULL_DOCS_MATH_READ.md`
+> (`448adee5…`) and `docs/R17_IMPLEMENTATION_REPORT.md` (`7b2f6cc1…`) match
+> digests declared only by the **accessibility source map** and inventory
+> (`drive/source_map/Files.csv`, `Payloads.csv`, `drive/inventory.jsonl`); the
+> registers name neither object nor digest for them. The other four — the three
+> native Google Docs protocols in this directory and the register export — have
+> no payload digest anywhere in the corpus, so their exactness is unverifiable
+> and they remain reading copies. For two of those the repair found known
+> content divergences: `OP-CNS-001-R0.2.md` omits the export's first line
+> (*"Live rule: 00_LIVE_GOVERNANCE - Independent-Eyes Rule (OP-PROT-011)."*)
+> and `OP-PROT-012.md` carries " at time of export" inserted into its Status
+> line with quotes flattened to ASCII. Unverifiable is not the same as
+> unaltered.
 >
 > `OP-PROT-019-v1.1_R17.md` was the sharp case. Until 2026-09-18 the copy here
 > had the *same byte count* as the object — 14,073 — and a different SHA-256
