@@ -44,6 +44,8 @@ Rules the manifests follow:
 | `2026-09-18_FOLDER_STRUCTURE_MAINTENANCE/` | the folder-naming standard `OP-ORG-20260918-v1.0`, the review-scaffold template, the new triage index, the July triage index under its new name (bytes unchanged), and a two-level listing of the new `10_ORIGIN_PRESERVED_REVIEW_COLLECTIONS` container |
 | `PATH_CHANGES.jsonl` | 238 inventory rows whose path changed: six month folders renamed and re-parented under new `2026` folders, thirteen origin-collection trees moved under one container, one index renamed. Derived here from the rollback record and equal to the session's own `path_changes: 238` |
 
+| `CHANGED_SINCE_SNAPSHOT.jsonl`, `ENUMERATION_NOTE.md` | the full enumeration of items created or modified after the snapshot (336: 326 NEW, 6 MOVED, 4 modified in place), from two paginated Drive queries. It sees 77 stale paths; `PATH_CHANGES.jsonl` records 238 because the thirteen origin-collection moves did not advance `modifiedTime` and are known only from the rollback record. Trashed items are invisible to both |
+
 What the delta does not do: it does not refresh the export (a scoped re-export
 is the only way to do that), does not execute any rollback inverse, and changes
 no status of anything. The Drive session's own numbers — `scientific_dispositions_changed: 0`,
