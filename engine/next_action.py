@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Rank the open work lanes, so the repository can say what to work on next.
 
-Reads `engine/lanes/*.json`, `claims/graph.json` and, when it exists,
-`engine/carriers/MANIFEST.json`, and prints the lanes in a ranked order with the
-ranking rule stated in the output.
+Reads `engine/lanes/*.json`, `claims/graph.json` and, when they exist, the two
+carrier indexes — `engine/carriers/MANIFEST.json` (Drive files) and
+`engine/rn_engine/BINDING.json` (archive members recovered from inside ZIP
+carriers) — and prints the lanes in a ranked order with the ranking rule stated
+in the output.
 
 What a rank is: a work-scheduling heuristic over four integers this repository
 can compute — how many claims the claim graph says a lane blocks, whether the
@@ -32,6 +34,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANES = os.path.join(ROOT, "engine", "lanes")
 GRAPH = os.path.join(ROOT, "claims", "graph.json")
 MANIFEST = os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")
+BINDING = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
 
 REPO_STATE_RANK = {"running": 3, "partial": 2, "scaffolded": 1, "none": 0}
 
@@ -40,8 +43,9 @@ RANKING_RULE = [
     "depend, transitively, on an object this lane blocks (more first).",
     "2. falsifier: a lane the sources give you a way to be proven wrong on ranks "
     "above one they do not (defined first).",
-    "3. inputs bound here: a lane whose carrier inputs all resolve in "
-    "engine/carriers/MANIFEST.json ranks above one whose inputs are unbound.",
+    "3. inputs bound here: a lane whose carrier inputs all resolve in one of the two "
+    "indexes (engine/carriers/MANIFEST.json for Drive files, engine/rn_engine/BINDING.json "
+    "for archive members) ranks above one whose inputs are unbound.",
     "4. repo_state: more code for the lane in this repository ranks first "
     "(running > partial > scaffolded > none). This is a code state. It is not a "
     "mathematical status and no verdict may be read from it.",
@@ -116,9 +120,15 @@ def carrier_ids(manifest_path: str) -> set[str] | None:
     return set()
 
 
-def assess(lanes: dict[str, dict], graph: dict, manifest_path: str) -> list[dict]:
+def assess(lanes: dict[str, dict], graph: dict, manifest_path: str,
+           binding_path: str | None = None) -> list[dict]:
+    """One row per lane. `binding_path` is the archive-member index; a lane
+    input resolves if either index lists it, and the note says which."""
+    if binding_path is None:
+        binding_path = BINDING
     rev = dependents(graph)
     carriers = carrier_ids(manifest_path)
+    members = carrier_ids(binding_path) or set()
     rows = []
     for key, lane in lanes.items():
         blocks = lane.get("blocks") or []
@@ -131,9 +141,17 @@ def assess(lanes: dict[str, dict], graph: dict, manifest_path: str) -> list[dict
             bound = False
             bound_note = "lane declares no carrier inputs"
         else:
-            missing = [c for c in inputs if c not in carriers]
+            missing = [c for c in inputs if c not in carriers and c not in members]
             bound = not missing
-            bound_note = "all inputs bound" if bound else f"unbound: {missing}"
+            if bound:
+                via = []
+                if any(c in carriers for c in inputs):
+                    via.append("MANIFEST.json")
+                if any(c in members and c not in carriers for c in inputs):
+                    via.append("BINDING.json")
+                bound_note = "all inputs bound via " + " and ".join(via)
+            else:
+                bound_note = f"unbound in either index: {missing}"
         rows.append({
             "key": key,
             "title": lane.get("title"),
@@ -246,6 +264,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--lanes", default=LANES)
     ap.add_argument("--graph", default=GRAPH)
     ap.add_argument("--manifest", default=MANIFEST)
+    ap.add_argument("--binding", default=BINDING,
+                    help="archive-member index; a lane input may resolve here instead")
     ap.add_argument("--lane", metavar="KEY", help="detail for one lane")
     ap.add_argument("--json", action="store_true", help="machine-readable output")
     args = ap.parse_args(argv)
@@ -253,7 +273,7 @@ def main(argv: list[str] | None = None) -> int:
     lanes = load_lanes(args.lanes)
     with open(args.graph, encoding="utf-8") as f:
         graph = json.load(f)
-    rows = assess(lanes, graph, args.manifest)
+    rows = assess(lanes, graph, args.manifest, args.binding)
 
     if args.lane:
         key = args.lane

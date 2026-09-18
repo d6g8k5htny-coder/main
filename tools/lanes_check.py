@@ -200,8 +200,33 @@ def manifest_carrier_ids(path: str) -> set[str] | None:
     raise ValueError(f"unrecognised manifest shape: {type(entries).__name__}")
 
 
+def binding_member_ids(path: str) -> set[str]:
+    """Archive-member ids in engine/rn_engine/BINDING.json, or an empty set.
+
+    A second index exists on purpose. MANIFEST.json records Drive files, each
+    validated against its own inventory row; BINDING.json records files
+    recovered from inside ZIP carriers, which have no inventory row and are
+    validated against drive/source_map/Archive_Members.csv by
+    engine/rn_engine/verify_recovery.py instead. A lane input may name either.
+    Absence of the binding file is not an error — it simply resolves nothing.
+    """
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as f:
+        b = json.load(f)
+    entries = b.get("carriers", b) if isinstance(b, dict) else b
+    ids: set[str] = set()
+    for e in entries if isinstance(entries, list) else []:
+        if isinstance(e, dict) and e.get("carrier_id"):
+            ids.add(e["carrier_id"])
+    return ids
+
+
 def check(lanes_dir: str, doc: str, graph_path: str, registers_dir: str,
-          review_queue: str, manifest: str, repo_root: str) -> list[str]:
+          review_queue: str, manifest: str, repo_root: str,
+          binding: str | None = None) -> list[str]:
+    if binding is None:
+        binding = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
     problems: list[str] = []
 
     with open(graph_path, encoding="utf-8") as f:
@@ -269,9 +294,14 @@ def check(lanes_dir: str, doc: str, graph_path: str, registers_dir: str,
             if not str(lane.get("inputs_note") or "").strip():
                 problems.append(f"{where}: inputs are unbound and inputs_note does not say why")
         else:
+            members = binding_member_ids(binding)
             for cid in lane.get("inputs", []) or []:
-                if cid not in carriers:
-                    problems.append(f"{where}: input carrier_id {cid!r} is not in {manifest}")
+                if cid in carriers or cid in members:
+                    continue
+                problems.append(
+                    f"{where}: input carrier_id {cid!r} is in neither index — not a Drive "
+                    f"file in {manifest} and not an archive member in {binding}"
+                )
 
         # 4. status vocabulary
         status = lane.get("status")
@@ -374,12 +404,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--review-queue",
                     default=os.path.join(ROOT, "registers", "json", "review_queue.json"))
     ap.add_argument("--manifest", default=os.path.join(ROOT, "engine", "carriers", "MANIFEST.json"))
+    ap.add_argument("--binding", default=os.path.join(ROOT, "engine", "rn_engine", "BINDING.json"),
+                    help="archive-member index; a lane input may resolve here instead of the manifest")
     ap.add_argument("--repo-root", default=ROOT,
                     help="root scanned for evidentiary structures that must not carry repo_state")
     args = ap.parse_args(argv)
 
     problems = check(args.lanes, args.doc, args.graph, args.registers,
-                     args.review_queue, args.manifest, args.repo_root)
+                     args.review_queue, args.manifest, args.repo_root,
+                     binding=args.binding)
     if problems:
         print(f"lanes_check: {len(problems)} problem(s)")
         for p in problems:

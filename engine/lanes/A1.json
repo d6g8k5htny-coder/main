@@ -21,8 +21,12 @@
   },
   "next_exact_action": "Evaluate the lattice sums with `r` as an interval over the band. That yields G12-band enclosures, hence `Î(r)/r³ ≤ F(G12-band)` for the whole band — a finite computation per band, never a fitted exponent.",
   "falsifier": "A band enclosure whose width exceeds the claimed modulus.",
-  "inputs": [],
-  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "inputs": [
+    "CR-JETS",
+    "CR-GP-DATA-214-NORMALIZER",
+    "CR-GP-DATA-214-REPLAY"
+  ],
+  "inputs_note": "Bound 2026-09-18 from engine/carriers/MANIFEST.json (records whose lane field is 'A1'). Binding an input records which bytes exist and where; it is not review, not replay and not endorsement, and it changes no status. Five manifest carriers serve lanes docs/OPEN_PROBLEMS.md has no section for (P0.1, P0.2, Theorem B) and are recorded there under NOT_IN_OPEN_PROBLEMS rather than forced into a lane here.",
   "not_a_substitute": [
     {
       "quote": "RUNG2 (`r = 0.025`) and RUNG3 (`r = 0.035355`) certify those rungs only.",

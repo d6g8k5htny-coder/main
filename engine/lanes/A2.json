@@ -18,8 +18,10 @@
   },
   "next_exact_action": "Finish the rung ladder. Cells at `r = 0.0177` stand at **42/70** and at `r = 0.0125` at **21/70**, two shards resuming each, probes and patches complete.",
   "falsifier": null,
-  "inputs": [],
-  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "inputs": [
+    "CR-D1-FALSIFY-V4"
+  ],
+  "inputs_note": "Bound 2026-09-18 from engine/carriers/MANIFEST.json (records whose lane field is 'A2'). Binding an input records which bytes exist and where; it is not review, not replay and not endorsement, and it changes no status. Five manifest carriers serve lanes docs/OPEN_PROBLEMS.md has no section for (P0.1, P0.2, Theorem B) and are recorded there under NOT_IN_OPEN_PROBLEMS rather than forced into a lane here.",
   "not_a_substitute": [
     {
       "quote": "No later named `N/70` exists after RUNG2. Raw JSONL line counts are not a status promotion.",

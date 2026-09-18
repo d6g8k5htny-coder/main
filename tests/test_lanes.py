@@ -25,6 +25,8 @@ DOC = os.path.join(ROOT, "docs", "OPEN_PROBLEMS.md")
 GRAPH = os.path.join(ROOT, "claims", "graph.json")
 REGISTERS = os.path.join(ROOT, "registers", "json")
 REVIEW_QUEUE = os.path.join(REGISTERS, "review_queue.json")
+MANIFEST = os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")
+BINDING = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
 
 
 # --------------------------------------------------------------------------
@@ -42,9 +44,30 @@ class Workspace:
         shutil.copyfile(DOC, self.doc)
         self.graph = os.path.join(self.root, "graph.json")
         shutil.copyfile(GRAPH, self.graph)
-        self.manifest = os.path.join(self.root, "MANIFEST.json")  # absent unless written
+        # The two carrier indexes are ledger inputs too: the real lanes bind
+        # carrier ids from both, so a faithful copy carries both. A test that
+        # wants an index absent removes the copy; nothing real is touched.
+        self.manifest = os.path.join(self.root, "MANIFEST.json")
+        shutil.copyfile(MANIFEST, self.manifest)
+        self.binding = os.path.join(self.root, "BINDING.json")
+        shutil.copyfile(BINDING, self.binding)
         self.repo_root = os.path.join(self.root, "repo")
         os.makedirs(self.repo_root, exist_ok=True)
+
+    def _append(self, path, carrier_id):
+        with open(path, encoding="utf-8") as f:
+            index = json.load(f)
+        index["carriers"].append({"carrier_id": carrier_id})
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(index, f, indent=2, ensure_ascii=False)
+
+    def add_carrier(self, carrier_id):
+        """Add a Drive-file record to the workspace's copy of MANIFEST.json."""
+        self._append(self.manifest, carrier_id)
+
+    def add_member(self, carrier_id):
+        """Add an archive-member record to the workspace's copy of BINDING.json."""
+        self._append(self.binding, carrier_id)
 
     def lane(self, key):
         with open(os.path.join(self.lanes, f"{key}.json"), encoding="utf-8") as f:
@@ -64,6 +87,7 @@ class Workspace:
             [sys.executable, CHECKER, "--lanes", self.lanes, "--doc", self.doc,
              "--graph", self.graph, "--registers", REGISTERS,
              "--review-queue", REVIEW_QUEUE, "--manifest", self.manifest,
+             "--binding", self.binding,          # never the real one: a workspace resolves only what it wrote
              "--repo-root", self.repo_root],
             capture_output=True, text=True)
 
@@ -194,19 +218,43 @@ def test_negative_control_review_route_dropped(ws):
 
 
 def test_negative_control_unbound_carrier_input(ws):
-    with open(ws.manifest, "w", encoding="utf-8") as f:
-        json.dump({"carriers": [{"carrier_id": "CARRIER-REAL-001"}]}, f)
     ws.edit("A5", inputs=["CARRIER-THAT-IS-NOT-THERE"])
     out = ws.run()
     assert out.returncode != 0
     assert "CARRIER-THAT-IS-NOT-THERE" in out.stdout
-    # and the same lane with a real carrier id passes
+    # and the same lane with a carrier id the manifest lists passes
+    ws.add_carrier("CARRIER-REAL-001")
     ws.edit("A5", inputs=["CARRIER-REAL-001"])
     assert ws.run().returncode == 0
 
 
+def test_input_may_resolve_against_the_archive_member_index(ws):
+    """Two indexes on purpose: MANIFEST.json for Drive files, BINDING.json for
+    files recovered from inside ZIP carriers. An input naming an id in neither
+    must fail, and the message must name both indexes; the same input passes
+    once the binding index lists it, without the manifest changing."""
+    ws.edit("A5", inputs=["RNENG-TEST-99"])
+    out = ws.run()
+    assert out.returncode != 0
+    assert "neither index" in out.stdout
+    assert "MANIFEST.json" in out.stdout and "BINDING.json" in out.stdout
+    ws.add_member("RNENG-TEST-99")
+    assert ws.run().returncode == 0
+
+
+def test_the_real_lanes_depend_on_the_archive_member_index(ws):
+    """A5 binds the eight recovered RN-engine files. Remove the binding index and
+    the unmutated lanes must fail on exactly those ids: the second index is
+    load-bearing, not decorative."""
+    os.remove(ws.binding)
+    out = ws.run()
+    assert out.returncode != 0
+    assert "RNENG-01" in out.stdout
+    assert "neither index" in out.stdout
+
+
 def test_negative_control_inputs_declared_without_a_manifest(ws):
-    ws.edit("A5", inputs=["CARRIER-REAL-001"])
+    os.remove(ws.manifest)
     out = ws.run()
     assert out.returncode != 0
     assert "does not exist" in out.stdout
@@ -284,7 +332,7 @@ def test_repo_state_running_changes_no_verdict(ws):
 
     mutated = json.loads(subprocess.run(
         [sys.executable, DISPATCHER, "--lanes", ws.lanes, "--graph", ws.graph,
-         "--manifest", ws.manifest, "--json"],
+         "--manifest", ws.manifest, "--binding", ws.binding, "--json"],
         capture_output=True, text=True, check=True).stdout)
     original = json.loads(dispatcher("--json"))
     m = {r["key"]: r for r in mutated["lanes"]}
