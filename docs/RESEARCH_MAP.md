@@ -43,6 +43,21 @@ Within the active lane:
 | `10_AXIOMATIC_CORE_SPINE` | 41 |
 | `11_P0.2_ADJACENCY_TRANSIT_TREE` | 19 |
 | `2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 8 |
+
+The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
+program's terminal closure records live: the documents behind every
+`closure_log` row (`GP-CLS-141`, the `GP-CLS-BATCH-129` and `-137` batches,
+`GP-PRP-130/131/132`, the observer relays), the twenty independent cold-review
+packets of 2026-07-27 ("Terminal Exact Objects … Assign one packet to one
+researcher"), the P0.1 post-ratification raw packages and the SIDE24
+post-ratification theorem package, the Terminal Replication Capsule standard
+chain, the PKG-SIDE24-001 external peer-review capsule (3D track), and the
+Theorem B retraction-and-repair folder whose READ_FIRST controls Theorem B's
+current status (§1). `drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/` holds
+the cold-review packets and the theorem package byte-exact and the Theorem B
+folder as reading copies; the closure records and gate documents are being
+ported behind them. Until 2026-09-18 this table gave the lane a row count and
+nothing else.
 | `99_DO_NOT_OPEN` vault | 6 |
 
 ---
