@@ -6,9 +6,12 @@
 > and `registers/csv/` are byte-identical to `git HEAD`, and `tools/collision_proposal_check.py`
 > fails if that stops being true.
 
-> **Status discipline.** Nothing in this document promotes, closes, discharges or reclassifies
-> any claim, premise or obligation. No gate moves. No original prize problem is solved. The 2D
-> upper/lower tracks are not composed with the 3D lifetime track anywhere in this document.
+> **Status discipline.** Every claim, premise and obligation stands exactly as its source
+> records it; nothing in this document moves one, and every gate remains where it was. No
+> original prize problem is solved. The 2D upper/lower tracks are not composed with the 3D
+> lifetime track anywhere in this document. (Stated as a positive because
+> `reviews/SCHEMA.md` §4 rule 5 makes the promotion-language check literal, with no negation
+> escape — the rule would be hollow if these sibling documents exempted themselves.)
 
 ## What this is
 

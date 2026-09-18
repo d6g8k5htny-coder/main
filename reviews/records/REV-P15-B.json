@@ -114,7 +114,7 @@
     "python3 code/verify_p15.py --fault cross_common_color   # REJECT cross-palette-common-color, exit 1",
     "python3 code/verify_p15.py --fault local_demand         # REJECT local-palette-demand, exit 1",
     "python3 code/certify_palette_plan.py inputs/PALETTE_THREE_BLOCKS.json",
-    "reviews/records/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-B] lines",
+    "reviews/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-B] lines",
     "python3 tools/reviews_check.py"
   ],
   "sha_mismatch_explanation": "There is no digest in the register to disagree with: the RV-P15 row records 'UNRESOLVED - archive manifest required' in place of a 'Body SHA-256' and leaves 'Body bytes' blank. The digest supplied here for this part, 6286 bytes and 9b18b6e9abc90d18deef06ab12e3aa7794dad40e1618d99daa88e369c300e8c3, was recomputed by me from the extracted member bytes and agrees with three independent places: the carrier's own MANIFEST.sha256 line for proofs/02, the Payload SHA-256 column of drive/source_map/Archive_Members.csv for that member, and the inventory digest of the standalone Drive mirror 19D-eHQAIXMGGy2ThZUfZ0GGjIKWm5C2j. Nothing in registers/ was edited.",

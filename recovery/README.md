@@ -82,8 +82,12 @@ This is the discipline the audit itself applied, restated for this directory.
 
 * **Restoring bytes is not review.** Nothing here reviews, validates, checks or
   endorses any restored object. A recovered file has been *read*, not *assessed*.
-* **Recovery promotes nothing.** No claim, premise, obligation or register status
-  is promoted, closed, discharged or reclassified by anything in this directory.
+* **Recovery promotes nothing.** Every claim, premise, obligation and register
+  status stands exactly as its source records it; nothing in this directory
+  moves one. (Phrased as a positive on purpose: `reviews/SCHEMA.md` §4 rule 5
+  makes the promotion-language check literal, with no negation escape, so an
+  honest negative must be written without reusing promotion wording. The rule
+  reads as hollow if the sibling directories exempt themselves from it.)
   A recovered capsule enters the corpus **at the status its register row already
   carries — not higher**. If a row says `NEEDS_RECONCILIATION`, it still says
   `NEEDS_RECONCILIATION` with the bytes in hand.

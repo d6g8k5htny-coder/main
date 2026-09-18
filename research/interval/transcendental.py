@@ -878,7 +878,10 @@ def _erfc_mills(z: Fraction, prec: int) -> Interval:
     g = max(int(prec), 1) + 20
     sig = 4 * g + 32
     zz = z * z
-    e = exp(Interval.exact(-zz), g)
+    # _exp_point, not exp: the argument is a point, and ``exp`` would evaluate
+    # the same point twice. It is never positive here, so the OverflowError
+    # branch of _exp_point is unreachable from this call.
+    e = _exp_point(-zz, g)
     sp = sqrt(pi(g), g)
     lower = ((Interval.exact(2 * z) * e)
              / (sp * Interval.exact(2 * zz + 1))).round_out(sig).lo

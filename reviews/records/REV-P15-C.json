@@ -138,7 +138,7 @@
     "python3 -c \"from math import ceil; N=816*27+1; print(N, ceil(N/27))\"   # -> 22033 817, so the block full set needs 817 good parts",
     "python3 -c \"print(32768*22033)\"      # -> 721977344",
     "python3 -c \"from fractions import Fraction as F; print(F(16384*40,28))\"  # -> 163840/7",
-    "reviews/records/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-C] lines, eight of which are negative controls",
+    "reviews/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-C] lines, eight of which are negative controls",
     "python3 tools/reviews_check.py"
   ],
   "sha_mismatch_explanation": "The register carries no digest for this route to disagree with: RV-P15's 'Body SHA-256' cell reads 'UNRESOLVED - archive manifest required' and 'Body bytes' is blank. The values recorded here, 5796 bytes and 357dd57302a2ec6c9e98f454ac847a589e45f0db579df64f6cc102545b35429d, were recomputed from the extracted member bytes and agree with the carrier's own MANIFEST.sha256 line for proofs/03, with the Payload SHA-256 column of drive/source_map/Archive_Members.csv, and with the inventory digest of the standalone Drive mirror 12EqvrTr3r2XAQFOBFOpY_HYRULHlPM61. The register was read, not written.",

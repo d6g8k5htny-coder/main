@@ -359,6 +359,69 @@ def check_record(record: dict, schema: dict, queue: dict[str, dict],
 
 
 # --------------------------------------------------------------------------- #
+# Companion prose                                                              #
+# --------------------------------------------------------------------------- #
+
+def check_companion_prose(records_dir: str) -> list[str]:
+    """Hold the Markdown in ``records/`` to the same rule as the JSON.
+
+    The adversarial challenge of 2026-09-18 found the gap: this checker
+    enumerated only ``*.json``, so ``REV-P15-CONTROLS.md`` — 841 lines of
+    executed-control output living in ``records/`` — was never opened. It
+    carried no ``review_id`` and no ``gate_status_after``, and nothing scanned
+    it for promotion language or confidence voting. A rule that applies to a
+    record's ``findings`` field but not to the prose companion a reader actually
+    reads is not a rule.
+
+    Every ``.md`` here is now scanned for the same two prohibitions, and a
+    ``.md`` whose stem matches no ``.json`` is reported, so an unanchored
+    document cannot sit in the records directory unnoticed. It is reported, not
+    rejected: a shared controls appendix is legitimate, it just may not be
+    invisible.
+    """
+    problems: list[str] = []
+    if not os.path.isdir(records_dir):
+        return problems
+
+    stems = {os.path.splitext(fn)[0] for fn in os.listdir(records_dir)
+             if fn.endswith(".json")}
+
+    for fn in sorted(fn for fn in os.listdir(records_dir) if fn.endswith(".md")):
+        path = os.path.join(records_dir, fn)
+        try:
+            with open(path, encoding="utf-8") as handle:
+                text = handle.read()
+        except (OSError, UnicodeDecodeError) as exc:
+            problems.append(f"{fn}: not readable: {exc}")
+            continue
+
+        if os.path.splitext(fn)[0] not in stems:
+            problems.append(
+                f"{fn}: no record of the same stem — an unanchored document in "
+                f"records/ is scanned here but belongs to no review; give it a "
+                f"matching .json or move it beside the directory"
+            )
+
+        low = text.lower()
+        for phrase in PROMOTION_PHRASES:
+            if phrase in low:
+                line = next((i for i, l in enumerate(text.splitlines(), 1)
+                             if phrase in l.lower()), 0)
+                problems.append(
+                    f"{fn}:{line}: promotion language {phrase!r} in companion "
+                    f"prose: the rule is literal and has no negation escape"
+                )
+        for pattern in CONFIDENCE_PATTERNS:
+            hit = pattern.search(text)
+            if hit:
+                problems.append(
+                    f"{fn}: confidence voting {hit.group(0)!r} in companion "
+                    f"prose: R17 §4 — 'No confidence voting.'"
+                )
+    return problems
+
+
+# --------------------------------------------------------------------------- #
 # Driver                                                                       #
 # --------------------------------------------------------------------------- #
 
@@ -431,6 +494,7 @@ def main(argv: list[str] | None = None) -> int:
             return 2
 
     problems = check_all(records_dir, schema_path, queue_path)
+    problems += check_companion_prose(records_dir)
     count = len([fn for fn in sorted(os.listdir(records_dir))
                  if fn.endswith(".json")]) if os.path.isdir(records_dir) else 0
     for problem in problems:

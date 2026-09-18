@@ -147,7 +147,7 @@ python3 code/verify_p15.py --fault local_macro_independence  # REJECT dependent-
 python3 -c "from fractions import Fraction as F; print(F(1,2)+F(85,192), F(25,96)+F(5,8), 256*408)"   # -> 181/192 85/96 104448
 grep -rn 'P14-E' Prize_Research_P15_Palette_20260917/   # exactly two hits, neither of them an input binding
 python3 -c "import json; print([e['path'] for e in json.load(open('INPUT_IDENTITIES.json'))])"   # three paths, P14-E absent
-reviews/records/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-D] lines
+reviews/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-D] lines
 python3 tools/reviews_check.py
 ```
 

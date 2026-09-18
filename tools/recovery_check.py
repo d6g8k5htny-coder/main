@@ -115,6 +115,38 @@ def check(root: str) -> list[str]:
         if m and art.get("sha256") != m.group("sha"):
             fail.append(f"{path}: ledger records sha256 {art.get('sha256')} but the path says {m.group('sha')}")
 
+    # ---- every blob traces back to an exception ---------------------------
+    #
+    # The adversarial challenge of 2026-09-18 found three blobs that the
+    # artifacts index listed but that no RECORD reached. A record is the
+    # ledger's per-exception audit unit: a blob indexed at the top level but
+    # traceable to no exception is a file in a directory, not a recovery.
+    #
+    # Reachability may run through ``stored_path`` (the primary route) or
+    # through a record's ``related_artifact``, which is how a payload extracted
+    # alongside a different exception is legitimately carried. What is not
+    # allowed is no route at all.
+    reachable: dict[str, str] = {}
+    for rec in ledger.get("records", []):
+        rid = rec.get("record_id", "?")
+        stored = rec.get("stored_path")
+        if stored:
+            reachable.setdefault(stored, f"{rid}.stored_path")
+        for key in ("related_artifact", "related_artifacts"):
+            val = rec.get(key)
+            for item in (val if isinstance(val, list) else [val] if val else []):
+                p = item.get("path") if isinstance(item, dict) else item
+                if isinstance(p, str):
+                    reachable.setdefault(p, f"{rid}.{key}")
+    for rel in blobs:
+        if rel not in reachable:
+            fail.append(
+                f"{rel}: stored blob is reachable from no ledger record — not via any "
+                f"stored_path and not via any related_artifact. Give the exception it "
+                f"belongs to a reference, or it is a file in a directory rather than a "
+                f"recovery anyone can audit"
+            )
+
     # ---- 2. no CANDIDATE in the RECOVERED directory -----------------------
     for path, art in index.items():
         in_recovered = path.startswith(RECOVERED_DIR.replace(os.sep, "/"))

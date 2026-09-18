@@ -137,7 +137,7 @@ python3 code/verify_p15.py            # PASS, palette group 12729 checks
 python3 code/verify_p15.py --fault cross_common_color   # REJECT cross-palette-common-color, exit 1
 python3 code/verify_p15.py --fault local_demand         # REJECT local-palette-demand, exit 1
 python3 code/certify_palette_plan.py inputs/PALETTE_THREE_BLOCKS.json
-reviews/records/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-B] lines
+reviews/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-B] lines
 python3 tools/reviews_check.py
 ```
 

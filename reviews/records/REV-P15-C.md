@@ -151,7 +151,7 @@ python3 code/verify_p15.py            # PASS, cycle group 65862 checks
 python3 -c "from math import ceil; N=816*27+1; print(N, ceil(N/27))"   # -> 22033 817, so the block full set needs 817 good parts
 python3 -c "print(32768*22033)"      # -> 721977344
 python3 -c "from fractions import Fraction as F; print(F(16384*40,28))"  # -> 163840/7
-reviews/records/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-C] lines, eight of which are negative controls
+reviews/REV-P15-CONTROLS.md  # my independent control script (sha256 b0fdf24d617e4b5e440b1c1707684166d4a5dc9ca1ccc7d1e929c95b131037ba) and its verbatim output; see the [P15-C] lines, eight of which are negative controls
 python3 tools/reviews_check.py
 ```
 
