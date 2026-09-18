@@ -29,6 +29,15 @@ computed, not remembered, fact.
 
 ## 2. Convert each found defect into a permanent regression test
 
+**Status 2026-09-18.** Two of the three "next" items below are done and pinned:
+the LPW headline mutation is `research/lpw/headline.py` (the delivered
+`6.239e−44` is admissible as an upper bound and the proposed `6.238e−44` is
+not; under an equality headline nothing rounded is admissible because the
+expansion never terminates), and the false identity is
+`research/identities/gaussian_moments.py` (`12 + 32/π`, one dropped cross term
+worth `16/π`). The H5 totals rung-scope test is still open. See
+`docs/FINDINGS_2026-09-18.md` §2.
+
 `OP-GDN-002 §8` asks for exactly this: every serious error should be examined
 for a reusable control. The corpus has several structural error classes that
 recurred, and none of them is currently pinned by an executable test.
@@ -93,6 +102,18 @@ orders 2–4 runnable smoke, which the lane brief lists as missing.
 
 ## 5. Perform the overdue nonauthor technical reviews
 
+**Status 2026-09-18.** Six records in `reviews/records/`, all three READY routes
+covered (`RV-P15` split into four scoped reviews as proposed), every record at
+`independence_credit: 0` with `gate_status_after: UNCHANGED`, which
+`tools/reviews_check.py` refuses to accept any other value for. Two AMEND
+verdicts found defects in this repository's own migration (§1 of the findings
+record). The prediction below — that I cannot supply organizational
+independence — held, but for a sharper reason than same-provider: on the two
+routes whose author family is `openai`, the credit is zero because
+`OP-PROT-012` §5's predicate fails on (b), (c), (e) and (i), the reviewer having
+read this repository's derived port before any freeze of its own. The remaining
+18 routes are untouched.
+
 Nineteen of the 24 review-queue routes are 51–54 days old and at ESCALATE. R17
 §4 permits a fresh nonauthor session of any provider to perform technical
 review, with organizational independence recorded separately and, for a
@@ -115,6 +136,14 @@ demands a distinct family, my verdict is a technical pass with zero independence
 credit, and the gate stays open. I will always record it that way.
 
 ## 6. Resolve the identifier collisions the registers carry
+
+**Status 2026-09-18.** Proposed, not repaired: `registers/COLLISION_PROPOSAL.md`
+covers all 16 findings with 13 successor identifiers under `OP-CNS-001` §2's
+preserve-and-disambiguate remedy, and `tools/collision_proposal_check.py`
+asserts the proposal is additive and the exported registers byte-unchanged.
+For the three `EXISTING_CONTAINER` rows both permitted options are laid out
+with consequences and a recommendation. Applying any of it is an operator
+action.
 
 Six duplicate artifact IDs and seven duplicate transition IDs, each pair holding
 *different* status text — the exact failure class OP-CNS-001 §2 exists to
