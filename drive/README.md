@@ -12,8 +12,10 @@ Content-addressed index of the Google Drive shared drive, from the
 | `source_map/Payloads.csv` | 4,020 | distinct source payloads by SHA-256, with occurrence counts |
 | `source_map/Exceptions.csv` | 137 | retained exceptions: empty bodies, read failures, compiled caches, DOCX layout limits |
 
-Totals: 3,714 files and 742 folders, 319 MB, 77 archive carriers, 4,020 distinct
-payloads, 2,059 items carrying a source SHA-256.
+Totals: 3,714 files and 742 folders, 319 MB, 77 archive carriers (the completion
+report's count; the inventory marks 76 items `ARCHIVE_INDEXED` and
+`Archive_Members.csv` lists members for 73), 4,020 distinct payloads over the whole
+source map (2,975 among archive members), 2,059 items carrying a source SHA-256.
 
 ## Queries
 
@@ -52,3 +54,19 @@ overlays the path changes by default (`--snapshot` shows the export as
 published). 238 of the 4,456 inventory rows carry a stale `path` since that
 restructure; their ids, byte counts and digests are unchanged, and the export is
 not edited.
+
+## Curated copies: `mirrors/`
+
+[`mirrors/`](mirrors/) holds byte-exact copies of selected Drive objects, laid out
+as `mirrors/<Drive lane folder>/<path inside the lane>/`, one `_MANIFEST.jsonl`
+per directory that holds files (Drive id, title, path, `dest`, `bytes`,
+`sha256`, `exact`, inventory digest and byte count), verified by
+`tools/verify_manifests.py` in CI. A row with `exact: true` hashes to the
+digest the 2026-09-17 inventory declares for that id; a row with `exact: false`
+is a text export of a native Google Doc, for which no payload digest exists
+anywhere in the corpus — a reading copy, not the object. Each lane directory has
+a README quoting the source's own status banners verbatim. Mirrored so far: the
+reviews lane (21 cold-review packets, the post-ratification theorem package, the
+Theorem B retraction folder) and the status layer of the prize reconnaissance
+lane. **A mirror is a copy: it is not review, replay, endorsement or promotion,
+and it moves no status.**

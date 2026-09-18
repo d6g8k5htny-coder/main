@@ -46,10 +46,14 @@ results. Every carrier is author-side, external review pending, historical
 novelty unestablished. **Original prize problems solved: 0.** This track is
 HOLD / not for submission and must not be merged into the q0 packages.
 
-**3. The research platform.** Coupled registers, evidence-gated governance,
-verifiers, regression corpora, a Lean/formal system lane, and the accessibility
-source map. This is the part that generalizes, and it is what this repository
-makes reusable.
+**3. The research platform.** The coupled registers (exported and checked here),
+the evidence-gated governance protocols, the accessibility source map, and the
+Drive's platform lane: metrics and defect interception, the Fresh Start 2.0
+"LEAN VERIFIED RESEARCH SYSTEM" (eight Core capsules of Markdown statements,
+sympy hostile tests and PDFs — it holds no Lean sources), and two sandbox
+verification prototypes at "LIVE MIGRATION HOLD". This repository carries the
+registers, the source map and its own checkers; the lane's verifiers, control
+plane and capsule statuses are indexed, not carried, run or reused.
 
 ## The five open validity premises
 
@@ -137,7 +141,7 @@ verifiers three times, which is what they are for.
 | | |
 |---|---|
 | Drive items covered | 4,456 (3,714 files, 742 folders), 319 MB |
-| Archive carriers / members | 77 carriers, 11,649 member occurrences, 4,020 distinct payloads |
+| Archive carriers / members | 77 carriers per the accessibility completion report (76 inventory rows `ARCHIVE_INDEXED`, 73 with members listed), 11,649 member occurrences, 2,975 distinct member payload digests; 4,020 distinct payloads over the whole source map |
 | Source-map snapshot | 2026-09-17 accessibility publication |
 | Register export | GP-REG-032-v1.2, 42 tabs, exported 2026-09-17 |
 | Control plane at export | AI-DRIVE-AUTONOMY-R17 (OP-PROT-019-v1.1) |

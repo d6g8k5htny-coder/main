@@ -301,27 +301,93 @@ as the refuted object and read the assembly's verdict onto the whole lane.
 
 ## 8. Prize reconnaissance (independent track, HOLD)
 
-`CLAIM_REGISTRY_VERIFIED_INTAKE.json` grades every PR-TAL carrier:
-`declared_proof_grade: AUTHOR_SIDE_PROOF_PRESENT`, `external_review: PENDING`,
-`historical_novelty: UNESTABLISHED`, `original_prize_closed: false`.
+Lane `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE —
+INDEPENDENT TRACK` (295 items). Its status layer — the lane-root READ_FIRST, the
+six grading files of `00_CURRENT_STATE_AND_ROUTING/` and the Erdős 142 scope
+pointer — is mirrored byte-exact (inventory digests) under
+`drive/mirrors/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK/`.
+Every grade below is quoted from those bytes.
 
-* **PR-TAL-003…008** — sealed in `Prize_Research_Phase05_Overlap_2026-09-16.zip`
-  (SHA-256 `e976271ba1a3822bddf6247d72b5d6131bfeabdcbc610982e816d812dd2e5a90`,
-  244 members). "Sealed" is archive-custody language, not theorem grade. Bodies
-  are `P05_01_five_copy_laminar.md` … `P05_06_high_capacity_overlap.md`.
-* **PR-TAL-001/002** — Phase04 priors. **PR-TAL-009/010** — generic Phase05,
-  checker not replayed. **PR-TAL-011…018** — Phase06/07 with a known claim-ID
-  collision across phases: always cite ID **plus** phase path.
+* **The lane about itself** — `CURRENT_STATE_VERIFIED_INTAKE.json` (as of
+  2026-09-16): `"track": "independent prize research"`,
+  `"current_primary_front": "Discrete Talagrand capacity-family subclass
+  research"`, `"grade": "AUTHOR_SIDE_COMPLETE_ARGUMENTS; EXTERNAL_REVIEW_PENDING;
+  NOVELTY_UNESTABLISHED"`, `"original_prizes_solved": 0`, `"q0_modified": false`.
+  Its `forbidden_inferences` include "test counts are not independent
+  confirmations" and "operator permission does not supply mathematical
+  evidence". The claim graph files this lane under the track label
+  `NUMBER_THEORY`; that label is the key the prize firewalls test, not a
+  description — 53 of the lane's 72 proof notes are discrete Talagrand /
+  hypergraph-threshold work.
+* **The intake registry** — `CLAIM_REGISTRY_VERIFIED_INTAKE.json` grades 27
+  claims: PR-AP-001…015, PR-SID-001, PR-COL-001, PR-SP-001 and PR-TAL-001…010.
+  Twenty-five carry `declared_proof_grade: AUTHOR_SIDE_PROOF_PRESENT`; PR-TAL-009
+  carries `SOURCE_DECLARED_AUTHOR_ARGUMENT` and PR-TAL-010
+  `SOURCE_DECLARED_FINITE_CERTIFICATE_NOTE` ("source read and containing archive
+  manifest; additional checker not replayed"). All 27: `external_review:
+  PENDING`, `historical_novelty: UNESTABLISHED`, `original_prize_closed: false`.
+  The registry's own note: "Scoped proof-note registry, not a count of novel
+  publishable theorems; classical ingredients and reconstructed results are
+  included." PR-TAL-011…019 are not in this registry; they are graded in the
+  later phase registries inside the Phase06/07/08 carriers, which were not
+  opened. Until 2026-09-18 this section said the registry "grades every PR-TAL
+  carrier" at one grade.
+* **PR-TAL-003…008** — the six Phase05 overlap notes (`verification_this_turn:
+  "proof derivation and exact finite companions"`, author-side), sealed in
+  `Prize_Research_Phase05_Overlap_2026-09-16.zip` (SHA-256
+  `e976271ba1a3822bddf6247d72b5d6131bfeabdcbc610982e816d812dd2e5a90`, 98,175 B,
+  **122 members**). The Drive holds two byte-identical copies of that zip (ids
+  `1XB6HnA5…` under `90_FROZEN_PHASE_PACKAGES/PHASE05/` and `1Z4Rvtap…` under
+  `EXTERNAL_REVIEW_PR_TAL_003-008/`) and the source map lists the members of
+  each, which is where this section's earlier figure of "244 members" came from.
+  "Sealed" is archive-custody language, not theorem grade. Bodies are
+  `P05_01_five_copy_laminar.md` … `P05_06_high_capacity_overlap.md`. The folder
+  name `EXTERNAL_REVIEW_…` records packaging for a review, not a review: every
+  PR-TAL row reads `external_review: PENDING`.
+* **PR-TAL-001/002** — Phase04 priors. **PR-TAL-011…018** — Phase06/07 with a
+  known claim-ID collision across phases: always cite ID **plus** phase path.
   **PR-TAL-019** — Phase08 rank-3 source.
-* **P14 / P15** — P15-A translates the optimized scalar-sandwich parameter to the
-  established critical threshold `α(D)`; P15-B gives a setwise fixed-label
-  palette-localization certificate; P15-C an even-cycle family with global
-  threshold exactly `m(3s−2)/(2s)` growing unboundedly; P15-D a fixed
-  `256·ceil(408κ)`-piece compatible cover independent of macro degree. All
-  author-side; 0 external reviews; 0 formal prover runs.
-* Phase carriers: Phase02 (237 members), Phase03 (342), Phase04 (468),
-  Phase05 Overlap (244), Phase10 (272), Phase11 (620), P14 Fractional (191),
-  Continuation Audit (685).
+* **The four other sub-lanes** — `01_ERDOS_3_AND_169` (15 notes, PR-AP-001…015),
+  `02_ERDOS_39` (PR-SID-001), `03_RIEMANN` (PR-SP-001), `04_COLLATZ` (PR-COL-001)
+  and `05_ERDOS_142`, whose whole content is a scope pointer: "This lane has no
+  new asymptotic formula or unrestricted upper bound for r_k(N). … A finite
+  weighted maximum is not a cardinality asymptotic; an all-scale counting
+  statement about weighted extremizers is not a bound on every progression-free
+  set. The original target remains open in this project." Folder names such as
+  "MILLENNIUM MOONSHOT" and "120M JPY MOONSHOT" are the source's aspirations, not
+  claims. Until 2026-09-18 these sub-lanes were absent from this map.
+* **P14** — `P14_CLAIM_REGISTRY.json`: `"grade": "AUTHOR_SIDE_COMPLETE"`,
+  `"external_independent_reviews": 0`, `"historical_novelty": "UNESTABLISHED"`,
+  `"prizes_solved": 0`. P14-A: "phi-compatible ceil(408kappa) cover under
+  verified strict scalar sandwich"; P14-B: "exact fractional row cover supplies
+  kappa; weak duality and directed rational repair"; P14-C: a many-necessary-rows
+  family of "fractional width exactly2"; P14-D/E: `K_(m,m)` "has unbounded
+  fractional and optimized scalar widths despite a proper2-coloring. A universal
+  bounded-width inference is therefore false." The lane root: "The unrestricted
+  Talagrand problem is still open in this project."
+* **P15** — `P15_CLAIM_REGISTRY.json`: P15-A…D each `"grade":
+  "AUTHOR_SIDE_COMPLETE"`, `"external_reviews": 0`, `"prize_closed": false`;
+  file-level `"automatic_scientific_promotion": false`,
+  `"external_independence_credit": 0`, `"q0_changes": 0`. P15-A translates the
+  optimized scalar-sandwich parameter to the established critical threshold
+  `α(D)` ("an attributed translation, not a new parameter") and obtains its
+  palette bound "through the preceding P14 theorem"; P15-B gives a setwise
+  fixed-label palette-localization certificate; P15-C an even-cycle family with
+  global threshold exactly `m(3s−2)/(2s)` growing unboundedly; P15-D a fixed
+  `256·ceil(408κ)`-piece compatible cover independent of macro degree. "No q0
+  uniformity obligation is discharged." **P15 depends on P14**: the repository's
+  own nonauthor reviews (`REV-P15-B`, `REV-P15-D`) say P15 "does not establish
+  P14-A", and `claims/graph.json` now records P14 as a node and the P15 → P14
+  edge; until 2026-09-18 it recorded P15 with no dependencies and no P14 node.
+* Phase carriers, member counts from `drive/source_map/Archive_Members.csv`:
+  Phase02 (237), Phase03 (342), Phase04 (468), Phase05 (129), Phase05 Overlap
+  (122; two Drive copies), Phase10 (272), Phase11 — **two distinct carriers under
+  one title**: the stored snapshot `860411bc…` (257,311 B, 436 members) and the
+  `ATTACHED_ee4a16e1 — DISTINCT_AUTHOR_SNAPSHOT` (130,779 B, 184 members), which
+  the source's continuation audit keeps apart ("Neither snapshot was overwritten
+  or conflated") and which prove different constants — P14 Fractional (191),
+  P15 Palette (149), Continuation Audit (685). Until 2026-09-18 this list
+  summed the two Phase11 carriers into "620".
 
 **No original prize problem has been solved.** Keep this on every public surface.
 
@@ -329,11 +395,34 @@ as the refuted object and read the assembly's verdict onto the whole lane.
 
 ## 9. Platform and verification architecture
 
-* `01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE` (188 items) — metrics and
-  defect interception (`RM-METRICS-001`), the formal/Lean research system with
-  core lemmas `P02-LM-001/002/005/007/008`, `EC-014/015/021`, a replication
-  tree, regression corpora and negative controls, and verification prototypes.
-  The formal state, as the FORMALIZATION BOARD (Drive
+* `01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE` (188 items, 130 of them
+  native Google Docs with no payload digest) — `RM-METRICS-001` (metrics and
+  defect interception; its §5 lists eleven named defects as the program's
+  "initial regression corpus"); the Fresh Start 2.0 lane
+  `02_FORMAL_AND_LEAN_RESEARCH_SYSTEM` (178 items), which its `00_READ_FIRST` and
+  `FS2-SETUP-001` describe as an "INSTALLED / ACTIVE CONTROL PLANE" with the
+  state machine `INGESTED → PREPPING → CANDIDATE → REVIEWED → CORE`, promotion
+  gates PG-01…PG-10, and eight Core capsules `EC-014`, `EC-015`, `EC-021`,
+  `P02-LM-001/002/005/007/008` (each a folder of `CURRENT_STATUS.json`,
+  `statement.md`, `proof.md`, `independent_review.json`, `hostile_tests.py` and
+  a review-packet PDF, to be read "CURRENT_STATUS.json before historical proof
+  banners"; each records `parent_theorem_effect: NONE AUTOMATIC`); a
+  `04_EVIDENCE` tree whose five output folders are empty in the snapshot; and two
+  verification prototypes with register rows — `GP-VO-001` / DQ-060 ("COMPLETE /
+  SANDBOX PROTOTYPE PASS / LIVE MIGRATION HOLD", dispatch "HOLD — DO NOT CLAIM")
+  and DQ-059 ("PASS / COMPLETE / SANDBOX RELEASED"; "Scientific effect: none").
+  **The lane holds zero `.lean` sources and zero prover receipts**: "LEAN" in its
+  title is the lane's name (the program's Lean-prover material is `GP-FOR-001`,
+  `GP-FOR-189` and `GP-REC-220`, below), and its formal content is Markdown
+  statements, sympy hostile tests and PDFs. This repository indexes the lane
+  (`drive/inventory.jsonl`) and nothing more: it carries none of its verifiers
+  (`verify_obligations.py`, `math_integrity_gate.py`, the eight
+  `hostile_tests.py`, the Apps Script executor `FS2_PCT003`), none of the
+  capsules' operative status labels, and no git equivalent of its control plane
+  (`governance/GIT_ADAPTATION.md` says so). Until 2026-09-18 this bullet
+  described "regression corpora and negative controls" and "a replication tree"
+  that are, in the snapshot, one two-item conversion-control folder and an empty
+  output tree. The formal state, as the FORMALIZATION BOARD (Drive
   `10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`) records it: the original
   `GP-FOR-001` bundle is "not present in Drive; its declared hash and commits
   remain historical provenance"; the additive `GP-FOR-189` source-recovery
@@ -357,7 +446,16 @@ as the refuted object and read the assembly's verdict onto the whole lane.
 
 ## 10. Archive carriers
 
-77 carriers, 11,649 member occurrences, 4,020 distinct payloads. Largest:
+The accessibility completion report counts 77 original archive carriers; the
+inventory marks 76 items `ARCHIVE_INDEXED`, and `drive/source_map/Archive_Members.csv`
+lists 11,649 member rows for 73 of them (69 distinct titles — four titles are each
+shared by two carriers: the Phase05 Overlap copies, the two Phase11 snapshots,
+`SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` and
+`research_formal_core_r2.zip`) with 2,975 distinct member payload digests. The
+4,020 distinct payloads of `Payloads.csv` are counted over the whole source map,
+not over the archives; until 2026-09-18 this sentence presented them as archive
+payloads. Largest carriers by member count (a title shared by two carriers is
+listed per carrier):
 
 | Carrier | Members |
 |---|---:|
@@ -365,8 +463,9 @@ as the refuted object and read the assembly's verdict onto the whole lane.
 | `SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` | 1,146 |
 | `SepOKComputer_Project_Gap_Closure.zip` | 1,136 |
 | `Prize_Research_Continuation_Audit_20260917.zip` | 685 |
-| `Prize_Research_Phase11_2026-09-16.zip` | 620 |
 | `Prize_Research_Phase04_2026-09-16.zip` | 468 |
+| `Prize_Research_Phase11_2026-09-16.zip` (stored snapshot `860411bc…`, id `1ef2RycJ…`) | 436 |
+| `Prize_Research_Phase11_2026-09-16.zip` (`ATTACHED_ee4a16e1 — DISTINCT_AUTHOR_SNAPSHOT`, id `15CXT-wK…`) | 184 |
 
 Query with `python3 tools/drive_index.py archive <carrier substring>`.
 
