@@ -1,0 +1,52 @@
+{
+  "key": "B",
+  "title": "The matching 2D upper",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## B. The matching 2D upper",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [
+    "MATCHING-2D-UPPER"
+  ],
+  "status": "OPEN",
+  "status_source": {
+    "transcribed_from": [
+      "claims/graph.json claims.MATCHING-2D-UPPER.grade",
+      "registers/json/lpw_fold_dispositions.json row 'Matching 2D upper', Operator disposition"
+    ],
+    "quote": "OPEN — investigation authorized",
+    "note": "The register's own disposition word and the claim graph's grade agree: OPEN."
+  },
+  "next_exact_action": "Required: exhaustive failure-event coverage, exact weighted / height-integrated bounds, eta-preserving conversions, all-small-`r` control and spatial-regime control.",
+  "falsifier": null,
+  "inputs": [],
+  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "not_a_substitute": [
+    {
+      "quote": "C020/C021 historical candidates were supplied offline and are **not** promoted by that intake.",
+      "source": "docs/OPEN_PROBLEMS.md §B"
+    },
+    {
+      "quote": "2D TWO-SIDED THETA NOT YET ADMITTED",
+      "source": "registers/json/lpw_fold_dispositions.json row 'Matching 2D upper', Formal promotion"
+    }
+  ],
+  "repo_state": "none",
+  "repo_state_note": "No work on the matching upper exists in this repository. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [],
+  "does_not_establish": "This lane proves no upper bound, admits no two-sided law, and promotes no historical candidate. Composing this lane with the 3D lifetime track is forbidden and no ranking, receipt or run may be read as licensing it.",
+  "register_next_decisive_action": "Prove exhaustive failure-event coverage, exact weighted/height-integrated bounds, eta-preserving conversions, all-small-r and spatial regime control.",
+  "firewalls": [
+    {
+      "quote": "Target: same-law `1 − q(r, 6/5) ≤ C r³` for all sufficiently small `r`, with **no** combination with the 3D upper.",
+      "source": "docs/OPEN_PROBLEMS.md §B"
+    },
+    {
+      "id": "FW-2D-3D-COMPOSITION",
+      "source": "claims/graph.json firewalls",
+      "rule": "No claim may depend, transitively, on objects from both the UPPER2D/LOWER2D tracks and the LIFETIME3D track."
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "schema_note": "Record shape mirrors engine/carriers/MANIFEST.json (carrier_id, title, drive_id, drive_path, bytes, sha256, blob_stored, blob_path, lane, computes, arithmetic, certifying, certifying_note, authority_tier, source_status) with two extra keys, 'recovery' and 'scope_holds'. Written here and NOT into engine/carriers/MANIFEST.json because another workflow owns that file; merging these records into it is a follow-up step for whoever owns it.",
+  "produced_by": "engine/rn_engine recovery pass, 2026-09-18",
+  "promotes_nothing": "OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD, OBL-D1-PROMOTE and BOTH pieces of D3-LEMMA-RN-UNIF remain OPEN. Original prize problems solved: 0. A byte-exact recovery is provenance, not a bound.",
+  "drive_id_note": "The seven zip-member payloads have no standalone Drive file id; drive_id is null for them and the Drive objects actually used are listed under recovery.reading_copy_doc_id and recovery.archive_carrier_drive_ids. rnu_ds3.py is a native Drive file and carries its own drive_id.",
+  "carriers": [
+    {
+      "carrier_id": "RNENG-01",
+      "title": "d3_rn_unif.py (frozen RN uniform rung-closure engine)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/intake/rn_source/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py",
+      "bytes": 103166,
+      "sha256": "85d7725fab42eeb0e823226f44d17f142a5c57e5d89084b2b6edffe4a8f0c930",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (rung r = 1/20, fixed axis, side-24)",
+      "computes": "periodized side-24 plane kernel kplane/kdcov/kdcov_d over the first image shell; the 6-pin Schur station (station_fast, station_fast_full); the DS/DM value-gradient-Hessian arithmetic and the assembled kap_far (kappa_far_ds); the moment-series envelopes env_form/env_tau; the per-point bound kp1_point with tau_bounds_full, chi2_grad_bound, mean_grad_exact, cov9_grad_exact, ratio_bounds; and the adaptive polar certifier certify_cell/run_certification over {|y| in [5,17]} against KAP_BUDGET = 0.68. run_certification is DEFINED BUT NEVER CALLED in the frozen body (last statement is the probe loop, line 2241).",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "1zaumNVU8r1FKXp9DzNN7Y0Id3DRQBaQsI3QlOzFVd1A",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1g5UP_KYlvPmx7LFwjGk6qK5QZLnL1hLj",
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 6,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-02",
+      "title": "rnu_ds3.py (DS3 third-derivative lift; PREFERRED A5 carrier)",
+      "drive_id": "14FIaDPHfbTTGQWzxZi8xKAzlKub5Iud8",
+      "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_ds3.py",
+      "bytes": 9704,
+      "sha256": "bd3074fd900fc80bebdd430e34ae953f0a78685fff672758e7b927cc1e6d9421",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/RN_UNIF_2026-09-16/rnu_ds3.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (T4 push)",
+      "computes": "monkey-patches the frozen engine at import (install() rebinds R.DS, R.DM.inv, R.DM.det_ds, R.bures_trace_ds, R.de1, R.de2, R.d_entry, R.dconst) to carry the four third-order partials t_xxx, t_xxy, t_xyy, t_yyy through kappa_far_ds. Requires RNENG-01 importable as d3_rn_unif.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "1dsjOERBMD4NLpUV2rzO0pytyptK-W32gQ3GuorRNw7o",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx"
+        ],
+        "member_occurrences_in_source_map": 2,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-03",
+      "title": "d3_perc.py (pinned percolation helper; PinKit, det_moment, enorm4)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_perc.py",
+      "bytes": 40337,
+      "sha256": "5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_perc.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned dependency of RNENG-01)",
+      "computes": "imported by d3_rn_unif.py as E; supplies PinKit(R), cov exact interface ce, IDX/submat, det_moment, enorm4, m_sad_cf, A2/A4 and _Phi.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "1TtlbUROnPCf2lfjzwNBIAvAdh-KvT8qxT5ZH3hFHQLg",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1g5UP_KYlvPmx7LFwjGk6qK5QZLnL1hLj",
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 6,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": [
+        {
+          "key": "Q-RN5-MOMENT-001",
+          "reason": "envelope_v; window_cap_env and consumers relying on the claimed polarity-safe upper bound. Other functions are outside this finding.",
+          "recorded_in": "drive/source_map/Payloads.csv"
+        }
+      ]
+    },
+    {
+      "carrier_id": "RNENG-04",
+      "title": "d3_amend.py (pinned amendment helper; eigvals_cert)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_amend.py",
+      "bytes": 21619,
+      "sha256": "12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_amend.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned dependency of RNENG-01)",
+      "computes": "imported by d3_rn_unif.py as V1; supplies eigvals_cert used for the Bures and pin-Gram eigenfloors.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "16PXo8HGd6HsTPZtNcNYj1WTz-8u3FNvz0wD2UCQIUdw",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 5,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-05",
+      "title": "cov_exact.py (H2 foundations: exact covariance reference)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/H2_foundations/cov_exact.py",
+      "bytes": 21961,
+      "sha256": "f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/cov_exact.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned dependency of RNENG-01)",
+      "computes": "reference covariance ce.cov(a, b, dx, dy) against which d3_rn_unif.py validates its closed-form kernel at lines 174-183.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "1euj_fAoFNcyagvch4tBKu2XDhymAlL_LBM2-xKWfT7s",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1g5UP_KYlvPmx7LFwjGk6qK5QZLnL1hLj",
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 10,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-06",
+      "title": "pin_transform.py (H2 foundations: normalized-frame pin transform)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/H2_foundations/pin_transform.py",
+      "bytes": 17623,
+      "sha256": "c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/pin_transform.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned dependency of RNENG-01)",
+      "computes": "matrix_T_num(R, mode='mpf'): the normalized frame used for the O(1) inverse bounds on the pin Gram.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "170awt4ng_cfsjU5bNiB0kyZCKWbQ8eJ25ri8EaLu4Ic",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 9,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-07",
+      "title": "reg_lemmas.py (H2 foundations: regression lemmas)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/H2_foundations/reg_lemmas.py",
+      "bytes": 10582,
+      "sha256": "e7005a5af73d80bc1e129ac17ed19ae3d5df5d6667b076efa311f24247043450",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/reg_lemmas.py",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned dependency of RNENG-01)",
+      "computes": "hash-pinned and cited by d3_rn_unif.py for the normalized-frame conditioning of the pin Gram; imported indirectly through the pin path.",
+      "arithmetic": "mpmath binary floating point at mp.dps = 100, set once at d3_rn_unif.py line 41 and never changed; no fractions.Fraction, no decimal.Decimal and no interval arithmetic occurs anywhere in the recovered bodies",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "17iDBI5lMrNjTTmJJbinKPvX2cnnLkIN17_XKuvKanBg",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 8,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    },
+    {
+      "carrier_id": "RNENG-08",
+      "title": "H3_RUNG_FLOOR.md (pinned H3 artifact carrying the R2 certified floor)",
+      "drive_id": null,
+      "drive_path": "<zip carrier>!/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+      "bytes": 7003,
+      "sha256": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+      "blob_stored": true,
+      "blob_path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+      "lane": "A5 / D3-LEMMA-RN-UNIF (pinned input from the H3 lane)",
+      "computes": "d3_rn_unif.py lines 74-81 parse Z_{0.05} in [lo, hi] out of this file and fail-close unless Z_lo == 7.7592917375327855e-3.",
+      "arithmetic": "not applicable (Markdown artifact)",
+      "certifying": false,
+      "certifying_note": "NON-CERTIFYING. Recovery of a byte-exact carrier is provenance, not proof. Nothing in this record promotes, closes, discharges or reclassifies any claim. D3-LEMMA-RN-UNIF Piece 1 and Piece 2 both remain OPEN; OBL-H5-JETMOD, OBL-H5-ZBAND, OBL-H5-REMOTE-THRESHOLD and OBL-D1-PROMOTE all remain OPEN.",
+      "authority_tier": "RESEARCH_SOURCE_CHECK_STATUS (drive/source_map)",
+      "source_status": "D3-LEMMA-RN-UNIF Piece 1 OPEN, Piece 2 OPEN; receipts carry lemma_closed=false; CL-RNU-001/002/003 PROPOSED, authority none",
+      "recovery": {
+        "method": "Drive reading-copy volume -> deterministic de-transform -> SHA-256 verification",
+        "reading_copy_doc_id": "16UatL5U1PqsglO3e_uu6_bRMKhCt41nGfX5DS_rA5Ok",
+        "raw_download_matches_payload": false,
+        "reconstructed_matches_payload": true,
+        "reconstruction": "engine/rn_engine/reconstruct.py (strip UTF-8 BOM; CRLF->LF; slice the CONTENT START/CONTENT END block for this digest; halve every maximal run of blank lines; join with LF; no trailing newline)",
+        "archive_carrier_drive_ids": [
+          "1g5UP_KYlvPmx7LFwjGk6qK5QZLnL1hLj",
+          "1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq",
+          "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt",
+          "1TJr1awRjB0D9niq1Jyi6XGnJKuvW9Wmx",
+          "1vSI-evINWskhXVyiZ0slt-rLT74sPpXH"
+        ],
+        "member_occurrences_in_source_map": 6,
+        "all_occurrences_agree_on_payload_digest": true
+      },
+      "scope_holds": []
+    }
+  ]
+}

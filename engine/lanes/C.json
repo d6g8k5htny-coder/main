@@ -1,0 +1,50 @@
+{
+  "key": "C",
+  "title": "LPW constant repair",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## C. LPW constant repair",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [
+    "LPW-CONSTANT-DELIVERED"
+  ],
+  "status": "AMEND_REQUIRED",
+  "status_source": {
+    "transcribed_from": [
+      "claims/graph.json claims.LPW-CONSTANT-DELIVERED.grade",
+      "registers/json/lpw_fold_dispositions.json row 'LPW_CONSTANT as delivered', Operator disposition"
+    ],
+    "quote": "AUTHORIZED; AMEND REQUIRED on actual evidence — no new owner vote",
+    "note": "The register writes the disposition as prose ('AMEND REQUIRED'); the claim graph carries the same word as the grade token AMEND_REQUIRED, which is the form used here so the value is machine-comparable against the graph."
+  },
+  "next_exact_action": "Freeze either the corrected exact fraction or `6.238e−44`, with end-to-end headline tests. Kimi must review the R05 Rayleigh amplitude lemma, the full tails / profile modulus, the conditional bounds, the exact fraction, and the actual headline mutation.",
+  "falsifier": null,
+  "inputs": [],
+  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "not_a_substitute": [
+    {
+      "quote": "The delivered `6.239e−44` certificate must not be admitted unqualified.",
+      "source": "docs/OPEN_PROBLEMS.md §C"
+    },
+    {
+      "quote": "Qualitative LPW is unchanged by this.",
+      "source": "docs/OPEN_PROBLEMS.md §C"
+    },
+    {
+      "quote": "Original certifier and falsifier replay both modes exactly; they do not catch these mathematical/report defects.",
+      "source": "registers/json/lpw_fold_dispositions.json row 'LPW_CONSTANT as delivered', Custody / reproduction"
+    }
+  ],
+  "repo_state": "partial",
+  "repo_state_note": "`research/lpw/headline.py` computes the exact fraction from its named factors and decides admissibility of a printed decimal by exact rational comparison, and `research/identities/gaussian_moments.py` settles the asserted `E(|ξ|+|η|)⁴ = 12 + 16/π` identity exactly. Neither freezes a constant: only an operator decision under governance/ can do that, and the R05 review the source names has not been performed here. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "research/lpw/headline.py",
+    "tests/test_lpw_headline.py",
+    "research/identities/gaussian_moments.py",
+    "tests/test_identities.py"
+  ],
+  "does_not_establish": "This lane freezes no constant, performs no review, and does not admit the delivered certificate. It does not touch LPW qualitative, which the source says is unchanged, and it does not consume or refute the QC-RETURN03 fallback.",
+  "register_next_decisive_action": "Review R05 Rayleigh-amplitude repair and directed intervals; freeze corrected exact fraction or 6.238e-44 with end-to-end headline tests."
+}
