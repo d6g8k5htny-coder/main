@@ -219,6 +219,79 @@ def test_exclusive_creation_refuses_a_second_write_without_the_pre_check(
         assert json.load(f)["receipt_id"] == rec.receipt_id
 
 
+def _hand_built_cover_ledger(certified_and_covering: bool):
+    """A one-cell bracket ledger, built by hand so no cover run is needed.
+
+    ``True``: the cell is ACCEPTED with a value range, so ``total()`` is a
+    certified enclosure of the region. ``False``: the cell is rejected as
+    UNRESOLVED_BOUNDARY with no residual, so ``total()`` returns a number about
+    an empty accounted part with ``covers_region=False``.
+    """
+    from fractions import Fraction as F
+    from research.cover import Cell, Ledger, RejectKind, rn5_annulus_bracket
+    from research.interval import Interval
+    reg = rn5_annulus_bracket()
+    dom = reg.domain()
+    led = Ledger("control", dom, "cartesian", integrand="REFERENCE:radial_gaussian")
+    led.add(Cell("c0", dom, 0))
+    if certified_and_covering:
+        area = Interval.exact(dom.param_area())
+        led.accept("c0", area, Interval(F(0), F(1)), area * Interval(F(0), F(1)))
+    else:
+        led.reject("c0", RejectKind.UNRESOLVED_BOUNDARY,
+                   "CONTROL: a straddling cell rejected without a residual",
+                   dom.param_area())
+    return led
+
+
+def test_a5_publishes_no_certified_enclosure_when_the_ledger_refuses(monkeypatch):
+    """NEGATIVE CONTROL for the A5 task's latent overclaim.
+
+    ``Total.enclosure`` is a number about the ACCOUNTED part; whether it is an
+    enclosure of the region integral is what ``certified`` and ``covers_region``
+    say. The task used to publish the raw field under ``certified_interval``
+    regardless -- invisible on the polar region, which rejects no cells, and a
+    false certified enclosure on any region that rejects a cell without a
+    residual. Drive the task on such a ledger and assert nothing certified is
+    published. Reverting the task to ``total.enclosure`` fails this test.
+    """
+    import research.cover as C
+    led = _hand_built_cover_ledger(certified_and_covering=False)
+    total = led.total()
+    assert total.covers_region is False          # the premise of the control
+    monkeypatch.setattr(C, "run", lambda region, integrand, config: led)
+
+    results, notes = RUN._task_a5()
+    by_name = {r.name: r for r in results}
+    assert "REFERENCE_cover_total_enclosure" not in by_name
+    assert "REFERENCE_cover_closed_form_crosscheck" not in by_name
+    assert all(not (r.provenance == R.CERTIFIED_INTERVAL and "enclosure" in r.name)
+               for r in results)
+    assert by_name["REFERENCE_cover_total_is_certified_enclosure"].value == "0"
+    assert any("certified_enclosure() refused" in n for n in notes)
+    assert any("covers_region=False" in n for n in notes)
+    # the cover bookkeeping is still reported -- as bookkeeping
+    assert "REFERENCE_cover_area_accounted" in by_name
+    assert "REFERENCE_cover_area_rejected_bound" in by_name
+
+
+def test_a5_publishes_the_enclosure_when_the_ledger_certifies_it(monkeypatch):
+    """The positive half: a certified, covering Total is published as before,
+    through the accessor, with the flag result reading 1."""
+    import research.cover as C
+    led = _hand_built_cover_ledger(certified_and_covering=True)
+    assert led.total().certified_enclosure() is not None
+    monkeypatch.setattr(C, "run", lambda region, integrand, config: led)
+
+    results, notes = RUN._task_a5()
+    by_name = {r.name: r for r in results}
+    enc = by_name["REFERENCE_cover_total_enclosure"]
+    assert enc.provenance == R.CERTIFIED_INTERVAL and enc.lo is not None
+    assert by_name["REFERENCE_cover_total_is_certified_enclosure"].value == "1"
+    assert "REFERENCE_cover_closed_form_crosscheck" in by_name
+    assert not any("refused" in n for n in notes)
+
+
 def test_writer_module_has_no_destructive_call():
     """STRUCTURAL: engine/receipt.py creates files only with mode 'x'."""
     tree = ast.parse(open(RECEIPT_PY, encoding="utf-8").read())

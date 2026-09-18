@@ -296,7 +296,8 @@ def _task_a5() -> Tuple[List[NumericResult], List[str]]:
     try:
         from research.cover import (  # type: ignore
             ACCEPTED, DriverConfig, PendingCellsError, RadialGaussianReference,
-            radial_gaussian_closed_form, rn5_annulus_polar, run,
+            UncertifiedTotalError, radial_gaussian_closed_form,
+            rn5_annulus_polar, run,
         )
         from research.rn.moment_envelope import (  # type: ignore
             counterexample, envelope_correct_pow4, envelope_defective_pow4,
@@ -337,26 +338,48 @@ def _task_a5() -> Tuple[List[NumericResult], List[str]]:
                      "mode RN5 names. Nothing further is reported.")
         return results, notes
 
-    results.append(NumericResult.from_interval(
-        "REFERENCE_cover_total_enclosure", total.enclosure,
-        "certified enclosure of the integral of the REFERENCE Gaussian over "
-        "0.1 <= |y| <= 5. NOT kappa_far and NOT the corrected RN5 envelope."))
+    # The ledger's ``enclosure`` field is a number about the ACCOUNTED part of
+    # the domain. It is an enclosure of the region integral only when the
+    # ledger says so through ``certified`` and ``covers_region``, and the one
+    # accessor that reads both is ``certified_enclosure()``. Publishing the raw
+    # field under the ``certified_interval`` provenance regardless was this
+    # task's latent overclaim: harmless on the polar region, which rejects no
+    # cells, and false the moment the lane is pointed at the Cartesian bracket.
+    try:
+        enclosure = total.certified_enclosure()
+    except UncertifiedTotalError as exc:
+        enclosure = None
+        notes.append(f"certified_enclosure() refused: {exc}")
+        notes.append("No enclosure of the region integral is published from "
+                     "this run. The accounted-area and rejected-area figures "
+                     "below describe the cover, not the integral.")
+    results.append(NumericResult.from_int(
+        "REFERENCE_cover_total_is_certified_enclosure", int(enclosure is not None),
+        "1 when the ledger's Total is certified AND covers the region, so that "
+        "its enclosure may be published as one; 0 when the ledger refused, in "
+        "which case no enclosure result appears in this receipt."))
+    if enclosure is not None:
+        results.append(NumericResult.from_interval(
+            "REFERENCE_cover_total_enclosure", enclosure,
+            "certified enclosure of the integral of the REFERENCE Gaussian over "
+            "0.1 <= |y| <= 5. NOT kappa_far and NOT the corrected RN5 envelope."))
     results.append(NumericResult.from_interval(
         "REFERENCE_cover_area_accounted", total.area_accounted,
         "area the accepted cells account for; the region's exact area is the "
         "cross-check that the partition is a partition."))
     results.append(NumericResult.from_fraction(
         "REFERENCE_cover_area_rejected_bound", Fraction(total.area_rejected_bound),
-        "upper bound on the area carried by rejected cells; exactly zero here "
-        "because the annulus radii 1/10 and 5 are exact rationals."))
-    closed = radial_gaussian_closed_form(region, 60)
-    results.append(NumericResult.from_interval(
-        "REFERENCE_cover_closed_form_crosscheck", closed,
-        "an independent certified evaluation of the same REFERENCE integral. "
-        "It must lie inside the driver's enclosure; it is a check on the code, "
-        "not evidence for any claim."))
-    notes.append(
-        f"closed form inside the driver's enclosure: {closed in total.enclosure}")
+        "upper bound on the area carried by rejected cells; exactly zero on the "
+        "polar region because the annulus radii 1/10 and 5 are exact rationals."))
+    if enclosure is not None:
+        closed = radial_gaussian_closed_form(region, 60)
+        results.append(NumericResult.from_interval(
+            "REFERENCE_cover_closed_form_crosscheck", closed,
+            "an independent certified evaluation of the same REFERENCE integral. "
+            "It must lie inside the driver's enclosure; it is a check on the code, "
+            "not evidence for any claim."))
+        notes.append(
+            f"closed form inside the driver's enclosure: {closed in enclosure}")
     notes.append(f"total.certified={total.certified} "
                  f"covers_region={total.covers_region}")
     for c in total.caveats:
