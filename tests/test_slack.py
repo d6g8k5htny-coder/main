@@ -13,11 +13,31 @@ Organised in five groups:
 2. The severity ladder, probed from both sides of every boundary.
 3. Provenance, ratio-kind and display: no float anywhere, and the tightest
    record must not print as a flat ``1.00e+0``.
-4. **NEGATIVE CONTROLS.** Five deliberately-wrong records, each asserted to be
-   REFUSED at construction. These are the point of the file. Every one was run
-   against a deliberately broken copy of ``research/slack/registry.py`` and
-   confirmed to stop failing there; each names its mutation in its docstring.
+4. **NEGATIVE CONTROLS.** Nine controls -- deliberately-wrong records and
+   witnesses, each asserted to be REFUSED. These are the point of the file.
+   Each names, in its docstring, the mutation of
+   ``research/slack/registry.py`` that makes it stop failing.
 5. Registry invariants and reproduction of the sources' own reported figures.
+
+BROKEN-COPY RUNS (2026-09-18). Thirteen mutations were applied one at a time to
+a copy of ``research/slack/registry.py`` in a scratch tree -- never to the
+repository -- and the suite was re-run against each. Every mutation was caught,
+and none was caught by the baseline alone:
+
+  M1  witness-must-recompute branch dropped ....... controls 1 and 7 fired
+  M2  unsound-needs-a-witness branch dropped ...... control 2 fired
+  M3  proved-violation-recorded-as-sound dropped .. control 3 fired
+  M4  ratio-below-1 block dropped ................. control 4 fired
+  M5  float refusal dropped from _as_interval ..... control 5 fired (on the
+      message: to_fraction still refuses the float, so the defence is layered)
+  M6  unsourced-record loop dropped ............... control 6 fired
+  M7  SoundnessWitness.usable() forced True ....... control 7 fired
+  M8  witness source/statement checks dropped ..... control 8 fired
+  M9  audit_registry forced to return [] .......... control 9 fired
+  M10 ladder edge weakened 1e6 -> 1e20 ............ 4 tests fired
+  M11 slack_ratio not inverted for a LOWER bound .. 2 tests fired
+  M12 severity taken from the upper endpoint ...... 1 test fired
+  M13 ratio_kind collapsed to "enclosure" ......... 4 tests fired
 
 WHAT THESE TESTS DO NOT ESTABLISH
 ---------------------------------

@@ -93,7 +93,7 @@ __all__ = [
     "ReceiptRejected", "AppendOnlyViolation", "ForbiddenDestination",
     "canonical_json", "body_sha256", "argument_digest",
     "new_receipt_id", "repository_commit", "utc_now",
-    "validate_body", "validate_receipt_object",
+    "validate_body", "validate_receipt_object", "scan_status_words",
     "write_receipt", "receipt_path", "load_receipt", "iter_receipt_files",
 ]
 
@@ -443,11 +443,19 @@ _REPO_KEYS = {"commit", "dirty"}
 _RESULT_KEYS = {"name", "provenance", "certifying", "value", "lo", "hi", "note"}
 
 
-def _word_scan(text: str) -> List[str]:
-    """Forbidden status words present in ``text``, by word boundary."""
+def scan_status_words(text: str) -> List[str]:
+    """Forbidden status words present in ``text``, matched on word boundaries.
+
+    Call this ONLY on the fields in :data:`VERDICT_FIELDS`. Run over prose it
+    fires on every honest caveat, because an honest caveat is exactly where the
+    words "does not close" and "does not discharge" belong.
+    """
     low = str(text).lower()
     return [w for w in FORBIDDEN_STATUS_WORDS
             if re.search(r"\b" + re.escape(w) + r"\b", low)]
+
+
+_word_scan = scan_status_words  # internal alias
 
 
 def _fraction_or_none(s: Any) -> Optional[Fraction]:
