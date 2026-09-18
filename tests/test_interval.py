@@ -1170,8 +1170,20 @@ def test_reduced_index_span_stays_small():
     standing between a regression in the full-period test and an unbounded loop.
     This measures the span directly, so a regression shows up here.
 
-    Fires on: any change that lets the reduced span grow (e.g. weakening the
-    full-period test in ``_sin_cos``).
+    Fires on: any change that lets the reduced span grow past 8 on these
+    inputs. MEASURED HERE: the worst span over 1,664 (interval, prec) pairs is
+    5, against a guard at 32.
+
+    HONEST LIMIT OF THIS TEST, from running the mutation. Widening the
+    full-period test (``x.width() >= 2 * p.hi`` -> ``>= 40 * p.hi``) is an
+    EQUIVALENT mutation: the whole suite still passes, and rightly so, because
+    an interval wider than a period that reaches the reduction path still has
+    every interior extremum added to its hull, so the result is ``[-1, 1]``
+    either way. What the ``> 32`` guard actually buys is not containment but a
+    BOUNDED LOOP: it is the only thing standing between a very wide input and an
+    extrema loop of ``width/(pi/2)`` iterations. That is why it is kept and
+    documented rather than deleted, and why this test measures the span rather
+    than asserting the branch is dead.
     """
     rng = random.Random(20260918)
     worst = 0
