@@ -1,0 +1,271 @@
+{
+  "_comment": "Machine-checkable claim/premise dependency graph for the q0 program. Statuses are transcribed from the sources named in each `source` field as of 2026-09-17; this file asserts no mathematics of its own. tools/claims_check.py enforces the invariants documented in claims/README.md.",
+  "as_of": "2026-09-17",
+  "tracks": {
+    "UPPER2D": "2D typed pair-Palm upper law (q0 / SIDE24, side 24, mark 6/5)",
+    "LOWER2D": "2D typed pair-Palm lower law (LPW)",
+    "LIFETIME3D": "3D compact-positive-mark lifetime / upper result (SIDE24 3D)",
+    "NUMBER_THEORY": "independent prize reconnaissance track",
+    "PLATFORM": "verifiers, instruments and registers"
+  },
+  "premises": {
+    "OBL-D1-PROMOTE": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "OPEN",
+      "note": "Chart side open. Normalizer sub-part discharged by the H3 band floor.",
+      "sub_obligations": ["OBL-H5-JETMOD", "OBL-H5-ZBAND", "OBL-H5-REMOTE-THRESHOLD"],
+      "source": "D1_ASSEMBLY_v2_2.md §3/§5; ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §5,§7"
+    },
+    "OBL-H5-JETMOD": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "OPEN",
+      "note": "Certified interval bounds for the full 24-jet set over r-bands, lattice-tail constants re-certified uniformly in the band. Display-only today. Falsifier: a band enclosure wider than the claimed modulus.",
+      "source": "H5_PROMOTE.md §3; H5_PROMOTE_UPDATE_2026-09-15.md §5"
+    },
+    "OBL-H5-ZBAND": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "PARTIAL",
+      "note": "lo side rides the frozen H3 uniform certificate; hi side (band LPW bracket) OPEN. H5_ZBAND_CONSUMPTION_2026-09-15 proposes discharge at consumption grade but is PROPOSED, authority none.",
+      "source": "ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §5; H5_ZBAND_CONSUMPTION_2026-09-15.md"
+    },
+    "OBL-H5-REMOTE-THRESHOLD": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "OPEN",
+      "note": "Certify D3's remote bracket at r-scaled threshold d >= 2r, or extend the chart machine cover to absolute d0. Rides D3-LEMMA-RN-UNIF.",
+      "depends_on": ["D3-LEMMA-RN-UNIF"],
+      "source": "H5_PROMOTE.md §3"
+    },
+    "D3-LEMMA-RN-UNIF": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "NOT_CLOSED",
+      "status_register_note": "OPEN",
+      "note": "Piece 1 OPEN; Piece 2 OPEN (annulus Riemann-sum driver unwritten). Receipts carry lemma_closed: false. CL-RNU-001/002/003 are PROPOSED with authority none.",
+      "source": "LANE_RN_UNIF.md; D1_ASSEMBLY_v2_2.md §3"
+    },
+    "PERC-DECAY": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "RESTATED",
+      "note": "o(r^3) far-lane reading NOT reachable; restated as Theta(r^3) with certified constants plus PD-CONN. Engine complete and frozen.",
+      "depends_on": ["PD-CONN"],
+      "source": "PERC_DECAY.md; ADDENDUM-2 B4LOC_PERC_DECAY"
+    },
+    "PD-CONN": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "OPEN",
+      "note": "Named input of the restated PERC-DECAY.",
+      "source": "PERC_DECAY.md"
+    },
+    "OBL-B1-BRANCH(loop|B1)": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "REFINEMENT",
+      "note": "Constant-level branch-control loop factor; demoted to REFINEMENT for v2.3.",
+      "source": "D1_ASSEMBLY_v2_2_REGISTER_NOTE.md §5"
+    },
+    "B4.loc-damline": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "CLOSED",
+      "note": "THEOREM B4LOC-R1 closes the dam line at super-algebraic grade for the whole of B4 (loc+rem); the identification question resolved NEGATIVELY (cut-net is not the nine-pin tube). Wrap/remote reconciliation under D1 remains open. Frozen v2.2 still names the premise until next issuance.",
+      "source": "B4LOC_DAMLINE.md; ADDENDUM-2"
+    },
+    "H5-RIM": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "NAMED_HYPOTHESIS",
+      "status_register_note": "NAMED_HYPOTHESIS",
+      "note": "Named hypothesis of the certified rung, not discharged.",
+      "source": "PKG-01 00_START_HERE"
+    },
+    "H5-AXIS": {
+      "track": "UPPER2D",
+      "status_frozen_v2_2": "NAMED_HYPOTHESIS",
+      "status_register_note": "NAMED_HYPOTHESIS",
+      "note": "Named hypothesis of the certified rung, not discharged.",
+      "source": "PKG-01 00_START_HERE"
+    },
+    "H-B3": {
+      "track": "LOWER2D",
+      "status_frozen_v2_2": "OPEN",
+      "status_register_note": "OPEN",
+      "note": "Cell-sup premise carried by the W8 v3 Lambda conditional estimate.",
+      "source": "W8 v3 Lambda record"
+    }
+  },
+  "claims": {
+    "Q0-C101-QUALITATIVE-RATE": {
+      "track": "UPPER2D",
+      "statement": "0 <= 1 - q <= C_Q0 * r^3 and q -> 1, for a finite constant C_Q0; no typing division, no decimals.",
+      "grade": "LIVE_ROOT_THEOREM",
+      "depends_on": [],
+      "forbidden_extrapolations": ["any finite decimal value for C_Q0"],
+      "source": "Q0_MASTER.md Part I line 336 (Q0_C101_QUALITATIVE_RATE_THEOREM.md, sha prefix 8c2ded652973)"
+    },
+    "Q0-C104-THEOREM-B": {
+      "track": "UPPER2D",
+      "statement": "nu_B(l) = C* * l^(-1/3) * (1 + o(1)), conditional-MS form.",
+      "grade": "LIVE_ROOT_THEOREM",
+      "depends_on": [],
+      "forbidden_extrapolations": ["any numerical value for C*"],
+      "source": "Q0_MASTER.md Part I line 2023 (Q0_C104_THEOREM_B_PACKAGE.md, sha prefix f592bc6ff628)"
+    },
+    "D1-v2.2(1)": {
+      "track": "UPPER2D",
+      "statement": "Certified rung bound at r = 0.05. Live clean totals I_hi(v3) = 8.0975589252e-2 = 647.8048 * r^3.",
+      "grade": "CERTIFIED_RUNG",
+      "rung": 0.05,
+      "depends_on": ["H5-RIM", "H5-AXIS", "D3-LEMMA-RN-UNIF"],
+      "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed.",
+      "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)"
+    },
+    "D1-v2.2(2)": {
+      "track": "UPPER2D",
+      "statement": "All-small-r: 1 - q(r, 6/5) <= C * r^3.",
+      "grade": "CONDITIONAL",
+      "depends_on": [
+        "OBL-D1-PROMOTE",
+        "D3-LEMMA-RN-UNIF",
+        "PERC-DECAY",
+        "OBL-B1-BRANCH(loop|B1)",
+        "B4.loc-damline"
+      ],
+      "source": "D1_ASSEMBLY_v2_2.md §3/§5; HOLD_OPEN_VALIDITY_PREMISES.md"
+    },
+    "D1-v2.3-DRAFT(2)": {
+      "track": "UPPER2D",
+      "statement": "All-small-r, proposed reduced form with two validity premises.",
+      "grade": "PROPOSED",
+      "depends_on": ["OBL-D1-PROMOTE", "D3-LEMMA-RN-UNIF"],
+      "note": "DRAFT / PROPOSED. Not operator-promoted over frozen v2.2; PKG-01 ships v2.2.",
+      "source": "D1_ASSEMBLY_v2_3_DRAFT.md"
+    },
+    "RN3-FAR": {
+      "track": "UPPER2D",
+      "statement": "At r = 1/20, fixed axis: 0.88021 < rho/rho_ref < 1.12058 over all 13,604 quarter-grid boxes meeting 5 <= |y| <= 17 and every mark v in [6/5 - r^3/6, 6/5]; hence 2.22542 r^3 < I_far < 2.83312 r^3.",
+      "grade": "AUTHOR_SIDE_CERTIFIED",
+      "depends_on": ["H3-BAND-FLOOR"],
+      "independence_credit": 0,
+      "note": "Fixed r, fixed axis. Near annulus and all-small-r remain open. Uses the correct typed second determinant moment and is outside the RN5 defect scope.",
+      "source": "RN3-20260917-b9c2_RN_JOINT_PROOF.md (12,956 bytes, sha 0c9446b7cb49e6e1e45e43f84bb72ce680f022882e225fdff61c8e6edede1373)"
+    },
+    "H3-BAND-FLOOR": {
+      "track": "UPPER2D",
+      "statement": "For every r in (0, 0.05], E[G_r] >= 2.30659559567154 > c_Z = 1.6154892676435024, hence Z_r >= c_Z * r^2 uniformly.",
+      "grade": "FROZEN_CERTIFICATE",
+      "depends_on": [],
+      "note": "Discharges the normalizer sub-part of OBL-D1-PROMOTE. Frozen body 281477c3.",
+      "source": "ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §2"
+    },
+    "RN5-NEAR-POINT-CERTS": {
+      "track": "UPPER2D",
+      "statement": "65 point-law certificates on the 13-radius, 5-angle D4 net plus 10 spatial-box certificates for the corrected near-region moment bound, at 384 bits.",
+      "grade": "AUTHOR_SIDE_PARTIAL",
+      "depends_on": ["H3-BAND-FLOOR"],
+      "independence_credit": 0,
+      "note": "Ten boxes do NOT cover the annulus. Diagnostic polar sums (2.34195 r^3 corrected, 17.67237 r^3 wrong-power) are not bounds on the spatial integral.",
+      "source": "RN5_NEAR_MOMENT_REPAIR.md §3-§4"
+    },
+    "LPW-QUALITATIVE": {
+      "track": "LOWER2D",
+      "statement": "2D side-24 exact six-pin typed pair-Palm elder pairing: there exist c, r0 > 0 with 1 - q >= c * r^3.",
+      "grade": "ACCEPTED_AT_REVIEW_SCOPE",
+      "depends_on": [],
+      "note": "37/37 payload hashes match; whole verdict hash matches; body-rule separator amendment needed. One external provider family; branch count is not independent-family count.",
+      "source": "LPW qualitative controlling record"
+    },
+    "QC-RETURN03-FALLBACK": {
+      "track": "LOWER2D",
+      "statement": "1 - q >= 10^(-1235) * r^3 for 0 < r <= 10^(-28), exact rational constants.",
+      "grade": "ACCEPTED_AT_REVIEW_SCOPE",
+      "depends_on": [],
+      "note": "Preserved as a separate fallback. New defects in the improved constant do not consume or refute this.",
+      "source": "QC-RETURN03 fallback record"
+    },
+    "LPW-CONSTANT-DELIVERED": {
+      "track": "LOWER2D",
+      "statement": "Exact fraction 260/(3790446482793 * 2^40 * 10^21) = 6.23854270293559e-44; radius 1/2414592.",
+      "grade": "AMEND_REQUIRED",
+      "depends_on": ["LPW-QUALITATIVE"],
+      "note": "Reported headline 6.239e-44 exceeds the exact chain; the E(|xi|+|eta|)^4 = 12 + 16/pi identity is false; blanket-rounding explanation incomplete. Do not admit the delivered certificate unqualified.",
+      "source": "LPW_CONSTANT as delivered record"
+    },
+    "SIDE24-3D-AO48-OPR-045": {
+      "track": "LIFETIME3D",
+      "statement": "Compact-positive-mark 3D upper / lifetime result.",
+      "grade": "RATIFIED_3D_ONLY",
+      "depends_on": [],
+      "forbidden_extrapolations": ["composition with any 2D lower or upper claim"],
+      "source": "AO48-OPR-045 via ERRATA_AND_CLARIFICATIONS_2026-09-13 and PKG-05"
+    },
+    "MATCHING-2D-UPPER": {
+      "track": "UPPER2D",
+      "statement": "Same-law 1 - q(r, 6/5) <= C * r^3 for all sufficiently small r.",
+      "grade": "OPEN",
+      "depends_on": [],
+      "note": "Investigation authorized. 2D two-sided Theta NOT admitted. No combination with the 3D upper.",
+      "source": "Matching 2D upper record"
+    },
+    "K3-THM-001": {
+      "track": "UPPER2D",
+      "statement": "Counted-saddle assembly (historical).",
+      "grade": "REFUTED_AS_WRITTEN",
+      "depends_on": [],
+      "note": "NONCONTROLLING, retained as provenance. No rehabilitation without an exact new identity and every consumed weighted-law / Bonferroni / exit premise.",
+      "source": "K3-THM-001 adjudication record"
+    },
+    "PR-TAL-003..008": {
+      "track": "NUMBER_THEORY",
+      "statement": "Six restricted-scope results sealed in the Phase05 Overlap archive.",
+      "grade": "AUTHOR_SIDE_PROOF_PRESENT",
+      "depends_on": [],
+      "external_review": "PENDING",
+      "historical_novelty": "UNESTABLISHED",
+      "original_prize_closed": false,
+      "note": "'Sealed' is archive-custody language, not theorem grade.",
+      "source": "CLAIM_REGISTRY_VERIFIED_INTAKE.json; Prize_Research_Phase05_Overlap_2026-09-16.zip sha e976271ba1a3822bddf6247d72b5d6131bfeabdcbc610982e816d812dd2e5a90"
+    },
+    "P15-A..D": {
+      "track": "NUMBER_THEORY",
+      "statement": "Structural localization: critical-threshold crosswalk, palette-separated localization, connected unbounded-width family, complete-transversal graph composition.",
+      "grade": "AUTHOR_SIDE_COMPLETE_ARGUMENTS_WITH_EXACT_FINITE_COMPANIONS",
+      "depends_on": [],
+      "external_review": "PENDING",
+      "historical_novelty": "UNESTABLISHED",
+      "original_prize_closed": false,
+      "note": "No proof that every downset has a bounded palette-localization certificate, a suitable complete-transversal representation, or bounded scalar width. No q0 uniformity obligation is discharged.",
+      "source": "P15_CURRENT_STATE_AUTHOR_CANDIDATE.md"
+    }
+  },
+  "firewalls": [
+    {
+      "id": "FW-2D-3D-COMPOSITION",
+      "rule": "No claim may depend, transitively, on objects from both the UPPER2D/LOWER2D tracks and the LIFETIME3D track.",
+      "source": "ERRATA_AND_CLARIFICATIONS_2026-09-13.md §1; PKG-03 00_START_HERE; PEER-REVIEW SUBMISSION ROUTING firewall"
+    },
+    {
+      "id": "FW-PRIZE-ISOLATION",
+      "rule": "No UPPER2D/LOWER2D/LIFETIME3D claim may depend on a NUMBER_THEORY claim, and vice versa.",
+      "source": "LANE_MATH_MAP.md firewall; HOLD_PRIZE_RECONNAISSANCE.md"
+    },
+    {
+      "id": "FW-UNCONDITIONAL",
+      "rule": "A claim graded LIVE_ROOT_THEOREM, FROZEN_CERTIFICATE or RATIFIED_3D_ONLY may not depend on any premise whose frozen status is OPEN or NOT_CLOSED.",
+      "source": "HOLD_OPEN_VALIDITY_PREMISES.md; OP-GDN-002 §6"
+    },
+    {
+      "id": "FW-NO-PRIZE-CLOSURE",
+      "rule": "Every NUMBER_THEORY claim must carry original_prize_closed: false.",
+      "source": "CLAIM_REGISTRY_VERIFIED_INTAKE.json; LANE_PRIZE_RESEARCH.md"
+    },
+    {
+      "id": "FW-DECIMAL-KILL",
+      "rule": "Q0-C101-QUALITATIVE-RATE must forbid any finite decimal for C_Q0, and Q0-C104-THEOREM-B any numerical C*.",
+      "source": "Q0_MASTER.md Part I; C092_FINAL_MASTER §12.3 prohibited statements"
+    }
+  ]
+}

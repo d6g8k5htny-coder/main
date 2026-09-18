@@ -1,0 +1,158 @@
+# Where I can contribute
+
+Written after reading the full Drive corpus: the 4,456-item source map, the
+42-tab register export, the governance canon, the frozen Q0 core's navigation
+structure, the D1 assembly layers, the RN3 and RN5 releases, the LPW fold
+dispositions, the prize registry, and the 2026-09-17 accessibility publication.
+
+Ordered by value, not by ease. Every item names the exact object it touches.
+
+---
+
+## 1. Turn the discipline into machine-checked invariants (started here)
+
+The program's integrity currently rests on prose repeated across hundreds of
+documents: *packaging is not premise discharge*, *display is not a certified
+enclosure*, *do not compose 2D and 3D*, *session CLOSE is not lemma close*,
+*0 prizes solved*. That prose is excellent, and it cannot fail a build.
+
+`claims/graph.json` plus `tools/claims_check.py` encode the claim/premise
+structure and five firewalls as data and assertions. `tests/test_claims.py`
+carries eight negative controls proving the checker rejects each violation —
+including the exact promotion the HOLD checklist forbids. Writing those
+controls immediately found a real bug in my own checker, which is the point.
+
+**Next:** extend the graph to the LM003…LM013 lemma stack so `RV-LM011`'s
+synthesis precondition ("first obtain LM003, LM004-v1.1, LM006, LM009,
+LM010-v1.1, LM012-v1.1, LM013 Carrier-B-v1.1 plus the joint stack") is a
+computed, not remembered, fact.
+
+## 2. Convert each found defect into a permanent regression test
+
+`OP-GDN-002 §8` asks for exactly this: every serious error should be examined
+for a reusable control. The corpus has several structural error classes that
+recurred, and none of them is currently pinned by an executable test.
+
+Done here: **RN5's determinant-moment defect.**
+`research/rn/moment_envelope.py` reimplements the correct Hölder(4, 4, 2)
+envelope, the defective `envelope_v` expression, and the typed Gaussian
+counterexample over exact rationals, deriving the values from the moment
+formulas rather than copying RN5's numbers — and reproducing them:
+
+| | |
+|---|---|
+| typed expectation | ≥ 0.207675035568 |
+| defective `envelope_v` | ≈ 0.062504062490 |
+| correct Hölder(4, 4, 2) | ≈ 0.250004625009 |
+
+`tests/test_rn_moment_envelope.py` asserts the separation by exact rational
+comparison of fourth powers. The wrong-power bound cannot come back silently.
+
+**Next, same treatment for:**
+
+* the **H5 totals contamination** — a rung-unscoped merge of `r = 0.025` patches
+  into `r = 0.05` corrupted `I_lo` in v2. A test that fails when a totals merge
+  crosses rung scope would have caught it at the merge, not at the errata.
+* the **LPW headline mutation** — the delivered `6.239e−44` exceeds its own exact
+  fraction `260/(3790446482793·2⁴⁰·10²¹)`. An end-to-end headline test comparing
+  the printed decimal against the exact chain is a few lines and is exactly what
+  the R05 disposition asks for.
+* the **false identity** `E(|ξ|+|η|)⁴ = 12 + 16/π`, which a single numeric
+  assertion refutes.
+
+## 3. Close `OBL-H5-JETMOD` — the named blocking proof step
+
+This is the chart-side lead and the sources name the proof step precisely:
+evaluate the lattice sums with `r` as an **interval over the band**, yielding
+G12-band enclosures, hence `Î(r)/r³ ≤ F(G12-band)` for the whole band — a finite
+computation per band, never a fitted exponent. The falsifier is equally precise:
+a band enclosure wider than the claimed modulus.
+
+I can implement the interval-`r` lattice-sum evaluator for the full 24-jet set
+with certified tails, produce per-band enclosure certificates, and ship the
+falsifier alongside. The output is either the certificates or an honest fail
+receipt naming the band that resists — both are progress, and the second is more
+informative.
+
+Adjacent, cheaper: finish the rung ladder at `r = 0.0177` (42/70) and
+`r = 0.0125` (21/70). Engineering, not premise discharge, and the sources say so.
+
+## 4. Build the missing annulus driver for `D3-LEMMA-RN-UNIF` Piece 2
+
+`LANE_RN_UNIF` records Piece 2's Riemann-sum driver as **unwritten**, and RN5
+gives the exact recipe for what replaces it: a complete non-overlapping spatial
+cover of `0.1 ≤ |y| ≤ 5`, retaining boundary-area bounds and every rejected
+cell, summing area × corrected cell supremum, verifying no cell remains pending,
+then reassembling the remote budget. RN5's ten boxes are explicitly *not* a
+coverage certificate, and the near-axis refinement cost has to be faced.
+
+I can write that driver against the corrected envelope, with the
+accept/refine/reject ledger as a first-class output so partial coverage is never
+mistakable for full coverage. Also on this lane: the whitened `env_form`
+orders 2–4 runnable smoke, which the lane brief lists as missing.
+
+## 5. Perform the overdue nonauthor technical reviews
+
+Nineteen of the 24 review-queue routes are 51–54 days old and at ESCALATE. R17
+§4 permits a fresh nonauthor session of any provider to perform technical
+review, with organizational independence recorded separately and, for a
+same-provider reviewer, at zero.
+
+I am a fresh nonauthor session for every one of these objects. I can take them
+in the order the queue implies — the component verdicts before `RV-LM011`'s
+synthesis — and produce reviews in the exact form R17 §4 requires: source
+ID/hash/bytes and extraction rule, exposure disclosure, precise hypotheses,
+reconstructed argument, executed negative controls, findings by criterion,
+unresolved dependencies, verdict, reproducible output.
+
+The three `READY` routes are the best first targets: `RV-RN3` (replay the bundle
+and challenge every uniform bound), `RV-P15` (split into four scoped reviews),
+`RV-OPS-R17` (challenge stale handoff, same-family coauthor, publication race
+and restoration cases using the bundled tests).
+
+**What I cannot supply:** organizational independence. Where the predicate
+demands a distinct family, my verdict is a technical pass with zero independence
+credit, and the gate stays open. I will always record it that way.
+
+## 6. Resolve the identifier collisions the registers carry
+
+Six duplicate artifact IDs and seven duplicate transition IDs, each pair holding
+*different* status text — the exact failure class OP-CNS-001 §2 exists to
+prevent, now present in the collision registry's own source. Mechanical to fix
+at the source with successor IDs, and `tools/registers_check.py` already flags
+them so they cannot quietly grow. See `registers/KNOWN_FINDINGS.json`.
+
+Also: three Quarantine Index rows use `EXISTING_CONTAINER`, a class the protocol
+does not define. Either add `CONTAINER_POINTER` to OP-PROT-019 §6 or reclassify.
+
+## 7. Recover the eight empty native bodies and five read failures
+
+The accessibility audit retained 137 exceptions honestly — missing content was
+not invented. Eight `EMPTY_NATIVE_BODY` carriers include
+`LS-DATA-015-v1.0-R1/R2`, the byte-exact and hex-gzip TB-G2 algebra result
+capsules: capsules whose entire purpose is to carry exact bytes, currently
+carrying nothing. These are recoverable from Drive revision history, from the
+archive carriers, or by regeneration from their sources. Each one recovered is a
+dependency restored to the TB-G2 line.
+
+## 8. Keep the git side honest as the Drive moves
+
+The source map is a snapshot. `tools/drive_index.py` plus a modified-time delta
+gives a scoped refresh that updates only affected derived copies, which is what
+the accessibility report asks future maintenance to do. I can run that refresh,
+diff the inventory, and open a PR per delta — so the Drive and the repository
+never silently diverge.
+
+---
+
+## What I will not do
+
+* Promote any premise, discharge any obligation, or relabel any status without
+  the exact predicate that licenses it. Where a gate needs a distinct provider
+  family, I am not that family and I will say so every time.
+* Compose the 2D and 3D tracks, or let the prize track into the q0 dependency
+  graph. CI now fails on both.
+* Treat a display, a Monte Carlo estimate, a fitted exponent, a session CLOSE,
+  a smoke test, or a registration as a proof.
+* Edit a frozen body in place, or edit an exported register to make a check pass.
+* Claim that any original prize problem is solved.

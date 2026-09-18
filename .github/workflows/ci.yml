@@ -1,0 +1,30 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pip pytest
+      - name: Registers round-trip from the source export
+        run: python tools/registers_import.py --check
+      - name: Register structural invariants (modulo documented findings)
+        run: python tools/registers_check.py
+      - name: Claim-graph firewalls
+        run: python tools/claims_check.py
+      - name: Logical quarantine is enforced
+        run: python tools/quarantine_check.py
+      - name: Content manifests (SHA-256 and byte counts)
+        run: python tools/verify_manifests.py
+      - name: Drive source map is queryable
+        run: python tools/drive_index.py stats
+      - name: Unit tests and negative controls
+        run: python -m pytest -q
