@@ -253,6 +253,31 @@ def test_the_real_lanes_depend_on_the_archive_member_index(ws):
     assert "neither index" in out.stdout
 
 
+def test_dispatcher_and_checker_agree_on_the_second_index(ws):
+    """The checker and the dispatcher must read the same lane the same way.
+    On the unmutated copy A5 is bound, and the dispatcher's note names the
+    index that resolved the engine members; remove that index and the
+    dispatcher reads A5 as unbound while the checker fails on the same ids."""
+    def dispatch():
+        out = subprocess.run(
+            [sys.executable, DISPATCHER, "--lanes", ws.lanes, "--graph", ws.graph,
+             "--manifest", ws.manifest, "--binding", ws.binding, "--json"],
+            capture_output=True, text=True, check=True).stdout
+        return {r["key"]: r for r in json.loads(out)["lanes"]}["A5"]
+
+    bound = dispatch()
+    assert bound["inputs_bound_here"] is True
+    assert "BINDING.json" in bound["inputs_note"]
+    assert ws.run().returncode == 0
+
+    os.remove(ws.binding)
+    unbound = dispatch()
+    assert unbound["inputs_bound_here"] is False
+    assert "RNENG-01" in unbound["inputs_note"]
+    out = ws.run()
+    assert out.returncode != 0 and "RNENG-01" in out.stdout
+
+
 def test_negative_control_inputs_declared_without_a_manifest(ws):
     os.remove(ws.manifest)
     out = ws.run()
