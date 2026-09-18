@@ -979,10 +979,58 @@ def Phi(x: Interval, prec: int) -> Interval:
     does not contain zero, and ``erf`` is monotone, so the composition is an
     enclosure of the range. ``Phi(0) = 1/2`` comes out exactly, because
     ``[0,0] / [s_lo, s_hi] = [0,0]`` and ``erf([0,0]) = [0,0]``.
+
+    TIGHTNESS, STATED — read this before choosing ``prec``. ``Phi`` inherits the
+    regime change of :func:`erf` at ``z = ERF_CROSSOVER``, which in THIS
+    function's coordinate sits at ``|x| = 6 sqrt 2 = 8.485281...``. Below it the
+    width follows ``prec``. Above it the width comes from the Mills bracket and
+    is about ``3 Phi(-|x|) / (x^4)``, with NO dependence on ``prec``: raising
+    ``prec`` there will not meet a width target, and nothing else signals that.
+    Past ``|x| = 1705.1`` the ``exp`` exponent cap leaves ``Phi(x).lo == 0`` for
+    negative ``x`` (see ``EXP_BIT_LIMIT``).
+
+    FOR AN UPPER TAIL USE :func:`normal_sf`, NOT ``1 - Phi(x)``. The ``round_out``
+    below keeps a fixed number of significant bits, so for ``x`` beyond about 26
+    the upper endpoint here rounds up to exactly 1 and ``1 - Phi(x)`` is then
+    ``[0, ...]`` — sound, and useless as a tail bound. ``normal_sf`` carries the
+    tail mass as the primary quantity instead.
     """
     g = max(int(prec), 1) + 20
     arg = x / sqrt(Interval.exact(2), g)
     return ((Interval(1) + erf(arg, prec)) * _HALF).round_out(4 * g + 32)
+
+
+def normal_sf(x: Interval, prec: int) -> Interval:
+    """Certified enclosure of the standard normal survival function over ``x``.
+
+    ``normal_sf(x) = P(X > x) = 1 - Phi(x) = erfc(x / sqrt 2) / 2``, computed
+    through :func:`erfc` so the tail mass is never obtained by subtracting a
+    number near 1 from 1. ``normal_sf`` is strictly DECREASING; the direction is
+    carried by ``erfc`` and pinned by a regression test.
+
+    This is the function to call for a two-sided bound on a Gaussian tail
+    probability, and it is the reason :func:`erfc` exists. Worked example, the
+    9-sigma tail::
+
+        normal_sf(Interval.exact(9), 30)   # both endpoints positive
+        log(normal_sf(Interval.exact(9), 30), 30)   # a certified log-tail bound
+
+    Before the Mills bracket was added, the corresponding lower bound was
+    exactly 0 at every ``prec`` and ``log`` of it raised ``ValueError``.
+
+    TIGHTNESS, STATED. Relative width about ``3/(x^4)`` beyond
+    ``|x| = 8.4853``, with NO dependence on ``prec`` (see :func:`erfc`). Past
+    ``|x| = 1705.1`` the lower endpoint is exactly 0 and only the upper bound
+    carries information; that is the ``EXP_BIT_LIMIT`` floor, not a property of
+    the normal distribution.
+
+    WHAT THIS IS NOT. It is an enclosure of a standard normal tail probability
+    and nothing else. It is not a bound on ``1 - q(r)``, not a band enclosure,
+    and it discharges no obligation in ``docs/OPEN_PROBLEMS.md``.
+    """
+    g = max(int(prec), 1) + 20
+    arg = x / sqrt(Interval.exact(2), g)
+    return (erfc(arg, prec) * _HALF).round_out(4 * g + 32)
 
 
 def normal_pdf(x: Interval, prec: int) -> Interval:
@@ -999,6 +1047,11 @@ def normal_pdf(x: Interval, prec: int) -> Interval:
     Evaluating ``x**2`` at the endpoints alone would omit it and the enclosure
     would miss the peak; ``tests/test_interval.py`` has a negative control that
     demonstrates exactly that failure.
+
+    ``prec`` is a RELATIVE width hint here, inherited from :func:`exp`; see the
+    module docstring. Past ``|x| = 1705.1`` the ``exp`` exponent cap makes the
+    enclosure ``[0, tiny]`` — coarse, sound, and cheap, where before the cap the
+    same call consumed memory without bound (``EXP_BIT_LIMIT``).
     """
     g = max(int(prec), 1) + 20
     numerator = exp(-(x ** 2) * _HALF, prec)

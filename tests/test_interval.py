@@ -342,11 +342,43 @@ def test_erf_is_odd_and_Phi_is_symmetric():
 
 
 def test_erf_tail_branch_is_a_valid_bracket():
-    """Above the documented crossover, erf uses the monotone tail bracket."""
+    """Above the documented crossover, erf uses the monotone tail bracket.
+
+    This asserts the property, not a particular tightness. An earlier version
+    pinned ``e.hi == 1``, which described the crude clamp the tail branch used
+    at the time; tightening the branch then failed a test that was only ever
+    recording the implementation. What must hold is that the bracket contains
+    the true value and does not exceed 1, since ``erf(x) < 1`` for every finite
+    ``x``. A tighter bracket must pass this test, and a wrong one must not.
+    """
     e = erf(Interval.exact(8), 30)
-    assert e.hi == 1
-    assert e.lo < 1
+
+    # erfc(8), typed from an independent source, NOT computed by this library.
+    ERFC_8 = F(11224297172982928, 10 ** 45)          # 1.1224297172982928e-29
+    true_erf_8 = 1 - ERFC_8
+
+    assert true_erf_8 in e                            # containment, the contract
+    assert e.hi <= 1                                  # erf(x) < 1 for finite x
+    assert e.lo < e.hi                                # a bracket, not a point
     assert e.lo > F(9999999, 10000000)
+
+    # Corroboration only, never certification: agreement with the float erfc.
+    assert (1 - e.hi) <= F(math.erfc(8)) <= (1 - e.lo)
+
+
+def test_erf_tail_bracket_rejects_a_widened_but_wrong_bound():
+    """Negative control for the test above.
+
+    A bracket that is merely wide is not thereby correct. Shift the enclosure
+    off the true value while keeping it wide and containment must fail.
+    """
+    e = erf(Interval.exact(8), 30)
+    ERFC_8 = F(11224297172982928, 10 ** 45)
+    true_erf_8 = 1 - ERFC_8
+
+    shifted = Interval(e.lo - ERFC_8 * 10, e.hi - ERFC_8 * 10)
+    assert shifted.hi - shifted.lo == e.hi - e.lo      # same width
+    assert true_erf_8 not in shifted                   # and yet wrong
 
 
 # ===========================================================================

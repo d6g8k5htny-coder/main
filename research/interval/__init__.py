@@ -38,11 +38,13 @@ Standard library only (``fractions``, ``decimal``, ``typing``). Python 3.11.
 """
 from .core import Interval, to_fraction
 from .transcendental import (
-    ERF_CROSSOVER, Phi, cos, erf, exp, log, normal_pdf, pi, sin, sqrt,
+    ERF_CROSSOVER, EXP_BIT_LIMIT, MILLS_MIN, Phi, cos, erf, erfc, exp, log,
+    normal_pdf, normal_sf, pi, sin, sqrt,
 )
 
 __all__ = [
     "Interval", "to_fraction",
-    "sqrt", "exp", "log", "sin", "cos", "pi", "erf", "Phi", "normal_pdf",
-    "ERF_CROSSOVER",
+    "sqrt", "exp", "log", "sin", "cos", "pi", "erf", "erfc", "Phi",
+    "normal_pdf", "normal_sf",
+    "ERF_CROSSOVER", "EXP_BIT_LIMIT", "MILLS_MIN",
 ]
