@@ -13,6 +13,30 @@ better than a coarse bound (``sin`` of an interval wider than a period, ``erf``
 far out in the tail) it returns the coarse bound rather than a tighter number
 it cannot justify.
 
+EXACTLY WHAT ``prec`` TARGETS, PER FUNCTION. The hint is an **absolute** width
+target for ``sqrt``, ``log``, ``sin``, ``cos``, ``pi``, ``erf`` and ``Phi``. It
+is a **relative** one for ``exp``, ``normal_pdf``, ``erfc`` and ``normal_sf``:
+
+* ``exp`` reduces to ``|u| <= 1/2``, where an absolute remainder target on
+  ``exp(u) = O(1)`` is a relative one, and then squares ``k`` times; squaring
+  preserves relative width and multiplies absolute width by ``exp(t)``. So
+  ``exp(t, prec)`` has width of order ``exp(t) * 10**-prec``, which for
+  ``t = 700`` at ``prec = 30`` is about ``3e+272``, not ``1e-30``. A caller who
+  budgets an absolute width for a factor inside a sum must convert. This is a
+  fact about the contract, not a defect in the enclosure: every interval
+  returned does contain the true value.
+* ``normal_pdf`` inherits that from ``exp``.
+* ``erfc`` and ``normal_sf`` are relative in their far tail by construction:
+  beyond ``ERF_CROSSOVER`` they use the Mills bracket, whose **relative** width
+  is about ``3/(4 z**4)`` and which does **not** tighten with ``prec`` at all.
+  See ``erfc``. ``erf`` and ``Phi`` inherit the same prec-insensitive regime on
+  the side where they approach ``+-1`` / ``0`` / ``1``.
+
+There are two hard resource caps, both documented where they live and both
+fail-closed rather than fail-quiet: ``EXP_BIT_LIMIT`` (below) bounds the binary
+exponent of every ``exp``-derived enclosure, and ``_sin_cos`` returns
+``[-1, 1]`` for an input at least a full period wide.
+
 NON-CERTIFYING comparisons. Nothing in this module calls ``math``, ``mpmath``
 or ``numpy``. Float agreement is used in ``tests/test_interval.py`` only as a
 cross-check oracle and is labelled NON-CERTIFYING there.
@@ -40,14 +64,60 @@ from __future__ import annotations
 from fractions import Fraction
 from typing import Dict, Tuple
 
-from .core import Interval
+from .core import Interval, _exact_fraction_string
 
 __all__ = [
-    "sqrt", "exp", "log", "sin", "cos", "pi", "erf", "Phi", "normal_pdf",
+    "sqrt", "exp", "log", "sin", "cos", "pi", "erf", "erfc", "Phi",
+    "normal_pdf", "normal_sf", "EXP_BIT_LIMIT", "ERF_CROSSOVER",
 ]
 
 _HALF = Fraction(1, 2)
 _UNIT = Interval(-1, 1)
+
+#: A certified strict LOWER bound on ``log2(e) = 1.4426950408889634...``.
+#: Used only to decide whether an ``exp`` result is past ``EXP_BIT_LIMIT``;
+#: because it is a lower bound, the test it drives is conservative in the
+#: direction that matters (see ``_exp_point``).
+_LOG2E_LO = Fraction(14426950408, 10 ** 10)
+
+#: Cap on the binary exponent of any enclosure produced by ``_exp_point``, in
+#: bits. Raising it raises the cost ceiling; it never affects containment.
+#:
+#: WHY A CAP EXISTS. An endpoint here is an exact ``Fraction``. An enclosure of
+#: ``exp(t)`` therefore carries a numerator or denominator of about
+#: ``|t| * log2(e) = 1.4427 * |t|`` bits — that is the information content of
+#: the value and ``Interval.round_out`` cannot remove it, since ``round_out``
+#: bounds the significand and not the scale. Measured on the unfixed code:
+#: ``exp(Interval.exact(-10**6), 20)`` gives 1,442,915-bit endpoints and
+#: ``exp(Interval.exact(-10**7), 20)`` gives 14,427,176-bit endpoints, linear in
+#: ``|t|`` exactly as predicted. Composed into the Gaussian API the growth is
+#: quadratic in the argument, because ``erf`` evaluates ``exp(-z**2)`` and
+#: ``normal_pdf`` evaluates ``exp(-x**2/2)``: at ``z = 10**5`` that is
+#: ``exp(-5e9)``, about 7.2e9-bit (900 MB) endpoints with several live at once
+#: in the squaring loop, and at ``z = 10**6`` about 90 GB. Those calls cannot
+#: complete on any machine; unfixed, ``Phi(Interval(-10**5), 1)`` raised
+#: ``MemoryError`` under a 512 MiB address-space cap after 14 s and was
+#: OOM-killed without one. That is an unconditional failure, not slowness.
+#:
+#: WHAT THE CAP DOES. ``2**21 = 2097152`` bits is about 631,305 decimal digits,
+#: reached at ``|t| = 1453635``, at ``|z| = 1205.6`` in ``erf``/``erfc`` and at
+#: ``|x| = 1705.1`` in ``normal_pdf``/``Phi``/``normal_sf``. Below the cap
+#: nothing changes. Past it, an underflowing ``exp`` degrades to the coarse but
+#: honest ``[0, 2**-EXP_BIT_LIMIT]`` and an overflowing one raises
+#: ``OverflowError`` rather than consuming memory without bound. Both are stated
+#: in ``_exp_point``.
+EXP_BIT_LIMIT = 1 << 21
+
+_UNDERFLOW_CACHE: Dict[int, Fraction] = {}
+
+
+def _two_pow_neg(bits: int) -> Fraction:
+    """``2**-bits`` as an exact ``Fraction``, cached (the integer is large)."""
+    hit = _UNDERFLOW_CACHE.get(bits)
+    if hit is None:
+        hit = Fraction(1, 1 << bits)
+        _UNDERFLOW_CACHE[bits] = hit
+    return hit
 
 
 # --------------------------------------------------------------------------
@@ -141,9 +211,15 @@ def _sqrt_bounds(a: Fraction, scale: int) -> Tuple[Fraction, Fraction]:
     lo = Fraction(s, q * scale)
     hi = Fraction(s + 1, q * scale)
     if not lo * lo <= a:
-        raise ArithmeticError(f"sqrt certificate failed: {lo}^2 > {a}")
+        raise ArithmeticError(
+            f"sqrt certificate failed: {_exact_fraction_string(lo)}^2 > "
+            f"{_exact_fraction_string(a)}"
+        )
     if not hi * hi >= a:
-        raise ArithmeticError(f"sqrt certificate failed: {hi}^2 < {a}")
+        raise ArithmeticError(
+            f"sqrt certificate failed: {_exact_fraction_string(hi)}^2 < "
+            f"{_exact_fraction_string(a)}"
+        )
     return lo, hi
 
 
@@ -168,9 +244,15 @@ def sqrt(x: Interval, prec: int) -> Interval:
     # (so hi^2 can only rise), hence both inequalities survive -- but the point
     # of a certificate is that it is checked, not argued. Do not remove.
     if not out.lo * out.lo <= x.lo:
-        raise ArithmeticError(f"sqrt certificate failed: {out.lo}^2 > {x.lo}")
+        raise ArithmeticError(
+            f"sqrt certificate failed: {_exact_fraction_string(out.lo)}^2 > "
+            f"{_exact_fraction_string(x.lo)}"
+        )
     if not out.hi * out.hi >= x.hi:
-        raise ArithmeticError(f"sqrt certificate failed: {out.hi}^2 < {x.hi}")
+        raise ArithmeticError(
+            f"sqrt certificate failed: {_exact_fraction_string(out.hi)}^2 < "
+            f"{_exact_fraction_string(x.hi)}"
+        )
     return out
 
 
@@ -205,9 +287,61 @@ def _exp_point(t: Fraction, prec: int) -> Interval:
 
     ``round_out`` between squarings widens outward only; it trades tightness
     for endpoint size and cannot break containment.
+
+    *What ``prec`` targets here.* A RELATIVE width, not an absolute one. The
+    remainder target is absolute on ``exp(u)`` with ``|u| <= 1/2``, where
+    ``exp(u)`` is of order 1; the ``k`` squarings then multiply the absolute
+    width by ``exp(t)`` while leaving the relative width at about ``10**-prec``.
+    So ``exp(Interval.exact(700), 30)`` has width about ``3.1e+272``. Every such
+    interval still contains the true value — this is the contract, stated,
+    not a containment defect.
+
+    *The exponent cap.* ``exp(t) = 2**(t * log2 e)``, so an exact rational
+    enclosure of it carries about ``1.4427 * |t|`` bits of scale, which
+    ``round_out`` cannot remove (it bounds the significand, not the scale).
+    Unbounded ``|t|`` therefore means unbounded memory, and through
+    ``erf``/``Phi``/``normal_pdf`` — which evaluate ``exp(-z**2)`` and
+    ``exp(-x**2/2)`` — unbounded **quadratically** in an ordinary-looking
+    Gaussian argument. ``EXP_BIT_LIMIT`` bounds it, in the only two ways that
+    keep the contract:
+
+    * UNDERFLOW, ``t < 0`` with ``(-t) * L2 >= EXP_BIT_LIMIT`` where
+      ``L2 = _LOG2E_LO`` is a strict lower bound on ``log2 e``. Then
+      ``(-t) * log2(e) >= (-t) * L2 >= EXP_BIT_LIMIT``, so
+      ``0 < exp(t) <= 2**-EXP_BIT_LIMIT`` and ``[0, 2**-EXP_BIT_LIMIT]``
+      contains it. Coarse, cheap, and sound; it is the same policy ``_sin_cos``
+      already applies when it returns ``[-1, 1]``. Note the consequence: past
+      this point no positive lower bound on ``exp(t)`` is available, and any
+      ``erfc`` / ``normal_sf`` lower bound built on it degrades to 0. That
+      threshold is ``|z| > 1205.6`` and ``|x| > 1705.1`` respectively, and it is
+      a limit of the representation, not of the argument: a positive ``Fraction``
+      lower bound on ``exp(-5e9)`` would need 900 MB to write down.
+    * OVERFLOW, ``t > 0`` with ``t * L2 >= EXP_BIT_LIMIT``. There is no coarse
+      honest answer available: a finite upper bound on ``exp(t)`` must have
+      about ``1.4427 * t`` bits, and for ``t = 10**12`` that is 180 GB. This
+      raises ``OverflowError`` (an ``ArithmeticError``, so an
+      ``except ArithmeticError`` around a certified computation catches it)
+      naming the limit. Refusing is fail-closed; returning something smaller
+      would be a wrong bound and returning nothing would be a crash with no
+      explanation.
+
+    Neither branch can affect containment: one returns a proved superset and the
+    other returns nothing at all.
     """
     if t == 0:
         return Interval(1)
+    if t < 0:
+        if (-t) * _LOG2E_LO >= EXP_BIT_LIMIT:
+            return Interval(Fraction(0), _two_pow_neg(EXP_BIT_LIMIT))
+    elif t * _LOG2E_LO >= EXP_BIT_LIMIT:
+        raise OverflowError(
+            f"exp({_exact_fraction_string(t)}) exceeds EXP_BIT_LIMIT = "
+            f"{EXP_BIT_LIMIT} bits of binary exponent: an exact rational upper "
+            f"bound would need about {int(t * _LOG2E_LO)} bits to write down. "
+            "Raise research.interval.transcendental.EXP_BIT_LIMIT if the "
+            "memory is genuinely available, or rescale the computation. "
+            "Refused rather than bounded wrongly."
+        )
     k = 0
     u = t
     while abs(u) > _HALF:
@@ -269,7 +403,9 @@ def _atanh_series(z: Fraction, target: Fraction) -> Interval:
     so ``atanh(z) in [S_j, S_j + T_j]``. Both endpoints are exact rationals.
     """
     if not 0 <= z < 1:
-        raise ValueError(f"atanh series needs 0 <= z < 1, got {z}")
+        raise ValueError(
+            f"atanh series needs 0 <= z < 1, got {_exact_fraction_string(z)}"
+        )
     if z == 0:
         return Interval(0)
     zz = z * z
@@ -320,7 +456,10 @@ def _log_point(a: Fraction, prec: int) -> Interval:
     interval multiplication and never by an assumption.
     """
     if a <= 0:
-        raise ValueError(f"log requires a positive argument, got {a}")
+        raise ValueError(
+            "log requires a positive argument, got "
+            f"{_exact_fraction_string(a)}"
+        )
     k = a.numerator.bit_length() - a.denominator.bit_length()
     m = a / Fraction(2) ** k
     while m >= 2:
@@ -431,7 +570,8 @@ def _sin_cos_reduced(s: Interval, target: Fraction, sig: int
     m = s.mag()
     if m > 1:
         raise ArithmeticError(
-            f"reduced argument {s!r} has magnitude {m} > 1; the "
+            f"reduced argument {s!r} has magnitude "
+            f"{_exact_fraction_string(m)} > 1; the "
             "alternating-series remainder bound used here is not justified"
         )
 
@@ -588,17 +728,98 @@ def cos(x: Interval, prec: int) -> Interval:
 # --------------------------------------------------------------------------
 
 #: Crossover between the Maclaurin branch and the tail-bracket branch of
-#: :func:`erf`. Below it the alternating series is used; at and above it the
-#: monotone tail bracket is used. The value is documented in ``erf``.
+#: :func:`erf` and :func:`erfc`. Below it the alternating series is used; at and
+#: above it only the Mills bracket is used. This is a COST boundary, not an
+#: accuracy one: the series stays exact above it but needs about ``z**2`` terms
+#: carrying intermediate rationals of size ``e**(z**2)``. Its consequences for
+#: achievable width are spelled out in :func:`erfc`.
 ERF_CROSSOVER = Fraction(6)
 
+#: Smallest ``z`` at which the Mills bracket of :func:`_erfc_mills` is proved.
+#: The lower half holds for every ``z > 0``; the upper half needs ``z >= 1``.
+MILLS_MIN = Fraction(1)
 
-def _erf_point(z: Fraction, prec: int) -> Interval:
-    """Certified enclosure of ``erf(z)`` for an exact rational ``z``.
 
-    ``erf`` is odd, so negative arguments are reflected.
+def _erfc_mills(z: Fraction, prec: int) -> Interval:
+    """Certified TWO-SIDED enclosure of ``erfc(z) = 1 - erf(z)`` for ``z >= 1``.
 
-    **Series branch, ``0 < z <= 6``.**
+    THE LEMMA, with its proof. For real ``b`` with ``2z**2 + b > 0`` put
+
+        E(z) = int_z^inf e^(-t^2) dt,   c_b(z) = z e^(-z^2) / (2 z^2 + b),
+        g_b  = E - c_b.
+
+    Differentiating ``c_b`` and using ``E'(z) = -e^(-z^2)``,
+
+        c_b'(z) = e^(-z^2) [ (b - 2z^2) - 2z^2(2z^2 + b) ] / (2z^2 + b)^2
+        g_b'(z) = -e^(-z^2) [ (2z^2 + b)^2 + b - 2z^2 - 4z^4 - 2b z^2 ]
+                            / (2z^2 + b)^2
+                = -e^(-z^2) [ 2z^2 (b - 1) + b(b + 1) ] / (2z^2 + b)^2
+
+    since ``(2z^2+b)^2 = 4z^4 + 4b z^2 + b^2``. Both ``E`` and ``c_b`` tend to 0
+    at ``+inf``, so ``g_b(t) -> 0``. Hence, writing
+    ``P_b(t) = 2t^2(b-1) + b(b+1)``:
+
+      (i)  if ``P_b(t) > 0`` for all ``t >= z`` then ``g_b`` is strictly
+           decreasing on ``[z, inf)``, so ``g_b(z) > 0`` and ``E(z) > c_b(z)``;
+      (ii) if ``P_b(t) <= 0`` for all ``t >= z`` then ``g_b`` is non-decreasing,
+           so ``g_b(z) <= 0`` and ``E(z) <= c_b(z)``.
+
+    LOWER BOUND, ``b = 1``. ``P_1(t) = 2 > 0`` for every ``t``, so (i) gives
+    ``E(z) > z e^(-z^2)/(2z^2+1)`` for every ``z > 0``.
+
+    UPPER BOUND, ``b = 1 - 3/(2 z^2)`` with ``z >= 1``. Write ``d = 3/(2z^2)``,
+    so ``0 < d <= 3/2``. ``P_b`` is non-increasing in ``t`` because ``b < 1``, so
+    it is enough to check ``t = z``:
+
+        P_b(z) = -2 z^2 d + (1 - d)(2 - d) = -3 + 2 - 3d + d^2 = d^2 - 3d - 1,
+
+    which is ``<= 0`` for ``0 <= d <= 3``, hence for every ``z >= 1``. Also
+    ``2z^2 + b = 2z^2 + 1 - d >= 2 + 1 - 3/2 > 0``, so (ii) applies and
+    ``E(z) <= z e^(-z^2) / (2z^2 + 1 - 3/(2z^2))``, i.e. after clearing the
+    inner fraction ``E(z) <= 2 z^3 e^(-z^2) / (4z^4 + 2z^2 - 3)``.
+
+    Multiplying by ``2/sqrt(pi)``, for every ``z >= 1``
+
+        2 z e^(-z^2) / (sqrt(pi) (2 z^2 + 1))
+            <  erfc(z)  <=
+        4 z^3 e^(-z^2) / (sqrt(pi) (4 z^4 + 2 z^2 - 3)).
+
+    The ratio of the two is ``1 + (3/(2z^2)) / (2z^2 + 1 - 3/(2z^2))``, about
+    ``1 + 3/(4 z^4)``: a RELATIVE width of about ``3/(4 z^4)``, which shrinks
+    fast in ``z`` and does NOT depend on ``prec``.
+
+    IMPLEMENTATION. ``e^(-z^2)`` comes from the certified :func:`exp`,
+    ``sqrt(pi)`` from the certified :func:`sqrt` and :func:`pi`, and the two
+    quotients are formed in interval arithmetic; the returned endpoints are the
+    ``.lo`` of the lower quotient and the ``.hi`` of the upper one, each rounded
+    outward, so both inequalities survive the arithmetic.
+
+    WHAT THIS DOES NOT GIVE. Past ``EXP_BIT_LIMIT`` — ``|z| > 1205.6`` — the
+    ``exp`` enclosure is ``[0, 2**-EXP_BIT_LIMIT]`` and the lower endpoint here
+    collapses to exactly 0. The enclosure stays correct and the upper bound
+    stays strong, but there is then no positive certified lower bound on the
+    tail mass, for the representation reason given in ``_exp_point``.
+    """
+    if z < MILLS_MIN:
+        raise ValueError(
+            f"Mills bracket requires z >= {MILLS_MIN}, got "
+            f"{_exact_fraction_string(z)}"
+        )
+    g = max(int(prec), 1) + 20
+    sig = 4 * g + 32
+    zz = z * z
+    e = exp(Interval.exact(-zz), g)
+    sp = sqrt(pi(g), g)
+    lower = ((Interval.exact(2 * z) * e)
+             / (sp * Interval.exact(2 * zz + 1))).round_out(sig).lo
+    upper = ((Interval.exact(4 * zz * z) * e)
+             / (sp * Interval.exact(4 * zz * zz + 2 * zz - 3))).round_out(sig).hi
+    return Interval(lower, upper)
+
+
+def _erf_series(z: Fraction, prec: int) -> Interval:
+    """Certified enclosure of ``erf(z)`` by its Maclaurin series, ``0 <= z``.
+
     ``erf(z) = (2/sqrt(pi)) * sum_n (-1)^n t_n`` with
     ``t_n = z^(2n+1)/(n!(2n+1)) > 0``. The ratio
     ``t_(n+1)/t_n = z^2 (2n+1)/((n+1)(2n+3))`` is **not** below 1 for small
@@ -611,47 +832,93 @@ def _erf_point(z: Fraction, prec: int) -> Interval:
     means the large intermediate cancellation for ``z`` near 6 costs size, not
     accuracy.
 
-    **Tail branch, ``z > 6``.** For ``z > 0``, using ``t/z >= 1`` on ``t >= z``,
+    The error controlled here is ABSOLUTE. Near ``z = 6``, ``erf(z)`` is within
+    ``2.2e-17`` of 1, so at ``prec`` below about 17 this branch alone cannot
+    show ``erf(z) < 1``; that is what the Mills bracket is intersected in for
+    (see :func:`_erfc_point`). Cost grows with ``z``: about ``z**2`` terms
+    carrying intermediates of size ``e^(z^2)``, which is why
+    :data:`ERF_CROSSOVER` exists.
+    """
+    g = max(int(prec), 1) + 20
+    two_over_sqrt_pi = Interval.exact(2) / sqrt(pi(g), g)
+    target = _tol(prec) / 4
+    n_min = _floor_frac(z * z) + 1
+    zz = z * z
+    total = Fraction(0)
+    t = z                    # t_0 = z
+    n = 0
+    while True:
+        total = total + t if n % 2 == 0 else total - t
+        t_next = t * zz * (2 * n + 1) / ((n + 1) * (2 * n + 3))
+        if n >= n_min and t_next <= target:
+            break
+        n += 1
+        t = t_next
+    series = Interval(total - t_next, total + t_next)
+    return _clamp_unit((series * two_over_sqrt_pi).round_out(4 * g + 32))
 
-        1 - erf(z) = (2/sqrt(pi)) * int_z^inf e^(-t^2) dt
-                  <= (2/sqrt(pi)) * int_z^inf (t/z) e^(-t^2) dt
-                  =  e^(-z^2) / (z * sqrt(pi))
 
-    and ``1 - erf(z) > 0``. So ``erf(z) in [1 - U, 1]`` where ``U`` is a
-    certified upper bound for ``e^(-z^2)/(z sqrt(pi))``, obtained from the
-    certified ``exp``, ``pi`` and ``sqrt`` above. At the crossover ``z = 6``
-    this bracket has width about ``2e-17``; below the crossover it would be too
-    weak, which is why the crossover sits there and not lower. The bracket does
-    not improve with ``prec``, and that is stated rather than papered over.
+def _erfc_point(z: Fraction, prec: int) -> Interval:
+    """Certified enclosure of ``erfc(z) = 1 - erf(z)`` for an exact rational.
+
+    Three regimes, and one consistency check:
+
+    * ``z <= 0``: ``erfc(z) = 2 - erfc(-z)``, exact in ``Fraction``.
+    * ``0 < z <= ERF_CROSSOVER``: ``1 - S`` where ``S`` is the series enclosure
+      of :func:`_erf_series`. For ``z >= MILLS_MIN`` this is INTERSECTED with
+      the Mills bracket of :func:`_erfc_mills`. Both are certified enclosures of
+      the same number, so the intersection is one too, and it is the tighter of
+      the two everywhere: the series controls absolute error (good for small
+      ``z``) and Mills controls relative error (good for large ``z``). An empty
+      intersection is impossible unless containment has already been lost in one
+      of them, so it raises rather than being swallowed — this is a live
+      cross-check between two independently derived bounds.
+    * ``z > ERF_CROSSOVER``: the Mills bracket alone. The series is still exact
+      there but its cost is not bounded; see :data:`ERF_CROSSOVER`.
+
+    The intersection removes what would otherwise be a discontinuity in
+    achievable width at the crossover, and it removes the collapse of the lower
+    bound at modest ``prec`` below it. What it does NOT remove: above the
+    crossover the width is the Mills relative width ``~3/(4 z^4)`` and ``prec``
+    has no effect on it at all.
+    """
+    if z == 0:
+        return Interval(1)
+    if z < 0:
+        return Interval(2) - _erfc_point(-z, prec)
+    if z > ERF_CROSSOVER:
+        return _erfc_mills(z, prec)
+    series = Interval(1) - _erf_series(z, prec)
+    if z < MILLS_MIN:
+        return series
+    mills = _erfc_mills(z, prec)
+    out = series.intersect(mills)
+    if out is None:
+        raise ArithmeticError(
+            f"erfc brackets are disjoint at z={_exact_fraction_string(z)}: "
+            f"series {series!r} vs Mills {mills!r}; containment was lost"
+        )
+    return out
+
+
+def _erf_point(z: Fraction, prec: int) -> Interval:
+    """Certified enclosure of ``erf(z)`` for an exact rational ``z``.
+
+    ``erf(z) = 1 - erfc(z)`` and the subtraction is exact in ``Fraction``, so
+    this loses nothing relative to :func:`_erfc_point` and inherits its
+    certificates. ``erf`` is odd, so negative arguments are reflected; the
+    result is clamped into ``[-1, 1]``, which is sound because ``|erf| < 1``.
+
+    FOR A TAIL BOUND, CALL :func:`erfc` OR :func:`normal_sf` INSTEAD. ``erf(z)``
+    for large ``z`` is a number just below 1 and its endpoints carry about
+    ``1.4427 z^2`` bits for that reason; the tail mass itself is what ``erfc``
+    returns directly, at bounded size and with the relative accuracy above.
     """
     if z < 0:
         return -_erf_point(-z, prec)
     if z == 0:
         return Interval(0)
-
-    g = max(int(prec), 1) + 20
-    two_over_sqrt_pi = Interval.exact(2) / sqrt(pi(g), g)
-
-    if z <= ERF_CROSSOVER:
-        target = _tol(prec) / 4
-        n_min = _floor_frac(z * z) + 1
-        zz = z * z
-        total = Fraction(0)
-        t = z                    # t_0 = z
-        n = 0
-        while True:
-            total = total + t if n % 2 == 0 else total - t
-            t_next = t * zz * (2 * n + 1) / ((n + 1) * (2 * n + 3))
-            if n >= n_min and t_next <= target:
-                break
-            n += 1
-            t = t_next
-        series = Interval(total - t_next, total + t_next)
-        return _clamp_unit((series * two_over_sqrt_pi).round_out(4 * g + 32))
-
-    upper = (exp(Interval.exact(-(z * z)), g)
-             / (Interval.exact(z) * sqrt(pi(g), g))).hi
-    return _clamp_unit(Interval(1 - upper, Fraction(1)))
+    return _clamp_unit(Interval(1) - _erfc_point(z, prec))
 
 
 def erf(x: Interval, prec: int) -> Interval:
@@ -659,10 +926,49 @@ def erf(x: Interval, prec: int) -> Interval:
 
     ``erf`` is strictly increasing on the reals (its derivative
     ``2 e^(-t^2)/sqrt(pi)`` is positive everywhere), so the range over
-    ``[a, b]`` is ``[erf(a), erf(b)]`` and the endpoints are enclosed
-    independently by ``_erf_point``.
+    ``[a, b]`` is ``[erf(a), erf(b)]``: the LOWER endpoint of the enclosure at
+    ``x.lo`` and the UPPER endpoint of the enclosure at ``x.hi``. Both endpoints
+    of the input are used; a regression test pins the direction.
+
+    TIGHTNESS, STATED. For ``|z| <= ERF_CROSSOVER = 6`` the width follows
+    ``prec``. Above that the enclosure comes from the Mills bracket of
+    :func:`_erfc_mills`, whose width is about ``3 erfc(z) / (4 z^4)`` and is
+    INSENSITIVE TO ``prec``: raising ``prec`` will not meet a width target out
+    there. In the ``Phi`` coordinate that regime begins at
+    ``|x| = 6*sqrt(2) = 8.4853``. Past ``|z| = 1205.6`` the ``exp`` exponent cap
+    makes the lower endpoint of the tail exactly 0 (equivalently
+    ``erf(z).hi == 1``); see ``EXP_BIT_LIMIT``.
     """
     return Interval(_erf_point(x.lo, prec).lo, _erf_point(x.hi, prec).hi)
+
+
+def erfc(x: Interval, prec: int) -> Interval:
+    """Certified enclosure of ``erfc = 1 - erf`` over ``x``.
+
+    ``erfc`` is strictly DECREASING, so the range over ``[a, b]`` is
+    ``[erfc(b), erfc(a)]``: the lower endpoint comes from ``x.hi`` and the upper
+    from ``x.lo``. A regression test pins that direction, because getting it
+    backwards produces an interval that looks perfectly reasonable.
+
+    WHY THIS EXISTS SEPARATELY FROM ``erf``. ``1 - erf(x)`` and ``1 - Phi(x)``
+    are computed in exact ``Fraction`` arithmetic and so lose nothing *at the
+    subtraction*, but the enclosures they subtract are rounded to a fixed number
+    of significant bits, and for ``x`` beyond about 26 an endpoint of ``Phi``
+    rounds up to exactly 1 — after which the difference is ``[0, something]``
+    and the tail bound is gone. ``erfc`` and :func:`normal_sf` carry the tail
+    mass as the primary quantity and never subtract it from 1, so they keep
+    relative accuracy out to the ``EXP_BIT_LIMIT`` floor.
+
+    TIGHTNESS, STATED. Below ``ERF_CROSSOVER`` the width follows ``prec``
+    (absolute) intersected with the Mills bracket (relative). At and above it
+    the Mills bracket alone applies, relative width about ``3/(4 z^4)``, with NO
+    dependence on ``prec``. Past ``|z| = 1205.6`` the lower endpoint is exactly
+    0 and only the upper bound carries information.
+
+    This is an enclosure of ``erfc`` and of nothing else. It is not a bound on
+    any quantity in the q0 / SIDE24 corpus and it discharges no obligation.
+    """
+    return Interval(_erfc_point(x.hi, prec).lo, _erfc_point(x.lo, prec).hi)
 
 
 def Phi(x: Interval, prec: int) -> Interval:
