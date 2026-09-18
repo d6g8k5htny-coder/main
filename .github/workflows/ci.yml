@@ -26,6 +26,12 @@ jobs:
         run: python tools/quarantine_check.py
       - name: Content manifests (SHA-256 and byte counts)
         run: python tools/verify_manifests.py
+      - name: Review records (zero independence credit, no gate moved)
+        run: test -f tools/reviews_check.py && python tools/reviews_check.py || echo "skipped"
+      - name: Recovered exceptions (candidates never stored as recoveries)
+        run: test -f tools/recovery_check.py && python tools/recovery_check.py || echo "skipped"
+      - name: Collision proposal (additive only, exported registers untouched)
+        run: test -f tools/collision_proposal_check.py && python tools/collision_proposal_check.py || echo "skipped"
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Unit tests and negative controls

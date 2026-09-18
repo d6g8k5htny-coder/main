@@ -51,9 +51,35 @@ Conventions that are deliberate, and are part of the contract
 * ``x ** 0`` is ``[1, 1]`` for every ``x``, including intervals containing zero.
   This is the ``0 ** 0 == 1`` convention of ``int``; it is stated so that no
   caller has to guess.
+* ``some_float in interval`` raises ``TypeError``; it does **not** return a
+  bool. Membership routes the probe through :func:`to_fraction`, and the float
+  refusal above applies there too. Returning ``False`` for ``0.5 in
+  Interval(0, 1)`` would be a wrong answer, and returning ``True`` would silently
+  admit a binary double as an exact probe, so the membership test refuses
+  instead. A caller guarding with ``if probe in enclosure:`` must convert the
+  probe first. This is a refusal, not an oversight; it is tested.
+* A ``Decimal`` is accepted and converted exactly — including a ``Decimal``
+  built from a ``float``. ``Decimal(0.1)`` *is* the binary double, so
+  ``Interval(Decimal(0.1)).lo`` is ``3602879701896397/36028797018963968`` and not
+  ``1/10``. The conversion is exact and the endpoint is an honest rational, so
+  containment is untouched, but the float refusal does not reach through a
+  ``Decimal``: a caller who writes ``Decimal(0.1)`` after being told to pass a
+  ``Decimal`` reintroduces exactly the double the refusal exists to exclude.
+  Provenance is not visible on the object, so this cannot be detected; write
+  ``Decimal("0.1")`` (from a string) or ``Fraction(1, 10)``. Tested, so the hole
+  stays visible.
+* Display never raises. ``repr`` of an interval whose exact endpoints are too
+  large to render as decimal digits (CPython refuses ``int`` -> ``str`` above
+  ``sys.get_int_max_str_digits()``) falls back to a bit-length summary for the
+  exact half and to an outward power-of-ten bound for the decimal half. Every
+  guard and certificate alarm in this package formats an interval into its
+  message, so a display that could raise would replace the alarm with an
+  unrelated ``ValueError`` at exactly the moment something had already gone
+  wrong.
 """
 from __future__ import annotations
 
+import sys
 from decimal import Decimal
 from fractions import Fraction
 from typing import Optional, Union
@@ -70,6 +96,18 @@ def to_fraction(x: Scalar) -> Fraction:
     ``float`` is refused because ``Fraction(0.1) == 3602879701896397/36028797018963968``
     and no caller ever means that. Refusing it is the difference between an
     exact endpoint and an endpoint that merely looks exact.
+
+    THE HOLE IN THAT REFUSAL, STATED. ``Decimal`` is accepted unconditionally
+    and converted exactly, and ``Decimal(some_float)`` is the exact value of the
+    binary double, not of the decimal that was typed. So
+    ``to_fraction(Decimal(0.1))`` returns ``3602879701896397/36028797018963968``
+    with no diagnostic, while ``to_fraction(Decimal("0.1"))`` returns ``1/10``.
+    Both conversions are exact, so no bound is ever wrong because of this —
+    but the float refusal does not reach through a ``Decimal``, and a caller who
+    reads "pass a Decimal" and writes ``Decimal(0.1)`` gets back the very double
+    the refusal exists to exclude. A ``Decimal`` does not carry its provenance,
+    so this cannot be detected here; it is documented instead, and
+    ``tests/test_interval.py`` pins it so it stays visible.
     """
     if isinstance(x, Fraction):
         return x
@@ -112,6 +150,84 @@ def _sig_shift(x: Fraction, bits: int) -> int:
     return bits - e
 
 
+#: Hard ceiling on how many decimal digits any single integer in a display may
+#: have. CPython 3.11 refuses ``int`` -> ``str`` above
+#: ``sys.get_int_max_str_digits()`` (default 4300), so a display that simply
+#: called ``str`` on an endpoint would raise ``ValueError`` on intervals this
+#: library legitimately returns (an ``erf`` endpoint near 1 carries about
+#: ``1.4427 * z**2`` bits). Displays must never raise: every guard and
+#: certificate alarm here formats an interval into its message.
+_DISPLAY_DIGIT_LIMIT = 4000
+
+
+def _decimal_digits(n: int) -> int:
+    """An upper bound on ``len(str(abs(n)))``, built without the string.
+
+    ``|n| < 2**b`` with ``b = bit_length(|n|)``, and ``log10(2) < 0.30103``, so
+    the digit count ``floor(log10 |n|) + 1`` is at most
+    ``floor(b * 30103 / 100000) + 1``. Integer arithmetic only, so this is safe
+    to call on an integer that ``str`` itself would refuse.
+    """
+    b = abs(n).bit_length()
+    if b == 0:
+        return 1
+    return b * 30103 // 100000 + 1
+
+
+def _digit_budget() -> int:
+    """Digits per integer this process will actually render.
+
+    Honours a caller who has *lowered* ``sys.set_int_max_str_digits``; a limit
+    of 0 means the interpreter check is disabled, in which case only this
+    module's own ceiling applies.
+    """
+    live = sys.get_int_max_str_digits()
+    if live == 0:
+        return _DISPLAY_DIGIT_LIMIT
+    return min(_DISPLAY_DIGIT_LIMIT, live - 1)
+
+
+def _renderable(n: int) -> bool:
+    return _decimal_digits(n) <= _digit_budget()
+
+
+def _exact_fraction_string(x: Fraction) -> str:
+    """The exact fraction, or a bit-length summary when it cannot be rendered.
+
+    The summary is not a value and is not outward-rounded; it is a structural
+    description. The outward-rounded decimal half of the display carries the
+    numeric information in that case.
+    """
+    if _renderable(x.numerator) and _renderable(x.denominator):
+        return str(x)
+    return (f"<exact rational, {x.numerator.bit_length()}-bit numerator / "
+            f"{x.denominator.bit_length()}-bit denominator>")
+
+
+def _power_of_ten_string(q: int, places: int, upward: bool) -> str:
+    """An outward power-of-ten bound on ``q / 10**places``, as a string.
+
+    Used when ``q`` has too many digits to render. Write ``b`` for
+    ``bit_length(|q|)``, so ``2**(b-1) <= |q| < 2**b``. With
+    ``0.301029 < log10(2) < 0.30103``,
+
+        ``lo_e = floor((b-1) * 301029 / 1000000)``  gives ``10**lo_e <= |q|``
+        ``hi_e = ceil(b * 30103 / 100000)``         gives ``|q| < 10**hi_e``
+
+    and the direction is then chosen so the string is an outward bound on
+    ``q / 10**places``: rounding away from zero uses ``hi_e``, rounding toward
+    zero uses ``lo_e``. ``q`` is never 0 here.
+    """
+    b = abs(q).bit_length()
+    lo_e = (b - 1) * 301029 // 1000000
+    hi_e = -((-b * 30103) // 100000)
+    if q > 0:
+        e = hi_e if upward else lo_e
+        return f"1e{e - places:+d}"
+    e = lo_e if upward else hi_e
+    return f"-1e{e - places:+d}"
+
+
 def _decimal_string(x: Fraction, places: int, upward: bool) -> str:
     """``x`` as a decimal string, rounded outward in the requested direction.
 
@@ -119,10 +235,17 @@ def _decimal_string(x: Fraction, places: int, upward: bool) -> str:
     so a display built from ``(_decimal_string(lo, p, False),
     _decimal_string(hi, p, True))`` is itself a valid enclosure: the display can
     never claim a tighter interval than the exact endpoints support.
+
+    When the rounded value has more digits than this process will render, an
+    outward power-of-ten bound is returned instead (``"1e+434295"``). That is
+    still an outward bound in the requested direction, so the display remains a
+    valid enclosure; it is merely coarse. This function never raises.
     """
     scale = 10 ** places
     n, d = x.numerator * scale, x.denominator
     q = -((-n) // d) if upward else n // d
+    if q != 0 and not _renderable(q):
+        return _power_of_ten_string(q, places, upward)
     neg = q < 0
     s = str(abs(q)).rjust(places + 1, "0")
     body = s if places == 0 else f"{s[:-places]}.{s[-places:]}"
@@ -149,7 +272,12 @@ class Interval:
         a = to_fraction(lo)
         b = a if hi is None else to_fraction(hi)
         if a > b:
-            raise ValueError(f"empty interval: lo={a} > hi={b}")
+            # The message must survive endpoints too large to render; see
+            # ``_exact_fraction_string``. An alarm that raises is not an alarm.
+            raise ValueError(
+                f"empty interval: lo={_exact_fraction_string(a)} "
+                f"> hi={_exact_fraction_string(b)}"
+            )
         self.lo = a
         self.hi = b
 
@@ -195,7 +323,18 @@ class Interval:
         return self.lo == self.hi
 
     def __contains__(self, other) -> bool:
-        """``x in iv`` for a scalar; ``jv in iv`` for set containment."""
+        """``x in iv`` for a scalar; ``jv in iv`` for set containment.
+
+        DELIBERATE REFUSAL. A ``float`` probe raises ``TypeError`` rather than
+        returning a bool, because the scalar goes through :func:`to_fraction`.
+        Python's membership protocol normally returns a bool, so
+        ``if probe in enclosure:`` will raise instead of taking the false
+        branch. That is the intended behaviour: ``0.5 in Interval(0, 1)`` has no
+        honest bool answer here — ``False`` would be wrong and ``True`` would
+        admit a binary double as an exact probe. Convert the probe first
+        (``Fraction(1, 2)``, ``Fraction("0.5")``, or ``Fraction(the_float)`` if
+        the double really is what is meant).
+        """
         if isinstance(other, Interval):
             return self.lo <= other.lo and other.hi <= self.hi
         return self.lo <= to_fraction(other) <= self.hi
@@ -217,9 +356,23 @@ class Interval:
         """Widen to endpoints with about ``sig_bits`` significant binary digits.
 
         Rounds ``lo`` toward ``-inf`` and ``hi`` toward ``+inf``, so the result
-        contains ``self``: containment is preserved, tightness is spent. This
-        exists only to stop exact rational endpoints from doubling in size under
-        repeated squaring; it is never required for correctness.
+        contains ``self``: containment is preserved, tightness is spent. It is
+        never required for correctness.
+
+        WHAT THIS DOES **NOT** BOUND. It bounds the *significand* and not the
+        *scale*. The endpoint returned is ``k / 2**s`` with ``k`` of about
+        ``sig_bits`` bits and ``s = sig_bits - floor(log2 |x|)``, so an endpoint
+        of extreme magnitude still carries a denominator (or numerator) of about
+        ``|log2 |x||`` bits however small ``sig_bits`` is. ``round_out(64)``
+        applied to an enclosure of ``exp(-10**6)`` still returns endpoints with
+        about 1.44 million bits, because that is the information content of the
+        value, not slack that can be rounded away.
+
+        The consequence for this package: endpoint size in ``exp``, ``erf``,
+        ``erfc``, ``Phi``, ``normal_sf`` and ``normal_pdf`` is controlled by the
+        exponent cap ``transcendental.EXP_BIT_LIMIT``, not by ``round_out``.
+        See that constant's documentation. A caller accumulating many such
+        endpoints in a sum should ``round_out`` *and* watch the magnitudes.
         """
         lo = self.lo if self.lo == 0 else _shift_floor(self.lo, _sig_shift(self.lo, sig_bits))
         hi = self.hi if self.hi == 0 else _shift_ceil(self.hi, _sig_shift(self.hi, sig_bits))
@@ -319,10 +472,21 @@ class Interval:
     # ------------------------------------------------------------------ display
 
     def __repr__(self) -> str:
+        """Exact endpoints plus an outward-rounded 12-place decimal display.
+
+        NEVER RAISES. An endpoint too large to render as decimal digits is
+        replaced by a bit-length summary in the exact half and by an outward
+        power-of-ten bound in the decimal half. Displays here appear inside
+        every guard and certificate message in the package, so a display that
+        could raise would replace the real alarm with an unrelated
+        ``ValueError`` — and would do so exactly when something had already gone
+        wrong. See ``_decimal_string`` and ``_exact_fraction_string``.
+        """
         lo_d = _decimal_string(self.lo, 12, upward=False)
         hi_d = _decimal_string(self.hi, 12, upward=True)
         return (
-            f"Interval({self.lo!s}, {self.hi!s})"
+            f"Interval({_exact_fraction_string(self.lo)}, "
+            f"{_exact_fraction_string(self.hi)})"
             f"  ~[{lo_d}, {hi_d}]"
         )
 

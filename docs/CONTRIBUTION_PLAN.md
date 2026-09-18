@@ -127,13 +127,35 @@ does not define. Either add `CONTAINER_POINTER` to OP-PROT-019 §6 or reclassify
 
 ## 7. Recover the eight empty native bodies and five read failures
 
-The accessibility audit retained 137 exceptions honestly — missing content was
-not invented. Eight `EMPTY_NATIVE_BODY` carriers include
-`LS-DATA-015-v1.0-R1/R2`, the byte-exact and hex-gzip TB-G2 algebra result
-capsules: capsules whose entire purpose is to carry exact bytes, currently
-carrying nothing. These are recoverable from Drive revision history, from the
-archive carriers, or by regeneration from their sources. Each one recovered is a
-dependency restored to the TB-G2 line.
+**Done, and the headline guess in this section was wrong.** Ledger:
+[`recovery/LEDGER.json`](../recovery/LEDGER.json), 31 records —
+**13 RECOVERED** (every one digest-corroborated), 3 CANDIDATE, 15 UNRECOVERABLE.
+
+What came back: three archive members resolved through the member index
+(`SHA256SUMS`, `arithmetic_ledgers.fresh.txt`,
+`first_variation_derivation.fresh.txt`), eight `ENCODED_BLOCK_FAILURE` base64
+chunks re-extracted from `LS-DATA-009-v1.1`, and two gzip result payloads from
+`CL-AUD-084` — several of these only because the Drive has moved since the
+2026-09-17 snapshot, so a read that failed at audit time succeeds now.
+
+What did not, and why this section's claim was wrong. I wrote that the TB-G2
+capsules "are recoverable from Drive revision history, from the archive carriers,
+or by regeneration from their sources." **Drive revision history is not available
+for them.** All three `LS-DATA-015` shells report `createdTime == modifiedTime`
+(2026-07-25 22:19:38.365Z, 22:20:40.640Z, 22:21:59.144Z), so no post-creation
+revision exists to recover. Their bodies are still a bare UTF-8 BOM on fresh
+2026-09-18 bytes, independently reproducing the audit's own finding. And the
+corpus states **no digest for any of the eight**, so even a recovered body could
+not have been corroborated.
+
+Worse for the premise: the three "Corrected" shells were created minutes after
+`LS-DATA-015-v1.0`, whose own capsule document
+(`1jCJcC_dCgNSi6oYJOR9IGI5r49a2aa-qKZLvOInxRRI`) is titled *"MALFORMED PAYLOAD …
+DO NOT USE"*. Recovering the original would restore the object the corpus itself
+tells you not to use, not the corrected result.
+
+So the eight remain UNRECOVERABLE, recorded with exactly what is missing. That is
+the audit's own discipline: missing content is not invented.
 
 ## 8. Keep the git side honest as the Drive moves
 
