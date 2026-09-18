@@ -69,32 +69,54 @@ floor; **hi side OPEN**), `OBL-H5-REMOTE-THRESHOLD` (OPEN, rides premise 2).
 ## Repository layout
 
 ```
-governance/     operator protocols + how each construct maps onto git
+governance/     operator protocols (reading copies — see PROVENANCE.json) + git mapping
 registers/      the 42 coupled register tabs as JSON and CSV, plus the source export
 drive/          complete source map: inventory.jsonl (4,456 items) + accessibility CSVs
+claims/         the machine-checked claim graph and its firewalls
+engine/         the active layer: lanes, bound carriers, the recovered RN engine, runner
+research/       the mathematics: certified intervals and the per-lane drivers
+reviews/        R17 §4 nonauthor technical reviews, all at zero independence credit
+recovery/       recovered accessibility exceptions, with provenance and what is missing
 packages/       PKG-01..05 peer-review submission packages and the HOLD sibling
-research/       per-lane indexes: what each lane contains and its exact status
 quarantine/     non-authoritative material and the logical-exclusion list
 sandbox/        drafts, no authority
 legacy/         zero evidentiary authority / inspiration only
-tools/          register importer + checkers, manifest verifier, Drive index, claim graph
-tests/          CI-enforced invariants
-docs/           research map, open problems, contribution plan, ported reports
+tools/          the checkers CI runs
+tests/          CI-enforced invariants and negative controls
+docs/           research map, open problems, contribution plan, findings, ported reports
 ```
+
+**Nothing under `governance/` or `docs/` that mirrors a Drive object is
+byte-identical to it.** `OP-PROT-019-v1.1_R17.md` has the same byte count as
+the object the register names and a different digest. These are reading
+copies; `governance/PROVENANCE.json` records every digest and
+`tools/provenance_check.py` refuses to let any file call one verbatim.
 
 Start with [`docs/RESEARCH_MAP.md`](docs/RESEARCH_MAP.md), then
 [`docs/OPEN_PROBLEMS.md`](docs/OPEN_PROBLEMS.md), then
-[`governance/GIT_ADAPTATION.md`](governance/GIT_ADAPTATION.md).
+[`governance/GIT_ADAPTATION.md`](governance/GIT_ADAPTATION.md). What the
+active layer has found so far, defects in this repository's own work first, is
+in [`docs/FINDINGS_2026-09-18.md`](docs/FINDINGS_2026-09-18.md).
 
 ## What CI enforces
 
 ```bash
 python3 tools/registers_import.py --check   # registers still match the source export
 python3 tools/registers_check.py            # structural invariants, modulo documented findings
-python3 tools/verify_manifests.py           # every SHA-256 / byte count in every manifest
+python3 tools/provenance_check.py           # no reading copy is presented as the object
 python3 tools/claims_check.py               # claim-graph: no claim rests on an open premise
-python3 -m pytest -q                        # including work_events append-only
+python3 tools/quarantine_check.py           # no excluded payload appears in any manifest
+python3 tools/verify_manifests.py           # every SHA-256 / byte count in every manifest
+python3 tools/reviews_check.py              # zero independence credit, no gate moved
+python3 tools/recovery_check.py             # candidates never stored as recoveries
+python3 tools/collision_proposal_check.py   # additive only, exported registers untouched
+python3 -m pytest -q                        # negative controls throughout
 ```
+
+Every checker prints a one-line summary and exits nonzero on failure. Every
+claimed bound and every checker has tests that fail when it is weakened —
+those negative controls have found real defects in this repository's own
+verifiers three times, which is what they are for.
 
 ## Provenance
 
