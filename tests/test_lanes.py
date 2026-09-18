@@ -174,12 +174,16 @@ def test_negative_control_lane_with_no_section(ws):
 
 
 def test_negative_control_section_list_is_not_hardcoded(ws):
-    """Adding a section to the document demands a lane for it."""
+    """Adding a section to the document demands a lane for it. The section
+    letter is the first one no lane file uses, so the control keeps working as
+    real sections are added."""
+    used = {name[:-5] for name in os.listdir(ws.lanes) if name.endswith(".json")}
+    letter = next(c for c in "ZYXWVUTSRQPONMLKJIH" if c not in used)
     with open(ws.doc, "a", encoding="utf-8") as f:
-        f.write("\n## H. A newly documented open problem\n\nBody.\n")
+        f.write(f"\n## {letter}. A newly documented open problem\n\nBody.\n")
     out = ws.run()
     assert out.returncode != 0
-    assert "section H" in out.stdout
+    assert f"section {letter}" in out.stdout
 
 
 def test_negative_control_status_outside_the_register_vocabulary(ws):

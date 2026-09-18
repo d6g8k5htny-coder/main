@@ -245,15 +245,28 @@ WITHDRAWN.** The LPW-CONSTANT v4 brick is on HOLD, titled NOT READY.
 
 ---
 
-## 7. K3 / LB-RATE — a refuted branch, retained
+## 7. K3 / LB-RATE — the 2D lower campaign: one assembly refuted, the campaign open
 
-`K3-THM-001` (counted-saddle assembly) is **REFUTED AS WRITTEN /
-NONCONTROLLING**, retained as provenance. `GP-LB-STAT-004` is refuted as
-theorem-grade with the lower bound left open; `004A` is the W8 recovery
-correction. W2 is pointwise valid with a Lemma-17 amendment; W6 refuted as a
-rigorous modulus; W10 is a valid schema with a load-path gap; W13 is a stale
-snapshot. Any successor needs an exact new identity **and** every consumed
-weighted-law / Bonferroni / exit premise.
+The lane (468 items; the 2026-08 KIMI + AO48 intake, the frozen C030/C031 base
+cycle set, the WO-063 carriers, the K3 swarm delivery and the GP adjudication
+chain) is the **2D lower-bound campaign** for `1 − q(r, 6/5)`. Its controlling
+adjudication is `GP-LB-STAT-004` (hostile adjudication of the K3 partial
+delivery, raw carrier Drive `1lfH7g57LcshqpLfNbrx-H7gbJckpzPqr`, 13,399 B,
+`26a9c7ef…`), whose verdict on the assembly `K3-THM-001` (Form C,
+`liminf (1−q)/r³ ≥ 0.9666·c_Λ`) reads, verbatim: **"REFUTED AS A THEOREM-GRADE OR
+VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER CAMPAIGN OPEN"** — "The package
+contains useful symbolic, forensic, numerical, minimality, and composition work.
+It does not establish an all-small-r lower theorem, a valid fixed lower
+constant" …; `K3-THM-001` itself: "REFUTED AS WRITTEN / NONCONTROLLING. No
+theorem successor is minted here". `GP-LB-STAT-004A` is the W8 recovery
+correction. Within the delivery, W2 is pointwise valid with a Lemma-17
+amendment; W6 refuted as a rigorous modulus; W10 a valid schema with a load-path
+gap; W13 a stale snapshot. Any successor needs an exact new identity **and**
+every consumed weighted-law / Bonferroni / exit premise; the register says "Do
+not mint a successor". The campaign's five P0 open questions (`OQ-014`,
+`OQ-015`, `OQ-016`, `OQ-016-U1`, `OQ-016-U2`) are transcribed in
+`docs/OPEN_PROBLEMS.md` §H. Until 2026-09-18 this section named the adjudicator
+as the refuted object and read the assembly's verdict onto the whole lane.
 
 ---
 

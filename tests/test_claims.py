@@ -374,6 +374,23 @@ def test_theorem_b_register_status_is_the_register_row_verbatim():
     assert node["open_gates"] == gates and len(gates) == 7
 
 
+def test_k3_assembly_is_filed_with_the_lower_campaign_and_names_its_carriers():
+    """K3-THM-001 is a liminf (lower-bound) assembly consuming the LOWER2D
+    premise H-B3; until 2026-09-18 it was filed under UPPER2D with no source
+    identity. Both carriers are named by Drive id and digest, and the digests
+    are the inventory's."""
+    import json as _json
+    node = graph()["claims"]["K3-THM-001"]
+    assert node["track"] == "LOWER2D" and node["grade"] == "REFUTED_AS_WRITTEN"
+    assert "H-B3" in node["depends_on"]
+    inv = {}
+    with open(os.path.join(ROOT, "drive", "inventory.jsonl"), encoding="utf-8") as f:
+        for line in f:
+            r = _json.loads(line); inv[r["id"]] = r
+    for fid in ("1lfH7g57LcshqpLfNbrx-H7gbJckpzPqr", "1VCDrxE5sp983c1uMTFCpmH4hJdDUw6Ut"):
+        assert fid in node["source"] and inv[fid]["sha256"] in node["source"]
+
+
 def test_the_five_original_firewalls_are_still_declared():
     ids = [f["id"] for f in graph()["firewalls"]]
     for original in ("FW-2D-3D-COMPOSITION", "FW-PRIZE-ISOLATION", "FW-UNCONDITIONAL",

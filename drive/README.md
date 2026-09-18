@@ -41,3 +41,14 @@ it for authority.
 
 New or changed sources require a scoped refresh. Check the original source ID
 and SHA-256 before reusing anything derived from this snapshot.
+
+## After the snapshot: `deltas/`
+
+The Drive changed on 2026-09-18 (a folder restructure, a proposed Drive–GitHub
+execution contract, a reusable-operations guide, and the register workbook).
+Those changes are carried under [`deltas/`](deltas/README.md) as dated,
+byte-exact, manifest-verified copies plus `PATH_CHANGES.jsonl`; `tools/drive_index.py`
+overlays the path changes by default (`--snapshot` shows the export as
+published). 238 of the 4,456 inventory rows carry a stale `path` since that
+restructure; their ids, byte counts and digests are unchanged, and the export is
+not edited.

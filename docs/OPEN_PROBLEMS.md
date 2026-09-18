@@ -261,3 +261,66 @@ unconditional grade on any claim carrying a retraction
 (`FW-RETRACTED-NOT-UNCONDITIONAL`), and a test binds the node's
 `register_status` to the register row verbatim. No Theorem B computation exists
 here.
+
+## H. Lower-bound campaign (LB-RATE / K3) — OPEN / HOLD
+
+The 2D lower-bound campaign for `1 − q(r, 6/5)` (`docs/RESEARCH_MAP.md` §7). Its
+controlling adjudication `GP-LB-STAT-004` reads "REFUTED AS A THEOREM-GRADE OR
+VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER CAMPAIGN OPEN"; the assembly
+`K3-THM-001` is "REFUTED AS WRITTEN / NONCONTROLLING" and the register says
+"Do not mint a successor". The five P0 rows below are the Open Questions
+register (`registers/json/open_questions.json`), transcribed verbatim; nothing
+here is a new mathematical claim.
+
+### OQ-014 — ANALYTIC / KAC-RICE / UNIFORMITY (P0)
+
+* **Register status:** OPEN — MECHANISM REFUTED / QUANTITATIVE BOUND REPAIR REQUIRED
+* **Current evidence / change:** KIMI-DER-025 confirms the bare value-kill mechanism is false where the conditional mean exceeds b, but its claimed CS upper bound omits sqrt(min(Cantelli,P_window)); 4.7602e-6 is numerical only, not a rigorous enclosure. GP-LB-STAT-003 additionally supersedes the later AO48 session handoff’s stale I_cs, rung-table, and 5.5e-3 r^1.6 upper-bound claims.
+* **Live state:** WP OPEN / KIMI-THM-023 v1.0 AND v1.1 HOLD / NO BOOLEAN CHANGE
+* **Next decisive action:** Re-derive the exact event inclusion and minimal WP rate; then repair the inequality and provide rigorous quadrature/spatial enclosures or a different uniform typed pair-Palm proof; rerun mutations and independent review.
+* **Owner or capacity needed:** Analytic Kac-Rice specialist plus independent certificate reviewer
+* **Source:** https://drive.google.com/file/d/11-H0mx2obq_wN7YYH0tL0BABlS-Nxm6y/view (reviewed 2026-08-05)
+
+### OQ-015 — ANALYTIC / DYNAMICAL / GAUSSIAN TUBE (P0)
+
+* **Register status:** OPEN — P-NMZ-gamma
+* **Current evidence / change:** KIMI-DER-026 isolates gamma-LOC(ii-c) to one named near/moderate-zone C1 tube-clearance premise; the premise itself is not certified by delivered artifacts.
+* **Live state:** gamma-LOC(ii-c) CONDITIONAL / NO GATE EFFECT
+* **Next decisive action:** Certify the nominal third-saddle ascent tube on d≲3 and a sub-Gaussian C1 scale with clearance ratio diverging faster than sqrt(2 log(1/r)).
+* **Owner or capacity needed:** Dynamical-systems and Gaussian-process tube specialist
+* **Source:** https://docs.google.com/document/d/1vtKTJbunykXqJtTYmKsw1HwkTaw3_c-jP5L5jnmp2xs/edit (reviewed 2026-08-05)
+
+### OQ-016 — THEOREM ASSEMBLY / COMPLETION / UNIFORMITY (P0)
+
+* **Register status:** OPEN — DER-027B AND THM-023 V1.1 INCOMPLETE
+* **Current evidence / change:** DER-027b has unfinished verdict/gap sections and no -O transcript. THM-023 v1.1 contains placeholders and PLACEHOLDER-BODY-HASH; its verifier later reads a missing 0.005 rung. Exact K3 Phase-0 raw carriers and W2/W3/W4 freeze receipts are not yet delivered; GP-LB-STAT-003 quarantines the inherited WP upper-bound branch.
+* **Live state:** LOWER-BOUND THEOREM HOLD / DRAFTS NONCONTROLLING
+* **Next decisive action:** Obtain hash-frozen W2/W3/W4 reports, sources, raw transcripts, exit receipts and mutations; then W12 blind adjudication. Separately settle WP’s minimal event-level target, P-NMZ-gamma, DER-027b, eta_r, and theorem verifier defects.
+* **Owner or capacity needed:** Kimi authoring line plus independent theorem/certificate reviewer
+* **Source:** https://drive.google.com/file/d/11-H0mx2obq_wN7YYH0tL0BABlS-Nxm6y/view (reviewed 2026-08-05)
+
+### OQ-016-U1 — THEOREM ASSEMBLY / COMPLETION / UNIFORMITY (P0)
+
+* **Register status:** OPEN — K3-THM-001 REFUTED AS WRITTEN / LOWER HOLD
+* **Current evidence / change:** K3-THM-001 conflates measured 0.9666 with theorem tier 0.089569*P0, prints 0.8705 instead of 0.87003666, omits H-Bonf pair=o(r3), and consumes unproved W6 weighted-Palm and W8 H-B3 premises. W13 is a stale snapshot.
+* **Live state:** LOWER-BOUND THEOREM OPEN / ALL DRAFTS NONCONTROLLING
+* **Next decisive action:** Do not mint a successor. Prove Lambda positive uniform constant, exact weighted-Palm losses, eta_r, exit o(1), H-Bonf, analytic DER-027a/027c uniformity; complete W8 receipts; then new blind review and final-tree clean-room replay.
+* **Owner or capacity needed:** Kimi or independent authoring line plus isolated theorem/certificate reviewer
+* **Source:** https://drive.google.com/file/d/1lfH7g57LcshqpLfNbrx-H7gbJckpzPqr/view (reviewed 2026-08-05)
+
+### OQ-016-U2 — THEOREM ASSEMBLY / W8 RECEIPT RECOVERY (P0)
+
+* **Register status:** OPEN — W8 SOURCE RECOVERED / FINAL RECEIPTS ABSENT
+* **Current evidence / change:** Outer-archive comparison recovered verify_lambda_grid_v2.py and mutate_lambda_grid.py outside K3, correcting one GP-LB-STAT-004 custody sentence. No W8 transcript_O, identity stamp, S6 excerpt, or W8 HASHES exists anywhere in the archive; H-B3 remains unproved.
+* **Live state:** LOWER THEOREM OPEN / W8 NONCLOSED / K3-THM-001 REFUTED AS WRITTEN
+* **Next decisive action:** Prove an analytic H-B3 replacement or a different Lambda-side positive uniform constant; generate complete normal/-O transcripts, exit receipts, identity/hash manifest and mutation evidence from one final immutable delivery; then independent review.
+* **Owner or capacity needed:** Lambda/interval specialist plus independent certificate auditor
+* **Source:** https://drive.google.com/file/d/1cdSyfIoV8WiHug7aJDv4Ng7Vq2GnRP_j/view (reviewed 2026-08-05)
+
+*Repository state (code, not status):* no lower-campaign computation exists here.
+`engine/carriers/MANIFEST.json` binds `jets.py` (`CR-JETS`, from the DER-027b
+INCOMPLETE draft, mpmath, `certifying: false`) to this lane; until 2026-09-18 it was
+bound to §A1 as if its Taylor jets were the upper chart's 24-jet set, which the
+source never says. Nothing here rehabilitates `K3-THM-001`, closes or reopens the
+campaign, or adjudicates between the AO48-layer and GP-layer labels beyond
+recording that the register follows the GP layer.

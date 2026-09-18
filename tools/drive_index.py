@@ -18,6 +18,15 @@ Usage:
 The inventory is a metadata snapshot.  Presence or absence in it never proves a
 mathematical claim, and never overrides a register status
 (see governance/GIT_ADAPTATION.md).
+
+Paths after the snapshot.  The inventory is an export and is never edited. When
+the Drive moves or renames things afterwards, the moves are recorded as a delta
+under ``drive/deltas/<date>/PATH_CHANGES.jsonl`` (one row per affected item:
+id, snapshot path, live path), derived from the Drive session's own rollback
+record and cross-checked against the inventory.  By default this tool overlays
+those deltas, so ``path`` is the live path and ``path_snapshot`` the export's;
+``--snapshot`` shows the export exactly as published.  Identity is by Drive id
+and SHA-256; a path is a navigation label.
 """
 from __future__ import annotations
 
@@ -42,9 +51,73 @@ EXCEPTIONS = os.path.join(ROOT, "drive", "source_map", "Exceptions.csv")
 FOLDER_MIME = "application/vnd.google-apps.folder"
 
 
-def load(path: str = INVENTORY) -> list[dict]:
+DELTAS = os.path.join(ROOT, "drive", "deltas")
+
+
+def path_change_files(deltas_dir: str = DELTAS) -> list[str]:
+    """Every dated PATH_CHANGES.jsonl, oldest date first."""
+    if not os.path.isdir(deltas_dir):
+        return []
+    out = []
+    for date in sorted(os.listdir(deltas_dir)):
+        f = os.path.join(deltas_dir, date, "PATH_CHANGES.jsonl")
+        if os.path.exists(f):
+            out.append(f)
+    return out
+
+
+def load_path_changes(files: list[str], known_ids: set[str] | None = None) -> dict[str, dict]:
+    """id -> {"date", "path_snapshot", "path_live"}. Later dates win.
+
+    Fails closed: a row naming an id the inventory does not have, or missing
+    either path, is an error — a delta that cannot be tied to the export must
+    not silently relabel anything.
+    """
+    changes: dict[str, dict] = {}
+    for f in files:
+        date = os.path.basename(os.path.dirname(f))
+        with open(f, encoding="utf-8") as fh:
+            for n, line in enumerate(fh, 1):
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                fid = row.get("id")
+                # the live path is keyed by the delta's own date; the snapshot
+                # path is the other path_* key (the export's date)
+                live_key = "path_" + date.replace("-", "_")
+                new_p = row.get(live_key) or row.get("path_live")
+                olds = [v for k, v in row.items()
+                        if k.startswith("path_") and k not in (live_key, "path_live")]
+                old_p = olds[0] if olds else None
+                if not fid or not old_p or not new_p or old_p == new_p:
+                    raise ValueError(f"{f}:{n}: a path change needs id, the snapshot path and the live path")
+                if known_ids is not None and fid not in known_ids:
+                    raise ValueError(f"{f}:{n}: id {fid!r} is not in the inventory; refusing to overlay it")
+                changes[fid] = {"date": date, "path_snapshot": old_p, "path_live": new_p}
+    return changes
+
+
+def load(path: str = INVENTORY, overlay: bool = True) -> list[dict]:
     with open(path, encoding="utf-8") as f:
-        return [json.loads(line) for line in f if line.strip()]
+        entries = [json.loads(line) for line in f if line.strip()]
+    if not overlay:
+        return entries
+    changes = load_path_changes(path_change_files(), {e["id"] for e in entries})
+    for e in entries:
+        c = changes.get(e["id"])
+        if c is None:
+            continue
+        if c["path_snapshot"] != e["path"]:
+            raise ValueError(f"path change for {e['id']} records snapshot path {c['path_snapshot']!r} "
+                             f"but the inventory has {e['path']!r}")
+        e["path_snapshot"] = e["path"]
+        e["path"] = c["path_live"]
+        e["moved"] = c["date"]
+    return entries
+
+
+def moved_mark(e: dict) -> str:
+    return f"  [moved {e['moved']}; snapshot: {e['path_snapshot']}]" if e.get("moved") else ""
 
 
 def human(n: int | None) -> str:
@@ -60,8 +133,8 @@ def human(n: int | None) -> str:
 def cmd_find(entries, q):
     q = (q or "").lower()
     for e in entries:
-        if q in e["title"].lower() or q in e["path"].lower():
-            print(f"{e['id']}\t{human(e['bytes']):>8}\t{e['path']}")
+        if q in e["title"].lower() or q in e["path"].lower() or q in e.get("path_snapshot", "").lower():
+            print(f"{e['id']}\t{human(e['bytes']):>8}\t{e['path']}{moved_mark(e)}")
 
 
 def cmd_id(entries, fid):
@@ -111,6 +184,11 @@ def cmd_stats(entries):
     folders = len(entries) - len(files)
     total = sum(e["bytes"] or 0 for e in files)
     print(f"items={len(entries)} files={len(files)} folders={folders} bytes={total:,}")
+    moved = [e for e in entries if e.get("moved")]
+    if moved:
+        dates = sorted({e["moved"] for e in moved})
+        print(f"paths overlaid from drive/deltas: {len(moved)} items moved or renamed after the "
+              f"snapshot ({', '.join(dates)}); ids and digests unchanged; --snapshot shows the export")
     print("\nby lane (top-level path):")
     lanes = collections.Counter(e["path"].split("/")[0] for e in entries)
     for k, v in lanes.most_common():
@@ -152,10 +230,12 @@ def main() -> int:
     ap.add_argument("cmd", choices=["find", "id", "sha", "tree", "stats", "archive", "exceptions"])
     ap.add_argument("arg", nargs="?")
     ap.add_argument("--depth", type=int, default=2)
+    ap.add_argument("--snapshot", action="store_true",
+                    help="show the 2026-09-17 export's paths without the drive/deltas overlay")
     a = ap.parse_args()
     if a.cmd in ("archive", "exceptions"):
         return cmd_archive(a.arg) if a.cmd == "archive" else cmd_exceptions(a.arg)
-    entries = load()
+    entries = load(overlay=not a.snapshot)
     return {
         "find": lambda: cmd_find(entries, a.arg),
         "id": lambda: cmd_id(entries, a.arg),
