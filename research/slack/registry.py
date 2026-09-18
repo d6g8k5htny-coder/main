@@ -49,7 +49,7 @@ The rule is enforced in code, not merely asserted in prose:
    correctness vocabulary from the slack columns.
 
 The converse half of the rule matters just as much and this registry has a
-worked example of it: ``cone_slope_margin`` (record 5) is the **tightest**
+worked example of it: the ``cone_slope_margin`` record is the **tightest**
 entry here — its slack ratio differs from 1 by about ``7e-18`` — and it is one
 of the two entries known to be **unsound**. Tightness is not soundness either.
 
@@ -159,7 +159,7 @@ ARITHMETIC DISCIPLINE
   *what the document reported* and not a certified enclosure of the
   mathematical quantity. ``claimed_provenance`` says which.
 * Exactly one value in this registry is stored as a binary double's exact
-  rational value: record 5's ``claimed``, because the audit that reports it
+  rational value: ``cone_slope_margin``'s ``claimed``, because the audit that reports it
   computed with the double rather than with the decimal digit string it
   prints. That is recorded in the record's ``notes`` with both readings and
   both differences, rather than quietly picking one.
@@ -377,7 +377,8 @@ def _as_interval(x: Value, whose: str) -> Interval:
             f"not the bound the document states. Pass an int, a Fraction, a "
             f"Decimal, a decimal/rational string such as '1.57e14' or "
             f"'63/1000', or an Interval. If a binary double really is the "
-            f"recorded object (see record 5), pass its exact value as a "
+            f"recorded object -- see the cone_slope_margin record), pass its "
+            f"exact value as a "
             f"decimal string and say so in notes."
         )
     if isinstance(x, Interval):
@@ -709,7 +710,8 @@ class SlackRecord:
 
         A ratio within ``1e-3`` of exact tightness is rendered as its deviation
         from 1 (``1-7.03e-18``) rather than as ``1.00e+0``. Three significant
-        figures would otherwise print record 5 — a bound that overshoots the
+        figures would otherwise print ``cone_slope_margin`` -- a bound that
+        overshoots the
         quantity it is supposed to bound below — as a flat ``1.00e+0``, hiding
         the sign of the deviation, which is the one thing about it that
         matters.
@@ -829,8 +831,9 @@ _R_TAU = SlackRecord(
         "The engine states this slack about itself and names the mechanism: "
         "the rigid directions of the pair block lie in the pin-determined "
         "subspace, so an entrywise kernel envelope cannot see the "
-        "cancellation. This is the same mechanism as record 1 at first order "
-        "with one inverse factor; record 1 is it at gradient level with two. "
+        "cancellation. This is the same mechanism as chi2_grad_bound at first "
+        "order with one inverse factor; chi2_grad_bound is it at gradient level "
+        "with two. "
         "d3_amend.py's own disposition text calls the resulting gap the "
         "precise thing missing for far-zone uniformity at r = 0.05. "
         "Certified status: mpmath at mp.dps = 100 throughout -- high precision "
@@ -943,7 +946,7 @@ _R_ENVELOPE = SlackRecord(
         "determinants that replacement can DECREASE the expression -- so it is "
         "not an upper bound at all. Note the slack ratio here is about 0.30, "
         "i.e. BELOW one: that is what a violation looks like, and it is "
-        "categorically different from record 1's 1e19. "
+        "categorically different from chi2_grad_bound's 1e19. "
         "Scope: this does not touch RN3's far-region proof, which uses the "
         "correct second moment, and recovering d3_perc.py does not lift "
         "Q-RN5-MOMENT-001."
@@ -1005,7 +1008,8 @@ _R_CONE = SlackRecord(
         "THE REGISTRY'S OWN COUNTEREXAMPLE TO ANY READING OF ITSELF AS A "
         "CORRECTNESS RANKING. This is the tightest record here -- its slack "
         "ratio differs from 1 by about 7e-18 -- and it is unsound, while "
-        "record 1 is loose by 1e19 and is not known to be unsound. Sort this "
+        "chi2_grad_bound is loose by 1e19 and is not known to be unsound. Sort "
+        "this "
         "registry by slack and the two sit at opposite ends. "
         "WHICH NUMBER IS 'stored': the audit prints the digit string "
         "0.0086443674942901349, but read as an exact decimal that overshoots "
@@ -1120,7 +1124,8 @@ SEARCH_LOG: Tuple[str, ...] = (
     "'overbound', 'not tight', 'too loose' or 'conservative'; 'slack' returned "
     "two P0.2 review artifacts about worst-case slack TABLES (CL-AUD-049, "
     "CL-RSP-050) which state margins but no claimed-bound/true-value pair; "
-    "'overshoot' returned exactly one item, which became record 5.",
+    "'overshoot' returned exactly one item, which became the "
+    "cone_slope_margin record.",
     "SUBSTANTIATED AND REGISTERED: 7 records. Documents that state BOTH a "
     "claimed bound and a measured or true value for the same quantity in the "
     "same breath are rare in this corpus -- these seven are all that were "
@@ -1136,7 +1141,8 @@ SEARCH_LOG: Tuple[str, ...] = (
     "wrong-power' (factor ~7.5, docs/RESEARCH_MAP.md section 3) -- this is a "
     "corrected diagnostic against a defective one, not a bound against a true "
     "value, and the 17.67237 rides the envelope_v defect already registered as "
-    "record 4; registering it would double-count and would imply 2.34195 is a "
+    "the envelope_v record; registering it would double-count and would imply "
+    "2.34195 is a "
     "true value, which no source says. It would have been the registry's only "
     "ROUTINE-band entry, and padding a band is not a reason. "
     "(b) B_remote = 19.55 r^3 against I_ann 17.02 + I_far 2.5283 = 19.5483 -- "
@@ -1155,7 +1161,7 @@ SEARCH_LOG: Tuple[str, ...] = (
     "pairs. "
     "(f) 'box margins have ~1e-2 slack at 0.05' in H3_RUNG_FLOOR.md -- an "
     "absolute slack in an unnamed margin with no stated true value; the same "
-    "document's rung table gave record 7 instead.",
+    "document's rung table gave the c_Z*r^2 record instead.",
     "NOT SEARCHED, on the standing rules: 02_LEGACY_Q0_ARCHIVE (zero "
     "evidentiary authority) and the folder 99_DO_NOT_OPEN, which was neither "
     "opened nor listed.",
@@ -1259,8 +1265,14 @@ def render_report(records: Sequence[SlackRecord] = None, width: int = 100) -> st
     out.append("PER-RECORD DETAIL")
     out.append("-" * len(hdr))
     for i, r in enumerate(recs, 1):
-        lo_e, hi_e = r.order_of_magnitude()
-        oom = f"1e{lo_e}" if lo_e == hi_e else f"1e{lo_e}..1e{hi_e}"
+        rr = r.slack_ratio()
+        if max(abs(rr.lo - 1), abs(rr.hi - 1)) < Fraction(1, 1000):
+            # floor(log10(1 - 7e-18)) is -1, which read as "order 1e-1" would
+            # suggest a ratio near a tenth. Say what is actually true instead.
+            oom = None
+        else:
+            lo_e, hi_e = r.order_of_magnitude()
+            oom = f"1e{lo_e}" if lo_e == hi_e else f"1e{lo_e}..1e{hi_e}"
         out.append(f"[{i}] {r.bound_name}")
         out.append(f"     direction      : {r.direction.value} bound")
         out.append(f"     claimed        : {r.claimed!r}")
@@ -1271,7 +1283,8 @@ def render_report(records: Sequence[SlackRecord] = None, width: int = 100) -> st
                    f"{r.attained_provenance.value}")
         out.append(f"       kind         : {r.attained_kind.value}")
         out.append(f"     slack ratio    : {r.ratio_display()}   "
-                   f"(order of magnitude {oom})")
+                   + (f"(order of magnitude {oom})" if oom
+                      else "(within 1e-3 of exact tightness)"))
         out.append(f"       meaning      : {r.ratio_kind().value}")
         out.append(f"     utility band   : {r.severity().value}"
                    f"{'' if r.severity_is_sharp() else '  (endpoints straddle a band edge)'}")
@@ -1325,7 +1338,7 @@ def forbidden_words_in_report(text: str = None) -> List[str]:
     """Correctness vocabulary appearing in the report's SLACK columns.
 
     A test hook. Prose fields (``source_quote``, ``notes``, ``statement``) may
-    and do contain correctness words -- record 4's source literally says the
+    and do contain correctness words -- envelope_v's source literally says the
     expression "is not an upper bound at all" -- because quoting a source
     accurately is not the same as this module editorialising. What is pinned is
     the generated table: band names, ratio displays and column headers, the

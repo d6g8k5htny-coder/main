@@ -115,8 +115,8 @@ enclosure of the true slack, an upper bound on it, a lower bound on it, or
 `INDICATIVE_ONLY`. That is the whole difference between "the bound is 1.27×
 loose" and "the bound is *at most* 1.27× loose, and may be exactly tight".
 
-Only record 5 has both sides certified *and* a two-sided relation. Records 1, 2
-and 3 are `INDICATIVE_ONLY`: their inputs are quoted digits, mpmath floats, a
+Only the `I_far` record has both sides certified *and* a two-sided relation. The `chi2_grad_bound`, `T4_kap`
+and `tau` records are `INDICATIVE_ONLY`: their inputs are quoted digits, mpmath floats, a
 candidate constant and a finite difference. **An exactly-computed ratio between
 two uncertified inputs is an exact ratio of uncertified inputs.**
 
@@ -136,7 +136,7 @@ two uncertified inputs is an exact ratio of uncertified inputs.**
   document reported*, which is not an enclosure of the mathematical quantity.
   Truncated expansions ending in `...` use `truncated_interval`, which is
   one-sided.
-* Exactly one value is stored as a binary double's exact rational: record 6's
+* Exactly one value is stored as a binary double's exact rational: the `cone_slope_margin` record's
   `claimed`. CL-AUD-202 prints the digit string `0.0086443674942901349`, but
   read as an exact decimal that overshoots by `+7.3506e-20`, not the
   `+6.083e-20` the audit states; read as the IEEE-754 double whose shortest
@@ -172,7 +172,7 @@ Six cases were examined and **deliberately not registered**, each with its
 reason recorded in `SEARCH_LOG` — including RN3 §9's `2.34195 r³` corrected
 versus `17.67237 r³` wrong-power (factor ~7.5), which is a corrected diagnostic
 against a defective one rather than a bound against a true value, rides the
-`envelope_v` defect already registered as record 7, and would have been the
+`envelope_v` defect already registered as the `envelope_v` record, and would have been the
 registry's only `ROUTINE`-band entry. Padding a band is not a reason.
 
 **Coverage gap, stated rather than filled:** no record lands in `ROUTINE`
