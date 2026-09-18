@@ -260,7 +260,9 @@ integrand over a geometry. It is infrastructure, not a result.
 `tests/test_cover.py`. Negative controls are the deliverable:
 
 * partition exactness on a hand-verifiable region;
-* a cover with a **gap** must fail;
+* a cover with a **gap** must fail — in each of the three distinct ways a gap
+  can appear: an empty strip, an interior interruption, and a run that stops
+  short of the top;
 * a cover with an **overlap** must fail **even though its areas sum exactly to
   the domain area** — built deliberately, the sharpest control here;
 * `total()` must **raise** while any cell is PENDING, including on a real
@@ -277,3 +279,11 @@ integrand over a geometry. It is infrastructure, not a result.
 
 Every control in the file was run against a deliberately broken copy of the
 package and confirmed to fail there; each names its mutation in its docstring.
+
+**One mutation survived the first version of that file**, and it is recorded
+there rather than quietly fixed. Disabling the interior-gap branch
+(`lo > cur`) of `check_exact_partition` left the whole suite green, because the
+gap controls written first both had gaps running to the *top* of the domain and
+so were caught by the trailing check instead. Two controls were added for the
+branches nothing reached. A suite that stays green under a mutation is not
+testing that line, which is what negative controls are for.

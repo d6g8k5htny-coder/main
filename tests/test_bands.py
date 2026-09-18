@@ -21,7 +21,7 @@ WHAT IS UNDER TEST, in four groups.
 4. ``falsifier`` TRUTH TABLE, including that equality does not falsify and that
    a band with no data is never a ``PASS``.
 
-5. **NEGATIVE CONTROLS.** Each builds a deliberately weakened variant *locally
+5. **NEGATIVE CONTROLS** (twelve of them, each named ``test_control_*``). Each builds a deliberately weakened variant *locally
    inside this file* -- never by editing the package -- and asserts that the
    weakening is caught. Each names its mutation. The controls were additionally
    run against deliberately broken copies of the package in a scratch
@@ -214,69 +214,6 @@ def test_shell_counts_are_exactly_8m():
     assert sizes == [1, 9, 25, 49, 81]
     for m, (a, b) in enumerate(zip(sizes, sizes[1:]), start=1):
         assert b - a == 8 * m
-
-
-def _power_tail_closed_form(A, p, radius, period, n_trunc, prec,
-                            *, shell_factor=8, radius_sign=-1):
-    """A local reimplementation of the power closed form (P), for mutating.
-
-    Faithful at the default keyword values; the faithfulness is asserted before
-    any mutation uses it.
-    """
-    M = n_trunc + 1
-    L = F(period)
-    c = Interval.exact(F(1)) + radius_sign * Interval.exact(radius) / Interval.exact(L * M)
-    cl_pow = (c * Interval.exact(L)) ** int(-p)
-    m_int = Interval.exact(F(M))
-    term_head = m_int ** int(1 - p)
-    term_int = m_int ** int(2 - p) / Interval.exact(p - 2)
-    return (Interval.exact(shell_factor * A) * cl_pow
-            * (term_head + term_int)).round_out(4 * max(prec, 1) + 64).hi
-
-
-def test_power_tail_bound_matches_an_independent_closed_form():
-    """The POWER branch reproduced term by term, coefficient by coefficient.
-
-    Confirmed against a deliberately broken copy: replacing ``8 * envelope.A``
-    with ``4 * envelope.A`` in a scratch ``lattice.py`` fails this test and the
-    Gaussian faithfulness test, which is how a shell-count mutation is caught
-    even where the domination margin is too small to catch it.
-    """
-    box = Interval(F(2, 100), F(6, 100))
-    dx, dy = LT.axial_displacement(box)
-    radius = LT._box_radius(dx, dy, 30)
-    for m in (2, 3, 4):
-        kern = LT.inverse_power_reference(m)
-        for n_trunc in (1, 2, 3):
-            mine = _power_tail_closed_form(F(1), F(2 * m), radius,
-                                           LT.SIDE24_PERIOD, n_trunc, 30)
-            theirs = LT.tail_bound(kern.envelope, dx, dy, n_trunc=n_trunc,
-                                   period=LT.SIDE24_PERIOD, prec=30)
-            assert mine == theirs, (m, n_trunc)
-
-
-def test_control_flipping_the_sign_in_the_power_branch_loses_domination():
-    """MUTATION: ``c = 1 + R/(L*M)`` instead of ``1 - R/(L*M)``.
-
-    The same geometric sign as the Gaussian control, on the other branch: it
-    assumes every omitted image is farther than it can be shown to be. The
-    power branch is the tight one (bound ~2x the truth), so the margin here is
-    small and the assertion says so by comparing against the actual mass rather
-    than against a round factor.
-    """
-    kern = LT.inverse_power_reference(2)
-    box = Interval(F(30, 100), F(90, 100))       # a wide band: R matters
-    dx, dy = LT.axial_displacement(box)
-    radius = LT._box_radius(dx, dy, 30)
-    honest = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1, 30)
-    flipped = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1, 30,
-                                      radius_sign=+1)
-    assert flipped < honest
-    undercount = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1,
-                                         30, shell_factor=2)
-    actual = _omitted_mass(kern, dx, dy, 1, 9, LT.SIDE24_PERIOD, 30)
-    assert actual.hi <= honest
-    assert undercount < actual.lo
 
 
 def test_power_kernel_band_enclosure_contains_direct_sum():
@@ -698,6 +635,69 @@ def test_control_a_false_decay_envelope_loses_domination():
     actual = _omitted_mass(GAUSS, p, p, 1, 12, F(2), 40)
     assert actual.hi <= true_bound            # the honest envelope dominates
     assert false_bound < actual.lo            # the false one does NOT
+
+
+def _power_tail_closed_form(A, p, radius, period, n_trunc, prec,
+                            *, shell_factor=8, radius_sign=-1):
+    """A local reimplementation of the power closed form (P), for mutating.
+
+    Faithful at the default keyword values; the faithfulness is asserted before
+    any mutation uses it.
+    """
+    M = n_trunc + 1
+    L = F(period)
+    c = Interval.exact(F(1)) + radius_sign * Interval.exact(radius) / Interval.exact(L * M)
+    cl_pow = (c * Interval.exact(L)) ** int(-p)
+    m_int = Interval.exact(F(M))
+    term_head = m_int ** int(1 - p)
+    term_int = m_int ** int(2 - p) / Interval.exact(p - 2)
+    return (Interval.exact(shell_factor * A) * cl_pow
+            * (term_head + term_int)).round_out(4 * max(prec, 1) + 64).hi
+
+
+def test_power_tail_bound_matches_an_independent_closed_form():
+    """The POWER branch reproduced term by term, coefficient by coefficient.
+
+    Confirmed against a deliberately broken copy: replacing ``8 * envelope.A``
+    with ``4 * envelope.A`` in a scratch ``lattice.py`` fails this test and the
+    Gaussian faithfulness test, which is how a shell-count mutation is caught
+    even where the domination margin is too small to catch it.
+    """
+    box = Interval(F(2, 100), F(6, 100))
+    dx, dy = LT.axial_displacement(box)
+    radius = LT._box_radius(dx, dy, 30)
+    for m in (2, 3, 4):
+        kern = LT.inverse_power_reference(m)
+        for n_trunc in (1, 2, 3):
+            mine = _power_tail_closed_form(F(1), F(2 * m), radius,
+                                           LT.SIDE24_PERIOD, n_trunc, 30)
+            theirs = LT.tail_bound(kern.envelope, dx, dy, n_trunc=n_trunc,
+                                   period=LT.SIDE24_PERIOD, prec=30)
+            assert mine == theirs, (m, n_trunc)
+
+
+def test_control_flipping_the_sign_in_the_power_branch_loses_domination():
+    """MUTATION: ``c = 1 + R/(L*M)`` instead of ``1 - R/(L*M)``.
+
+    The same geometric sign as the Gaussian control, on the other branch: it
+    assumes every omitted image is farther than it can be shown to be. The
+    power branch is the tight one (bound ~2x the truth), so the margin here is
+    small and the assertion says so by comparing against the actual mass rather
+    than against a round factor.
+    """
+    kern = LT.inverse_power_reference(2)
+    box = Interval(F(30, 100), F(90, 100))       # a wide band: R matters
+    dx, dy = LT.axial_displacement(box)
+    radius = LT._box_radius(dx, dy, 30)
+    honest = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1, 30)
+    flipped = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1, 30,
+                                      radius_sign=+1)
+    assert flipped < honest
+    undercount = _power_tail_closed_form(F(1), F(4), radius, LT.SIDE24_PERIOD, 1,
+                                         30, shell_factor=2)
+    actual = _omitted_mass(kern, dx, dy, 1, 9, LT.SIDE24_PERIOD, 30)
+    assert actual.hi <= honest
+    assert undercount < actual.lo
 
 
 def _gaussian_tail_closed_form(A, B, radius, period, n_trunc, prec,

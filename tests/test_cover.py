@@ -9,31 +9,40 @@ retaining boundary-area bounds and every rejected cell, summing
 docstrings say, and — more importantly — that the ways it can lie are all
 closed.
 
-THE NEGATIVE CONTROLS ARE THE DELIVERABLE. Each of the controls below was run
-against a deliberately broken copy of the package in the scratchpad (never by
-editing the library) and confirmed to FAIL there; each names its mutation in
-its docstring. The mutations exercised:
+THE NEGATIVE CONTROLS ARE THE DELIVERABLE. Every control below was run against
+a deliberately broken copy of the package in the scratchpad — never by editing
+the library — and confirmed to FAIL there. Mutations and the controls that
+caught them, as actually observed:
 
-  M1  ``check_exact_partition``: accept when the areas sum correctly
+  M1  ``check_exact_partition``: return early when the areas sum correctly
       (``sum(param_area) == domain.param_area()``) instead of checking the
-      structure. Controls 2, 3 and 4 must fail under it; control 3 is the one
-      that *only* this mutation lets through.
-  M2  ``check_exact_partition``: treat ``lo < cur`` (an overlap) as harmless
-      and skip it. Control 4 must fail.
-  M3  ``check_exact_partition``: treat ``lo > cur`` (a gap) as harmless.
-      Controls 2 and 3 must fail.
+      structure.  -> caught by controls **3** and 4. Control 3 is the only one
+      that catches it on the gap/overlap question, which is the whole reason
+      that control exists: an area comparison passes it exactly.
+  M2  ``check_exact_partition``: treat ``lo < cur`` (an overlap) as harmless.
+      -> caught by control **3b**.
+  M3  ``check_exact_partition``: treat ``lo > cur`` (an interior gap) as
+      harmless.  -> **SURVIVED THE FIRST VERSION OF THIS FILE.** Controls 2
+      and 3 both have gaps that run to the top of the domain, so both are
+      caught by the *trailing* check and neither reaches the ``lo > cur``
+      branch at all. Controls **2b** and **2c** were added for the two gap
+      branches the original controls never exercised, and M3 then fails. This
+      is recorded rather than quietly fixed: a suite that is green under a
+      mutation is not testing that line.
   M4  ``Ledger.total``: warn instead of raising when cells are PENDING.
-      Controls 6 and 7 must fail.
-  M5  ``Ledger.reject``: make ``boundary_area_bound`` optional / default 0.
-      Control 9 must fail.
+      -> caught by controls **6, 6b, 7, 7b** and 17.
+  M5  ``Ledger.reject``: silently default ``boundary_area_bound`` to 0 instead
+      of refusing a non-``Fraction``.  -> caught by control **9**.
+  M11 ``Ledger.reject``: make the reason optional.  -> caught by control **9**.
   M6  driver: accept a cell at ``max_depth`` instead of leaving it PENDING.
-      Control 7 must fail.
-  M7  driver: drop the ``UNRESOLVED_BOUNDARY`` residual. Control 10 must fail.
-  M8  driver: ignore ``integrand.certifying``. Control 12 must fail.
-  M9  ``PolarRegion.area``: drop the ``pi`` factor, or use ``(r1 - r0)``
-      instead of ``(r1^2 - r0^2)``. Controls 13 and 14 must fail.
-  M10 ``Ledger.refine``: skip the children-tile-the-parent check. Control 5
-      must fail.
+      -> caught by control **7**.
+  M7  driver: drop the ``UNRESOLVED_BOUNDARY`` residual.  -> caught by control
+      **10**.
+  M8  driver: ignore ``integrand.certifying``.  -> caught by control **12**.
+  M9  ``PolarRegion.area``: drop the ``pi`` factor; M9b: use ``(r1 - r0)``
+      instead of ``(r1^2 - r0^2)``.  -> caught by controls **13/14**.
+  M10 ``Ledger.refine``: skip the children-tile-the-parent check.  -> caught by
+      control **5**.
 
 WHAT THESE TESTS DO NOT ESTABLISH
 ---------------------------------
@@ -121,6 +130,35 @@ def test_2_NEGATIVE_CONTROL_gap_must_fail():
     with pytest.raises(PartitionError) as exc:
         check_exact_partition(UNIT, cover)
     assert "GAP" in str(exc.value)
+
+
+def test_2b_NEGATIVE_CONTROL_interior_gap_must_fail():
+    """CONTROL 2b (interior gap). A strip covered at the bottom and at the top
+    but not in the middle.
+
+    THIS CONTROL EXISTS BECAUSE MUTATION M3 SURVIVED WITHOUT IT. Controls 2 and
+    3 both have gaps that run to the top of the domain, so both are caught by
+    the *trailing* check ``cur != domain.v1`` and neither ever reaches the
+    ``lo > cur`` branch. Disabling that branch left the whole suite green. This
+    is the control that reaches it: the cover below stops at ``v = 1/2`` and
+    resumes at ``v = 3/2``, so the run is interrupted in the middle.
+    """
+    cover = [Box.of(0, 1, 0, 2),
+             Box.of(1, 2, 0, F(1, 2)),
+             Box.of(1, 2, F(3, 2), 2)]
+    with pytest.raises(PartitionError) as exc:
+        check_exact_partition(UNIT, cover)
+    msg = str(exc.value)
+    assert "GAP" in msg and "1/2" in msg and "3/2" in msg
+
+
+def test_2c_NEGATIVE_CONTROL_empty_strip_must_fail():
+    """CONTROL 2c. A whole vertical strip with no cell in it at all: the third
+    of the three distinct gap branches, which controls 2 and 2b do not reach.
+    """
+    with pytest.raises(PartitionError) as exc:
+        check_exact_partition(UNIT, [Box.of(0, 1, 0, 2)])
+    assert "GAP" in str(exc.value) and "no cell covers the strip" in str(exc.value)
 
 
 def test_3_NEGATIVE_CONTROL_equal_area_gap_and_overlap_must_fail():
@@ -319,6 +357,18 @@ def test_9_rejected_cells_survive_into_the_receipt_with_their_bounds():
         assert row["reason"]
         assert F(row["boundary_area_bound"]) > 0
         assert row["box"]
+        # Every rejected cell must carry a residual enclosure of what it could
+        # still contribute; without one the region is not covered. (M7.)
+        assert row["residual_lo"] is not None and row["residual_hi"] is not None
+        if row["kind"] == RejectKind.OUTSIDE:
+            assert F(row["residual_lo"]) == F(row["residual_hi"]) == 0
+        else:
+            assert F(row["residual_hi"]) > 0
+    # With residuals present the run is still a certified enclosure of the
+    # region integral even though cells were rejected. (M7 breaks this.)
+    if not led.pending():
+        t = led.total()
+        assert t.covers_region and t.certified, t.caveats
     # The retained boundary area is positive and is reported separately from
     # the accounted area; it is never quietly folded into the total.
     assert F(rec["area_rejected_bound"]) > 0

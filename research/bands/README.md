@@ -32,7 +32,7 @@ and the proof step it names (`H5_PROMOTE.md` §3(iii)):
 | `ladder.py` | the three published `I_hi/r³` **point** certifications as exact `Fraction` data with their packages and totals digests, plus the display-vs-enclosure gap made numerical |
 | `lattice.py` | a certified periodized lattice-sum evaluator: interval-`r` truncated sum **plus a proved tail bound uniform over the band**, with a pluggable kernel protocol |
 | `falsifier.py` | the obligation's own falsifier as an executable check, with `INSUFFICIENT_DATA` as a first-class outcome |
-| `../../tests/test_bands.py` | 57 tests including nine negative controls and two faithfulness harnesses |
+| `../../tests/test_bands.py` | 57 tests (48 functions, 12 of them negative controls) plus two closed-form faithfulness harnesses |
 
 Standard library only, plus `research/interval/`. Python 3.11. No `mpmath`, no
 `numpy`, no `float` anywhere a bound is claimed.
@@ -114,7 +114,7 @@ Two computed observations, both reproduced here from the `Fraction`
 transcriptions rather than copied from prose:
 
 1. **Same-`r` version spread.** At `r = 0.05` the two engine lines differ by
-   exactly `83.6263`, which is `836263/6478048 = 12.90915…%` of the live value.
+   exactly `83.6263`, which is `836263/6478048 = 12.9091819…%` of the live value.
    A point certification is therefore not by itself stable across engine
    versions at fixed `r`.
 2. **The implied modulus constant is not constant.** Under
@@ -122,10 +122,10 @@ transcriptions rather than copied from prose:
 
    | band | δ | \|Δ\| | forced `C ≥` |
    |---|---|---|---|
-   | [0.035355, 0.050000] | 0.014645 | 13.6664 | **23.17090…** |
-   | [0.025000, 0.035355] | 0.010355 | 2.9267 | **5.18184…** |
+   | [0.035355, 0.050000] | 0.014645 | 13.6664 | **23.1709028…** |
+   | [0.025000, 0.035355] | 0.010355 | 2.9267 | **5.1818453…** |
 
-   a ratio of **4.4715…**. `implied_modulus_constant(kappa)` takes `κ` as an
+   a ratio of **4.4715543…**. `implied_modulus_constant(kappa)` takes `κ` as an
    argument — nothing is hardcoded to `1/8` — and `ratio_table()` reports the
    ratio across a sweep, where it is strictly decreasing in `κ` and crosses 1
    between `κ = 4` and `κ = 5` (both bracketing evaluations certified).
@@ -260,7 +260,8 @@ it.
 python3 -m pytest -q tests/test_bands.py
 ```
 
-57 tests. The negative controls are the point of the file: dropping the tail
+57 tests, 12 of them negative controls, and the controls are the point of the
+file: dropping the tail
 bound breaks containment; a weakened tail breaks containment; a false decay
 envelope (`B = 1` for a kernel that decays at `B = 1/2`) loses domination;
 flipping the reverse triangle inequality loses domination, on both envelope
@@ -278,7 +279,7 @@ caught:
 |---|---|---|
 | 1 | `band_enclosure` returns the truncated sum, tail dropped — the frozen engine's shape | 4 tests |
 | 2 | `a = L*M + R`, the reverse triangle inequality reversed | 8 tests |
-| 3 | `4 * envelope.A` — a 4m shell count instead of 8m | 3 tests |
+| 3 | `4 * envelope.A` — a 4m shell count instead of 8m | 4 tests |
 | 4 | `w >= m` in `falsifies` — equality now falsifies | 4 tests |
 | 5 | `band_verdict` returns `PASS` for a missing input | 3 tests |
 | 6 | `664.3979` → `664.3978`, one published digit | 5 tests |
