@@ -1,4 +1,8 @@
-<!-- Ported verbatim from Google Drive document 1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo
+<!-- Reading copy of Google Drive document 1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo,
+     a native Doc with no payload digest in the source map, so exactness here is
+     UNVERIFIABLE rather than merely absent. That object's own Drive title reads
+     "HISTORICAL OP-PROT-012 - APPROVAL ROUTING SUPERSEDED BY R17".
+     See governance/PROVENANCE.json.
      ("HISTORICAL OP-PROT-012 — APPROVAL ROUTING SUPERSEDED BY R17").
      R17 (OP-PROT-019-v1.1) supersedes its entry/budget/provider rules; its
      autonomy classes, independence predicate and safety boundaries remain the

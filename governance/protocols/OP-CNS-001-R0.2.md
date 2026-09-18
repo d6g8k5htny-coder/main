@@ -1,4 +1,6 @@
-<!-- Ported verbatim from Google Drive document 1FwkOa06pccL_RmK63oI0oXBgGtFFRcN-MY63arzEeAA -->
+<!-- Reading copy of Google Drive document 1FwkOa06pccL_RmK63oI0oXBgGtFFRcN-MY63arzEeAA,
+     a native Doc with no payload digest in the source map; exactness is UNVERIFIABLE.
+     See governance/PROVENANCE.json. -->
 
 OP-CNS-001-R0.2 — INTEGRATED OPERATIONAL ARCHITECTURE RECORD
 Preservation, Artifact IDs, Automation, Closure, and Dynamic Master Manifest

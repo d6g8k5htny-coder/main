@@ -40,5 +40,15 @@ reported numbers, and gets the same values:
 `tests/test_rn_moment_envelope.py` asserts the separation with exact rational
 comparisons of fourth powers, so the wrong-power bound cannot be reintroduced
 without a red build. This verifies the counterexample only. It does not close
-Piece 2 of `D3-LEMMA-RN-UNIF`, and RN3's far-region proof is outside the
-affected scope — it uses the correct second moment.
+Piece 2 of `D3-LEMMA-RN-UNIF`.
+
+**RN3 and the affected scope, precisely.** RN3's *far-region proof* is outside
+the affected scope — it uses the correct second moment. That holds for the
+far-region proof and for nothing else in the object. §9's conditional arithmetic
+imports the near target `17.6804 r³`, which the RN5 repair places inside or
+immediately adjacent to the affected scope (corrected diagnostic ≈ `2.34195 r³`
+against wrong-power ≈ `17.67237 r³`, a factor of about 7.5), so the displayed sum
+`I_near + I_far < 20.51352 r³` rests on a number the erratum touches. Read the
+scope sentence as covering the whole object and you carry `20.51352 r³` out of
+scope by mistake. Recorded in
+[`reviews/records/REV-RN3-FARZONE-20260918.json`](../reviews/records/REV-RN3-FARZONE-20260918.json).

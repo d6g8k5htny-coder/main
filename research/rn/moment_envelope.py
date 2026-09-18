@@ -21,8 +21,24 @@ This module reimplements both expressions and that counterexample over
 ``fractions.Fraction`` so the defect stays permanently falsifiable in CI; see
 ``tests/test_rn_moment_envelope.py``.
 
-Nothing here re-proves RN3 or closes any premise. RN3's far-region proof uses
-the correct second moment and is outside the affected scope.
+Nothing here re-proves RN3 or closes any premise.
+
+On RN3 and the affected scope, stated precisely. RN3's *far-region proof* uses
+the correct second moment and is outside the affected scope. That is true of the
+far-region proof and of nothing else in that object: §9's conditional arithmetic
+imports the near target ``17.6804 r^3``, which the RN5 repair places inside or
+immediately adjacent to the affected scope — the corrected diagnostic is about
+``2.34195 r^3`` against a wrong-power ``17.67237 r^3``, a factor of roughly 7.5.
+So the displayed sum ``I_near + I_far < 20.51352 r^3`` is built on a number the
+erratum touches. The object itself hedges that line as "Conditional arithmetic
+only" and "not presently a full remote certificate". Read the scope sentence as
+covering the whole object and you carry ``20.51352 r^3`` out of scope by mistake.
+
+Recorded by the nonauthor technical review of RV-RN3
+(``reviews/records/REV-RN3-FARZONE-20260918.json``, MAJOR finding on §9), which
+also observed that the object's two named zones do not exhaust the domain: far
+is ``|y| >= 5`` and near is ``0.1 <= |y| <= 5``, leaving the open disc
+``|y| < 0.1`` unaccounted for in the §9 sum.
 """
 from __future__ import annotations
 

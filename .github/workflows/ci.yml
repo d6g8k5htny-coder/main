@@ -18,6 +18,8 @@ jobs:
         run: python tools/registers_import.py --check
       - name: Register structural invariants (modulo documented findings)
         run: python tools/registers_check.py
+      - name: Ported-artifact identity (no reading copy presented as the object)
+        run: python tools/provenance_check.py
       - name: Claim-graph firewalls
         run: python tools/claims_check.py
       - name: Logical quarantine is enforced

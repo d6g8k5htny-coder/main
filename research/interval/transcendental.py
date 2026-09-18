@@ -452,7 +452,7 @@ def _sin_cos_reduced(s: Interval, target: Fraction, sig: int
         k += 1
         powi = (powi * s2).round_out(sig)
         fact = nfact
-    sin_enc = _clamp_unit(total + Interval(-bound, bound))
+    sin_enc = _clamp_unit((total + Interval(-bound, bound)).round_out(sig))
 
     # cos: sum_k (-1)^k s^(2k)/(2k)!
     total = Interval(0)
@@ -469,7 +469,7 @@ def _sin_cos_reduced(s: Interval, target: Fraction, sig: int
         k += 1
         powi = (powi * s2).round_out(sig)
         fact = nfact
-    cos_enc = _clamp_unit(total + Interval(-bound, bound))
+    cos_enc = _clamp_unit((total + Interval(-bound, bound)).round_out(sig))
 
     return sin_enc, cos_enc
 
@@ -556,7 +556,7 @@ def _sin_cos(x: Interval, prec: int, which: str) -> Interval:
             out = out.hull(Interval(1) if j % 4 == 1 else Interval(-1))
         elif which == "cos" and j % 2 == 0:
             out = out.hull(Interval(1) if j % 4 == 0 else Interval(-1))
-    return _clamp_unit(out)
+    return _clamp_unit(out.round_out(sig))
 
 
 def sin(x: Interval, prec: int) -> Interval:

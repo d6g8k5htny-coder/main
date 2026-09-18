@@ -1,4 +1,6 @@
-<!-- Ported verbatim from Google Drive document 1-9ePRpp28DN19YFbdsGqKVXfIAdnScyt8BpV0lEdY8A -->
+<!-- Reading copy of Google Drive document 1-9ePRpp28DN19YFbdsGqKVXfIAdnScyt8BpV0lEdY8A,
+     a native Doc with no payload digest in the source map; exactness is UNVERIFIABLE.
+     See governance/PROVENANCE.json. -->
 
 OP-GDN-002 — COUPLED MATHEMATICAL–ARCHITECTURAL ADVANCEMENT AND REQUIRED SAFEGUARDS
 
