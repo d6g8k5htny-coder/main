@@ -9,6 +9,17 @@ substrate changes the guarantees.
 Nothing here promotes, closes, or reclassifies any mathematical claim. Status
 labels are carried from the source verbatim (see `registers/`).
 
+The one operator sentence in the corpus about a Git repository is the
+FORMALIZATION BOARD's OPERATOR PACKAGE DECISION of 2026-07-24 (Drive
+`10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`): "REPOSITORY ROUTING: private Git
+repository creation and exact-history push are approved when platform access
+becomes available." It approves a *private* repository as the formalization,
+source-control, reproducibility and CI-handoff system of record and, in the
+same decision, "NOT APPROVED: blanket terminalization or mathematical promotion
+of any included claim." This repository is public; whether to keep it so is the
+owner's decision, and the 2026-09-18 execution-contract draft records the owner
+asking to restrict who works in it, not to hide it.
+
 | Drive construct (protocol) | Repository equivalent | Notes on guarantees |
 |---|---|---|
 | Stable Drive file ID as object identity (DEF-001) | Path in this repo **plus** SHA-256 in a manifest; `drive/inventory.jsonl` maps every Drive ID to title/parent/path | Git content addressing is stronger than Drive IDs: a blob hash is the identity, and history is immutable. The Drive ID is retained as provenance metadata. |

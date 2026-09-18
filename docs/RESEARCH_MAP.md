@@ -50,7 +50,23 @@ Within the active lane:
 ## 1. The frozen Q0 core and its successor chain
 
 `Q0_MASTER.md` (1.83 MB, 36,063 lines, Drive `19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz`)
-is the consolidated spine. Its navigation companion divides it into six parts:
+is the consolidated spine — one of the **four-file canonical core** the
+Research Carry-Forward Canon v1.0 (Drive `13ix3HD-AKBpxXKLydC1oMO9ask8SgreOOIOl7OeLMgI`)
+names: `Q0_MASTER.md`, `Q0_LEDGER.md` (Drive `17gpxTn4MPsrWLf4yhDJsuBE4v3UqQXa3`,
+253,067 B, `d1fea170…`), `q0_machine.json`, `q0_verify.py`; "these files
+supersede the 488-file q0 archive for active use, but the historical archive
+must not be deleted." `Q0_LEDGER.md` is the promotion channel: the Canon's
+priority workspace "does not modify theorem status unless a result is approved
+and entered through Q0_LEDGER", and the Formalization Board's canonical
+boundary reads "Canonical mathematical promotion remains Dylan Roy's decision
+through Q0_LEDGER.md or an equivalent exact operator record." The Canon writes
+the live rate with its domain: "0 ≤ 1 − q(r,6/5) ≤ C_Q0 r³ for 0<r≤0.025, for
+some finite C_Q0. Therefore q(r,6/5)→1 as r→0. No numerical value of C_Q0 is
+certified." — model: exact normalized periodized Bargmann–Fock field on T² with
+side L = 24, birth height b = 6/5, fold scaling ℓ = r³/6. Its binding claim
+restrictions: "Do not promote the following as theorem constants: 4.3, 4.35,
+0.8411, 0.84, 0.8501, 0.946, 0.97, 0.99, or 1.01." Its navigation companion
+divides the spine into six parts:
 
 * **Part I — Live theorem state (lines 20–2658).** `Q0_C101_QUALITATIVE_RATE_THEOREM`
   is the canonical theorem: `0 ≤ 1 − q ≤ C_Q0 r³`, `q → 1`, proved through defect
@@ -81,8 +97,13 @@ constant, not a numerical value.
 
 ## 2. UPPER2D — the D1 assembly (main active front)
 
-Controlling body: `D1_ASSEMBLY_v2_2.md`, frozen SHA-256
-`490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6`.
+Controlling body: `D1_ASSEMBLY_v2_2.md` — frozen **body** SHA-256
+`490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6` (the
+marker-delimited `BEGIN_FROZEN_BODY … END_FROZEN_BODY` body, 18,311 bytes, by
+the file's own extraction rule); the whole Drive file
+(`1v4z492iAzk5NcOrR47IJHGkIgfsRACpC`) is 20,078 bytes with SHA-256
+`7ca114f0b38680d8bb987c097de10f3faf884ae3b05c3ca47215af5df081c174`. Hashing
+the file and expecting the body digest is not drift.
 Shipped as PKG-01. Intake authority:
 `09152026OKComputer_Project_Gap_Closure.zip`, SHA-256
 `a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b`
@@ -234,10 +255,18 @@ WITHDRAWN.** The LPW-CONSTANT v4 brick is on HOLD, titled NOT READY.
   **HOLD**. B0's evidence condition is satisfied but its Boolean is unchanged and
   fold-ready; any successor fold must acknowledge the LS-WO-001 / CLWO-P01-001
   binding. Do not repeat obsolete E0/E2 or D0/I0 requests.
-* **P0.2 adjacency-to-one cubic rate** — OPEN. V1 discharged with a lineage
-  caveat; T-B/T-C/T-D/T-E interval and fixed-cone certificates executed 864/864
-  with 6/6 negative controls; effective-domain correction binding; exact-torus
-  residues open.
+* **P0.2 adjacency-to-one cubic rate** — the controlling banner of its
+  READ_FIRST (2026-07-30, Drive `1_hJQkq7Y8BFGZvGmCtvJR1UheV_YHmqXuimtYsYUDeA`)
+  reads: "Counts remain five terminal / eight review-pending interfaces / ten
+  exact objects. P0.2 remains OPEN / NONTERMINAL / NOT PROMOTED." and names
+  `P02-RESOLUTION-REGISTER-v1.0` as the authoritative current-object register
+  ("Use … before every further audit or review dispatch"). The document is
+  append-heavy and says of itself that lower text stating earlier counts "is
+  historical and nonoperative for current routing". The eight review-pending
+  routes and their exact objects are in `docs/OPEN_PROBLEMS.md` §D and
+  `claims/graph.json`. (Until 2026-09-18 this bullet reproduced the July 21–22
+  gate layer — V1 discharge, the 864/864 T-B…T-E certificates, the
+  effective-domain correction — which the banner supersedes.)
 * **P1.1 law-specific q machine** — `q0_machine.json` + `q0_verify.py`;
   NONCANONICAL, fail-closed PASS, 12-of-12 negative tests. The 1.2.2 candidate
   repaired eight malformed-shape crashes (21 original + 13 shape + 2 CLI cases
@@ -304,6 +333,18 @@ as the refuted object and read the assembly's verdict onto the whole lane.
   defect interception (`RM-METRICS-001`), the formal/Lean research system with
   core lemmas `P02-LM-001/002/005/007/008`, `EC-014/015/021`, a replication
   tree, regression corpora and negative controls, and verification prototypes.
+  The formal state, as the FORMALIZATION BOARD (Drive
+  `10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`) records it: the original
+  `GP-FOR-001` bundle is "not present in Drive; its declared hash and commits
+  remain historical provenance"; the additive `GP-FOR-189` source-recovery
+  package is "STATIC-PASS / ROUNDTRIP-PASS / LEAN-CI-NOT-RUN / NONCANONICAL";
+  "Lean build: NOT RUN. Lean/Lake unavailable"; every formal item is
+  SORRY-PARTIAL, CI-PENDING or NOT COMPILED, and "Package approval is not claim
+  promotion." The Board's OPERATOR PACKAGE DECISION of 2026-07-24 is the one
+  operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
+  private Git repository creation and exact-history push are approved when
+  platform access becomes available." (This repository is public; the
+  visibility decision is the owner's — see `governance/GIT_ADAPTATION.md`.)
 * `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers and the
   GP-AUTO-034 automation. Automation state: **R0.4 current development
   candidate, static T1–T35 + 4 fixtures pass, all write targets explicit,

@@ -24,12 +24,16 @@ object is the failure rate `1 − q(r)` and its cubic law.
 
 | Object | Statement | Status as written |
 |---|---|---|
-| Q0-C101 qualitative rate | `0 ≤ 1 − q ≤ C_Q0 · r³`, `q → 1`; no typing division, no decimals | live-root theorem in the frozen Q0 core |
+| Q0-C101 qualitative rate | `0 ≤ 1 − q(r, 6/5) ≤ C_Q0 · r³` for `0 < r ≤ 0.025` (as the Canon writes it), `q → 1`; no typing division, no decimals | live-root theorem in the frozen Q0 core; "No numerical value of C_Q0 is certified" |
 | Theorem B (Q0-C104) | `ν_B(ℓ) = C*·ℓ^(−1/3)(1 + o(1))`, conditional-MS form | **unconditional `PROVEN-HERE` RETRACTED** (GP-AUD-187, 2026-07-24: "THEOREM NOT KILLED / NO PROMOTION"); candidate; exact Jacobian proved; conditional B0 proved under A1–A5; seven repair gates TB-G1…G7 open; no numerical `C*` |
 | Theorem D1 v2.2(1) | certified rung at `r = 0.05` | certified under named hypotheses H5-RIM / H5-AXIS and D3-LEMMA-RN-UNIF at the rung |
 | Theorem D1 v2.2(2) | all-small-r `1 − q(r, 6/5) ≤ C r³` | **CONDITIONAL** on five named validity premises (see below) |
 | SIDE24 3D (AO48-OPR-045) | compact-positive-mark 3D upper / lifetime result | ratified on the 3D track only |
 | LPW qualitative | `∃ c, r₀ > 0 : 1 − q ≥ c r³` (2D six-pin typed pair-Palm) | accepted at review scope; not a two-sided law |
+
+The Canon's four-file core is `Q0_MASTER.md`, `Q0_LEDGER.md`, `q0_machine.json`,
+`q0_verify.py`; canonical promotion enters only through `Q0_LEDGER.md` by the
+owner's decision.
 
 **Standing firewall:** the 2D upper track and the 3D lifetime track must never be
 composed into a two-sided law. `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws

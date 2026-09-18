@@ -40,10 +40,15 @@ after RUNG2. Raw JSONL line counts are not a status promotion.
 
 ### A3. `OBL-H5-ZBAND` hi side
 
-The lo side rides the frozen H3 uniform certificate. The hi side needs the
-**band** version of the LPW bracket. `H5_ZBAND_CONSUMPTION_2026-09-15` proposes
+The lo side rides the frozen H3 uniform certificate. The hi side is the H3
+band **ceiling**: `H5_ZBAND_CONSUMPTION_2026-09-15` (Drive
+`1RQE2B3EY9IP5MGZyeAtXBpX4ahY5AhfC`) names `H3_closure/H3_BAND_CEIL.md`
+(`h3_band_ceil.py`; `ceil_normal.txt ≡ ceil_O.txt`; body `cfe8a3a4…`) as the
+hi-side object it consumes and states "On the band: the two-sided normalizer is
+now bracketed uniformly", `Z_r/r² ∈ [2.3066, 3.7477]` — the band table
+`docs/RESEARCH_MAP.md` §H3 also cites. That consumption proposes
 `OPEN → DISCHARGED (consumption grade)` but is **PROPOSED**, authority none,
-and is not operator-promoted over frozen v2.2.
+and is not operator-promoted over frozen v2.2; the hi side stays OPEN.
 
 ### A4. `OBL-H5-REMOTE-THRESHOLD`
 

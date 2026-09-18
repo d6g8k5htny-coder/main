@@ -60,9 +60,14 @@ Reading order for a new contributor (human or model):
    scope, closure discipline, master manifest.
 5. `GIT_ADAPTATION.md` — how each construct maps onto git.
 
-Historical protocols (OP-PROT-001..011, -013..018) are kept under
+Historical protocols (OP-PROT-001..011, -013..018) belong under
 `protocols/history/` as provenance; they apply only where R17 says they are
-retained (scientific definitions, exact extraction rules, theorem-specific
+retained. **As of 2026-09-18 that directory is empty**: none of them has been
+mirrored yet. Three exist in the Drive canon lane as digest-bearing markdown
+(OP-PROT-001 `1v4Cv5xBvZRl8Ing9y34xN_xgFg-_K2q5`, OP-PROT-003
+`1pEGZoTdCUe9hu5tE_O8nY2N84STQNXhQ`, OP-PROT-005) and are queued for mirroring
+with inventory-digest verification; until then this directory holds nothing and
+this sentence says so. (Until 2026-09-18 it said they were kept here.)
 predicates).
 
 **Scope note on OP-PROT-012.** The Drive object this reading copy comes from
