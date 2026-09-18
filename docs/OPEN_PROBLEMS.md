@@ -23,6 +23,15 @@ never a fitted exponent.
 **Not a substitute.** RUNG2 (`r = 0.025`) and RUNG3 (`r = 0.035355`) certify
 those rungs only.
 
+*Repository state (code, not status):* `research/bands/` holds the machinery
+this proof step needs — interval-`r` lattice sums with a tail bound proved
+uniform over the band, the falsifier, and the ladder analysis — exercised on
+reference kernels only. What it still lacks to bear on the obligation is named
+in `research/bands/README.md`: a certified decay envelope for the program's
+`kplane` at every order the 24-jet set reaches, the 24-jet definitions with
+their powers `p_J`, the actual band endpoints `r_k`, and the six-pin
+`r`-to-displacement geometry. `OBL-H5-JETMOD` is OPEN (display only).
+
 ### A2. Finish the rung ladder (engineering, not premise discharge)
 
 Cells at `r = 0.0177` stand at **42/70** and at `r = 0.0125` at **21/70**, two

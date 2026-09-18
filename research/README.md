@@ -6,6 +6,10 @@ source identity and status; anything added here is clearly marked as new.
 | Path | What it is |
 |---|---|
 | `rn/moment_envelope.py` | exact-rational reimplementation of the correct Hölder(4,4,2) determinant-moment envelope, the defective `envelope_v` expression, and the RN5 typed Gaussian counterexample that separates them |
+| `interval/` | certified interval arithmetic on exact rational endpoints: containment unconditional, tightness best-effort; four-lens adversarial audit and mutation-tested |
+| `lpw/headline.py` | the LPW headline constant as an exact fraction and the admissibility of each rounded decimal by asserted direction |
+| `identities/gaussian_moments.py` | Gaussian absolute-moment identities exact in the basis `{1, 1/π}`; refutes `E(\|ξ\|+\|η\|)⁴ = 12 + 16/π` (true value `12 + 32/π`) |
+| `bands/` | lane A1 machinery for `OBL-H5-JETMOD`: the published rung ladder as exact data with the implied-modulus analysis, a certified periodized lattice-sum evaluator with a proved tail bound uniform over an interval box, and the obligation's own falsifier with `INSUFFICIENT_DATA` as a first-class outcome. Reference kernels only — no band bound for any jet of the program is computed |
 
 See `docs/RESEARCH_MAP.md` for the lane-by-lane map and
 `docs/OPEN_PROBLEMS.md` for the exact next actions.
