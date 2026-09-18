@@ -1,0 +1,279 @@
+# `research/cover/` — the spatial cover ledger and adaptive driver
+
+Lane A5. `docs/OPEN_PROBLEMS.md` records **`D3-LEMMA-RN-UNIF` Piece 1 OPEN and
+Piece 2 OPEN, with the annulus Riemann-sum driver *unwritten*** — "Schedule it
+explicitly; do not hide it under a T4 push" — and quotes RN5's next exact
+action:
+
+> build a complete non-overlapping spatial cover of `0.1 ≤ |y| ≤ 5`, retaining
+> boundary-area bounds and every rejected cell; sum `area × corrected cell
+> supremum`; verify no cell remains pending; then reassemble the remote budget.
+> Treat the near-axis refinement cost explicitly — the present ten boxes are
+> **not** a coverage certificate.
+
+This package is that driver, region-generic, with the accept / refine / reject
+ledger as its **first-class output**.
+
+---
+
+## What this is NOT
+
+Read this section first; it is the load-bearing one.
+
+* **It does not close Piece 2 of `D3-LEMMA-RN-UNIF`.** It does not close
+  Piece 1. Both remain **OPEN** exactly as `docs/OPEN_PROBLEMS.md` records
+  them, and the lane receipts (`RNU_T4_PUSH_RECEIPT.json`,
+  `RNU_EXECUTE_RECEIPT.json`) still carry `status=PROPOSED` and
+  `lemma_closed: false`. Writing the driver the lane records as unwritten
+  removes one named engineering gap. It supplies none of the mathematics.
+* **It does not reassemble the remote budget.** That is the step *after* the
+  sum in RN5's recipe and nothing here performs it.
+* **It certifies no cell of the program's actual cover.** The integrands
+  shipped here are REFERENCE functions, chosen because every step of their
+  enclosure can be certified. None of them is the program's `kappa_far`; none
+  is the corrected RN5 envelope; none appears in any claim in this repository.
+* **It discharges, reduces, promotes and reclassifies nothing.**
+  `OBL-H5-JETMOD`, `OBL-H5-ZBAND` (hi side), `OBL-H5-REMOTE-THRESHOLD` and
+  `OBL-D1-PROMOTE` (chart side) stand exactly as recorded. A cover engine is
+  not a cover certificate.
+* **It composes no tracks.** The 2D upper, 2D lower and 3D lifetime tracks are
+  related here in no way whatsoever.
+* **It solves no prize problem** and bears on none.
+* **A run is a run.** A green receipt is a record of a computation, not
+  evidence. Passing tests say the code does what its docstrings say; they are
+  not a mathematical review of the enclosure arguments, which are written out
+  in the docstrings for a human to check.
+
+The two cover regions instantiated here are **different regions serving
+different purposes and are never merged or summed**: the RN5 annulus
+`0.1 ≤ |y| ≤ 5` from `docs/OPEN_PROBLEMS.md` A5, and the T4 polar cover
+`d ∈ [5, 17]` with theta-halving from `LANE_RN_UNIF.md`.
+
+---
+
+## What it does
+
+| File | What it is |
+|---|---|
+| `ledger.py` | cells, dispositions, the exact partition invariant, `total()`, the receipt |
+| `regions.py` | the region protocol and the two instantiations, plus the Cartesian bracket alternative |
+| `driver.py` | the adaptive accept/refine/reject loop and the REFERENCE integrands |
+
+```python
+from fractions import Fraction
+from research.cover import (DriverConfig, RadialGaussianReference,
+                            radial_gaussian_closed_form, rn5_annulus_polar, run)
+
+region = rn5_annulus_polar(split="radius")
+ledger = run(region, RadialGaussianReference(),
+             DriverConfig(tol=Fraction(1, 10), max_depth=20, prec=40))
+total = ledger.total()          # raises while any cell is PENDING
+print(ledger.receipt_json())
+```
+
+`run` returns the **ledger**, never a number. Getting a number means calling
+`total()`, and `total()` refuses — by raising `PendingCellsError` — while any
+cell is PENDING. There is no flag to bypass it. That ordering is the whole
+point: "the present ten boxes are **not** a coverage certificate" is a
+description of a partial cover reported as a total, and this is the object that
+makes that impossible rather than merely discouraged.
+
+### The exactness invariant is structural, not an area comparison
+
+`sum(area(cell)) == area(domain)` can hold **with a gap and an overlap at the
+same time** — the two errors cancel in the sum. `check_exact_partition`
+therefore decides the question structurally over `Fraction`, by coordinate
+compression: compress the `u` endpoints into strips; inside each strip the
+covering cells' `v` intervals must tile the domain's `v` range with the first
+`lo` at the bottom, each successive `lo` *equal* to the previous `hi`, and the
+last `hi` at the top. A successive `lo` below the previous `hi` is an overlap;
+above it is a gap. Both are reported with coordinates. Every comparison is
+between exact rationals.
+
+`tests/test_cover.py` builds the equal-area gap-and-overlap cover explicitly
+and asserts it fails. That is the sharpest control in this package: it is the
+one a driver that checks areas would pass.
+
+The ledger checks a second, independent reading of the same invariant —
+every `REFINED` cell's children tile it exactly, and the roots tile the domain,
+so cover-wide tiling follows by induction. The two checks corroborate each
+other instead of sharing a single point of failure.
+
+### The sum is an enclosure, not just an upper bound
+
+For a cell `C` of area `|C|`, `∫_C f = |C| · mean_C(f)` and the mean lies
+between `inf_C f` and `sup_C f`. So for any certified enclosure `rng` of the
+**range** of `f` on `C`,
+
+```
+∫_C f  ∈  |C| · rng          (interval product)
+```
+
+Summing over a cover with disjoint interiors gives a certified two-sided
+enclosure of the region integral. RN5's "certified cell supremum" is exactly
+`rng.hi`; keeping the lower endpoint costs nothing and makes the result
+falsifiable from both sides. Areas come from `research/interval` (`π` for polar
+cells, exactly rational for Cartesian ones) and every arithmetic step is
+interval arithmetic over exact rational endpoints.
+
+For a cell that only partly meets the region, `|S| ∈ [0, |C|]` gives
+`∫_{C∩region} f ∈ Interval(0, |C|) · rng`, which is what a rejected boundary
+cell carries as its `residual`. That is how a rejected cell is **bounded**
+rather than ignored.
+
+### Rejected cells are retained, with reasons and boundary-area bounds
+
+`reject()` takes the reason and the boundary-area bound as *required*
+arguments, so neither can be forgotten, and both reach the receipt. Three
+kinds, and the distinction matters:
+
+| kind | meaning | effect on the total |
+|---|---|---|
+| `OUTSIDE` | proved disjoint from the region by an exact rational test | contributes nothing; the total stays an enclosure |
+| `UNRESOLVED_BOUNDARY` | straddles the boundary, unresolved at the depth limit | contributes its `residual`; without one, `covers_region=False` and `certified=False` |
+| `EXCLUDED` | excluded by a stated predicate (unused here) | as above |
+
+### The boundary, handled honestly
+
+The annulus boundary `|y| = 1/10` and `|y| = 5` is not a rational polygon.
+Both honest options in the task are implemented, on the **same** region, and
+their totals are never added together:
+
+* **`rn5_annulus_polar` (primary).** Polar cells with exact rational radii, so
+  the boundary is represented *exactly* and **the rejected boundary area is
+  exactly zero**. The difficulty does not vanish — it moves, and the module
+  says where: the cell area `π·(t₁−t₀)·(r₁²−r₀²)` now carries `π` as a
+  certified enclosure rather than an exact rational, and a cell's Cartesian
+  extent needs certified `sin`/`cos` of `2πt` from `research/interval`, widened
+  by the dependency problem. Parameter coordinates are `(radius, turn)` with
+  `θ = 2π·turn`, so the parameter rectangle stays exactly rational. The map is
+  injective except that `turn = 0` and `turn = 1` name the same ray; cells
+  sharing that seam share a boundary segment of area zero, exactly as any two
+  adjacent cells do. "Non-overlapping" means disjoint interiors throughout,
+  which is what a Riemann sum needs. `r_lo > 0`, so there is no origin
+  degeneracy.
+* **`rn5_annulus_bracket` (alternative).** A rational Cartesian bracket.
+  Classification is exact rational arithmetic on squared radii — no square
+  root, no trigonometry, no float comparison — and straddling cells are refined
+  while the depth budget allows and then REJECTED as `UNRESOLVED_BOUNDARY`
+  with their areas retained as an explicit boundary-area bound and their
+  possible contribution carried as a residual. It exists so the sliver
+  accounting is exercised and tested.
+
+### The near-axis refinement cost, faced
+
+Stated plainly: the sources name this cost without defining "near-axis" in
+terms this repository can resolve, so the reading used here is **stated as a
+reading, not quoted as a source's**: the expensive part of `0.1 ≤ |y| ≤ 5` is
+the inner edge, where the region approaches the excluded disc `|y| < 0.1` that
+`reviews/records/REV-RN3-FARZONE-20260918.json` separately observes is
+unaccounted for in RN3 §9's sum.
+
+What the package does about it, concretely:
+
+1. **`PolarRegion.uniform_cost(h)` is a count, not an estimate** — exact
+   rationals, no fit, no sampling. It reports how many cells a *uniform* cover
+   needs to reach a target Cartesian cell diameter, and the anisotropy factor
+   `r_hi / r_lo`, which for the RN5 annulus is **50**: at a fixed angular step
+   the arc extent of a cell is 50× larger at the outer edge than at the inner
+   edge, so a uniform angular grid fine enough for one is badly wrong for the
+   other.
+2. **The default split policy for the annulus is `"aspect"`** — split whichever
+   direction currently dominates the cell's diameter bound — so refinement is
+   spent where the geometry needs it. `"theta"`, `"radius"` and `"both"` are
+   available and the receipt records which was used.
+3. **The cost of a zeroth-order sup cover is quadratic in the tolerance and is
+   not hidden.** The acceptance test `width(|C|·rng) ≤ tol·|C|/|domain|`
+   reduces to `width(rng) ≤ tol/|domain|`: the cell area cancels, so the
+   requirement is a *uniform* bound on the integrand's oscillation per cell.
+   With a Lipschitz integrand that forces cell diameter `∼ tol/(L·|domain|)`
+   and cell count `∼ |domain|³L²/tol²`. For the RN5 annulus `|domain| ≈ 78.5`,
+   so a total width of 1 costs order 10⁵ cells of a *reference* integrand. Any
+   real integrand will cost more. This is exactly why ten boxes are not a
+   coverage certificate, and it is the argument for a higher-order cell bound
+   (a certified Taylor or DS enclosure per cell) rather than a constant one —
+   which is the same route `LANE_RN_UNIF.md`'s T4 item 1 already names as
+   acceptable: "interval DS on each cell".
+4. **The receipt always carries `max_cell_width` and `refine_depth`** next to
+   any total, so the achieved resolution is visible.
+
+### `T4`: what the factory does and does not do
+
+`t4_polar_cover()` is the cover geometry `LANE_RN_UNIF.md` names (T4 freeze
+item 2, EXECUTE item 4) and nothing else. It does **not** supply T4:
+`T4_form`, `T4_kap` and `C_comp` do not appear in the frozen engine at all
+(`docs/ENGINE_RECOVERY.md`), and `rnu_t4.py` is listed CANNOT_VERIFY in
+`docs/OPEN_PROBLEMS.md` §E. It also does not touch `env_tau`, which the lane
+records as **fail-closing at `d = 5`** (λ₀ floor collapsed); do not evaluate
+anything on that zone boundary through this region and call it certified.
+
+With `split="theta"` — the policy the lane names — radial resolution is fixed
+by the shell list, because theta-halving never shrinks a cell's radial extent.
+A cell that stays over tolerance on radial width alone ends the run PENDING and
+`total()` refuses. That is intended, visible in the receipt, and not papered
+over.
+
+### NON-CERTIFYING paths are labelled
+
+An integrand declares `certifying`. One non-certifying integrand makes the
+whole run non-certifying: the ledger is flagged at construction, the receipt
+says so in `certifying` and `arithmetic`, and `Total.certified` is `False`.
+`FloatProbeReference` exists only so a test proves that label propagates, so
+that an `mpmath` integrand wired in later cannot be mistaken for a certified
+one. It is not a bound.
+
+---
+
+## What must be bound for any of this to bear on Piece 2
+
+Three things, none of which this package supplies:
+
+1. **The corrected envelope, post-RN5-erratum.** `research/rn/moment_envelope.py`
+   records why the pinned `d3_perc.py` helper `envelope_v` is not an upper
+   bound at all — it used `E C⁴` where Hölder(4,4,2) requires `E C²`, and RN5's
+   exact typed Gaussian counterexample separates them. Any cell supremum has to
+   come from the **corrected** envelope. Note also the scope hold
+   `Q-RN5-MOMENT-001` carried in `drive/source_map/Payloads.csv`, and that the
+   recovery of `d3_perc.py` does not lift it.
+2. **A certified cell supremum for `kappa_far`.** Today there is none. The
+   frozen engine is mpmath at `mp.dps = 100` throughout with no exact-rational
+   and no interval arithmetic anywhere (`docs/ENGINE_RECOVERY.md`), its
+   `chi2_grad_bound` is reported ~1.57e14 against a true `|∇χ²|` ~1.563e-5 — a
+   **~1e19 slack** — and its `mean_grad_exact` is missing chain-rule terms, so
+   the "certified bound" downstream of it is not merely loose but void. A
+   certified per-cell enclosure would have to be built, and the image-lattice
+   tail would have to be bounded **uniformly over the cell** rather than at a
+   point separation — which is verbatim the complaint `OBL-H5-JETMOD` makes
+   about LAT's current tail bound.
+3. **The remote-budget reassembly rule.** RN5's recipe ends "then reassemble
+   the remote budget"; the rule for doing so, and for composing it with
+   `B_remote = 19.55` carried symbolically at D3's grade, is not implemented
+   here and is not stated here.
+
+Until all three are bound, a run of this driver is a run of a REFERENCE
+integrand over a geometry. It is infrastructure, not a result.
+
+---
+
+## Tests
+
+`tests/test_cover.py`. Negative controls are the deliverable:
+
+* partition exactness on a hand-verifiable region;
+* a cover with a **gap** must fail;
+* a cover with an **overlap** must fail **even though its areas sum exactly to
+  the domain area** — built deliberately, the sharpest control here;
+* `total()` must **raise** while any cell is PENDING, including on a real
+  driver run that exhausts its depth budget;
+* a rejected cell must survive into the receipt with its reason and its
+  boundary-area bound;
+* refinement must reduce total width monotonically, and the refined enclosure
+  must be **contained in** the coarse one (the subdivision theorem, asserted
+  directly);
+* the reference integrand's certified total must **contain** the value from a
+  dense direct float evaluation (labelled NON-CERTIFYING), and must intersect
+  the independently derived closed form;
+* a non-certifying integrand must reach `certified=False` in the receipt.
+
+Every control in the file was run against a deliberately broken copy of the
+package and confirmed to fail there; each names its mutation in its docstring.
