@@ -268,6 +268,16 @@ induces, and that geometry is not in this repository.
   lifetime track. `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws exactly that
   composition and this directory respects it.
 * Nothing here bears on any prize problem.
+* **A `DecayEnvelope` is a premise this package cannot check, and its
+  `certified` flag is an assertion the caller makes.** Nothing here inspects
+  the kernel's global behaviour, so nothing here can verify that `|kplane(z)|`
+  really obeys the `A`, `B` (or `A`, `p`) handed to `tail_bound`. Feed it a
+  false envelope and it returns, in exact certified arithmetic, a bound on a
+  kernel that is not yours — the package's own control exhibits one **2.45e24×
+  too small**. Every arithmetic step downstream of a false premise is still
+  exact and still wrong. `envelope_certified` is where a human records that the
+  written justification has been read; the constructor's refusal of an empty
+  justification is a discipline, not a proof.
 * A green `tests/test_bands.py` is not a mathematical review. The tail-bound
   argument is ordinary mathematics written out in `tail_bound`'s docstring for a
   human to check; the tests check that the code behaves as that argument says on
