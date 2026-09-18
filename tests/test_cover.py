@@ -36,12 +36,12 @@ caught them, as actually observed:
   M11 ``Ledger.reject``: make the reason optional.  -> caught by control **9**.
   M6  driver: accept a cell at ``max_depth`` instead of leaving it PENDING.
       -> caught by control **7**.
-  M7  driver: drop the ``UNRESOLVED_BOUNDARY`` residual.  -> caught by control
-      **10**.
-  M7  was ALSO a survivor at first: the original control 9 read the rejected
-      rows but never looked for a ``residual``, and the run it used had pending
-      cells so it never reached ``total()``. Control 9 now asserts a residual
-      on every rejected row and completes its run, and M7 then fails.
+  M7  driver: drop the ``UNRESOLVED_BOUNDARY`` residual.  -> **also survived
+      the first version of this file.** Control 10 exercises the ledger
+      directly, not the driver, and the original control 9 read the rejected
+      rows without ever looking for a ``residual`` (and its run had pending
+      cells, so it never reached ``total()``). Control 9 now asserts a residual
+      on every rejected row and runs to completion, and M7 then fails.
   M8  driver: pass ``certifying=True`` to the ``Ledger`` regardless of the
       integrand. M8b: delete the ``mark_non_certifying`` call instead. M8c:
       both.  -> **M8c is caught by control 12; M8 and M8b are each survivable

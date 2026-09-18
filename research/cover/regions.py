@@ -142,13 +142,18 @@ def pi(prec: int) -> Interval:
 
 
 def pi_upper() -> Fraction:
-    """A certified rational **upper** bound on ``pi``."""
-    return pi(_PI_BOUND_PREC).hi
+    """A certified rational **upper** bound on ``pi``.
+
+    Rounded outward to about 32 significant bits. Rounding an upper bound
+    *upward* keeps it an upper bound; the only thing spent is tightness, and
+    what is bought is receipts whose exact rationals a human can read.
+    """
+    return pi(_PI_BOUND_PREC).round_out(32).hi
 
 
 def two_pi_upper() -> Fraction:
     """A certified rational **upper** bound on ``2*pi``."""
-    return 2 * pi(_PI_BOUND_PREC).hi
+    return 2 * pi_upper()
 
 
 # ------------------------------------------------------------------ polar
@@ -248,8 +253,15 @@ class PolarRegion:
 
         using chord <= arc for the unit-circle difference. ``dtheta`` is bounded
         above by ``2*pi_upper * dv``.
+
+        Capped at ``2 * r_max``, which bounds the distance between any two
+        points of the disc of radius ``r_max`` and so bounds it here too. The
+        cap matters for a full-turn ring, where the arc-length term alone
+        overstates the diameter by a factor of about ``pi``.
         """
-        return box.du() + box.u1 * two_pi_upper() * box.dv()
+        arc = box.du() + box.u1 * two_pi_upper() * box.dv()
+        chord = 2 * box.u1
+        return arc if arc < chord else chord
 
     def radius2_enclosure(self, box: Box) -> Interval:
         """Exact range of ``|y|^2`` over the cell: ``[r0^2, r1^2]``, rational."""

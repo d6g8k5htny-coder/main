@@ -71,6 +71,22 @@ total = ledger.total()          # raises while any cell is PENDING
 print(ledger.receipt_json())
 ```
 
+What that run actually produces, as the receipt records it:
+
+| field | value |
+|---|---|
+| region | `RN5-annulus 0.1<=|y|<=5 (polar)`, `coords = polar(radius, turn)` |
+| cells | 2,036 total — 1,020 ACCEPTED, 1,016 REFINED, 0 REJECTED, **0 PENDING** |
+| refine depth | 10 |
+| max cell width | 10 (a full-turn ring; the cap `2·r_max`) |
+| area rejected | **0** — the polar boundary is exact |
+| area accounted | `π·(5² − (1/10)²)`, enclosed to ~1e-11 |
+| total | `[6.2286534, 6.2784424]`, width `0.0498`, `certified: true` |
+| closed form | `2π(e^{−1/200} − e^{−25/2}) = 6.251824374471…`, inside the total |
+
+Both numbers enclose the same integral of a REFERENCE function. Neither bears
+on any claim.
+
 `run` returns the **ledger**, never a number. Getting a number means calling
 `total()`, and `total()` refuses — by raising `PendingCellsError` — while any
 cell is PENDING. There is no flag to bypass it. That ordering is the whole
@@ -177,7 +193,9 @@ What the package does about it, concretely:
    `r_hi / r_lo`, which for the RN5 annulus is **50**: at a fixed angular step
    the arc extent of a cell is 50× larger at the outer edge than at the inner
    edge, so a uniform angular grid fine enough for one is badly wrong for the
-   other.
+   other. At a target diameter of `1/10` it returns 98 radial × 629 angular =
+   **61,642 cells**, with an inner arc extent of about `9.99e-4` against an
+   outer one of about `4.99e-2` — the 50× waste, as a number.
 2. **The default split policy for the annulus is `"aspect"`** — split whichever
    direction currently dominates the cell's diameter bound — so refinement is
    spent where the geometry needs it. `"theta"`, `"radius"` and `"both"` are
@@ -194,6 +212,19 @@ What the package does about it, concretely:
    (a certified Taylor or DS enclosure per cell) rather than a constant one —
    which is the same route `LANE_RN_UNIF.md`'s T4 item 1 already names as
    acceptable: "interval DS on each cell".
+
+**How this relates to RN5's own ten cells.** `docs/RESEARCH_MAP.md` §3 records
+that the RN5 repair's ten spatial certificates are **boxes**, certified by
+centered Taylor jets of order `N+2` with `N = 6`, separate marginal whitening,
+an L² remainder bound and interval Cholesky pivots — and that "ten boxes **do
+not** cover the annulus". Two consequences worth stating plainly. First, their
+geometry is Cartesian, so `rn5_annulus_bracket` is the closer analogue of it
+and `rn5_annulus_polar` is the boundary-exact alternative; **neither is their
+cover**, and no cell certified here is one of theirs. Second, their per-cell
+bound is already a *jet* bound, not a constant one — which is the higher-order
+route point 3 above argues for, and the reason the constant-per-cell cost model
+above is an upper bound on what a real cover would have to pay per unit of
+tolerance, not a prediction of it.
 4. **The receipt always carries `max_cell_width` and `refine_depth`** next to
    any total, so the achieved resolution is visible.
 
