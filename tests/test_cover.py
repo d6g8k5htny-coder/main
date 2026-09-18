@@ -38,7 +38,18 @@ caught them, as actually observed:
       -> caught by control **7**.
   M7  driver: drop the ``UNRESOLVED_BOUNDARY`` residual.  -> caught by control
       **10**.
-  M8  driver: ignore ``integrand.certifying``.  -> caught by control **12**.
+  M7  was ALSO a survivor at first: the original control 9 read the rejected
+      rows but never looked for a ``residual``, and the run it used had pending
+      cells so it never reached ``total()``. Control 9 now asserts a residual
+      on every rejected row and completes its run, and M7 then fails.
+  M8  driver: pass ``certifying=True`` to the ``Ledger`` regardless of the
+      integrand. M8b: delete the ``mark_non_certifying`` call instead. M8c:
+      both.  -> **M8c is caught by control 12; M8 and M8b are each survivable
+      alone, and that is reported rather than hidden**: the two guards are
+      deliberately redundant, so disabling either one leaves the other doing
+      the job. Control 12 pins the ``mark_non_certifying`` marker string, which
+      catches M8b. M8 alone has no observable effect while the second guard
+      stands, so no test can catch it; the redundancy is the point.
   M9  ``PolarRegion.area``: drop the ``pi`` factor; M9b: use ``(r1 - r0)``
       instead of ``(r1^2 - r0^2)``.  -> caught by controls **13/14**.
   M10 ``Ledger.refine``: skip the children-tile-the-parent check.  -> caught by
@@ -344,8 +355,12 @@ def test_9_rejected_cells_survive_into_the_receipt_with_their_bounds():
     This is RN5's "retaining boundary-area bounds and every rejected cell".
     """
     reg = rn5_annulus_bracket()
+    # A deliberately loose tolerance: this test is about the bookkeeping, not
+    # about tightness. At depth 5 a Cartesian cell is 10/32 wide, so the
+    # enclosure it produces is far too wide to be useful as a bound — and the
+    # ledger reports it as such rather than pretending otherwise.
     led = run(reg, RadialGaussianReference(),
-              DriverConfig(tol=F(2), max_depth=5, prec=32))
+              DriverConfig(tol=F(30), max_depth=5, prec=32))
     rejected = led.rejected()
     assert rejected, "a Cartesian bracket of a disc must reject cells"
     rec = receipt = led.receipt()
@@ -472,7 +487,12 @@ def test_12_NEGATIVE_CONTROL_non_certifying_integrand_is_labelled():
     rec = led.receipt()
     assert rec["certifying"] is False
     assert "NON-CERTIFYING" in rec["arithmetic"]
-    assert "NON-CERTIFYING" in rec["note"]
+    # The marker text below is produced ONLY by ``mark_non_certifying``, so it
+    # pins the second of the two guards. Without it, mutation M8b (deleting the
+    # ``mark_non_certifying`` call) survives silently on the back of the
+    # constructor flag. See the module docstring on M8 / M8b / M8c.
+    assert "NON-CERTIFYING: integrand" in rec["note"], rec["note"]
+    assert "certifying=False" in rec["note"]
     if not led.pending():
         total = led.total()
         assert total.certified is False
