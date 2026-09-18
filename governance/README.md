@@ -4,21 +4,36 @@ This directory holds the operator-issued protocols that govern the research
 program, mirrored from the Drive's `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES`,
 `10_AXIOMATIC_CORE_SPINE/00.1_GOVERNANCE_CANON` and the R17 release bundle.
 
-> **These files are reading copies. None of them is the object.**
+> **These files are reading copies unless [`PROVENANCE.json`](PROVENANCE.json)
+> says otherwise. None of them is the object.**
 >
-> Not one artifact in this repository that mirrors a Drive object is
-> byte-identical to it. `OP-PROT-019-v1.1_R17.md` is the sharp case: it has the
-> *same byte count* as the object the register names — 14,073 — and a different
-> SHA-256 (`efcfdd5c…` here against the declared `04987ba4…`), so a byte-count
-> check on this file confirms the wrong bytes. Reviewing "the protocol" from this
-> directory is not reviewing the object `registers/json/review_queue.json` names.
+> As of 2026-09-18, three of the seven mirrored artifacts in this repository are
+> byte-identical to the Drive objects the registers name, each verified by a full
+> SHA-256 match: `protocols/OP-PROT-019-v1.1_R17.md` (14,073 bytes, `04987ba4…`,
+> the digest `registers/json/review_queue.json` row `RV-OPS-R17` declares),
+> `docs/FULL_DOCS_MATH_READ.md` and `docs/R17_IMPLEMENTATION_REPORT.md`. The
+> other four — the three native Google Docs protocols in this directory and the
+> register export — have no payload digest anywhere in the corpus, so their
+> exactness is unverifiable and they remain reading copies.
 >
-> Every digest, byte count, extraction rule and transformation is recorded in
-> [`PROVENANCE.json`](PROVENANCE.json) and enforced by
+> `OP-PROT-019-v1.1_R17.md` was the sharp case. Until 2026-09-18 the copy here
+> had the *same byte count* as the object — 14,073 — and a different SHA-256
+> (`efcfdd5c…` against the declared `04987ba4…`), so a byte-count check on it
+> confirmed the wrong bytes. The whole difference was one blank line inserted
+> after the title and one trailing newline dropped. The raw object was
+> downloaded, hashed to the declared digest, and written back; the repair and
+> every byte-level difference it found are in
+> [`../docs/PORT_FIDELITY_REPAIR.md`](../docs/PORT_FIDELITY_REPAIR.md). A digest
+> match is identity, not review: the object enters at the status its register
+> row carries.
+>
+> Every digest, byte count, extraction rule, transformation and outcome is
+> recorded in [`PROVENANCE.json`](PROVENANCE.json) and enforced by
 > `python3 tools/provenance_check.py`, which also refuses to let any file in the
-> repository describe one of these copies as verbatim or byte-exact.
+> repository describe a non-exact copy as verbatim or byte-exact.
 >
-> This was found on 2026-09-18 by the nonauthor technical review of `RV-OPS-R17`
+> The defect was found on 2026-09-18 by the nonauthor technical review of
+> `RV-OPS-R17`
 > ([`reviews/records/REV-OPS-R17-001.json`](../reviews/records/REV-OPS-R17-001.json),
 > finding 1) — a review of this repository's own migration, which found a real
 > defect in it. `OP-PROT-019` §2 is the clause it violated: *"The digest

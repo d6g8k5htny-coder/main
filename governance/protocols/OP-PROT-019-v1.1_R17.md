@@ -1,5 +1,4 @@
 # OP-PROT-019-v1.1 — Drive navigation, quarantine and review throughput
-
 AI-DRIVE-AUTONOMY-R17 · effective 2026-09-17 · operational policy, not a mathematical verdict.
 
 Dylan Roy directly authorized this overhaul and replacement of conflicting operational rules. R17 supersedes R16 discovery budgets, compulsory full-Drive preflight, blanket same-provider technical-review exclusions, recursive registration of drafts, and mandatory whole-package re-download for every task. Earlier protocols remain historical evidence and apply to scientific object definitions, exact extraction, and unchanged theorem-specific predicates where consistent. This authorization is not a proof, an independence credit, or approval of an unresolved theorem.
@@ -89,3 +88,4 @@ Use DRAFT -> CANDIDATE_VERIFIED -> READY_FOR_REVIEW -> REVIEWED/AMEND. COMPLETE 
 Technical sources: [Google Sheets batchUpdate](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/batchUpdate), [AppendCells request](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/request#AppendCellsRequest), [Drive change tracking](https://developers.google.com/workspace/drive/api/guides/manage-changes). R17's policy choices are our design, not Google guarantees.
 
 The accompanying local reference validator and adversarial tests demonstrate protocol predicates on specified inputs. They are not a deployed enforcement service and do not prove race freedom for Google Drive.
+

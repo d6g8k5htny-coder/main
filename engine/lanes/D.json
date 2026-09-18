@@ -1,9 +1,9 @@
 {
   "key": "D",
-  "title": "Review queue — 24 routes, all unassigned",
+  "title": "Review queue — 24 routes, 23 unassigned",
   "source_section": {
     "document": "docs/OPEN_PROBLEMS.md",
-    "heading": "## D. Review queue — 24 routes, all unassigned",
+    "heading": "## D. Review queue — 24 routes, 23 unassigned",
     "level": 2,
     "parent_heading": null
   },
@@ -47,7 +47,7 @@
     "tests/test_reviews.py"
   ],
   "does_not_establish": "This lane performs no review, assigns no reviewer, grants no independence credit and changes no technical status. Age and ESCALATE are scheduling facts; they approve nothing. A review record written in this repository is not a register verdict.",
-  "source_note": "Section D of docs/OPEN_PROBLEMS.md tabulates the routes and says 'all unassigned'; the register row RV-LM009-MAIN carries a 'Reviewer / claim' value of 'OPS4 nonauthor / exposed / OpenAI' rather than UNASSIGNED. Both readings are recorded — the register value verbatim in sub_items, the document's wording in the title — and the discrepancy is reported, not resolved here.",
+  "source_note": "Corrected 2026-09-18. An earlier heading of docs/OPEN_PROBLEMS.md section D said 'all unassigned'; registers/json/review_queue.json shows 23 rows with Reviewer / claim = UNASSIGNED and RV-LM009-MAIN carrying 'OPS4 nonauthor / exposed / OpenAI'. The register is the source and the document heading was the transcription error; the register value is kept verbatim in sub_items. This note records a corrected transcription, not a status change: the route's technical status and independence status stand as the register carries them.",
   "sub_items_source": "registers/json/review_queue.json",
   "sub_items": [
     {

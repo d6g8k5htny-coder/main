@@ -60,18 +60,50 @@ def test_the_committed_record_passes():
     assert run(RECORD) == 0
 
 
-def test_nothing_currently_claims_byte_exactness():
-    # If a future port really is byte-exact this test should be updated with the
-    # matching digest — not deleted.
-    assert all(not a["byte_exact"] for a in record()["artifacts"])
+def test_every_byte_exact_claim_rests_on_a_full_matching_digest():
+    """The property, not the state.
+
+    An earlier version asserted that NOTHING was byte-exact. That recorded the
+    repository's condition on the morning of 2026-09-18, not a property, and it
+    failed the moment the port-fidelity repair restored three objects from their
+    declared digests. What must hold: a record may say byte_exact only when a
+    full 64-hex declared digest exists and equals the on-disk digest exactly.
+    """
+    for a in record()["artifacts"]:
+        if a["byte_exact"]:
+            declared = a["source_declared_sha256"]
+            assert declared and len(declared) == 64, a["path"]
+            assert declared == a["repo_sha256"], a["path"]
+            assert a["source_declared_bytes"] == a["repo_bytes"], a["path"]
 
 
-def test_the_byte_count_trap_is_recorded_not_hidden():
+def test_the_sharp_case_is_now_the_object():
+    """OP-PROT-019 was the file with the object's byte count and the wrong
+    digest. After the repair it must hash to the digest the register declares."""
     arts = {a["path"]: a for a in record()["artifacts"]}
     prot = arts["governance/protocols/OP-PROT-019-v1.1_R17.md"]
-    assert prot["byte_count_matches"] is True
-    assert prot["byte_exact"] is False
-    assert prot["source_declared_sha256"] != prot["repo_sha256"]
+    assert prot["byte_exact"] is True
+    assert prot["repo_sha256"] == prot["source_declared_sha256"]
+    assert prot["repo_sha256"].startswith("04987ba47b58be62")
+
+
+def test_the_byte_count_trap_is_still_named_when_it_occurs(tmp_path):
+    """The checker must still call out a count-match-digest-mismatch record by
+    name. The real data no longer contains one, so construct it."""
+    d = record()
+    for a in d["artifacts"]:
+        if a["path"].endswith("OP-PROT-019-v1.1_R17.md"):
+            a["byte_exact"] = False
+            a["source_declared_sha256"] = "0" * 64      # wrong, full-length
+            a["byte_count_matches"] = True
+            break
+    proc = subprocess.run(
+        [sys.executable, CHECKER, "--record", write_tmp(d, str(tmp_path)), "--root", ROOT],
+        capture_output=True, text=True,
+    )
+    assert proc.returncode == 0                          # a trap is named, not failed
+    assert "BYTE COUNT MATCHES, DIGEST DOES NOT" in proc.stdout
+    assert "count_only_traps=1" in proc.stdout
 
 
 # ------------------------------------------------------------ negative controls
@@ -89,19 +121,22 @@ def test_rejects_a_record_with_a_wrong_byte_count(tmp_path):
 
 
 def test_rejects_byte_exact_claimed_without_a_full_digest(tmp_path):
+    """Set both fields explicitly: the docs records now carry full digests, so a
+    bare byte_exact=True on one of them would be legitimate, not a violation."""
     d = record()
-    for a in d["artifacts"]:
-        if a["path"].startswith("docs/"):
-            a["byte_exact"] = True          # declared digest is truncated
-            break
+    a = d["artifacts"][0]
+    a["byte_exact"] = True
+    a["source_declared_sha256"] = a["repo_sha256"][:16]     # truncated on purpose
     assert run(write_tmp(d, str(tmp_path))) == 1
 
 
 def test_rejects_byte_exact_claimed_against_a_mismatching_digest(tmp_path):
+    """OP-PROT-019 now genuinely matches, so force a full-length wrong digest."""
     d = record()
     for a in d["artifacts"]:
         if a["path"].endswith("OP-PROT-019-v1.1_R17.md"):
-            a["byte_exact"] = True          # full digest present, and it does not match
+            a["byte_exact"] = True
+            a["source_declared_sha256"] = "f" * 64            # full, and wrong
             break
     assert run(write_tmp(d, str(tmp_path))) == 1
 
@@ -130,7 +165,11 @@ def test_rejects_a_reintroduced_verbatim_claim(tmp_path):
     target = os.path.join(fake_root, "docs", "README.md")
     with open(target, encoding="utf-8") as f:
         text = f.read()
-    text += "\n| `FULL_DOCS_MATH_READ.md` | ported verbatim from Drive |\n"
+    # OP-PROT-012 is a native-Doc export with no declared digest anywhere in the
+    # corpus, so it can never legitimately be called verbatim. (FULL_DOCS_MATH_READ
+    # was the earlier target; it is byte-exact since the repair, so a verbatim
+    # claim about it would now be TRUE and correctly allowed.)
+    text += "\n| `OP-PROT-012.md` | ported verbatim from Drive |\n"
     with open(target, "w", encoding="utf-8") as f:
         f.write(text)
 
@@ -139,6 +178,7 @@ def test_rejects_a_reintroduced_verbatim_claim(tmp_path):
     d["artifacts"] = [
         a for a in d["artifacts"] if os.path.isfile(os.path.join(fake_root, a["path"]))
     ]
+    assert any(a["path"].endswith("OP-PROT-012.md") and not a["byte_exact"] for a in d["artifacts"])
     assert run(write_tmp(d, str(tmp_path)), root=fake_root) == 1
 
 

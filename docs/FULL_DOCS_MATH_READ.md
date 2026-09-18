@@ -1,9 +1,3 @@
-<!-- Reading copy of Google Drive file 12nId_WFjz10b_S0WlTSzQv2S0G8TjmSK
-     (16,108 bytes, SHA-256 448adee5…). NOT byte-exact: this header is
-     prepended, which is the whole difference. See governance/PROVENANCE.json.
-     ("FULL_DOCS_MATH_READ.md", 2026-09-16). Author-side deep read of the math
-     carriers; status labels are as written by their sources. No promotions. -->
-
 # Full docs — math deep-read
 
 **Written:** 2026-09-16 ~22:22 CDT (America/Chicago).  

@@ -93,7 +93,13 @@ admitted unqualified. Qualitative LPW is unchanged by this.
 
 ---
 
-## D. Review queue — 24 routes, all unassigned
+## D. Review queue — 24 routes, 23 unassigned
+
+(Corrected 2026-09-18. An earlier version of this heading said "all
+unassigned"; `registers/json/review_queue.json` shows 23 rows with
+`Reviewer / claim = UNASSIGNED` and one, `RV-LM009-MAIN`, carrying
+"OPS4 nonauthor / exposed / OpenAI". The register is the source; the heading
+was the transcription error.)
 
 From `registers/json/review_queue.json`. Nineteen originated in July routing
 records and are 51–54 days old; the R17 ladder therefore puts them at

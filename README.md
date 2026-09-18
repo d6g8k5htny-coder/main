@@ -110,6 +110,7 @@ python3 tools/verify_manifests.py           # every SHA-256 / byte count in ever
 python3 tools/reviews_check.py              # zero independence credit, no gate moved
 python3 tools/recovery_check.py             # candidates never stored as recoveries
 python3 tools/collision_proposal_check.py   # additive only, exported registers untouched
+python3 tools/lanes_check.py                # no lane's status is stronger than the claim graph's
 python3 -m pytest -q                        # negative controls throughout
 ```
 
