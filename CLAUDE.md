@@ -98,8 +98,8 @@ python3 -m pytest -q                        # unit tests and negative controls
 ```
 
 `tools/` also holds `carriers_verify.py`, `lanes_check.py`, `receipts_check.py`,
-`reviews_check.py`, `recovery_check.py` and `collision_proposal_check.py` as the active layer
-lands them; CI runs whichever exist.
+`reviews_check.py`, `recovery_check.py`, `collision_proposal_check.py`, `slack_check.py` and
+`frozen_check.py` as the active layer lands them; CI runs whichever exist.
 
 ## A note on what "active" means here
 

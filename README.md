@@ -119,6 +119,7 @@ python3 tools/lanes_check.py                # no lane's status is stronger than 
 python3 tools/carriers_verify.py            # every bound carrier blob matches its manifest digest
 python3 tools/receipts_check.py             # receipts: schema, append-only, none claims a status change
 python3 tools/slack_check.py                # bound-slack registry bookkeeping; utility never correctness
+python3 tools/frozen_check.py               # frozen-object register vs source-map digests, offline; classes B/C not comparable
 python3 -m pytest -q                        # negative controls throughout
 ```
 

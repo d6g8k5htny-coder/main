@@ -40,6 +40,8 @@ jobs:
         run: if [ -f tools/slack_check.py ]; then python tools/slack_check.py; else echo "skipped (tool absent)"; fi
       - name: Receipts (schema, append-only, no receipt claims a status change)
         run: if [ -f tools/receipts_check.py ]; then python tools/receipts_check.py; else echo "skipped (tool absent)"; fi
+      - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
+        run: if [ -f tools/frozen_check.py ]; then python tools/frozen_check.py; else echo "skipped (tool absent)"; fi
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Unit tests and negative controls
