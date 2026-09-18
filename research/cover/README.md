@@ -413,6 +413,23 @@ and 24 (the degenerate all-OUTSIDE classification fault, which balances the
 bookkeeping and is caught only by containment) close them. Nothing here
 establishes that no fourth mutation exists.
 
+Re-run on scratch copies on 2026-09-18, with the current test file:
+
+| broken copy | mutation | caught by |
+|---|---|---|
+| MX3 | `CartesianBracketRegion.area_rational_upper` returns `param_area()/4` | 3 tests (22, 23, 27) |
+| MX4 | driver's `UNRESOLVED_BOUNDARY` residual shrunk 1000× | 1 test (23) |
+| MX6 | `Total.certified_enclosure()` never refuses | 1 test (26) |
+| MX7 | `area_rejected_by_kind` lumps every kind under `OUTSIDE` | 1 test (27) |
+| MX8 | `provisional_leaf_counts` never reports an omitted leaf | 1 test (28) |
+| MX9 | `min_cell_width` returns the maximum | 1 test (29) |
+
+Note that **MX4 is caught by control 23 alone**: the area bookkeeping of
+control 22 is untouched by it, and MX5 (the all-OUTSIDE fault) balances control
+22 exactly. Containment against independently computed geometry is the control
+that does the work; the bookkeeping identity is the one that localises the
+fault when it fires.
+
 **And one mutation survived the first version of that file**, recorded there
 rather than quietly fixed. Disabling the interior-gap branch
 (`lo > cur`) of `check_exact_partition` left the whole suite green, because the

@@ -330,29 +330,33 @@ while `a > 0`** — with a test pinning that implication — rather than covered
 a control that could not fire.
 
 Every control was additionally run against a deliberately broken copy of this
-package in a scratch directory. Seven mutations were tried and all seven were
-caught:
+package in a scratch directory. **Thirteen mutations were tried and all
+thirteen were caught.** The counts below were re-measured against the current
+test file on 2026-09-18; they move when tests are added, which is why they are
+dated rather than presented as constants.
 
 | broken copy | mutation | caught by |
 |---|---|---|
 | 1 | `band_enclosure` returns the truncated sum, tail dropped — the frozen engine's shape | 4 tests |
-| 2 | `a = L*M + R`, the reverse triangle inequality reversed | 9 tests |
+| 2 | `a = L*M + R`, the reverse triangle inequality reversed | 14 tests |
 | 3 | `4 * envelope.A` — a 4m shell count instead of 8m | 4 tests |
 | 4 | `w >= m` in `falsifies` — equality now falsifies | 4 tests |
 | 5 | `band_verdict` returns `PASS` for a missing input | 3 tests |
 | 6 | `664.3979` → `664.3978`, one published digit | 5 tests |
-| 7 | `_box_radius` uses `mig()` instead of `mag()` — an inward box radius | 3 tests |
+| 7 | `_box_radius` uses `mig()` instead of `mag()` — an inward box radius | 4 tests |
+| 8 | `DecayEnvelope.certified` defaults to `True` again | 3 tests |
+| 9 | `PlaneKernel.certified` defaults to `True` again | 2 tests |
+| 10 | `BandEnclosure.certified = kernel.certified` — the evaluator flag alone | 1 test |
+| 11 | `normalized_band_enclosure` returns a bare `(Interval, BandEnclosure)` | 1 test |
+| 12 | `falsifier.format_report` drops the `exact:` line under each row | 1 test |
+| 13 | `common_admissible_constant` takes the `min` forced constant, not the `max` | 1 test |
 
-An earlier version of this table recorded row 2 as caught by **8** tests. Rerun
-on a scratch copy it is **9**: `test_band_enclosure_at_a_point_band_is_not_
-contained_without_the_tail`, the three `test_gaussian_tail_bound_dominates_the_
-omitted_terms` parametrisations, `test_tail_bound_is_uniform_over_the_box`,
-`test_tail_bound_refuses_a_box_that_reaches_the_first_omitted_image`,
-`test_control_dropping_the_tail_bound_breaks_containment`,
-`test_control_a_false_decay_envelope_loses_domination` and
-`test_local_reimplementation_is_faithful_to_the_package`. A table offered as a
-reproducible receipt has to reproduce, so the miscount is corrected here rather
-than left standing.
+**An earlier version of this table recorded row 2 as caught by 8 tests.** Rerun
+on a scratch copy at the time it was **9** — the row was simply miscounted — and
+it is **14** against the current file, because the new whole-box uniformity
+sweep and the three near-edge parametrisations all catch it too. A table offered
+as a reproducible receipt has to reproduce, so the miscount is corrected here
+rather than left standing. Row 7 likewise moved from 3 to 4 for the same reason.
 
 Two of those runs found real gaps in the first draft of this file and the tests
 were strengthened rather than the runs reported as clean: mutations 1 and 3 were
