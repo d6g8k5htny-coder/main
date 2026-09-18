@@ -67,6 +67,11 @@ accepted:
     result on this path is labelled NON-CERTIFYING in the code and in the
     receipt, and :attr:`NumericResult.certifying` is False for it.
 
+``runtime_seconds`` is outside this scheme on purpose: it is a wall-clock
+measurement of the machine that ran, NON-CERTIFYING and a bound on nothing
+mathematical. It is stored as fixed three-decimal text so that no float ever
+enters the canonical body, and it appears in no result list.
+
 Standard library only (``dataclasses``, ``fractions``, ``hashlib``, ``json``,
 ``os``, ``re``, ``subprocess``, ``datetime``). Python 3.11.
 """
@@ -78,9 +83,9 @@ import json
 import os
 import re
 import subprocess
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from fractions import Fraction
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
 
 __all__ = [
     "SCHEMA", "OUTCOMES", "PROVENANCES", "VERDICT_NONE", "ALLOWED_VERDICTS",
@@ -354,6 +359,8 @@ class Receipt:
     dirty: bool
     timestamp_utc: str
     outcome: str
+    #: Wall-clock seconds, fixed three decimals. A NON-CERTIFYING measurement
+    #: of the machine that ran; it bounds nothing mathematical.
     runtime_seconds: str
     does_not_establish: str
     results: Tuple[NumericResult, ...] = ()

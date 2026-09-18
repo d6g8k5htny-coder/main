@@ -51,6 +51,11 @@ Three kinds, and nothing else is accepted:
 | `exact_rational` | a `fractions.Fraction` computed in exact arithmetic | true |
 | `float_noncertifying` | a binary float, an `mpmath` value, a Monte Carlo estimate, a fitted exponent, a dense sampling, a display, a probe | **false** |
 
+`runtime_seconds` sits outside this scheme on purpose: it is a wall-clock
+measurement of the machine that ran, NON-CERTIFYING, and a bound on nothing
+mathematical. It is stored as fixed three-decimal text so that no float ever
+enters the hashed body.
+
 A `float_noncertifying` result **is not a bound**. High precision is not
 certification — the sources say so themselves, repeatedly — and the writer
 forces the label `NON-CERTIFYING` into the note of every such result so it
