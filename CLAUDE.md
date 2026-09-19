@@ -60,7 +60,7 @@ deletion and machine-root replacement. This repository changes none of that.
 | path | what it holds |
 |---|---|
 | `governance/` | operator protocols and how each Drive construct maps onto git |
-| `registers/` | the 42 coupled register tabs as JSON and CSV, plus the source export |
+| `registers/` | the 44 coupled register tabs as JSON and CSV, plus the source exports (the complete 2026-09-18 xlsx and the earlier markdown rendering) |
 | `drive/` | the source map: `inventory.jsonl` (4,456 items) and the accessibility CSVs; `deltas/` (dated, byte-exact copies of what changed on the Drive after the snapshot, with `PATH_CHANGES.jsonl`); `mirrors/` (byte-exact copies of selected lane objects, one `_MANIFEST.jsonl` per directory, README quoting the source banners) |
 | `claims/` | the machine-checked claim graph and its firewalls |
 | `engine/` | the active layer: lanes, bound carriers, the runner, receipts; `bridge/` holds the work-order and run-receipt schemas of the proposed (not deployed) Drive–GitHub execution contract and nothing that enforces it |

@@ -38,8 +38,18 @@ against a deliberately broken copy — see `docs/ENGINE_RECOVERY.md` §2.
 * **Do not run the engine's certifier and do not quote a bound from it.**
   Nothing here invokes it; `run_certification` is in fact defined and never
   called in the frozen body.
-* `d3_perc.py` carries scope hold `Q-RN5-MOMENT-001` (`envelope_v`,
-  `window_cap_env` and their consumers). Recovering the file does not lift it.
+* `d3_perc.py` (`RNENG-03`, `5bc09241…`, 40,337 B) is **bound as bytes and
+  logically quarantined** at the scope of `Q-RN5-MOMENT-001` (class
+  `DEFECTIVE_SCOPE`, register export 2026-09-18): `envelope_v`,
+  `window_cap_env` and consumers relying on the claimed polarity-safe upper
+  bound. Other functions are outside that finding. Recovering the file does not
+  lift the hold; recording the hold does not unbind the file. The record in
+  `BINDING.json` carries the exclusion's key, class and scope under
+  `quarantine_exclusions`, and `tools/quarantine_check.py` invariant 5 fails
+  closed if that annotation is missing. No value produced by `envelope_v` or
+  `window_cap_env`, or by anything that consumes them, may be cited from this
+  repository. (`Q-RN5-MOMENT-002` names `d3_amend_v2.py`, a different file from
+  the `d3_amend.py` bound here as `RNENG-04`.)
 * Merging `BINDING.json` into `engine/carriers/MANIFEST.json` is a follow-up
   step for whoever owns that file; it was deliberately not written there.
 

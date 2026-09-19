@@ -122,22 +122,28 @@ admitted unqualified. Qualitative LPW is unchanged by this.
 
 ---
 
-## D. Review queue — 24 routes, 23 unassigned
+## D. Review queue — 25 routes, 22 unassigned
 
-(Corrected 2026-09-18. An earlier version of this heading said "all
-unassigned"; `registers/json/review_queue.json` shows 23 rows with
-`Reviewer / claim = UNASSIGNED` and one, `RV-LM009-MAIN`, carrying
-"OPS4 nonauthor / exposed / OpenAI". The register is the source; the heading
-was the transcription error.)
+(Refreshed 2026-09-18 from the xlsx export of the register. An earlier version
+of this heading said "24 routes, all unassigned", then "24 routes, 23
+unassigned"; `registers/json/review_queue.json` now holds 25 rows, of which 22
+carry `Reviewer / claim = UNASSIGNED`. The three that do not: `RV-LM009-MAIN`
+"OPS4 nonauthor / exposed / OpenAI"; `RV-LM004-MAIN` "Prior OpenAI technical
+reconciliation; ROUND5 author-line erratum; zero org credit"; `RV-RN-ALIGN`
+"ROUND5 / OpenAI / author-side". The register is the source; the heading
+transcribes it.)
 
 From `registers/json/review_queue.json`. Nineteen originated in July routing
-records and are 51–54 days old; the R17 ladder therefore puts them at
-**ESCALATE**. Aging never approves anything.
+records and are 52–55 days old; the R17 ladder therefore puts them at
+**ESCALATE**, except the two whose technical pass is same-line
+(`RV-LM004-MAIN`, `RV-LM009-MAIN`), which the register puts at **EXTERNAL
+ONLY**: only an organizationally distinct verdict remains for them. Aging never
+approves anything.
 
 | Key | Exact object | Technical status | Body bytes / SHA-256 |
 |---|---|---|---|
 | `RV-LM003-MAIN` | LCR-DER-014-v1.0 | NEEDS_RECONCILIATION | 6,874 / `5173d26d…` |
-| `RV-LM004-MAIN` | LCR-DER-016-v1.1 | NEEDS_RECONCILIATION | 10,416 / `d43179f3…` |
+| `RV-LM004-MAIN` | LCR-DER-016-v1.1 | **PASS_TECHNICAL** (same-provider; "zero org credit") | 10,416 / `d43179f3…` |
 | `RV-LM006-MAIN` | LCR-DER-019-v1.0 | NEEDS_RECONCILIATION | 9,147 / `239ed094…` |
 | `RV-LM009-MAIN` | LCR-DER-027-v1.0 | **PASS_TECHNICAL** (same-provider) | 3,919 / `ccc07d95…` |
 | `RV-LM010-MAIN` | LCR-DER-030-v1.1 | NEEDS_RECONCILIATION | 9,335 / `05e0f20f…` |
@@ -156,10 +162,25 @@ records and are 51–54 days old; the R17 ladder therefore puts them at
 | `RV-DQ-061` | LS-DER-038 minus-one-third component | NEEDS_RECONCILIATION | 10,410 / `5fd2413c…` |
 | `RV-DQ-096` | LS-REQ-037 review of LS-DER-064/065/067/068/069 | NEEDS_RECONCILIATION | 7,013 / `e5ae1b6d…` |
 | `RV-RN3` | RN3 joint far-zone `r = 1/20` | **READY** | 12,956 / `0c9446b7…` |
-| `RV-RN-ALIGN` | CL-RNU-003 ↔ RN3 crosswalk | NEEDS_RECONCILIATION | bind both objects first |
+| `RV-RN-ALIGN` | CL-RNU-003 ↔ RN3 crosswalk | **AMEND** (author-side; "ZERO ORG CREDIT") | RN3 `0c9446b7…` / CL `59b8f002…` |
 | `RV-P15` | P15-A/B/C/D structural localization | **READY** | archive manifest required |
 | `RV-H5-REPAIR` | H5 corrected-kernel full consumer replay | **AMEND** | 11 archive-member hashes |
 | `RV-OPS-R17` | OP-PROT-019-v1.1 implementation | **READY** | 14,073 / `04987ba4…` |
+| `RV-RN5-MOMENT-REPAIR` | RN5 corrected moment and local spatial-box candidate | **READY** | 13,725 / `ac89f60b…` |
+
+Status words that moved between the 2026-09-17 and 2026-09-18 exports, each
+the register's own word: `RV-LM004-MAIN` NEEDS_RECONCILIATION → PASS_TECHNICAL
+(reviewer line "Prior OpenAI technical reconciliation; ROUND5 author-line
+erratum; zero org credit"; Independence status unchanged at
+EXTERNAL_REVIEW_OPEN; the withdrawn A1 finding is quarantined as
+`Q-RN5-LM004-A1`); `RV-RN-ALIGN` NEEDS_RECONCILIATION → AMEND (Independence
+status NO_CREDIT_ASSIGNED → "AUTHOR_SIDE / ZERO ORG CREDIT"; next action
+"Correct near-moment claim and complete spatial cover; locate named CL v5
+archive / rnu_t4.py / rnu_spine.py before executable crosswalk"); new route
+`RV-RN5-MOMENT-REPAIR` READY, UNASSIGNED, EXTERNAL_REVIEW_OPEN, prior exposure
+"OpenAI author-side proof/replay; 66 checks; no independent review yet". A
+PASS_TECHNICAL is a same-line technical pass at zero organizational
+independence credit. Nothing here is promoted.
 
 `RV-LM011` is the synthesis: it needs LM003, LM004-v1.1, LM006, LM009, LM010-v1.1,
 LM012-v1.1 and LM013 Carrier-B-v1.1 plus the joint stack **first**.
@@ -210,6 +231,26 @@ Reported, not repaired — the export is kept faithful. See
   ("… ROUTES TO THE CONSOLIDATED Q0 CANON"). Semantically inert; recorded as a
   transcription variance (Drive `15pRBxEcL5iOHAtjK9TWrqDX8382Ifmf4SCcwk56rlVs`).
   `GP-CLS-141-v1.0` and `GP-CLS-BATCH-129-A..E` match verbatim.
+* **The 2026-09-17 markdown export was itself a truncated rendering** (found
+  2026-09-18): the connector's markdown-table rendering returned only a prefix
+  of seven large tabs — `file_catalog` 310 of 2,952 rows, `activity_log`
+  241/518, `artifact_index` 206/761, `transition_log` 67/82, `review_ledger`
+  101/138, `evidence_lineage` 137/485, `relations` 164/367 — so every derived
+  file built before 2026-09-18 saw only those prefixes. A defect of the
+  rendering, not of the register; repaired by the 2026-09-18 xlsx export
+  (`registers/source/SOURCES.json`). The markdown export stays byte for byte.
+* Seven further duplicate keys surfaced in the rows that export never
+  delivered, all defects of the source workbook and none of the importer:
+  Artifact Index `GP-DATA-168-v1.1` (rows 231/240), `LS-AUD-002-v1.0`
+  (248/253), `LS-COR-001-v1.0` (249/254), `LS-AUD-003-v1.0` (250/255),
+  `GP-REQ-194-v1.0` (325/373 — two *different* review requests under one ID),
+  `LS-MAN-045-v1.0` (544/545), and Evidence Lineage `EV-LS-REQ030` (385/386).
+  Recorded in `registers/KNOWN_FINDINGS.json` (section
+  `findings_first_visible_in_2026-09-18_export`) with the rows and status text;
+  OP-CNS-001 §2 requires the collisions to be preserved and disambiguated, not
+  merged. Not yet covered by `registers/collision_proposal.json`, whose source
+  of record is the markdown export; a numbered successor proposal against the
+  xlsx export is required (the proposal is not edited in place).
 
 ## G. Theorem B — status retraction and repair program
 

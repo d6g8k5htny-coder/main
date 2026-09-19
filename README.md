@@ -78,7 +78,7 @@ floor; **hi side OPEN**), `OBL-H5-REMOTE-THRESHOLD` (OPEN, rides premise 2).
 
 ```
 governance/     operator protocols (reading copies — see PROVENANCE.json) + git mapping
-registers/      the 42 coupled register tabs as JSON and CSV, plus the source export
+registers/      the 44 coupled register tabs as JSON and CSV, plus the source exports
 drive/          complete source map: inventory.jsonl (4,456 items) + accessibility CSVs;
                 deltas/ (what changed after the snapshot, byte-exact, dated) and
                 mirrors/ (byte-exact copies of selected lane objects, manifest-verified)
@@ -148,7 +148,7 @@ verifiers three times, which is what they are for.
 | Drive items covered | 4,456 (3,714 files, 742 folders), 319 MB |
 | Archive carriers / members | 77 carriers per the accessibility completion report (76 inventory rows `ARCHIVE_INDEXED`, 73 with members listed), 11,649 member occurrences, 2,975 distinct member payload digests; 4,020 distinct payloads over the whole source map |
 | Source-map snapshot | 2026-09-17 accessibility publication |
-| Register export | GP-REG-032-v1.2, 42 tabs, exported 2026-09-17 |
+| Register export | GP-REG-032-v1.2, 44 tabs, xlsx export of 2026-09-18 (the 2026-09-17 markdown rendering is retained beside it; it truncated seven tabs) |
 | Control plane at export | AI-DRIVE-AUTONOMY-R17 (OP-PROT-019-v1.1) |
 | Owner / final authority | Dylan Roy |
 

@@ -123,6 +123,43 @@ def test_every_lane_says_what_it_does_not_establish():
         assert lane["does_not_establish"].strip(), name
 
 
+def test_lane_d_heading_counts_are_the_register_recount():
+    """'Review queue — N routes, M unassigned' is transcribed from
+    registers/json/review_queue.json: N rows, M with Reviewer / claim = UNASSIGNED
+    (25 and 22 at the 2026-09-18 export). Recounted here from the register so a
+    stale heading, in the lane or in docs/OPEN_PROBLEMS.md, is caught."""
+    import re
+    with open(os.path.join(LANES, "D.json"), encoding="utf-8") as f:
+        lane = json.load(f)
+    with open(REVIEW_QUEUE, encoding="utf-8") as f:
+        rq = json.load(f)
+    h = rq["header"]
+    n = len(rq["rows"])
+    m = sum(1 for r in rq["rows"] if r[h.index("Reviewer / claim")] == "UNASSIGNED")
+    assert lane["title"] == f"Review queue — {n} routes, {m} unassigned"
+    assert lane["source_section"]["heading"] == f"## D. {lane['title']}"
+    with open(DOC, encoding="utf-8") as f:
+        assert lane["source_section"]["heading"] in f.read()
+    assert len(lane["sub_items"]) == n
+    assert re.search(r"\bREADY ×4\b", lane["status_source"]["note"])
+    assert re.search(r"\bPASS_TECHNICAL ×2\b", lane["status_source"]["note"])
+    assert re.search(r"\bAMEND ×2\b", lane["status_source"]["note"])
+
+
+def test_lane_d_sub_items_carry_the_refreshed_register_words():
+    """The three routes the 2026-09-18 refresh moved, verbatim from the register."""
+    with open(os.path.join(LANES, "D.json"), encoding="utf-8") as f:
+        items = {i["review_key"]: i for i in json.load(f)["sub_items"]}
+    assert items["RV-LM004-MAIN"]["technical_status"] == "PASS_TECHNICAL"
+    assert items["RV-LM004-MAIN"]["independence_status"] == "EXTERNAL_REVIEW_OPEN"
+    assert items["RV-LM004-MAIN"]["reviewer_claim"].endswith("zero org credit")
+    assert items["RV-RN-ALIGN"]["technical_status"] == "AMEND"
+    assert items["RV-RN-ALIGN"]["independence_status"] == "AUTHOR_SIDE / ZERO ORG CREDIT"
+    assert items["RV-RN5-MOMENT-REPAIR"]["technical_status"] == "READY"
+    assert items["RV-RN5-MOMENT-REPAIR"]["reviewer_claim"] == "UNASSIGNED"
+    assert items["RV-RN5-MOMENT-REPAIR"]["blocks"] == []
+
+
 def test_no_lane_carries_a_certified_or_closed_status():
     """Transcription check: the open-problems document has no discharged lane."""
     for name in sorted(os.listdir(LANES)):

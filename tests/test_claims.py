@@ -172,11 +172,12 @@ def test_lm011_depends_on_all_eight_named_prerequisites():
 
 
 def test_lm_route_statuses_are_the_register_statuses():
-    """Transcribed, not decided: seven NEEDS_RECONCILIATION and one PASS_TECHNICAL."""
+    """Transcribed, not decided: six NEEDS_RECONCILIATION and two PASS_TECHNICAL
+    (RV-LM004-MAIN moved to PASS_TECHNICAL in the 2026-09-18 register export)."""
     g = graph()
     expected = {
         "RV-LM003-MAIN": "NEEDS_RECONCILIATION",
-        "RV-LM004-MAIN": "NEEDS_RECONCILIATION",
+        "RV-LM004-MAIN": "PASS_TECHNICAL",
         "RV-LM006-MAIN": "NEEDS_RECONCILIATION",
         "RV-LM009-MAIN": "PASS_TECHNICAL",
         "RV-LM010-MAIN": "NEEDS_RECONCILIATION",
@@ -198,6 +199,159 @@ def test_lm009_technical_pass_carries_zero_independence_credit():
     assert lm009["independence_credit"] == 0
     assert lm009["same_provider"] is True
     assert lm009["independent_review_state"] == "OPEN"
+
+
+def test_lm004_technical_pass_carries_zero_independence_credit():
+    """The 2026-09-18 register moved RV-LM004-MAIN to PASS_TECHNICAL with the
+    reviewer line 'Prior OpenAI technical reconciliation; ROUND5 author-line
+    erratum; zero org credit'. The register's own words are transcribed; the
+    independence gate is untouched."""
+    g = graph()
+    lm004 = g["claims"]["RV-LM004-MAIN"]
+    assert lm004["technical_status"] == "PASS_TECHNICAL" and lm004["grade"] == "PASS_TECHNICAL"
+    assert lm004["independence_credit"] == 0
+    assert lm004["independent_review_state"] == "OPEN"
+    assert lm004["requires_independent_verdict"] is True
+    assert "zero org credit" in lm004["note"]
+    assert g["claims"]["RV-LM011-MAIN"]["synthesis_route_satisfiable"] is False
+
+
+# Every field of a review-route node that transcribes a register column, with
+# the register tab and column it transcribes. `age_days` is an int in the graph
+# and a string in the register. The list is the control for the 2026-09-18
+# labelling residue: a refresh that moved technical_status/grade but left
+# reviewer_claim, aging_action and age_days at the previous export's words.
+ROUTE_FIELDS_FROM_REVIEW_QUEUE = [
+    ("technical_status", "Technical status", str),
+    ("grade", "Technical status", str),
+    ("independence_status", "Independence status", str),
+    ("reviewer_claim", "Reviewer / claim", str),
+    ("aging_action", "Aging action", str),
+    ("age_days", "Age days", int),
+    ("body_bytes", "Body bytes", int),
+    ("body_sha256", "Body SHA-256", str),
+    ("author_provider", "Author / provider", str),
+]
+ROUTE_FIELDS_FROM_EASY_CLOSURE_QUEUE = [
+    ("queue_state", "Queue state", str),
+    ("remaining_decisive_work", "Remaining decisive work", str),
+    ("independent_review_verbatim", "Independent review needed", str),
+]
+
+
+def route_transcription_mismatches(g: dict) -> list[tuple[str, str, object, object]]:
+    """(route, field, graph value, register value) for every review-route node
+    field that does not equal the cell of the register row the node's `source`
+    cites. Empty when the graph transcribes the register."""
+    import json as _json
+    import re as _re
+    rq = _json.load(open(os.path.join(ROOT, "registers", "json", "review_queue.json"), encoding="utf-8"))
+    ecq = _json.load(open(os.path.join(ROOT, "registers", "json", "easy_closure_queue.json"), encoding="utf-8"))
+    rh, eh = rq["header"], ecq["header"]
+    rrows = {r[rh.index("Review key")]: r for r in rq["rows"]}
+    erows = {r[eh.index("Candidate ID")]: r for r in ecq["rows"]}
+    out = []
+    routes = [k for k, v in g["claims"].items() if k.startswith("RV-") and "technical_status" in v]
+    assert routes, "the graph carries review-route nodes"
+    for name in routes:
+        node = g["claims"][name]
+        assert name in rrows, name
+        assert f"review_queue.json row {name}" in node["source"], name
+        for field, col, conv in ROUTE_FIELDS_FROM_REVIEW_QUEUE:
+            reg = conv(rrows[name][rh.index(col)])
+            if node.get(field) != reg:
+                out.append((name, field, node.get(field), reg))
+        m = _re.search(r"easy_closure_queue\.json row (\S+)", node["source"])
+        if m is None:
+            # A route with no easy_closure_queue row must say so explicitly
+            # (easy_closure_queue_row: null); silence is a missing citation.
+            if "easy_closure_queue_row" not in node or node["easy_closure_queue_row"] is not None:
+                out.append((name, "easy_closure_queue_row", node.get("easy_closure_queue_row", "<absent>"), None))
+            continue
+        assert m.group(1) in erows, (name, m.group(1))
+        for field, col, conv in ROUTE_FIELDS_FROM_EASY_CLOSURE_QUEUE:
+            reg = conv(erows[m.group(1)][eh.index(col)])
+            if node.get(field) != reg:
+                out.append((name, field, node.get(field), reg))
+    return out
+
+
+def test_a_route_without_an_easy_closure_row_declares_it():
+    """RV-RN5-MOMENT-REPAIR (created 2026-09-17, first seen in the 2026-09-18
+    export) has a review_queue row and no easy_closure_queue row. The node
+    transcribes the row it has and declares the row it lacks; the checker
+    accepts READY as a strength-1 word (work recorded, nothing discharged)."""
+    g = graph()
+    node = g["claims"]["RV-RN5-MOMENT-REPAIR"]
+    assert node["technical_status"] == node["grade"] == "READY"
+    assert node["independence_credit"] == 0 and node["easy_closure_queue_row"] is None
+    assert claims_check.GRADE_STRENGTH["READY"] == 1 and claims_check.GRADE_STRENGTH["AMEND"] == 1
+    assert run_on(g) == 0
+
+
+def test_control_a_route_silent_about_its_missing_easy_closure_row_is_a_mismatch():
+    g = graph()
+    del g["claims"]["RV-RN5-MOMENT-REPAIR"]["easy_closure_queue_row"]
+    found = {(r, f) for r, f, _, _ in route_transcription_mismatches(g)}
+    assert found == {("RV-RN5-MOMENT-REPAIR", "easy_closure_queue_row")}
+
+
+def test_control_ready_cannot_be_read_as_stronger_than_conditional():
+    """READY and AMEND are review-queue words at strength 1: a route carrying
+    either can never make a claim resting on it unconditional."""
+    g = graph()
+    g["claims"]["RV-RN5-MOMENT-REPAIR"]["grade"] = "LIVE_ROOT_THEOREM"
+    g["claims"]["RV-RN5-MOMENT-REPAIR"]["technical_status"] = "LIVE_ROOT_THEOREM"
+    assert route_transcription_mismatches(g), "the register's word is READY"
+
+
+def test_review_route_nodes_transcribe_the_register():
+    """Every review-route node in the graph carries, field for field, the words
+    of the review_queue row and the easy_closure_queue row its source cites —
+    not only Technical status but Independence status, Reviewer / claim, Aging
+    action, Age days, the body identity and the queue state — and no route
+    carries independence credit. A row is a transcription; a PASS_TECHNICAL is
+    a same-line pass at zero credit; an aging action approves nothing."""
+    g = graph()
+    assert route_transcription_mismatches(g) == []
+    for name, node in g["claims"].items():
+        if name.startswith("RV-") and "technical_status" in node:
+            assert node["independence_credit"] == 0, name
+
+
+def test_control_a_stale_reviewer_line_or_age_is_a_mismatch():
+    """The residue the 2026-09-18 adversary found, replayed on a copy: the
+    register's words on technical_status/grade with the previous export's words
+    left on reviewer_claim, aging_action and age_days. The comparison must name
+    all three, and only those three."""
+    g = graph()
+    node = g["claims"]["RV-LM004-MAIN"]
+    assert node["technical_status"] == "PASS_TECHNICAL"
+    node["reviewer_claim"] = "UNASSIGNED"
+    node["aging_action"] = "ESCALATE"
+    node["age_days"] = 54
+    found = {(r, f) for r, f, _, _ in route_transcription_mismatches(g)}
+    assert found == {("RV-LM004-MAIN", "reviewer_claim"), ("RV-LM004-MAIN", "aging_action"),
+                     ("RV-LM004-MAIN", "age_days")}
+
+
+def test_control_a_route_status_stronger_than_the_register_is_a_mismatch():
+    g = graph()
+    g["claims"]["RV-LM003-MAIN"]["technical_status"] = "PASS_TECHNICAL"
+    g["claims"]["RV-LM003-MAIN"]["grade"] = "PASS_TECHNICAL"
+    found = {(r, f) for r, f, _, _ in route_transcription_mismatches(g)}
+    assert found == {("RV-LM003-MAIN", "technical_status"), ("RV-LM003-MAIN", "grade")}
+
+
+def test_a_zero_credit_lm004_pass_does_not_discharge_the_lm011_gate():
+    """Same control as for LM009, on the route the refresh moved: with every
+    other prerequisite hypothetically satisfied, LM004's zero credit alone keeps
+    the synthesis route unsatisfiable."""
+    g = all_prerequisites_satisfied(graph())
+    g["claims"]["RV-LM004-MAIN"]["independence_credit"] = 0
+    assert run_on(g) == 1
+    g["claims"]["RV-LM004-MAIN"]["independence_credit"] = 1
+    assert run_on(g) == 0
 
 
 def test_rejects_marking_the_synthesis_route_satisfiable_while_prerequisites_are_open():

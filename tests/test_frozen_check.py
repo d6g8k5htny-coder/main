@@ -86,20 +86,48 @@ def rows_by_class(d):
 # the repository as it stands
 # ---------------------------------------------------------------------------
 
+# Where the pinned numbers come from (register export 2026-09-18, the xlsx):
+#   rows=195        registers/json/frozen_objects.json data rows: 188 in the
+#                   2026-09-17 export plus the seven RN5 objects frozen on
+#                   2026-09-17T17:19-17:24Z (RN5-PROOF, RN5-LM004-ERRATUM,
+#                   RN5-SCOPE-HOLDS, RN5-MANIFEST, RN5-BUNDLE, RN5-CUSTODY,
+#                   RN5-OPS-EVIDENCE), all class "D — EXACT RAW FILE".
+#   comparable=62   rows of class A or D: 55 before the refresh + the 7 RN5 rows.
+#   match=62        each of the 62 agrees with drive/inventory.jsonl on SHA-256
+#                   and byte count; the 7 RN5 Drive ids all resolve there.
+#   body_present=17 / not_comparable=116  the 133 class-B/C rows, unchanged by
+#                   the refresh (no RN5 row is a body-class row).
+RN5_OBJECTS = ["RN5-PROOF", "RN5-LM004-ERRATUM", "RN5-SCOPE-HOLDS", "RN5-MANIFEST",
+               "RN5-BUNDLE", "RN5-CUSTODY", "RN5-OPS-EVIDENCE"]
+
+
 def test_checker_passes_on_the_repository_and_reports_the_partition():
     out = subprocess.run([sys.executable, CHECKER], capture_output=True, text=True)
     assert out.returncode == 0, out.stdout + out.stderr
     line = [l for l in out.stdout.splitlines() if l.startswith("frozen_check:")][0]
-    assert "rows=188" in line and "mismatch=0" in line and "problems=0" in line
-    # the partition is a fact about the register: 55 whole-file rows, 133 body rows
-    assert "comparable=55" in line and "match=55" in line
+    assert "rows=195" in line and "mismatch=0" in line and "problems=0" in line
+    # the partition is a fact about the register: 62 whole-file rows, 133 body rows
+    assert "comparable=62" in line and "match=62" in line
     assert "body_present=17" in line and "not_comparable=116" in line
+
+
+def test_the_seven_rn5_objects_are_class_d_and_match_the_inventory():
+    """The refresh added seven class-D rows; each resolves in the inventory and
+    agrees with it. A MATCH is agreement between two Drive-side records of the
+    same bytes — it re-freezes nothing and moves no status."""
+    report, problems = FC.check(FROZEN, INVENTORY, PAYLOADS, MEMBERS)
+    assert problems == []
+    rows = {e["object_id"]: e for e in report}
+    for oid in RN5_OBJECTS:
+        assert rows[oid]["binding_class"].startswith("D"), oid
+        assert rows[oid]["status"] == FC.MATCH, (oid, rows[oid])
+        assert rows[oid]["register_drift_status"] == "PASS — RAW READBACK"
 
 
 def test_every_row_gets_exactly_one_status_and_the_register_drift_status_is_carried():
     report, problems = FC.check(FROZEN, INVENTORY, PAYLOADS, MEMBERS)
     assert problems == []
-    assert len(report) == 188
+    assert len(report) == 195
     assert all(e["status"] for e in report)
     d = json.load(open(FROZEN, encoding="utf-8"))
     c_drift = d["header"].index("Drift Status")

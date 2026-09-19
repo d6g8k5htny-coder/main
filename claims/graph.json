@@ -1,6 +1,6 @@
 {
- "_comment": "Machine-checkable claim/premise dependency graph for the q0 program. Statuses are transcribed from the sources named in each `source` field as of 2026-09-17; this file asserts no mathematics of its own. tools/claims_check.py enforces the invariants documented in claims/README.md.",
- "as_of": "2026-09-17",
+ "_comment": "Machine-checkable claim/premise dependency graph for the q0 program. Statuses are transcribed from the sources named in each `source` field: register-derived fields from the GP-REG-032-v1.2 xlsx export of 2026-09-18 (registers/source/), everything else as of the 2026-09-17 snapshot unless the node says otherwise; this file asserts no mathematics of its own. tools/claims_check.py enforces the invariants documented in claims/README.md.",
+ "as_of": "2026-09-18",
  "tracks": {
   "UPPER2D": "2D typed pair-Palm upper law (q0 / SIDE24, side 24, mark 6/5)",
   "LOWER2D": "2D typed pair-Palm lower law (LPW)",
@@ -397,7 +397,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 54,
+   "age_days": 55,
    "queue_state": "EXACT-HASH THEOREM VERDICT OPEN / MATHEMATICS-PASS / P0.2 OPEN",
    "remaining_decisive_work": "One organizationally distinct reviewer must bind an affirmative or corrective theorem verdict to the exact 6,874-byte body, checking support inclusion, empty intervals, the r^5 numerator, and normalizer direction.",
    "evidence": [
@@ -415,8 +415,8 @@
   "RV-LM004-MAIN": {
    "track": "P02_ADJACENCY",
    "statement": "Adaptive C1 robustness and exact Taylor transfer preserve selected-branch capture.",
-   "grade": "NEEDS_RECONCILIATION",
-   "technical_status": "NEEDS_RECONCILIATION",
+   "grade": "PASS_TECHNICAL",
+   "technical_status": "PASS_TECHNICAL",
    "exact_object": "LCR-DER-016-v1.1",
    "body_bytes": 10416,
    "body_sha256": "d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87",
@@ -427,9 +427,9 @@
    "independence_status": "EXTERNAL_REVIEW_OPEN",
    "independence_credit": 0,
    "author_provider": "OpenAI; exact author session to be disclosed",
-   "reviewer_claim": "UNASSIGNED",
-   "aging_action": "ESCALATE",
-   "age_days": 54,
+   "reviewer_claim": "Prior OpenAI technical reconciliation; ROUND5 author-line erratum; zero org credit",
+   "aging_action": "EXTERNAL ONLY",
+   "age_days": 55,
    "queue_state": "v1.1 CURRENT / EXTERNAL EXACT-HASH REVIEW OPEN / P0.2 OPEN",
    "remaining_decisive_work": "One organizationally distinct reviewer must execute LCR-REQ-039 against v1.1 and issue the exact-hash verdict; predecessor review credit does not transfer.",
    "evidence": [
@@ -441,7 +441,7 @@
      "note": "The register row is the transcription source for this record's status. A register row is not a verdict."
     }
    ],
-   "note": "v1.1 is the controlling successor; the register instructs 'Use only LCR-DER-016-v1.1; reject any v1.0 substitution' and records that predecessor review credit does not transfer.",
+   "note": "REFRESHED 2026-09-18 from the xlsx export of the register (registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx): review_queue Technical status NEEDS_RECONCILIATION -> PASS_TECHNICAL. The register row's own words: Reviewer / claim 'Prior OpenAI technical reconciliation; ROUND5 author-line erratum; zero org credit'; Aging action 'EXTERNAL ONLY'; Independence status 'EXTERNAL_REVIEW_OPEN' (unchanged); Last substantive review UTC 2026-09-17T16:55:40.169Z; Verdict artifact https://drive.google.com/file/d/1QKujzzkp_nzCWFLky9ZayTzP_fbStxry/view (LM004_REVIEW_ERRATUM_v1.1, frozen as RN5-LM004-ERRATUM, 3,664 B / 84189b73…); Prior review / exposure 'CURRENT v1.1 EXACT BODY REPRODUCED / S2 SAME-FAMILY PASS RECONCILED / ANTHROPIC IMPORT RECONSTRUCTION SUPPORTS C1 TRANSFER BUT DID NOT ISSUE THE ISOLATED ACCEPTED EXACT-HASH VERDICT / NONTERMINAL'; Scope / dependencies 'Exact 10,416-byte body unchanged; duplicate-term finding withdrawn. Existing technical disposition retained. Qualifying organizationally distinct LCR-REQ-039 exact-hash verdict remains open.'; Next action 'Obtain one qualifying organizationally distinct LCR-REQ-039 exact-object verdict; do not repeat OpenAI technical work absent a new defect or hash change'. THIS IS A SAME-LINE TECHNICAL PASS AT ZERO ORGANIZATIONAL INDEPENDENCE CREDIT: the author provider is OpenAI, the reconciliation is OpenAI's and the erratum is author-line; the register says 'zero org credit' in the row itself. independence_credit stays 0, independent_review_state stays OPEN, requires_independent_verdict stays true, and tools/claims_check.py therefore treats this record as NOT discharging the RV-LM011 precondition, exactly as it treats RV-LM009-MAIN. The withdrawn A1 duplicate-term finding is quarantined as Q-RN5-LM004-A1 (class DEFECTIVE_SCOPE). Transcription scope of the 2026-09-18 refresh: every field of this node that transcribes a review_queue column — grade, technical_status, independence_status, reviewer_claim, aging_action and age_days — carries the 2026-09-18 export's word for that column (reviewer_claim 'Prior OpenAI technical reconciliation; ROUND5 author-line erratum; zero org credit', aging_action 'EXTERNAL ONLY', age_days 55), and tests/test_claims.py::test_review_route_nodes_transcribe_the_register compares each of them, on every review-route node, to the register row the node's source field cites. Aging to EXTERNAL ONLY approves nothing. v1.1 is the controlling successor; the register instructs 'Use only LCR-DER-016-v1.1; reject any v1.0 substitution' and records that predecessor review credit does not transfer.",
    "source": "registers/json/review_queue.json row RV-LM004-MAIN; registers/json/easy_closure_queue.json row P02-LM-004"
   },
   "RV-LM006-MAIN": {
@@ -461,7 +461,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 54,
+   "age_days": 55,
    "queue_state": "HASH PASS / FULL THEOREM VERDICT OPEN / P0.2 OPEN",
    "remaining_decisive_work": "Obtain a full organizationally distinct theorem verdict on the exact body: exact-torus Q_L limit, type boundary, uniform integrability, positivity, and two-sided r^2 bounds. Do not repeat transport-only work.",
    "evidence": [
@@ -494,7 +494,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "OPS4 nonauthor / exposed / OpenAI",
    "aging_action": "EXTERNAL ONLY",
-   "age_days": 53,
+   "age_days": 54,
    "queue_state": "LATEST-OBJECT PASS / MATHEMATICS PASS / EXTERNAL EXACT-HASH VERDICT OPEN / P0.2 OPEN",
    "remaining_decisive_work": "One organizationally distinct reviewer must bind an affirmative or corrective verdict to the exact 3,919-byte body under LCR-REQ-029-v1.0 or the current LCR-REQ-052-v1.1 tail bundle, checking exponent selection, radius direction, exact U crosswalk, conditioned-to-Palm exponent doubling, and the no-fixed-exponential-tail firewall.",
    "evidence": [
@@ -526,7 +526,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 54,
+   "age_days": 55,
    "queue_state": "v1.1 CURRENT / EXACT-HASH THEOREM VERDICT OPEN / v1.0 HISTORICAL AMEND / P0.2 OPEN",
    "remaining_decisive_work": "One organizationally distinct reviewer must bind a verdict to the exact v1.1 body, including the full-denominator firewall and support-respecting regular-conditional-version clarification.",
    "evidence": [
@@ -558,7 +558,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 53,
+   "age_days": 54,
    "queue_state": "v1.1 CURRENT / EXTERNAL EXACT-HASH REVIEW OPEN / ALL PREDECESSORS HISTORICAL / P0.2 OPEN",
    "remaining_decisive_work": "One organizationally distinct reviewer must execute LCR-REQ-045-v1.1 against the v1.1 hash and verify chart identity, deep-saddle threshold placement, common domain, and scaling.",
    "evidence": [
@@ -593,7 +593,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 53,
+   "age_days": 54,
    "queue_state": "PARENT PASS / CARRIER A APPROVE / CARRIER B v1.1 CONVERSION OPEN / JOINT STACK OPEN / P0.2 OPEN",
    "remaining_decisive_work": "Obtain the narrow organizationally distinct Carrier B v1.1 conversion under LS-P01-REQ-002, then issue the repaired joint three-object interface verdict. Do not repeat the satisfied parent or Carrier A reviews.",
    "evidence": [
@@ -647,7 +647,7 @@
    "author_provider": "OpenAI; exact author session to be disclosed",
    "reviewer_claim": "UNASSIGNED",
    "aging_action": "ESCALATE",
-   "age_days": 54,
+   "age_days": 55,
    "queue_state": "LATEST-OBJECT PASS / CONDITIONAL SYNTHESIS PASS / DEPENDENCY VERDICTS OPEN / OWN EXTERNAL VERDICT OPEN / P0.2 NOT PROMOTED",
    "remaining_decisive_work": "First obtain the open exact component verdicts for LM003, LM004-v1.1, LM006, LM009, LM010-v1.1, LM012-v1.1, and LM013 Carrier-B-v1.1 plus joint stack. Then issue the organizationally distinct final synthesis verdict on the exact 9,721-byte body under current LCR-REQ-053-v1.2, using LCR-REQ-037-v1.0 as the object-level checklist.",
    "evidence": [
@@ -661,6 +661,29 @@
    ],
    "note": "The synthesis route. Its conditional pass is conditional ON the eight preconditions above; the register grades closure cost 'MEDIUM-HIGH — SEVEN OPEN LOAD-BEARING INTERFACES PLUS ONE FINAL EXACT-HASH SYNTHESIS VERDICT'. Human approval is 'REQUIRED only for eventual P0.2 theorem promotion after every technical and independence gate passes', and Dylan Roy separately controls theorem promotion. Nothing here promotes P0.2, and no q0 premise is discharged by this route.",
    "source": "registers/json/review_queue.json row RV-LM011-MAIN; registers/json/easy_closure_queue.json row P02-LM-011"
+  },
+  "RV-RN5-MOMENT-REPAIR": {
+   "track": "UPPER2D",
+   "statement": "Review route for the RN5 corrected moment and local spatial-box candidate: 65 exact spatial points with complete mark caps; 10 spatial boxes. No annulus cover, no all-small-r extension, no external acceptance.",
+   "grade": "READY",
+   "technical_status": "READY",
+   "exact_object": "RN5 corrected moment and local spatial-box candidate",
+   "body_bytes": 13725,
+   "body_sha256": "ac89f60b8206bfe011e6c2bc653e7acb39bc83a55c2a2c8fd1e17fd70c6c0383",
+   "depends_on": [],
+   "requires_independent_verdict": true,
+   "independent_review_state": "OPEN",
+   "independent_review_verbatim": "OpenAI author-side proof/replay; 66 checks; no independent review yet",
+   "independence_status": "EXTERNAL_REVIEW_OPEN",
+   "independence_credit": 0,
+   "author_provider": "OpenAI / ROUND5-20260917-b9c2",
+   "reviewer_claim": "UNASSIGNED",
+   "aging_action": "NEW",
+   "age_days": 1,
+   "easy_closure_queue_row": null,
+   "next_action_verbatim": "Execute R1–R10 in bundle; reconstruct Holder, L2 Taylor remainders and marginal whitening; then extend complete near cover",
+   "note": "Transcribed 2026-09-19 from the 2026-09-18 xlsx export's review_queue row (the route was created 2026-09-17, after the markdown export). READY is the register's word for a route ready for review; it grades nothing, and independence_credit is 0. The easy_closure_queue tab carries no row for this route, which the field easy_closure_queue_row records explicitly. The RN5 candidate 'No annulus cover, no all-small-r extension, no external acceptance' (Scope / dependencies); D3-LEMMA-RN-UNIF stays not closed and the five validity premises stay OPEN. Nothing here composes with the 3D track.",
+   "source": "registers/json/review_queue.json row RV-RN5-MOMENT-REPAIR (2026-09-18 xlsx export); no easy_closure_queue row exists for this route; packet https://drive.google.com/file/d/1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5/view"
   }
  },
  "firewalls": [

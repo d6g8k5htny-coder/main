@@ -72,6 +72,7 @@ GRADE_STRENGTH = {
     "OPEN": 0, "REFUTED_AS_WRITTEN": 0, "NEEDS_RECONCILIATION": 0,
     "AMEND_REQUIRED": 0, "PROPOSED": 0,
     "CONDITIONAL": 1, "AUTHOR_SIDE_PARTIAL": 1, "PASS_TECHNICAL": 1,
+    "READY": 1, "AMEND": 1,   # review-queue words: a route ready for or needing review; work recorded, nothing discharged
     "RETRACTED_TO_CANDIDATE": 1,   # an unconditional label withdrawn by audit; what survives is conditional
     "AUTHOR_SIDE_PROOF_PRESENT": 2,
     "AUTHOR_SIDE_COMPLETE_ARGUMENTS_WITH_EXACT_FINITE_COMPANIONS": 2,
