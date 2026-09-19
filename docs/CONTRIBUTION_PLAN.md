@@ -1,7 +1,7 @@
 # Where I can contribute
 
-Written after reading the full Drive corpus: the 4,456-item source map, the
-42-tab register export, the governance canon, the frozen Q0 core's navigation
+Written after reading the full Drive corpus: the 4,456-item source map, the 44-tab register export (2026-09-18 xlsx; the
+2026-09-17 rendering had 42 tabs, seven of them truncated), the governance canon, the frozen Q0 core's navigation
 structure, the D1 assembly layers, the RN3 and RN5 releases, the LPW fold
 dispositions, the prize registry, and the 2026-09-17 accessibility publication.
 

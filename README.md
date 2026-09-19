@@ -64,11 +64,11 @@ not collapsed.**
 
 | # | Premise | Frozen v2.2 / HOLD | Register note + addenda (effective at v2.3) |
 |---|---|---|---|
-| 1 | `OBL-D1-PROMOTE` | OPEN (chart + sub-obligations) | normalizer sub-part **DISCHARGED** by the H3 band floor; **chart side still OPEN** |
+| 1 | `OBL-D1-PROMOTE` | OPEN (chart + sub-obligations) | normalizer sub-part **DISCHARGED** by the H3 band floor; **chart side still OPEN**, "and now also the uniform-band extension of the B4LOC/B2-far/far-route certificates" (register note §5: the obligation is reduced on one side and enlarged on the other) |
 | 2 | `D3-LEMMA-RN-UNIF` | NOT closed | still OPEN; receipts carry `lemma_closed: false` |
-| 3 | `PERC-DECAY` | OPEN | **RESTATED** as Θ(r³); engine complete and frozen; `PD-CONN` named input still open |
+| 3 | `PERC-DECAY` | OPEN | listed **CLOSED "in its RESTATED form"** (Θ(r³) with certified constants; register note §5); `PD-CONN` moved to the note's **REFINEMENT/constants register** ("named; constants-not-order"); engine complete and frozen |
 | 4 | `OBL-B1-BRANCH(loop\|B1)` | OPEN | demoted to **REFINEMENT** for v2.3 |
-| 5 | `B4.loc` dam-line tube certificate | OPEN (asserted-not-established identification) | **CLOSED 2026-09-15** (B4LOC-R1); wrap/remote reconciliation still open |
+| 5 | `B4.loc` dam-line tube certificate | OPEN (asserted-not-established identification) | **CLOSED 2026-09-15** (B4LOC-R1); wrap/remote reconciliation **ADJUDICATED YES** — "B4.rem is CLOSED by B4LOC-R1 for the O(r³) validity grade" (register note §2, §5) |
 
 Chart-side sub-obligations of premise 1: `OBL-H5-JETMOD` (certified 24-jet band
 enclosure — OPEN, display only), `OBL-H5-ZBAND` (lo side rides the frozen H3
@@ -146,7 +146,7 @@ verifiers three times, which is what they are for.
 | | |
 |---|---|
 | Drive items covered | 4,456 (3,714 files, 742 folders), 319 MB |
-| Archive carriers / members | 77 carriers per the accessibility completion report (76 inventory rows `ARCHIVE_INDEXED`, 73 with members listed), 11,649 member occurrences, 2,975 distinct member payload digests; 4,020 distinct payloads over the whole source map |
+| Archive carriers / members | 77 carriers — recomputable from the committed files: the 76 inventory rows `ARCHIVE_INDEXED` plus the `BINARY_UNRENDERED` `S2-DATA-002-v1.0_result_carrier.zip`, which `Archive_Members.csv` lists members for (72 of the 76 have member rows; the other four are single-file `.gz` uploads); 11,649 member occurrences; 2,974 distinct member payload digests (the five `READ_FAILED` members carry an empty digest cell; until 2026-09-19 that cell was counted as a 2,975th); 4,020 distinct payloads over the whole source map |
 | Source-map snapshot | 2026-09-17 accessibility publication |
 | Register export | GP-REG-032-v1.2, 44 tabs, xlsx export of 2026-09-18 (the 2026-09-17 markdown rendering is retained beside it; it truncated seven tabs) |
 | Control plane at export | AI-DRIVE-AUTONOMY-R17 (OP-PROT-019-v1.1) |

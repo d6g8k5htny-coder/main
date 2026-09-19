@@ -32,3 +32,18 @@ repository — the recovered verifier is stored as a `.bin` under
 `recovery/recovered/` and is not wired into `engine/` or CI. The five validity
 premises of D1 v2.2(2) stay OPEN, `D3-LEMMA-RN-UNIF` is not closed, and nothing
 here composes with the 3D track.
+
+## 2026-09-19 — `LANE_RN_UNIF.md`
+
+`LANE_RN_UNIF.md` (11,042 B, SHA-256 `8a3c6d55…`, Drive
+`1dK4ZimCC8o9670K-9ZJS9Jtquid1CAA6`), byte-exact against the inventory: the
+2026-09-16 "Drive familiarity memo (fail-closed)" for the RN_UNIF lane. Its
+standing verdict table: "D3-LEMMA-RN-UNIF Piece 1 | **OPEN**"; "Piece 2 |
+**OPEN** (annulus Riemann-sum driver unwritten)"; "Prize original problems
+solved | **0**". Its §2 "Status quotes (skim)" block-quotes each document's
+STATUS line and then summarises the rest in the memo's own words — the
+sentences "Engine `d3_rn_unif.py` located (Kimi mid-build); certifier never
+invoked … Piece 2 driver unwritten" are the memo's summary of CL-RNU-001, not a
+quotation of it (`research/slack/registry.py` said "quoted verbatim" until
+2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
+the Drive's thematic track T4.

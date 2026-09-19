@@ -485,6 +485,10 @@ def t4_polar_cover(split: str = "theta",
                    shells: Sequence[Fraction] | None = None) -> PolarRegion:
     """The T4 push region ``d in [5, 17]`` with theta-halving.
 
+    "T4" is ``LANE_RN_UNIF.md``'s name for this push region; it is unrelated to
+    the Drive's thematic research track T4 (Lower Side, marked-repulsion gate)
+    under ``16_THEMATIC_RESEARCH_TRACKS``.
+
     From ``LANE_RN_UNIF.md``'s T4 freeze list, item 2: "Polar cover d in
     [5, 17] with theta-halving", repeated as EXECUTE item 4, "full polar cover
     d in [5, 17] with theta-halving".

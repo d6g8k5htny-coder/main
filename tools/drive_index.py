@@ -3,8 +3,13 @@
 
 ``drive/inventory.jsonl`` holds one JSON object per Drive item (4,456 entries
 from the 2026-09-17 accessibility snapshot): id, title, path, mimeType, bytes,
-sha256, context, access_status, link.  This is the git-side equivalent of the
-R17 **File Catalog** tab and of the Drive's `07_MODEL_ACCESSIBILITY` source map.
+sha256, context, access_status, link — an 8-field projection of the source
+map's ``Files.csv``.  The tool queries three of the source map's seven tables
+(Files, via inventory.jsonl; Archive Members; Exceptions); Payloads is read by
+tools/frozen_check.py; Reading Links, Reading Copies and Start Here are not in
+the repository.  It is an index of the Drive's ``07_MODEL_ACCESSIBILITY``
+snapshot, not of the R17 **File Catalog** tab (``registers/json/file_catalog.json``,
+2,952 rows), which is a different snapshot with a different row set.
 
 Usage:
     python3 tools/drive_index.py find <substring>     # title or path search

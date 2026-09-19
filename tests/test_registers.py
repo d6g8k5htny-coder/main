@@ -544,7 +544,8 @@ def test_control_the_unmutated_copy_passes(regs):
 def test_every_findings_section_is_read_and_the_pending_section_says_why():
     """KNOWN_FINDINGS.json keeps the 16 findings the markdown export showed
     (covered by registers/collision_proposal.json) apart from the 7 the xlsx
-    export first delivered, which await a successor proposal. The checker reads
+    export first delivered, which the numbered successor
+    registers/collision_proposal_2026-09-19.json covers. The checker reads
     both; a finding hidden in a section whose name does not begin with
     'findings' would NOT be read, so the split cannot silently grow."""
     with open(KNOWN, encoding="utf-8") as f:
@@ -556,7 +557,8 @@ def test_every_findings_section_is_read_and_the_pending_section_says_why():
     assert set(RC.load_known(KNOWN)) == set(known["findings"]) | set(
         known["findings_first_visible_in_2026-09-18_export"])
     note = known["_findings_first_visible_in_2026-09-18_export_note"]
-    assert "NOT COVERED BY ANY COLLISION PROPOSAL YET" in note and "successor" in note
+    assert "COVERED BY THE NUMBERED SUCCESSOR PROPOSAL registers/collision_proposal_2026-09-19.json" in note
+    assert "successor_of registers/collision_proposal.json" in note and "nothing has been repaired" in note
 
 
 def test_control_an_allowlist_section_that_is_not_a_mapping_is_refused(tmp_path):

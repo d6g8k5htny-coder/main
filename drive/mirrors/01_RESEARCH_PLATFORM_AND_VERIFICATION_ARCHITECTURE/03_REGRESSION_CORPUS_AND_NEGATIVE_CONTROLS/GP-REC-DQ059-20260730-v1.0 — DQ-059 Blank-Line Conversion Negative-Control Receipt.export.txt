@@ -1,0 +1,82 @@
+﻿GP-REC-DQ059-20260730-v1.0
+
+
+DQ-059 OP-PROT-017 blank-line conversion negative-control receipt
+
+
+Date: 2026-07-30
+Executor: OpenAI / GP (operations only)
+Scientific effect: none
+Independence credit: zero
+Verdict: PASS — the conversion path expanded the authored consecutive blank lines, so the pre-conversion and post-conversion frozen-body identities diverged exactly in the predicted direction.
+
+
+1. Preregistered authored object
+
+
+Local source: DQ-059-NEGATIVE-CONTROL-AUTHORED-v1.0.txt
+
+
+- Whole source: 552 bytes
+- Whole-source SHA-256: 372315b4949833f4761ec40a586d864b2e33a8b04175360c8ff51720b6dde012
+- Begin marker: BEGIN_DQ059_NEGATIVE_CONTROL
+- End marker: END_DQ059_NEGATIVE_CONTROL
+- Marker counts: one begin line and one end line
+- Authored frozen body: 199 bytes
+- Authored frozen-body SHA-256: 17d9a0ef40312321f72798a880b069552dd28d4e337acf9c623bc168248f5f1b
+- Authored gap: exactly two empty lines between the two payload sentences
+
+
+The authored frozen body was:
+
+
+DQ-059 blank-line conversion negative control.
+The next payload gap contains exactly two authored blank lines.
+
+
+
+
+This line follows the two authored blank lines.
+The payload ends after this sentence.
+
+
+2. Google Docs conversion
+
+
+The TXT source was imported through the Google Drive native-document conversion path as:
+
+
+- Title: DQ-059-NEGATIVE-CONTROL-v1.0 — OP-PROT-017 Blank-Line Conversion Falsifier
+- Drive ID: 1KEP5HUohtoTTbxe49EUE4EvubBFzPmQ6_ttR1lJgB8Y
+- URL: https://docs.google.com/document/d/1KEP5HUohtoTTbxe49EUE4EvubBFzPmQ6_ttR1lJgB8Y/edit
+
+
+A fresh same-run native text/plain export was then fetched by exact Drive ID and evaluated under OP-PROT-017.
+
+
+3. Post-conversion measurements
+
+
+- Raw native export: 577 bytes
+- Raw-export SHA-256: e40eddc3798e562e992f81c94056ea8c4c0079c680a68f05c7d012c471d9aab4
+- UTF-8 BOM: present
+- Begin-marker lines: one
+- End-marker lines: one
+- Exported frozen body: 201 bytes
+- Exported frozen-body SHA-256: d842f1f35ec6d0a985e514fdbe2ca92fdb727c36e52e237f6c649d86adcd4ecf
+- Exported gap: four empty lines between the two payload sentences
+
+
+The converted frozen body therefore gained exactly two LF bytes. The authored and exported identities are not equal.
+
+
+4. Disposition
+
+
+DQ-059 passes. The converting upload expanded a run of two authored blank lines into four exported blank lines. This is a direct negative control supporting OP-PROT-017 rule C1 and the stated blank-line risk behind rule C3.
+
+
+No scientific claim, review credit, theorem status, package root, seal, release, deletion, or canonical promotion changes. Rule C1 remains unchanged. Rule C3 remains conservative guidance; this single negative control supports its mechanism but does not convert an operational recommendation into a mathematical theorem.
+
+
+Reopen only if the exact Drive object no longer reproduces the post-conversion identity above, the extraction standard changes, or a different conversion route is claimed to be equivalent without its own test.

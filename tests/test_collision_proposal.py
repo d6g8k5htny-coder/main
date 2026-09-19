@@ -14,6 +14,31 @@ Negative controls (each must make the checker exit nonzero):
 Each negative control is built by copying the real proposal into a scratch tree and
 corrupting exactly one thing, so a test that fails is telling you about the checker,
 not about the fixture.
+
+The second half of this file (from "successor" below) pins the numbered successor
+registers/collision_proposal_2026-09-19.json + registers/COLLISION_PROPOSAL_2026-09-19.md:
+7 records over KNOWN_FINDINGS section 'findings_first_visible_in_2026-09-18_export',
+source of record the 2026-09-18 xlsx export, every colliding row quoted cell for cell from
+registers/json/<tab>.json (verbatim mode 'xlsx_export_json_rows').  Its negative controls
+drive the checker through --proposal in a second sandbox and cover, beyond the first
+proposal's set: tampered cells, digests and indices; the xlsx digest and byte count; ids
+reissued from the frozen predecessor or colliding with the register; an edited
+predecessor; a record that names the right finding but quotes the wrong row, the same row
+twice or a mismatched identifier; a typed (not derived) difference list or cell count; a
+keeper that is not the earlier row; a same-object flag, exact-duplicate flag or successor
+id suffix that contradicts the cells; a proposed Duplicate Flags cluster id that already
+exists; and a successor document that drops successor_of.
+
+The third block ("document level and companion" below) closes the gaps an adversarial
+verifier found after that: a falsified row_canonical_bytes; a document-level summary count
+or classification list that contradicts the records' cells; a follow-up whose 'from' is not
+the colliding identifier or whose 'to' is not an id the record proposes; a number word in a
+record's materiality that contradicts the recomputed cell counts; a falsified list of the
+ids the predecessor issued; a wrong workbook_tab; an APPEND_ROW retargeted away from the
+Duplicate Flags registry; and, in the companion, a tampered verbatim row block, a tampered
+byte-count/digest line, a falsified Cell count line, a summary-table successor id that is
+not the record's, a paraphrased materiality and a gate statement demoted to lowercase.
+Each of these went through the CLI unnoticed before the checks existed.
 """
 from __future__ import annotations
 
@@ -268,3 +293,875 @@ def test_negative_keeper_without_a_reason_fails(sandbox):
     d = doc()
     d["proposals"][4]["keeper"]["reason"] = ""
     expect_fail(stage(sandbox, doc=d), "keeper has no stated reason")
+
+
+# =========================================================================== successor
+# registers/collision_proposal_2026-09-19.json — the numbered successor covering the seven
+# findings under KNOWN_FINDINGS section 'findings_first_visible_in_2026-09-18_export'.
+# Its source of record is the 2026-09-18 xlsx export and every colliding row is quoted cell
+# for cell from registers/json/<tab>.json.  The 16-pin tests above are untouched; everything
+# below drives the checker through its --proposal flag so the path is resolved at call time.
+
+import hashlib  # noqa: E402
+
+SUCC_REL = os.path.join("registers", "collision_proposal_2026-09-19.json")
+SUCC_JSON = os.path.join(ROOT, SUCC_REL)
+SUCC_MD = os.path.join(ROOT, "registers", "COLLISION_PROPOSAL_2026-09-19.md")
+SOURCES_PATH = os.path.join(ROOT, "registers", "source", "SOURCES.json")
+SECTION = "findings_first_visible_in_2026-09-18_export"
+
+
+def run_succ(cwd_root: str, *extra: str) -> subprocess.CompletedProcess:
+    return subprocess.run([sys.executable, os.path.join(cwd_root, "tools", "collision_proposal_check.py"),
+                           "--proposal", SUCC_REL, *extra],
+                          cwd=cwd_root, capture_output=True, text=True, timeout=600)
+
+
+@pytest.fixture(scope="module")
+def sandbox2(tmp_path_factory):
+    """Own scratch tree for the successor, built like `sandbox`: exported data symlinked
+    (never copied, never written); only the two proposals, their companions and
+    KNOWN_FINDINGS.json are real files a test may corrupt."""
+    base = tmp_path_factory.mktemp("collision_proposal_successor")
+    os.makedirs(base / "tools")
+    os.makedirs(base / "registers")
+    for name in ("collision_proposal_check.py", "registers_import.py"):
+        shutil.copy2(os.path.join(ROOT, "tools", name), base / "tools" / name)
+    for sub in ("source", "json", "csv"):
+        os.symlink(os.path.join(ROOT, "registers", sub), base / "registers" / sub)
+    return base
+
+
+def stage_succ(sandbox2, doc=None, md=None, known=None, first=None) -> str:
+    """Write a (possibly corrupted) successor proposal into the sandbox and return its root.
+    The frozen 2026-09-18 proposal is copied unchanged unless `first` overrides it."""
+    if first is None:
+        shutil.copy2(JSON_PATH, sandbox2 / "registers" / "collision_proposal.json")
+    else:
+        with open(sandbox2 / "registers" / "collision_proposal.json", "w", encoding="utf-8") as f:
+            json.dump(first, f, ensure_ascii=False)
+    if doc is None:
+        shutil.copy2(SUCC_JSON, sandbox2 / "registers" / "collision_proposal_2026-09-19.json")
+    else:
+        with open(sandbox2 / "registers" / "collision_proposal_2026-09-19.json", "w", encoding="utf-8") as f:
+            json.dump(doc, f, ensure_ascii=False)
+    if md is None:
+        shutil.copy2(SUCC_MD, sandbox2 / "registers" / "COLLISION_PROPOSAL_2026-09-19.md")
+    else:
+        (sandbox2 / "registers" / "COLLISION_PROPOSAL_2026-09-19.md").write_text(md, encoding="utf-8")
+    if known is None:
+        shutil.copy2(KNOWN_PATH, sandbox2 / "registers" / "KNOWN_FINDINGS.json")
+    else:
+        with open(sandbox2 / "registers" / "KNOWN_FINDINGS.json", "w", encoding="utf-8") as f:
+            json.dump(known, f, ensure_ascii=False)
+    return str(sandbox2)
+
+
+def sdoc():
+    return load(SUCC_JSON)
+
+
+def smd():
+    return open(SUCC_MD, encoding="utf-8").read()
+
+
+def expect_succ_fail(root: str, needle: str, *extra: str):
+    r = run_succ(root, *extra)
+    assert r.returncode != 0, f"checker passed but should have failed\nstdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    assert needle.lower() in r.stdout.lower(), f"expected {needle!r} in output, got:\n{r.stdout}"
+
+
+def canonical_sha(row):
+    return hashlib.sha256(json.dumps(row, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+# --------------------------------------------------------------------------- positive
+
+def test_successor_passes_in_place():
+    r = subprocess.run([sys.executable, TOOL, "--proposal", SUCC_REL], cwd=ROOT,
+                       capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, f"successor proposal fails its own checker:\n{r.stdout}\n{r.stderr}"
+    assert "proposal=" + SUCC_REL in r.stdout and "records=7" in r.stdout and "successors=7" in r.stdout
+    assert "verbatim=xlsx_export_json_rows" in r.stdout
+
+
+def test_first_proposal_still_passes_with_no_flags_and_names_itself():
+    r = subprocess.run([sys.executable, TOOL], cwd=ROOT, capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0
+    assert "proposal=registers/collision_proposal.json" in r.stdout
+    assert "verbatim=markdown_export_lines" in r.stdout and "records=16" in r.stdout
+
+
+def test_successor_sandbox_positive_control(sandbox2):
+    r = run_succ(stage_succ(sandbox2))
+    assert r.returncode == 0, f"unmodified successor sandbox fixture fails:\n{r.stdout}\n{r.stderr}"
+
+
+def test_successor_has_exactly_seven_records_one_per_new_section_key():
+    d, k = sdoc(), known()
+    keys = [p["finding_key"] for p in d["proposals"]]
+    assert d["findings_source_section"] == SECTION
+    assert sorted(keys) == sorted(k[SECTION])
+    assert len(keys) == len(set(keys)) == 7
+
+
+def test_the_two_proposals_together_cover_all_23_findings_exactly_once():
+    k = known()
+    all_keys = list(k["findings"]) + list(k[SECTION])
+    assert len(all_keys) == len(set(all_keys)) == 23
+    covered = [p["finding_key"] for p in doc()["proposals"]] + [p["finding_key"] for p in sdoc()["proposals"]]
+    assert len(covered) == 23
+    assert sorted(covered) == sorted(all_keys), "the two proposals do not partition the findings"
+
+
+def test_every_quoted_row_equals_the_live_json_row_cell_for_cell():
+    d = sdoc()
+    tabs = {}
+    for rel in d["source_of_record"]["json_tabs"]:
+        t = load(os.path.join(ROOT, rel))
+        tabs[os.path.splitext(os.path.basename(rel))[0]] = t
+    n = 0
+    for p in d["proposals"]:
+        t = tabs[p["register_tab"]]
+        assert len(p["rows"]) == 2
+        for r in p["rows"]:
+            live = t["rows"][r["register_row_index"]]
+            assert r["verbatim_row"] == live
+            assert r["row_sha256"] == canonical_sha(live)
+            assert r["fields"] == dict(zip(t["header"], live))
+            assert r["fields"][t["header"][0]] == p["colliding_identifier"]
+            n += 1
+    assert n == 14
+
+
+def test_successor_xlsx_digest_matches_sources_json_and_disk():
+    d = sdoc()
+    src = d["source_of_record"]
+    assert src["kind"] == "xlsx_export_json_rows"
+    with open(SOURCES_PATH, encoding="utf-8") as f:
+        sources = json.load(f)
+    rec = [e for e in sources["exports"] if e["file"] == os.path.basename(src["xlsx_path"])]
+    assert len(rec) == 1
+    assert rec[0]["sha256"] == src["xlsx_sha256"] and rec[0]["bytes"] == src["xlsx_bytes"]
+    raw = open(os.path.join(ROOT, src["xlsx_path"]), "rb").read()
+    assert hashlib.sha256(raw).hexdigest() == src["xlsx_sha256"] and len(raw) == src["xlsx_bytes"]
+
+
+def test_successor_ids_collide_with_nothing():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import importlib
+    cpc = importlib.import_module("collision_proposal_check")
+    existing = cpc.existing_identifiers(os.path.join(ROOT, "registers", "json"))
+    first_ids = {sid for _, sid in cpc.collect_successors(doc())} | set(cpc.batch_ids(doc()).values())
+    succ = [sid for _, sid in cpc.collect_successors(sdoc())]
+    batch = set(cpc.batch_ids(sdoc()).values())
+    assert len(succ) == len(set(succ)) == 7
+    for sid in list(succ) + sorted(batch):
+        assert sid not in existing, sid
+        assert sid not in first_ids, sid
+    assert all(s.endswith("@AIDX-R" + str(p["successor"]["register_row_index"])) or
+               s.endswith("@EVL-R" + str(p["successor"]["register_row_index"]))
+               for s, p in zip(succ, sdoc()["proposals"]))
+
+
+def test_successor_supersedes_nothing_and_names_its_frozen_predecessor_by_digest():
+    d = sdoc()
+    assert d["supersedes"] is None
+    pred = d["successor_of"]
+    assert pred["path"] == "registers/collision_proposal.json"
+    raw = open(JSON_PATH, "rb").read()
+    assert pred["sha256"] == hashlib.sha256(raw).hexdigest() and pred["bytes"] == len(raw)
+
+
+def test_successor_classification_is_derived_from_the_cells():
+    d = sdoc()
+    by_id = {p["colliding_identifier"]: p for p in d["proposals"]}
+    diff_objects = [i for i, p in by_id.items() if not p["both_rows_cite_one_drive_object"]]
+    assert diff_objects == ["GP-REQ-194-v1.0"]
+    p = by_id["GP-REQ-194-v1.0"]
+    assert p["defect_class"] == "DUPLICATE_REGISTER_PRIMARY_KEY__DIFFERENT_OBJECTS"
+    assert p["rows"][0]["fields"]["Source"] != p["rows"][1]["fields"]["Source"]
+    ev = by_id["EV-LS-REQ030"]
+    assert ev["register_tab"] == "evidence_lineage"
+    assert ev["exact_duplicate_row"] is False
+    assert ev["rows"][0]["verbatim_row"] != ev["rows"][1]["verbatim_row"]
+    assert ev["rows"][0]["fields"]["Drive ID"] == ev["rows"][1]["fields"]["Drive ID"]
+    for i, p in by_id.items():
+        if p["both_rows_cite_one_drive_object"]:
+            src = "Source URL" if p["register_tab"] == "evidence_lineage" else "Source"
+            assert p["rows"][0]["fields"][src] == p["rows"][1]["fields"][src], i
+        assert p["keeper"]["register_row_index"] < p["successor"]["register_row_index"], i
+        assert p["keeper"]["reason"] and "append position" in p["keeper"]["reason"].lower()
+        for op in p["operations"]:
+            assert op["operation"] == "APPEND_ROW" and op["append_only"] is True
+            assert op["mutates_existing_rows"] is False and "Duplicate Flags" in op["target_tab"]
+        for fu in p["non_additive_followups"]:
+            assert fu["operator_reserved"] is True and fu["op"] == "REIDENTIFY_KEY_CELL"
+
+
+def test_successor_markdown_quotes_every_new_finding_key_and_the_statements():
+    text = smd()
+    for k in known()[SECTION]:
+        assert k in text, k
+    assert "requires operator action" in text.lower()
+    assert "nothing has been repaired" in text.lower()
+    assert "export remains faithful" in text.lower()
+    assert "independence_credit = 0" in text and "REMAINS OPEN" in text
+    assert "What this document does NOT establish" in text
+
+
+def test_successor_independence_credit_is_zero_and_gates_stay_open():
+    pb = sdoc()["prepared_by"]
+    assert pb["independence_credit"] == 0 and pb["independence_credit_reason"]
+    assert "REMAIN" in pb["independence_requiring_gates_remain_open"].upper()
+    assert sdoc()["nothing_repaired"] is True and sdoc()["export_remains_faithful"] is True
+
+
+# --------------------------------------------------------------------------- negative
+
+def test_negative_successor_tampered_quoted_cell_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["rows"][1]["verbatim_row"][6] = "tampered status"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "does not match the live json row cell for cell")
+
+
+def test_negative_successor_wrong_row_index_in_range_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][1]["rows"][0]["register_row_index"] += 1
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "does not match the live json row cell for cell")
+
+
+def test_negative_successor_row_index_out_of_range_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][6]["rows"][1]["register_row_index"] = 10_000
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "out of range")
+
+
+def test_negative_successor_wrong_row_digest_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][2]["rows"][0]["row_sha256"] = "0" * 64
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "row_sha256")
+
+
+def test_negative_successor_tampered_fields_dict_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][3]["rows"][1]["fields"]["Status"] = "PROMOTED"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "dict(zip(header, row))")
+
+
+def test_negative_successor_wrong_xlsx_digest_fails(sandbox2):
+    d = sdoc()
+    d["source_of_record"]["xlsx_sha256"] = "f" * 64
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "recorded xlsx sha256")
+
+
+def test_negative_successor_wrong_xlsx_byte_count_fails(sandbox2):
+    d = sdoc()
+    d["source_of_record"]["xlsx_bytes"] += 1
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "recorded xlsx byte count")
+
+
+def test_negative_successor_record_for_a_finding_absent_from_the_section_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][4]["finding_key"] = "artifact_index: duplicate key 'GP-XXX-000-v0.0' at rows 1 and 2"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "absent from KNOWN_FINDINGS")
+
+
+def test_negative_successor_dropped_record_fails(sandbox2):
+    d = sdoc()
+    d["proposals"] = d["proposals"][:-1]
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "has no proposal record")
+
+
+def test_negative_successor_finding_added_to_section_without_a_record_fails(sandbox2):
+    k = known()
+    k[SECTION]["evidence_lineage: duplicate key 'EV-XX-000' at rows 1 and 2"] = "synthetic; no record"
+    expect_succ_fail(stage_succ(sandbox2, known=k), "has no proposal record")
+
+
+def test_negative_successor_id_equal_to_an_existing_identifier_fails(sandbox2):
+    d = sdoc()
+    # 'VOID-DUPLICATE-EV-LSMAN037-20260726T1943' is a real Evidence ID in registers/json/.
+    d["proposals"][6]["successor"]["proposed_id"] = "VOID-DUPLICATE-EV-LSMAN037-20260726T1943"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "already exists in registers/json")
+
+
+def test_negative_successor_id_equal_to_a_bare_existing_artifact_id_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["successor"]["proposed_id"] = "GP-DATA-168-v1.1"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "already exists in registers/json")
+
+
+def test_negative_successor_id_reissuing_a_first_proposal_successor_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["successor"]["proposed_id"] = "GP-DER-118-v1.2@AIDX-R95"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "already issued by the predecessor")
+
+
+def test_negative_successor_batch_id_reissuing_the_first_proposal_correction_record_fails(sandbox2):
+    d = sdoc()
+    d["batch_level_artifacts_that_would_also_be_appended"]["correction_record"]["proposed_id"] = "GP-COR-204"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "already issued by the predecessor")
+
+
+def test_negative_successor_with_edited_predecessor_fails(sandbox2):
+    first = doc()
+    first["proposals"][0]["materiality"] += " (edited)"
+    expect_succ_fail(stage_succ(sandbox2, first=first), "successor_of.sha256 does not match")
+
+
+def test_negative_successor_merge_operation_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][1]["operations"][0]["operation"] = "MERGE_DUPLICATE_ROWS"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "forbidden verb MERGE")
+
+
+def test_negative_successor_delete_operation_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][5]["operations"][0]["operation"] = "DELETE_ROW"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "forbidden verb DELETE")
+
+
+def test_negative_successor_deletion_hidden_in_a_followup_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][2]["non_additive_followups"][0]["op"] = "REMOVE_DUPLICATE_KEY_CELL"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "forbidden verb REMOVE")
+
+
+def test_negative_successor_nonzero_independence_credit_fails(sandbox2):
+    d = sdoc()
+    d["prepared_by"]["independence_credit"] = 1
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "independence_credit must be 0")
+
+
+def test_negative_successor_claiming_to_supersede_the_first_proposal_fails(sandbox2):
+    d = sdoc()
+    d["supersedes"] = "registers/collision_proposal.json"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "must not claim to supersede")
+
+
+def test_negative_successor_markdown_missing_a_finding_key_fails(sandbox2):
+    key = "evidence_lineage: duplicate key 'EV-LS-REQ030' at rows 385 and 386"
+    text = smd().replace(key, "(elided)")
+    expect_succ_fail(stage_succ(sandbox2, md=text), "does not quote the finding key")
+
+
+def test_negative_successor_markdown_dropping_the_no_repair_statement_fails(sandbox2):
+    text = smd().replace("Nothing has been repaired", "Repaired").replace(
+        "nothing has been repaired", "repaired")
+    expect_succ_fail(stage_succ(sandbox2, md=text), "nothing-has-been-repaired")
+
+
+def test_negative_successor_companion_field_pointing_nowhere_fails(sandbox2):
+    d = sdoc()
+    d["companion"] = "registers/NO_SUCH_COMPANION.md"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "missing companion document")
+
+
+def test_negative_successor_checked_against_the_wrong_section_fails(sandbox2):
+    expect_succ_fail(stage_succ(sandbox2), "disagrees with the document's own", "--section", "findings")
+
+
+def test_negative_successor_record_without_does_not_establish_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][4]["does_not_establish"] = []
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "does_not_establish is missing")
+
+
+def test_negative_successor_keeper_without_a_reason_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][3]["keeper"]["reason"] = ""
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "keeper has no stated reason")
+
+
+# --------------------------------------------------------------------------- binding
+# The checks below bind each successor record to the finding it claims to disambiguate and
+# recompute every derived field from the live cells.  Each control corrupts one thing and
+# keeps everything else self-consistent (digests, fields, indices), so only the binding or
+# recomputation check can catch it.
+
+
+def live_row(tab: str, idx: int):
+    t = load(os.path.join(ROOT, "registers", "json", tab + ".json"))
+    return t["header"], t["rows"][idx]
+
+
+def quoted(tab: str, idx: int, template: dict) -> dict:
+    """A fully self-consistent quotation of registers/json/<tab>.json row idx."""
+    header, row = live_row(tab, idx)
+    r = dict(template)
+    r["register_row_index"] = idx
+    r["verbatim_row"] = list(row)
+    r["row_sha256"] = canonical_sha(row)
+    r["row_canonical_bytes"] = len(json.dumps(row, ensure_ascii=False, separators=(",", ":")).encode("utf-8"))
+    r["fields"] = dict(zip(header, row))
+    return r
+
+
+def test_successor_cell_comparison_counts_and_lists_match_a_fresh_recomputation():
+    d = sdoc()
+    for p in d["proposals"]:
+        ia, ib = [r["register_row_index"] for r in p["rows"]]
+        header, a = live_row(p["register_tab"], ia)
+        _, b = live_row(p["register_tab"], ib)
+        identical = [h for h, x, y in zip(header, a, b) if x == y]
+        diffs = [{"field": h, f"row_{ia}": x, f"row_{ib}": y} for h, x, y in zip(header, a, b) if x != y]
+        assert p["fields_identical_in_both_rows"] == identical, p["record_id"]
+        assert p["field_differences"] == diffs, p["record_id"]
+        cc = p["cell_comparison"]
+        assert (cc["cells_total"], cc["cells_identical"], cc["cells_differing"]) == \
+            (len(header), len(identical), len(diffs)), p["record_id"]
+        assert cc["cells_identical"] + cc["cells_differing"] == cc["cells_total"]
+
+
+NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
+                "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12, "sixteen": 16}
+
+
+def test_successor_prose_cell_counts_agree_with_the_machine_counts():
+    """The EV-LS-REQ030 record states its counts in words in three places (record
+    materiality, document-level classification note, companion Part 2) and once in
+    docs/FINDINGS_2026-09-18.md; each must equal the recomputed cell_comparison."""
+    import re
+    d = sdoc()
+    ev = [p for p in d["proposals"] if p["colliding_identifier"] == "EV-LS-REQ030"][0]
+    cc = ev["cell_comparison"]
+    assert cc["cells_total"] == 16
+    m = re.search(r"(\w+) of sixteen cells agree", ev["materiality"])
+    assert m and NUMBER_WORDS[m.group(1).lower()] == cc["cells_identical"]
+    m = re.search(r"(\w+) cells differ:", ev["materiality"])
+    assert m and NUMBER_WORDS[m.group(1).lower()] == cc["cells_differing"]
+    note = d["classification_of_the_seven_pairs"]["note"]
+    m = re.search(r"(\w+) of sixteen cells differ, (\w+) agree", note)
+    assert m and NUMBER_WORDS[m.group(1)] == cc["cells_differing"] and NUMBER_WORDS[m.group(2)] == cc["cells_identical"]
+    text = smd()
+    assert ev["materiality"] in text
+    m = re.search(r"they are not\.\*\* (\w+) of sixteen cells differ", text)
+    assert m and NUMBER_WORDS[m.group(1).lower()] == cc["cells_differing"]
+    assert f"Cell count: 16 columns compared, {cc['cells_identical']} identical, {cc['cells_differing']} differing" in text
+    findings = open(os.path.join(ROOT, "docs", "FINDINGS_2026-09-18.md"), encoding="utf-8").read()
+    m = re.search(r"digest but differ in (\w+) of sixteen cells", findings)
+    assert m and NUMBER_WORDS[m.group(1)] == cc["cells_differing"]
+    for stale in ("Nine of sixteen", "Seven cells differ", "seven cells differ", "Seven of sixteen"):
+        assert stale not in text and stale not in json.dumps(d, ensure_ascii=False) and stale not in findings
+
+
+def test_successor_companion_states_every_record_cell_count():
+    text = smd()
+    for p in sdoc()["proposals"]:
+        cc, (ia, ib) = p["cell_comparison"], [r["register_row_index"] for r in p["rows"]]
+        assert (f"Cell count: {cc['cells_total']} columns compared, {cc['cells_identical']} identical, "
+                f"{cc['cells_differing']} differing (rows {ia} and {ib}") in text, p["record_id"]
+
+
+def test_negative_successor_right_finding_wrong_row_quoted_fails(sandbox2):
+    """Row 235 (GP-AUD-176-v1.0) quoted instead of 240, with digest and fields all consistent:
+    only the binding to the finding key can catch it."""
+    d = sdoc()
+    p = d["proposals"][0]
+    p["rows"][1] = quoted("artifact_index", 235, p["rows"][1])
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "finding key names rows 231 and 240 but the record quotes rows [231, 235]")
+
+
+def test_negative_successor_same_row_quoted_twice_fails(sandbox2):
+    d = sdoc()
+    p = d["proposals"][0]
+    p["rows"][1] = quoted("artifact_index", 231, p["rows"][1])
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "each of the two rows must be quoted exactly once")
+
+
+def test_negative_successor_colliding_identifier_not_the_key_cell_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["colliding_identifier"] = "GP-DATA-168-v9.9"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "but colliding_identifier is 'GP-DATA-168-v9.9'")
+
+
+def test_negative_successor_finding_key_naming_another_tab_fails(sandbox2):
+    """The key is renamed consistently in KNOWN_FINDINGS, the record and the companion, so
+    bijection and the companion check pass; the tab named by the key must still equal the
+    tab whose rows are quoted."""
+    old = "artifact_index: duplicate key 'GP-DATA-168-v1.1' at rows 231 and 240"
+    new = "evidence_lineage: duplicate key 'GP-DATA-168-v1.1' at rows 231 and 240"
+    d, k = sdoc(), known()
+    d["proposals"][0]["finding_key"] = new
+    k[SECTION] = {(new if key == old else key): v for key, v in k[SECTION].items()}
+    expect_succ_fail(stage_succ(sandbox2, doc=d, known=k, md=smd().replace(old, new)),
+                     "finding key names tab 'evidence_lineage' but the record quotes rows of 'artifact_index'")
+
+
+def test_negative_successor_typed_difference_list_fails(sandbox2):
+    d = sdoc()
+    p = d["proposals"][0]
+    p["field_differences"] = []
+    p["fields_identical_in_both_rows"] = list(live_row("artifact_index", 231)[0])
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "field_differences does not equal the list recomputed")
+
+
+def test_negative_successor_one_difference_dropped_fails(sandbox2):
+    d = sdoc()
+    p = d["proposals"][6]
+    p["field_differences"] = [x for x in p["field_differences"] if x["field"] != "Review ID"]
+    p["fields_identical_in_both_rows"].append("Review ID")
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "fields_identical_in_both_rows does not equal the list recomputed")
+
+
+def test_negative_successor_wrong_cell_count_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][6]["cell_comparison"]["cells_identical"] = 9
+    d["proposals"][6]["cell_comparison"]["cells_differing"] = 7
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "cell_comparison")
+
+
+def test_negative_successor_missing_cell_count_fails(sandbox2):
+    d = sdoc()
+    del d["proposals"][2]["cell_comparison"]
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "cell_comparison")
+
+
+def test_negative_successor_keeper_set_to_the_later_row_fails(sandbox2):
+    d = sdoc()
+    p = d["proposals"][0]
+    p["keeper"]["register_row_index"], p["successor"]["register_row_index"] = 240, 231
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "keeper.register_row_index 240 must be the earlier quoted row 231")
+
+
+def test_negative_successor_same_object_flag_contradicting_the_source_cells_fails(sandbox2):
+    d = sdoc()
+    p = [p for p in d["proposals"] if p["colliding_identifier"] == "GP-REQ-194-v1.0"][0]
+    p["both_rows_cite_one_drive_object"] = True
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "both_rows_cite_one_drive_object is True but the 'Source' cells")
+
+
+def test_negative_successor_defect_class_contradicting_the_source_cells_fails(sandbox2):
+    d = sdoc()
+    p = d["proposals"][1]
+    p["defect_class"] = "DUPLICATE_REGISTER_PRIMARY_KEY__DIFFERENT_OBJECTS"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "does not say SAME_DRIVE_OBJECT although the cells agree")
+
+
+def test_negative_successor_exact_duplicate_flag_flipped_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][6]["exact_duplicate_row"] = True
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "exact_duplicate_row must be False")
+
+
+def test_negative_successor_id_suffix_not_the_successor_row_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["successor"]["proposed_id"] = "GP-DATA-168-v1.1@AIDX-R999"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "must be 'GP-DATA-168-v1.1@AIDX-R240'")
+
+
+def test_negative_successor_id_locating_the_wrong_tab_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][6]["successor"]["proposed_id"] = "EV-LS-REQ030@AIDX-R386"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "must be 'EV-LS-REQ030@EVL-R386'")
+
+
+def test_negative_successor_cluster_id_already_in_duplicate_flags_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["operations"][0]["row"][0] = "DUP-ID-GP-DER-044"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "proposed cluster id 'DUP-ID-GP-DER-044' already exists in registers/json")
+
+
+def test_negative_successor_cluster_id_reissued_from_the_predecessor_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["operations"][0]["row"][0] = "DUP-REG-ARTIFACT-INDEX-GPDER118v12-20260918"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "was already proposed by the predecessor")
+
+
+def test_negative_successor_two_records_proposing_one_cluster_id_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][1]["operations"][0]["row"][0] = d["proposals"][0]["operations"][0]["row"][0]
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "is already proposed by CP-AIDX-GP-DATA-168-v1.1")
+
+
+def test_negative_successor_without_successor_of_fails(sandbox2):
+    d = sdoc()
+    del d["successor_of"]
+    d["proposals"][0]["successor"]["proposed_id"] = "GP-DER-118-v1.2@AIDX-R95"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "must name its frozen predecessor in successor_of")
+
+
+def test_first_proposal_cluster_ids_collide_with_nothing_and_are_distinct_from_the_successors():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import importlib
+    cpc = importlib.import_module("collision_proposal_check")
+    existing = cpc.existing_identifiers(os.path.join(ROOT, "registers", "json"))
+    first = [cid for _, cid in cpc.collect_cluster_ids(doc())]
+    second = [cid for _, cid in cpc.collect_cluster_ids(sdoc())]
+    assert len(first) == 16 and len(second) == 7
+    assert len(set(first) | set(second)) == 23
+    assert not (set(first) | set(second)) & existing
+
+
+# =========================================================================== document level and companion
+# Everything a reader consults first (summary_counts, the classification lists, the
+# companion's verbatim row blocks and summary table) is recomputed from the records' cells
+# by the checker.  Each control below corrupts exactly one of those surfaces and keeps the
+# per-record fields self-consistent, so only the document-level or companion check can
+# catch it.  Every control goes through the CLI in the sandbox.
+
+import re  # noqa: E402
+
+CELL_COUNT_PROSE = re.compile(r"\b(?:(\w+) of )?(\w+) cells (differ|agree)\b", re.IGNORECASE)
+
+
+def canon(row) -> str:
+    return json.dumps(row, ensure_ascii=False, separators=(",", ":"))
+
+
+def recomputed_classes():
+    """Independent re-derivation (not the checker's code) of every record's class."""
+    out = []
+    for p in sdoc()["proposals"]:
+        ia, ib = sorted(r["register_row_index"] for r in p["rows"])
+        header, a = live_row(p["register_tab"], ia)
+        _, b = live_row(p["register_tab"], ib)
+        src = "Source URL" if "Source URL" in header else "Source"
+        same = a[header.index(src)] == b[header.index(src)]
+        if "Drive ID" in header:
+            same = same and a[header.index("Drive ID")] == b[header.index("Drive ID")]
+        cls = ("exact_duplicate_rows" if a == b else
+               "same_object_different_status_text" if same else "different_objects_one_identifier")
+        out.append((p["register_tab"], p["colliding_identifier"], ia, ib, cls))
+    return out
+
+
+def test_successor_summary_counts_equal_a_fresh_recomputation():
+    d, k = sdoc(), known()
+    classes = recomputed_classes()
+    want = {
+        "findings_in_section": len(k[SECTION]),
+        "proposal_records": len(d["proposals"]),
+        "artifact_index_records": sum(1 for c in classes if c[0] == "artifact_index"),
+        "evidence_lineage_records": sum(1 for c in classes if c[0] == "evidence_lineage"),
+        "same_drive_object_different_status_text": sum(1 for c in classes if c[4] == "same_object_different_status_text"),
+        "different_objects_one_identifier": sum(1 for c in classes if c[4] == "different_objects_one_identifier"),
+        "exact_duplicate_rows": sum(1 for c in classes if c[4] == "exact_duplicate_rows"),
+        "successor_identifiers_proposed": 7,
+        "findings_covered_by_both_proposals_together": len(k[SECTION]) + len(doc()["proposals"]),
+    }
+    assert d["summary_counts"] == want
+    assert want["same_drive_object_different_status_text"] == 6 and want["different_objects_one_identifier"] == 1
+    assert want["exact_duplicate_rows"] == 0 and want["findings_covered_by_both_proposals_together"] == 23
+
+
+def test_successor_classification_lists_equal_a_fresh_recomputation():
+    block = sdoc()["classification_of_the_seven_pairs"]
+    classes = recomputed_classes()
+    for cls in ("same_object_different_status_text", "different_objects_one_identifier", "exact_duplicate_rows"):
+        assert block[cls] == [f"{i} (rows {a} and {b})" for _, i, a, b, c in classes if c == cls], cls
+
+
+def test_successor_recorded_predecessor_ids_equal_what_the_predecessor_issues():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import importlib
+    cpc = importlib.import_module("collision_proposal_check")
+    issued = sorted({sid for _, sid in cpc.collect_successors(doc())})
+    assert sorted(sdoc()["successor_of"]["successor_ids_issued_by_predecessor"]) == issued and len(issued) == 13
+
+
+def test_successor_row_canonical_bytes_and_followups_are_bound_to_the_live_rows():
+    for p in sdoc()["proposals"]:
+        for r in p["rows"]:
+            _, live = live_row(p["register_tab"], r["register_row_index"])
+            assert r["row_canonical_bytes"] == len(canon(live).encode("utf-8")), p["record_id"]
+        for fu in p["non_additive_followups"]:
+            assert fu["from"] == p["colliding_identifier"] and fu["to"] == p["successor"]["proposed_id"], p["record_id"]
+
+
+def test_successor_every_prose_cell_count_in_every_record_and_the_companion_agrees_with_the_cells():
+    """Generalises the EV-LS-REQ030 pin: for every record, every number word before
+    'cells differ/agree' in its materiality equals cell_comparison, the companion quotes the
+    materiality verbatim, and every such phrase anywhere in the companion or the document-level
+    note matches at least one record's counts (a phrase with a total no record has is a miscount)."""
+    d, text = sdoc(), smd()
+    counts = [(p["cell_comparison"]["cells_total"], p["cell_comparison"]["cells_identical"],
+               p["cell_comparison"]["cells_differing"]) for p in d["proposals"]]
+    checked = 0
+    for p in d["proposals"]:
+        cc = p["cell_comparison"]
+        assert p["materiality"] in text, p["record_id"]
+        for m in CELL_COUNT_PROSE.finditer(p["materiality"]):
+            first, second, verb = m.group(1), m.group(2).lower(), m.group(3).lower()
+            want = cc["cells_differing"] if verb == "differ" else cc["cells_identical"]
+            if first is not None:
+                if first.lower() not in NUMBER_WORDS or second not in NUMBER_WORDS:
+                    continue
+                assert NUMBER_WORDS[first.lower()] == want and NUMBER_WORDS[second] == cc["cells_total"], (p["record_id"], m.group(0))
+            else:
+                if second not in NUMBER_WORDS:
+                    continue
+                assert NUMBER_WORDS[second] == want, (p["record_id"], m.group(0))
+            checked += 1
+    assert checked >= 3
+    for blob in (text, d["classification_of_the_seven_pairs"]["note"]):
+        for m in CELL_COUNT_PROSE.finditer(blob):
+            first, second, verb = m.group(1), m.group(2).lower(), m.group(3).lower()
+            if first is None or first.lower() not in NUMBER_WORDS or second not in NUMBER_WORDS:
+                continue
+            n, t = NUMBER_WORDS[first.lower()], NUMBER_WORDS[second]
+            assert any(tot == t and (dif if verb == "differ" else ide) == n for tot, ide, dif in counts), m.group(0)
+
+
+def test_successor_companion_quotes_every_live_row_canonically_with_its_byte_count_and_digest():
+    text, n = smd(), 0
+    for p in sdoc()["proposals"]:
+        for r in p["rows"]:
+            _, live = live_row(p["register_tab"], r["register_row_index"])
+            c = canon(live)
+            assert f"```json\n{c}\n```" in text, (p["record_id"], r["register_row_index"])
+            assert (f"`registers/json/{p['register_tab']}.json` rows[{r['register_row_index']}], canonical "
+                    f"{len(c.encode('utf-8'))} bytes, SHA-256 `{canonical_sha(live)}`") in text
+            n += 1
+        ident, sid = p["colliding_identifier"], p["successor"]["proposed_id"]
+        rows = [l for l in text.split("\n") if l.startswith(f"| `{ident}` |")]
+        assert len(rows) == 1 and rows[0].rstrip().endswith(f"| `{sid}` |"), ident
+        assert f"`{ident}` → `{sid}`" in text
+    assert n == 14
+
+
+# --------------------------------------------------------------------------- negative
+
+def test_negative_successor_row_canonical_bytes_falsified_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["rows"][0]["row_canonical_bytes"] = 999
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "row_canonical_bytes 999")
+
+
+def test_negative_successor_summary_count_contradicting_the_records_fails(sandbox2):
+    d = sdoc()
+    d["summary_counts"]["exact_duplicate_rows"] = 1
+    d["summary_counts"]["same_drive_object_different_status_text"] = 5
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "summary_counts.exact_duplicate_rows is 1 but the records' cells give 0")
+
+
+def test_negative_successor_summary_count_that_is_not_recomputed_fails(sandbox2):
+    d = sdoc()
+    d["summary_counts"]["pairs_reviewed"] = 7
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "not a count this checker recomputes")
+
+
+def test_negative_successor_wrong_covered_together_total_fails(sandbox2):
+    d = sdoc()
+    d["summary_counts"]["findings_covered_by_both_proposals_together"] = 24
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "findings_covered_by_both_proposals_together is 24")
+
+
+def test_negative_successor_pair_listed_under_the_wrong_class_fails(sandbox2):
+    d = sdoc()
+    block = d["classification_of_the_seven_pairs"]
+    block["exact_duplicate_rows"] = ["GP-REQ-194-v1.0 (rows 325 and 373)"]
+    block["different_objects_one_identifier"] = []
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "classification_of_the_seven_pairs.exact_duplicate_rows")
+
+
+def test_negative_successor_followup_to_diverging_from_the_successor_id_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["non_additive_followups"][0]["to"] = "GP-DATA-168-v1.1@AIDX-R999"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "'to' 'GP-DATA-168-v1.1@AIDX-R999' is not an identifier this record proposes")
+
+
+def test_negative_successor_followup_from_not_the_colliding_identifier_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["non_additive_followups"][0]["from"] = "GP-DATA-168-v1.0"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "'from' 'GP-DATA-168-v1.0' is not the colliding identifier")
+
+
+def test_negative_successor_materiality_miscount_fails(sandbox2):
+    """The same miscount is planted in the JSON and the companion, so the verbatim-quotation
+    check stays green and only the number-word check can catch it."""
+    d = sdoc()
+    old, new = "Nine of twelve cells differ", "Seven of twelve cells differ"
+    assert old in d["proposals"][0]["materiality"]
+    d["proposals"][0]["materiality"] = d["proposals"][0]["materiality"].replace(old, new)
+    expect_succ_fail(stage_succ(sandbox2, doc=d, md=smd().replace(old, new)),
+                     "materiality says 'Seven of twelve cells differ' but the live rows give 9 of 12")
+
+
+def test_negative_successor_bare_count_word_miscount_fails(sandbox2):
+    d = sdoc()
+    old, new = "Eight cells differ", "Seven cells differ"
+    assert old in d["proposals"][6]["materiality"]
+    d["proposals"][6]["materiality"] = d["proposals"][6]["materiality"].replace(old, new)
+    expect_succ_fail(stage_succ(sandbox2, doc=d, md=smd().replace(old, new)),
+                     "says 'Seven cells differ' but the live rows give 8 cells differ")
+
+
+def test_negative_successor_recorded_predecessor_ids_falsified_fails(sandbox2):
+    d = sdoc()
+    d["successor_of"]["successor_ids_issued_by_predecessor"] = ["BOGUS"]
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "successor_ids_issued_by_predecessor does not equal")
+
+
+def test_negative_successor_workbook_tab_wrong_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][6]["workbook_tab"] = "Artifact Index"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "workbook_tab 'Artifact Index' is not the workbook's name for 'evidence_lineage'")
+
+
+def test_negative_successor_append_retargeted_away_from_duplicate_flags_fails(sandbox2):
+    d = sdoc()
+    d["proposals"][0]["operations"][0]["target_tab"] = "Artifact Index (GP-REG-032-v1.2)"
+    expect_succ_fail(stage_succ(sandbox2, doc=d), "must target the Duplicate Flags registry")
+
+
+def test_negative_first_proposal_append_retargeted_away_from_duplicate_flags_fails(sandbox):
+    d = doc()
+    d["proposals"][3]["operations"][0]["target_tab"] = "Artifact Index (GP-REG-032-v1.2)"
+    expect_fail(stage(sandbox, doc=d), "must target the Duplicate Flags registry")
+
+
+def test_negative_first_proposal_followup_to_an_id_it_never_proposes_fails(sandbox):
+    d = doc()
+    d["proposals"][6]["non_additive_followups"][0]["to"] = "TR-P12-007-SOMETHING-ELSE"
+    expect_fail(stage(sandbox, doc=d), "is not an identifier this record proposes")
+
+
+def test_negative_successor_markdown_verbatim_row_block_tampered_fails(sandbox2):
+    old = '"SAME-LINE REPAIR PASS / T2 OPEN",'
+    assert smd().count(old) == 1
+    expect_succ_fail(stage_succ(sandbox2, md=smd().replace(old, '"SAME-LINE REPAIR PASS / T2 TAMPERED",')),
+                     "row 231 of artifact_index is not quoted as the canonical JSON of the live row")
+
+
+def test_negative_successor_markdown_byte_count_line_tampered_fails(sandbox2):
+    old = "rows[231], canonical 592 bytes"
+    assert old in smd()
+    expect_succ_fail(stage_succ(sandbox2, md=smd().replace(old, "rows[231], canonical 593 bytes")),
+                     "row 231 lacks the line")
+
+
+def test_negative_successor_markdown_cell_count_line_falsified_fails(sandbox2):
+    old = "Cell count: 12 columns compared, 3 identical, 9 differing (rows 231 and 240"
+    assert old in smd()
+    expect_succ_fail(stage_succ(sandbox2, md=smd().replace(old, "Cell count: 12 columns compared, 4 identical, 8 differing (rows 231 and 240")),
+                     "CP-AIDX-GP-DATA-168-v1.1 lacks the line 'Cell count: 12 columns compared, 3 identical, 9 differing")
+
+
+def test_negative_successor_markdown_summary_table_successor_id_changed_fails(sandbox2):
+    old = "| `GP-DATA-168-v1.1@AIDX-R240` |"
+    assert smd().count(old) == 1
+    expect_succ_fail(stage_succ(sandbox2, md=smd().replace(old, "| `GP-DATA-168-v1.1@AIDX-R241` |")),
+                     "summary-table row for GP-DATA-168-v1.1 must read rows '231, 240'")
+
+
+def test_negative_successor_markdown_summary_table_row_missing_fails(sandbox2):
+    lines = smd().split("\n")
+    kept = [l for l in lines if not l.startswith("| `EV-LS-REQ030` |")]
+    assert len(kept) == len(lines) - 1
+    expect_succ_fail(stage_succ(sandbox2, md="\n".join(kept)),
+                     "must have exactly one summary-table row starting '| `EV-LS-REQ030` |', found 0")
+
+
+def test_negative_successor_markdown_materiality_paraphrased_fails(sandbox2):
+    old = "Nine of twelve cells differ. This is a material content difference"
+    assert old in smd()
+    expect_succ_fail(stage_succ(sandbox2, md=smd().replace(old, "Nine of twelve cells differ; a material content difference")),
+                     "CP-AIDX-GP-DATA-168-v1.1 materiality is not quoted verbatim")
+
+
+def test_negative_successor_markdown_gate_statement_demoted_to_lowercase_fails(sandbox2):
+    text = smd().replace("REMAINS OPEN", "remains open")
+    assert "remains open" in text.lower() and "REMAINS OPEN" not in text
+    expect_succ_fail(stage_succ(sandbox2, md=text), "uppercase 'REMAINS OPEN'")

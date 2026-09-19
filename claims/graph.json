@@ -14,7 +14,7 @@
    "track": "UPPER2D",
    "status_frozen_v2_2": "OPEN",
    "status_register_note": "OPEN",
-   "note": "Chart side open. Normalizer sub-part discharged by the H3 band floor.",
+   "note": "Chart side open. Normalizer sub-part discharged by the H3 band floor. At the note layer the obligation is also ENLARGED: register note §5 'OPEN (validity premises of Theorem (2), reduced): OBL-D1-PROMOTE — chart side (H5's r-scaled rung family + interpolation …) and now also the uniform-band extension of the B4LOC/B2-far/far-route certificates (the same interpolation machinery; the H3 band floor has already discharged the normalizer sub-part)'. Until 2026-09-19 this note recorded the reduction only.",
    "sub_obligations": [
     "OBL-H5-JETMOD",
     "OBL-H5-ZBAND",
@@ -32,9 +32,11 @@
   "OBL-H5-ZBAND": {
    "track": "UPPER2D",
    "status_frozen_v2_2": "OPEN",
-   "status_register_note": "PARTIAL",
-   "note": "lo side rides the frozen H3 uniform certificate; hi side (band LPW bracket) OPEN. H5_ZBAND_CONSUMPTION_2026-09-15 proposes discharge at consumption grade but is PROPOSED, authority none.",
-   "source": "ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §5; H5_ZBAND_CONSUMPTION_2026-09-15.md"
+   "status_register_note": "OPEN",
+   "note": "lo side rides the frozen H3 uniform certificate; hi side (the H3 band ceiling) OPEN at the frozen layer and at the register-note layer, which does not mention this obligation. The consumption note proposes 'OPEN → DISCHARGED (consumption grade)' at PROPOSED tier, authority none, and is not operator-promoted. Until 2026-09-19 status_register_note read 'PARTIAL', a word no source uses; it now carries the frozen word OPEN, and the proposal is recorded separately with its qualifier.",
+   "source": "ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §5; H5_ZBAND_CONSUMPTION_2026-09-15.md",
+   "proposed_layer_verbatim": "OBL-H5-ZBAND: OPEN → DISCHARGED (consumption grade)",
+   "proposed_layer_source": "H5_ZBAND_CONSUMPTION_2026-09-15.md (Drive 18R0wwSFHa--ZMdLRV3ElMO0T5u5YD3lk, mirrored byte-exact): 'STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: OBL-H5-ZBAND OPEN → DISCHARGED (consumption grade) upon promotion'; restated by the v2.3 DRAFT. No operator promotion; the register note (1oFN…) does not mention this obligation."
   },
   "OBL-H5-REMOTE-THRESHOLD": {
    "track": "UPPER2D",
@@ -68,11 +70,13 @@
    "track": "UPPER2D",
    "status_frozen_v2_2": "OPEN",
    "status_register_note": "RESTATED",
-   "note": "o(r^3) far-lane reading NOT reachable; restated as Theta(r^3) with certified constants plus PD-CONN. Engine complete and frozen.",
+   "note": "o(r^3) far-lane reading NOT reachable; restated as Theta(r^3) with certified constants plus PD-CONN. Engine complete and frozen. The token RESTATED is this graph's label for the note's 'CLOSED … in its RESTATED form' (§5); the note moves PD-CONN to its REFINEMENT/constants register and the v2.3 DRAFT reads 'REFUTED-AS-PHRASED → RESTATED → ABSORBED; premise 3 removed; PD-CONN to refinement (upgrade-only)'. Effective at the next issuance; frozen layer OPEN.",
    "depends_on": [
     "PD-CONN"
    ],
-   "source": "PERC_DECAY.md; ADDENDUM-2 B4LOC_PERC_DECAY"
+   "source": "PERC_DECAY.md; ADDENDUM-2 B4LOC_PERC_DECAY",
+   "status_register_note_verbatim": "CLOSED: … PERC-DECAY in its RESTATED form (the certified far-lane inclusions + caps of §3 — validity content at the rung fully absorbed into the E_w accounting of §4)",
+   "pd_conn_register_note_verbatim": "REFINEMENT/constants register: PD-CONN (named; constants-not-order; missing pieces (i)–(iii))"
   },
   "PD-CONN": {
    "track": "UPPER2D",
@@ -92,7 +96,7 @@
    "track": "UPPER2D",
    "status_frozen_v2_2": "OPEN",
    "status_register_note": "CLOSED",
-   "note": "THEOREM B4LOC-R1 closes the dam line at super-algebraic grade for the whole of B4 (loc+rem); the identification question resolved NEGATIVELY (cut-net is not the nine-pin tube). Wrap/remote reconciliation under D1 remains open. Frozen v2.2 still names the premise until next issuance.",
+   "note": "THEOREM B4LOC-R1 closes the dam line at super-algebraic grade for the whole of B4 (loc+rem); the identification question resolved NEGATIVELY (cut-net is not the nine-pin tube). Wrap/remote reconciliation under D1 remains open. Frozen v2.2 still names the premise until next issuance. Register note layer (D1_ASSEMBLY_v2_2_REGISTER_NOTE.md, mirrored byte-exact): §2 'ADJUDICATION of the reconciliation question (lead's item 3): YES … B4.rem is CLOSED by B4LOC-R1 for the O(r³) validity grade (indeed super-algebraic at the ladder rungs)'; §5 'CLOSED: the B4.loc dam-line tube certificate AND B4.rem'. Effective at the next issuance; the frozen layer stays OPEN. Until 2026-09-19 the repository said the wrap/remote reconciliation was still open.",
    "source": "B4LOC_DAMLINE.md; ADDENDUM-2"
   },
   "H5-RIM": {
@@ -175,7 +179,7 @@
   },
   "D1-v2.2(1)": {
    "track": "UPPER2D",
-   "statement": "Certified rung bound at r = 0.05. Live clean totals I_hi(v3) = 8.0975589252e-2 = 647.8048 * r^3.",
+   "statement": "Certified rung bound at r = 0.05: 1 − q(0.05, 6/5) ≤ Ĩ_hi + C_RN(0.05)·√Q_{0.05}(B1.dir) + P_{0.05}(B2) + P_{0.05}(B4), with E_w(0.05) ≤ Ĩ_hi = 8.1272827e-2 = 650.1827·(0.05)³ (chart part = I_hi(v3) − 19.55·(0.05)³ = 628.2548·(0.05)³, where I_hi(v3) = 8.0975589252e-2 = 647.8048·(0.05)³ is the H5 chart total, pin 8d7028e4…; remote part = B_remote·(0.05)³ = 21.9279·(0.05)³) and C_RN(0.05) ≤ 3.46.",
    "grade": "CERTIFIED_RUNG",
    "rung": 0.05,
    "depends_on": [
@@ -183,7 +187,7 @@
     "H5-AXIS",
     "D3-LEMMA-RN-UNIF"
    ],
-   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed.",
+   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above.",
    "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)"
   },
   "D1-v2.2(2)": {

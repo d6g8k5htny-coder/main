@@ -1,0 +1,794 @@
+{
+  "active_machine_untouched": true,
+  "claims": {
+    "ADJACENCY_TO_ONE_CUBIC": {
+      "bridge_ids": [],
+      "claim_grade": "CANDIDATE-EXACT-PROOF-CHAIN",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "one exact-law configuration satisfying the registered certificate hypotheses whose selected branch does not reach M",
+        "dependency-object mismatch in the assembled proof chain"
+      ],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ],
+      "source_files": [
+        "GP-DER-047-v1.0",
+        "GP-DATA-048-v1.0",
+        "CL-AUD-028-v1.0",
+        "CW-AUD-018-v1.0",
+        "AO48-AUD-012-v1.0"
+      ],
+      "statement": "1-A_ADJ(r)=O(r^3)",
+      "status": "CANDIDATE",
+      "verification_state": "CANDIDATE"
+    },
+    "ADJ_CONDITIONING_TRANSFER": {
+      "bridge_ids": [],
+      "claim_grade": "EXACT-IDENTITY-CONDITIONAL-ON-POSITIVITY",
+      "dependency_ids": [
+        "ADJ_POSITIVITY_POINTWISE"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "D(M)=S is not contained in A_r under the stated branch convention"
+      ],
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_MS->P_ADJ",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS"
+      ],
+      "source_files": [
+        "GP-AUD-005-v1.0"
+      ],
+      "statement": "P_ADJ(E)=P_MS(E intersect A_r)/A_ADJ and therefore 1-Q_ADJ_CONFIGURED <= P_MS(B_r)/A_ADJ",
+      "status": "CONDITIONAL-PROVED",
+      "verification_state": "CONDITIONAL"
+    },
+    "ADJ_POSITIVITY_COMPACT_REMAINDER": {
+      "bridge_ids": [],
+      "claim_grade": "ANALYTIC-CANDIDATE",
+      "dependency_ids": [
+        "ADJ_POSITIVITY_POINTWISE"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "a sequence in the compact remainder with A_ADJ tending to zero"
+      ],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ],
+      "source_files": [
+        "GP-DER-008-v1.0",
+        "GP-AUD-009-v1.0"
+      ],
+      "statement": "A_ADJ(r) is bounded below on the compact remainder r in [r_1,0.025].",
+      "status": "OPEN",
+      "verification_state": "OPEN"
+    },
+    "ADJ_POSITIVITY_POINTWISE": {
+      "bridge_ids": [],
+      "claim_grade": "ANALYTIC-CANDIDATE",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "a fixed admissible r with A_ADJ(r)=0",
+        "failure of the open trapping event or finite-jet nondegeneracy"
+      ],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ],
+      "source_files": [
+        "GP-DER-008-v1.0 endpoint isolating-block argument",
+        "AO48-AUD-008 §2(c)"
+      ],
+      "statement": "For every fixed r in the declared domain, A_ADJ(r)>0.",
+      "status": "OPEN",
+      "verification_state": "OPEN"
+    },
+    "ADJ_POSITIVITY_UNIFORM": {
+      "bridge_ids": [],
+      "claim_grade": "CANDIDATE",
+      "dependency_ids": [
+        "ADJACENCY_TO_ONE_CUBIC",
+        "ADJ_POSITIVITY_COMPACT_REMAINDER"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "A_ADJ(r_n)->0",
+        "failure of the endpoint isolating-block argument"
+      ],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ],
+      "source_files": [
+        "GP-DER-008-v1.0",
+        "GP-AUD-009-v1.0",
+        "GP-DER-047-v1.0",
+        "AO48-AUD-008 §3"
+      ],
+      "statement": "inf_{0<r<=r0} A_ADJ(r) > 0",
+      "status": "OPEN",
+      "verification_state": "OPEN"
+    },
+    "COMPACT_MARK_CONTACT_INTENSITY": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-KAC-RICE-CONTACT-THEOREM",
+      "dependency_ids": [
+        "MARKED_PROCESS_MULTIPLICITY",
+        "J_TYPED_CONTACT_LIMIT",
+        "ADJ_POSITIVITY_UNIFORM"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "contact intensity vanishes, diverges, or fails to converge",
+        "positive-measure lower event fails"
+      ],
+      "law_object": "COMPACT_MARK_INTENSITY",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "required_marks": [
+        "BIRTH_HEIGHT_B",
+        "NORMALIZED_GAP_KAPPA",
+        "GRADIENT_ADJACENCY_MS"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "C103_E_LEDGER.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "On each declared compact B x K, the typed adjacent candidate intensity converges to a finite positive limit on a positive-measure set.",
+      "status": "OPEN",
+      "verification_state": "PRIMARY-PROOF-MISSING"
+    },
+    "COMPACT_MARK_DOMINATION": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-DOMINATED-CONVERGENCE-INPUT",
+      "dependency_ids": [
+        "COMPACT_MARK_CONTACT_INTENSITY",
+        "COMPACT_MARK_UNIFORM_SELECTION"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "no r-uniform integrable compact-mark dominator exists"
+      ],
+      "law_object": "COMPACT_MARK_INTENSITY",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "required_marks": [
+        "BIRTH_HEIGHT_B",
+        "NORMALIZED_GAP_KAPPA"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "On each compact B x K, the exact marked intensity admits an r-uniform integrable dominator after multiplication by kappa^(-2/3).",
+      "status": "OPEN",
+      "verification_state": "PRIMARY-PROOF-MISSING"
+    },
+    "COMPACT_MARK_UNIFORM_SELECTION": {
+      "bridge_ids": [
+        "ADJ_CONDITIONING_TRANSFER"
+      ],
+      "claim_grade": "OPEN-UNIFORM-SELECTION-THEOREM",
+      "dependency_ids": [
+        "MORSE_SMALE_R0",
+        "DEFECT_DICHOTOMY",
+        "TYPED_REGIONAL_DEFECT_CUBIC",
+        "ADJ_POSITIVITY_UNIFORM",
+        "ADJ_CONDITIONING_TRANSFER"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "uniform covariance floors or regional constants fail on a compact B x K",
+        "selection does not approach one uniformly"
+      ],
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_ADJ",
+      "required_marks": [
+        "BIRTH_HEIGHT_B",
+        "NORMALIZED_GAP_KAPPA",
+        "GRADIENT_ADJACENCY_MS",
+        "ELDER_RULE_SELECTED_BRANCH"
+      ],
+      "source_files": [
+        "C101_GLOBAL_INTERCEPTOR_CLOSURE.md",
+        "C103_E_LEDGER.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "For every declared compact B x K, sup_(theta,b,kappa)(1-q_adj(r;theta,b,kappa))=O(r^3).",
+      "status": "OPEN",
+      "verification_state": "FIXED-MARK-ONLY"
+    },
+    "DEFECT_DICHOTOMY": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "an exact configured pair with D(M) != S outside Pi_r union Gamma_r"
+      ],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "ORIENTED_M_WARD_BRANCH",
+        "MORSE_SMALE_FLOW"
+      ],
+      "source_files": [
+        "01_CORE_PAIRING_THEOREM.md Proposition 3.1"
+      ],
+      "statement": "Under MORSE_SMALE_R0, {D(M) != S} is contained in the registered regional obstruction union Pi_r union Gamma_r.",
+      "status": "ARCHIVE-CLAIMED",
+      "verification_state": "UNREPRODUCED-CLAIM"
+    },
+    "EXACT_GAP_JACOBIAN": {
+      "bridge_ids": [],
+      "claim_grade": "EXACT-IDENTITY",
+      "dependency_ids": [],
+      "dependency_routes": [],
+      "falsifiers": [
+        "algebraic differentiation or scaling-map identity is wrong"
+      ],
+      "law_object": "LIFETIME_CHANGE_OF_VARIABLES",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA",
+        "PAIR_SEPARATION_R",
+        "LIFETIME_ELL"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "Q0_C104_THEOREM_B_PACKAGE.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "For kappa=6 ell/r^3, r dr=(6^(2/3)/3) kappa^(-2/3) ell^(-1/3) d ell.",
+      "status": "SAME-LINE-EXACT-PROVED",
+      "verification_state": "EXACT-SAME-LINE-VERIFIED"
+    },
+    "FULL_KAPPA_LARGE_TAIL": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-LARGE-KAPPA-TAIL",
+      "dependency_ids": [
+        "MARKED_PROCESS_MULTIPLICITY",
+        "COMPACT_MARK_UNIFORM_SELECTION"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "large-kappa determinant moments or conditional means defeat Gaussian domination"
+      ],
+      "law_object": "KAPPA_TAIL_CONTROL",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA"
+      ],
+      "source_files": [
+        "Q0_C104_THEOREM_B_PACKAGE.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "The kappa->infinity contribution of kappa^(-2/3) times the exact marked intensity is uniformly integrable and can be made arbitrarily small.",
+      "status": "OPEN",
+      "verification_state": "ASSERTED-NOT-DERIVED"
+    },
+    "FULL_KAPPA_SMALL_TAIL": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-SMALL-KAPPA-TAIL",
+      "dependency_ids": [
+        "MARKED_PROCESS_MULTIPLICITY",
+        "COMPACT_MARK_UNIFORM_SELECTION"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "small-kappa integral diverges or lacks r-uniform control"
+      ],
+      "law_object": "KAPPA_TAIL_CONTROL",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA"
+      ],
+      "source_files": [
+        "Q0_C104_THEOREM_B_PACKAGE.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "The kappa->0 contribution of kappa^(-2/3) times the exact marked intensity is uniformly integrable and can be made arbitrarily small.",
+      "status": "OPEN",
+      "verification_state": "ASSERTED-NOT-DERIVED"
+    },
+    "J_TYPED_CONTACT_LIMIT": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-ANALYTIC-BRIDGE",
+      "dependency_ids": [
+        "MARKED_PROCESS_MULTIPLICITY"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "contact intensity vanishes, diverges, or lacks a positive-measure compact-mark limit",
+        "candidate-pair multiplicity is not fixed or not compensated",
+        "corrected conditional covariance or determinant moment degenerates"
+      ],
+      "law_object": "J_TYPED_CONTACT",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "C103_E_LEDGER.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "On each declared compact B x K, the typed candidate contact intensity has a finite positive limit.",
+      "status": "OPEN",
+      "verification_state": "PRIMARY-PROOF-MISSING"
+    },
+    "MARKED_PROCESS_MULTIPLICITY": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-TOPOLOGICAL-MEASURE-BRIDGE",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "one persistence bar has untracked variable candidate multiplicity",
+        "candidate process misses or double-counts bars"
+      ],
+      "law_object": "PERSISTENCE_PAIR_MULTIPLICITY",
+      "measure_tag": "MARKED_PAIR_PROCESS",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "ELDER_RULE_SELECTED_BRANCH",
+        "NONESSENTIAL_H0_BAR"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "The registered oriented candidate-pair process maps measurably to actual non-essential H0 bars with a proved fixed or compensated multiplicity.",
+      "status": "OPEN",
+      "verification_state": "PRIMARY-PROOF-MISSING"
+    },
+    "MORSE_SMALE_R0": {
+      "bridge_ids": [],
+      "claim_grade": "CONDITIONAL-EXTERNAL-REVIEW",
+      "dependency_ids": [],
+      "dependency_routes": [],
+      "falsifiers": [
+        "a positive-probability non-Morse–Smale configuration in the declared field law",
+        "failure of the proposed transversality proof"
+      ],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "MORSE_SMALE_FLOW"
+      ],
+      "source_files": [
+        "02_GAUSSIAN_TRANSVERSALITY.md",
+        "SARD-G chain",
+        "05_RELIABILITY_AND_EVIDENCE.md §8"
+      ],
+      "statement": "The exact normalized-periodized Bargmann–Fock field on T^2_L has the Morse–Smale regularity required by the deterministic pairing dichotomy almost surely.",
+      "status": "OPEN",
+      "verification_state": "OPEN"
+    },
+    "OFF_FOLD_LOWER_ORDER": {
+      "bridge_ids": [],
+      "claim_grade": "OPEN-NONLOCAL-LOCALIZATION-THEOREM",
+      "dependency_ids": [
+        "MARKED_PROCESS_MULTIPLICITY"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "another local or nonlocal mechanism produces an equal or stronger singularity"
+      ],
+      "law_object": "OFF_FOLD_COMPLEMENT",
+      "measure_tag": "PERSISTENCE_FIRST_MOMENT",
+      "required_marks": [
+        "NONESSENTIAL_H0_BAR",
+        "LIFETIME_ELL"
+      ],
+      "source_files": [
+        "Q0_C104_THEOREM_B_PACKAGE.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "The persistence lifetime density outside the registered near-diagonal fold chart is o(ell^(-1/3)) as ell->0.",
+      "status": "OPEN",
+      "verification_state": "COMPRESSED-ASSERTION-ONLY"
+    },
+    "Q_ADJ_CONFIGURED_RATE": {
+      "bridge_ids": [
+        "ADJ_CONDITIONING_TRANSFER"
+      ],
+      "claim_grade": "PROVEN-MODULO",
+      "dependency_ids": [
+        "MORSE_SMALE_R0",
+        "DEFECT_DICHOTOMY",
+        "TYPED_REGIONAL_DEFECT_CUBIC",
+        "ADJ_POSITIVITY_UNIFORM",
+        "ADJ_CONDITIONING_TRANSFER"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "ADJ_POSITIVITY_UNIFORM is false"
+      ],
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_ADJ",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ],
+      "source_files": [
+        "C098-C102 regional chain",
+        "GP-AUD-005-v1.0"
+      ],
+      "statement": "1-Q_ADJ_CONFIGURED(r)=O(r^3)",
+      "status": "PROVED-MODULO",
+      "verification_state": "UNCLASSIFIED"
+    },
+    "Q_TYPED_MS_RATE": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-MODULO",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [
+        {
+          "dependencies": [
+            "DEFECT_DICHOTOMY",
+            "TYPED_REGIONAL_DEFECT_CUBIC"
+          ],
+          "route_id": "DIRECT_TYPED_REGIONAL"
+        },
+        {
+          "dependencies": [
+            "Q_ADJ_CONFIGURED_RATE",
+            "ADJACENCY_TO_ONE_CUBIC"
+          ],
+          "route_id": "REDUNDANT_VIA_ADJACENCY"
+        }
+      ],
+      "falsifiers": [
+        "both registered dependency routes fail",
+        "the deterministic defect dichotomy or regional cubic bound is false"
+      ],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S"
+      ],
+      "source_files": [
+        "01_CORE_PAIRING_THEOREM.md §§2.4,3,9–13",
+        "AO48-AUD-008 §1"
+      ],
+      "statement": "1-Q_TYPED_MS(r)=O(r^3)",
+      "status": "PROVED-MODULO",
+      "verification_state": "UNCLASSIFIED"
+    },
+    "THEOREM_B0_COMPACT_MARK": {
+      "bridge_ids": [],
+      "claim_grade": "EXACT-MEASURE-TRANSPORT-CONDITIONAL-ON-REGISTERED-INPUTS",
+      "dependency_ids": [
+        "EXACT_GAP_JACOBIAN",
+        "MARKED_PROCESS_MULTIPLICITY",
+        "COMPACT_MARK_CONTACT_INTENSITY",
+        "COMPACT_MARK_UNIFORM_SELECTION",
+        "COMPACT_MARK_DOMINATION"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "any registered input A1-A5 fails",
+        "pushforward/Jacobian calculation is wrong"
+      ],
+      "law_object": "FULL_LIFETIME_DENSITY",
+      "measure_tag": "PERSISTENCE_FIRST_MOMENT",
+      "required_marks": [
+        "NONESSENTIAL_H0_BAR",
+        "BIRTH_HEIGHT_B",
+        "NORMALIZED_GAP_KAPPA",
+        "LIFETIME_ELL"
+      ],
+      "source_files": [
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "Conditional compact-mark pushforward: nu_(B,K)(ell)=C_(B,K) ell^(-1/3)(1+o(1)) with 0<C_(B,K)<infinity.",
+      "status": "CONDITIONAL-PROVED",
+      "verification_state": "CONDITIONAL-THEOREM"
+    },
+    "THEOREM_B_ADJ_CONTACT_FACTOR": {
+      "bridge_ids": [
+        "ADJ_CONDITIONING_TRANSFER"
+      ],
+      "claim_grade": "CANDIDATE-CONTACT-AND-ADJACENCY-BRIDGE",
+      "dependency_ids": [
+        "J_TYPED_CONTACT_LIMIT",
+        "ADJ_POSITIVITY_UNIFORM",
+        "COMPACT_MARK_UNIFORM_SELECTION"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "adjacent contact limit is zero or infinite",
+        "compact-mark elder selection fails to approach one uniformly",
+        "adjacency factor is omitted or measured under a mismatched law"
+      ],
+      "law_object": "I_ADJ_CONTACT",
+      "measure_tag": "P_ADJ-CANDIDATE",
+      "required_marks": [
+        "GRADIENT_ADJACENCY_MS",
+        "NORMALIZED_GAP_KAPPA"
+      ],
+      "source_files": [
+        "03_NEAR_DIAGONAL_LIFETIME_LAW.md",
+        "C103_E_LEDGER.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "On a compact mark window, adjacent elder-selected contact intensity has a finite positive limit.",
+      "status": "CANDIDATE",
+      "verification_state": "DEPENDENCY-BLOCKED"
+    },
+    "THEOREM_B_FULL_KAPPA_CANDIDATE": {
+      "bridge_ids": [],
+      "claim_grade": "UNCONDITIONAL-THEOREM-STATUS-RETRACTED",
+      "dependency_ids": [
+        "THEOREM_B0_COMPACT_MARK",
+        "FULL_KAPPA_SMALL_TAIL",
+        "FULL_KAPPA_LARGE_TAIL",
+        "OFF_FOLD_LOWER_ORDER"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "any compact-mark input, kappa tail, multiplicity, or off-fold theorem fails"
+      ],
+      "law_object": "FULL_LIFETIME_DENSITY",
+      "measure_tag": "PERSISTENCE_FIRST_MOMENT",
+      "required_marks": [
+        "NONESSENTIAL_H0_BAR",
+        "LIFETIME_ELL"
+      ],
+      "source_files": [
+        "Q0_C104_THEOREM_B_PACKAGE.md",
+        "C103_E_LEDGER.md",
+        "GP-AUD-187-v1.0"
+      ],
+      "statement": "Full Theorem B candidate: nu_B(ell)=C_* ell^(-1/3)(1+o(1)), 0<C_*<infinity.",
+      "status": "CANDIDATE",
+      "verification_state": "CRITICAL-BLOCKERS-OPEN"
+    },
+    "TYPED_REGIONAL_DEFECT_CUBIC": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "dependency_ids": [
+        "MORSE_SMALE_R0"
+      ],
+      "dependency_routes": [],
+      "falsifiers": [
+        "a regional obstruction not covered by the count atlas"
+      ],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S"
+      ],
+      "source_files": [
+        "C098-C102 regional counting chain",
+        "01_CORE_PAIRING_THEOREM.md"
+      ],
+      "statement": "P_MS(B_r) <= C_B r^3 for the registered regional obstruction event",
+      "status": "ARCHIVE-CLAIMED",
+      "verification_state": "UNREPRODUCED-CLAIM"
+    }
+  },
+  "migration_map": {
+    "Q0_CUBIC_RATE_CONDITIONAL_MS_C102": [
+      "Q_ADJ_CONFIGURED_RATE",
+      "Q_TYPED_MS_RATE"
+    ],
+    "Q0_CUBIC_RATE_EXISTENCE_C101": [
+      "Q_ADJ_CONFIGURED_RATE",
+      "Q_TYPED_MS_RATE"
+    ],
+    "Q0_LIMIT_C101": [
+      "Q_ADJ_CONFIGURED_RATE",
+      "Q_TYPED_MS_RATE"
+    ],
+    "Q0_LIMIT_CONDITIONAL_MS_C102": [
+      "Q_ADJ_CONFIGURED_RATE",
+      "Q_TYPED_MS_RATE"
+    ],
+    "THEOREM_B_FULL_KAPPA_C104": [
+      "THEOREM_B_FULL_KAPPA_CANDIDATE"
+    ]
+  },
+  "notes": [
+    "Additive, noncanonical repair candidate; active q0_machine.json and q0_verify.py remain untouched.",
+    "Bare q is forbidden; every root is law-, conditioning-, frame-, mark-, and domain-specific.",
+    "Only INDEPENDENTLY-TERMINAL or OPERATOR-TERMINAL claims are unconditionally promotable.",
+    "Archive-claimed, proved-modulo, same-line, candidate, conditional, open, blocked, retracted, killed, and superseded statuses are blockers.",
+    "The historical THEOREM_B_FULL_KAPPA_C104 root migrates to one full candidate whose dependency graph contains the exact Jacobian, multiplicity, compact-mark contact, compact-mark selection, compact domination, both full-kappa tails, and off-fold localization.",
+    "No scientific claim is promoted by this snapshot."
+  ],
+  "object_domain": {
+    "b": "6/5",
+    "frame": "MIDPOINT_PHYSICAL_PLUS_DECLARED_NORMALIZED_LOCAL_COORDINATES",
+    "gap": "r^3/6",
+    "model": "EXACT-NORMALIZED-PERIODIZED-BF-L24",
+    "model_layer": "EXACT_FINITE_R_TORUS",
+    "pairing_rule": "ELDER_RULE_SELECTED_BRANCH",
+    "r": {
+      "lower": 0.0,
+      "lower_open": true,
+      "upper": 0.025,
+      "upper_open": false
+    }
+  },
+  "objects": {
+    "A_ADJ": {
+      "conditioning_pins": [
+        "f(M)=b",
+        "grad f(M)=0",
+        "f(S)=b-r^3/6",
+        "grad f(S)=0"
+      ],
+      "definition": "P_MS(A_r)",
+      "event": "A_r",
+      "measure_tag": "P_MS",
+      "object_type": "probability",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "ORIENTED_M_WARD_BRANCH"
+      ]
+    },
+    "COMPACT_MARK_INTENSITY": {
+      "definition": "adjacent elder-selected marked pair intensity on S1 x B x K",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "object_type": "intensity",
+      "required_marks": [
+        "BIRTH_HEIGHT_B",
+        "NORMALIZED_GAP_KAPPA",
+        "GRADIENT_ADJACENCY_MS",
+        "ELDER_RULE_SELECTED_BRANCH"
+      ]
+    },
+    "FULL_LIFETIME_DENSITY": {
+      "definition": "first-moment density of actual non-essential H0 persistence lifetimes",
+      "measure_tag": "PERSISTENCE_FIRST_MOMENT",
+      "object_type": "density",
+      "required_marks": [
+        "NONESSENTIAL_H0_BAR",
+        "LIFETIME_ELL"
+      ]
+    },
+    "I_ADJ_CONTACT": {
+      "definition": "J_TYPED_CONTACT * A_ADJ",
+      "measure_tag": "P_ADJ-CANDIDATE",
+      "object_type": "intensity",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "GRADIENT_ADJACENCY_MS",
+        "NORMALIZED_GAP_KAPPA"
+      ]
+    },
+    "J_TYPED_CONTACT": {
+      "definition": "typed candidate contact intensity",
+      "measure_tag": "P_MS",
+      "object_type": "intensity",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "NORMALIZED_GAP_KAPPA"
+      ]
+    },
+    "KAPPA_TAIL_CONTROL": {
+      "definition": "r-uniform integrable domination of kappa^(-2/3) times marked intensity near zero and infinity",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "object_type": "domination",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA"
+      ]
+    },
+    "LIFETIME_CHANGE_OF_VARIABLES": {
+      "definition": "ell=kappa*r^3/6 and radial measure r dr",
+      "measure_tag": "MARKED_PAIR_INTENSITY",
+      "object_type": "exact_change_of_variables",
+      "required_marks": [
+        "NORMALIZED_GAP_KAPPA",
+        "PAIR_SEPARATION_R"
+      ]
+    },
+    "OFF_FOLD_COMPLEMENT": {
+      "definition": "persistence first-moment contribution outside the registered near-diagonal fold chart",
+      "measure_tag": "PERSISTENCE_FIRST_MOMENT",
+      "object_type": "remainder_density",
+      "required_marks": [
+        "NONESSENTIAL_H0_BAR",
+        "LIFETIME_ELL"
+      ]
+    },
+    "PERSISTENCE_PAIR_MULTIPLICITY": {
+      "definition": "measurable map from oriented typed candidate pairs with elder-selection mark to non-essential H0 bars, including multiplicity",
+      "measure_tag": "MARKED_PAIR_PROCESS",
+      "object_type": "measurable_correspondence",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "ELDER_RULE_SELECTED_BRANCH",
+        "NONESSENTIAL_H0_BAR"
+      ]
+    },
+    "Q_ADJ_CONFIGURED": {
+      "conditioning_pins": [
+        "f(M)=b",
+        "grad f(M)=0",
+        "f(S)=b-r^3/6",
+        "grad f(S)=0"
+      ],
+      "definition": "P_MS(D(M)=S | A_r)",
+      "event": "D(M)=S",
+      "measure_tag": "P_ADJ",
+      "object_type": "probability",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S",
+        "GRADIENT_ADJACENCY_MS",
+        "ORIENTED_M_WARD_BRANCH"
+      ]
+    },
+    "Q_TYPED_MS": {
+      "conditioning_pins": [
+        "f(M)=b",
+        "grad f(M)=0",
+        "f(S)=b-r^3/6",
+        "grad f(S)=0"
+      ],
+      "definition": "P_MS(D(M)=S)",
+      "event": "D(M)=S",
+      "measure_tag": "P_MS",
+      "object_type": "probability",
+      "required_marks": [
+        "MAXIMUM_M",
+        "SADDLE_S"
+      ]
+    }
+  },
+  "proposed_roots": [
+    "Q_ADJ_CONFIGURED_RATE",
+    "Q_TYPED_MS_RATE",
+    "EXACT_GAP_JACOBIAN",
+    "THEOREM_B0_COMPACT_MARK",
+    "THEOREM_B_FULL_KAPPA_CANDIDATE"
+  ],
+  "repair_basis": [
+    "AO48-AUD-008-v1.0",
+    "TR-QM-001",
+    "OP-GDN-002",
+    "GP-AUD-187-v1.0",
+    "GP-AUD-188-v1.0"
+  ],
+  "schema": "q0-law-specific/1.2",
+  "status": "PROPOSED-NONCANONICAL-REPAIR-CANDIDATE",
+  "supersedes_candidate": "GP-REG-051-v1.0 only as a noncanonical repair candidate",
+  "transition": "TR-QM-003"
+}

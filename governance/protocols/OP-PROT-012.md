@@ -4,9 +4,14 @@
      "HISTORICAL OP-PROT-012 - APPROVAL ROUTING SUPERSEDED BY R17".
      See governance/PROVENANCE.json.
      ("HISTORICAL OP-PROT-012 — APPROVAL ROUTING SUPERSEDED BY R17").
-     R17 (OP-PROT-019-v1.1) supersedes its entry/budget/provider rules; its
-     autonomy classes, independence predicate and safety boundaries remain the
-     governing description of evidence-gated autonomy. -->
+     R17 (OP-PROT-019-v1.1, 2026-09-17) supersedes its approval routing (the
+     Drive title) and its entry/budget/provider locks: autonomy_control row
+     CONTROL_PLANE_VERSION reads "R17 supersedes R16 operational
+     entry/budget/provider locks. Scientific predicates and exact frozen
+     identities remain."; AUTONOMOUS_DECISION_BUDGET reads "RETIRED - R17
+     evidence predicates". No source enumerates which further clauses survive;
+     see governance/README.md. (Until 2026-09-19 this header asserted that the
+     autonomy classes "remain the governing description", which no source says.) -->
 
 OP-PROT-012 — AUTONOMOUS EVIDENCE-GATED GOVERNANCE AND ZERO-HUMAN-APPROVAL CONTROL
 

@@ -60,25 +60,54 @@ Reading order for a new contributor (human or model):
    scope, closure discipline, master manifest.
 5. `GIT_ADAPTATION.md` — how each construct maps onto git.
 
-Historical protocols (OP-PROT-001..011, -013..018) belong under
-`protocols/history/` as provenance; they apply only where R17 says they are
-retained. **As of 2026-09-18 that directory is empty**: none of them has been
-mirrored yet. Three exist in the Drive canon lane as digest-bearing markdown
-(OP-PROT-001 `1v4Cv5xBvZRl8Ing9y34xN_xgFg-_K2q5`, OP-PROT-003
-`1pEGZoTdCUe9hu5tE_O8nY2N84STQNXhQ`, OP-PROT-005) and are queued for mirroring
-with inventory-digest verification; until then this directory holds nothing and
-this sentence says so. (Until 2026-09-18 it said they were kept here.)
-predicates).
+The earlier protocols are not one class. Only two carry a HISTORICAL retitle on
+the Drive: `OP-PROT-011` (`HISTORICAL OP-PROT-011 — INDEPENDENCE GUIDANCE;
+TECHNICAL REVIEW NOW R17`) and `OP-PROT-012` (`HISTORICAL OP-PROT-012 — APPROVAL
+ROUTING SUPERSEDED BY R17`). The register export the repository ships labels the
+later ones live, verbatim from `registers/json/artifact_index.json`: OP-PROT-013
+"ACTIVE — OPERATIONAL ADJUNCT TO OP-PROT-012"; OP-PROT-014-v1.0 "CURRENT ACTIVE
+OPERATIONAL PROTOCOL"; OP-PROT-015-v1.1 "ACTIVE"; OP-PROT-016-v1.0 "ACTIVE
+CONTROL"; OP-PROT-017-v1.0 "PUBLISHED / ADOPTION-READY" (its reference
+implementation OP-PROT-017-REF-v1.0 "COMPLETE / BYTE-EXACT"); OP-PROT-018-v1.0
+"ACTIVE CONTROL PROTOCOL"; OP-RECON-20260916-v1.0 "ACTIVE / RAW READBACK
+VERIFIED". None of those seven is held in this repository yet; they are indexed
+in `drive/inventory.jsonl` and queued for mirroring. R17 itself is the control
+plane (`autonomy_control` row CONTROL_PLANE_VERSION = AI-DRIVE-AUTONOMY-R17:
+"R17 supersedes R16 operational entry/budget/provider locks. Scientific
+predicates and exact frozen identities remain."). Until 2026-09-19 this paragraph
+called OP-PROT-013..018 historical, which no register row says.
+
+`protocols/history/` holds provenance for the operator relays of July 2026:
+**as of 2026-09-19, four objects** — the three that exist in the Drive canon
+lane as digest-bearing markdown (OP-PROT-001 `1v4Cv5xBvZRl8Ing9y34xN_xgFg-_K2q5`,
+OP-PROT-003 `1pEGZoTdCUe9hu5tE_O8nY2N84STQNXhQ`, OP-PROT-005
+`1x1JzVd5CMpP6Iqus6FSMHO6ncDrxHxUo`), stored byte-exact with SHA-256 and byte
+count equal to their `drive/inventory.jsonl` rows, and a reading copy
+(`exact: false`) of the Cross-Model Review Ledger v1.0 Doc; see
+`protocols/history/README.md` and its `_MANIFEST.jsonl`, which
+`tools/verify_manifests.py` checks. (Until 2026-09-18 this paragraph said they
+were kept here; until 2026-09-19 it said the directory was empty.) One name is
+ambiguous: "OP-PROT-003" denotes two different Drive objects — the
+Operating-Philosophy relay mirrored here (`1pEGZoTd…`, 4,702 B, "close easiest
+items first, retire settled facts permanently") and the majority-rule record
+`OP-PROT-003 — Superseded Majority-Rule Record and Review Guidance`
+(`1pVAG4d0h7kPv0dA0BM_yuWL3gDrrIAjpI1uhTQoAHP0`, a native Doc in
+`05_FOUNDATIONS_AND_PROTOCOL_HISTORY`), the one OP-PROT-009 §9 supersedes and
+`registers/json/relations.json` REL-OPP008-002 links. Mirroring changes nothing
+about which protocol governs.
 
 **Scope note on OP-PROT-012.** The Drive object this reading copy comes from
 (`1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo`) carries the title *"HISTORICAL
-OP-PROT-012 — APPROVAL ROUTING SUPERSEDED BY R17"*. The reading order above
-listed it second without that qualifier, which reads as though the whole
-protocol were current. The supersession as the title states it is scoped to
-**approval routing**, and R17 retains parts of the historical protocols — so
-this is flagged, not resolved. Which clauses survive R17 is an operator
-question, and nothing here decides it. Treat the autonomy classes 0–5 and the
-independence predicate as live only where R17 or an operator decision says so.
+OP-PROT-012 — APPROVAL ROUTING SUPERSEDED BY R17"* (retitled 2026-09-17). The
+register says what R17 retired: `autonomy_control` AUTONOMOUS_DECISION_BUDGET =
+"RETIRED — R17 evidence predicates" ("Current owner-authorized operations have
+no 50-decision counter gate"), and CONTROL_PLANE_VERSION = "R17 supersedes R16
+operational entry/budget/provider locks. Scientific predicates and exact frozen
+identities remain." No source enumerates which of OP-PROT-012's clauses survive
+beyond that sentence, so the reading copy's own header no longer asserts that
+its autonomy classes "remain the governing description" (it did until
+2026-09-19). Treat the autonomy classes 0–5 and the independence predicate as
+live only where R17 or an operator decision says so.
 
 Authority note: the owner (Dylan Roy) is the single final authority for
 canonical promotion, external release, permanent deletion and machine-root
@@ -91,7 +120,18 @@ R17`, whose SUPERSESSION NOTICE of 2026-07-25 reads that OP-PROT-011's
 machine-root replacement to Dylan are superseded. Those actions are now governed
 by executable evidence predicates under OP-PROT-012. Permanent deletion remains
 prohibited and external release remains default-disabled until an autonomous
-release predicate exists" — and OP-PROT-012 is itself HISTORICAL under R17. Both
-texts are recorded here; which governs is the operator's question
-(`docs/FINDINGS_2026-09-18.md` §4.5), and this repository keeps the
-owner-authority sentence until the operator says otherwise.
+release predicate exists". The register records that chain as operator
+decisions, not as an open question: `operator_decisions` row
+`OD-OP-PROT-011-20260724-001` (Active FALSE; "Superseded 2026-07-25 for approval
+and terminal routing by OP-PROT-012. Retained as independent-eyes evidence
+guidance"), row `OD-OP-PROT-012-CROSSFAMILY-20260725-001` (source "CL-GOV-222;
+authenticated conversation 2026-07-25"; "Direct operator answer; not inferred
+from Drive content"), and `artifact_index` row OP-PROT-011 "RETAINED AS
+TECHNICAL PREDICATE / SUPERSEDED AS LIVE APPROVAL ROUTER BY OP-PROT-012" — after
+which R17 (2026-09-17) retitled OP-PROT-012's approval routing HISTORICAL in
+turn. So the live approval router is R17; OP-PROT-011 is retained as a
+technical-predicate and independent-eyes layer; and the owner-authority
+sentence of `OP-CNS-001-R0.2`, the Canon and the Formalization Board stands.
+Until 2026-09-19 this note (and `docs/FINDINGS_2026-09-18.md` §4.5) called the
+OP-PROT-011-versus-012 question open for the operator; the operator had
+answered it on 2026-07-25 and the register carries the answer.

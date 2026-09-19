@@ -1,7 +1,8 @@
 """Bound-slack registry: how loose is each bound the corpus states, exactly.
 
 The corpus records bound-slack failures in prose. The headline one, from
-``CL-RNU-001`` as quoted verbatim in ``LANE_RN_UNIF.md`` §2::
+``CL-RNU-001``, as ``LANE_RN_UNIF.md`` §2 summarises it in its own words (the
+record below carries CL-RNU-001's own sentences)::
 
     Engine `d3_rn_unif.py` located (Kimi mid-build); certifier never invoked.
     Root cause: `chi2_grad_bound` ~1.57e14 vs true |grad chi^2| ~1.563e-5
@@ -743,7 +744,8 @@ _OBL_ALL = (
 )
 
 
-# 1. The headline. CL-RNU-001, quoted verbatim in LANE_RN_UNIF.md section 2.
+# 1. The headline. CL-RNU-001's numbers, as summarised in LANE_RN_UNIF.md
+#    section 2 (that memo's own sentences, not a verbatim quotation of CL-RNU-001).
 _R_CHI2 = SlackRecord(
     bound_name="chi2_grad_bound",
     carrier=(
@@ -756,15 +758,18 @@ _R_CHI2 = SlackRecord(
         "CL-RNU-001_RN-UNIF_ENGINE_STATUS_AND_CLOSURE_PLAN_2026-09-16.md "
         "(Drive 16o9u_KgysJv9lnR93PNXCqc-MdrW9QL6, 12,291 B, sha256 "
         "488b1b0c2dd270083fa0dd60a434ecf0461bae026f4f8d63ad960cb7b05906b5), "
-        "quoted verbatim in LANE_RN_UNIF.md section 2 "
-        "(Drive 1dK4ZimCC8o9670K-9ZJS9Jtquid1CAA6)"
+        "mirrored byte-exact under drive/mirrors/; the sentences below are "
+        "CL-RNU-001's own. LANE_RN_UNIF.md section 2 (Drive "
+        "1dK4ZimCC8o9670K-9ZJS9Jtquid1CAA6, also mirrored) summarises them in "
+        "its own words ('certifier never invoked … Piece 2 driver unwritten'), "
+        "which until 2026-09-19 this record presented as a verbatim quotation"
     ),
     source_quote=(
-        "Engine `d3_rn_unif.py` located (Kimi mid-build); certifier never "
-        "invoked. Root cause: `chi2_grad_bound` ~1.57e14 vs true "
-        "|grad chi^2| ~1.563e-5 (~1e19 slack). E-RNU-1: `mean_grad_exact` "
-        "missing chain-rule terms (fix validated, not patched into frozen "
-        "engine). Piece 2 driver unwritten."
+        "`chi2_grad_bound` = 1.57e14 with chi^2 = 1.94e-6 [...] True |grad "
+        "chi^2| at (5,0), central FD at dps 100 with h = 1e-20: 1.563e-5 (vs "
+        "the engine's bound 1.57e14 -- 1e19 slack) [...] the adaptive polar "
+        "certifier is defined and never invoked [...] its driver is likewise "
+        "unwritten."
     ),
     direction=BoundDirection.UPPER,
     claimed=rounding_interval("1.57e14"),
@@ -842,7 +847,8 @@ _R_TAU = SlackRecord(
     ),
 )
 
-# 3. The candidate T4 constant. CL-RNU-003, quoted in LANE_RN_UNIF.md section 2.
+# 3. The candidate T4 constant. CL-RNU-003, as summarised in LANE_RN_UNIF.md
+#    section 2 (the memo's own summary sentences, not CL-RNU-003 verbatim).
 _R_T4 = SlackRecord(
     bound_name="T4_kap(5) = C_comp * T4_form(5)  (candidate)",
     carrier=(
@@ -856,8 +862,9 @@ _R_T4 = SlackRecord(
         "CL-RNU-003_T4_PUSH_2026-09-16.md (Drive "
         "1lnZFn0VzUAKMN0OQk_ivTnykFEHiNSaw, 1,713 B, sha256 "
         "7743de124489ac59bb7e51ff2a83463fb7a0e63f1936e7e04af852bb124e30ea), "
-        "quoted in LANE_RN_UNIF.md section 2 "
-        "(Drive 1dK4ZimCC8o9670K-9ZJS9Jtquid1CAA6)"
+        "as summarised in LANE_RN_UNIF.md section 2 (Drive "
+        "1dK4ZimCC8o9670K-9ZJS9Jtquid1CAA6, mirrored byte-exact): the "
+        "source_quote below is that memo's summary, not CL-RNU-003 verbatim"
     ),
     source_quote=(
         "Candidate C_comp~=3091.9059; T4_kap(5)=C_comp x T4_form(5)~=1.39e7 "

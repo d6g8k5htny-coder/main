@@ -34,21 +34,33 @@ their powers `p_J`, the actual band endpoints `r_k`, and the six-pin
 
 ### A2. Finish the rung ladder (engineering, not premise discharge)
 
-Cells at `r = 0.0177` stand at **42/70** and at `r = 0.0125` at **21/70**, two
-shards resuming each, probes and patches complete. No later named `N/70` exists
-after RUNG2. Raw JSONL line counts are not a status promotion.
+RUNG2's 2026-09-15 snapshot put the cells at `r = 0.0177` at **42/70** and at
+`r = 0.0125` at **21/70**, probes and patches complete; no later named `N/70`
+exists. The lane's later state line records the rungs as **frozen, not
+resuming**: `D1_ASSEMBLY_v2_3_DRAFT.md` (mirrored byte-exact) reads, under
+"Running tasks at issuance (Kimi dark until 2026-09-30; states as of the
+2026-09-15 13:11 snapshot)", "H5 rungs 0.0177 / 0.0125 — FROZEN mid-flight (125
++ 6 / 42 + 2 banked)". Raw JSONL line counts are not a status promotion, and
+the sources themselves call this engineering. Until 2026-09-19 this section
+said "two shards resuming each" and named no freeze.
 
 ### A3. `OBL-H5-ZBAND` hi side
 
 The lo side rides the frozen H3 uniform certificate. The hi side is the H3
-band **ceiling**: `H5_ZBAND_CONSUMPTION_2026-09-15` (Drive
-`1RQE2B3EY9IP5MGZyeAtXBpX4ahY5AhfC`) names `H3_closure/H3_BAND_CEIL.md`
-(`h3_band_ceil.py`; `ceil_normal.txt ≡ ceil_O.txt`; body `cfe8a3a4…`) as the
-hi-side object it consumes and states "On the band: the two-sided normalizer is
-now bracketed uniformly", `Z_r/r² ∈ [2.3066, 3.7477]` — the band table
-`docs/RESEARCH_MAP.md` §H3 also cites. That consumption proposes
-`OPEN → DISCHARGED (consumption grade)` but is **PROPOSED**, authority none,
-and is not operator-promoted over frozen v2.2; the hi side stays OPEN.
+band **ceiling**. `H5_ZBAND_CONSUMPTION_2026-09-15.md` (Drive
+`18R0wwSFHa--ZMdLRV3ElMO0T5u5YD3lk`, mirrored byte-exact) carries "STATUS:
+PROPOSED · AUTHORITY: none" and states "OBL-H5-ZBAND: OPEN → **DISCHARGED
+(consumption grade)**"; its hi-side row reads "`h3_band_ceil.py` b97c5428… →
+`ceil_normal.txt` 26d08534… | E[G_r] = Z_r/r² ≤ 3.74767948915996". The sentence
+"On the band: the two-sided normalizer is now bracketed uniformly" with the
+bracket `2.30659559567154 ≤ Z_r/r² ≤ 3.74767948915996` on `(0, 0.05]`, and the
+citation of `H3_closure/H3_BAND_CEIL.md` (body `cfe8a3a4…`; `ceil_normal.txt ≡
+ceil_O.txt`), are the **v2.3 DRAFT**'s (`D1_ASSEMBLY_v2_3_DRAFT.md`, Drive
+`1RQE2B3EY9IP5MGZyeAtXBpX4ahY5AhfC`, §0 table and §1), not the consumption
+note's; the band table `docs/RESEARCH_MAP.md` §H3 cites is that bracket. The
+discharge is **PROPOSED**, authority none, not operator-promoted over frozen
+v2.2; the hi side stays OPEN. Until 2026-09-19 this section attributed the
+DRAFT's sentences to the consumption note under the DRAFT's Drive id.
 
 ### A4. `OBL-H5-REMOTE-THRESHOLD`
 
@@ -58,7 +70,11 @@ chart's machine cover to absolute `d₀`. Rides `D3-LEMMA-RN-UNIF`.
 ### A5. `D3-LEMMA-RN-UNIF` — the RN uniform lemma
 
 * **Piece 1** OPEN. **Piece 2** OPEN — the annulus Riemann-sum driver is
-  **unwritten**. Schedule it explicitly; do not hide it under a T4 push.
+  **unwritten**. Schedule it explicitly; do not hide it under a T4 push. ("T4"
+  here is the RN-UNIF lane's T4 push region `d ∈ [5, 17]` from `LANE_RN_UNIF.md`;
+  it is unrelated to the Drive's thematic track `T4 — Lower Side (Conditional,
+  Marked-Repulsion Gate)` under `16_THEMATIC_RESEARCH_TRACKS`, which is a
+  lower-side track and never filed under this lane.)
 * **Next exact action from RN5:** build a complete non-overlapping spatial cover
   of `0.1 ≤ |y| ≤ 5`, retaining boundary-area bounds and every rejected cell;
   sum area × corrected cell supremum; verify no cell remains pending; then
@@ -87,8 +103,18 @@ cell of the program's actual cover is certified, and the frozen engine
 
 ### A6. `PERC-DECAY`
 
-The `o(r³)` far-lane reading is not reachable. Use the `Θ(r³)` restatement with
-certified constants plus `PD-CONN`, which is a **named OPEN input**.
+Frozen v2.2: OPEN. The `o(r³)` far-lane reading is not reachable; what the note
+layer carries is the `Θ(r³)` restatement with certified constants plus
+`PD-CONN`. At that layer `D1_ASSEMBLY_v2_2_REGISTER_NOTE.md` §5 (mirrored
+byte-exact) lists under "**CLOSED:**" "PERC-DECAY in its RESTATED form (the
+certified far-lane inclusions + caps of §3 — validity content at the rung fully
+absorbed into the E_w accounting of §4)" and moves `PD-CONN` to the
+"**REFINEMENT/constants register:** PD-CONN (named; constants-not-order;
+missing pieces (i)–(iii))"; the v2.3 DRAFT's table reads "REFUTED-AS-PHRASED →
+RESTATED → ABSORBED; premise 3 removed; PD-CONN to refinement (upgrade-only)".
+Both are effective only at the next issuance and no operator has promoted
+v2.3. Until 2026-09-19 this section carried only "RESTATED" and called
+`PD-CONN` a "named OPEN input" without the note's REFINEMENT wording.
 
 ### A7. `OBL-B1-BRANCH(loop|B1)`
 
@@ -97,8 +123,17 @@ OPEN in frozen v2.2; demoted to REFINEMENT for v2.3. Constant-level.
 ### A8. `B4.loc` wrap/remote reconciliation
 
 `B4LOC-R1` closed the dam line for the whole of B4 and resolved the
-identification negatively (cut-net ≢ nine-pin tube). The wrap/remote
-reconciliation under D1 remains open per the capsule.
+identification negatively (cut-net ≢ nine-pin tube). On the wrap/remote
+reconciliation the register note is explicit: §2 "ADJUDICATION of the
+reconciliation question (lead's item 3): **YES**", with the consequence
+"**B4.rem is CLOSED by B4LOC-R1 for the O(r³) validity grade (indeed
+super-algebraic at the ladder rungs); PD-CONN is upgrade-only everywhere**",
+and §5 lists "**CLOSED:** the B4.loc dam-line tube certificate AND B4.rem
+(B4LOC-R1, super-algebraic at the ladder rungs; whole-B4 per §2)". That is the
+note layer, effective at the next issuance; frozen v2.2 still names the premise
+OPEN and no operator has promoted v2.3. Until 2026-09-19 this section said the
+reconciliation "remains open per the capsule", a sentence taken from a
+2026-09-16 reading document rather than from the register note.
 
 ---
 

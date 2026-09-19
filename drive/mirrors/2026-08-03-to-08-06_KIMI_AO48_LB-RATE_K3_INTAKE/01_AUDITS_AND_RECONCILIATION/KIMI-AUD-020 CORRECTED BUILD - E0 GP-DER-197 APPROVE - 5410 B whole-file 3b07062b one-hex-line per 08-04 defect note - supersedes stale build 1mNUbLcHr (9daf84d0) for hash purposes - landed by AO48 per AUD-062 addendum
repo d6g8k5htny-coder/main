@@ -1,0 +1,93 @@
+KIMI-AUD-020 (E0 conversion verdict - FOUNDATION)
+Date: 2026-08-04
+Task ID: AO48-WO Foundation round, E0 - organizationally distinct
+conversion verdict on GP-DER-197-v1.0 (measurable selected unstable
+branch and Borel exact adjacency event)
+Input (hash settled 2026-08-04 in the annex batch; verdict binds to it):
+GP-DER-197 frozen body, 13,797 bytes, SHA-256
+035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d.
+Independence disclosure: third provider family; the proof was
+re-derived item by item at the KIMI line's own standard before the
+text's conclusions were trusted. Cross-referenced against the KIMI
+line's own verified objects (the EC-020/EC-018 corridor certificates
+with 19/19 positive margins incl. the handoff margin 0.00748528; the
+I0 quotient crosswalk of KIMI-AUD-013; the Z_r ≍ r^2 normalizer class
+of Theorem G.7.1). No line's verdict consulted.
+
+VERDICT: APPROVE - the exact selected-branch event A_r is Borel on
+the separable C^3 field space, and the exact Palm probability
+P_r^{MS}(A_r) = E_{Q_{6,r}}[W_r^exact 1_{A_r}]/Z_r^exact is
+well-defined whenever 0 < Z_r^exact < infinity. The M-checklist
+M1-M12 is re-derived item by item below. Combined with KIMI-DATA-015's
+linkage (now byte-exact), E0 CLOSES.
+
+RECEIPTS - the M-checklist at the KIMI standard:
+M1 (field space and law realization): C^3(T^2_24;R) is a separable
+  Banach space, hence standard Borel; the analytic Bargmann-Fock
+  version realizes as a Borel probability; the finite-dimensional pin
+  conditioning yields a regular conditional Borel law Q_{6,r} on the
+  closed affine fiber (Q_{6,r}(X_r^pin) = 1). VERIFIED.
+M2 (O_r openness): negative-definiteness and index-one are open on
+  symmetric matrices; simple spectrum persists locally, making the
+  spectral projector continuous; nonzero projection is open. Hence O_r
+  is relatively open in the pin fiber, therefore Borel. VERIFIED
+  (independently: the corridor certificate's strict margins place its
+  whole certified event inside such an O_r - 19/19 positive margins
+  reproduced in the R2 integration).
+M3 (orientation formula): P_u(H) = (H − λ_s(H)I)/(λ_u(H) − λ_s(H))
+  acts as identity on the λ_u-eigenvector and zero on the λ_s-one
+  (checked by direct computation); e_u(f) = P_u d_r/‖P_u d_r‖ is
+  single-valued, continuous, and satisfies e_u·d_r = ‖P_u d_r‖ > 0 -
+  exactly the configured M-ward sign convention, with no arbitrary
+  eigensolver sign. VERIFIED.
+M4 (parameter-dependent unstable manifold): stated with explicit
+  local hypotheses (V_f continuous into C^1; S_r equilibrium on the
+  pin fiber; hyperbolicity open; continuous orientation) and explicitly
+  bounded role (local continuous selected-branch representatives).
+  VERIFIED as correctly invoked; and note this input is now separately
+  discharged by LCR-DER-057-v1.1's explicit Lyapunov-Perron
+  contraction (byte-exact body on record).
+M5 (countable Borel selector): Lindelöf on separable metric O_r ⇒
+  countable cover; disjoint Borel strata B_j; b_r = b_j on B_j is
+  Borel via b^{-1}(V) = ∪_j [B_j ∩ b_j^{-1}(V)]. VERIFIED.
+M6 (selector independence): two positive points on one connected
+  one-dimensional unstable branch differ by a finite flow-time shift;
+  forward omega-limit is shift-invariant. VERIFIED (and 061's
+  flow-box-plus-connectedness argument makes the one-orbit fact
+  explicit).
+M7 (global flow): joint continuity of (f,t,x) ↦ Φ(f,t,x) on C^1
+  fields over compact time intervals; the selected trajectory
+  evaluation f ↦ Φ(f,t,b_r(f)) is Borel; the path map into
+  C([0,∞), compact-open) is Borel. VERIFIED.
+M8 (Borel path convergence): C_M = ⋂_k ⋃_N ⋂_{q≥N, q∈ℚ}
+  {γ : dist(γ(q),M_r) ≤ 1/k} - each braced set closed under evaluation
+  at fixed rational time; the two-direction equality with convergence
+  verified (rational-time condition extends to real times by
+  continuity). VERIFIED.
+M9 (branch convention equality): exact unstable branch at S_r,
+  M-ward orientation, no opposite-branch substitution, no adjacency in
+  the base law, certificate failure not identified with A_r^c -
+  consistent with GP-PROT-065 and with the I0 crosswalk (firewall 6).
+  VERIFIED.
+M10 (E_r ⊂ A_r): the certificate's margins (saddle type, spectral
+  gap, M-ward projection, cone entry, section crossings, strip transit,
+  M-neighborhood entry, convergence) place E_r inside O_r on the same
+  connected branch - consistent with the corridor review of KIMI-AUD-014.
+  VERIFIED.
+M11 (exact Palm Radon-Nikodym): W_r^exact Borel (continuous endpoint
+  derivative evaluations + determinant/eigenvalue inequalities);
+  0 < Z_r < ∞ (Domain G, Z ≍ r² class); dP = W/Z with E[W/Z] = 1.
+  VERIFIED.
+M12 (no hidden adjacency conditioning): the weight contains type
+  indicators only; A_r stays the event whose probability is evaluated.
+  VERIFIED (matches the I0 decisive ledger).
+
+FALSIFIER: exhibit a field in O_r whose selected branch's convergence
+set is non-Borel in the compact-open path space, a violation of the
+projector orientation identity P_u d_r · d_r > 0 on the strict saddle
+set, a selector whose two positive points have different forward
+omega-limit sets, or a hidden adjacency indicator in W_r^exact - any
+one kills the corresponding checklist item and this verdict.
+
+SHA-256 of this report body (text after this line is excluded):
+c6fe44ee2a5adc92b8a1e8d1a293052257b5445f40027b77e92cf8c5f576c0fc

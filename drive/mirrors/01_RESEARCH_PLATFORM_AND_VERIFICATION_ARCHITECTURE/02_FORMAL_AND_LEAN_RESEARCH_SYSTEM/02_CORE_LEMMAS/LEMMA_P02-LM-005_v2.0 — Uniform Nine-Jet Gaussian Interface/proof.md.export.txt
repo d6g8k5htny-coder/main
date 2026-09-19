@@ -1,0 +1,589 @@
+﻿CONTENT-IDENTITY QUALIFICATION — LS-DATA-010-v1.0 — 2026-07-26
+
+
+The original LCR-CAP-016 / P02-LM-005 mathematical closure remains unchanged within its declared qualitative exact six-pin nine-jet regularity scope. Its historical independent review CL-AUD-074 was structural and did not bind this Google Doc to a byte hash.
+
+
+A separate current-state snapshot now exists:
+
+
+LS-DATA-010-v1.0
+Drive ID: 1eiekdmMQgSBQIgcWZMc5sMBCPhT5TZsRQG4TmzPEj4s
+BODY_BYTES: 13,232
+SHA-256: 0d1776abef7e8fa03bc7492c9fb864d33f7a34f2f526281066b40cc47fb98741
+Rule family: LMC-1
+https://docs.google.com/document/d/1eiekdmMQgSBQIgcWZMc5sMBCPhT5TZsRQG4TmzPEj4s/edit
+
+
+The snapshot exactly matches this object’s normalized current text/plain export. It improves reconstructability but does not retroactively convert CL-AUD-074 into a hash-specific review. Downstream users may cite the mathematical closure and the current snapshot separately, with no automatic review-transfer claim.
+
+
+Extraction standard:
+https://docs.google.com/document/d/1TK_RN3kLO2a03WB8yjX0YJqhC_BW_FyJubtQ5Qf859U/edit
+
+
+[[MATHEMATICAL-CLOSURE:RETAINED]] [[CURRENT-SNAPSHOT:0d1776ab]] [[HASH-REVIEW:OPEN]] [[NO-SCOPE-EXPANSION]]
+
+
+LCR-CAP-016-v1.0 — P02-LM-005 CLOSED UNIFORM EXACT NINE-JET GAUSSIAN DENSITY AND MOMENT INTERFACE
+PEER-REVIEW CAPSULE AND TERMINAL RECORD
+
+
+Artifact ID: LCR-CAP-016-v1.0
+Lemma ID: P02-LM-005
+Closure ID: LCR-CLS-015-v1.0
+Prepared and adjudicated by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Date: 2026-07-24
+Class: CAP / CLS / EXACT FINITE-DIMENSIONAL GAUSSIAN REGULARITY
+Authority: terminal lemma record within exact scope under OP-PROT-011
+Canonical mathematical impact: NONE
+Terminal label: CLOSED — EXACT UNIFORM NINE-JET GAUSSIAN DENSITY AND MOMENT INTERFACE
+
+
+[[OBJ:P02-LM-005]] [[STATUS:CLOSED-EXACT]] [[LAW:EXACT-SIX-PIN-CONDITIONAL-NINE-JET]] [[P0.2:OPEN]] [[P0.1:OPEN]]
+
+
+1. READ FIRST
+
+
+One-sentence result:
+
+
+For the exact normalized-periodized side-24 six-pin conditional Gaussian law of the nine midpoint jets, the mean and covariance extend continuously through r=0 with a positive-definite limiting covariance; hence, on a sufficiently small common r-interval, the density has a uniform Gaussian upper envelope, is uniformly positive on every fixed compact set, and all fixed polynomial moments are uniformly bounded.
+
+
+Why it matters:
+
+
+This closes the finite-dimensional Gaussian regularity interface used by:
+
+
+- P02-LM-003 hypothesis H1;
+- P02-LM-002’s eighth-moment premise for the exact jet family;
+- compact-box probability lower bounds;
+- exact normalizer and endpoint-variable convergence arguments;
+- future conditional Gaussian density estimates.
+
+
+Primary proof:
+
+
+GP-DER-044-v1.0 — Exact-Torus Confluent Gaussian Regularity.
+Drive ID: 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho.
+
+
+Independent review:
+
+
+CL-AUD-074-v1.0, especially Q2.
+Drive ID: 1dqPo81PbLBofWYbJXYi6q_gc9XzkLgo26ibC1vv9GlM.
+
+
+The independent review structurally reconstructed the divided-difference frame, the confluent limits, the fifteen-functional Fourier-positivity argument, the Schur-complement covariance, and the compact density consequence. It expressly states that quantitative finite-r eigenvalue enclosures were not reproduced and are not needed for this qualitative existence lemma.
+
+
+Current status:
+
+
+CLOSED — EXACT UNIFORM NINE-JET GAUSSIAN DENSITY AND MOMENT INTERFACE.
+
+
+2. FROZEN EXACT OBJECT
+
+
+Let f be the exact normalized-periodized Bargmann–Fock Gaussian field on the side-24 torus.
+
+
+For each sufficiently small r>0, condition f on the exact six value/gradient pins defining the ordered pair with midpoint zero and endpoints
+
+
+M=(-r/2,0),
+S=(+r/2,0),
+
+
+in the physical pair chart.
+
+
+Let
+
+
+J_r=(q,a,w,z,c40,c31,c22,c13,c04) in R^9
+
+
+be the exact physical midpoint-jet coordinates in the convention used by GP-DER-043, GP-DER-044, GP-DER-047, GP-DER-116, and the governing six-pin object cards.
+
+
+Let
+
+
+gamma_r=Law(J_r | exact six pins)=N(m_r,Sigma_r).
+
+
+The six raw pins are represented for r>0 by an invertible confluent divided-difference frame L_r whose r->0 limit is the six-functional frame
+
+
+(f, f_x, f_y, f_xx, f_xy, f_xxx)
+
+
+at the midpoint, with the declared prescribed values.
+
+
+THEOREM P02-LM-005.
+
+
+There exists r_GR>0 such that the following hold for every 0<=r<=r_GR, with r=0 interpreted through the confluent Gaussian limit:
+
+
+1. m_r extends continuously to r=0 and
+
+
+sup_{0<=r<=r_GR} ||m_r|| < infinity.
+
+
+2. Sigma_r extends continuously to r=0.
+
+
+3. Sigma_0 is positive definite.
+
+
+4. Consequently, after decreasing r_GR if necessary, there exist constants
+
+
+0<lambda_-<=lambda_+<infinity
+
+
+such that
+
+
+lambda_- I_9 <= Sigma_r <= lambda_+ I_9
+
+
+for all 0<=r<=r_GR.
+
+
+5. The Gaussian densities phi_r of gamma_r are jointly continuous in (r,u), strictly positive, and satisfy a uniform Gaussian upper envelope
+
+
+phi_r(u)<=K exp(-c||u||^2)
+
+
+for constants K,c>0 independent of r and u.
+
+
+6. For every compact set C subset R^9,
+
+
+inf_{0<=r<=r_GR, u in C} phi_r(u)>0.
+
+
+7. For every p<infinity,
+
+
+sup_{0<=r<=r_GR} E_{gamma_r}[(1+||J_r||)^p]<infinity.
+
+
+No numerical value of r_GR, lambda_-, lambda_+, K, c, or the moment constants is asserted.
+
+
+3. PROOF OF CONTINUITY AND POSITIVE DEFINITENESS
+
+
+GP-DER-044 constructs an invertible divided-difference transformation from the six raw endpoint pins to a frame L_r whose components are analytic divided differences and which extends continuously through r=0.
+
+
+Every covariance between transformed pins and the nine midpoint targets is obtained by applying finitely many derivatives and divided differences to the exact periodized analytic covariance kernel. The apparent singularities are removable. Therefore the joint covariance matrix of
+
+
+(L_r,J_r)
+
+
+extends continuously through r=0.
+
+
+At r=0, the fifteen limiting functionals have distinct polynomial Fourier symbols. The periodized Gaussian has strictly positive spectral weight at every lattice frequency. If a linear combination had zero variance, its finite-degree polynomial symbol would vanish on the entire integer lattice. The polynomial-lattice argument forces every coefficient to vanish. Hence the limiting fifteen-functional Gram matrix is positive definite.
+
+
+The six-pin limiting Gram is therefore positive definite. The conditional nine-jet covariance Sigma_0 is its Schur complement in the full positive-definite fifteen-functional Gram, and is positive definite.
+
+
+Continuity of the joint covariance and inversion of the uniformly nonsingular six-pin block give continuity of the conditional mean and covariance.
+
+
+Positive definiteness of Sigma_0 plus continuity implies the uniform eigenvalue bounds on a sufficiently small compact r-interval.
+
+
+4. UNIFORM DENSITY ENVELOPE
+
+
+Let d=9 and let
+
+
+M=sup_{0<=r<=r_GR}||m_r||.
+
+
+The density is
+
+
+phi_r(u)
+=(2pi)^(-d/2)(det Sigma_r)^(-1/2)
+ exp[-(1/2)(u-m_r)^T Sigma_r^(-1)(u-m_r)].
+
+
+The eigenvalue bounds give
+
+
+(det Sigma_r)^(-1/2)<=lambda_-^(-d/2)
+
+
+and
+
+
+(u-m_r)^T Sigma_r^(-1)(u-m_r)
+>=||u-m_r||^2/lambda_+.
+
+
+Using
+
+
+||u-m_r||^2>=||u||^2/2-M^2,
+
+
+one obtains
+
+
+phi_r(u)
+<= (2pi)^(-d/2)lambda_-^(-d/2)
+   exp[M^2/(2lambda_+)]
+   exp[-||u||^2/(4lambda_+)].
+
+
+Thus one may take
+
+
+c=1/(4lambda_+)
+
+
+and the displayed finite K.
+
+
+This proves the exact density-envelope interface required by P02-LM-003.
+
+
+5. COMPACT-SET DENSITY LOWER BOUND
+
+
+The map
+
+
+(r,u)->phi_r(u)
+
+
+is continuous and strictly positive on
+
+
+[0,r_GR] x C
+
+
+for every compact C. The extreme-value theorem therefore gives a strictly positive minimum.
+
+
+This is an existence result. It does not require an explicit interval enclosure of Sigma_r.
+
+
+6. UNIFORM MOMENTS
+
+
+Write
+
+
+J_r=m_r+Sigma_r^(1/2)Z,
+
+
+where Z is a standard nine-dimensional Gaussian and the positive square root is chosen continuously.
+
+
+Uniform boundedness of m_r and the covariance operator gives
+
+
+||J_r||<=M+sqrt(lambda_+)||Z||.
+
+
+Every finite Gaussian moment of ||Z|| is finite. Therefore every fixed polynomial moment of J_r is uniformly bounded.
+
+
+In particular, with
+
+
+R(J_r)=1+|q|+|a|+|w|+|z|+|c40|+|c31|+|c22|+|c13|+|c04|,
+
+
+one has
+
+
+sup_{0<=r<=r_GR}E[R(J_r)^8]<infinity.
+
+
+Combined with closed P02-LM-002, this yields
+
+
+E[W_r^2]=O(r^4)
+
+
+for the exact jet-law family whenever W_r is the endpoint-weight object frozen in P02-LM-002.
+
+
+7. PROOF-OBLIGATION LEDGER
+
+
+G1 — Exact law and jet ordering.
+Status: PASS. GP-DER-116 and CL-AUD-074 Q1 use the identical gamma_r and nine-jet ordering.
+
+
+G2 — Invertible divided-difference frame for r>0.
+Status: PASS.
+
+
+G3 — Correct confluent limit through order three.
+Status: PASS. CL-AUD-074 independently verified the load-bearing coefficient in L5->f_xxx is exactly one.
+
+
+G4 — Joint covariance continuity through r=0.
+Status: PASS by analytic-kernel divided differences.
+
+
+G5 — Limiting fifteen-functional linear independence.
+Status: PASS by Fourier positivity and polynomial-lattice separation.
+
+
+G6 — Limiting conditional covariance positive definite.
+Status: PASS by Schur complement.
+
+
+G7 — Uniform eigenvalue bounds on a small r-interval.
+Status: PASS by continuity and positive-definite limit.
+
+
+G8 — Joint density continuity and positivity.
+Status: PASS.
+
+
+G9 — Uniform Gaussian upper envelope.
+Status: PASS by explicit eigenvalue and mean bounds.
+
+
+G10 — Compact density minimum.
+Status: PASS.
+
+
+G11 — Uniform polynomial moments.
+Status: PASS.
+
+
+G12 — No finite-Q4/exact-field conflation.
+Status: PASS. gamma_r is the exact conditional Gaussian law of the jets; “finite-Q4” in EC-021 refers to the weight/event built on that law, not to a different Gaussian jet distribution.
+
+
+8. INDEPENDENT REVIEW
+
+
+CL-AUD-074 is an organizationally distinct Anthropic review of GP-DER-116 and its GP-DER-044 dependency.
+
+
+Relevant independent checks include:
+
+
+- invertibility and confluent behavior of the divided-difference frame;
+- exact L5 coefficient;
+- distinct fifteen-function polynomial symbols;
+- validity of the Fourier-positive polynomial-lattice argument;
+- continuity of Sigma_r and positive definiteness of Sigma_0;
+- deduction of uniform eigenvalue bounds;
+- joint density continuity and strict positivity;
+- compact-set positive density minimum.
+
+
+Review classification:
+
+
+ORGANIZATIONALLY DISTINCT / STRUCTURAL ANALYTIC RECONSTRUCTION / ORIGINAL PROOF VISIBLE.
+
+
+Limitations disclosed by CL-AUD-074:
+
+
+- no quantitative finite-r covariance eigenvalue enclosures;
+- no explicit r_GR;
+- strict positivity of every side-24 spectral weight accepted through the periodized-Gaussian structure rather than independently numerically tabulated.
+
+
+These limitations do not affect the qualitative existence theorem frozen here.
+
+
+9. EDGE CASES AND FALSIFIERS
+
+
+r=0:
+Handled as the confluent Gaussian limit, not as raw coincident endpoint conditioning.
+
+
+Potential covariance singularity:
+The theorem fails if Sigma_0 is singular. The fifteen-functional Fourier-symbol proof excludes this.
+
+
+Changing-law issue:
+The theorem concerns parameter continuity of finite-dimensional Gaussian laws. No ordinary dominated-convergence argument across unrelated probability spaces is required.
+
+
+Unbounded u:
+Handled by the explicit Gaussian upper envelope.
+
+
+Fixed compact set:
+The lower density bound is uniform on any fixed compact C, but no global positive lower bound is claimed.
+
+
+Quantitative interval claim:
+None is made. A numerical r_GR or explicit lambda_- would require a separate covariance-enclosure computation.
+
+
+Object mutation:
+If the jet ordering, normalization, torus covariance, or six-pin conditioning changes, this lemma does not automatically transfer.
+
+
+10. EXCLUSIONS
+
+
+This closed lemma does not establish:
+
+
+- a numerical covariance matrix;
+- an explicit finite r_GR;
+- a global density lower bound on R^9;
+- exact endpoint-Hessian capture;
+- any determinant-weight normalizer;
+- any Palm probability;
+- P0.1 or P0.2;
+- a finite-Q4/exact-field weight identity;
+- theorem promotion or release.
+
+
+11. CLOSURE DECISION
+
+
+Closure ID: LCR-CLS-015-v1.0
+Lemma ID: P02-LM-005
+Date: 2026-07-24
+Terminal label:
+
+
+CLOSED — EXACT UNIFORM NINE-JET GAUSSIAN DENSITY AND MOMENT INTERFACE.
+
+
+Decisive evidence:
+
+
+- exact analytic-kernel confluent-frame proof;
+- positive-definite fifteen-functional Fourier-symbol argument;
+- Schur-complement conditional covariance;
+- organizationally distinct structural reconstruction;
+- elementary explicit density-envelope and moment deductions;
+- complete object and scope fence.
+
+
+OP-PROT-011 independent-eyes condition is satisfied by CL-AUD-074. This closure extracts a reusable exact Gaussian interface from the already reviewed EC-021 proof stack. It does not reopen or broaden EC-021.
+
+
+12. DOWNSTREAM USAGE
+
+
+Authorized uses include:
+
+
+A. P02-LM-003 H1:
+
+
+phi_r(q,U)<=K exp(-c||(q,U)||^2),
+
+
+or the weaker U-only envelope obtained by dropping q from the norm.
+
+
+B. P02-LM-002 moment premise:
+
+
+sup E[R^8]<infinity.
+
+
+C. Compact-box lower mass:
+
+
+inf_{r,u in C}phi_r(u)>0.
+
+
+D. Weak convergence and uniform-integrability arguments for polynomial jet observables.
+
+
+Every downstream use must preserve the exact six-pin law and nine-jet normalization.
+
+
+13. REOPENING CONDITIONS
+
+
+Reopen if:
+
+
+- the exact six-pin or jet object is redefined;
+- the limiting fifteen-functional Gram is shown singular;
+- a Fourier weight vanishes;
+- a confluent-frame coefficient or covariance limit is corrected;
+- a downstream artifact applies the result to a different law without a crosswalk.
+
+
+Do not reopen because explicit constants or a larger r interval are desired.
+
+
+14. MANIFEST
+
+
+Primary proof:
+- GP-DER-044-v1.0
+- Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho
+
+
+Reviewed consuming theorem:
+- GP-DER-116-v1.0
+- Drive ID 1LFhBohVz6gtBSYXPPtApPt1tD2CgsoZMKrneBcAP58E
+
+
+Independent review:
+- CL-AUD-074-v1.0
+- Drive ID 1dqPo81PbLBofWYbJXYi6q_gc9XzkLgo26ibC1vv9GlM
+
+
+Closure capsule:
+- LCR-CAP-016-v1.0 / LCR-CLS-015-v1.0
+- Drive ID 1e8u5p9b4lEnRaZRNytj2Tu9ncAS1OnjhRbi4FP0hYU4
+
+
+15. FINAL CHECKLIST
+
+
+Exact object: PASS.
+Continuity: PASS.
+Positive-definite limit: PASS.
+Density envelope: PASS.
+Compact density lower bound: PASS.
+Uniform moments: PASS.
+Independent review: PASS.
+Quantitative limitations explicit: PASS.
+Finite-Q4/exact-field law separation: PASS.
+P0.1/P0.2 scope fence: PASS.
+
+
+FINAL VERDICT:
+
+
+APPROVE AND CLOSE P02-LM-005 WITHIN THE EXACT SIX-PIN CONDITIONAL NINE-JET GAUSSIAN REGULARITY SCOPE.
+
+
+END LCR-CAP-016-v1.0

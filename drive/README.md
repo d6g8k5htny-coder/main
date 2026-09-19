@@ -12,10 +12,36 @@ Content-addressed index of the Google Drive shared drive, from the
 | `source_map/Payloads.csv` | 4,020 | distinct source payloads by SHA-256, with occurrence counts |
 | `source_map/Exceptions.csv` | 137 | retained exceptions: empty bodies, read failures, compiled caches, DOCX layout limits |
 
-Totals: 3,714 files and 742 folders, 319 MB, 77 archive carriers (the completion
-report's count; the inventory marks 76 items `ARCHIVE_INDEXED` and
-`Archive_Members.csv` lists members for 73), 4,020 distinct payloads over the whole
-source map (2,975 among archive members), 2,059 items carrying a source SHA-256.
+Totals: 3,714 files and 742 folders, 319 MB, 77 archive carriers — the 76 items
+the inventory marks `ARCHIVE_INDEXED` plus the `BINARY_UNRENDERED`
+`S2-DATA-002-v1.0_result_carrier.zip` (`1mYHVSdVk57CM9h6L3NFR9_G2EFXKPwhj`) for
+which `Archive_Members.csv` also lists members; 72 of the 76 have member rows
+and the other four are single-file `.gz` uploads — 4,020 distinct payloads over
+the whole source map (2,974 distinct 64-hex digests among archive members; the
+five `READ_FAILED` member rows carry an empty digest cell), 2,059 items carrying
+a source SHA-256. Until 2026-09-19 this sentence quoted 77 as the completion
+report's number, said members were listed for 73, and counted the empty cell as
+a 2,975th digest.
+
+## Provenance of these files
+
+`inventory.jsonl` is derived from `Files.csv`: one JSON object per `Files.csv`
+row, keyed by Drive ID, carrying eight of its columns (title, path, mimeType,
+bytes, sha256, context, access_status, link) — 4,456 of the 4,456 rows
+agree on id, title, path, digest and byte count (a `null` digest where the CSV
+cell is empty). The committed bytes:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `inventory.jsonl` (derived) | 2,807,455 | `48766f1807efaba61e9ecc2a54d358d779393d06cce39d0d7b2bd1f2f2636b66` |
+| `source_map/Files.csv` | 2,503,504 | `4bad6b97c96a86382e200d31e50ac06932fdbbc8ad26a568559664441769c48e` |
+| `source_map/Archive_Members.csv` | 6,241,565 | `32e360568ae835f9b78ceeded659e8adda3c17fb7c73420a7d59252177f52888` |
+| `source_map/Payloads.csv` | 2,957,503 | `1b1b94a784ebc87cadee1098cde995c05dd6b5d541f55c6943fc8a48a9e43f4e` |
+| `source_map/Exceptions.csv` | 53,212 | `625ba2d02bab66c6731f2b7823edd8077890f7a816f9e7b3776b69b6f59841ac` |
+
+These four CSVs are four of the accessibility publication's ten audit files;
+`tools/verify_manifests.py` does not cover them (their identity rests on the
+digests above, recorded 2026-09-19).
 
 ## Queries
 

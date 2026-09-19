@@ -1,0 +1,263 @@
+﻿V1.1 ANTHROPIC-DRIVEN TWO-SENTENCE REPAIR — 2026-07-26
+
+
+This numbered successor implements the sole blocking residue in CL-AUD-274 and the joint version-binding repair in CL-AUD-275. It preserves the complete Borel globalization and selector-independence proof, restores GP-DER-197's conditional Palm wording, and binds the approved local-selector object inside the frozen body.
+
+
+Predecessor: LCR-DER-061-v1.0 — 8,240 bytes — SHA-256 04efac4014b21a387d9eae7d4e78e8e37e5b149629a000e7b4dbf64a8e2ead3b — AMEND REQUIRED on B10/J1 only.
+Approved selector: LCR-DER-057-v1.1 — 11,144 bytes — SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72.
+Review lineage: CL-AUD-273 / CL-AUD-274 / CL-AUD-275 — one shared Anthropic credit.
+
+
+Fresh native Drive text/plain export reproduces the v1.1 frozen body at 8,928 bytes with SHA-256 8ec4386fc1214523c98a5ae84acf4f5f64a6601aa2c63728f4382701b82dc3b7.
+
+
+[[SUCCESSOR:v1.1]] [[REPAIR:B10-CONDITIONAL-PALM]] [[REPAIR:J1-SELECTOR-HASH-BINDING]] [[PREDECESSOR:AMEND-REQUIRED]] [[NO-PROMOTION]]
+
+
+LOCAL-SELECTOR DEPENDENCY UPDATE — 2026-07-25
+The controlling local selector input is LCR-DER-057-v1.1, BODY_BYTES 11144, SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72. Version 1.0 is amend-required for exact-text approval after its final theorem summary omitted the symmetry hypothesis used by the proof. Anthropic CL-AUD-273 independently approved the exact LCR-DER-057-v1.1 frozen hash; one shared Anthropic event-stack credit is recorded across CL-AUD-273/274/275.
+Proof: https://docs.google.com/document/d/1ooqFTdifp8cxHYhRxmzJ2Y-nqx-971lpMQ4criehXWM/edit
+Supplement: https://docs.google.com/document/d/1WgcY92MVAU1dKIceKJ1rIMTjucRjPzE40Zwre12PJn8/edit
+The v1.0 body is preserved as AMEND REQUIRED. This v1.1 successor binds the approved selector hash inside the frozen body and restores conditional Palm wording.
+[[LOCAL-SELECTOR:v1.1-APPROVED]] [[BOREL-SUCCESSOR:v1.1]] [[PREDECESSOR:AMEND-REQUIRED]] [[NO-PROMOTION]]
+
+
+LCR-DER-061-v1.1 — COUNTABLE BOREL GLOBALIZATION, SELECTOR INDEPENDENCE, AND CONDITIONAL PALM ADMISSIBILITY FOR LM013
+
+
+Artifact ID: LCR-DER-061-v1.1
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-25
+Class: DER / BOREL GLOBALIZATION / DYNAMICAL MARK / PALM EVENT COMPANION
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Targets: GP-DER-197-v1.0 / P01-MEAS-001 / P02-LM-013
+Status: OBJECT-FROZEN AFTER DRIVE ROUND TRIP / COMPLETE SAME-LINE SUCCESSOR / ANTHROPIC EXACT-HASH CONVERSION REQUIRED / NONTERMINAL
+
+
+Purpose:
+Isolate Sections 5–11 of GP-DER-197 into one compact theorem. The local continuous selected-point input is supplied by LCR-DER-057-v1.1, BODY_BYTES 11144, SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72. This companion proves countable Borel globalization, selector independence on a one-dimensional unstable branch, Borel convergence to the configured maximum, and conditional legitimacy of the exact Palm probability whenever the normalizer is finite positive. It does not construct the local unstable manifold, prove capture, prove the normalizer, or prove a probability rate.
+
+
+Freeze policy:
+Export this native Google Doc as text/plain, normalize CRLF/CR to LF, extract only the text strictly between the unique marker lines BEGIN_BOREL_FROZEN_BODY and END_BOREL_FROZEN_BODY, remove trailing LF characters, append exactly one LF, and encode as UTF-8 without BOM.
+
+
+BODY_BYTES: 8928
+BODY_SHA256: 8ec4386fc1214523c98a5ae84acf4f5f64a6601aa2c63728f4382701b82dc3b7
+
+
+[[TARGET:GP-DER-197]] [[BODY_BYTES:8928]] [[BODY_SHA256:8ec4386fc1214523c98a5ae84acf4f5f64a6601aa2c63728f4382701b82dc3b7]] [[INTERFACE:P01-MEAS-001]] [[INTERFACE:P02-LM-013]] [[METHOD:COUNTABLE-BOREL-GLOBALIZATION]] [[LOCAL-SELECTOR:LCR-DER-057-v1.1-SHA62c23788]] [[PALM:CONDITIONAL-ON-FINITE-POSITIVE-Z]] [[EXTERNAL-CONVERSION:OPEN]] [[NO-PROMOTION]]
+
+
+BEGIN_BOREL_FROZEN_BODY
+COUNTABLE BOREL GLOBALIZATION, SELECTOR-INDEPENDENCE, AND CONDITIONAL PALM-ADMISSIBILITY LEMMA
+
+
+1. ABSTRACT SETTING
+Let E be a separable metric space with its Borel sigma algebra, let O subset E be Borel, and let Y be a compact metric space. Fix m in Y.
+
+
+Assume:
+A1. O has a countable cover U_1,U_2,... by Borel subsets of O.
+A2. For every j there is a continuous map b_j:U_j->Y.
+A3. There is a jointly continuous global flow map
+    Phi:E x R x Y -> Y,
+where for each p in E the map (t,x)->Phi(p,t,x) is a complete flow.
+A4. For every p in O, every local selector value b_j(p) that is defined lies on one declared connected selected flow branch C_p.
+A5. C_p is a connected one-dimensional invariant manifold on which the generating vector field is nonzero.
+
+
+The application will take E to be the exact C^3 six-pin field fiber or its ambient C^3 field space, Y to be the side-24 torus, m=M_r, O=O_r, and the b_j to be the local positive unstable-branch points supplied by LCR-DER-057-v1.1, BODY_BYTES 11144, SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72.
+
+
+2. COUNTABLE PIECEWISE-BOREL SELECTOR
+Define
+    B_1=U_1,
+    B_j=U_j minus union_{i<j} U_i,  j>=2.
+Then every B_j is Borel, the B_j are pairwise disjoint, and their union is O.
+
+
+Define b:O->Y by
+    b(p)=b_j(p)  when p in B_j.
+For every open set V subset Y,
+    b^{-1}(V)=union_j [B_j intersect b_j^{-1}(V)].
+Each term is Borel because b_j is continuous on U_j and B_j subset U_j is Borel. The union is countable. Hence b is Borel measurable.
+
+
+No compatibility of b_i and b_j on overlaps is required for measurability because the B_j form a disjoint priority partition.
+
+
+3. ONE-DIMENSIONAL BRANCH IS ONE FLOW ORBIT
+Fix p in O. The flow orbits partition C_p. Because the generating vector field is nonzero on C_p, the flow-box theorem gives, around every point of C_p, a one-dimensional coordinate in which the flow is translation. Therefore each orbit is open in C_p.
+
+
+A connected space cannot be partitioned into two or more nonempty disjoint open sets. Hence C_p consists of one flow orbit.
+
+
+Consequently, if x,x' lie in C_p, there is a finite real number tau such that
+    x'=Phi(p,tau,x).
+In particular any two local selector values on the declared selected branch differ by a finite flow-time shift.
+
+
+4. SELECTOR-INDEPENDENCE OF FORWARD CONVERGENCE
+Let b and b' be two Borel selectors satisfying A4. For each p in O, Section 3 gives a finite tau(p) with
+    b'(p)=Phi(p,tau(p),b(p)).
+The function tau need not be measurable.
+
+
+For every t,
+    Phi(p,t,b'(p))=Phi(p,t+tau(p),b(p)).
+A finite translation of the time parameter does not change whether a trajectory converges to m as t->infinity. Therefore
+    lim_{t->infinity} Phi(p,t,b(p))=m
+if and only if
+    lim_{t->infinity} Phi(p,t,b'(p))=m.
+Thus the convergence event depends only on the selected branch, not on the auxiliary countable cover or local point.
+
+
+5. BOREL MAP INTO PATH SPACE
+Let
+    C_+=C([0,infinity),Y)
+with the compact-open topology. Since Y is compact metric, C_+ is a separable metrizable space. Its Borel sigma algebra is generated by the evaluation maps at nonnegative rational times.
+
+
+Define Gamma:O->C_+ by
+    Gamma(p)(t)=Phi(p,t,b(p)).
+For every fixed rational q>=0, the map
+    p -> Gamma(p)(q)=Phi(p,q,b(p))
+is Borel, because b is Borel and (p,x)->Phi(p,q,x) is continuous.
+
+
+Since the rational evaluation maps generate the Borel sigma algebra of C_+, Gamma is Borel measurable.
+
+
+6. BOREL SET OF PATHS CONVERGING TO m
+Define
+    C_m={gamma in C_+: lim_{t->infinity} gamma(t)=m}.
+Let Q_+ be the nonnegative rationals. Then
+    C_m
+      = intersection_{k>=1}
+          union_{N>=1}
+            intersection_{q in Q_+, q>=N}
+              {gamma: d(gamma(q),m)<=1/k}.
+
+
+For fixed q and k, the set in braces is closed because evaluation at q is continuous. The displayed expression is countable, so C_m is Borel.
+
+
+To verify equality, first suppose gamma(t)->m. For every k there is N such that d(gamma(t),m)<=1/k for all t>=N, hence the rational-time condition holds.
+
+
+Conversely, suppose the rational-time condition holds. Fix k and choose N as displayed. For any real t>=N, choose rationals q_n>=N with q_n->t. Continuity of gamma and closedness of the distance bound give d(gamma(t),m)<=1/k. Since this holds eventually for every k, gamma(t)->m.
+
+
+7. BOREL ADJACENCY EVENT
+Define
+    A={p in O: Gamma(p) in C_m}.
+Since Gamma and C_m are Borel, A is Borel in O. If O is Borel in E, then A is Borel in E after assigning failure on E minus O.
+
+
+By Section 4, A is independent of the chosen priority cover and local selector family, provided all local values lie on the same declared selected branch.
+
+
+8. CERTIFICATE COMPATIBILITY
+Suppose E_cert subset O is a Borel event and the deterministic certificate proves that, for every p in E_cert, the same declared selected branch enters an invariant neighborhood of m and converges to m. Then
+    E_cert subset A.
+This is an inclusion of Borel events. Failure of the sufficient certificate is not identified with A^c; only the forward implication is used.
+
+
+9. BOREL WEIGHT AND EXACT PALM ADMISSIBILITY
+Let mu be a Borel probability measure on E. Let W:E->[0,infinity) be Borel and integrable, and set
+    Z=integral W dmu.
+Assume
+    0<Z<infinity.
+Define the weighted probability measure P by
+    dP/dmu=W/Z.
+
+
+For the Borel event A,
+    P(A)=integral W 1_A dmu / Z
+is well defined.
+
+
+No indicator 1_A is inserted into W when defining P. The event A remains the event whose probability is evaluated. Therefore the weighted base law does not condition on adjacency.
+
+
+10. EXACT SIX-PIN APPLICATION
+Fix r>0. Let
+    E=C^3(T_24^2;R)
+or the closed exact six-pin affine fiber, with its C^3 Borel structure. Let mu=Q_{6,r}. Let O=O_r be the strict maximum/saddle/nonorthogonal domain. Let Y=T_24^2, m=M_r, and let Phi be the exact gradient-ascent flow.
+
+
+The application assumptions are supplied as follows:
+- E is separable metric and standard Borel;
+- O_r is Borel, in fact relatively open in the pin fiber;
+- LCR-DER-057-v1.1, BODY_BYTES 11144, SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72, supplies local continuous points on the configured M_r-ward positive unstable branch; the declared C_p is the full flow orbit containing that local branch;
+- second countability gives a countable local cover;
+- compactness of the torus and C^1 regularity give a complete jointly continuous finite-time flow;
+- the exact determinant/type weight W_r^{exact} is Borel;
+- whenever 0<Z_r^{exact}<infinity, the exact determinant/type weight defines the exact typed Palm law.
+
+
+Consequently the exact selected-branch convergence event A_r is Borel. Whenever 0<Z_r^{exact}<infinity,
+    P_r^{MS}(A_r)
+      =E_{Q_{6,r}}[W_r^{exact} 1_{A_r}]/Z_r^{exact}
+is a well-defined exact Palm probability.
+
+
+If the exact deterministic capture certificate follows the configured M_r-ward branch and proves convergence to M_r, its certificate event E_r satisfies
+    E_r subset A_r.
+
+
+11. THEOREM
+Under A1–A5, a countable family of local continuous points on one declared connected one-dimensional flow branch globalizes to a Borel selected point. The forward-convergence event to m is Borel and independent of the local selector. Any Borel integrable weight with finite positive normalizer defines a weighted probability of that event by the exact Radon–Nikodym quotient.
+
+
+Applied to the exact side-24 six-pin Gaussian field, LCR-DER-057-v1.1 at SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72 plus the strict typed/nonorthogonal domain and exact flow give the measurable selected branch and Borel adjacency event required by P01-MEAS-001 / P02-LM-013.
+
+
+12. SCOPE FIREWALL
+This lemma does not prove:
+- the local Lyapunov–Perron selector theorem;
+- that the strict typed/nonorthogonal domain has positive probability;
+- deterministic capture;
+- convergence of any particular branch;
+- an adjacency probability lower bound;
+- an O(r^3) failure rate;
+- the exact normalizer theorem;
+- P0.1 or P0.2;
+- theorem promotion, formal compilation, or external release.
+
+
+13. REOPENING CONDITIONS
+Reopen or amend if:
+- the local cover cannot be chosen countably;
+- a local selector value lies on the wrong branch;
+- the declared connected branch contains more than one flow orbit;
+- the global flow is not jointly Borel/continuous;
+- rational evaluations do not generate the path-space Borel sigma algebra;
+- the displayed C_m representation is incorrect;
+- W_r^{exact} is not Borel or the normalizer is not finite positive;
+- the deterministic certificate follows a different branch;
+- the certificate inclusion E_cert subset A is used as an equivalence, or certificate failure is read as A^c;
+- the local-selector dependency is not LCR-DER-057-v1.1 at SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72;
+- adjacency is silently inserted into the base weight.
+
+
+END_BOREL_FROZEN_BODY
+
+
+14. PROVENANCE AND STATUS
+This v1.1 successor preserves the countable-globalization, selector-independence, and path-space proofs from v1.0. It restores GP-DER-197's conditional Palm formulation and binds the approved LCR-DER-057-v1.1 source inside the frozen body. It changes no probability estimate, radius, P0.1/P0.2 theorem status, or promotion state.
+
+
+Current status:
+OBJECT-FROZEN AFTER DRIVE ROUND TRIP / COMPLETE SAME-LINE PROOF COMPANION / ORGANIZATIONALLY DISTINCT EXACT-HASH REVIEW REQUIRED / NONTERMINAL.
+
+
+No P0.1 or P0.2 closure or promotion is claimed.
+
+
+END LCR-DER-061-v1.1

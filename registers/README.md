@@ -40,6 +40,36 @@ not evaluated (their cached value is used), merged ranges are not expanded, and
 in-cell newlines are preserved. Its docstring states the empty-row and
 empty-cell rule.
 
+## Cross-register observations (recorded, not repaired)
+
+Contradictions between exported tabs, or between a tab and the Drive, that
+`tools/registers_check.py` cannot see because each row is well-formed on its
+own. The exports are not edited; these are for the owner to resolve at the
+source.
+
+* `consensus_ballot_retired` still names "Current governance | OP-PROT-009",
+  while `operator_decisions` rows `OD-OP-PROT-010-001` and
+  `OD-NOVOTE-20260724-001` say OP-PROT-009 has "no current governing force" and
+  the Drive object is titled `HISTORICAL — OP-PROT-009 — No-Vote Mandate`.
+* "OP-PROT-003" denotes two Drive objects (the Operating-Philosophy relay
+  `1pEGZoTd…` and the majority-rule record `1pVAG4d0…`); `relations.json`
+  REL-OPP008-002 links the latter, `governance/protocols/history/` holds the
+  former.
+* `relations.json` rows REL-036 ("Primary formula evidence", ACTIVE) and REL-087
+  ("Exact definition-level law identification", ACTIVE-CANDIDATE / REVIEW-OPEN)
+  cite `1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA`, whose 2026-09-17 inventory path
+  begins `02_LEGACY_Q0_ARCHIVE` — a lane `CLAUDE.md` rule 10 gives zero
+  evidentiary authority. The rows predate the object's current placement; no
+  claim, module or graph node in this repository cites it.
+* `file_catalog` row `1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp` carries the title
+  "00_READ ME + MASTER INDEX — single triage inbox (CL, 2026-07-22).md"; the
+  Drive renamed it `90_HISTORICAL_TRIAGE_MIGRATION_INDEX_2026-07-22.md` after
+  the snapshot (`drive/deltas/2026-09-18/PATH_CHANGES.jsonl` carries the move;
+  bytes unchanged).
+* One of the seventeen `legacy_primary_file_ids` of the Fresh Start 2.0
+  allowlist (`1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc`) is absent from the
+  2026-09-17 inventory.
+
 ## The truncation defect of the markdown rendering
 
 The connector's markdown-table rendering used for the 2026-09-17 export returns
@@ -65,10 +95,34 @@ cut is a property of that rendering, not of an edit to the Sheet. Seven
 duplicate-key defects in the newly delivered rows are recorded in
 `KNOWN_FINDINGS.json`, in their own section
 (`findings_first_visible_in_2026-09-18_export`); they are defects of the source
-workbook, not of the importer. They are not yet covered by
+workbook, not of the importer. They are not covered by
 `collision_proposal.json`, whose source of record is the markdown export and
-whose checker quotes colliding rows as lines of that export; a numbered
-successor proposal against the xlsx export is required, and the file says so.
+whose checker quotes colliding rows as lines of that export; under CLAUDE.md
+rule 8 that 2026-09-18 proposal is frozen and not edited. They are covered
+instead by its numbered successor, `collision_proposal_2026-09-19.json` with
+companion `COLLISION_PROPOSAL_2026-09-19.md` (`supersedes: null`,
+`successor_of` naming the predecessor by SHA-256), whose source of record is
+the xlsx export and whose seven records quote each colliding row cell for
+cell from `json/artifact_index.json` and `json/evidence_lineage.json`.
+`python3 tools/collision_proposal_check.py` checks the first proposal and
+`python3 tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json`
+the second; together the two cover all 23 findings, each exactly once
+(`tests/test_collision_proposal.py`). In the second, the checker also binds
+each record to its finding key (the tab, the identifier and exactly the two
+rows the key names), recomputes the identical/differing field lists and the
+cell counts from the live rows, and holds keeper order, same-object class,
+successor-id suffix and proposed cluster ids to the cells and to the
+predecessor; it also recomputes the document-level `summary_counts` and
+classification lists from the records' cells, binds each operator-reserved
+follow-up to the identifier its record proposes, requires every append to
+target the Duplicate Flags registry, and compares the companion's verbatim
+row blocks, byte-count/digest lines, cell-count lines, materiality
+paragraphs and summary-table rows with the live JSON rows. Each of those
+checks has a CLI negative control in `tests/test_collision_proposal.py`,
+added after an adversarial pass showed the earlier checker let a falsified
+summary or a tampered companion block through. Both are proposals: nothing has been
+repaired, every successor identifier is proposed and none is created, and the
+independence-requiring gates remain open.
 
 ## What moved between the two exports
 
@@ -146,8 +200,8 @@ Row counts are the data rows of the 2026-09-18 export (header excluded).
 | 39 | `task_gates` | 44 | per-task gate policy rows |
 | 40 | `cold_start_control_view` | 43 | derived cold-start control view |
 | 41 | `lpw_fold_dispositions` | 10 | the ten LPW-fold object dispositions |
-| 42 | `reusable_operations` | 15 | reusable operations OP01–OP15 with reuse state, exact source and current review / authority (tab added 2026-09-18) |
-| 43 | `operation_trials` | 0 | operation trial ledger: header only at this export (tab added 2026-09-18) |
+| 42 | `reusable_operations` | 15 | reusable operations OP01–OP15 with reuse state, exact source and current review / authority (tab added 2026-09-18); transcribed cell for cell into `engine/operations/REGISTRY.json`, where four displayed identities are re-run in exact arithmetic — a trial is a record, not evidence, and Utility/Novelty stay the register's words |
+| 43 | `operation_trials` | 0 | operation trial ledger: header only at this export (tab added 2026-09-18); `engine/operations/trials/` holds records in exactly this eighteen-column shape, append-only, none of them evidence |
 
 ## Invariants CI enforces
 

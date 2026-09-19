@@ -16,9 +16,9 @@ Counts come from `drive/inventory.jsonl`; query it with
 |---|---:|---|
 | `01_ACTIVE_RESEARCH_PACKAGES` | 3,408 | all live research |
 | `02_LEGACY_Q0_ARCHIVE` | 346 | inspiration only; reverify from first principles |
-| `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 332 | protocols, registers, navigation, decisions |
+| `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 332 | the Drive's own description: "Rules, protected decisions, navigation, autonomous control, triage, and operational receipts" — the directives folder (64 items, incl. the R17 release bundle and OP-RECON-20260916 set), the open-questions folder (75), the self-healing / governance-history receipts (45), the evidence-gated autonomous-decision queue (41), the cross-line work-order inbox (23), the protocol standards and reference implementations (22), G0 (19), the navigation aids (17) and ~30 loose GP/CL records. It holds no registers: the live GP-REG-032 workbook is in `14_COORDINATION_AUTOMATION_SPINE` (§9). Until 2026-09-19 this row said "protocols, registers, navigation, decisions" |
 | `90_QUARANTINE_AND_TRIAGE` | 191 | non-authoritative |
-| `05_FOUNDATIONS_AND_PROTOCOL_HISTORY` | 151 | Fresh Start 2.0 history and archive |
+| `05_FOUNDATIONS_AND_PROTOCOL_HISTORY` | 151 | the Fresh Start 2.0 governance artifacts of 2026-07-29 (charter — mirrored byte-exact —, positive-admission allowlist, query/retrieval policy, the 17-file legacy quarantine manifest, contamination ledger, rebuild queue, execution report "PARTIAL — BLOCKERS REMAIN") and the historical governance records (the OP-PROT-002…010 lineage); R17 labels the old control documents history |
 | `03_PERSONAL_AND_EARLIER_RESEARCH` | 23 | zero evidentiary authority |
 | `00_START_HERE` | 3 | Research Home + router |
 | `06_SANDBOX_FRONTIER` | 2 | drafts, no authority |
@@ -59,7 +59,18 @@ copies (`exact: false`, no payload digest exists for a native Doc), the Theorem
 B folder, the terminal closure records, the gate documents, the root documents
 and the Theorem B registers (landed 2026-09-19). Until 2026-09-18 this table
 gave the lane a row count and nothing else.
-| `99_DO_NOT_OPEN` vault | 6 |
+
+`16_THEMATIC_RESEARCH_TRACKS` (T1–T5) and `13_POWER_PLANNING_CONTINUUM` hold the
+workspace charters, the T1 closure-and-reduction packages, the T2 SARD-G
+working source and the 03.x leaf and live-state cards. One object is held so
+far (`Q0_C101_QUALITATIVE_RATE_THEOREM.md`, byte-exact; its grade block records
+"R0/SARD-G external status: SPECIALIST-REVIEW-PENDING" and "numerical upper
+coefficient: NOT-CLAIMED"); the charters' fences and the leaf cards' withdrawn
+claims are not yet transcribed here (`drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/README.md`).
+Note the name collision: the RN-UNIF lane's "T4 push" (§3, `LANE_RN_UNIF.md`)
+is unrelated to the thematic track T4 (Lower Side). The `99_DO_NOT_OPEN` vault
+(6 inventory items: the folder and five native Docs) sits inside
+`01_ACTIVE_RESEARCH_PACKAGES` and is metadata only, never opened.
 
 ---
 
@@ -125,16 +136,22 @@ Shipped as PKG-01. Intake authority:
 `a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b`
 (2,029 archive members — the single largest carrier in the corpus).
 
-* **Theorem (1)** — certified rung `r = 0.05`. Live clean totals
-  `I_hi(v3) = 8.097558925 2e-2 = 647.8048·r³` (pin `8d7028e4…`).
+* **Theorem (1)** — certified rung `r = 0.05`: `1 − q(0.05, 6/5) ≤ Ĩ_hi +
+  C_RN(0.05)·√Q(B1.dir) + P(B2) + P(B4)` with `Ĩ_hi = 8.1272827e-2 =
+  650.1827·(0.05)³` and `C_RN(0.05) ≤ 3.46` (v2.2 §1). The H5 chart total it
+  consumes is `I_hi(v3) = 8.0975589252e-2 = 647.8048·r³` (pin `8d7028e4…`);
+  until 2026-09-19 this bullet gave that input as the theorem.
 * **Theorem (2)** — all-small-r, conditional on the five premises in the README.
 
 **Layer discipline (do not collapse):**
 
 1. Frozen v2.2 → five OPEN validity premises; PKG-01 ships here.
 2. Register note + addenda → append-deltas effective at next issuance: B4LOC
-   CLOSED, PERC RESTATED, normalizer DISCHARGED, BRANCH demoted. Reduced OPEN
-   set becomes `OBL-D1-PROMOTE` (chart) + `D3-LEMMA-RN-UNIF`.
+   CLOSED and B4.rem ADJUDICATED YES (whole-B4), PERC "CLOSED in its RESTATED
+   form" with PD-CONN to the REFINEMENT register, normalizer DISCHARGED, BRANCH
+   demoted. The OPEN set becomes `OBL-D1-PROMOTE` (chart side **and now also
+   the uniform-band extension of the B4LOC/B2-far/far-route certificates**) +
+   `D3-LEMMA-RN-UNIF` — reduced on one side, enlarged on the other (note §5).
 3. `D1_ASSEMBLY_v2_3_DRAFT` + `H5_ZBAND_CONSUMPTION` → **PROPOSED**, authority
    none until operator promotion.
 4. HOLD checklist → still lists **all five** as blocking.
@@ -146,8 +163,8 @@ Shipped as PKG-01. Intake authority:
 | 0.05 | frozen v1 / live v3 | 731.4311 / **647.8048** | v2 was contaminated by a rung-unscoped merge; v3 CLEAN, sha `8d7028e4…` |
 | 0.035355 | `H5_RUNG3_2026-09-15` | **661.4712** | totals sha `808d6901…` |
 | 0.025 | `H5_RUNG2_2026-09-15` | **664.3979** | totals sha `f7697bcf…`; C1 containment PASS; mutation 6/6 |
-| 0.0177 | RUNG2 ladder | — | cells **42/70**, 2 shards resuming |
-| 0.0125 | RUNG2 ladder | — | cells **21/70**, 2 shards resuming |
+| 0.0177 | RUNG2 ladder | — | cells **42/70** at the 2026-09-15 snapshot; v2.3 DRAFT: "FROZEN mid-flight (125 + 6 banked)", Kimi dark until 2026-09-30 |
+| 0.0125 | RUNG2 ladder | — | cells **21/70** at the 2026-09-15 snapshot; v2.3 DRAFT: "FROZEN mid-flight (42 + 2 banked)" |
 
 RUNG2/RUNG3 certify those rungs only. They do **not** discharge `OBL-D1-PROMOTE`,
 `OBL-H5-JETMOD`, ZBAND-hi or REMOTE-THRESHOLD. The displayed modulus is dense
@@ -550,20 +567,61 @@ Every grade below is quoted from those bytes.
   protocol and the DQ-018 register-safety evidence. 44 digest-bearing objects
   (494,416 B) of this lane have no byte-exact port; the promotion channel is
   among them.
-* `07_MODEL_ACCESSIBILITY` (new, 2026-09-17) — 392 published reading copies,
-  6,034 source-to-copy links, 137 retained exceptions. Mirrored here as
-  `drive/source_map/`.
+* `07_MODEL_ACCESSIBILITY` (new, 2026-09-17) — a five-part tree: a START HERE
+  Sheet, three reading-copy folders holding the 392 published reading copies,
+  and an audit folder of ten published files (`ACCESSIBILITY_COMPLETION_REPORT.md`,
+  `EXTERNAL_RECON_ACCESSIBILITY.md`, `ACCESSIBILITY_VERIFICATION.json`,
+  `Start_Here.csv`, `Files.csv`, `Reading_Links.csv` — the 6,034 source-to-copy
+  links —, `Archive_Members.csv`, `Payloads.csv`, `Exceptions.csv` — the 137
+  retained exceptions —, `Reading_Copies.csv`). `drive/source_map/` holds four
+  of the ten (`Files`, `Archive_Members`, `Payloads`, `Exceptions`) and
+  `drive/inventory.jsonl` is derived from `Files.csv`; the Sheet, the 392
+  copies, `Reading_Copies.csv`, `Reading_Links.csv`, `Start_Here.csv`, the
+  verification receipts, the completion report and the recon memo are not
+  here. Until 2026-09-19 this bullet said the lane was "mirrored here".
+
+The register's own operation view is worked actively on the git side. The
+2026-09-18 export added `reusable_operations` (sheet 42: fifteen operations
+OP01–OP15, all `Utility: UNMEASURED` and `Novelty: NOT_ASSESSED`) and an
+intentionally empty `operation_trials` ledger (sheet 43), with the Drive's
+guide mirrored under `drive/deltas/2026-09-18/2026-09-18_REUSABLE_OPERATIONS/`.
+`engine/operations/REGISTRY.json` transcribes the fifteen cell for cell, and
+marks separately (`git_side`) the four whose `Action / output` cell displays an
+identity that exact arithmetic reproduces from the cell alone — OP02's power
+ledger `(r^3/6) r^-5 r^2 = 1/6`, OP03's pushforward constant and exponent
+`6^(2/3)/(3 κ^(2/3)) ℓ^(-1/3)`, OP04's Hölder conjugacy `1/4+1/4+1/2 = 1`, and
+OP05's witness `LHS = 1/4`, wrong `RHS = 1/16` — and says why the other eleven
+are not machine-checkable here (a statement about this repository's reach, not
+about the operations). `engine/operations/trial.py` runs those four over
+`fractions.Fraction` and appends one record per run, in the ledger's own
+eighteen-column shape, under `engine/operations/trials/`; `tools/operations_check.py`
+holds the registry to the register's words (never stronger on Utility or
+Novelty, in a cell or in any sentence the repository wrote), holds every trial
+to the closed result vocabulary, to the register's `Do not infer`, Utility and
+Novelty cells verbatim, to no word from the status-word list and no
+usefulness word without the register's `UNMEASURED` / `NOT_ASSESSED` (word
+lists, not a reading of the sentence), to `Split`, `Arm` and every cost column
+agreeing with the verdict, to a step-for-step re-run of its recorded
+arithmetic against the catalog version it names, to `NOT_RUN` for a
+non-checkable operation, and to byte-identity with `git HEAD`. A trial is a record of a computation, not evidence: it measures no
+utility, assesses no novelty, and moves nothing.
 
 ---
 
 ## 10. Archive carriers
 
-The accessibility completion report counts 77 original archive carriers; the
-inventory marks 76 items `ARCHIVE_INDEXED`, and `drive/source_map/Archive_Members.csv`
-lists 11,649 member rows for 73 of them (69 distinct titles — four titles are each
-shared by two carriers: the Phase05 Overlap copies, the two Phase11 snapshots,
-`SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` and
-`research_formal_core_r2.zip`) with 2,975 distinct member payload digests. The
+The accessibility completion report counts 77 original archive carriers, and the
+number is recomputable from the committed files: the inventory marks 76 items
+`ARCHIVE_INDEXED`, and `drive/source_map/Archive_Members.csv` lists 11,649 member
+rows for 72 of them plus one carrier the inventory marks `BINARY_UNRENDERED`
+(`S2-DATA-002-v1.0_result_carrier.zip`, `1mYHVSdVk57CM9h6L3NFR9_G2EFXKPwhj`);
+the four `ARCHIVE_INDEXED` items without member rows are single-file `.gz`
+uploads. Those 73 carriers with member rows have 69 distinct titles — four
+titles are each shared by two carriers: the Phase05 Overlap copies, the two
+Phase11 snapshots, `SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` and
+`research_formal_core_r2.zip` — and 2,974 distinct member payload digests (the
+five `READ_FAILED` members carry an empty digest cell, which until 2026-09-19 was
+counted as a 2,975th). The
 4,020 distinct payloads of `Payloads.csv` are counted over the whole source map,
 not over the archives; until 2026-09-18 this sentence presented them as archive
 payloads. Largest carriers by member count (a title shared by two carriers is
