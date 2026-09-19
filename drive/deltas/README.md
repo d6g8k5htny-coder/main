@@ -51,3 +51,12 @@ is the only way to do that), does not execute any rollback inverse, and changes
 no status of anything. The Drive session's own numbers — `scientific_dispositions_changed: 0`,
 `deletions: 0`, `permission_changes: 0` — are recorded as its statements, not
 verified here.
+
+## 2026-09-19
+
+`2026-09-19/CHATGPT_CI_INTEGRITY_HARDENING_CANDIDATE/` — three objects a ChatGPT
+session published on the Drive on 2026-09-19 14:59 UTC and announced on PR #2
+(a CI-hardening patch, its handoff and its verification record), stored
+byte-exact and **not applied**; the patch's digest equals the one the
+announcement declares. See that directory's README for what it is and why
+integration is the owner's decision.

@@ -1,0 +1,770 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 2ad74094d2a4d01f0c7414db8c8b9ad8a4851ec0..f80c72999ddf77df96c1f7335790832ee4ce1412 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -2,13 +2,22 @@ name: ci
+ on:
+   push:
+   pull_request:
++permissions:
++  contents: read
++
++defaults:
++  run:
++    shell: bash
++
+ jobs:
+   verify:
+     runs-on: ubuntu-latest
++    timeout-minutes: 30
+     steps:
+       - uses: actions/checkout@v4
+         with:
+-          fetch-depth: 2
++          fetch-depth: 0
++          persist-credentials: false
+       - uses: actions/setup-python@v5
+         with:
+           python-version: "3.11"
+@@ -26,24 +35,26 @@ jobs:
+         run: python tools/quarantine_check.py
+       - name: Content manifests (SHA-256 and byte counts)
+         run: python tools/verify_manifests.py
++      - name: Strict manifest integrity (nonempty coverage, explicit exclusions)
++        run: python tools/manifest_integrity_check.py
+       - name: Review records (zero independence credit, no gate moved)
+-        run: if [ -f tools/reviews_check.py ]; then python tools/reviews_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/reviews_check.py
+       - name: Recovered exceptions (candidates never stored as recoveries)
+-        run: if [ -f tools/recovery_check.py ]; then python tools/recovery_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/recovery_check.py
+       - name: Collision proposal (additive only, exported registers untouched)
+-        run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/collision_proposal_check.py
+       - name: Bound carriers (content-addressed, digests match)
+-        run: if [ -f tools/carriers_verify.py ]; then python tools/carriers_verify.py; else echo "skipped (tool absent)"; fi
++        run: python tools/carriers_verify.py
+       - name: Lane invariants (no lane reads stronger than the claim graph)
+-        run: if [ -f tools/lanes_check.py ]; then python tools/lanes_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/lanes_check.py
+       - name: Bound-slack registry (bookkeeping; utility never correctness)
+-        run: if [ -f tools/slack_check.py ]; then python tools/slack_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/slack_check.py
+       - name: Receipts (schema, append-only, no receipt claims a status change)
+-        run: if [ -f tools/receipts_check.py ]; then python tools/receipts_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/receipts_check.py
+       - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
+-        run: if [ -f tools/frozen_check.py ]; then python tools/frozen_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/frozen_check.py
+       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)
+-        run: if [ -f tools/bridge_check.py ]; then python tools/bridge_check.py; else echo "skipped (tool absent)"; fi
++        run: python tools/bridge_check.py
+       - name: Drive source map is queryable
+         run: python tools/drive_index.py stats
+       - name: Unit tests and negative controls
+diff --git a/.github/workflows/research.yml b/.github/workflows/research.yml
+index 974829e7eacb2de0689ddf9f97e013036ba085cf..59cb59f9ce060813c91c8596f574252421e606f7 100644
+--- a/.github/workflows/research.yml
++++ b/.github/workflows/research.yml
+@@ -50,6 +50,10 @@ concurrency:
+   group: research-run
+   cancel-in-progress: false
+ 
++defaults:
++  run:
++    shell: bash
++
+ jobs:
+   run-lanes:
+     runs-on: ubuntu-latest
+@@ -57,6 +61,7 @@ jobs:
+     steps:
+       - uses: actions/checkout@v4
+         with:
++          fetch-depth: 0
+           persist-credentials: false
+       - uses: actions/setup-python@v5
+         with:
+@@ -76,18 +81,19 @@ jobs:
+       - name: Validate every receipt (schema, append-only, no status claims)
+         run: python tools/receipts_check.py
+ 
+-      - name: Prove the run wrote to no governed path
+-        # A run records; it does not decide. If this fails, something in
+-        # engine/run.py gained a write path it must not have.
++      - name: Check governed paths at end of run
++        # This checks final filesystem state, not every intermediate operation.
++        # Include new and ignored files: git diff alone misses those additions.
+         run: |
+-          git diff --quiet HEAD -- claims engine/lanes registers drive \
+-            || { echo "FAIL: the run modified a governed path"; \
+-                 git --no-pager diff --stat HEAD -- claims engine/lanes registers drive; \
+-                 exit 1; }
+-          echo "ok: claims/, engine/lanes/, registers/ and drive/ are untouched"
++          changes="$(git status --porcelain=v1 --untracked-files=all --ignored -- claims engine/lanes registers drive)"
++          if [ -n "$changes" ]; then
++            printf '%s\n' "FAIL: changes under governed paths" "$changes"
++            exit 1
++          fi
++          echo "ok: governed paths match HEAD with no untracked or ignored additions"
+ 
+-      - name: Lane invariants, if the checker has landed
+-        run: test -f tools/lanes_check.py && python tools/lanes_check.py || echo "skipped"
++      - name: Lane invariants
++        run: python tools/lanes_check.py
+ 
+       - name: Claim-graph firewalls
+         run: python tools/claims_check.py
+@@ -101,7 +107,7 @@ jobs:
+         with:
+           name: receipts-${{ github.run_id }}
+           path: engine/receipts/
+-          if-no-files-found: warn
++          if-no-files-found: error
+           retention-days: 90
+ 
+       - name: Say what a green run does not mean
+diff --git a/tests/test_manifest_integrity_hardening.py b/tests/test_manifest_integrity_hardening.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..a8dd16996de8d935c715a9e667c935f27aa3b13a
+--- /dev/null
++++ b/tests/test_manifest_integrity_hardening.py
+@@ -0,0 +1,274 @@
++"""CLI negative controls; filesystem integrity only, no scientific verdict."""
++import hashlib
++import json
++from pathlib import Path
++import subprocess
++import sys
++
++import pytest
++
++CHECKER = Path(__file__).resolve().parents[1] / "tools/manifest_integrity_check.py"
++
++
++def run(root, *args):
++    result = subprocess.run([sys.executable, str(CHECKER), "--root", str(root), "--json", *args],
++                            text=True, capture_output=True, timeout=10)
++    assert result.returncode in (0, 1), result.stderr
++    return result.returncode, json.loads(result.stdout)
++
++
++def payload(tmp_path, name="payload.txt", body=b"evidence\n"):
++    path = tmp_path / name
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_bytes(body)
++    return {"dest": name, "bytes": len(body), "sha256": hashlib.sha256(body).hexdigest()}
++
++
++def manifest(tmp_path, rows):
++    path = tmp_path / "_MANIFEST.jsonl"
++    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
++    return path
++
++
++def test_valid_jsonl_and_explicit_metadata_exception(tmp_path):
++    row = payload(tmp_path)
++    manifest(tmp_path, [row, {"stored": False, "note": "tree-only: folder metadata"}])
++    code, report = run(tmp_path)
++    assert code == 0, report
++    assert report["verified_entries"] == report["unique_payload_paths"] == 1
++    assert report["excluded_entries"] == 1
++    assert "folder metadata" in report["exclusions"][0]
++
++
++@pytest.mark.parametrize("field", ["dest", "bytes", "sha256"])
++def test_missing_required_fields_fail(tmp_path, field):
++    row = payload(tmp_path)
++    del row[field]
++    manifest(tmp_path, [row])
++    code, report = run(tmp_path)
++    assert code == 1 and report["verified_entries"] == 0
++
++
++@pytest.mark.parametrize("size", [True, False, -1, 1.5, "9", None, [], {}])
++def test_bytes_type_is_strict(tmp_path, size):
++    row = payload(tmp_path)
++    row["bytes"] = size
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++@pytest.mark.parametrize("digest", [None, "", "a" * 63, "g" * 64, 123, []])
++def test_digest_shape_is_strict(tmp_path, digest):
++    row = payload(tmp_path)
++    row["sha256"] = digest
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_wrong_well_formed_digest_fails(tmp_path):
++    row = payload(tmp_path)
++    row["sha256"] = "a" * 64
++    manifest(tmp_path, [row])
++    code, report = run(tmp_path)
++    assert code == 1 and any("SHA MISMATCH" in p for p in report["problems"])
++
++
++def test_wrong_size_fails(tmp_path):
++    row = payload(tmp_path)
++    row["bytes"] += 1
++    manifest(tmp_path, [row])
++    code, report = run(tmp_path)
++    assert code == 1 and any("SIZE MISMATCH" in p for p in report["problems"])
++
++
++def test_bad_byte_metadata_fails(tmp_path):
++    row = payload(tmp_path)
++    row["bytes_stored"] = row["bytes"] + 1
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++@pytest.mark.parametrize("raw", ['[]', 'null', '123', '"text"', '{bad',
++                                  '{"x": NaN}', '{"x": Infinity}', '{"x": -Infinity}'])
++def test_invalid_json_shapes_fail_cleanly(tmp_path, raw):
++    (tmp_path / "_MANIFEST.jsonl").write_text(raw + "\n")
++    assert run(tmp_path)[0] == 1
++
++
++def test_duplicate_json_keys_rejected_even_when_final_value_valid(tmp_path):
++    row = payload(tmp_path)
++    body = json.dumps(row)
++    (tmp_path / "_MANIFEST.jsonl").write_text('{"sha256":"' + "a" * 64 + '",' + body[1:] + "\n")
++    code, report = run(tmp_path)
++    assert code == 1 and any("duplicate JSON key" in p for p in report["problems"])
++
++
++def test_malformed_utf8_fails(tmp_path):
++    (tmp_path / "_MANIFEST.jsonl").write_bytes(b'{"bad":"\xff"}\n')
++    assert run(tmp_path)[0] == 1
++
++
++def test_missing_payload_fails(tmp_path):
++    row = payload(tmp_path)
++    (tmp_path / row["dest"]).unlink()
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_basename_substitution_is_not_verification(tmp_path):
++    row = payload(tmp_path)
++    row["dest"] = "absent/path/payload.txt"
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++@pytest.mark.parametrize("destination", ["../outside.txt", "/tmp/outside.txt", "C:/outside.txt",
++                                         "C:outside.txt", "foo\\bar", "foo//bar", "./payload.txt",
++                                         "payload.txt\n", "payload.txt\x00", ""])
++def test_unsafe_destinations_fail(tmp_path, destination):
++    row = payload(tmp_path)
++    row["dest"] = destination
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_parent_traversal_to_existing_matching_payload_rejected(tmp_path):
++    row = payload(tmp_path)
++    child = tmp_path / "child"
++    child.mkdir()
++    row["dest"] = "../payload.txt"
++    manifest(child, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_absolute_existing_payload_rejected(tmp_path):
++    row = payload(tmp_path)
++    row["dest"] = str(tmp_path / row["dest"])
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_symlink_payload_rejected(tmp_path):
++    row = payload(tmp_path)
++    (tmp_path / "alias.txt").symlink_to(tmp_path / row["dest"])
++    row["dest"] = "alias.txt"
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_symlink_manifest_rejected(tmp_path):
++    row = payload(tmp_path)
++    backing = tmp_path / "rows.txt"
++    backing.write_text(json.dumps(row) + "\n")
++    (tmp_path / "_MANIFEST.jsonl").symlink_to(backing)
++    assert run(tmp_path)[0] == 1
++
++
++def test_symlink_scan_directory_rejected(tmp_path):
++    row = payload(tmp_path)
++    manifest(tmp_path, [row])
++    (tmp_path / "loop").symlink_to(tmp_path, target_is_directory=True)
++    assert run(tmp_path)[0] == 1
++
++
++def test_directory_instead_of_file_rejected(tmp_path):
++    row = payload(tmp_path)
++    (tmp_path / "directory").mkdir()
++    row["dest"] = "directory"
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_missing_scan_root_is_error(tmp_path):
++    assert run(tmp_path / "does-not-exist")[0] == 1
++
++
++def test_zero_manifests_not_a_pass(tmp_path):
++    code, report = run(tmp_path)
++    assert code == 1 and "no manifests discovered" in report["problems"]
++
++
++def test_empty_manifest_not_a_pass(tmp_path):
++    manifest(tmp_path, [])
++    assert run(tmp_path)[0] == 1
++
++
++def test_exceptions_only_not_a_pass(tmp_path):
++    manifest(tmp_path, [{"stored": False, "note": "tree-only: a folder"}])
++    code, report = run(tmp_path)
++    assert code == 1 and report["verified_entries"] == 0 and report["excluded_entries"] == 1
++
++
++def test_missing_required_manifest_fails_even_with_other_coverage(tmp_path):
++    manifest(tmp_path, [payload(tmp_path)])
++    code, report = run(tmp_path, "--require-manifest", "absent/_MANIFEST.jsonl")
++    assert code == 1 and report["verified_entries"] == 1
++
++
++def test_present_required_manifest_passes(tmp_path):
++    manifest(tmp_path, [payload(tmp_path)])
++    assert run(tmp_path, "--require-manifest", "_MANIFEST.jsonl")[0] == 0
++
++
++def test_required_manifest_must_be_scanned(tmp_path):
++    manifest(tmp_path, [payload(tmp_path)])
++    cache = tmp_path / "node_modules"
++    cache.mkdir()
++    manifest(cache, [payload(cache)])
++    assert run(tmp_path, "--require-manifest", "node_modules/_MANIFEST.jsonl")[0] == 1
++
++
++def test_duplicate_destination_is_error(tmp_path):
++    row = payload(tmp_path)
++    manifest(tmp_path, [row, row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_stored_and_excluded_is_contradiction(tmp_path):
++    row = payload(tmp_path)
++    row.update(stored=True, note="skipped: claimed exception")
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++def test_stored_false_needs_an_exclusion_reason(tmp_path):
++    row = payload(tmp_path)
++    row["stored"] = False
++    manifest(tmp_path, [row])
++    assert run(tmp_path)[0] == 1
++
++
++@pytest.mark.parametrize("note", ["skipped", "tree-only:", "failedSomething", None, 123])
++def test_incomplete_exclusion_cannot_hide_missing_payload(tmp_path, note):
++    manifest(tmp_path, [{"note": note}])
++    assert run(tmp_path)[0] == 1
++
++
++@pytest.mark.parametrize("name", ["with spaces.txt", "*star.txt", "Unicode-λ.txt", "nested/payload.txt"])
++@pytest.mark.parametrize("mode", [" ", "*"])
++def test_standard_sha256sum_text_and_binary_modes(tmp_path, name, mode):
++    row = payload(tmp_path, name)
++    (tmp_path / "MANIFEST.sha256").write_text(f'{row["sha256"].upper()} {mode}{name}\n', encoding="utf-8")
++    code, report = run(tmp_path)
++    assert code == 0 and report["verified_entries"] == 1
++
++
++@pytest.mark.parametrize("line", ["nonsense", "a"*63 + "  payload.txt", "g"*64 + "  payload.txt",
++                                 "a"*64 + " payload.txt"])
++def test_malformed_sha256sum_lines_not_skipped(tmp_path, line):
++    row = payload(tmp_path)
++    (tmp_path / "MANIFEST.sha256").write_text(f'{row["sha256"]}  payload.txt\n{line}\n')
++    assert run(tmp_path)[0] == 1
++
++
++def test_comment_only_sha256_file_not_a_pass(tmp_path):
++    (tmp_path / "MANIFEST.sha256").write_text("# comment\n\n")
++    assert run(tmp_path)[0] == 1
++
++
++def test_overlapping_manifests_count_unique_paths_separately(tmp_path):
++    row = payload(tmp_path)
++    manifest(tmp_path, [row])
++    (tmp_path / "MANIFEST.sha256").write_text(f'{row["sha256"]}  payload.txt\n')
++    code, report = run(tmp_path)
++    assert code == 0 and report["verified_entries"] == 2 and report["unique_payload_paths"] == 1
+diff --git a/tests/test_workflow_integrity_hardening.py b/tests/test_workflow_integrity_hardening.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..09ff500a26343b9b179bb796892333f2432a78e7
+--- /dev/null
++++ b/tests/test_workflow_integrity_hardening.py
+@@ -0,0 +1,118 @@
++"""Execute isolated workflow guards with stubs, not the research computations.
++
++The text readers deliberately accept only the repository's simple step forms;
++a workflow refactor must update these tests, not be silently skipped.
++These tests do not authenticate an actor or configure server-side protection.
++"""
++from pathlib import Path
++import re
++import shutil
++import subprocess
++
++import pytest
++
++ROOT = Path(__file__).resolve().parents[1]
++CI_CHECKERS = (
++    "registers_import", "registers_check", "provenance_check", "claims_check",
++    "quarantine_check", "verify_manifests", "manifest_integrity_check",
++    "reviews_check", "recovery_check", "collision_proposal_check", "carriers_verify",
++    "lanes_check", "slack_check", "receipts_check", "frozen_check", "bridge_check",
++)
++RESEARCH_CHECKERS = ("receipts_check", "lanes_check", "claims_check")
++CASES = [("ci.yml", name) for name in CI_CHECKERS] + [("research.yml", name) for name in RESEARCH_CHECKERS]
++
++
++def workflow(name):
++    return (ROOT / ".github/workflows" / name).read_text()
++
++
++def command_for(text, checker):
++    candidates = [m[1].strip() for m in re.finditer(r"^\s+run: (.+)$", text, flags=re.M)
++                  if f"tools/{checker}.py" in m[1]]
++    assert len(candidates) == 1, (checker, candidates)
++    return candidates[0]
++
++
++def shell(command, cwd):
++    bash = shutil.which("bash")
++    assert bash, "bash is required to test the actual workflow shell semantics"
++    return subprocess.run([bash, "--noprofile", "--norc", "-e", "-o", "pipefail", "-c", command],
++                          cwd=cwd, text=True, capture_output=True, timeout=10)
++
++
++@pytest.mark.parametrize("filename,checker", CASES)
++@pytest.mark.parametrize("status", ["pass", "fail", "missing"])
++def test_every_required_checker_propagates_status(tmp_path, filename, checker, status):
++    command = command_for(workflow(filename), checker)
++    assert command.startswith(f"python tools/{checker}.py"), command
++    (tmp_path / "tools").mkdir()
++    if status != "missing":
++        (tmp_path / "tools" / f"{checker}.py").write_text("raise SystemExit(" + ("0" if status == "pass" else "7") + ")\n")
++    result = shell(command, tmp_path)
++    assert result.returncode == {"pass": 0, "fail": 7, "missing": 2}[status], result
++
++
++@pytest.mark.parametrize("filename", ["ci.yml", "research.yml"])
++def test_explicit_read_only_token_and_checkout(filename):
++    text = workflow(filename)
++    assert re.search(r"^permissions:\n  contents: read\n", text, re.M)
++    assert "persist-credentials: false" in text
++    assert "fetch-depth: 0" in text  # history-based freeze checks need more than two commits
++    assert "timeout-minutes: 30" in text
++    assert "    shell: bash" in text
++
++
++def test_receipt_upload_cannot_succeed_without_files():
++    text = workflow("research.yml")
++    assert "if-no-files-found: error" in text
++    assert "if-no-files-found: warn" not in text
++
++
++def governed_command(text):
++    match = re.search(r"      - name: Check governed paths at end of run\n.*?        run: \|\n(.*?)(?=\n      - name:)",
++                      text, re.S)
++    assert match, "governed-path step missing or refactored"
++    return "\n".join(line[10:] for line in match[1].splitlines() if line.strip())
++
++
++def git(root, *args):
++    result = subprocess.run(["git", "-C", str(root), *args], text=True, capture_output=True, timeout=10)
++    assert result.returncode == 0, result.stderr
++    return result.stdout
++
++
++def init_repo(root):
++    git(root, "init", "-q")
++    (root / "claims").mkdir()
++    (root / "claims/state.json").write_text("{}\n")
++    (root / ".gitignore").write_text("claims/ignored-*\n")
++    git(root, "add", ".")
++    git(root, "-c", "user.name=Test Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-qm", "fixture")
++
++
++@pytest.mark.parametrize("kind", ["clean", "tracked", "staged", "untracked", "ignored", "outside"])
++def test_final_governed_paths_detect_tracked_new_and_ignored(tmp_path, kind):
++    init_repo(tmp_path)
++    if kind in ("tracked", "staged"):
++        (tmp_path / "claims/state.json").write_text('{"changed":true}\n')
++        if kind == "staged":
++            git(tmp_path, "add", "claims/state.json")
++    elif kind == "untracked":
++        (tmp_path / "claims/new.json").write_text("{}\n")
++    elif kind == "ignored":
++        (tmp_path / "claims/ignored-evidence.json").write_text("{}\n")
++    elif kind == "outside":
++        (tmp_path / "scratch.txt").write_text("allowed local output\n")
++    result = shell(governed_command(workflow("research.yml")), tmp_path)
++    assert result.returncode == (0 if kind in ("clean", "outside") else 1), result
++
++
++def test_old_diff_only_guard_misses_new_file_negative_control(tmp_path):
++    init_repo(tmp_path)
++    (tmp_path / "claims/new.json").write_text("{}\n")
++    assert shell("git diff --quiet HEAD -- claims engine/lanes registers drive", tmp_path).returncode == 0
++    assert shell(governed_command(workflow("research.yml")), tmp_path).returncode == 1
++
++
++def test_governed_check_fails_outside_a_git_repository(tmp_path):
++    assert shell(governed_command(workflow("research.yml")), tmp_path).returncode != 0
+diff --git a/tools/manifest_integrity_check.py b/tools/manifest_integrity_check.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..bd44cac22a17fc0cc00a841f2e799babb2e1982c
+--- /dev/null
++++ b/tools/manifest_integrity_check.py
+@@ -0,0 +1,234 @@
++#!/usr/bin/env python3
++"""Strict, read-only validation of the existing sha256sum/JSONL manifests.
++
++This supplements (does not rewrite) verify_manifests.py and frozen manifests.
++At least one manifest and one successfully checked payload entry are required.
++Use repeated --require-manifest paths to declare an expected manifest set.
++Exclusions remain declarations: they are reported, never counted as verified.
++
++Scope: named files and formats only, not completeness of the research corpus,
++mathematical correctness, authorization of exclusions, or a security sandbox.
++No basename fallback, absolute paths, parent traversal, or symlinks are used.
++Run against a stable checkout; concurrent filesystem mutation is out of scope.
++Standard library only; no payload is imported or executed.
++"""
++from __future__ import annotations
++
++import argparse
++from dataclasses import dataclass, field
++import hashlib
++import json
++import os
++from pathlib import Path, PureWindowsPath
++import re
++import stat
++import sys
++
++ROOT = Path(__file__).resolve().parents[1]
++DIGEST = re.compile(r"[0-9a-fA-F]{64}\Z")
++SUM_LINE = re.compile(r"([0-9a-fA-F]{64}) ([ *])(.+)\Z")
++EXCLUSION = re.compile(r"^(skipped|failed|tree-only)(?:\s|:)(.+)$")
++SKIP_DIRS = {".git", "node_modules", "__pycache__", ".pytest_cache"}
++
++
++@dataclass
++class Report:
++    manifests: int = 0
++    verified_entries: int = 0
++    excluded_entries: int = 0
++    payload_paths: set[str] = field(default_factory=set)
++    problems: list[str] = field(default_factory=list)
++    exclusions: list[str] = field(default_factory=list)
++
++    def as_dict(self) -> dict:
++        return {
++            "manifests": self.manifests,
++            "verified_entries": self.verified_entries,
++            "unique_payload_paths": len(self.payload_paths),
++            "excluded_entries": self.excluded_entries,
++            "problems": self.problems,
++            "exclusions": self.exclusions,
++            "scope": "Manifest integrity only; no scientific or authorization verdict.",
++        }
++
++
++def strict_object(pairs: list[tuple[str, object]]) -> dict:
++    result = {}
++    for key, value in pairs:
++        if key in result:
++            raise ValueError(f"duplicate JSON key {key!r}")
++        result[key] = value
++    return result
++
++
++def reject_constant(value: str) -> None:
++    raise ValueError(f"non-finite JSON constant {value}")
++
++
++def local_file(base: Path, value: object) -> Path:
++    """Resolve a literal portable relative file path, rejecting all symlinks."""
++    if not isinstance(value, str) or not value:
++        raise ValueError("missing or non-string file path")
++    if (value.startswith("/") or PureWindowsPath(value).drive or "\\" in value
++            or any(ord(c) < 32 or ord(c) == 127 for c in value)):
++        raise ValueError("non-local or non-portable file path")
++    parts = value.split("/")
++    if any(p in ("", ".", "..") for p in parts):
++        raise ValueError("empty, dot or parent path segment")
++    path = base
++    for part in parts:
++        path = path / part
++        if path.is_symlink():
++            raise ValueError("symlink file or directory")
++    if not stat.S_ISREG(path.stat().st_mode):
++        raise ValueError("payload is not a regular file")
++    return path
++
++
++def verify_entry(base: Path, dest: object, digest: object, size: object,
++                 check_size: bool, seen: set[Path], report: Report) -> None:
++    if not isinstance(digest, str) or not DIGEST.fullmatch(digest):
++        raise ValueError("missing or invalid SHA-256")
++    if check_size and (type(size) is not int or size < 0):
++        raise ValueError("bytes must be a nonnegative integer (not bool)")
++    path = local_file(base, dest)
++    if path in seen:
++        raise ValueError("duplicate destination in one manifest")
++    seen.add(path)
++    h = hashlib.sha256()
++    actual_size = 0
++    with path.open("rb") as stream:
++        for chunk in iter(lambda: stream.read(1 << 20), b""):
++            h.update(chunk)
++            actual_size += len(chunk)
++    if check_size and actual_size != size:
++        raise ValueError("SIZE MISMATCH")
++    if h.hexdigest() != digest.lower():
++        raise ValueError("SHA MISMATCH")
++    report.verified_entries += 1
++    report.payload_paths.add(str(path))
++
++
++def check_manifest(path: Path, report: Report) -> None:
++    report.manifests += 1
++    if path.is_symlink() or not path.is_file():
++        report.problems.append(f"{path}: manifest is not a regular non-symlink file")
++        return
++    try:
++        text = path.read_text(encoding="utf-8", errors="strict")
++    except (OSError, UnicodeError) as exc:
++        report.problems.append(f"{path}: unreadable manifest: {exc}")
++        return
++    seen: set[Path] = set()
++    nonempty = 0
++    for number, line in enumerate(text.splitlines(), 1):
++        if not line.strip():
++            continue
++        if path.name.endswith(".sha256") and line.lstrip().startswith("#"):
++            continue
++        nonempty += 1
++        location = f"{path}:{number}"
++        try:
++            if path.name.endswith(".sha256"):
++                match = SUM_LINE.fullmatch(line)
++                if not match:
++                    raise ValueError("malformed or unsupported sha256sum line")
++                verify_entry(path.parent, match[3], match[1], None, False, seen, report)
++                continue
++            row = json.loads(line, object_pairs_hook=strict_object,
++                             parse_constant=reject_constant)
++            if not isinstance(row, dict):
++                raise ValueError("JSONL entry is not an object")
++            note = row.get("note", "")
++            if not isinstance(note, str):
++                raise ValueError("note is not a string")
++            exclusion = EXCLUSION.match(note)
++            if exclusion and exclusion[2].strip(" :"):
++                if row.get("stored") is True:
++                    raise ValueError("stored=true contradicts exclusion")
++                report.excluded_entries += 1
++                report.exclusions.append(f"{location}: {note}")
++                continue
++            if row.get("stored") is False:
++                raise ValueError("not-stored record lacks an explicit exclusion reason")
++            if "bytes_stored" in row and row["bytes_stored"] != row.get("bytes"):
++                raise ValueError("bytes_stored disagrees with bytes")
++            verify_entry(path.parent, row.get("dest"), row.get("sha256"),
++                         row.get("bytes"), True, seen, report)
++        except (OSError, ValueError, TypeError, OverflowError, RecursionError) as exc:
++            report.problems.append(f"{location}: {exc}")
++    if nonempty == 0:
++        report.problems.append(f"{path}: empty manifest")
++
++
++def is_manifest(name: str) -> bool:
++    return name.endswith(".sha256") or name.endswith("_MANIFEST.jsonl") or name == "MANIFEST.jsonl"
++
++
++def audit(root: Path, required: list[str]) -> Report:
++    report = Report()
++    if root.is_symlink() or not root.is_dir():
++        report.problems.append(f"invalid scan root: {root}")
++        return report
++    root = root.resolve()
++    required_paths: set[Path] = set()
++    for rel in required:
++        try:
++            path = local_file(root, rel)
++            if not is_manifest(path.name):
++                raise ValueError("required path is not a supported manifest")
++            required_paths.add(path)
++        except (OSError, ValueError) as exc:
++            report.problems.append(f"required manifest {rel!r}: {exc}")
++    discovered: set[Path] = set()
++    def walk_error(exc: OSError) -> None:
++        report.problems.append(f"scan error: {exc}")
++    for directory, dirs, files in os.walk(root, onerror=walk_error, followlinks=False):
++        kept = []
++        for name in sorted(dirs):
++            if name in SKIP_DIRS:
++                continue
++            child = Path(directory) / name
++            if child.is_symlink():
++                report.problems.append(f"symlink scan directory: {child}")
++            else:
++                kept.append(name)
++        dirs[:] = kept
++        for name in sorted(files):
++            if is_manifest(name):
++                path = Path(directory) / name
++                discovered.add(path)
++                check_manifest(path, report)
++    for path in sorted(required_paths - discovered):
++        report.problems.append(f"required manifest outside scanned scope: {path}")
++    if report.manifests == 0:
++        report.problems.append("no manifests discovered")
++    if report.verified_entries == 0:
++        report.problems.append("no payload entries verified")
++    return report
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--root", type=Path, default=None)
++    parser.add_argument("--require-manifest", action="append", default=[])
++    parser.add_argument("--json", action="store_true", help="emit a structured report on stdout")
++    args = parser.parse_args(argv)
++    report = audit(args.root if args.root is not None else ROOT, args.require_manifest)
++    if args.json:
++        print(json.dumps(report.as_dict(), indent=2, sort_keys=True))
++    else:
++        for item in report.exclusions:
++            print(f"EXCLUDED {item}")
++        for item in report.problems:
++            print(f"FAIL {item}")
++        print(f"manifest_integrity: manifests={report.manifests} "
++              f"verified_entries={report.verified_entries} "
++              f"unique_payload_paths={len(report.payload_paths)} "
++              f"excluded_entries={report.excluded_entries} problems={len(report.problems)}")
++        print("Manifest integrity only; no scientific or authorization verdict.")
++    return 1 if report.problems else 0
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
