@@ -137,6 +137,39 @@ set and no verdict.
   and CI fails if it drifts. Lane F exists because defects in that export are
   **reported, not repaired**.
 
+## Reusable operations and trials (`operations/`)
+
+The 2026-09-18 register export added a `reusable_operations` tab (fifteen
+operations OP01–OP15, every one `Utility: UNMEASURED`, `Novelty: NOT_ASSESSED`)
+and an empty `operation_trials` ledger. [`operations/`](operations/README.md)
+transcribes the fifteen cell for cell into `REGISTRY.json`, marks — separately,
+under `git_side` — the four whose `Action / output` cell displays an identity
+exact arithmetic can reproduce from the cell alone (OP02's power ledger, OP03's
+pushforward Jacobian, OP04's Hölder exponents, OP05's rational witness), runs
+those over `fractions.Fraction` with `operations/trial.py`, and records each
+run in the ledger's own eighteen-column shape under `operations/trials/`,
+append-only. **A trial is a record of a computation, not evidence**: it
+reproduces displayed algebra and says nothing about premises, scope, sources,
+usefulness or novelty, and it moves no status. `tools/operations_check.py`
+enforces that the registry is the register's words (never stronger on Utility
+or Novelty, in a cell or in any sentence the repository wrote), that every
+trial is in the ledger's shape, names a readable catalog version, carries the
+register's `Do not infer`, Utility and Novelty cells verbatim, uses no word
+from the status-word list and no usefulness word without the register's
+`UNMEASURED` / `NOT_ASSESSED` (word lists, not a reading of the sentence), has
+`Split`, `Arm` and every cost column agreeing with its verdict, has its
+recorded arithmetic re-run here with the same steps field for field, is
+`NOT_RUN` for a non-checkable operation and never for a checkable one, carries
+the runner's fixed `does_not_establish` sentences verbatim (the load-bearing
+field is pinned, not free), is dated by the runner's clock — never later than
+the checker's clock nor, once committed, later than the commit that added it —
+and is unchanged since `git HEAD`; the registry's own authority and
+`does_not_establish` sentences and its provenance blocks are pinned the same
+way. `tests/test_operations.py` holds the negative controls, including the
+mutations three adversarial rounds found slipping past earlier versions of the
+checker (the third found four records stamped with a supplied time seventy-eight
+minutes after they were written; they were withdrawn and re-run from the clock).
+
 ## What this directory does not establish
 
 Nothing mathematical. `engine/` schedules work and records that programs ran. It

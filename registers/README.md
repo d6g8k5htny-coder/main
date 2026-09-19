@@ -201,7 +201,7 @@ Row counts are the data rows of the 2026-09-18 export (header excluded).
 | 40 | `cold_start_control_view` | 43 | derived cold-start control view |
 | 41 | `lpw_fold_dispositions` | 10 | the ten LPW-fold object dispositions |
 | 42 | `reusable_operations` | 15 | reusable operations OP01–OP15 with reuse state, exact source and current review / authority (tab added 2026-09-18); transcribed cell for cell into `engine/operations/REGISTRY.json`, where four displayed identities are re-run in exact arithmetic — a trial is a record, not evidence, and Utility/Novelty stay the register's words |
-| 43 | `operation_trials` | 0 | operation trial ledger: header only at this export (tab added 2026-09-18); `engine/operations/trials/` holds records in exactly this eighteen-column shape, append-only, none of them evidence |
+| 43 | `operation_trials` | 0 | operation trial ledger: header only at this export (tab added 2026-09-18); `engine/operations/trials/` holds records in exactly this eighteen-column shape, append-only, each dated by the runner's clock and none of them evidence |
 
 ## Invariants CI enforces
 

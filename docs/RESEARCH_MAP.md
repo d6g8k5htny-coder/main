@@ -603,8 +603,13 @@ usefulness word without the register's `UNMEASURED` / `NOT_ASSESSED` (word
 lists, not a reading of the sentence), to `Split`, `Arm` and every cost column
 agreeing with the verdict, to a step-for-step re-run of its recorded
 arithmetic against the catalog version it names, to `NOT_RUN` for a
-non-checkable operation, and to byte-identity with `git HEAD`. A trial is a record of a computation, not evidence: it measures no
-utility, assesses no novelty, and moves nothing.
+non-checkable operation (and never for a checkable one), to the runner's fixed
+`does_not_establish` sentences verbatim, to a run time no later than the
+checker's clock nor than the commit that added the record, and to
+byte-identity with `git HEAD`; the registry's own authority sentence,
+`does_not_establish` and provenance blocks are pinned the same way. A trial is
+a record of a computation, not evidence: it measures no utility, assesses no
+novelty, and moves nothing.
 
 ---
 
