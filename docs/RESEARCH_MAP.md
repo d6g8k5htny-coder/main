@@ -54,10 +54,11 @@ post-ratification theorem package, the Terminal Replication Capsule standard
 chain, the PKG-SIDE24-001 external peer-review capsule (3D track), and the
 Theorem B retraction-and-repair folder whose READ_FIRST controls Theorem B's
 current status (§1). `drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/` holds
-the cold-review packets and the theorem package byte-exact and the Theorem B
-folder as reading copies; the closure records and gate documents are being
-ported behind them. Until 2026-09-18 this table gave the lane a row count and
-nothing else.
+the cold-review packets and the theorem package byte-exact and, as reading
+copies (`exact: false`, no payload digest exists for a native Doc), the Theorem
+B folder, the terminal closure records, the gate documents, the root documents
+and the Theorem B registers (landed 2026-09-19). Until 2026-09-18 this table
+gave the lane a row count and nothing else.
 | `99_DO_NOT_OPEN` vault | 6 |
 
 ---
