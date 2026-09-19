@@ -11,7 +11,7 @@
   "No original prize problem is solved."
  ],
  "carriers_bound": 25,
- "blobs_stored": 20,
+ "blobs_stored": 22,
  "hash_mismatches": 0,
  "carriers": [
   {
@@ -480,18 +480,17 @@
    "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT/d1_falsify_v4.py",
    "bytes": 20558,
    "sha256": "1bfb5dbc88b842893b5b0365680ccaa9b4893b6c028a950c194d2c1c739e62a6",
-   "blob_stored": false,
-   "blob_path": null,
+   "blob_stored": true,
+   "blob_path": "engine/carriers/blobs/1bfb5dbc88b84289__d1_falsify_v4.py",
    "lane": "A2",
    "lane_basis": "Its ladder checks recompute the rung ratios of docs/OPEN_PROBLEMS.md A2 (the rung ladder) inside the D1 v2.3 DRAFT gate; the document does not name the file.",
    "lane_named_by_source": false,
-   "computes": "Read but not stored. The operative gate for D1_ASSEMBLY v2.3 DRAFT: re-hashes ~40 frozen carriers and bodies, checks the versioned H5 consumption and drift, the floor-consistent bracket at exact equality, the rung-floor and assembly arithmetic, and register-level citation checks on the v2.3 draft text.",
+   "computes": "Stored 2026-09-19 (bytes read through the Drive connector, decoded from the session transcript, SHA-256 and byte count equal to the inventory row; until then \"read but not stored\", reason RECONSTRUCTION_INCOMPLETE). The operative gate for D1_ASSEMBLY v2.3 DRAFT: re-hashes ~40 frozen carriers and bodies, checks the versioned H5 consumption and drift, the floor-consistent bracket at exact equality, the rung-floor and assembly arithmetic, and register-level citation checks on the v2.3 draft text.",
    "arithmetic": "mixed",
    "certifying": false,
    "certifying_note": "decimal.Decimal at prec 90 with a few math.sqrt/math.log float steps. Its header states the v2.3 draft is PROPOSED; the register layer it checks is not operator-promoted over frozen v2.2.",
    "authority_tier": "active",
-   "source_status": "TEXT_READING_COPY",
-   "not_stored_reason": "RECONSTRUCTION_INCOMPLETE"
+   "source_status": "TEXT_READING_COPY"
   },
   {
    "carrier_id": "CR-C104-COUPLED-PERSISTENCE",
@@ -500,18 +499,17 @@
    "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/13_POWER_PLANNING_CONTINUUM/03.3_CONNECTIVITY_REBASE_RECORDS/C104_COUPLED_PERSISTENCE.py",
    "bytes": 19621,
    "sha256": "81062a506ae226095af68678ffebd4c1051e05f3fa8976eb36b87ce02cca6316",
-   "blob_stored": false,
-   "blob_path": null,
+   "blob_stored": true,
+   "blob_path": "engine/carriers/blobs/81062a506ae22609__C104_COUPLED_PERSISTENCE.py",
    "lane": "G",
    "lane_basis": "Its target exponent -1/3 is Theorem B (Q0-C104); docs/OPEN_PROBLEMS.md §G ('Theorem B — status retraction and repair program', added 2026-09-18) is the section that covers it, and engine/lanes/G.json is its lane. The blob is not stored (see blob_stored); the record binds identity only. Until 2026-09-19 this record read NOT_IN_OPEN_PROBLEMS with the note that no section existed.",
    "lane_named_by_source": false,
-   "computes": "Read but not stored. Coupled multi-resolution continuum-persistence validation: band-limited Fourier realizations on nested coarse/fine grids, periodic Freudenthal superlevel H0 persistence, diagram matching, stability-certified bar filtering and a left-truncated power-law likelihood fit for the density exponent, with a 1000-sample bootstrap.",
+   "computes": "Stored 2026-09-19 (bytes read through the Drive connector, decoded from the session transcript, SHA-256 and byte count equal to the inventory row; until then read but not stored, reason RECONSTRUCTION_INCOMPLETE). Read but not stored. Coupled multi-resolution continuum-persistence validation: band-limited Fourier realizations on nested coarse/fine grids, periodic Freudenthal superlevel H0 persistence, diagram matching, stability-certified bar filtering and a left-truncated power-law likelihood fit for the density exponent, with a 1000-sample bootstrap.",
    "arithmetic": "float",
    "certifying": false,
    "certifying_note": "numpy, scipy and numba in float64, with random realizations, a bootstrap and a fitted exponent. Its own grade string is PRE-REGISTERED-MEASURED-DIAGNOSTIC and its limitations list says empirical validation is not a theorem dependency. A fitted exponent is not a certified bound.",
    "authority_tier": "active",
-   "source_status": "TEXT_READING_COPY",
-   "not_stored_reason": "RECONSTRUCTION_INCOMPLETE"
+   "source_status": "TEXT_READING_COPY"
   }
  ]
 }

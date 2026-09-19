@@ -14,7 +14,7 @@ own computations were run from.
 ## What is here
 
 ```
-MANIFEST.json     one record per bound carrier (25 records, 20 with stored bytes)
+MANIFEST.json     one record per bound carrier (25 records, 22 with stored bytes)
 blobs/            the stored bytes, at <sha256[:16]>__<sanitised name>
 README.md         this file
 ```
@@ -108,9 +108,9 @@ from either index, and says which one it resolved against.
 | B matching 2D upper | `C101_WINDOW_SADDLE_FRAME.py`, `C099_CUBIC_TYPE_NOGO.py`, `C095_SIX_PIN_COVARIANCE_FACTORIZATION.py`, `q0_c091_gate_reduction.py`, `q0_c091_contract_checker.py` |
 | C LPW constant repair | `lpw_constant.py`, `interval_repair.py`, `audit_received_claims.py`, `check_r04.py` |
 | D review queue | `q0_verify.py` (recorded, not stored) |
-| `NOT_IN_OPEN_PROBLEMS` | `CL-DATA-052 sixpin_ninejet_independent.py`, `CL-DATA-051_p01_jetbox.py`, `CL-DATA-056_prcp_law.py`, `C104_COUPLED_PERSISTENCE.py` (recorded, not stored), `FAILED — LS-DATA-009…` (recorded, not stored) |
+| `NOT_IN_OPEN_PROBLEMS` | `CL-DATA-052 sixpin_ninejet_independent.py`, `CL-DATA-051_p01_jetbox.py`, `CL-DATA-056_prcp_law.py`, `C104_COUPLED_PERSISTENCE.py`, `FAILED — LS-DATA-009…` (recorded, not stored) |
 
-## Why five carriers have no stored bytes
+## Why three carriers have no stored bytes (five until 2026-09-19)
 
 Every record whose `blob_stored` is `false` carries a `not_stored_reason` from a
 fixed vocabulary, and the verifier rejects a missing or unknown reason.
@@ -124,12 +124,17 @@ fixed vocabulary, and the verifier rejects a missing or unknown reason.
 * **`QUARANTINE_PATH`** — the `FAILED — LS-DATA-009…normalizer certificate`
   sits under `99_QUARANTINED_FAILED_CERTIFICATES` and its Drive title begins
   `FAILED`; `authority_tier: quarantined`.
-* **`RECONSTRUCTION_INCOMPLETE`** — `d1_falsify_v4.py` and
-  `C104_COUPLED_PERSISTENCE.py` were downloaded and read (so `computes` and
-  `arithmetic` are filled from the actual text), but a byte-exact local copy was
-  not achieved in this session, so the SHA-256 check never passed and **no blob
-  was stored**. This is a limitation of the porting run, not a finding about the
-  carriers.
+* **`RECONSTRUCTION_INCOMPLETE`** — no record carries this reason any more.
+  Until 2026-09-19 `d1_falsify_v4.py` and `C104_COUPLED_PERSISTENCE.py` had been
+  downloaded and read (so `computes` and `arithmetic` were filled from the
+  actual text) but a byte-exact local copy had not been achieved, so no blob was
+  stored. On 2026-09-19 both were read again through the Drive connector,
+  decoded from the session transcript rather than retyped, and stored once their
+  SHA-256 and byte count equalled the inventory row; the reason stays in the
+  verifier's vocabulary for the next port that fails the same way. Storing them
+  changes nothing about what they establish: neither is run here, neither is
+  certifying, and `d1_falsify_v4.py`'s own header calls the v2.3 draft it gates
+  PROPOSED.
 
 ## Available but deliberately unbound
 
