@@ -2,13 +2,22 @@ name: ci
 on:
   push:
   pull_request:
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -26,28 +35,30 @@ jobs:
         run: python tools/quarantine_check.py
       - name: Content manifests (SHA-256 and byte counts)
         run: python tools/verify_manifests.py
+      - name: Strict manifest integrity (pinned coverage, explicit exclusions)
+        run: python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json
       - name: Review records (zero independence credit, no gate moved)
-        run: if [ -f tools/reviews_check.py ]; then python tools/reviews_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/reviews_check.py
       - name: Recovered exceptions (candidates never stored as recoveries)
-        run: if [ -f tools/recovery_check.py ]; then python tools/recovery_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/recovery_check.py
       - name: Collision proposal (additive only, exported registers untouched)
-        run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/collision_proposal_check.py
       - name: Collision proposal 2026-09-19 successor (seven xlsx-only findings, rows quoted cell for cell)
-        run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json; else echo "skipped (tool absent)"; fi
+        run: python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json
       - name: Bound carriers (content-addressed, digests match)
-        run: if [ -f tools/carriers_verify.py ]; then python tools/carriers_verify.py; else echo "skipped (tool absent)"; fi
+        run: python tools/carriers_verify.py
       - name: Lane invariants (no lane reads stronger than the claim graph)
-        run: if [ -f tools/lanes_check.py ]; then python tools/lanes_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/lanes_check.py
       - name: Bound-slack registry (bookkeeping; utility never correctness)
-        run: if [ -f tools/slack_check.py ]; then python tools/slack_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/slack_check.py
       - name: Receipts (schema, append-only, no receipt claims a status change)
-        run: if [ -f tools/receipts_check.py ]; then python tools/receipts_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/receipts_check.py
       - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
-        run: if [ -f tools/frozen_check.py ]; then python tools/frozen_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/frozen_check.py
       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)
-        run: if [ -f tools/bridge_check.py ]; then python tools/bridge_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/bridge_check.py
       - name: Reusable operations (registry is the register's words; trials are records, append-only, no status claimed)
-        run: if [ -f tools/operations_check.py ]; then python tools/operations_check.py; else echo "skipped (tool absent)"; fi
+        run: python tools/operations_check.py
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Unit tests and negative controls

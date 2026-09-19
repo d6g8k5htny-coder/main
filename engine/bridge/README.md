@@ -189,6 +189,12 @@ research execution jobs do not edit canonical status cells.
 
 ## The first implementation work order: what is the owner's, and not done here
 
+2026-09-19 update: [the operator-mediated pilot](PILOT.md) now checks live-input
+observations and exact raw readbacks using these schemas. CI/manifest repairs
+are described in [the infrastructure scope note](../../docs/INTEGRITY_HARDENING_2026-09-19.md).
+This does not deploy the service or close the access, isolation, branch
+protection, independent-review or owner-acceptance steps below.
+
 Contract §7 lists six steps. As of 2026-09-18 this repository does **step 4
 only** (an `AGENTS.md` pointer and machine-readable order/receipt schemas with
 tests). The rest are the owner's, require an admin-capable session or a Drive

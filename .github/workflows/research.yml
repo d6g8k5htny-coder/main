@@ -50,6 +50,10 @@ concurrency:
   group: research-run
   cancel-in-progress: false
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   run-lanes:
     runs-on: ubuntu-latest
@@ -57,6 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-python@v5
         with:
@@ -76,15 +81,17 @@ jobs:
       - name: Validate every receipt (schema, append-only, no status claims)
         run: python tools/receipts_check.py
 
-      - name: Prove the run wrote to no governed path
-        # A run records; it does not decide. If this fails, something in
-        # engine/run.py gained a write path it must not have.
+      - name: Check governed paths at end of run
+        # Checks final state, including new/ignored files, not transient writes.
+        if: always()
         run: |
-          git diff --quiet HEAD -- claims engine/lanes registers drive \
-            || { echo "FAIL: the run modified a governed path"; \
-                 git --no-pager diff --stat HEAD -- claims engine/lanes registers drive; \
-                 exit 1; }
-          echo "ok: claims/, engine/lanes/, registers/ and drive/ are untouched"
+          changes=$(git status --porcelain=v1 --untracked-files=all --ignored -- claims engine/lanes registers drive)
+          if [ -n "$changes" ]; then
+            echo "FAIL: the run left changes in governed paths"
+            echo "$changes"
+            exit 1
+          fi
+          echo "ok: governed paths have no final-state changes"
 
       - name: Lane invariants
         # Until 2026-09-19 this step read
@@ -104,8 +111,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: receipts-${{ github.run_id }}
-          path: engine/receipts/
-          if-no-files-found: warn
+          path: engine/receipts/**/*.json
+          if-no-files-found: error
           retention-days: 90
 
       - name: Say what a green run does not mean
