@@ -1,0 +1,295 @@
+{
+  "baseline_modes": 2,
+  "core_sha256": "84a0bd94dfec85b8c944d11423d3cf141f0d545f66cc8895fd8b0ada04d783fd",
+  "executable": "/opt/pyvenv/bin/python",
+  "external_independent_reviews": 0,
+  "formal_prover_runs": 0,
+  "intentional_survivor_runs": 2,
+  "mutation_families": 12,
+  "python": "3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]",
+  "rejected_mutation_runs": 24,
+  "result": "PASS",
+  "runs": [
+    {
+      "checks": 146076,
+      "exit": 0,
+      "name": "normal_baseline",
+      "result": "PASS",
+      "scope": "finite companion",
+      "seconds": 0.9976094200001171,
+      "stderr_bytes": 0,
+      "stdout_sha256": "8b7016124d765ced5c18ad9296a305d65aedea00cc7bc01e22b18c9c1275b838"
+    },
+    {
+      "checks": 146076,
+      "exit": 0,
+      "name": "optimized_baseline",
+      "result": "PASS",
+      "scope": "finite companion",
+      "seconds": 1.043118007999965,
+      "stderr_bytes": 0,
+      "stdout_sha256": "8b7016124d765ced5c18ad9296a305d65aedea00cc7bc01e22b18c9c1275b838"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_shared_coordinate",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.05011871800024892,
+      "stderr_bytes": 0,
+      "stdout_sha256": "92f706c8b3ea1c1f157e14f8dab8aa8c2d6b9563ed25e8932a6b8279165b56d1"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_shared_coordinate",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.042673957000261,
+      "stderr_bytes": 0,
+      "stdout_sha256": "92f706c8b3ea1c1f157e14f8dab8aa8c2d6b9563ed25e8932a6b8279165b56d1"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_threshold_off_by_one",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04688476100000116,
+      "stderr_bytes": 0,
+      "stdout_sha256": "d344c3af544bea53094b2547a13a910f064eda4c534590d0df7cb016cd5b3f22"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_threshold_off_by_one",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.047687104999567964,
+      "stderr_bytes": 0,
+      "stdout_sha256": "d344c3af544bea53094b2547a13a910f064eda4c534590d0df7cb016cd5b3f22"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_remove_cost_cap",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.043252922000192484,
+      "stderr_bytes": 0,
+      "stdout_sha256": "512b00e26aeb6f49d4446fa6f7e27877850e93798eb4eda42973a4ca46f2296b"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_remove_cost_cap",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04163145400025314,
+      "stderr_bytes": 0,
+      "stdout_sha256": "512b00e26aeb6f49d4446fa6f7e27877850e93798eb4eda42973a4ca46f2296b"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_zero_cost_empty",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.044365845000356785,
+      "stderr_bytes": 0,
+      "stdout_sha256": "7546c73861d1a6a8938c341a63ee482ffd4ff72d81e1e8d927923c03480134cb"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_zero_cost_empty",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.047160462999727315,
+      "stderr_bytes": 0,
+      "stdout_sha256": "7546c73861d1a6a8938c341a63ee482ffd4ff72d81e1e8d927923c03480134cb"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_single_color_scalar",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04529482599991752,
+      "stderr_bytes": 0,
+      "stdout_sha256": "9126320794982b4f18bf3f66c13bd1f96cbb35f13814ab577f55c9be4e82ce25"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_single_color_scalar",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.046022560999972484,
+      "stderr_bytes": 0,
+      "stdout_sha256": "9126320794982b4f18bf3f66c13bd1f96cbb35f13814ab577f55c9be4e82ce25"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_gate_arity_unbounded",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.05064432900007887,
+      "stderr_bytes": 0,
+      "stdout_sha256": "319ac3e2c75d181f1d5a85e79df346e38da1cec3ee3c7cdbdbba56b7a04548f1"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_gate_arity_unbounded",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04246376799983409,
+      "stderr_bytes": 0,
+      "stdout_sha256": "319ac3e2c75d181f1d5a85e79df346e38da1cec3ee3c7cdbdbba56b7a04548f1"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_independent_copy_probability",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.045632651999767404,
+      "stderr_bytes": 0,
+      "stdout_sha256": "08a056738904b4ae20e4f0ec967dd8d1ebcb438335f7ac46d0ba6e57a337b218"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_independent_copy_probability",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04418082600022899,
+      "stderr_bytes": 0,
+      "stdout_sha256": "08a056738904b4ae20e4f0ec967dd8d1ebcb438335f7ac46d0ba6e57a337b218"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_ignore_exception_cost",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04451285699997243,
+      "stderr_bytes": 0,
+      "stdout_sha256": "e577df3dfc4c461b95be73b6a6a9f10e52a7cf238d8e93dcd3e19dc5a86e87f3"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_ignore_exception_cost",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.051667902000190224,
+      "stderr_bytes": 0,
+      "stdout_sha256": "e577df3dfc4c461b95be73b6a6a9f10e52a7cf238d8e93dcd3e19dc5a86e87f3"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_conflate_cost_probability",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04392131399981736,
+      "stderr_bytes": 0,
+      "stdout_sha256": "dae9d8c1afee4395cdf0646ab8581a844f4ed96b8e5f6657ca6fa007d67c251a"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_conflate_cost_probability",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04552788299997701,
+      "stderr_bytes": 0,
+      "stdout_sha256": "dae9d8c1afee4395cdf0646ab8581a844f4ed96b8e5f6657ca6fa007d67c251a"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_wrong_phi_factor",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04158634100031122,
+      "stderr_bytes": 0,
+      "stdout_sha256": "946eafa08fe51fea32c8eef6112071f367ccb171c7a52f2f65a4fcecf12cf523"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_wrong_phi_factor",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04810833600004116,
+      "stderr_bytes": 0,
+      "stdout_sha256": "946eafa08fe51fea32c8eef6112071f367ccb171c7a52f2f65a4fcecf12cf523"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_bad_scalar_constant",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04131227600009879,
+      "stderr_bytes": 0,
+      "stdout_sha256": "3a97943b29abbedae5123350ebd1044cc060f69a9bdd9c14d46f02c8fec344fb"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_bad_scalar_constant",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.0454918790001102,
+      "stderr_bytes": 0,
+      "stdout_sha256": "3a97943b29abbedae5123350ebd1044cc060f69a9bdd9c14d46f02c8fec344fb"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "normal_empty_forbidden_gate",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04127777499979857,
+      "stderr_bytes": 0,
+      "stdout_sha256": "085b953c5cf2a977861f690d4e8d2a8e44580aba2bc4e7b37f1182fc77d5e695"
+    },
+    {
+      "checks": null,
+      "exit": 1,
+      "name": "optimized_empty_forbidden_gate",
+      "result": "REJECT",
+      "scope": "finite companion",
+      "seconds": 0.04470713599994269,
+      "stderr_bytes": 0,
+      "stdout_sha256": "085b953c5cf2a977861f690d4e8d2a8e44580aba2bc4e7b37f1182fc77d5e695"
+    },
+    {
+      "checks": null,
+      "exit": 0,
+      "name": "normal_survivor_probe",
+      "result": "UNDETECTED",
+      "scope": "harness self-test",
+      "seconds": 0.04345869400003721,
+      "stderr_bytes": 0,
+      "stdout_sha256": "03ab75a4baab29fdb5e4c7349811cc5d39c795a7b194a713295c1d159316e3e0"
+    },
+    {
+      "checks": null,
+      "exit": 0,
+      "name": "optimized_survivor_probe",
+      "result": "UNDETECTED",
+      "scope": "harness self-test",
+      "seconds": 0.046495726999637554,
+      "stderr_bytes": 0,
+      "stdout_sha256": "03ab75a4baab29fdb5e4c7349811cc5d39c795a7b194a713295c1d159316e3e0"
+    }
+  ],
+  "source_sha256": "4ebfc46e27cffb43daccf29adb1d80834910b48b07b5b0ea6323d62277e801c2"
+}

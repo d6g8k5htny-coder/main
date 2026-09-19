@@ -1,0 +1,47 @@
+{
+  "key": "F",
+  "title": "Register defects found in this migration",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## F. Register defects found in this migration",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [],
+  "status": null,
+  "status_source": {
+    "transcribed_from": [
+      "docs/OPEN_PROBLEMS.md §F"
+    ],
+    "quote": null,
+    "note": "See status_absent_reason."
+  },
+  "next_exact_action": "Reported, not repaired — the export is kept faithful. See `registers/KNOWN_FINDINGS.json`.",
+  "falsifier": null,
+  "inputs": [],
+  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "not_a_substitute": [
+    {
+      "quote": "OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry.",
+      "source": "docs/OPEN_PROBLEMS.md §F"
+    },
+    {
+      "quote": "Three Quarantine Index rows use class `EXISTING_CONTAINER`, which OP-PROT-019 §6 does not define. Proposal: add `CONTAINER_POINTER` to the table.",
+      "source": "docs/OPEN_PROBLEMS.md §F",
+      "reading": "A proposal is a proposal; no register class is added or changed here."
+    }
+  ],
+  "repo_state": "partial",
+  "repo_state_note": "`registers/KNOWN_FINDINGS.json` records the defects, `registers/collision_proposal.json` and `registers/COLLISION_PROPOSAL.md` carry a proposed append-only disambiguation, and `tools/collision_proposal_check.py` keeps the proposal honest against the export. Nothing under `registers/source/`, `registers/json/` or `registers/csv/` is edited: that is exported source data and CI fails if it drifts, so the repair belongs at the source, not here. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "registers/KNOWN_FINDINGS.json",
+    "registers/collision_proposal.json",
+    "registers/COLLISION_PROPOSAL.md",
+    "tools/collision_proposal_check.py",
+    "tests/test_collision_proposal.py",
+    "tools/registers_check.py"
+  ],
+  "does_not_establish": "This lane repairs no register, resolves no duplicate identifier, adds no quarantine class, and does not decide which row of a colliding pair is correct. A proposal carries no authority.",
+  "status_absent_reason": "docs/OPEN_PROBLEMS.md §F reports defects and assigns the section no status label. Its own words are 'Reported, not repaired'. No status is invented here.",
+  "blocks_note": "Empty by transcription: these are register-integrity defects and the section names no claim or premise in claims/graph.json that they block."
+}

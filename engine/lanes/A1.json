@@ -1,0 +1,47 @@
+{
+  "key": "A1",
+  "title": "`OBL-H5-JETMOD` — certified 24-jet band enclosure (chart-side lead)",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "### A1. `OBL-H5-JETMOD` — certified 24-jet band enclosure (chart-side lead)",
+    "level": 3,
+    "parent_heading": "## A. Blocking the unconditional 2D upper theorem"
+  },
+  "blocks": [
+    "OBL-H5-JETMOD"
+  ],
+  "status": "OPEN",
+  "status_source": {
+    "transcribed_from": [
+      "claims/graph.json premises.OBL-H5-JETMOD.status_frozen_v2_2",
+      "docs/FULL_DOCS_MATH_READ.md §  'OBL-H5-JETMOD | **OPEN** (display only; enclosure pending)'"
+    ],
+    "quote": "OBL-H5-JETMOD | **OPEN** (display only; enclosure pending)",
+    "note": "Both layers recorded in claims/graph.json read OPEN (status_frozen_v2_2 and status_register_note). Read them there; they are not copied into this file so they cannot drift from the graph."
+  },
+  "next_exact_action": "Evaluate the lattice sums with `r` as an interval over the band. That yields G12-band enclosures, hence `Î(r)/r³ ≤ F(G12-band)` for the whole band — a finite computation per band, never a fitted exponent.",
+  "falsifier": "A band enclosure whose width exceeds the claimed modulus.",
+  "inputs": [
+    "CR-GP-DATA-214-NORMALIZER",
+    "CR-GP-DATA-214-REPLAY"
+  ],
+  "inputs_note": "Bound 2026-09-18 from engine/carriers/MANIFEST.json (records whose lane field is 'A1'). Binding an input records which bytes exist and where; it is not review, not replay and not endorsement, and it changes no status. Five manifest carriers serve lanes docs/OPEN_PROBLEMS.md has no section for (P0.1, P0.2, Theorem B) and are recorded there under NOT_IN_OPEN_PROBLEMS rather than forced into a lane here. CR-JETS (jets.py, from the lower campaign's DER-027b draft) was unbound from this lane on 2026-09-18: its Taylor jets are not the upper chart's 24-jet set, and the source never links the file to A1; it is now bound to lane H.",
+  "not_a_substitute": [
+    {
+      "quote": "RUNG2 (`r = 0.025`) and RUNG3 (`r = 0.035355`) certify those rungs only.",
+      "source": "docs/OPEN_PROBLEMS.md §A1"
+    },
+    {
+      "quote": "RUNG2/RUNG3 certify those rungs only. They do **not** discharge `OBL-D1-PROMOTE`, `OBL-H5-JETMOD`, ZBAND-hi or REMOTE-THRESHOLD. The displayed modulus is dense certified sampling plus an explicit fit.",
+      "source": "docs/RESEARCH_MAP.md §2"
+    }
+  ],
+  "repo_state": "scaffolded",
+  "repo_state_note": "`research/interval/` supplies certified interval arithmetic over exact rationals and names this lane as a consumer; the interval-`r` lattice-sum evaluator for the 24-jet set, and any per-band enclosure certificate, do not exist in this repository. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "research/interval/",
+    "docs/CONTRIBUTION_PLAN.md §3"
+  ],
+  "does_not_establish": "This lane file establishes nothing mathematical. It does not certify any band enclosure, does not discharge `OBL-H5-JETMOD` or `OBL-D1-PROMOTE`, and does not make the displayed modulus into a certified enclosure.",
+  "obligation": "Certified interval bounds for the full 24-jet set — not just the displayed `c₂` — over the r-bands `[r_{k+1}, r_k]`, with lattice-tail constants re-certified **uniformly in the band** (the current LAT tail bound certifies at point separations only). Content: for each jet `J` and band `B`, `J(B)/r^{p_J} ∈` a certified interval."
+}

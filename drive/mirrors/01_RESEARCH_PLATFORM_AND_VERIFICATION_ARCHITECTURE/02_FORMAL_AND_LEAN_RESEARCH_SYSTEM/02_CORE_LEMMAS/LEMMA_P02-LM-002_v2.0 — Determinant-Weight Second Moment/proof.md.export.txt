@@ -1,0 +1,432 @@
+﻿LCR-CAP-011-v1.0 — P02-LM-002 CLOSED EXACT DETERMINANT-WEIGHT r^4 MOMENT INTERFACE
+PEER-REVIEW CAPSULE AND TERMINAL RECORD
+
+
+Artifact ID: LCR-CAP-011-v1.0
+Lemma ID: P02-LM-002
+Closure ID: LCR-CLS-010-v1.0
+Prepared and adjudicated by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Date: 2026-07-24
+Class: CAP / CLS / EXACT ALGEBRAIC-MOMENT INTERFACE
+Authority: terminal lemma record within exact scope under OP-PROT-011
+Canonical mathematical impact: NONE
+Terminal label: CLOSED — EXACT UNIFORM r^4 DETERMINANT-WEIGHT SECOND-MOMENT INTERFACE
+
+
+[[OBJ:P02-LM-002]] [[STATUS:CLOSED-EXACT]] [[DM2:CLOSED]] [[LIMITING-CONSTANT:EXCLUDED]] [[P0.2:OPEN]]
+
+
+1. READ FIRST
+
+
+One-sentence result:
+
+
+For the exact normalized endpoint-Hessian convention, the squared typed determinant weight satisfies the pointwise inequality W_r^2<=16r^4R^8 for every 0<r<=1; consequently any family of jet laws with uniformly bounded eighth R-moment satisfies E[W_r^2]<=16M_8r^4.
+
+
+Why it matters:
+
+
+This is the precise DM2 interface required to transfer super-polynomial conditioned-Gaussian tail bounds through determinant-weighted Palm reweighting. It isolates the exact r^4 algebra from the separate Gaussian regularity, normalizer, and GT5 lemmas.
+
+
+Primary proof:
+
+
+GP-DER-071-v1.0, Sections 1–2.
+Drive ID: 1MPY74ihf6hxrr97d7nnK-9Id1ARI3xL_2Eb63HdpV8Y.
+
+
+Independent audit:
+
+
+CL-AUD-052-v1.0.
+Drive ID: 1kqZ2KB5ysCHZiVueNaVfIKJfAsljF0W3HagoMVNT5Yw.
+
+
+Object crosswalk:
+
+
+CL-AUD-045-v1.0, Drive ID 1mhNO8GXWqxeMnqFyE5xpyZvr_OdvGOmJ_EsDeUjnUxY.
+CL-AUD-046-v1.0, Drive ID 1NvD8kYTNBX2ZP27s8mr6NfnwbIWk9-kwgBvwjxLpBVw.
+
+
+Current status:
+
+
+CLOSED — EXACT UNIFORM r^4 DETERMINANT-WEIGHT SECOND-MOMENT INTERFACE.
+
+
+P0.2 remains open.
+
+
+2. FROZEN EXACT STATEMENT
+
+
+Let 0<r<=1 and let
+
+
+(q,a,w,z,c40,c31,c22,c13,c04) in R^9.
+
+
+Define
+
+
+R=1+|q|+|a|+|w|+|z|+|c40|+|c31|+|c22|+|c13|+|c04|.
+
+
+Define the exact endpoint Hessians
+
+
+H_M=
+[[-r+r^2c40/12, -ar/2+r^2c31/12],
+ [-ar/2+r^2c31/12, q-rw/2+r^2c22/8]],
+
+
+H_S=
+[[ r+r^2c40/12,  ar/2+r^2c31/12],
+ [ ar/2+r^2c31/12, q+rw/2+r^2c22/8]].
+
+
+Let
+
+
+I_M=1{H_M is negative definite},
+I_S=1{det H_S<0},
+
+
+and define the nonnegative typed determinant weight
+
+
+W_r=|det H_M det H_S| I_M I_S.
+
+
+THEOREM P02-LM-002.
+
+
+For every such jet vector and every 0<r<=1,
+
+
+W_r^2<=16r^4R^8.
+
+
+Consequently, for any probability law mu_r on the jet vector for which
+
+
+M_8:=sup_{0<r<=r_0} E_mu_r[R^8]<infinity
+
+
+for some 0<r_0<=1, one has uniformly for 0<r<=r_0,
+
+
+E_mu_r[W_r^2]<=16M_8r^4.
+
+
+No Gaussian assumption is needed for the pointwise inequality. The probability-law corollary uses only the displayed eighth-moment premise.
+
+
+3. EXACT PROOF
+
+
+Define
+
+
+A_M=-1+rc40/12,
+B_M=-a/2+rc31/12,
+C_M=q-rw/2+r^2c22/8,
+
+
+A_S=1+rc40/12,
+B_S=a/2+rc31/12,
+C_S=q+rw/2+r^2c22/8.
+
+
+Then exactly
+
+
+H_M=[[rA_M,rB_M],[rB_M,C_M]],
+H_S=[[rA_S,rB_S],[rB_S,C_S]].
+
+
+Therefore
+
+
+det H_M=rD_M,
+det H_S=rD_S,
+
+
+where
+
+
+D_M=A_MC_M-rB_M^2,
+D_S=A_SC_S-rB_S^2.
+
+
+Since the indicators are idempotent and bounded by one,
+
+
+W_r^2
+=r^4D_M^2D_S^2I_MI_S
+<=r^4D_M^2D_S^2.
+
+
+For 0<r<=1, every coefficient appearing in A_M,A_S,B_M,B_S,C_M,C_S has absolute value at most one and every jet absolute value is included in R. Hence
+
+
+|A_M|,|A_S|,|B_M|,|B_S|,|C_M|,|C_S|<=R.
+
+
+Thus
+
+
+|D_M|<=|A_MC_M|+r|B_M|^2<=2R^2,
+|D_S|<=|A_SC_S|+r|B_S|^2<=2R^2.
+
+
+Therefore
+
+
+W_r^2<=r^4(2R^2)^2(2R^2)^2=16r^4R^8.
+
+
+Taking expectations gives the stated corollary.
+
+
+4. PROOF-OBLIGATION LEDGER
+
+
+M1 — Endpoint-Hessian factorization.
+Status: PASS EXACTLY.
+
+
+M2 — Exact r^4 factor after squaring.
+Status: PASS EXACTLY. No regression or asymptotic fitting is used.
+
+
+M3 — Indicator handling.
+Status: PASS. I_M^2=I_M and I_S^2=I_S; both are at most one.
+
+
+M4 — Uniform coefficient domination for 0<r<=1.
+Status: PASS.
+
+
+M5 — D_M,D_S quadratic bound.
+Status: PASS.
+
+
+M6 — Pointwise W_r^2 bound.
+Status: PASS.
+
+
+M7 — Moment corollary.
+Status: PASS under exactly the stated M_8 premise.
+
+
+M8 — Measure independence.
+Status: PASS. No density, Gaussianity, or Palm normalization is used in the implication from M_8 to the second-moment bound.
+
+
+5. INDEPENDENT REVIEW
+
+
+CL-AUD-052 independently checked:
+
+
+- the endpoint-Hessian factorization in exact rational arithmetic;
+- the determinant factor r at each endpoint;
+- the exact r^4 factor in W_r^2;
+- the absence of any lower r-power;
+- the pointwise R^8 domination by hand and over 200,000 random draws;
+- the consistency of the endpoint object with the declared fold frame and downstream structures.
+
+
+Review family: Anthropic/Claude, organizationally distinct from the OpenAI proof author.
+
+
+Review classification:
+
+
+ORGANIZATIONALLY DISTINCT / SYMBOLIC-COMPUTATIONAL AUDIT / ORIGINAL PROOF VISIBLE.
+
+
+The review is not clean-room in the strict sense, but it independently recomputed every claim included in this frozen lemma. It counts as one independent-eyes credit.
+
+
+CL-AUD-045 and CL-AUD-046 separately crosswalked the normalized Hessians, jets, six-pin construction, pair-Palm object, and branch/type conventions. Their remaining historical open edges concern broader P0.2 integration, not the pointwise algebra frozen here.
+
+
+6. EDGE CASES
+
+
+r=1:
+The coefficient domination remains valid because all r and r^2 coefficients are at most one.
+
+
+r->0:
+The inequality remains valid for every positive r. No division by r occurs in the proof.
+
+
+Zero jets:
+R=1 and the formula is well-defined.
+
+
+Type-boundary cases:
+If either indicator vanishes, W_r=0 and the bound is immediate. No assumption that the type boundary has zero probability is required for this lemma.
+
+
+Singular Hessians:
+Permitted. They only reduce the typed weight.
+
+
+Arbitrary law:
+Permitted for the pointwise result. The expectation conclusion requires only the finite uniform eighth moment stated explicitly.
+
+
+7. EXCLUSIONS
+
+
+This closed lemma does not establish:
+
+
+- that a specific exact-torus Gaussian jet family has uniform eighth moments;
+- the limiting value of E[W_r^2]/r^4;
+- E[Q_L^4 1{Q_L<0}];
+- the planar truncated-normal closed form or decimal;
+- a normalizer lower or upper bound;
+- a Palm tail estimate without the separate normalizer premise;
+- the repaired GT5 theorem;
+- exact-field capture;
+- 1-a_r=O(r^3);
+- P0.2 terminal status.
+
+
+Those statements may cite this lemma but require additional dependencies.
+
+
+8. CRITIQUE HISTORY
+
+
+Earlier CL-AUD-047 treated DM2 partly computationally. GP-DER-071 supplied the exact symbolic proof. CL-AUD-052 independently verified the exact factorization and domination and upgraded the component from Monte Carlo corroboration to symbolic proof plus audit.
+
+
+No mathematical correction to the frozen P02-LM-002 statement was required during this closure pass.
+
+
+The broader GP-DER-071 document also discusses the exact-torus limiting constant and planar formula. Those are deliberately excluded because their proof and review obligations differ from the minimal DM2 interface.
+
+
+9. CLOSURE DECISION
+
+
+Closure ID: LCR-CLS-010-v1.0
+Lemma ID: P02-LM-002
+Date: 2026-07-24
+Terminal label:
+
+
+CLOSED — EXACT UNIFORM r^4 DETERMINANT-WEIGHT SECOND-MOMENT INTERFACE.
+
+
+Decisive evidence:
+
+
+- one-line exact determinant factorization;
+- exact pointwise polynomial domination;
+- organizationally distinct symbolic/computational audit;
+- object crosswalk to the declared exact endpoint convention;
+- complete scope and edge-case fence.
+
+
+OP-PROT-011 independent-eyes condition is satisfied. This is an exact interface lemma, not canonical promotion of P0.2.
+
+
+10. DOWNSTREAM USAGE
+
+
+Authorized use:
+
+
+If a downstream exact jet law proves sup E[R^8]<=M_8, it may cite P02-LM-002 to conclude
+
+
+E[W_r^2]^(1/2)<=4sqrt(M_8)r^2.
+
+
+Combined with a separate normalizer lower bound Z_r>=c_Zr^2, Cauchy–Schwarz gives
+
+
+E[W_r1_E]/Z_r
+<=4sqrt(M_8)P(E)^(1/2)/c_Z.
+
+
+This displays precisely how a conditioned-law tail transfers to the typed determinant-weighted law.
+
+
+The lemma supplies no bound on P(E) and no normalizer bound.
+
+
+11. REOPENING CONDITIONS
+
+
+Reopen if:
+
+
+- an endpoint Hessian coefficient or jet convention is corrected;
+- the determinant factorization is shown wrong;
+- r is used outside 0<r<=1 without revising the coefficient bound;
+- R is redefined without including every displayed jet;
+- a downstream source cites the expectation result without the eighth-moment premise.
+
+
+Do not reopen because a sharper constant, better moment norm, or limiting constant is found.
+
+
+12. MANIFEST
+
+
+Primary proof:
+- GP-DER-071-v1.0
+- Drive ID 1MPY74ihf6hxrr97d7nnK-9Id1ARI3xL_2Eb63HdpV8Y
+
+
+Independent audit:
+- CL-AUD-052-v1.0
+- Drive ID 1kqZ2KB5ysCHZiVueNaVfIKJfAsljF0W3HagoMVNT5Yw
+
+
+Object crosswalk:
+- CL-AUD-045-v1.0
+- Drive ID 1mhNO8GXWqxeMnqFyE5xpyZvr_OdvGOmJ_EsDeUjnUxY
+- CL-AUD-046-v1.0
+- Drive ID 1NvD8kYTNBX2ZP27s8mr6NfnwbIWk9-kwgBvwjxLpBVw
+
+
+Closure capsule:
+- LCR-CAP-011-v1.0 / LCR-CLS-010-v1.0
+- Drive ID 1P84b7pNI-z8l9jQrRWW9pP5dNcA4TszKIhMZDFxBlWw
+
+
+13. FINAL CHECKLIST
+
+
+Exact statement: PASS.
+Proof complete: PASS.
+Quantifiers and r-domain explicit: PASS.
+Moment premise explicit: PASS.
+Object convention crosswalked: PASS.
+Independent review: PASS.
+Edge cases: PASS.
+No circular dependency: PASS.
+Scope fence: PASS.
+P0.2 separation: PASS.
+
+
+FINAL VERDICT:
+
+
+APPROVE AND CLOSE P02-LM-002 WITHIN THE EXACT POINTWISE AND CONDITIONAL MOMENT SCOPE.
+
+
+END LCR-CAP-011-v1.0

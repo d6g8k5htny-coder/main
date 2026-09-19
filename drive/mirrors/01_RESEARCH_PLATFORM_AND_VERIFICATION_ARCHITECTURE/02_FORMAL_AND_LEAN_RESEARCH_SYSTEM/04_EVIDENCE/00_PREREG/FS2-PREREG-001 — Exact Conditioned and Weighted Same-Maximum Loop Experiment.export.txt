@@ -1,0 +1,188 @@
+﻿# FS2-PREREG-001 — Exact Conditioned and Weighted Same-Maximum Loop Experiment
+
+
+**Freeze status:** Drafted before new experiment data. Any change after first execution requires a numbered amendment.  
+**Primary field:** normalized-periodized Bargmann–Fock Gaussian field on the flat side-24 torus.  
+**Primary marks:** \(b=6/5\), \(\kappa=1\), \(\theta=0\).  
+**Secondary orientation analysis:** preregistered uniform \(\theta\), reported separately.
+
+
+## 1. Scientific questions
+
+
+### Q1 — deterministic decomposition
+
+
+Can a typed exact six-pin sample satisfy REG, H5, and the deep threshold while both ascending separatrices of \(S\) terminate at \(M\)?
+
+
+A replicated “yes” is a direct counterexample to the LS-DER-036 deterministic good-event exclusion.
+
+
+### Q2 — conditioned-only finite-r behavior
+
+
+Among exact six-pin conditioned samples with typed endpoints, how does the unweighted loop probability under \(Q_{r}\) vary over the practical range?
+
+
+### Q3 — exact weighted finite-r behavior
+
+
+How does
+
+
+\[
+P^{MS}_r(L_r)=
+\frac{E_{Q_r}[W_r1_{L_r}]}{E_{Q_r}[W_r]}
+\]
+
+
+vary over the practical range?
+
+
+### Q4 — theorem-regime bridge
+
+
+Do the REG, H5, and deep-threshold conditions become non-vacuous at numerically accessible \(r\), or must constants/arguments be improved before the asymptotic theorem can be empirically probed?
+
+
+## 2. Range firewall
+
+
+### Track A — practical finite-r experiment
+
+
+\[
+r\in\{0.40,0.30,0.20,0.15,0.10,0.075,0.05\}.
+\]
+
+
+This track **cannot falsify the current asymptotic theorem**, because its REG certificate requires \(r\le2.38418579\times10^{-7}\) even at \(R=1\). It tests finite-range models and practical extrapolation.
+
+
+### Track B — certificate/asymptotic experiment
+
+
+Use normalized coordinates, confluent conditioning, controlled precision, and
+
+
+\[
+r\in\{2\times10^{-7},10^{-7},5\times10^{-8},2\times10^{-8}\}.
+\]
+
+
+Track B is theorem-sensitive only after numerical conditioning, Taylor, H5, and ODE errors are enclosed rigorously.
+
+
+## 3. Models for Track A
+
+
+These are empirical finite-window models, not equivalent to the theorem.
+
+
+- \(M_3:\ \pi(r)=c_3r^3\).
+- \(M_{0+3}:\ \pi(r)=c_0+c_3r^3,\ c_0\ge0\).
+- \(M_\alpha:\ \pi(r)=cr^\alpha\).
+- \(M_{\mathrm{free}}:\) monotone or nonmonotone spline used only as a diagnostic.
+
+
+The theorem itself states an eventual upper bound \(O(r^3)\), not exact proportionality.
+
+
+## 4. Sampling protocol
+
+
+For every \(r\):
+
+
+1. generate an independent exact six-pin conditioned field under \(Q_r\);
+2. verify pin residuals against a frozen tolerance;
+3. compute exact endpoint Hessians;
+4. retain the typed stratum: \(H_M\) negative definite and \(H_S\) index one;
+5. compute \(W_r=|\det H_M\det H_S|\);
+6. compute midpoint jets, REG, deep-threshold, and H5 indicators;
+7. trace both ascending separatrices with an adaptive ODE;
+8. classify whether each terminates at \(M\), escapes above level \(b\), reaches another maximum, or is unresolved;
+9. rerun every loop and every unresolved trajectory at stricter tolerance;
+10. preserve all failures and unresolved cases.
+
+
+## 5. Estimators
+
+
+Conditioned-only:
+
+
+\[
+\widehat Q_r(L)=\frac{\sum_i1_{L_i}1_{\mathrm{typed},i}}
+{\sum_i1_{\mathrm{typed},i}}.
+\]
+
+
+Weighted:
+
+
+\[
+\widehat P^{MS}_r(L)=
+\frac{\sum_i W_i1_{L_i}1_{\mathrm{typed},i}}
+{\sum_i W_i1_{\mathrm{typed},i}}.
+\]
+
+
+Report weight effective sample size:
+
+
+\[
+ESS_W=\frac{(\sum_iW_i)^2}{\sum_iW_i^2}.
+\]
+
+
+Uncertainty is bootstrapped over independent conditioned-field realizations. Pair-level resampling is prohibited when multiple pairs arise from one field.
+
+
+## 6. Primary outcomes
+
+
+1. Count of replicated loops on the complete good event.
+2. Weighted loop probability at each \(r\).
+3. Conditioned-only loop probability at each \(r\).
+4. Fraction of loops in boundary, REG-failure, and H5-failure strata.
+5. Exponent/profile likelihood for \(M_\alpha\).
+6. Comparison of \(M_3\) and \(M_{0+3}\) by preregistered likelihood and held-out predictive score.
+7. ESS and unresolved-trajectory rate.
+
+
+## 7. Stopping rule
+
+
+Run in fixed batches. No result-dependent model changes.
+
+
+- Smoke test: 2,000 samples per \(r\).
+- Main stage: continue to 50,000 per \(r\).
+- Extension: up to 200,000 per \(r\) only if weighted ESS is below 5,000 or fewer than 30 loop events are observed across the grid.
+- Stop early only for a replicated deterministic good-event counterexample.
+- The requested exponent standard error \(<0.15\) is a secondary precision target, not the sole stop rule.
+
+
+## 8. Numerical controls
+
+
+- two conditioning implementations: direct covariance and confluent/SVD frame;
+- two ODE tolerances;
+- endpoint Hessian mutation controls;
+- branch-label reversal control;
+- known comparison-field fixtures;
+- independent recomputation of \(W_r\);
+- frozen seeds and environment lock;
+- exact code and result hashes;
+- fail closed on pin, type, ODE, or identity ambiguity.
+
+
+## 9. Decision language
+
+
+- A practical-range plateau does not falsify the current theorem.
+- A replicated loop on the complete certified good event falsifies the deterministic exclusion.
+- Failure to reach the certified regime is reported as `INACCESSIBLE WITH CURRENT CONSTANTS`, not `SURVIVES`.
+- Agreement with \(r^3\) is evidence, not proof.

@@ -1,0 +1,590 @@
+{
+ "tab": "metadata_schema",
+ "sheet_index": 11,
+ "header": [
+  "Field",
+  "Required",
+  "Type",
+  "Allowed values / example",
+  "Automation use",
+  "Notes"
+ ],
+ "rows": [
+  [
+   "artifact_id",
+   "YES",
+   "string",
+   "GP-AUD-030-v1.0",
+   "Primary key and duplicate detection",
+   "Must be unique within declared ID scheme"
+  ],
+  [
+   "organization",
+   "YES",
+   "enum",
+   "OpenAI; Claude; AO48; Gemini; Grok; Program",
+   "Attribution and response matrix",
+   "Do not infer session identity from model family"
+  ],
+  [
+   "class",
+   "YES",
+   "enum",
+   "GOV; REG; AUD; DER; DATA; PRE; RSP; ERR; MASTER; LEDGER",
+   "Routing and index grouping",
+   "Multiple classes allowed only when explicit"
+  ],
+  [
+   "version",
+   "YES",
+   "semver",
+   "v1.0",
+   "Supersession and revision tracking",
+   "Never silently overwrite prior version"
+  ],
+  [
+   "created_at",
+   "YES",
+   "datetime",
+   "2026-07-20T22:44:39Z",
+   "Recent-activity digest",
+   "Use UTC internally"
+  ],
+  [
+   "modified_at",
+   "YES",
+   "datetime",
+   "2026-07-20T22:51:43Z",
+   "Change detection and freshness",
+   "Drive metadata is source of truth"
+  ],
+  [
+   "title",
+   "YES",
+   "string",
+   "Pre-execution review of quartic gauge-sensitivity protocol",
+   "Human navigation and similarity search",
+   "Preserve exact Drive title separately"
+  ],
+  [
+   "topics",
+   "YES",
+   "list",
+   "quartic; adjacency; q-machine",
+   "Semantic/keyword index",
+   "Controlled vocabulary plus free tags"
+  ],
+  [
+   "object_tags",
+   "RECOMMENDED",
+   "list",
+   "q_typed; q_adj; a_r; J_r; I_r",
+   "Object-level dependency checks",
+   "Avoid bare q"
+  ],
+  [
+   "priority",
+   "RECOMMENDED",
+   "enum",
+   "P0; P1; P2; High; Medium; Low",
+   "Tiered self-prioritization",
+   "Separate theorem priority from urgency when needed"
+  ],
+  [
+   "status",
+   "YES",
+   "enum",
+   "OPEN; PROPOSED; INCONCLUSIVE; DISPUTED; KILLED; SUPERSEDED; PROMOTED",
+   "Live queues and dashboards",
+   "Status does not imply authority"
+  ],
+  [
+   "authority",
+   "YES",
+   "string",
+   "none; current consolidated spine; Dylan-approved",
+   "Promotion guard",
+   "Default none"
+  ],
+  [
+   "canonical_impact",
+   "YES",
+   "enum",
+   "NONE; PENDING; APPROVED",
+   "Hard stop against accidental promotion",
+   "Only Dylan-approved actions may set APPROVED"
+  ],
+  [
+   "dependencies",
+   "RECOMMENDED",
+   "list of artifact IDs",
+   "GP-PRE-025; GP-AUD-020",
+   "Dependency graph",
+   "Store hashes when available"
+  ],
+  [
+   "dependency_hashes",
+   "RECOMMENDED",
+   "map/list",
+   "sha256:...",
+   "Reproducibility and stale-dependency detection",
+   "Required for machine artifacts"
+  ],
+  [
+   "supersedes",
+   "OPTIONAL",
+   "list of artifact IDs or scoped claims",
+   "GP-DER-019 uniqueness language",
+   "Version and correction graph",
+   "State exact scope, not blanket replacement"
+  ],
+  [
+   "superseded_by",
+   "DERIVED",
+   "list",
+   "GP-ERR-024",
+   "Navigation and warning banners",
+   "Generated from supersedes links"
+  ],
+  [
+   "decisive_test",
+   "RECOMMENDED",
+   "string / test ID",
+   "31-gauge CRN protocol",
+   "Help matching and dispute termination",
+   "Precommit readings before execution"
+  ],
+  [
+   "falsifiers",
+   "RECOMMENDED",
+   "list",
+   "weighted complement/r^3 fails to stabilize",
+   "Verification battery routing",
+   "Outcome semantics must be explicit"
+  ],
+  [
+   "help_needed",
+   "OPTIONAL",
+   "string",
+   "Exact six-pin sampler and endpoint blocks",
+   "Blocker board generation",
+   "Name missing input, not vague “help”"
+  ],
+  [
+   "offered_capacity",
+   "OPTIONAL",
+   "string",
+   "Independent numerical re-execution",
+   "Automated matching",
+   "Include tool/data constraints"
+  ],
+  [
+   "source_urls",
+   "YES",
+   "list of URLs",
+   "Drive document URL",
+   "Direct navigation and auditability",
+   "Prefer stable file IDs"
+  ],
+  [
+   "parent_folder_id",
+   "RECOMMENDED",
+   "string",
+   "1efRFk5kMvmDzDAh4xKxg5fm0055NwyVD",
+   "Scope-aware indexing",
+   "Useful for folder-local registers"
+  ],
+  [
+   "content_hash",
+   "RECOMMENDED",
+   "sha256",
+   "...",
+   "Exact duplicate detection",
+   "Normalize line endings separately from raw hash"
+  ],
+  [
+   "normalized_text_hash",
+   "RECOMMENDED",
+   "sha256",
+   "...",
+   "Formatting/newline duplicate detection",
+   "Do not treat normalized duplicates as independent evidence"
+  ],
+  [
+   "similarity_cluster",
+   "DERIVED",
+   "string",
+   "DUP-20260720-004",
+   "Near-duplicate / parallel-work detection",
+   "Requires threshold and review"
+  ],
+  [
+   "reviewed_at",
+   "RECOMMENDED",
+   "datetime",
+   "2026-07-20T22:55:00Z",
+   "Context snapshot freshness",
+   "Record reviewer/model"
+  ],
+  [
+   "reviewed_by",
+   "RECOMMENDED",
+   "string",
+   "OpenAI GPT-5.6 Thinking",
+   "Accountability",
+   "Session-specific when possible"
+  ],
+  [
+   "human_decision",
+   "YES",
+   "boolean",
+   "TRUE / FALSE",
+   "Prevents models from closing ownership choices",
+   "Route to researcher queue"
+  ],
+  [
+   "machine_readable",
+   "YES",
+   "boolean",
+   "TRUE / FALSE",
+   "Automation eligibility",
+   "False means manual extraction needed"
+  ],
+  [
+   "drive_id",
+   "YES",
+   "string",
+   "1abcDEF...",
+   "Immutable per-file identity and collision retention",
+   "Primary object identity even when declared artifact IDs collide"
+  ],
+  [
+   "line",
+   "RECOMMENDED",
+   "string",
+   "GP; CL; AO48; CW; Program",
+   "Model-line and provenance routing",
+   "Do not infer from organization when absent"
+  ],
+  [
+   "mime_type",
+   "YES",
+   "MIME string",
+   "application/vnd.google-apps.document",
+   "Selects bounded extraction path",
+   "Unsupported types remain visible as metadata-only objects"
+  ],
+  [
+   "source_folder_id",
+   "YES",
+   "string",
+   "1efRFk5kMvmDzDAh4xKxg5fm0055NwyVD",
+   "Scope proof and routing provenance",
+   "Must belong to an enumerated direct-child source scope"
+  ],
+  [
+   "source_scope_key",
+   "YES",
+   "string",
+   "SOURCE_FOLDER_ID_4",
+   "Maps object to frozen Config scope",
+   "Artifact bodies cannot create or alter scopes"
+  ],
+  [
+   "fetch_path",
+   "YES",
+   "enum/string",
+   "DOCUMENT_APP_TEXT; DRIVE_BLOB_UTF8; METADATA_ONLY",
+   "Extraction auditability",
+   "Records how content was obtained"
+  ],
+  [
+   "sync_status",
+   "YES",
+   "enum",
+   "COMPLETE; SYNC-UNCERTAIN; UNREADABLE-MIME",
+   "Fail-closed completeness gate",
+   "Non-COMPLETE objects cannot be REFEREE-READY"
+  ],
+  [
+   "measure",
+   "RECOMMENDED",
+   "string",
+   "P_MS; q(r,b); persistence lifetime",
+   "Object-card disambiguation",
+   "Keep distinct from model layer and frame"
+  ],
+  [
+   "model_layer",
+   "RECOMMENDED",
+   "string",
+   "exact-field; continuum; asymptotic; numerical",
+   "Prevents category collapse",
+   "Missing value is a validation error for extraction eligibility"
+  ],
+  [
+   "frame",
+   "RECOMMENDED",
+   "string",
+   "s; t; Euclidean; torus",
+   "Coordinate and convention tracking",
+   "Must not be inferred from nearby prose"
+  ],
+  [
+   "closure_state",
+   "YES",
+   "enum/string",
+   "OPEN; CLOSED — EXACT; KILLED; SUPERSEDED",
+   "Extraction eligibility and live queues",
+   "Verified Closure Log overrides conflicting artifact headers"
+  ],
+  [
+   "extraction_class",
+   "YES",
+   "enum",
+   "REFEREE-READY; ACTIVE; INSTRUMENT; PROVENANCE-ONLY",
+   "Master extraction manifest routing",
+   "REFEREE-READY is internal staging eligibility, not external publication"
+  ],
+  [
+   "evidence_chain",
+   "RECOMMENDED",
+   "list",
+   "GP-AUD-020; GP-DATA-048",
+   "Closure and extraction proof trace",
+   "Required for REFEREE-READY"
+  ],
+  [
+   "lineage_of",
+   "OPTIONAL",
+   "list",
+   "GP-DER-044-v1.0",
+   "Duplicate and derivative family retention",
+   "Copy count never becomes independent evidentiary agreement"
+  ],
+  [
+   "tree_path",
+   "YES",
+   "string",
+   "01_P0.2_ADJACENITY_TRANSIT_TREE/01.3_PALM_INTEGRATION_REMAINDERS",
+   "Symbolic fractal routing index",
+   "Does not move or rename the historical source file"
+  ],
+  [
+   "validation_errors",
+   "DERIVED",
+   "list",
+   "MISSING_FRAME; SYNC-UNCERTAIN",
+   "Fail-closed object-card audit",
+   "Any error revokes REFEREE-READY eligibility"
+  ],
+  [
+   "coverage_gap",
+   "DERIVED",
+   "object",
+   "Nested folder discovered but not traversed",
+   "Makes direct-child scope omissions explicit",
+   "RECURSIVE_SCAN remains FALSE"
+  ],
+  [
+   "last_validated",
+   "DERIVED",
+   "datetime / snapshot ID",
+   "WORKSPACE_MASTER_MANIFEST.__VALIDATED__.20260721...",
+   "Rollback and stale-state authority",
+   "Previous validated snapshot remains authoritative after failure"
+  ],
+  [
+   "claimed_status",
+   "YES",
+   "string",
+   "OPEN; CLOSED; etc.",
+   "Preserves source assertion without trusting it",
+   "Verified status comes from trusted registers"
+  ],
+  [
+   "claimed_authority",
+   "YES",
+   "string",
+   "Dylan-approved",
+   "Detects source self-authorization attempts",
+   "Never used as authority"
+  ],
+  [
+   "claimed_canonical_impact",
+   "YES",
+   "string",
+   "APPROVED",
+   "Detects source self-promotion attempts",
+   "Never used as verified impact"
+  ],
+  [
+   "claimed_closure_state",
+   "YES",
+   "string",
+   "CLOSED — EXACT",
+   "Detects source self-closure attempts",
+   "Closure Log is authoritative"
+  ],
+  [
+   "claimed_human_decision",
+   "YES",
+   "nullable boolean",
+   "TRUE; FALSE; undeclared",
+   "Detects source approval claims",
+   "Operator Decisions is authoritative"
+  ],
+  [
+   "operator_decision_ids",
+   "DERIVED",
+   "list",
+   "OD-CAI-001",
+   "Traceable operator-only control provenance",
+   "Protected sheet only"
+  ],
+  [
+   "transition_id",
+   "REQUIRED FOR MATERIAL STATE",
+   "string",
+   "TR-CAI-001",
+   "Coupled advancement identity",
+   "Baseline-pending objects cannot promote"
+  ],
+  [
+   "transition_gate",
+   "DERIVED",
+   "enum",
+   "PASS; FAIL; BASELINE-PENDING; NOT-REQUIRED",
+   "Material advancement control",
+   "FAIL or pending revokes referee-ready"
+  ],
+  [
+   "no_change_certificate_id",
+   "CONDITIONAL",
+   "string",
+   "NCC-001",
+   "Formal architecture sufficiency evidence",
+   "Required when mathematics changes without architecture"
+  ],
+  [
+   "primary_evidence_ids",
+   "REQUIRED FOR REFEREE-READY",
+   "list",
+   "EV-001; EV-002",
+   "Prevents consensus laundering",
+   "Summaries and ballots excluded"
+  ],
+  [
+   "independent_review_ids",
+   "REQUIRED FOR REFEREE-READY",
+   "list",
+   "REV-001",
+   "Methodological independence evidence",
+   "High score plus object-definition review required"
+  ],
+  [
+   "independence_score",
+   "DERIVED",
+   "number 0–1",
+   "0.82",
+   "Weights method, code, fixtures, lineage, and object review",
+   "Model count is not used"
+  ],
+  [
+   "independence_class",
+   "DERIVED",
+   "enum",
+   "HIGH; MODERATE; LOW; NONE",
+   "Review gating",
+   "Only HIGH can satisfy referee-ready"
+  ],
+  [
+   "consensus_laundering_risk",
+   "DERIVED",
+   "boolean",
+   "TRUE; FALSE",
+   "Detects summary-as-primary or copied-lineage authority",
+   "Blocks extraction eligibility"
+  ],
+  [
+   "global_object_audit_id",
+   "REQUIRED FOR TRUSTED MATERIAL STATE",
+   "string",
+   "GOA-001",
+   "Global target alignment",
+   "Checks original scientific object"
+  ],
+  [
+   "global_object_alignment",
+   "DERIVED",
+   "enum",
+   "PASS; FAIL; UNASSESSED",
+   "Detects local rigor/global drift",
+   "FAIL revokes eligibility"
+  ],
+  [
+   "closure_scope",
+   "DERIVED",
+   "object",
+   "exact statement; regime; normalization; coordinates; broader open claims; reopening",
+   "Prevents closure inflation",
+   "Derived from material transition record"
+  ],
+  [
+   "dependencies_verified",
+   "DERIVED",
+   "boolean",
+   "TRUE; FALSE",
+   "Separates claimed from trusted dependency maps",
+   "False cannot satisfy trusted promotion"
+  ],
+  [
+   "object_card_verified",
+   "DERIVED",
+   "boolean",
+   "TRUE; FALSE",
+   "Exact object/law/regime/frame completeness",
+   "Missing fields remain visible"
+  ],
+  [
+   "coupled_advancement_status",
+   "DERIVED",
+   "enum",
+   "PASS; FAILED-CLOSED-WITH-ALARMS",
+   "Workspace-level safeguard",
+   "Published in manifest and dashboard"
+  ],
+  [
+   "hyper_tags",
+   "RECOMMENDED",
+   "list of stable tokens",
+   "[[OBJ:GP-DATA-054-v1.0]]; [[TR:TR-P12-004]]; [[DEF:CERTIFIED_ENDPOINT_ARRIVAL]]",
+   "Cross-file retrieval and typed backlink construction",
+   "Navigation only; cannot change authority, evidence grade, vote count, closure, or canonical impact"
+  ],
+  [
+   "definition_ids",
+   "RECOMMENDED",
+   "list",
+   "DEF-015; DEF-016",
+   "Binds a file to controlled operational definitions",
+   "Definitions must state scope and exclusions; local prose cannot silently broaden them"
+  ],
+  [
+   "relation_ids",
+   "DERIVED / RECOMMENDED",
+   "list",
+   "REL-016; REL-017",
+   "Joins artifacts to directed typed edges in Relation Index",
+   "Untyped hyperlinks and folder proximity are not relations"
+  ],
+  [
+   "relation_authority_effect",
+   "REQUIRED FOR RELATION EDGE",
+   "string / enum",
+   "NONE; controls ballot counting; human approval required",
+   "Prevents navigation links from laundering authority",
+   "Default NONE unless the underlying authoritative source independently establishes an effect"
+  ]
+ ]
+}

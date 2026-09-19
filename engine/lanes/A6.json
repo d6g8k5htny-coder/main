@@ -1,0 +1,42 @@
+{
+  "key": "A6",
+  "title": "`PERC-DECAY`",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "### A6. `PERC-DECAY`",
+    "level": 3,
+    "parent_heading": "## A. Blocking the unconditional 2D upper theorem"
+  },
+  "blocks": [
+    "PERC-DECAY",
+    "PD-CONN"
+  ],
+  "status": "OPEN",
+  "status_source": {
+    "transcribed_from": [
+      "docs/OPEN_PROBLEMS.md §A6",
+      "claims/graph.json premises.PD-CONN.status_frozen_v2_2",
+      "docs/FULL_DOCS_MATH_READ.md §  '| 3 | **PERC-DECAY** | **OPEN** | **RESTATED**; engine COMPLETE+FROZEN; PD-CONN **NAMED INPUT (OPEN)** |'"
+    ],
+    "quote": "`PD-CONN`, which is a **named OPEN input**",
+    "note": "claims/graph.json records PERC-DECAY as status_frozen_v2_2 OPEN and status_register_note RESTATED. RESTATED is a restatement of the target, not a discharge, and PD-CONN is OPEN in both layers."
+  },
+  "next_exact_action": "The `o(r³)` far-lane reading is not reachable. Use the `Θ(r³)` restatement with certified constants plus `PD-CONN`, which is a **named OPEN input**.",
+  "falsifier": null,
+  "inputs": [],
+  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "not_a_substitute": [
+    {
+      "quote": "The `o(r³)` far-lane reading is not reachable.",
+      "source": "docs/OPEN_PROBLEMS.md §A6"
+    },
+    {
+      "quote": "Engine COMPLETE and FROZEN; `PD-CONN` is a named OPEN input.",
+      "source": "docs/RESEARCH_MAP.md §4"
+    }
+  ],
+  "repo_state": "none",
+  "repo_state_note": "No percolation-decay computation exists in this repository. `engine/rn_engine/frozen/.../D3_percolation/` holds mirrored frozen sources that are not executed by CI and are documented by whoever owns that directory, not by this lane. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [],
+  "does_not_establish": "This lane does not restate, prove or discharge `PERC-DECAY`, does not supply `PD-CONN`, and does not license the unreachable `o(r³)` reading."
+}

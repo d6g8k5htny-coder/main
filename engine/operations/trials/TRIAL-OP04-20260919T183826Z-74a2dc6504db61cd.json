@@ -1,0 +1,85 @@
+{
+ "Trial ID": "TRIAL-OP04-20260919T183826Z-74a2dc6504db61cd",
+ "Problem ID / SHA-256": "249c93e61a6f8e9d542bcff54eee72f2796aa90daf82325079d86e9e1298575d",
+ "Split": "EXPOSED_DEVELOPMENT",
+ "Operation ID": "OP04",
+ "Library / catalog SHA-256": "570d9cdebcf2113918e80a82067811dbd39f9076827c03899a1d9f88553b0513",
+ "Arm": "NONE_SINGLE_EXACT_REPLAY",
+ "Budget / cost unit": "unit=checked_equalities; budget=NONE (one deterministic exact replay, unbounded); failure rule: a computation that raises is IDENTITY_NOT_REPRODUCED and charged 1",
+ "Seed / environment": {
+  "seed": "NONE (deterministic; no randomness anywhere in the computation)",
+  "python": "3.11.15",
+  "implementation": "CPython",
+  "platform": "Linux",
+  "repository_commit_at_run": "6c6f47b7884651b2330ab1380155f667caad0178",
+  "runner": "engine/operations/trial.py"
+ },
+ "Verified result": "IDENTITY_REPRODUCED",
+ "Search cost": "NOT_MEASURED",
+ "Retrieval cost": "NOT_MEASURED",
+ "Verification cost": 2,
+ "Acquisition cost": "NOT_MEASURED",
+ "Maintenance cost": "NOT_MEASURED",
+ "Timeout / failure charge": 0,
+ "Run evidence": {
+  "record_schema": "q0.operation.trial/v1",
+  "trial_kind": "EXACT_IDENTITY",
+  "identity_displayed": "(E A^4 E B^4)^(1/4) (E C^2)^(1/2)",
+  "reproduces": "exponent arithmetic only: the displayed exponents 1/4, 1/4, 1/2 sum to one and are the reciprocals of the Required scope moment orders 4,4,2; the inequality E[|ABC| I] <= (E A^4 E B^4)^(1/4) (E C^2)^(1/2) is a theorem about expectations and is not checked",
+  "identity_spec": {
+   "displayed": "(E A^4 E B^4)^(1/4) (E C^2)^(1/2)",
+   "scope_displayed": "moment_orders=4,4,2",
+   "kind": "holder_exponents",
+   "reproduces": "exponent arithmetic only: the displayed exponents 1/4, 1/4, 1/2 sum to one and are the reciprocals of the Required scope moment orders 4,4,2; the inequality E[|ABC| I] <= (E A^4 E B^4)^(1/4) (E C^2)^(1/2) is a theorem about expectations and is not checked",
+   "exponents": [
+    "1/4",
+    "1/4",
+    "1/2"
+   ],
+   "moment_orders": [
+    "4",
+    "4",
+    "2"
+   ],
+   "expected_sum": "1"
+  },
+  "arithmetic": "exact rational (fractions.Fraction); constants as (rational coefficient, exponent vector) monomials; exact integer roots; no floats anywhere",
+  "steps": [
+   {
+    "statement": "the displayed Hölder exponents sum to one (conjugacy)",
+    "lhs": "1",
+    "rhs": "1",
+    "equal": true
+   },
+   {
+    "statement": "the reciprocals of the Required scope moment orders are the displayed exponents",
+    "lhs": [
+     "1/4",
+     "1/4",
+     "1/2"
+    ],
+    "rhs": [
+     "1/4",
+     "1/4",
+     "1/2"
+    ],
+    "equal": true
+   }
+  ],
+  "checked_equalities": 2,
+  "all_equal": true,
+  "failure": null,
+  "utc": "2026-09-19T18:38:26.049896Z",
+  "reason_not_run": null
+ },
+ "Scope / constraints": "law=same_probability_law; moment_orders=4,4,2; indicator=between_0_and_1",
+ "Notes": "Do not infer (register, verbatim): The universal inequality does not certify SIDE24 inputs, normalizer, spatial coverage or an r-uniform estimate. | Trial kind: EXACT_IDENTITY | A trial is a record of a computation, not evidence; it moves no status. | Register cells, verbatim: Utility: UNMEASURED; Novelty: NOT_ASSESSED.",
+ "does_not_establish": [
+  "A trial is a record that an exact computation ran on a register cell. It is not evidence, not a review verdict and not a status, and it warrants nothing; it moves no claim, premise, obligation, gate or grade, and it earns no independence credit for anything.",
+  "What is reproduced is the exponent arithmetic only: 1/4 + 1/4 + 1/2 = 1, which the displayed Hölder application requires, and its agreement with the moment orders 4,4,2 of the Required scope cell. The inequality E[|ABC| I] <= (E A^4 E B^4)^(1/4) (E C^2)^(1/2) itself, the finiteness of any moment and any SIDE24 input are not checked here, and this trial decides nothing about them.",
+  "IDENTITY_REPRODUCED means only that the algebra the Action / output cell displays was reproduced in exact arithmetic from the cell alone. It does not establish that the operation's premises hold in any application, that any caller meets its Required scope, or that the source object the cell cites is correct.",
+  "Utility remains UNMEASURED and Novelty remains NOT_ASSESSED, as the register says; this trial measures neither. It is an exposed development check on the register's own displayed cell, not a held-out trial; Utility stays UNMEASURED and Novelty stays NOT_ASSESSED, and no gain of either sign is assigned to the operation.",
+  "The five validity premises of Theorem D1 v2.2(2) are OPEN and D3-LEMMA-RN-UNIF remains open. Nothing recorded here composes the 2D upper or lower tracks with the 3D lifetime track, and no original prize problem is solved."
+ ],
+ "authority": "NONE — a trial is a record of a computation, not evidence"
+}

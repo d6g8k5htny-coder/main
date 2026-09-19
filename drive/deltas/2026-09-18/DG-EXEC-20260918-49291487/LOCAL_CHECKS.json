@@ -1,0 +1,37 @@
+{
+  "utc": "2026-09-18T16:42:39.976827Z",
+  "scope": "Three shell control-flow probes and a local patch application test only; not full repository CI or remote security tests.",
+  "checks": [
+    {
+      "case": "masked_failure",
+      "command": "true && (exit 7) || echo skipped",
+      "expected_exit_code": 0,
+      "observed_exit_code": 0,
+      "stdout": "skipped\n",
+      "pass": true
+    },
+    {
+      "case": "direct_failure",
+      "command": "exit 7",
+      "expected_exit_code": 7,
+      "observed_exit_code": 7,
+      "stdout": "",
+      "pass": true
+    },
+    {
+      "case": "explicit_guard_failure",
+      "command": "if true; then (exit 7); else echo skipped; fi",
+      "expected_exit_code": 7,
+      "observed_exit_code": 7,
+      "stdout": "",
+      "pass": true
+    }
+  ],
+  "patch_test": {
+    "source_git_blob_sha": "60154a3005471535d1dc01f429edc13f7b5275d3",
+    "matches_connector_source": true,
+    "git_apply_check_exit_code": 0,
+    "patched_body_matches_expected": true,
+    "remote_repository_changed": false
+  }
+}

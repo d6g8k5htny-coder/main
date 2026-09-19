@@ -1,0 +1,111 @@
+{
+  "schema": "q0.engineering.candidate/v1",
+  "task_id": "CG-CI-20260919-6c6f47b",
+  "created_utc": "2026-09-19T14:58:43.596328+00:00",
+  "disposition": "LOCAL_TESTED_CANDIDATE_REMOTE_WRITE_BLOCKED",
+  "source": {
+    "source_repository": "d6g8k5htny-coder/main",
+    "source_branch": "claude/drive-audit-github-migration-rrglpp",
+    "source_commit": "6c6f47b7884651b2330ab1380155f667caad0178",
+    "scope": "Three exact source blobs, not a complete checkout; all Git blob IDs matched connector-returned IDs.",
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 2983,
+        "git_blob_sha1": "2ad74094d2a4d01f0c7414db8c8b9ad8a4851ec0",
+        "sha256": "c049adeeee3e4ddf99b59a1cf30623bf2d0999e7c14f4f4f28a5e911574d7d88"
+      },
+      {
+        "path": ".github/workflows/research.yml",
+        "bytes": 5043,
+        "git_blob_sha1": "974829e7eacb2de0689ddf9f97e013036ba085cf",
+        "sha256": "71e84c3f48b095a1655ec90a073efef0cc5fdf37855cfe15ab043637baf36f47"
+      },
+      {
+        "path": "tools/verify_manifests.py",
+        "bytes": 4503,
+        "git_blob_sha1": "c05734f8ae522378d897256eab928ee5e0a5bb8f",
+        "sha256": "8b705c83335d5c89bfc08e583eae390a5104100fa0c9402f116b905715e7ec17"
+      }
+    ]
+  },
+  "changes": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 2533,
+      "sha256": "19017e97a615fcc03b9432d375a4fc7878438235bcedab11686b74fee2015eb7",
+      "kind": "modified"
+    },
+    {
+      "path": ".github/workflows/research.yml",
+      "bytes": 5057,
+      "sha256": "e13f08db736b234f84f0373c7fb2cc2f48b0e0b518d628d46684c9edd3913312",
+      "kind": "modified"
+    },
+    {
+      "path": "tools/manifest_integrity_check.py",
+      "bytes": 9676,
+      "sha256": "17d82642f9bb554312beb4b873af1189dc6ff22962f30de8336af681d6f3a07c",
+      "kind": "added"
+    },
+    {
+      "path": "tests/test_manifest_integrity_hardening.py",
+      "bytes": 9279,
+      "sha256": "d5294f60afae3842444273c6552101bacd287f53093379ed8d19a0b1358d4a2b",
+      "kind": "added"
+    },
+    {
+      "path": "tests/test_workflow_integrity_hardening.py",
+      "bytes": 5089,
+      "sha256": "243169ada7b3863d73bb8979d591aa431b4befdf27d95d4844a9ce056c236ffb",
+      "kind": "added"
+    }
+  ],
+  "patch_sha256": "7f6f1719df6659e18485e73d6ab558a02341c08b9e2b35bbb00d3ad8a3503356",
+  "local_branch": "chatgpt/ci-integrity-hardening-20260919",
+  "local_git_scope": "Partial source fixture only. Do not push this local history. Apply patch to a real checkout.",
+  "github_branch_created": false,
+  "github_committed": false,
+  "github_pull_request_created": false,
+  "github_create_branch_result": {
+    "http_status": 403,
+    "message": "Resource not accessible by integration"
+  },
+  "verification": {
+    "scoped_tests": {
+      "tests": 146,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "test_execution": "Eight nonoverlapping batches; each node passed once in the retained completed reports.",
+    "mutation_controls": {
+      "attempted": 10,
+      "detected": 10
+    },
+    "baseline_fail_open_reproductions": 9,
+    "baseline_valid_control": 1,
+    "two_real_payloads_against_upstream_declared_sha256": "PASS",
+    "patch_apply_check_on_exact_source_fixture": "PASS",
+    "python_runtime": "3.13.5",
+    "pytest_version": "9.0.2",
+    "python_3_11_syntax_parse": "PASS",
+    "python_3_11_runtime_test": "NOT_RUN",
+    "full_repository_test_suite": "NOT_RUN",
+    "full_live_manifest_corpus": "NOT_RUN",
+    "remote_ci": "NOT_RUN",
+    "independent_review": "NOT_PERFORMED",
+    "execution_notes": "Two initial whole-suite attempts hit execution-tool time limits and are not counted; retained batch reports are complete."
+  },
+  "scientific_status_change": "UNCHANGED",
+  "permissions_changed": false,
+  "claude_branch_written": false,
+  "limits": [
+    "Three source blobs were fetched, not the complete repository. Container git clone failed DNS resolution.",
+    "Strict guard verifies listed entries and rejects empty coverage; total-corpus coverage and exclusion authority are not proved.",
+    "Optional --require-manifest lets an operator supply an expected manifest set; CI does not yet freeze the full expected set.",
+    "Final governed-path check observes end state, not transient writes or sandbox isolation.",
+    "Action SHA pins and Python dependency locks are not changed by this candidate.",
+    "A full-history checkout may expose old freeze violations; run the full repository CI before integration."
+  ]
+}

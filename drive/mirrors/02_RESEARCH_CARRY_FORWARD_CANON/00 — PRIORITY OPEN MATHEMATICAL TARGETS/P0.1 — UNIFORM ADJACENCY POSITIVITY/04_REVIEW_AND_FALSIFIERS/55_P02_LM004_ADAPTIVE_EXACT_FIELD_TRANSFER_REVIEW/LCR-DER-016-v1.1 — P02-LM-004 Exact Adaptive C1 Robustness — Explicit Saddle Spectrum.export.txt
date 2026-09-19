@@ -1,0 +1,519 @@
+﻿LCR-DER-016-v1.1 — P02-LM-004 EXACT ADAPTIVE C1 ROBUSTNESS AND TAYLOR TRANSFER — EXPLICIT SADDLE SPECTRUM
+
+
+Artifact ID: LCR-DER-016-v1.1
+Lemma ID: P02-LM-004
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: DER / FROZEN CONDITIONAL DYNAMICAL LEMMA / COMPLETE PROOF CANDIDATE
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Primary closed dependency: P02-LM-001, LCR-CAP-009-v1.0, Drive ID 1_ovqOV8q1YCC9J5Q72fYsfzGg3v_5Z71Uv4uwyZU3N4
+Source reconstruction: LCR-AUD-014-v1.0 and GP-DER-047-v1.0 Section 11
+Status: OBJECT-FROZEN SUCCESSOR / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / P0.2 OPEN
+
+
+Freeze policy: extract only the text after the LF ending BEGIN_FROZEN_LEMMA_BODY and before the first subsequent END_FROZEN_LEMMA_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM.
+
+
+BODY_BYTES: 10416
+BODY_SHA256: d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87
+
+
+[[TARGET:P02-LM-004]] [[BODY_BYTES:10416]] [[BODY_SHA256:d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87]] [[SUCCESSOR:v1.1-EXPLICIT-SADDLE-SPECTRUM]] [[PREDECESSOR:v1.0-SUPERSEDED]] [[STATUS:OBJECT-FROZEN]] [[NORM:C1-EUCLIDEAN-OPERATOR]] [[TOLERANCE:RW/4]] [[PIN-PRESERVING]] [[GRADIENT-SYMMETRY]] [[STATUS:PROOF-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]] [[NO-PROMOTION]]
+
+
+BEGIN_FROZEN_LEMMA_BODY
+P02-LM-004 — EXACT ADAPTIVE C1 ROBUSTNESS AND TAYLOR-REMAINDER TRANSFER
+
+
+1. CLOSED CERTIFICATE DEPENDENCY
+
+
+Adopt the exact variables, field, geometry, parameter domain, branch convention, and quantitative inequalities of the closed lemma P02-LM-001 — CONDITIONAL EXACT DEGREE-FOUR DETERMINISTIC CAPTURE MAJORANT.
+
+
+Thus
+
+
+    U=(a,w,z,c40,c31,c22,c13,c04) in R^8,
+
+
+    R=1+|a|+|w|+|z|+|c40|+|c31|+|c22|+|c13|+|c04|,
+
+
+    K=4096,
+    epsilon_0=1/(1024K),
+
+
+    REG_r(U): rR^5<=epsilon_0,
+
+
+    s=q/r<=-(2KR^5+2R),
+
+
+and F_r^(4) is the exact pin-preserving degree-four gradient vector field of P02-LM-001 on the scaled coordinates, with
+
+
+    S=(1/2,0),
+    M=(-1/2,0).
+
+
+Define
+
+
+    F_aux=|a|/8+r|c31|/48,
+    F_*=1+F_aux,
+    W=F_*/(KR^5),
+    sigma=4RW,
+    rho=8RW,
+    kappa=1/(16R).
+
+
+Let D be a fixed compact certificate chart containing the closed cone, strip, transit rectangle, endpoint balls, and their boundaries used in P02-LM-001. Let O be an open neighborhood of D.
+
+
+The authoritative proof of P02-LM-001 establishes the following quantitative facts on its exact hypothesis domain:
+
+
+Q1 — UNIVERSAL SIZE.
+
+
+    0<RW<=2/(KR^3)<=1/2048.
+
+
+Q2 — STRIP BOUNDARY FLUX.
+For |X|<=1/2,
+
+
+    (F_r^(4))_Y(X,W)<=-1,
+    (F_r^(4))_Y(X,-W)>=1.
+
+
+Q3 — CENTRAL TRANSIT.
+On the central rectangle,
+
+
+    (F_r^(4))_X<=-3RW.
+
+
+Q4 — SADDLE SPECTRUM AND CONE CERTIFICATE.
+At S,
+
+
+    DF_r^(4)(S)
+      =[[A_S,B_S],[B_S,D_S]],
+
+
+where
+
+
+    A_S=1+r c40/12,
+    B_S=a/2+r c31/12,
+    D_S=s+w/2+r c22/8.
+
+
+The matrix is symmetric. Since R>=1, |c40|,|c22|,|w|<=R, REG_r gives rR<=rR^5<=epsilon_0, and s<=-(2KR^5+2R), the Rayleigh bounds give
+
+
+    lambda_max(DF_r^(4)(S))
+      >=A_S
+      >=1-epsilon_0/12,
+
+
+    lambda_min(DF_r^(4)(S))
+      <=D_S
+      <=-2KR^5-(3/2)R+epsilon_0/8
+      <-1.
+
+
+Thus the positive and negative saddle eigenvalues are separated from zero by explicit uniform margins. The selected increasing-xi unstable direction lies inside
+
+
+    C_S={xi>=0, |Y|<=kappa xi},
+    xi=1/2-X.
+
+
+The normalized cone-axis margin is greater than 7/8, and each normalized cone-face inward margin is greater than 511R. The cone remains inside the saddle ball until xi=sigma, and at that section
+
+
+    |Y|<=kappa sigma=W/4<W.
+
+
+Q5 — SINK CERTIFICATE.
+
+
+    lambda_min(-DF_r^(4)(M))>=63/128,
+
+
+and throughout B(M,rho), the variation of DF_r^(4) from its value at M has operator norm at most 3/64. The left central section lies strictly inside B(M,rho).
+
+
+These are dependency facts, not new assumptions introduced by this lemma.
+
+
+2. C1 NORM AND EXACT FIELD
+
+
+Let F:O->R^2 be a C^1 gradient vector field. Hence DF(x) is symmetric for every x in O.
+
+
+Assume exact pin preservation:
+
+
+    F(S)=F(M)=0.
+
+
+Set
+
+
+    E=F-F_r^(4).
+
+
+Define the certificate C^1 norm by
+
+
+    ||E||_{C^1(D)}
+      =max{
+          sup_{x in D} ||E(x)||_2,
+          sup_{x in D} ||DE(x)||_op
+        }.
+
+
+Assume the adaptive closeness bound
+
+
+    ||F-F_r^(4)||_{C^1(D)}<=eta,
+
+
+where
+
+
+    eta=RW/4.
+
+
+3. THEOREM
+
+
+Under the exact P02-LM-001 hypotheses and the conditions in Section 2, the following hold for F:
+
+
+1. S is a nondegenerate index-one saddle and M is a strict local maximum.
+2. The unique positive eigendirection at S is oriented by the exact rule e_u dot (M-S)>0 and lies strictly inside C_S.
+3. The selected M-ward unstable branch remains in the exact forward-invariant cone until it reaches xi=sigma.
+4. At xi=sigma the branch enters the exact forward-invariant strip with |Y|<W.
+5. The branch crosses the central rectangle strictly from right to left in finite forward time.
+6. The branch enters the exact forward-invariant contracting ball B(M,rho).
+7. The branch converges exponentially to M.
+
+
+Consequently the exact selected-branch capture event holds for F.
+
+
+4. PROOF
+
+
+4.1 Exact equilibria.
+The premise F(S)=F(M)=0 preserves the configured critical points exactly. A C^1 perturbation without this pin condition would not prove the theorem as stated.
+
+
+4.2 Universal absolute perturbation ceiling.
+By Q1,
+
+
+    eta=RW/4<=1/8192.
+
+
+Thus every constant-order certificate margin has a uniform absolute buffer, while the only deliberately shrinking margin, the central drift, is controlled relatively by RW.
+
+
+4.3 Strip boundary flux.
+For each strip-boundary point, the Euclidean component error is bounded by ||E||_2<=eta. By Q2,
+
+
+    F_Y(X,W)<=-1+eta<0,
+
+
+    F_Y(X,-W)>=1-eta>0.
+
+
+Therefore the exact strip is strictly forward invariant in its horizontal boundaries.
+
+
+4.4 Central transit.
+By Q3,
+
+
+    F_X
+      <=-3RW+eta
+      =-(11/4)RW<0
+
+
+throughout the central rectangle. Since the rectangle has finite horizontal width, every trajectory entering its right section crosses to the left section in finite forward time while remaining in the strip.
+
+
+4.5 Saddle type.
+By Q4,
+
+
+    lambda_max(DF_r^(4)(S))
+      >=1-epsilon_0/12,
+
+
+    lambda_min(DF_r^(4)(S))<-1.
+
+
+Since DF(S) and DF_r^(4)(S) are symmetric and differ in operator norm by at most
+
+
+    eta=RW/4<=1/8192,
+
+
+Weyl's inequality gives
+
+
+    lambda_max(DF(S))
+      >=1-epsilon_0/12-eta>0,
+
+
+    lambda_min(DF(S))
+      <=-1+eta<0.
+
+
+Hence S remains a nondegenerate index-one saddle with an explicit uniform spectral gap from zero.
+
+
+4.6 Exact cone invariance.
+Because E(S)=0 and sup_D||DE||_op<=eta, the mean-value theorem gives
+
+
+    ||E(S+v)||_2<=eta||v||_2
+
+
+for every segment from S to S+v contained in the saddle region.
+
+
+On a cone ray v=(-xi,t xi) with |t|<=kappa, the normalized perturbation loss in the xi-axis inequality is at most
+
+
+    eta sqrt(1+kappa^2).
+
+
+Using eta<=1/8192 and kappa<=1/16, this is smaller than 1/8000, far below the Q4 axis margin 7/8.
+
+
+The normalized perturbation loss in either cone-face expression is at most
+
+
+    eta(1+kappa)sqrt(1+kappa^2),
+
+
+which is smaller than 1/7000 and hence far below the Q4 face margin 511R>=511.
+
+
+Therefore the exact cone axis advances and both exact cone faces point strictly inward.
+
+
+4.7 Selected eigendirection and finite-time exit.
+At the symmetric exact saddle, the positive eigenspace is one-dimensional. Strict linear cone invariance forces its positive eigenline into the interior of the cone. Choose the sign by
+
+
+    e_u dot (M-S)>0.
+
+
+This is exactly the M-ward branch convention. Along the selected local unstable branch inside the cone, the axis estimate has the form
+
+
+    d xi/dt>=c xi
+
+
+for a constant c>0 retained after the perturbation loss. The branch therefore cannot stall and reaches xi=sigma in finite forward time before leaving the saddle ball.
+
+
+At the section, unchanged geometry gives
+
+
+    |Y|<=kappa sigma=W/4<W.
+
+
+Thus the exact branch enters the interior of the exact invariant strip.
+
+
+4.8 Sink contraction.
+By Q5 and the operator perturbation bound,
+
+
+    lambda_min(-DF(x))
+      >=63/128-3/64-eta
+      =57/128-eta
+      >0.44
+
+
+for every x in B(M,rho).
+
+
+Because F is a gradient field and F(M)=0, for x in the ball,
+
+
+    (x-M) dot F(x)
+      = integral_0^1
+          (x-M)^T DF(M+t(x-M))(x-M) dt
+      <=-0.44||x-M||^2.
+
+
+Hence B(M,rho) is strictly forward invariant, M is its unique equilibrium, and every trajectory entering it converges exponentially to M.
+
+
+4.9 Composition.
+The selected branch exits the saddle cone through the prescribed section, enters the invariant strip, crosses the central rectangle, reaches the left section, and by Q5 enters B(M,rho). It then converges exponentially to M. Every part of the trajectory remains in D, so no unproved far-field continuation is used. This proves the theorem. QED.
+
+
+5. EXACT TAYLOR-REMAINDER COROLLARY
+
+
+Let F_r be an exact pin-preserving C^1 gradient field on O with the same configured equilibria and let F_r^(4) be its degree-four pin-preserving comparison field. Assume a constant C_D>0, independent of r and U, satisfies
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}
+      <=C_D r^2 H_{5,r}(D).
+
+
+On the cutoff event
+
+
+    H_{5,r}(D)<=r^{-1},
+
+
+one has
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}<=C_Dr.
+
+
+On REG_r(U),
+
+
+    R^5<=epsilon_0/r,
+
+
+so
+
+
+    R^4<=(epsilon_0/r)^{4/5}.
+
+
+Since F_*>=1,
+
+
+    RW=F_*/(KR^4)>=1/(KR^4)
+       >=r^{4/5}/(K epsilon_0^{4/5}).
+
+
+Therefore
+
+
+    C_Dr/(RW)
+      <=C_DK epsilon_0^{4/5} r^{1/5}.
+
+
+Define
+
+
+    r_rob
+      =min{
+          1,
+          [4C_DK epsilon_0^{4/5}]^{-5}
+        }.
+
+
+For every 0<r<=r_rob satisfying REG_r(U) and the fifth-derivative cutoff,
+
+
+    C_Dr<=RW/4.
+
+
+The theorem therefore applies uniformly in U on the adaptive REG domain.
+
+
+This corollary is conditional on the deterministic Taylor estimate and cutoff event. It does not assert the probability of that event.
+
+
+6. EDGE CASES AND SCOPE
+
+
+PIN FAILURE.
+If F(S) or F(M) is nonzero, the critical points may move and the theorem does not apply.
+
+
+NON-GRADIENT FIELD.
+Without gradient symmetry, the symmetric-eigenvalue and contraction arguments require replacement. The theorem does not cover arbitrary nonsymmetric vector fields.
+
+
+C0-ONLY CONTROL.
+C0 closeness cannot preserve endpoint type, cone invariance, or sink contraction. C1 control is essential.
+
+
+FIXED ABSOLUTE TOLERANCE.
+The adaptive domain permits R to grow as r^{-1/5}; RW may shrink as r^{4/5}. A fixed U-independent absolute tolerance is not substituted for RW/4.
+
+
+THRESHOLD OR REG FAILURE.
+The conclusion is sufficient and conditional. Failure of REG_r or the threshold does not imply failure of capture.
+
+
+TAYLOR CUTOFF FAILURE.
+Failure of H_{5,r}(D)<=r^{-1} does not imply nonadjacency; it only prevents use of the corollary.
+
+
+EXCLUSIONS.
+This lemma does not prove:
+
+
+- the probability of the fifth-derivative cutoff;
+- P02-LM-003 or any boundary-layer probability estimate;
+- a normalizer bound;
+- determinant/Palm reweighting;
+- the O(r^3) exact-field complement;
+- P0.2;
+- a numerical accessible-r guarantee unless C_D is evaluated;
+- theorem promotion or external release.
+
+
+7. REOPENING CONDITIONS
+
+
+Reopen or amend if:
+
+
+- any imported Q1–Q5 quantitative certificate fact is corrected;
+- the C1 norm used in an application differs from the Euclidean/operator norm defined here;
+- exact pin preservation fails;
+- the field is not gradient or its Jacobian is not symmetric;
+- the certificate chart does not contain every trajectory region used in the proof;
+- RW/4 fails to preserve a gate under the stated norm;
+- the Taylor estimate uses a constant depending on U or r;
+- the branch convention differs from e_u dot (M-S)>0;
+- the result is cited as a necessary condition or as a probability theorem.
+END_FROZEN_LEMMA_BODY
+
+
+8. PROVENANCE AND STATUS
+
+
+This lemma extracts and repairs the adaptive exact-field transfer proposed in GP-DER-047-v1.0 Section 11. It is distinct from the fixed-q P0.1 repair GP-DER-186: P02-LM-004 uses an adaptive tolerance RW/4 over an unbounded polynomial-jet domain, while GP-DER-186 uses a fixed epsilon_D over a compact physical-jet box after monotone reduction in q/r.
+
+
+The branch convention has an organizationally distinct agreement artifact, CL-RSP-053-v1.0, but the complete robustness proof has not yet received a qualifying organizationally distinct review.
+
+
+Current status:
+
+
+OBJECT-FROZEN SUCCESSOR / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / NONTERMINAL.
+
+
+No P0.2 closure or promotion is claimed.
+
+
+END LCR-DER-016-v1.1

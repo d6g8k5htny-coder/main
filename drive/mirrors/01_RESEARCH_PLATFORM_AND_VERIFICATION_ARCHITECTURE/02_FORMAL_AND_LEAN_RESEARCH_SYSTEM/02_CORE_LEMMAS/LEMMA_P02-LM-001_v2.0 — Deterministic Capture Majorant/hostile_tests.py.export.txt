@@ -1,0 +1,8 @@
+﻿from fractions import Fraction
+K=4096
+epsilon=Fraction(1,1024*K)
+assert epsilon == Fraction(1,4194304)
+for R in [1,2,4]:
+    C=2*K*R**5+2*R
+    assert C>0
+print("PASS — threshold constants and monotonicity sanity checks")

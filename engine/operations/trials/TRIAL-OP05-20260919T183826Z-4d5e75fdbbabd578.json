@@ -1,0 +1,76 @@
+{
+ "Trial ID": "TRIAL-OP05-20260919T183826Z-4d5e75fdbbabd578",
+ "Problem ID / SHA-256": "7f49613ea99f6a6c0f12f4bcf20ebb61360d90612aa1cde55419ae2975f2ee93",
+ "Split": "EXPOSED_DEVELOPMENT",
+ "Operation ID": "OP05",
+ "Library / catalog SHA-256": "570d9cdebcf2113918e80a82067811dbd39f9076827c03899a1d9f88553b0513",
+ "Arm": "NONE_SINGLE_EXACT_REPLAY",
+ "Budget / cost unit": "unit=checked_equalities; budget=NONE (one deterministic exact replay, unbounded); failure rule: a computation that raises is IDENTITY_NOT_REPRODUCED and charged 1",
+ "Seed / environment": {
+  "seed": "NONE (deterministic; no randomness anywhere in the computation)",
+  "python": "3.11.15",
+  "implementation": "CPython",
+  "platform": "Linux",
+  "repository_commit_at_run": "6c6f47b7884651b2330ab1380155f667caad0178",
+  "runner": "engine/operations/trial.py"
+ },
+ "Verified result": "IDENTITY_REPRODUCED",
+ "Search cost": "NOT_MEASURED",
+ "Retrieval cost": "NOT_MEASURED",
+ "Verification cost": 3,
+ "Acquisition cost": "NOT_MEASURED",
+ "Maintenance cost": "NOT_MEASURED",
+ "Timeout / failure charge": 0,
+ "Run evidence": {
+  "record_schema": "q0.operation.trial/v1",
+  "trial_kind": "EXACT_IDENTITY",
+  "identity_displayed": "A=B=1, C=1/4 gives LHS=1/4 but wrong RHS=1/16",
+  "reproduces": "the displayed witness only: LHS = |ABC| = 1/4, the wrong RHS (E A^4 E B^4)^(1/4) (E C^4)^(1/2) = 1/16 by exact integer roots, and the strict comparison 1/4 > 1/16 the cell's 'but' states; the corrected RHS (E C^2)^(1/2) of OP04 is not evaluated at the witness because the cell does not display it",
+  "identity_spec": {
+   "displayed": "A=B=1, C=1/4 gives LHS=1/4 but wrong RHS=1/16",
+   "kind": "rational_witness",
+   "reproduces": "the displayed witness only: LHS = |ABC| = 1/4, the wrong RHS (E A^4 E B^4)^(1/4) (E C^4)^(1/2) = 1/16 by exact integer roots, and the strict comparison 1/4 > 1/16 the cell's 'but' states; the corrected RHS (E C^2)^(1/2) of OP04 is not evaluated at the witness because the cell does not display it",
+   "A": "1",
+   "B": "1",
+   "C": "1/4",
+   "expected_lhs": "1/4",
+   "expected_wrong_rhs": "1/16"
+  },
+  "arithmetic": "exact rational (fractions.Fraction); constants as (rational coefficient, exponent vector) monomials; exact integer roots; no floats anywhere",
+  "steps": [
+   {
+    "statement": "LHS = |ABC| at the deterministic witness",
+    "lhs": "1/4",
+    "rhs": "1/4",
+    "equal": true
+   },
+   {
+    "statement": "wrong RHS = (E A^4 E B^4)^(1/4) (E C^4)^(1/2) at the witness",
+    "lhs": "1/16",
+    "rhs": "1/16",
+    "equal": true
+   },
+   {
+    "statement": "the wrong bound fails at the witness: LHS > wrong RHS",
+    "lhs": true,
+    "rhs": true,
+    "equal": true
+   }
+  ],
+  "checked_equalities": 3,
+  "all_equal": true,
+  "failure": null,
+  "utc": "2026-09-19T18:38:26.054587Z",
+  "reason_not_run": null
+ },
+ "Scope / constraints": "claim=universal_442_with_C4_half",
+ "Notes": "Do not infer (register, verbatim): Do not ban every function named envelope_v or every fourth moment. Bind historical holds to their exact source/version and claim; do not invalidate RN3, which uses the correct moment. | Trial kind: EXACT_IDENTITY | A trial is a record of a computation, not evidence; it moves no status. | Register cells, verbatim: Utility: UNMEASURED; Novelty: NOT_ASSESSED.",
+ "does_not_establish": [
+  "A trial is a record that an exact computation ran on a register cell. It is not evidence, not a review verdict and not a status, and it warrants nothing; it moves no claim, premise, obligation, gate or grade, and it earns no independence credit for anything.",
+  "The witness A=B=1, C=1/4 is one deterministic point. It reproduces the register's refutation of the wrong universal bound at that point and says nothing about any field value, any RN3 number or any consumer beyond what the RN5 source says; RN5's own Gaussian witness is not replayed, and the corrected bound of OP04 is not evaluated at the point because the cell does not display that.",
+  "IDENTITY_REPRODUCED means only that the algebra the Action / output cell displays was reproduced in exact arithmetic from the cell alone. It does not establish that the operation's premises hold in any application, that any caller meets its Required scope, or that the source object the cell cites is correct.",
+  "Utility remains UNMEASURED and Novelty remains NOT_ASSESSED, as the register says; this trial measures neither. It is an exposed development check on the register's own displayed cell, not a held-out trial; Utility stays UNMEASURED and Novelty stays NOT_ASSESSED, and no gain of either sign is assigned to the operation.",
+  "The five validity premises of Theorem D1 v2.2(2) are OPEN and D3-LEMMA-RN-UNIF remains open. Nothing recorded here composes the 2D upper or lower tracks with the 3D lifetime track, and no original prize problem is solved."
+ ],
+ "authority": "NONE — a trial is a record of a computation, not evidence"
+}

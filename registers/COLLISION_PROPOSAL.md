@@ -1,0 +1,2002 @@
+# COLLISION PROPOSAL — GP-REG-032-v1.2 register defects
+
+> **THIS IS A PROPOSAL. IT REQUIRES OPERATOR ACTION.**
+> **Nothing has been repaired.** No register row was edited, merged, deleted, reordered or
+> reclassified. The 2026-09-17 export remains faithful: `registers/source/`, `registers/json/`
+> and `registers/csv/` are byte-identical to `git HEAD`, and `tools/collision_proposal_check.py`
+> fails if that stops being true.
+
+> **Status discipline.** Every claim, premise and obligation stands exactly as its source
+> records it; nothing in this document moves one, and every gate remains where it was. No
+> original prize problem is solved. The 2D upper/lower tracks are not composed with the 3D
+> lifetime track anywhere in this document. (Stated as a positive because
+> `reviews/SCHEMA.md` §4 rule 5 makes the promotion-language check literal, with no negation
+> escape — the rule would be hollow if these sibling documents exempted themselves.)
+
+## What this is
+
+`registers/KNOWN_FINDINGS.json` records **16 structural defects in the source registers**: six
+duplicate artifact IDs in the Artifact Index, seven duplicate Transition IDs in the Transition Log,
+and three Quarantine Index rows carrying a class `OP-PROT-019 §6` does not define. This document
+proposes, for each of the 16, a remedy drawn from the protocols' own text and from the workbook's
+own executed precedents. It executes none of them.
+
+The machine-readable form is [`registers/collision_proposal.json`](collision_proposal.json).
+The checker is `tools/collision_proposal_check.py`; the tests are `tests/test_collision_proposal.py`.
+
+### Source of record
+
+| | |
+|---|---|
+| Export | `registers/source/GP-REG-032_v1.2_export_2026-09-17.md` |
+| SHA-256 | `57d9078b9b7dbf285713e4fb50b8143d9cf4322bf486a9296c7becdd5edf8b71` |
+| Bytes | 2,209,031 |
+| Findings file | `registers/KNOWN_FINDINGS.json (16 findings)` |
+| Records | 16 (one per finding key) |
+
+Every row quoted below is the byte string on the stated 1-based line of that export, with its own
+SHA-256 recorded in the JSON. Row indices are the 0-based indices `tools/registers_check.py` prints.
+
+### Reviewer standing and independence
+
+- **Session family:** Anthropic. **Role:** PROPOSAL AUTHOR — NOT A REVIEWER.
+- **`independence_credit = 0`.** This session is Anthropic-family. OP-PROT-019-v1.1 R17 §4 permits a fresh nonauthor session of any provider to perform technical review, but records organizational independence separately and at ZERO for a same-provider reviewer. Independently of that, a PROPOSAL is not a review at all: it licenses no technical verdict and no independence credit on any object, for any provider.
+- **Every independence-requiring gate REMAINS OPEN.** Every independence-requiring gate in this program REMAINS OPEN, unchanged by this document, regardless of any technical judgement expressed here. Nothing in this proposal is a technical pass, and no technical pass would satisfy an independence predicate in any case (R17 §4: 'Never relabel an independence-required theorem terminal solely because its technical review passed.').
+- **Authorship of the objects examined.** The Artifact Index rows for GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1 record Org 'GP / OpenAI'; the remaining objects record Org 'GP'. The author family is therefore not Anthropic for at least three of them. This changes nothing: the credit recorded here is zero because a proposal licenses zero, not because of provider matching.
+
+### What this document does NOT establish
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+### The collision registry this proposal writes to
+
+The workbook's append-only collision registry is the 'Duplicate Flags' tab of GP-REG-032-v1.2 (registers/json/duplicate_flags.json), which already carries 31 collision clusters including DUP-ID-GP-DER-044, the collision OP-CNS-001 §2 names by hand.
+
+`OP-CNS-001-R0.2 §2` requires that *"A later collision is preserved and disambiguated; historical
+artifacts are not silently rewritten"*, that the program *"Maintain an append-only collision
+registry"*, and that *"Gaps or duplicates require an additive provenance disclosure."* The remedy
+below is that remedy, not a substitute for it.
+
+### Operation discipline
+
+No operation in this proposal edits, merges, deletes or reorders any existing row in any register. Cell rewrites in the SOURCE workbook that a full remedy would eventually require are listed separately under each record's non_additive_followups, marked operator_reserved, and are explicitly NOT proposed for autonomous execution.
+
+- Allowed executable operations: `APPEND_ROW`.
+- Every record's `operations` block contains appends only.
+- Cell rewrites that a full remedy would eventually need appear under `non_additive_followups`,
+  marked `operator_reserved: true`, and are **explicitly not proposed for autonomous execution**.
+  They would change the export bytes and break `tools/registers_import.py --check` until a fresh
+  export is taken. That is the operator's call, not this document's.
+
+### Batch-level artifacts that would also be appended
+
+- **NCC-REG032-COLLISION-20260918-001** — Records that the whole batch changes no mathematical statement, no schema, no verifier and no status. Precedent: NCC-P01-TR007-COLLISION, the certificate the workbook issued for its own TR-P01-007 collision repair.
+- **GP-COR-204** — Next unused number above the exported GP-COR maximum GP-COR-203. Precedent: GP-COR-190 (Help Board key collisions), GP-COR-192 (P02-LM012 multi-ID collision), cited in the Duplicate Flags rows for those repairs..
+- Both are PROPOSED identifiers. Neither is created by this document.
+
+### A note on the record count
+
+registers/KNOWN_FINDINGS.json lists TR-P01-011 twice ('rows 54 and 55' and 'rows 54 and 56'). Those are two facets of ONE three-row collision. One proposal record is written per FINDING KEY so the mapping to KNOWN_FINDINGS is a bijection; the two TR-P01-011 records share a keeper (row 55) and issue distinct successors for rows 54 and 56.
+
+---
+
+## Part 1 — Six duplicate artifact IDs in the Artifact Index
+
+All six pairs share one property the finding text does not state and that changes the remedy:
+**both rows of every pair cite the SAME Drive document.** These are therefore duplicate *register
+rows* describing one artifact, not two artifacts that collided on a name. `OP-CNS-001 §2`'s worked
+example (the two GP-DER-044 objects) and its acceptance test T7 (*"same declared ID with different
+Drive IDs remains separate"*) both concern the other case. Minting a second declared artifact ID
+here would create a second identity for one Drive object, so **no new artifact ID is proposed**;
+what is disambiguated is the register row key.
+
+| Artifact ID | Keeper row | Reidentified row | Proposed successor row key | Shared Drive source |
+|---|---|---|---|---|
+| `GP-DER-118-v1.2` | 92 (line 967) | 95 (line 970) | `GP-DER-118-v1.2@AIDX-R95` | https://docs.google.com/document/d/1JYo19Ws2ERYLIayxIhbxHWQKIGj4BKExpk1250TZ7Nc/edit |
+| `GP-AUD-119-v1.0` | 93 (line 968) | 96 (line 971) | `GP-AUD-119-v1.0@AIDX-R96` | https://docs.google.com/document/d/18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo_82XnV_LhM/edit |
+| `GP-PRP-121-v1.1` | 94 (line 969) | 97 (line 972) | `GP-PRP-121-v1.1@AIDX-R97` | https://docs.google.com/document/d/15VitL3ucNOF3SqoRhBGr0jXl6ozBceBqtbj6yBN6Txk/edit |
+| `GP-AUD-144-v1.0` | 136 (line 1011) | 139 (line 1014) | `GP-AUD-144-v1.0@AIDX-R139` | https://docs.google.com/document/d/1ZYBTWvl75FatSXmgm-hUGAGyUYCKAP46hmAabOB6T64/edit |
+| `GP-DER-143-v1.1` | 137 (line 1012) | 142 (line 1017) | `GP-DER-143-v1.1@AIDX-R142` | https://docs.google.com/document/d/1jEqiyb3ifvF1SS2kee36Q949KTUqR_N9on-uITC5KPc/edit |
+| `GP-REQ-144-v1.1` | 138 (line 1013) | 143 (line 1018) | `GP-REQ-144-v1.1@AIDX-R143` | https://docs.google.com/document/d/1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8/edit |
+
+**Keeper rule, applied mechanically to all six.** Earlier confirmed append position. `R17 §3`:
+*"Use the confirmed append position to order contenders, not a self-reported timestamp."* The
+workbook's own Artifact Index precedent, Duplicate Flags cluster `DUP-REG-ARTIFACT-INDEX-GP197-20260724`,
+resolves same-Drive-object register-row duplicates by *"first rows control; later rows reidentified
+… with unique keys; preserve additively."* The rule is applied mechanically so that no pair is
+resolved by this session's reading of its status text.
+
+**Keeping the bare key is a KEY assignment, not a currency verdict.** It does not make the keeper
+row's status text current, nor the reidentified row's status text stale.
+
+### 1.1 `GP-DER-118-v1.2`
+
+> Finding key: `artifact_index: duplicate key 'GP-DER-118-v1.2' at rows 92 and 95`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/1JYo19Ws2ERYLIayxIhbxHWQKIGj4BKExpk1250TZ7Nc/edit.
+
+#### Row 92 — proposed KEEPER, verbatim
+
+Export line **967**, register row index **92**, 620 bytes, SHA-256 `be5bfb26b38efdc5…`:
+
+```text
+| GP-DER-118-v1.2 | Exact Full-Field Normalizer and Uniform P0.1 Positivity Synthesis — Weak-Convergence Revision | GP | DER | P0 | P0.1; exact field; normalizer; weak convergence; uniform integrability; fixed-q | SOLE ACTIVE GP-SIDE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN | NONE — no promotion authority | Supersedes v1.1 and combined-theorem review lineage; preserves populated v1.0 component provenance | 2026-07-22T06:45:00Z | https://docs.google.com/document/d/1JYo19Ws2ERYLIayxIhbxHWQKIGj4BKExpk1250TZ7Nc/edit | Corrected normalizer convergence uses distributional convergence plus uniform integrability. |
+```
+
+#### Row 95 — proposed REIDENTIFIED row, verbatim
+
+Export line **970**, register row index **95**, 571 bytes, SHA-256 `c5c219948ecbcec9…`:
+
+```text
+| GP-DER-118-v1.2 | Exact Full-Field Normalizer and Uniform P0.1 Positivity Synthesis — Weak-Convergence Revision | GP | DER | P0 | P0.1; exact full-field Palm; Revision 1.2; weak convergence; uniform integrability | SOLE ACTIVE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN / NO PROMOTION | NONE | Supersedes GP-DER-118-v1.1 and prior theorem review surfaces; governed by GP-AUD-119 and GP-PRP-121-v1.1 | 2026-07-22T06:40:00Z | https://docs.google.com/document/d/1JYo19Ws2ERYLIayxIhbxHWQKIGj4BKExpk1250TZ7Nc/edit | Candidate theorem only; no canonical or machine effect |
+```
+
+#### Where the two rows differ
+
+| Field | Row 92 (keeper) | Row 95 (reidentified) |
+|---|---|---|
+| **Topics / object tags** | P0.1; exact field; normalizer; weak convergence; uniform integrability; fixed-q | P0.1; exact full-field Palm; Revision 1.2; weak convergence; uniform integrability |
+| **Status** | SOLE ACTIVE GP-SIDE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN | SOLE ACTIVE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN / NO PROMOTION |
+| **Authority / canonical impact** | NONE — no promotion authority | NONE |
+| **Dependencies or supersession** | Supersedes v1.1 and combined-theorem review lineage; preserves populated v1.0 component provenance | Supersedes GP-DER-118-v1.1 and prior theorem review surfaces; governed by GP-AUD-119 and GP-PRP-121-v1.1 |
+| **Modified UTC** | 2026-07-22T06:45:00Z | 2026-07-22T06:40:00Z |
+| **Notes** | Corrected normalizer convergence uses distributional convergence plus uniform integrability. | Candidate theorem only; no canonical or machine effect |
+
+Identical in both rows: `Artifact ID`, `Title`, `Org`, `Class`, `Priority`, `Source`.
+
+**Materiality.** Row 92 scopes the object as the 'SOLE ACTIVE GP-SIDE THEOREM REVIEW OBJECT'; row 95 drops the GP-SIDE qualifier and reads 'SOLE ACTIVE THEOREM REVIEW OBJECT ... / NO PROMOTION'. The unqualified form is strictly broader. The dependency cells also differ. This is a material content difference under OP-CNS-001 §1, not a formatting variant.
+
+**Corroborating register evidence.** The Transition Log carries three inconsistent readings of the same object under one key: TR-P01-011 row 54 (06:35Z) states the governing stack remains GP-DER-118-v1.0 and that v1.2 is 'only a same-line weak-convergence cross-check', while rows 55 (06:45Z) and 56 (06:40Z) state v1.2 is the sole active theorem review object. The Artifact Index collision sits directly on top of that unresolved Transition Log collision.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 92** (export line 967) keeps `GP-DER-118-v1.2`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 95 → `GP-DER-118-v1.2@AIDX-R95`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-DER-118-v1.2@2026-07-22T06:40:00Z). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPDER118v12-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 92 (export line 967) — GP-DER-118-v1.2 — Status: SOLE ACTIVE GP-SIDE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN |
+| `File B` | Artifact Index row 95 (export line 970) — GP-DER-118-v1.2 — Status: SOLE ACTIVE THEOREM REVIEW OBJECT / NON-GP REVIEW OPEN / NO PROMOTION |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/1JYo19Ws2ERYLIayxIhbxHWQKIGj4BKExpk1250TZ7Nc/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 92 as GP-DER-118-v1.2; register row 95 additively under compound key GP-DER-118-v1.2@AIDX-R95; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 95, column 'Artifact ID'; `GP-DER-118-v1.2` → `GP-DER-118-v1.2@AIDX-R95`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Whether the GP-SIDE qualifier belongs in the current status is unresolved by the export alone and is not resolved here.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 1.2 `GP-AUD-119-v1.0`
+
+> Finding key: `artifact_index: duplicate key 'GP-AUD-119-v1.0' at rows 93 and 96`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo_82XnV_LhM/edit.
+
+#### Row 93 — proposed KEEPER, verbatim
+
+Export line **968**, register row index **93**, 499 bytes, SHA-256 `4cefb79a460eadc4…`:
+
+```text
+| GP-AUD-119-v1.0 | Adversarial Audit of the Exact Full-Field Normalizer and P0.1 Synthesis | GP | AUD | P0 | P0.1; revision trigger; weak convergence; normalizer; object audit | NUMBERED-REVISION TRIGGER / CORE ARGUMENT SURVIVES | NONE | Triggers GP-DER-118-v1.2; supersedes v1.1 for review | 2026-07-22T06:45:00Z | https://docs.google.com/document/d/18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo\_82XnV\_LhM/edit | Rejects unnamed almost-sure coupling; requires weak convergence plus uniform integrability. |
+```
+
+#### Row 96 — proposed REIDENTIFIED row, verbatim
+
+Export line **971**, register row index **96**, 427 bytes, SHA-256 `204d633861705413…`:
+
+```text
+| GP-AUD-119-v1.0 | Adversarial Audit and Revision Trigger for GP-DER-118 | GP | AUD/ERR | P0 | P0.1; convergence mode; numbered revision | GOVERNING REVISION AUDIT / SAME-LINE ONLY | NONE | Triggers and validates Revision 1.2 correction; no independence credit | 2026-07-22T06:40:00Z | https://docs.google.com/document/d/18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo\_82XnV\_LhM/edit | Weak-convergence/uniform-integrability correction |
+```
+
+#### Where the two rows differ
+
+| Field | Row 93 (keeper) | Row 96 (reidentified) |
+|---|---|---|
+| **Title** | Adversarial Audit of the Exact Full-Field Normalizer and P0.1 Synthesis | Adversarial Audit and Revision Trigger for GP-DER-118 |
+| **Class** | AUD | AUD/ERR |
+| **Topics / object tags** | P0.1; revision trigger; weak convergence; normalizer; object audit | P0.1; convergence mode; numbered revision |
+| **Status** | NUMBERED-REVISION TRIGGER / CORE ARGUMENT SURVIVES | GOVERNING REVISION AUDIT / SAME-LINE ONLY |
+| **Dependencies or supersession** | Triggers GP-DER-118-v1.2; supersedes v1.1 for review | Triggers and validates Revision 1.2 correction; no independence credit |
+| **Modified UTC** | 2026-07-22T06:45:00Z | 2026-07-22T06:40:00Z |
+| **Notes** | Rejects unnamed almost-sure coupling; requires weak convergence plus uniform integrability. | Weak-convergence/uniform-integrability correction |
+
+Identical in both rows: `Artifact ID`, `Org`, `Priority`, `Authority / canonical impact`, `Source`.
+
+**Materiality.** The two rows carry different Titles, different Class values ('AUD' vs 'AUD/ERR'), different Status text, different Topics and different Dependencies. Row 96's dependency cell carries the explicit disclosure 'no independence credit'; row 93's does not. A consumer reading row 93 alone would not see that disclosure.
+
+**Corroborating register evidence.** OP-PROT-019 §4 records reviewer independence as a field separate from the technical verdict; the zero-credit disclosure is therefore load-bearing and must survive whichever row is ratified as the keeper.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 93** (export line 968) keeps `GP-AUD-119-v1.0`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 96 → `GP-AUD-119-v1.0@AIDX-R96`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-AUD-119-v1.0@2026-07-22T06:40:00Z). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPAUD119v10-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 93 (export line 968) — GP-AUD-119-v1.0 — Status: NUMBERED-REVISION TRIGGER / CORE ARGUMENT SURVIVES |
+| `File B` | Artifact Index row 96 (export line 971) — GP-AUD-119-v1.0 — Status: GOVERNING REVISION AUDIT / SAME-LINE ONLY |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo_82XnV_LhM/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 93 as GP-AUD-119-v1.0; register row 96 additively under compound key GP-AUD-119-v1.0@AIDX-R96; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 96, column 'Artifact ID'; `GP-AUD-119-v1.0` → `GP-AUD-119-v1.0@AIDX-R96`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Which Title is the artifact's own declared title is not determinable from the export; both rows cite one Drive ID (18kO6yf7sMGQiufseMAI6l8m9X5QDe0evo_82XnV_LhM) whose body was not fetched for this proposal.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 1.3 `GP-PRP-121-v1.1`
+
+> Finding key: `artifact_index: duplicate key 'GP-PRP-121-v1.1' at rows 94 and 97`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/15VitL3ucNOF3SqoRhBGr0jXl6ozBceBqtbj6yBN6Txk/edit.
+
+#### Row 94 — proposed KEEPER, verbatim
+
+Export line **969**, register row index **94**, 480 bytes, SHA-256 `dc7a10a8ab69d9c0…`:
+
+```text
+| GP-PRP-121-v1.1 | Revised Independent Multi-Line Review Package for GP-DER-118 Revision 1.2 | GP | PRP | P0 | P0.1; Revision 1.2; review routing; AO48; CW; CL | SOLE ACTIVE REVIEW ROUTING / NO PROMOTION AUTHORITY | NONE | Supersedes GP-PRP-121-v1.0 for active routing | 2026-07-22T06:45:00Z | https://docs.google.com/document/d/15VitL3ucNOF3SqoRhBGr0jXl6ozBceBqtbj6yBN6Txk/edit | Requires revision-specific verdicts and at least two distinct non-GP lines covering all domains. |
+```
+
+#### Row 97 — proposed REIDENTIFIED row, verbatim
+
+Export line **972**, register row index **97**, 486 bytes, SHA-256 `02ed513cda99629e…`:
+
+```text
+| GP-PRP-121-v1.1 | Revised Independent Multi-Line Review Package for GP-DER-118 Revision 1.2 | GP | PRP/REVIEW-PACKAGE | P0 | P0.1; independent review; Revision 1.2 | SUPERSEDED FOR ACTIVE ROUTING / PRESERVED PROVENANCE | NONE | Superseded by GP-PRP-121-v1.2 after GP-AUD-122-v1.2 current-body audit | 2026-07-22T07:25:00Z | https://docs.google.com/document/d/15VitL3ucNOF3SqoRhBGr0jXl6ozBceBqtbj6yBN6Txk/edit | Revision 1.2 routing provenance only; approvals against it do not count |
+```
+
+#### Where the two rows differ
+
+| Field | Row 94 (keeper) | Row 97 (reidentified) |
+|---|---|---|
+| **Class** | PRP | PRP/REVIEW-PACKAGE |
+| **Topics / object tags** | P0.1; Revision 1.2; review routing; AO48; CW; CL | P0.1; independent review; Revision 1.2 |
+| **Status** | SOLE ACTIVE REVIEW ROUTING / NO PROMOTION AUTHORITY | SUPERSEDED FOR ACTIVE ROUTING / PRESERVED PROVENANCE |
+| **Dependencies or supersession** | Supersedes GP-PRP-121-v1.0 for active routing | Superseded by GP-PRP-121-v1.2 after GP-AUD-122-v1.2 current-body audit |
+| **Modified UTC** | 2026-07-22T06:45:00Z | 2026-07-22T07:25:00Z |
+| **Notes** | Requires revision-specific verdicts and at least two distinct non-GP lines covering all domains. | Revision 1.2 routing provenance only; approvals against it do not count |
+
+Identical in both rows: `Artifact ID`, `Title`, `Org`, `Priority`, `Authority / canonical impact`, `Source`.
+
+**Materiality.** Row 94 reads 'SOLE ACTIVE REVIEW ROUTING / NO PROMOTION AUTHORITY' at Modified UTC 2026-07-22T06:45:00Z; row 97 reads 'SUPERSEDED FOR ACTIVE ROUTING / PRESERVED PROVENANCE' at 2026-07-22T07:25:00Z and names GP-PRP-121-v1.2 as successor. These are opposite operative states.
+
+**Corroborating register evidence.** Transition Log row 58 (TR-P01-012, 06:55Z) states 'GP-PRP-121-v1.2 is the sole active multi-line review package', which corroborates row 97's later reading. THIS IS THE ONE PAIR WHERE THE APPEND-POSITION KEEPER RULE AND THE CURRENCY EVIDENCE POINT APART.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 94** (export line 969) keeps `GP-PRP-121-v1.1`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 97 → `GP-PRP-121-v1.1@AIDX-R97`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-PRP-121-v1.1@2026-07-22T07:25:00Z). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPPRP121v11-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 94 (export line 969) — GP-PRP-121-v1.1 — Status: SOLE ACTIVE REVIEW ROUTING / NO PROMOTION AUTHORITY |
+| `File B` | Artifact Index row 97 (export line 972) — GP-PRP-121-v1.1 — Status: SUPERSEDED FOR ACTIVE ROUTING / PRESERVED PROVENANCE |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/15VitL3ucNOF3SqoRhBGr0jXl6ozBceBqtbj6yBN6Txk/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 94 as GP-PRP-121-v1.1; register row 97 additively under compound key GP-PRP-121-v1.1@AIDX-R97; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 97, column 'Artifact ID'; `GP-PRP-121-v1.1` → `GP-PRP-121-v1.1@AIDX-R97`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- The operator should consider whether the keeper for this pair ought to be row 97 rather than row 94. This proposal does not decide it; it flags it and applies the append-position rule uniformly so that the recommendation is mechanical and auditable rather than selective.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 1.4 `GP-AUD-144-v1.0`
+
+> Finding key: `artifact_index: duplicate key 'GP-AUD-144-v1.0' at rows 136 and 139`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/1ZYBTWvl75FatSXmgm-hUGAGyUYCKAP46hmAabOB6T64/edit.
+
+#### Row 136 — proposed KEEPER, verbatim
+
+Export line **1011**, register row index **136**, 588 bytes, SHA-256 `9c333cb9fff735b7…`:
+
+```text
+| GP-AUD-144-v1.0 | Adversarial Reconciliation of GP-DER-143 with Frozen GP-DER-118-v1.3 | GP / OpenAI | AUD / ERR / ROUTING | P0 | P0.1; GP-DER-143; compact small-ball; frozen theorem; U1/U2/U3 | AMEND-AND-REROUTE / NO INDEPENDENT CREDIT | Same-line audit only; corrects proof wording and review routing; no theorem authority. | GP-DER-143-v1.0; GP-REQ-144-v1.0; GP-DATA-123; GP-PRP-121-v1.3 | 2026-07-23 | https://docs.google.com/document/d/1ZYBTWvl75FatSXmgm-hUGAGyUYCKAP46hmAabOB6T64/edit | Lemma conclusion valid after repair; U1 genuinely open; U2/U3 routed to frozen Domains D/G. |
+```
+
+#### Row 139 — proposed REIDENTIFIED row, verbatim
+
+Export line **1014**, register row index **139**, 518 bytes, SHA-256 `8bb3306bae794059…`:
+
+```text
+| GP-AUD-144-v1.0 | Adversarial Reconciliation of GP-DER-143 with Frozen GP-DER-118-v1.3 | GP / OpenAI | AUD / ERR | P0 | P0.1; U1; U2; U3; frozen hash; routing | AMEND-AND-REROUTE / SAME-LINE AUDIT | No independent theorem-review credit; identifies repair and routing correction only. | GP-DER-143-v1.0; GP-DATA-123; GP-PRP-121-v1.3 | 2026-07-23 | https://docs.google.com/document/d/1ZYBTWvl75FatSXmgm-hUGAGyUYCKAP46hmAabOB6T64/edit | Conclusion survives; proof wording repaired; U2/U3 belong to frozen Domains D/G. |
+```
+
+#### Where the two rows differ
+
+| Field | Row 136 (keeper) | Row 139 (reidentified) |
+|---|---|---|
+| **Class** | AUD / ERR / ROUTING | AUD / ERR |
+| **Topics / object tags** | P0.1; GP-DER-143; compact small-ball; frozen theorem; U1/U2/U3 | P0.1; U1; U2; U3; frozen hash; routing |
+| **Status** | AMEND-AND-REROUTE / NO INDEPENDENT CREDIT | AMEND-AND-REROUTE / SAME-LINE AUDIT |
+| **Authority / canonical impact** | Same-line audit only; corrects proof wording and review routing; no theorem authority. | No independent theorem-review credit; identifies repair and routing correction only. |
+| **Dependencies or supersession** | GP-DER-143-v1.0; GP-REQ-144-v1.0; GP-DATA-123; GP-PRP-121-v1.3 | GP-DER-143-v1.0; GP-DATA-123; GP-PRP-121-v1.3 |
+| **Notes** | Lemma conclusion valid after repair; U1 genuinely open; U2/U3 routed to frozen Domains D/G. | Conclusion survives; proof wording repaired; U2/U3 belong to frozen Domains D/G. |
+
+Identical in both rows: `Artifact ID`, `Title`, `Org`, `Priority`, `Modified UTC`, `Source`.
+
+**Materiality.** Status differs ('AMEND-AND-REROUTE / NO INDEPENDENT CREDIT' vs 'AMEND-AND-REROUTE / SAME-LINE AUDIT'), Class differs ('AUD / ERR / ROUTING' vs 'AUD / ERR'), and the dependency sets differ: row 136 additionally names GP-REQ-144-v1.0. Topics and Notes differ.
+
+**Corroborating register evidence.** Both rows record Org 'GP / OpenAI'. The author family here is not Anthropic. That changes nothing about this session's credit: a proposal is not a review and licenses no independence credit whatsoever, and this session is Anthropic-family and records independence_credit = 0 regardless.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 136** (export line 1011) keeps `GP-AUD-144-v1.0`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 139 → `GP-AUD-144-v1.0@AIDX-R139`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-AUD-144-v1.0@2026-07-23). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPAUD144v10-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 136 (export line 1011) — GP-AUD-144-v1.0 — Status: AMEND-AND-REROUTE / NO INDEPENDENT CREDIT |
+| `File B` | Artifact Index row 139 (export line 1014) — GP-AUD-144-v1.0 — Status: AMEND-AND-REROUTE / SAME-LINE AUDIT |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/1ZYBTWvl75FatSXmgm-hUGAGyUYCKAP46hmAabOB6T64/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 136 as GP-AUD-144-v1.0; register row 139 additively under compound key GP-AUD-144-v1.0@AIDX-R139; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 139, column 'Artifact ID'; `GP-AUD-144-v1.0` → `GP-AUD-144-v1.0@AIDX-R139`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Whether GP-REQ-144-v1.0 is a live dependency of this audit is unresolved by the export alone.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 1.5 `GP-DER-143-v1.1`
+
+> Finding key: `artifact_index: duplicate key 'GP-DER-143-v1.1' at rows 137 and 142`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/1jEqiyb3ifvF1SS2kee36Q949KTUqR_N9on-uITC5KPc/edit.
+
+#### Row 137 — proposed KEEPER, verbatim
+
+Export line **1012**, register row index **137**, 567 bytes, SHA-256 `eb57487b7d7151eb…`:
+
+```text
+| GP-DER-143-v1.1 | Corrected Compact Small-Ball Lemma and Alternate U1 Route | GP / OpenAI | DER / COR | P0 | P0.1; U1; conditional Gaussian small balls; alternate proof route | CORRECTED ALTERNATE ROUTE / U1 OPEN / NO PROMOTION | No authority; does not supersede frozen GP-DER-118 theorem. | Supersedes GP-DER-143-v1.0 for alternate-route review; governed by GP-AUD-144. | 2026-07-23 | https://docs.google.com/document/d/1jEqiyb3ifvF1SS2kee36Q949KTUqR\_N9on-uITC5KPc/edit | Correct Portmanteau lower-semicontinuity proof; conditional theorem remains U1-dependent. |
+```
+
+#### Row 142 — proposed REIDENTIFIED row, verbatim
+
+Export line **1017**, register row index **142**, 539 bytes, SHA-256 `d772beeee99909b6…`:
+
+```text
+| GP-DER-143-v1.1 | Corrected Compact Small-Ball Lemma and Alternate U1 Route | GP / OpenAI | DER / COR | P0 | P0.1; compact moving ball; U1 alternate route; frozen routing | AUTHORITATIVE ACTIVE v1.1 / U1 OPEN | No theorem or canonical authority; alternate conditional route only. | Supersedes GP-DER-143-v1.0 for alternate review; does not supersede frozen GP-DATA-123. | 2026-07-23 | https://docs.google.com/document/d/1jEqiyb3ifvF1SS2kee36Q949KTUqR\_N9on-uITC5KPc/edit | First complete v1.1 publication; active under GP-COR-145-v1.0. |
+```
+
+#### Where the two rows differ
+
+| Field | Row 137 (keeper) | Row 142 (reidentified) |
+|---|---|---|
+| **Topics / object tags** | P0.1; U1; conditional Gaussian small balls; alternate proof route | P0.1; compact moving ball; U1 alternate route; frozen routing |
+| **Status** | CORRECTED ALTERNATE ROUTE / U1 OPEN / NO PROMOTION | AUTHORITATIVE ACTIVE v1.1 / U1 OPEN |
+| **Authority / canonical impact** | No authority; does not supersede frozen GP-DER-118 theorem. | No theorem or canonical authority; alternate conditional route only. |
+| **Dependencies or supersession** | Supersedes GP-DER-143-v1.0 for alternate-route review; governed by GP-AUD-144. | Supersedes GP-DER-143-v1.0 for alternate review; does not supersede frozen GP-DATA-123. |
+| **Notes** | Correct Portmanteau lower-semicontinuity proof; conditional theorem remains U1-dependent. | First complete v1.1 publication; active under GP-COR-145-v1.0. |
+
+Identical in both rows: `Artifact ID`, `Title`, `Org`, `Class`, `Priority`, `Modified UTC`, `Source`.
+
+**Materiality.** Row 137 reads 'CORRECTED ALTERNATE ROUTE / U1 OPEN / NO PROMOTION'; row 142 reads 'AUTHORITATIVE ACTIVE v1.1 / U1 OPEN'. 'AUTHORITATIVE ACTIVE' and 'NO PROMOTION' are different authority claims about one Drive object.
+
+**Corroborating register evidence.** The Duplicate Flags tab ALREADY carries cluster DUP-ID-GP-DER-143-v1.1, but that entry registers a DIFFERENT collision: A-line Drive ID 1jEqiyb3ifvF1SS2kee36Q949KTUqR_N9on-uITC5KPc against B-line 1Wwp1lzS_wK6dm2DRMwFx87bMVd-P1Apx8SMsZuDTU7k. BOTH Artifact Index rows 137 and 142 cite the A-line ID. The existing registry entry therefore does NOT cover this register-row duplication, and a reader could wrongly believe it does.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 137** (export line 1012) keeps `GP-DER-143-v1.1`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 142 → `GP-DER-143-v1.1@AIDX-R142`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-DER-143-v1.1@2026-07-23). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPDER143v11-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 137 (export line 1012) — GP-DER-143-v1.1 — Status: CORRECTED ALTERNATE ROUTE / U1 OPEN / NO PROMOTION |
+| `File B` | Artifact Index row 142 (export line 1017) — GP-DER-143-v1.1 — Status: AUTHORITATIVE ACTIVE v1.1 / U1 OPEN |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/1jEqiyb3ifvF1SS2kee36Q949KTUqR_N9on-uITC5KPc/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 137 as GP-DER-143-v1.1; register row 142 additively under compound key GP-DER-143-v1.1@AIDX-R142; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 142, column 'Artifact ID'; `GP-DER-143-v1.1` → `GP-DER-143-v1.1@AIDX-R142`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Row 142's note 'active under GP-COR-145-v1.0' is not corroborated elsewhere in the exported tabs inspected for this proposal.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 1.6 `GP-REQ-144-v1.1`
+
+> Finding key: `artifact_index: duplicate key 'GP-REQ-144-v1.1' at rows 138 and 143`
+
+Defect class: `DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT`. Both rows cite Drive source https://docs.google.com/document/d/1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8/edit.
+
+#### Row 138 — proposed KEEPER, verbatim
+
+Export line **1013**, register row index **138**, 548 bytes, SHA-256 `2e9331ee4306f4c0…`:
+
+```text
+| GP-REQ-144-v1.1 | Reconciled Review Request for U1 and Frozen P0.1 Subchains | GP / OpenAI | REQ / REVIEW-CHECKLIST | P0 | P0.1; U1; frozen hash; Domains G D T; review routing | ACTIVE REVIEW ROUTING / NO PROMOTION | Routes review only; generic U2/U3 approvals are noncounting. | Supersedes GP-REQ-144-v1.0; binds U2/U3 to GP-PRP-121-v1.3 and U1 to GP-DER-143-v1.1. | 2026-07-23 | https://docs.google.com/document/d/1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8/edit | Preserves exact frozen SHA verdict forms and minimum two-line coverage gate. |
+```
+
+#### Row 143 — proposed REIDENTIFIED row, verbatim
+
+Export line **1018**, register row index **143**, 521 bytes, SHA-256 `d500cbbe2c745ccb…`:
+
+```text
+| GP-REQ-144-v1.1 | Reconciled Review Request for U1 and Frozen P0.1 Subchains | GP / OpenAI | REQ / REVIEW-CHECKLIST / COR | P0 | P0.1 review routing; U1; frozen Domains D/G/T | AUTHORITATIVE ACTIVE v1.1 REVIEW REQUEST | No mathematical authority; exact review interface only. | Supersedes GP-REQ-144-v1.0; binds counting U2/U3/T reviews to frozen hash. | 2026-07-23 | https://docs.google.com/document/d/1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8/edit | First complete v1.1 publication; active under GP-COR-145-v1.0. |
+```
+
+#### Where the two rows differ
+
+| Field | Row 138 (keeper) | Row 143 (reidentified) |
+|---|---|---|
+| **Class** | REQ / REVIEW-CHECKLIST | REQ / REVIEW-CHECKLIST / COR |
+| **Topics / object tags** | P0.1; U1; frozen hash; Domains G D T; review routing | P0.1 review routing; U1; frozen Domains D/G/T |
+| **Status** | ACTIVE REVIEW ROUTING / NO PROMOTION | AUTHORITATIVE ACTIVE v1.1 REVIEW REQUEST |
+| **Authority / canonical impact** | Routes review only; generic U2/U3 approvals are noncounting. | No mathematical authority; exact review interface only. |
+| **Dependencies or supersession** | Supersedes GP-REQ-144-v1.0; binds U2/U3 to GP-PRP-121-v1.3 and U1 to GP-DER-143-v1.1. | Supersedes GP-REQ-144-v1.0; binds counting U2/U3/T reviews to frozen hash. |
+| **Notes** | Preserves exact frozen SHA verdict forms and minimum two-line coverage gate. | First complete v1.1 publication; active under GP-COR-145-v1.0. |
+
+Identical in both rows: `Artifact ID`, `Title`, `Org`, `Priority`, `Modified UTC`, `Source`.
+
+**Materiality.** Row 138 reads 'ACTIVE REVIEW ROUTING / NO PROMOTION'; row 143 reads 'AUTHORITATIVE ACTIVE v1.1 REVIEW REQUEST'. Class and Notes differ; row 138's dependency cell binds U1 to GP-DER-143-v1.1 while row 143's binds counting U2/U3/T reviews to the frozen hash.
+
+**Corroborating register evidence.** As with GP-DER-143-v1.1, Duplicate Flags cluster DUP-ID-GP-REQ-144-v1.1 registers the A-line/B-line Drive collision (1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8 vs 11LP8J9eNee-nTMhl8Eh8dQrtfTJosyX9vl_x_Ve6uRE). Both Artifact Index rows cite the A-line ID, so that entry does not cover this register-row duplication either.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'
+- OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'
+- OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3.
+
+**In-register precedent.** Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 138** (export line 1013) keeps `GP-REQ-144-v1.1`.
+- Reason: Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is applied mechanically to all six pairs so that no pair is resolved by this session's reading of its status text.
+- Explicitly not implied: Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale.
+
+**Proposed successor identifier**
+
+- Row 143 → `GP-REQ-144-v1.1@AIDX-R143`
+- Naming rule: Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.: 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx'). In those clusters the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the row index tools/registers_check.py prints. THIS FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification.
+- Alternative discriminator considered and rejected: The reidentified row's own Modified UTC would be fully source-derived (here that would give GP-REQ-144-v1.1@2026-07-23). It is not adopted because it fails outright on GP-AUD-144-v1.0, GP-DER-143-v1.1 and GP-REQ-144-v1.1, whose two rows carry the identical Modified UTC '2026-07-23'. A discriminator that works on only three of six pairs is not a rule.
+- Explicitly not proposed: The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 is NOT proposed here, because that cluster's rows were substantively identical ('same Drive IDs and same evidence/request roles') whereas these six pairs differ materially in Status; labelling either row VOID would destroy recorded state.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-ARTIFACT-INDEX-GPREQ144v11-20260918 |
+| `Detection type` | DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT |
+| `File A` | Artifact Index row 138 (export line 1013) — GP-REQ-144-v1.1 — Status: ACTIVE REVIEW ROUTING / NO PROMOTION |
+| `File B` | Artifact Index row 143 (export line 1018) — GP-REQ-144-v1.1 — Status: AUTHORITATIVE ACTIVE v1.1 REVIEW REQUEST |
+| `Similarity / hash` | Same declared artifact ID and same Drive source https://docs.google.com/document/d/1B3XVg2PVSUr4zlFJzeXnTGGuxrY4xhnUbyeTxlRuMI8/edit; Status, Class, Topics, Dependencies and Notes differ |
+| `Risk` | Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 138 as GP-REQ-144-v1.1; register row 143 additively under compound key GP-REQ-144-v1.1@AIDX-R143; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Artifact Index |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Artifact Index, row 143, column 'Artifact ID'; `GP-REQ-144-v1.1` → `GP-REQ-144-v1.1@AIDX-R143`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Which dependency binding is current is unresolved by the export alone.
+- Which Status text is current is NOT decided here.
+- Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+## Part 2 — Seven duplicate Transition IDs in the Transition Log
+
+The Transition Log already contains **the program's own executed remedy for this exact failure
+class**: row 49 carries Transition ID `TR-P01-007-COLLISION-PROVENANCE`, Failure Class
+`CONCURRENT_TRANSITION_ID_COLLISION`, Evidence Class `IDENTIFIER_COLLISION_PROVENANCE / NO NEW
+EVIDENCE`, and Architecture Response *"Preserve both records; make the later complete row
+authoritative; quarantine this row as provenance."* Its detection test reads: *"Search must return
+exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row."*
+
+**The discriminator the workbook itself used.** For `TR-P01-007`, the row that kept the bare ID is
+the one whose `Exact Object ID` matches the `Exact Object ID` of the bound **Global Object Audit**
+row (`GOA-P01-007` → `P01_EXACT_FULL_FIELD_PALM_POSITIVITY_r_1_20`, which is row 48's, not row 49's).
+That rule is reproducible from the export and is applied here. Where it yields only a partial match,
+the record says so and the confidence is recorded as MEDIUM.
+
+**Two subclasses, two different remedies.**
+
+| Subclass | Test | Remedy | Precedent |
+|---|---|---|---|
+| One audited transition recorded twice | both rows cite the **same** Global Object Audit ID (or one cites none) | keep the GOA-bound row; label the other `<ID>-COLLISION-PROVENANCE` | Transition Log row 49 |
+| Two distinct transitions sharing one key | the rows cite **different** Global Object Audit IDs | keep the first-appended row; renumber the later to the next unused `<NNN>` | `DUP-ID-HELP-BOARD-20260724`, `DUP-DISPATCH-DQ030-20260726`, `DUP-CST073-20260727` |
+
+Using the wrong subclass is not neutral: the `-COLLISION-PROVENANCE` label asserts *"NO NEW
+EVIDENCE"*, which would be false about a row carrying its own audit and its own evidence.
+
+| Transition ID | Rows | Subclass | Keeper | Successor(s) | Discriminator confidence |
+|---|---|---|---|---|---|
+| `TR-P12-007` | 10, 12 | ONE_AUDITED_TRANSITION_TWO_ROWS | row 12 | row 10 → `TR-P12-007-COLLISION-PROVENANCE` | HIGH |
+| `TR-P02-011` | 18, 19 | TWO_DISTINCT_TRANSITIONS_ONE_KEY | row 18 | row 19 → `TR-P02-028` | HIGH |
+| `TR-P02-013` | 22, 23 | ONE_AUDITED_TRANSITION_TWO_ROWS | row 23 | row 22 → `TR-P02-013-COLLISION-PROVENANCE` | MEDIUM |
+| `TR-P01-006` | 46, 47 | ONE_AUDITED_TRANSITION_TWO_ROWS | row 47 | row 46 → `TR-P01-006-COLLISION-PROVENANCE` | HIGH |
+| `TR-P01-011` | 54, 55 | ONE_AUDITED_TRANSITION_THREE_ROWS | row 55 | row 54 → `TR-P01-011-COLLISION-PROVENANCE-A` | MEDIUM |
+| `TR-P01-011` | 54, 56 | ONE_AUDITED_TRANSITION_THREE_ROWS | row 55 | row 56 → `TR-P01-011-COLLISION-PROVENANCE-B` | MEDIUM |
+| `TR-P01-012` | 57, 58 | ONE_AUDITED_TRANSITION_TWO_ROWS | row 57 | row 58 → `TR-P01-012-COLLISION-PROVENANCE` | HIGH |
+
+**`registers/KNOWN_FINDINGS.json` suggests `e.g. TR-P01-011a/b`.** That letter-suffix form appears
+only inside a rationale string, departs from the `<NNN>` shape `OP-CNS-001 §2` prescribes, and has
+no instance anywhere in the exported registers. It is **not adopted**; the workbook's own two forms
+above are used instead.
+
+### 2.1 `TR-P12-007` — rows 10, 12
+
+> Finding key: `transition_log: duplicate key 'TR-P12-007' at rows 10 and 12`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_TWO_ROWS`.
+
+#### Row 10 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `CURRENT_SOURCE_ADVERSARIAL_QUALIFICATION` · `Exact Object ID` = `EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_CURRENT_7F_SOURCE` · `Recorded UTC` = `2026-07-21T19:00:00Z` · `Global Object Audit ID` = `GOA-P12-005`
+
+Export line **1604**, register row index **10**, 3,277 bytes, SHA-256 `1a454a366ec36655…`:
+
+```text
+| TR-P12-007 | 2026-07-21T19:00:00Z | CURRENT\_SOURCE\_ADVERSARIAL\_QUALIFICATION | TRUE | EXACT\_FIELD\_PAIRING\_INSTRUMENT\_GP\_DATA\_054\_CURRENT\_7F\_SOURCE | TR-P12-005: current source reconstructability passed; GP-AUD-056 static qualification blockers remained; outside review pending. | Current source SHA 7f061dd7…4c22 compiles and passes 13/13 frozen self-tests, but direct NC-F1, NC-F2, and NC-F5 execution confirms three material qualification defects. Instrument remains quarantined for production. | Source identity and instrument qualification are separate gates. A complete legacy self-test pass cannot override directly observed fail-open endpoint acceptance, count-only census replay, or degenerate-point retention. | EV-P12-GP-AUDIT-059; EV-P12-GP-DATA-060 | The stale dbff current-source conclusion is superseded only for current source identity; its export/cache incident provenance and historical defect execution are preserved. No primary evidence is deleted. | SAME-LINE CURRENT-SOURCE RECONSTRUCTION AND ADVERSARIAL EXECUTION | Finite band-limited Bargmann–Fock numerical field and H0 elder-rule pairing instrument | Current exact source and test execution; no production field | Per-field grid normalization unchanged | Torus coordinates; exact current 7f source | Not independent. CL/AO48/CW outside-line amendment and execution required. | Frozen test sufficiency; V3/V4/V5; endpoint incidence; critical-census identity; future P1.2 production readiness | Current source identity pass; GP-PRE-053; Theorem B; Q0\_MASTER; q machine; mathematical canon; easy closures; GP-AUTO-034 | NONE | Adds revision-qualified receipts and binds all execution claims to exact source SHA. | GP-AUD-061; source SHA 7f061dd7…4c22 | Legacy tests omitted decisive failure paths; mutable/cached source exports briefly created contradictory byte conclusions. | F3/F4 direct controls remain; outside reviewer may identify more defects; amended source behavior unknown. | NC-F1; NC-F2; NC-F3a–c; NC-F5; offset/saddle perturbation; monotonicity; outside exact-source execution; first amended production field. | Removed uncertainty over current capsule hash and whether F1/F2/F5 survive on the canonical source. | Exact repair implementation; F3/F4 outcomes; production prevalence; analytic completeness; outside agreement. | No human decision required to retain evidence. Dylan approval remains required before production results alter status, closure, promotion, publication, machine state, or deletion. | Clear only after amended source passes expanded battery, outside line reproduces exact-source controls, and at least one production field passes all amended gates. | TEST\_BATTERY\_INSUFFICIENCY\_AND\_FAIL\_OPEN\_NUMERICAL\_GATES | Keep production quarantine; amend source and test battery; require outside execution. | Future source receipts bind Drive ID, revision state, decoded bytes, hash, and runtime; failure-path controls are mandatory. | No downstream mathematical contamination because no production output was accepted. a\_hat≈0.57 remains cannot-verify. | GP-DATA-054 and future P1.2 numerical diagnostics only. | SOURCE PASS / INSTRUMENT QUARANTINED — DEFECTS CONFIRMED | GOA-P12-005 | PASS-SOURCE / FAIL-QUALIFICATION / OUTSIDE REVIEW OPEN |
+```
+
+#### Row 12 — proposed KEEPER, verbatim
+
+`Transition Type` = `COMPUTATIONAL_INSTRUMENT_AMENDMENT_RESPONSE` · `Exact Object ID` = `EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_V1_1` · `Recorded UTC` = `2026-07-21T19:00:00Z` · `Global Object Audit ID` = `GOA-P12-005`
+
+Export line **1606**, register row index **12**, 4,268 bytes, SHA-256 `d86f86e396d9649c…`:
+
+```text
+| TR-P12-007 | 2026-07-21T19:00:00Z | COMPUTATIONAL\_INSTRUMENT\_AMENDMENT\_RESPONSE | TRUE | EXACT\_FIELD\_PAIRING\_INSTRUMENT\_GP\_DATA\_054\_V1\_1 | GP-DATA-054-v1.0 passed 13 author-side controls but failed GP-AUD-056 on uncertified endpoint acceptance, shared failure stability, count-only census replay, absent perturbation replay, and missing explicit final nondegeneracy. | GP-DATA-054-v1.1 implements all five amendment families, compiles, and passes 21/21 author-side controls. No production field, independent source execution, or mathematical result exists. | No field or aggregate fit is claim-eligible unless V0–V7 pass: full mode, torus Euler identity, finite-bar count, certified endpoint resolution, tolerance/offset endpoint stability, one-to-one critical identity replay, endpoint-incidence replay, and final nondegeneracy. | EV-P12-V11-CORRECTION; EV-P12-V11-SOURCE-IDENTITY; EV-P12-V11-SELFTEST; EV-P12-V11-REVIEW-REQUEST | GP-DATA-054-v1.0 as current qualification target; the 13-control battery as sufficient; any clearance of GP-AUD-056 without outside execution. | SOURCE AMENDMENT; AUTHOR EXECUTION RECEIPT; OUTSIDE QUALIFICATION REQUEST | Finite band-limited numerical Bargmann–Fock field on the torus; instrument status only, not an analytic law. | Author fixtures and analytic controls only; no full Bargmann–Fock production field. | Per-field normalization, source hash, environment, seed, event, trajectory, census, endpoint, gate, and fit-eligibility receipts. | One exact TrigonometricField object for critical evaluation and adaptive trajectories; explicit torus identity matching and replay coordinates. | Author-side amendment and 21/21 execution; GP-AUD-056 provides independent defect basis. Outside v1.1 source reconstruction, audit, and execution remain pending. | P1.2 pairing instrument; endpoint certification; census identities; replay incidence; perturbation stability; final nondegeneracy; independent qualification request. | P1.2 mathematical status; historical a\_hat≈0.57; four-connectivity correction; Theorem B; Q0\_MASTER; active q machine; scientific canon. | No mathematical claim changed. Only the proposed numerical instrument and its control battery changed. | Converted five independent audit findings into explicit source logic, V0–V7 gates, detailed receipts, and controls ST8 and ST13–ST21. |  | Uncertified terminal-state snapping; shared unresolved failure; identity-free replay; endpoint-incidence drift; offset sensitivity; near-degenerate criticals; quick-mode status laundering. | The author fixtures may share hidden assumptions; identity tolerances may be wrong; exact-source Drive publication is not yet independently verified; runtime and full-field behavior remain unknown. | 21 named controls; Python syntax; exact SHA-256; independent decode and execution request; future V0–V7 production receipts; planted negative controls. | Every concrete GP-AUD-056 source finding now has an implemented control and a named failing fixture. | Verified Drive-hosted exact v1.1 executable; outside 21/21 execution; independent source/object audit; one frozen full field; endpoint/census tolerance review; inference review. | No human decision is required to preserve or review this candidate. Dylan approval is required before production output changes status, closure, promotion, or publication. | Reopen or reject on source-hash mismatch, any independent control failure, V0–V7 production failure, endpoint/census identity instability, or a new object mismatch. | NUMERICAL\_PAIRING\_INSTRUMENT\_AUDIT\_RESPONSE | Preserve GP-AUD-056 and v1.0; file additive v1.1 correction, 21-control receipt, and amended outside-review protocol. | Independent audits must produce executable amendments, negative controls, exact source identities, and new transitions before production qualification. | No downstream mathematical contamination: no production bars or exponent were emitted. Author-side 21/21 cannot be summarized as scientific evidence. | GP-DATA-054 numerical instrument and future P1.2 production diagnostics only. | QUARANTINED — AUTHOR AMENDMENT PASS / DRIVE BYTE PUBLICATION AND OUTSIDE QUALIFICATION PENDING. | GOA-P12-005 | PASS-AUTHOR-AMENDMENT / OUTSIDE-QUALIFICATION-PENDING |
+```
+
+#### Where rows 10 and 12 differ
+
+| Field | Row 10 | Row 12 |
+|---|---|---|
+| **Transition Type** | CURRENT_SOURCE_ADVERSARIAL_QUALIFICATION | COMPUTATIONAL_INSTRUMENT_AMENDMENT_RESPONSE |
+| **Exact Object ID** | EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_CURRENT_7F_SOURCE | EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_V1_1 |
+| **Previous State** | TR-P12-005: current source reconstructability passed; GP-AUD-056 static qualification blockers remained; outside review pending. | GP-DATA-054-v1.0 passed 13 author-side controls but failed GP-AUD-056 on uncertified endpoint acceptance, shared failure stability, count-only census replay, absent perturbation replay, and missing explicit final nondegeneracy. |
+| **New State** | Current source SHA 7f061dd7…4c22 compiles and passes 13/13 frozen self-tests, but direct NC-F1, NC-F2, and NC-F5 execution confirms three material qualification defects. Instrument remains quarantined for production. | GP-DATA-054-v1.1 implements all five amendment families, compiles, and passes 21/21 author-side controls. No production field, independent source execution, or mathematical result exists. |
+| **Exact Claim or Architectural Rule** | Source identity and instrument qualification are separate gates. A complete legacy self-test pass cannot override directly observed fail-open endpoint acceptance, count-only census replay, or degenerate-point retention. | No field or aggregate fit is claim-eligible unless V0–V7 pass: full mode, torus Euler identity, finite-bar count, certified endpoint resolution, tolerance/offset endpoint stability, one-to-one critical identity replay, endpoint-incidence replay, and final nondegeneracy. |
+| **Evidence Added** | EV-P12-GP-AUDIT-059; EV-P12-GP-DATA-060 | EV-P12-V11-CORRECTION; EV-P12-V11-SOURCE-IDENTITY; EV-P12-V11-SELFTEST; EV-P12-V11-REVIEW-REQUEST |
+| **Evidence Removed/Killed/Superseded** | The stale dbff current-source conclusion is superseded only for current source identity; its export/cache incident provenance and historical defect execution are preserved. No primary evidence is deleted. | GP-DATA-054-v1.0 as current qualification target; the 13-control battery as sufficient; any clearance of GP-AUD-056 without outside execution. |
+| **Evidence Class** | SAME-LINE CURRENT-SOURCE RECONSTRUCTION AND ADVERSARIAL EXECUTION | SOURCE AMENDMENT; AUTHOR EXECUTION RECEIPT; OUTSIDE QUALIFICATION REQUEST |
+| **Law or Measure** | Finite band-limited Bargmann–Fock numerical field and H0 elder-rule pairing instrument | Finite band-limited numerical Bargmann–Fock field on the torus; instrument status only, not an analytic law. |
+| **Regime** | Current exact source and test execution; no production field | Author fixtures and analytic controls only; no full Bargmann–Fock production field. |
+| **Normalization** | Per-field grid normalization unchanged | Per-field normalization, source hash, environment, seed, event, trajectory, census, endpoint, gate, and fit-eligibility receipts. |
+| **Coordinate System** | Torus coordinates; exact current 7f source | One exact TrigonometricField object for critical evaluation and adaptive trajectories; explicit torus identity matching and replay coordinates. |
+| **Independent Review Status** | Not independent. CL/AO48/CW outside-line amendment and execution required. | Author-side amendment and 21/21 execution; GP-AUD-056 provides independent defect basis. Outside v1.1 source reconstruction, audit, and execution remain pending. |
+| **Dependencies Affected** | Frozen test sufficiency; V3/V4/V5; endpoint incidence; critical-census identity; future P1.2 production readiness | P1.2 pairing instrument; endpoint certification; census identities; replay incidence; perturbation stability; final nondegeneracy; independent qualification request. |
+| **Dependencies Unaffected** | Current source identity pass; GP-PRE-053; Theorem B; Q0_MASTER; q machine; mathematical canon; easy closures; GP-AUTO-034 | P1.2 mathematical status; historical a_hat≈0.57; four-connectivity correction; Theorem B; Q0_MASTER; active q machine; scientific canon. |
+| **Mathematical Change** | NONE | No mathematical claim changed. Only the proposed numerical instrument and its control battery changed. |
+| **Architectural Change** | Adds revision-qualified receipts and binds all execution claims to exact source SHA. | Converted five independent audit findings into explicit source logic, V0–V7 gates, detailed receipts, and controls ST8 and ST13–ST21. |
+| **No-Change Certificate ID** | GP-AUD-061; source SHA 7f061dd7…4c22 |  |
+| **Architecture Failure Mode Addressed** | Legacy tests omitted decisive failure paths; mutable/cached source exports briefly created contradictory byte conclusions. | Uncertified terminal-state snapping; shared unresolved failure; identity-free replay; endpoint-incidence drift; offset sensitivity; near-degenerate criticals; quick-mode status laundering. |
+| **New Failure Modes** | F3/F4 direct controls remain; outside reviewer may identify more defects; amended source behavior unknown. | The author fixtures may share hidden assumptions; identity tolerances may be wrong; exact-source Drive publication is not yet independently verified; runtime and full-field behavior remain unknown. |
+| **Detection Tests** | NC-F1; NC-F2; NC-F3a–c; NC-F5; offset/saddle perturbation; monotonicity; outside exact-source execution; first amended production field. | 21 named controls; Python syntax; exact SHA-256; independent decode and execution request; future V0–V7 production receipts; planted negative controls. |
+| **Uncertainty Permanently Removed** | Removed uncertainty over current capsule hash and whether F1/F2/F5 survive on the canonical source. | Every concrete GP-AUD-056 source finding now has an implemented control and a named failing fixture. |
+| **Remaining Uncertainty** | Exact repair implementation; F3/F4 outcomes; production prevalence; analytic completeness; outside agreement. | Verified Drive-hosted exact v1.1 executable; outside 21/21 execution; independent source/object audit; one frozen full field; endpoint/census tolerance review; inference review. |
+| **Required Human Decision** | No human decision required to retain evidence. Dylan approval remains required before production results alter status, closure, promotion, publication, machine state, or deletion. | No human decision is required to preserve or review this candidate. Dylan approval is required before production output changes status, closure, promotion, or publication. |
+| **Reopening Condition** | Clear only after amended source passes expanded battery, outside line reproduces exact-source controls, and at least one production field passes all amended gates. | Reopen or reject on source-hash mismatch, any independent control failure, V0–V7 production failure, endpoint/census identity instability, or a new object mismatch. |
+| **Failure Class** | TEST_BATTERY_INSUFFICIENCY_AND_FAIL_OPEN_NUMERICAL_GATES | NUMERICAL_PAIRING_INSTRUMENT_AUDIT_RESPONSE |
+| **Architecture Response** | Keep production quarantine; amend source and test battery; require outside execution. | Preserve GP-AUD-056 and v1.0; file additive v1.1 correction, 21-control receipt, and amended outside-review protocol. |
+| **Recurrence Control** | Future source receipts bind Drive ID, revision state, decoded bytes, hash, and runtime; failure-path controls are mandatory. | Independent audits must produce executable amendments, negative controls, exact source identities, and new transitions before production qualification. |
+| **Downstream Contamination Assessment** | No downstream mathematical contamination because no production output was accepted. a_hat≈0.57 remains cannot-verify. | No downstream mathematical contamination: no production bars or exponent were emitted. Author-side 21/21 cannot be summarized as scientific evidence. |
+| **Affected Mathematical Objects** | GP-DATA-054 and future P1.2 numerical diagnostics only. | GP-DATA-054 numerical instrument and future P1.2 production diagnostics only. |
+| **Quarantine Status** | SOURCE PASS / INSTRUMENT QUARANTINED — DEFECTS CONFIRMED | QUARANTINED — AUTHOR AMENDMENT PASS / DRIVE BYTE PUBLICATION AND OUTSIDE QUALIFICATION PENDING. |
+| **Status** | PASS-SOURCE / FAIL-QUALIFICATION / OUTSIDE REVIEW OPEN | PASS-AUTHOR-AMENDMENT / OUTSIDE-QUALIFICATION-PENDING |
+
+Identical in both rows: `Transition ID`, `Recorded UTC`, `Material`, `Global Object Audit ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** OP-CNS-001 §2 also requires an additive provenance disclosure for GAPS. TR-P12-006 is absent from the series (TR-P12-001..005, 007, 008, 009). Row 10 must NOT be renumbered into that gap: doing so would assert a chronological slot the export does not support. The gap is disclosed, not filled.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 12** (export line 1606) keeps `TR-P12-007`.
+- Reason: GOA-P12-005, the Global Object Audit row both rows cite, carries Exact Object ID 'EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_V1_1' — row 12's Exact Object ID verbatim. Row 10's Exact Object ID is 'EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_CURRENT_7F_SOURCE', which the audit row does not name. This is the discriminator the workbook itself used at TR-P01-007: GOA-P01-007's Exact Object ID matches the authoritative row and not the row labelled TR-P01-007-COLLISION-PROVENANCE.
+- Discriminator confidence: **HIGH — exact string match between the bound audit row's Exact Object ID and one transition row's Exact Object ID.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 10 (export line 1604) → `TR-P12-007-COLLISION-PROVENANCE`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP12007-20260918 |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 12 (export line 1606) — TR-P12-007 — COMPUTATIONAL_INSTRUMENT_AMENDMENT_RESPONSE — EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_V1_1 |
+| `File B` | Transition Log row 10 (export line 1604) — TR-P12-007 — CURRENT_SOURCE_ADVERSARIAL_QUALIFICATION — EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_CURRENT_7F_SOURCE |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 12 as TR-P12-007 on the Global Object Audit binding; register row 10 additively as TR-P12-007-COLLISION-PROVENANCE; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 10, column 'Transition ID'; `TR-P12-007` → `TR-P12-007-COLLISION-PROVENANCE`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as HIGH; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.2 `TR-P02-011` — rows 18, 19
+
+> Finding key: `transition_log: duplicate key 'TR-P02-011' at rows 18 and 19`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__TWO_DISTINCT_TRANSITIONS_ONE_KEY`.
+
+#### Row 18 — proposed KEEPER, verbatim
+
+`Transition Type` = `V1_DISCHARGE_RECONSTRUCTION_SCOPE_AND_EFFECTIVE_DOMAIN_RECONCILIATION` · `Exact Object ID` = `ADJACENCY_TO_ONE_CUBIC_TYPED_MS` · `Recorded UTC` = `2026-07-21T20:35:00Z` · `Global Object Audit ID` = `GOA-P02-001`
+
+Export line **1612**, register row index **18**, 4,529 bytes, SHA-256 `2514c96aa402e2ed…`:
+
+```text
+| TR-P02-011 | 2026-07-21T20:35:00Z | V1\_DISCHARGE\_RECONSTRUCTION\_SCOPE\_AND\_EFFECTIVE\_DOMAIN\_RECONCILIATION | TRUE | ADJACENCY\_TO\_ONE\_CUBIC\_TYPED\_MS | V1 remained open; the cited independent six-pin receipt was empty; GP-DER-047's effective certificate domain and the CL/GP strip-constant comparison were unresolved in live navigation. | CL-AUD-049 discharges V1 on the declared domain with a shared-definition-lineage caveat. CL-AUD-048 independently reproduces the finite-r tables to displayed precision. GP-AUD-073 confirms REG\_r is inaccessible at all current rungs and resolves the strip constants as fixed-mu=1 versus optimized-mu event measurements. | Recognize the completed blind deterministic deliverable without extending it beyond its domain. Treat the six-pin reconstruction as a partial exactness pass. Bind promotion language to the ultra-small-r domain and route practical-rung V3 work to nonvacuous optimized-strip or joint strip/transit events. | EV-P02-CL-V1-049; EV-P02-CL-RECON-048; EV-P02-RECON-073 | The empty GP-AUD-039 receipt remains excluded. No predecessor theorem or machine source is overwritten. Constant-conflict language is superseded by event-specific labels. | DERIVATION-BLIND RECONSTRUCTION; INDEPENDENT NUMERICAL RECONSTRUCTION; CROSS-MODEL SCOPE RECONCILIATION | Exact side-24 typed six-pin maximum-saddle object; deterministic GP-DER-047 capture certificate; fixed-mu and optimized-mu strip events. | V1 domain as frozen in CL-AUD-049; REG\_r requires rR(U)^5\<=epsilon0; current numerical rungs are 0.05 through 0.00625. | Six endpoint pins at M,S; midpoint nine-jet law; selected branch convention; fixed-mu=1 C\_1 and optimized C\_\*=min\_mu C\_mu treated as distinct events. | Normalized midpoint chart; exact-torus versus planar-image-truncated reconstruction explicitly distinguished. | CL V1 is derivation-blind to the GP proof but shares frozen definitions; CL six-pin code is independently authored but omits literal torus images and lacks a planted negative control; GP reconciliation is same-line audit. | P0.2 V1, V3 practical replay target, V4 six-pin evidence identity, promotion-scope language. | V2 and concurrent T-D frozen-schedule pass; T-F/exact-law replay; exact-torus reconstruction residues; Theorem B and active canon. | No theorem formula changed. The operational interpretation changes: V1 is complete on-domain, the GP-DER-047 certificate is ultra-small-r only, and the two strip constants are not estimators of one event. | Registered V1 completion, partial six-pin reconstruction, effective-domain alarm, event-specific constant labels, and practical-rung V3 redirection. |  | On-domain proof being misrepresented as practical-rung certification; displayed-precision planar reconstruction being called literal exact-torus evidence; different strip events being averaged. | Shared frozen definitions may hide a common transcription error; omitted torus images and absent mutation leave the exact-torus gate incomplete; fixed-mu driver is not yet separately frozen. | CL blind derivation and 4,800 checks; CL source hash and independent GP rerun; analytic REG\_r emptiness at current rungs; exact event inclusion B\_\* subset B\_1. | V1 proof-route uncertainty, displayed-table reproduction uncertainty, and the apparent strip-constant conflict are removed. | Exact-torus image enclosure, planted mutation, different-line source audit, frozen fixed-mu driver, practical-rung optimized/joint V3 replay, and T-F exact-law dynamics. | No human decision now. Dylan approval remains blocked on the full P0.2 gate set. | Reopen on a blind-derivation contradiction, source-hash/output mismatch, material torus-image correction, mutation failure, effective-domain counterexample, or event-definition disagreement. | DOMAIN\_AND\_EVENT\_SCOPE\_CORRECTION | Preserve V1 completion; quarantine practical-rung extrapolation; request CL driver freeze and exact-torus mutation; request AO48/CW review and nonvacuous V3 replay. | Future P0.2 claims must display the effective domain, identify fixed versus optimized mu, and distinguish displayed-precision reconstruction from exact-torus certification. | No downstream canon contamination identified; no theorem, machine root, or release status changed. | P0.2 V1/V3/V4; exact finite-r six-pin reconstruction; REG\_r effective domain; strip event constants. | V1 DISCHARGED / V4 PARTIAL PASS / PRACTICAL-RUNG REDIRECTION / P0.2 OPEN | GOA-P02-001 | PASS-V1 / PARTIAL-RECON / DOMAIN-WARNING-BINDING / NO-PROMOTION |
+```
+
+#### Row 19 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `INDEPENDENT_RECONSTRUCTION_GATE_DISCHARGE` · `Exact Object ID` = `P02_V1_DETERMINISTIC_RECONSTRUCTION` · `Recorded UTC` = `2026-07-21T20:35:00Z` · `Global Object Audit ID` = `GOA-P02-008`
+
+Export line **1613**, register row index **19**, 2,762 bytes, SHA-256 `eda253ce91041063…`:
+
+```text
+| TR-P02-011 | 2026-07-21T20:35:00Z | INDEPENDENT\_RECONSTRUCTION\_GATE\_DISCHARGE | TRUE | P02\_V1\_DETERMINISTIC\_RECONSTRUCTION | Stage V1 was open because all prior deterministic executions had GP-DER-047’s proof route visible. | CL-AUD-049 independently reconstructs the full deterministic chain without opening the proof text. V1 is discharged with a shared-definition-lineage caveat; P0.2 remains open. | All deterministic certificate inequalities and composition are derivable on the declared REG\_r domain from the frozen definitions. This does not establish domain adequacy, Gaussian/Palm inputs, or theorem status. | EV-P02-CL-AUD-049; EV-P02-GP-RSP-077 | The V1 open-task state is retired. Optional AO48 from-source strengthening remains but is not a current partition blocker. | DERIVATION-BLIND ANALYTIC RECONSTRUCTION WITH DISCLOSED SHARED-DEFINITION LINEAGE | P0.2 deterministic capture inequalities and gluing chain | Declared REG\_r and C\_cap hypothesis domain only | GP-DER-047 frozen K, epsilon0, R/W/sigma/rho/kappa definitions | Normalized midpoint X/Y chart and saddle/sink local coordinates | Strong dependent outside-GP proof-route review; shared CL definition fixture disclosed. | P0.2 Stage V1 tracker; deterministic falsifier conditions 2–5; Help Board | V2, V3, V4 exact-torus residues, practical-domain reach, theorem promotion, machines, easy closures | NONE | Marks V1 complete and binds the lineage caveat to every reuse. |  | False independence from inherited definitions and blind-proof success being presented as full theorem verification. | Possible transcription error in shared definitions; domain adequacy and imported Gaussian layers remain separate. | Independent symbolic differentiation; worst-case inequalities; 4,800-point corroboration; separate CL-AUD-044 sample test. | Whether the deterministic claims can be independently derived without reading GP’s proof text. | From-source organizational blind pass; all nondeterministic and object-identity gates. | No human decision required for component status. Promotion still requires all remaining gates and explicit human authority. | Reopen on a definition mismatch, analytic inequality defect, counterexample on the declared domain, or independence-lineage correction. | COMPONENT\_PROOF\_RECONSTRUCTION\_NOT\_THEOREM\_PROMOTION | Retire V1 active task; continue V2/V3/V4; display lineage caveat. | Blind-review artifacts must identify whether proof text, definitions, fixtures, and organizational lineage were visible. | No downstream contamination; P0.2 remains candidate and no canonical claim changes. | GP-DER-047 deterministic inequality chain only. | V1 TERMINAL COMPONENT PASS / P0.2 OPEN | GOA-P02-008 | PASS-V1-WITH-LINEAGE-CAVEAT / NO-PROMOTION |
+```
+
+#### Where rows 18 and 19 differ
+
+| Field | Row 18 | Row 19 |
+|---|---|---|
+| **Transition Type** | V1_DISCHARGE_RECONSTRUCTION_SCOPE_AND_EFFECTIVE_DOMAIN_RECONCILIATION | INDEPENDENT_RECONSTRUCTION_GATE_DISCHARGE |
+| **Exact Object ID** | ADJACENCY_TO_ONE_CUBIC_TYPED_MS | P02_V1_DETERMINISTIC_RECONSTRUCTION |
+| **Previous State** | V1 remained open; the cited independent six-pin receipt was empty; GP-DER-047's effective certificate domain and the CL/GP strip-constant comparison were unresolved in live navigation. | Stage V1 was open because all prior deterministic executions had GP-DER-047’s proof route visible. |
+| **New State** | CL-AUD-049 discharges V1 on the declared domain with a shared-definition-lineage caveat. CL-AUD-048 independently reproduces the finite-r tables to displayed precision. GP-AUD-073 confirms REG_r is inaccessible at all current rungs and resolves the strip constants as fixed-mu=1 versus optimized-mu event measurements. | CL-AUD-049 independently reconstructs the full deterministic chain without opening the proof text. V1 is discharged with a shared-definition-lineage caveat; P0.2 remains open. |
+| **Exact Claim or Architectural Rule** | Recognize the completed blind deterministic deliverable without extending it beyond its domain. Treat the six-pin reconstruction as a partial exactness pass. Bind promotion language to the ultra-small-r domain and route practical-rung V3 work to nonvacuous optimized-strip or joint strip/transit events. | All deterministic certificate inequalities and composition are derivable on the declared REG_r domain from the frozen definitions. This does not establish domain adequacy, Gaussian/Palm inputs, or theorem status. |
+| **Evidence Added** | EV-P02-CL-V1-049; EV-P02-CL-RECON-048; EV-P02-RECON-073 | EV-P02-CL-AUD-049; EV-P02-GP-RSP-077 |
+| **Evidence Removed/Killed/Superseded** | The empty GP-AUD-039 receipt remains excluded. No predecessor theorem or machine source is overwritten. Constant-conflict language is superseded by event-specific labels. | The V1 open-task state is retired. Optional AO48 from-source strengthening remains but is not a current partition blocker. |
+| **Evidence Class** | DERIVATION-BLIND RECONSTRUCTION; INDEPENDENT NUMERICAL RECONSTRUCTION; CROSS-MODEL SCOPE RECONCILIATION | DERIVATION-BLIND ANALYTIC RECONSTRUCTION WITH DISCLOSED SHARED-DEFINITION LINEAGE |
+| **Law or Measure** | Exact side-24 typed six-pin maximum-saddle object; deterministic GP-DER-047 capture certificate; fixed-mu and optimized-mu strip events. | P0.2 deterministic capture inequalities and gluing chain |
+| **Regime** | V1 domain as frozen in CL-AUD-049; REG_r requires rR(U)^5<=epsilon0; current numerical rungs are 0.05 through 0.00625. | Declared REG_r and C_cap hypothesis domain only |
+| **Normalization** | Six endpoint pins at M,S; midpoint nine-jet law; selected branch convention; fixed-mu=1 C_1 and optimized C_*=min_mu C_mu treated as distinct events. | GP-DER-047 frozen K, epsilon0, R/W/sigma/rho/kappa definitions |
+| **Coordinate System** | Normalized midpoint chart; exact-torus versus planar-image-truncated reconstruction explicitly distinguished. | Normalized midpoint X/Y chart and saddle/sink local coordinates |
+| **Independent Review Status** | CL V1 is derivation-blind to the GP proof but shares frozen definitions; CL six-pin code is independently authored but omits literal torus images and lacks a planted negative control; GP reconciliation is same-line audit. | Strong dependent outside-GP proof-route review; shared CL definition fixture disclosed. |
+| **Dependencies Affected** | P0.2 V1, V3 practical replay target, V4 six-pin evidence identity, promotion-scope language. | P0.2 Stage V1 tracker; deterministic falsifier conditions 2–5; Help Board |
+| **Dependencies Unaffected** | V2 and concurrent T-D frozen-schedule pass; T-F/exact-law replay; exact-torus reconstruction residues; Theorem B and active canon. | V2, V3, V4 exact-torus residues, practical-domain reach, theorem promotion, machines, easy closures |
+| **Mathematical Change** | No theorem formula changed. The operational interpretation changes: V1 is complete on-domain, the GP-DER-047 certificate is ultra-small-r only, and the two strip constants are not estimators of one event. | NONE |
+| **Architectural Change** | Registered V1 completion, partial six-pin reconstruction, effective-domain alarm, event-specific constant labels, and practical-rung V3 redirection. | Marks V1 complete and binds the lineage caveat to every reuse. |
+| **Architecture Failure Mode Addressed** | On-domain proof being misrepresented as practical-rung certification; displayed-precision planar reconstruction being called literal exact-torus evidence; different strip events being averaged. | False independence from inherited definitions and blind-proof success being presented as full theorem verification. |
+| **New Failure Modes** | Shared frozen definitions may hide a common transcription error; omitted torus images and absent mutation leave the exact-torus gate incomplete; fixed-mu driver is not yet separately frozen. | Possible transcription error in shared definitions; domain adequacy and imported Gaussian layers remain separate. |
+| **Detection Tests** | CL blind derivation and 4,800 checks; CL source hash and independent GP rerun; analytic REG_r emptiness at current rungs; exact event inclusion B_* subset B_1. | Independent symbolic differentiation; worst-case inequalities; 4,800-point corroboration; separate CL-AUD-044 sample test. |
+| **Uncertainty Permanently Removed** | V1 proof-route uncertainty, displayed-table reproduction uncertainty, and the apparent strip-constant conflict are removed. | Whether the deterministic claims can be independently derived without reading GP’s proof text. |
+| **Remaining Uncertainty** | Exact-torus image enclosure, planted mutation, different-line source audit, frozen fixed-mu driver, practical-rung optimized/joint V3 replay, and T-F exact-law dynamics. | From-source organizational blind pass; all nondeterministic and object-identity gates. |
+| **Required Human Decision** | No human decision now. Dylan approval remains blocked on the full P0.2 gate set. | No human decision required for component status. Promotion still requires all remaining gates and explicit human authority. |
+| **Reopening Condition** | Reopen on a blind-derivation contradiction, source-hash/output mismatch, material torus-image correction, mutation failure, effective-domain counterexample, or event-definition disagreement. | Reopen on a definition mismatch, analytic inequality defect, counterexample on the declared domain, or independence-lineage correction. |
+| **Failure Class** | DOMAIN_AND_EVENT_SCOPE_CORRECTION | COMPONENT_PROOF_RECONSTRUCTION_NOT_THEOREM_PROMOTION |
+| **Architecture Response** | Preserve V1 completion; quarantine practical-rung extrapolation; request CL driver freeze and exact-torus mutation; request AO48/CW review and nonvacuous V3 replay. | Retire V1 active task; continue V2/V3/V4; display lineage caveat. |
+| **Recurrence Control** | Future P0.2 claims must display the effective domain, identify fixed versus optimized mu, and distinguish displayed-precision reconstruction from exact-torus certification. | Blind-review artifacts must identify whether proof text, definitions, fixtures, and organizational lineage were visible. |
+| **Downstream Contamination Assessment** | No downstream canon contamination identified; no theorem, machine root, or release status changed. | No downstream contamination; P0.2 remains candidate and no canonical claim changes. |
+| **Affected Mathematical Objects** | P0.2 V1/V3/V4; exact finite-r six-pin reconstruction; REG_r effective domain; strip event constants. | GP-DER-047 deterministic inequality chain only. |
+| **Quarantine Status** | V1 DISCHARGED / V4 PARTIAL PASS / PRACTICAL-RUNG REDIRECTION / P0.2 OPEN | V1 TERMINAL COMPONENT PASS / P0.2 OPEN |
+| **Global Object Audit ID** | GOA-P02-001 | GOA-P02-008 |
+| **Status** | PASS-V1 / PARTIAL-RECON / DOMAIN-WARNING-BINDING / NO-PROMOTION | PASS-V1-WITH-LINEAGE-CAVEAT / NO-PROMOTION |
+
+Identical in both rows: `Transition ID`, `Recorded UTC`, `Material`, `No-Change Certificate ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** Because these are two distinct transitions, the -COLLISION-PROVENANCE label is WRONG here: that label asserts 'no new evidence' and 'the same candidate at an earlier coordination state' (TR-P01-007-COLLISION-PROVENANCE, Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE'). Row 19 carries its own audit and its own evidence.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 18** (export line 1612) keeps `TR-P02-011`.
+- Reason: The two rows are bound to DIFFERENT Global Object Audits — row 18 to GOA-P02-001, row 19 to GOA-P02-008. GOA-P02-001's Exact Object ID 'ADJACENCY_TO_ONE_CUBIC_TYPED_MS' is row 18's Exact Object ID verbatim. Two separately audited transitions therefore share one key; this is not one transition written twice. The remedy is the workbook's series-renumber precedent, and the first confirmed append position controls the original key.
+- Discriminator confidence: **HIGH — distinct audit bindings, distinct exact objects, distinct evidence sets.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 19 (export line 1613) → `TR-P02-028`
+- Naming rule: Series renumber under OP-CNS-001 §2's <LINE>-<CLASS>-<NNN> shape, keeping the <NNN> form. The workbook's own practice for duplicate primary keys on DISTINCT records: DUP-ID-HELP-BOARD-20260724 ('preserve first occurrence; assign next unused IDs to later rows'), DUP-DISPATCH-DQ030-20260726 ('preserve row 30 as DQ-030; reidentify row 31 as DQ-032'), DUP-CST073-20260727 ('reidentified later rows as CST-075 and CST-076'). The next unused number above the exported TR-P02 maximum (TR-P02-027) is TR-P02-028. The TR-P02-004..009 gap is NOT reused: filling a gap would assert a chronological slot the export does not support. NOTE: registers/KNOWN_FINDINGS.json suggests 'e.g. TR-P01-011a/b'. That letter-suffix form is a non-normative illustration inside a rationale string; it departs from the <NNN> shape OP-CNS-001 §2 prescribes and has no instance anywhere in the exported registers, so it is not adopted.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP02011-20260918 |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / DISTINCT AUDITED TRANSITIONS |
+| `File A` | Transition Log row 18 (export line 1612) — TR-P02-011 — V1_DISCHARGE_RECONSTRUCTION_SCOPE_AND_EFFECTIVE_DOMAIN_RECONCILIATION — ADJACENCY_TO_ONE_CUBIC_TYPED_MS |
+| `File B` | Transition Log row 19 (export line 1613) — TR-P02-011 — INDEPENDENT_RECONSTRUCTION_GATE_DISCHARGE — P02_V1_DETERMINISTIC_RECONSTRUCTION |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 18 as TR-P02-011 on the Global Object Audit binding; register row 19 additively as TR-P02-028; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 19, column 'Transition ID'; `TR-P02-011` → `TR-P02-028`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as HIGH; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.3 `TR-P02-013` — rows 22, 23
+
+> Finding key: `transition_log: duplicate key 'TR-P02-013' at rows 22 and 23`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_TWO_ROWS`.
+
+#### Row 22 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `EXACT_TORUS_RECONSTRUCTION_GATE1_AND_BRANCH_REVIEW_PASS` · `Exact Object ID` = `P02_SIX_PIN_RECON_AND_E2` · `Recorded UTC` = `2026-07-22T00:00:00Z` · `Global Object Audit ID` = `(empty)`
+
+Export line **1616**, register row index **22**, 3,819 bytes, SHA-256 `48b25165ad8fc523…`:
+
+```text
+| TR-P02-013 | 2026-07-22T00:00:00Z | EXACT\_TORUS\_RECONSTRUCTION\_GATE1\_AND\_BRANCH\_REVIEW\_PASS | TRUE | P02\_SIX\_PIN\_RECON\_AND\_E2 | V4 E1 had only displayed-precision independent reconstruction and retained exact-torus, mutation, and different-line residues; E2 branch convention had no completed non-GP verdict. | CL-DATA-052 supplies a literal exact-torus 200-digit reconstruction with byte-exact source/receipt, PD, exact coalesced match, and three controls; GP-AUD-082 reexecutes it with no published-field discrepancy. CL-RSP-053 gives AGREES on GP-PROT-065. E1 gate 2 and manuscript bridge remain open. | The exact finite-dimensional side-24 six-pin nine-jet component is reproducible across CL and GP environments and agrees with GP-DER-034/GP-DATA-036 at every published value. This is not the pair-Palm/configured-process theorem bridge. | EV-P02-CLDATA052-SOURCE; EV-P02-GPAUD082; CL-RSP-053 | The prior displayed-precision-only limitation is superseded for the finite-dimensional reconstruction role. GP-AUD-039 remains preserved and uncounted. | BYTE-EXACT INDEPENDENT SOURCE; MACHINE RECEIPT; CROSS-LINE REEXECUTION; NON-GP DEFINITION REVIEW | Normalized periodized Bargmann–Fock field on side-24 torus; exact six-pin conditioned Gaussian law; branch event A\_r under unconditioned typed pair-Palm law. | r=1/40 and 1/80 for the reconstructed finite-r law; exact coalesced r=0 comparison; branch definition all admissible nondegenerate pairs. | b=6/5; pins at M and S with gap r^3/6; ordered midpoint nine-jet vector; normalized periodized kernel. | Physical torus coordinates plus midpoint frame; branch orientation e\_u·(M-S)\>0. | CL reconstruction is outside GP and independently authored; GP post-freeze rerun is nonblind cross-line corroboration. AO48/CW gate-2 audit remains required. | P0.2 V4 E1 finite-dimensional evidence; V4 E2 branch definition; HB-014; empty-receipt repair. | P0.2 theorem; Palm/configured-process bridge; V3 trajectories; active machine; ballots; EC-013/014 terminal status. | NONE — no theorem formula or probability claim changed. | Registers exact source hashes, rerun identity, negative controls, branch-review verdict, and remaining-gate separation. |  | Empty or approximate reconstruction being counted as exact-torus evidence; branch definition remaining implicit; component evidence laundering into Palm theorem claims. | A different-line source audit may find an object, shell, precision, or control defect; the configured-process bridge may still fail despite the finite-dimensional match. | Fresh hash checks; unmodified rerun; recursive receipt comparison; three mutations; published-value comparison; CL branch-convention crosswalk. | Exact-torus reconstruction availability, source reproducibility, published-value agreement, and required non-GP E2 review. | AO48/CW gate-2 audit; manuscript pair-Palm to configured-pair bridge; V3 exact-law trajectories; full promotion package. | No human decision now. Dylan approval remains required only after all technical and promotion gates. | Reopen on source/receipt hash mismatch, rerun disagreement, control failure, finite-r matrix discrepancy, branch-definition objection, or bridge mismatch. | EVIDENCE\_LINEAGE\_AND\_OBJECT\_BRIDGE | Retire displayed-only and E2-review tasks; preserve gate 2 and manuscript bridge as explicit separate tasks. | Future citations must distinguish finite-dimensional Gaussian reconstruction, pair-Palm weighting, configured-process bridge, and adjacency event. | No downstream contamination; no theorem, machine, canonical source, release, deletion, or ballot state changed. | P0.2 V4 E1/E2; GP-REQ-069; GP-PROT-065; exact finite-r six-pin law. | COMPONENT PASS / P0.2 QUARANTINED FROM PROMOTION |  | PASS-GATE1 / E2-AGREES / GATE2-AND-BRIDGE-OPEN / NO-PROMOTION |
+```
+
+#### Row 23 — proposed KEEPER, verbatim
+
+`Transition Type` = `EXACT_TORUS_SIX_PIN_RECONSTRUCTION_GATE_ADVANCE` · `Exact Object ID` = `EXACT_FINITE_R_SIX_PIN_CONDITIONAL_LAW` · `Recorded UTC` = `2026-07-21T21:10:00Z` · `Global Object Audit ID` = `GOA-P02-010`
+
+Export line **1617**, register row index **23**, 3,499 bytes, SHA-256 `8431891feee4a4c4…`:
+
+```text
+| TR-P02-013 | 2026-07-21T21:10:00Z | EXACT\_TORUS\_SIX\_PIN\_RECONSTRUCTION\_GATE\_ADVANCE | TRUE | EXACT\_FINITE\_R\_SIX\_PIN\_CONDITIONAL\_LAW | V4/E1 had displayed-precision independent tables but literal exact-torus images, high-precision parity means, planted controls, byte-exact source/receipt, and outside rerun were open. | CL-DATA-052 independently reconstructs the literal normalized-periodized side-24 law at 200 digits, its exact coalesced law, positive definiteness, and three planted controls; GP-AUD-082 verifies hashes and reruns with no discrepancy. Different-line gate 2 and the manuscript pair-Palm bridge remain open. | The finite-dimensional law is independently executable and cross-version reproducible on the declared rungs. This is component evidence only and does not establish the pair-Palm/configured-process bridge or P0.2. | EV-P02-CLDATA052-SOURCE; EV-P02-GPAUD082; CL-RSP-053 | The displayed-precision-only residue and negative-control omission are superseded. GP-AUD-039 remains preserved and uncounted. No theorem or bridge claim is removed. | INDEPENDENT EXACT-TORUS RECONSTRUCTION PLUS CROSS-LINE POST-FREEZE RERUN | Normalized periodized Bargmann-Fock side-24 six-pin midpoint nine-jet conditional law | b=6/5; r=1/40 and 1/80; 200-digit direct and divided-difference computations; exact coalesced r→0 law | Pins (f,fx,fy) at M=(-r/2,0) and S=(r/2,0), with heights b and b-r^3/6; midpoint jets (q,a,w,z,c40,c31,c22,c13,c04) | Physical torus coordinates; longitudinal +x from M to S; transverse y; midpoint origin | CL independently authored the source; GP performed a post-freeze nonblind rerun. AO48 or CW/C047R different-line acceptance remains required. | P0.2 V4/E1 evidence; GT5/DM2 identical-object checks; V3 exact-law sampler inputs | Pair-Palm/configured-process bridge; selected branch; determinant weight, type indicator and normalizer; V3 trajectories | NONE | Registers the exact source and rerun, retires stale construction alarms, and preserves gate 2 plus the manuscript bridge. |  | A finite-dimensional reconstruction could be laundered into a pair-Palm identity, adjacency result, or theorem claim. | CL and GP share the declared object statement and published targets; the historical full GP raw JSON is unavailable. | Byte counts and hashes; unmodified Python 3.13.5 rerun; recursive JSON comparison; exact rationals; PD; direct/DD agreement; three controls; published-output comparison. | Whether literal torus images, required precision, negative controls, and external execution reproduce. | AO48/CW source-object-output audit; pair-Palm/configured-process bridge; theorem promotion gates. | No human decision now. Dylan approval remains required only after the full P0.2 gate set. | Reopen on any hash mismatch, rerun disagreement, PD failure, control failure, material torus/planar discrepancy, or object-order mismatch. | COMPONENT\_EVIDENCE\_WITH\_PARTIAL\_INDEPENDENCE | Update Help Board, dashboard and alarms; request AO48/CW gate 2 and EC-014 scope response; keep GP support available. | Future exact-law claims must carry source hash, environment, torus side, pin/jet order, precision, controls, independence class and bridge scope. | No downstream canon contamination; no theorem, machine, root, ballot, or release status changed. | Finite-dimensional exact-torus six-pin conditional law only. | GATE 1 PASS / DIFFERENT-LINE GATE 2 OPEN / P0.2 OPEN | GOA-P02-010 | PASS-EXACT-TORUS-SOURCE-RERUN / GATE2-OPEN / NO-PROMOTION |
+```
+
+#### Where rows 22 and 23 differ
+
+| Field | Row 22 | Row 23 |
+|---|---|---|
+| **Recorded UTC** | 2026-07-22T00:00:00Z | 2026-07-21T21:10:00Z |
+| **Transition Type** | EXACT_TORUS_RECONSTRUCTION_GATE1_AND_BRANCH_REVIEW_PASS | EXACT_TORUS_SIX_PIN_RECONSTRUCTION_GATE_ADVANCE |
+| **Exact Object ID** | P02_SIX_PIN_RECON_AND_E2 | EXACT_FINITE_R_SIX_PIN_CONDITIONAL_LAW |
+| **Previous State** | V4 E1 had only displayed-precision independent reconstruction and retained exact-torus, mutation, and different-line residues; E2 branch convention had no completed non-GP verdict. | V4/E1 had displayed-precision independent tables but literal exact-torus images, high-precision parity means, planted controls, byte-exact source/receipt, and outside rerun were open. |
+| **New State** | CL-DATA-052 supplies a literal exact-torus 200-digit reconstruction with byte-exact source/receipt, PD, exact coalesced match, and three controls; GP-AUD-082 reexecutes it with no published-field discrepancy. CL-RSP-053 gives AGREES on GP-PROT-065. E1 gate 2 and manuscript bridge remain open. | CL-DATA-052 independently reconstructs the literal normalized-periodized side-24 law at 200 digits, its exact coalesced law, positive definiteness, and three planted controls; GP-AUD-082 verifies hashes and reruns with no discrepancy. Different-line gate 2 and the manuscript pair-Palm bridge remain open. |
+| **Exact Claim or Architectural Rule** | The exact finite-dimensional side-24 six-pin nine-jet component is reproducible across CL and GP environments and agrees with GP-DER-034/GP-DATA-036 at every published value. This is not the pair-Palm/configured-process theorem bridge. | The finite-dimensional law is independently executable and cross-version reproducible on the declared rungs. This is component evidence only and does not establish the pair-Palm/configured-process bridge or P0.2. |
+| **Evidence Removed/Killed/Superseded** | The prior displayed-precision-only limitation is superseded for the finite-dimensional reconstruction role. GP-AUD-039 remains preserved and uncounted. | The displayed-precision-only residue and negative-control omission are superseded. GP-AUD-039 remains preserved and uncounted. No theorem or bridge claim is removed. |
+| **Evidence Class** | BYTE-EXACT INDEPENDENT SOURCE; MACHINE RECEIPT; CROSS-LINE REEXECUTION; NON-GP DEFINITION REVIEW | INDEPENDENT EXACT-TORUS RECONSTRUCTION PLUS CROSS-LINE POST-FREEZE RERUN |
+| **Law or Measure** | Normalized periodized Bargmann–Fock field on side-24 torus; exact six-pin conditioned Gaussian law; branch event A_r under unconditioned typed pair-Palm law. | Normalized periodized Bargmann-Fock side-24 six-pin midpoint nine-jet conditional law |
+| **Regime** | r=1/40 and 1/80 for the reconstructed finite-r law; exact coalesced r=0 comparison; branch definition all admissible nondegenerate pairs. | b=6/5; r=1/40 and 1/80; 200-digit direct and divided-difference computations; exact coalesced r→0 law |
+| **Normalization** | b=6/5; pins at M and S with gap r^3/6; ordered midpoint nine-jet vector; normalized periodized kernel. | Pins (f,fx,fy) at M=(-r/2,0) and S=(r/2,0), with heights b and b-r^3/6; midpoint jets (q,a,w,z,c40,c31,c22,c13,c04) |
+| **Coordinate System** | Physical torus coordinates plus midpoint frame; branch orientation e_u·(M-S)>0. | Physical torus coordinates; longitudinal +x from M to S; transverse y; midpoint origin |
+| **Independent Review Status** | CL reconstruction is outside GP and independently authored; GP post-freeze rerun is nonblind cross-line corroboration. AO48/CW gate-2 audit remains required. | CL independently authored the source; GP performed a post-freeze nonblind rerun. AO48 or CW/C047R different-line acceptance remains required. |
+| **Dependencies Affected** | P0.2 V4 E1 finite-dimensional evidence; V4 E2 branch definition; HB-014; empty-receipt repair. | P0.2 V4/E1 evidence; GT5/DM2 identical-object checks; V3 exact-law sampler inputs |
+| **Dependencies Unaffected** | P0.2 theorem; Palm/configured-process bridge; V3 trajectories; active machine; ballots; EC-013/014 terminal status. | Pair-Palm/configured-process bridge; selected branch; determinant weight, type indicator and normalizer; V3 trajectories |
+| **Mathematical Change** | NONE — no theorem formula or probability claim changed. | NONE |
+| **Architectural Change** | Registers exact source hashes, rerun identity, negative controls, branch-review verdict, and remaining-gate separation. | Registers the exact source and rerun, retires stale construction alarms, and preserves gate 2 plus the manuscript bridge. |
+| **Architecture Failure Mode Addressed** | Empty or approximate reconstruction being counted as exact-torus evidence; branch definition remaining implicit; component evidence laundering into Palm theorem claims. | A finite-dimensional reconstruction could be laundered into a pair-Palm identity, adjacency result, or theorem claim. |
+| **New Failure Modes** | A different-line source audit may find an object, shell, precision, or control defect; the configured-process bridge may still fail despite the finite-dimensional match. | CL and GP share the declared object statement and published targets; the historical full GP raw JSON is unavailable. |
+| **Detection Tests** | Fresh hash checks; unmodified rerun; recursive receipt comparison; three mutations; published-value comparison; CL branch-convention crosswalk. | Byte counts and hashes; unmodified Python 3.13.5 rerun; recursive JSON comparison; exact rationals; PD; direct/DD agreement; three controls; published-output comparison. |
+| **Uncertainty Permanently Removed** | Exact-torus reconstruction availability, source reproducibility, published-value agreement, and required non-GP E2 review. | Whether literal torus images, required precision, negative controls, and external execution reproduce. |
+| **Remaining Uncertainty** | AO48/CW gate-2 audit; manuscript pair-Palm to configured-pair bridge; V3 exact-law trajectories; full promotion package. | AO48/CW source-object-output audit; pair-Palm/configured-process bridge; theorem promotion gates. |
+| **Required Human Decision** | No human decision now. Dylan approval remains required only after all technical and promotion gates. | No human decision now. Dylan approval remains required only after the full P0.2 gate set. |
+| **Reopening Condition** | Reopen on source/receipt hash mismatch, rerun disagreement, control failure, finite-r matrix discrepancy, branch-definition objection, or bridge mismatch. | Reopen on any hash mismatch, rerun disagreement, PD failure, control failure, material torus/planar discrepancy, or object-order mismatch. |
+| **Failure Class** | EVIDENCE_LINEAGE_AND_OBJECT_BRIDGE | COMPONENT_EVIDENCE_WITH_PARTIAL_INDEPENDENCE |
+| **Architecture Response** | Retire displayed-only and E2-review tasks; preserve gate 2 and manuscript bridge as explicit separate tasks. | Update Help Board, dashboard and alarms; request AO48/CW gate 2 and EC-014 scope response; keep GP support available. |
+| **Recurrence Control** | Future citations must distinguish finite-dimensional Gaussian reconstruction, pair-Palm weighting, configured-process bridge, and adjacency event. | Future exact-law claims must carry source hash, environment, torus side, pin/jet order, precision, controls, independence class and bridge scope. |
+| **Downstream Contamination Assessment** | No downstream contamination; no theorem, machine, canonical source, release, deletion, or ballot state changed. | No downstream canon contamination; no theorem, machine, root, ballot, or release status changed. |
+| **Affected Mathematical Objects** | P0.2 V4 E1/E2; GP-REQ-069; GP-PROT-065; exact finite-r six-pin law. | Finite-dimensional exact-torus six-pin conditional law only. |
+| **Quarantine Status** | COMPONENT PASS / P0.2 QUARANTINED FROM PROMOTION | GATE 1 PASS / DIFFERENT-LINE GATE 2 OPEN / P0.2 OPEN |
+| **Global Object Audit ID** |  | GOA-P02-010 |
+| **Status** | PASS-GATE1 / E2-AGREES / GATE2-AND-BRIDGE-OPEN / NO-PROMOTION | PASS-EXACT-TORUS-SOURCE-RERUN / GATE2-OPEN / NO-PROMOTION |
+
+Identical in both rows: `Transition ID`, `Material`, `Evidence Added`, `No-Change Certificate ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** Alternative reading, given with its consequence: if rows 22 and 23 are in fact two distinct transitions, the correct remedy is the series-renumber form used for TR-P02-011, assigning the next unused TR-P02 number at the time of the operator's write (the export's maximum is TR-P02-027, and TR-P02-028 is claimed by this proposal for TR-P02-011, so the operator would allocate the next free number after that batch). Consequence of picking the wrong reading: the -COLLISION-PROVENANCE label would wrongly assert 'no new evidence' about a row that carries its own; the series-renumber would wrongly assert a second audited transition that the register never audited. Neither error deletes data. SEPARATE OBSERVATION, NOT A FINDING OF THIS PROPOSAL: row 22's empty Global Object Audit ID cell is not itself listed in registers/KNOWN_FINDINGS.json and tools/registers_check.py does not test for it.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 23** (export line 1617) keeps `TR-P02-013`.
+- Reason: Row 23 is bound to GOA-P02-010; row 22's Global Object Audit ID cell is EMPTY. Both rows carry the identical Evidence Added set ('EV-P02-CLDATA052-SOURCE; EV-P02-GPAUD082; CL-RSP-053') and the same subject (the exact-torus six-pin reconstruction gate), which reads as one audited transition recorded twice by concurrent writers rather than two distinct transitions.
+- Discriminator confidence: **MEDIUM — the discriminator is an ABSENT audit binding on one side rather than a positive match on both. The operator should confirm before executing.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 22 (export line 1616) → `TR-P02-013-COLLISION-PROVENANCE`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP02013-20260918 |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 23 (export line 1617) — TR-P02-013 — EXACT_TORUS_SIX_PIN_RECONSTRUCTION_GATE_ADVANCE — EXACT_FINITE_R_SIX_PIN_CONDITIONAL_LAW |
+| `File B` | Transition Log row 22 (export line 1616) — TR-P02-013 — EXACT_TORUS_RECONSTRUCTION_GATE1_AND_BRANCH_REVIEW_PASS — P02_SIX_PIN_RECON_AND_E2 |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 23 as TR-P02-013 on the Global Object Audit binding; register row 22 additively as TR-P02-013-COLLISION-PROVENANCE; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 22, column 'Transition ID'; `TR-P02-013` → `TR-P02-013-COLLISION-PROVENANCE`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as MEDIUM; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.4 `TR-P01-006` — rows 46, 47
+
+> Finding key: `transition_log: duplicate key 'TR-P01-006' at rows 46 and 47`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_TWO_ROWS`.
+
+#### Row 46 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `FINITE_Q4_VERSUS_EXACT_FIELD_PALM_SCOPE_CORRECTION` · `Exact Object ID` = `EC017_PALM_WEIGHT_OBJECT_IDENTITY` · `Recorded UTC` = `2026-07-22T04:30:00Z` · `Global Object Audit ID` = `GOA-P01-006`
+
+Export line **1640**, register row index **46**, 3,832 bytes, SHA-256 `678f549f7c1efd14…`:
+
+```text
+| TR-P01-006 | 2026-07-22T04:30:00Z | FINITE\_Q4\_VERSUS\_EXACT\_FIELD\_PALM\_SCOPE\_CORRECTION | TRUE | EC017\_PALM\_WEIGHT\_OBJECT\_IDENTITY | EC-017 v1.0 and GP-DER-108/110 used exact-field P\_r^MS notation while their weight/type formulas came from GP-DER-043's normalized quartic endpoint Hessians measurable from the nine midpoint jets. | GP-AUD-112 proves the current mass result is for the typed finite-Q4 Palm law P\_{r,Q4}^{MS}. v1.0 is superseded for review by GP-CLS-PROP-020-v1.1. The finite-Q4 qualitative and numerical results survive; exact full-field Palm mass and adjacency reopen/remain open. | The exact six-pin full-field Palm weight depends on exact endpoint Hessians. The higher-order residual may change endpoint Jacobians and types; nine midpoint jets alone do not determine the exact weight. | GP-AUD-112-v1.0; P0.1 READ FIRST; GP-DER-043 §§1,7; GP-DER-045 remainder layer; GP-CLS-PROP-020-v1.1; additive notices on v1.0 derivations/audits/capsule | No source or computation removed. Exact-field notation and v1.0 closure scope are superseded; finite-Q4 mathematics is retained under explicit relabeling. | PRIMARY SOURCE OBJECT AUDIT; FIELD-LAYER CROSSWALK; NUMBERED CLOSURE REVISION | Finite-Q4 nine-jet typed Palm law versus exact full-field determinant-weighted Palm law | Fixed r=1/20 for EC-017; exact-field front separate | Finite-Q4 weight uses normalized quartic endpoint Hessians; exact full-field weight integrates residual endpoint Hessians | Nine midpoint jets versus full conditioned field in the normalized pair chart | GP object audit only; one non-GP review of revised finite-Q4 package and separate exact-field proof remain open | EC-017 revision; HB-029; HB-026; HB-030 exact-field support route; GP-DER-108/110 scope labels | GP-DER-106 degree-four box; finite-Q4 positive mass and numerical bound; EC-018; EC-014/015/016; ballots; machines; releases | No finite-Q4 formula changes. The probability law and closure label are narrowed from exact full field to finite-Q4. | Adds mandatory Palm-weight field-layer identity and prevents exact Gaussian jet law from being confused with exact full-field Palm weighting. |  | An exact finite-dimensional conditional jet law can make a model look exact even when determinant weights and event types still depend on unconditioned higher derivatives. | Exact full-field support/weight positivity and residual endpoint Hessian control remain unproved. | Direct comparison of P0.1 object card, GP-DER-043 finite-Q4 definitions, and GP-DER-045 nonzero Jacobian remainder; constraint measurability audit. | Which probability object is actually proved positive and which exact-field bridge remains missing. | Non-GP review of v1.1; conditional support or populated residual transfer; exact full-field normalizer; r-uniformity. | After non-GP approval of Revision 1.1, Dylan may close only the finite-Q4 object with exact wording. | Reopen if exact endpoint Hessians are proved measurable from the nine midpoint jets, the residual endpoint Jacobian vanishes identically, or a primary exact crosswalk contradicts GP-AUD-112. | FIELD\_LAYER\_AND\_PALM\_WEIGHT\_OBJECT\_MISMATCH | Supersede EC-017 v1.0 for review; publish v1.1 finite-Q4 package; preserve exact-field front as HB-030. | Every Palm claim must declare whether Hessians/types are exact full-field or truncation-derived and whether the weight is measurable from the stated finite jets. | No theorem or canonical contamination occurred because no outside/human approval had passed. Stale exact-field readings are quarantined. | GP-AUD-112; GP-CLS-PROP-020-v1.0/v1.1; GP-DER-043; GP-DER-045; GP-DER-108/110; EC-017 | v1.0 SCOPE FAILED / v1.1 FINITE-Q4 PACKAGE READY / EXACT-FIELD OPEN | GOA-P01-006 | PASS-OBJECT-CORRECTION / FINITE-Q4-RESULT-PRESERVED / EXACT-FIELD-P01-OPEN / NO-PROMOTION |
+```
+
+#### Row 47 — proposed KEEPER, verbatim
+
+`Transition Type` = `EC017_EXACT_FIELD_VS_FINITE_Q4_PALM_SCOPE_CORRECTION` · `Exact Object ID` = `P01_ROUTEB_EC017_FINITE_Q4_PALM_OBJECT` · `Recorded UTC` = `2026-07-22T04:20:00Z` · `Global Object Audit ID` = `GOA-P01-006`
+
+Export line **1641**, register row index **47**, 3,640 bytes, SHA-256 `ce04a2c492d48c00…`:
+
+```text
+| TR-P01-006 | 2026-07-22T04:20:00Z | EC017\_EXACT\_FIELD\_VS\_FINITE\_Q4\_PALM\_SCOPE\_CORRECTION | TRUE | P01\_ROUTEB\_EC017\_FINITE\_Q4\_PALM\_OBJECT | TR-P01-004/TR-P01-005 and GP-CLS-PROP-020-v1.0 used P\_r^MS notation that could be read as the exact full-field Palm law. | GP-AUD-112 proves the evidence supports only the typed finite-Q4 Palm law P\_{r,Q4}^MS. GP-CLS-PROP-020-v1.1 is the sole reviewable package; exact full-field Palm mass and adjacency remain open. | At r=1/20, the certified box has positive mass, with a GP-side candidate lower bound 4.7285293630365039e-31, only under the finite-Q4 typed Palm law built from the exact nine-jet Gaussian law and quartic endpoint Hessians. | GP-AUD-112-v1.0; GP-CLS-PROP-020-v1.1; GP-DER-043; GP-DER-045; GP-DER-106/108/110; GP-AUD-109/111 | GP-CLS-PROP-020-v1.0 is superseded for review. Exact-field interpretations of GP-DER-108/110 and TR-P01-004/005 are withdrawn; all files and calculations remain preserved under corrected scope. | PRIMARY-SOURCE OBJECT AUDIT; FIELD-LAYER CROSSWALK; NUMBERED CLOSURE REVISION | Exact nine-midpoint-jet Gaussian law with quartic endpoint Hessian weight, defining P\_{r,Q4}^MS; distinct from exact full-field P\_r^MS | Single fixed r=1/20; finite-Q4/degree-four layer only | Finite-Q4 normalizer Z\_{r,Q4}; q=rs fixed-r coordinate Jacobian | Nine midpoint jets plus normalized quartic endpoint Hessians; exact endpoint residual Hessians excluded | GP same-line object audit complete; one CL/AO48/CW review of Revision 1.1 remains required | EC-017; HB-026; HB-029; GP-CLS-PROP-020; definitions and relations for fixed-r mass | GP-DER-106 degree-four interval box; EC-014/015/016/018; exact-field HB-024/HB-025; ballots; machines | Relabels the valid fixed-dimensional probability result and withdraws the unsupported exact-field Palm interpretation; no numerical arithmetic is changed. | Adds a binding finite-Q4-versus-exact-field distinction, numbered revision, stale-review retirement, and exact-field continuation route. |  | Finite-dimensional Gaussian-law evidence being laundered into an exact full-field Palm statement. | Reviewers may still cite v1.0 or old P\_r^MS notation unless the revision and alarm are read. | Read P0.1 object card, GP-DER-043 finite-Q4 definition, GP-DER-045 nonzero endpoint Jacobian remainder, and GP-AUD-112 crosswalk. | The exact probability object supported by GP-DER-108/110 and the reason exact-field weighting is not nine-jet measurable. | Non-GP review of v1.1; exact-field endpoint-Hessian/support transfer; exact-field normalizer; r-interval uniformity; P0.1. | After affirmative non-GP review, Dylan may approve only with wording APPROVE EC-017 REVISION 1.1 EXACT SCOPE. | Reopen if primary evidence proves exact endpoint Hessians are determined by the nine jets, residual endpoint Jacobians vanish identically, or an equivalent exact-field crosswalk is supplied. | FINITE\_Q4\_PROXY\_LAUNDERING\_INTO\_EXACT\_FIELD\_PALM | Supersede v1.0 for review; route all closure review to v1.1; keep exact-field Palm/support work active; preserve every artifact. | Every Palm statement must identify whether endpoint Hessians/types are exact full-field or quartic finite-jet functions and bind the corresponding normalizer. | No theorem or machine contamination after correction; no terminal closure, ballot, activation, release, deletion, or destructive effect. | GP-AUD-112; GP-CLS-PROP-020-v1.0/v1.1; GP-DER-108/110; GP-AUD-109/111; EC-017 | V1.0 MATERIAL-SCOPE-FAILED / V1.1 REVIEWABLE / EXACT-FIELD OPEN | GOA-P01-006 | PASS-MATERIAL-SCOPE-CORRECTION / V1.1 NON-GP-AND-HUMAN-GATES-OPEN / NO-PROMOTION |
+```
+
+#### Where rows 46 and 47 differ
+
+| Field | Row 46 | Row 47 |
+|---|---|---|
+| **Recorded UTC** | 2026-07-22T04:30:00Z | 2026-07-22T04:20:00Z |
+| **Transition Type** | FINITE_Q4_VERSUS_EXACT_FIELD_PALM_SCOPE_CORRECTION | EC017_EXACT_FIELD_VS_FINITE_Q4_PALM_SCOPE_CORRECTION |
+| **Exact Object ID** | EC017_PALM_WEIGHT_OBJECT_IDENTITY | P01_ROUTEB_EC017_FINITE_Q4_PALM_OBJECT |
+| **Previous State** | EC-017 v1.0 and GP-DER-108/110 used exact-field P_r^MS notation while their weight/type formulas came from GP-DER-043's normalized quartic endpoint Hessians measurable from the nine midpoint jets. | TR-P01-004/TR-P01-005 and GP-CLS-PROP-020-v1.0 used P_r^MS notation that could be read as the exact full-field Palm law. |
+| **New State** | GP-AUD-112 proves the current mass result is for the typed finite-Q4 Palm law P_{r,Q4}^{MS}. v1.0 is superseded for review by GP-CLS-PROP-020-v1.1. The finite-Q4 qualitative and numerical results survive; exact full-field Palm mass and adjacency reopen/remain open. | GP-AUD-112 proves the evidence supports only the typed finite-Q4 Palm law P_{r,Q4}^MS. GP-CLS-PROP-020-v1.1 is the sole reviewable package; exact full-field Palm mass and adjacency remain open. |
+| **Exact Claim or Architectural Rule** | The exact six-pin full-field Palm weight depends on exact endpoint Hessians. The higher-order residual may change endpoint Jacobians and types; nine midpoint jets alone do not determine the exact weight. | At r=1/20, the certified box has positive mass, with a GP-side candidate lower bound 4.7285293630365039e-31, only under the finite-Q4 typed Palm law built from the exact nine-jet Gaussian law and quartic endpoint Hessians. |
+| **Evidence Added** | GP-AUD-112-v1.0; P0.1 READ FIRST; GP-DER-043 §§1,7; GP-DER-045 remainder layer; GP-CLS-PROP-020-v1.1; additive notices on v1.0 derivations/audits/capsule | GP-AUD-112-v1.0; GP-CLS-PROP-020-v1.1; GP-DER-043; GP-DER-045; GP-DER-106/108/110; GP-AUD-109/111 |
+| **Evidence Removed/Killed/Superseded** | No source or computation removed. Exact-field notation and v1.0 closure scope are superseded; finite-Q4 mathematics is retained under explicit relabeling. | GP-CLS-PROP-020-v1.0 is superseded for review. Exact-field interpretations of GP-DER-108/110 and TR-P01-004/005 are withdrawn; all files and calculations remain preserved under corrected scope. |
+| **Evidence Class** | PRIMARY SOURCE OBJECT AUDIT; FIELD-LAYER CROSSWALK; NUMBERED CLOSURE REVISION | PRIMARY-SOURCE OBJECT AUDIT; FIELD-LAYER CROSSWALK; NUMBERED CLOSURE REVISION |
+| **Law or Measure** | Finite-Q4 nine-jet typed Palm law versus exact full-field determinant-weighted Palm law | Exact nine-midpoint-jet Gaussian law with quartic endpoint Hessian weight, defining P_{r,Q4}^MS; distinct from exact full-field P_r^MS |
+| **Regime** | Fixed r=1/20 for EC-017; exact-field front separate | Single fixed r=1/20; finite-Q4/degree-four layer only |
+| **Normalization** | Finite-Q4 weight uses normalized quartic endpoint Hessians; exact full-field weight integrates residual endpoint Hessians | Finite-Q4 normalizer Z_{r,Q4}; q=rs fixed-r coordinate Jacobian |
+| **Coordinate System** | Nine midpoint jets versus full conditioned field in the normalized pair chart | Nine midpoint jets plus normalized quartic endpoint Hessians; exact endpoint residual Hessians excluded |
+| **Independent Review Status** | GP object audit only; one non-GP review of revised finite-Q4 package and separate exact-field proof remain open | GP same-line object audit complete; one CL/AO48/CW review of Revision 1.1 remains required |
+| **Dependencies Affected** | EC-017 revision; HB-029; HB-026; HB-030 exact-field support route; GP-DER-108/110 scope labels | EC-017; HB-026; HB-029; GP-CLS-PROP-020; definitions and relations for fixed-r mass |
+| **Dependencies Unaffected** | GP-DER-106 degree-four box; finite-Q4 positive mass and numerical bound; EC-018; EC-014/015/016; ballots; machines; releases | GP-DER-106 degree-four interval box; EC-014/015/016/018; exact-field HB-024/HB-025; ballots; machines |
+| **Mathematical Change** | No finite-Q4 formula changes. The probability law and closure label are narrowed from exact full field to finite-Q4. | Relabels the valid fixed-dimensional probability result and withdraws the unsupported exact-field Palm interpretation; no numerical arithmetic is changed. |
+| **Architectural Change** | Adds mandatory Palm-weight field-layer identity and prevents exact Gaussian jet law from being confused with exact full-field Palm weighting. | Adds a binding finite-Q4-versus-exact-field distinction, numbered revision, stale-review retirement, and exact-field continuation route. |
+| **Architecture Failure Mode Addressed** | An exact finite-dimensional conditional jet law can make a model look exact even when determinant weights and event types still depend on unconditioned higher derivatives. | Finite-dimensional Gaussian-law evidence being laundered into an exact full-field Palm statement. |
+| **New Failure Modes** | Exact full-field support/weight positivity and residual endpoint Hessian control remain unproved. | Reviewers may still cite v1.0 or old P_r^MS notation unless the revision and alarm are read. |
+| **Detection Tests** | Direct comparison of P0.1 object card, GP-DER-043 finite-Q4 definitions, and GP-DER-045 nonzero Jacobian remainder; constraint measurability audit. | Read P0.1 object card, GP-DER-043 finite-Q4 definition, GP-DER-045 nonzero endpoint Jacobian remainder, and GP-AUD-112 crosswalk. |
+| **Uncertainty Permanently Removed** | Which probability object is actually proved positive and which exact-field bridge remains missing. | The exact probability object supported by GP-DER-108/110 and the reason exact-field weighting is not nine-jet measurable. |
+| **Remaining Uncertainty** | Non-GP review of v1.1; conditional support or populated residual transfer; exact full-field normalizer; r-uniformity. | Non-GP review of v1.1; exact-field endpoint-Hessian/support transfer; exact-field normalizer; r-interval uniformity; P0.1. |
+| **Required Human Decision** | After non-GP approval of Revision 1.1, Dylan may close only the finite-Q4 object with exact wording. | After affirmative non-GP review, Dylan may approve only with wording APPROVE EC-017 REVISION 1.1 EXACT SCOPE. |
+| **Reopening Condition** | Reopen if exact endpoint Hessians are proved measurable from the nine midpoint jets, the residual endpoint Jacobian vanishes identically, or a primary exact crosswalk contradicts GP-AUD-112. | Reopen if primary evidence proves exact endpoint Hessians are determined by the nine jets, residual endpoint Jacobians vanish identically, or an equivalent exact-field crosswalk is supplied. |
+| **Failure Class** | FIELD_LAYER_AND_PALM_WEIGHT_OBJECT_MISMATCH | FINITE_Q4_PROXY_LAUNDERING_INTO_EXACT_FIELD_PALM |
+| **Architecture Response** | Supersede EC-017 v1.0 for review; publish v1.1 finite-Q4 package; preserve exact-field front as HB-030. | Supersede v1.0 for review; route all closure review to v1.1; keep exact-field Palm/support work active; preserve every artifact. |
+| **Recurrence Control** | Every Palm claim must declare whether Hessians/types are exact full-field or truncation-derived and whether the weight is measurable from the stated finite jets. | Every Palm statement must identify whether endpoint Hessians/types are exact full-field or quartic finite-jet functions and bind the corresponding normalizer. |
+| **Downstream Contamination Assessment** | No theorem or canonical contamination occurred because no outside/human approval had passed. Stale exact-field readings are quarantined. | No theorem or machine contamination after correction; no terminal closure, ballot, activation, release, deletion, or destructive effect. |
+| **Affected Mathematical Objects** | GP-AUD-112; GP-CLS-PROP-020-v1.0/v1.1; GP-DER-043; GP-DER-045; GP-DER-108/110; EC-017 | GP-AUD-112; GP-CLS-PROP-020-v1.0/v1.1; GP-DER-108/110; GP-AUD-109/111; EC-017 |
+| **Quarantine Status** | v1.0 SCOPE FAILED / v1.1 FINITE-Q4 PACKAGE READY / EXACT-FIELD OPEN | V1.0 MATERIAL-SCOPE-FAILED / V1.1 REVIEWABLE / EXACT-FIELD OPEN |
+| **Status** | PASS-OBJECT-CORRECTION / FINITE-Q4-RESULT-PRESERVED / EXACT-FIELD-P01-OPEN / NO-PROMOTION | PASS-MATERIAL-SCOPE-CORRECTION / V1.1 NON-GP-AND-HUMAN-GATES-OPEN / NO-PROMOTION |
+
+Identical in both rows: `Transition ID`, `Material`, `No-Change Certificate ID`, `Global Object Audit ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** Additional hazard, additively disclosable: TR-P01-004 and TR-P01-005 both carry the Status text 'SUPERSEDED FOR EXACT-FIELD SCOPE BY TR-P01-006', citing the colliding key by BARE ID. That is precisely the hazard Duplicate Flags cluster DUP-ID-GP-DER-044 records ('High dependency-contamination risk if cited by ID alone'; 'CLOSED rule: cite full title + Drive ID; never merge or rename'). Those two citation cells should be additively disambiguated as part of the same operator action.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 47** (export line 1641) keeps `TR-P01-006`.
+- Reason: GOA-P01-006 carries Exact Object ID 'P01_ROUTEB_EC017_FINITE_Q4_PALM_OBJECT' — row 47's Exact Object ID verbatim — and Recorded UTC 2026-07-22T04:20:00Z, which is row 47's Recorded UTC verbatim. Row 46's Exact Object ID is 'EC017_PALM_WEIGHT_OBJECT_IDENTITY' and its Recorded UTC is 04:30:00Z; neither matches the bound audit.
+- Discriminator confidence: **HIGH — exact object-string match AND exact timestamp match to the bound audit row.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 46 (export line 1640) → `TR-P01-006-COLLISION-PROVENANCE`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP01006-20260918 |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 47 (export line 1641) — TR-P01-006 — EC017_EXACT_FIELD_VS_FINITE_Q4_PALM_SCOPE_CORRECTION — P01_ROUTEB_EC017_FINITE_Q4_PALM_OBJECT |
+| `File B` | Transition Log row 46 (export line 1640) — TR-P01-006 — FINITE_Q4_VERSUS_EXACT_FIELD_PALM_SCOPE_CORRECTION — EC017_PALM_WEIGHT_OBJECT_IDENTITY |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk; TR-P01-004/005 cite TR-P01-006 by bare ID |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 47 as TR-P01-006 on the Global Object Audit binding; register row 46 additively as TR-P01-006-COLLISION-PROVENANCE; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 46, column 'Transition ID'; `TR-P01-006` → `TR-P01-006-COLLISION-PROVENANCE`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+- Coupled cell that must be reconciled in the same action: Transition Log rows 43 and 45, 'Status' column, which cite TR-P01-006 by bare ID
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as HIGH; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.5 `TR-P01-011` — rows 54, 55
+
+> Finding key: `transition_log: duplicate key 'TR-P01-011' at rows 54 and 55`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_THREE_ROWS`.
+
+#### Row 54 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `P01_ALTERNATE_DERIVATION_LINEAGE_RECONCILIATION` · `Exact Object ID` = `P01_GOVERNING_THEOREM_REVIEW_STACK` · `Recorded UTC` = `2026-07-22T06:35:00Z` · `Global Object Audit ID` = `GOA-P01-011`
+
+Export line **1648**, register row index **54**, 2,601 bytes, SHA-256 `ce9359ad0c1a374c…`:
+
+```text
+| TR-P01-011 | 2026-07-22T06:35:00Z | P01\_ALTERNATE\_DERIVATION\_LINEAGE\_RECONCILIATION | TRUE | P01\_GOVERNING\_THEOREM\_REVIEW\_STACK | A same-line alternate GP-DER-118-v1.1/v1.2 and GP-AUD-119 lineage appeared while the populated governing GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, and GP-PRP-121-v1.0 stack became visible. | The governing stack remains GP-DER-118-v1.0 + GP-DER-119-v1.0 + GP-AUD-120-v1.0 + GP-PRP-121-v1.0. GP-DER-118-v1.2 is only a same-line weak-convergence cross-check; GP-AUD-119 applies only to that alternate lineage. | Alternate same-line derivations do not create independent evidence, duplicate theorem tracks, votes, or approval surfaces. | GP-DER-118-v1.0; GP-DER-119-v1.0; GP-AUD-120-v1.0; GP-PRP-121-v1.0; GP-DER-118-v1.2; GP-AUD-119-v1.0 | No evidence removed; all alternate artifacts and objections remain preserved as provenance. | LINEAGE RECONCILIATION / NO NEW MATHEMATICAL EVIDENCE | Exact full-field P0.1 theorem-review architecture | Coordination and review-routing layer only | No normalization or law change | Exact full-field torus and normalized pair chart | No independent credit; multi-line review remains open under GP-PRP-121. | GP-PRP-121 routing; theorem-review navigation; relation and alarm ledgers | All mathematics, closures, ballots, machines, releases, and destructive gates unchanged | NONE | Creates one authoritative review route and labels the alternate derivation nonoperative. | NCC-P01-011 | Concurrent same-line theorem packages could be mistaken for independent agreement. | Reviewers could double-count GP evidence or use the wrong review surface. | Exact-ID searches, top notices, dependency comparison, and GP-PRP-121 addendum. | Authoritative theorem/review stack is now explicit. | Two distinct non-GP lines covering all review domains; numbered objections; Dylan promotion approval; separate machine/governance gates. | No human decision required for reconciliation. | Reopen if a governing artifact promotes the alternate lineage or evidence is double-counted. | DUPLICATE\_REVIEW\_TRACK\_AND\_FALSE\_INDEPENDENCE\_RISK | Preserve alternates, label supplemental/nonoperative, retain one review surface. | Every theorem family must identify one authoritative proof, audit, review package, and supplemental derivations. | No downstream contamination; candidate and blockers unchanged. | GP-DER-118-v1.0/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121 | AUTHORITATIVE GP-PRP-121 ROUTING / ALTERNATE NONOPERATIVE / MULTILINE REVIEW OPEN | GOA-P01-011 | PASS-LINEAGE-RECONCILIATION / NO-MATHEMATICAL-CHANGE / NO-PROMOTION |
+```
+
+#### Row 55 — proposed KEEPER, verbatim
+
+`Transition Type` = `P01_NUMBERED_REVISION_AND_ACTIVE_REVIEW_LINEAGE_RECONCILIATION` · `Exact Object ID` = `P01_GP_DER_118_REVISION_FAMILY` · `Recorded UTC` = `2026-07-22T06:45:00Z` · `Global Object Audit ID` = `GOA-P01-011`
+
+Export line **1649**, register row index **55**, 4,302 bytes, SHA-256 `e4e3dddcc286203c…`:
+
+```text
+| TR-P01-011 | 2026-07-22T06:45:00Z | P01\_NUMBERED\_REVISION\_AND\_ACTIVE\_REVIEW\_LINEAGE\_RECONCILIATION | TRUE | P01\_GP\_DER\_118\_REVISION\_FAMILY | TR-P01-010 registered GP-DER-118-v1.0, GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 as the candidate theorem/review chain. Concurrently, GP-AUD-119 identified an unsupported common-coupling/dominated-convergence presentation in GP-DER-118-v1.1 and triggered GP-DER-118-v1.2. | GP-DER-118-v1.2 is the sole active P0.1 theorem review object. It replaces the unsupported coupling presentation with finite-dimensional convergence in distribution plus uniform integrability. GP-DER-118-v1.0 remains populated component normalizer provenance; GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 remain supplementary historical objects. GP-PRP-121-v1.1 now governs review routing. | Active verdicts and objections must name GP-DER-118 Revision 1.2 exactly. Weak convergence plus uniform integrability, not an unnamed common almost-sure coupling or ordinary dominated convergence, governs the normalizer expectation limit. | GP-DER-118-v1.2; GP-AUD-119-v1.0; GP-PRP-121-v1.1; additive notices on GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, GP-PRP-121-v1.0; concurrency correction in v1.2 | No mathematical component or provenance deleted. GP-DER-118-v1.1 and prior review routing are superseded for active use; GP-DER-118-v1.0 is corrected from erroneously described empty staging to populated component provenance. | NUMBERED THEOREM REVISION; CONVERGENCE-MODE CORRECTION; IDENTIFIER/LINEAGE RECONCILIATION; REVIEW-ROUTING REVISION | Exact full-field six-pin typed Palm law and exact P0.1 candidate theorem | Sufficiently small r; exact full-field layer; theorem-review workflow | Exact endpoint weights and normalizer; weak convergence plus uniform integrability | Physical torus field, normalized pair chart, fixed-q corridor | GP numbered revision complete. No non-GP Revision 1.2 review has been filed; independence and promotion gates remain open. | HB-033; GP-PRP-121-v1.1; active P0.1 review citations; future numbered objections and scope audit | Finite-Q4 EC objects; eight terminal closures; R0.2 ballot; P0.2; machines; releases; destructive operations | The core candidate theorem remains mathematically unchanged except for the convergence-mode repair; expectation convergence is now justified by weak convergence plus uniform integrability. | Prevents reviewers from approving superseded theorem versions or relying on an unconstructed common coupling; corrects concurrent provenance misclassification. |  | A later revision could silently erase a populated concurrent component; old review wording could be mistaken as valid; stale dominated-convergence text could re-enter the active proof. | Revision 1.2 still lacks non-GP reconstruction; endpoint divided differences, transfer completeness, and the combined theorem require independent review. | Full reads of GP-AUD-119 and GP-DER-118-v1.2; comparison with v1.0/v1.1/GP-DER-119; exact review-wording audit; explicit UI/weak-convergence replacement. | Which numbered theorem and review package are operative, and which earlier objects remain component provenance. | Revision 1.2 multi-line review; material-objection corrections; fresh scope audit; Dylan promotion decision; separate machine/governance gates. | No human decision now. Any future approval must name Revision 1.2 after qualifying independent reviews. | Reopen on conflict in active lineage, a valid objection to weak-convergence/UI, evidence v1.0 was actually empty, or a later numbered revision. | CONCURRENT\_REVISION\_LINEAGE\_AND\_CONVERGENCE\_PRESENTATION\_FAILURE | Route all active review to v1.2 and PRP v1.1; preserve all earlier artifacts; add alarms against superseded wording. | Theorem revision families must distinguish active review object, component provenance, superseded synthesis, audit trigger, and exact accepted-verdict wording. | No theorem or machine contamination: no non-GP review, promotion, ballot, or machine change had occurred. | GP-DER-118-v1.0/v1.1/v1.2; GP-AUD-119; GP-DER-119; GP-AUD-120; GP-PRP-121-v1.0/v1.1; P0.1 | REVISION-1.2 SOLE ACTIVE REVIEW / MULTI-LINE REVIEW OPEN / NO PROMOTION | GOA-P01-011 | PASS-LINEAGE-CORRECTION / PASS-WEAK-CONVERGENCE-REVISION / INDEPENDENCE-BLOCKED |
+```
+
+#### Where rows 54 and 55 differ
+
+| Field | Row 54 | Row 55 |
+|---|---|---|
+| **Recorded UTC** | 2026-07-22T06:35:00Z | 2026-07-22T06:45:00Z |
+| **Transition Type** | P01_ALTERNATE_DERIVATION_LINEAGE_RECONCILIATION | P01_NUMBERED_REVISION_AND_ACTIVE_REVIEW_LINEAGE_RECONCILIATION |
+| **Exact Object ID** | P01_GOVERNING_THEOREM_REVIEW_STACK | P01_GP_DER_118_REVISION_FAMILY |
+| **Previous State** | A same-line alternate GP-DER-118-v1.1/v1.2 and GP-AUD-119 lineage appeared while the populated governing GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, and GP-PRP-121-v1.0 stack became visible. | TR-P01-010 registered GP-DER-118-v1.0, GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 as the candidate theorem/review chain. Concurrently, GP-AUD-119 identified an unsupported common-coupling/dominated-convergence presentation in GP-DER-118-v1.1 and triggered GP-DER-118-v1.2. |
+| **New State** | The governing stack remains GP-DER-118-v1.0 + GP-DER-119-v1.0 + GP-AUD-120-v1.0 + GP-PRP-121-v1.0. GP-DER-118-v1.2 is only a same-line weak-convergence cross-check; GP-AUD-119 applies only to that alternate lineage. | GP-DER-118-v1.2 is the sole active P0.1 theorem review object. It replaces the unsupported coupling presentation with finite-dimensional convergence in distribution plus uniform integrability. GP-DER-118-v1.0 remains populated component normalizer provenance; GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 remain supplementary historical objects. GP-PRP-121-v1.1 now governs review routing. |
+| **Exact Claim or Architectural Rule** | Alternate same-line derivations do not create independent evidence, duplicate theorem tracks, votes, or approval surfaces. | Active verdicts and objections must name GP-DER-118 Revision 1.2 exactly. Weak convergence plus uniform integrability, not an unnamed common almost-sure coupling or ordinary dominated convergence, governs the normalizer expectation limit. |
+| **Evidence Added** | GP-DER-118-v1.0; GP-DER-119-v1.0; GP-AUD-120-v1.0; GP-PRP-121-v1.0; GP-DER-118-v1.2; GP-AUD-119-v1.0 | GP-DER-118-v1.2; GP-AUD-119-v1.0; GP-PRP-121-v1.1; additive notices on GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, GP-PRP-121-v1.0; concurrency correction in v1.2 |
+| **Evidence Removed/Killed/Superseded** | No evidence removed; all alternate artifacts and objections remain preserved as provenance. | No mathematical component or provenance deleted. GP-DER-118-v1.1 and prior review routing are superseded for active use; GP-DER-118-v1.0 is corrected from erroneously described empty staging to populated component provenance. |
+| **Evidence Class** | LINEAGE RECONCILIATION / NO NEW MATHEMATICAL EVIDENCE | NUMBERED THEOREM REVISION; CONVERGENCE-MODE CORRECTION; IDENTIFIER/LINEAGE RECONCILIATION; REVIEW-ROUTING REVISION |
+| **Law or Measure** | Exact full-field P0.1 theorem-review architecture | Exact full-field six-pin typed Palm law and exact P0.1 candidate theorem |
+| **Regime** | Coordination and review-routing layer only | Sufficiently small r; exact full-field layer; theorem-review workflow |
+| **Normalization** | No normalization or law change | Exact endpoint weights and normalizer; weak convergence plus uniform integrability |
+| **Coordinate System** | Exact full-field torus and normalized pair chart | Physical torus field, normalized pair chart, fixed-q corridor |
+| **Independent Review Status** | No independent credit; multi-line review remains open under GP-PRP-121. | GP numbered revision complete. No non-GP Revision 1.2 review has been filed; independence and promotion gates remain open. |
+| **Dependencies Affected** | GP-PRP-121 routing; theorem-review navigation; relation and alarm ledgers | HB-033; GP-PRP-121-v1.1; active P0.1 review citations; future numbered objections and scope audit |
+| **Dependencies Unaffected** | All mathematics, closures, ballots, machines, releases, and destructive gates unchanged | Finite-Q4 EC objects; eight terminal closures; R0.2 ballot; P0.2; machines; releases; destructive operations |
+| **Mathematical Change** | NONE | The core candidate theorem remains mathematically unchanged except for the convergence-mode repair; expectation convergence is now justified by weak convergence plus uniform integrability. |
+| **Architectural Change** | Creates one authoritative review route and labels the alternate derivation nonoperative. | Prevents reviewers from approving superseded theorem versions or relying on an unconstructed common coupling; corrects concurrent provenance misclassification. |
+| **No-Change Certificate ID** | NCC-P01-011 |  |
+| **Architecture Failure Mode Addressed** | Concurrent same-line theorem packages could be mistaken for independent agreement. | A later revision could silently erase a populated concurrent component; old review wording could be mistaken as valid; stale dominated-convergence text could re-enter the active proof. |
+| **New Failure Modes** | Reviewers could double-count GP evidence or use the wrong review surface. | Revision 1.2 still lacks non-GP reconstruction; endpoint divided differences, transfer completeness, and the combined theorem require independent review. |
+| **Detection Tests** | Exact-ID searches, top notices, dependency comparison, and GP-PRP-121 addendum. | Full reads of GP-AUD-119 and GP-DER-118-v1.2; comparison with v1.0/v1.1/GP-DER-119; exact review-wording audit; explicit UI/weak-convergence replacement. |
+| **Uncertainty Permanently Removed** | Authoritative theorem/review stack is now explicit. | Which numbered theorem and review package are operative, and which earlier objects remain component provenance. |
+| **Remaining Uncertainty** | Two distinct non-GP lines covering all review domains; numbered objections; Dylan promotion approval; separate machine/governance gates. | Revision 1.2 multi-line review; material-objection corrections; fresh scope audit; Dylan promotion decision; separate machine/governance gates. |
+| **Required Human Decision** | No human decision required for reconciliation. | No human decision now. Any future approval must name Revision 1.2 after qualifying independent reviews. |
+| **Reopening Condition** | Reopen if a governing artifact promotes the alternate lineage or evidence is double-counted. | Reopen on conflict in active lineage, a valid objection to weak-convergence/UI, evidence v1.0 was actually empty, or a later numbered revision. |
+| **Failure Class** | DUPLICATE_REVIEW_TRACK_AND_FALSE_INDEPENDENCE_RISK | CONCURRENT_REVISION_LINEAGE_AND_CONVERGENCE_PRESENTATION_FAILURE |
+| **Architecture Response** | Preserve alternates, label supplemental/nonoperative, retain one review surface. | Route all active review to v1.2 and PRP v1.1; preserve all earlier artifacts; add alarms against superseded wording. |
+| **Recurrence Control** | Every theorem family must identify one authoritative proof, audit, review package, and supplemental derivations. | Theorem revision families must distinguish active review object, component provenance, superseded synthesis, audit trigger, and exact accepted-verdict wording. |
+| **Downstream Contamination Assessment** | No downstream contamination; candidate and blockers unchanged. | No theorem or machine contamination: no non-GP review, promotion, ballot, or machine change had occurred. |
+| **Affected Mathematical Objects** | GP-DER-118-v1.0/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121 | GP-DER-118-v1.0/v1.1/v1.2; GP-AUD-119; GP-DER-119; GP-AUD-120; GP-PRP-121-v1.0/v1.1; P0.1 |
+| **Quarantine Status** | AUTHORITATIVE GP-PRP-121 ROUTING / ALTERNATE NONOPERATIVE / MULTILINE REVIEW OPEN | REVISION-1.2 SOLE ACTIVE REVIEW / MULTI-LINE REVIEW OPEN / NO PROMOTION |
+| **Status** | PASS-LINEAGE-RECONCILIATION / NO-MATHEMATICAL-CHANGE / NO-PROMOTION | PASS-LINEAGE-CORRECTION / PASS-WEAK-CONVERGENCE-REVISION / INDEPENDENCE-BLOCKED |
+
+Identical in both rows: `Transition ID`, `Material`, `Global Object Audit ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** THREE rows share this key, and they disagree materially: row 54 (06:35Z) states the governing stack remains GP-DER-118-v1.0 + GP-DER-119 + GP-AUD-120 + GP-PRP-121-v1.0 and that GP-DER-118-v1.2 is 'only a same-line weak-convergence cross-check'; rows 55 (06:45Z) and 56 (06:40Z) state GP-DER-118-v1.2 is the sole active theorem review object. Rows 54 and 56 additionally carry No-Change Certificate IDs (NCC-P01-011 and NCC-P01-R118-LINEAGE). Reidentifying their Transition ID would orphan those certificates unless the No-Change Certificates tab's 'Transition ID' column is reconciled in the same operator action.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 55** (export line 1649) keeps `TR-P01-011`.
+- Reason: GOA-P01-011's Recorded UTC 2026-07-22T06:45:00Z is row 55's Recorded UTC verbatim, and its Original Scientific Question ('Which numbered document is the operative candidate proof of exact P0.1, and is its normalizer expectation limit justified without an unconstructed coupling?') is the question row 55 answers. Its Exact Object ID 'P01_GP_DER_118_REVISION_1_2' matches NO row's Exact Object ID string exactly (row 54: P01_GOVERNING_THEOREM_REVIEW_STACK; row 55: P01_GP_DER_118_REVISION_FAMILY; row 56: P01_GP_DER_118_ACTIVE_REVISION_LINEAGE).
+- Discriminator confidence: **MEDIUM — timestamp and audit-question match, but NOT the exact object-string match that decided TR-P12-007, TR-P01-006 and TR-P01-012. Operator confirmation required before execution.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 54 (export line 1648) → `TR-P01-011-COLLISION-PROVENANCE-A`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP01011-20260918-A |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 55 (export line 1649) — TR-P01-011 — P01_NUMBERED_REVISION_AND_ACTIVE_REVIEW_LINEAGE_RECONCILIATION — P01_GP_DER_118_REVISION_FAMILY |
+| `File B` | Transition Log row 54 (export line 1648) — TR-P01-011 — P01_ALTERNATE_DERIVATION_LINEAGE_RECONCILIATION — P01_GOVERNING_THEOREM_REVIEW_STACK |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 55 as TR-P01-011 on the Global Object Audit binding; register row 54 additively as TR-P01-011-COLLISION-PROVENANCE-A; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 54, column 'Transition ID'; `TR-P01-011` → `TR-P01-011-COLLISION-PROVENANCE-A`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+- Coupled cell that must be reconciled in the same action: No-Change Certificates tab, 'Transition ID' column, for NCC-P01-011 and NCC-P01-R118-LINEAGE
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as MEDIUM; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.6 `TR-P01-011` — rows 54, 56
+
+> Finding key: `transition_log: duplicate key 'TR-P01-011' at rows 54 and 56`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_THREE_ROWS`.
+
+#### Row 54 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `P01_ALTERNATE_DERIVATION_LINEAGE_RECONCILIATION` · `Exact Object ID` = `P01_GOVERNING_THEOREM_REVIEW_STACK` · `Recorded UTC` = `2026-07-22T06:35:00Z` · `Global Object Audit ID` = `GOA-P01-011`
+
+Export line **1648**, register row index **54**, 2,601 bytes, SHA-256 `ce9359ad0c1a374c…`:
+
+```text
+| TR-P01-011 | 2026-07-22T06:35:00Z | P01\_ALTERNATE\_DERIVATION\_LINEAGE\_RECONCILIATION | TRUE | P01\_GOVERNING\_THEOREM\_REVIEW\_STACK | A same-line alternate GP-DER-118-v1.1/v1.2 and GP-AUD-119 lineage appeared while the populated governing GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, and GP-PRP-121-v1.0 stack became visible. | The governing stack remains GP-DER-118-v1.0 + GP-DER-119-v1.0 + GP-AUD-120-v1.0 + GP-PRP-121-v1.0. GP-DER-118-v1.2 is only a same-line weak-convergence cross-check; GP-AUD-119 applies only to that alternate lineage. | Alternate same-line derivations do not create independent evidence, duplicate theorem tracks, votes, or approval surfaces. | GP-DER-118-v1.0; GP-DER-119-v1.0; GP-AUD-120-v1.0; GP-PRP-121-v1.0; GP-DER-118-v1.2; GP-AUD-119-v1.0 | No evidence removed; all alternate artifacts and objections remain preserved as provenance. | LINEAGE RECONCILIATION / NO NEW MATHEMATICAL EVIDENCE | Exact full-field P0.1 theorem-review architecture | Coordination and review-routing layer only | No normalization or law change | Exact full-field torus and normalized pair chart | No independent credit; multi-line review remains open under GP-PRP-121. | GP-PRP-121 routing; theorem-review navigation; relation and alarm ledgers | All mathematics, closures, ballots, machines, releases, and destructive gates unchanged | NONE | Creates one authoritative review route and labels the alternate derivation nonoperative. | NCC-P01-011 | Concurrent same-line theorem packages could be mistaken for independent agreement. | Reviewers could double-count GP evidence or use the wrong review surface. | Exact-ID searches, top notices, dependency comparison, and GP-PRP-121 addendum. | Authoritative theorem/review stack is now explicit. | Two distinct non-GP lines covering all review domains; numbered objections; Dylan promotion approval; separate machine/governance gates. | No human decision required for reconciliation. | Reopen if a governing artifact promotes the alternate lineage or evidence is double-counted. | DUPLICATE\_REVIEW\_TRACK\_AND\_FALSE\_INDEPENDENCE\_RISK | Preserve alternates, label supplemental/nonoperative, retain one review surface. | Every theorem family must identify one authoritative proof, audit, review package, and supplemental derivations. | No downstream contamination; candidate and blockers unchanged. | GP-DER-118-v1.0/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121 | AUTHORITATIVE GP-PRP-121 ROUTING / ALTERNATE NONOPERATIVE / MULTILINE REVIEW OPEN | GOA-P01-011 | PASS-LINEAGE-RECONCILIATION / NO-MATHEMATICAL-CHANGE / NO-PROMOTION |
+```
+
+#### Row 56 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `P01_REVISION_1_2_LINEAGE_AND_REVIEW_ROUTING_CORRECTION` · `Exact Object ID` = `P01_GP_DER_118_ACTIVE_REVISION_LINEAGE` · `Recorded UTC` = `2026-07-22T06:40:00Z` · `Global Object Audit ID` = `GOA-P01-011`
+
+Export line **1650**, register row index **56**, 2,953 bytes, SHA-256 `a00f599f220a4b4f…`:
+
+```text
+| TR-P01-011 | 2026-07-22T06:40:00Z | P01\_REVISION\_1\_2\_LINEAGE\_AND\_REVIEW\_ROUTING\_CORRECTION | TRUE | P01\_GP\_DER\_118\_ACTIVE\_REVISION\_LINEAGE | Concurrent GP artifacts left multiple plausible theorem review surfaces: populated v1.0 component, v1.1 synthesis, v1.2 correction, separate GP-DER-119 synthesis, GP-AUD-120, and GP-PRP-121-v1.0. | GP-DER-118-v1.2 is designated the sole active theorem review object; GP-AUD-119 is the governing revision audit; GP-PRP-121-v1.1 is the sole active review package. All earlier theorem/routing wording is nonoperative but preserved. | The candidate conclusion is unchanged. The exact normalizer expectation limit is justified by weak convergence plus uniform integrability, with the type boundary null under Q\_L. | GP-DER-118-v1.2; GP-AUD-119-v1.0; GP-PRP-121-v1.1; supersession notices on GP-DER-118-v1.0/v1.1, GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 | No evidence removed. Earlier objects are retained as component, audit, revision, or collision provenance. | NUMBERED REVISION; SUPERSESSION RECONCILIATION; REVIEW-SURFACE CORRECTION | Exact full-field P0.1 theorem candidate | Sufficiently small r interval; governance status unchanged | Exact full-field endpoint weight and normalizer | Confluent endpoint-Hessian frame and normalized pair chart | No non-GP Revision 1.2 verdict; at least two distinct non-GP lines must collectively cover all three review domains | HB-033; P0.1 review; future promotion package | Mathematical candidate conclusion; P0.2; EC queue; R0.2; machines; releases | No new theorem claim; convergence proof is corrected and active lineage is consolidated. | Prevents approval of stale revisions and duplicate counting of same-line artifacts. | NCC-P01-R118-LINEAGE | Concurrent artifact creation produced conflicting active-review candidates. | A reviewer may cite v1.0/v1.1 or GP-DER-119 instead of Revision 1.2. | Exact title/Drive-ID search; supersession notices; HB-033 and relation updates; Revision 1.2 wording check. | Which theorem revision and review package are operative. | Independent Revision 1.2 review, corrections, fresh audit, and human promotion gate. | No human decision now. | Reopen lineage reconciliation if a later numbered revision appears or an active pointer still references a superseded review surface. | CONCURRENT\_REVISION\_AND\_REVIEW\_SURFACE\_COLLISION | Preserve all files, designate Revision 1.2 and PRP v1.1 as operative, retire stale wording. | Every review task must bind exact artifact revision and Drive ID; later revisions automatically invalidate prior affirmative wording. | No downstream mathematical or canonical contamination; coordination state corrected before outside votes. | GP-DER-118-v1.0/v1.1/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121-v1.0/v1.1; HB-033 | REVISION LINEAGE RECONCILED / PRIOR REVIEW SURFACES NONOPERATIVE | GOA-P01-011 | PASS-PROVENANCE-PRESERVATION / SOLE-ACTIVE-REVISION-SET / NO-PROMOTION |
+```
+
+#### Where rows 54 and 56 differ
+
+| Field | Row 54 | Row 56 |
+|---|---|---|
+| **Recorded UTC** | 2026-07-22T06:35:00Z | 2026-07-22T06:40:00Z |
+| **Transition Type** | P01_ALTERNATE_DERIVATION_LINEAGE_RECONCILIATION | P01_REVISION_1_2_LINEAGE_AND_REVIEW_ROUTING_CORRECTION |
+| **Exact Object ID** | P01_GOVERNING_THEOREM_REVIEW_STACK | P01_GP_DER_118_ACTIVE_REVISION_LINEAGE |
+| **Previous State** | A same-line alternate GP-DER-118-v1.1/v1.2 and GP-AUD-119 lineage appeared while the populated governing GP-DER-118-v1.0, GP-DER-119-v1.0, GP-AUD-120-v1.0, and GP-PRP-121-v1.0 stack became visible. | Concurrent GP artifacts left multiple plausible theorem review surfaces: populated v1.0 component, v1.1 synthesis, v1.2 correction, separate GP-DER-119 synthesis, GP-AUD-120, and GP-PRP-121-v1.0. |
+| **New State** | The governing stack remains GP-DER-118-v1.0 + GP-DER-119-v1.0 + GP-AUD-120-v1.0 + GP-PRP-121-v1.0. GP-DER-118-v1.2 is only a same-line weak-convergence cross-check; GP-AUD-119 applies only to that alternate lineage. | GP-DER-118-v1.2 is designated the sole active theorem review object; GP-AUD-119 is the governing revision audit; GP-PRP-121-v1.1 is the sole active review package. All earlier theorem/routing wording is nonoperative but preserved. |
+| **Exact Claim or Architectural Rule** | Alternate same-line derivations do not create independent evidence, duplicate theorem tracks, votes, or approval surfaces. | The candidate conclusion is unchanged. The exact normalizer expectation limit is justified by weak convergence plus uniform integrability, with the type boundary null under Q_L. |
+| **Evidence Added** | GP-DER-118-v1.0; GP-DER-119-v1.0; GP-AUD-120-v1.0; GP-PRP-121-v1.0; GP-DER-118-v1.2; GP-AUD-119-v1.0 | GP-DER-118-v1.2; GP-AUD-119-v1.0; GP-PRP-121-v1.1; supersession notices on GP-DER-118-v1.0/v1.1, GP-DER-119, GP-AUD-120, and GP-PRP-121-v1.0 |
+| **Evidence Removed/Killed/Superseded** | No evidence removed; all alternate artifacts and objections remain preserved as provenance. | No evidence removed. Earlier objects are retained as component, audit, revision, or collision provenance. |
+| **Evidence Class** | LINEAGE RECONCILIATION / NO NEW MATHEMATICAL EVIDENCE | NUMBERED REVISION; SUPERSESSION RECONCILIATION; REVIEW-SURFACE CORRECTION |
+| **Law or Measure** | Exact full-field P0.1 theorem-review architecture | Exact full-field P0.1 theorem candidate |
+| **Regime** | Coordination and review-routing layer only | Sufficiently small r interval; governance status unchanged |
+| **Normalization** | No normalization or law change | Exact full-field endpoint weight and normalizer |
+| **Coordinate System** | Exact full-field torus and normalized pair chart | Confluent endpoint-Hessian frame and normalized pair chart |
+| **Independent Review Status** | No independent credit; multi-line review remains open under GP-PRP-121. | No non-GP Revision 1.2 verdict; at least two distinct non-GP lines must collectively cover all three review domains |
+| **Dependencies Affected** | GP-PRP-121 routing; theorem-review navigation; relation and alarm ledgers | HB-033; P0.1 review; future promotion package |
+| **Dependencies Unaffected** | All mathematics, closures, ballots, machines, releases, and destructive gates unchanged | Mathematical candidate conclusion; P0.2; EC queue; R0.2; machines; releases |
+| **Mathematical Change** | NONE | No new theorem claim; convergence proof is corrected and active lineage is consolidated. |
+| **Architectural Change** | Creates one authoritative review route and labels the alternate derivation nonoperative. | Prevents approval of stale revisions and duplicate counting of same-line artifacts. |
+| **No-Change Certificate ID** | NCC-P01-011 | NCC-P01-R118-LINEAGE |
+| **Architecture Failure Mode Addressed** | Concurrent same-line theorem packages could be mistaken for independent agreement. | Concurrent artifact creation produced conflicting active-review candidates. |
+| **New Failure Modes** | Reviewers could double-count GP evidence or use the wrong review surface. | A reviewer may cite v1.0/v1.1 or GP-DER-119 instead of Revision 1.2. |
+| **Detection Tests** | Exact-ID searches, top notices, dependency comparison, and GP-PRP-121 addendum. | Exact title/Drive-ID search; supersession notices; HB-033 and relation updates; Revision 1.2 wording check. |
+| **Uncertainty Permanently Removed** | Authoritative theorem/review stack is now explicit. | Which theorem revision and review package are operative. |
+| **Remaining Uncertainty** | Two distinct non-GP lines covering all review domains; numbered objections; Dylan promotion approval; separate machine/governance gates. | Independent Revision 1.2 review, corrections, fresh audit, and human promotion gate. |
+| **Required Human Decision** | No human decision required for reconciliation. | No human decision now. |
+| **Reopening Condition** | Reopen if a governing artifact promotes the alternate lineage or evidence is double-counted. | Reopen lineage reconciliation if a later numbered revision appears or an active pointer still references a superseded review surface. |
+| **Failure Class** | DUPLICATE_REVIEW_TRACK_AND_FALSE_INDEPENDENCE_RISK | CONCURRENT_REVISION_AND_REVIEW_SURFACE_COLLISION |
+| **Architecture Response** | Preserve alternates, label supplemental/nonoperative, retain one review surface. | Preserve all files, designate Revision 1.2 and PRP v1.1 as operative, retire stale wording. |
+| **Recurrence Control** | Every theorem family must identify one authoritative proof, audit, review package, and supplemental derivations. | Every review task must bind exact artifact revision and Drive ID; later revisions automatically invalidate prior affirmative wording. |
+| **Downstream Contamination Assessment** | No downstream contamination; candidate and blockers unchanged. | No downstream mathematical or canonical contamination; coordination state corrected before outside votes. |
+| **Affected Mathematical Objects** | GP-DER-118-v1.0/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121 | GP-DER-118-v1.0/v1.1/v1.2; GP-DER-119; GP-AUD-119/120; GP-PRP-121-v1.0/v1.1; HB-033 |
+| **Quarantine Status** | AUTHORITATIVE GP-PRP-121 ROUTING / ALTERNATE NONOPERATIVE / MULTILINE REVIEW OPEN | REVISION LINEAGE RECONCILED / PRIOR REVIEW SURFACES NONOPERATIVE |
+| **Status** | PASS-LINEAGE-RECONCILIATION / NO-MATHEMATICAL-CHANGE / NO-PROMOTION | PASS-PROVENANCE-PRESERVATION / SOLE-ACTIVE-REVISION-SET / NO-PROMOTION |
+
+Identical in both rows: `Transition ID`, `Material`, `Global Object Audit ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** THREE rows share this key, and they disagree materially: row 54 (06:35Z) states the governing stack remains GP-DER-118-v1.0 + GP-DER-119 + GP-AUD-120 + GP-PRP-121-v1.0 and that GP-DER-118-v1.2 is 'only a same-line weak-convergence cross-check'; rows 55 (06:45Z) and 56 (06:40Z) state GP-DER-118-v1.2 is the sole active theorem review object. Rows 54 and 56 additionally carry No-Change Certificate IDs (NCC-P01-011 and NCC-P01-R118-LINEAGE). Reidentifying their Transition ID would orphan those certificates unless the No-Change Certificates tab's 'Transition ID' column is reconciled in the same operator action.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 55** (export line 1649) keeps `TR-P01-011`.
+- Reason: GOA-P01-011's Recorded UTC 2026-07-22T06:45:00Z is row 55's Recorded UTC verbatim, and its Original Scientific Question ('Which numbered document is the operative candidate proof of exact P0.1, and is its normalizer expectation limit justified without an unconstructed coupling?') is the question row 55 answers. Its Exact Object ID 'P01_GP_DER_118_REVISION_1_2' matches NO row's Exact Object ID string exactly (row 54: P01_GOVERNING_THEOREM_REVIEW_STACK; row 55: P01_GP_DER_118_REVISION_FAMILY; row 56: P01_GP_DER_118_ACTIVE_REVISION_LINEAGE).
+- Discriminator confidence: **MEDIUM — timestamp and audit-question match, but NOT the exact object-string match that decided TR-P12-007, TR-P01-006 and TR-P01-012. Operator confirmation required before execution.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 56 (export line 1650) → `TR-P01-011-COLLISION-PROVENANCE-B`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP01011-20260918-B |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 55 (export line 1649) — TR-P01-011 — P01_NUMBERED_REVISION_AND_ACTIVE_REVIEW_LINEAGE_RECONCILIATION — P01_GP_DER_118_REVISION_FAMILY |
+| `File B` | Transition Log row 56 (export line 1650) — TR-P01-011 — P01_REVISION_1_2_LINEAGE_AND_REVIEW_ROUTING_CORRECTION — P01_GP_DER_118_ACTIVE_REVISION_LINEAGE |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 55 as TR-P01-011 on the Global Object Audit binding; register row 56 additively as TR-P01-011-COLLISION-PROVENANCE-B; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 56, column 'Transition ID'; `TR-P01-011` → `TR-P01-011-COLLISION-PROVENANCE-B`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+- Coupled cell that must be reconciled in the same action: No-Change Certificates tab, 'Transition ID' column, for NCC-P01-011 and NCC-P01-R118-LINEAGE
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as MEDIUM; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+### 2.7 `TR-P01-012` — rows 57, 58
+
+> Finding key: `transition_log: duplicate key 'TR-P01-012' at rows 57 and 58`
+
+Defect class: `DUPLICATE_TRANSITION_PRIMARY_KEY__ONE_AUDITED_TRANSITION_TWO_ROWS`.
+
+#### Row 57 — proposed KEEPER, verbatim
+
+`Transition Type` = `P01_GP_DER_118_V1_3_FAILED_CLEAN_REVISION_QUARANTINE` · `Exact Object ID` = `GP_DER_118_V1_3_REVISION_IDENTITY` · `Recorded UTC` = `2026-07-22T07:00:00Z` · `Global Object Audit ID` = `GOA-P01-012`
+
+Export line **1651**, register row index **57**, 3,133 bytes, SHA-256 `6b674b0dda361691…`:
+
+```text
+| TR-P01-012 | 2026-07-22T07:00:00Z | P01\_GP\_DER\_118\_V1\_3\_FAILED\_CLEAN\_REVISION\_QUARANTINE | TRUE | GP\_DER\_118\_V1\_3\_REVISION\_IDENTITY | A newly created Drive file was titled GP-DER-118-v1.3 Clean Review Revision and appeared later than v1.2. | Full-body audit shows the file still identifies itself as v1.2, contains contradictory active-routing notices, retains v1.2 approval wording/end delimiter, repeats a corrected false empty-v1.0 claim, and retains stale convergence language. GP-AUD-122 quarantines it as failed revision staging. GP-DER-118-v1.2 remains the sole active review object. | A numbered theorem revision is valid only when title, artifact ID, hyper-tags, status notice, approval wording, and end delimiter agree and when prior material corrections are consistently incorporated. | GP-DER-118-v1.3 Drive ID 1rDBs-tak2WVMRKNJOex8Cht9L\_YmBy5H0FJWWZ1lsXU; GP-AUD-122-v1.0; full document read; additive failed-revision notice | No mathematics or provenance removed. v1.3 is denied supersession effect and preserved as failed staging. v1.2 and PRP v1.1 remain active. | REVISION IDENTITY AUDIT; INTERNAL ROUTING CONSISTENCY AUDIT; CONVERGENCE-LANGUAGE AUDIT; PROVENANCE AUDIT | P0.1 candidate theorem revision workflow | Review and governance layer only; exact mathematics unchanged | No normalization change | No coordinate change | GP audit only. No non-GP review or theorem gate changes. | Recent-document navigation; HB-033; artifact index; alarms; future version selection | GP-DER-118-v1.2 mathematics; finite-Q4 and exact-field components; closures; ballots; machines; P0.2 | No mathematical claim changes. Revision 1.3 is rejected as an incoherent packaging object. | Adds a clean-revision identity gate and prevents timestamp-only supersession. |  | A later-timestamp file can silently supersede a coherent theorem despite carrying an older internal ID, contradictory authority notices, and stale corrected text. | A future valid v1.3 may still be published and require a fresh audit. | Title/body/artifact/hyper-tag/end-delimiter comparison; routing-notice consistency; stale convergence and provenance search. | Whether the recent v1.3 file is a valid clean theorem revision and whether it supersedes v1.2. | No work on failed v1.3; continue revision-specific v1.2 non-GP review. A future v1.3 must satisfy GP-AUD-122 Section 7. | No human decision required. | Reopen only if a newly coherent v1.3 is published with aligned identity and separately audited. | NUMBERED\_REVISION\_IDENTITY\_AND\_INTERNAL\_ROUTING\_FAILURE | Quarantine v1.3, preserve it, keep v1.2 active, alarm against timestamp-only routing. | Revision promotion requires aligned title, body ID, tags, approval wording, delimiter, one authority notice, and complete incorporation of prior corrections. | No downstream contamination because v1.3 was caught before any non-GP review, promotion, ballot, or machine action. | GP-DER-118-v1.3; GP-AUD-122; GP-DER-118-v1.2; GP-PRP-121-v1.1 | V1.3 FAILED STAGING / V1.2 SOLE ACTIVE REVIEW / NO PROMOTION | GOA-P01-012 | FAIL-CLEAN-REVISION / PASS-QUARANTINE / ACTIVE-V1.2-PRESERVED |
+```
+
+#### Row 58 — proposed REIDENTIFIED row, verbatim
+
+`Transition Type` = `P01_CLEAN_REVISION_1_3_AND_REVIEW_ROUTING` · `Exact Object ID` = `P01_UNIFORM_ADJACENCY_POSITIVITY_REVIEW_OBJECT` · `Recorded UTC` = `2026-07-22T06:55:00Z` · `Global Object Audit ID` = `GOA-P01-012`
+
+Export line **1652**, register row index **58**, 2,663 bytes, SHA-256 `bbc4582f908ac9e4…`:
+
+```text
+| TR-P01-012 | 2026-07-22T06:55:00Z | P01\_CLEAN\_REVISION\_1\_3\_AND\_REVIEW\_ROUTING | TRUE | P01\_UNIFORM\_ADJACENCY\_POSITIVITY\_REVIEW\_OBJECT | GP-DER-118-v1.2 and GP-PRP-121-v1.1 contained mutually contradictory routing notices and stale provenance wording. | GP-DER-118-v1.3 is the sole internally consistent theorem-review object. GP-PRP-121-v1.2 is the sole active multi-line review package. Earlier theorem, audit, and routing versions remain nonoperative provenance and supporting evidence. | Materially contradictory review-surface metadata requires a clean numbered revision. Only verdicts naming the active theorem revision and subchain count. | GP-DER-118-v1.3; GP-PRP-121-v1.2; supersession notices on v1.2 and PRP v1.1; HB-033 revision | No evidence removed. GP-DER-118-v1.0/v1.1/v1.2, GP-DER-119, GP-AUD-119/120, and prior review packages remain preserved. | NUMBERED CLEAN REVISION / REVIEW ROUTING CORRECTION / NO NEW INDEPENDENT EVIDENCE | Exact full-field P0.1 candidate theorem | Uniform sufficiently small r; exact full-field layer | Exact endpoint Hessian weight and exact Palm normalizer | Exact torus field and normalized pair chart | No non-GP Revision 1.3 review yet; at least two distinct lines covering G,D,T remain required. | HB-033; theorem review routing; GP-PRP-121 lineage; promotion gate | Candidate mathematics unchanged; closures, R0.2, machines, releases, and destructive gates unchanged | NONE — cleans presentation and routing only | Removes contradictory live authority notices and creates one revision-specific verdict surface. | NCC-P01-012 | Contradictory notices could allow incompatible approvals or stale revision review. | Reviewers may approve a superseded theorem or package. | Top-notice comparison; exact verdict scan; clean-document read; HB-033 crosswalk. | Active theorem and review-package identities are now unambiguous. | Two non-GP lines covering all domains; numbered objections; fresh scope audit; Dylan promotion approval; separate machine/governance gates. | No human decision now. | Reopen on contradictory top notices, stale operative links, or any verdict counted against an earlier revision. | CONTRADICTORY\_REVIEW\_SURFACE\_AND\_STALE\_REVISION\_RISK | Issue clean v1.3/v1.2 pair, retire earlier review wording, preserve provenance. | Every review package and verdict must name the exact current theorem revision. | No downstream contamination; theorem remains unpromoted and independence-blocked. | GP-DER-118-v1.3; GP-PRP-121-v1.2; HB-033; P0.1 | CLEAN REVISION 1.3 ACTIVE / MULTILINE REVIEW OPEN / PROMOTION PROHIBITED | GOA-P01-012 | PASS-ROUTING-CLEANUP / NO-MATHEMATICAL-PROMOTION |
+```
+
+#### Where rows 57 and 58 differ
+
+| Field | Row 57 | Row 58 |
+|---|---|---|
+| **Recorded UTC** | 2026-07-22T07:00:00Z | 2026-07-22T06:55:00Z |
+| **Transition Type** | P01_GP_DER_118_V1_3_FAILED_CLEAN_REVISION_QUARANTINE | P01_CLEAN_REVISION_1_3_AND_REVIEW_ROUTING |
+| **Exact Object ID** | GP_DER_118_V1_3_REVISION_IDENTITY | P01_UNIFORM_ADJACENCY_POSITIVITY_REVIEW_OBJECT |
+| **Previous State** | A newly created Drive file was titled GP-DER-118-v1.3 Clean Review Revision and appeared later than v1.2. | GP-DER-118-v1.2 and GP-PRP-121-v1.1 contained mutually contradictory routing notices and stale provenance wording. |
+| **New State** | Full-body audit shows the file still identifies itself as v1.2, contains contradictory active-routing notices, retains v1.2 approval wording/end delimiter, repeats a corrected false empty-v1.0 claim, and retains stale convergence language. GP-AUD-122 quarantines it as failed revision staging. GP-DER-118-v1.2 remains the sole active review object. | GP-DER-118-v1.3 is the sole internally consistent theorem-review object. GP-PRP-121-v1.2 is the sole active multi-line review package. Earlier theorem, audit, and routing versions remain nonoperative provenance and supporting evidence. |
+| **Exact Claim or Architectural Rule** | A numbered theorem revision is valid only when title, artifact ID, hyper-tags, status notice, approval wording, and end delimiter agree and when prior material corrections are consistently incorporated. | Materially contradictory review-surface metadata requires a clean numbered revision. Only verdicts naming the active theorem revision and subchain count. |
+| **Evidence Added** | GP-DER-118-v1.3 Drive ID 1rDBs-tak2WVMRKNJOex8Cht9L_YmBy5H0FJWWZ1lsXU; GP-AUD-122-v1.0; full document read; additive failed-revision notice | GP-DER-118-v1.3; GP-PRP-121-v1.2; supersession notices on v1.2 and PRP v1.1; HB-033 revision |
+| **Evidence Removed/Killed/Superseded** | No mathematics or provenance removed. v1.3 is denied supersession effect and preserved as failed staging. v1.2 and PRP v1.1 remain active. | No evidence removed. GP-DER-118-v1.0/v1.1/v1.2, GP-DER-119, GP-AUD-119/120, and prior review packages remain preserved. |
+| **Evidence Class** | REVISION IDENTITY AUDIT; INTERNAL ROUTING CONSISTENCY AUDIT; CONVERGENCE-LANGUAGE AUDIT; PROVENANCE AUDIT | NUMBERED CLEAN REVISION / REVIEW ROUTING CORRECTION / NO NEW INDEPENDENT EVIDENCE |
+| **Law or Measure** | P0.1 candidate theorem revision workflow | Exact full-field P0.1 candidate theorem |
+| **Regime** | Review and governance layer only; exact mathematics unchanged | Uniform sufficiently small r; exact full-field layer |
+| **Normalization** | No normalization change | Exact endpoint Hessian weight and exact Palm normalizer |
+| **Coordinate System** | No coordinate change | Exact torus field and normalized pair chart |
+| **Independent Review Status** | GP audit only. No non-GP review or theorem gate changes. | No non-GP Revision 1.3 review yet; at least two distinct lines covering G,D,T remain required. |
+| **Dependencies Affected** | Recent-document navigation; HB-033; artifact index; alarms; future version selection | HB-033; theorem review routing; GP-PRP-121 lineage; promotion gate |
+| **Dependencies Unaffected** | GP-DER-118-v1.2 mathematics; finite-Q4 and exact-field components; closures; ballots; machines; P0.2 | Candidate mathematics unchanged; closures, R0.2, machines, releases, and destructive gates unchanged |
+| **Mathematical Change** | No mathematical claim changes. Revision 1.3 is rejected as an incoherent packaging object. | NONE — cleans presentation and routing only |
+| **Architectural Change** | Adds a clean-revision identity gate and prevents timestamp-only supersession. | Removes contradictory live authority notices and creates one revision-specific verdict surface. |
+| **No-Change Certificate ID** |  | NCC-P01-012 |
+| **Architecture Failure Mode Addressed** | A later-timestamp file can silently supersede a coherent theorem despite carrying an older internal ID, contradictory authority notices, and stale corrected text. | Contradictory notices could allow incompatible approvals or stale revision review. |
+| **New Failure Modes** | A future valid v1.3 may still be published and require a fresh audit. | Reviewers may approve a superseded theorem or package. |
+| **Detection Tests** | Title/body/artifact/hyper-tag/end-delimiter comparison; routing-notice consistency; stale convergence and provenance search. | Top-notice comparison; exact verdict scan; clean-document read; HB-033 crosswalk. |
+| **Uncertainty Permanently Removed** | Whether the recent v1.3 file is a valid clean theorem revision and whether it supersedes v1.2. | Active theorem and review-package identities are now unambiguous. |
+| **Remaining Uncertainty** | No work on failed v1.3; continue revision-specific v1.2 non-GP review. A future v1.3 must satisfy GP-AUD-122 Section 7. | Two non-GP lines covering all domains; numbered objections; fresh scope audit; Dylan promotion approval; separate machine/governance gates. |
+| **Required Human Decision** | No human decision required. | No human decision now. |
+| **Reopening Condition** | Reopen only if a newly coherent v1.3 is published with aligned identity and separately audited. | Reopen on contradictory top notices, stale operative links, or any verdict counted against an earlier revision. |
+| **Failure Class** | NUMBERED_REVISION_IDENTITY_AND_INTERNAL_ROUTING_FAILURE | CONTRADICTORY_REVIEW_SURFACE_AND_STALE_REVISION_RISK |
+| **Architecture Response** | Quarantine v1.3, preserve it, keep v1.2 active, alarm against timestamp-only routing. | Issue clean v1.3/v1.2 pair, retire earlier review wording, preserve provenance. |
+| **Recurrence Control** | Revision promotion requires aligned title, body ID, tags, approval wording, delimiter, one authority notice, and complete incorporation of prior corrections. | Every review package and verdict must name the exact current theorem revision. |
+| **Downstream Contamination Assessment** | No downstream contamination because v1.3 was caught before any non-GP review, promotion, ballot, or machine action. | No downstream contamination; theorem remains unpromoted and independence-blocked. |
+| **Affected Mathematical Objects** | GP-DER-118-v1.3; GP-AUD-122; GP-DER-118-v1.2; GP-PRP-121-v1.1 | GP-DER-118-v1.3; GP-PRP-121-v1.2; HB-033; P0.1 |
+| **Quarantine Status** | V1.3 FAILED STAGING / V1.2 SOLE ACTIVE REVIEW / NO PROMOTION | CLEAN REVISION 1.3 ACTIVE / MULTILINE REVIEW OPEN / PROMOTION PROHIBITED |
+| **Status** | FAIL-CLEAN-REVISION / PASS-QUARANTINE / ACTIVE-V1.2-PRESERVED | PASS-ROUTING-CLEANUP / NO-MATHEMATICAL-PROMOTION |
+
+Identical in both rows: `Transition ID`, `Material`, `Global Object Audit ID`.
+
+**Materiality.** The two rows differ in Transition Type, Exact Object ID, Recorded UTC and operative New State. Under OP-CNS-001 §1 this is a material content difference, not a formatting variant.
+
+**Corroborating register evidence and hazards.** HIGHEST-SEVERITY OF THE SEVEN. The two rows give MUTUALLY EXCLUSIVE operative routings under one key: row 58 states 'GP-DER-118-v1.3 is the sole internally consistent theorem-review object' with Quarantine Status 'CLEAN REVISION 1.3 ACTIVE', while row 57 states v1.3 failed clean-revision staging, is quarantined, and 'V1.2 SOLE ACTIVE REVIEW'. Row 58 carries NCC-P01-012, which must be reconciled if row 58 is reidentified. THE KEY RECOMMENDATION DOES NOT DECIDE WHICH ROUTING IS CURRENT. That is an operator content adjudication under OP-CNS-001 §1 and R17 §3, and it must be resolved before any consumer relies on either row.
+
+**Protocol clause that governs**
+
+- OP-CNS-001-R0.2 §2 — collisions are preserved and disambiguated, never silently rewritten; maintain an append-only collision registry; gaps or duplicates require an additive provenance disclosure.
+- OP-CNS-001-R0.2 §1 — material content differences open a content-adjudication item rather than being silently merged.
+- OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'
+- OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.'
+- OP-PROT-012 §4 Class 1 / §4 Class 5 — reversible provenance repair is Class 1; permanent destruction is prohibited outright.
+
+**In-register precedent.** Transition Log row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE' — the workbook's own executed remedy for this exact failure class, Failure Class 'CONCURRENT_TRANSITION_ID_COLLISION', Detection Test 'Search must return exactly one authoritative TR-P01-007 and one explicitly labeled collision-provenance row.'
+
+**Which row keeps the original id, and why**
+
+- Keeper: **row 57** (export line 1651) keeps `TR-P01-012`.
+- Reason: GOA-P01-012 carries Exact Object ID 'GP_DER_118_V1_3_REVISION_IDENTITY' — row 57's Exact Object ID verbatim — and Recorded UTC 2026-07-22T07:00:00Z, which is row 57's Recorded UTC verbatim. Row 58's Exact Object ID is 'P01_UNIFORM_ADJACENCY_POSITIVITY_REVIEW_OBJECT' at 06:55:00Z.
+- Discriminator confidence: **HIGH — exact object-string match AND exact timestamp match to the bound audit row.**
+- Explicitly not implied: Keeping the bare key is a KEY assignment. It does not rule on which row's New State, Quarantine Status or Independent Review Status is currently correct, and it grants no independence credit to either row.
+
+**Proposed successor identifier(s)**
+
+- Row 58 (export line 1652) → `TR-P01-012-COLLISION-PROVENANCE`
+- Naming rule: Suffix form <ORIGINAL ID>-COLLISION-PROVENANCE, quoted directly from the workbook: the Transition Log already contains row 49, Transition ID 'TR-P01-007-COLLISION-PROVENANCE', Evidence Class 'IDENTIFIER_COLLISION_PROVENANCE / NO NEW EVIDENCE', Architecture Response 'Preserve both records; make the later complete row authoritative; quarantine this row as provenance.' This is the protocol's own remedy for a Transition Log ID collision, already executed once in this very tab.
+- Proposed disposition label: `COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT`
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | DUP-REG-TRANSITION-LOG-TRP01012-20260918 |
+| `Detection type` | DUPLICATE TRANSITION PRIMARY KEY / ONE AUDITED TRANSITION RECORDED TWICE |
+| `File A` | Transition Log row 57 (export line 1651) — TR-P01-012 — P01_GP_DER_118_V1_3_FAILED_CLEAN_REVISION_QUARANTINE — GP_DER_118_V1_3_REVISION_IDENTITY |
+| `File B` | Transition Log row 58 (export line 1652) — TR-P01-012 — P01_CLEAN_REVISION_1_3_AND_REVIEW_ROUTING — P01_UNIFORM_ADJACENCY_POSITIVITY_REVIEW_OBJECT |
+| `Similarity / hash` | Same Transition ID; different Transition Type, Exact Object ID and Recorded UTC |
+| `Risk` | Citation ambiguity, contradictory operative routing and double-count risk |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 57 as TR-P01-012 on the Global Object Audit binding; register row 58 additively as TR-P01-012-COLLISION-PROVENANCE; open an OP-CNS-001 §1 content-adjudication item on the conflicting states; no merge, no deletion, no promotion, zero independence credit. |
+| `Source folder` | GP-REG-032 Transition Log |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `REIDENTIFY_KEY_CELL` — GP-REG-032 source workbook, Transition Log, row 58, column 'Transition ID'; `TR-P01-012` → `TR-P01-012-COLLISION-PROVENANCE`.
+
+- Why it is not in the operations block: Writing a source cell is not additive. It would change the 2026-09-17 export bytes and require a fresh export; registers_import.py --check would fail until the export is regenerated. Listed for completeness; explicitly NOT proposed for autonomous execution.
+- Authority required: Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded.
+- Coupled cell that must be reconciled in the same action: No-Change Certificates tab, 'Transition ID' column, for NCC-P01-012
+
+**Residual questions — not decided here**
+
+- Which row's operative New State is current is NOT decided here.
+- Discriminator confidence is recorded as HIGH; nothing should be executed on a MEDIUM discriminator without operator confirmation.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+
+---
+
+## Part 3 — Three Quarantine Index rows using the undefined class `EXISTING_CONTAINER`
+
+`Q-R17-LOCAL-TB` (row 14), `Q-R17-LOCAL-P01` (row 15) and `Q-R17-VAULT` (row 16) carry
+`Class = EXISTING_CONTAINER`. `OP-PROT-019-v1.1 §6` defines only: `EXACT_DUPLICATE`, `SUPERSEDED`, `DEFECTIVE_SCOPE`, `UNVERIFIED / CONFLICT`, `LEGACY_INSPIRATION`.
+
+**This is a schema defect, not a collision.** There is no second row and no colliding identifier,
+so **no successor identifier is issued for these three records** — see each record's
+`successor_not_applicable_reason`.
+
+**The three rows are container pointers.** In all three, `Object / file ID` holds a *folder* ID,
+`Current destination` repeats that same folder ID, `SHA-256 / identity` reads *"Folder ID; children
+not re-reviewed in this operations pass"*, and `Reason / affected scope` says *"not a new content
+verdict"*. **No member object inside any of the three containers was examined for this proposal.**
+
+> **Standing instruction observed.** `Q-R17-VAULT` points at Drive folder
+> `1VTiBaRlBvHGptiXqoEli4E5630nO7mNb`, which this session is under standing instruction never to
+> open. It was not opened. Everything recorded about that row derives from the exported register
+> row alone.
+
+### 3.1 `Q-R17-LOCAL-TB` — register row 14
+
+> Finding key: `quarantine_index: row 14 class 'EXISTING_CONTAINER' not in R17 table`
+
+#### The row, verbatim
+
+Export line **387**, register row index **14**, 447 bytes, SHA-256 `e7715720632ecb8c…`:
+
+```text
+| Q-R17-LOCAL-TB | EXISTING\_CONTAINER | 1M\_Uwk8CFwSL9cRlkvRw09XooEGoJsSMW | Existing unregistered duplicate drafts | Existing package-local exclusion linked centrally; not a new content verdict | Use package current entry | Existing parent retained | 1M\_Uwk8CFwSL9cRlkvRw09XooEGoJsSMW | Folder ID; children not re-reviewed in this operations pass | Review exact file and existing exclusion before any restoration | 2026-09-17T16:25:48.473074Z |
+```
+
+| Column | Value |
+|---|---|
+| `Quarantine key` | Q-R17-LOCAL-TB |
+| `Class` | EXISTING_CONTAINER |
+| `Object / file ID` | 1M_Uwk8CFwSL9cRlkvRw09XooEGoJsSMW |
+| `Relative path or title` | Existing unregistered duplicate drafts |
+| `Reason / affected scope` | Existing package-local exclusion linked centrally; not a new content verdict |
+| `Keeper or repair` | Use package current entry |
+| `Original parent` | Existing parent retained |
+| `Current destination` | 1M_Uwk8CFwSL9cRlkvRw09XooEGoJsSMW |
+| `SHA-256 / identity` | Folder ID; children not re-reviewed in this operations pass |
+| `Restoration test` | Review exact file and existing exclusion before any restoration |
+| `Disposition UTC` | 2026-09-17T16:25:48.473074Z |
+
+**Materiality.** The Class column carries a value the governing protocol's §6 table does not define. This is a schema defect, not a collision: there is no second row and no successor identifier to issue.
+
+**Scope note.** The container's members were not inspected; the row itself records 'children not re-reviewed in this operations pass'.
+
+**Protocol clause that governs**
+
+- OP-PROT-019-v1.1 R17 §6 — the classification table and its per-class EVIDENCE REQUIRED column; 'Moving or renaming must not be represented as a scientific verdict'; 'No permanent deletion in this workflow.'
+- OP-CNS-001-R0.2 §3 — 'Cardless or malformed artifacts should be flagged rather than assigned a default mathematical object.'
+- OP-PROT-012 §3 — 'Evidence incomplete, stale, contradictory, or not reconstructable → HOLD / NOT YET ELIGIBLE.'
+
+**Successor identifier.** None. No identifier collision exists on this row. The quarantine key Q-R17-* is unique; the defect is an undefined Class value, so no successor identifier is issued and none is proposed.
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | REG-CLASS-GAP-QR17LOCALTB-20260918 |
+| `Detection type` | UNDEFINED QUARANTINE CLASS / CONTAINER POINTER ROW |
+| `File A` | Quarantine Index row 14 (export line 387) — Q-R17-LOCAL-TB — Class 'EXISTING_CONTAINER' — Existing unregistered duplicate drafts |
+| `File B` | OP-PROT-019-v1.1 §6 classification table — defines only: EXACT_DUPLICATE, SUPERSEDED, DEFECTIVE_SCOPE, UNVERIFIED / CONFLICT, LEGACY_INSPIRATION |
+| `Similarity / hash` | Class value present in the register but absent from the governing protocol table |
+| `Risk` | Undefined-value handling risk for any automated consumer of the Class column; misreading a container pointer as an object classification |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Option A recommended: append CONTAINER_POINTER to OP-PROT-019 §6 with an explicit no-content-verdict clause. Option B (reclassify to a defined class) is NOT recommended: no defined class's evidence requirement is met. No reclassification performed; no member object examined; export unchanged. |
+| `Source folder` | GP-REG-032 Quarantine Index / OP-PROT-019-v1.1 §6 |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `AMEND_PROTOCOL_TABLE` — governance/protocols/OP-PROT-019-v1.1_R17.md §6 classification table, and its Drive source of record; `table without CONTAINER_POINTER` → `table with an appended CONTAINER_POINTER row`.
+
+- Why it is not in the operations block: OP-PROT-019-v1.1 was directly authorized by the owner; amending it is owner authority, not a Class 1 operation, and it is outside the paths this proposal owns.
+- Authority required: Owner (Dylan Roy).
+- Coupled cell that must be reconciled in the same action: tools/registers_check.py R17_QUARANTINE_CLASSES must gain 'CONTAINER_POINTER'
+- Coupled cell that must be reconciled in the same action: the three matching entries in registers/KNOWN_FINDINGS.json would then be retired
+
+**Residual questions — not decided here**
+
+- Whether OP-PROT-019 should be amended at all is an owner decision and is not decided here.
+- The container's members were not inspected; the row itself records 'children not re-reviewed in this operations pass'.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+- Does not classify, clear, restore or exclude any object inside the three containers; no member object was examined.
+
+---
+
+### 3.2 `Q-R17-LOCAL-P01` — register row 15
+
+> Finding key: `quarantine_index: row 15 class 'EXISTING_CONTAINER' not in R17 table`
+
+#### The row, verbatim
+
+Export line **388**, register row index **15**, 444 bytes, SHA-256 `2cc57471fb239fec…`:
+
+```text
+| Q-R17-LOCAL-P01 | EXISTING\_CONTAINER | 1VtU4YeSzDlrXp4gDj8D9ii0xEdoDA6HR | Existing failed/amend-required items | Existing package-local exclusion linked centrally; not a new content verdict | Use package current entry | Existing parent retained | 1VtU4YeSzDlrXp4gDj8D9ii0xEdoDA6HR | Folder ID; children not re-reviewed in this operations pass | Review exact file and existing exclusion before any restoration | 2026-09-17T16:25:48.473074Z |
+```
+
+| Column | Value |
+|---|---|
+| `Quarantine key` | Q-R17-LOCAL-P01 |
+| `Class` | EXISTING_CONTAINER |
+| `Object / file ID` | 1VtU4YeSzDlrXp4gDj8D9ii0xEdoDA6HR |
+| `Relative path or title` | Existing failed/amend-required items |
+| `Reason / affected scope` | Existing package-local exclusion linked centrally; not a new content verdict |
+| `Keeper or repair` | Use package current entry |
+| `Original parent` | Existing parent retained |
+| `Current destination` | 1VtU4YeSzDlrXp4gDj8D9ii0xEdoDA6HR |
+| `SHA-256 / identity` | Folder ID; children not re-reviewed in this operations pass |
+| `Restoration test` | Review exact file and existing exclusion before any restoration |
+| `Disposition UTC` | 2026-09-17T16:25:48.473074Z |
+
+**Materiality.** The Class column carries a value the governing protocol's §6 table does not define. This is a schema defect, not a collision: there is no second row and no successor identifier to issue.
+
+**Scope note.** The container's members were not inspected; the row itself records 'children not re-reviewed in this operations pass'.
+
+**Protocol clause that governs**
+
+- OP-PROT-019-v1.1 R17 §6 — the classification table and its per-class EVIDENCE REQUIRED column; 'Moving or renaming must not be represented as a scientific verdict'; 'No permanent deletion in this workflow.'
+- OP-CNS-001-R0.2 §3 — 'Cardless or malformed artifacts should be flagged rather than assigned a default mathematical object.'
+- OP-PROT-012 §3 — 'Evidence incomplete, stale, contradictory, or not reconstructable → HOLD / NOT YET ELIGIBLE.'
+
+**Successor identifier.** None. No identifier collision exists on this row. The quarantine key Q-R17-* is unique; the defect is an undefined Class value, so no successor identifier is issued and none is proposed.
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | REG-CLASS-GAP-QR17LOCALP01-20260918 |
+| `Detection type` | UNDEFINED QUARANTINE CLASS / CONTAINER POINTER ROW |
+| `File A` | Quarantine Index row 15 (export line 388) — Q-R17-LOCAL-P01 — Class 'EXISTING_CONTAINER' — Existing failed/amend-required items |
+| `File B` | OP-PROT-019-v1.1 §6 classification table — defines only: EXACT_DUPLICATE, SUPERSEDED, DEFECTIVE_SCOPE, UNVERIFIED / CONFLICT, LEGACY_INSPIRATION |
+| `Similarity / hash` | Class value present in the register but absent from the governing protocol table |
+| `Risk` | Undefined-value handling risk for any automated consumer of the Class column; misreading a container pointer as an object classification |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Option A recommended: append CONTAINER_POINTER to OP-PROT-019 §6 with an explicit no-content-verdict clause. Option B (reclassify to a defined class) is NOT recommended: no defined class's evidence requirement is met. No reclassification performed; no member object examined; export unchanged. |
+| `Source folder` | GP-REG-032 Quarantine Index / OP-PROT-019-v1.1 §6 |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `AMEND_PROTOCOL_TABLE` — governance/protocols/OP-PROT-019-v1.1_R17.md §6 classification table, and its Drive source of record; `table without CONTAINER_POINTER` → `table with an appended CONTAINER_POINTER row`.
+
+- Why it is not in the operations block: OP-PROT-019-v1.1 was directly authorized by the owner; amending it is owner authority, not a Class 1 operation, and it is outside the paths this proposal owns.
+- Authority required: Owner (Dylan Roy).
+- Coupled cell that must be reconciled in the same action: tools/registers_check.py R17_QUARANTINE_CLASSES must gain 'CONTAINER_POINTER'
+- Coupled cell that must be reconciled in the same action: the three matching entries in registers/KNOWN_FINDINGS.json would then be retired
+
+**Residual questions — not decided here**
+
+- Whether OP-PROT-019 should be amended at all is an owner decision and is not decided here.
+- The container's members were not inspected; the row itself records 'children not re-reviewed in this operations pass'.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+- Does not classify, clear, restore or exclude any object inside the three containers; no member object was examined.
+
+---
+
+### 3.3 `Q-R17-VAULT` — register row 16
+
+> Finding key: `quarantine_index: row 16 class 'EXISTING_CONTAINER' not in R17 table`
+
+#### The row, verbatim
+
+Export line **389**, register row index **16**, 458 bytes, SHA-256 `ffe321b3137b48a9…`:
+
+```text
+| Q-R17-VAULT | EXISTING\_CONTAINER | 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb | Existing superseded mirrors, dead ends and trap copies | Existing package-local exclusion linked centrally; not a new content verdict | Use package current entry | Existing parent retained | 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb | Folder ID; children not re-reviewed in this operations pass | Review exact file and existing exclusion before any restoration | 2026-09-17T16:25:48.473074Z |
+```
+
+| Column | Value |
+|---|---|
+| `Quarantine key` | Q-R17-VAULT |
+| `Class` | EXISTING_CONTAINER |
+| `Object / file ID` | 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb |
+| `Relative path or title` | Existing superseded mirrors, dead ends and trap copies |
+| `Reason / affected scope` | Existing package-local exclusion linked centrally; not a new content verdict |
+| `Keeper or repair` | Use package current entry |
+| `Original parent` | Existing parent retained |
+| `Current destination` | 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb |
+| `SHA-256 / identity` | Folder ID; children not re-reviewed in this operations pass |
+| `Restoration test` | Review exact file and existing exclusion before any restoration |
+| `Disposition UTC` | 2026-09-17T16:25:48.473074Z |
+
+**Materiality.** The Class column carries a value the governing protocol's §6 table does not define. This is a schema defect, not a collision: there is no second row and no successor identifier to issue.
+
+**Scope note.** STANDING INSTRUCTION OBSERVED: this row's 'Object / file ID' and 'Current destination' are 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb, the Drive folder this session is under standing instruction never to open. Its contents were NOT inspected. Everything recorded about this row is derived from the exported register row alone, and nothing here is a verdict on any member object.
+
+**Protocol clause that governs**
+
+- OP-PROT-019-v1.1 R17 §6 — the classification table and its per-class EVIDENCE REQUIRED column; 'Moving or renaming must not be represented as a scientific verdict'; 'No permanent deletion in this workflow.'
+- OP-CNS-001-R0.2 §3 — 'Cardless or malformed artifacts should be flagged rather than assigned a default mathematical object.'
+- OP-PROT-012 §3 — 'Evidence incomplete, stale, contradictory, or not reconstructable → HOLD / NOT YET ELIGIBLE.'
+
+**Successor identifier.** None. No identifier collision exists on this row. The quarantine key Q-R17-* is unique; the defect is an undefined Class value, so no successor identifier is issued and none is proposed.
+
+**Exact append-only collision-registry entries that would be added**
+
+Operation `APPEND_ROW` → *Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry*. Appends one row; mutates nothing.
+
+| Column | Value |
+|---|---|
+| `Cluster ID` | REG-CLASS-GAP-QR17VAULT-20260918 |
+| `Detection type` | UNDEFINED QUARANTINE CLASS / CONTAINER POINTER ROW |
+| `File A` | Quarantine Index row 16 (export line 389) — Q-R17-VAULT — Class 'EXISTING_CONTAINER' — Existing superseded mirrors, dead ends and trap copies |
+| `File B` | OP-PROT-019-v1.1 §6 classification table — defines only: EXACT_DUPLICATE, SUPERSEDED, DEFECTIVE_SCOPE, UNVERIFIED / CONFLICT, LEGACY_INSPIRATION |
+| `Similarity / hash` | Class value present in the register but absent from the governing protocol table |
+| `Risk` | Undefined-value handling risk for any automated consumer of the Class column; misreading a container pointer as an object classification |
+| `Recommended action` | PROPOSED — NOT YET EXECUTED. Option A recommended: append CONTAINER_POINTER to OP-PROT-019 §6 with an explicit no-content-verdict clause. Option B (reclassify to a defined class) is NOT recommended: no defined class's evidence requirement is met. No reclassification performed; no member object examined; export unchanged. |
+| `Source folder` | GP-REG-032 Quarantine Index / OP-PROT-019-v1.1 §6 |
+| `Detected at` | 2026-09-17 export scan; proposal filed 2026-09-18 |
+
+**Operator-reserved follow-up (NOT executed, NOT additive):** `AMEND_PROTOCOL_TABLE` — governance/protocols/OP-PROT-019-v1.1_R17.md §6 classification table, and its Drive source of record; `table without CONTAINER_POINTER` → `table with an appended CONTAINER_POINTER row`.
+
+- Why it is not in the operations block: OP-PROT-019-v1.1 was directly authorized by the owner; amending it is owner authority, not a Class 1 operation, and it is outside the paths this proposal owns.
+- Authority required: Owner (Dylan Roy).
+- Coupled cell that must be reconciled in the same action: tools/registers_check.py R17_QUARANTINE_CLASSES must gain 'CONTAINER_POINTER'
+- Coupled cell that must be reconciled in the same action: the three matching entries in registers/KNOWN_FINDINGS.json would then be retired
+
+**Residual questions — not decided here**
+
+- Whether OP-PROT-019 should be amended at all is an owner decision and is not decided here.
+- STANDING INSTRUCTION OBSERVED: this row's 'Object / file ID' and 'Current destination' are 1VTiBaRlBvHGptiXqoEli4E5630nO7mNb, the Drive folder this session is under standing instruction never to open. Its contents were NOT inspected. Everything recorded about this row is derived from the exported register row alone, and nothing here is a verdict on any member object.
+
+**What this record does not establish**
+
+- Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.
+- Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.
+- Does not confer organizational-independence credit of any kind, on any object, to any party.
+- Does not establish that any listed artifact is correct, complete, reviewed or novel.
+- Does not change the 2026-09-17 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.
+- Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem.
+- Does not classify, clear, restore or exclude any object inside the three containers; no member object was examined.
+
+---
+
+### 3.4 The two options the sources allow, with consequences, and a recommendation
+
+The options are identical for all three rows; they are stated once here and carried in each
+record's `options` field in the JSON.
+
+#### Option A — ADD CONTAINER_POINTER TO OP-PROT-019 §6
+
+**Action.** Append one row to the OP-PROT-019-v1.1 §6 classification table: Classification 'CONTAINER_POINTER'; Evidence required 'Verified folder/container Drive ID, its existing package-local exclusion, and an explicit statement that member objects were not individually re-reviewed'; Action 'Link the existing container exclusion centrally; record keeper/repair pointer; assert NO classification of any member object.'
+
+**Sources that allow it**
+
+- docs/OPEN_PROBLEMS.md §F names exactly this: 'Proposal: add CONTAINER_POINTER to the protocol table.'
+- docs/CONTRIBUTION_PLAN.md §6 names the same two options.
+- registers/KNOWN_FINDINGS.json records the same proposal verbatim for all three rows.
+- OP-PROT-019 §6 already distinguishes object-level classification from container-level and carrier-level handling ('logical quarantine' keyed by carrier ID plus relative path and hash), so a container-level entry is within the section's existing grain.
+
+**Consequences**
+
+- ADDITIVE. No exported register byte changes; the three rows keep the class string they already carry, and registers_import.py --check stays green.
+- Requires a protocol amendment to OP-PROT-019-v1.1, which was directly authorized by the owner; amending it is an owner-authority act, not a Class 1 operation.
+- Requires tools/registers_check.py R17_QUARANTINE_CLASSES to gain 'CONTAINER_POINTER', and the three KNOWN_FINDINGS entries to be retired at that point. THIS PROPOSAL DOES NOT MAKE EITHER CHANGE.
+- The new class carries NO evidence predicate about member content, which is what the three rows actually say ('not a new content verdict'; 'children not re-reviewed in this operations pass'). It therefore adds a class that asserts nothing about mathematics.
+- Risk: a class that classifies nothing can be misread as clearing the container. The row text must keep the 'no content verdict' disclaimer explicit.
+
+#### Option B — RECLASSIFY TO AN EXISTING DEFINED CLASS
+
+**Action.** Change the Class cell of the three rows from 'EXISTING_CONTAINER' to one of the five classes OP-PROT-019 §6 defines.
+
+**Evidence test against each class `OP-PROT-019 §6` actually defines**
+
+| Class | Evidence required by R17 | Met? | Why |
+|---|---|---|---|
+| `EXACT_DUPLICATE` | Matching raw digest/bytes, or declared native-body equivalence with format limitations | **NO** | All three rows carry 'Folder ID; children not re-reviewed in this operations pass' in the SHA-256 / identity column. There is no digest and no byte comparison. The evidence predicate is unmet. |
+| `SUPERSEDED` | Explicit numbered successor or source-backed retirement | **NO** | Q-R17-VAULT's title text mentions 'superseded mirrors', but no numbered successor is recorded for any of the three containers, and Q-R17-LOCAL-TB ('unregistered duplicate drafts') and Q-R17-LOCAL-P01 ('failed/amend-required items') are not retirements at all. The predicate is unmet, and a container is not a numbered object. |
+| `DEFECTIVE_SCOPE` | Concrete failed statement, counterexample or reproducible invalid certificate chain | **NO** | No failed statement, counterexample or certificate chain is recorded for any of the three containers. The predicate is unmet. |
+| `UNVERIFIED / CONFLICT` | Missing identity, unresolved custody or conflicting heads; Action: isolate from active consumption pending resolution | **PARTIAL** | The 'missing identity' half is arguably met: the identity column holds a folder ID and no digest. But the prescribed ACTION is 'isolate from active consumption pending resolution', and all three rows record 'Keeper or repair = Use package current entry' — i.e. the package current entry IS in active consumption. Adopting this class would impose an isolation action the rows contradict, and would convert three pointer rows into a status change over three whole folders. That is a reclassification, which this session is forbidden to perform and which the rows themselves disclaim ('not a new content verdict'). |
+| `LEGACY_INSPIRATION` | Existing legacy classification | **NO** | None of the three containers carries an existing legacy classification in the exported registers. The predicate is unmet. |
+
+**Consequences**
+
+- NOT ADDITIVE. Rewrites a recorded classification cell in the source workbook, changes the 2026-09-17 export bytes and breaks registers_import.py --check until re-export.
+- Only UNVERIFIED / CONFLICT comes close, and it fails on the prescribed ACTION, so adopting it would assert an isolation verdict the rows explicitly disclaim.
+- A reclassification is a status change over three containers, one of which (Q-R17-VAULT) this session is under standing instruction never to open, so its members could not be examined even in principle here.
+- Upside: no protocol amendment is needed, and tools/registers_check.py passes with no code change.
+
+#### Option C (status quo, recorded for completeness) — LEAVE AS IS UNDER THE KNOWN_FINDINGS ALLOWLIST
+
+**Action.** Take no action; the three rows remain allowlisted in registers/KNOWN_FINDINGS.json and tools/registers_check.py prints them as KNOWN.
+
+**Consequences**
+
+- ADDITIVE / zero change. The export stays byte-faithful and CI stays green.
+- The register keeps using a class its own governing protocol does not define. Any future automated consumer of the Class column has an undefined value to handle.
+- The defect stays visible rather than being papered over, which is what the allowlist is for.
+
+#### Recommendation
+
+RECOMMEND OPTION A (add CONTAINER_POINTER to OP-PROT-019 §6), and DO NOT execute Option B. Reasoning, in order of weight: (1) Option B has no class whose EVIDENCE REQUIREMENT the three rows satisfy. Four of the five fail outright; the fifth, UNVERIFIED / CONFLICT, fails on its prescribed ACTION ('isolate from active consumption') which directly contradicts the rows' own 'Keeper or repair = Use package current entry'. Adopting a class whose predicate is unmet manufactures an evidence claim, which is the failure mode OP-CNS-001 and R17 exist to prevent. (2) Option A is additive and leaves the 2026-09-17 export byte-identical; Option B rewrites exported source data. R17 §6's 'No permanent deletion in this workflow' and OP-CNS-001 §2's 'historical artifacts are not silently rewritten' both favour the additive route. (3) The three rows are, on their face, container pointers and not object classifications — 'Object / file ID' holds a folder ID, 'Current destination' repeats that same folder ID, and 'Reason' says 'not a new content verdict'. A class that names what they are is more honest than forcing them into a class that names what they are not. (4) Both docs/OPEN_PROBLEMS.md §F and docs/CONTRIBUTION_PLAN.md §6 already record Option A as the program's own proposal, so it is the reading the sources support rather than one invented here. THIS IS A RECOMMENDATION. It is not a decision, it does not amend OP-PROT-019, and it does not retire the three KNOWN_FINDINGS entries. Amending OP-PROT-019 is owner authority under R17's own authorization line.
+
+---
+
+## Closing statement
+
+1. **This is a proposal. It requires operator action.** Sixteen records, sixteen findings, one to one.
+2. **Nothing has been repaired.** No register row was edited, merged, deleted, reordered or
+   reclassified by this document. Every executable operation in it is an append to the workbook's
+   append-only collision registry, and none of those appends has been performed either.
+3. **The export remains faithful.** `registers/source/`, `registers/json/` and `registers/csv/` are
+   byte-identical to `git HEAD`. `tools/collision_proposal_check.py` asserts this and exits nonzero
+   if it ever stops being true.
+4. **`independence_credit = 0`.** This session is Anthropic-family. OP-PROT-019-v1.1 R17 §4 permits a fresh nonauthor session of any provider to perform technical review, but records organizational independence separately and at ZERO for a same-provider reviewer. Independently of that, a PROPOSAL is not a review at all: it licenses no technical verdict and no independence credit on any object, for any provider.
+5. **Every independence-requiring gate REMAINS OPEN**, unchanged by this document, regardless of any
+   technical judgement expressed in it.
+6. **No status is decided here.** Which of two colliding rows carries the currently correct status
+   text is an `OP-CNS-001 §1` content-adjudication item in every one of the thirteen duplicate
+   records, and it is handed to the operator unresolved in every one of them.
+

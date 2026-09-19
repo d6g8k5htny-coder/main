@@ -1,0 +1,275 @@
+﻿SAME-FAMILY ADVERSARIAL RECONSTRUCTION UPDATE — 2026-07-26
+
+
+RS2-AUD-LM009-v1.0 reproduces the frozen P02-LM-009 body at 3,919 bytes / SHA-256 ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1 and independently reconstructs the all-fixed-moments / Markov proof.
+
+
+Audit:
+https://docs.google.com/document/d/1XXHOvgtk-Kv28v7essHbXShpgXzk7aB4QHqlpwMFO7E/edit
+
+
+Verifier source:
+https://docs.google.com/document/d/1vJcxZE8VAyxfrWT9Qge5kACcrL4zeos6pIcyD3xtZuA/edit
+
+
+Verifier result:
+https://docs.google.com/document/d/1udGxXR4teNyDR-Hz9vP_XgRB_k_IygjdGWYPDHS3gc8/edit
+
+
+Result: identity PASS; proof reconstruction PASS; exponent/radius ladder PASS; hostile controls 12/12 PASS. The audit explicitly rejects finite-moment-order substitution, r-dependent epsilon, radius extension above one, omitted Palm square-root loss, and any inference of one fixed stretched-exponential tail from all fixed moments alone.
+
+
+Adjudication: SAME-FAMILY ADVERSARIAL PASS / ZERO ORGANIZATIONAL-INDEPENDENCE CREDIT. LCR-REQ-029 remains open. The frozen body below is unchanged. No P0.2 closure or promotion follows.
+
+
+[[P02-LM-009:SAME-FAMILY-PASS]] [[HOSTILE-CONTROLS:12-OF-12]] [[EXTERNAL-REVIEW:OPEN]] [[FROZEN-BODY:UNCHANGED]] [[NO-PROMOTION]]
+
+
+LCR-DER-027-v1.0 — P02-LM-009 EXACT ADAPTIVE REGULAR-DOMAIN TAIL
+
+
+Artifact ID: LCR-DER-027-v1.0
+Lemma ID: P02-LM-009
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: DER / FROZEN EXACT MOMENT-TAIL LEMMA / COMPLETE PROOF CANDIDATE
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Primary dependency: closed P02-LM-005 exact uniform nine-jet moment interface
+Status: OBJECT-FROZEN / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / P0.2 OPEN
+
+
+Freeze policy: extract only the text after the LF ending BEGIN_FROZEN_LEMMA_BODY and before the first subsequent END_FROZEN_LEMMA_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM.
+
+
+BODY_BYTES: 3919
+BODY_SHA256: ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1
+
+
+[[TARGET:P02-LM-009]] [[BODY_BYTES:3919]] [[BODY_SHA256:ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1]] [[STATUS:OBJECT-FROZEN]] [[METHOD:ALL-FIXED-MOMENTS]] [[TAIL:SUPER-POLYNOMIAL]] [[NO-EXPONENTIAL-OVERCLAIM]] [[STATUS:PROOF-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+BEGIN_FROZEN_LEMMA_BODY
+P02-LM-009 — EXACT ADAPTIVE REGULAR-DOMAIN TAIL
+
+
+1. SETTING
+
+
+Fix an integer m>=1, a number r_0 in (0,1], and epsilon_0>0. For every r in (0,r_0], let U_r be an R^m-valued random vector with law Q_r.
+
+
+Define
+
+
+    R(U)=1+sum_{j=1}^m |U_j|.
+
+
+Assume that every fixed positive integer moment of R is uniformly bounded: for every integer p>=1 there exists M_p<infinity such that
+
+
+    sup_{0<r<=r_0} E_{Q_r}[R(U_r)^p]<=M_p.
+
+
+Define the adaptive regular event
+
+
+    REG_r={r R(U_r)^5<=epsilon_0}.
+
+
+2. THEOREM
+
+
+For every N>0 there exists a finite constant C_N, independent of r, such that
+
+
+    Q_r(REG_r^c)<=C_N r^N
+
+
+for every r in (0,r_0].
+
+
+Equivalently,
+
+
+    Q_r(REG_r^c)=O(r^N)
+
+
+for every N>0. Thus the regular-domain failure is super-polynomially small.
+
+
+No exponential tail is claimed.
+
+
+3. PROOF
+
+
+Fix N>0. Choose an integer p satisfying
+
+
+    p>=5N.
+
+
+On REG_r^c,
+
+
+    rR(U_r)^5>epsilon_0,
+
+
+so
+
+
+    R(U_r)>(epsilon_0/r)^{1/5}.
+
+
+Markov's inequality gives
+
+
+    Q_r(REG_r^c)
+      <=E_{Q_r}[R(U_r)^p]
+        /(epsilon_0/r)^{p/5}
+      <=M_p epsilon_0^{-p/5} r^{p/5}.
+
+
+Since 0<r<=r_0<=1 and p/5>=N,
+
+
+    r^{p/5}<=r^N.
+
+
+Therefore
+
+
+    Q_r(REG_r^c)
+      <=C_N r^N,
+
+
+where
+
+
+    C_N=M_p epsilon_0^{-p/5}<infinity.
+
+
+This proves the theorem. QED.
+
+
+4. EXACT NINE-JET APPLICATION
+
+
+For the intended P0.2 application,
+
+
+    U=(a,w,z,c40,c31,c22,c13,c04) in R^8,
+
+
+    R(U)=1+|a|+|w|+|z|
+          +|c40|+|c31|+|c22|+|c13|+|c04|,
+
+
+and
+
+
+    epsilon_0=1/(1024K),
+    K=4096.
+
+
+Under the exact side-24 six-pin conditioned law, the closed interface P02-LM-005 supplies uniform moments of every fixed order for the complete exact midpoint nine-jet. Every polynomial moment of R(U) is therefore uniformly bounded.
+
+
+Consequently, under the exact conditioned law Q_{6,r},
+
+
+    Q_{6,r}(REG_r^c)=O(r^N)
+
+
+for every N>0.
+
+
+After P02-LM-008 is available on the identical exact weight and after its P02-LM-006 normalizer premise is closed, the same event has exact typed-Palm probability O(r^N) for every N>0: to obtain a desired Palm exponent N, apply this theorem under Q_{6,r} with exponent 2N and then use the square-root transfer.
+
+
+This paragraph is a dependency map. The theorem itself is the moment-tail statement in Sections 1–3.
+
+
+5. EDGE CASES
+
+
+NONINTEGER N.
+Choose any integer p>=5N. No integer restriction on the requested exponent N is needed.
+
+
+DEPENDENT COORDINATES.
+No independence among the coordinates of U_r is assumed.
+
+
+CHANGING LAW.
+The law Q_r may vary with r. Only uniform moment bounds are used.
+
+
+NO DENSITY REQUIRED.
+The theorem does not require an absolutely continuous law or a Gaussian density.
+
+
+R_0 LESS THAN ONE.
+The comparison r^{p/5}<=r^N uses r<=1. This is guaranteed by r_0<=1.
+
+
+6. WHY AN EXPONENTIAL TAIL IS NOT CLAIMED
+
+
+Uniform boundedness of every fixed moment implies super-polynomial decay through a different chosen moment for each requested exponent N. It does not by itself provide constants A,b,p>0 satisfying a single bound
+
+
+    Q_r(REG_r^c)<=A exp(-b r^{-p}).
+
+
+Such an exponential statement requires stronger uniform moment-growth or Gaussian concentration information. The present theorem deliberately avoids that overclaim.
+
+
+7. EXCLUSIONS
+
+
+This lemma does not prove:
+
+
+- the uniform moment interface;
+- a sub-Gaussian tail for R(U_r);
+- P02-LM-003, P02-LM-004, or P02-LM-008;
+- a determinant-weighted probability estimate without the Palm transfer dependencies;
+- an exact bad-event inclusion;
+- P0.1 or P0.2;
+- theorem promotion or external release.
+
+
+8. REOPENING CONDITIONS
+
+
+Reopen or amend if:
+
+
+- a required moment bound depends on r;
+- only finitely many moment orders are available;
+- R(U) is changed to a growth functional not controlled by the available moments;
+- epsilon_0 depends on r;
+- a downstream source cites this lemma as proving one fixed exponential tail;
+- the exact nine-jet law differs from the law supplying the moment bounds.
+END_FROZEN_LEMMA_BODY
+
+
+9. PROVENANCE AND STATUS
+
+
+This lemma isolates the regular-domain tail step previously embedded in GP-DER-047's P0.2 synthesis. It uses only the all-fixed-moments part of the terminal P02-LM-005 interface and avoids the stronger unsupported wording that REG_r^c has a specific exponential Gaussian tail.
+
+
+Current status:
+
+
+OBJECT-FROZEN AFTER HASH REPRODUCTION / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / NONTERMINAL.
+
+
+No P0.2 closure or promotion is claimed.
+
+
+END LCR-DER-027-v1.0

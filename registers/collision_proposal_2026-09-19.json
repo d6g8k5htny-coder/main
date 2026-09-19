@@ -1,0 +1,1679 @@
+{
+ "document": "registers/collision_proposal_2026-09-19.json",
+ "companion": "registers/COLLISION_PROPOSAL_2026-09-19.md",
+ "title": "Successor proposal for disambiguating the 7 structural defects first visible in the 2026-09-18 xlsx export (registers/KNOWN_FINDINGS.json section 'findings_first_visible_in_2026-09-18_export')",
+ "status": "PROPOSAL — REQUIRES OPERATOR ACTION. NOTHING HAS BEEN REPAIRED.",
+ "nothing_repaired": true,
+ "export_remains_faithful": true,
+ "prepared_utc": "2026-09-19",
+ "prepared_by": {
+  "session_family": "Anthropic",
+  "role": "PROPOSAL AUTHOR — NOT A REVIEWER",
+  "independence_credit": 0,
+  "independence_credit_reason": "This session is Anthropic-family. OP-PROT-019-v1.1 R17 §4 permits a fresh nonauthor session of any provider to perform technical review, but records organizational independence separately and at ZERO for a same-provider reviewer. Independently of that, a PROPOSAL is not a review at all: it licenses no technical verdict and no independence credit on any object, for any provider.",
+  "independence_requiring_gates_remain_open": "Every independence-requiring gate in this program REMAINS OPEN, unchanged by this document, regardless of any technical judgement expressed here. Nothing in this proposal is a technical pass, and no technical pass would satisfy an independence predicate in any case (R17 §4: 'Never relabel an independence-required theorem terminal solely because its technical review passed.').",
+  "author_family_of_the_objects_examined": "The Org cells of the fourteen rows examined record OpenAI-family, 'GP / OpenAI', 'OpenAI GP' or 'GP/LCR' provenance; they are quoted verbatim in each record's rows and none records the family of this session. This changes nothing: the credit recorded here is zero because a proposal licenses zero, not because of provider matching."
+ },
+ "supersedes": null,
+ "successor_of": {
+  "path": "registers/collision_proposal.json",
+  "sha256": "6055dad5ec41a8d5eaa59ef005bb2e84622217fe177649be7c2e34c5b6a28a82",
+  "bytes": 368189,
+  "relation": "Numbered successor under CLAUDE.md rule 8. The 2026-09-18 document is frozen and is not edited, superseded, amended or reissued by this one; its 16 records over the 'findings' section stand as written. This document covers exactly the 7 findings that document could not: they sit in rows the 2026-09-17 markdown export never delivered, so its verbatim-line checker has no line to quote for them.",
+  "successor_ids_issued_by_predecessor": [
+   "GP-AUD-119-v1.0@AIDX-R96",
+   "GP-AUD-144-v1.0@AIDX-R139",
+   "GP-DER-118-v1.2@AIDX-R95",
+   "GP-DER-143-v1.1@AIDX-R142",
+   "GP-PRP-121-v1.1@AIDX-R97",
+   "GP-REQ-144-v1.1@AIDX-R143",
+   "TR-P01-006-COLLISION-PROVENANCE",
+   "TR-P01-011-COLLISION-PROVENANCE-A",
+   "TR-P01-011-COLLISION-PROVENANCE-B",
+   "TR-P01-012-COLLISION-PROVENANCE",
+   "TR-P02-013-COLLISION-PROVENANCE",
+   "TR-P02-028",
+   "TR-P12-007-COLLISION-PROVENANCE"
+  ]
+ },
+ "source_of_record": {
+  "kind": "xlsx_export_json_rows",
+  "xlsx_path": "registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx",
+  "xlsx_sha256": "c3229ecefc642f3e32f23cb8320fb66236d11affb83f67bd135153d068a3f460",
+  "xlsx_bytes": 1919741,
+  "xlsx_provenance": "registers/source/SOURCES.json (export of 2026-09-18, modifiedTime 2026-09-18T16:45:35.319Z, 44 worksheets, exact: false — a rendering of the native Sheet)",
+  "json_tabs": [
+   "registers/json/artifact_index.json",
+   "registers/json/evidence_lineage.json"
+  ],
+  "json_tabs_provenance": "Generated from the xlsx by tools/registers_import.py; tools/registers_import.py --check fails CI if they drift from it.",
+  "row_canonicalisation": "sha256 of json.dumps(row, ensure_ascii=False, separators=(\",\",\":\"))",
+  "note": "Every verbatim_row below is the list of cell strings exactly as registers/json/<tab>.json holds it at the stated 0-based register_row_index, with the SHA-256 of its canonical JSON serialisation recorded; fields is dict(zip(header, row)). Row indices are the 0-based indices tools/registers_check.py prints. The markdown export of 2026-09-17 has no line for any of these rows and is not cited."
+ },
+ "findings_source": "registers/KNOWN_FINDINGS.json (7 findings under 'findings_first_visible_in_2026-09-18_export')",
+ "findings_source_section": "findings_first_visible_in_2026-09-18_export",
+ "scope_of_operations": {
+  "class": "ADDITIVE_ONLY",
+  "allowed_operations": [
+   "APPEND_ROW"
+  ],
+  "collision_registry_surface": "The workbook's append-only collision registry is the 'Duplicate Flags' tab of GP-REG-032-v1.2 (registers/json/duplicate_flags.json), which already carries 31 collision clusters including DUP-ID-GP-DER-044, the collision OP-CNS-001 §2 names by hand.",
+  "statement": "No operation in this proposal edits, merges, deletes or reorders any existing row in any register. Cell rewrites in the SOURCE workbook that a full remedy would eventually require are listed separately under each record's non_additive_followups, marked operator_reserved, and are explicitly NOT proposed for autonomous execution."
+ },
+ "batch_level_artifacts_that_would_also_be_appended": {
+  "no_change_certificate": {
+   "proposed_id": "NCC-REG032-COLLISION-20260919-001",
+   "precedent": "NCC-P01-TR007-COLLISION, the certificate the workbook issued for its own TR-P01-007 collision repair; NCC-REG032-COLLISION-20260918-001, the identifier the 2026-09-18 proposal proposed for its own batch (proposed, not created).",
+   "purpose": "Records that the whole batch changes no mathematical statement, no schema, no verifier and no status."
+  },
+  "correction_record": {
+   "proposed_id": "GP-COR-211",
+   "basis": "Next unused number above the exported GP-COR maximum in the complete 2026-09-18 export, GP-COR-210. The 2026-09-18 proposal's GP-COR-204 was computed against the markdown prefix, whose maximum was GP-COR-203; the complete export shows GP-COR-204 through GP-COR-209 unassigned and GP-COR-210 assigned. GP-COR-204 remains that frozen document's proposed identifier and is not reissued here.",
+   "precedent": "GP-COR-190 (Help Board key collisions), GP-COR-192 (P02-LM012 multi-ID collision), cited in the Duplicate Flags rows for those repairs."
+  },
+  "note": "Both are PROPOSED identifiers. Neither is created by this document. Whether the two proposals' batches should share one correction record when executed is an operator decision recorded under residual_questions_document_level."
+ },
+ "summary_counts": {
+  "findings_in_section": 7,
+  "proposal_records": 7,
+  "artifact_index_records": 6,
+  "evidence_lineage_records": 1,
+  "same_drive_object_different_status_text": 6,
+  "different_objects_one_identifier": 1,
+  "exact_duplicate_rows": 0,
+  "successor_identifiers_proposed": 7,
+  "findings_covered_by_both_proposals_together": 23
+ },
+ "classification_of_the_seven_pairs": {
+  "same_object_different_status_text": [
+   "GP-DATA-168-v1.1 (rows 231 and 240)",
+   "LS-AUD-002-v1.0 (rows 248 and 253)",
+   "LS-COR-001-v1.0 (rows 249 and 254)",
+   "LS-AUD-003-v1.0 (rows 250 and 255)",
+   "LS-MAN-045-v1.0 (rows 544 and 545)",
+   "EV-LS-REQ030 (rows 385 and 386)"
+  ],
+  "different_objects_one_identifier": [
+   "GP-REQ-194-v1.0 (rows 325 and 373)"
+  ],
+  "exact_duplicate_rows": [],
+  "note": "EV-LS-REQ030 was tested for cell-for-cell identity because KNOWN_FINDINGS describes the rows as binding the same Drive ID and the same code fixture digest; the test is recorded in the record (exact_duplicate_row: false, eight of sixteen cells differ, eight agree; the counts are recomputed by the checker from the quoted rows), so the EXACT_DUPLICATE_ROW class and the VOID-DUPLICATE precedent are not used anywhere in this proposal."
+ },
+ "residual_questions_document_level": [
+  "Whether the seven appends of this proposal and the sixteen of the 2026-09-18 proposal are executed as one batch under one no-change certificate and one correction record, or as two, is an operator decision; the identifiers proposed here are distinct so that either choice remains open.",
+  "Whether the row-locator discriminator (@AIDX-R<n>, @EVL-R<n>) is ratified is one decision for both proposals; this document does not ratify it.",
+  "The keeper rule identifies the exported row order with the confirmed append position. The LS-MAN-045-v1.0 record shows a region of the Artifact Index whose row order is not chronological; the operator should confirm append order from the workbook's revision history before executing any record.",
+  "The task text that commissioned this document named registers/SOURCES.json as the digest record; the file is registers/source/SOURCES.json. The digest and byte count recorded here were re-computed from the xlsx on disk and agree with that file."
+ ],
+ "does_not_establish": [
+  "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+  "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+  "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+  "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+  "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+  "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+  "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+ ],
+ "proposals": [
+  {
+   "record_id": "CP-AIDX-GP-DATA-168-v1.1",
+   "finding_key": "artifact_index: duplicate key 'GP-DATA-168-v1.1' at rows 231 and 240",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT",
+   "colliding_identifier": "GP-DATA-168-v1.1",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit",
+   "rows": [
+    {
+     "register_row_index": 231,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "GP-DATA-168-v1.1",
+      "EC-019 T2 Corrected GP-Side Interval Preflight Source and Execution Receipt",
+      "GP / OpenAI",
+      "DATA / SOURCE / COMPUTATIONAL REPAIR",
+      "P0",
+      "EC-019; T2; intervals; controls; clean-room preflight",
+      "SAME-LINE REPAIR PASS / T2 OPEN",
+      "Factual execution only; canonical impact NONE; independence credit ZERO",
+      "Supersedes GP-DATA-168-v1.0 for same-line technical use; responds to GP-AUD-176",
+      "2026-07-24T19:49:45Z",
+      "https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit",
+      "Raw runtime .py/.json preserved separately; exact hashes recorded in receipt."
+     ],
+     "row_sha256": "d587c9ad622fb32731663cc1a438e51f40df5d225ec0b57306e0adea8b13486a",
+     "row_canonical_bytes": 592,
+     "fields": {
+      "Artifact ID": "GP-DATA-168-v1.1",
+      "Title": "EC-019 T2 Corrected GP-Side Interval Preflight Source and Execution Receipt",
+      "Org": "GP / OpenAI",
+      "Class": "DATA / SOURCE / COMPUTATIONAL REPAIR",
+      "Priority": "P0",
+      "Topics / object tags": "EC-019; T2; intervals; controls; clean-room preflight",
+      "Status": "SAME-LINE REPAIR PASS / T2 OPEN",
+      "Authority / canonical impact": "Factual execution only; canonical impact NONE; independence credit ZERO",
+      "Dependencies or supersession": "Supersedes GP-DATA-168-v1.0 for same-line technical use; responds to GP-AUD-176",
+      "Modified UTC": "2026-07-24T19:49:45Z",
+      "Source": "https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit",
+      "Notes": "Raw runtime .py/.json preserved separately; exact hashes recorded in receipt."
+     }
+    },
+    {
+     "register_row_index": 240,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "GP-DATA-168-v1.1",
+      "EC-019 T2 Corrected GP-Side Interval Preflight Source and Execution Receipt",
+      "OpenAI GP",
+      "DATA / EXECUTION RECEIPT",
+      "EC-019",
+      "T2; interval repair; 19 margins; 5 controls; source publication",
+      "SAME-LINE RECEIPT PASS / SOURCE REQUIRED / T2 OPEN",
+      "No independent credit; no terminal effect",
+      "Successor to GP-DATA-168-v1.0; controlled by GP-AUD-176 addendum",
+      "2026-07-24T20:05:00Z",
+      "https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit",
+      "Declared 20,949-byte source is not reconstructably published in Drive; exact replay unavailable."
+     ],
+     "row_sha256": "2ddb79d296d228bfd104e3dae916533099e15fa8705995e1b4e871cfc2ff0bec",
+     "row_canonical_bytes": 585,
+     "fields": {
+      "Artifact ID": "GP-DATA-168-v1.1",
+      "Title": "EC-019 T2 Corrected GP-Side Interval Preflight Source and Execution Receipt",
+      "Org": "OpenAI GP",
+      "Class": "DATA / EXECUTION RECEIPT",
+      "Priority": "EC-019",
+      "Topics / object tags": "T2; interval repair; 19 margins; 5 controls; source publication",
+      "Status": "SAME-LINE RECEIPT PASS / SOURCE REQUIRED / T2 OPEN",
+      "Authority / canonical impact": "No independent credit; no terminal effect",
+      "Dependencies or supersession": "Successor to GP-DATA-168-v1.0; controlled by GP-AUD-176 addendum",
+      "Modified UTC": "2026-07-24T20:05:00Z",
+      "Source": "https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit",
+      "Notes": "Declared 20,949-byte source is not reconstructably published in Drive; exact replay unavailable."
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Title",
+    "Source"
+   ],
+   "field_differences": [
+    {
+     "field": "Org",
+     "row_231": "GP / OpenAI",
+     "row_240": "OpenAI GP"
+    },
+    {
+     "field": "Class",
+     "row_231": "DATA / SOURCE / COMPUTATIONAL REPAIR",
+     "row_240": "DATA / EXECUTION RECEIPT"
+    },
+    {
+     "field": "Priority",
+     "row_231": "P0",
+     "row_240": "EC-019"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_231": "EC-019; T2; intervals; controls; clean-room preflight",
+     "row_240": "T2; interval repair; 19 margins; 5 controls; source publication"
+    },
+    {
+     "field": "Status",
+     "row_231": "SAME-LINE REPAIR PASS / T2 OPEN",
+     "row_240": "SAME-LINE RECEIPT PASS / SOURCE REQUIRED / T2 OPEN"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_231": "Factual execution only; canonical impact NONE; independence credit ZERO",
+     "row_240": "No independent credit; no terminal effect"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_231": "Supersedes GP-DATA-168-v1.0 for same-line technical use; responds to GP-AUD-176",
+     "row_240": "Successor to GP-DATA-168-v1.0; controlled by GP-AUD-176 addendum"
+    },
+    {
+     "field": "Modified UTC",
+     "row_231": "2026-07-24T19:49:45Z",
+     "row_240": "2026-07-24T20:05:00Z"
+    },
+    {
+     "field": "Notes",
+     "row_231": "Raw runtime .py/.json preserved separately; exact hashes recorded in receipt.",
+     "row_240": "Declared 20,949-byte source is not reconstructably published in Drive; exact replay unavailable."
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 3,
+    "cells_differing": 9,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 231 and 240 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "Both rows cite one Drive document and one title, 'EC-019 T2 Corrected GP-Side Interval Preflight Source and Execution Receipt'. Row 231 classes the object 'DATA / SOURCE / COMPUTATIONAL REPAIR' with Status 'SAME-LINE REPAIR PASS / T2 OPEN' and Priority 'P0'; row 240 classes the same document 'DATA / EXECUTION RECEIPT' with Status 'SAME-LINE RECEIPT PASS / SOURCE REQUIRED / T2 OPEN' and puts 'EC-019' in the Priority column. The Notes cells contradict each other on the one point a reader would consult the row for: row 231 says 'Raw runtime .py/.json preserved separately; exact hashes recorded in receipt', row 240 says 'Declared 20,949-byte source is not reconstructably published in Drive; exact replay unavailable'. Nine of twelve cells differ. This is a material content difference under OP-CNS-001 §1, not a formatting variant.",
+   "corroborating_register_evidence": "Row 235 (GP-AUD-176-v1.0, 2026-07-24T20:00:00Z, Status 'T1 SURVIVES / GP PREFLIGHT AMEND REQUIRED / T2 OPEN') sits between the two rows and is the audit both rows name in their Dependencies cell ('responds to GP-AUD-176' / 'controlled by GP-AUD-176 addendum'). Row 240's 'SOURCE REQUIRED' and 'exact replay unavailable' postdate row 231's 'exact hashes recorded in receipt' by sixteen minutes of self-reported time. Whether that is a correction of row 231 or a second registration of a different reading is exactly the OP-CNS-001 §1 adjudication left open here.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.' Compound row keys are the workbook's own form: Artifact Index rows 645 and 646 carry 'CL-AUD-LSDER036-20260727-01@1zMq504' and 'CL-AUD-LSDER036-20260727-01@1AcCpCe'; Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730 reads 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents'. The 2026-09-18 proposal (registers/collision_proposal.json, records CP-AIDX-*) applied the same rule to six Artifact Index pairs of this class.",
+   "keeper": {
+    "register_row_index": 231,
+    "keeps_identifier": "GP-DATA-168-v1.1",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is the one the 2026-09-18 proposal applied to its six Artifact Index pairs and is applied here mechanically so that no pair is resolved by this session's reading of its status text.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 240,
+    "proposed_id": "GP-DATA-168-v1.1@AIDX-R240",
+    "naming_rule": "Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Artifact Index rows 645/646 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'; Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.). In those instances the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. This is the fallback the 2026-09-18 proposal adopted for its six pairs (GP-DER-118-v1.2@AIDX-R95 etc.) and is reused unchanged so that the two proposals issue keys of one shape. THE FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification, and ratifying it once ratifies it for both proposals.",
+    "alternative_discriminator_considered": "The reidentified row's own Modified UTC would be fully source-derived. It is not adopted, for the reason the 2026-09-18 proposal gave (it fails on pairs whose two rows carry one Modified UTC) and for a second reason visible only in this batch: for LS-MAN-045-v1.0 the later-appended row 545 carries the EARLIER timestamp (18:15:00Z vs row 544's 18:20:00Z), so a timestamp discriminator would invert the append order R17 §3 prescribes.",
+    "explicitly_not_proposed": "The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 and SELFHEAL-LSMAN037-REG-001 is NOT proposed here, because those clusters' rows were substantively identical ('same Drive IDs and same evidence/request roles', 'identical LS-MAN-037 export identity') whereas this pair differs materially in Status; labelling either row VOID would destroy recorded state."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-GPDATA168v11-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT",
+      "Artifact Index row 231 (2026-09-18 xlsx export) — GP-DATA-168-v1.1 — Status: SAME-LINE REPAIR PASS / T2 OPEN",
+      "Artifact Index row 240 (2026-09-18 xlsx export) — GP-DATA-168-v1.1 — Status: SAME-LINE RECEIPT PASS / SOURCE REQUIRED / T2 OPEN",
+      "Same declared Artifact ID and same Drive source https://docs.google.com/document/d/1BRAq7iDEf2S30avt3-5CiLLc39K8gVVn7ESn2wxwZwY/edit; Org, Class, Priority, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Notes differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 231 as GP-DATA-168-v1.1; register row 240 additively under compound key GP-DATA-168-v1.1@AIDX-R240; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 240, column 'Artifact ID'",
+     "from": "GP-DATA-168-v1.1",
+     "to": "GP-DATA-168-v1.1@AIDX-R240",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Whether the 'SOURCE REQUIRED' / 'exact replay unavailable' reading of row 240 supersedes row 231's 'exact hashes recorded in receipt' is unresolved by the export alone and is not resolved here.",
+    "The Priority cell of row 240 holds 'EC-019', a control-case label rather than a priority grade; whether that is a column-shift error in the source row is not decided here.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-AIDX-LS-AUD-002-v1.0",
+   "finding_key": "artifact_index: duplicate key 'LS-AUD-002-v1.0' at rows 248 and 253",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT",
+   "colliding_identifier": "LS-AUD-002-v1.0",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit",
+   "rows": [
+    {
+     "register_row_index": 248,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-AUD-002-v1.0",
+      "Same-Line Adversarial Review of P0.1 Domain D — Dynamics and Exact-Field Transfer",
+      "OpenAI / Lead Scientist",
+      "AUD / DYNAMICS / TRANSFER",
+      "P0",
+      "P0.1; Domain D; interval corridor; exact transfer; scaling",
+      "PASS SAME-LINE WITH SCALING WORDING CORRECTION / EXTERNAL REVIEW OPEN",
+      "Zero independence credit; canonical impact NONE",
+      "GP-DATA-178; GP-DER-045; endpoint blocks; GP-PROT-065",
+      "2026-07-24T20:22:00Z",
+      "https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit",
+      "Physical Hessian error is r times scaled Jacobian error; frozen theorem uses correct H_exact=H4+rE."
+     ],
+     "row_sha256": "577874442d06e253c62f273ddfc947fb514444059bb1246da3eeb880c8355af9",
+     "row_canonical_bytes": 615,
+     "fields": {
+      "Artifact ID": "LS-AUD-002-v1.0",
+      "Title": "Same-Line Adversarial Review of P0.1 Domain D — Dynamics and Exact-Field Transfer",
+      "Org": "OpenAI / Lead Scientist",
+      "Class": "AUD / DYNAMICS / TRANSFER",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1; Domain D; interval corridor; exact transfer; scaling",
+      "Status": "PASS SAME-LINE WITH SCALING WORDING CORRECTION / EXTERNAL REVIEW OPEN",
+      "Authority / canonical impact": "Zero independence credit; canonical impact NONE",
+      "Dependencies or supersession": "GP-DATA-178; GP-DER-045; endpoint blocks; GP-PROT-065",
+      "Modified UTC": "2026-07-24T20:22:00Z",
+      "Source": "https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit",
+      "Notes": "Physical Hessian error is r times scaled Jacobian error; frozen theorem uses correct H_exact=H4+rE."
+     }
+    },
+    {
+     "register_row_index": 253,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-AUD-002-v1.0",
+      "Same-Line Adversarial Review of P0.1 Domain D",
+      "OpenAI",
+      "AUD",
+      "P0",
+      "P0.1; dynamics; C1 transfer; saddle cone; sink capture",
+      "SAME-LINE SURVIVES WITH CORRECTION",
+      "No canonical impact; zero independence credit",
+      "GP-DER-044; GP-DER-045; GP-PROT-065; frozen theorem",
+      "2026-07-24T20:40:00Z",
+      "https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit",
+      "D1–D12 reconstruction; scaling wording correction"
+     ],
+     "row_sha256": "ab54bebbe983362571626d3056d5f2f84962f179aa9be973e3c2fc92d0ab6405",
+     "row_canonical_bytes": 447,
+     "fields": {
+      "Artifact ID": "LS-AUD-002-v1.0",
+      "Title": "Same-Line Adversarial Review of P0.1 Domain D",
+      "Org": "OpenAI",
+      "Class": "AUD",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1; dynamics; C1 transfer; saddle cone; sink capture",
+      "Status": "SAME-LINE SURVIVES WITH CORRECTION",
+      "Authority / canonical impact": "No canonical impact; zero independence credit",
+      "Dependencies or supersession": "GP-DER-044; GP-DER-045; GP-PROT-065; frozen theorem",
+      "Modified UTC": "2026-07-24T20:40:00Z",
+      "Source": "https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit",
+      "Notes": "D1–D12 reconstruction; scaling wording correction"
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Priority",
+    "Source"
+   ],
+   "field_differences": [
+    {
+     "field": "Title",
+     "row_248": "Same-Line Adversarial Review of P0.1 Domain D — Dynamics and Exact-Field Transfer",
+     "row_253": "Same-Line Adversarial Review of P0.1 Domain D"
+    },
+    {
+     "field": "Org",
+     "row_248": "OpenAI / Lead Scientist",
+     "row_253": "OpenAI"
+    },
+    {
+     "field": "Class",
+     "row_248": "AUD / DYNAMICS / TRANSFER",
+     "row_253": "AUD"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_248": "P0.1; Domain D; interval corridor; exact transfer; scaling",
+     "row_253": "P0.1; dynamics; C1 transfer; saddle cone; sink capture"
+    },
+    {
+     "field": "Status",
+     "row_248": "PASS SAME-LINE WITH SCALING WORDING CORRECTION / EXTERNAL REVIEW OPEN",
+     "row_253": "SAME-LINE SURVIVES WITH CORRECTION"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_248": "Zero independence credit; canonical impact NONE",
+     "row_253": "No canonical impact; zero independence credit"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_248": "GP-DATA-178; GP-DER-045; endpoint blocks; GP-PROT-065",
+     "row_253": "GP-DER-044; GP-DER-045; GP-PROT-065; frozen theorem"
+    },
+    {
+     "field": "Modified UTC",
+     "row_248": "2026-07-24T20:22:00Z",
+     "row_253": "2026-07-24T20:40:00Z"
+    },
+    {
+     "field": "Notes",
+     "row_248": "Physical Hessian error is r times scaled Jacobian error; frozen theorem uses correct H_exact=H4+rE.",
+     "row_253": "D1–D12 reconstruction; scaling wording correction"
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 3,
+    "cells_differing": 9,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 248 and 253 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "Both rows cite one Drive document. Row 248 reads Status 'PASS SAME-LINE WITH SCALING WORDING CORRECTION / EXTERNAL REVIEW OPEN'; row 253 reads 'SAME-LINE SURVIVES WITH CORRECTION' and drops the 'EXTERNAL REVIEW OPEN' clause. The Dependencies cells name different objects ('GP-DATA-178; GP-DER-045; endpoint blocks; GP-PROT-065' vs 'GP-DER-044; GP-DER-045; GP-PROT-065; frozen theorem'). Only Artifact ID, Priority and Source agree. Dropping an 'EXTERNAL REVIEW OPEN' clause is a material content difference under OP-CNS-001 §1; it is not read here as closing anything.",
+   "corroborating_register_evidence": "Rows 248, 249 and 250 (LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0; Modified UTC 20:22, 20:23, 20:24 on 2026-07-24; Org 'OpenAI / Lead Scientist') are three consecutive long-form registrations. Rows 251 through 256 (LS-REC-001-v1.0, LS-AUD-001-v1.0, LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0, LS-DATA-002) all carry Modified UTC 2026-07-24T20:40:00Z and Org 'OpenAI': a single batch re-registration that re-entered the same three declared IDs in abbreviated form, with shortened titles and reworded Status cells. The three collisions are one event seen three times, and the same keeper rule resolves all three.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.' Compound row keys are the workbook's own form: Artifact Index rows 645 and 646 carry 'CL-AUD-LSDER036-20260727-01@1zMq504' and 'CL-AUD-LSDER036-20260727-01@1AcCpCe'; Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730 reads 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents'. The 2026-09-18 proposal (registers/collision_proposal.json, records CP-AIDX-*) applied the same rule to six Artifact Index pairs of this class.",
+   "keeper": {
+    "register_row_index": 248,
+    "keeps_identifier": "LS-AUD-002-v1.0",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is the one the 2026-09-18 proposal applied to its six Artifact Index pairs and is applied here mechanically so that no pair is resolved by this session's reading of its status text.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 253,
+    "proposed_id": "LS-AUD-002-v1.0@AIDX-R253",
+    "naming_rule": "Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Artifact Index rows 645/646 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'; Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.). In those instances the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. This is the fallback the 2026-09-18 proposal adopted for its six pairs (GP-DER-118-v1.2@AIDX-R95 etc.) and is reused unchanged so that the two proposals issue keys of one shape. THE FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification, and ratifying it once ratifies it for both proposals.",
+    "alternative_discriminator_considered": "The reidentified row's own Modified UTC would be fully source-derived. It is not adopted, for the reason the 2026-09-18 proposal gave (it fails on pairs whose two rows carry one Modified UTC) and for a second reason visible only in this batch: for LS-MAN-045-v1.0 the later-appended row 545 carries the EARLIER timestamp (18:15:00Z vs row 544's 18:20:00Z), so a timestamp discriminator would invert the append order R17 §3 prescribes.",
+    "explicitly_not_proposed": "The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 and SELFHEAL-LSMAN037-REG-001 is NOT proposed here, because those clusters' rows were substantively identical ('same Drive IDs and same evidence/request roles', 'identical LS-MAN-037 export identity') whereas this pair differs materially in Status; labelling either row VOID would destroy recorded state."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-LSAUD002v10-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT",
+      "Artifact Index row 248 (2026-09-18 xlsx export) — LS-AUD-002-v1.0 — Status: PASS SAME-LINE WITH SCALING WORDING CORRECTION / EXTERNAL REVIEW OPEN",
+      "Artifact Index row 253 (2026-09-18 xlsx export) — LS-AUD-002-v1.0 — Status: SAME-LINE SURVIVES WITH CORRECTION",
+      "Same declared Artifact ID and same Drive source https://docs.google.com/document/d/123M_3Qsw_D3e1Slkh9r1SNUioXbM5IOwRa-IVuLOZzk/edit; Title, Org, Class, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Notes differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 248 as LS-AUD-002-v1.0; register row 253 additively under compound key LS-AUD-002-v1.0@AIDX-R253; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 253, column 'Artifact ID'",
+     "from": "LS-AUD-002-v1.0",
+     "to": "LS-AUD-002-v1.0@AIDX-R253",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Whether row 253's omission of 'EXTERNAL REVIEW OPEN' was an abbreviation or a change of state is unresolved by the export alone and is not resolved here; nothing in this document treats the external review as anything but open.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-AIDX-LS-COR-001-v1.0",
+   "finding_key": "artifact_index: duplicate key 'LS-COR-001-v1.0' at rows 249 and 254",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT",
+   "colliding_identifier": "LS-COR-001-v1.0",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit",
+   "rows": [
+    {
+     "register_row_index": 249,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-COR-001-v1.0",
+      "Repair of the GP-DER-046 GT5 Expected-Supremum Step",
+      "OpenAI / Lead Scientist",
+      "COR / GAUSSIAN PROCESS PROOF REPAIR",
+      "P0",
+      "P0.1; Domain T; GT5; Dudley; Borell-TIS",
+      "MATERIAL LOCAL ERROR REPAIRED / GT5 SURVIVES SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Zero independence credit; canonical impact NONE",
+      "Corrects GP-DER-046 Section 7",
+      "2026-07-24T20:23:00Z",
+      "https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit",
+      "Replaces false sup|Z|<=supZ+sup(-Z) with signed-index Gaussian process."
+     ],
+     "row_sha256": "a6bba99be40b0cab4997f84f73dbd5929414996e4cc55b9456f8e67a142c0893",
+     "row_canonical_bytes": 530,
+     "fields": {
+      "Artifact ID": "LS-COR-001-v1.0",
+      "Title": "Repair of the GP-DER-046 GT5 Expected-Supremum Step",
+      "Org": "OpenAI / Lead Scientist",
+      "Class": "COR / GAUSSIAN PROCESS PROOF REPAIR",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1; Domain T; GT5; Dudley; Borell-TIS",
+      "Status": "MATERIAL LOCAL ERROR REPAIRED / GT5 SURVIVES SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Authority / canonical impact": "Zero independence credit; canonical impact NONE",
+      "Dependencies or supersession": "Corrects GP-DER-046 Section 7",
+      "Modified UTC": "2026-07-24T20:23:00Z",
+      "Source": "https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit",
+      "Notes": "Replaces false sup|Z|<=supZ+sup(-Z) with signed-index Gaussian process."
+     }
+    },
+    {
+     "register_row_index": 254,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-COR-001-v1.0",
+      "Repair of GP-DER-046 GT5 Expected-Supremum Step",
+      "OpenAI",
+      "COR",
+      "P0",
+      "GT5; Dudley; Borell-TIS; signed Gaussian process",
+      "MATERIAL LOCAL PROOF ERROR REPAIRED",
+      "No canonical impact; correction attachment",
+      "GP-DER-046-v1.0",
+      "2026-07-24T20:40:00Z",
+      "https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit",
+      "Replaces false supremum inequality"
+     ],
+     "row_sha256": "96e6352ce1e184ba54570a410b94b80316d12a6c61629cae9040d67eaa447c2c",
+     "row_canonical_bytes": 388,
+     "fields": {
+      "Artifact ID": "LS-COR-001-v1.0",
+      "Title": "Repair of GP-DER-046 GT5 Expected-Supremum Step",
+      "Org": "OpenAI",
+      "Class": "COR",
+      "Priority": "P0",
+      "Topics / object tags": "GT5; Dudley; Borell-TIS; signed Gaussian process",
+      "Status": "MATERIAL LOCAL PROOF ERROR REPAIRED",
+      "Authority / canonical impact": "No canonical impact; correction attachment",
+      "Dependencies or supersession": "GP-DER-046-v1.0",
+      "Modified UTC": "2026-07-24T20:40:00Z",
+      "Source": "https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit",
+      "Notes": "Replaces false supremum inequality"
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Priority",
+    "Source"
+   ],
+   "field_differences": [
+    {
+     "field": "Title",
+     "row_249": "Repair of the GP-DER-046 GT5 Expected-Supremum Step",
+     "row_254": "Repair of GP-DER-046 GT5 Expected-Supremum Step"
+    },
+    {
+     "field": "Org",
+     "row_249": "OpenAI / Lead Scientist",
+     "row_254": "OpenAI"
+    },
+    {
+     "field": "Class",
+     "row_249": "COR / GAUSSIAN PROCESS PROOF REPAIR",
+     "row_254": "COR"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_249": "P0.1; Domain T; GT5; Dudley; Borell-TIS",
+     "row_254": "GT5; Dudley; Borell-TIS; signed Gaussian process"
+    },
+    {
+     "field": "Status",
+     "row_249": "MATERIAL LOCAL ERROR REPAIRED / GT5 SURVIVES SAME-LINE / EXTERNAL REVIEW OPEN",
+     "row_254": "MATERIAL LOCAL PROOF ERROR REPAIRED"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_249": "Zero independence credit; canonical impact NONE",
+     "row_254": "No canonical impact; correction attachment"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_249": "Corrects GP-DER-046 Section 7",
+     "row_254": "GP-DER-046-v1.0"
+    },
+    {
+     "field": "Modified UTC",
+     "row_249": "2026-07-24T20:23:00Z",
+     "row_254": "2026-07-24T20:40:00Z"
+    },
+    {
+     "field": "Notes",
+     "row_249": "Replaces false sup|Z|<=supZ+sup(-Z) with signed-index Gaussian process.",
+     "row_254": "Replaces false supremum inequality"
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 3,
+    "cells_differing": 9,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 249 and 254 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "Both rows cite one Drive document. Row 249 reads Status 'MATERIAL LOCAL ERROR REPAIRED / GT5 SURVIVES SAME-LINE / EXTERNAL REVIEW OPEN'; row 254 reads 'MATERIAL LOCAL PROOF ERROR REPAIRED' and drops both the 'GT5 SURVIVES SAME-LINE' and the 'EXTERNAL REVIEW OPEN' clauses. Row 249's Notes state the mathematical content of the repair ('Replaces false sup|Z|<=supZ+sup(-Z) with signed-index Gaussian process.'); row 254's Notes abbreviate it to 'Replaces false supremum inequality'. Only Artifact ID, Priority and Source agree. This is a material content difference under OP-CNS-001 §1.",
+   "corroborating_register_evidence": "Rows 248, 249 and 250 (LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0; Modified UTC 20:22, 20:23, 20:24 on 2026-07-24; Org 'OpenAI / Lead Scientist') are three consecutive long-form registrations. Rows 251 through 256 (LS-REC-001-v1.0, LS-AUD-001-v1.0, LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0, LS-DATA-002) all carry Modified UTC 2026-07-24T20:40:00Z and Org 'OpenAI': a single batch re-registration that re-entered the same three declared IDs in abbreviated form, with shortened titles and reworded Status cells. The three collisions are one event seen three times, and the same keeper rule resolves all three.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.' Compound row keys are the workbook's own form: Artifact Index rows 645 and 646 carry 'CL-AUD-LSDER036-20260727-01@1zMq504' and 'CL-AUD-LSDER036-20260727-01@1AcCpCe'; Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730 reads 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents'. The 2026-09-18 proposal (registers/collision_proposal.json, records CP-AIDX-*) applied the same rule to six Artifact Index pairs of this class.",
+   "keeper": {
+    "register_row_index": 249,
+    "keeps_identifier": "LS-COR-001-v1.0",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is the one the 2026-09-18 proposal applied to its six Artifact Index pairs and is applied here mechanically so that no pair is resolved by this session's reading of its status text.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 254,
+    "proposed_id": "LS-COR-001-v1.0@AIDX-R254",
+    "naming_rule": "Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Artifact Index rows 645/646 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'; Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.). In those instances the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. This is the fallback the 2026-09-18 proposal adopted for its six pairs (GP-DER-118-v1.2@AIDX-R95 etc.) and is reused unchanged so that the two proposals issue keys of one shape. THE FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification, and ratifying it once ratifies it for both proposals.",
+    "alternative_discriminator_considered": "The reidentified row's own Modified UTC would be fully source-derived. It is not adopted, for the reason the 2026-09-18 proposal gave (it fails on pairs whose two rows carry one Modified UTC) and for a second reason visible only in this batch: for LS-MAN-045-v1.0 the later-appended row 545 carries the EARLIER timestamp (18:15:00Z vs row 544's 18:20:00Z), so a timestamp discriminator would invert the append order R17 §3 prescribes.",
+    "explicitly_not_proposed": "The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 and SELFHEAL-LSMAN037-REG-001 is NOT proposed here, because those clusters' rows were substantively identical ('same Drive IDs and same evidence/request roles', 'identical LS-MAN-037 export identity') whereas this pair differs materially in Status; labelling either row VOID would destroy recorded state."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-LSCOR001v10-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT",
+      "Artifact Index row 249 (2026-09-18 xlsx export) — LS-COR-001-v1.0 — Status: MATERIAL LOCAL ERROR REPAIRED / GT5 SURVIVES SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Artifact Index row 254 (2026-09-18 xlsx export) — LS-COR-001-v1.0 — Status: MATERIAL LOCAL PROOF ERROR REPAIRED",
+      "Same declared Artifact ID and same Drive source https://docs.google.com/document/d/1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k/edit; Title, Org, Class, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Notes differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 249 as LS-COR-001-v1.0; register row 254 additively under compound key LS-COR-001-v1.0@AIDX-R254; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 254, column 'Artifact ID'",
+     "from": "LS-COR-001-v1.0",
+     "to": "LS-COR-001-v1.0@AIDX-R254",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Whether row 254's omission of 'EXTERNAL REVIEW OPEN' was an abbreviation or a change of state is unresolved by the export alone and is not resolved here; nothing in this document treats the external review as anything but open.",
+    "The correctness of the repair the row describes is not examined here; both rows are register entries about a document that was not downloaded for this proposal.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-AIDX-LS-AUD-003-v1.0",
+   "finding_key": "artifact_index: duplicate key 'LS-AUD-003-v1.0' at rows 250 and 255",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT",
+   "colliding_identifier": "LS-AUD-003-v1.0",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit",
+   "rows": [
+    {
+     "register_row_index": 250,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-AUD-003-v1.0",
+      "Same-Line Adversarial Review of P0.1 Domain T — GT5 and Probability Synthesis",
+      "OpenAI / Lead Scientist",
+      "AUD / PROBABILITY SYNTHESIS",
+      "P0",
+      "P0.1; Domain T; exact-law tail; joint event; Palm quotient",
+      "PASS AFTER REPAIR SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Zero independence credit; canonical impact NONE",
+      "GP-DER-046; LS-COR-001; accepted G/D interfaces",
+      "2026-07-24T20:24:00Z",
+      "https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit",
+      "Original written Domain T fails locally; repaired GT5 and synthesis survive."
+     ],
+     "row_sha256": "157aa1c1300c1424b059fd6daa7e213f00e126e2fa4b27a877a7de62a7f00159",
+     "row_canonical_bytes": 565,
+     "fields": {
+      "Artifact ID": "LS-AUD-003-v1.0",
+      "Title": "Same-Line Adversarial Review of P0.1 Domain T — GT5 and Probability Synthesis",
+      "Org": "OpenAI / Lead Scientist",
+      "Class": "AUD / PROBABILITY SYNTHESIS",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1; Domain T; exact-law tail; joint event; Palm quotient",
+      "Status": "PASS AFTER REPAIR SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Authority / canonical impact": "Zero independence credit; canonical impact NONE",
+      "Dependencies or supersession": "GP-DER-046; LS-COR-001; accepted G/D interfaces",
+      "Modified UTC": "2026-07-24T20:24:00Z",
+      "Source": "https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit",
+      "Notes": "Original written Domain T fails locally; repaired GT5 and synthesis survive."
+     }
+    },
+    {
+     "register_row_index": 255,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-AUD-003-v1.0",
+      "Same-Line Adversarial Review of P0.1 Domain T",
+      "OpenAI",
+      "AUD",
+      "P0",
+      "P0.1; GT5; probability synthesis; Palm quotient",
+      "PASS AFTER REPAIR ON SAME LINE",
+      "No canonical impact; zero independence credit",
+      "LS-COR-001; frozen theorem",
+      "2026-07-24T20:40:00Z",
+      "https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit",
+      "T1–T9 reconstruction"
+     ],
+     "row_sha256": "d4b83cf85aacd39ed3cbb2496c46deeda677fb26d28425a65b223a7b846c98e8",
+     "row_canonical_bytes": 382,
+     "fields": {
+      "Artifact ID": "LS-AUD-003-v1.0",
+      "Title": "Same-Line Adversarial Review of P0.1 Domain T",
+      "Org": "OpenAI",
+      "Class": "AUD",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1; GT5; probability synthesis; Palm quotient",
+      "Status": "PASS AFTER REPAIR ON SAME LINE",
+      "Authority / canonical impact": "No canonical impact; zero independence credit",
+      "Dependencies or supersession": "LS-COR-001; frozen theorem",
+      "Modified UTC": "2026-07-24T20:40:00Z",
+      "Source": "https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit",
+      "Notes": "T1–T9 reconstruction"
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Priority",
+    "Source"
+   ],
+   "field_differences": [
+    {
+     "field": "Title",
+     "row_250": "Same-Line Adversarial Review of P0.1 Domain T — GT5 and Probability Synthesis",
+     "row_255": "Same-Line Adversarial Review of P0.1 Domain T"
+    },
+    {
+     "field": "Org",
+     "row_250": "OpenAI / Lead Scientist",
+     "row_255": "OpenAI"
+    },
+    {
+     "field": "Class",
+     "row_250": "AUD / PROBABILITY SYNTHESIS",
+     "row_255": "AUD"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_250": "P0.1; Domain T; exact-law tail; joint event; Palm quotient",
+     "row_255": "P0.1; GT5; probability synthesis; Palm quotient"
+    },
+    {
+     "field": "Status",
+     "row_250": "PASS AFTER REPAIR SAME-LINE / EXTERNAL REVIEW OPEN",
+     "row_255": "PASS AFTER REPAIR ON SAME LINE"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_250": "Zero independence credit; canonical impact NONE",
+     "row_255": "No canonical impact; zero independence credit"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_250": "GP-DER-046; LS-COR-001; accepted G/D interfaces",
+     "row_255": "LS-COR-001; frozen theorem"
+    },
+    {
+     "field": "Modified UTC",
+     "row_250": "2026-07-24T20:24:00Z",
+     "row_255": "2026-07-24T20:40:00Z"
+    },
+    {
+     "field": "Notes",
+     "row_250": "Original written Domain T fails locally; repaired GT5 and synthesis survive.",
+     "row_255": "T1–T9 reconstruction"
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 3,
+    "cells_differing": 9,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 250 and 255 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "Both rows cite one Drive document. Row 250 reads Status 'PASS AFTER REPAIR SAME-LINE / EXTERNAL REVIEW OPEN'; row 255 reads 'PASS AFTER REPAIR ON SAME LINE' and drops the 'EXTERNAL REVIEW OPEN' clause. The Dependencies cells differ ('GP-DER-046; LS-COR-001; accepted G/D interfaces' vs 'LS-COR-001; frozen theorem'). Only Artifact ID, Priority and Source agree. This is a material content difference under OP-CNS-001 §1.",
+   "corroborating_register_evidence": "Rows 248, 249 and 250 (LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0; Modified UTC 20:22, 20:23, 20:24 on 2026-07-24; Org 'OpenAI / Lead Scientist') are three consecutive long-form registrations. Rows 251 through 256 (LS-REC-001-v1.0, LS-AUD-001-v1.0, LS-AUD-002-v1.0, LS-COR-001-v1.0, LS-AUD-003-v1.0, LS-DATA-002) all carry Modified UTC 2026-07-24T20:40:00Z and Org 'OpenAI': a single batch re-registration that re-entered the same three declared IDs in abbreviated form, with shortened titles and reworded Status cells. The three collisions are one event seen three times, and the same keeper rule resolves all three.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.' Compound row keys are the workbook's own form: Artifact Index rows 645 and 646 carry 'CL-AUD-LSDER036-20260727-01@1zMq504' and 'CL-AUD-LSDER036-20260727-01@1AcCpCe'; Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730 reads 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents'. The 2026-09-18 proposal (registers/collision_proposal.json, records CP-AIDX-*) applied the same rule to six Artifact Index pairs of this class.",
+   "keeper": {
+    "register_row_index": 250,
+    "keeps_identifier": "LS-AUD-003-v1.0",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is the one the 2026-09-18 proposal applied to its six Artifact Index pairs and is applied here mechanically so that no pair is resolved by this session's reading of its status text.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 255,
+    "proposed_id": "LS-AUD-003-v1.0@AIDX-R255",
+    "naming_rule": "Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Artifact Index rows 645/646 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'; Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.). In those instances the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. This is the fallback the 2026-09-18 proposal adopted for its six pairs (GP-DER-118-v1.2@AIDX-R95 etc.) and is reused unchanged so that the two proposals issue keys of one shape. THE FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification, and ratifying it once ratifies it for both proposals.",
+    "alternative_discriminator_considered": "The reidentified row's own Modified UTC would be fully source-derived. It is not adopted, for the reason the 2026-09-18 proposal gave (it fails on pairs whose two rows carry one Modified UTC) and for a second reason visible only in this batch: for LS-MAN-045-v1.0 the later-appended row 545 carries the EARLIER timestamp (18:15:00Z vs row 544's 18:20:00Z), so a timestamp discriminator would invert the append order R17 §3 prescribes.",
+    "explicitly_not_proposed": "The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 and SELFHEAL-LSMAN037-REG-001 is NOT proposed here, because those clusters' rows were substantively identical ('same Drive IDs and same evidence/request roles', 'identical LS-MAN-037 export identity') whereas this pair differs materially in Status; labelling either row VOID would destroy recorded state."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-LSAUD003v10-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT",
+      "Artifact Index row 250 (2026-09-18 xlsx export) — LS-AUD-003-v1.0 — Status: PASS AFTER REPAIR SAME-LINE / EXTERNAL REVIEW OPEN",
+      "Artifact Index row 255 (2026-09-18 xlsx export) — LS-AUD-003-v1.0 — Status: PASS AFTER REPAIR ON SAME LINE",
+      "Same declared Artifact ID and same Drive source https://docs.google.com/document/d/1X9eNFpg7Or3HTLqKSIuslVd6vw3yLSw_xqo-BHdohGs/edit; Title, Org, Class, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Notes differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 250 as LS-AUD-003-v1.0; register row 255 additively under compound key LS-AUD-003-v1.0@AIDX-R255; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 255, column 'Artifact ID'",
+     "from": "LS-AUD-003-v1.0",
+     "to": "LS-AUD-003-v1.0@AIDX-R255",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Whether row 255's omission of 'EXTERNAL REVIEW OPEN' was an abbreviation or a change of state is unresolved by the export alone and is not resolved here; nothing in this document treats the external review as anything but open.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-AIDX-GP-REQ-194-v1.0",
+   "finding_key": "artifact_index: duplicate key 'GP-REQ-194-v1.0' at rows 325 and 373",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__DIFFERENT_OBJECTS",
+   "colliding_identifier": "GP-REQ-194-v1.0",
+   "both_rows_cite_one_drive_object": false,
+   "drive_sources_cited": {
+    "row_325": "https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit",
+    "row_373": "https://docs.google.com/document/d/139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs/edit"
+   },
+   "rows": [
+    {
+     "register_row_index": 325,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "GP-REQ-194-v1.0",
+      "Joint Independent Review of Shared Taylor Transfer — P0.1-D and P02-LM-004",
+      "GP / OpenAI",
+      "REQ",
+      "P0",
+      "P0.1-D; P02-LM-004; shared Taylor transfer; separate application verdicts",
+      "OPEN ASSIGNMENT / NO REVIEW CREDIT UNTIL EXECUTED",
+      "Review routing only; no canonical impact",
+      "GP-COR-194; LCR-REQ-007; LCR-REQ-039",
+      "2026-07-24T23:55:00Z",
+      "https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit",
+      "One shared interface reconstruction; separate fixed-q/adaptive application verdicts"
+     ],
+     "row_sha256": "9b7aec57ef6bc2089d069e0ada188339e2337f33d990f9bfb5154ec8d470ed59",
+     "row_canonical_bytes": 529,
+     "fields": {
+      "Artifact ID": "GP-REQ-194-v1.0",
+      "Title": "Joint Independent Review of Shared Taylor Transfer — P0.1-D and P02-LM-004",
+      "Org": "GP / OpenAI",
+      "Class": "REQ",
+      "Priority": "P0",
+      "Topics / object tags": "P0.1-D; P02-LM-004; shared Taylor transfer; separate application verdicts",
+      "Status": "OPEN ASSIGNMENT / NO REVIEW CREDIT UNTIL EXECUTED",
+      "Authority / canonical impact": "Review routing only; no canonical impact",
+      "Dependencies or supersession": "GP-COR-194; LCR-REQ-007; LCR-REQ-039",
+      "Modified UTC": "2026-07-24T23:55:00Z",
+      "Source": "https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit",
+      "Notes": "One shared interface reconstruction; separate fixed-q/adaptive application verdicts"
+     }
+    },
+    {
+     "register_row_index": 373,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "GP-REQ-194-v1.0",
+      "Independent Source Review and Clean Lean Build of GP-FOR-192",
+      "GP/LCR",
+      "REQ",
+      "P0.2",
+      "Lean; Mathlib; clean build; independent source review",
+      "OPEN ASSIGNMENT / RAW ZIP PRESENT / CLEAN BUILD REQUIRED",
+      "Review routing only; canonical impact NONE",
+      "GP-FOR-192-v1.0; GP-REC-193-v1.0; raw ZIP Drive ID 1hTeWNKxLcmXEB2i5enAdmzXFknUxwTL6",
+      "2026-07-25",
+      "https://docs.google.com/document/d/139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs/edit",
+      "R1 directly executable from Drive; remaining R2-R12 include manifest, toolchain freeze, clean lake build, statement correspondence, and promotion firewall"
+     ],
+     "row_sha256": "2e85e4021ddaabf63e3854570ba38cb33e6236f9959254bee9624a0cd5130172",
+     "row_canonical_bytes": 608,
+     "fields": {
+      "Artifact ID": "GP-REQ-194-v1.0",
+      "Title": "Independent Source Review and Clean Lean Build of GP-FOR-192",
+      "Org": "GP/LCR",
+      "Class": "REQ",
+      "Priority": "P0.2",
+      "Topics / object tags": "Lean; Mathlib; clean build; independent source review",
+      "Status": "OPEN ASSIGNMENT / RAW ZIP PRESENT / CLEAN BUILD REQUIRED",
+      "Authority / canonical impact": "Review routing only; canonical impact NONE",
+      "Dependencies or supersession": "GP-FOR-192-v1.0; GP-REC-193-v1.0; raw ZIP Drive ID 1hTeWNKxLcmXEB2i5enAdmzXFknUxwTL6",
+      "Modified UTC": "2026-07-25",
+      "Source": "https://docs.google.com/document/d/139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs/edit",
+      "Notes": "R1 directly executable from Drive; remaining R2-R12 include manifest, toolchain freeze, clean lake build, statement correspondence, and promotion firewall"
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Class"
+   ],
+   "field_differences": [
+    {
+     "field": "Title",
+     "row_325": "Joint Independent Review of Shared Taylor Transfer — P0.1-D and P02-LM-004",
+     "row_373": "Independent Source Review and Clean Lean Build of GP-FOR-192"
+    },
+    {
+     "field": "Org",
+     "row_325": "GP / OpenAI",
+     "row_373": "GP/LCR"
+    },
+    {
+     "field": "Priority",
+     "row_325": "P0",
+     "row_373": "P0.2"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_325": "P0.1-D; P02-LM-004; shared Taylor transfer; separate application verdicts",
+     "row_373": "Lean; Mathlib; clean build; independent source review"
+    },
+    {
+     "field": "Status",
+     "row_325": "OPEN ASSIGNMENT / NO REVIEW CREDIT UNTIL EXECUTED",
+     "row_373": "OPEN ASSIGNMENT / RAW ZIP PRESENT / CLEAN BUILD REQUIRED"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_325": "Review routing only; no canonical impact",
+     "row_373": "Review routing only; canonical impact NONE"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_325": "GP-COR-194; LCR-REQ-007; LCR-REQ-039",
+     "row_373": "GP-FOR-192-v1.0; GP-REC-193-v1.0; raw ZIP Drive ID 1hTeWNKxLcmXEB2i5enAdmzXFknUxwTL6"
+    },
+    {
+     "field": "Modified UTC",
+     "row_325": "2026-07-24T23:55:00Z",
+     "row_373": "2026-07-25"
+    },
+    {
+     "field": "Source",
+     "row_325": "https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit",
+     "row_373": "https://docs.google.com/document/d/139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs/edit"
+    },
+    {
+     "field": "Notes",
+     "row_325": "One shared interface reconstruction; separate fixed-q/adaptive application verdicts",
+     "row_373": "R1 directly executable from Drive; remaining R2-R12 include manifest, toolchain freeze, clean lake build, statement correspondence, and promotion firewall"
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 2,
+    "cells_differing": 10,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 325 and 373 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "The two rows describe two different review requests. Row 325 is 'Joint Independent Review of Shared Taylor Transfer — P0.1-D and P02-LM-004' (Org 'GP / OpenAI', Priority 'P0', Modified UTC 2026-07-24T23:55:00Z, Source document 1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ); row 373 is 'Independent Source Review and Clean Lean Build of GP-FOR-192' (Org 'GP/LCR', Priority 'P0.2', Modified UTC '2026-07-25', Source document 139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs). Only Artifact ID and Class ('REQ') agree; the Title, Org, Priority, Topics, Status, Authority, Dependencies, Modified UTC, Source and Notes cells all differ. This is not two readings of one object but one identifier assigned twice: the GP-DER-044 case OP-CNS-001 §2 names by hand, and acceptance test T7's case. There is no status text to adjudicate between the rows; each row's status is its own object's.",
+   "corroborating_register_evidence": "Row 324 is GP-COR-194-v1.0 at the same Modified UTC as row 325 (2026-07-24T23:55:00Z) and is named in row 325's Dependencies ('GP-COR-194; LCR-REQ-007; LCR-REQ-039'): the number 194 was taken by the joint-review request in the same registration event as its correction record. Row 372 is GP-REC-193-v1.0 ('2026-07-25') and row 374 is GP-AUD-195-v1.0 ('2026-07-25'); row 373's Dependencies name 'GP-FOR-192-v1.0; GP-REC-193-v1.0'. The Lean-build request therefore took 194 as the next number after 193 in its own sequence, without seeing that 194 had been issued the evening before. OP-CNS-001 §2: 'Failed create/upload attempts should be verified absent before retry' and 'Concurrent work should disclose line/session identity.'",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Load-bearing references should cite full title, declared artifact ID, Drive ID, version, role, and content hash where practical.' / 'The two GP-DER-044-v1.0 objects remain distinct and must be cited by full title and Drive ID.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' APPLIES DIRECTLY: the two rows cite two different Drive documents with two different titles. Both objects are preserved; neither is a duplicate of the other.",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.' Applies to the identifier only: the two objects are not to be adjudicated against each other, since they are not two readings of one thing.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Use the confirmed append position to order contenders, not a self-reported timestamp.' and 'Related topic does not imply duplicate object.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'Same titles, similar topics, different-format mirrors, and copied dependencies inside self-contained reproducibility packages are not sufficient grounds for removal.' and 'No permanent deletion in this workflow.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730: 'EXACT WORK-ORDER ID COLLISION ... Different operations; shared base ID CL-CLWO-20260727-07 ... RESOLVED: register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents' (and the sibling clusters DUP-CLWO-20260727-03-STABLEKEY-20260730 and DUP-CLWO-20260727-05-STABLEKEY-20260730). Artifact Index rows 645 and 646 carry the executed form 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'. Also Duplicate Flags cluster DUP-ID-GP-DER-044, the different-Drive-object collision OP-CNS-001 §2 names by hand. NOTE: in every one of those precedents BOTH colliding rows received a compound key; none kept the bare id. This proposal keeps the bare key on the earlier append position to stay uniform with the first proposal's keeper rule, and records the both-rows-re-keyed alternative as a residual question.",
+   "keeper": {
+    "register_row_index": 325,
+    "keeps_identifier": "GP-REQ-194-v1.0",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp. The rule is the same one applied to every same-object pair in both proposals, so that the keeper of the bare key is never chosen by this session's reading of which request matters more. Unlike the same-object records, keeping the bare key here does not choose between two readings of one thing: both objects are preserved, each with its own Status, and neither is a duplicate of the other.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment. It does not rank the two review requests, does not execute either, and grants no review credit to either."
+   },
+   "successor": {
+    "register_row_index": 373,
+    "proposed_id": "GP-REQ-194-v1.0@AIDX-R373",
+    "naming_rule": "Compound row key <declared artifact ID>@AIDX-R<n>, the same shape the 2026-09-18 proposal and the same-object records of this proposal issue, so that every successor key in both documents is read the same way. AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. THIS IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; it requires operator ratification.",
+    "alternative_discriminator_considered": "The workbook's literal form for a different-Drive-object collision is the Drive-ID-prefix discriminator, and here it IS available: GP-REQ-194-v1.0@139NzUf for row 373 (Drive ID 139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs), and in the precedents BOTH rows were re-keyed (GP-REQ-194-v1.0@1mM355K for row 325). That form is more faithful to the precedent than the row locator and is recorded here as the alternative the operator may prefer; it is not adopted only so that the two proposals issue keys of one shape. A renumbering to the next unused GP-REQ number (the remedy the first proposal used for TR-P02-011 → TR-P02-028) is also possible but would change a declared id inside a Drive document not downloaded for this proposal.",
+    "explicitly_not_proposed": "Neither document's DECLARED ID is changed, no row is labelled VOID or DUPLICATE (neither is), and no content adjudication between the two rows is opened: they are two objects, and each row's Status is its own object's. Only the register row key of row 373 is disambiguated."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / TWO-OBJECTS-BOTH-PRESERVED / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-GPREQ194v10-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / DIFFERENT DRIVE OBJECTS / TWO DISTINCT REVIEW REQUESTS",
+      "Artifact Index row 325 (2026-09-18 xlsx export) — GP-REQ-194-v1.0 — Status: OPEN ASSIGNMENT / NO REVIEW CREDIT UNTIL EXECUTED",
+      "Artifact Index row 373 (2026-09-18 xlsx export) — GP-REQ-194-v1.0 — Status: OPEN ASSIGNMENT / RAW ZIP PRESENT / CLEAN BUILD REQUIRED",
+      "Same declared Artifact ID only; different Drive sources (https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit vs https://docs.google.com/document/d/139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs/edit), different Titles; Title, Org, Priority, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Source, Notes differ",
+      "Wrong-object citation and duplicate-assignment risk; a review routed by the bare ID could land on the wrong request (OP-CNS-001 §2 GP-DER-044 case; §7 T7)",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows and both documents; keep row 325 as GP-REQ-194-v1.0; register row 373 additively under compound key GP-REQ-194-v1.0@AIDX-R373; cite each object by full title and Drive ID per OP-CNS-001 §2; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 373, column 'Artifact ID'",
+     "from": "GP-REQ-194-v1.0",
+     "to": "GP-REQ-194-v1.0@AIDX-R373",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Which of the two objects should carry the bare id GP-REQ-194-v1.0 is decided here only by append position. The workbook's own different-object precedents (DUP-CLWO-20260727-07-STABLEKEY-20260730 and siblings; Artifact Index rows 645/646) re-keyed BOTH rows with a Drive-ID-prefix discriminator and kept the bare id on neither. The operator may prefer that form (GP-REQ-194-v1.0@1mM355K for row 325 and GP-REQ-194-v1.0@139NzUf for row 373); it is recorded as the alternative and is not adopted here only so that the two proposals issue keys of one shape.",
+    "Whether the Lean-build request (row 373) should instead be renumbered to the next unused GP-REQ number, the remedy the 2026-09-18 proposal used for two distinct Transition Log transitions sharing one key (TR-P02-011 → TR-P02-028), is not decided here; a renumbering changes the declared id inside a Drive document that was not downloaded for this proposal.",
+    "Neither review request is examined for whether it was executed; both Status cells read 'OPEN ASSIGNMENT' and are transcribed, not evaluated.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-AIDX-LS-MAN-045-v1.0",
+   "finding_key": "artifact_index: duplicate key 'LS-MAN-045-v1.0' at rows 544 and 545",
+   "register_tab": "artifact_index",
+   "workbook_tab": "Artifact Index",
+   "defect_class": "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_STATUS_TEXT",
+   "colliding_identifier": "LS-MAN-045-v1.0",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit",
+   "rows": [
+    {
+     "register_row_index": 544,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-MAN-045-v1.0",
+      "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race and Populated LS-REQ-030",
+      "OpenAI GPT-5.6 Thinking / Drive Self-Healing Audit",
+      "MAN / FULL SAME-RUN LEAF VERIFICATION / CONCURRENCY RECOVERY",
+      "P0 / OPS",
+      "Theorem B package; four-Claude integration; DQ-056; collision recovery",
+      "CURRENT PACKAGE-STATE MANIFEST / FINAL 72 CHILDREN / ROOT NONE / SEALED NO",
+      "Package integrity only; zero scientific and organizational-independence credit",
+      "Supersedes LS-MAN-043 current role and both LS-MAN-044 attempts",
+      "2026-07-27T18:20:00Z",
+      "https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit",
+      "Body 5,906 / SHA ff4b5b6e…0e0f; collision-safe 72-child endpoint; theorem remains retracted."
+     ],
+     "row_sha256": "d875f663f7d25639cba8c91c28aa7ed4e7e930bffc2804a23c32f054764ec951",
+     "row_canonical_bytes": 748,
+     "fields": {
+      "Artifact ID": "LS-MAN-045-v1.0",
+      "Title": "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race and Populated LS-REQ-030",
+      "Org": "OpenAI GPT-5.6 Thinking / Drive Self-Healing Audit",
+      "Class": "MAN / FULL SAME-RUN LEAF VERIFICATION / CONCURRENCY RECOVERY",
+      "Priority": "P0 / OPS",
+      "Topics / object tags": "Theorem B package; four-Claude integration; DQ-056; collision recovery",
+      "Status": "CURRENT PACKAGE-STATE MANIFEST / FINAL 72 CHILDREN / ROOT NONE / SEALED NO",
+      "Authority / canonical impact": "Package integrity only; zero scientific and organizational-independence credit",
+      "Dependencies or supersession": "Supersedes LS-MAN-043 current role and both LS-MAN-044 attempts",
+      "Modified UTC": "2026-07-27T18:20:00Z",
+      "Source": "https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit",
+      "Notes": "Body 5,906 / SHA ff4b5b6e…0e0f; collision-safe 72-child endpoint; theorem remains retracted."
+     }
+    },
+    {
+     "register_row_index": 545,
+     "register_row_index_convention": "0-based index into registers/json/artifact_index.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "LS-MAN-045-v1.0",
+      "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race",
+      "OpenAI GPT-5.6 Thinking",
+      "MAN / FULL SAME-RUN LEAF VERIFICATION / CONCURRENCY RECOVERY",
+      "P0 / OPS",
+      "Theorem B; 72-child state; DQ-056; four-Claude integration",
+      "CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO",
+      "Package integrity only; zero scientific and independence credit",
+      "Supersedes LS-MAN-043 and both LS-MAN-044 attempts",
+      "2026-07-27T18:15:00Z",
+      "https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit",
+      "Body 5,906 / SHA ff4b5b6e…0e0f; 39 exact objects attempted; zero mismatch or silent skip; final 72 children."
+     ],
+     "row_sha256": "4d130831ab3f902a6f1257b7285b272f94f7132539f1ac3c870897dce835881b",
+     "row_canonical_bytes": 652,
+     "fields": {
+      "Artifact ID": "LS-MAN-045-v1.0",
+      "Title": "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race",
+      "Org": "OpenAI GPT-5.6 Thinking",
+      "Class": "MAN / FULL SAME-RUN LEAF VERIFICATION / CONCURRENCY RECOVERY",
+      "Priority": "P0 / OPS",
+      "Topics / object tags": "Theorem B; 72-child state; DQ-056; four-Claude integration",
+      "Status": "CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO",
+      "Authority / canonical impact": "Package integrity only; zero scientific and independence credit",
+      "Dependencies or supersession": "Supersedes LS-MAN-043 and both LS-MAN-044 attempts",
+      "Modified UTC": "2026-07-27T18:15:00Z",
+      "Source": "https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit",
+      "Notes": "Body 5,906 / SHA ff4b5b6e…0e0f; 39 exact objects attempted; zero mismatch or silent skip; final 72 children."
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Artifact ID",
+    "Class",
+    "Priority",
+    "Source"
+   ],
+   "field_differences": [
+    {
+     "field": "Title",
+     "row_544": "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race and Populated LS-REQ-030",
+     "row_545": "Theorem B Collision-Safe Same-Run Successor after Dual LS-MAN-044 Race"
+    },
+    {
+     "field": "Org",
+     "row_544": "OpenAI GPT-5.6 Thinking / Drive Self-Healing Audit",
+     "row_545": "OpenAI GPT-5.6 Thinking"
+    },
+    {
+     "field": "Topics / object tags",
+     "row_544": "Theorem B package; four-Claude integration; DQ-056; collision recovery",
+     "row_545": "Theorem B; 72-child state; DQ-056; four-Claude integration"
+    },
+    {
+     "field": "Status",
+     "row_544": "CURRENT PACKAGE-STATE MANIFEST / FINAL 72 CHILDREN / ROOT NONE / SEALED NO",
+     "row_545": "CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO"
+    },
+    {
+     "field": "Authority / canonical impact",
+     "row_544": "Package integrity only; zero scientific and organizational-independence credit",
+     "row_545": "Package integrity only; zero scientific and independence credit"
+    },
+    {
+     "field": "Dependencies or supersession",
+     "row_544": "Supersedes LS-MAN-043 current role and both LS-MAN-044 attempts",
+     "row_545": "Supersedes LS-MAN-043 and both LS-MAN-044 attempts"
+    },
+    {
+     "field": "Modified UTC",
+     "row_544": "2026-07-27T18:20:00Z",
+     "row_545": "2026-07-27T18:15:00Z"
+    },
+    {
+     "field": "Notes",
+     "row_544": "Body 5,906 / SHA ff4b5b6e…0e0f; collision-safe 72-child endpoint; theorem remains retracted.",
+     "row_545": "Body 5,906 / SHA ff4b5b6e…0e0f; 39 exact objects attempted; zero mismatch or silent skip; final 72 children."
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 12,
+    "cells_identical": 4,
+    "cells_differing": 8,
+    "derivation": "Counts over the 12 header columns of registers/json/artifact_index.json, comparing rows 544 and 545 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "Both rows cite one Drive document, one Class and one Priority. Row 544 (Modified UTC 2026-07-27T18:20:00Z) reads Status 'CURRENT PACKAGE-STATE MANIFEST / FINAL 72 CHILDREN / ROOT NONE / SEALED NO' and Notes '... collision-safe 72-child endpoint; theorem remains retracted.'; row 545 (Modified UTC 2026-07-27T18:15:00Z) reads Status 'CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO' and Notes '... 39 exact objects attempted; zero mismatch or silent skip; final 72 children.' The Title of row 544 adds 'and Populated LS-REQ-030'. Both Status cells claim to be the CURRENT manifest; two rows cannot both be current under one key. This is a material content difference under OP-CNS-001 §1. The earlier-appended row carries the LATER self-reported timestamp.",
+   "corroborating_register_evidence": "The Evidence Lineage collision EV-LS-REQ030 (rows 385 and 386, this proposal's record CP-EVL-EV-LS-REQ030) carries the same two timestamps, 2026-07-27T18:15:00Z and 18:20:00Z, and row 544's Title names 'Populated LS-REQ-030': the two collisions are two register faces of one registration event that wrote twice, five minutes apart. Evidence Lineage rows 387 and 388 (EV-CONCURRENT-LSMAN044-CLAUDE, EV-CONCURRENT-LSMAN044-OPENAI, both 18:20:00Z, Evidence Role 'HISTORICAL_CONCURRENT_MANIFEST_ATTEMPT') record the 'Dual LS-MAN-044 Race' both Titles name. Artifact Index row 543 (GP-REC-SELFHEAL-20260727-27, 19:15:00Z) precedes both rows in append order while carrying a later timestamp, so the tab's row order in this region is not chronological.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID, so this is a register-row duplication, not a second artifact identity. Minting a new declared artifact ID would create a second identity for one Drive object and is therefore NOT proposed.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Duplicate Flags cluster DUP-REG-ARTIFACT-INDEX-GP197-20260724: 'DUPLICATE REGISTER PRIMARY KEYS / SAME DRIVE OBJECTS ... RESOLVED: first rows control; later rows reidentified VOID-DUPLICATE with unique keys; preserve additively.' Also SELFHEAL-LSMAN037-REG-001: 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT.' Compound row keys are the workbook's own form: Artifact Index rows 645 and 646 carry 'CL-AUD-LSDER036-20260727-01@1zMq504' and 'CL-AUD-LSDER036-20260727-01@1AcCpCe'; Duplicate Flags cluster DUP-CLWO-20260727-07-STABLEKEY-20260730 reads 'register compound keys CL-CLWO-20260727-07@1jqT3KJ and @1jGggrx; preserve both documents'. The 2026-09-18 proposal (registers/collision_proposal.json, records CP-AIDX-*) applied the same rule to six Artifact Index pairs of this class.",
+   "keeper": {
+    "register_row_index": 544,
+    "keeps_identifier": "LS-MAN-045-v1.0",
+    "reason": "Earlier confirmed append position. R17 §3 orders contenders by append position, not by self-reported timestamp, and the in-register Artifact Index precedent (DUP-REG-ARTIFACT-INDEX-GP197-20260724, SELFHEAL-LSMAN037-REG-001) resolves same-Drive-object register-row duplicates by letting the first row control and reidentifying the later row. The rule is the one the 2026-09-18 proposal applied to its six Artifact Index pairs and is applied here mechanically so that no pair is resolved by this session's reading of its status text.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 545,
+    "proposed_id": "LS-MAN-045-v1.0@AIDX-R545",
+    "naming_rule": "Compound row key <declared artifact ID>@<discriminator>, the form the workbook already uses for stable-key collisions (Artifact Index rows 645/646 'CL-AUD-LSDER036-20260727-01@1zMq504' and '@1AcCpCe'; Duplicate Flags clusters DUP-CLWO-20260727-07-STABLEKEY-20260730 etc.). In those instances the discriminator was a Drive ID prefix. Here both rows cite ONE Drive ID, so the Drive-ID discriminator is unavailable and the discriminator falls back to the register row locator: AIDX = Artifact Index, R<n> = the 0-based row index tools/registers_check.py prints. This is the fallback the 2026-09-18 proposal adopted for its six pairs (GP-DER-118-v1.2@AIDX-R95 etc.) and is reused unchanged so that the two proposals issue keys of one shape. THE FALLBACK IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; the abbreviation requires operator ratification, and ratifying it once ratifies it for both proposals.",
+    "alternative_discriminator_considered": "The reidentified row's own Modified UTC would be fully source-derived. It is not adopted, for the reason the 2026-09-18 proposal gave (it fails on pairs whose two rows carry one Modified UTC) and for a second reason visible only in this batch: for LS-MAN-045-v1.0 the later-appended row 545 carries the EARLIER timestamp (18:15:00Z vs row 544's 18:20:00Z), so a timestamp discriminator would invert the append order R17 §3 prescribes.",
+    "explicitly_not_proposed": "The artifact's DECLARED ID inside the Drive document is not changed. Only the register row key is disambiguated. The 'VOID-DUPLICATE' disposition used by DUP-REG-ARTIFACT-INDEX-GP197-20260724 and SELFHEAL-LSMAN037-REG-001 is NOT proposed here, because those clusters' rows were substantively identical ('same Drive IDs and same evidence/request roles', 'identical LS-MAN-037 export identity') whereas this pair differs materially in Status; labelling either row VOID would destroy recorded state."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-ARTIFACT-INDEX-LSMAN045v10-20260919",
+      "DUPLICATE REGISTER PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT STATUS TEXT",
+      "Artifact Index row 544 (2026-09-18 xlsx export) — LS-MAN-045-v1.0 — Status: CURRENT PACKAGE-STATE MANIFEST / FINAL 72 CHILDREN / ROOT NONE / SEALED NO",
+      "Artifact Index row 545 (2026-09-18 xlsx export) — LS-MAN-045-v1.0 — Status: CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO",
+      "Same declared Artifact ID and same Drive source https://docs.google.com/document/d/1fJbcQOpV18vpAWTL8jbJwYQwd1g6NZZSiINTYbEutNg/edit; Title, Org, Topics / object tags, Status, Authority / canonical impact, Dependencies or supersession, Modified UTC, Notes differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 544 as LS-MAN-045-v1.0; register row 545 additively under compound key LS-MAN-045-v1.0@AIDX-R545; open an OP-CNS-001 §1 content-adjudication item on the Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Artifact Index",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Artifact Index, row 545, column 'Artifact ID'",
+     "from": "LS-MAN-045-v1.0",
+     "to": "LS-MAN-045-v1.0@AIDX-R545",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Here append position (row 544 first) and self-reported timestamp (row 545 earlier) disagree. R17 §3 says append position controls and the rule is applied mechanically; but the export cannot show whether the sheet was ever re-sorted in this region (row 543 carries 19:15:00Z, later than both), so the operator should confirm the append order from the workbook's revision history before executing.",
+    "Whether the 'FINAL 72 CHILDREN' reading of row 544 is the current manifest state is unresolved by the export alone and is not resolved here.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  },
+  {
+   "record_id": "CP-EVL-EV-LS-REQ030",
+   "finding_key": "evidence_lineage: duplicate key 'EV-LS-REQ030' at rows 385 and 386",
+   "register_tab": "evidence_lineage",
+   "workbook_tab": "Evidence Lineage",
+   "defect_class": "DUPLICATE_EVIDENCE_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_ROLE_AND_STATUS_TEXT",
+   "colliding_identifier": "EV-LS-REQ030",
+   "both_rows_cite_one_drive_object": true,
+   "drive_source_cited_by_both_rows": "https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit",
+   "exact_duplicate_row": false,
+   "exact_duplicate_row_test": "verbatim_row of row 385 == verbatim_row of row 386, cell for cell; the result is recorded in exact_duplicate_row and is false.",
+   "rows": [
+    {
+     "register_row_index": 385,
+     "register_row_index_convention": "0-based index into registers/json/evidence_lineage.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "EV-LS-REQ030",
+      "2026-07-27T18:15:00Z",
+      "LS-REQ-030-v1.0",
+      "1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4",
+      "LS-REQ-030-v1.0",
+      "EXACT_REVIEW_REQUEST_FOR_LS_DER036",
+      "TRUE",
+      "FALSE",
+      "LS-DER-036; LS-DER-035; LS-DER-023/034",
+      "SHA256:ccf625dd77ae6c7b8f575682740b46359ad8685e34799108edf80909992311df",
+      "Populated exact-scope review packet",
+      "Routing only / zero independence credit",
+      "DQ-057",
+      "C WHOLE NATIVE EXPORT",
+      "https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit",
+      "PASS / OPEN REVIEW ROUTE"
+     ],
+     "row_sha256": "c7d25bce83677c51da0367cba5e1123915570e61aa91351039b9d9ef490bcd3c",
+     "row_canonical_bytes": 516,
+     "fields": {
+      "Evidence ID": "EV-LS-REQ030",
+      "Recorded UTC": "2026-07-27T18:15:00Z",
+      "Exact Object ID": "LS-REQ-030-v1.0",
+      "Drive ID": "1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4",
+      "Artifact ID": "LS-REQ-030-v1.0",
+      "Evidence Role": "EXACT_REVIEW_REQUEST_FOR_LS_DER036",
+      "Primary Evidence": "TRUE",
+      "Summary Only": "FALSE",
+      "Derives From": "LS-DER-036; LS-DER-035; LS-DER-023/034",
+      "Code Fixture ID": "SHA256:ccf625dd77ae6c7b8f575682740b46359ad8685e34799108edf80909992311df",
+      "Computational Fixture ID": "Populated exact-scope review packet",
+      "Methodological Family": "Routing only / zero independence credit",
+      "Review ID": "DQ-057",
+      "Evidence Class": "C WHOLE NATIVE EXPORT",
+      "Source URL": "https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit",
+      "Status": "PASS / OPEN REVIEW ROUTE"
+     }
+    },
+    {
+     "register_row_index": 386,
+     "register_row_index_convention": "0-based index into registers/json/evidence_lineage.json rows[], the same index tools/registers_check.py prints; the row itself is the list of cell strings exactly as that JSON holds them",
+     "verbatim_row": [
+      "EV-LS-REQ030",
+      "2026-07-27T18:20:00Z",
+      "LS-REQ-030-v1.0",
+      "1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4",
+      "LS-REQ-030-v1.0",
+      "ORGANIZATIONALLY_DISTINCT_REVIEW_REQUEST",
+      "TRUE",
+      "FALSE",
+      "LS-DER-036; LS-DER-035; LS-DER-023/034/021",
+      "SHA256:ccf625dd77ae6c7b8f575682740b46359ad8685e34799108edf80909992311df",
+      "R0–R14 and M1–M12 exact review ledger",
+      "OpenAI routing / zero review credit",
+      "NONE",
+      "C WHOLE NATIVE TEXT EXPORT",
+      "https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit",
+      "PASS CONTENT BINDING / EXTERNAL REVIEW OPEN"
+     ],
+     "row_sha256": "032fc21dbfd3073fdce84a98ba1ab6ea2a436def82be601d464f872533e06eb0",
+     "row_canonical_bytes": 550,
+     "fields": {
+      "Evidence ID": "EV-LS-REQ030",
+      "Recorded UTC": "2026-07-27T18:20:00Z",
+      "Exact Object ID": "LS-REQ-030-v1.0",
+      "Drive ID": "1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4",
+      "Artifact ID": "LS-REQ-030-v1.0",
+      "Evidence Role": "ORGANIZATIONALLY_DISTINCT_REVIEW_REQUEST",
+      "Primary Evidence": "TRUE",
+      "Summary Only": "FALSE",
+      "Derives From": "LS-DER-036; LS-DER-035; LS-DER-023/034/021",
+      "Code Fixture ID": "SHA256:ccf625dd77ae6c7b8f575682740b46359ad8685e34799108edf80909992311df",
+      "Computational Fixture ID": "R0–R14 and M1–M12 exact review ledger",
+      "Methodological Family": "OpenAI routing / zero review credit",
+      "Review ID": "NONE",
+      "Evidence Class": "C WHOLE NATIVE TEXT EXPORT",
+      "Source URL": "https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit",
+      "Status": "PASS CONTENT BINDING / EXTERNAL REVIEW OPEN"
+     }
+    }
+   ],
+   "fields_identical_in_both_rows": [
+    "Evidence ID",
+    "Exact Object ID",
+    "Drive ID",
+    "Artifact ID",
+    "Primary Evidence",
+    "Summary Only",
+    "Code Fixture ID",
+    "Source URL"
+   ],
+   "field_differences": [
+    {
+     "field": "Recorded UTC",
+     "row_385": "2026-07-27T18:15:00Z",
+     "row_386": "2026-07-27T18:20:00Z"
+    },
+    {
+     "field": "Evidence Role",
+     "row_385": "EXACT_REVIEW_REQUEST_FOR_LS_DER036",
+     "row_386": "ORGANIZATIONALLY_DISTINCT_REVIEW_REQUEST"
+    },
+    {
+     "field": "Derives From",
+     "row_385": "LS-DER-036; LS-DER-035; LS-DER-023/034",
+     "row_386": "LS-DER-036; LS-DER-035; LS-DER-023/034/021"
+    },
+    {
+     "field": "Computational Fixture ID",
+     "row_385": "Populated exact-scope review packet",
+     "row_386": "R0–R14 and M1–M12 exact review ledger"
+    },
+    {
+     "field": "Methodological Family",
+     "row_385": "Routing only / zero independence credit",
+     "row_386": "OpenAI routing / zero review credit"
+    },
+    {
+     "field": "Review ID",
+     "row_385": "DQ-057",
+     "row_386": "NONE"
+    },
+    {
+     "field": "Evidence Class",
+     "row_385": "C WHOLE NATIVE EXPORT",
+     "row_386": "C WHOLE NATIVE TEXT EXPORT"
+    },
+    {
+     "field": "Status",
+     "row_385": "PASS / OPEN REVIEW ROUTE",
+     "row_386": "PASS CONTENT BINDING / EXTERNAL REVIEW OPEN"
+    }
+   ],
+   "cell_comparison": {
+    "cells_total": 16,
+    "cells_identical": 8,
+    "cells_differing": 8,
+    "derivation": "Counts over the 16 header columns of registers/json/evidence_lineage.json, comparing rows 385 and 386 cell for cell; tools/collision_proposal_check.py recomputes fields_identical_in_both_rows, field_differences and these three counts from the live rows and fails if any of them differs from what is recorded here."
+   },
+   "materiality": "The two rows were compared cell for cell: they are NOT an exact duplicate. Eight of sixteen cells agree — Evidence ID, Exact Object ID 'LS-REQ-030-v1.0', Drive ID '1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4', Artifact ID, Primary Evidence 'TRUE', Summary Only 'FALSE', Code Fixture ID 'SHA256:ccf625dd77ae6c7b8f575682740b46359ad8685e34799108edf80909992311df' and Source URL — so both rows bind one Drive object with one content digest. Eight cells differ: Recorded UTC (18:15:00Z vs 18:20:00Z), Evidence Role ('EXACT_REVIEW_REQUEST_FOR_LS_DER036' vs 'ORGANIZATIONALLY_DISTINCT_REVIEW_REQUEST'), Derives From, Computational Fixture ID, Methodological Family, Review ID ('DQ-057' vs 'NONE'), Evidence Class ('C WHOLE NATIVE EXPORT' vs 'C WHOLE NATIVE TEXT EXPORT') and Status ('PASS / OPEN REVIEW ROUTE' vs 'PASS CONTENT BINDING / EXTERNAL REVIEW OPEN'). A Review ID that is 'DQ-057' in one row and 'NONE' in the other is a material content difference under OP-CNS-001 §1; the EXACT_DUPLICATE_ROW class and the VOID-DUPLICATE disposition therefore do NOT apply.",
+   "corroborating_register_evidence": "The Artifact Index collision LS-MAN-045-v1.0 (rows 544 and 545, this proposal's record CP-AIDX-LS-MAN-045-v1.0) carries the same two timestamps, and row 544's Title reads '... and Populated LS-REQ-030'. The two collisions are one registration event. Evidence Lineage row 384 (EV-CONCURRENT-DUP-LSDER030-1V9VGW, 18:00:00Z) and rows 387/388 (EV-CONCURRENT-LSMAN044-CLAUDE / -OPENAI, 18:20:00Z) show the tab was absorbing concurrent writes in the same quarter hour. Row 385's Review ID 'DQ-057' is the review route the Artifact Index rows 645/646 (CL-AUD-LSDER036-20260727-01@...) name as 'DQ-057 v1.1 review remains open'.",
+   "governing_clauses": [
+    "OP-CNS-001-R0.2 §2 — 'A later collision is preserved and disambiguated; historical artifacts are not silently rewritten.' / 'Maintain an append-only collision registry.' / 'Gaps or duplicates require an additive provenance disclosure.'",
+    "OP-CNS-001-R0.2 §1 — 'Material content differences open a content-adjudication item rather than being silently merged.'",
+    "OP-CNS-001-R0.2 §7 T7 — 'same declared ID with different Drive IDs remains separate.' Noted BECAUSE IT DOES NOT APPLY: both rows cite one Drive ID and one content digest, so this is a register-row duplication of one evidence binding, not two pieces of evidence.",
+    "OP-PROT-019-v1.1 R17 §3 — 'Multiple successors of one old head are a publication conflict: hold only that target, preserve both branches, and append a reconciliation selecting or merging them with reasons. Never resolve it by silently overwriting proof bytes.' and 'Use the confirmed append position to order contenders, not a self-reported timestamp.'",
+    "OP-PROT-019-v1.1 R17 §6 — 'No permanent deletion in this workflow.' and 'Moving or renaming must not be represented as a scientific verdict.'",
+    "OP-PROT-012 §4 Class 1 — duplicate flagging, provenance repair and index maintenance are reversible operations; nothing here is Class 2 or Class 3."
+   ],
+   "in_register_precedent": "Evidence Lineage row 334, Evidence ID 'VOID-DUPLICATE-EV-LSMAN037-20260726T1943', Evidence Role 'DUPLICATE_REGISTRATION_RECEIPT', Evidence Class 'VOID DUPLICATE / ZERO EVIDENCE CREDIT', Status 'VOID — authoritative package-integrity evidence remains row 357; no duplicated credit' — the tab's own executed remedy for a duplicate Evidence Lineage registration (Duplicate Flags cluster SELFHEAL-LSMAN037-REG-001: 'Artifact Index row 517 / Evidence Lineage row 357' vs 'Artifact Index row 519 / Evidence Lineage row 359', 'Preserve earlier authoritative rows; reidentify later rows as VOID-DUPLICATE / ZERO CREDIT'). Also Evidence Lineage row 384, Evidence ID 'EV-CONCURRENT-DUP-LSDER030-1V9VGW', Evidence Role 'COLLISION_PROVENANCE_ONLY', Status 'PRESERVED / NONCONTROLLING / COLLISION CONTAINED' — the tab's Drive-ID-suffixed form for a collision whose rows cite different Drive IDs.",
+   "keeper": {
+    "register_row_index": 385,
+    "keeps_identifier": "EV-LS-REQ030",
+    "reason": "Earlier confirmed append position (and, here, also the earlier self-reported timestamp, which is noted but not relied on: R17 §3 orders contenders by append position). The tab's own precedent SELFHEAL-LSMAN037-REG-001 resolves a duplicate Evidence Lineage registration by 'Preserve earlier authoritative rows; reidentify later rows', and the same rule is the one applied to every Artifact Index pair in both proposals.",
+    "explicitly_not_implied": "Keeping the bare key is a KEY assignment, not a currency verdict. It does not make the keeper row's status text current, nor the successor row's status text stale."
+   },
+   "successor": {
+    "register_row_index": 386,
+    "proposed_id": "EV-LS-REQ030@EVL-R386",
+    "naming_rule": "Compound row key <Evidence ID>@EVL-R<n>, the Evidence Lineage analogue of the AIDX form the 2026-09-18 proposal issued for the Artifact Index. EVL = Evidence Lineage, R<n> = the 0-based row index tools/registers_check.py prints. Why a separate abbreviation: a successor key must say which tab's row it locates, and 'AIDX-R386' would name Artifact Index row 386, which is a different row of a different tab; the locator is tab-scoped. Why not the tab's own forms: the VOID-DUPLICATE form (row 334) asserts 'ZERO EVIDENCE CREDIT' and 'no duplicated credit' about a row that is substantively identical to its keeper, which is false of row 386 (different Evidence Role, Review ID and Status); the Drive-ID-suffix form (row 384, EV-CONCURRENT-DUP-LSDER030-1V9VGW) discriminates by Drive ID, which is unavailable because both rows cite one Drive ID. THE EVL ABBREVIATION IS AN EXTRAPOLATION FROM THE WORKBOOK'S OWN FORM, NOT A LITERAL QUOTATION; it requires operator ratification.",
+    "alternative_discriminator_considered": "The reidentified row's own Recorded UTC (EV-LS-REQ030@2026-07-27T18:20:00Z) would be fully source-derived and would work for this one pair. It is not adopted because the sibling Artifact Index pair of the same registration event (LS-MAN-045-v1.0, rows 544/545) has its append order and timestamp order inverted, and a rule that discriminates two faces of one event by two different principles would be a new source of confusion.",
+    "explicitly_not_proposed": "The evidence's Exact Object ID, Drive ID and Code Fixture ID are not changed; only the register row key is disambiguated. The VOID-DUPLICATE disposition of Evidence Lineage row 334 is NOT proposed, because that row was a duplicate registration receipt with 'no duplicated credit' to protect, whereas rows 385 and 386 differ in Evidence Role, Review ID and Status; labelling either VOID would destroy recorded state. No new Evidence ID is minted for the same Drive object."
+   },
+   "proposed_disposition_label": "COLLISION-PRESERVED / CONTENT-ADJUDICATION-PENDING / ZERO INDEPENDENCE CREDIT",
+   "operations": [
+    {
+     "operation": "APPEND_ROW",
+     "target_tab": "Duplicate Flags (GP-REG-032-v1.2) — the workbook's append-only collision registry",
+     "append_only": true,
+     "mutates_existing_rows": false,
+     "header": [
+      "Cluster ID",
+      "Detection type",
+      "File A",
+      "File B",
+      "Similarity / hash",
+      "Risk",
+      "Recommended action",
+      "Source folder",
+      "Detected at"
+     ],
+     "row": [
+      "DUP-REG-EVIDENCE-LINEAGE-EVLSREQ030-20260919",
+      "DUPLICATE EVIDENCE PRIMARY KEY / SAME DRIVE OBJECT / DIFFERENT ROLE AND STATUS TEXT",
+      "Evidence Lineage row 385 (2026-09-18 xlsx export) — EV-LS-REQ030 — Status: PASS / OPEN REVIEW ROUTE",
+      "Evidence Lineage row 386 (2026-09-18 xlsx export) — EV-LS-REQ030 — Status: PASS CONTENT BINDING / EXTERNAL REVIEW OPEN",
+      "Same declared Evidence ID and same Drive source https://docs.google.com/document/d/1BdLp0MKHE3RLu7bgI-g97DCQxVQI1NbnM414EfC4hw4/edit; Recorded UTC, Evidence Role, Derives From, Computational Fixture ID, Methodological Family, Review ID, Evidence Class, Status differ",
+      "Citation ambiguity, double-count and stale-status routing risk; the bare ID does not identify one row",
+      "PROPOSED — NOT YET EXECUTED. Preserve both rows; keep row 385 as EV-LS-REQ030; register row 386 additively under compound key EV-LS-REQ030@EVL-R386; open an OP-CNS-001 §1 content-adjudication item on the Evidence Role / Review ID / Status difference; no merge, no deletion, no promotion, zero independence credit.",
+      "GP-REG-032 Evidence Lineage",
+      "2026-09-18 xlsx export scan; proposal filed 2026-09-19"
+     ]
+    }
+   ],
+   "non_additive_followups": [
+    {
+     "op": "REIDENTIFY_KEY_CELL",
+     "operator_reserved": true,
+     "where": "GP-REG-032 source workbook, Evidence Lineage, row 386, column 'Evidence ID'",
+     "from": "EV-LS-REQ030",
+     "to": "EV-LS-REQ030@EVL-R386",
+     "why_not_in_operations": "Writing a source cell is not additive. It would change the live workbook and therefore the next export's bytes; registers_import.py --check would fail until a fresh dated export is taken and registers/json and registers/csv are regenerated. It is listed so the proposal is complete, and is explicitly NOT proposed for autonomous execution.",
+     "authority_required": "Owner (Dylan Roy) or an operator acting under OP-PROT-012 §4 Class 1 with target identity, pre-change state and rollback path recorded."
+    }
+   ],
+   "residual_questions": [
+    "Whether the Review ID of the evidence is DQ-057 (row 385) or NONE (row 386) is the content-adjudication item; it is handed to the operator unresolved. Nothing here awards, withdraws or routes any review credit.",
+    "The evidence-lineage tab has no compound '@' key of its own; the EVL row-locator form is proposed by analogy with the AIDX form and requires the same operator ratification.",
+    "Which Status text is current is NOT decided here.",
+    "The keeper rule identifies the exported row order with the confirmed append position (R17 §3). The export cannot show whether rows were ever sorted, inserted or re-pasted; the identification is an assumption the operator can verify against the workbook's revision history, not a fact established here.",
+    "Neither Drive body was downloaded for this proposal; the claim adjudicated is about register rows, not about document contents."
+   ],
+   "does_not_establish": [
+    "Does not repair, promote, close, discharge, reclassify or retire any claim, premise, obligation or register row.",
+    "Does not decide which of two colliding rows carries the currently correct status text; that is an operator content adjudication under OP-CNS-001 §1.",
+    "Does not confer organizational-independence credit of any kind, on any object, to any party.",
+    "Does not establish that any listed artifact is correct, complete, reviewed or novel.",
+    "Does not change the 2026-09-18 export; registers/source/, registers/json/ and registers/csv/ are untouched and remain byte-faithful.",
+    "Does not establish that the exported row order is the workbook's confirmed append order; the keeper rule takes the exported row order as the append position, and that identification is an operator-verifiable assumption, not a fact this document certifies.",
+    "Does not compose the 2D upper/lower tracks with the 3D lifetime track, and solves no original prize problem."
+   ]
+  }
+ ]
+}

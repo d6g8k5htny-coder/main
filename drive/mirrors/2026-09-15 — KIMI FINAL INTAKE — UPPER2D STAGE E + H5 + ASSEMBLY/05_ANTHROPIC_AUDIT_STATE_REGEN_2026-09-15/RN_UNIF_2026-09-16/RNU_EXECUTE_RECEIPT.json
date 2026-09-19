@@ -1,0 +1,200 @@
+{
+  "status": "PROPOSED",
+  "lemma_closed": false,
+  "import_seconds": 28.48706579208374,
+  "dps": 100,
+  "steps": {
+    "A_ds3": {
+      "max_abs_err": "2.1746255",
+      "pass": false
+    },
+    "B_mean_grad": {
+      "fixed_max_fd_err": "3.40329e-34",
+      "old_max_fd_err": "0.000543669",
+      "scale": "0.0169958",
+      "pass_fixed": true
+    },
+    "C_whitened_chi2": {
+      "chi2": "1.9442856874289e-6",
+      "engine_chi2": "1.9442856874289e-6",
+      "rel_identity": "1.60618e-84",
+      "grad_chi2_norm": "1.56309309966e-5",
+      "grad_kap_pair_exact": "0.01012020991",
+      "old_chi2_grad_bound_kap": "1.01937e+17",
+      "norm_A": "2.34748e-5",
+      "norm_m": "0.00139429",
+      "identity_pass": true,
+      "seconds": 1.1427381038665771
+    },
+    "D_third_jet": {
+      "kap": "0.6772849052159596",
+      "gnorm": "2.34272602538",
+      "hnorm": "7.19436153524",
+      "txxx": "-18.18765354",
+      "txxy": "0.0",
+      "txyy": "2.059724255",
+      "tyyy": "0.0",
+      "tnorm": "18.53424218",
+      "txxy_consist": "0.0",
+      "txyy_consist": "3.28373e-16",
+      "seconds": 2.5396878719329834
+    },
+    "E_cells": {
+      "T4_kind": "measured-T3 * (2d+10) * 50  INTERNAL-NOT-ENV_FORM",
+      "T4": "18534.242",
+      "rows": [
+        {
+          "cap": "0.68",
+          "hw": "0.0007",
+          "sup": "0.6789265773",
+          "margin_at_center": "0.00251509",
+          "close_internal": true
+        },
+        {
+          "cap": "0.68",
+          "hw": "0.001",
+          "sup": "0.6796312323",
+          "margin_at_center": "0.00251509",
+          "close_internal": true
+        },
+        {
+          "cap": "0.68",
+          "hw": "0.0018",
+          "sup": "0.681513493",
+          "margin_at_center": "0.00251509",
+          "close_internal": false
+        },
+        {
+          "cap": "0.68",
+          "hw": "0.005",
+          "sup": "0.6890893337",
+          "margin_at_center": "0.00251509",
+          "close_internal": false
+        },
+        {
+          "cap": "0.68",
+          "hw": "0.01",
+          "sup": "0.7010826952",
+          "margin_at_center": "0.00251509",
+          "close_internal": false
+        },
+        {
+          "cap": "0.69",
+          "hw": "0.0007",
+          "sup": "0.6789265773",
+          "margin_at_center": "0.0125151",
+          "close_internal": true
+        },
+        {
+          "cap": "0.69",
+          "hw": "0.001",
+          "sup": "0.6796312323",
+          "margin_at_center": "0.0125151",
+          "close_internal": true
+        },
+        {
+          "cap": "0.69",
+          "hw": "0.0018",
+          "sup": "0.681513493",
+          "margin_at_center": "0.0125151",
+          "close_internal": true
+        },
+        {
+          "cap": "0.69",
+          "hw": "0.005",
+          "sup": "0.6890893337",
+          "margin_at_center": "0.0125151",
+          "close_internal": true
+        },
+        {
+          "cap": "0.69",
+          "hw": "0.01",
+          "sup": "0.7010826952",
+          "margin_at_center": "0.0125151",
+          "close_internal": false
+        }
+      ]
+    },
+    "F_landscape": {
+      "samples": [
+        {
+          "y": [
+            "5.0",
+            "0.0"
+          ],
+          "d": "5.0",
+          "kap_far": "0.6772849052"
+        },
+        {
+          "y": [
+            "5.05",
+            "0.0"
+          ],
+          "d": "5.05",
+          "kap_far": "0.5687385727"
+        },
+        {
+          "y": [
+            "5.1",
+            "0.0"
+          ],
+          "d": "5.1",
+          "kap_far": "0.4759552607"
+        },
+        {
+          "y": [
+            "5.2",
+            "0.0"
+          ],
+          "d": "5.2",
+          "kap_far": "0.3299526345"
+        },
+        {
+          "y": [
+            "5.0",
+            "0.35"
+          ],
+          "d": "5.0122",
+          "kap_far": "0.640973186"
+        },
+        {
+          "y": [
+            "5.05",
+            "0.35"
+          ],
+          "d": "5.0621",
+          "kap_far": "0.5381322682"
+        },
+        {
+          "y": [
+            "6.0",
+            "0.0"
+          ],
+          "d": "6.0",
+          "kap_far": "0.01099667899"
+        },
+        {
+          "y": [
+            "5.0",
+            "-0.3"
+          ],
+          "d": "5.009",
+          "kap_far": "0.6504121232"
+        }
+      ],
+      "seconds": 0.6971850395202637
+    }
+  },
+  "frozen_v2": {
+    "kap_far_fast": "0.6772849052159596",
+    "kap_far_ds": "0.6772849052159596",
+    "target": "0.677284905"
+  },
+  "next_required_for_freeze": [
+    "whitened env_form bounds on residual covariances at orders 2-4",
+    "DS3 wired through kappa_far (not only FD of Hessian)",
+    "valid T4 from env_form, not measured-scale",
+    "full polar cover d in [5,17] with theta-halving",
+    "both-mode transcript + MUT-RN-1..5 + FREEZE rule-id"
+  ]
+}

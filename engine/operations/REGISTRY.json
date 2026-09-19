@@ -1,0 +1,436 @@
+{
+ "schema": "q0.operations.registry/v1",
+ "register": {
+  "path": "registers/json/reusable_operations.json",
+  "tab": "reusable_operations",
+  "sheet_index": 42,
+  "export": "GP-REG-032-v1.2 xlsx export of 2026-09-18 (registers/source/)",
+  "row_sha256_rule": "sha256 of json.dumps(row, ensure_ascii=False, separators=(\",\",\":\")) over the 12-cell row list"
+ },
+ "header": [
+  "Operation",
+  "Use when",
+  "Reuse state",
+  "Required scope",
+  "Action / output",
+  "Evidence checked",
+  "Exact source",
+  "Current review / authority",
+  "Do not infer",
+  "Next useful step",
+  "Utility",
+  "Novelty"
+ ],
+ "trial_ledger": {
+  "path": "registers/json/operation_trials.json",
+  "tab": "operation_trials",
+  "sheet_index": 43,
+  "columns": [
+   "Trial ID",
+   "Problem ID / SHA-256",
+   "Split",
+   "Operation ID",
+   "Library / catalog SHA-256",
+   "Arm",
+   "Budget / cost unit",
+   "Seed / environment",
+   "Verified result",
+   "Search cost",
+   "Retrieval cost",
+   "Verification cost",
+   "Acquisition cost",
+   "Maintenance cost",
+   "Timeout / failure charge",
+   "Run evidence",
+   "Scope / constraints",
+   "Notes"
+  ],
+  "record_schema": "q0.operation.trial/v1",
+  "records_dir": "engine/operations/trials/"
+ },
+ "authority": "NONE — the twelve cells of every entry are the register's words, transcribed, not decided, here; git_side is repository bookkeeping about what this repository can compute and carries no mathematical authority",
+ "utility_and_novelty": "Every entry's Utility and Novelty are the register's cells (UNMEASURED / NOT_ASSESSED). This file never says more, in a cell, in git_side or in these sentences; tools/operations_check.py fails if it does.",
+ "does_not_establish": [
+  "Transcribing an operation here does not establish that it is correct, reviewed or admissible anywhere, and it leaves the register's Utility cell UNMEASURED and its Novelty cell NOT_ASSESSED; the register's Reuse state, Current review / authority and Do not infer cells govern and are carried verbatim.",
+  "exact_identity_checkable = true means only that the Action / output cell displays algebra this repository can reproduce in exact arithmetic from the cell alone; it says nothing about the operation's premises, scope or source, and a trial that reproduces it is a record, not evidence.",
+  "exact_identity_checkable = false is a statement about this repository's reach, not about the operation: it does not mean the operation is wrong, unverifiable or unverified elsewhere.",
+  "Nothing here moves a claim, premise, obligation, gate or grade. The five validity premises of Theorem D1 v2.2(2) are OPEN and D3-LEMMA-RN-UNIF remains open. No original prize problem is solved."
+ ],
+ "entries": [
+  {
+   "operation_id": "OP01",
+   "register_row_index": 0,
+   "row_sha256": "b2c2347df28e68cb9863daea47e7cbfab3eb15e8a9bbdf3ab3ba537c2b002636",
+   "cells": {
+    "Operation": "OP01 — Corrected six-pin change of variables",
+    "Use when": "pin Jacobian; six-pin; Y_r; r^-5; EC-014",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "dimension=2; r_domain=positive; frame=EC014_exact_order; measure=Lebesgue_density",
+    "Action / output": "Form Y_r=T_r X_r using the stored six-row frame; det T_r=-r^-5 and p_X(x)=r^-5 p_Y(T_r x). Permutations may change the sign, not the absolute Jacobian.",
+    "Evidence checked": "Exact determinant reconstructed with symbolic arithmetic this run; source status and closure record corroborate terminal narrow algebraic scope.",
+    "Exact source": "https://drive.google.com/file/d/1_cDICSFBJQB1wr-mOQo2UvtVsTmZ4FCnLWS4HVpvESk/view\nSHA-256 c5e64b9ba3a906535f1ae58a161d594a427371599c102ae4a68849b087a2f62c",
+    "Current review / authority": "TERMINAL_EXACT_SCOPE_RECORDED; no new scientific status change",
+    "Do not infer": "No covariance floor, r->0 limit, contact coefficient, selection or theorem promotion. r^-6 is not a universal forbidden exponent: a different dimension/frame may legitimately produce it.",
+    "Next useful step": "Retrieve the stored matrix and convention; do not re-expand it unless inputs or source identity change.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "The determinant identity det T_r = -r^-5 refers to 'the stored six-row frame', which the cell does not display; the register's own Next useful step says to retrieve the stored matrix rather than re-expand it. Without the matrix the cell alone gives nothing to compute.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP02",
+   "register_row_index": 1,
+   "row_sha256": "3c47ff668ef5f6fd5ab29f5d7d2c633e11777faa46186f199d18543e17ecae17",
+   "cells": {
+    "Operation": "OP02 — Fold power cancellation",
+    "Use when": "contact ledger; fold; dimension cancellation; 1/6",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "dimension=2; gap_factor=r^3/6; density_factor=r^-5; normalizer_factor=r^2",
+    "Action / output": "(r^3/6) r^-5 r^2 = 1/6. Record every supplied factor separately before cancelling powers.",
+    "Evidence checked": "Exact rational exponent identity checked this run; EC-014 terminal scope includes only this algebraic ledger.",
+    "Exact source": "https://drive.google.com/file/d/1_cDICSFBJQB1wr-mOQo2UvtVsTmZ4FCnLWS4HVpvESk/view\nSHA-256 c5e64b9ba3a906535f1ae58a161d594a427371599c102ae4a68849b087a2f62c",
+    "Current review / authority": "TERMINAL_EXACT_SCOPE_RECORDED for the displayed identity",
+    "Do not infer": "The r^2 factor must be established in the caller. 1/6 is not a full contact coefficient or a proof of finite nonzero limiting mass.",
+    "Next useful step": "Carry the remaining geometric measure and amplitude explicitly.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": true,
+    "trial_kind": "EXACT_IDENTITY",
+    "why": "The cell displays a complete exponent ledger: three monomial factors in r with rational coefficients whose product is the constant 1/6. Exact rational exponent arithmetic reproduces it in full from the cell (exponents 3, -5, 2 sum to 0; coefficients multiply to 1/6). The r^2 factor is multiplied as the Required scope names it and is not justified here.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP03",
+   "register_row_index": 2,
+   "row_sha256": "bfd8100595694f94e447a78497e0091516bdd6857624ffac4e9b53c1c39d01f3",
+   "cells": {
+    "Operation": "OP03 — Cubic-gap pushforward adapter",
+    "Use when": "lifetime; ell^-1/3; cubic gap; pushforward; r dr",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "input_measure=r dr; gap_map=ell=kappa*r^3/6; kappa=fixed_positive",
+    "Action / output": "For fixed kappa>0, r dr = 6^(2/3)/(3 kappa^(2/3)) ell^(-1/3) d ell. Transform any amplitude at r=(6 ell/kappa)^(1/3) and retain the kappa measure.",
+    "Evidence checked": "Local change-of-variables adapter derived and symbolically checked this run. Source pins supply the gap map; the input r dr measure is a required caller premise.",
+    "Exact source": "https://drive.google.com/file/d/1rwKtmy2vnXTYfp0jFrf5Ca1jaBj0DYr7Uf5-Pui33Uo/view\nSHA-256 e5a61739bf09c1972edeb39e683c38da4adbf387c95d65aadf979b84a9568aaf",
+    "Current review / authority": "NEW_LOCAL_ALGEBRA_ADAPTER; no research theorem admission",
+    "Do not infer": "No full asymptotic from this Jacobian alone. Weighted mass, domination/tails, mark integration and selection bridge remain separate obligations.",
+    "Next useful step": "State the input measure and amplitude before using the exponent dictionary.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": true,
+    "trial_kind": "EXACT_IDENTITY",
+    "why": "The cell displays the gap map (Required scope: ell=kappa*r^3/6), its inverse r=(6 ell/kappa)^(1/3) and the pushforward constant and exponent 6^(2/3)/(3 kappa^(2/3)) ell^(-1/3). Exact symbolic-exponent arithmetic over the bases 2, 3, kappa and ell reproduces the constant and the exponent from the cell. The input measure r dr is a caller premise, as the cell says.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP04",
+   "register_row_index": 3,
+   "row_sha256": "249c93e61a6f8e9d542bcff54eee72f2796aa90daf82325079d86e9e1298575d",
+   "cells": {
+    "Operation": "OP04 — Correct three-determinant Holder bound",
+    "Use when": "Holder; Hölder; moment; determinant product; RN5",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "law=same_probability_law; moment_orders=4,4,2; indicator=between_0_and_1",
+    "Action / output": "E[|ABC| I] <= (E A^4 E B^4)^(1/4) (E C^2)^(1/2). No independence is needed. Require finite displayed moments for a useful finite bound.",
+    "Evidence checked": "Standard Holder exponents sum to one; RN5 states the corrected rule and an exact counterexample to its predecessor. Algebraic control checked this run.",
+    "Exact source": "https://drive.google.com/file/d/1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5/view\nSHA-256 ac89f60b8206bfe011e6c2bc653e7acb39bc83a55c2a2c8fd1e17fd70c6c0383",
+    "Current review / authority": "RN5 author-side candidate; external review open",
+    "Do not infer": "The universal inequality does not certify SIDE24 inputs, normalizer, spatial coverage or an r-uniform estimate.",
+    "Next useful step": "Use moment order 2 for the third determinant, preserving the exact conditioning law.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": true,
+    "trial_kind": "EXACT_IDENTITY",
+    "why": "What the cell displays that exact arithmetic can reproduce is the Hölder conjugacy 1/4+1/4+1/2 = 1 and its agreement with the moment orders 4,4,2 in Required scope. The inequality itself is a theorem about expectations, not a finite identity; the trial checks the exponent arithmetic only and says so. research/rn/moment_envelope.py carries the same (4,4,2) envelope in exact rationals.",
+    "research_module": "research/rn/moment_envelope.py"
+   }
+  },
+  {
+   "operation_id": "OP05",
+   "register_row_index": 4,
+   "row_sha256": "7f49613ea99f6a6c0f12f4bcf20ebb61360d90612aa1cde55419ae2975f2ee93",
+   "cells": {
+    "Operation": "OP05 — Block the wrong fourth-moment square root",
+    "Use when": "envelope_v; wrong moment; sqrt(EC4); RN5 negative",
+    "Reuse state": "NEGATIVE_RULE",
+    "Required scope": "claim=universal_442_with_C4_half",
+    "Action / output": "Reject the proposed universal bound with (E C^4)^(1/2) replacing (E C^2)^(1/2). A=B=1, C=1/4 gives LHS=1/4 but wrong RHS=1/16.",
+    "Evidence checked": "Exact rational counterexample checked here; RN5 also supplies a typed nondegenerate Gaussian witness and identifies affected consumers.",
+    "Exact source": "https://drive.google.com/file/d/1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5/view\nSHA-256 ac89f60b8206bfe011e6c2bc653e7acb39bc83a55c2a2c8fd1e17fd70c6c0383",
+    "Current review / authority": "SCOPED_DEFECT; RN5 review remains open",
+    "Do not infer": "Do not ban every function named envelope_v or every fourth moment. Bind historical holds to their exact source/version and claim; do not invalidate RN3, which uses the correct moment.",
+    "Next useful step": "Use OP04 and replay affected certification paths; do not call all old numerical values false.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": true,
+    "trial_kind": "EXACT_IDENTITY",
+    "why": "The cell displays an exact rational witness: A=B=1, C=1/4 give LHS=1/4 and the wrong RHS (E C^4)^(1/2) = 1/16. Exact rational arithmetic with exact integer roots reproduces both numbers and the strict inequality 1/4 > 1/16 from the cell alone. research/rn/moment_envelope.py carries RN5's separate Gaussian witness; this trial does not replay it.",
+    "research_module": "research/rn/moment_envelope.py"
+   }
+  },
+  {
+   "operation_id": "OP06",
+   "register_row_index": 5,
+   "row_sha256": "d59b884e9823e54b3562c0503ef115e62705425bd7398a3ab5582a9d42c7bff0",
+   "cells": {
+    "Operation": "OP06 — Actual-selection decomposition",
+    "Use when": "typed vs selected; Palm; elder; eta; adjacency; selection bridge",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "law=same_typed_Palm; events=E_selection,A_adjacency; remainder=eta_retained",
+    "Action / output": "p=P(E)=P(E intersect A)+P(E intersect A^c)=a q_adj+eta (q_adj used when a>0). Thus 1-p <= (1-a)+P(E^c intersect A). Add two cubic bounds only on one identical law and common domain.",
+    "Evidence checked": "Frozen body reproduced: e5a61739... / 21,932 bytes. The probability partition is checked here; application premises remain conditional.",
+    "Exact source": "https://drive.google.com/file/d/1rwKtmy2vnXTYfp0jFrf5Ca1jaBj0DYr7Uf5-Pui33Uo/view\nSHA-256 e5a61739bf09c1972edeb39e683c38da4adbf387c95d65aadf979b84a9568aaf",
+    "Current review / authority": "SOURCE_SAME_LINE_REDUCTION; dependencies/review open",
+    "Do not infer": "Never delete eta without proof or replace a typed process by an elder-selected process through renaming. At a=0 use joint probabilities, without an undefined conditional probability.",
+    "Next useful step": "Request the missing adjacent-sector or nonadjacency estimate with its exact scope; retain each open premise.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "The partition identity is stated over a probability space the cell does not display; a, q_adj and eta are named, not defined, in the cell (q_adj is only said to be 'used when a>0'). Reproducing it needs the four-atom law and the definitions from the source, so it is not reproducible from the cell alone.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP07",
+   "register_row_index": 6,
+   "row_sha256": "af013c1886b226a8c3c57de529bcfb48ee4dd95707f09101357c91175f48cfcc",
+   "cells": {
+    "Operation": "OP07 — Uniform moments to regular-domain tail",
+    "Use when": "Markov; regular-domain; super-polynomial; LM009; R^5",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "r_domain=0<r<=r0<=1; epsilon=fixed_positive; moments=all_fixed_orders_uniform; target=polynomial_tail",
+    "Action / output": "For REG={r R^5<=epsilon}, choose fixed integer p>=5N: Q(REG^c)<=M_p epsilon^(-p/5) r^N. For a separately justified square-root Palm transfer, choose p>=10N for Palm exponent N.",
+    "Evidence checked": "Frozen body reproduced: ccc07d95... / 3,919 bytes; proof inspected. Current Review Queue records PASS_TECHNICAL with external gate open.",
+    "Exact source": "https://drive.google.com/file/d/1OmNjEoWAQdW-LYRUakcYbnWqjIOq_GMJ1yXxCJPPCDM/view\nSHA-256 ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1",
+    "Current review / authority": "PASS_TECHNICAL_RECORDED; external acceptance open",
+    "Do not infer": "All fixed moments do not by themselves imply one stretched-exponential tail. No Palm transfer without its weight and positive normalizer premises.",
+    "Next useful step": "Retrieve the exponent choice instead of repeating the Markov proof; bind moment and transfer sources.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "A Markov tail bound under an all-fixed-moments hypothesis with a free exponent choice: a universal inequality under analytic premises, not a finite exact identity. Nothing in the cell reduces to rational arithmetic.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP08",
+   "register_row_index": 7,
+   "row_sha256": "5d0aa46b545b2f83cdfbd3fc40c19a29574204431c21e51e75228bf678c39f38",
+   "cells": {
+    "Operation": "OP08 — Spectral Gaussian cone reduction",
+    "Use when": "cone integral; gamma; Gaussian cone; indicator elimination; LS-DER-060",
+    "Reuse state": "CANDIDATE",
+    "Required scope": "matrix_size=2; gaussian_mean=zero; covariance=positive_definite; coordinate_order=Q11,Q12,Q22",
+    "Action / output": "Form H=[[0,0,1/2],[0,-1,0],[1/2,0,0]]. Obtain eigenvalues lambda,-mu,-nu of Gamma H. With h=mu cos(phi)^2+nu sin(phi)^2, D=(1/(4pi)) integral_0^(2pi) [3lambda^2-4lambda h+8h^2-8h^(5/2)/sqrt(lambda+h)] dphi.",
+    "Evidence checked": "Frozen body reproduced: fc2c35b1... / 8,873 bytes. Cap primitive and planar value 29/6-sqrt(6) checked symbolically here; the full field coefficient is not reverified.",
+    "Exact source": "https://drive.google.com/file/d/1Dsme7wIbziEojONwKgcQgSYpUu5M1MlqPdZUXySRsT4/view\nSHA-256 fc2c35b1a0c8c8acd4587d3251b2d934ddc49c672187341aa39d1ce11ecfae94",
+    "Current review / authority": "SAME_FAMILY_ANALYTIC_CANDIDATE; external review/interval gates not discharged",
+    "Do not infer": "Centered 2x2 matrix symmetry is essential. No noncentered substitution, arbitrary larger-matrix extension, selected-process bridge, complete outer quadrature certificate or novelty claim.",
+    "Next useful step": "Test this exact moment interface on a new positive-definite covariance, then review numerical conditioning and directed rounding.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "Eigenvalues of Gamma H, a trigonometric integrand with h^(5/2)/sqrt(lambda+h) and an outer quadrature over phi: transcendental, and the covariance is not displayed. Not exact rational or exponent arithmetic. The Evidence cell's planar value 29/6-sqrt(6) is an evidence note, not the displayed action.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP09",
+   "register_row_index": 8,
+   "row_sha256": "89dcfd41ba6e2e165ec91606c761e0e17a4e8dac6eaedfac0296ab7a4feb07ff",
+   "cells": {
+    "Operation": "OP09 — Square-root-safe Gaussian comparison modulus",
+    "Use when": "sqrt chi-square; cusp; RN modulus; Lipschitz",
+    "Reuse state": "CANDIDATE",
+    "Required scope": "curve=C1_Gaussian; spectrum=0<S<2I_uniform_on_path; bounds=cell_wide_mean_covariance_derivatives",
+    "Action / output": "Use |g(t)-g(s)| <= integral ||partial_u p_u/q||_L2(q) du for g=||p/q-1||_L2(q), then the source scalar majorant. It remains meaningful at g=0.",
+    "Evidence checked": "Source analytic derivation inspected. Cusp control S=I,m=t e1 gives g=sqrt(exp(t^2)-1)~|t|; no blanket fourth derivative at zero.",
+    "Exact source": "https://drive.google.com/file/d/1BcdxAlwzBCBMqkOJdHr04Oxofc5NcQFQ/view\nSHA-256 c9e6dd2d546da0985460a101dd7e7be4dc4a0120fa636989a93093cf7856de50",
+    "Current review / authority": "AUTHOR_SIDE_LEMMA; implementation and field adapter not replayed here",
+    "Do not infer": "Endpoint samples do not supply path-wide bounds. A variable RN prefactor needs its own derivative. No full RN spatial cover or uniform-in-r transfer.",
+    "Next useful step": "Supply certified cell-wide inputs before applying the scalar modulus.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "An L2 modulus inequality along a C1 Gaussian curve: analytic, and the scalar majorant it defers to is in the source, not in the cell.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP10",
+   "register_row_index": 9,
+   "row_sha256": "228b281725b1530141b712044e08b611a06945c760cc5deab513387132af3aac",
+   "cells": {
+    "Operation": "OP10 — Spectral kernel error repair",
+    "Use when": "H5; odd spectral moments; kernel; normalizer tail",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "spectral_weights=nonnegative; normalizer=ZJ>0,t0>=0; tails=absolute_certified",
+    "Action / output": "Use sum w_j |k_j|^q for an absolute derivative majorant. For v=NJ/ZJ, |(NJ+e)/(ZJ+t0)-v| <= |e|/ZJ+|v| t0/ZJ. Enclose rounding separately.",
+    "Evidence checked": "Two scalar identities reconstructed here; H5 repair report binds the affected old kernel and additive successor by full hashes.",
+    "Exact source": "https://drive.google.com/file/d/1zU-N9W0YEyb5cgTlxB5mSDxOztaIuKuq/view\nSHA-256 9fcdc965b8d4267a056473cebca3ebbc82cf7c2f146fd23b4880a6b316e9a389",
+    "Current review / authority": "AUTHOR_SIDE_SCALAR_REPAIR; full downstream replay/review open",
+    "Do not infer": "Correcting a kernel does not revalidate every old shard, total, H5/D1 result or all-small-r interpolation. The analytic fifth-derivative theorem is a different object.",
+    "Next useful step": "Use the pinned successor, replay actual affected consumers and retain unreplayed outputs on their existing hold.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "Two scalar statements: an absolute majorant sum w_j |k_j|^q over undisplayed weights, and the universal inequality |(NJ+e)/(ZJ+t0)-v| <= |e|/ZJ + |v| t0/ZJ for all real e, NJ and ZJ>0, t0>=0. A universal inequality is not reproduced by finitely many exact evaluations.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP11",
+   "register_row_index": 10,
+   "row_sha256": "b3e2bebc2c8faadcd05e66a059016f97e182057ffdebb86e120add7d32dfeb23",
+   "cells": {
+    "Operation": "OP11 — Joint Gaussian comparison instead of factor separation",
+    "Use when": "RN3; joint Gaussian; chi-square; whitening; dependence",
+    "Reuse state": "CONDITIONAL_RULE",
+    "Required scope": "reference=N(0,I); comparison=N(m,I+E); E=symmetric_Frobenius_norm_below_1",
+    "Action / output": "log(1+chi2(P||Q))=-0.5 log det(I-E^2)+m^T(I-E)^(-1)m <= delta^2/[2(1-delta^2)]+||m||^2/(1-delta), delta=||E||F. Apply weighted L2 comparison on the same joint law.",
+    "Evidence checked": "RN3 general Gaussian calculation inspected. Its fixed-r far-region numbers and complete implementation were not rerun in this audit.",
+    "Exact source": "https://drive.google.com/file/d/1f0EBsq6UIZ0jDCABT251TTNEWYCVA0FO/view\nSHA-256 0c9446b7cb49e6e1e45e43f84bb72ce680f022882e225fdff61c8e6edede1373",
+    "Current review / authority": "RN3 READY_FOR_REVIEW; author-side field certificate",
+    "Do not infer": "Do not discard cross-covariances. RN3 field result is 2D SIDE24, r=1/20, fixed pair axis/marks and declared far region; it is not RN5 near coverage or all-small-r closure.",
+    "Next useful step": "Use the abstract formula with validated joint inputs; route field-number reuse through the existing RN3 review packet.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "log det, a matrix inverse and a Frobenius-norm bound over an undisplayed symmetric E: transcendental and universal, not a finite exact identity.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP12",
+   "register_row_index": 11,
+   "row_sha256": "1e3e6d0d1a7678b32c86b3690fb3c90c16d64008e976796fbe6ba66c339c25f9",
+   "cells": {
+    "Operation": "OP12 — Centered jets with marginal whitening",
+    "Use when": "RN5 box; Taylor jets; marginal whitening; covariance cancellation",
+    "Reuse state": "CANDIDATE",
+    "Required scope": "dimension=2; field=SIDE24; r=1/20; pins=RN5_exact; coverage=local_boxes",
+    "Action / output": "Expand centered jets before interval substitution, combine equal monomials, bound L2 remainders and whiten Hessian marginals separately. Preserve cross-correlation; Holder needs only marginal moments.",
+    "Evidence checked": "RN5 reports 65 point-law and ten local box certificates. The workflow and source binding were inspected; executables were not rerun here.",
+    "Exact source": "https://drive.google.com/file/d/1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5/view\nSHA-256 ac89f60b8206bfe011e6c2bc653e7acb39bc83a55c2a2c8fd1e17fd70c6c0383",
+    "Current review / authority": "AUTHOR_SIDE_IMPLEMENTATION_CANDIDATE; complete cover/review open",
+    "Do not infer": "Ten boxes are not a complete near-annulus cover. No fixed-r to uniform-r, fixed-axis to all-axis, or diagnostic quadrature to integral-certificate transfer.",
+    "Next useful step": "Try one new excluded-generation box and record verified outcome, cost, rejected cells and source hashes.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "A workflow description (expand centered jets, combine monomials, bound remainders, whiten marginals); no identity is displayed.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP13",
+   "register_row_index": 12,
+   "row_sha256": "dc47690dec1fe3885d7054fb94714983a7d53bba4ed2b34e82d33dc5b64b6b38",
+   "cells": {
+    "Operation": "OP13 — Block finite-grid to continuum promotion",
+    "Use when": "finite grid; continuum; EC-016; box mass; a_r",
+    "Reuse state": "NEGATIVE_RULE",
+    "Required scope": "claim=finite_samples_imply_continuum_capture",
+    "Action / output": "Reject inference that finitely many successful samples certify every point of a box, or that box-membership mass equals certified-capture mass without inclusion.",
+    "Evidence checked": "EC-016 terminal negative disposition in the closure record; elementary logical distinction retained. Finite diagnostics remain available.",
+    "Exact source": "https://drive.google.com/file/d/1-WDQtU4LpHneNztZss6ctg__lKhsyGnXdYC4Y7wM6Fc/view\nSHA-256 7d5aa5601af7e3f79e3d4f77d6d093de04e81c75513a09f5ccfdf67516c9b17a",
+    "Current review / authority": "TERMINAL_SCOPED_NEGATIVE_RECORDED",
+    "Do not infer": "This does not reject an interval proof or a separately proved deterministic inclusion. It does not erase source data.",
+    "Next useful step": "Request a continuum inclusion/certificate before promoting the claim.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "A negative rule about inference from finite samples: a logical boundary, not an identity. Nothing to compute.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP14",
+   "register_row_index": 13,
+   "row_sha256": "38fc3f960625c6a618430e723617e358629f52985b6ab1319e7c1debb5bf88ae",
+   "cells": {
+    "Operation": "OP14 — Route the actual FACEWISE carrier for review",
+    "Use when": "FACEWISE; RP-C; RP-S; three-torus; side24 proof",
+    "Reuse state": "REVIEW_ONLY",
+    "Required scope": "dimension=3; field=SIDE24; marks=compact_positive_kappa",
+    "Action / output": "Open the actual FACEWISE carrier and its bound audit/ratification chain; verify exact hypotheses and individual face estimates before transporting an estimate.",
+    "Evidence checked": "Carrier located; full extracted SHA-256 reproduces d5677359... / 36,542 bytes. Scope/header and ratification trail examined, not every proof step.",
+    "Exact source": "https://drive.google.com/file/d/1Yky0N-Y5M4HzST8-1EfPgsvYPKksnYGL/view\nSHA-256 d5677359e72243a89450c14d324051948d721aa031bb729f2ce9f76fb392804e",
+    "Current review / authority": "EXISTING_RATIFICATION_RECORDED; no independent proof re-audit here",
+    "Do not infer": "Existence and a hash are not proof verification. Do not label the carrier missing; do not infer a 2D result from its 3D scope.",
+    "Next useful step": "Review one exact face with its dependencies if that is the current mathematical target.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "A review route: open the FACEWISE carrier and the audit chain the cell names. Nothing to compute, and the register's own Do not infer says that the existence of the carrier and a hash of it do not by themselves check what it states.",
+    "research_module": null
+   }
+  },
+  {
+   "operation_id": "OP15",
+   "register_row_index": 14,
+   "row_sha256": "dceb2344df8d26e796fbefa0ba9fc018ee9d51c0e8d5674978e67678fce70f90",
+   "cells": {
+    "Operation": "OP15 — Keep ratification outside mathematical inference",
+    "Use when": "ratification; approval; Side-24 ratified; hash receipt; authority",
+    "Reuse state": "BLOCKED_AS_PROOF",
+    "Required scope": "claim=operator_approval_implies_derivability",
+    "Action / output": "Record operator approval as governance provenance. Follow its cited mathematical evidence; approval, a hash and a checker receipt answer different questions.",
+    "Evidence checked": "AO48-OPR-045 actually cites proof/audit carriers and a narrow 3D scope. It is not evidence-free, but its operator sentence is not a derivation.",
+    "Exact source": "https://drive.google.com/file/d/1MfA94SaoYpnnAs7HYLNvowG9EHIR3Opk/view\nSHA-256 e48d7c271dff9c120316ee2129a303aed6f78b518c2e0c08337eb357bd60e2e8",
+    "Current review / authority": "GOVERNANCE_RECORD_PRESERVED; not a mathematical action",
+    "Do not infer": "Do not erase the existing decision, declare its theorem false, or use it to cross a dimension/law/release boundary.",
+    "Next useful step": "Route mathematical use through the exact proof and current review state.",
+    "Utility": "UNMEASURED",
+    "Novelty": "NOT_ASSESSED"
+   },
+   "git_side": {
+    "exact_identity_checkable": false,
+    "trial_kind": "NOT_MACHINE_CHECKABLE_HERE",
+    "why": "An authority boundary: the cell records an operator decision as governance provenance. Nothing to compute, and by the register's own words not a mathematical action.",
+    "research_module": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,94 @@
+﻿# ARCHITECTURE_RULES.md
+
+
+## 1. Atomic identity
+
+
+An atomic object is identified by:
+
+
+`OBJECT_ID + VERSION + EXACT_STATEMENT + SOURCE_HASH + DEPENDENCY_SET`
+
+
+Titles and folder names are not identity.
+
+
+## 2. Immutable raw intake
+
+
+Raw uploads are preserved byte-for-byte. Parsing creates derivatives; it never rewrites the source.
+
+
+## 3. State machine
+
+
+`INGESTED → PREPPING → CANDIDATE → REVIEWED → CORE`
+
+
+Alternative terminal states:
+
+
+`DUPLICATE`, `SPLIT_REQUIRED`, `UNVERIFIED_PREMISE`, `KILLED`, `ARCHIVED`.
+
+
+No skipped transitions.
+
+
+## 4. Core admission
+
+
+Core admission requires exact scope, frozen identity, proof completeness, dependency closure, hostile testing, correction path, and qualifying independent review. Three same-family reviews count as one lineage, not three independent reviews.
+
+
+## 5. Theorem assembly
+
+
+Integration files may only compose existing atomic objects. Any newly needed implication becomes a separate candidate lemma.
+
+
+## 6. Evidence separation
+
+
+Data, simulations, seeds, and environments live under `/04_EVIDENCE`. No data file is a proof.
+
+
+## 7. Non-destructive migration
+
+
+The 1.0 system is not moved wholesale. 2.0 begins as a parallel spine. Migration occurs object-by-object after manifest reconciliation.
+
+
+## 8. Fail closed
+
+
+Missing hash, missing source, ambiguous version, unresolved dependency, or unreviewed material premise means `NOT CORE`.
+
+
+
+
+## 9. Mathematical domain lattice
+Every atomic object must declare its law, coordinate system, fixed parameters, varying parameters, quantifiers, exact domain, hardest endpoint, monotonicity direction, and bridge requirements. Fixed-q, fixed-s, fixed-r, uniform-r, and asymptotic statements are distinct domains. A citation edge is invalid unless the consumed conclusion is valid on the parent domain or a reviewed bridge is supplied.
+
+
+## 10. Power-ledger invariant
+Every claim involving scale, density, determinant weight, normalization, boundary width, Jacobian, or shrinking volume must include a symbolic ledger of r-exponents. The ledger must distinguish multiplication from division and physical from normalized coordinates. Exact cancellations are recorded before inequalities. A simulation slope or dimensional impression is not a power ledger.
+
+
+## 11. Vulnerability-signature gate
+Every candidate is scanned against the live Vulnerability Signatures registry. Load-bearing warnings produce HOLD or NO until resolved. Repeated bug classes include un-gated quotients, supremum/sum interchange, finite-sample continuum extrapolation, parameter or law substitution, wrong normalizer direction, hash drift, hidden monotonicity endpoints, coordinate-volume mismatch, singular widths, typical-sample nonrobustness, and consensus laundering.
+
+
+## 12. Reviewer eligibility
+Review independence is target-, exposure-, lineage-, implementation-, and method-specific. Review count alone is not an admission criterion. Same-family, post-result, copied-code, or shared-assumption reviews may discover defects but receive zero or limited independence credit. A reviewer with a relevant vulnerability-signature history may require a compensating distinct method or second eligible path; provider identity alone never creates or removes eligibility.
+
+
+## 13. Interface closure
+The Interface Lattice is binding. No object may enter Core or a parent theorem if it transitively consumes an unresolved material interface, unless the statement is explicitly conditional and the conditional status is machine-visible. Integration documents cannot hide a new bridge inside prose; every new implication is an atomic candidate.
+
+
+## 14. Promotion transaction
+Core admission and theorem promotion use PROMOTION_PROPOSAL_TEMPLATE.md and Promotion Gates PG-01 through PG-10. The transaction must name exact writes, execute them atomically where possible, perform readback, and retain a rollback/reopen path. Folder completeness, package polish, or consensus language never substitutes for a passed gate.
+
+
+## 15. Extraction-rule identity
+The carrier controls its own canonicalization. Every frozen object must name its extraction rule family, including marker selection, line-ending normalization, BOM handling, trailing newline rule, and any blank-run transformation. Rule selection may not be inferred from an advertised hash or another project carrier.

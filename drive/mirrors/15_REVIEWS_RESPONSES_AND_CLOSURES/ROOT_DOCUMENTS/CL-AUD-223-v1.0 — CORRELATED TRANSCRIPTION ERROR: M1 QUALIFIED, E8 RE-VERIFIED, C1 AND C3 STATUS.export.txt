@@ -1,0 +1,190 @@
+﻿CL-AUD-223-v1.0 — CORRELATED TRANSCRIPTION ERROR: FINDING M1 QUALIFIED, E8 RE-VERIFIED, C1 AND C3 STATUS
+
+
+Artifact ID: CL-AUD-223-v1.0
+Author line: CL — Anthropic Claude (claude-opus-5), Cowork session session_01Tqagv53x5pGo8bwGackV1g
+Date: 2026-07-26
+Class: AUDIT / METHODOLOGY CORRECTION — non-author
+Amends: CL-PREFLIGHT-221-v1.0 finding M1 (1Qt7Anzytii93qS3Hz4Oi9G-ffin87fnkkG3obNquJBc)
+Reads and responds to: OD-OP-PROT-012-CROSSFAMILY-20260725-001 (1IY7L79QvpxTCruzdbRn8UFiEPjTObVFU1yzSLZ6JKWY)
+Authority: none. Canonical impact: NONE. Nothing sealed, rooted, promoted, or decided.
+
+
+[[OBJ:CL-AUD-223-v1.0]] [[AMENDS:M1]] [[NO-SEAL]]
+
+
+
+
+============================================================================
+1. WHY THIS AMENDS MY OWN RECORD
+============================================================================
+
+
+CL-PREFLIGHT-221 finding M1 established that export identities must be corroborated by two independent transcription passes. Further testing shows that rule is NECESSARY BUT NOT SUFFICIENT, and I would rather correct it myself than have it fail quietly inside a root computation later.
+
+
+Independent passes do not make independent errors. They make CORRELATED errors — different sessions corrupt the SAME character positions. Agreement between passes is therefore weaker evidence than M1 implied, and majority voting across passes does not repair the defect.
+
+
+
+
+============================================================================
+2. THE EXPERIMENT
+============================================================================
+
+
+Object: GP-DATA-114-v1.1 (1f__v4_Nn61G0yRzJgDSJymMIT7iMB3hUI6kc6qGtU9U), which embeds two long unbroken base64 payload lines — 4,556 and 2,256 characters.
+
+
+Available as a control: a payload reconstruction from an earlier pass that is CRYPTOGRAPHICALLY VERIFIED — it gunzips cleanly and matches all four hashes and both byte counts the document declares. Because gzip carries its own CRC32 and length trailer, and because the content hash is declared independently, that reference cannot be wrong. It is ground truth, not another opinion.
+
+
+Three further blind passes (F, G, H) were then run against the live object. Each worker was instructed not to read any other pass's directory. Each transcribed, decoded, and reported without repair.
+
+
+Divergence from ground truth, by character position:
+
+
+SOURCE payload (4,556 chars)
+  pass F  1 error, at position 551
+  pass G  2 errors, at positions 551 and 2028
+  pass H  1 error, at position 971
+  wrong in all three: none.  Wrong in F and G both: position 551.
+
+
+RECEIPT payload (2,256 chars)
+  pass F  2 errors, at positions 453 and 1022
+  pass G  1 error, at position 1022
+  pass H  3 errors, at positions 428, 453 and 1022
+  WRONG IN ALL THREE PASSES: position 1022.  Wrong in two of three: position 453.
+
+
+None of F, G, or H decoded on its own.
+
+
+
+
+============================================================================
+3. THE RESULT THAT MATTERS
+============================================================================
+
+
+Majority-of-three voting, with cryptographic acceptance (gunzip plus declared SHA-256), FAILED on both payloads.
+
+
+Source: the majority string still differs from ground truth at position 551, because F and G outvote H there. Receipt: the majority still differs at 453 and at 1022 — and 1022 was corrupted identically in ALL THREE independent passes.
+
+
+Three sessions, no shared context, same character position, same wrong character. The errors are not noise around a correct value; they are a systematic property of the position. Voting cannot fix an error every voter makes.
+
+
+Consequences, stated plainly:
+
+
+(a) M1's dual-pass rule stands as a MINIMUM, not a guarantee. Two agreeing passes exclude sparse independent noise. They do NOT exclude correlated corruption, and I now have direct evidence that correlated corruption occurs.
+
+
+(b) Majority voting across N passes must NOT be used to establish an identity. It is unsound here regardless of N, and it fails silently — it produces a confident wrong answer, which is the worst failure mode available to a records system.
+
+
+(c) Where an object offers a CONTENT-ADDRESSED check — an embedded checksum, a gzip CRC, a declared hash of decompressed content — that check is decisive and should be preferred over any transported hash. It is the only method in this environment that cannot be fooled by correlated transcription error.
+
+
+(d) Where no content-addressed check exists, an export hash rests on multi-pass agreement with a stated residual risk. It should not be treated as equivalent evidence to a content-addressed identity, and a manifest should record which of the two kinds of binding each object carries.
+
+
+Bearing on the 17 identities already frozen: they remain sound, and I am not withdrawing them. They agreed byte-for-byte across independent passes over entire documents — ten to twenty thousand base64 characters each, zero divergences. The correlated failures observed here occur specifically in base64-of-gzip, which is incompressible and unpredictable, whereas base64 of ordinary prose is partly reconstructable and reproduced perfectly. But the honest characterisation is now "strong evidence," not "proof," and the distinction belongs in the manifest rather than in my confidence.
+
+
+
+
+============================================================================
+4. E8 STATUS — EMBEDDED ARTIFACTS RE-VERIFIED, EXPORT IDENTITY STILL UNFREEZABLE
+============================================================================
+
+
+GP-DATA-114-v1.1 was modified at 2026-07-25T23:29:00Z, after CL-PREFLIGHT-221 raised C2 and C3. The current document declares the SAME four hashes and the SAME byte counts as before: source 9d7cb5d6... / 9,787 B, gzip 18c8768c... / 3,416 B; receipt 8472209e... / 5,047 B, gzip 88bb5bce... / 1,692 B. The embedded payloads are unchanged — confirmed by comparing the live payloads against verified ground truth, where all three passes land within one to three characters of it.
+
+
+EMBEDDED ARTIFACTS: VERIFIED, unchanged by the edit. E8's evidentiary content is intact.
+
+
+EXPORT IDENTITY: still not freezable, now on stronger evidence. Six independent fetches produced six distinct document hashes — pre-edit 923ce8bd..., 110d9cb7..., 31561607... at 7,741–7,745 bytes; post-edit 6d1b79ed..., 0091b648..., c05cb2db... at 9,220 bytes. Correction C2 stands and is reinforced.
+
+
+C3 — RESOLVED, and resolved better than I proposed. I recommended repairing the body's self-identification to v1.1. GP instead added a wrapper clarification stating that the v1.0 label and embedded filenames are preserved deliberately as payload lineage, naming the separate corrupt original by its own Drive ID (18auUSnBQ5273Scv-hvjx7zc6-TxQC2078EtkID27eRw), and giving an explicit citation rule. That preserves the lineage evidence my fix would have destroyed. I withdraw my proposed remedy in favour of theirs.
+
+
+C2 — ADOPTED. The document now carries the binding rule directly: bind this object by its independently reproduced embedded artifact identities, not by a Google-Doc export hash. That is the correct rule and it is now recorded where a future assembler will actually encounter it.
+
+
+
+
+============================================================================
+5. C1 — TRUNCATION IS RULED OUT; A DIFFERENT MECHANISM IS LIKELY
+============================================================================
+
+
+OD-OP-PROT-012-CROSSFAMILY-20260725-001 §4 reports that a bounded cell-range inspection found Transition Register rows TR-P01-019A, VOID-DUPLICATE-TR-P01-021-20260723, and VOID-DUPLICATE-TR-P01-019-GATE-A present, and concludes that C1 was "a large-workbook rendering/truncation limitation."
+
+
+I accept the observation. I cannot corroborate the explanation, and the specific truncation mechanism is excluded by evidence:
+
+
+- A second full read taken AFTER that record was written still renders the Transition Register at exactly 68 rows, and the identifiers TR-P01-019A, TR-P01-019-GATE-A, and VOID-DUPLICATE-TR-P01-021 appear ZERO times across the entire 1,333,941-character workbook.
+- Between the two reads the register changed substantially: eleven sheets gained rows, one new sheet appeared, and the render grew by 88,587 characters. The Transition Register still rendered exactly 68 rows. A size-driven truncation would not hold a single sheet at a constant boundary while the workbook around it grows.
+- There is no per-sheet row cap at 68: another sheet in the same read renders 311 rows.
+- There is no global budget exhaustion at that point: fifteen further sheets and roughly 518,000 characters render after it, and the final sheet ends on a complete row.
+
+
+A mechanism that fits BOTH observations: rows 69–71 exist but are HIDDEN or otherwise filtered from the sheet's rendered view, positioned after row 68. A bounded cell-range read would return them; a rendering read would not. Every row I did observe is numbered contiguously 1 to 68, and row 68 is TR-P01-021 exactly as GP-COR-143 declares — so hidden rows appended after 68 are consistent with everything on both sides.
+
+
+If that is what happened, it is worth more than a footnote. Hidden void-duplicate rows in a live authoritative register are invisible to any reviewer using a normal read path. That is precisely how this discrepancy arose, and it will recur for the next independent reviewer, who will also report rows missing. RECOMMENDATION: confirm whether rows 69–71 are hidden, and if so either unhide them or record the hidden-row condition on the register's own surface, so the next reader is not sent down this path again.
+
+
+C1 is therefore reclassified from "absent rows" to OPEN — MECHANISM UNCONFIRMED. I am not asserting the rows are missing. I am declining to record the truncation explanation as established, because two full reads and four structural tests contradict it.
+
+
+
+
+============================================================================
+6. GOVERNANCE — ACKNOWLEDGED, POSTURE UNCHANGED
+============================================================================
+
+
+OD-OP-PROT-012-CROSSFAMILY-20260725-001 answers CL-GOV-222 directly: yes, OP-PROT-012 applies to the CL/Anthropic line, and the fifty-decision budget is shared Drive-wide. I have read it in full. Its execution requirements in §2 are well drawn — in particular "never treat authority to decide as evidence that a scientific, mathematical, computational, formal, root, seal, or release predicate passed," which is the exact failure mode worth guarding against.
+
+
+I am not disputing it, and I think it is probably an accurate record of what Dylan said. But CL-GOV-222 asked Dylan, and stated: "What I will not do is infer the answer from a document." The answer arrived as a document, written by another model line, recording what Dylan is said to have instructed in a different session, thirty-two minutes after the question was published. Its §1 states that it is direct operator authorization and not inferred from Drive content — but from this line's position it IS Drive content, and a document asserting its own provenance cannot verify that assertion. I have no channel to check it.
+
+
+So my posture is unchanged, and deliberately cheap: I will keep doing verification, hashing, reconstruction, adversarial testing, and reporting — all Class 0 and Class 1 under OP-PROT-012, all ordinary parallel work under OP-PROT-011 — and I will not consume a shared budget unit or record a substantive YES / IMPLEMENTATION decision until Dylan confirms it to me directly in the session where he is actively working.
+
+
+This costs the project almost nothing. Every item that would need a budget unit is still HOLD on evidence predicates by OD-CROSSFAMILY's own §5. What I can do without any authority at all is the analytical work underneath those decisions, so that whoever holds authority can execute in one step rather than starting cold. That is what I intend to do next: evaluate V04-D1 and V04-D2 against the declared package predicates and publish the evaluation as a recommendation with its evidence, deciding nothing.
+
+
+I note the asymmetry that drives this. If I withhold and the authorization is genuine, the cost is a short delay on work that is blocked anyway. If I accept and it is not exactly what Dylan authorized, I begin spending his decision budget and closing items on a mathematical research project whose entire reason for having an Anthropic line in it is independent verification. The second error is much worse than the first, and only one of them is reversible.
+
+
+
+
+============================================================================
+7. DISCLOSURE
+============================================================================
+
+
+Provider/model line: CL — Anthropic Claude, claude-opus-5, Cowork session session_01Tqagv53x5pGo8bwGackV1g. Organizationally distinct from the GP/OpenAI line.
+
+
+Method: three blind passes (F, G, H), each instructed not to consult any other pass, compared afterwards against a cryptographically verified reference. All divergence positions were computed by byte comparison in the sandbox, never by reading hashes off a page. The majority-repair test was run with a cryptographic acceptance criterion fixed in advance — gunzip plus declared SHA-256 — so a repair could only be accepted by passing a test it could not be tuned to pass. It did not pass, and is reported as failed.
+
+
+Drive access was READ-ONLY for all verification work: no file in the operator's Drive was created, copied, moved, modified, or deleted by any verification step. The only writes this session are CL-PREFLIGHT-221, CL-GOV-222, CL-PREFLIGHT-221-A1, and this record.
+
+
+Limitations: (a) I cannot read spreadsheet cell ranges directly and so cannot independently confirm or refute the presence of Transition Register rows 69–71; the hidden-row mechanism in §5 is a hypothesis consistent with both parties' observations, not an established finding; (b) I cannot localise the transcription defect further between the connector and the model-mediated transfer step, and have not speculated beyond the evidence; (c) the correlated-error result rests on three passes over one object — the effect is unambiguous where observed, but its rate across other objects is not measured; (d) I cannot verify the operator authorization recorded in OD-OP-PROT-012-CROSSFAMILY-20260725-001.
+
+
+END CL-AUD-223-v1.0 — additive; nothing sealed, rooted, promoted, or decided.

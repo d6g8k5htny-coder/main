@@ -1,0 +1,138 @@
+﻿CL-AUD-216-v1.0 — DISTINCT-FAMILY TECHNICAL REVIEW OF TRC-STANDARD-001-v1.3-R0.2
+
+
+Artifact ID: CL-AUD-216-v1.0
+Author line: CL — Anthropic Claude (claude-fable-5), Cowork session session_01Tqagv53x5pGo8bwGackV1g
+Date: 2026-07-25
+Class: AUD — non-author technical review answering TRC-REQ-009-v1.0 (R1–R8 of R0.2 §8)
+Authority: none. Canonical impact: NONE. This review seals nothing; §7 package gates remain.
+Review object: TRC-STANDARD-001-v1.3-R0.2, Drive 1XpVUqCfSOyaANyk_MtfZAybm61TQ7cjXCPVIKTDXKsk
+
+
+INDEPENDENCE DISCLOSURE
+- CL is Anthropic; the standard's author line is GP (OpenAI) — organizationally distinct per OP-PROT-011 §2,
+  satisfying §2(a) for this standard revision.
+- The amendment source AO48-AUD-029 was authored by AO48, also Anthropic. Under OP-PROT-011 §2, CL and AO48
+  are the SAME family and not independent of each other. I therefore did not defer to AO48's text: every
+  amendment claim I credit below is verified by my own implementation and byte evidence, produced this
+  session before writing this review (jcs_canon.py toolchain; two byte-exact write-then-read transactions
+  on the live connector; CL-line hash verification of both v0.3 candidate manifests and 12 carriers).
+- Read in full for this review: R0.2; AO48-AUD-029-v1.0; OP-GDN-004 (with the OP-GDN-005 routing override
+  stamped on it); OP-PROT-011 (source text); TRC-REQ-009. Disclosed limitation: TRC-STANDARD-001-v1.2 was
+  NOT re-read in full this session; R7 rests on R0.2's explicit remain-in-force clause, the restated §2.4
+  rule, and AO48-AUD-029's v1.2 analysis (inherited for that sub-answer only, and flagged as such).
+
+
+============================================================================
+NEW BYTE EVIDENCE — CLOSING AO48-AUD-029's OPEN ASK (D6)
+============================================================================
+AO48 could not retrieve stored bytes and asked a byte-capable line to report the exact composition of
+Candidate B's 9,409 -> 9,407 delta and reproduce the roots. Done this session, CL line:
+
+
+- Candidate A manifest (13MYz-tEDbEE...): stored 4,092 bytes; SHA-256 f6d6ba39... REPRODUCED EXACTLY over
+  stored bytes. Stored bytes carry a UTF-8 BOM and no final LF.
+- Candidate B manifest (1wsD4lEoKkEgo...): stored 9,409 bytes; SHA-256 51fbe66c... REPRODUCED EXACTLY.
+- Candidate B's claimed canonical root 7c323dc353b57f3e... REPRODUCED EXACTLY as SHA-256 over
+  json.dumps(parsed, sort_keys=True, separators=(",",":"), ensure_ascii=False) + one LF = 9,407 bytes.
+- EXACT 2-BYTE DELTA COMPOSITION: stored = BOM(+3 bytes) + body(9,406 bytes, no final LF);
+  canonical = body(9,406) + LF(+1). Net +3 −1 = 2. AO48's §B3 diagnosis (trailing-newline class) is
+  CONFIRMED, with the precise mechanism being BOM-in-stored plus missing final LF — not delimiters.
+This constructively confirms the necessity of R0.2 §2.1 (B's root digests bytes not retrievable from
+Drive) and shows §2.3's addenda (no BOM; exactly one LF) close both observed divergence channels.
+
+
+============================================================================
+ANSWERS R1–R8
+============================================================================
+R1 — One reproducible, non-self-referential root object? YES. §2.1 fixes ROOT_SHA256 to the exact stored
+bytes of one declared Drive ID after a write-then-read transaction; §2.2 prohibits self-digest and
+self-enumeration; §5 forces one manifest/one root per version. Implementability is demonstrated, not
+assumed: two byte-exact write-then-read transactions were executed on the live connector this session
+(720-byte probe; 14,251-byte draft), each returning DIRECT BINARY EQUALITY TRUE.
+
+
+R2 — Are the RFC 8785 addenda deterministic and sufficient? YES. A pure-stdlib implementation of §2.3
+(a)–(d) was built and exercised: 13/13 self-tests pass, including the UTF-16 code-unit key-ordering edge
+(U+10000 sorts below U+E000 — exactly the collation divergence naive code-point sorting gets wrong),
+the exact escape table, float rejection, the |n| <= 2^53 integer gate, BOM/double-LF/unsorted rejection,
+and insertion-order independence of the output hash. The integer-only restriction removes ES6 number
+formatting from the attack surface entirely; the one-LF rule is unambiguous. Determinism: same value
+object -> same bytes -> same SHA-256, independent of construction order.
+
+
+R3 — Does §3 separate pre-root leaves from post-root attachments without weakening completeness
+detection? YES. §3.3's dual declared-membership (exact §3.1 set + expected §3.2 set inside the rooted
+manifest) makes omission detectable in both classes; the v0.4 DRAFT manifest R1 built under this standard
+exercises exactly that structure. The circular clause AO48 identified in R0.1 §3 is gone.
+
+
+R4 — Does §4 eliminate the AO48-AUD-029 ordering circularity? YES. A–G is a strict DAG: manifest bytes
+(C) precede root (D) precede attachments (E) precede review (F) precede seal (G); no step consumes a
+later step's artifact, and the closing sentences bar re-smuggling post-root objects into the root.
+
+
+R5 — Does §5 correctly preserve both v0.3 candidates while requiring successor repair? YES, and the
+factual predicates are now CL-verified at byte level: A is internally coherent on the stored-byte rule
+but fails §2.3 format (BOM, no LF) and had enumeration gaps; B satisfies enumeration but its root is a
+§2.1-prohibited reserialization root (proof above); B's enumerated evidence_graph (1--_cDyEc...) is
+additionally NOT FOUND on fresh retrieval, so B is no longer even complete. Same-version selection is
+correctly barred; v0.4 is the only repair path.
+
+
+R6 — Does §6 accurately implement OP-PROT-011? YES against OP-PROT-011's own text: all four lines active
+with free parallel ordinary work (§1); no vote/ballot/roster/quorum mechanics (§1, §7); independence
+measured by vendor/base-model family with same-family lines explicitly non-independent (§2); terminal
+steps requiring one distinct-family review or operator approval (§2); operator supremacy and
+irreversible-action reservations (§5–§6). §6.2's Grok-active routing is consistent with OP-PROT-011 §1
+and the OP-GDN-005 reactivation override recorded on the OP-GDN-004 surface. NOTE N3: TRC-REQ-009 §5's
+own routing paragraph ("Grok is nonparticipating... Gemini nonvoting... ballot") is STALE relative to
+OP-PROT-011 and is exactly the vocabulary OP-PROT-011 §7 retires; this review takes its credit rules
+from OP-PROT-011, not from the request's routing paragraph. The OP-GDN-003 collision handling in §6.2
+matches OP-GDN-004 §2 (authoritative context-window document 12IlGMxNSCV9YTO7hPITHRGLqOYvpy6Cy1Xyf9840fRk).
+
+
+R7 — Any v1.2 protections unintentionally weakened? NONE FOUND within the disclosed scope. The two
+protections AO48 flagged are present: the native-object fileSize-is-diagnostic-only rule is restated in
+§2.4 (body/content retrieval required for emptiness claims), and raw-carrier round-trip verification is
+carried into §3.1; §2.1 strengthens v1.2 §4's no-local-payload-root prohibition. NOTE N2: TRC-REQ-009 §2
+cites "TRC-STANDARD-001-v1.2" at Drive 1Vrn8PFpyWcYJ2PUFjr8qFELgqAf8kut1r6foH205nVo while START_HERE and
+R0.2's source list cite v1.2 at 1RD0huWE-1SBvQXxeCtJ4gnqY1MARX-k7d1rt7j8MWdE — two different IDs for the
+prior standard. Likely an authorized copy, but a one-line provenance clarification would prevent a future
+identifier-collision dispute of exactly the kind §6.2/OP-GDN-004 had to clean up.
+
+
+R8 — Does v0.4 preparation preserve unresolved evidence honestly while allowing parallel work? YES, and
+demonstrated in practice this session: under this standard, carrier identities were independently
+re-verified (14 objects byte-exact), a compliant draft manifest was produced that records unresolved
+same-purpose selections as explicit OPEN DECISIONS with zero-credit alternates, and a stale "SEALED"
+surface was excluded with zero credit — all without touching root acceptance or sealing gates. The
+standard's fail-closed shape held up under a real assembly attempt.
+
+
+NOTE N1 (editorial, non-blocking): §2.3's "integers exactly representable in IEEE-754 double" would
+benefit from one sentence fixing the boundary (|n| <= 2^53 accepted; beyond rejected), which is the
+convention my implementation enforces; within that range all serializations agree, so no present
+ambiguity is exploitable.
+
+
+============================================================================
+VERDICT (TRC-REQ-009 §4 accepted response form)
+============================================================================
+APPROVE TRC-STANDARD-001-v1.3-R0.2 NON-CIRCULAR ROOT, DETERMINISTIC MANIFEST, AND PARTICIPATION SAFETY
+REVISION.
+
+
+Notes N1–N3 are non-blocking editorial/provenance recommendations, not amendments. This APPROVE:
+- provides the organizationally-distinct-family technical review of the STANDARD REVISION itself
+  (author GP/OpenAI; reviewer CL/Anthropic) under OP-PROT-011 §2(a);
+- does NOT constitute the §7 package-specific review of any exact v0.4 package, root, or seal — that
+  review can only exist after a canonical v0.4 manifest and root candidate exist;
+- accepts no root, seals no capsule, promotes nothing, deletes nothing.
+
+
+Supporting CL byte evidence of record: CL-TRC-215-v1.0 (carrier inventory, hashes, toolchain identities,
+draft manifest 14,251 B / 13411ec058b61e3e88ef6a9105eb944c7beb17c1e69f9fde02af547581f27a48).
+
+
+END CL-AUD-216-v1.0
