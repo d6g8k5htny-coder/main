@@ -17,9 +17,10 @@ re-hashed every file against the inventory on 2026-09-19 and wrote them.
 
 ## The controlling disposition, verbatim
 
-* `GP-LB-STAT-004` (the hostile adjudication of the K3 partial delivery):
-  "CONTROLLING DISPOSITION — **REFUTED AS A THEOREM-GRADE OR VALIDLY STATED
-  CONDITIONAL ASSEMBLY / LOWER CAMPAIGN OPEN.**" … "This is an additive status
+* `GP-LB-STAT-004` (the hostile adjudication of the K3 partial delivery), the
+  paragraph under its heading `## CONTROLLING DISPOSITION`: "**REFUTED AS A
+  THEOREM-GRADE OR VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER CAMPAIGN OPEN.**"
+  (until 2026-09-19 this README spliced heading and paragraph with a dash) … "This is an additive status
   delta." … "This work changes no LS-CTL Boolean, eligibility predicate, theorem
   status, RP status, ratification status, or q0 package status. Any such change
   requires separate operator adjudication."
@@ -33,12 +34,14 @@ re-hashed every file against the inventory on 2026-09-19 and wrote them.
   "`KIMI-THM-023 v1.1` remains an incomplete, noncontrolling HOLD draft and is
   not hash-frozen." … "Existing q0 and SIDE24 controlling states remain
   unchanged."
-* The K3 swarm's own `00_READ_FIRST.md`: "The K3 blocking defect is CONFIRMED,
-  numerically and symbolically. The WP 'certified upper bound' used the factor
-  `p_grad · sqrt(E[det(H)^2 | grad=0]) · min(P_type, P_window)` … the missing
-  square root makes the reported quantity SMALLER — not a valid generic upper
-  bound." … "The 0.9144036 coefficient is a candidate measured/mixed-tier
-  asymptotic anchor, not a proved fixed theorem constant."
+* The K3 swarm's own `00_READ_FIRST.md`, items 1 and 3, with the source's bold and
+  inner quotation marks (until 2026-09-19 this README dropped the bold and turned the
+  inner double quotes into single ones):
+  > **The K3 blocking defect is CONFIRMED, numerically and symbolically.** The WP "certified upper bound" used the factor `p_grad · sqrt(E[det(H)^2 | grad=0]) · min(P_type, P_window)`. … Since p ≤ sqrt(p) on [0,1], the missing square root makes the reported quantity SMALLER — not a valid generic upper bound.
+  >
+  > **The 0.9144036 coefficient is a candidate measured/mixed-tier asymptotic anchor**, not a proved fixed theorem constant.
+
+  (the source's hard line breaks are joined; "…" elides one sentence)
 * `ERRATA_2026-08-05.md`: "The notice was independently verified and is
   CONFIRMED."
 * The register: `registers/json/open_questions.json` OQ-016-U1 — "K3-THM-001
@@ -47,9 +50,13 @@ re-hashed every file against the inventory on 2026-09-19 and wrote them.
   carries `K3-THM-001` as `REFUTED_AS_WRITTEN` on the LOWER2D track.
 
 The Phase-0 reports and `K3-THM-001` carry Kimi's own words — "validity
-PROVED", "CLOSED", "PASS", "CONDITIONAL THEOREM Form C — liminf (1−q)/r³ ≥
-0.9666·c_Λ" — which `GP-LB-STAT-004` §3 refutes; they are mirrored **beside**
-the adjudication, never alone.
+PROVED", "CLOSED", "PASS", and the theorem file's Drive title, which begins
+`K3-THM-001 - CONDITIONAL THEOREM Form C - liminf (1-q)∕r^3 >= 0.9666*c_Lambda`
+(its body states the inequality as `\liminf_{r \to 0} \frac{1 - q(r, 6/5)}{r^3}
+\;\ge\; \mathrm{AO}^0 \cdot c_\Lambda \;=\; 0.9666 \cdot c_\Lambda`; until
+2026-09-19 this README gave a typographic rendering of the title inside quotation
+marks as if it were a quotation) — which `GP-LB-STAT-004` §3 refutes; they are
+mirrored **beside** the adjudication, never alone.
 
 ## What this directory does not establish
 
@@ -159,14 +166,20 @@ states was recomputed and the declared value reproduces in all seven (recorded p
   until AO48/GP reconciliation."
 
 **The AO48-layer titles and verdicts are the layer the register does not follow.**
-`AO48-AUD-061` is titled "KIMI-THM-023 proved 0.9144 r3 floor"; `AO48-AUD-064` ends "VERDICT:
-WO-063 reconciliation CLOSED at record level"; `AO48-AUD-065` ends "VERDICT: K3 intake
-RECONCILED. The swarm discharged WO-064 in substance, minted the program's first
-conspicuously-conditional successor theorem (K3-THM-001, Form C, mixed tier), closed the WP
-channel at exact-integrand modulus grade"; `KIMI-AUD-020/021/022` carry "APPROVE";
+`AO48-AUD-061` is titled "KIMI-THM-023 proved 0.9144 r3 floor"; `AO48-AUD-064`'s verdict
+sentence reads "VERDICT: WO-063 reconciliation CLOSED at record level with one material
+amendment -- the quantitative WP upper-bound layer is DECERTIFIED (DEF-WP-CS-01, GP-flagged,
+AO48-confirmed from landed source) and REOPENED as WO-064 Task A." (until 2026-09-19 this
+README cut it after "record level" and called it the file's ending; it is neither);
+`AO48-AUD-065`'s verdict paragraph opens "VERDICT: K3 intake RECONCILED. The swarm discharged
+WO-064 in substance, minted the program's first conspicuously-conditional successor theorem
+(K3-THM-001, Form C, mixed tier), closed the WP channel at exact-integrand modulus grade" (the
+file's hard line breaks are joined here; its last sentence is "The program's rules -- freeze,
+red-team, fail-closed, kill-equals-confirm -- ran at full scale and held."); `KIMI-AUD-020/021/022`
+carry "APPROVE";
 `DECISION_LEDGER.md` carries FROZEN / PASS / PROVED / CLOSED. Against all of it stands
-`GP-LB-STAT-004`: "REFUTED AS A THEOREM-GRADE OR VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER
-CAMPAIGN OPEN", and the register's OQ-016-U1 "K3-THM-001 REFUTED AS WRITTEN / LOWER HOLD".
+`GP-LB-STAT-004`: "**REFUTED AS A THEOREM-GRADE OR VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER
+CAMPAIGN OPEN.**", and the register's OQ-016-U1 "K3-THM-001 REFUTED AS WRITTEN / LOWER HOLD".
 `KIMI-DATA-025` is mirrored for identity of bytes; the orphan ruling inside it is the
 superseded one (GP's native mirror is titled "INVENTORY / ORPHAN RULING SUPERSEDED") and is not
 carried as evidence. The Kimi "APPROVE" verdicts are same-program AI verdicts: zero
@@ -211,3 +224,81 @@ lower campaign (LB-RATE / K3) is OPEN; no lower theorem constant, no all-small-r
 WP upper bound is accepted; `K3-THM-001` remains `REFUTED_AS_WRITTEN` on the LOWER2D track;
 nothing here composes with the 3D lifetime track; no independence credit is computed or
 awarded; and no original prize problem is touched.
+
+## 2026-09-19 — third pass: independent re-verification of the second pass; no bytes added
+
+Same Drive lane, folder id `1icu16HN0J9ifIQ7zAxvZVbGnU6wbVFk0`; the sub-folder ids are as listed
+in the section above. This pass found the second pass's files already on disk (committed at
+`b011cdd`) and re-verified them from scratch instead of re-fetching anything. It added no file and no manifest
+row; this section is its only write.
+
+What was recomputed here, from disk and from `drive/inventory.jsonl`, with nothing taken from
+the section above on trust: all 85 rows of the 14 `_MANIFEST.jsonl` files carry the 14 declared
+keys; the 53 `stored:true` rows are all `exact:true`, and each one's SHA-256 and byte count,
+recomputed from the stored bytes, equals its inventory digest and byte count (629,828 bytes in
+all, 353,266 of them from the second pass, against the 8,000,000-byte lane budget); the 32
+`stored:false` rows all begin "tree-only: ", carry no bytes, and are exactly the 4 raw members of
+`14_SIDE24_PRE_PEER_REVIEW_QUARANTINED` other than `ERRATA_2026-08-05.md` plus all 28
+`DIRECT_NATIVE` objects of the lane (2 of which sit in that quarantined folder); no id is listed
+twice; none of the lane's 468 ids appears in `drive/deltas/2026-09-18/PATH_CHANGES.jsonl` or
+`CHANGED_SINCE_SNAPSHOT.jsonl`; none appears in `registers/json/frozen_objects.json`;
+`python3 tools/verify_manifests.py` on this directory reports `manifests=14 verified=53
+problems=0`. The three sha256sum-format files reproduce the comparison stated above
+(`GP-LB-RECONCILIATION-MANIFEST.sha256` 5 entries / 4 mirrored / 4 agree; `MANIFEST.sha256` 266
+/ 17 / 17; `INPUT_MANIFEST.sha256` 598 / 3 / 3; no disagreement). The seven in-file body seals
+reproduce under the convention the AO48 session-state handoff states (`the sealed "body" = all
+bytes strictly before the line containing "SHA-256 of this report body"`): the digest of those
+bytes equals the 64-hex value on the line after the marker in every one of the seven files. The
+banner sentences quoted above were located in the stored files they are attributed to; a
+2026-09-19 re-verification found five of them not verbatim (a heading spliced to its paragraph,
+two inner-quotation-mark substitutions, a typographic rendering of a title presented as a
+quotation, and a verdict cut mid-sentence), and each was corrected in place the same day, with
+the correction noted beside it. All of this is identity of bytes and of quotations; none of it
+is review.
+
+Objects in the folders this port order touches that neither pass stored, named here so the
+omission is visible rather than silent (all remain fetchable by id; none is a hash mismatch):
+
+* the seven `GP_FORENSIC_*` records beside `GP-LB-STAT-004` in `00_READ_FIRST_AND_GP_ADJUDICATION`
+  (`GP_FORENSIC_extraction_record.json` `1agVhGqGk6R4g8TiWDgRQHoGDhkSlePIL` 154,905 B;
+  `GP_FORENSIC_outer_inventory.csv` `1rEO7i5XQhFIsVCxwHkxA0tOqBnQkM54d` 154,917 B;
+  `GP_FORENSIC_non_k3_meaningful.tsv` `1vutwXHja4bjaSKbuvWBkSO1tgk1Ztg3D` 74,107 B;
+  `GP_FORENSIC_k3_classification.tsv` `1AG7ZdsbR0AcUTmYJsY0di8bUbv5SQUSl` 35,880 B;
+  `GP_FORENSIC_outer_summary.json` `1ZP5qqsLQEZG3B_vqahpSFgG0gfYyW1Rn` 5,210 B;
+  `GP_FORENSIC_key_k3_reports.tsv` `1PV0mnXFbZ45XTYU7dKGhTeGvirRbbW3c` 4,760 B;
+  `GP_FORENSIC_phase0_research_carriers.tsv` `1smvY_6-GzueZ2E6GQI6VL4J78ZwOAd3-` 3,577 B;
+  433,356 B together): GP's extraction and classification records of the K3 container, not the
+  `GP-LB-STAT` / `-REC` / `-WO` / `-ERR` chain the port order names, so left for a later order;
+* the sub-tree `MANIFEST.sha256` files under `01 — KIMI NORMALIZED EXPORT`
+  (`1dPl3RRUQyMbGojK7DfqW1jVtPGoHULAF`), `04_W4_INDEPENDENT_ESTIMATE` (`1LjBYMWF4eS_5bLdKtyLvbKzmMl2yjRAJ`),
+  `06_W6_UNIFORM_R_CONDITIONAL` (`1-sxjk4ORjW0FMaJcLK7G9dx1Eo3uuBsp`) and
+  `09_W9_SCOPE_AUDITS/W9_scope_027a` (`1VH_VehD-3xzXO7-vosw2Id_WFILbnwpf`): the port order names
+  only the top-level `01_PHASE0_AND_TOP_LEVEL_RAW` digest files, and the W-trees are outside it;
+* `99_TRANSPORT_DEFECT_AND_UI_EVIDENCE/SUPERSEDED_TRANSPORT_PREVIEW__ERRATA_2026-08-05__U+FFFD-12.pdf`
+  (`1lRzebef89hn7WQN_CTbv3HeQ2NyQPsaM`, 38,404 B): a `99_TRANSPORT_DEFECT` PDF, on the do-not-port
+  list, and a superseded rendering in any case.
+
+One fact about the second pass is recorded here because it is visible only on disk: its three
+`.sha256` files are stored under the Drive title plus `.txt` (bytes unchanged, digests equal to
+the inventory) for the reason its section states. Its 31 stored files and 63 manifest rows were
+committed at `b011cdd` before this section was written; an earlier draft of this section said
+they were uncommitted, which was wrong.
+
+Reading copies (`exact:false`) are not the objects; there is none in this directory. PDF
+renderings are not frozen bodies. The 28 `DIRECT_NATIVE` rows are convenience mirrors recorded
+for the tree only. Nothing stored here is executed by CI, and this pass added no test, workflow
+step or import.
+
+### What this pass does not establish
+
+Re-verification establishes that the bytes on disk are the bytes the 2026-09-17 inventory
+declares and that the quotations above are verbatim; it establishes nothing about what those
+bytes assert. No claim, premise or obligation is promoted, closed, discharged or reclassified;
+the five validity premises of Theorem D1 v2.2(2) remain OPEN; `D3-LEMMA-RN-UNIF` is not closed;
+the lower campaign (LB-RATE / K3) is OPEN under `GP-LB-STAT-004` ("**REFUTED AS A THEOREM-GRADE
+OR VALIDLY STATED CONDITIONAL ASSEMBLY / LOWER CAMPAIGN OPEN.**"); the AO48-layer "proved" /
+"CLOSED" / "APPROVE" / "RECONCILED" words remain the layer the register does not follow; the
+seven reproduced body seals are identity of bodies, not review of them, and none is a
+register-declared frozen-body digest; nothing here composes with the 3D lifetime track; no
+independence credit is computed or awarded; no original prize problem is touched; and no gate
+moves.

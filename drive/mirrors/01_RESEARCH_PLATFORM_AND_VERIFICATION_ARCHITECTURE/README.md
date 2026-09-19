@@ -48,8 +48,9 @@ declares no marker-delimited body digest for any Doc in this lane.
 
 Each capsule folder holds `CURRENT_STATUS.json`, `statement.md`, `independent_review.json`, `proof.md` and `hostile_tests.py` as
 reading copies (`<name>.export.txt`, so nothing on disk looks executable) and `review_packet.pdf` byte-exact. The eight PDFs total
-1,922,658 bytes. `hostile_tests.py` files import `sympy`, `numpy`,
-`decimal`, `fractions` or `math`; they were not run here and nothing in CI imports them.
+1,922,658 bytes. seven of the eight `hostile_tests.py` files import `sympy`, `numpy`,
+`decimal`, `fractions` or `math`, and the eighth (`LEMMA_P02-LM-002_v2.0`, 155 B) has no import statement (until 2026-09-19
+this sentence said all of them import); they were not run here and nothing in CI imports them.
 
 The source's reading rule, verbatim. `00_READ_FIRST.md`: "Every Core capsule contains CURRENT_STATUS.json. Read it before historical proof banners."
 The capsule folder README: "Every Core capsule now also contains `CURRENT_STATUS.json`. This file exists because migrated `proof.md` objects may preserve historical pre-closure banners as provenance. Do not edit those proof bodies to modernize their status."
@@ -145,17 +146,19 @@ notes "Schema, verifier, baseline/corrected fixtures, regression runner, exact r
 The controlling banners, verbatim. GP-VO-001-v1.0: "Status: COMPLETE SANDBOX PROTOTYPE / 12 OF 12 REGRESSIONS PASS / MIGRATION HOLD",
 "Until every predicate passes, this package remains SANDBOX / NONAUTHORITATIVE.", and its final verdict lines
 "REGRESSIONS: 12/12 PASS." / "LIVE MIGRATION: HOLD.". The register (`registers/json/cold_start_control_view.json`,
-Dispatch ID DQ-060): Current Eligibility "COMPLETE / SANDBOX PROTOTYPE PASS / LIVE MIGRATION HOLD", Entry Verdict "**HOLD — DO NOT CLAIM**",
+Dispatch ID DQ-060): Current Eligibility "COMPLETE / SANDBOX PROTOTYPE PASS / LIVE MIGRATION HOLD", Entry Verdict "HOLD — DO NOT CLAIM",
 Independence Credit (from `registers/json/active_work_claims.json`, GP-CLAIM-DQ060-20260727-01) "ZERO — operations and sandbox only".
 The DQ-060 migration-rollback receipt `GP-REC-DQ060-20260727-01` (`1BD8WGmHBNaKOlsNatvK7CWVsQ0_BSaAjzWhx7XTgDNM`) lives in
 `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES`, outside this lane, and is not mirrored here.
 
 `math_integrity_gate.py` is stored as `math_integrity_gate.py.txt` (bytes unchanged, 10,251 B, digest equal to the inventory's) so
 that it cannot be imported. The source names exactly this carrier: FS2-BOOTSTRAP-MANIFEST-v1.2 and `00_READ_FIRST.md` both say
-"Authoritative raw carrier: 10,251 bytes / SHA-256 69626116de56f48b0cef5d4d00a0e11395b6ac5dd36db07b0ee7b41cc395cd2c.",
+"Authoritative raw carrier: 10,251 bytes / SHA-256 69626116de56f48b0cef5d4d00a0e11395b6ac5dd36db07b0ee7b41cc395cd2c." and
 label the Google-Docs copy "Historical Google Docs transport — provenance only, not executable authority:" (that Doc,
-`1m44KiNwkFZwcVcjEIjJ6pyaz55qGyc4thE5yrQ7iuNY`, is an index row here and is not ported), and give the gate's status as
-"Status: ACTIVE metadata/gate implementation; no proof authority by itself.". The file describes itself:
+`1m44KiNwkFZwcVcjEIjJ6pyaz55qGyc4thE5yrQ7iuNY`, is an index row here and is not ported); FS2-BOOTSTRAP-MANIFEST-v1.2 alone
+gives the gate's status as "Status: ACTIVE metadata/gate implementation; no proof authority by itself." (the `00_READ_FIRST.md`
+"Integrity gate:" entry carries the link, the carrier line and the transport label and no status sentence; until 2026-09-19
+this README attributed the status sentence to both). The file describes itself:
 "It may return PASS, HOLD, or NO. It never proves a theorem, fabricates" (continuing: independence, edits Drive, or
 overrides an exact mathematical review), and its output carries `"authority": "NONE_BY_SCRIPT_ALONE"` and the note
 "PASS establishes metadata/gate eligibility only; mathematical proof status follows exact evidence and review." — which is
@@ -472,9 +475,10 @@ recomputation is over the bytes already stored here.
   "Status: ACTIVE metadata/gate implementation; no proof authority by itself.", "Status: INSTALLED / ACTIVE CONTROL PLANE / MATHEMATICAL
   PROMOTION UNCHANGED", "SA-002 is ACTIVE. Models should autonomously claim and execute the next eligible exact task; routine operator
   approval is not required.", "Do not collapse P_i into one scalar until weights are frozen prospectively.", "Scientific effect: none." /
-  "Independence credit: zero.", "SUPERSEDED AS ROUTING PLAN — RETAINED FOR INEQUALITY AND POWER-LEDGER OBSERVATIONS",
+  "Independence credit: zero.", "SUPERSEDED AS ROUTING PLAN — RETAINED FOR INEQUALITY AND POWER-LEDGER OBSERVATIONS" (joined
+  here across the export's line break after "POWER-LEDGER"; the blockquote in (5c) keeps the break),
   "Independent-review credit earned: ZERO.") were each located in the stored export they are attributed to, and the register's
-  "**HOLD — DO NOT CLAIM**" in `registers/json/cold_start_control_view.json`. They remain the source's labels: quoted, not obeyed.
+  "HOLD — DO NOT CLAIM" in `registers/json/cold_start_control_view.json`. They remain the source's labels: quoted, not obeyed.
 
 ### What this pass appended (23 tree-only rows; no bytes)
 

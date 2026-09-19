@@ -1,11 +1,13 @@
 # Mirror of `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` (partial)
 
 Drive folder id `1OuK3oWnfeWdFDoIQu446FQwWnBA-niyU`: the research carry-forward canon lane
-(765 inventory items, 680 files). This directory mirrors a ranked part of it: the exact
-P0.1/P0.2 proof-carrier bodies and their two routing documents, the GP-FOR-189 formal-core
+(765 inventory items, 680 files). This directory mirrors a ranked part of it: reading copies
+(`exact: false`, text exports of native Docs, not the objects) of the exact P0.1/P0.2
+proof-carrier bodies and of their two routing documents, the GP-FOR-189 formal-core
 source-recovery bundle, the GP-188 law-specific q successor audit bundle, and the
-`LPW — RAW ARCHIVE INTAKE R05` folder. 68 objects are stored
-(2,813,973 bytes); 2 are index-only rows. Each subdirectory
+`LPW — RAW ARCHIVE INTAKE R05` folder. 68 files are stored (2,813,973 bytes): 55 objects
+byte-exact against the inventory and 13 reading copies; 2 are index-only rows. Until
+2026-09-19 this paragraph counted the reading copies as stored objects. Each subdirectory
 that holds files carries a `_MANIFEST.jsonl` (one row per object: Drive id, title, Drive path,
 dest, bytes, sha256, exact, inventory digest, note) that `tools/verify_manifests.py` checks in CI.
 **Mirroring is not review, replay, endorsement or promotion.** Ported 2026-09-19.
@@ -95,8 +97,11 @@ of itself.
 
 `q0_machine_composite_candidate.json` (7,176,671 B) is over this port's 1,500,000-byte single-file
 limit and no q0_machine token table is ported; its inventory digest equals the digest that
-`Q0-COMPOSITE-MIGRATION-AUDIT-20260730.md` §1 declares for it, as do the digests of the four stored
-files that table names. The active `q0_machine.json` (`1PXa-ZqCrICicUUDIy37PafHgdjCOb3cj`, 5,910,703 B)
+`Q0-COMPOSITE-MIGRATION-AUDIT-20260730.md` §3 ("Composite candidate") declares for it. The audit's
+§1 table names two stored files (the law-specific machine 1.2 and the verifier 1.2 predecessor) and
+its §3 table three more (the candidate verifier, the composite verification report and the
+active-byte rejection report); each of those five stored files' digests equals the audit's. Until
+2026-09-19 this sentence cited §1 for the candidate's digest. The active `q0_machine.json` (`1PXa-ZqCrICicUUDIy37PafHgdjCOb3cj`, 5,910,703 B)
 and `q0_verify.py` (`1FxdPkPmK-WhTm-9hQwyJsuJiscCJoy-7`, 957,321 B) the audit names are not mirrored
 here, and no verifier was executed here.
 
@@ -198,7 +203,7 @@ line:
 
 * `P02-RESOLUTION-REGISTER-v1.0`: "Control status: AUTHORITATIVE CURRENT-OBJECT CHECKPOINT — 30 July 2026 … Only the highest controlling object is listed. Superseded, amend-required, parallel, and historical bodies are excluded from active review routing." — "Program state: five terminal interfaces; eight review-pending interfaces; ten exact review objects. P0.2 remains OPEN / NONTERMINAL / NOT PROMOTED. Same-line verification and transport certificates do not count as organizationally independent peer review."
 * `LCR-CAP-025-v1.3`: `Authority: research preparation, evidence reconciliation, and reviewer navigation only` · `Canonical mathematical impact: NONE`; prepended 2026-07-30 delta: "This reconciliation changes no terminal count and does not promote P0.2."
-* Both carry a prepended 2026-07-30 delta saying that `CL-AUD-205` "is an organizationally distinct review of the controlling exact 13,797-byte … body and returns DELIVERS". Those are the source's words. The repository transcribes P0.2's status from the registers (`docs/OPEN_PROBLEMS.md`, `claims/graph.json`) and awards no independence credit to anything by mirroring it (CLAUDE.md rules 1 and 6).
+* Both carry a prepended 2026-07-30 delta on the LM013 parent row. `P02-RESOLUTION-REGISTER-v1.0`'s says `CL-AUD-205` "is an organizationally distinct review of the controlling exact 13,797-byte SHA-256 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d body and returns DELIVERS with no real frozen-body defect"; `LCR-CAP-025-v1.3`'s says "LM013 parent exact-object review is satisfied by CL-AUD-205 (exact 13,797-byte SHA 035d5a18…85d4d, DELIVERS)" and nowhere calls CL-AUD-205 organizationally distinct (until 2026-09-19 this bullet attributed the first wording to both). Those are the source's words. The repository transcribes P0.2's status from the registers (`docs/OPEN_PROBLEMS.md`, `claims/graph.json`) and awards no independence credit to anything by mirroring it (CLAUDE.md rules 1 and 6).
 
 ### GP-FOR-189 / GP-FOR-192
 
@@ -208,8 +213,8 @@ line:
 
 ### GP-188
 
-* `Q0-COMPOSITE-MIGRATION-AUDIT-20260730.md`: `Author/executor: OpenAI GPT-5.6 / same organizational line as the GP verifier work` · `Authority: technical reconstruction and noncanonical candidate preparation only` · `Canonical impact: none` · `Installation impact: none — the active q0_machine.json and q0_verify.py were not modified` · `Status: technical gates 3–5 evidenced at candidate scope; independent review, status synchronization, promotion, and post-install verification remain open`.
-* `q0_active_rejection_report.json`: `"errors": ["INPUT_REJECTED:NONSTANDARD_JSON_CONSTANT:NaN"]`, `"noncanonical_successor_only": true`, `"active_machine_modified": false`.
+* `Q0-COMPOSITE-MIGRATION-AUDIT-20260730.md`: `Author/executor: OpenAI GPT-5.6 / same organizational line as the GP verifier work` · `Authority: technical reconstruction and noncanonical candidate preparation only` · `Canonical impact: none` · "Installation impact: none — the active `q0_machine.json` and `q0_verify.py` were not modified" · `Status: technical gates 3–5 evidenced at candidate scope; independent review, status synchronization, promotion, and post-install verification remain open`.
+* `q0_active_rejection_report.json`: `"errors": ["INPUT_REJECTED:NONSTANDARD_JSON_CONSTANT:NaN"]` (the file pretty-prints this one-element array over three lines), `"noncanonical_successor_only": true`, `"active_machine_modified": false`.
 * `q0_composite_candidate_verification_report.json`: `"active_machine_modified": false`, `"active_verifier_modified": false`, `"all_roots_fail_closed": true`.
 
 ### LPW — RAW ARCHIVE INTAKE R05
@@ -217,8 +222,8 @@ line:
 * `00_READ_FIRST.md`: "**Prepared by:** ChatGPT / OpenAI for Dylan Roy. **Disposition:** scoped evidence update under the already-granted operator authorization. No new owner vote is requested." — "This was not a fresh semantic proof audit of every historical file in the outer container" — "W8's expensive sweep was NOT rerun."
 * `02_FINDINGS_AND_DISPOSITION.md`: "## F1 — wrong headline decimal and missing end-to-end check (AMEND REQUIRED) … Therefore `6.239e-44` is too large for this chain; `6.238e-44` is downward-safe."
 * `03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md`: "**Status:** NEW AUTHOR-SIDE ANALYTIC REPAIR + DIRECTED-INTERVAL COMPUTATION; targeted external review required. The previous Kimi endorsement does not automatically attach to this file. … No full formal proof assistant was run."
-* `05_MATCHING_2D_UPPER_WORK_ORDER.md`: "No existing document in this work order is represented as a closed matching upper theorem. The local-path argument supplies only a lower bound and cannot be inverted to provide a cover of every failure. The separate 3D AO48-OPR-045 result is not applicable."
-* `06_OPERATOR_EXECUTION_RECORD.md`: "LPW_CONSTANT as delivered | Reported PASS preserved historically; current quantitative certificate disposition AMEND REQUIRED for wrong decimal and false moment identity; no accepted 6.239e-44 floor from this chain".
+* `05_MATCHING_2D_UPPER_WORK_ORDER.md`: "No existing document in this work order is represented as a closed matching upper theorem. The local-path argument supplies only a lower bound and cannot be inverted to provide a cover of every failure. The separate3D AO48-OPR-045 result is not applicable." (sic: the source has no space between "separate" and "3D")
+* `06_OPERATOR_EXECUTION_RECORD.md`: "LPW_CONSTANT as delivered | Reported PASS preserved historically; current quantitative certificate disposition AMEND REQUIRED for wrong decimal and false moment identity; no accepted6.239e-44 floor from this chain" (sic: no space between "accepted" and "6.239e-44" in the source).
 * `CURRENT_STATE.json`: `"K3_THM001": "REFUTED_AS_WRITTEN_NONCONTROLLING unchanged"`, `"P01": "LS-CTL-003-v1.3 unchanged; HOLD"`, `"P02": "No interface count or promotion change"`, `"SIDE24_3D": "AO48-OPR-045 unchanged"`, W8_v3 `"global_certificate_pass": false`, `"unconditional_finite_r_closure": false`.
 * `DRIVE_PUBLICATION_RECEIPT.json`: `"frozen_original_modified": false`, `"Class3_promotion": false`, limitations "No W8 long-sweep replay", "Same-source execution is not an additional independent provider review", "Rayleigh repair is a new author-side derivation requiring scoped review".
 * `raw_reports/KIMI_LPW_REVIEW_VERDICT.md`: "## VERDICT: APPROVE — all six interfaces PASS WITHIN SCOPE at the exact file version." with "Exposure disclosure: the full candidate and packet were read before review — ordinary hostile review, not blind reconstruction."; `raw_reports/README_BUNDLE.md` records that Addendum 1 has "Consequence 4 (two-sided) WITHDRAWN for dimension/law mismatch".

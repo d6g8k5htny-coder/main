@@ -1,10 +1,10 @@
 # Historical operator protocols and the cross-model ledger — provenance copies
 
 `governance/README.md` places historical protocols (OP-PROT-001..011, -013..018) here "as provenance;
-they apply only where R17 says they are retained". As of 2026-09-19 this directory holds four objects
-from the Drive canon lane's `Cross-Model Exchange` folder: the three operator-protocol relays that exist
-on the Drive as digest-bearing markdown, stored byte-exact against `drive/inventory.jsonl`, and a
-reading copy of the Cross-Model Review Ledger v1.0 Doc. None of the other historical protocols has
+they apply only where R17 says they are retained". As of 2026-09-19 this directory holds three objects
+from the Drive canon lane's `Cross-Model Exchange` folder — the operator-protocol relays that exist
+on the Drive as digest-bearing markdown, stored byte-exact against `drive/inventory.jsonl` — and a
+reading copy (`exact: false`, not the object) of a fourth, the Cross-Model Review Ledger v1.0 Doc. None of the other historical protocols has
 been mirrored. The current protocols are the files one level up (`OP-PROT-019-v1.1_R17.md`,
 `OP-PROT-012.md`, `OP-GDN-002.md`, `OP-CNS-001-R0.2.md`); nothing here supersedes them.
 `_MANIFEST.jsonl` is checked by `tools/verify_manifests.py`. Ported 2026-09-19.
@@ -20,10 +20,10 @@ been mirrored. The current protocols are the files one level up (`OP-PROT-019-v1
 
 ## What they are, in their own words
 
-* `OP-PROT-001`: "CLASS: OPERATOR-ISSUED PROTOCOL (verbatim relay — this instance authored only this header block). PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session on 2026-07-20, stated to be drafted by another AI at the operator's direction and endorsed by the operator … Hash of the verbatim body: PENDING — … this relay is single-pass transcription, flagged for one cross-model fidelity read. STANDING: this protocol updates the collaboration layer … It does NOT alter the mathematical authority order — its own text keeps Q0_MASTER.md, Q0_LEDGER.md, q0_machine.json, q0_verify.py governing, and all promotions provisional and reversible pending human review."
-* `OP-PROT-003`: "CLASS: OPERATOR-ISSUED OPERATING PHILOSOPHY (verbatim relay — this instance authored only this header and the reading notes). PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session, 2026-07-21 … Single-pass transcription; one cross-model fidelity read invited; cross-session corroboration welcome if other sessions received it."
-* `OP-PROT-005`: "CLASS: OPERATOR-ISSUED PROTOCOL (verbatim relay — this instance authored only this header). PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session, 2026-07-21. Single-pass transcription; fidelity read invited; cross-session corroboration welcome." Its operator text opens: "The mathematics and the research architecture are not separate workstreams. They are a coupled system that must advance together."
-* `Cross-Model Review Ledger v1.0 — 2026-07-20`: "Status: Independent audit and collaboration record. Canonical impact: NONE unless Dylan M. Roy explicitly approves promotion and the change is entered into the governing project ledger. Record policy: Append-only." — "It is not itself a theorem source. The live q0 authority remains Q0_MASTER.md, Q0_LEDGER.md, q0_machine.json, and q0_verify.py." Its contribution labels include "CANDIDATE THEOREM — not canonical; requires independent verification and formal promotion."
+* `OP-PROT-001`: "CLASS: OPERATOR-ISSUED PROTOCOL (verbatim relay — this instance authored only this header block)" / "PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session on 2026-07-20, stated to be drafted by another AI at the operator's direction and endorsed by the operator … Hash of the verbatim body: PENDING — … this relay is single-pass transcription, flagged for one cross-model fidelity read. STANDING: this protocol updates the collaboration layer … It does NOT alter the mathematical authority order — its own text keeps Q0_MASTER.md, Q0_LEDGER.md, q0_machine.json, q0_verify.py governing, and all promotions provisional and reversible pending human review."
+* `OP-PROT-003`: "CLASS: OPERATOR-ISSUED OPERATING PHILOSOPHY (verbatim relay — this instance authored only this header and the reading notes)" / "PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session, 2026-07-21 … Single-pass transcription; one cross-model fidelity read invited; cross-session corroboration welcome if other sessions received it."
+* `OP-PROT-005`: "CLASS: OPERATOR-ISSUED PROTOCOL (verbatim relay — this instance authored only this header)" / "PROVENANCE: received from the operator (Dylan M. Roy) in this instance's session, 2026-07-21. Single-pass transcription; fidelity read invited; cross-session corroboration welcome." Its operator text opens: "The mathematics and the research architecture are not separate workstreams. They are a coupled system that must advance together."
+* `Cross-Model Review Ledger v1.0 — 2026-07-20`: "Status: Independent audit and collaboration record" / "Canonical impact: NONE unless Dylan M. Roy explicitly approves promotion and the change is entered into the governing project ledger." / "Record policy: Append-only." (each a line of the source; until 2026-09-19 this README joined the header lines of all four files with inserted periods) — "It is not itself a theorem source. The live q0 authority remains Q0_MASTER.md, Q0_LEDGER.md, q0_machine.json, and q0_verify.py." Its contribution labels include "CANDIDATE THEOREM — not canonical; requires independent verification and formal promotion."
 
 The relays are what a model instance wrote down of what the operator said, in a single pass, and each
 says so of itself; the relayed body hash `OP-PROT-001` calls PENDING is not computed or bound here.
