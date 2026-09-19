@@ -81,3 +81,111 @@ source of the `chi2_grad_bound` slack record in `research/slack/registry.py`
 (vs the engine's bound 1.57e14 — 1e19 slack)"; "the adaptive polar certifier is
 defined and never invoked"; "its driver is likewise unwritten"). D3-LEMMA-RN-UNIF
 stays OPEN; nothing here closes it.
+
+## 2026-09-19 — lane completion pass (33 further objects, all byte-exact)
+
+Drive lane `01_ACTIVE_RESEARCH_PACKAGES/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY`,
+folder id `1bRmeImIMT-6kc-zBNZVoWW1aYNPBPLWs`. Subfolder ids, as the inventory records them:
+`01_CURRENT_ASSEMBLY_AND_STATE` `1gFCj2IzPQGKOImqmAmesgYc7Z7RTiOnb` ·
+`02_H4_EVENT_LEVEL_REPAIR` `1RXWIRH9Gdg5pj6IJssYVLG6dz-0scouG` ·
+`03_H5_PROMOTION_AND_RUNG_CERTIFICATES` `1fVdPlwhtL8hxMiRoD6TxNJaNAHOCDy4y` ·
+`04_STAGE_E_REVIEWS_AND_DEFECT_FINDINGS` `1DkIMa9N2gVooK-B_Zf1npvQCYUHtVpzs` ·
+`05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15` `1J7Ly5v-XQWTT_AqqAGfsr1kdXmwyxvE3`
+(`D1_v2_3_DRAFT` `14AGgILTCsrjLFvsEruDDnYaslekHEwzB`, `H5_ZBAND` `1aQbmEmiqATx50B9yDZiF4LfRe49zAfba`,
+`RN_UNIF_2026-09-16` `1FmKnSQRpHc6EYCUEIl07FQDECUZsiEqG`) ·
+`06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES` `17HwJNlnMWavengx74rl9KDIqXOXyig2i`.
+Nothing already in this directory was modified; rows were appended and this section added.
+
+### The controlling status banners, verbatim
+
+* `CL-STATE-001_CONSOLIDATED_STATE_2026-09-15.md`: "STATUS: PROPOSED — non-authoritative until the operator promotes it; supersedes nothing by itself" · "AUTHORITY: none · CANONICAL IMPACT: NONE until promoted" · "**Kimi is dark until 2026-09-30; the snapshot is final until then.**"
+* `CL-OBL-001_H5-ZBAND_DISCHARGE_AND_RN-UNIF_WORK_ORDER_2026-09-15.md`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE until the owning lanes consume/execute." · "NOTE 2026-09-16: … §2 and Appendix A are SUPERSEDED by CL-RNU-001 … Retained as the record of the reasoning that led there."
+* `00_LANDING_NOTE.md`: "All PROPOSED, non-authoritative, no frozen carrier edited."
+* `CURRENT_STATE_DELTA_2026-09-15.md`: "The matching 2D upper theorem is NOT closed at unconditional all-small-r theorem grade." · "historical v2.0/v2.1 failure findings remain provenance, not current authority." It is ported **as the dated 2026-09-15 return note it is**, not as the current premise list: `00_LANDING_NOTE.md` says it "is superseded by the register note in the same folder", and `CL-ERR-001` E6 calls it stale.
+* `CL-ERR-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE — **no theorem in the tree is weakened by any item**."
+* `CL-AUD-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE (confirms; asserts no new theorem content)" · "Nothing here bears on the mathematical validity of the frozen theorem bodies beyond what their own gates check; those bodies were not re-derived line by line."
+* `CL-LEDGER-001`: "STATUS: PROPOSED (for the operator to append; the frozen ledger is not edited) · AUTHORITY: none."
+* `CL-REG-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE (record-integrity only; no theorem content)"; one claim is "**UNRESOLVED** — none of 9 candidate rules reproduces it".
+* `CL-PIN-001`: "CAVEAT: these are the bytes present at snapshot time. They are NOT certified to be the bytes that generated the rung-2/3 banks." (the file breaks the line after "generated")
+* `CL-GROK-CLOSE-001`: "This closes the **session work**, not D3-LEMMA-RN-UNIF, not D1 v2.3, not any prize problem." · "`NOT-CLAIMED` for all theorems." · "The research program itself is **not** CORE-CLOSED." · loose end 2: "Scale-T₄ cell CLOSE rows in `RNU_EXECUTE_RECEIPT.json` — must not be cited as certified cells."
+* `CL-RNU-002`: "STATUS: PROPOSED / AUTHORITY: none · CANONICAL IMPACT: NONE (the lemma is not closed; this is certified-numerics infrastructure)."
+* `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` (quoted from the bytes fetched on 2026-09-19; the file is NOT stored here — its payload is the one quarantine key `Q-RN5-MOMENT-004` names, so its row is tree-only and these two sentences cannot be re-verified from this directory): "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE yet" · "Nothing here changes a frozen carrier."
+* `CL-RNU-003_T4_PUSH_2026-09-16.md`: "STATUS: PROPOSED. D3-LEMMA-RN-UNIF is NOT closed. AUTHORITY: none. Frozen engine not edited." · of its T₄: "This is a **candidate** … That implication is not proved."
+* `RNU_EXECUTE_RECEIPT.json` / `.md`: `"status": "PROPOSED"`, `"lemma_closed": false`; "T4 used here is INTERNAL scale envelope 1.853e+4, not env_form."
+* `RNU_T4_PUSH_RECEIPT.json`: `"status": "PROPOSED"`, `"lemma_closed": false`; "Wick/Bures/ratio 4-jets are NOT separately certified."
+* `H5_RUNG2` / `H5_RUNG3`: "H5 — RUNG 2 certified (2026-09-15): r = 0.025, E_w(r)/r³ = 664.3979" / "RUNG 3 certified … 661.4712"; "New package; frozen documents unaltered."; "Falsifier does not trip at rungs 1–3." **They certify those rungs only.**
+* `H5_PROMOTE_UPDATE_2026-09-15.md` §5: the dense κ = 1/8 modulus is "the displayed modulus (dense certified sampling + explicit fit); the CERTIFIED band enclosure (interval-r lattice sums) remains OBL-H5-JETMOD with its content unchanged."
+* `H5_TOTALS_FREEZE_2026-09-15.md`: "NOTE (honest lineage): these bytes are the DRIFTED content …, not the v1 consumed content."
+* `D1_V2_3_RECEIPTS.txt`: "STATUS: PROPOSED — becomes the current strongest form only upon operator promotion; v2.2 (490ad6b2…) remains the last Kimi-issued form."
+* Stage-E reviews, their own dispositions: `REVIEW_proof.md` "DISPOSITION: **FAIL** — three independent grounds, each sufficient"; `REVIEW_provenance.md` "DISPOSITION: **FAIL**"; `REVIEW_scope.md` "**DISPOSITION: FAIL** — three exact scope violations"; `REVIEW_topology.md` "Dispositions: targets 1–5, 7 PASS; target 6 FAIL (exact lemma, exact gap, counterexample, and repair all stated above)." (target 6 is the H4-JC joint carrier; the file breaks the line after "exact lemma,"); `REVIEW_numerics.md` "F-1 (FAIL-grade, certification-chain gap on the consumed remote constant)". All are reviews of the **frozen D1 v2.0** package.
+* `H4_JC_EVENT_LEVEL.md`: "Theorem H4-JC as frozen in H4_CLOSURE.md §2.3 (body `a67d50b9…`) is FALSE as stated" (joined across the file's line break; the file has no backticks around the file name) · "Frozen carriers are untouched."
+* `PERC_DECAY.md`: "**The o(r³)-order reading of the far lanes is NOT reachable with this lane's machinery, and the registered percolation-decay input would not deliver it either.**" · "The far lanes are **Θ(r³), not o(r³)**".
+* `CL-MIRROR-001_MANIFEST.sha256`: "These are NOT new artifacts … Any copy landed here must re-hash to the value on its row before it is cited."
+
+Every "DISCHARGED", "CLOSED", "ADJUDICATED YES", "TWO premises" or "current strongest form" sentence in
+these documents belongs to that PROPOSED tier or to a register note "effective at the next issuance".
+No operator has applied any of them here. The frozen `D1_ASSEMBLY_v2_2.md` body (`490ad6b2…`) keeps **all
+five validity premises OPEN**, and `D3-LEMMA-RN-UNIF` is not closed.
+
+### What was ported, and what deliberately was not
+
+Ported byte-exact (33 objects this pass; digest and byte count recomputed from disk and equal to the
+2026-09-17 `drive/inventory.jsonl` row in every case): the four lane-state documents (`CL-STATE-001`,
+`CURRENT_STATE_DELTA`, `00_LANDING_NOTE`, `CL-OBL-001`); the six H5 rung notes in `03_`; the six
+RN_UNIF documents and receipts in `RN_UNIF_2026-09-16/`, including `rnu_execute.py` stored as
+`rnu_execute.py.txt`; the remaining `05_` CL documents plus `D1_V2_3_RECEIPTS.txt` and
+`FREEZE_H5_ZBAND.txt`; the five Stage-E reviews and the two H4 event-level repair files; and
+`PERC_DECAY.md` with `CL-MIRROR-001_MANIFEST.sha256` (stored as `…​.sha256.txt`) in `06_`.
+
+Deliberately not ported, recorded as `stored:false` rows in the manifests:
+
+* `d1_falsify_v4.py` (`1uTcWaYLtJUszT7iBEWzI1Xa6J7_nw9E6`, 20,558 B) — the gap that wants these bytes
+  targets `engine/carriers/blobs/`, which another agent owns; this mirror writes only under its own
+  directories, so the carrier gap stays open rather than being relocated here.
+* `09152026OKComputer_Project_Gap_Closure.zip` (`1vSI-evINWskhXVyiZ0slt-rLT74sPpXH`, 30,148,285 B) —
+  far over the per-file and per-lane size caps, and the audit's own list says "index and member digests
+  only". No member was recovered, so the archive-member premise sources the claim graph cites
+  (`ADDENDUM_2026-09-15_H3_BAND_FLOOR.md`, `ADDENDUM_2026-09-15_B4LOC_PERC_DECAY.md`,
+  `B4LOC_DAMLINE.md`, `H3_BAND_CEIL.md`, `H5_PROMOTE.md`) remain unmirrored.
+* The RN_UNIF-folder duplicate of `CL-GROK-CLOSE-001` (`1Y_3zFonLsFIAHP5KSkUfsJXqHZXIUAL2`,
+  quarantine `Q-R17-DUP-001`, EXACT_DUPLICATE) — only the keeper `1Hc8…` is here.
+* `rnu_ds3_scalar_SUPERSEDED.py` (`1v7JAh_FbXHYMaL7W6DNwEoLnHPwQ5U21`, quarantine `Q-R17-RN-OLD`,
+  SUPERSEDED) — not mirrored and not consumable; "Source portfolio explicitly retires scalar DS3."
+
+`CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` is **not** stored, and its row in
+`RN_UNIF_2026-09-16/_MANIFEST.jsonl` is `stored:false`. It is under quarantine `Q-RN5-MOMENT-004`,
+class DEFECTIVE_SCOPE, scope "Section 3 claim that the near integrand with sqrt(E dy^4) is certified, and
+the derived near/remote forecasts. Far progress and declared partial coverage are retained." The audit's
+gap list suggested mirroring the bytes with the exclusion key attached, but `tools/quarantine_check.py`
+invariant 3 forbids an excluded payload digest from appearing in **any** repository manifest, and that
+firewall outranks the suggestion: the bytes were fetched, hashed to the inventory digest, and then
+removed rather than carried. The exclusion is enforced here, not annotated. Its successor object is
+mirrored in `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_NEAR_MOMENT_REPAIR.md`.
+
+Two body digests were reproduced from the stored bytes and agree with the digest their own lane
+declares elsewhere: `PERC_DECAY.md` → 7,409 B `5137a811…` under rule `marker_raw` (the rule
+`CL-REG-001` records for it, "marker_raw only"), and `H4_JC_EVENT_LEVEL.md` → 16,241 B `42ee88da…`,
+the value in the sibling `H4_JC_REPAIR_FREEZE.txt`. `registers/json/frozen_objects.json` declares no
+BODY digest for either Drive id, so `body_matches_register` stays null in the manifest rows; a body
+match is identity of the body, not review.
+
+### What this pass does not establish
+
+Nothing here verifies, promotes, closes, discharges or reclassifies any claim, premise or obligation.
+A SHA-256 match is identity of bytes; it says which bytes exist, not that any bound holds. The
+PROPOSED layer these documents carry — two-premise D1, OBL-H5-ZBAND "DISCHARGED at consumption grade",
+B4.loc "CLOSED", B4.rem "ADJUDICATED YES", PERC-DECAY "RESTATED" — has not been applied: Theorem
+D1 v2.2(2) remains CONDITIONAL on its five named validity premises, `D3-LEMMA-RN-UNIF` Piece 1 and
+Piece 2 remain OPEN with receipts at `lemma_closed: false`, and OBL-D1-PROMOTE, OBL-H5-JETMOD,
+OBL-H5-ZBAND and OBL-H5-REMOTE-THRESHOLD remain OPEN. The H5 rung certificates certify their own rungs
+and discharge nothing. The Stage-E reviews are same-program reviews at zero organizational-independence
+credit, their FAIL verdicts are on v2.0/v2.1 and are provenance rather than current authority, and no
+review route moves. `rnu_execute.py.txt` and the two zips are inert bytes: nothing was executed,
+nothing was extracted, no test, workflow step or import in this repository reads them, and no bound
+carrier was registered. No 2D upper object here is composed with the 3D SIDE24 track
+(CL-STATE-001: "3D — separate family … firewall holds"), and no original prize problem is touched.
+
+Reading copies (`exact: false`) are not the objects: the only non-exact entries in this directory are
+the derived `*.zip.members.txt` listings, which are written here and are not Drive objects. A PDF
+rendering of any of these documents would not be a frozen body either; the frozen body is the
+marker-delimited byte range of the object itself, under the rule its own lane names.
