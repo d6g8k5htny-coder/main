@@ -421,8 +421,11 @@ Lane `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE �
 INDEPENDENT TRACK` (295 items). Its status layer — the lane-root READ_FIRST, the
 six grading files of `00_CURRENT_STATE_AND_ROUTING/` and the Erdős 142 scope
 pointer — is mirrored byte-exact (inventory digests) under
-`drive/mirrors/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK/`.
-Every grade below is quoted from those bytes.
+`drive/mirrors/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK/`,
+and since 2026-09-19 so is every other raw file of the lane (236 files in all;
+the 19 zip carriers and the 3 quarantined items are tree-only rows and 9
+byte-identical duplicates are pointer rows). Every grade
+below is quoted from those bytes.
 
 * **The lane about itself** — `CURRENT_STATE_VERIFIED_INTAKE.json` (as of
   2026-09-16): `"track": "independent prize research"`,
