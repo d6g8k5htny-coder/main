@@ -70,7 +70,10 @@ claims are not yet transcribed here (`drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/
 Note the name collision: the RN-UNIF lane's "T4 push" (§3, `LANE_RN_UNIF.md`)
 is unrelated to the thematic track T4 (Lower Side). The `99_DO_NOT_OPEN` vault
 (6 inventory items: the folder and five native Docs) sits inside
-`01_ACTIVE_RESEARCH_PACKAGES` and is metadata only, never opened.
+`01_ACTIVE_RESEARCH_PACKAGES` and is metadata only, never opened; the manifest
+that describes it from outside (`00_DO_NOT_OPEN_MANIFEST`, at the lane root) is
+held as a reading copy under `drive/mirrors/01_ACTIVE_RESEARCH_PACKAGES — ROOT
+(the vault manifest)/` since 2026-09-19.
 
 ---
 

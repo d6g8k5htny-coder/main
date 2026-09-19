@@ -34,7 +34,8 @@ byte-exact under `drive/mirrors/05_FOUNDATIONS_AND_PROTOCOL_HISTORY — FRESH
 START 2.0/`; "Every rule below is a consequence of that sentence"). The
 03_PERSONAL zone notice repeats it, and the vault manifest
 `00_DO_NOT_OPEN_MANIFEST` (Drive `1tYi29H_hsTPwi2Tj75OlYiz8sGv2JJwGT_k7FyMgNd4`,
-outside the vault) carries it as a "Companion rule (Fresh Start 2.0)" with the
+outside the vault; a reading copy is held under `drive/mirrors/01_ACTIVE_RESEARCH_PACKAGES
+— ROOT (the vault manifest)/`) carries it as a "Companion rule (Fresh Start 2.0)" with the
 addition "Vault material is stronger than legacy: do not ask it questions
 either, except forensic recovery." Until 2026-09-18 this file attributed the
 sentence to the charter without a source; on 2026-09-18 it was re-attributed to

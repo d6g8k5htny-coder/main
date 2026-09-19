@@ -76,7 +76,10 @@ exclusion already named by Drive id, `CR-RNU-DS3-SCALAR-SUPERSEDED`
 The Drive's `99_DO_NOT_OPEN` vault is **not** mirrored. Only its metadata
 appears, in `drive/inventory.jsonl`. The standing order is that models must not
 open it for authority, proofs, certificates or "latest" status unless the
-operator names a vault ID for forensic recovery.
+operator names a vault ID for forensic recovery. The manifest that states that
+order and logs what was vaulted and why sits outside the vault and is held as a
+reading copy under `drive/mirrors/01_ACTIVE_RESEARCH_PACKAGES — ROOT (the vault
+manifest)/` (since 2026-09-19); holding it opens nothing.
 
 Every move in git is a commit, so every move has a rollback record. Nothing is
 deleted.
