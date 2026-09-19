@@ -42,9 +42,14 @@ empty-cell rule.
 
 ## Cross-register observations (recorded, not repaired)
 
-Contradictions between exported tabs, or between a tab and the Drive, that
-`tools/registers_check.py` cannot see because each row is well-formed on its
-own. The exports are not edited; these are for the owner to resolve at the
+Contradictions between exported tabs, or between a tab and the Drive, that no
+single-row rule of `tools/registers_check.py` can see. Since 2026-09-19 each of
+the five below is a record in `KNOWN_FINDINGS.json` (section
+`observations_cross_register`, ids `OBS-2026-09-19-01…05`) that names the cells,
+inventory rows and path-change rows it rests on, and the checker re-verifies
+every one of those bindings on every run, so an observation cannot outlive its
+evidence; each record carries a proposed repair for the owner and none is
+applied. The exports are not edited; these are for the owner to resolve at the
 source.
 
 * `consensus_ballot_retired` still names "Current governance | OP-PROT-009",
@@ -69,6 +74,26 @@ source.
 * One of the seventeen `legacy_primary_file_ids` of the Fresh Start 2.0
   allowlist (`1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc`) is absent from the
   2026-09-17 inventory.
+
+## Three tabs the checker never keyed (found 2026-09-19)
+
+`tools/registers_check.py` checked primary-key uniqueness in twelve tabs and
+never read the id column of `relations` (Relation ID), `review_ledger` (Review
+ID) or `definitions` (Definition ID). Keying them surfaced 14 duplicate keys
+that both exports had carried all along: eleven in `relations` (`REL-036…040`,
+`REL-048`, `REL-049`, `REL-132…134`, each id naming two different relations,
+and `REL-EC021-CLS141`, an exact duplicate row apart from its review date),
+two in `review_ledger` (`REV-P12-GP-006`, `REV-P02-GP-INTERVAL-001`, one
+review id over two exact objects each) and one in `definitions` (`DEF-049`,
+"Certified capture mass" and "Interval-certified degree-four corridor box").
+They are allowlisted row by row in `KNOWN_FINDINGS.json` section
+`findings_first_keyed_2026-09-19` and are **not yet covered by any collision
+proposal**: the 2026-09-18 proposal is frozen and the 2026-09-19 successor
+covers only the seven xlsx-first keys, so a further numbered successor is the
+place for these. `context_snapshot` (fifteen rows under two snapshot ids),
+`activity_log` (Artifact ID) and `alarms` (Reference ID) also repeat values in
+their id-like columns and are deliberately still unkeyed: those columns index
+events, not objects. Nothing has been repaired.
 
 ## The truncation defect of the markdown rendering
 

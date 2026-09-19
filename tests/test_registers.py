@@ -270,14 +270,15 @@ def dead_allowlist_entries(json_dir: str, known_path: str) -> list[str]:
 def test_every_allowlisted_finding_still_fires():
     """A finding that no longer fires has been repaired at the source and must
     leave the allowlist, so the allowlist cannot silently outgrow the defects.
-    All 23 entries are covered — the 16 of 'findings' and the 7 of
-    'findings_first_visible_in_2026-09-18_export' — because the set is read
-    with the checker's own loader, not from one section."""
+    All 37 entries are covered — the 16 of 'findings', the 7 of
+    'findings_first_visible_in_2026-09-18_export' and the 14 of
+    'findings_first_keyed_2026-09-19' — because the set is read with the
+    checker's own loader, not from one section."""
     assert dead_allowlist_entries(JSON_DIR, KNOWN) == []
     with open(KNOWN, encoding="utf-8") as f:
         known = json.load(f)
     assert known["source_export"] == os.path.relpath(SOURCE, ROOT)
-    assert len(RC.load_known(KNOWN)) == 23
+    assert len(RC.load_known(KNOWN)) == 37
     assert all(v.strip() for v in RC.load_known(KNOWN).values())
 
 
@@ -551,14 +552,23 @@ def test_every_findings_section_is_read_and_the_pending_section_says_why():
     with open(KNOWN, encoding="utf-8") as f:
         known = json.load(f)
     sections = [k for k, v in known.items() if k.startswith("findings") and isinstance(v, dict)]
-    assert sections == ["findings", "findings_first_visible_in_2026-09-18_export"]
+    assert sections == ["findings", "findings_first_visible_in_2026-09-18_export",
+                        "findings_first_keyed_2026-09-19"]
     assert len(known["findings"]) == 16
     assert len(known["findings_first_visible_in_2026-09-18_export"]) == 7
+    assert len(known["findings_first_keyed_2026-09-19"]) == 14
     assert set(RC.load_known(KNOWN)) == set(known["findings"]) | set(
-        known["findings_first_visible_in_2026-09-18_export"])
+        known["findings_first_visible_in_2026-09-18_export"]) | set(known["findings_first_keyed_2026-09-19"])
     note = known["_findings_first_visible_in_2026-09-18_export_note"]
     assert "COVERED BY THE NUMBERED SUCCESSOR PROPOSAL registers/collision_proposal_2026-09-19.json" in note
     assert "successor_of registers/collision_proposal.json" in note and "nothing has been repaired" in note
+    note3 = known["_findings_first_keyed_2026-09-19_note"]
+    assert "NOT YET COVERED BY ANY COLLISION PROPOSAL" in note3 and "Nothing has been repaired" in note3
+    # the third section is exactly what keying relations / review_ledger / definitions surfaces
+    keyed = {k for k in known["findings_first_keyed_2026-09-19"]}
+    assert {k.split(":")[0] for k in keyed} == {"relations", "review_ledger", "definitions"}
+    assert sum(k.startswith("relations:") for k in keyed) == 11
+    assert all(": duplicate key '" in k for k in keyed)
 
 
 def test_control_an_allowlist_section_that_is_not_a_mapping_is_refused(tmp_path):
@@ -711,3 +721,137 @@ def test_the_checkers_never_write_their_inputs():
     for cmd in ((IMPORTER, "--check"), (CHECKER,), (QCHECK,)):
         assert run(*cmd).returncode == 0
     assert {p: sha256(p) for p in before} == before
+
+
+# ---------------------------------------------------------------------------
+# the three tabs first keyed on 2026-09-19, and the bound cross-register observations
+# ---------------------------------------------------------------------------
+
+def _known_data():
+    with open(KNOWN, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _write_known_data(regs, data):
+    with open(regs.known, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False)
+
+
+def test_the_fourteen_keyed_findings_are_exactly_what_the_checker_reports_without_them(regs):
+    data = _known_data()
+    section = data.pop("findings_first_keyed_2026-09-19")
+    _write_known_data(regs, data)
+    rc, new = regs.new_problems()
+    assert rc == 1
+    assert sorted(l[len("NEW    "):] for l in new) == sorted(section)
+
+
+@pytest.mark.parametrize("tab,idcol", [("relations", "Relation ID"), ("review_ledger", "Review ID"),
+                                       ("definitions", "Definition ID")])
+def test_control_a_fresh_duplicate_in_a_newly_keyed_tab_is_new(regs, tab, idcol):
+    d = regs.tab(tab)
+    assert d["header"].index(idcol) == 0
+    d["rows"].append(list(d["rows"][0]))
+    regs.write_tab(tab, d)
+    rc, new = regs.new_problems()
+    key = d["rows"][0][0]
+    assert rc == 1 and any(f"{tab}: duplicate key {key!r}" in l for l in new)
+
+
+def test_observations_are_bound_and_the_checker_counts_them():
+    out = run(CHECKER)
+    assert out.returncode == 0
+    summary = out.stdout.strip().splitlines()[-1]
+    assert "observations=5 " in summary and "unbound=0" in summary
+    obs = RC.load_observations(KNOWN)
+    assert len(obs) == 5 and all(k.startswith("OBS-2026-09-19-") for k in obs)
+    kinds = {("tab" if "tab" in b else "inventory_id" if "inventory_id" in b else "path_change_id")
+             for rec in obs.values() for b in rec["bindings"]}
+    assert kinds == {"tab", "inventory_id", "path_change_id"}
+    for rec in obs.values():
+        assert rec["proposed_repair"].startswith(("Owner's call at the source", "Re-export"))
+        assert "Not applied here" in rec["proposed_repair"]
+        assert rec["does_not_establish"]
+    # the allowlist observation names all seventeen ids and binds sixteen present + one absent
+    five = obs["OBS-2026-09-19-05"]
+    ids = five["legacy_primary_file_ids_as_listed"]
+    assert len(ids) == 17 and len(set(ids)) == 17
+    bound = {b["inventory_id"] for b in five["bindings"] if "inventory_id" in b}
+    assert set(ids) <= bound
+    assert [b["inventory_id"] for b in five["bindings"] if b.get("absent")] == [
+        "1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc"]
+
+
+def test_control_a_drifted_cell_unbinds_its_observation(regs):
+    d = regs.tab("consensus_ballot_retired")
+    d["rows"][0][0] = "Historical governance"
+    regs.write_tab("consensus_ballot_retired", d)
+    rc, new = regs.new_problems()
+    assert rc == 1
+    assert any("OBS-2026-09-19-01" in l and "cell reads 'Historical governance'" in l for l in new)
+
+
+def test_control_a_cited_row_that_disappears_unbinds_its_observation(regs):
+    d = regs.tab("file_catalog")
+    del d["rows"][2879]
+    regs.write_tab("file_catalog", d)
+    rc, new = regs.new_problems()
+    assert rc == 1 and any("OBS-2026-09-19-04" in l and "cell reads" in l for l in new)
+
+
+def test_control_an_inventory_row_that_changes_unbinds_its_observation(regs, tmp_path):
+    inv = tmp_path / "inventory.jsonl"
+    with open(os.path.join(ROOT, "drive", "inventory.jsonl"), encoding="utf-8") as f, \
+            open(inv, "w", encoding="utf-8") as g:
+        for line in f:
+            row = json.loads(line)
+            if row["id"] == "1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA":
+                row["path"] = "01_ACTIVE_RESEARCH_PACKAGES/" + row["path"]
+            g.write(json.dumps(row, ensure_ascii=False) + "\n")
+    out = run(CHECKER, "--json-dir", regs.dir, "--known", regs.known, "--inventory", str(inv))
+    assert out.returncode == 1 and "OBS-2026-09-19-03" in out.stdout and "path reads" in out.stdout
+
+
+def test_control_the_absent_id_reappearing_unbinds_the_allowlist_observation(regs, tmp_path):
+    inv = tmp_path / "inventory.jsonl"
+    shutil.copyfile(os.path.join(ROOT, "drive", "inventory.jsonl"), inv)
+    with open(inv, "a", encoding="utf-8") as g:
+        g.write(json.dumps({"id": "1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc", "title": "x",
+                            "path": "x", "mimeType": "text/plain", "bytes": 1, "sha256": "0" * 64}) + "\n")
+    out = run(CHECKER, "--json-dir", regs.dir, "--known", regs.known, "--inventory", str(inv))
+    assert out.returncode == 1 and "OBS-2026-09-19-05" in out.stdout and "IS in the inventory" in out.stdout
+
+
+def test_control_a_path_change_that_disappears_unbinds_its_observation(regs, tmp_path):
+    pc = tmp_path / "PATH_CHANGES.jsonl"
+    pc.write_text("", encoding="utf-8")
+    out = run(CHECKER, "--json-dir", regs.dir, "--known", regs.known, "--path-changes", str(pc))
+    assert out.returncode == 1 and "OBS-2026-09-19-04" in out.stdout and "not in PATH_CHANGES" in out.stdout
+
+
+def test_control_an_observation_that_asserts_nothing_or_is_malformed_is_refused(regs):
+    data = _known_data()
+    data["observations_cross_register"]["OBS-X"] = {
+        "observation": "x", "proposed_repair": "x",
+        "bindings": [{"tab": "relations", "row": 0, "column": "Relation ID"}]}
+    _write_known_data(regs, data)
+    rc, new = regs.new_problems()
+    assert rc == 1 and any("OBS-X" in l and "asserts nothing" in l for l in new)
+    data["observations_cross_register"]["OBS-X"] = {"observation": "x", "bindings": []}
+    _write_known_data(regs, data)
+    with pytest.raises(ValueError):
+        RC.load_observations(regs.known)
+
+
+def test_control_observations_are_never_allowlisted_problem_strings(regs):
+    d = regs.tab("review_queue")
+    d["rows"].append(list(d["rows"][0]))
+    regs.write_tab("review_queue", d)
+    rc, new = regs.new_problems()
+    problem = new[0][len("NEW    "):]
+    data = _known_data()
+    data["observations_cross_register"][problem] = {
+        "observation": problem, "proposed_repair": "x",
+        "bindings": [{"tab": "review_queue", "row": 0, "column": "Technical status", "contains": ""}]}
+    _write_known_data(regs, data)
+    assert regs.run().returncode == 1

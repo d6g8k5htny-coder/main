@@ -30,5 +30,293 @@
   "artifact_index: duplicate key 'GP-REQ-194-v1.0' at rows 325 and 373": "Found 2026-09-18 in rows the markdown export never delivered: Artifact Index rows 325 and 373 declare GP-REQ-194-v1.0 for two DIFFERENT review requests — 'Joint Independent Review of Shared Taylor Transfer — P0.1-D and P02-LM-004' (2026-07-24T23:55:00Z, 'OPEN ASSIGNMENT / NO REVIEW CREDIT UNTIL EXECUTED') and 'Independent Source Review and Clean Lean Build of GP-FOR-192' (2026-07-25, 'OPEN ASSIGNMENT / RAW ZIP PRESENT / CLEAN BUILD REQUIRED'). A genuine identifier collision; the owner should issue a successor ID in the source workbook. Exported faithfully.",
   "artifact_index: duplicate key 'LS-MAN-045-v1.0' at rows 544 and 545": "Found 2026-09-18 in rows the markdown export never delivered: Artifact Index rows 544 and 545 both declare LS-MAN-045-v1.0 (Theorem B collision-safe same-run successor manifest), recorded at 2026-07-27T18:15:00Z ('CURRENT PACKAGE-STATE MANIFEST / ROOT NONE / SEALED NO') and again at 18:20:00Z ('... / FINAL 72 CHILDREN / ROOT NONE / SEALED NO'). Exported faithfully; flagged for owner disambiguation under OP-CNS-001 §2.",
   "evidence_lineage: duplicate key 'EV-LS-REQ030' at rows 385 and 386": "Found 2026-09-18 in rows the markdown export never delivered: Evidence Lineage rows 385 and 386 both declare EV-LS-REQ030 for exact object LS-REQ-030-v1.0 (same Drive ID and same code fixture digest ccf625dd…), recorded at 2026-07-27T18:15:00Z with role EXACT_REVIEW_REQUEST_FOR_LS_DER036 / Review ID DQ-057 / status 'PASS / OPEN REVIEW ROUTE' and at 18:20:00Z with role ORGANIZATIONALLY_DISTINCT_REVIEW_REQUEST / Review ID NONE / status 'PASS CONTENT BINDING / EXTERNAL REVIEW OPEN'. Exported faithfully; the owner should issue successor evidence IDs in the source workbook."
+ },
+ "_findings_first_keyed_2026-09-19_note": "The 14 entries under 'findings_first_keyed_2026-09-19' are duplicate primary keys in three id-bearing tabs (relations 11, review_ledger 2, definitions 1) that tools/registers_check.py had never keyed until 2026-09-19; they were present in both exports all along and invisible to the checker (a checker narrower than it read, recorded in docs/FINDINGS_2026-09-18.md §5). Row numbers are 0-based data-row indexes as the importer emits them. NOT YET COVERED BY ANY COLLISION PROPOSAL: registers/collision_proposal.json (2026-09-18, frozen) and registers/collision_proposal_2026-09-19.json cover the 'findings' and 'findings_first_visible_in_2026-09-18_export' sections respectively; a further numbered successor is the place for these fourteen. Nothing has been repaired; the exports are regenerated from registers/source/ and never hand-edited.",
+ "findings_first_keyed_2026-09-19": {
+  "definitions: duplicate key 'DEF-049' at rows 48 and 50": "Found 2026-09-19 when the definitions tab was first keyed (its Definition ID column was never read by the checker before). Row 48: Canonical term 'Certified capture mass'; Scope 'P0.1/P0.2 probability lower bounds'; Status 'ACTIVE'; Last reviewed '2026-07-22'. Row 50: Canonical term 'Interval-certified degree-four corridor box'; Scope 'Fixed field layer, chart, r, box, witness parameters, and implemented gate ledger'; Status 'ACTIVE-CANDIDATE'; Last reviewed '2026-07-22'. Two canonical terms under one definition id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-036' at rows 35 and 39": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 35: Source object 'File 4 Section 3.2 equations (3.1)–(3.4)'; Relation type 'DEFINES'; Target object 'Corrected six-pin pair frame'; Status 'ACTIVE'. Row 39: Source object 'GP-AUD-061-v1.0'; Relation type 'PROPOSES_AMENDMENT_TO'; Target object 'GP-DATA-054-v1.0 pairing instrument'; Status 'AUTHOR-REPAIR-CANDIDATE'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-037' at rows 36 and 40": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 36: Source object 'GP-DER-061-v1.0'; Relation type 'RECONSTRUCTS'; Target object 'Corrected six-pin pair frame'; Status 'ACTIVE-CANDIDATE'. Row 40: Source object 'GP-AUD-059-v1.0 amended author receipt'; Relation type 'AUTHOR_SELF_TESTS'; Target object 'GP-DATA-054-v1.1 claimed source'; Status 'AUTHOR-TEST-PASS / SOURCE-GATE-FAIL'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-038' at rows 37 and 41": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 37: Source object 'GP-DER-061-v1.0'; Relation type 'RESPONDS_TO'; Target object 'GP-REQ-057-v1.0'; Status 'ACTIVE'. Row 41: Source object 'GP-DATA-054-v1.1 failed staging capsule'; Relation type 'FAILS_PUBLICATION_GATE_FOR'; Target object 'GP-DATA-054-v1.1 claimed source'; Status 'ACTIVE-CRITICAL-BLOCKER'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-039' at rows 38 and 42": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 38: Source object 'EC-014'; Relation type 'REQUIRES_REVIEW_FROM'; Target object 'Two distinct lines among CL, AO48, CW/C047R'; Status 'OPEN-RESPONSE-REQUIRED'. Row 42: Source object 'GP-AUD-061-v1.0'; Relation type 'DISTINCT_FROM'; Target object 'GP-AUD-059-v1.0 amended author receipt'; Status 'ACTIVE-COLLISION-RESOLVED'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-040' at rows 43 and 44": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 43: Source object 'GP-DATA-054-v1.1 compressed capsule'; Relation type 'FAILS_PUBLICATION_GATE_FOR'; Target object 'GP-DATA-054-v1.1 claimed exact source'; Status 'ACTIVE-CRITICAL-BLOCKER'. Row 44: Source object 'GP-AUD-062-v1.0'; Relation type 'DISTINCT_FROM'; Target object 'GP-AUD-059-v1.0 amended 21-control receipt'; Status 'ACTIVE-COLLISION-RESOLVED'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-048' at rows 52 and 58": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 52: Source object 'CL-AUD-044-v1.0'; Relation type 'CORROBORATES'; Target object 'GP-DER-047-v1.0 deterministic layer'; Status 'ACTIVE'. Row 58: Source object 'CL-AUD-036-v1.0'; Relation type 'SATISFIES_CONDITION_OF'; Target object 'HA-006 conditional approval'; Status 'TERMINAL-CONDITION-SATISFIED'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-049' at rows 53 and 59": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 53: Source object 'CL-AUD-045-v1.0'; Relation type 'AUDITS'; Target object 'GP-DER-047-v1.0 dependency graph'; Status 'ACTIVE'. Row 59: Source object 'GP-CLS-BATCH-017-v1.0'; Relation type 'TERMINALLY_CLOSES'; Target object 'EC-005, EC-006, EC-007, EC-008, EC-010, EC-011, EC-012'; Status 'TERMINAL'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-132' at rows 138 and 141": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 138: Source object 'GP-CLS-PROP-019-v1.0'; Relation type 'PACKAGES_TERMINAL_RETIREMENT_FOR'; Target object 'EC-016'; Status 'ACTIVE-CONDITIONAL-PACKAGE'. Row 141: Source object 'GP-DER-106-v1.0'; Relation type 'IMPLEMENTS_ROUTE_B_OF'; Target object 'GP-REQ-105-v1.0'; Status 'ACTIVE-COMPONENT'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-133' at rows 139 and 142": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 139: Source object 'GP-CLS-PROP-019-v1.0'; Relation type 'REQUESTS_REVIEW_FROM'; Target object 'AO48 or CW/C047R'; Status 'OPEN-RESPONSE-REQUIRED'. Row 142: Source object 'GP-AUD-107-v1.0'; Relation type 'VERIFIES_EXECUTION_OF'; Target object 'GP-DATA-106-v1.0'; Status 'ACTIVE-GP-SIDE-PASS'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-134' at rows 140 and 143": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Row 140: Source object 'GP-CLS-PROP-019-v1.0'; Relation type 'REQUIRES_HUMAN_APPROVAL_FROM'; Target object 'Dylan M. Roy after EC-016 outside scope review'; Status 'OPEN-HUMAN-GATE-AFTER-TECHNICAL'. Row 143: Source object 'P01-ROUTEB-D4-BOX-001'; Relation type 'REQUIRES_REMAINING'; Target object 'Outside interval review, rigorous exact-law Palm mass, exact-field transfer, and r-interval continuation'; Status 'OPEN-MATERIAL-GATES'. Two different relations under one id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "relations: duplicate key 'REL-EC021-CLS141' at rows 232 and 235": "Found 2026-09-19 when the relations tab was first keyed by tools/registers_check.py (until then no checker read its Relation ID column). Rows 232 and 235 are identical apart from Last reviewed (Last reviewed '2026-07-23' vs Last reviewed '2026-07-22'): an exact duplicate row. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "review_ledger: duplicate key 'REV-P12-GP-006' at rows 15 and 17": "Found 2026-09-19 when the review_ledger tab was first keyed (its Review ID column was never read by the checker before). Row 15: Recorded UTC '2026-07-21T19:00:00Z'; Exact Object ID 'EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_CURRENT_7F_SOURCE'; Reviewer Line 'GP'; Review Role 'SAME-LINE CURRENT-SOURCE ADVERSARIAL EXECUTION'. Row 17: Recorded UTC '2026-07-21T19:00:00Z'; Exact Object ID 'EXACT_FIELD_PAIRING_INSTRUMENT_GP_DATA_054_V1_1'; Reviewer Line 'GP'; Review Role 'AUTHOR AMENDMENT AND 21-CONTROL EXECUTION'. Two reviews of two different exact objects under one review id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired.",
+  "review_ledger: duplicate key 'REV-P02-GP-INTERVAL-001' at rows 19 and 21": "Found 2026-09-19 when the review_ledger tab was first keyed (its Review ID column was never read by the checker before). Row 19: Recorded UTC '2026-07-21T19:55:00Z'; Exact Object ID 'ADJACENCY_TO_ONE_CUBIC_TYPED_MS'; Reviewer Line 'GP'; Review Role 'AUTHOR-LINE EXACT-RATIONAL CERTIFICATE RESPONSE'. Row 21: Recorded UTC '2026-07-21T19:55:00Z'; Exact Object ID 'P02_DETERMINISTIC_INTERVAL_CERTIFICATE'; Reviewer Line 'GP'; Review Role 'INDEPENDENT IMPLEMENTATION / AUTHOR-LINE COMPONENT EXECUTION'. Two reviews of two different exact objects under one review id. Exported faithfully; OP-CNS-001 §2 requires collisions to be preserved and disambiguated in an append-only collision registry, not merged. Not yet covered by any collision proposal; nothing has been repaired."
+ },
+ "_observations_cross_register_note": "Contradictions between exported tabs, or between a tab and the Drive source map, that no single-row rule of tools/registers_check.py can see. Each record quotes the cells, inventory rows and path-change rows it rests on under 'bindings', and the checker re-verifies every binding on every run (a drifted binding is a NEW problem), so an observation can never outlive its evidence. 'proposed_repair' is a proposal for the owner to apply at the source; nothing here is applied, and this section's name does not begin with 'findings', so nothing in it is ever an allowlisted problem string. Recorded 2026-09-19 from registers/README.md, where they were prose only.",
+ "observations_cross_register": {
+  "OBS-2026-09-19-01": {
+   "observation": "consensus_ballot_retired names OP-PROT-009 as 'Current governance' while operator_decisions says OP-PROT-009 has no current governing force and the Drive object is titled HISTORICAL. The tab's own header says the ballot matrix is retired.",
+   "bindings": [
+    {
+     "tab": "consensus_ballot_retired",
+     "row": 0,
+     "column": "RETIRED — NO-VOTE MODEL",
+     "equals": "Current governance"
+    },
+    {
+     "tab": "consensus_ballot_retired",
+     "row": 0,
+     "column": "This former ballot matrix is retired. Revision history preserves prior tallies; no vote, roster, majority, observer, or nonparticipating status has live force.",
+     "contains": "OP-PROT-009 — https://docs.google.com/document/d/14OVEohCjEWMR2uHFXB2fQABIaUsU6EhXIZebpM6Qbfs"
+    },
+    {
+     "tab": "operator_decisions",
+     "row": 24,
+     "column": "Decision ID",
+     "equals": "OD-OP-PROT-010-001"
+    },
+    {
+     "tab": "operator_decisions",
+     "row": 24,
+     "column": "Notes",
+     "contains": "OP-PROT-010, OP-PROT-009, and OP-GDN-007 have no current governing force"
+    },
+    {
+     "tab": "operator_decisions",
+     "row": 25,
+     "column": "Decision ID",
+     "equals": "OD-NOVOTE-20260724-001"
+    },
+    {
+     "tab": "operator_decisions",
+     "row": 25,
+     "column": "Drive ID",
+     "equals": "14OVEohCjEWMR2uHFXB2fQABIaUsU6EhXIZebpM6Qbfs"
+    },
+    {
+     "tab": "operator_decisions",
+     "row": 25,
+     "column": "Notes",
+     "contains": "Superseded for current governance by OP-PROT-011"
+    },
+    {
+     "inventory_id": "14OVEohCjEWMR2uHFXB2fQABIaUsU6EhXIZebpM6Qbfs",
+     "title": "HISTORICAL — OP-PROT-009 — No-Vote Mandate"
+    }
+   ],
+   "proposed_repair": "Owner's call at the source: replace the 'Current governance' cell of the retired ballot tab with the governing protocol the register elsewhere names (OP-PROT-019-v1.1 under R17; the two operator_decisions rows themselves point to OP-PROT-011 as of 2026-07-24), or mark the whole tab HISTORICAL. Not applied here.",
+   "does_not_establish": "Which protocol governs is not decided by this record; OP-PROT-019-v1.1 (R17) is the control plane the export names and the register rows are quoted as they stand."
+  },
+  "OBS-2026-09-19-02": {
+   "observation": "'OP-PROT-003' denotes two Drive objects: the operator operating-philosophy relay (a digest-bearing markdown file in the canon lane's Cross-Model Exchange folder, held byte-exact under governance/protocols/history/) and a native Doc titled 'OP-PROT-003 — Superseded Majority-Rule Record and Review Guidance' in the Fresh Start 2.0 archive; relations row REL-OPP008-002 links the latter as the ballot-governing protocol.",
+   "bindings": [
+    {
+     "inventory_id": "1pEGZoTdCUe9hu5tE_O8nY2N84STQNXhQ",
+     "title": "OP-PROT-003 — OPERATOR OPERATING PHILOSOPHY: close easiest items first, retire settled facts permanently (verbatim relay)",
+     "sha256": "63c69551f2bb64df3d39dd5a4bc7f20336f5f1ff6cd55bb1b95c2649c1e1200d",
+     "bytes": 4702
+    },
+    {
+     "inventory_id": "1pVAG4d0h7kPv0dA0BM_yuWL3gDrrIAjpI1uhTQoAHP0",
+     "title": "OP-PROT-003 — Superseded Majority-Rule Record and Review Guidance",
+     "access_status": "DIRECT_NATIVE"
+    },
+    {
+     "tab": "relations",
+     "row": 256,
+     "column": "Relation ID",
+     "equals": "REL-OPP008-002"
+    },
+    {
+     "tab": "relations",
+     "row": 256,
+     "column": "Source object",
+     "equals": "OP-PROT-003"
+    },
+    {
+     "tab": "relations",
+     "row": 256,
+     "column": "Relation type",
+     "equals": "GOVERNS_BALLOT_OF"
+    },
+    {
+     "tab": "relations",
+     "row": 256,
+     "column": "Source URL",
+     "contains": "1pVAG4d0h7kPv0dA0BM_yuWL3gDrrIAjpI1uhTQoAHP0"
+    }
+   ],
+   "proposed_repair": "Owner's call at the source: give the two objects distinct identifiers in the artifact index (a suffix or a renumbering) and have REL-OPP008-002 name its source by Drive id. Not applied here; governance/protocols/history/README.md and governance/README.md already disambiguate by Drive id.",
+   "does_not_establish": "Neither object is promoted or demoted; both are historical under R17 and are quoted as titled."
+  },
+  "OBS-2026-09-19-03": {
+   "observation": "relations rows REL-036 (Status ACTIVE, 'Primary formula evidence') and REL-087 (ACTIVE-CANDIDATE / REVIEW-OPEN, 'Exact definition-level law identification') cite as source the PDF 'AClaude File 4 of 6 07-05-2026 File4 Pinning Lemma Pair Palm.pdf', whose 2026-09-17 inventory path begins 02_LEGACY_Q0_ARCHIVE — a lane CLAUDE.md rule 10 gives zero evidentiary authority. The rows are dated 2026-07-21 and predate the object's current placement; no claim, module or graph node in this repository cites it.",
+   "bindings": [
+    {
+     "tab": "relations",
+     "row": 35,
+     "column": "Relation ID",
+     "equals": "REL-036"
+    },
+    {
+     "tab": "relations",
+     "row": 35,
+     "column": "Status",
+     "equals": "ACTIVE"
+    },
+    {
+     "tab": "relations",
+     "row": 35,
+     "column": "Evidentiary effect",
+     "equals": "Primary formula evidence"
+    },
+    {
+     "tab": "relations",
+     "row": 35,
+     "column": "Source URL",
+     "contains": "1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA"
+    },
+    {
+     "tab": "relations",
+     "row": 93,
+     "column": "Relation ID",
+     "equals": "REL-087"
+    },
+    {
+     "tab": "relations",
+     "row": 93,
+     "column": "Status",
+     "equals": "ACTIVE-CANDIDATE / REVIEW-OPEN"
+    },
+    {
+     "tab": "relations",
+     "row": 93,
+     "column": "Evidentiary effect",
+     "equals": "Exact definition-level law identification"
+    },
+    {
+     "tab": "relations",
+     "row": 93,
+     "column": "Source URL",
+     "contains": "1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA"
+    },
+    {
+     "inventory_id": "1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA",
+     "title": "AClaude File 4 of 6 07-05-2026 File4 Pinning Lemma Pair Palm.pdf",
+     "path_prefix": "02_LEGACY_Q0_ARCHIVE"
+    }
+   ],
+   "proposed_repair": "Owner's call at the source: either the object's placement under 02_LEGACY_Q0_ARCHIVE or the two rows' evidentiary-effect labels is out of date; re-route the rows to a non-legacy source or move the object, and re-export. Not applied here; the repository cites the object nowhere.",
+   "does_not_establish": "Nothing about the correctness of File 4 or of the relations; only that the two records disagree about its standing."
+  },
+  "OBS-2026-09-19-04": {
+   "observation": "file_catalog carries the title '00_READ ME + MASTER INDEX — single triage inbox (CL, 2026-07-22).md' for Drive id 1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp; the Drive renamed the object 90_HISTORICAL_TRIAGE_MIGRATION_INDEX_2026-07-22.md after the snapshot (bytes unchanged).",
+   "bindings": [
+    {
+     "tab": "file_catalog",
+     "row": 2879,
+     "column": "Drive ID",
+     "equals": "1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp"
+    },
+    {
+     "tab": "file_catalog",
+     "row": 2879,
+     "column": "Title",
+     "equals": "00_READ ME + MASTER INDEX — single triage inbox (CL, 2026-07-22).md"
+    },
+    {
+     "inventory_id": "1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp",
+     "title": "00_READ ME + MASTER INDEX — single triage inbox (CL, 2026-07-22).md",
+     "sha256": "999c1400cb42580aa58a4166f26b6ed7f124aec718acf94674758da03ef4d616"
+    },
+    {
+     "path_change_id": "1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp",
+     "path_2026_09_18": "90_QUARANTINE_AND_TRIAGE — NONAUTHORITATIVE/90_HISTORICAL_TRIAGE_MIGRATION_INDEX_2026-07-22.md",
+     "sha256": "999c1400cb42580aa58a4166f26b6ed7f124aec718acf94674758da03ef4d616"
+    }
+   ],
+   "proposed_repair": "Re-export file_catalog after the 2026-09-18 restructure so the title column follows the Drive; until then drive/deltas/2026-09-18/PATH_CHANGES.jsonl carries the move and tools/drive_index.py overlays it. Not applied here.",
+   "does_not_establish": "Nothing about the content of the index; the bytes are the same under both names."
+  },
+  "OBS-2026-09-19-05": {
+   "observation": "One of the seventeen legacy_primary_file_ids of FS2_ACTIVE_AUTHORITY_ALLOWLIST_v2.0.json (1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc) is absent from the 2026-09-17 inventory; the other sixteen are present. The allowlist itself lists 'SHA256_OF_LEGACY_FILES_NOT_COMPUTED' among its blockers and counts legacy_primary_files 17. (Bytes read through the Drive connector on 2026-09-19 and found equal to the inventory digest; the file is not yet mirrored in this repository.)",
+   "bindings": [
+    {
+     "inventory_id": "170mdChME8rZe4U7BB1jnMah_yyjn5Mkr",
+     "title": "FS2_ACTIVE_AUTHORITY_ALLOWLIST_v2.0.json",
+     "bytes": 6715,
+     "sha256": "9e0d36f1d6dbde5d5e2d1246efa66c7430a769303e6d54d2cf6b6074ba4c1fcc"
+    },
+    {
+     "inventory_id": "1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc",
+     "absent": true
+    },
+    {
+     "inventory_id": "1riI_sT5mMqhMWd2Rq9AOsGwr8IA7fNkU"
+    },
+    {
+     "inventory_id": "1-hIszDDWnQ1MMTZ2ZgUkX415Z68kQ_qqVmpgzJpgewA"
+    },
+    {
+     "inventory_id": "1vD2odTaHdc0L97HYxGYK_2BHYgDtU01M"
+    },
+    {
+     "inventory_id": "12PnxMu0Cr3oqPlV1fAr8hZ3jBdFgl1XA_Jp2NNbiXmQ"
+    },
+    {
+     "inventory_id": "1-taYy6fRaZV1eg-gU9_fU0rJyWn6oGRT0y46bU-mqYc"
+    },
+    {
+     "inventory_id": "1EMfkX4RmXvsAjRd8xl2DTgBDpM7Fjhr4"
+    },
+    {
+     "inventory_id": "1kK5ln6ZB3xM3dxst6Gg4mLGxw7BjB9abY_t8tEZ_KbE"
+    },
+    {
+     "inventory_id": "1-LQTMjclybn3p3SLyRWk6EfJYkydgZvAXZnwXr9HL14"
+    },
+    {
+     "inventory_id": "1Cdi88eYQmhcg9wZzLUPX63LGYf3Yai_UEdkIcqKaSM4"
+    },
+    {
+     "inventory_id": "1Rcj6ANOhHE9RBAKAEUZ6XcMyIb6OEAT28304x1siqR4"
+    },
+    {
+     "inventory_id": "1Cy6QOorYWEG6BxDlfAjclTUeoHp-CgUjuMky8SAZO8s"
+    },
+    {
+     "inventory_id": "1ay-r5OAAbkVLETxI5aSggLYGLWkvYJO9QCHOx623J3E"
+    },
+    {
+     "inventory_id": "1_oAgiEds7wGnUXF5DYXrqVU-eCmVfVYw"
+    },
+    {
+     "inventory_id": "1stss-v0TS3LiRwlhp0Tbbe7_wR90DeGD"
+    },
+    {
+     "inventory_id": "1F6CKEgEHqkDnjZsShEUm3tM_-WD88rlixsJaepNbRXY"
+    },
+    {
+     "inventory_id": "1oJ_8RsVNZ5MYWDcgaEfTgy5GLc2FEohZ"
+    }
+   ],
+   "legacy_primary_file_ids_as_listed": [
+    "1riI_sT5mMqhMWd2Rq9AOsGwr8IA7fNkU",
+    "1-hIszDDWnQ1MMTZ2ZgUkX415Z68kQ_qqVmpgzJpgewA",
+    "1vD2odTaHdc0L97HYxGYK_2BHYgDtU01M",
+    "12PnxMu0Cr3oqPlV1fAr8hZ3jBdFgl1XA_Jp2NNbiXmQ",
+    "1-taYy6fRaZV1eg-gU9_fU0rJyWn6oGRT0y46bU-mqYc",
+    "1EMfkX4RmXvsAjRd8xl2DTgBDpM7Fjhr4",
+    "1kK5ln6ZB3xM3dxst6Gg4mLGxw7BjB9abY_t8tEZ_KbE",
+    "1-LQTMjclybn3p3SLyRWk6EfJYkydgZvAXZnwXr9HL14",
+    "1Cdi88eYQmhcg9wZzLUPX63LGYf3Yai_UEdkIcqKaSM4",
+    "1Rcj6ANOhHE9RBAKAEUZ6XcMyIb6OEAT28304x1siqR4",
+    "1Cy6QOorYWEG6BxDlfAjclTUeoHp-CgUjuMky8SAZO8s",
+    "1ay-r5OAAbkVLETxI5aSggLYGLWkvYJO9QCHOx623J3E",
+    "1_oAgiEds7wGnUXF5DYXrqVU-eCmVfVYw",
+    "1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc",
+    "1stss-v0TS3LiRwlhp0Tbbe7_wR90DeGD",
+    "1F6CKEgEHqkDnjZsShEUm3tM_-WD88rlixsJaepNbRXY",
+    "1oJ_8RsVNZ5MYWDcgaEfTgy5GLc2FEohZ"
+   ],
+   "proposed_repair": "Owner's call at the source: determine whether the object was deleted, moved outside the share or re-created under a new id, and either restore it to the census or record its loss in the allowlist's successor. Not applied here.",
+   "does_not_establish": "Nothing about the sixteen present objects, which keep zero evidentiary authority under the allowlist and CLAUDE.md rule 10."
+  }
  }
 }

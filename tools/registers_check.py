@@ -8,7 +8,14 @@ OP-GDN-002) place on the coupled registers, expressed as machine checks:
 * primary keys in key-bearing tabs are unique (review_queue, frozen_objects,
   closure_log, work_events, quarantine_index, dispatch_queue, artifact_index,
   evidence_lineage, transition_log, operator_decisions, reusable_operations,
-  operation_trials);
+  operation_trials, and since 2026-09-19 relations, review_ledger and
+  definitions — three id-bearing tabs the checker had never keyed, which
+  carry 14 duplicate keys between them);
+* every cross-register observation recorded in KNOWN_FINDINGS.json (section
+  ``observations_cross_register``: contradictions between tabs, or between a
+  tab and the Drive source map, that no single-row rule can see) is still
+  bound to the cells, inventory rows and path changes it cites — an
+  observation whose evidence has drifted is a NEW problem;
 * frozen_objects rows that declare a 64-hex SHA-256 have a positive byte count;
 * review_queue rows carry one of the R17 technical statuses;
 * quarantine_index classes are from the R17 classification table;
@@ -21,8 +28,11 @@ and does not fail the run: that file records defects that exist in the SOURCE
 workbook, which is never edited here. Anything else is NEW and fails the run.
 
 Run:  python3 tools/registers_check.py [--json-dir DIR] [--known PATH]
-The two flags exist so tests can point the checker at a mutated copy; the
-defaults are the committed registers and allowlist.
+                                       [--inventory PATH] [--path-changes PATH]
+The flags exist so tests can point the checker at a mutated copy; the
+defaults are the committed registers, allowlist, inventory and path-change
+delta. Neither the observations nor the findings repair anything: the export
+is regenerated from registers/source/ and never hand-edited.
 """
 from __future__ import annotations
 
@@ -35,6 +45,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 JSON_DIR = os.path.join(ROOT, "registers", "json")
 KNOWN_PATH = os.path.join(ROOT, "registers", "KNOWN_FINDINGS.json")
+INVENTORY_PATH = os.path.join(ROOT, "drive", "inventory.jsonl")
+PATH_CHANGES_PATH = os.path.join(ROOT, "drive", "deltas", "2026-09-18", "PATH_CHANGES.jsonl")
+OBSERVATIONS_SECTION = "observations_cross_register"
 
 R17_TECH_STATUS = {"READY", "IN_REVIEW", "PASS_TECHNICAL", "AMEND", "FAIL",
                    "CANNOT_VERIFY", "NEEDS_RECONCILIATION"}
@@ -46,6 +59,8 @@ KEYED = {
     "quarantine_index": 0, "dispatch_queue": 1, "artifact_index": 0,
     "evidence_lineage": 0, "transition_log": 0, "operator_decisions": 0,
     "reusable_operations": 0, "operation_trials": 0,
+    # keyed since 2026-09-19; until then their duplicate ids were invisible here
+    "relations": 0, "review_ledger": 0, "definitions": 0,
 }
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -125,18 +140,132 @@ def check(json_dir: str) -> tuple[list[str], int]:
     return problems, len(names)
 
 
+def load_observations(path: str) -> dict[str, dict]:
+    """The ``observations_cross_register`` section of KNOWN_FINDINGS.json: a
+    mapping of observation id to a record carrying ``observation`` (text),
+    ``bindings`` (the cells, inventory rows and path changes it cites) and
+    ``proposed_repair``. The section name does not begin with ``findings``,
+    so nothing in it is ever treated as an allowlisted problem string."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    obs = data.get(OBSERVATIONS_SECTION, {})
+    if not isinstance(obs, dict):
+        raise ValueError(f"{path}: section {OBSERVATIONS_SECTION!r} is not a mapping")
+    for oid, rec in obs.items():
+        if not isinstance(rec, dict) or not isinstance(rec.get("bindings"), list) or not rec["bindings"] \
+                or not isinstance(rec.get("observation"), str) or not isinstance(rec.get("proposed_repair"), str):
+            raise ValueError(f"{path}: observation {oid!r} lacks observation text, a non-empty bindings list "
+                             f"or a proposed_repair")
+    return obs
+
+
+def _jsonl_index(path: str) -> dict[str, dict]:
+    out: dict[str, dict] = {}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    row = json.loads(line)
+                    out[row["id"]] = row
+    return out
+
+
+def check_observations(obs: dict[str, dict], json_dir: str, inventory_path: str,
+                       path_changes_path: str) -> tuple[list[str], int]:
+    """Return (problem strings, number of bindings checked). A binding is one of
+
+    {"tab", "row", "column", "equals" | "contains"}   a cell of registers/json
+    {"inventory_id", ...fields}                        a drive/inventory.jsonl row whose
+                                                       named fields equal (or, for
+                                                       "path_prefix", begin with) the value
+    {"inventory_id", "absent": true}                   the id is NOT in the inventory
+    {"path_change_id", ...fields}                      a PATH_CHANGES.jsonl row, fields equal
+
+    Every failure names the observation and the binding, so a drift in the
+    exported registers or the source map cannot leave a stale observation
+    standing."""
+    problems: list[str] = []
+    inv = _jsonl_index(inventory_path)
+    pc = _jsonl_index(path_changes_path)
+    tabs: dict[str, dict] = {}
+    n = 0
+    for oid, rec in obs.items():
+        for b in rec["bindings"]:
+            n += 1
+            where = f"{OBSERVATIONS_SECTION}: {oid} binding {json.dumps(b, ensure_ascii=False)}"
+            if "tab" in b:
+                name = b["tab"]
+                try:
+                    tab = tabs.setdefault(name, load(name, json_dir))
+                except FileNotFoundError:
+                    problems.append(f"{where}: tab {name!r} not exported")
+                    continue
+                header, rows = tab["header"], tab["rows"]
+                if b["column"] not in header:
+                    problems.append(f"{where}: no column {b['column']!r}")
+                    continue
+                col = header.index(b["column"])
+                if not (0 <= b["row"] < len(rows)) or col >= len(rows[b["row"]]):
+                    problems.append(f"{where}: row {b['row']} has no such cell")
+                    continue
+                cell = rows[b["row"]][col]
+                if "equals" in b and cell != b["equals"]:
+                    problems.append(f"{where}: cell reads {cell!r}")
+                if "contains" in b and b["contains"] not in str(cell):
+                    problems.append(f"{where}: cell reads {cell!r}")
+                if "equals" not in b and "contains" not in b:
+                    problems.append(f"{where}: binding asserts nothing")
+            elif "inventory_id" in b:
+                row = inv.get(b["inventory_id"])
+                if b.get("absent"):
+                    if row is not None:
+                        problems.append(f"{where}: id IS in the inventory ({row.get('title')!r})")
+                    continue
+                if row is None:
+                    problems.append(f"{where}: id not in the inventory")
+                    continue
+                for k, v in b.items():
+                    if k == "inventory_id":
+                        continue
+                    if k == "path_prefix":
+                        if not str(row.get("path", "")).startswith(v):
+                            problems.append(f"{where}: path reads {row.get('path')!r}")
+                    elif row.get(k) != v:
+                        problems.append(f"{where}: {k} reads {row.get(k)!r}")
+            elif "path_change_id" in b:
+                row = pc.get(b["path_change_id"])
+                if row is None:
+                    problems.append(f"{where}: id not in PATH_CHANGES")
+                    continue
+                for k, v in b.items():
+                    if k != "path_change_id" and row.get(k) != v:
+                        problems.append(f"{where}: {k} reads {row.get(k)!r}")
+            else:
+                problems.append(f"{where}: unknown binding kind")
+    return problems, n
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--json-dir", default=JSON_DIR, help="directory of <tab>.json files to check")
     ap.add_argument("--known", default=KNOWN_PATH, help="allowlist of exact problem strings")
+    ap.add_argument("--inventory", default=INVENTORY_PATH, help="drive/inventory.jsonl the observations cite")
+    ap.add_argument("--path-changes", default=PATH_CHANGES_PATH, help="PATH_CHANGES.jsonl the observations cite")
     args = ap.parse_args(argv)
     problems, ntabs = check(args.json_dir)
     known = load_known(args.known)
     new = [p for p in problems if p not in known]
     for p in problems:
         print(("KNOWN  " if p in known else "NEW    ") + p)
-    print(f"tabs={ntabs} problems={len(problems)} known={len(problems) - len(new)} new={len(new)}")
-    return 1 if new else 0
+    obs = load_observations(args.known)
+    obs_problems, nbind = check_observations(obs, args.json_dir, args.inventory, args.path_changes)
+    for p in obs_problems:
+        print("NEW    " + p)
+    print(f"tabs={ntabs} problems={len(problems)} known={len(problems) - len(new)} new={len(new)} "
+          f"observations={len(obs)} bindings={nbind} unbound={len(obs_problems)}")
+    return 1 if new or obs_problems else 0
 
 
 if __name__ == "__main__":
