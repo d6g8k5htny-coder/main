@@ -86,8 +86,12 @@ jobs:
                  exit 1; }
           echo "ok: claims/, engine/lanes/, registers/ and drive/ are untouched"
 
-      - name: Lane invariants, if the checker has landed
-        run: test -f tools/lanes_check.py && python tools/lanes_check.py || echo "skipped"
+      - name: Lane invariants
+        # Until 2026-09-19 this step read
+        #   test -f tools/lanes_check.py && python tools/lanes_check.py || echo "skipped"
+        # which turned a lanes_check failure into a green "skipped".
+        # tests/test_workflows.py refuses that shape in every workflow step.
+        run: python tools/lanes_check.py
 
       - name: Claim-graph firewalls
         run: python tools/claims_check.py
