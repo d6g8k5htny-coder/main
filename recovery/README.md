@@ -29,11 +29,15 @@ Every blob carries its own digest in its filename
 
 ## Result
 
-| Outcome | Count |
+| Outcome | Count (current record per exception) |
 |---|---:|
-| RECOVERED (digest corroborated) | 13 |
-| CANDIDATE (digest **not** corroborated) | 3 |
+| RECOVERED (digest corroborated) | 15 |
+| CANDIDATE (digest **not** corroborated) | 1 |
 | UNRECOVERABLE | 15 |
+
+31 exceptions, 34 records: on 2026-09-19 three **successor records**
+(`ENB-04-S1`, `RDF-01-S1`, `RDF-02-S1`) replaced their predecessors' outcomes
+without editing them (below). Until then the table read 13 / 3 / 15.
 
 The distinction between the first two rows is the point of the whole exercise. A
 recovery is bytes that reproduce a digest the corpus states. Everything else is a
@@ -68,11 +72,40 @@ SHA-256. The two blocks that still fail are the two the carrier itself marks
 `FAILED / DO NOT USE`, and this pass measured their defects independently —
 including the two missing characters `zM` the carrier's erratum names.
 
-Three of the five `READ_FAILED` members and one `ARCHIVE_READ_FAILURE` were
-recovered byte-exactly from mirror carriers and published reading copies. The
-ledger's `findings` section records four further byte-level observations,
-including a case where the published reading copy and the carrier's own declared
-identity are **different bytes** for the same declared artifact.
+All five of the `READ_FAILED` members and one `ARCHIVE_READ_FAILURE` were
+recovered byte-exactly from mirror carriers and published reading copies —
+three on 2026-09-18, and the two Markdown members on 2026-09-19 once the
+reading volumes' undeclared display rule was found: **every blank line is shown
+twice** (a run of *k* newlines is displayed as 2*k*−1). Halving each run of blank
+lines in the 2026-09-18 candidate bytes reproduces both declared digests
+exactly; the three plain-text members have no blank line, which is why the
+earlier rule was already exact for them. The candidate blobs stay under
+`candidates/` as the record of what the display copies contained. The ledger's
+`findings` section records the byte-level observations, including a case where
+the published reading copy and the carrier's own declared identity are
+**different bytes** for the same declared artifact.
+
+The `LS-DATA-013-v1.0` capsule (`ENB-04`) remains **UNRECOVERABLE** — its native
+body is still a BOM and no revision exists — but the 2026-09-18 pass had searched
+the member index by the wrong names. Searched by its own identifier, the index
+holds the verifier release 1.2.1 the capsule packaged and that verifier's report,
+in two carriers; both were extracted from a fresh, digest-verified download of
+`CLOSE-20260917-b9c2_PROOFS_CODE_AND_VERIFICATION.zip` (mirrored byte-exact
+under `drive/mirrors/`), corroborated against the source map's digests, and
+stored as **related artifacts** of `ENB-04-S1`. The verifier is bytes in this
+store, not code the repository runs.
+
+### Successors, never edits
+
+A record is never edited in place. A later finding on the same exception is a
+numbered successor (`<id>-S<n>`) whose `supersedes` field pins the predecessor's
+canonical SHA-256; `tools/recovery_check.py` recomputes the pin, refuses a second
+successor of the same record, and re-tallies `counts.by_outcome` and
+`counts.exception_records` over the current record of each exception, so a
+successor cannot be counted as a new exception and a superseded record cannot be
+quietly rewritten. `tests/test_recovery.py` recomputes the two Markdown
+recoveries from the candidate bytes and the two verifier members from the
+mirrored carrier.
 
 Those findings are offered as facts about bytes. They are not verdicts.
 

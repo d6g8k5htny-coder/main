@@ -545,6 +545,91 @@ def test_k3_assembly_is_filed_with_the_lower_campaign_and_names_its_carriers():
         assert fid in node["source"] and inv[fid]["sha256"] in node["source"]
 
 
+def _side24_mismatches(g):
+    """Field-for-field binding of the SIDE24 3D node to the operator_decisions
+    register row, the inventory row and the mirrored record bytes."""
+    import hashlib as _h
+    import json as _json
+    out = []
+    node = g["claims"]["SIDE24-3D-AO48-OPR-045"]
+    od = _json.load(open(os.path.join(ROOT, "registers", "json", "operator_decisions.json"), encoding="utf-8"))
+    row = [r for r in od["rows"] if r[0] == "AO48-OPR-045"][0]
+    if node.get("register_status") != row[5]:
+        out.append(("register_status", node.get("register_status"), row[5]))
+    if node.get("drive_id") != row[3]:
+        out.append(("drive_id", node.get("drive_id"), row[3]))
+    if row[7] != "Dylan Roy" or "Dylan Roy" not in node.get("operator_verbatim", ""):
+        out.append(("operator", node.get("operator_verbatim"), row[7]))
+    inv = {}
+    with open(os.path.join(ROOT, "drive", "inventory.jsonl"), encoding="utf-8") as f:
+        for line in f:
+            r = _json.loads(line); inv[r["id"]] = r
+    r = inv[row[3]]
+    if node.get("body_sha256") != r["sha256"] or node.get("body_bytes") != r["bytes"]:
+        out.append(("body", (node.get("body_sha256"), node.get("body_bytes")), (r["sha256"], r["bytes"])))
+    if row[3] not in node["source"] or r["sha256"] not in node["source"]:
+        out.append(("source", node["source"], (row[3], r["sha256"])))
+    mp = os.path.join(ROOT, node.get("mirror_path", ""))
+    if not os.path.isfile(mp):
+        out.append(("mirror_path", node.get("mirror_path"), "missing"))
+    else:
+        b = open(mp, "rb").read()
+        if _h.sha256(b).hexdigest() != node.get("body_sha256") or len(b) != node.get("body_bytes"):
+            out.append(("mirror bytes", _h.sha256(b).hexdigest(), node.get("body_sha256")))
+        text = b.decode("utf-8")
+        for key in ("scope_verbatim", "firewall_verbatim", "record_author_verbatim", "ratification_text_verbatim"):
+            # the record wraps lines; compare with whitespace collapsed
+            if " ".join(node.get(key, "").split()) not in " ".join(text.split()):
+                out.append((key, node.get(key), "not in the mirrored record"))
+        for dep in node.get("carried_dependencies_verbatim", []) + node.get("reopening_conditions_verbatim", []):
+            if " ".join(dep.split()) not in " ".join(text.split()):
+                out.append(("verbatim", dep, "not in the mirrored record"))
+    if node.get("track") != "LIFETIME3D" or node.get("depends_on") != []:
+        out.append(("track/depends_on", (node.get("track"), node.get("depends_on")), ("LIFETIME3D", [])))
+    if node.get("independence_credit") != 0:
+        out.append(("independence_credit", node.get("independence_credit"), 0))
+    for e in node.get("evidence_trail", []):
+        r = inv.get(e["drive_id"])
+        if r is None or r["sha256"] != e["sha256"] or r["bytes"] != e["bytes"]:
+            out.append(("evidence_trail", e, r and (r["sha256"], r["bytes"])))
+    return out
+
+
+def test_side24_3d_node_transcribes_the_register_row_and_the_mirrored_record():
+    """The node's status is the operator_decisions row's word, its bytes are the
+    inventory's, and every quoted sentence is in the byte-exact mirror."""
+    assert _side24_mismatches(graph()) == []
+    node = graph()["claims"]["SIDE24-3D-AO48-OPR-045"]
+    assert node["register_status"] == "RATIFIED-AT-STATED-SCOPE"
+    assert node["grade"] == "RATIFIED_3D_ONLY"
+    assert any("2D" in x for x in node["forbidden_extrapolations"])
+    assert len(node["carried_dependencies_verbatim"]) == 3 and len(node["reopening_conditions_verbatim"]) == 3
+
+
+def test_control_a_paraphrased_3d_status_is_a_mismatch():
+    g = graph()
+    g["claims"]["SIDE24-3D-AO48-OPR-045"]["register_status"] = "RATIFIED"  # the scope qualifier dropped
+    assert [m[0] for m in _side24_mismatches(g)] == ["register_status"]
+
+
+def test_control_a_sentence_the_record_does_not_contain_is_a_mismatch():
+    g = graph()
+    g["claims"]["SIDE24-3D-AO48-OPR-045"]["firewall_verbatim"] = "this ratification also closes P0.1"
+    assert ("firewall_verbatim" in [m[0] for m in _side24_mismatches(g)])
+
+
+def test_control_a_dropped_carried_dependency_is_a_mismatch():
+    g = graph()
+    g["claims"]["SIDE24-3D-AO48-OPR-045"]["carried_dependencies_verbatim"].append("nothing is carried")
+    assert ("verbatim" in [m[0] for m in _side24_mismatches(g)])
+
+
+def test_the_3d_node_still_cannot_be_composed_with_2d_after_enrichment():
+    g = graph()
+    g["claims"]["SIDE24-3D-AO48-OPR-045"]["depends_on"] = ["D1-v2.2(2)"]
+    assert run_on(g) == 1
+
+
 def test_the_five_original_firewalls_are_still_declared():
     ids = [f["id"] for f in graph()["firewalls"]]
     for original in ("FW-2D-3D-COMPOSITION", "FW-PRIZE-ISOLATION", "FW-UNCONDITIONAL",

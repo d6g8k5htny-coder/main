@@ -158,7 +158,10 @@ does not define. Either add `CONTAINER_POINTER` to OP-PROT-019 §6 or reclassify
 
 **Done, and the headline guess in this section was wrong.** Ledger:
 [`recovery/LEDGER.json`](../recovery/LEDGER.json), 31 records —
-**13 RECOVERED** (every one digest-corroborated), 3 CANDIDATE, 15 UNRECOVERABLE.
+**15 RECOVERED** (every one digest-corroborated), 1 CANDIDATE, 15 UNRECOVERABLE
+(current record per exception; 13 / 3 / 15 on 2026-09-18, before the two Markdown
+candidates were recovered under a display rule found on 2026-09-19 — see
+`recovery/README.md`).
 
 What came back: three archive members resolved through the member index
 (`SHA256SUMS`, `arithmetic_ledgers.fresh.txt`,

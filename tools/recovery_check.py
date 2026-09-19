@@ -40,6 +40,21 @@ EXCLUSIONS = os.path.join("quarantine", "EXCLUSIONS.json")
 VALID_OUTCOMES = {"RECOVERED", "CANDIDATE", "UNRECOVERABLE"}
 
 
+def record_digest(rec: dict) -> str:
+    """SHA-256 of a record's canonical JSON: the pin a successor carries for its
+    predecessor. Sorted keys, no whitespace, UTF-8, non-ASCII unescaped."""
+    return hashlib.sha256(
+        json.dumps(rec, sort_keys=True, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+
+
+def current_records(ledger: dict) -> list[dict]:
+    """The records that have not been superseded: one per exception."""
+    records = ledger.get("records", [])
+    superseded = {r["supersedes"]["record_id"] for r in records if isinstance(r.get("supersedes"), dict)}
+    return [r for r in records if r.get("record_id") not in superseded]
+
+
 def sha256_file(path: str) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -204,6 +219,49 @@ def check(root: str) -> list[str]:
                 )
         if stored and not os.path.exists(os.path.join(root, stored)):
             fail.append(f"{rid}: stored_path {stored} does not exist")
+
+    # ---- 5. successors: numbered, pinned, never in place -------------------
+    #
+    # A record is never edited. A later finding on the same exception is a
+    # numbered successor (``<id>-S<n>``) that carries ``supersedes`` with the
+    # predecessor's id and the SHA-256 of its canonical JSON. The pin is what
+    # makes "never edited in place" checkable rather than promised.
+    by_id = {rec.get("record_id"): rec for rec in records}
+    superseded: dict[str, str] = {}
+    for rec in records:
+        sup = rec.get("supersedes")
+        if not sup:
+            continue
+        rid = rec.get("record_id", "<no id>")
+        if not isinstance(sup, dict) or not sup.get("record_id") or not sup.get("record_sha256"):
+            fail.append(f"{rid}: supersedes must name the predecessor's record_id and record_sha256")
+            continue
+        pred_id = sup["record_id"]
+        if not str(rid).startswith(f"{pred_id}-S"):
+            fail.append(f"{rid}: a successor's id is its predecessor's id followed by -S<n>, not {rid!r}")
+        pred = by_id.get(pred_id)
+        if pred is None:
+            fail.append(f"{rid}: supersedes {pred_id}, which is not in the ledger")
+        elif record_digest(pred) != sup["record_sha256"]:
+            fail.append(
+                f"{rid}: the record it supersedes ({pred_id}) no longer hashes to the pinned "
+                f"record_sha256; a superseded record is frozen and may only be succeeded, never edited"
+            )
+        if pred_id in superseded:
+            fail.append(f"{pred_id}: superseded twice ({superseded[pred_id]} and {rid}); succeed the successor instead")
+        superseded[pred_id] = rid
+
+    # ---- 6. counts are the tally, not a remembered number -------------------
+    current = [rec for rec in records if rec.get("record_id") not in superseded]
+    tally: dict[str, int] = {}
+    for rec in current:
+        tally[rec.get("outcome")] = tally.get(rec.get("outcome"), 0) + 1
+    declared = (ledger.get("counts") or {}).get("by_outcome") or {}
+    if {k: v for k, v in declared.items()} != tally:
+        fail.append(f"counts.by_outcome {declared} is not the tally of current records {tally}")
+    n_declared = (ledger.get("counts") or {}).get("exception_records")
+    if n_declared is not None and n_declared != len(current):
+        fail.append(f"counts.exception_records {n_declared} is not the number of current records {len(current)}")
 
     # independence discipline is data, not prose
     disc = ledger.get("reviewer_disclosure") or {}

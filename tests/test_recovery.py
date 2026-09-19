@@ -290,8 +290,9 @@ def real_ledger():
 
 
 def test_every_named_exception_class_is_covered(real_ledger):
+    """One current record per exception. Successors replace, they do not add."""
     counts = {}
-    for rec in real_ledger["records"]:
+    for rec in recovery_check.current_records(real_ledger):
         counts[rec["class"]] = counts.get(rec["class"], 0) + 1
     assert counts == {
         "EMPTY_NATIVE_BODY": 8,
@@ -328,3 +329,194 @@ def test_independence_is_recorded_as_zero_and_gates_stay_open(real_ledger):
     disc = real_ledger["reviewer_disclosure"]
     assert disc["organizational_independence_credit"] == 0
     assert "REMAINS OPEN" in disc["gate_status"]
+
+
+# --------------------------------------------------------------------------
+# negative control 6: successors are numbered, pinned and never in place
+# --------------------------------------------------------------------------
+
+def _succeed(root, ledger, idx, new_outcome="UNRECOVERABLE", suffix="-S1"):
+    """Append a successor of ledger['records'][idx] and re-tally the counts."""
+    pred = ledger["records"][idx]
+    succ = dict(pred)
+    succ["record_id"] = pred["record_id"] + suffix
+    succ["supersedes"] = {"record_id": pred["record_id"], "record_sha256": recovery_check.record_digest(pred)}
+    succ["outcome"] = new_outcome
+    succ["stored_path"] = None
+    succ["digest_corroboration"] = {"status": "NOT_APPLICABLE"}
+    succ["exactly_what_is_missing"] = "everything, in this fixture"
+    ledger["records"].append(succ)
+    tally = {}
+    for rec in recovery_check.current_records(ledger):
+        tally[rec["outcome"]] = tally.get(rec["outcome"], 0) + 1
+    ledger["counts"]["by_outcome"] = tally
+    write_ledger(root, ledger)
+    return succ
+
+
+def test_fixture_with_a_pinned_successor_passes(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    _succeed(root, ledger, 2)  # R-3 (UNRECOVERABLE) -> R-3-S1 (still UNRECOVERABLE)
+    assert recovery_check.check(root) == []
+
+
+def test_control_editing_a_superseded_record_in_place_is_caught(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    _succeed(root, ledger, 2)
+    ledger["records"][2]["notes"] = ["quietly rewritten after being superseded"]
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "frozen and may only be succeeded, never edited")
+
+
+def test_control_a_successor_pinning_nothing_is_caught(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    succ = _succeed(root, ledger, 2)
+    succ["supersedes"] = {"record_id": "R-3"}  # no pin
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "must name the predecessor's record_id and record_sha256")
+
+
+def test_control_a_successor_of_a_record_not_in_the_ledger_is_caught(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    succ = _succeed(root, ledger, 2)
+    succ["supersedes"]["record_id"] = "R-9"
+    succ["record_id"] = "R-9-S1"
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "which is not in the ledger")
+
+
+def test_control_a_record_superseded_twice_is_caught(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    _succeed(root, ledger, 2, suffix="-S1")
+    _succeed(root, ledger, 2, suffix="-S2")  # a second successor of the same predecessor
+    assert failures_mentioning(root, "superseded twice")
+
+
+def test_control_a_successor_id_must_extend_its_predecessors_id(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    succ = _succeed(root, ledger, 2)
+    succ["record_id"] = "R-4"
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "followed by -S<n>")
+
+
+def test_control_a_remembered_count_is_caught(tmp_path):
+    """counts.by_outcome is recomputed from the current records, not trusted."""
+    root, ledger, _, _ = make_store(tmp_path)
+    ledger["counts"]["by_outcome"]["RECOVERED"] = 2
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "is not the tally of current records")
+
+
+def test_control_a_successor_does_not_add_to_the_exception_count(tmp_path):
+    root, ledger, _, _ = make_store(tmp_path)
+    ledger["counts"]["exception_records"] = 3
+    _succeed(root, ledger, 2)
+    assert recovery_check.check(root) == []
+    ledger["counts"]["exception_records"] = 4  # counted the successor as a new exception
+    write_ledger(root, ledger)
+    assert failures_mentioning(root, "is not the number of current records")
+
+
+# --------------------------------------------------------------------------
+# the real successors of 2026-09-19, reproduced from their own inputs
+# --------------------------------------------------------------------------
+
+def _halve_blank_lines(display_bytes: bytes) -> bytes:
+    """The reading volumes show every blank line twice: a run of k newlines is
+    displayed as 2k-1. Invert it, then the 2026-09-18 rule (strip trailing
+    newlines, append exactly one LF)."""
+    import re
+
+    text = display_bytes.decode("utf-8")
+    text = re.sub(r"\n{2,}", lambda m: "\n" * ((len(m.group(0)) + 1) // 2), text)
+    return (text.rstrip("\n") + "\n").encode("utf-8")
+
+
+def test_real_successors_pin_their_predecessors_and_leave_them_unchanged(real_ledger):
+    by_id = {r["record_id"]: r for r in real_ledger["records"]}
+    succ = [r for r in real_ledger["records"] if r.get("supersedes")]
+    assert {r["record_id"] for r in succ} == {"ENB-04-S1", "RDF-01-S1", "RDF-02-S1"}
+    for r in succ:
+        pred = by_id[r["supersedes"]["record_id"]]
+        assert recovery_check.record_digest(pred) == r["supersedes"]["record_sha256"]
+    # the predecessors still say what they said on 2026-09-18
+    assert by_id["ENB-04"]["outcome"] == "UNRECOVERABLE"
+    assert by_id["RDF-01"]["outcome"] == "CANDIDATE" and by_id["RDF-02"]["outcome"] == "CANDIDATE"
+    # and the candidate blobs were not deleted when they were superseded
+    for rid in ("RDF-01", "RDF-02"):
+        assert os.path.exists(os.path.join(ROOT, by_id[rid]["stored_path"]))
+
+
+def test_the_two_markdown_recoveries_follow_from_the_candidate_bytes(real_ledger):
+    """Recompute the recovery from the 2026-09-18 candidate, not from memory."""
+    by_id = {r["record_id"]: r for r in real_ledger["records"]}
+    for rid in ("RDF-01", "RDF-02"):
+        cand = open(os.path.join(ROOT, by_id[rid]["stored_path"]), "rb").read()
+        succ = by_id[rid + "-S1"]
+        recovered = open(os.path.join(ROOT, succ["stored_path"]), "rb").read()
+        expected = by_id[rid]["digest_corroboration"]["expected_sha256"]
+        assert _halve_blank_lines(cand) == recovered
+        assert hashlib.sha256(recovered).hexdigest() == expected
+        assert len(recovered) == by_id[rid]["digest_corroboration"]["expected_bytes"]
+        assert succ["outcome"] == "RECOVERED" and succ["digest_corroboration"]["status"] == "CORROBORATED"
+    # the same rule changes nothing that has no blank line: the three plain-text
+    # payloads of the same class were already exact on 2026-09-18
+    for rid in ("RDF-03", "RDF-04", "RDF-05"):
+        rec = by_id[rid]
+        stored = open(os.path.join(ROOT, rec["stored_path"]), "rb").read()
+        assert rec["outcome"] == "RECOVERED" and b"\n\n" not in stored
+        assert _halve_blank_lines(stored) == stored
+    # a candidate with a different failure mode is not "fixed" by the rule
+    arf = by_id["ARF-03"]
+    cand = open(os.path.join(ROOT, arf["stored_path"]), "rb").read()
+    assert hashlib.sha256(_halve_blank_lines(cand)).hexdigest() != arf["digest_corroboration"]["expected_sha256"]
+    assert arf["outcome"] == "CANDIDATE"
+
+
+def test_the_ls_data_013_members_come_from_the_mirrored_carrier_and_match_the_source_map(real_ledger):
+    import csv
+    import zipfile
+
+    by_id = {r["record_id"]: r for r in real_ledger["records"]}
+    rec = by_id["ENB-04-S1"]
+    assert rec["outcome"] == "UNRECOVERABLE" and rec["stored_path"] is None
+    members = {
+        os.path.basename(a["path"]).rsplit(".", 2)[0]: a["path"] for a in rec["related_artifacts"]
+    }
+    assert set(members) == {
+        "LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py",
+        "LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json",
+    }
+    rows = {}
+    with open(os.path.join(ROOT, "drive", "source_map", "Archive_Members.csv"), encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["Carrier ID"] == "1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt" and "LS-DATA-013" in r["Member path"]:
+                rows[r["Member path"]] = r
+    assert len(rows) == 2
+    zpath = os.path.join(
+        ROOT, "drive", "mirrors", "2026-09-16 \u2014 HOLD_NOT_FOR_SUBMISSION",
+        "CLOSE-20260917-b9c2_PROOFS_CODE_AND_VERIFICATION.zip",
+    )
+    with zipfile.ZipFile(zpath) as z:
+        for member, row in rows.items():
+            data = z.read(member)
+            assert hashlib.sha256(data).hexdigest() == row["Payload SHA-256"]
+            assert len(data) == int(row["Bytes"])
+            stored = open(os.path.join(ROOT, members[os.path.basename(member)]), "rb").read()
+            assert stored == data
+
+
+def test_no_recovered_python_is_wired_into_the_engine():
+    """A recovered verifier is bytes in the ledger, not code the repository runs."""
+    import glob
+
+    blobs = [b for b in glob.glob(os.path.join(ROOT, "recovery", "recovered", "*.py.*.bin"))]
+    assert blobs
+    hay = ""
+    for path in glob.glob(os.path.join(ROOT, "engine", "**", "*.py"), recursive=True) + glob.glob(
+        os.path.join(ROOT, ".github", "workflows", "*.yml")
+    ):
+        hay += open(path, encoding="utf-8", errors="replace").read()
+    for b in blobs:
+        assert os.path.basename(b) not in hay

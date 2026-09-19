@@ -9,11 +9,18 @@ substrate changes the guarantees.
 Nothing here promotes, closes, or reclassifies any mathematical claim. Status
 labels are carried from the source verbatim (see `registers/`).
 
-The one operator sentence in the corpus about a Git repository is the
-FORMALIZATION BOARD's OPERATOR PACKAGE DECISION of 2026-07-24 (Drive
+The operator decision in the corpus about a Git repository is the FORMALIZATION
+BOARD's OPERATOR PACKAGE DECISION of 2026-07-24 (Drive
 `10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`): "REPOSITORY ROUTING: private Git
 repository creation and exact-history push are approved when platform access
-becomes available." It approves a *private* repository as the formalization,
+becomes available." The 2026-07-24 COMMAND CENTER (Drive `1yfJu9h6…`) restates
+it with its operating constraints — "Git repository status: OPERATOR-APPROVED /
+PLATFORM-BLOCKED — create and push the private repository when connector or
+platform access is available. Do not retry unsupported creation in a loop and
+do not claim a repository already exists." — and CL-REQ-225 Rule 5 keeps "the
+GitHub repository item" recorded "exactly this way". (Until 2026-09-19 this
+paragraph called the Board's sentence the only one; the restatements are
+GP/CL-line records of the same decision.) It approves a *private* repository as the formalization,
 source-control, reproducibility and CI-handoff system of record and, in the
 same decision, "NOT APPROVED: blanket terminalization or mathematical promotion
 of any included claim." This repository is public; whether to keep it so is the
@@ -46,8 +53,14 @@ asking to restrict who works in it, not to hide it.
 * It does not re-review any proof. Review verdicts, technical statuses and
   independence credits are copied from the source registers as of the export
   date in the file name.
-* It does not merge the Drive's three writable register copies or reconcile the
-  duplicate identifiers found in them; those are reported in
-  `registers/KNOWN_FINDINGS.json` for the owner to resolve at the source.
+* It reads one register, the live GP-REG-032-v1.2 workbook, and merges no
+  other copy into it: R17 §1 rules "Use domain filter views rather than three
+  competing writable register copies", and the inventory holds, besides the
+  live workbook, a DQ-018 sandbox copy titled "DO NOT USE LIVE" and two
+  GP-REC-EC020 snapshot Sheets declared immutable — none is read here. The
+  duplicate identifiers reported in `registers/KNOWN_FINDINGS.json` are in the
+  live workbook's own tabs, for the owner to resolve at the source. (Until
+  2026-09-19 this bullet said the duplicates were found "in" three writable
+  copies.)
 * It does not promote any draft (`D1_ASSEMBLY_v2_3_DRAFT`, `H5_ZBAND_CONSUMPTION`)
   over the frozen v2.2 body. PKG-01 ships on v2.2.

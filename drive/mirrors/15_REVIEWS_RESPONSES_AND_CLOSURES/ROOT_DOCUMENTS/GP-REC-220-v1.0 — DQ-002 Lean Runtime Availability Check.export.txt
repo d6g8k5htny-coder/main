@@ -1,0 +1,93 @@
+﻿GP-REC-220-v1.0 — DQ-002 LEAN RUNTIME AVAILABILITY CHECK
+
+
+Artifact ID: GP-REC-220-v1.0
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: REC / FORMALIZATION RUNTIME CHECK / DQ-002
+Authority: execution receipt only
+Canonical mathematical impact: NONE
+Formal proof impact: NONE
+Status: CANNOT EXECUTE IN CURRENT RUNTIME / TASK REMAINS OPEN FOR LEAN-CAPABLE EXECUTOR
+
+
+1. TARGET
+
+
+DQ-002 — GP-FOR-189 clean Lean/Mathlib build.
+
+
+Controlling source audit:
+https://docs.google.com/document/d/1Z5KLJ4qlIMWx8AYsXoIshJ1xq2hzM6kU38DXcCw8ALg/edit
+
+
+Reconstructable source package recorded there:
+GP-FOR-189-v1.0_research-formal-core-r1.zip
+7,861 bytes
+SHA-256 34ddf3d1b029fc654b4435e95bef4a74fbb43f7642e3a9a9e476cb77d40179ce
+
+
+2. RUNTIME COMMANDS
+
+
+Executed in the current container:
+
+
+lean --version
+Result: command not found
+
+
+lake --version
+Result: command not found
+
+
+elan --version
+Result: command not found
+
+
+git --version
+Result: git version 2.47.3
+
+
+3. VERDICT
+
+
+CANNOT EXECUTE.
+
+
+No Lean compiler, Lake build tool, or Elan toolchain manager is installed in the current runtime. Therefore:
+
+
+- no source extraction was treated as compilation;
+- no `lake build` was attempted;
+- no Lean syntax, elaboration, tactic, import, or theorem result was asserted;
+- no PASS or FAIL verdict on the Lean source was issued;
+- no theorem was marked machine checked;
+- GP-FOR-189 remains SOURCE IDENTITY PASS / STATIC AUDIT PASS / LEAN CI PENDING.
+
+
+4. REQUIRED NEXT RUNTIME
+
+
+A qualifying executor must provide:
+
+
+- a Lean-capable runtime;
+- a frozen `lean-toolchain`;
+- an exact Mathlib revision or dependency lock;
+- clean source extraction from the published package;
+- complete `lake build` stdout, stderr, and exit status;
+- exact post-build source identities;
+- statement-scope and placeholder checks after any repair.
+
+
+5. FIREWALL
+
+
+This receipt does not weaken, reject, approve, compile, close, or promote any formal theorem. It only records that the current runtime lacks the required executables.
+
+
+[[TARGET:DQ-002]] [[LEAN:NOT-FOUND]] [[LAKE:NOT-FOUND]] [[ELAN:NOT-FOUND]] [[VERDICT:CANNOT-EXECUTE]] [[TASK:RELEASED-FOR-LEAN-RUNTIME]] [[NO-PROMOTION]]
+
+
+END GP-REC-220-v1.0

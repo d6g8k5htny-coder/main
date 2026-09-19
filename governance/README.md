@@ -82,4 +82,16 @@ independence predicate as live only where R17 or an operator decision says so.
 
 Authority note: the owner (Dylan Roy) is the single final authority for
 canonical promotion, external release, permanent deletion and machine-root
-replacement. Nothing in this repository changes that.
+replacement. Nothing in this repository changes that. The sentence is
+`OP-CNS-001-R0.2`'s and agrees with the Canon and the Formalization Board. The
+governance canon on the Drive (`10_AXIOMATIC_CORE_SPINE/00.1_GOVERNANCE_CANON`)
+also holds `HISTORICAL OP-PROT-011 — INDEPENDENCE GUIDANCE; TECHNICAL REVIEW NOW
+R17`, whose SUPERSESSION NOTICE of 2026-07-25 reads that OP-PROT-011's
+"statement that theorem promotion is Dylan-only, and its reservation of
+machine-root replacement to Dylan are superseded. Those actions are now governed
+by executable evidence predicates under OP-PROT-012. Permanent deletion remains
+prohibited and external release remains default-disabled until an autonomous
+release predicate exists" — and OP-PROT-012 is itself HISTORICAL under R17. Both
+texts are recorded here; which governs is the operator's question
+(`docs/FINDINGS_2026-09-18.md` §4.5), and this repository keeps the
+owner-authority sentence until the operator says otherwise.

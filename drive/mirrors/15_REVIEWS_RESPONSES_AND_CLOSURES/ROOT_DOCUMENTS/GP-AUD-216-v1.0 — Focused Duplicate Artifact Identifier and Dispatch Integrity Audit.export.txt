@@ -1,0 +1,349 @@
+﻿POST-AUDIT GRID-IDENTITY ADDENDUM — 2026-07-25
+
+
+While registering this audit’s findings, a cached numeric Google Sheets grid ID that previously referred to Duplicate Flags instead referred to Artifact Index in the current workbook. Three intended Duplicate Flags rows were appended to Artifact Index rows 436–438. The error was detected by a fresh metadata read and exact-key search.
+
+
+Recovery completed:
+- the three misplaced Artifact Index rows were cleared exactly;
+- the findings were appended to the current Duplicate Flags grid;
+- a fourth Duplicate Flags row records the stale-grid-ID incident;
+- Transition Alarms now contains CRITICAL code STALE_POSITIONAL_AND_GRID_IDENTIFIERS_RECOVERED.
+
+
+The binding write rule is strengthened:
+1. resolve sheet title to current grid ID immediately before every batch write;
+2. verify the returned sheet title and grid ID;
+3. resolve the unique row primary key immediately before row mutation;
+4. assert key equality;
+5. write;
+6. post-read the destination sheet and inserted/updated keys.
+
+
+Cached row indexes and cached numeric grid IDs are both nonauthoritative. DQ-018 controls the sandbox implementation of these guards.
+
+
+[[GRID-ID-INCIDENT:RECOVERED]] [[ARTIFACT-INDEX:CLEANED]] [[DUPLICATE-FLAGS:CORRECTED]] [[DQ-018:UPDATED-SCOPE]]
+
+
+GP-AUD-216-v1.0 — FOCUSED DUPLICATE ARTIFACT IDENTIFIER AND DISPATCH INTEGRITY AUDIT
+
+
+Artifact ID: GP-AUD-216-v1.0
+Date: 2026-07-25
+Author/reconciler: OpenAI GPT-5.6 Thinking
+Class: AUD / RECORDS INTEGRITY / DUPLICATE AND SUPERSESSION CONTROL
+Authority: additive operational audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+Target task: DQ-004 / HB-007 duplicate and supersession detection
+Status: COMPLETE BOUNDED AUDIT / NO DELETION / NO MERGE / NO CANONICAL PROMOTION
+
+
+[[TARGET:HB-007]] [[LEDGER:RAW-EXPORT-AUDITED]] [[DISPATCH:REVISION-RECOVERY-PERFORMED]] [[SOURCE-ARTIFACTS:UNCHANGED]] [[NO-PROMOTION]]
+
+
+1. BOUNDED SCOPE
+
+
+This audit examined only the following identifier and routing surfaces:
+
+
+1. Cross-Model Review Ledger v1.0, Drive ID 1rwfvL3sJUmRVpwf3AHx2FnduUrtoIi-9pA8C9Rbku7o;
+2. GP-ERR-084-v1.0, the active Cross-Model ledger collision map;
+3. GP-ERR-075-v1.0, the earlier artifact/ledger collision correction;
+4. C058-P0-COLLISION-MAP-v1.0, the flagged proposal reconciliation map;
+5. GP-REG-032-v1.2 sheets Dispatch Queue and Duplicate Flags;
+6. the explicit Drive objects named in the collision records;
+7. the HB-007 primary-source URL stored in DQ-004.
+
+
+No mathematical source document was edited, merged, renamed, deleted, or declared canonical by this audit.
+
+
+2. RAW LEDGER RESULT
+
+
+A fresh text/plain export of the authoritative Cross-Model Review Ledger was parsed entry-by-entry using the GP-ERR-084 normalization rule:
+
+
+- start at the exact `ENTRY CM-### — ...` line;
+- end at the matching `END ENTRY CM-###` line inclusive;
+- normalize line endings to LF;
+- strip trailing spaces from each line;
+- exclude presentation separators after the END line;
+- append exactly one LF;
+- hash UTF-8 bytes with SHA-256.
+
+
+The live ledger physically contains entries through CM-060. Exactly two numeric identifiers collide:
+
+
+A. CM-050 — SAME NUMBER / DISTINCT CONTENT
+
+
+CM-050A
+Title: EASY-CLOSURE COMMAND CENTER AND CORRECTED PAIR-FRAME RECONSTRUCTION REQUEST
+Normalized SHA-256:
+6a0ed29b2da860ba29a4d261cd76f4ccf86441eb0b165c1715529b7a835aff16
+Required citation:
+CM-050A@6a0ed29b2da860ba
+
+
+CM-050B
+Title: BYTE-EXACT SOURCE CAPSULE, ADVERSARIAL RECONSTRUCTION RECEIPT, AND OUTSIDE QUALIFICATION REQUEST
+Normalized SHA-256:
+4decef7055e54217060d6b7be4b7545d52aea27c22c3b6c1f6623303f9a8c36a
+Required citation:
+CM-050B@4decef7055e54217
+
+
+B. CM-051 — SAME NUMBER / IDENTICAL NORMALIZED BODY
+
+
+Both physical copies normalize to:
+e31a9258d386f226e2129e35aaf2332c0b66f9e5e2828bfa18b2ab4e45fcfc62
+
+
+Required citation:
+CM-051@e31a9258d386f226
+
+
+The second physical copy is VOID-DUPLICATE and earns zero evidence, activity, agreement, or review credit.
+
+
+No other duplicate ENTRY identifier was found in the live ledger through CM-060. The next free live ledger number is CM-061. Proposal documents naming CM-062 through CM-066 do not reserve those numbers.
+
+
+3. DOCUMENT-LEVEL ARTIFACT COLLISIONS
+
+
+The following material identifier collisions remain preserved and controlled by full-title/Drive-ID or explicit successor rules.
+
+
+3.1 GP-DER-044-v1.0 — ACTIVE AMBIGUOUS BARE IDENTIFIER
+
+
+Object A:
+GP-DER-044-v1.0 — Exact-torus Gaussian regularity via confluent divided differences
+Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho
+
+
+Object B:
+GP-DER-044-v1.0 — Quantitative saddle-exit and sink-capture blocks
+Drive ID 1y6ub28wyn_OH7uqV8qj86x38CHbdee7pJ6l1yi14OXw
+
+
+Disposition:
+- preserve both;
+- never cite `GP-DER-044-v1.0` alone;
+- cite full title plus Drive ID;
+- never merge their mathematical lineages.
+
+
+Risk: HIGH dependency contamination.
+
+
+3.2 GP-AUD-073-v1.0 — CORRECTED HISTORICAL COLLISION
+
+
+Two documents were initially assigned GP-AUD-073-v1.0. GP-ERR-075 controls:
+- earlier T-D receipt retains GP-AUD-073, Drive ID 1N74jANCHvbSLF1cMhFJv1XKFbCZVCFeXxV39finA744;
+- later reconciliation is GP-AUD-074, Drive ID 1zxbHyijRMo2lgndq-NTORjSXjo6CtyLPkvrIg8qnp3c.
+
+
+Disposition: RESOLVED; stale citations to the later object as GP-AUD-073 are invalid.
+
+
+3.3 PROPOSAL CM-056 / CM-057 / CM-066 NAMES — NONRESERVING PROVENANCE
+
+
+The flagged proposal folder contains documents whose titles proposed CM numbers before append. The active reconciliation map states that these are proposal-only and do not reserve ledger numbers. The live ledger, not proposal filenames, controls.
+
+
+Disposition:
+- do not count proposals as ledger entries;
+- do not use proposal number as evidence identity;
+- use current Drive ID/title and, after append, the live CM block hash.
+
+
+Risk: MEDIUM stale-citation and false-activity risk.
+
+
+3.4 EXISTING DUPLICATE-FLAGS REGISTER
+
+
+The live Duplicate Flags sheet already records and controls additional collisions, including:
+- GP-DER-143-v1.1 A/B lines;
+- GP-REQ-144-v1.1 A/B lines;
+- LCR-REQ-023 concurrent copies;
+- Help Board duplicate primary keys;
+- P02-LM-012 multi-artifact lineage collision;
+- GP-DER-197 failed self-referential freeze;
+- GP-DER-197 duplicate register rows;
+- duplicate GP-DER-197 review routes;
+- same-session EC-019 Anthropic A/B lines.
+
+
+This audit does not reopen those resolved records. Their existing controlling-object and zero-double-count rules remain operative.
+
+
+4. MISSING-SOURCE FINDING
+
+
+DQ-004 names the HB-007 primary source:
+
+
+https://docs.google.com/document/d/1WKaEAFNHR0aK7bOeurR0XtAQ6dINZrF72nlvw19Z0/edit
+
+
+Direct Google Docs retrieval returns NOT FOUND / 404. Drive search for `HB-007 duplicate supersession detection` finds no replacement document.
+
+
+Disposition:
+- the missing primary source earns zero evidentiary credit;
+- DQ-004 is executable only through its explicit objective plus the live ledger, GP-ERR-084, GP-ERR-075, Duplicate Flags, and revision history;
+- future routing should replace the missing URL with this audit or a recreated immutable HB-007 specification.
+
+
+Risk: MEDIUM task-definition and reproducibility risk.
+
+
+5. DISPATCH-QUEUE ROW-IDENTITY INCIDENT
+
+
+During this session, two Google Sheets `updateCells` operations used cached row indexes after concurrent queue changes. The writes landed on the wrong dispatch records:
+
+
+- the intended q0-verifier completion overwrote DQ-002;
+- the intended Domain-T subtask closure overwrote DQ-004.
+
+
+The incident was detected because DQ-004’s identity no longer matched its fallback references and because DQ-007 remained open.
+
+
+Recovery:
+
+
+1. Spreadsheet revision 672, modified 2026-07-25T18:29:04.819Z, was downloaded as XLSX.
+2. The exact pre-incident Dispatch Queue rows were recovered:
+   - DQ-002 — GP-FOR-189 clean Lean/Mathlib build;
+   - DQ-004 — HB-007 duplicate and supersession detection.
+3. Both rows were restored exactly.
+4. The q0-verifier completion was applied to the actual DQ-007 row.
+5. A post-write read confirmed DQ-002, DQ-004, and DQ-007 now have the correct identities and contents.
+
+
+No source theorem, machine, verifier, or canonical object was affected.
+
+
+Risk: CRITICAL operational routing risk if cached row indexes are reused.
+
+
+6. BINDING DISPATCH WRITE RULE
+
+
+For Dispatch Queue, Easy Closure Queue, Help Board, Transition Register, and any primary-key register:
+
+
+1. Never treat a cached row index as an object identity.
+2. Immediately before every update, search or read the target key and confirm it occurs exactly once.
+3. Confirm the current target cell equals the expected primary key.
+4. Write only after the key check.
+5. Immediately re-read the written row and verify the primary key and intended fields.
+6. If the key is absent or duplicated, fail closed and create an additive incident record.
+7. Prefer immutable row IDs plus guarded helper tooling over positional writes.
+8. Any automation must include a pre-write key-equality assertion and post-write receipt.
+
+
+This rule is mandatory for future operational writes; row position is not authority.
+
+
+7. FINDINGS LEDGER
+
+
+F1 — CM-050 distinct-content collision
+State: ACTIVE BUT CONTROLLED
+Severity: HIGH
+Control: CM-050A/B hash-qualified aliases.
+
+
+F2 — CM-051 exact duplicate
+State: ACTIVE PHYSICAL DUPLICATE / LOGICALLY VOID
+Severity: MEDIUM
+Control: one hash-qualified entry; second copy earns zero credit.
+
+
+F3 — GP-DER-044 bare-ID ambiguity
+State: PRESERVED / FULL-TITLE-AND-DRIVE-ID REQUIRED
+Severity: HIGH
+Control: never cite bare identifier.
+
+
+F4 — GP-AUD-073 collision
+State: RESOLVED TO GP-AUD-073 + GP-AUD-074
+Severity: LOW CURRENT / HIGH HISTORICAL
+Control: GP-ERR-075.
+
+
+F5 — proposal CM-number reservation
+State: NONAUTHORITATIVE PROPOSAL PROVENANCE
+Severity: MEDIUM
+Control: live ledger scan and post-append hash only.
+
+
+F6 — missing HB-007 source
+State: OPEN PROVENANCE DEFECT
+Severity: MEDIUM
+Control: this audit and live operational records substitute; recreate immutable source if needed.
+
+
+F7 — Dispatch positional-write corruption
+State: RECOVERED / PREVENTION REQUIRED
+Severity: CRITICAL
+Control: revision-672 recovery completed; stable-key guarded write rule mandatory.
+
+
+8. REMEDIATION PRIORITY
+
+
+P0 / IMMEDIATE
+- enforce stable-key preflight and post-write verification for all register writes;
+- prohibit positional updates without primary-key equality checks;
+- retain revision-based recovery instructions.
+
+
+P1 / HIGH
+- replace DQ-004’s missing HB-007 URL with a valid immutable source or this audit;
+- require full title + Drive ID for GP-DER-044 citations;
+- require CM aliases/hashes for CM-050 and CM-051.
+
+
+P2 / MEDIUM
+- search active packets for bare CM-050/CM-051 citations and stale GP-AUD-073 references;
+- retain proposal-number banners and exclude proposal files from activity metrics.
+
+
+P3 / MONITORING
+- continue using Duplicate Flags as the additive collision registry;
+- run a duplicate-primary-key scan before queue refreshes and automation runs.
+
+
+9. TERMINAL SCOPE
+
+
+This audit closes only the bounded DQ-004 duplicate/supersession detection task for the listed surfaces. It does not certify the entire Drive as collision-free. It changes no mathematical result, closure status, package root, machine root, theorem, or external-release state.
+
+
+Current disposition:
+
+
+BOUNDED DUPLICATE AUDIT: COMPLETE.
+LIVE LEDGER COLLISIONS: IDENTIFIED AND CONTROLLED.
+MISSING HB-007 SOURCE: RECORDED.
+DISPATCH ROW-IDENTITY INCIDENT: RECOVERED.
+STABLE-KEY WRITE RULE: REQUIRED.
+DESTRUCTIVE ACTIONS: NONE.
+
+
+END GP-AUD-216-v1.0

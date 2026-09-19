@@ -269,7 +269,15 @@ WITHDRAWN.** The LPW-CONSTANT v4 brick is on HOLD, titled NOT READY.
   `FOUNDATION = APPLICATION = TRUE`; `INDEPENDENCE = INTEGRITY = FALSE`; state
   **HOLD**. B0's evidence condition is satisfied but its Boolean is unchanged and
   fold-ready; any successor fold must acknowledge the LS-WO-001 / CLWO-P01-001
-  binding. Do not repeat obsolete E0/E2 or D0/I0 requests.
+  binding. Do not repeat obsolete E0/E2 or D0/I0 requests. The registers carry
+  two layers for P0.1 and both are transcribed: the Easy Closure Queue row
+  (2026-07-30) still names `GP-DER-118-v1.9 / GP-DATA-236` ("EXACT BODY 28,257 B
+  SHA-256 d894c0fe…"; "CARRIER-B v1.1 CONVERSION, INTEGRATED v1.9 CONVERSION, AND
+  THIRD-FAMILY D0/I0/PZ0 OPEN / NONTERMINAL / NOT PROMOTED"), while the Autonomy
+  Control row `P01_V110_CLASS3_ELIGIBILITY` (LS-CTL-003-v1.3, 2026-08-03) names
+  the controlling `GP-DER-118-v1.10` ("frozen at 29,293 bytes / SHA
+  9b7901e1…f014"; "ACTIVE / FOUNDATION TRUE / APPLICATION TRUE / HOLD / NOT YET
+  ELIGIBLE"). The newer control layer governs routing; neither closes P0.1.
 * **P0.2 adjacency-to-one cubic rate** — the controlling banner of its
   READ_FIRST (2026-07-30, Drive `1_hJQkq7Y8BFGZvGmCtvJR1UheV_YHmqXuimtYsYUDeA`)
   reads: "Counts remain five terminal / eight review-pending interfaces / ten
@@ -282,10 +290,26 @@ WITHDRAWN.** The LPW-CONSTANT v4 brick is on HOLD, titled NOT READY.
   `claims/graph.json`. (Until 2026-09-18 this bullet reproduced the July 21–22
   gate layer — V1 discharge, the 864/864 T-B…T-E certificates, the
   effective-domain correction — which the banner supersedes.)
-* **P1.1 law-specific q machine** — `q0_machine.json` + `q0_verify.py`;
-  NONCANONICAL, fail-closed PASS, 12-of-12 negative tests. The 1.2.2 candidate
-  repaired eight malformed-shape crashes (21 original + 13 shape + 2 CLI cases
-  pass); distinct-provider review and adoption gates remain open.
+* **P1.1 law-specific q machine** — the active machine root is `q0_machine.json`
+  (5,910,703 B, `c3a93bd2…`) + `q0_verify.py` (957,321 B, `eca1755d…`), which
+  the register calls "authoritative and untouched" (artifact_index row P1.1:
+  "No canonical impact; active q0_machine.json and q0_verify.py remain
+  authoritative and untouched"). The labels "NONCANONICAL q0-law-specific/1.2
+  FAIL-CLOSED PASS / 12-OF-12 NEGATIVE TESTS / INDEPENDENT REVIEW OPEN" belong to
+  the additive **1.2 successor** (`GP-REG-188-v1.0` "NONCANONICAL / STRUCTURALLY
+  VALID / ZERO ROOTS PROMOTABLE"; `GP-DATA-188-v1.0` "EXECUTED PASS / 12-OF-12
+  ADVERSARIAL TESTS"; GP-AUD-188, 2026-07-24), and the earlier repair snapshot
+  `GP-REG-051-v1.0` is stamped `[[STATUS:SUPERSEDED-REPAIR-CANDIDATE]]
+  [[ACTIVE-MACHINE:UNCHANGED]] [[SUCCESSOR:1.2]] [[NO-PROMOTION]]`. The 1.2.1
+  hardening package `LS-DATA-013-v1.0` ("NONCANONICAL SUCCESSOR CANDIDATE / EXACT
+  ROUNDTRIP PASS"; source SHA `5202c5fa…`) is the review route RV-DQ-017's exact
+  object — its 25,843-byte source is an archive member of two 2026-09-17
+  carriers, not the 957 KB active verifier (see `recovery/LEDGER.json`
+  ENB-04-S1) — and the dashboard's current word is "q0 verifier — 1.2.2
+  CANDIDATE; ACCEPTANCE OPEN" (OQ-012: "Round 2 repaired eight malformed-shape
+  crashes; 21 original +13 shape +2 CLI cases pass. Distinct-provider review and
+  adoption gates remain."). Until 2026-09-19 this bullet attached the
+  successor's labels to the active root.
 
 ---
 
@@ -311,6 +335,65 @@ not mint a successor". The campaign's five P0 open questions (`OQ-014`,
 `OQ-015`, `OQ-016`, `OQ-016-U1`, `OQ-016-U2`) are transcribed in
 `docs/OPEN_PROBLEMS.md` §H. Until 2026-09-18 this section named the adjudicator
 as the refuted object and read the assembly's verdict onto the whole lane.
+
+---
+
+## 7a. LIFETIME3D — the SIDE24 3D track: ratified at stated scope, never composed
+
+The one result in the corpus whose register status is a ratification is on the
+**3D track**, and it is the track the standing firewall (§11, `FW-2D-3D-SEPARATION`)
+keeps apart from everything above. `operator_decisions` row `AO48-OPR-045`
+(2026-08-02T16:10:54Z, subject `SIDE24_3D_RP_C_RP_S_THEOREM`, decided by Dylan
+Roy) reads **RATIFIED-AT-STATED-SCOPE**, with the note "q0/P0.1 explicitly
+unchanged". The record behind it (`AO48-OPR-045`, Drive
+`1MfA94SaoYpnnAs7HYLNvowG9EHIR3Opk`, 3,397 B, `e48d7c27…`, mirrored byte-exact
+under `drive/mirrors/2026-08-01-to-08-03 — SIDE24 RATIFICATION + P0.1
+POST-RATIFICATION/`) is authored "Claude Opus 4.8 (Anthropic) — AO48, relaying
+the operator", quotes the operator's one line ("I I Dylan Roy the human of this
+the project sign. You may record it as the operator decision along with any
+supporting changes.") and adopts the ratification text of `AO48-AUD-044` §D as
+signed.
+
+**What was accepted, at what scope** (the record's words): "the
+compact-positive-mark elder-selection estimate sup_{t,b,κ}(1 − p_r(t,b,κ)) ≤
+C r³, uniformly on compact (b,κ) subsets, for the normalized periodized
+Bargmann–Fock field on the side-24 three-torus — completing the chain RP-A/RP-L
+(Thm G.7.1), RP-F (G.8), RP-C/RP-S (V3.4 + envelope + audit chain) — and with it
+the theorem ν₃,₂₄(ℓ) = c₃,₂₄ ℓ^(−1/3)(1+o(1)) with its closed-form constant and
+10⁻¹⁸⁰ correction bound." **Carried dependencies, ratified as stated** (AUD-044
+§C): the frozen V3.3 eigenfloor tables, the three absent V3.4 diagnostic
+scripts ("non-blocking"), and the V3.3 Palm normalizer cr² ≤ Z_r ≤ Cr².
+**Reopening conditions:** an exact counterexample to any audited display; failure
+of a V3.3 eigenfloor table; a landed diagnostic script contradicting a
+corroborated claim. **Evidence trail** the record names: `KIMI-AUD-006 → 006b
+APPROVE` (the source calls it "independent third-family review"; the two Kimi
+text carriers, `17c8eba9…` and `2a38f2d4…`, are on the Drive and not mirrored
+here), `AO48-AUD-043` (both flagship displays confirmed from scratch in exact
+arithmetic by the AO48 line) and `AO48-AUD-044` (verification ledger, including
+the AO48 line's own boundary: it "did not independently re-read the envelope
+file's full text this session"). Whether a Moonshot-family review earns
+organizational-independence credit under R17 is the operator's determination;
+the graph node records the provenance and assigns none.
+
+**The firewall, in the record's words:** "this ratification concerns the SIDE24
+3D track only. The 2D q0 program is untouched: P0.1 keeps every gate exactly as
+LS-CTL-003-v1.1 states; LB-RATE remains measured-grade; no sealing, no release,
+no cross-track inference." `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws the
+one composition that was ever attempted, and `tools/claims_check.py` fails the
+build on any dependency edge between the tracks. The reviewed-scope coefficient
+`c_(3,24)` of `LS-CLS-077-v1.0` ("CLOSED AT REVIEWED SCOPE", "Canonical impact:
+NONE BY ITSELF") sits on this track and is not Theorem B's `C*` (§11).
+
+The graph node is `SIDE24-3D-AO48-OPR-045` (grade token `RATIFIED_3D_ONLY`,
+this graph's label for the register's word), bound field-for-field to the
+register row, the inventory and the mirrored bytes by `tests/test_claims.py`.
+The folder's `AO48-AUD-033` is a tree-only manifest row: two raw downloads
+returned 10,155 bytes against the inventory's 10,154 and neither delta file
+names the id. The lane's own README states that
+`SIDE24_AUDIT_EVIDENCE_2026-08-01.zip` "is TRUNCATED / CORRUPT … DO NOT USE IT";
+its five members are recovered byte-exact from mirror carriers in
+`recovery/LEDGER.json`. Until 2026-09-19 this map described the 3D track only in
+the firewall bullets of §11.
 
 ---
 
@@ -449,10 +532,23 @@ Every grade below is quoted from those bytes.
   private Git repository creation and exact-history push are approved when
   platform access becomes available." (This repository is public; the
   visibility decision is the owner's — see `governance/GIT_ADAPTATION.md`.)
-* `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers and the
-  GP-AUTO-034 automation. Automation state: **R0.4 current development
-  candidate, static T1–T35 + 4 fixtures pass, all write targets explicit,
-  isolated sandbox prepared, runtime NOT executed, DO NOT INSTALL.**
+* `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers
+  (`04.1_LIVE_REGISTERS`: the GP-REG-032-v1.2 workbook, its leaf card, the
+  deletion log), the automation lineage (GP-AUTO-034: **R0.4 current
+  development candidate, static T1–T35 + 4 fixtures pass, all write targets
+  explicit, isolated sandbox prepared, runtime NOT executed, DO NOT INSTALL**;
+  the Run Log's 32 rows are receipts of manual connector sessions and closure
+  watches and say so — "Automation not yet installed"), and, which the earlier
+  one-line description hid, `04.3_CROSS_MODEL_LEDGERS`: the canon's promotion
+  channel `Q0_LEDGER.md` (253,067 B, `d1fea170…`; cited by digest in §1 and held
+  nowhere in this repository), the Cross-Model Review Ledger v1.1 and
+  contribution registry, 33 digest-bearing C091–C108 cycle ledgers and
+  manifests, the 2026-07-24 COMMAND CENTER (the fullest account of the
+  automation lineage and of the Git-repository operator status), fifteen
+  2026-07-25 cross-line status deltas, CL-REQ-225's standing automation
+  protocol and the DQ-018 register-safety evidence. 44 digest-bearing objects
+  (494,416 B) of this lane have no byte-exact port; the promotion channel is
+  among them.
 * `07_MODEL_ACCESSIBILITY` (new, 2026-09-17) — 392 published reading copies,
   6,034 source-to-copy links, 137 retained exceptions. Mirrored here as
   `drive/source_map/`.
@@ -475,9 +571,9 @@ listed per carrier):
 | Carrier | Members |
 |---|---:|
 | `09152026OKComputer_Project_Gap_Closure.zip` | 2,029 |
-| `SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` | 1,146 |
 | `SepOKComputer_Project_Gap_Closure.zip` | 1,136 |
 | `Prize_Research_Continuation_Audit_20260917.zip` | 685 |
+| `SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip` (one carrier, two byte-identical Drive copies: ids `1Uz1xeyn…` and `18PdDtAi…`; until 2026-09-19 this row summed them into 1,146) | 573 |
 | `Prize_Research_Phase04_2026-09-16.zip` | 468 |
 | `Prize_Research_Phase11_2026-09-16.zip` (stored snapshot `860411bc…`, id `1ef2RycJ…`) | 436 |
 | `Prize_Research_Phase11_2026-09-16.zip` (`ATTACHED_ee4a16e1 — DISTINCT_AUTHOR_SNAPSHOT`, id `15CXT-wK…`) | 184 |

@@ -67,6 +67,11 @@ is a text export of a native Google Doc, for which no payload digest exists
 anywhere in the corpus — a reading copy, not the object. Each lane directory has
 a README quoting the source's own status banners verbatim. Mirrored so far: the
 reviews lane (21 cold-review packets, the post-ratification theorem package, the
-Theorem B retraction folder) and the status layer of the prize reconnaissance
-lane. **A mirror is a copy: it is not review, replay, endorsement or promotion,
-and it moves no status.**
+Theorem B retraction folder, the terminal closure records and gate documents as
+reading copies), the status layer of the prize reconnaissance lane, the SIDE24
+3D ratification chain (`AO48-OPR-045`, `AO48-AUD-044/043/036`, `AO48-REC-034/035`,
+the folder README; `AO48-AUD-033` tree-only after a hash mismatch), the 2026-08
+KIMI/AO48 LB-RATE and K3 intake (22 files, 8 manifests) and, from the
+`HOLD_NOT_FOR_SUBMISSION` lane, the `CLOSE-20260917-b9c2` carrier byte-exact.
+**A mirror is a copy: it is not review, replay, endorsement or promotion, and it
+moves no status.**

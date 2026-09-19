@@ -26,8 +26,8 @@
     },
     "by_outcome": {
       "UNRECOVERABLE": 15,
-      "CANDIDATE": 3,
-      "RECOVERED": 13
+      "RECOVERED": 15,
+      "CANDIDATE": 1
     },
     "enumerated_from_exceptions_csv": {
       "total_rows": 137,
@@ -39,10 +39,14 @@
       "DOCX_LAYOUT_AND_EQUATIONS_REQUIRE_SOURCE": 41,
       "BINARY_UNRENDERED": 1
     },
-    "count_check": "The four named classes total 31 rows and the file totals 137, exactly as docs/OPEN_PROBLEMS.md §E and docs/CONTRIBUTION_PLAN.md §7 state. No discrepancy found in these four classes."
+    "count_check": "The four named classes total 31 rows and the file totals 137, exactly as docs/OPEN_PROBLEMS.md §E and docs/CONTRIBUTION_PLAN.md §7 state. No discrepancy found in these four classes.",
+    "successor_records": 3,
+    "records_total": 34,
+    "successor_rule": "A record is never edited in place. A later finding on the same exception is a numbered successor (<id>-S<n>) that pins its predecessor's canonical SHA-256; by_outcome and exception_records tally the current record of each exception, and tools/recovery_check.py recomputes both."
   },
   "cross_source_observations": [
-    "drive/inventory.jsonl carries access_status BINARY_UNRENDERED on two objects (1Btd8J3CBOChDh9m7jdnXGZeDiEXAhgM8 and 1mYHVSdVk57CM9h6L3NFR9_G2EFXKPwhj, both 17,101 bytes, the same S2-DATA-002 result carrier under two titles) while drive/source_map/Exceptions.csv carries one BINARY_UNRENDERED row. Reported, not repaired; outside the four classes this ledger covers and outside the paths this pass owns."
+    "drive/inventory.jsonl carries access_status BINARY_UNRENDERED on two objects (1Btd8J3CBOChDh9m7jdnXGZeDiEXAhgM8 and 1mYHVSdVk57CM9h6L3NFR9_G2EFXKPwhj, both 17,101 bytes, the same S2-DATA-002 result carrier under two titles) while drive/source_map/Exceptions.csv carries one BINARY_UNRENDERED row. Reported, not repaired; outside the four classes this ledger covers and outside the paths this pass owns.",
+    "The SIDE24 ratification folder's own README_2026-08-01.txt (Drive 1J1DMv19INJIEnwWb5yyTMO4uowNbwbvt, mirrored byte-exact, SHA-256 b2408274d1cf046a580b0ffbb83a486673d4f7b18c9ee92a5a890a34c8ca691e) states the cause of the five READ_FAILED members' carrier: 'SIDE24_AUDIT_EVIDENCE_2026-08-01.zip (30,606 bytes) is TRUNCATED / CORRUPT. A base64 transfer was clipped in transit during upload; the archive will not open. DO NOT USE IT.' It names intact replacements 'delivered in the chat session': 46ec497310acac8e5610ec511e139241fe61556befa64526e25c886e3583ce48 (64,616 B) and 196eec1a09b11416b6b686f8042ac69edab20980c6ed83365bb97896a98e1c89 (SIDE24_AUDIT_DOCS_2026-08-01.zip, 17,239 B). Neither digest appears in drive/inventory.jsonl or any drive/source_map CSV, so route (c) of RDF-01..05 — a fresh download of the failing carrier, whose inventory row is 30,606 B / e97cc2657be33b630b71f473fb6b57d06d020f8a6e80c2c8f1b2d74f86d23cf5 — cannot succeed on the Drive as snapshotted; the five members' recovery rests on the mirror carriers, where all five are now byte-corroborated. Recorded as the cause on 2026-09-19; nothing re-fetched."
   ],
   "findings": [
     {
@@ -74,6 +78,12 @@
       "title": "The eight empty capsules were created empty, not emptied",
       "detail": "For the three LS-DATA-015 shells Drive reports createdTime == modifiedTime (2026-07-25 22:19:38.365Z, 22:20:40.640Z, 22:21:59.144Z), i.e. no post-creation revision is recorded, and the bodies are still a bare UTF-8 BOM on fresh 2026-09-18 bytes. The 'recoverable from Drive revision history' hypothesis in docs/CONTRIBUTION_PLAN.md §7 is not available for them, and the corpus states no digest for any of the eight, so even a recovered body could not have been corroborated.",
       "consequence": "The named priority — the byte-exact and hex-gzip TB-G2 algebra result capsules — is UNRECOVERABLE by every route this pass could reach. That is the honest answer, and it is a result: the TB-G2 line's missing dependency is missing at the source, not merely unread."
+    },
+    {
+      "id": "F-6",
+      "title": "The reading volumes display every blank line twice; inverting that rule turns the two Markdown candidates into corroborated recoveries",
+      "detail": "A payload whose bytes were independently in hand (the LS-DATA-013 verifier, extracted from its carrier zip) was compared with its reading copy: every run of k consecutive newlines in the payload is displayed as 2k-1 newlines, i.e. every blank line is shown twice. The banner says only 'Display line endings normalized'. Halving each run of blank lines in the 2026-09-18 candidate bytes for RDF-01 and RDF-02, then applying the 2026-09-18 rule, reproduces their declared digests and byte counts exactly (8,176 B e9df4b6f…, 4,705 B 15714b97…). The three plain-text payloads of the same class have no blank line, which is why the earlier rule was already exact for them.",
+      "consequence": "A reader fix, not a mathematical result. Two CANDIDATE records gain RECOVERED successors; the candidate blobs stay where they were. No status of any object moves. Any consumer of a reading copy (drive/mirrors rows with exact:false included) should expect this rule and must still not compare a reading copy to a digest."
     }
   ],
   "artifacts": [
@@ -175,6 +185,46 @@
       "store": "recovered",
       "corroboration": "CORROBORATED",
       "corroborating_source": "Archive_Members.csv / Payloads.csv payload digest"
+    },
+    {
+      "path": "recovery/recovered/INDEPENDENT_AUDIT_FINDINGS_2026-07-31.md.e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a.bin",
+      "sha256": "e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a",
+      "bytes": 8176,
+      "store": "recovered",
+      "corroboration": "CORROBORATED",
+      "corroborating_source": "drive/source_map/Archive_Members.csv + Payloads.csv payload digest (14 member occurrences)",
+      "recovered_on": "2026-09-19",
+      "record": "RDF-01-S1"
+    },
+    {
+      "path": "recovery/recovered/INDEPENDENT_AUDIT_RUN_LOG_2026-07-31.md.15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a.bin",
+      "sha256": "15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a",
+      "bytes": 4705,
+      "store": "recovered",
+      "corroboration": "CORROBORATED",
+      "corroborating_source": "drive/source_map/Archive_Members.csv + Payloads.csv payload digest (14 member occurrences)",
+      "recovered_on": "2026-09-19",
+      "record": "RDF-02-S1"
+    },
+    {
+      "path": "recovery/recovered/LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py.5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9.bin",
+      "sha256": "5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9",
+      "bytes": 25843,
+      "store": "recovered",
+      "corroboration": "CORROBORATED",
+      "corroborating_source": "drive/source_map/Archive_Members.csv rows for carriers 1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt and 1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq; extracted from the byte-exact mirror of the former",
+      "recovered_on": "2026-09-19",
+      "record": "ENB-04-S1 (related artifact)"
+    },
+    {
+      "path": "recovery/recovered/LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json.5442f3148a5a042b74a3e08fff0b4f5504ff9026323381ac133951d2875d4b01.bin",
+      "sha256": "5442f3148a5a042b74a3e08fff0b4f5504ff9026323381ac133951d2875d4b01",
+      "bytes": 8685,
+      "store": "recovered",
+      "corroboration": "CORROBORATED",
+      "corroborating_source": "drive/source_map/Archive_Members.csv rows for carriers 1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt and 1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq; extracted from the byte-exact mirror of the former",
+      "recovered_on": "2026-09-19",
+      "record": "ENB-04-S1 (related artifact)"
     }
   ],
   "does_not_establish": [
@@ -1608,6 +1658,209 @@
         "The document already carries its own INTEGRITY FAILURE NOTICE (TRC-COR-005-v1.0) stating that the payload does not decode under its own extraction rule and that it supplies no ROOT_SHA256. This pass confirms that notice on fresh bytes and adds the structural detail.",
         "No ROOT_SHA256 or validation credit is created here; the carrier remains what it says it is."
       ]
+    },
+    {
+      "record_id": "RDF-01-S1",
+      "supersedes": {
+        "record_id": "RDF-01",
+        "record_sha256": "2a9e78e540857fa3ed0a56b6a396ece8773ebffeaa76123c6b40ae5e151e28fc",
+        "reason": "the display copy's byte delta was not localised on 2026-09-18; on 2026-09-19 it was: the reading volumes display every blank line twice: a run of k consecutive newlines in the payload is rendered as 2k-1. Inverting it (halve each run of blank lines, then the 2026-09-18 rule: strip trailing newlines, append exactly one LF) is the one transform the 2026-09-18 pass did not test"
+      },
+      "class": "READ_FAILED",
+      "object": {
+        "member_path": "INDEPENDENT_AUDIT_FINDINGS_2026-07-31.md",
+        "declared_bytes": 8176,
+        "declared_payload_sha256": "e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a",
+        "carrier_title": "SIDE24_AUDIT_EVIDENCE_2026-08-01.zip",
+        "carrier_drive_id": "19GhKdHaQGdQin_HxMTUh-Z6qM9rUF9xV",
+        "kind": "archive_member"
+      },
+      "audit_detail": "Bad magic number for file header",
+      "attempted_routes": [
+        {
+          "route": "a",
+          "attempt": "archive-member index: drive/source_map/Archive_Members.csv, member path 'INDEPENDENT_AUDIT_FINDINGS_2026-07-31.md' across all 77 carriers",
+          "result": "14 member occurrences of this payload exist; every occurrence outside the failed carrier carries payload digest e9df4b6f2db2… and Read status READ, e.g. in SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip and SIDE24_V3_4_RP_C_RP_S_CLOSURE_CHECKPOINT_2026-08-01.zip"
+        },
+        {
+          "route": "b",
+          "attempt": "mirror carrier with the same payload digest; resolved its published reading copy 1oQYF8ZEhEE6UppPsC9gojpxIvxSOtTPTeQcRLUp1pXY via drive/source_map/Payloads.csv and downloaded it 2026-09-18",
+          "result": "reading volume downloaded; payload block located; extraction rule: take the text strictly between 'CONTENT START <sha>' and 'CONTENT END <sha>' in the reading volume, normalize CRLF to LF, strip trailing newlines, append exactly one LF"
+        },
+        {
+          "route": "b'",
+          "attempt": "the candidate bytes stored on 2026-09-18 under recovery/candidates/INDEPENDENT_AUDIT_FINDINGS_2026-07-31.md.f2484fc126da54ba4b1ca386db2095f98e87b877e7cf657421dbf937266c5240.bin (the display copy after CRLF->LF, trailing-newline strip, one LF) re-read on 2026-09-19 with each run of blank lines halved",
+          "result": "8,176 bytes, SHA-256 e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a — the declared payload digest and byte count exactly. Stored under recovery/recovered/; the candidate blob is retained unchanged under recovery/candidates/ as the record of what the display copy contained"
+        },
+        {
+          "route": "d",
+          "attempt": "the same inversion applied to every other READ_FAILED payload and to the LS-DATA-013 verifier recovered under ENB-04-S1",
+          "result": "RDF-03/04/05 contain no blank line at all, so the 2026-09-18 extraction was already exact for them and the rule contradicts nothing; the 25,843-byte verifier, which has 58 blank-line runs, reproduces its digest under the same rule and is byte-identical to the member extracted from the carrier zip itself"
+        },
+        {
+          "route": "c",
+          "attempt": "fresh download of the failing carrier SIDE24_AUDIT_EVIDENCE_2026-08-01.zip (19GhKdHaQGdQin_HxMTUh-Z6qM9rUF9xV) itself",
+          "result": "not attempted in this pass: routes (a) and (b) resolved first and the carrier's central directory is already indexed in Archive_Members.csv, which lists exactly these five members as READ_FAILED. Recorded as an open route, not as a failure"
+        }
+      ],
+      "outcome": "RECOVERED",
+      "stored_path": "recovery/recovered/INDEPENDENT_AUDIT_FINDINGS_2026-07-31.md.e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a.bin",
+      "digest_corroboration": {
+        "status": "CORROBORATED",
+        "recovered_sha256": "e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a",
+        "recovered_bytes": 8176,
+        "expected_sha256": "e9df4b6f2db277199843aebdf206b61fb361ec0537aa67afc17cf106e5dd274a",
+        "expected_bytes": 8176,
+        "expected_source": "drive/source_map/Archive_Members.csv + Payloads.csv payload digest",
+        "match": true
+      },
+      "notes": [
+        "Until 2026-09-19 this exception was a CANDIDATE with the delta 'not localised'. The delta was one display rule, stated nowhere in the volume's banner, found by comparing the reading copy of a payload whose bytes were independently in hand (ENB-04-S1 route e).",
+        "A recovery restores bytes and nothing else: the recovered Markdown enters the corpus at the status its register rows already carry, no gate moves, independence credit is 0.",
+        "The failing carrier itself is the one its own folder README calls 'TRUNCATED / CORRUPT … DO NOT USE IT' (cross_source_observations); route (c) stays open and cannot succeed on the Drive as snapshotted."
+      ]
+    },
+    {
+      "record_id": "RDF-02-S1",
+      "supersedes": {
+        "record_id": "RDF-02",
+        "record_sha256": "9079678fb1be6e63dffbe2e8e71085981c60c7e51f95fd44c6d091b59ab05791",
+        "reason": "the display copy's byte delta was not localised on 2026-09-18; on 2026-09-19 it was: the reading volumes display every blank line twice: a run of k consecutive newlines in the payload is rendered as 2k-1. Inverting it (halve each run of blank lines, then the 2026-09-18 rule: strip trailing newlines, append exactly one LF) is the one transform the 2026-09-18 pass did not test"
+      },
+      "class": "READ_FAILED",
+      "object": {
+        "member_path": "INDEPENDENT_AUDIT_RUN_LOG_2026-07-31.md",
+        "declared_bytes": 4705,
+        "declared_payload_sha256": "15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a",
+        "carrier_title": "SIDE24_AUDIT_EVIDENCE_2026-08-01.zip",
+        "carrier_drive_id": "19GhKdHaQGdQin_HxMTUh-Z6qM9rUF9xV",
+        "kind": "archive_member"
+      },
+      "audit_detail": "Bad magic number for file header",
+      "attempted_routes": [
+        {
+          "route": "a",
+          "attempt": "archive-member index: drive/source_map/Archive_Members.csv, member path 'INDEPENDENT_AUDIT_RUN_LOG_2026-07-31.md' across all 77 carriers",
+          "result": "14 member occurrences of this payload exist; every occurrence outside the failed carrier carries payload digest 15714b97f0c4… and Read status READ, e.g. in SIDE24_G9_R2_RECOVERY_AND_RECONSTRUCTION_2026-08-01.zip and SIDE24_V3_4_RP_C_RP_S_CLOSURE_CHECKPOINT_2026-08-01.zip"
+        },
+        {
+          "route": "b",
+          "attempt": "mirror carrier with the same payload digest; resolved its published reading copy 1xJOBkmLaa6BdbakX4OY6vznJsjrUKE7J2ePS04XBb9I via drive/source_map/Payloads.csv and downloaded it 2026-09-18",
+          "result": "reading volume downloaded; payload block located; extraction rule: take the text strictly between 'CONTENT START <sha>' and 'CONTENT END <sha>' in the reading volume, normalize CRLF to LF, strip trailing newlines, append exactly one LF"
+        },
+        {
+          "route": "b'",
+          "attempt": "the candidate bytes stored on 2026-09-18 under recovery/candidates/INDEPENDENT_AUDIT_RUN_LOG_2026-07-31.md.0d431b82c8d1079424b49eefd7b1fdc90b6e99390fc3bb102b7ddc9c809ad8e2.bin (the display copy after CRLF->LF, trailing-newline strip, one LF) re-read on 2026-09-19 with each run of blank lines halved",
+          "result": "4,705 bytes, SHA-256 15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a — the declared payload digest and byte count exactly. Stored under recovery/recovered/; the candidate blob is retained unchanged under recovery/candidates/ as the record of what the display copy contained"
+        },
+        {
+          "route": "d",
+          "attempt": "the same inversion applied to every other READ_FAILED payload and to the LS-DATA-013 verifier recovered under ENB-04-S1",
+          "result": "RDF-03/04/05 contain no blank line at all, so the 2026-09-18 extraction was already exact for them and the rule contradicts nothing; the 25,843-byte verifier, which has 58 blank-line runs, reproduces its digest under the same rule and is byte-identical to the member extracted from the carrier zip itself"
+        },
+        {
+          "route": "c",
+          "attempt": "fresh download of the failing carrier SIDE24_AUDIT_EVIDENCE_2026-08-01.zip (19GhKdHaQGdQin_HxMTUh-Z6qM9rUF9xV) itself",
+          "result": "not attempted in this pass: routes (a) and (b) resolved first and the carrier's central directory is already indexed in Archive_Members.csv, which lists exactly these five members as READ_FAILED. Recorded as an open route, not as a failure"
+        }
+      ],
+      "outcome": "RECOVERED",
+      "stored_path": "recovery/recovered/INDEPENDENT_AUDIT_RUN_LOG_2026-07-31.md.15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a.bin",
+      "digest_corroboration": {
+        "status": "CORROBORATED",
+        "recovered_sha256": "15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a",
+        "recovered_bytes": 4705,
+        "expected_sha256": "15714b97f0c495dc4a237ec68f4c4da05d74dcbb2a5aada36a780432ecefb15a",
+        "expected_bytes": 4705,
+        "expected_source": "drive/source_map/Archive_Members.csv + Payloads.csv payload digest",
+        "match": true
+      },
+      "notes": [
+        "Until 2026-09-19 this exception was a CANDIDATE with the delta 'not localised'. The delta was one display rule, stated nowhere in the volume's banner, found by comparing the reading copy of a payload whose bytes were independently in hand (ENB-04-S1 route e).",
+        "A recovery restores bytes and nothing else: the recovered Markdown enters the corpus at the status its register rows already carry, no gate moves, independence credit is 0.",
+        "The failing carrier itself is the one its own folder README calls 'TRUNCATED / CORRUPT … DO NOT USE IT' (cross_source_observations); route (c) stays open and cannot succeed on the Drive as snapshotted."
+      ]
+    },
+    {
+      "record_id": "ENB-04-S1",
+      "supersedes": {
+        "record_id": "ENB-04",
+        "record_sha256": "b5cba7cb23599a81d0eb4ce3fcf4c5ed529d8857d7d42e5a5a16526d1fca12bc",
+        "reason": "route (a) of ENB-04 searched the member index by the capsule title and by the LS-DATA-015 / TB-G2 payload names and reported that no member occurrence of the payload exists in any carrier; searched by the capsule's own identifier 'LS-DATA-013' the index holds four member rows. The native body is still empty; what the capsule packaged is not"
+      },
+      "class": "EMPTY_NATIVE_BODY",
+      "object": {
+        "title": "LS-DATA-013-v1.0 — Byte-Exact Gzip Capsule Package — q0 Verifier 1.2.1 Hardening",
+        "drive_id": "1q7coeCo2lbh11MUu6dF4VJYVoQnIZix1tiY1kKY1rT4",
+        "kind": "google_docs_native",
+        "link": "https://docs.google.com/document/d/1q7coeCo2lbh11MUu6dF4VJYVoQnIZix1tiY1kKY1rT4/edit"
+      },
+      "audit_detail": "Fresh Google Docs structural read confirms only an empty paragraph. No content reconstructed.",
+      "attempted_routes": [
+        {
+          "route": "a",
+          "attempt": "archive-member index lookup by title and by the LS-DATA-015 / TB-G2 payload names in drive/source_map/Archive_Members.csv",
+          "result": "no member occurrence of this payload exists in any carrier"
+        },
+        {
+          "route": "b",
+          "attempt": "sibling/mirror search: drive/source_map/Payloads.csv and Files.csv rows referencing this Drive id",
+          "result": "no payload row, no reading copy (Reading copy count = 0); the source map records no digest for this object at all, so no sibling could be matched even if one existed"
+        },
+        {
+          "route": "c",
+          "attempt": "fresh Drive download 2026-09-18 via download_file_content (text/plain export)",
+          "result": "body is exactly the 3-byte UTF-8 BOM EF BB BF and nothing else"
+        },
+        {
+          "route": "a'",
+          "attempt": "archive-member index drive/source_map/Archive_Members.csv searched by the identifier 'LS-DATA-013' (2026-09-19)",
+          "result": "four rows: closure_round2/q_replay/LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py (25,843 B, 5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9) and LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json (8,685 B, 5442f3148a5a042b74a3e08fff0b4f5504ff9026323381ac133951d2875d4b01), each in two carriers: CLOSE-20260917-b9c2_PROOFS_CODE_AND_VERIFICATION.zip (1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt, carrier SHA-256 eb5fc2c2279787df628ac763c5f48df6cddf9cd8763b103074dc4f6cae0d3a6b) and, nested in round3/intake/CLOSE_prior.zip, RN3-20260917-b9c2_v1.0_PROOF_CODE_AND_VERIFICATION.zip (1z_zNdgxtbs7XWxLu56HN8_QbVXxdmMMq, 1a4df0e9fd264004d4ab876a8034fe61aea11d05e4d3c24873d0c3b741ff6766)"
+        },
+        {
+          "route": "d",
+          "attempt": "fresh Drive download of the carrier 1WZfhLuZBEzvdUUkQw7v5JubmAiI1W4gt on 2026-09-19 (download_file_content, base64-decoded), hashed, opened with the standard library, both members extracted and hashed",
+          "result": "carrier 1,190,232 B, SHA-256 eb5fc2c2… equal to drive/inventory.jsonl; member .py 25,843 B 5202c5fa… and member _report.json 8,685 B 5442f314…, each equal to its Archive_Members.csv digest. The carrier is mirrored byte-exact at drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/CLOSE-20260917-b9c2_PROOFS_CODE_AND_VERIFICATION.zip, so the extraction is reproducible offline"
+        },
+        {
+          "route": "e",
+          "attempt": "independent second route for the verifier: its reading copy 1nIA2xs7qIergeYzu7aNYWOZG7JAyTVj6Mov_3faVFYQ (reading volume RESEARCH_SOURCE_CHECK_STATUS_080, 211,424 B export) downloaded 2026-09-19; the block between CONTENT START and CONTENT END 5202c5fa…-part1 taken, CRLF->LF, each run of blank lines halved, trailing newlines stripped, one LF appended",
+          "result": "25,843 B, SHA-256 5202c5fa…, byte-identical to the zip member. This is the route that exposed the display rule recorded under RDF-01-S1 and RDF-02-S1"
+        },
+        {
+          "route": "c'",
+          "attempt": "the native Doc 1q7coeCo2lbh11MUu6dF4VJYVoQnIZix1tiY1kKY1rT4 itself: metadata re-read 2026-09-19",
+          "result": "createdTime == modifiedTime == 2026-07-25T21:47:14.808Z, fileSize 1024; no post-creation revision exists to recover; the body remains the 3-byte BOM found on 2026-09-18"
+        }
+      ],
+      "outcome": "UNRECOVERABLE",
+      "stored_path": null,
+      "related_artifacts": [
+        {
+          "path": "recovery/recovered/LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py.5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9.bin",
+          "relation": "the verifier release 1.2.1 the capsule packaged (its own docstring: 'LS-DATA-013-v1.0 — fail-closed verifier release 1.2.1 for machine schema q0-law-specific/1.2 … Additive, noncanonical successor to GP-DATA-188-v1.0'); stored as bytes, never executed"
+        },
+        {
+          "path": "recovery/recovered/LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json.5442f3148a5a042b74a3e08fff0b4f5504ff9026323381ac133951d2875d4b01.bin",
+          "relation": "that verifier's own report (closure_round2/q_replay), stored as bytes"
+        }
+      ],
+      "digest_corroboration": {
+        "status": "NOT_APPLICABLE",
+        "reason": "nothing of the capsule body itself was recovered and the corpus states no digest for the Doc. The two related artifacts are corroborated against the source map's member digests in their own artifacts rows."
+      },
+      "exactly_what_is_missing": "The capsule package body as the Doc declared it: the gzip capsule with its manifest and receipts. The verifier 1.2.1 script the capsule packaged, and that verifier's report, are not missing: both are recovered byte-exact from the CLOSE-20260917-b9c2 carrier as related artifacts. Whether the Doc's capsule wrapped exactly these two members, and nothing else, is stated nowhere this pass could reach.",
+      "notes": [
+        "Until 2026-09-19 the ledger said 'no member occurrence of this payload exists in any carrier'. That sentence was true of the names searched and false of the payload; it is left in ENB-04 as written and corrected here.",
+        "The recovered verifier is the exact object of review route RV-DQ-017 (docs/RESEARCH_MAP.md §6) and the object engine/carriers/MANIFEST.json CR-Q0-VERIFY names as 'NOT this file'. It is stored as a .bin under recovery/recovered/, is not wired into engine/, and nothing in CI runs it.",
+        "No status changes: LS-DATA-013's register rows, RV-DQ-017, the P1.1 acceptance and every gate stay exactly as the registers say. Independence credit 0."
+      ]
+    }
+  ],
+  "amendments": [
+    {
+      "date": "2026-09-19",
+      "what": "successor records ENB-04-S1, RDF-01-S1, RDF-02-S1; four recovered blobs; one cross-source observation (the truncated SIDE24 evidence carrier's stated cause); finding on the doubled-blank-line display rule. Predecessor records unchanged."
     }
   ]
 }
