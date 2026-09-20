@@ -96,6 +96,49 @@ column here. That is why the two tables' totals differ.
 | `01_ACTIVE_RESEARCH_PACKAGES/00_DO_NOT_OPEN_MANIFEST — what was vaulted and why (READ THIS; DO NOT BROWSE THE VAULT)` | 1 | 1 | 0 | 0 |
 | **26 Drive lanes** | **4456** | **861** | **917** | **2678** |
 
+### What the remainder is
+
+The **neither** column above is not one kind of thing, and until 2026-09-20 it was
+printed as though it were. Split by reading each unaccounted inventory record's own
+fields, never a lane list:
+
+**folders** — `application/vnd.google-apps.folder`. A folder has no payload, so no
+manifest row can hold or index one. It is reflected, if at all, by the shape of the
+mirror tree.
+**no digest declared** — the inventory declares no `sha256` for the id. Every one of
+these is a native Google Doc, for which no payload digest exists anywhere in the
+corpus. The most this repository can ever hold is a reading copy at `exact: false`:
+a text export, not the object.
+**digest-bearing** — the inventory declares a digest, so a copy can be stored and
+proved byte-exact against it. This is the only column that measures work this
+repository could do and has not done.
+
+A lane with `neither` at zero is left out of this table, and the lanes that remain
+keep the order of the table above so the two can be read across.
+
+| Drive lane | neither | folders | no digest declared | digest-bearing |
+|---|---:|---:|---:|---:|
+| `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 818 | 89 | 494 | 235 |
+| `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` | 696 | 86 | 436 | 174 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 383 | 53 | 0 | 330 |
+| `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 172 | 54 | 105 | 13 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK` | 28 | 28 | 0 | 0 |
+| `01_ACTIVE_RESEARCH_PACKAGES/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE` | 33 | 33 | 0 | 0 |
+| `01_ACTIVE_RESEARCH_PACKAGES/14_COORDINATION_AUTOMATION_SPINE` | 163 | 29 | 90 | 44 |
+| `05_FOUNDATIONS_AND_PROTOCOL_HISTORY — FRESH START 2.0` | 49 | 44 | 5 | 0 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PEER_REVIEW_SUBMISSION_PACKAGES` | 126 | 7 | 38 | 81 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-01-to-08-03 — SIDE24 RATIFICATION + P0.1 POST-RATIFICATION` | 72 | 7 | 5 | 60 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — HOLD_NOT_FOR_SUBMISSION` | 77 | 2 | 3 | 72 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY` | 16 | 10 | 0 | 6 |
+| `01_ACTIVE_RESEARCH_PACKAGES/16_THEMATIC_RESEARCH_TRACKS` | 23 | 21 | 0 | 2 |
+| `01_ACTIVE_RESEARCH_PACKAGES/13_POWER_PLANNING_CONTINUUM` | 12 | 4 | 5 | 3 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 1 | 1 | 0 | 0 |
+| `01_ACTIVE_RESEARCH_PACKAGES/99_DO_NOT_OPEN — SUPERSEDED_MIRRORS_DEAD_ENDS_AND_TRAP_COPIES` | 6 | 1 | 5 | 0 |
+| `00_START_HERE — RESEARCH HOME` | 1 | 1 | 0 | 0 |
+| `06_SANDBOX_FRONTIER — DRAFTS_NO_AUTHORITY` | 1 | 1 | 0 | 0 |
+| `01_ACTIVE_RESEARCH_PACKAGES` | 1 | 1 | 0 | 0 |
+| **19 lanes with a gap** | **2678** | **472** | **1186** | **1020** |
+
 Counts are of manifest rows and stored bytes. They say nothing about whether any
 mirrored document is correct, current or authoritative; each lane's README
 quotes the source's own status banners, and those banners are the source's

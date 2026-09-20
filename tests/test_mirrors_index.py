@@ -430,3 +430,203 @@ def test_the_real_coverage_table_states_the_gap_rather_than_hiding_it():
 def test_the_summary_line_reports_the_coverage_numbers():
     out = run()
     assert "inventory=4456" in out.stdout and "held=" in out.stdout, out.stdout
+
+
+# ---------------------------------------------------------------------------
+# the remainder: what the gap is made of
+#
+# Until 2026-09-20 the index printed one number for every kind of gap at once.
+# 2,678 items read as 2,678 pieces of undone work, when 472 of them are folders
+# that no manifest row can ever hold and 1,186 are native Google Docs the corpus
+# declares no digest for, so the most this repository can hold of one is a
+# reading copy.  These controls keep the three kinds apart, and keep the one
+# that does measure undone work honest.
+# ---------------------------------------------------------------------------
+
+def inventory_of(root):
+    return os.path.join(str(root), "drive", "inventory.jsonl")
+
+
+def add_inventory(root, records):
+    with open(inventory_of(root), "a", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record) + "\n")
+
+
+FOLDER = "application/vnd.google-apps.folder"
+
+
+def test_the_remainder_is_split_by_each_records_own_fields(tree):
+    """A folder, a digest-less id and a digest-bearing id are three gaps, not one."""
+    add_inventory(tree, [
+        {"id": "f1", "path": "01_ACTIVE_RESEARCH_PACKAGES/L1/sub", "mimeType": FOLDER},
+        {"id": "n1", "path": "01_ACTIVE_RESEARCH_PACKAGES/L1/native.doc",
+         "mimeType": "application/vnd.google-apps.document", "sha256": None},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    text = read(tree)
+    # seven items now: two held, one indexed, four in neither -- one folder, one
+    # with no declared digest, and the two digest-bearing ones from the fixture.
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 7 | 2 | 1 | 4 |" in text
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 4 | 1 | 1 | 2 |" in text
+
+
+def test_the_folder_test_is_the_mime_type_and_not_the_path(tree):
+    """A file whose title looks like a folder is still a file."""
+    add_inventory(tree, [
+        {"id": "f2", "path": "01_ACTIVE_RESEARCH_PACKAGES/L1/looks_like_a_folder",
+         "mimeType": "text/markdown", "sha256": "7" * 64},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 3 | 0 | 0 | 3 |" in read(tree)
+
+
+def test_control_a_remainder_count_typed_by_hand_is_refused(tree):
+    overwrite(tree, read(tree).replace(
+        "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 2 | 0 | 0 | 2 |",
+        "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 2 | 2 | 0 | 0 |"))
+    out = check(tree)
+    assert out.returncode == 1 and "the index does not" in out.stdout
+
+
+def test_control_storing_a_digest_bearing_gap_empties_that_column(tree):
+    """The column that measures undone work has to react to the work."""
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 2 | 0 | 0 | 2 |" in read(tree)
+    rows(tree, "ALPHA_LANE", [
+        {"id": "a1", "title": "a.md", "sha256": "0" * 64, "bytes": 100, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md"},
+        {"id": "a2", "title": "b.export.txt", "sha256": "1" * 64, "bytes": 250, "exact": False,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt"},
+        {"id": "a3", "title": "c.bin", "stored": False,
+         "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin"},
+        {"id": "z1", "title": "unheld_one.md", "sha256": "5" * 64, "bytes": 5, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_one.md"},
+        {"id": "z2", "title": "unheld_two.md", "sha256": "6" * 64, "bytes": 5, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_two.md"},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    text = read(tree)
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 5 | 4 | 1 | 0 |" in text
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` |" not in text.split("### What the remainder is")[1]
+
+
+def test_a_reading_copy_takes_a_native_doc_out_of_the_no_digest_column(tree):
+    """A reading copy is all this repository can ever hold of a native Doc, and
+    holding one is still coverage.  It is counted as held, never as exact."""
+    add_inventory(tree, [
+        {"id": "n1", "path": "01_ACTIVE_RESEARCH_PACKAGES/L1/native.doc",
+         "mimeType": "application/vnd.google-apps.document", "sha256": None},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 3 | 0 | 1 | 2 |" in read(tree)
+    rows(tree, "ALPHA_LANE", [
+        {"id": "a1", "title": "a.md", "sha256": "0" * 64, "bytes": 100, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md"},
+        {"id": "a2", "title": "b.export.txt", "sha256": "1" * 64, "bytes": 250, "exact": False,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt"},
+        {"id": "a3", "title": "c.bin", "stored": False,
+         "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin"},
+        {"id": "n1", "title": "native.export.txt", "sha256": "9" * 64, "bytes": 30,
+         "exact": False, "stored": True,
+         "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/native.doc"},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 2 | 0 | 0 | 2 |" in read(tree)
+
+
+def test_a_lane_with_no_gap_is_left_out_of_the_remainder_table(tree):
+    remainder = read(tree).split("### What the remainder is")[1]
+    assert "02_OTHER_LANE" not in remainder, "a lane at neither=0 has nothing to report"
+    assert "| **1 lanes with a gap** | **2** | **0** | **0** | **2** |" in remainder
+
+
+def test_the_split_is_refused_when_an_id_is_in_the_inventory_twice(tree):
+    """held/indexed are sets and items is a row count, so a duplicated id makes
+    the two disagree.  The checker says so instead of printing a wrong column."""
+    add_inventory(tree, [{"id": "a1", "path": "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md",
+                          "sha256": "0" * 64}])
+    assert run("--root", str(tree), "--write").returncode == 0
+    out = check(tree)
+    assert out.returncode == 1
+    assert "an id is in the inventory twice" in out.stdout, out.stdout
+
+
+def test_control_a_row_two_tables_share_may_not_be_deleted_from_one(tree):
+    """The index carries three tables and two can render the same row for one
+    lane.  Deleting one of the pair was refused before this change too, but as a
+    prose difference naming no row: the set of lines was unchanged, so only the
+    whole-file compare noticed.  This pins the row being named and counted."""
+    # A lane holding nothing, whose whole gap is digest-bearing, renders the
+    # same five cells in both: "| X | n | 0 | 0 | n |".
+    add_inventory(tree, [
+        {"id": "q1", "path": "03_UNTOUCHED_LANE/q.md", "sha256": "a" * 64},
+        {"id": "q2", "path": "03_UNTOUCHED_LANE/r.md", "sha256": "b" * 64},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    text = read(tree)
+    twice = [l for l in set(text.splitlines()) if l.startswith("| `") and text.count(l + "\n") == 2]
+    assert twice, "expected one row string rendered by both tables"
+    overwrite(tree, text.replace(twice[0] + "\n", "", 1))
+    out = check(tree)
+    assert out.returncode == 1, out.stdout
+    assert twice[0].strip() in out.stdout, "the deleted row must be named"
+    assert "2 times and the index says it 1" in out.stdout, out.stdout
+    assert "prose differs" not in out.stdout, "the prose is not what changed"
+
+
+# --- the same invariants, on the tree this repository actually has -----------
+
+def test_the_real_remainder_columns_sum_to_the_gap():
+    out = run()
+    assert "problems=0" in out.stdout, out.stdout
+    numbers = dict(part.split("=") for part in out.stdout.strip().splitlines()[-1].split()
+                   if "=" in part)
+    assert (int(numbers["gap_folders"]) + int(numbers["gap_no_digest"])
+            + int(numbers["gap_portable"])
+            == int(numbers["inventory"]) - int(numbers["held"])
+            - real_indexed()), out.stdout
+
+
+def real_indexed():
+    """Inventory ids a manifest indexes tree-only, counted from the tree."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import mirrors_index_check as tool
+    rows_ = tool.coverage(ROOT, os.path.join("drive", "mirrors"),
+                          os.path.join("drive", "deltas"),
+                          os.path.join("drive", "inventory.jsonl"))
+    return sum(counts["indexed"] for _lane, counts in rows_)
+
+
+def test_every_real_no_digest_item_really_has_no_declared_digest():
+    """Re-derived from the inventory rather than from the tool's own answer."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import mirrors_index_check as tool
+    folders = no_digest = digest = 0
+    with open(os.path.join(ROOT, "drive", "inventory.jsonl"), encoding="utf-8") as handle:
+        for line in handle:
+            record = json.loads(line)
+            kind = tool.remainder_kind(record)
+            if kind == "folders":
+                assert record["mimeType"] == FOLDER
+                folders += 1
+            elif kind == "no_digest":
+                assert not record.get("sha256"), record["id"]
+                no_digest += 1
+            else:
+                assert record["sha256"], record["id"]
+                digest += 1
+    assert folders and no_digest and digest
+
+
+def test_the_summary_line_reports_the_three_kinds_of_gap():
+    out = run()
+    for key in ("gap_folders=", "gap_no_digest=", "gap_portable="):
+        assert key in out.stdout, out.stdout
+
+
+def test_the_index_says_a_native_doc_can_only_be_a_reading_copy():
+    with open(INDEX, encoding="utf-8") as handle:
+        text = handle.read()
+    assert "### What the remainder is" in text
+    assert "a text export, not the object" in text
+    assert "| Drive lane | neither | folders | no digest declared | digest-bearing |" in text
