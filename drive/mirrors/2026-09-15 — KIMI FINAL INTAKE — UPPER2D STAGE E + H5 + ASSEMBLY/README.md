@@ -242,3 +242,29 @@ directory are the derived `*.zip.members.txt` listings, which are written here a
 this lane stores no such listing, and no archive of its own.
 A PDF rendering of any of these documents would not be a frozen body either; the frozen body is the
 marker-delimited byte range of the object itself, under the rule its own lane names.
+
+
+## 2026-09-20 — the digest-bearing remainder: 6 files byte-exact
+
+The last 6 digest-bearing items of this lane are stored byte-exact, all of them
+Python sources of the RN-uniform and H5 z-band work. The lane's digest-bearing
+gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row. **Zero mismatches.**
+
+**The obligations this lane touches are OPEN.** `OBL-H5-ZBAND` and both pieces of
+`D3-LEMMA-RN-UNIF` are open in the register, and nothing stored here changes
+that. Some of these files carry status strings of their own — a *consumption
+certificate* line, a `LEMMA_CLOSED=NO`, a `status: PROPOSED` — and those are
+quoted bytes inside a mirrored file. They are transcribed from no register, they
+carry no status in this repository, and they license nothing.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem. A file named for a
+consumption or a discharge does not discharge anything by being held here.

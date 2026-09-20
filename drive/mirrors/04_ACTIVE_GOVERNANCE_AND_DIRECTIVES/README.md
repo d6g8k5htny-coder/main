@@ -232,3 +232,40 @@ is left exactly where the sources leave it. The register labels above were trans
 and where the export contradicts itself the contradiction is reproduced rather than repaired.
 `tools/verify_manifests.py` passing over this directory means every stored byte count and SHA-256
 matches its manifest row — nothing more.
+
+
+## 2026-09-20 — the digest-bearing remainder: 13 files byte-exact
+
+The last 13 digest-bearing items of this lane whose bytes were not here are
+stored byte-exact: protocols, ratification and decision cards, checklists, HOLD
+and retraction notices, an implementation report and two same-named Apps Script
+sources whose bytes differ, each stored on its own digest with no choice made
+between them. The lane's digest-bearing gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row. **Zero mismatches.**
+
+**A protocol, ratification card or directive copied here grants no authority.**
+It ratifies nothing, approves nothing, moves no gate and puts nothing in force.
+Protocol statuses in this repository are transcribed from the register's
+`artifact_index` into `governance/README.md`, not read from these bytes, and the
+operator remains the single final authority under `governance/`.
+
+`OP-PROT-019-v1.1_R17.md` is the object behind this repository's own
+port-fidelity failure. Until 2026-09-18 the reading copy under
+`governance/protocols/` was presented as the object: it had the **same byte
+count** as the Drive object and a **different digest**, so a byte-count check had
+confirmed the wrong bytes (`docs/PORT_FIDELITY_REPAIR.md`). Holding the raw
+object at its inventory digest is what makes that comparison checkable rather
+than asserted.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem, and nothing about
+what is in force. Every number above counts files, bytes and digests. The
+approval phrases and status words inside these documents are the source's, and
+copying them enacts none of them.

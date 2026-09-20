@@ -47,27 +47,30 @@ Within the active lane:
 **How much of that this repository holds** is measured per lane in
 [`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
 own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
-inventory's 4,456 items, 1,789 are held byte-for-byte and a further 985 are
-indexed tree-only — 40.1% held, 62.3% held or indexed. The three sub-lanes that
+inventory's 4,456 items, 1,813 are held byte-for-byte and a further 985 are
+indexed tree-only — 40.7% held, 62.8% held or indexed. The three sub-lanes that
 had been at zero of either — `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
 `10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
 items in all — were ported the same day and each now reads `neither = 0`.
 
-The 1,682 items in neither column are not one kind of gap, and the index splits
+The 1,658 items in neither column are not one kind of gap, and the index splits
 them by reading each inventory record's own fields: **472 are folders**, which
 have no payload for any manifest row to hold or index; **1,186 are native Google
 Docs** the corpus declares no digest for anywhere, so the most this repository
 can ever hold of one is a reading copy at `exact: false` — a text export, not the
-object; and **24 carry a digest**, so a copy could be stored and proved
-byte-exact against it. Only that last number measures work this repository could
-do and has not done, and after five ports on 2026-09-20 it is down to two dozen
-files, none larger than 14 KB: 13 in active governance and directives, six in the
-KIMI final intake, three in the power-planning continuum and two in the thematic
-tracks. Twenty-two of the 26 Drive lanes now have no digest-bearing gap at all: seven have no gap of any kind, and fifteen more have a gap made only of folders and native Docs. `99_DO_NOT_OPEN` (6 items) is at zero deliberately and
+object; and **none carries a digest**. That last number is the only one of the
+three that measures work this repository could do and has not done, and after six
+ports on 2026-09-20 it is **zero**: every item in the 4,456-entry inventory for
+which a payload digest exists anywhere in the corpus is now either held
+byte-exact here or carries a manifest row stating why it is not. All 26 Drive
+lanes are at zero. What remains uncovered is what cannot be held byte-exact at
+all — folders, which have no payload, and native Google Docs, for which the
+corpus declares no digest to prove a copy against.
+`99_DO_NOT_OPEN` (6 items) is at zero deliberately and
 permanently: it is metadata only and is never opened.
 
-Both paragraphs were corrected five times on 2026-09-20, because five ports
-landed that day. The first gave 700 held and 873 indexed, named those three
+Both paragraphs were corrected six times on 2026-09-20, because six ports landed
+that day. The first gave 700 held and 873 indexed, named those three
 sub-lanes as at zero coverage, and printed the remaining 2,883 as a single number
 with no statement of what kind of gap they are; the second gave 861 held, 917
 indexed and 1,020 digest-bearing, before the KIMI/AO48 LB-RATE intake's 330
@@ -78,7 +81,8 @@ the fourth gave 1,387 held, 956 indexed and 455 digest-bearing, before the
 carry-forward canon's 174 — 172 stored and 2 indexed — did the same there; and the
 fifth gave 1,559 held, 958 indexed and 281 digest-bearing, before the peer-review
 packages, the HOLD lane, the SIDE24 ratification intake and the coordination
-spine took theirs to zero together.
+spine took theirs to zero together; and the sixth gave 1,789 held, 985 indexed
+and 24 digest-bearing, before the last two dozen files closed the gap entirely.
 
 The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
 program's terminal closure records live: the documents behind every

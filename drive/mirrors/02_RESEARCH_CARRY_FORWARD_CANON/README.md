@@ -309,3 +309,22 @@ the 2026-09-17 inventory declares for that Drive id, and says nothing about
 whether the document is correct, current or authoritative. No open target is
 closed here, nothing is promoted, and the imperative text these files address to
 other model lines is quoted data, not instructions followed here.
+
+
+### 2026-09-20 — twelve files moved, and why
+
+Twelve files this lane stored earlier the same day were sitting in directories
+the port had invented from part of their own titles. A Drive title may contain a
+literal `/` — `(GP-REQ-226 / GP-REQ-215 review of …)` is one of these — and
+`drive/inventory.jsonl` joins titles with `/` to build its `path` field, so
+splitting that path on `/` turns part of a filename into a directory level. The
+bytes and the digests were never affected; only the locations were, and each
+moved row says so.
+
+The defect was invisible to every checker here, because the manifest writer split
+the path the same way the fetch did: the row and the file agreed with each other
+while both disagreed with the Drive. It surfaced when a fetch agent on another
+lane reported an odd-looking directory. The port now derives a location from the
+inventory's own folder records rather than by splitting a string, and a check was
+added that compares each stored row's directory against the Drive path the row
+itself carries.

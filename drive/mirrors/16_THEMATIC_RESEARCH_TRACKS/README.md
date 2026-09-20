@@ -277,3 +277,37 @@ by anything here; no finite decimal (4.3, 4.35, 0.8411, 0.946, 0.57) is promoted
 no original prize problem is solved and nothing here enters the prize track in
 either direction. Nothing stored under this directory is imported, executed,
 scheduled or tested by anything in this repository.
+
+
+## 2026-09-20 — the digest-bearing remainder: 2 files byte-exact
+
+The last 2 digest-bearing items of this lane are stored byte-exact: the T1 gate
+reduction machine tool and the T3 Theorem B package. The lane's digest-bearing
+gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row. **Zero mismatches.**
+
+**One of them exposed a path bug.** The T3 track's folder is titled
+`T3 — Theorem B (ℓ^-1/3 Lifetime Law)` and that title contains a literal `/`.
+`drive/inventory.jsonl` joins titles with `/` to build its `path` field, so
+splitting a path on `/` invents a directory level and the file landed under half
+a folder name. Three folders in the whole inventory have such a title, and this
+is the only one below a lane prefix. The port now derives a location from the
+inventory's own folder records — the longest folder path that prefixes the
+file's — rather than by splitting a string, so a title keeps whatever characters
+it has. A fetch agent reported the odd path; the checkers could not, because the
+manifest writer split identically and both agreed while both were wrong.
+
+The charters of T1–T5 state their own fences. Those are the source's statements
+about its own work and are not widened here.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, grade or theorem. Theorem B's
+status in this repository is the register's, carried in `claims/graph.json`, and
+a package named for it does not change it.

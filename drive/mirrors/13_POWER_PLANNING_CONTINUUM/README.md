@@ -231,3 +231,26 @@ PROVEN-HERE labels not citable as current proof; the five validity premises of
 Theorem D1 v2.2(2) and `D3-LEMMA-RN-UNIF` are untouched by anything here; the 2D
 tracks are not composed with the 3D lifetime track; and no original prize problem
 is solved, with nothing here entering the prize track in either direction.
+
+
+## 2026-09-20 — the digest-bearing remainder: 3 files byte-exact
+
+The last 3 digest-bearing items of this lane are stored byte-exact — the six-pin
+covariance factorization, the cubic-type no-go and the window saddle frame. The
+lane's digest-bearing gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row. **Zero mismatches.**
+
+The leaf and live-state cards of this lane carry the source's own withdrawn
+claims and status labels. They stay exactly as the source states them: neither
+restated, revived nor resolved here.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem. A file named for a
+no-go result establishes no result by being held here.
