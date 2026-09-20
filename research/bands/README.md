@@ -384,3 +384,13 @@ mass (every point of a shell is charged at the shell's nearest distance). The
 control therefore runs on the inverse-power kernel, where the bound is about
 2.0× the truth. A control that cannot fire is worse than no control, so the
 limitation is stated in the test's own docstring.
+
+### 2026-09-19 addition: Hermite–Gaussian derivative candidate
+
+`hermite_gaussian.py` now supplies the exact two-axis plane derivative family
+matching the frozen kernel's algebraic normalization, together with rational
+global Gaussian envelope constants. The proof is in
+[`HERMITE_GAUSSIAN_ENVELOPE.md`](../../docs/HERMITE_GAUSSIAN_ENVELOPE.md).
+Its evaluator uses certified intervals; its envelope review flag remains false.
+The full 24-jet, six-pin geometry, normalization, and authoritative r-band
+bindings described above remain outstanding. No status is changed.

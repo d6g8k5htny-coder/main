@@ -155,3 +155,16 @@ verifiers three times, which is what they are for.
 The owner remains the single final authority for canonical promotion, external
 release, permanent deletion and machine-root replacement. This repository
 changes none of that.
+
+### 2026-09-19 research-transfer continuation
+
+The [dated coverage bundle](drive/deltas/2026-09-19/DG-MIGRATION-20260919/README.md)
+now accounts for 4,112 stored research files, 758 folder records and 54 held
+files. Exact inventory bytes, native exports and newly observed raw snapshots
+are distinguished, hashed and reconstructible; the original inventory remains
+unchanged. `python tools/drive_coverage.py --json` verifies the declared scope.
+
+A [two-axis Hermite–Gaussian envelope candidate](docs/HERMITE_GAUSSIAN_ENVELOPE.md)
+adds exact interval evaluation and 66 reproducible derivative cases through
+order 10. It is author-produced and unreviewed; it changes no claim or
+obligation status and supplies no full 24-jet or six-pin band result.

@@ -61,5 +61,9 @@ jobs:
         run: python tools/operations_check.py
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
+      - name: Scoped Drive coverage and exact packed-byte reconstruction
+        run: python tools/drive_coverage.py --json
+      - name: Reproduce the unreviewed Hermite Gaussian candidate table
+        run: python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json
       - name: Unit tests and negative controls
         run: python -m pytest -q
