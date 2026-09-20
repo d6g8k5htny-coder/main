@@ -14,24 +14,23 @@ dest, bytes, sha256, exact, inventory digest, note) that `tools/verify_manifests
 
 ## Coverage of the lane
 
-| top-level subfolder | inventory items (files) | objects mirrored here |
-|---|---:|---:|
-| `00 — PRIORITY OPEN MATHEMATICAL TARGETS` | 594 (526) | 27 |
-| `Cross-Model Exchange` | 46 (39) | 0 — not ported by this lane |
-| `LPW — RAW ARCHIVE INTAKE R05` | 46 (43) | 43 |
-| `2026-09-12 — NEXT PHASE — LOCAL PATH LOWER-BOUND CANDIDATE` | 41 (39) | 0 — not ported by this lane |
-| `LPW — OPERATOR FOLD R04 — 2026-09-12` | 31 (31) | 0 — not ported by this lane |
-| `(files directly in the lane folder)` | 7 (2) | 0 — not ported by this lane |
+**Counted per lane in [`MIRRORS.md`](../../MIRRORS.md)**, generated from these
+manifests by `tools/mirrors_index_check.py` and refused by CI if it drifts. Since
+2026-09-20 no digest-bearing item of this lane is unaccounted for: every one is
+held byte-exact or carries a tree-only row saying why not. What remains uncovered
+is 436 native Google Docs, for which no payload digest exists anywhere in the
+corpus so the most this repository could ever hold of one is a reading copy, and
+85 folders, which have no payload at all.
 
-Under `00 — PRIORITY OPEN MATHEMATICAL TARGETS` the mirrored objects sit in `P0.1 — UNIFORM ADJACENCY
-POSITIVITY` (315 inventory items, 6 mirrored), `P0.2 — ADJACENCY-TO-ONE CUBIC RATE` (212, 5 mirrored),
-`P1.1 — LAW-SPECIFIC q MACHINE ROOTS AND VERIFIER` (29, 8 mirrored) and `GP-FOR-189 — Formal-Core
-Source-Recovery Bundle` (14, 8 mirrored). `P1.2 — Q0-C109 CONTINUUM SHORT-BAR DIAGNOSTIC`, `P1.3 —
-Q0-C109 COMPACT-KAPPA DEFECT TRANSFER`, the lane's `00_READ_FIRST`, `FORMALIZATION BOARD` and
-`GP-FOR-001` Docs, `Cross-Model Exchange` (except the three operator-protocol relays and the ledger
-mirrored under `governance/protocols/history/`), `2026-09-12 — NEXT PHASE — LOCAL PATH LOWER-BOUND
-CANDIDATE` and `LPW — OPERATOR FOLD R04 — 2026-09-12` were not ported by this lane. The tenth exact
-P0.2 object, `GP-DER-197-v1.0`, lives in the reviews lane on the Drive and is mirrored at
+Until 2026-09-20 this section carried a hand-typed table of per-subfolder counts
+and a paragraph naming `Cross-Model Exchange`, `2026-09-12 — NEXT PHASE — LOCAL
+PATH LOWER-BOUND CANDIDATE` and `LPW — OPERATOR FOLD R04 — 2026-09-12` as not
+ported by this lane. Each was true when written, and this pass ports all three.
+That is the drift a generated count does not have, and it is why the table is
+gone rather than corrected.
+
+The tenth exact P0.2 object, `GP-DER-197-v1.0`, lives in the reviews lane on the
+Drive and is mirrored at
 `../15_REVIEWS_RESPONSES_AND_CLOSURES/00_REVIEW_PACKAGES_AND_GATE_CLARIFICATIONS/SHARED_DEPENDENCY_REVIEW_PACKETS — P0.1 + P0.2/`.
 
 ## What is here
@@ -259,3 +258,54 @@ the Rayleigh repair await the external review the source itself demands; the rev
 above (APPROVE, PASS WITHIN SCOPE, AMEND REQUIRED, NONCLOSURE) are the source's vocabulary and are
 not merged into `registers/json/review_queue.json`. No independence credit is awarded to anything by
 mirroring it, no original prize problem is solved, and no 2D bound is composed with the 3D track.
+
+
+## 2026-09-20 — the digest-bearing remainder: 172 files byte-exact
+
+`drive/MIRRORS.md` measured this lane at 174 digest-bearing inventory items whose
+bytes were not here. **172 are now stored byte-exact** — 85 under
+`00 — PRIORITY OPEN MATHEMATICAL TARGETS`, 39 under the local-path lower-bound
+candidate, 30 under the LPW operator fold R04 and 18 under Cross-Model Exchange —
+and the 2 left, both over this pass's 65,536-byte store limit, carry tree-only
+rows with the inventory's own digest. **Zero mismatches in 172 files.**
+
+**Holding a canonical object's bytes promotes nothing.** Canonical promotion is
+the operator's alone under `governance/`. Every status word inside these files is
+the source's, this repository's claim grades are read from the register exports
+and `claims/graph.json` and from nothing stored here, and the priority open
+mathematical targets are open by the source's own word. A relay under
+`Cross-Model Exchange` is not a review and earns no independence credit.
+
+### What holding the bytes made visible
+
+**Seven objects carry a void, supersession or alias marker the source put in its
+own title** — a corrupt plain-JSON upload replaced by a `.gz`, a third attempt
+superseding two void ones, a failed upload marked `VOID — DO NOT USE`, an
+ID-corrected alias whose filename artifact id and in-file header id differ by
+design. The bytes are stored anyway, because a voided object is still an object
+the 2026-09-17 inventory declares and holding it is how a reader checks what was
+voided. Each row carries the marker and says that nothing here acts on it: no
+object is deleted, hidden or reclassified, and which of a superseded pair is
+current is the source's statement, not this repository's.
+
+Six distinct payloads are carried by twelve Drive ids in this lane, including two
+pairs whose titles declare the second a renumbering of the first with the hash
+unchanged. Each id keeps its own row.
+
+**Sixty-six of the lane's own sha256sum declarations reproduce against the bytes
+now held, and none mismatches.** That number is trustworthy only because the
+checker was fixed first: it had been resolving each declared path by its last
+component, so a line naming a file inside a subdirectory was looked up as a
+same-named file beside the manifest. On this lane that invented nine mismatches
+that do not exist. The path is now resolved relative to the manifest that
+declares it, and the correction is carried back to the K3 intake lane's README,
+whose count it had understated.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, target or theorem. Every number
+above counts files, bytes and digests. A byte-exact copy says these are the bytes
+the 2026-09-17 inventory declares for that Drive id, and says nothing about
+whether the document is correct, current or authoritative. No open target is
+closed here, nothing is promoted, and the imperative text these files address to
+other model lines is quoted data, not instructions followed here.

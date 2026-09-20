@@ -1,0 +1,116 @@
+{
+  "explicit_exclusions": [
+    "NO exact-field transfer",
+    "NO probability or occupancy estimate",
+    "NO P0.2 or Theorem B claim",
+    "NO instrument or machine promotion"
+  ],
+  "negative_controls": [
+    {
+      "id": "NC1_OPTIMIZER_UNATTAINED",
+      "input": {
+        "A": "0",
+        "B": "0",
+        "F": "0.5",
+        "beta": "4.5"
+      },
+      "observed": "OPTIMIZER_UNATTAINED",
+      "pass": true,
+      "required": "OPTIMIZER_UNATTAINED",
+      "w_mu_behavior": "F/mu -> infinity as mu -> 0+"
+    },
+    {
+      "A_S_minus_D_S": "0.00",
+      "J_M_det": "26.000",
+      "J_M_trace": "-13.00",
+      "J_S_det": "-3.000",
+      "S_r": true,
+      "id": "NC2_AXIAL_DENOMINATOR_ZERO",
+      "input": {
+        "a": "4",
+        "c40": "-480",
+        "r": "0.05",
+        "s": "-5.5",
+        "w": "9",
+        "z": "0.01"
+      },
+      "observed": "P1_FAIL_AXIAL_DENOMINATOR",
+      "pass": true,
+      "required": "P1_FAIL_AXIAL_DENOMINATOR"
+    },
+    {
+      "id": "NC3_PATH_DEPENDENT_WIDTH_LIMIT",
+      "observed": "NO_UNIQUE_DEGENERATE_W_LIMIT",
+      "pass": true,
+      "paths": {
+        "a=eps,z=eps": "W -> 1/sqrt(8)",
+        "a=eps,z=eps^3": "W -> infinity like 1/(sqrt(8) eps)",
+        "a=eps^2,z=1": "W -> 0 like eps/sqrt(8)"
+      },
+      "required": "NO_UNIQUE_DEGENERATE_W_LIMIT"
+    },
+    {
+      "allowed_strip_exit_y": "0.02",
+      "id": "NC4_SECTION_BOUND_SWAP",
+      "kappa_sigma": "0.001",
+      "observed": "USE_W_AT_M_SIDE",
+      "pass": true,
+      "required": "USE_W_AT_M_SIDE"
+    },
+    {
+      "id": "NC5_FIELD_LAYER_GUARD",
+      "observed": "DEGREE_FOUR_ONLY",
+      "pass": true,
+      "required": "DEGREE_FOUR_ONLY"
+    }
+  ],
+  "overall": "PASS_DEGREE4_REPAIR_FIXTURE_ONLY",
+  "primary_fixture": {
+    "fixture_id": "PRCP-INTERIOR-001",
+    "layer": "DEGREE_FOUR_ONLY",
+    "margins": {
+      "axis_margin": "0.8999900",
+      "capture_margin": "0.388431614851723477920451246934013718818621667984760873822674",
+      "central_transit_margin": "0.0899823223304703363118899788909473787740178791015577881490853",
+      "chart_x_margin": "0.046899039884100990988502910793348991287394897831867179308710",
+      "chart_y_margin": "0.796899039884100990988502910793348991287394897831867179308710",
+      "cone_slope_slack": "0.00875000048828086853064596612239304249611038318858072493180968",
+      "exact_unstable_slope": "0.000624999755859565734677016938803478751944808405709637534095160",
+      "handoff_margin": "0.00783883476483184405501055452631061299106044922110592545735425",
+      "lower_cone_inward_margin": "0.017880100",
+      "m_side_section_margin": "0E-60",
+      "strip_bottom_inward_margin": "0.0175214195296636881100211090526212259821208984422118509147085",
+      "strip_partial_margin": "0.982322330470336311889978890947378774017879101557788149085292",
+      "strip_top_inward_margin": "0.0175214195296636881100211090526212259821208984422118509147085",
+      "threshold_slack": "0.964644660940672623779957781894757548035758203115576298170583",
+      "upper_cone_inward_margin": "0.020119900"
+    },
+    "parameters": {
+      "a": "1/400",
+      "c04": "0",
+      "c13": "0",
+      "c22": "0",
+      "c31": "0",
+      "c40": "0",
+      "kappa": "1/100",
+      "r": "1/20",
+      "s": "-1",
+      "sigma": "1/10",
+      "w": "0",
+      "z": "1"
+    },
+    "result": "PASS_STRICT_INTERIOR_DEGREE4",
+    "witness": {
+      "A": "0.0003125",
+      "B": "0",
+      "C_mu": "0.0353553390593273762200422181052424519642417968844237018294170",
+      "F": "0.0003125",
+      "W": "0.0176776695296636881100211090526212259821208984422118509147085",
+      "mu": "0.0176776695296636881100211090526212259821208984422118509147085"
+    }
+  },
+  "schema": "prcp-witness-fixture/1.0",
+  "source_bytes": 8235,
+  "source_filename": "GP-DATA-093-v1.0_prcp_witness_fixture.py",
+  "source_sha256": "f2b02785bc42b90311913c93ec79e21b89ac787c865dfcca3236512cb58e243f"
+}

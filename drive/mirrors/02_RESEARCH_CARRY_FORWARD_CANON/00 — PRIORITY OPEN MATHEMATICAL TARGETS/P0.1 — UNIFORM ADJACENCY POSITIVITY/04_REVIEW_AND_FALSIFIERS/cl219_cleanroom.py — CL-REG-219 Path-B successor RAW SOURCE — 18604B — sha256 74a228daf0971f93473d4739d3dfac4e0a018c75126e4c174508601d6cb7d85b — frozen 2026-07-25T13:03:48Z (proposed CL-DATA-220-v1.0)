@@ -1,0 +1,542 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+cl219_cleanroom.py — EC-019 T2 PATH-B SUCCESSOR VERIFIER
+=========================================================
+Preregistered by CL-REG-219-v1.0 (published 2026-07-25T13:00:55Z, BEFORE this
+file existed). Derived only from GP-SPEC-166-v1.0. Successor package under
+LCR-COR-061 Section 10 PATH B; claims zero additional independence credit and
+no blindness (see the CL-REG-219 exposure ledger).
+
+Author line: CL — Anthropic Claude (model line claude-fable-5 at authoring;
+session previously claude-opus-4-8), Cowork session, operator Dylan Roy.
+
+Method (as preregistered):
+  * fractions.Fraction interval endpoints; +, -, * exact; division FAIL-CLOSED
+    (raises) when the divisor interval contains zero; even powers of
+    zero-crossing intervals -> [0, max(a^2, b^2)]; odd powers monotone.
+  * Directed sqrt by pure integers: for rational x >= 0 and D = 10^P,
+    L = math.isqrt(floor(x * D^2)); lower = L/D; upper = (L+1)/D; the exact
+    rational inequality lower^2 <= x <= upper^2 is asserted at runtime for
+    every sqrt evaluation.
+  * Whole boxes enclosed; no point sampling. Nineteen margins decided by
+    EXACT rational sign tests. Controls NC1-NC5 executed, never asserted.
+    Nine zero-radius mutations machine-rejected by the validator.
+  * Precision ladder P in {40, 100, 200} (GP-COR-180 / CL-REG-214 policy).
+  * Output: cl219_results.json — json.dumps(sort_keys=True,
+    separators=(",", ":")) plus exactly one trailing LF. Deterministic:
+    re-running reproduces the file byte-identically.
+"""
+
+from fractions import Fraction as Fr
+from decimal import Decimal, Context, ROUND_FLOOR, ROUND_CEILING
+from math import isqrt
+import json
+
+# ---------------------------------------------------------------------------
+# Declared (fixed) environment strings — constants by preregistration, so the
+# result file is byte-stable across compliant replay environments.
+# ---------------------------------------------------------------------------
+DECLARED_ENV = {
+    "language": "Python 3.11.x CPython",
+    "os": "Linux x86_64",
+    "libraries": "standard library only (fractions, decimal, math, json)",
+    "preregistration": "CL-REG-219-v1.0",
+    "derivation_source": "GP-SPEC-166-v1.0",
+}
+
+LADDER = [40, 100, 200]
+
+
+# ---------------------------------------------------------------------------
+# Directed square root on exact rationals (pure integer; runtime-proven).
+# ---------------------------------------------------------------------------
+def sqrt_enclosure(x, P):
+    """Return (lo, hi) rationals with lo^2 <= x <= hi^2, width <= 2/10^P."""
+    assert x >= 0
+    D = 10 ** P
+    n = (x.numerator * D * D) // x.denominator          # floor(x * D^2)
+    L = isqrt(n)
+    lo = Fr(L, D)
+    hi = Fr(L + 1, D)
+    assert lo * lo <= x <= hi * hi, "sqrt enclosure violated"
+    return lo, hi
+
+
+# ---------------------------------------------------------------------------
+# Exact-rational interval.
+# ---------------------------------------------------------------------------
+class I:
+    __slots__ = ("a", "b")           # a = lower endpoint, b = upper endpoint
+
+    def __init__(self, a, b=None):
+        if b is None:
+            b = a
+        a = Fr(a)
+        b = Fr(b)
+        if a > b:
+            raise ValueError("inverted interval")
+        self.a = a
+        self.b = b
+
+    @staticmethod
+    def of(x):
+        return x if isinstance(x, I) else I(Fr(x))
+
+    def __add__(self, o):
+        o = I.of(o)
+        return I(self.a + o.a, self.b + o.b)
+    __radd__ = __add__
+
+    def __sub__(self, o):
+        o = I.of(o)
+        return I(self.a - o.b, self.b - o.a)
+
+    def __rsub__(self, o):
+        return I.of(o) - self
+
+    def __mul__(self, o):
+        o = I.of(o)
+        c = (self.a * o.a, self.a * o.b, self.b * o.a, self.b * o.b)
+        return I(min(c), max(c))
+    __rmul__ = __mul__
+
+    def __truediv__(self, o):
+        o = I.of(o)
+        if o.a <= 0 <= o.b:
+            raise ZeroDivisionError("FAIL-CLOSED: divisor interval contains 0")
+        c = (self.a / o.a, self.a / o.b, self.b / o.a, self.b / o.b)
+        return I(min(c), max(c))
+
+    def __rtruediv__(self, o):
+        return I.of(o) / self
+
+    def __neg__(self):
+        return I(-self.b, -self.a)
+
+
+def ipow(x, n):
+    if n == 1:
+        return x
+    if n % 2 == 1:
+        return I(x.a ** n, x.b ** n)
+    if x.a >= 0:
+        return I(x.a ** n, x.b ** n)
+    if x.b <= 0:
+        return I(x.b ** n, x.a ** n)
+    return I(Fr(0), max(x.a ** n, x.b ** n))
+
+
+def sq(x):
+    return ipow(x, 2)
+
+
+def iabs(x):
+    if x.a >= 0:
+        return I(x.a, x.b)
+    if x.b <= 0:
+        return I(-x.b, -x.a)
+    return I(Fr(0), max(-x.a, x.b))
+
+
+def supabs(x):
+    return max(abs(x.a), abs(x.b))
+
+
+def isqrt_interval(x, P):
+    assert x.a >= 0
+    lo, _ = sqrt_enclosure(x.a, P)
+    _, hi = sqrt_enclosure(x.b, P)
+    return I(lo, hi)
+
+
+# ---------------------------------------------------------------------------
+# GP-SPEC-166-v1.0 Section 3 — constants and primary box.
+# ---------------------------------------------------------------------------
+R = Fr(1, 20)
+SIGMA = Fr(1, 10)
+KAPPA = Fr(1, 100)
+
+PRIMARY = {
+    "a":   (Fr(25, 10000), Fr(1, 10000)),
+    "w":   (Fr(0), Fr(1, 1000)),
+    "z":   (Fr(1), Fr(1, 100)),
+    "s":   (Fr(-1), Fr(2, 100)),
+    "c40": (Fr(0), Fr(1, 100)),
+    "c31": (Fr(0), Fr(1, 100)),
+    "c22": (Fr(0), Fr(1, 100)),
+    "c13": (Fr(0), Fr(1, 100)),
+    "c04": (Fr(0), Fr(1, 100)),
+}
+PNAMES = ["a", "w", "z", "s", "c40", "c31", "c22", "c13", "c04"]
+
+
+def build(spec):
+    box = {}
+    radii = {}
+    for k, (c, r) in spec.items():
+        radii[k] = r
+        box[k] = I(c - r, c + r)
+    return box, radii
+
+
+def validate_full_dimensional(radii):
+    bad = [k for k in PNAMES if (k not in radii) or (radii[k] <= 0)]
+    return (len(bad) == 0), bad
+
+
+# ---------------------------------------------------------------------------
+# Section 4 — flow and Hessian entries.
+# ---------------------------------------------------------------------------
+def F_x(X, Y, p):
+    return (sq(X) - Fr(1, 4) + p["a"] * X * Y + p["w"] * sq(Y) / 2
+            + R * (p["c40"] * (ipow(X, 3) - X / 4) / 6
+                   + p["c31"] * (3 * sq(X) - Fr(1, 4)) * Y / 6
+                   + p["c22"] * X * sq(Y) / 2
+                   + p["c13"] * ipow(Y, 3) / 6))
+
+
+def F_y(X, Y, p):
+    return (p["a"] * (sq(X) - Fr(1, 4)) / 2 + p["s"] * Y + p["w"] * X * Y
+            + p["z"] * sq(Y) / 2
+            + R * (p["c31"] * (ipow(X, 3) - X / 4) / 6
+                   + p["c22"] * sq(X) * Y / 2
+                   + p["c13"] * X * sq(Y) / 2
+                   + p["c04"] * ipow(Y, 3) / 6))
+
+
+def J11(X, Y, p):
+    return (2 * X + p["a"] * Y
+            + R * (p["c40"] * (3 * sq(X) - Fr(1, 4)) / 6
+                   + p["c31"] * X * Y + p["c22"] * sq(Y) / 2))
+
+
+def J12(X, Y, p):
+    return (p["a"] * X + p["w"] * Y
+            + R * (p["c31"] * (3 * sq(X) - Fr(1, 4)) / 6
+                   + p["c22"] * X * Y + p["c13"] * sq(Y) / 2))
+
+
+def J22(X, Y, p):
+    return (p["s"] + p["w"] * X + p["z"] * Y
+            + R * (p["c22"] * sq(X) / 2 + p["c13"] * X * Y
+                   + p["c04"] * sq(Y) / 2))
+
+
+# ---------------------------------------------------------------------------
+# Section 7 — cone polynomials (xi-quotient cancelled; xi = 0 included).
+# ---------------------------------------------------------------------------
+def Q_x(xi, t, p):
+    n = (12 * p["a"] * t * xi - 6 * p["a"] * t
+         - 2 * p["c13"] * R * ipow(t, 3) * sq(xi)
+         + 6 * p["c22"] * R * sq(t) * sq(xi) - 3 * p["c22"] * R * sq(t) * xi
+         - 6 * p["c31"] * R * t * sq(xi) + 6 * p["c31"] * R * t * xi
+         - p["c31"] * R * t
+         + 2 * p["c40"] * R * sq(xi) - 3 * p["c40"] * R * xi + p["c40"] * R
+         - 6 * sq(t) * p["w"] * xi - 12 * xi + 12)
+    return n / 12
+
+
+def Q_y(xi, t, p):
+    n = (12 * p["a"] * xi - 12 * p["a"]
+         + 4 * p["c04"] * R * ipow(t, 3) * sq(xi)
+         - 12 * p["c13"] * R * sq(t) * sq(xi) + 6 * p["c13"] * R * sq(t) * xi
+         + 12 * p["c22"] * R * t * sq(xi) - 12 * p["c22"] * R * t * xi
+         + 3 * p["c22"] * R * t
+         - 4 * p["c31"] * R * sq(xi) + 6 * p["c31"] * R * xi
+         - 2 * p["c31"] * R
+         + 24 * p["s"] * t + 12 * sq(t) * xi * p["z"]
+         - 24 * t * p["w"] * xi + 12 * t * p["w"])
+    return n / 24
+
+
+MARGINS = [
+    "m_threshold", "m_saddle_det", "m_max_A", "m_max_D", "m_max_det",
+    "m_axial", "m_cone_slope", "m_cone_axis", "m_cone_upper", "m_cone_lower",
+    "m_handoff", "m_strip_top", "m_strip_bottom", "m_central_drift",
+    "m_transverse_contraction", "m_chart_X", "m_chart_Y",
+    "m_gersh_1", "m_gersh_2",
+]
+
+
+def certificate(p, kappa, P):
+    """All nineteen rigorous one-sided bounds (exact rationals) + aux."""
+    out = {}
+
+    s2 = isqrt_interval(I(2, 2), P)
+    mu = I(1, 1) / (40 * s2)
+
+    Fq = iabs(p["a"]) / 8 + R * iabs(p["c31"]) / 48
+    Aq = (iabs(p["z"]) + R * iabs(p["c13"]) / 2) * Fq
+    Bq = R * iabs(p["c04"]) * sq(Fq) / 2
+    Cq = iabs(p["w"]) / 2 + mu + R * iabs(p["c22"]) / 8 + Aq / mu + Bq / sq(mu)
+    W = Fq / mu
+    out["m_threshold"] = ((-p["s"]) - Cq).a
+
+    A_S = 1 + R * p["c40"] / 12
+    B_S = p["a"] / 2 + R * p["c31"] / 12
+    D_S = p["s"] + p["w"] / 2 + R * p["c22"] / 8
+    det_S = A_S * D_S - sq(B_S)
+    A_M = -1 + R * p["c40"] / 12
+    B_M = (-p["a"]) / 2 + R * p["c31"] / 12
+    D_M = p["s"] - p["w"] / 2 + R * p["c22"] / 8
+    det_M = A_M * D_M - sq(B_M)
+    g = A_S - D_S
+
+    out["m_saddle_det"] = -det_S.b
+    out["m_max_A"] = -A_M.b
+    out["m_max_D"] = -D_M.b
+    out["m_max_det"] = det_M.a
+    out["m_axial"] = g.a
+    gate_ok = g.a > 0
+    tau_up = (supabs(B_S) / g.a) if gate_ok else None
+    out["m_cone_slope"] = (kappa - 2 * tau_up) if gate_ok else Fr(-1)
+
+    xi = I(0, SIGMA)
+    t_full = I(-kappa, kappa)
+    t_pos = I(kappa, kappa)
+    t_neg = I(-kappa, -kappa)
+    out["m_cone_axis"] = Q_x(xi, t_full, p).a
+    out["m_cone_upper"] = (kappa * Q_x(xi, t_pos, p) - Q_y(xi, t_pos, p)).a
+    out["m_cone_lower"] = (kappa * Q_x(xi, t_neg, p) + Q_y(xi, t_neg, p)).a
+    out["m_handoff"] = W.a / 2 - kappa * SIGMA
+
+    X_c = I(Fr(-1, 2) + SIGMA, Fr(1, 2) - SIGMA)
+    Y_top = W
+    Y_bot = I(-W.b, -W.a)
+    Y_strip = I(-W.b, W.b)
+    out["m_strip_top"] = (-F_y(X_c, Y_top, p)).a
+    out["m_strip_bottom"] = F_y(X_c, Y_bot, p).a
+    out["m_central_drift"] = (-F_x(X_c, Y_strip, p)).a
+    out["m_transverse_contraction"] = -J22(X_c, Y_strip, p).b
+
+    rho = 2 * isqrt_interval(sq(I(SIGMA, SIGMA)) + sq(W), P)
+    ru = rho.b
+    X_cap = I(Fr(-1, 2) - ru, Fr(-1, 2) + ru)
+    Y_cap = I(-ru, ru)
+    j11 = J11(X_cap, Y_cap, p)
+    j12 = J12(X_cap, Y_cap, p)
+    j22 = J22(X_cap, Y_cap, p)
+    off = supabs(j12)
+    out["m_chart_X"] = Fr(3, 4) - (Fr(1, 2) + ru)
+    out["m_chart_Y"] = Fr(1) - ru
+    out["m_gersh_1"] = (-j11.b) - off
+    out["m_gersh_2"] = (-j22.b) - off
+
+    aux = {
+        "mu": (mu.a, mu.b),
+        "W": (W.a, W.b),
+        "rho": (rho.a, rho.b),
+        "tau_upper": tau_up,
+        "cone_slope_gate_ok": gate_ok,
+    }
+    return out, aux
+
+
+# ---------------------------------------------------------------------------
+# Display helpers (outward rounding for decimals; exact p/q kept alongside).
+# ---------------------------------------------------------------------------
+def dec_floor(fr, digits=60):
+    return str(Context(prec=digits, rounding=ROUND_FLOOR).divide(
+        Decimal(fr.numerator), Decimal(fr.denominator)))
+
+
+def dec_ceil(fr, digits=60):
+    return str(Context(prec=digits, rounding=ROUND_CEILING).divide(
+        Decimal(fr.numerator), Decimal(fr.denominator)))
+
+
+def rational(fr):
+    return {"num": str(fr.numerator), "den": str(fr.denominator)}
+
+
+# ---------------------------------------------------------------------------
+# Controls (Section 11) and zero-radius mutations.
+# ---------------------------------------------------------------------------
+def run_controls(P):
+    res = {}
+
+    spec = dict(PRIMARY)
+    spec["c04"] = (PRIMARY["c04"][0], Fr(0))
+    _, radii = build(spec)
+    ok, bad = validate_full_dimensional(radii)
+    res["NC1_zero_width"] = {
+        "required": "FULL_DIMENSIONAL_BOX_FAIL",
+        "validator_ok": ok,
+        "failing_radii": bad,
+        "fired": (not ok) and ("c04" in bad),
+    }
+
+    spec = dict(PRIMARY)
+    spec["c40"] = (PRIMARY["c40"][0], Fr(500))
+    box, _ = build(spec)
+    m, _ = certificate(box, KAPPA, P)
+    res["NC2_endpoint_typing"] = {
+        "required": "m_saddle_det<=0 OR m_max_det<=0",
+        "m_saddle_det": dec_floor(m["m_saddle_det"]),
+        "m_max_det": dec_floor(m["m_max_det"]),
+        "fired": bool((m["m_saddle_det"] <= 0) or (m["m_max_det"] <= 0)),
+    }
+
+    spec = dict(PRIMARY)
+    spec["s"] = (PRIMARY["s"][0], Fr(11, 10))
+    box, _ = build(spec)
+    m, _ = certificate(box, KAPPA, P)
+    res["NC3_threshold"] = {
+        "required": "m_threshold<=0",
+        "m_threshold": dec_floor(m["m_threshold"]),
+        "fired": bool(m["m_threshold"] <= 0),
+    }
+
+    box, _ = build(PRIMARY)
+    m, _ = certificate(box, Fr(5, 10000), P)
+    res["NC4_cone_narrow"] = {
+        "required": "m_cone_slope<=0",
+        "m_cone_slope": dec_floor(m["m_cone_slope"]),
+        "fired": bool(m["m_cone_slope"] <= 0),
+    }
+
+    spec = dict(PRIMARY)
+    spec["a"] = (PRIMARY["a"][0], Fr(1, 2))
+    box, _ = build(spec)
+    m, _ = certificate(box, KAPPA, P)
+    res["NC5_capture_chart"] = {
+        "required": "m_chart_X<=0 OR m_gersh_1<=0",
+        "m_chart_X": dec_floor(m["m_chart_X"]),
+        "m_gersh_1": dec_floor(m["m_gersh_1"]),
+        "fired": bool((m["m_chart_X"] <= 0) or (m["m_gersh_1"] <= 0)),
+    }
+    return res
+
+
+def run_mutations():
+    res = {}
+    for k in PNAMES:
+        spec = dict(PRIMARY)
+        spec[k] = (PRIMARY[k][0], Fr(0))
+        _, radii = build(spec)
+        ok, bad = validate_full_dimensional(radii)
+        res[k] = {"validator_ok": ok, "rejected": (not ok) and (k in bad)}
+    return res
+
+
+# ---------------------------------------------------------------------------
+# Regression tests (executed, recorded).
+# ---------------------------------------------------------------------------
+def run_regressions():
+    t = {}
+
+    lo, hi = sqrt_enclosure(Fr(2), 6)
+    t["sqrt_containment_low_precision"] = bool(lo * lo <= 2 <= hi * hi and lo < hi)
+
+    x = I(Fr(-3, 7), Fr(2, 5))
+    y = I(Fr(1, 3), Fr(9, 4))
+    s = x + y
+    d = x - y
+    pr = x * y
+    q = x / y
+    t["containment_add"] = bool(s.a <= Fr(-3, 7) + Fr(1, 3) <= s.b
+                                and s.a <= Fr(2, 5) + Fr(9, 4) <= s.b)
+    t["containment_sub"] = bool(d.a <= Fr(-3, 7) - Fr(9, 4) <= d.b
+                                and d.a <= Fr(2, 5) - Fr(1, 3) <= d.b)
+    t["containment_mul"] = bool(pr.a <= Fr(-3, 7) * Fr(9, 4) <= pr.b
+                                and pr.a <= Fr(2, 5) * Fr(1, 3) <= pr.b)
+    t["containment_div"] = bool(q.a <= Fr(-3, 7) / Fr(1, 3) <= q.b
+                                and q.a <= Fr(2, 5) / Fr(9, 4) <= q.b)
+
+    z = sq(I(Fr(-2, 3), Fr(1, 2)))
+    t["even_power_zero_crossing"] = bool(z.a == 0 and z.b == Fr(4, 9))
+
+    try:
+        _ = I(1, 1) / I(-1, 1)
+        t["division_fail_closed"] = False
+    except ZeroDivisionError:
+        t["division_fail_closed"] = True
+
+    return t
+
+
+# ---------------------------------------------------------------------------
+# Main.
+# ---------------------------------------------------------------------------
+def main():
+    box, radii = build(PRIMARY)
+    fd_ok, fd_bad = validate_full_dimensional(radii)
+
+    per_p = {}
+    for P in LADDER:
+        m, aux = certificate(box, KAPPA, P)
+        controls = run_controls(P)
+        per_p[str(P)] = {
+            "margins": {
+                k: {
+                    "exact_lower_bound": rational(m[k]),
+                    "decimal_lower_bound_floor": dec_floor(m[k]),
+                    "positive": bool(m[k] > 0),
+                } for k in MARGINS
+            },
+            "aux": {
+                "mu": {"lo": dec_floor(aux["mu"][0]), "hi": dec_ceil(aux["mu"][1])},
+                "W": {"lo": dec_floor(aux["W"][0]), "hi": dec_ceil(aux["W"][1])},
+                "rho": {"lo": dec_floor(aux["rho"][0]), "hi": dec_ceil(aux["rho"][1])},
+                "tau_upper_ceil": dec_ceil(aux["tau_upper"]),
+                "cone_slope_gate_ok": aux["cone_slope_gate_ok"],
+            },
+            "negative_controls": controls,
+            "all_margins_positive": all(m[k] > 0 for k in MARGINS),
+            "all_controls_fire": all(c["fired"] for c in controls.values()),
+        }
+
+    sign_sets = [
+        tuple(per_p[str(P)]["margins"][k]["positive"] for k in MARGINS)
+        for P in LADDER
+    ]
+    control_sets = [
+        tuple(per_p[str(P)]["negative_controls"][c]["fired"]
+              for c in sorted(per_p[str(P)]["negative_controls"]))
+        for P in LADDER
+    ]
+    stable = (len(set(sign_sets)) == 1) and (len(set(control_sets)) == 1)
+
+    mutations = run_mutations()
+    regressions = run_regressions()
+
+    ok_all = (fd_ok
+              and all(per_p[str(P)]["all_margins_positive"] for P in LADDER)
+              and all(per_p[str(P)]["all_controls_fire"] for P in LADDER)
+              and all(v["rejected"] for v in mutations.values())
+              and all(regressions.values())
+              and stable)
+
+    verdict = "T2 -- PASS" if ok_all else "T2 -- FAIL"
+
+    result = {
+        "artifact": "cl219_results.json",
+        "package": "EC-019 T2 Path-B successor (CL-REG-219-v1.0 preregistered)",
+        "declared_environment": DECLARED_ENV,
+        "precision_ladder": LADDER,
+        "param_box": {
+            k: {"center": rational(PRIMARY[k][0]), "radius": rational(PRIMARY[k][1])}
+            for k in PNAMES
+        },
+        "full_dimensionality": {"primary_ok": fd_ok, "failing": fd_bad},
+        "per_precision": per_p,
+        "sign_and_control_stability_across_ladder": stable,
+        "zero_radius_mutations": mutations,
+        "all_mutations_rejected": all(v["rejected"] for v in mutations.values()),
+        "regression_tests": regressions,
+        "all_regressions_pass": all(regressions.values()),
+        "verdict": verdict,
+        "scope": ("Closes only the independent-verification/package-integrity "
+                  "successor object for P_{1/20}^{MS}(A_{1/20}) > 0 per "
+                  "GP-SPEC-166-v1.0 Section 13; no promotion of any kind."),
+    }
+
+    blob = json.dumps(result, sort_keys=True, separators=(",", ":")) + "\n"
+    with open("cl219_results.json", "w", encoding="utf-8", newline="") as fh:
+        fh.write(blob)
+    print(verdict)
+
+
+if __name__ == "__main__":
+    main()

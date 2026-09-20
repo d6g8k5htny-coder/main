@@ -1,0 +1,92 @@
+"""CL V1 blind-reconstruction check: verify MY OWN derived worst-case bounds
+(not GP's proofs, which remain unread) against the frozen definitions,
+across adversarial parameter sweeps. Definitions transcribed from
+CL-DATA-044_p02_cert_test.py (verbatim implementation of GP-DER-047 ss2-3)."""
+import numpy as np, math, itertools
+
+K=4096; EPS0=1.0/(1024*K)
+def R_of(U): return 1.0+np.sum(np.abs(U))
+def geom(U,r):
+    R=R_of(U); a,w,z,c40,c31,c22,c13,c04=U
+    F=abs(a)/8+r*abs(c31)/48; Fs=1+F; mu=K*R**5; W=Fs/mu
+    return R,F,Fs,mu,W,4*R*W,8*R*W,1/(16*R),2*K*R**5+2*R
+def field(X,Y,U,r,s):
+    a,w,z,c40,c31,c22,c13,c04=U
+    P4X=(c40/6)*X*(X*X-0.25)+(c31/6)*(3*X*X-0.25)*Y+(c22/2)*X*Y*Y+(c13/6)*Y**3
+    P4Y=(c31/6)*X*(X*X-0.25)+(c22/2)*X*X*Y+(c13/2)*X*Y*Y+(c04/6)*Y**3
+    return (X*X-0.25+a*X*Y+(w/2)*Y*Y+r*P4X,
+            s*Y+(a/2)*(X*X-0.25)+w*X*Y+(z/2)*Y*Y+r*P4Y)
+
+# exact analytic facts used in my derivations
+assert abs(max(abs(x**3-x/4) for x in np.linspace(-.5,.5,2000001))-1/(12*math.sqrt(3)))<1e-9
+assert abs(max(abs(3*x*x-.25) for x in np.linspace(-.5,.5,2000001))-0.5)<1e-9
+
+rng=np.random.default_rng(424242)
+def gen_U(i):
+    m=i%5
+    if m==0: return np.clip(rng.normal(0,1,8),-8,8)
+    if m==1: return np.clip(rng.standard_cauchy(8)*.5,-8,8)
+    if m==2:
+        U=np.zeros(8); U[rng.integers(0,8)]=rng.choice([-1,1])*rng.uniform(1,8); return U
+    if m==3: return np.clip(rng.normal(0,3,8),-8,8)
+    return np.full(8, rng.choice([-1,1])*8.0)   # extreme: all coeffs at cap
+
+viol=[]; checked=0
+for i in range(400):
+    U=gen_U(i); R,F,Fs,mu,W,sig,rho,kap,Ccap=geom(U,1.0*EPS0/R_of(U)**5)
+    for lam in (1.0,0.5,0.01):
+        r=lam*EPS0/R**5
+        R,F,Fs,mu,W,sig,rho,kap,Ccap=geom(U,r)
+        a,w,z,c40,c31,c22,c13,c04=U
+        for sf in (1.0,1.001,10.0,1000.0):
+            s=-sf*Ccap; checked+=1
+            # my derived bound chains (each must hold if my derivation is right)
+            # (1) strip partial: nonS := sup|wX+zY+r(...)| <= R/2+R*W+r*R  and s+that <= -2*mu
+            nonS=abs(w)/2+abs(z)*W+r*(abs(c22)/8+abs(c13)*W/2+abs(c04)*W*W/2)
+            if not nonS<=R/2+R*W+r*R+1e-15: viol.append(('chain1',i,lam,sf))
+            if not s+nonS<=-2*mu+ (R/2+R*W+r*R) - (2*R) + 1e-9:  # s<=-2mu-2R
+                pass  # implied identity; explicit check below
+            if not (s+nonS) <= -mu - mu/2: viol.append(('strip_slack',i,lam,sf))
+            # (2) boundary: sW <= -2(1+F)-2RW ; pert <= F + R*W/2 + tiny
+            pert=abs(a)/8 + r*abs(c31)/(72*math.sqrt(3)) + abs(w)*W/2 + abs(z)*W*W/2 \
+                 + r*(abs(c22)*W/8+abs(c13)*W*W/4+abs(c04)*W**3/6)
+            if not s*W<=(-2*(1+F)-2*R*W)*(1-1e-12): viol.append(('sW',i,lam,sf))
+            if not pert<=F+R*W/2+r*R+1e-15: viol.append(('pert',i,lam,sf))
+            if not (-s*W-pert)>=1+1: viol.append(('bdry_slack',i,lam,sf))   # >= +2 derived
+            # (3) E_X/RW < 1/2*(R-1)/R + W/2 + K*EPS0/(72*sqrt(3)) + small < 0.501
+            EX=abs(a)*W/2+abs(w)*W*W/2+r*(abs(c40)/(72*math.sqrt(3))+abs(c31)*W/12+abs(c22)*W*W/4+abs(c13)*W**3/6)
+            mybound=0.5*(R-1)/R + W/2 + K*EPS0/(72*math.sqrt(3)) + r*abs(c31)/(12*R) + r*abs(c22)*W/(4*R) + r*abs(c13)*W*W/(6*R)
+            if not EX/(R*W)<=mybound+1e-12: viol.append(('EXchain',i,lam,sf))
+            if not mybound<0.501: viol.append(('EX501',i,lam,sf))
+            # (4) central: -sig*(1-sig)+0.501*R*W <= -3*R*W  (my 3.49 slack)
+            if not -sig*(1-sig)+0.501*R*W <= -3*R*W: viol.append(('central',i,lam,sf))
+            # (5) cone constants, my worst-case chain
+            A=1+r*c40/12; B=a/2+r*c31/12; D=s+w/2+r*c22/8; eps=96*R*R*W
+            c1=A-kap*abs(B)-eps*math.sqrt(1+kap*kap)
+            c2=kap*(A-D)-abs(B)*(1+kap*kap)-eps*(1+kap)*math.sqrt(1+kap*kap)
+            if not c1>=1-EPS0/12-1/32-(108/K)*1.002-1e-12: viol.append(('c1chain',i,lam,sf))
+            if not c1>7/8: viol.append(('c1',i,lam,sf))
+            if not c2>511*R: viol.append(('c2',i,lam,sf))
+            if not c2>=512*R**4-0.502*R-0.0281-1e-9: viol.append(('c2chain',i,lam,sf))
+            # slope <= |B|/(A-D) < kappa  (exact bound), and 4<K*R^3 identity
+            G=A-D
+            M2=np.array([[A,-B],[-B,D]]); ev,evec=np.linalg.eigh(M2)
+            v=evec[:,-1]; slope=abs(v[1]/v[0])
+            if not slope<=abs(B)/G+1e-13: viol.append(('slope_exact',i,lam,sf))
+            if not abs(B)/G<kap: viol.append(('slope_kappa',i,lam,sf))
+            # (6) lambda_min(-J_M) >= 1 - eps0/12 - Bp^2/(Dp-Ap)
+            Ap=1-r*c40/12; Bp=a/2-r*c31/12; Dp=-s+w/2-r*c22/8
+            lmin=np.linalg.eigvalsh(np.array([[Ap,Bp],[Bp,Dp]]))[0]
+            if not lmin>=Ap-Bp*Bp/(Dp-Ap)-1e-12: viol.append(('lmin_exact',i,lam,sf))
+            if not Ap-Bp*Bp/(Dp-Ap)>=63/128: viol.append(('lmin_63',i,lam,sf))
+            # (7) section in ball identity
+            if not 16*R*R+1<64*R*R: viol.append(('ball_id',i,lam,sf))
+            # (8) ball remainder: rho*(3R+2)*C <= my bound and < 63/128
+            if not rho*(3*R+2)*1.01 < 63/128: viol.append(('ball_rem',i,lam,sf))
+            # (9) remainder-vs-eps on cone region: (3R+2)(1+kap^2)*4.01*R*W <= 96 R^2 W
+            if not (3*R+2)*(1+kap*kap)*4.01*R*W <= 96*R*R*W: viol.append(('eps_head',i,lam,sf))
+            # (10) Jacobian variation over B(M,rho): 16RW(3R+2) <= 3/64
+            if not 16*R*W*(3*R+2) <= 3/64: viol.append(('jacvar',i,lam,sf))
+print(f"checked {checked} parameter points; violations: {len(viol)}")
+for v in viol[:20]: print(" ",v)
+print("MY DERIVED WORST-CASE CHAINS:","ALL HOLD" if not viol else "VIOLATED")

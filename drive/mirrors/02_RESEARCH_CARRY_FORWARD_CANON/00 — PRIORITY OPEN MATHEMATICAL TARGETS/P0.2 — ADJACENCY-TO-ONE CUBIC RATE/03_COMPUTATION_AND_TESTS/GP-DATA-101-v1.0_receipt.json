@@ -1,0 +1,89 @@
+{
+  "chart": {
+    "L1_radius": "7/4",
+    "X_abs_max": "3/4",
+    "Y_abs_max": "1"
+  },
+  "combined": {
+    "C_D_conservative": "1.82059577001702904009194159397101678574055049852204853013069940079150234940400960757506804",
+    "binding_part": "jacobian_C",
+    "jacobian_C": "1.82059577001702904009194159397101678574055049852204853013069940079150234940400960757506804",
+    "vector_C": "0.570664273558807919904440416375103939539834608295039370409065930563323687029482666961099479"
+  },
+  "endpoint_residual_coefficients": {
+    "gradient": "1/384",
+    "value": "1/3840"
+  },
+  "explicit_exclusions": [
+    "NO claim the exact field satisfies the H5 threshold",
+    "NO probability, occupancy, exponent, P0.2, or Theorem B claim",
+    "NO replacement of GP-DER-045 or CW-AUD-018"
+  ],
+  "fixture_translation": {
+    "H5_threshold": "1.01968641816983927108878541952845103178732292308534879855633128034319622162432898482009448",
+    "criterion": "H5(D) <= H5_threshold implies C_D*r^2*H5(D) <= delta_accept",
+    "delta_accept": "0.004641091949159561998550871359023117272392841003373501115178370844477885",
+    "fixture_id": "PRCP-INTERIOR-001",
+    "r": "0.05"
+  },
+  "hermite_full_chart_suprema": {
+    "sum_abs_value_cardinal_first_derivatives": "15/4",
+    "sum_abs_value_cardinal_second_derivatives": "18",
+    "sum_abs_xder_cardinal_first_derivatives": "35/8",
+    "sum_abs_xder_cardinal_second_derivatives": "11",
+    "sum_abs_ylinear_basis_derivatives": "2",
+    "sum_abs_ylinear_basis_values": "3/2"
+  },
+  "negative_controls": [
+    {
+      "id": "NC1_OMIT_PIN_CORRECTION",
+      "observed": "UNDERBOUNDS_C_D",
+      "pass": true,
+      "wrong_constant": "1.78645833333333333333333333333333333333333333333333333333333333333333333333333333333333333"
+    },
+    {
+      "id": "NC2_USE_ONLY_BETWEEN_PIN_DOMAIN",
+      "observed": "UNDERBOUNDS_FULL_CHART_OPERATOR",
+      "pass": true,
+      "wrong_constant": "1.81152335294899159304377362032544356078941611564619612104906231236216386576572168308656004"
+    },
+    {
+      "id": "NC3_USE_MAX_ENTRY_NOT_OPERATOR_NORM",
+      "observed": "WRONG_JACOBIAN_NORM",
+      "pass": true,
+      "wrong_constant": "0.926562500000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "id": "NC4_OMIT_VALUE_PIN_RESIDUALS",
+      "observed": "INCOMPLETE_PIN_OPERATOR",
+      "pass": true,
+      "wrong_constant": "1.81603598096770975839006426033329352313094459299165423338869955797861305996602794755700723"
+    },
+    {
+      "id": "NC5_USE_C0_ONLY_FOR_C1_TRANSFER",
+      "observed": "CANNOT_VERIFY_C1",
+      "pass": true,
+      "wrong_constant": "0.570664273558807919904440416375103939539834608295039370409065930563323687029482666961099479"
+    }
+  ],
+  "norm": "max(Euclidean norm of gradient error, operator norm of symmetric Jacobian error)",
+  "ordinary_taylor": {
+    "gradient_component_fraction": "2401/6144",
+    "gradient_vector_constant": "0.552657350790657749377092224418535984154586942184253307893425789537068470180260253951787186",
+    "hessian_entry_fraction": "343/384",
+    "jacobian_operator_upper": "1.78645833333333333333333333333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "overall": "PASS_EXPLICIT_C_D_BOUND_ONLY_H5_MEMBERSHIP_OPEN",
+  "pin_correction": {
+    "jacobian_operator_upper": "0.0341374366836957067586082606376834524072171651887151967973660674581690160706762742417347052",
+    "px_fraction": "9/512",
+    "pxx_fraction": "1/30",
+    "pxy_fraction": "1/192",
+    "py_fraction": "1/256",
+    "vector_constant": "0.0180069227681501705273481919565679553852476661107860625156401410262552168492224130093122931"
+  },
+  "schema": "explicit-pin-operator-CD/1.0",
+  "source_bytes": 8071,
+  "source_filename": "GP-DATA-101-v1.0_explicit_pin_operator_constant.py",
+  "source_sha256": "b2252c330c0f7d0871d479a984eecfbb049c07a5f38e3d0a19b8df1854476511"
+}

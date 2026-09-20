@@ -383,10 +383,19 @@ prohibition, and this pass ports them.
 ### In-file seals
 
 The lane's files declare digests of each other, and now that the bytes are here
-those declarations are checkable against them. **Sixty-four reproduce and one
-does not.** The reproducing ones are 61 lines of the source's own sha256sum
+those declarations are checkable against them. **Seventy-two reproduce and one
+does not.** The reproducing ones are 69 lines of the source's own sha256sum
 manifests, two digests a document declares for a sibling file, and one
 body-seal digest over a file's own text below its marker line.
+
+Until 2026-09-20 this paragraph gave sixty-four and 61. The checker that
+produced those numbers under-counted: it resolved each declared path by its last
+component, so a line naming a file inside a subdirectory was looked up as a
+same-named file beside the manifest. On this lane that only lost matches. On the
+canon lane the same bug invented nine mismatches that do not exist, which is how
+it was found; the path is now resolved relative to the manifest that declares it,
+and the one real mismatch below is unaffected because its line names a bare
+filename in the manifest's own directory.
 
 The one that does not is in
 `04_W4_INDEPENDENT_ESTIMATE/MANIFEST.sha256`, which declares `probes_laws.txt`
