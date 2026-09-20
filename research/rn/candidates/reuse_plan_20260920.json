@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "reserved_at": "2026-09-20T01:01:34.336406+00:00",
+  "development_case_ids": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "held_out_case_ids": [
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115
+  ],
+  "law_generator": "m_i=(case+3*i)%7-3; slope_i=((2*case+i)%5-2)/5; L_ij=((case+2*i+j)%5-2)/10 for j<=i with diagonal augmented by 1; S=L L^T",
+  "query_marks": [
+    "-1",
+    "-1/2",
+    "0",
+    "1/2",
+    "1"
+  ],
+  "degrees": [
+    2,
+    4
+  ],
+  "budget_per_arm_per_case": 1000000,
+  "cost_units": "each exact rational add or multiply = 1; each memo/cache lookup = 1; source/scope comparisons = 1; cache insertion = 1; reporting and input parsing excluded equally; no wall-time claim",
+  "reuse_arm": "construct affine moment polynomial once for each degree, then evaluate at five marks",
+  "recompute_arm": "construct constant-mean moment polynomial separately at each of five marks",
+  "acceptance": "same exact values at every mark, both arms within common budget; record costs even when reuse loses",
+  "scope": "finite deterministic held-out arithmetic-cost experiment; canonical utility remains UNMEASURED; no field certification; no independence credit",
+  "held_out_exposure": "generator and IDs fixed before implementation; generated numerical cases first consumed only by final report; implementation tests use development IDs or explicit independent fixtures"
+}

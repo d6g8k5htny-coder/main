@@ -1,5 +1,15 @@
 # `engine/operations/` — the register's reusable operations, worked actively, with trials that are records
 
+The additive [RN applicability candidate](../../docs/RN_AFFINE_MOMENTS.md)
+now exposes exact correlated Gaussian moment polynomials through
+`rn_applicability.py`. It binds source bytes, dimension, coordinate order,
+normalization, conditioned law, domain and evidence tier before computing a
+whole-mark bound. Its separate finite cost experiment compares polynomial
+reuse with recomputation. It does not alter this catalog's transcribed
+Utility/Novelty cells or reinterpret existing trial records; canonical
+utility remains UNMEASURED and novelty NOT_ASSESSED. The mathematical result
+is an unreviewed algebra candidate, with zero independence credit.
+
 The 2026-09-18 xlsx export of GP-REG-032-v1.2 added two tabs to the coupled
 registers: `reusable_operations` (sheet 42; fifteen rows OP01–OP15, twelve
 columns) and `operation_trials` (sheet 43; an eighteen-column header and no

@@ -65,5 +65,11 @@ jobs:
         run: python tools/drive_coverage.py --json
       - name: Reproduce the unreviewed Hermite Gaussian candidate table
         run: python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json
+      - name: Reconcile dated Drive membership and refreshed payloads
+        run: python tools/drive_reconcile.py
+      - name: Check native tab and formula coverage against export containers
+        run: python tools/native_export_check.py --verify-containers
+      - name: Reproduce the affine Gaussian moment candidate and finite reuse comparison
+        run: python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json
       - name: Unit tests and negative controls
         run: python -m pytest -q

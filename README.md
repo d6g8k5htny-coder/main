@@ -158,8 +158,8 @@ changes none of that.
 
 ### 2026-09-19 research-transfer continuation
 
-The [dated coverage bundle](drive/deltas/2026-09-19/DG-MIGRATION-20260919/README.md)
-now accounts for 4,112 stored research files, 758 folder records and 54 held
+The [2026-09-19 coverage bundle](drive/deltas/2026-09-19/DG-MIGRATION-20260919/README.md)
+accounts for 4,112 stored research files, 758 folder records and 54 held
 files. Exact inventory bytes, native exports and newly observed raw snapshots
 are distinguished, hashed and reconstructible; the original inventory remains
 unchanged. `python tools/drive_coverage.py --json` verifies the declared scope.
@@ -168,3 +168,24 @@ A [two-axis Hermite–Gaussian envelope candidate](docs/HERMITE_GAUSSIAN_ENVELOP
 adds exact interval evaluation and 66 reproducible derivative cases through
 order 10. It is author-produced and unreviewed; it changes no claim or
 obligation status and supplies no full 24-jet or six-pin band result.
+
+### 2026-09-20 membership, native fidelity and RN continuation
+
+The [additive reconciliation](drive/deltas/2026-09-20/DG-RECON-20260920/README.md)
+accounts for 4,116 stored file identities, 758 folders and the same 54 holds.
+All 744 permitted folders were relisted, with no missing prior observed
+membership. Four prior delivery files were added and the live register export
+was refreshed. Native checks cover 1,930 single-tab Docs and 39 workbooks with
+308 tabs and 14,338 formula cells. Native formula strings and tab names are
+preserved alongside the exports, including the observed XLSX transformations.
+`tools/drive_reconcile.py` and `tools/native_export_check.py` reproduce the
+coverage checks; the latter reparses containers with `--verify-containers`.
+
+The [RN affine-moment candidate](docs/RN_AFFINE_MOMENTS.md) implements exact
+correlated Gaussian determinant moments and uniform Bernstein mark bounds,
+with source/dimension/order/law/domain applicability checks and falsification
+tests. Its finite reuse evaluation discloses four development duplicates
+and makes no held-out or general usefulness claim. The recovered
+[research context](docs/context/RESEARCH_CONTEXT_20260919_v2.md) preserves
+chronology and scientific boundaries; no raw conversation dumps are published.
+These additions do not identify an RN field law or change any scientific status.
