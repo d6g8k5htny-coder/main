@@ -54,7 +54,10 @@ CORRUPT … DO NOT USE IT", and the P0.1 (2D) sub-lane.
   status from HOLD to RATIFIED-AT-STATED-SCOPE".
 * The register (`registers/json/operator_decisions.json`, row AO48-OPR-045,
   2026-08-02T16:10:54Z): decision `RATIFIED-AT-STATED-SCOPE`, "3,397 B; SHA-256
-  e48d7c27…; q0/P0.1 explicitly unchanged."
+  e48d7c27…" and, after the full digest and the cell's own full stop,
+  "q0/P0.1 explicitly unchanged." Until 2026-09-20 the two were run together as
+  one span ending "; q0/P0.1 explicitly unchanged.", a semicolon where the cell
+  has a period.
 * `AO48-AUD-044` — `AUTHORITY: none — the decision below is the operator's
   alone`; `CANONICAL IMPACT: NONE until ratified`; verification ledger §B:
   "Kimi (third family): every display in the facewise draft recomputed

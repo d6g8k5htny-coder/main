@@ -1,0 +1,230 @@
+#!/usr/bin/env python3
+"""
+palm_weighted_gaussian_chernoff.py
+
+A Palm-weighted Gaussian Chernoff theorem for corridor events.
+
+Let (H,X) be jointly Gaussian. H contains the Hessian coordinates used in a
+Kac--Rice/Palm weight W(H)>=0; X contains corridor checkpoint values. Under
+the weighted law
+
+    dP_W = W(H) dP / E[W(H)],
+
+for any componentwise threshold t and theta>=0,
+
+    P_W(X>=t)
+    <= exp[-theta.(t-mu_X)+0.5 theta^T Sigma_XX theta]
+       * E_{H_theta}[W(H)] / E_H[W(H)],
+
+where
+
+    H_theta ~ N(mu_H + Sigma_HX theta, Sigma_HH).
+
+This is an exact exponential-tilting identity. It replaces an invalid product
+of one-step probabilities and interfaces directly with the q0 program's
+Gaussian Hessian determinant-moment routines.
+
+The included one-dimensional polynomial-weight example validates the formula
+against Monte Carlo. The example is not the q0 H4 computation.
+
+Output:
+    /mnt/data/palm_weighted_gaussian_chernoff_report.json
+"""
+
+from __future__ import annotations
+
+import json
+import math
+from pathlib import Path
+from typing import Callable, Sequence
+
+import numpy as np
+from scipy.optimize import minimize
+from scipy.stats import norm
+
+
+def weighted_chernoff_value(
+    theta: np.ndarray,
+    threshold: np.ndarray,
+    mu_x: np.ndarray,
+    sigma_xx: np.ndarray,
+    log_weight_moment_ratio: Callable[[np.ndarray], float],
+) -> float:
+    theta = np.asarray(theta, dtype=float)
+    exponent = (
+        -float(theta @ (threshold - mu_x))
+        + 0.5 * float(theta @ sigma_xx @ theta)
+        + float(log_weight_moment_ratio(theta))
+    )
+    return min(1.0, math.exp(exponent))
+
+
+def optimize_weighted_chernoff(
+    threshold: Sequence[float],
+    mu_x: Sequence[float],
+    sigma_xx: np.ndarray,
+    log_weight_moment_ratio: Callable[[np.ndarray], float],
+):
+    threshold = np.asarray(threshold, dtype=float)
+    mu_x = np.asarray(mu_x, dtype=float)
+    sigma_xx = np.asarray(sigma_xx, dtype=float)
+    dimension = threshold.size
+
+    def objective(theta):
+        return (
+            -float(theta @ (threshold - mu_x))
+            + 0.5 * float(theta @ sigma_xx @ theta)
+            + float(log_weight_moment_ratio(theta))
+        )
+
+    result = minimize(
+        objective,
+        np.zeros(dimension),
+        method="L-BFGS-B",
+        bounds=[(0.0, None)] * dimension,
+    )
+    theta = np.maximum(result.x, 0.0)
+    return {
+        "bound": min(1.0, math.exp(objective(theta))),
+        "theta": theta.tolist(),
+        "log_bound": float(objective(theta)),
+        "optimizer_success": bool(result.success),
+        "optimizer_message": str(result.message),
+    }
+
+
+def polynomial_weight_demo(seed: int = 20260716):
+    """
+    Joint Gaussian scalar example with W(H)=H^2.
+
+    The shifted weight moment is exact:
+      E_theta[H^2] = sigma_H^2 + (mu_H + Cov(H,X)*theta)^2.
+    """
+    rng = np.random.default_rng(seed)
+
+    mu_h = -0.7
+    mu_x = 0.15
+    var_h = 1.4
+    var_x = 0.9
+    cov_hx = 0.55
+    threshold = 1.0
+
+    covariance = np.array(
+        [[var_h, cov_hx], [cov_hx, var_x]],
+        dtype=float,
+    )
+
+    denominator = var_h + mu_h**2
+
+    def log_ratio(theta_vector: np.ndarray) -> float:
+        theta = float(theta_vector[0])
+        shifted_mean = mu_h + cov_hx * theta
+        numerator = var_h + shifted_mean**2
+        return math.log(numerator / denominator)
+
+    certificate = optimize_weighted_chernoff(
+        [threshold],
+        [mu_x],
+        np.array([[var_x]]),
+        log_ratio,
+    )
+
+    sample_size = 3_000_000
+    samples = rng.multivariate_normal(
+        [mu_h, mu_x], covariance, size=sample_size
+    )
+    h = samples[:, 0]
+    x = samples[:, 1]
+    weights = h * h
+    weighted_tail = float(
+        np.sum(weights * (x >= threshold)) / np.sum(weights)
+    )
+    unweighted_tail = float(
+        1.0 - norm.cdf((threshold - mu_x) / math.sqrt(var_x))
+    )
+
+    return {
+        "parameters": {
+            "mu_H": mu_h,
+            "mu_X": mu_x,
+            "Var_H": var_h,
+            "Var_X": var_x,
+            "Cov_HX": cov_hx,
+            "threshold": threshold,
+            "weight": "H^2",
+            "sample_size": sample_size,
+        },
+        "weighted_tail_monte_carlo": weighted_tail,
+        "unweighted_tail_exact": unweighted_tail,
+        "weighted_chernoff_certificate": certificate,
+        "certificate_exceeds_monte_carlo": (
+            certificate["bound"] >= weighted_tail
+        ),
+    }
+
+
+def main():
+    demo = polynomial_weight_demo()
+
+    report = {
+        "cycle": "C091",
+        "theorem": {
+            "joint_law": (
+                "(H,X) jointly Gaussian with means mu_H,mu_X and "
+                "covariance blocks Sigma_HH,Sigma_HX,Sigma_XX"
+            ),
+            "weighted_law": (
+                "dP_W = W(H)dP/E[W(H)], W(H)>=0"
+            ),
+            "bound": (
+                "P_W(X>=t) <= exp(-theta.(t-mu_X)"
+                "+0.5 theta^T Sigma_XX theta)"
+                "* E_{N(mu_H+Sigma_HX theta,Sigma_HH)}[W]"
+                "/ E_{N(mu_H,Sigma_HH)}[W], theta>=0"
+            ),
+            "proof": [
+                "Use 1_{X>=t} <= exp(theta.(X-t)) for theta>=0.",
+                "Exponential tilting of a joint Gaussian shifts the full "
+                "mean by Cov((H,X),X)theta and leaves covariance unchanged.",
+                "The H marginal therefore shifts by Sigma_HX theta.",
+                "Divide by the unshifted Palm normalizer E[W].",
+            ],
+        },
+        "q0_interface": {
+            "H": (
+                "vectorized Hessians at the pinned pair and candidate "
+                "interceptor/checkpoint configuration"
+            ),
+            "X": "corridor checkpoint values or linear corridor witnesses",
+            "W": (
+                "|det H_M det H_S det H_y| times typed/index indicators"
+            ),
+            "existing_reusable_machinery": (
+                "W2/W3 determinant moments, Gaussian Hessian regression, "
+                "typing probabilities, and interval Schur blocks"
+            ),
+            "remaining_H4_inputs": [
+                "freeze the actual corridor skeleton/path family",
+                "interval-enclose mu_X, Sigma_XX, and Sigma_HX",
+                "evaluate shifted typed determinant moments",
+                "optimize or supply nonnegative theta witnesses",
+                "sum certified bounds over path entropy and ring/sector mass",
+            ],
+        },
+        "demo": demo,
+        "adjudication": {
+            "Palm_weight_issue": "SOLVED AT THEOREM LEVEL",
+            "H4_numeric_certificate": "OPEN",
+            "naive_q_step_product": "REJECTED",
+        },
+    }
+
+    output = Path(
+        "/mnt/data/palm_weighted_gaussian_chernoff_report.json"
+    )
+    output.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    print(json.dumps(report, indent=2))
+
+
+if __name__ == "__main__":
+    main()

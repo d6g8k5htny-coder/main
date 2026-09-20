@@ -1,0 +1,80 @@
+﻿GP-COR-151-v1.0 — DASHBOARD SNAPSHOT AND TRANSITION-ALARM DUPLICATE RECONCILIATION
+
+
+Artifact ID: GP-COR-151-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: COR / REG / ADDITIVE STATE RECONCILIATION
+Authority: factual register correction only
+Canonical impact: NONE
+
+
+[[OBJ:GP-COR-151-v1.0]] [[TAB:DASHBOARD]] [[TAB:TRANSITION-ALARMS]] [[STATUS:REGISTER-CONTAMINATION-REPAIRED]] [[NO_MATHEMATICAL_CHANGE]]
+
+
+1. TRIGGER
+
+
+A live verification found that the authoritative Dashboard header and Easy Closure Queue were current, but the lower manual-pilot snapshot in Dashboard rows 10–16 remained stale. It still reported two human decisions and described EC-020 and EC-021 as human-approval-ready, although both are terminal and EC-019 is the sole human-approval-ready item.
+
+
+The Transition Alarms sheet also retained three later semantically duplicate entries: a second EC-019 Option-A resolution and duplicate EC-020/EC-021 scope warnings. The earlier entries remain authoritative. No evidence, alarm meaning, or provenance is deleted.
+
+
+2. AUTHORITATIVE CURRENT STATE
+
+
+- Terminal easy closures: 15 — EC-005, EC-006, EC-007, EC-008, EC-010, EC-011, EC-012, EC-013, EC-014, EC-015, EC-016, EC-017, EC-018, EC-020, EC-021.
+- Human-approval-ready items: 1 — EC-019 only.
+- EC-019 remains nonterminal. Required exact approval: APPROVE EC-019 EXACT FIXED-r FULL-FIELD SCOPE.
+- OP-PROT-008-R0.1 remains 2 of 4 affirmative: GP and CL affirmative; AO48 and CW/C047R pending; no majority and no tier activation.
+- GP-AUTO-034 remains fail-closed under its technical and post-test gates.
+
+
+3. CORRECTIONS APPLIED
+
+
+A. Dashboard lower snapshot
+- “Human decisions” corrected from 2 to 1.
+- Interpretation corrected to EC-019 only; EC-020 and EC-021 recorded terminal and removed from active attention.
+- “Last refresh” updated to the current reconciliation date.
+- The stale statement that automation was not authorized was replaced with the precise boundary: governance preparation authority is recorded, while GP-AUTO-034 technical qualification remains fail-closed.
+
+
+B. Transition Alarms
+- The later duplicate EC-019 Option-A row is marked VOID-DUPLICATE and points to the earlier authoritative resolution row.
+- The later duplicate EC-020 clean-source warning is marked VOID-DUPLICATE and points to the earlier authoritative warning.
+- The later duplicate EC-021 finite-Q4 scope warning is marked VOID-DUPLICATE and points to the earlier authoritative warning.
+- All text and row provenance are preserved; no rows were deleted.
+
+
+4. DEPENDENCIES
+
+
+Affected:
+- Dashboard state fidelity;
+- cold-start human-gate count;
+- transition-alarm deduplication;
+- automation/navigation consumers that scan the lower pilot snapshot.
+
+
+Unaffected:
+- every mathematical result and proof grade;
+- EC-019 technical review and human gate;
+- EC-020 and EC-021 terminal scopes;
+- OP-PROT-008-R0.1 ballot count;
+- OP-CNS-001-R0.2 adoption;
+- GP-AUTO-034 source/runtime/post-test state;
+- theorem, machine, release, deletion, and destructive-operation status.
+
+
+5. TERMINAL DISPOSITION
+
+
+CLOSED — DASHBOARD LOWER SNAPSHOT RECONCILED TO ONE HUMAN-READY ITEM; DUPLICATE TRANSITION ALARMS VOIDED ADDITIVELY; AUTHORITATIVE RECORDS PRESERVED.
+
+
+Reopen only if a later exact approval, ballot, technical verdict, or contradictory register write changes the authoritative state.
+
+
+END GP-COR-151-v1.0

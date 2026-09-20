@@ -30,7 +30,12 @@ only the errata note is, byte-exact against the inventory.
 
 * "Appended to the sealed second edition (body df39e64904a845da…; the sealed file remains unchanged). Two clarification items from the author-side reconciliation (LPW_Review_Reconciliation_2026-09-12)."
 * "## 1. The "ratified upper chain" is the 3D theorem — scope correction … AO48-OPR-045 ratifies the compact-positive-mark estimate sup(1 − p_r) ≤ C r³ and the ν₃,₂₄(ℓ) = c₃,₂₄ℓ^{−1/3}(1+o(1)) theorem for the normalized periodized Bargmann–Fock field on the side-24 **THREE-torus**, with the explicit firewall "this ratification concerns the SIDE24 3D track only. The 2D q0 program is untouched: … no cross-track inference." … the 2D lower wall (Proposition 3.26, conditional liminf form) on one side, and — on the other side — a MATCHING 2D UPPER THEOREM which is a separate open dependency".
-* "## 3. Standing firewall — This errata note changes no LS-CTL Boolean, eligibility predicate, theorem status, RP status, AO48 operator record, or q0 package status. Any status change requires separate operator adjudication."
+* "## 3. Standing firewall", and under that heading: "This errata note changes no LS-CTL Boolean,
+  eligibility predicate, theorem status, RP status, AO48 operator record, or q0 package status. Any
+  status change requires separate operator adjudication." Until 2026-09-20 the heading and the
+  paragraph were quoted as one span joined by an em dash: "## 3. Standing firewall — This errata
+  note changes no LS-CTL Boolean, eligibility predicate, theorem status, RP status, AO48 operator
+  record, or q0 package status. Any status change requires separate operator adjudication."
 
 This is the source object behind CLAUDE.md rule 4 and the `tools/claims_check.py` firewall that fails
 the build on any composition of the 2D upper/lower tracks with the 3D lifetime track.

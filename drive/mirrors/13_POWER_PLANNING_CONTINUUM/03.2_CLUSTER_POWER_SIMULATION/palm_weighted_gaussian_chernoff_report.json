@@ -1,0 +1,56 @@
+{
+  "cycle": "C091",
+  "theorem": {
+    "joint_law": "(H,X) jointly Gaussian with means mu_H,mu_X and covariance blocks Sigma_HH,Sigma_HX,Sigma_XX",
+    "weighted_law": "dP_W = W(H)dP/E[W(H)], W(H)>=0",
+    "bound": "P_W(X>=t) <= exp(-theta.(t-mu_X)+0.5 theta^T Sigma_XX theta)* E_{N(mu_H+Sigma_HX theta,Sigma_HH)}[W]/ E_{N(mu_H,Sigma_HH)}[W], theta>=0",
+    "proof": [
+      "Use 1_{X>=t} <= exp(theta.(X-t)) for theta>=0.",
+      "Exponential tilting of a joint Gaussian shifts the full mean by Cov((H,X),X)theta and leaves covariance unchanged.",
+      "The H marginal therefore shifts by Sigma_HX theta.",
+      "Divide by the unshifted Palm normalizer E[W]."
+    ]
+  },
+  "q0_interface": {
+    "H": "vectorized Hessians at the pinned pair and candidate interceptor/checkpoint configuration",
+    "X": "corridor checkpoint values or linear corridor witnesses",
+    "W": "|det H_M det H_S det H_y| times typed/index indicators",
+    "existing_reusable_machinery": "W2/W3 determinant moments, Gaussian Hessian regression, typing probabilities, and interval Schur blocks",
+    "remaining_H4_inputs": [
+      "freeze the actual corridor skeleton/path family",
+      "interval-enclose mu_X, Sigma_XX, and Sigma_HX",
+      "evaluate shifted typed determinant moments",
+      "optimize or supply nonnegative theta witnesses",
+      "sum certified bounds over path entropy and ring/sector mass"
+    ]
+  },
+  "demo": {
+    "parameters": {
+      "mu_H": -0.7,
+      "mu_X": 0.15,
+      "Var_H": 1.4,
+      "Var_X": 0.9,
+      "Cov_HX": 0.55,
+      "threshold": 1.0,
+      "weight": "H^2",
+      "sample_size": 3000000
+    },
+    "weighted_tail_monte_carlo": 0.11282644938476477,
+    "unweighted_tail_exact": 0.18513207758975314,
+    "weighted_chernoff_certificate": {
+      "bound": 0.5036781022562649,
+      "theta": [
+        1.050173876465476
+      ],
+      "log_bound": -0.6858179009570317,
+      "optimizer_success": true,
+      "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL"
+    },
+    "certificate_exceeds_monte_carlo": true
+  },
+  "adjudication": {
+    "Palm_weight_issue": "SOLVED AT THEOREM LEVEL",
+    "H4_numeric_certificate": "OPEN",
+    "naive_q_step_product": "REJECTED"
+  }
+}

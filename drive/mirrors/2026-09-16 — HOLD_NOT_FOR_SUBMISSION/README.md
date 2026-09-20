@@ -44,6 +44,6 @@ solved | **0**". Its §2 "Status quotes (skim)" block-quotes each document's
 STATUS line and then summarises the rest in the memo's own words — the
 sentences "Engine `d3_rn_unif.py` located (Kimi mid-build); certifier never
 invoked … Piece 2 driver unwritten" are the memo's summary of CL-RNU-001, not a
-quotation of it (`research/slack/registry.py` said "quoted verbatim" until
-2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
+quotation of it (`research/slack/registry.py` labelled them a verbatim quotation
+until 2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
 the Drive's thematic track T4.

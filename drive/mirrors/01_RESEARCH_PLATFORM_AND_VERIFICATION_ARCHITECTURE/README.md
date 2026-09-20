@@ -494,7 +494,11 @@ recomputation is over the bytes already stored here.
   `06_ARCHIVE/02_SUPERSEDED_2.0_OBJECTS` (`1EopoqlZ-VLpkRq1yOjahTzPx6HcXzX4_`), both with **zero children in the 2026-09-17 inventory**,
   the latter also on the do-not-port list. These nineteen Docs are still **not ported**: they sit outside the ranked list (1)–(5), the
   `03_INTEGRATION` group is routing and work-reservation material of the source's autonomy layer, and this pass did not widen the port.
-  The sentence "Not ported and not indexed" in the earlier section is superseded for these objects by "not ported, index row only".
+  The earlier section's sentence that these are not ported and not indexed is superseded for these
+  objects: they are still not ported, but each now carries an index row. Until 2026-09-20 this line
+  put both descriptions in quotation marks — the sentence "Not ported and not indexed" being
+  superseded by "not ported, index row only" — where the first is this README's own earlier wording
+  and the second its own label, and neither is a transcription of a stored byte.
 * **Two `OUT_OF_LANE` pointer rows**, one each in `03_REGRESSION_CORPUS_AND_NEGATIVE_CONTROLS/_MANIFEST.jsonl` and
   `04_VERIFICATION_PROTOTYPES/_MANIFEST.jsonl`, for the two objects the ranked list's item (5) and the registers name beside things stored
   here but which live in lane `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES`: the DQ-059 "finding"

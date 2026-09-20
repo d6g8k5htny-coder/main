@@ -1,0 +1,165 @@
+"""CL-DATA-024 — ep2.py — EXACT-CRITICAL-SET PAIRING (v1.1, Drive upload)
+Author: Claude (Anthropic) CL-*. 2026-07-20/21. Usage: python3 ep2.py k0 k1
+Seeds 20260720+8000+k. Results reported in CL-ERR-025 (a_hat ~ 0.57 flat,
+drift 0.0070 on the V3-strict subset). Discharges the reproducibility debt
+acknowledged in CL-DER-018/CL-ERR-025: the pairing script must live in Drive.
+
+METHOD. Band-limited BF field = finite trig polynomial -> f, grad f, Hess f in
+closed form anywhere. (1) critical set: batched Newton from a 64x64 seed
+lattice, deduplicated, type-classified; (2) saddle endpoints: short uphill walk
+along +/- the unstable eigenvector, then Newton snap to a maximum; (3) elder
+rule computed ON EXACT POINTS ONLY. Pixels appear nowhere in values or pairing.
+
+PRE-COMMITMENTS (frozen in v1.0 before first run, unchanged):
+  E1 gates pass AND a_hat drift across L-windows < 0.06 -> drift was pairing
+     contamination; flat value is the range exponent (NOT the asymptotic law).
+  E2 gates pass AND drift >= 0.10 -> misspecification independent of pairing.
+  E3 validation fails -> pipeline defect, quote nothing.
+GATES: V1 Euler chi=0 on T^2; V2 bars = #max-1; V3 endpoint resolution >= 90%.
+OUTCOME (6 fields): V1 6/6 exact, V2 6/6 exact, V3 4/6 (89.7%, 85.4% fail —
+reported not waived). Strict subset: a_hat 0.5757/0.5687/0.5749, drift 0.0070
+-> E1. Post-hoc census (CL-ERR-025): exact critical count matches the
+8-neighbourhood grid census to <=1, refuting the missed-fold-pair worry (V4).
+"""
+import numpy as np, sys
+
+TORUS = 24.0; NBASE = 128
+
+
+class Field:
+    def __init__(self, n, rng, cut):
+        kx = 2.0*np.pi*np.fft.fftfreq(n, d=TORUS/n)
+        KX, KY = np.meshgrid(kx, kx, indexing="ij")
+        amp = np.exp(-(KX**2+KY**2)/4.0)
+        C = np.fft.fft2(rng.normal(size=(n, n)))*amp
+        keep = amp > cut
+        self.kx = KX[keep].copy(); self.ky = KY[keep].copy()
+        self.c = (C[keep]/(n*n)).copy()
+
+    def std_on_grid(self, n):
+        xs = np.arange(n)*(TORUS/n)
+        E = self.c[:, None]*np.exp(1j*self.kx[:, None]*xs[None, :])
+        Ey = np.exp(1j*self.ky[:, None]*xs[None, :])
+        return np.real(np.einsum('mi,mj->ij', E, Ey)).std()
+
+    def fg(self, P):
+        E = self.c[:, None]*np.exp(1j*(self.kx[:, None]*P[:, 0][None, :]
+                                       + self.ky[:, None]*P[:, 1][None, :]))
+        return (np.real((1j*self.kx[:, None]*E).sum(0)),
+                np.real((1j*self.ky[:, None]*E).sum(0)))
+
+    def fgh(self, P):
+        E = self.c[:, None]*np.exp(1j*(self.kx[:, None]*P[:, 0][None, :]
+                                       + self.ky[:, None]*P[:, 1][None, :]))
+        return (np.real(E.sum(0)),
+                np.real((1j*self.kx[:, None]*E).sum(0)),
+                np.real((1j*self.ky[:, None]*E).sum(0)),
+                np.real((-(self.kx**2)[:, None]*E).sum(0)),
+                np.real((-(self.kx*self.ky)[:, None]*E).sum(0)),
+                np.real((-(self.ky**2)[:, None]*E).sum(0)))
+
+
+def newton(F, P, iters=40):
+    P = P.copy()
+    for _ in range(iters):
+        f, gx, gy, hxx, hxy, hyy = F.fgh(P)
+        det = hxx*hyy-hxy**2
+        det = np.where(np.abs(det) < 1e-14, np.nan, det)
+        P[:, 0] -= (hyy*gx-hxy*gy)/det
+        P[:, 1] -= (-hxy*gx+hxx*gy)/det
+        P %= TORUS
+    f, gx, gy, hxx, hxy, hyy = F.fgh(P)
+    g = np.hypot(gx, gy) < 1e-8
+    return P[g], f[g], (hxx*hyy-hxy**2)[g], (hxx+hyy)[g]
+
+
+def run_field(k):
+    Fx = Field(NBASE, np.random.default_rng(20260720+8000+k), 1e-13)
+    Fx.c = Fx.c/Fx.std_on_grid(NBASE)
+    Fa = Field(NBASE, np.random.default_rng(20260720+8000+k), 1e-8)  # ascent field: direction only
+    ns = 64; xs = (np.arange(ns)+0.5)*(TORUS/ns)
+    P0 = np.stack(np.meshgrid(xs, xs, indexing='ij'), -1).reshape(-1, 2)
+    pts, vals, dets, trs = [], [], [], []
+    for i in range(0, P0.shape[0], 800):
+        p, f, d, t = newton(Fx, P0[i:i+800])
+        pts.append(p); vals.append(f); dets.append(d); trs.append(t)
+    P = np.vstack(pts); f = np.concatenate(vals)
+    d = np.concatenate(dets); t = np.concatenate(trs)
+    key = np.round(P*1e6).astype(np.int64)
+    _, idx = np.unique(key, axis=0, return_index=True)
+    P, f, d, t = P[idx], f[idx], d[idx], t[idx]
+    mx = (d > 0) & (t < 0); mn = (d > 0) & (t > 0); sd = d < 0
+    euler = int(mx.sum()+mn.sum()-sd.sum())
+    Pm, fm = P[mx], f[mx]; Ps, fs = P[sd], f[sd]
+    _, _, _, hxx, hxy, hyy = Fx.fgh(Ps)
+    W = []
+    for i in range(Ps.shape[0]):
+        H = np.array([[hxx[i], hxy[i]], [hxy[i], hyy[i]]])
+        ev, evec = np.linalg.eigh(H)
+        v = evec[:, np.argmax(ev)]
+        W.append(Ps[i]+4e-3*v); W.append(Ps[i]-4e-3*v)
+    W = np.array(W)
+    eta = 0.05
+    for _ in range(70):
+        gx, gy = Fa.fg(W)
+        gn = np.maximum(np.hypot(gx, gy), 1e-12)
+        W[:, 0] += eta*gx/gn; W[:, 1] += eta*gy/gn
+        W %= TORUS
+    Pw = W.copy()
+    for _ in range(30):
+        f_, gx, gy, hxx, hxy, hyy = Fx.fgh(Pw)
+        det = hxx*hyy-hxy**2
+        det = np.where(np.abs(det) < 1e-14, np.nan, det)
+        Pw[:, 0] -= (hyy*gx-hxy*gy)/det
+        Pw[:, 1] -= (-hxy*gx+hxx*gy)/det
+        Pw %= TORUS
+    f_, gx, gy, hxx, hxy, hyy = Fx.fgh(Pw)
+    okw = (np.hypot(gx, gy) < 1e-7) & ((hxx*hyy-hxy**2) > 0) & ((hxx+hyy) < 0)
+    dx = np.abs(Pw[:, None, 0]-Pm[None, :, 0]); dx = np.minimum(dx, TORUS-dx)
+    dy = np.abs(Pw[:, None, 1]-Pm[None, :, 1]); dy = np.minimum(dy, TORUS-dy)
+    D = np.hypot(dx, dy); j = D.argmin(1)
+    ends = np.full(Pw.shape[0], -1, np.int64)
+    good = okw & (D[np.arange(len(j)), j] < 1e-4)
+    ends[good] = j[good]
+    ends = ends.reshape(-1, 2)
+    res = (ends >= 0).all(1)
+    parent = np.arange(Pm.shape[0]); birth = fm.copy()
+
+    def find(u):
+        while parent[u] != u:
+            parent[u] = parent[parent[u]]; u = parent[u]
+        return u
+    bars = []
+    for si in np.argsort(-fs):
+        if not res[si]: continue
+        r1, r2 = find(ends[si, 0]), find(ends[si, 1])
+        if r1 == r2: continue
+        if birth[r1] >= birth[r2]: eld, yng = r1, r2
+        else: eld, yng = r2, r1
+        bars.append(birth[yng]-fs[si]); parent[yng] = eld
+    print(f"field {k}: max={mx.sum()} min={mn.sum()} sad={sd.sum()} "
+          f"Euler={euler} endpt={100*res.mean():.1f}% bars={len(bars)} "
+          f"(expect {mx.sum()-1})")
+    return np.array(bars)
+
+
+if __name__ == "__main__":
+    allb = []
+    for k in range(int(sys.argv[1]), int(sys.argv[2])):
+        allb.append(run_field(k))
+    b = np.concatenate(allb); b = b[b > 0]
+    print(f"total bars {b.size}")
+    for L in [0.4, 0.2, 0.1, 0.05, 0.025]:
+        s = b[b <= L]
+        if s.size >= 30:
+            print(f"  L={L:<6} a_hat={-s.size/np.sum(np.log(s/L)):.4f}  m={s.size}")
+
+# Known limitations (recorded, not hidden):
+# - V3 endpoint gate fails on ~1/3 of fields at the 90% threshold; failed-branch
+#   saddles are EXCLUDED from pairing, which can only drop bars, and V2 held
+#   exactly on every field regardless. A better walker (adaptive eta, more
+#   steps) is the obvious v1.2.
+# - The a_hat here is the BULK range exponent; small-L windows are underpowered
+#   (m<30 below L=0.025). Asymptotic ell->0 needs ~10^2-10^3 more fields.
+# - Normalization uses the NBASE-grid std; harmless for exponents (monotone
+#   scaling reweights lifetimes uniformly) but recorded for exact comparisons.

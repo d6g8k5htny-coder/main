@@ -52,6 +52,14 @@ jobs:
         run: if [ -f tools/bridge_check.py ]; then python tools/bridge_check.py; else echo "skipped (tool absent)"; fi
       - name: Reusable operations (registry is the register's words; trials are records, append-only, no status claimed)
         run: if [ -f tools/operations_check.py ]; then python tools/operations_check.py; else echo "skipped (tool absent)"; fi
+      - name: Mirror README quotations are verbatim in the stored bytes
+        # Unconditional on purpose. The `if [ -f ... ]` guard the steps above use is
+        # honest about a tool that has not landed yet, but it also means deleting a
+        # checker turns CI green. tests/test_workflows.py now refuses a guard naming a
+        # tool that is absent from the tree, which closes that hole for every step.
+        run: python tools/mirror_quotes_check.py
+      - name: Mirror lane index is generated from the manifests, not typed
+        run: python tools/mirrors_index_check.py
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Unit tests and negative controls

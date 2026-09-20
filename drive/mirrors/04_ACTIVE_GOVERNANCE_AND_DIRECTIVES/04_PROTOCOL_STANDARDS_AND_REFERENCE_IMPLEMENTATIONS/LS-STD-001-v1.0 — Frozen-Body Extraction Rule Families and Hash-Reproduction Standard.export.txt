@@ -1,0 +1,302 @@
+﻿LS-STD-001-v1.0 — FROZEN-BODY EXTRACTION RULE FAMILIES AND HASH-REPRODUCTION STANDARD
+
+
+Artifact ID: LS-STD-001-v1.0
+Date: 2026-07-26
+Prepared by: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: STD / CONTENT ADDRESSING / REVIEW TRANSPORT / HASH REPRODUCTION
+Authority: prospective research-system integrity standard and additive diagnostic clarification
+Canonical mathematical impact: NONE
+Terminal impact: NONE
+Trigger: CL-AUD-283-v1.0 Finding G1
+
+
+[[STANDARD:EXTRACTION-RULE-FAMILIES]] [[LMC-1:LITERAL-MARKER]] [[BRH-1:BLANK-RUN-HALVING]] [[EXPLICIT-DECLARATION:REQUIRED]] [[NO-INFERENCE]] [[NO-PROMOTION]]
+
+
+1. PROBLEM
+
+
+The Drive currently contains at least two internally consistent but incompatible frozen-body extraction rule families.
+
+
+If a reviewer applies the wrong family, the result may be:
+
+
+- deterministic;
+- reproducible;
+- internally self-consistent;
+- and nevertheless byte-incorrect relative to the declared carrier.
+
+
+CL-AUD-283 demonstrated the failure concretely on P02-LM-006 / LCR-DER-019:
+
+
+- correct declared body: 9,147 bytes / SHA-256 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150;
+- wrong conditional-halving result: 9,024 bytes / a different SHA;
+- difference: exactly one LF removed from each of 123 doubled blank-line runs.
+
+
+The wrong result was not caused by a corrupted Drive file. It arose from applying a transformation not present in that carrier’s declared freeze policy.
+
+
+2. NAMED RULE FAMILY LMC-1
+
+
+Name:
+LMC-1 — Literal Marker Canonicalization, Version 1.
+
+
+Use only when the carrier explicitly declares LMC-1 or gives a semantically identical rule with no blank-run transformation.
+
+
+Algorithm:
+
+
+1. obtain the declared file or Google-native export in the declared MIME type;
+2. remove a UTF-8 BOM if present;
+3. normalize CRLF and bare CR to LF;
+4. locate the declared exact whole-line begin marker;
+5. locate the declared exact whole-line end marker after the begin marker;
+6. require the declared marker multiplicity, normally one unique begin and one unique end;
+7. extract only text strictly between the marker lines;
+8. do not alter internal blank-line runs;
+9. remove trailing LF characters from the extracted payload;
+10. append exactly one LF;
+11. encode UTF-8 without BOM;
+12. compute byte count and SHA-256.
+
+
+Prohibited under LMC-1:
+
+
+- blank-run halving;
+- Markdown normalization;
+- whitespace trimming on individual lines;
+- tab expansion;
+- quote or escape rewriting;
+- Unicode normalization unless explicitly declared;
+- Google Docs paragraph deduplication;
+- removing repeated blank paragraphs because they appear visually redundant.
+
+
+P02-LM-006 / LCR-DER-019 uses LMC-1.
+
+
+3. NAMED RULE FAMILY BRH-1
+
+
+Name:
+BRH-1 — Conditional Blank-Run Halving Canonicalization, Version 1.
+
+
+Use only when the carrier explicitly declares BRH-1 or explicitly includes the following transformation in its freeze policy.
+
+
+Algorithm:
+
+
+1. perform LMC-1 steps 1–7;
+2. inspect every maximal run of blank lines in the extracted payload;
+3. if and only if every blank-line run has even length, replace every run of length 2k by a run of length k;
+4. if any blank-line run has odd length, do not apply the halving transform unless the carrier declares a different fail/handling rule;
+5. perform LMC-1 steps 9–12 after the transform.
+
+
+The halving condition is not a universal transport repair. It is a carrier-declared canonicalization step.
+
+
+A reviewer must never infer BRH-1 merely because:
+
+
+- all blank runs happen to be even;
+- prior project carriers used it;
+- the unhalved hash does not match;
+- the Google Docs export appears double-spaced;
+- a neighboring artifact used the same marker names.
+
+
+4. RULE-SELECTION PRECEDENCE
+
+
+For every carrier, apply this precedence:
+
+
+A. exact rule-family identifier declared by the carrier;
+B. exact prose freeze policy declared by the carrier;
+C. a versioned governing manifest explicitly incorporated by the carrier;
+D. no rule may be inferred from project custom.
+
+
+If the carrier declares prose but no family name, classify it after reading the entire declared policy:
+
+
+- no internal blank-run transform => LMC-1;
+- explicit conditional halving => BRH-1;
+- another transform => UNCLASSIFIED / NEW RULE REQUIRED.
+
+
+If the rule remains ambiguous, verdict:
+
+
+CANNOT VERIFY — EXTRACTION RULE AMBIGUOUS.
+
+
+Do not try multiple rules and choose the one whose output matches the advertised hash without reporting that the rule was selected post hoc.
+
+
+5. REQUIRED CARRIER HEADER
+
+
+Every newly frozen carrier should state:
+
+
+EXTRACTION_RULE_FAMILY: LMC-1
+
+
+or
+
+
+EXTRACTION_RULE_FAMILY: BRH-1
+
+
+and separately state:
+
+
+- export MIME type;
+- BOM rule;
+- line-ending rule;
+- begin marker;
+- end marker;
+- marker multiplicity;
+- internal blank-line transform;
+- trailing LF rule;
+- encoding;
+- byte count;
+- hash algorithm and digest.
+
+
+A current carrier lacking a family label may receive an additive outer-header classification if its existing frozen-body extraction rule is already unambiguous. Do not change the marker-delimited body merely to add the label.
+
+
+6. REVIEW RECEIPT REQUIREMENTS
+
+
+Every hash-reproduction receipt must record:
+
+
+- source Drive ID and URL;
+- source file name/title;
+- source MIME/export type;
+- rule family used;
+- complete rule text or governing standard version;
+- BOM observed yes/no;
+- CRLF count, bare-CR count, bare-LF count when relevant;
+- begin/end marker lines and occurrence counts;
+- payload line count;
+- blank-run count and length distribution;
+- whether a blank-run transform was applied;
+- trailing-LF action;
+- final byte count;
+- final SHA-256;
+- expected byte count/hash;
+- pass/fail;
+- diagnostic outputs under alternate rules only when useful, clearly labelled noncontrolling.
+
+
+7. DIAGNOSTIC NEAR-MISS CLASSIFICATION
+
+
+When a hash misses, calculate differences without changing the controlling rule.
+
+
+Useful diagnostics:
+
+
+- expected minus observed equals number of blank runs: possible erroneous BRH-1 application to LMC-1 carrier;
+- one-byte deficit: possible missing final LF;
+- three-byte excess: possible retained UTF-8 BOM;
+- CRLF-dependent expansion: line endings not normalized;
+- whole-document excess: markers not applied;
+- marker-adjacent deficit: marker line included/excluded incorrectly;
+- content-sized mismatch: wrong version or source object.
+
+
+Diagnostic calculations do not authorize selecting another rule.
+
+
+8. LEGACY-CARRIER CLASSIFICATION
+
+
+The following current objects should be classified additively:
+
+
+- P02-LM-006 / LCR-DER-019: LMC-1;
+- GP-DATA-214 and related GP-DATA-212/208 carriers: use the exact family stated in each carrier; where the conditional blank-run-halving clause is present, classify BRH-1;
+- GP-DER-118 v1.9 / GP-DATA-236: LMC-1 as presently declared by the marker policy;
+- GP-DER-197, LCR-DER-057-v1.1, and LCR-DER-061-v1.1: LMC-1 unless their exact carrier policies state otherwise.
+
+
+This standard does not retroactively change any body or hash.
+
+
+9. ADVERSARIAL CONTROLS
+
+
+R1 — Apply BRH-1 to a known LMC-1 carrier with all-even blank runs.
+Expected: hash mismatch; review must identify wrong rule rather than corrupt carrier.
+
+
+R2 — Apply LMC-1 to a BRH-1 carrier whose exported body has doubled blank runs.
+Expected: hash mismatch with excess equal to removed blank lines under BRH-1.
+
+
+R3 — Retain BOM.
+Expected: three-byte excess and changed hash.
+
+
+R4 — Omit final LF.
+Expected: one-byte deficit and changed hash.
+
+
+R5 — Include marker line.
+Expected: content-sized excess and changed hash.
+
+
+R6 — Select the rule only after observing expected hash.
+Expected: provenance failure / nonqualifying review unless preregistration allowed a declared diagnostic ladder and controlling rule remained source-derived.
+
+
+10. EFFECT ON CURRENT P0.1 WORK
+
+
+This standard resolves the rule-family ambiguity identified by CL-AUD-283 G1 prospectively and diagnostically.
+
+
+It does not supply the independent Peano/periodization verdict PZ0.
+
+
+The future third-family reviewer under LS-WO-001-v1.1 must:
+
+
+- state the rule family for GP-DATA-214 source/result and every consumed frozen carrier;
+- use each carrier’s own declared rule;
+- not carry BRH-1 into LMC-1 objects by habit;
+- report alternate-rule diagnostics only as noncontrolling evidence.
+
+
+11. CURRENT STATUS
+
+
+Standard status:
+ACTIVE PROSPECTIVE INTEGRITY STANDARD / ADDITIVE LEGACY CLASSIFICATION / NO BODY OR HASH CHANGES.
+
+
+CL-AUD-283 G1:
+REPAIR PREPARED AND ROUTED; current high-value carriers still require additive header classifications where absent.
+
+
+No theorem, lemma, review, package, or release is promoted by this standard.
+
+
+END LS-STD-001-v1.0

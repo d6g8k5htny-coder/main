@@ -44,6 +44,18 @@ Within the active lane:
 | `11_P0.2_ADJACENCY_TRANSIT_TREE` | 19 |
 | `2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 8 |
 
+**How much of that this repository holds** is measured per lane in
+[`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
+own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
+inventory's 4,456 items, 700 are held byte-for-byte and a further 873 are
+indexed tree-only — 15.7% held, 35.3% held or indexed. Three sub-lanes are at
+zero of either: `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
+`10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
+items in all. They are named here so the gap is a stated number and not an
+impression; nothing in this repository depends on their bytes, and the claim
+graph does not read them. `99_DO_NOT_OPEN` (6 items) is at zero deliberately and
+permanently: it is metadata only and is never opened.
+
 The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
 program's terminal closure records live: the documents behind every
 `closure_log` row (`GP-CLS-141`, the `GP-CLS-BATCH-129` and `-137` batches,
@@ -62,11 +74,19 @@ gave the lane a row count and nothing else.
 
 `16_THEMATIC_RESEARCH_TRACKS` (T1–T5) and `13_POWER_PLANNING_CONTINUUM` hold the
 workspace charters, the T1 closure-and-reduction packages, the T2 SARD-G
-working source and the 03.x leaf and live-state cards. One object is held so
-far (`Q0_C101_QUALITATIVE_RATE_THEOREM.md`, byte-exact; its grade block records
-"R0/SARD-G external status: SPECIALIST-REVIEW-PENDING" and "numerical upper
-coefficient: NOT-CLAIMED"); the charters' fences and the leaf cards' withdrawn
-claims are not yet transcribed here (`drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/README.md`).
+working source and the 03.x leaf and live-state cards. Both lanes were ported on
+2026-09-20: the thematic lane now holds 26 objects across 13 directories (24
+byte-exact, two reading copies of native Docs), including all five workspace
+charters, the T1 core pairing manuscript, the ten packages of its
+closure-and-reduction directory, the T2 transversality manuscript with the chart
+atlas and finite-jet certificate, the T3 continuum-validation adjudication and machine report, the T4
+adjudications and the T5 extension manuscript; the power-planning lane holds 24
+objects across its three 03.x directories (21 byte-exact) with 6 further items
+indexed tree-only. Counts are generated per lane in
+[`drive/MIRRORS.md`](../drive/MIRRORS.md). Until 2026-09-20 this paragraph read
+"One object is held so far" and said the charters' fences and the leaf cards'
+withdrawn claims were "not yet transcribed here"; both lane READMEs now quote
+them, and each lane README states what it does not establish.
 Note the name collision: the RN-UNIF lane's "T4 push" (§3, `LANE_RN_UNIF.md`)
 is unrelated to the thematic track T4 (Lower Side). The `99_DO_NOT_OPEN` vault
 (6 inventory items: the folder and five native Docs) sits inside

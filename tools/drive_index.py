@@ -6,8 +6,13 @@ from the 2026-09-17 accessibility snapshot): id, title, path, mimeType, bytes,
 sha256, context, access_status, link — an 8-field projection of the source
 map's ``Files.csv``.  The tool queries three of the source map's seven tables
 (Files, via inventory.jsonl; Archive Members; Exceptions); Payloads is read by
-tools/frozen_check.py; Reading Links, Reading Copies and Start Here are not in
-the repository.  It is an index of the Drive's ``07_MODEL_ACCESSIBILITY``
+tools/frozen_check.py.  The remaining three -- Start Here, Reading Copies and
+Reading Links -- are held as byte-exact CSV exports under
+``drive/deltas/2026-09-18/07_MODEL_ACCESSIBILITY_extras/`` and this tool does
+not read them.  Until 2026-09-20 this docstring said they were "not in the
+repository", which was true when it was written and stopped being true when
+``Start_Here.csv`` and ``Reading_Copies.csv``, and then ``Reading_Links.csv``,
+were stored.  It is an index of the Drive's ``07_MODEL_ACCESSIBILITY``
 snapshot, not of the R17 **File Catalog** tab (``registers/json/file_catalog.json``,
 2,952 rows), which is a different snapshot with a different row set.
 

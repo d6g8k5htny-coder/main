@@ -1,0 +1,15 @@
+﻿00_LEAF_CARD — 03.2_CLUSTER_POWER_SIMULATION
+ARTIFACT: CL-NAV-036.10-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 · CLASS: NAV — leaf charter + live-state card · CANONICAL IMPACT: NONE · AUTHORITY: none
+What routes to this leaf
+Power planning for continuum simulations: sample-size plans, ensemble sizing, paired-uncertainty design, effective-sample-size (ESS) accounting for weighted rare events, and pre-execution protocols.
+Live state as of 2026-07-21
+* Clean-test sample-size plan: CM-032 rebased OQ-008 after the four-connectivity root cause and established the clean-test sample-size planning obligation — power calculations belong here before large runs execute.
+* Rare-event discipline (GP-AUD-030 controls, adopted in CM-030/CM-036): (1) separate gauge-induced typing/weight changes from common-typed paired-flow changes; (2) attach paired uncertainty and failure-weight ESS to all rare-event ratio readings; (3) treat 1,000 outside-screen trials as a falsifier only — never affirmative validation at 1e-4-scale probabilities; (4) use numerical weighted-quantile criteria, not qualitative "layer shift" language.
+* Precedent numbers for planning (reported, not certified): the corrected P0.2 anisotropic run reproduced typed sample count 24,022, determinant-weight ESS ≈10,302, generic complement 5/24,022 ≈ 2.08e-4, weighted complement ≈1.19e-8 — "below display precision and consistent with zero in this one-r cubic diagnostic," not an exact zero (GP-AUD-012 / CM-022). These calibrate how much ESS a claim at a given probability scale needs.
+* Horizon discipline: report ESCAPE / M-CAPTURE / STALL separately across multiple horizons and chart radii; a censored stall is not an escape.
+Open items that would land here
+The r = 0.0125 repeat plan with identical conventions; power analysis for the exact-law certificate replay (how many frozen draws to bound weighted failure mass at the r³ scale); sample-size plan for the P1.2 clean re-execution.
+What must not be claimed
+A power plan justifies a run design; it never converts a reported rate into a verified one. Weighted-zero readings are display-precision statements only.
+Coupled-advancement justification (OP-GDN-002 §1)
+Leaf created empty by CM-045 ¶5; card fixes the rare-event ESS discipline where run plans will land, addressing the recorded failure mode of underpowered rare-event claims. Non-authority header guards against stale-card citation.

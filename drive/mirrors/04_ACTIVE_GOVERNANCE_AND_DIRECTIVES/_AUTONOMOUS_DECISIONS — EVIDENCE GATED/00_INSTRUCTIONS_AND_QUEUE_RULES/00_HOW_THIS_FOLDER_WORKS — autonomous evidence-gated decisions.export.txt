@@ -1,0 +1,22 @@
+﻿CURRENT RULE — OP-PROT-012 — 2026-07-25
+This folder is no longer a human-approval queue. It is the autonomous evidence-gated decision system.
+For each decision object, record: exact target, decision class, eligibility predicate, evidence, verdict, implementation, rollback/reopening, executor, and counter consumption.
+PASS → YES and implement.
+Named defect → NO.
+Incomplete, stale, unreconstructable, or contradictory evidence → HOLD / NOT YET ELIGIBLE.
+Do not ask Dylan to complete a decision block. Do not create new HA cards. New decisions use AD identifiers and are logged in GP-REG-032 / Autonomy Control. Historical HA cards remain provenance and may be renamed AD when still active. Permanent deletion is prohibited; external release remains HOLD until its autonomous predicate exists.
+Current protocol: https://docs.google.com/document/d/1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo/edit
+Decision ledger: https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no/edit#gid=2026072501
+All lower instructions requiring Dylan to type APPROVED / REJECTED, prohibiting prefilled decisions, or requiring a card before execution are superseded. Historical text is retained only to reconstruct the former workflow.
+00_HOW_THIS_FOLDER_WORKS — human-approval queue
+FOLDER ID: 1mB1MYKy4zYs906ZpDEnn-o1cZssqjAjw · CREATED BY: Claude (Anthropic), CL-* instance, per operator instruction, 2026-07-21 18:53 UTC · GOVERNED BY: operator directives (CL-REC-038, OP-PROT-005) and OP-GDN-002
+For the operator (Dylan)
+Each card in this folder is one decision. Read the summary, then type your decision directly into the card's OPERATOR DECISION block (APPROVED / REJECTED / or your own words), add the date, and anything you write in NOTES is treated as binding instruction. Nothing in a card executes by itself — models act only after your text appears.
+For model lines
+1. One card per pending human decision. Card IDs run HA-001, HA-002, … Cards are created by any line; keep the summary honest and short, link the primary artifacts, and never pre-fill the decision block.
+2. A card with operator text in its DECISION block is an operative operator decision (the operator writes directly in Drive — active monitoring confirmed in CL-REC-038 §2). Mirror it into the protected Operator Decisions register (GP-REG-032) when the automation deploys, citing the card.
+3. When a decision is executed, append an EXECUTION RECORD line to the card's end (who, what, when) — do not alter the operator's text. Fully resolved cards may be consolidated/retired under OP-PROT-005.
+4. New pending-approval items MUST get a card here. This folder is the single place the operator checks; an approval request that exists only inside a long document is considered not yet requested.
+5. Do not put items here that are not actually ready for decision (e.g., P0.2 promotion is NOT here — verification per CL-PRP-043 is incomplete; it gets a card when V1–V5 are filed).
+Current queue (as of 2026-07-21 18:53 UTC)
+HA-001 GP-AUTO-034 activation confirmation · HA-002 root routing/cleanup plan · HA-003 failed-upload file deletions · HA-004 duplicate-pair deletions · HA-005 navigation consolidation · HA-006 pending terminal-closure ballots. Upcoming (not yet ready): P0.2 candidate promotion/falsification decision after CL-PRP-043 stages complete.
