@@ -106,8 +106,12 @@ normalized field's derivative covariance at `y=(1,1)`, conditions on the exact
 nine pins using positive interval LDL pivots, and replays the `M4/S4/y2`
 moment certificates over the complete mark interval. The conditional
 determinant factor is at most `1830559/250000000 = 0.007322236` there. This
-point calculation supplies no density/window factor, H3 normalizer or spatial
-area contribution; it does not turn the generic cover into an RN cover.
+point calculation is extended by the [density/window candidate](RN_SIDE24_DENSITY.md):
+six-pin gradient density and gradient-conditioned height-window bounds give a
+pointwise RN integrand upper `1888043/500000000000 = 0.000003776086`, conditional
+on the imported H3 floor. The floor is hash-bound but not reproved. Neither
+point calculation supplies a spatial area contribution or turns the generic
+cover into an RN cover.
 
 ### A6. `PERC-DECAY`
 

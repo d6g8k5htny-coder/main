@@ -43,12 +43,26 @@ one specified point: normalized image sums with infinite tails, nine-pin
 [interval conditioning](RN_CONDITIONING.md), then three portable witnesses for
 the corrected determinant powers `4,4,2`. Its candidate is reproduced from the
 source kernel and exact pin values on every check. The resulting conditional
-determinant factor covers the whole mark interval; density/window factors,
-the H3 normalizer and a complete spatial cover remain separate obligations.
+determinant factor covers the whole mark interval.
 
 ```sh
 python tools/rn_side24_check.py
 ```
+
+The [density/window extension](RN_SIDE24_DENSITY.md) computes the six-pin
+gradient density and bounds the full height-window probability after also
+conditioning the gradient to zero. It composes these factors with the checked
+moment upper and an explicitly imported, hash-bound H3 floor. Its exact
+admission margins are diagnostic fields, not sampled counterexamples. The H3
+premise is not reproved and the complete spatial cover remains open.
+
+```sh
+python tools/rn_side24_density_check.py
+```
+
+[Recurring continuation](RESEARCH_AUTOMATION.md) schedules one bounded private
+delivery per run, with source/claim coordination and one complete verification
+of the final stable tree. It leaves unchanged or non-actionable state quiet.
 
 The [research frontier](RESEARCH_FRONTIER.md) derives dependency paths and
 recorded failures/non-executions from named repository inputs. It preserves

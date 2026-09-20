@@ -8,10 +8,14 @@ Gaussian moment bounds without promoting any scientific status.
 The [SIDE24 point-law candidate](docs/RN_SIDE24.md) connects the normalized
 field kernel and nine-pin interval conditioning to those moment witnesses at
 one exact spatial point, over the complete mark interval.
+The [density/window extension](docs/RN_SIDE24_DENSITY.md) completes the
+pointwise RN integrand bound under an explicitly imported H3 floor.
 
 [Reproducible execution](docs/RESEARCH_EXECUTION.md) adds one verification
 command, exact RN certificate replay and derived dependency/diagnostic
 checkpoints. These retain the existing source and scientific-status boundaries.
+[Bounded recurring continuation](docs/RESEARCH_AUTOMATION.md) advances one
+verified private delivery at a time and coordinates through the live register.
 
 Git-side home of a multi-model mathematics research program that until now
 lived entirely in a Google Drive shared drive. This repository carries the

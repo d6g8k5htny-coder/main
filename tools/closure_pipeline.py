@@ -30,6 +30,7 @@ REGISTERS = {
 LINKS = {
     'python tools/rn_certificate.py check-candidates': ['D3-LEMMA-RN-UNIF', 'RN5-NEAR-POINT-CERTS', 'A5'],
     'python tools/rn_side24_check.py': ['D3-LEMMA-RN-UNIF', 'RN5-NEAR-POINT-CERTS', 'A5'],
+    'python tools/rn_side24_density_check.py': ['D3-LEMMA-RN-UNIF', 'RN5-NEAR-POINT-CERTS', 'A5'],
     'python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json': ['D3-LEMMA-RN-UNIF', 'A5'],
     'python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json': ['OBL-H5-JETMOD', 'A1'],
     'python tools/lpw_amplitude_check.py': ['LPW-CONSTANT-DELIVERED', 'LPW_CONSTANT as delivered', 'R05 Rayleigh quantitative repair'],

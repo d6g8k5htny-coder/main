@@ -34,9 +34,10 @@ paragraph called the Board's sentence the only one; the restatements are
 GP/CL-line records of the same decision.) It approves a *private* repository as the formalization,
 source-control, reproducibility and CI-handoff system of record and, in the
 same decision, "NOT APPROVED: blanket terminalization or mathematical promotion
-of any included claim." This repository is public; whether to keep it so is the
-owner's decision, and the 2026-09-18 execution-contract draft records the owner
-asking to restrict who works in it, not to hide it.
+of any included claim." Dylan subsequently directed that the repository remain
+private until publication is explicitly authorized. The authenticated GitHub
+API confirmed private visibility on 2026-09-20 UTC. Private draft work may
+continue; this does not authorize public publication or mathematical promotion.
 
 | Drive construct (protocol) | Repository equivalent | Notes on guarantees |
 |---|---|---|
