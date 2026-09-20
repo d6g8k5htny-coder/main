@@ -32,6 +32,7 @@ LINKS = {
     'python tools/rn_side24_check.py': ['D3-LEMMA-RN-UNIF', 'RN5-NEAR-POINT-CERTS', 'A5'],
     'python tools/rn_side24_spatial_check.py': ['D3-LEMMA-RN-UNIF', 'A5'],
     'python tools/parallel_math_check.py': ['OBL-H5-JETMOD', 'A1', 'D3-LEMMA-RN-UNIF', 'A5'],
+    'python tools/twelve_project_check.py': ['OBL-H5-JETMOD', 'A1', 'A5', 'LPW-CONSTANT-DELIVERED'],
     'python tools/rn_side24_density_check.py': ['D3-LEMMA-RN-UNIF', 'RN5-NEAR-POINT-CERTS', 'A5'],
     'python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json': ['D3-LEMMA-RN-UNIF', 'A5'],
     'python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json': ['OBL-H5-JETMOD', 'A1'],

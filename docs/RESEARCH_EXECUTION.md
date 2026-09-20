@@ -71,6 +71,21 @@ python tools/rn_side24_spatial_check.py
 python tools/parallel_math_check.py
 ```
 
+The [twelve-project continuation](TWELVE_PROJECT_MATH.md) replays the exact
+frozen candidate archive in a fresh external directory. The portable wrapper
+checks its allowlist, every input identity and the current repository
+dependencies before executing the twelve specified mathematical checks.
+Fresh reports must match the original candidate bytes. Historical source
+scripts remain inert unless explicitly named as a reviewed checker.
+
+```sh
+python tools/twelve_project_check.py
+```
+
+This execution closes twelve reconstruction tasks at their stated scopes.
+Actual weighted-field, event-identification, all-angle and continuum
+hypotheses remain separately listed in the mathematical continuation.
+
 [Recurring continuation](RESEARCH_AUTOMATION.md) schedules one bounded private
 delivery per run, with source/claim coordination and one complete verification
 of the final stable tree. It leaves unchanged or non-actionable state quiet.

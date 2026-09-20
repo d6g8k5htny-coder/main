@@ -15,6 +15,13 @@ integral upper below `6e-12`. The [parallel mathematical replays](docs/PARALLEL_
 reconstruct that fixed-r H3 floor, improve the LPW covariance modulus and bound
 one H5 jet over an exact radius band. The full near-annulus bound remains open.
 
+The [twelve-project mathematical continuation](docs/TWELVE_PROJECT_MATH.md)
+adds uniform six-pin covariance bounds, a conditional LPW coefficient,
+two gradient-jet bands, and exact persistence/contact, weighted-event,
+Lambda, Gaussian-tube and integer-count lemmas. Each result retains its
+stated hypotheses. In particular, elder pairing and selected-branch
+adjacency are different events; the LPW coefficient does not identify them.
+
 [Reproducible execution](docs/RESEARCH_EXECUTION.md) adds one verification
 command, exact RN certificate replay and derived dependency/diagnostic
 checkpoints. These retain the existing source and scientific-status boundaries.

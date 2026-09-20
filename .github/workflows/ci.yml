@@ -81,6 +81,8 @@ jobs:
         run: python tools/rn_side24_spatial_check.py
       - name: Replay H3 floor, LPW quadratic modulus and one H5 jet band
         run: python tools/parallel_math_check.py
+      - name: Replay twelve scoped mathematical candidates from the frozen archive
+        run: python tools/twelve_project_check.py
       - name: Validate the derived research frontier and recorded diagnostics
         run: python tools/research_frontier.py self-check
       - name: Verify source-bound LPW amplitude and radius arithmetic
