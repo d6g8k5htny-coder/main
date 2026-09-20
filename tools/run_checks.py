@@ -64,6 +64,7 @@ REQUIRED_COMMANDS = (
     "python tools/native_export_check.py --verify-containers",
     "python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json",
     "python tools/rn_certificate.py check-candidates",
+    "python tools/rn_side24_check.py",
     "python tools/research_frontier.py self-check",
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",

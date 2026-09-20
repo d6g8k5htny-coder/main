@@ -5,6 +5,9 @@ and [keyword/SHA guide](docs/DRIVE_SEARCH_GUIDE.md). The active research package
 have 2,944 verified stored files/exports; held subtrees remain metadata-only.
 The [interval-family candidate](docs/RN_INTERVAL_FAMILIES.md) extends exact
 Gaussian moment bounds without promoting any scientific status.
+The [SIDE24 point-law candidate](docs/RN_SIDE24.md) connects the normalized
+field kernel and nine-pin interval conditioning to those moment witnesses at
+one exact spatial point, over the complete mark interval.
 
 [Reproducible execution](docs/RESEARCH_EXECUTION.md) adds one verification
 command, exact RN certificate replay and derived dependency/diagnostic

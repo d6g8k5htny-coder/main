@@ -73,6 +73,8 @@ jobs:
         run: python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json
       - name: Replay exact RN numerical certificates and source applicability
         run: python tools/rn_certificate.py check-candidates
+      - name: Reconstruct the SIDE24 nine-pin point law and corrected determinant moments
+        run: python tools/rn_side24_check.py
       - name: Validate the derived research frontier and recorded diagnostics
         run: python tools/research_frontier.py self-check
       - name: Verify source-bound LPW amplitude and radius arithmetic

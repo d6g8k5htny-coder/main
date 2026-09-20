@@ -101,6 +101,14 @@ much depth is granted. Every integrand exercised is a labelled reference; no
 cell of the program's actual cover is certified, and the frozen engine
 `engine/rn_engine/frozen/` is `mpmath` throughout. Both Pieces remain OPEN.
 
+The new [SIDE24 point-law candidate](RN_SIDE24.md) separately assembles the
+normalized field's derivative covariance at `y=(1,1)`, conditions on the exact
+nine pins using positive interval LDL pivots, and replays the `M4/S4/y2`
+moment certificates over the complete mark interval. The conditional
+determinant factor is at most `1830559/250000000 = 0.007322236` there. This
+point calculation supplies no density/window factor, H3 normalizer or spatial
+area contribution; it does not turn the generic cover into an RN cover.
+
 ### A6. `PERC-DECAY`
 
 Frozen v2.2: OPEN. The `o(r³)` far-lane reading is not reachable; what the note

@@ -38,6 +38,18 @@ still does not identify the actual RN field law or complete its spatial cover.
 python tools/rn_certificate.py check-candidates
 ```
 
+The [SIDE24 adapter](RN_SIDE24.md) supplies the missing field construction for
+one specified point: normalized image sums with infinite tails, nine-pin
+[interval conditioning](RN_CONDITIONING.md), then three portable witnesses for
+the corrected determinant powers `4,4,2`. Its candidate is reproduced from the
+source kernel and exact pin values on every check. The resulting conditional
+determinant factor covers the whole mark interval; density/window factors,
+the H3 normalizer and a complete spatial cover remain separate obligations.
+
+```sh
+python tools/rn_side24_check.py
+```
+
 The [research frontier](RESEARCH_FRONTIER.md) derives dependency paths and
 recorded failures/non-executions from named repository inputs. It preserves
 frozen and register-note status layers and records exactly which source bytes
