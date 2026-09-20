@@ -1,0 +1,1000 @@
+﻿LS-DER-006-v1.0 — UNIFORM EXACT DETERMINANT-FACTOR TRANSFER ON THE FULL P0.1 CERTIFICATE INTERVAL
+
+
+Artifact ID: LS-DER-006-v1.0
+Date: 2026-07-24
+Author: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: DER / EXACT DETERMINANT TRANSFER / EXPLICIT UNIFORM CONSTANT / DOMAIN-D COMPANION
+Authority: none
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Target: frozen GP-DER-118-v1.3, BODY_BYTES 14591, SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28, Domain D
+Depends on: GP-DATA-178-v1.0; GP-DER-186-v1.0; GP-DER-100-v1.0; LS-AUD-006-v1.0; GP-DER-045-v1.0; GP-PROT-065-v1.0
+Status: COMPLETE SAME-LINE DETERMINANT LEMMA / NO ADDITIONAL r_det RESTRICTION / ORGANIZATIONALLY DISTINCT REVIEW OPEN / NO PROMOTION
+
+
+[[TARGET:P0.1]] [[DOMAIN:D]] [[DETERMINANT-TRANSFER:PASS-SAME-LINE]] [[r_det:1/20-SUFFICIENT]] [[EXACT-FACTOR:>0.8820]] [[WEIGHT-CONSTANT:>0.7781]] [[EXISTING-r2/4:CONSERVATIVE]] [[NON-GP-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+====================================================================
+0. EXECUTIVE RESULT
+====================================================================
+
+
+The repaired P0.1 proof previously obtained the exact endpoint determinant-weight lower bound by stating that, after the exact C^1 remainder is controlled, r must be reduced further until the normalized exact determinant factors exceed 1/2.
+
+
+No additional determinant-specific reduction is necessary.
+
+
+On the complete fixed physical jet box
+
+
+    q in [-1.02,-0.98],
+    a in [0.0024,0.0026],
+    w in [-0.001,0.001],
+    c40,c31,c22 in [-0.01,0.01],
+    0<r<=1/20,
+
+
+and on the exact high-derivative event where
+
+
+    ||DF_r-DF_r^(4)||_op<=C_D r
+
+
+with
+
+
+    C_D=343/192+sqrt(1074)/960,
+
+
+the two exact normalized endpoint determinant factors satisfy the uniform lower bound
+
+
+    det H_M^{exact}/r
+      >=lambda_det,
+
+
+    -det H_S^{exact}/r
+      >=lambda_det,
+
+
+where
+
+
+    lambda_det
+      =4073203237039/4608000000000
+       -323729 sqrt(1074)/5760000000
+
+
+      =0.8820997949979480759800126399542261178281662212773259....
+
+
+Consequently
+
+
+    W_r^{exact}
+      >=lambda_det^2 r^2
+
+
+on the transferred certified event, with
+
+
+    lambda_det^2
+      =0.7781000483354220214852313579942471369276911616457102....
+
+
+In particular,
+
+
+    lambda_det>1/2,
+
+
+and therefore the frozen theorem’s conservative bound
+
+
+    W_r^{exact}>=r^2/4
+
+
+holds automatically for every
+
+
+    0<r<=1/20
+
+
+whenever the exact C^1 premise holds. No separate r_det smaller than 1/20 is needed.
+
+
+Thus the final P0.1 common small-r minimum may take
+
+
+    r_det=1/20.
+
+
+The actual deterministic transfer bottleneck remains
+
+
+    r_D=10^-4/C_D
+       approximately 5.492707477787046 x 10^-5,
+
+
+not a further determinant-preservation threshold.
+
+
+The stronger same-line weight constant could improve the symbolic final probability coefficient from
+
+
+    p_B/(8C_Z)
+
+
+to
+
+
+    lambda_det^2 p_B/(2C_Z),
+
+
+which is approximately
+
+
+    0.3890500241677110 p_B/C_Z.
+
+
+The frozen theorem need not be revised to use this sharpening. The r^2/4 bound remains valid and simpler.
+
+
+====================================================================
+1. EXACT QUARTIC ENDPOINT HESSIANS
+====================================================================
+
+
+Let F_r^(4) be the normalized pin-preserving quartic gradient vector field associated with a jet in the fixed physical box.
+
+
+At the normalized maximum point
+
+
+    M_hat=(-1/2,0),
+
+
+the scaled quartic Jacobian entries are
+
+
+    A_M=-1+r c40/12,
+
+
+    B_M=-a/2+r c31/12,
+
+
+    D_M=q/r-w/2+r c22/8.
+
+
+At the normalized saddle point
+
+
+    S_hat=(+1/2,0),
+
+
+the entries are
+
+
+    A_S=+1+r c40/12,
+
+
+    B_S=+a/2+r c31/12,
+
+
+    D_S=q/r+w/2+r c22/8.
+
+
+The physical quartic endpoint Hessians are
+
+
+    H_M^(4)
+      =r [[A_M,B_M],[B_M,D_M]],
+
+
+    H_S^(4)
+      =r [[A_S,B_S],[B_S,D_S]].
+
+
+Equivalently, their physical entries are
+
+
+    h11_M=r A_M,
+    h12_M=r B_M,
+    h22_M=q-rw/2+r^2c22/8,
+
+
+    h11_S=r A_S,
+    h12_S=r B_S,
+    h22_S=q+rw/2+r^2c22/8.
+
+
+The apparent q/r divergence is absent in physical variables because r(q/r)=q.
+
+
+====================================================================
+2. UNIFORM QUARTIC NORMALIZED FACTOR AT M
+====================================================================
+
+
+Define
+
+
+    delta_M^(4)
+      =det H_M^(4)/r.
+
+
+Since
+
+
+    det H_M^(4)
+      =r^2(A_M D_M-B_M^2),
+
+
+one has
+
+
+    delta_M^(4)
+      =r(A_M D_M-B_M^2)
+
+
+      =(-A_M)(-h22_M)-rB_M^2.
+
+
+Uniform lower bounds on the box are:
+
+
+AXIAL MAGNITUDE
+
+
+    -A_M
+      =1-r c40/12
+      >=1-(1/20)(1/100)/12
+      =23999/24000
+      =0.9999583333333333....
+
+
+TRANSVERSE PHYSICAL MAGNITUDE
+
+
+    -h22_M
+      =-q+rw/2-r^2c22/8
+
+
+      >=98/100
+        -(1/20)(1/1000)/2
+        -(1/20)^2(1/100)/8
+
+
+      =313591/320000
+      =0.979971875.
+
+
+MIXED SCALED ENTRY
+
+
+    |B_M|
+      <=a_max/2+r_max |c31|/12
+
+
+      =13/10000+1/24000
+      =161/120000
+      =0.0013416666666....
+
+
+Therefore
+
+
+    delta_M^(4)
+      >=(23999/24000)(313591/320000)
+        -(1/20)(161/120000)^2
+
+
+      =564440228833/576000000000
+
+
+      =0.9799309528350694444444444444444444444444....
+
+
+====================================================================
+3. UNIFORM QUARTIC NORMALIZED FACTOR AT S
+====================================================================
+
+
+Define
+
+
+    delta_S^(4)
+      =-det H_S^(4)/r.
+
+
+Since
+
+
+    det H_S^(4)/r
+      =A_S h22_S-rB_S^2,
+
+
+one has
+
+
+    delta_S^(4)
+      =A_S(-h22_S)+rB_S^2.
+
+
+The mixed-square term is nonnegative and may be dropped for a lower bound.
+
+
+The same axial and transverse magnitude bounds give
+
+
+    A_S
+      >=23999/24000,
+
+
+    -h22_S
+      >=313591/320000.
+
+
+Hence
+
+
+    delta_S^(4)
+      >=(23999/24000)(313591/320000)
+
+
+      =7525870409/7680000000
+
+
+      =0.9799310428385416666666666666666666666667....
+
+
+Therefore the common quartic factor lower bound is
+
+
+    delta_0
+      =564440228833/576000000000
+
+
+      =0.9799309528350694444444444444444444444444....
+
+
+The maximum factor is slightly smaller because its mixed-square term is subtractive.
+
+
+====================================================================
+4. UNIFORM PHYSICAL COFACTOR BOUND
+====================================================================
+
+
+Let H denote either physical quartic endpoint Hessian.
+
+
+On the complete box and 0<r<=1/20,
+
+
+    |h22|
+      <=1.02+(1/20)(1/1000)/2
+           +(1/20)^2(1/100)/8
+
+
+      =326409/320000
+      =1.020028125.
+
+
+Similarly,
+
+
+    |h11|
+      <=1/20+(1/20)^2(1/100)/12
+
+
+      =24001/480000
+      =0.0500020833333....
+
+
+and
+
+
+    |h12|
+      <=(1/20)(13/10000)
+        +(1/20)^2(1/100)/12
+
+
+      =161/2400000
+      =0.0000670833333....
+
+
+For the two-by-two determinant derivative, the relevant entrywise cofactor coefficient is
+
+
+    C_H
+      =|h22|+|h11|+2|h12|.
+
+
+Thus uniformly
+
+
+    C_H
+      <=326409/320000
+        +24001/480000
+        +2(161/2400000)
+
+
+      =1712263/1600000
+
+
+      =1.070164375.
+
+
+The factor 2 multiplying |h12| is load-bearing because the symmetric determinant derivative contains -2h12E12.
+
+
+====================================================================
+5. EXACT PHYSICAL-HESSIAN PERTURBATION
+====================================================================
+
+
+Let
+
+
+    E=DF_r-DF_r^(4)
+
+
+be the scaled Jacobian error.
+
+
+The physical exact Hessian is
+
+
+    H_exact=H^(4)+rE.
+
+
+For a symmetric two-by-two matrix,
+
+
+    det(H+rE)-det H
+
+
+      =r(h22E11+h11E22-2h12E12)
+       +r^2det E.
+
+
+After dividing by r,
+
+
+    |det(H+rE)-det H|/r
+
+
+      <=(|h22|+|h11|+2|h12|)||E||_op
+        +r|det E|.
+
+
+Because every matrix entry is bounded by the operator norm and
+
+
+    |det E|<=||E||_op^2,
+
+
+one obtains
+
+
+    normalized factor loss
+      <=C_H||E||_op+r||E||_op^2.
+
+
+On the P0.1 good-remainder event and under LS-AUD-006,
+
+
+    ||E||_op<=C_Dr,
+
+
+with
+
+
+    C_D=343/192+sqrt(1074)/960.
+
+
+Therefore
+
+
+    loss(r)
+      <=C_H C_D r+C_D^2r^3.
+
+
+This right-hand side is strictly increasing for r>0, so its maximum on 0<r<=1/20 occurs at r=1/20.
+
+
+====================================================================
+6. MAXIMAL LOSS ON THE FULL CERTIFICATE INTERVAL
+====================================================================
+
+
+At r=1/20,
+
+
+    loss_max
+      =C_H C_D/20+C_D^2/8000
+
+
+      =323729 sqrt(1074)/5760000000
+       +3538548749/36864000000
+
+
+      =0.0978311578371213684644318044902183266162782231671185....
+
+
+Subtracting this from the quartic factor lower bound gives
+
+
+    lambda_det
+      =delta_0-loss_max
+
+
+      =4073203237039/4608000000000
+       -323729 sqrt(1074)/5760000000
+
+
+      =0.8820997949979480759800126399542261178281662212773260....
+
+
+The margin above 1/2 is
+
+
+    lambda_det-1/2
+      =0.3820997949979480759800126399542261178281662212773260....
+
+
+Thus even at the largest certificate radius, the exact normalized factors retain far more than the conservative 1/2 threshold, conditional on the C^1 error premise.
+
+
+====================================================================
+7. EXACT WEIGHT LOWER BOUND
+====================================================================
+
+
+On the transferred certified event, GP-DER-186 also preserves the exact endpoint types. Hence the type indicators equal one.
+
+
+The exact endpoint determinant factors satisfy
+
+
+    det H_M^{exact}/r>=lambda_det,
+
+
+    -det H_S^{exact}/r>=lambda_det.
+
+
+Therefore
+
+
+    |det H_M^{exact} det H_S^{exact}|
+      >=lambda_det^2 r^2.
+
+
+The exact square is
+
+
+    lambda_det^2
+      =16591056645872913547247521
+        /21233664000000000000000000
+
+
+       -1318614010723398431 sqrt(1074)
+        /13271040000000000000000
+
+
+      =0.7781000483354220214852313579942471369276911616457102....
+
+
+Thus
+
+
+    W_r^{exact}
+      >=0.7781000483354220... r^2
+
+
+on the transferred certified event.
+
+
+In particular,
+
+
+    W_r^{exact}>=r^2/4
+
+
+holds with a margin
+
+
+    lambda_det^2-1/4
+      =0.5281000483354220214852313579942471369276911616457102....
+
+
+====================================================================
+8. NO ADDITIONAL r_det RESTRICTION
+====================================================================
+
+
+The determinant-transfer proof is valid on the entire deterministic certificate interval
+
+
+    0<r<=1/20,
+
+
+provided the exact C^1 premise
+
+
+    ||DF_r-DF_r^(4)||_op<=C_Dr
+
+
+holds.
+
+
+Therefore one may take
+
+
+    r_det=1/20.
+
+
+The actual exact-field capture proof still requires
+
+
+    C_Dr<=epsilon_D=10^-4,
+
+
+so its stricter radius is
+
+
+    r_D=10^-4/C_D
+       approximately5.492707477787046 x10^-5.
+
+
+For every r<=r_D, both the gatewise robustness and the determinant transfer hold automatically.
+
+
+The determinant factor is therefore not an additional member constraining the final P0.1 small-r minimum.
+
+
+====================================================================
+9. OPTIONAL SHARPER P0.1 NUMERATOR CONSTANT
+====================================================================
+
+
+The frozen proof uses
+
+
+    Q_{6,r}(E_r)>=p_B/2
+
+
+and the conservative bound
+
+
+    W_r^{exact}>=r^2/4.
+
+
+This yields
+
+
+    E_Q[W_r^{exact}1_{A_r}]
+      >=r^2p_B/8.
+
+
+Using the sharper determinant constant instead gives
+
+
+    E_Q[W_r^{exact}1_{A_r}]
+      >=lambda_det^2r^2(p_B/2)
+
+
+      =0.3890500241677110107426156789971235684638455808228551...
+       p_B r^2.
+
+
+After division by
+
+
+    Z_r^{exact}<=C_Zr^2,
+
+
+one obtains the sharper symbolic bound
+
+
+    P_r^{MS}(A_r)
+      >=lambda_det^2p_B/(2C_Z).
+
+
+This is approximately 3.1124 times the frozen theorem’s conservative coefficient p_B/(8C_Z).
+
+
+Because p_B and C_Z remain nonnumerical, this sharpening does not create a numerical c_A. It is optional and need not modify the frozen theorem body.
+
+
+====================================================================
+10. ADVERSARIAL CONTROLS
+====================================================================
+
+
+The exact audit executes five mutations.
+
+
+NC1 — OMIT PHYSICAL FACTOR r
+
+
+If one incorrectly writes
+
+
+    H_exact=H^(4)+E
+
+
+instead of H^(4)+rE, the normalized factor loss exceeds the 1/2 budget. The control fires.
+
+
+NC2 — OMIT MIXED COFACTOR FACTOR 2
+
+
+Replacing
+
+
+    |h22|+|h11|+2|h12|
+
+
+by
+
+
+    |h22|+|h11|+|h12|
+
+
+strictly underbounds the determinant derivative. The control fires.
+
+
+NC3 — OMIT w AND c22 TRANSVERSE CORRECTIONS
+
+
+Using 0.98 as the transverse magnitude lower bound overstates the exact uniform factor. The control fires.
+
+
+NC4 — OMIT c31 FROM THE MIXED BOUND
+
+
+Using only a_max/2 understates the mixed scaled entry and overstates the maximum factor. The control fires.
+
+
+NC5 — USE VECTOR CONSTANT INSTEAD OF C_D
+
+
+The vector channel is not the binding C^1 channel. Replacing C_D by C_vec underbounds the Jacobian error. The control fires.
+
+
+All five controls pass in the symbolic executable.
+
+
+====================================================================
+11. SYMBOLIC EXECUTION RECORD
+====================================================================
+
+
+Independent source:
+
+
+    LS-DATA-007-v1.0_explicit_determinant_transfer.py
+
+
+Raw bytes:
+
+
+    8,417
+
+
+SHA-256:
+
+
+    e0bb23a24b8ab9df0e7bd57da8bcc7a6b105c5fa0c50ea2751e93e3253f96ee2
+
+
+Result:
+
+
+    LS-DATA-007-v1.0_explicit_determinant_transfer_result.json
+
+
+Raw bytes:
+
+
+    3,810
+
+
+SHA-256:
+
+
+    455a96350eb5b6d19136867cdc8c3ebcccad44da447cfc605d6b0fc624e9bd89
+
+
+Execution status:
+
+
+    PASS
+
+
+Controls:
+
+
+    5/5.
+
+
+The source and result should be stored as Drive mirrors with their exact raw identities. The source is same-line evidence and earns zero independence credit.
+
+
+====================================================================
+12. EFFECT ON CURRENT THRESHOLD LEDGER
+====================================================================
+
+
+Before this lemma, the P0.1 common-domain list included a separate symbolic threshold
+
+
+    r_det>0.
+
+
+After this lemma,
+
+
+    r_det=1/20
+
+
+is sufficient and therefore redundant with the existing deterministic certificate endpoint.
+
+
+The common P0.1 radius may be simplified from
+
+
+    min(r_GR,r_G,r_5,r_tail,r_D,r_det,r_Z,r_chart,1/20)
+
+
+to
+
+
+    min(r_GR,r_G,r_5,r_tail,r_D,r_Z,r_chart,1/20),
+
+
+and since the chart/torus lift also holds throughout r<=1/20,
+
+
+    min(r_GR,r_G,r_5,r_tail,r_D,r_Z,1/20).
+
+
+With
+
+
+    r_D approximately5.4927x10^-5<1/20,
+
+
+this reduces further algebraically to
+
+
+    min(r_GR,r_G,r_5,r_tail,r_D,r_Z).
+
+
+Only the Gaussian regularity, exact normalizer, GT5/tail, and explicit deterministic-transfer thresholds remain potentially binding.
+
+
+====================================================================
+13. DECISIVE LEDGER
+====================================================================
+
+
+DET1 — Physical quartic endpoint formulas: PASS.
+
+
+DET2 — Uniform maximum axial magnitude: PASS.
+
+
+DET3 — Uniform transverse physical magnitude: PASS.
+
+
+DET4 — Uniform mixed scaled bound: PASS.
+
+
+DET5 — Quartic maximum normalized factor: PASS.
+
+
+DET6 — Quartic saddle normalized factor: PASS.
+
+
+DET7 — Physical Hessian entry bounds: PASS.
+
+
+DET8 — Cofactor factor 2: PASS.
+
+
+DET9 — Scaled-to-physical factor r: PASS.
+
+
+DET10 — Determinant perturbation identity: PASS.
+
+
+DET11 — |det E|<=||E||_op^2: PASS.
+
+
+DET12 — Loss monotone in r: PASS.
+
+
+DET13 — Maximal loss at r=1/20: PASS.
+
+
+DET14 — Retained factor >1/2: PASS.
+
+
+DET15 — Retained weight constant >1/4: PASS.
+
+
+DET16 — Existing r^2/4 bound: PASS ON FULL r<=1/20 INTERVAL CONDITIONAL ON C1 PREMISE.
+
+
+DET17 — Separate r_det shrinkage: NOT REQUIRED.
+
+
+DET18 — Optional sharper weight coefficient: PASS SAME-LINE.
+
+
+DET19 — Five controls: PASS.
+
+
+DET20 — Organizationally distinct determinant arithmetic review: OPEN.
+
+
+====================================================================
+14. FALSIFICATION CONDITIONS
+====================================================================
+
+
+Reopen or reject this lemma if any of the following is demonstrated:
+
+
+1. the physical quartic endpoint Hessian formulas differ from those used by GP-DATA-178;
+2. q,a,w,c40,c31,c22 use different fixed box ranges;
+3. r exceeds 1/20;
+4. the maximum normalized determinant factor has a smaller configuration than the interval lower bound;
+5. an endpoint physical Hessian entry exceeds the stated uniform bound;
+6. operator-norm control does not bound individual symmetric matrix entries;
+7. |det E| can exceed ||E||_op^2;
+8. the physical correction is not rE;
+9. GP-DER-100’s C_D is invalid;
+10. exact endpoint types are not preserved on the certified event;
+11. the exact weight uses a different determinant convention;
+12. the bound is cited on all A_r rather than on the transferred certified event.
+
+
+No such defect was found in this same-line exact calculation.
+
+
+====================================================================
+15. SCOPE FIREWALL
+====================================================================
+
+
+This lemma proves, conditional on the exact C^1 premise:
+
+
+- full-interval determinant-factor preservation;
+- no separate r_det shrinkage;
+- the frozen r^2/4 bound;
+- an optional sharper exact-weight coefficient.
+
+
+It does not prove:
+
+
+- the high-derivative good event has positive probability;
+- C_Dr<=epsilon_D at r=1/20;
+- exact selected-branch capture at r=1/20;
+- a numerical p_B or C_Z;
+- a numerical final c_A;
+- endpoint-normalizer or GT5 review;
+- organizationally distinct approval;
+- P0.1 promotion;
+- P0.2, Theorem B, machine activation, package sealing, release, deletion, or destructive action.
+
+
+END LS-DER-006-v1.0

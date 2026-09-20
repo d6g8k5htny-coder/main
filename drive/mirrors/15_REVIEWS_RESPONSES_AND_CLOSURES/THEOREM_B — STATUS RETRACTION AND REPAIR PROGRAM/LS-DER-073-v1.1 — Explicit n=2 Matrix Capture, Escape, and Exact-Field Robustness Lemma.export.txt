@@ -1,0 +1,492 @@
+﻿SUPERSEDED PREFLIGHT PROVENANCE — 2026-07-28
+Use only LS-DER-073-v1.2 for active review:
+https://docs.google.com/document/d/1sZ2fx4F4OARvC8nKN2V55izs0syCIMpbb80mgZZ8dnY/edit
+This v1.1 object was never externally reviewed and earns no credit. Its frozen body is preserved unchanged.
+[[LS-DER-073-v1.1:SUPERSEDED]] [[CONTROLLING:v1.2]]
+
+
+LS-DER-073-v1.1 — EXPLICIT n=2 MATRIX CAPTURE, ESCAPE, AND EXACT-FIELD ROBUSTNESS LEMMA
+
+
+Artifact ID: LS-DER-073-v1.1
+Dispatch: DQ-102 successor
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / MATRIX DYNAMICS / INVARIANT CONE / TAPERED CAPTURE TUBE / EXACT-FIELD ROBUSTNESS
+Authority: same-OpenAI-family repair successor informed by organizationally distinct Anthropic review
+Organizational-independence credit: ZERO FOR THIS SUCCESSOR; TERMINAL EXTERNAL REVIEW REQUIRED
+Canonical impact: NONE
+Status: CONTROLLING CL-AUD-LSDER072 SINGLE-LEMMA REPAIR / READY FOR TERMINAL REVIEW
+BODY_BYTES: 10576
+BODY_SHA256: 6b667b0e82ff4486987b11bb14423c6db90ac783099ab3cba411c4a5519bbb9c
+
+
+SUPERSEDES FOR ACTIVE REVIEW
+LS-DER-073-v1.0 — preflight provenance only. Version 1.1 explicitly binds the potential-value pins Q(M)=Q(S)=0 and replaces the forward-level epsilon_0 reserve by the safer 3epsilon_0 reserve. No external review credit existed for v1.0.
+
+
+CONTROLLING INPUTS
+CL-AUD-LSDER072-20260728-01 — Anthropic B1 PASS / B2 FAIL / B3 PASS verdict.
+LS-DER-072-v1.0 — Palm-normalized Gate-B repair; superseded only at equation (14).
+LS-DER-051-v1.0 — conditional selection theorem; scalar-to-matrix analogy superseded here.
+LS-DER-036-v1.1 — externally reviewed scalar outward-corridor model used as a constants template only.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER073_V11_FROZEN_BODY and strictly before the unique full line END_LSDER073_V11_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER073_V11_FROZEN_BODY
+EXPLICIT TWO-TRANSVERSE-DIMENSION MATRIX CAPTURE, ESCAPE, AND EXACT-FIELD ROBUSTNESS LEMMA
+
+
+1. PURPOSE AND REVIEW SCOPE
+
+
+CL-AUD-LSDER072-20260728-01 returned AMEND REQUIRED on Gate B for one reason only: the matrix capture/escape implication in LS-DER-072 equation (14) was asserted by analogy with the scalar transverse proof and not written out for Y in R^2.
+
+
+The same review independently passed:
+- B1, including the exact endpoint r^2 determinant factor and explicit Palm division;
+- B3, including the elder-rule trichotomy, G5, the d=3 G6' radial integration, G7, Markov, the terminal union bound, and dominated convergence.
+
+
+This successor writes the missing deterministic n=2 lemma with explicit constants and a uniform exact-field C^1 tolerance. It supersedes only LS-DER-072 equation (14) and the corresponding analogy sentence in LS-DER-051. It does not reopen Gate A, B1, or B3.
+
+
+2. NORMALIZED MATRIX POTENTIAL
+
+
+Let Y in R^2 and let
+
+
+    p_0(X)=X^3/3-X/4-1/12.
+
+
+On a fixed compact convex normalized chart D^+ containing
+
+
+    [-1/2,5/4] x {Y:|Y|<=1},
+
+
+consider the pin-preserving degree-four potential
+
+
+    P(X,Y)
+      =p_0(X)
+       +(1/2)(X^2-1/4) a·Y
+       -(1/2)Y^T T Y
+       +(1/2)X Y^T W Y
+       +(1/6)C[Y,Y,Y]
+       +r Q(X,Y),                                            (1)
+
+
+where:
+- a is in R^2;
+- T,W are symmetric 2 by 2 matrices;
+- C is a symmetric cubic tensor;
+- Q is C^2 on D^+, Q(M)=Q(S)=0, and grad Q(M)=grad Q(S)=0 for M=(-1/2,0), S=(1/2,0).
+
+
+Put F=grad P and
+
+
+    R=1+|a|+||W||_op+||C||_op+||Q||_(C^2(D^+)) >=1,
+    tau=lambda_min(T).                                       (2)
+
+
+For the side-24 field,
+
+
+    T=-Q_perp/(kappa r),                                     (3)
+
+
+as established in LS-DER-072. Thus tau is the physical smallest negative transverse curvature divided by kappa r.
+
+
+Fix
+
+
+    K=4096,
+    epsilon_0=1/(1024K),                                    (4)
+
+
+and assume
+
+
+    r R^5<=epsilon_0,
+    tau>=2K R^5+2R.                                         (5)
+
+
+Define
+
+
+    m=2R/tau,
+    delta=1/(512R^3),
+    X_*=5/4,
+    eta_R=1/(8192R^3).                                      (6)
+
+
+Then m<=1/(KR^4)<=1/K.
+
+
+The gradient components are
+
+
+    F_X
+      =X^2-1/4+X a·Y+(1/2)Y^T W Y+r Q_X,                    (7)
+
+
+    F_Y
+      =(1/2)(X^2-1/4)a-TY+XWY
+       +(1/2)C[Y,Y,·]+r grad_Y Q.                            (8)
+
+
+3. ENDPOINT SPECTRUM AND THE TWO UNSTABLE HALF-BRANCHES
+
+
+At S, the Jacobian of F has symmetric block form
+
+
+    J_S=[[A,B^T],[B,D]],                                    (9)
+
+
+with
+
+
+    A=1+O(rR),
+    B=a/2+O(rR),
+    D=-T+W/2+O(rR).
+
+
+Equations (4)--(5) imply, after decreasing a fixed r endpoint if necessary,
+
+
+    A>=3/4,
+    D<=-(tau/2)I,
+    |B|<=R.                                                  (10)
+
+
+Hence J_S has exactly one positive eigenvalue lambda_+. If v=(v_X,v_Y) is its eigenvector, then
+
+
+    (lambda_+ I-D)v_Y=Bv_X,
+
+
+and therefore
+
+
+    |v_Y|/|v_X|
+      <=|B|/(lambda_++tau/2)
+      <2R/tau=m.                                             (11)
+
+
+The two orientations of v enter respectively the inward and outward invariant regions constructed below.
+
+
+4. OUTWARD INVARIANT CONE
+
+
+Write xi=X-1/2 and define
+
+
+    C_out={0<=xi<=delta, |Y|<=m xi}.                         (12)
+
+
+On C_out, pin preservation and the C^2 bound on Q give
+
+
+    |grad Q(X,Y)|<=2R(xi+|Y|).
+
+
+Using (4)--(6) in (7), every adverse term is less than one quarter of the leading xi(1+xi), and hence
+
+
+    F_X>=3xi/4.                                              (13)
+
+
+On the curved boundary |Y|=m xi, set
+
+
+    G_out=|Y|^2-m^2 xi^2.
+
+
+Then
+
+
+    (1/2) dG_out/dt
+      =Y·F_Y-m^2 xi F_X.                                    (14)
+
+
+The T term is
+
+
+    -Y^T T Y<=-tau m^2 xi^2
+               =-(4R^2/tau)xi^2.
+
+
+The remaining a,W,C,Q terms in Y·F_Y are bounded, in the same units, by
+
+
+    [257/256+2/K+1/K^2+6epsilon_0]
+      (R^2/tau)xi^2.
+
+
+The last term in (14) is nonpositive by (13). Since the bracket is less than 2,
+
+
+    (1/2) dG_out/dt
+      <=-2(R^2/tau)xi^2<0                                   (15)
+
+
+on the nonzero boundary. Thus C_out is strictly forward invariant. By (11), the outward unstable half-branch enters C_out and reaches xi=delta.
+
+
+5. OUTWARD INVARIANT STRIP AND MONOTONE TRANSIT
+
+
+Define
+
+
+    S_out={1/2+delta<=X<=5/4, |Y|<=m}.                       (16)
+
+
+On |Y|=m,
+
+
+    Y·F_Y
+      <=-[4-(21/16+5/(2K)+1/K^2+2epsilon_0)]
+         (R^2/tau)
+      <-2(R^2/tau)<0.                                       (17)
+
+
+Therefore the cylindrical boundary is inward pointing.
+
+
+For X in [1/2+delta,5/4], equation (7) and (4)--(6) give
+
+
+    F_X
+      >=delta[1-(640/K+256/K^2+1/(2K))]
+      >=3delta/4>0.                                         (18)
+
+
+The outward branch therefore crosses S_out monotonically and reaches X=X_* without leaving the fixed chart.
+
+
+At X_*=5/4,
+
+
+    p_0(5/4)=49/192.                                        (19)
+
+
+The absolute sum of every Y-dependent term, the rQ term, and a potential perturbation whose gradient is bounded by eta_R is at most
+
+
+    21/(32K)+1/(2K^2)+3epsilon_0+3/8192
+      <1/768.                                                (20)
+
+
+Consequently
+
+
+    P(5/4,Y)>49/192-1/768=65/256>1/4.                       (21)
+
+
+Because P(M)=0, the outward comparison branch reaches a point above the maximum level.
+
+
+6. INWARD TAPERED TUBE
+
+
+Put
+
+
+    h(X)=1/4-X^2
+
+
+and define the tapered tube
+
+
+    T_in={-1/2<X<1/2, |Y|<=m h(X)}.                          (22)
+
+
+Near S, h(X)=(1/2-X)(1/2+X), so (11) implies that the M-ward orientation of the unstable eigendirection enters T_in.
+
+
+Throughout T_in, pin preservation at both endpoints implies
+
+
+    |grad Q(X,Y)|
+      <=3R h(X).                                             (23)
+
+
+Equations (4)--(8) then give the strict longitudinal inequality
+
+
+    F_X<=-(3/4)h(X)<0.                                       (24)
+
+
+Set
+
+
+    G_in=|Y|^2-m^2 h(X)^2.
+
+
+Since h'(X)=-2X,
+
+
+    (1/2)dG_in/dt
+      =Y·F_Y+2m^2 X h(X)F_X.                                (25)
+
+
+On |Y|=m h(X), the T term again equals
+
+
+    -(4R^2/tau)h(X)^2.
+
+
+All adverse terms in (25), including the moving-boundary term for X<0, are bounded by
+
+
+    [1+1/K+1/(4K^2)+6epsilon_0+4/K]
+      (R^2/tau)h(X)^2
+      <2(R^2/tau)h(X)^2.
+
+
+Therefore
+
+
+    (1/2)dG_in/dt
+      <=-2(R^2/tau)h(X)^2<0.                                (26)
+
+
+Thus T_in is strictly forward invariant.
+
+
+Along the M-ward branch, X decreases monotonically by (24). If its limit X_infinity were greater than -1/2, then h(X_infinity)>0 and (24) would keep X decreasing at a nonzero rate, a contradiction. Hence
+
+
+    X(t)->-1/2.
+
+
+The tube inequality gives |Y(t)|<=m h(X(t))->0, so the branch converges to M. Near M, h(X)=(X+1/2)(1/2-X), and (24) gives exponential convergence after an ordinary upper bound |F_X|<=2h.
+
+
+7. EXACT-FIELD C1 ROBUSTNESS
+
+
+Let F_exact=grad P_exact be a pin-preserving exact gradient field on D^+, normalized by P_exact(M)=P(M)=0, and satisfying
+
+
+    ||F_exact-F||_(C^1(D^+))<=eta_R.                         (27)
+
+
+Because the perturbation vanishes at M and S, its size in the cone and tapered tube is bounded by eta_R times the distance to the relevant endpoint. Substitution in (14) and (25) consumes less than one quarter of the margins in (15) and (26). On S_out, eta_R<=delta/16 consumes less than one quarter of the longitudinal margin in (18) and less than one quarter of the radial margin in (17). The path-integral potential error to X=5/4 is less than 3eta_R and is already included in (20).
+
+
+Therefore every strict cone, tube, strip, monotonicity, and level inequality survives for F_exact.
+
+
+For the conditioned side-24 field on a fixed normalized chart, the interpolation estimate has the form
+
+
+    ||F_exact-F||_(C^1(D^+))<=C_+ r                         (28)
+
+
+on the fifth-derivative good event. Under rR^5<=epsilon_0,
+
+
+    eta_R
+      >=(1/8192)(r/epsilon_0)^(3/5).
+
+
+Hence (28) implies (27) uniformly whenever
+
+
+    r<=r_mat
+      :=min{1,[1/(8192 C_+ epsilon_0^(3/5))]^(5/2)}.         (29)
+
+
+This is one fixed positive endpoint depending only on the fixed chart constant.
+
+
+8. MATRIX CAPTURE/ESCAPE THEOREM
+
+
+THEOREM 8.1 — EXPLICIT n=2 MATRIX CAPTURE AND ESCAPE.
+
+
+Under (1)--(6) and for 0<r<=r_mat:
+
+
+(i) the M-ward unstable half-branch of S remains in T_in and converges to M;
+
+
+(ii) the outward unstable half-branch remains in C_out union S_out, reaches X=5/4 at a value strictly above f(M), and therefore cannot terminate at M;
+
+
+(iii) both conclusions persist for the exact conditioned field on the fifth-derivative good event.
+
+
+The proof is Sections 3--7. In particular, no scalar-to-vector analogy remains.
+
+
+9. SIDE-24 PROBABILISTIC CONSEQUENCE
+
+
+With T=-Q_perp/(kappa r), failure of (5) on the typed support is the physical shallow-eigenvalue layer
+
+
+    0<lambda_min(-Q_perp)
+      <=kappa r[2KR^5+2R]
+      <=r P(U).                                              (30)
+
+
+The endpoint determinant weight contributes two powers of the physical shallow eigenvalue, and integration over a layer of width O(rP(U)) contributes the third power. Thus the unnormalized bad mass is O(r^5), and division by Z_r>=c_Zr^2 gives O(r^3).
+
+
+Regular-domain and fifth-derivative failures are o(r^3) after the exact determinant-weighted Cauchy--Schwarz Palm transfer. Consequently
+
+
+    P_r^MS(A_r^c)<=C_A r^3,
+    P_r^MS(L_same,r)<=C_L r^3.                              (31)
+
+
+Together with the externally passed B1 and B3 portions of LS-DER-072, equation (31) yields
+
+
+    1-p_r<=C_sel r^3                                        (32)
+
+
+and identifies the LS-DER-056 coefficient with the selected finite nonessential H0 coefficient at fixed side 24, conditional only on organizationally distinct review of this successor.
+
+
+10. SCOPE FIREWALL
+
+
+Established here at same-family candidate level:
+- the correct n=2 endpoint eigendirection;
+- an explicit outward cone;
+- an explicit outward strip;
+- an explicit inward tapered tube;
+- all boundary-flux and longitudinal inequalities;
+- a strict above-b level crossing;
+- one uniform C1 robustness threshold;
+- the exact matrix lemma missing from LS-DER-072.
+
+
+Not established or changed:
+- Gate A, already externally proved;
+- B1 and B3, already externally passed;
+- LS-DER-070 or any general field-class theorem;
+- directed-rounding certification of the full nonlinear quadrature;
+- limit interchange or an infinite-volume persistence process;
+- canonical promotion, package sealing, publication readiness, or release authority.
+
+
+FINAL STATUS
+
+
+THE SINGLE MATRIX-LEMMA DEFECT IN CL-AUD-LSDER072-20260728-01 IS REPAIRED AT SAME-FAMILY CANDIDATE LEVEL; READY FOR ONE TERMINAL ORGANIZATIONALLY DISTINCT REVIEW.
+END_LSDER073_V11_FROZEN_BODY

@@ -1,0 +1,162 @@
+﻿SUPERSESSION NOTICE — TRC-COR-012 / TRC-REQ-006 — 2026-07-23
+This GP self-selection of Candidate B is preserved as one side of the root analysis but no longer governs. Because both candidate roots were produced by GP/OpenAI, same-organization self-adjudication is insufficient. Accepted root is NONE pending the neutral non-author dual-root verdict requested by TRC-REQ-006-v1.0, Drive ID 1rwQ3HCmzhnf3hl7Di1gHTodTqiLxXyUEbHeX3iE7sGM.
+[[SUPERSEDED-FOR-ACTIVE-ROUTING]] [[ROOT-COLLISION-HOLD]] [[ACCEPTED-ROOT:NONE]]
+
+
+TRC-COR-011-v1.0 — EC-020 CONCURRENT ROOT RECONCILIATION AND CANONICAL MANIFEST SELECTION
+
+
+Artifact ID: TRC-COR-011-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: COR / ROOT-COLLISION / CANONICALIZATION / FAIL-CLOSED RECONCILIATION
+Authority: factual reconciliation under TRC-STANDARD-001-v1.2 and OD-GP-PROP-175-001
+Canonical mathematical impact: NONE
+Files deleted or trashed: 0
+
+
+[[OBJ:TRC-COR-011-v1.0]] [[CAPSULE:TRC-EC020-v0.3]] [[ROOT-COLLISION:RESOLVED]] [[ACTIVE-CANDIDATE-ROOT:7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981]] [[ROOT:f6d6ba39-SUPERSEDED-FOR-ROUTING]] [[STATUS:VALIDATION-NOT-SEALED]] [[NO-MATHEMATICAL-CHANGE]]
+
+
+1. COLLISION
+
+
+Two concurrent GP publication lines produced internally coherent but different TRC-EC020-v0.3 candidate roots:
+
+
+LINE A — compact six-carrier raw-manifest line
+- receipt: TRC-VAL-007-v1.0, Drive ID 1GW6_0BXgywIn1C7KjnS4lqRlCY0IBNYkYt8HPiP0pPM;
+- manifest Drive ID: 13MYz-tEDbEE5esUjaxKMWTBJwakV_xP8;
+- stored bytes: 4,092;
+- stored SHA-256 / claimed root: f6d6ba39898b28cd4adfce8b30b7d3cafa71777a1f86d7399ca819273ea418da;
+- six pre-root carrier identities delegated to raw identity/graph carriers.
+
+
+LINE B — explicit evidence-record canonicalization line
+- receipt: TRC-VAL-010-v1.0, Drive ID 1b08rheSf9b4VSbgEibN0HT-7xNOYjiR1KVyNH6mcRiY;
+- manifest Drive ID: 1wsD4lEoKkEgoOAfY_-h-dvBfjuIf7irR;
+- stored bytes: 9,409;
+- stored SHA-256: 51fbe66c90335ee9b0c21b49964559c7b43b16d923fd17449455fb12c5834c1d;
+- deterministic canonical bytes: 9,407;
+- canonical ROOT_SHA256: 7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981;
+- four primary identities and eight evidence/register identities represented directly in the manifest, plus seven verified raw support carriers.
+
+
+Both branches are preserved. They do not count as two independent package reviews because both are GP/OpenAI publication lines.
+
+
+2. GOVERNING CANONICALIZATION RULE
+
+
+TRC-STANDARD-001-v1.0 §7, retained by integrated TRC-STANDARD-001-v1.2, requires the root to be SHA-256 of deterministic canonical manifest bytes using:
+- UTF-8;
+- LF newlines;
+- no BOM;
+- exactly one final LF;
+- evidence records sorted by normalized artifact ID and Drive ID;
+- the four primary document identities;
+- every evidence Drive ID and content hash;
+- capsule version, closure ID, terminal record ID, operator decision ID and seal date.
+
+
+Raw stored-file SHA-256 and canonical ROOT_SHA256 are distinct when the transport representation contains a BOM or omits the canonical final LF.
+
+
+3. LINE A DEFECT
+
+
+Fresh download and parse of Line A’s manifest show:
+- raw first bytes: UTF-8 BOM EF BB BF;
+- claimed root f6d6... equals SHA-256 of the exact raw 4,092 stored bytes;
+- therefore the claimed root hashes a BOM-bearing transport representation, not the required no-BOM canonical representation;
+- the four primary document entries name Drive IDs and roles but delegate their revision/bytes/hashes to another carrier rather than including the identities directly;
+- evidence-source identities are similarly delegated through carriers rather than represented as direct evidence records in the manifest.
+
+
+Line A is a valid raw package index and valuable construction provenance. It is not the governing canonical-root representation under the exact standard. Its cryptographic round-trip is not disputed.
+
+
+4. LINE B PASS
+
+
+Fresh download of Line B’s manifest confirms:
+- raw stored transport: application/json, 9,409 bytes, SHA-256 51fbe66c...;
+- JSON parse: PASS;
+- internal capsule_id/version/status: TRC-EC020-v0.3 / 0.3 / VALIDATION_NOT_SEALED;
+- direct inclusion of the four primary export identities;
+- direct inclusion of seven native evidence-document identities plus the frozen register-row identity;
+- excluded corrupt predecessor, review caveats, scope exclusions and reopening rule;
+- seven verified support-carrier IDs/hashes;
+- seal_date = null.
+
+
+Reparsing and deterministic reserialization with sort_keys=true, compact separators, UTF-8, no BOM, and exactly one final LF produces 9,407 bytes and independently reproduces:
+
+
+7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981
+
+
+Line B therefore satisfies the governing root canonicalization and content-enumeration requirements more directly and completely.
+
+
+5. DISPOSITION
+
+
+Active GP-line candidate root for final non-author review:
+7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981
+
+
+Active canonical manifest:
+Drive ID 1wsD4lEoKkEgoOAfY_-h-dvBfjuIf7irR
+
+
+Active GP validation receipt:
+TRC-VAL-010-v1.0, Drive ID 1b08rheSf9b4VSbgEibN0HT-7xNOYjiR1KVyNH6mcRiY
+
+
+Line A root f6d6ba39... is superseded for active sealing review and preserved as a noncanonical raw-index root candidate. It receives no sealing or Closure Log locator credit.
+
+
+TRC-COR-010-v1.0 and both concurrent TRC-REQ-004-v1.0 documents are superseded for root-specific routing only where they name f6d6ba39... as the accepted/current candidate. Their execution facts, raw carrier receipts and review instructions remain provenance.
+
+
+6. FINAL REVIEW GATE
+
+
+The capsule remains VALIDATION — NOT SEALED.
+
+
+A fresh non-author reviewer must independently:
+- download manifest Drive ID 1wsD4lEoKkEgoOAfY_-h-dvBfjuIf7irR;
+- parse and canonicalize it under the exact rule above;
+- reproduce canonical bytes = 9,407 and ROOT_SHA256 = 7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981;
+- reproduce every enumerated carrier, primary-export, evidence-export and frozen-row identity;
+- verify the exact object, exclusions, operator-decision record, independence record and reopening rule;
+- resolve or explicitly preserve the operator-native authentication and analytic-adequacy caveats;
+- return exactly:
+
+
+APPROVE TRC-EC020-v0.3 FOR SEALING — ROOT_SHA256 7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981
+
+
+or a numbered rejection naming the exact mismatch.
+
+
+7. CURRENT STATE
+
+
+EC-020 mathematical closure: TERMINAL and unchanged.
+TRC-EC020-v0.3 package: VALIDATION — NOT SEALED.
+Active candidate root: 7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981.
+Independent package approval: OPEN.
+Seal date: NONE.
+Closure Log capsule locator/root write: PROHIBITED until final approval.
+
+
+8. SCOPE FIREWALL
+
+
+This correction changes package-root routing only. It does not change mathematical truth, Easy Closure state, a governance ballot, theorem status, GP-AUTO-034 qualification or activation, machine state, external release, deletion authority or destructive authority.
+
+
+END TRC-COR-011-v1.0

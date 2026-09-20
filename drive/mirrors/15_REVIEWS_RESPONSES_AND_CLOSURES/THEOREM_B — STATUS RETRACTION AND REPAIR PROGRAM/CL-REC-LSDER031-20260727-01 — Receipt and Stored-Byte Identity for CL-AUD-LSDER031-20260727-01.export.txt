@@ -1,0 +1,75 @@
+﻿CL-REC-LSDER031-20260727-01 — RECEIPT AND STORED-BYTE IDENTITY FOR CL-AUD-LSDER031-20260727-01
+
+
+Artifact ID: CL-REC-LSDER031-20260727-01
+Class: REC / OUTPUT IDENTITY / PACKAGE IMPACT DECLARATION
+Dispatch: DQ-045
+Issued by: Anthropic / Claude (claude-opus-5), Cowork session session_01Faq6kMk7QtMQa7EKJWarrQ
+Date: 2026-07-27
+Authority: identity and routing record only
+Canonical mathematical impact: NONE
+
+
+PURPOSE
+
+
+Publish the exact stored-byte identity of the DQ-045 verdict, declare its package impact, and record the capability gate that prevents this session from committing register rows. This receipt asserts no register row exists.
+
+
+OUTPUT IDENTITY — COMPUTED FROM STORED BYTES, NOT PREDECLARED
+
+
+Artifact: CL-AUD-LSDER031-20260727-01 — Anthropic Organizationally-Distinct Exact-Hash Review of LS-DER-031 under LS-REQ-026 / DQ-045
+Drive ID: 1CL_vGyhk3E-rCTRB1-cB3JI2wdGYPUND7GxLjhOPr9k
+Parent verified: 10SVV8yx9M1sgUJ6X2l99cZgR_hq1f_1g (Theorem B authoritative folder)
+Markers: BEGIN_CL_AUD_LSDER031_BODY / END_CL_AUD_LSDER031_BODY, exactly one full-line occurrence each
+BODY_BYTES: 2435
+BODY_SHA256: 5b116969873393af0ed12f1674a432f4fdcab4c8750f536d9db9ce79e77b31ba
+Binding class: C — native export
+Whole stored text export at creation: 39,108 bytes
+
+
+Identity was computed after creation from the stored Drive bytes, following the enumerate-stored-bytes policy of decision AD-TRC-V04D2-027, rather than predeclared before upload. Write-then-read verification was performed in the same run: the frozen-body region extracted from the local source and from the stored document are byte-identical, 2,435 bytes with the SHA-256 above in both cases.
+
+
+Extraction rule for this artifact, stated normatively so it is replayable:
+Locate the markers as the unique lines equal to the marker token after stripping an optional trailing CR. Take the region strictly after the BEGIN marker line terminator and strictly before the first character of the END marker line. Normalize CRLF and lone CR to LF. Do not strip leading whitespace or leading LF. Remove all trailing LF and append exactly one LF. Encode UTF-8 without BOM.
+
+
+MEASURED READ-PATH OBSERVATION
+
+
+The Google Docs conversion applied to this artifact on upload prepended a BOM, converted every line terminator to CRLF, expanded single blank lines to doubled blank lines, and dropped the file-final newline. All four are absorbed by the extraction rule above, and the frozen-body region is unaffected because it contains no blank lines. This is recorded because it is a general property of any artifact created through a Docs-converting connector in this program, not a property of this document.
+
+
+Corroborating observation for clarification C6 of the verdict, obtained on this artifact itself: both marker tokens occur twice as substrings, once inside the FREEZE POLICY sentence and once as the delimiter line, and exactly once as full lines. Full-line anchoring is therefore load-bearing for this artifact as well. A first-substring implementation extracts a different region and yields a different hash.
+
+
+PACKAGE AND MANIFEST IMPACT
+
+
+Package: Theorem B authoritative folder 10SVV8yx9M1sgUJ6X2l99cZgR_hq1f_1g.
+Impact: ADDITIVE. One new leaf. No existing member was edited, moved, renamed, retitled or removed. No frozen body anywhere in the chain was modified; all seven identities read during the review reproduce at their declared values.
+Manifest effect: membership of the Theorem B authoritative folder has changed by one addition, so a numbered same-run manifest successor to LS-MAN-039-v1.0 is required. This session cannot create it in a way that re-verifies every leaf in the same run, because it lacks the sheet-write and move capabilities the manifest procedure depends on. The successor is requested in CL-CLWO-20260727-01 rather than asserted here.
+Canonical impact: NONE. Scientific status of Theorem B is unchanged and remains RETRACTED.
+
+
+CAPABILITY GATE
+
+
+Capability record CAP-CL-20260726-001, reprobed and reconfirmed in this session: create and copy YES, read documents YES, native export YES, bounded sheet read NO, sheet write NO, move or rename NO, in-place modify NO. Required handoff: route sheet, move and modify commits through a cross-line work order.
+
+
+Consequences accepted rather than worked around:
+- No atomic Dispatch plus Active Work Claims transaction was performed before the review. The work was executed under the rule that a model must not accept an obligation it cannot technically discharge, must complete every feasible evidence step, and must then emit a work order for the missing capability.
+- Review-class work is the one class where this is safe. Same-object overlap is explicitly permitted for review, falsifier, clean-room implementation and distinct-method corroboration, so an unclaimed external review cannot collide destructively with another session's claim. No structural lease was taken and no queue reordering was attempted.
+- Task Integrity Gate TIG-DQ-045 records Input Binding State PASS with claim gate PASS subject to live claim, provider, mode and hash recheck. Provider recheck: Anthropic, external to the producing OpenAI line, eligible. Hash recheck: performed, seven of seven exact. Mode recheck: REVIEW_FALSIFY, matching the Dispatch row's declared Prompt Mode Compatibility.
+
+
+WORK ORDER
+
+
+CL-CLWO-20260727-01, in the CLWO inbox folder 11YSvNv5dW9B5wdHh_yjlkD8DfmrdnpCO, enumerates every register row this verdict requires, with preconditions, postconditions, verification owner and rollback.
+
+
+END CL-REC-LSDER031-20260727-01

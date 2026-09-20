@@ -1,0 +1,222 @@
+﻿GP-DER-225-v1.0 — ELIMINATION OF EVENT RADIUS AND EXPLICIT CHART RADIUS FOR P0.1 v1.4
+
+
+Artifact ID: GP-DER-225-v1.0
+Date: 2026-07-26
+Prepared by: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: DER / COMMON-RADIUS SIMPLIFICATION / EVENT AND CHART INTERFACE
+Authority: same-line proof companion only
+Canonical mathematical impact: NONE
+Target: GP-DER-118-v1.4 / GP-DATA-220-v1.0
+
+
+[[TARGET:P0.1-v1.4]] [[r_event:REDUNDANT]] [[r_chart:1/20]] [[COMMON-RADIUS:SIMPLIFIED]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. QUESTION
+
+
+GP-DER-118-v1.4 defines
+
+
+    r_common
+      = min(1/20,r_GR,r_5,1/t_0,r_tail,r_Dyn,r_chart,r_event,r_Z).
+
+
+This companion determines whether the event/measurability stack and fixed normalized chart introduce independent small-r radii.
+
+
+2. EVENT/MEASURABILITY STACK INTRODUCES NO NEW RADIUS
+
+
+GP-DER-197-v1.0 works parameterwise at fixed r. Its field-space construction defines, for each r>0:
+
+
+- the exact six-pin affine fiber X_r^{pin};
+- the strict typed/nonorthogonal domain O_r;
+- the continuously oriented local unstable eigendirection;
+- local continuous selected-branch points;
+- a countable Borel selector;
+- the exact global flow on the compact torus;
+- the Borel path-convergence event A_r.
+
+
+The proof contains no assertion of the form 0<r<=r_event and no uniform-in-r analytic estimate. It only requires:
+
+
+- r>0 so M_r and S_r are distinct;
+- the exact pin fiber and strict typed/nonorthogonal object are defined;
+- the field is C^3 and generates the complete gradient flow on the compact torus.
+
+
+LCR-DER-061-v1.0 makes this even more explicit. Section 10 begins:
+
+
+    Fix r>0.
+
+
+It then proves Borel globalization and Palm admissibility for that r. Its weighted-law step imports
+
+
+    0<Z_r^{exact}<infinity
+
+
+from the exact normalizer theorem. That restriction is already represented by r_Z in the v1.4 common-radius intersection; it is not a second event radius.
+
+
+Therefore the event/measurability stack introduces no independent small-r threshold.
+
+
+Valid conventions are:
+
+
+    r_event=+infinity,
+
+
+or, because v1.4 already restricts r<=1/20,
+
+
+    r_event=1/20.
+
+
+In either convention, r_event is redundant in the minimum.
+
+
+3. FIXED CHART IS VALID ON THE ENTIRE DECLARED 1/20 INTERVAL
+
+
+The normalized transfer chart is
+
+
+    D^+=[-3/4,3/4] x [-1,1].
+
+
+Its physical image around midpoint zero is
+
+
+    rD^+
+      =[-3r/4,3r/4] x [-r,r].
+
+
+For every 0<r<=1/20,
+
+
+    |x|<=3r/4<=3/80=0.0375,
+    |y|<=r<=1/20=0.05.
+
+
+The side-24 flat torus may be represented by the fundamental square
+
+
+    [-12,12) x [-12,12).
+
+
+The complete physical chart rD^+ therefore lies strictly inside one Euclidean representative, with coordinate clearances
+
+
+    12-3/80=957/80=11.9625
+
+
+in x and
+
+
+    12-1/20=239/20=11.95
+
+
+in y.
+
+
+Thus no point of rD^+ approaches a torus seam or cut locus on the declared interval. The ordinary Euclidean coordinates, derivatives, Taylor expansion, cone, strip, transit region, endpoint neighborhoods, and sink ball all lift unambiguously to the torus.
+
+
+LS-DER-004-v1.0 separately proves that the entire certified cone/strip/transit/capture union lies inside D^+ in normalized coordinates. Combining that result with the calculation above proves the full physical certified union is contained in one torus coordinate chart for every 0<r<=1/20.
+
+
+Therefore one may take
+
+
+    r_chart=1/20.
+
+
+No smaller chart radius is required.
+
+
+4. SIMPLIFIED COMMON-RADIUS GRAPH
+
+
+The v1.4 radius expression may be interpreted as
+
+
+    r_common
+      = min(1/20,r_GR,r_5,1/t_0,r_tail,r_Dyn,r_Z),
+
+
+because
+
+
+    r_chart=1/20,
+    r_event is redundant.
+
+
+Equivalently, retaining the original v1.4 syntax is harmless if reviewers set
+
+
+    r_chart=r_event=1/20.
+
+
+No frozen-body edit is required for mathematical correctness. A later textual successor may simplify the displayed minimum, but v1.4 already includes every actual restriction and remains a valid review object.
+
+
+5. DEPENDENCY BOUNDARY
+
+
+This lemma does not prove:
+
+
+- the local-selector theorem;
+- Borel globalization itself;
+- exact normalizer positivity;
+- deterministic capture;
+- the GT5 tail;
+- P0.1.
+
+
+It proves only that the already stated event and chart constructions impose no additional radius below 1/20.
+
+
+6. FALSIFIERS
+
+
+This conclusion fails if:
+
+
+- GP-DER-197 or LCR-DER-061 contains an unstated uniform-in-r estimate;
+- the event construction requires a radius not already represented by r_Z or the strict typed domain;
+- the torus side length is not 24;
+- D^+ differs from [-3/4,3/4]x[-1,1];
+- the physical scaling is not x=rX, y=rY;
+- the certified trajectory leaves D^+;
+- the midpoint chart is not centered at zero.
+
+
+No such mismatch was found.
+
+
+7. VERDICT
+
+
+SAME-LINE RESULT:
+
+
+    r_event introduces no independent small-r restriction;
+    r_chart may be taken as 1/20;
+    the effective v1.4 common radius is
+
+
+        min(1/20,r_GR,r_5,1/t_0,r_tail,r_Dyn,r_Z).
+
+
+Organizationally distinct confirmation remains appropriate as part of GP-REQ-221 or GP-REQ-224. No theorem promotion follows.
+
+
+END GP-DER-225-v1.0

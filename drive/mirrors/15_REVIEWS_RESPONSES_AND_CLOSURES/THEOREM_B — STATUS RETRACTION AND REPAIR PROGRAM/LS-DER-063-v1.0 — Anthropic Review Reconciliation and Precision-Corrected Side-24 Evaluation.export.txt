@@ -1,0 +1,182 @@
+﻿CURRENT POST-HARDENING STATUS — 2026-07-28
+
+
+The numerical precision repair in this document remains controlling and externally reconstructed. The two analytic debts named in the frozen body now have same-family successors and a consolidated hardening ledger LS-DER-071. Their organizationally distinct amendment gate is LS-REQ-038 / DQ-099:
+https://docs.google.com/document/d/1KIDjxhpBsOK4Zexh9trMB32YJViRM3XdIKLZe9Qd8GQ/edit
+https://docs.google.com/document/d/18CJqwlk5TttMmOr1JhkWiWrDXmqj00AOp9ZgLnVg4kY/edit
+
+
+No external PASS is claimed for the analytic repairs until DQ-099 returns. The frozen body below remains unchanged.
+[[PRECISION:EXTERNALLY-RECONSTRUCTED]] [[ANALYTIC-REPAIRS:SAME-FAMILY-CLOSED]] [[CONTROLLING-REVIEW:LS-REQ-038]] [[DQ-099:READY]]
+
+
+LS-DER-063-v1.0 — ANTHROPIC REVIEW RECONCILIATION AND PRECISION-CORRECTED SIDE-24 EVALUATION
+
+
+Artifact ID: LS-DER-063-v1.0
+Dispatch: DQ-087
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / EXTERNAL REVIEW RECONCILIATION / PRECISION REPAIR / CITATION SCOPE
+Authority: same-OpenAI-family repair successor informed by organizationally distinct Anthropic review
+Organizational-independence credit: ANTHROPIC EQUATION-LEVEL AND COMPUTATIONAL RECONSTRUCTION CREDIT; NO EXACT-HASH CREDIT
+Canonical impact: NONE
+Status: PRECISION DEFECT REPAIRED / GLOBAL PERIODIZED TRANSFER AND ANALYTIC REMAINDER REPAIRS OPEN
+BODY_BYTES: 7411
+BODY_SHA256: 54646f7f2ceb29791bd6a5b409e67bb5e21275028213af3f7748603899501e83
+
+
+CONTROLLING INPUTS
+CL-AUD-LSDER062-20260728-01 — Anthropic AMEND REQUIRED verdict, Drive ID 1pQ3I6EmcWwYzRAHegn9_aLwZ0m7UKa5ibqFTGDC_4CU.
+LS-DER-061-v1.0 / LS-DATA-061A/B-v1.0 — superseded only for reported correction precision.
+LS-DER-062-v1.0 — exact rational relative interval, conditional on LS-DER-059.
+LS-DATA-063A-v1.0 — corrected 400-digit source, Drive ID 17ogPDEn73dsr180cNe3WLdh8vFIdQdCmwhYweVjSJWA.
+LS-DATA-063B-v1.0 — corrected result, Drive ID 18J0Eg8jX3_6GQrArniRYOO2eaDQVvDI_NK3gbCj1RGc.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER063_FROZEN_BODY and strictly before the unique full line END_LSDER063_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER063_FROZEN_BODY
+ANTHROPIC REVIEW RECONCILIATION, PRECISION-CORRECTED SIDE-24 EVALUATION, AND CITATION-SCOPE SEPARATION
+
+
+1. REVIEW VERDICT ACCEPTED
+
+
+CL-AUD-LSDER062-20260728-01, an organizationally distinct Anthropic reconstruction under LS-REQ-034 / DQ-086, returned AMEND REQUIRED. It found no structural mathematical defect in the chain LS-DER-053 -> LS-DER-056 -> LS-DER-060 and reproduced the LS-DER-062 rational certificate. It found a concrete downstream reporting defect: LS-DER-061 equations (12), (13), and (17), together with the LS-DATA-061B ladder entries, printed more digits than the 280-digit cancellation computation could support.
+
+
+The review did not reproduce raw OP-PROT-017 hashes. Its credit is equation-level and computational reconstruction credit, not exact-hash identity credit.
+
+
+2. PRECISE DEFECT
+
+
+LS-DATA-061A computes the correction by subtracting the planar integrand from the finite-L integrand pointwise. The two quantities are approximately 1.65 x 10^(-1), while their difference is approximately 2.46 x 10^(-119). With p decimal digits of working precision, direct subtraction therefore supports only about
+
+
+    p - 119
+
+
+decimal digits of the correction before quadrature error is considered. At p=280 this is approximately 161-162 significant digits. The observed final ladder differences 7.97e-270, 4.44e-281, and 7.92e-281 reached this round-off floor; the final increase is not evidence of continued convergence.
+
+
+Accordingly, the frozen LS-DER-061-v1.0 and LS-DATA-061A/B-v1.0 remain preserved as historical computation and are statused AMEND REQUIRED for reported precision only. Their algorithm, sign, scale, coefficient prefactor, and displayed values of c_(3,infinity) and c_(3,24) survive.
+
+
+3. PRECISION-CORRECTED EXECUTION
+
+
+LS-DATA-063A reruns the same exact LS-DER-056/060 formula at 400 decimal digits with outer order (N_z,N_theta)=(20,40) and inner Gauss-Legendre order N_phi=64. It adds an explicit inertia assertion for the determinant quadratic form and computes a cancellation-floor digit budget before printing the correction.
+
+
+The arithmetic floor supports at least 280 significant digits. The corrected execution gives
+
+
+    [c_(3,24)-c_(3,infinity)]/c_(3,infinity)
+      =-1.486217029065827607228927850931666803294447247417014909600194520117780673475206098323608283419033758528150609526798361373095102397920422157158001920651603613189874384152533055452913985202863376223911083208198914673647130599105083350894990962392860695115937551105026158339705861005e-118,                                      (1)
+
+
+and
+
+
+    c_(3,24)-c_(3,infinity)
+      =-6.20881013065905810582866277157904465992931797316262949317563751167289860072842922067977010098327664002591535780417734532468955368629320364991229988474477595584725242212412897672086292859228404382199923496403824833714879847637384328660748325452022113514233528836209935368842497775632e-120.                                      (2)
+
+
+The full-minus-first-image relative residual is
+
+
+    -7.52008730446501219681460304585199019251905728769234415989716917740358224873621093812427634486158971860590626163147990516e-237.  (3)
+
+
+CL-AUD-LSDER062 independently rebuilt the coefficient with Python decimal/fractions arithmetic, different moment generation, a different eigen-solver, and a different inner integration method at 400 and 500 digits and at outer orders (20,40) and (24,48). Its independently reported 280-digit value agrees exactly with (1).
+
+
+4. SUPERSESSION AND CORRECTED CITATION
+
+
+LS-DER-063 supersedes only the precision claims in LS-DER-061 equations (12), (13), and (17) and the overlong ladder strings in LS-DATA-061B. It does not change the exact coefficient map, the sign, the scale, the planar coefficient, or the finite-torus coefficient printed in LS-DER-061 equations (14)-(15).
+
+
+The strongest computational statement now available is:
+
+
+- the relative side-24 correction is externally reproduced to 280 significant digits by an organizationally distinct implementation;
+- the exact rational interval in LS-DER-062 remains valid conditional on the LS-DER-059 remainder theorem;
+- no directed-rounding interval of the full nonlinear quadrature has yet been produced.
+
+
+5. RELATIVE-VERSUS-ABSOLUTE SCOPE SEPARATION
+
+
+Let I_(24)-I_(infinity) denote the dimensionless angular-integrand difference before multiplication by B_3. Since
+
+
+    B_3/c_(3,infinity)
+      =2^(3/2) 3^(8/3)/[(29sqrt(6)-36)pi],                  (4)
+
+
+the relative correction equals
+
+
+    relative
+      =[I_(24)-I_(infinity)]
+       2^(3/2)3^(8/3)/[(29sqrt(6)-36)pi].                  (5)
+
+
+Thus Gamma(1/6) cancels identically from the relative correction. The common Kac--Rice 1/6 factor and lifetime Jacobian also cancel between numerator and denominator. These imported scalar normalizations remain relevant to the absolute coefficient c_(3,24), but not to the relative finite-size correction.
+
+
+Therefore the externally reviewed scope separates cleanly:
+
+
+- RELATIVE CORRECTION: reviewed through the finite-jet covariance map, cone reduction, and direct/dual computation;
+- ABSOLUTE COEFFICIENT: still inherits the common normalization constants and the selected-persistence identification.
+
+
+6. GLOBAL-PERSISTENCE FIREWALL
+
+
+CL-AUD-LSDER062 verified the exact planar covariance charts in LS-DER-053 sections 2-7 but found section 8 insufficiently explicit for transfer to the side-24 periodized field. Until a successor proves a uniform periodized-jet transfer, c_(3,24) must be cited as the exact all-typed local contact coefficient of the side-24 periodized field, not yet as an externally reviewed selected-persistence coefficient.
+
+
+This is a scope narrowing, not a rejection of the transfer. The audit identified the structural cancellation needed for repair: near the singular axis, the leading random parts of L_0 and L_1 are proportional at the random-variable level, so the rho-power cancellation is kernel-independent. That transfer must be written and frozen separately.
+
+
+7. REMAINDER FIREWALL
+
+
+The LS-DER-059 conclusion |epsilon_24|<10^(-170) is numerically confirmed with approximately 66 orders of margin, but its published Hessian-bound proof cites an upper covariance bound not stated in that document. LS-DER-062's rational interval remains conditional on that analytic remainder theorem until a successor supplies the explicit compact upper bounds and derivative estimate.
+
+
+8. STATUS
+
+
+Established after Anthropic review and same-family repair:
+
+
+- LS-DER-056 exact finite-L local coefficient map: externally equation-checked;
+- LS-DER-060 centered Gaussian-cone collapse and factor 1/2: externally rederived;
+- side-24 relative correction: externally reconstructed to 280 digits;
+- LS-DER-062 rational arithmetic: externally reproduced digit-for-digit;
+- original LS-DER-061 precision overstatement: corrected and superseded by (1)-(3).
+
+
+Still open:
+
+
+- uniform periodized transfer from planar selection charts to side 24;
+- explicit analytic repair of the LS-DER-059 Hessian/remainder bound;
+- directed-rounding interval for the complete nonlinear quadrature;
+- exact-hash reproduction by the Anthropic reviewer;
+- canonical promotion, limit interchange, and an infinite-volume persistence process.
+
+
+FINAL STATUS
+
+
+PRECISION DEFECT REPAIRED / EXTERNAL AMEND VERDICT RECONCILED / LOCAL COEFFICIENT AND RELATIVE CORRECTION SURVIVE / SELECTED-PERSISTENCE AND ANALYTIC-REMAINDER REPAIRS REMAIN OPEN.
+END_LSDER063_FROZEN_BODY

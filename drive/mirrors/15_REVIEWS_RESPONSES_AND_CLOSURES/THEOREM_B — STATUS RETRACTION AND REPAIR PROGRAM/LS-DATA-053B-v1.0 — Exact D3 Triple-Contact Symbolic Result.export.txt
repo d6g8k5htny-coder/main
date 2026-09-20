@@ -1,0 +1,12 @@
+﻿pin_covariance_determinant = 12
+collar_var_axial = (Y**2 + Z**2)*(4*X**2 + Y**2 + Z**2)/2
+collar_det_transverse = 2*(Y**2 + Z**2)**2
+collar_total_covariance_determinant = (Y**2 + Z**2)**3*(4*X**2 + Y**2 + Z**2)
+collar_transverse_mahalanobis = 1/2
+singular_C00 = (Y**2 + Z**2)*(Y**2 + Z**2 + c**2)*(3*Y**2 + 3*Z**2 + c**2)/72
+singular_C01 = -c*(Y**2 + Z**2)*(Y**2 + Z**2 + c**2)/6
+singular_C11 = (Y**2 + Z**2)*(Y**2 + Z**2 + 4*c**2)/2
+singular_third_block_determinant = (Y**2 + Z**2)**3*(Y**2 + Z**2 + c**2)*(Y**2 + Z**2 + 3*c**2)/48
+singular_total_covariance_determinant = (Y**2 + Z**2)**5*(Y**2 + Z**2 + c**2)*(Y**2 + Z**2 + 3*c**2)/24
+unit_sphere_total_determinant = -(Y**2 + Z**2)**5*(2*Y**2 + 2*Z**2 - 3)/24
+ALL_ASSERTIONS_PASS

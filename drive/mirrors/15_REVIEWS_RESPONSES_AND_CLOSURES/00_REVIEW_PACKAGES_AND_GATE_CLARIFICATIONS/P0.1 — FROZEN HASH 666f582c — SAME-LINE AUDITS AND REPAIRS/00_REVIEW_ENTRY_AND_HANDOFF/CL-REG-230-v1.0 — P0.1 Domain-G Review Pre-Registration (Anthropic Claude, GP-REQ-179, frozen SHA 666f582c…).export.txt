@@ -1,0 +1,65 @@
+﻿CL-REG-230-v1.0 — P0.1 DOMAIN-G REVIEW PRE-REGISTRATION
+
+
+Artifact ID: CL-REG-230-v1.0
+Reviewer: CL — Anthropic Claude (model line Claude Opus, configured identifier claude-opus-4-8)
+Session identity: Cowork session session_01X5p8B9t35y3ZLYqKZcj6Aq (same session that published CL-DATA-216/217/218 for EC-019 today; distinct from the parallel CL session that published CL-AUD-201/CL-REC-202/CL-AUD-084)
+Date/time (UTC): 2026-07-25, published before any Domain-G derivation or comparison work
+Governing packet: GP-REQ-179-v1.0 (Domain-G, P0.1-only route; per its 2026-07-24 banner this route remains valid)
+Governing protocol: OP-PROT-011 — Independent-Eyes Rule
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-REG-230-v1.0]] [[TARGET:P0.1-DOMAIN-G]] [[FROZEN-SHA256:666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28]] [[PRE-DERIVATION]] [[NO-PROMOTION]]
+
+
+1. REVIEWER ORGANIZATION AND INDEPENDENCE
+Anthropic (Claude line) — organizationally distinct from OpenAI/GP. NOTE HONESTLY: the Anthropic family constitutes ONE reviewer lineage for the program's two-distinct-lines gate; this review can supply the Domain-G coverage of that one lineage but cannot count as a second line alongside other CL work (CL-AUD-201 Domain-D corridor, etc.).
+
+
+2. FROZEN-HASH REPRODUCTION (completed before this pre-registration; identity gate only)
+BODY_BYTES 14591 and BODY_SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28 were reproduced from Drive data of GP-DATA-123-v1.0 before this pre-registration. Method and a process observation (export-pipeline sensitivity of the GP-AUD-124 plain-text rule; reproduction achieved via the docx-export paragraph model with paragraph->LF, empty-paragraph->2xLF, cross-validated across two independent export paths, final bytes validated against the frozen SHA-256 itself) will be documented in full in the review artifact. The reproduced body bytes are frozen locally as gpder118_v13_frozen_body.txt.
+
+
+3. EXACT FILES READ BEFORE THIS PRE-REGISTRATION (complete disclosure)
+Routing/status: COMMAND CENTER snapshot (incl. 2026-07-25 banners), GP-REC-175-v1.0, LCR-READ-012-v1.0 (00_READ_FIRST P0.1), LCR-CAP-002 v1.0 body with v1.1 banners, CL-REC-202-v1.0, GP-REQ-179-v1.0 (this packet), GP-AUD-124-v1.0 (freeze receipt), Drive title/metadata listings.
+Review object: GP-DATA-123-v1.0 frozen body (the object under review; read in full).
+Permitted dependency: GP-DER-044-v1.0 (read in full).
+Unrelated prior task (EC-019 T2, this session): GP-SPEC-166, GP-REQ-172, CL-REG-214, CL-PREREG-200, GP-COR-180, GP-DATA-168-v1.1, CL-DATA-201/214, CL-AUD-200/214 — none contain P0.1 Domain-G derivations.
+NOT read (holding for Pass B or out of scope): LCR-DER-003, LCR-DER-010, LCR-AUD-004, GP-AUD-183, GP-DER-118-v1.0/1.1/1.2 wrappers, LCR-REQ-007, LS-REQ-003, GP-REQ-191/crosswalk, LS-COR-006, LS-COR-060/LCR-DER-057, GP-DER-186, GP-DER-197, GP-DATA-178 source payloads, GP-DER-045/046 full texts.
+
+
+4. PRIOR-VERDICT EXPOSURE
+Qualitative same-line status labels only, seen in routing surfaces: "Domain G SURVIVES with clarification"; "G1-G8 internally discharged conditional on GP-DER-044; G9 passes"; "LCR-DER-003 supplies the exact pin-adjusted endpoint-Hessian functionals ... proves continuous conditional covariance extension ... explicit uniform L^2 bound"; GP-AUD-183 "SURVIVES SAME-LINE ATTACK". No formulas, derivations, covariance values, or proof text from any same-line Domain-G companion have been read. The limit formula Z_r/r^2 -> E[Q_L^2 1{Q_L<0}] and the divided-difference repair concept appear in the frozen body itself and in GP-REQ-179, which define the review target.
+
+
+5. INTENDED MATHEMATICAL ROUTE (Pass A, from the frozen body + GP-DER-044 + kernel definition only)
+- Kernel: normalized periodized Bargmann-Fock product kernel on the side-24 torus, k_L(t) = [sum_n exp(-(t+nL)^2/2)] / [sum_n exp(-(nL)^2/2)], K(x,y)=k_L(x)k_L(y), b=6/5; stationary Gaussian covariance calculus Cov(d^a f(u), d^b f(v)) = (-1)^{|b|} d^{a+b} K(u-v).
+- G1: construct explicit pin-adjusted functionals by exact functional algebra on the six-pin affine subspace: e.g. f_xx(M)/r = [f_xx(M)-f_xx(0)]/(2h) + [f_xx(0)-L2]/(2h) + L2/(2h) with h=r/2 and L2=(f_x(h,0)-f_x(-h,0))/(2h), so that on the subspace (L2 pinned to 0) the raw scaled variable equals a sum of divided-difference functionals with removable singularities; same mechanism in the xy-sector via L4. Verify every factor of 2 and sign.
+- G2: confluent limits of the GP-DER-044 L-frame (L0..L5) and the conditioned pin values (b - r^3/12, -r^2/6, 0, 0, 0, 2); derive A_M(0)=-1, A_S(0)=+1, B_M(0)=-a/2, B_S(0)=+a/2, C_M(0)=C_S(0)=Q_L, with the conditioned f_xxx limit exactly 2 via Var(f_xxx(0)-L5)=O(h^4) and Gaussian conditional-variance monotonicity.
+- G3: removability via the Hermite-Genocchi representation of divided differences of the real-analytic kernel (entire; locally uniform Gaussian-sum convergence), plus numerical confirmation of stability of covariance blocks as r -> 0.
+- G4: pin-Gram positive definiteness via Poisson-summation Fourier positivity (all rho_m > 0) + the polynomial-lattice lemma (independent re-proof) + NUMERICAL computation of the limiting 6x6 pin Gram G_0 and the 15x15 joint Gram at high precision (Python Decimal, >= 50 digits, image terms |n| <= 2 with a rigorous tail bound), eigenvalue/determinant positivity margins; statement of which matrices need PD vs boundedness.
+- G5: exact identity det H_M = r*D_M with D_M = A_M C_M - r B_M^2 (2x2 algebra); limits D_M -> -Q_L, D_S -> +Q_L; type-indicator convergence (M strict max iff A_M<0 and D_M>0; S index-one saddle iff D_S<0, for r>0) and the null boundary {Q_L=0} from nondegeneracy of Q_L.
+- G6: Gaussian-vector convergence of (A_M,B_M,C_M,A_S,B_S,C_S,J_r) from mean/covariance continuity; continuous-mapping on the product space with r as an argument; discontinuity set at the limit law contained in {Q_L=0} (A_M=-1, A_S=+1 a.s. in the limit).
+- G7: uniform integrability of W_r/r^2 = |D_M D_S| 1{types} via uniform eighth-moment bound (Cauchy-Schwarz to E[D_M^4], E[D_S^4]; degree-8 polynomial moments of a Gaussian sextet with uniformly bounded means/covariances), all under the identical six-pin law Q_{6,r}.
+- G8: convergence-in-distribution + UI => Z_r/r^2 -> z_{0,L} = E[Q_L^2 1{Q_L<0}]; finiteness (<= E[Q_L^2] = mu^2 + sigma^2) and strict positivity (nondegenerate Gaussian charges {Q_L<0}); numerical evaluation of the planar cross-check (b^2+2)Phi(b/sqrt2)+sqrt2*b*phi(b/sqrt2) at b=6/5 against the GP-DER-044 planar decimal 3.230978535287005, with the exact-torus value exponentially close (image-term bound ~ exp(-L^2/2), L=24).
+- G9: object-identity and inequality-direction audit of frozen body sections 6-8 (exact vs finite-Q4 normalizer; numerator lower bound with normalizer upper bound directions).
+
+
+6. RECONSTRUCTED INDEPENDENTLY vs INSPECTED
+G1-G8: fully reconstructed independently (derivations + a self-contained high-precision verification program written fresh this session, stdlib only). G9: adversarial line-inspection of the frozen body (it is an identity/direction audit of the frozen text itself).
+
+
+7. PASS-A FREEZE COMMITMENT
+Pass-A reconstruction notes + verification source + execution log will be hashed (SHA-256, byte counts) and delivered to the operator BEFORE reading any same-line Domain-G companion (LCR-DER-003, LCR-AUD-004, GP-AUD-183, LCR-DER-010, GP-DER-118-v1.0). Pass B then compares and hunts errors adversarially. No constant, formula, or conclusion will be altered after comparison; any post-comparison change would be disclosed and would disqualify the run.
+
+
+8. OUTPUT
+Filename/artifact: CL-AUD-231-v1.0 in the P0.1 review-entry folder. Schema per GP-REQ-179 §8: identity + independence declaration; this pre-registration; frozen-hash reproduction; Pass-A reconstruction; G1-G9 ledger (PASS/objection each, with derivation); material-objection table (even if empty); exactly one verdict — either APPROVE GP-DER-118 REVISION 1.3 FROZEN SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28 GAUSSIAN-PALM SUBCHAIN or numbered material objections per §7; downstream implications for P0.1/P0.2; explicit statement that theorem promotion remains Dylan Roy's separate decision.
+
+
+9. SCOPE
+This review covers Domain G only. It does not close Domains D or T, the GP-DER-197 event gate, or the C5 integration interface; it does not promote P0.1, establish numerical constants, or authorize any canonical, machine, release, or destructive action.
+
+
+END CL-REG-230-v1.0

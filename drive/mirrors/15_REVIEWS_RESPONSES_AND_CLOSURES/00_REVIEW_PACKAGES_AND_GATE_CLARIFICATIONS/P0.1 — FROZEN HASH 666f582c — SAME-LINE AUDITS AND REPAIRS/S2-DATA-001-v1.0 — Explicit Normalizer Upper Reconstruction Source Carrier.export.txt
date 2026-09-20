@@ -1,0 +1,198 @@
+﻿S2-DATA-001-v1.0 — EXPLICIT NORMALIZER UPPER RECONSTRUCTION SOURCE CARRIER
+
+
+Artifact ID: S2-DATA-001-v1.0
+Date: 2026-07-25
+Executor: OpenAI GPT-5.6 Thinking, Scientist 2 / Lead Scientist line
+Class: DATA / RECONSTRUCTABLE SOURCE PATCH / SYMBOLIC GAUSSIAN CERTIFICATE
+Authority: same-line research candidate only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+
+
+BASE RAW SOURCE
+Drive ID: 185vXbvp5khnDmS37PomCBERfSuTlUKRv
+Title: FAILED_OR_AMEND_REQUIRED — LS-DATA-009-v1.0_explicit_normalizer_upper_certificate.py
+Bytes: 12,966
+SHA-256: 1656c05968a77fd5c6b9b48f3a1f014251589cde5c9eec2f41d0ad033a5e319f
+
+
+SUCCESSOR RECONSTRUCTION
+Filename: S2-DATA-001-v1.0_explicit_normalizer_upper_reconstruction.py
+Bytes: 14,503
+SHA-256: 1ab52d02045d2a02d6c4e7e067df13e45479ec63c049c0ff47ce230778530082
+Python syntax/bytecode compilation: PASS
+Execution: PASS
+Checks: 19/19
+Controls: 8/8
+
+
+PATCH IDENTITY
+Unified patch bytes: 7,377
+Unified patch SHA-256: 15802a1b41e779a1d4d84665d2a9c9793cc375961b0ee5f5fdb64d01e8b24f6b
+Application rule: download the exact base raw source, apply the following unified patch with a standard patch utility after replacing the two absolute filename headers with the local base and successor paths, then verify the successor byte count and SHA-256 above before execution.
+
+
+BEGIN UNIFIED PATCH
+--- "FAILED_OR_AMEND_REQUIRED — LS-DATA-009-v1.0_explicit_normalizer_upper_certificate.py"
++++ S2-DATA-001-v1.0_explicit_normalizer_upper_reconstruction.py
+@@ -3,7 +3,11 @@
+ 
+ Constructs the pin-adjusted endpoint Hessian Gaussian law, certifies its
+ finite-r mean/covariance perturbation in the stabilized pin frame, and derives
+-uniform fourth-moment bounds giving Z_r^exact <= 11 r^2.
++uniform fourth-moment bounds giving Z_r^exact <= 15 r^2.
++
++This S2 successor reconstructs the exact v1.0 endpoint-law engine and repairs
++the limiting mean, perturbation envelopes, moment bounds, and theorem checks.
++It is a same-line candidate and earns no organizational-independence credit.
+ """
+ from __future__ import annotations
+ 
+@@ -227,12 +231,15 @@
+         + b0_norm * alpha * d_y
+     )
+ 
+-    # Simple rational component bounds valid because d_mean<0.001 and d_gamma<0.01.
+-    mean_A = mean_C = sp.Rational(1001, 1000)
+-    mean_B = sp.Rational(1, 1000)
+-    var_A = sp.Rational(1, 100)
+-    var_B = sp.Rational(51, 100)
+-    var_C = sp.Rational(201, 100)
++    # Correct rational component bounds.  The exact limiting mean is
++    # (-1,+1,0,0,-6/5,-6/5), while the limiting covariance diagonal is
++    # (0,0,1/2,1/2,2,2).
++    mean_A = sp.Rational(507, 500)
++    mean_B = sp.Rational(7, 500)
++    mean_C = sp.Rational(607, 500)
++    var_A = sp.Rational(17, 250)
++    var_B = sp.Rational(71, 125)
++    var_C = sp.Rational(517, 250)
+ 
+     fourth_A = gaussian_fourth(mean_A, var_A)
+     fourth_B = gaussian_fourth(mean_B, var_B)
+@@ -244,7 +251,7 @@
+         2 * sp.sqrt(fourth_A * fourth_C)
+         + 2 * R**2 * fourth_B
+     )
+-    c_z = sp.Integer(11)
++    c_z = sp.Integer(15)
+ 
+     p_b = sp.Rational(1, 10**48)
+     conservative_c_a = sp.simplify(p_b / (8 * c_z))
+@@ -259,35 +266,50 @@
+     checks = {
+         "r_D_below_series_radius": bool(R_D < R),
+         "neumann_q_below_one": bool(q < 1),
+-        "mean_difference_below_0_001": bool(d_mean < sp.Rational(1, 1000)),
+-        "covariance_difference_below_0_01": bool(d_gamma < sp.Rational(1, 100)),
+-        "limit_mean_expected": bool(list(m0) == [-1, 1, 0, 0, -1, -1]),
++        "mean_difference_below_7_over_500": bool(d_mean < sp.Rational(7, 500)),
++        "covariance_difference_below_17_over_250": bool(d_gamma < sp.Rational(17, 250)),
++        "limit_mean_expected": bool(list(m0) == [-1, 1, 0, 0, -sp.Rational(6, 5), -sp.Rational(6, 5)]),
++        "limit_covariance_diagonal_expected": bool(
++            [gamma0[i, i] for i in range(6)]
++            == [0, 0, sp.Rational(1, 2), sp.Rational(1, 2), 2, 2]
++        ),
++        "A_mean_bound_valid": bool(1 + d_mean < mean_A),
++        "B_mean_bound_valid": bool(d_mean < mean_B),
++        "C_mean_bound_valid": bool(sp.Rational(6, 5) + d_mean < mean_C),
+         "A_variance_bound_valid": bool(max(gamma0[0, 0], gamma0[1, 1]) + d_gamma < var_A),
+         "B_variance_bound_valid": bool(max(gamma0[2, 2], gamma0[3, 3]) + d_gamma < var_B),
+         "C_variance_bound_valid": bool(max(gamma0[4, 4], gamma0[5, 5]) + d_gamma < var_C),
+-        "delta_second_below_11": bool(delta_second_bound < c_z),
++        "delta_second_below_15": bool(delta_second_bound < c_z),
++        "torus_first_shell_exponent_above_287": bool((24 - R)**2 / 2 > 287),
++        "torus_exponential_gate": bool(sp.Rational(8, 3)**287 > 10**120),
++        "torus_derivative_polynomial_gate": bool(40**12 < 10**20),
++        "torus_shell_and_functional_aggregate_gate": bool(10**20 * sp.Rational(1, 10**100) < TORUS_ENTRY_ALLOWANCE),
++        "torus_allowance_is_1e_minus_70": bool(TORUS_ENTRY_ALLOWANCE == sp.Rational(1, 10**70)),
+         "C_Z_positive": bool(c_z > 0),
+     }
+ 
+     controls = {
+-        "NC1_raw_scaled_endpoint_variables_are_not_stable": True,
+-        "NC2_omitting_rB2_underbounds_Delta_second_moment": bool(
++        "NC1_old_mean_threshold_0_001_rejected": bool(d_mean > sp.Rational(1, 1000)),
++        "NC2_old_covariance_threshold_0_01_rejected": bool(d_gamma > sp.Rational(1, 100)),
++        "NC3_wrong_limit_C_mean_minus_1_rejected": bool(list(m0)[4:] != [-1, -1]),
++        "NC4_C_Z_14_rejected": bool(delta_second_bound > 14),
++        "NC5_zero_width_or_missing_rB2_underbounds": bool(
+             2 * sp.sqrt(fourth_A * fourth_C) < delta_second_bound
+         ),
+-        "NC3_second_moments_do_not_replace_fourth_moments": bool(
++        "NC6_second_moments_do_not_replace_fourth_moments": bool(
+             (mean_A**2 + var_A) * (mean_C**2 + var_C) < fourth_A * fourth_C
+         ),
+-        "NC4_omitting_nonzero_means_underbounds_fourth_moments": bool(
++        "NC7_omitting_nonzero_means_underbounds_C_fourth_moment": bool(
+             3 * var_C**2 < fourth_C
+         ),
+-        "NC5_omitting_frozen_one_eighth_factor_overstates_cA": bool(
++        "NC8_omitting_one_eighth_factor_overstates_conditional_cA": bool(
+             p_b / c_z > conservative_c_a
+         ),
+     }
+ 
+     result: dict[str, Any] = {
+-        "schema": "LS-explicit-normalizer-upper/1.0",
+-        "target": "P0.1 exact typed endpoint normalizer upper bound on 0<=r<=r_D",
++        "schema": "S2-explicit-normalizer-upper/1.0",
++        "target": "P0.1 exact typed endpoint normalizer upper bound on 0<r<=r_D",
+         "interval": {
+             "series_radius": str(R),
+             "r_D_exact": str(R_D),
+@@ -318,7 +340,7 @@
+         },
+         "normalizer": {
+             "C_Z": str(c_z),
+-            "claim": "Z_r^exact <= 11 r^2 for every 0<r<=r_D",
++            "claim": "Z_r^exact <= 15 r^2 for every 0<r<=r_D",
+             "conservative_c_A": str(conservative_c_a),
+             "conservative_c_A_decimal": dec(conservative_c_a),
+             "sharper_c_A_decimal": str(sharper_c_a),
+@@ -327,14 +349,15 @@
+         "controls": controls,
+         "scope": {
+             "proves": [
+-                "explicit upper normalizer constant C_Z=11 on 0<r<=r_D",
+-                "P0.1 upper-normalizer radius is nonbinding relative to r_D",
+-                "conditional numerical Palm lower coefficient p_B/(8C_Z)=1e-48/88",
++                "same-line explicit upper normalizer constant C_Z=15 on 0<r<=r_D",
++                "Route-C upper-normalizer radius is nonbinding relative to r_D, subject to independent review",
++                "conditional Palm coefficient p_B/(8C_Z)=p_B/120",
+             ],
+             "does_not_prove": [
+                 "two-sided exact normalizer asymptotic",
+                 "explicit positive lower normalizer constant",
+-                "independent approval of the shared P02-LM-006 theorem",
++                "the lower half or asymptotic identification in shared P02-LM-006",
++                "organizationally distinct review of this successor",
+                 "GT5 radius",
+                 "P0.1 promotion",
+             ],
+@@ -342,7 +365,7 @@
+         "overall": "PASS" if all(checks.values()) and all(controls.values()) else "FAIL_OR_AMEND_REQUIRED",
+     }
+ 
+-    out = Path("/mnt/data/LS-DATA-009-v1.0_explicit_normalizer_upper_certificate_result.json")
++    out = Path("/mnt/data/S2-DATA-001-v1.0_explicit_normalizer_upper_reconstruction_result.json")
+     out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+     src = Path(__file__)
+     print(result["overall"])
+END UNIFIED PATCH
+
+
+EXECUTION RECEIPT
+Overall: PASS
+Mean perturbation: 0.01301899311755129509587007054886790850674453860362849557562717393875684
+Covariance perturbation: 0.06740479642914908735563784223887693204873855744741806976284317641352371
+Delta second-moment bound: 14.08816015064956610212173048630810165590827175627695398605036054530959
+C_Z: 15
+Conditional coefficient: p_B/120
+Result bytes: 11,515
+Result SHA-256: 5092460d3ab3bd3a1f2dbb687c5e95c9f727a4cb6eb253a1c712c1bac0fa3a92
+
+
+STATUS
+SOURCE-RECONSTRUCTABLE / LOCAL EXECUTION PASS / SAME-LINE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / P0.1 NONTERMINAL / NO PROMOTION

@@ -1,0 +1,63 @@
+﻿LS-DATA-033B-v1.0 — DQ-050 EXACT ENDPOINT AND DENSITY-FRAME SYMBOLIC VERIFIER RESULT
+
+
+Artifact ID: LS-DATA-033B-v1.0
+Dispatch: DQ-050
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: DATA / EXECUTION RECEIPT / EXACT SYMBOLIC ALGEBRA
+Authority: same-family execution evidence only
+Independence credit: ZERO
+Canonical impact: NONE
+Source: LS-DATA-033A-v1.0, Drive ID 1ou3ve0WUbkoiXcfgbfG_wNbMI5Xe7sO2d5oxEPirsJU
+Drive-export source bytes: 3995
+Drive-export source SHA-256: 75b5e756e210a129fe3b23427b2cb37b0dae09b09258691cf660b41b6bea8423
+Result bytes: 1798
+Result SHA-256: f5721a1a27f27d1cd4b71cb8d6568994b71145db87d6d1c8de0c92b8124be710
+Execution status: PASS
+Checks passed: 17
+Hostile mutations detected: 5 of 5
+Numerical sampling: NONE
+
+
+BEGIN_DQ050_RESULT
+{
+  "checks_passed": 17,
+  "covariance": {
+    "cond_var_Y1_given_Y2": "s**4*(c**2 + s**2)*(3*c**2 + s**2)/(24*(4*c**2 + s**2))",
+    "det2": "s**6*(c**2 + s**2)*(3*c**2 + s**2)/48",
+    "det3": "s**8*(c**2 + s**2)*(3*c**2 + s**2)/24"
+  },
+  "generic": {
+    "Q": "eta**2*(-alpha*c*eta*kappa + c**2*kappa/2 + c*eta*kappa/2 + eta**2*kappa/8 - s**2*w/4)/(c*s**2)",
+    "a": "(-c**2*kappa + eta**2*kappa/4 - s**2*w/2)/(c*s)",
+    "detM": "eta**2*kappa**2*(-K**2 + 64*alpha*c**2*eta**2)/(64*c**2*s**2)",
+    "detS": "eta**2*kappa**2*(c**2*eta**2*(64 - 64*alpha) - (K + 8*c*eta)**2)/(64*c**2*s**2)",
+    "detX": "-eta**2*kappa**2*(64*alpha*c**2*eta**2*(1 - alpha) + (K + 8*alpha*c*eta)**2)/(64*c**2*s**2)",
+    "product": "-eta**6*kappa**6*(-K**2 + 64*alpha*c**2*eta**2)*(c**2*eta**2*(64 - 64*alpha) - (K + 8*c*eta)**2)*(64*alpha*c**2*eta**2*(1 - alpha) + (K + 8*alpha*c*eta)**2)/(262144*c**6*s**6)",
+    "z": "(32*alpha*c*eta**3*kappa + 16*c**4*kappa - 24*c**2*eta**2*kappa - 24*c**2*s**2*w - 16*c*eta**3*kappa - 3*eta**4*kappa + 6*eta**2*s**2*w)/(16*c*s**3)"
+  },
+  "mutations": {
+    "drop_eta2_detM": true,
+    "drop_kappa6_product": true,
+    "eta4_product": true,
+    "replace_alpha_by_1_minus_alpha_at_M": true,
+    "wrong_covariance_power": true
+  },
+  "transverse": {
+    "-1": {
+      "detM": "eta**2*kappa**2*(4*alpha*eta**2 - (Abar + eta)**2)/4",
+      "detS": "eta**2*kappa**2*(eta**2*(4 - 4*alpha) - (Abar - eta)**2)/4",
+      "detX": "-eta**2*kappa**2*(4*alpha*eta**2*(1 - alpha) + (Abar + eta*(1 - 2*alpha))**2)/4"
+    },
+    "1": {
+      "detM": "eta**2*kappa**2*(4*alpha*eta**2 - (Abar + eta)**2)/4",
+      "detS": "eta**2*kappa**2*(eta**2*(4 - 4*alpha) - (Abar - eta)**2)/4",
+      "detX": "-eta**2*kappa**2*(4*alpha*eta**2*(1 - alpha) + (Abar + eta*(1 - 2*alpha))**2)/4"
+    }
+  }
+}
+END_DQ050_RESULT
+
+
+Execution note: the Python process emitted an unrelated artifact-tool spreadsheet warmup warning on stderr but exited with status 0 after all assertions passed. The JSON above is stdout only and is the hashed result payload.

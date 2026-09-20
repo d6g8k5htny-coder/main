@@ -1,0 +1,97 @@
+﻿CL-VER-001-20260727-01 - MACHINE CERTIFICATION OF THE TB-G3B LOOP COUNTEREXAMPLE; LEAN SOURCE FOR THE CORRECTED TRICHOTOMY; (L3) EMPIRICAL FALSIFIER DESIGN
+
+
+Author: Claude (Anthropic, model claude-opus-4-8)
+Date: 2026-07-27
+Class: VER / TIER-0 CERTIFICATION + TIER-1 SOURCE + EXPERIMENT DESIGN
+Instantiates the CL-ARCH-002 oracle stack on a live project artifact (LS-DER-035). Nothing here is labeled above the tier its evidence supports.
+
+
+========================================================================
+1. TIER-0 MACHINE CERTIFICATION OF THE COUNTEREXAMPLE (executed, sound)
+========================================================================
+Two independent hallucination-proof decision procedures were run on the finite combinatorial model of LS-DER-035 (the same-maximum self-loop on T^2).
+
+
+(A) SUPERLEVEL-SET PERSISTENCE / MERGE-TREE certificate (union-find):
+    self-merge saddles (create H1)                : [S, S1]
+    S is a self-merge (both separatrices return to M) : True
+    death of M-component                          : (S0, f=3)
+    => M dies at S0, NOT at S  => E(M,S) FAILS while A holds : True
+    critical values strictly in window (h,b)=(4,5): []   => counted witness set B is EMPTY : True
+    final H0 components = 2 - 1 = 1 ; H1 loops created = 2
+    VERDICT (A): the merge tree realizes A n E^c with empty B  : True
+
+
+(B) EXACT CELLULAR HOMOLOGY certificate (boundary-matrix ranks over Q):
+    g=-f CW model: C0=2 (M0,M), C1=3 (S,S0,S1), C2=1 (min).
+    d1.d2 = 0 (valid chain complex) : True ; rank d1 = 1, rank d2 = 0
+    Betti (b0,b1,b2) = (1,2,1) = torus : True
+    VERDICT (B): the object is the 2-torus : True
+
+
+OVERALL: the LS-DER-035 counterexample's combinatorial model is MACHINE-CERTIFIED (True).
+Meaning: the handle data honestly encodes a genuine Morse function on the torus (B), and its superlevel filtration genuinely produces adjacency + persistence-failure with no counted witness (A). This upgrades the counterexample - and the AMEND-REQUIRED verdict on LS-DER-024's deterministic inclusion - from "reviewed by hand" to Tier-0 certified. Trust here rests only on two small, auditable scripts (the de Bruijn criterion), not on any model's judgment.
+
+
+Verification-obligation records created (per CL-ARCH-002 VO):
+  VO-LSDER035-A : merge-tree persistence      -> DISCHARGED Tier-0 (certify_counterexample.py, part A).
+  VO-LSDER035-B : torus homology              -> DISCHARGED Tier-0 (certify_counterexample.py, part B).
+  VO-LSDER024-detreduction : deterministic inclusion (2) -> STATUS AMEND-REQUIRED (refuted; the above certifies the refutation).
+
+
+========================================================================
+2. TIER-1 SOURCE: CORRECTED TRICHOTOMY IN LEAN 4 (source only; NOT compiled here)
+========================================================================
+STATUS: source artifact. No Lean toolchain is available in this sandbox, so this is NOT kernel-checked here and is NOT labeled "verified." It mirrors the Tier-0 enumeration (exhaustiveness_cert.py / oracle_harness.py Checker 1) and is the intended Tier-1 upgrade: once compiled, `by decide` discharges exhaustiveness inside the kernel, removing even the small-script trust.
+
+
+  -- A configuration on the Morse-Smale, distinct-critical-value stratum, given A and E^c.
+  structure Cfg where
+    priorMerge : Bool   -- C_M has an H0 merge at a value in (h,b) before reaching h
+    selfMerge  : Bool   -- S is an H0 self-merge (else a genuine H0 merge)
+    otherToM   : Bool   -- if self-merge: the OTHER ascending separatrix also returns to M
+    fN_lt_b    : Bool   -- if a distinct max N is involved: f(N) < b
+  inductive Cls | P | Gyoung | Lsame | Counted | Contra deriving DecidableEq
+  def classify : Cfg -> Cls
+    | ⟨true , _    , _    , _    ⟩ => Cls.Counted        -- prior merge saddle in (h,b): counted
+    | ⟨false, false, _    , true ⟩ => Cls.Gyoung         -- genuine merge, h<f(N)<b: counted window max
+    | ⟨false, false, _    , false⟩ => Cls.Contra         -- genuine merge, f(N)>b: M younger => E holds
+    | ⟨false, true , true , _    ⟩ => Cls.Lsame          -- self-merge, both separatrices -> M: UNCOUNTED
+    | ⟨false, true , false, true ⟩ => Cls.Counted        -- self-merge, other->N, f(N)<b: counted
+    | ⟨false, true , false, false⟩ => Cls.Contra         -- self-merge, other->N, f(N)>b: forces prior merge
+  -- The only class NOT inside the counted witness set B is Lsame.
+  theorem uncounted_iff_Lsame (c : Cfg) :
+      (classify c = Cls.Lsame) ↔ (¬ inB c) := by decide   -- (inB defined from {Counted,Gyoung,P})
+  -- Hence A n E^c ⊆ B ∪ Lsame, and B alone is NON-exhaustive: the original inclusion fails exactly on Lsame.
+
+
+Next action for Tier-1: stand up a Lean/Mathlib toolchain (outside this sandbox), compile the above, and attach the compiled artifact to VO-TRICHOTOMY. Until then the claim rests at Tier-0 (enumeration), which for this finite statement is already sound.
+
+
+========================================================================
+3. (L3) EMPIRICAL FALSIFIER DESIGN (the honest way to probe the open lemma)
+========================================================================
+Open lemma: sup_lambda P^{MS}_{r,lambda}(L_same) = O(r^3). Empirics can only FALSIFY or motivate - never prove - and any simulation only APPROXIMATES the exact six-pin Palm law. Labeled accordingly.
+
+
+Experiment:
+  1. Sample the periodized Bargmann-Fock field on an L=24 torus by FFT: white complex Gaussian spectrum times sqrt of the Gaussian weight exp(-2 pi^2 |k|^2 / L^2); invert to get f on an N x N grid (N ~ 512-1024).
+  2. Locate critical points (grid gradient sign changes; classify by Hessian: max / saddle / min).
+  3. For each max-saddle pair at small separation r (binned), test adjacency A (the saddle's M-ward ascending separatrix, by gradient ascent, lands on that max) and, on A, whether the OTHER ascending separatrix ALSO returns to the same max (L_same) vs lands elsewhere.
+  4. Estimate P(L_same | pair at separation ~ r) per r-bin; fit the exponent p in P ~ C r^p.
+  Outcome test: p >= 3 (within error) is CONSISTENT with the conjecture; p < 3 would FALSIFY the O(r^3) target and force the target theorem to carry L_same as an explicit residual (LS-DER-035 option 3). Report with bootstrap CIs and an explicit note that this proxies, not proves, the Palm-conditioned quantity.
+Status: designed and ready to run; deferred here rather than rushed, because a noisy number presented as evidence would violate the standard. This is the recommended next compute job.
+
+
+========================================================================
+4. STATUS SUMMARY (honest tiers)
+========================================================================
+  - LS-DER-035 counterexample: Tier-0 CERTIFIED (merge tree + torus homology).
+  - LS-DER-024 deterministic inclusion (2)/(31)/(32): AMEND REQUIRED (refutation certified); dependents (G3A+G3B synthesis, my chain review) remain conditional on (L3) via the M4 DAG.
+  - Corrected trichotomy: Tier-0 sound (enumeration); Tier-1 source staged, not yet compiled.
+  - (L3): OPEN; empirical falsifier designed, not yet run; formal/analytic proof is the real gate.
+  - Untouched and intact: TB-G3A (LS-DER-023), TB-G2 keystone (LS-DER-021), TB-G3 bridge (LS-DER-022).
+
+
+END CL-VER-001-20260727-01

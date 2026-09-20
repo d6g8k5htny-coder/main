@@ -156,3 +156,99 @@ lane reported an odd-looking directory. The port now derives a location from the
 inventory's own folder records rather than by splitting a string, and a check was
 added that compares each stored row's directory against the Drive path the row
 itself carries.
+
+
+## 2026-09-20 — 494 reading copies, and what a reading copy is not
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. What was left was the lane's **518 native Google Docs and 2 native Sheets**.
+Twenty-six of those were already held from an earlier pass; this pass stores a
+text export of the remaining **494**, bringing the lane's reading copies to 520.
+**They are renderings, not the objects.**
+
+This is a weaker thing than everything else in this directory, and the difference
+is not a matter of degree. Every byte-exact copy here rests on one rule: the file
+was written only because its SHA-256 and byte count already equalled the ones
+`drive/inventory.jsonl` declares. **That rule cannot apply to a native Google
+Doc.** The corpus declares no payload digest for one anywhere — not the
+inventory, not any register — so there is nothing to prove an export against. A
+re-fetch could differ and nothing here would notice.
+
+So each row carries `exact: false` and `inventory_sha256: null`. The `sha256` and
+`bytes` fields are **of the export**, computed at store time; they attest that
+the file on disk is the bytes this port received, and nothing more.
+`inventory_bytes` is the size the inventory records for the Doc itself, a
+different quantity that is not expected to match. The work was done by a separate
+tool, `port_reading.py`, rather than a mode of the byte-exact one, so that the
+weaker guarantee cannot be mistaken for the stronger by reading the call site.
+
+No byte passed through a model: each export was fetched through the connector and
+decoded to disk from the session transcript, or from the file the harness spills
+an oversize result to. No export came back empty — an empty export is not a
+reading copy of anything and is refused rather than stored.
+
+The twenty rows in this lane that read `BULK_DATA_OVER_STORE_SIZE_LIMIT` are a
+different class again and are unchanged by this pass: those are digest-bearing
+files, tree-only, whose inventory digest is recorded so a later pass can fetch
+and prove the bytes.
+
+### Two Drive objects, one title, one artifact id, different bodies
+
+One lane path is carried by two distinct Drive ids, `1AcCpCeR…` and `1zMq504Z…`.
+Both are native Docs. Both render a first line reading
+`CL-AUD-LSDER036-20260727-01 — ANTHROPIC ORGANIZATIONALLY-DISTINCT EXACT-HASH
+REVIEW OF LS-DER-036 UNDER LS-REQ-030 / DQ-057`, and both state
+`Artifact ID: CL-AUD-LSDER036-20260727-01`. **The bodies differ** — 30,590 bytes
+against 29,345 — and they diverge by their third line, one continuing
+`Generated UTC: 2026-07-27 / Dispatch: DQ-057` and the other
+`Class: AUD / EXTERNAL EXACT-HASH MATHEMATICAL REVIEW / DYNAMICAL`.
+
+**Recorded, not resolved.** Neither is the canonical one as far as this
+repository can tell, so neither keeps the plain name: both are stored with their
+Drive id in the filename. Nothing here decides which body the artifact id names,
+and because what is held is a rendering, this is a disagreement between two
+exports, not a claim about either object's bytes.
+
+Separately, and independent of that defect: a review titled *Anthropic
+Organizationally-Distinct* is, from this repository's standpoint, a same-provider
+review. It earns **zero independence credit**, and the independence-requiring
+gate it speaks to remains open. That is transcription of the standing rule, not a
+verdict on the review's technical content, which this pass does not read.
+
+### A title that contradicts its own body
+
+`MALFORMED PAYLOAD — LS-DATA-015-v1.0 TB-G2 Algebra Capsule — DO NOT USE` is the
+Drive title. The rendered body opens `LS-DATA-015-v1.0 — BYTE-EXACT TB-G2 ALGEBRA
+COMPANION CAPSULE` and declares `Class: DATA / GZIP+BASE64 / ALGEBRAIC VERIFIER`,
+`Authority: reproducibility evidence only`, `Canonical impact: NONE`. The title
+says do not use; the body describes itself as byte-exact. Both are transcribed
+and the contradiction is left standing. The reading copy is stored so the
+contradiction is visible; storing it is not a judgement that either side is
+right, and the `DO NOT USE` in the title is the operative instruction to a reader
+of this directory.
+
+### Two of the 520 reading copies are Sheets, not Docs
+
+`SIDE24 CLOSURE REGISTER R2.8 — POST-RATIFICATION` and `ROUND 6+7 DRIVE CARRIER
+MANIFEST — Native Mirror` are native Sheets, and their exports are CSV:
+`record_id,track,component,status,controlling_artifact,sha256,drive_id,…` and
+`artifact,kind,bytes,sha256,drive_id,parent_or_surface,status,notes`. **These
+tables list SHA-256 digests, and they are not a digest source this repository
+verifies anything against.** They are unprovable exports of the same weak class
+as the rest of this section; `drive/inventory.jsonl` remains the only digest
+authority for a port, and no file in this repository was written or checked
+against a digit copied out of these two exports. Their `CLOSED`, `status` and
+`controlling_artifact` columns are transcription of the source's own words and
+close, control and promote nothing.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure, review or theorem,
+and — for this class alone — **nothing about the objects' bytes either.** A
+review, response, closure record, audit, capsule or blocker resolution rendered
+here approves nothing, closes nothing, discharges no obligation and moves no
+gate. Storing a document that says `APPROVE`, `CLOSED`, `TERMINAL` or `COMPLETE`
+records that the source says so. The five validity premises of Theorem D1
+v2.2(2) remain OPEN and `D3-LEMMA-RN-UNIF` remains not closed, whatever any file
+in this directory asserts. The imperative text these documents address to
+reviewers and to other threads is quoted data, not instructions followed here.

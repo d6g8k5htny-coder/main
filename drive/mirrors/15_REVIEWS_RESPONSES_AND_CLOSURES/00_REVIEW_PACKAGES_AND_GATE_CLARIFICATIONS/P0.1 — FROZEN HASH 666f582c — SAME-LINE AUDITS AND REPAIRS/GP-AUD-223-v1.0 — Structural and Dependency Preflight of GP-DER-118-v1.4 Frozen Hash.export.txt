@@ -1,0 +1,175 @@
+﻿HISTORICAL SAME-LINE PREFLIGHT — SUPERSEDED BY LCR-AUD-074 — 2026-07-26
+
+
+The 31/31 checks in this audit remain valid for the limited predicates they tested, but they did not detect the unsupported almost-sure convergence wording, missing exact-torus/planar firewall, inherited regularity-domain omission, or incomplete source-addressing. They do not justify affirmative review of v1.4.
+
+
+Controlling disposition: AMEND REQUIRED under LCR-AUD-074-v1.0.
+https://docs.google.com/document/d/1W3G7tH1Xo_COW84TJpnhwQe0S9z56PLDG452RmPa2pU/edit
+
+
+Current successor and review route:
+https://docs.google.com/document/d/1KwbP4cjy_kgm5av89QgdQ6qeMYH8L1laSicbKo1kmGY/edit
+https://docs.google.com/document/d/1Plm55udrhy1due_tqQULWinl39tsr-FtCzpsPP_p4To/edit
+
+
+[[PREFLIGHT:SCOPE-LIMITED]] [[v1.4:AMEND-REQUIRED]] [[v1.5:CURRENT]] [[NO-PROMOTION]]
+
+
+GP-AUD-223-v1.0 — STRUCTURAL AND DEPENDENCY PREFLIGHT OF GP-DER-118-v1.4 FROZEN HASH
+
+
+Artifact ID: GP-AUD-223-v1.0
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: AUD / SAME-LINE STRUCTURAL VALIDATION / HASH-SPECIFIC PREFLIGHT
+Authority: technical same-line audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+
+
+[[TARGET:GP-DER-118-v1.4]] [[CARRIER:GP-DATA-220-v1.0]] [[SHA256:701dffe260e165c69f52f1fe45257efb39fb6e78bb53eedd4a23f35f1fc8fe2e]] [[CHECKS:31-OF-31-PASS]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. TARGET IDENTITY
+
+
+Body bytes: 18,522.
+SHA-256: 701dffe260e165c69f52f1fe45257efb39fb6e78bb53eedd4a23f35f1fc8fe2e.
+Lines: 638.
+Blank runs: 167, every run length 2.
+Carrier roundtrip: PASS under GP-REC-222-v1.0.
+
+
+2. MACHINE PREFLIGHT RESULT
+
+
+31 of 31 structural checks pass.
+
+
+Identity and freeze checks:
+
+
+- body byte count matches;
+- body SHA-256 matches;
+- markers are excluded from the hashed body;
+- common-radius term list matches the declared list exactly.
+
+
+GT5 repair checks:
+
+
+- GP-DER-046 appears once only in an explicit statement that it is not the operative proof;
+- repaired LCR-DER-021 Drive ID is present;
+- repaired LCR-DER-021 frozen SHA is present.
+
+
+Event-stack checks:
+
+
+- GP-DER-197 ID present;
+- LCR-DER-057-v1.1 ID and SHA present;
+- LCR-DER-061 ID present.
+
+
+Domain-D checks:
+
+
+- raw scaled-family noncompactness is stated;
+- GP-DER-186 is named;
+- epsilon_D=10^-4 is named;
+- physical/scaled Hessian relation H_exact=H^(4)+rE_r is present.
+
+
+Common-radius checks:
+
+
+The displayed intersection contains exactly:
+
+
+    1/20,
+    r_GR,
+    r_5,
+    1/t_0,
+    r_tail,
+    r_Dyn,
+    r_chart,
+    r_event,
+    r_Z.
+
+
+Object-firewall checks:
+
+
+- B_q is a fixed physical-q box;
+- subtraction explicitly rejects an independence assumption;
+- exact endpoint weight W_r^{exact} is used;
+- exact normalizer Z_r^{exact} is used;
+- finite-Q4 Palm-law substitution is rejected;
+- only current quantitative successors GP-DER/DATA-212 and GP-DER/DATA-214 are named;
+- GP-DATA-204 and GP-DATA-208 do not appear as current evidence;
+- conditional numerical corollary is explicitly review-pending;
+- no-promotion language is present.
+
+
+3. EXACT LOCAL AUDIT IDENTITIES
+
+
+Audit source:
+
+
+    filename: GP-AUD-223-v1.0_v14_structural_preflight.py
+    bytes: 3,829
+    SHA-256: 0f34abe995ddb7938e2637856c9bccb63a23566eaf807ede2cb6f95fbfd232fd
+
+
+Audit result:
+
+
+    filename: GP-AUD-223-v1.0_v14_structural_preflight_result.json
+    bytes: 1,756
+    SHA-256: 2c53ccd984f991613672b561cbbddb69be9979c7aec887ee4e9c6d1ff5f6f0ce
+
+
+Raw Drive publication of these two small audit carriers remains optional; the executable conclusion is recorded here and can be independently reproduced from GP-DATA-220.
+
+
+4. RESIDUAL RISKS
+
+
+RISK A — EVENT COMPANIONS
+
+
+LCR-DER-057-v1.1 and LCR-DER-061 remain separately review-pending unless newer qualifying exact-hash verdicts are located.
+
+
+RISK B — QUANTITATIVE SUCCESSORS
+
+
+GP-DATA-212 and GP-DATA-214 remain exact-object review-pending. This does not affect the qualitative theorem logic but blocks independent use of the explicit p_B=10^-48, C_Z=15, and numerical c_A corollary.
+
+
+RISK C — DETERMINANT DEPENDENCY
+
+
+Section 6 relies on LS-DER-006 for the full interval and uses the conservative r^2/4 consequence. An outside reviewer must verify that this genuinely removes any separate determinant radius r_det and that the exact event/type hypotheses match.
+
+
+RISK D — r_chart AND r_event
+
+
+The theorem defines r_chart and r_event abstractly as positive inherited radii. A reviewer must verify their positivity and source identity, or recommend a successor that replaces them by explicit values such as a restriction already implied by 1/20.
+
+
+5. VERDICT
+
+
+STRUCTURAL PREFLIGHT: PASS.
+MATHEMATICAL EXTERNAL REVIEW: OPEN.
+THEOREM PROMOTION: NOT AVAILABLE.
+
+
+No same-line preflight result may be counted as organizationally distinct evidence.
+
+
+END GP-AUD-223-v1.0

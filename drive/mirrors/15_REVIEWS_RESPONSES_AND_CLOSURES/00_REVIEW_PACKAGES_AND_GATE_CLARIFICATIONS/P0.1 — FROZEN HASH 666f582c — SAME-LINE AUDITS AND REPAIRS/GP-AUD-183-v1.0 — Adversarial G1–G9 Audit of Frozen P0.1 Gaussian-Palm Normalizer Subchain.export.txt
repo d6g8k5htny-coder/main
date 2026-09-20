@@ -1,0 +1,729 @@
+﻿GP-AUD-183-v1.0 — ADVERSARIAL G1–G9 AUDIT OF FROZEN P0.1 GAUSSIAN-PALM NORMALIZER SUBCHAIN
+
+
+Artifact ID: GP-AUD-183-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking, Adversarial Research Critic
+Date: 2026-07-24
+Class: AUD / EXACT MATHEMATICAL RECONSTRUCTION / GAUSSIAN-PALM / SAME-LINE
+Authority: none
+Canonical mathematical impact: NONE
+Independence credit: ZERO — the reviewer is on the OpenAI/GP line and had prior access to the project proof architecture
+Target packet: GP-REQ-179-v1.0
+Frozen theorem object: GP-DATA-123-v1.0
+Frozen BODY_BYTES: 14591
+Frozen BODY_SHA256: 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+
+
+[[TARGET:P0.1]] [[DOMAIN:G]] [[FROZEN-HASH:666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28]] [[VERDICT:SURVIVES-SAME-LINE-ATTACK]] [[NON-GP-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+============================================================
+0. EXECUTIVE VERDICT
+============================================================
+
+
+The exact Gaussian/Palm normalizer subchain in the frozen GP-DER-118-v1.3 body SURVIVES this adversarial same-line reconstruction.
+
+
+All nine requested checks G1–G9 pass at the exact declared scope. No factor-of-two error, sign reversal, covariance degeneracy, law substitution, convergence-theorem failure, uniform-integrability failure, or numerator/denominator direction error was found.
+
+
+The most important technical conclusion is:
+
+
+Z_r^{exact}/r^2 -> E[Q_L^2 1{Q_L<0}] in (0,infinity)
+
+
+under the exact normalized-periodized side-24 six-pin conditional full-field law.
+
+
+This verdict does not independently close Domain G because it is an OpenAI same-line audit. GP-REQ-179-v1.0 still requires a qualifying organizationally distinct, hash-specific reconstruction. The present audit reduces the probability that the non-GP reviewer will encounter an elementary algebraic or measure-theoretic defect, but it earns zero external-review credit.
+
+
+The symbolic companion GP-DATA-181-v1.0 independently reproduced the frozen theorem body identity and the exact Taylor/determinant calculations used in G1, G2, and G5. Its reconstructable Drive marker identities are:
+
+
+- source bytes: 3827;
+- source SHA-256: 8277dbca5384898f8644208428b69fbc8bc79ebc30d17a0677f731231f6aae27;
+- receipt bytes: 1284;
+- receipt SHA-256: c6f01f3b36663baf53132581f9d180e0471e2b700967d65f4ba0a8cf13e329f5.
+
+
+============================================================
+1. REVIEW EXPOSURE AND LIMITATIONS
+============================================================
+
+
+This was not a blinded Pass-A review. The reviewer had already read:
+
+
+- GP-DATA-123-v1.0;
+- GP-DER-118-v1.0;
+- GP-DER-044-v1.0;
+- the P0.1 closure-readiness capsule;
+- prior same-line status and critique records.
+
+
+Therefore:
+
+
+- the reconstruction is mathematically substantive but not organizationally independent;
+- it must be recorded as SAME-LINE / ZERO NON-GP CREDIT;
+- it must not be counted toward the two-line G/D/T gate;
+- it must not be cited as terminal proof review;
+- it may be used as a detailed attack ledger and reviewer aid.
+
+
+============================================================
+2. EXACT OBJECT
+============================================================
+
+
+Let f be the centered stationary normalized-periodized Bargmann–Fock Gaussian field on the side-24 torus. Put
+
+
+h=r/2,
+M=(-h,0),
+S=(+h,0).
+
+
+Condition on the exact six pins
+
+
+(f,f_x,f_y)(M)=(b,0,0),
+(f,f_x,f_y)(S)=(b-r^3/6,0,0),
+
+
+with b=6/5.
+
+
+Let Q_{6,r} denote this exact conditional Gaussian law.
+
+
+Let H_M and H_S be the exact physical Hessians of the full field at M and S. Define the exact typed weight
+
+
+W_r^{exact}
+= |det H_M det H_S|
+  1{H_M negative definite}
+  1{H_S index one}.
+
+
+Define
+
+
+Z_r^{exact}=E_{Q_{6,r}}[W_r^{exact}].
+
+
+No finite-Q4 Hessian or quartic reconstructed weight is used in this Domain-G object.
+
+
+============================================================
+3. INDEPENDENT CORE RECONSTRUCTION
+============================================================
+
+
+3.1 Confluent pin frame
+
+
+Along the pair axis define
+
+
+g(x)=f_x(x,0),
+k(x)=f_y(x,0).
+
+
+The raw endpoint evaluations become ill-conditioned as h->0. Replace them by the invertible confluent frame
+
+
+L_0=(f(h,0)+f(-h,0))/2,
+L_1=(f(h,0)-f(-h,0))/(2h),
+L_2=(g(h)-g(-h))/(2h),
+L_3=(k(h)+k(-h))/2,
+L_4=(k(h)-k(-h))/(2h),
+L_5=(3/h^2)[(g(h)+g(-h))/2-L_1].
+
+
+For h>0 this is an invertible linear transformation of the six raw pins. Under the prescribed pin values,
+
+
+L_0=b-r^3/12,
+L_1=-r^2/6,
+L_2=0,
+L_3=0,
+L_4=0,
+L_5=2.
+
+
+As h->0 the functionals converge to
+
+
+(f,f_x,f_xx,f_y,f_xy,f_xxx),
+
+
+and the conditioned vector converges to
+
+
+(b,0,0,0,0,2).
+
+
+3.2 Pin-adjusted normalized endpoint variables
+
+
+Let
+
+
+S_g=[g(h)-g(-h)]/(2h),
+S_k=[k(h)-k(-h)]/(2h).
+
+
+Define
+
+
+A_M^r=[g'(-h)-S_g]/r,
+A_S^r=[g'(+h)-S_g]/r,
+B_M^r=[k'(-h)-S_k]/r,
+B_S^r=[k'(+h)-S_k]/r,
+D_M^r=f_yy(-h,0),
+D_S^r=f_yy(+h,0).
+
+
+On the exact six-pin affine subspace, g(-h)=g(h)=k(-h)=k(h)=0, so S_g=S_k=0. Hence these equal exactly
+
+
+A_M^r=f_xx(M)/r,
+A_S^r=f_xx(S)/r,
+B_M^r=f_xy(M)/r,
+B_S^r=f_xy(S)/r,
+D_M^r=f_yy(M),
+D_S^r=f_yy(S).
+
+
+This is an exact identity on the conditioned affine space, not an asymptotic approximation.
+
+
+3.3 Taylor limits
+
+
+For a smooth one-dimensional function g,
+
+
+[g(h)-g(-h)]/(2h)
+= g'(0)+(h^2/6)g'''(0)+(h^4/120)g^(5)(0)+O(h^6).
+
+
+Also
+
+
+g'(-h)=g'(0)-h g''(0)+(h^2/2)g'''(0)-(h^3/6)g^(4)(0)+O(h^4),
+
+
+g'(+h)=g'(0)+h g''(0)+(h^2/2)g'''(0)+(h^3/6)g^(4)(0)+O(h^4).
+
+
+Since r=2h,
+
+
+A_M^r=-(1/2)g''(0)+(h/6)g'''(0)+O(h^2),
+A_S^r=+(1/2)g''(0)+(h/6)g'''(0)+O(h^2).
+
+
+Because g''=f_xxx,
+
+
+A_M^r -> -(1/2)f_xxx(0),
+A_S^r -> +(1/2)f_xxx(0).
+
+
+The confluent pin law fixes f_xxx(0)=2, so
+
+
+A_M^0=-1,
+A_S^0=+1.
+
+
+Applying the same calculation to k=f_y gives
+
+
+B_M^r -> -(1/2)f_xxy(0),
+B_S^r -> +(1/2)f_xxy(0).
+
+
+If the midpoint coordinate a denotes f_xxy(0), then
+
+
+B_M^0=-a/2,
+B_S^0=+a/2.
+
+
+Finally
+
+
+D_M^r,D_S^r -> Q_L:=f_yy(0)
+
+
+under the limiting exact-torus conditional law.
+
+
+3.4 Covariance extension
+
+
+The side-24 periodized covariance kernel is real analytic. Every covariance between:
+
+
+- a confluent pin functional L_i(r);
+- an endpoint divided-difference functional A_M^r,A_S^r,B_M^r,B_S^r;
+- an endpoint transverse derivative D_M^r,D_S^r;
+- a fixed midpoint derivative;
+
+
+is obtained by applying finite differential and divided-difference operators to that analytic kernel.
+
+
+Each apparent inverse power of h is paired with a numerator whose Taylor expansion vanishes to the required order. Therefore each covariance entry has a removable singularity at r=0 and extends continuously.
+
+
+Let
+
+
+G_r=Cov(L_r,L_r),
+C_r=Cov(V_r,L_r),
+S_r=Cov(V_r,V_r),
+
+
+where
+
+
+V_r=(A_M^r,A_S^r,B_M^r,B_S^r,D_M^r,D_S^r).
+
+
+Then G_r,C_r,S_r extend continuously through r=0.
+
+
+3.5 Strict positivity needed—and not needed
+
+
+The limiting pin functionals correspond, up to nonzero factors, to the Fourier monomials
+
+
+1, x, x^2, y, xy, x^3.
+
+
+The periodized field has strictly positive spectral weight at every lattice frequency. If a nonzero linear combination of these functionals had zero variance, its Fourier polynomial would vanish at every point of Z^2. A finite polynomial vanishing on all of Z^2 is identically zero. Since the monomials are distinct, all coefficients must vanish. Hence G_0 is positive definite.
+
+
+By continuity, G_r remains uniformly invertible for sufficiently small r.
+
+
+For Q_L nondegeneracy, add the target monomial y^2. It is not in the span of
+
+
+1,x,x^2,y,xy,x^3.
+
+
+The joint Gram of the six limiting pins plus y^2 is therefore positive definite. The Schur complement gives
+
+
+Var(Q_L | limiting pins)>0.
+
+
+Important distinction:
+
+
+The full limiting covariance of V_r need not be positive definite. In fact it is necessarily singular because A_M^0 and A_S^0 are deterministic under the conditioned law and D_M^0=D_S^0=Q_L. The theorem does not require strict positivity of Cov(V_0). It requires only:
+
+
+- G_0 positive definite;
+- Q_L nondegenerate after conditioning;
+- continuous bounded means and covariance entries for V_r.
+
+
+Those are sufficient for uniform fixed-order Gaussian moments.
+
+
+3.6 Conditional law and moments
+
+
+For r>0,
+
+
+V_r | {L_r=y_r}
+
+
+is Gaussian with
+
+
+m_V(r)=C_r G_r^{-1}y_r,
+Sigma_V(r)=S_r-C_rG_r^{-1}C_r^T.
+
+
+All factors are continuous on a small compact interval including r=0; G_r^{-1} is uniformly bounded; y_r is bounded. Thus m_V and Sigma_V are uniformly bounded.
+
+
+A Gaussian vector with uniformly bounded mean and covariance has uniformly bounded moments of every fixed order. Singular covariance at r=0 causes no problem for moment boundedness.
+
+
+============================================================
+4. G1–G9 DECISIVE LEDGER
+============================================================
+
+
+G1 — EXACT FUNCTIONALS
+
+
+VERDICT: PASS.
+
+
+On the exact pin affine subspace, S_g=S_k=0, so the adjusted functionals equal precisely f_xx(M)/r, f_xx(S)/r, f_xy(M)/r, and f_xy(S)/r. No factor of two or sign error is present.
+
+
+Evidence aid: GP-DATA-181-v1.0 exact symbolic source.
+
+
+G2 — CONFLUENT LIMITS
+
+
+VERDICT: PASS.
+
+
+The exact Taylor expansions give
+
+
+A_M^0=-f_xxx/2=-1,
+A_S^0=+f_xxx/2=+1,
+B_M^0=-f_xxy/2=-a/2,
+B_S^0=+f_xxy/2=+a/2,
+D_M^0=D_S^0=Q_L.
+
+
+The conditioned f_xxx value is exactly 2 because L_5=2 under the prescribed pins and L_5 converges to f_xxx.
+
+
+G3 — COVARIANCE EXTENSION
+
+
+VERDICT: PASS.
+
+
+The required covariance entries are analytic divided differences of the exact periodized kernel. Each apparent singularity is removable. The blocks G_r,C_r,S_r extend continuously to r=0.
+
+
+No use of a planar covariance substitute is required.
+
+
+G4 — CONDITIONAL NONDEGENERACY AND MOMENTS
+
+
+VERDICT: PASS.
+
+
+The limiting six-pin Gram is positive definite by positive lattice spectral weights and polynomial independence. The pin-plus-q joint Gram is positive definite, so Q_L has positive conditional variance. Uniform invertibility of G_r follows by continuity. Uniform moments of V_r follow from bounded Gaussian means and covariance.
+
+
+Critical scope clarification: the entire V_0 covariance need not be positive definite and is not claimed to be.
+
+
+G5 — DETERMINANT AND TYPE LIMIT
+
+
+VERDICT: PASS.
+
+
+The exact Hessians are
+
+
+H_M=[[rA_M,rB_M],[rB_M,D_M]],
+H_S=[[rA_S,rB_S],[rB_S,D_S]].
+
+
+Therefore
+
+
+det H_M=r(A_MD_M-rB_M^2)=r Delta_M,
+det H_S=r(A_SD_S-rB_S^2)=r Delta_S.
+
+
+At r=0,
+
+
+Delta_M^0=-Q_L,
+Delta_S^0=+Q_L.
+
+
+If Q_L<0, then for small r:
+
+
+- A_M<0 and det H_M>0, so H_M is negative definite;
+- det H_S<0, so H_S has index one.
+
+
+If Q_L>0, the typed maximum-saddle combination fails. Since Q_L is a nondegenerate Gaussian, P(Q_L=0)=0.
+
+
+Thus the limiting type indicator is 1{Q_L<0} almost surely under the limiting law.
+
+
+G6 — WEAK CONVERGENCE
+
+
+VERDICT: PASS.
+
+
+Continuity of the conditional mean and covariance implies finite-dimensional convergence
+
+
+V_r => V_0.
+
+
+Define the normalized typed-weight map
+
+
+F_r(V)=|Delta_M(r)Delta_S(r)| I_type(r,V).
+
+
+The maps F_r converge to
+
+
+F_0(V_0)=Q_L^2 1{Q_L<0}
+
+
+at every point in the support of the limiting law except Q_L=0. That exceptional set has limiting probability zero. The extended continuous-mapping theorem therefore gives
+
+
+W_r^{exact}/r^2 => Q_L^2 1{Q_L<0}.
+
+
+Terminology note: statements such as “the indicators converge pointwise” should be interpreted through this extended continuous-mapping argument or through an explicitly constructed Skorokhod/continuous Gaussian coupling. Literal pointwise convergence across unrelated probability spaces is not required.
+
+
+This is an explanatory clarification, not a material defect in the frozen revision.
+
+
+G7 — UNIFORM INTEGRABILITY
+
+
+VERDICT: PASS.
+
+
+Write
+
+
+R_V=1+|A_M|+|A_S|+|B_M|+|B_S|+|D_M|+|D_S|.
+
+
+For 0<r<=1,
+
+
+|Delta_M|+|Delta_S| <= C R_V^2.
+
+
+Therefore
+
+
+(W_r^{exact}/r^2)^2
+<= |Delta_M Delta_S|^2
+<= C R_V^8.
+
+
+The exact conditional Gaussian family has uniformly bounded eighth moments, so
+
+
+sup_r E[(W_r^{exact}/r^2)^2]<infinity.
+
+
+Uniform L^2 boundedness implies uniform integrability in L^1.
+
+
+The eighth-moment bound is under the identical exact six-pin law; no finite-Q4 law is substituted.
+
+
+G8 — NORMALIZER LIMIT
+
+
+VERDICT: PASS.
+
+
+Convergence in distribution plus uniform integrability yields convergence of expectations:
+
+
+Z_r^{exact}/r^2
+=E[W_r^{exact}/r^2]
+->E[Q_L^2 1{Q_L<0}].
+
+
+The limit is finite because Q_L is Gaussian. It is strictly positive because a nondegenerate Gaussian assigns positive probability to (-infinity,0), and Q_L^2>0 except at the null point Q_L=0.
+
+
+Therefore there exist finite positive constants c_Z,C_Z and r_Z>0 such that
+
+
+c_Z r^2 <= Z_r^{exact} <= C_Z r^2
+
+
+for 0<r<=r_Z.
+
+
+G9 — OBJECT IDENTITY AND DIRECTIONS
+
+
+VERDICT: PASS.
+
+
+The Domain-G normalizer uses exact physical endpoint derivatives and exact full-field type indicators. The finite-Q4 normalizer is explicitly fenced off.
+
+
+The later P0.1 probability direction is correct. If on an exact event E_r subset A_r,
+
+
+W_r^{exact}>=r^2/4
+
+
+and
+
+
+Q_{6,r}(E_r)>=p_B/2,
+
+
+then
+
+
+E[W_r^{exact}1_{A_r}]
+>=E[W_r^{exact}1_{E_r}]
+>=r^2p_B/8.
+
+
+Using the upper normalizer bound
+
+
+Z_r^{exact}<=C_Zr^2
+
+
+gives
+
+
+P_r^{MS}(A_r)
+=E[W_r^{exact}1_{A_r}]/Z_r^{exact}
+>=p_B/(8C_Z)>0.
+
+
+A lower numerator bound and an upper denominator bound are the correct directions for a lower probability bound.
+
+
+============================================================
+5. COUNTEREXAMPLE AND FAILURE SEARCH
+============================================================
+
+
+The following candidate failure modes were tested conceptually:
+
+
+1. Raw-pin covariance degeneracy as r->0.
+Disposition: coordinate singularity removed by the invertible confluent frame.
+
+
+2. Q_L hidden in the span of conditioned pins.
+Disposition: false; y^2 is distinct from 1,x,x^2,y,xy,x^3, and positive spectral weights imply strict joint Gram positivity.
+
+
+3. Full endpoint covariance singularity invalidates moment control.
+Disposition: false; singularity is expected at the limit and does not prevent bounded Gaussian moments.
+
+
+4. Type boundary includes additional positive-probability surfaces.
+Disposition: at the limiting support A_M=-1 and A_S=+1 deterministically. The only surviving boundary is Q_L=0, a null event.
+
+
+5. Weak convergence insufficient for indicator convergence.
+Disposition: extended continuous mapping applies because the limiting discontinuity set is null.
+
+
+6. Eighth moments insufficient for uniform integrability.
+Disposition: false; the normalized weight squared is bounded by a degree-eight polynomial in V_r.
+
+
+7. Finite-Q4 normalizer silently substituted.
+Disposition: no substitution found in the frozen Domain-G chain.
+
+
+8. Ratio inequality reversed.
+Disposition: no; numerator lower / denominator upper is correct.
+
+
+============================================================
+6. MATERIAL-OBJECTION TABLE
+============================================================
+
+
+No CRITICAL, HIGH, or MEDIUM mathematical objection remains from this same-line audit.
+
+
+INFORMATIONAL-01 — Convergence wording
+
+
+Finding: “pointwise convergence” language can be misread across changing conditional probability spaces.
+Consequence: none if read through the explicit convergence-in-distribution and null-boundary argument.
+Minimal repair: future explanatory documents should state “extended continuous-mapping theorem” directly.
+Frozen-body change required: NO.
+
+
+INFORMATIONAL-02 — Covariance positivity scope
+
+
+Finding: reviewers may mistakenly demand positive definiteness of the entire limiting endpoint vector covariance.
+Consequence: unnecessary rejection risk.
+Clarification: only G_0 and the pin-plus-Q_L joint Gram need strict positivity. The endpoint vector covariance may be singular.
+Frozen-body change required: NO.
+
+
+============================================================
+7. EXACT VERDICT
+============================================================
+
+
+SAME-LINE ADVERSARIAL VERDICT:
+
+
+GP-DER-118 REVISION 1.3 FROZEN SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28 GAUSSIAN-PALM SUBCHAIN SURVIVES G1–G9 ATTACK.
+
+
+Evidence classification:
+
+
+- exact proof reconstruction: PASS SAME-LINE;
+- symbolic companion: PASS SAME-LINE;
+- frozen hash reconstruction: PASS;
+- material objection: NONE FOUND;
+- qualifying non-GP review: OPEN;
+- Domain G closure: NOT GRANTED;
+- P0.1 theorem promotion: PROHIBITED.
+
+
+============================================================
+8. DOWNSTREAM EFFECT
+============================================================
+
+
+This audit strengthens—but does not independently close—the following candidate implications:
+
+
+- exact full-field normalizer Z_r^{exact}=Theta(r^2);
+- exact determinant second-moment scaling;
+- typed-Palm high-derivative tail transfer;
+- P0.1 numerator/denominator cancellation;
+- later exact-field P0.2 probability estimates.
+
+
+Still open:
+
+
+- organizationally distinct Domain-G review under GP-REQ-179;
+- Domain-D common epsilon_* and exact branch-transfer review;
+- Domain-T GT5 and probability-synthesis review;
+- collective two-line frozen-hash gate;
+- operator theorem-promotion decision.
+
+
+No canonical theorem, machine, root, package seal, release, or destructive action follows.
+
+
+END GP-AUD-183-v1.0

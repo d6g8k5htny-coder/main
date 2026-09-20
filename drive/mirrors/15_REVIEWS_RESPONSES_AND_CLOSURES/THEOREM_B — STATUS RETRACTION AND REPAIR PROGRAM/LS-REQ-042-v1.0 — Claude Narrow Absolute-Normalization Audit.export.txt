@@ -1,0 +1,143 @@
+﻿EXECUTED — ABSOLUTE NORMALIZATION PASS — 2026-07-28
+
+
+This packet was executed as CL-AUD-LSDER075-20260728-01. Do not execute it again.
+
+
+Passed: Kac–Rice 1/6, lifetime Jacobian 6^(2/3)/3, composite nonduplication, LS-DER-050 recombination, and d=3 Bargmann–Fock closed form.
+
+
+The review's final pair-counting caveat is narrowed by prior external evidence: the d=2 convention was already passed in CL-AUD-S2DER010 and CL-AUD-LSDER030. The only remaining task is the dimension-independent d=3 crosswalk:
+LS-DER-076-v1.0 — https://docs.google.com/document/d/1xj8EYW_A-6Os8Dgs_gy4A05J7AGJS8cpuwXvL2DDQQQ/edit
+LS-REQ-043-v1.0 / DQ-109 — https://docs.google.com/document/d/1YJ6KPZajzMl3O9TMblr3T0oPHIdyB7TVFRukuspfpO8/edit
+
+
+[[LS-REQ-042:EXECUTED-PASS]] [[CONTROLLING-RESIDUAL:LS-REQ-043]]
+
+
+LS-REQ-042-v1.0 — CLAUDE NARROW ABSOLUTE-NORMALIZATION AUDIT
+
+
+Artifact ID: LS-REQ-042-v1.0
+Dispatch: DQ-107
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: REQ / ORGANIZATIONALLY DISTINCT NORMALIZATION AUDIT / EXACT CHANGE OF VARIABLES
+Authority: review routing only
+Independence credit created by packet: ZERO
+Canonical impact: NONE
+Status: READY FOR OPTIONAL ANTHROPIC EXECUTION
+BODY_BYTES: 2589
+BODY_SHA256: 87934396088dfbfd823c1b5e25e0fbfc9ab7e65fed39ec92b72e2d8c23d2cf6d
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSREQ042_FROZEN_BODY and strictly before the unique full line END_LSREQ042_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSREQ042_FROZEN_BODY
+CLAUDE NARROW ABSOLUTE-NORMALIZATION AUDIT
+
+
+ROLE
+
+
+You are the organizationally distinct normalization reviewer following CL-AUD-LSDER073V13-20260728-01.
+
+
+The selected side-24 coefficient, relative interval, and selected/all-typed identification are already closed at their reviewed scope. Do not reopen them. Review only the two absolute-normalization factors that the terminal verdict explicitly left as inherited imports.
+
+
+REVIEW OBJECT
+
+
+LS-DER-075-v1.0 — Exact Absolute-Normalization Factorization for the Cubic-Fold Persistence Coefficient
+Drive:
+https://docs.google.com/document/d/1wTwM9AaSmFtstiqjLaXUOaWiOvBFuOglqwbzsCTThoI/edit
+
+
+Frozen body: 5,584 bytes
+SHA-256 identity label:
+d18ad44ea3743fad5ff7a2ebbaa3c9329ea1f22a886a29d8543da3b826d00a60
+
+
+Exact symbolic support:
+
+
+LS-DATA-075A-v1.0
+https://docs.google.com/document/d/1fN1BHubZ7JbA3Hs-0YUMgxgVRhD3TUxXgwI6YCVMvtc/edit
+
+
+LS-DATA-075B-v1.0
+https://docs.google.com/document/d/1dwKW3iP98FE_AvFk_1IeKlCUHqKSp75fq9ecpcrDEaA/edit
+
+
+QUESTIONS
+
+
+N1. Cubic-gap Jacobian.
+
+
+Audit LS-DER-075 equations (1)--(5). Determine whether rewriting
+
+
+    h=b-kappa r^3/6
+
+
+from dh to d kappa contributes exactly r^3/6 and hence the scalar factor 1/6 after the r^3 power is separated. Check that no orientation, pair-order, branch, or Morse-index multiplicity is silently included.
+
+
+N2. Lifetime pushforward.
+
+
+Audit equations (6)--(11). Determine whether
+
+
+    ell=kappa r^3/6
+
+
+implies
+
+
+    r dr=(6^(2/3)/3)kappa^(-2/3)
+          ell^(-1/3)dell.
+
+
+Recompute it both by direct differentiation and by d ell/dr.
+
+
+N3. No double counting and recombination.
+
+
+Audit equations (12)--(21). Confirm:
+
+
+- J_0 already contains the factor 1/6;
+- the lifetime map does not add another 1/6;
+- the combined scalar is 6^(2/3)/18;
+- LS-DER-050 equations (19)--(20) follow exactly from its equations (16)--(18);
+- the d=3 Bargmann--Fock closed form is algebraically identical to LS-DER-047/050.
+
+
+OUTPUT — MAXIMUM 650 WORDS
+
+
+I. TERMINAL VERDICT — exactly one:
+
+
+- ABSOLUTE NORMALIZATION PASS
+- AMEND REQUIRED — earliest exact defect and minimal repair
+- REJECTED — fatal defect
+
+
+II. N1--N3 — PASS/FAIL with equation references.
+
+
+III. CITATION CONSEQUENCE — state whether the absolute numerical coefficient c_(3,24) is now externally closed at the same fixed-side reviewed scope as the selected-coefficient identification.
+
+
+IV. MINIMAL REPAIR — only if needed.
+
+
+Do not review general-d selection, other torus sides, infinite-volume persistence, directed rounding, canonical promotion, or exact hashes. Do not claim hash reproduction without raw marker extraction.
+END_LSREQ042_FROZEN_BODY

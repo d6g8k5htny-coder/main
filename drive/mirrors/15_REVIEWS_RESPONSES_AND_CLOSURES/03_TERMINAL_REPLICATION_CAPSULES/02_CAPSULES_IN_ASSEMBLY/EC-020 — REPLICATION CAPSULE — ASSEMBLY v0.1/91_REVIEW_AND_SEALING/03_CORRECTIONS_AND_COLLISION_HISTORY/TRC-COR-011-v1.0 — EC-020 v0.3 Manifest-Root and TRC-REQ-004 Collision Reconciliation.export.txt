@@ -1,0 +1,131 @@
+﻿SUPERSESSION NOTICE — TRC-COR-012 / TRC-REQ-006 — 2026-07-23
+This concurrent TRC-COR-011 record is preserved as same-line root analysis only. It does not select a governing root. Accepted root is NONE pending a qualifying non-author dual-root adjudication under TRC-REQ-006-v1.0, Drive ID 1rwQ3HCmzhnf3hl7Di1gHTodTqiLxXyUEbHeX3iE7sGM.
+[[SUPERSEDED-FOR-ACTIVE-ROUTING]] [[IDENTIFIER-COLLISION-PRESERVED]] [[ACCEPTED-ROOT:NONE]]
+
+
+TRC-COR-011-v1.0 — EC-020 v0.3 MANIFEST-ROOT AND TRC-REQ-004 COLLISION RECONCILIATION
+
+
+Artifact ID: TRC-COR-011-v1.0
+Author/reconciler line: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: COR / ROOT-DEFINITION / IDENTIFIER-COLLISION / REPLICATION-CAPSULE
+Authority: factual fail-closed reconciliation under TRC-STANDARD-001-v1.2
+Canonical mathematical impact: NONE
+Files deleted or trashed: 0
+
+
+[[OBJ:TRC-COR-011-v1.0]] [[CAPSULE:TRC-EC020-v0.3]] [[ROOT:f6d6ba39898b28cd4adfce8b30b7d3cafa71777a1f86d7399ca819273ea418da]] [[ALT-ROOT:7c323dc3-NONACTIVE]] [[COLLISION:TRC-REQ-004]] [[NO-SEAL]]
+
+
+1. TWO MANIFEST-ROOT LINES
+
+
+Concurrent GP execution produced two internally coherent but differently defined v0.3 manifest-root lines.
+
+
+A-LINE — exact stored-byte root
+
+
+Manifest Drive ID: 13MYz-tEDbEE5esUjaxKMWTBJwakV_xP8
+Raw MIME: application/json
+Stored bytes: 4,092
+Stored SHA-256: f6d6ba39898b28cd4adfce8b30b7d3cafa71777a1f86d7399ca819273ea418da
+Fresh raw round trip: PASS
+Receipt: TRC-VAL-007-v1.0, Drive ID 1GW6_0BXgywIn1C7KjnS4lqRlCY0IBNYkYt8HPiP0pPM
+
+
+B-LINE — post-download JSON reserialization root
+
+
+Manifest Drive ID: 1wsD4lEoKkEgoOAfY_-h-dvBfjuIf7irR
+Stored bytes: 9,409
+Stored SHA-256: 51fbe66c90335ee9b0c21b49964559c7b43b16d923fd17449455fb12c5834c1d
+Claimed canonical reserialization bytes: 9,407
+Claimed reserialization root: 7c323dc353b57f3e797db51bdb3ba7daf06a32c0e3ca4d6d8d83e5324f125981
+Receipt: former TRC-VAL-010-v1.0, Drive ID 1b08rheSf9b4VSbgEibN0HT-7xNOYjiR1KVyNH6mcRiY
+
+
+2. GOVERNING ROOT RULE
+
+
+TRC-STANDARD-001-v1.2 requires:
+
+
+- canonical bytes generated before upload;
+- expected byte count and SHA-256 computed before upload;
+- raw upload with conversion disabled;
+- fresh download of that exact Drive ID;
+- exact byte-count and exact hash equality;
+- manifest round-trip verification before dependent root/checksum/summary generation.
+
+
+The A-line follows that transaction directly: the bytes that were generated, uploaded, stored, downloaded, and hashed are the same 4,092 bytes.
+
+
+The B-line computes its claimed package root over a different post-download parse-and-reserialize representation that was not the exact raw byte stream uploaded to Drive. TRC-STANDARD-001-v1.2 does not authorize replacing the verified stored bytes with an unuploaded reserialization as the accepted root object.
+
+
+Therefore the active root is:
+
+
+f6d6ba39898b28cd4adfce8b30b7d3cafa71777a1f86d7399ca819273ea418da
+
+
+The 7c323dc3... line is retained as an alternate canonicalization experiment but receives no active root, validation, review, or sealing credit.
+
+
+3. ALT-LINE ROUTING
+
+
+The following alternate-root objects are preserved in 92_COLLISION_PROVENANCE — DO NOT COUNT AS PRIMARY:
+
+
+- manifest 1wsD4lEoKkEgoOAfY_-h-dvBfjuIf7irR, retitled NONACTIVE ALTERNATE MANIFEST;
+- checksums 1QbkVL1amKDec1iVo4L0sXM_JN719UIzz, retitled NONACTIVE ALTERNATE CHECKSUM SET;
+- root receipt 16EEhfyWrC3rv957N_FRUKWjNkDhB60cj, retitled NONACTIVE ALTERNATE ROOT RECEIPT;
+- validation summary 1SLP7j9p5LFOj-e1EGsIApXn8Y-nN3fVy, retitled NONACTIVE ALTERNATE VALIDATION SUMMARY;
+- TRC-VAL-010 Drive ID 1b08rheSf9b4VSbgEibN0HT-7xNOYjiR1KVyNH6mcRiY, retitled NONACTIVE ALTERNATE ROOT RECEIPT.
+
+
+No alternate object was deleted or overwritten.
+
+
+4. TRC-REQ-004 IDENTIFIER COLLISION
+
+
+Two documents concurrently claimed TRC-REQ-004-v1.0 and both requested review of the same f6d6ba39... root.
+
+
+Chronological A-line:
+- Drive ID: 1rAJJozvIgPTjbBf0XvFBPrjdy9BZOa_w7zWtp74-kLU
+- created first;
+- active root-specific review request.
+
+
+Later B-line:
+- Drive ID: 1slNxKAVA1_EpR9-a_LqJ08tVpFv2Qj3FcZJbUv8apbI
+- contains an expanded checklist;
+- preserved as TRC-REQ-004 COLLISION COPY B — ENHANCED ROOT REVIEW CHECKLIST — NONACTIVE PROVENANCE;
+- supplies supporting reviewer guidance but no second task, review count, vote, or authority.
+
+
+5. CURRENT STATUS
+
+
+Active manifest: 13MYz-tEDbEE5esUjaxKMWTBJwakV_xP8.
+Active root: f6d6ba39898b28cd4adfce8b30b7d3cafa71777a1f86d7399ca819273ea418da.
+GP package receipt: TRC-VAL-007-v1.0.
+Active review request: TRC-REQ-004-v1.0, Drive ID 1rAJJozvIgPTjbBf0XvFBPrjdy9BZOa_w7zWtp74-kLU.
+Capsule status: VALIDATION — NOT SEALED.
+Independent package verdict: OPEN.
+Closure Log capsule locator/root write: PROHIBITED until a qualifying APPROVE.
+
+
+6. SCOPE FIREWALL
+
+
+This correction resolves package identity and request routing only. It does not reapprove or alter EC-020 mathematics, manufacture a review, seal a capsule, create a model vote, activate automation, replace machine state, authorize external release, deletion, trashing, or destructive action.
+
+
+END TRC-COR-011-v1.0

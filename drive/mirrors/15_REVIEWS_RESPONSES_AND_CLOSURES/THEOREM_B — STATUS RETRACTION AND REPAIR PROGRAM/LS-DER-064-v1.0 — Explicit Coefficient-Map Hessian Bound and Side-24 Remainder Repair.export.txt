@@ -1,0 +1,363 @@
+﻿CURRENT LOW-BUDGET EXTERNAL REVIEW ROUTE — 2026-07-28
+
+
+This analytic-remainder theorem is now reviewed through the hardened closure ledger LS-DER-071 and the controlling two-gate packet LS-REQ-038 / DQ-099:
+https://docs.google.com/document/d/1KIDjxhpBsOK4Zexh9trMB32YJViRM3XdIKLZe9Qd8GQ/edit
+https://docs.google.com/document/d/18CJqwlk5TttMmOr1JhkWiWrDXmqj00AOp9ZgLnVg4kY/edit
+
+
+LS-REQ-037 and earlier packets are superseded. No external amendment PASS is claimed. The frozen theorem body remains unchanged.
+[[HARDENING:LS-DER-071]] [[CONTROLLING-REVIEW:LS-REQ-038]] [[DQ-099:READY]]
+
+
+CURRENT CONTROLLING EXTERNAL REVIEW — 2026-07-28
+
+
+LS-REQ-037-v1.0 / DQ-096 supersedes all earlier amendment packets and reviews this theorem together with the exact LS-DER-068 image-tail ledger:
+https://docs.google.com/document/d/1KGpfr5lWfTq7evVi2_inA0qIrA9TPnsu4GlBddRhsWo/edit
+Frozen body: 7,013 bytes / SHA-256 e5ae1b6d55539a7b5dd4b90e6e38a48b8402437bc7d7af9f5a884f163cf06737.
+
+
+No external PASS is claimed. The frozen theorem body remains unchanged.
+
+
+[[EXTERNAL-REVIEW:LS-REQ-037]] [[DQ-096:READY]]
+
+
+CURRENT IMAGE-TAIL SUCCESSOR AND REVIEW STATUS — 2026-07-28
+
+
+The nearest-image linearization assertion in this frozen theorem now has an exact Fraction-ledger successor:
+
+
+LS-DER-068-v1.0 — https://docs.google.com/document/d/1atWXw4HbMwvdZplVtDLaxwyDqJ_uRmH0TKuZU_r_t4c/edit
+Frozen body 5,527 bytes / SHA-256 c4a3ee8d80be6005c4e6d729d03855709520e97d526f46828438b37406e3adf2.
+It proves ||J_24-J_0-J_near^(1)||_max<10^(-230) and induced relative linear error <10^(-210), completing the same-family analytic assembly |epsilon_24|<10^(-180).
+
+
+Controlling external amendment packet: LS-REQ-036 / DQ-093.
+https://docs.google.com/document/d/1ozLVYf08I9cyxmprdm8J0F201SBeV-hN1Ma_UsCUXHo/edit
+
+
+The frozen LS-DER-064 body remains unchanged. External amendment review remains open.
+
+
+[[IMAGE-TAIL:LS-DER-068]] [[REMAINDER:1E-180-SAME-FAMILY]] [[EXTERNAL-REVIEW:DQ-093-OPEN]]
+
+
+LS-DER-064-v1.0 — EXPLICIT COEFFICIENT-MAP HESSIAN BOUND AND SIDE-24 ANALYTIC REMAINDER REPAIR
+
+
+Artifact ID: LS-DER-064-v1.0
+Dispatch: DQ-089
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / EXPLICIT MATRIX BOUNDS / COEFFICIENT HESSIAN / PERIODIZATION REMAINDER
+Authority: same-OpenAI-family analytic repair candidate informed by Anthropic review
+Organizational-independence credit: ZERO FOR THIS SUCCESSOR; TARGETED EXTERNAL AMENDMENT REVIEW REQUIRED
+Canonical impact: NONE
+Status: LS-DER-059 HESSIAN/REMAINDER DEFECT REPAIRED AT SAME-FAMILY CANDIDATE LEVEL
+BODY_BYTES: 7440
+BODY_SHA256: 686ce57ec30e752151d7f443a963fbb9b3beec7f12dd722d7e2bf5e61a8f2228
+
+
+CONTROLLING INPUTS
+CL-AUD-LSDER062-20260728-01 — Anthropic identification of the missing upper bound and compressed C2 argument.
+LS-DER-056-v1.0 — exact finite-L coefficient map.
+LS-DER-060-v1.0 — centered Gaussian-cone spectral collapse.
+LS-DER-062-v1.0 — rational relative interval formerly conditional on LS-DER-059.
+LS-DATA-064A-v1.0 — exact integer bound ledger, Drive ID 1ykJO0vlUMc0t9DS9dWybLvRo-weDRGY8UMTSiqZuX2o.
+LS-DATA-064B-v1.0 — bound result, Drive ID 147nvNLqasjCmwi-arjrK6eu9TGdMybDaNUnxruW8IUM.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER064_FROZEN_BODY and strictly before the unique full line END_LSDER064_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER064_FROZEN_BODY
+EXPLICIT COEFFICIENT-MAP HESSIAN BOUND AND SIDE-24 ANALYTIC REMAINDER REPAIR
+
+
+1. PURPOSE
+
+
+CL-AUD-LSDER062-20260728-01 correctly identified that LS-DER-059 equation (16) cited an upper covariance bound that was not stated and used a compressed C^2 argument. The numerical remainder conclusion survived by sixty-six orders, but the proof surface was incomplete.
+
+
+This successor supplies explicit upper and lower covariance bounds, derives a reproducible second-derivative ledger for the exact finite-dimensional coefficient map, and repairs the side-24 remainder theorem. It does not use the LS-DER-061 floating-point value to prove the bound.
+
+
+2. COEFFICIENT MAP
+
+
+Let J denote the complete even stationary covariance jet through order six at the origin. For t in S^2, let
+
+
+    Sigma_g(J,t), Sigma_h(J,t), sigma^2(J,t), Gamma(J,t)
+
+
+be the exact covariance and Schur-complement objects of LS-DER-056. Define
+
+
+    Phi(J)
+      =B_3 integral_(S^2)
+        [sigma^2(J,t)]^(2/3) D(Gamma(J,t))
+        /sqrt[det Sigma_g(J,t) det Sigma_h(J,t)] dt,          (1)
+
+
+where D is the centered two-by-two negative-definite determinant moment of LS-DER-060.
+
+
+At the planar Bargmann--Fock jet J_0,
+
+
+    Sigma_g=I_3,
+    Sigma_h=diag(3,1,1),
+    sigma^2=1/24,
+
+
+and Gamma has eigenvalues 1,2,10/3.
+
+
+3. EXPLICIT JET BALL
+
+
+Use the max norm on the coordinate entries of J and put
+
+
+    B={J:||J-J_0||_max<=10^(-110)}.                          (2)
+
+
+A covariance entry formed from directional derivatives through total order six is a contraction of J with total l1 coefficient at most
+
+
+    3^6=729.                                                 (3)
+
+
+For a three-by-three covariance matrix, the corresponding operator perturbation is therefore at most
+
+
+    3*729*10^(-110)<10^(-106).                              (4)
+
+
+The raw covariances and cross-covariances at J_0 have entries of magnitude at most 15. Equations (3)--(4), ordinary Weyl perturbation, and the Schur formulas imply throughout B, uniformly in t,
+
+
+    1/2 I <=Sigma_g<=4I,
+    1/2 I <=Sigma_h<=4I,
+    1/48 <=sigma^2<=1/12,
+    1/2 I <=Gamma<=4I.                                      (5)
+
+
+The upper bounds in (5) are the bounds missing from LS-DER-059. They are deliberately loose by more than one hundred orders relative to the actual side-24 perturbation.
+
+
+4. MATRIX-DERIVATIVE LEDGER
+
+
+Let H be a jet direction with ||H||_max<=1. From (3), every covariance-matrix first variation has operator norm at most
+
+
+    L=3*729=2187.                                            (6)
+
+
+On (5), inverse norms are at most two. Hence
+
+
+    ||d(A^(-1))||<=2^2 L=8748,                              (7)
+
+
+and, since the covariance blocks depend linearly on J,
+
+
+    ||d^2(A^(-1))||
+      <=2*2^3 L^2
+      =76527504.                                             (8)
+
+
+For either Schur complement sigma^2 or Gamma, direct product differentiation using cross-covariance operator norm at most 48 gives
+
+
+    ||d sigma^2||, ||d Gamma|| <3*10^7,
+    ||d^2 sigma^2||, ||d^2 Gamma|| <2*10^11.                (9)
+
+
+LS-DATA-064A records the complete integer ledger producing (7)--(9).
+
+
+5. CONE-MOMENT DERIVATIVES
+
+
+Use the Gaussian-integral definition
+
+
+    D(Gamma)
+      =integral_(Q<0)(det Q)^2 phi_Gamma(q)dq.               (10)
+
+
+The cone is fixed and its boundary has Gaussian measure zero. On (5), differentiation under the integral is justified by Gaussian moments. Since
+
+
+    |det Q|<=||q||^2,                                       (11)
+
+
+and lambda_max(Gamma)<=4,
+
+
+    E||q||^4<=240,
+    E||q||^6<=6720,
+    E||q||^8<=241920.                                       (12)
+
+
+For covariance directions of operator norm at most one, differentiating the Gaussian density yields the explicit bounds
+
+
+    |D|<=240,
+    ||D'_(Gamma)||<2*10^4,
+    ||D''_(Gamma)||<2*10^6.                                 (13)
+
+
+Combining (9) and (13),
+
+
+    ||d D(Gamma(J,t))||<10^12,
+    ||d^2 D(Gamma(J,t))||<3*10^21.                          (14)
+
+
+This also gives a direct analytic proof of the coefficient map without relying on a measure-zero-boundary sketch alone.
+
+
+6. DETERMINANT AND FRACTIONAL-POWER FACTORS
+
+
+Put
+
+
+    f=[det Sigma_g det Sigma_h]^(-1/2),
+    g=(sigma^2)^(2/3).                                      (15)
+
+
+From (5)--(9) and d log det A=tr(A^(-1)dA),
+
+
+    |f|<=8,
+    ||df||<2*10^5,
+    ||d^2f||<3*10^9,                                       (16)
+
+
+and elementary differentiation of x^(2/3) on [1/48,1/12] gives
+
+
+    |g|<=1,
+    ||dg||<10^8,
+    ||d^2g||<5*10^16.                                      (17)
+
+
+Product differentiation of g f D, using (13)--(17), yields uniformly in t
+
+
+    ||d^2[g f D]||<3*10^22.                                 (18)
+
+
+Since |S^2|<13 and B_3<1,
+
+
+    sup_(J in B)||D^2 Phi(J)||_(max to absolute)
+      <1.2*10^24
+      <10^40.                                                (19)
+
+
+LS-DATA-064A evaluates the conservative ledger exactly with integers and reports
+
+
+    113577007477679179499520
+
+
+as the pre-rounded bound in (19).
+
+
+Because c_(3,infinity)>1/25, the relative map Phi/Phi(J_0) satisfies
+
+
+    sup_(J in B)||D^2[Phi/Phi(J_0)]||<10^42.                 (20)
+
+
+7. SIDE-24 APPLICATION
+
+
+For the normalized side-24 cubic periodized Bargmann--Fock covariance, the explicit Hermite image-tail estimate gives
+
+
+    ||J_24-J_0||_max<10^(-113).                              (21)
+
+
+Taylor's theorem and (20) give the relative quadratic response
+
+
+    |R_quad|
+      <=(1/2)10^42(10^(-113))^2
+      <5*10^(-185).                                         (22)
+
+
+The exact six-nearest-image linear term is
+
+
+    P_3(24)e^(-288),
+    P_3(24)=-620813376/35.                                  (23)
+
+
+The difference between the exact jet perturbation and its six-image first-order jet is below 10^(-230). The first-derivative bounds implicit in the ledger put its induced relative coefficient error below 10^(-210). The next lattice shell and normalization corrections are smaller still.
+
+
+Therefore
+
+
+    [c_(3,24)-c_(3,infinity)]/c_(3,infinity)
+      =P_3(24)e^(-288)+epsilon_24,                           (24)
+
+
+with the repaired analytic bound
+
+
+    |epsilon_24|<10^(-180).                                 (25)
+
+
+In particular, the weaker LS-DER-059 bound |epsilon_24|<10^(-170) is proved with ten orders of additional analytic margin.
+
+
+8. CONSEQUENCES
+
+
+The exact rational interval construction in LS-DER-062 may now use (25) rather than the formerly under-documented LS-DER-059 estimate. Replacing 10^(-170) by 10^(-180) narrows its full relative interval by ten orders.
+
+
+The precision-corrected deterministic value of LS-DER-063 lies inside the repaired interval. That agreement is a check, not an input to this proof.
+
+
+9. SCOPE
+
+
+Established at same-family analytic-candidate level:
+
+
+- explicit upper and lower covariance bounds on the side-24 jet ball;
+- coefficient-map C^2 regularity;
+- reproducible derivative bounds;
+- a repaired relative Hessian bound;
+- the side-24 analytic remainder |epsilon_24|<10^(-180).
+
+
+Not established here:
+
+
+- directed-rounding evaluation of the full nonlinear quadrature;
+- the LS-DER-053 planar-to-periodized elder-selection transfer;
+- organizationally distinct review of this repair;
+- limit interchange, infinite-volume persistence, or canonical promotion.
+
+
+FINAL STATUS
+
+
+LS-DER-059 HESSIAN/REMAINDER DEFECT REPAIRED AT SAME-FAMILY CANDIDATE LEVEL; DQ-089 COMPLETE; TARGETED EXTERNAL AMENDMENT REVIEW REQUIRED.
+END_LSDER064_FROZEN_BODY

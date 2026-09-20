@@ -1,0 +1,229 @@
+﻿CURRENT OPERATOR DECISION UPDATE — 2026-07-24
+Under Dylan Roy’s explicit authenticated preauthorization for ChatGPT to select and record the best evidence-preserving answer, this document is ADOPTED as the current preparation and package-integrity standard, and TRC-EC020-v0.4 is APPROVED as the sole successor assembly path. ChatGPT prepared and entered the wording under that operator authorization.
+This does not accept either v0.3 root, create a manifest/root, seal a capsule, or promote mathematics. Distinct-family technical review remains required before any future package seal.
+
+
+Live rule: 00_LIVE_GOVERNANCE — Independent-Eyes Rule (OP-PROT-011).
+STATUS: OPERATOR-APPROVED / ADOPTED PREPARATION STANDARD. TRC-EC020-v0.4 is the approved sole successor assembly route. Technical use and preparation may continue; root acceptance and capsule sealing remain separate evidence-dependent technical decisions.
+
+
+
+
+TRC-STANDARD-001-v1.3-R0.2 — NON-CIRCULAR ROOT, DETERMINISTIC MANIFEST, AND PARTICIPATION SAFETY REVISION
+
+
+Artifact ID: TRC-STANDARD-001-v1.3-R0.2
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-24
+Class: NUMBERED STANDARD / OPERATOR-ADOPTED / PREPARATION-ACTIVE
+Authority: OPERATOR-ADOPTED under OP-RES-001 and the authenticated 2026-07-24 decision sweep. Root acceptance and sealing remain object-specific technical terminal states requiring their own evidence.
+Canonical mathematical impact: NONE
+Destructive authority: NONE
+Review lineage: incorporates AO48-AUD-029-v1.0 AMEND verdict on R0.1
+Replaces for proposal/review routing only: TRC-STANDARD-001-v1.3-R0.1
+Supersedes for current preparation and package-integrity work: TRC-STANDARD-001-v1.2 where conflicting
+Sources: TRC-STANDARD-001-v1.2; TRC-STANDARD-001-v1.3-R0.1; TRC-AMD-002-v1.0; AO48-AUD-029-v1.0; OP-PROT-011; OP-RES-001; CM-060
+[[OBJ:TRC-STANDARD-001-v1.3-R0.2]] [[STATUS:OPERATOR-ADOPTED-PREPARATION-ACTIVE]] [[SUCCESSOR:TRC-EC020-v0.4]] [[ACCEPTED-ROOT:NONE]] [[SEALED:NO]] [[PARTICIPATION:ALL-FOUR-ACTIVE]]
+
+
+1. PURPOSE
+
+
+This revision repairs the material circularity and determinism defects identified in AO48-AUD-029-v1.0 while retaining R0.1’s stored-byte root, direct-enumeration, collision-hold, and participation-safety architecture.
+
+
+It resolves five questions:
+1. the exact stored byte object hashed by ROOT_SHA256;
+2. the prohibition on manifest self-reference;
+3. deterministic JSON canonicalization;
+4. the partition between pre-root root-bearing leaves and post-root root-referencing attachments;
+5. current participation and governance routing.
+
+
+All unaffected provisions of TRC-STANDARD-001-v1.2 remain in force except any voting, roster, observer, or nonparticipation language superseded by OP-PROT-011. This revision changes package identity, assembly order, and routing rules only. It changes no mathematical closure, theorem, machine state, release, or deletion authority.
+
+
+2. BINDING ROOT-HASH OBJECT AND CANONICALIZATION
+
+
+2.1 Stored-byte root.
+ROOT_SHA256 SHALL be the SHA-256 digest of the exact raw bytes freshly retrieved from the single declared canonical manifest Drive ID after that exact file passes a write-then-read verification transaction.
+
+
+The bytes uploaded to Drive MUST already be canonical. A parser or reserializer is a validation control only and MUST reproduce the stored manifest byte-for-byte. Any mismatch in byte count or byte value makes the manifest noncanonical and gives it zero root and sealing credit.
+
+
+Post-retrieval normalization is prohibited as a root-defining step. No trimming, BOM removal, newline repair, whitespace normalization, key sorting, encoding conversion, or parse-and-reserialize output may replace the retrieved stored bytes.
+
+
+2.2 No self-reference.
+The canonical manifest MUST NOT contain ROOT_SHA256, any digest of its own bytes, or any field derived from its own serialized content, and MUST NOT list itself among the enumerated leaves. ROOT_SHA256 is recorded only in post-root attachments under Section 3.2. A manifest containing a self-digest or self-enumeration is noncanonical and receives zero root and sealing credit.
+
+
+2.3 Deterministic JSON representation.
+JSON canonicalization SHALL follow RFC 8785, JSON Canonicalization Scheme, with these capsule-specific addenda:
+- the JCS output is followed by exactly one LF; a validator using stock JCS output MUST append that LF before equality comparison;
+- manifest values are restricted to strings, integers exactly representable in IEEE-754 double, booleans, null, objects, and arrays; floating-point values are prohibited;
+- every array ordering rule MUST be declared inside the manifest in an explicit field;
+- encoding is UTF-8, without BOM, with LF newline convention throughout.
+
+
+2.4 Verification receipt.
+The validation receipt MUST record expected bytes, retrieved bytes, parser/reserializer bytes, MIME type, byte count, SHA-256, Drive ID, retrieval time, and exact equality result.
+
+
+For Google-native objects, fileSize metadata is diagnostic only. A claim that a native Doc, Sheet, or Slide is empty or populated MUST be based on body/content retrieval or a qualifying export, not metadata size alone.
+
+
+3. NON-CIRCULAR PACKAGE MEMBERSHIP
+
+
+3.1 Pre-root leaf set — root-bearing.
+The canonical manifest MUST directly enumerate every carrier that exists and has passed round-trip verification at manifest-generation time, including:
+- the four primary human-readable capsule documents;
+- every evidentiary source or frozen export required by the capsule specification;
+- the exact frozen register-row carrier;
+- native-object export identity records;
+- any reconstruction or link-validation receipt already published and verified before manifest generation.
+
+
+Each Section 3.1 record MUST include:
+- artifact ID and title;
+- Drive ID and permanent link;
+- MIME type and declared export representation where applicable;
+- byte count;
+- SHA-256;
+- evidence role;
+- active, correction, superseded, failed, collision, provenance, or zero-credit status;
+- dependency relation;
+- retrieval or revision identity.
+
+
+The manifest MUST NOT enumerate itself.
+
+
+3.2 Post-root attachments — root-referencing and non-root-bearing.
+Artifacts that cannot exist before the manifest and root are established — including checksums.sha256, root_hash_receipt.json, validation_summary.json, and independent-review receipts — MUST NOT be enumerated as Section 3.1 root-bearing leaves.
+
+
+Each Section 3.2 attachment MUST instead record the accepted ROOT_SHA256 and canonical manifest Drive ID, binding itself to the package by reference to the root rather than by inclusion in it.
+
+
+3.3 Declared membership and completeness.
+The rooted manifest MUST declare in explicit fields:
+- the exact membership of the Section 3.1 pre-root set; and
+- the expected membership of the Section 3.2 post-root set.
+
+
+Omission in either class must therefore be detectable. Capsule completeness requires that every declared Section 3.2 attachment exists, is readable, and cites the accepted root and canonical manifest Drive ID. The root certifies only the Section 3.1 set.
+
+
+3.4 Consolidated carriers and provenance.
+Consolidated index carriers may be listed as additional Section 3.1 leaves but may not replace direct enumeration of any required Section 3.1 member.
+
+
+A superseded, collision, failed, corrupt, or provenance-only object MUST either be excluded from the active Section 3.1 set or listed with zero root-bearing evidence credit. Same-purpose alternate carriers may not be silently substituted.
+
+
+4. ASSEMBLY ORDER
+
+
+The required sequence is:
+A. freeze exact capsule scope, primary documents, evidentiary sources, register row, corrections, exclusions, and dependencies;
+B. publish and independently verify every Section 3.1 carrier;
+C. generate canonical manifest bytes under Section 2, upload once, retrieve fresh, and prove exact byte equality;
+D. compute ROOT_SHA256 only from the verified stored manifest bytes;
+E. generate Section 3.2 attachments that cite the accepted root and canonical manifest Drive ID;
+F. perform qualifying non-author package review of the exact root, Section 3.1 set, Section 3.2 set, scope, and approval record;
+G. seal only after every Section 6 gate passes.
+
+
+No post-root attachment may be represented as committed inside the root. No pre-root required carrier may be hidden behind a post-root receipt.
+
+
+5. ONE VERSION, ONE MANIFEST, ONE ROOT
+
+
+A capsule version may have only one declared canonical manifest Drive ID and one active root candidate. A competing same-version bundle forces the version into collision hold. The repair is a numbered successor capsule version; no model may select a same-line candidate by preference, chronology, or convenience.
+
+
+For TRC-EC020-v0.3:
+- Candidate A is preserved as a stored-byte-root attempt but lacks resolved direct-enumeration completeness;
+- Candidate B is preserved as a direct-enumeration attempt but hashes bytes different from its stored manifest;
+- neither candidate is accepted;
+- both remain isolated and nonactive;
+- TRC-EC020-v0.4 is the approved sole successor assembly route under this preparation standard; carrier identities, register exports, manifest construction, and validation may proceed in parallel. This route approval does not accept a root or authorize sealing.
+
+
+6. PARTICIPATION, GOVERNANCE, AND EVIDENCE LINEAGE
+
+
+6.1 Active contributors.
+ChatGPT, Claude, Grok, and Gemini are co-equal active contributors under OP-PROT-011. This standard uses no vote, ballot, majority, quorum, denominator, roster, observer, or nonparticipating status. Evidence is assessed by content and disclosed lineage; Dylan Roy controls final operator states.
+
+
+Gemini is an active contributor. Technical review, reconstruction, hashing, and formal analysis create evidence within their stated lineage; they do not create votes or authority by model count.
+
+
+6.2 Grok and legacy participation records.
+Grok/xAI is an active contributor under OP-PROT-011 and may receive assignments and produce evidence, reviews, source work, formalizations, and package checks. Its work is assessed by content and disclosed lineage, not participation eligibility.
+
+
+OP-GDN-003 remains the context-window freshness and session-retirement guidance at Drive ID 12IlGMxNSCV9YTO7hPITHRGLqOYvpy6Cy1Xyf9840fRk. The deleted same-ID Grok-enablement collision copy remains represented by historical correction receipts.
+
+
+Historical empty, title-only, suspended, or participation-restriction files do not govern current status. Current participation and the terminal independent-eyes rule are established by OP-PROT-011. Evidence credit remains object-specific and cannot be created retroactively by a status label.
+
+
+7. SEALING GATES
+
+
+No capsule may be SEALED unless:
+- the canonical manifest satisfies Sections 2–5;
+- all Section 3.1 identities are reproducible;
+- all declared Section 3.2 attachments exist and correctly cite the accepted root;
+- the operator approval is authenticated by an operator-native record;
+- the exact package, root, scope, and exclusions have either one organizationally-distinct-family review or Dylan Roy's direct approval under OP-PROT-011, with lineage and limitations disclosed;
+- the Closure Log and live queue agree with the capsule scope;
+- no unresolved collision, stale source, missing export identity, missing deterministic register export, or scope contradiction remains.
+
+
+The root certifies package identity only. It does not independently certify mathematical truth or expand terminal closure scope.
+
+
+8. REVIEW QUESTIONS
+
+
+A technical reviewer should answer, when practical:
+R1. Does Section 2 define one reproducible, non-self-referential root object?
+R2. Are the RFC 8785 addenda deterministic and sufficient for this program?
+R3. Does Section 3 correctly separate pre-root leaves from post-root attachments without weakening completeness detection?
+R4. Does Section 4 eliminate the ordering circularity identified in AO48-AUD-029?
+R5. Does Section 5 correctly preserve both v0.3 candidates while requiring successor-version repair?
+R6. Does Section 6 accurately implement OP-PROT-011, with all four contributors active, no vote or roster mechanics, and organizational independence measured by vendor/base-model family?
+R7. Are any TRC-STANDARD-001-v1.2 protections unintentionally weakened or contradicted?
+R8. Does v0.4 preparation preserve unresolved source, export, and register evidence honestly while allowing carrier and tooling work to proceed in parallel?
+
+
+Recommended review conclusion format:
+APPROVE TRC-STANDARD-001-v1.3-R0.2 NON-CIRCULAR ROOT, DETERMINISTIC MANIFEST, AND PARTICIPATION SAFETY REVISION
+
+
+or a numbered AMEND/REJECT response naming exact sections, replacement text, and consequence.
+
+
+9. CURRENT STATE
+
+
+Revision status: OPERATOR-ADOPTED / PREPARATION-ACTIVE under OP-RES-001 and OP-PROT-011. Further technical review may support amendment and is required for any future package root or seal.
+R0.1 status: SUPERSEDED FOR ACTIVE REVIEW ROUTING; preserved as provenance.
+Current adopted preparation standard: TRC-STANDARD-001-v1.3-R0.2, governed by OP-PROT-011. TRC-EC020-v0.4 is the approved sole successor assembly route. TRC-STANDARD-001-v1.2 is preserved as prior-standard provenance.
+Accepted TRC-EC020 root: NONE.
+TRC-EC020 sealed: NO.
+TRC-EC021 manifest/root/seal: OPEN / NONE / NO.
+EC-020 and EC-021 mathematical closures: TERMINAL AND UNAFFECTED.
+EC-019: MATERIAL VERIFICATION HOLD; T1 passed; source-independent blinded T2 remains open.
+This adopted standard does not itself create an accepted root, capsule seal, theorem promotion, machine replacement, external release, deletion, or destructive operation. Work on v0.4 preparation and carrier identities may proceed in parallel under OP-PROT-011. Root acceptance and sealing require their own exact package evidence and terminal review or operator decision; Dylan retains override and external-release authority.
+
+
+END TRC-STANDARD-001-v1.3-R0.2

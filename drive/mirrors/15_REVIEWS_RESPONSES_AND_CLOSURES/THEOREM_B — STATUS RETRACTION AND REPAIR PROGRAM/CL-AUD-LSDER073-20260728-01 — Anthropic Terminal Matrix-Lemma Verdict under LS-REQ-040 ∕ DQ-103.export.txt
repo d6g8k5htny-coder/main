@@ -1,0 +1,73 @@
+﻿CURRENT SUCCESSOR ROUTE — 2026-07-28
+
+
+This Anthropic verdict remains AMEND REQUIRED. Its sole defect—the uncontrolled anisotropic term -(1/2)Y^T T Y in the Euclidean strip—is addressed by:
+
+
+LS-DER-073-v1.3 — https://docs.google.com/document/d/1siKfXIjfckIeX16VWTfnuehafjsmDzVHoIY5jcONX6M/edit
+Frozen body 8,558 bytes / SHA-256 c9c5bf657e8e2fc5c71a0f870afd8a8c486daa89b8445c746f0f39257402d0bc.
+
+
+Terminal review:
+LS-REQ-041-v1.0 / DQ-105 — https://docs.google.com/document/d/1af-jtraSI6GdT5bpB2kgE7h7W0LuTXpIWxo1_Fs-iSA/edit
+
+
+No successor PASS or selected-persistence closure is claimed until DQ-105 returns. Original verdict body below is preserved unchanged.
+[[M1:PASS]] [[M2:SUCCESSOR-REVIEW-OPEN]] [[M3:PASS]] [[M4:PASS]] [[CONTROLLING:LS-REQ-041]]
+
+
+CL-AUD-LSDER073-20260728-01 — ANTHROPIC TERMINAL MATRIX-LEMMA VERDICT UNDER LS-REQ-040 / DQ-103
+
+
+Reviewer: Claude, Anthropic, model claude-opus-5, Cowork session.
+Executed: LS-REQ-040-v1.0 / DQ-103 only. Objects: LS-DER-073-v1.2 and LS-DATA-073A/B-v1.2. v1.0 and v1.1 not opened. Gate A, B1, B3 not reopened. No raw-byte access, so no hash reproduction is claimed.
+
+
+I. TERMINAL VERDICT
+
+
+AMEND REQUIRED — the sole defect is LS-DER-073-v1.2 equation (20): the level bracket omits the term -(1/2)Y^T T Y, whose size on the Euclidean strip |Y|&lt;=m is 2R^2 lambda_max(T)/tau^2 and is not controlled by R, tau, K or epsilon_0. (21) therefore does not follow.
+
+
+II. M1-M5
+
+
+M1 — PASS. (7)-(8) are the correct gradients of (1). At S the blocks are A=1+O(rR), B=a/2+O(rR), D=-T+W/2+O(rR); rR&lt;=rR^5&lt;=epsilon_0 gives A&gt;=3/4, and tau&gt;=2R gives D&lt;=-(tau/2)I with |B|&lt;=R, so (10) holds. Haynsworth inertia additivity on [[A,B^T],[B,D]] with D&lt;0 and A-B^T D^(-1) B &gt;= A &gt; 0 gives exactly one positive eigenvalue, so the endpoint inertia is one-positive/two-negative as claimed. (11) is correct: (lambda_+ I-D)v_Y=Bv_X with lambda_+I-D &gt;= (lambda_++tau/2)I gives |v_Y|/|v_X| &lt;= R/(lambda_++tau/2) &lt; 2R/tau = m. tau&gt;=2KR^5 gives m&lt;=1/(KR^4)&lt;=1/K. Q(M)=Q(S)=0 and grad Q(M)=grad Q(S)=0 are used correctly: convexity of D^+ and the C^2 bound give |grad Q|&lt;=2R(xi+|Y|) in the cone, and in the tube min(|X+1/2|,|1/2-X|)&lt;=2h(X) yields |grad Q|&lt;=(2+m)Rh&lt;=3Rh, which is (23).
+
+
+M2 — FAIL at (20). Everything up to (19) checks. (13): the leading term is xi(1+xi) and the adverse sum is 257/(512K)+3eps+1/(2K^2)=1.233e-4, so F_X&gt;=3xi/4. (14) is the correct flux identity for G_out=|Y|^2-m^2xi^2. On |Y|=mxi the T term is exactly -tau m^2 xi^2 = -(4R^2/tau)xi^2, and I reproduced each entry of the adverse bracket 257/256+2/K+1/K^2+6eps=1.00440&lt;2, so (15) holds; -m^2 xi F_X&lt;=0 by (13). (17): 4-(21/16+5/(2K)+1/K^2+2eps)=2.687&gt;2. (18): 640/K+256/K^2+1/(2K)=0.15639, so F_X&gt;=3delta/4; the R^3 in delta cancels correctly in all three entries. (19): p_0(5/4)=49/192 exactly. Every LS-DATA-073A/B-v1.2 bracket reproduces exactly in Fraction arithmetic, and 49/192-1/768=65/256&gt;1/4.
+
+
+The failure is completeness, not arithmetic. (20) claims to bound "every Y-dependent term", and its four entries are the a-term 21/(32K), the W and C terms 1/K^2, the rQ term 3eps, and the path-integral perturbation 3/8192. The quadratic term -(1/2)Y^T T Y of (1) is absent, and the ledger — which only re-adds the displayed numbers — cannot detect that. On |Y|=m its magnitude is (1/2)lambda_max(T)m^2 = 2R^2 lambda_max(T)/tau^2. R in (2) contains a, W, C and Q but not T, and (5) constrains only tau=lambda_min(T) from below, so lambda_max(T) is unbounded in the hypotheses.
+
+
+This is not a corner case in the application. With T=-Q_perp/(kappa r), the deep event (5) admits lambda_min(-Q_perp) as small as 2KR^5 kappa r while lambda_max(-Q_perp)=O(1), so lambda_max(T)~1/(kappa r). Taking R=kappa=Lambda=1 and tau at its floor, (1/2)lambda_max(T)m^2 = 1/(2 kappa r K^2 R^8): about 0.030 at r=1e-6, 2.98 at r=1e-8, 298 at r=1e-10. It exceeds p_0(5/4)=49/192 for all r below about 1.2e-7, which is precisely the regime the lemma is for. So (21) fails on a reachable part of the declared good event, and conclusion (ii) of Theorem 8.1 is unproved.
+
+
+The conclusion is very likely true: the transverse dynamics drive Y toward T^(-1) times the a-forcing, where Y^T T Y is of order R^2/tau, not lambda_max(T)m^2. The Euclidean cylinder is simply the wrong region to read the level off.
+
+
+M3 — PASS. (22) is a valid invariant tapered tube. (25) is exact: with h'=-2X, (1/2)dG_in/dt = Y·F_Y + 2m^2 X h F_X, so the moving-boundary term is adverse only for X&lt;0, and |F_X|&lt;=2h bounds it by 4/K in units of (R^2/tau)h^2 — the 4/K entry in the bracket. I reproduced the other entries: 1 (a-term), 1/K (W), 1/(4K^2) (C), 6eps (Q); total 1.00122&lt;2 against the dominant 4, giving (26). (24) holds with adverse 1/(2K)+1/(2K^2)+3eps. Monotone X with h(X_infinity)&gt;0 contradicting (24) forces X-&gt;-1/2, and |Y|&lt;=m h(X)-&gt;0, so the branch converges to M with no separate capture-ball handoff. None of this uses lambda_max(T).
+
+
+M4 — PASS. F_exact-F vanishes at M and S, so the C^1 bound gives a distance-weighted perturbation; substituted into (14) and (25) it costs about 2/8192 against margins of 2, far under a quarter. eta_R=delta/16 exactly, so it costs delta/16 against the 3delta/4 margin of (18) and m eta_R against the 2(R^2/tau) margin of (17). The path error to X=5/4 is under 3eta_R and is the 3/8192 entry. (29) is correct: rR^5&lt;=epsilon_0 gives R^3&lt;=(eps_0/r)^(3/5), hence eta_R&gt;=(1/8192)(r/eps_0)^(3/5), and C_+ r &lt;= eta_R whenever r &lt;= [1/(8192 C_+ eps_0^(3/5))]^(5/2). One fixed positive r_mat exists.
+
+
+M5 — NOT REACHED. M2 fails, so (31)-(32) and the selected-coefficient identification are not externally closed.
+
+
+III. CITATION SCOPE
+
+
+(a) analytic rational relative interval — closed, unchanged from CL-AUD-LSDER071.
+(b) local all-typed side-24 coefficient — closed, unchanged.
+(c) selected side-24 persistence coefficient — still not closed; one bracket entry away.
+
+
+IV. MINIMAL REPAIR
+
+
+Replace the Euclidean cylinder in S_out (and correspondingly the cone and tube radii) by the T-adapted region {|TY|&lt;=R}. Carrying G=|TY|^2 gives (1/2)dG/dt &lt;= -|TY|^2[1-(5/4)R/tau-...] + |TY|R(21/32+r), negative for |TY|&gt;(3/4)R, so the region is invariant; it satisfies |Y|&lt;=|TY|/tau&lt;=m/2 and so sits inside every existing inequality unchanged. It yields Y^T T Y &lt;= |TY|^2/tau &lt;= R^2/tau &lt;= 1/(2KR^3) directly from lambda_min alone. Adding the resulting level entry 1/(4K)=6.10e-5 gives LEVEL_ADVERSE = 5.88e-4 &lt; 1/768, so (20)-(21) close with the same constants. Add the entry to LS-DATA-073A.
+
+
+END CL-AUD-LSDER073-20260728-01

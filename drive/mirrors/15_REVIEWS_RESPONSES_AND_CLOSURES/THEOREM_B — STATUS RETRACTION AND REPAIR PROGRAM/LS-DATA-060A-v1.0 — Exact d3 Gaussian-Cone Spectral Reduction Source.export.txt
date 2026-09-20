@@ -1,0 +1,111 @@
+﻿LS-DATA-060A-v1.0 — EXACT d3 GAUSSIAN-CONE SPECTRAL REDUCTION SOURCE
+
+
+Artifact ID: LS-DATA-060A-v1.0
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DATA / SYMBOLIC SOURCE / EXACT CONE INTEGRATION / HIGH-PRECISION CROSS-CHECK
+Authority: executable support only
+Canonical impact: NONE
+BODY_BYTES: 2568
+BODY_SHA256: dfe7b8888c964e553b668e8d7e7ed0191da383610472aecf8e03f4356077933c
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDATA060A_FROZEN_BODY and strictly before the unique full line END_LSDATA060A_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDATA060A_FROZEN_BODY
+import sympy as sp
+import mpmath as mp
+
+
+mp.mp.dps = 80
+
+
+lam, h = sp.symbols("lam h", positive=True)
+a = sp.sqrt(h/(lam+h))
+
+
+# Direct cap integral over x=cos(theta), including both caps.
+F_direct = 2*sp.integrate(((lam+h)*sp.Symbol("x")**2-h)**2,
+                         (sp.Symbol("x"), a, 1))
+F_closed = sp.Rational(2,15)*(
+    3*lam**2 - 4*lam*h + 8*h**2
+    - 8*h**sp.Rational(5,2)/sp.sqrt(lam+h)
+)
+assert sp.simplify(F_direct-F_closed) == 0
+
+
+# Planar Bargmann-Fock conditional covariance in q=(Q11,Q12,Q22).
+Gamma0 = sp.Matrix([
+    [sp.Rational(8,3), 0, sp.Rational(2,3)],
+    [0, 1, 0],
+    [sp.Rational(2,3), 0, sp.Rational(8,3)]
+])
+H = sp.Matrix([
+    [0, 0, sp.Rational(1,2)],
+    [0, -1, 0],
+    [sp.Rational(1,2), 0, 0]
+])
+eigs = (Gamma0*H).eigenvals()
+assert eigs == {sp.Rational(5,3): 1, sp.Integer(-1): 2}
+
+
+D_planar = sp.simplify(
+    sp.Rational(1,2)*(
+        3*sp.Rational(5,3)**2
+        - 4*sp.Rational(5,3)
+        + 8
+        - 8/sp.sqrt(sp.Rational(8,3))
+    )
+)
+assert sp.simplify(D_planar-(sp.Rational(29,6)-sp.sqrt(6))) == 0
+
+
+def reduced(lam, mu, nu):
+    def integrand(phi):
+        hh = mu*mp.cos(phi)**2 + nu*mp.sin(phi)**2
+        return (3*lam**2 - 4*lam*hh + 8*hh**2
+                - 8*hh**(mp.mpf(5)/2)/mp.sqrt(lam+hh))
+    return mp.quad(integrand, [0, 2*mp.pi])/(4*mp.pi)
+
+
+def direct(lam, mu, nu):
+    # Independent nested numerical cap integration before using the closed x primitive.
+    def outer(phi):
+        hh = mu*mp.cos(phi)**2 + nu*mp.sin(phi)**2
+        aa = mp.sqrt(hh/(lam+hh))
+        f = lambda x: ((lam+hh)*x*x-hh)**2
+        return 2*mp.quad(f, [aa, 1])
+    positive_det_second_moment = 15/(4*mp.pi)*mp.quad(outer, [0, 2*mp.pi])
+    return positive_det_second_moment/2
+
+
+tests = [
+    (mp.mpf(5)/3, mp.mpf(1), mp.mpf(1)),
+    (mp.mpf("2.25"), mp.mpf("0.7"), mp.mpf("1.4")),
+    (mp.mpf("0.9"), mp.mpf("0.2"), mp.mpf("3.1")),
+    (mp.mpf("4.0"), mp.mpf("2.0"), mp.mpf("0.5")),
+]
+residuals = []
+for pars in tests:
+    r = reduced(*pars)
+    d = direct(*pars)
+    residuals.append(abs(r-d))
+    assert abs(r-d) < mp.mpf("1e-60")
+
+
+scale = mp.mpf("3.7")
+hom_left = reduced(scale*tests[1][0], scale*tests[1][1], scale*tests[1][2])
+hom_right = scale**2*reduced(*tests[1])
+assert abs(hom_left-hom_right) < mp.mpf("1e-60")
+
+
+print("CAP_PRIMITIVE_IDENTITY_PASS")
+print("PLANAR_GENERALIZED_EIGENVALUES =", eigs)
+print("PLANAR_D2 =", sp.simplify(D_planar))
+print("MAX_NUMERICAL_RESIDUAL =", mp.nstr(max(residuals), 25))
+print("HOMOGENEITY_RESIDUAL =", mp.nstr(abs(hom_left-hom_right), 25))
+print("ALL_ASSERTIONS_PASS")
+END_LSDATA060A_FROZEN_BODY

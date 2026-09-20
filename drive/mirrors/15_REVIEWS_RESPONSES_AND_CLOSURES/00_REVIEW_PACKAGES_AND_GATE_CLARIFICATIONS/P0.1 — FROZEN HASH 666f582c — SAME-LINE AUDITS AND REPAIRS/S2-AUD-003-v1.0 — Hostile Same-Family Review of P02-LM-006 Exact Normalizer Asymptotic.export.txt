@@ -1,0 +1,319 @@
+﻿S2-AUD-003-v1.0 — HOSTILE SAME-FAMILY REVIEW OF P02-LM-006 EXACT NORMALIZER ASYMPTOTIC
+
+
+Artifact ID: S2-AUD-003-v1.0
+Date: 2026-07-25
+Reviewer line: OpenAI GPT-5.6 Thinking, Scientist 2
+Class: AUD / HOSTILE MATHEMATICAL REVIEW / GAUSSIAN-PALM NORMALIZER
+Authority: same-family technical audit only
+Independence credit: ZERO
+Target: LCR-DER-019-v1.0 / P02-LM-006
+Frozen body: 9,147 bytes
+Frozen SHA-256: 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150
+Status effect: NO TERMINAL PROMOTION
+
+
+[[TARGET:P02-LM-006]] [[VERDICT:PASS-WITH-CLARIFICATIONS-SAME-FAMILY]] [[INDEPENDENCE-CREDIT:ZERO]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+1. EXECUTIVE VERDICT
+
+
+PASS WITH CLARIFICATIONS — SAME-FAMILY ONLY.
+
+
+The frozen lemma’s principal conclusion survives hostile review:
+
+
+    Z_r^{exact}/r^2 -> E[Q_L^2 1{Q_L<0}] in (0,infinity).
+
+
+No counterexample, reversed inequality, missing r-factor, type-sign error, finite-Q4 substitution, or invalid use of almost-sure coupling was found.
+
+
+The proof is structurally sufficient at same-line candidate scope. It does not receive organizationally distinct review credit and remains nonterminal.
+
+
+2. EXACT OBJECT CHECK
+
+
+The reviewed object is the exact normalized-periodized side-24 Bargmann–Fock field conditioned on the six endpoint value/gradient pins at
+
+
+    M=(-r/2,0),
+    S=(+r/2,0),
+
+
+with endpoint levels b and b-r^3/6, b=6/5.
+
+
+The normalizer is
+
+
+    Z_r^{exact}=E_{Q_{6,r}}[W_r^{exact}],
+
+
+where W_r^{exact} uses the exact physical endpoint Hessians and exact maximum/saddle type indicators. No finite-Q4 probability law, determinant, type indicator, or normalizer enters the proof.
+
+
+Object identity: PASS.
+
+
+3. PIN-ADJUSTED FUNCTIONAL AUDIT
+
+
+The subtraction by the endpoint secants occurs before division by r:
+
+
+    A_M^r=[g'(-h)-S_g^r]/r,
+    A_S^r=[g'(+h)-S_g^r]/r,
+    B_M^r=[k'(-h)-S_k^r]/r,
+    B_S^r=[k'(+h)-S_k^r]/r.
+
+
+On the six-pin affine conditioning subspace, g(±h)=k(±h)=0, so these are exactly f_xx/r and f_xy/r at the endpoints.
+
+
+This avoids the invalid route of treating raw unconditioned derivatives divided by r as regular Gaussian functionals.
+
+
+Pin adjustment and factor-of-two conventions: PASS.
+
+
+4. CONFLUENT LIMIT AUDIT
+
+
+Taylor expansion gives
+
+
+    A_M^r -> -f_xxx(0)/2,
+    A_S^r -> +f_xxx(0)/2,
+    B_M^r -> -f_xxy(0)/2,
+    B_S^r -> +f_xxy(0)/2,
+    C_M^r,C_S^r -> f_yy(0).
+
+
+The transformed endpoint constraints force f_xxx(0)=2. Therefore
+
+
+    A_M^0=-1,
+    A_S^0=+1,
+    B_M^0=-a/2,
+    B_S^0=+a/2,
+    C_M^0=C_S^0=Q_L.
+
+
+The sign and factor identities match the independent repeated-node companion and the closed P02-LM-005 q-coordinate crosswalk.
+
+
+Confluent limit: PASS.
+
+
+Clarification C1: the frozen body compresses the entry-by-entry covariance extension into the statement that the relevant kernel derivatives and divided differences have removable singularities. This is mathematically plausible and consistent with the existing companions, but an organizationally distinct reviewer must independently reconstruct representative covariance entries and the transformed pin inverse rather than merely accepting this compression.
+
+
+5. DETERMINANT AND TYPE AUDIT
+
+
+The exact factorization is
+
+
+    det H_M=r Delta_M^r,
+    det H_S=r Delta_S^r,
+
+
+with
+
+
+    Delta_M^r=A_M^r C_M^r-r(B_M^r)^2,
+    Delta_S^r=A_S^r C_S^r-r(B_S^r)^2.
+
+
+Hence
+
+
+    Delta_M^r => -Q_L,
+    Delta_S^r => +Q_L.
+
+
+For Q_L<0, the M Hessian is negative definite and the S Hessian has index one for all sufficiently nearby vectors. For Q_L>0, the M transverse entry is positive, so the maximum condition fails. The sole limiting decision boundary is Q_L=0.
+
+
+Because P02-LM-005 gives Var(Q_L)>0, this boundary is null.
+
+
+Determinant scaling and type decision: PASS.
+
+
+6. WEAK CONVERGENCE AUDIT
+
+
+The normalized weight satisfies
+
+
+    W_r^{exact}/r^2
+      =|Delta_M^r Delta_S^r|
+       1{M maximum}
+       1{S index one}.
+
+
+Joint convergence of the endpoint vector and nullity of the type boundary justify the extended continuous-mapping step
+
+
+    W_r^{exact}/r^2 => Q_L^2 1{Q_L<0}.
+
+
+The proof correctly states convergence under changing Gaussian laws and does not claim an unconstructed almost-sure coupling.
+
+
+Weak convergence: PASS.
+
+
+7. UNIFORM-INTEGRABILITY AUDIT
+
+
+Let R_r=||V_r||_2. For r<=1,
+
+
+    |Delta_M^r|<=|A_M^r C_M^r|+(B_M^r)^2<=R_r^2,
+
+
+and similarly for S. Thus
+
+
+    0<=W_r^{exact}/r^2<=R_r^4,
+    (W_r^{exact}/r^2)^2<=R_r^8.
+
+
+Uniformly bounded endpoint-vector means and covariance operator norms imply a uniform eighth Gaussian moment. Therefore the normalized weights are uniformly L^2 bounded and uniformly integrable.
+
+
+The inequality directions are correct. Positive definiteness of the limiting six-endpoint covariance is not required; boundedness is sufficient.
+
+
+Uniform integrability: PASS.
+
+
+Clarification C2: external review should verify that the moment bound is attached to the exact endpoint vector V_r under Q_{6,r}, not merely inherited from the midpoint nine-jet by name. The current proof supplies the analytic divided-difference bridge, but this bridge should be reconstructed independently.
+
+
+8. EXPECTATION AND TWO-SIDED BOUNDS
+
+
+Uniform integrability plus convergence in distribution yields
+
+
+    Z_r^{exact}/r^2 -> z_{0,L}^{exact}
+
+
+with
+
+
+    z_{0,L}^{exact}=E[Q_L^2 1{Q_L<0}].
+
+
+The limit is finite and strictly positive because Q_L is a nondegenerate Gaussian. The standard half-limit argument then gives positive constants c_Z^{exact}, C_Z^{exact}, and r_Z with
+
+
+    c_Z^{exact} r^2 <= Z_r^{exact} <= C_Z^{exact} r^2
+
+
+for 0<r<=r_Z.
+
+
+No numerical exact-torus constant is claimed.
+
+
+Expectation limit and two-sided asymptotic: PASS.
+
+
+9. ADVERSARIAL FAILURE TESTS
+
+
+The theorem would fail or require amendment if any of the following were found:
+
+
+F1. The secant subtraction were applied after division by r.
+Result: not present.
+
+
+F2. The limit used the planar N(-b,2) law as an exact side-24 identity.
+Result: not present.
+
+
+F3. The endpoint determinant contained an omitted or extra power of r.
+Result: not present.
+
+
+F4. The type indicator had an additional positive-probability boundary involving a, B_M, or B_S.
+Result: not present; A_M and A_S have nonzero deterministic limits and B terms are multiplied by r in Delta.
+
+
+F5. Uniform integrability relied only on bounded second moments of V_r.
+Result: not present; the proof invokes uniform eighth moments.
+
+
+F6. A finite-Q4 weight or law entered the normalizer.
+Result: not present.
+
+
+F7. The proof used a denominator upper bound where a downstream probability upper bound requires a denominator lower bound.
+Result: the lemma supplies both directions and explicitly separates their uses.
+
+
+F8. Q_L nondegeneracy were assumed without a source-level crosswalk.
+Result: discharged by the closed P02-LM-005 positive-definite limiting nine-jet covariance.
+
+
+10. VERDICT LEDGER
+
+
+N1 exact object and law: PASS.
+N2 pin-adjusted endpoint identities: PASS.
+N3 factor-of-two and sign limits: PASS.
+N4 transformed Gaussian convergence: PASS WITH CLARIFICATION C1.
+N5 Q_L nondegeneracy: PASS via P02-LM-005.
+N6 determinant factorization: PASS.
+N7 type-indicator limit: PASS.
+N8 weak convergence of normalized weight: PASS.
+N9 uniform eighth-moment domination: PASS WITH CLARIFICATION C2.
+N10 expectation convergence: PASS.
+N11 finite positive exact-torus limit: PASS.
+N12 two-sided small-r normalizer bounds: PASS.
+
+
+11. SCIENTIFIC EFFECT
+
+
+P02-LM-006 is strengthened from “unreviewed same-line candidate” to:
+
+
+    HOSTILE SAME-FAMILY PASS WITH CLARIFICATIONS / ZERO INDEPENDENCE CREDIT / ORGANIZATIONALLY DISTINCT REVIEW STILL OPEN.
+
+
+This audit does not close or promote P02-LM-006. It does establish that no further same-line mathematical repair is presently justified.
+
+
+If an organizationally distinct exact-hash reviewer independently passes N1–N12, P02-LM-006 becomes closure-ready and discharges the lower-normalizer dependency used by P02-LM-003, P02-LM-008 applications, P02-LM-009, and the final P0.2 probability synthesis.
+
+
+12. NEXT DECISIVE ACTION
+
+
+Route the frozen hash 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150 to one non-OpenAI reviewer with no prior verdict exposure. Require independent reconstruction of:
+
+
+- at least one A endpoint covariance divided difference;
+- at least one B endpoint covariance divided difference;
+- transformed pin Gram invertibility near r=0;
+- the exact type-boundary classification;
+- the L^2 domination and expectation-limit step.
+
+
+Accepted verdicts: APPROVE, AMEND, REJECT, or CANNOT VERIFY.
+
+
+No theorem promotion, package seal, external release, or canonical machine change follows from this audit.
+
+
+END S2-AUD-003-v1.0

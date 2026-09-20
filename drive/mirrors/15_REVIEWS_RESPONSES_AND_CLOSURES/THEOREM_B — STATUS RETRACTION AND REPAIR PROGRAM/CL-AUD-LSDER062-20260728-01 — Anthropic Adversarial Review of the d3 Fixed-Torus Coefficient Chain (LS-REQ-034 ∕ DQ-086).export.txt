@@ -1,0 +1,193 @@
+﻿CL-AUD-LSDER062-20260728-01 — ANTHROPIC ORGANIZATIONALLY-DISTINCT ADVERSARIAL REVIEW OF THE d3 FIXED-TORUS COEFFICIENT CHAIN UNDER LS-REQ-034 / DQ-086
+
+
+Artifact ID: CL-AUD-LSDER062-20260728-01
+Generated UTC: 2026-07-28
+Dispatch: DQ-086
+Request executed: LS-REQ-034-v1.0, Drive ID 1kx8pjm_g0-bX02tgVVbuUGNYRvv8dSdcbN0o0k-byQ8
+Review objects: LS-DER-053 / 056 / 059 / 060 / 061 / 062 plus LS-DATA-061A/B, LS-DATA-062B
+Class: CL / AUD / ADVERSARIAL MATHEMATICAL AND COMPUTATIONAL REVIEW
+Verdict: AMEND REQUIRED
+Canonical impact: NONE
+Package, seal, publication, release authority: NONE
+
+
+REVIEWER IDENTITY AND SCOPE OF EVIDENCE
+
+
+Reviewer: Claude, Anthropic, model claude-opus-5, Cowork session. Provider lineage Anthropic, organizationally distinct from OpenAI.
+
+
+Independence created: external-family review credit for LS-DER-053, LS-DER-056, LS-DER-059, LS-DER-060, LS-DER-061 and LS-DER-062 at the exact scope reviewed below. No credit for LS-DER-021, 024, 046, 047, 050, 051, 055, which are cited but not reviewed. Organizational independence is counted exactly once for this provider lineage; the Anthropic line was already present in this Drive before this session.
+
+
+EXACT-HASH REPRODUCTION: NOT PERFORMED. The Drive connector available to this session returns a rendered text representation of each document, not the raw byte export. Marker extraction under OP-PROT-017 and SHA-256 reproduction are therefore impossible here and are NOT claimed. Every declared hash is treated as an identity label only, per LS-REQ-034's own instruction. All verdicts below rest on recomputation, not on identity evidence.
+
+
+Prior exposure: this reviewer's lineage previously issued CL-AUD-LSDER036, CL-AUD-LSDER030, CL-AUD-LSDER025, CL-AUD-LSDER035, CL-AUD-S2DER010. None of LS-DER-053/056/059/060/061/062 had been read by any Anthropic session before this review.
+
+
+TOOLING DECLARATION: mpmath is not installable in this sandbox. All arithmetic below was performed with an independently written arbitrary-precision layer over Python `decimal` (Machin pi, Taylor trig, Newton n-th roots, Newton-recurrence Gauss-Legendre nodes) plus exact `fractions.Fraction` arithmetic. No line of LS-DATA-061A or LS-DATA-062A was executed. The reimplementation uses a different moment routine, a different eigen-solver (cubic deflation on the well-separated positive root), and a different inner-integral method (closed-form delta^2 expansion rather than Gauss-Legendre).
+
+
+I. TERMINAL VERDICT
+
+
+AMEND REQUIRED — no mathematical defect found in LS-DER-053 -> 056 -> 060, and the LS-DER-062 rational certificate reproduces digit-for-digit, but LS-DER-061 (12), (13), (17) and every LS-DATA-061B ladder entry report 25 to 68 digits beyond the arithmetic accuracy the computation actually possesses, and LS-DER-059 (16) is justified by citing an upper covariance bound that appears nowhere in the document.
+
+
+II. FIRST LOAD-BEARING DEFECT AND INDEPENDENT REPRODUCTION
+
+
+Independent reproduction. The exact LS-DER-056 (24) / LS-DER-060 (16) coefficient was rebuilt from scratch and evaluated at L=24 at 400 and 500 decimal digits, at two outer quadrature orders (Nz,Nth) = (20,40) and (24,48). The three runs agree to 281-282 significant digits. Reference relative correction, first 162 digits, all independently certified:
+
+
+  -1.48621702906582760722892785093166680329444724741701490960019452011778067347520609832360828341903375852815060952679836137309510239792042215715800192065160361318987e-118
+
+
+The published LS-DER-061 (12) reads at that point ...0192065160361318987|5414172269720350656857024884 while the true continuation is ...0192065160361318987|4384152533055452913985202863... The two diverge at significant digit 163.
+
+
+Cause. LS-DATA-061A forms the finite-size correction as `outer_integrand(z,phi,mom24,Ninner) - I_inf`, i.e. it subtracts two quantities of size 0.1654 to expose a difference of size 2.46e-119. At mp.dps = 280 this cancellation imposes a hard arithmetic floor of about 1e-280 on the relative correction, which is 162 significant digits. That floor is visible in the frozen result itself: the successive ladder differences are 7.97e-270, 4.44e-281, 7.92e-281. The third is LARGER than the second. A converging sequence does not do that; a sequence sitting on a round-off floor does. The `< 1e-250` assertion in LS-DATA-061A passes, but it is a test of the inner phi-quadrature only. Measured directly here, the inner Gauss-Legendre error per node is 7.34e-271 at N_phi=16, 8.93e-282 at 20, 2.20e-293 at 24, below floor at 28; times the sphere area this reproduces the level-1-to-2 difference of 7.97e-270 exactly. Levels 2, 3 and 4 differ only by 280-digit round-off, so the ladder certifies nothing past digit 162.
+
+
+Reproducing the exact level-4 configuration at 280 digits with a Gauss-Legendre inner rule gave a value agreeing with LS-DATA-061B in 161 digits and differing by 6.55e-280 — the same noise scale, confirming that the algorithm is correct and only the arithmetic precision was insufficient for the digits printed.
+
+
+Consequences, measured against the 280-digit reference: LS-DER-061 (12) displays 190 significant digits of which 162 are correct (28 noise digits); (13) displays 187, 162 correct (25 noise); (17) displays 90, 43 correct (47 noise); each of the four LS-DATA-061B ladder entries displays 230, 162 correct (68 noise). LS-DER-061 (14) and (15) are NOT affected: the error sits below their last displayed digit and c_(3,24) is correct as printed.
+
+
+No sign, scale, prefactor or structural error was found anywhere. The corrected value still satisfies LS-DER-059 (22) and (24) and lies strictly inside the LS-DER-062 rational interval (17).
+
+
+III. EQUATION-LEVEL CHECKS
+
+
+OBJECT / EQUATION / RESULT / METHOD
+
+
+LS-DER-053 (6)   det Cov(P)=12                          PASS  exact Fraction determinant of the 8x8 pin covariance
+LS-DER-053 (8)   Q|P = -b I2 + GOE2                     PASS  exact conditional covariance = diag(2,1,2), Cov(f22,f33)=0, mean (-b,0,-b)
+LS-DER-053 (12)  collar limit L_1                       PASS  re-derived from the pair-station Taylor expansion; the -1/8 f_111 term is correct
+LS-DER-053 (14)  E[L_1|P]=k(X^2-1/4), E[Lperp|P]=-b(Y,Z) PASS  exact, four rational (X,Y,Z)
+LS-DER-053 (15)  Var(L_1|P)=rho^2(4X^2+rho^2)/2         PASS  exact, four rational (X,Y,Z)
+LS-DER-053 (16)(17) C_perp, det=2rho^4, form=1/2        PASS  exact
+LS-DER-053 (18)  det Cov(G_col|P)=rho^6(4X^2+rho^2)     PASS  exact
+LS-DER-053 (31)(32)(33)(34) singular-near block         PASS  exact, two rational unit omega; the rho^4 cancellation leaving rho^6 is genuine
+LS-DER-053 sec 8 planar->periodized transfer            AMEND asserted in one sentence, no explicit neighbourhood, no uniformity as rho->0
+LS-DER-053 sec 7 vs sec 6 equation numbering            AMEND labels (42),(43),(44) are each used twice
+LS-DER-056 (17)  birth-integration collapse             PASS  law of total expectation, correct
+LS-DER-056 (23)  kappa integral                         PASS  re-derived: (1/2)a^(-7/6)Gamma(7/6) with a=1/(72 sigma^2); exponent 2/3 correct
+LS-DER-056 (25)  B_3=3Gamma(7/6)/[2^(4/3)pi^(7/2)]      PASS  re-derived symbolically from (19),(22),(23) and the stated 1/6 and 6^(2/3)/3
+LS-DER-056 (29)  radial factor 15/(4pi)                 PASS  (2pi)^(-3/2) int r^6 e^(-r^2/2) dr = 15/(4pi)
+LS-DER-056 (30)  45Gamma(7/6)/[2^(10/3)pi^(9/2)]        PASS  = B_3 * 15/(4pi)
+LS-DER-056 (33)-(37) planar limits                      PASS  independently computed: Sigma_g=I, det=1; Sigma_h=diag(3,1,1), det=3; sigma^2=1/24; D->29/6-sqrt(6), all to full precision
+LS-DER-056 Thm 6.1 frame independence                   PASS  integrand unchanged under transverse rotations of 0.4, 1.1, 2.7 rad to the precision floor
+LS-DER-056 (24)->(38) planar recovery                   PASS  B_3*4pi*(planar integrand) equals the LS-DER-047 closed form to 80 digits
+LS-DER-060 (3)(4) det Q = q^T H q                       PASS  direct expansion
+LS-DER-060 (6)(7) inertia, Gamma H ~ B                  PASS  Sylvester; Gamma H = Gamma^(1/2) B Gamma^(-1/2)
+LS-DER-060 (8)   cone symmetry, the factor 1/2          PASS  Monte Carlo on the TRUE event {tr<0 and det>0}, 1.5e6 draws, three Gammas: ratios 0.99979, 1.00037, 1.00008. A missing or spurious factor 2 is excluded.
+LS-DER-060 (10)  radial factor 15/(8pi)                 PASS  = (1/2)*15/(4pi), consistent with LS-DER-056 (29)
+LS-DER-060 (14)  cap primitive                          PASS  re-derived by hand: 2[a^2/5-2ab/3+b^2-(8/15)b^(5/2)a^(-1/2)] with a=lam+h, b=h
+LS-DER-060 (15)(16) one-angle formula                   PASS  polynomial terms integrate to (3/2)lam^2-lam(mu+nu)+(1/2)(3mu^2+2mu nu+3nu^2)
+LS-DER-060 (17)  homogeneity D(cG)=c^2 D(G)             PASS  1.000000000000 at c=0.37 and c=5.5
+LS-DER-060 (19)(20)(21) planar Gamma_0, 5/3,1,1, 29/6-sqrt6 PASS Gamma_0 re-derived from scratch as the Schur complement; matches (19) entrywise
+LS-DER-060 limits lam->0 and lam->inf                   PASS  D->0 exactly and D->1.5 lam^2
+LS-DER-059 (3)(17) P_3(24) = -620813376/35              PASS  exact rational: -576*3233403/105
+LS-DER-059 (8)(9)(10) image and Z_24 bounds             PASS  magnitudes reproduce (8.86e-114, 5.1e-125)
+LS-DER-059 (12)(13) planar jet, Gamma eigenvalues 1,2,10/3 PASS matches the independently built Gamma_0
+LS-DER-059 (16)  ||D^2 Phi|| < 10^50                    AMEND the stated recipe uses "the upper covariance bound inherited from (15)"; (15) contains only lower eigenfloors. No upper bound is stated anywhere in the document.
+LS-DER-059 sec 3 C^2 claim                              AMEND sketch only; superseded and repaired by LS-DER-060 (16), which makes Phi manifestly analytic in (lam, s, delta^2). LS-DER-059 predates it and does not cite it.
+LS-DER-059 (19)  (1/2)10^50(10^-113)^2 < 10^-176        PASS  arithmetic correct
+LS-DER-059 (20)  |eps_24| < 10^-170                     PASS (numerically) true value -7.5200873044650121968146030458519901925190573e-237, 66 orders of margin. Confirmed by computation, NOT by an independent proof of (16).
+LS-DER-059 (22)(24) certified intervals                 PASS  corrected value lies inside both
+LS-DER-062 (2)(3) Poisson-dual moments                  PASS  image and Fourier routes agree to the 300-digit working floor
+LS-DER-062 (5)   "structurally distinct reconstruction" AMEND only m_2,m_4,m_6 are produced differently; the entire downstream pipeline is the same code. The replay cannot detect, and did not detect, the 68 over-reported digits.
+LS-DER-062 (6)   cone stress tests, max residual 5.18e-206 PASS as stated, but the "independent spherical-cap integration" shares the (lam,h) parameterisation, the radial factor and the 1/2 with the formula under test; it verifies the x-integration only. The missing test was supplied here by Monte Carlo.
+LS-DER-062 (7)(8)(9) geometric majorant for e^288 tail  PASS  rho=288/902&lt;1, ratio bound correct, reciprocal reversal correct
+LS-DER-062 (10)  rational enclosure of e^(-288)         PASS  all 211 published digits of both endpoints reproduced with exact Fractions; width 1.3862676e-307 &lt; 1.39e-307
+LS-DER-062 (12)(13) first-image interval                PASS  all 211 digits of R1- and R1+ reproduced; endpoints correctly swapped for the negative multiplier; width 2.4588957e-300 &lt; 2.459e-300
+LS-DER-062 (16)(17)(18) full relative interval          PASS  all 211 digits of C_rel- and C_rel+ reproduced; width 2.000...e-170
+LS-DATA-061A algorithm                                  PASS  no coding or mathematical defect. Even-order Hermite signs correct; (-1)^|beta| correct; op_order well defined because op_from_vectors is homogeneous; frame orthonormal; B=L^T H L is similar to Gamma H and symmetric, so eigsy is legitimate; eigenvalue ordering irrelevant because (16) is symmetric in mu,nu; planar subtraction uses the exact closed form; dt = dz dphi correct; GL_CACHE keys do not collide.
+LS-DATA-061A robustness                                 MINOR no assertion that the inertia of B is (1,2). If it failed, hh**(5/2) would return a complex value silently rather than raise.
+LS-DER-061 (12)(13)(17), LS-DATA-061B ladder            FAIL  25 to 68 digits of reported precision are arithmetic noise. See II.
+LS-DER-061 (14)(15)                                     PASS  correct as printed
+LS-DER-061 sec 4 "agree through more than 140 digits"   PASS-BUT-MISLEADING true (152), but offered in support of 190 printed digits
+
+
+IV. MINIMAL REPAIR
+
+
+R1. LS-DER-061. Truncate (12) to 162 significant digits, (13) to 162, (17) to 43. Corrected strings:
+
+
+  (12) -1.48621702906582760722892785093166680329444724741701490960019452011778067347520609832360828341903375852815060952679836137309510239792042215715800192065160361318987e-118
+
+
+  (13) -6.20881013065905810582866277157904465992931797316262949317563751167289860072842922067977010098327664002591535780417734532468955368629320364991229988474477595584725e-120
+
+
+  (17) -7.520087304465012196814603045851990192519057e-237
+
+
+  (14) and (15) stand unchanged.
+
+
+R2. LS-DATA-061B. Reprint each ladder entry at 162 significant digits, or rerun LS-DATA-061A at mp.mp.dps >= 400. At 400 digits the level-4 configuration returns, and this review independently confirms at 400 and 500 digits and at two outer orders:
+
+
+  -1.486217029065827607228927850931666803294447247417014909600194520117780673475206098323608283419033758528150609526798361373095102397920422157158001920651603613189874384152533055452913985202863376223911083208198914673647130599105083350894990962392860695115937551105026158339705861005e-118  (280 digits, all certified)
+
+
+R3. LS-DATA-061A. Replace the ladder assertion by a precision-aware one, e.g. assert that the successive differences decrease monotonically and that the last difference exceeds the arithmetic floor 10^(-dps) * |I_inf| * 4*pi / c_inf; the present `&lt; 1e-250` test passes while the last two levels are pure round-off. Add an assert on the inertia of B. Consider forming the correction without cancellation (differentiate the integrand in the jet perturbation) so that 280 digits of working precision yield 280 digits of correction.
+
+
+R4. LS-DER-059 sec 3. State the upper covariance bound explicitly (it follows from (14) plus the planar values; it does not follow from (15), which is a set of eigenfloors), and cite LS-DER-060 (16) for the analyticity of Phi rather than the present measure-zero-boundary sketch. The numerical conclusion (20) is unaffected.
+
+
+R5. LS-DER-053 sec 8. Write the periodized transfer out. Give an explicit jet neighbourhood, and state the reason the chart determinants (18) and (33) survive perturbation uniformly as rho -&gt; 0: the leading O(rho^4) part of the (L_0,L_1) block determinant cancels because L_0 = -(1/12)(Y f_112 + Z f_113) + O(rho^2) and the random part of L_1 = (Y f_112 + Z f_113) + O(rho^2), a proportionality of the random variables themselves and therefore kernel-independent. Also fix the duplicated equation labels (42),(43),(44).
+
+
+R6. LS-DER-062 sec 1 and Thm 8.1. Downgrade "computationally independent" / "structurally distinct reconstruction" to "an alternative input route into the same pipeline". Downgrade the sec 3 cap comparison to "verifies the cap x-integration"; it does not test the cone-symmetry factor or the radial factor.
+
+
+V. WHAT MAY NOW BE CITED
+
+
+CERTIFIED INTERVAL (strongest available). The relative correction lies in the exact rational interval LS-DER-062 (17), of width 2.000e-170, conditional on the LS-DER-059 remainder theorem. The rational arithmetic of that certificate is now externally reproduced digit-for-digit. Its conditionality is real: (16) is not proved to the standard of the rest of the chain, though its conclusion is confirmed numerically with 66 orders of margin.
+
+
+NUMERICAL CANDIDATE, EXTERNALLY REPRODUCED. The relative correction is now an externally reproduced 280-digit deterministic value, not merely a same-family one. Note that it is INDEPENDENT OF B_3 entirely: relative = total * 2^(3/2) 3^(8/3) / [(29 sqrt6 - 36) pi], with Gamma(1/6) cancelling identically. It therefore does not depend on the Kac-Rice factor 1/6, the lifetime Jacobian 6^(2/3)/3, or LS-DER-047 — none of which are in the authoritative set. Only the ABSOLUTE coefficient c_(3,24) depends on those three imported scalars, and none of them was reviewed here. This is a real scope separation and should be recorded.
+
+
+LOCAL FOLD RESULT. The exact finite-torus coefficient map LS-DER-056 (24)-(25), the Gaussian-cone spectral collapse LS-DER-060 (15)-(16), and the planar recovery are externally verified at equation level and may be cited as reviewed same-family results with Anthropic external-family review credit at that scope.
+
+
+SELECTED FIXED-TORUS PERSISTENCE. NOT closed by this review. LS-DER-053 sections 2-7 are exact and externally verified for the PLANAR Bargmann-Fock kernel. The identification of c_(3,24) as the selected persistence coefficient rather than a local all-typed fold coefficient rests entirely on section 8, one paragraph, unproved. The structural reason the transfer should work is given in R5, but it is not in the frozen body. Until R5 is written, cite c_(3,24) as the exact all-typed local contact coefficient of the side-24 periodized field, not as a persistence coefficient.
+
+
+NOT CITABLE. A directed-rounding machine interval for the full nonlinear quadrature (none exists; this review used deterministic arbitrary-precision arithmetic with an analysed but not certified error budget). A uniform two-parameter lifetime remainder. Interchange of L-&gt;infinity and ell-&gt;0. An infinite-volume persistence process. Canonical Theorem B remains retracted, not restored, not promoted; the package remains unsealed. No exact-hash identity was reproduced in this session.
+
+
+ANSWERS TO THE SIX EXACT QUESTIONS
+
+
+1. First insufficiently justified inference: LS-DER-053 section 8, first sentence — "The same proof applies to normalized periodized three-dimensional Bargmann-Fock fields whenever the finite jet covariances lie in a sufficiently small neighborhood of the planar covariances." No neighbourhood is named and no uniformity is established in the chart parameter rho, which is exactly where the planar determinants (18) and (33)-(34) degenerate. No invalid inference was found anywhere in the chain.
+
+
+2. LS-DER-060 cone factor: re-derived independently. det Q = q^T H q with H of inertia (1,2); Gamma H similar to Gamma^(1/2) H Gamma^(1/2); cone symmetry gives exactly one half of E[(det Q)^2 1{det Q &gt; 0}]; E[r^4]=15 with (2pi)^(-3/2) gives 15/(4pi) over the negative-definite cone and 15/(8pi) over {det&gt;0}; the cap primitive integrates to (2/15)[3lam^2-4lam h+8h^2-8h^(5/2)(lam+h)^(-1/2)]; the prefactor 1/(4pi) in (15) and every polynomial coefficient in (16) follow. THE PREFACTOR IS CORRECT. Monte Carlo on the true negative-definite event excludes a factor-of-two error to 4 significant figures.
+
+
+3. LS-DER-053 closes selected persistence for the PLANAR field only. At side 24 it closes a local all-typed contact coefficient; the persistence identification is inherited through the unproved section 8 transfer. The hidden gap is a compactness/uniformity gap, not a domination gap: the mark-integration argument of section 9 is sound.
+
+
+4. The 10^(-170) remainder is asserted through an unverified Hessian estimate whose stated derivation cites an upper covariance bound that the document does not contain. The bound is nonetheless true — the true remainder is -7.52e-237 — and LS-DER-060 supplies the analyticity that LS-DER-059 only sketched. This is repairable by citation, not by re-derivation.
+
+
+5. Audit of LS-DATA-061A: no coding or mathematical defect. Ledger in section III. The defect is in the REPORTED PRECISION of its output, not in the code. Independent calculations performed: complete reimplementation of LS-DER-056 (24) with LS-DER-060 (16), evaluated at 400 and 500 digits at two outer orders, agreeing to 281-282 digits; exact-Fraction verification of every LS-DER-053 covariance identity; exact-Fraction reproduction of the entire LS-DER-062 rational certificate; Monte Carlo verification of the cone-symmetry factor; direct measurement of the inner Gauss-Legendre error at N_phi = 16, 20, 24, 28, 40; frame-invariance test; Poisson-dual moment cross-check. As a by-product the independent evaluation confirms LS-DER-055's P_3(24) = -620813376/35 to roughly 118 digits, since the full-minus-first-image residual is 7.52e-237 against a 1.486e-118 leading term.
+
+
+6. TERMINAL VERDICT: AMEND REQUIRED. Repairs R1-R6. After R1-R3 alone the chain would stand at READY FOR MACHINE INTERVAL, with LS-DER-053 section 8 and the LS-DER-059 Hessian citation as the two remaining analytic debts before canonical review.
+
+
+END CL-AUD-LSDER062-20260728-01

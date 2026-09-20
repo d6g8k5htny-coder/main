@@ -1,0 +1,53 @@
+﻿CL-REG-233-v1.0 — DQ-006 PRE-REGISTRATION — INDEPENDENT REVIEW OF GP-DER-206 / GP-DATA-206
+
+
+Artifact ID: CL-REG-233-v1.0
+Date/time (UTC): 2026-07-25T21:02:00Z
+Prepared by: Anthropic Claude (CL lane), runtime model claude-fable-5
+Class: REG / PRE-REGISTRATION / DOMAIN-T REVIEW
+Authority: none (process record only). Canonical mathematical impact: NONE.
+Governing packet: GP-REQ-207-v1.0 (doc 1XJfNDwnNRfRg628C_4oLtMFVG6ZEEFYLwfMPsHlo1mU)
+Work claim: CL-CLAIM-DQ006-v1.0 (doc 1gLsVtsL3k7DRQGwu6PjCGy5Gw4pNO0P1QWTLi9CWx0Q), DQ-006 in GP-REG-032 Dispatch Queue.
+
+
+[[TARGET:P0.1-DOMAIN-T]] [[SOURCE-SHA:fa0fe850...e7cc0]] [[RESULT-SHA:f6bc0b68...ee17]] [[NO-PROMOTION]]
+
+
+1. REVIEWER IDENTITY (GP-REQ-207 §3.1)
+Anthropic Claude, CL lane. Organizationally distinct model family from OpenAI (GP/LS/LCR/S2/RS2 lanes), xAI (Grok), and Google (Gemini). Same human operator (Dylan) carries all lanes; disclosed per OP-PROT-011. This review therefore satisfies the ORGANIZATIONALLY-DISTINCT requirement at the model-provider level only.
+
+
+2. EXACT SOURCES READ AS OF THIS PRE-REGISTRATION (§3.2)
+READ IN FULL: GP-REG-032-v1.2 registers sheet (Dispatch Queue rows DQ-001..DQ-008 and AD-001..AD-025); GP-REQ-207-v1.0 full text; CL-CLAIM-DQ001 (parallel-lane claim notice); my own CL artifacts (CL-REG-230, CL-AUD-231, CL-REC-232, CL-CLAIM-DQ006). Prior-session CL knowledge of the P0.1 model, GP-DER-044 (1D L-frame), GP-DER-118-v1.3 Domain-G body, GP-SPEC-166, GP-REQ-172/179, LCR-REQ-007.
+TITLES ONLY (surfaced by collision-check searches; bodies NOT opened): GP-DER-206-v1.0; GP-DER-208-v1.0; GP-REQ-209-v1.0; RS2-AUD-001-v1.0; LCR-COR-060-v1.0; LCR-DER-010-v1.0; LS-DER-007-v1.0; 00_READ_FIRST; COMMAND CENTER; GP-REC-175.
+NOT READ (firewalled until the freeze points declared below): GP-DER-206 body; GP-DATA-206 source carrier (1aB39eeNwZFuk5_C6SB2iA-9NIsomMqF-8r0xJjUYTd0) and result carrier (1cwxgbezgq4666a23Vdc5mDUx_JCtOPUHtKJQ-crwwsk); GP-DER-204 / GP-DATA-204 bodies; RS2-AUD-001 body and every other S2/RS2 artifact; LS-COR-001; GP-DER-046.
+
+
+3. VISIBILITY OF SAME-LINE NUMERICAL BOUNDS (§3.3)
+YES — PARTIAL, UNAVOIDABLE. GP-REQ-207 itself discloses the headline constants: r_D = 0.0000549270747778704575598758916462559552302418705897; tail target 5e-49; planar order-5 variances 945,105,45,45,105,945 and sigma_5^2<=946; gradient sums 11340,1260,540,540,1260,11340 and L_6^2<=11342; trace(G_0)=22; ||y_r||<3; M_5<1300; covering coefficient (1+4 L_6 r/eps)^2 with two-sign doubling; split at A=4 L_6 r_D; entropy majorant 54.665; Dudley constant 24; t_0=5226; r_D^{-1}=18205.9577...; r_D^{-2}/(8*946)=43797.1585...; six-way union; rho<=1/256. The full derivation text, the carrier bytes, and all intermediate inequalities remain unseen.
+HONEST-CREDIT CONSEQUENCE: this review claims ADVERSARIAL AUDIT and INDEPENDENT RECOMPUTATION value only. It does NOT claim blind reproduction of the headline constants, and no independence credit will be asserted for reproducing any number listed above.
+
+
+4. REVIEW PLAN (§3.4)
+PHASE 1 — PRE-EXPOSURE CERTIFIED RECONSTRUCTION (before any carrier or derivation byte is opened): from the exact model definition alone (normalized periodized side-24 Bargmann–Fock plane, b=6/5, six raw pins (f,f_x,f_y)(M)=(6/5,0,0), (f,f_x,f_y)(S)=(6/5 - r^3/6,0,0), M=(-r/2,0), S=(r/2,0), conditioned law Q_{6,r}), independently derive and certify: (a) exact planar order-5 variances and torus-corrected sigma_5^2<=946; (b) order-6 gradient sums and L_6^2<=11342 with a proved Lipschitz bound d(s,t)<=L_6|s-t| for every order-5 residual field; (c) conditioning-reduces-variance (PSD Schur complement) statement; (d) PRE-REGISTERED INFERENCE, to be falsified or confirmed at Phase 2: the GP transformed-pin frame converges to the limit functionals (f, f_x, f_y, f_xx, f_xxx, f_xy)(0), whose planar Gram trace is 1+1+1+3+15+1 = 22, with confluent pinned vector y_r = (6/5, 0, 0, -r/3, 2, 0) and ||y_r|| = sqrt(136/25 + r^2/9) ~ 2.33238 < 3, the fifth slot being the L_5 = 2 invariant of GP-DER-044; (e) certified Gram PD, inverse-norm, trace, and conditional-mean bound M_5 at r=r_D and along a shrinking r-ladder, plus the basis-invariant bound |m_alpha(x)| <= sigma_5 * sqrt(y' Sigma_r^{-1} y); (f) covering-number proof N <= (1+4 L_6 r/eps)^2 per sign sheet; (g) split entropy integral with certified majorant and the 54.665 comparison; (h) Dudley constant-24 admissibility; (i) Borell–TIS applied to the centered residual with sigma_5^2<=946, mean added deterministically, six-way union, reserve condition r^{-1} >= t_0 = 5226 interpreted as 2(M_5+B_5) <= t_0, worst-case exponent r_D^{-2}/(8*946), and monotonicity of the tail on 0<r<=r_D; (j) final certified tail comparison against 5e-49. FREEZE: SHA-256 and byte counts of the Phase-1 script, results, and notes recorded before Phase 2 begins.
+PHASE 2 — EXACT-SOURCE REPLAY AND AUDIT: T0 byte-exact carrier roundtrip (reproduce 10,422 B / SHA fa0fe850... and 3,555 B / SHA f6bc0b68..., using the docx-paragraph-model extraction pipeline validated in the GP-DER-118 forensics if plain-text export diverges); then read GP-DER-206 and both carriers; T1 dependency identity against GP-DATA-204 (identity and law-match only — GP-DER-204 is NOT re-proved here and its approval is NOT granted here); T2 chart containment against P02-LM-001; T3–T14 line-by-line; execute every GP-REQ-207 §5 mutation against my Phase-1 harness and, where applicable, against the replayed source.
+PHASE 3 — POST-FREEZE COMPARISON: only after the Phase-1+2 material is frozen, open RS2-AUD-001-v1.0 (the same-line S2-family alternate) and produce the required discrepancy table.
+
+
+5. SOFTWARE STACK AND PRECISION (§3.5)
+Python 3.12, standard library only for certified steps: fractions.Fraction exact rationals; decimal.Decimal at >=160 significant digits with explicit directed-rounding enclosures for every transcendental; integer double-factorial identities for planar Hermite moments; explicit periodization tail bounds for the side-24 torus corrections; Cholesky pivots as PD certificates with certified eigenvalue lower bounds; no binary floats inside any certified inequality; no external numerical libraries.
+
+
+6. INTENDED ENTROPY/DUDLEY ROUTE (§3.6)
+Signed-index absolute-supremum representation on {-1,+1} x rD_plus, D_plus=[-1,1]^2; canonical metric dominated by L_6 |s-t| via the order-6 gradient variance sums, preserved under conditioning by the PSD Schur reduction; covering N(eps) <= 2(1+4 L_6 r/eps)^2; entropy integral split at eps = A = 4 L_6 r_D with sqrt(log 2) continuation to the signed-set radius; conservative universal Dudley coefficient 24 with admissibility verified against the specific stated theorem; Borell–TIS on the centered conditioned residual with variance bound 946; conditional mean bounded separately by M_5; six-way union over the order-5 multi-indices; monotone reserve argument in r.
+
+
+7. INTENDED VERDICT WORDING (§3.7)
+Exactly one of the four GP-REQ-207 §6 forms, copied verbatim, including the full 64-hex source and result SHA-256 values in any approval. Any nonapproval will identify the failed T-item, the exact formula, the consequence, and the minimal repair. Planned review artifact: CL-AUD-234 (index to be re-collision-checked at publication).
+
+
+8. SCOPE FIREWALL
+No promotion. No P0.1 closure. No approval of GP-DER-204 / GP-DATA-204, the exact upper normalizer, capture, P0.2, or external release. A qualifying approval here bears only on r_T=r_D and the conditioned tail constant, exactly as GP-REQ-207 §2/§7 delimit. Register/spreadsheet writes remain out of runtime capability; this document and the claim notice are the compensating control surface per AD-021/AD-024.
+
+
+END CL-REG-233-v1.0

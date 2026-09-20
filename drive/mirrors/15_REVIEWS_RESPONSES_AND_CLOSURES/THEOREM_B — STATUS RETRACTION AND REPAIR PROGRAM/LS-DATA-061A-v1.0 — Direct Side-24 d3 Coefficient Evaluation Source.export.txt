@@ -1,0 +1,216 @@
+﻿LS-DATA-061A-v1.0 — DIRECT SIDE-24 d3 COEFFICIENT EVALUATION SOURCE
+
+
+Artifact ID: LS-DATA-061A-v1.0
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DATA / HIGH-PRECISION SOURCE / EXACT FINITE-L QUADRATURE
+Authority: executable support only
+Canonical impact: NONE
+BODY_BYTES: 5372
+BODY_SHA256: ecb9e50caaf52537e0d56b207693e1a2c0bd6e3a87d7c6b11907ab2854e121b4
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDATA061A_FROZEN_BODY and strictly before the unique full line END_LSDATA061A_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDATA061A_FROZEN_BODY
+import mpmath as mp
+
+
+mp.mp.dps = 280
+
+
+def conv_dict(A, B):
+    out = {}
+    for a, ca in A.items():
+        for b, cb in B.items():
+            g = tuple(a[i] + b[i] for i in range(3))
+            out[g] = out.get(g, mp.mpf("0")) + ca * cb
+    return out
+
+
+def directional(v):
+    return {(1,0,0):v[0], (0,1,0):v[1], (0,0,1):v[2]}
+
+
+def op_from_vectors(vecs):
+    d = {(0,0,0):mp.mpf(1)}
+    for v in vecs:
+        d = conv_dict(d, directional(v))
+    return {k:v for k,v in d.items() if v != 0}
+
+
+def period_moments(L):
+    L = mp.mpf(L)
+    Z = mp.mpf("0")
+    sums = {0:mp.mpf("0"), 2:mp.mpf("0"), 4:mp.mpf("0"), 6:mp.mpf("0")}
+    for n in range(-2,3):
+        a = n*L
+        e = mp.exp(-a*a/2)
+        Z += e
+        vals = {
+            0: mp.mpf(1),
+            2: a*a-1,
+            4: a**4-6*a*a+3,
+            6: a**6-15*a**4+45*a*a-15,
+        }
+        for k in sums:
+            sums[k] += vals[k]*e
+    return {k:sums[k]/Z for k in sums}
+
+
+def Kder(gamma, moments):
+    val = mp.mpf(1)
+    for n in gamma:
+        if n % 2:
+            return mp.mpf(0)
+        val *= moments[n]
+    return val
+
+
+def op_order(A):
+    return sum(next(iter(A.keys())))
+
+
+def cov_ops(A, B, moments):
+    sign = (-1)**op_order(B)
+    total = mp.mpf(0)
+    for a, ca in A.items():
+        for b, cb in B.items():
+            g = tuple(a[i] + b[i] for i in range(3))
+            total += ca*cb*sign*Kder(g, moments)
+    return total
+
+
+def cov_matrix(opsA, opsB, moments):
+    return mp.matrix([[cov_ops(a,b,moments) for b in opsB] for a in opsA])
+
+
+def frame(z, phi):
+    r = mp.sqrt(1-z*z)
+    cp, sp = mp.cos(phi), mp.sin(phi)
+    t = (r*cp, r*sp, z)
+    n1 = (-sp, cp, mp.mpf(0))
+    n2 = (-z*cp, -z*sp, r)
+    return t, n1, n2
+
+
+def contact_blocks(z, phi, moments):
+    t, n1, n2 = frame(z, phi)
+    u = {k:-v/12 for k,v in op_from_vectors([t,t,t]).items()}
+    g = [op_from_vectors([t]), op_from_vectors([n1]), op_from_vectors([n2])]
+    h = [op_from_vectors([t,t]), op_from_vectors([t,n1]), op_from_vectors([t,n2])]
+    q = [op_from_vectors([n1,n1]), op_from_vectors([n1,n2]), op_from_vectors([n2,n2])]
+
+
+    Sg = cov_matrix(g,g,moments)
+    su = cov_ops(u,u,moments)
+    cug = cov_matrix([u],g,moments)
+    sigma2 = su - (cug*(Sg**-1)*cug.T)[0]
+
+
+    Sh = cov_matrix(h,h,moments)
+    Sq = cov_matrix(q,q,moments)
+    Cqh = cov_matrix(q,h,moments)
+    Gamma = Sq - Cqh*(Sh**-1)*Cqh.T
+    return Sg, Sh, sigma2, Gamma
+
+
+GL_CACHE = {}
+
+
+def gauss_legendre(n, a, b):
+    key = (n, mp.nstr(a, 40), mp.nstr(b, 40))
+    if key not in GL_CACHE:
+        x, w = mp.gauss_quadrature(n, "legendre")
+        GL_CACHE[key] = ([(b-a)*xx/2+(a+b)/2 for xx in x],
+                         [(b-a)*ww/2 for ww in w])
+    return GL_CACHE[key]
+
+
+H = mp.matrix([[0,0,mp.mpf("0.5")],[0,-1,0],[mp.mpf("0.5"),0,0]])
+
+
+def D_spectral(Gamma, inner_n):
+    L = mp.cholesky(Gamma)
+    B = L.T*H*L
+    vals, _ = mp.eigsy(B)
+    vals = sorted([vals[i] for i in range(3)])
+    nu, mu, lam = -vals[0], -vals[1], vals[2]
+
+
+    nodes, weights = gauss_legendre(inner_n, mp.mpf(0), mp.pi/2)
+    integral = mp.mpf(0)
+    for phi, weight in zip(nodes, weights):
+        hh = mu*mp.cos(phi)**2 + nu*mp.sin(phi)**2
+        integral += weight*hh**(mp.mpf(5)/2)/mp.sqrt(lam+hh)
+
+
+    poly = (mp.mpf("1.5")*lam**2-lam*(mu+nu)
+            +mp.mpf("0.5")*(3*mu**2+2*mu*nu+3*nu**2))
+    return poly-(8/mp.pi)*integral
+
+
+mom0 = {0:mp.mpf(1), 2:mp.mpf(-1), 4:mp.mpf(3), 6:mp.mpf(-15)}
+mom24 = period_moments(24)
+
+
+B3 = 3*mp.gamma(mp.mpf(7)/6)/(2**(mp.mpf(4)/3)*mp.pi**(mp.mpf(7)/2))
+c_inf = (2**(mp.mpf(1)/6)*3**(mp.mpf(1)/3)
+         *(29*mp.sqrt(6)-36)*mp.gamma(mp.mpf(1)/6)
+         /(432*mp.pi**(mp.mpf(5)/2)))
+I_inf = c_inf/(4*mp.pi*B3)
+
+
+def outer_integrand(z, phi, moments, inner_n):
+    Sg, Sh, sigma2, Gamma = contact_blocks(z, phi, moments)
+    D = D_spectral(Gamma, inner_n)
+    return sigma2**(mp.mpf(2)/3)*D/mp.sqrt(mp.det(Sg)*mp.det(Sh))
+
+
+def evaluate(Nz, Nphi, Ninner):
+    z_nodes, z_weights = gauss_legendre(Nz, mp.mpf(-1), mp.mpf(1))
+    total = mp.mpf(0)
+    for z, wz in zip(z_nodes, z_weights):
+        phisum = mp.mpf(0)
+        for k in range(Nphi):
+            phi = 2*mp.pi*k/Nphi
+            phisum += outer_integrand(z, phi, mom24, Ninner)-I_inf
+        total += wz*(2*mp.pi/Nphi)*phisum
+    delta = B3*total
+    return delta, delta/c_inf
+
+
+ladder = [(8,16,16),(12,24,20),(16,32,24),(20,40,28)]
+values = []
+for cfg in ladder:
+    delta, relative = evaluate(*cfg)
+    values.append((cfg,delta,relative))
+    print("ORDER =", cfg)
+    print("ABSOLUTE_CORRECTION =", mp.nstr(delta, 230))
+    print("RELATIVE_CORRECTION =", mp.nstr(relative, 230))
+
+
+delta, relative = values[-1][1], values[-1][2]
+c24 = c_inf + delta
+L = mp.mpf(24)
+P3 = -L**2*(10*L**4-147*L**2+315)/105
+first_image = P3*mp.exp(-L**2/2)
+
+
+print("C_INFINITY =", mp.nstr(c_inf, 230))
+print("C_3_24 =", mp.nstr(c24, 230))
+print("FULL_MINUS_FIRST_IMAGE_RELATIVE =", mp.nstr(relative-first_image, 100))
+print("SUCCESSIVE_LADDER_DIFFERENCES =")
+for i in range(1,len(values)):
+    print(mp.nstr(abs(values[i][2]-values[i-1][2]), 50))
+
+
+assert mp.mpf("-1.4863e-118") < relative < mp.mpf("-1.4861e-118")
+assert mp.mpf("-6.210e-120") < delta < mp.mpf("-6.207e-120")
+assert abs(relative-first_image) < mp.mpf("1e-170")
+assert max(abs(values[i][2]-values[i-1][2]) for i in range(1,len(values))) < mp.mpf("1e-250")
+print("ALL_ASSERTIONS_PASS")
+END_LSDATA061A_FROZEN_BODY
