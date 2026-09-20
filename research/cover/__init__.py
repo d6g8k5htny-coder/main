@@ -60,7 +60,7 @@ from .regions import (
 )
 from .driver import (
     DriverConfig, FloatProbeReference, Integrand, RadialGaussianReference,
-    TiltedGaussianReference, radial_gaussian_closed_form, run,
+    RecoverableEnclosureError, TiltedGaussianReference, radial_gaussian_closed_form, run,
 )
 
 __all__ = [
@@ -74,7 +74,7 @@ __all__ = [
     "PolarRegion", "CartesianBracketRegion",
     "rn5_annulus_polar", "rn5_annulus_bracket", "t4_polar_cover",
     # driver
-    "Integrand", "DriverConfig", "run",
+    "Integrand", "DriverConfig", "RecoverableEnclosureError", "run",
     "RadialGaussianReference", "TiltedGaussianReference",
     "FloatProbeReference", "radial_gaussian_closed_form",
 ]

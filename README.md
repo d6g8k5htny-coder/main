@@ -10,6 +10,10 @@ field kernel and nine-pin interval conditioning to those moment witnesses at
 one exact spatial point, over the complete mark interval.
 The [density/window extension](docs/RN_SIDE24_DENSITY.md) completes the
 pointwise RN integrand bound under an explicitly imported H3 floor.
+The [spatial extension](docs/RN_SIDE24_CELL.md) gives a complete local rectangle
+integral upper below `6e-12`. The [parallel mathematical replays](docs/PARALLEL_MATH.md)
+reconstruct that fixed-r H3 floor, improve the LPW covariance modulus and bound
+one H5 jet over an exact radius band. The full near-annulus bound remains open.
 
 [Reproducible execution](docs/RESEARCH_EXECUTION.md) adds one verification
 command, exact RN certificate replay and derived dependency/diagnostic

@@ -77,6 +77,10 @@ jobs:
         run: python tools/rn_side24_check.py
       - name: Verify the source-bound SIDE24 density-window point candidate
         run: python tools/rn_side24_density_check.py
+      - name: Replay the complete local RN spatial rectangle
+        run: python tools/rn_side24_spatial_check.py
+      - name: Replay H3 floor, LPW quadratic modulus and one H5 jet band
+        run: python tools/parallel_math_check.py
       - name: Validate the derived research frontier and recorded diagnostics
         run: python tools/research_frontier.py self-check
       - name: Verify source-bound LPW amplitude and radius arithmetic

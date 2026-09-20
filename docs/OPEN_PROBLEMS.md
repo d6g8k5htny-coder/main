@@ -97,8 +97,8 @@ cover of `0.1 ≤ |y| ≤ 5` at Cartesian cell diameter 1/10 needs exactly
 98 × 629 = 61,642 polar cells, the 50× inner/outer anisotropy being
 `r_hi/r_lo` exactly. For the T4 region `d ∈ [5, 17]`, θ-halving alone cannot
 tighten a radial integrand's enclosure past the shell's radial floor, however
-much depth is granted. Every integrand exercised is a labelled reference; no
-cell of the program's actual cover is certified, and the frozen engine
+much depth is granted. The original driver examples are labelled references; the later actual RN
+cell adapter is described below. The frozen engine
 `engine/rn_engine/frozen/` is `mpmath` throughout. Both Pieces remain OPEN.
 
 The new [SIDE24 point-law candidate](RN_SIDE24.md) separately assembles the
@@ -112,6 +112,17 @@ pointwise RN integrand upper `1888043/500000000000 = 0.000003776086`, conditiona
 on the imported H3 floor. The floor is hash-bound but not reproved. Neither
 point calculation supplies a spatial area contribution or turns the generic
 cover into an RN cover.
+
+The [local spatial candidate](RN_SIDE24_CELL.md) extends the full-mark bound
+to the square `[1999/2000,2001/2000]^2`: one refused parent is retained and
+four verified children form a complete partition with integral upper less
+than `6e-12`. This is a nonzero-area actual RN result. It covers only this
+local square, not `0.1 <= |y| <= 5`. The N0 L2 transport becomes too wide near
+the inner boundary for a practical full cover; cancellation-preserving N6
+source jets or another proved majorant remain the next step. The source
+restoration target `17.6804*r^3 = 44201/20000000` at the rung remains unproved.
+The [parallel H3 reconstruction](PARALLEL_MATH.md) separately replays the
+original exact imported floor and a stronger successor, at fixed r only.
 
 ### A6. `PERC-DECAY`
 

@@ -317,6 +317,8 @@ class CellRecord:
     residual: Optional[Interval] = None
     # PENDING
     pending_reason: Optional[str] = None
+    # A failed enclosure remains visible even after successful subdivision.
+    enclosure_failure: Optional[str] = None
     # geometry, always recorded
     diameter_bound: Optional[Fraction] = None
 
@@ -431,9 +433,10 @@ def _by_kind(rej) -> Dict[str, Fraction]:
 DOES_NOT_ESTABLISH = (
     "This receipt closes nothing. D3-LEMMA-RN-UNIF Piece 1 is OPEN and Piece 2 "
     "is OPEN. OBL-H5-JETMOD, OBL-H5-ZBAND (hi side), OBL-H5-REMOTE-THRESHOLD "
-    "and OBL-D1-PROMOTE (chart side) are unchanged. No cell of the program's "
-    "actual cover is certified here; the integrand is a REFERENCE function, not "
-    "kappa_far and not the corrected RN5 envelope. The remote budget is not "
+    "and OBL-D1-PROMOTE (chart side) are unchanged. The generic driver supplies "
+    "no field-law or normalizer proof. Read the supplied integrand's scope and "
+    "premises; shipped REFERENCE integrands are not kappa_far or the corrected "
+    "RN5 envelope. The remote budget is not "
     "reassembled. The 2D upper, 2D lower and 3D lifetime tracks are composed in "
     "no way. Original prize problems solved: 0."
 )
@@ -452,6 +455,7 @@ class Ledger:
         #: False as soon as any NON-CERTIFYING path contributes. Never reset.
         self.certifying = bool(certifying)
         self.note = note
+        self.acceptance_policy: Optional[Dict[str, object]] = None
         self.records: Dict[str, CellRecord] = {}
         self.roots: List[str] = []
         self._order: List[str] = []
@@ -794,6 +798,13 @@ class Ledger:
                            "(research/interval)") if self.certifying
                           else "NON-CERTIFYING (float / high-precision path present)",
             "note": self.note,
+            **({"acceptance_policy": self.acceptance_policy}
+               if self.acceptance_policy is not None else {}),
+            **({"enclosure_failures": [
+                {"cid": r.cell.cid, "reason": r.enclosure_failure,
+                 "disposition": r.disposition, "box": r.cell.box.as_json()}
+                for r in self.cells() if r.enclosure_failure is not None
+            ]} if any(r.enclosure_failure is not None for r in self.cells()) else {}),
             "domain": self.domain.as_json(),
             "cells_total": len(self.records),
             "cells_by_disposition": counts,

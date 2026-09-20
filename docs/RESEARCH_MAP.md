@@ -554,7 +554,10 @@ below is quoted from those bytes.
   promotion." The Board's OPERATOR PACKAGE DECISION of 2026-07-24 is the one
   operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
   private Git repository creation and exact-history push are approved when
-  platform access becomes available." (This repository is public; the
+  platform access becomes available." (This repository is now private by
+  Dylan's subsequent explicit instruction; public publication requires his
+  explicit authorization. The authenticated API confirmed private visibility
+  on 2026-09-20 UTC. The
   visibility decision is the owner's — see `governance/GIT_ADAPTATION.md`.)
 * `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers
   (`04.1_LIVE_REGISTERS`: the GP-REG-032-v1.2 workbook, its leaf card, the

@@ -17,7 +17,7 @@ CI_CHECKERS = (
     "quarantine_check", "verify_manifests", "manifest_integrity_check",
     "reviews_check", "recovery_check", "collision_proposal_check", "carriers_verify",
     "lanes_check", "slack_check", "receipts_check", "frozen_check", "bridge_check", "operations_check", "drive_coverage", "hermite_envelope_report", "drive_reconcile", "native_export_check", "rn_moment_report",
-    "rn_certificate", "rn_side24_check", "rn_side24_density_check", "research_frontier",
+    "rn_certificate", "rn_side24_check", "rn_side24_density_check", "rn_side24_spatial_check", "parallel_math_check", "research_frontier",
     "closure_pipeline",
     "lpw_amplitude_check",
 )

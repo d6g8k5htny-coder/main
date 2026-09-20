@@ -154,6 +154,75 @@ For a cell that only partly meets the region, `|S| ∈ [0, |C|]` gives
 cell carries as its `residual`. That is how a rejected cell is **bounded**
 rather than ignored.
 
+### Optional upper-budget acceptance
+
+The default `DriverConfig(upper_budget=None)` preserves the existing width
+tolerance rule. A caller supplying a certified nonnegative range such as
+`[0,U]` can opt into `DriverConfig(upper_budget=Fraction(...))`. In this mode
+`tol` is inactive: the acceptance target is a total upper, not the width of an
+approximation. A float, bool, integer, string or negative upper budget is
+refused; provide an explicit nonnegative `Fraction`.
+
+For a parameter box `C` in parameter domain `D`, the allocated share is
+
+```
+B_C = upper_budget * C.param_area() / D.param_area()
+```
+
+The driver accepts an inside cell only if its already area-multiplied
+contribution has `contribution.hi <= B_C`. It keeps the supplied lower
+endpoint, including zero; it never invents a positive typed lower bound.
+Nonnegative range enclosures are required in this mode. The original width
+mode continues to allow signed ranges.
+
+For a straddling cell, the same comparison applies to its complete residual
+`Interval(0, area_upper) * range`. A passing residual is retained under
+`UNRESOLVED_BOUNDARY` with its area bound and reason. An over-budget residual
+is refined, or remains **PENDING** at the depth limit. A cell proved outside
+still contributes exact zero. Geometry enters an inside contribution or
+boundary residual exactly once; summation does not multiply by area again.
+
+Parameter areas are exact and additive under the ledger's structural
+partition check. Geometric area *upper bounds* need not be additive and are
+therefore not used to allocate this budget. With zero pending leaves, the
+accepted contribution uppers plus all retained boundary residual uppers are
+at most the sum of their shares, hence at most the requested budget. The
+driver also checks the completed exact sum against that budget. `total()`
+still requires both exact partition checks and zero pending cells, and
+`certified_enclosure()` still refuses a non-certifying arithmetic path.
+The receipt records the opt-in criterion, budget and allocation rule.
+
+This is a **sufficient acceptance policy, not a convergence theorem**. Even
+when the true integral is below the global budget, a locally high integrand
+may exceed its uniform share at every refinement depth. Adaptive budget
+allocation or a proved nonuniform majorant is separate work. Raising a target
+only changes which existing bounds are accepted; it supplies no mathematics.
+
+### Recoverable enclosure failures
+
+An adapter may raise `RecoverableEnclosureError` when a recognized interval
+admission check cannot enclose an otherwise valid cell and subdivision may
+help. The driver records the reason, refines if depth remains, and leaves
+unresolved leaves **PENDING** at depth or visit limits. This also applies to
+boundary cells: no residual can be fabricated from a failed enclosure.
+Failed parents remain visible in the receipt's `enclosure_failures`, even if
+their children later succeed. Missing contributions are never replaced by
+zero, and `total()` refuses them.
+
+Only this explicit exception type is caught. An adapter must distinguish
+recoverable mathematical enclosure failures from bad input, source digest
+changes, unsupported scope and programming errors. It must not broadly wrap
+all `ValueError` exceptions. The driver does not establish an adapter's field
+law, imported normalizer, proof premises or mathematical acceptance. Shipped
+reference integrands retain their existing labels; a source adapter must
+state its own scope and retained hypotheses.
+
+`tests/test_cover_upper_budget.py` checks area counted once, boundary budget
+consumption, nonadditive geometric upper bounds, honest zero lower endpoints,
+typed recovery, resource-limit refusal, exact partition checks and the
+uniform-allocation limitation. These are reference controls, not an RN cover
+or an independent review.
+
 ### Rejected cells are retained, with reasons and boundary-area bounds
 
 `reject()` takes the reason and the boundary-area bound as *required*

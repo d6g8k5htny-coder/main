@@ -60,6 +60,17 @@ premise is not reproved and the complete spatial cover remains open.
 python tools/rn_side24_density_check.py
 ```
 
+The [local rectangle extension](RN_SIDE24_CELL.md) replays four spatial-cell
+witness sets and the complete partition/area sum. The [parallel candidates](PARALLEL_MATH.md)
+reconstruct the fixed-r H3 floor, full LPW tails with a quadratic covariance
+modulus, and one normalized H5 jet over a named band. Both commands are required
+by CI and the complete closure runner.
+
+```sh
+python tools/rn_side24_spatial_check.py
+python tools/parallel_math_check.py
+```
+
 [Recurring continuation](RESEARCH_AUTOMATION.md) schedules one bounded private
 delivery per run, with source/claim coordination and one complete verification
 of the final stable tree. It leaves unchanged or non-actionable state quiet.

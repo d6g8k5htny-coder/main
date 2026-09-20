@@ -52,6 +52,22 @@ width, distributed by area. Budgeting uses rational upper bounds only and
 cannot affect certification -- it decides when to stop refining, not what the
 bound is.
 
+OPT-IN UPPER TARGET. ``DriverConfig(upper_budget=B)`` replaces the width rule
+with a sufficient rule for nonnegative ranges: each contribution upper,
+including a straddling boundary residual, must fit ``B`` times its exact
+parameter-area share. ``tol`` is inactive in this mode. The driver preserves
+the supplied range (including an honest zero lower endpoint), multiplies by
+geometric area once and sums all leaf contributions without another rounding.
+No pending cell is waived. Uniform shares need not converge even when the
+actual integral is below B: a locally high integrand may permanently exceed
+its allocated share. This policy proves no completeness of the search.
+
+RECOVERABLE ENCLOSURE FAILURE. Only ``RecoverableEnclosureError`` requests
+subdivision without supplying a range. Its reason is retained; an unresolved
+resource limit leaves PENDING, including at a straddling boundary. Ordinary
+input, source and programming errors propagate. Subdivision guarantees no
+future enclosure success and a failed attempt contributes no fabricated zero.
+
 NON-CERTIFYING PATHS. An integrand declares ``certifying``. A single
 non-certifying integrand makes the whole run non-certifying: the ledger is
 flagged at construction, the receipt says so in ``certifying`` and
@@ -59,11 +75,14 @@ flagged at construction, the receipt says so in ``certifying`` and
 included precisely so that this labelling is exercised by a test. It is not a
 bound and must never be used as one.
 
-WHAT THIS MODULE DOES NOT ESTABLISH. The integrands here are REFERENCE
+WHAT THIS MODULE DOES NOT ESTABLISH. The built-in integrands are REFERENCE
 functions, chosen because they can be certified end to end. **None of them is
 the program's ``kappa_far``**, none is the corrected RN5 envelope, and a run
-over one of them certifies no cell of the program's actual cover. Piece 1 and
-Piece 2 of ``D3-LEMMA-RN-UNIF`` are OPEN.
+over one of them certifies no cell of the program's actual cover. A caller may
+supply a source-derived adapter; its field-law proof, retained hypotheses and
+domain scope remain separate from the generic driver's bookkeeping. The
+driver supplies no full RN cover or remote budget. Piece 1 and Piece 2 of
+``D3-LEMMA-RN-UNIF`` are OPEN.
 """
 from __future__ import annotations
 
@@ -77,10 +96,20 @@ from .ledger import Cell, Ledger, RejectKind
 from .regions import INSIDE, OUTSIDE, STRADDLE
 
 __all__ = [
-    "Integrand", "DriverConfig", "run",
+    "Integrand", "DriverConfig", "RecoverableEnclosureError", "run",
     "RadialGaussianReference", "TiltedGaussianReference", "FloatProbeReference",
     "radial_gaussian_closed_form",
 ]
+
+
+class RecoverableEnclosureError(Exception):
+    """A valid cell could not be enclosed; subdivision may resolve it.
+
+    Adapters raise this only for an explicitly recognized interval admission
+    failure, never for malformed inputs, changed sources or programming errors.
+    No range or contribution is implied by this exception. The driver records
+    it and refines, or leaves the cell PENDING when resources are exhausted.
+    """
 
 
 class Integrand(Protocol):
@@ -94,7 +123,9 @@ class Integrand(Protocol):
                    labelled NON-CERTIFYING.
     ``range_enclosure(region, box, prec)`` a certified enclosure of
                    ``{f(y) : y in cell}``. Containment is the contract;
-                   tightness is best effort.
+                   tightness is best effort. May raise
+                   :class:`RecoverableEnclosureError` for a recognized
+                   enclosure admission failure that subdivision may resolve.
     """
 
     name: str
@@ -118,6 +149,11 @@ class DriverConfig:
                   PENDING, which is fatal to a total, by design.
     ``sig_bits``  outward rounding applied to stored enclosures to keep
                   endpoint denominators bounded. Widens, never narrows.
+    ``upper_budget`` opt-in total upper target for nonnegative integrands.
+                  None preserves the width/tol rule. Otherwise a cell's
+                  contribution upper must fit its exact parameter-area share
+                  of this budget. Boundary residuals consume the same budget.
+                  This changes acceptance, never a supplied range or area.
     """
 
     tol: Fraction = Fraction(1, 100)
@@ -125,6 +161,7 @@ class DriverConfig:
     prec: int = 48
     max_cells: int = 200_000
     sig_bits: int = 80
+    upper_budget: Optional[Fraction] = None
 
     def __post_init__(self) -> None:
         if not isinstance(self.tol, Fraction):
@@ -133,6 +170,11 @@ class DriverConfig:
             raise ValueError("tol must be non-negative")
         if self.max_depth < 0 or self.max_cells < 1:
             raise ValueError("max_depth >= 0 and max_cells >= 1 required")
+        if self.upper_budget is not None:
+            if not isinstance(self.upper_budget, Fraction):
+                raise TypeError("upper_budget must be an exact Fraction or None")
+            if self.upper_budget < 0:
+                raise ValueError("upper_budget must be non-negative")
 
 
 def run(region, integrand: Integrand,
@@ -152,6 +194,14 @@ def run(region, integrand: Integrand,
     if not integrand.certifying:
         ledger.mark_non_certifying(
             f"integrand {integrand.name!r} declares certifying=False")
+    if cfg.upper_budget is not None:
+        ledger.acceptance_policy = {
+            "criterion": "NONNEGATIVE_CONTRIBUTION_UPPER",
+            "upper_budget": str(cfg.upper_budget),
+            "allocation": "exact cell parameter area / domain parameter area",
+            "tol_applies": False,
+            "includes_boundary_residuals": True,
+        }
 
     roots = region.roots()
     domain_area_upper = sum((region.area_rational_upper(b) for b in roots),
@@ -190,9 +240,49 @@ def run(region, integrand: Integrand,
                 residual=Interval.exact(Fraction(0)))
             continue
 
-        rng = integrand.range_enclosure(region, box, cfg.prec).round_out(cfg.sig_bits)
+        try:
+            rng = integrand.range_enclosure(region, box, cfg.prec)
+        except RecoverableEnclosureError as exc:
+            reason = str(exc) or type(exc).__name__
+            ledger.records[cell.cid].enclosure_failure = reason
+            if cell.depth < cfg.max_depth:
+                _refine(ledger, region, cell, stack)
+            else:
+                ledger.leave_pending(
+                    cell.cid, f"recoverable enclosure failure at max_depth="
+                    f"{cfg.max_depth}: {reason}; no contribution established")
+            continue
+        rng = rng.round_out(cfg.sig_bits)
+        upper_share = None
+        if cfg.upper_budget is not None:
+            if rng.lo < 0:
+                raise ValueError("upper-budget mode requires a nonnegative range enclosure")
+            # Parameter areas are exactly additive for every valid partition.
+            # Geometric area upper bounds need not be additive, so using them
+            # for these shares would not imply a bound on the total upper.
+            upper_share = (cfg.upper_budget * box.param_area()
+                           / ledger.domain.param_area())
 
         if cls == STRADDLE:
+            if upper_share is not None:
+                residual = (Interval(Fraction(0), area_up) * rng
+                            ).round_out(cfg.sig_bits)
+                if residual.hi <= upper_share:
+                    ledger.reject(
+                        cell.cid, RejectKind.UNRESOLVED_BOUNDARY,
+                        "straddles the region boundary; its retained residual "
+                        "fits the exact parameter-area share of the upper budget",
+                        boundary_area_bound=area_up, residual=residual)
+                elif cell.depth < cfg.max_depth:
+                    _refine(ledger, region, cell, stack)
+                else:
+                    rec = ledger.records[cell.cid]
+                    rec.value_range, rec.residual = rng, residual
+                    ledger.leave_pending(
+                        cell.cid, f"max_depth={cfg.max_depth} reached with "
+                        f"boundary residual upper {residual.hi} above the cell "
+                        f"upper budget {upper_share}; NOT accepted or dropped")
+                continue
             if cell.depth < cfg.max_depth:
                 _refine(ledger, region, cell, stack)
             else:
@@ -212,9 +302,11 @@ def run(region, integrand: Integrand,
 
         area_iv = region.area(box, cfg.prec).round_out(cfg.sig_bits)
         contribution = (area_iv * rng).round_out(cfg.sig_bits)
-        budget = cfg.tol * area_up / domain_area_upper
+        budget = (cfg.tol * area_up / domain_area_upper
+                  if upper_share is None else upper_share)
+        measured = contribution.width() if upper_share is None else contribution.hi
 
-        if contribution.width() <= budget:
+        if measured <= budget:
             ledger.accept(cell.cid, area=area_iv, value_range=rng,
                           contribution=contribution)
         elif cell.depth < cfg.max_depth:
@@ -224,12 +316,23 @@ def run(region, integrand: Integrand,
             ledger.records[cell.cid].contribution = contribution
             ledger.records[cell.cid].area = area_iv
             ledger.records[cell.cid].value_range = rng
-            ledger.leave_pending(
-                cell.cid,
-                f"max_depth={cfg.max_depth} reached with contribution width "
-                f"{float(contribution.width()):.6g} above the cell budget "
-                f"{float(budget):.6g}; NOT accepted, NOT silently dropped")
+            if upper_share is None:
+                ledger.leave_pending(
+                    cell.cid,
+                    f"max_depth={cfg.max_depth} reached with contribution width "
+                    f"{float(contribution.width()):.6g} above the cell budget "
+                    f"{float(budget):.6g}; NOT accepted, NOT silently dropped")
+            else:
+                ledger.leave_pending(
+                    cell.cid, f"max_depth={cfg.max_depth} reached with contribution "
+                    f"upper {contribution.hi} above the cell upper budget "
+                    f"{budget}; NOT accepted, NOT silently dropped")
 
+    if cfg.upper_budget is not None and not ledger.pending():
+        # Independently check the complete sum, including boundary residuals,
+        # instead of treating successful individual comparisons as a total.
+        if ledger.total().enclosure.hi > cfg.upper_budget:
+            raise ValueError("complete enclosure exceeds the requested upper budget")
     return ledger
 
 
