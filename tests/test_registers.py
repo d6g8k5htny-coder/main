@@ -563,7 +563,8 @@ def test_every_findings_section_is_read_and_the_pending_section_says_why():
     assert "COVERED BY THE NUMBERED SUCCESSOR PROPOSAL registers/collision_proposal_2026-09-19.json" in note
     assert "successor_of registers/collision_proposal.json" in note and "nothing has been repaired" in note
     note3 = known["_findings_first_keyed_2026-09-19_note"]
-    assert "NOT YET COVERED BY ANY COLLISION PROPOSAL" in note3 and "Nothing has been repaired" in note3
+    assert "COVERED BY THE THIRD NUMBERED SUCCESSOR PROPOSAL registers/collision_proposal_2026-09-19b.json" in note3
+    assert "successor_of registers/collision_proposal_2026-09-19.json" in note3 and "Nothing has been repaired" in note3
     # the third section is exactly what keying relations / review_ledger / definitions surfaces
     keyed = {k for k in known["findings_first_keyed_2026-09-19"]}
     assert {k.split(":")[0] for k in keyed} == {"relations", "review_ledger", "definitions"}

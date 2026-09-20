@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Checker for the collision proposals under registers/.
 
-Two dated proposals exist, and neither edits the other (CLAUDE.md rule 8):
+Three dated proposals exist, and none edits an earlier one (CLAUDE.md rule 8):
 
   registers/collision_proposal.json            (2026-09-18) — 16 records over the 'findings'
       section of registers/KNOWN_FINDINGS.json; source of record is the 2026-09-17 markdown
@@ -10,6 +10,10 @@ Two dated proposals exist, and neither edits the other (CLAUDE.md rule 8):
       'findings_first_visible_in_2026-09-18_export' section; source of record is the
       2026-09-18 xlsx export, and every colliding row is quoted as the exact list of cell
       strings registers/json/<tab>.json holds (the markdown export has no line for them).
+  registers/collision_proposal_2026-09-19b.json (2026-09-19, third) — 14 records over the
+      'findings_first_keyed_2026-09-19' section (relations, review_ledger, definitions);
+      xlsx mode like the second; successor_of names the second document, which itself
+      names the first, so the predecessor chain is two deep.
 
 A proposal is a PROPOSAL: it disambiguates structural defects without repairing anything.
 This checker enforces that promise mechanically, for whichever proposal --proposal names:
@@ -25,13 +29,27 @@ This checker enforces that promise mechanically, for whichever proposal --propos
                   digest recorded in the proposal matches the file on disk;
   4. successors — every proposed successor identifier is unique within the proposal, does not
                   already exist anywhere in registers/json/, and (for a successor proposal)
-                  is not one its predecessor already issued;
+                  is not one ANY document in its predecessor chain already issued: successor_of
+                  may name a document that itself carries a successor_of, the chain is walked
+                  to its root, every document on it must match its recorded sha256 and byte
+                  count on disk (they are frozen), and a chain that revisits a document fails;
   5. honesty    — independence credit is recorded at 0 with its reason, the
                   independence-requiring gates are stated to remain open, every record states
                   what it does not establish, every quoted row matches its source exactly
                   (line for line, or cell for cell, by source_of_record.kind), and the
-                  Markdown companion named by the document's 'companion' field states that
-                  nothing was repaired and quotes every finding key;
+                  Markdown companion named by the document's 'companion' field carries the
+                  banner '**Nothing has been repaired.**' near its head — anchored, because a
+                  companion that quotes register text ending '...; nothing has been repaired.'
+                  would satisfy a bare substring search while its own banner said the opposite
+                  — and quotes every finding key.  A document may also transcribe each
+                  finding's text into its record ('finding_text_as_recorded') and blockquote it
+                  in the companion under an explicit attribution to KNOWN_FINDINGS.json; that
+                  transcription is then held to its source byte for byte, the companion's copy
+                  is held to the record's, the attribution count must equal the number of
+                  records transcribing, and a document that transcribes one finding must
+                  transcribe every one.  Equality of the strings is all this establishes: the
+                  finding text itself may be wrong, and where it is, the records say so and
+                  repair neither it nor the register;
   6. bound      — (xlsx mode only) each record is bound to the finding it disambiguates:
                   the finding key '<tab>: duplicate key '<id>' at rows A and B' must name
                   the record's register_tab, its colliding_identifier and exactly the two
@@ -40,20 +58,38 @@ This checker enforces that promise mechanically, for whichever proposal --propos
                   and cell_comparison are recomputed from the live cells and must match
                   what the record says; exact_duplicate_row must equal rowA == rowB;
                   both_rows_cite_one_drive_object and the defect class must agree with the
-                  Source / Source URL (and Drive ID) cells; the keeper must be the earlier
-                  of the two rows and the successor the later; and the successor id must be
+                  identity cells the per-tab rule reads (DRIVE_OBJECT_RULE: 'Source' for the
+                  Artifact Index; 'Source URL' and 'Drive ID' for the Evidence Lineage;
+                  'Source URL' for the Relation Index and the Definition Registry; 'Exact
+                  Object ID' for the Review Independence ledger, which carries no URL); for
+                  the Relation Index the class must further say SAME_RELATION exactly when
+                  the Source object, Relation type and Target object cells all agree, and
+                  target_url_cells_agree, when recorded, must equal what the Target URL cells
+                  give; identity_cells_cited, when recorded, must equal the rule's cells;
+                  the keeper must be the earlier of the two rows and the successor the
+                  later; and the successor id must be
                   '<id>@<TAB-LOCATOR>-R<successor row>' for the record's tab.  Proposed
                   Duplicate Flags cluster ids are held to the same uniqueness rule as
                   successor ids, and a proposal over any section other than 'findings'
                   must name its frozen predecessor in successor_of.  Further, in xlsx mode:
                   row_canonical_bytes must equal the byte length of the live row's canonical
-                  serialisation; workbook_tab must be the workbook's name for register_tab;
+                  serialisation; workbook_tab must be the workbook's name for register_tab
+                  (WORKBOOK_TAB, which is itself checked against the sheet-name map of
+                  tools/registers_import.py at call time);
                   every number word in a record's materiality ('nine of twelve cells differ',
                   'eight cells agree') must equal the recomputed cell counts; the document-level
                   summary_counts and the classification lists must equal what the records'
-                  cells give (nothing at document level is typed, everything is recomputed);
+                  cells give (nothing at document level is typed, everything is recomputed;
+                  the same-object bucket may be named by the legacy key
+                  '..._different_status_text' or the neutral key '..._different_cells', and a
+                  document whose chain is two or more deep totals the whole chain under
+                  'findings_covered_by_the_chain_together' instead of the two-document key);
                   successor_of.successor_ids_issued_by_predecessor must equal the ids the
-                  predecessor file actually issues; and the Markdown companion must quote
+                  direct predecessor file actually issues; source_of_record.row_locators, the
+                  document's own statement of which locator each tab's successor ids carry,
+                  must agree with TAB_LOCATOR for every tab (the ids are held to TAB_LOCATOR,
+                  so an unchecked declaration would let the document describe itself falsely);
+                  and the Markdown companion must quote
                   every live row's canonical JSON, its 'rows[i], canonical N bytes, SHA-256'
                   line, its record's 'Cell count' line and materiality verbatim, and carry
                   exactly one summary-table row per record naming its rows, keeper,
@@ -62,6 +98,18 @@ This checker enforces that promise mechanically, for whichever proposal --propos
                   REIDENTIFY_KEY_CELL follow-up rewrites exactly the colliding identifier
                   ('from') to an identifier the same record proposes ('to'), so the
                   operator-reserved field can name nothing the proposal did not issue.
+  8. prose      — (xlsx mode only) the repository's own prose about these collisions is held
+                  to the same live cells the records are: in registers/README.md and
+                  docs/FINDINGS_2026-09-18.md, an 'exact duplicate' phrase attributed to a
+                  colliding identifier whose record recomputed exact_duplicate_row=false must
+                  be a denial ('not an exact duplicate row'), and an 'N of T cells differ/agree'
+                  phrase attributed to one must equal that record's recomputed counts.  A
+                  phrase is attributed to the nearest colliding identifier named before it in
+                  the same sentence; a phrase in a sentence that names none, or before any
+                  mention in it, is not attributed and not checked.  This is a contradiction
+                  guard over prose, not a proof that the prose is right, and it establishes
+                  nothing about any register cell, status or claim.  A prose file that is
+                  absent (a sandbox holding only registers/ and tools/) is skipped with a note.
 
 Exit status is nonzero if any check fails.
 Run:  python3 tools/collision_proposal_check.py [--proposal PATH] [--section NAME] [-v]
@@ -108,25 +156,91 @@ VERBATIM_KINDS = {"markdown_export_lines", "xlsx_export_json_rows"}
 # The finding keys tools/registers_check.py prints for a duplicate primary key.
 DUP_KEY_FINDING = re.compile(r"^(?P<tab>[a-z0-9_]+): duplicate key '(?P<key>[^']+)' at rows (?P<a>\d+) and (?P<b>\d+)$")
 # Tab-scoped row-locator abbreviations a successor id must carry ('<id>@<abbr>-R<row>').
-TAB_LOCATOR = {"artifact_index": "AIDX", "evidence_lineage": "EVL"}
-# The workbook's own name for each JSON tab a successor record may quote.
-WORKBOOK_TAB = {"artifact_index": "Artifact Index", "evidence_lineage": "Evidence Lineage"}
-# The column that names the Drive object a row cites, by preference order.
-SOURCE_COLUMNS = ("Source URL", "Source")
+TAB_LOCATOR = {"artifact_index": "AIDX", "evidence_lineage": "EVL",
+               "relations": "REL", "review_ledger": "RVL", "definitions": "DEF"}
+# The workbook's own sheet name for each JSON tab a successor record may quote.  The JSON
+# 'tab' field is the importer's machine name; the sheet name is the left column of
+# tools/registers_import.py SHEETS, and check_workbook_tab_map() fails if this map and that
+# one disagree, so a renamed sheet cannot be quoted under a stale name.
+WORKBOOK_TAB = {"artifact_index": "Artifact Index", "evidence_lineage": "Evidence Lineage",
+                "relations": "Relation Index", "review_ledger": "Review Independence",
+                "definitions": "Definition Registry"}
+# The identity cells the drive-object agreement rule reads, per tab.  Two rows 'cite one
+# Drive object' exactly when every listed cell agrees whole-cell (no normalisation).  The
+# first listed column is the one drive_source_cited_by_both_rows / drive_sources_cited quote
+# when it is a URL column (URL_COLUMNS); a tab whose first column is not a URL (the Review
+# Independence ledger names its object by Exact Object ID and carries no URL) must record
+# drive_source_cited_by_both_rows as null.  For the Relation Index the rule reads the Source
+# URL — the Drive object the relation is asserted from — and the Target URL cells are
+# compared separately (target_url_cells_agree) and reported, never folded into the flag.
+DRIVE_OBJECT_RULE = {
+    "artifact_index": ("Source",),
+    "evidence_lineage": ("Source URL", "Drive ID"),
+    "relations": ("Source URL",),
+    "review_ledger": ("Exact Object ID",),
+    "definitions": ("Source URL",),
+}
+URL_COLUMNS = ("Source URL", "Source")
+# The cells that identify the relation a Relation Index row describes; their agreement is
+# what the SAME_RELATION class token asserts.
+RELATION_TRIPLE = ("Source object", "Relation type", "Target object")
+# Backward-compatible name (not read by the checks; kept for callers that import it).
+SOURCE_COLUMNS = URL_COLUMNS
 DUPLICATE_FLAGS_TAB = "duplicate flags"
 # Document-level classification lists a successor proposal carries, by key prefix; the three
-# list keys are recomputed from the records' cells and must match exactly.
+# list keys are recomputed from the records' cells and must match exactly.  The same-object
+# bucket may be named by the legacy key (the 2026-09-19 document, whose same-object pairs
+# all differ in Status) or by the neutral key (a document whose same-object pair differs in
+# cells other than Status must not call the difference 'status text').
 CLASSIFICATION_KEY_PREFIX = "classification_of_the_"
 CLASS_SAME = "same_object_different_status_text"
+CLASS_SAME_NEUTRAL = "same_object_different_cells"
+CLASS_SAME_KEYS = (CLASS_SAME, CLASS_SAME_NEUTRAL)
 CLASS_DIFFERENT = "different_objects_one_identifier"
 CLASS_EXACT = "exact_duplicate_rows"
+SUMMARY_SAME_KEYS = ("same_drive_object_different_status_text", "same_drive_object_different_cells")
+SUMMARY_TWO_DOCS_KEY = "findings_covered_by_both_proposals_together"
+SUMMARY_CHAIN_KEY = "findings_covered_by_the_chain_together"
+# A predecessor chain longer than this is not a chain of frozen proposals but a loop or a
+# mistake; the check stops and fails rather than following it.
+CHAIN_MAX_DEPTH = 16
 # Number words prose may use for cell counts; any other word before 'cells differ/agree'
-# is not a count and is not checked.
+# is not a count and is not checked.  Hyphenated words above twenty are numbers too.
 NUMBER_WORDS = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
                 "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12,
                 "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17,
-                "eighteen": 18, "nineteen": 19, "twenty": 20}
-CELL_COUNT_PROSE = re.compile(r"\b(?:(\w+) of )?(\w+) cells (differ|agree)\b", re.IGNORECASE)
+                "eighteen": 18, "nineteen": 19, "twenty": 20, "twenty-one": 21, "twenty-two": 22,
+                "twenty-three": 23, "twenty-four": 24, "twenty-five": 25, "twenty-six": 26,
+                "twenty-seven": 27, "twenty-eight": 28, "twenty-nine": 29, "thirty": 30}
+CELL_COUNT_PROSE = re.compile(r"\b(?:([\w-]+) of )?([\w-]+) cells (differ|agree)\b", re.IGNORECASE)
+# Repository prose (not an export, not the Markdown companion) that discusses these
+# collisions.  It is checked, never written, by this tool; a file that is not present is
+# skipped.  registers/README.md is the register directory's own description of the keying
+# findings; docs/FINDINGS_2026-09-18.md carries the audit narrative.
+PROSE_FILES = (os.path.join("registers", "README.md"),
+               os.path.join("docs", "FINDINGS_2026-09-18.md"))
+# A document may transcribe each finding's text from registers/KNOWN_FINDINGS.json into its
+# record ('finding_text_as_recorded') and blockquote it in the companion under an explicit
+# attribution.  A transcription presented as a quotation is held to its source byte for byte,
+# and a document that transcribes one finding must transcribe every one: a field quietly
+# dropped would leave the companion attributing to the register text no record carries.  A
+# document that transcribes none (the two frozen predecessors) is skipped with a note.
+FINDING_TEXT_FIELD = "finding_text_as_recorded"
+COMPANION_FINDING_TEXT_ATTRIBUTION = "Finding text as recorded in `KNOWN_FINDINGS.json`:"
+# The companion's nothing-was-repaired banner, required in the emphatic form and near the head
+# of the document.  A bare substring search over the whole file is satisfiable by quoted
+# material -- every transcribed finding text ends '...; nothing has been repaired.' -- so the
+# banner the reader meets first is anchored instead of merely present.
+NOTHING_REPAIRED_BANNER = "**Nothing has been repaired.**"
+NOTHING_REPAIRED_BANNER_WITHIN_LINES = 40
+# Prose is read sentence by sentence over whitespace-flattened text.
+SENTENCE_SPLIT = re.compile(r"(?<=[.!?])\s+")
+EXACT_DUPLICATE_PROSE = re.compile(r"\bexact duplicate\b", re.IGNORECASE)
+# A record with exact_duplicate_row=false licenses only a denial.  Any of these tokens in
+# the characters immediately before the phrase makes the mention a denial ('not an exact
+# duplicate row', "isn't the exact duplicate the finding text calls it").
+PROSE_NEGATORS = ("not ", "n't ", "never ", "no ", "rather than ", "instead of ")
+PROSE_NEGATION_WINDOW = 48
 
 
 class Result:
@@ -182,13 +296,20 @@ def record_proposed_ids(p) -> set[str]:
     return out
 
 
-def existing_identifiers(json_dir: str | None = None) -> set[str]:
+def existing_identifiers(json_dir: str) -> set[str]:
     """Every string that already names something in registers/json/: whole cell values
     and whitespace/semicolon/comma/pipe-delimited tokens inside them, plus headers and
     tab names.  Matching is on exact values, never substrings, so a successor that
     merely *contains* an existing id (e.g. 'TR-P01-006-COLLISION-PROVENANCE' contains
-    'TR-P01-006') is correctly treated as new."""
-    json_dir = json_dir or os.path.join(ROOT, JSON_DIR_REL)
+    'TR-P01-006') is correctly treated as new.
+
+    json_dir is required and is never defaulted to the module-level ROOT: this is the one
+    function whose job is to prove a proposed identifier is new, and a caller that silently
+    read the real repository while checking a sandbox would prove it against the wrong tree
+    (CLAUDE.md records exactly that hazard neutering the claims_check mutation tests)."""
+    if not json_dir:
+        raise ValueError("existing_identifiers() requires an explicit registers/json directory; "
+                         "it must never fall back to a path resolved at import time")
     out: set[str] = set()
     for fn in sorted(os.listdir(json_dir)):
         if not fn.endswith(".json"):
@@ -248,6 +369,67 @@ def check_bijection(doc, paths: Paths, section: str, res: Result) -> None:
         res.check(False, f"KNOWN_FINDINGS finding has no proposal record: {k!r}")
     res.check(len(proposed) == len(known),
               f"record count {len(proposed)} != finding count {len(known)} in section {section!r}")
+
+
+def records_transcribing_finding_text(doc) -> list[dict]:
+    """The records that carry a transcription of their finding's text."""
+    return [p for p in doc.get("proposals", []) if FINDING_TEXT_FIELD in p]
+
+
+def check_finding_text_verbatim(doc, paths: Paths, section: str, res: Result) -> None:
+    """A record's 'finding_text_as_recorded' is presented to the reader as the register's own
+    words, so it is checked against them: every record of a transcribing document must carry
+    the field, and each must equal registers/KNOWN_FINDINGS.json's entry for that record's
+    finding key byte for byte.  This establishes only that the two strings are equal; it says
+    nothing about whether the finding text itself is correct (for REL-EC021-CLS141 the records
+    themselves record that it is not, and repair neither the text nor the register)."""
+    records = doc.get("proposals", [])
+    carrying = records_transcribing_finding_text(doc)
+    if not carrying:
+        res.note(f"no record carries {FINDING_TEXT_FIELD}: no finding text is transcribed by this "
+                 "document, so none is checked")
+        return
+    known = load_json(paths.known).get(section, {}) or {}
+    for p in records:
+        rid = p.get("record_id", "?")
+        key = p.get("finding_key", "")
+        if FINDING_TEXT_FIELD not in p:
+            res.check(False, f"{rid}: {FINDING_TEXT_FIELD} is missing although {len(carrying)} of "
+                             f"{len(records)} records of this document transcribe the finding text "
+                             "(a document that quotes the register quotes it for every record)")
+            continue
+        want = known.get(key)
+        if not res.check(want is not None,
+                         f"{rid}: {FINDING_TEXT_FIELD} cannot be checked: finding key {key!r} is not in "
+                         f"registers/KNOWN_FINDINGS.json section {section!r}"):
+            continue
+        res.check(p[FINDING_TEXT_FIELD] == want,
+                  f"{rid}: {FINDING_TEXT_FIELD} is not registers/KNOWN_FINDINGS.json section "
+                  f"{section!r} entry {key!r} byte for byte")
+
+
+def check_declared_row_locators(doc, res: Result) -> None:
+    """source_of_record.row_locators is the document's own statement of the locator each tab's
+    successor identifiers carry.  The identifiers themselves are held to TAB_LOCATOR, so a
+    document declaring a different locator would describe itself falsely while still passing;
+    the declaration is therefore checked against the same map, for every tab a record names."""
+    src = doc.get("source_of_record") or {}
+    declared = src.get("row_locators")
+    if not isinstance(declared, dict):
+        res.note("source_of_record declares no row_locators map: nothing to cross-check")
+        return
+    for tab in sorted({p.get("register_tab", "") for p in doc.get("proposals", [])}):
+        want = TAB_LOCATOR.get(tab)
+        if want is None:
+            continue
+        res.check(declared.get(tab) == want,
+                  f"source_of_record.row_locators[{tab!r}] is {declared.get(tab)!r} but the successor "
+                  f"identifiers of that tab are checked against {want!r}")
+    for tab, got in sorted(declared.items()):
+        if tab in TAB_LOCATOR:
+            res.check(got == TAB_LOCATOR[tab],
+                      f"source_of_record.row_locators[{tab!r}] is {got!r}, not the locator this checker "
+                      f"reads for that tab ({TAB_LOCATOR[tab]!r})")
 
 
 def check_operations(doc, res: Result) -> None:
@@ -380,6 +562,80 @@ def batch_ids(doc) -> dict[str, str]:
     return out
 
 
+def predecessor_chain(doc, paths: Paths, res: Result) -> list[tuple[str, dict]]:
+    """Walk successor_of from `doc` to the root of its predecessor chain.  Returns
+    [(relative path, parsed document), ...] nearest predecessor first.  Every document on the
+    chain is frozen: its recorded sha256 and byte count must match the file on disk, a
+    document may not name itself, and a chain that revisits a path (or exceeds
+    CHAIN_MAX_DEPTH) is a loop and fails.  A level whose file is missing or whose digest does
+    not match ends the walk there, so nothing downstream of a broken link is trusted."""
+    out: list[tuple[str, dict]] = []
+    seen: set[str] = set()
+    own = doc.get("document")
+    if isinstance(own, str) and own:
+        seen.add(own)
+    cur = doc
+    while True:
+        pred = cur.get("successor_of")
+        if not (isinstance(pred, dict) and pred.get("path")):
+            return out
+        prel = pred["path"]
+        if not res.check(prel not in seen,
+                         f"predecessor chain revisits {prel!r} (a document cannot be its own predecessor, "
+                         "directly or through a loop)"):
+            return out
+        seen.add(prel)
+        if not res.check(len(out) < CHAIN_MAX_DEPTH,
+                         f"predecessor chain deeper than {CHAIN_MAX_DEPTH} at {prel!r}; not followed"):
+            return out
+        ppath = paths.rel(prel)
+        if not res.check(os.path.exists(ppath), f"successor_of names a missing predecessor: {prel}"):
+            return out
+        raw = open(ppath, "rb").read()
+        digest_ok = res.check(hashlib.sha256(raw).hexdigest() == pred.get("sha256"),
+                              f"successor_of.sha256 does not match {prel} on disk "
+                              "(the predecessor is frozen; a changed digest means it was edited)")
+        if "bytes" in pred:
+            digest_ok = res.check(len(raw) == pred["bytes"],
+                                  f"successor_of.bytes {pred['bytes']} != {len(raw)} for {prel}") and digest_ok
+        if not digest_ok:
+            return out
+        try:
+            pdoc = json.loads(raw.decode("utf-8"))
+        except ValueError as exc:
+            res.check(False, f"predecessor {prel} is not valid JSON: {exc}")
+            return out
+        pdoc_name = pdoc.get("document")
+        res.check(pdoc_name == prel,
+                  f"predecessor {prel} calls itself {pdoc_name!r}; the chain must name documents by their own path")
+        out.append((prel, pdoc))
+        cur = pdoc
+
+
+def check_workbook_tab_map(paths: Paths, res: Result) -> None:
+    """WORKBOOK_TAB must agree with the sheet-name map the importer applies to the xlsx
+    (tools/registers_import.py SHEETS: (sheet name, machine name) in workbook order), so a
+    record's workbook_tab is checked against the importer's knowledge, not this file's.  The
+    importer is loaded from the same root the checks read, at call time."""
+    importer = os.path.join(paths.root, "tools", "registers_import.py")
+    if not res.check(os.path.exists(importer), f"tools/registers_import.py missing at {importer}; "
+                                              "workbook tab names cannot be verified"):
+        return
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("_registers_import_for_check", importer)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)  # type: ignore[union-attr]
+        sheets = dict((machine, sheet) for sheet, machine in getattr(mod, "SHEETS"))
+    except Exception as exc:  # pragma: no cover - environment dependent
+        res.check(False, f"could not read SHEETS from tools/registers_import.py: {exc}")
+        return
+    for machine, sheet in WORKBOOK_TAB.items():
+        res.check(sheets.get(machine) == sheet,
+                  f"WORKBOOK_TAB[{machine!r}] = {sheet!r} but tools/registers_import.py maps "
+                  f"{machine!r} to {sheets.get(machine)!r}")
+
+
 def check_successors(doc, paths: Paths, res: Result) -> None:
     existing = existing_identifiers(paths.json_dir)
     succ = collect_successors(doc)
@@ -414,36 +670,40 @@ def check_successors(doc, paths: Paths, res: Result) -> None:
         res.check(isinstance(pred, dict) and bool(pred.get("path")),
                   f"a proposal over section {claimed!r} must name its frozen predecessor in "
                   "successor_of (path, sha256, bytes); without it no predecessor check runs")
-    # A successor proposal must not reissue anything its frozen predecessor issued.
-    if isinstance(pred, dict) and pred.get("path"):
-        ppath = paths.rel(pred["path"])
-        if res.check(os.path.exists(ppath), f"successor_of names a missing predecessor: {pred['path']}"):
-            raw = open(ppath, "rb").read()
-            res.check(hashlib.sha256(raw).hexdigest() == pred.get("sha256"),
-                      f"successor_of.sha256 does not match {pred['path']} on disk "
-                      "(the predecessor is frozen; a changed digest means it was edited)")
-            if "bytes" in pred:
-                res.check(len(raw) == pred["bytes"],
-                          f"successor_of.bytes {pred['bytes']} != {len(raw)} for {pred['path']}")
-            pdoc = json.loads(raw.decode("utf-8"))
-            pred_succ = sorted({sid for _, sid in collect_successors(pdoc)})
+    # A successor proposal must not reissue anything ANY frozen document in its predecessor
+    # chain issued.  The chain is walked to its root; each level is frozen and must match
+    # its recorded digest on disk.
+    chain = predecessor_chain(doc, paths, res)
+    if "predecessor_chain" in doc:
+        # A document that lists its whole chain must list exactly what the walk found, by
+        # path, digest and byte count, nearest predecessor first.
+        walked = [{"path": prel, "sha256": hashlib.sha256(open(paths.rel(prel), "rb").read()).hexdigest(),
+                   "bytes": os.path.getsize(paths.rel(prel))} for prel, _ in chain]
+        listed = doc.get("predecessor_chain")
+        stripped = [{k: x.get(k) for k in ("path", "sha256", "bytes")} for x in listed] \
+            if isinstance(listed, list) and all(isinstance(x, dict) for x in listed) else None
+        res.check(stripped == walked,
+                  f"predecessor_chain lists {[x.get('path') for x in (listed or [])] if isinstance(listed, list) else listed!r} "
+                  f"but walking successor_of from this document finds {[p for p, _ in chain]!r} "
+                  "(paths, digests and byte counts must all agree)")
+    for depth, (prel, pdoc) in enumerate(chain):
+        pred_succ = sorted({sid for _, sid in collect_successors(pdoc)})
+        if depth == 0:
             recorded = pred.get("successor_ids_issued_by_predecessor")
             res.check(isinstance(recorded, list) and sorted(recorded) == pred_succ,
                       "successor_of.successor_ids_issued_by_predecessor does not equal the successor ids "
-                      f"{pred['path']} actually issues ({len(pred_succ)} ids)")
-            pred_ids = set(pred_succ) | set(batch_ids(pdoc).values())
-            for rid, sid in succ:
-                res.check(sid not in pred_ids,
-                          f"{rid}: successor id {sid!r} was already issued by the predecessor {pred['path']}")
-            for field, pid in batch_ids(doc).items():
-                res.check(pid not in pred_ids,
-                          f"batch {field} id {pid!r} was already issued by the predecessor {pred['path']}")
-            pred_clusters = {cid for _, cid in collect_cluster_ids(pdoc)}
-            for rid, cid in clusters:
-                res.check(cid not in pred_clusters,
-                          f"{rid}: proposed cluster id {cid!r} was already proposed by the predecessor {pred['path']}")
-            res.check(pred["path"] != doc.get("document"),
-                      "a document cannot be its own predecessor")
+                      f"{prel} actually issues ({len(pred_succ)} ids)")
+        pred_ids = set(pred_succ) | set(batch_ids(pdoc).values())
+        for rid, sid in succ:
+            res.check(sid not in pred_ids,
+                      f"{rid}: successor id {sid!r} was already issued by the predecessor {prel}")
+        for field, pid in batch_ids(doc).items():
+            res.check(pid not in pred_ids,
+                      f"batch {field} id {pid!r} was already issued by the predecessor {prel}")
+        pred_clusters = {cid for _, cid in collect_cluster_ids(pdoc)}
+        for rid, cid in clusters:
+            res.check(cid not in pred_clusters,
+                      f"{rid}: proposed cluster id {cid!r} was already proposed by the predecessor {prel}")
     # Every record that names a colliding key must either issue a successor or say why not.
     for p in doc.get("proposals", []):
         rid = p.get("record_id", "?")
@@ -604,33 +864,80 @@ def check_record_bound_to_finding(p, tab_name: str, header: list, rows: list,
     res.check(bool(p.get("exact_duplicate_row", False)) == is_exact,
               f"{rid}: exact_duplicate_row must be {is_exact} (rows {ia} and {ib} "
               f"{'are' if is_exact else 'are not'} cell-for-cell identical)")
-    # Same Drive object or not, read from the cells, must agree with the flag and the class.
+    # Same Drive object or not, read from the identity cells the per-tab rule names, must
+    # agree with the flag and the class.
     same = False
-    src_col = next((c for c in SOURCE_COLUMNS if c in header), None)
-    if res.check(src_col is not None,
-                 f"{rid}: {tab_name} has none of the source columns {SOURCE_COLUMNS}"):
-        si = header.index(src_col)
-        same = row_a[si] == row_b[si]
-        if "Drive ID" in header:
-            di = header.index("Drive ID")
-            same = same and (row_a[di] == row_b[di])
-        flag = p.get("both_rows_cite_one_drive_object")
-        res.check(flag is same,
-                  f"{rid}: both_rows_cite_one_drive_object is {flag!r} but the {src_col!r} cells of rows "
-                  f"{ia} and {ib} {'agree' if same else 'differ'}")
-        cls = str(p.get("defect_class", ""))
-        if same:
-            res.check("SAME_DRIVE_OBJECT" in cls and "DIFFERENT_OBJECTS" not in cls,
-                      f"{rid}: defect_class {cls!r} does not say SAME_DRIVE_OBJECT although the cells agree")
-            if "drive_source_cited_by_both_rows" in p:
-                res.check(p["drive_source_cited_by_both_rows"] == row_a[si],
-                          f"{rid}: drive_source_cited_by_both_rows is not the shared {src_col!r} cell")
-        else:
-            res.check("DIFFERENT_OBJECTS" in cls and "SAME_DRIVE_OBJECT" not in cls,
-                      f"{rid}: defect_class {cls!r} does not say DIFFERENT_OBJECTS although the cells differ")
-            if "drive_sources_cited" in p:
-                res.check(p["drive_sources_cited"] == {f"row_{ia}": row_a[si], f"row_{ib}": row_b[si]},
-                          f"{rid}: drive_sources_cited does not equal the two {src_col!r} cells")
+    rule = DRIVE_OBJECT_RULE.get(tab_name)
+    if res.check(rule is not None, f"{rid}: no drive-object agreement rule is defined for tab {tab_name!r}"):
+        missing = [c for c in rule if c not in header]
+        if res.check(not missing, f"{rid}: {tab_name} lacks the identity column(s) {missing} the rule reads"):
+            cols = {c: header.index(c) for c in rule}
+            same = all(row_a[i] == row_b[i] for i in cols.values())
+            src_col = rule[0]
+            si = cols[src_col]
+            url_col = src_col in URL_COLUMNS
+            cells_word = f"{src_col!r} cells" if len(rule) == 1 else f"{list(rule)} cells"
+            flag = p.get("both_rows_cite_one_drive_object")
+            res.check(flag is same,
+                      f"{rid}: both_rows_cite_one_drive_object is {flag!r} but the {cells_word} of rows "
+                      f"{ia} and {ib} {'agree' if same else 'differ'}")
+            if "drive_object_rule_cells" in p:
+                res.check(p["drive_object_rule_cells"] == list(rule),
+                          f"{rid}: drive_object_rule_cells {p['drive_object_rule_cells']!r} is not the rule this "
+                          f"checker reads for {tab_name!r} ({list(rule)!r})")
+            if "identity_cells_cited" in p:
+                want = {c: {f"row_{ia}": row_a[i], f"row_{ib}": row_b[i]} for c, i in cols.items()}
+                res.check(p["identity_cells_cited"] == want,
+                          f"{rid}: identity_cells_cited does not equal the rule's cells of rows {ia} and {ib}")
+            cls = str(p.get("defect_class", ""))
+            if same:
+                res.check("SAME_DRIVE_OBJECT" in cls and "DIFFERENT_OBJECTS" not in cls,
+                          f"{rid}: defect_class {cls!r} does not say SAME_DRIVE_OBJECT although the cells agree")
+                if "drive_source_cited_by_both_rows" in p:
+                    want_src = row_a[si] if url_col else None
+                    res.check(p["drive_source_cited_by_both_rows"] == want_src,
+                              f"{rid}: drive_source_cited_by_both_rows is not the shared {src_col!r} cell"
+                              if url_col else
+                              f"{rid}: drive_source_cited_by_both_rows must be null: {tab_name} carries no URL "
+                              f"column (its rule reads {src_col!r})")
+            else:
+                res.check("DIFFERENT_OBJECTS" in cls and "SAME_DRIVE_OBJECT" not in cls,
+                          f"{rid}: defect_class {cls!r} does not say DIFFERENT_OBJECTS although the cells differ")
+                if "drive_sources_cited" in p:
+                    want_srcs = {f"row_{ia}": row_a[si], f"row_{ib}": row_b[si]} if url_col else None
+                    res.check(p["drive_sources_cited"] == want_srcs,
+                              f"{rid}: drive_sources_cited does not equal the two {src_col!r} cells"
+                              if url_col else
+                              f"{rid}: drive_sources_cited must be null: {tab_name} carries no URL column")
+                if "drive_source_cited_by_both_rows" in p:
+                    res.check(p["drive_source_cited_by_both_rows"] is None,
+                              f"{rid}: drive_source_cited_by_both_rows must be null when the identity cells differ")
+            if tab_name == "relations":
+                # The relation a row describes is its (Source object, Relation type, Target
+                # object) triple; the class must say whether that triple agrees.
+                tcols = [header.index(c) for c in RELATION_TRIPLE if c in header]
+                res.check(len(tcols) == len(RELATION_TRIPLE),
+                          f"{rid}: relations lacks one of the triple columns {RELATION_TRIPLE}")
+                same_triple = all(row_a[i] == row_b[i] for i in tcols)
+                if same_triple:
+                    res.check("SAME_RELATION" in cls and "DIFFERENT_RELATIONS" not in cls,
+                              f"{rid}: defect_class {cls!r} does not say SAME_RELATION although the "
+                              f"{RELATION_TRIPLE} cells of rows {ia} and {ib} all agree")
+                else:
+                    res.check("SAME_RELATION" not in cls,
+                              f"{rid}: defect_class {cls!r} says SAME_RELATION although the "
+                              f"{RELATION_TRIPLE} cells of rows {ia} and {ib} differ")
+                if "relation_triple_cells_agree" in p:
+                    res.check(p["relation_triple_cells_agree"] is same_triple,
+                              f"{rid}: relation_triple_cells_agree is {p['relation_triple_cells_agree']!r} but the "
+                              f"{RELATION_TRIPLE} cells {'agree' if same_triple else 'differ'}")
+                if "Target URL" in header:
+                    ti = header.index("Target URL")
+                    same_target = row_a[ti] == row_b[ti]
+                    if "target_url_cells_agree" in p:
+                        res.check(p["target_url_cells_agree"] is same_target,
+                                  f"{rid}: target_url_cells_agree is {p['target_url_cells_agree']!r} but the "
+                                  f"'Target URL' cells of rows {ia} and {ib} {'agree' if same_target else 'differ'}")
     # Keeper is the earlier row, successor the later; the successor id locates the later row.
     keeper, succ = p.get("keeper") or {}, p.get("successor") or {}
     lo, hi = min(ia, ib), max(ia, ib)
@@ -681,21 +988,28 @@ def check_document_summary(doc, paths: Paths, section: str, classes: list[dict],
     """The document-level summary_counts and classification lists are recomputed from the
     per-record classes the cells gave and must match exactly; a summary is never typed."""
     known = load_json(paths.known).get(section, {}) or {}
-    n_pred = None
-    pred = doc.get("successor_of")
-    if isinstance(pred, dict) and pred.get("path") and os.path.exists(paths.rel(pred["path"])):
-        n_pred = len(load_json(paths.rel(pred["path"])).get("proposals", []))
+    # Records of every frozen predecessor on the chain (digests re-verified by the walk; a
+    # broken link truncates the chain and the total is then not claimed).
+    chain = predecessor_chain(doc, paths, Result())
+    chain_records = [len(pdoc.get("proposals", [])) for _, pdoc in chain]
     expected = {"findings_in_section": len(known), "proposal_records": len(doc.get("proposals", []))}
     for tab in sorted({c["tab"] for c in classes}):
         expected[f"{tab}_records"] = sum(1 for c in classes if c["tab"] == tab)
-    expected["same_drive_object_different_status_text"] = sum(1 for c in classes if c["class"] == CLASS_SAME)
+    got = doc.get("summary_counts")
+    same_keys_used = [k for k in SUMMARY_SAME_KEYS if isinstance(got, dict) and k in got]
+    same_key = same_keys_used[0] if len(same_keys_used) == 1 else SUMMARY_SAME_KEYS[0]
+    expected[same_key] = sum(1 for c in classes if c["class"] == CLASS_SAME)
     expected["different_objects_one_identifier"] = sum(1 for c in classes if c["class"] == CLASS_DIFFERENT)
     expected["exact_duplicate_rows"] = sum(1 for c in classes if c["class"] == CLASS_EXACT)
     expected["successor_identifiers_proposed"] = len(collect_successors(doc))
-    if n_pred is not None:
-        expected["findings_covered_by_both_proposals_together"] = len(known) + n_pred
-    got = doc.get("summary_counts")
+    if len(chain) == 1:
+        expected[SUMMARY_TWO_DOCS_KEY] = len(known) + chain_records[0]
+    elif len(chain) >= 2:
+        expected[SUMMARY_CHAIN_KEY] = len(known) + sum(chain_records)
     if res.check(isinstance(got, dict), "summary_counts is missing"):
+        res.check(len(same_keys_used) == 1,
+                  f"summary_counts must name the same-object bucket by exactly one of {SUMMARY_SAME_KEYS}, "
+                  f"found {same_keys_used}")
         for k, v in expected.items():
             res.check(got.get(k) == v,
                       f"summary_counts.{k} is {got.get(k)!r} but the records' cells give {v}")
@@ -706,10 +1020,15 @@ def check_document_summary(doc, paths: Paths, section: str, classes: list[dict],
     if res.check(len(keys) == 1,
                  f"expected exactly one document-level '{CLASSIFICATION_KEY_PREFIX}*' block, found {keys}"):
         block = doc.get(keys[0]) or {}
-        for cls in (CLASS_SAME, CLASS_DIFFERENT, CLASS_EXACT):
+        same_list_keys = [k for k in CLASS_SAME_KEYS if k in block]
+        res.check(len(same_list_keys) == 1,
+                  f"{keys[0]} must name the same-object list by exactly one of {CLASS_SAME_KEYS}, "
+                  f"found {same_list_keys}")
+        same_list_key = same_list_keys[0] if len(same_list_keys) == 1 else CLASS_SAME
+        for cls, key in ((CLASS_SAME, same_list_key), (CLASS_DIFFERENT, CLASS_DIFFERENT), (CLASS_EXACT, CLASS_EXACT)):
             want = [c["label"] for c in classes if c["class"] == cls]
-            res.check(block.get(cls) == want,
-                      f"{keys[0]}.{cls} is {block.get(cls)!r} but the records' cells give {want!r}")
+            res.check(block.get(key) == want,
+                      f"{keys[0]}.{key} is {block.get(key)!r} but the records' cells give {want!r}")
 
 
 def check_verbatim(doc, paths: Paths, section: str, res: Result) -> str:
@@ -774,11 +1093,19 @@ def check_markdown(doc, paths: Paths, section: str, res: Result) -> None:
     md = open(md_path, encoding="utf-8").read()
     for needle, what in [
         ("requires operator action", "the proposal-requires-operator-action statement"),
-        ("Nothing has been repaired", "the nothing-has-been-repaired statement"),
         ("export remains faithful", "the export-remains-faithful statement"),
         ("independence_credit = 0", "the zero-independence-credit record"),
     ]:
         res.check(needle.lower() in md.lower(), f"{md_path} does not state {what}")
+    # The nothing-was-repaired banner is anchored, not merely present: a companion that quotes
+    # register text ending '...; nothing has been repaired.' would otherwise satisfy a bare
+    # substring search while its own banner said the opposite.
+    head = "\n".join(md.split("\n")[:NOTHING_REPAIRED_BANNER_WITHIN_LINES])
+    res.check(NOTHING_REPAIRED_BANNER in head,
+              f"{md_path} does not carry the nothing-has-been-repaired banner "
+              f"{NOTHING_REPAIRED_BANNER!r} within its first {NOTHING_REPAIRED_BANNER_WITHIN_LINES} lines "
+              "(a bare mention further down, or inside quoted material, does not count)")
+    check_markdown_finding_text(doc, md, md_path, res)
     # The gate statement is required in the emphatic form; a lowercase 'remains open' in
     # passing prose does not satisfy it.
     res.check("REMAINS OPEN" in md,
@@ -788,6 +1115,29 @@ def check_markdown(doc, paths: Paths, section: str, res: Result) -> None:
         res.check(k in md, f"{md_path} does not quote the finding key {k!r}")
     if (doc.get("source_of_record") or {}).get("kind") == "xlsx_export_json_rows":
         check_markdown_xlsx_rows(doc, paths, md, md_path, res)
+
+
+def check_markdown_finding_text(doc, md: str, md_path: str, res: Result) -> None:
+    """The companion blockquotes each finding's text under the attribution 'Finding text as
+    recorded in `KNOWN_FINDINGS.json`'.  The record's copy is already held to the register byte
+    for byte; the companion's copy is held to the record's, and the number of attributions must
+    equal the number of records transcribing, so neither half can drift alone."""
+    carrying = records_transcribing_finding_text(doc)
+    attributions = md.count(COMPANION_FINDING_TEXT_ATTRIBUTION)
+    if not carrying:
+        res.check(attributions == 0,
+                  f"{md_path} attributes text to registers/KNOWN_FINDINGS.json {attributions} time(s) "
+                  f"but no record of the document carries {FINDING_TEXT_FIELD}")
+        return
+    res.check(attributions == len(carrying),
+              f"{md_path} carries {attributions} '{COMPANION_FINDING_TEXT_ATTRIBUTION}' attribution(s) "
+              f"but {len(carrying)} record(s) transcribe the finding text")
+    for p in carrying:
+        rid = p.get("record_id", "?")
+        text = p.get(FINDING_TEXT_FIELD)
+        res.check(isinstance(text, str) and bool(text) and text in md,
+                  f"{md_path}: {rid} does not quote its {FINDING_TEXT_FIELD} verbatim (the companion "
+                  "attributes the blockquote to registers/KNOWN_FINDINGS.json)")
 
 
 def check_markdown_xlsx_rows(doc, paths: Paths, md: str, md_path: str, res: Result) -> None:
@@ -848,6 +1198,79 @@ def check_markdown_xlsx_rows(doc, paths: Paths, md: str, md_path: str, res: Resu
                   f"{md_path}: {rid} materiality is not quoted verbatim in the companion")
 
 
+def prose_sentences(text: str) -> list[str]:
+    """Whitespace-flattened sentences, so a claim that wraps over several lines is read as
+    the one sentence it is."""
+    return [x for x in SENTENCE_SPLIT.split(re.sub(r"\s+", " ", text)) if x]
+
+
+def nearest_identifier(sentence: str, pos: int, idents: list[str]) -> str | None:
+    """The colliding identifier named closest before `pos` in `sentence`, or None if none is.
+    Attribution is by proximity because that is how apposition reads ('`X`, not an exact
+    duplicate row'); a phrase with no identifier before it in its sentence is not attributed
+    to any record and is left alone."""
+    best: tuple[int, str] | None = None
+    for ident in idents:
+        start = sentence.rfind(ident, 0, pos)
+        if start >= 0 and (best is None or start > best[0]):
+            best = (start, ident)
+    return best[1] if best else None
+
+
+def check_repository_prose(doc, paths: Paths, res: Result) -> None:
+    """Repository prose must not contradict the cells the records are checked against.
+
+    For every record that recomputes a cell comparison, any 'exact duplicate' phrase or
+    'N of T cells differ/agree' phrase attributed to its colliding identifier in
+    PROSE_FILES must agree with the live rows: exact_duplicate_row=false licenses only a
+    denial, and a count must be the recomputed count.  This establishes nothing about the
+    register, the finding text or any status; it only stops the repository asserting two
+    different things about one pair of rows in two places.
+    """
+    by_ident: dict[str, tuple[str, object, dict]] = {}
+    for p in doc.get("proposals", []):
+        ident = p.get("colliding_identifier")
+        cc = p.get("cell_comparison")
+        if not isinstance(ident, str) or not ident or not isinstance(cc, dict):
+            continue
+        if not all(k in cc for k in ("cells_total", "cells_identical", "cells_differing")):
+            continue
+        by_ident[ident] = (p.get("record_id", "?"), p.get("exact_duplicate_row"), cc)
+    if not by_ident:
+        return
+    for rel in PROSE_FILES:
+        path = paths.rel(rel)
+        if not os.path.exists(path):
+            res.note(f"{rel} is not present; its prose about these collisions is not cross-checked")
+            continue
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        for sentence in prose_sentences(text):
+            named = [i for i in by_ident if i in sentence]
+            if not named:
+                continue
+            for m in EXACT_DUPLICATE_PROSE.finditer(sentence):
+                ident = nearest_identifier(sentence, m.start(), named)
+                if ident is None:
+                    continue
+                rid, exact, cc = by_ident[ident]
+                if exact is not False:
+                    continue
+                before = sentence[max(0, m.start() - PROSE_NEGATION_WINDOW):m.start()].lower()
+                window = sentence[max(0, m.start() - 80):m.end() + 40].strip()
+                res.check(any(neg in before for neg in PROSE_NEGATORS),
+                          f"{rel} calls {ident} an exact duplicate, but the live rows give "
+                          f"{cc['cells_differing']} of {cc['cells_total']} cells differing and record "
+                          f"{rid} recomputes exact_duplicate_row=false: ...{window}...")
+            for m in CELL_COUNT_PROSE.finditer(sentence):
+                ident = nearest_identifier(sentence, m.start(), named)
+                if ident is None:
+                    continue
+                rid, _exact, cc = by_ident[ident]
+                check_prose_cell_counts(m.group(0), cc, res,
+                                        f"{rel}, of {ident} (record {rid}),")
+
+
 def parse_args(argv: list[str]) -> tuple[str, str | None, bool]:
     proposal, section, verbose = DEFAULT_PROPOSAL, None, False
     i = 0
@@ -884,12 +1307,17 @@ def main(argv: list[str]) -> int:
     doc = load_json(paths.proposal)
     section = resolve_section(doc, section_arg, res)
     check_bijection(doc, paths, section, res)
+    check_finding_text_verbatim(doc, paths, section, res)
+    check_declared_row_locators(doc, res)
     check_operations(doc, res)
     check_registers_unchanged(paths, res)
+    check_workbook_tab_map(paths, res)
     check_successors(doc, paths, res)
     kind = check_verbatim(doc, paths, section, res)
     check_honesty(doc, res)
     check_markdown(doc, paths, section, res)
+    if kind == "xlsx_export_json_rows":
+        check_repository_prose(doc, paths, res)
     for n in res.notes:
         if verbose:
             print("NOTE  " + n)

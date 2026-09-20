@@ -39,6 +39,16 @@ Duplicate Flags registry; and, in the companion, a tampered verbatim row block, 
 byte-count/digest line, a falsified Cell count line, a summary-table successor id that is
 not the record's, a paraphrased materiality and a gate statement demoted to lowercase.
 Each of these went through the CLI unnoticed before the checks existed.
+
+The fourth block ("repository prose against the live cells") closes the next gap the same
+verifier found: registers/README.md called REL-EC021-CLS141 an exact duplicate row apart
+from its review date while the record three lines below recomputed six of fifteen cells
+differing, and nothing read the README.  The checker now cross-reads registers/README.md
+and docs/FINDINGS_2026-09-18.md; the controls here cover an exact-duplicate claim the cells
+refute in either file, a cell count that contradicts the record it is attributed to, a
+count attributed to the wrong pair, and — as positive controls against over-firing — a
+denial in another wording, a sentence naming no colliding identifier, and a tree in which
+the prose file is absent (skipped, and said so under -v).
 """
 from __future__ import annotations
 
@@ -1165,3 +1175,903 @@ def test_negative_successor_markdown_gate_statement_demoted_to_lowercase_fails(s
     text = smd().replace("REMAINS OPEN", "remains open")
     assert "remains open" in text.lower() and "REMAINS OPEN" not in text
     expect_succ_fail(stage_succ(sandbox2, md=text), "uppercase 'REMAINS OPEN'")
+
+
+# =========================================================================== third proposal
+# registers/collision_proposal_2026-09-19b.json — the third numbered successor covering the
+# fourteen findings under KNOWN_FINDINGS section 'findings_first_keyed_2026-09-19' (relations,
+# review_ledger, definitions).  Its successor_of names the 2026-09-19 document, which names
+# the 2026-09-18 document, so the predecessor chain is two deep.  The blocks above are
+# untouched; everything below drives the checker through --proposal in its own sandbox.
+
+THIRD_REL = os.path.join("registers", "collision_proposal_2026-09-19b.json")
+THIRD_JSON = os.path.join(ROOT, THIRD_REL)
+THIRD_MD = os.path.join(ROOT, "registers", "COLLISION_PROPOSAL_2026-09-19b.md")
+README_PATH = os.path.join(ROOT, "registers", "README.md")
+FINDINGS_REL = os.path.join("docs", "FINDINGS_2026-09-18.md")
+FINDINGS_PATH = os.path.join(ROOT, FINDINGS_REL)
+SECTION3 = "findings_first_keyed_2026-09-19"
+TABS3 = ("relations", "review_ledger", "definitions")
+LOCATORS3 = {"relations": "REL", "review_ledger": "RVL", "definitions": "DEF"}
+WORKBOOK3 = {"relations": "Relation Index", "review_ledger": "Review Independence", "definitions": "Definition Registry"}
+RULE3 = {"relations": ["Source URL"], "review_ledger": ["Exact Object ID"], "definitions": ["Source URL"]}
+
+
+def run_third(cwd_root: str, *extra: str) -> subprocess.CompletedProcess:
+    return subprocess.run([sys.executable, os.path.join(cwd_root, "tools", "collision_proposal_check.py"),
+                           "--proposal", THIRD_REL, *extra],
+                          cwd=cwd_root, capture_output=True, text=True, timeout=600)
+
+
+@pytest.fixture(scope="module")
+def sandbox3(tmp_path_factory):
+    """Own scratch tree for the third proposal, built like `sandbox2`: exported data
+    symlinked (never copied, never written); the three proposals, their companions,
+    KNOWN_FINDINGS.json, the two prose files the checker cross-reads and the two tools are
+    real files a test may corrupt."""
+    base = tmp_path_factory.mktemp("collision_proposal_third")
+    os.makedirs(base / "tools")
+    os.makedirs(base / "registers")
+    os.makedirs(base / "docs")
+    for sub in ("source", "json", "csv"):
+        os.symlink(os.path.join(ROOT, "registers", sub), base / "registers" / sub)
+    return base
+
+
+def stage_third(sandbox3, doc=None, md=None, known=None, first=None, second=None, importer=None,
+                readme=None, findings=None) -> str:
+    """Write a (possibly corrupted) third proposal into the sandbox and return its root.  Both
+    frozen predecessors are copied unchanged unless `first` / `second` override them; the
+    importer (whose SHEETS map the checker reads for workbook tab names) is copied unchanged
+    unless `importer` supplies replacement source text.  registers/README.md and
+    docs/FINDINGS_2026-09-18.md — the repository prose the checker cross-reads, never
+    writes — are copied unchanged unless `readme` / `findings` supply replacement text."""
+    for name in ("collision_proposal_check.py", "registers_import.py"):
+        shutil.copy2(os.path.join(ROOT, "tools", name), sandbox3 / "tools" / name)
+    if importer is not None:
+        (sandbox3 / "tools" / "registers_import.py").write_text(importer, encoding="utf-8")
+    for src, dst, override in ((JSON_PATH, "collision_proposal.json", first),
+                               (SUCC_JSON, "collision_proposal_2026-09-19.json", second),
+                               (THIRD_JSON, "collision_proposal_2026-09-19b.json", doc)):
+        if override is None:
+            shutil.copy2(src, sandbox3 / "registers" / dst)
+        else:
+            with open(sandbox3 / "registers" / dst, "w", encoding="utf-8") as f:
+                json.dump(override, f, ensure_ascii=False)
+    shutil.copy2(SUCC_MD, sandbox3 / "registers" / "COLLISION_PROPOSAL_2026-09-19.md")
+    if md is None:
+        shutil.copy2(THIRD_MD, sandbox3 / "registers" / "COLLISION_PROPOSAL_2026-09-19b.md")
+    else:
+        (sandbox3 / "registers" / "COLLISION_PROPOSAL_2026-09-19b.md").write_text(md, encoding="utf-8")
+    if known is None:
+        shutil.copy2(KNOWN_PATH, sandbox3 / "registers" / "KNOWN_FINDINGS.json")
+    else:
+        with open(sandbox3 / "registers" / "KNOWN_FINDINGS.json", "w", encoding="utf-8") as f:
+            json.dump(known, f, ensure_ascii=False)
+    for src, dst, override in ((README_PATH, sandbox3 / "registers" / "README.md", readme),
+                               (FINDINGS_PATH, sandbox3 / FINDINGS_REL, findings)):
+        if override is None:
+            shutil.copy2(src, dst)
+        else:
+            open(dst, "w", encoding="utf-8").write(override)
+    return str(sandbox3)
+
+
+def tdoc():
+    return load(THIRD_JSON)
+
+
+def tmd():
+    return open(THIRD_MD, encoding="utf-8").read()
+
+
+def trec(ident: str) -> int:
+    """Index of the record for a colliding identifier (records are looked up by id, never
+    by position, so a reordering of the document cannot silently retarget a control)."""
+    for i, p in enumerate(tdoc()["proposals"]):
+        if p["colliding_identifier"] == ident:
+            return i
+    raise KeyError(ident)
+
+
+def expect_third_fail(root: str, needle: str, *extra: str):
+    r = run_third(root, *extra)
+    assert r.returncode != 0, f"checker passed but should have failed\nstdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    assert needle.lower() in r.stdout.lower(), f"expected {needle!r} in output, got:\n{r.stdout}"
+
+
+def cpc_module():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import importlib
+    return importlib.import_module("collision_proposal_check")
+
+
+# --------------------------------------------------------------------------- positive
+
+def test_third_passes_in_place():
+    r = subprocess.run([sys.executable, TOOL, "--proposal", THIRD_REL], cwd=ROOT,
+                       capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, f"third proposal fails its own checker:\n{r.stdout}\n{r.stderr}"
+    assert "proposal=" + THIRD_REL in r.stdout and "records=14" in r.stdout and "successors=14" in r.stdout
+    assert "section=" + SECTION3 in r.stdout and "verbatim=xlsx_export_json_rows" in r.stdout
+
+
+def test_earlier_proposals_still_print_the_same_summaries():
+    """The checker gained per-tab rules and a chain walk; the two frozen documents must still
+    pass with the summaries they printed before."""
+    r = subprocess.run([sys.executable, TOOL], cwd=ROOT, capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0 and r.stdout.strip().endswith(
+        "proposal=registers/collision_proposal.json section=findings verbatim=markdown_export_lines "
+        "records=16 successors=13 failures=0")
+    r = subprocess.run([sys.executable, TOOL, "--proposal", SUCC_REL], cwd=ROOT,
+                       capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0 and r.stdout.strip().endswith(
+        "proposal=registers/collision_proposal_2026-09-19.json section=findings_first_visible_in_2026-09-18_export "
+        "verbatim=xlsx_export_json_rows records=7 successors=7 failures=0")
+
+
+def test_third_sandbox_positive_control(sandbox3):
+    r = run_third(stage_third(sandbox3))
+    assert r.returncode == 0, f"unmodified third sandbox fixture fails:\n{r.stdout}\n{r.stderr}"
+
+
+def test_third_has_exactly_fourteen_records_one_per_section_key():
+    d, k = tdoc(), known()
+    keys = [p["finding_key"] for p in d["proposals"]]
+    assert d["findings_source_section"] == SECTION3
+    assert sorted(keys) == sorted(k[SECTION3])
+    assert len(keys) == len(set(keys)) == 14
+    tabs = [p["register_tab"] for p in d["proposals"]]
+    assert tabs.count("relations") == 11 and tabs.count("review_ledger") == 2 and tabs.count("definitions") == 1
+
+
+def test_the_three_proposals_together_cover_all_37_findings_exactly_once():
+    k = known()
+    all_keys = list(k["findings"]) + list(k[SECTION]) + list(k[SECTION3])
+    assert len(all_keys) == len(set(all_keys)) == 37
+    covered = ([p["finding_key"] for p in doc()["proposals"]] + [p["finding_key"] for p in sdoc()["proposals"]]
+               + [p["finding_key"] for p in tdoc()["proposals"]])
+    assert len(covered) == 37
+    assert sorted(covered) == sorted(all_keys), "the three proposals do not partition the findings"
+
+
+def test_third_every_quoted_row_equals_the_live_json_row_cell_for_cell():
+    d = tdoc()
+    tabs = {}
+    for rel in d["source_of_record"]["json_tabs"]:
+        t = load(os.path.join(ROOT, rel))
+        tabs[os.path.splitext(os.path.basename(rel))[0]] = t
+    assert set(tabs) == set(TABS3)
+    n = 0
+    for p in d["proposals"]:
+        t = tabs[p["register_tab"]]
+        assert len(p["rows"]) == 2
+        for r in p["rows"]:
+            live = t["rows"][r["register_row_index"]]
+            assert r["verbatim_row"] == live
+            assert r["row_sha256"] == canonical_sha(live)
+            assert r["row_canonical_bytes"] == len(canon(live).encode("utf-8"))
+            assert r["fields"] == dict(zip(t["header"], live))
+            assert r["fields"][t["header"][0]] == p["colliding_identifier"]
+            n += 1
+    assert n == 28
+
+
+def test_third_xlsx_digest_matches_sources_json_and_disk():
+    src = tdoc()["source_of_record"]
+    assert src["kind"] == "xlsx_export_json_rows"
+    with open(SOURCES_PATH, encoding="utf-8") as f:
+        sources = json.load(f)
+    rec = [e for e in sources["exports"] if e["file"] == os.path.basename(src["xlsx_path"])]
+    assert len(rec) == 1
+    assert rec[0]["sha256"] == src["xlsx_sha256"] and rec[0]["bytes"] == src["xlsx_bytes"]
+    raw = open(os.path.join(ROOT, src["xlsx_path"]), "rb").read()
+    assert hashlib.sha256(raw).hexdigest() == src["xlsx_sha256"] and len(raw) == src["xlsx_bytes"]
+
+
+def test_third_successor_ids_collide_with_nothing_including_both_predecessors():
+    cpc = cpc_module()
+    existing = cpc.existing_identifiers(os.path.join(ROOT, "registers", "json"))
+    issued_before = set()
+    clusters_before = set()
+    for pdoc in (doc(), sdoc()):
+        issued_before |= {sid for _, sid in cpc.collect_successors(pdoc)} | set(cpc.batch_ids(pdoc).values())
+        clusters_before |= {cid for _, cid in cpc.collect_cluster_ids(pdoc)}
+    succ = [sid for _, sid in cpc.collect_successors(tdoc())]
+    clusters = [cid for _, cid in cpc.collect_cluster_ids(tdoc())]
+    batch = set(cpc.batch_ids(tdoc()).values())
+    assert len(succ) == len(set(succ)) == 14 and len(clusters) == len(set(clusters)) == 14 and len(batch) == 2
+    for sid in list(succ) + clusters + sorted(batch):
+        assert sid not in existing, sid
+        assert sid not in issued_before and sid not in clusters_before, sid
+    for sid, p in zip(succ, tdoc()["proposals"]):
+        assert sid == f"{p['colliding_identifier']}@{LOCATORS3[p['register_tab']]}-R{p['successor']['register_row_index']}"
+
+
+def test_third_names_its_chain_by_digest_and_supersedes_nothing():
+    d = tdoc()
+    assert d["supersedes"] is None
+    pred = d["successor_of"]
+    assert pred["path"] == SUCC_REL
+    raw = open(SUCC_JSON, "rb").read()
+    assert pred["sha256"] == hashlib.sha256(raw).hexdigest() and pred["bytes"] == len(raw)
+    raw0 = open(JSON_PATH, "rb").read()
+    chain = d["predecessor_chain"]
+    assert [c["path"] for c in chain] == [SUCC_REL, "registers/collision_proposal.json"]
+    assert chain[1]["sha256"] == hashlib.sha256(raw0).hexdigest() and chain[1]["bytes"] == len(raw0)
+    cpc = cpc_module()
+    assert sorted(pred["successor_ids_issued_by_predecessor"]) == sorted({s for _, s in cpc.collect_successors(sdoc())})
+    assert sorted(chain[1]["successor_ids_issued"]) == sorted({s for _, s in cpc.collect_successors(doc())})
+    assert d["summary_counts"]["findings_covered_by_the_chain_together"] == 14 + 7 + 16 == 37
+
+
+def test_third_classification_is_derived_from_the_cells_with_the_per_tab_rule():
+    d = tdoc()
+    by_id = {p["colliding_identifier"]: p for p in d["proposals"]}
+    for ident, p in by_id.items():
+        header, a = live_row(p["register_tab"], p["rows"][0]["register_row_index"])
+        _, b = live_row(p["register_tab"], p["rows"][1]["register_row_index"])
+        rule = RULE3[p["register_tab"]]
+        assert p["drive_object_rule_cells"] == rule, ident
+        same = all(a[header.index(c)] == b[header.index(c)] for c in rule)
+        assert p["both_rows_cite_one_drive_object"] is same, ident
+        assert p["exact_duplicate_row"] is (a == b) and not p["exact_duplicate_row"], ident
+        assert p["workbook_tab"] == WORKBOOK3[p["register_tab"]]
+        if same:
+            assert "SAME_DRIVE_OBJECT" in p["defect_class"] and "DIFFERENT_OBJECTS" not in p["defect_class"]
+        else:
+            assert p["defect_class"] == "DUPLICATE_REGISTER_PRIMARY_KEY__DIFFERENT_OBJECTS", ident
+            assert p["drive_source_cited_by_both_rows"] is None
+        if p["register_tab"] == "review_ledger":
+            assert p["drive_source_cited_by_both_rows"] is None and p["drive_sources_cited"] is None
+            assert "Source URL" not in header and "Drive ID" not in header
+        if p["register_tab"] == "relations":
+            triple = all(a[header.index(c)] == b[header.index(c)] for c in ("Source object", "Relation type", "Target object"))
+            assert p["relation_triple_cells_agree"] is triple and ("SAME_RELATION" in p["defect_class"]) is triple
+            assert p["target_url_cells_agree"] is (a[header.index("Target URL")] == b[header.index("Target URL")])
+        assert p["keeper"]["register_row_index"] < p["successor"]["register_row_index"]
+        assert "append position" in p["keeper"]["reason"].lower()
+        for op in p["operations"]:
+            assert op["operation"] == "APPEND_ROW" and op["append_only"] is True
+            assert op["mutates_existing_rows"] is False and "Duplicate Flags" in op["target_tab"]
+        for fu in p["non_additive_followups"]:
+            assert fu["operator_reserved"] is True and fu["op"] == "REIDENTIFY_KEY_CELL"
+            assert fu["from"] == ident and fu["to"] == p["successor"]["proposed_id"]
+    same_ids = [i for i, p in by_id.items() if p["both_rows_cite_one_drive_object"]]
+    assert same_ids == ["REL-EC021-CLS141"]
+    ec = by_id["REL-EC021-CLS141"]
+    assert ec["relation_triple_cells_agree"] is True and ec["target_url_cells_agree"] is False
+    assert ec["cell_comparison"] == {**ec["cell_comparison"], "cells_total": 15, "cells_identical": 9, "cells_differing": 6}
+    assert {x["field"] for x in ec["field_differences"]} == {"Exact scope / meaning", "Evidentiary effect", "Authority effect",
+                                                              "Target URL", "Provenance", "Last reviewed"}
+    assert "VOID-DUPLICATE" in ec["in_register_precedent"] and "NOT applied" in ec["in_register_precedent"]
+    assert d["classification_of_the_fourteen_pairs"]["same_object_different_cells"] == ["REL-EC021-CLS141 (rows 232 and 235)"]
+    assert d["classification_of_the_fourteen_pairs"]["exact_duplicate_rows"] == []
+    assert len(d["classification_of_the_fourteen_pairs"]["different_objects_one_identifier"]) == 13
+    assert d["summary_counts"]["same_drive_object_different_cells"] == 1
+    assert d["summary_counts"]["different_objects_one_identifier"] == 13 and d["summary_counts"]["exact_duplicate_rows"] == 0
+
+
+def test_third_workbook_tab_names_come_from_the_importer_not_the_json_tab_field():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import importlib
+    ri = importlib.import_module("registers_import")
+    sheets = {machine: sheet for sheet, machine in ri.SHEETS}
+    cpc = cpc_module()
+    for machine, sheet in cpc.WORKBOOK_TAB.items():
+        assert sheets[machine] == sheet, machine
+        t = load(os.path.join(ROOT, "registers", "json", machine + ".json"))
+        assert t["tab"] == machine  # the JSON 'tab' field is the machine name, not the sheet name
+    for p in tdoc()["proposals"]:
+        assert p["workbook_tab"] == sheets[p["register_tab"]]
+
+
+def test_third_markdown_quotes_every_finding_key_row_and_statement():
+    text = tmd()
+    for k in known()[SECTION3]:
+        assert k in text, k
+    assert "requires operator action" in text.lower()
+    assert "nothing has been repaired" in text.lower()
+    assert "export remains faithful" in text.lower()
+    assert "independence_credit = 0" in text and "REMAINS OPEN" in text
+    assert "What this document does NOT establish" in text
+    assert "third numbered proposal" in text
+    for pdoc_path in (JSON_PATH, SUCC_JSON):
+        assert hashlib.sha256(open(pdoc_path, "rb").read()).hexdigest() in text
+    n = 0
+    for p in tdoc()["proposals"]:
+        cc = p["cell_comparison"]
+        ia, ib = [r["register_row_index"] for r in p["rows"]]
+        assert (f"Cell count: {cc['cells_total']} columns compared, {cc['cells_identical']} identical, "
+                f"{cc['cells_differing']} differing (rows {ia} and {ib}") in text, p["record_id"]
+        assert p["materiality"] in text, p["record_id"]
+        for r in p["rows"]:
+            _, live = live_row(p["register_tab"], r["register_row_index"])
+            c = canon(live)
+            assert f"```json\n{c}\n```" in text
+            assert (f"`registers/json/{p['register_tab']}.json` rows[{r['register_row_index']}], canonical "
+                    f"{len(c.encode('utf-8'))} bytes, SHA-256 `{canonical_sha(live)}`") in text
+            n += 1
+        ident, sid = p["colliding_identifier"], p["successor"]["proposed_id"]
+        rows = [l for l in text.split("\n") if l.startswith(f"| `{ident}` |")]
+        assert len(rows) == 1 and rows[0].rstrip().endswith(f"| `{sid}` |"), ident
+        assert f"`{ident}` → `{sid}`" in text
+    assert n == 28
+
+
+def test_third_prose_cell_counts_agree_with_the_machine_counts():
+    """Every number word (including hyphenated 'twenty-four') before 'cells differ/agree' in
+    each record's materiality equals the recomputed counts."""
+    words = dict(NUMBER_WORDS, **{"thirteen": 13, "fourteen": 14, "fifteen": 15, "twenty-four": 24})
+    prose_re = cpc_module().CELL_COUNT_PROSE  # the hyphen-aware form; the module-level one above is the older shape
+    checked = 0
+    for p in tdoc()["proposals"]:
+        cc = p["cell_comparison"]
+        for m in prose_re.finditer(p["materiality"]):
+            first, second, verb = m.group(1), m.group(2).lower(), m.group(3).lower()
+            want = cc["cells_differing"] if verb == "differ" else cc["cells_identical"]
+            if first is not None:
+                if first.lower() not in words or second not in words:
+                    continue
+                assert words[first.lower()] == want and words[second] == cc["cells_total"], (p["record_id"], m.group(0))
+            else:
+                if second not in words:
+                    continue
+                assert words[second] == want, (p["record_id"], m.group(0))
+            checked += 1
+    assert checked >= 14
+
+
+def test_third_independence_credit_is_zero_and_gates_stay_open():
+    d = tdoc()
+    pb = d["prepared_by"]
+    assert pb["independence_credit"] == 0 and pb["independence_credit_reason"]
+    assert "REMAIN" in pb["independence_requiring_gates_remain_open"].upper()
+    assert d["nothing_repaired"] is True and d["export_remains_faithful"] is True
+    assert d["does_not_establish"] and all(p["does_not_establish"] for p in d["proposals"])
+
+
+# --------------------------------------------------------------------------- negative
+
+def test_negative_third_tampered_quoted_cell_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-036")]["rows"][1]["verbatim_row"][13] = "PROMOTED"
+    expect_third_fail(stage_third(sandbox3, doc=d), "does not match the live json row cell for cell")
+
+
+def test_negative_third_wrong_row_index_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("DEF-049")]["rows"][0]["register_row_index"] = 47
+    expect_third_fail(stage_third(sandbox3, doc=d), "does not match the live json row cell for cell")
+
+
+def test_negative_third_right_finding_wrong_row_quoted_consistently_fails(sandbox3):
+    """Row 49 (DEF-050) quoted in place of 50 with digest, bytes and fields all consistent:
+    only the binding to the finding key can catch it."""
+    d = tdoc()
+    p = d["proposals"][trec("DEF-049")]
+    p["rows"][1] = quoted("definitions", 49, p["rows"][1])
+    expect_third_fail(stage_third(sandbox3, doc=d), "finding key names rows 48 and 50 but the record quotes rows [48, 49]")
+
+
+def test_negative_third_wrong_xlsx_digest_fails(sandbox3):
+    d = tdoc()
+    d["source_of_record"]["xlsx_sha256"] = "e" * 64
+    expect_third_fail(stage_third(sandbox3, doc=d), "recorded xlsx sha256")
+
+
+def test_negative_third_record_for_a_finding_absent_from_the_section_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-048")]["finding_key"] = "relations: duplicate key 'REL-999' at rows 1 and 2"
+    expect_third_fail(stage_third(sandbox3, doc=d), "absent from KNOWN_FINDINGS")
+
+
+def test_negative_third_dropped_record_fails(sandbox3):
+    d = tdoc()
+    d["proposals"] = d["proposals"][:-1]
+    expect_third_fail(stage_third(sandbox3, doc=d), "has no proposal record")
+
+
+def test_negative_third_successor_id_equal_to_an_existing_identifier_fails(sandbox3):
+    d = tdoc()
+    # 'REL-177-COLLISION-PROVENANCE' is a real Relation ID in registers/json/.
+    d["proposals"][trec("REL-037")]["successor"]["proposed_id"] = "REL-177-COLLISION-PROVENANCE"
+    expect_third_fail(stage_third(sandbox3, doc=d), "already exists in registers/json")
+
+
+def test_negative_third_successor_id_equal_to_a_bare_existing_id_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REV-P12-GP-006")]["successor"]["proposed_id"] = "REV-P12-GP-008"
+    # REV-P12-GP-008 is unassigned; a bare id that IS assigned must fail.
+    d["proposals"][trec("REV-P12-GP-006")]["successor"]["proposed_id"] = "REV-P12-GP-007"
+    expect_third_fail(stage_third(sandbox3, doc=d), "already exists in registers/json")
+
+
+def test_negative_third_successor_id_issued_by_the_first_proposal_two_levels_up_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-038")]["successor"]["proposed_id"] = "GP-DER-118-v1.2@AIDX-R95"
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "successor id 'GP-DER-118-v1.2@AIDX-R95' was already issued by the predecessor registers/collision_proposal.json")
+
+
+def test_negative_third_successor_id_issued_by_the_second_proposal_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-039")]["successor"]["proposed_id"] = "EV-LS-REQ030@EVL-R386"
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "was already issued by the predecessor registers/collision_proposal_2026-09-19.json")
+
+
+def test_negative_third_batch_id_issued_by_the_first_proposal_two_levels_up_fails(sandbox3):
+    d = tdoc()
+    d["batch_level_artifacts_that_would_also_be_appended"]["correction_record"]["proposed_id"] = "GP-COR-204"
+    expect_third_fail(stage_third(sandbox3, doc=d), "was already issued by the predecessor registers/collision_proposal.json")
+
+
+def test_negative_third_cluster_id_proposed_by_the_first_proposal_two_levels_up_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-040")]["operations"][0]["row"][0] = "DUP-REG-TRANSITION-LOG-TRP12007-20260918"
+    expect_third_fail(stage_third(sandbox3, doc=d), "was already proposed by the predecessor registers/collision_proposal.json")
+
+
+def test_negative_third_merge_operation_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-132")]["operations"][0]["operation"] = "MERGE_DUPLICATE_ROWS"
+    expect_third_fail(stage_third(sandbox3, doc=d), "forbidden verb MERGE")
+
+
+def test_negative_third_delete_operation_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-133")]["operations"][0]["operation"] = "DELETE_ROW"
+    expect_third_fail(stage_third(sandbox3, doc=d), "forbidden verb DELETE")
+
+
+def test_negative_third_nonzero_independence_credit_fails(sandbox3):
+    d = tdoc()
+    d["prepared_by"]["independence_credit"] = 1
+    expect_third_fail(stage_third(sandbox3, doc=d), "independence_credit must be 0")
+
+
+def test_negative_third_markdown_missing_a_finding_key_fails(sandbox3):
+    key = "review_ledger: duplicate key 'REV-P02-GP-INTERVAL-001' at rows 19 and 21"
+    text = tmd().replace(key, "(elided)")
+    expect_third_fail(stage_third(sandbox3, md=text), "does not quote the finding key")
+
+
+def test_negative_third_wrong_locator_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REV-P02-GP-INTERVAL-001")]["successor"]["proposed_id"] = "REV-P02-GP-INTERVAL-001@REV-R21"
+    d["proposals"][trec("REV-P02-GP-INTERVAL-001")]["non_additive_followups"][0]["to"] = "REV-P02-GP-INTERVAL-001@REV-R21"
+    expect_third_fail(stage_third(sandbox3, doc=d), "must be 'REV-P02-GP-INTERVAL-001@RVL-R21'")
+
+
+def test_negative_third_locator_of_another_tab_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("DEF-049")]["successor"]["proposed_id"] = "DEF-049@REL-R50"
+    d["proposals"][trec("DEF-049")]["non_additive_followups"][0]["to"] = "DEF-049@REL-R50"
+    expect_third_fail(stage_third(sandbox3, doc=d), "must be 'DEF-049@DEF-R50'")
+
+
+def test_negative_third_wrong_workbook_tab_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-134")]["workbook_tab"] = "relations"
+    expect_third_fail(stage_third(sandbox3, doc=d), "workbook_tab 'relations' is not the workbook's name for 'relations' ('Relation Index')")
+
+
+def test_negative_third_checker_tab_map_disagreeing_with_the_importer_fails(sandbox3):
+    """Rename a sheet in the sandbox importer's SHEETS map: the checker's WORKBOOK_TAB no
+    longer matches the importer and must say so, whatever the document claims."""
+    src = open(os.path.join(ROOT, "tools", "registers_import.py"), encoding="utf-8").read()
+    old = '("Definition Registry", "definitions")'
+    assert old in src
+    expect_third_fail(stage_third(sandbox3, importer=src.replace(old, '("Definitions", "definitions")')),
+                      "WORKBOOK_TAB['definitions'] = 'Definition Registry' but tools/registers_import.py maps 'definitions' to 'Definitions'")
+
+
+def test_negative_third_predecessor_sha256_not_matching_fails(sandbox3):
+    d = tdoc()
+    d["successor_of"]["sha256"] = "0" * 64
+    expect_third_fail(stage_third(sandbox3, doc=d), "successor_of.sha256 does not match registers/collision_proposal_2026-09-19.json")
+
+
+def test_negative_third_edited_direct_predecessor_fails(sandbox3):
+    second = sdoc()
+    second["proposals"][0]["materiality"] += " (edited)"
+    expect_third_fail(stage_third(sandbox3, second=second), "successor_of.sha256 does not match registers/collision_proposal_2026-09-19.json")
+
+
+def test_negative_third_edited_root_predecessor_two_levels_up_fails(sandbox3):
+    """The 2026-09-18 document is edited; the third document's own successor_of still matches,
+    so only the chain walk (through the 2026-09-19 document's successor_of) can catch it."""
+    first = doc()
+    first["proposals"][0]["materiality"] += " (edited)"
+    expect_third_fail(stage_third(sandbox3, first=first), "successor_of.sha256 does not match registers/collision_proposal.json")
+
+
+def test_negative_third_predecessor_chain_list_falsified_fails(sandbox3):
+    d = tdoc()
+    d["predecessor_chain"] = d["predecessor_chain"][:1]
+    expect_third_fail(stage_third(sandbox3, doc=d), "predecessor_chain lists")
+
+
+def test_negative_third_predecessor_chain_loop_fails(sandbox3):
+    """The direct predecessor is rewritten to name the third document as ITS predecessor
+    (digests kept consistent), so the walk would loop; it must stop and fail instead."""
+    d = tdoc()
+    second = sdoc()
+    third_raw = json.dumps(d, ensure_ascii=False).encode("utf-8")
+    second["successor_of"] = {"path": THIRD_REL, "sha256": hashlib.sha256(third_raw).hexdigest(),
+                              "bytes": len(third_raw), "successor_ids_issued_by_predecessor": []}
+    second_raw = json.dumps(second, ensure_ascii=False).encode("utf-8")
+    d["successor_of"]["sha256"] = hashlib.sha256(second_raw).hexdigest()
+    d["successor_of"]["bytes"] = len(second_raw)
+    # The walk reaches the second document (its digest matches) and then meets the third
+    # document's own path; the revisit check fires before any digest of that level is taken.
+    expect_third_fail(stage_third(sandbox3, doc=d, second=second), "predecessor chain revisits")
+
+
+def test_negative_third_same_relation_class_on_a_different_relations_pair_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REL-048")]
+    p["defect_class"] = "DUPLICATE_REGISTER_PRIMARY_KEY__DIFFERENT_OBJECTS__SAME_RELATION"
+    expect_third_fail(stage_third(sandbox3, doc=d), "says SAME_RELATION although the")
+
+
+def test_negative_third_same_relation_token_dropped_where_the_triple_agrees_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REL-EC021-CLS141")]
+    p["defect_class"] = "DUPLICATE_REGISTER_PRIMARY_KEY__SAME_DRIVE_OBJECT__DIFFERENT_TEXT"
+    expect_third_fail(stage_third(sandbox3, doc=d), "does not say SAME_RELATION although the")
+
+
+def test_negative_third_same_object_flag_contradicting_the_source_url_cells_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REL-132")]
+    p["both_rows_cite_one_drive_object"] = True
+    expect_third_fail(stage_third(sandbox3, doc=d), "both_rows_cite_one_drive_object is True but the 'Source URL' cells")
+
+
+def test_negative_third_review_ledger_flag_contradicting_the_exact_object_cells_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REV-P12-GP-006")]
+    p["both_rows_cite_one_drive_object"] = True
+    expect_third_fail(stage_third(sandbox3, doc=d), "both_rows_cite_one_drive_object is True but the 'Exact Object ID' cells")
+
+
+def test_negative_third_review_ledger_drive_source_not_null_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REV-P02-GP-INTERVAL-001")]
+    p["drive_sources_cited"] = {"row_19": "https://example.invalid/a", "row_21": "https://example.invalid/b"}
+    expect_third_fail(stage_third(sandbox3, doc=d), "drive_sources_cited must be null: review_ledger carries no URL column")
+
+
+def test_negative_third_rule_cells_misdeclared_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REL-049")]
+    p["drive_object_rule_cells"] = ["Target URL"]
+    expect_third_fail(stage_third(sandbox3, doc=d), "drive_object_rule_cells ['Target URL'] is not the rule this checker reads for 'relations'")
+
+
+def test_negative_third_target_url_agreement_flag_flipped_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REL-EC021-CLS141")]
+    p["target_url_cells_agree"] = True
+    expect_third_fail(stage_third(sandbox3, doc=d), "target_url_cells_agree is True but the 'Target URL' cells of rows 232 and 235 differ")
+
+
+def test_negative_third_identity_cells_cited_falsified_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("DEF-049")]
+    p["identity_cells_cited"]["Source URL"]["row_50"] = p["identity_cells_cited"]["Source URL"]["row_48"]
+    expect_third_fail(stage_third(sandbox3, doc=d), "identity_cells_cited does not equal the rule's cells")
+
+
+def test_negative_third_exact_duplicate_flag_flipped_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-EC021-CLS141")]["exact_duplicate_row"] = True
+    expect_third_fail(stage_third(sandbox3, doc=d), "exact_duplicate_row must be False")
+
+
+def test_negative_third_materiality_miscount_fails(sandbox3):
+    """Planted in the JSON and the companion alike, so only the number-word check catches it;
+    the miscount uses a hyphenated total, which the checker must read as a number."""
+    d = tdoc()
+    old, new = "Thirteen of twenty-four cells agree", "Twelve of twenty-four cells agree"
+    p = d["proposals"][trec("REV-P12-GP-006")]
+    assert old in p["materiality"]
+    p["materiality"] = p["materiality"].replace(old, new)
+    expect_third_fail(stage_third(sandbox3, doc=d, md=tmd().replace(old, new)),
+                      "says 'Twelve of twenty-four cells agree' but the live rows give 13 of 24")
+
+
+def test_negative_third_summary_bucket_named_by_the_legacy_key_fails(sandbox3):
+    d = tdoc()
+    sc = d["summary_counts"]
+    sc["same_drive_object_different_status_text"] = sc.pop("same_drive_object_different_cells")
+    sc["same_drive_object_different_cells"] = 1
+    expect_third_fail(stage_third(sandbox3, doc=d), "exactly one of")
+
+
+def test_negative_third_chain_total_falsified_fails(sandbox3):
+    d = tdoc()
+    d["summary_counts"]["findings_covered_by_the_chain_together"] = 23
+    expect_third_fail(stage_third(sandbox3, doc=d), "findings_covered_by_the_chain_together is 23 but the records' cells give 37")
+
+
+def test_negative_third_two_document_total_key_on_a_chain_of_two_fails(sandbox3):
+    d = tdoc()
+    d["summary_counts"]["findings_covered_by_both_proposals_together"] = 21
+    expect_third_fail(stage_third(sandbox3, doc=d), "not a count this checker recomputes")
+
+
+def test_negative_third_pair_listed_under_the_wrong_class_fails(sandbox3):
+    d = tdoc()
+    block = d["classification_of_the_fourteen_pairs"]
+    block["different_objects_one_identifier"].append(block["same_object_different_cells"].pop())
+    expect_third_fail(stage_third(sandbox3, doc=d), "classification_of_the_fourteen_pairs.same_object_different_cells")
+
+
+def test_negative_third_keeper_set_to_the_later_row_fails(sandbox3):
+    d = tdoc()
+    p = d["proposals"][trec("REV-P02-GP-INTERVAL-001")]
+    p["keeper"]["register_row_index"], p["successor"]["register_row_index"] = 21, 19
+    expect_third_fail(stage_third(sandbox3, doc=d), "keeper.register_row_index 21 must be the earlier quoted row 19")
+
+
+def test_negative_third_markdown_summary_table_successor_id_changed_fails(sandbox3):
+    old = "| `DEF-049@DEF-R50` |"
+    assert tmd().count(old) == 1
+    expect_third_fail(stage_third(sandbox3, md=tmd().replace(old, "| `DEF-049@DEF-R51` |")),
+                      "summary-table row for DEF-049 must read rows '48, 50'")
+
+
+def test_negative_third_markdown_verbatim_row_block_tampered_fails(sandbox3):
+    old = '"AUTHOR-REPAIR-CANDIDATE","2026-07-21"]'
+    assert tmd().count(old) == 1
+    expect_third_fail(stage_third(sandbox3, md=tmd().replace(old, '"AUTHOR-REPAIR-DONE","2026-07-21"]')),
+                      "row 39 of relations is not quoted as the canonical JSON of the live row")
+
+
+def test_negative_third_without_successor_of_fails(sandbox3):
+    d = tdoc()
+    del d["successor_of"]
+    del d["predecessor_chain"]
+    d["summary_counts"].pop("findings_covered_by_the_chain_together")
+    expect_third_fail(stage_third(sandbox3, doc=d), "must name its frozen predecessor in successor_of")
+
+
+# ------------------------------------- repository prose against the live cells
+
+def readme_text() -> str:
+    return open(README_PATH, encoding="utf-8").read()
+
+
+def findings_text() -> str:
+    return open(FINDINGS_PATH, encoding="utf-8").read()
+
+
+def test_third_prose_files_are_present_in_the_sandbox(sandbox3):
+    """The prose controls below are only meaningful if the checker actually reads the two
+    files; the fixture must therefore stage them."""
+    root = stage_third(sandbox3)
+    assert os.path.exists(os.path.join(root, "registers", "README.md"))
+    assert os.path.exists(os.path.join(root, FINDINGS_REL))
+    assert run_third(root).returncode == 0
+
+
+def test_negative_third_readme_calling_a_non_duplicate_pair_an_exact_duplicate_fails(sandbox3):
+    """The regression an adversarial verifier found: registers/README.md described
+    REL-EC021-CLS141 as an exact duplicate row apart from its review date while the record
+    three lines below recomputed six of fifteen cells differing.  Nothing read the README."""
+    old = ("and `REL-EC021-CLS141`, one relation from one Drive document registered twice\n"
+           "and not an exact duplicate row — six of fifteen cells differ: Exact scope,")
+    assert readme_text().count(old) == 1
+    bad = readme_text().replace(
+        old, "and `REL-EC021-CLS141`, an exact duplicate row apart from its review date — Exact scope,")
+    expect_third_fail(stage_third(sandbox3, readme=bad),
+                      "registers/README.md calls REL-EC021-CLS141 an exact duplicate")
+
+
+def test_negative_third_readme_cell_count_contradicting_the_live_rows_fails(sandbox3):
+    old = "six of fifteen cells differ"
+    assert readme_text().count(old) == 1
+    expect_third_fail(stage_third(sandbox3, readme=readme_text().replace(old, "five of fifteen cells differ")),
+                      "says 'five of fifteen cells differ' but the live rows give 6 of 15 cells differ")
+
+
+def test_negative_third_findings_doc_calling_a_non_duplicate_pair_an_exact_duplicate_fails(sandbox3):
+    old = "it is not the exact\nduplicate the finding text calls it"
+    assert findings_text().count(old) == 1
+    bad = findings_text().replace(old, "it is the exact\nduplicate the finding text calls it")
+    expect_third_fail(stage_third(sandbox3, findings=bad),
+                      "docs/FINDINGS_2026-09-18.md calls REL-EC021-CLS141 an exact duplicate")
+
+
+def test_third_prose_accepts_a_denial_in_another_wording(sandbox3):
+    """The check fires on an assertion the cells refute, not on the phrase: a differently
+    worded denial must still pass, or the check would push prose into one fixed sentence."""
+    old = "and not an exact duplicate row"
+    assert readme_text().count(old) == 1
+    r = run_third(stage_third(sandbox3, readme=readme_text().replace(old, "and it isn't an exact duplicate row")))
+    assert r.returncode == 0, f"a reworded denial must pass:\n{r.stdout}"
+
+
+def test_third_prose_naming_no_colliding_identifier_is_not_flagged(sandbox3):
+    """The check is attribution-based, not a blanket grep: a sentence that names none of the
+    fourteen identifiers is none of this checker's business."""
+    bad = readme_text() + "\nSome other pair of rows is an exact duplicate row and four of nine cells differ.\n"
+    r = run_third(stage_third(sandbox3, readme=bad))
+    assert r.returncode == 0, f"an unattributed sentence must not be flagged:\n{r.stdout}"
+
+
+def test_third_prose_count_is_attributed_to_the_nearest_identifier_named_before_it(sandbox3):
+    """A count following a different identifier is checked against that identifier's record,
+    so a correct number copied onto the wrong pair does not pass."""
+    bad = readme_text() + "\nFor `REL-036`, six of fifteen cells differ.\n"
+    expect_third_fail(stage_third(sandbox3, readme=bad),
+                      "of REL-036 (record CP-REL-REL-036), says 'six of fifteen cells differ' "
+                      "but the live rows give 13 of 15 cells differ")
+
+
+def test_third_absent_prose_file_is_noted_not_silently_passed(sandbox3):
+    """A tree without the prose file is skipped — and says so under -v, so a green run in a
+    partial checkout is not mistaken for a cross-checked one."""
+    root = stage_third(sandbox3)
+    os.remove(os.path.join(root, "registers", "README.md"))
+    r = run_third(root, "-v")
+    assert r.returncode == 0, r.stdout
+    assert "registers/README.md is not present" in r.stdout
+
+
+# --------------------------------- the transcribed finding text, and its companion blockquote
+# 'finding_text_as_recorded' is new in the third proposal: each record transcribes its
+# finding's text from registers/KNOWN_FINDINGS.json and the companion blockquotes it under the
+# attribution 'Finding text as recorded in `KNOWN_FINDINGS.json`:'.  An adversarial verifier
+# found four mutations of that field, and one of the blockquote, that the checker did not see —
+# including rewriting all fourteen texts from '...; nothing has been repaired.' to
+# '...; everything has been repaired.'  The controls below drive each through the CLI.
+
+ATTRIBUTION = "Finding text as recorded in `KNOWN_FINDINGS.json`:"
+
+
+def tfinding_text(ident: str) -> str:
+    return tdoc()["proposals"][trec(ident)]["finding_text_as_recorded"]
+
+
+def test_third_transcribes_every_finding_text_and_the_companion_attributes_each(sandbox3):
+    """The positive side of the control: all fourteen records transcribe, the companion
+    attributes fourteen times, and the checker passes only when both hold."""
+    d = tdoc()
+    assert all("finding_text_as_recorded" in p for p in d["proposals"])
+    assert tmd().count(ATTRIBUTION) == len(d["proposals"]) == 14
+    assert run_third(stage_third(sandbox3)).returncode == 0
+
+
+def test_negative_third_finding_text_fabricated_fails(sandbox3):
+    d = tdoc()
+    d["proposals"][trec("REL-036")]["finding_text_as_recorded"] = "fabricated text"
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "CP-REL-REL-036: finding_text_as_recorded is not registers/KNOWN_FINDINGS.json "
+                      "section 'findings_first_keyed_2026-09-19' entry")
+
+
+def test_negative_third_finding_text_edited_by_one_word_fails(sandbox3):
+    """The mutation the verifier ran: 'Two different relations' -> 'Two identical relations',
+    a single word that reverses what the register recorded."""
+    d = tdoc()
+    i = trec("REL-036")
+    old = d["proposals"][i]["finding_text_as_recorded"]
+    assert old.count("Two different relations under one id.") == 1
+    d["proposals"][i]["finding_text_as_recorded"] = old.replace(
+        "Two different relations under one id.", "Two identical relations under one id.")
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "CP-REL-REL-036: finding_text_as_recorded is not registers/KNOWN_FINDINGS.json")
+
+
+def test_negative_third_finding_text_deleted_from_one_record_fails(sandbox3):
+    d = tdoc()
+    del d["proposals"][trec("DEF-049")]["finding_text_as_recorded"]
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "finding_text_as_recorded is missing although 13 of 14 records of this document "
+                      "transcribe the finding text")
+
+
+def test_negative_third_every_finding_text_claiming_repair_fails(sandbox3):
+    """The worst of the four: all fourteen transcriptions rewritten so the document tells its
+    reader the register says everything has been repaired."""
+    d = tdoc()
+    n = 0
+    for p in d["proposals"]:
+        t = p["finding_text_as_recorded"]
+        # The phrase need not be last: a rationale may close with a note of what
+        # it said before a correction. It must be present, and inverting it must
+        # be refused.
+        assert "nothing has been repaired." in t
+        p["finding_text_as_recorded"] = t.replace("nothing has been repaired.",
+                                                  "everything has been repaired.")
+        n += 1
+    assert n == 14
+    expect_third_fail(stage_third(sandbox3, doc=d), "finding_text_as_recorded is not registers/KNOWN_FINDINGS.json")
+
+
+def test_negative_third_all_finding_texts_deleted_leaves_the_companion_attributing_nothing(sandbox3):
+    """Deleting the field from every record does not buy silence: the companion still
+    attributes fourteen blockquotes to the register, and the counts must agree."""
+    d = tdoc()
+    for p in d["proposals"]:
+        del p["finding_text_as_recorded"]
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "attributes text to registers/KNOWN_FINDINGS.json 14 time(s) but no record of the "
+                      "document carries finding_text_as_recorded")
+
+
+def test_negative_third_companion_blockquote_drifting_from_the_record_fails(sandbox3):
+    """The companion presents the blockquote as the register's words; if it drifts from the
+    record (which is itself held to the register), the companion is quoting nobody."""
+    text = tfinding_text("REL-036")
+    assert tmd().count(text) == 1
+    bad = tmd().replace(text, text.replace("Two different relations under one id.",
+                                           "Two identical relations under one id."))
+    expect_third_fail(stage_third(sandbox3, md=bad),
+                      "CP-REL-REL-036 does not quote its finding_text_as_recorded verbatim")
+
+
+def test_negative_third_companion_dropping_one_attribution_fails(sandbox3):
+    md = tmd()
+    assert md.count(ATTRIBUTION) == 14
+    bad = md.replace(ATTRIBUTION, "Finding text, paraphrased:", 1)
+    assert bad.count(ATTRIBUTION) == 13
+    expect_third_fail(stage_third(sandbox3, md=bad),
+                      "carries 13 'Finding text as recorded in `KNOWN_FINDINGS.json`:' attribution(s) "
+                      "but 14 record(s) transcribe the finding text")
+
+
+def test_negative_third_companion_banner_inverted_fails(sandbox3):
+    """The banner check used to be a bare substring search over the whole companion, which the
+    fourteen transcriptions — each ending '...; nothing has been repaired.' — satisfied on
+    their own.  Inverting the banner the reader meets first must fail."""
+    md = tmd()
+    lines = md.split("\n")
+    assert "**Nothing has been repaired.**" in lines[3]
+    lines[3] = lines[3].replace("**Nothing has been repaired.**", "Everything has been repaired.")
+    bad = "\n".join(lines)
+    assert "nothing has been repaired" in bad.lower(), "the transcriptions must still carry the phrase"
+    expect_third_fail(stage_third(sandbox3, md=bad),
+                      "does not carry the nothing-has-been-repaired banner "
+                      "'**Nothing has been repaired.**' within its first 40 lines")
+
+
+# ------------------------------------------ the document's own row-locator self-description
+
+def test_negative_third_declared_row_locator_contradicting_the_issued_ids_fails(sandbox3):
+    """source_of_record.row_locators told the reader which locator each tab's successor ids
+    carry and was checked by nothing: the ids are held to TAB_LOCATOR, so the declaration could
+    say anything."""
+    d = tdoc()
+    assert d["source_of_record"]["row_locators"]["relations"] == "REL"
+    d["source_of_record"]["row_locators"]["relations"] = "RIX"
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "source_of_record.row_locators['relations'] is 'RIX' but the successor identifiers "
+                      "of that tab are checked against 'REL'")
+
+
+def test_negative_third_declared_row_locator_for_an_unused_tab_still_checked(sandbox3):
+    """A locator declared for a tab no record names is still the document describing itself,
+    and is still held to the map the checker reads."""
+    d = tdoc()
+    d["source_of_record"]["row_locators"]["evidence_lineage"] = "EVIDENCE"
+    expect_third_fail(stage_third(sandbox3, doc=d),
+                      "source_of_record.row_locators['evidence_lineage'] is 'EVIDENCE', not the locator "
+                      "this checker reads for that tab ('EVL')")
+
+
+def test_existing_identifiers_refuses_to_resolve_its_own_directory():
+    """CLAUDE.md records a default argument bound at import time silently re-checking the good
+    graph in tools/claims_check.py.  existing_identifiers() is the one function whose job is to
+    prove a successor id is new, so it must never resolve a path itself."""
+    mod = cpc_module()
+    with pytest.raises(TypeError):
+        mod.existing_identifiers()
+    with pytest.raises(ValueError):
+        mod.existing_identifiers("")
+    ids = mod.existing_identifiers(os.path.join(ROOT, "registers", "json"))
+    assert "REL-036" in ids and "REV-P02-GP-INTERVAL-001" in ids

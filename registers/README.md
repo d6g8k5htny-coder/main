@@ -82,15 +82,26 @@ never read the id column of `relations` (Relation ID), `review_ledger` (Review
 ID) or `definitions` (Definition ID). Keying them surfaced 14 duplicate keys
 that both exports had carried all along: eleven in `relations` (`REL-036…040`,
 `REL-048`, `REL-049`, `REL-132…134`, each id naming two different relations,
-and `REL-EC021-CLS141`, an exact duplicate row apart from its review date),
-two in `review_ledger` (`REV-P12-GP-006`, `REV-P02-GP-INTERVAL-001`, one
+and `REL-EC021-CLS141`, one relation from one Drive document registered twice
+and not an exact duplicate row — six of fifteen cells differ: Exact scope,
+Evidentiary effect, Authority effect, the Target URL's sheet fragment,
+Provenance and Last reviewed, where the finding text names only the review
+date), two in `review_ledger` (`REV-P12-GP-006`, `REV-P02-GP-INTERVAL-001`, one
 review id over two exact objects each) and one in `definitions` (`DEF-049`,
 "Certified capture mass" and "Interval-certified degree-four corridor box").
 They are allowlisted row by row in `KNOWN_FINDINGS.json` section
-`findings_first_keyed_2026-09-19` and are **not yet covered by any collision
-proposal**: the 2026-09-18 proposal is frozen and the 2026-09-19 successor
-covers only the seven xlsx-first keys, so a further numbered successor is the
-place for these. `context_snapshot` (fifteen rows under two snapshot ids),
+`findings_first_keyed_2026-09-19` and are covered, one record per key, by the
+third numbered proposal `collision_proposal_2026-09-19b.json` (companion
+`COLLISION_PROPOSAL_2026-09-19b.md`; `successor_of` the 2026-09-19 document by
+SHA-256, which in turn names the frozen 2026-09-18 document; checked by
+`python3 tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19b.json`,
+which also re-reads this paragraph and fails if it attributes to one of the
+fourteen identifiers an exact-duplicate claim or a cell count the live rows
+refute). Still a proposal: the 2026-09-18 proposal is frozen, the 2026-09-19
+successor covers only the seven xlsx-first keys, and neither is edited. The `REL-EC021-CLS141`
+finding text said the same thing and was corrected in the same commit, with a
+note of what it said before; the register itself is untouched, and which row
+should keep the identifier stays the operator's content adjudication. `context_snapshot` (fifteen rows under two snapshot ids),
 `activity_log` (Artifact ID) and `alarms` (Reference ID) also repeat values in
 their id-like columns and are deliberately still unkeyed: those columns index
 events, not objects. Nothing has been repaired.

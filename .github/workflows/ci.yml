@@ -45,6 +45,10 @@ jobs:
         run: python tools/collision_proposal_check.py
       - name: Collision proposal 2026-09-19 successor (seven xlsx-only findings, rows quoted cell for cell)
         run: python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json
+      - name: Third collision proposal (fourteen first-keyed findings; frozen predecessor chain)
+        run: python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19b.json
+      - name: Register consumers (derived map matches the eligible source tree)
+        run: python tools/consumers_check.py
       - name: Bound carriers (content-addressed, digests match)
         run: python tools/carriers_verify.py
       - name: Lane invariants (no lane reads stronger than the claim graph)

@@ -50,6 +50,8 @@ REQUIRED_COMMANDS = (
     "python tools/recovery_check.py",
     "python tools/collision_proposal_check.py",
     "python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json",
+    "python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19b.json",
+    "python tools/consumers_check.py",
     "python tools/carriers_verify.py",
     "python tools/lanes_check.py",
     "python tools/slack_check.py",
