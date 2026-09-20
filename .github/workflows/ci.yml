@@ -83,6 +83,8 @@ jobs:
         run: python tools/parallel_math_check.py
       - name: Replay twelve scoped mathematical candidates from the frozen archive
         run: python tools/twelve_project_check.py
+      - name: Replay whole-band fixed-axis H3 and degree-six RN local bounds
+        run: python tools/h3_rn_n6_check.py
       - name: Validate the derived research frontier and recorded diagnostics
         run: python tools/research_frontier.py self-check
       - name: Verify source-bound LPW amplitude and radius arithmetic

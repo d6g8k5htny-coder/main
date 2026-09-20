@@ -69,6 +69,7 @@ REQUIRED_COMMANDS = (
     "python tools/rn_side24_spatial_check.py",
     "python tools/parallel_math_check.py",
     "python tools/twelve_project_check.py",
+    "python tools/h3_rn_n6_check.py",
     "python tools/research_frontier.py self-check",
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",

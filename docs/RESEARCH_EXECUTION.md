@@ -131,3 +131,12 @@ mathematical equivalence; a locally signed or hashed snapshot does not prove
 what someone believed at a trusted historical time. No frozen evidence is moved
 or rewritten, and no historical claim is downgraded because the new certificate
 format does not yet support it.
+
+The [whole-band H3 and RN N6 successor](H3_RN_N6.md) has one portable route.
+It replays five mathematical jobs in normal and optimized Python and compares
+34 outputs to their frozen exact bytes. The original stronger fixed-radius
+H3 floor remains the RN premise.
+
+```sh
+python tools/h3_rn_n6_check.py
+```

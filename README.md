@@ -15,6 +15,10 @@ integral upper below `6e-12`. The [parallel mathematical replays](docs/PARALLEL_
 reconstruct that fixed-r H3 floor, improve the LPW covariance modulus and bound
 one H5 jet over an exact radius band. The full near-annulus bound remains open.
 
+The [H3 radius-band and RN N6 continuation](docs/H3_RN_N6.md) proves fixed-axis
+`1.7 r² <= Z(r) <= 3.49 r²` for every `0 < r <= 1/20` and improves four
+local RN squares, with full-annulus and all-angle obligations retained.
+
 The [twelve-project mathematical continuation](docs/TWELVE_PROJECT_MATH.md)
 adds uniform six-pin covariance bounds, a conditional LPW coefficient,
 two gradient-jet bands, and exact persistence/contact, weighted-event,
