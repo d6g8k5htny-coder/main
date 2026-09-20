@@ -34,6 +34,10 @@ jobs:
         run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py; else echo "skipped (tool absent)"; fi
       - name: Collision proposal 2026-09-19 successor (seven xlsx-only findings, rows quoted cell for cell)
         run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json; else echo "skipped (tool absent)"; fi
+      - name: Collision proposal 2026-09-19b third successor (fourteen first-keyed findings in relations, review_ledger, definitions; chain two deep)
+        run: if [ -f tools/collision_proposal_check.py ]; then python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19b.json; else echo "skipped (tool absent)"; fi
+      - name: Register consumers (which tabs anything here reads; the map may not drift from the tree)
+        run: if [ -f tools/consumers_check.py ]; then python tools/consumers_check.py; else echo "skipped (tool absent)"; fi
       - name: Bound carriers (content-addressed, digests match)
         run: if [ -f tools/carriers_verify.py ]; then python tools/carriers_verify.py; else echo "skipped (tool absent)"; fi
       - name: Lane invariants (no lane reads stronger than the claim graph)
