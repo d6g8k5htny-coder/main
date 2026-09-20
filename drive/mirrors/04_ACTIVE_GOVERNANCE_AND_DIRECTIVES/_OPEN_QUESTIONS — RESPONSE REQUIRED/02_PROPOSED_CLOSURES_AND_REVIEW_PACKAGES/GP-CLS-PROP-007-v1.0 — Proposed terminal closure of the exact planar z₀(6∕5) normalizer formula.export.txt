@@ -1,0 +1,205 @@
+﻿GP-CLS-PROP-007-v1.0 — PROPOSED TERMINAL CLOSURE OF THE EXACT PLANAR z₀(6/5) NORMALIZER FORMULA
+
+
+Artifact ID: GP-CLS-PROP-007-v1.0
+Author: OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: CLS-PROP — additive terminal-closure proposal
+Status: READY FOR HUMAN APPROVAL
+Authority: none until Dylan M. Roy accepts or modifies the terminal statement
+Canonical impact: NONE before approval
+Queue item: EC-006
+
+
+1. EXACT OBJECT TO BE CLOSED
+
+
+Let Q be the planar coalesced curvature coordinate with
+
+
+    Q ~ N(-b, 2),
+
+
+and define
+
+
+    z₀(b) = E[Q² 1{Q<0}].
+
+
+The exact planar truncated-normal identity is
+
+
+    z₀(b)
+      = (b²+2) Φ(b/√2)
+        + √2 b φ(b/√2),
+
+
+where Φ and φ are the standard normal distribution and density functions. At b=6/5,
+
+
+    z₀(6/5)
+      = (86/25) Φ(3√2/5)
+        + (6√2/5) φ(3√2/5)
+      = 3.2309785352870049480962465690181631507648580105587… .
+
+
+Proposed terminal label:
+
+
+    CLOSED — EXACT PLANAR TRUNCATED-NORMAL SECOND-MOMENT IDENTITY
+
+
+2. FIRST-PRINCIPLES DERIVATION
+
+
+Write Q = μ + σZ with μ=-b, σ=√2, Z~N(0,1), and α=(0-μ)/σ=b/√2. For a Gaussian X~N(μ,σ²), direct integration by parts gives
+
+
+    E[X² 1{X≤a}]
+      = (μ²+σ²) Φ(α)
+        - σ(μ+a) φ(α),
+
+
+with α=(a-μ)/σ. Setting a=0, μ=-b, σ=√2 gives
+
+
+    E[Q² 1{Q<0}]
+      = (b²+2) Φ(b/√2)
+        + √2 b φ(b/√2).
+
+
+No asymptotic argument, simulation, or unproved theorem is used in this identity.
+
+
+3. EVIDENCE AND INDEPENDENT REVIEW
+
+
+Primary/source-level statement:
+
+
+• 05_RELIABILITY_AND_EVIDENCE.md §2 states the same exact planar formula and numerical value for Q~N(-b,2).
+
+
+Independent CL re-execution:
+
+
+• CL-DATA-026-v1.0, Drive ID 1bJmhmwgOYNQs7Ky737CT_fwJg7oSAhQvuKzDtVCFAMg, independently evaluates the closed form as 3.230978535 and reports a 2,000,000-draw Monte Carlo value 3.23094. It explicitly labels the result CONFIRMED-BY-REEXECUTION.
+
+
+Independent CW route:
+
+
+• CW-AUD-017-v1.0, Drive ID 1hFlr4t8cc2b7O92enQ_Hi1m7LYVFEUgI, verifies the normalizer reduction line by line and reports that the same decimal is obtained independently through the coalesced Palm-denominator battery. It describes two derivations yielding one constant.
+
+
+Independent AO48 census:
+
+
+• AO48-REG-018-v1.0, Drive ID 1gvZWNOWQDoU3Ec1lBvDW1HXcQSYBQRhs, lists the formula as kill-ready with an exact derivation, AO48 closed-form check, Monte Carlo band, and CW two-route match.
+
+
+OpenAI scope audit and fresh derivation:
+
+
+• This closure proposal re-derives the formula from the general Gaussian truncated second moment and independently evaluates the decimal to 50 digits.
+
+
+4. LOAD-BEARING SCOPE LIMIT
+
+
+This closure applies only to the planar coalesced law Q~N(-b,2).
+
+
+It does NOT assert that the exact normalized-periodized side-24 torus coefficient is literally the same decimal. GP-DER-044-v1.0 — Exact-torus Gaussian regularity via confluent divided differences, Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho, proves that the exact fixed-torus limiting coordinate is a nondegenerate Gaussian Q_L with exponentially small but nonzero image corrections. The exact torus coefficient is
+
+
+    z₀,L = E[Q_L² 1{Q_L<0}] > 0,
+
+
+not literally the planar decimal. At L=24 the difference is below the displayed numerical precision used in the package, but it is mathematically nonzero.
+
+
+Therefore future references must use one of the following object-qualified labels:
+
+
+• PLANAR_COALESCED_NORMALIZER: exact formula above;
+• EXACT_TORUS_COALESCED_NORMALIZER: z₀,L, positive but not identified here by the planar decimal.
+
+
+5. DEPENDENCIES AFFECTED
+
+
+This closure permits the exact planar formula and decimal to be cited without reopening the derivation whenever the declared object is Q~N(-b,2). It supports provenance and checking of planar Palm-normalizer calculations and planar-limit diagnostic tables.
+
+
+It also permanently blocks the following ambiguity:
+
+
+• using 3.230978535287005… as a literal exact side-24 torus identity.
+
+
+6. DEPENDENCIES UNAFFECTED
+
+
+This closure does not:
+
+
+• prove the exact finite-r or exact-torus normalizer coefficient numerically;
+• close GP-DER-044’s exact-torus regularity theorem by itself;
+• prove adjacency positivity, adjacency-to-one, branch capture, or P0.2;
+• change Theorem B, the live q₀ theorem state, or any machine root;
+• promote a numerical value of C_Q0 or C_*;
+• alter any historical source file.
+
+
+7. TERMINAL RECORD AND REGISTER ACTIONS AFTER APPROVAL
+
+
+After Dylan M. Roy approves or modifies the terminal statement:
+
+
+1. Move EC-006 from Easy Closure Queue to Closure Log.
+2. Record terminal label:
+
+
+       CLOSED — EXACT PLANAR TRUNCATED-NORMAL SECOND-MOMENT IDENTITY
+
+
+3. Register object tags:
+
+
+       PLANAR_COALESCED
+       Q_NORMALIZER_SECOND_MOMENT
+       b=6/5
+       NOT_EXACT_TORUS_DECIMAL
+
+
+4. Cross-link GP-DER-044’s precision correction so a cold-start reader cannot conflate the two objects.
+5. Remove this identity from active re-derivation and routine review queues.
+6. Preserve all cited source, audit, and correction artifacts unchanged.
+
+
+8. HUMAN APPROVAL REQUIREMENT
+
+
+This item is mathematically closure-ready but remains a human terminal decision under OP-PROT-004.
+
+
+Proposed approval statement:
+
+
+    I approve GP-CLS-PROP-007-v1.0. Close the exact planar identity
+    z₀(b)=(b²+2)Φ(b/√2)+√2bφ(b/√2), including
+    z₀(6/5)=3.230978535287004948… , under the declared
+    PLANAR_COALESCED object only. Preserve the distinct exact-torus
+    coefficient z₀,L and do not use the planar decimal as a literal
+    fixed-torus identity.
+
+
+9. CORRECTION PATH
+
+
+If a later audit finds an algebraic, numerical, or object-definition error, do not edit this document silently. File an additive erratum identifying the exact failed line, dependency impact, and corrected terminal status.
+
+
+END OF PROPOSED CLOSURE PACKAGE

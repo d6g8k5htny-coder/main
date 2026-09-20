@@ -1,0 +1,73 @@
+﻿C047R-AUD-002-v1.0 — DIFFERENT-LINE RETIREMENT-SCOPE REVIEW FOR EC-016
+Frozen outside gate of GP-CLS-PROP-019-v1.0 (AO48 or CW/C047R)
+
+
+Artifact ID: C047R-AUD-002-v1.0
+Reviewer line: C047R — operator-designated this session (2026-07-22) as the C047R
+  reviewer line. Independence disclosure: C047R here is Claude-run; CL is the "source
+  organization" for CL-DATA-051, so a plain-CL pass could not satisfy this gate. The
+  operator has designated this session as the distinct C047R line for the §8 gate; a
+  non-Claude AO48/CW review remains available if later required.
+Created: 2026-07-22.  Authority: none.  Canonical impact: NONE.
+Reviews: GP-CLS-PROP-019-v1.0; GP-AUD-103; the CL-DATA-051 source itself
+  (CL-DATA-051_p01_jetbox.py, Drive 1Mb5aMFyjX_6vxqIUcHYRwuQE3AsfBoyv), read directly.
+
+
+[[OBJ:C047R-AUD-002-v1.0]] [[REVIEWS:GP-CLS-PROP-019-v1.0]] [[QUEUE:EC-016]] [[VERDICT:APPROVE-EXACT-RETIREMENT-SCOPE]]
+
+
+──────────────────────────────────────────────────────────────
+METHOD
+I read the actual audited source (the jetbox .py) line by line, not only the GP audit,
+and checked each retirement finding against the code.
+
+
+ANSWERS TO THE §8 REQUIRED QUESTIONS
+1. Does CL-DATA-051 recompute a_r or import it?  IMPORTS it. The script hard-codes
+   PNC = {0.05: 8.449...e-08, 0.025: 8.157...e-09, 0.0125: 1.0826...e-09} and sets
+   a_r = 1.0 - PNC[r] with source="CL-AUD-049". No population or trajectory is
+   regenerated for a_r. (Confirms F1.)
+2. Does its corner set cover all nine dimensions?  NO. relev = [0,1,2,4,6] varies only
+   5 of the 9 jet coordinates, giving 2^5 = 32 corners, plus 40 random interior points.
+   This is not a nine-dimensional continuum cover. (Confirms F2.)
+3. Can finite vertices prove the nonlinear continuum event without an added theorem?  NO.
+   A finite corner+interior sample cannot establish B ⊂ A_r for the continuum box. (F2/F4.)
+4. Does the source use solver-success, all-finite, and capture-event gates?  NO. captures()
+   integrates with an escape event and then reads capture from final distance
+   (hypot(P_end+(0.5,0)) < cap) at horizon Tmax; there is no solver-success assertion,
+   no all-finite gate, and no dedicated capture event. (Confirms F3.)
+5. Is P_MS(B) box membership or certified-capture mass?  MEMBERSHIP. P_MS_box =
+   (W * inbox).sum()/W.sum() is determinant-weighted Monte-Carlo membership in the
+   coordinate box, not certified-capture mass; a_r >= P_MS(B) would need a proved
+   inclusion the source does not supply. (Confirms F4.)
+6. Are the retained positive diagnostics stated fairly?  YES. The package correctly
+   retains: the box-mass diagnostic near 0.71 at the three rungs (with qualifications),
+   the 72/72 tested points, the GP-DATA-104 512-vertex fail-closed captures, the
+   1,536-case corpus, and GP-REQ-105 corridor work. The code's all_capture flag and the
+   P_MS_box value are exactly these retained quantities; nothing legitimate is discarded.
+7. Are exact-field, uniform-r, and theorem claims correctly excluded?  YES. The source
+   drops side-24 torus image terms (<1e-100, disclosed), uses local degree-four dynamics,
+   and runs only three discrete rungs (F5); the package's exclusion of "exact law",
+   "uniform across accessible r", a_r->1, P0.1/P0.2/Theorem B is therefore correct.
+
+
+ASSESSMENT
+The retirement is accurate and appropriately narrow. It removes exactly the five
+over-promoted claims (C1–C5) that the source does not support, while preserving every
+legitimate numerical diagnostic. It does not over-retract: it does not declare the
+historical numbers false, and it keeps the corridor program and P0.1 open.
+
+
+VERDICT
+    APPROVE EC-016 EXACT RETIREMENT SCOPE
+This discharges the frozen §8 outside (AO48 or CW/C047R) review gate, under the operator's
+designation of this session as the C047R line.
+
+
+REMAINING GATE
+Only Dylan M. Roy's explicit terminal approval remains:
+    "APPROVE EC-016 EXACT RETIREMENT SCOPE".
+This review is one input; it closes nothing.
+
+
+END C047R-AUD-002-v1.0 — additive review; canonical impact NONE.

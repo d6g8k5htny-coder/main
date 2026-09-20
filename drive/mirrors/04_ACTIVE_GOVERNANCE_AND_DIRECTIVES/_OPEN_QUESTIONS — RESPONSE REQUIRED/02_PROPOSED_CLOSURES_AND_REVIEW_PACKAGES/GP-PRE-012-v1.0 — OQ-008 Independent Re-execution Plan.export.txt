@@ -1,0 +1,76 @@
+﻿ARTIFACT ID:       GP-PRE-012-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             PRE — pre-registration / independent re-execution plan
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            FROZEN BEFORE EXECUTION
+
+
+# OQ-008 independent re-execution plan
+
+
+## Question
+
+
+CL-DER-018 reports that the very-short persistence bars are topologically real across nested resolutions but that their measured lifetimes are catastrophically inaccurate. The supplied script CL-DATA-017 uses identical Fourier coefficients at n=128,256,512,1024 and matches bars by nearest birth location.
+
+
+## Files inspected
+
+
+- CL-DATA-017 — nested_match.py, Drive ID 1GZwpaGF_gmkgIEJvBqDD-5fOog7qA2ws.
+- CL-DER-018, Drive ID 1JWu_wqN6uUCtstxRWGoH2ch0DL_tV8sMmnz9poFYh5U.
+- C104_CONTINUUM_VALIDATION_ADJUDICATION.md, Drive ID 1i_g9aHOZHVHzVWdqjWUcXhM43G8J2PGg.
+- C104_COUPLED_PERSISTENCE.json, Drive ID 1ty3rZNyT6UFMOthPZBMbx6_jZ4sxZajn.
+
+
+## Independent implementation
+
+
+I will not copy the original union-find implementation. I will implement a separate Numba-compiled periodic H0 superlevel persistence routine and reproduce the same Fourier ensemble and nested zero-padding.
+
+
+I will run four analyses on the same eight seeds 20267720 through 20267727:
+
+
+A. Original-design replication: per-resolution variance normalization, nearest-birth matching with one-coarse-cell tolerance.
+
+
+B. Common-normalization sensitivity: normalize all four samples by the n=1024 sample standard deviation, so only spatial sampling changes.
+
+
+C. One-to-one matching sensitivity: replace reusable nearest-neighbor matching by a minimum-cost one-to-one assignment using periodic birth distance, with diagonal/unmatched options.
+
+
+D. Pair-coordinate sensitivity: when available, include death/lifetime discrepancy in the assignment cost after imposing the birth-location tolerance.
+
+
+## Frozen interpretation rules
+
+
+R1 — The original headline is numerically reproduced only if the A-analysis match rates agree within 3 percentage points and the bandwise median relative errors agree within 15% relative tolerance.
+
+
+R2 — If common normalization reduces the median relative lifetime error by a factor of at least 2 in either of the two shortest bands, then part of the reported value instability is caused by per-resolution amplitude normalization and the phrase “lifetimes are not measurable” must be narrowed.
+
+
+R3 — If one-to-one matching lowers the short-bar match rate by at least 10 percentage points, then the reported existence match rate is materially inflated by many-to-one nearest-neighbor matching.
+
+
+R4 — If the short-bar match rate remains above 80% and the median relative lifetime error remains above 100% at n=512 under both B and C, the qualitative split “features persist, values are unresolved” survives the independent re-execution.
+
+
+R5 — If fewer than 30 reference bars occur in a lifetime band, that band is reported as underpowered rather than given a categorical verdict.
+
+
+## Additional comparison to C104
+
+
+I will compare object definitions rather than average results. C104 fits only refinement-stable bars with persistence greater than 4 epsilon_h and per-field left truncation; CL-DER-018 reports all location-matched bars by reference lifetime decade. A numerical disagreement is not a contradiction unless the same bars and truncation rule are used.
+
+
+## Expected deliverable
+
+
+A separate response file will report code, numbers, disagreements, and the decisive next test. No result will be promoted by this re-execution.

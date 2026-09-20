@@ -1,0 +1,268 @@
+﻿00_READ_FIRST — GP-AUTO-034 v1.3-R0.4 ISOLATED RUNTIME QUALIFICATION
+
+
+Artifact class: NAV / RUNTIME-TEST HANDOFF / WRITE-TARGET FIREWALL / RECOVERY PREREGISTRATION
+Prepared: 2026-07-24
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking under Dylan Roy’s authenticated instruction to continue nonterminal Drive research
+Governance: OP-PROT-011 — Independent-Eyes Rule
+Canonical mathematical impact: NONE
+Installation or activation authority exercised: NONE
+
+
+STATUS
+
+
+EXACT R0.4 SOURCE PUBLISHED / STATIC T1–T35 PASS / FIXTURES 4-OF-4 PASS / ALL WRITE TARGETS EXPLICIT / SANDBOX PREPARED / GOOGLE APPS SCRIPT RUNTIME NOT EXECUTED / DO NOT INSTALL
+
+
+[[OBJ:GP-AUTO-034-v1.3-R0.4]] [[SOURCE:PUBLISHED]] [[STATIC:PASS]] [[WRITE-TARGETS:EXPLICIT]] [[SANDBOX:PREPARED]] [[RUNTIME:PENDING]] [[NO-LIVE-WRITES]] [[NO-INSTALL]]
+
+
+1. WHY R0.4 EXISTS
+
+
+R0.3 removed the hardcoded live registry spreadsheet and required an explicit Script Property. A further static review found two remaining implicit live write fallbacks:
+- DEFAULT_NAVIGATION_DOC_ID pointed to the live Navigation Companion;
+- DEFAULT_MANIFEST_FOLDER_ID, and the TREE_04_4 fallback path, could point manifest and receipt writes to live staging when explicit Config values were absent.
+
+
+No R0.3 Apps Script runtime was executed and no live write occurred.
+
+
+R0.4 removes those defaults. Registry, navigation, and manifest destinations must all be explicitly selected. Missing or malformed targets fail closed before write-capable context is constructed.
+
+
+2. EXACT SOURCE IDENTITY
+
+
+Raw source:
+- Title: GP-AUTO-034-v1.3-R0.4-SUCCESSOR_CANDIDATE.gs
+- Drive ID: 1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99
+- URL: https://drive.google.com/file/d/1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99/view
+- Exact bytes: 135,668
+- SHA-256: 11ba6ccdb3f68a38215036b55dec4a4e53cc2022adf6af8f5c6dffec8f9aa9d3
+- Encoding: UTF-8 BOM, CRLF line endings, no final line terminator
+- Drive round-trip equality: PASS
+- JavaScript syntax: PASS
+
+
+Editable carrier:
+- Drive ID: 1VVKDeG8-PcV5EJYfNc1JSlv7b_s2KeUUjpdtRDA-yXk
+- URL: https://docs.google.com/document/d/1VVKDeG8-PcV5EJYfNc1JSlv7b_s2KeUUjpdtRDA-yXk/edit
+
+
+Apps Script manifest:
+- Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Exact bytes: 106
+- SHA-256: 53f85c56a0fb4fe0e4b1a46fe0955fc45cd1d950224bc63db774f5ead6ec0b84
+- JSON validation: PASS
+
+
+Deterministically normalized correspondence:
+- UTF-8, LF-only, no BOM, exactly one trailing LF
+- Bytes: 132,283
+- Lines: 2,608
+- SHA-256: e6dbb29eac4d78bd1ce8e0be1457e1632704b9f612bebebc0abefabaa14f847f
+- This byte stream is reconstruction evidence only; direct raw Drive publication remains connector-blocked.
+
+
+3. STATIC QUALIFICATION
+
+
+The exact raw Drive source was downloaded and evaluated in a controlled JavaScript VM.
+
+
+Results:
+- T1–T35: 35 of 35 PASS
+- Frozen cryptographic fixtures: 4 of 4 PASS
+- Total returned records: 39 of 39 PASS
+
+
+New control:
+- T35 — Navigation and manifest write targets require explicit Config IDs and have no live defaults.
+
+
+T35 verifies:
+1. missing MANIFEST_OUTPUT_FOLDER_ID fails closed;
+2. missing NAVIGATION_DOC_ID fails closed;
+3. valid explicit test IDs are returned exactly.
+
+
+T34 remains active and requires explicit Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID with no live registry fallback.
+
+
+T33 remains active and prevents a candidate from labeling itself production.
+
+
+4. ISOLATED OBJECTS
+
+
+Sandbox folder:
+- 1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH
+- https://drive.google.com/drive/folders/1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH
+
+
+Isolated registry copy:
+- 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+- https://docs.google.com/spreadsheets/d/11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo/edit
+
+
+Isolated navigation target:
+- 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE
+- https://docs.google.com/document/d/1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE/edit
+
+
+Generated-only output folder:
+- 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+- https://drive.google.com/drive/folders/1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+
+
+The copied Config explicitly sets:
+- REGISTRY_SPREADSHEET_ID = 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+- NAVIGATION_DOC_ID = 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE
+- MANIFEST_OUTPUT_FOLDER_ID = 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+- PILOT_OUTPUT_FOLDER_ID = 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+
+
+Safety switches remain:
+- AUTOMATION_AUTHORIZED = FALSE
+- HOURLY_TRIGGER = FALSE
+- WRITE_SOURCE_FILES = FALSE
+- DELETE_OR_TRASH = FALSE
+- AUTO_PROMOTE = FALSE
+- RECURSIVE_SCAN = FALSE
+
+
+5. REQUIRED APPS SCRIPT PROPERTY
+
+
+Before any runtime function is called, set exactly:
+
+
+GP_AUTO_REGISTRY_SPREADSHEET_ID = 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+
+
+Forbidden live targets during qualification:
+- live registry: 1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no
+- live navigation: 1YHLCAMUkYPdZnw0l9Q2JrFeXBTKLzv6N91xb6ILjack
+- live manifest staging: 1i5c9cPVz1MReh0KjzC7-4X3Tbc9geMBv
+
+
+If the Script Property or either Config write target is absent, malformed, or unexpected, return CANNOT VERIFY and stop.
+
+
+6. PRE-EXECUTION FREEZE
+
+
+Before execution:
+1. Record project ID, creator, timezone, runtime version, timestamp, and reviewer family.
+2. Record every source/review artifact already read.
+3. Load the exact R0.4 raw source and appsscript.json.
+4. Export installed source and establish correspondence to the reviewed identity.
+5. Set the explicit registry Script Property to the isolated registry ID.
+6. Inspect Config and verify exact isolated navigation and manifest IDs.
+7. Confirm no forbidden live target appears in the installed source, Script Properties, active Config write fields, project settings, or test instructions.
+8. Keep AUTOMATION_AUTHORIZED=FALSE until source and target identity checks pass.
+9. Freeze the initial state of every generated sheet, the isolated navigation body, and the isolated output folder.
+
+
+No patching, tuning, or ID substitution is permitted under the same source version.
+
+
+7. RUNTIME SEQUENCE
+
+
+Phase A — target failure tests
+1. Delete the registry Script Property and call registrySpreadsheetId_(). Require fail-closed error.
+2. Restore the property to the isolated registry ID and require exact return.
+3. In a disposable copied Config, blank MANIFEST_OUTPUT_FOLDER_ID and invoke context construction. Require fail-closed error before a write.
+4. Restore it, blank NAVIGATION_DOC_ID, and require fail-closed error.
+5. Restore all isolated targets.
+6. With AUTOMATION_AUTHORIZED=FALSE, call refreshAllRegisters(). Require authorization failure and no generated-state mutation.
+
+
+Phase B — Apps Script acceptance
+7. Run auditCoupledAdvancement().
+8. Run runAcceptanceTests().
+9. Require T1–T35 PASS and four fixture checks PASS.
+10. Export Run Log and returned results.
+
+
+Phase C — one isolated authorized refresh
+11. Set AUTOMATION_AUTHORIZED=TRUE only in the copied Config.
+12. Keep HOURLY_TRIGGER=FALSE.
+13. Execute one manual refreshAllRegisters().
+14. Record file counts, generated row counts, warnings, manifests, routing indexes, validation receipts, backups, and journal state.
+15. Prove all writes are confined to the isolated registry, isolated navigation, and generated-only output folder.
+16. Prove the live registry, live navigation, and live manifest folder are unchanged.
+17. Prove source research artifacts are byte-unchanged.
+18. Verify every generated readiness surface says CANDIDATE / DO NOT INSTALL.
+
+
+Phase D — partial-commit recovery
+19. Freeze pre-injection generated sheets, navigation, manifest, and journal state.
+20. Create a test-only modified source with a new explicit test identity that throws immediately after the first generated-sheet commit and persistent-journal update.
+21. Execute the injected test and terminate at the preregistered point.
+22. Confirm incomplete journal persistence.
+23. Reload the exact original R0.4 source.
+24. Execute recoverIncompleteCommit().
+25. Compare every generated sheet, navigation body, canonical manifest identity, prior-manifest disposition, and journal record with the frozen pre-injection state.
+26. Require exact or preregistered semantic equality.
+
+
+Phase E — teardown
+27. Reset AUTOMATION_AUTHORIZED=FALSE.
+28. Remove any test triggers.
+29. Confirm HOURLY_TRIGGER=FALSE.
+30. Export installed source again and re-check identity.
+31. Publish runtime, recovery, write-target, immutability, and teardown receipts.
+
+
+8. ACCEPTANCE STANDARD
+
+
+Return PASS only if:
+- installed source corresponds to the exact R0.4 object;
+- registry property is explicit and has no fallback;
+- navigation and manifest Config IDs are explicit and have no fallback;
+- T1–T35 and all fixtures pass in Apps Script;
+- one isolated refresh succeeds;
+- all writes remain inside the three isolated targets;
+- live targets and source artifacts remain unchanged;
+- the injected partial commit is recovered;
+- teardown disables authorization and removes test triggers;
+- evidence is reproducible and independently reviewable.
+
+
+Return FAIL for a correct test revealing a source, target, trust, eligibility, mutation, runtime, or recovery defect.
+
+
+Return CANNOT VERIFY when identity, permissions, target isolation, trigger state, or restoration equality cannot be established.
+
+
+9. FALSIFICATION CONDITIONS
+
+
+Reject or revise R0.4 if:
+- any registry, navigation, or manifest target can fall back to a live ID;
+- a target can be absent without a fail-closed error;
+- installed source differs without a new version;
+- T1–T35 or a fixture fails;
+- source-body claims alter protected trusted state;
+- authority transfers across a Drive-ID collision;
+- summary-only evidence or shared code launders eligibility or independence;
+- an open, unrouted, transition-pending, or globally drifted object becomes REFEREE-READY;
+- a candidate-generated surface claims production;
+- any runtime write escapes the sandbox;
+- any source artifact changes;
+- recovery fails;
+- trigger state is inferred rather than inspected.
+
+
+10. CURRENT BOUNDARY
+
+
+No Apps Script project was created or executed by this Drive session. No trigger was installed or inspected through Apps Script. No live generated output was refreshed. This handoff does not establish production readiness, installation, activation, package sealing, machine-root acceptance, theorem closure, or mathematical promotion.
+
+
+END 00_READ_FIRST

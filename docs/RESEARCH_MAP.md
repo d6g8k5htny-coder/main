@@ -47,18 +47,22 @@ Within the active lane:
 **How much of that this repository holds** is measured per lane in
 [`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
 own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
-inventory's 4,456 items, 1,813 are held byte-for-byte and a further 985 are
-indexed tree-only — 40.7% held, 62.8% held or indexed. The three sub-lanes that
+inventory's 4,456 items, 1,918 are held and a further 985 are indexed tree-only
+— 43.0% held, 65.1% held or indexed. **Held is two different things.** 1,597 of
+those files hash to the digest the inventory declares for their Drive id. The
+other 321 are reading copies of native Google Docs: text exports, for which the
+corpus declares no digest anywhere, so nothing can prove them and each row says
+so at `exact: false`. The three sub-lanes that
 had been at zero of either — `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
 `10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
 items in all — were ported the same day and each now reads `neither = 0`.
 
-The 1,658 items in neither column are not one kind of gap, and the index splits
+The 1,553 items in neither column are not one kind of gap, and the index splits
 them by reading each inventory record's own fields: **472 are folders**, which
-have no payload for any manifest row to hold or index; **1,186 are native Google
+have no payload for any manifest row to hold or index; **1,081 are native Google
 Docs** the corpus declares no digest for anywhere, so the most this repository
 can ever hold of one is a reading copy at `exact: false` — a text export, not the
-object; and **none carries a digest**. That last number is the only one of the
+object, and 105 of them became exactly that on 2026-09-20 in the governance lane; and **none carries a digest**. That last number is the only one of the
 three that measures work this repository could do and has not done, and after six
 ports on 2026-09-20 it is **zero**: every item in the 4,456-entry inventory for
 which a payload digest exists anywhere in the corpus is now either held

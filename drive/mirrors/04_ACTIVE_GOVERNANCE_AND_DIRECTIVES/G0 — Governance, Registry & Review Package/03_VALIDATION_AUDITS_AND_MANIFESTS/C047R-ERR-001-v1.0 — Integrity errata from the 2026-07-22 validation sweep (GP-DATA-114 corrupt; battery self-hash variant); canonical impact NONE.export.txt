@@ -1,0 +1,22 @@
+﻿C047R-ERR-001 — INTEGRITY ERRATA from the 2026-07-22 validation sweep (C047R/CL)
+Additive; canonical impact NONE. Flags stored-artifact defects for maintenance; closes nothing.
+
+
+E1. GP-DATA-114-v1.0 (Byte-Exact Capsule, Uniform-r Fixed-q Degree-Four Corridor Box):
+    CORRUPT in Drive. SOURCE gzip has 16 illegal embedded spaces + wrong length (3650 vs 3600B)
+    + bad padding; RECEIPT gzip truncated (849 of 1149B). All four declared SHA-256/length checks
+    FAIL; neither block decompresses. Confirmed stable across 4 independent fetches -> defect is in
+    the Doc, not transcription. The Doc already says 'FRESH DRIVE RECONSTRUCTION REQUIRED BEFORE USE'.
+    ACTION: re-publish the capsule from its authoring source.
+
+
+E2. 'FAILED STAGING - GP-DATA-072-v1.0': gzip CORRUPT (6194 vs declared 7149B). Already titled a
+    failed staging shell and superseded by GP-DATA-072-v1.2. ACTION: none beyond confirming non-use.
+
+
+E3. C047R_verification_battery_v2.py: stored source SHA-256 (71c326...efb5) is a whitespace/line-ending
+    variant of its self-declared authoring hash (f720060...edc2). All 10 tests + 9 controls still PASS.
+    ACTION: re-stamp the self-hash comment to match the stored bytes, or record the variant.
+
+
+END C047R-ERR-001 — additive erratum; canonical impact NONE.

@@ -269,3 +269,64 @@ Nothing about any claim, premise, obligation, gate or theorem, and nothing about
 what is in force. Every number above counts files, bytes and digests. The
 approval phrases and status words inside these documents are the source's, and
 copying them enacts none of them.
+
+
+## 2026-09-20 — 105 reading copies, and what a reading copy is not
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. What was left was 105 native Google Docs, and this pass stores a text export
+of each. **They are renderings, not the objects.**
+
+This is a weaker thing than everything else in this directory, and the difference
+is not a matter of degree. Every byte-exact copy here rests on one rule: the file
+was written only because its SHA-256 and byte count already equalled the ones
+`drive/inventory.jsonl` declares. **That rule cannot apply to a native Google
+Doc.** The corpus declares no payload digest for one anywhere — not the
+inventory, not any register — so there is nothing to prove an export against. A
+re-fetch could differ and nothing here would notice.
+
+So each row carries `exact: false` and `inventory_sha256: null`. The `sha256` and
+`bytes` fields are **of the export**, computed at store time; they attest that
+the file on disk is the bytes this port received, and nothing more.
+`inventory_bytes` is the size the inventory records for the Doc itself, a
+different quantity that is not expected to match. The work was done by a separate
+tool, `port_reading.py`, rather than a mode of the byte-exact one, so that the
+weaker guarantee cannot be mistaken for the stronger by reading the call site.
+
+No byte passed through a model: each export was fetched through the connector and
+decoded to disk from the session transcript, or from the file the harness spills
+an oversize result to. **No export came back empty** — an empty export is not a
+reading copy of anything and is refused rather than stored.
+
+### What the exports made visible
+
+`GP-AUTO-034-v1.3-R0.3 — ISOLATED NAVIGATION TARGET — GENERATED ONLY` is the
+Drive title. The rendered body opens
+`GP-REG-033-v1.0 — LIVE NAVIGATION COMPANION (PILOT)` and states
+`ARTIFACT ID: GP-REG-033-v1.0`. The title metadata and the rendered body name
+different artifacts. **Recorded, not resolved** — and stated with its own
+limitation: what is held is a rendering, so this is a disagreement between the
+inventory's title and the export, not a claim about the object's bytes, which
+this repository cannot reach for a native Doc.
+
+One object the connector reports as `text/csv` renders as a Doc export like the
+rest, which is a further reason its stored file is not an identity claim about
+the object.
+
+### A defect in this pass's own tooling
+
+The first run failed on a title 255 bytes long: the name was truncated to the
+filesystem limit and `.export.txt` was appended *after*, pushing it over. The
+truncation now reserves room for the suffix, so a truncated reading copy still
+ends in `.export.txt` rather than in a truncation marker. It failed loudly and
+wrote nothing for that batch.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class alone — **nothing about the objects' bytes either.** A protocol,
+amendment, correction, proposal or ratification card rendered here grants no
+authority, ratifies nothing, approves nothing and moves no gate. Protocol
+statuses in this repository are transcribed from the register's `artifact_index`
+into `governance/README.md`, never read from these exports. The operator remains
+the single final authority.

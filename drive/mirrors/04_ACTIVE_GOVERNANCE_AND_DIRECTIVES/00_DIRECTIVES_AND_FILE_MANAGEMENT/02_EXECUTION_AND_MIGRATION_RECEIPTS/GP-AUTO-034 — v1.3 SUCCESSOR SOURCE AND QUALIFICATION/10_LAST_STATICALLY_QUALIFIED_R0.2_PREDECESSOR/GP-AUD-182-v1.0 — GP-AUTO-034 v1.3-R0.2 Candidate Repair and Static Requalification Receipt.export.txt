@@ -1,0 +1,250 @@
+﻿GP-AUD-182-v1.0 — GP-AUTO-034 v1.3-R0.2 CANDIDATE REPAIR AND STATIC REQUALIFICATION RECEIPT
+
+
+Artifact ID: GP-AUD-182-v1.0
+Executed: 2026-07-24
+Executor: ChatGPT — OpenAI GPT-5.6 Thinking, under Dylan Roy’s authenticated instruction to continue work in the connected Drive
+Class: AUD / SOURCE REPAIR / STATIC REQUALIFICATION / CORRECTION
+Authority: nonterminal research, source publication, testing, and factual state synchronization under OP-PROT-011
+Canonical mathematical impact: NONE
+Installation authority: NONE exercised
+
+
+STATUS
+
+
+SOURCE-PUBLISHED / STATIC-SYNTAX-PASS / T1–T33-PASS / FROZEN-FIXTURES-4-OF-4-PASS / APPS-SCRIPT-RUNTIME-PENDING / HARD-KILL-RECOVERY-PENDING / INSTALLED-SOURCE-EQUALITY-PENDING / DISTINCT-FAMILY-REVIEW-PENDING / DO-NOT-INSTALL
+
+
+[[OBJ:GP-AUTO-034]] [[RELEASE:v1.3-R0.2-SUCCESSOR-CANDIDATE]] [[R0.1:SUPERSEDED-AS-CANDIDATE]] [[STATIC:PASS]] [[TESTS:T1-T33-PASS]] [[FIXTURES:4-OF-4-PASS]] [[RUNTIME:PENDING]] [[INDEPENDENT-REVIEW:PENDING]] [[NO-INSTALL]]
+
+
+1. REASON FOR R0.2
+
+
+The distinct-family static audit notice attached to the R0.1 source carrier identified one genuine semantic defect not covered by T1–T32: the legacy buildContextRows_ implementation could label a candidate release as ACTIVE and describe it as a “Production R0.2 package.” That wording contradicted the source header, current Config, disabled trigger state, and the no-install boundary.
+
+
+The defect did not execute a write, enable a trigger, install code, or alter mathematical status. It nevertheless invalidated the claim that R0.1 had fully passed static qualification because generated state could misrepresent candidate readiness.
+
+
+R0.1 is therefore preserved as prior candidate evidence and is superseded for current source-review routing by R0.2. The R0.1 raw file is not overwritten or relabeled.
+
+
+2. EXACT R0.2 SOURCE IDENTITY
+
+
+Primary raw source artifact:
+- Title: GP-AUTO-034-v1.3-R0.2-SUCCESSOR_CANDIDATE.gs
+- Drive ID: 14jTtCmv7xhYrFCfx3kumP9mysNPxNP7m
+- URL: https://drive.google.com/file/d/14jTtCmv7xhYrFCfx3kumP9mysNPxNP7m/view
+- MIME type: text/plain
+- Exact Drive bytes: 133,632
+- Exact Drive SHA-256: 50589fc1f6f5e0df0d5acf8148848c10d6e3c06ebaa319fb830c71c856502b06
+- Encoding form: UTF-8 BOM, CRLF line endings, no final line terminator
+- Drive round-trip equality: PASS; the downloaded Drive bytes exactly matched the uploaded carrier export
+- JavaScript syntax validation of exact Drive bytes: PASS
+
+
+Editable source carrier:
+- Drive ID: 1_d4AJ4Lp8aidFHk_LL6LoCdzcLKpNGHMW9x3Rh7l8us
+- URL: https://docs.google.com/document/d/1_d4AJ4Lp8aidFHk_LL6LoCdzcLKpNGHMW9x3Rh7l8us/edit
+- The R0.1 audit notice was removed from the copied carrier before source publication.
+- Six explicit v1.3-R0.1 identifiers were changed to v1.3-R0.2.
+
+
+Deterministically normalized correspondence:
+- UTF-8, LF-only, no BOM, exactly one trailing LF
+- Bytes: 130,281
+- Lines: 2,586
+- SHA-256: ecd13ed9baa3746993121f6202ee7faac774f5a849d0a196c0ec285325130333
+- This normalized identity is reproducible correspondence evidence. It is not yet a separately published raw Drive object.
+
+
+Apps Script manifest remains the separately published raw object:
+- Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Bytes: 106
+- SHA-256: 53f85c56a0fb4fe0e4b1a46fe0955fc45cd1d950224bc63db774f5ead6ec0b84
+- JSON validation: PASS
+
+
+3. EXACT REPAIR
+
+
+The legacy Context Snapshot row was replaced with candidate-aware behavior:
+- candidate release status: CANDIDATE / DO NOT INSTALL;
+- candidate description: Successor candidate; Apps Script runtime, recovery, installed equality, and distinct-family review pending;
+- production wording is available only to a non-candidate release path.
+
+
+The stale phrase “Production R0.2 package” is absent from the exact R0.2 Drive source.
+
+
+A new permanent acceptance test was added:
+- T33 — Candidate release cannot label itself production.
+
+
+T33 constructs the Context Snapshot for the declared candidate release and requires:
+1. status exactly CANDIDATE / DO NOT INSTALL;
+2. description explicitly identifying a successor candidate;
+3. absence of the stale production-package wording.
+
+
+4. STATIC REQUALIFICATION RESULTS
+
+
+The exact 133,632-byte Drive source was evaluated in a JavaScript VM with controlled mocks for the non-runtime Apps Script interfaces. The harness supplied the live required register headers, fail-closed Config values, cryptographic fixture bytes, and an append-only Run Log sink. No Google Apps Script service or live spreadsheet write was represented as executed.
+
+
+Results:
+- JavaScript syntax: PASS
+- T1–T33: 33 of 33 PASS
+- Frozen cryptographic fixture checks: 4 of 4 PASS
+- Total returned acceptance records: 37 of 37 PASS
+
+
+T1–T32 retain their prior declared scopes: hard safety switches, write-target rejection, stage/backup contract, instruction isolation, staged manifest publication, unreadable-state representation, Drive-ID collision isolation, object-card separation, malformed-card rejection, open-closure rejection, supersession revocation, instrument/proof separation, unrouted-object rejection, explicit coverage gaps, stale threshold, receipt schema, source self-authority rejection, source self-approval rejection, source self-closure rejection, transition and no-change-certificate controls, architecture-change justification, summary-evidence exclusion, independence downgrades, closure-scope fencing, global-object drift rejection, serious-error controls, incident contamination assessment, observer-exposure downgrade, and architecture-overgrowth metric computation.
+
+
+T33 closes the specific R0.1 semantic hole and prevents recurrence.
+
+
+5. FROZEN FIXTURE RESULTS
+
+
+The following fixture identities passed again under the R0.2 exact-source harness:
+- 1ubbFBhZxwtnWRYnpn1dYH6M5MWpQrLeg — 8,160 bytes — SHA-256 0fe405b99ad56d4612b8bd8ec7cc51f7efc07ddc1b906ceae984a2883945f701
+- 1p_lW-RKb9rB5yBapII9US8UwOnniEE88 — 14,032 bytes — SHA-256 44e030d37b9619df20949a7153b1edd66f39eda00ec71672f6823d6bca31ba26
+- 1E8gHAa6RchUcVTDibh7405Hc56hmSJMZ — 13,506 bytes — SHA-256 994cfa25580ed1e4cd2e43e3aaf16f470fd637584e93e31f3846babc737b69bb
+- 1hGs85A7F40o9AGY2XTgFryBCkpH1QUZS — 7,949 bytes — SHA-256 cd8d2965c4329a894a5264918b238bc2793abaa1e10f89f488d3f03793d3fe12
+
+
+6. FUNCTION / REQUIREMENT MAP — EXACT R0.2 DRIVE SOURCE
+
+
+Line numbers use CRLF-normalized display lines of the exact raw source:
+- auditCoupledAdvancement: 2952
+- ensureGovernanceSheets_: 2268
+- readTrustedGovernanceState_: 2294
+- readTransitionRegister_: 2863
+- readNoChangeCertificates_: 2864
+- readReviewIndependence_: 2865
+- readEvidenceLineage_: 2866
+- readGlobalObjectAudits_: 2867
+- readOperatorDecisions_: 2868
+- validateTransition_: 2547
+- validateRegisteredTransitions_: 2538
+- validateNoChangeCertificate_: 2874
+- validateReviewDisclosure_: 2887
+- validateGlobalAudit_: 2901
+- validateGovernanceRows_: 2916
+- lookupTrustedObjectState_: 2445
+- applyTrustedState_: 2456
+- attachEvidenceAndReviews_: 2479
+- computeIndependenceScore_: 2506
+- independenceClass_: 2521
+- assessObjectTransition_: 2529
+- assessClosureScope_: 2566
+- assessGlobalObjectAlignment_: 2576
+- validateTrustBoundary_: 2586
+- validateFinalEligibility_: 2596
+- recoverIncompleteCommit: 2758
+- effective runAcceptanceTests override: 2789
+- preserved legacy runAcceptanceTests definition: 398
+- testV13CandidateLabeling_: 2851
+- readCurrentManifest_: 2926
+- computeArchitectureMetrics_: 2937
+
+
+7. CURRENT GATE STATE
+
+
+G1 — Complete successor source publication: PARTIAL PASS. A complete directly downloadable immutable raw source and function map exist. The separately requested directly downloadable LF-only, no-BOM, exactly-one-trailing-LF raw object remains open.
+
+
+G2 — Exact raw Drive identity and round trip: PASS.
+
+
+G3 — JavaScript syntax: PASS.
+
+
+G4 — Static acceptance T1–T33: PASS 33/33.
+
+
+G5 — Frozen fixture identity: PASS 4/4.
+
+
+G6 — Apps Script service runtime in an isolated project: OPEN.
+
+
+G7 — Normal isolated refresh against a copy of GP-REG-032: OPEN.
+
+
+G8 — Injected partial-commit termination and recoverIncompleteCommit restoration: OPEN.
+
+
+G9 — Installed-project source equality: OPEN.
+
+
+G10 — Distinct-family review of the exact R0.2 bytes: OPEN. The prior audit identified the R0.1 defect but is not automatically review credit for revised R0.2.
+
+
+G11 — Production installation or trigger activation: PROHIBITED PENDING G6–G10 AND DYLAN’S AUTHORIZATION.
+
+
+8. ACCEPTANCE AND FALSIFICATION BOUNDARIES
+
+
+R0.2 may advance to runtime qualification only if the exact source identity above is loaded into an isolated Apps Script project and the loaded project source is exported and matched under a declared encoding convention.
+
+
+Reject or revise R0.2 if:
+- T33 fails or candidate output again uses production wording;
+- any T1–T32 or fixture check fails;
+- exact loaded source differs from the reviewed source without a new version identity;
+- a source-body claim changes verified authority or closure;
+- a same artifact ID on another Drive object inherits a trusted decision;
+- summary-only evidence satisfies a primary-evidence gate;
+- shared code or fixtures earn false independence;
+- a transition-pending, globally drifted, unrouted, or open object becomes REFEREE-READY;
+- a runtime writes outside the approved target set;
+- recovery does not restore every generated sheet, navigation state, and prior manifest identity;
+- source research artifacts are modified;
+- trigger state is inferred rather than inspected.
+
+
+9. TERMINAL BOUNDARY
+
+
+This receipt repairs and statically requalifies the candidate source only. It does not establish successful Apps Script execution, production readiness, installed-source equality, runtime rollback, trigger safety, independent review, package sealing, machine-root acceptance, theorem closure, or mathematical promotion.
+
+
+END GP-AUD-182-v1.0
+
+
+CURRENT SUPERSESSION NOTICE — 2026-07-24
+
+
+GP-AUD-182-v1.0 remains the factual R0.2 repair and T1–T33 receipt, but R0.2 is superseded for current candidate routing.
+
+
+During isolated-runtime preparation, R0.2 was found to hardcode the live GP-REG-032 spreadsheet ID. Loading the exact R0.2 bytes into a nominal test Apps Script project could therefore still target live coordination data. No R0.2 runtime was executed and no live write occurred.
+
+
+Current candidate:
+- Release: GP-AUTO-034-v1.3-R0.3-SUCCESSOR-CANDIDATE
+- Raw source Drive ID: 1bLNbR77ggE-TBppO_p9kRX3IAn-FQ7vX
+- Exact bytes: 134,700
+- SHA-256: 4f491c622fbd400167bb62dbd0564d6ab4ee9515338891c41e1779459f1ea34e
+- Receipt: GP-AUD-185-v1.0, Drive ID 18GqRkhCEMtitSXQjyjSLEoAC3T30UmSGlbI-VPreLlM
+- Transition: TR-CAI-004
+- Static results: JavaScript syntax PASS; T1–T34 PASS; four frozen fixtures PASS
+
+
+R0.3 removes the live default, requires Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID, adds T34, and has an isolated registry/navigation/output sandbox with a preregistered runtime and hard-kill recovery protocol.
+
+
+R0.2 remains provenance and must not be installed, promoted, or cited as the current candidate source.
+
+
+[[R0.2:SUPERSEDED-AS-CANDIDATE]] [[CURRENT:R0.3]] [[AUDIT:GP-AUD-185]] [[NO-INSTALL]]

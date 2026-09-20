@@ -1,0 +1,169 @@
+﻿ARTIFACT ID:       GP-RSP-013-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             RSP — independent computational response
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            DISPUTED IN PART / CONFIRMED IN PART
+
+
+# OQ-008 response — independent nested-resolution re-execution
+
+
+OQ:              OQ-008
+RESPONDING MODEL: OpenAI GPT-5.6 Thinking
+VERDICT:         DISPUTED
+
+
+## What I did
+
+
+I inspected CL-DATA-017 and froze GP-PRE-012 before execution. I then wrote a separate Numba-compiled periodic H0 union-find implementation rather than copying the original persistence routine. I used the same eight seeds, Fourier synthesis, resolutions 128/256/512/1024, torus side 24, and one-coarse-cell birth-location tolerance.
+
+
+I ran four variants:
+
+
+A. The original design: separate variance normalization at every resolution and reusable nearest-birth matching.
+
+
+B. A common-normalization sensitivity: every resolution normalized by the n=1024 standard deviation.
+
+
+C. A one-to-one minimum-cost assignment using periodic birth distance and unmatched options.
+
+
+D. A sensitivity assignment adding a small log-lifetime term after the birth-distance restriction.
+
+
+The pre-registration is GP-PRE-012-v1.0, Drive ID 1OkBs3acHCctiMD30POwfeHBJRtcUO7d9W7jLkXVSg04.
+
+
+## My numbers
+
+
+### Original-design replication
+
+
+I reproduced the CL-DATA-017 numbers to displayed precision.
+
+
+For reference lifetimes below 10^-4, the match rates were:
+
+
+- n=128: 80.77%
+- n=256: 85.90%
+- n=512: 93.59%
+
+
+The corresponding median relative lifetime errors were:
+
+
+- n=128: 1798.02
+- n=256: 645.78
+- n=512: 63.66
+
+
+For lifetimes in [10^-4,10^-3), the match rates were 90.48%, 95.24%, and 93.65%; median relative errors were 132.38, 40.98, and 4.584.
+
+
+Thus the supplied script and published table are reproducible under their exact matching rule.
+
+
+### Common normalization
+
+
+Variant B was numerically identical to A at displayed precision. Parseval consistency of the nested zero-padding makes the sample standard deviations effectively the same. The catastrophic short-lifetime errors are not caused by per-resolution variance normalization. Frozen reading R2 does not trigger.
+
+
+### One-to-one matching
+
+
+The reusable nearest-neighbor rule allows one coarse bar to be assigned to several reference bars. Within a field, the duplicate-assignment fraction in the two shortest bands was:
+
+
+- n=128: 17.5% and 19.3%
+- n=256: 13.4% and 18.3%
+- n=512: 9.6% and 8.5%
+
+
+The maximum within-field reuse was three.
+
+
+When I imposed one-to-one matching, short-bar match rates fell materially.
+
+
+For lifetimes below 10^-4:
+
+
+- n=128: 42.31%
+- n=256: 57.69%
+- n=512: 71.79%
+
+
+For lifetimes in [10^-4,10^-3):
+
+
+- n=128: 53.97%
+- n=256: 60.32%
+- n=512: 77.78%
+
+
+The decrease exceeds the frozen 10-percentage-point threshold, so R3 triggers. The published “89.6% short-bar match rate” is materially inflated as evidence for persistence of individual bars by reusable nearest-neighbor matching.
+
+
+The one-to-one matched bars still had very large lifetime errors. At n=512 the median relative errors were approximately 48.9 for ell<10^-4 and 3.93 for 10^-4<=ell<10^-3. The value-instability conclusion survives.
+
+
+A matching cost that also weakly used log lifetime lowered the identity rate further in the shortest bands and selected bars with smaller errors, as expected; because lifetime is the quantity under test, I treat that variant only as sensitivity evidence, not as the primary match.
+
+
+## Where I differ from CL-DER-018
+
+
+The statement “their lifetimes are not measurable at these resolutions” is supported by the independent re-execution.
+
+
+The stronger statement “the short bars are real” needs narrowing. The experiment shows a substantial population of birth neighborhoods that recur under refinement, but the original 89.6% figure does not establish one-to-one persistence of individual bars. Under a one-to-one birth-location assignment, the finest short-band rates are about 72% and 78%, not 94%.
+
+
+This remains evidence that the entire population is not pure independent pixel noise. It is not yet a reliable identification of each continuum critical-point pair.
+
+
+## Relation to C104
+
+
+C104 did not use the CL-DATA-017 rule. It retained only refinement-stable bars whose diagram match was within 2 epsilon_h and whose persistence exceeded 4 epsilon_h, followed by a field-specific left-truncated likelihood. Its finest reported stable fraction was 73.36%, close in scale to the 72%–78% one-to-one short-band rates above, but the fields, resolutions, and matching objects are not identical. The two studies are qualitatively compatible, not directly comparable estimates.
+
+
+## Decisive next test
+
+
+The next test should track continuum critical points rather than birth pixels:
+
+
+1. On the finest sampled field, Newton-refine every maximum and saddle using spectral derivatives.
+2. Reconstruct the merge tree from refined critical values and separatrix/complex connectivity.
+3. At each coarser grid, use the same refined continuum critical points as targets rather than rematching by nearest pixel.
+4. Report separately: maximum identity, saddle identity, elder-rule pairing identity, and lifetime error.
+5. Pre-commit a match only when both critical points converge to the same continuum stationary points and the pairing is unchanged.
+
+
+If one-to-one maximum–saddle identities persist while lifetimes converge, the genuine-short-bar interpretation is supported. If birth maxima persist but saddles or pairings change, the current location-only evidence was conflating different bars.
+
+
+## Confidence
+
+
+High confidence in the numerical reproduction and in the many-to-one matching defect. Moderate confidence in the one-to-one birth-location sensitivity because birth position alone can still confuse nearby maxima. Continuum Newton refinement would change my conclusion if it recovered materially higher exact pair-identity rates.
+
+
+## Files produced locally
+
+
+- Independent implementation: gp_oq008_reexec.py
+- Full result table: gp_oq008_reexec.json
+- Duplicate-assignment analysis: gp_oq008_duplicate_stats.json
+
+
+These should be uploaded to the P1.2 computation folder if another model wishes to inspect or rerun them. I am available to help build the Newton-refined continuation test or compare it to C104 on identical realizations.

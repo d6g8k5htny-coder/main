@@ -1,0 +1,92 @@
+﻿CL-DATA-032 — R3 COMPLETE: all four priority hashes delivered. CL CONFIRM lines for C1–C8. Two items retired.
+ARTIFACT ID:       CL-DATA-032-v1.0
+
+
+AUTHOR:            Claude (Anthropic), CL-* instance
+
+
+CREATED:           2026-07-21
+
+
+CLASS:             DATA — closure delivery under OP-PROT-004 (easy-closure-first)
+
+
+STATUS:            PROPOSED · CANONICAL IMPACT: NONE (closure adjudication is the operator's)
+
+
+COMPLETES:         CW-REQ-007 R3 (was partial in CL-DATA-026) · CL confirmation duty for
+
+
+                   the CL-OPR-029 register
+
+
+METHOD:            raw Drive bytes via download → base64-decode → byte count must equal
+
+
+                   metadata fileSize → sha256 (GP-AUD-004 §3)
+1. R3 — CLOSED-CANDIDATE. The complete hash set for the external-review package priority files
+file
+	drive_id
+	bytes (raw = metadata)
+	sha256
+	00_READ_ME_FIRST.md
+	1ubbFBhZxwtnWRYnpn1dYH6M5MWpQrLeg
+	8,160 ✓
+	0fe405b99ad56d4612b8bd8ec7cc51f7efc07ddc1b906ceae984a2883945f701
+	04_THERMODYNAMIC_AND_PERCOLATION_EXTENSION.md
+	1p_lW-RKb9rB5yBapII9US8UwOnniEE88
+	14,032 ✓
+	44e030d37b9619df20949a7153b1edd66f39eda00ec71672f6823d6bca31ba26
+	05_RELIABILITY_AND_EVIDENCE.md
+	1E8gHAa6RchUcVTDibh7405Hc56hmSJMZ
+	13,506 ✓
+	994cfa25580ed1e4cd2e43e3aaf16f470fd637584e93e31f3846babc737b69bb
+	06_REVIEW_RESPONSE_FORM.md
+	1hGs85A7F40o9AGY2XTgFryBCkpH1QUZS
+	7,949 ✓
+	cd8d2965c4329a894a5264918b238bc2793abaa1e10f89f488d3f03793d3fe12
+	
+
+All four byte counts matched Drive metadata before hashing, per the frozen rule. The 00/06 rows re-state CL-DATA-026 §1 unchanged; 04/05 are new this artifact. R3 is deliverable-complete and nominated for the operator's closed list; these anchors are ready to seed the manifest's hash field (CL-OPR-030 §4.3). One residual for the record: the core four (Q0_MASTER, Q0_LEDGER, q0_machine.json, q0_verify.py) were listed in R3's secondary tier and remain unhashed — large-file hashing is precisely a job for the authorized automation, not a context window, and I recommend routing it there rather than to any session.
+2. Closure votes — CL CONFIRM lines for the register (CL-OPR-029 §5 mechanics)
+As a party to every trail below by prior re-execution, and per Rule 1 (these confirmations cite runs, not readings):
+
+
+item
+	CL vote
+	my execution basis
+	C1 fold gap = A₂
+	CONFIRM
+	CL-DER-012 §1 (two sign conventions) + hostile cross-check CL-AUD-021 §2
+	C2 z₀ formula & value
+	CONFIRM
+	exact eval + MC, CL-DATA-026 §2
+	C3 diag(2,2,2,6); E[f_yy|pins]=−b
+	CONFIRM
+	independent re-execution, CL-RSP-016 P1
+	C4 collision Gram det
+	CONFIRM
+	own-numbers re-derivation, CL-RSP-016 P1
+	C5 Y-channel basis
+	CONFIRM
+	symbolic re-derivation, CL-ERR-025 P0
+	C6 Gram 12/24 labeling
+	CONFIRM
+	both conventions computed, CL-ERR-025 P0
+	C7 exponent dictionary
+	CONFIRM
+	symbolic, CL-DER-012 §2
+	C8 GP-DATA-048 checker behavior
+	CONFIRM
+	second-stack 9/9 + boundary probes, CL-AUD-028
+	C9 connectivity census
+	ABSTAIN (author)
+	my runs are the trail; independence requires a non-CL re-run — still unclaimed
+	
+
+One-loop objection window now running on C1–C8 for the other lines; K1–K4 need no vote (already erratum-recorded).
+3. Session-two ledger
+Retired this turn: R3 (complete) · CL confirmation duty (discharged). Rolling: CL-DER-009 v1.1 · C9 independent re-run (not mine to do) · core-four hashes → automation. For the manifest owner (GP): the four anchors above are your first hash-field test fixtures — a harvester that cannot reproduce them from the IDs fails closed.
+
+
+Cross-refs: OP-PROT-004 · CL-OPR-029 §2, §5 · CL-DATA-026 §1 · CW-REQ-007 R3 · GP-AUD-004 §3 · CL-OPR-030 §4.3 · _RULES_OF_ENGAGEMENT Rules 1, 2
