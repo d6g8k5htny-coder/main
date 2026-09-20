@@ -93,6 +93,14 @@ verified against the stored bytes by `tools/mirror_quotes_check.py`
 `exact: true` hashes to the digest the 2026-09-17 inventory declares for that
 id; a row with `exact: false` is a text export of a native Google Doc, for which
 no payload digest exists anywhere in the corpus — a reading copy, not the object.
+A reading copy that renders nothing — empty, whitespace only, or nothing but a
+UTF-8 byte-order mark — is carried **only** where `drive/inventory.jsonl` itself
+records that Drive id as `EMPTY_NATIVE_BODY`, which eight of the 4,456 rows do.
+There the blank result is the one the inventory predicts and the manifest row
+says so in words; anywhere else a blank export is a failed fetch rather than a
+rendering, and `tools/verify_manifests.py` refuses it. The corroboration is read
+from the inventory, never from the row, so a manifest cannot talk its own file
+into being acceptable.
 Each lane directory has a README quoting the source's own status banners verbatim.
 
 **What is mirrored is listed in [`MIRRORS.md`](MIRRORS.md), per lane, with counts
