@@ -1,0 +1,63 @@
+﻿CL-REC-203-v1.0 — STATUS DELTA FOR NEXT COMMAND CENTER REFRESH (2026-07-25)
+
+
+Artifact ID: CL-REC-203-v1.0
+Author line: CL — Anthropic Claude
+Class: REC — status delta card (navigational)
+Governing protocol: OP-PROT-011
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-REC-203-v1.0]] [[NO_PROMOTION]]
+
+
+1. EC-019 — T2 FINAL VERDICT PUBLISHED: T2 — PASS (CL-AUD-200-v1.0, Drive
+   13SHjGT_e-pmjW6d4Sux1lt0wwYu2bM8MX64su7GJY_g). Criterion-by-criterion adjudication under
+   GP-REQ-172-v1.1 §7; frozen hashes; post-freeze discrepancy table; 4/4 adversarial lenses
+   RIGOROUS_AND_FAITHFUL with zero real defects. The dangling CL-DATA-201 -> CL-AUD-200
+   reference is resolved. EC-019 is now eligible for operator/canonical adjudication of the
+   T2 gate; terminal disposition remains with the operator.
+
+
+2. EC-018 — NEW LAYER-4 FINDING (CL-AUD-202-v1.0, Drive 1QfBwljs_j2ehbf3e2tGW7Nh5IbPHyNx9qo1DQ7IBxEo):
+   GP-DATA-106 reconstructed byte-exactly via the raw-export path (4/4 hashes; resolves
+   CL-AUD-062's blocked item). The verified bytes carry the same float-finalization defect class
+   GP-AUD-176/178 found in the sibling implementations (float endpoint extraction; iv.dps never
+   set); quantified: 18/19 stored bounds validate against exact arithmetic, but the stored
+   cone_slope_margin OVERSHOOTS the exact margin by +6.083e-20 and is not a valid lower bound as
+   recorded. Sign materiality NONE (17 orders below margin). Recommended: correction banners on
+   GP-DATA-106/GP-DER-106; wording "endpoint-to-float reporting conversion is separated from the
+   interval arithmetic" requires the same AMEND treatment its siblings received.
+
+
+3. P0.1 — DEPENDENCY STACK REVIEWED (CL-AUD-203-v1.0, Drive 16 <see 04_REVIEW_AND_FALSIFIERS>;
+   companion CL-AUD-201-v1.0): five reviewer lenses over GP-DER-044/045/046, GP-DATA-123,
+   LS-COR-001; three adversarial refuters; 8/8 agents, 0 errors.
+   - GP-DER-045: DELIVERS AS CITED (Theorem 4.1 proven; Corollary 4.2 correction verified).
+   - GP-DER-046 + LS-COR-001: GT5 tail DELIVERED post-repair; the false supremum inequality
+     retraction and signed-index Dudley repair verified line-by-line; constants unchanged.
+   - GP-DER-044: Section-2 citation PROVEN (incl. nondegenerate Q_L); Section-5 citation ABSENT.
+   - PRINCIPAL CONFIRMED GAP (2 reviewers + 2 refuters, high confidence): GP-DER-118-v1.3 §5's
+     endpoint-Hessian divided-difference extension is unproven as cited — new mathematics is
+     required (r-dependent target points; conditional cancellation of divergent 1/r variances;
+     degenerate limit law; J_r undefined in the cited doc). GAP, NOT FALSEHOOD: the claimed
+     limits/signs were independently confirmed consistent by multiple computations.
+   - SECONDARY: A_r measurability silent at freeze; repair GP-DER-197 postdates freeze,
+     same-line, uncited.
+   - Full minimal remaining-review ledger in CL-AUD-203 §4 (endpoint theorem; GP-DER-186;
+     GP-DER-197; GP-DER-100; 046 Lemma 4.1 display; manifest/bookkeeping items).
+   P0.1 remains CANDIDATE / NOT PROMOTED.
+
+
+4. PLATFORM NOTES: Lean toolchain absent and uninstallable in the CL runtime (package index and
+   GitHub releases blocked, HTTP 403) — Command Center task B remains CI-PENDING/platform-blocked
+   on this line too. mpmath likewise unavailable (disclosed in CL-AUD-201/202); environment
+   replays of mpmath sources remain open for a runtime that has it; exact-rational validation
+   supplied instead.
+
+
+CL artifacts filed today: CL-AUD-200, CL-AUD-202, CL-AUD-203 (04_REVIEW_AND_FALSIFIERS /
+CL_EC019_T2_INDEPENDENT), CL-REC-203 (this card). Evidence files delivered to operator.
+
+
+END CL-REC-203-v1.0

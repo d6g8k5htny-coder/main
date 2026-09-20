@@ -1,0 +1,71 @@
+﻿CL-PREFLIGHT-221-A1 — ADDENDUM: P0–P3 RE-VERIFIED UNDER THE DUAL-PASS RULE
+
+
+Artifact ID: CL-PREFLIGHT-221-A1
+Author line: CL — Anthropic Claude (claude-opus-5), Cowork session session_01Tqagv53x5pGo8bwGackV1g
+Date: 2026-07-25
+Class: ADDENDUM to CL-PREFLIGHT-221-v1.0 (1Qt7Anzytii93qS3Hz4Oi9G-ffin87fnkkG3obNquJBc)
+Authority: none. Canonical impact: NONE. Nothing sealed, rooted, or promoted.
+
+
+[[OBJ:CL-PREFLIGHT-221-A1]] [[ADDENDUM]] [[NO-SEAL]]
+
+
+
+
+1. WHAT THIS CLOSES
+
+
+CL-PREFLIGHT-221 finding M1 established that no export identity may be frozen from a single transcription pass, and then applied that rule against my own earlier work: "CL-PREFLIGHT-219's P0–P3 did not [meet the bar], and should be re-run under the dual-pass rule before any manifest binds them."
+
+
+That remediation is now done. A worker with no access to the retained prior-pass material independently re-fetched all four primaries by exact Drive ID and profiled them. The two passes were then byte-compared.
+
+
+
+
+2. RESULT — 4/4 BYTE-IDENTICAL ACROSS TWO INDEPENDENT PASSES
+
+
+P0  00_FINAL_EXACT_STATEMENT — EC-021         1X8GtCNnbaS5eVqPXUlbh2yJpSi-Z_LSilnUAwtCui8I
+    3,279 B  459de3ea4b3c022c0549c5c93cdb09971f4cdfc0bdd66cb9d654ccad3149b9f8  CRLF=102
+P1  01_LINEAR_READING_ORDER — EC-021          1S0_FpuniYgI30wVo-9ZripxiE35FWWWwqbFpSAZcp3A
+    5,562 B  2d59b380b708917619be7e2820f5e645ea8954dad01b5874c3522f20b1187515  CRLF=101
+P2  02_EVIDENCE_PACKAGE_INDEX — EC-021        1y5VGxizkP3bx3N8aWBTSE2-gZCHdzBZ6NNFUE0XQjW0
+    7,566 B  097e7f4ada447dc4b612923cf16013dae08cfcf890ccbdddc9a20bf7089c128e  CRLF=155
+P3  03_OPERATOR_APPROVAL_AND_GATE_NOTES — EC-021  1cFraIgrK8C1SdQWYwUr-0A6voz-sIWKNB6h5A6Df9dE
+    4,887 B  ef04f680515710a68914bef705d1e49ae59c50d9a8c6da399b9fe99661b6e16a  CRLF=133
+
+
+All four carry the project convention exactly: UTF-8 BOM, CRLF only (zero bare LF, zero bare CR), no final newline. Comparison was by byte-for-byte file comparison of the two passes' decoded outputs, not by comparing reported hash strings.
+
+
+The values are UNCHANGED from CL-PREFLIGHT-219. The single-pass figures published there were correct. What changes is their evidentiary standing: they were previously asserted on one observation and are now corroborated by two independent ones, taken hours apart in separate contexts.
+
+
+
+
+3. CONSEQUENCE
+
+
+All 17 EC-021 export identities — P0–P3 here, and the 13 evidence documents in CL-PREFLIGHT-221 Tier 1 — now meet the dual-pass bar. The identity set is internally consistent under a single evidentiary standard, with no legacy single-pass values remaining in it.
+
+
+GP-DATA-114-v1.1 (E8) remains the sole document with no freezable export identity, per correction C2, and remains bound by its embedded artifact hashes instead. That is unchanged and is not a defect in the identity set; it is a documented property of that object.
+
+
+Nothing else in CL-PREFLIGHT-221 is amended. Corrections C1 and C3, finding M1, and the verdict APPROVE WITH CORRECTION all stand as published.
+
+
+
+
+4. DISCLOSURE
+
+
+The second pass was executed blind: the worker was instructed not to read, list, or open the directory holding the prior pass, precisely because consulting it would have collapsed the independence being tested. Its output was compared against the retained prior-pass bytes only after it was complete. Drive access was read-only; no file in the operator's Drive was created, copied, moved, modified, or deleted by this check. Identities bind to retrieval time 2026-07-25.
+
+
+A note on what this does and does not show: two agreeing passes make a transcription defect much less likely, not impossible. It remains conceivable that a deterministic corruption would reproduce identically across passes. What the dual-pass rule buys is the elimination of the sparse, position-random defect class actually observed in E8 — which is the failure mode that was silently threatening the program.
+
+
+END CL-PREFLIGHT-221-A1 — additive; nothing sealed, rooted, or promoted.

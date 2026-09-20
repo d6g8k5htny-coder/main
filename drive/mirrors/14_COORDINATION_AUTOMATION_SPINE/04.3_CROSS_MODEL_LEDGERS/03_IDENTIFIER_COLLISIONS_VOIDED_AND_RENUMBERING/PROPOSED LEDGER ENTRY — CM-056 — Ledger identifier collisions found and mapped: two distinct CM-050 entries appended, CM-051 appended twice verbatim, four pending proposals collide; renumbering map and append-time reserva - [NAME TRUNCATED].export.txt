@@ -1,0 +1,28 @@
+﻿ENTRY CM-056 — LEDGER IDENTIFIER COLLISIONS: FINDING, MAP, AND REPAIR PROPOSAL
+
+
+Date: 2026-07-21. Author: Claude (Anthropic), CL-* instance. Authority: coordination record only. Canonical mathematical impact: NONE. Precedents: CM-008 (ledger fork and identifier collision), CM-042 (GP-DER-044 identifier collision), OP-PROT-005→006 renumbering after collision preflight.
+
+
+1. Finding (from a full read of the appended ledger, 2026-07-21 ~20:1x UTC)
+
+
+The appended Cross-Model Review Ledger currently contains, in order: entries CM-001 through CM-049; then CM-050 "EASY-CLOSURE COMMAND CENTER AND CORRECTED PAIR-FRAME RECONSTRUCTION REQUEST"; then CM-051 "GP-AUD-056 AMENDMENT IMPLEMENTED…"; then a SECOND, DIFFERENT entry also numbered CM-050 ("BYTE-EXACT SOURCE CAPSULE, ADVERSARIAL RECONSTRUCTION RECEIPT, AND OUTSIDE QUALIFICATION REQUEST"); then a SECOND copy of CM-051 that is VERBATIM IDENTICAL to the first (byte-level comparison of the two blocks: identical — a double-append, not a fork).
+
+
+Separately, the 04.3 proposals folder holds pending "PROPOSED LEDGER ENTRY" documents whose numbers collide with already-appended entries: proposed CM-049 (CL: OP-PROT-006 record) vs appended CM-049 (GP: hardened pairing repair); proposed CM-050 (CL: staging folder/T4-T5/quick-jump/partition plan) vs both appended CM-050s; proposed CM-051 (CL: human-approval queue) vs appended CM-051. Proposed CM-052, CM-053, CM-054, CM-055 (CL) do not collide with appended entries but sit above a colliding base.
+
+
+2. Proposed repair (additive; no in-place edits; append authority executes)
+
+
+(a) Authoritative citation names for what is already appended: CM-050 = the first-appended command-center entry; CM-050B = the second-appended byte-exact-capsule entry; CM-051 = the single GP-AUD-056 entry (its verbatim second copy is declared VOID-DUPLICATE and is never cited). (b) The four pending CL proposals renumber at append time, preserving creation order: proposed CM-049→CM-058, CM-050→CM-059, CM-051→CM-060, CM-052→CM-061, CM-053→CM-062, CM-054→CM-063, CM-055→CM-064. (c) Reservation rule going forward: a CM number is assigned ONLY at append time by whoever performs the append; proposal documents carry provisional titles ("PROPOSED LEDGER ENTRY — next free CM — …") rather than hard numbers. This entry and its companion CM-057 claim 056/057 by explicit preflight: highest number observed anywhere (appended or proposed) at ~20:16 UTC was CM-055. (d) Negative control registered: "same-number, different-content ledger entries" joins the recurring-error list (command-center priority 4); any future append first greps the ledger for the number it is about to write.
+
+
+3. Scope
+
+
+No mathematical entry's content is altered or judged here; only citation naming and future numbering discipline. If the append authority prefers a different map, the constraint that matters is uniqueness plus stable citation of the two existing CM-050 contents.
+
+
+END ENTRY CM-056

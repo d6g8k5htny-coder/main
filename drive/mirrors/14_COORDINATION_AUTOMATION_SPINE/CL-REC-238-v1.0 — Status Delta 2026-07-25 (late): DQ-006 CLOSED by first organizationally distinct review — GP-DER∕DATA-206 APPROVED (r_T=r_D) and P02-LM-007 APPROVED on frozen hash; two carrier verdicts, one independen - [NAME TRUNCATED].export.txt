@@ -1,0 +1,92 @@
+﻿CL-REC-238-v1.0 — STATUS DELTA — 2026-07-25 (late cycle)
+
+
+Lane: Anthropic Claude (CL), runtime model claude-fable-5
+Class: REC / STATUS DELTA. Authority: record only. Canonical mathematical impact: NONE. No promotion.
+
+
+[[DQ-006:CLOSED]] [[CARRIER-B:APPROVED]] [[CARRIER-A:APPROVED]] [[TWO-VERDICTS]] [[ONE-INDEPENDENCE-CREDIT]] [[NO-PROMOTION]]
+
+
+1. WHAT CHANGED IN THIS CYCLE
+
+
+DQ-006 has its FIRST organizationally distinct execution. Both same-family executions on record (LS-AUD-012-v1.0 and RS2-AUD-001-v1.0) self-declare ZERO independence credit; RS2 additionally left two explicit HOLDs. The distinct-family gate that RS2-AUD-001 section 7 called "the single load-bearing blocker" is now partly discharged.
+
+
+PUBLISHED THIS CYCLE
+  CL-REG-233-v1.0  DQ-006 pre-registration                     1yiAjhJEwLYl_0N2oXAx0KVK90rEp4uJTcJoXIP8hga0
+  CL-AUD-234-v1.0  Carrier-B verdict, GP-DER/DATA-206          1N__i7Ql8nXFXnqQGWU1ZBwTdpR30VCUAvoyyueg5YGg
+  CL-CLAIM-DQ006-CLOSURE-v1.0  claim release                   1pC8JHXfF0ZfbMm_fm1UyhKbvfI6zJnB6ulgYB9Qyq8U
+  CL-REG-236-v1.0  Carrier-A pre-registration and claim        1avznd_9TihGNDddQWSh63HjcFgv7di-3SJLMNDho5zM
+  CL-AUD-237-v1.0  Carrier-A verdict, P02-LM-007               1vsrSjd4cJhaYwNVvV0QWUnKXBJ0V4ngfV3ouE_AOg_M
+
+
+2. VERDICTS ISSUED
+
+
+CARRIER B — APPROVE GP-DER-206 / GP-DATA-206 SOURCE SHA fa0fe850b8e4ac2ca6f9b6b7fcf9d81d354b3d6fceab06633c55fbd6836e7cc0 AND RESULT SHA f6bc0b68866ba069eacec349085e672f2718ac6047f242dc5a9523e08f2aee17 FOR r_T=r_D AND CONDITIONED TAIL <5e-49 ONLY. T0-T14 all pass; 12/12 required mutations attempted and classified; 18/18 emitted numeric fields reproduced exactly.
+
+
+CARRIER A — APPROVE P02-LM-007 ON FROZEN SHA256 5267dc4be0fd7eb986d30eb4f5aa3a415a0ba250acdf5b31afc2f984bbe310c9 EXACT UNIFORM CONDITIONED FIFTH-DERIVATIVE SUPREMUM TAIL. L1-L10 all pass.
+
+
+ONE SHARED MATHEMATICAL RECONSTRUCTION / TWO EXACT-CARRIER VERDICTS / ONE ORGANIZATIONAL-INDEPENDENCE CREDIT. A third carrier (GP-DATA-123, the broad frozen P0.1 route under GP-COR-193) is NOT reviewed for Domain T and is not approved here.
+
+
+3. FINDINGS WORTH OPERATOR ATTENTION
+
+
+F1 (Carrier B, T6; AMEND recommended, non-blocking). GP-DER-206 section 6 identifies L_r only as "the six-dimensional confluent transformed pin vector". Two natural confluent frames share the same limit functionals, the same trace(G_0) = 22 and the same ||y_r||, yet the imported ||G_r - G_0|| differs by a factor 1755 between them: 1.865e-8 for the parity-adapted frame (which satisfies the imported 9.5216e-8) versus 1.671e-4 for the anchored frame (which does not). GP's own frame is the parity-adapted one — established here by recovering the provenance formula delta_G = 6 x (5.26 r_D^2 + 1e-87) from GP-DATA-204 — so GP's arithmetic is correct; but a reviewer restricted to the reviewed carriers cannot tell. Materiality is nil: the declared M_5 < 1300 survives even under the least favourable frame (1299.05). One sentence naming the frame closes it.
+
+
+F2 (Carrier B; informational). Four of the twelve required mutations are invisible to every executable guard in GP-DATA-206, and three of them IMPROVE the printed numbers: removing the sign index, weakening the covering coefficient, applying Borell to the noncentered process, and dropping the six-way union. They are excluded only by prose. Recommendation for this certificate family: assert the structural constants (sheet factor 2, union factor 6, mean-added-separately flag, covering coefficient) as named, compared values so a silent structural mutation trips a guard.
+
+
+N1 (dependency health, routed to GP-REQ-205, not adjudicated). GP-DATA-204's published limiting spectral witnesses — lambda_min > 0.43, lambda_max < 100, a 3x3 block of trace 104 with eigenvalues 0.4333, 4.4717, 99.0950 — cannot describe the six-dimensional transformed-pin Gram that GP-DER-206 names, whose spectrum is {0.3842, 0.5858, 1, 1, 3.4142, 15.6158} with trace 22 and lambda_min = 8 - sqrt(58) = 0.3842268941 < 0.43. Nothing GP-DER-206 consumes is invalidated: it uses lambda_min >= 1/3, which holds. Whoever reviews GP-DER-204 should confirm which matrix each witness describes.
+
+
+D2 (discrepancy with LS-AUD-012 section 10). LS states the grid construction requires a covering coefficient of at least 2 sqrt(2) and therefore classifies "coefficient 4 -> 2" as a firing mutation. Using half-diagonal spacing rather than LS's finer spacing, the constructive minimum is sqrt(2) = 1.4142136, so coefficient 2 IS provable. No consequence for either certificate (both use 4), but LS's stated falsification threshold is not sharp and should be corrected in the Domain-T ledger before anything is rejected against it.
+
+
+L1-N (Carrier A; recurring pattern). LCR-DER-021's freeze policy has no blank-run normalization clause, so its frozen hash depends on which export pipeline the reviewer's client uses. The frozen body has 118 blank runs, every one of length exactly 2 — an export artifact, not authored content; a single-LF pipeline yields 8,493 bytes with identical visible text. The GP-DATA-206 carriers DO carry the needed clause and reproduced first-attempt. CL raised this class of issue against GP-DER-118 in CL-AUD-231; this is its second occurrence. Recommendation: adopt the GP-DATA-206 clause as the standard for every future frozen-body policy. A second trap recorded for reviewers: the marker tokens also occur in the freeze-policy prose, so markers must be matched as whole LINES, else the payload gains 456 bytes.
+
+
+4. INDEPENDENT SUFFICIENCY (worth keeping)
+
+
+CL's pre-exposure reconstruction certifies the Domain-T claim outright with no import from GP-DATA-204 at all: sigma_5^2 <= 946, L_6^2 <= 11342, lambda_min(G_r) >= 0.3721 uniformly on 0 < r <= r_D by a Hermite-Genocchi plus Weyl argument, M_5 <= 117.61 uniformly, B_5 <= 615.13, exponent >= 161370, tail << 5e-49. Consequence: GP-DER-206's dependence on GP-DATA-204 is REMOVABLE. If GP adopts the basis-invariant mean bound |m| <= sigma_5 sqrt(y' G^{-1} y), the Domain-T certificate stops consuming GP-DATA-204 entirely, which shortens the P0.1 dependency graph and makes the outstanding GP-REQ-205 review non-blocking for Domain T.
+
+
+Also recorded for downstream use: y' G_r^{-1} y is basis-invariant given the pin set, and for the exact six-pin set its confluent value is exactly 2.16 + 2/3 = 2.826666..., equal to 2.8266666667068433 at r = r_D. Three routes now bound the same invariant: 1298.3732 (GP trace/Cauchy-Schwarz), 188.8158 (S2 Mahalanobis), 51.7110 (CL exact invariant at r_D).
+
+
+5. WHAT IS STILL OPEN ON DOMAIN T
+
+
+- GP-DER-204 / GP-DATA-204 and its side-24 image-to-transformed-entry amplification reserve including the factor 1e18: RS2's second HOLD, still awaiting a distinct family. GP-REQ-205 is the packet.
+- The exact upper-normalizer theorem on r <= r_D.
+- The broad frozen carrier GP-DATA-123 for Domain T under GP-COR-193.
+- The G/D/T/I recombination audit and the event/quotient interface.
+P0.1 remains NONTERMINAL and NOT PROMOTED. Promotion is Dylan's decision and is not touched here.
+
+
+6. SUCCESSOR TASKS PROPOSED (max three, per TASK_GENERATION_REQUIRED_AT_SESSION_END)
+
+
+S1 — HIGHEST VALUE. Distinct-family review of GP-DER-204 / GP-DATA-204 under GP-REQ-205, targeting RS2-AUD-001's surviving hold: the transformed periodization reserve and the 1e18 amplification factor, plus note N1's spectral-witness question. CL has already built and frozen the exact side-24 kernel machinery needed (160-digit Hermite recursion with certified image tails, Cholesky spectral certificates, Hermite-Genocchi perturbation bounds), so the marginal cost is low and the dependency is currently load-bearing for BOTH p_B and r_GR. Note the pre-existing AO48-AUD-032 finding on GP-DER-204 ("reserve constant short by 2e10, immaterial by 70 orders — AMEND and advance"), which a distinct-family review should confirm or contradict.
+
+
+S2 — Publish CL's frame-free replacement for GP-DER-206 section 6 as a short DER artifact: the basis-invariant conditional-mean bound with the exact invariant y' G^{-1} y = 2.826666... and the uniform Hermite-Genocchi/Weyl certificate for lambda_min(G_r) >= 0.3721 on 0 < r <= r_D. This closes finding F1 constructively rather than only reporting it, and if adopted removes GP-DATA-204 from the Domain-T dependency graph.
+
+
+S3 — Ledger hygiene, cheap: correct the covering-coefficient threshold in the Domain-T ledger from 2 sqrt(2) to sqrt(2) per discrepancy D2, and adopt the GP-DATA-206 blank-run normalization clause as the standard freeze policy per L1-N. Both are one-line changes that prevent future incorrect rejections and future unreproducible hashes.
+
+
+7. REGISTER-WRITE LIMITATION (unchanged)
+
+
+This lane has no spreadsheet-write capability. GP-REG-032's Dispatch Queue row for DQ-006 should be marked CLOSED / DISCHARGED-BY CL-AUD-234-v1.0 by a lane that can write. CL-CLAIM-DQ006-CLOSURE-v1.0 and this record are the compensating surface per AD-021 / AD-024. The Carrier-A claim in CL-REG-236 is likewise discharged by CL-AUD-237 and is now released.
+
+
+END CL-REC-238-v1.0

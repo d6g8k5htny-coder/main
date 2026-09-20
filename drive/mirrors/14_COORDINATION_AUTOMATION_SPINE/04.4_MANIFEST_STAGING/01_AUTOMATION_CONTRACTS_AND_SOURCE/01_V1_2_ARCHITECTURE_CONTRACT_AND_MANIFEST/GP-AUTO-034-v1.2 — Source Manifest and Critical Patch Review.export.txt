@@ -1,0 +1,187 @@
+﻿GP-AUTO-034-v1.2-CAI — SOURCE MANIFEST AND CRITICAL PATCH REVIEW
+
+
+Artifact ID: GP-AUTO-034-v1.2-CAI
+Exact executable filename: GP-AUTO-034-v1.2_COUPLED_ADVANCEMENT.gs
+Exact executable SHA-256: 1062a63c4a21caac4b7c9f6ae9674d9fbb1a9790c67dd73e8fff6393ec4509ee
+Exact executable size: 125,771 bytes
+Exact source line count: 2,390
+Apps Script manifest SHA-256: f8dfdb43a92e2eaad477fbb675efc97f44a9dcc0ad361960991d3a84dfe1c80f
+Local validation: V8 syntax PASS; T1–T32 PASS
+
+
+IMPORTANT SOURCE-AVAILABILITY NOTE
+
+
+The exact byte source exists in the released downloadable codebase. Direct raw-file upload to Drive was attempted and rejected by the connector proxy with HTTP 407. This document therefore records the complete release identity, architecture, function inventory, critical trust-boundary behavior, and adversarial test receipt without falsely claiming that Google Docs is the byte-exact executable. Any independent reviewer must compare the installed Apps Script source against the SHA-256 above.
+
+
+RELEASE FUNCTIONS
+
+
+Core orchestration:
+- onOpen
+- refreshAllRegisters
+- installHourlyTrigger
+- removeRefreshTriggers
+- enforceStaleStatus
+- runAcceptanceTests
+- auditCoupledAdvancement
+
+
+Safety and configuration:
+- readConfig_
+- assertSafety_
+- assertAuthorization_
+- requireTrue_
+- makeContext_
+- collectConfiguredScopes_
+- assertDriveWriteTarget_
+
+
+Inventory and manifest:
+- collectInventory_
+- inspectFile_
+- readFileText_
+- extractSpreadsheetText_
+- extractSlidesText_
+- parseMetadata_
+- deriveWorkspaceState_
+- buildManifest_
+- validateManifest_
+- publishManifestStaged_
+- buildRoutingIndex_
+
+
+Atomic output:
+- buildGeneratedTables_
+- validateGeneratedTables_
+- stageGeneratedSheets_
+- validateStagedSheets_
+- commitGeneratedSheets_
+- rollbackGeneratedSheets_
+- cleanTransientStageSheets_
+- backupNavigationDoc_
+- restoreNavigationDoc_
+- updateNavigationDoc_
+
+
+Coupled governance:
+- ensureGovernanceSheets_
+- readTrustedGovernanceState_
+- readTransitionRegister_
+- readNoChangeCertificates_
+- readReviewIndependence_
+- readEvidenceLineage_
+- readGlobalObjectAudits_
+- readOperatorDecisions_
+- validateGovernanceRows_
+- lookupTrustedObjectState_
+- validateTrustBoundary_
+- readCurrentManifest_
+- attachEvidenceAndReviews_
+- assessObjectTransition_
+- validateRegisteredTransitions_
+- validateTransition_
+- validateNoChangeCertificate_
+- assessClosureScope_
+- assessGlobalObjectAlignment_
+- validateGlobalAudit_
+- validateReviewDisclosure_
+- computeIndependenceScore_
+- computeArchitectureMetrics_
+- buildTransitionAlarmRows_
+- buildArchitectureMetricRows_
+- validateFinalEligibility_
+
+
+CRITICAL TRUST-BOUNDARY CHANGE
+
+
+v1.1 accepted authority, canonical impact, human decision, closure fallback, and extraction-class declarations from artifact text. v1.2 preserves these only as claimed fields:
+
+
+claimed_status
+claimed_authority
+claimed_canonical_impact
+claimed_closure_state
+claimed_human_decision
+claimed_extraction_class
+
+
+Verified fields are populated only from trusted state:
+
+
+status = trusted status or verified closure
+closure_state = Closure Log
+human_decision = protected Operator Decisions
+canonical_impact = protected Operator Decisions
+authority = protected Operator Decisions
+transition_gate = validated Transition Register
+primary_evidence_ids = Evidence Lineage
+independent_review_ids and score = Review Independence
+global_object_audit_id and alignment = Global Object Audit
+
+
+A mismatch between a source claim and trusted state is retained as a validation error such as SOURCE_AUTHORITY_CLAIM_UNTRUSTED, SOURCE_HUMAN_DECISION_CLAIM_UNTRUSTED, SOURCE_CANONICAL_IMPACT_CLAIM_UNTRUSTED, or SOURCE_CLOSURE_CLAIM_UNTRUSTED.
+
+
+COUPLED ADVANCEMENT RULE
+
+
+For mathematical transition types, the validator requires evidence class, law or measure, regime, normalization, coordinate system, independent-review status, affected dependencies, unaffected dependencies, remaining uncertainty, and reopening condition. It then requires either a nonempty architectural change or a valid linked no-change certificate.
+
+
+For architectural transition types, the validator requires architecture failure mode, uncertainty permanently removed, and detection tests.
+
+
+For serious mathematical error transitions, it requires failure class, architecture response, and recurrence control.
+
+
+For architecture incidents, it requires downstream-contamination assessment, affected mathematical objects, and quarantine status.
+
+
+PRIMARY-EVIDENCE RULE
+
+
+Evidence marked summary-only, or assigned SUMMARY, NAVIGATION, BALLOT, REGISTER_COPY, or REVIEW_OF_REVIEW roles, cannot satisfy primary evidence. Admissible primary roles are PRIMARY_DERIVATION, EXECUTABLE_RECEIPT, RAW_DATA, FORMAL_PROOF, and INDEPENDENT_RECONSTRUCTION.
+
+
+INDEPENDENCE RULE
+
+
+The deterministic score starts at 1.0 and applies penalties for original-derivation visibility, same-code reuse, same-fixture reuse, inherited assumptions, lack of independent reconstruction, failure to check object definition, and algebra-only review. Independent notation and properly preserved blind-observer conditions supply limited positive weight. High independence begins at 0.75 and also requires independent reconstruction, object-definition checking, and non-algebra-only review.
+
+
+REFEREE-READY RULE
+
+
+An object is REFEREE-READY only when verified terminal closure, operator human decision, approved canonical impact, non-null authority, transition PASS, admissible primary evidence, high-independent review, global-object audit PASS, dependency and evidence chains, complete object card, valid routing, and zero validation errors all hold. Instruments remain INSTRUMENT.
+
+
+ADVERSARIAL TEST RECEIPT
+
+
+T1–T16: PASS
+T17 source cannot self-authorize: PASS
+T18 source cannot self-approve: PASS
+T19 source cannot self-close: PASS
+T20 mathematics requires architectural response/no-change certificate: PASS
+T21 architecture requires failure-mode justification: PASS
+T22 summary cannot satisfy primary evidence: PASS
+T23 shared code/fixtures cannot claim high independence: PASS
+T24 inherited lineage reduces independence weight: PASS
+T25 narrow closure retains broader claims open: PASS
+T26 missing regime/normalization/coordinates blocks closure: PASS
+T27 unjustified surrogate triggers global-object drift: PASS
+T28 serious error requires architecture response: PASS
+T29 architecture incident requires contamination assessment: PASS
+T30 blind observer exposure is rejected: PASS
+T31 unrouted object cannot remain referee-ready: PASS
+T32 architecture growth without uncertainty reduction alarms: PASS
+
+
+INSTALLATION BOUNDARY
+
+
+The Drive connector cannot install or authorize Apps Script. The browser-side installer must copy the exact downloadable .gs into Apps Script, run T1–T32, run auditCoupledAdvancement, perform one inspected manual refresh, compare the installed source hash to this release identity, and only then install hourly triggers.

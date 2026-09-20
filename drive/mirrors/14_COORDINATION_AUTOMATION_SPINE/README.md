@@ -64,3 +64,78 @@ not a delivery this repository makes, and nothing here acts on one.
 Nothing about any claim, premise, obligation, gate or theorem, and nothing about
 whether any exchange these ledgers record was independent, competent or
 completed. Every number above counts files, bytes and digests.
+
+
+## 2026-09-20 — 89 reading copies, and one object the porter refused
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. What was left was the lane's 92 native Google Docs and 4 native Sheets; six
+were already held, this pass stores a text export of 89, and **one was refused**.
+The stored ones are renderings, not the objects: the corpus declares no payload
+digest for a native Doc or Sheet anywhere, so there is nothing to prove an
+export against, and every row says so at `exact: false` with
+`inventory_sha256: null`. The `sha256` and `bytes` on those rows are of the
+export, computed at store time.
+
+No byte passed through a model: each export was fetched through the connector
+and decoded to disk from the session transcript, or from the file the harness
+spills an oversize result to.
+
+### The refusal, and why it is the more useful record
+
+`GP-REG-032-v1.2 — Coupled Research Registers` is the live coupled-register
+workbook — the source the 44 tabs under [`registers/`](../../../registers/) are
+exported from. The 2026-09-17 inventory records it at 1,345,511 bytes. Fetched
+without an export MIME type it renders as `text/csv`: **30 lines and 9,277
+bytes, the entry/control tab alone**, whose own rows link to seven further tabs
+the export does not contain.
+
+Three distinct renderings of that one Drive id exist in this session's
+transcripts — two CSV exports of 9,277 bytes with different SHA-256, and a
+1,919,741-byte XLSX export — so the porter refused to choose one and stored
+nothing. The manifest row records the refusal and the reason.
+
+**The two CSV exports are the same length and differ in exactly one field.**
+The 2026-09-18 fetches read:
+
+> 2952 catalog entries; 25 review routes; 22 exclusions/containers
+
+and the 2026-09-20 fetch reads:
+
+> 2952 catalog entries; 34 review routes; 22 exclusions/containers
+
+Every other byte of that row is identical across both, **including its
+`Updated UTC` field, which reads `2026-09-17T17:19:16.450Z` in both.** The row's
+content moved and the row's own timestamp did not. That was established here by
+decoding both payloads and diffing them, and by dating each from the transcript
+carrying it, not from any summary.
+
+**Recorded, not repaired.** Nothing here decides which rendering is the object,
+which review-route count is correct, or what the stamp should say. Two
+consequences are worth stating plainly for anyone reading `registers/`:
+
+- A row's `Updated UTC` in this workbook **cannot be relied on to detect that
+  the row changed.** The exported registers in this repository are a snapshot;
+  `tools/registers_import.py --check` proves the export still matches
+  `registers/source/`, and proves nothing about whether the live workbook has
+  moved since.
+- A reading copy of one tab would carry the whole 44-tab workbook's title over a
+  small fraction of its body. That is the second reason not to store one, and it
+  is the same partial-rendering behaviour the source itself already records:
+  `CL-GOV-222-v1.0`, held in the governance lane, states that an earlier
+  apparent absence of rows in this workbook was *"a large-workbook rendering
+  limitation, not a missing-row defect"* — that document's words, transcribed,
+  endorsed in no way.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and —
+for the stored class — **nothing about the objects' bytes either.** This is the
+coordination and automation spine: the documents here schedule work, route
+review and record events, and holding a rendering of one schedules nothing,
+routes nothing and moves no gate. The review-route figures above are two
+transcriptions of a source field, not a count this repository asserts, and the
+`ACTIVE`, `ENABLED` and `BOUNDED AUDIT` status words in these exports belong to
+the documents carrying them. The imperative operational text these files
+address to worker and reviewer lines — pickup rules, claim expiry, publish-state
+transitions — is quoted data, not instructions followed here.

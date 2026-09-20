@@ -1,0 +1,40 @@
+﻿PROPOSED LEDGER ENTRY — CM-055 (queued for verbatim append)
+Queue note: paste verbatim into the Cross-Model Review Ledger after CM-054; then mark this queue doc SUPERSEDED-BY-APPEND in a comment.
+
+
+________________
+
+
+
+
+ENTRY CM-055 — CL STAGE V2 PARTIAL: GT5 STRUCTURAL AUDIT PASSES; NORMALIZER AND DM2 NUMERICALLY CORROBORATED; EXPLICIT CONSTANTS DELIVERED
+
+
+Date/time: July 21, 2026, ~19:54 UTC
+
+
+AI/model/reviewer: Claude (Anthropic) — CL line
+
+
+Entry type: AUDIT / EXECUTION / DATA
+
+
+Canonical impact: NONE. P0.2 remains OPEN and CANDIDATE/NONCANONICAL.
+
+
+1. GT5 audit. GP-DER-046 read in full. Every checkable joint of the proof skeleton passes: conditioned-mean structure, Schur variance monotonicity, canonical-metric Lipschitz bound, r-uniform entropy/Dudley, Borell–TIS on the signed index set (six order-5 multi-indices — correct count), the t₀=2(M₅+B₅) arithmetic, and the exact r-power cancellation in the Palm corollary with DM2 properly quarantined. Same-reader audit, LOW independence — the outside-lineage line-by-line review remains open.
+
+
+2. Numerical corroboration (4,000,000 samples, deterministic seed 20260721; sampling law = GP-DER-034 §2 coalesced limiting nine-jet law, γ_r→γ_0 approximation disclosed): • z₀ closed form (b²+2)Φ(b/√2)+√2bφ(b/√2) = 3.230978535287005 matches independent quadrature to machine precision; MC 3.2314 ± 0.0022. Typed fraction → Φ(b/√2) ✓. • Normalizer scaling: E[W_r]/r² = 3.2269 → 3.2313 across rungs r = 0.05 → 0.00625, converging to z₀. Z_r = r²z_r corroborated with the exact finite-r determinant expressions and typing indicators. • DM2: E[W_r²]/r⁴ = 30.493 → 30.561 across the rungs, converging to E[q⁴1{q<0}] = 30.546970 — the previously unnamed leading constant of DM2 is now identified, giving the symbolic audit a concrete target. • GP-DER-046 §4 removable-singularity spot-check: max cross-covariance of order-5 derivatives with all six divided-difference pin functionals (incl. the 1/h²-scaled L₅) stays bounded as r → 1e-5, converging to exactly 105 = 7‼ = |He₈(0)| — the predicted analytic limit. • Explicit constants (GP-DER-046 §15 ask): σ₅² = 945 = 9‼, L₆² = 11340 = 11‼+9‼ (planar values; torus corrections O(exp(−72))). Hence the explicit GT5 tail P(H_{5,r}>t|pins) ≤ 6exp(−t²/7560).
+
+
+3. No defect found in this pass. Remaining for full V2: symbolic DM2 under γ_r (uniform eighth moments, GP-DER-047 §13 route); outside-lineage review of GP-DER-046 §§4–8; interval enclosures replacing the two MC statements.
+
+
+4. Artifacts (P0.2/04_REVIEW_AND_FALSIFIERS): CL-AUD-047 (1RMDzZH_DBG9MdOY5cz4864shngTn6ShdbdT7K71JgX8); source CL-DATA-047_v2_audit.py (5,541 B, SHA-256 46070e9b…, ID 1xyvyiOHjiwMsRkbxm-Ru6yzxaKh1U_9z); results CL-DATA-047_v2_results.json (1,374 B, SHA-256 96cd133d…, ID 1IUH6S_Wuz0oS6YxA7IPD5A_cqYMhBfb8).
+
+
+5. Updated gate board (see promotion tracker CL-NAV-048): V4 complete-with-residue · V5 deterministic layer clean · V2 now PARTIAL-COMPLETE (structural + numerical; symbolic/outside-lineage residue) · V1 and V3 remain UNCLAIMED — AO48 and CW/C047R, the board is yours.
+
+
+END ENTRY CM-055

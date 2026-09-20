@@ -1,0 +1,370 @@
+﻿GP-REQ-171-v1.0 — EXACT GP-AUTO-034 v1.2 SOURCE RECOVERY OR COMPLETE v1.3 RECONSTRUCTION REQUEST
+
+
+Artifact ID: GP-REQ-171-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: REQ / SOURCE-RECOVERY / IMPLEMENTATION
+Authority: OD-OP-PROT-008-R0.1-APPROVAL-002 permits source-publication and non-destructive preparation
+Canonical impact: NONE
+Automation state: PREPARATION / SHADOW ONLY
+
+
+[[OBJ:GP-REQ-171-v1.0]] [[OBJ:GP-AUTO-034]] [[GATE:G1-SOURCE-PUBLICATION]] [[STATUS:SOURCE-RECOVERY-OPEN]] [[NO_INSTALL]]
+
+
+1. REQUEST
+
+
+Any GP, CL, AO48, or CW/C047R session that has access to the original released GP-AUTO-034-v1.2 executable or its downloadable-codebase artifact should publish the exact bytes into Drive or provide a connector-resolvable file reference.
+
+
+Exact target identity:
+
+
+Filename: GP-AUTO-034-v1.2_COUPLED_ADVANCEMENT.gs
+SHA-256: 1062a63c4a21caac4b7c9f6ae9674d9fbb1a9790c67dd73e8fff6393ec4509ee
+Byte count: 125,771
+Line count: 2,390
+Apps Script manifest SHA-256: f8dfdb43a92e2eaad477fbb675efc97f44a9dcc0ad361960991d3a84dfe1c80f
+
+
+Do not reformat, normalize, convert newline style, add a BOM, or add/remove a terminal newline before checking the original declared hash.
+
+
+2. WHY RECOVERY IS PREFERRED
+
+
+The recoverable v1.1 Drive source is only 1,776 lines and lacks at least twenty-seven architecture-significant functions named by the v1.2 manifest. GP-AUD-170-v1.0 identifies the missing coupled-governance layer.
+
+
+A trust-boundary-only patch of v1.1 is not a complete v1.3 implementation and may not be installed or reviewed as one.
+
+
+3. ACCEPTABLE RECOVERY OUTPUT
+
+
+Preferred:
+
+
+- upload the raw .gs file under immutable Drive identity;
+- publish a separate receipt with exact bytes, lines, SHA-256, source location, and retrieval method;
+- leave the original raw bytes unchanged.
+
+
+If raw .gs upload fails:
+
+
+- publish plain UTF-8 text in one Google Doc or ordered sequential Docs;
+- preserve the original byte stream separately from any normalized review stream;
+- declare original and normalized hashes distinctly;
+- for the normalized review stream use LF only, no BOM, exactly one trailing LF;
+- if chunked, declare chunk index, byte range, bytes, per-chunk SHA-256, total concatenation order, total bytes, total lines, and whole-file SHA-256.
+
+
+Do not publish only base64 without a successfully reconstructed whole-file receipt.
+
+
+4. REQUIRED RECOVERY VERDICT
+
+
+Return one:
+
+
+RECOVERED EXACT v1.2 SOURCE — ORIGINAL SHA-256 MATCHES 1062a63c4a21caac4b7c9f6ae9674d9fbb1a9790c67dd73e8fff6393ec4509ee
+
+
+or
+
+
+SOURCE FOUND BUT HASH MISMATCH — report exact bytes, hash, source location, and likely normalization/version cause; do not silently adopt it
+
+
+or
+
+
+CANNOT RECOVER ORIGINAL v1.2 SOURCE — identify every source location checked.
+
+
+5. FALLBACK COMPLETE v1.3 RECONSTRUCTION
+
+
+If original v1.2 recovery fails, implement a new complete GP-AUTO-034-v1.3 source. The reconstruction must use:
+
+
+- the recoverable v1.1 baseline;
+- the complete v1.2 manifest and architecture contract;
+- OP-GDN-002;
+- GP-RSP-017 Q1–Q10;
+- CL-AUD-034/035;
+- GP-RSP-158;
+- CL-CHK-001;
+- GP-AUD-170.
+
+
+It must implement the full coupled architecture, including all twenty-seven missing named functions or explicitly documented equivalent functions. Functional equivalence must be mapped one-to-one.
+
+
+6. v1.3 MANDATORY DELTAS
+
+
+The complete source must include:
+
+
+- protected governance-sheet construction and validation;
+- composite trust lookup on artifact_id plus immutable Drive ID, exact decision type, exact scope, and revision where applicable;
+- claimed_* versus verified fields;
+- visible SOURCE_*_CLAIM_UNTRUSTED errors regardless of final eligibility;
+- duplicate declared-ID isolation and NT-4;
+- transition, no-change, evidence-lineage, review-independence, global-object, closure-scope, and final-eligibility validation;
+- transition alarms and architecture metrics;
+- atomic generated-output staging, validation, commit, caught-error rollback, persistent journal, and hard-kill recovery;
+- bounded retention and permission-revocation tests;
+- out-of-scope write rejection;
+- source-to-test, Q1–Q10-to-lines, and function-delta maps.
+
+
+7. v1.3 PUBLICATION GATE
+
+
+Before G1 can pass, publish:
+
+
+A. Complete plain-text source under immutable Drive ID.
+B. Normalization: UTF-8, LF, no BOM, exactly one trailing LF.
+C. Whole-file bytes, lines, SHA-256.
+D. Apps Script manifest bytes and SHA-256.
+E. Requirement/function/test line map.
+F. Transition record TR-CAI-002 or a collision-free successor binding v1.2-CAI to v1.3.
+G. Fresh Drive reconstruction receipt reproducing the exact source hash.
+
+
+8. PROHIBITIONS
+
+
+Do not:
+
+
+- install v1.1 or v1.2;
+- re-enable or modify triggers against an unqualified source;
+- claim G1 from a prose manifest;
+- claim v1.3 from a partial patch or behavioral harness;
+- manufacture exact-source review credit;
+- request the hash-specific post-test ballot before G1–G6 pass;
+- file Tier-1 activation before G1–G7 are documented.
+
+
+9. CURRENT STATUS
+
+
+The Drive search located:
+
+
+- the v1.1 reviewable source;
+- the v1.2 manifest and architecture contract;
+- hashes and function inventory;
+- no raw v1.2 executable bytes;
+- no complete v1.3 source.
+
+
+G1 remains OPEN / FAIL-CLOSED.
+
+
+10. RESPONSE ROUTING
+
+
+Publish the recovery or reconstruction artifact in:
+
+
+04_COORDINATION_AUTOMATION_SPINE / 01_AUTOMATION_CONTRACTS_AND_SOURCE
+
+
+Comment the result on GP-REQ-171, GP-RSP-158, CL-AUD-035, and CL-CHK-001.
+
+
+Preserve all earlier v1.1/v1.2 sources, manifests, audits, failed capsules, and correction provenance.
+
+
+END GP-REQ-171-v1.0
+
+
+CURRENT EXECUTION RESULT — 2026-07-24
+
+
+The exact historical v1.2 executable could not be recovered from Drive. The fallback complete-successor route has materially advanced.
+
+
+Current source candidate:
+- Release: GP-AUTO-034-v1.3-R0.2-SUCCESSOR-CANDIDATE
+- Raw source Drive ID: 14jTtCmv7xhYrFCfx3kumP9mysNPxNP7m
+- Raw bytes: 133,632
+- Raw SHA-256: 50589fc1f6f5e0df0d5acf8148848c10d6e3c06ebaa319fb830c71c856502b06
+- Carrier Drive ID: 1_d4AJ4Lp8aidFHk_LL6LoCdzcLKpNGHMW9x3Rh7l8us
+- Apps Script manifest Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Static qualification receipt: GP-AUD-182-v1.0, Drive ID 1CutMuk6HBGaXM8L8YfSWrvJMdVodr5EVZu_HclITlNU
+- Transition: TR-CAI-003
+
+
+R0.1 was preserved and superseded as a candidate after a distinct-family audit found false production labeling in a generated Context Snapshot row. R0.2 repairs that defect and adds T33 so a candidate cannot label itself production.
+
+
+Verified against the exact R0.2 Drive bytes:
+- Drive round-trip equality: PASS
+- JavaScript syntax: PASS
+- T1–T33: PASS 33/33
+- frozen cryptographic fixtures: PASS 4/4
+
+
+G1 remains PARTIAL PASS because the separately requested immutable LF-only, no-BOM, exactly-one-trailing-LF raw Drive object has not been published. The deterministic normalized identity is 130,281 bytes, 2,586 lines, SHA-256 ecd13ed9baa3746993121f6202ee7faac774f5a849d0a196c0ec285325130333.
+
+
+OPEN BLOCKERS
+- isolated Google Apps Script runtime;
+- normal refresh against an isolated GP-REG-032 copy;
+- partial-commit termination and recoverIncompleteCommit restoration;
+- installed-project source equality;
+- exact R0.2 distinct-family source/security review;
+- normalized raw-object publication;
+- browser trigger-state inspection;
+- Dylan’s activation decision.
+
+
+CURRENT VERDICT
+COMPLETE v1.3 SUCCESSOR SOURCE EXISTS AND PASSES STATIC REQUALIFICATION; ORIGINAL v1.2 REMAINS UNRECOVERED; RUNTIME QUALIFICATION AND INSTALLATION REMAIN FAIL-CLOSED.
+
+
+[[STATUS:SUCCESSOR-SOURCE-PUBLISHED]] [[G1:PARTIAL-PASS]] [[STATIC:T1-T33-PASS]] [[RUNTIME:OPEN]] [[NO-INSTALL]]
+
+
+LATEST EXECUTION RESULT — R0.3 — 2026-07-24
+
+
+R0.2 is preserved but superseded for current candidate routing because its exact source hardcoded the live GP-REG-032 spreadsheet ID. A nominal isolated runtime project could therefore still have targeted live coordination data. No R0.2 Apps Script execution occurred and no live write was made.
+
+
+Current source candidate:
+- Release: GP-AUTO-034-v1.3-R0.3-SUCCESSOR-CANDIDATE
+- Raw source Drive ID: 1bLNbR77ggE-TBppO_p9kRX3IAn-FQ7vX
+- Raw bytes: 134,700
+- Raw SHA-256: 4f491c622fbd400167bb62dbd0564d6ab4ee9515338891c41e1779459f1ea34e
+- Carrier Drive ID: 1b_BQsqbkC6lTfK3ekBQtp6ivMJmjumVpnOpn2mrYo0s
+- Apps Script manifest Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Receipt: GP-AUD-185-v1.0, Drive ID 18GqRkhCEMtitSXQjyjSLEoAC3T30UmSGlbI-VPreLlM
+- Transition: TR-CAI-004
+
+
+R0.3 removes every hardcoded runtime registry reference, requires the Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID, has no live fallback, and adds T34 to test the absent-property and explicit-binding branches.
+
+
+Verified against the exact R0.3 Drive bytes:
+- Drive round-trip equality: PASS
+- JavaScript syntax: PASS
+- T1–T34: PASS 34/34
+- frozen cryptographic fixtures: PASS 4/4
+
+
+Deterministic normalized correspondence:
+- UTF-8, LF-only, no BOM, exactly one trailing LF
+- 131,330 bytes
+- 2,599 lines
+- SHA-256 c646af244e8d864455366b3f05b7c46e83bf52c78c0afe238668b1542372f34b
+- Separate raw Drive publication remains blocked by connector file-reference limitations.
+
+
+Isolated runtime sandbox:
+- Folder: 1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH
+- Read-first protocol: 1obzqC59KPxQ6YV38rvHRNWKEFv1FYAfyoOEMw8h3lVQ
+- Test registry: 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+- Test navigation: 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE
+- Generated-only output folder: 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+
+
+The copied Config points all write destinations to isolated objects. AUTOMATION_AUTHORIZED, HOURLY_TRIGGER, WRITE_SOURCE_FILES, DELETE_OR_TRASH, AUTO_PROMOTE, and RECURSIVE_SCAN remain FALSE.
+
+
+OPEN BLOCKERS
+- exact installed Apps Script source correspondence;
+- setting and verifying the explicit target property in an isolated project;
+- T1–T34 and fixture execution inside Apps Script;
+- one normal isolated refresh;
+- complete write-target and source-immutability audit;
+- injected partial-commit termination and recoverIncompleteCommit restoration;
+- trigger inspection and teardown;
+- exact R0.3 distinct-family source/security review;
+- normalized raw-object publication;
+- Dylan’s activation decision.
+
+
+CURRENT VERDICT
+COMPLETE R0.3 SUCCESSOR SOURCE EXISTS, PASSES STATIC REQUALIFICATION, AND HAS A FAIL-CLOSED ISOLATED RUNTIME TAKEOVER PACKAGE; ORIGINAL v1.2 REMAINS UNRECOVERED; GOOGLE RUNTIME, RECOVERY, REVIEW, AND INSTALLATION REMAIN OPEN.
+
+
+[[STATUS:R0.3-SOURCE-PUBLISHED]] [[G1:PARTIAL-PASS]] [[STATIC:T1-T34-PASS]] [[SANDBOX:PREPARED]] [[RUNTIME:OPEN]] [[NO-INSTALL]]
+
+
+LATEST EXECUTION RESULT — R0.4 — 2026-07-24
+
+
+R0.3 is preserved but superseded for current candidate routing because its source still retained implicit live Navigation Companion and manifest-staging fallbacks when explicit Config targets were absent. No R0.3 Apps Script execution occurred and no live write was made.
+
+
+Current source candidate:
+- Release: GP-AUTO-034-v1.3-R0.4-SUCCESSOR-CANDIDATE
+- Raw source Drive ID: 1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99
+- Raw bytes: 135,668
+- Raw SHA-256: 11ba6ccdb3f68a38215036b55dec4a4e53cc2022adf6af8f5c6dffec8f9aa9d3
+- Carrier Drive ID: 1VVKDeG8-PcV5EJYfNc1JSlv7b_s2KeUUjpdtRDA-yXk
+- Apps Script manifest Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Receipt: GP-AUD-186-v1.0, Drive ID 14vEk4o6yL37U2Q8zcNQ-3VBaMHkMz69kdHQVcVha0Ns
+- Transition: TR-CAI-005
+
+
+R0.4 removes all known source-level live write defaults:
+- registry requires Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID;
+- navigation requires explicit Config NAVIGATION_DOC_ID;
+- manifest output requires explicit Config MANIFEST_OUTPUT_FOLDER_ID;
+- missing or malformed targets fail closed;
+- T35 tests navigation and manifest absence and exact explicit binding.
+
+
+Verified against the exact R0.4 Drive bytes:
+- Drive round-trip equality: PASS
+- JavaScript syntax: PASS
+- T1–T35: PASS 35/35
+- frozen cryptographic fixtures: PASS 4/4
+
+
+Deterministic normalized correspondence:
+- UTF-8, LF-only, no BOM, exactly one trailing LF
+- 132,283 bytes
+- 2,608 lines
+- SHA-256 e6dbb29eac4d78bd1ce8e0be1457e1632704b9f612bebebc0abefabaa14f847f
+- Separate raw Drive publication remains blocked by connector file-reference limitations.
+
+
+Current isolated runtime/recovery handoff:
+- Read-first protocol: 1gZum-OCx4IhdhDS3CyLJ1jajJHK1Ik9Orph4NAELiic
+- Sandbox folder: 1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH
+- Test registry: 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+- Test navigation: 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE
+- Generated-only output folder: 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+
+
+OPEN BLOCKERS
+- exact installed Apps Script source correspondence;
+- explicit registry property and Config-target verification in Apps Script;
+- T1–T35 and fixture execution inside Apps Script;
+- one normal isolated refresh;
+- complete write-target and source-immutability audit;
+- injected partial-commit termination and recoverIncompleteCommit restoration;
+- trigger inspection and teardown;
+- exact R0.4 distinct-family source/security review;
+- normalized raw-object publication;
+- Dylan’s activation decision.
+
+
+CURRENT VERDICT
+COMPLETE R0.4 SUCCESSOR SOURCE EXISTS, ALL KNOWN WRITE TARGETS ARE EXPLICIT AT SOURCE LEVEL, STATIC T1–T35 AND FIXTURES PASS, AND THE ISOLATED RUNTIME/RECOVERY TAKEOVER PACKAGE IS READY; ORIGINAL v1.2 REMAINS UNRECOVERED; GOOGLE RUNTIME, RECOVERY, REVIEW, AND INSTALLATION REMAIN OPEN.
+
+
+[[STATUS:R0.4-SOURCE-PUBLISHED]] [[G1:PARTIAL-PASS]] [[STATIC:T1-T35-PASS]] [[ALL-WRITE-TARGETS:EXPLICIT]] [[SANDBOX:PREPARED]] [[RUNTIME:OPEN]] [[NO-INSTALL]]
