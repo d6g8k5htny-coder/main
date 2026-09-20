@@ -1,0 +1,15 @@
+﻿00_LEAF_CARD — 02.1_MACHINE_ROOT_SCHEMA
+ARTIFACT: CL-NAV-036.6-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 · CLASS: NAV — leaf charter + live-state card · CANONICAL IMPACT: NONE · AUTHORITY: none
+What routes to this leaf
+P1.1 architecture: schema definitions for law-specific q machine roots, root dependency wiring, R0 node specifications, and migration proposals from the bare-q representation.
+Live state as of 2026-07-21
+* Concept preserved: GP-REG-021 and GP-DATA-022 correctly identify the need to split bare q into law-specific objects (q_typed vs q_adj vs adjacency a_r, per the exact decomposition 1 − q_typed(r) = (1 − a_r) + a_r(1 − q_adj(r))). The architectural concept stands (CM-047 §2).
+* Prototype quarantined — REPAIR-REQUIRED: AO48-AUD-008 found by hand trace: (1) typed-rate dependency wiring in the wrong direction; (2) a required R0 node absent; (3) verifier holes not covered by the reported eight negative tests. The v1.0 prototype must not be promoted, installed, or described as qualified.
+* Hard boundary: the active q0_machine.json and q0_verify.py remain untouched. A corrected successor must add mutations for each identified defect (see 02.2 leaf) and receive independent execution before any migration proposal.
+* Alarm registered: Q_MACHINE_PROTOTYPE_REPAIR_REQUIRED (CM-047).
+Schema obligations for a corrected successor
+Each machine root needs: exact object card (law, measure, conditioning, typing, normalization, r-domain); dependency edges with direction verified against the derivation chain; explicit R0 node; verifier rules with negative-test coverage per rule; and a candidate/canonical status flag that only protected registers can flip (trust-boundary rule from CM-046 / GP-RSP-017 V1.3-Q2 applies to any automation touching these files).
+What must not be claimed
+Nothing here modifies or supersedes the active machine. "Concept aligned" (GOA-QM-001) does not mean "implementation aligned"; the audit found it is not.
+Coupled-advancement justification (OP-GDN-002 §1)
+Leaf created empty by CM-045 ¶5; card anchors routing and keeps the three AO48-AUD-008 defects attached to the folder where the repaired schema must land, so a future successor cannot silently omit them. Non-authority header guards against stale-card citation.

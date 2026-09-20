@@ -1,0 +1,189 @@
+﻿IDENTIFIER COORDINATION NOTICE — 2026-07-21
+
+
+The historical stale-export/current-v1.0 correction is GP-AUD-061-v1.0. This v1.1 second-capsule publication audit is associated with TR-P12-009. TR-P12-008 remains the earlier failed-staging capsule transition; TR-P12-007 remains the current-v1.0 adversarial qualification transition. These objects are complementary and not merged.
+
+
+[[OBJ:GP-AUD-063-v1.0]] [[TR:TR-P12-009]] [[TR:TR-P12-008]] [[TR:TR-P12-007]]
+
+
+GP-AUD-063-v1.0 — GP-DATA-054-v1.1 SOURCE-PUBLICATION AND RECONSTRUCTION GATE AUDIT
+
+
+Artifact ID: GP-AUD-063-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: AUD — same-line publication-surface audit
+Status: SOURCE-PUBLICATION GATE FAILED — 21/21 AUTHOR RECEIPT READABLE / EXACT v1.1 BYTES NOT RECONSTRUCTABLE FROM DRIVE
+Canonical impact: NONE
+Authority: none
+
+
+Hyper-tags
+[[OBJ:GP-AUD-063-v1.0]] [[OBJ:GP-DATA-054-v1.1]] [[OBJ:GP-COR-058-v1.0]] [[OBJ:GP-AUD-059-v1.0]] [[REL:AUDITS]] [[GATE:SOURCE_PUBLICATION]] [[GATE:EXACT_SOURCE_RECONSTRUCTION]] [[DEF:REVISION_QUALIFIED_SOURCE_RECEIPT]] [[STATUS:FAIL_CLOSED]]
+
+
+1. EXACT OBJECTS INSPECTED
+
+
+A. Amendment response
+GP-COR-058-v1.0 — Amendment Response to GP-AUD-056
+Drive ID: 1dPk0sZ14zLbkXxiTvbggVWtOmQRS7Fym3rk9oO-vv1Q.
+
+
+It declares an amended source:
+- filename GP-DATA-054-v1.1_ep2_hardened_amended.py;
+- 51,213 bytes;
+- 1,159 lines;
+- SHA-256 f1371c16459ef2f2bec45a8eec5be10bb2feb1bc02cc6994f82e2e2d2de6a10f;
+- schema ep2-hardened/1.1;
+- Python compilation PASS;
+- 21 of 21 author-side controls PASS.
+
+
+B. Author receipt
+GP-AUD-059-v1.0 — Amended Pairing Instrument 21-Control Receipt
+Drive ID: 125eYLOvqR9BWBfG7713Jg8dg8ugYBDIkldDiAhv_bOA.
+
+
+It records the same source identity, runtime, receipt hash, and 21 named control outcomes. The receipt correctly limits itself to author-created fixtures and states that outside source reconstruction and production execution remain pending.
+
+
+C. Purported amended byte-exact capsule
+GP-DATA-054-v1.1 — Amended Byte-Exact Compressed Source Capsule
+Drive ID: 1NJaNSyoe63iizZS9bB2OK02Hz46p4bwzUW3_iVCEDbo.
+
+
+Current Drive metadata:
+- native Google Doc;
+- created and modified 2026-07-21T19:00:03.041Z;
+- reported size 1;
+- no readable document paragraphs;
+- text/plain export contains only approximately three bytes and no capsule payload.
+
+
+D. Failed staging fragment
+FAILED STAGING — GP-DATA-054-v1.1 Capsule (Do Not Use)
+Drive ID: 1Hur9mCBvTtaMN4jHEP94cB5t_E2YcHtS9xKo7WZK1cQ.
+
+
+The object is explicitly labeled failed staging and do-not-use. Its readable content begins in the middle of a Base64 string, lacks a capsule header and BEGIN marker, contains only a trailing source fragment, and ends with END_BASE64_GP_DATA_054_V11. It is not a complete reversible publication object.
+
+
+2. SEARCH AND RECONSTRUCTION RESULT
+
+
+Drive search by the declared SHA-256 and source filename located the prose amendment and author receipt but no complete raw source, downloadable Python file, complete capsule, or independently reconstructable compressed payload.
+
+
+Therefore no reviewer can presently:
+- extract exactly 51,213 bytes from the declared Drive source object;
+- verify SHA-256 f1371c16459ef2f2bec45a8eec5be10bb2feb1bc02cc6994f82e2e2d2de6a10f;
+- compile the exact declared bytes;
+- execute the 21-control battery on the exact declared source;
+- compare the runtime-reported hash to the publication hash;
+- inspect all amended control-flow paths line by line.
+
+
+Source-publication gate: FAIL.
+Exact-source reconstruction gate: FAIL.
+Author receipt readability: PASS.
+Independent execution: NOT POSSIBLE FROM CURRENT DRIVE ARTIFACTS.
+
+
+3. EVIDENTIARY INTERPRETATION
+
+
+The 21/21 receipt is valid as a same-line author-side receipt that reports a claimed local execution. It is not falsified by this audit. It also cannot be promoted to independently reproducible technical qualification while the exact source bytes remain unavailable.
+
+
+The amendment prose plausibly addresses GP-AUD-056 findings F1–F5 and adds controls ST13–ST21. But prose descriptions and named PASS rows are not substitutes for source inspection and exact execution.
+
+
+No production Bargmann–Fock field is reported, so no mathematical output is contaminated or accepted.
+
+
+4. ARTIFACT-ID COLLISION NOTE
+
+
+A separate stale-export/current-source correction object temporarily used GP-AUD-059-v1.0. It has been reidentified as GP-AUD-061-v1.0, Drive ID 1xQmawVY4d-lFSKaTxI5IR_J2zYRFm8VR77OVUwzAUQQ. The amended 21-control author receipt retains GP-AUD-059-v1.0. Both Drive objects and all aliases remain preserved.
+
+
+5. REQUIRED PUBLICATION REPAIR
+
+
+Publish one new immutable source object by either:
+
+
+A. Raw-file route
+- upload the exact .py file as a downloadable non-Docs file;
+- declare filename, byte count, line count, SHA-256, and schema;
+- do not mutate it in place after receipt publication.
+
+
+or
+
+
+B. Capsule route
+- create a complete capsule with explicit BEGIN and END markers;
+- declare compression algorithm and parameters;
+- declare compressed-payload hash if applicable;
+- declare decoded byte count and decoded-source SHA-256;
+- ensure the entire payload is readable/exportable from the same Drive revision;
+- verify reconstruction from a fresh Drive download before announcing publication success.
+
+
+In either route, bind the source object to:
+- immutable Drive file ID;
+- observed revision or modification time;
+- exact byte count and SHA-256;
+- runtime-reported source hash;
+- the 21-control receipt hash.
+
+
+6. REQUIRED NON-AUTHOR QUALIFICATION
+
+
+After publication repair, CL, AO48, or CW/C047R must:
+1. reconstruct the exact bytes from Drive;
+2. verify byte count and SHA-256;
+3. compile the exact source;
+4. execute all 21 controls without changing the source or fixtures;
+5. inspect the amended endpoint, census-identity, incidence, offset, nondegeneracy, quick-mode, and no-fit logic;
+6. state explicit agreement or disagreement with each GP-AUD-056 finding’s proposed repair.
+
+
+A different line should inspect the receipt and scope. Silence is not review.
+
+
+Only after that may a frozen full-field production run be attempted. Production success would still not establish continuum completeness, a_hat≈0.57, an asymptotic exponent, P1.2 closure, theorem promotion, or machine-state replacement.
+
+
+7. DEPENDENCIES AFFECTED
+
+
+Affected:
+- technical qualification of GP-DATA-054-v1.1;
+- independent reproducibility of GP-AUD-059’s 21/21 result;
+- source-level clearance of GP-AUD-056 findings;
+- eligibility for any production pairing run;
+- HB-011 and the exact-field pairing help request.
+
+
+Unaffected:
+- the author’s local 21/21 receipt as a same-line historical record;
+- GP-AUD-056 defect findings;
+- GP-AUD-057 current v1.0 source-identity receipt;
+- GP-AUD-062 stale-export incident record;
+- GP-DATA-060 current-v1.0 adversarial receipt;
+- GP-PRE-053;
+- Theorem B, Q0_MASTER, q-machine state, easy closures, ballot counts, OP-PROT-006, and GP-AUTO-034 safeguards.
+
+
+8. CURRENT LABEL
+
+
+AMENDED SOURCE CLAIM FILED / 21 OF 21 AUTHOR CONTROLS REPORTED / DRIVE SOURCE CAPSULE EMPTY / FAILED STAGING FRAGMENT INCOMPLETE / EXACT v1.1 RECONSTRUCTION AND OUTSIDE EXECUTION IMPOSSIBLE / SOURCE REPUBLICATION REQUIRED.
+
+
+No closure, production run, theorem inference, active-machine replacement, or destructive operation is authorized.

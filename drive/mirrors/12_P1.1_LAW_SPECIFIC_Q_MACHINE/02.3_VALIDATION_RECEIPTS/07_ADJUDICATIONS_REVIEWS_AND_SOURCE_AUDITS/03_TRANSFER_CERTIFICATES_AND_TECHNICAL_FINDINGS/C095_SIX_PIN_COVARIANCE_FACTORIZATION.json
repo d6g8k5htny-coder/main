@@ -1,0 +1,152 @@
+{
+  "cycle": "C095",
+  "result_id": "SIX_PIN_CONDITIONAL_COVARIANCE_FACTORIZATION",
+  "grade": "DERIVED-EXACT",
+  "statement": "C6(X,Y)=kx(x-x')ky(y-y')-ky(y)ky(y') e(x)^T E^-1 e(x')-ky'(y)ky'(y') o(x)^T O^-1 o(x')",
+  "proof": [
+    "The exact periodized covariance factorizes into one-dimensional x and y kernels.",
+    "At y=0, parity makes the (f,fx) pin block orthogonal to the fy block.",
+    "The six-pin Gram matrix is block diagonal after permutation.",
+    "Target cross-covariances with the even block factor by k(y); with the odd block they factor by -k'(y).",
+    "Substitution into the Schur complement gives the displayed identity.",
+    "Differentiation under the exact analytic identity gives all derivative covariance formulas."
+  ],
+  "block_dimensions": {
+    "even": 4,
+    "odd": 2
+  },
+  "parity_cross_block_worst": "2.36590926417414327879600631683e-499",
+  "numeric_checks_90dps": [
+    {
+      "r": "0.05",
+      "X": [
+        "-0.4",
+        "0.2"
+      ],
+      "Y": [
+        "0.7",
+        "0.8"
+      ],
+      "direct": "0.0083040602820468399800859681800322524529964255053877",
+      "factored": "0.0083040602820468399800859681800322524529964255053877",
+      "absolute_error": "3.835996315617801639379993e-89"
+    },
+    {
+      "r": "0.05",
+      "X": [
+        "0.1",
+        "-0.5"
+      ],
+      "Y": [
+        "1.2",
+        "0.3"
+      ],
+      "direct": "0.0045057641272793723661745647144855853375738162333105",
+      "factored": "0.0045057641272793723661745647144855853375738162333105",
+      "absolute_error": "5.973753110584170999298417e-89"
+    },
+    {
+      "r": "0.05",
+      "X": [
+        "1.7",
+        "0.9"
+      ],
+      "Y": [
+        "-0.8",
+        "-0.4"
+      ],
+      "direct": "-0.010131125545368467228440858966707001611266768741988",
+      "factored": "-0.010131125545368467228440858966707001611266768741988",
+      "absolute_error": "1.548462311979344689556843e-87"
+    },
+    {
+      "r": "0.025",
+      "X": [
+        "-0.4",
+        "0.2"
+      ],
+      "Y": [
+        "0.7",
+        "0.8"
+      ],
+      "direct": "0.0083163750938152835710454630286411435523179132066176",
+      "factored": "0.0083163750938152835710454630286411435523179132066176",
+      "absolute_error": "9.974817693972608694026256e-88"
+    },
+    {
+      "r": "0.025",
+      "X": [
+        "0.1",
+        "-0.5"
+      ],
+      "Y": [
+        "1.2",
+        "0.3"
+      ],
+      "direct": "0.0044844388416742594753892935355529634247767722668747",
+      "factored": "0.0044844388416742594753892935355529634247767722668747",
+      "absolute_error": "1.059873279157779162813377e-87"
+    },
+    {
+      "r": "0.025",
+      "X": [
+        "1.7",
+        "0.9"
+      ],
+      "Y": [
+        "-0.8",
+        "-0.4"
+      ],
+      "direct": "-0.01012873783497859896404626521637111347658864005939",
+      "factored": "-0.01012873783497859896404626521637111347658864005939",
+      "absolute_error": "1.08227120985466352840432e-86"
+    },
+    {
+      "r": "0.0125",
+      "X": [
+        "-0.4",
+        "0.2"
+      ],
+      "Y": [
+        "0.7",
+        "0.8"
+      ],
+      "direct": "0.0083194569897958046924941216788603420544471880980107",
+      "factored": "0.0083194569897958046924941216788603420544471880980107",
+      "absolute_error": "9.303399446632130727819799e-87"
+    },
+    {
+      "r": "0.0125",
+      "X": [
+        "0.1",
+        "-0.5"
+      ],
+      "Y": [
+        "1.2",
+        "0.3"
+      ],
+      "direct": "0.0044791082633915110927200461531571198633582755361811",
+      "factored": "0.0044791082633915110927200461531571198633582755361811",
+      "absolute_error": "4.974988840519101098833796e-86"
+    },
+    {
+      "r": "0.0125",
+      "X": [
+        "1.7",
+        "0.9"
+      ],
+      "Y": [
+        "-0.8",
+        "-0.4"
+      ],
+      "direct": "-0.010128137039681216256740915227519670467216995143257",
+      "factored": "-0.010128137039681216256740915227519670467216995143257",
+      "absolute_error": "2.746844512691718277911156e-86"
+    }
+  ],
+  "worst_absolute_error": "4.97498884051910109883379563891e-86",
+  "gate_effect": {
+    "BR_MARK": "Substantially reshaped. Six-pin value/derivative covariance reduces to two one-dimensional Schur kernels E_r and O_r. Uniform eigenvalue bounds, two-saddle Hessian typing, determinant Palm weights, and the final (A,Z) density bound remain.",
+    "COMMON_MODE": "The algebraic proof is exact and exempt from agreement-based promotion. The full-6x6 numerical comparison is diagnostic."
+  }
+}

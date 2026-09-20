@@ -12,8 +12,8 @@ run, so the record cannot drift from the tree.
 | class | tabs | what it means |
 |---|---:|---|
 | `MACHINE` | 23 | a checker, test, lane, claim node or pinned proposal names the tab and reads or pins its cells |
-| `PROSE_ONLY` | 6 | quoted in Markdown, read by nothing |
-| `UNREAD` | 15 | named nowhere outside the generic machinery |
+| `PROSE_ONLY` | 7 | quoted in Markdown, read by nothing |
+| `UNREAD` | 14 | named nowhere outside the generic machinery |
 
 Four files are **generic machinery** and are attributed to no tab, because they
 touch every tab by construction: `tools/registers_import.py`, its
@@ -37,14 +37,13 @@ and are excluded for the same reason: this document names `run_log` and
 * The class is **derived** from the scan, never typed. A control flips a
   recorded class and the checker refuses it.
 
-## The 15 tabs nothing reads
+## The 14 tabs nothing reads
 
 Each is imported, exported to JSON and CSV, and structurally checked; none is
 read, quoted or transcribed anywhere in this repository.
 
 | tab | rows | first columns |
 |---|---:|---|
-| `alarms` | 182 | Severity, Code, Exact object, Reference ID |
 | `architecture_metrics` | 73 | Metric, Numerator, Denominator, Value |
 | `capability_records` | 4 | Capability Record ID, Provider / Line, Session / Tool Context |
 | `cold_start_tests` | 78 | Test ID, Generic Prompt, Search Query, Bootstrap Search Rank |
@@ -60,12 +59,17 @@ read, quoted or transcribed anywhere in this repository.
 | `task_intake` | 34 | Intake ID, Created UTC, Creator Session / Provider, Origin Type |
 | `work_orders` | 18 | Work Order ID, Requested UTC, Requesting Session, Provider |
 
-Six more are quoted but not read: `active_work_claims` (71 rows),
-`autonomy_control` (54), `cold_start_control_view` (43),
+Seven more are quoted but not read: `active_work_claims` (71 rows), `alarms`
+(182), `autonomy_control` (54), `cold_start_control_view` (43),
 `no_change_certificates` (5), `p02_exact_hash_review_manifest` (15) and
-`run_log` (32).
+`run_log` (32). `alarms` joined them on 2026-09-20, when the
+12_P1.1_LAW_SPECIFIC_Q_MACHINE lane README quoted it; until then nothing in the
+repository named it and it sat in the table above.
 
-That is 21 tabs, 1,181 rows, whose content reaches nothing in this repository.
+That is 21 tabs, 1,190 rows, whose content reaches nothing in this repository.
+(Until 2026-09-20 this line said 1,181 rows. Re-added from the per-tab counts above,
+which are each correct, the total is 1,190; the old figure was an arithmetic slip and
+not a changed export.)
 The mathematics is not among them: the tabs the claim graph, the lanes, the
 carriers, the review routes and the collision proposals depend on —
 `review_queue`, `frozen_objects`, `operator_decisions`, `open_questions`,

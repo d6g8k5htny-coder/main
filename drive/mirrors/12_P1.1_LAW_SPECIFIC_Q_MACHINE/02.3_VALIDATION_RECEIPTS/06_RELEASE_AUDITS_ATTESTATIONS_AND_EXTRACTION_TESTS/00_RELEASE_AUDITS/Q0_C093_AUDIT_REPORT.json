@@ -1,0 +1,106 @@
+{
+  "release_id": "Q0-C093-CLOSEOUT",
+  "valid": true,
+  "issues": [],
+  "checks": {
+    "missing_active_files": [],
+    "json_parse_failures": [],
+    "control_characters": [],
+    "python_compile_failures": [],
+    "absolute_output_paths": [],
+    "semantic_core": {
+      "valid": true,
+      "roots": [
+        "RATE_PROGRAM_GRADE",
+        "Q0_LIMIT"
+      ],
+      "reachable": [
+        "AO_SIDE",
+        "BONFERRONI_INTERNAL",
+        "LAMBDA_SIDE",
+        "LOWER_RATE_PG",
+        "MODEL_EXACT",
+        "ND_PRIME_INTERNAL",
+        "Q0_LIMIT",
+        "R0_SARD_G",
+        "RATE_PROGRAM_GRADE",
+        "TORUS_TRANSFER",
+        "UB_G"
+      ],
+      "issues": [],
+      "root_hashes": {
+        "RATE_PROGRAM_GRADE": "e24569bfedfac0d02a30ea606bcf271ad9a06650b2e935f8bdd81aa917ef5d48",
+        "Q0_LIMIT": "0c643c9d26fdda9e87065b040c6d55d91c932a8748f4a5eb223f1babf10cb4c6"
+      },
+      "gate_counts": {}
+    },
+    "successor_unowned_items": 0,
+    "missing_deprecations": [],
+    "broken_release_index_references": [],
+    "invariants": {
+      "v4_regressions_pass": true,
+      "c092_contract_valid": true,
+      "periodized_exact_ensemble_closed": true,
+      "matrix_transfer_local_pass": true,
+      "matrix_transfer_far_pass": true,
+      "critical_value_gap_exact_reference_closed": true,
+      "corridor_product_rejected": true,
+      "palm_weighted_chernoff_available": true
+    },
+    "deep_execution_requested": true,
+    "deep_executions": [
+      {
+        "script": "periodized_bf_contract.py",
+        "returncode": 0,
+        "stdout_tail": "5525e-86\",\n      \"(1,6)\": \"4.10492661303950013218747e-87\",\n      \"(2,5)\": \"5.04729893248918744869317e-88\",\n      \"(3,4)\": \"7.61820248014328368564892e-89\",\n      \"(4,3)\": \"7.61820248014328368564892e-89\",\n      \"(5,2)\": \"5.04729893248918744869317e-88\",\n      \"(6,1)\": \"4.10492661303950013218747e-87\",\n      \"(7,0)\": \"3.7244380201025606915525e-86\",\n      \"(0,8)\": \"1.01517510247558014431492e-84\",\n      \"(1,7)\": \"1.11734007581873736885992e-85\",\n      \"(2,6)\": \"1.36883238004915898495171e-86\",\n      \"(3,5)\": \"1.85011332033566236058343e-87\",\n      \"(4,4)\": \"5.11709072564093667174486e-88\",\n      \"(5,3)\": \"1.85011332033566236058343e-87\",\n      \"(6,2)\": \"1.36883238004915898495171e-86\",\n      \"(7,1)\": \"1.11734007581873736885992e-85\",\n      \"(8,0)\": \"1.01517510247558014431492e-84\"\n    },\n    \"interpretation\": \"These bounds concern local replacement of exact K_L by the planar Gaussian kernel. Global torus calculations must use K_L itself.\"\n  },\n  \"contract_status\": {\n    \"exact_ensemble_definition\": \"CLOSED\",\n    \"local_derivative_comparison_formula\": \"CLOSED\",\n    \"transfer_of_every_program_matrix_inequality\": \"OPEN: each inequality must consume these or sharper interval bounds explicitly\"\n  }\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "periodized_bf_matrix_transfer.py",
+        "returncode": 0,
+        "stdout_tail": "\"delta_A_operator\": 1.669046293390756e-89,\n    \"delta_B_operator\": 1.3513434253439006e-24,\n    \"delta_C_operator\": 1.1126975289271706e-89,\n    \"B_operator_bound\": 0.021305682612286506,\n    \"A_inverse_bound\": 32314723801381.645,\n    \"Atilde_inverse_bound\": 32314723801381.645,\n    \"inverse_difference_bound\": 1.742887195280128e-62,\n    \"conditional_covariance_schur_error\": 1.8607654347815926e-12,\n    \"conditional_mean_error\": 7.410754479405395e-11,\n    \"retrieved_KR_floor\": 1.4e-08,\n    \"schur_error_over_floor\": 0.00013291181677011377,\n    \"floor_after_transfer\": 1.3998139234565218e-08,\n    \"status\": \"PASS\"\n  },\n  \"adjudication\": {\n    \"G_TORUS_LOCAL\": \"CLOSED for covariance, inverse, conditional mean, and Schur uses within declared dimensions/order/domain.\",\n    \"G_TORUS_FAR_STATIONS\": \"CLOSED for value/gradient/Hessian station covariance uses with pin-target distance in [5,12] and target dimension <=6.\",\n    \"remaining\": \"Global integrals must identify dimensions and distance partitions; any use beyond order 4 or outside declared domains gets a new row.\",\n    \"raw_frame_note\": \"The proof passes using the tiny raw 9-pin floor; a regularized frame would further enlarge margin.\"\n  }\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "bf_two_critical_value_gap.py",
+        "returncode": 0,
+        "stdout_tail": "728655067,\n      \"max_joint_density_A_Z\": 0.9548799254835247,\n      \"max_average_density\": 0.488615235098302\n    },\n    {\n      \"d\": 0.01,\n      \"var_average\": 0.6666611112037025,\n      \"var_gap_over_d6\": 0.041667708338540714,\n      \"max_joint_density_A_Z\": 0.9549217008771733,\n      \"max_average_density\": 0.48860454772551287\n    },\n    {\n      \"d\": 0.001,\n      \"var_average\": 0.6666666111111204,\n      \"var_gap_over_d6\": 0.04166667708333385,\n      \"max_joint_density_A_Z\": 0.9549295789739077,\n      \"max_average_density\": 0.4886025322613558\n    }\n  ],\n  \"window_geometry\": {\n    \"statement\": \"For a height interval W of width ell, the set of (A,Z) for which both values lie in W has area ell^2/d^3. Also its A-projection has length ell.\",\n    \"probability_bound\": \"P(V_-,V_+ in W | two gradients zero) <= min(B_A*ell, B_AZ*ell^2/d^3), where B_A and B_AZ are density suprema.\"\n  },\n  \"adjudication\": {\n    \"exact_planar_mark_law\": \"CLOSED\",\n    \"six_pin_uniform_transfer\": \"OPEN\",\n    \"importance\": \"The critical-value difference scale is d^3, so the near-diagonal Bonferroni proof must split at d approximately ell^(1/3), rather than factor two height-window lengths uniformly down to d=0.\"\n  }\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "gaussian_corridor_certificate.py",
+        "returncode": 0,
+        "stdout_tail": "t_diagnostic\": 3.2552060439872845e-10,\n      \"product_is_valid_upper_for_this_skeleton\": false\n    }\n  ],\n  \"adjudication\": {\n    \"naive_markov_product_status\": \"REJECTED AS A GENERAL UPPER BOUND\",\n    \"number_of_tested_skeletons_where_product_underestimates\": 6,\n    \"counterexample_labels\": [\n      \"r=0.025: two two-cell branches\",\n      \"r=0.025: one three-cell east chain\",\n      \"r=0.025: two three-cell branches\",\n      \"r=0.05: two two-cell branches\",\n      \"r=0.05: one three-cell east chain\",\n      \"r=0.05: two three-cell branches\"\n    ],\n    \"important\": \"The numerical orthant values are diagnostics, not interval proofs. The invalid-product conclusion is robust by factors well above numerical CDF error in the listed counterexamples.\",\n    \"H4_replacement_gate\": [\n      \"freeze the actual finite corridor skeleton family\",\n      \"interval-enclose each six-pin conditional mean and covariance matrix\",\n      \"solve/evaluate a nonnegative Chernoff witness for each skeleton\",\n      \"incorporate the Palm determinant weight using the weighted-Chernoff theorem\",\n      \"multiply by certified ring/sector weights\",\n      \"sum over path entropy and carry one-sided uncertainty\"\n    ]\n  }\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "palm_weighted_gaussian_chernoff.py",
+        "returncode": 0,
+        "stdout_tail": " regression, typing probabilities, and interval Schur blocks\",\n    \"remaining_H4_inputs\": [\n      \"freeze the actual corridor skeleton/path family\",\n      \"interval-enclose mu_X, Sigma_XX, and Sigma_HX\",\n      \"evaluate shifted typed determinant moments\",\n      \"optimize or supply nonnegative theta witnesses\",\n      \"sum certified bounds over path entropy and ring/sector mass\"\n    ]\n  },\n  \"demo\": {\n    \"parameters\": {\n      \"mu_H\": -0.7,\n      \"mu_X\": 0.15,\n      \"Var_H\": 1.4,\n      \"Var_X\": 0.9,\n      \"Cov_HX\": 0.55,\n      \"threshold\": 1.0,\n      \"weight\": \"H^2\",\n      \"sample_size\": 3000000\n    },\n    \"weighted_tail_monte_carlo\": 0.11282644938476477,\n    \"unweighted_tail_exact\": 0.18513207758975314,\n    \"weighted_chernoff_certificate\": {\n      \"bound\": 0.5036781022562649,\n      \"theta\": [\n        1.050173876465476\n      ],\n      \"log_bound\": -0.6858179009570317,\n      \"optimizer_success\": true,\n      \"optimizer_message\": \"CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL\"\n    },\n    \"certificate_exceeds_monte_carlo\": true\n  },\n  \"adjudication\": {\n    \"Palm_weight_issue\": \"SOLVED AT THEOREM LEVEL\",\n    \"H4_numeric_certificate\": \"OPEN\",\n    \"naive_q_step_product\": \"REJECTED\"\n  }\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "validate_q0_llm_verifier_v4.py",
+        "returncode": 0,
+        "stdout_tail": "lse,\n      \"gates\": [\n        \"MARK\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"missing_composition_witness\": {\n      \"valid\": false,\n      \"gates\": [\n        \"COMPOSITION\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"endpoint_failure\": {\n      \"valid\": false,\n      \"gates\": [\n        \"ENDPOINT\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"missing_rung_tag\": {\n      \"valid\": false,\n      \"gates\": [\n        \"RUNG\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"uncertainty_polarity\": {\n      \"valid\": false,\n      \"gates\": [\n        \"POLARITY\"\n      ],\n      \"expected_gate_detected\": true\n    }\n  },\n  \"numerical_regressions\": {\n    \"grounding_c0\": 0.66,\n    \"grounding_c2\": 0.66,\n    \"retained_grounding_edges\": 3,\n    \"anchored_rkhs_score_squared\": 0.06493872436962203,\n    \"q_sard_rank_deficient_bound\": 0.00041887902047863933,\n    \"effective_transverse_rank\": 2,\n    \"coverage_floor\": 0.002,\n    \"target_below_coverage_floor_rejected\": true,\n    \"rank_for_target_0p01_after_coverage\": 4,\n    \"selection_aware_total_risk\": 0.0323,\n    \"selection_aware_exponential_limit_floor\": 0.032100000000000004\n  },\n  \"all_expected_checks_pass\": true\n}\n",
+        "stderr_tail": ""
+      },
+      {
+        "script": "q0_c092_contract_checker.py",
+        "returncode": 0,
+        "stdout_tail": "exists\": true,\n      \"sha256\": \"330748d90f2f7164dd5aaa8fac0222494067b60172506684817de0eb2442e1bb\",\n      \"bytes\": 3279\n    },\n    \"q0_c092_final_contract.json\": {\n      \"exists\": true,\n      \"sha256\": \"7d59266efa7148248647bd9619520e3b59ea4f44e5e9201e6ef760de96151190\",\n      \"bytes\": 16698\n    },\n    \"q0_llm_verifier_v4.py\": {\n      \"exists\": true,\n      \"sha256\": \"5305c19577649e424c99cb4a5165bb1cb05f71dabe4477c0d3b2fd9ceab279cc\",\n      \"bytes\": 36551\n    },\n    \"validate_q0_llm_verifier_v4.py\": {\n      \"exists\": true,\n      \"sha256\": \"d3d92ffe9cea955de08ec1a905fd115fcd569f92ea5572e684936b3bee369f7d\",\n      \"bytes\": 4429\n    },\n    \"q0_llm_verifier_v4_validation.json\": {\n      \"exists\": true,\n      \"sha256\": \"6b058bb0bdea6e18dc7ef4a0ad9502aae8cbb22a584182d07544914da4249ec0\",\n      \"bytes\": 1926\n    }\n  },\n  \"completion_definition\": {\n    \"program_finished\": true,\n    \"finished_scope\": \"fixed-L=24, b=1.2 q0 Rate Program at its declared program/verification-grade standard\",\n    \"core_roots\": [\n      \"RATE_PROGRAM_GRADE\",\n      \"Q0_LIMIT\"\n    ],\n    \"core_has_open_nodes\": false,\n    \"external_referee_conversion_is_separate\": true,\n    \"future_extensions_do_not_reopen_core\": true\n  }\n}\n",
+        "stderr_tail": ""
+      }
+    ]
+  },
+  "declared_terminal_dispositions": [
+    "CORE-CLOSED",
+    "KILLED",
+    "SUPERSEDED",
+    "DISPOSITIONED-SUCCESSOR",
+    "EXTERNAL-REVIEW-TRACK",
+    "NOT-CLAIMED",
+    "RELEASE-CLOSED"
+  ],
+  "unowned_items": 0
+}

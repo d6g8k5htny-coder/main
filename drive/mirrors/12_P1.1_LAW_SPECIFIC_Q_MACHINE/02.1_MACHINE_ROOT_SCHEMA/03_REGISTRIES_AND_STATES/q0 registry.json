@@ -1,0 +1,358 @@
+{
+  "schema": "gate-kernel/1.2",
+  "claims": [
+    {
+      "id": "R0",
+      "statement": "Remainder of the pairing-failure expansion under typed pair-Palm at rate order O(r^3): currently unbounded.",
+      "grade": "Open",
+      "content_hash": "R0#a1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {},
+      "required_marks": [],
+      "supplied_marks": [],
+      "direction": "none",
+      "uncertainty_side": "none",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "inner_bound",
+      "statement": "inner-region pairing-failure bound",
+      "grade": "Proven",
+      "content_hash": "inner#1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {
+        "r": [
+          0.0,
+          1.0
+        ],
+        "b": [
+          0.0,
+          3.0
+        ]
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "b"
+      ],
+      "direction": "upper",
+      "uncertainty_side": "plus",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "far_bound",
+      "statement": "far-region pairing-failure bound",
+      "grade": "Proven",
+      "content_hash": "far#1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {
+        "r": [
+          0.0,
+          1.0
+        ],
+        "b": [
+          0.0,
+          3.0
+        ]
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "b"
+      ],
+      "direction": "upper",
+      "uncertainty_side": "plus",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "bdry_bound",
+      "statement": "boundary-region pairing-failure bound",
+      "grade": "Proven",
+      "content_hash": "bdry#1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {
+        "r": [
+          0.0,
+          1.0
+        ],
+        "b": [
+          0.0,
+          3.0
+        ]
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "b"
+      ],
+      "direction": "upper",
+      "uncertainty_side": "plus",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "cm_node",
+      "statement": "Change of measure: Gaussian-pinned weight -> pair-Palm weight (Palm/Slivnyak accounting).",
+      "grade": "Proven",
+      "content_hash": "cm#1",
+      "status": "live",
+      "measure_tag": "",
+      "model_tag": "",
+      "parameter_domain": {},
+      "required_marks": [],
+      "supplied_marks": [],
+      "direction": "none",
+      "uncertainty_side": "none",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "cw_node",
+      "statement": "Composition witness: union bound over the three disjoint regions.",
+      "grade": "Proven",
+      "content_hash": "cw#1",
+      "status": "live",
+      "measure_tag": "",
+      "model_tag": "",
+      "parameter_domain": {},
+      "required_marks": [],
+      "supplied_marks": [],
+      "direction": "none",
+      "uncertainty_side": "none",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "C_const",
+      "statement": "Coefficient C in the C*r^3 ceiling (closed form + numerical value).",
+      "grade": "Derived",
+      "content_hash": "C#1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {},
+      "required_marks": [],
+      "supplied_marks": [],
+      "direction": "none",
+      "uncertainty_side": "none",
+      "measured_values": [
+        [
+          "C",
+          "0.4127",
+          "units of r^3"
+        ]
+      ],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "agreement_based",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "pinned_input",
+      "statement": "A coefficient computed under Gaussian-pinning.",
+      "grade": "Proven",
+      "content_hash": "pin#1",
+      "status": "live",
+      "measure_tag": "Gaussian-pinned",
+      "model_tag": "",
+      "parameter_domain": {},
+      "required_marks": [],
+      "supplied_marks": [],
+      "direction": "none",
+      "uncertainty_side": "none",
+      "measured_values": [],
+      "is_combination": false,
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": []
+    },
+    {
+      "id": "T_main",
+      "statement": "Pairing-failure probability <= C*r^3 under pair-Palm, for r in (0, r0], b in B.",
+      "grade": "Proven-Modulo",
+      "content_hash": "T#1",
+      "status": "live",
+      "measure_tag": "pair-Palm",
+      "model_tag": "kernelK",
+      "parameter_domain": {
+        "r": [
+          0.0,
+          1.0
+        ],
+        "b": [
+          0.0,
+          3.0
+        ]
+      },
+      "required_marks": [
+        "b"
+      ],
+      "supplied_marks": [
+        "b"
+      ],
+      "direction": "upper",
+      "uncertainty_side": "plus",
+      "measured_values": [
+        [
+          "C",
+          "0.4127",
+          "units of r^3"
+        ]
+      ],
+      "is_combination": true,
+      "finite_range_bound": true,
+      "registered_endpoints": [
+        [
+          "r=r0",
+          "C*r0^3",
+          true
+        ],
+        [
+          "r->0+",
+          "0",
+          true
+        ]
+      ],
+      "failure_regions": {},
+      "global_suppression_argument": false,
+      "verification": "none",
+      "error_independence_arg": false,
+      "external_crosscheck": false,
+      "heuristic_step": false,
+      "closed_core": false,
+      "edges": [
+        {
+          "target": "inner_bound",
+          "kind": "support",
+          "pinned_hash": "inner#1",
+          "conditional": false,
+          "scope_covers": true
+        },
+        {
+          "target": "far_bound",
+          "kind": "support",
+          "pinned_hash": "far#1",
+          "conditional": false,
+          "scope_covers": true
+        },
+        {
+          "target": "bdry_bound",
+          "kind": "support",
+          "pinned_hash": "bdry#1",
+          "conditional": false,
+          "scope_covers": true
+        },
+        {
+          "target": "cw_node",
+          "kind": "composition_witness",
+          "pinned_hash": "cw#1",
+          "conditional": false,
+          "scope_covers": true
+        },
+        {
+          "target": "cm_node",
+          "kind": "change_of_measure",
+          "pinned_hash": "cm#1",
+          "conditional": false,
+          "scope_covers": true
+        },
+        {
+          "target": "C_const",
+          "kind": "support",
+          "pinned_hash": "C#1",
+          "conditional": true,
+          "scope_covers": true
+        },
+        {
+          "target": "R0",
+          "kind": "support",
+          "pinned_hash": "R0#a1",
+          "conditional": true,
+          "scope_covers": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "cycle": "C105",
+  "pass": 12,
+  "phase": "freeze",
+  "timestamp_utc": "2026-07-19T02:30:45.147126+00:00",
+  "inherits": {
+    "Q0_C102_referee_bundle_sha256": "4cc7aa1aa1188875a265a8e05f3081e07a430561c2af50f1c0683751a82692e1",
+    "Q0_C104_theorem_B_bundle_sha256": "1d7da15e6215fde30ed1bfe7627867d9998109e8653c79b1a51277e36b624076",
+    "Q0_rate_roots": {
+      "Q0_CUBIC_RATE_CONDITIONAL_MS_C102": "048cded5d1318f640a5e0dd11ce698db47da10ff1a8fbff09cabba340c43518b",
+      "Q0_LIMIT_CONDITIONAL_MS_C102": "74e2b92380afb670135d758b671759f1fdacd1eef3d79c60ea5757329c2c1ada",
+      "Q0_CUBIC_RATE_FULL_GAUSSIAN_PROGRAM_C102": "04ee0be089a106522dbb732177b23c19f3e697770117c9e682ba182f9b7dc090",
+      "Q0_LIMIT_FULL_GAUSSIAN_PROGRAM_C102": "23c89b2a369472b9dbdb2b48417ba8f5cf7383dcdd1b41622d4fe7baed4f20ec"
+    },
+    "Theorem_B_roots": {
+      "THEOREM_B_FULL_KAPPA_C104": "6f9d5b233ec7551e25ff7c51a0e49af6de7a318837488b3174cdfcdb6b07a6ca",
+      "Q0_B_PROJECT_CLOSE_C104": "5771999a8d61dfa3c933b2131e6dbdc919c69465949371cc9327a8fa564bcc8c"
+    }
+  },
+  "project": "Q0-IV infinite volume and critical height",
+  "load_bearing_target": "Fixed-b thermodynamic stabilization of the pairing-defect rate and selected-set Campbell control under the configured pair-Palm law.",
+  "terminal_states": [
+    "CORE-CLOSED new thermodynamic-limit root",
+    "KILLED with uniform-tail counterevidence",
+    "BLOCKED-EXTERNAL with a named unavailable capability"
+  ],
+  "central_hypotheses": [
+    {
+      "id": "PALM-SUSCEPTIBILITY",
+      "statement": "At every fixed b>0, the pair-Palm influence region has a uniformly finite area/radius moment as r tends to zero and L tends to infinity.",
+      "kill_condition": "Boundary-touch probability or influence-area tails fail to stabilize with L at a fixed positive b."
+    },
+    {
+      "id": "SELECTED-SET-CAMPBELL",
+      "statement": "The expected number of window saddles in the random influence region is bounded by a finite selection-amplification factor times its expected area and the stationary marked intensity.",
+      "kill_condition": "The cross-fitted selection coefficient grows without bound as the height window shrinks or L increases."
+    },
+    {
+      "id": "CRITICAL-HEIGHT-CROSSOVER",
+      "statement": "Fixed positive b is subcritical and stabilizing; susceptibility diverges only as b approaches zero.",
+      "kill_condition": "A fixed b>0 exhibits nonvanishing wrap probability or unbounded stabilized influence size as L increases."
+    }
+  ],
+  "frozen_experiment": {
+    "L_values": [
+      24,
+      48,
+      96,
+      192
+    ],
+    "b_values": [
+      1.2,
+      0.8,
+      0.4,
+      0.2
+    ],
+    "r_values": [
+      0.025,
+      0.0125,
+      0.00625
+    ],
+    "required_measurements": [
+      "q_L(r,b)",
+      "total exterior window saddles",
+      "adjacency-qualified exterior window saddles",
+      "influence-region area",
+      "influence-region radius",
+      "boundary-touch/wrap indicator",
+      "same-field selected window-saddle count",
+      "cross-fitted independent-field selected count",
+      "selection coefficient lambda"
+    ],
+    "artifact_control": [
+      "de-truncation controlled by requiring negligible wrap probability",
+      "same Fourier conventions at every L",
+      "adaptive critical-point localization",
+      "merge-tree construction rather than raw cluster area alone",
+      "fixed seeds and sample counts before execution"
+    ]
+  },
+  "competing_predictions": [
+    {
+      "id": "GLOBAL-HAZARD",
+      "prediction": "-log q_L collapses against L^2 r^3"
+    },
+    {
+      "id": "ADJACENCY-STABILIZATION",
+      "prediction": "(1-q_L)/r^3 converges to an L-independent finite limit at every fixed b>0"
+    },
+    {
+      "id": "CRITICAL-CROSSOVER",
+      "prediction": "stabilization degrades with decreasing b and fails only at the b=0 critical level"
+    }
+  ],
+  "existing_priors_not_theorem_inputs": [
+    "The value-pin BF probe showed wrap probability tending to zero through b=0.2 by L=96 and indicated a large but finite susceptibility near b=0.2.",
+    "The selected-set Campbell instrument reported order-one selection amplification around 4.5-5.5 over its resolved thin-window range, not evidence of divergence."
+  ],
+  "objectives": [
+    {
+      "id": "C105-O1",
+      "name": "Influence-region definition",
+      "pass": "Define the minimal merge-tree data region determining the death partner and prove measurability/localization interfaces."
+    },
+    {
+      "id": "C105-O2",
+      "name": "Selected-set Campbell identity",
+      "pass": "Write the exact same-field versus independent-field cross-fit identity and isolate lambda as a weighted Palm likelihood ratio."
+    },
+    {
+      "id": "C105-O3",
+      "name": "Thermodynamic experiment",
+      "pass": "Execute all frozen L,b,r cells with wrap-controlled sample sizes and report finite-size scaling without post hoc cell deletion."
+    },
+    {
+      "id": "C105-O4",
+      "name": "Fixed-b theorem or kill",
+      "pass": "Either prove finite fixed-b susceptibility and selected-set Campbell control, or issue a registered kill with the first fixed positive height at which uniformity fails."
+    },
+    {
+      "id": "C105-O5",
+      "name": "Critical-height law",
+      "pass": "Estimate or bound the divergence of susceptibility and selection amplification as b approaches zero."
+    }
+  ],
+  "no_import_from_value_pin_to_pair_Palm_without_bridge": true,
+  "no_L2_global_hazard_promotion_without_adjacency_test": true,
+  "planned_artifacts": [
+    "C105_FREEZE.json",
+    "C105_INFLUENCE_REGION_DEFINITION.md",
+    "C105_SELECTED_SET_CAMPBELL.md",
+    "C105_THERMODYNAMIC_EXPERIMENT.py",
+    "C105_THERMODYNAMIC_RESULTS.json",
+    "C105_FIXED_B_ADJUDICATION.md",
+    "C105_CRITICAL_HEIGHT_ADJUDICATION.md",
+    "q0_c105_iv_contract.json",
+    "q0_c105_iv_contract_report.json",
+    "C105_E_LEDGER.md",
+    "C105_STATE.json"
+  ]
+}

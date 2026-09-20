@@ -1,0 +1,3650 @@
+{
+  "validator": "q0_llm_verifier_v5",
+  "cases": [
+    {
+      "name": "current_q0_residual_gap",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "ASSEMBLY",
+          "UB_G_RESIDUAL_UNIFORM"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "ASSEMBLY",
+          "UB_G_RESIDUAL_UNIFORM"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "UB_G_435",
+          "Q0_LIMIT_C094"
+        ],
+        "reachable": [
+          "MODEL_EXACT",
+          "Q0_LIMIT_C094",
+          "UB_G_435"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "UB_G_435",
+            "Q0_LIMIT_C094"
+          ],
+          "reachable": [
+            "MODEL_EXACT",
+            "Q0_LIMIT_C094",
+            "UB_G_435"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "UB_G_435": "0aba5bb26ced4b153d4cbcec33d71dc4582148ba2cbd55a44e9cc355cd8908d0",
+            "Q0_LIMIT_C094": "ddeda5b405a7e6943a1e8973ba08b789e6ba57d31ca6f2a9f7181035f5e2c9f9"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "MODEL_EXACT",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "SCHEMA",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "Q0_LIMIT_C094",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "SCHEMA",
+            "claim_id": "UB_G_435",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "UB_G_435",
+            "verdict": "FAIL",
+            "message": "named residual terms are absent from the arithmetic expression inputs: collar, gamma",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "UB_G_435",
+            "verdict": "PASS",
+            "message": "ANALYTIC_UNIFORM_BOUND certificate covers full domain",
+            "evidence_id": "UB_G_UNIFORM",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "UB_G_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "UB_G_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "UB_G_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "UB_G_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "TORUS-GLOBAL-PARTITION",
+            "claim_id": "UB_G_435",
+            "verdict": "PASS",
+            "message": "active domain-specific gate is closed",
+            "evidence_id": "C091-MATRIX-TRANSFER",
+            "grade_cap": null
+          },
+          {
+            "gate": "UB_G_RESIDUAL_UNIFORM",
+            "claim_id": "UB_G_435",
+            "verdict": "FAIL",
+            "message": "active gate status is OPEN",
+            "evidence_id": "C095-RESIDUAL-SOURCE-SEARCH",
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "UB_G_435",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 3
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 2,
+            "FAIL": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 2,
+            "PASS": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 3
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 3
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 3
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 3
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 3
+          },
+          "TORUS-GLOBAL-PARTITION": {
+            "PASS": 1
+          },
+          "UB_G_RESIDUAL_UNIFORM": {
+            "FAIL": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "second_domain_matrix_perturbation",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "MATRIX_PERTURBATION_THEOREM": "1f2c349058aa638ac7dcaf09079e3bf74007010e688ecf8f7333765a3c9eebd5"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "MATRIX_PERTURBATION_THEOREM"
+        ],
+        "reachable": [
+          "MATRIX_PERTURBATION_THEOREM",
+          "NEUMANN_SERIES_LEMMA"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "MATRIX_PERTURBATION_THEOREM"
+          ],
+          "reachable": [
+            "MATRIX_PERTURBATION_THEOREM",
+            "NEUMANN_SERIES_LEMMA"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "MATRIX_PERTURBATION_THEOREM": "8636c23413caa6fed7b91af10cb652cacf478591fd2bdf1dd23348c2ab3a8024"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "PASS",
+            "message": "displayed 5 conservatively encloses recomputed 5",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "PASS",
+            "message": "MONOTONICITY certificate covers full domain",
+            "evidence_id": "MATRIX-PERTURBATION-RHO-MONOTONE",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "MATRIX_PERTURBATION_THEOREM",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "SCHEMA",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "PASS",
+            "message": "displayed 5 conservatively encloses recomputed 5",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "PASS",
+            "message": "MONOTONICITY certificate covers full domain",
+            "evidence_id": "NEUMANN-RHO-MONOTONE",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "NEUMANN_SERIES_LEMMA",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "MATRIX_PERTURBATION_THEOREM": "1f2c349058aa638ac7dcaf09079e3bf74007010e688ecf8f7333765a3c9eebd5"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 2
+          },
+          "ASSEMBLY": {
+            "PASS": 2
+          },
+          "DOMAIN-INFIMUM": {
+            "PASS": 2
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 2
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 2
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 2
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 2
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "assembly_ubg_down_round",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "ASSEMBLY"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "ASSEMBLY"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "UBG_BAD_43"
+        ],
+        "reachable": [
+          "UBG_BAD_43"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "UBG_BAD_43"
+          ],
+          "reachable": [
+            "UBG_BAD_43"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "UBG_BAD_43": "b96dc151c2a64f9340006e49a301259193083d0f46497a137a4f0423b0631acf"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "FAIL",
+            "message": "displayed upper 4.3 < recomputed 4.35",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "UBG_BAD_43",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "FAIL": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "assembly_ubg_round_up",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "UBG_GOOD_435": "dcefb7f94e52a062c2d4d8c2db48b9e7aef1330447fe40fdb7d1d9edbfe1423d"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "UBG_GOOD_435"
+        ],
+        "reachable": [
+          "UBG_GOOD_435"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "UBG_GOOD_435"
+          ],
+          "reachable": [
+            "UBG_GOOD_435"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "UBG_GOOD_435": "02db980e3b6000d005e81d3f8764b2c03d3963cc0bec50fb89889be5de210319"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "PASS",
+            "message": "displayed 4.35 conservatively encloses recomputed 4.35",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "UBG_GOOD_435",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "UBG_GOOD_435": "dcefb7f94e52a062c2d4d8c2db48b9e7aef1330447fe40fdb7d1d9edbfe1423d"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "PASS": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "assembly_lower_losses_omitted",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "ASSEMBLY"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "ASSEMBLY"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "LOWER_BAD"
+        ],
+        "reachable": [
+          "LOWER_BAD"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "LOWER_BAD"
+          ],
+          "reachable": [
+            "LOWER_BAD"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "LOWER_BAD": "7cc2153690303e313d48b843e883b006b4aacc86e0f1ee6fe11a702f26da0f0b"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "LOWER_BAD",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "LOWER_BAD",
+            "verdict": "FAIL",
+            "message": "displayed lower 0.8411 > recomputed 0.841062150794385",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "LOWER_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "LOWER_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "LOWER_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "LOWER_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "LOWER_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "LOWER_BAD",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "FAIL": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "assembly_named_residuals_missing",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "ASSEMBLY"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "ASSEMBLY"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "UPPER_RESIDUAL_MISSING"
+        ],
+        "reachable": [
+          "UPPER_RESIDUAL_MISSING"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "UPPER_RESIDUAL_MISSING"
+          ],
+          "reachable": [
+            "UPPER_RESIDUAL_MISSING"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "UPPER_RESIDUAL_MISSING": "4ee5b8836efc1c8e6f0ccbe1c4528ba0c562fa527c6b2ee278fa5e49bee71215"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "FAIL",
+            "message": "named residual terms are absent from the arithmetic expression inputs: collar, gamma",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "UPPER_RESIDUAL_MISSING",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "FAIL": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "domain_infimum_rung_sample",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "DOMAIN-INFIMUM"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "DOMAIN-INFIMUM"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "RUNG_ONLY_80"
+        ],
+        "reachable": [
+          "RUNG_ONLY_80"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "RUNG_ONLY_80"
+          ],
+          "reachable": [
+            "RUNG_ONLY_80"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "RUNG_ONLY_80": "59b78999d9af6898944dcc6fed75243a262f920412df8ef30c2dae2f27502b18"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "FAIL",
+            "message": "RUNG_SAMPLE is not a full-domain certificate",
+            "evidence_id": "RUNG-SAMPLE",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "RUNG_ONLY_80",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "FAIL": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "domain_infimum_true_value_below_80",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "DOMAIN-INFIMUM"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "DOMAIN-INFIMUM"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "FULL_INFIMUM_FALSE_80"
+        ],
+        "reachable": [
+          "FULL_INFIMUM_FALSE_80"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "FULL_INFIMUM_FALSE_80"
+          ],
+          "reachable": [
+            "FULL_INFIMUM_FALSE_80"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "FULL_INFIMUM_FALSE_80": "997578c658d5fe5cbb10af6c6b48e73fa0f3468da55cba521eb3591823d99e66"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "FAIL",
+            "message": "certified infimum 79.9889203915211757 lies below bound 80.0",
+            "evidence_id": "FULL-INFIMUM",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "FULL_INFIMUM_FALSE_80",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "FAIL": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "domain_infimum_conservative_target",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "FULL_INFIMUM_TRUE_79P988": "a15e443bca4454e861806385cc6628d8346dccf3fd1aef89217f2e9087b4e111"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "FULL_INFIMUM_TRUE_79P988"
+        ],
+        "reachable": [
+          "FULL_INFIMUM_TRUE_79P988"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "FULL_INFIMUM_TRUE_79P988"
+          ],
+          "reachable": [
+            "FULL_INFIMUM_TRUE_79P988"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "FULL_INFIMUM_TRUE_79P988": "38e26deb9aa9614287295af5c7b3ba2757962ec09368db2e3afd932c9b06e770"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "PASS",
+            "message": "ASYMPTOTIC_MONOTONICITY certificate covers full domain",
+            "evidence_id": "FULL-INFIMUM",
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "FULL_INFIMUM_TRUE_79P988",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "FULL_INFIMUM_TRUE_79P988": "a15e443bca4454e861806385cc6628d8346dccf3fd1aef89217f2e9087b4e111"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "PASS": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "band_missing_provenance",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "SCHEMA",
+          "BAND-PROVENANCE"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "BAND-PROVENANCE",
+          "SCHEMA"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "BAND_MISSING"
+        ],
+        "reachable": [
+          "BAND_MISSING"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "BAND_MISSING"
+          ],
+          "reachable": [
+            "BAND_MISSING"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "BAND_MISSING": "43e0a16c00d42b97662aeb18fa54a8f7321e3a00930ecbe2d65102144f2cb463"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "BAND_MISSING",
+            "verdict": "FAIL",
+            "message": "missing required fields: uncertainty_provenance",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "BAND_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "BAND_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "BAND_MISSING",
+            "verdict": "FAIL",
+            "message": "missing uncertainty provenance",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "BAND_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "BAND_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "BAND_MISSING",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "BAND_MISSING",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "FAIL": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "FAIL": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "band_complete",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "BAND_COMPLETE": "2379831b7b34678b1491f26d77e382384c60c3accbb48ff106f9a33afaad6e72"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "BAND_COMPLETE"
+        ],
+        "reachable": [
+          "BAND_COMPLETE"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "BAND_COMPLETE"
+          ],
+          "reachable": [
+            "BAND_COMPLETE"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "BAND_COMPLETE": "4bce995bd72287a8e4ace57d393a4a32fa0b0fcca1c119efb331f2b5c9caea33"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "PASS",
+            "message": "STATISTICAL uncertainty metadata is complete",
+            "evidence_id": "BAND-CERT",
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "BAND_COMPLETE",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "BAND_COMPLETE": "2379831b7b34678b1491f26d77e382384c60c3accbb48ff106f9a33afaad6e72"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "PASS": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "band_randomized_no_state",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "BAND-PROVENANCE"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "BAND-PROVENANCE"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "RANDOM_DIAGNOSTIC"
+        ],
+        "reachable": [
+          "RANDOM_DIAGNOSTIC"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "RANDOM_DIAGNOSTIC"
+          ],
+          "reachable": [
+            "RANDOM_DIAGNOSTIC"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "RANDOM_DIAGNOSTIC": "2ddb4853a675fd9098f2b65cad4f74768490c1293057cb3656c03d0bc90bee8f"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "FAIL",
+            "message": "randomized numerical output lacks seed/algorithm state",
+            "evidence_id": "RANDOM-NO-SEED",
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "RANDOM_DIAGNOSTIC",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "FAIL": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "common_mode_shared_certified",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "GRADE-CAP"
+        ],
+        "required_provisional_gates": [
+          "COMMON-MODE"
+        ]
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "GRADE-CAP"
+        ],
+        "provisional_gates": [
+          "COMMON-MODE"
+        ],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "AGREEMENT_SHARED"
+        ],
+        "reachable": [
+          "AGREEMENT_SHARED"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "AGREEMENT_SHARED"
+          ],
+          "reachable": [
+            "AGREEMENT_SHARED"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "AGREEMENT_SHARED": "c5f55b3f60976bd76739f6cb7a8067f7d1b8b737ad2aa03532a671d92359e72c"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "PROVISIONAL",
+            "message": "instrument agreement retains shared or unknown error channels",
+            "evidence_id": "CM-SHARED",
+            "grade_cap": "DERIVED"
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "GRADE-CAP",
+            "claim_id": "AGREEMENT_SHARED",
+            "verdict": "FAIL",
+            "message": "declared warrant CERTIFIED exceeds provisional cap DERIVED",
+            "evidence_id": null,
+            "grade_cap": "DERIVED"
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "PROVISIONAL": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          },
+          "GRADE-CAP": {
+            "FAIL": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "common_mode_independent",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "AGREEMENT_INDEPENDENT": "38828f00b5f7fedd55f57de2df80fcd02ce024769eb75377b99b3c5016993248"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "AGREEMENT_INDEPENDENT"
+        ],
+        "reachable": [
+          "AGREEMENT_INDEPENDENT"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "AGREEMENT_INDEPENDENT"
+          ],
+          "reachable": [
+            "AGREEMENT_INDEPENDENT"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "AGREEMENT_INDEPENDENT": "d4a9043ac9fc6e29ff230f9140cd4d60aba1f0ea613f7cdc875a503b5852ef02"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "PASS",
+            "message": "instruments have a documented disjoint error channel",
+            "evidence_id": "CM-INDEPENDENT",
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "AGREEMENT_INDEPENDENT",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "AGREEMENT_INDEPENDENT": "38828f00b5f7fedd55f57de2df80fcd02ce024769eb75377b99b3c5016993248"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "PASS": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "heuristic_unbridged_derived",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "HEURISTIC-BRIDGE"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "HEURISTIC-BRIDGE"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "HEURISTIC_DERIVED"
+        ],
+        "reachable": [
+          "HEURISTIC_DERIVED"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "HEURISTIC_DERIVED"
+          ],
+          "reachable": [
+            "HEURISTIC_DERIVED"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "HEURISTIC_DERIVED": "644852b26662c2cc1dc24130135bbc53b9effad52ea915f2d67d27201e2c34a0"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "FAIL",
+            "message": "unbridged heuristic is load bearing above Plausible",
+            "evidence_id": null,
+            "grade_cap": "PLAUSIBLE"
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "HEURISTIC_DERIVED",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "FAIL": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "heuristic_unbridged_plausible",
+      "expected": {
+        "valid": true,
+        "promotable": false,
+        "required_fail_gates": [],
+        "required_provisional_gates": [
+          "HEURISTIC-BRIDGE"
+        ]
+      },
+      "observed": {
+        "valid": true,
+        "promotable": false,
+        "fail_gates": [],
+        "provisional_gates": [
+          "HEURISTIC-BRIDGE"
+        ],
+        "root_hashes": {
+          "HEURISTIC_PLAUSIBLE": "8bbe762a3b8391a1e52e2d5841f49003d0f5de13a210802e0499b98f8f73da13"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "HEURISTIC_PLAUSIBLE"
+        ],
+        "reachable": [
+          "HEURISTIC_PLAUSIBLE"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "HEURISTIC_PLAUSIBLE"
+          ],
+          "reachable": [
+            "HEURISTIC_PLAUSIBLE"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "HEURISTIC_PLAUSIBLE": "8e1d880633c8826f60facf86048d5ce9632cd392dff3c4ee261b32a672dfbaa6"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "PROVISIONAL",
+            "message": "unbridged heuristic is retained at Plausible/Conjecture grade",
+            "evidence_id": null,
+            "grade_cap": "PLAUSIBLE"
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "GRADE-CAP",
+            "claim_id": "HEURISTIC_PLAUSIBLE",
+            "verdict": "PASS",
+            "message": "declared warrant respects provisional cap PLAUSIBLE",
+            "evidence_id": null,
+            "grade_cap": "PLAUSIBLE"
+          }
+        ],
+        "root_hashes": {
+          "HEURISTIC_PLAUSIBLE": "8bbe762a3b8391a1e52e2d5841f49003d0f5de13a210802e0499b98f8f73da13"
+        },
+        "valid": true,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "PROVISIONAL": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          },
+          "GRADE-CAP": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "heuristic_bridged",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "HEURISTIC_BRIDGED": "ed8de331f0a7477ddca02647224e24ff23dc6187cd810c493b138875474c16b8"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "HEURISTIC_BRIDGED"
+        ],
+        "reachable": [
+          "ANALOGY_BRIDGE",
+          "HEURISTIC_BRIDGED"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "HEURISTIC_BRIDGED"
+          ],
+          "reachable": [
+            "HEURISTIC_BRIDGED"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "HEURISTIC_BRIDGED": "0206801c09e5f43f6dfcfec2f090acbbbbe25d463702678a0a3a05f11cf9f056"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "ANALOGY_BRIDGE",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "SCHEMA",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "PASS",
+            "message": "load-bearing heuristic transition has an explicit bridge",
+            "evidence_id": "ANALOGY_BRIDGE",
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "HEURISTIC_BRIDGED",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "HEURISTIC_BRIDGED": "ed8de331f0a7477ddca02647224e24ff23dc6187cd810c493b138875474c16b8"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 2
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 2
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 2
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 2
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 2
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1,
+            "PASS": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 2
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "regime_measure_mark_drop",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "MEASURE",
+          "MARK"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "MARK",
+          "MEASURE"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "REGIME_DROP"
+        ],
+        "reachable": [
+          "REGIME_DROP"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "REGIME_DROP"
+          ],
+          "reachable": [
+            "REGIME_DROP"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "REGIME_DROP": "2c32e73352c58645c4844658eb71198d8658fae977b0ced4f11e4aad92774a56"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "REGIME_DROP",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "MEASURE",
+            "claim_id": "REGIME_DROP",
+            "verdict": "FAIL",
+            "message": "established measure GAUSSIAN_PINNED != deployment measure PAIR_PALM",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "MARK",
+            "claim_id": "REGIME_DROP",
+            "verdict": "FAIL",
+            "message": "deployment requires marks absent from establishment: height",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "REGIME_DROP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "REGIME_DROP",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "MEASURE": {
+            "FAIL": 1
+          },
+          "MARK": {
+            "FAIL": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "regime_measure_mark_bridged",
+      "expected": {
+        "valid": true,
+        "promotable": true,
+        "required_fail_gates": [],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": [],
+        "provisional_gates": [],
+        "root_hashes": {
+          "REGIME_BRIDGED": "6e25905252f2f6ec4ded6166e6977c99107b9d00cfade62d4aedf635b709c138"
+        }
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "REGIME_BRIDGED"
+        ],
+        "reachable": [
+          "REGIME_BRIDGED"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "REGIME_BRIDGED"
+          ],
+          "reachable": [
+            "REGIME_BRIDGED"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "REGIME_BRIDGED": "3df90c2ebd7287db128244b6ca4dfed99206f90e2ea90790324716f3256557ec"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "MEASURE",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "PASS",
+            "message": "measure mismatch bridged by PALM-MARK-BRIDGE",
+            "evidence_id": "PALM-MARK-BRIDGE",
+            "grade_cap": null
+          },
+          {
+            "gate": "MARK",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "PASS",
+            "message": "mark mismatch bridged by PALM-MARK-BRIDGE",
+            "evidence_id": "PALM-MARK-BRIDGE",
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "REGIME_BRIDGED",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {
+          "REGIME_BRIDGED": "6e25905252f2f6ec4ded6166e6977c99107b9d00cfade62d4aedf635b709c138"
+        },
+        "valid": true,
+        "promotable": true,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "MEASURE": {
+            "PASS": 1
+          },
+          "MARK": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "coverage_target_below_floor",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "COVERAGE"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "COVERAGE"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "COVERAGE_BAD"
+        ],
+        "reachable": [
+          "COVERAGE_BAD"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "COVERAGE_BAD"
+          ],
+          "reachable": [
+            "COVERAGE_BAD"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "COVERAGE_BAD": "bbfe1bfe28c4f407371f13c26e2353e017456b709420ae742c2486793af39768"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "FAIL",
+            "message": "target risk lies below the uncovered-mass floor",
+            "evidence_id": "coverage-cert",
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "FAIL",
+            "message": "target risk is below exponential-limit floor 0.032",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "COVERAGE_BAD",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "FAIL": 2
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "active_q0_gate_open",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "H4-PATH"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "H4-PATH"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "ACTIVE_GATE_OPEN"
+        ],
+        "reachable": [
+          "ACTIVE_GATE_OPEN"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "ACTIVE_GATE_OPEN"
+          ],
+          "reachable": [
+            "ACTIVE_GATE_OPEN"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "ACTIVE_GATE_OPEN": "4d8cf04ac239cb684e2fb1e1daebba8599021cb18083686a2a5635094cda862c"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "H4-PATH",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "FAIL",
+            "message": "active gate status is OPEN",
+            "evidence_id": "H4-PATH-OBLIGATION",
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "ACTIVE_GATE_OPEN",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 1
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 1
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 1
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 1
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 1
+          },
+          "H4-PATH": {
+            "FAIL": 1
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "warrant_parent_exceeds_measured_dependency",
+      "expected": {
+        "valid": false,
+        "promotable": false,
+        "required_fail_gates": [
+          "DEPENDENCY-WARRANT"
+        ],
+        "required_provisional_gates": []
+      },
+      "observed": {
+        "valid": false,
+        "promotable": false,
+        "fail_gates": [
+          "DEPENDENCY-WARRANT"
+        ],
+        "provisional_gates": [],
+        "root_hashes": {}
+      },
+      "checks": {
+        "valid": true,
+        "promotable": true,
+        "fail_gates": true,
+        "provisional_gates": true
+      },
+      "passed": true,
+      "report": {
+        "roots": [
+          "PROVEN_PARENT"
+        ],
+        "reachable": [
+          "MEASURED_DEP",
+          "PROVEN_PARENT"
+        ],
+        "base_report": {
+          "valid": true,
+          "roots": [
+            "PROVEN_PARENT"
+          ],
+          "reachable": [
+            "MEASURED_DEP",
+            "PROVEN_PARENT"
+          ],
+          "issues": [],
+          "root_hashes": {
+            "PROVEN_PARENT": "75536f07eaedaedd1910741106d00768ddc87cc3e928a0dd9e9113af31411c14"
+          },
+          "gate_counts": {}
+        },
+        "gate_results": [
+          {
+            "gate": "SCHEMA",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "MEASURED_DEP",
+            "verdict": "PASS",
+            "message": "dependency warrants are admissible",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "SCHEMA",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "PASS",
+            "message": "required proof-object fields are present",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "ASSEMBLY",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim has no numerical assembly",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DOMAIN-INFIMUM",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim does not require a numerical full-domain extremum",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "BAND-PROVENANCE",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no load-bearing uncertainty object",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COMMON-MODE",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not promoted from instrument agreement",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "HEURISTIC-BRIDGE",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim is not a load-bearing heuristic/analogical transition",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "COVERAGE",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "NOT_APPLICABLE",
+            "message": "claim carries no coverage/risk assertion",
+            "evidence_id": null,
+            "grade_cap": null
+          },
+          {
+            "gate": "DEPENDENCY-WARRANT",
+            "claim_id": "PROVEN_PARENT",
+            "verdict": "FAIL",
+            "message": "parent warrant PROVEN exceeds dependency MEASURED_DEP warrant MEASURED",
+            "evidence_id": "MEASURED_DEP",
+            "grade_cap": "MEASURED"
+          }
+        ],
+        "root_hashes": {},
+        "valid": false,
+        "promotable": false,
+        "gate_counts": {
+          "SCHEMA": {
+            "PASS": 2
+          },
+          "ASSEMBLY": {
+            "NOT_APPLICABLE": 2
+          },
+          "DOMAIN-INFIMUM": {
+            "NOT_APPLICABLE": 2
+          },
+          "BAND-PROVENANCE": {
+            "NOT_APPLICABLE": 2
+          },
+          "COMMON-MODE": {
+            "NOT_APPLICABLE": 2
+          },
+          "HEURISTIC-BRIDGE": {
+            "NOT_APPLICABLE": 2
+          },
+          "COVERAGE": {
+            "NOT_APPLICABLE": 2
+          },
+          "DEPENDENCY-WARRANT": {
+            "PASS": 1,
+            "FAIL": 1
+          }
+        }
+      }
+    }
+  ],
+  "case_count": 22,
+  "passed_cases": 22,
+  "failed_cases": 0,
+  "all_expected_checks_pass": true,
+  "gate_discrimination": {
+    "ASSEMBLY": 4,
+    "DOMAIN-INFIMUM": 2,
+    "BAND-PROVENANCE": 2,
+    "COMMON-MODE": 1,
+    "HEURISTIC-BRIDGE": 2,
+    "MEASURE": 1,
+    "MARK": 1,
+    "COVERAGE": 1,
+    "DEPENDENCY-WARRANT": 1,
+    "H4-PATH": 1,
+    "UB_G_RESIDUAL_UNIFORM": 1
+  },
+  "second_domain_root_hashes": {
+    "MATRIX_PERTURBATION_THEOREM": "1f2c349058aa638ac7dcaf09079e3bf74007010e688ecf8f7333765a3c9eebd5"
+  }
+}

@@ -1,0 +1,1069 @@
+{
+  "schema": "gate-kernel/2.0",
+  "roots": [
+    "UB_G_CUBIC_MODULO_MAXCOUNT_v2",
+    "Q0_LIMIT_MODULO_MAXCOUNT_v2"
+  ],
+  "metadata": {
+    "contract_id": "Q0-C098-CONDITIONAL-MAXCOUNT-REPAIR-v2",
+    "supersedes": "Q0-C098-CONDITIONAL-MAXCOUNT-REPAIR",
+    "status": "PROVEN-MODULO three explicit residual conditions",
+    "exterior_Gamma_count": "CLOSED-QUALITATIVELY",
+    "frozen_Q0_sources_untouched": true,
+    "no_decimal_promotion": true
+  },
+  "claims": [
+    {
+      "claim_id": "COLLAR_CUBIC_EXPLICIT",
+      "statement": "All collar residues, including the Gamma collar count, have an explicit finite uniform r^3 coefficient.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C096_UBG_RESIDUAL_SOURCE_AUDIT.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "fe933c73698fca6e25ca2bc159b2cc94d1151e4c5e8499047d153e9ce2a748ce"
+    },
+    {
+      "claim_id": "CUBIC_SQUEEZE_LIMIT",
+      "statement": "If 0<=D(r)<=C r^3 for finite C near zero, then D(r)->0.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "ELEMENTARY-SQUEEZE-PROOF"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "ASYMPTOTIC",
+      "quantifier_order": "",
+      "direction": "EQUALITY",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "b8adaf94cca449f98654328d34af9495e340aff3437d18c4404ed31b80d6672c"
+    },
+    {
+      "claim_id": "GAMMA_EVENT_TO_MAXCOUNT_EXACT",
+      "statement": "Gamma is contained in the event that at least one local maximum has value in (b-r^3/6,b), so P(Gamma) is at most the expected count.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "EXACT",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "1eadfc619a3ae468f59113f63d0b14da530c07637122066946f65907f894f2c3"
+    },
+    {
+      "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+      "statement": "There exists a finite C_ext^max such that the exact typed pair-Palm maximum-window Kac--Rice integral over T_24^2 minus B3 is at most C_ext^max r^3 uniformly for 0<r<=0.025.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-GAMMA-EXTERIOR-TRANSFER",
+      "evidence_ids": [
+        "C098_GAMMA_EXTERIOR_TRANSFER.md",
+        "C095_SIX_PIN_COVARIANCE_FACTORIZATION.json",
+        "KR-V"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "09b4d8cd57583b4de074577b123880eb830af86873fccf9076bf2eab877e5225"
+    },
+    {
+      "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+      "statement": "The pair-Palm maximum-window Kac--Rice integral over B3 outside the collars has a finite uniform r^3 coefficient.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C096_UBG_RESIDUAL_SOURCE_AUDIT.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "636db152bedb6d74937aad33c072e2f4bde4c020a5083f05bf7fba37d1ee964c"
+    },
+    {
+      "claim_id": "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM",
+      "statement": "The global window-saddle interceptor term has a finite uniform r^3 coefficient.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C096_UBG_RESIDUAL_SOURCE_AUDIT.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "ab965a2d259bfa39bfcd605d58b7040edc945fe6cbb886ca6f0a997c47b7d786"
+    },
+    {
+      "claim_id": "UB_G_DEFECT_DECOMPOSITION",
+      "statement": "The pairing-defect event is contained in the union of the global window-saddle interceptor event, Gamma, and the registered collar residues.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "03 PART III UPPER SIDE AND FORMALITIES.md",
+        "C096_UBG_RESIDUAL_SOURCE_AUDIT.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "EXACT",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "3e33b495391aae5a6064c9fe88f31be70f1d2f837958dd9537895ff744762bf2"
+    },
+    {
+      "claim_id": "UB_G_UNION_BOUND_WITNESS",
+      "statement": "The union bound licenses the three-term defect decomposition.",
+      "kind": "WITNESS",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "EXACT-UNION-BOUND"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "CONDITIONAL",
+      "quantifier_order": "",
+      "direction": "NONE",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": {
+        "operation": "UNION",
+        "witness_type": "UNION-BOUND",
+        "covered_claim_ids": [
+          "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM",
+          "GAMMA_EVENT_CUBIC_MAXCOUNT_REDUCED_v2",
+          "COLLAR_CUBIC_EXPLICIT"
+        ],
+        "statement": "P(A union B union C)<=P(A)+P(B)+P(C)."
+      },
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "73884d54752bf318eb1130af9c7a2a8529ef56df4e331ca7fe8d51b1dc262e91"
+    },
+    {
+      "claim_id": "GAMMA_EVENT_CUBIC_MAXCOUNT_REDUCED_v2",
+      "statement": "Conditional on COLLAR_CUBIC_EXPLICIT and GAMMA_MAXCOUNT_NEAR_CUBIC, and using the proved exterior transfer, P(Gamma_r)<=C_Gamma r^3 for a finite constant.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C098_GAMMA_EXTERIOR_TRANSFER.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "COLLAR_CUBIC_EXPLICIT",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "GAMMA_EVENT_TO_MAXCOUNT_EXACT",
+          "kind": "SUPPORT",
+          "pinned_hash": "1eadfc619a3ae468f59113f63d0b14da530c07637122066946f65907f894f2c3",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "kind": "SUPPORT",
+          "pinned_hash": "09b4d8cd57583b4de074577b123880eb830af86873fccf9076bf2eab877e5225",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "COLLAR_CUBIC_EXPLICIT",
+          "kind": "CONDITION",
+          "pinned_hash": "fe933c73698fca6e25ca2bc159b2cc94d1151e4c5e8499047d153e9ce2a748ce",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "kind": "CONDITION",
+          "pinned_hash": "636db152bedb6d74937aad33c072e2f4bde4c020a5083f05bf7fba37d1ee964c",
+          "conditional": true,
+          "role": ""
+        }
+      ],
+      "content_hash": "5aed1f039996c642ecb1136a733530df0131fb7d8da72ba9e67bd425d2c41dc5"
+    },
+    {
+      "claim_id": "UB_G_CUBIC_MODULO_MAXCOUNT_v2",
+      "statement": "Conditional on GLOBAL_INTERCEPTOR_CUBIC_UNIFORM, COLLAR_CUBIC_EXPLICIT, and GAMMA_MAXCOUNT_NEAR_CUBIC, there exists a finite C such that 1-q(r,6/5)<=C r^3 for every 0<r<=0.025.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C098_GAMMA_EXTERIOR_TRANSFER.md",
+        "C096_UBG_RESIDUAL_SOURCE_AUDIT.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [
+        "critical-type",
+        "height-b=6/5",
+        "pair-separation-r"
+      ],
+      "supplied_marks": [],
+      "operation": "UNION",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM",
+        "COLLAR_CUBIC_EXPLICIT",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "UB_G_DEFECT_DECOMPOSITION",
+          "kind": "SUPPORT",
+          "pinned_hash": "3e33b495391aae5a6064c9fe88f31be70f1d2f837958dd9537895ff744762bf2",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_EVENT_CUBIC_MAXCOUNT_REDUCED_v2",
+          "kind": "SUPPORT",
+          "pinned_hash": "5aed1f039996c642ecb1136a733530df0131fb7d8da72ba9e67bd425d2c41dc5",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "UB_G_UNION_BOUND_WITNESS",
+          "kind": "COMPOSITION-WITNESS",
+          "pinned_hash": "73884d54752bf318eb1130af9c7a2a8529ef56df4e331ca7fe8d51b1dc262e91",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM",
+          "kind": "CONDITION",
+          "pinned_hash": "ab965a2d259bfa39bfcd605d58b7040edc945fe6cbb886ca6f0a997c47b7d786",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "COLLAR_CUBIC_EXPLICIT",
+          "kind": "CONDITION",
+          "pinned_hash": "fe933c73698fca6e25ca2bc159b2cc94d1151e4c5e8499047d153e9ce2a748ce",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "kind": "CONDITION",
+          "pinned_hash": "636db152bedb6d74937aad33c072e2f4bde4c020a5083f05bf7fba37d1ee964c",
+          "conditional": true,
+          "role": ""
+        }
+      ],
+      "content_hash": "a2eceb70261e48c278311b9ce43c77f532da5a4e805d33bfbd53a219bab76f22"
+    },
+    {
+      "claim_id": "Q0_LIMIT_MODULO_MAXCOUNT_v2",
+      "statement": "Conditional on GLOBAL_INTERCEPTOR_CUBIC_UNIFORM, COLLAR_CUBIC_EXPLICIT, and GAMMA_MAXCOUNT_NEAR_CUBIC, lim_{r->0}q(r,6/5)=1 at fixed L=24.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C098-Q0-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C098_GAMMA_EXTERIOR_TRANSFER.md",
+        "ELEMENTARY-SQUEEZE-PROOF"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "ASYMPTOTIC",
+      "quantifier_order": "",
+      "direction": "EQUALITY",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2",
+        "scale_id": "pairing-defect probability / r^3",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "height-b=6/5",
+          "pair-separation-r"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM",
+        "COLLAR_CUBIC_EXPLICIT",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "UB_G_CUBIC_MODULO_MAXCOUNT_v2",
+          "kind": "SUPPORT",
+          "pinned_hash": "a2eceb70261e48c278311b9ce43c77f532da5a4e805d33bfbd53a219bab76f22",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "CUBIC_SQUEEZE_LIMIT",
+          "kind": "SUPPORT",
+          "pinned_hash": "b8adaf94cca449f98654328d34af9495e340aff3437d18c4404ed31b80d6672c",
+          "conditional": false,
+          "role": ""
+        }
+      ],
+      "content_hash": "4fa5f4d30c04921826fbd7b838d86abe6c49eb4a9a635411b13e11c6000012aa"
+    }
+  ]
+}

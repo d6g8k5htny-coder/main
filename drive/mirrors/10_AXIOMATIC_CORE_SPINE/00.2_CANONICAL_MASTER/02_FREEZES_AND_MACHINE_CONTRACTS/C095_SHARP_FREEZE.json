@@ -1,0 +1,114 @@
+{
+  "project": "Q0-SHARP",
+  "cycle": "C095",
+  "phase": "freeze",
+  "timestamp_utc": "2026-07-17T18:58:24.349711+00:00",
+  "read_only_inputs": [
+    "Q0_C091_PROOF_GATE_REDUCTION_BUNDLE.zip",
+    "Q0_C094_PASS1_BUNDLE.zip",
+    "GATE_FRAMEWORK_MASTER_v1_1.md",
+    "q0_llm_verifier_v5.py",
+    "C094_SIX_PIN_FACTORIZATION.json",
+    "C094_IMPORTED_PRIORS_RECHECK.json"
+  ],
+  "target_terminal_states": [
+    "CORE-CLOSED-NEW-ROOT",
+    "KILLED",
+    "BLOCKED-EXTERNAL",
+    "NOT-CLAIMED"
+  ],
+  "targets": [
+    {
+      "id": "LOWER_084_RLE005",
+      "statement": "1-q(r,6/5) >= 0.84 r^3 for 0<r<=0.05",
+      "status": "BLOCKED",
+      "required_gates": [
+        "BR-REP",
+        "BR-MARK",
+        "SIX-PIN-PALM-UNIFORMITY",
+        "AO-EXACT",
+        "BONFERRONI-EXACT",
+        "DOMAIN-INFIMUM",
+        "ASSEMBLY",
+        "COMMON-MODE"
+      ],
+      "numeric_gate": "C_rep*C_mark <= 79.988, or a re-budgeted threshold with a new full-domain infimum certificate."
+    },
+    {
+      "id": "UPPER_099_NOMINAL_RLE005",
+      "statement": "1-q(r,6/5) <= 0.99 r^3 for 0<r<=0.05",
+      "status": "BLOCKED",
+      "required_gates": [
+        "H4-PATH",
+        "U-SHAPE",
+        "U-ORIGIN",
+        "U-UNCERTAINTY-CAL",
+        "DOMAIN-INFIMUM",
+        "ASSEMBLY",
+        "BAND-PROVENANCE",
+        "COMMON-MODE"
+      ]
+    },
+    {
+      "id": "UPPER_101_BANDED_RLE005",
+      "statement": "1-q(r,6/5) <= 1.01 r^3 for 0<r<=0.05",
+      "status": "BLOCKED",
+      "required_gates": [
+        "H4-PATH",
+        "U-SHAPE",
+        "U-ORIGIN",
+        "U-UNCERTAINTY-CAL",
+        "DOMAIN-INFIMUM",
+        "ASSEMBLY",
+        "BAND-PROVENANCE",
+        "COMMON-MODE"
+      ]
+    },
+    {
+      "id": "B_OVER_4_HXX_CANDIDATE",
+      "statement": "operator-line Richardson candidate",
+      "status": "BLOCKED-EXTERNAL",
+      "unblock": "exact claim, raw table, source hash, independent rerun"
+    }
+  ],
+  "closed_inputs": [
+    "planar d^3 critical-value-gap law",
+    "exact periodized six-pin conditional-mean factorization",
+    "Palm-weighted Gaussian Chernoff identity",
+    "one-sided interpolation theorem",
+    "exact torus local/far matrix transfer in declared scopes"
+  ],
+  "active_gates": {
+    "BR-REP": {
+      "pass": "Uniform typed six-pin spatial saddle repulsion with explicit constant.",
+      "kill": "Counterexample to proposed d^3 log(e/d) class in the target law."
+    },
+    "BR-MARK": {
+      "pass": "Uniform density bounds for A=(u1+u2)/2 and Z=(u2-u1)/d^3 under typed two-saddle pair-Palm.",
+      "current": "Mean factorization closed; residual covariance, determinant weight, typing, and domain uniformity open."
+    },
+    "H4-PATH": {
+      "pass": "Frozen path family, interval Gaussian blocks, nonnegative Chernoff witnesses, shifted Palm moments, sector weights, path entropy, one-sided uncertainty.",
+      "kill": "Any required corridor bound exceeds the proposed budget."
+    },
+    "U-SHAPE": {
+      "pass_alternative_A": "U'(r)>=0 on (0,0.05]",
+      "pass_alternative_B": "U''>=-1510.4 on [0.0125,0.025], U''>=-64 on [0.025,0.05], plus origin patch."
+    },
+    "U-UNCERTAINTY-CAL": {
+      "pass": "Recover the 0.02 construction or replace it with a new one-sided band containing confidence/tolerance, sample size, multiplicity, domain, and source hash."
+    },
+    "UB_G_RESIDUAL_UNIFORM": {
+      "pass": "If the sharpened route consumes UB-G components, Gamma and collar residual coefficients must be explicit."
+    }
+  },
+  "independent_reimplementation": "Every promoted constant receives a separate code path and 60-dps end-to-end assembly recomputation.",
+  "planned_artifacts": [
+    "C096_BR_REP_FREEZE.json",
+    "C096_BR_MARK_INTERVAL_MODEL.py",
+    "C096_H4_PATH_REGISTRY.json",
+    "C096_U_SHAPE_INTERVAL.py",
+    "C096_UNCERTAINTY_PROVENANCE.json",
+    "C096_SHARP_CONTRACT.json"
+  ]
+}

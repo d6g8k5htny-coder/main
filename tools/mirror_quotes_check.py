@@ -92,7 +92,10 @@ _SPLIT = re.compile(r"\[…\]|…|\[\.\.\.\]|\.\.\.")
 _STRAIGHT = re.compile(r'"([^"\n]*(?:\n(?!\s*\n)[^"\n]*)*?)"')
 _CURLY = re.compile(r"“([^”]*?)”")
 _FENCE = re.compile(r"^\s*(```|~~~)")
-_BLOCKQUOTE = re.compile(r"^(\s*)>\s?")
+# All nesting levels: a README that quotes a source which itself quotes
+# something carries "> > ", and one level of stripping would leave the inner
+# marker inside the fragment while the corpus no longer has it.
+_BLOCKQUOTE = re.compile(r"^(\s*)(?:>[ \t]?)+")
 # The repository's disclosure convention: a corrected passage says what it used
 # to say, and quotes the old wording.  "Until 2026-09-20 this read ..." puts text
 # in quotation marks that is deliberately NOT in any stored byte -- that is the
@@ -148,6 +151,24 @@ def normalise(text):
 
 def strip_emphasis(text):
     return text.replace("**", "").replace("`", "")
+
+
+def strip_blockquote(text):
+    """Remove a leading ``>`` from every line.
+
+    Applied to BOTH sides.  A stored source is often Markdown of its own, and a
+    passage it sets as a blockquote carries a ``>`` on each line.  Stripping it
+    only from the README -- which is what this checker did until 2026-09-20 --
+    made a faithful reproduction of such a passage fail while a silent drop of
+    the prefixes passed whenever some other stored file happened to carry the
+    same words unprefixed.  That is exactly backwards, and a lane verifier caught
+    it.  The prefix is presentational, like whitespace and emphasis, so it is
+    forgiven on both sides and the checker rules on the words.  What that means,
+    and does not: dropping a source's ``>`` is not caught here, and a reader who
+    cares whether a mirror README reproduces a blockquote as a blockquote has to
+    look.
+    """
+    return re.sub(r"(?m)^[ \t]*(?:>[ \t]?)+", "", text)
 
 
 def readable(path):
@@ -278,7 +299,7 @@ def build_corpus(root, scan_rels, register_rel, inventory_rel, governance_rels):
                 text = readable(os.path.join(dirpath, name))
                 if text is None:
                     continue
-                entry = normalise(strip_emphasis(text))
+                entry = normalise(strip_emphasis(strip_blockquote(text)))
                 corpus.append(entry)
                 if name.endswith("_MANIFEST.jsonl") or name == "MANIFEST.jsonl":
                     manifests.append(entry)
@@ -316,7 +337,7 @@ def build_corpus(root, scan_rels, register_rel, inventory_rel, governance_rels):
     for governance_rel in governance_rels:
         text = readable(os.path.join(root, governance_rel))
         if text is not None:
-            corpus.append(normalise(strip_emphasis(text)))
+            corpus.append(normalise(strip_emphasis(strip_blockquote(text))))
 
     return corpus, manifests
 

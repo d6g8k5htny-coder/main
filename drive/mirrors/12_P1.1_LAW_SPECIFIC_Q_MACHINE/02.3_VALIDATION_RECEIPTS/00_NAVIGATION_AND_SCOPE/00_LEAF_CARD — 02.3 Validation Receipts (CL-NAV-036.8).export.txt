@@ -1,0 +1,20 @@
+﻿00_LEAF_CARD — 02.3_VALIDATION_RECEIPTS
+ARTIFACT: CL-NAV-036.8-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 · CLASS: NAV — leaf charter + live-state card · CANONICAL IMPACT: NONE · AUTHORITY: none
+What routes to this leaf
+Execution receipts for P1.1 machine and verifier work: battery run receipts, reconstruction receipts, second-stack execution records, and environment/seed manifests. A receipt documents a run; prose that describes a run without artifacts is a summary, not a receipt (evidence-lineage rule, CM-046 control 4).
+Receipt minimum fields
+* Exact source identity: Drive ID + SHA-256 of every executed artifact (raw bytes, declared byte-normalization rule — cf. GP-RSP-017 V1.3-Q3).
+* Environment: runtime, version, dependency pins (the pattern of requirements-c093.txt / C093_ENVIRONMENT.json in the root archive is the precedent).
+* Seeds and frozen fixtures; inputs by ID, never by paraphrase.
+* Outputs: raw result files with hashes; PASS/FAIL per test with the mutation each test kills.
+* Independence disclosure: author self-run vs second-stack (REV-*-SELF pattern gets LOW independence weight; OP-GDN-002 §4).
+* Verdict language: "cite runs, not readings" (CL-AUD-034 method line) — a receipt asserts what executed, nothing more.
+Live state as of 2026-07-21
+* GP-DATA-048's nine frozen controls hold independent second-stack execution — the current model receipt standard (CM-047 §1).
+* The P1.1 v1.0 prototype's reported eight negative tests were insufficient (AO48-AUD-008); their receipts remain provenance but certify nothing beyond the covered classes.
+* Reconstruction receipts (chunk-reassembly with per-chunk SHA-256 and final hash, GP-RSP-017 V1.3-Q1) will be required for any successor executable published in chunks.
+* P1.2 lesson pinned here because it is a receipts lesson: CL-RSP-027 reported ep2.py delivered as CL-DATA-024, but the raw source did not appear in the Drive search path — a delivery notice without a locatable artifact is a source-availability claim, not executable evidence (alarm P12_EP2_SOURCE_SYNC_UNCERTAIN, CM-047 §3).
+What must not be claimed
+Receipts do not promote. A complete receipt set is a necessary input to promotion review, never a substitute for it.
+Coupled-advancement justification (OP-GDN-002 §1)
+Leaf created empty by CM-045 ¶5; card fixes the receipt field standard where receipts will land, addressing the recorded failure mode of summaries drifting from executable evidence. Non-authority header guards against stale-card citation.

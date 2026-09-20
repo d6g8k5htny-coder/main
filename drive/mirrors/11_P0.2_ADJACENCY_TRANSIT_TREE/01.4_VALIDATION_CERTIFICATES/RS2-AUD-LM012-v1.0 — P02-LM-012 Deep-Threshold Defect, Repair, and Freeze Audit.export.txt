@@ -1,0 +1,266 @@
+﻿RS2-AUD-LM012-v1.0 — P02-LM-012 DEEP-THRESHOLD DEFECT, REPAIR, AND FREEZE AUDIT
+
+
+Artifact ID: RS2-AUD-LM012-v1.0
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking, Resolution Scientist #2
+Class: AUD / HASH-SPECIFIC SAME-FAMILY DEFECT AUDIT / SUCCESSOR FREEZE RECEIPT
+Authority: research preparation and review-routing evidence only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational family
+Target interface: P02-LM-012
+Predecessor: LCR-DER-043-v1.0
+Successor: LCR-DER-043-v1.1
+Verdict: V1.0 AMEND REQUIRED / V1.1 REPAIR AND DRIVE ROUNDTRIP PASS / EXTERNAL REVIEW OPEN / NO PROMOTION
+
+
+[[TARGET:P02-LM-012]] [[V1.0:AMEND-REQUIRED]] [[V1.1:ROUNDTRIP-PASS]] [[DEEP-THRESHOLD:RESTORED]] [[INDEPENDENCE:ZERO]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:NONTERMINAL]] [[NO-PROMOTION]]
+
+
+1. DECISIVE FINDING
+
+
+LCR-DER-043-v1.0 correctly repaired the earlier normalized-coordinate versus physical-coordinate mismatch, but its frozen Section 6 checklist made one deterministic application too broad. It stated that the P02-LM-004 v1.1 adaptive transfer applies on
+
+
+    REG_r intersect G_r.
+
+
+That intersection establishes the adaptive C1 tolerance. The controlling P02-LM-004 theorem and the P02-LM-011 synthesis require the additional deep-saddle sample event
+
+
+    {s<=-C_cap(U)}.
+
+
+The correct deterministic inclusion is
+
+
+    REG_r intersect G_r intersect {s<=-C_cap(U)}
+      subset A_r.
+
+
+Therefore v1.0 is AMEND REQUIRED for the capture-shortcut overstatement.
+
+
+The defect is narrow:
+- it does not invalidate the coordinate typing;
+- it does not invalidate chart nesting or the torus lift;
+- it does not change any power of r;
+- it does not add a member to the common-radius minimum;
+- it does not alter the P02-LM-011 complement decomposition, which already retains the deep-threshold event correctly.
+
+
+The deep-saddle condition is a sample-event restriction, not a radius.
+
+
+2. SOURCE TRACE
+
+
+The load-bearing source statements are:
+
+
+A. P02-LM-004 v1.1 / LCR-DER-016-v1.1
+Drive ID: 1tPt0KKJEKE6c-7xNwJW82dooRkDyANnToRErc3oWX84
+Frozen SHA-256: d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87
+
+
+Its theorem adopts the P02-LM-001 domain containing
+
+
+    REG_r(U): rR(U)^5<=epsilon_0,
+    s=q/r<=-C_cap(U),
+
+
+and its Taylor corollary shows the C1 tolerance on REG_r and the fifth-derivative cutoff. It does not erase the deep-saddle hypothesis of the deterministic capture theorem.
+
+
+B. P02-LM-011 / LCR-DER-033-v1.0
+Drive ID: 1q_XOmFsEiNmyLs-2o1yBUXzuEObYRt9U5uI3uRMmZzw
+Frozen SHA-256: 17c37fa1da7aa246f3018bd4ecc69b6e7beef5d8a1bda616d250146b3629efa9
+
+
+Its interface I2 and deterministic-event inclusion explicitly use
+
+
+    REG_r intersect G_r intersect {s<=-C_cap(U)}
+      subset A_r.
+
+
+The synthesis then takes complements and routes the threshold complement into the boundary-layer term. Thus the final algebra was not relying on the v1.0 shorthand.
+
+
+C. P02-LM-010 v1.1 / LCR-DER-030-v1.1
+Drive ID: 1Iqwm-8TcKNjrVQgeT71ip5Qg9C0qkkzr4rjageW9gZ0
+Frozen SHA-256: 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+
+
+It defines the good-boundary event using
+
+
+    G_r intersect {s>-C_cap(U)}
+
+
+and therefore confirms that the deep-threshold partition is an event decomposition, not a small-r endpoint.
+
+
+3. V1.0 IDENTITY AND DISPOSITION
+
+
+LCR-DER-043-v1.0
+Drive ID: 1M141iAu0kh5Slz1Ph_9YQhiRL3Edm8m0aja95Cx53UM
+BODY_BYTES: 10808
+BODY_SHA256: cfbbd5913667aa347ff7102c2d058dcdc9f1d791dd35e6ca727f4c3ea65eab74
+
+
+Disposition:
+
+
+    AMEND REQUIRED — frozen-body deterministic-capture shortcut omits
+    {s<=-C_cap(U)}.
+
+
+The v1.0 object remains preserved provenance and may still be cited for defect history, not affirmative approval.
+
+
+4. V1.1 SUCCESSOR
+
+
+LCR-DER-043-v1.1 — P02-LM-012 Coordinate-Typed Common Domain — Deep-Threshold Repair
+Drive ID: 1RlkK7LWmJedt12fD4Dsg3XQbmVc7XL00fODQVTMxrBY
+https://docs.google.com/document/d/1RlkK7LWmJedt12fD4Dsg3XQbmVc7XL00fODQVTMxrBY/edit
+
+
+The successor makes the following exact repairs inside the frozen body:
+
+
+1. Section 5 distinguishes the adaptive C1 tolerance from deterministic capture.
+2. Section 6 item 7 states:
+
+
+       adaptive tolerance on REG_r intersect G_r;
+       deterministic capture on
+       REG_r intersect G_r intersect {s<=-C_cap(U)}.
+
+
+3. The theorem states that a common radius does not erase sample-event hypotheses.
+4. The scope firewall records the distinction between radius restrictions and the deep-saddle event.
+5. Reopening conditions explicitly reject any use of deterministic capture without the deep threshold.
+6. Provenance records v1.0 as amend-required.
+
+
+The common radius remains
+
+
+    r_common=min{1,r_GR,r_Z,r_rob,r_tail}>0.
+
+
+No new radius is introduced.
+
+
+5. FRESH DRIVE IDENTITY
+
+
+A fresh native Google Docs text/plain export was processed under the declared marker policy:
+- remove UTF-8 BOM if present;
+- normalize CRLF and CR to LF;
+- take only the text after the unique whole line BEGIN_FROZEN_LEMMA_BODY and before the first subsequent whole line END_FROZEN_LEMMA_BODY;
+- remove trailing LF characters;
+- append exactly one LF;
+- encode UTF-8 without BOM.
+
+
+Result:
+- BODY_BYTES: 11543;
+- BODY_SHA256: 68df32086da07fac8b042789de7a1c280aa2df56885532618c2fcabdb04b9ad4;
+- BODY_LINES: 428;
+- blank-run histogram: {3:118};
+- marker uniqueness and order: PASS;
+- repeated post-edit reconstruction: PASS.
+
+
+This identity is controlling for affirmative review.
+
+
+6. ADVERSARIAL LEDGER
+
+
+A1 — OMIT DEEP THRESHOLD.
+Mutation: invoke deterministic capture on REG_r intersect G_r alone.
+Result: FIRES. The deterministic premise from P02-LM-001/P02-LM-004 is incomplete.
+
+
+A2 — TREAT EVENT AS RADIUS.
+Mutation: insert {s<=-C_cap(U)} into the numerical minimum.
+Result: REJECTED. It is a subset of the sample space, not a positive scalar endpoint.
+
+
+A3 — OMIT EVENT FROM COMPLEMENT.
+Mutation: complement only REG_r intersect G_r.
+Result: FIRES. The threshold-boundary event disappears and the cubic boundary-layer term cannot be recovered.
+
+
+A4 — REVERSE H5 MONOTONICITY.
+Mutation: infer the D_plus cutoff from the smaller D_cert cutoff.
+Result: FIRES. The correct direction is H5(D_cert)<=H5(D_plus).
+
+
+A5 — CONFLATE NORMALIZED AND PHYSICAL ENDPOINTS.
+Mutation: evaluate DF_r at M_r,S_r or physical Hessians at M_hat,S_hat.
+Result: FIRES. The scaled-to-physical chain rule is mistyped.
+
+
+A6 — REMOVE PHYSICAL FACTOR r.
+Mutation: identify the physical Hessian with DF_r rather than rDF_r.
+Result: FIRES. The O(r) scaled-Jacobian error would be incorrectly read as O(r) rather than O(r^2) physical-Hessian error.
+
+
+A7 — OMIT TORUS-LIFT RADIUS.
+Mutation: use the enlarged chart without r_lift.
+Result: FIRES. A single Euclidean lift is no longer guaranteed.
+
+
+A8 — ALLOW C_D TO DEPEND ON U OR r.
+Result: FIRES. The common adaptive radius r_rob is no longer a uniform positive endpoint.
+
+
+A9 — USE OBSOLETE VERSIONS.
+Mutation: consume P02-LM-004 v1.0, P02-LM-010 v1.0, LCR-DER-040, or LCR-DER-043 v1.0 as current affirmative evidence.
+Result: FIRES by version firewall.
+
+
+A10 — INFER IMPORTED TRUTH.
+Mutation: treat common-domain compatibility as proof of the imported lemmas.
+Result: REJECTED. LM012 proves compatibility and nonvacuity only.
+
+
+7. REVIEW ROUTE
+
+
+Current review packet:
+LCR-REQ-045-v1.1
+Drive ID: 1X-46gXEIqZr8JMc458ikHGKtLsQpRIrEgwUknhUd5ig
+https://docs.google.com/document/d/1X-46gXEIqZr8JMc458ikHGKtLsQpRIrEgwUknhUd5ig/edit
+
+
+Accepted affirmative verdict must bind exactly to:
+
+
+    LCR-DER-043-v1.1
+    BODY_BYTES 11543
+    SHA-256 68df32086da07fac8b042789de7a1c280aa2df56885532618c2fcabdb04b9ad4.
+
+
+8. STATUS EFFECT
+
+
+Same-family disposition:
+- v1.0: AMEND REQUIRED;
+- v1.1: repair complete and Drive-roundtrip PASS;
+- external organizationally distinct exact-hash review: OPEN;
+- independence credit earned here: ZERO.
+
+
+This audit does not close P02-LM-012, P02-LM-011, or P0.2. It does not approve any imported interface, alter the terminal/review-pending object count, promote a theorem, seal a package, modify a machine root, authorize release, or authorize deletion.
+
+
+END RS2-AUD-LM012-v1.0

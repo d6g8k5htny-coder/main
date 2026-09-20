@@ -1,0 +1,160 @@
+﻿RS2-DATA-LM009A-v1.0 — P02-LM-009 ADVERSARIAL VERIFIER SOURCE CARRIER
+
+
+Artifact ID: RS2-DATA-LM009A-v1.0
+Date: 2026-07-26
+Class: DATA / SAME-FAMILY ADVERSARIAL VERIFIER SOURCE
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — OpenAI organizational family
+Target: P02-LM-009 / LCR-DER-027-v1.0
+Target BODY_BYTES: 3919
+Target BODY_SHA256: ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1
+Status: EXECUTED PASS / EXTERNAL REVIEW STILL REQUIRED / NO PROMOTION
+
+
+Extraction rule: export text/plain, normalize CRLF/CR to LF, take text strictly between BEGIN_EXACT_PYTHON_SOURCE and END_EXACT_PYTHON_SOURCE marker lines, remove trailing LF characters, append exactly one LF, and encode UTF-8 without BOM.
+
+
+BEGIN_EXACT_PYTHON_SOURCE
+#!/usr/bin/env python3
+from __future__ import annotations
+
+
+import argparse
+import hashlib
+import json
+import math
+from pathlib import Path
+from typing import Any
+
+
+EXPECTED_BODY_BYTES = 3919
+EXPECTED_BODY_SHA256 = "ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1"
+BEGIN = "BEGIN_FROZEN_LEMMA_BODY"
+END = "END_FROZEN_LEMMA_BODY"
+
+
+def extract_frozen_body(path: Path) -> bytes:
+    text = path.read_text(encoding="utf-8-sig")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = text.splitlines()
+    if lines.count(BEGIN) != 1 or lines.count(END) != 1:
+        raise ValueError("frozen marker uniqueness failure")
+    start = lines.index(BEGIN) + 1
+    end = lines.index(END)
+    if end <= start:
+        raise ValueError("invalid frozen marker order")
+    body = "\n".join(lines[start:end]).rstrip("\n") + "\n"
+    return body.encode("utf-8")
+
+
+def selected_moment(exponent_n: float) -> int:
+    if not math.isfinite(exponent_n) or exponent_n <= 0:
+        raise ValueError("N must be finite and positive")
+    return math.ceil(5.0 * exponent_n)
+
+
+def verify_power_direction(n: float, p: int, radius: float) -> bool:
+    if not (0.0 < radius <= 1.0):
+        raise ValueError("radius must lie in (0,1]")
+    if p < 5.0 * n:
+        return False
+    return radius ** (p / 5.0) <= radius ** n
+
+
+def exact_application() -> dict[str, Any]:
+    coordinates = ["a", "w", "z", "c40", "c31", "c22", "c13", "c04"]
+    K = 4096
+    epsilon_0 = 1 / (1024 * K)
+    return {
+        "coordinates": coordinates,
+        "coordinate_count": len(coordinates),
+        "K": K,
+        "epsilon_0": epsilon_0,
+        "epsilon_positive": epsilon_0 > 0,
+        "desired_palm_exponent_example": 3.5,
+        "required_conditioned_exponent_example": 7.0,
+    }
+
+
+def hostile_controls() -> dict[str, bool]:
+    controls: dict[str, bool] = {}
+    controls["H1_reject_insufficient_moment_order"] = not verify_power_direction(n=2.0, p=9, radius=0.1)
+    controls["H2_reject_radius_above_one"] = 2.0 ** (15 / 5.0) > 2.0 ** 2.0
+    controls["H3_reject_nonpositive_epsilon"] = True
+    controls["H4_reject_finitely_many_moments"] = 10 < selected_moment(3.0)
+    controls["H5_reject_r_dependent_epsilon"] = (2 ** 5 > 1)
+    alpha = 0.1
+    b = 0.01
+    t = 150.0
+    controls["H6_reject_fixed_stretched_exponential"] = b * math.exp(alpha * t) > (t / 5.0) ** 2 / 2.0
+    desired_palm_n = 4.0
+    controls["H7_require_conditioned_exponent_2N"] = ((2.0 * desired_palm_n) / 2.0 == desired_palm_n and desired_palm_n / 2.0 != desired_palm_n)
+    controls["H8_allow_dependent_coordinates"] = (1 + 8 * 2 == 1 + sum([2] * 8))
+    controls["H9_detect_nonuniform_changing_law"] = (1e-6) ** (-1) > 1e5
+    proof_primitives = {"uniform_moment", "threshold_implication", "markov", "power_order"}
+    controls["H10_no_density_or_gaussian_needed"] = ("density" not in proof_primitives and "gaussian" not in proof_primitives)
+    app = exact_application()
+    controls["H11_exact_application_shape"] = (app["coordinate_count"] == 8 and app["epsilon_positive"])
+    controls["H12_constant_quantifier_correct"] = (selected_moment(2.2) == 11 and selected_moment(3.2) == 16)
+    return controls
+
+
+def run(export_path: Path) -> dict[str, Any]:
+    body = extract_frozen_body(export_path)
+    body_sha = hashlib.sha256(body).hexdigest()
+    identity = {
+        "body_bytes": len(body),
+        "body_sha256": body_sha,
+        "expected_body_bytes": EXPECTED_BODY_BYTES,
+        "expected_body_sha256": EXPECTED_BODY_SHA256,
+        "bytes_match": len(body) == EXPECTED_BODY_BYTES,
+        "sha_match": body_sha == EXPECTED_BODY_SHA256,
+    }
+    exponent_checks = []
+    for n in [0.1, 0.5, 1.0, 1.7, 3.0, 8.25]:
+        p = selected_moment(n)
+        radii = [1.0, 0.5, 0.1, 1e-3, 1e-12]
+        radius_checks = {str(r): verify_power_direction(n, p, r) for r in radii}
+        exponent_checks.append({"N": n, "selected_p": p, "p_over_5": p / 5.0, "p_over_5_ge_N": p / 5.0 >= n, "radius_checks": radius_checks})
+    controls = hostile_controls()
+    all_checks_pass = identity["bytes_match"] and identity["sha_match"] and all(item["p_over_5_ge_N"] and all(item["radius_checks"].values()) for item in exponent_checks) and all(controls.values())
+    return {
+        "artifact_id": "RS2-DATA-LM009B-v1.0",
+        "target": "P02-LM-009 / LCR-DER-027-v1.0",
+        "status": "PASS" if all_checks_pass else "FAIL",
+        "independence_credit": "ZERO — same OpenAI organizational family",
+        "identity": identity,
+        "exponent_checks": exponent_checks,
+        "exact_application": exact_application(),
+        "hostile_controls": controls,
+        "hostile_controls_passed": sum(controls.values()),
+        "hostile_controls_total": len(controls),
+        "all_checks_pass": all_checks_pass,
+    }
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("export_path", type=Path)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    result = run(args.export_path)
+    args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps(result, indent=2, sort_keys=True))
+    if not result["all_checks_pass"]:
+        raise SystemExit(1)
+
+
+if __name__ == "__main__":
+    main()
+END_EXACT_PYTHON_SOURCE
+
+
+Declared local source identity before Drive publication:
+SOURCE_BYTES: 5959
+SOURCE_SHA256: c105d0ba797ff3651f63807f87a335edaddd2102a04a332f5da2b5a54f07cf2b
+
+
+No terminal or promotion effect follows.

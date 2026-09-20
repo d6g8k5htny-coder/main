@@ -1,0 +1,325 @@
+﻿ARTIFACT ID:       GP-DATA-052-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             DATA — proposed verifier source and adversarial receipt
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+STATUS:            LOCAL EXECUTION PASS / 16 OF 16 NEGATIVE TESTS PASS / NONCANONICAL
+EXECUTES:          GP-REG-051-v1.0
+TRANSITION:        TR-QM-002
+
+
+# Law-specific q verifier v1.1
+
+
+Verifier SHA-256: 1bbfce143b8eee6c0cc4ad4a24c7b2b97a5f5a584fa191df63069a855b34a6a1
+Verifier bytes: 11351
+Report SHA-256: 076d4dfcd13bb79d924a413159fad82c3c08512ef2fc147377e154d0ec42b1d4
+Machine SHA-256: 082e85add126621e348f4c5cf0f417220e2d292979ef1c9aea50356f96db785a
+
+
+The validator rejects:
+1. bare q;
+2. P_ADJ-CANDIDATE without conditioning bridge;
+3. P_ADJ-CANDIDATE without adjacency mark;
+4. missing direct typed route;
+5. missing redundant typed route;
+6. adjacent rate without uniform positivity;
+7. transfer without pointwise positivity;
+8. uniform positivity without compact remainder;
+9. Theorem B without adjacency factor;
+10. unknown dependencies;
+11. object-dependency smuggling;
+12. unknown route dependencies;
+13. missing Morse–Smale R0;
+14. circular justification;
+15. active-machine overwrite;
+16. obsolete schema.
+
+
+Base-machine result:
+{
+  "errors": [],
+  "negative_tests_passed": 16,
+  "negative_tests_total": 16,
+  "root_reports": {
+    "Q_ADJ_CONFIGURED_RATE": {
+      "blockers": ["ADJACENCY_TO_ONE_CUBIC", "ADJ_CONDITIONING_TRANSFER", "ADJ_POSITIVITY_COMPACT_REMAINDER", "ADJ_POSITIVITY_POINTWISE", "ADJ_POSITIVITY_UNIFORM", "DEFECT_DICHOTOMY", "MORSE_SMALE_R0", "Q_ADJ_CONFIGURED_RATE", "TYPED_REGIONAL_DEFECT_CUBIC"],
+      "route_reports": [],
+      "unconditional_promotable": false
+    },
+    "Q_TYPED_MS_RATE": {
+      "blockers": ["DEFECT_DICHOTOMY", "MORSE_SMALE_R0", "Q_TYPED_MS_RATE", "TYPED_REGIONAL_DEFECT_CUBIC"],
+      "route_reports": [
+        {"blockers": ["DEFECT_DICHOTOMY", "MORSE_SMALE_R0", "TYPED_REGIONAL_DEFECT_CUBIC"], "route_id": "DIRECT_TYPED_REGIONAL"},
+        {"blockers": ["ADJACENCY_TO_ONE_CUBIC", "ADJ_CONDITIONING_TRANSFER", "ADJ_POSITIVITY_COMPACT_REMAINDER", "ADJ_POSITIVITY_POINTWISE", "ADJ_POSITIVITY_UNIFORM", "DEFECT_DICHOTOMY", "MORSE_SMALE_R0", "Q_ADJ_CONFIGURED_RATE", "TYPED_REGIONAL_DEFECT_CUBIC"], "route_id": "REDUNDANT_VIA_ADJACENCY"}
+      ],
+      "unconditional_promotable": false
+    },
+    "THEOREM_B_ADJ_CONTACT_FACTOR": {
+      "blockers": ["ADJACENCY_TO_ONE_CUBIC", "ADJ_POSITIVITY_COMPACT_REMAINDER", "ADJ_POSITIVITY_POINTWISE", "ADJ_POSITIVITY_UNIFORM", "J_TYPED_CONTACT_LIMIT", "MORSE_SMALE_R0", "THEOREM_B_ADJ_CONTACT_FACTOR"],
+      "route_reports": [],
+      "unconditional_promotable": false
+    }
+  },
+  "valid": true
+}
+
+
+```python
+#!/usr/bin/env python3
+from __future__ import annotations
+
+
+import copy
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+
+SCHEMA = "q0-law-specific/1.1"
+TERMINAL_STATUSES = {"PROVED-EXACT", "PROVED-INDEPENDENT", "VERIFIED-INDEPENDENT", "CLOSED-EXACT"}
+REQUIRED_FIELDS = {"law_object", "measure_tag", "status", "claim_grade", "statement", "dependency_ids", "dependency_routes", "bridge_ids", "required_marks", "source_files", "falsifiers"}
+
+
+
+
+def load(path: str | Path) -> dict[str, Any]:
+    return json.loads(Path(path).read_text())
+
+
+
+
+def is_bare_q(value: str) -> bool:
+    return value.strip() in {"", "q", "Q", "q0", "Q0"}
+
+
+
+
+def all_dependencies(claim: dict[str, Any]) -> set[str]:
+    deps = set(claim.get("dependency_ids", []))
+    for route in claim.get("dependency_routes", []):
+        deps.update(route.get("dependencies", []))
+    return deps
+
+
+
+
+def verify(machine: dict[str, Any]) -> dict[str, Any]:
+    errors: list[str] = []
+    objects = machine.get("objects", {})
+    claims = machine.get("claims", {})
+    roots = machine.get("proposed_roots", [])
+
+
+    if machine.get("schema") != SCHEMA:
+        errors.append("SCHEMA")
+    if not machine.get("active_machine_untouched"):
+        errors.append("ACTIVE_MACHINE_OVERWRITE")
+    if not isinstance(objects, dict) or not objects:
+        errors.append("OBJECTS_MISSING")
+    if not isinstance(claims, dict) or not claims:
+        errors.append("CLAIMS_MISSING")
+
+
+    for cid, claim in claims.items():
+        missing = sorted(REQUIRED_FIELDS - set(claim))
+        for field in missing:
+            errors.append(f"{cid}:MISSING:{field}")
+
+
+        obj = claim.get("law_object", "")
+        if obj not in objects:
+            errors.append(f"{cid}:UNKNOWN_OBJECT:{obj}")
+        if is_bare_q(obj):
+            errors.append(f"{cid}:BARE_Q")
+        if re.search(r"(?<![A-Za-z0-9_])q\s*\(", claim.get("statement", ""), re.I):
+            errors.append(f"{cid}:BARE_Q_STATEMENT")
+
+
+        dep_ids = claim.get("dependency_ids", [])
+        if len(dep_ids) != len(set(dep_ids)):
+            errors.append(f"{cid}:DUPLICATE_DEPENDENCY")
+        for dep in dep_ids:
+            if dep in objects:
+                errors.append(f"{cid}:OBJECT_DEPENDENCY_SMUGGLING:{dep}")
+            elif dep not in claims:
+                errors.append(f"{cid}:UNKNOWN_DEP:{dep}")
+
+
+        route_ids: set[str] = set()
+        for route in claim.get("dependency_routes", []):
+            rid = route.get("route_id", "")
+            if not rid:
+                errors.append(f"{cid}:ROUTE_MISSING_ID")
+            if rid in route_ids:
+                errors.append(f"{cid}:DUPLICATE_ROUTE:{rid}")
+            route_ids.add(rid)
+            route_deps = route.get("dependencies", [])
+            if not route_deps:
+                errors.append(f"{cid}:EMPTY_ROUTE:{rid}")
+            for dep in route_deps:
+                if dep in objects:
+                    errors.append(f"{cid}:ROUTE_OBJECT_DEPENDENCY_SMUGGLING:{rid}:{dep}")
+                elif dep not in claims:
+                    errors.append(f"{cid}:ROUTE_UNKNOWN_DEP:{rid}:{dep}")
+
+
+        measure = claim.get("measure_tag", "")
+        if measure.startswith("P_ADJ"):
+            if "ADJ_CONDITIONING_TRANSFER" not in claim.get("bridge_ids", []):
+                errors.append(f"{cid}:MISSING_ADJ_BRIDGE")
+            if "GRADIENT_ADJACENCY_MS" not in claim.get("required_marks", []):
+                errors.append(f"{cid}:MISSING_ADJ_MARK")
+
+
+    def require_deps(cid: str, required: set[str], needle: str) -> None:
+        actual = set(claims.get(cid, {}).get("dependency_ids", []))
+        missing = required - actual
+        for dep in sorted(missing):
+            errors.append(f"{cid}:{needle}:{dep}")
+
+
+    require_deps("Q_ADJ_CONFIGURED_RATE", {"MORSE_SMALE_R0", "DEFECT_DICHOTOMY", "TYPED_REGIONAL_DEFECT_CUBIC", "ADJ_POSITIVITY_UNIFORM", "ADJ_CONDITIONING_TRANSFER"}, "MISSING_REQUIRED_DEP")
+    require_deps("ADJ_CONDITIONING_TRANSFER", {"ADJ_POSITIVITY_POINTWISE"}, "MISSING_POINTWISE_POSITIVITY")
+    require_deps("ADJ_POSITIVITY_UNIFORM", {"ADJACENCY_TO_ONE_CUBIC", "ADJ_POSITIVITY_COMPACT_REMAINDER"}, "MISSING_UNIFORM_POSITIVITY_COMPONENT")
+    require_deps("THEOREM_B_ADJ_CONTACT_FACTOR", {"J_TYPED_CONTACT_LIMIT", "ADJ_POSITIVITY_UNIFORM"}, "MISSING_THEOREM_B_DEP")
+    for cid in ["TYPED_REGIONAL_DEFECT_CUBIC", "DEFECT_DICHOTOMY", "Q_TYPED_MS_RATE", "Q_ADJ_CONFIGURED_RATE"]:
+        require_deps(cid, {"MORSE_SMALE_R0"}, "MISSING_R0")
+
+
+    typed_routes = {r.get("route_id"): set(r.get("dependencies", [])) for r in claims.get("Q_TYPED_MS_RATE", {}).get("dependency_routes", [])}
+    if not {"DEFECT_DICHOTOMY", "TYPED_REGIONAL_DEFECT_CUBIC"}.issubset(typed_routes.get("DIRECT_TYPED_REGIONAL", set())):
+        errors.append("Q_TYPED_MS_RATE:MISSING_DIRECT_ROUTE")
+    if not {"Q_ADJ_CONFIGURED_RATE", "ADJACENCY_TO_ONE_CUBIC"}.issubset(typed_routes.get("REDUNDANT_VIA_ADJACENCY", set())):
+        errors.append("Q_TYPED_MS_RATE:MISSING_REDUNDANT_ROUTE")
+
+
+    graph = {cid: all_dependencies(c) for cid, c in claims.items()}
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+
+    def dfs(cid: str, path: list[str]) -> None:
+        if cid in visiting:
+            cycle = path[path.index(cid):] + [cid] if cid in path else path + [cid]
+            errors.append("CYCLE:" + "->".join(cycle))
+            return
+        if cid in visited:
+            return
+        visiting.add(cid)
+        path.append(cid)
+        for dep in sorted(graph.get(cid, set())):
+            if dep in claims:
+                dfs(dep, path)
+        path.pop()
+        visiting.remove(cid)
+        visited.add(cid)
+
+
+    for cid in sorted(claims):
+        dfs(cid, [])
+
+
+    def blockers_for(cid: str, stack: tuple[str, ...] = ()) -> set[str]:
+        if cid not in claims:
+            return {f"UNKNOWN_DEP:{cid}"}
+        if cid in stack:
+            return {f"CYCLE:{cid}"}
+        claim = claims[cid]
+        blockers: set[str] = set()
+        if claim.get("status") not in TERMINAL_STATUSES:
+            blockers.add(cid)
+        next_stack = stack + (cid,)
+        for dep in claim.get("dependency_ids", []):
+            if dep in claims:
+                blockers |= blockers_for(dep, next_stack)
+        routes = claim.get("dependency_routes", [])
+        if routes:
+            route_blockers = []
+            for route in routes:
+                rb: set[str] = set()
+                for dep in route.get("dependencies", []):
+                    if dep in claims:
+                        rb |= blockers_for(dep, next_stack)
+                route_blockers.append(rb)
+            if route_blockers:
+                blockers |= min(route_blockers, key=lambda s: (len(s), sorted(s)))
+        return blockers
+
+
+    root_reports: dict[str, Any] = {}
+    for root in roots:
+        if root not in claims:
+            errors.append(f"UNKNOWN_ROOT:{root}")
+            continue
+        root_blockers = sorted(blockers_for(root))
+        route_reports = []
+        for route in claims[root].get("dependency_routes", []):
+            rb: set[str] = set()
+            for dep in route.get("dependencies", []):
+                rb |= blockers_for(dep, (root,))
+            route_reports.append({"route_id": route.get("route_id"), "blockers": sorted(rb)})
+        root_reports[root] = {"blockers": root_blockers, "route_reports": route_reports, "unconditional_promotable": not root_blockers}
+
+
+    return {"valid": not errors, "errors": sorted(set(errors)), "root_reports": root_reports}
+
+
+
+
+def negative_tests(base: dict[str, Any]) -> list[dict[str, Any]]:
+    tests: list[dict[str, Any]] = []
+
+
+    def run(name: str, mutator, needle: str) -> None:
+        machine = copy.deepcopy(base)
+        mutator(machine)
+        report = verify(machine)
+        passed = (not report["valid"] and any(needle in e for e in report["errors"]))
+        tests.append({"name": name, "passed": passed, "needle": needle, "errors": report["errors"]})
+
+
+    run("bare_q", lambda m: m["claims"]["Q_TYPED_MS_RATE"].update(law_object="q"), "BARE_Q")
+    run("adj_candidate_without_bridge", lambda m: m["claims"]["THEOREM_B_ADJ_CONTACT_FACTOR"].update(bridge_ids=[]), "MISSING_ADJ_BRIDGE")
+    run("adj_candidate_without_mark", lambda m: m["claims"]["THEOREM_B_ADJ_CONTACT_FACTOR"].update(required_marks=["NORMALIZED_GAP_KAPPA"]), "MISSING_ADJ_MARK")
+    run("typed_missing_direct_route", lambda m: m["claims"]["Q_TYPED_MS_RATE"].update(dependency_routes=[m["claims"]["Q_TYPED_MS_RATE"]["dependency_routes"][1]]), "MISSING_DIRECT_ROUTE")
+    run("typed_missing_redundant_route", lambda m: m["claims"]["Q_TYPED_MS_RATE"].update(dependency_routes=[m["claims"]["Q_TYPED_MS_RATE"]["dependency_routes"][0]]), "MISSING_REDUNDANT_ROUTE")
+    run("adj_missing_uniform_positivity", lambda m: m["claims"]["Q_ADJ_CONFIGURED_RATE"]["dependency_ids"].remove("ADJ_POSITIVITY_UNIFORM"), "MISSING_REQUIRED_DEP:ADJ_POSITIVITY_UNIFORM")
+    run("transfer_missing_pointwise_positivity", lambda m: m["claims"]["ADJ_CONDITIONING_TRANSFER"].update(dependency_ids=[]), "MISSING_POINTWISE_POSITIVITY")
+    run("uniform_missing_compact_remainder", lambda m: m["claims"]["ADJ_POSITIVITY_UNIFORM"]["dependency_ids"].remove("ADJ_POSITIVITY_COMPACT_REMAINDER"), "MISSING_UNIFORM_POSITIVITY_COMPONENT")
+    run("theorem_b_drops_a", lambda m: m["claims"]["THEOREM_B_ADJ_CONTACT_FACTOR"].update(dependency_ids=["J_TYPED_CONTACT_LIMIT"]), "MISSING_THEOREM_B_DEP:ADJ_POSITIVITY_UNIFORM")
+    run("unknown_dependency", lambda m: m["claims"]["Q_ADJ_CONFIGURED_RATE"]["dependency_ids"].append("NONEXISTENT"), "UNKNOWN_DEP")
+    run("object_dependency_smuggling", lambda m: m["claims"]["ADJ_CONDITIONING_TRANSFER"].update(dependency_ids=["A_ADJ"]), "OBJECT_DEPENDENCY_SMUGGLING")
+    run("route_unknown_dependency", lambda m: m["claims"]["Q_TYPED_MS_RATE"]["dependency_routes"][0]["dependencies"].append("NONEXISTENT"), "ROUTE_UNKNOWN_DEP")
+    run("missing_r0", lambda m: m["claims"]["TYPED_REGIONAL_DEFECT_CUBIC"].update(dependency_ids=[]), "MISSING_R0")
+    run("cycle", lambda m: m["claims"]["MORSE_SMALE_R0"]["dependency_ids"].append("Q_TYPED_MS_RATE"), "CYCLE:")
+    run("active_overwrite", lambda m: m.update(active_machine_untouched=False), "ACTIVE_MACHINE_OVERWRITE")
+    run("old_schema", lambda m: m.update(schema="q0-law-specific/1.0"), "SCHEMA")
+    return tests
+
+
+
+
+def main() -> int:
+    path = sys.argv[1] if len(sys.argv) > 1 else "q0_law_specific_successor_v1_1.json"
+    machine = load(path)
+    report = verify(machine)
+    tests = negative_tests(machine)
+    report["negative_tests"] = tests
+    report["negative_tests_passed"] = sum(t["passed"] for t in tests)
+    report["negative_tests_total"] = len(tests)
+    output = Path("q0_law_specific_verify_v1_1_report.json")
+    output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    print(json.dumps(report, indent=2, sort_keys=True))
+    ok = report["valid"] and all(t["passed"] for t in tests)
+    return 0 if ok else 1
+
+
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```

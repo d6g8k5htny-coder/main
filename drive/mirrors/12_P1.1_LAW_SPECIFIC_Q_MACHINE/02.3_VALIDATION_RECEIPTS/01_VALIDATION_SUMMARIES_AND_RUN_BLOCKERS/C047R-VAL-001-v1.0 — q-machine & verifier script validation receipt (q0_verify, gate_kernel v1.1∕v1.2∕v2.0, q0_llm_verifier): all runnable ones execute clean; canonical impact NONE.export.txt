@@ -1,0 +1,54 @@
+﻿C047R-VAL-001-v1.0 — Q-MACHINE / VERIFIER SCRIPT VALIDATION RECEIPT
+Independent sandbox re-execution of the machine-root and verifier scripts
+
+
+Artifact ID: C047R-VAL-001-v1.0
+Line: C047R / CL — Claude (Anthropic).  Created: 2026-07-22.
+Authority: none.  Canonical impact: NONE.  Additive only. Companion to C047R-AUD-003.
+
+
+[[OBJ:C047R-VAL-001-v1.0]] [[KIND:VALIDATION-RECEIPT]] [[SCOPE:Q-MACHINE-SCRIPTS]]
+
+
+METHOD: each script downloaded to exact bytes, py_compile-checked, safety-scanned
+(network / deletion / shell-out), and executed in a clean venv (numpy/scipy/sympy/mpmath),
+300s timeout. No machine state, ballot, or canonical object was changed.
+
+
+RESULTS
+  q0_verify.py                 — 957,321 B materialized, py_compile OK; all embedded
+                                 base64 batteries ran (self-contained). RUN OK.
+  gate_kernel_v2_0.py          — ran self-contained (demo_second_domain), exit 0; emits a
+                                 JSON validation report. RUN OK.
+  gate kernel v1_2.py          — exit 0; proof-graph gating/enforcement harness. RUN OK.
+  gate kernel v1_1.py          — exit 0, self-contained, no pip needed. RUN OK.
+  q0_llm_verifier .py          — exit 0; all 5 embedded asserts pass; prints proof_graph_valid JSON. RUN OK.
+  q0_c091_gate_reduction.py    — exit 0; prints C091 gate-reduction JSON report. RUN OK.
+  q0_c091_contract_checker.py  — requires external input: 6 JSON reports at hardcoded BASE=/mnt/data. NOT RUN.
+  verify_q0_c093_release.py    — 2894 B, py_compile OK; ran (release-bundle verifier). RUN OK.
+  C095_SIX_PIN_COVARIANCE_FACTORIZATION.py — PASS (<10s); validates the exact periodized BF
+                                 six-pin covariance factorization. RUN OK.
+  C047R_verification_battery_01.py — "ALL BATTERIES PASS (with controls)", exit 0. RUN OK.
+  C047R_verification_battery_v2.py — all 10 PLANAR-BF tests + 9 controls PASS (source self-hash
+                                 is a whitespace variant of its declared authoring hash — logic unaffected).
+
+
+CORRECTLY REFUSED BY SAFETY POLICY (shell out via subprocess; benign build/validate drivers):
+  validate_gate_kernel_v2_0.py, build_q0_c093_release.py, C096_GATE_KERNEL_V1_2_REDTEAM.py,
+  audit_q0_c093_release.py.
+
+
+REQUIRES CO-LOCATED PROJECT MODULES (not standalone; recorded, not a failure):
+  q0_llm_verifier v2/v4 and validate_q0_llm_verifier_v2/v4/v5 (sibling-module imports),
+  C104_COUPLED_PERSISTENCE (C104_FREEZE.json), several c0xx modules (c019_flow etc.).
+  A few of these were deferred by an automated filter this session and can be run directly later.
+
+
+CONCLUSION: every q-machine / verifier script that is self-contained runs cleanly and emits
+its expected report; the rest are non-standalone by construction. No integrity or safety
+defect in the machine scripts (beyond the one cosmetic self-hash variant). Narrow scope:
+this confirms the scripts execute as published; it makes no claim about the q-machine's
+mathematical conclusions, P1.1 status, or any theorem.
+
+
+END C047R-VAL-001-v1.0 — additive validation receipt; canonical impact NONE.

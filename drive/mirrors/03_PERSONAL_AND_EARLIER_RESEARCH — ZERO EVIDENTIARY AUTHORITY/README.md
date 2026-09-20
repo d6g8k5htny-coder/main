@@ -64,7 +64,12 @@ lines identically:
 
 > "**Effective 2026-07-29 · Authority: Dylan Roy · GOOGLE DRIVE FRESH START 2.0**"
 >
-> "> **LEGACY MATERIAL MAY GENERATE A QUESTION. LEGACY MATERIAL MAY NOT SUPPLY THE ANSWER.**"
+> **LEGACY MATERIAL MAY GENERATE A QUESTION. LEGACY MATERIAL MAY NOT SUPPLY THE ANSWER.**
+
+Both lines are blockquotes in the source and are set as blockquotes here. Until
+2026-09-20 the second was written as `"> **LEGACY MATERIAL MAY GENERATE A
+QUESTION. LEGACY MATERIAL MAY NOT SUPPLY THE ANSWER.**"`, carrying the source's
+own `>` marker inside the quotation marks as well as outside them.
 
 and each closes by explaining why the notice exists at all. All four open that closing paragraph
 with the same sentence and reach the same conclusion:
