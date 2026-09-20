@@ -1,0 +1,28 @@
+==============================================================================
+W6 WP-min CERTIFICATE -- E_WP(r) = 4.2*r^{3/2} on (0, 0.05]
+==============================================================================
+
+## P1 pointwise validity rho <= rho_CS (sampled, exact vs CS)
+[ck] rho <= rho_CS at all 84 sampled (y,r): PASS  max exact/CS = 4.533e-02
+
+## P2 factor r-dependence at y=(0,0.5672) (dominant wedge peak)
+  factors: p_grad, sqrt(E[det^2]), sF, m (r-invariant limits); P_W ~ r^3
+  r=0.05: pgrad=3.62896 sqrtEdet2=0.99927 m=1.169651 sF=0.007075 P_W/r^3=0.00095
+  r=0.025: pgrad=5.21009 sqrtEdet2=0.52477 m=1.187965 sF=0.006827 P_W/r^3=2.06012
+  r=0.0125: pgrad=5.63889 sqrtEdet2=0.48836 m=1.197136 sF=0.006793 P_W/r^3=8.95582
+  r=0.00625: pgrad=5.72971 sqrtEdet2=0.54476 m=1.201668 sF=0.006783 P_W/r^3=9.51093
+
+## P3 rung grid: I_CS(r_k)/r_k^{3/2} <= 4.2
+[ck] I_CS(0.05)/r^1.5 <= 4.2: PASS  2.3770
+[ck] I_CS(0.04204482076)/r^1.5 <= 4.2: PASS  2.4480
+[ck] I_CS(0.03535533906)/r^1.5 <= 4.2: PASS  2.5258
+[ck] I_CS(0.02973017788)/r^1.5 <= 4.2: PASS  2.6098
+[ck] I_CS(0.025)/r^1.5 <= 4.2: PASS  2.6994
+[ck] I_CS(0.02102241038)/r^1.5 <= 4.2: PASS  2.7937
+[ck] I_CS(0.01767766953)/r^1.5 <= 4.2: PASS  2.8920
+[ck] I_CS(0.01486508894)/r^1.5 <= 4.2: PASS  2.9937
+[ck] I_CS(0.0125)/r^1.5 <= 4.2: PASS  3.0982
+scaled coefficient max over grid: 3.0982
+
+==============================================================================
+WP CERT PASS (validity + rung grid); coverage statement in W6_REPORT.md S5

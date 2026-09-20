@@ -1,0 +1,203 @@
+==============================================================================
+KIMI-DER-027c / AO48-WO-063 Task 4c RIDGE -- fail-closed certificate
+certified two-sided control at BOTH ridge maxima of the 9-pin mean m9
+Inputs: WO sha256 e699bf44b7b84fca88faa2b509c1686ea9f8e500aee0dbe618c859b5ec5ad2e2
+field: periodized 2D BF on T^2_24; lattice (pi/12)Z^2; masses e^{-|k|^2/2};
+rung r = 0.025 (EXACT); b = 6/5 (EXACT); ell = r^3/6; mpmath dps = 80
+==============================================================================
+
+[A0] Planar kernel derivative identities (decimal-dps-80)
+[ok] K(0) = 1
+[ok] K_xx(0) = -1
+[ok] K_xxxx(0) = 3
+[ok] K_xxyy(0) = 1
+[ok] K(e1) = e^{-1/2}
+
+[A1] Exact periodized kernel on the spectral lattice (pi/12)Z^2
+     1D truncation tail (order 0, |k|>30) <= 3.12e-198
+[ok] 1D lattice tail order 0 < 1e-60
+     1D truncation tail (order 2, |k|>30) <= 2.82e-195
+[ok] 1D lattice tail order 2 < 1e-60
+     1D truncation tail (order 4, |k|>30) <= 2.56e-192
+[ok] 1D lattice tail order 4 < 1e-60
+     1D truncation tail (order 6, |k|>30) <= 2.32e-189
+[ok] 1D lattice tail order 6 < 1e-60
+     2D tails (products, orders <= 6) < 1e-189: certified < 1e-60
+[ok] lattice normalization K1(0)^2 = 1
+[ok] lattice K1''(0) = -1
+     max |Cov_spectral - Cov_planar| over 6 probes x 18 orders = 9.49e-81
+[ok] spectral/planar covariance agreement < 1e-60
+     Poisson wrap tail (|u| <= 12, value order) <= 4.3e-31
+[ok] Poisson wrap tail < 1e-28
+     Poisson images: pins (|u|<=0.25, ord<=2) 1.533e-119 ; root evals (|u|<=1.5, ord<=3) 1.083e-105
+     Poisson images: whole torus (|u|inf<=12.1, ord<=3) 2.519e-27
+[ok] Poisson image bounds at all three scales
+
+[A2] 9-pin assembly at r = 0.025 (planar closed form, decimal-dps-80)
+     ell = r^3/6 = 2.60416666666667e-6
+     v* = mu_t = 1.199998698656492779   (b-v*)/ell = 0.499715906773
+[ok] v* strictly inside the window (b-ell, b)
+[ok] (b-v*)/ell inside the C026 band of the limit -0.4999290
+     pin reproduction: max|d^a m9(p_j) - v_j| = 2.37e-71 ; max|grad m9(pins)| = 9.18e-73
+[ok] pins reproduced to < 1e-60 (envelope E_EVAL = 1e-50 is 10 orders above)
+     certified inverse: max|Spp*Sppi - I| = 3.23e-71 ; ||Sppi||_F = 4.943e+13
+     coefficient error envelope dc = 5.98e-55 ; eval envelope E_EVAL = 1e-50
+[ok] inverse stable: r1*||Sppi||_F < 1e-40
+[ok] coefficient envelope < 1e-52 (E_EVAL dominates at 1e-50)
+     propagated |m9_per - m9_plan|: via Gram 1.42e-104 ; at roots 7.87e-98 ; on grids 1.83e-19
+[ok] periodization propagation at roots < 1e-90 (vs envelopes 1e-50)
+[ok] periodization propagation on grids < 1e-18 (vs EPS_F = 5e-7)
+     ||m9||_H^2 = v.coef = 13.219736462363 ; ||m9||_H = 3.63589555163
+     RKHS global bounds (Cauchy-Schwarz, Var(d^a f|pins) <= Var(d^a f)):
+     G1 = 3.635896 (|grad entries|)  G2 = 6.297556 (|Hess entries|)  G3 = 14.081763 (|3rd derivs|)
+     D2F = 10.907687 (||H||_F)  D3F = 48.780658 (|dH|_F/dx) -- certified global
+[ok] RKHS norm in documented range (LB-2: 13.21973646)
+
+[A3] Full spectral-lattice recomputation (independent pipeline)
+[ok] v* spectral vs planar agreement < 1e-60
+
+[B] TASK (i): interval-Newton/Kantorovich certification at P*, Q*
+[ok] Hessian near-singular at seed (min|eig| = 2.59)
+[ok] Kantorovich alpha >= 1/2
+     P* root x0 = (1.30560936309085189, 0.68575873969528245)
+        |grad m9(x0)| = 4.17e-75 ; residual bound eta = 3.86e-51
+        Hess eig = (-2.58740187432896, -2.76737639265313)  (+/- 1.0e-50 envelope)
+        min|eig| = 2.58740187433 ; beta = 0.38648809 ; gamma = D3F = 48.780658
+        alpha = 7.29e-50 (< 1/2) ; root enclosure rho1 = 3.86e-51 ; uniqueness ball rho2 = 0.106083
+[ok] P* certified NONDEGENERATE MAXIMUM (both Hessian eigenvalues < -1.9)
+[ok] P* uniqueness ball is macroscopic (> 0.05)
+        spectral-vs-planar at root: dm=1.5e-65 dgrad=2.62e-65 dH=2.28e-65 (< 1e-60)
+[ok] P* cross-representation agreement < 1e-60
+[ok] Hessian near-singular at seed (min|eig| = 1.96)
+[ok] Kantorovich alpha >= 1/2
+     Q* root x0 = (-1.10400474713299624, 0.879685522551079313)
+        |grad m9(x0)| = 3.96e-75 ; residual bound eta = 5.1e-51
+        Hess eig = (-1.95894392429566, -2.75639190410335)  (+/- 1.0e-50 envelope)
+        min|eig| = 1.9589439243 ; beta = 0.51047914 ; gamma = D3F = 48.780658
+        alpha = 1.27e-49 (< 1/2) ; root enclosure rho1 = 5.1e-51 ; uniqueness ball rho2 = 0.0803164
+[ok] Q* certified NONDEGENERATE MAXIMUM (both Hessian eigenvalues < -1.9)
+[ok] Q* uniqueness ball is macroscopic (> 0.05)
+        spectral-vs-planar at root: dm=2.03e-65 dgrad=3.23e-65 dH=3.08e-65 (< 1e-60)
+[ok] Q* cross-representation agreement < 1e-60
+
+[C] TASK (ii): certified values and distances (outward-rounded)
+     P* : m = 1.93119035755789484 +/- 2.41e-50 (certified, outward)
+           12-decimal outward rounding: [1.931190357557, 1.931190357558]
+           d = 1.4747477269211 +/- 1.39e-50 (certified, outward); 12-decimal: [1.474747726921, 1.474747726922]
+         Hessian eigenvalues in [-2.76737639265, -2.58740187433]  (definiteness margin >= 2.5874019)
+     Q* : m = 1.66659821936183025 +/- 2.86e-50 (certified, outward)
+           12-decimal outward rounding: [1.666598219361, 1.666598219362]
+           d = 1.41162073528202 +/- 1.51e-50 (certified, outward); 12-decimal: [1.411620735282, 1.411620735283]
+         Hessian eigenvalues in [-2.7563919041, -1.9589439243]  (definiteness margin >= 1.9589439)
+[ok] m(P*) consistent with WO quote 1.931 (outward)
+[ok] m(Q*) consistent with WO quote 1.667 (outward)
+[ok] d(P*) consistent with WO quote 1.475 (outward)
+[ok] d(Q*) consistent with WO quote 1.412 (outward)
+[ok] m(P*) = 1.9312 (LB-1 print)
+[ok] m(Q*) = 1.6666 (LB-1 print)
+[ok] P* = (1.30561, 0.68576) (LB-1 print)
+[ok] Q* = (-1.10400, 0.87969) (LB-1 print)
+[ok] P* conditional variance positive
+         P* conditional variance v = 0.174043537433 (sd = 0.4171852555); (m-b)/sd = 1.7526755
+[ok] Q* conditional variance positive
+         Q* conditional variance v = 0.126943975593 (sd = 0.3562919808); (m-b)/sd = 1.3095951
+
+[D] TASK (iii): ZERO-above-b-saddle census (torus-global)
+[ok] Hessian near-singular at seed (min|eig| = 0.0149)
+[ok] Kantorovich alpha >= 1/2
+[ok] Hessian near-singular at seed (min|eig| = 0.0334)
+[ok] Kantorovich alpha >= 1/2
+[ok] Hessian near-singular at seed (min|eig| = 0.0234)
+[ok] Kantorovich alpha >= 1/2
+[ok] Hessian near-singular at seed (min|eig| = 1.37)
+[ok] Kantorovich alpha >= 1/2
+[ok] Hessian near-singular at seed (min|eig| = 1.04)
+[ok] Kantorovich alpha >= 1/2
+     D.1 Kantorovich certification of the full critical set in B_2.5:
+       M    (-0.0125, -3.93502473845e-72): MAX  m = 1.2  eig = (-0.0149430997, -0.327323564)  rho2 = 0.0006127
+       S    (0.0125, -4.64166605158e-72): SADDLE  m = 1.1999973958333  eig = (0.0333728497, -0.336751655)  rho2 = 0.001368
+       Y    (-0.0315, 0.006): SADDLE  m = 1.1999986986565  eig = (0.023372899, -0.369906659)  rho2 = 0.0009583
+       P*   (1.30560936309, 0.685758739695): MAX  m = 1.9311903575579  eig = (-2.58740187, -2.76737639)  rho2 = 0.1061
+       Q*   (-1.10400474713, 0.879685522551): MAX  m = 1.6665982193618  eig = (-1.95894392, -2.7563919)  rho2 = 0.08032
+       min1 (-1.74088697098, -1.07714920185): MIN  m = -0.58051424651105  eig = (1.75267605, 1.36642567)  rho2 = 0.05602
+       min2 (1.56397099501, -1.48001979706): MIN  m = -0.3317785491593  eig = (1.14868311, 1.04366688)  rho2 = 0.04279
+[ok] M = max at exactly b, min|eig| > 0.014
+[ok] S = saddle at exactly b - ell
+[ok] Y = saddle at exactly v*
+[ok] P*, Q* = maxima
+[ok] two minima typed
+[ok] min1 value -0.5805 (LB-1 print)
+[ok] min2 value -0.3318 (LB-1 print)
+[ok] uniqueness balls of M and S disjoint
+[ok] uniqueness balls of M and Y disjoint
+[ok] uniqueness balls of M and P* disjoint
+[ok] uniqueness balls of M and Q* disjoint
+[ok] uniqueness balls of M and min1 disjoint
+[ok] uniqueness balls of M and min2 disjoint
+[ok] uniqueness balls of S and Y disjoint
+[ok] uniqueness balls of S and P* disjoint
+[ok] uniqueness balls of S and Q* disjoint
+[ok] uniqueness balls of S and min1 disjoint
+[ok] uniqueness balls of S and min2 disjoint
+[ok] uniqueness balls of Y and P* disjoint
+[ok] uniqueness balls of Y and Q* disjoint
+[ok] uniqueness balls of Y and min1 disjoint
+[ok] uniqueness balls of Y and min2 disjoint
+[ok] uniqueness balls of P* and Q* disjoint
+[ok] uniqueness balls of P* and min1 disjoint
+[ok] uniqueness balls of P* and min2 disjoint
+[ok] uniqueness balls of Q* and min1 disjoint
+[ok] uniqueness balls of Q* and min2 disjoint
+[ok] uniqueness balls of min1 and min2 disjoint
+     [ok] all 7 uniqueness balls pairwise disjoint (7 distinct critical points)
+     D.2 adaptive exclusion over B_2.5 (float64 engine, EPS_F = 5e-7,
+         |grad m9(x)| >= |grad m9(c)| - (||H||_F(c) + D3F*rho)*rho - EPS_F)
+       level d=0.02000 : survivor cells = 57
+       level d=0.0050000 : survivor cells = 53
+       level d=0.0012500 : survivor cells = 87
+       level d=0.0003125 : survivor cells = 96
+       level d=0.0000781 : survivor cells = 96
+       level d=0.0000195 : survivor cells = 106
+       level d=0.0000049 : survivor cells = 167
+[ok] survivor cells present at pins (sanity: pins trap cells)
+[ok] survivor cell outside every uniqueness ball, e.g. []
+     [ok] all 167 survivor cells inside certified uniqueness balls
+     => Crit(m9) cap B_2.5 = {M, S, Y, P*, Q*, min1, min2} EXACTLY
+        (every candidate region excluded or typed; second-order throughout)
+     D.3 value exclusion outside B_2.5:
+         m9(x) <= m9(c) + |grad m9(c)|*rho + (D2F/2)*rho^2 + EPS_F < b
+       annulus 2.5 < d <= 3: cells = 22556 ; max certified upper bound m9 = 0.948134
+[ok] annulus 2.5-3 value exclusion
+       torus exterior d > 3: cells = 220057 ; max certified upper bound m9 = 0.416956
+[ok] torus exterior value exclusion
+     => outside B_2.5 the mean is everywhere < b: no above-b critical
+        point of ANY type exists outside B_2.5
+     CONCLUSION (D): on the whole torus, the critical points of m9 with
+       m9 >= b are exactly P* (max, m = 1.9312), Q* (max, m = 1.6666) and
+       M (max, m = b exactly). Saddles S (b-ell) and Y (v*) are below b.
+       ABOVE-b SADDLES OF THE MEAN: ZERO (certified, torus-global).
+
+[E] TASK (iv): theorem-grade margins for the assembly's ridge channel
+     (two-sided control at the ridge maxima; LB-2 closed connectivity at
+      the frozen rungs; LB-1 closed the pass zone)
+     P* : root enclosure rho1 = 3.86e-51 ; uniqueness ball rho2 = 0.106083
+        Hessian definiteness floor min|eig| = 2.587401874 ; IFT displacement factor beta = 0.38648809
+        value gap above b: m - b = 0.7311903576 ; persistence: max typing + value survive any perturbation with C^2-norm < min(m-b, min|eig|)
+     Q* : root enclosure rho1 = 5.1e-51 ; uniqueness ball rho2 = 0.0803164
+        Hessian definiteness floor min|eig| = 1.958943924 ; IFT displacement factor beta = 0.51047914
+        value gap above b: m - b = 0.4665982194 ; persistence: max typing + value survive any perturbation with C^2-norm < min(m-b, min|eig|)
+     census margins: Hessian floors at the other critical points:
+       M    min|eig| = 0.0149431 ; rho2 = 0.0006127
+       S    min|eig| = 0.03337285 ; rho2 = 0.001368
+       Y    min|eig| = 0.023372899 ; rho2 = 0.0009583
+       min1 min|eig| = 1.3664257 ; rho2 = 0.05602
+       min2 min|eig| = 1.0436669 ; rho2 = 0.04279
+     global bounds: G1 = 3.6359, G2 = 6.2976, G3 = 14.0818, D2F = 10.9077, D3F = 48.7807
+     envelopes: E_EVAL = 1e-50 (80-dps engine), EPS_F = 5e-7 (float64 grid
+       engine, > analytic worst case 4.46e-7, 450x audited max 1.1e-9),
+       periodization < 1e-90 at roots, < 1e-18 on grids, lattice tail < 1e-189
+     zero-above-b-saddle census: EXACT (deterministic property of m9)
+
+==============================================================================
+CERTIFICATE: PASS  (KIMI-DER-027c; Tasks 4c(i)-(iv) certified)
+==============================================================================

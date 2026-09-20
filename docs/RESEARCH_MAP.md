@@ -47,27 +47,30 @@ Within the active lane:
 **How much of that this repository holds** is measured per lane in
 [`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
 own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
-inventory's 4,456 items, 861 are held byte-for-byte and a further 917 are
-indexed tree-only — 19.3% held, 39.9% held or indexed. The three sub-lanes that
+inventory's 4,456 items, 1,172 are held byte-for-byte and a further 936 are
+indexed tree-only — 26.3% held, 47.3% held or indexed. The three sub-lanes that
 had been at zero of either — `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
 `10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
 items in all — were ported the same day and each now reads `neither = 0`.
 
-The 2,678 items in neither column are not one kind of gap, and the index splits
+The 2,348 items in neither column are not one kind of gap, and the index splits
 them by reading each inventory record's own fields: **472 are folders**, which
 have no payload for any manifest row to hold or index; **1,186 are native Google
 Docs** the corpus declares no digest for anywhere, so the most this repository
 can ever hold of one is a reading copy at `exact: false` — a text export, not the
-object; and **1,020 carry a digest**, so a copy could be stored and proved
+object; and **690 carry a digest**, so a copy could be stored and proved
 byte-exact against it. Only that last number measures work this repository could
-do and has not done, and it is where the next ports come from: 330 of them are
-in the KIMI/AO48 LB-RATE intake, 235 in the reviews lane, 174 in the canon and 81
-in the peer-review submission packages. `99_DO_NOT_OPEN` (6 items) is at zero
-deliberately and permanently: it is metadata only and is never opened.
+do and has not done, and it is where the next ports come from: 235 of them are
+in the reviews lane, 174 in the canon, 81 in the peer-review submission packages
+and 72 in the HOLD lane. `99_DO_NOT_OPEN` (6 items) is at zero deliberately and
+permanently: it is metadata only and is never opened.
 
-Until 2026-09-20 this paragraph gave 700 held and 873 indexed, named those three
-sub-lanes as at zero coverage, and printed the remaining 2,883 as a single
-number with no statement of what kind of gap they are.
+Both paragraphs were corrected twice on 2026-09-20, because two ports landed that
+day. Earlier that day the first gave 700 held and 873 indexed, named those three
+sub-lanes as at zero coverage, and printed the remaining 2,883 as a single number
+with no statement of what kind of gap they are; the second gave 861 held, 917
+indexed and 1,020 digest-bearing, before the KIMI/AO48 LB-RATE intake's 330
+digest-bearing items — 311 stored and 19 indexed — took that lane to zero.
 
 The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
 program's terminal closure records live: the documents behind every

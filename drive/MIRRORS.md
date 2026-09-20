@@ -41,14 +41,14 @@ moves no status.** Nothing under `02_LEGACY_Q0_ARCHIVE`, `03_PERSONAL_AND_EARLIE
 | `15_REVIEWS_RESPONSES_AND_CLOSURES` | 8 | 48 | 22 | 0 | 5,103,245 |
 | `16_THEMATIC_RESEARCH_TRACKS` | 13 | 26 | 24 | 0 | 181,787 |
 | `2026-08-01-to-08-03 — SIDE24 RATIFICATION + P0.1 POST-RATIFICATION` | 1 | 7 | 7 | 1 | 36,318 |
-| `2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE` | 14 | 53 | 53 | 32 | 629,828 |
+| `2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE` | 46 | 364 | 364 | 51 | 3,126,638 |
 | `2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY` | 10 | 38 | 38 | 3 | 331,432 |
 | `2026-09-16 — HOLD_NOT_FOR_SUBMISSION` | 1 | 2 | 2 | 0 | 1,201,274 |
 | `2026-09-16 — PEER_REVIEW_SUBMISSION_PACKAGES` | 1 | 1 | 1 | 0 | 3,381 |
 | `2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK` | 27 | 236 | 236 | 31 | 973,179 |
 | `2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 1 | 9 | 7 | 0 | 205,639 |
 | `90_QUARANTINE_AND_TRIAGE` | 2 | 12 | 3 | 180 | 65,436 |
-| **24 lanes** | **205** | **863** | **645** | **924** | **27,316,455** |
+| **24 lanes** | **237** | **1174** | **956** | **943** | **29,813,265** |
 
 ## How much of the Drive is here
 
@@ -70,7 +70,7 @@ column here. That is why the two tables' totals differ.
 |---|---:|---:|---:|---:|
 | `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 866 | 48 | 0 | 818 |
 | `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` | 766 | 68 | 2 | 696 |
-| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 468 | 53 | 32 | 383 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 468 | 364 | 51 | 53 |
 | `02_LEGACY_Q0_ARCHIVE — INSPIRATION ONLY ` | 346 | 0 | 346 | 0 |
 | `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 332 | 62 | 98 | 172 |
 | `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK` | 295 | 236 | 31 | 28 |
@@ -94,7 +94,7 @@ column here. That is why the two tables' totals differ.
 | `06_SANDBOX_FRONTIER — DRAFTS_NO_AUTHORITY` | 2 | 1 | 0 | 1 |
 | `01_ACTIVE_RESEARCH_PACKAGES` | 1 | 0 | 0 | 1 |
 | `01_ACTIVE_RESEARCH_PACKAGES/00_DO_NOT_OPEN_MANIFEST — what was vaulted and why (READ THIS; DO NOT BROWSE THE VAULT)` | 1 | 1 | 0 | 0 |
-| **26 Drive lanes** | **4456** | **861** | **917** | **2678** |
+| **26 Drive lanes** | **4456** | **1172** | **936** | **2348** |
 
 ### What the remainder is
 
@@ -120,7 +120,7 @@ keep the order of the table above so the two can be read across.
 |---|---:|---:|---:|---:|
 | `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 818 | 89 | 494 | 235 |
 | `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` | 696 | 86 | 436 | 174 |
-| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 383 | 53 | 0 | 330 |
+| `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 53 | 53 | 0 | 0 |
 | `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 172 | 54 | 105 | 13 |
 | `01_ACTIVE_RESEARCH_PACKAGES/2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK` | 28 | 28 | 0 | 0 |
 | `01_ACTIVE_RESEARCH_PACKAGES/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE` | 33 | 33 | 0 | 0 |
@@ -137,7 +137,7 @@ keep the order of the table above so the two can be read across.
 | `00_START_HERE — RESEARCH HOME` | 1 | 1 | 0 | 0 |
 | `06_SANDBOX_FRONTIER — DRAFTS_NO_AUTHORITY` | 1 | 1 | 0 | 0 |
 | `01_ACTIVE_RESEARCH_PACKAGES` | 1 | 1 | 0 | 0 |
-| **19 lanes with a gap** | **2678** | **472** | **1186** | **1020** |
+| **19 lanes with a gap** | **2348** | **472** | **1186** | **690** |
 
 Counts are of manifest rows and stored bytes. They say nothing about whether any
 mirrored document is correct, current or authoritative; each lane's README
