@@ -1,5 +1,11 @@
 # q0 Research Program — git home
 
+Current retrieval: [Drive search navigator](https://docs.google.com/spreadsheets/d/1x9aKuv9pQGD6kwwa3ZmehSyEnVX2ZlhhcY2OehjMCqI/edit)
+and [keyword/SHA guide](docs/DRIVE_SEARCH_GUIDE.md). The active research packages
+have 2,944 verified stored files/exports; held subtrees remain metadata-only.
+The [interval-family candidate](docs/RN_INTERVAL_FAMILIES.md) extends exact
+Gaussian moment bounds without promoting any scientific status.
+
 Git-side home of a multi-model mathematics research program that until now
 lived entirely in a Google Drive shared drive. This repository carries the
 program's **architecture** — its registers, governance protocols, package

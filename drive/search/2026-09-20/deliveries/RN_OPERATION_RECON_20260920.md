@@ -1,0 +1,17 @@
+# Reconnaissance for exact RN operations
+
+2026-09-20. Scope: typed Gaussian determinant moments and uniform bounds over one affine mark interval; no theorem promotion or novelty claim.
+
+The current Research Home and OP-RECON-20260916-v1.0 route source-first work and bounded primary-source reconnaissance. Mode FRESH / PROCEED_WITH_INSIGHTS. Actual web queries: "multivariate Gaussian noncentral moments recurrence Isserlis theorem paper"; "Bernstein polynomial range enclosure convex hull property subdivision polynomial bounds paper"; "site.gaussianprocess.org gpml appendix A conditional Gaussian covariance mean". Public generic queries only; this bounded scout is not exhaustive. Session 01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2; claim ec44b6ae-f975-47b0-9bf0-6d3380d468cf.
+
+- [Mamis, multivariate normal moments, version 6](https://arxiv.org/abs/2202.00189v6) (full text, multivariate Stein/moment identities; PARTIAL) derives higher moments from Gaussian identities. We reuse the standard integration-by-parts recurrence, derive it explicitly for polynomial means, and check second moments independently using the quadratic-form trace identity. The implementation claims no new Gaussian-moment theorem.
+- [Rasmussen and Williams, GPML Appendix A](https://gaussianprocess.org/gpml/chapters/RWA.pdf) (full text, A.2, equations A.5-A.6; EXACT_CANDIDATE for conditioning only) distinguishes marginal and conditional Gaussian mean/covariance pairs. We require one law identity for both, symmetric positive-semidefinite covariance, and explicit coordinate order. A correct moment formula with mismatched conditional inputs remains unusable.
+- [Hamadneh, Bernstein enclosure, 2022](https://onlinelibrary.wiley.com/doi/10.1155/2022/9156188) (full text, Section2 Proposition1; EXACT_CANDIDATE for enclosure only) describes the convex-hull enclosure property. We use only the elementary univariate Bernstein basis identity and prove the rational conversion/subdivision bound directly; no stronger optimization theorem is imported.
+
+The exact RN5 source is Drive `1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5`, 13,725 bytes, SHA-256 `ac89f60b8206bfe011e6c2bc653e7acb39bc83a55c2a2c8fd1e17fd70c6c0383`, freshly re-fetched and matched. Its Section 3 already derives degree-eight/four moment polynomials for affine conditional means. The implementation will make this interface executable over exact rationals, add Bernstein mark bounds, and retain the valid Hoelder(4,4,2) bound and its counterexample to the wrong fourth-moment substitution.
+
+The K3 adjudication source, SHA-256 `26a9c7ef46b546acfdb0fda11f6ee8dd1e655752202d0add39e0011adf936a4c`, supplies separate regression targets for mean-term overcount, conditional/marginal mixing, and a missing Cauchy-Schwarz square root. These are retained as rejected paths rather than usable operations.
+
+Evaluation will compare recomputation and reuse on deterministic cases reserved before implementation, with an explicit common budget and counted arithmetic/lookup costs. This measures that finite harness only. No field-law identification, interval covariance family, complete spatial cover, weighted Palm probability, independence credit, or research-wide utility follows.
+
+Custody: this memo is uploaded and raw-readback verified before implementation; exact identity is in the detached receipt and subsequent delivery manifest. Existing R17 bundle registration applies. No additional source correction located within these access limits.

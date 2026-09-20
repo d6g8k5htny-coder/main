@@ -1,37 +1,17 @@
 #!/usr/bin/env python3
-"""Query the Google Drive source-map inventory.
+"""Search the reconciled Drive snapshot, archive occurrences and eligible text.
 
-``drive/inventory.jsonl`` holds one JSON object per Drive item (4,456 entries
-from the 2026-09-17 accessibility snapshot): id, title, path, mimeType, bytes,
-sha256, context, access_status, link — an 8-field projection of the source
-map's ``Files.csv``.  The tool queries three of the source map's seven tables
-(Files, via inventory.jsonl; Archive Members; Exceptions); Payloads is read by
-tools/frozen_check.py; Reading Links, Reading Copies and Start Here are not in
-the repository.  It is an index of the Drive's ``07_MODEL_ACCESSIBILITY``
-snapshot, not of the R17 **File Catalog** tab (``registers/json/file_catalog.json``,
-2,952 rows), which is a different snapshot with a different row set.
+Default commands derive one read-only view from the original inventory,
+verified migration coverage, dated reconciliation and later delivery records.
+`--snapshot` retains the original 2026-09-17 metadata view. Neither is a live
+account inventory or scientific verdict. See docs/DRIVE_SEARCH_GUIDE.md.
 
-Usage:
-    python3 tools/drive_index.py find <substring>     # title or path search
-    python3 tools/drive_index.py id <drive-id>        # one entry
-    python3 tools/drive_index.py sha <sha256-prefix>  # resolve a digest
-    python3 tools/drive_index.py tree [<path-prefix>] [--depth N]
+Examples:
+    python3 tools/drive_index.py find rnu_ds3.py
+    python3 tools/drive_index.py search Cholesky --json
+    python3 tools/drive_index.py sha ac89f60b8206 --mentions --json
+    python3 tools/drive_index.py id <drive-id>
     python3 tools/drive_index.py stats
-    python3 tools/drive_index.py archive <carrier-substring>   # members of a zip
-    python3 tools/drive_index.py exceptions [<type>]
-
-The inventory is a metadata snapshot.  Presence or absence in it never proves a
-mathematical claim, and never overrides a register status
-(see governance/GIT_ADAPTATION.md).
-
-Paths after the snapshot.  The inventory is an export and is never edited. When
-the Drive moves or renames things afterwards, the moves are recorded as a delta
-under ``drive/deltas/<date>/PATH_CHANGES.jsonl`` (one row per affected item:
-id, snapshot path, live path), derived from the Drive session's own rollback
-record and cross-checked against the inventory.  By default this tool overlays
-those deltas, so ``path`` is the live path and ``path_snapshot`` the export's;
-``--snapshot`` shows the export exactly as published.  Identity is by Drive id
-and SHA-256; a path is a navigation label.
 """
 from __future__ import annotations
 
@@ -41,6 +21,7 @@ import csv
 import json
 import os
 import signal
+from pathlib import Path
 import sys
 
 # allow piping into head/less without a BrokenPipeError traceback
@@ -59,8 +40,9 @@ FOLDER_MIME = "application/vnd.google-apps.folder"
 DELTAS = os.path.join(ROOT, "drive", "deltas")
 
 
-def path_change_files(deltas_dir: str = DELTAS) -> list[str]:
+def path_change_files(deltas_dir: str | None = None) -> list[str]:
     """Every dated PATH_CHANGES.jsonl, oldest date first."""
+    deltas_dir = DELTAS if deltas_dir is None else deltas_dir
     if not os.path.isdir(deltas_dir):
         return []
     out = []
@@ -102,7 +84,8 @@ def load_path_changes(files: list[str], known_ids: set[str] | None = None) -> di
     return changes
 
 
-def load(path: str = INVENTORY, overlay: bool = True) -> list[dict]:
+def load(path: str | None = None, overlay: bool = True) -> list[dict]:
+    path = INVENTORY if path is None else path
     with open(path, encoding="utf-8") as f:
         entries = [json.loads(line) for line in f if line.strip()]
     if not overlay:
@@ -152,17 +135,14 @@ def cmd_id(entries, fid):
 
 
 def cmd_sha(entries, prefix):
-    prefix = (prefix or "").lower()
-    hits = [e for e in entries if e.get("sha256") and e["sha256"].lower().startswith(prefix)]
-    for e in hits:
-        print(f"{e['sha256']}\t{e['path']}")
-    if not hits:
-        # fall back to archive member payload hashes
-        with open(ARCHIVES, encoding="utf-8") as f:
-            for r in csv.DictReader(f):
-                if r["Payload SHA-256"].lower().startswith(prefix):
-                    print(f"{r['Payload SHA-256']}\t{r['Carrier title']}!{r['Member path']}")
-    return 0
+    from tools.drive_search import archive_records, sha_matches
+    normalized = [{**e, 'hashes': e.get('hashes', [{'sha256':e['sha256'],
+                   'kind':'SOURCE_MAP_REPORTED_SHA256'}] if e.get('sha256') else [])}
+                  for e in entries]
+    result = sha_matches(normalized + archive_records(), prefix)
+    for e in result['matches']:
+        print(json.dumps(e, ensure_ascii=False))
+    return 2 if result['ambiguous'] else (0 if result['matches'] else 1)
 
 
 def cmd_tree(entries, prefix, depth):
@@ -232,15 +212,62 @@ def cmd_exceptions(t):
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["find", "id", "sha", "tree", "stats", "archive", "exceptions"])
+    ap.add_argument("cmd", choices=["find", "search", "id", "sha", "tree", "stats", "archive", "exceptions"])
     ap.add_argument("arg", nargs="?")
     ap.add_argument("--depth", type=int, default=2)
     ap.add_argument("--snapshot", action="store_true",
                     help="show the 2026-09-17 export's paths without the drive/deltas overlay")
+    ap.add_argument("--json", action="store_true", help="structured search result")
+    ap.add_argument("--mentions", action="store_true", help="include separately labeled SHA text mentions")
+    ap.add_argument("--build-text-cache", action="store_true", help="rebuild derived eligible text index")
     a = ap.parse_args()
+    sys.path.insert(0, ROOT)
+    from tools import drive_search as ds
     if a.cmd in ("archive", "exceptions"):
         return cmd_archive(a.arg) if a.cmd == "archive" else cmd_exceptions(a.arg)
     entries = load(overlay=not a.snapshot)
+    if not a.snapshot:
+        entries = ds.load_current(entries)
+    else:
+        entries = [{**e, 'record_key':'file:'+e['id'], 'record_type':'FILE',
+                    'source_role':'HISTORICAL_SOURCE_MAP_METADATA',
+                    'hashes':[{'sha256':e['sha256'],'kind':'SOURCE_MAP_REPORTED_SHA256',
+                               'snapshot':'2026-09-17'}] if e.get('sha256') else []}
+                   for e in entries]
+    if a.build_text_cache:
+        if a.snapshot: ap.error('text cache uses reconciled view only')
+        print(json.dumps(ds.build_text_cache(entries), sort_keys=True))
+        return 0
+    if a.cmd in ('find', 'search', 'sha'):
+        try:
+            records = entries + ds.archive_records()
+            if a.cmd == 'sha':
+                result = ds.sha_matches(records, a.arg)
+                if a.mentions:
+                    if a.snapshot: ap.error('text mentions use reconciled view only')
+                    result['mentions'] = ds.text_matches(entries, result['query'], hash_mention=True)
+                code = 2 if result['ambiguous'] else (0 if result['matches'] else 1)
+            else:
+                hits = ds.keyword_matches(records, a.arg)
+                if a.cmd == 'search':
+                    if a.snapshot: ap.error('content search uses reconciled view only')
+                    hits += ds.text_matches(entries, a.arg)
+                result = {'query':a.arg, 'matches':hits, 'match_count':len(hits)}
+                code = 0 if hits else 1
+            result['matches'] = [ds.public_record(e) for e in result['matches']]
+            if 'mentions' in result:
+                result['mentions'] = [ds.public_record(e) for e in result['mentions']]
+            result['view'] = 'SOURCE_MAP_20260917' if a.snapshot else 'RECONCILED_PLUS_DATED_DELIVERIES'
+            result['whole_account_complete'] = False
+            if a.json:
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+            else:
+                for e in result['matches'] + result.get('mentions', []):
+                    print(f"{e['match_kind']}\t{e['record_key']}\t{e.get('sha256','')}\t{e['source_role']}\t{e['path']}")
+                print(f"{result['match_count']} matches; ambiguous={result.get('ambiguous',False)}", file=sys.stderr)
+            return code
+        except (ValueError, OSError) as exc:
+            ap.error(str(exc))
     return {
         "find": lambda: cmd_find(entries, a.arg),
         "id": lambda: cmd_id(entries, a.arg),
