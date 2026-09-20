@@ -27,7 +27,8 @@ Until 2026-09-20 this read "8 inventory items; 7 mirrored here byte-exact". `_MA
   inequality; exact successor identities; complete corrected spatial cover and budget replay; scoped technical
   review before certification." The fifth, `Q-RN5-LM004-A1`, is a metadata hold instead: `"action": "Move old
   report, rename as superseded; bytes retained"`, restored by "Metadata move is reversible using original
-  parent/name".
+  parent/name […]" — the cell continues past that semicolon, and the rest of it is quoted in full
+  below. Until 2026-09-20 this sentence ended the quotation at "parent/name" with no ellipsis.
 * The register's own rows, unchanged by this mirror: `registers/json/frozen_objects.json` marks the five
   release objects "FROZEN AUTHOR CANDIDATE" / "FROZEN CUSTODY" with "RN5: exact scientific scope; no
   independent acceptance"; `registers/json/review_queue.json` keeps `RV-RN5-MOMENT-REPAIR` at READY,

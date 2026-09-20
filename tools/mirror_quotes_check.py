@@ -114,6 +114,11 @@ _PRIOR_WORDING = re.compile(r"\b[Uu]ntil\s+\d{4}-\d{2}-\d{2}\b")
 # deliberately absent, because those sentences are about the world, not about
 # this document's history.  The list is derived from the markers actually written
 # here, and a control fails if any marker in the tree stops matching it.
+# "closed" is deliberately absent although it reads as a verb of saying: it is the
+# most status-loaded word in this repository, and "the gate stayed open until
+# 2026-09-20 and then closed" is prose about the world, not about this document's
+# history.  Write "ended" instead; a control refuses an unrecognised phrasing
+# rather than letting one silently exempt the quotations after it.
 _DISCLOSURE_VERB = re.compile(
     r"\b(read|said|ended|opened|quoted|named|listed|reported|described|carried"
     r"|gave|showed|attributed|departed|transliterated|spliced|dropped|cut|turned"

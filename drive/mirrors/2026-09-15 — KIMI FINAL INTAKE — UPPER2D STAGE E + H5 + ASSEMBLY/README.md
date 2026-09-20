@@ -24,7 +24,10 @@ The right-hand column is recounted here from the `_MANIFEST.jsonl` rows that car
 to the 38 objects the header states. Until 2026-09-20 the table still reported the first pass: 2 for
 `05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15`, 2 for `01_CURRENT_ASSEMBLY_AND_STATE`, and
 "0 — not ported by this lane" for `(files directly in the lane folder)`, `02_`, `03_`, `04_` and `06_`
-— which the 2026-09-19 completion pass below had already made false for five of those seven rows.
+— which the 2026-09-19 completion pass below had already made false for six of those seven rows:
+every one except `(files directly in the lane folder)`, which was 0 then and is 0 now. (Until
+2026-09-20 this sentence said five. Recounted from the `stored: true` rows: 05_ 2→20, 01_ 2→3,
+03_ 0→6, 04_ 0→5, 02_ 0→2, 06_ 0→2.)
 
 ## What is here
 
