@@ -201,3 +201,80 @@ Google Doc loses structure, comments and revision history, and its digest is the
 first computed here, not a declared digest of the object. A PDF rendering is not a frozen
 body. Only the rows marked `"exact": true` carry an identity claim, and that claim is byte
 identity with the inventory digest and nothing else.
+
+
+## 2026-09-20 — 5 reading copies from `03_CORRUPTED`, and what the source's own probe measures
+
+The five native Google Docs that remained in this lane all sit under a folder
+whose Drive title reads `03_CORRUPTED — FAILED OR UNREADABLE`. Each is now held
+as a text export. **They are renderings, not the objects**, and the folder's own
+word for them is kept.
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+**None of the five came back empty.** A folder titled `03_CORRUPTED — FAILED OR
+UNREADABLE` containing documents that render is a property of the source, not a
+result this pass produced, and nothing here reclassifies any of them: the
+folder's word stands.
+
+### The Drive's own export-fidelity probe, and what it shows
+
+`ZZ-PROBE-EXPORT-FIDELITY (temporary)` is the source's own test of what survives
+an export. It is 244 bytes and the whole of it is round-trip-hostile content: an
+em dash, curly quotation marks, an apostrophe, four-space indentation, the
+sequences `a<=b, c>=d, e!=f, g->h`, a `[[TAG:X]]` marker, `*star*`, `_under_`,
+`#hash`, and a body delimited by `BEGIN_PROBE_FROZEN_BODY` and
+`END_PROBE_FROZEN_BODY`.
+
+Almost all of it survives the export unchanged. **The blank lines do not.** The
+probe labels one gap `blank line above`, and the export renders that gap as two
+blank lines. Every gap in the file is two blank lines.
+
+That is the signature of a rule this repository had already inferred, from
+digests alone and for a different object class: `recovery/README.md` records that
+the Drive's *reading volumes* show **every blank line twice** — a run of *k*
+newlines displayed as 2*k*−1 — which is what let two Markdown members be
+recovered byte-exactly on 2026-09-19. The probe confirms the same behaviour for
+an ordinary connector export of an ordinary Doc, from the source's own words
+rather than by inference.
+
+Measured over the 1,380 non-blank reading copies in `drive/mirrors/`: **97.95% of
+blank-line runs are exactly two lines long, and 99.86% are even-length.** It is
+not exceptionless — 94 odd-length runs survive in 31 files — and this repository
+does not explain them. Exports also carry CRLF line endings (1,357 of 1,380) and
+a leading UTF-8 byte-order mark (1,374 of 1,380). **None of this is corrected
+here**: a reading copy is what the connector returned, and editing it to look
+more like the object would be inventing bytes.
+
+### A collision notice that names its own Drive id
+
+`CORRUPTED — INCOMPLETE DUPLICATE ID COLLISION — CL-AUD-218-v1.0 — Drive ID
+1ek0XCvY8hTPMz41BWHCs4NirqY9VZSq90oib682QfUE` is the Drive title, and that is the
+id of the object carrying it: the title records the collision against itself. The
+body renders as a review header, declaring
+`Class: AUD — organizationally distinct (Anthropic vs OpenAI/GP author) review`,
+`Authority: none.` and `Canonical impact: NONE`.
+
+**That "organizationally distinct" is the source's predicate, not this
+repository's.** A review authored by an Anthropic line is, from here, a
+same-provider review: it earns **zero independence credit**, and the
+independence-requiring gates it speaks to remain open. The title's `CORRUPTED —
+INCOMPLETE` and the body's complete-looking header are both transcribed and the
+contradiction is left standing.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** This lane holds
+superseded protocol generations and an archive; a rendering held here is history
+and carries no authority. Nothing under a quarantine path in this lane may be
+cited as evidence, and holding a rendering of a document a folder calls corrupt
+does not make it sound.

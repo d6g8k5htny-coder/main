@@ -254,3 +254,29 @@ restated, revived nor resolved here.
 
 Nothing about any claim, premise, obligation, gate or theorem. A file named for a
 no-go result establishes no result by being held here.
+
+
+## 2026-09-20 — 5 reading copies, completing the lane
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. The five native Google Docs that remained are now held as text exports.
+**They are renderings, not the objects.**
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** A plan is not a result.
+The leaf and live-state cards in this lane carry the source's own withdrawn
+claims and status labels, and those stay exactly as the source wrote them;
+holding a rendering of a planning card schedules nothing, commits nothing and
+moves no gate.

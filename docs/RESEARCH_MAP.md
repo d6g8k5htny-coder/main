@@ -47,37 +47,44 @@ Within the active lane:
 **How much of that this repository holds** is measured per lane in
 [`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
 own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
-inventory's 4,456 items, 2,937 are held and a further 986 are indexed tree-only
-— 65.9% held, 88.0% held or indexed. **Held is two different things.** 1,597 of
+inventory's 4,456 items, 2,993 are held and a further 986 are indexed tree-only
+— 67.2% held, 89.3% held or indexed. **Held is two different things.** 1,597 of
 those files hash to the digest the inventory declares for their Drive id. The
-other 1,340 are reading copies of native Google Docs and Sheets: text exports,
+other 1,396 are reading copies of native Google Docs and Sheets: text exports,
 for which the corpus declares no digest anywhere, so nothing can prove them and
-each row says so at `exact: false`. The byte-exact figure has not moved since the
+each row says so at `exact: false`. A reading copy also differs from its object
+in ways now measured rather than assumed — the export doubles blank lines —
+which [`drive/README.md`](../drive/README.md) states with its numbers. The byte-exact figure has not moved since the
 digest-bearing gap closed; every item added since is a reading copy, and the two
 numbers are kept apart here for that reason. The three sub-lanes that
 had been at zero of either — `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
 `10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
 items in all — were ported the same day and each now reads `neither = 0`.
 
-The 533 items in neither column are not one kind of gap, and the index splits
+The 477 items in neither column are not one kind of gap, and the index splits
 them by reading each inventory record's own fields: **472 are folders**, which
-have no payload for any manifest row to hold or index; **61 are native Google
+have no payload for any manifest row to hold or index; **5 are native Google
 Docs** the corpus declares no digest for anywhere, so the most this repository
 can ever hold of one is a reading copy at `exact: false` — a text export, not the
-object, and 1,124 of them became exactly that on 2026-09-20: 105 in the
-governance lane, 494 in the reviews lane, 436 in the carry-forward canon and 89
-in the coordination spine; and **none carries a digest**. That last number is the only one of the
-three that measures work this repository could do and has not done, and after six
-ports on 2026-09-20 it is **zero**: every item in the 4,456-entry inventory for
-which a payload digest exists anywhere in the corpus is now either held
-byte-exact here or carries a manifest row stating why it is not. All 26 Drive
-lanes are at zero. What remains uncovered is what cannot be held byte-exact at
-all — folders, which have no payload, and native Google Docs, for which the
-corpus declares no digest to prove a copy against.
-`99_DO_NOT_OPEN` (6 items) is at zero deliberately and
-permanently: it is metadata only and is never opened.
+object, and 1,180 of them became exactly that on 2026-09-20 across nine lanes;
+and **none carries a digest**.
 
-Both paragraphs were corrected six times on 2026-09-20, because six ports landed
+The digest-bearing count is the only one of the three that measures work this
+repository could do and has not done, and after ten ports on 2026-09-20 it is
+**zero**: every item in the 4,456-entry inventory for which a payload digest
+exists anywhere in the corpus is now either held byte-exact here or carries a
+manifest row stating why it is not. All 26 Drive lanes are at zero.
+
+What remains uncovered is what cannot be held at all: the folders, which have no
+payload, and **five native Google Docs — the whole of the native-Doc gap —
+all five inside `99_DO_NOT_OPEN`**, which is at zero deliberately and
+permanently: it is metadata only and is never opened. That is now enforced rather
+than merely kept. `tools/quarantine_check.py` refuses any manifest row that
+stores bytes from that lane, because until 2026-09-20 nothing did: a later pass
+sweeping "every remaining native Doc" would have taken the vault with it and
+passed every checker in the tree.
+
+Both paragraphs were corrected ten times on 2026-09-20, because ten ports landed
 that day. The first gave 700 held and 873 indexed, named those three
 sub-lanes as at zero coverage, and printed the remaining 2,883 as a single number
 with no statement of what kind of gap they are; the second gave 861 held, 917
@@ -91,6 +98,14 @@ fifth gave 1,559 held, 958 indexed and 281 digest-bearing, before the peer-revie
 packages, the HOLD lane, the SIDE24 ratification intake and the coordination
 spine took theirs to zero together; and the sixth gave 1,789 held, 985 indexed
 and 24 digest-bearing, before the last two dozen files closed the gap entirely.
+
+Four further corrections followed the same day, as the native-Doc gap was worked
+down by holding reading copies: the seventh gave 1,918 held and 1,081 native Docs
+uncovered, after the governance lane's 105; the eighth 2,412 and 587, after the
+reviews lane's 494; the ninth 2,848 and 151, after the canon's 436; and the tenth
+2,937 and 61, after the spine's 89. The figures above are the eleventh, and they
+are the last this way round: the native-Doc gap is now five items, all of them in
+the vault, which is never opened.
 
 The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
 program's terminal closure records live: the documents behind every

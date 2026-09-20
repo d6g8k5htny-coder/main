@@ -89,3 +89,61 @@ whether any package is complete, correct or fit to send. Every number above
 counts files, bytes and digests. A byte-exact copy says these are the bytes the
 2026-09-17 inventory declares for that Drive id and nothing more. Assembling a
 package is not submitting it, and this repository has submitted nothing.
+
+
+## 2026-09-20 — 38 reading copies, completing the lane
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. The 38 native Google Docs that remained are now held as text exports.
+**They are renderings, not the objects.**
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+### A routing pointer that leads into the vault
+
+Two addenda in `00_MASTER_INDEX_AND_ROUTING` route a reader to the manifest of
+the `99_DO_NOT_OPEN` vault. `24_ADDENDUM — DO_NOT_OPEN vault routing` names one
+manifest id under the heading
+`Authority for what was vaulted (OUTSIDE vault — read this, not vault contents)`.
+`25_ADDENDUM — DO_NOT_OPEN live manifest update` repoints to a different id under
+`LIVE MANIFEST (OUTSIDE vault — USE THIS)` and records the first as
+`superseded`, explaining the reason on its face:
+`Updates 24_ADDENDUM manifest pointer (Drive MCP cannot rewrite Doc bodies)`.
+
+**The id 24 names is no longer outside the vault.** In the 2026-09-17 inventory
+it sits at
+`99_DO_NOT_OPEN — SUPERSEDED_MIRRORS_DEAD_ENDS_AND_TRAP_COPIES/ZZ_SUPERSEDED — DO_NOT_OPEN_MANIFEST shell (pre-entry-rules)`.
+So 24, read alone, points a reader into the vault it tells them not to browse —
+which is what the vault's own title calls a trap copy. Both documents are held
+here unchanged and **the contradiction is recorded, not repaired**: 24's body is
+the source's, and rewriting it is not this repository's to do. 25 is the later
+document and says so itself.
+
+What this repository holds reflects that. The live manifest 25 names **is** held,
+as a reading copy, at its own inventory path outside the vault. The superseded
+one 24 names is **not held and not indexed**, and neither are the other four
+vault objects — `00_STOP — leave this vault; read the external MANIFEST` and
+three further `ZZ_SUPERSEDED` stubs and copies. Those five are the whole of this
+repository's remaining native-Doc gap, and they stay at zero:
+`tools/quarantine_check.py` refuses any manifest row that stores bytes from that
+lane.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** Assembling a package is
+not submitting it. A submission package held here is not submitted, not accepted,
+not under review by anyone, and not approved for external release; external
+release remains the operator's decision alone. A document in this lane that
+records a review earns **zero independence credit** where its author line is the
+same provider, and the gates requiring independence stay open. No original prize
+problem is solved. The five validity premises of Theorem D1 v2.2(2) remain OPEN
+and `D3-LEMMA-RN-UNIF` remains not closed.

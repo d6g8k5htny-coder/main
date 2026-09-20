@@ -93,6 +93,22 @@ verified against the stored bytes by `tools/mirror_quotes_check.py`
 `exact: true` hashes to the digest the 2026-09-17 inventory declares for that
 id; a row with `exact: false` is a text export of a native Google Doc, for which
 no payload digest exists anywhere in the corpus — a reading copy, not the object.
+**A reading copy is not the object, and one difference is now measured.** The
+export doubles blank lines. The source's own export-fidelity probe, a Drive
+document titled `ZZ-PROBE-EXPORT-FIDELITY (temporary)`, is held here: its body
+labels one gap `blank line above`, and the export renders that gap as **two**
+blank lines. Across the 1,380 non-blank reading copies in this tree, **97.95% of
+blank-line runs are exactly two lines long and 99.86% are even-length** — the
+signature of a rule `recovery/README.md` had already inferred from digests alone
+for the Drive's reading volumes (*every blank line is shown twice*; a run of *k*
+newlines is displayed as 2*k*−1), here confirmed independently for an ordinary
+connector export of an ordinary Doc. It is not exceptionless: 94 odd-length runs
+survive in 31 of those files, and this repository does not explain them. Exports
+also carry CRLF line endings (1,357 of 1,380) and a leading UTF-8 byte-order mark
+(1,374 of 1,380). So a reading copy differs from its object in ways that are
+visible, unproven and not corrected here — correcting them would be inventing
+bytes.
+
 A reading copy that renders nothing — empty, whitespace only, or nothing but a
 UTF-8 byte-order mark — is carried **only** where `drive/inventory.jsonl` itself
 records that Drive id as `EMPTY_NATIVE_BODY`, which eight of the 4,456 rows do.

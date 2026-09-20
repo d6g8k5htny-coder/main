@@ -421,9 +421,11 @@ and it names the other copy as *"preserved as collision copy B /
 provenance-only"*. The inventory bears this out: copy B is a real object, filed
 under `05_FOUNDATIONS_AND_PROTOCOL_HISTORY — FRESH START 2.0/06_ARCHIVE/
 04_QUARANTINED_CANDIDATES — DO NOT CONSUME/`. **Only the A-line copy is held
-here.** Copy B is not ported, its Drive location quarantines it at the source,
-and per this repository's standing rule nothing under a quarantine path may be
-cited as evidence. The document's own header reads `Authority: factual
+here.** Copy B's bytes are not stored anywhere in this repository; it carries an
+index row alone, at `INDEX_ONLY`, recording that the allowlist marks its folder
+`AMBIGUOUS_QUARANTINE` at `evidentiary_authority ZERO`. Its Drive location
+quarantines it at the source, and per this repository's standing rule nothing
+under a quarantine path may be cited as evidence. The document's own header reads `Authority: factual
 provenance and routing correction only` and `Canonical impact: NONE`.
 
 ### What this pass does not establish

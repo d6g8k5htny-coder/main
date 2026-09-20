@@ -120,3 +120,31 @@ bytes changes nothing about that.
 Nothing about any claim, premise, obligation or theorem. Every number above
 counts files, bytes and digests. A ratification record is a record; copying it is
 not ratifying anything, and no scope stated in it is extended by being held here.
+
+
+## 2026-09-20 — 5 reading copies, completing the lane
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. The five native Google Docs that remained are now held as text exports.
+**They are renderings, not the objects.**
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** The SIDE24 status is
+the register's own word, `RATIFIED-AT-STATED-SCOPE`, with the scope, carried
+dependencies and reopening conditions the register states; holding a rendering
+ratifies nothing and widens no scope. **Nothing on this 3D track composes with
+the 2D upper or lower tracks** — `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws
+exactly that composition and `tools/claims_check.py` fails the build on it — and
+the record itself says so.
