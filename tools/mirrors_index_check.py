@@ -131,6 +131,75 @@ def lane_counts(mirrors_dir, lane):
             "tree_only": tree_only, "bytes": total_bytes}
 
 
+def exactness_claims(root, mirrors_rel, deltas_rel, inventory_rel):
+    """What every ``exact: true`` row is actually claiming.
+
+    The field means two different things in the two roots, and until 2026-09-20
+    nothing said so.
+
+    Under ``drive/mirrors/`` it means the stored bytes hash to the digest the
+    2026-09-17 inventory declares for that Drive id.  That is checkable, so it is
+    checked here and a row that claims it without an inventory row, without a
+    declared digest, or against a different digest is a problem.
+
+    Under ``drive/deltas/`` it cannot mean that: a delta object was created after
+    the snapshot the inventory is of, so no corpus digest for it exists anywhere.
+    There it means the row holds the raw bytes rather than a text export of a
+    native Google Doc.  Those rows are counted and reported, never failed -- but
+    the count is printed so nobody reads one of them as agreement with a corpus
+    value that does not exist.
+    """
+    inventory = {}
+    path = os.path.join(root, inventory_rel)
+    if os.path.isfile(path):
+        with open(path, encoding="utf-8") as handle:
+            for line in handle:
+                try:
+                    record = json.loads(line)
+                except ValueError:
+                    continue
+                if isinstance(record, dict) and record.get("id"):
+                    inventory[record["id"]] = record
+
+    backed = post_snapshot = 0
+    problems = []
+    for rel, enforced in ((mirrors_rel, True), (deltas_rel, False)):
+        base = os.path.join(root, rel)
+        if not os.path.isdir(base):
+            continue
+        for dirpath, _dirs, files in os.walk(base):
+            if "_MANIFEST.jsonl" not in files:
+                continue
+            manifest = os.path.join(dirpath, "_MANIFEST.jsonl")
+            with open(manifest, encoding="utf-8") as handle:
+                for number, line in enumerate(handle, 1):
+                    line = line.strip()
+                    if not line:
+                        continue
+                    row = json.loads(line)
+                    if row.get("exact") is not True:
+                        continue
+                    where = f"{os.path.relpath(manifest, root)}:{number}"
+                    source = inventory.get(row.get("id"))
+                    if source is None or not source.get("sha256"):
+                        if enforced:
+                            problems.append(
+                                (where, row.get("id"),
+                                 "claims exact: true, and the inventory declares no digest "
+                                 "for that id to be exact against"))
+                        else:
+                            post_snapshot += 1
+                        continue
+                    if source["sha256"] != row.get("sha256"):
+                        problems.append(
+                            (where, row.get("id"),
+                             f"claims exact: true but its digest {str(row.get('sha256'))[:12]}… "
+                             f"is not the inventory's {source['sha256'][:12]}…"))
+                        continue
+                    backed += 1
+    return backed, post_snapshot, problems
+
+
 def repeated_ids(root, rels):
     """Drive ids carried by more than one row of the same manifest.
 
@@ -287,6 +356,8 @@ def main(argv=None):
     rows = survey(root, args.mirrors)
     cover = coverage(root, args.mirrors, args.deltas, args.inventory)
     repeats = repeated_ids(root, (args.mirrors, args.deltas))
+    backed, post_snapshot, exact_problems = exactness_claims(
+        root, args.mirrors, args.deltas, args.inventory)
     want = render(rows, cover)
 
     if args.write:
@@ -319,6 +390,10 @@ def main(argv=None):
                   "regenerate it with --write rather than editing it")
             problems = 1
 
+    for where, key, why in exact_problems:
+        print(f"mirrors_index_check: {where}: Drive id {key} {why}")
+        problems += 1
+
     for rel, key, count in repeats:
         print(f"mirrors_index_check: {rel}: Drive id {key} is carried by {count} rows "
               "of this manifest; the later row's note must say why")
@@ -328,7 +403,8 @@ def main(argv=None):
     items = sum(c["items"] for _lane, c in cover)
     held = sum(c["held"] for _lane, c in cover)
     print(f"mirrors_index_check: lanes={lanes} stored={stored} "
-          f"inventory={items} held={held} repeated_ids={len(repeats)} "
+          f"inventory={items} held={held} exact_backed_by_inventory={backed} "
+          f"exact_post_snapshot={post_snapshot} repeated_ids={len(repeats)} "
           f"problems={problems}")
     return 1 if problems else 0
 

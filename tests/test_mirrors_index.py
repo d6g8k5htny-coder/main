@@ -65,15 +65,19 @@ def tree(tmp_path):
         {"id": "b1", "title": "d.md", "stored": False, "note": "tree-only index row",
          "drive_path": "02_OTHER_LANE/d.md"},
     ])
+    # The inventory declares a digest for a1 and a3, which is what lets a manifest
+    # row claim exact: true against it. a2 is a native-Doc export: no digest exists
+    # for it anywhere, so its row must be exact: false.
     inv = os.path.join(str(root), "drive", "inventory.jsonl")
     with open(inv, "w", encoding="utf-8") as handle:
-        for rid, path in (("a1", "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md"),
-                          ("a2", "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt"),
-                          ("a3", "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin"),
-                          ("z1", "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_one.md"),
-                          ("z2", "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_two.md"),
-                          ("b1", "02_OTHER_LANE/d.md")):
-            handle.write(json.dumps({"id": rid, "path": path}) + "\n")
+        for rid, path, digest in (
+                ("a1", "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md", "0" * 64),
+                ("a2", "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt", None),
+                ("a3", "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin", "3" * 64),
+                ("z1", "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_one.md", "5" * 64),
+                ("z2", "01_ACTIVE_RESEARCH_PACKAGES/L1/unheld_two.md", "6" * 64),
+                ("b1", "02_OTHER_LANE/d.md", None)):
+            handle.write(json.dumps({"id": rid, "path": path, "sha256": digest}) + "\n")
     out = run("--root", str(root), "--write")
     assert out.returncode == 0, out.stdout + out.stderr
     return root
@@ -303,7 +307,7 @@ def test_a_repeated_drive_id_in_one_manifest_is_reported(tree):
          "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt"},
         {"id": "a3", "title": "c.bin", "stored": False,
          "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin"},
-        {"id": "a3", "title": "c.bin", "sha256": "7" * 64, "bytes": 42, "exact": True,
+        {"id": "a3", "title": "c.bin", "sha256": "3" * 64, "bytes": 42, "exact": True,
          "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin",
          "note": "Added later; the tree-only row above stands as written."},
     ])
@@ -334,6 +338,81 @@ def test_a_repeated_id_is_counted_once_in_coverage_not_twice(tree):
     assert run("--root", str(tree), "--write").returncode == 0
     text = read(tree)
     assert "| `01_ACTIVE_RESEARCH_PACKAGES/L1` | 5 | 2 | 1 | 2 |" in text, text
+
+
+# ---------------------------------------------------------------------------
+# what `exact: true` is claiming, which differs between the two roots
+# ---------------------------------------------------------------------------
+
+def delta_rows(root, folder, records):
+    d = os.path.join(str(root), "drive", "deltas", folder)
+    os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, "_MANIFEST.jsonl"), "w", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record) + "\n")
+
+
+def test_exactness_claims_are_counted_by_what_backs_them(tree):
+    out = check(tree)
+    assert out.returncode == 0, out.stdout
+    # a1 and a3 carry exact:true in the fixture's mirror lane and both have an
+    # inventory row; nothing is post-snapshot yet.
+    assert "exact_backed_by_inventory=1" in out.stdout, out.stdout
+    assert "exact_post_snapshot=0" in out.stdout, out.stdout
+
+
+def test_control_a_mirror_row_exact_against_nothing_is_refused(tree):
+    """The claim `exact: true` means the bytes hash to the digest the inventory
+    declares. An id the inventory has no digest for cannot back that claim."""
+    rows(tree, "GAMMA_LANE", [
+        {"id": "g1", "title": "e.md", "sha256": "2" * 64, "bytes": 7, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/e.md"},
+    ])
+    assert run("--root", str(tree), "--write").returncode == 0
+    out = check(tree)
+    assert out.returncode == 1
+    assert "the inventory declares no digest for that id to be exact against" in out.stdout
+
+
+def test_control_a_mirror_row_exact_against_a_different_digest_is_refused(tree):
+    rows(tree, "ALPHA_LANE", [
+        {"id": "a1", "title": "a.md", "sha256": "9" * 64, "bytes": 100, "exact": True,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/a.md"},
+        {"id": "a2", "title": "b.export.txt", "sha256": "1" * 64, "bytes": 250, "exact": False,
+         "stored": True, "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/b.txt"},
+        {"id": "a3", "title": "c.bin", "stored": False,
+         "drive_path": "01_ACTIVE_RESEARCH_PACKAGES/L1/c.bin"},
+    ])
+    out = check(tree)
+    assert out.returncode == 1 and "is not the inventory's" in out.stdout
+
+
+def test_a_delta_row_exact_after_the_snapshot_passes_and_is_counted(tree):
+    """A delta object was created after the snapshot the inventory is of, so no
+    corpus digest for it exists. There `exact: true` means raw bytes rather than a
+    native-Doc export, and the count says how many rows are in that position."""
+    delta_rows(tree, "2026-09-18", [
+        {"id": "new1", "title": "handoff.json", "sha256": "8" * 64, "bytes": 31,
+         "exact": True, "stored": True,
+         "drive_path": "07_MODEL_ACCESSIBILITY/handoff.json"},
+    ])
+    out = check(tree)
+    assert out.returncode == 0, out.stdout
+    assert "exact_post_snapshot=1" in out.stdout
+
+
+def test_the_real_tree_has_every_mirror_exactness_claim_backed():
+    """554 of them at the time this landed, and not one disagreeing.
+
+    This asserts on the exactness lines specifically rather than on the exit
+    code, because the index also fails while a lane is mid-port and that drift
+    says nothing about whether an exactness claim is honest.
+    """
+    out = run()
+    backed = int(out.stdout.split("exact_backed_by_inventory=")[1].split()[0])
+    assert backed >= 500, out.stdout
+    assert "the inventory declares no digest" not in out.stdout
+    assert "is not the inventory's" not in out.stdout
 
 
 def test_the_real_coverage_table_states_the_gap_rather_than_hiding_it():
