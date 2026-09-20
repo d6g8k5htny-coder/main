@@ -17,6 +17,9 @@ CI_CHECKERS = (
     "quarantine_check", "verify_manifests", "manifest_integrity_check",
     "reviews_check", "recovery_check", "collision_proposal_check", "carriers_verify",
     "lanes_check", "slack_check", "receipts_check", "frozen_check", "bridge_check", "operations_check", "drive_coverage", "hermite_envelope_report", "drive_reconcile", "native_export_check", "rn_moment_report",
+    "rn_certificate", "research_frontier",
+    "closure_pipeline",
+    "lpw_amplitude_check",
 )
 RESEARCH_CHECKERS = ("receipts_check", "lanes_check", "claims_check")
 CASES = [("ci.yml", name) for name in CI_CHECKERS] + [("research.yml", name) for name in RESEARCH_CHECKERS]

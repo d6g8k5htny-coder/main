@@ -56,13 +56,17 @@
     }
   ],
   "repo_state": "partial",
-  "repo_state_note": "`research/rn/moment_envelope.py` reimplements the correct Hölder(4, 4, 2) envelope and the RN5 counterexample in exact rationals, so the defect stays falsifiable in CI. The annulus Riemann-sum driver the source calls **unwritten** is still unwritten here, and the whitened `env_form` orders 2–4 smoke is still missing. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "repo_state_note": "The generic annulus cover driver and complete partition/reject/pending ledger now exist under research/cover/; the prior repository note saying the driver was unwritten is superseded as an engineering description. Exact affine Gaussian moments and uncertain covariance-family bounds now exist under research/rn/. The program's actual RN field identification, interval conditioning, complete spatial-cover certificate, remote-budget reassembly and whitened env_form orders 2-4 smoke remain unestablished. Both RN pieces remain OPEN; reference integrands and synthetic laws certify no actual field cell.",
   "artifacts": [
     "research/rn/moment_envelope.py",
     "tests/test_rn_moment_envelope.py",
     "research/interval/",
     "reviews/records/REV-RN3-FARZONE-20260918.json",
-    "engine/rn_engine/frozen/RN_UNIF_2026-09-16/rnu_ds3.py"
+    "engine/rn_engine/frozen/RN_UNIF_2026-09-16/rnu_ds3.py",
+    "research/cover/",
+    "research/rn/gaussian_moments.py",
+    "research/rn/gaussian_families.py",
+    "docs/RN_INTERVAL_FAMILIES.md"
   ],
   "does_not_establish": "This lane does not close Piece 1 or Piece 2, does not supply the annulus cover, and does not convert RN5's ten boxes or any smoke test into a coverage certificate. The receipts carried by the sources still read `lemma_closed: false`.",
   "additional_source_directives": [

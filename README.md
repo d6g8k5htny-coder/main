@@ -6,6 +6,10 @@ have 2,944 verified stored files/exports; held subtrees remain metadata-only.
 The [interval-family candidate](docs/RN_INTERVAL_FAMILIES.md) extends exact
 Gaussian moment bounds without promoting any scientific status.
 
+[Reproducible execution](docs/RESEARCH_EXECUTION.md) adds one verification
+command, exact RN certificate replay and derived dependency/diagnostic
+checkpoints. These retain the existing source and scientific-status boundaries.
+
 Git-side home of a multi-model mathematics research program that until now
 lived entirely in a Google Drive shared drive. This repository carries the
 program's **architecture** — its registers, governance protocols, package

@@ -71,5 +71,13 @@ jobs:
         run: python tools/native_export_check.py --verify-containers
       - name: Reproduce the affine Gaussian moment candidate and finite reuse comparison
         run: python tools/rn_moment_report.py --check research/rn/candidates/affine_moments_20260920.json
+      - name: Replay exact RN numerical certificates and source applicability
+        run: python tools/rn_certificate.py check-candidates
+      - name: Validate the derived research frontier and recorded diagnostics
+        run: python tools/research_frontier.py self-check
+      - name: Verify source-bound LPW amplitude and radius arithmetic
+        run: python tools/lpw_amplitude_check.py
+      - name: Validate the scoped automated closure plan
+        run: python tools/closure_pipeline.py check-plan
       - name: Unit tests and negative controls
         run: python -m pytest -q

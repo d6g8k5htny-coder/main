@@ -1,0 +1,81 @@
+# Reproducible execution and numerical certificates
+
+This layer implements the useful parts of the assessed Gemini and DeepSeek
+proposals: one verification entry point, exact numerical certificate replay,
+structured diagnostics and a derived research checkpoint. Dylan Roy authorized
+implementation in the current task on 2026-09-19 America/Chicago. Authorization
+permits the work; mathematical acceptance still depends on the evidence.
+
+For a source-bound work inventory and per-item execution evidence, use the
+[closure pipeline](CLOSURE_PIPELINE.md):
+
+```sh
+python tools/closure_pipeline.py run --output-dir /absolute/path/to/new-closure-run
+```
+
+It executes all supported checks once and preserves the original criteria for
+items that need more mathematics, source reconciliation or independent review.
+
+Run the repository's explicit CI checks and negative controls with the
+[verification runner](VERIFICATION_RUNNER.md). It uses the existing checkers
+and manifest coverage rather than introducing a competing input manifest.
+Each invocation writes a separate report and logs to a new external directory.
+The report identifies the actual inputs, environment and outcomes. An unfinished
+run, a skipped required check or a malformed input is not a successful run.
+
+```sh
+python tools/run_checks.py --output-dir /absolute/path/to/new-run-directory
+```
+
+The [RN certificate format](RN_CERTIFICATES.md) supports explicitly scoped
+Gaussian determinant-moment bounds. A producer supplies data; replay checks the
+coefficient derivation and the complete mark-domain subdivision using exact
+rational intervals. A checked polynomial bound, source-byte identity and
+applicability to a specified context are distinct results. Their combination
+still does not identify the actual RN field law or complete its spatial cover.
+
+```sh
+python tools/rn_certificate.py check-candidates
+```
+
+The [research frontier](RESEARCH_FRONTIER.md) derives dependency paths and
+recorded failures/non-executions from named repository inputs. It preserves
+frozen and register-note status layers and records exactly which source bytes
+were read. It is a disposable view of those records, not a second writable
+claim or refusal register. A hash establishes the selected bytes' identity;
+the checkpoint is unsigned and its observation time is not externally attested.
+
+```sh
+python tools/research_frontier.py self-check
+python tools/research_frontier.py snapshot --output /absolute/path/to/new-frontier.json
+python tools/research_frontier.py check /absolute/path/to/new-frontier.json
+```
+
+The [LPW amplitude companion](LPW_AMPLITUDE.md) makes the corrected parent
+Gaussian moments and conditional radius arithmetic executable. The [recovered
+Lean package](../research/formal/candidates/LEAN_RECOVERY_VERIFICATION_20260920_v1.md)
+preserves the original failed build and statement-preserving repair, exact locks,
+13 compiled theorem declarations and rejection controls. Its recorded build
+evidence is attached to OQ-013; Python CI checks custody, while Lean replay is an
+explicit separate command.
+
+These mechanisms separate three questions: whether recorded bytes agree,
+whether a numerical certificate verifies under its mathematical assumptions,
+and whether a governing decision admits its use for a particular claim.
+The existing Drive registers remain authoritative for the last question.
+Receipts and CI runs carry no automatic promotion or organizational independence.
+
+The implementation builds on existing error-preservation controls, exact
+soundness witnesses, law fingerprints and different Gaussian-moment checks.
+It does not assert that those component techniques are historically new.
+The preserved proposal assessments explain the choices and alternatives:
+[Gemini](context/GEMINI_PIPELINE_ASSESSMENT_20260920.md) and
+[DeepSeek](context/DEEPSEEK_RESEARCH_ARCHITECTURE_ASSESSMENT_20260920.md).
+They describe the assessment-stage repository before these additions.
+
+Unsupported global guarantees remain excluded: numeric confidence weights do
+not determine mathematical validity; a structural hash does not decide general
+mathematical equivalence; a locally signed or hashed snapshot does not prove
+what someone believed at a trusted historical time. No frozen evidence is moved
+or rewritten, and no historical claim is downgraded because the new certificate
+format does not yet support it.

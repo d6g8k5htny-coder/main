@@ -1,22 +1,27 @@
-# `research/lpw/` — the LPW headline constant, and which decimals may stand in it
+# `research/lpw/` — exact LPW headline and amplitude companions
 
 Scope: `docs/OPEN_PROBLEMS.md` **section C, "LPW constant repair"**, and the
 `LPW_CONSTANT as delivered` / `R05 Rayleigh quantitative repair` rows of the
 `lpw_fold_dispositions` register tab (`registers/json/lpw_fold_dispositions.json`,
 sheet 41 of the GP-REG-032-v1.2 export).
 
-Standard library only, Python 3.11, `fractions.Fraction` throughout. **No float,
-no `decimal`, no `mpmath`, no `numpy`** — every number here is an exact rational
-and every verdict is an exact rational comparison, so no output of this lane
-needs, or carries, a NON-CERTIFYING float label. It also means nothing here is a
-certificate of anything but arithmetic.
+Standard library only, Python 3.11, exact `fractions.Fraction` arithmetic.
+The amplitude companion additionally uses symbolic rational multiples of
+`1/pi` and the existing certified rational interval enclosure of pi. **No
+float, `decimal`, `mpmath` or `numpy`** is used by these companions. They check
+finite algebra and comparisons, not the full LPW analytic argument.
 
 | file | what it is |
 |---|---|
 | `headline.py` | the exact fraction from its named factors; correctly-rounded significant-digit values with the direction each moved; the admissibility rule; `report()` |
 | `../../tests/test_lpw_headline.py` | end-to-end headline tests, including three negative controls |
+| `amplitude.py` | source-bound parent-Gaussian moments, pointwise norm/phase identities and radius arithmetic conditional on the imported K ceiling |
+| `../../tests/test_lpw_amplitude.py` | independent polar-coordinate semantic challenge, source binding, adversarial certificate controls and normal/optimized CLI agreement |
 
 Run `python3 research/lpw/headline.py` for the full comparison table.
+Run `python3 tools/lpw_amplitude_check.py` for the separate amplitude candidate.
+Its assumptions, exact source custody and remaining analytic/review imports
+are in [`docs/LPW_AMPLITUDE.md`](../../docs/LPW_AMPLITUDE.md).
 
 ## What the sources say
 
@@ -112,14 +117,19 @@ Nothing in this lane moves any of these. They stand exactly as
   mutation." All five are outstanding. The R05 repair is author-side and "does
   not inherit Kimi approval automatically"; the earlier Kimi PASS is preserved
   as received and does not transfer to the repair.
-* **The R05 Rayleigh amplitude lemma** (`rho = sqrt(xi^2+eta^2)`, `E rho^4 = 8`
-  below the old `12 + 16/pi` budget). Not examined here.
+* **The R05 Rayleigh amplitude lemma.** The new `amplitude.py` companion
+  reconstructs the parent moment `E rho^4 = 8`, its comparison with the old
+  `12 + 16/pi` budget, and finite pointwise norm/phase identities. The full
+  Fourier-law/summability argument and targeted external review remain
+  separate; this does not discharge the R05 amplitude review gate.
 * **The full tails / profile modulus.** Not examined here.
 * **The conditional bounds.** Not examined here.
 * **The actual headline mutation.** Not performed here; no headline is mutated
   by this lane.
-* **The false identity.** R05 finds `E(|xi|+|eta|)^4 = 12 + 16/pi` false. This
-  lane neither confirms nor repairs that finding.
+* **The false identity.** `amplitude.py` now confirms R05's corrected
+  `E(|xi|+|eta|)^4 = 12 + 32/pi` in symbolic exact arithmetic. Historical
+  source bytes remain unchanged, and this does not perform the exported
+  headline/source amendment or transfer the earlier Kimi endorsement.
 * **The freeze itself.** §C asks that either the corrected exact fraction or
   `6.238e-44` be frozen, with end-to-end headline tests. The tests exist now;
   **the freeze is an operator act and has not been made.** This lane does not
@@ -153,5 +163,7 @@ Nothing in this lane moves any of these. They stand exactly as
 * It bears on **no prize problem**. None is solved.
 * Green tests are not a mathematical review.
 
-It settles exactly one question: **which rounded decimals are admissible in
-which direction.**
+`headline.py` settles exactly which rounded decimals are admissible in which
+direction. The separate amplitude companion settles its stated finite
+parent-law algebra and conditional radius arithmetic; neither closes the
+remaining analytic or review obligations.

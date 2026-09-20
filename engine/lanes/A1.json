@@ -37,10 +37,12 @@
     }
   ],
   "repo_state": "scaffolded",
-  "repo_state_note": "`research/interval/` supplies certified interval arithmetic over exact rationals and names this lane as a consumer; the interval-`r` lattice-sum evaluator for the 24-jet set, and any per-band enclosure certificate, do not exist in this repository. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "repo_state_note": "Interval-r lattice sums, reference-kernel band enclosures and exact Hermite-Gaussian derivative candidates now exist under research/bands/. They do not identify the program's complete 24-jet set, powers, geometry or band endpoints and do not produce the required actual-field 24-jet certificate. This corrects the earlier repository note saying no interval-r evaluator existed. repo_state remains scaffolded for the actual obligation, not a mathematical status.",
   "artifacts": [
     "research/interval/",
-    "docs/CONTRIBUTION_PLAN.md §3"
+    "docs/CONTRIBUTION_PLAN.md §3",
+    "research/bands/",
+    "docs/HERMITE_GAUSSIAN_ENVELOPE.md"
   ],
   "does_not_establish": "This lane file establishes nothing mathematical. It does not certify any band enclosure, does not discharge `OBL-H5-JETMOD` or `OBL-D1-PROMOTE`, and does not make the displayed modulus into a certified enclosure.",
   "obligation": "Certified interval bounds for the full 24-jet set — not just the displayed `c₂` — over the r-bands `[r_{k+1}, r_k]`, with lattice-tail constants re-certified **uniformly in the band** (the current LAT tail bound certifies at point separations only). Content: for each jet `J` and band `B`, `J(B)/r^{p_J} ∈` a certified interval."
