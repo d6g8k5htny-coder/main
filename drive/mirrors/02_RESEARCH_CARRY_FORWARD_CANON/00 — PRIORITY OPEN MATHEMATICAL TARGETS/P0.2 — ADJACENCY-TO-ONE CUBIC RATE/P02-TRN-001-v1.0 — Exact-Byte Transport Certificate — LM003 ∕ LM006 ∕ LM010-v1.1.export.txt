@@ -1,0 +1,59 @@
+﻿P02-TRN-001 — Exact-Byte Transport Certificate
+P02-LM-003, P02-LM-006, and P02-LM-010 v1.1
+Status: TRANSPORT IDENTITY VERIFIED / MATHEMATICAL STATUS UNCHANGED / ORGANIZATIONALLY DISTINCT EXACT-HASH ATTESTATION STILL REQUIRED.
+Date: 30 July 2026. This certificate records a reproducible byte-identity check against the native text carriers already published in Google Drive. It creates no new theorem, no independent mathematical review credit, and no P0.2 promotion.
+1. Purpose and adjudication
+The three Gaussian–Palm interfaces had already received a distinct-family mathematical reconstruction in CL-AUD-241: LM-003 passed; LM-006 and LM-010 v1.1 passed with clarifications. Their exact-object status nevertheless remained held because the reviewer’s connector transformed whitespace and escaping and could not reproduce the frozen hashes.
+The raw text carriers now reproduce both the declared whole-file identities and the declared frozen-body identities. The prior transport uncertainty is therefore resolved at the artifact layer. The remaining action is a reviewer attestation that the existing distinct-family mathematical verdict applies to these exact frozen bodies.
+2. Verification protocol
+1. Fetch the stored native text/plain carrier from its exact Drive file ID.
+2. Compute the SHA-256 digest of the complete UTF-8 byte sequence without rewriting the file.
+3. For the frozen body, normalize CRLF and CR line endings to LF.
+4. Locate a line exactly equal to BEGIN_FROZEN_LEMMA_BODY; substring matches in the freeze-policy prose are invalid.
+5. Take the text after that marker line and before the first subsequent line exactly equal to END_FROZEN_LEMMA_BODY.
+6. Remove trailing LF characters, append exactly one LF, encode as UTF-8 without BOM, and compute SHA-256.
+7. Require simultaneous agreement of byte count and digest for both the whole carrier and frozen body.
+3. Exact results
+Object
+	Whole carrier
+	Frozen body
+	Outcome
+	P02-LM-003
+	10,872 bytes
+69bae62d011c049601f233777b63b74d1fb599845266e86062da72579f404c08
+	6,874 bytes
+5173d26d6bfaae5ef65a8ae2d0ca9b829a291be3f7dacaba82bb38d2526bb83e
+	PASS
+	P02-LM-006
+	14,438 bytes
+64b8f07f7b774c96d32ada0532a54cf55ad97e4518d09f7b09ab3b5ab0d4f8b4
+	9,147 bytes
+239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150
+	PASS
+	P02-LM-010 v1.1
+	14,171 bytes
+71f23ef4b16a8ff4c16c87fbe7794d9a8549b4b08f1b7a31027017a536d74f43
+	9,335 bytes
+05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+	PASS
+	Negative-control observation: selecting the first substring occurrence of the marker text inside the freeze-policy prose produces three wrong body lengths and three wrong hashes. Exact-line marker selection is therefore load-bearing and was enforced in the passing run.
+4. Source map
+LM-003 native carrier: https://drive.google.com/file/d/1vgUMcvHr32rqI2hEAsdlUAvVRWdaLA_b
+LM-006 native carrier: https://drive.google.com/file/d/1WqvqJqu2WXovALWXto7Zvir209dpUI54
+LM-010 v1.1 native carrier: https://drive.google.com/file/d/1yWEgJlPO0X6cwkpAcaPyCM0iuMm7DSQ7
+LM-003 controlling proof: https://docs.google.com/document/d/1dnGjJWQOJgRBrF6aq4kIE31i2PBWD2nHs7VgToANx_s
+LM-006 controlling proof: https://docs.google.com/document/d/1-czQmTN-M0EfLP1Smyd7iZJhIUuUfgXqo_aYI5Kqkw8
+LM-010 v1.1 controlling proof: https://docs.google.com/document/d/1Iqwm-8TcKNjrVQgeT71ip5Qg9C0qkkzr4rjageW9gZ0
+P0.2 readiness capsule: https://docs.google.com/document/d/1cY3ztoK6SSE-P_-RpUCb6ebE0H4r85z7yltupv3PbxQ
+5. Scope firewall
+* This certificate proves artifact identity and extraction reproducibility only.
+* It does not independently re-review the Gaussian, Palm, Kac–Rice, conditional-expectation, or asymptotic mathematics.
+* It does not convert CL-AUD-241 into an exact-hash approval without an explicit reviewer attestation.
+* It does not close LM-003, LM-006, or LM-010 v1.1; change the P0.2 terminal count; close LM-011; prove the parent cubic pairing theorem; restore Theorem B; or authorize external release.
+* The LM-006 lower-normalizer direction, LM-010 regular-conditional a.e. version control, and all existing clarifications remain binding.
+6. External reviewer attestation
+A qualifying reviewer should fetch the three carriers, repeat the protocol above, and issue one explicit verdict for each object: APPROVE EXACT HASH, APPROVE WITH AMENDMENT, REJECT WITH DEFECT, or CANNOT VERIFY. The attestation should cite the carrier ID, whole-file byte count and hash, frozen-body byte count and hash, the mathematical review being adopted or superseded, and any surviving clarification.
+Recommended narrow disposition if every check agrees: “The native carrier and extracted frozen body match the declared identities. My mathematical verdict applies to the exact frozen body, subject to the listed scope clarifications.”
+7. Current status after this certificate
+Resolved: raw-carrier access, whole-file identity, exact-marker extraction, canonical newline normalization, frozen-body byte counts, and frozen-body SHA-256 identities for all three objects.
+Still open: organizationally distinct exact-hash attestation and any subsequent terminal status action required by the control system. Parent P0.2 remains OPEN / NONTERMINAL / NOT PROMOTED.

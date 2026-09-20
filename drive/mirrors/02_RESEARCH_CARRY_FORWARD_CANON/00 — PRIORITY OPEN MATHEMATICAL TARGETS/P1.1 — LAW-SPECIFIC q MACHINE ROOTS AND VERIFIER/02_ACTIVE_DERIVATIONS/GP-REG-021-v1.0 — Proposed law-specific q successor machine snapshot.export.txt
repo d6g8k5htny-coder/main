@@ -1,0 +1,184 @@
+﻿ARTIFACT ID:       GP-REG-021-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             REG — proposed machine registry snapshot
+AUTHORITY:         none — asserts nothing on its own authority
+SUPERSEDES:        (none)
+CANONICAL IMPACT:  NONE
+STATUS:            PROPOSED / NONCANONICAL / ACTIVE MACHINE UNTOUCHED
+
+
+# Proposed law-specific q successor machine snapshot
+
+
+This is a human-readable rendering of the exact JSON snapshot tested by GP-DATA-022. Local SHA-256 of the JSON source:
+
+
+5eb22b5204d950c294fe8376f8ebfefc8be6890368551b3597e7a54cb0973da1
+
+
+The active q0_machine.json and q0_verify.py were not edited.
+
+
+```json
+{
+  "schema": "q0-law-specific/1.0",
+  "status": "PROPOSED-NONCANONICAL",
+  "active_machine_untouched": true,
+  "object_domain": {
+    "model": "EXACT-NORMALIZED-PERIODIZED-BF-L24",
+    "r": {"lower": 0.0, "upper": 0.025, "lower_open": true, "upper_open": false},
+    "b": "6/5",
+    "gap": "r^3/6"
+  },
+  "objects": {
+    "Q_TYPED_MS": {
+      "object_type": "probability",
+      "measure_tag": "P_MS",
+      "conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S"],
+      "event": "D(M)=S",
+      "definition": "P_MS(D(M)=S)"
+    },
+    "A_ADJ": {
+      "object_type": "probability",
+      "measure_tag": "P_MS",
+      "conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "ORIENTED_M_WARD_BRANCH"],
+      "event": "A_r",
+      "definition": "P_MS(A_r)"
+    },
+    "Q_ADJ_CONFIGURED": {
+      "object_type": "probability",
+      "measure_tag": "P_ADJ",
+      "conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "event": "D(M)=S",
+      "definition": "P_MS(D(M)=S | A_r)"
+    },
+    "J_TYPED_CONTACT": {
+      "object_type": "intensity",
+      "measure_tag": "P_MS",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "NORMALIZED_GAP_KAPPA"],
+      "definition": "typed candidate contact intensity"
+    },
+    "I_ADJ_CONTACT": {
+      "object_type": "intensity",
+      "measure_tag": "P_ADJ-CANDIDATE",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "NORMALIZED_GAP_KAPPA"],
+      "definition": "J_TYPED_CONTACT * A_ADJ"
+    }
+  },
+  "claims": {
+    "TYPED_REGIONAL_DEFECT_CUBIC": {
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "status": "PROVED-IN-ARCHIVE-CLAIMED",
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "statement": "P_MS(B_r) <= C_B r^3 for the registered regional obstruction event",
+      "dependency_ids": [],
+      "bridge_ids": [],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S"],
+      "source_files": ["C098-C102 regional counting chain", "01_CORE_PAIRING_THEOREM.md"],
+      "falsifiers": ["a regional obstruction not covered by the count atlas"]
+    },
+    "ADJ_CONDITIONING_TRANSFER": {
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_MS->P_ADJ",
+      "status": "PROVED-EXACT",
+      "claim_grade": "PROVEN",
+      "statement": "P_ADJ(E)=P_MS(E intersect A_r)/A_ADJ and therefore 1-Q_ADJ_CONFIGURED <= P_MS(B_r)/A_ADJ",
+      "dependency_ids": ["A_ADJ"],
+      "bridge_ids": [],
+      "required_marks": ["GRADIENT_ADJACENCY_MS"],
+      "source_files": ["GP-AUD-005-v1.0"],
+      "falsifiers": ["D(M)=S is not contained in A_r under the stated branch convention"]
+    },
+    "ADJ_POSITIVITY_UNIFORM": {
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "status": "OPEN",
+      "claim_grade": "CANDIDATE",
+      "statement": "inf_{0<r<=r0} A_ADJ(r) > 0",
+      "dependency_ids": [],
+      "bridge_ids": [],
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-DER-008-v1.0", "GP-AUD-009-v1.0"],
+      "falsifiers": ["A_ADJ(r_n)->0", "failure of the endpoint isolating-block argument"]
+    },
+    "ADJACENCY_TO_ONE_CUBIC": {
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "status": "OPEN",
+      "claim_grade": "MEASURED-DIAGNOSTIC",
+      "statement": "1-A_ADJ(r)=O(r^3)",
+      "dependency_ids": [],
+      "bridge_ids": [],
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-AUD-017-v1.0", "GP-DATA-020-v1.0"],
+      "falsifiers": ["continuum-stable weighted exponent below 3", "positive limiting nonadjacency"]
+    },
+    "Q_ADJ_CONFIGURED_RATE": {
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_ADJ",
+      "status": "PROVEN-MODULO",
+      "claim_grade": "PROVEN-MODULO",
+      "statement": "1-Q_ADJ_CONFIGURED(r)=O(r^3)",
+      "dependency_ids": ["TYPED_REGIONAL_DEFECT_CUBIC", "ADJ_POSITIVITY_UNIFORM", "ADJ_CONDITIONING_TRANSFER"],
+      "bridge_ids": ["ADJ_CONDITIONING_TRANSFER"],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["C098-C102 regional chain", "GP-AUD-005-v1.0"],
+      "falsifiers": ["ADJ_POSITIVITY_UNIFORM is false"]
+    },
+    "Q_TYPED_MS_RATE": {
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "status": "PROVEN-MODULO",
+      "claim_grade": "PROVEN-MODULO",
+      "statement": "1-Q_TYPED_MS(r)=O(r^3)",
+      "dependency_ids": ["Q_ADJ_CONFIGURED_RATE", "ADJACENCY_TO_ONE_CUBIC"],
+      "bridge_ids": ["ADJ_CONDITIONING_TRANSFER"],
+      "required_marks": ["MAXIMUM_M", "SADDLE_S"],
+      "source_files": ["GP-AUD-005-v1.0"],
+      "falsifiers": ["ADJACENCY_TO_ONE_CUBIC is false"]
+    },
+    "THEOREM_B_ADJ_CONTACT_FACTOR": {
+      "law_object": "I_ADJ_CONTACT",
+      "measure_tag": "P_ADJ-CANDIDATE",
+      "status": "PROVEN-MODULO",
+      "claim_grade": "PROVEN-MODULO",
+      "statement": "I_ADJ_CONTACT = J_TYPED_CONTACT * A_ADJ has a finite positive contact limit",
+      "dependency_ids": ["J_TYPED_CONTACT_LIMIT", "ADJ_POSITIVITY_UNIFORM"],
+      "bridge_ids": [],
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "NORMALIZED_GAP_KAPPA"],
+      "source_files": ["03_NEAR_DIAGONAL_LIFETIME_LAW.md"],
+      "falsifiers": ["A_ADJ contact limit is zero"]
+    },
+    "J_TYPED_CONTACT_LIMIT": {
+      "law_object": "J_TYPED_CONTACT",
+      "measure_tag": "P_MS",
+      "status": "PROVED-IN-ARCHIVE-CLAIMED",
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "statement": "J_TYPED_CONTACT has a finite positive contact limit",
+      "dependency_ids": [],
+      "bridge_ids": [],
+      "required_marks": ["NORMALIZED_GAP_KAPPA"],
+      "source_files": ["C103 contact-neutrality argument"],
+      "falsifiers": ["contact intensity vanishes or diverges"]
+    }
+  },
+  "proposed_roots": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE", "THEOREM_B_ADJ_CONTACT_FACTOR"],
+  "migration_map": {
+    "Q0_CUBIC_RATE_EXISTENCE_C101": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_LIMIT_C101": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_CUBIC_RATE_CONDITIONAL_MS_C102": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_LIMIT_CONDITIONAL_MS_C102": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "THEOREM_B_FULL_KAPPA_C104": ["THEOREM_B_ADJ_CONTACT_FACTOR", "Q_ADJ_CONFIGURED_RATE"]
+  },
+  "notes": [
+    "This file is additive and noncanonical.",
+    "The active q0_machine.json and q0_verify.py are not modified.",
+    "OPEN dependencies prevent unconditional promotion."
+  ]
+}
+```

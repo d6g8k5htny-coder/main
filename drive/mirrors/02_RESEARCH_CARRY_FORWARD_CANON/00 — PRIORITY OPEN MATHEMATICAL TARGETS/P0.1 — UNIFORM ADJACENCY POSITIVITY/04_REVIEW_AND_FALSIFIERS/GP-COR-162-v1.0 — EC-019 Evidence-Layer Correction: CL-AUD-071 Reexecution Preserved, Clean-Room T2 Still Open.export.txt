@@ -1,0 +1,110 @@
+﻿GP-COR-162-v1.0 — EC-019 EVIDENCE-LAYER CORRECTION
+CL-AUD-071 REEXECUTION PRESERVED; CLEAN-ROOM T2 STILL OPEN
+
+
+Artifact ID: GP-COR-162-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: COR / EVIDENCE-LINEAGE / REVIEW-SCOPE RECONCILIATION
+Authority: factual routing correction only
+Canonical impact: NONE
+Queue item: EC-019 / HB-030
+
+
+[[OBJ:GP-COR-162-v1.0]] [[QUEUE:EC-019]] [[STATUS:EVIDENCE-LAYER-CORRECTED]] [[STATUS:T2-CLEANROOM-OPEN]] [[NO_PROMOTION]]
+
+
+1. DEFECT CORRECTED
+
+
+CL-AUD-081-v1.0 states that GP-DER-106’s exact interval margins were “NOT-ATTEMPTED by any independent line.” Read literally, that statement is false.
+
+
+Before CL-AUD-081, CL-AUD-071-v1.0 had already:
+- decoded GP-DATA-106-v1.0;
+- verified the gzip and source SHA-256 values before execution;
+- executed the mpmath interval source in a clean virtual environment;
+- reproduced overall=PASS_FULL_DIMENSIONAL_DEGREE4_INTERVAL_BOX;
+- reproduced the exact stored minimum handoff margin 0.007485281374238566;
+- verified every emitted positive gate margin; and
+- reproduced all five planted negative controls.
+
+
+CL-AUD-071 is an independent-provider execution and is valid evidence. It must not be erased or described as nonexistent.
+
+
+2. PRECISE EVIDENCE PARTITION
+
+
+Layer A — source identity and independent arbitrary-precision reexecution: PASS.
+Evidence: CL-AUD-071-v1.0.
+Meaning: the frozen GP-DATA-106 source reconstructs, runs outside the GP environment, emits the recorded margins, and has a non-vacuous control battery.
+
+
+Layer B — methodologically independent clean-room implementation from the mathematical inequalities rather than execution of the GP source: OPEN.
+Governing requirement: GP-REQ-160-v1.0 Test B.
+Meaning: a reviewer must implement the Route-B inequalities independently, derive the margins rather than copy them, disclose all reused inputs, and reproduce every gate and negative control.
+
+
+CL-AUD-071 satisfies Layer A but not Layer B, because it deliberately executed the original GP source. GP-REQ-160 explicitly classifies original-source execution as corroboration rather than clean-room implementation.
+
+
+3. EFFECT ON CL-AUD-081
+
+
+The following interpretation is preserved:
+- CL-AUD-081 adds new evidence that a generic saddle-to-maximum capture mechanism is realizable and robust.
+- CL-AUD-081 did not independently implement the exact GP-DER-106 certificate.
+- Its statement that no independent line had attempted or reproduced the exact margins is superseded by this correction.
+
+
+Correct replacement wording:
+“CL-AUD-071 independently reconstructed and executed the frozen GP-DATA-106 interval source, reproducing every stored margin and control. A source-independent clean-room implementation of the inequalities remains open under GP-REQ-160 Test B.”
+
+
+4. EFFECT ON EC-019
+
+
+This correction does not restore EC-019 to human-approval-ready status.
+
+
+Current decisive gates remain:
+- T1: independent approval of GP-DER-161-v1.0, or a passing high-precision/interval numerical certification under GP-REQ-160 Test A;
+- T2: a source-independent clean-room reconstruction under GP-REQ-160 Test B.
+
+
+EC-019 remains MATERIAL VERIFICATION HOLD / NOT HUMAN-READY / NOT TERMINAL.
+
+
+5. DEPENDENCIES
+
+
+Affected:
+- the evidentiary description of CL-AUD-071 and CL-AUD-081;
+- HB-030 and EC-019 review routing language;
+- Evidence Lineage and Review Independence disclosures;
+- any claim that the recorded GP-DER-106 margins have never been independently reexecuted.
+
+
+Unaffected:
+- the terminal EC-018 interval-box closure;
+- the mathematical content of GP-DER-106;
+- the clean-room T2 requirement;
+- GP-DER-161’s independent-review requirement;
+- EC-019 terminal status;
+- P0.1, P0.2, Theorem B, elder-rule pairing, lifetime laws;
+- GP-AUTO-034, machine state, ballots, release, deletion, or destructive actions.
+
+
+6. REQUIRED REGISTER WORDING
+
+
+Use:
+“T2 source-integrity and outside-source execution: PASS under CL-AUD-071. T2 clean-room independent implementation: OPEN under GP-REQ-160.”
+
+
+Do not use:
+“No independent line attempted or reproduced the exact margins.”
+
+
+END GP-COR-162-v1.0

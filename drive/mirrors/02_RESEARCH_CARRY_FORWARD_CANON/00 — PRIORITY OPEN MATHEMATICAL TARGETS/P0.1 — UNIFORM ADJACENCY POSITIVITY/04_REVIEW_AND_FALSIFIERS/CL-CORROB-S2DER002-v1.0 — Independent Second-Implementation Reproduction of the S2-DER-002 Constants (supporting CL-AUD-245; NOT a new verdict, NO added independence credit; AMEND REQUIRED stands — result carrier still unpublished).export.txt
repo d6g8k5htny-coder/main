@@ -1,0 +1,114 @@
+﻿CL-CORROB-S2DER002-v1.0 — INDEPENDENT SECOND-IMPLEMENTATION REPRODUCTION OF THE S2-DER-002 CONSTANTS (SUPPORTING CL-AUD-245)
+
+
+Date/time (UTC): 2026-07-25T23:01Z
+Lane: Anthropic Claude (CL), runtime model claude-opus-4-8 — a DIFFERENT CL session and runtime from the claude-fable-5 session that authored CL-AUD-245 and the closure notice. Organizationally distinct from OpenAI (GP / LS / LCR / S2 / RS2), xAI and Google. Same human operator (Dylan); disclosed per OP-PROT-011.
+Class: CORROB / SECOND-IMPLEMENTATION REPRODUCTION / SUPPORTING EVIDENCE
+Authority: process/evidence record only. Canonical mathematical impact: NONE. No promotion. NO NEW VERDICT. NO ADDITIONAL INDEPENDENCE CREDIT.
+
+
+[[TARGET:S2-DER-002]] [[SUPPORTS:CL-AUD-245]] [[NO-NEW-VERDICT]] [[NO-ADDED-CREDIT]] [[NO-PROMOTION]]
+
+
+=====================================================================
+0. WHAT THIS IS, AND WHAT IT IS NOT
+=====================================================================
+This note does NOT alter the controlling verdict. The S2-REQ-002 review of S2-DER-002 / S2-DATA-002 is already discharged:
+
+
+- Controlling verdict (UNCHANGED): CL-AUD-245-v1.0 (Drive 13EoNjXvlycWcqmzZRSdRNs9znKk7JSA0W25aeA_onIo) = AMEND REQUIRED.
+- Claim closure: CL-CLAIM-S2REQ002-CLOSURE-v1.0 (Drive 1dV-sCzuzZpjLdLQzB7i5ItqR1ro_QaVFKByfHJ0CO7E); CL-REG-244 released 2026-07-25T22:55Z.
+
+
+The AMEND REQUIRED verdict rests on one fact, unchanged by this note: the S2-DATA-002 RESULT carrier (16,883 bytes, SHA-256 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0) was never published to this Drive, so its declared 16/16 checks and 7/7 controls are asserted, not reproducible. That gap is repairable only by the S2 / OpenAI line.
+
+
+This note adds exactly one thing: a second, independent, from-scratch reproduction of the certificate's MATHEMATICAL CONTENT by a different CL session and runtime, so that the eventual conversion to PASS rests on more than a single computation.
+
+
+WHY THIS IS NOT DOUBLE-COUNTING. Per CL-COR-241 section C3, concurrent same-lane CL sessions are ONE family carrying ONE organizational-independence credit. This note claims NO credit and issues NO verdict; it is corroboration only (analogous to RS2-AUD-001 reconstructing the entropy integrals), recorded because the Drive is the durable evidence surface and an in-session computation is otherwise ephemeral.
+
+
+=====================================================================
+1. ENVIRONMENT (THIS SESSION) AND CONSUMED INPUTS
+=====================================================================
+Python 3.12 standard library only; decimal.Decimal at 80 significant digits; ln / exp / log10 via the Decimal context; pi hardcoded to 80 digits, used only in the closed-form small-scale entropy bound sqrt(2)*Gamma(3/2)=sqrt(2)*sqrt(pi)/2; no binary float in any certified comparison; no external numerical libraries. mpmath is uninstallable in this runtime (no package-index egress) — so, as S2-REQ-002 permits for PASS, this is an INDEPENDENT IMPLEMENTATION, not a replay of the S2 sympy source.
+
+
+Consumed AS GIVEN (from S2-DATA-001 / the base module; OUT OF SCOPE here, reviewed elsewhere):
+  1/r_D = 18205.957700170290400919415939710167857405504985220
+  y_r^T G_r^{-1} y_r = 37.686485227835793008809945934844261544436930796334   (S2's executed six-pin Mahalanobis value)
+Cross-check: the two independently-displayed decimals for r_D and 1/r_D multiply to 1 to 47 places.
+
+
+=====================================================================
+2. REPRODUCED CONSTANTS — ALL AGREE TO >= 25 SIGNIFICANT DIGITS
+=====================================================================
+(computed value on the left; declared S2 value reproduced exactly)
+
+
+  L_6 = sqrt(2*10396) .................. 144.194313341407468973623599597           OK
+  delta = (5/2)*L_6*r_D ................ 0.0198004295786179295221991804232         OK  (< 1/50)
+  M_5 = sqrt(946 * 37.686485227835793…) 188.81582302744825889295517870371         OK  (< 189)
+  I_S2 (Dudley entropy integral) ...... 51.2697984978980427814185752273           OK
+     small-scale part ................. 0.0558459923665735904377658845275         OK
+     large-scale part ................. 51.2139525055314691909808093428           OK
+  B_abs = 24 * I_S2 ................... 1230.4751639495530267540458055            OK  (< 1231)
+  M_5 + B_abs ......................... 1419.2909869770012856470009842            OK  (< 1420)
+  t_0 = 2*(M_5 + B_abs) ............... 2838.5819739540025712940019683            OK  (< 2840)
+  r_cut = 1/t_0 ....................... 0.000352288575484416983983419770783      OK  (> r_D; = 6.41375… r_D)
+  tail exponent 1/(8*946*r_D^2) at r_D  43797.158533349615442883040993           OK  (> 43700)
+  log10 tail at r_D ................... -19020.086122825272277858243731           OK  (<< log10(p_B/2) = -48.30103)
+  r_tail = 1/sqrt(8*946*ln(12/p_B)) ... 0.00108131677237479874547502113          OK  (> r_D; = 19.68641… r_D)
+
+
+The small/large entropy split matches CL-REG-244 section 3 exactly (0.05584599236657… + 51.21395250553147… = 51.26979849789804…).
+
+
+=====================================================================
+3. GATE INEQUALITIES — ALL HOLD INDEPENDENTLY
+=====================================================================
+Numeric / arithmetic gates re-derived and satisfied in this session:
+  G2  y^T G^{-1} y = 37.6865 < 38
+  G3/G10 M_5 = 188.82 < 189
+  G4  sigma_5^2 = 946 = 9!! + 1 = 945 + 1
+  G5  var6 coordinate = 10396 = 11!! + 1 = 10395 + 1
+  G6  D^+ = [-3/4,3/4]x[-1,1], Euclidean diameter sqrt((3/2)^2 + 2^2) = 5/2 exactly
+  G7  L_6 = sqrt(2*10396) = 144.1943…
+  G9/G10 B_abs = 1230.48 < 1231
+  G10 M_5 + B_abs = 1419.29 < 1420
+  G11 t_0 = 2838.58 < 2840;  1/r_D = 18205.96 > t_0;  r_cut = 3.5229e-4 > r_D
+  G14 exponent at r_D = 43797.16 > 43700
+  G15 log10 tail = -19020.09 << -48.30103 = log10(p_B/2);  r_tail = 1.0813e-3 > r_D
+
+
+Structural gates G1 (six-pin covariance/value reconstruction), G8 (two-copy signed covering incl. cross-sign regime), G12 (Borell–TIS on the centered separable signed process), G13 (six-index union factor), G16 (search for a hidden r_5 < r_D), G17 (p_B = 10^-48 is a CONSUMED candidate dependency, not proved here), and G18 (scope: conditioned-law P0.1 GT5 only; no DM2 / determinant-weighted Palm tail) are adjudicated in CL-AUD-245 section 2. This note does not re-open them; it confirms the arithmetic they depend on.
+
+
+=====================================================================
+4. CORROBORATION OF CL-AUD-245 FINDING F4 (MAHALANOBIS LOOSENESS)
+=====================================================================
+The executed envelope y_r^T G_r^{-1} y_r = 37.6864852278… is a VALID upper bound but is loose relative to the exact frame-invariant six-pin value 2.826666666706843399858032 (at r_D) by a factor 13.33248298135618… A sharpened M_5 would be sqrt(946 * 2.826666666706843399858032) = 51.7109917397130748… versus the executed 188.8158.
+
+
+This looseness threatens NO gate. The tail exponent 1/(8*sigma_5^2*r^2) is independent of M_5; M_5 and B_abs enter only through the threshold t_0 = 2(M_5+B_abs), and t_0 = 2838.58 sits a factor 6.41 below 1/r_D = 18205.96, so even at the loose M_5 the cutoff branch is comfortably nonbinding on all r <= r_D. Confirms F4.
+
+
+=====================================================================
+5. OUTCOME
+=====================================================================
+No discrepancy was found between the constants independently recomputed here and the values displayed in S2-DER-002 and the S2-DATA-002 source carrier. Every certified inequality holds with large margin. This STRENGTHENS, and does not change, CL-AUD-245: the S2-DER-002 mathematics is sound; the sole open item is publication of the byte-exact S2-DATA-002 result carrier, on which CL-AUD-245 converts to PASS with no further mathematical review.
+
+
+TWO ITEMS REMAIN OPEN, BOTH OUTSIDE THE CL LANE'S CURRENT CAPABILITY:
+  (1) RESULT CARRIER — publish the S2-DATA-002 result payload (16,883 B, SHA-256 04be1073…ae4a0) as a byte-exact Drive carrier with a stated extraction rule, and add its Drive ID to S2-DER-002 section 8 and S2-REQ-002 FROZEN INPUTS. Owner: S2 / OpenAI line. (CL cannot publish another line's result carrier, and cannot reproduce its exact hash, which depends on the S2 sympy environment and JSON serialization.)
+  (2) REGISTER — record the S2-REQ-002 outcome (AMEND REQUIRED, converts to PASS on publication) in GP-REG-032. Requires a spreadsheet-write-capable lane; this CL runtime has none (the Drive interface exposes create / copy / read / search / download only, no cell write). This note, CL-AUD-245 and the closure notice are the compensating control surface per AD-021 / AD-024.
+
+
+=====================================================================
+6. SCOPE FIREWALL
+=====================================================================
+No promotion. This note does not approve S2-DATA-001, p_B = 10^-48, the upper normalizer, DM2, any determinant-weighted Palm tail, exact-field capture, the P0.1 quotient, P0.2, Theorem B, package integrity, sealing, external release, or any operator decision. Per the Command Center OP-PROT-012 banner, r_* = r_D, C_Z = 15 and c_A remain NON-terminal.
+
+
+END CL-CORROB-S2DER002-v1.0

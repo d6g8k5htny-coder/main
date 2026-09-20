@@ -1,0 +1,352 @@
+﻿ARTIFACT ID:       GP-AUD-020-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20 17:33 CDT / 22:33 UTC
+CLASS:             AUD — exact symbolic verification / blocking correction
+STATUS:            PARTIAL CONFIRMATION; UNIQUENESS CLAIM FALSIFIED
+AUTHORITY:         none — non-authoritative unless Dylan M. Roy formally promotes it
+CANONICAL IMPACT:  NONE
+TARGET:             P0.2 — adjacency-to-one cubic rate / Q4-on local diagnostic
+
+
+# Independent Audit of Quartic Compensation Nonuniqueness and Q4 Gauge Dependence
+
+
+## Sources consulted
+
+
+1. GP-DER-019-v1.0 — Exact pin-preserving quartic compensation and conditional nine-jet law
+   Drive ID: 1AqelaMkARv-n_i_zOKZlm0f3kYb9xSNcTcaU-qnG61Y
+2. GP-DATA-020-v1.0 — Pin-preserving Q4-on adjacency diagnostic
+   Drive ID: 12V1ALK_rMukY9-xK97Nsaf5i19zHLwNVzHVTo7iJJ14
+3. GP-AUD-017-v1.0 — Four-rung reproduction of the corrected anisotropic cubic adjacency diagnostic
+   Drive ID: 1elA_igsY8DC8vyWspk4MF5kXjpmF9TSS5HoJQzl7cc4
+4. CW-PRP-006-v1.0 — frozen quartic-corrected experiment
+   Drive ID: 1nYfwkfSvblATrWzIct7pHUDaG_itCins
+5. GP-ERR-018-v1.0 — Correction to GP-RSP-016 escape event
+   Drive ID: 15887ACNumVPhkRziu-re3x_E_5In5Rj2BDB-qtcLZC8
+6. Cross-Model Review Ledger v1.0, entries CM-024 through CM-027
+   Drive ID: 1rwfvL3sJUmRVpwf3AHx2FnduUrtoIi-9pA8C9Rbku7o
+
+
+## Executive disposition
+
+
+The planar Bargmann–Fock conditional nine-jet mean and covariance in GP-DER-019 are independently verified exactly. The displayed polynomial P4 is a valid pin-preserving polynomial carrying the prescribed fourth derivatives, and its displayed endpoint Hessian coefficients are correct.
+
+
+However, the claim that this P4 is unique under the stated conditions is false. The endpoint value/gradient constraints and the prescribed fourth derivatives leave a four-dimensional polynomial nullspace. Those free modes modify the corrected scaled flow at the same relative O(r) order as the retained quartic correction. Therefore GP-DATA-020 does not yet test a uniquely defined finite-r conditioned quartic field. It tests one convenient compensation gauge.
+
+
+Admissible revised status:
+
+
+- GP-DER-019: exact nine-jet Gaussian conditioning verified; displayed compensation is one valid representative, not a unique consequence of the stated constraints.
+- GP-DATA-020: reproducible one-gauge compensated-Q4 sensitivity diagnostic; not yet an execution of the uniquely determined finite-r conditioned quartic law.
+- P0.2 remains OPEN.
+- The four-rung pure-cubic diagnostic in GP-AUD-017 is unaffected by this correction.
+- No theorem or canonical-machine status changes.
+
+
+## 1. Independently verified Gaussian layer
+
+
+For the planar Bargmann–Fock limiting constraints
+
+
+    (f, f_x, f_xx, f_y, f_xy, f_xxx) = (b, 0, 0, 0, 0, 2),
+
+
+and targets
+
+
+    (q, a, w, z, c40, c31, c22, c13, c04),
+
+
+an independent Schur-complement calculation reproduces the GP-DER-019 conditional mean exactly:
+
+
+    E = (-b, 0, 0, 0, -3b, 0, 0, 0, 3b).
+
+
+It also reproduces the full stated covariance matrix exactly, including
+
+
+    Var(q,a,w,z,c40,c31,c22,c13,c04)
+      = (2,2,2,6,24,6,6,6,96),
+
+
+and the only stated nonzero cross-covariances
+
+
+    Cov(q,c22)   = -2,
+    Cov(q,c04)   = -12,
+    Cov(c22,c04) = 12.
+
+
+The sampler decomposition stated in GP-DER-019 is therefore valid for this planar limiting nine-jet law. This answers CM-027 help request 3 positively for the Gaussian signs and covariance structure.
+
+
+Scope limit: this verifies the planar limiting jet model only. It does not verify the normalized periodized torus finite-r correction or the full conditioned remainder law.
+
+
+## 2. The displayed compensation is valid
+
+
+The polynomial
+
+
+    P4 = (c40/24)(X^2-1/4)^2
+       + (c31/6) X(X^2-1/4)Y
+       + (c22/4) X^2Y^2
+       + (c13/6) XY^3
+       + (c04/24) Y^4
+
+
+has the prescribed fourth derivatives at the origin and satisfies
+
+
+    P4(±1/2,0) = 0,
+    grad P4(±1/2,0) = 0.
+
+
+Thus it is a valid pin-preserving representative. The endpoint second-derivative coefficients used in GP-DER-019 and GP-DATA-020 are also correct:
+
+
+    P4_XX(±1/2,0) = c40/12,
+    P4_XY(±1/2,0) = ±c31/12,
+    P4_YY(±1/2,0) = c22/8.
+
+
+These exact checks do not imply uniqueness.
+
+
+## 3. Exact nonuniqueness calculation
+
+
+Let P4 and P4_tilde be degree-at-most-four polynomials with the same five fourth derivatives at the origin and the same endpoint value/gradient constraints. Their difference
+
+
+    R = P4_tilde - P4
+
+
+has degree at most three and must satisfy the six linear conditions
+
+
+    R(±1/2,0)   = 0,
+    R_X(±1/2,0) = 0,
+    R_Y(±1/2,0) = 0.
+
+
+A general degree-at-most-three polynomial has ten coefficients. The six endpoint constraints have rank six, leaving a four-dimensional nullspace. A convenient exact basis is
+
+
+    R1 = Y^2,
+    R2 = Y^3,
+    R3 = X Y^2,
+    R4 = (X^2-1/4)Y.
+
+
+Therefore every polynomial
+
+
+    P4_tilde = P4
+             + lambda1 Y^2
+             + lambda2 Y^3
+             + lambda3 X Y^2
+             + lambda4 (X^2-1/4)Y
+
+
+has the same prescribed fourth derivatives and preserves the endpoint values and gradients.
+
+
+This directly falsifies the unqualified sentence “The unique quartic polynomial...” in GP-DER-019 and the corresponding uniqueness language in CM-025.
+
+
+A uniqueness statement could be restored only by adding an explicit normalization or gauge condition that fixes all four lambda coefficients. No such condition appears in the stated interpolation problem or in CW-PRP-006.
+
+
+## 4. Why the nullspace is dynamically load-bearing
+
+
+The corrected scaled flow uses
+
+
+    dX/dtau = P3_X + r P4_X,
+    dY/dtau = (q/r)Y + P3_Y + r P4_Y.
+
+
+Adding the four null modes changes the scaled vector field by
+
+
+1. R1 = lambda1 Y^2:
+
+
+       Delta(dX/dtau) = 0,
+       Delta(dY/dtau) = 2 lambda1 r Y.
+
+
+2. R2 = lambda2 Y^3:
+
+
+       Delta(dX/dtau) = 0,
+       Delta(dY/dtau) = 3 lambda2 r Y^2.
+
+
+3. R3 = lambda3 X Y^2:
+
+
+       Delta(dX/dtau) = lambda3 r Y^2,
+       Delta(dY/dtau) = 2 lambda3 r X Y.
+
+
+4. R4 = lambda4 (X^2-1/4)Y:
+
+
+       Delta(dX/dtau) = 2 lambda4 r X Y,
+       Delta(dY/dtau) = lambda4 r (X^2-1/4).
+
+
+These are the same relative O(r) order as the retained quartic correction. They can alter transverse stability, branch bending, chart escape, endpoint Hessians, determinant weights, and stall/escape classifications at precisely the order the Q4-on experiment is intended to test.
+
+
+For example, lambda1 Y^2 changes P4_YY at both endpoints by 2 lambda1, and lambda4 (X^2-1/4)Y changes the mixed structure and creates a transverse forcing away from the endpoints. These are not automatically dynamically irrelevant coordinate terms.
+
+
+Consequently, the equality of the pure-cubic and selected-Q4 normalized complements does not establish quartic stability of the actual finite-r conditioned law unless one proves either:
+
+
+- the true conditional law fixes lambda1=lambda2=lambda3=lambda4=0;
+- the relevant adjacency observable is invariant under all admissible null modes; or
+- the omitted lambda modes are of smaller order than r after the exact finite-r conditioning is derived.
+
+
+None of those statements is currently proved.
+
+
+## 5. Where the missing coefficients should come from
+
+
+The fourth derivatives alone do not determine the full order-r correction to the rescaled flow. The actual finite-r six-pin conditioned field can also produce order-r corrections through:
+
+
+- finite-r changes in the conditional means and covariances of the cubic free jets;
+- divided-difference relations induced by the two separated pinned points;
+- lower-degree pin-shift compensation terms;
+- periodization and normalization corrections;
+- correlations between the nine displayed jets and the omitted lower-order correction coefficients;
+- the remainder after the finite Taylor truncation.
+
+
+A true finite-r conditioned Q4 model should therefore be derived from the exact six-pin conditional Gaussian field or from an exact Hermite/divided-difference expansion, not by selecting a representative solely from the limiting fourth-jet data.
+
+
+The frozen CW-PRP-006 specification does not resolve this. It asks for a pin-preserving quartic correction and finite-r re-evaluation, but it does not impose a four-condition gauge that uniquely selects the displayed representative.
+
+
+## 6. Correct interpretation of GP-DATA-020
+
+
+The numerical execution remains useful. It shows that, in the specific gauge lambda1=lambda2=lambda3=lambda4=0, the displayed compensated fourth-jet layer does not create the large failure mechanism seen in the invalid isotropic-flow experiment. Its arithmetic and classification can still be audited and reproduced as a sensitivity calculation.
+
+
+The supported wording is:
+
+
+> In one explicitly chosen pin-preserving quartic gauge, sampled from the verified planar limiting nine-jet law, the corrected local diagnostic remains on the same r^3-compatible determinant-weighted scale as the pure-cubic diagnostic.
+
+
+The unsupported wording is:
+
+
+> The conditioned quartic layer has been uniquely constructed and shown not to alter the boundary-layer mechanism.
+
+
+The latter requires the finite-r conditional compensation law or a gauge-invariance theorem.
+
+
+This correction is independent of the already declared limits in GP-DATA-020 concerning chart escape, empirical q-screening, higher jets, stalls, and periodized finite-r conditioning. It adds a prior object-definition blocker.
+
+
+## 7. Required decisive repair
+
+
+Route A — preferred exact repair:
+
+
+1. Start from the exact normalized periodized torus six-pin conditional law at separation r.
+2. Expand the conditional field in the scaled coordinates through the complete order contributing r to the scaled vector field.
+3. Record all lower-degree compensation coefficients, not only the five fourth derivatives.
+4. Give their joint conditional Gaussian law and covariance with q,a,w,z and the fourth jets.
+5. Verify endpoint pins and Hessians directly.
+6. Freeze and execute the resulting uniquely specified finite-r model.
+
+
+Route B — explicit gauge sensitivity, diagnostic only:
+
+
+1. State that the displayed P4 is a gauge choice.
+2. Freeze a bounded preregistered grid or probability law for (lambda1,lambda2,lambda3,lambda4).
+3. Re-run the Q4 diagnostic with identical base draws across gauges.
+4. Report whether weighted complement/r^3, escape classification, q-layer localization, and endpoint typing are stable.
+5. Do not call the result the exact finite-r conditioned law unless Route A is completed.
+
+
+Route C — invariance theorem:
+
+
+Prove that the four null modes are removable by an allowed coordinate transformation or that the exact gradient-adjacency event and determinant-weighted rate are invariant to the required order. Such a proof would also discharge the present objection.
+
+
+## 8. Falsification conditions for this audit
+
+
+This audit is falsified or superseded by any one of the following:
+
+
+1. An already-existing, source-linked condition is produced that adds four independent constraints and uniquely forces lambda1=lambda2=lambda3=lambda4=0.
+2. A complete exact finite-r conditional expansion proves that all four coefficients vanish or are o(1) in the P4 scale.
+3. A rigorous coordinate-invariance argument proves these modes cannot change the measured adjacency observable or determinant-weighted asymptotic rate.
+4. The linear nullspace calculation above is shown to use the wrong polynomial class or wrong endpoint constraints.
+
+
+Until one of these occurs, uniqueness must not be claimed.
+
+
+## 9. Help request and offers
+
+
+Targeted requests:
+
+
+- CW/C047R: derive the exact finite-r divided-difference map from the six endpoint pins to the midpoint Taylor coefficients through the full order-r scaled-flow correction. Identify the four null-mode coefficients explicitly.
+- CL or another execution-capable model: preregister and run a common-random-number sensitivity test over the four null modes, with a frozen coefficient grid and explicit kill criteria.
+- AO48 or another analytic model: determine whether the null modes are coordinate artifacts under a pin-preserving near-identity transformation, or produce a counterexample showing a changed branch outcome.
+
+
+OpenAI offer:
+
+
+- provide the exact symbolic nullspace matrix and basis;
+- independently check finite-r Gaussian Schur complements and periodized covariance expansions;
+- re-run any frozen gauge-sensitivity package;
+- adversarially review a proposed gauge-invariance lemma.
+
+
+## 10. Relation to governing canon
+
+
+No governing theorem or machine root changes. P0.2 remains open. The pure-cubic four-rung evidence remains a useful local diagnostic. The Q4-on evidence is demoted only in interpretation: it is one-gauge quartic sensitivity evidence, not yet the uniquely conditioned finite-r quartic law.
+
+
+Cross-references:
+
+
+- CM-024 — Four-rung corrected anisotropic P0.2 diagnostic
+- CM-025 — Exact pin-preserving quartic compensation and nine-jet law
+- CM-026 — Pin-preserving Q4-on execution
+- CM-027 — Corrected escape event and help request
+- GP-ERR-018 — event-definition correction
+- _RULES_OF_ENGAGEMENT — Rules 1, 3, 4, and 7
+
+
+END OF GP-AUD-020-v1.0

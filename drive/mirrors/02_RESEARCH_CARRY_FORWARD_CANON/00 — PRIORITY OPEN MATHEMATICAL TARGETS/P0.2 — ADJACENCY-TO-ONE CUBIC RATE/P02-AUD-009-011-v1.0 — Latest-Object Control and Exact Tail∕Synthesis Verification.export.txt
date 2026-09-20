@@ -1,0 +1,91 @@
+﻿P02-AUD-009-011-v1.0
+Latest-Object Control and Exact Tail/Synthesis Verification
+Verdict: PASS — SAME-LINE EXACT-OBJECT AND CONDITIONAL-SYNTHESIS VERIFICATION. No newer LM009 or LM011 proof carrier exists in Drive. LM009’s moment/Markov argument is correct. LM011’s event inclusion and cubic power ledger are correct under the current exact dependencies and the current three-object LM013 measurability stack.
+Date: 30 July 2026. Authority: research preparation and same-line audit only. Independent-review credit: zero. P02-LM-009 and P02-LM-011 remain review-pending. No terminal count, graph count, theorem status, or promotion changes.
+1. Latest-object and successor control
+Drive metadata was searched by both interface ID and artifact stem before the proof review. The sole LM009 proof carrier is LCR-DER-027-v1.0. The sole LM011 proof carrier is LCR-DER-033-v1.0. No v1.1–v1.9, v2, or later proof carrier was found for either interface.
+Object family
+	Highest controlling object found
+	P02-LM-009
+	LCR-DER-027-v1.0 — Drive ID 1OmNjEoWAQdW-LYRUakcYbnWqjIOq_GMJ1yXxCJPPCDM
+	P02-LM-011
+	LCR-DER-033-v1.0 — Drive ID 1q_XOmFsEiNmyLs-2o1yBUXzuEObYRt9U5uI3uRMmZzw
+	LM011 repaired dependencies
+	LM004 LCR-DER-016-v1.1; LM010 LCR-DER-030-v1.1; LM012 LCR-DER-043-v1.1. No later carrier was found for any of the three.
+	LM013 event stack
+	GP-DER-197-v1.0; LCR-DER-057-v1.1; controlling LCR-DER-061-v1.1 at 8,928 bytes / SHA-256 8ec4386f…82dc3b7.
+	A second 8,566-byte document had the same LCR-DER-061-v1.1 title. LS-COR-013-v1.0 already classifies it as a mathematically compatible parallel provenance branch, superseded for active review by the 8,928-byte object. Its Drive title has now been made explicitly “SUPERSEDED / DO NOT USE”; its frozen body and provenance were preserved.
+2. Exact transport identities
+Target
+	Fresh frozen-body reconstruction
+	LM009
+LCR-DER-027-v1.0
+	3,919 UTF-8 bytes; 203 lines; SHA-256 ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1; one begin marker and one end marker.
+	LM011
+LCR-DER-033-v1.0
+	9,721 UTF-8 bytes; 499 frozen text lines; SHA-256 17c37fa1da7aa246f3018bd4ecc69b6e7beef5d8a1bda616d250146b3629efa9; one begin marker and one end marker.
+	Reconstruction used a fresh native text/plain export, removed the UTF-8 BOM, normalized CRLF and CR to LF, extracted strictly between the exact frozen-body marker lines, removed trailing LF characters, appended exactly one LF, and hashed the resulting UTF-8 bytes.
+3. P02-LM-009 mathematical verification
+3.1 Abstract theorem
+For any real N>0, an integer p≥5N exists. On REG_r^c, the inequality rR(U_r)^5>ε0 implies R(U_r)>(ε0/r)^(1/5). Markov’s inequality and the uniform p-th moment bound give
+Q_r(REG_r^c) ≤ M_p ε0^(−p/5) r^(p/5) ≤ C_N r^N,
+where the final comparison uses 0<r≤r0≤1 and p/5≥N. The constant is finite and independent of r. Dependence among jet coordinates, variation of Q_r with r, and noninteger N do not affect the argument. The document correctly does not infer one fixed exponential tail from all fixed moments.
+3.2 Exact nine-jet application
+Terminal P02-LM-005 supplies every fixed moment for the identical exact midpoint nine-jet on its valid small-r interval. Since R is the sum of absolute jet coordinates plus one, its fixed powers are controlled by fixed polynomial moments. A common interval with the LM005 validity domain is therefore required and is supplied by LM012’s finite-minimum construction.
+The Palm application retains the square-root loss from P02-LM-008: a desired Palm exponent N is obtained by invoking LM009 under Q_{6,r} with exponent 2N. In LM011, conditioned exponent 8 yields Palm order r^4, which is safely bounded by r^3 for r≤1.
+4. P02-LM-011 conditional synthesis verification
+4.1 Exact event algebra
+The current deterministic interface is the sufficient inclusion
+REG_r ∩ G_r ∩ {s≤−C_cap(U)} ⊂ A_r.
+Complementation in the identical exact field sample space gives A_r^c⊂{s>−C_cap(U)}∪REG_r^c∪G_r^c. Because the typed Palm law is supported on the exact maximum/saddle type event, the first event intersected with G_r agrees almost surely with the exact B_r used by I9. Therefore
+A_r^c ⊂ B_r ∪ REG_r^c ∪ G_r^c   (P_r^{MS}-almost surely).
+This is a one-way sufficient-certificate argument. It does not equate certificate failure with nonadjacency and does not assume independence among the three failure events.
+4.2 Cubic power ledger
+I9 gives the boundary contribution K_B r^3. LM009 with conditioned exponent 8 and the exact Palm transfer give a regular-domain contribution K_R r^4≤K_R r^3. The conditioned fifth-derivative exponential tail and the same square-root transfer give a term exp[−(c_5/2)r^(−2)], which is O(r^3) on a sufficiently small interval. The union bound then yields
+P_r^{MS}(A_r^c) ≤ (K_B+K_R+K_H) r^3.
+The statement that any conditioned exponent strictly larger than six suffices is correct but not sharp; exponent six also gives O(r^3). The proof itself uses exponent eight, so this minor non-sharp wording has no effect on the theorem.
+4.3 Common domain and exact-object firewall
+Taking the minimum of finitely many positive interface endpoints is valid. Current P02-LM-012-v1.1 supplies the coordinate-typed chart lift, the physical-Hessian O(r^2) conversion, and the positive common radius while retaining the deep-saddle sample event outside the radius minimum.
+The final quotient uses the exact conditioned full-field law, exact physical endpoint Hessians, exact type indicators, exact determinant weight, and full exact normalizer. The degree-four field is only a comparison object. LM010-v1.1, not v1.0, supplies the good-remainder boundary crosswalk, with LCR-COR-041 controlling regular-conditional versions.
+4.4 Measurability prerequisite
+LM011’s frozen body uses P_r^{MS}(A_r) and A_r^c but does not itself construct A_r as a Borel event. The current additional prerequisite is the complete LM013 stack: GP-DER-197-v1.0 (parent event theorem), LCR-DER-057-v1.1 (local selected branch), and the controlling 8,928-byte LCR-DER-061-v1.1 (countable Borel globalization and conditional Palm admissibility). Under that stack, the event algebra is well formed. Carrier B v1.0 and the parallel 8,566-byte v1.1 branch are not current evidence.
+________________
+
+
+5. Current dependency map
+Synthesis role
+	Current exact interface
+	I1 capture
+	Terminal P02-LM-001.
+	I2 exact transfer
+	P02-LM-004 / LCR-DER-016-v1.1; same-line successor audit PASS.
+	I3 density/moments
+	Terminal P02-LM-005.
+	I4 normalizer
+	P02-LM-006; exact transport verified, external review open.
+	I5 second moment
+	Terminal P02-LM-002.
+	I6 fifth-derivative tail
+	Terminal P02-LM-007.
+	I7 regular tail
+	P02-LM-009 / LCR-DER-027-v1.0; this audit PASS.
+	I8 Palm transfer
+	Terminal P02-LM-008.
+	I9 boundary layer
+	P02-LM-003 plus P02-LM-010 / LCR-DER-030-v1.1 and LCR-COR-041; external exact-hash reviews open.
+	Common domain
+	P02-LM-012 / LCR-DER-043-v1.1; same-line successor audit PASS.
+	Event admissibility
+	P02-LM-013 three-object stack: GP-DER-197-v1.0, LCR-DER-057-v1.1, controlling LCR-DER-061-v1.1 (8,928 bytes).
+	6. Routing repairs
+The LM011 carrier and final-synthesis review packet contain lower historical text naming LCR-DER-061-v1.0 as the current Carrier B. A new top override must supersede those passages with the controlling 8,928-byte v1.1 identity and link the exact-successor audit. Historical text may remain as provenance only when explicitly declared nonoperative.
+The top routes must also preserve current LM004-v1.1, LM010-v1.1, and LM012-v1.1 identities and state that no later carrier was found. No frozen theorem body needs amendment.
+7. Gate disposition
+Target
+	Disposition
+	P02-LM-009
+	Exact transport PASS; latest-object check PASS; proof PASS. Organizationally distinct exact-hash review remains open.
+	P02-LM-011
+	Exact transport PASS; latest-object check PASS; conditional synthesis PASS under the current dependency map. Its own external exact-hash verdict and all open load-bearing dependency verdicts remain required.
+	P0.2
+	OPEN / NONTERMINAL / NOT PROMOTED. Five interfaces remain terminal; eight interfaces remain review-pending; ten exact review objects remain because LM013 has three.

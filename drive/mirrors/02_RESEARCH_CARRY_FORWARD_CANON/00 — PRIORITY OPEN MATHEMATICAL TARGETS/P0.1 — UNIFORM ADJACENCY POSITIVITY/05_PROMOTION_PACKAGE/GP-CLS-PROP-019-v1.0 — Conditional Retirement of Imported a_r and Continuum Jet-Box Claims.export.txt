@@ -1,0 +1,205 @@
+﻿TECHNICAL GATE UPDATE — 2026-07-22
+
+
+C047R-AUD-002-v1.0 read the audited CL-DATA-051 source line by line, confirmed all five source/inference defects, verified that the retained finite-grid and box-mass diagnostics are preserved fairly, and filed APPROVE EC-016 EXACT RETIREMENT SCOPE. The frozen AO48/CW/C047R gate is therefore satisfied. EC-016 is now HUMAN-APPROVAL-READY and remains nonterminal until Dylan M. Roy explicitly states APPROVE EC-016 EXACT RETIREMENT SCOPE. No exact-field, uniform-r, P0.1, P0.2, Theorem B, machine, release, deletion, or destructive claim follows.
+
+
+Review: https://docs.google.com/document/d/1JFhX-kdPZDTouZNaUdEsTgR3_88zht2n1r401CedWL0/edit
+[[OBJ:C047R-AUD-002-v1.0]] [[QUEUE:EC-016]] [[STATUS:HUMAN-APPROVAL-READY]] [[STATUS:NOT-TERMINAL]]
+
+
+GP-CLS-PROP-019-v1.0 — CONDITIONAL RETIREMENT OF IMPORTED a_r AND CONTINUUM JET-BOX CLAIMS
+
+
+Artifact ID: GP-CLS-PROP-019-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: CLS-PROP — complete additive negative-result closure package
+Authority: none until the stated outside-review and human-approval gates pass
+Canonical impact: NONE before approval; afterward only the exact rejected claims below
+Queue candidate: EC-016
+
+
+[[OBJ:GP-CLS-PROP-019-v1.0]] [[OBJ:GP-AUD-103-v1.0]] [[OBJ:GP-DATA-104-v1.0]] [[QUEUE:EC-016]] [[STATUS:CONDITIONAL-NEGATIVE-RESULT-CLOSURE]]
+
+
+1. EXACT OBJECT PROPOSED FOR RETIREMENT
+
+
+Retire only these five claims as unsupported by CL-DATA-051 and CL-AUD-051:
+
+
+C1. CL-DATA-051 directly measures the three displayed adjacency probabilities a_r.
+
+
+C2. The 72 tested points establish capture for every point of the declared nine-dimensional coordinate box B.
+
+
+C3. The estimated coordinate-box membership mass P_r^MS(B) is already a rigorous certified-capture lower bound for a_r.
+
+
+C4. The executed sampler and dynamics justify the unqualified labels “exact law,” “uniform across accessible r,” or the inference a_r→1.
+
+
+C5. CL-DATA-051’s trajectory classifier is failure-complete enough to support those promoted claims.
+
+
+The proposed closure does not declare the historical numerical values false. It declares that the named source and evidence chain do not establish the promoted claims.
+
+
+2. EXACT EVIDENCE
+
+
+Primary audited objects:
+- CL-AUD-051-v1.0, Drive ID 113-d9J0Ese2GwPYJw_I5Kb9yx5zSAw8X7yXU2Tqef-0;
+- CL-DATA-051_p01_jetbox.py, Drive ID 1Mb5aMFyjX_6vxqIUcHYRwuQE3AsfBoyv, 5,760 bytes, SHA-256 f2083e1571e2f7d2de259981dfc9233ae519a318872c90b8015105dfaff4651c;
+- proposed CM-059, Drive ID 10AqQMUcCBn-5s6HorlMP5McApx-f3RQ4ASZkk94C1gU.
+
+
+Corrective audit:
+- GP-AUD-103-v1.0, Drive ID 1N4CjKgv1AfeKq1l9rqKsO0G9l1UeZhjr1-4PUBTglC4;
+- GP-DATA-104-v1.0 source capsule, Drive ID 1SiKxJoq1OGnEDFsdtunRP8Uf0J_Y6i3Davgyh89xIbw.
+
+
+Fresh Drive reconstruction of GP-DATA-104 verifies:
+- audit source: 9,495 bytes, SHA-256 c0cafd8d0004bb277ae97c4d3d9a6d7d101f8df24f98a6f10b1dc5548085920a;
+- audit receipt: 1,923 bytes, SHA-256 fe4ef5d5118f4c249e8fa4fa5fcff136003724f23c04f97523b692f3fb87eee3;
+- exact CL source identity;
+- all five source-audit controls;
+- successful fail-closed replay of all 512 vertices at each of r=0.05, 0.025, and 0.0125.
+
+
+3. SOURCE-LEVEL FINDINGS
+
+
+F1 — IMPORTED a_r.
+CL-DATA-051 hard-codes PNC constants attributed to CL-AUD-049. It does not regenerate the populations or trajectories. CL-AUD-050 is not a configuration-identical replay and cannot cure the previously recorded classifier, population-identity, and event-source defects. Therefore the source does not directly measure the displayed a_r values.
+
+
+F2 — INCOMPLETE BOX TEST.
+The published corner set varies only five of nine coordinates, producing 32 corners, plus 40 random interior points. This does not establish a continuum inclusion B⊂A_r.
+
+
+F3 — FAILURE-INCOMPLETE CLASSIFIER.
+The source does not require solver success, does not perform a complete finite-state rejection, has no capture event, and assigns capture from final distance at a fixed horizon.
+
+
+F4 — BOX MASS IS NOT CERTIFIED CAPTURE MASS.
+The Monte Carlo estimates membership in the coordinate box. The lower bound a_r≥P_r^MS(B) requires a proved inclusion B⊂A_r, which the source does not supply.
+
+
+F5 — LAYER AND DOMAIN OVERSTATEMENT.
+The executed law drops torus image terms and the dynamics are local degree-four dynamics. Three discrete rungs do not prove a uniform r interval or a limit.
+
+
+4. POSITIVE EVIDENCE EXPRESSLY RETAINED
+
+
+The closure preserves and keeps active:
+- the reconstructed coordinate-box mass diagnostic near 0.71 at the three declared rungs, with all numerical qualifications;
+- 72/72 positive published test points;
+- the GP-DATA-104 result that all 512 vertices at all three rungs reach CAPTURE_EVENT under a fail-closed local degree-four classifier;
+- the full 1,536-case vertex corpus as a falsifier set;
+- the candidate large-box corridor and Route A/Route B work in GP-REQ-105;
+- P0.1 as an open theorem target.
+
+
+5. AFFECTED DEPENDENCIES
+
+
+Upon terminal approval, retire from routine active attention:
+- attempts to cite CL-DATA-051 as a direct a_r computation;
+- attempts to cite the 72-point or 512-vertex batteries as a continuum-box proof;
+- attempts to identify box-membership mass with certified-capture mass without a proved inclusion;
+- attempts to append CM-059 in its original wording;
+- repeated source audits of the same five defects unless contradictory evidence appears.
+
+
+Keep active:
+- GP-REQ-105 continuum or smaller-box certification;
+- exact-torus and exact-field transfer;
+- rigorous mass bounds and uncertainty;
+- configuration-identical failure-complete a_r computation;
+- small-r convergence, structural stability, P0.1, and P0.2.
+
+
+6. UNAFFECTED DEPENDENCIES AND EXCLUSIONS
+
+
+This closure does not alter:
+- EC-014 or EC-015;
+- GP-DER-092’s narrow degree-four existence object;
+- HB-024/HB-025 exact-field work;
+- GP-DER-043 normalizer and boundary-layer results;
+- P0.1 or P0.2 theorem status;
+- Theorem B, elder-rule pairing, lifetime laws, or any q-machine root;
+- any governance ballot, GP-AUTO-034 state, active machine state, release, file deletion, or destructive operation.
+
+
+7. PROPOSED TERMINAL LABEL
+
+
+KILLED — CL-DATA-051 DIRECT a_r MEASUREMENT AND CONTINUUM JET-BOX CERTIFICATION CLAIMS; FINITE-GRID CORRIDOR AND BOX-MASS DIAGNOSTICS RETAINED
+
+
+8. REQUIRED OUTSIDE TECHNICAL REVIEW
+
+
+One AO48 or CW/C047R line must read the exact source, GP-AUD-103, and this package and file one of:
+
+
+APPROVE EC-016 EXACT RETIREMENT SCOPE
+
+
+or
+
+
+AMEND EC-016: <exact objection, corrected scope, affected and unaffected dependencies>.
+
+
+The reviewer must explicitly answer:
+1. Does CL-DATA-051 recompute a_r or import it?
+2. Does its corner set cover all nine dimensions?
+3. Can finite vertices prove the nonlinear continuum event without an additional theorem?
+4. Does the source use solver-success, all-finite, and capture-event gates?
+5. Is P_MS(B) box membership or certified-capture mass under the available evidence?
+6. Are the retained positive diagnostics stated fairly?
+7. Are exact-field, uniform-r, and theorem claims correctly excluded?
+
+
+CL may respond additively as the source organization, but CL silence or agreement does not substitute for the frozen AO48/CW independent gate.
+
+
+9. HUMAN APPROVAL REQUIREMENT
+
+
+After an affirmative outside scope verdict, Dylan M. Roy must explicitly state:
+
+
+APPROVE EC-016 EXACT RETIREMENT SCOPE
+
+
+General authorization to continue Drive work does not count as terminal approval.
+
+
+10. REQUIRED REGISTER AND LEDGER UPDATES AFTER BOTH GATES
+
+
+After the outside review and Dylan approval:
+1. Append EC-016 to the Closure Log with this exact object, evidence, review, dependencies, terminal label, and reopening rule.
+2. Mark EC-016 TERMINAL — REMOVED FROM ACTIVE ATTENTION in the Easy Closure Queue.
+3. Mark the five rejected claims KILLED/SUPERSEDED in the P0.1 relation and transition ledger.
+4. Preserve CL-AUD-051, CL-DATA-051, CM-059, GP-AUD-103, GP-DATA-104, and all correction notices.
+5. Keep GP-REQ-105 and the retained numerical evidence active.
+
+
+11. REOPENING RULE
+
+
+Reopen only through additive evidence tied to the exact source or inference object: a source version that genuinely recomputes failure-complete a_r, a proved continuum inclusion, a classifier/source contradiction, or an outside audit showing that a rejected claim actually follows. A later successful P0.1 theorem does not invalidate this source-level retirement unless it also repairs the historical evidentiary defect.
+
+
+CURRENT STATUS: COMPLETE CONDITIONAL PACKAGE — OUTSIDE AO48/CW SCOPE REVIEW AND DYLAN APPROVAL OPEN — NOT TERMINAL.
+
+
+END GP-CLS-PROP-019-v1.0

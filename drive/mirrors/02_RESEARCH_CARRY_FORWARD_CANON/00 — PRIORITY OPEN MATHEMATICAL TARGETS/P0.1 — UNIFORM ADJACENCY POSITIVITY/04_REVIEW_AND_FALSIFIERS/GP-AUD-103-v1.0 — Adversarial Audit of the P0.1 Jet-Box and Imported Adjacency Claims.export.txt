@@ -1,0 +1,242 @@
+﻿GP-AUD-103-v1.0 — ADVERSARIAL AUDIT OF THE P0.1 JET-BOX AND IMPORTED ADJACENCY CLAIMS
+
+
+Artifact ID: GP-AUD-103-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD / ERR / DATA — source-level scope, instrumentation, and inference audit
+Authority: none
+Canonical impact: NONE
+Audited objects:
+- CL-AUD-051-v1.0, Drive ID 113-d9J0Ese2GwPYJw_I5Kb9yx5zSAw8X7yXU2Tqef-0
+- CL-DATA-051_p01_jetbox.py, Drive ID 1Mb5aMFyjX_6vxqIUcHYRwuQE3AsfBoyv
+- proposed CM-059, Drive ID 10AqQMUcCBn-5s6HorlMP5McApx-f3RQ4ASZkk94C1gU
+- GP-DATA-104-v1.0 source capsule, Drive ID 1SiKxJoq1OGnEDFsdtunRP8Uf0J_Y6i3Davgyh89xIbw
+
+
+[[OBJ:GP-AUD-103-v1.0]] [[OBJ:CL-AUD-051-v1.0]] [[OBJ:GP-DATA-104-v1.0]] [[GATE:P0.1-CORRIDOR-CERTIFICATION]] [[STATUS:PARTIAL-NUMERICAL-EVIDENCE]] [[ALARM:P01_IMPORTED_AR_REJECTED]] [[ALARM:P01_FINITE_GRID_NOT_CONTINUUM_PROOF]]
+
+
+1. EXECUTIVE VERDICT
+
+
+Verdict: ACCEPT A NARROW NUMERICAL CORRIDOR DIAGNOSTIC WITH MATERIAL CORRECTIONS.
+
+
+The CL source reconstructs and reruns. Its Monte Carlo box-membership values reproduce, including minimum displayed P_MS(B) approximately 0.7092747469845997. A GP fail-closed extension tests all 512 vertices of the declared nine-dimensional box at each r in {0.05, 0.025, 0.0125}; all 1,536 vertex/rung cases reach an explicit capture event.
+
+
+Those facts are useful numerical evidence that the proposed box is a promising practical-r capture corridor.
+
+
+They do not establish:
+- capture for every point in the continuum box;
+- a rigorous lower bound a_r >= P_MS(B);
+- the imported values a_r >= 0.99999992, 0.99999999, 0.99999999;
+- exact-field or exact-torus capture;
+- uniformity on a continuum r interval;
+- a_r -> 1;
+- the P0.1 theorem.
+
+
+CL-AUD-051 and CM-059 must be cited only under the corrected label:
+
+
+ACCESSIBLE-R, PLANAR-APPROXIMATION, DEGREE-FOUR, FINITE-GRID CORRIDOR DIAGNOSTIC; FULL 512-VERTEX FAIL-CLOSED REPLAY POSITIVE; CONTINUUM CAPTURE, IMPORTED a_r, EXACT-FIELD TRANSFER, UNIFORM SMALL-r POSITIVITY, AND THEOREM STATUS OPEN.
+
+
+2. SOURCE IDENTITY AND REPRODUCTION
+
+
+The exact CL source has:
+- 5,760 bytes;
+- SHA-256 f2083e1571e2f7d2de259981dfc9233ae519a318872c90b8015105dfaff4651c.
+
+
+The GP audit source and receipt are published in GP-DATA-104-v1.0 as gzip/base64 payloads. Fresh Drive export reconstruction gives:
+- audit source: 9,495 bytes, SHA-256 c0cafd8d0004bb277ae97c4d3d9a6d7d101f8df24f98a6f10b1dc5548085920a;
+- receipt: 1,923 bytes, SHA-256 fe4ef5d5118f4c249e8fa4fa5fcff136003724f23c04f97523b692f3fb87eee3.
+
+
+The reconstructed audit source executes and regenerates the identical receipt hash. All five audit controls pass.
+
+
+3. FINDING F1 — THE REPORTED a_r VALUES ARE IMPORTED, NOT MEASURED BY THIS SOURCE
+
+
+CL-DATA-051 hard-codes
+
+
+PNC={0.05:8.449730814727972e-08, 0.025:8.157025792561156e-09, 0.0125:1.082671331099101e-09}
+
+
+and labels their source CL-AUD-049. It does not recompute the corresponding populations or trajectories.
+
+
+The inference that CL-AUD-050 “confirmed genuine” those original noncapture masses is not admissible. GP-AUD-088 previously established that CL-AUD-050 used a different random-vector dimension/draw stream and therefore was a fresh sample, not a replay of the original CL-AUD-056/049 population. GP-AUD-087/088 also recorded missing solver-success/finite-state gates and unavailable event-source support in the earlier V3 lineage.
+
+
+Therefore the three imported values may be preserved as historical exploratory numbers, but they cannot support a current claim that a_r is measured, uniformly bounded, or tending to one.
+
+
+Disposition of the headline “a_r >= 0.99999992 uniformly across accessible rungs”:
+- REJECT as a self-contained result of CL-DATA-051;
+- QUARANTINE pending configuration-identical, failure-complete recomputation;
+- do not cite toward P0.1 or P0.2 proof status.
+
+
+4. FINDING F2 — 72 TEST POINTS DO NOT VERIFY EVERY CONFIGURATION IN A 9D BOX
+
+
+The published driver sets
+
+
+relev=[0,1,2,4,6]
+
+
+and tests 2^5=32 corners only in those selected coordinates, holding the other four coordinates at the mean, plus 40 random interior points. It does not test all 2^9=512 vertices, much less the continuum interior.
+
+
+The source comment “Every configuration in B is verified to capture” and the report’s statement that the box is a concrete open event on which every configuration is adjacent are unsupported by that finite design.
+
+
+GP-DATA-104 strengthens the evidence by testing every one of the 512 vertices at all three rungs with a fail-closed classifier. Results:
+- r=0.05: 512 CAPTURE_EVENT, zero other classes;
+- r=0.025: 512 CAPTURE_EVENT, zero other classes;
+- r=0.0125: 512 CAPTURE_EVENT, zero other classes.
+
+
+This still is not a continuum proof. A nonlinear flow property need not attain its worst case at a box vertex. Vertex success cannot replace interval, analytic, validated-integrator, or subdivision certification of the interior.
+
+
+5. FINDING F3 — THE PUBLISHED BOX CLASSIFIER IS NOT FAILURE-COMPLETE
+
+
+The CL captures function:
+- does not require sol.success;
+- does not reject NaN or infinite state values;
+- has an escape event but no capture event;
+- determines capture from final distance at a fixed horizon;
+- checks the S saddle but does not explicitly require the M maximum inside the trajectory function.
+
+
+These are instrument defects even if the reported runs happened to be numerically benign.
+
+
+The GP audit classifier adds:
+- strict S-saddle and M-maximum gates;
+- explicit branch orientation;
+- solver-success and all-finite gates;
+- explicit capture and four-sided escape events;
+- FINITE_UNRESOLVED, SOLVER_FAIL, NUMERICAL_INVALID, NOT_FLOW_SADDLE, NOT_MAXIMUM, and DEGENERATE_BRANCH classes.
+
+
+The all-vertex replay passes under that corrected classifier. This improves the evidence but does not certify the continuum box or exact field.
+
+
+6. FINDING F4 — THE MASS IS BOX-MEMBERSHIP MASS UNTIL CAPTURE INCLUSION IS PROVED
+
+
+The Monte Carlo computation estimates the determinant-weighted typed-law mass of the declared coordinate box. It does not independently determine the mass of B intersect A_r. The identity
+
+
+a_r >= P_r^MS(B)
+
+
+requires a proved inclusion B subset A_r. Finite test points do not supply that inclusion.
+
+
+Admissible numerical statement:
+
+
+Under the declared planar finite-r Gaussian sampler and determinant/type weighting, the coordinate box has estimated mass approximately 0.71 at each of three accessible rungs.
+
+
+Required qualifications:
+- single seed;
+- 400,000 draws per rung;
+- no reported confidence interval or weight-effective sample size;
+- planar kernel with torus images omitted;
+- local degree-four dynamics;
+- capture inclusion unproved.
+
+
+7. FINDING F5 — “EXACT-LAW,” “UNIFORM,” AND LIMIT LANGUAGE REQUIRE CORRECTION
+
+
+The source explicitly drops side-24 torus image terms. Their claimed numerical size may be negligible, but the executed law is a planar approximation, not literally the exact normalized-periodized torus law.
+
+
+Three discrete rungs do not establish uniformity over 0<r<=r0. They also do not imply a_r -> 1. The data are compatible with such claims but do not prove them.
+
+
+The dynamics are degree-four local-model dynamics, not the exact conditioned field. Exact-field transfer remains governed by GP-SCHEMA-095, GP-DER-095, GP-DER-100, GP-DATA-098-v1.1, HB-024, and HB-025.
+
+
+8. PRESERVED POSITIVE EVIDENCE
+
+
+The following evidence remains useful and should not be discarded:
+- exact reconstruction and rerun of CL-DATA-051;
+- stable estimated coordinate-box mass near 0.71 at the three declared rungs;
+- 72/72 published points capture under the original local-model run;
+- 1,536/1,536 full-vertex/rung cases reach CAPTURE_EVENT under the GP fail-closed replay;
+- all 512 vertices are strictly typed at each rung under the declared endpoint determinant tests;
+- no finite-grid counterexample was found.
+
+
+This is strong candidate-corridor evidence and a useful falsifier corpus. It is not proof of a trapping corridor.
+
+
+9. REQUIRED REPAIR / NEXT DECISIVE WORK
+
+
+To obtain a rigorous P0.1 corridor component, perform one of the following:
+
+
+Route A — interval/analytic box proof:
+1. freeze the exact law, coordinates, box endpoints, field layer, branch convention, and r interval;
+2. subdivide the box as needed;
+3. certify endpoint types and a deterministic S-to-M capture chain on every subbox using interval inequalities or validated integration;
+4. prove the capture event is open and the certified region has positive exact-law mass;
+5. supply an exact-torus enclosure and exact-field transfer receipt.
+
+
+Route B — smaller certified box:
+1. center a small box on the independently verified GP-DER-092 fixture;
+2. use the strict stored margins to derive explicit coordinate radii preserving every degree-four gate;
+3. compute a rigorous positive Gaussian/determinant-weight lower bound for that box;
+4. transfer it to the exact field through a populated GP-SCHEMA-095 receipt.
+
+
+For either route:
+- use a failure-complete source and fixture ledger;
+- report source hashes, uncertainty, and weighted ESS;
+- distinguish box mass from certified-capture mass;
+- obtain AO48 or CW/C047R independent review;
+- keep P0.1 open until the small-r analytic convergence and structural-stability chain is complete.
+
+
+10. STATUS EFFECT
+
+
+CL-AUD-051 remains preserved as corrected exploratory evidence.
+
+
+Current state:
+- FULL 512-VERTEX FAIL-CLOSED LOCAL-MODEL REPLAY: PASS;
+- COORDINATE-BOX MASS DIAGNOSTIC: PASS WITH NUMERICAL QUALIFICATIONS;
+- CONTINUUM BOX CAPTURE: OPEN;
+- IMPORTED a_r VALUES: REJECTED FOR CURRENT EVIDENTIARY USE;
+- EXACT-TORUS / EXACT-FIELD CAPTURE: OPEN;
+- UNIFORM SMALL-r POSITIVITY: OPEN;
+- P0.1 THEOREM: OPEN.
+
+
+No theorem, closure, ballot, GP-AUTO-034 activation, machine state, release, deletion, or destructive operation follows.
+
+
+Reopening/correction rule: append an erratum if the source hash, full-vertex replay, or any scope statement above is contradicted. Do not silently modify CL-AUD-051, CL-DATA-051, GP-DATA-104, or this audit.
+
+
+END GP-AUD-103-v1.0

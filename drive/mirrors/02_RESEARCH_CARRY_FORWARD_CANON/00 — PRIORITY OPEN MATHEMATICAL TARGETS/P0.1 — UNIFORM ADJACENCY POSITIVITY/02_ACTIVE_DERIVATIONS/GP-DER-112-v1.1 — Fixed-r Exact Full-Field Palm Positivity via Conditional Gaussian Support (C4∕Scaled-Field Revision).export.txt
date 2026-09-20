@@ -1,0 +1,416 @@
+﻿GP-DER-112-v1.1 — FIXED-r EXACT FULL-FIELD PALM POSITIVITY VIA CONDITIONAL GAUSSIAN SUPPORT
+C4 / Scaled-Field Revision
+
+
+Artifact ID: GP-DER-112-v1.1
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: DER — fixed-r exact-field support theorem candidate / numbered correction
+Authority: none
+Canonical impact: NONE
+Priority: P0.1 / HB-030
+Supersedes for review: GP-DER-112-v1.0
+Status: COMPLETE GP-SIDE CANDIDATE THEOREM / NON-GP LINE-BY-LINE REVIEW REQUIRED
+
+
+Correction from v1.0:
+- the ambient Gaussian support space is C^4(T^2_24), because the conditioned midpoint functionals include derivatives through order four;
+- the local certificate is stated for the scaled potential S_r f of GP-DER-045, not directly for the unscaled physical field;
+- all constraint and topology maps are written in one fixed physical/scaled convention.
+
+
+Primary dependencies:
+- P0.1 READ FIRST, Drive ID 1_v8gEQ835HhZ18Nyfkk3i3w90jY_6CSCwu9hcD09wOU
+- GP-DER-106-v1.0, Drive ID 1ve_dMzQd8QvkPpu55oReGwSRnQRWuNsbLcKWzYStGtI
+- GP-DER-044 exact-torus Gaussian regularity, Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho
+- GP-DER-045 exact-field scaled transfer, Drive ID 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc
+- GP-PROT-065 branch convention, Drive ID 1C5CUvDYScSGk35yG-KThF5vLHQtt2itMC8Ks1oN155w
+- Q0_MASTER conditional Gaussian support precedent, Drive ID 19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz
+- GP-AUD-112 finite-Q4/exact-field object correction, Drive ID 1IXo4GyjrI16Z0sI2f9i_KQDNvKZp0PhCeSlLUmbY9RE
+
+
+[[OBJ:GP-DER-112-v1.1]] [[TASK:HB-030]] [[DEF:UNCONDITIONED_TYPED_PAIR_PALM]] [[DEF:P02_SELECTED_BRANCH]] [[STATUS:EXACT-FIELD-FIXED-r-POSITIVITY-CANDIDATE]] [[STATUS:C4-SUPPORT-SCALED-FIELD]]
+
+
+0. THEOREM CANDIDATE
+
+
+Fix r_*=1/20 and the exact normalized-periodized Bargmann–Fock field f on T^2_24, conditioned on the exact six value/gradient pins defining the ordered pair (M,S).
+
+
+Let Q_6 be that exact six-pin conditional field law. Let H_M(f),H_S(f) be the exact physical endpoint Hessians. Let
+
+
+W_exact(f)=|det H_M(f)det H_S(f)|
+1{M is a strict maximum}
+1{S is an index-one saddle},
+
+
+Z_exact=E_{Q_6}[W_exact],
+
+
+dP_{r_*}^{MS}=W_exact dQ_6/Z_exact.
+
+
+Let A_{r_*} be the exact selected-branch adjacency event of GP-PROT-065.
+
+
+Then
+
+
+P_{r_*}^{MS}(A_{r_*})>0.
+
+
+The conclusion is qualitative and fixed-r. No numerical exact-field mass, r-interval, uniform c_A, or P0.1 theorem is claimed.
+
+
+1. FIXED PHYSICAL/SCALED CONVENTION
+
+
+Let x_0 be the pair midpoint and let
+
+
+S_r:C^4(T^2_24)->C^4(D^+)
+
+
+be the fixed continuous affine-scaled local-potential map used in GP-DER-045: physical coordinates x=x_0+rX are converted to the normalized pair chart, the irrelevant additive/affine normalization fixed by the six pins is removed, and the potential is scaled by r^{-3}. Its gradient is the scaled vector field F_r.
+
+
+All nine midpoint jet coordinates
+
+
+J(f)=(q,a,w,z,c40,c31,c22,c13,c04)
+
+
+are the exact linear physical-field functionals with the normalization used by GP-DER-106. Equivalently they are fixed continuous linear functionals of f in C^4(T^2_24). The coordinate s=q/r_* is used only to describe the box.
+
+
+For each u=J(f), GP-DER-106 defines a normalized pin-preserving degree-four potential P_u^(4) on D^+.
+
+
+The exact-field comparison event is
+
+
+||S_{r_*}f-P_u^(4)||_{C^2(D^+)}<epsilon_*.
+
+
+No unscaled/scaled quantities are compared directly.
+
+
+2. POSITIVE-DENSITY NINE-JET SET
+
+
+Let B be P01-ROUTEB-D4-BOX-001 and choose a compact positive-width subbox B' strictly inside B.
+
+
+The exact six-pin covariance is invertible. The exact conditional nine-jet covariance at r_*=1/20 is positive definite by GP-DER-044 and GP-AUD-109. Therefore the full fifteen-constraint Gram—six pins plus nine midpoint jets—is invertible by the Schur-complement criterion.
+
+
+Consequently the marginal law gamma of J under Q_6 is a nondegenerate Gaussian measure on R^9 with a continuous strictly positive density, and
+
+
+gamma(B')>0.
+
+
+3. UNIFORM ROBUST DEGREE-FOUR FAMILY
+
+
+GP-DER-106 certifies every u in the larger box B by strict outward interval margins for endpoint type, selected unstable direction, cone, strip, transit, M-side section, chart containment, and capture contraction.
+
+
+Since B is compact and every recorded lower margin is positive, the robust-transfer inequalities have a common positive slack. Hence there exists epsilon_*>0 such that for every u in B' and every exact scaled potential G on D^+ which
+
+
+- has the identical fifteen constraints as P_u^(4), and
+- satisfies ||G-P_u^(4)||_{C^2(D^+)}<epsilon_*,
+
+
+all of the following hold:
+
+
+1. exact M maximum and exact S saddle typing;
+2. preservation of the exact selected M-ward unstable eigendirection;
+3. exact branch entry into the corridor;
+4. exact strip invariance and central transit;
+5. entry into an invariant exact M-neighborhood;
+6. convergence of the exact selected branch to M.
+
+
+This is the compact-family qualitative consequence of GP-DER-045. The six gradient pins ensure S and M remain exact equilibria. Therefore every such field belongs to A_{r_*}, and its exact endpoint determinant/type weight is positive.
+
+
+4. A SMOOTH PHYSICAL TARGET FOR EACH JET VECTOR
+
+
+Choose a larger physical torus chart U^{++} containing the physical image x_0+r_*D^+. Choose a fixed smooth periodic cutoff chi equal to one on a neighborhood of that image.
+
+
+For each u in B', define a smooth physical torus target g_u by inverse-scaling P_u^(4) through S_{r_*} on the local chart and multiplying the off-chart extension by chi. Arrange the fixed additive/affine normalization so that
+
+
+S_{r_*}g_u=P_u^(4) on D^+.
+
+
+Because chi is one on every constraint and certificate domain:
+
+
+- g_u satisfies the exact six physical pins;
+- J(g_u)=u;
+- u->g_u is continuous in C^4(T^2_24).
+
+
+This uses only a fixed linear extension operator at the single fixed r_*.
+
+
+5. C4-DENSE EXACT-TORUS RKHS WITH EXACT CONSTRAINT CORRECTION
+
+
+Let H be the RKHS of the exact normalized-periodized torus field. Its discrete Fourier weights are strictly positive at every lattice frequency. Thus every trigonometric polynomial belongs to H.
+
+
+Trigonometric polynomials are dense in C^4(T^2_24) on smooth periodic functions. Hence H is C^4-dense.
+
+
+Let L:C^4(T^2_24)->R^15 be the six-pin plus nine-jet constraint map. Let k_1,...,k_15 be the RKHS Riesz representers of L_1,...,L_15. Their Gram matrix is the full fifteen-constraint covariance and is invertible.
+
+
+Given any smooth g with Lg=y, choose trigonometric polynomials T_n in H with ||T_n-g||_{C^4}->0. Let
+
+
+d_n=y-LT_n,
+
+
+c_n=G_L^{-1}d_n,
+
+
+h_n=T_n+sum_i(c_n)_i k_i.
+
+
+Then Lh_n=y exactly. Since d_n->0 and the representers are fixed analytic functions,
+
+
+||h_n-g||_{C^4}->0.
+
+
+Therefore each g_u belongs to the C^4 closure of the affine constrained RKHS set
+
+
+H_{y(u)}={h in H:Lh=y(u)}.
+
+
+6. CONDITIONAL GAUSSIAN SUPPORT
+
+
+Let Q_u be a regular conditional law of f given Lf=y(u), viewed as a Gaussian measure on C^4(T^2_24). The field is analytic almost surely, so this Banach realization is valid.
+
+
+If m_u is the conditional mean, the centered conditional Cameron–Martin space is
+
+
+H_0={h in H:Lh=0},
+
+
+and the support of Q_u is the C^4 closure of m_u+H_0, equivalently the closure of H_{y(u)}.
+
+
+Section 5 places g_u in that support. Therefore every C^4-open neighborhood of g_u has positive Q_u measure. In particular,
+
+
+N_u={f:||S_{r_*}f-P_u^(4)||_{C^2(D^+)}<epsilon_*}
+
+
+is C^4-open because S_{r_*}:C^4(T^2)->C^2(D^+) is continuous, and
+
+
+Q_u(N_u)>0
+
+
+for every u in B'.
+
+
+This is the standard Gaussian support theorem on Banach spaces. The same constrained Cameron–Martin mechanism is used in Q0_MASTER's Lemma LB-ARCH support step.
+
+
+7. MEASURABLE DISINTEGRATED EVENT
+
+
+Define
+
+
+E_*={f:J(f) in B' and ||S_{r_*}f-P_{J(f)}^(4)||_{C^2(D^+)}<epsilon_*}.
+
+
+The maps f->J(f), u->P_u^(4), and S_{r_*} are continuous in the declared topologies. Hence E_* is Borel in C^4(T^2_24).
+
+
+By regular conditional disintegration,
+
+
+Q_6(E_*)=int_{B'}Q_u(N_u)gamma(du).
+
+
+The integrand is measurable and strictly positive for every u in B'. Since gamma(B')>0,
+
+
+Q_6(E_*)>0.
+
+
+No uniform lower bound on Q_u(N_u) is required: a measurable positive function on a positive-measure set has positive integral.
+
+
+8. EXACT CAPTURE AND EXACT WEIGHT
+
+
+For f in E_*, the exact scaled field lies in the uniform robust neighborhood of P_{J(f)}^(4). Section 3 gives
+
+
+E_* subset A_{r_*}.
+
+
+It also gives strict exact endpoint types. Therefore
+
+
+W_exact(f)>0
+
+
+for every f in E_*.
+
+
+Since E_* has positive Q_6 measure and W_exact is measurable and positive there,
+
+
+E_{Q_6}[W_exact 1_{E_*}]>0.
+
+
+9. EXACT FULL-FIELD NORMALIZER
+
+
+Under Q_6, the exact endpoint Hessian entries are a finite-dimensional Gaussian vector. The product det H_M det H_S is a degree-four polynomial in those Gaussian coordinates. Thus
+
+
+E_{Q_6}[|det H_M det H_S|]<infinity,
+
+
+so Z_exact<infinity.
+
+
+The positive weighted event in Section 8 implies Z_exact>0. Hence the exact full-field Palm law is well-defined and
+
+
+P_{r_*}^{MS}(A_{r_*})
+>=E_{Q_6}[W_exact 1_{E_*}]/Z_exact
+>0.
+
+
+10. STANDARD VERSUS PROJECT-SPECIFIC INPUTS
+
+
+Cited-standard inputs:
+
+
+- support of a Gaussian measure on a separable Banach space equals the closure of its Cameron–Martin space;
+- regular conditional Gaussian laws under finitely many nondegenerate continuous linear constraints;
+- trigonometric-polynomial density in C^4 for smooth periodic functions.
+
+
+Project-specific inputs:
+
+
+- exact-torus positive Fourier weights;
+- fifteen-constraint nondegeneracy;
+- GP-DER-106's uniform degree-four margins;
+- GP-DER-045 exact scaled-field robustness;
+- GP-PROT-065 exact branch convention.
+
+
+11. ADVERSARIAL CHECKLIST
+
+
+A non-GP reviewer must check:
+
+
+1. the C^4 Banach realization and continuity of all order-four constraints;
+2. the physical/scaled map S_r and inverse-scaled target construction;
+3. full fifteen-constraint Gram invertibility;
+4. C^4 RKHS density and exact finite-constraint correction;
+5. conditional support identity after fifteen constraints;
+6. Borel measurability of E_* and the disintegration step;
+7. existence of one uniform epsilon_* over B';
+8. exact endpoint type and selected-branch preservation;
+9. exact weight positivity and normalizer finiteness;
+10. complete separation from the finite-Q4 Palm law.
+
+
+12. FALSIFIERS
+
+
+The candidate theorem fails or requires amendment if any of the following holds:
+
+
+- no C^4 Gaussian Radon realization exists for the exact field;
+- a declared constraint is not continuous in C^4;
+- the fifteen-constraint Gram is singular;
+- the exact-torus RKHS is not C^4-dense;
+- exact constraint correction fails;
+- the conditional support is smaller than the constrained affine RKHS closure;
+- no uniform robust C^2 neighborhood exists over B';
+- E_* is nonmeasurable;
+- a field in E_* loses exact type or exact selected-branch capture;
+- exact endpoint determinant moments diverge or the normalizer is zero;
+- any step silently replaces exact full-field Hessians by finite-Q4 Hessians.
+
+
+13. SCOPE
+
+
+If independently verified, this theorem closes only fixed-r qualitative exact full-field Palm positivity at r=1/20.
+
+
+It does not establish:
+
+
+- a numerical exact-field lower bound;
+- uniform positivity on 0<r<=r0;
+- convergence as r->0;
+- P0.1 or P0.2;
+- Theorem B, elder-rule pairing, or lifetime laws;
+- any machine, governance, release, or destructive operation.
+
+
+14. REQUIRED RESPONSE
+
+
+Accepted response:
+
+
+APPROVE GP-DER-112 REVISION 1.1 FIXED-r EXACT-FIELD SCOPE
+
+
+or a numbered amendment naming the failed lemma, counterexample, and affected dependencies.
+
+
+Preferred assignments:
+
+
+- AO48: Banach Gaussian support, exact weight, normalizer, measurability;
+- CW/C047R: torus RKHS, constraint Gram, scaled-field and branch transfer;
+- CL: compare with Q0_MASTER Lemma LB-ARCH and inspect uniform structural margins.
+
+
+Silence is not verification.
+
+
+15. CURRENT STATUS
+
+
+v1.0: SUPERSEDED FOR REVIEW DUE TO TOPOLOGY/SCALE NOTATION HAZARDS.
+v1.1: COMPLETE GP-SIDE CANDIDATE.
+NON-GP REVIEW: OPEN.
+FIXED-r EXACT FULL-FIELD POSITIVITY: NOT YET PROMOTED OR CLOSED.
+r-UNIFORM P0.1: OPEN.
+
+
+No theorem promotion, terminal closure, ballot, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive operation follows.
+
+
+END GP-DER-112-v1.1

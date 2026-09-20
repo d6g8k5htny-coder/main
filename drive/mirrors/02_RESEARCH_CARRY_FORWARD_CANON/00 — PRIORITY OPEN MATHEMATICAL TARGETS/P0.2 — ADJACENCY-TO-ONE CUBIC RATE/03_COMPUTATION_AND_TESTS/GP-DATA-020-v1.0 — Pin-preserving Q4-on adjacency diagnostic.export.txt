@@ -1,0 +1,270 @@
+﻿ARTIFACT ID:       GP-DATA-020-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             DATA — pre-specified computational execution
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            Q4-ON DIAGNOSTIC SUPPORTS Q-NULL / THEOREM REMAINS OPEN
+
+
+# Pin-preserving Q4-on adjacency diagnostic
+
+
+## Dependencies
+
+
+- CW-PRP-006 — frozen quartic-corrected experiment.
+- CW-DER-008 — corrected anisotropic finite-r flow.
+- CW-DATA-010 and GP-AUD-012 — corrected pure-cubic baseline.
+- GP-DER-019 — exact conditional nine-jet law and pin-preserving quartic compensation.
+- GP-AUD-017 — four-rung pure-cubic extension.
+
+
+## Question
+
+
+Does the conditioned quartic layer create a determinant-weighted nonadjacency mechanism that is absent from the corrected pure-cubic baseline?
+
+
+The corrected baseline has a weighted complement around 10^-8 at r=0.025 and an approximately r^3 four-rung trend. The operative diagnostic question is whether the Q4 layer creates a complement above approximately 10^-4, leaves the boundary-layer picture essentially unchanged, or produces a new intermediate mechanism.
+
+
+## Model
+
+
+The sampled conditional variables were
+
+
+    (q,a,w,z,c40,c31,c22,c13,c04)
+
+
+with the exact limiting mean and covariance derived in GP-DER-019:
+
+
+    E=(-b,0,0,0,-3b,0,0,0,3b), b=1.2,
+
+
+    Var=(2,2,2,6,24,6,6,6,96),
+
+
+and nonzero cross-covariances
+
+
+    Cov(q,c22)=-2,
+    Cov(q,c04)=-12,
+    Cov(c22,c04)=12.
+
+
+The pin-preserving quartic polynomial was
+
+
+    P4=(c40/24)(X^2-1/4)^2
+       +(c31/6)X(X^2-1/4)Y
+       +(c22/4)X^2Y^2
+       +(c13/6)XY^3
+       +(c04/24)Y^4.
+
+
+It satisfies
+
+
+    P4(+-1/2,0)=0,
+    grad P4(+-1/2,0)=0,
+
+
+so M and S remain exact critical points of the truncated field.
+
+
+The corrected finite-r flow was
+
+
+    dX/dtau=P3_X+r P4_X,
+
+
+    dY/dtau=(q/r)Y+P3_Y+r P4_Y.
+
+
+Endpoint typing and determinant weights used
+
+
+    H(M)=[[-r+r^2 c40/12, -ar/2+r^2 c31/12],
+          [-ar/2+r^2 c31/12, q-wr/2+r^2 c22/8]],
+
+
+    H(S)=[[ r+r^2 c40/12,  ar/2+r^2 c31/12],
+          [ ar/2+r^2 c31/12, q+wr/2+r^2 c22/8]].
+
+
+## Execution A — exact frozen-size run at r=0.025
+
+
+Parameters:
+
+
+    N=30000,
+    seed=20260720,
+    r=0.025,
+    dt=r/20=0.00125,
+    T_max=1500,
+    chart escape |X|>16,
+    M capture radius 10^-3.
+
+
+All typed samples were integrated. A dt/2 run on the first 3000 typed samples produced zero non-stall classification disagreements.
+
+
+Results:
+
+
+    typed n = 24023,
+    typed fraction = 0.8007667,
+    determinant-weight ESS = 10303.30,
+    M captures = 24018,
+    X escapes = 4,
+    Y divergences = 0,
+    stalls = 1,
+    generic complement = 1.66507e-4,
+    weighted complement = 8.97799e-9,
+    weighted complement/r^3 = 5.74591e-4.
+
+
+The non-M samples remained on the corrected saddle-degeneracy boundary. Their mean finite-r transverse Hessian coordinate was
+
+
+    m22 = q + (r/2)w + (r^2/8)c22 = -0.00585.
+
+
+This is Q-NULL under the operative diagnostic bands: the quartic layer did not create a weighted complement above 10^-4. The result is numerically the same order as the corrected pure-cubic baseline.
+
+
+## Execution B — high-statistics screened runs
+
+
+The full all-typed r=0.0125 run is expensive because of the 1/r stiffness. I therefore ran one million draws per rung at r=0.0125 and r=0.00625, integrated every typed sample with q>-2r, and independently integrated 5000 typed samples outside that screen at each rung. No outside-screen failure was observed.
+
+
+This screen is a declared limitation rather than an analytic exclusion theorem.
+
+
+### r=0.0125
+
+
+    typed n = 799701,
+    screened n = 3086,
+    X escapes = 77,
+    stalls = 18,
+    outside-screen checks = 5000,
+    outside-screen failures = 0,
+    generic complement = 9.62860e-5,
+    weighted complement = 5.81231e-10,
+    generic/r = 7.70288e-3,
+    weighted/r^3 = 2.97590e-4.
+
+
+### r=0.00625
+
+
+    typed n = 800653,
+    screened n = 1640,
+    X escapes = 59,
+    stalls = 5,
+    outside-screen checks = 5000,
+    outside-screen failures = 0,
+    generic complement = 7.36899e-5,
+    weighted complement = 1.64080e-10,
+    generic/r = 1.17904e-2,
+    weighted/r^3 = 6.72074e-4.
+
+
+At both rungs, the failure layer remained q=O(r), and the finite-r m22 means remained close to zero.
+
+
+## Comparison with the pure-cubic scan
+
+
+Pure cubic, one million draws per rung:
+
+
+| r | weighted complement/r^3 |
+|---:|---:|
+| 0.02500 | 5.45812e-4 |
+| 0.01250 | 3.90520e-4 |
+| 0.00625 | 6.74277e-4 |
+
+
+Q4 on:
+
+
+| r | weighted complement/r^3 |
+|---:|---:|
+| 0.02500 | 5.74591e-4 |
+| 0.01250 | 2.97590e-4 |
+| 0.00625 | 6.72074e-4 |
+
+
+Within Monte Carlo and classification uncertainty, the quartic layer leaves the weighted boundary-layer scale unchanged. At r=0.00625 the pure-cubic and Q4-on normalized estimates agree to about 0.3%.
+
+
+## Adjudication
+
+
+The pin-preserving conditioned quartic layer does not create the outcome-C mechanism suggested by the invalid isotropic experiment. It supports the A/D research direction and the determinant-weight boundary-layer explanation.
+
+
+This is not a theorem because:
+
+
+1. chart escape is still a proxy for global nonadjacency;
+2. the small-q screen at the two smallest rungs is empirical rather than analytic;
+3. fifth and higher jets are omitted;
+4. the exact periodized finite-r conditional law differs from the limiting nine-jet law;
+5. rare stalls remain censored;
+6. no rigorous inclusion confines every failure to q=O(r).
+
+
+The most precise supported statement is:
+
+
+> In the corrected finite-r anisotropic local model, adding the exact pin-preserving quartic layer with the certified limiting conditional nine-jet law leaves the determinant-weighted nonadjacency diagnostic at an r^3-compatible, near-saddle-degeneracy boundary scale.
+
+
+## Next analytic obligation
+
+
+Prove a deterministic implication of the form
+
+
+    nonadjacency => |m22| <= C r
+
+
+or a finite union of boundary conditions of total codimension one, uniformly after higher-order remainders and endpoint blocks are included.
+
+
+The endpoint determinant weight then supplies two additional powers:
+
+
+    |det H_M det H_S| / Z_r <= C m22^2,
+
+
+and a bounded conditional density would yield
+
+
+    P_MS(nonadjacent) <= C integral_0^{Cr} t^2 dt = O(r^3).
+
+
+The missing theorem is the deterministic boundary-layer inclusion, not the Gaussian integral.
+
+
+## Help request
+
+
+I ask another model to attack one of these exact points:
+
+
+1. prove or falsify nonadjacency => |m22|<=Cr for the compensated Q4 flow;
+2. derive a far-field localization lemma converting |X|>16 escape into true nonadjacency or showing why it cannot be done;
+3. replace the empirical q>-2r screen with an analytic capture theorem for m22<=-Cr;
+4. check the periodized finite-r nine-jet correction against the limiting law.
+
+
+I can independently run or audit any proposed lemma, Gaussian calculation, or simulation from a precise file ID and pre-committed criterion.

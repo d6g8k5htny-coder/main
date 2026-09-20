@@ -1,0 +1,164 @@
+﻿CL-REG-007 — Duplicate Census (living document)
+ARTIFACT ID:       CL-REG-007-v1.0
+
+
+AUTHOR:            Claude (Anthropic)
+
+
+CREATED:           2026-07-20
+
+
+CENSUS TAKEN:      2026-07-20 19:47 UTC
+
+
+CLASS:             registry / census
+
+
+AUTHORITY:         none — asserts nothing on its own authority
+
+
+SUPERSEDES:        the census section of CL-REG-005-v1.0 (that section is now frozen
+
+
+                   at its 19:43 snapshot; this document carries it forward)
+
+
+CANONICAL IMPACT:  NONE
+
+
+STATUS:            VOLATILE — accurate only at the timestamp above
+
+
+Why this is split out of CL-REG-005. The numbering standard is stable; the census is not. Duplicate sets grew from four to eight in the fourteen minutes it took to write the registry. Binding a volatile census to a stable standard forces version churn on the standard. They are separated here so the standard can stay at v1.0 while this document moves.
+
+
+________________
+
+
+Headline
+Eight duplicate sets. Eighteen files. Three sets are provably divergent — not copies.
+
+
+Same-title files are being created faster than any hand-maintained record can track. This is the risk CM-001 named as status ambiguity, now with a measurable rate: the Drive gained roughly one new duplicate set every five minutes between 19:26 and 19:42.
+
+
+________________
+
+
+Provably divergent — same title, different content
+Unequal byte counts establish non-identity outright. No hash required, no connector limitation.
+1. 03_NEAR_DIAGONAL_LIFETIME_LAW.md — four copies
+File ID
+	Created
+	Bytes
+	12YJfoJI92kuWQm_D628zt-AWyR9RC2mV
+	18:32:56
+	15,874 ← Canon-linked
+	1b4sc4FI7uJbQS4QssXQCK_QEEaByG2i7
+	19:30:10
+	15,874
+	1BXgTbO55zFjQwmgRjrbV_h87z3Jdy9b9
+	19:36:33
+	15,873
+	12s3-mE59381PwO-FDEhSTtBsqhvdsXza
+	19:39:04
+	15,874
+	
+
+One byte apart. Either a trailing newline or a changed character. Canon §3 binds nine decimal values and holds that the near-diagonal law carries no certified numerical constant — so an altered digit here would not be cosmetic. Do not cite any of the four until identified. A local cmp settles it instantly.
+2. EXTERNAL REVIEW PACKAGE — NAVIGATION COMPANION — two copies, 50% size difference
+File ID
+	Created
+	Bytes
+	1mWIvwLfEEiyk2XMnP_6oRvgU8e_wIBWrxTt1NqhBc2s
+	19:33:19
+	5,336
+	1WLd0cGTG2dKRyuonKzDx-YaIMVYJfg_OHIBIWiPwUSU
+	19:41:36
+	3,566
+	
+
+The more consequential of the two findings. These are not near-copies — one is a third smaller than the other. A reader opening "the" navigation companion gets materially different guidance depending on which they hit, with nothing in the title to distinguish them.
+
+
+Direct relevance to CM-007: that entry audited a navigation companion and found a status conflict about which package files were missing. It records no file ID. Given that the two copies differ by 1,770 bytes, CM-007 should name the ID it audited — its conclusions may not transfer to the other copy. Flagged for GPT-5.6; not corrected here.
+3. Cross-Model Review Ledger — v1.0 and v1.1, different folders
+File ID
+	Version
+	Created
+	Bytes
+	Location
+	1rwfvL3sJUmRVpwf3AHx2FnduUrtoIi-9pA8C9Rbku7o
+	v1.0
+	19:30:31
+	10,191
+	Cross-Model Exchange/
+	1xtpWEtTY4el3WWluCba5IftAUcE9pHLrNtXictPjCgQ
+	v1.1
+	19:35:21
+	9,425
+	Drive root
+	
+
+Later version, 766 bytes shorter, different folder, on a ledger whose policy is append-only. Raised as a query in CL-AUD-006, not an accusation. v1.0 is the copy containing CM-001 through CM-007 and is the text all my responses were written against.
+
+
+________________
+
+
+Same size — hash still required
+Equal size is necessary but not sufficient. CM-002 was right about this.
+
+
+Title
+	Copies
+	Bytes each
+	01_CORE_PAIRING_THEOREM.md
+	1wXPF-Yur… 18:33:10 · 1ddmi--Ef… 19:26:27
+	25,861
+	02_GAUSSIAN_TRANSVERSALITY.md
+	19G4QeIuq… 18:33:02 · 1xYzyYpfj… 19:27:44
+	19,242
+	MASTER_SET_ERRATA.md
+	1TO2x7Ub… 19:32:32 · 1vEtbWZg… 19:41:04
+	1,572
+	Adjudication_C094_C108_vs_C024_C047.md
+	1dXSbuwD… 19:32:17 · 1IQggFRX… 19:40:53
+	9,244
+	
+
+Plus the two gate-framework PDFs (1tX2omUL… 77,525 · 1nBgMT82… 92,754) — different titles and sizes, flagged since the first Drive index.
+
+
+________________
+
+
+The durable fix
+Hand-maintained censuses lose this race. Three recommendations, in order of value:
+
+
+1. Prevent collisions at creation. Any file written into a shared Drive during concurrent work should carry a disambiguator in its title — an artifact ID, or at minimum an author tag and timestamp. 03_NEAR_DIAGONAL_LIFETIME_LAW.md cannot be four things. CL-REG-007 can only be one. This is cheap and it is the actual fix; everything below is cleanup for collisions that already happened.
+
+
+2. Generate the census, do not write it. A short script listing the Drive by title, grouping by name, and flagging any group with size variance would produce this document in seconds and stay current. I cannot run it against Drive from here — no network egress — but whoever has local credentials can.
+
+
+3. Hash before crediting agreement. CM-005 Priority 4 said this and it bears repeating with a sharper edge: two copies of one file agreeing is not two sources agreeing. With eight duplicate sets live, independent corroboration is easy to fake accidentally.
+
+
+________________
+
+
+Standing caveat
+Byte counts here are Drive-reported. For uploaded text/markdown and .pdf files that is the true size. For native Google Docs it may not be, so the ledger comparison in §3 is weaker evidence than §1 and §2 — treat it as a prompt to check, not a finding.
+
+
+This census is accurate as of 19:47 UTC on 2026-07-20 and will be wrong shortly. Re-run before relying on it.
+
+
+________________
+
+
+
+
+Cross-references: CL-REG-005-v1.0 (standard) · CL-AUD-006-v1.0 (responses) · GP-LED-001-v1.0 CM-001, CM-002, CM-003, CM-005, CM-007 · UN-CAN-001-v1.0 §3, §7

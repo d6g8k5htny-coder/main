@@ -1,0 +1,155 @@
+﻿GP-AUD-087-v1.0 — NON-FINITE-TO-STALL CLASSIFICATION DEFECT AND EVENT-BASED REPLAY
+
+
+Artifact ID: GP-AUD-087-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: AUD / ERR / DATA — static source defect, adversarial replay, and V3 scope correction
+Authority: none
+Canonical impact: NONE
+P0.2: OPEN / CANDIDATE / NONCANONICAL
+Audits: CL-AUD-056-v1.0 and raw source Drive ID 1XZMec52555wL-DKatZj6ZKtqFQX-yxRY
+Supersedes no evidence; corrects only the interpretation of the reported STALL population.
+
+
+[[OBJ:GP-AUD-087-v1.0]] [[OBJ:CL-AUD-056-v1.0]] [[REL:AUDITS]] [[DEF:FAIL_CLOSED_NO_FIT]] [[STATUS:MATERIAL-CLASSIFIER-DEFECT]]
+
+
+1. EXECUTIVE VERDICT
+
+
+A material classifier defect is present in the published trajectory source. The program integrates to a fixed horizon, reads Pe=sol.y[:,-1], computes dM=hypot(Pe[0]+0.5,Pe[1]), then tests CAPTURE and ESCAPE before falling through to STALL. It does not require sol.success, inspect solver status, stop on chart-boundary events, or reject non-finite states.
+
+
+For Pe containing NaN, dM is NaN and every comparison used by the classifier is false. The trajectory is therefore labeled STALL. Thus the statement “failure mode is stalling, not escape” is not supported by the current source. At least part of the STALL population is a numerical-invalid fallthrough class.
+
+
+Verdict: MATERIAL DEFECT CONFIRMED. The reported three-rung mass remains an exploratory upper estimate only. Its exponent and constant must not be promoted until the exact fixture set is replayed with failure-complete event handling.
+
+
+2. STATIC FAILURE MECHANISM
+
+
+Published logic, in equivalent form:
+
+
+Pe = sol.y[:,-1]
+dM = hypot(Pe[0]+0.5, Pe[1])
+if dM < 0.05: CAPTURE
+if abs(Pe[0]) > 0.75 or abs(Pe[1]) > 1.0: ESCAPE
+else: STALL
+
+
+Missing gates:
+
+
+- no all-finite check on sol.y or Pe;
+- no requirement sol.success is true with an acceptable status;
+- no event-driven capture or escape termination;
+- no separate SOLVER_FAIL or NUMERICAL_INVALID state;
+- no fixture preservation sufficient to replay every reported STALL;
+- no independent integrator agreement before labeling a finite unresolved orbit STALL.
+
+
+NaN comparisons are false under NumPy/Python semantics, so a non-finite solution deterministically falls through to STALL.
+
+
+3. ADVERSARIAL REPLAY BATTERY A
+
+
+A reduced deterministic replay used the published builder, field, seed, r=0.025, 30 non-q jet draws, and an 18-point q grid. It produced 335 typed trajectories:
+
+
+- 330 CAPTURE;
+- 2 ESCAPE;
+- 3 STALL under the original classifier.
+
+
+All 3 original STALL outcomes had Pe=(NaN,NaN), dM=NaN, while solve_ivp reported that it reached the end of the interval after 24,654 to 33,717 evaluations.
+
+
+The same three fixtures were rerun with terminal capture and chart-boundary events, finite-state validation, max_step=0.2, and three solver families: LSODA, DOP853, and Radau. All three solvers agreed fixture-by-fixture:
+
+
+- fixture A1: CAPTURE at t≈16.86737, crossing d(M)=0.05;
+- fixture A2: ESCAPE at t≈20.17124 through Y=+1;
+- fixture A3: ESCAPE at t≈17.07761 through Y=+1.
+
+
+The original STALL labels were therefore wrong for all three fixtures; one was a censored capture and two were chart escapes.
+
+
+4. ADVERSARIAL REPLAY BATTERY B
+
+
+A second independently parameterized reduced replay used 40 non-q jet draws and a 20-point q grid at each r in {0.05,0.025,0.0125}. It evaluated 1,396 typed trajectories. The original classifier produced 11 STALL outcomes.
+
+
+All 11 had non-finite final states and dM=NaN. Event-driven reruns with LSODA, DOP853, and Radau agreed on every fixture: all 11 crossed a declared chart boundary and were ESCAPE, with event times between approximately 9.262 and 46.712.
+
+
+These batteries do not estimate the full original 300-by-36 mass. They establish the defect and demonstrate that the named STALL class is contaminated enough that its scientific interpretation must be withdrawn pending a full fixture replay.
+
+
+5. STATUS EFFECT ON CL-AUD-056
+
+
+Retained:
+
+
+- source and result hashes are valid;
+- the computation is a useful first window-assisted local-model experiment;
+- the measured values are numerically cubic-compatible over three rungs as an uncorrected exploratory output;
+- the failure boundary remains a valuable adversarial region.
+
+
+Withdrawn or blocked:
+
+
+- “stalls dominate” as a dynamical conclusion;
+- “stall population is the natural falsifier target” without first separating numerical invalids;
+- any “true constant” language;
+- failure-complete noncapture mass;
+- any theorem, exact-field, exact-torus, or asymptotic inference.
+
+
+Because ESCAPE and STALL were both counted as noncapture, reclassifying a numerical-invalid fixture as ESCAPE does not change that fixture’s numerator contribution. Reclassifying it as CAPTURE does. Battery A contains at least one such capture. The corrected full mass and slope therefore require a full rerun; they cannot be recovered from the aggregate receipt because individual fixtures were not preserved.
+
+
+6. REQUIRED REPAIR
+
+
+The corrected protocol is GP-REQ-086-v1.1, Drive ID 1sD_u6M6u2H2wAmoOOb_Ti3opm4loRVz6mwwOItOCRII. Minimum requirements are:
+
+
+- event-driven CAPTURE and four-sided chart ESCAPE;
+- explicit NUMERICAL_INVALID and SOLVER_FAIL classes;
+- all-finite checks over the complete trajectory and final state;
+- solver-status and event-consistency checks;
+- fixture-level persistence of U, q, r, branch vector, offset, terminal state, event, weights, and hashes;
+- LSODA plus one independent solver for every noncapture/ambiguous fixture;
+- horizon, radius, branch-offset, and quadrature sensitivity;
+- omitted-window bound or all-q replay;
+- seed replication and uncertainty intervals;
+- no pooling of censored or invalid states with dynamical stalls.
+
+
+7. CURRENT GATE STATE
+
+
+V3 accessible-r exploratory layer: EXECUTED BUT CLASSIFIER-DEFECTED; descriptive output only.
+
+
+V3 failure-complete replay: OPEN.
+
+
+Stall-resolution claim: FALSIFIED AS CURRENTLY IMPLEMENTED.
+
+
+Practical-r bridge and P0.2 theorem: unchanged and open.
+
+
+No theorem, machine root, ballot, closure, release, or destructive operation follows from this audit.
+
+
+END GP-AUD-087-v1.0

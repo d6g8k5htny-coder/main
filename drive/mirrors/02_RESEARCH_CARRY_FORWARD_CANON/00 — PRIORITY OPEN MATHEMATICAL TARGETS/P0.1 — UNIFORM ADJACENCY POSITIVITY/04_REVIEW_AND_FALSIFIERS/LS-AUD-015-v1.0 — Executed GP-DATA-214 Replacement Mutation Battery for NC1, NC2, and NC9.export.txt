@@ -1,0 +1,348 @@
+﻿LS-AUD-015-v1.0 — EXECUTED GP-DATA-214 REPLACEMENT MUTATION BATTERY
+FOR NC1, NC2, AND NC9
+
+
+Artifact ID: LS-AUD-015-v1.0
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: AUD / SOURCE-LEVEL MUTATION EXECUTION / RECORD HARDENING
+Authority: same-line technical evidence only
+Canonical mathematical impact: NONE
+Independent-review credit: ZERO
+Terminal impact: NONE
+
+
+[[TARGET:GP-DATA-214-v1.0]] [[SOURCE-SHA:63ef800a51969903b9c3d97c74e61f77ee037afadff73038047ef7cfce040fb9]] [[RESULT-SHA:af2779575ce3d18eeb69499e32ecc6e7c40898181ddf0fd6e4815d35cf8a6cbf]] [[M1:M2:M3-PASS]] [[NO-PROMOTION]]
+
+
+1. PURPOSE
+
+
+Replace the three tautological GP-DATA-214 controls identified by CL-AUD-281-v1.0 with actual source mutations that alter a load-bearing proof invariant and require the certificate to fail closed.
+
+
+The original source labels were:
+
+
+- NC1_lowered_L5_Peano_constant_rejected;
+- NC2_type_indicator_above_one_rejected;
+- NC9_denominator_lower_bound_direction_rejected.
+
+
+In the frozen source, the corresponding booleans were the constant comparisons
+
+
+1<2,
+2>1,
+1/2<1.
+
+
+Those statements are true but do not mutate the certificate. LS-COR-011 correctly reclassified them as witnesses. This audit executes genuine replacements against the exact frozen source.
+
+
+2. BASELINE IDENTITY AND ENVIRONMENT
+
+
+Exact source extracted from the GP-DATA-214 source carrier under its declared marker and blank-line normalization rule:
+
+
+- bytes: 37,512;
+- SHA-256: 63ef800a51969903b9c3d97c74e61f77ee037afadff73038047ef7cfce040fb9.
+
+
+Baseline result:
+
+
+- bytes: 10,944;
+- SHA-256: af2779575ce3d18eeb69499e32ecc6e7c40898181ddf0fd6e4815d35cf8a6cbf.
+
+
+Runtime:
+
+
+- CPython 3.13.5;
+- GCC 14.2.0;
+- Linux x86_64, kernel 6.12.13;
+- exact source dependencies as imported by the carrier;
+- baseline dps: 80;
+- mutation dps: 60.
+
+
+Baseline execution returned code 0 and printed:
+
+
+- source_sha256=63ef800a...40fb9;
+- mean_difference_bound=0.00450710911289890000554529776758610301730689066399507181223932;
+- covariance_difference_bound=0.033349712715300784638778803109116956464111783378595888900358;
+- Delta_second_moment_bound=14.0881601505150626086629336253776145062199350569940402796844;
+- ALL CHECKS PASS.
+
+
+The baseline result reproduced the declared 10,944-byte result hash exactly.
+
+
+3. MUTATION M1 — LOWERED L5 PEANO CONSTANT
+
+
+3.1 Source change
+
+
+In the exact expected Peano table, replace
+
+
+"L5": (3, sp.Integer(2))
+
+
+by
+
+
+"L5": (3, sp.Integer(1)).
+
+
+No other source text is changed.
+
+
+Mutant source:
+
+
+- SHA-256: 7a57876484a5b5d80ea6afebe77367daf35b84f1d252dbf6240a88884d662048.
+
+
+3.2 Required behavior
+
+
+The computed Peano audit must still derive the actual exact value
+
+
+(order, constant)=(3,2)
+
+
+and reject the mutated expected table.
+
+
+3.3 Execution result
+
+
+- return code: 1;
+- result file: not produced;
+- first proof failure:
+
+
+RuntimeError: Peano identity mismatch for L5: (3, 2).
+
+
+3.4 Verdict
+
+
+M1 PASS.
+
+
+This is a true source mutation. It proves the executable Peano identity check detects an understated L5 constant rather than merely evaluating 1<2.
+
+
+4. MUTATION M2 — ILLEGAL TYPE INDICATOR VALUE
+
+
+4.1 Source change
+
+
+In the exact determinant/type bridge, replace the indicator domains
+
+
+indicator_m in (0,1),
+indicator_s in (0,1)
+
+
+by
+
+
+indicator_m in (0,1,2),
+indicator_s in (0,1,2).
+
+
+No other source text is changed.
+
+
+Mutant source:
+
+
+- SHA-256: 2b3ea8e105126c27168979d62da493368dcd5a6ac05f40543c797575beff95ab.
+
+
+4.2 Required behavior
+
+
+The maximum indicator product becomes four, violating the exact type-indicator ceiling one. The determinant/type bridge must fail before a result is written.
+
+
+4.3 Execution result
+
+
+- return code: 1;
+- result file: not produced;
+- first proof failure:
+
+
+RuntimeError: exact determinant/type bridge failed.
+
+
+4.4 Verdict
+
+
+M2 PASS.
+
+
+This is a true object-domain mutation. It proves the exact bridge rejects non-indicator values rather than merely evaluating 2>1 outside the proof path.
+
+
+5. MUTATION M3 — WRONG DENOMINATOR DIRECTION
+
+
+5.1 Source change
+
+
+Replace the hard-coded check entry
+
+
+"quotient_direction_pass": True
+
+
+by the explicit illegal lower-denominator test
+
+
+"quotient_direction_pass": (1 <= 1/2).
+
+
+Equivalently, the mutant asserts that a numerator lower bound divided by a denominator lower bound is no larger than the valid lower ratio using a denominator upper bound. The counterexample interval is
+
+
+numerator in [1,2],
+denominator in [1,2].
+
+
+The illegal lower-denominator candidate is 1/1=1, while the valid guaranteed lower bound is 1/2.
+
+
+Mutant source:
+
+
+- SHA-256: 2a1644e162d10f7bc24809eabe66a5cdca9aee3b044362469b37847ac4c0aa66.
+
+
+5.2 Required behavior
+
+
+The computed check dictionary must set quotient_direction_pass=False and abort before the result file is written.
+
+
+5.3 Execution result
+
+
+- return code: 1;
+- result file: not produced;
+- first proof failure:
+
+
+RuntimeError: computed check failure with
+quotient_direction_pass=False
+and
+all_checks_pass=False.
+
+
+5.4 Verdict
+
+
+M3 PASS.
+
+
+This is a true quotient-direction mutation. It proves the certificate's fail-closed check layer detects the wrong denominator direction.
+
+
+6. AGGREGATE RESULT
+
+
+Baseline:
+PASS / exact source and exact result reproduced.
+
+
+Replacement mutations:
+
+
+- M1 lowered L5 expected constant: REJECTED at Peano identity;
+- M2 illegal type indicator: REJECTED at exact bridge;
+- M3 wrong denominator direction: REJECTED at computed checks.
+
+
+Aggregate:
+3/3 executed replacement mutations PASS.
+
+
+None of the three mutant executions produced a result carrier.
+
+
+7. EVIDENCE-TAXONOMY UPDATE
+
+
+Current normalizer adversarial evidence should be described as:
+
+
+- original GP-DATA-214 baseline checks and controls preserved as historical source output;
+- NC1, NC2, and NC9 original source expressions classified as logical witnesses, not mutations;
+- LS-AUD-015 supplies three executed source-level replacement mutations for those proof obligations;
+- the external CL-AUD-281 mutation set remains independent evidence from one Anthropic provider lineage;
+- LS-AUD-015 earns zero organizational independence credit.
+
+
+This removes the same-line record weakness identified in CL-AUD-281 F3. An external reviewer must still verify the mutation logic and the remaining B4/B5 periodization and M13 object-firewall obligations.
+
+
+8. REQUIRED EXTERNAL USE
+
+
+LS-REQ-017 reviewers should:
+
+
+- inspect the exact patches above;
+- reproduce or independently implement equivalent mutations;
+- confirm the first failed invariant;
+- verify no mutation changes unrelated code;
+- distinguish these same-line executions from independent review credit.
+
+
+9. SCOPE FIREWALL
+
+
+This audit does not:
+
+
+- modify the frozen GP-DATA-214 source or result;
+- create a numbered source successor;
+- change C_Z=15;
+- supply B4/B5 independence;
+- execute the finite-Q4/exact-field M13 firewall;
+- close N1;
+- close P0.1 or P0.2;
+- promote any theorem;
+- authorize release, sealing, machine action, or deletion.
+
+
+10. FINAL STATUS
+
+
+GP-DATA-214 baseline:
+PASS / EXACT SOURCE AND RESULT REPRODUCED.
+
+
+F3 control-taxonomy defect:
+REPAIRED ON THE SAME LINE BY THREE EXECUTED MUTATIONS.
+
+
+Independent review:
+OPEN.
+
+
+N1:
+FALSE UNTIL LS-REQ-017 QUALIFYING PASS.
+
+
+END LS-AUD-015-v1.0

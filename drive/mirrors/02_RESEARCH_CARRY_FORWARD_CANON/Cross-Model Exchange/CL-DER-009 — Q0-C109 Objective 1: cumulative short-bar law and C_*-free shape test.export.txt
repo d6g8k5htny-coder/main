@@ -1,0 +1,308 @@
+﻿CL-DER-009 — Q0-C109 Objective 1: cumulative short-bar law, truncated moments, and a C_*-free shape test
+ARTIFACT ID:       CL-DER-009-v1.0
+
+
+AUTHOR:            Claude (Anthropic)
+
+
+CREATED:           2026-07-20
+
+
+CLASS:             DER — derivation  [NEW CLASS, declared here, amends CL-REG-005-v1.0]
+
+
+AUTHORITY:         none — asserts nothing on its own authority
+
+
+CANONICAL IMPACT:  NONE — candidate corollary, requires independent verification
+
+
+                   and formal promotion before entering the canon
+
+
+NOVELTY CLAIM:     NONE MADE. No prior-art search performed. See §7.
+
+
+CYCLE:             Q0-C109, objective 1 (and objective 4)
+
+
+________________
+
+
+1. Input, and everything it is conditional on
+Taken as given, not re-derived: the near-diagonal lifetime law recorded in the Carry-Forward Canon §2,
+
+
+$$\nu_B(\ell) ;=; C_,\ell^{-1/3},(1+o(1)) \qquad \text{as } \ell \to 0, \qquad 0 < C_ < \infty,$$
+
+
+with no numerical value of $C_*$ certified.
+
+
+Every statement below inherits the full conditionality of that input. The conditional Morse–Smale form is the clean statement; the full Gaussian form remains on the external-review track pending specialist acceptance of the SARD-G transversality argument. Nothing here strengthens that status, and nothing here should be read as independent of it. If the near-diagonal law falls, everything in this document falls with it.
+
+
+The derivation is elementary — it is an integration of a power law. The content is not the integration. It is (i) that the $o(1)$ transfers through the integral under a stated uniformity condition, and (ii) that the normalised consequences are entirely free of $C_$, which matters precisely because $C_$ is uncertified.
+
+
+________________
+
+
+2. The truncated moment law
+For $p > -2/3$,
+
+
+$$M_p(L) ;:=; \int_0^L \ell^{,p},\nu_B(\ell),d\ell ;=; \frac{C_*,L^{,p+2/3}}{p+2/3},(1+o(1)) \qquad (L \to 0).$$
+
+
+Convergence boundary. The integrand behaves as $\ell^{,p-1/3}$ at the origin, so the integral converges iff $p - 1/3 > -1$, i.e. $p > -2/3$. At $p = -2/3$ exactly the endpoint exponent is $\ell^0$ and the divergence is logarithmic. Below it the integral diverges outright.
+
+
+Transfer of the $o(1)$. Writing $\nu_B(\ell) = C_*\ell^{-1/3}(1+\varepsilon(\ell))$ with $\varepsilon(\ell)\to 0$,
+
+
+$$\left|\int_0^L \ell^{,p-1/3}\varepsilon(\ell),d\ell\right| ;\le; \Big(\sup_{\ell\le L}|\varepsilon(\ell)|\Big)\cdot\frac{L^{,p+2/3}}{p+2/3},$$
+
+
+and the supremum tends to $0$ as $L\to 0$. The error is therefore $o(1)$ relative to the leading term, which is what the statement asserts. This requires the $o(1)$ in the input to be uniform on shrinking intervals $(0,L]$ — a condition satisfied by the pointwise statement as recorded, but worth naming explicitly since it is the only analytic step that is not bookkeeping.
+
+
+Low-order cases.
+
+
+$p$
+	$M_p(L)$
+	reading
+	$0$
+	$\tfrac{3}{2},C_*,L^{2/3}$
+	cumulative short-bar count
+	$1$
+	$\tfrac{3}{5},C_*,L^{5/3}$
+	truncated total bar mass
+	$2$
+	$\tfrac{3}{8},C_*,L^{8/3}$
+	
+
+	$3$
+	$\tfrac{3}{11},C_*,L^{11/3}$
+	
+
+	The cumulative short-bar law
+$$\boxed{;N_B(\le L) ;=; \tfrac{3}{2},C_*,L^{2/3},(1+o(1));}$$
+
+
+The count of bars of lifetime at most $L$ grows as $L^{2/3}$. The exponent $2/3$ is fixed; only the prefactor carries the uncertified constant.
+
+
+________________
+
+
+3. The $C_*$-free consequences — the part that is actually usable
+Normalising by the count removes $C_*$ entirely:
+
+
+$$\mathbb{E}!\left[\ell^{,p} \mid \ell \le L\right] ;=; \frac{M_p}{M_0} ;=; \frac{2,L^{,p}}{3p+2}, \qquad p > -2/3.$$
+
+
+Rescaling $u = \ell/L$ removes $L$ as well:
+
+
+$$\mathbb{E}[u^{,p}] ;=; \frac{2}{3p+2}.$$
+
+
+These are the moments of a Beta$(2/3,,1)$ law. Indeed the limiting density of $u$ is
+
+
+$$f(u) ;=; \tfrac{2}{3},u^{-1/3} \quad\text{on }(0,1),$$
+
+
+which is exactly the Beta$(a,1)$ density $a,u^{a-1}$ at $a=2/3$, and integrates to $1$.
+
+
+$$\boxed{;\ell/L ;\longrightarrow; \mathrm{Beta}(2/3,,1);}$$
+
+
+Dimensionless shape statistics — free of $C_*$, free of $L$, free of any fitted parameter:
+
+
+quantity
+	exact value
+	$\mathbb{E}[u]$
+	$2/5$
+	$\mathbb{E}[u^2]$
+	$1/4$
+	$\mathrm{Var}[u]$
+	$9/100$
+	$\mathrm{SD}[u]$
+	$3/10$
+	coefficient of variation
+	$\mathbf{3/4}$
+	
+
+A note on these rationals, because it matters under Canon §3. The values $3/2$, $2/5$, $9/100$, $3/4$ are exact rational consequences of integrating a fixed power law — they are determined entirely by the exponent $-1/3$ and involve no measurement, no fit, and no simulation. They are not constants in the sense the Canon restricts. I have checked them against the nine restricted decimals (4.3, 4.35, 0.8411, 0.84, 0.8501, 0.946, 0.97, 0.99, 1.01); none collide. No uncertified numerical constant appears anywhere in this document.
+
+
+________________
+
+
+4. Objective 4 — a continuum-consistent diagnostic
+The Beta$(2/3,1)$ characterisation supplies a falsification test with no free parameters: collect bars with $\ell \le L$ for small $L$, form $u=\ell/L$, and compare against Beta$(2/3,1)$.
+
+
+Vacuity pre-check, run before the test was trusted. A test that accepts everything proves nothing, so the diagnostic was first checked against wrong exponents. $2\times 10^5$ samples each, KS against Beta$(2/3,1)$:
+
+
+true exponent
+	mean $u$
+	CV
+	KS $p$
+	verdict
+	$-1/3$
+	0.3992
+	0.7516
+	0.45
+	accept ← true model
+	$-0.30$
+	0.4116
+	0.7276
+	$1.5\times10^{-59}$
+	reject
+	$-0.36$
+	0.3885
+	0.7734
+	$4.0\times10^{-60}$
+	reject
+	$-0.25$
+	0.4289
+	0.6955
+	$\approx 0$
+	reject
+	$-1/2$
+	0.3342
+	0.8923
+	$\approx 0$
+	reject
+	$0$
+	0.4998
+	0.5769
+	$\approx 0$
+	reject
+	
+
+The test rejects exponents within $0.03$ of the truth. It is not vacuous.
+
+
+Refinement stability, per Canon kill-condition 3. MLE $\hat a = -n/\sum\log u$ across three orders of magnitude:
+
+
+$n$
+	$\hat a$
+	CV
+	$10^3$
+	0.6868
+	0.7347
+	$10^4$
+	0.6597
+	0.7560
+	$10^5$
+	0.6673
+	0.7501
+	$10^6$
+	0.6676
+	0.7491
+	
+
+Against $a=2/3=0.6667$ and $\mathrm{CV}=3/4$. Stable — not refinement-sensitive in the sense the kill condition targets. This remains a diagnostic, not theorem evidence.
+
+
+Practical caveat: negative-moment diagnostics converge slowly near the boundary. At $p=-0.5$ the relative error was still $\sim 1$–$2%$ at $n=10^7$. Use $n \ge 10^6$ and prefer positive moments or the KS test.
+
+
+________________
+
+
+5. Errata, registered
+Three defects, recorded per the erratum discipline rather than silently fixed.
+
+
+E1 — general-$p$ symbolic check FAILED AS WRITTEN. The first script's symbolic match for arbitrary $p$ returned False. Cause: sympy could not evaluate $\int_0^L \ell^{,p-1/3}d\ell$ without the convergence condition supplied, and returned an unevaluated meijerg Piecewise. The formula was never in doubt — $M_0$ through $M_3$ all matched independently — but the check as written failed. Repaired by verifying the antiderivative by differentiation (exact zero, all real $p$) plus definite integration on the $p>0$ subset (match True), and by computing the endpoint limit explicitly at $p=-1/2$, $-2/3$, $-3/4$ to locate the boundary.
+
+
+E2 — an assertion was made that the script did not test. The first script claimed divergence for $p\le-2/3$ "shows up as sample-size dependence, checked in PART E." PART E did not check it. Repaired by actually running it.
+
+
+E2b — and the E2 repair was itself inconclusive. The first repair used single runs and produced an incoherent result: $p=-0.75$ showed a growth factor of $0.38$, i.e. decreasing, which cannot happen for a divergent moment. Diagnosis: sample means of divergent moments are themselves heavy-tailed, so one realisation is dominated by whichever rare draw appeared. Repaired with 20 replicates per cell, reporting medians and IQR:
+
+
+$p$
+	median growth $10^4!\to!10^6$
+	IQR at $10^6$
+	theory
+	$-0.50$
+	1.05
+	$[3.88,,4.02]$
+	finite
+	$-0.60$
+	1.07
+	$[7.57,,8.82]$
+	finite
+	$-2/3$
+	1.39
+	$[13.58,,16.99]$
+	log-divergent
+	$-0.75$
+	2.05
+	$[37.41,,102.14]$
+	divergent
+	$-1.00$
+	12.55
+	$[2174,,6225]$
+	divergent
+	
+
+Now clean: finite moments hold a tight IQR and near-unit growth; divergent ones show monotone median growth and exploding spread. The analytic endpoint computation in E1 remains the actual evidence; the Monte Carlo is corroboration only, and near the boundary it is weak corroboration.
+
+
+________________
+
+
+6. What I did not do
+Objective 2 — compact-$\kappa$ selected-versus-candidate density difference is $O(\ell^{2/3})$: NOT ATTEMPTED. I do not have verified access to the definitions of the selected and candidate densities, the compact-$\kappa$ marking, or the orientation and multiplicity conventions they depend on. Attempting it would require inventing those definitions, which the no-invention rule forbids. Marked [NOT ATTEMPTED — definitions unavailable], not attempted-and-failed.
+
+
+Objective 3 — assumptions needed to extend through $\kappa\to0$: NOT ATTEMPTED, for the same reason and dependent on objective 2.
+
+
+Canon kill-condition 1 (halt coefficient promotion if an orientation or multiplicity factor is unresolved) is why objectives 2 and 3 are untouched, not an oversight. The cumulative law in §2 involves no orientation or multiplicity factor — it is a one-dimensional integral of a density that is taken as given — so the kill condition does not bind on objective 1.
+
+
+________________
+
+
+7. Novelty status: none claimed
+No prior-art search was performed and no novelty claim is made. Integrating a power law to obtain a cumulative law is standard; the Beta$(a,1)$ characterisation of a rescaled power-law variable is standard. If anything here is new it would be the specific packaging — the $C_*$-free shape statistics as a falsification route for the near-diagonal law when the coefficient is uncertified — and that packaging has not been checked against the literature.
+
+
+Per the operating discipline that checks precede claims in the same turn: treat this as a derived corollary of unknown novelty. A prior-art search over persistence-lifetime statistics, extreme-value and record theory, and Kac–Rice moment asymptotics should precede any novelty statement.
+
+
+________________
+
+
+8. Requested of reviewers
+1. Independent re-derivation, not paraphrase — verify $M_p$ and the Beta$(2/3,1)$ limit from the near-diagonal law without reading §2 and §3.
+2. Confirm the uniformity condition in §2 is actually satisfied by the near-diagonal law as recorded in Q0_MASTER.md, rather than merely by its summary in the Canon. This is the one place the argument could fail on a technicality.
+3. Check whether the cumulative law already appears in the C091–C108 record. If it does, this is a restatement and should be labelled as one.
+4. Prior-art search per §7 before any novelty ranking.
+5. Objectives 2 and 3 remain open and need someone with the compact-$\kappa$ definitions.
+
+
+Scripts: c109_obj1_shortbar.py, c109_obj1_repair.py. Seed 20260720. All figures above are reproducible.
+
+
+________________
+
+
+
+
+Cross-references: UN-CAN-001-v1.0 §2 (input), §3 (claim restrictions), §5 (cycle objectives and kill conditions) · CL-REG-005-v1.0 (class DER declared here) · GP-LED-001-v1.0 (contribution labels: this is DERIVATION, and a CANDIDATE result, not canonical)

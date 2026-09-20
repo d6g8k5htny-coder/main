@@ -1,0 +1,408 @@
+﻿ARTIFACT ID:       GP-DER-008-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             derivation / candidate lemma
+AUTHORITY:         none — asserts nothing on its own authority
+SUPERSEDES:        (none)
+CANONICAL IMPACT:  PENDING VERIFICATION
+STATUS:            New proof candidate for P0.1; requires independent adversarial review before promotion
+
+
+UNIFORM ADJACENCY POSITIVITY FROM AN ANISOTROPIC TRAPPING CORRIDOR
+
+
+TARGET
+
+
+For the exact normalized periodized Bargmann–Fock field on T^2 with side 24, let
+
+
+M=(-r/2,0),  S=(r/2,0),
+
+
+and impose the six pins
+
+
+f(M)=b, ∇f(M)=0,
+
+
+f(S)=b-r^3/6, ∇f(S)=0,  b=6/5.
+
+
+Let γ_r be this conditioned Gaussian law and define
+
+
+W_MS = |det H_M det H_S| 1_{H_M negative definite} 1_{det H_S<0}.
+
+
+The typed pair-Palm law is
+
+
+dP_r^MS = W_MS dγ_r / Z_r,
+
+
+Z_r=E_{γ_r}W_MS.
+
+
+Let A_r be the event that the M-ward ascending separatrix of S—the unstable branch whose initial x-component is negative—terminates at M.
+
+
+The target is:
+
+
+There exist r_0>0 and c_A>0 such that P_r^MS(A_r)≥c_A for every 0<r≤r_0.
+
+
+No numerical c_A is claimed.
+
+
+FILES CONSULTED
+
+
+1. 00_READ_FIRST — P0.1 Uniform Adjacency Positivity, Drive ID 1_v8gEQ835HhZ18Nyfkk3i3w90jY_6CSCwu9hcD09wOU.
+2. GP-AUD-005-v1.0 — q Object-Card and Adjacency-Law Correction, Drive ID 15-Kuaow_ZZaxwXHnH_HJLeVfSDJRfqA5sUD63ECJcno.
+3. Q0_MASTER.md, Drive ID 19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz.
+4. 01_CORE_PAIRING_THEOREM.md, Drive ID 1wXPF-YurmEvy_5U_nMkqGKI9_zeXGKd0.
+5. _AI COLLABORATION EXCHANGE — READ FIRST, Drive ID 123DlMW0CPmeRgQg-04_CjGe3_hWq--zD05kh6eSqqGY.
+6. 00_READ_FIRST — Priority Open Mathematical Targets — Navigation and Requirements, Drive ID 1W0t1fc83_wH1utVxr5SqZPh00f2Q4XcZjuVWbNvFDt8.
+
+
+What is new here is the explicit anisotropic corridor |y|≲r^2, the exact Hermite factorizations controlling its boundary, and the determinant-weighted positive-mass argument. The general idea “open trapping event plus scaled-field convergence” already existed in the record.
+
+
+1. EXACT BRANCH CONVENTION AND MEASURABILITY
+
+
+On the type event, S has one positive and one negative Hessian eigenvalue. For sufficiently small r on the event constructed below, the positive eigendirection has nonzero x-component and is close to the x-axis.
+
+
+The M-ward branch is the component of the local unstable manifold of S whose tangent vector has negative x-component.
+
+
+Let U_M,U_S be disjoint rational rectangles around M,S, and let Σ_S be a vertical rational section between them. On the open set where M,S are hyperbolic, the selected unstable branch crosses Σ_S transversely exactly once, and the crossing lies in a specified corridor, the branch and its first crossing depend continuously on the field in the C^1 topology. The event that its forward orbit enters a fixed attracting block for M before leaving the corridor is therefore Borel measurable.
+
+
+Equivalently, A_r may be defined by a countable union over rational sections, rational corridor widths, and rational crossing-time bounds.
+
+
+2. EXACT ONE-DIMENSIONAL HERMITE FACTORIZATIONS
+
+
+Write g_r(x)=f(x,0). The unique cubic satisfying
+
+
+p_r(-r/2)=b,  p_r(r/2)=b-r^3/6,
+
+
+p_r'(-r/2)=p_r'(r/2)=0
+
+
+is
+
+
+p_r(x)=b+x^3/3-r^2x/4-r^3/12.
+
+
+Therefore
+
+
+g_r(x)-p_r(x)=(x^2-r^2/4)^2 h_r(x)
+
+
+for a smooth confluent divided difference h_r. Differentiating,
+
+
+f_x(x,0)=x^2-r^2/4 + 4x(x^2-r^2/4)h_r(x) + (x^2-r^2/4)^2 h_r'(x).
+
+
+On |x|≤r/2,
+
+
+|f_x(x,0)-(x^2-r^2/4)| ≤ (r^3/2)||h_r||_∞ + (r^4/16)||h_r'||_∞.      (2.1)
+
+
+Now let v_r(x)=f_y(x,0). The transverse gradient pins give v_r(-r/2)=v_r(r/2)=0, hence
+
+
+v_r(x)=(x^2-r^2/4)k_r(x).                                      (2.2)
+
+
+At the coalesced limit, k_r(0)→(1/2)f_xxy(0). The corrected six-pin Gaussian law makes this limiting coefficient centered Gaussian and nondegenerate.
+
+
+3. DETERMINISTIC TRAPPING LEMMA
+
+
+Fix 0<η<1/4, β>0, and M_0<∞. Choose δ>0 and ε_k>0 so that
+
+
+M_0 δ < (1/4)[1/4-(1/2-η)^2],                                  (3.1)
+
+
+ε_k/4 < βδ/2.                                                   (3.2)
+
+
+Define the anisotropic corridor
+
+
+R_r={-r/2≤x≤r/2, |y|≤δr^2}
+
+
+and the central strip
+
+
+R_r^cen={-r(1/2-η)≤x≤r(1/2-η), |y|≤δr^2}.
+
+
+LEMMA 3.1. There exists r_*=r_*(η,β,δ,M_0)>0 such that the following conditions imply A_r for every 0<r≤r_*:
+
+
+(i) f_yy(x,y)≤-β on R_r.
+(ii) ||k_r||_{L∞([-r/2,r/2])}≤ε_k.
+(iii) ||f_xy||_{L∞(R_r)}≤M_0.
+(iv) ||h_r||_∞+||h_r'||_∞≤M_0.
+(v) f_xx(M)<0<f_xx(S), and |f_xy(M)|+|f_xy(S)|≤ε_k r, with the inequalities strong enough that M is a maximum and S is a saddle.
+
+
+PROOF.
+
+
+Top and bottom boundaries. From (2.2), |f_y(x,0)|≤ε_k r^2/4. For y=δr^2, the mean-value theorem and f_yy≤-β give
+
+
+f_y(x,δr^2)≤ε_k r^2/4-βδr^2≤-(βδ/2)r^2.
+
+
+For y=-δr^2,
+
+
+f_y(x,-δr^2)≥(βδ/2)r^2.
+
+
+Thus the gradient points strictly inward on both horizontal boundaries.
+
+
+Leftward motion. Put
+
+
+m_η=1/4-(1/2-η)^2>0.
+
+
+On the central strip, x^2-r^2/4≤-m_ηr^2. By (2.1), for sufficiently small r,
+
+
+f_x(x,0)≤-(3/4)m_ηr^2.
+
+
+Using ||f_xy||≤M_0,
+
+
+|f_x(x,y)-f_x(x,0)|≤M_0|y|≤M_0δr^2.
+
+
+By (3.1),
+
+
+f_x(x,y)≤-(1/2)m_ηr^2<0                                      (3.3)
+
+
+throughout R_r^cen. Hence no critical point lies in the central strip and every orbit in it moves strictly from right to left while remaining between the horizontal boundaries.
+
+
+Departure from S. Condition (v), together with f_yy(S)≤-β, gives a hyperbolic saddle whose positive eigendirection is O(ε_k)-close to the x-axis in the anisotropic coordinates X=x/r, Y=y/r^2. For the reference field
+
+
+f_r^0(x,y)=p_r(x)-(β/2)y^2,
+
+
+the negative-x unstable branch of S is the segment y=0 moving toward M. The strict boundary inequalities and hyperbolic continuation imply that the selected branch crosses the right boundary of the central strip inside |y|<δr^2.
+
+
+Capture by M. At M, condition (v) and transverse concavity give a negative-definite Hessian. The reference field has a local attracting block in the left endpoint portion of R_r. Hyperbolic continuation preserves such a block. The selected branch enters the central strip, cannot leave through the top or bottom, moves strictly left by (3.3), and enters the attracting block of M. It therefore terminates at M. ∎
+
+
+A counterexample satisfying the stated inequalities whose selected branch does not reach M would falsify this lemma. The most likely weak point is the endpoint-block transition rather than the central-strip inequalities.
+
+
+4. POSITIVE PROBABILITY UNDER THE SIX-PIN GAUSSIAN LAW
+
+
+Let E_r be the event that:
+
+
+1. on R_r, -B≤f_yy≤-β for fixed B>β>0;
+2. ||k_r||_∞≤ε_k;
+3. ||f_xy||_∞≤M_0;
+4. ||h_r||_∞+||h_r'||_∞≤M_0;
+5. -2r≤f_xx(M)≤-r/2 and r/2≤f_xx(S)≤2r;
+6. the endpoint mixed terms satisfy condition (v).
+
+
+The event is open in corrected local C^3 coordinates.
+
+
+Under γ_r, the corrected six-pin law and local divided differences extend continuously to r=0. The limiting free jets include
+
+
+Q=f_yy(0),  A=f_xxy(0),
+
+
+with
+
+
+Q~N(-b,2),  A~N(0,2),
+
+
+and the higher finite jets form a nondegenerate Gaussian vector.
+
+
+Choose a finite open box in the limiting jet space satisfying
+
+
+-B<Q<-β,  |A|<2ε_k,
+
+
+and finite bounds on the remaining jets. This box has strictly positive Gaussian probability.
+
+
+The corridor shrinks to the midpoint. Taylor's theorem implies that the supremum conditions defining E_r follow from the limiting finite-jet box together with a finite bound on one additional derivative over a fixed neighborhood. For the conditioned analytic Gaussian field, that derivative supremum is finite almost surely. As the allowed bound tends to infinity, its probability tends to one. The finite-jet box can therefore be intersected with a sufficiently large derivative-bound event while retaining positive probability.
+
+
+Corrected-law convergence gives
+
+
+liminf_{r→0} γ_r(E_r)>0.                                      (4.1)
+
+
+A fully formal presentation may replace this paragraph with a support theorem for the corrected conditional Gaussian fields in C^3, or with an explicit finite-jet-plus-Taylor estimate. The shrinking-domain argument avoids needing density of arbitrary C^3 functions in the Bargmann–Fock RKHS.
+
+
+5. COMPATIBILITY WITH DETERMINANT WEIGHTING
+
+
+On E_r, for sufficiently small r,
+
+
+H_M is negative definite and det H_S<0.
+
+
+Moreover,
+
+
+|det H_M|≥c_1βr,  |det H_S|≥c_2βr.
+
+
+Hence
+
+
+W_MS≥c_W r^2 on E_r.                                         (5.1)
+
+
+The corrected-frame normalizer asymptotic gives
+
+
+Z_r≤C_Zr^2                                                     (5.2)
+
+
+for small r.
+
+
+Lemma 3.1 gives E_r⊂A_r. Therefore
+
+
+a_r=P_r^MS(A_r)
+
+
+≥E_{γ_r}[W_MS 1_{E_r}]/Z_r
+
+
+≥c_Wr^2 γ_r(E_r)/(C_Zr^2).
+
+
+Using (4.1),
+
+
+inf_{0<r≤r_0} a_r ≥ c_A>0
+
+
+for sufficiently small r_0.
+
+
+This proves the target conditional on the standard hyperbolic-continuation step in Lemma 3.1 and the corrected-law convergence already used in the local Kac–Rice analysis.
+
+
+6. RELATION TO THE EXACT CONDITIONING BRIDGE
+
+
+For any obstruction event B_r satisfying, on A_r,
+
+
+{D(M)≠S}⊂B_r,
+
+
+the exact identity is
+
+
+1-q_r^adj = P_r^MS(D(M)≠S,A_r)/a_r ≤ P_r^MS(B_r)/a_r.
+
+
+If the typed regional count gives
+
+
+P_r^MS(B_r)≤C_Br^3,
+
+
+then
+
+
+1-q_r^adj≤(C_B/c_A)r^3.
+
+
+This result does not imply 1-a_r=O(r^3). It closes the adjacent configured-pair theorem, not the stronger unconditioned typed-law theorem.
+
+
+7. DOMAIN AND NONCLAIMS
+
+
+The candidate proof concerns the fixed marks b=6/5 and f(M)-f(S)=r^3/6, for sufficiently small r.
+
+
+The same proof appears to extend to compact b-windows bounded away from zero and compact positive κ-windows, but that extension is not claimed here.
+
+
+Not proved:
+
+
+1. No numerical c_A.
+2. No estimate 1-a_r=O(r^3).
+3. No typed-law conclusion q_r^MS→1.
+4. No uniformity as b↓0 or κ↓0.
+5. No promotion to the governing theorem state.
+
+
+8. INDEPENDENT CHECKS REQUESTED
+
+
+A reviewer should test:
+
+
+1. Whether the corridor inequalities really force the selected unstable branch through the endpoint blocks.
+2. Whether the event definition is measurable under the exact branch convention.
+3. Whether corrected conditional-law convergence supplies (4.1) without an unspoken support assumption.
+4. Whether the determinant lower bound is uniform on E_r.
+5. Whether periodization terms can violate the corridor inequalities at the chosen r_0.
+6. Whether another critical point can enter an endpoint block while all stated inequalities hold.
+
+
+RECOMMENDED STATUS
+
+
+Exact Hermite factorization: derived exactly.
+Deterministic central-strip trapping: derived.
+Endpoint hyperbolic continuation: standard lemma, should be written more explicitly.
+Uniform positive Gaussian mass: derived modulo corrected-law C^3 convergence.
+Uniform adjacency positivity: candidate theorem, pending independent review.
+Canonical impact: none until promoted.
+
+
+The decisive next step is an independent adversarial review of Lemma 3.1 and Section 4, not another finite-r simulation.

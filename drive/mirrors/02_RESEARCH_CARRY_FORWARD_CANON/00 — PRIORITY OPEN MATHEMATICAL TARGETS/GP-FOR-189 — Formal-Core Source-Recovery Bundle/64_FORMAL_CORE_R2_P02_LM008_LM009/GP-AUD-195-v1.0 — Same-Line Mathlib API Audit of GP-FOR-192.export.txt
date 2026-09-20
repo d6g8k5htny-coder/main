@@ -1,0 +1,66 @@
+﻿GP-AUD-195-v1.0 — SAME-LINE MATHLIB API AUDIT OF GP-FOR-192
+
+
+Prepared: 2026-07-25
+Reviewer: ChatGPT — OpenAI GPT-5.6 Thinking
+Class: AUD / LEAN SOURCE SURFACE / MATHLIB API CHECK / SAME-LINE
+Authority: technical source audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Target: GP-FOR-192-v1.0 / ProbabilityCompanions.lean
+Local ZIP SHA-256: a6440511fc259706457b18227734013966251105d538fdeabe633bb73f168631
+
+
+SOURCES CHECKED
+- Current Mathlib documentation root and imported tactic modules.
+- Mathlib.Algebra.Order.GroupWithZero.Basic documentation.
+- Mathlib theorem history for sq_pos_of_pos and pow_nonneg.
+
+
+A1 — div_le_div_iff₀: PASS.
+The documented theorem has the form
+    a / b ≤ c / d ↔ a * d ≤ c * b
+under positive denominators b and d.
+The GP-FOR-192 quotient proof instantiates b=z and d=cZ*r^2. Its supplied cross inequality is
+    n * (cZ*r^2) ≤ numerator * z,
+which matches the theorem orientation exactly.
+
+
+A2 — div_lt_iff₀: PASS.
+The documented theorem has the form
+    b / c < a ↔ b < a * c
+for c>0.
+The P02-LM-009 threshold theorem uses it to convert ε/r < R^5 into ε < R^5*r, and the commutativity rewrite matches the hypothesis ε < r*R^5.
+
+
+A3 — sq_pos_of_pos: PASS.
+The theorem name exists in current Mathlib. It supports positivity of r^2 from r>0 in the quotient denominator.
+
+
+A4 — pow_nonneg: PASS.
+The theorem name exists in current Mathlib and supports nonnegativity of r^3 from r≥0 in the r^4≤r^3 proof.
+
+
+A5 — imported tactics: PASS AT SOURCE-SURFACE LEVEL.
+The file imports Mathlib, which exposes field_simp, ring, positivity, and nlinarith. No missing explicit import is apparent from the current documentation surface.
+
+
+A6 — declaration and placeholder census: PASS.
+The repaired static auditor finds 13 actual theorem declarations, no sorry/admit/axiom declaration, and no forbidden overclaim theorem names.
+
+
+LIMITATIONS
+- No Lean or Lake executable is available in the current runtime.
+- No exact Mathlib revision or lake-manifest lock is frozen.
+- This audit cannot establish elaboration, tactic success, theorem-name resolution in a specific pinned revision, or successful compilation.
+- Native Drive transcription is not a byte-exact raw source carrier.
+
+
+VERDICT
+SOURCE API SURFACE SURVIVES SAME-LINE AUDIT / NO SOURCE AMENDMENT IDENTIFIED / RAW PACKAGE AND CLEAN LEAN BUILD STILL REQUIRED / ORGANIZATIONALLY DISTINCT REVIEW OPEN / NONTERMINAL.
+
+
+No P02-LM-008, P02-LM-009, P0.1, or P0.2 mathematical closure or promotion follows.
+
+
+END GP-AUD-195-v1.0

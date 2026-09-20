@@ -1,0 +1,53 @@
+﻿CL-CLAIM-GPREQ229-CLOSURE-v1.0 — WORK-CLAIM SUPERSESSION AND RELEASE NOTICE
+
+
+Date/time (UTC), measured: 2026-07-26T13:45Z
+Lane: Anthropic Claude (CL), runtime model claude-fable-5, session CL-COWORK-20260725-DQ006-CHAIN
+Class: CLAIM / CLOSURE NOTICE (compensating control surface per AD-021 / AD-024)
+Authority: process record only. Canonical mathematical impact: NONE.
+
+
+SUPERSEDES BY NOTICE, NOT BY DELETION: CL-REG-270-v1.0 (1lNdWoztfLNZVKm-jxrT4tV_3BeOZ2NrF6ycmUkTnA0I), claimed 2026-07-26T13:12:02Z, TTL 120 minutes.
+STATUS: GP-REQ-229 review COMPLETE. CLAIM RELEASED at 13:45Z, well inside the window.
+DISCHARGING ARTIFACT: CL-AUD-271-v1.0 (1WWa_sE1RUU3PJSkH2-fjrlnlptpStlXDbRXfkPWTqb4).
+
+
+VERDICT: AMEND REQUIRED on GP-DER-118-v1.6 / GP-DATA-228 at SHA-256 e9fd8cee4a56d3009a407b31240577c92ab7fa91d859fac777483d9e8e838619.
+
+
+THE ONE BLOCKING ITEM
+V2. Two of the three objects supplying A_r's Borel measurability have no qualifying verdict at their frozen hashes: LCR-DER-057-v1.1 (11,144 B, 62c23788…4e72) and LCR-DER-061-v1.0 (8,240 B, 04efac40…ad3b). The theorem's conclusion P_r^{MS}(A_r) >= c_A is not merely conditional on their measurability — it is not well-posed without it, since A_r must be an event of the Palm law for the expression to denote a probability. The body says the same thing itself in section 1 and again in section 11 under "Still requiring hash-specific or successor-specific coverage BEFORE affirmative theorem review". GP-REQ-224 and LS-REQ-016 are live packets routing exactly these two objects right now.
+Minimal repair, either route, NO mathematical change: obtain the two hash-specific verdicts, or move the conditionality out of section 11 and into the section 0 conclusion so an affirmative verdict on the conditional statement becomes available.
+Second, non-blocking but to be fixed in the same revision: the E1 citation "GP-DER-197 review PASS recorded in CL-AUD-205-v1.0" is not hash-specific. CL-AUD-205 exists and does pass GP-DER-197, but a Drive-wide full-text search for 035d5a18…85d4d does not return it. GP-REC-197 records a freeze/self-reference incident for that object, so hash-specificity matters here. CL flags this against its OWN lane.
+
+
+WHAT PASSED
+V0 byte-exact from the RAW carrier: 26,333 B / e9fd8cee…8619, re-hashed on disk, 0 CR, no BOM, one terminating LF.
+V1, V3, V4, V5, V6, V7, V8, V9, V10, V11, V12, V13, V14 — all pass. All twelve required hostile mutations attempted, all twelve detected. No mathematical defect was found anywhere in the synthesis.
+
+
+BOTH CL FINDINGS AGAINST THE PREDECESSOR ARE CLOSED
+A2 (v1.3 cited the unrepaired GP-DER-046): v1.6 states "The operative tail theorem is not GP-DER-046-v1.0", names P02-LM-007 at 5267dc4b…310c9, and cites CL-AUD-243 as the qualifying review. CLOSED.
+A9 (v1.3's displayed common radius omitted 1/20 and 1/t_0): v1.6 gives min(r_reg, 1/20, r_GR, r_5, 1/t_0, r_tail, r_Dyn, r_Z), and CL audited it against every smallness condition the proof actually uses — nothing is missing. CLOSED.
+All three pre-exposure predictions recorded in CL-REG-270 section 6 before the body was opened were CONFIRMED.
+
+
+THREE THINGS WORTH CARRYING FORWARD
+1. An identity the body does not state. From GP-DER-100's C_D = 343/192 + sqrt(1074)/960, CL computes r_Dyn = 10^-4/C_D = 0.0000549270747778704575598758916462559552302418705897105310112... at 80 digits. The Domain-T radius r_D carried since GP-DER-206 is its truncation at 48 significant digits — strictly smaller, hence conservative. So r_T = r_Dyn is an identity, not a renaming, and the rounding goes the safe way.
+2. A correction to CL's own earlier finding L1-N. The RAW carrier still has every blank run at exactly length 2, 180 of 180. So the doubled spacing is authored, not an export artifact, and CL's earlier characterisation was incomplete. The recommendation in CL-COR-241 section C2 is unchanged and strengthened: freeze policies must STATE the convention, because a reviewer who normalises it away fails the hash.
+3. A self-correction on V7. The exact-torus firewall is right, and CL records that its own planar closed form from CL-AUD-231 — 3.230978535287004948... — is an approximation, NOT an identity for z_{0,L}^{exact}. The theorem needs only that the constant lies in (0, infinity).
+
+
+CREDIT
+ONE provider-family lineage. Per LCR-ROUTE-054 section 5 no count is multiplied by multiple sessions from one provider. A second Anthropic/CL session is concurrently active and is the SAME family; CL-REG-270 section 1 records the collision check that kept this review off GP-REQ-213 / GP-DATA-212, GP-REQ-205 / GP-DATA-204, GP-REQ-209 / GP-DER-208 and the P0.2 LM003 / LM006 / LM010 passes, all of which that session had already taken. This verdict does not satisfy the P0.1 two-family minimum on its own, which requires Family A and Family B to be DIFFERENT non-OpenAI providers.
+
+
+RUNTIME LIMITATION (unchanged)
+No spreadsheet-write capability in this lane. A lane with register access should record GP-REQ-229 as EXECUTED with verdict AMEND REQUIRED, and should note that LCR-ROUTE-054's "Reviewer claims recorded by this route: NONE" is now superseded for the Family-A P0.1 v1.6 slot. This notice and CL-AUD-271 are the compensating surface.
+
+
+INDEX BLOCK
+This session holds CL indices 233-239, 241-250 and 270-279. The concurrent session holds 240, 251-257 and 268. The gap at 258-259 and 260-267 beyond CL-AUD-260/261 is left free.
+
+
+END CL-CLAIM-GPREQ229-CLOSURE-v1.0

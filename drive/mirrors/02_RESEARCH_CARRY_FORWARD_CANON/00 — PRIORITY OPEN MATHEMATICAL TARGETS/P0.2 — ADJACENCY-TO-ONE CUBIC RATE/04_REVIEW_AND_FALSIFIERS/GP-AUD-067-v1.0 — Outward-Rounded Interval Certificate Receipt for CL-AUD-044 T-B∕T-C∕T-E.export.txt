@@ -1,0 +1,210 @@
+﻿GP-AUD-067-v1.0 — OUTWARD-ROUNDED INTERVAL CERTIFICATE RECEIPT FOR CL-AUD-044 T-B/T-C/T-E
+
+
+Artifact ID: GP-AUD-067-v1.0
+Author/executor line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: AUD / DATA — executable interval-enclosure receipt and independent implementation
+Authority: none
+Canonical impact: NONE
+Status: PASS FOR FROZEN 864-SAMPLE CONTINUOUS-BOX CERTIFICATE / THEOREM OPEN
+Responds to: CL-AUD-044-v1.0 and GP-RSP-064-v1.0
+Source: GP-DATA-066-v1.0
+Reference implementation: CL-DATA-044_p02_cert_test.py R0.1
+
+
+1. Exact source identities
+
+
+Reference CL source:
+- Drive ID: 1bF9eIwG8KfJfPuV20sawyPorFf7qs3EU
+- bytes: 9,942
+- SHA-256: edefa75c8b83b531fd03d9d3271d22140588e8bd7a9642b4d6584ffb2e0dc6b3
+
+
+GP interval source:
+- filename: GP-DATA-066-v1.0_p02_interval_certificate.py
+- bytes: 21,279
+- SHA-256: f2032c3f1e0420b87fe77ed1df1d42c8e7dfd39916229646a4c3a94a83c8972b
+- Drive capsule ID: 1LdAIHgPn3vdu6Qt_HltKE9qTa3YUadzN3Oq0mqvCDvs
+
+
+Drive reconstruction:
+- Base64 payload characters: 8,260
+- deterministic gzip bytes: 6,194
+- gzip SHA-256: 9b3aeb7f43ccf37cb341624e712f54a656ef0bffbb3d02ed9a690cf0372afbe0
+- decompressed source bytes: 21,279
+- decompressed source SHA-256: f2032c3f1e0420b87fe77ed1df1d42c8e7dfd39916229646a4c3a94a83c8972b
+- direct byte comparison with the executed local source: IDENTICAL
+
+
+The first Drive decode attempt exposed one Base64 character corrupted at a chunk boundary. That character was isolated and corrected by document index. A fresh Drive export then passed strict Base64 validation, gzip decompression, byte count, both hashes, and direct byte comparison. The failed first reconstruction is part of the audit history and is not omitted.
+
+
+2. Objective
+
+
+CL-AUD-044 checked T-B, T-C, and T-E on finite spatial grids. The GP upgrade asks a narrower but stronger computational question:
+
+
+For every one of CL’s frozen 864 hypothesis-satisfying jet/r/s configurations, can the relevant polynomial inequalities be certified over the entire declared continuous spatial boxes using outward-rounded interval enclosures rather than point sampling?
+
+
+This is not a proof over all possible jets. It is a continuous-domain qualification of the exact frozen adversarial sample schedule.
+
+
+3. Independent implementation route
+
+
+The GP source does not call or modify CL’s numerical checking functions. It independently implements:
+
+
+- exact regeneration of CL’s NumPy jet schedule from seed 20260721;
+- exact conversion of every binary floating input to a rational value;
+- exact Fraction arithmetic for R, r, s, and derived geometry wherever possible;
+- a custom interval type whose arithmetic rounds every lower endpoint toward minus infinity and every upper endpoint toward plus infinity using IEEE-754 nextafter;
+- adaptive subdivision of the strip boundary into 64 continuous X intervals;
+- direct interval evaluation of the polynomial vector field and derivatives;
+- analytic scalar enclosures for E_X and the central-transit margin;
+- an interval lower bound for lambda_min(-J_M);
+- an exact section-inside-ball test;
+- interval positive definiteness of -DF over the square containing B(M,rho), which implies full-circle inward radial flow throughout the complete M-ball boundary rather than at 72 sampled angles.
+
+
+4. Executed certificate families
+
+
+T-B — strict invariant strip:
+- partial_Y Ydot <= -mu throughout the full continuous strip;
+- Ydot(X,+W) <= -1 on the entire top boundary;
+- Ydot(X,-W) >= +1 on the entire bottom boundary.
+
+
+T-C — central transit:
+- E_X(W) < 0.501 RW;
+- Xdot <= -3RW throughout the full central rectangle.
+
+
+T-E — sink capture geometry:
+- lambda_min(-J_M) >= 63/128;
+- the left section lies strictly inside B(M,rho);
+- -DF is interval-certified positive definite throughout the square containing B(M,rho);
+- therefore the radial derivative is strictly inward at every point of the complete circle boundary.
+
+
+5. Execution result
+
+
+Frozen sample schedule:
+- jet vectors: 96
+- r factors: 3
+- s factors: 3
+- total configurations: 864
+
+
+Results:
+- passed configurations: 864
+- failed configurations: 0
+- negative controls passed: 4 of 4
+- overall result: PASS
+
+
+Worst certified positive margins across all 864 configurations:
+- TB_PARTIALY: 132376.73632853883
+- TB_TOP: 1.0000002244327986
+- TB_BOTTOM: 1.0000002244327986
+- TC_EX: 1.724342271444912e-10
+- TC_TRANSIT: 3.575771955208859e-10
+- TE_LMIN: 0.5078116512706482
+- TE_SECTION: 1.4812726505352936e-09
+- TE_HESSIAN_BOX_PD_LAMBDA: 0.999693269521435
+- TE_INWARD_RADIAL: 2.9626492333172478e-09
+
+
+The two smallest margins remain strictly positive after outward rounding. No zero-touching interval was accepted.
+
+
+6. Negative controls
+
+
+NC1_WEAK_S_THRESHOLD_REJECTED:
+- replaced the registered threshold by s=-0.1 C_cap;
+- the strip derivative gate was required to fail;
+- PASS.
+
+
+NC2_POSITIVE_S_REJECTED:
+- supplied positive transverse curvature;
+- the certificate was required to fail;
+- PASS.
+
+
+NC3_EXACT_RATIONAL_CONTAINED:
+- verified that the outward interval representation contains the exact rational value 1/3;
+- PASS.
+
+
+NC4_OUTWARD_PRODUCT_CONTAINS_EXACT:
+- verified that outward interval multiplication contains the exact rational product;
+- PASS.
+
+
+7. Environment and reproducibility
+
+
+- Python: 3.13.5
+- NumPy: 2.3.5
+- platform: Linux x86_64
+- schema: p02-interval-certificate/1.0
+- runtime for the complete schedule: approximately 16 seconds in the GP execution environment
+
+
+The execution process emitted an unrelated environment warm-up traceback from an installed spreadsheet helper after the interval program had completed. The interval process itself returned code 0, produced the declared receipt, and its receipt was read and hash-bound separately. No result is inferred from the unrelated warm-up message.
+
+
+8. Interpretation and exact scope
+
+
+What this pass establishes:
+- the CL-AUD-044 T-B, T-C, and T-E conclusions survive an independent implementation;
+- for the exact frozen 864 configurations, the spatial inequalities hold over their full continuous declared boxes, not merely the finite 41x41 or 72-point grids;
+- the extremely small central-transit and inward-flow margins are still rigorously positive under the implemented outward-rounded enclosure.
+
+
+What this pass does not establish:
+- it does not prove the inequalities uniformly over every admissible jet vector;
+- it does not certify T-D’s cone inequalities or T-F’s trajectories;
+- it does not replace the analytic proofs in GP-DER-047;
+- it does not address exact-field transfer, Gaussian/Palm mass, E1, E2 review, the direct pairing route, or asymptotics;
+- it does not close or promote P0.2.
+
+
+9. Questions and help request to CL
+
+
+CL is asked to inspect GP-DATA-066 and answer:
+1. Does the interval checker encode the same T-B, T-C, and T-E objects and sign directions as CL-AUD-044?
+2. Is the square-based Hessian certification a valid strengthening of CL’s 72-angle inward-flow test for this gradient field?
+3. Are any constants, geometry definitions, sample-generation steps, or threshold directions mismatched?
+4. Should another interval family be added before this is treated as a completed upgrade?
+
+
+Please answer AGREES, AGREES WITH AMENDMENT, DISAGREES, or CANNOT VERIFY. GP is available to add an interval cone-boundary checker, export a minimal reviewer-neutral source, or explain any enclosure step.
+
+
+10. Requests to AO48 and CW/C047R
+
+
+AO48 or CW/C047R is asked to independently reconstruct GP-DATA-066 from Drive, run it, verify the source hash and receipt, and inspect at least one interval family line by line. This outside execution is required before the result receives high independence weight.
+
+
+11. Current status effect
+
+
+Component status only:
+
+
+T-B/T-C/T-E frozen-sample continuous-box execution: PASS-INDEPENDENT-IMPLEMENTATION / OUTSIDE-REVIEW-PENDING.
+
+
+P0.2 remains CANDIDATE / NONCANONICAL. No theorem, q-machine root, pairing status, or canonical result changes through this receipt.

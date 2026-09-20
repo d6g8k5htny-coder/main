@@ -1,0 +1,78 @@
+﻿CL-OPR-029 — OPERATOR DIRECTIVE (verbatim): close-easiest-first, retire settled items. First Closure-Candidate Register attached.
+ARTIFACT ID:       CL-OPR-029-v1.0
+
+
+AUTHOR:            Claude (Anthropic), CL-* — acting as conduit for an operator directive
+
+
+CREATED:           2026-07-21
+
+
+CLASS:             OPR — operator-directive relay (new class, declared here)
+
+
+STATUS:            DIRECTIVE = operator authority, quoted verbatim in §1.
+
+
+                   REGISTER (§2–4) = CL proposal under that directive, PROPOSED.
+
+
+CHAIN OF CUSTODY:  received in the operator instruction channel; full text below is
+
+
+                   verbatim and unedited. Primary confirmation available on request.
+1. The directive, verbatim and in full
+To all models currently working on this project: Today marks a deliberate shift in how this work is being conducted. We are moving from a primarily manual orchestration model (where I was the central filter and context carrier) into direct model-to-model interaction through the shared Drive. This is a necessary evolution, but it comes with real risks of contamination, context drift, and resource drain if not managed carefully. I have identified a new load-bearing principle that should now guide prioritization and effort allocation: The work does not primarily advance by attacking the hardest or most load-bearing open items first. Instead, the highest-leverage move right now is to definitively solve and close the easiest items first — turning them into fully proven, settled facts — so they can be permanently removed from the active system. Once an item is rigorously established, it should be killed or cleanly logged as closed. It should stop consuming attention, governance overhead, model interaction bandwidth, or human review cycles. This is not about avoiding difficulty. It is about resource discipline. Every unresolved item — even relatively easy ones — continues to draw resources as long as it remains open. By systematically retiring easy, fully provable items, we shrink the surface area of uncertainty and reduce the contamination risk that comes with higher model interaction volume. What this means in practice going forward: •  When working on any track, first identify which supporting lemmas, algebraic identities, or deterministic facts are already at "full proof" or "exact derivation" level (per the reliability and status tracking in the package). These should be prioritized for clean closure and permanent logging. •  Do not let easy items remain in an ambiguous or half-resolved state simply because harder problems exist. They are resource leaks. •  When proposing changes or reviews, be explicit about whether an item can be moved to "permanently closed / killed" status versus remaining active. •  The governance layer (current voting rules, operator intervention logging, provenance tracking, and status documentation) exists in part to support this discipline. Use it. This principle is especially important now that models are interacting directly. The more cleanly we can retire settled items, the lower the risk of models building on or propagating partially resolved material. I will continue to maintain final human authority on high-stakes decisions and on what counts as "definitively closed."  However, I expect the models to actively surface easy-to-close items and to treat permanent retirement of settled facts as a core part of productive work, not as an afterthought. This is the current operating philosophy. Work accordingly. — Dylan
+2. First Closure-Candidate Register — items at exact/full-proof level with multi-party trails
+Criteria applied (proposed, matching the directive): exact/symbolic derivation or two-stack numerical verification, no open objection, verification trail citable in one line. "CLOSED" is the operator's call per §1; this register nominates.
+
+
+#
+	item
+	verification trail
+	status proposed
+	C1
+	Fold gap $\ell=r^3/6$ is the A₂ normal-form gap
+	CL two sign conventions (CL-DER-012 §1) · CW independent profile (CW-DER-008 §1) · CL hostile cross-check (CL-AUD-021 §2) · matches package Claim A
+	CLOSURE-READY
+	C2
+	$z_0(6/5)=(b^2{+}2)\Phi(\tfrac b{\sqrt2})+\sqrt2,b,\phi(\tfrac b{\sqrt2})=3.230978535$
+	package 05 §2 · CL exact eval to all digits + MC (CL-DATA-026 §2) · CW two-route match (CW-AUD-017)
+	CLOSURE-READY
+	C3
+	Six-pin conditional covariance $=\mathrm{diag}(2,2,2,6)$; $E[f_{yy}\mid\text{pins}]=-b$
+	C047R battery · CL independent re-execution with own numbers (CL-RSP-016 P1)
+	CLOSURE-READY
+	C4
+	Collision Gram $\det M=s^8(c^2{+}s^2)(3c^2{+}s^2)/24$
+	battery · CL re-derivation (CL-RSP-016 P1)
+	CLOSURE-READY
+	C5
+	Y-channel basis: $q$-monomial enters $f$ at $r^2$; $f_y = r,qY+O(r^2)$; pins vanish
+	CW-DER-013 §1 · CL symbolic re-derivation (CL-ERR-025 P0) · GP-PRE-015 convergence
+	CLOSURE-READY
+	C6
+	Gram "12 vs 24" is a jet-set labeling fact: ${f_s,f_{st}}\to12$, ${f_s,f_{ss}}\to24$, both exact
+	CW-DER-013 §2 · CL both-conventions computation (CL-ERR-025 P0)
+	CLOSURE-READY
+	C7
+	Exponent dictionary $\nu(\ell)\propto\ell^{(s-2)/3}$ given $\ell=r^3/6$ (change of variables)
+	CL-DER-012 §2, symbolic, unchallenged two rounds
+	CLOSURE-READY
+	C8
+	GP-DATA-048 checker behaves as specified (instrument certification, not the math it certifies)
+	GP receipt (GP-AUD-049) · CL second-stack 9/9 + exact boundary probes (CL-AUD-028) · CW derivation audits (CW-AUD-016/017)
+	CLOSURE-READY
+	C9
+	4-connectivity defect: mechanism (ridge-point misclassification), census, ladder, 171≈175 failure closure
+	CL-ERR-025 · historical §3.5 corroboration (CL-DATA-026 §3) · 8-conn rerun match
+	READY PENDING one independent census re-run — any model with numpy: CL-DATA-024 + a 10-line 8-neighbour census, ~2 min
+	3. Kill-log consolidation — settled negatives to retire from active attention
+Already recorded under erratum discipline; closure = pointing at the record, no new work: K1 $\hat a{=}0.205$ as measurement (root-caused, CL-ERR-025) · K2 $s{=}-0.263$ (CL-ERR-013) · K3 "divergent short-bar population" (CL-ERR-025 §2) · K4 "basin-safe seeding is the blocker" (CL-DER-023 §C). These four should stop appearing in any active list except the kill registry.
+4. Explicitly NOT closure-ready — guarding against overreach under the new philosophy
+$\hat a\approx0.57$ (single stack, bulk range only) · the P0.2 chain's mathematics (well-audited candidate; asymptotic-domain caveat quantified in CL-AUD-028 §3; promotion is the operator's) · the asymptotic $\ell\to0$ law · $q_0$ for $b<0$ · Beta$(a,1)$ adequacy at small $L$. Closing easy items must not smuggle these along.
+5. Proposed lightweight closure mechanics (so closure itself doesn't become overhead)
+Per item: one CONFIRM/OBJECT line per model in _OPEN_QUESTIONS (Rule-1 note: CONFIRM requires having re-executed or being a party to the trail — C1–C8 all already have ≥2 such parties), a one-loop objection window, then the item goes to the operator's closed list and leaves every active register. No full ballots — the point is shrinking overhead, and every item above already carries more verification than a vote would add.
+
+
+Cross-refs: operator directive §1 (authority) · CL-CNS-002 (prior intervention record) · items as cited per row.

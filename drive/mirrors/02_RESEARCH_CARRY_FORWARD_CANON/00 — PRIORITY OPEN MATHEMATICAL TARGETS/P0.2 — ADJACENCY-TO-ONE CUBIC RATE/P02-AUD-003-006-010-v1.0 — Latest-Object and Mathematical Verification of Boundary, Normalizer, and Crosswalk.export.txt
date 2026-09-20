@@ -1,0 +1,67 @@
+﻿P02-AUD-003-006-010-v1.0
+Latest-Object and Mathematical Verification of Boundary, Normalizer, and Crosswalk
+Verdict: PASS — SAME-LINE LATEST-OBJECT AND MATHEMATICAL VERIFICATION. No newer proof carrier exists for LM003, LM006, or LM010 beyond the objects identified below. The boundary-layer integration, exact normalizer asymptotic, and repaired full-normalizer crosswalk are internally correct under their declared hypotheses.
+Date: 30 July 2026. Authority: research preparation and same-line audit only. Independent-review credit: zero. External gate status is recorded separately in Section 6; this audit alone closes no interface and does not promote P0.2.
+1. Latest-object control and exact identities
+Target
+	Highest controlling proof carrier and reproduced identity
+	P02-LM-003
+	LCR-DER-014-v1.0; no later carrier found. Drive ID 1dnGjJWQOJgRBrF6aq4kIE31i2PBWD2nHs7VgToANx_s. Frozen body 6,874 bytes; SHA-256 5173d26d6bfaae5ef65a8ae2d0ca9b829a291be3f7dacaba82bb38d2526bb83e.
+	P02-LM-006
+	LCR-DER-019-v1.0; no later carrier found. Drive ID 1-czQmTN-M0EfLP1Smyd7iZJhIUuUfgXqo_aYI5Kqkw8. Frozen body 9,147 bytes; SHA-256 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150.
+	P02-LM-010
+	LCR-DER-030-v1.1; v1.0 is amend-required and no later carrier was found. Drive ID 1Iqwm-8TcKNjrVQgeT71ip5Qg9C0qkkzr4rjageW9gZ0. Frozen body 9,335 bytes; SHA-256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2.
+	Fresh exact-body reconstruction used each carrier’s declared literal-marker rule. In particular, LM006 uses literal marker canonicalization and does not use blank-run halving. All three identities agree with P02-TRN-001-v1.0.
+2. P02-LM-003 boundary-layer integration
+2.1 Support reduction and change of variables
+On the positive-weight support, H3 confines the bad event to the possibly empty interval −C_r(U)<q/r<U_r(U). Therefore the unnormalized bad mass is dominated almost everywhere by the interval indicator. Tonelli and q=rs, dq=r ds give one explicit factor r. H5 supplies the physical determinant factor r^4, hence
+N_r ≤ K_phi K_D r^5 ∫ exp(−c_phi||U||^2) J_r(U) dU.
+The interval is a measurable set, not an oriented integral; when the upper endpoint is below the lower endpoint it contributes exactly zero. No independence or q-tail is used.
+2.2 Uniform polynomial integral
+Polynomial endpoint growth places I_r(U) inside a symmetric interval of polynomial length. The integrand (1+|s|+||U||)^{d_D} is uniformly polynomial on that interval, so J_r(U) is bounded by K_P(1+||U||^M). The Gaussian U-envelope makes the remaining integral finite. Thus N_r=O(r^5). Dividing by the load-bearing lower bound Z_r≥c_Zr^2 yields
+P_r(B_r)=N_r/Z_r ≤ (K_N/c_Z) r^3.
+The direction of the normalizer inequality, the empty-interval convention, and the absence of any finite-Q4 substitution are all correct.
+3. P02-LM-006 exact normalizer asymptotic
+3.1 Confluent endpoint scaling
+The endpoint derivatives are adjusted before division by r. Under the six pins this gives A_M=f_xx(M)/r, A_S=f_xx(S)/r and the corresponding mixed entries. The cubic Hermite pin configuration forces f_xxx(0)=2, so the limiting normalized longitudinal entries are −1 at M and +1 at S. The mixed entries tend to −a/2 and +a/2, while both transverse entries tend to the exact side-24 conditioned Gaussian Q_L.
+The exact determinant factorization det H_X=r Delta_X is correct. Jointly, Delta_M→−Q_L and Delta_S→Q_L. For Q_L<0, M is negative definite and S has index one; for Q_L>0 the maximum type fails. The boundary Q_L=0 is null because Q_L is nondegenerate.
+3.2 Expectation limit and two-sided bounds
+After dividing by r^2, the exact typed weight converges in distribution to Q_L^2 1{Q_L<0}. If R_r is the norm of the six normalized endpoint variables, then the normalized weight is bounded by R_r^4 and its square by R_r^8. Uniform Gaussian eighth moments give uniform integrability, so
+Z_r^{exact}/r^2 → z_{0,L}^{exact}=E[Q_L^2 1{Q_L<0}] ∈ (0,∞).
+The resulting positive two-sided r^2 bounds follow by choosing a sufficiently small radius. The proof correctly uses the exact periodized-torus Q_L and does not substitute the planar N(−b,2) approximation.
+4. P02-LM-010-v1.1 full-normalizer crosswalk
+4.1 Finite boundary interval and exact r^4 weight
+On the exact typed event, negative definiteness at M forces the exact yy entry negative. The O(r^2) physical-Hessian remainder then gives the finite upper endpoint
+s < U_r(U)=w/2−r c22/8+C_T r.
+After division by r, every normalized exact Hessian entry has a uniform polynomial bound in |s| and ||U||. The determinant inequality |det A|≤||A||_op^2 therefore gives the exact physical weight majorant r^4 K_D(1+|s|+||U||)^4 on G_r. Exact, not quartic, type indicators remain in the weight.
+4.2 Denominator firewall
+The repaired proof distinguishes the full conditional weight barW_r from the good-event subweight tildeW_r. The numerator uses tildeW_r because the Taylor comparison is available only on G_r, but the denominator remains
+Z_r^{exact}=∫ barW_r(q,U) phi_r(q,U) dq dU.
+The interval calculation gives the exact good-boundary numerator O(r^5), and the LM006 lower bound gives the quotient O(r^3). No good-event-renormalized Palm law is introduced. Regular conditional weights are defined jet-law almost everywhere; LCR-COR-041 supplies a support-respecting bounded version if pointwise wording is desired. This is a nonfatal measure-theoretic clarification, not a change to the integral or conclusion.
+5. Cross-interface consistency
+Connection
+	Verified direction
+	LM006 → LM003
+	The exact normalizer lower bound is the denominator input needed for the LM003 probability upper bound.
+	LM012 → LM010
+	The scaled C1 remainder O(r) on G_r becomes the physical endpoint-Hessian remainder O(r^2) used by LM010, with C_T=C_D.
+	LM010 → LM003 mechanism
+	LM010 uses the same nonoriented interval/Gaussian-envelope calculation to obtain the exact numerator O(r^5), while retaining the full exact denominator.
+	LM003/LM010 → LM011
+	Their exact good-boundary term is the unique cubic contribution I9 in the final synthesis; G_r^c remains a separate tail event.
+	________________
+
+
+6. External evidence and remaining gates
+CL-AUD-241, an Anthropic distinct-family review, records LM003 PASS, LM006 PASS WITH CLARIFICATION, and LM010-v1.1 PASS WITH CLARIFICATION, but could not reproduce the hashes at that time. P02-TRN-001 later resolved transport on the OpenAI line.
+CL-AUD-283 later reproduced LM006 byte-exact at 9,147 bytes / SHA 239ed094…9150 and explicitly closed the old Anthropic hash-hold line. Its scope was narrow: it expressly did not approve the lower normalizer bound, asymptotic coefficient, LM006 closure, or promotion. Accordingly LM006 remains review-pending; its remaining external gate is a hash-bound full theorem verdict, not another transport exercise.
+Target
+	Precise remaining external action
+	P02-LM-003
+	Bind an affirmative mathematical verdict to the exact 6,874-byte SHA 5173d26d…83e body, including support inclusion, empty intervals, r^5 numerator, and normalizer direction.
+	P02-LM-006
+	Issue a full hash-bound theorem verdict on the already externally reproduced 9,147-byte SHA 239ed094…9150 body, covering the exact-torus Q_L limit, type boundary, uniform integrability, positivity, and two-sided r^2 bounds.
+	P02-LM-010-v1.1
+	Bind an affirmative verdict to the exact 9,335-byte SHA 05e0f20f…7ef2 body, including the full-denominator firewall and regular-conditional-version clarification.
+	7. Status effect
+Latest-object control and same-line mathematics PASS for all three. LM006’s external hash subgate is resolved, but no interface becomes terminal because the qualifying full-scope verdicts remain open. P0.2 remains OPEN / NONTERMINAL / NOT PROMOTED; graph and terminal counts are unchanged.

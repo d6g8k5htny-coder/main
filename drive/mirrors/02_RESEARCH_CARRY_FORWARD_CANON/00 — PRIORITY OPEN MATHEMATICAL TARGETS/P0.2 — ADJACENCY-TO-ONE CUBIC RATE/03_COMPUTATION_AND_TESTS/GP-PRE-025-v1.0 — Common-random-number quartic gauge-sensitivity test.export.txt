@@ -1,0 +1,173 @@
+﻿ARTIFACT ID:       GP-PRE-025-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             PRE — pre-registration / gauge-sensitivity diagnostic
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            FROZEN BEFORE EXECUTION
+
+
+# Common-random-number quartic gauge-sensitivity test
+
+
+## Trigger
+
+
+GP-AUD-020 proves that the endpoint pins and five midpoint fourth derivatives leave the four null modes
+
+
+    R1=Y^2,
+    R2=Y^3,
+    R3=X Y^2,
+    R4=(X^2-1/4)Y.
+
+
+They change the scaled flow at the same O(r) order as the displayed quartic layer. GP-DATA-020 therefore tests only the gauge lambda=(0,0,0,0).
+
+
+## Objective
+
+
+Measure how the corrected local adjacency diagnostic responds to bounded null-mode coefficients under common random numbers. This is Route B of GP-AUD-020: diagnostic only, not a substitute for the exact finite-r conditional compensation law.
+
+
+## Base law
+
+
+Use the GP-DER-019 limiting conditional nine-jet law and the same common Gaussian draws for every gauge.
+
+
+Use r in
+
+
+    {0.025, 0.0125, 0.00625}.
+
+
+Use N=250000 Gaussian draws per rung, seeds
+
+
+    2026072025 + rung_index.
+
+
+Use the corrected anisotropic flow and exact gauge-dependent endpoint Hessians.
+
+
+## Gauge family
+
+
+Baseline:
+
+
+    lambda=(0,0,0,0).
+
+
+One-mode gauges:
+
+
+    lambda_i in {-4,-2,-1,+1,+2,+4},
+
+
+with every other coefficient zero, for i=1,2,3,4.
+
+
+Joint gauges:
+
+
+    (+1,+1,+1,+1),
+    (-1,-1,-1,-1),
+    (+1,-1,+1,-1),
+    (-1,+1,-1,+1),
+    (+2,+2,-2,-2),
+    (-2,-2,+2,+2).
+
+
+Total: 31 gauges including baseline.
+
+
+## Flow corrections
+
+
+For lambda=(l1,l2,l3,l4), add
+
+
+    Delta Xdot = r[l3 Y^2 + 2 l4 X Y],
+
+
+    Delta Ydot = r[2 l1 Y + 3 l2 Y^2 + 2 l3 X Y + l4(X^2-1/4)].
+
+
+Endpoint Hessian corrections:
+
+
+At M, X=-1/2:
+
+
+    Delta H_yy = r^2(2 l1-l3),
+    Delta H_xy = -r^2 l4.
+
+
+At S, X=+1/2:
+
+
+    Delta H_yy = r^2(2 l1+l3),
+    Delta H_xy = +r^2 l4.
+
+
+R2 has no endpoint Hessian contribution.
+
+
+## Integration and classification
+
+
+Use the same M capture and |X|>16 chart-escape definitions as GP-AUD-017 and GP-DATA-020. Report finite-time stalls separately.
+
+
+Integrate every typed sample whose gauge-dependent S transverse curvature satisfies
+
+
+    m22_S > -2r.
+
+
+At each gauge and rung, also integrate 1000 common-random typed samples outside that screen. Any outside-screen escape invalidates the screened estimate for that gauge/rung.
+
+
+Use dt=min(0.005,r/20), T_max=1000. Recheck the first 1000 screened samples at dt/2 for every joint gauge and the baseline.
+
+
+## Frozen readings
+
+
+G1 — Gauge-robust diagnostic: at every rung, all gauges with at least 20 escapes have weighted complement/r^3 within a factor 4 of the baseline; no gauge has weighted complement above 10^-4 at r=0.025; and no outside-screen escape occurs.
+
+
+G2 — Material gauge dependence: any gauge changes weighted complement/r^3 by a factor at least 10 relative to the baseline at two consecutive rungs, creates weighted complement above 10^-4 at r=0.025, or changes the failure layer away from |m22_S|=O(r).
+
+
+G3 — Dynamically decisive null mode: a one-mode gauge alone triggers G2. Record which mode and sign.
+
+
+G4 — Inconclusive: more than 1% stalls, fewer than 20 escapes in both a gauge and baseline comparison, any outside-screen escape, or more than 0.5% dt/2 non-stall disagreements.
+
+
+G5 — Even a G1 result does not establish the exact finite-r law. It only shows robustness over this bounded gauge family.
+
+
+## Outputs
+
+
+For every gauge/rung report:
+
+
+- typed count and determinant ESS;
+- capture, escape, stall, divergence counts;
+- generic and weighted complements;
+- normalized weighted complement/r^3;
+- median and quantiles of m22_S/r among escaping weighted samples;
+- outside-screen failures;
+- dt/2 disagreements where required.
+
+
+## Help request
+
+
+An independent model is asked to propose a non-arbitrary coefficient scale for the four lambda modes from the exact finite-r divided-difference expansion. I can rerun the frozen common-random design on that law and will help audit any alternative gauge-invariance argument.

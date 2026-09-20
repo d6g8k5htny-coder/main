@@ -1,0 +1,133 @@
+﻿CL-AUD-260-v1.0 — GP-REQ-193 CARRIER-A REVIEW: P0.1 DOMAIN-T GT5 SYNTHESIS
+
+
+Artifact ID: CL-AUD-260-v1.0
+Date/time (UTC), measured: 2026-07-26T00:50Z
+Reviewer: Anthropic Claude (CL lane), runtime model claude-fable-5, session CL-COWORK-20260725-DQ006-CHAIN. Organizationally distinct from OpenAI (GP / LS / LCR / S2 / RS2), xAI and Google. Same human operator (Dylan); disclosed per OP-PROT-011.
+Class: AUD / ORGANIZATIONALLY DISTINCT FROZEN-HASH REVIEW / P0.1 DOMAIN-T SYNTHESIS
+Authority: review only. Canonical mathematical impact: NONE. No promotion.
+Governing packet: GP-REQ-193-v1.0, status OPEN ASSIGNMENT until now. Pre-registration and claim: CL-REG-249-v1.0 (1AmqRHF3n6ZoLoHXJrxa5angV5lmjbbu_B7RQvxHfYbU), with its timestamp corrected by CL-COR-250-v1.0 (14J9msODbLOa48yZ0eb5ShpV6dS-eAeK6qrWjYLPLms0).
+Target, CARRIER A: GP-DER-118-v1.3 as carried by GP-DATA-123-v1.0 (1NuxlEngfFjqnM7HZ2347v-Y6zLeWM9v6kyUGCcM3YT0), BODY_BYTES 14591, BODY_SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28.
+
+
+[[PACKET:GP-REQ-193]] [[CARRIER-A:P0.1-DOMAIN-T]] [[BODY_SHA256:666f582c...eb28]] [[A1:REPRODUCED]] [[VERDICT:PARTIAL-PASS]] [[NO-ADDITIONAL-INDEPENDENCE-CREDIT]] [[NO-PROMOTION]]
+
+
+=====================================================================
+0. VERDICT
+=====================================================================
+
+
+PARTIAL PASS
+
+
+GP-REQ-193 section 11 expressly permits this verdict. The affirmative wording of section 7 is NOT issued, and must not be inferred.
+
+
+WHAT IS AFFIRMED. The synthesis is mathematically sound. Every step CL could check independently checks out: the subtraction bound, the determinant perturbation identity, the weight lower bound, the numerator/normalizer cancellation, and the conditioned-law/Palm firewall. The frozen body reproduces byte-exactly. No falsifier in section 12 of the body fires, and the old false two-suprema inequality does not appear anywhere in it.
+
+
+WHAT BLOCKS THE AFFIRMATIVE WORDING. Two amendable defects and three unreviewed dependencies:
+  A2 DEFECT — the body's GT5 dependency at section 3 cites GP-DER-046-v1.0, which is the UNREPAIRED carrier: it is the artifact whose proof contained the invalid step sup|Z| <= sup Z + sup(-Z), repaired afterwards by LS-COR-001 and LCR-AUD-009 and re-carried as P02-LM-007 / LCR-DER-021. A2 asks precisely whether GT5 enters "only through the repaired dependency". As written it does not. The STATEMENT used is correct and is now independently established — CL approved P02-LM-007 at frozen SHA 5267dc4b…310c9 in CL-AUD-237 and CL-AUD-243 — so this is a citation defect, not a mathematical one. MINIMAL REPAIR: in a future revision, point section 3 at LCR-DER-021 / P02-LM-007 at its frozen hash, or add a dependency note recording that GP-DER-046's proof was repaired and that the statement is now carried by the frozen lemma. NO MATHEMATICAL CHANGE.
+  A9 DEFECT — the displayed common r-domain is incomplete. Section 8 states the theorem "for every 0<r<=min(r_*,r_GR,r_5,r_Z)", but the body also uses r <= 1/20 in section 1 (the GP-DER-114 capture chain) and again in section 7 (uniformity of C_H), and needs r^{-1} >= t_0 for section 3's cutoff, i.e. r <= 1/t_0. Neither appears in the min, and nothing in the definition of r_* forces r_* <= 1/20 or r_* <= 1/t_0. MINIMAL REPAIR: write min(r_*, r_GR, r_5, r_Z, 1/20, 1/t_0), or state "reduce r_* so that r_* <= min(1/20, 1/t_0)". NON-MATERIAL — every constraint is an upper bound on r and all are strictly positive, so a common positive domain certainly exists; only the displayed intersection is short.
+  UNREVIEWED DEPENDENCIES — A3 rests on GP-DER-044's uniform positive-definiteness of the NINE-JET conditional covariance; A5 rests on GP-DER-045's transfer inequality together with GP-DER-114 / GP-AUD-115 and a continuity assertion; A6 rests on GP-DER-116's degree-four determinant factors. CL has not reviewed any of the three and does not approve them here.
+
+
+CONVERSION PATH. On (i) a citation repair for A2, (ii) a completed r-domain intersection for A9, and (iii) organizationally distinct approval of GP-DER-044, GP-DER-045 / GP-DER-114 / GP-AUD-115 and GP-DER-116, this verdict converts to the section 7 affirmative wording without further work on the synthesis itself, because every synthesis step is already verified below.
+
+
+=====================================================================
+1. A1 — CARRIER IDENTITY — PASS, REPRODUCED BYTE-EXACTLY
+=====================================================================
+The declared freeze policy — "take only the text after the LF ending BEGIN_FROZEN_THEOREM_BODY and before the first subsequent END_FROZEN_THEOREM_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM" — yields, from an independent transcription of the body:
+    14,591 bytes; SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+matching the declared identity exactly. Verified on disk. Final structure: 609 lines, 342 empty lines in 171 runs, EVERY run of length exactly 2.
+
+
+A THIRD CONFIRMATION OF THE BLANK-RUN PATTERN, AND NOW A USABLE RULE. CL has now reproduced three frozen bodies whose freeze policies contain no blank-run normalization clause, and all three have the same signature: LCR-DER-021 with 118 runs all of length 2, and now GP-DATA-123 with 171 runs all of length 2. In this reproduction the first attempt came in at 14,686 bytes with a mixed histogram of 95 runs of length 1 and 171 of length 2; deleting exactly the 95 lone-blank runs — that is, enforcing "every visual blank line is a run of exactly 2" — landed on 14,591 and the declared hash on the next attempt. THE RULE IS THEREFORE STATABLE: for these Google-Docs-hosted frozen bodies, one visual blank line exports as exactly two LF, list items and display-equation continuation lines are contiguous with no blank between them, and no run of odd length occurs. Recording it here so the next reviewer does not have to rediscover it. This strengthens the standing recommendation in CL-COR-241 section C2: add the GP-DATA-206 blank-run clause to every freeze policy, because the identity currently depends on an unstated export convention that three separate artifacts share by accident rather than by specification.
+
+
+=====================================================================
+2. A2–A10 LEDGER
+=====================================================================
+
+
+A2 GT5 ENTERS ONLY THROUGH THE REPAIRED DEPENDENCY — DEFECT, SEE SECTION 0.
+Structurally the body is clean: the GT5 TAIL is invoked at exactly one place, section 3, and nowhere else. H_{5,r} appears again in section 4 only inside the transfer inequality, where it is bounded by r^{-1} using the EVENT G_r rather than the tail. So there is a single, isolated dependency edge, which is good design and makes the citation repair a one-line change. The statement invoked — existence of C_5, c_5, t_0, r_5 > 0 with Q_{6,r}(H_{5,r} > t) <= C_5 exp(-c_5 t^2) for 0 < r <= r_5 and t >= t_0 — is character-for-character the P02-LM-007 conclusion CL approved. The defect is only that the cited artifact is the pre-repair one.
+
+
+A3 UNIFORM FIXED-BOX BASE PROBABILITY p_B > 0 — LOGIC PASS, DEPENDENCY UNREVIEWED.
+The argument in section 2 is valid as stated: if (r,u) -> phi_r(u) is jointly continuous and strictly positive on the compact set [0,r_GR] x B_q, then c_phi = min phi_r(u) > 0 is attained and p_B = c_phi Vol(B_q) > 0. Compactness is genuine — B_q is a closed box and [0,r_GR] is a closed interval — and joint continuity plus positivity follow from continuity of (m_r, Sigma_r) in r together with uniform positive definiteness of Sigma_r, via the Gaussian density formula. CL notes an important scope point: this p_B is QUALITATIVE. The frozen body never needs a numerical value, so it does NOT depend on GP-DER-204 / GP-DATA-204 or on the candidate p_B = 10^-48. That matters right now, because GP-DATA-204-v1.0 has just been found AMEND REQUIRED by the concurrent CL session (CL-AUD-257) and superseded by GP-DATA-212 — and none of that touches this body. What the body DOES need is GP-DER-044's uniform positive-definiteness of the nine-jet Sigma_r, which CL has not certified at that dimension. CL has independently certified the analogous statement for the SIX-PIN transformed Gram — lambda_min(G_r) >= 0.381345 uniformly on (0, r_D] by a Hermite-Genocchi first-derivative bound plus Weyl, published in CL-DER-239 — so the mechanism is verified even though the nine-dimensional instance is not.
+
+
+A4 SUBTRACTION BOUND WITH NO INDEPENDENCE — PASS, VERIFIED OUTRIGHT.
+Section 3 states Q(J_r in B_q and G_r) >= Q(J_r in B_q) - Q(G_r^c) >= p_B/2 and says explicitly "No independence between J_r and H_{5,r} is assumed." This is inclusion-exclusion under the single measure Q_{6,r}: Q(X ∩ Y) = Q(X) - Q(X ∩ Y^c) >= Q(X) - Q(Y^c). Correct, and it needs nothing else. The reduction of r_* to force Q(G_r^c) <= p_B/2 is legitimate because the GT5 bound is C_5 exp(-c_5 r^{-2}), which tends to 0 as r decreases while p_B is r-independent.
+
+
+A5 DOMAIN-D WORK GIVES E_r SUBSET A_r — STRUCTURE PASS, DEPENDENCIES UNREVIEWED.
+Section 4's robustness argument is correctly shaped: on G_r the transfer inequality gives ||F_r - F_r^(4)||_{C^1(D^+)} <= C_D r; the GP-DER-114 certificate is a finite set of strict inequalities with a positive common margin m_0 = 0.007485281374238566 uniform over the compact fixed-q box; the seven capture conclusions depend continuously on the C^1 field; hence some delta_* > 0 preserves all of them, and r_* is chosen with C_D r_* <= delta_*. The uniformity of m_0 over B_q is what makes delta_* uniform, and the body is right to lean on it. CL flags, without adjudicating, that the sentence "the relevant endpoint eigenspaces, boundary fluxes, transit inequalities, and sink Lyapunov inequalities depend continuously on the C^1 vector field" is an ASSERTION rather than a proof, and it is the crux of the step; eigenvector continuity in particular needs the relevant eigenvalues to stay simple, which the strict maximum and strict index-one saddle conditions do supply. Whether GP-DER-045 transfers EVERY gate GP-DER-114 needs is item 6 of the body's own required-review list and is exactly what an organizationally distinct Domain-D review must settle.
+
+
+A6 W_r^exact >= r^2/4 ON E_r — PASS, ALGEBRA VERIFIED INDEPENDENTLY.
+CL verified the determinant perturbation identity symbolically rather than accepting it. For symmetric 2x2 H and E,
+    det(H + rE) = (h11 + rE11)(h22 + rE22) - (h12 + rE12)^2
+                = det H + r[h22 E11 + h11 E22 - 2 h12 E12] + r^2 (E11 E22 - E12^2)
+                = det H + r[H_22 E11 + H_11 E22 - 2 H_12 E12] + r^2 det E,
+which is exactly the identity displayed in section 7, with det E = E11 E22 - E12^2 for symmetric E. Dividing by r, the determinant-factor error is bounded by C_H ||E|| + r ||E||^2, with C_H uniform because the degree-four Hessian entries range over a fixed compact box. Substituting ||E|| <= C_D r gives the stated condition C_H C_D r_* + r_*(C_D r_*)^2 <= 0.4, and with the GP-DER-116 factors 0.9799309528350694 and 0.9799310428385416 this leaves det H_M^exact/r >= 0.5799 >= 0.5 and -det H_S^exact/r >= 0.5799 >= 0.5. Hence |D_M D_S| >= 1/4 with both type indicators equal to one, giving W_r^exact >= r^2/4. The chain is correct and carries about 0.08 of unused margin at each determinant factor. The two GP-DER-116 input values are not independently verified here.
+
+
+A7 Z_r^exact <= C_Z r^2 FROM DOMAIN G — PASS, AND THE DEPENDENCY IS SATISFIED.
+This is the one A-item whose dependency is already discharged by an organizationally distinct review: CL approved the Domain-G subchain of THIS SAME frozen body in CL-AUD-231-v1.0, at this same hash 666f582c…eb28, with verdict "APPROVE GP-DER-118 REVISION 1.3 FROZEN SHA256 666f582c… GAUSSIAN-PALM SUBCHAIN WITH PIN-ADJUSTED ENDPOINT DEPENDENCY", zero material objections. That review independently reconstructed section 5's confluent limits A_M(0) = -1, A_S(0) = +1, B_M(0) = -a/2, B_S(0) = +a/2, C_M(0) = C_S(0) = Q_L; section 6's convergence W_r/r^2 -> Q_L^2 1{Q_L<0} in distribution; the uniform integrability supplied by eighth moments; the extended continuous-mapping step across the type discontinuity, whose only boundary Q_L = 0 is null; and the limit Z_r/r^2 -> z_{0,L} = E[Q_L^2 1{Q_L<0}] > 0, computed there in closed form as (b^2+2) Phi(b/sqrt2) + sqrt2 b phi(b/sqrt2) = 3.230978535287004948... for Q_L ~ N(-b, 2). CL re-verified here that the sign analysis is internally consistent: for Q_L < 0 one gets det H_M/r -> -Q_L > 0 with f_xx(M) ~ -r < 0, so H_M is negative definite and M is a strict maximum, while det H_S/r -> Q_L < 0 makes S an index-one saddle; for Q_L > 0 the M-determinant limit is negative and the type combination correctly fails.
+
+
+A8 NUMERATOR AND DENOMINATOR GIVE p_B/(8 C_Z) > 0 — PASS, VERIFIED OUTRIGHT.
+Section 8's chain is E[W 1_{A_r}] >= E[W 1_{E_r}] >= (r^2/4) Q(E_r) >= (r^2/4)(p_B/2) = r^2 p_B/8, using E_r subset A_r so that 1_{E_r} <= 1_{A_r}; then dividing by Z_r <= C_Z r^2 cancels r^2 and leaves P_r^{MS}(A_r) >= p_B/(8 C_Z) =: c_A > 0. Every inequality direction is correct and the cancellation is exact. Section 9's explanation of WHY this works — a fixed-q box has nonshrinking Gaussian volume, so the order-r^2 numerator and order-r^2 normalizer leave order-one normalized mass, whereas a fixed-s = q/r box would have physical q-width O(r) and be a boundary-layer object — is correct and is the conceptual heart of the theorem.
+
+
+A9 COMMON POSITIVE r-DOMAIN — DEFECT, SEE SECTION 0.
+Constraints actually used in the body: r <= 1/20 (section 1, and again in section 7 for uniformity of C_H); r <= r_GR (section 2); r <= r_5 (section 3); r^{-1} >= t_0, i.e. r <= 1/t_0 (section 3's cutoff corollary, written there only as "for sufficiently small r"); r <= r_* (section 4, then further reduced in sections 3 and 7); r <= r_Z (section 6). The displayed min omits the first and the fourth. Non-material but incomplete as written.
+
+
+A10 NO FINITE-Q4 LAW, DM2 REQUIREMENT, OR PALM-TAIL THEOREM IN THE SUBTRACTION STEP — PASS.
+The subtraction in section 3 is entirely under Q_{6,r}. Section 4 states "This is the exact-field capture step. It does not use the finite-Q4 Palm weight." Section 6 states the exact normalizer "is distinct from GP-DER-043's finite-Q4 normalizer and does not cite the finite-Q4 weight as the exact weight." DM2 appears nowhere. The Palm measure P_r^{MS} enters only as the final normalized ratio, computed directly from numerator and normalizer, never through a tail transfer. CL examined the one place where a finite-Q4 object does appear — section 7's use of GP-DER-116's degree-four determinant factors — and confirms it is legitimate: those factors are the BASE POINT of a perturbation expansion around the same comparison field F_r^(4) already introduced in section 4, not a substitute weight or a substitute law. The body's own falsifier "finite-Q4 and exact full-field weights are conflated" does not fire.
+
+
+=====================================================================
+3. CARRIER B AND THE SHARED LEDGER — DISCHARGED EARLIER BY THIS SESSION
+=====================================================================
+GP-REQ-193 section 6 (B1-B5) and its shared ledger S1-S15 were completed before this artifact, from the same reconstruction, and are incorporated by reference rather than re-derived:
+  B1 body 8,541 B / SHA-256 5267dc4b…310c9 reproduced, with a seven-variant table and two extraction traps — CL-AUD-237 section 1.
+  B2 LCR-REQ-023 T1-T14 completed — CL-AUD-243 section 2.
+  B3 the frozen body incorporates the signed-index repair and the false inequality is explicitly rejected, with a counterexample and a positive-probability argument — CL-AUD-243 T6.
+  B4 DM2-not-required and Palm-tail exclusions verified — CL-AUD-243 T14.
+  B5 the hash-specific verdict issued in the required syntax — CL-AUD-243 section 0.
+  S1-S15 are covered across CL-AUD-234, CL-AUD-237 and CL-AUD-243, with S15 (repair identity) now sharpened by finding A2 above: the standalone frozen lemma and the repaired theorem state the same conditioned-law result, but the P0.1 body cites the pre-repair artifact.
+PASS-A FREEZE, as GP-REQ-193 section 4 requires: 2026-07-25T21:15:00Z, before any target proof text was opened. Identities in CL-AUD-234 section 1; the later frame-free sharpening is published as byte-exact carriers CL-DATA-246 (1O9bnQyIGVPaV-64cDkCnRcGT4JPfegIc) and CL-DATA-247 (1ALUNKuAwww2ZSan6kUN0qzsWAPdo8Q1n). Pass-A blinding status: PARTIALLY BLINDED, as declared in CL-REG-249 section 3 — blinded to every proof text, unblinded to the headline constants that GP-REQ-207 displays. GP-DER-046 and LS-COR-001 have never been read by this session, which is why finding A2 is stated as a citation-provenance matter and not as a judgement on GP-DER-046's contents.
+
+
+=====================================================================
+4. RECONCILIATION WITH THE CONCURRENT CL SESSION ON GP-DATA-204
+=====================================================================
+Recorded because it bears on an open note and because both sessions are the same family. CL-AUD-234 note N1 observed that GP-DATA-204's published limiting spectral witnesses — lambda_min > 0.43, lambda_max < 100, a 3x3 block of trace 104 with eigenvalues 0.4332852749, 4.4717305441, 99.0949841809 — cannot describe the six-dimensional transformed-pin Gram that GP-DER-206 names, whose spectrum is {0.3842, 0.5858, 1, 1, 3.4142, 15.6158}. The concurrent CL session has now reached the same finding from the other side, in CL-AUD-257: those witnesses certify only a 3x3 PRINCIPAL SUBMATRIX of the nine-jet Gram, and Cauchy interlacing runs the wrong way for both the upper and the lower claim — while the claims are nonetheless TRUE for the full 9x9, verified there by exact LDL with lambda_min = 0.4332852749 and lambda_max = 99.0949841809. The two findings agree and the concurrent one is strictly sharper. CREDIT: they are ONE lane's work and count ONCE, per CL-COR-241 section C3. This reconciliation adds no credit to either.
+CONSEQUENCE FOR THE PRESENT REVIEW: none. As recorded under A3, the frozen P0.1 body needs only a QUALITATIVE p_B > 0 from GP-DER-044, not GP-DATA-204's quantitative base mass, so neither the AMEND on GP-DATA-204-v1.0 nor its supersession by GP-DATA-212 propagates into this carrier.
+
+
+=====================================================================
+5. LINEAGE COUNT, AS GP-REQ-193 SECTION 9 MANDATES
+=====================================================================
+ONE SHARED GT5 RECONSTRUCTION / TWO VERSION-SPECIFIC VERDICTS IF BOTH CARRIERS ARE AUDITED / ONE ORGANIZATIONAL-INDEPENDENCE CREDIT.
+Both carriers have now been audited by this reviewer from that one reconstruction: Carrier B approved (CL-AUD-237, CL-AUD-243) and Carrier A partially passed (this artifact). Per GP-REQ-193 section 10, the Carrier-B approval does NOT approve P0.1 Domain T, and this session does not treat it as doing so. Across this whole session the running total is ONE reconstruction, FIVE carrier-or-packet verdicts (GP-DER/DATA-206; P02-LM-007 twice, under two packets; S2-DER/DATA-002; and Carrier A here), and ONE organizational-independence credit. A second Anthropic/CL session is concurrently active and is the same family; no credit may be counted twice across the two.
+Prior exposure disclosed per CL-REG-249 section 4: this reviewer had already approved the Domain-G subchain of this same frozen body in CL-AUD-231, and had read two same-family verdicts on the shared GT5 object. No independence credit is claimed for anything already displayed in a routing packet.
+
+
+=====================================================================
+6. SCOPE FIREWALL
+=====================================================================
+This PARTIAL PASS bears only on the GT5-synthesis subchain of the named frozen hash, and it approves nothing. It does not approve GP-DER-044, GP-DER-045, GP-DER-114, GP-AUD-115, GP-DER-116, GP-DER-046, GP-DATA-204 or GP-DATA-212; it does not establish any numerical c_A, which the body itself declines to claim; it does not discharge the exact upper-normalizer review, exact-field capture, the endpoint determinant lower bound, the Palm quotient, the full G/D/T/I recombination, P0.1 or P0.2 terminal status, Theorem B, package sealing, formal compilation, or external release. GP-REQ-193's own section 12 firewall applies unchanged: no machine, package, release, deletion, sealing, automation or destructive authority follows. Promotion remains Dylan's decision alone.
+Prohibited wordings, not recorded here and not to be inferred: P0.1 CLOSED; Domain T approved; APPROVE GP-DER-118 REVISION 1.3; c_A established; independent review satisfied.
+
+
+INDEX-BLOCK NOTICE, per CL-COR-241 section C3: this session now holds CL indices 233-239, 241-250 and 260-269. The concurrent session holds 240 and 251-257 and is climbing. Two near-collisions have already occurred this cycle; the gap at 258-259 is deliberately left free.
+
+
+END CL-AUD-260-v1.0

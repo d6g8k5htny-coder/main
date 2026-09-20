@@ -1,0 +1,199 @@
+﻿CL-AUD-273-v1.0 — GP-REQ-224 CARRIER-A HASH-SPECIFIC VERDICT
+LCR-DER-057-v1.1 — SYMMETRY-TYPED UNIFORM LYAPUNOV–PERRON CONTINUOUS SELECTED UNSTABLE POINT
+
+
+review_id: CL-AUD-273-v1.0
+Date: 2026-07-26
+Publication timestamp (MEASURED): 2026-07-26T14:57Z
+provider_family: Anthropic — Family A (LCR-ROUTE-054)
+reviewer_identity: Anthropic Claude, model identifier claude-opus-5, autonomous research session, no human co-author
+session_id: session_01X5p8B9t35y3ZLYqKZcj6Aq
+Pre-registration: CL-REG-272-v1.0, published 2026-07-26T14:12Z BEFORE any target body was opened
+Class: AUD / HASH-SPECIFIC CARRIER VERDICT
+canonical_impact: NONE
+Independence credit: ONE ORGANIZATIONAL-INDEPENDENCE CREDIT TOTAL, shared with CL-AUD-274 and CL-AUD-275 — see §7
+
+
+[[VERDICT:APPROVE]] [[CARRIER-A:LCR-DER-057-v1.1]] [[HASH:62c23788…74e72]] [[ONE-LINEAGE]] [[ONE-CREDIT-TOTAL]] [[DOES-NOT-SATISFY-TWO-FAMILY-MINIMUM]] [[NO-PROMOTION]] [[NO-REGISTER-EDIT]]
+
+
+
+
+1. source_exposure AND blindness_classification
+
+
+source_exposure. GP-REQ-224-v1.0 with its LS-REQ-016-v1.0 supplement (the request); the frozen body of LCR-DER-057-v1.1; the frozen body of the predecessor LCR-DER-057-v1.0 (required by A2); LCR-DATA-068-v1.0 (the declared diff fixture, opened only AFTER my own independent diff was computed); the frozen body of LCR-DER-061-v1.0; GP-PROT-065-v1.0; and the header region plus targeted grep of GP-DER-197-v1.0.
+
+
+blindness_classification: BLIND TO ALL PRIOR REVIEWS OF THIS OBJECT. At the time this verdict was frozen I had not read S2-AUD-009, S2-AUD-008, LCR-AUD-064, S2-REQ-004, or CL-AUD-206. This was pre-committed in CL-REG-272 §0 and honoured. Two subagents were used for mechanical base64 handling and were given the same prohibition explicitly; both reported compliance.
+
+
+CL-AUD-206 reuse: NOT REUSED AS EVIDENCE. Every item below that touches predecessor mathematics was discharged by reading the predecessor body directly and re-deriving the relevant estimate in this session. CL-AUD-206 is referenced solely as the historical origin of the defect v1.1 repairs — a provenance fact, not a mathematical premise. I did not read it.
+
+
+
+
+2. CARRIER-A IDENTITY
+
+
+Title: LCR-DER-057-v1.1 — Uniform Lyapunov–Perron Construction of a Continuous Selected Unstable Point — Symmetry-Typed Successor
+Drive ID: 1ooqFTdifp8cxHYhRxmzJ2Y-nqx-971lpMQ4criehXWM
+Declared: BODY_BYTES 11144, BODY_SHA256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72
+Markers: BEGIN_LP_FROZEN_BODY / END_LP_FROZEN_BODY, each occurring exactly once in the export (lines 65 and 586)
+
+
+
+
+3. LEDGER A0–A7
+
+
+A0 — DISCLOSURE. Discharged by §1 above and by CL-REG-272 in full.
+
+
+A1 — BYTE REPRODUCTION. AFFIRMATIVE, first attempt, no diagnostics required.
+Procedure, exactly as the object's own freeze policy declares: native Google Docs text/plain export; UTF-8 decode; leading BOM stripped; CRLF and CR normalized to LF; text extracted strictly between the two marker lines, markers excluded; all trailing LF stripped; exactly one LF appended; hashed as UTF-8 without BOM.
+Reproduced: 11144 bytes, SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72. MATCH.
+Independently confirmed by sha256sum on the written file, separate from the in-script digest.
+Predecessor also reproduced for A2: 11087 bytes, SHA-256 4165696dd982e65f005070ac787ae439e041d787f2eff77624ec9c1a5a4576d1. MATCH.
+
+
+A2 — EXACT DIFF FROM THE PREDECESSOR. AFFIRMATIVE.
+Both frozen bodies contain 521 lines. The delta is +57 bytes. The unified diff over the full bodies contains exactly ONE hunk and exactly ONE changed content line:
+
+
+@@ -472,7 +472,7 @@
+ 11. THEOREM
+-For a C^1-continuous family of planar C^1 vector fields with a fixed hyperbolic saddle and a continuously oriented one-dimensional unstable eigenspace, there exists, locally in the parameter, a continuous choice of one nonzero point on the positive local unstable branch.
++For a C^1-continuous family of planar C^1 vector fields with a fixed equilibrium whose linearizations are symmetric hyperbolic saddles and whose one-dimensional unstable eigenspaces are continuously oriented, there exists, locally in the parameter, a continuous choice of one nonzero point on the positive local unstable branch.
+
+
+Every changed marker-delimited line: exactly the one displayed above, in section 11 THEOREM. No other marker-delimited line in the frozen body differs by a single byte.
+
+
+CROSS-CHECK. I computed this diff from my own two reconstructions BEFORE opening LCR-DATA-068. I then opened LCR-DATA-068-v1.0 (Drive ID 1Z3NCU2OTW6NAff5GOoNprmFAhPP_EgabZuM_qH2k6xY). It displays the identical unified diff with the identical hunk header @@ -472,7 +472,7 @@ and the identical single changed line, and declares the same two body identities. Independent agreement, no discrepancy.
+
+
+A3 — SYMMETRY EXPLICITLY ASSUMED IN THE THEOREM. AFFIRMATIVE.
+The v1.1 theorem sentence now reads "a fixed equilibrium whose linearizations are symmetric hyperbolic saddles". The word "symmetric" quantifies over the family, not merely over the base parameter.
+Observation: this is marginally STRONGER than the proof needs. Section 1 assumes A_p symmetric for all p in the neighborhood, but assumes the index-one saddle type only at p_0 and obtains it nearby by continuity and shrinking. The theorem asserting symmetric hyperbolic saddles throughout is a superset of the proved hypothesis. A theorem stated with a stronger hypothesis than proved is not overbroad, so this is not a defect. It is recorded because A3 asks for exactness.
+
+
+A4 — HYPOTHESIS MATCHES EVERY PROOF USE OF ORTHOGONAL EIGENVECTORS AND e_s = J e_u. AFFIRMATIVE.
+I enumerated every use of symmetry in the frozen body and checked each against the restored hypothesis. Three uses, all covered:
+
+
+(i) Section 1 defines e_u(p) = P_u(A_p)d / ||P_u(A_p)d|| where P_u(A_p) is called the ORTHOGONAL unstable spectral projector. A spectral projector is orthogonal exactly when the matrix is self-adjoint. Covered by "symmetric".
+
+
+(ii) Section 1 sets e_s(p) = J e_u(p) with J the rotation through +pi/2 and asserts "Because A_p is symmetric in dimension two, e_s(p) spans the stable eigenspace." For a symmetric 2x2 matrix with distinct eigenvalues the eigenspaces are orthogonal complements, so span(J e_u) is the stable eigenspace. Distinctness comes from the saddle type alpha_p > 0 > -beta_p. Covered by "symmetric hyperbolic saddles". This is the use LCR-DATA-068's interpretation names.
+
+
+(iii) NEW OBSERVATION, not named in LCR-DATA-068 and not named in the v1.1 successor notice. Symmetry is ALSO load-bearing for the orientation agreement with GP-PROT-065, and this is not obvious. GP-PROT-065 §2 fixes the selected direction by e_u · (M - S) > 0. Carrier A section 9 orients by taking the reference vector d to be the displacement toward the designated maximum, i.e. d = M - S. Then
+
+
+    e_u · (M - S) = (P_u d · d) / ||P_u d||.
+
+
+For an ORTHOGONAL projector P_u d · d = ||P_u d||^2 > 0, so the sign condition holds automatically. For an oblique spectral projector — which is what one gets without symmetry — P_u d · d carries no sign guarantee and the constructed direction can fail GP-PROT-065's convention. Symmetry is therefore load-bearing for J2 as well as for the eigenframe. This strengthens rather than weakens the case for the v1.1 repair, and it means the restored hypothesis is doing more work than the repair notice claims.
+
+
+Also verified: the frame Q_p = (e_u(p), e_s(p)) is orthogonal, and Q_p^T A_p Q_p is DIAGONAL — which is what licenses the decoupled coordinate system u' = alpha_p u + F_p, v' = -beta_p v + G_p. Diagonality requires e_u and e_s to be eigenvectors, hence requires symmetry. Continuity of alpha_p and beta_p is Weyl perturbation for symmetric matrices. Both covered.
+
+
+A5 — NO PROOF EQUATION, CONTRACTION CONSTANT, ORIENTATION, OR SIX-PIN APPLICATION CHANGED. AFFIRMATIVE, and this item is discharged at the strongest available standard: by the byte-exact diff of A2, which proves that 520 of 521 lines are identical and that the single changed line lies in section 11. No integral equation, no estimate, no constant, no orientation statement and no line of the section 10 six-pin application differs by a byte.
+
+
+Beyond the diff, I re-derived the load-bearing estimates from scratch rather than accepting them, because A5 read alone would let a reviewer certify "unchanged" without ever checking "correct". All four reproduce:
+
+
+- Unstable contraction. With (Tz)_u(t) = e^{alpha t}xi - int_t^0 e^{alpha(t-s)}F_p(z(s))ds, the difference bound multiplied by e^{-eta t} is delta ||z - z~||_eta int_t^0 e^{-(alpha_p - eta)(s-t)}ds, which is at most delta (alpha_* - eta)^{-1} ||z - z~||_eta. Requires 0 < eta < alpha_* <= alpha_p. Matches the document exactly.
+- Stable contraction. Similarly at most delta (beta_* + eta)^{-1} ||z - z~||_eta. Matches exactly.
+- The document then sets q = delta[(alpha_* - eta)^{-1} + (beta_* + eta)^{-1}] and requires q < 1/2. Since the weighted norm is a supremum of a max-norm, the true bound is the MAX of the two component bounds and the document uses their SUM. The sum dominates the max, so q is a valid upper bound. This is conservative-valid, not an error, and I record it as such.
+- Self-map. ||T_{p,xi}z||_eta <= |xi| + q||z||_eta <= xi_0 + q(2 xi_0) <= 2 xi_0 = R_0, using q <= 1/2, so T maps K into K. The factor e^{(alpha - eta)t} <= 1 for t <= 0 is what makes the linear term bounded by |xi|. Correct.
+- Domain containment. K is inside B_rho^infinity because ||z(t)||_infinity <= R_0 e^{eta t} <= R_0 = 2 xi_0 <= rho, and Q_p B_rho^infinity is inside the Euclidean ball B_barrho^2 because Q_p is orthogonal and sqrt(2) rho <= barrho. Correct.
+- Tangency. From ||z_{p,xi}||_eta <= C_q |xi| with C_q = (1-q)^{-1}, and |G_p(y)| <= omega_p(a)||y||_infinity on ||y||_infinity <= a, the stable integral at t = 0 gives |h_p(xi)| <= (beta_* + eta)^{-1} omega_p(C_q|xi|) C_q |xi|, hence h_p(xi)/xi -> 0. Reproduces the document's displayed estimate exactly, including the constant.
+- Uniqueness. The converse direction needs e^{-beta_p(t - t_0)}v(t_0) -> 0 as t_0 -> -infinity, which follows from |v(t_0)| <= R_0 e^{eta t_0} and beta_p + eta > 0. Correct.
+
+
+A6 — NO NEW GLOBAL OR PROBABILISTIC CLAIM INTRODUCED. AFFIRMATIVE. The single changed line adds hypotheses to a theorem and adds nothing to its conclusion. Section 12's scope firewall and section 13's reopening conditions are byte-identical to the predecessor's, so no scope was widened. The successor claims strictly less than the predecessor, which is the correct direction for a repair of overbreadth.
+
+
+A7 — GP-DER-197 AND LCR-DER-061 CONSUME THE v1.1 HASH, NOT v1.0. AFFIRMATIVE, with a downstream-hygiene finding recorded in §5 that is NOT against Carrier A.
+GP-DER-197-v1.0: its controlling header states "The local-selector proof companion used by this parent interface is now LCR-DER-057-v1.1", followed by BODY_BYTES 11144 and SHA-256 62c23788…4e72, and tags [[LP:v1.1-CONTROLS]] [[v1.0:AMEND-REQUIRED]]. Hash-specific consumption of v1.1 confirmed.
+LCR-DER-061-v1.0: its controlling header states "The controlling local selector input is LCR-DER-057-v1.1, BODY_BYTES 11144, SHA-256 62c23788…4e72." Hash-specific consumption of v1.1 confirmed.
+Both consumers therefore satisfy A7 as written.
+
+
+
+
+4. MUTATION RESULTS — CARRIER-A-RELEVANT
+
+
+M1 — remove the symmetry hypothesis. DETECTED, and the detection is structural rather than cosmetic: without symmetry the orthogonal spectral projector in section 1 is not orthogonal, e_s = J e_u no longer spans the stable eigenspace, Q_p^T A_p Q_p is no longer diagonal, and the entire decoupled system of section 1 fails before any estimate is reached. The orientation agreement of A4(iii) fails as well. REJECTED.
+See however FINDING A-N1 in §5: this mutation is caught by the body's mathematics but is NOT named in the object's own reopening-condition list.
+
+
+M2 — use LCR-DER-057-v1.0 downstream. Detection of this mutation belongs to Carrier B and is reported in CL-AUD-274 and CL-AUD-275. From Carrier A's side the object is clean: v1.1 declares its predecessor, its predecessor's byte count and hash, and the status AMEND REQUIRED FOR EXACT-TEXT APPROVAL for that hash, in its own successor notice. Carrier A cannot be faulted for a downstream consumer's bookkeeping.
+Substantive note carried forward to CL-AUD-275: because A2 proves the diff is 57 bytes in one theorem sentence, a downstream object that mistakenly consumed v1.0 would import mathematics that is byte-identical in sections 1 through 10. The mutation is a bookkeeping error, not a mathematical one. This is a fact I can assert only because the diff was reproduced exactly.
+
+
+M3 — choose local points from opposite unstable branches. DETECTED. Section 9 fixes xi_* = xi_0/2 > 0 and section 8 restricts to the positive half 0 < xi <= xi_0; the orientation of e_u by d toward the designated maximum makes the sign meaningful; and reopening condition "positive xi does not identify the configured M-ward branch" names the failure explicitly. REJECTED.
+
+
+M10 — infer P0.1 approval from event measurability alone. DETECTED. Section 12 excludes P0.1 and P0.2 by name, and reopening condition "the result is cited as proving the later Borel or probability conclusions" names the misuse. REJECTED. I record that I have not committed this mutation myself: see §6.
+
+
+
+
+5. OBJECTIONS AND MINIMAL REPAIRS
+
+
+FINDING A-N1 (against Carrier A; non-blocking; guard-list completeness).
+The v1.1 repair added the symmetry hypothesis to section 11 but did NOT add the corresponding entry to section 13's reopening conditions. Section 13 lists twelve reopening triggers — fixed equilibrium, C^1 continuity, spectral gap, continuous orientation, uniformly small nonlinear derivative, self-map, contraction factor, integral convergence, operator continuity, ODE solution, M-ward identification, and misuse as a Borel or probability result — and none of them is "the linearization fails to be symmetric" or equivalently "the stable eigenspace is not the orthogonal complement of the unstable one". LCR-DATA-068's interpretation section confirms this deliberately: "No integral equation, estimate, continuity argument, tangency argument, orientation, six-pin application, scope exclusion, or reopening condition changes."
+So the object's own machine-readable guard list still omits the exact hypothesis whose omission caused the v1.1 successor to exist. A future consumer auditing only section 13 would not be told to check symmetry.
+This does not make any statement in the frozen body false or unproved, and none of A0–A7 asks about the reopening list, so it does not block the affirmative verdict. It is a real defect in the object's self-protection.
+MINIMAL REPAIR, for a future v1.2 or for LCR-REQ-066: append to section 13 one line — "- the parameterized linearization A_p is not symmetric, so that the orthogonal unstable spectral projector, the identification e_s = J e_u, and the GP-PROT-065 orientation agreement all fail;". No other change.
+
+
+FINDING A-N2 (against GP-DER-197, NOT against Carrier A; downstream hygiene; reported here because A7 surfaced it).
+GP-DER-197-v1.0's header carries the correct v1.1 consumption at the top, but LOWER IN THE SAME HEADER it still carries an earlier block titled "CONTROLLING LOCAL-SELECTOR PROOF COMPANION — LCR-DER-057 — 2026-07-25" which names LCR-DER-057-v1.0, BODY_BYTES 11087, SHA-256 4165696d…76d1, and is tagged [[M5:LCR-DER-057-CONTROLS]] [[LP-HASH:4165696d...576d1]]. That block is not marked SUPERSEDED. A reader or tool that keys on the string "CONTROLLING" or on the machine-readable tag [[LP-HASH:...]] will extract the superseded hash and will believe it is controlling. The newer notice supersedes it by position and by the [[v1.0:AMEND-REQUIRED]] tag, so the object is not wrong, but it is ambiguous in exactly the way exact-hash discipline exists to prevent.
+MINIMAL REPAIR: mark the older block SUPERSEDED BY THE v1.1 NOTICE ABOVE, and retag [[LP-HASH:SUPERSEDED-4165696d...576d1]] or delete the tag. This is a header edit to GP-DER-197 that does not touch its 13,797-byte frozen body or its hash 035d5a18…85d4d, so it costs nothing.
+
+
+No other objection. I identified no error in any equation, estimate, constant, or argument in the Carrier-A frozen body.
+
+
+
+
+6. SCOPE AND WHAT THIS VERDICT DOES NOT DO
+
+
+This verdict approves the exact text of LCR-DER-057-v1.1 at its frozen hash and nothing else. It does not approve GP-DER-197, does not approve LCR-DER-061 (see CL-AUD-274), does not complete the event stack (see CL-AUD-275), does not close P0.1 or P0.2, does not promote any theorem, and does not authorize release, sealing, deletion or automation. It edits no register and no spreadsheet; this runtime cannot, and per AD-021/AD-024 the register transitions a capable agent should apply are stated in CL-AUD-275 §5. Dylan Roy retains sole theorem-promotion authority.
+
+
+
+
+7. CREDIT
+
+
+Per GP-REQ-224 §6, and resolving the reviewer-identity ambiguity conservatively against my own interest as recorded in CL-REG-272 §2:
+
+
+ONE DISTINCT-FAMILY MATHEMATICAL RECONSTRUCTION / ONE SUCCESSOR HASH-SUPPLEMENT VERDICT / ONE GLOBALIZATION VERDICT / ONE ORGANIZATIONAL-INDEPENDENCE CREDIT TOTAL.
+
+
+CL-AUD-273, CL-AUD-274 and CL-AUD-275 are three documents carrying ONE credit between them, not three. This work does NOT satisfy the P0.1 two-different-non-OpenAI-provider-families minimum — CL supplies one such family and a second, non-Anthropic and non-OpenAI, is still required. It does NOT substitute for the Family-B LM013 interface verdict, nor for the two GP-DER-118-v1.6 application verdicts of the LS-REQ-016 fast path, which I declined because that packet requires a reviewer distinct from Anthropic Family A.
+
+
+
+
+8. VERDICT
+
+
+APPROVE LCR-DER-057-v1.1 FROZEN SHA256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72 SYMMETRY-TYPED UNIFORM LYAPUNOV-PERRON CONTINUOUS SELECTED UNSTABLE POINT
+
+
+Issued with FINDING A-N1 recorded as a non-blocking guard-list omission carrying a one-line repair, and FINDING A-N2 recorded against GP-DER-197 rather than against this object.
+
+
+END CL-AUD-273-v1.0

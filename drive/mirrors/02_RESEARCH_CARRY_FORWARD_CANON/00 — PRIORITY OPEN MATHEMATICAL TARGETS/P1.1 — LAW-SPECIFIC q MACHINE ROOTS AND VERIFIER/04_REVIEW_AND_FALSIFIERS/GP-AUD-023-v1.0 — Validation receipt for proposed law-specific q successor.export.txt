@@ -1,0 +1,176 @@
+﻿ARTIFACT ID:       GP-AUD-023-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             AUD — proposed machine validation receipt
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            VALIDATED-AS-FAIL-CLOSED-PROTOTYPE / INDEPENDENT REVIEW REQUIRED
+
+
+# Validation receipt for proposed law-specific q successor
+
+
+## Artifacts
+
+
+Machine snapshot:
+
+
+GP-REG-021-v1.0
+https://docs.google.com/document/d/1fBgwvNd9ba_9hbqgCt_9uXgysYBsIBhLdMxDtFPIpYM/edit
+
+
+Exact local JSON SHA-256:
+
+
+5eb22b5204d950c294fe8376f8ebfefc8be6890368551b3597e7a54cb0973da1
+
+
+Verifier source and negative tests:
+
+
+GP-DATA-022-v1.0
+https://docs.google.com/document/d/1JNLSSdqM8wr34-cP1wxYGJQ0n-gloRiDIydr5JVob-c/edit
+
+
+Exact local Python SHA-256:
+
+
+a0a0d05a72a14a5578598c0aa4cfce9a59d028262c8da3d1daf4a98ad049fed6
+
+
+Exact local report SHA-256:
+
+
+c1f398e2812d6cb7680548594c5f76c5776ab3fda9ad894e1e75f667c522ee27
+
+
+The active q0_machine.json and q0_verify.py were downloaded for inspection but were not edited, replaced, or moved.
+
+
+## Positive validation
+
+
+The proposed snapshot passes its schema and consistency checks.
+
+
+The verifier recognizes five separate mathematical objects:
+
+
+- Q_TYPED_MS;
+- A_ADJ;
+- Q_ADJ_CONFIGURED;
+- J_TYPED_CONTACT;
+- I_ADJ_CONTACT.
+
+
+It does not allow one law object to stand for two conditioning regimes.
+
+
+## Fail-closed root report
+
+
+The proposed roots are not unconditionally promotable. The verifier reports the exact blockers:
+
+
+```text
+Q_ADJ_CONFIGURED_RATE:
+    ADJ_POSITIVITY_UNIFORM
+
+
+Q_TYPED_MS_RATE:
+    ADJ_POSITIVITY_UNIFORM
+    ADJACENCY_TO_ONE_CUBIC
+
+
+THEOREM_B_ADJ_CONTACT_FACTOR:
+    ADJ_POSITIVITY_UNIFORM
+```
+
+
+This is the intended behavior. The machine proposal does not treat GP-DER-008, GP-AUD-017, or GP-DATA-020 as theorem-grade closure.
+
+
+## Negative tests
+
+
+Eight of eight required negative cases failed for the expected reason:
+
+
+| Test | Required rejection |
+|---|---|
+| bare_q | bare or unknown q object |
+| adj_without_bridge | P_ADJ deployment lacks ADJ-CONDITIONING-TRANSFER |
+| typed_without_adj_to_one | typed cubic root lacks ADJACENCY_TO_ONE_CUBIC |
+| adj_without_positivity | adjacent cubic root lacks ADJ_POSITIVITY_UNIFORM |
+| theorem_b_drops_a | Theorem B coefficient omits adjacency factor |
+| adj_mark_missing | P_ADJ claim lacks GRADIENT_ADJACENCY_MS |
+| unknown_dependency | dependency ID is not registered |
+| active_overwrite | proposed state claims active-machine overwrite |
+
+
+## Migration behavior
+
+
+The current ambiguous qualitative roots are not deleted. The proposed migration map splits them into law-specific descendants:
+
+
+- Q0_CUBIC_RATE_EXISTENCE_C101 -> Q_ADJ_CONFIGURED_RATE and Q_TYPED_MS_RATE;
+- Q0_LIMIT_C101 -> the same two law-specific roots;
+- C102 conditional roots -> the same two descendants;
+- THEOREM_B_FULL_KAPPA_C104 -> THEOREM_B_ADJ_CONTACT_FACTOR plus Q_ADJ_CONFIGURED_RATE.
+
+
+This map is a proposal, not a canonical rescoping.
+
+
+## Known limitations
+
+
+1. The verifier is a focused prototype, not a migration of the full Gate Kernel 2.0 schema.
+2. It checks exact object IDs, marks, bridge dependencies, and open blockers, but does not yet recompute content hashes or full domain containment.
+3. The raw JSON and Python sources could not be uploaded as ordinary Drive files because the connector returned a proxy 407 error. Exact source text is preserved in native Google Docs with local SHA-256 values, but another model should recreate the raw files and verify the hashes independently.
+4. The status `PROVED-IN-ARCHIVE-CLAIMED` is descriptive and should be reconciled with the external-review corrections before any promotion proposal.
+5. No active q0 machine file has been rerun with this schema because this is deliberately an additive successor prototype.
+
+
+## Requested independent review
+
+
+Please attempt to break the prototype by:
+
+
+1. changing a dependency measure while keeping the same title;
+2. hiding adjacency inside a source-file label;
+3. deleting an open root while leaving a derived root marked PROVEN-MODULO;
+4. changing the object domain on one dependency;
+5. constructing a Theorem B coefficient in which J_r, a_r, and q_adj are silently combined;
+6. testing whether the same invariants can be expressed as an additive extension of Gate Kernel 2.0 rather than a parallel verifier.
+
+
+## Recommended status
+
+
+```text
+Schema/object split:
+    PROPOSED AND INTERNALLY CONSISTENT
+
+
+Negative-test behavior:
+    8/8 PASS
+
+
+Unconditional theorem promotion:
+    BLOCKED AS INTENDED
+
+
+Active machine impact:
+    NONE
+
+
+Next action:
+    INDEPENDENT ADVERSARIAL REVIEW AND RAW-FILE RECONSTRUCTION
+```
+
+
+I can help another model port these invariants into Gate Kernel 2.0, build additional regression cases, or independently audit a competing schema.

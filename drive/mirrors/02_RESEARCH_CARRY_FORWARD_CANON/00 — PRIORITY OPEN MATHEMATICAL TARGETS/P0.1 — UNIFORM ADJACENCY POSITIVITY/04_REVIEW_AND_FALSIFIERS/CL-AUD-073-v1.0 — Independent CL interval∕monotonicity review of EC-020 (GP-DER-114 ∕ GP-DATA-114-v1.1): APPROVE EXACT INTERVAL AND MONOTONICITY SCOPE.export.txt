@@ -1,0 +1,111 @@
+﻿CL-AUD-073-v1.0 — Independent CL interval/monotonicity review of EC-020 (GP-DER-114 / GP-DATA-114-v1.1): APPROVE EXACT INTERVAL AND MONOTONICITY SCOPE
+
+
+ARTIFACT ID:      CL-AUD-073-v1.0
+AUTHOR:           Claude (Anthropic) — CL line (non-GP), filed via Cowork session on Dylan's instruction
+DATE:             2026-07-22
+CLASS:            AUD
+AUTHORITY:        none
+CANONICAL IMPACT: NONE
+GOVERNED BY:      _RULES_OF_ENGAGEMENT (CL-GOV-014). Fresh title scan performed; no CL-AUD-073 collision found.
+INDEPENDENCE:     Line independence (non-GP) — sufficient to close the EC-020 gate per GP-PRP-131.
+
+
+CAPSULE USED
+GP-DATA-114-v1.1 (Drive ID 1f__v4_Nn61G0yRzJgDSJymMIT7iMB3hUI6kc6qGtU9U). The
+v1.0 staging object (18auUSnB...) was independently confirmed CORRUPT (strict
+base64 decode fails on embedded whitespace; whitespace-stripped gzip sha256
+52fda07b... != declared 93f63bdb...; gunzip fails "invalid code lengths set";
+its receipt block declares 4546 bytes yet the same sha256 as the 5047-byte v1.1
+receipt) and was NOT treated as evidence.
+
+
+METHOD
+mpmath was unavailable in my sandbox (no PyPI egress). I reconstructed the
+source/receipt from the v1.1 base64 and re-executed the certificate with an
+independent pure-Python interval engine (double precision + correct even/odd
+power rule, reciprocal/division and sqrt rules), cross-checked under explicit
+1-ulp outward rounding. All numbers below are my own recomputed values; they
+reproduce the stored receipt to ~1e-12–1e-16 and stay strictly positive under
+outward rounding.
+
+
+HASHES (independently computed)
+source 9787 B sha256 9d7cb5d6e13579533c5b485775e67c77da83c149c0bf8bbbe7b7bf85aefdb4ef
+  (gzip 3416 B 18c8768c...1e5c);
+receipt 5047 B sha256 8472209ee589f44f1f3c472c7040d183494743a89e21ad9487a1879d192003bc
+  (gzip 1692 B 88bb5bce...1222). All match the v1.1 declared values.
+
+
+C1–C11 VERDICTS
+C1  PASS. Reconstruction + all four hashes match; receipt self-consistent
+    (internal source_sha256 = 9d7cb5d6...); v1.0 corrupt and excluded.
+C2  PASS. sup of s=q/r over q in [-1.02,-0.98], r in (0,0.05] is at q=-0.98,
+    r=0.05 -> -0.98/0.05 = -19.6; most-negative branch -> -inf. Admissible
+    s in (-inf, -19.6]; worst-case s = -19.6. Code uses q_hi=-0.98, R_MAX=0.05.
+C3  PASS. Analytic: s enters DS, DM, detS, detM, threshold, py, h22 and both cone
+    faces linearly with the sign making each margin nondecreasing as s -> -inf.
+    Numeric sweep s in {-19.6,-20.4,-30,-50,-100,-1000}: every s-dependent margin
+    and both cone faces (cone_upper, cone_lower) increase. Worst case s=-19.6.
+C4  PASS (endpoint-typing). saddle_det_neg=19.598622198506945;
+    max_A_neg=0.9999583333333333; max_D_neg=19.5994375;
+    max_det_pos=19.598619056701388 — match receipt.
+C5  PASS (cone/eigenslope). cone_slope=0.009869737279916179;
+    axial_gap=20.599395833...; cone_axis=0.8999287018325; tau_upper=6.513136e-05.
+C6  PASS (strip/transit). strip_top=0.3325271710449014;
+    strip_bottom=0.3324185380587903; central_drift=0.0899659884701842;
+    partial_y_contraction=19.580392342908674.
+C7  PASS (capture/Gershgorin). capture_gershgorin_1=0.589931481037461;
+    capture_gershgorin_2=19.39126898078092.
+C8  PASS. min margin = handoff = W_lo/2 - kappa*sigma = 0.00748528137423857
+    (plain) / 0.007485281374238563 (outward) = stored 0.007485281374238566 to
+    ulp; confirmed to be the minimum of the 19 margins (next smallest is
+    cone_slope 0.00987). The ">=" holds (equality at ulp).
+C9  PASS. NC1 -> FULL_DIMENSIONAL_BOX_FAIL; NC2 -> typing gates fail incl.
+    saddle_det & max_det_pos; NC3 -> Q_NEGATIVITY_FAIL; NC4 -> cone_slope fails;
+    NC5 -> chart_x + capture_gershgorin_1 fail. My observed failed-gate lists
+    reproduce the receipt's lists exactly.
+C10 PASS. Box centered at physical q=-1.0 with radius 0.02>0 -> nonshrinking in q.
+    s=q/r is a derived quantity collapsed to the single worst-case point -19.6
+    (fixed-q reasoning), not an independently shrinking s-interval. No Palm/
+    Gaussian mass statement is produced.
+C11 PASS. Source docstring + explicit_exclusions name Palm/Gaussian mass,
+    exact-field transfer, exact full-field/adjacency, P0.1/P0.2/Theorem B only as
+    EXCLUDED. No c_A (0 occurrences), no finite-Q4 mass, no exact adjacency, no
+    theorem/machine promotion. All 9 radii > 0 -> genuinely full-dimensional.
+
+
+OBJECTIONS
+None fatal. Scope note (not a defect): the capsule certifies that the encoded
+interval inequalities hold with positive margin; it does not by itself establish
+that those inequalities are the correct/sufficient conditions for the "repaired
+degree-four capture gates" — that analytic adequacy lives in GP-DER-114, which I
+did not re-derive line-by-line. Non-blocking given EC-020's wording
+"Deterministic interval/monotonicity certificate ONLY."
+
+
+CANNOT-VERIFY LIST
+- Analytic adequacy of the gate inequalities (that the encoded interval
+  sufficient conditions imply the geometric "repaired degree-four capture"
+  properties). Needs independent re-derivation of GP-DER-114 / GP-AUD-115.
+  Outside the EC-020 interval/monotonicity scope and explicitly excluded from
+  promotion, so it does not block this gate.
+- Identical mpmath.iv outward-rounded path: reproduced with an independent
+  interval engine instead; robust given min margin 0.00749 >> rounding
+  uncertainty (~1e-15). Not blocking.
+
+
+DECISION
+APPROVE EC-020 EXACT INTERVAL AND MONOTONICITY SCOPE. Every mandated check C1–C11
+passes on my own independent reconstruction and re-execution; all 19 margins are
+strictly positive (min 0.007485...) under outward rounding; monotonicity
+direction is confirmed analytically and numerically; all 5 planted controls fail
+for the intended reason; the corrupt staging capsule was excluded. Approval is
+limited to the deterministic interval/monotonicity certificate — no mass,
+exact-field, adjacency, or P0.1/P0.2/theorem claim is supported by this artifact.
+This is a line-independent (non-GP) review and, per GP-PRP-131, is sufficient for
+the EC-020 review gate; Dylan M. Roy's explicit written approval remains the only
+terminal step.
+
+
+END CL-AUD-073-v1.0

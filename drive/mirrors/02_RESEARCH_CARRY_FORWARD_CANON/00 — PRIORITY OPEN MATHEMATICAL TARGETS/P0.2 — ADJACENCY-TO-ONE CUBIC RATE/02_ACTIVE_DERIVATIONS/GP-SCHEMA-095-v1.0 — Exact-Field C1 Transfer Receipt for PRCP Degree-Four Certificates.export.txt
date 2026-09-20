@@ -1,0 +1,248 @@
+﻿GP-SCHEMA-095-v1.0 — EXACT-FIELD C¹ TRANSFER RECEIPT FOR PRCP DEGREE-FOUR CERTIFICATES
+
+
+Artifact ID: GP-SCHEMA-095-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: SCHEMA / PROTOCOL — fail-closed exact-field transfer object
+Authority: none
+Canonical impact: NONE
+Status: CANDIDATE SCHEMA / OUTSIDE REVIEW AND EXECUTION OPEN
+
+
+PURPOSE
+
+
+This schema defines the minimum receipt required to transfer a certified degree-four PRCP event H_r^(4) to an exact-field event H_r. It does not itself prove transfer. Every field is mandatory unless explicitly marked optional. Missing, nonfinite, unbound, or source-ambiguous values fail closed.
+
+
+A. OBJECT IDENTITY
+
+
+1. receipt_id
+2. fixture_id
+3. degree4_certificate_id
+4. exact_field_source_id
+5. exact_field_source_sha256
+6. exact_field_receipt_sha256
+7. field_law_id
+8. conditioning_event_id
+9. coordinate_chart_id
+10. branch_orientation_protocol_id
+11. r, sigma, witness_mu, strip_width_W, cone_slope_kappa, capture_radius_rho
+12. code_runtime, precision, interval_library, integrator_or_enclosure_method
+
+
+B. DOMAIN LEDGER
+
+
+Declare every domain on which transfer is claimed:
+
+
+D_endpoint_S — neighborhood used for saddle typing and unstable eigendirection.
+D_cone — full S-side cone from the saddle germ to X_S.
+D_strip — full central strip from X_S to X_M.
+D_section_M — M-side handoff section.
+D_capture — complete capture ball B(M,rho).
+D_union — exact union of all above domains.
+
+
+Each domain must store coordinates, closed/open boundary convention, chart containment margin, and a reproducible membership test.
+
+
+C. DEGREE-FOUR MARGIN VECTOR
+
+
+Store strict positive degree-four margins:
+
+
+m_S_type — saddle eigenvalue/sign margin.
+m_M_type — maximum negative-definiteness margin.
+m_branch_xi — positive oriented xi-component margin of unstable eigenvector.
+m_cone_axis — longitudinal cone-axis margin.
+m_cone_upper — upper cone-boundary inward margin.
+m_cone_lower — lower cone-boundary inward margin.
+m_handoff — cone-to-strip inclusion margin.
+m_strip_top — top strip-boundary inward margin.
+m_strip_bottom — bottom strip-boundary inward margin.
+m_drift — strictly M-directed longitudinal drift margin over D_strip.
+m_section — M-side section containment margin or exact identity with a separate downstream strict margin.
+m_capture — contraction/Lyapunov margin over D_capture.
+m_chart — minimum chart-containment margin over D_union.
+
+
+Every margin must include method, interval enclosure, precision, and location of the worst-case box or point.
+
+
+D. EXACT-MINUS-DEGREE-FOUR REMAINDER BOUNDS
+
+
+Let R_0 = F_exact − F^(4) and R_1 = DF_exact − DF^(4).
+
+
+Store rigorous bounds:
+
+
+eps0_endpoint_S = sup_{D_endpoint_S} ||R_0||
+eps1_endpoint_S = sup_{D_endpoint_S} ||R_1||
+eps0_cone, eps1_cone
+eps0_strip, eps1_strip
+eps0_section_M, eps1_section_M
+eps0_capture, eps1_capture
+
+
+Each bound must identify the norm, derivative convention, exact field representation, truncation order, tail/enclosure method, and all omitted-domain contributions. Sampling-only estimates are diagnostic and cannot populate these fields.
+
+
+E. TRANSFER INEQUALITIES
+
+
+The receipt must prove strict inequalities sufficient for each preserved property. At minimum:
+
+
+T1 Endpoint typing: eps1_endpoint_S < m_S_type and the analogous M inequality.
+T2 Branch orientation: perturbation bound preserves the positive oriented xi-component and eigenvalue separation.
+T3 Cone axis: the exact-field loss induced by eps0/eps1 is strictly below m_cone_axis.
+T4 Cone boundaries: exact-field losses are strictly below m_cone_upper and m_cone_lower.
+T5 Handoff: exact-field branch/position uncertainty is strictly below m_handoff.
+T6 Strip invariance: exact-field losses are strictly below m_strip_top and m_strip_bottom.
+T7 Longitudinal transit: exact-field loss is strictly below m_drift.
+T8 Section containment: propagated position uncertainty plus field error preserves entry into the declared M-side capture region.
+T9 Capture: eps1_capture plus any center/position uncertainty is strictly below m_capture.
+T10 Chart validity: all propagated uncertainty remains strictly below m_chart.
+
+
+For every T1–T10 store left side, right side, strict slack, units, proof method, and PASS/FAIL/UNRESOLVED.
+
+
+F. PROPAGATION AND TRAJECTORY CONTROL
+
+
+If transfer uses trajectory closeness, store:
+
+
+1. time horizon or section-to-section stopping rule;
+2. Lipschitz/Jacobian bound used;
+3. Gronwall or validated-integrator enclosure;
+4. event-detection uncertainty;
+5. section-crossing transversality margin;
+6. maximum trajectory tube radius;
+7. proof that the tube remains inside D_union;
+8. fail-closed handling of nonfinite, solver, event-order, or enclosure-growth failures.
+
+
+A numerical trajectory without a validated tube cannot establish exact-field transfer.
+
+
+G. FAILURE CLASSES
+
+
+The implementation must distinguish at least:
+
+
+SOURCE_ID_MISMATCH
+HASH_MISMATCH
+DOMAIN_UNDECLARED
+DOMAIN_ESCAPE
+NONFINITE_BOUND
+INTERVAL_FAILURE
+ENDPOINT_TYPE_MARGIN_FAIL
+BRANCH_ORIENTATION_FAIL
+CONE_AXIS_TRANSFER_FAIL
+CONE_UPPER_TRANSFER_FAIL
+CONE_LOWER_TRANSFER_FAIL
+HANDOFF_TRANSFER_FAIL
+STRIP_TOP_TRANSFER_FAIL
+STRIP_BOTTOM_TRANSFER_FAIL
+DRIFT_TRANSFER_FAIL
+SECTION_TRANSFER_FAIL
+CAPTURE_TRANSFER_FAIL
+CHART_TRANSFER_FAIL
+SOLVER_FAILURE
+EVENT_ORDER_FAILURE
+TRAJECTORY_TUBE_UNBOUNDED
+EXACT_FIELD_SOURCE_MISSING
+UNRESOLVED
+
+
+No failure may be collapsed into STALL, MISS, PASS, or zero.
+
+
+H. PLANTED NEGATIVE CONTROLS
+
+
+NC-T1: increase eps1_endpoint_S above the saddle typing margin; must fail endpoint transfer.
+NC-T2: flip or erase the oriented xi-component margin; must fail branch orientation.
+NC-T3: enlarge cone remainder above one boundary margin; must fail only the targeted cone gate.
+NC-T4: swap X_S and X_M or reuse kappa*sigma at the M-side section; must fail section-object validation.
+NC-T5: remove exact-field source/hash; must return EXACT_FIELD_SOURCE_MISSING.
+NC-T6: insert a NaN/nonfinite interval; must return NONFINITE_BOUND, never PASS or STALL.
+NC-T7: make capture eps1 exceed m_capture; must fail capture transfer.
+NC-T8: force the trajectory tube outside D_union; must return DOMAIN_ESCAPE.
+
+
+I. ACCEPTANCE RULE
+
+
+Exact-field transfer is accepted only if:
+
+
+1. all object/source/hash checks pass;
+2. all domains are declared and enclosed;
+3. every degree-four margin is strictly positive;
+4. every remainder bound is rigorous and finite;
+5. T1–T10 all pass with strict positive slack;
+6. all planted controls fail in the intended class;
+7. an outside line independently reconstructs at least one endpoint, one cone/strip, and the capture inequality;
+8. the exact field, fixture identity, and conditioning law match the target P0.2 object.
+
+
+Otherwise status remains EXACT_FIELD_TRANSFER_OPEN.
+
+
+J. REQUIRED OUTPUT
+
+
+Machine-readable receipt fields:
+
+
+schema_version
+receipt_id
+fixture_id
+source_ids_and_hashes
+domain_ledger
+margin_vector
+remainder_bounds
+transfer_inequalities
+trajectory_control
+failure_class
+negative_control_results
+outside_review_ids
+final_status
+
+
+Allowed final_status values:
+
+
+PASS_EXACT_FIELD_TRANSFER
+FAIL_EXACT_FIELD_TRANSFER
+UNRESOLVED_EXACT_FIELD_TRANSFER
+CANNOT_VERIFY_SOURCE
+
+
+K. SCOPE
+
+
+A PASS under this schema proves only the declared local exact-field deterministic transfer for the declared fixture/event. It does not by itself prove positive probability, occupancy scaling, r^3 behavior, adjacency probability, elder-rule pairing, P0.2, Theorem B, a machine promotion, a ballot, or a release.
+
+
+REVIEW ASSIGNMENTS
+
+
+CL: compare this schema with the intended exact-field remainder model and identify missing analytic margins.
+AO48: independently audit sufficiency of T1–T10 and propose a minimal counterexample corpus.
+CW/C047R: implement the machine-readable receipt and execute it on GP-DATA-093 plus an exact-torus/full-field fixture when available.
+GP support: source crosswalks, interval targets, exact-torus covariance identities, negative-control fixtures, and post-freeze comparison. Same-line assistance does not count as independent review.
+
+
+END GP-SCHEMA-095-v1.0

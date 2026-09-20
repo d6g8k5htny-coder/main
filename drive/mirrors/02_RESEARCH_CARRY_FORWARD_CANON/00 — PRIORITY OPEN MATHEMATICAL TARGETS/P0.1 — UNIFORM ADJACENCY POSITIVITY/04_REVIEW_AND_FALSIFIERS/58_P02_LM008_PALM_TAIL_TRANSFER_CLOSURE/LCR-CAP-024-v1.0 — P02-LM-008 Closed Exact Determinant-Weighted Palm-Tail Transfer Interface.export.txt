@@ -1,0 +1,536 @@
+﻿LCR-CAP-024-v1.0 — P02-LM-008 CLOSED EXACT DETERMINANT-WEIGHTED PALM-TAIL TRANSFER INTERFACE
+PEER-REVIEW CAPSULE AND TERMINAL RECORD
+
+
+Artifact ID: LCR-CAP-024-v1.0
+Lemma ID: P02-LM-008
+Closure ID: LCR-CLS-023-v1.0
+Prepared and adjudicated by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Date: 2026-07-24
+Class: CAP / CLS / EXACT MEASURE-REWEIGHTING INTERFACE
+Authority: terminal lemma record within exact conditional scope under OP-PROT-011
+Canonical mathematical impact: NONE
+Terminal label: CLOSED — EXACT DETERMINANT-WEIGHTED PALM-TAIL TRANSFER INTERFACE
+
+
+[[OBJ:P02-LM-008]] [[STATUS:CLOSED-EXACT-CONDITIONAL]] [[CAUCHY-SCHWARZ:EXACT]] [[GT5:NOT-INCLUDED]] [[NORMALIZER-PREMISE:EXPLICIT]] [[P0.2:OPEN]]
+
+
+1. READ FIRST
+
+
+One-sentence result:
+
+
+If a nonnegative determinant weight has second moment at most C_W r^4 and its normalizer is at least c_Z r^2, then reweighting any event E from the conditioned law Q_r to the corresponding typed Palm law P_r costs at most a square root:
+
+
+P_r(E)<=sqrt(C_W)/c_Z · Q_r(E)^(1/2).
+
+
+Why it matters:
+
+
+This closes the exact abstract passage from a conditioned-law high-jet or bad-event tail to the determinant-weighted Palm law. It explains why the r^4 weight second moment and r^2 normalizer powers cancel exactly. It is independent of how the conditioned-law event probability is proved.
+
+
+Primary historical source:
+
+
+GP-DER-046-v1.0, Palm corollary section.
+Drive ID: 1LyYDRVmTl0AKZcKhmDaRMEiWE_HDsmfwac4l2QsFV7c.
+
+
+Independent review:
+
+
+CL-AUD-047-v1.0, current corrected version, Section 11.
+Drive ID: 1RMDzZH_DBG9MdOY5cz4864shngTn6ShdbdT7K71JgX8.
+
+
+CL-AUD-047 explicitly independently checked that
+
+
+(C_W r^4)^(1/2)/(c_Z r^2)
+
+
+has exact cancellation of all r-powers. Its historical approval of the original GT5 expected-supremum step has been retracted and receives zero terminal credit for P02-LM-007. That unrelated defect does not affect the Cauchy–Schwarz identity frozen here.
+
+
+Closed prerequisite available in the Drive:
+
+
+P02-LM-002 — exact uniform r^4 determinant-weight second-moment interface.
+Closure: LCR-CAP-011-v1.0.
+Drive ID: 1P84b7pNI-z8l9jQrRWW9pP5dNcA4TszKIhMZDFxBlWw.
+
+
+The normalizer lower bound remains an explicit premise. P02-LM-006 is the open exact-normalizer theorem intended to supply it in the P0.2 application.
+
+
+Current status:
+
+
+CLOSED — EXACT DETERMINANT-WEIGHTED PALM-TAIL TRANSFER INTERFACE.
+
+
+2. FROZEN EXACT STATEMENT
+
+
+Let (Omega,F,Q_r) be a probability space for each 0<r<=r_0. Let
+
+
+W_r:Omega->[0,infinity)
+
+
+be measurable with
+
+
+0<Z_r:=E_{Q_r}[W_r]<infinity.
+
+
+Define the W_r-reweighted probability law P_r by
+
+
+P_r(E)=E_{Q_r}[W_r 1_E]/Z_r
+
+
+for every measurable event E.
+
+
+Assume constants c_Z>0 and C_W<infinity, independent of r, such that
+
+
+Z_r>=c_Zr^2
+
+
+and
+
+
+E_{Q_r}[W_r^2]<=C_Wr^4
+
+
+for every 0<r<=r_0.
+
+
+THEOREM P02-LM-008.
+
+
+For every measurable event E and every 0<r<=r_0,
+
+
+P_r(E)
+<=sqrt(C_W)/c_Z · Q_r(E)^(1/2).
+
+
+Consequences:
+
+
+A. Polynomial tail transfer.
+
+
+If
+
+
+Q_r(E_r)<=C_E r^beta
+
+
+for some beta>=0 and all sufficiently small r, then
+
+
+P_r(E_r)
+<=sqrt(C_W C_E)/c_Z · r^(beta/2).
+
+
+B. Sub-Gaussian small-r transfer.
+
+
+If
+
+
+Q_r(E_r)<=C_E exp(-c_E r^-2),
+
+
+then
+
+
+P_r(E_r)
+<=sqrt(C_W C_E)/c_Z · exp[-(c_E/2)r^-2].
+
+
+C. Super-polynomial transfer.
+
+
+If Q_r(E_r)=o(r^m) for every m>0, then P_r(E_r)=o(r^p) for every p>0.
+
+
+No independence assumption, Gaussian assumption, or relationship between E_r and the weight coordinates is required.
+
+
+3. EXACT PROOF
+
+
+By Cauchy–Schwarz under Q_r,
+
+
+E_{Q_r}[W_r1_E]
+<=E_{Q_r}[W_r^2]^(1/2)
+  E_{Q_r}[1_E^2]^(1/2).
+
+
+Since 1_E^2=1_E,
+
+
+E_{Q_r}[1_E^2]^(1/2)=Q_r(E)^(1/2).
+
+
+Using the second-moment premise,
+
+
+E_{Q_r}[W_r1_E]
+<=sqrt(C_W)r^2 Q_r(E)^(1/2).
+
+
+Dividing by the lower normalizer bound gives
+
+
+P_r(E)
+=E_{Q_r}[W_r1_E]/Z_r
+<=sqrt(C_W)r^2 Q_r(E)^(1/2)/(c_Zr^2)
+=sqrt(C_W)/c_Z · Q_r(E)^(1/2).
+
+
+This proves the theorem.
+
+
+The three corollaries follow by direct substitution.
+
+
+For the super-polynomial statement, fix p>0. Apply the theorem using any conditioned-law rate o(r^(2p)); the square root is o(r^p).
+
+
+4. PROOF-OBLIGATION LEDGER
+
+
+PT1 — P_r is a probability law.
+
+
+Status: PASS under the exact premise 0<Z_r<infinity and W_r>=0.
+
+
+PT2 — Cauchy–Schwarz applicability.
+
+
+Status: PASS because W_r is square-integrable by the stated premise and 1_E is bounded.
+
+
+PT3 — Event dependence.
+
+
+Status: PASS. E may depend arbitrarily on all underlying coordinates. No independence is used.
+
+
+PT4 — Numerator power.
+
+
+Status: PASS. The square root of C_Wr^4 is sqrt(C_W)r^2.
+
+
+PT5 — Denominator direction.
+
+
+Status: PASS. An upper bound on the ratio uses the lower bound Z_r>=c_Zr^2.
+
+
+PT6 — Exact r-power cancellation.
+
+
+Status: PASS. r^2/r^2=1.
+
+
+PT7 — Exponential-rate halving.
+
+
+Status: PASS. Taking the square root of exp(-c_Er^-2) gives exp[-(c_E/2)r^-2].
+
+
+PT8 — Super-polynomial preservation.
+
+
+Status: PASS because the input estimate is available at every power.
+
+
+PT9 — Same-law requirement.
+
+
+Status: PASS and explicit. The numerator, second moment, normalizer, and event probability must all be taken under the identical Q_r and W_r.
+
+
+PT10 — No hidden finite-Q4/exact-field substitution.
+
+
+Status: PASS at the abstract level. A concrete application must separately crosswalk its exact law and weight.
+
+
+5. INDEPENDENT REVIEW AND LINEAGE
+
+
+CL-AUD-047-v1.0 was produced by the Anthropic/Claude line and independently reviewed the V2 proof architecture.
+
+
+Its current correction banner retracts the historical false expected-supremum inequality and explicitly denies terminal credit for the repaired P02-LM-007 theorem.
+
+
+The current document preserves an unaffected, separately checkable finding in Section 11:
+
+
+- the Cauchy–Schwarz reweighting step is correct;
+- the exact factor (C_Wr^4)^(1/2)/(c_Zr^2) has no remaining power of r;
+- the DM2 dependence is properly separated from the conditioned-law tail.
+
+
+Review classification for P02-LM-008:
+
+
+ORGANIZATIONALLY DISTINCT / PARTIAL-SCOPE ALGEBRAIC REVIEW / ORIGINAL ARGUMENT VISIBLE.
+
+
+The review counts once for this exact extracted interface. It does not transfer to P02-LM-007 or to any premise of P02-LM-008.
+
+
+6. ADVERSARIAL MUTATIONS
+
+
+M1 — Use an upper normalizer bound.
+
+
+Mutation:
+
+
+Z_r<=C_Zr^2.
+
+
+Result:
+
+
+Does not upper-bound the ratio. This mutation kills the theorem’s conclusion.
+
+
+M2 — Replace the second moment by a first moment.
+
+
+A bound E[W_r]<=Cr^2 alone does not give the same event-uniform square-root transfer through Cauchy–Schwarz. Additional structure would be needed.
+
+
+M3 — Let the second moment scale as r^gamma.
+
+
+The general ratio power becomes r^(gamma/2-2). The scale-free conclusion is special to gamma=4.
+
+
+M4 — Compute the event probability under another law.
+
+
+Cauchy–Schwarz requires Q_r(E), not an adjacent finite-Q4, unconditioned, or differently conditioned event probability.
+
+
+M5 — Assume independence between W_r and E.
+
+
+Unnecessary. The theorem is stronger because it does not use independence.
+
+
+M6 — Use a signed weight.
+
+
+The ratio may fail to define a probability law. Nonnegativity and positive finite normalizer are load-bearing.
+
+
+M7 — Infer a conditioned-law tail from the theorem.
+
+
+The implication is one-way: conditioned-law tail plus moment/normalizer premises gives Palm tail. The theorem does not prove Q_r(E).
+
+
+M8 — Import the retracted GT5 step.
+
+
+Irrelevant and prohibited. P02-LM-008 accepts any valid event-probability premise, regardless of its source.
+
+
+7. EDGE CASES
+
+
+Q_r(E)=0:
+
+
+Then 1_E=0 Q_r-almost surely, the weighted numerator is zero, and P_r(E)=0.
+
+
+Q_r(E)=1:
+
+
+The theorem gives P_r(E)<=sqrt(C_W)/c_Z. This constant may exceed one; the true probability also satisfies the trivial bound one. The theorem remains correct but not necessarily sharp.
+
+
+W_r=0 on E:
+
+
+Then P_r(E)=0, consistent with the bound.
+
+
+Type-boundary or singular-weight events:
+
+
+Allowed. No continuity of the weight is required.
+
+
+Different r-dependent events:
+
+
+Allowed. The proof is pointwise in r.
+
+
+8. EXCLUSIONS
+
+
+This closed lemma does not establish:
+
+
+- the second-moment premise for a concrete weight;
+- the normalizer lower bound;
+- any conditioned-law tail;
+- P02-LM-006;
+- P02-LM-007;
+- exact-field capture;
+- a boundary-layer estimate;
+- P0.2;
+- any numerical Palm probability;
+- theorem promotion or release.
+
+
+P02-LM-002 supplies the second-moment interface for the exact endpoint determinant weight under a uniform eighth-moment premise. P02-LM-005 supplies that exact-law moment premise. P02-LM-006 is intended to supply the exact normalizer bound. P02-LM-007 is intended to supply one conditioned-law tail.
+
+
+9. CLOSURE DECISION
+
+
+Closure ID: LCR-CLS-023-v1.0
+Lemma ID: P02-LM-008
+Date: 2026-07-24
+Terminal label:
+
+
+CLOSED — EXACT DETERMINANT-WEIGHTED PALM-TAIL TRANSFER INTERFACE.
+
+
+Decisive evidence:
+
+
+- exact one-line Cauchy–Schwarz proof;
+- explicit same-law and denominator-direction conditions;
+- organizationally distinct partial-scope algebraic review;
+- historical GT5 error quarantined from the extracted interface;
+- complete premise and downstream scope fence.
+
+
+OP-PROT-011 independent-eyes condition is satisfied for this exact interface by the unaffected CL-AUD-047 Section 11 review.
+
+
+10. DOWNSTREAM USAGE
+
+
+Authorized exact use:
+
+
+If a concrete exact-law package proves
+
+
+E_{Q_r}[W_r^2]<=C_Wr^4,
+Z_r>=c_Zr^2,
+Q_r(E_r)<=T_r,
+
+
+then it may cite P02-LM-008 to conclude
+
+
+P_r(E_r)<=sqrt(C_W)/c_Z · sqrt(T_r).
+
+
+For the P0.2 chain:
+
+
+- P02-LM-002 + P02-LM-005 provide the exact-law second-moment bound;
+- P02-LM-006, if independently approved, provides the normalizer lower bound;
+- P02-LM-007, if independently approved, provides the conditioned H5 tail;
+- P02-LM-008 then supplies the determinant-weighted H5 tail without further independence assumptions.
+
+
+Every application must verify that all four objects use the identical Q_r and W_r.
+
+
+11. REOPENING CONDITIONS
+
+
+Reopen if:
+
+
+- the reweighted-law definition changes;
+- W_r is allowed to be signed;
+- the normalizer or second moment belongs to a different law/weight;
+- the historical independent-review record is shown not to have checked the exact Cauchy–Schwarz cancellation;
+- an algebraic error is found in the ratio direction or power cancellation.
+
+
+Do not reopen merely because a sharper Hölder exponent or event-specific bound is found.
+
+
+12. MANIFEST
+
+
+Historical primary derivation:
+- GP-DER-046-v1.0
+- Drive ID 1LyYDRVmTl0AKZcKhmDaRMEiWE_HDsmfwac4l2QsFV7c
+- Role: original Palm corollary and broader GT5 proof
+- Status for this lemma: controlling algebraic source only
+
+
+Independent partial-scope review:
+- CL-AUD-047-v1.0, corrected current version
+- Drive ID 1RMDzZH_DBG9MdOY5cz4864shngTn6ShdbdT7K71JgX8
+- Role: independent Cauchy–Schwarz and power-cancellation check
+- Status: qualifying for P02-LM-008 only; nonqualifying for repaired GT5 theorem
+
+
+Closed second-moment input:
+- P02-LM-002 / LCR-CAP-011-v1.0
+- Drive ID 1P84b7pNI-z8l9jQrRWW9pP5dNcA4TszKIhMZDFxBlWw
+
+
+Closure capsule:
+- LCR-CAP-024-v1.0 / LCR-CLS-023-v1.0
+- Drive ID 1tQvVF3Q2kTNf1Ih_XSW3CB_DfOhcLS6vaWPGavUYfio
+
+
+13. FINAL CHECKLIST
+
+
+Exact statement: PASS.
+Measurability and integrability premises: PASS.
+Proof complete: PASS.
+Same-law requirement explicit: PASS.
+Denominator direction: PASS.
+Power cancellation: PASS.
+Independent partial-scope review: PASS.
+Historical false GT5 step quarantined: PASS.
+Premise/exclusion fence: PASS.
+P0.2 separation: PASS.
+
+
+FINAL VERDICT:
+
+
+APPROVE AND CLOSE P02-LM-008 WITHIN THE EXACT CONDITIONAL DETERMINANT-WEIGHTED REWEIGHTING SCOPE.
+
+
+END LCR-CAP-024-v1.0

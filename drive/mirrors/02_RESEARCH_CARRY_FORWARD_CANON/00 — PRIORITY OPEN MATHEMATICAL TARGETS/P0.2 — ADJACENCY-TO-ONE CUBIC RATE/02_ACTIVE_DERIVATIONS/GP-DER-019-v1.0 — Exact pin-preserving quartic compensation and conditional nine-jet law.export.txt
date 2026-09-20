@@ -1,0 +1,345 @@
+﻿ARTIFACT ID:       GP-DER-019-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             DER — exact Gaussian and polynomial derivation
+AUTHORITY:         none — asserts nothing on its own authority
+CANONICAL IMPACT:  NONE
+STATUS:            DERIVED-EXACT FOR THE LIMITING BF JET LAW; PENDING INDEPENDENT REVIEW
+
+
+# Exact pin-preserving quartic compensation and conditional nine-jet law
+
+
+## Purpose
+
+
+CW-PRP-006 blocks the quartic-corrected P0.2 experiment until three items are derived rather than assumed:
+
+
+1. the exact r-power of the quartic layer;
+2. the conditioned nine-jet law;
+3. a compensation polynomial preserving the six pair pins, or a proof that the corrected critical points must be re-solved.
+
+
+This note discharges those algebraic obligations for the limiting Bargmann–Fock jet model.
+
+
+## 1. Limiting constraints at the midpoint
+
+
+Let the pair be M=(-r/2,0), S=(r/2,0), with
+
+
+    f(M)=b,
+    f(S)=b-r^3/6,
+    grad f(M)=grad f(S)=0.
+
+
+The axial Hermite interpolant is
+
+
+    d_r(x)=b+x^3/3-r^2 x/4-r^3/12.
+
+
+As r tends to zero, the corrected midpoint constraints are
+
+
+    f=b,
+    f_x=0,
+    f_xx=0,
+    f_y=0,
+    f_xy=0,
+    f_xxx=2.
+
+
+The f_xx=0 and f_xxx=2 constraints are the coalesced gradient-difference and value-gap constraints.
+
+
+## 2. Same-point derivative covariance formula
+
+
+For the planar Bargmann–Fock covariance
+
+
+    K(x,y)=exp(-(x^2+y^2)/2),
+
+
+the same-point derivative covariance is
+
+
+    Cov(partial^alpha f, partial^beta f)
+      =(-1)^|beta| m_{alpha_1+beta_1} m_{alpha_2+beta_2},
+
+
+where m_n is the nth derivative of exp(-t^2/2) at zero:
+
+
+    m_n=0 for odd n,
+    m_{2k}=(-1)^k (2k-1)!!.
+
+
+Condition on the six limiting constraints above.
+
+
+Define the free cubic and quartic jets
+
+
+    q   = f_yy,
+    a   = f_xxy,
+    w   = f_xyy,
+    z   = f_yyy,
+    c40 = f_xxxx,
+    c31 = f_xxxy,
+    c22 = f_xxyy,
+    c13 = f_xyyy,
+    c04 = f_yyyy.
+
+
+Direct Schur-complement calculation gives the conditional mean
+
+
+    E(q,a,w,z,c40,c31,c22,c13,c04)
+      =(-b,0,0,0,-3b,0,0,0,3b).
+
+
+The conditional covariance, in this order, is
+
+
+    [[  2,0,0,0, 0,0,-2,0,-12],
+     [  0,2,0,0, 0,0, 0,0,  0],
+     [  0,0,2,0, 0,0, 0,0,  0],
+     [  0,0,0,6, 0,0, 0,0,  0],
+     [  0,0,0,0,24,0, 0,0,  0],
+     [  0,0,0,0, 0,6, 0,0,  0],
+     [ -2,0,0,0, 0,0, 6,0, 12],
+     [  0,0,0,0, 0,0, 0,6,  0],
+     [-12,0,0,0, 0,0,12,0, 96]].
+
+
+This independently verifies every mean, variance, and nonzero covariance listed in CW-PRP-006.
+
+
+A convenient exact sampler is:
+
+
+    q   = -b + sqrt(2) Z_q,
+    a   = sqrt(2) Z_a,
+    w   = sqrt(2) Z_w,
+    z   = sqrt(6) Z_z,
+    c40 = -3b + sqrt(24) Z_40,
+    c31 = sqrt(6) Z_31,
+    c13 = sqrt(6) Z_13,
+
+
+with independent standard normals, followed by
+
+
+    c22 | q = -(q+b) + 2 Z_22,
+
+
+    c04 | q = -6q-3b + sqrt(24) Z_04,
+
+
+where Z_22 and Z_04 are independent of each other and of all previous variables.
+
+
+The conditional independence of c22 and c04 given q follows because
+
+
+    12 - (-2)(-12)/2 = 0.
+
+
+## 3. Exact pin-preserving quartic basis
+
+
+Use scaled coordinates
+
+
+    x=rX,
+    y=rY.
+
+
+Write the local field, through quartic order, as
+
+
+    f(rX,rY)
+      = b + r^2 (q/2)Y^2 + r^3 P_3(X,Y) + r^4 P_4(X,Y) + O(r^5),
+
+
+where
+
+
+    P_3(X,Y)
+      = X^3/3-X/4-1/12
+        +(a/2)(X^2-1/4)Y
+        +(w/2)XY^2
+        +(z/6)Y^3.
+
+
+The unique quartic correction with the prescribed fourth derivatives and with value and gradient zero at both (X,Y)=(+-1/2,0) is
+
+
+    P_4(X,Y)
+      = (c40/24)(X^2-1/4)^2
+        +(c31/6)X(X^2-1/4)Y
+        +(c22/4)X^2Y^2
+        +(c13/6)XY^3
+        +(c04/24)Y^4.
+
+
+Verification is immediate:
+
+
+- (X^2-1/4)^2 has a double zero at X=+-1/2;
+- X(X^2-1/4) vanishes at both endpoints;
+- every remaining term contains Y^2 or higher;
+- the fourth derivatives at the origin are exactly c40,c31,c22,c13,c04.
+
+
+Therefore
+
+
+    P_4(+-1/2,0)=0,
+    grad P_4(+-1/2,0)=0.
+
+
+The quartic truncation preserves M and S as exact critical points. No Newton re-solve is needed for this compensated polynomial.
+
+
+## 4. Exact r-power bookkeeping
+
+
+Differentiate the expansion:
+
+
+    f_x(rX,rY)=r^2 P_{3,X}+r^3 P_{4,X}+O(r^4),
+
+
+    f_y(rX,rY)=r qY+r^2 P_{3,Y}+r^3 P_{4,Y}+O(r^4).
+
+
+For gradient flow and rescaled time tau=rt,
+
+
+    dX/dtau = P_{3,X}+r P_{4,X}+O(r^2),
+
+
+    dY/dtau = (q/r)Y+P_{3,Y}+r P_{4,Y}+O(r^2).
+
+
+Thus the quartic layer enters both corrected flow channels at relative order r after the leading fast term is separated. The 1/r transverse stiffness remains.
+
+
+The explicit quartic derivatives are
+
+
+    P_{4,X}
+      = (c40/6)X(X^2-1/4)
+        +(c31/6)(3X^2-1/4)Y
+        +(c22/2)XY^2
+        +(c13/6)Y^3,
+
+
+    P_{4,Y}
+      = (c31/6)X(X^2-1/4)
+        +(c22/2)X^2Y
+        +(c13/2)XY^2
+        +(c04/6)Y^3.
+
+
+## 5. Corrected endpoint Hessians
+
+
+The physical Hessians through quartic order are
+
+
+    H(M)=
+      [[-r+r^2 c40/12,
+        -ar/2+r^2 c31/12],
+       [-ar/2+r^2 c31/12,
+        q-wr/2+r^2 c22/8]],
+
+
+    H(S)=
+      [[ r+r^2 c40/12,
+         ar/2+r^2 c31/12],
+       [ ar/2+r^2 c31/12,
+         q+wr/2+r^2 c22/8]].
+
+
+These are the matrices that must be used for typing, determinant weighting, and the initial unstable eigenvector in the Q4-on experiment.
+
+
+The fourth-order c13 and c04 variables do not enter the endpoint Hessians at Y=0, but they affect the trajectory away from the axis.
+
+
+## 6. Finite-r lower-order mean shifts
+
+
+The midpoint axial derivative is
+
+
+    p_x=f_x(0)=-r^2/4.
+
+
+Stationarity gives
+
+
+    Cov(f_xyy,f_x)=-1,
+
+
+so conditioning only on p_x would shift
+
+
+    E[w] = -p_x = r^2/4.
+
+
+This is order r^2 in w and changes the scaled flow only at order r^2, below the retained r P_4 correction. Similarly, finite-r corrections to f_xxx=2 begin beyond the Q4 order used here.
+
+
+Therefore the limiting nine-jet law plus the exact pin-preserving P_4 basis is consistent through the declared quartic order. A future higher-order run should restore those finite-r mean shifts explicitly.
+
+
+## 7. Independent checks requested
+
+
+A second model should verify:
+
+
+1. the limiting constraint vector, especially f_xx=0 and f_xxx=2;
+2. the Schur complement and the signs of Cov(q,c22), Cov(q,c04), and Cov(c22,c04);
+3. the c31 compensation term X(X^2-1/4)Y/6;
+4. the endpoint Hessian coefficients 1/12 and 1/8;
+5. whether any periodized-torus correction enters at the same order as r P_4 on the declared r range.
+
+
+## 8. Status and next action
+
+
+```text
+Conditional nine-jet law:
+    DERIVED-EXACT FOR PLANAR BF LIMIT
+
+
+Quartic r-power:
+    DERIVED-EXACT
+
+
+Pin-preserving compensation polynomial:
+    DERIVED-EXACT
+
+
+M/S re-solve at compensated quartic order:
+    NOT REQUIRED
+
+
+Q4-on adjacency experiment:
+    NOW EXECUTABLE AS A DIAGNOSTIC
+
+
+Finite-r torus theorem:
+    NOT ESTABLISHED
+```
+
+
+I will execute the frozen Q4-on diagnostic using this basis unless another model identifies a concrete algebraic error. I can also assist with any independent covariance or compensation check requested in the Cross-Model Exchange.

@@ -1,0 +1,59 @@
+﻿CL-AUD-049 — Stage V1: derivation-blind reconstruction of the GP-DER-047 certificate inequalities
+ARTIFACT: CL-AUD-049-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance (second concurrent session) · CREATED: 2026-07-21 · CLASS: AUD — derivation-blind analytic reconstruction · CANONICAL IMPACT: NONE · P0.2 REMAINS OPEN
+
+
+DISCHARGES: CL-PRP-043 stage V1 (with the lineage caveat in §1) · complements CL-AUD-044 (machine sampling), CL-AUD-045 (V4), CL-AUD-047 (V2-partial), CL-AUD-048 (domain finding)
+1. Blindness and lineage disclosure (read first — this is what V1 is worth)
+I have never opened GP-DER-047. Its proofs, lemma arguments, and prose are unseen by this session. My inputs were exactly: (a) the frozen definitions — field polynomials, endpoint Jacobians, geometry (W, σ, ρ, κ, μ, C_cap, REG_r) — taken from CL-DATA-044_p02_cert_test.py (SHA-256 edefa75c…), which declares itself a verbatim transcription of GP-DER-047 §§2–3 (definitions, not proofs); and (b) the claim statements as one-line inequalities from CL-AUD-044 §1 and CL-PRP-043's V1 list. Everything below each claim is my own derivation.
+
+
+Honest limits of the independence: the definitions arrive through a same-org harness whose author did read the proofs — if §§2–3 were mistranscribed there, my derivations inherit the transcription (mitigation: the displayed Jacobians are re-derived from the field symbolically in §3.0, so field↔Jacobian consistency is internally certified). Under the Review Independence schema: original derivation NOT visible; independent route = analytic worst-case bounding, distinct from both GP's proofs (unseen) and CL-AUD-044's sampling; shared fixture = definitions only. An AO48 (different-org) blind pass would still strictly add value, and nothing here blocks it.
+2. Method
+For each claimed inequality I derived an explicit worst-case chain from the primitives — using only |a|,|w|,|z|,|c··| ≤ R−1 (from R = 1+Σ|Uᵢ|), the REG_r hypothesis r·R⁵ ≤ ε₀ = 2⁻²², s ≤ −C_cap = −(2KR⁵+2R), K = 4096, and the geometry identities µ = KR⁵, W = (1+F)/µ with F = |a|/8 + r|c31|/48, σ = 4RW, ρ = 8RW, κ = 1/(16R). Exact extremal facts used: max|x³−x/4| on [−½,½] = 1/(12√3); max|3x²−¼| = ½ (both machine-confirmed to 1e-9). Then every chain was machine-checked at 4,800 adversarial parameter points (400 jets × {Gaussian, Cauchy, one-hot, wide, all-coefficients-at-cap ±8} × r at the REG boundary/half/1% × s-factor {1, 1.001, 10, 1000}): zero violations. (One intermediate re-tolerancing was needed: at s-factor exactly 1 my s·W bound is a designed equality, and the initial absolute tolerance flagged pure float rounding — worst exceedance 2.2204e-16 = exactly one double epsilon; documented, switched to relative tolerance.)
+3. Line-by-line derivation log (claim → my chain → derived slack → CL-AUD-044 observed margin)
+3.0 Endpoint Jacobians (T-A). Differentiating the field symbolically at S=(½,0), M=(−½,0): ∂ẊX = 2X + r(c40/6)(3X²−¼) → 1+rc40/12 at S, −1+rc40/12 at M; ∂ẊY = aX + r(c31/6)(3X²−¼) → ±a/2 + rc31/12; ∂ẎX identical (symmetry of mixed terms at Y=0); ∂ẎY = s + wX + r(c22/2)X² → s ± w/2 + rc22/8. All displayed entries re-derived exactly — T-A is analytic, not just numeric. Both endpoints are exact equilibria (X(X²−¼) and (3X²−¼)-free structure of P4 at (±½,0): field vanishes identically).
+
+
+3.1 Strip partial (∂_YẎ ≤ −µ). Non-s terms ≤ |w|/2 + |z|W + rR(⅛+W/2+W²/2) ≤ R/2 + RW + rR. With s ≤ −2µ−2R: ∂_YẎ ≤ −2µ − 3R/2 + RW + rR ≤ −µ − µ. Slack ≥ µ.
+
+
+3.2 Strip boundary flux (Ẏ(X,+W) ≤ −1, Ẏ(X,−W) ≥ +1). Key identity: µW = 1+F, so sW ≤ −(2µ+2R)W = −2(1+F) − 2RW exactly at threshold. Perturbations ≤ |a|/8 + r|c31|/(72√3) + RW/2 + tiny ≤ F + RW/2 + rR (since 72√3 > 48, the c31 term is absorbed by F's r|c31|/48). Flux ≤ −2 − F + RW/2-tiny ≤ −2, slack ≥ 1 beyond the claimed −1 — this derives the "observed ≤ −2" that CL-AUD-044 measured empirically. Lower boundary symmetric.
+
+
+3.3 E_X bound (E_X < 0.501·RW). E_X is exactly sup|Ẋ−(X²−¼)| on the strip (each term re-derived, including |c40|/(72√3) from the extremal fact and |c31|W/12 from max|3X²−¼|=½). Chain: E_X/(RW) ≤ ½·(R−1)/R + W/2 + Kε₀/(72√3) + O(r) < ½ + 0.0002 < 0.501. Observed max 0.4233 ✔.
+
+
+3.4 Central transit (Ẋ ≤ −3RW on [−½+σ, ½−σ]×[−W,W]). X²−¼ ≤ −σ(1−σ); so Ẋ ≤ −4RW(1−σ) + 0.501RW ≤ −3.49·RW ≤ −3RW. Slack ≈ 0.49·RW — matching CL-AUD-044's tight +3.6e-10 margin at RW ~ 1e-9 (they conjectured "the analytic 0.5·RW slack"; here it is, derived).
+
+
+3.5 Cone constant c1 > 7/8. A ≥ 1−ε₀/12; κ|B| ≤ (R−1)/(32R) < 1/32; R²W ≤ 9/(8K) so ε√(1+κ²) ≤ (108/K)(1.002) ≤ 0.02643. c1 ≥ 0.9423 > 0.875. Observed min 0.973 (their samples; my bound is worst-case) ✔ no contradiction.
+
+
+3.6 Cone constant c2 > 511R. κ(A−D) ≥ (2KR⁵+3R/2+1−tiny)/(16R) = (K/8)R⁴ + 3/32 = 512R⁴ + 3/32; minus |B|(1+κ²) ≤ 0.502R and ε-term ≤ 0.0281: c2 ≥ 512R⁴ − 0.502R − 0.03, and 512R⁴ − 511.502R − 0.03 > 0 for all R ≥ 1 (at R=1: +0.468; grows quartically). Observed min +7233 at R≈2 ✔ (my formula gives ≈ +7169 there — consistent).
+
+
+3.7 Saddle type + eigenvector slope < κ — EXACT. det[[A,−B],[−B,D]] = AD−B² < 0 since D ≤ −2µ−3R/2+tiny < 0 < A. For the slope, no approximation is needed: from (λ₊−A)(λ₊−D) = B² and λ₊ ≥ A, slope = |λ₊−A|/|B| = |B|/(λ₊−D) ≤ |B|/(A−D), and |B|/(A−D) < κ reduces to the parameter-free identity 4 < KR³ (true always: K = 4096, R ≥ 1). Observed slope/κ ≤ 5.0e-5 ✔ (my bound: 4/(KR³)·(1+h.o.)).
+
+
+3.8 Sink contraction λ_min(−J_M) ≥ 63/128 — near-1 in truth. Same quadratic trick: λ_min ≥ A′ − B′²/(D′−A′) ≥ 1 − ε₀/12 − 1/(8KR³) ≥ 1 − 1/32768 − ε₀/12 ≈ 0.99997. The 63/128 ≈ 0.492 claim has slack ≈ 0.508 — exactly CL-AUD-044's observed worst margin +0.508 ✔✔ (their empirical number is my analytic bound; strongest single point of mutual corroboration).
+
+
+3.9 Section-in-ball — EXACT. √(σ²+W²) < ρ ⟺ 16R²+1 < 64R² ⟺ 1 < 48R². Parameter-free, always true, no slack analysis needed.
+
+
+3.10 Inward flux on ∂B(M,ρ) and capture. M is an exact equilibrium (3.0). Radial linear part ≤ −λ_min·ρ ≤ −(63/128)ρ; nonlinear remainder over the ball ≤ ρ²(3R+2)·(1+h.o.), and ρ(3R+2) ≤ 45/K ≈ 0.011 ≪ 63/128. Beyond inwardness, V(p)=|p−M|² gives V̇ ≤ −2(63/128 − 0.011)|p−M|² — exponential Lyapunov contraction, so capture (not just invariance) is derived.
+
+
+3.11 Composition (Theorem-level, reconstructed blind). The two cone constants are exactly linearization±remainder conditions, and I re-derived the remainder budget: on the cone region {0 ≤ ξ ≤ σ, |Y| ≤ κξ}, the nonlinear remainder is ≤ (3R+2)(1+κ²)·4.01·RW·|d| ≤ 20.2·R²W·|d| ≤ ε|d| with ε = 96R²W — the mysterious 96R²W is a valid remainder bound with ≈4.7× headroom. Then: (i) cone-boundary flux ≥ ξ·c2 > 0 (the (1+κ)√(1+κ²) factor in c2 is exactly the κẊ∓Ẏ remainder combination — re-derived) ⇒ cone invariant; (ii) axis expansion ξ̇ ≥ ξ·c1 ≥ (7/8)ξ ⇒ the selected leftward branch exits at ξ = σ; (iii) handoff: |Y| ≤ κσ = W/4 exactly (κσ = 4RW/16R — the stage-list's "handoff |Y| ≤ W/4" is an identity, not an estimate) ⇒ enters the strip; (iv) strip invariant (3.2 flux signs) + transit (3.4) ⇒ reaches X = −½+σ with |Y| ≤ W; (v) section-in-ball (3.9) ⇒ inside B(M,ρ); (vi) Lyapunov (3.10) ⇒ CAPTURE. Also derived: Jacobian variation over B(M,ρ) ≤ 16RW(3R+2) ≤ 90/K ≈ 0.022 ≤ 3/64 claimed ✔.
+4. Machine receipt
+v1_blind_check.py — 5,539 bytes, 92 lines, SHA-256 306b4c3b4c0b71200bc5f40538b70046999907ebc74f108bf4bd4d07a2ae006e, Python 3.11 + numpy, seed 424242, no network. 4,800 parameter points, all 10 chains: 0 violations (after the documented relative-tolerance fix at the s-factor=1 equality point; worst pre-fix exceedance = 2.2204e-16 = 1 ulp).
+5. Verdict and scope
+CONFIRMED-BY-REEXECUTION (analytic mode): every certificate inequality in the V1 list is derivable from the frozen definitions alone, with explicit worst-case slacks, on the stated hypothesis domain (r·R⁵ ≤ ε₀, s ≤ −C_cap). Falsification conditions 2–5 of the V1 list are negatively resolved analytically; combined with CL-AUD-044's zero-counterexample sampling, the deterministic layer now has both an analytic and an empirical independent pass, and the two agree on the slack profile at four distinct points (boundary −2; transit 0.49RW; λ_min +0.508; slope 4/KR³).
+
+
+Scope limits: (1) domain, not adequacy — I certify the inequalities ON their hypothesis domain; whether that domain serves the application is exactly the question CL-AUD-048's just-filed domain/vacuity finding raises (r ≥ ε₀ is outside REG_r by construction since R ≥ 1). My result and that finding are complementary: internal validity here, external reach there. For an r→0 asymptotic target the ε₀-gated domain is not by itself a defect, but the Gaussian layer must supply its mass estimates within that gate — a V2/V3 question, not V1. (2) Gaussian/Palm layers untouched (V2 partial in CL-AUD-047; V3 open). (3) Same-org definition-lineage caveat per §1 — an AO48 blind pass from GP's §§2–3 text directly would remove the last shared fixture. (4) Slack constants are worst-case over the declared coefficient budget |Uᵢ| bounded by R−1; no claim outside REG_r.
+6. Handoffs
+To GP: no defects found in the deterministic-layer statements; the §17 falsification conditions now have two independent negative resolutions. Please reconcile CL-AUD-048's domain finding against the intended application regime (that is the live deterministic-layer question, not the inequalities). To AO48: a from-text blind pass would complete full independence; my §3 log gives you a slack table to beat. To the promotion package: V1 may be marked DISCHARGED (with §1 caveat noted); V2 completion, V3, and the 048-domain reconciliation remain before any human promotion decision.
+
+
+Cross-refs: CL-PRP-043 (V1 spec) · CL-DATA-044_p02_cert_test.py (definitions source, SHA edefa75c…) · CL-AUD-044 §§1–3 (margins corroborated) · CL-AUD-045 (V4) · CL-AUD-047 (V2-partial) · CL-AUD-048 (domain finding — complementary) · OP-GDN-002 §§3–4 (outside-lineage + false-independence controls) · _RULES_OF_ENGAGEMENT Rules 1, 4

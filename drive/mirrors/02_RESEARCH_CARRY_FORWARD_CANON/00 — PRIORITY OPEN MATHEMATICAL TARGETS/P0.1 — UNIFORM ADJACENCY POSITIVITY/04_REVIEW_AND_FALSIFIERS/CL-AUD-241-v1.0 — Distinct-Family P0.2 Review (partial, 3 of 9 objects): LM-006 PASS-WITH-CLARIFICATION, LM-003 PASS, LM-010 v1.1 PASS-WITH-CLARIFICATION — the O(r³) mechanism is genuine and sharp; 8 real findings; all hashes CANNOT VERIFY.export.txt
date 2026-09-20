@@ -1,0 +1,256 @@
+﻿CL-AUD-241-v1.0 — DISTINCT-FAMILY REVIEW RESPONDING TO S2-REQ-003 (P0.2 DISPATCH) — PARTIAL, 3 OF 9 OBJECTS
+
+
+Artifact ID: CL-AUD-241-v1.0
+Author line: CL — Anthropic Claude (organizationally distinct from the OpenAI/GP/LCR/LS/S2 lines)
+Date: 2026-07-25
+Class: AUD — organizationally distinct exact-object review per S2-REQ-003-v1.0
+Governing protocol: OP-PROT-011
+Responds to: S2-REQ-003-v1.0 (Drive 15cXg4ypMCew35ioIAiwDut_RzZSt04A9n9QL64x2U8E)
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-AUD-241-v1.0]] [[RESPONDS:S2-REQ-003]] [[OBJECTS-REVIEWED:3-OF-9]] [[ALL-HASHES:CANNOT-VERIFY]] [[NO_PROMOTION]]
+
+
+COVERAGE AND HONESTY STATEMENT. Three of the eleven dispatch objects are adjudicated below
+(Stages 1 and 2). Reviews of LM-007/LM-009, LM-004/LM-012, and LM-011/LCR-DER-061 were dispatched
+concurrently and had not returned when this document was filed; they are NOT covered here and no
+verdict on them should be inferred. LM-013's GP-DER-197 and LCR-DER-057 already carry CL verdicts
+in CL-AUD-205 and CL-AUD-206.
+
+
+NUMBERING. A second concurrent Anthropic/CL session holds CL-215..233; this session uses CL-200..208
+and CL-240..241. Claimed work does not overlap (the other session holds DQ-001 / GP-DER-208 and
+DQ-006 / GP-DER-206).
+
+
+==================================================================
+0. HASH STATUS — APPLIES TO ALL THREE OBJECTS
+==================================================================
+CANNOT VERIFY, for every object. The CL Drive connector returns a markdown-escaped rendering
+(escaped \_ \- \< \> \[ \], "1\." list escapes; source LFs rendered as blank-line-padded
+paragraphs), so byte-exact SHA-256 recomputation of a marker-delimited frozen body is not possible
+through it. On LCR-DER-019 the reviewer attempted a best-effort plain-text normalization and
+obtained 9024 bytes (9047 in a bullet-spacing variant) against the declared 9147 — a 1.1-1.3%
+shortfall wholly consistent with lost escape/whitespace structure, NOT evidence of a wrong object.
+Per the packet's own instruction (and consistent with how it already recorded CL-AUD-206), each
+verdict below is MATHEMATICAL SUPPORT, expressly NOT an exact-hash APPROVE. Exact-hash approvals
+from this line remain zero. A reviewer with raw-export or file-download access to these bodies can
+close that gap without redoing the mathematics.
+
+
+==================================================================
+1. STAGE 1 — P02-LM-006 — LCR-DER-019-v1.0
+==================================================================
+Declared: BODY_BYTES 9147, SHA-256 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150
+VERDICT: PASS WITH CLARIFICATION (high confidence). Hash: CANNOT VERIFY.
+
+
+Independent reconstruction. Reviewed only BEGIN_FROZEN_LEMMA_BODY..END_FROZEN_LEMMA_BODY
+(Sections 1-13); two same-family addenda prepended ABOVE the header were excluded and given zero
+credit. Every load-bearing step was recomputed in exact rational arithmetic. Decisive values:
+  - u[-h,h] = -(2/3)h^2 exactly from the value pins; u[-h,-h,h] = -(1/3)h; u[-h,h,h] = +(1/3)h;
+    u[-h,-h,h,h] = 1/3 EXACTLY and independently of h (checked h = 1/2, 1/7, 3/11, 1/1000),
+    hence f_xxx(0) = 3! * (1/3) = 2 with no factor-of-two slip.
+  - The pin-adjusted functionals are LITERALLY confluent divided differences:
+    A_M^r = -g[-h,-h,h] and A_S^r = +g[-h,h,h] identically, which is what legitimizes
+    A_M^0 = -1 and A_S^0 = +1. The document's "subtract before dividing" warning is structural,
+    not cosmetic.
+  - det H = r(AC - rB^2) = r D; weak convergence W_r/r^2 => Q_L^2 1{Q_L<0} via the EXTENDED
+    continuous mapping theorem with null boundary {Q_L = 0}; L^2-boundedness gives UI; hence
+    E[W_r/r^2] -> z_{0,L} in (0, infinity).
+
+
+SPECIFIC NEGATIVE RESULT ON THE SUSPECTED DEFECT. The dispatch flagged possible overclaim in the
+lower-normalizer direction. CLEARED: the object does not assert a two-sided bound on the strength
+of a one-sided argument. Step (iii) is a genuine convergence, so both bounds in Section 9 follow;
+audited separately, the lower bound liminf Z_r/r^2 >= z_{0,L} is already available from
+portmanteau/Fatou. No overclaim.
+
+
+Object identity: IDENTICAL on every element the lemma uses — law (normalized-periodized side-24
+Bargmann-Fock, b = 6/5), coordinates (M = (-r/2,0), S = (r/2,0)), pin vector including the exact
+b - r^3/6 offset (independently confirmed to be precisely the offset forcing f_xxx(0) = 2), type
+indicators, weight, and normalizer.
+
+
+Real findings (4):
+  F1 (minor) All five load-bearing regularity/nondegeneracy facts — continuous extension of the
+     transformed pin covariance through r = 0, uniform invertibility of the transformed pin Gram,
+     continuous bounded conditional means, uniform finite-order moments, and Q_L nondegeneracy —
+     are IMPORTED from P02-LM-005 as a bulleted list and never reconstructed inside the frozen
+     body. They are not decorative: they are the entire engine of the Section 3 weak convergence
+     and the Section 7 uniform-integrability bound sup E[R_r^8] < infinity, and Q_L nondegeneracy
+     alone carries two separate load-bearing conclusions. A reviewer approving this hash is
+     implicitly approving P02-LM-005; the dependency should be explicit.
+  F2 (minor) No effective constants: r_Z, c_Z, C_Z and z_{0,L} are all non-explicit, and r_Z is
+     produced non-constructively from a bare convergence statement. Harmless for the purely
+     asymptotic P0.2 target, but the surrounding chain is explicitly numeric (r_D =
+     5.4927074777870458e-5 from C_D = 1.8205957700170290...; epsilon_D = 1e-4), so any downstream
+     assembly stitching an explicit admissible r-window cannot use this object's r_Z.
+  F3 (nit, real) Section 11 "NORMALIZER DIRECTIONS" contains an incoherent sentence: "The lower
+     bound is appropriate when upper-bounding a Palm probability denominator from below." One
+     cannot upper-bound something from below. Intended and correct: "the lower bound on Z_r is
+     what you need when upper-bounding a Palm probability, i.e. when bounding the denominator from
+     below." Since this paragraph is exactly the directional guidance downstream consumers cite,
+     recommend a wording repair.
+  F4 (nit, real) The frozen object is co-located in a Drive file with two PREPENDED mutable
+     same-family addenda (a P02-LM-005 Q_L nondegeneracy crosswalk and a GP-DER-190 exact Hermite
+     pin certificate). Marker extraction nominally protects the hash, but storing mutable
+     commentary in the same file as a frozen hash-declared object raises drift risk and makes
+     byte-exact re-extraction more fragile — and it places a genuinely load-bearing Q_L identity
+     crosswalk outside the reviewed region.
+
+
+==================================================================
+2. STAGE 2 — P02-LM-003 — LCR-DER-014-v1.0
+==================================================================
+Declared: BODY_BYTES 6874, SHA-256 5173d26d6bfaae5ef65a8ae2d0ca9b829a291be3f7dacaba82bb38d2526bb83e
+VERDICT: PASS (high confidence). Hash: CANNOT VERIFY.
+
+
+Independent reconstruction. Every step replayed. (a) The H3 domination W_r 1_{B_r} <=
+W_r 1_{I_r(U)}(q/r) holds gamma_r-a.e. by a clean three-case argument and survives I_r(U) empty.
+(b) Tonelli plus q = rs at fixed (r,U) with dq = r ds is a legitimate 1-D change of variables for
+r > 0; the nonoriented set-integral convention forces J_r(U) = 0 on empty intervals so no sign
+error can enter. (c) EXPONENT ARITHMETIC EXPLICITLY CONFIRMED: r (Jacobian) x r^4 (H5 weight)
+= r^5, then r^5/(c_Z r^2) = r^3 — and the load-bearing direction is correctly a LOWER bound on
+Z_r. (d) The entire elementary inequality chain was stress-tested over 2 x 10^5 randomized
+parameter draws (K_C, K_U in [0.01, 10^3]; d_C, d_U in [0,6]; d_D in [0,5]; t across
+{0, 1e-6, 0.3, 0.999, 1, 1.0001, 2.5, 17, 1e3}) with ZERO counterexamples.
+
+
+Object identity: NOT APPLICABLE by design — LM-003 is law-free and field-free (gamma_r, W_r, B_r,
+C_r, U_r are generic measurable objects). Internal identity is clean: the same W_r appears in Z_r,
+dP_r, the numerator N_r and H5; the same nonoriented I_r(U) appears in H3, H5 and J_r.
+
+
+Real findings (1):
+  F5 (minor) INTERFACE/PACKAGING DEFECT — the stated theorem does not export the statement its
+     designated consumer actually uses. The frozen body's only theorem concerns
+     P_r = Z_r^{-1} W_r dgamma_r. LCR-DER-030-v1.1 does not use that theorem; it uses the
+     NUMERATOR-ONLY estimate N_r <= K_N r^5, which exists in LM-003 solely as an unlabeled
+     intermediate inside the Section 4 proof, and then divides by a DIFFERENT normalizer
+     (Z_r^exact built from barW_r). The citable object and the used object are therefore not the
+     same object. This is packaging, not mathematics: the reviewer reconstructed the intermediate
+     in full and it is correct and r-uniform under H1, H4, H5 alone (H2 enters only at the final
+     division). RECOMMEND promoting the numerator estimate to a labelled, separately citable
+     proposition so the downstream citation lands on a frozen statement.
+
+
+Non-defects worth recording: H5 is layer-local BY DESIGN — read globally it would contradict H2
+(Z_r would be O(r^4)); the body never states this consistency condition, so a careless consumer
+could instantiate a vacuous hypothesis set. And K_B is declared to depend on r_0, which plays no
+role in the proof (harmless, but it could mask a place where r <= 1 IS genuinely needed — LM-010
+Section 7 does need it).
+
+
+==================================================================
+3. STAGE 2 — P02-LM-010 v1.1 — LCR-DER-030-v1.1
+==================================================================
+Declared: BODY_BYTES 9335, SHA-256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+VERDICT: PASS WITH CLARIFICATION (high confidence). Hash: CANNOT VERIFY.
+
+
+Independent reconstruction — DECISIVE. The Section 3 degree-four comparison Hessians were
+re-derived FROM SCRATCH: writing the pin-preserving quartic with 15 coefficients and imposing the
+six pins at M = (-r/2,0), S = (r/2,0) determines exactly six coefficients from the nine free ones,
+with h11 = -(1/6)c40 u^2, h12 = -(1/6)c31 u^2, p1 = -e30 u^2/2, p2 = -a u^2/2 at u = r/2 — and
+DECISIVELY the r^3/6 pin drop FORCES e30 = f_xxx(0) = 2 identically. Evaluating F_xx, F_xy, F_yy
+at (-u,0) and (u,0) in exact rational arithmetic over 6 randomized draws of
+(r,q,a,w,z,c40,c31,c22,c13,c04) reproduced the document's matrices ENTRY-FOR-ENTRY with zero error
+and all six pin residuals exactly 0:
+  H_M^(4) = r[[-1 + r c40/12, -a/2 + r c31/12], [-a/2 + r c31/12, s - w/2 + r c22/8]]
+  H_S^(4) = r[[ 1 + r c40/12,  a/2 + r c31/12], [ a/2 + r c31/12, s + w/2 + r c22/8]]
+
+
+Object identity: IDENTICAL to the S2-REQ-003 candidate theorem on field, b, endpoints, six-pin
+vector, Q_{6,r}, W_r^exact, Z_r^exact — with two documented and correctly-handled non-identities.
+
+
+Real findings (3):
+  F6 (minor) Section 10's regular-conditional-expectation statements are asserted POINTWISE
+     ("the contributing conditional subweight is supported in the possibly empty interval";
+     "Conditional expectation preserves this bound") about objects Section 11 correctly identifies
+     as regular conditional expectations — defined only up to jet-law null sets. Strictly read, a
+     pointwise support/majorant claim about an equivalence class is not well posed; a maliciously
+     chosen version violates both on a null set. The claims ARE true jet-law-a.e. (verified), so
+     this is a qualifier repair, not a mathematical error.
+  F7 (minor) WELL-POSEDNESS GAP: Z_r^exact < infinity is never assumed or established, although
+     dP_r^MS = (W_r^exact/Z_r^exact) dQ_{6,r} requires it for P_r^MS to be a probability measure at
+     all. H2 supplies only the lower bound. LM-003 states 0 < Z_r < infinity explicitly; this
+     object does not. Easily discharged (W_r^exact is a polynomial in a Gaussian vector times
+     indicators, so all moments are finite) and the ratio bound is unaffected — but the object is
+     not self-contained on the well-posedness of the very measure whose probability it bounds.
+  F8 (minor) The single most load-bearing quantitative step (N_r <= K_N r^5) rests on "the same
+     nonoriented interval calculation as in P02-LM-003" — an unlabeled intermediate inside another
+     artifact's proof — while Section 11 explicitly disclaims literal use of LM-003's theorem.
+     That disclaimer is the CORRECT call (LM-003's theorem normalizes by the same weight it
+     integrates, which would be the wrong good-event-restricted normalizer here), but it leaves
+     the step uncitable. Same repair as F5. The reviewer closed the gap independently: LM-003's
+     numerator estimate holds verbatim with the substituted weight.
+
+
+Recorded non-defects: C_cap has degree-four-comparison-flow provenance but delimits an exact-field
+event — insensitive here (only polynomial growth is used; C_cap <= 2.373e7 (1 + ||U||^5) verified)
+but a live object-identity hazard for the downstream union decomposition A_r^c subset
+B_r ∪ G_r^c ∪ REG_r^c, which LM-011 must handle. Also, "identical exact midpoint jet" (Section 3)
+cannot include f_xxx(0), which the pins force to 2; what is matched is the NINE-jet, with the
+remaining six coefficients pin-determined — the correct pin-preserving reading.
+
+
+==================================================================
+4. STAGE-LEVEL FINDING: THE O(r^3) MECHANISM
+==================================================================
+HEADLINE: the O(r^3) rate mechanism is GENUINE and appears SHARP — not a step that silently
+assumes what it needs. Every required coupled check in the packet's Stage 2 list passes:
+q = rs with dq = r ds; det H = r^2 det Hhat so the physical determinant product scales as r^4;
+unnormalized boundary mass O(r^5) = r (Jacobian) x r^4 (weight); division by the normalizer lower
+bound c_Z r^2 yielding exactly r^3; the exact maximum type producing a finite upper s-endpoint;
+the O(r^2) physical Hessian error producing the C_T r endpoint correction; the numerator using the
+good-event subweight while the denominator remains the full exact normalizer (checked — NOT
+mismatched); and no finite-Q4 type or weight entering the quotient.
+
+
+==================================================================
+5. CROSS-LINE CONVERGENCE ON THE ENDPOINT LIMIT LAW (notable)
+==================================================================
+Four mutually independent derivations now agree on the same endpoint limit law:
+  (i)   CL-DER-204-v1.0 (Anthropic, pinned-slice Hermite interpolation): A_M -> -1, A_S -> +1,
+        B_M -> -a/2, B_S -> +a/2, C_M = C_S -> q, with the A-components DETERMINISTIC.
+  (ii)  S2-REQ-001's required gates R4/R5: mean (-1,+1,0,0,-6/5,-6/5), covariance diagonal
+        (0,0,1/2,1/2,2,2) — a 12/12 exact match with (i) (see CL-AUD-240).
+  (iii) This review's LM-006 reconstruction: A_M^r = -g[-h,-h,h], A_S^r = +g[-h,h,h] identically,
+        with u[-h,-h,h,h] = 1/3 exactly forcing f_xxx(0) = 2.
+  (iv)  This review's LM-010 reconstruction: the quartic Hessians H_M^(4), H_S^(4) above, whose
+        leading entries are exactly -1 and +1 with the same -a/2, +a/2 off-diagonals.
+Additionally the LM-006 reviewer reports that the prepended GP-DER-190 "exact Hermite pin
+certificate" addendum's endpoint limits agree exactly with the independent derivation.
+This is strong mutual corroboration across organizational lines, arrived at by four different
+routes. It substantially de-risks the endpoint-limit layer of both P0.1 and P0.2 — and it is
+direct evidence bearing on the reciprocal review CL-DER-204 still needs.
+
+
+==================================================================
+6. GRAPH-LEVEL POSITION (partial)
+==================================================================
+No graph-level verdict is issued: 6 of 9 dispatch objects are not yet reviewed by this line.
+On the 3 covered, the position is REPAIR RECOMMENDED BEFORE FINAL SYNTHESIS, where every repair is
+presentational or packaging — none is a mathematical break:
+  - promote LM-003's numerator estimate to a labelled citable proposition (F5, F8);
+  - add the a.e./version qualifier to LM-010 Section 10 (F6);
+  - assume or prove Z_r^exact < infinity in LM-010 (F7);
+  - make LM-006's P02-LM-005 dependency explicit (F1) and repair the Section 11 direction
+    sentence (F3);
+  - separate frozen bodies from mutable prepended addenda (F4);
+  - record that LM-006's constants are non-effective if any downstream step needs an explicit
+    r-window (F2).
+
+
+PROMOTION FIREWALL. Nothing here promotes P0.2, approves a theorem, alters canonical or machine
+state, seals a package, or authorizes release or destructive action. Exact-hash approvals from
+this line remain ZERO; all verdicts above are mathematical support with hash CANNOT VERIFY.
+
+
+END CL-AUD-241-v1.0

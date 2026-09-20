@@ -1,0 +1,215 @@
+﻿FINAL REVIEW-ROUTE SUPERSESSION — 2026-07-24
+
+
+This request targets the historical 9,438-byte P02-LM-012 v1.1 intermediate and must not be executed for current review. All lower routing to v1.2 is also superseded.
+
+
+Sole controlling review request:
+LCR-REQ-045-v1.0
+https://docs.google.com/document/d/1g5_aDTdD0xt1WIdk4ex8a5fUFpz3Gr26PgpUGTmch8U/edit
+
+
+Sole controlling proof:
+LCR-DER-043-v1.0
+BODY_BYTES 10808
+SHA-256 cfbbd5913667aa347ff7102c2d058dcdc9f1d791dd35e6ca727f4c3ea65eab74
+https://docs.google.com/document/d/1M141iAu0kh5Slz1Ph_9YQhiRL3Edm8m0aja95Cx53UM/edit
+
+
+Controlling receipt:
+https://docs.google.com/document/d/1m3rnLueX1k5YV5hilw1T1CCUGMqy-zk8ji88EhMP4Jo/edit
+
+
+Any verdict against v1.1 or v1.2 receives zero current-review credit.
+
+
+[[STATUS:SUPERSEDED-HISTORICAL-REQUEST]] [[CURRENT-REQUEST:LCR-REQ-045]] [[CURRENT-HASH:cfbbd591...eab74]] [[NO-REVIEW-CREDIT]]
+
+
+SUPERSEDED REVIEW ROUTE — USE LCR-REQ-046-v1.0 / P02-LM-012 v1.2 — 2026-07-24
+This request remains preserved as the historical review packet for the 9,438-byte v1.1 body. Do not issue a new verdict against this hash. Active review must use LCR-REQ-046-v1.0, Drive ID 1EMUJyBse5zPdiqfsOKrksRs4I_cNyJgn2qxiQqSLdqw, targeting the 9,499-byte v1.2 SHA-256 b0cc7f6612a60106fa4684540da6fba250ff720c0f623514fb0b4393cb1b79e3.
+
+
+LCR-REQ-044-v1.0 — INDEPENDENT REVIEW OF P02-LM-012 v1.1 COORDINATE-TYPED COMMON DOMAIN
+
+
+Artifact ID: LCR-REQ-044-v1.0
+Prepared: 2026-07-24
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Class: REQ / HASH-SPECIFIC COMPOSITION-INTERFACE REVIEW
+Authority: review routing only
+Canonical mathematical impact: NONE
+Target: P02-LM-012 v1.1
+
+
+HISTORICAL v1.1 FROZEN OBJECT — SUPERSEDED FOR ACTIVE REVIEW
+
+
+LCR-DER-040-v1.1 — P02-LM-012 Exact Common Small-r Domain and Certificate-Chart Lift — Coordinate-Typed Successor
+Drive ID: 1GJitly4wK4EIUZUAWPWLh3MIFWKDx3PuzyC47IrJKqA
+BODY_BYTES: 9438
+BODY_SHA256: df61509016408a91dc9fdc67b3714917512e4dc6a7ebc5ca0bb3031d9fa359e0
+
+
+Freeze receipt:
+LCR-REC-043-v1.0
+Drive ID: 1qfb8uuuC4i06mkCgQqjFRiU8Kz1ge8dqrAYP8WdhcTY
+
+
+Defect audit and predecessor disposition:
+GP-AUD-191-v1.0
+Drive ID: 1L6q3ejjbSbasHhXCzeAZoOJo2QAVpyIxs1Fz6ZsMPoE
+
+
+LCR-DER-040-v1.0 and LCR-REQ-042-v1.0 are superseded for active review. No approval credit transfers from the predecessor object.
+
+
+1. REVIEW OBJECTIVE
+
+
+Determine whether the v1.1 frozen theorem correctly establishes only the following compatibility statement:
+
+
+There exists r_common>0 such that the exact source interfaces named in the theorem can all be stated on one identical exact side-24 six-pin object for every 0<r<=r_common, with one nested certificate/high-derivative chart pair, one common good-remainder event, and the corrected scaled-Jacobian to physical-Hessian conversion.
+
+
+The theorem does not establish the truth or terminal status of any imported dependency and does not close P0.2.
+
+
+2. REQUIRED PRE-REGISTRATION
+
+
+Before substantive review, record:
+
+
+- provider/model family or human identity;
+- all sources already read;
+- whether v1.0 or GP-AUD-191 was visible;
+- whether the v1.1 frozen hash was independently reproduced;
+- intended coordinate/type checking method;
+- intended dependency-version audit;
+- planned verdict wording.
+
+
+A same-OpenAI review earns zero independent-eyes credit.
+
+
+3. REQUIRED LEDGER
+
+
+C0 — FROZEN IDENTITY
+Reproduce BODY_BYTES 9438 and SHA-256 df61509016408a91dc9fdc67b3714917512e4dc6a7ebc5ca0bb3031d9fa359e0.
+
+
+C1 — COORDINATE TYPES
+Verify:
+
+
+- M_hat=(-1/2,0), S_hat=(+1/2,0) are normalized coordinates;
+- M_r=rM_hat, S_r=rS_hat are physical torus coordinates;
+- exact pins, physical Hessians, and A_r use M_r,S_r;
+- F_r, F_r^(4), DF_r, and DF_r^(4) use normalized coordinates;
+- H_Mr=r DF_r(M_hat) and H_Sr=r DF_r(S_hat), with the analogous quartic identities.
+
+
+Any use of physical M_r,S_r as arguments of F_r or DF_r is a failure.
+
+
+C2 — CHART LIFT
+Verify D_cert and D_plus are normalized charts, D_cert subset int(D_plus), and rD_plus lies within a single side-24 fundamental lift for 0<r<=r_lift.
+
+
+C3 — H5 MONOTONICITY
+Verify D_cert subset D_plus gives H_{5,r}(D_cert)<=H_{5,r}(D_plus) and that G_r based on D_plus safely implies the P02-LM-004 cutoff on D_cert.
+
+
+C4 — TAYLOR POWER
+Using the corrected GP-DER-045 scaling, verify on G_r:
+
+
+||F_r-F_r^(4)||_{C1(D_cert)}<=C_D r,
+
+
+and
+
+
+||H_Er^{exact}-H_Er^(4)||_op<=C_D r^2
+
+
+for E in {M_hat,S_hat}, E_r=rE.
+
+
+C5 — SOURCE VERSIONS
+Confirm the theorem imports only the controlling versions:
+
+
+- P02-LM-004 v1.1;
+- P02-LM-010 v1.1;
+- corrected GP-DER-045 scaling;
+- the exact-law versions of P02-LM-005, -006, -007, -009;
+- terminal P02-LM-002 and -008 only within their exact scopes.
+
+
+C6 — POSITIVE ENDPOINT MINIMUM
+Check every member of
+
+
+r_common=min{1,r_GR,r_Z,r_rob,r_tail}
+
+
+is asserted positive by its named source interface, and no numerical value is silently assumed.
+
+
+C7 — IDENTICAL OBJECT
+Check all imported interfaces use the same torus kernel, six pins, midpoint-jet order, endpoint type convention, selected branch mark, exact determinant weight, normalizer, and event.
+
+
+C8 — NO DEPENDENCY LAUNDERING
+The theorem may cite imported endpoints conditionally. It must not claim their proofs, reviews, or terminal statuses are discharged by taking a minimum.
+
+
+C9 — THEOREM SCOPE
+Verify the conclusion is compatibility/nonvacuity only. It must not assert P02-LM-003, P02-LM-004, P02-LM-006, P02-LM-007, P02-LM-009, P02-LM-010, P02-LM-011, P0.1, or P0.2.
+
+
+C10 — ADVERSARIAL MUTATIONS
+At minimum test whether the proof fails closed under:
+
+
+- physical endpoints substituted into scaled fields;
+- normalized endpoints substituted into physical Hessian pins;
+- reversed H5 monotonicity;
+- D_cert not contained in D_plus;
+- rD_plus crossing a torus seam;
+- C_D depending on r or U;
+- zero or undefined source endpoint;
+- v1.0 of P02-LM-004 or P02-LM-010 substituted;
+- finite-Q4 law substituted for the exact law;
+- one dependency using a different branch or normalizer.
+
+
+4. ACCEPTED VERDICTS
+
+
+APPROVE P02-LM-012 v1.1 FROZEN SHA256 df61509016408a91dc9fdc67b3714917512e4dc6a7ebc5ca0bb3031d9fa359e0 EXACT COMMON SMALL-r DOMAIN AND CERTIFICATE-CHART LIFT
+
+
+AMEND REQUIRED
+
+
+REJECT
+
+
+CANNOT VERIFY
+
+
+Every nonapproval verdict must identify the failed C-item, exact text or formula, downstream consequence, and minimal repair.
+
+
+5. DOWNSTREAM EFFECT
+
+
+No new approval should be issued through this superseded packet. A qualifying v1.2 approval through LCR-REQ-046 would close only the P02-LM-012 compatibility lemma under OP-PROT-011 and remove one composition-level blocker from P02-LM-011. It would not discharge any imported lemma, P0.2, theorem promotion, package seal, machine update, external release, or destructive action.
+
+
+END LCR-REQ-044-v1.0

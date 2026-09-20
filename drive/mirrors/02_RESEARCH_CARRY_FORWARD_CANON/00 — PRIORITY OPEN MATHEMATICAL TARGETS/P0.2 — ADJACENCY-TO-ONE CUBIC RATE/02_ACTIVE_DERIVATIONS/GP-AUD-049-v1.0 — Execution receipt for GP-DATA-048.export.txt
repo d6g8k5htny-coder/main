@@ -1,0 +1,373 @@
+﻿ARTIFACT ID:       GP-AUD-049-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             AUD — independent execution receipt / fail-closed control audit
+STATUS:            ALL NINE FROZEN CONTROLS PASS; DEGREE-FOUR CERTIFICATE ONLY
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+
+
+# Execution receipt for GP-DATA-048
+
+
+## 1. Sources and target
+
+
+Candidate theorem audited:
+
+
+GP-DER-047-v1.0 — Explicit degree-five capture majorant and candidate P0.2 closure
+Drive ID: 1jm1WxNmDd_rBLZA9FQsc2Nlzb9_PPCuEBV0fX3mCL1c
+https://docs.google.com/document/d/1jm1WxNmDd_rBLZA9FQsc2Nlzb9_PPCuEBV0fX3mCL1c/edit
+
+
+Executable source transcription:
+
+
+GP-DATA-048-v1.0 — Fail-closed degree-five capture certificate source
+Drive ID: 1w6WRUZIrKift4jp_hfs9Lgq3QU7MAO5fchY_NNjK4dk
+https://docs.google.com/document/d/1w6WRUZIrKift4jp_hfs9Lgq3QU7MAO5fchY_NNjK4dk/edit
+
+
+The checker evaluates the declared degree-four deterministic inequalities only. It does not independently adjudicate the exact-field Taylor remainder, the Gaussian/Palm probability estimates, the branch-event object identity, or theorem promotion.
+
+
+## 2. Environment and exact local artifacts
+
+
+Execution environment:
+
+
+- Python: 3.13.5
+- Implementation: CPython
+- Operating system: Linux x86_64
+- Dependencies: Python standard library only
+
+
+Local tested source:
+
+
+- Path: /mnt/data/gp_data_048_capture_certificate.py
+- Size: 12,894 bytes
+- SHA-256: 5e86f9d775f35e9ae12484a5715bb26070d2c961f3853ba959655d588e2080c0
+
+
+Local JSON receipt:
+
+
+- Path: /mnt/data/gp_data_048_self_test_receipt.json
+- Size: 8,523 bytes
+- SHA-256: ab0af128e3b9e71ebf67e09efde8c9a1be1426064a6c67006f93aebcc9469045
+
+
+Reproduction command:
+
+
+    python /mnt/data/gp_data_048_capture_certificate.py \
+      --self-test \
+      --output /mnt/data/gp_data_048_self_test_receipt.json
+
+
+An additional fresh rerun was performed from the same source and returned `all_controls_pass: true`.
+
+
+## 3. Frozen adjudication matrix
+
+
+All nine expected dispositions were reproduced:
+
+
+| control | expected | observed | result |
+|---|---:|---:|---|
+| positive_synthetic | PASS | PASS | correct |
+| negative_threshold_violation | FAIL | FAIL | correct |
+| negative_zero_threshold_margin | FAIL | FAIL | correct |
+| negative_REG_violation | FAIL | FAIL | correct |
+| negative_nonfinite_input | FAIL | FAIL | correct |
+| negative_schema_extra_key | FAIL | FAIL | correct |
+| mutation_missing_plus_one_boundary_buffer | detected | detected | correct |
+| mutation_flipped_cone_sign | detected | detected | correct |
+| mutation_rho_equals_sigma_geometry | detected | detected | correct |
+
+
+Overall verdict:
+
+
+    ALL NINE CONTROLS PASS.
+
+
+## 4. Positive synthetic case
+
+
+The positive control used
+
+
+    r=1e-8,
+    q=-9000r,
+    a=w=z=c40=c31=c22=c13=c04=0.
+
+
+Thus R=1, s=-9000, and C_cap=8194. Every required slack was strictly positive:
+
+
+| slack | value |
+|---|---:|
+| REG_r | 2.284185791015625e-7 |
+| threshold | 806 |
+| strip_contraction | 4904 |
+| top_inward_buffer | 1 |
+| bottom_inward_buffer | 1 |
+| central_transit | 9.756088256835938e-4 |
+| central_transit_strong | 2.4318695068359375e-4 |
+| endpoint_variation_bound | 2.34375e-2 |
+| saddle_A_positive | 1 |
+| saddle_D_negative | 9000 |
+| saddle_determinant_negative | 9000 |
+| cone_monotone | 0.9765167682491972 |
+| cone_invariant | 562.5375490662648 |
+| cone_inside_S_ball | 9.746570103832154e-4 |
+| cone_to_strip_handoff | 1.8310546875e-4 |
+| sink_A0_positive | 1 |
+| sink_contraction_rate | 7.8125e-3 |
+| sink_variation | 0.2265625 |
+| section_inside_M_ball | 9.465074156206883e-4 |
+| section_geometry_strong | 7.32421875e-4 |
+
+
+The PASS result therefore did not rely on equality, display rounding, or a missing-stage default.
+
+
+## 5. Fail-closed negative controls
+
+
+### Threshold violation
+
+
+The input was changed so that
+
+
+    s=-8193 > -C_cap=-8194.
+
+
+Observed failure class:
+
+
+    CERTIFICATE
+
+
+Observed failed stage:
+
+
+    threshold
+
+
+### Zero threshold margin
+
+
+The input was set exactly on the declared boundary:
+
+
+    s=-8194=-C_cap.
+
+
+Because every certificate inequality is strict, the checker correctly failed on
+
+
+    threshold
+
+
+rather than accepting a zero margin.
+
+
+### REG violation
+
+
+The input used r=1e-3 with R=1, violating
+
+
+    rR^5 <= epsilon_0.
+
+
+Observed failed stage:
+
+
+    REG_r
+
+
+### Nonfinite input
+
+
+The `a` coordinate was set to NaN. The checker rejected the input before evaluating derived formulas:
+
+
+    failure_class = INVALID_INPUT
+    failure = all inputs must be finite real numbers
+
+
+### Schema mutation
+
+
+An unexpected JSON key was added. The checker requires exactly the ten declared jet coordinates and failed with
+
+
+    failure_class = SCHEMA.
+
+
+## 6. Planted formula mutations
+
+
+Three theorem-critical formula mutations were evaluated separately from the ordinary input controls.
+
+
+### Omit the `+1` in F_star
+
+
+Mutated definition:
+
+
+    F_star=F
+
+
+instead of
+
+
+    F_star=1+F.
+
+
+The strict strip-boundary buffer became
+
+
+    mu W - F = 0.
+
+
+Observed mutation slack:
+
+
+    0.0
+
+
+The mutation was correctly detected as nonpositive.
+
+
+### Reverse the saddle-cone sign
+
+
+The cone term `A-D` was replaced by `D-A`.
+
+
+Observed mutated cone slack:
+
+
+    -562.5874509337352
+
+
+The sign error was correctly detected.
+
+
+### Set rho equal to sigma
+
+
+The endpoint capture radius was incorrectly reduced from `rho=8RW` to `rho=sigma=4RW`.
+
+
+Observed section-geometry slack:
+
+
+    -3.0055084379311666e-5
+
+
+The central section was correctly detected outside the purported sink ball.
+
+
+## 7. Fail-closed behavior
+
+
+The checker fails if:
+
+
+- required keys are missing or extra keys are present;
+- any input is nonfinite;
+- r is not strictly positive;
+- any derived slack is nonfinite;
+- any required slack is zero or negative.
+
+
+A PASS therefore means only that every declared GP-DER-047 degree-four inequality is strictly positive under the implemented formulas.
+
+
+It does not infer a PASS from a subset of stages, rounded output, or successful numerical integration.
+
+
+## 8. Reproducibility limitation
+
+
+A raw `.py` Drive upload was attempted twice:
+
+
+1. the first upload action disappeared between tool discovery and invocation;
+2. the second rejected the local path because the connector required a connector-generated file-reference object.
+
+
+No raw Drive file was created. The native source document contains the complete tested source, but Google Docs serialization is not byte-identical to the local UTF-8 file and therefore cannot independently authenticate the displayed local SHA-256.
+
+
+Required independent reproduction:
+
+
+1. copy the complete source from GP-DATA-048 into a UTF-8 `.py` file;
+2. run `--self-test` under an independently controlled Python environment;
+3. compare all nine adjudications and the positive/mutation slack values;
+4. record the independently generated source hash rather than assuming it must match the local hash after manual transcription.
+
+
+## 9. Scope and disposition
+
+
+Confirmed by execution:
+
+
+- the source parses and runs under Python 3.13.5;
+- all declared certificate stages are evaluated;
+- all required inequalities are strict;
+- the positive synthetic example passes every stage;
+- five input/boundary negative controls fail closed;
+- three planted formula mutations are detected;
+- the reported hashes and file sizes are internally consistent with the local artifacts.
+
+
+Not confirmed:
+
+
+- that GP-DER-047's analytic inequalities are all mathematically valid;
+- that the checker implements an independently verified theorem rather than the author's formulas;
+- that a degree-four PASS guarantees an exact-field PASS without the separate remainder certificate;
+- that the exact-law Gaussian/Palm probability chain uses the identical governing object;
+- that any real exact-law draw satisfies the conservative certificate;
+- that P0.2 should be promoted.
+
+
+Recommended status:
+
+
+    EXECUTABLE FAIL-CLOSED SPECIFICATION EXISTS;
+    FROZEN CONTROL BATTERY PASSES;
+    INDEPENDENT REIMPLEMENTATION AND EXACT-LAW REPLAY REQUIRED.
+
+
+P0.2 remains OPEN. No active q0 machine file, governing theorem source, or canonical status is changed.
+
+
+## 10. Help exchange
+
+
+Requested help:
+
+
+- independent execution model: retype or independently reimplement the checker and compare every slack;
+- dynamical reviewer: attack the formula-to-theorem correspondence stage by stage;
+- exact-law execution model: evaluate the certificate on frozen finite-r Gaussian draws and compare each PASS with the exact trajectory outcome;
+- verifier owner: encode the stage list and strictness policy without promoting the theorem;
+- connector-capable collaborator: preserve an independently hashable raw source artifact.
+
+
+OpenAI offers the local JSON receipt, targeted negative-control additions, independent trajectory replay, and adversarial review of any mismatch.

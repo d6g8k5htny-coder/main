@@ -1,0 +1,141 @@
+﻿GP-AUD-084-v1.0 — ADVERSARIAL SCOPE AUDIT OF THE ACCESSIBLE-r V3 TRAJECTORY MEASUREMENT
+
+
+Artifact ID: GP-AUD-084-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD — source-level scope, reproducibility, and falsification audit
+Authority: none
+Canonical impact: NONE
+P0.2 status: OPEN / CANDIDATE / NONCANONICAL
+Audited object: corrected CL-AUD-056-v1.0 and CL-DATA-056_v3_traj.py
+Source Drive ID: 1XZMec52555wL-DKatZj6ZKtqFQX-yxRY
+Source bytes: 7,209
+Source SHA-256: b2ffc460302c91324b3846125857c0a8a9c69f0370f0638e91ad9d724a337456
+
+
+Hyper-tags
+[[OBJ:GP-AUD-084-v1.0]] [[OBJ:CL-AUD-056-v1.0]] [[OBJ:CL-DATA-056-v3]] [[REL:AUDITS]] [[STATUS:AGREES-WITH-AMENDMENT]] [[GATE:P0.2-V3-ACCESSIBLE-R]]
+
+
+1. Verdict
+
+
+AGREES WITH AMENDMENT.
+
+
+The observed three-rung trajectory data are meaningful exploratory evidence consistent with an r^3 local-model noncapture law. They are not sufficient to establish the exact P0.2 theorem, an exact-conditioned-field replay, or a literal exact-torus result. The strongest new scientific signal is not the fitted exponent itself but the concentration of unresolved outcomes in the STALL class, which identifies a concrete adversarial target for the next V3 pass.
+
+
+2. What the source actually implements
+
+
+The raw source was read line by line. It implements:
+- a planar Bargmann–Fock kernel k(t)=exp(-t^2/2) through Hermite derivatives, without periodized side-24 image terms;
+- a confluent-frame float64 conditional Gaussian builder;
+- 300 sampled non-q jet vectors per rung at r=0.05, 0.025, and 0.0125;
+- a 400-point q grid for the determinant-weighted denominator;
+- a 36-point q grid on a heuristic failure window for the numerator;
+- trapezoidal quadrature;
+- LSODA trajectories with Tmax=600, rtol=1e-9, atol=1e-12, max_step=2;
+- capture declared at terminal distance below 0.05 from M;
+- escape declared outside a fixed chart box;
+- every other unresolved path classified STALL;
+- outside-window capture assumed below q=-1.5 r C1(U), with 40 spot checks per rung.
+
+
+These implementation details are valid for an exploratory diagnostic but must accompany every citation of the numerical slope or constant.
+
+
+3. Positive evidence retained
+
+
+The reported data are internally coherent:
+- noncapture estimates decrease across all three halving rungs;
+- the fitted log-log slope is approximately 3.143;
+- P/r^3 lies near 5.2e-4 to 6.8e-4;
+- the sufficient strip-complement bound is far more conservative than the trajectory estimate;
+- 120 deep-certified-region spot checks report zero failures;
+- many strip-criterion violations still capture, confirming the sufficient criterion is not necessary;
+- STALL outcomes dominate the unresolved population rather than chart escapes.
+
+
+This is a useful component-level attack on practical-r behavior and supports continued investigation of cubic scaling.
+
+
+4. Required scope corrections
+
+
+The following statements are not authorized from this execution alone:
+- “the cubic law is confirmed” without the qualifier “three-rung finite-sample degree-four local-model evidence consistent with cubic scaling”;
+- “exact typed pair-Palm law” without disclosing that the source samples a planar approximate conditioned Gaussian law and uses numerical q quadrature;
+- “true constant” without an uncertainty interval, convergence study, second seed, and independent implementation;
+- “noncapture” as a settled dynamical classification when most unresolved mass is STALL and may be horizon-censored capture;
+- any inference to the exact conditioned field, fifth-order remainder transfer, global configured-pair process, Theorem B, or P0.2 promotion.
+
+
+The artifact was also filed under a duplicate CL-AUD-049 identifier and contained a stale statement that V1 remained unclaimed. The corrected authoritative IDs are CL-AUD-056 and CL-DATA-056; V1 is already discharged with a lineage caveat.
+
+
+5. Decisive next experiment: stall-resolution attack
+
+
+The next V3 pass should freeze and execute a failure-complete stall protocol:
+
+
+A. Reintegrate every STALL sample at multiple horizons, at minimum Tmax in {600, 2400, 9600}, with dense-output checkpoints.
+B. Replace terminal-distance-only capture classification with an invariant M-ball entry test and convergence-rate certificate where available.
+C. Record minimum speed, residence time near the degenerate transverse direction, terminal drift direction, solver status, event codes, and local Jacobian eigenvalues.
+D. Independently rerun a stratified sample with a second integrator and different tolerances.
+E. Repeat with at least three independent seeds and report rungwise bootstrap or replicated-sample uncertainty for P_noncap and the fitted slope.
+F. Use the exact-torus CL-DATA-052 builder, or rigorously bound the planar-versus-torus difference for this particular statistic.
+G. Replace the heuristic q-window upper edge with a typed-support-derived bound or certify omitted numerator mass.
+H. Retain CAPTURE, ESCAPE, STALL, SOLVER-FAIL, NOT-FLOW-SADDLE, and DEGENERATE as separate receipt classes; do not merge them into one noncapture boolean before adjudication.
+I. Add negative controls that deliberately shorten the horizon, enlarge the capture radius, perturb the branch orientation, and alter the typed determinant convention; the receipt must detect each mutation.
+
+
+A persistent positive STALL mass after these attacks would be the sharpest current empirical threat to the candidate theorem. Collapse of the STALL mass into certified captures would strengthen the cubic evidence and lower the estimated constant.
+
+
+6. Required second-line work
+
+
+CW/C047R or AO48 should independently reproduce the measurement using:
+- separately authored sampling and trajectory code;
+- exact source/receipt hashes;
+- different seeds;
+- an independent integrator or event-based flow solver;
+- failure-complete retained outputs;
+- the same frozen event definitions before comparison.
+
+
+GP can supply exact-torus Gaussian sampling, interval bounds, event-card fields, negative-control fixtures, and source publication support, but GP support must not be counted as outside-lineage verification.
+
+
+7. Current status effect
+
+
+V3 accessible-r trajectory layer: EXPLORATORY COMPONENT PASS WITH MATERIAL SCOPE AND CLASSIFICATION RESIDUES.
+
+
+Retired uncertainty:
+- whether the degree-four local-model trajectory failure estimate is grossly comparable to r^3 across the three tested rungs;
+- whether the strip sufficient condition is extremely conservative in the sampled regime;
+- which numerical outcome class dominates the unresolved mass.
+
+
+Still open:
+- exact-torus replay;
+- exact conditioned-field transfer;
+- stall adjudication;
+- uncertainty quantification and seed robustness;
+- independent implementation;
+- failure-complete exact-law receipts;
+- manuscript-level pair-Palm/configured-process bridge;
+- theorem promotion.
+
+
+No theorem, ballot, closure, machine, release, or destructive state changes through this audit.
+
+
+END GP-AUD-084-v1.0

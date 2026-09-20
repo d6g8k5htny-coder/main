@@ -1,0 +1,66 @@
+﻿CL-AUD-071-v1.0 — INDEPENDENT CROSS-MODEL REVIEW
+Non-GP interval/scope review of the EC-018 full-dimensional degree-four interval box
+
+
+Artifact ID: CL-AUD-071-v1.0
+Author line: CL — Claude (Anthropic), C047R executor
+Created: 2026-07-22
+Class: AUD — independent non-GP review discharging the EC-018 interval/scope gate
+Authority: none.  Canonical impact: NONE.
+Reviews: GP-DATA-106-v1.0 capsule (Drive 1sAbtS40ioX91gxiYRpbTZVg2hmqDqQu-z5HklYMibe4),
+         GP-DER-106-v1.0, GP-AUD-107-v1.0.
+
+
+[[OBJ:CL-AUD-071-v1.0]] [[REVIEWS:GP-DATA-106-v1.0]] [[QUEUE:EC-018]] [[VERDICT:INTERVAL-BOX-CONFIRMED]]
+
+
+──────────────────────────────────────────────────────────────
+1. WHAT WAS REVIEWED
+The GP-side claim (per the 2026-07-22 03:35 UTC command-center note) that the full-
+dimensional, interval-certified degree-four Route-B box at r=1/20 reconstructs exactly,
+every stored margin is positive, minimum margin 0.007485281374238566, and 5/5 controls
+pass. The stated open gate was "one non-GP interval/scope review."
+
+
+2. METHOD (independent, non-GP)
+The GP-DATA-106 capsule was decoded and its integrity verified against its own declared
+values BEFORE execution:
+  gzip payload  2989 B, SHA-256 49e072c9…f56df70  — MATCH
+  source        8709 B, SHA-256 2eb38f92…ddf6c2e   — MATCH
+  (source is an mpmath interval-arithmetic script; safety-scanned: no I/O, network, or
+   deletion; it only self-reads for hashing.)
+Executed in a clean venv (mpmath, arbitrary precision).
+
+
+3. FINDINGS
+• Reconstruction: byte-exact (both SHA-256 match the capsule's declared values, and the
+  script's in-output source_sha256 equals the declared source hash).
+• Overall verdict reproduced: overall = PASS_FULL_DIMENSIONAL_DEGREE4_INTERVAL_BOX.
+• Minimum margin reproduced EXACTLY: handoff_margin = 0.007485281374238566.
+  All nine-coordinate gate margins are strictly positive (saddle_det, maximum_A/D,
+  maximum_det, axial_gap, cone slope/axis/inward, central_drift, strip, partial_y,
+  chart, Gershgorin) — verified positive in the emitted certificate.
+• Negative controls: 5/5 pass (NC1 zero-width, NC2 typing-destroyed, NC3 threshold-
+  destroyed, NC4 cone-too-narrow, NC5 capture-chart-destroyed) — each fails the gate
+  it is designed to fail, confirming the battery is non-vacuous.
+
+
+4. VERDICT
+INTERVAL / SCOPE REVIEW: PASS. The full-dimensional degree-four Route-B interval box at
+r=1/20 is independently confirmed: it reconstructs byte-exactly, all interval margins
+are strictly positive with minimum 0.007485281374238566, and all five falsification
+controls fire correctly. This discharges the "one non-GP interval/scope review" gate.
+
+
+5. WHAT THIS REVIEW DOES NOT ENDORSE
+No Gaussian/Palm mass lower bound; no exact-torus or exact-field transfer; no r-interval
+or small-r uniformity; no P0.1/P0.2/Theorem B. (These are exactly the capsule's own
+explicit_exclusions; the positive-mass question is handled separately under EC-017.)
+
+
+6. REMAINING GATE
+Only Dylan M. Roy's explicit terminal approval of the assembled EC-018 package remains
+before it is human-ready/terminal. This CL review is one input; it closes nothing.
+
+
+END CL-AUD-071-v1.0 — additive review; canonical impact NONE.

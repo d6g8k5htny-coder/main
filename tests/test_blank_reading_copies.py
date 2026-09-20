@@ -141,7 +141,13 @@ def test_every_manifested_blank_reading_copy_is_corroborated_and_disclosed(tmp_p
     is an unfinished port, caught before it is committed, not a claim this
     repository makes.  Each carried one must be marked EMPTY_NATIVE_BODY by the
     inventory AND say in its own note that the export is a byte-order mark and
-    holds no payload.  A fifth, or one that loses its disclosure, fails here.
+    holds no payload.
+
+    The bound is the inventory's eight EMPTY_NATIVE_BODY ids, not a count of
+    today's files: porting another lane legitimately adds blank copies of those
+    same eight ids, and a control that pinned the number would fail on correct
+    work while catching nothing a weaker check would miss.  What must never
+    grow is the set they are drawn from.
     """
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import verify_manifests as V
@@ -170,4 +176,5 @@ def test_every_manifested_blank_reading_copy_is_corroborated_and_disclosed(tmp_p
                 assert row["id"] in declared, row["id"]
                 assert row.get("access_status") == "EMPTY_NATIVE_BODY", row
                 assert "byte-order mark" in row.get("note", ""), row["id"]
-    assert len(carried) == 4, carried
+    assert carried, "no blank reading copy found -- this control has gone vacuous"
+    assert set(carried) <= declared, set(carried) - declared

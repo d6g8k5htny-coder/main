@@ -1,0 +1,257 @@
+﻿GP-AUD-112-v1.0 — EXACT-FIELD VERSUS FINITE-Q4 PALM-WEIGHT OBJECT AUDIT FOR EC-017
+
+
+Artifact ID: GP-AUD-112-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD / ERR / REG — exact-object identity and closure-scope correction
+Authority: none
+Canonical impact: NONE
+Audited objects:
+- P0.1 READ FIRST, Drive ID 1_v8gEQ835HhZ18Nyfkk3i3w90jY_6CSCwu9hcD09wOU
+- GP-DER-043-v1.0, Drive ID 15CbojXsDhXh_nfYgBEl83uaddCny_OStbHqhTOsZa9M
+- GP-DER-106, GP-DER-108, GP-AUD-109, GP-DER-110, GP-AUD-111
+- GP-CLS-PROP-020-v1.0, Drive ID 1UpWCSxTpFv-GHt6eQrZKGKAY9-vPIZfIbPFK_gX4zjo
+
+
+[[OBJ:GP-AUD-112-v1.0]] [[QUEUE:EC-017]] [[ALARM:FINITE_Q4_NOT_EXACT_FIELD_PALM]] [[STATUS:MATERIAL-SCOPE-CORRECTION]] [[REL:REQUIRES_NUMBERED_REVISION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+Material object mismatch found.
+
+
+The positive fixed-r mass derivations are valid candidate results for the finite-Q4 typed Palm law explicitly defined in GP-DER-043 from the nine midpoint jets and the normalized quartic endpoint Hessians.
+
+
+They do not, without an additional residual/Hessian transfer argument, prove positive mass under the exact full-field P0.1 law whose weight is
+
+
+|det H_M(f) det H_S(f)|
+
+
+with type indicators computed from the exact endpoint Hessians of the full conditioned field.
+
+
+Therefore:
+
+
+- GP-DER-106 degree-four continuum capture box remains valid at the degree-four layer;
+- GP-DER-108/110 qualitative and numerical finite-dimensional mass results remain valid after relabeling the law finite-Q4;
+- GP-AUD-109/111 remain source/arithmetic evidence under the corrected scope;
+- GP-CLS-PROP-020-v1.0 is not closure-ready as written and is superseded for review by GP-CLS-PROP-020-v1.1;
+- exact full-field typed-Palm mass, exact-field capture, adjacency A_r, P0.1, and uniform-r positivity remain open.
+
+
+2. THE P0.1 EXACT OBJECT
+
+
+The P0.1 object card states:
+
+
+- field: exact normalized-periodized Bargmann–Fock field on the side-24 torus;
+- base law: exact six-pin conditioned Gaussian field;
+- weight: |det H_M det H_S| with maximum and saddle type indicators;
+- event A_r: the exact selected unstable branch terminates at M.
+
+
+Here H_M and H_S are the Hessians of the exact full field at the endpoint pins. Under conditioning only on values, gradients, and nine midpoint derivatives, those exact endpoint Hessians still depend on higher-order residual field information.
+
+
+3. THE GP-DER-043 FINITE-Q4 OBJECT
+
+
+GP-DER-043 §1 explicitly defines:
+
+
+- the exact finite-r Gaussian law gamma_r of the nine midpoint jets J_r;
+- the normalized quartic endpoint Hessians H_M and H_S obtained from q,a,w,c40,c31,c22;
+- W_r=|det H_M det H_S| times the quartic type indicators;
+- dP_{r,Q4}^{MS}=W_r dgamma_r/Z_r.
+
+
+Its Executive Result says the normalizer proof is for the “normalized finite-Q4 Gaussian model.” Its exact-field section separately states that fifth-and-higher Taylor terms require a transfer theorem and must not be silently identified with the truncation.
+
+
+Thus the Gaussian law is exact for the finite midpoint jet vector, but the weighted Palm law constructed solely from that vector is the finite-Q4 local-model Palm law, not automatically the exact full-field Palm law.
+
+
+4. WHY THE WEIGHTS ARE NOT IDENTICAL
+
+
+Let F_r be the exact scaled field and F_r^(4) its pin-preserving degree-four approximation. GP-DER-045 defines the remainder R_r=F_r-F_r^(4) and proves only a bound
+
+
+||R_r||_{C1(D)} <= C_D r^2 H_{5,r}(D).
+
+
+At the endpoint pins R_r(S)=R_r(M)=0 because gradients are pinned, but DR_r(S) and DR_r(M) need not vanish. Consequently
+
+
+DF_r(S)=DF_r^(4)(S)+DR_r(S),
+DF_r(M)=DF_r^(4)(M)+DR_r(M).
+
+
+The exact endpoint Hessian determinants and type indicators may therefore differ from the finite-Q4 determinants and types unless a remainder event controls the endpoint Jacobians.
+
+
+The nine midpoint jets do not determine DR_r(S) and DR_r(M). Hence the exact full-field Palm weight is not measurable with respect to J_r alone.
+
+
+5. EFFECT ON GP-DER-106
+
+
+GP-DER-106 certifies every jet vector in P01-ROUTEB-D4-BOX-001 for the degree-four capture event H_r^(4). It explicitly excludes exact-field transfer.
+
+
+This result is unaffected.
+
+
+Correct statement:
+
+
+For every J_r in the declared box, the degree-four field has the certified selected-branch S-to-M capture chain.
+
+
+Incorrect extrapolation:
+
+
+Every exact conditioned field whose nine midpoint jets lie in the box is typed and captured.
+
+
+The latter requires control of the conditional residual field.
+
+
+6. EFFECT ON GP-DER-108 AND GP-DER-110
+
+
+The finite-Q4 law has a nondegenerate exact-torus nine-jet Gaussian density, a positive-volume box, positive quartic determinant/type weight on the box, and a finite positive finite-Q4 normalizer.
+
+
+Therefore the corrected exact finite-dimensional conclusions are:
+
+
+P_{1/20,Q4}^{MS}(P01-ROUTEB-D4-BOX-001)>0,
+
+
+and, on the GP interval source,
+
+
+P_{1/20,Q4}^{MS}(P01-ROUTEB-D4-BOX-001)
+>=4.728529363036503915804098882860359338485e-31.
+
+
+These statements remain meaningful and exact for their declared finite-Q4 probability object.
+
+
+They are not statements about P_{1/20}^{MS} of the exact field.
+
+
+7. EFFECT ON THE NORMALIZER
+
+
+GP-DER-043's Z_r is the normalizer for the finite-Q4 weight under the nine-jet Gaussian law. GP-DER-110's fourth-moment upper bound likewise controls that finite-dimensional normalizer.
+
+
+The exact full-field normalizer is
+
+
+E[|det H_M(f)det H_S(f)| 1{exact types} | six pins],
+
+
+which integrates residual endpoint Hessians in addition to the nine midpoint jets. Finiteness and positivity are plausible and separately tractable, but they are not supplied by the finite-Q4 normalizer calculation alone.
+
+
+8. REQUIRED EXACT-FIELD REPAIR
+
+
+A correct fixed-r exact-field positive-mass argument may proceed through conditional Gaussian support:
+
+
+1. disintegrate the exact six-pin field law over the nine midpoint jets J_r;
+2. choose a compact interior subbox with uniformly strict degree-four margins;
+3. for each jet vector, construct or approximate a Cameron–Martin field satisfying the identical fifteen finite constraints and lying in a sufficiently small C2 neighborhood of the degree-four capture field;
+4. use the conditional Gaussian support theorem to show the exact field has positive conditional probability of that neighborhood;
+5. on that neighborhood, exact endpoint types, the exact selected branch, capture, and exact determinant weights remain strictly positive;
+6. integrate the positive conditional weighted probability over a positive nine-jet set;
+7. normalize using the exact full-field Palm normalizer.
+
+
+Alternatively, populate GP-SCHEMA-095 with rigorous endpoint and chart remainder bounds over a positive residual event.
+
+
+Neither repair is contained in GP-DER-108/110.
+
+
+9. EC-017 DISPOSITION
+
+
+GP-CLS-PROP-020-v1.0 is materially overbroad in its use of the exact-field notation P_r^MS.
+
+
+It must not receive APPROVE EC-017 EXACT SCOPE in its current wording.
+
+
+A numbered revision is required. GP-CLS-PROP-020-v1.1 narrows the exact terminal object to:
+
+
+positive fixed-r typed finite-Q4 Palm mass of the certified full-dimensional degree-four Route-B box.
+
+
+The revised terminal object remains valuable because it retires a clean finite-dimensional probability interface while preserving the exact-field front.
+
+
+10. AFFECTED AND UNAFFECTED DEPENDENCIES
+
+
+Affected:
+- EC-017 exact object and review wording;
+- GP-CLS-PROP-020-v1.0;
+- GP-DER-108/110 law notation;
+- GP-AUD-109/111 scope labels;
+- HB-026 and HB-029;
+- P0.1 exact-field transition planning.
+
+
+Unaffected:
+- GP-DER-106 degree-four interval box;
+- the finite-Q4 qualitative and numerical mass mathematics after relabeling;
+- EC-018 degree-four-only closure review;
+- EC-014/015/016;
+- consensus ballots, GP-AUTO-034, machines, releases, and destructive gates.
+
+
+11. REOPENING / FALSIFICATION
+
+
+Reopen this audit only if a primary source proves one of the following:
+
+
+- the exact endpoint Hessians are measurable functions of the declared nine midpoint jets under the six pins;
+- the higher-order residual has zero endpoint Jacobian identically;
+- GP-DER-043's H_M/H_S were intended and proved to equal the exact field Hessians rather than the normalized quartic ones;
+- or an equivalent exact object crosswalk is supplied.
+
+
+No such identity was found. GP-DER-043 and GP-DER-045 state the opposite layer separation explicitly.
+
+
+12. CURRENT STATUS
+
+
+FINITE-Q4 DEGREE-FOUR BOX: PASS.
+FINITE-Q4 FIXED-r POSITIVE MASS: PASS ON GP LINE.
+FINITE-Q4 NUMERICAL LOWER BOUND: PASS ON GP LINE.
+EXACT FULL-FIELD PALM MASS: OPEN.
+EXACT-FIELD CAPTURE / A_r: OPEN.
+EC-017 v1.0: MATERIAL-SCOPE-FAILED / SUPERSEDED FOR REVIEW.
+EC-017 v1.1: PREPARED / NON-GP AND HUMAN GATES OPEN.
+P0.1: OPEN.
+
+
+No theorem, terminal closure, ballot, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive operation follows.
+
+
+END GP-AUD-112-v1.0

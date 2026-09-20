@@ -1,0 +1,143 @@
+﻿CL-AUD-276-v1.0 — POST-FREEZE COMPARISON NOTE
+GP-REQ-224 CL verdicts versus the four existing same-family reviews
+
+
+review_id: CL-AUD-276-v1.0
+Date: 2026-07-26
+Publication timestamp (MEASURED): 2026-07-26T15:23Z
+provider_family: Anthropic — Family A
+reviewer_identity: Anthropic Claude, model identifier claude-opus-5, autonomous research session
+session_id: session_01X5p8B9t35y3ZLYqKZcj6Aq
+Class: AUD / POST-FREEZE COMPARISON / NON-VERDICT
+canonical_impact: NONE
+Independence credit: ZERO ADDITIONAL — this document adds nothing to the single shared credit of CL-AUD-273/274/275
+
+
+[[POST-FREEZE]] [[CANNOT-ALTER-FROZEN-VERDICTS]] [[NO-PROMOTION]] [[NO-REGISTER-EDIT]]
+
+
+
+
+1. THE FIREWALL THIS DOCUMENT CLOSES
+
+
+CL-REG-272 §0 committed, before any target body was opened, to not reading S2-AUD-009, S2-AUD-008, LCR-AUD-064 or S2-REQ-004 until both carrier verdicts were frozen, and then to publish the comparison as a separate note that cannot retroactively alter a frozen verdict.
+
+
+That commitment was honoured. CL-AUD-273 (14:58Z), CL-AUD-274 (15:00Z) and CL-AUD-275 (15:02Z) were published before the four documents were opened at 15:05Z. Nothing below changes any of them. Where the comparison shows I was wrong, the correction would have to be a new versioned verdict, not an edit; no such correction is required, and I say so having looked for one.
+
+
+Incidentally, S2-REQ-004's own PRE-REGISTRATION section requires a reviewer to record, "Before reading same-family audits", their organization and model identity, session, sources already read, prior conclusion exposure, route classification, hash-normalization procedure, and intended checks. CL-REG-272 recorded all seven before exposure. I note this only because it means the blind-lane protocol I followed under GP-REQ-224 also satisfies the protocol the OpenAI line wrote for this object independently.
+
+
+
+
+2. WHERE WE AGREE
+
+
+Byte identity. S2-AUD-009 independently reproduced Carrier A at 11144 bytes and SHA-256 62c23788…4e72 using the same normalization I used. LCR-AUD-064 independently reproduced Carrier B at 8240 bytes and SHA-256 04efac40…ad3b. Both agree with my reconstructions exactly. Three independent reproductions of each declared identity, from two organizations, is a strong result for these two objects and I record it as such.
+
+
+The symmetry repair. S2-AUD-009's hostile check 1 concludes "Symmetry is genuinely used... Therefore the symmetry hypothesis belongs in the theorem statement", and its mutation list rejects "Remove symmetry: e_s=J e_u need not be stable; theorem fails as stated". This matches my M1 rejection and my A3/A4 reasoning on the eigenframe use. Independent agreement across families on the core of the v1.1 repair.
+
+
+The non-measurable time shift. S2-AUD-008's mutation M5 — "Require the time-shift tau(p) to be measurable. Result: unnecessary strengthening; pointwise selector independence needs no measurable tau" — is the same conclusion I reached in B4. Two families agree that Carrier B's handling of this step is correct, which matters because it is the sharpest argument in either carrier.
+
+
+The branch identification. LCR-AUD-064's clarification C2 — "C_p should be read as the selected connected component of the global unstable manifold with the saddle removed; the nonvanishing condition is load-bearing" — anticipates my J3 observation that C_p is never explicitly declared to be the orbit containing Carrier A's local branch. I credit LCR-AUD-064 with reaching this first. My J3 adds only that the identification is available and correct, and proposes the one-clause repair.
+
+
+Mutation coverage. Of the ten GP-REQ-224 mutations, LCR-AUD-064 and S2-AUD-008 between them reject the Carrier B set on the same grounds I did, and S2-AUD-009 rejects the Carrier A set on the same grounds. No disagreement anywhere in the mutation battery.
+
+
+
+
+3. WHERE I FOUND SOMETHING THEY DID NOT
+
+
+Four of my seven findings have no counterpart anywhere in the four documents. These are verbatim absences from the corpus, established by exhaustive string search, not by my impression.
+
+
+NEW 1 — J1, version binding. No document in the set remarks on whether LCR-DER-061's frozen body cites LCR-DER-057 with or without a version or hash. More pointedly, all four documents themselves cite the local selector unversioned, as plain "LCR-DER-057". S2-AUD-008 has a section actually titled DEPENDENCY AND VERSION FIREWALL, but it addresses only the non-transfer of approval between objects — "Approval of one object does not transfer to the others" — and never asks whether the dependency is bound to a hash inside the hashed region. LCR-AUD-064's C5 and BG13 likewise treat the hashes as "separate review gates" without asking what the frozen body actually names. This is the finding I regard as the most valuable of the session, and it was invisible to three same-line reviews.
+
+
+NEW 2 — A-N1, the reopening-conditions gap. The string "reopening" occurs exactly once across all four documents: in S2-AUD-009, and only inside an assertion that nothing changed — "No integral equation, contraction estimate, self-map estimate, continuity argument, graph construction, tangency estimate, selected-point formula, six-pin application, scope firewall, or reopening condition changed." That sentence is true, and it is precisely the defect. The reopening list is the object's own machine-readable guard, and the v1.1 repair left it without an entry for the very hypothesis the repair restored. Nobody asked whether the guard list SHOULD have changed.
+
+
+NEW 3 — A-N2, the stale controlling tag. No document notes that GP-DER-197's header still carries an unsuperseded block titled "CONTROLLING LOCAL-SELECTOR PROOF COMPANION" naming v1.0 and tagged [[LP-HASH:4165696d...576d1]]. S2-AUD-009's clarification 1 says "v1.0 ... must not remain the controlling review object", which is the right instruction — but nobody checked whether it had been carried out in the consumer.
+
+
+NEW 4 — the GP-PROT-065 orientation link. The strings "GP-PROT", "GP-PROT-065" and "orientation agreement" have ZERO occurrences across all four documents. S2-REQ-004's LP14 asks a reviewer to verify "M_r-ward orientation" but does not connect it to symmetry or to the protocol. So the observation of CL-AUD-273 A4(iii) and CL-AUD-275 §3 — that e_u·(M−S) = ||P_u d||² > 0 reproduces GP-PROT-065's sign rule ONLY because symmetry makes P_u orthogonal, so symmetry is load-bearing for the orientation interface as well as for e_s = J e_u — is new to the corpus. It is also the strongest available argument that the v1.1 repair was necessary rather than cosmetic, and it is stronger than the argument the repair notice and LCR-DATA-068 give for themselves.
+
+
+
+
+4. B-N1 — PARTLY ANTICIPATED, AND THE WAY IT WAS ANTICIPATED IS ITSELF THE FINDING
+
+
+This is the most interesting result of the comparison and I want to state it carefully, because LCR-AUD-064 deserves credit for seeing the dependency and because what it then did with it illustrates exactly why organizationally distinct review exists.
+
+
+LCR-AUD-064 saw it. Its check BG12 is graded "PASS CONDITIONAL ON NAMED INPUTS" and its list of those inputs ends "...P02-LM-006 supplies finite positive Z_r on its domain." Its clarification C4 says "P02-LM-006 is used only for finite positive normalizer on the common small-r domain; the abstract Palm lemma itself is independent of its proof." So the same-family audit identified the normalizer dependency, graded the six-pin application conditional on it, and correctly separated the abstract lemma from the application. That is good work and I do not want to overstate my own contribution.
+
+
+What it did not do is charge any of the three defects I charged. It did not observe that the citation carries no version and no hash. It did not observe that "on its domain" is never cashed out — and here is the striking part: C4 supplies the missing domain itself, calling it "the common small-r domain", a phrase that appears nowhere in Carrier B's frozen body. The audit repaired the gap in its own prose rather than charging it against the object. That is precisely the same-line reflex the Independent-Eyes Rule is designed to catch: a reviewer who shares the authoring line fills in what the author meant instead of reading what the author wrote.
+
+
+And no document in the set observed the third defect at all, which is the one I consider decisive: that GP-DER-197, the parent from which this companion was extracted, states the same result CONDITIONALLY — "is a well-defined exact Palm probability whenever 0<Z_r^{exact}<infinity" — and never cites P02-LM-006, while the companion discharges the condition and asserts "Consequently ... is a legitimate exact Palm probability." The companion claims more than its parent on the strength of an import the parent declined to make. The string "P02-LM-006" does not occur in S2-AUD-009, S2-AUD-008 or S2-REQ-004 at all.
+
+
+So the honest accounting on B-N1 is: dependency seen by LCR-AUD-064, defects not charged by anyone, parent-versus-companion strengthening new to this review.
+
+
+
+
+5. TWO FACTUAL OBSERVATIONS ABOUT THE EXISTING REVIEWS
+
+
+O1 — S2-AUD-008 did not reproduce the hash. Of the two Carrier B audits, only LCR-AUD-064 performed a frozen-identity check. S2-AUD-008 declares BODY_BYTES 8240 and SHA-256 04efac40…ad3b in its header and then ASSIGNS the reproduction to a future reviewer: "A qualifying reviewer should: - reproduce BODY_BYTES 8240 and SHA-256 04efac4014b21a387d9eae7d4e78e8e37e5b149629a000e7b4dbf64a8e2ead3b". It contains no frozen-identity section and never states that it reproduced anything. Its mathematical checks are substantive and I do not fault them, but it is a review of a document whose identity it took on trust. Recorded factually and without inference; it correctly claims zero independence credit.
+
+
+O2 — NEW ROUTING DEFECT: two packets demand DIFFERENT verdict strings for the same object at the same hash. This is a real inconsistency in the request layer and it should be reconciled before another reviewer is confused by it.
+
+
+GP-REQ-224 §2 requires, for LCR-DER-057-v1.1 at SHA 62c23788…4e72:
+    APPROVE LCR-DER-057-v1.1 FROZEN SHA256 62c23788… SYMMETRY-TYPED UNIFORM LYAPUNOV-PERRON CONTINUOUS SELECTED UNSTABLE POINT
+
+
+S2-REQ-004 requires, for the same object at the same hash:
+    APPROVE LCR-DER-057-v1.1 FROZEN SHA256 62c23788… SYMMETRY-TYPED CONTINUOUS SELECTED UNSTABLE POINT LEMMA
+
+
+The trailing descriptors differ: GP-REQ-224 has "UNIFORM LYAPUNOV-PERRON ... POINT"; S2-REQ-004 has "... POINT LEMMA" and drops "UNIFORM LYAPUNOV-PERRON". S2-REQ-004 also offers a fifth verdict option, APPROVE WITH CLARIFICATION, which GP-REQ-224 does not. A reviewer executing one packet emits a string that does not match the other packet's requirement, and an automated check keyed to either would reject a correct verdict issued under the other.
+
+
+I issued the GP-REQ-224 string in CL-AUD-273 §8, because GP-REQ-224 is the packet I claimed and is described by its own LS-REQ-016 supplement as "the controlling exact-hash packet for the two event companions". I record here that this is a deliberate choice between two inconsistent requirements and not an error, so that CL-AUD-273's verdict string is not later read as malformed.
+
+
+Related and non-blocking: S2-REQ-004 is itself marked secondary — "[[PRIMARY:LCR-REQ-066]] [[SECONDARY:S2-REQ-004]] [[NO-DOUBLE-COUNT]]" — and states it "does not create an additional independence credit". So the reconciliation should probably run GP-REQ-224 against LCR-REQ-066 rather than against S2-REQ-004.
+
+
+MINIMAL REPAIR for O2: whichever of GP-REQ-224, LCR-REQ-066 and S2-REQ-004 is not controlling should be amended to quote the controlling packet's string verbatim, or should state explicitly that either string is acceptable.
+
+
+
+
+6. DID THE COMPARISON CHANGE MY MIND ANYWHERE
+
+
+No, and I checked in the direction that would have cost me something. The strongest case in the corpus against my Carrier B verdict is LCR-AUD-064's C4, which effectively argues that the normalizer import is narrow and that the abstract lemma stands independently of it. I agree with both halves of that — CL-AUD-274 says so explicitly, grading B1 through B9, B11 and B12 affirmative and section 11's theorem fully proved. It does not rescue section 10's unconditional Palm sentence, which is the only thing I charged. C4's own phrase "the common small-r domain" is, if anything, further evidence that a domain intersection needs to be stated inside the object rather than supplied by its reviewers.
+
+
+Nor does the comparison give me a reason to convert CL-AUD-271. Three same-family reviews returning PASS on objects whose reviewers earn zero independence credit is not evidence that the exact-hash defects are absent; two of those three reviews did not look for them, and the third looked and filled the gap in itself.
+
+
+
+
+7. SCOPE
+
+
+This note compares. It approves nothing, retracts nothing, promotes nothing, edits no register, and cannot alter CL-AUD-273, CL-AUD-274 or CL-AUD-275, which were frozen before it was written. It claims no additional independence credit. Dylan Roy retains sole theorem-promotion authority.
+
+
+END CL-AUD-276-v1.0

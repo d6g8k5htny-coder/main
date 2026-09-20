@@ -1,0 +1,332 @@
+﻿GP-DER-161-v1.0 — EXACT FIXED-r FIFTEEN-CONSTRAINT NONDEGENERACY BY RESIDUE-CLASS SPECTRAL SEPARATION
+
+
+Artifact ID: GP-DER-161-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: DER / EXACT FINITE-DIMENSIONAL GAUSSIAN PROOF / EC-019 T1 SUBSTITUTE
+Authority: none
+Canonical impact: NONE
+Queue item: EC-019 / HB-030
+Responds to: CL-AUD-081-v1.0, GP-COR-159-v1.0, GP-REQ-160-v1.0
+Status: COMPLETE GP-SIDE EXACT PROOF CANDIDATE / INDEPENDENT LINE-BY-LINE REVIEW REQUIRED
+
+
+[[OBJ:GP-DER-161-v1.0]] [[QUEUE:EC-019]] [[TASK:HB-030-T1]] [[STATUS:EXACT-SYMBOLIC-NONDEGENERACY-CANDIDATE]] [[STATUS:NOT-TERMINAL]]
+
+
+0. EXECUTIVE RESULT
+
+
+At the single fixed separation r=1/20 on the side-L torus with L=24, the full joint covariance Gram of the six endpoint value/gradient pins and the nine midpoint jets used by GP-DER-112-v1.1 is strictly positive definite.
+
+
+Consequently:
+
+
+1. the six-pin covariance is strictly positive definite;
+2. the conditional nine-jet Schur complement is strictly positive definite;
+3. the conditional nine-jet law has a continuous everywhere-positive density on R^9;
+4. gamma(B')>0 for every positive-width subbox B'; and
+5. EC-019 clean-room Test T1 has an exact symbolic route that does not require resolving a near-machine-epsilon eigenvalue numerically.
+
+
+This does not clear EC-019. Independent review of this proof is still required, and the independent reconstruction of the GP-DER-106 capture margins (T2) remains open.
+
+
+1. WHY A NEW ARGUMENT IS USEFUL
+
+
+CL-AUD-081 correctly found that the raw fifteen-functional Gram at r=1/20 is extremely ill-conditioned in double precision and therefore cannot be certified by an ordinary floating-point eigensolve. It also stated that real analyticity and distinct functionals make nondegeneracy plausible.
+
+
+That statement alone is not a proof: distinct continuous linear functionals can be linearly dependent in a given Gaussian RKHS. The missing exact step is to prove linear independence of the fifteen Fourier symbols under the exact torus spectral measure.
+
+
+GP-DER-044 proves positive definiteness of the confluent r=0 limit using distinct derivative monomials and positive Fourier weights. The argument below proves the fixed-r=1/20 joint Gram directly, without an unspecified small-r threshold and without a numerical eigenvalue lower bound.
+
+
+2. EXACT OBJECT AND CONVENTION
+
+
+Let L=24, r=1/20, and h=r/2=1/40. Put the midpoint at 0 and endpoints at x_- = (-h,0), x_+ = (+h,0).
+
+
+The six endpoint functionals are
+
+
+f(x_-),  f_x(x_-),  f_y(x_-),
+f(x_+),  f_x(x_+),  f_y(x_+).
+
+
+The nine midpoint targets are the derivative functionals with multi-indices
+
+
+(0,2), (2,1), (1,2), (0,3),
+(4,0), (3,1), (2,2), (1,3), (0,4),
+
+
+corresponding, up to the fixed nonzero normalization factors and signs used by GP-DER-044 / GP-DER-106, to
+
+
+(q,a,w,z,c40,c31,c22,c13,c04).
+
+
+Multiplication of any coordinate by a nonzero constant does not affect linear independence or positive definiteness of the joint Gram. The conditioned values b and b-r^3/6 do not enter the covariance argument.
+
+
+3. STRICTLY POSITIVE TORUS SPECTRUM
+
+
+The normalized periodized Bargmann–Fock covariance has Fourier representation
+
+
+K(x-y) = sum_{(m,n) in Z^2} rho_{m,n} exp(i xi_{m,n}·(x-y)),
+
+
+where
+
+
+xi_{m,n} = (2 pi m/L, 2 pi n/L)
+
+
+and every spectral weight rho_{m,n} is strictly positive.
+
+
+For any finite linear combination Lambda of the fifteen derivative/evaluation functionals,
+
+
+Var(Lambda f) = sum_{(m,n) in Z^2} rho_{m,n} |S_Lambda(m,n)|^2,
+
+
+where S_Lambda is the corresponding Fourier symbol.
+
+
+Because every rho_{m,n}>0,
+
+
+Var(Lambda f)=0
+
+
+if and only if
+
+
+S_Lambda(m,n)=0 for every (m,n) in Z^2.
+
+
+Thus strict positive definiteness reduces to proving that no nonzero linear combination of the fifteen symbols vanishes on the entire frequency lattice.
+
+
+4. EXPONENTIAL-POLYNOMIAL FORM OF THE SYMBOL
+
+
+Write
+
+
+X = i(2 pi m/L),   Y = i(2 pi n/L).
+
+
+The contribution of the three functionals at x_- is a polynomial A_-(X,Y) of total degree at most one. Likewise the contribution at x_+ is A_+(X,Y) of total degree at most one.
+
+
+The contribution of the nine midpoint jets is a polynomial A_0(X,Y) in the span of the nine distinct monomials
+
+
+Y^2,
+X^2Y, XY^2, Y^3,
+X^4, X^3Y, X^2Y^2, XY^3, Y^4.
+
+
+Let
+
+
+z = exp(i 2 pi h/L).
+
+
+Since h=1/40 and L=24,
+
+
+z = exp(i pi/480),
+
+
+so z has exact order 960 and in particular z is neither 1 nor -1.
+
+
+The complete symbol is
+
+
+S_Lambda(m,n) = z^{-m} A_-(X,Y) + A_0(X,Y) + z^m A_+(X,Y).
+
+
+Assume this vanishes for every integer pair (m,n).
+
+
+5. RESIDUE-CLASS SEPARATION
+
+
+For each residue c in {0,1,2}, restrict m to
+
+
+m = c + 960 k,   k in Z.
+
+
+Because z^960=1,
+
+
+z^m = z^c.
+
+
+Therefore, for each c in {0,1,2},
+
+
+z^{-c} A_-(X,Y) + A_0(X,Y) + z^c A_+(X,Y) = 0
+
+
+on every point of the affine lattice
+
+
+m=c+960k, n in Z.
+
+
+After substituting m=c+960k, the left side is a finite polynomial in (k,n). A polynomial in two variables that vanishes on all of Z^2 is identically zero: fix n, use infinitely many k-roots, then apply the same argument to the coefficient polynomials in n.
+
+
+Hence, for each c=0,1,2, the following is a polynomial identity in (X,Y):
+
+
+z^{-c} A_- + A_0 + z^c A_+ = 0.
+
+
+These three identities form the linear system
+
+
+[ 1       1       1   ] [A_-]   [0]
+[ z^-1    1       z   ] [A_0] = [0]
+[ z^-2    1       z^2 ] [A_+]   [0].
+
+
+Its determinant is
+
+
+(z-1)^3 (z+1) / z^2,
+
+
+which is nonzero because z is neither 0, 1, nor -1.
+
+
+Therefore
+
+
+A_-=A_0=A_+=0
+
+
+as polynomials.
+
+
+6. RECOVERY OF ALL FIFTEEN COEFFICIENTS
+
+
+A_- and A_+ are linear combinations of the distinct monomials 1, X, Y. Their vanishing forces all six endpoint coefficients to be zero.
+
+
+A_0 is a linear combination of nine distinct monomials. Its vanishing forces all nine midpoint-jet coefficients to be zero.
+
+
+Thus the only linear combination of the fifteen functionals having zero variance is the trivial combination.
+
+
+Therefore the full fifteen-by-fifteen covariance Gram is strictly positive definite at r=1/20.
+
+
+7. SCHUR-COMPLEMENT CONSEQUENCE
+
+
+Let the joint covariance be written in block form
+
+
+G_joint = [ G_pin   C^T ]
+          [ C       S   ].
+
+
+Since G_joint is strictly positive definite, its principal pin block G_pin is strictly positive definite. Therefore the conditional nine-jet covariance
+
+
+Sigma = S - C G_pin^{-1} C^T
+
+
+is strictly positive definite by the Schur-complement theorem.
+
+
+No numerical eigenvalue margin is needed for the fixed-r qualitative conclusion. Positive definiteness alone implies that the conditional nine-jet Gaussian has a continuous strictly positive density on all of R^9.
+
+
+8. RELATION TO CL-AUD-081 AND GP-REQ-160
+
+
+CL-AUD-081’s double-precision R2 outcome is compatible with this proof: an exactly positive matrix can have a minimum eigenvalue below reliable floating-point resolution in a poorly conditioned coordinate system.
+
+
+The exact proof changes the preferred T1 adjudication route:
+
+
+- numerical high-precision reconstruction remains valuable as a quantitative corroboration and convention check;
+- it is not logically necessary to establish fixed-r nondegeneracy if an independent reviewer validates Sections 2–7;
+- Test T2, the independent reconstruction of GP-DER-106’s exact capture margins and planted controls, remains fully open and decisive.
+
+
+The sentence “a real-analytic covariance with fifteen distinct functionals is nondegenerate” should be replaced by the stronger exact statement:
+
+
+strictly positive torus Fourier weights plus residue-class separation of the three spatial supports imply linear independence of the fifteen symbols.
+
+
+9. INDEPENDENT REVIEW REQUEST
+
+
+A non-GP reviewer should verify:
+
+
+R1. The exact endpoint separation gives z=exp(i pi/480) of order 960.
+R2. The six endpoint symbols have the stated z^{±m} times degree-at-most-one polynomial form.
+R3. The nine midpoint coordinates correspond, up to nonzero constants/signs, to the nine displayed distinct monomials.
+R4. Positive spectral weights imply zero variance only when the symbol vanishes at every lattice frequency.
+R5. Restriction to m=c mod 960 yields polynomial identities for c=0,1,2.
+R6. The 3x3 determinant equals (z-1)^3(z+1)/z^2 and is nonzero.
+R7. A_-=A_0=A_+=0 forces all fifteen coefficients to vanish.
+R8. The Schur-complement conclusion is valid.
+R9. No hidden finite-Q4, exact-field capture, probability-magnitude, r-uniformity, theorem-promotion, machine, ballot, release, deletion, or destructive claim is imported.
+
+
+Accepted verdicts:
+
+
+APPROVE GP-DER-161 EXACT FIXED-r NONDEGENERACY PROOF
+
+
+APPROVE WITH AMENDMENT — [state exact failed or repaired step]
+
+
+REJECT WITH COUNTEREXAMPLE — [state nontrivial vanishing symbol or convention mismatch]
+
+
+CANNOT VERIFY — [state missing source or calculation]
+
+
+Preferred reviewers:
+
+
+- AO48: symbolic Fourier/residue argument and Schur complement;
+- CW/C047R: independent algebraic reconstruction and exact determinant;
+- CL: convention crosswalk against CL-AUD-081 and GP-DER-112-v1.1.
+
+
+10. OUTCOME AND SCOPE FIREWALL
+
+
+If independently approved, this artifact discharges only EC-019 clean-room Test T1: strict fixed-r nondegeneracy of the six-pin plus nine-jet object at r=1/20.
+
+
+It does not by itself restore EC-019 to human-approval-ready status because T2 remains open. It does not terminally close EC-019 and does not alter P0.1, P0.2, Theorem B, elder-rule pairing, lifetime laws, GP-AUTO-034, machine state, ballot state, release state, or destructive-operation gates.
+
+
+END GP-DER-161-v1.0
