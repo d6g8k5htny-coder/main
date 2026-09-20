@@ -59,3 +59,33 @@ Nothing here submits, reviews, endorses or promotes the manuscript or any packag
 errata note is mirrored as bytes; the corrections it states are the source's, transcribed nowhere here
 as a status change. The sealed manuscript is not present, so nothing about its body is verified here.
 No 2D bound is composed with the 3D track and no original prize problem is solved.
+
+
+## 2026-09-20 — the digest-bearing remainder: 71 files byte-exact
+
+71 of this lane's 81 unheld digest-bearing items are stored byte-exact, across
+PKG-01 through PKG-05, and the 10 left, all over the 65,536-byte store limit,
+carry tree-only rows with the inventory's own digest. **Zero mismatches in 71
+files.** The lane's digest-bearing gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row.
+
+**NO EXTERNAL RELEASE IS APPROVED.** Holding a submission package submits
+nothing, releases nothing and approves nothing. External release is an operator
+decision under `governance/`, and the owner is the single final authority for it.
+The packages describe themselves in their own words — readiness, sealing,
+referee checklists, what is not claimed — and those words are the source's, not
+this repository's.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem, and nothing about
+whether any package is complete, correct or fit to send. Every number above
+counts files, bytes and digests. A byte-exact copy says these are the bytes the
+2026-09-17 inventory declares for that Drive id and nothing more. Assembling a
+package is not submitting it, and this repository has submitted nothing.

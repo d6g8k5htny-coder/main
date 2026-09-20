@@ -85,3 +85,38 @@ computed or awarded here. Nothing on this track bears on the 2D upper or lower
 tracks, Theorem D1's five OPEN premises, `D3-LEMMA-RN-UNIF`, P0.1, P0.2 or
 Theorem B, and the standing firewall (CLAUDE.md rule 4, `FW-2D-3D-COMPOSITION`)
 forbids composing it with them.
+
+
+## 2026-09-20 — the digest-bearing remainder: 51 files byte-exact
+
+51 of this lane's 60 unheld digest-bearing items are stored byte-exact — 40 under
+`01_SIDE24_3D_RATIFICATION_AND_RECOVERY`, 16 under
+`02_P0.1_POST_RATIFICATION_AUDITS` and 4 under the work orders — and the 9 left,
+all over the 65,536-byte store limit, carry tree-only rows with the inventory's
+own digest. **Zero mismatches in 51 files.** `AO48-AUD-033` stays tree-only for
+the reason an earlier pass recorded: two downloads disagreed with the inventory
+by one byte, and a row that cannot be proved is not stored as though it could.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row.
+
+**The ratification status is the register's word**, `RATIFIED-AT-STATED-SCOPE`,
+with the stated scope, the carried dependencies and the reopening conditions the
+register gives. That status is carried in `claims/graph.json` and is not read
+from anything stored here; holding the record's bytes neither widens nor narrows
+it, and a post-ratification audit filed beside it does neither either.
+
+**Nothing on the 3D track composes with the 2D upper or lower tracks.**
+`ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws exactly that composition, and
+`tools/claims_check.py` fails the build on it. Storing more of the 3D track's
+bytes changes nothing about that.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation or theorem. Every number above
+counts files, bytes and digests. A ratification record is a record; copying it is
+not ratifying anything, and no scope stated in it is extended by being held here.

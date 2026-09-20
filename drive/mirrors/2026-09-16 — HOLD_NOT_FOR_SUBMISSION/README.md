@@ -47,3 +47,48 @@ invoked … Piece 2 driver unwritten" are the memo's summary of CL-RNU-001, not 
 quotation of it (`research/slack/registry.py` labelled them a verbatim quotation
 until 2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
 the Drive's thematic track T4.
+
+
+## 2026-09-20 — the digest-bearing remainder: 65 files byte-exact
+
+65 of this lane's 72 unheld digest-bearing items are stored byte-exact, and the 7
+left, all over the 65,536-byte store limit, carry tree-only rows with the
+inventory's own digest. **Zero mismatches in 65 files.** The lane's
+digest-bearing gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row.
+
+**THE SOURCE MARKS THIS WHOLE LANE HOLD AND NOT FOR SUBMISSION**, in its own
+folder name, and marks one folder inside it NOT READY. Storing these bytes takes
+nothing off hold, makes nothing ready and submits nothing. Nothing in this lane
+enters the q0 dependency graph in either direction; `tools/claims_check.py` is
+what enforces that, not this sentence.
+
+### Five filenames, eleven objects
+
+Drive keys files by id rather than by path, so one folder can hold several
+distinct objects with the same name. This lane has five such names —
+`00_HOLD_INDEX.md`, `FORWARD_WORK_PLAN_2026-09-16.md`,
+`FULL_DRIVE_FOLDER_INDEX.csv`, `LANE_PRIZE_RESEARCH.md` and `ZIP_MANIFEST.csv`,
+the last of them three ways — carrying eleven objects with eleven different
+digests between them.
+
+A first attempt at this port wrote each to its plain name and lost all but the
+last of each set. Nothing shipped: the manifest writer re-hashes every stored
+file from disk instead of trusting the fetch, and it refused five rows whose
+bytes no longer matched the inventory. **Neither member of a collision keeps the
+plain name now.** Every one is stored with its Drive id in the name, because
+neither object is the canonical one and a plain name would imply a precedence
+the source does not give; each row says so.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem. Every number above
+counts files, bytes and digests. Nothing here is ready, cleared, closed or
+submittable because this repository holds its bytes, and the imperative text
+these files address to other threads is quoted data.

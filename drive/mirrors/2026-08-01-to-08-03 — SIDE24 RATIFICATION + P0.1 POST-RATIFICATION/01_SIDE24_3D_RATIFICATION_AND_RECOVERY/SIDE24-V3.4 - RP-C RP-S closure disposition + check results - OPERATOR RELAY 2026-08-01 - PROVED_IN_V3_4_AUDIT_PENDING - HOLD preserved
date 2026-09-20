@@ -1,0 +1,164 @@
+RELAY HEADER (AO48): Operator-relayed from the Drive-unreachable sandbox line
+(SIDE24 track), received via chat paste 2026-08-01, two items transcribed
+verbatim below: (1) the V3.4 disposition record; (2) the check-results
+report. Byte identity with the sandbox originals is NOT certified. Relayed
+by AO48 without endorsement; see AO48-REC-035 for the reviewing context.
+
+=====================================================================
+ITEM 1 — SIDE24 V3.4 — RP-C/RP-S closure disposition
+=====================================================================
+
+Date: 2026-08-01
+Disposition: the seven-part facewise work order is complete in the V3.4
+proof layer.  RP-C and RP-S are promoted from OPEN to
+PROVED_IN_V3_4_AUDIT_PENDING.
+
+Controlling result
+
+The controlling facewise proof is
+drafts/rp_c_rp_s_facewise_closure.md; its detailed sixth-gate
+companion is drafts/three_hessian_conditional_moment_envelope.md.  Their two
+regional conclusions are
+
+E^MS N_col = O(r^3),   E^MS N_sing = O(r^3),
+
+uniformly in the pair direction and on compact subsets of
+R x (0,inf) for (b,kappa).
+
+The proof uses one common density-weighted determinant monomial
+
+D(r,s) = [r(r+s^2)]^2 (r^2+s^3)
+
+on every non-endpoint collar and singular-near face.  The pathwise D bound
+holds on noncollinear charts, including c=0.  It is false on the exact
+collinear axis; there the proof keeps the density attached and uses the
+quantified ESIP penalty to absorb a finite s^-6 or r^-3 deficit.  A second
+exact counterexample shows that even the density-weighted pointwise form
+has an unavoidable d^-1 factor at an axial endpoint collision.  That
+divisor is controlled only after inserting the physical d^2 dd measure, as
+in (8.4) and (EP.2).  Thus the literal "same pointwise envelope on every
+face" reading of item 6 is disproved; its measure-level replacement is what
+closes the regional integral.
+
+Work-order accounting
+
+Every PROVED entry below means proved in the V3.4 draft and still subject
+to the package's independent-audit promotion gate.
+
+|#|Required item|V3.4 evidence|Result|
+|-|-|-|-|
+|1|Generic transverse comparison|exact gradient frame (3.2)-(3.5), explicit value row (3.6a), exact r^-7 raw Jacobian|PROVED|
+|2|Separate axial Hermite face|exact factorization (4.1)-(4.5), axial-interior crossover (AI.1)-(AI.4), Fourier-symbol independence|PROVED|
+|3|Midpoint secondary analysis|full five-scale frame (MP.1)-(MP.6), fifth-order face, quantified ESIP|PROVED|
+|4|Endpoint charts|endpoint residual frame (4.9)-(4.13), oblique refinement (6.10)-(6.12), reflected chart|PROVED|
+|5|Singular-near anisotropy|both factors in (5.1), pair-measurable frame (5.3a)-(5.8), covariance bound (5.12), ESIP (5.14)-(5.16), exact raw s^-7 Jacobian, full contact/collinear overlap|PROVED|
+|6|Three-Hessian conditional moment control|pointwise common D off the endpoint-axis; collinear ESIP absorption; exact endpoint-axis measure ledger (H.27)|PROVED IN THE NECESSARY HYBRID FORM; LITERAL ALL-FACE POINTWISE FORM DISPROVED|
+|7|Full integration|collar equations (8.1)-(8.6), including (EP.2); singular equations (9.1)-(9.5), including angular axis|PROVED|
+
+The canonical count issue is resolved directly from (A.35): every regional
+count includes h<f(y)<b.  The single value integration has exact width
+kappa r^3/6; it is not an added assumption.
+
+Important stratification facts
+
+- The transverse reference monomial is rho^6(4X^2+rho^2); it is not
+  extended through the axis.
+- A deterministic common-D bound on the exact collinear axis is false.  The
+  package includes the typed quintic obstruction and uses the
+  density-weighted statements (6.7)-(6.8) instead.
+- The inherited singular value row subtracted an unpinned random midpoint
+  value and therefore did not have the claimed four-variable Jacobian.  The
+  repaired pair-measurable row has exact raw Jacobian s^-7.  Its first two
+  rows coalesce at order Lambda; the explicit second row W/Lambda^2
+  produces one uniform Lambda^10 covariance determinant across the mixed,
+  contact, and collinear faces.  No (eta^4, Lambda) second blow-up is
+  needed.
+- The oblique endpoint collision estimate is refined to Cr^5 d rho^-3 P(J),
+  using dH_S u - rH_S t = O(r^2).  Combined with the endpoint density and
+  d^2 dd volume, its Palm radial factor is r^2 dd, which integrates to
+  O(r^3).  The axial endpoint instead retains its exact d^-1
+  density-weighted factor through d^2 dd, giving (EP.2).
+- The angular axis is integrated with the actual exponential
+  e^{-c/(s^2+rho^2)}; compactness is never invoked across it.
+
+Executable evidence and its boundary
+
+scripts/verify_facewise_collar_axis_integration.py is fail-closed and checks
+the exact Hermite, endpoint, anisotropic, ESIP, and six-term ledger algebra
+in normal and optimized Python.  scripts/diagnose_side24_generic_collar.py
+provides a full-spectrum numerical diagnostic of the exact periodized
+covariance.  The quartic endpoint regression prevents reintroduction of the
+rejected ee-curvature/type-transfer route while confirming that the actual
+product in that family obeys D.
+scripts/verify_hybrid_mixed_curvature_and_axis_absorption.py separately
+checks the mixed-curvature interpolant, both obstruction families, the
+pair-measurable singular frame, its 18-minor factorization, and the
+explicit generic collar value row in normal and optimized modes.  None of
+these scripts is presented as a substitute for the analytic
+Fourier-independence, compact-atlas, conditional-moment, or Kac-Rice
+arguments in the proof note.
+
+Promotion status
+
+Combining the two new bounds with the V3.3 RP-A/RP-L proof and the V3.2
+RP-F proof empties the compact-positive-mark elder-selection premise list
+and proves
+
+1 - p_r(t,b,kappa) = O(r^3).
+
+The package remains HOLD / do not submit until an independent audit has
+checked the new face families, the hybrid Section 6 envelope, and both
+integrations.  This obeys the promotion protocol recorded in V3.3; it is no
+longer a claim that a mathematical RP-C/RP-S premise is missing.
+
+=====================================================================
+ITEM 2 — SIDE24 V3.4 RP-C/RP-S CHECK RESULTS
+=====================================================================
+
+Date: 2026-08-01 (America/Chicago)
+
+Aggregate checkpoint runner
+  command: python scripts/run_v3_checks.py
+  result: ALL_V3_CHECKS_PASS
+  checks: 16 total; 15 normal/-O transcript comparisons; 1 internally
+  dual-mode V5 audit
+
+External audit runner
+  command: python scripts/run_external_audit_checks.py
+  result: ALL_EXTERNAL_AUDIT_RUNNER_CHECKS_PASS
+  independent scripts: 4 normal/-O byte-identical to preserved transcripts
+  historical scripts: 6 normal-mode byte-identical; 63 bare asserts recorded
+  and not treated as optimized evidence
+
+New hybrid verifier
+  script: scripts/verify_hybrid_mixed_curvature_and_axis_absorption.py
+  result: 202/202 PASS; normal/-O byte-identical; zero bare asserts
+  injected negative probe: exit status 1 with terminal ALL_ASSERTIONS_FAIL
+  script SHA-256: 0ba99085cf5b1655deb95859a63f02478057491fe1d394124d853e93bea8c481
+  transcript SHA-256: 0a8cd0874a146de25432e8a200ffb5746cb3bc98dc81ceb05f016e5f5c7a8e03
+
+Facewise collar/axis ledger
+  script: scripts/verify_facewise_collar_axis_integration.py
+  result: 62/62 PASS in normal and optimized modes
+
+Exact side-24 generic diagnostic
+  script: scripts/diagnose_side24_generic_collar.py
+  result: ALL_CHECKS_PASS
+  diagnostic ratio range: [0.78104, 1.83594]
+  minimum normalized Schur eigenvalue: 0.0485002
+
+Structure and immutable inputs
+  expected top-level/evidence/script files: 71
+  checksum payloads: 179 (final ledger; excludes ledger itself and Python
+  caches)
+  frozen hashes: 4/4 verified
+  text control characters: none
+  bare asserts in active checkpoint scripts: none
+
+Scope limit
+  These executions certify the identities, regressions, transcript
+  discipline, and package integrity stated by their individual scripts.
+  The analytic side-24 Fourier/Schur, Gaussian-regression,
+  conditional-moment, and Kac-Rice arguments are supplied in the
+  controlling proof notes and remain subject to independent expert review.
+  The package therefore remains HOLD.
