@@ -1,0 +1,397 @@
+TB-G5 — OFF-DIAGONAL COMPLEMENT AND FIXED-WINDOW FULL LIFETIME THEOREM
+
+
+1. EXACT FIRST-MOMENT OBJECT
+
+
+Let f be the normalized-periodized Bargmann-Fock Gaussian field on the flat side-24 torus. Fix the birth-height window
+
+
+    B_*=[23/20,5/4].
+
+
+On the Morse, distinct-critical-value, persistence-pair well-definedness event used by the current program, every non-essential ordinary superlevel H0 bar has a unique birth maximum M and a unique merge-saddle death S. Under the directed typed convention of S2-DER-010, the map
+
+
+    bar -> (M,S)
+
+
+has multiplicity exactly one at same-family candidate level.
+
+
+Let d_T(M,S) denote flat-torus distance. Fix
+
+
+    0<r_c<min{12,r_near},                                   (1)
+
+
+where 12 is the injectivity radius and r_near is a positive local cutoff allowed by LS-DER-026.
+
+
+Partition the exact persistence first moment by
+
+
+    near: d_T(M,S)<r_c,
+    far:  d_T(M,S)>=r_c.                                    (2)
+
+
+The boundary d_T=r_c has zero pair-area measure under the off-diagonal Kac-Rice intensity and may be assigned to either part.
+
+
+Let
+
+
+    nu_{B_*}(ell)
+
+
+be the complete first-moment density of finite non-essential H0 lifetimes with birth in B_*.
+
+
+Let
+
+
+    nu_near(ell), nu_far(ell)
+
+
+be the first-moment densities of the two disjoint classes in (2). Unit multiplicity gives the exact measure identity
+
+
+    nu_{B_*}(ell)=nu_near(ell)+nu_far(ell)                  (3)
+
+
+for almost every ell>0 whenever the displayed densities exist.
+
+
+2. NEAR-DIAGONAL INPUT
+
+
+LS-DER-026 proves, at same-family candidate level, that the selected near-diagonal component with d_T(M,S)<r_c and all kappa>0 has
+
+
+    nu_near(ell)
+      =C_near ell^(-1/3)(1+o(1)),                           (4)
+
+
+    0<C_near<infinity,                                      (5)
+
+
+as ell decreases to zero.
+
+
+The result uses the exact all-typed process, actual elder selection, full-kappa domination, and the local cutoff r_c. No other bar is included in nu_near.
+
+
+3. OFF-DIAGONAL VALUE-GRADIENT NONDEGENERACY
+
+
+For distinct torus points x,y define the six-dimensional Gaussian vector
+
+
+    X_{x,y}
+      =(f(x),grad f(x),f(y),grad f(y)).                     (6)
+
+
+LEMMA 3.1 — STRICT OFF-DIAGONAL NONDEGENERACY.
+For every x not equal to y on the torus, Cov(X_{x,y}) is positive definite.
+
+
+PROOF.
+The normalized periodized Bargmann-Fock covariance has Fourier expansion
+
+
+    K_L(h)=sum_{n in Z^2} a_n e^{i k_n dot h},              (7)
+
+
+where
+
+
+    k_n=(2pi/24)n,
+    a_n>0
+
+
+for every n. Suppose a real linear combination
+
+
+    L=alpha_0 f(x)+alpha dot grad f(x)
+      +beta_0 f(y)+beta dot grad f(y)                       (8)
+
+
+has zero variance. Positivity of every Fourier weight implies that for every n,
+
+
+    (alpha_0+i k_n dot alpha)e^{i k_n dot x}
+      +(beta_0+i k_n dot beta)e^{i k_n dot y}=0.            (9)
+
+
+Put h=y-x. Because h is nonzero modulo the torus lattice, the subgroup
+
+
+    {m in Z^2: e^{i k_m dot h}=1}
+
+
+is a proper subgroup. Its complement contains two linearly independent integer vectors m_1,m_2.
+
+
+For n=q m_j, q in Z, equation (9) has the form
+
+
+    A_j+q B_j+z_j^q(C_j+q D_j)=0                            (10)
+
+
+for every q, where z_j=e^{i k_{m_j} dot h} is not one. Polynomial sequences and their nontrivial exponential modulation are linearly independent; equivalently, applying the finite-difference operator that annihilates degree-one polynomials leaves a nonzero exponential-polynomial sequence unless C_j=D_j=0, and then A_j=B_j=0. Thus
+
+
+    alpha_0=beta_0=0,
+    alpha dot m_j=beta dot m_j=0
+
+
+for j=1,2. Linear independence of m_1,m_2 gives alpha=beta=0. Hence L is zero and the covariance is strictly positive definite. QED.
+
+
+The map (x,y)->Cov(X_{x,y}) is continuous. The compact set
+
+
+    F_{r_c}={(x,y):d_T(x,y)>=r_c}                           (11)
+
+
+therefore has a uniform eigenvalue floor and ceiling:
+
+
+    lambda_far I<=Cov(X_{x,y})<=Lambda_far I               (12)
+
+
+for finite 0<lambda_far<=Lambda_far<infinity.
+
+
+4. EXACT OFF-DIAGONAL TYPED-PAIR KAC-RICE DENSITY
+
+
+For x,y with d_T(x,y)>=r_c, birth b in B_*, and lifetime ell in [0,ell_0], define the all-typed ordered maximum-saddle pair intensity per
+
+
+    dx dy db dell
+
+
+by
+
+
+    rho_all(x,y;b,ell)
+      =p_{X_{x,y}}(b,0,b-ell,0)
+       E[|det H_x det H_y|
+          1{H_x negative definite}
+          1{H_y index one}
+          |X_{x,y}=(b,0,b-ell,0)].                          (13)
+
+
+The change from the two critical values (u,v) to (b,ell)=(u,u-v) has Jacobian one.
+
+
+By (12), the six-dimensional Gaussian density in (13) is uniformly bounded for
+
+
+    (x,y) in F_{r_c},
+    b in B_*,
+    0<=ell<=ell_0.                                          (14)
+
+
+Conditioned on X_{x,y}, the pair of Hessians is Gaussian. Its covariance is the Schur complement of a continuous compact family and is uniformly bounded. Its mean is affine in the compact target (b,b-ell), so every fixed conditional Hessian moment is uniformly bounded. In particular,
+
+
+    E[|det H_x det H_y||X_{x,y}=target]
+      <=C_H.                                                 (15)
+
+
+The type indicators only decrease the integrand. Hence
+
+
+    rho_all(x,y;b,ell)<=C_far                               (16)
+
+
+uniformly on the domain in (14).
+
+
+5. SELECTED FAR-PAIR INTENSITY
+
+
+Let D_f(M) be the elder-rule death saddle of the component born at M, when finite. The exact selected mark
+
+
+    1{D_f(x)=y}                                              (17)
+
+
+is measurable under the current persistence-process construction and is bounded by one.
+
+
+The selected far-pair first-moment measure is therefore dominated by the all-typed pair Kac-Rice measure. It is absolutely continuous in (b,ell), and its density satisfies
+
+
+    rho_sel(x,y;b,ell)<=rho_all(x,y;b,ell)<=C_far.          (18)
+
+
+No gradient-adjacency assumption, branch selection, local fold chart, or kappa parameterization is needed in the far region.
+
+
+6. FAR LIFETIME DENSITY IS BOUNDED
+
+
+Integrating (18) gives
+
+
+    nu_far(ell)
+      =integral_{b in B_*}
+        integral_{F_{r_c}}
+          rho_sel(x,y;b,ell) dx dy db.                      (19)
+
+
+The torus pair domain and B_* have finite measure. Therefore
+
+
+    0<=nu_far(ell)<=C_0                                    (20)
+
+
+for 0<=ell<=ell_0, with C_0<infinity.
+
+
+Consequently,
+
+
+    nu_far(ell)=O(1)=o(ell^(-1/3))                          (21)
+
+
+as ell decreases to zero.
+
+
+THEOREM 6.1 — OFF-DIAGONAL COMPLEMENT LOWER ORDER.
+Every selected finite bar with pair distance at least r_c contributes to a lifetime density bounded near zero. No off-diagonal mechanism can produce an ell^(-1/3) or stronger divergence under the exact fixed-window object.
+
+
+7. EXACT RECOMBINATION
+
+
+Insert (4) and (21) into the exact partition (3):
+
+
+    nu_{B_*}(ell)
+      =C_near ell^(-1/3)(1+o(1))+O(1).                     (22)
+
+
+Since
+
+
+    O(1)=ell^(-1/3)O(ell^(1/3))
+         =o(ell^(-1/3)),                                    (23)
+
+
+we obtain
+
+
+    nu_{B_*}(ell)
+      =C_near ell^(-1/3)(1+o(1)),                           (24)
+
+
+with
+
+
+    0<C_near<infinity.                                      (25)
+
+
+THEOREM 7.1 — FIXED-WINDOW FULL LIFETIME-DENSITY THEOREM CANDIDATE.
+For B_*=[23/20,5/4], the complete first-moment density of non-essential superlevel H0 persistence lifetimes has the asymptotic (24)-(25), conditional on the exact frozen dependency chain and the current well-definedness layer.
+
+
+8. WHY NO OTHER COMPLEMENT REMAINS
+
+
+Every selected finite bar has one birth maximum and one death saddle. Their distance is either below r_c or at least r_c.
+
+
+If it is below r_c, the exact full-kappa near-diagonal process of LS-DER-026 counts the pair, because every positive lifetime has the exact mark
+
+
+    kappa=6ell/r^3>0.
+
+
+No assumption that kappa lies in a compact interval remains after TB-G4.
+
+
+If it is at least r_c, the pair belongs to the far class bounded in Section 6.
+
+
+Thus the terms near and far form an exhaustive partition of the actual finite-bar first moment. The phrases off-fold, nonlocal, alternative mechanism, and remote pairing do not create additional classes outside this distance partition.
+
+
+9. TORUS AND BOUNDARY EDGE CASES
+
+
+The cutoff is chosen below the torus injectivity radius, so every near displacement has one directed polar representation and Jacobian r dr dtheta.
+
+
+The far Kac-Rice proof does not require a unique geodesic direction. It integrates directly over ordered torus point pairs.
+
+
+The surface d_T(x,y)=r_c has four-dimensional pair-area measure zero. Any cut-locus subset in the far region also has pair-area measure zero and does not affect the Cartesian Kac-Rice integral.
+
+
+Pairs with equal critical values, degenerate endpoint Hessians, or ambiguous persistence ties are null under the current Gaussian nondegeneracy/distinct-value layer. The theorem does not assign them positive mass.
+
+
+The essential H0 class has no finite death saddle and is excluded from both selected pair measures.
+
+
+10. SCOPE AND REVIEW FIREWALL
+
+
+Established here at same-OpenAI-family candidate level:
+
+
+- strict and uniform off-diagonal value-gradient nondegeneracy;
+- uniformly bounded off-diagonal typed-pair Kac-Rice intensity;
+- absolute continuity and boundedness of the selected far lifetime measure;
+- exact near/far unit-multiplicity partition;
+- far contribution o(ell^(-1/3));
+- complete fixed-window lifetime-density asymptotic after recombination with LS-DER-026.
+
+
+Not established or promoted here:
+
+
+- organizationally distinct exact-hash review of this theorem or its dependency chain;
+- terminal external acceptance of the Morse-Smale/selected-branch well-definedness layer;
+- the theorem for every compact birth window rather than the explicit B_*;
+- an optimal or numerical value of C_near;
+- infinite-volume or thermodynamic limits;
+- non-Gaussian universality;
+- canonical status restoration, package sealing, publication readiness, or external release.
+
+
+The mathematical theorem chain is complete at same-family candidate level for the explicit fixed birth window. Scientific status must remain nonterminal until independent reviews and reconciliation close.
+
+
+11. FALSIFIERS AND REOPENING CONDITIONS
+
+
+Amend or reject this theorem if:
+
+
+- TB-G1 unit multiplicity or the pair-to-bar map fails;
+- LS-DER-026 does not count every selected pair with distance below r_c;
+- the periodized BF Fourier weights are not strictly positive;
+- the value-gradient covariance is singular at distinct torus points;
+- the compact off-diagonal eigenvalue floor vanishes;
+- conditional Hessian moments diverge on the compact target set;
+- the selected far measure is not dominated by the all-typed pair measure;
+- the (b,ell) value transformation has a nonunit Jacobian;
+- nu_far has a hidden singular contribution despite (16);
+- the near/far distance partition misses a class of finite bars;
+- an essential bar is incorrectly included;
+- the result is promoted without exact-hash component and synthesis reviews.
+
+
+FINAL STATUS
+
+
+TB-G5 / DQ-033: COMPLETE SAME-FAMILY THEOREM CANDIDATE.
+FIXED-WINDOW FULL LIFETIME DENSITY: C_near ell^(-1/3)(1+o(1)), 0<C_near<infinity, SAME-FAMILY CANDIDATE.
+MATHEMATICAL TB-G1 THROUGH TB-G5 CHAIN: COMPLETE AT SAME-FAMILY CANDIDATE LEVEL FOR B_*.
+INDEPENDENT REVIEWS AND STATUS RECONCILIATION: OPEN.
+CANONICAL THEOREM B: NOT YET RESTORED.

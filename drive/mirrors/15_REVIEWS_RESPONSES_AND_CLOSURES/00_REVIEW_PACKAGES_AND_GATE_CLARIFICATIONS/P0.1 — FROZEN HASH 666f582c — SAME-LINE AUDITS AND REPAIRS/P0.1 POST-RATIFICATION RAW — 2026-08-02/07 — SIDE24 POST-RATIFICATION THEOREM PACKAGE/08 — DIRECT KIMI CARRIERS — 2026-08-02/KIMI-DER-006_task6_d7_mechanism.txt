@@ -1,0 +1,74 @@
+KIMI-DER-006
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 6 (the d^7 mechanism — strictly blind)
+Inputs: none beyond the task statement (blind protocol honored: no other
+line's parallel result requested, inferred, or accepted before this
+filing). All computations by the KIMI line: exact symbolic conditional
+covariances (sympy, rational arithmetic in (d,q), series in d exact to
+stated order) cross-validated by the dps-80/100 Hermite conditioning
+engine. Precision labels: EXACT (symbolic) vs decimal-dps-N (numeric).
+
+VERDICT: the claim is TRUE — Cov(G1, G1' | pins) = O(d^3) on the axis,
+proved with exact series. The mechanism is NOT a new cancellation in the
+covariance itself: both relevant covariances SATURATE their
+Cauchy–Schwarz bounds. The "extra factor of d" lives one level down, in
+the variance of the third derivative: Var(f_xxx | pins) = 6d^2 + O(d^4)
+— the odd third derivative is itself pinned at rate d^2 by the
+coalescing pins (the odd-sector/midpoint-reflection mechanism: the
+confluent limit of the pins contains f_xxx), so the CS bound on
+Cov(f_xx, f_xxx | pins) is d^3, and it is attained.
+
+RECEIPTS (all EXACT symbolic unless noted):
+1. Conditional covariances (pins (f, grad f) at (±d/2,0,0), planar 3D
+   BF; Schur complement computed exactly):
+   Var(f_xx|P)  = d^4/6 − d^6/…  (leading d^4/6; engine-verified,
+     G.9.1-corrected theorem)
+   Var(f_xy|P)  = d^2/2 + O(d^4)  (verified)
+   Var(f_xxx|P) = 6 d^2 − (33/10) d^4 + (29/32) d^6
+   Cov(f_xx, f_xxx|P) = −d^3 + (2/5) d^5 − (67/960) d^7
+   Cov(f_xy, fxxy|P) = −d + (1/2) d^3 − (1/12) d^5
+   Cov(f_xx, fxxy|P) = Cov(f_xx, fxxz|P) = Cov(f_xy, fxxx|P) = 0 exactly.
+   CS check: sqrt(Var(f_xx) Var(f_xxx)) = sqrt((d^4/6)(6d^2)) = d^3:
+   the covariance −d^3 SATURATES it. sqrt(Var(f_xy) Var(f_xxy)) =
+   sqrt((d^2/2)·2) = d: the −d covariance SATURATES it.
+2. The axial slope (derived, upgraded from measured): with
+   det C(ρ,u=e1)/ρ^6 = c11·c22·c33 and the exact Taylor weights
+   (random part f_x(M+ρe1) − pin = ρf_xx + ρ²/2 f_xxx + ρ³/6 f_xxxx + …):
+   detΓ(u) = d^8/24 + O(d^10)  (the G.9.1-corrected closed form),
+   c1 = c_A·v² + 2wv·c_B = (−d^3)(d^4/4) + 2(d^4/6)(d^2/2)(−d)
+      = −(5/12) d^7 + (59/180) d^9.
+   Hence B·d = |c1|·d/detΓ = 10 − (38/15) d^2 + (481/3600) d^4
+              − (143/13500) d^6,
+   values B·d = 9.9937 (d=0.05), 9.9747 (d=0.1), 9.8989 (d=0.2),
+   matching the Round-1 measured law (9.977, 9.970, 9.898) to ~0.1%
+   and the AO48-known B(d=0.1) ≈ 99.4 (= 10/d).
+3. Curvature term (explains fit-vs-derivative tension): c2 =
+   (43/24) d^6 − (203/96) d^8 > 0 — the function detC/ρ^6 curves
+   upward on the scale ρ ~ 10^-4; a three-point quadratic fit over
+   ρ ∈ {1e-3, 3e-4, 1e-4} returns the correct c1 to 0.2% (verified
+   against the engine: fit −3.248e-10 vs true −3.246e-10 at d=0.05 —
+   note the true c1 at that d is (5/12)(7.8e-10) = 3.25e-10, and the
+   fit is consistent with the derived series to 0.1%).
+4. Mechanism identification (the "cancellation"): under the midpoint
+   reflection x ↦ −x the pin configuration becomes symmetric as d→0;
+   the odd-x functionals (f_xxx, and the off-axis third derivatives) are
+   constrained by the pins at order d^2 (Var(f_xxx|P) = 6d^2), so the
+   even-odd cross-covariance is pushed one order below the naive
+   sqrt(d^4·1) = d^2 estimate to its true order d^3 — and the d^3 bound
+   is then saturated (no further cancellation). The d^7 slope is the
+   direct product: c_A v² + 2wv c_B with c_A ~ −d^3, c_B ~ −d.
+
+FALSIFIER: an exact conditional-covariance computation (any line)
+producing Cov(f_xx, f_xxx | pins) of order d^2, or Var(f_xxx | pins)
+bounded away from 0 as d→0, kills the mechanism claim; a recomputation
+of the c1 series disagreeing with −(5/12)d^7 + (59/180)d^9 kills the
+derived slope. Both receipts are replayable from the Hermite engine
+(numeric cross-check at d = 1/20, 1/10, 1/5 recorded above).
+PROCESS NOTE (recorded per protocol): an intermediate expansion of mine
+double-counted the Taylor weight (2ρ vs ρ), predicting B·d = 20 — a
+factor-2 error caught by the fixture-level calibration against the
+Round-1 measured law and corrected before filing; the curvature c2 was
+recomputed after the fix.
+
+SHA-256 of this report body (text after this line is excluded):
+08b6d24015e59c5f45032eb1bb094ae782ca1da6642b31b2a78592b8aa5f86ac

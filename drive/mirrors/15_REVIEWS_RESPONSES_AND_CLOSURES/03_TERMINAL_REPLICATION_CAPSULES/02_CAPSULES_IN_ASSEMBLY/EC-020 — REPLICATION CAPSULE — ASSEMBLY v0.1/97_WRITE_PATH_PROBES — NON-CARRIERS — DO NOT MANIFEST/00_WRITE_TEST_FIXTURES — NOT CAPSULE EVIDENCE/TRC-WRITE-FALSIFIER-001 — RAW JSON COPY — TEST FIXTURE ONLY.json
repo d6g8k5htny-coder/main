@@ -1,0 +1,40 @@
+{"cycle": "C019 (corridor-local lower-bound deployment: A*O on the tau-shell annulus, the product coefficient, and reconciliation with C010/C008)",
+ "frozen_before_computation": true,
+ "date_frozen": "2026-07-09",
+ "provenance": "direct successor to C018's primary finding (corridor-scale collapse of O(1)-range adjacency, branch (iii) of P-L2, P-L4 FAILED-AS-WRITTEN). The exploratory corridor-local proposals sketched during C018 are here elevated to a frozen cycle; nothing corridor-local was measured before this freeze.",
+ "question": "Does the LB0 product route produce an r^3-coefficient lower bound when deployed CORRIDOR-LOCALLY, i.e., on the C008 tau-shell annulus (y = pairpoint + tau*(cos phi, sin phi), tau in [r^2, r/2], outermost-dominated) where the windowed trigger mass C_annW * r^3 = 0.188 r^3 lives? Quantitative coherence target committed in advance: C010's field 0.18 r^3 ~ C_annW (0.188) x preemption (0.93) = 0.175 r^3; the corridor-local product reproduces the standing constant iff <A*O>_annulus ~ 0.9.",
+ "testbed": "BF K(u)=exp(-|u|^2/2), b=6/5, r=0.05, ell=r^3/6, pair M=(-r/2,0), S=(r/2,0)",
+ "instrument": {
+  "base": "c018_flow.py extended with a LOCAL mode (c019_flow.py); the C018 O(1)-mode code paths are untouched",
+  "kriging": "raw 9x9 pin system solved per grid point at mpmath dps50 (near-coincident triplets: y within tau of S or M with M,S at separation r); weights cast to float64 for the vectorized flows; the pin-reproduction gate is the arbiter of adequacy",
+  "local_flow_parameters (scaled to d = dist(y, nearest pair point))": {
+   "launch_offset": "0.1*d (was 0.02 fixed)",
+   "step": "max(2e-4, 0.05*d) while within 0.15 of the pair midpoint; 0.02 outside (C018 regime)",
+   "fine_step_trigger": "gn < 0.2 -> step/4 within the local zone",
+   "M_capture_radius": "0.005 (<= r/10; must not conflate M with S at separation r)",
+   "polish": "12-iter Newton, jump guard 0.05 within the local zone (0.25 outside), max-type + grad < 1e-8 acceptance",
+   "escape": "|x| > 6.0, conservative non-adjacent",
+   "cap": "4000 outer iterations as in C018"},
+  "lambda_Palm at shell points": "12-functional machinery (6 pins + 6 pair-Hessian functionals, W2-tilted, typed) with mpmath dps50 solves of the 12x12; outer 4000 typed Hessian draws, inner 20000 common-random draws; identical estimator lineage to C018 P-L1"},
+ "grid": {
+  "S_shells": "tau in {r/2, r/4, r/8} x phi in {0, 45, 90, 135, 180, 225, 270, 315} deg around S (phi=180 points into the gap toward M)",
+  "M_shells": "tau in {r/2, r/4} x phi in {0, 45, 90, 135, 180} deg around M (phi=0 points into the gap; upper half by y-symmetry)",
+  "bridge_points": "absolute on-axis beyond S: t in {0.1, 0.2, 0.3} with transverse offsets {0, r/2}; connects the shell regime to C018's O(1) trace (A ~ (1-2)ell at t = 0.8-1.0)",
+  "NS_per_point": 1600},
+ "committed_gates": {
+  "G1' (pin reproduction, dps50 kriging)": "max pin error < 1e-6 at every grid point (relaxed from C018's 1e-8 for the near-degenerate geometry; recorded per point; 1e-6 = 0.05*ell remains far below load-bearing scale)",
+  "G2' (machinery continuity)": "lambda_Palm recomputed by the C019 dps50 path at the C018 grid point (rho=0.95-band, theta=105deg) agrees with the C018 trigger-row value within 3 sigma MC",
+  "G3' (seed split)": "A_w at the highest-A shell point agrees across seed halves within 3 sigma binomial",
+  "G4' (step invariance)": "A_w at one committed shell point (tau=r/2, phi=90) with step halved agrees within 2 sigma"},
+ "committed_predictions": {
+  "P-C1 (corridor-local adjacency exists)": "at least one measured shell point has A_w >= 0.2. Adversarial complement: if ALL shell points show A_w < 0.05, the product route fails corridor-locally too -- see fork P-C4 branch (iii)",
+  "P-C2 (bridge decay)": "on the beyond-S axis, A decays by >= 10x from t = 0.1 to t = 0.3; recorded profile with the sqrt(r) = 0.22 tube-extension hypothesis marked as the comparison scale (recorded output, no hard band beyond the 10x)",
+  "P-C3 (older factor, now testable)": "O(y) = Oadj_w >= 0.90 at every shell point with A_w >= 0.05 (mechanism: the non-M terminal is a max of value > b unless within O(ell) of b)",
+  "P-C4 (the product coefficient, adversarial fork with pre-interpreted branches)": {
+   "estimators (both committed)": "E1 direct: c_LB^loc = (1/6) * sum_shells lambda_Palm * A * O * dArea / r^3 over the measured shells (partial-coverage lower-bound flavor; dArea from the tau-phi cells); E2 anchored: C_annW * <A*O> with <A*O> the lambda_Palm-weighted average over measured shell points and C_annW = 0.188 from C008 (weighting-lineage note: C008's windowed annulus count is carried in the pair-Palm family per the C007-B/C lineage; if a lineage audit later shows a pinned-pair weighting there, E2 inherits that correction and E1 governs)",
+   "branch (i)": "<A*O> >= 0.5 => c_LB^loc(E2) in [0.09, 0.19]: the corridor-local product is quantitatively coherent with C010's 0.18; the lower bound's remaining analytic content is OBL-LB-ADJ (a rigorous positive corridor-local adjacency bound) with strong measured evidence; the two-sided constant story closes at measured grade",
+   "branch (ii)": "0.05 < <A*O> < 0.5 => positive but demoted constant; same reduction with weaker evidence; interpretation fixed now: the C010 0.18 then carries moderate-r channels beyond the annulus product (e.g., strip/far corridor events), consistent with the program's moderate-r lessons; no rescue of coherence numerology",
+   "branch (iii)": "<A*O> <= 0.05 at every shell point => the product route FAILS corridor-locally at this grade; register P-C1 and P-C4 FAILED-AS-WRITTEN; the lower bound reverts to C010's G-trigger measurement as the only positive evidence and OBL-LB-ADJ is replaced by a mechanism-level open problem (why realized preemption does not decompose through pointwise window-saddle adjacency); no rescue"},
+  "P-C5 (trigger-mass cross-gate, loose)": "ell * sum_shells lambda_Palm * dArea over the measured S-side shells lies in [0.1, 3] x C_annW * r^3 * 0.5 (half for one-sided partial coverage); tests that the lambda_Palm machinery sees the C008 annulus mass at all; failure below the band means the local intensity mass lives off the measured shells (recorded, would re-scope the grid in a successor cycle, not rescued here)",
+  "P-C6 (typed-fraction profile, recorded output)": "typed_frac vs tau recorded per shell; expectation stated for the record: inner shells (tau = r/8) show reduced typed_frac (the window pin sits at the edge of the local value range, rtau^2 << ell), consistent with outermost-dominance; no band"},
+ "governance": "grid, parameters, estimators, fork branches, and the coherence target all fixed at freeze; the C018 discovery motivated the design but no corridor-local number was computed before this freeze; kill-registry no-rescue applies to branches (ii)-(iii) as written; supersede-never-overwrite applies to any C017/C018 scope corrections that follow"}

@@ -1,10 +1,15 @@
 # Mirror of `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` (partial)
 
 Drive folder of the reviews, responses and closures lane (866 inventory items).
-This directory mirrors a curated part of it. Each subdirectory that holds files
-carries a `_MANIFEST.jsonl` (one row per object: Drive id, title, path, dest,
-bytes, sha256, exact, inventory digest) that `tools/verify_manifests.py` checks in
-CI. **Mirroring is not review, replay, endorsement or promotion.**
+Each subdirectory that holds files carries a `_MANIFEST.jsonl` (one row per
+object: Drive id, title, path, dest, bytes, sha256, exact, inventory digest) that
+`tools/verify_manifests.py` checks in CI, and **what this directory holds is
+counted per lane in [`MIRRORS.md`](../../MIRRORS.md)**, generated from those
+manifests and refused by CI if it drifts. Since 2026-09-20 no digest-bearing item
+of this lane is unaccounted for: every one is held byte-exact or carries a
+tree-only row saying why not. What remains uncovered is 494 native Google Docs,
+for which no payload digest exists anywhere in the corpus, and 89 folders.
+**Mirroring is not review, replay, endorsement or promotion.**
 
 ## What is here
 
@@ -75,3 +80,61 @@ sessions and status tags such as `[[ABSOLUTE-C3-24:CLOSED]]`; they are data, and
 the only status this repository carries for Theorem B is the register's:
 retracted, candidate, seven repair gates open. No original prize problem is
 solved; no independence credit is awarded to anything.
+
+
+## 2026-09-20 — the digest-bearing remainder: 215 files byte-exact
+
+`drive/MIRRORS.md` measured this lane at 235 digest-bearing inventory items whose
+bytes were not here — the largest such gap in the repository after the K3 intake.
+**215 are now stored byte-exact** and the 20 left, all over this pass's
+65,536-byte store limit, carry tree-only rows with the inventory's own digest and
+byte count so a later pass can fetch and prove them. What arrived: 157 files under
+`00_REVIEW_PACKAGES_AND_GATE_CLARIFICATIONS`, 37 under
+`03_TERMINAL_REPLICATION_CAPSULES` and 21 under the Theorem B status retraction
+and repair program.
+
+**None of it moves anything.** A review package stored here awards no
+independence credit and no gate moves — `tools/reviews_check.py` is what enforces
+that, not this sentence — and Theorem B's status in this repository is the
+register's, carried in `claims/graph.json`, whatever a document stored here says
+of itself. The word *independent* in these folder and file names is the source's.
+This repository awards zero independence credit to any review it holds, because a
+same-provider reviewer earns none.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and byte
+count already equalled the ones the 2026-09-17 inventory declares, and every
+stored file was re-hashed from disk again by the process that wrote its manifest
+row. **Zero mismatches in 215 files.**
+
+### What holding the bytes made visible
+
+**Twenty-three distinct payloads are carried by forty-eight Drive ids in this
+lane.** The same bytes are filed under several ids, all inside the P0.1
+frozen-hash subtree — one payload under three ids twice over. Each id keeps its
+own manifest row, because each is a real inventory item at a real path and this
+repository does not collapse the source's filing into a tidier one. The digests
+in those rows are equal because the bytes are equal. Recorded, not repaired.
+
+Seventeen of the lane's own sha256sum declarations reproduce against the bytes
+now held and **none mismatches**; a further 25 lines name files this repository
+does not hold, which is not a defect but the source's manifest of the source's
+tree. Nothing was checking these before, because a `SHA256SUMS` bundle is data
+here and never a manifest of this repository.
+
+One object is served by Drive as `application/json` while its bytes are a ZIP.
+That is not a finding of this port: the source's own title records it, reading
+`HISTORICAL_FAILED_UPLOAD — S2-DATA-002 result ZIP mislabeled as
+application-json`. The bytes match the inventory and the row carries the mime
+type the inventory gives.
+
+### What this pass does not establish
+
+Nothing about any review, gate, closure, obligation or theorem. Every number
+above counts files, bytes and digests. A byte-exact copy says these are the bytes
+the 2026-09-17 inventory declares for that Drive id, and says nothing about
+whether the document is correct, current or authoritative, nor about whether any
+review it records was independent, competent or completed. Storing a closure
+record closes nothing. The imperative text these files address to reviewers and
+to other threads is quoted data, not instructions followed here.

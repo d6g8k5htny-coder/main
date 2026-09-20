@@ -38,7 +38,7 @@ moves no status.** Nothing under `02_LEGACY_Q0_ARCHIVE`, `03_PERSONAL_AND_EARLIE
 | `12_P1.1_LAW_SPECIFIC_Q_MACHINE` | 24 | 116 | 91 | 29 | 8,644,343 |
 | `13_POWER_PLANNING_CONTINUUM` | 3 | 24 | 21 | 6 | 1,647,083 |
 | `14_COORDINATION_AUTOMATION_SPINE` | 1 | 6 | 0 | 1 | 17,068 |
-| `15_REVIEWS_RESPONSES_AND_CLOSURES` | 8 | 48 | 22 | 0 | 5,103,245 |
+| `15_REVIEWS_RESPONSES_AND_CLOSURES` | 40 | 263 | 237 | 20 | 7,148,974 |
 | `16_THEMATIC_RESEARCH_TRACKS` | 13 | 26 | 24 | 0 | 181,787 |
 | `2026-08-01-to-08-03 — SIDE24 RATIFICATION + P0.1 POST-RATIFICATION` | 1 | 7 | 7 | 1 | 36,318 |
 | `2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE` | 46 | 364 | 364 | 51 | 3,126,638 |
@@ -48,7 +48,7 @@ moves no status.** Nothing under `02_LEGACY_Q0_ARCHIVE`, `03_PERSONAL_AND_EARLIE
 | `2026-09-16 — PRIZE PROBLEM RECONNAISSANCE — INDEPENDENT TRACK` | 27 | 236 | 236 | 31 | 973,179 |
 | `2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 1 | 9 | 7 | 0 | 205,639 |
 | `90_QUARANTINE_AND_TRIAGE` | 2 | 12 | 3 | 180 | 65,436 |
-| **24 lanes** | **237** | **1174** | **956** | **943** | **29,813,265** |
+| **24 lanes** | **269** | **1389** | **1171** | **963** | **31,858,994** |
 
 ## How much of the Drive is here
 
@@ -68,7 +68,7 @@ column here. That is why the two tables' totals differ.
 
 | Drive lane | inventory items | held | indexed | neither |
 |---|---:|---:|---:|---:|
-| `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 866 | 48 | 0 | 818 |
+| `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 866 | 263 | 20 | 583 |
 | `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` | 766 | 68 | 2 | 696 |
 | `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 468 | 364 | 51 | 53 |
 | `02_LEGACY_Q0_ARCHIVE — INSPIRATION ONLY ` | 346 | 0 | 346 | 0 |
@@ -94,7 +94,7 @@ column here. That is why the two tables' totals differ.
 | `06_SANDBOX_FRONTIER — DRAFTS_NO_AUTHORITY` | 2 | 1 | 0 | 1 |
 | `01_ACTIVE_RESEARCH_PACKAGES` | 1 | 0 | 0 | 1 |
 | `01_ACTIVE_RESEARCH_PACKAGES/00_DO_NOT_OPEN_MANIFEST — what was vaulted and why (READ THIS; DO NOT BROWSE THE VAULT)` | 1 | 1 | 0 | 0 |
-| **26 Drive lanes** | **4456** | **1172** | **936** | **2348** |
+| **26 Drive lanes** | **4456** | **1387** | **956** | **2113** |
 
 ### What the remainder is
 
@@ -118,7 +118,7 @@ keep the order of the table above so the two can be read across.
 
 | Drive lane | neither | folders | no digest declared | digest-bearing |
 |---|---:|---:|---:|---:|
-| `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 818 | 89 | 494 | 235 |
+| `01_ACTIVE_RESEARCH_PACKAGES/15_REVIEWS_RESPONSES_AND_CLOSURES` | 583 | 89 | 494 | 0 |
 | `01_ACTIVE_RESEARCH_PACKAGES/02_RESEARCH_CARRY_FORWARD_CANON` | 696 | 86 | 436 | 174 |
 | `01_ACTIVE_RESEARCH_PACKAGES/2026-08-03-to-08-06 — KIMI + AO48 LB-RATE ` | 53 | 53 | 0 | 0 |
 | `04_ACTIVE_GOVERNANCE_AND_DIRECTIVES` | 172 | 54 | 105 | 13 |
@@ -137,7 +137,7 @@ keep the order of the table above so the two can be read across.
 | `00_START_HERE — RESEARCH HOME` | 1 | 1 | 0 | 0 |
 | `06_SANDBOX_FRONTIER — DRAFTS_NO_AUTHORITY` | 1 | 1 | 0 | 0 |
 | `01_ACTIVE_RESEARCH_PACKAGES` | 1 | 1 | 0 | 0 |
-| **19 lanes with a gap** | **2348** | **472** | **1186** | **690** |
+| **19 lanes with a gap** | **2113** | **472** | **1186** | **455** |
 
 Counts are of manifest rows and stored bytes. They say nothing about whether any
 mirrored document is correct, current or authoritative; each lane's README

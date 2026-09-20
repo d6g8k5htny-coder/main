@@ -1,0 +1,80 @@
+KIMI-AUD-005
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 1 (distinct-family review of CL-DER-204-v1.0
+with capsule CL-DATA-204-v1.0)
+Inputs (hashes as received, verdict binds to them):
+- CL-DER-204 text: file
+  user_pasted_clipboard_long_content_as_file_CL-DER-204-v1.0_—_ENDPOINT-HESSIAN_DIVID5.txt
+  sha256 69a56ed33c1d0d2910611a3c97d7317500149e327980db7b6719d1ab13af02d2
+- CL-DATA-204 capsule: pasted text in operator message (receipts:
+  script sha256 5d837d57…51dcf6, output sha256 58f96793…50de4)
+Independence disclosure (sightedness tier, stated precisely): the KIMI
+line's own G.2.x endpoint-kernel machinery (endpoint kernels, zero-mean
+integration by parts, trapezoidal-corrected value windows — built for
+SIDE24 Part G) is the SAME technique class as the lemma's divided-
+difference interpolation. That is a route similarity, not a dependence:
+I re-derived the endpoint law BLIND from the Section-0 statement before
+reading Sections 1-5 (route recorded below), and the verification script
+was written from the statement, not from their capsule. Tools: Python
+3.12, fractions.Fraction exact-rational polynomial arithmetic (zero
+rounding), seed 20260802; script verify_cl_der_204_kimi_review.py,
+284 checks PASS in normal and -O modes, transcripts byte-identical.
+
+BLIND ROUTE (recorded before opening their proof). Pins on the x-slice
+g(x)=f(x,0): g(±r/2)=b, b−r³/6, g'(±r/2)=0. H3' quadratic with zeros at
+±r/2 forces H3' = c(x²−r²/4); the gap integral
+∫(x²−r²/4)dx = −r³/6 forces c=1; hence H3''(M)=−r, H3''(S)=+r. The
+interpolation error E = g−H3 has double zeros at both nodes; the only
+surviving term of E'' at an endpoint is (u²)''ψ with u = x²−r²/4,
+(u²)''(±r/2) = 2r², ψ = g[M,M,S,S,x]; confluence gives the endpoint
+fourth divided differences. y-slice h = (x²−r²/4)φ with φ = h[M,S,x]
+gives h'(M) = −rφ(M), h'(S) = +rφ(S). This is exactly the lemma's
+mechanism — derived independently.
+
+VERDICT: APPROVE. The deterministic core (Lemma 1 pin rigidity; Lemma 2
+endpoint identities A/B/C with bounds; T4 planted control; T6 composite
+fields) is independently re-derived and machine-verified EXACT. The
+probabilistic superstructure (Lemma 3 moment closure; Theorem proof by
+continuous mapping + Slutsky with uniform-moment UI) is standard-form
+and correctly deployed; its two external inputs are present in the KIMI
+corpus with structure verified in the R2 integration pass (P02-LM-005
+= the GP-DER-044 nine-jet interface; P02-LM-007 = the GP-DER-046
+fifth-derivative supremum tail). The lemma's own honest residuals
+(R1: GP-DER-046 Lemma 4.1 one-sentence assertion; R2: chart
+identification; R5: pin-gap sensitivity) are accurate and are carried
+as stated dependencies, not re-proved here.
+
+RECEIPTS (all exact-rational, 40 random trials each):
+- R1/R2 (pin rigidity): gap of ∫(x²−r²/4)dx is exactly −r³/6 (c=1);
+  endpoint second derivatives −r, +r. PASS.
+- T1: E''(M) = 2r² g[M,M,M,S,S], E''(S) = 2r² g[M,M,S,S,S], exact
+  equality on pin-compliant random degree-8 polynomials. PASS.
+- T2: A_M = −1 + 2r g[M,M,M,S,S], A_S = +1 + 2r g[M,M,S,S,S], exact;
+  |A_M+1| ≤ (r/12) sup|g''''| (coefficient-sup model). PASS.
+- T3: h'(M) = −r h[M,M,S], h'(S) = +r h[M,S,S], exact; both within
+  (r/2) sup|h'''| of h''(0)/2. PASS.
+- T4: S-pin gap perturbation δ ⇒ H3''(M) = −r + 6δ/r² exactly. PASS.
+- T5: |C_M − (q − (r/2)w)| ≤ (r²/8) sup|dxx f_yy|. PASS.
+- T6: composite six-pin fields: all four endpoint identities
+  simultaneously. PASS.
+Analytic review notes (Sections 4-5): Φ(J) = (−1, −a/2, q, +1, +a/2, q)
+matches the three bounds' limits (B_M → −a/2, C_M → q, etc.); moment
+closure |D4| ≤ |D4(0)| + (r/2)H_{5,r} is FTC; E|A_M+1|^p ≤
+(r/12)^p E[(|c40| + (r/2)H_5)^p] → 0; joint limit (Φ(J_0), J_0) via
+continuous mapping + Slutsky; D_M → −Q_L, D_S → +Q_L; UI of fixed
+polynomials from uniform moments of every fixed order. No step
+contested. One notation flag (nonmaterial): in Section 3(B) the bound
+|B_M + a/2| ≤ (r/2) sup|h'''| is valid but not sharp — the direct
+argument gives (r/4) sup|h'''|; the looser constant harms nothing.
+Process note (recorded per protocol): my first script draft zeroed
+trial-1+ pin compliance via a dead sum-vs-product line; caught by the
+T2 trial design, fixed, and the failure class is regression-pinned by
+the trial structure itself.
+
+FALSIFIER: any exact-rational counterexample to the T1–T6 identities
+(as replayable in the script), a mis-stated Φ limit, or failure of the
+moment-closure chain under the two named input lemmas kills this
+APPROVAL; the R1 residual is explicitly OUTSIDE this verdict's scope.
+
+SHA-256 of this report body (text after this line is excluded):
+59022eea0f21758899af8a138be327138746ebb5cb17c3c06689c4c6fb82dc53
