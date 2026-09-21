@@ -1,0 +1,113 @@
+==============================================================================
+LB-1 / SUP-OVER-ZONE - fail-closed machine certificate (mpmath 60 dps)
+SIDE24/q0 · LB-RATE · AO assembly · above-b saddle channel (C029 B3(ii))
+==============================================================================
+
+[A0] Kernel derivative sanity (exact identities)
+    K(0)=1, K_xx(0)=-1, K_xxxx(0)=3, K_xxyy(0)=1, K(e1)=e^{-1/2}: exact OK
+
+[A1] Periodization / spectral lattice certificates (side-24 torus)
+    wrap-around tail (|x|<=12)      <= 4.304e-31  (< 1e-28 required)
+    spectral truncation |k|>30 tail <= 9.374e-194  (< 1e-60 required)
+    truncated spectral sum vs K(x): max |diff| = 3.967e-60 (< 1e-25)
+    => planar kernel K = e^{-|u|^2/2} certified as the periodized covariance
+       to better than 1e-28 absolute on all certified points (immaterial).
+
+[A2] Pin assembly at ledger rung r = 0.025 (rebuilt from scratch)
+    ell = r^3/6 = 2.60416666667e-6
+    mu_t (arch mean value) = 1.19999869865649278
+    m_inf = (mu_t - b)/ell = -0.499715906773  (ledger limit -0.4999290; finite-r at 0.025)
+    certified inverse: max |Spp9*Spp9i - I| = 1.628e-51 (< 1e-30)
+
+[A3] Station tables vs ledger quotes (recomputed; no label trusted)
+    horizon v table: v(d=1) = 0.01887901929 | v(d=2) = 0.5652448212 | v(d=3) = 0.9785569768
+    (ledger quote: 0.018 / 0.55 / 0.976 - all inside quoted tolerance)
+    c031 station (5.00,0.0): v=0.999999957722 m=0.000329711999476 |grad m|=0.00145534175363 - matches json >= 12 digits
+    c031 station (5.25,0.0): v=0.999999995665 m=0.000106702159049 |grad m|=0.000499589023538 - matches json >= 12 digits
+    c031 station (5.50,0.0): v=0.999999999612 m=3.22490694172e-5 |grad m|=0.000159620079078 - matches json >= 12 digits
+    c031 station (5.25,0.3): v=0.999999995872 m=0.000118766189485 |grad m|=0.000556506851028 - matches json >= 12 digits
+    c031 station (5.25,-0.3): v=0.999999996136 m=8.51488850129e-5 |grad m|=0.000400445523233 - matches json >= 12 digits
+    c031 station (5.00,0.3): v=0.999999959707 m=0.00037013801907 |grad m|=0.00163416472791 - matches json >= 12 digits
+    c031 station (5.50,0.3): v=0.999999999631 m=3.56114080106e-5 |grad m|=0.000176459730412 - matches json >= 12 digits
+    all 7 c031_verify.json stations matched to >= 12 digits: OK
+
+[B] Value-kill exponent table E = (b-m)^2/(2v) at stations [task item 2]
+    axis d=1: v=0.018879019 m=1.3244313 > b - value-kill exponent DOES NOT APPLY (m > b)
+    axis d=2: v=0.56524482 m=0.95645439 E=0.052467941 kill=e^-E=0.9489
+    axis d=3: v=0.97855698 m=0.21800854 E=0.492719 kill=e^-E=0.611
+    c031 d=5: v=0.99999996 m=0.000329712 E=0.71960443 kill=e^-E=0.4869
+    FINDING (falsifier exhibit): at d=1 and d=2 the conditional mean EXCEEDS b
+    on ridge arcs, so [L1]/[L3]'s zone-wide value-kill is false as stated;
+    even at d=3, d=5 the exponent is only 0.4-0.7. The uniform mechanism
+    that DOES close the channel is the full KR bound (gradient + moment + tail).
+
+[C] Unconditional BF Kac-Rice constants [task item 3 quotes]
+    GH(80):  E-term=1.413657 rho_mx=0.043690 rho_sad=0.030487
+    GH(120): E-term=1.414164 rho_mx=0.043706 rho_sad=0.030513
+    MC 4e6:  E-term=1.413955 rho_mx=0.043699 rho_sad=0.030485
+    rho_mx(1.2)=0.043685, rho_sad(1.2)=0.030449, E-term 1.41350: VERIFIED
+    far-term constant: 2.1*(ell/2)/r^3 = 2.1/12 = 0.175 exactly (ell = r^3/6)
+
+[D] THEOREM (T2): pass-zone certification E[N_crit(f~>=b, B_{3r}(M))]
+    (zone contains the B3 pass ball B_{1.4r}(pair) with margin; rho_sad <= rho_CS)
+    grade: derived-on-grid, mesh r/20 (r/10 subset refinement gate <= e^10),
+    pin disks via circle scaling, named analyticity formality slack (C027/C031 class)
+    r=0.05   grid=10384  max log rho=-84.047  disk mins=131.5/154.4/167.1/171.7
+           E_ann=2.1e-30 E_disk=2.83e-46 E_zone=2.1e-30  tol=1.25e-7  E/tol=1.68e-23
+    r=0.04   grid=10393  max log rho=-131.19  disk mins=193.2/231.1/256.3/267.2
+           E_ann=1.39e-51 E_disk=1.51e-66 E_zone=1.39e-51  tol=6.4e-8  E/tol=2.17e-44
+    r=0.03   grid=10386  max log rho=-234.29  disk mins=317.0/380.2/434.2/462.9
+           E_ann=5.92e-97 E_disk=3.95e-107 E_zone=5.92e-97  tol=2.7e-8  E/tol=2.19e-89
+    r=0.025  grid=10384  max log rho=-340.04  disk mins=436.4/516.4/598.5/648.0
+           E_ann=8.66e-143 E_disk=3.4e-146 E_zone=8.67e-143  tol=1.56e-8  E/tol=5.55e-135
+    r=0.02   grid=10393  max log rho=-528.34  disk mins=651.6/750.8/876.8/966.1
+           E_ann=2.76e-225 E_disk=1.82e-216 E_zone=1.82e-216  tol=8.0e-9  E/tol=2.28e-208
+    r=0.0125 grid=10384  max log rho=-1360.3  disk mins=1567.0/1693.0/1920.0/2168.0
+           E_ann=8.09e-587 E_disk=4.87e-515 E_zone=4.87e-515  tol=1.95e-9  E/tol=2.49e-506
+    ray-scan gate (r=0.05, 240 rays x 40 steps): max log rho = -83.436 (<= -40)
+    => E[N_above-b-saddle(pass zone)] <= E[N_crit] <= E_zone(r) <<< 1e-3 r^3
+       at every certified rung; kill STRENGTHENS superexponentially as r -> 0.
+    worst E_zone/tolerance over rungs = 1.683e-23
+
+[E] Mean-field critical census (T3 exhibit, derived-on-grid)
+    crit (-0.0315, 0.006): m=1.199998699 det=-0.00864579 SADDLE d=0.0320663
+    crit (-0.0125, -1.060570255e-51): m=1.2 det=0.00489123 MAX d=0.0125
+    crit (0.0125, -5.949752406e-52): m=1.199997396 det=-0.0112384 SADDLE d=0.0125
+    crit (1.305609363, 0.6857587397): m=1.931190358 det=7.16031 MAX d=1.47475
+    crit (-1.740886971, -1.077149202): m=-0.5805142465 det=2.3949 MIN d=2.04718
+    crit (1.563970995, -1.480019797): m=-0.3317785492 det=1.19884 MIN d=2.15324
+    crit (-1.104004747, 0.8796855226): m=1.666598219 det=5.39962 MAX d=1.41162
+    candidate clusters Newton-resolved: 7; exclusion floor min|grad m| = 0.0525924 >= 0.02
+    (mesh 0.02 over B_2.5, candidate threshold 0.1, unresolved sites slide to
+     infinity = no root; named on-grid exclusion formality, C027 class)
+    above-b saddles of the mean in d<=2.5: 0; above-b maxima: 2
+    => the mean has NO above-b saddles; above-b mean-critical points are maxima
+       (ridge peaks P* ~ (1.3056,0.6858) m=1.931 and Q* ~ (-1.104,0.880) m=1.667).
+
+[F] Zone-wide exhibit (T3): why zone-wide closure is FALSE
+    max rho_crit(>=b) over B_1.5 = 4.45274 at d=1.4089 (near P*)
+    E[N_crit(>=b, B_0.35(P*))] (grid integral) = 1.02489 = O(1)
+    => E[N_crit(f~>=b, B_1.5)] is O(1), dominated by the deterministic ridge
+       max; ridge-region saddles route to the mean-ridge channel (C029 B3(iii)),
+       NOT to this count. The pass-zone localization (D) is the closure.
+
+[G] FLAG (T5): Lemma WP rigidity-zone recheck (independent)
+    window-saddle intensity integral over d<=1.5 (mp grid 0.025): 1.29763e-5
+    max point intensity 0.000133413 at (mpf('-0.0499999999999999999999999999999999999999999999999999999999999981'), mpf('-0.574999999999999999999999999999999999999999999999999999999999953'))
+    C030 figures: rigidity-zone '~3e-15'; WP total 0.213 r^3 = 3.32812e-6
+    => recheck exceeds the lemma's rigidity-zone figure by orders of magnitude;
+       root cause: rim band {mu~ within ~2 sd of the window} inside d<=1.5
+       (e.g. y=(-0.04,-0.58): mu~=1.1870, v~=5.94e-5, p_grad(0)=5.05) is real.
+       Lemma WP needs re-derivation. LB-1 unaffected (its zone is B_{3r}).
+
+[H] Zone decomposition orders (summary) [task items 2-3]
+    pass zone B_{3r}(M):  E <= E_zone(r), worst rung r=0.05: 2.104e-30
+    complement (d > zone): no B3 above-b saddle exists there (C029 Freeze B3:
+      the pass lies inside B_{1.4r}); ordinary above-b MAXIMA are the desired
+      terminals (R1/R4), not failures; ordinary BAND counts are O(r^3):
+      E[N_maxband(B_5)] <= 2.1*(ell/2) = 0.175 r^3 (C030 KR-MB),
+      rho_mx(1.2) = 0.043685 (verified at [C]).
+
+==============================================================================
+CERTIFICATE: PASS
+==============================================================================

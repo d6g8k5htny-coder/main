@@ -1,0 +1,42 @@
+KIMI-DER-010
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 11 (joint (r,ρ) gluing; runs after Task 5)
+Inputs: KIMI-AUD-003 (measured laws), KIMI-DER-006 (derived B-law and
+mechanism), KIMI-AUD-007 (Task-5 suppression calibration), KIMI-AUD-006
+/006b (V3.4 chart machinery as audited), the G.9.1-corrected and G.9.2
+certified objects. Independence disclosure: the partition below is the
+KIMI line's assembly; every cited constant was recomputed or
+engine-verified in the named receipts.
+
+VERDICT: the joint (r,ρ) determinant-control statement below is
+ASSEMBLED and verified constant-by-constant; it is sufficient for the
+§8-class collar integration (pre-Palm ledger O(r^5), post-Palm O(r³)).
+
+CHART-PARTITION TABLE (collar witness y = M + ρu, |u| = 1, d = |M−S|;
+U⊥ = transverse component of u; B-law B = 10/d − (38/15)d + … axis,
+≈ 2.4/d generic, 0 (exact parity) transverse):
+
+| # | Chart (domain) | det C_cond two-sided control | Suppression | Overlap margins |
+| 1 | Transverse face U⊥ ≥ ε₀ (fixed ε₀ > 0) | det ≍ ρ⁶·U⊥²(4u₁² + d²U⊥)(1 ± 1/2) via G.9.1-corrected + V3.4 (3.6) (monomial ϱ⁶(4X²+ϱ²), Gram constant 9/4) | none needed | U⊥ ≥ ε₀ meets chart 2 at U⊥ = ε₀ exactly; window ρ ≤ 0.05d meets chart 4 at ρ = 0.05d |
+| 2 | Axial cone ρ ∈ (εd, 2d], U⊥ ≤ ε₀ | detΓ_axis ≍ d⁸/24; det C = ρ⁶detΓ(1 ± Bρ), Bρ ≤ 20 edge-bounded | p ≤ C(ρ⁶detΓ)^{-1/2} exp(−cκ²/d_0²), d_0² = 4χ² + a²; measured exponent margin ×20–25 interior, ×120 midpoint | meets chart 1 at U⊥ = ε₀; meets chart 4 at ρ = 0.05d; endpoint ρ = d excluded → chart 5 |
+| 3 | Transverse near-face (any U⊥, ρ ≤ 0.05d) | two-sided factor ≤ 2 on EVERY direction: Bρ ≤ 10·0.05 = 0.5 axis, 2.39·0.05 generic, 0 transverse (parity zero → remainder (ρ/d)²) | none | contained in charts 1/2 overlap; the linear window |
+| 4 | Endpoint chart ρ ∈ (0, 0.05d] ∪ axial cap ρ ≤ 2d at M/S | det ≍ d⁶d̃²(d̃²+ρ²)³·A_end (4.11); axial cap det ≍ d⁶r⁸ | measure-level ledger (4.13)/(8.4)/(EP.2): d⁻¹ divisor integrable after d̃² dd̃, e^{−c/r²} penalty | meets chart 3 at ρ = 0.05d; axial cap ρ ≤ 2d inside chart 2's outer edge |
+| 5 | S-endpoint mirror of chart 4 (S side) | same with d̃ = d − ρ | same | mirror overlap at ρ/d = 1/2 ± margin |
+
+Concluding determinant-control statement (sufficient for §8):
+on the whole collar chart domain, with the chartwise monomials above,
+(i) det C_cond(ρ,u) ≥ c·(chart monomial) > 0 on every chart;
+(ii) the joint density p_{∇f(y)|pins}(0) ≤ C·(chart monomial)^{-1/2}·exp(−cκ²/Θ_chart²) with Θ as tabulated (transverse: Θ = ∞; cone: Θ = d_0; endpoint: Θ = r or ε);
+(iii) every chart boundary overlaps its neighbors by a stated margin (column 4);
+(iv) the first-order B-law calibrates the linear two-sided window ρ ≤ 0.05d with factor ≤ 2 uniformly on the direction sphere;
+(v) the Kac–Rice collar integral then closes with pre-Palm ledger O(r⁻⁴)·O(r³)·O(r⁶) = O(r⁵) and post-Palm O(r³) by (1.3), as audited in KIMI-AUD-006 §8.
+
+RECEIPTS (each constant): window factor 0.5 = 10·0.05 (derived B-law, KIMI-DER-006); generic 2.39·0.05; transverse parity zero (proved lemma both lines); exponent margins ×19.7–24.9 (interior/outer cone), ×120.1 (midpoint) — engine receipt in KIMI-AUD-007; chart monomials: transverse Gram 9/4·ρ⁶(4ξ1²+ρ²) (exact, KIMI-AUD-006 §3), axial d⁸/24 (G.9.1-corrected closed form), midpoint r^16 (2^16-exact, KIMI-AUD-006 §4), endpoint d⁶r²(r²+ρ²)³ (4.11, audited); the d⁻¹ endpoint divisor and its d̃² dd̃ absorption ((8.4)/(EP.2), audited); suppression forms (4.5)/(AI.4)/(MP.6)/(5.16)/(H.27) (all audited).
+
+FALSIFIER: a chart point where the tabulated monomial fails two-sided
+control by more than the tabulated factor, or a boundary with no stated
+overlap, kills the corresponding row; the assembly's use in the §8
+ledger is falsified by any radial integral exceeding its audited order.
+
+SHA-256 of this report body (text after this line is excluded):
+21c935b4d3483d3cacb7bcf5e26481e2591c8c14359d09151c16cbfb9d962974

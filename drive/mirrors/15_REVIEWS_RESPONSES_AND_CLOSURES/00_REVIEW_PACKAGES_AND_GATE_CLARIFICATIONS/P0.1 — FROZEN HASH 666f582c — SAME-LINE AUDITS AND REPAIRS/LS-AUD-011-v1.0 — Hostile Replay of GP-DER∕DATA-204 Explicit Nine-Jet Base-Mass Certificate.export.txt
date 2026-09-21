@@ -1,0 +1,611 @@
+﻿LS-AUD-011-v1.0 — HOSTILE REPLAY OF GP-DER/DATA-204 EXPLICIT NINE-JET BASE-MASS CERTIFICATE
+
+
+Artifact ID: LS-AUD-011-v1.0
+Date: 2026-07-25
+Reviewer/executor: OpenAI GPT-5.6 Thinking, Lead Scientist
+Session: OPENAI-GPT56-THINKING-P01-BASEMASS-20260725-01
+Class: AUD / SAME-FAMILY HOSTILE REPLAY / EXACT GAUSSIAN BASE-MASS CERTIFICATE
+Authority: same-line technical review only
+Canonical mathematical impact: NONE
+Organizational independence credit: ZERO
+Dispatch: DQ-005
+Claim: LS-CLAIM-P01-204-20260725-01
+Target: GP-DER-204-v1.0 / GP-DATA-204-v1.0
+Frozen P0.1 theorem: 14,591 bytes; SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+
+
+[[TARGET:P0.1-BASE-MASS]] [[SOURCE-SHA:28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134]] [[RESULT-SHA:5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf]] [[VERDICT:PASS-WITH-CLARIFICATION-SAME-LINE]] [[r_GR:r_D]] [[p_B:1e-48]] [[INDEPENDENCE:ZERO]] [[NO-PROMOTION]]
+
+
+1. VERDICT
+
+
+APPROVE GP-DER-204 / GP-DATA-204 EXACT SOURCE SHA-256
+
+
+28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134
+
+
+AND RESULT SHA-256
+
+
+5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf
+
+
+FOR THE SAME-LINE QUANTITATIVE ASSIGNMENTS
+
+
+    r_GR=r_D
+
+
+and
+
+
+    p_B=10^-48
+
+
+ONLY.
+
+
+The exact source and frozen result reproduce byte-for-byte. B0–B12 survive reconstruction. The transformed side-24 image reserve is valid, but the proof should be read through the norm-one Hermite divided-difference/Peano-kernel representation established in Section 8 below, not through raw l1 norms of the singular coefficient matrix. The raw coefficient rows grow as powers of 1/r, while the functionals themselves remain uniformly bounded because the cancellations are exact.
+
+
+This is a same-OpenAI-family hostile replay with zero organizational-independence credit. It does not promote P0.1.
+
+
+2. EXPOSURE AND METHOD
+
+
+Prior constants and same-line output were visible. This is not a blinded review.
+
+
+Methods:
+
+
+- exact marker-normalized source/result reconstruction;
+- exact source execution at 120 decimal digits;
+- byte-identical result comparison;
+- independent exact limiting covariance and Sylvester audit;
+- independent symbolic coefficient inspection through r^6;
+- independent all-image side-24 derivative bound through order 12;
+- exact Peano-kernel representation of the confluent pin functionals;
+- independent matrix perturbation and density arithmetic;
+- adversarial mutations;
+- comparison with the already closed qualitative P02-LM-005 interface.
+
+
+Software:
+CPython 3, SymPy, mpmath at 120–300 decimal digits, NumPy only for the raw-double-precision negative control.
+
+
+3. B0 — SOURCE AND RESULT IDENTITY — PASS
+
+
+Source carrier:
+Drive ID 1QYLkJ3GO8X5VCDvKvqZ9ttkiMYDm6uAxCpLMDcZGpTI.
+
+
+After applying the declared marker extraction and halving every even blank-line run:
+
+
+- source bytes: 14,899;
+- SHA-256: 28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134.
+
+
+Result carrier:
+Drive ID 1n4QxE3dG7hDwCfPrWSCgJDWvYyadPeKejbeN1d6nmUw.
+
+
+After marker extraction:
+
+
+- result bytes: 3,732;
+- SHA-256: 5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf.
+
+
+Executing
+
+
+    python3 GP-DATA-204-v1.0_explicit_nine_jet_base_mass_certificate.py \
+      --output replay.json --dps 120
+
+
+returns zero and prints ALL CHECKS PASS. The generated replay is exactly 3,732 bytes with the frozen result hash and is byte-identical to the stored result.
+
+
+4. B1 — EXACT OBJECT CARD — PASS
+
+
+The certificate uses:
+
+
+- the exact normalized-periodized side-24 Bargmann–Fock field;
+- b=6/5;
+- physical endpoints M=(-r/2,0), S=(r/2,0);
+- six endpoint value/gradient pins;
+- midpoint physical jet ordering
+  (q,a,w,z,c40,c31,c22,c13,c04);
+- the exact nine-jet pushforward gamma_r=(J_r)_#Q_{6,r};
+- the fixed physical-coordinate box B_q.
+
+
+No finite-Q4 covariance, weight, or event is substituted. The closed P02-LM-005 object is the identical qualitative Gaussian jet law, but GP-DATA-204 is a new quantitative source/hash and must be reviewed separately.
+
+
+5. B2 — CONFLUENT FRAME — PASS
+
+
+The transformed pins are
+
+
+    L0=(F_++F_-)/2,
+    L1=(F_+-F_-)/r,
+    L2=(X_+-X_-)/r,
+    L3=(Y_++Y_-)/2,
+    L4=(Y_+-Y_-)/r,
+    L5=(12/r^2)[(X_++X_-)/2-L1].
+
+
+Under the exact pins their limiting values are
+
+
+    (f,f_x,f_xx,f_y,f_xy,f_xxx)
+      =(6/5,0,0,0,0,2).
+
+
+The factor in L5 is correct. Writing r=2h and phi(u)=f(hu),
+
+
+    L5=(3/h^3)[(phi'(1)+phi'(-1))/2-(phi(1)-phi(-1))/2].
+
+
+For any C^3 function,
+
+
+    L5=integral_{-1}^{1} (3/4)(1-u^2) f'''(hu) du.
+
+
+The kernel is nonnegative and integrates to one. Therefore L5 has operator norm one with respect to the supremum norm of f'''. This identity is also the key to the periodization audit.
+
+
+6. B3 — LIMITING SPECTRAL WITNESSES — PASS
+
+
+The exact limiting mean is
+
+
+    m0=(-6/5,0,0,0,-18/5,0,0,0,18/5).
+
+
+The nontrivial covariance block is
+
+
+    B=[[2,-2,-12],[-2,6,12],[-12,12,96]].
+
+
+Its eigenvalues are approximately
+
+
+    0.4332852749267097251,
+    4.4717305441837629074,
+    99.0949841808895273675.
+
+
+The exact Sylvester witnesses reproduce:
+
+
+For B-(43/100)I:
+
+
+    157/100,
+    47449/10000,
+    1310093/1000000.
+
+
+For 100I-B:
+
+
+    98,
+    9208,
+    8608.
+
+
+All are positive. The remaining independent covariance coordinates have eigenvalues 2,2,2,6,6,6,24. Hence
+
+
+    lambda_min(Sigma0)>0.43,
+    lambda_max(Sigma0)<100.
+
+
+7. B4–B5 — SYMBOLIC SERIES AND EXPONENTIAL TAILS — PASS
+
+
+Independent inspection of the exact source matrices gives only even powers through r^6.
+
+
+For G_r the largest coefficient at each nonzero order is:
+
+
+    r^0: 15,
+    r^2: 21/4,
+    r^4: 81/80,
+    r^6: 11/80.
+
+
+For C_r:
+
+
+    r^0: 15,
+    r^2: 35/8,
+    r^4: 63/128,
+    r^6: 33/1024.
+
+
+The exact source replay gives
+
+
+    max |G_r-G0| entry
+      =1.5839163613398275... x 10^-8,
+
+
+    max |C_r-C0| entry
+      =8.239061224966267... x 10^-5,
+
+
+before the final matrix-level envelopes are applied.
+
+
+The reported exponential tails after r^6 are below approximately
+
+
+    1.98 x 10^-36
+
+
+and
+
+
+    1.21 x 10^-37,
+
+
+respectively. The exact geometric ratios are below one.
+
+
+8. B6 — SIDE-24 PERIODIZATION — PASS WITH CLARIFICATION
+
+
+8.1 Raw all-image derivative bound
+
+
+For derivative order n<=12 and |t|<=r_D, every nonzero image is at distance at least 24-r_D. Using the exact probabilists' Hermite recurrence, monotonicity beyond the largest Hermite root, both signs, and a geometric tail over |m|>=1 gives
+
+
+    max_{n<=12} sum_{m != 0}
+      |d^n/dt^n exp(-(t+24m)^2/2)|
+      <=5.452766121521802 x 10^-109.
+
+
+Including the normalization denominator and the two-dimensional product gives the uniform raw covariance-derivative error
+
+
+    <=5.452766121527031 x 10^-109
+
+
+for every derivative split of total order at most 12.
+
+
+The source uses
+
+
+    4*36^12*exp(-(24-r_D)^2/2)
+      =1.590199894669901 x 10^-106,
+
+
+which is larger by a factor of approximately 291.6.
+
+
+8.2 Why the singular matrix coefficients do not control the true amplification
+
+
+A raw l1 calculation on the displayed transformation matrix is not the correct proof: the L5 row contains r^-3 coefficients and its raw row norm diverges. The exact cancellations must occur before taking absolute values.
+
+
+The correct transformed functionals have norm-one representations:
+
+
+- L0 and L3 are endpoint averages;
+- L1 is the average of f_x over the interval;
+- L2 is the average of f_xx;
+- L4 is the average of f_xy;
+- L5 is the positive Peano-kernel average of f_xxx displayed in Section 5.
+
+
+Thus applying one transformed functional to a covariance error costs at most one in the corresponding derivative supremum norm; applying two costs at most one again. G_r needs derivatives through total order six and C_r through total order seven. The source's order-12 raw bound is therefore more than sufficient.
+
+
+Consequently the required divided-difference amplification factor is at most one under the correct functional norm. The source's declared factor 10^18 is valid but vastly unnecessary.
+
+
+8.3 Direct high-precision corroboration
+
+
+Direct normalized side-24 evaluation of the transformed matrices at r_D gives
+
+
+    max entry |G_torus-G_planar|
+      =3.1195183760394572... x 10^-117,
+
+
+    max entry |C_torus-C_planar|
+      =3.1195183318878216... x 10^-117.
+
+
+At r_D/2, r_D/10, and r_D/100 the values remain near 3.1195181 x 10^-117, consistent with the confluent derivative limit.
+
+
+The adopted transformed-entry reserve 10^-87 therefore has approximately thirty decimal orders of slack relative to direct evaluation and over twenty orders relative to the analytic raw derivative bound.
+
+
+Clarification required for future exposition:
+State the Peano-kernel/divided-difference norm argument explicitly. Do not describe 10^18 as a bound on the raw transformation-matrix l1 coefficients.
+
+
+9. B7–B9 — NEUMANN INVERSION, SCHUR COMPLEMENT, AND FINITE-r SPECTRUM — PASS
+
+
+The exact limiting pin Gram has smallest eigenvalue
+
+
+    8-sqrt(58)=0.3842268941360917...>1/3,
+
+
+so
+
+
+    ||G0^-1||_2<3.
+
+
+The source's dimension conversions are correct:
+
+
+    ||G_r-G0||_op <=6 max entry,
+    ||C_r-C0||_op <=sqrt(54) max entry.
+
+
+The reproduced bounds are
+
+
+    delta_G<9.522 x 10^-8,
+    delta_C<9.711 x 10^-8,
+    ||G0^-1(G_r-G0)||<2.857 x 10^-7,
+    ||G_r^-1||<3.000001,
+    ||G_r^-1-G0^-1||<8.570 x 10^-7.
+
+
+Using ||C0||_op<=sqrt(302), ||y_r||<3, and the exact conditioning-vector displacement gives
+
+
+    ||m_r-m0||_2
+      <4.557647544437678... x 10^-5,
+
+
+and
+
+
+    ||Sigma_r-Sigma0||_op
+      <2.689222510137885... x 10^-4.
+
+
+Weyl's inequality is used in the correct direction:
+
+
+    lambda_min(Sigma_r)
+      >0.4297310777489862...>0.42,
+
+
+    lambda_max(Sigma_r)
+      <100.000268922251014...<151.
+
+
+10. B10 — BOX GEOMETRY — PASS
+
+
+The nine exact side lengths are
+
+
+    0.04,
+    0.0002,
+    0.002,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02,
+    0.02.
+
+
+Their product is exactly
+
+
+    Vol(B_q)=1/976562500000000000
+            =1.024 x 10^-18.
+
+
+The exact maximum squared distance from m0 to B_q is
+
+
+    339162597/12500000
+      =27.13300776.
+
+
+The coordinate ordering used to obtain this value matches the frozen nine-jet order.
+
+
+11. B11 — DENSITY LOWER BOUND — PASS
+
+
+For a nine-dimensional Gaussian,
+
+
+    phi_r(u)=(2pi)^(-9/2) det(Sigma_r)^(-1/2)
+             exp[-(1/2)(u-m_r)^T Sigma_r^-1(u-m_r)].
+
+
+From lambda_max<=151,
+
+
+    det(Sigma_r)^(-1/2)>=151^(-9/2).
+
+
+From lambda_min>=0.42,
+
+
+    (u-m_r)^T Sigma_r^-1(u-m_r)
+      <=||u-m_r||^2/0.42.
+
+
+Using the deliberately weakened mean displacement 0.001 gives
+
+
+    inf_{u in B_q} phi_r(u)
+      >3.708299469322719... x 10^-28.
+
+
+Multiplying by the exact volume gives
+
+
+    Q_{6,r}(J_r in B_q)
+      >3.7972986565864646... x 10^-46
+      >10^-48.
+
+
+The determinant and quadratic-form inequality directions are correct.
+
+
+12. B12 — SCOPE FIREWALL — PASS
+
+
+This certificate proves only a quantitative exact conditioned-law nine-jet box-mass statement. It does not prove:
+
+
+- the conditioned H5 event;
+- deterministic exact-field capture;
+- endpoint determinant lower bounds;
+- the typed Palm quotient;
+- P0.1 or P0.2 terminal status;
+- theorem promotion, package sealing, machine changes, or external release.
+
+
+13. ADVERSARIAL MUTATIONS
+
+
+M1 — RAISE LOWER SPECTRAL THRESHOLD TO 0.434 — FIRES
+
+
+The true limiting minimum is 0.4332852749..., so the mutated threshold fails.
+
+
+M2 — LOWER UPPER SPECTRAL THRESHOLD TO 99 — FIRES
+
+
+The true limiting maximum is 99.0949841808..., so the mutated threshold fails.
+
+
+M3 — SHRINK MEAN TOLERANCE TO 4 x 10^-5 — FIRES
+
+
+The derived bound is 4.5576475 x 10^-5.
+
+
+M4 — REVERSE DENSITY EIGENVALUE DIRECTIONS — FIRES
+
+
+Using lambda_min to lower-bound det(Sigma)^(-1/2), or lambda_max to upper-bound the quadratic form, is invalid. A diagonal covariance 151I is an immediate counterexample to the former mutation.
+
+
+M5 — CHANGE ONE BOX SIDE LENGTH — FIRES
+
+
+The exact rational volume identity fails. Halving any one side halves the mass certificate and changes the frozen event.
+
+
+M6 — CHANGE JET ORDERING — FIRES
+
+
+The exact limiting mean, covariance block, and distance calculation no longer align. This is an object-card failure.
+
+
+M7 — DELETE THE SIDE-24 RESERVE — FIRES
+
+
+The source check image_bound*10^18<reserve fails when reserve is zero. More fundamentally, the exact torus and planar covariance are not identical; the independently computed transformed error is nonzero.
+
+
+M8 — USE THE RAW PIN GRAM AT DOUBLE PRECISION — FIRES
+
+
+At r_D its condition number is approximately 2.12 x 10^17 and a double-precision inverse has a residual of order one. The transformed frame has a residual near machine epsilon.
+
+
+M9 — OMIT THE DIMENSION FACTOR IN ENTRY-TO-OPERATOR CONVERSION — FIRES
+
+
+The 6x6 G block requires the factor six and the 9x6 C block requires sqrt(54). Omitting them underbounds the perturbation.
+
+
+M10 — SUBSTITUTE A FINITE-Q4 COVARIANCE OR WEIGHT — FIRES
+
+
+This changes the exact Gaussian pushforward or downstream object. The DQ-005 claim concerns gamma_r under Q_{6,r}, not a quartic Palm law.
+
+
+14. SHARED-DEPENDENCY AND DISCREPANCY TABLE
+
+
+P02-LM-005 / CL-AUD-074:
+
+
+- already closes the qualitative exact six-pin nine-jet continuity, nondegeneracy, compact-set positive density, and moment interface;
+- supplies one organizationally distinct dependency lineage;
+- does not reproduce GP-DATA-204's source/result hashes;
+- does not certify r_GR=r_D or p_B=10^-48.
+
+
+GP-DER/DATA-204:
+
+
+- supplies an explicit quantitative source and finite radius;
+- is same-family only;
+- is consistent with the closed qualitative interface;
+- does not create a second independence credit.
+
+
+Earlier LS-DER-008 / LS-DATA-008:
+
+
+- were empty or incomplete shells;
+- are superseded for active quantitative use by GP-DER/DATA-204;
+- should remain preserved as provenance, not as current evidence.
+
+
+No mathematical contradiction was found.
+
+
+15. CURRENT EFFECT
+
+
+DQ-005's same-family acceptance test is satisfied:
+
+
+- exact carrier identities: PASS;
+- byte-identical execution: PASS;
+- B0–B12: PASS;
+- periodization reserve: PASS WITH EXPLICIT CLARIFICATION;
+- mutations: 10/10 fire or invalidate the route;
+- candidate r_GR=r_D: STRONGLY SUPPORTED SAME-LINE;
+- candidate p_B=10^-48: STRONGLY SUPPORTED SAME-LINE;
+- organizationally distinct quantitative review: OPEN;
+- theorem promotion effect: NONE.
+
+
+END LS-AUD-011-v1.0

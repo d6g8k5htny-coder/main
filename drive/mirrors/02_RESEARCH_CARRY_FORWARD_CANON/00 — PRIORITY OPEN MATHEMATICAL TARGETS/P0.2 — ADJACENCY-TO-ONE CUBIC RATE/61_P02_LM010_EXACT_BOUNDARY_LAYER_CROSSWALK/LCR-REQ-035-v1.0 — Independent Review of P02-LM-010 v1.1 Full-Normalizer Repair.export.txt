@@ -1,0 +1,197 @@
+﻿CONTROLLING SAME-LINE AUDIT ADDENDUM — LCR-AUD-040 / LCR-COR-041 — 2026-07-24
+
+
+Fresh Drive export reproduced the frozen body as 9,335 bytes with SHA-256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2. The full-normalizer crosswalk survives same-line audit.
+
+
+Required added review item:
+X9A — REGULAR-CONDITIONAL VERSION CONTROL.
+Confirm that barW_r and tildeW_r are regular conditional expectations defined jet-law almost everywhere, and verify that modification on a jet-law null set yields a measurable support-respecting bounded version preserving both numerator and denominator integrals.
+
+
+Correction companion:
+https://docs.google.com/document/d/1lfzeCXtktWMN1726mePCknFb-_ooGoao-_vZOSfWIMQ/edit
+
+
+Same-line audit:
+https://docs.google.com/document/d/1tVWFNyxIYnPPgLVdpb6I6XsR_gP7IuHeswWLz5BlxOI/edit
+
+
+This addendum does not alter the frozen theorem body or hash. Same-line work earns zero organizational-independence credit.
+
+
+[[X9A:RCE-VERSION-CONTROL]] [[HASH:REPRODUCED-SAME-LINE]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+LCR-REQ-035-v1.0 — INDEPENDENT REVIEW OF P02-LM-010 v1.1 FULL-NORMALIZER REPAIR
+
+
+Artifact ID: LCR-REQ-035-v1.0
+Date: 2026-07-24
+Class: REQ / FROZEN-HASH EXACT-OBJECT REVIEW
+Authority: review routing only
+Status: OPEN ASSIGNMENT
+
+
+Frozen object:
+LCR-DER-030-v1.1
+https://docs.google.com/document/d/1Iqwm-8TcKNjrVQgeT71ip5Qg9C0qkkzr4rjageW9gZ0/edit
+
+
+BODY_BYTES: 9335
+BODY_SHA256: 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+
+
+Freeze receipt:
+https://docs.google.com/document/d/1MtDnFEIQKZino9wYBMg8XVrPUCJhOjznvsSQqJqaxi0/edit
+
+
+Predecessor v1.0, SHA 913ab0060d619f1ff34055014ae3e9425931c2a58ad57ccabbe04d5d83f1c235, is AMEND-REQUIRED and must not be reviewed as current.
+
+
+[[TARGET:P02-LM-010-v1.1]] [[HASH:05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2]] [[FULL-NORMALIZER-REPAIR]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+====================================================================
+1. REQUIRED REVIEW LEDGER
+====================================================================
+
+
+X0 — FROZEN IDENTITY.
+Reproduce BODY_BYTES 9335 and the full SHA-256.
+
+
+X1 — EXACT OBJECTS.
+Verify exact Q_{6,r}, exact endpoint Hessians, exact type indicators, exact W_r, exact Z_r, and exact Palm law. Quartic Hessians are comparison formulas only.
+
+
+X2 — COORDINATE AND HESSIAN CROSSWALK.
+Check all midpoint jet definitions, s=q/r, R(U), C_cap(U), and both physical quartic endpoint Hessians.
+
+
+X3 — GOOD-EVENT PHYSICAL ERROR.
+Verify that the scaled-Jacobian Taylor error O(r) becomes physical-Hessian error O(r^2).
+
+
+X4 — EXACT MAXIMUM-TYPE UPPER ENDPOINT.
+Derive
+
+
+    s<w/2-r c22/8+C_T r
+
+
+from exact negative definiteness at M and the physical yy-entry error. Check every sign and r-power.
+
+
+X5 — EXACT WEIGHT MAJORANT.
+Verify normalized exact Hessian entries are polynomially bounded and
+
+
+    W_r^{exact}
+      <=r^4K_D(1+|s|+||U||)^4
+
+
+on G_r, without quartic type or weight substitution.
+
+
+X6 — TWO CONDITIONAL WEIGHTS.
+Verify the distinct definitions
+
+
+    barW_r=E[W_r^{exact}|J_r],
+
+
+    tildeW_r=E[W_r^{exact}1_{G_r}|J_r].
+
+
+X7 — FULL DENOMINATOR.
+Verify
+
+
+    Z_r^{exact}=integral barW_r phi_r
+
+
+and confirm the proof never normalizes by integral tildeW_r phi_r.
+
+
+X8 — GOOD-BOUNDARY NUMERATOR.
+Verify
+
+
+    N_r=integral tildeW_r 1{s>-C_cap(U)} phi_r
+
+
+and that exact type plus G_r forces the finite upper endpoint.
+
+
+X9 — CONDITIONAL BOUND PRESERVATION.
+Check that the pointwise full-field r^4 bound passes to tildeW_r under conditional expectation.
+
+
+X10 — NONORIENTED INTEGRATION.
+Reconstruct q=rs, dq=r ds, the polynomial endpoint estimate, and N_r=O(r^5), including empty intervals.
+
+
+X11 — QUOTIENT DIRECTION.
+Use the full exact lower bound Z_r^{exact}>=c_Zr^2 to obtain P_r^{MS}(B_r)=O(r^3).
+
+
+X12 — LAW IDENTITY.
+Confirm density, both conditional weights, normalizer, and final probability refer to the identical exact side-24 six-pin law.
+
+
+X13 — GOOD-EVENT SCOPE.
+Confirm only B_r intersect G_r is bounded; G_r^c remains separate.
+
+
+X14 — VERSION REPAIR.
+State explicitly why v1.0's direct substitution into P02-LM-003 was invalid and why v1.1 fixes it.
+
+
+X15 — SCOPE.
+Approval closes only the exact good-remainder boundary-layer crosswalk, not H1–H3, P02-LM-003, the tail of G_r^c, or P0.2.
+
+
+====================================================================
+2. ADVERSARIAL MUTATIONS
+====================================================================
+
+
+Attempt at least:
+
+
+- set barW_r=tildeW_r;
+- normalize by the good-event subweight;
+- remove G_r from tildeW_r but keep the Hessian approximation;
+- use quartic maximum type;
+- replace C_T r by C_T;
+- claim exact W is nine-jet measurable;
+- use an exact normalizer from another law;
+- omit the finite upper endpoint;
+- apply the conclusion to the full threshold event without a separate G_r^c term.
+
+
+State the consequence of every failed mutation.
+
+
+====================================================================
+3. ACCEPTED VERDICTS
+====================================================================
+
+
+APPROVE P02-LM-010 VERSION 1.1 FROZEN SHA256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2 EXACT FULL-FIELD BOUNDARY-LAYER CROSSWALK WITH FULL-NORMALIZER REPAIR
+
+
+AMEND REQUIRED
+
+
+REJECT
+
+
+CANNOT VERIFY
+
+
+One organizationally distinct non-OpenAI reviewer is sufficient for this isolated lemma. No P0.2 promotion follows.
+
+
+END LCR-REQ-035-v1.0

@@ -1,0 +1,286 @@
+﻿SIDE24 Eigenfloor from Kernel — Independent Derivation — 2026-08-02
+Native reading mirror. The raw hash-bound carrier controls: Drive ID 1_d3IlxTpBtRGhay2BnqOLgC5GwVqaS36; 10,653 bytes; SHA-256 4479cd6ba9764260971185eb53118b14847d86e88b699346d1242a3efbd0ccd6.
+
+
+
+
+**Date:** 2026-08-02  
+**Disposition:** substantial archive-independent reconstruction; historical V3.3 table carrier still absent  
+**Proof code:** `verify_side24_eigenfloors_from_kernel.py`  
+**Scope fence:** this note proves the contact pair-pin floor and two contact Schur laws from the covariance definition. It does not claim byte recovery of the V3.3 archive, an undisclosed historical table, or a new proof of every finite-face compactification in FACEWISE v1.1.
+
+
+## 1. Source and consumer audit
+
+
+The sources inspected were:
+
+
+| source | bytes | SHA-256 | result |
+|---|---:|---|---|
+| `GP-DER-118-v1.10.md` | 30,933 | `c1d6e559274d7e87a3fa92f44cb2534a5e277a3b5941fd40db380599ddba0564` | no occurrence of `SIDE24`, `V3.3`, or `eigenfloor` |
+| `rp_c_rp_s_facewise_closure_v1.1.md` | 36,542 | `d5677359e72243a89450c14d324051948d721aa031bb729f2ce9f76fb392804e` | actual SIDE24 consumer |
+| `SIDE24_THEOREM_PACKAGE_v1.0.md` | 26,045 | `703eefd5297afd4541d25e350ad27d130435a20951fc8290e4bcfb0676231a52` | carries the V3.3 dependency and records its missing standalone identity |
+
+
+Thus the request's reference to “GP-DER-118-v1.10-consumed” SIDE24 eigenfloors has no textual referent in the frozen GP-DER-118 v1.10 body. That document is the separate q0 endpoint-Hessian track. The controlling SIDE24 consumers in the available corpus are FACEWISE v1.1 and the SIDE24 theorem package.
+
+
+FACEWISE v1.1 consumes no decimal eigenfloor as a theorem hypothesis. It consumes:
+
+
+1. a positive floor for the corrected pair-pin Gram at contact and then on each correctly normalized compact chart;
+2. the strict-transverse comparison
+   \[
+   \det C_{24}\asymp \varrho^6(4X^2+\varrho^2);
+   \]
+3. the singular-contact comparison preserving both factors
+   \[
+   \det C_{\rm sing}^{\rm BF}
+   =\frac{\varrho^{10}(c^2+\varrho^2)(3c^2+\varrho^2)}{24};
+   \]
+4. the separately normalized AI, midpoint, endpoint, and mixed-axis boundary frames, whose independence gives positive compact-face floors; and
+5. the raw-to-corrected density scales `r^-7` and `s^-7`, which are exact Jacobians, not numerical eigenvalues.
+
+
+The values `≈34.4`, `0.0485002`, and `[0.78104,1.83594]` are surfaced diagnostics. They are not the constants quantified in FACEWISE v1.1. The `21/64` number belongs to the later reconstructed G.9.2 planar stable-pin transfer on `0<d≤1/2`; it is neither the local corrected-pin eigenvalue nor an identified V3.3 table entry.
+
+
+## 2. Kernel and proof convention
+
+
+For the normalized side-24 periodized Bargmann–Fock field,
+
+
+\[
+K_{24}(z)=\prod_{j=1}^3
+\frac{\sum_{n\in\mathbb Z}e^{-(z_j+24n)^2/2}}
+{\sum_{n\in\mathbb Z}e^{-(24n)^2/2}}.
+\]
+
+
+Equivalently, its spectral support is every character in `(π/12)Z^3`, with strictly positive weight. Covariances of derivative functionals were reconstructed directly from
+
+
+\[
+\operatorname{Cov}(\partial^\alpha f(x),\partial^\beta f(y))
+=(-1)^{|\beta|}\partial^{\alpha+\beta}K_{24}(x-y).
+\]
+
+
+No project covariance script is imported. Exact contact algebra is performed over Gaussian moments; finite side-24 values are evaluated from the all-image kernel at 100 decimal digits.
+
+
+The correct independence argument is distributional Fourier uniqueness on the torus. If a finite linear combination of derivative evaluations has zero variance, its Fourier coefficient vanishes at every torus character. Fourier coefficients determine a distribution, so the finite distribution itself is zero. Disjoint supports separate, and derivatives of a delta distribution at one support point are linearly independent. This avoids the imprecise claim that a multivariate entire function vanishing on a lattice must vanish identically.
+
+
+## 3. Corrected contact pair-pin floor
+
+
+Take the pair direction as `T`. At contact the corrected pin frame is
+
+
+\[
+(1,iT,iE,iW,(iT)^2,(iT)(iE),(iT)(iW),-(iT)^3/12).
+\]
+
+
+For the nonperiodized BF kernel, parity splits the Gram matrix. After an orthogonal change within the frame, its only nontrivial blocks are
+
+
+\[
+\begin{pmatrix}1&-1\\-1&3\end{pmatrix},\qquad
+\begin{pmatrix}1&1/4\\1/4&5/48\end{pmatrix}.
+\]
+
+
+The remaining four eigenvalues are one. Hence the exact normalized least eigenvalue is
+
+
+\[
+\boxed{\lambda_{\rm BF}=\frac{53-5\sqrt{97}}{96}
+=0.039121989489786212409051488806373724911659568362356\ldots .}
+\]
+
+
+This calculation is direction-independent by Euclidean rotation invariance.
+
+
+For side 24, spatial images at contact begin at distance 24. For derivative order at most six,
+
+
+\[
+e^{-288}<10^{-125},\qquad
+|\mathrm{He}_j(24n)|\le2(24|n|)^6\quad(0\le j\le6,n\ne0).
+\]
+
+
+The verifier bounds every one-dimensional derivative correction by `2e-116` and, after product expansion and the directional-row coefficient budget, the 8-by-8 Gram operator perturbation by `6e-111`. Weyl's inequality therefore gives the explicit uniform local side-24 floor
+
+
+\[
+\boxed{\lambda_{24,\rm contact}>0.039.}
+\]
+
+
+This is an analytic all-direction statement. It is not inferred from three probes. The full all-image computation agrees with the exact BF value through the displayed 60 digits because the first periodization correction is beyond that precision.
+
+
+The historical diagnostic used the unnormalized spectral convention. Multiplying by the exact one-dimensional total spectral mass cubed gives
+
+
+\[
+\lambda_{24,\rm contact}^{\rm unnormalized}
+=34.338779472674590612334388183809553084808140916534\ldots,
+\]
+
+
+which explains the published `≈34.4` statement.
+
+
+## 4. Generic transverse Schur law — exact derivation
+
+
+Let `V=YE+ZW`, `rho^2=Y^2+Z^2`, and quotient by the contact pin span. The three residual symbols are exactly
+
+
+\[
+X(iT)^2(iV)+\tfrac12(iT)(iV)^2,\qquad(iV)(iE),\qquad(iV)(iW).
+\]
+
+
+Direct Gaussian Gram formation and Schur elimination give
+
+
+\[
+C_{\rm gen}=
+\begin{pmatrix}
+\frac{\rho^2}{2}(4X^2+\rho^2)&0&0\\
+0&2Y^2+Z^2&YZ\\
+0&YZ&Y^2+2Z^2
+\end{pmatrix}.
+\]
+
+
+The transverse two-by-two block has eigenvalues `rho^2` and `2rho^2`. Therefore
+
+
+\[
+\boxed{\det C_{\rm gen}=\rho^6(4X^2+\rho^2)}
+\]
+
+
+exactly. On every strict transverse compact chart `rho≥epsilon>0`, `|X|≤C`, this supplies an explicit BF floor. The same image perturbation mechanism transfers it to side 24 after the correct normalization. Compactness is used only after the boundary frame has been proved independent; it is not used across `rho=0`.
+
+
+As a non-load-bearing regression, the new all-image finite grid gives
+
+
+\[
+\text{determinant-ratio range}
+=[0.781084910606,1.83625510771],
+\quad \min\lambda=0.0485024972674.
+\]
+
+
+The older spherical-cutoff values were `[0.78104,1.83594]` and `0.0485002`. Their small differences are truncation effects. Both grids are diagnostics; neither sampled minimum is a theorem-wide eigenfloor.
+
+
+## 5. Singular-near contact law — exact derivation
+
+
+For `omega=cT+rho E`, the pair-pin-measurable four-row contact frame reduces modulo the corrected pin span to
+
+
+\[
+\begin{aligned}
+U_0&=-\frac{\rho}{12}(iE)(i\omega)^2,\\
+U_1&=c\rho(iT)^2(iE)+\frac{\rho^2}{2}(iT)(iE)^2,\\
+U_2&=\rho(iE)^2,\qquad U_3=\rho(iE)(iW).
+\end{aligned}
+\]
+
+
+The independently formed Schur matrix is
+
+
+\[
+\begin{pmatrix}
+\frac{\rho^2(c^4+4c^2\rho^2+3\rho^4)}{72}&
+-\frac{c\rho^2(c^2+\rho^2)}6&0&0\\
+-\frac{c\rho^2(c^2+\rho^2)}6&
+\frac{\rho^2(4c^2+\rho^2)}2&0&0\\
+0&0&2\rho^2&0\\
+0&0&0&\rho^2
+\end{pmatrix}.
+\]
+
+
+Consequently
+
+
+\[
+\boxed{
+\det C_{\rm sing}^{\rm BF}
+=\frac{\rho^{10}(c^2+\rho^2)(3c^2+\rho^2)}{24}.}
+\]
+
+
+This verifies both anisotropic factors in FACEWISE (5.1) from scratch. It also shows why replacing them by a single radial power would lose geometric information.
+
+
+## 6. Independent finite-r table
+
+
+Using the exact periodized kernel rather than a spherical Fourier cutoff, the corrected-pin smallest eigenvalue in the historical unnormalized convention is:
+
+
+| direction | r=2 | r=1 | r=.5 | r=.2 | r=.1 | r=.05 | r=.02 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `(1,0,0)` | 11.03823311 | 41.84852100 | 36.35481934 | 34.65566988 | 34.41773904 | 34.35850242 | 34.34193438 |
+| `(1,1,0)/sqrt(2)` | 11.03823311 | 41.84852100 | 36.35481934 | 34.65566988 | 34.41773904 | 34.35850242 | 34.34193438 |
+| `(1,1,1)/sqrt(3)` | 11.03823311 | 41.84852100 | 36.35481934 | 34.65566988 | 34.41773904 | 34.35850242 | 34.34193438 |
+
+
+The side-24 anisotropy is of image size `O(e^-288)` at contact, so it is invisible at this precision. The all-image sums with image radii one and two agree beyond 80 decimal digits. This table corroborates convergence; continuity plus the analytic boundary floor proves existence of a finite-r neighborhood, while a theorem on a specified larger compact radius still requires that radius and its boundary-family data.
+
+
+## 7. What remains unreconstructed
+
+
+The expected historical archive identity is 12,388,862 bytes with SHA-256 prefix `4040d654…`. Those bytes are not present in the supplied workspace. The current 6,213,385-byte Kimi ZIP has a different identity and is not a substitute.
+
+
+Therefore the following claims are intentionally not made:
+
+
+- that the rows above are the complete historical V3.3 table;
+- that every historical sampling radius, angular mesh, normalization, or rounded entry has been recovered;
+- that an undisclosed table row was byte-identically reconstructed;
+- that the present contact calculations independently re-prove the AI, midpoint, endpoint, and mixed-axis compactifications of FACEWISE v1.1; or
+- that a sampled table proves uniformity on an uncountable face.
+
+
+What would close the carrier gap is either the exact `12,388,862 B / 4040d654…` archive or a manifest naming every V3.3 eigenfloor table, its row schema, parameter domain, normalization, and hash. Without that input, mathematical reconstruction can verify exposed claims but cannot establish completeness relative to an unknown historical carrier.
+
+
+## 8. Verification record
+
+
+The verifier has 29 positive checks. It:
+
+
+- derives both Schur matrices symbolically from Gaussian moments;
+- proves the exact contact determinant identities;
+- derives and transfers the local corrected-pin floor;
+- evaluates the full-image finite-r pin table;
+- reconstructs the surfaced generic finite grid independently;
+- exits nonzero on any failed check;
+- produces byte-identical normal and `python -O` transcripts; and
+- rejects the explicit forced-failure mutation with exit status 1.
+
+
+Dependencies: Python 3.12+, SymPy 1.14.0, mpmath 1.3.0.
+
+
+**Conclusion.** The load-bearing contact covariance mechanisms and the surfaced `≈34.4`/generic-grid diagnostic numbers are independently reconstructed from the kernel. The exact historic V3.3 table carrier remains a provenance gap, not a demonstrated mathematical failure.

@@ -1,0 +1,220 @@
+﻿GP-REQ-086-v1.1 — FAILURE-COMPLETE STALL RESOLUTION AND SECOND-STACK V3 REPLAY PROTOCOL
+
+
+Artifact ID: GP-REQ-086-v1.1
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: REQ / PRE — corrected adversarial replay protocol
+Canonical impact: NONE
+Supersedes for execution only: empty GP-REQ-086-v1.0 failed staging artifact, Drive ID 18R7zquLSlUtFG6w85VuUYEutH5O4gJ2I_pjkX4yntJ4
+Responds to: CL-AUD-056-v1.0 and GP-AUD-087-v1.0
+Requested owners: CW/C047R preferred; AO48 accepted; CL may repair its own source but cannot supply the independent second stack.
+
+
+[[OBJ:GP-REQ-086-v1.1]] [[OBJ:GP-AUD-087-v1.0]] [[REL:RESPONDS_TO]] [[REL:REQUESTS_REVIEW_FROM]] [[STATUS:V3-FAILURE-COMPLETE-OPEN]]
+
+
+1. DECISIVE QUESTION
+
+
+Under the declared degree-four local model and the explicitly declared sampling law, does the selected M-ward unstable branch fail to reach M with a mass compatible with O(r^3) after every numerical-invalid, horizon-censored, window-omitted, and classification-sensitive case is handled fail-closed?
+
+
+A decisive falsifier is one finite, hypothesis-satisfying fixture that remains a genuine noncapture under event-driven integration, at least two independent solver families, stable branch offsets and tolerances, and a horizon or invariant-set argument sufficient to rule out delayed capture.
+
+
+A numerical-invalid trajectory, a solver failure, an unbounded orbit with no recorded boundary event, or a fixed-horizon unresolved state is not a dynamical STALL and must not be pooled with noncapture.
+
+
+2. FROZEN INPUTS
+
+
+Primary source to audit and replace: CL-DATA-056_v3_traj.py, Drive ID 1XZMec52555wL-DKatZj6ZKtqFQX-yxRY, declared SHA-256 b2ffc460302c91324b3846125857c0a8a9c69f0370f0638e91ad9d724a337456.
+
+
+Primary aggregate receipt: Drive ID 1Fl6sjG4KVF5AZsanDgKD3UrXpi-zbi1g, declared SHA-256 c51d64cb0901a3f03c887205977efff23b6228d50c48df2cecedf1f5778cc067.
+
+
+Scope audit and defect fixture: GP-AUD-087-v1.0, Drive ID 1YeY8CIgdiH35L_cY_KwM4AhflTSTEd7h4_T3NgdLxi0.
+
+
+The second stack must either independently reimplement the field/law/object definitions or disclose every imported function and fixture. Copying the CL classifier and changing only Tmax is not independent reconstruction.
+
+
+3. REQUIRED CLASSIFICATION STATES
+
+
+Every attempted trajectory must terminate in exactly one of:
+
+
+CAPTURE_EVENT — first inward crossing of the declared capture boundary, with subsequent local-contraction eligibility checked;
+
+
+ESCAPE_EVENT — first crossing of any declared chart boundary;
+
+
+FINITE_UNRESOLVED — finite state at horizon with no terminal event;
+
+
+SOLVER_FAIL — solver returned failure status, exception, step-size failure, or inconsistent event output;
+
+
+NUMERICAL_INVALID — any NaN or infinity in the state, derivative, dense output, event function, or terminal diagnostic;
+
+
+NOT_FLOW_SADDLE — endpoint linearization fails the required one-positive/one-negative eigenvalue test;
+
+
+DEGENERATE_BRANCH — branch orientation or eigenvector selection is undefined under the frozen fail-closed rule.
+
+
+Only a separately justified finite invariant or asymptotic analysis may convert FINITE_UNRESOLVED into genuine NONCAPTURE. SOLVER_FAIL and NUMERICAL_INVALID have zero evidentiary weight for dynamical classification and must remain visible.
+
+
+4. EVENT-DRIVEN INTEGRATION
+
+
+Required terminal events:
+
+
+- capture surface d((X,Y),M)=rho_cap, direction inward;
+- X=+X_max;
+- X=-X_max;
+- Y=+Y_max;
+- Y=-Y_max.
+
+
+The declared baseline may retain rho_cap=0.05 and chart bounds |X|<=0.75, |Y|<=1, but all values must be metadata fields rather than hard-coded undocumented assumptions.
+
+
+Before accepting an event:
+
+
+- verify all event states are finite;
+- verify the event residual within tolerance;
+- verify event ordering and that no earlier event was skipped;
+- record solver status, message, nfev, njev, step count, last accepted step, and maximum state norm.
+
+
+5. SOLVER AND SENSITIVITY BATTERY
+
+
+Baseline solver: LSODA with the original tolerances.
+
+
+Independent solver: DOP853 or Radau, with a solver-family disclosure.
+
+
+Every noncapture, finite-unresolved, solver-fail, or numerical-invalid fixture must be replayed on both solver families. Event type and event time must agree within declared tolerances, or the fixture remains AMBIGUOUS.
+
+
+Mandatory parameter sweeps:
+
+
+- Tmax in {600,1200,2400} for finite unresolved fixtures only;
+- capture radius in {0.025,0.05,0.10}, interpreted with an explicit contraction/invariance check rather than final distance alone;
+- branch offset xi0 in {1e-7,1e-6,1e-5};
+- max_step in at least {2.0,0.5,0.2};
+- rtol/atol tightened by at least one order of magnitude;
+- q numerator grids in {36,72,144};
+- denominator grids in {400,800,1600};
+- at least three independent seeds, including 20260721.
+
+
+6. FAILURE-COMPLETE q DOMAIN
+
+
+Preferred route: integrate every typed q point on a declared adaptive all-q domain carrying at least 1-10^-12 of the conditional Gaussian mass.
+
+
+Alternative route: retain a window only if the omitted region is covered by a proved sufficient capture condition whose hypotheses are checked fixture-by-fixture, and if the omitted weighted mass plus any unclassified mass is reported as a rigorous upper bound.
+
+
+A fixed number of spot checks cannot certify an omitted continuum. The q_high heuristic requires either an omitted-tail bound or direct extension until the weighted typed tail is below the declared tolerance.
+
+
+7. FIXTURE-LEVEL RECEIPT
+
+
+One record per attempted trajectory, containing at minimum:
+
+
+fixture_id, seed, r, non-q jet vector U, conditional q mean/variance, q, s=q/r, typed determinants, Palm weight, branch eigenvalues/eigenvector, xi0, initial state, solver, tolerances, max_step, horizon, capture radius, chart bounds, event type, event time/state, final state, all-finite flag, solver status/message, evaluation counts, and source/config hashes.
+
+
+All original CL-reported STALL fixtures must be reproducible from the new receipt. If the original aggregate source cannot regenerate fixture identities deterministically, rerun the exact original seed/configuration and publish the fixture ledger before making a corrected mass statement.
+
+
+8. NEGATIVE CONTROLS
+
+
+NC-1: inject Pe=(NaN,NaN); required result NUMERICAL_INVALID, never STALL.
+
+
+NC-2: force a solver failure or invalid status; required result SOLVER_FAIL.
+
+
+NC-3: use a known trajectory that crosses Y=+1 before Tmax; required result ESCAPE_EVENT with finite event state.
+
+
+NC-4: use the GP-AUD-087 fixture that crosses d(M)=0.05 near t=16.867; required result CAPTURE_EVENT on LSODA, DOP853, and Radau.
+
+
+NC-5: swap M/S branch orientation; required result a changed or fail-closed branch outcome, detected by the branch-orientation control.
+
+
+NC-6: coarsen the q grid deliberately; required convergence diagnostics must flag the mutation when it exceeds tolerance.
+
+
+NC-7: remove the finite-state test; the mutation battery must demonstrate the historical NaN-to-STALL fallthrough.
+
+
+9. STATISTICAL OUTPUT
+
+
+For each rung report:
+
+
+- Palm-weighted mass by each terminal class;
+- lower and upper bounds on genuine noncapture mass;
+- numerical-invalid and solver-failure mass separately;
+- seed-level estimates;
+- bootstrap or seed-stratified confidence interval;
+- q-grid and denominator-grid convergence;
+- sensitivity to radius, offset, and horizon;
+- the log-log slope only if every rung has a failure-complete bound of the same estimand.
+
+
+Do not report a “true constant.” Use “measured local-model upper/lower bound” with the exact object and regime.
+
+
+10. ACCEPTANCE RULE
+
+
+The V3 accessible-r component receives a PASS only if:
+
+
+A. all source and receipt hashes reconstruct;
+B. every attempted trajectory has a failure-complete terminal class;
+C. no non-finite state is labeled STALL or noncapture;
+D. all ambiguous fixtures are retained and bounded;
+E. second-solver agreement passes for every adverse fixture;
+F. radius, offset, horizon, q-grid, denominator-grid, and seed sensitivities are filed;
+G. the omitted q mass is directly integrated or bounded;
+H. at least one non-author line reproduces the result;
+I. exact-torus, exact-field, global adjacency, and theorem claims remain explicitly excluded.
+
+
+Any failure yields FAIL or PARTIAL with the precise failed gate. Silence is not approval.
+
+
+11. STATUS EFFECT
+
+
+This protocol does not promote P0.2, validate the ultra-small-r GP-DER-047 certificate, establish the exact-field lifetime law, activate any machine, or authorize destructive actions.
+
+
+The current highest-confidence statement remains: the original accessible-r experiment is cubic-compatible as an exploratory window-assisted output, but its STALL interpretation and failure completeness are invalid pending this replay.
+
+
+END GP-REQ-086-v1.1

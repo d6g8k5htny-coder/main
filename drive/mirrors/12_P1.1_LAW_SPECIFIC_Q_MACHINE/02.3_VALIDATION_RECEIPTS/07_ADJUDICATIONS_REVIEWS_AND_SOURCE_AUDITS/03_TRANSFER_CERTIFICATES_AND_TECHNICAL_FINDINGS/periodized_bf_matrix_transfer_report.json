@@ -1,0 +1,56 @@
+{
+  "cycle": "C091",
+  "model": "exact normalized periodized BF covariance at L=24",
+  "scope": {
+    "maximum_derivative_order": 4,
+    "pin_dimension_upper_bound": 9,
+    "target_dimension_upper_bound": 6,
+    "local_region": "|x| <= 3",
+    "far_cross_block_region": "5 <= distance <= 12"
+  },
+  "inputs": {
+    "smallest_retrieved_raw_9pin_floor": 3.094564589647658e-14,
+    "local_periodization_entry_error": 1.8544958815452842e-90,
+    "far_periodization_cross_entry_error": 1.8389454774207611e-25,
+    "local_cross_block_entry_bound": 138.0,
+    "far_planar_cross_block_entry_bound": 0.002899336167877206,
+    "far_bound_maximizing_multi_index": "(0, 4)",
+    "value_vector_norm_bound": 1.697056274847714
+  },
+  "local_transfer": {
+    "delta_A_operator": 1.669046293390756e-89,
+    "delta_B_operator": 1.3627705919636464e-89,
+    "delta_C_operator": 1.1126975289271706e-89,
+    "B_operator_bound": 1014.0887535122357,
+    "A_inverse_bound": 32314723801381.645,
+    "Atilde_inverse_bound": 32314723801381.645,
+    "inverse_difference_bound": 1.742887195280128e-62,
+    "conditional_covariance_schur_error": 1.7923433623333968e-56,
+    "conditional_mean_error": 2.9994490513722484e-59,
+    "retrieved_KR_floor": 6.9e-13,
+    "schur_error_over_floor": 2.597599075845503e-44,
+    "floor_after_transfer": 6.9e-13,
+    "status": "PASS"
+  },
+  "far_transfer": {
+    "delta_A_operator": 1.669046293390756e-89,
+    "delta_B_operator": 1.3513434253439006e-24,
+    "delta_C_operator": 1.1126975289271706e-89,
+    "B_operator_bound": 0.021305682612286506,
+    "A_inverse_bound": 32314723801381.645,
+    "Atilde_inverse_bound": 32314723801381.645,
+    "inverse_difference_bound": 1.742887195280128e-62,
+    "conditional_covariance_schur_error": 1.8607654347815926e-12,
+    "conditional_mean_error": 7.410754479405395e-11,
+    "retrieved_KR_floor": 1.4e-08,
+    "schur_error_over_floor": 0.00013291181677011377,
+    "floor_after_transfer": 1.3998139234565218e-08,
+    "status": "PASS"
+  },
+  "adjudication": {
+    "G_TORUS_LOCAL": "CLOSED for covariance, inverse, conditional mean, and Schur uses within declared dimensions/order/domain.",
+    "G_TORUS_FAR_STATIONS": "CLOSED for value/gradient/Hessian station covariance uses with pin-target distance in [5,12] and target dimension <=6.",
+    "remaining": "Global integrals must identify dimensions and distance partitions; any use beyond order 4 or outside declared domains gets a new row.",
+    "raw_frame_note": "The proof passes using the tiny raw 9-pin floor; a regularized frame would further enlarge margin."
+  }
+}

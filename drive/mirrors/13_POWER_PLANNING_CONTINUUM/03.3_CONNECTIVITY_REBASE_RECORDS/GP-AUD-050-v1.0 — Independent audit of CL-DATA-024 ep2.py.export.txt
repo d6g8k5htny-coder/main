@@ -1,0 +1,117 @@
+﻿ARTIFACT ID:       GP-AUD-050-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             AUD — independent source-availability, static object-identity, and bounded-execution audit
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+STATUS:            SOURCE LOCATED AND HASHED; SYNTAX PASS; EXACT OUTPUT NOT REPRODUCED; OBJECT-IDENTITY DEFECTS FOUND
+AUDITS:            CL-DATA-024 — ep2.py v1.1
+TRANSITION:        TR-P12-002
+
+
+# Independent audit of CL-DATA-024 / ep2.py
+
+
+## 1. Source identity
+
+
+Drive ID: 1WqP5VNumh0u-44lbh0mF8Qn82-gsMXjg
+Drive title: CL-DATA-024 — ep2.py (exact-critical-set pairing, re-runnable, v1.1)
+MIME type: text/x-python
+Drive size: 7,304 bytes
+Downloaded SHA-256: 6a30a39589f4097d66b3077bc08cdb228e8904f4e09d4efeb3bbaf1ba80fa18b
+Downloaded lines: 165
+Python byte-compilation: PASS
+
+
+The prior “source sync uncertain” finding is superseded. The file exists and is readable by exact Drive ID.
+
+
+## 2. Bounded execution attempts
+
+
+Two exact runs of `python ep2.py 0 1` were attempted in the connected execution environment:
+- first bound: 120 seconds;
+- second bound: 300 seconds.
+
+
+Neither run produced the first field receipt before termination. This establishes only that the supplied implementation did not complete one field within five minutes in this environment. It does not establish numerical falsity. No reported six-field output or a_hat value was independently reproduced.
+
+
+## 3. Positive properties
+
+
+- deterministic documented seeds;
+- exact trigonometric evaluation of the finite band-limited field, gradient, and Hessian;
+- Newton-refined critical points and critical values rather than pixel values;
+- explicit torus wrapping;
+- source records known limitations rather than hiding them.
+
+
+## 4. Object-identity and validation defects
+
+
+### 4.1 The branch walker is not the exact-field separatrix flow
+The critical field `Fx` uses Fourier modes down to amplitude cutoff 1e-13 and is normalized. The ascent-direction field `Fa` is reconstructed separately with cutoff 1e-8. The endpoint walk follows the normalized gradient of `Fa`, not the exact gradient of `Fx`, for 70 fixed steps of size 0.05 before a Newton snap. Therefore the code does not integrate exact unstable separatrices of the target field. Spectral truncation can alter basin boundaries and endpoint identity.
+
+
+### 4.2 No adaptive integration or convergence certificate
+The walk uses a fixed step and fixed iteration count. There is no step-halving test, adaptive solver, trajectory-error estimate, or endpoint stability test under cutoff and step refinement.
+
+
+### 4.3 Unresolved branches are excluded
+Saddles with either unresolved endpoint are skipped by `if not res[si]: continue`. The source reports the 90% endpoint gate failed on roughly one-third of fields. Excluding unresolved saddles can alter both bar counts and the fitted lifetime distribution. The code contains no missingness analysis proving that exclusion is unbiased.
+
+
+### 4.4 V1, V2, and V3 are printed, not enforced
+The program computes Euler count, endpoint percentage, and the comparison `bars` versus `max-1`, but has no assertion, exception, fail-closed exit, or structured gate result. A failed field can still contribute bars and the pooled fit. The header’s statement that V1/V2 held is not an executable property of this file.
+
+
+### 4.5 Critical-set completeness is not certified by the implementation
+Critical points are found from a fixed 64x64 Newton seed lattice, deduplicated after rounding coordinates to 1e-6, with fixed iteration and gradient tolerances. This is a numerical census, not a proof that all critical points were found. The post-hoc comparison to an eight-neighbor census is outside this source and is not emitted as a machine-checkable V4 receipt.
+
+
+### 4.6 The fit is pooled and selected
+The estimator pools bars across fields after unresolved saddles are excluded. It does not preserve field clusters for uncertainty estimation. The source itself correctly labels the value a bulk range exponent and says the small-L windows are underpowered; it does not establish the asymptotic law.
+
+
+### 4.7 Reproducibility metadata are incomplete
+The script has no dependency/version lock, environment receipt, CLI validation, per-field JSON output, source/output hash binding, checkpointing, or resumable execution.
+
+
+## 5. Disposition
+
+
+- Source availability: VERIFIED.
+- Source byte identity: VERIFIED by SHA-256.
+- Syntax: VERIFIED.
+- Exact critical-set completeness: NOT VERIFIED.
+- Exact separatrix pairing: NOT IMPLEMENTED AS CLAIMED because the walker uses a truncated auxiliary field.
+- V1/V2/V3 fail-closed enforcement: ABSENT.
+- Reported a_hat near 0.57: NOT INDEPENDENTLY REPRODUCED.
+- Asymptotic exponent: OPEN.
+- P1.2: remains OPEN.
+
+
+The source should be treated as a valuable exploratory numerical prototype, not as an exact-pairing execution receipt.
+
+
+## 6. Required v1.2 repair controls
+
+
+1. integrate the exact Fx gradient with adaptive error control;
+2. certify endpoint stability under tolerance and step refinement;
+3. fail closed on V1, V2, and V3 before fitting;
+4. retain and report every unresolved saddle rather than silently excluding it;
+5. emit per-field critical points, types, saddle endpoints, bars, gates, and hashes;
+6. add a known-Morse-field negative and positive control;
+7. compare critical-set counts under denser seed lattices and interval/certified root isolation where feasible;
+8. use field-clustered inference;
+9. bind source, environment, command, seeds, and output hashes;
+10. checkpoint long runs and print progress before the first complete field.
+
+
+## 7. Reopening condition
+
+
+Upgrade the exact-pairing and a_hat claims only after a repaired, hashed implementation independently completes the frozen fields, passes all fail-closed gates, and demonstrates endpoint invariance under exact-field integration refinement.

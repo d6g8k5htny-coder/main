@@ -1,0 +1,185 @@
+﻿CL-AUD-214-v1.0 — EC-019 T2 INDEPENDENT CLEAN-ROOM VERDICT AND REVIEW RECORD
+
+
+Artifact ID: CL-AUD-214-v1.0
+Author line: CL — Anthropic Claude (model line Claude Opus, configured id claude-opus-4-8), C047R/independent-eyes executor
+Session: Cowork session session_01Tqagv53x5pGo8bwGackV1g, under Dylan Roy operator direction
+Created: 2026-07-24
+Class: AUD — organizationally distinct, source-independent EC-019 Test T2 review
+Governing protocol: OP-PROT-011 (Independent-Eyes Rule)
+Reviews / discharges: GP-REQ-172-v1.1 blinded non-GP T2 takeover; GP-SPEC-166-v1.0 clean-room interface; GP-REQ-160 Test B
+Companion artifacts: CL-REG-214-v1.0 (pre-registration), CL-DATA-214-v1.0 (frozen source + result receipt)
+Authority: none. Canonical impact: NONE.
+
+
+============================================================================
+0. ONE-LINE VERDICT
+============================================================================
+T2 — PASS (qualifying). An organizationally distinct (Anthropic), source-independent
+implementation, written only from GP-SPEC-166-v1.0 with no GP code or outputs read before
+freezing, rigorously certifies all nineteen Route-B capture margins strictly positive, fires
+all five negative controls, rejects all nine zero-radius full-dimensionality mutations, and
+reproduces GP-DER-106 Section 3 to GP's full reported precision. This makes EC-019 eligible
+for separate operator/canonical adjudication; it does NOT terminalize EC-019 or promote
+anything (see Scope, Section 6).
+
+
+============================================================================
+1. INDEPENDENCE AND BLINDNESS (met)
+============================================================================
+- Provider Anthropic is organizationally distinct from OpenAI/GP.
+- Implementation derived solely from GP-SPEC-166-v1.0. Before the source hash and result hash
+  were frozen, NO GP source, interval array, margin table, control outcome, or discrepancy
+  analysis was read (full disclosure in CL-REG-214-v1.0). Awareness that prior implementations
+  exist does not invalidate blindness (GP-REQ-172-v1.1 Section 2); none of their code, margins,
+  interval outputs, or control outcomes were read pre-freeze.
+- Distinction from CL-AUD-071: CL-AUD-071 was a BYTE-EXACT RE-RUN of GP's own mpmath source
+  (GP-DATA-106) — a same-source reproduction, which per GP-SPEC-166 Section 1 does not by itself
+  earn Test-B independence credit. CL-DATA-214 is instead a fresh, independently authored
+  implementation (exact-rational arithmetic; a different numeric method entirely), so its
+  agreement with GP-DER-106 and CL-AUD-071 is genuine source-independent corroboration.
+
+
+============================================================================
+2. RIGOR (met — GP-REQ-172-v1.1 Section 4)
+============================================================================
+A. RIGOROUS ENCLOSURE: exact-rational interval arithmetic (fractions.Fraction); every +, -, *,
+   /, and integer power is computed exactly (zero rounding). Square roots enclosed by a proven
+   directed isqrt-on-scaled-integers construction with a self-contained lower/upper guarantee
+   (not a library rounding mode). No point sampling, no float error bars.
+B. FULL-DIMENSIONALITY GATE: parameters stored as exact (center, radius); a validator rejects
+   any nonpositive radius before any dynamical margin. The primary box passes; each of the nine
+   radii set to zero in a separate executed mutation returns a machine-generated
+   FULL_DIMENSIONAL_BOX_FAIL (9/9).
+C. FORMULA/DOMAIN COVERAGE: all nineteen named margins implemented; the cone quotient is
+   evaluated through the spec's polynomial continuation Q_x, Q_y including xi=0 (no division by
+   xi); complete interval domains (not grids) enclosed.
+D. REGRESSION/STABILITY: sqrt-containment, arithmetic-containment, and even-power-over-zero
+   tests pass; every control executed (not asserted); primary signs and control verdicts stable
+   across three preregistered precisions P in {40,100,200}.
+An independent isolated transcription audit of all 47 spec quantities returned FAITHFUL, zero
+defects (recorded in CL-DATA-214-v1.0 Section I).
+
+
+============================================================================
+3. FREEZE (met — GP-REQ-172-v1.1 Section 5)
+============================================================================
+Source frozen 2026-07-24T20:08:59Z, before opening any comparison material:
+  cleanroom.py 13549 B SHA-256 bccf61151eea44a07f254072ab61b020fc941414fdbe5a0a69947bbf4e9a23dc
+  run_t2.py    10919 B SHA-256 147dd0e9578970a46a4af6159a7595a2bbb8e839b0f1a470d7c64405d7f10c59
+Result frozen 2026-07-24T20:09:09Z:
+  results.json 36105 B SHA-256 2d32bb01944fdca6caf87a879c5db9d844a7ea0327636269c5501136341db874
+Environment: Python 3.11.15, Linux 6.18.5, x86_64, standard library only. Deterministic;
+reproduces byte-for-byte. Pre-comparison verdict (CL-DATA-214) was published before any GP
+comparison document was opened.
+
+
+============================================================================
+4. DISCREPANCY TABLE (post-freeze; GP-DER-106-v1.0 Section 3 vs CL independent)
+============================================================================
+No constant, domain, or margin was tuned after comparison. Columns: GP-DER-106 stored lower
+bound | CL independent lower-bound certificate (leading digits) | classification.
+
+
+  margin                    GP-DER-106 §3          CL-DATA-214                       class
+  ------------------------  --------------------   ------------------------------   --------------------
+  m_threshold               0.9425912246774161     0.94259122467741621442...        AGREE ~16 sf; repr.
+  m_saddle_det              0.9793980318402775     0.97939803184027777778...        AGREE ~16 sf; repr.
+  m_max_A                   0.9999583333333333     0.99995833333333333333...        AGREE (33... repeat)
+  m_max_D                   0.9794374999999998     0.97943750000000000000...        AGREE ~16 sf; repr.
+  m_max_det                 0.9793948900347219     0.97939489003472222222...        AGREE ~16 sf; repr.
+  m_axial                   1.979395833333333      1.97939583333333333333...        AGREE (33... repeat)
+  m_cone_slope              0.008644367494290135   0.0086443674942901348265...      AGREE ~16 sf; repr.
+  m_cone_axis               0.8999287018324998     0.89992870183250000000...        AGREE ~16 sf; repr.
+  m_cone_upper              0.019802361517491655   0.0198023615174916666667...      AGREE ~16 sf; repr.
+  m_cone_lower              0.017437635517491657   0.0174376355174916666667...      AGREE ~16 sf; repr.
+  m_handoff (binding)       0.007485281374238566   0.0074852813742385702928...      AGREE ~16 sf; repr.
+  m_strip_top               0.01653529266825701    0.0165352926682570246180...      AGREE ~15-16 sf; repr.
+  m_strip_bottom            0.016426659682145895   0.0164266596821459135069...      AGREE ~15-16 sf; repr.
+  m_central_drift           0.08996598847018418    0.0899659884701842295604...      AGREE ~15-16 sf; repr.
+  m_transverse_contraction  0.9603923429086778     0.96039234290867799448...        AGREE ~16 sf; repr.
+  m_chart_X                 0.04643169314562845    0.0464316931456284977250...      AGREE ~15-16 sf; repr.
+  m_chart_Y                 0.7964316931456284     0.79643169314562849772...        AGREE ~16 sf; repr.
+  m_gersh_1                 0.589931481037461      0.58993148103746107619...        AGREE ~15 sf; repr.
+  m_gersh_2                 0.7712689807809222     0.77126898078092252451...        AGREE ~16 sf; repr.
+
+
+  derived W        GP [0.01697056274847714, 0.018974031961839027]
+                   CL [0.016970562748477140586, 0.018974031961839025238]   AGREE ~16 sf; repr.
+  derived rho      GP [0.20285955732969546, 0.20356830685437155]
+                   CL [0.202859557329695462392, 0.203568306854371502275]   AGREE ~16 sf; repr.
+  tau_upper        GP 0.0006778162528549328   CL <= 0.000677816252854932587   AGREE ~16 sf; repr.
+
+
+Explanation of every material difference:
+ (i) Interval representation / precision. GP-DER-106 reports float64-scale "conservative lower
+     margins" from an mpmath interval-arithmetic executable with a separated endpoint-to-float
+     reporting step. CL-DATA-214 produces exact-rational lower-bound certificates with a proven
+     isqrt square-root enclosure. All residual differences are at or below ~2e-16 relative
+     (the 16th-17th significant figure) and are pure representation/precision effects. Where the
+     two differ, the CL certificate is typically the slightly tighter (larger) lower bound
+     because it carries no float rounding. In no case does a difference change a sign, a gate
+     outcome, the binding margin, or a control verdict.
+ (ii) Algebraic rearrangement: none material. GP states cone quotients were algebraically
+     cancelled before including xi=0; GP-SPEC-166 already encodes that cancellation as the
+     explicit polynomials Q_x, Q_y, which CL implemented directly. Same continuation at xi=0.
+ (iii) Convention: identical. Same fixed constants (r=1/20, sigma=1/10, kappa=1/100,
+     mu=1/(40 sqrt 2)), same nine-coordinate box, same margin definitions and lower/upper/supabs
+     conventions, same binding margin (handoff ~7.49e-3), same five-control semantics.
+
+
+Negative controls, GP-DER-106 Section 5 vs CL: identical design and outcome. NC1 zero-radius ->
+FULL_DIMENSIONAL_BOX_FAIL; NC2 widen c40 -> endpoint typing destroyed (CL: m_saddle_det,
+m_max_det both < 0); NC3 widen s -> threshold destroyed (CL: m_threshold < 0); NC4 shrink kappa
+-> cone gate fails (CL: m_cone_slope < 0); NC5 widen a -> chart/capture destroyed (CL:
+m_chart_X, m_gersh_1 both < 0). 5/5 fire in both.
+
+
+CL-AUD-071 cross-check: CL-AUD-071 independently reproduced the binding handoff margin
+0.007485281374238566 (byte-exact re-run of GP's source). CL-DATA-214's independent handoff
+lower bound 0.00748528137423857029... agrees to float precision. Corroboration across three
+routes (GP original, GP-source re-run, and this fresh independent rewrite).
+
+
+============================================================================
+5. VERDICT (GP-REQ-172-v1.1 Section 7)
+============================================================================
+T2 — PASS.
+ - All nineteen margins rigorously (exact-rational) positive: YES.
+ - All five negative controls computationally executed and fire: YES.
+ - Full-dimensionality gate rejects all nine zero-radius mutations: YES (9/9).
+ - Source independence and reproducibility documented: YES (CL-REG-214, CL-DATA-214, frozen
+   hashes, deterministic re-run).
+ - Discrepancies explained without post-comparison tuning: YES (representation/precision only;
+   no sign, gate, formula, domain, or control difference).
+
+
+============================================================================
+6. SCOPE FIREWALL (GP-REQ-172-v1.1 Section 8; GP-SPEC-166 Section 13)
+============================================================================
+This qualifying T2 PASS closes ONLY the independent verification gate for the fixed-r
+qualitative object P_{1/20}^{MS}(A_{1/20}) > 0 within the declared interface. It makes EC-019
+eligible for SEPARATE operator/canonical adjudication and does NOT by itself terminally close
+EC-019. It does NOT establish: a numerical probability; any other r; r-uniformity; a_r -> 1;
+1-a_r = O(r^3); P0.1; P0.2; Theorem B; elder-rule pairing; a lifetime law; GP-AUTO-034
+qualification; machine replacement; package sealing; external release; or any deletion or
+destructive action. EC-019 T1 remains separately PASS in its declared scope; EC-019 overall
+remains MATERIAL VERIFICATION HOLD until both T1 and T2 are adjudicated by the operator.
+No ballot, vote, quorum, or contributor count is implied (OP-PROT-011).
+
+
+============================================================================
+7. REVIEW RECORD CHECKLIST (GP-SPEC-166 Section 12 / GP-REQ-172 Section 12)
+============================================================================
+[x] full independently written source ....... delivered in-session; mirrored/summarized in CL-DATA-214
+[x] source byte count and SHA-256 ........... Section 3 above
+[x] exact software/library versions & precision  Python 3.11.15, stdlib only; P in {40,100,200}
+[x] every interval domain and all 19 margins  CL-DATA-214 Sections D/E; results.json
+[x] derived W, rho, tau_upper ............... Section 4 / CL-DATA-214 Section E
+[x] all five negative-control results ....... Section 4 / CL-DATA-214 Section F
+[x] result byte count and SHA-256 .......... Section 3 above
+[x] disclosure of every source read pre-freeze  CL-REG-214-v1.0
+[x] discrepancy table vs GP-DER-106 Section 3  Section 4 above
+
+
+END CL-AUD-214-v1.0 — additive independent review; canonical impact NONE.

@@ -1,0 +1,366 @@
+﻿LCR-DER-003-v1.0 — EXACT ENDPOINT-HESSIAN CONFLUENT LEMMA AND UNIFORM-INTEGRABILITY COMPANION
+
+
+Artifact ID: LCR-DER-003-v1.0
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking
+Date: 2026-07-24
+Class: DER / PROOF COMPANION / P0.1 DOMAIN G
+Authority: mathematical derivation and same-line proof completion only
+Canonical mathematical impact: NONE
+Target: GP-DER-118-v1.3 frozen body, SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+Primary dependency: GP-DER-044-v1.0, Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho
+Status: PROOF COMPANION COMPLETE ON OPENAI LINE / INDEPENDENT REVIEW STILL REQUIRED
+Independence credit: ZERO
+[[TARGET:P0.1]] [[DOMAIN:G]] [[G1-G8:SAME-LINE-DERIVATION-PASS]] [[INDEPENDENT-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+0. PURPOSE AND SCOPE
+
+
+The frozen P0.1 candidate asserts that the exact endpoint-Hessian variables divided by r form a well-behaved confluent conditional Gaussian family, and from this derives uniform integrability of the exact typed weight W_r^{exact}/r^2. The frozen body states that this follows by “the same analytic-kernel mechanism as GP-DER-044,” but does not display the exact pin-adjusted functionals or a quantitative uniform-integrability criterion.
+
+
+This companion supplies those missing derivations without changing the frozen theorem statement. It proves the exact endpoint identities, their confluent limits, continuous conditional covariance extension, the determinant/type limit, and a uniform L^2 bound for W_r^{exact}/r^2. It does not independently verify GP-DER-044, Domain D, Domain T, or the final theorem promotion gate.
+
+
+1. SETTING
+
+
+Let h=r/2, M=(-h,0), and S=(h,0). Write
+
+
+F_- = f(-h,0),  X_- = f_x(-h,0),  Y_- = f_y(-h,0),
+F_+ = f(h,0),   X_+ = f_x(h,0),   Y_+ = f_y(h,0).
+
+
+Use the GP-DER-044 transformed pins
+
+
+L_2(h) = (X_+ - X_-)/(2h),
+L_4(h) = (Y_+ - Y_-)/(2h),
+L_5(h) = (3/h^2)[(X_+ + X_-)/2 - (F_+ - F_-)/(2h)].
+
+
+Under the exact six-pin conditioning,
+L_2(h)=0, L_4(h)=0, and L_5(h)=2.
+
+
+Let the midpoint target coordinates include
+a=f_xxy(0,0) and q=f_yy(0,0).
+
+
+2. EXACT PIN-ADJUSTED ENDPOINT FUNCTIONALS
+
+
+For h>0 define
+
+
+U_{A,-}(h) = [f_xx(-h,0)-L_2(h)]/(2h),
+U_{A,+}(h) = [f_xx(h,0)-L_2(h)]/(2h),
+
+
+U_{B,-}(h) = [f_xy(-h,0)-L_4(h)]/(2h),
+U_{B,+}(h) = [f_xy(h,0)-L_4(h)]/(2h),
+
+
+U_{C,-}(h) = f_yy(-h,0),
+U_{C,+}(h) = f_yy(h,0).
+
+
+On the six-pin affine conditioning subspace, L_2=L_4=0. Therefore these identities are exact:
+
+
+U_{A,-}=f_xx(M)/r=A_M,
+U_{A,+}=f_xx(S)/r=A_S,
+U_{B,-}=f_xy(M)/r=B_M,
+U_{B,+}=f_xy(S)/r=B_S,
+U_{C,-}=C_M,
+U_{C,+}=C_S.
+
+
+This discharges the exact-functional part of G1. The subtraction by L_2 and L_4 is essential: the raw derivative divided by r is not a regular unconditioned functional, whereas the pin-adjusted divided difference is.
+
+
+3. CONFLUENT LIMITS
+
+
+Taylor expansion at the midpoint gives
+
+
+L_2(h)=f_xx(0)+h^2 f_xxxx(0)/6+O(h^4),
+
+
+f_xx(±h)=f_xx(0)±h f_xxx(0)+h^2 f_xxxx(0)/2+O(h^3).
+
+
+Hence
+
+
+U_{A,±}(h)=±f_xxx(0)/2+h f_xxxx(0)/6+O(h^2),
+
+
+so
+U_{A,-}(0)=-f_xxx(0)/2,
+U_{A,+}(0)=+f_xxx(0)/2.
+
+
+Likewise,
+
+
+L_4(h)=f_xy(0)+h^2 f_xxxy(0)/6+O(h^4),
+
+
+f_xy(±h)=f_xy(0)±h f_xxy(0)+h^2 f_xxxy(0)/2+O(h^3),
+
+
+and therefore
+
+
+U_{B,±}(h)=±f_xxy(0)/2+h f_xxxy(0)/6+O(h^2).
+
+
+Finally U_{C,±}(h)→f_yy(0)=q.
+
+
+At h=0 the transformed conditioning vector fixes f_xxx=L_5=2. Thus, under the limiting conditional law,
+
+
+A_M→-1,
+A_S→+1,
+B_M→-a/2,
+B_S→+a/2,
+C_M,C_S→Q_L,
+
+
+where Q_L is the nondegenerate exact-torus limiting q-coordinate from GP-DER-044. All factors of two and signs are thereby fixed explicitly. This discharges G2 conditional on GP-DER-044’s limiting conditioning object.
+
+
+4. COVARIANCE EXTENSION
+
+
+Let K_L(x,y) be the exact normalized-periodized covariance kernel. It is real analytic. Every covariance involving the transformed pins, midpoint targets, and the six U-functionals is obtained by applying finite derivative operators and the displayed divided-difference operators to K_L.
+
+
+The numerators defining U_{A,±} and U_{B,±} vanish to the order required by their denominators. Their Taylor expansions above therefore define removable singularities at h=0. Consequently the unconditioned joint covariance blocks of
+
+
+(U_{A,-},U_{B,-},U_{C,-},U_{A,+},U_{B,+},U_{C,+},J_r,L_h)
+
+
+extend continuously through h=0.
+
+
+Let G_h=Cov(L_h,L_h). GP-DER-044 proves G_0 is positive definite. Hence G_h^{-1} exists and is uniformly bounded for all sufficiently small h. The conditional mean and covariance are
+
+
+m_h = Cov(V_h,L_h)G_h^{-1}y_h,
+
+
+Σ_h = Cov(V_h,V_h)-Cov(V_h,L_h)G_h^{-1}Cov(L_h,V_h),
+
+
+with V_h=(U_{A,-},U_{B,-},U_{C,-},U_{A,+},U_{B,+},U_{C,+},J_r).
+
+
+All terms extend continuously, so m_h and Σ_h do as well. The limiting endpoint covariance may be singular because A_M and A_S become conditioned constants and B_M,B_S become linear functions of a. Positive definiteness is required for the nine-jet conditional covariance in GP-DER-044, not for the enlarged endpoint vector. Boundedness is sufficient here.
+
+
+By continuity on a compact small-h interval, the conditional means and covariance operator norms are uniformly bounded. Therefore, for every fixed k<∞,
+
+
+sup_{0<r≤r_0} E_{Q_{6,r}}[||V_r||^k] < ∞.
+
+
+This discharges G3 and the moment portion of G4, conditional on GP-DER-044’s positive-definite pin Gram and nine-jet Schur complement.
+
+
+5. DETERMINANT AND TYPE LIMIT
+
+
+Define
+
+
+D_M(r)=det H_M/r=A_M C_M-r B_M^2,
+D_S(r)=det H_S/r=A_S C_S-r B_S^2.
+
+
+The joint convergence above gives
+
+
+D_M(r)⇒-Q_L,
+D_S(r)⇒+Q_L.
+
+
+For a real symmetric 2×2 matrix, M is a strict maximum iff its first axial entry is negative and its determinant is positive; S is an index-one saddle iff its determinant is negative.
+
+
+If Q_L<0, then with probability tending to one along the coupled limiting vector,
+A_M<0, D_M>0, and D_S<0, so M is a maximum and S a saddle.
+If Q_L>0, D_M<0 in the limit, so the maximum-saddle type combination fails.
+The other potential sign boundaries have deterministic nonzero limits A_M=-1 and A_S=+1. The only limiting discontinuity boundary is Q_L=0.
+
+
+GP-DER-044 proves Q_L is a nondegenerate Gaussian, hence P(Q_L=0)=0. The extended continuous-mapping theorem therefore yields
+
+
+[W_r^{exact}/r^2] ⇒ Q_L^2 1{Q_L<0}.
+
+
+This discharges G5 and G6 conditional on GP-DER-044.
+
+
+6. EXPLICIT UNIFORM-INTEGRABILITY PROOF
+
+
+Because type indicators are at most one,
+
+
+0≤W_r^{exact}/r^2≤|D_M(r)D_S(r)|.
+
+
+For r≤1,
+
+
+|D_j|≤|A_j C_j|+|B_j|^2,
+
+
+and therefore
+
+
+|D_M D_S|^2
+≤4(|A_M C_M|^2+|B_M|^4)(|A_S C_S|^2+|B_S|^4).
+
+
+Every term on the right is a monomial of total degree at most eight in the components of V_r. The uniform fixed-order moment bound from Section 4 and Hölder’s inequality give
+
+
+sup_{0<r≤r_0} E[(W_r^{exact}/r^2)^2] < ∞.
+
+
+Thus {W_r^{exact}/r^2:0<r≤r_0} is uniformly integrable. This is stronger than the required L^{1+ε} criterion and makes the previously implicit “uniform finite moments” step explicit. This discharges G7 conditional on GP-DER-044.
+
+
+7. NORMALIZER LIMIT
+
+
+Convergence in distribution plus uniform integrability yields
+
+
+Z_r^{exact}/r^2
+=E[W_r^{exact}/r^2]
+→E[Q_L^2 1{Q_L<0}]
+=:z_{0,L}^{exact}.
+
+
+The limit is finite because Q_L has a finite second moment. It is strictly positive because a nondegenerate Gaussian assigns positive probability to (-∞,0), and Q_L^2>0 almost surely on that event.
+
+
+Hence there exist r_Z>0 and finite constants 0<c_Z≤C_Z such that
+
+
+c_Z r^2≤Z_r^{exact}≤C_Z r^2
+
+
+for every 0<r≤r_Z. This discharges G8 conditional on GP-DER-044.
+
+
+8. OBJECT-IDENTITY AND INEQUALITY-DIRECTION CHECK
+
+
+The normalizer in Sections 5–7 uses only the exact full-field endpoint Hessians under Q_{6,r}. No finite-Q4 weight or finite-Q4 normalizer enters the limit.
+
+
+In the later P0.1 synthesis, if E_r⊂A_r, W_r^{exact}≥r^2/4 on E_r, and Q_{6,r}(E_r)≥p_B/2, then
+
+
+E[W_r^{exact}1_{A_r}]
+≥E[W_r^{exact}1_{E_r}]
+≥r^2 p_B/8.
+
+
+For a lower bound on the ratio, the denominator must be bounded above:
+
+
+P_r^{MS}(A_r)
+=E[W_r^{exact}1_{A_r}]/Z_r^{exact}
+≥(r^2 p_B/8)/(C_Z r^2)
+=p_B/(8C_Z)>0.
+
+
+The numerator and denominator directions in the frozen synthesis are correct. The finite-Q4 object is used only as a deterministic comparison object before exact-field transfer. This supplies the Domain-G portion of G9; the transfer premise itself remains Domain D.
+
+
+9. SAME-LINE G1–G9 LEDGER
+
+
+G1 — PASS ON OPENAI LINE.
+Exact pin-adjusted functionals are displayed and equal the endpoint scaled Hessian entries on the six-pin affine subspace.
+
+
+G2 — PASS ON OPENAI LINE.
+The limits are A_M=-1, A_S=+1, B_M=-a/2, B_S=+a/2, C_M=C_S=Q_L. The conditioned f_xxx limit is exactly 2.
+
+
+G3 — PASS CONDITIONAL ON GP-DER-044.
+All required covariance blocks have removable singularities by analytic divided differences.
+
+
+G4 — PASS CONDITIONAL ON GP-DER-044.
+The pin Gram and nine-jet conditional covariance are uniformly positive definite; the enlarged endpoint covariance need only remain bounded and may be singular at the limit. Q_L is nondegenerate. Fixed-order moments are uniformly bounded.
+
+
+G5 — PASS.
+The determinant scaling and maximum-saddle type interpretation are correct.
+
+
+G6 — PASS.
+The extended continuous-mapping step applies because the sole limiting boundary Q_L=0 is null.
+
+
+G7 — PASS.
+A uniform L^2 bound is proved explicitly using eighth moments.
+
+
+G8 — PASS.
+The exact normalizer converges to a finite strictly positive limit.
+
+
+G9 — PASS FOR DOMAIN G / DOMAIN-D INTERFACE STILL OPEN.
+No finite-Q4 weight is substituted into the exact normalizer. The later ratio uses a numerator lower bound and denominator upper bound in the correct directions.
+
+
+10. HASH REPRODUCTION RECEIPT
+
+
+The current OpenAI line exported GP-DATA-123-v1.0 as text/plain, applied the document’s stated normalization policy, and reproduced:
+
+
+BODY_BYTES: 14591
+BODY_SHA256: 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+
+
+This is a same-line source-identity reproduction and earns zero independent-review credit.
+
+
+11. ADJUDICATION
+
+
+The internal mathematical gap created by the frozen body’s phrase “the same analytic-kernel mechanism as GP-DER-044” is repaired by this companion derivation.
+
+
+Exact status:
+P0.1 DOMAIN G — SAME-LINE PROOF COMPANION COMPLETE / ORGANIZATIONALLY DISTINCT HASH-SPECIFIC REVIEW OPEN.
+
+
+This document does not:
+- independently certify GP-DER-044;
+- satisfy GP-REQ-179’s non-GP gate;
+- close P0.1;
+- resolve Domains D or T;
+- authorize theorem promotion or downstream canonical use.
+
+
+A qualifying independent reviewer should first freeze an independent Pass-A reconstruction, then compare it against this companion and the frozen body.
+
+
+END LCR-DER-003-v1.0

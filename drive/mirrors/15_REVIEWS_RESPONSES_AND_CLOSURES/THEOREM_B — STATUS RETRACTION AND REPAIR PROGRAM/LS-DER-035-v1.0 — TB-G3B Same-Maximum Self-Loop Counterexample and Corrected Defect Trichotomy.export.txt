@@ -1,0 +1,354 @@
+﻿LS-DER-035-v1.0 — TB-G3B Same-Maximum Self-Loop Counterexample and Corrected Defect Trichotomy
+Artifact ID: LS-DER-035-v1.0
+Date: 2026-07-27
+Class: DER / COUNTEREXAMPLE / MORSE TOPOLOGY / THEOREM AMENDMENT
+Dispatch: DQ-049
+Authority: same-OpenAI-family mathematical amendment only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: FROZEN / LS-DER-024 DETERMINISTIC REDUCTION AMEND REQUIRED / EXTERNAL REVIEW OPEN
+BODY_BYTES: 14477
+BODY_SHA256: c09c1f0e8da85d2cc18516883f5ec3ce1672a89a9aa49d6453e8bb2f52c3732b
+Freeze policy: extract strictly between the unique full lines BEGIN_TBG3B_LOOP_AMENDMENT_FROZEN_BODY and END_TBG3B_LOOP_AMENDMENT_FROZEN_BODY under OP-PROT-017.
+
+
+BEGIN_TBG3B_LOOP_AMENDMENT_FROZEN_BODY
+LS-DER-035-v1.0 — TB-G3B SAME-MAXIMUM SELF-LOOP COUNTEREXAMPLE AND CORRECTED DEFECT TRICHOTOMY
+
+
+1. STATUS AND SCOPE
+
+
+This document addresses only the deterministic topological reduction used by LS-DER-024-v1.0, Lemma 2.1 and equations (2)–(3), and the equivalent claim in C102_DETERMINISTIC_REDUCTION.md. It does not adjudicate the Kac–Rice calculations in LS-DER-024 Sections 3–7.
+
+
+Inputs:
+- LS-DER-024-v1.0, Drive ID 1xixpJVO2YLmp_GooqSNmAWUYF9LHZDEWm8UOOl5EbMk, frozen body 19,078 bytes, SHA-256 8836a0bad4083e6cfbf9306510122e82b00d7c1a97c92429dd2c97dd3d0a9ff9.
+- C102_DETERMINISTIC_REDUCTION.md, Drive ID 1EtJkSE1w3DNLo7yUl-c1meU_qOSI3bB1.
+- LS-REQ-020-v1.0, Drive ID 1ydsT8XfJmNbV_EDu9U-UZLOg8uhkG88P5Tz3SpIRpGo.
+- CL-AUD-TBG3B-20260726-01, Drive ID 1Q4WQMmv2ShuFeanOD2YY97cDC3q5aFNgW-FtqN4-maA.
+
+
+Authority: same-OpenAI-family mathematical amendment.
+Organizational-independence credit: ZERO.
+Canonical impact: NONE.
+Theorem B remains RETRACTED / NOT RESTORED.
+
+
+2. EXACT SETTING
+
+
+Let f be a Morse function on a compact connected orientable surface. Assume distinct critical values and a Morse–Smale gradient flow. Let M be a local maximum and S an index-one saddle. Write
+
+
+    b=f(M),    h=f(S),    h<b.
+
+
+Let A(M,S) be the event that the selected ascending separatrix of S converges to M. Let E(M,S) be the event that S is the superlevel-set H0 elder-rule death saddle of the component born at M.
+
+
+For t not a critical value, let C_M(t) denote the component of {f>=t} containing M, whenever that component has already been born and has not yet died.
+
+
+LS-DER-024 defines a counted-witness event B from:
+(i) any extra critical point in the radius-2r collars, with no value restriction; or
+(ii) any critical point outside the collars with value in the open window (h,b).
+
+
+Its Lemma 2.1 asserts
+
+
+    A(M,S) ∩ E(M,S)^c  ⊂  B.                                  (2-LS)
+
+
+The asserted Case III mechanism is that every H0 self-merge at S has another attained mountain-pass saddle y with
+
+
+    h < f(y) < b.                                               (MP)
+
+
+C102 asserts the same strict-window conclusion.
+
+
+3. THREE TOPOLOGICAL CLASSES
+
+
+Define P(M,S), G(M,S), and L_same(M,S) on A(M,S) as follows.
+
+
+P(M,S): the component C_M undergoes an H0 merge at an index-one saddle y before the filtration reaches level h. Equivalently, there is a death/merge event for C_M at a critical value in (h,b).
+
+
+G(M,S): immediately above h, the two upper local sectors of S lie in distinct superlevel components, so S is a genuine H0 merge saddle.
+
+
+L_same(M,S): immediately above h, the two upper local sectors of S lie in the same superlevel component; there is no prior H0 merge of C_M in (h,b); and the two ascending separatrices of S converge to the same maximum M.
+
+
+The last event is the same-maximum self-loop class. Crossing S attaches a one-handle to a single H0 component. It may change H1 or boundary topology while leaving H0 unchanged.
+
+
+4. CORRECTED DETERMINISTIC TRICHOTOMY
+
+
+THEOREM 4.1.
+
+
+On the Morse–Smale, distinct-critical-value event,
+
+
+    A(M,S) ∩ E(M,S)^c
+      ⊂ P(M,S) ∪ G_young(M,S) ∪ L_same(M,S),                   (T)
+
+
+where G_young is the subevent of G on which the component attached to the other upper sector has elder maximum N satisfying
+
+
+    h < f(N) < b.
+
+
+PROOF.
+
+
+Assume A and E^c.
+
+
+Case I: C_M has an H0 merge at some level y before h is reached. Since C_M is born at b, the first such merge has value in (h,b). Thus P occurs.
+
+
+Case II: no such prior H0 merge occurs and S is a genuine H0 merge. Immediately above h, C_M is still the component born at M. Let C_2 be the other component and let N be its elder maximum. Gradient ascent gives f(N)>h. If f(N)>b, then C_M is younger and the elder rule kills it at S, contradicting E^c. Distinct critical values exclude f(N)=b. Hence h<f(N)<b, so G_young occurs.
+
+
+Case III: no prior H0 merge occurs and S is an H0 self-merge. One ascending separatrix reaches M by A. If the other ascending separatrix reaches a different maximum N, then N lies in the same superlevel component as M immediately above h. Since no prior H0 merge of C_M occurred in (h,b), that component identification must already hold at the birth of the younger of M and N. If f(N)<b, N itself is a strict-window maximum and the configuration belongs to the counted G_young-type witness class. If f(N)>b, the component born at M was attached to an older component before h, contradicting the no-prior-merge assumption. Equality is excluded. Therefore the only unaccounted self-merge possibility is that both ascending separatrices converge to M, namely L_same.
+
+
+The cases exhaust the possibilities. QED.
+
+
+REMARK 4.2.
+
+
+The statement intentionally separates L_same. A mountain-pass saddle for an “alternative path” is not forced to be distinct from S. In L_same, the minimax level of paths joining the two upper sectors can equal h and be attained by S itself. Compactness gives attainment, but not a second critical point and not strict inequality above h.
+
+
+5. COUNTEREXAMPLE TO THE STRICT-WINDOW CLAIM
+
+
+THEOREM 5.1.
+
+
+There exists a Morse–Smale function with distinct critical values on the torus, and critical points M,S satisfying A(M,S) ∩ E(M,S)^c ∩ L_same(M,S), such that there is no critical point y with h<f(y)<b. In particular, (MP), (2-LS), and the theorem stated in C102 are false under their declared hypotheses.
+
+
+PROOF BY HANDLE DECOMPOSITION.
+
+
+Use a superlevel handle decomposition of T^2 with:
+- two 0-handles born at maxima M_0 and M, with f(M_0)>b=f(M);
+- three index-one handles at saddles S, S_0, S_1, ordered
+      b > h=f(S) > f(S_0) > f(S_1);
+- one 2-handle at the minimum.
+
+
+Choose the attaching maps as follows.
+
+
+First, the handle at S attaches both of its feet to the boundary of the 0-handle born at M. Crossing S changes that component from a disk to an annulus. It is a self-attachment to one connected component, hence not an H0 merge. Both ascending separatrices of S terminate at M.
+
+
+Second, the handle at S_0 joins the M component to the older component born at M_0. At S_0 the elder rule kills the component born at M because f(M_0)>f(M).
+
+
+The remaining handle S_1 and the minimum complete the torus. This is a valid handle decomposition because the critical counts are
+
+
+    #maxima - #saddles + #minima = 2 - 3 + 1 = 0 = χ(T^2).
+
+
+The handle-realization theorem gives a Morse function with these critical values and attaching data. Choose a gradient-like field realizing the attaching maps and perturb it within the same handle-incidence class to be Morse–Smale; equivalently choose a compatible metric. The topological conclusions are stable under a sufficiently small perturbation, and the critical values remain distinct.
+
+
+There is no critical value in (h,b): the only critical points at or above h in the M component are M and S. The event A holds, S is a self-merge, and E fails because M dies later at S_0. Thus
+
+
+    A(M,S) ∩ E(M,S)^c
+
+
+holds while the counted event B of LS-DER-024 does not: there is no extra collar critical point and no outside-collar critical point with value in (h,b), after choosing the construction with the remaining critical points outside the collars.
+
+
+This disproves the asserted deterministic inclusion.
+
+
+FIXED-METRIC REALIZATION.
+
+
+The counterexample is not an artifact of choosing a special metric. The handle attachment and strict critical-value ordering are open C^2 properties. On the flat torus, construct the same level-set handle decomposition by local Morse charts and smooth interpolation. A generic arbitrarily small C^2 perturbation makes the flat-metric gradient Morse–Smale while preserving the self-attachment, the later elder merge, and the empty open critical-value window. Hence the counterexample can be realized for the gradient associated with the fixed flat metric.
+
+
+QED.
+
+
+6. COMPATIBILITY WITH A SHORT PINNED PAIR
+
+
+The defect is global and is not removed merely by taking d(M,S)=r small or b-h=κr^3/6.
+
+
+The local maximum–saddle chart can be inserted into an arbitrarily small disk, with the direct M-ward separatrix contained in that disk. The second separatrix can leave the disk, traverse the preassigned annular route, and return to M. Smooth coordinate and amplitude rescaling can prescribe a positive separation r and positive gap κr^3/6 while preserving critical types and the global handle incidence. After the rescaling, the remaining critical values can still be placed below h.
+
+
+Therefore the deterministic failure is compatible with the qualitative small-r geometry used by LS-DER-024. This does not prove that L_same has positive or large probability under the exact Gaussian Palm law. It proves that topology alone does not bound it by the third-critical-point count.
+
+
+7. CORRECTED PROBABILITY REDUCTION
+
+
+Let L_same,r,λ be the same-maximum self-loop event under the exact all-typed Palm law. The valid deterministic reduction is
+
+
+    E_{r,λ}^c ∩ A_{r,λ}
+      ⊂ B_{r,λ} ∪ L_same,r,λ.                                (R)
+
+
+Consequently,
+
+
+    P^{MS}_{r,λ}(E^c ∩ A)
+      ≤ E^{MS}_{r,λ} N_add(C_r)
+        + E^{MS}_{r,λ} N_crit((h,b);T^2\C_r)
+        + P^{MS}_{r,λ}(L_same,r,λ).                           (R-prob)
+
+
+The first two terms are exactly the conservative counts estimated in LS-DER-024. The last term is not controlled by those Kac–Rice estimates.
+
+
+Thus LS-DER-024 equations (31) and (32), and every downstream use of them, require an additional theorem such as
+
+
+    sup_{λ∈P_*} P^{MS}_{r,λ}(L_same,r,λ)=O(r^3),               (L3)
+
+
+or a stronger structural exclusion derived from extra hypotheses. Neither follows from Morse–Smale plus distinct critical values alone.
+
+
+8. MEASURABLE EVENT FORMULATION
+
+
+For a Morse–Smale function with distinct values, every index-one saddle has two ascending separatrices with well-defined terminal maxima. Let T_+(S),T_-(S) be those terminal maxima under any deterministic ordering of the two local branches.
+
+
+Then
+
+
+    L_same(M,S)
+      ={T_+(S)=M}
+       ∩{T_-(S)=M}
+       ∩{no H0 merge of C_M at a value in (h,b)}.
+
+
+This is measurable on the Morse–Smale stratum. One construction uses rational-time flow samples and rational balls around the finite critical-point set: terminal convergence to a named nondegenerate maximum is a countable union/intersection condition, and the absence of an intervening H0 merge is measurable from the finite merge tree. Boundary failures caused by non-Morse functions, ties, or separatrix bifurcations belong to the separately declared null/exceptional layer.
+
+
+9. MULTIPLE PASSES AND MINIMAX ENDPOINTS
+
+
+Multiple alternative paths do not repair the strictness problem. The relevant minimax is
+
+
+    c = sup_{γ} min_{x∈γ} f(x)
+
+
+over paths γ in the same superlevel component joining small cross-sections of the two upper sectors.
+
+
+Compactness and Morse theory can produce an attained critical level. But:
+- c may equal h, attained by S itself;
+- c<b does not imply c>h;
+- c>h requires an independent connection already present strictly above S;
+- if such a connection appears through another critical event, that event is counted, but L_same need not contain one.
+
+
+Likewise, distinct critical values remove equality between two different critical points; they do not prohibit the minimax from being attained by S.
+
+
+10. ASSUMPTION-REMOVAL AND HOSTILE TESTS
+
+
+H1. Remove compactness. Minimax attainment may fail through escape to infinity. The original strict claim remains unsupported.
+
+
+H2. Remove distinct critical values. A second saddle can occur at h or a maximum at b; open-window strictness fails even more directly.
+
+
+H3. Remove Morse–Smale. A separatrix may have noncritical recurrent behavior or nontransverse connections; terminal-maximum notation may fail.
+
+
+H4. Keep all declared hypotheses but allow both branches to terminate at M. The torus handle counterexample survives. This is the decisive hostile test.
+
+
+H5. Add “the two upper sectors lie in distinct H0 components immediately above h.” Then S is a genuine H0 merge and Case II applies; the self-loop class is excluded by hypothesis.
+
+
+H6. Add “every H0 self-merge at S has an independent connection with minimax level strictly above h.” This is precisely the missing assertion, not a consequence of the existing hypotheses.
+
+
+11. DOWNSTREAM AMENDMENTS REQUIRED
+
+
+The following claims must be marked AMEND REQUIRED or conditional on (L3):
+- LS-DER-024 Lemma 2.1, equation (2), equation (3), equation (31), Theorem 8.1, the loop firewall in Section 9, and equation (32).
+- C102’s theorem and its “loop/crater closure” consequence.
+- Any synthesis or full theorem that imports LS-DER-024’s O(r^3) defect probability without an explicit L_same term.
+
+
+The regional Kac–Rice estimates for N_add and N_crit are not falsified by this counterexample. They remain evidence for the first two terms of (R-prob).
+
+
+12. NEXT LOAD-BEARING RESEARCH
+
+
+The corrected research objective is not to search for another strict-window saddle by topology alone. It is to analyze the same-maximum return probability under the exact six-pin Palm law.
+
+
+A valid successor must do at least one of:
+1. prove (L3) by a global two-separatrix or annulus-crossing estimate;
+2. derive a stronger local event that excludes L_same and show its complement is O(r^3);
+3. alter the target theorem so L_same is retained as an explicit residual term;
+4. produce computational evidence only as a falsifier/design aid, never as proof.
+
+
+13. FALSIFIERS FOR THIS AMENDMENT
+
+
+Reopen or reject this amendment if:
+- the stated torus handle decomposition cannot be realized by a Morse–Smale function with distinct critical values;
+- the first handle at S necessarily creates an H0 merge rather than a self-attachment;
+- the component born at M cannot be killed later at S_0 by the elder rule;
+- a theorem is proved showing that the exact pinned-pair event A excludes both separatrices terminating at M;
+- or LS-DER-024 is shown to include an additional hypothesis equivalent to excluding L_same.
+
+
+14. FINAL VERDICT
+
+
+DQ-049 STRICT OPEN-WINDOW WITNESS THEOREM: FALSIFIED.
+
+
+LS-DER-024 DETERMINISTIC INCLUSION (2): AMEND REQUIRED.
+
+
+C102 DICHOTOMY: AMEND REQUIRED.
+
+
+CORRECTED TRICHOTOMY (T): PROVED UNDER THE DECLARED MORSE–SMALE AND DISTINCT-VALUE HYPOTHESES.
+
+
+SAME-MAXIMUM SELF-LOOP PROBABILITY: OPEN AND LOAD-BEARING.
+
+
+THEOREM B: RETRACTED / NOT RESTORED / NOT PROMOTED.
+END_TBG3B_LOOP_AMENDMENT_FROZEN_BODY
+
+
+END LS-DER-035-v1.0

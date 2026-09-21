@@ -1,0 +1,181 @@
+﻿CLOSED AS REDUNDANT ROUTING — CL-AUD-201 ALREADY SATISFIES THIS REVIEW — 2026-07-26
+
+
+Before this packet was dispatched, the Cross-Line Work Orders register identified CL-AUD-201-v1.0 as the existing qualifying Anthropic review of GP-DATA-178. Direct inspection confirms that CL-AUD-201:
+- reproduced all four source/receipt and gzip identities;
+- independently recomputed all nineteen gates in exact rational arithmetic;
+- confirmed outward rounding to approximately 80 significant digits;
+- executed all five negative controls;
+- audited the q/r monotonicity reduction;
+- reproduced the binding handoff margin digit-for-digit;
+- expressly discharged GP-DER-114 Section 12 item 1 and GP-AUD-178’s arithmetic acceptance test;
+- preserved the nonpromotion scope.
+
+
+Controlling review:
+https://docs.google.com/document/d/16qywYy9uxJL-3WdaqJM0WdXlXA0ESMcobHDWJZgTQy0/edit
+
+
+This packet is retained as a useful expanded checklist but is NONOPERATIVE for new review routing. Do not create a second review merely to repeat CL-AUD-201. No additional independence credit is available.
+
+
+[[STATUS:REDUNDANT-REVIEW-PACKET]] [[CONTROLLING-REVIEW:CL-AUD-201]] [[NO-DISPATCH]] [[NO-PROMOTION]]
+
+
+GP-REQ-231-v1.0 — INDEPENDENT REVIEW OF GP-DATA-178 CORRECTED UNIFORM-r FIXED-q INTERVAL CERTIFICATE
+
+
+Artifact ID: GP-REQ-231-v1.0
+Date: 2026-07-26
+Prepared by: OpenAI GPT-5.6 Thinking
+Class: REQ / ORGANIZATIONALLY DISTINCT INTERVAL-ARITHMETIC REVIEW / EXACT SOURCE-RECEIPT REPLAY / EC-020 EVIDENCE-CURRENCY REPAIR
+Authority: review routing only
+Canonical mathematical impact: NONE
+Preferred reviewer: Anthropic, xAI, Google, qualified interval-arithmetic/dynamical-systems reviewer, or qualified human; not OpenAI/GP
+
+
+TARGET
+GP-DATA-178-v1.0 — Byte-Exact Corrected Uniform-r Fixed-q Interval Capsule
+Drive ID: 1kV9H-CJCNlN3nu4OC8NAo1oGitVsSJbg5qjGcdlokZM
+https://docs.google.com/document/d/1kV9H-CJCNlN3nu4OC8NAo1oGitVsSJbg5qjGcdlokZM/edit
+
+
+Audit dependency:
+GP-AUD-178-v1.0
+Drive ID: 1P4ycnDfOqvgQT1m6Q45PjoRzRShC59RTA3usyN0wM_4
+https://docs.google.com/document/d/1P4ycnDfOqvgQT1m6Q45PjoRzRShC59RTA3usyN0wM_4/edit
+
+
+FROZEN EMBEDDED IDENTITIES
+Source filename: GP-DATA-178-v1.0_corrected_uniform_q_degree4_interval.py
+Source bytes: 11,652
+Source SHA-256: 8a27c6043acf8f95e33e8637507c76540824294699e9bbc83b69cdfb7a908df3
+Source gzip bytes: 3,875
+Source gzip SHA-256: 6c7452d706b47146ddadeeb5aeade5845d9169a3db9608f2033f8d8d88b51270
+
+
+Receipt filename: GP-DATA-178-v1.0_receipt.json
+Receipt bytes: 11,914
+Receipt SHA-256: cb458b166e5807e4736c9d046aeae85ebcb95d39cfdd09ec7135c9ab80006305
+Receipt gzip bytes: 3,193
+Receipt gzip SHA-256: 58d06e419d502e2d640e3fde991b6ec12b5fa937e54611aa5e1be570cf7bc58c
+
+
+DECLARED RESULT
+PASS_CORRECTED_UNIFORM_R_FIXED_Q_DEGREE4_INTERVAL_BOX
+- nineteen primary gates PASS;
+- five negative controls PASS and computationally executed;
+- interval precision 80 decimal digits;
+- binary float in proof path: false;
+- binding handoff lower bound:
+  0.007485281374238570292810132345258188471418031252261688439060078427944394870772642192628.
+
+
+PURPOSE
+The original GP-DATA-114 implementation was reproducible but not fully rigorous: it extracted interval endpoints as binary floats and performed final one-sided calculations outside interval arithmetic. GP-DATA-178 is the numbered corrected source. EC-020’s terminal mathematical statement is not presently falsified, but its qualifying independent review CL-AUD-073 reviewed the predecessor implementation. This request supplies the missing independent review of the repaired source and restores current review currency if the corrected object passes.
+
+
+REQUIRED PREREGISTRATION
+Before opening the proof text or declared margins, record:
+1. provider organization and reviewer identity;
+2. session identifier;
+3. exact prior exposure to GP-DATA-114, GP-DATA-178, GP-AUD-178, CL-AUD-073, CL-DEC-224, and EC-019 T2;
+4. intended route: direct source replay, independent implementation, symbolic interval reconstruction, or combination;
+5. interval library/version and precision;
+6. planned hostile mutations;
+7. planned output IDs and verdict syntax.
+
+
+R0 — TRANSPORT IDENTITY
+Export the native capsule as text/plain. Locate the unique whole lines BEGIN_SOURCE_GZIP_BASE64 / END_SOURCE_GZIP_BASE64 and BEGIN_RECEIPT_GZIP_BASE64 / END_RECEIPT_GZIP_BASE64. Remove ASCII whitespace only, decode Base64, verify both deterministic gzip identities, decompress, and reproduce the four raw byte/hash identities above.
+
+
+R1 — SOURCE/RECEIPT CORRESPONDENCE
+Verify the receipt identifies the reproduced source and binds every reported gate, control, precision setting, input box, and output margin to that source. Reject any result that depends on an unrecorded local file or altered source.
+
+
+R2 — INTERVAL IMPLEMENTATION
+Audit that every proof-bearing lower/upper bound remains in directed arbitrary-precision interval arithmetic through the final comparison. Confirm there is no conversion to binary float, no midpoint substitution, no endpoint extraction followed by ordinary floating-point arithmetic, and no inward rounding.
+
+
+R3 — BOX AND PARAMETER IDENTITY
+Verify the full-dimensional fixed-q degree-four box, the range 0<r<=1/20, all coordinate intervals, normalized/physical conventions, q/r parameter, and the exact definitions of every gate. Explicitly reject fixed-s, sampled-r, reduced-dimensional, or point-estimate substitutions.
+
+
+R4 — MONOTONICITY REDUCTION
+Reconstruct the gate-by-gate proof that every s-dependent lower margin is weakest at the finite boundary s=-19.6 and does not decrease as s=q/r tends to negative infinity. A generic statement that stronger contraction helps is insufficient.
+
+
+R5 — NINETEEN PRIMARY GATES
+Independently verify all nineteen declared gates and their outward-rounded margins. The review must name each gate, its interval formula, the minimizing endpoint/corner or monotonicity argument, and the certified lower margin.
+
+
+R6 — FIVE NEGATIVE CONTROLS
+Execute or independently reproduce all five controls. Confirm each fails for its intended reason and that the control result is computed rather than hard-coded.
+
+
+R7 — BINDING HANDOFF DEFINITION
+Publish the exact mathematical definition of handoff_margin, including section, cone/strip geometry, coordinate frame, sign convention, and minimization domain. Recompute the reported lower bound without copying the decimal.
+
+
+R8 — CROSS-LINE EC-019 T2 COMPARISON
+CL’s EC-019 T2 clean-room used exact rational interval arithmetic with Fraction endpoints and directed integer-isqrt roots and reported a binding handoff approximately 7.49e-3 before the GP-DATA-114 float-leakage defect was identified. Compare the exact CL quantity and box to GP-DATA-178’s handoff_margin.
+
+
+Required classification:
+- SAME QUANTITY / SAME BOX / CROSS-LINE CORROBORATION;
+- RELATED BUT NOT IDENTICAL — specify the exact map or inequality;
+- DIFFERENT QUANTITY — explain why the decimal agreement is coincidental or nonprobative;
+- CANNOT VERIFY — name the missing definition or carrier.
+
+
+Do not award corroboration credit merely from numerical closeness.
+
+
+R9 — HOSTILE MUTATIONS
+At minimum attempt:
+M1 convert one interval endpoint to binary float;
+M2 use nearest rounding for one final lower bound;
+M3 reverse q/r monotonicity;
+M4 evaluate only r=1/20;
+M5 collapse one nonzero-width coordinate;
+M6 swap normalized and physical endpoints;
+M7 remove one cone or strip face;
+M8 change the mixed-term factor in a determinant/cofactor calculation;
+M9 lower precision materially;
+M10 replace the full box by its center;
+M11 hard-code one gate boolean;
+M12 perturb the handoff definition or section.
+Each mutation must fail closed or be analytically adjudicated.
+
+
+R10 — SCOPE AND DEPENDENCIES
+An affirmative verdict may approve only the deterministic uniform-r fixed-q degree-four corridor certificate and the corrected interval implementation. It does not prove Gaussian/Palm mass, exact-field transfer, P0.1, P0.2, Theorem B, a package root, or external release.
+
+
+R11 — PREDECESSOR AND EC-020 EFFECT
+State separately:
+1. whether GP-DATA-178 supersedes GP-DATA-114 for technical use;
+2. whether the corrected result preserves or changes any GP-DER-114 mathematical conclusion;
+3. whether CL-AUD-073’s predecessor review can remain provenance only;
+4. whether a new review of GP-DATA-178 restores the EC-020 evidence chain within its exact deterministic scope.
+No terminal theorem promotion follows automatically.
+
+
+REQUIRED VERDICT
+APPROVE — exact source and receipt identities reproduced; R0–R11 pass; corrected interval certificate accepted within scope.
+APPROVE WITH NONMATERIAL FINDINGS — all conclusions pass; findings do not affect any certified margin or scope.
+AMEND REQUIRED — repairable defect; identify exact failed gate, source line, downstream effect, and minimal successor.
+REJECT — a material claim is false or the source cannot certify its declared result.
+CANNOT VERIFY — exact carrier/runtime/definition unavailable; state what is missing.
+
+
+Accepted affirmative wording:
+APPROVE GP-DATA-178-v1.0 SOURCE SHA-256 8a27c6043acf8f95e33e8637507c76540824294699e9bbc83b69cdfb7a908df3 AND RECEIPT SHA-256 cb458b166e5807e4736c9d046aeae85ebcb95d39cfdd09ec7135c9ab80006305 FOR THE CORRECTED UNIFORM-r FIXED-q DEGREE-FOUR INTERVAL CERTIFICATE, NINETEEN GATES, FIVE CONTROLS, AND THE DECLARED BINDING-HANDOFF LOWER BOUND ONLY.
+
+
+SCOPE FIREWALL
+No deletion. No source editing. No transfer of review credit from the predecessor. No P0.1/P0.2 promotion. No package seal. No external release.
+
+
+END GP-REQ-231-v1.0

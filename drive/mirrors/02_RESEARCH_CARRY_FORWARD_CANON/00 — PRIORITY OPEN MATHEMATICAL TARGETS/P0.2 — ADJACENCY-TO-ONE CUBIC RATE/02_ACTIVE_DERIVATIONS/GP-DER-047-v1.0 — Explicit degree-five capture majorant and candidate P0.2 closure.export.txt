@@ -1,0 +1,1153 @@
+﻿TERMINAL EXTRACTION NOTICE — P02-LM-001 — 2026-07-24
+
+
+Sections 2–9 of this document now control the closed lemma P02-LM-001:
+
+
+CLOSED — CONDITIONAL EXACT DEGREE-FOUR DETERMINISTIC CAPTURE MAJORANT.
+
+
+Closure capsule: https://docs.google.com/document/d/1_ovqOV8q1YCC9J5Q72fYsfzGg3v_5Z71Uv4uwyZU3N4/edit
+Independent review: CL-AUD-049-v1.0.
+
+
+Only the deterministic degree-four implication is terminal. Sections 10–15 and the claimed full P0.2 chain remain candidate/nonterminal because they add boundary-layer probability, exact-field transfer, determinant/Palm object identity, GT5, and the O(r^3) conclusion.
+
+
+Do not cite the new lemma closure as proof of exact-field adjacency or 1-a_r=O(r^3).
+
+
+[[SECTIONS:2-9=CLOSED-P02-LM-001]] [[SECTIONS:10-15=CANDIDATE]] [[P0.2:OPEN]] [[NO-CANONICAL-PROMOTION]]
+
+
+ARTIFACT ID:       GP-DER-047-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20 19:52 CDT / 2026-07-21 00:52 UTC
+CLASS:             DER — explicit finite-jet capture majorant / candidate theorem closure
+STATUS:            CANDIDATE EXACT PROOF CHAIN; INDEPENDENT LINE-BY-LINE REVIEW AND OBJECT-IDENTITY AUDIT REQUIRED
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+TARGET:             P0.2 — adjacency-to-one cubic rate under the exact typed pair-Palm law
+
+
+# Explicit degree-five capture majorant and candidate P0.2 closure
+
+
+## Executive result
+
+
+A single explicit degree-five threshold in the non-q midpoint jets is sufficient to force the complete saddle-exit, invariant-strip, central-transit, sink-capture, exact-field transfer, and global gradient-adjacency chain.
+
+
+Let
+
+
+    U=(a,w,z,c40,c31,c22,c13,c04)
+
+
+be the exact finite-r midpoint lower/fourth-jet vector, let
+
+
+    s=q/r,
+
+
+and define the jet-size majorant
+
+
+    R(U)
+      =1+|a|+|w|+|z|
+         +|c40|+|c31|+|c22|+|c13|+|c04|.
+
+
+Fix
+
+
+    K=4096,
+    epsilon_0=1/(1024 K).
+
+
+Define the regular-jet event
+
+
+    REG_r={ r R(U)^5 <= epsilon_0 }
+
+
+and the explicit capture threshold
+
+
+    C_cap(U)=2 K R(U)^5+2R(U).
+
+
+The deterministic theorem proved below is:
+
+
+    REG_r and s<=-C_cap(U)
+      imply that the exact selected unstable branch of S
+      converges to M,
+
+
+for all sufficiently small r outside the super-polynomial fifth-derivative remainder event from GP-DER-046.
+
+
+Consequently, within the exact typed pair-Palm object and using the exact determinant-weighted boundary-layer reduction of GP-DER-043,
+
+
+    1-a_r = O(r^3)
+
+
+is obtained as a candidate theorem:
+
+
+- the boundary event s>-C_cap(U) has typed pair-Palm mass O(r^3);
+- REG_r^c has super-polynomial Gaussian/Palm mass;
+- the exact-field high-derivative event has super-polynomial Gaussian/Palm mass.
+
+
+This is the first artifact in the current chain to supply one closed, explicit, polynomial-growth capture majorant connecting all previously separated local obligations.
+
+
+P0.2 is not canonically closed by this document. Independent line-by-line review, executable certificate replay, and verification that every dependency uses the identical governing pair-Palm measure and determinant convention remain mandatory.
+
+
+## 1. Sources and exact scope
+
+
+Sources consulted:
+
+
+- GP-DER-043-v1.0 — Determinant-weighted boundary-layer Palm reduction.
+  Drive ID: 15CbojXsDhXh_nfYgBEl83uaddCny_OStbHqhTOsZa9M.
+
+
+- GP-DER-044-v1.0 — Exact-torus Gaussian regularity via confluent divided differences.
+  Drive ID: 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho.
+
+
+- GP-DER-044-v1.0 — Quantitative saddle-exit and sink-capture blocks.
+  Drive ID: 1y6ub28wyn_OH7uqV8qj86x38CHbdee7pJ6l1yi14OXw.
+
+
+- GP-DER-045-v1.0 — Robust exact-field transfer of the endpoint capture certificate.
+  Drive ID: 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc.
+
+
+- GP-DER-046-v1.0 — Uniform conditioned fifth-derivative supremum tail.
+  Drive ID: 1LyYDRVmTl0AKZcKhmDaRMEiWE_HDsmfwac4l2QsFV7c.
+
+
+- GP-DER-037-v1.0 — Explicit invariant-strip and central-transit bounds.
+  Drive ID: 15pI0fJJXeMkbwSxaMipc8lod3PeQ9jZc_Ju9mN6vUCQ.
+
+
+- GP-DER-034 / GP-DATA-035 / GP-AUD-039 — exact finite-r normalized-periodized six-pin midpoint Gaussian law and independent reconstruction.
+
+
+The configured pair is pinned at normalized points
+
+
+    S=(1/2,0),
+    M=(-1/2,0),
+
+
+with exact physical values/gradients prescribed by the governing six-pin object. The exact typed pair-Palm law includes the maximum/saddle type indicators and the product of the absolute endpoint Hessian determinants.
+
+
+No conclusion here concerns an unconditioned full-field persistence pipeline, a pixel pairing convention, or the historical four-neighbor graph object.
+
+
+## 2. Explicit degree-four vector field
+
+
+The normalized pin-preserving degree-four local vector field is
+
+
+    Xdot = X^2-1/4 + aXY +(w/2)Y^2 + r P4_X,
+
+
+    Ydot = sY +(a/2)(X^2-1/4)+wXY+(z/2)Y^2+rP4_Y,
+
+
+where
+
+
+    P4_X=(c40/6)X(X^2-1/4)
+          +(c31/6)(3X^2-1/4)Y
+          +(c22/2)XY^2
+          +(c13/6)Y^3,
+
+
+    P4_Y=(c31/6)X(X^2-1/4)
+          +(c22/2)X^2Y
+          +(c13/2)XY^2
+          +(c04/6)Y^3.
+
+
+The endpoint Jacobians are
+
+
+    J_S=
+      [[ 1+r c40/12,  a/2+r c31/12],
+       [ a/2+r c31/12, s+w/2+r c22/8]],
+
+
+    J_M=
+      [[-1+r c40/12, -a/2+r c31/12],
+       [-a/2+r c31/12, s-w/2+r c22/8]].
+
+
+All deterministic estimates in Sections 3–10 are for this exact degree-four field. Section 11 transfers them to the exact conditioned field.
+
+
+## 3. Frozen adaptive geometry
+
+
+Let R=R(U). Set
+
+
+    F = |a|/8 + r|c31|/48,
+
+
+    F_* = 1+F,
+
+
+    mu = K R^5,
+
+
+    W = F_*/mu,
+
+
+    sigma_S=sigma_M=sigma=4 R W,
+
+
+    rho_S=rho_M=rho=8 R W,
+
+
+    kappa=1/(16R),
+
+
+    C_cap=2 K R^5+2R.
+
+
+The added unit in F_* is deliberate. It prevents a zero-width strip when the transverse forcing vanishes and gives unit inward boundary slack.
+
+
+### Lemma 3.1 — elementary size bounds
+
+
+On REG_r,
+
+
+    1/(K R^5) <= W <= 2/(K R^4),
+
+
+    W <= 2/K < 1/1000,
+
+
+    sigma <= 8/K < 1/4,
+
+
+    rho <= 16/K < 1,
+
+
+and
+
+
+    r/W <= K epsilon_0 = 1/1024,
+
+
+    rR <= (RW)/1024.
+
+
+### Proof
+
+
+Since R>=1 and r<=1,
+
+
+    F <= R/8+R/48=7R/48,
+
+
+so
+
+
+    1 <= F_* <= 1+7R/48 < 2R.
+
+
+The W, sigma, and rho bounds follow from their definitions. Since W>=1/(KR^5) and rR^5<=epsilon_0,
+
+
+    r/W <= r K R^5 <= K epsilon_0=1/1024.
+
+
+Multiplication by R gives the final relation. QED.
+
+
+## 4. Strict invariant strip with positive buffer
+
+
+Write the transverse equation as
+
+
+    Ydot=G(X)+A(X)Y+B(X)Y^2+D Y^3.
+
+
+On |X|<=1/2,
+
+
+    |G(X)|<=F.
+
+
+On |Y|<=W,
+
+
+    partial_Y Ydot
+      <= s+|w|/2+r|c22|/8
+         +( |z|+r|c13|/2 )W
+         +r|c04|W^2/2.
+
+
+### Lemma 4.1 — strict strip confinement
+
+
+On REG_r, if
+
+
+    s<=-C_cap(U),
+
+
+then throughout
+
+
+    |X|<=1/2,
+    |Y|<=W,
+
+
+we have
+
+
+    partial_Y Ydot <= -mu.
+
+
+Furthermore,
+
+
+    Ydot(X,W) <= -1,
+    Ydot(X,-W) >= 1.
+
+
+Thus the strip is strictly forward invariant.
+
+
+### Proof
+
+
+The non-s and non-mu terms in the derivative bound satisfy the coarse estimate
+
+
+    |w|/2+r|c22|/8
+      +( |z|+r|c13|/2 )W
+      +r|c04|W^2/2
+      <= R/2+1.
+
+
+Since s<=-2mu-2R and mu>=K,
+
+
+    partial_Y Ydot
+      <= -2mu-2R+R/2+1
+      <= -mu.
+
+
+At Y=W, the mean-value theorem gives
+
+
+    Ydot(X,W)
+      <= Ydot(X,0)-mu W
+      <= F-F_*=-1.
+
+
+The lower boundary is analogous:
+
+
+    Ydot(X,-W)
+      >= -F+F_*=1.
+
+
+QED.
+
+
+The unit boundary margin is much larger than the eventual exact-field Taylor perturbation.
+
+
+## 5. Strict central longitudinal transit
+
+
+For |Y|<=W,
+
+
+    Xdot <= X^2-1/4+E_X(W),
+
+
+where
+
+
+    E_X(W)
+      = |a|W/2+|w|W^2/2
+        +r[ |c40|/(72sqrt(3))
+             +|c31|W/12
+             +|c22|W^2/4
+             +|c13|W^3/6 ].
+
+
+### Lemma 5.1 — central error bound
+
+
+On REG_r,
+
+
+    E_X(W)<0.501 R W.
+
+
+### Proof
+
+
+The first term is at most RW/2. Since W<1/1000, the second is at most RW/2000.
+
+
+For W<=2/K, the quartic bracket is bounded by R/100: indeed
+
+
+    1/(72sqrt(3))<1/120
+
+
+and the remaining W-dependent coefficients sum to less than 1/10000. Hence the quartic term is at most rR/100. Lemma 3.1 gives
+
+
+    rR/100 <= RW/102400.
+
+
+Adding the terms proves the stated bound. QED.
+
+
+### Lemma 5.2 — monotone central transit
+
+
+On REG_r, if s<=-C_cap, then on
+
+
+    |X|<=1/2-sigma,
+    |Y|<=W,
+
+
+we have
+
+
+    Xdot <= -3 R W <0.
+
+
+### Proof
+
+
+Because sigma<1/4,
+
+
+    sigma(1-sigma)>3sigma/4=3RW.
+
+
+In fact sigma(1-sigma)>3.99RW, while Lemma 5.1 gives E_X(W)<0.501RW. Therefore
+
+
+    sigma(1-sigma)-E_X(W)>3RW.
+
+
+Use
+
+
+    X^2-1/4<=-sigma(1-sigma)
+
+
+on the central rectangle. QED.
+
+
+Thus every trajectory in the invariant strip crosses the central rectangle from right to left in finite time.
+
+
+## 6. Uniform second-derivative bound on endpoint balls
+
+
+The second derivatives of the degree-four vector field are the six displayed polynomial expressions recorded in the endpoint-block artifact. On either endpoint ball B(S,rho) or B(M,rho), Lemma 3.1 gives |Y|<1 and |X|<1.
+
+
+### Lemma 6.1 — endpoint Jacobian variation
+
+
+On REG_r, the bilinear operator norm of the vector-field second derivative is bounded by
+
+
+    ||D^2F^(4)|| <= 12R
+
+
+on both endpoint balls. Consequently
+
+
+    omega_S(rho), omega_M(rho)
+      <= epsilon,
+
+
+where
+
+
+    epsilon=12R rho=96 R^2 W
+      <= 192/(K R^2)
+      <= 3/64.
+
+
+### Proof
+
+
+Every scalar second-derivative entry is bounded by 3R on the declared balls. Bounding the full two-output Hessian tensor by its Frobenius norm gives the conservative constant 12R. Multiplication by rho gives the Jacobian-variation estimate. QED.
+
+
+## 7. Fixed-coordinate saddle cone
+
+
+Use local coordinates at S:
+
+
+    xi=1/2-X,
+    y=Y.
+
+
+The linear part becomes
+
+
+    xidot=A xi-B y,
+    ydot=-B xi+D y,
+
+
+where
+
+
+    A=1+r c40/12,
+    B=a/2+r c31/12,
+    D=s+w/2+r c22/8.
+
+
+Let the nonlinear remainder relative to this linearization have norm at most
+
+
+    epsilon sqrt(xi^2+y^2)
+
+
+inside B(S,rho).
+
+
+Consider the fixed cone
+
+
+    C={xi>=0, |y|<=kappa xi}.
+
+
+### Lemma 7.1 — fixed-coordinate cone criterion
+
+
+The cone is forward invariant and xi is strictly increasing if
+
+
+    A-kappa|B|-epsilon sqrt(1+kappa^2)>0,
+
+
+and
+
+
+    kappa(A-D)
+      > |B|(1+kappa^2)
+        +epsilon(1+kappa)sqrt(1+kappa^2).
+
+
+### Proof
+
+
+Inside the cone,
+
+
+    xidot
+      >= [A-kappa|B|-epsilon sqrt(1+kappa^2)]xi.
+
+
+On y=kappa xi, the outward derivative of y-kappa xi is bounded above by
+
+
+    [-kappa(A-D)+|B|(1+kappa^2)
+      +epsilon(1+kappa)sqrt(1+kappa^2)]xi.
+
+
+The lower boundary gives the same upper bound after replacing y by -y. Strict negativity on both boundaries proves cone invariance. QED.
+
+
+### Lemma 7.2 — the explicit majorant satisfies the cone criterion
+
+
+On REG_r and s<=-C_cap,
+
+
+    A-kappa|B|-epsilon sqrt(1+kappa^2)>7/8,
+
+
+and
+
+
+    kappa(A-D)
+      -|B|(1+kappa^2)
+      -epsilon(1+kappa)sqrt(1+kappa^2)
+      >511R.
+
+
+### Proof
+
+
+REG_r gives
+
+
+    A>=63/64,
+    |B|<33R/64,
+    epsilon<=3/64,
+    kappa=1/(16R).
+
+
+These imply the first inequality.
+
+
+Moreover
+
+
+    A-D>=2 K R^5,
+
+
+so
+
+
+    kappa(A-D)>=K R^4/8=512R^4.
+
+
+The two subtracted terms total less than 0.57R. Since R>=1, the stated lower bound follows. QED.
+
+
+### Lemma 7.3 — selected unstable branch and strip handoff
+
+
+Under the same hypotheses, J_S has one positive and one negative eigenvalue. The leftward unstable eigenvector lies strictly inside C. The selected branch reaches
+
+
+    xi=sigma
+
+
+before leaving B(S,rho), and at that crossing
+
+
+    |Y|<=kappa sigma=W/4<W.
+
+
+### Proof
+
+
+D is strictly negative and A is positive, so det J_S=AD-B^2<0.
+
+
+For the transformed symmetric linear matrix, the unstable eigenvector slope t=y/xi satisfies
+
+
+    |t|=|B|/(lambda_u-D)
+      <= |B|/(A-D)<kappa,
+
+
+using lambda_u>=A and Lemma 7.2. Hence the selected leftward branch enters the invariant cone.
+
+
+At xi=sigma, every point in the cone has norm at most
+
+
+    sigma sqrt(1+kappa^2)<2sigma=rho.
+
+
+The transverse handoff follows from
+
+
+    kappa sigma
+      =(1/(16R))(4RW)=W/4.
+
+
+QED.
+
+
+This fixed-coordinate argument avoids square roots in the capture threshold and is the source of the explicit polynomial degree five.
+
+
+## 8. Uniform sink-capture ball
+
+
+Write the positive candidate contraction matrix at M as
+
+
+    H=-J_M
+      =[[A_0, -B_M],[-B_M,T]],
+
+
+where
+
+
+    A_0=1-r c40/12,
+    B_M=-a/2+r c31/12,
+    T=-s+w/2-r c22/8.
+
+
+### Lemma 8.1 — endpoint contraction
+
+
+On REG_r and s<=-C_cap,
+
+
+    lambda_min(H)>=63/128.
+
+
+### Proof
+
+
+REG_r gives
+
+
+    A_0>=63/64,
+    |B_M|<33R/64,
+
+
+while
+
+
+    T>=2 K R^5+3R/2.
+
+
+For every vector (x,y), Young's inequality gives
+
+
+    A_0x^2+Ty^2-2B_Mxy
+      >= (A_0/2)x^2
+         +(T-2B_M^2/A_0)y^2.
+
+
+The second coefficient is far larger than A_0/2 because K=4096 and R>=1. Thus the quadratic form is bounded below by (63/128)(x^2+y^2). QED.
+
+
+### Lemma 8.2 — invariant M ball
+
+
+The ball B(M,rho) is forward invariant for the degree-four flow and every trajectory entering it converges exponentially to M.
+
+
+### Proof
+
+
+Lemma 8.1 gives contraction rate at least 63/128. Lemma 6.1 gives
+
+
+    omega_M(rho)<=3/64<63/256,
+
+
+which is less than half the contraction rate. Apply the invariant contracting-ball lemma. QED.
+
+
+### Lemma 8.3 — central-to-sink geometry
+
+
+The left central section
+
+
+    X=-1/2+sigma,
+    |Y|<=W
+
+
+lies inside B(M,rho).
+
+
+### Proof
+
+
+For R>=1,
+
+
+    sqrt(sigma^2+W^2)
+      =W sqrt(16R^2+1)
+      <5RW<8RW=rho.
+
+
+QED.
+
+
+## 9. Complete degree-four capture theorem
+
+
+### Theorem 9.1 — explicit finite-jet capture
+
+
+On REG_r, if
+
+
+    s<=-C_cap(U),
+
+
+then the selected M-ward unstable branch of S:
+
+
+1. exits the S endpoint ball through the left section with |Y|<W;
+2. remains in the strict invariant strip;
+3. crosses the central rectangle monotonically leftward;
+4. enters the invariant M ball;
+5. converges exponentially to M.
+
+
+Therefore the configured pair is gradient-adjacent for the degree-four local flow.
+
+
+### Proof
+
+
+Combine Lemmas 7.3, 4.1, 5.2, 8.3, and 8.2. QED.
+
+
+Every numerical constant is intentionally conservative. No optimization is used.
+
+
+## 10. Polynomial-growth and boundary-layer compatibility
+
+
+The threshold
+
+
+    C_cap(U)=8192 R(U)^5+2R(U)
+
+
+has polynomial growth of degree five in the absolute non-q jets. Therefore it lies in the admissible threshold class of the determinant-weighted boundary-layer Palm reduction.
+
+
+The complement of the deterministic capture event inside REG_r is contained in
+
+
+    { s>-C_cap(U) }.
+
+
+GP-DER-043 then gives, under the exact finite-dimensional typed determinant-weighted law,
+
+
+    P_MS( s>-C_cap(U) )=O(r^3).
+
+
+The exact dependency edge must be audited using the identical six-pin conditioning vector, type convention, branch mark, torus kernel, and endpoint determinant weight. This artifact does not replace that object-identity audit.
+
+
+## 11. Transfer to the exact conditioned field
+
+
+Let F_r be the exact scaled conditioned vector field and F_r^(4) the degree-four field used above. GP-DER-045 proves
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}
+      <= C_D r^2 H_{5,r}(D)
+
+
+on the fixed chart containing the complete certificate.
+
+
+Use the event
+
+
+    H_{5,r}(D)<=r^{-1}.
+
+
+Then
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}
+      <= C_D r.
+
+
+The smallest nonconstant deterministic margin above is of order RW. Lemma 3.1 gives
+
+
+    RW>=1/(K R^4).
+
+
+On REG_r,
+
+
+    R^4 <= (epsilon_0/r)^(4/5),
+
+
+so
+
+
+    RW
+      >= r^(4/5)/(K epsilon_0^(4/5)).
+
+
+Hence
+
+
+    r/(RW)=O(r^(1/5))->0.
+
+
+Therefore, for all sufficiently small r, the exact C^1 perturbation is smaller than every strip, central-transit, cone, saddle-handoff, and sink-capture slack. The robust-transfer theorem then gives the exact analogue of Theorem 9.1.
+
+
+### Theorem 11.1 — exact-field capture
+
+
+For all sufficiently small r,
+
+
+    REG_r,
+    s<=-C_cap(U),
+    H_{5,r}(D)<=r^{-1}
+
+
+imply that the exact selected unstable branch of the exact saddle S converges to the exact maximum M.
+
+
+Under the governing branch convention, this exact trajectory is the global configured-pair gradient-adjacency event A_r. No additional far-field lemma is required on this certified event.
+
+
+## 12. Tail of the regular-jet complement
+
+
+The exact finite-r vector U is an eight-dimensional Gaussian under the exact six-pin conditioned law. Exact-torus regularity gives uniformly bounded means and covariance eigenvalues.
+
+
+Therefore there exist C_R,c_R>0 such that
+
+
+    P(R(U)>x | exact pins)
+      <= C_R exp(-c_R x^2)
+
+
+uniformly for sufficiently small r and x above a fixed threshold.
+
+
+Since
+
+
+    REG_r^c
+      ={R(U)>(epsilon_0/r)^(1/5)},
+
+
+we obtain
+
+
+    P(REG_r^c | exact pins)
+      <= C_R exp(-c_R epsilon_0^(2/5) r^(-2/5)).
+
+
+This is smaller than every power of r.
+
+
+## 13. Exact determinant-weight second moment
+
+
+Let the exact endpoint Hessian entries be normalized as
+
+
+    A_M=f_xx(M)/r,
+    B_M=f_xy(M)/r,
+    Q_M=f_yy(M),
+
+
+and analogously at S.
+
+
+### Lemma 13.1 — uniform normalized endpoint moments
+
+
+The six-dimensional vector
+
+
+    V_r=(A_M,B_M,Q_M,A_S,B_S,Q_S)
+
+
+has uniformly bounded Gaussian means, covariance matrices, and moments of every fixed order under the exact six-pin conditioned law.
+
+
+### Proof
+
+
+The divided-difference pins force the coalesced limits f_xx=0 and f_xy=0. Covariances involving f_xx(M)/r and f_xy(M)/r have removable singularities obtained by Taylor expansion of the analytic exact-torus kernel in the uniformly invertible confluent conditioning frame. The resulting joint conditional covariance and mean extend continuously through r=0. QED.
+
+
+The exact endpoint determinants satisfy
+
+
+    det H_M
+      =r[A_M Q_M-r B_M^2],
+
+
+    det H_S
+      =r[A_S Q_S-r B_S^2].
+
+
+Let W_r be the typed nonnegative determinant product, including the type indicators. Then
+
+
+    W_r^2
+      <= r^4
+          [|A_MQ_M|+rB_M^2]^2
+          [|A_SQ_S|+rB_S^2]^2.
+
+
+Uniform eighth moments of V_r yield
+
+
+    E[W_r^2] <= C_W r^4.
+
+
+Thus the determinant second-moment estimate DM2 named in GP-DER-046 is discharged for the exact endpoint determinant convention, subject to independent verification that W_r is exactly the governing pair-Palm weight.
+
+
+Together with
+
+
+    Z_r>=c_Z r^2,
+
+
+Cauchy–Schwarz transfers every super-polynomial conditioned Gaussian tail in Sections 12 and 14 to a super-polynomial typed pair-Palm tail.
+
+
+## 14. Fifth-derivative tail
+
+
+GP-DER-046 proves
+
+
+    P(H_{5,r}(D)>r^{-1} | exact pins)
+      <= C exp(-c r^{-2}).
+
+
+Using Lemma 13.1 and the determinant second-moment bound,
+
+
+    P_MS(H_{5,r}(D)>r^{-1})
+      <= C' exp(-c' r^{-2}).
+
+
+This is also smaller than every algebraic power of r.
+
+
+## 15. Candidate P0.2 theorem
+
+
+Let
+
+
+    a_r=P_MS(A_r)
+
+
+be the exact configured-pair gradient-adjacency probability under the governing typed six-pin determinant-weighted pair-Palm law.
+
+
+### Candidate Theorem 15.1 — adjacency-to-one cubic rate
+
+
+Assume the exact object identities and dependency edges in GP-DER-043, GP-DER-044(exact-torus), GP-DER-045, and GP-DER-046 all refer to this same P_MS object. Then
+
+
+    1-a_r=O(r^3)
+
+
+as r->0.
+
+
+### Proof
+
+
+Theorem 11.1 gives the set inclusion, inside the typed pair-Palm space,
+
+
+    A_r^c
+      subset
+        {s>-C_cap(U)}
+        union REG_r^c
+        union {H_{5,r}(D)>r^{-1}}.
+
+
+The first event has pair-Palm probability O(r^3) by the determinant-weighted boundary-layer theorem because C_cap has polynomial growth.
+
+
+The second event has super-polynomial pair-Palm probability by Sections 12–13.
+
+
+The third event has super-polynomial pair-Palm probability by Sections 13–14.
+
+
+Adding the three bounds proves the result. QED.
+
+
+## 16. Epistemic disposition
+
+
+The proof chain is now internally complete at the level of explicit formulas and named imported Gaussian-process theorems, but it is not promoted.
+
+
+Recommended current label:
+
+
+    CANDIDATE THEOREM — FULL INTERNAL PROOF CHAIN PRESENT;
+    INDEPENDENT VERIFICATION AND GOVERNANCE PROMOTION REQUIRED.
+
+
+P0.2 should remain OPEN in the governing status system until all of the following occur:
+
+
+1. another model independently reconstructs the fixed-coordinate cone and every numerical inequality without copying this proof;
+2. an execution-capable model evaluates the exact certificate on frozen exact-law draws and records stage-specific slacks;
+3. the exact P_MS object, determinant convention, type indicator, q/U coordinates, and branch event are crosswalked across every dependency;
+4. the exact determinant normalized-endpoint moment lemma is independently checked;
+5. the Dudley/Borell GT5 proof receives independent line-by-line review;
+6. the human researcher explicitly authorizes any machine/canonical promotion.
+
+
+No active q0 machine file, theorem source, or canonical ledger has been edited.
+
+
+## 17. Falsification conditions
+
+
+This artifact is falsified by any one of the following:
+
+
+1. a coefficient in the degree-four vector field or endpoint Jacobians is wrong;
+2. the strict buffered strip boundary calculation fails;
+3. the central error exceeds the stated bound on REG_r;
+4. the fixed-coordinate cone boundary signs or unstable-eigenvector slope estimate are incorrect;
+5. the selected branch leaves the cone before the declared section despite satisfying all hypotheses;
+6. the M quadratic-form or Jacobian-variation estimate fails;
+7. an exact field satisfying REG_r, the threshold, and the H5 cutoff fails to connect S to M;
+8. exact local convergence of the selected branch to M is not the governing adjacency event;
+9. the regular-jet or H5 tail is not super-polynomial under the exact typed determinant-weighted law;
+10. GP-DER-043 does not apply to the identical threshold/measure/weight object used here.
+
+
+The most decisive computational falsifier is one exact-law sample satisfying every machine-evaluated hypothesis of Theorem 11.1 whose exact trajectory does not converge to M.
+
+
+## 18. Help exchange
+
+
+Requested independent help:
+
+
+- Dynamical reviewer: reconstruct the fixed-coordinate cone, sink quadratic form, and gluing proof from first principles.
+- Execution collaborator: implement the exact certificate with no algebraic simplification and report every slack plus exact trajectory outcome.
+- Gaussian/Palm reviewer: verify Lemma 13.1, DM2, the normalizer edge, and the boundary-layer integration under the identical governing measure.
+- Verifier owner: encode REG_r, C_cap, the H5 cutoff, and the three-event inclusion as noncanonical machine roots.
+- Adversarial reviewer: search for a hidden coordinate, branch-selection, endpoint, or measure mismatch that invalidates Theorem 15.1.
+
+
+OpenAI offers an independent executable specification, interval-arithmetic slack checker, exact finite-r covariance reconstruction, and adversarial response to any counterexample.
+
+
+No existing file was deleted, renamed, overwritten, or silently superseded.

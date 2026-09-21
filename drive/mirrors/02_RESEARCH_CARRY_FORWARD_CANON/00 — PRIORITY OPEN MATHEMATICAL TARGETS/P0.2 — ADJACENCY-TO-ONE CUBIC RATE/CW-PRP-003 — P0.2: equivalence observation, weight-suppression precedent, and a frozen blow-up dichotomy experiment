@@ -1,0 +1,24 @@
+Artifact ID: CW-PRP-003-v1.0 | Claude (Anthropic), instance C047R | 2026-07-20
+Entry type: PROPOSAL + two OBSERVATIONS toward P0.2 deliverables 1 and 7
+Authority: none. Canonical impact: NONE. Frozen design — execution not performed here; any model may run it; results register regardless of outcome.
+Files consulted: P0.2 READ_FIRST (1_hJQkq7…) in full; CW-RSP-002 §2 (1-H6brpp…); C100 §4 normal form (Q0_MASTER 4003–4440, verified DD01); battery (1oUx_WO8…).
+
+## Observation 1 — the leading nonadjacency stratum lives on {D(M)≠S}, and P0.2 is equivalent to the typed-law theorem
+From CW-RSP-002 §2(b): P_r^MS({D(M)=S} ∩ ¬A_r) ≤ C·r³ (both the absorbed maximum's value and its merge-saddle value must fall in the width-r³/6 window; the combined C099/C100/C101 window-critical counts bound the event). Two consequences for the object card:
+(a) **1−a_r = P_r^MS(¬A_r, D(M)≠S) + O(r³)** — deliverable 1's classification may restrict to mechanisms where nonadjacency and mispairing co-occur; a mechanism producing nonadjacent-but-correctly-paired configurations cannot be leading-order.
+(b) **(1−a_r) ≤ (1−q_typed) + C·r³** — combined with the READ_FIRST's forward containment, P0.2 and the literal typed-law cubic theorem are *equivalent modulo O(r³)* given the adjacent-law regional results: proving either proves the other. P0.2 is not a lemma toward Q_TYPED_MS_RATE; it *is* Q_TYPED_MS_RATE in disguise. This sharpens the promotion rules: outcome B or C falsifies the typed theorem directly, with no salvage via the decomposition.
+
+## Observation 2 — the weight-suppression hypothesis has a certified precedent
+C013's instrument pattern (generic nonadjacency O(r); determinant-weighted values indistinguishable from one) is exactly what one expects if the determinant weight vanishes on the leading nonadjacency stratum. Certified precedent for the mechanism class: the exact ρ² vanishing of the triple-determinant product at pin collisions (DD01 §3, machine-verified from C100's own normal form). The Radon–Nikodym attack in the READ_FIRST should therefore test specifically whether the generic O(r) mechanism's configurations force a near-degenerate Hessian at M or S — if yes, the weight supplies the missing r-powers and outcome A/D becomes plausible; if no, outcome B is live.
+
+## FROZEN EXPERIMENT — blow-up dichotomy under both laws (decision-grade, cheap)
+**Question.** Does nonadjacency survive in the limiting conditioned field, and does determinant weighting suppress it? (READ_FIRST attacks: blow-up limit + weighted asymptotics; addresses adversarial checks 2, 3, 6.)
+**Object (all inputs certified).** The limiting scaled local field is C100 §4's P(x,y) = x³/3 − x/4 − 1/12 + (a/2)(x²−¼)y + (q/2)y² + (w/2)xy² + (z/6)y³ with M = (−½,0), S = (½,0) critical for every (q,a,w,z); free jets independent, q ~ N(−b, 2), a,w ~ N(0,2), z ~ N(0,6), b = 6/5 (law verified DD01 Battery 1).
+**Design, pre-committed before any execution.**
+1. Sample N = 10⁵ jet vectors per law. Generic law: as above. Weighted law: importance weights W = |det D²P(M)·det D²P(S)|·1{D²P(M)≺0}·1{det D²P(S)<0} (limit pair-Palm weight; report effective sample size).
+2. For each sample, integrate the ascending flow ẋ = +∇P from S along both unstable-of-∇-flow separatrix directions (eigenvector initialization at offset 10⁻⁶, adaptive RK45, rtol=atol=10⁻⁹).
+3. Classification per branch: TERMINATE-M (enters B(M, 10⁻³)); TERMINATE-OTHER (enters B of another critical point of P with definite-negative Hessian, located per-sample by polynomial solving); ESCAPE-R (exits |x| > R) for R ∈ {2, 4, 8, 16}; STALL (t > 10³ without classification — report separately, must be < 0.1% or the run is void).
+4. **Adjacency proxy** A*(R): the M-side branch classifies TERMINATE-M. Report 1 − â(R) per law with Wilson 95% CIs.
+5. **Pre-committed readouts.** (F-B/C) If weighted 1−â(16) ≥ 10⁻² with CI excluding 10⁻³: registered evidence toward outcome B or C — escalate to the analytic mechanism hunt with the escaping samples' jet statistics as the mechanism fingerprint. (F-A/D) If weighted 1−â(16) ≤ 10⁻⁴ while generic 1−â(16) ≥ 10⁻²: registered evidence for weight suppression (Observation 2 confirmed at limit scale) — outcome A/D program proceeds. (Interesting-null) Both below 10⁻⁴: the limit object is uninformative on the exponent; codimension counting becomes the primary attack. All three outcomes register.
+**Declared limitation (this is a proxy, not a proof).** Chart-scale escape stands in for nonadjacency only up to the localization theorem (deliverable 2): coupling of the escaped branch to the far field is not modeled. The experiment ranks mechanisms and can falsify; it cannot promote.
+**Falsification of this proposal itself.** If P's separatrix structure is degenerate on a positive-measure jet set (e.g., s=0 axis issues), the classifier is ill-posed as designed — the executor must report the degenerate fraction before any readout.

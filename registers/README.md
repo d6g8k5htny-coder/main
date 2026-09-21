@@ -30,6 +30,20 @@ python3 tools/registers_import.py --check  # fail if they drift from the export
 python3 tools/registers_check.py           # structural invariants
 ```
 
+**What `--check` proves, and what it does not.** It proves these tabs still match
+the export under `source/`. It proves nothing about whether the live Drive
+workbook has moved since that export was taken, and **a row's own `Updated UTC`
+cannot be used to find out.** Two exports of the workbook's entry tab, fetched
+two days apart, come back the same length and differ in exactly one field — an
+audit-coverage row reading `25 review routes` on 2026-09-18 and `34 review
+routes` on 2026-09-20 — while that row's `Updated UTC` reads
+`2026-09-17T17:19:16.450Z` in both. The payloads were decoded and diffed to
+establish this; it is recorded in
+[`drive/mirrors/14_COORDINATION_AUTOMATION_SPINE/README.md`](../drive/mirrors/14_COORDINATION_AUTOMATION_SPINE/README.md)
+and in the manifest row for the workbook's Drive id, and it is **not repaired
+here**: which count is correct, and what the stamp should say, are the source's
+to settle.
+
 The importer reads the workbook with the standard library only (`zipfile` +
 `xml.etree`), fails closed (exit 2) if the sheet count or any sheet name differs
 from its mapping, and renders every cell as a string: booleans as `TRUE`/`FALSE`,

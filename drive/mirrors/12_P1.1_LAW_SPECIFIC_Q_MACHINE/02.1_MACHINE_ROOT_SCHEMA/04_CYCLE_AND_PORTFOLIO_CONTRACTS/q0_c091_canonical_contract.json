@@ -1,0 +1,126 @@
+{
+  "contract_id": "Q0-C091-PROOF-GATE-REDUCTION",
+  "date": "2026-07-16",
+  "precedence": {
+    "preserves": [
+      "C024 estimator verification",
+      "C026-C043 one-point Lambda machinery",
+      "C090 exact finite lower identity",
+      "C090 exact periodized torus definition",
+      "C090 R0 source-precedence decision"
+    ],
+    "supersedes_or_quarantines": [
+      {
+        "node": "H4_QSTEP_PRODUCT",
+        "status": "KILLED",
+        "reason": "six-pin multivariate Gaussian corridor counterexamples"
+      },
+      {
+        "node": "BONFERRONI_POINTWISE_CND_PER_HEIGHT2",
+        "status": "QUARANTINED",
+        "reason": "unmarked spatial repulsion does not establish the required uniform marked two-height bound"
+      }
+    ]
+  },
+  "claims": {
+    "TORUS_LOCAL_TRANSFER": {
+      "status": "CLOSED",
+      "scope": "derivative order <=4, pin dimension <=9, target dimension <=6, |x|<=3"
+    },
+    "TORUS_FAR_STATION_TRANSFER": {
+      "status": "CLOSED",
+      "scope": "same dimensions/orders, pin-target distances 5<=d<=12"
+    },
+    "UPPER_ONE_SIDED_INTERPOLATION": {
+      "status": "CLOSED-EXACT",
+      "statement": "If U''>=-M then sup U <= max endpoints + M(b-a)^2/8"
+    },
+    "UPPER_SHAPE_CERTIFICATE": {
+      "status": "OPEN",
+      "alternatives": [
+        "U'>=0 on (0,.05]",
+        "U''>=-1510.4 on [.0125,.025] and U''>=-64 on [.025,.05] plus origin patch"
+      ]
+    },
+    "UPPER_UNCERTAINTY_SEMANTICS": {
+      "status": "CLOSED",
+      "rule": "+/-0.02 is consumed as +0.02 by an upper theorem unless already one-sided"
+    },
+    "UPPER_UNCERTAINTY_CALIBRATION": {
+      "status": "OPEN"
+    },
+    "H4_GAUSSIAN_CHERNOFF": {
+      "status": "CLOSED-EXACT"
+    },
+    "H4_PALM_WEIGHTED_CHERNOFF": {
+      "status": "CLOSED-EXACT"
+    },
+    "H4_NUMERICAL_PATH_CERTIFICATE": {
+      "status": "OPEN"
+    },
+    "BONFERRONI_EXACT_IDENTITY": {
+      "status": "CLOSED-EXACT"
+    },
+    "VALUE_GAP_D3_PLANAR": {
+      "status": "CLOSED-EXACT",
+      "limits": {
+        "Var_A": 0.6666666666666666,
+        "Var_Z": 0.041666666666666664,
+        "joint_density_max": 0.954929658551372
+      }
+    },
+    "BONFERRONI_MARKED_TWO_SCALE": {
+      "status": "CONDITIONAL-DERIVED",
+      "required_uniform_gate": "C_rep*C_mark <= approximately 80 together with far decorrelation"
+    },
+    "LOWER_FINITE_084": {
+      "status": "BLOCKED",
+      "dependencies": [
+        "BONFERRONI_MARKED_TWO_SCALE",
+        "six-pin Palm constants",
+        "one-point lower and AO inputs"
+      ]
+    },
+    "LOWER_ASYMPTOTIC_08501": {
+      "status": "BLOCKED",
+      "dependencies": [
+        "uniform bounded marked Bonferroni coefficient",
+        "one-point lower and AO inputs"
+      ]
+    },
+    "UPPER_CONTINUOUS_099_NOMINAL": {
+      "status": "BLOCKED",
+      "dependencies": [
+        "UPPER_SHAPE_CERTIFICATE",
+        "H4_NUMERICAL_PATH_CERTIFICATE",
+        "UPPER_UNCERTAINTY_CALIBRATION if components are not already one-sided"
+      ]
+    },
+    "UPPER_CONTINUOUS_101_BANDED": {
+      "status": "BLOCKED",
+      "dependencies": [
+        "UPPER_SHAPE_CERTIFICATE",
+        "H4_NUMERICAL_PATH_CERTIFICATE"
+      ]
+    },
+    "R0": {
+      "internal_status": "PROGRAM-GRADE-CLOSED",
+      "external_status": "SPECIALIST-REVIEW-PENDING"
+    }
+  },
+  "active_gates": [
+    "BR-REP",
+    "BR-MARK",
+    "H4-PATH",
+    "U-SHAPE",
+    "U-UNCERTAINTY-CAL",
+    "TORUS-GLOBAL-PARTITION"
+  ],
+  "forbidden_promotions": [
+    "0.8501 finite lower through r=.05",
+    "0.84 finite lower before BR-REP and BR-MARK",
+    "0.97 upper through r=.05",
+    "0.99 or 1.01 continuous upper before H4-PATH and U-SHAPE",
+    "q_step^n as a corridor upper bound"
+  ]
+}

@@ -27,10 +27,13 @@ and `… shell (pre-entry-rules) …` `1dUylnMeC2QGTteIQBfxB4glJlxNGfwQMpQrV0vDU
 * Entry rules: "An item may be moved into 99_DO_NOT_OPEN only when ALL of the following are true." Four categories (A1 superseded mirror, A2 dead end, A3 trap copy, A4
   operator designation), eight hard requirements and six forbidden classes follow; among them
   "B7. Relocate only — never delete, never permanent-delete, never empty trash as part of vaulting. Move into the vault folder.", "B3. Not live HOLD research — HOLD_NOT_FOR_SUBMISSION is unfinished live work. DO_NOT_OPEN is retired clutter. Do not conflate them. Do not vault HOLD items just because they are incomplete." and, forbidden, "C4. This live manifest document itself."
-* The logged moves (3 rows, all dated 2026-09-16 evening, all "Moved by | Chief of Staff"):
-  the pre-entry-rules manifest shell, the mid-copy manifest, and the old `00_STOP` stub — each an
-  "A1 superseded mirror" whose authority replacement is the live manifest itself or the live STOP
-  stub in the vault.
+* The logged moves (3 rows, all dated 2026-09-16 evening, each carrying "Chief of Staff" in the
+  "Moved by" column): the pre-entry-rules manifest shell, the mid-copy manifest, and the old
+  `00_STOP` stub. The why-moved column gives the first two as an "A1 superseded mirror" and the
+  stub as an "A1 superseded STOP"; the authority replacement named is the live manifest itself or
+  the live STOP stub in the vault. Until 2026-09-20 this bullet quoted the column as "Moved by |
+  Chief of Staff", splicing the table's header cell to a row cell across the column separator, and
+  called all three rows an "A1 superseded mirror".
 * "Seed candidates (NOT YET MOVED — operator/CoS to confirm before relocate)" — 5 candidate rows (empty local stubs, byte-duplicate SIDE24 zip pairs, a superseded
   7.2 KB `rnu_ds3` duplicate, July triage-inbox review clones, stale Phase10 prose carriers). These
   are proposals in the source; none is recorded as moved.

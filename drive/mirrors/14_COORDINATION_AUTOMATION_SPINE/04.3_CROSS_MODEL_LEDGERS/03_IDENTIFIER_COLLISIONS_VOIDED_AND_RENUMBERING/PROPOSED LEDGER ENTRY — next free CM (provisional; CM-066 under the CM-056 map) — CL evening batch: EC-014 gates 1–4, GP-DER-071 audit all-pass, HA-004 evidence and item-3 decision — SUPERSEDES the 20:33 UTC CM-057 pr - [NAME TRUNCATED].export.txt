@@ -1,0 +1,34 @@
+﻿ENTRY CM-0XX (assign at append; CM-066 if the CM-056 map is adopted) — CL EVENING BATCH: EC-014 RECONSTRUCTION, DM2 AUDIT, HA-004 EXECUTION EVIDENCE
+
+
+SUPERSESSION NOTE (2026-07-21 ~20:40 UTC). This document replaces the proposal "PROPOSED LEDGER ENTRY — CM-057 — CL batch 2026-07-21 evening…" (ID 1PxtQrPi4TVRigeFBuJ1bOE-bOL2tfpmNqNlqzvo52Xo, created 20:33:24), which is VOID — do not append it. Reason: a concurrent CL session created a DIFFERENT CM-057 proposal earlier the same evening (ID 155OaxEJYmaryydrXpA5OVpGxm_49c5RwMVc6r8XA1WI, 20:15:42, "CL reconstructs the exact finite-r law independently…"), which has creation-order precedence. This is a live instance of exactly the collision pattern mapped in the CM-056 proposal; per its §2(c) this replacement carries a provisional title and takes its number only at append. Concurrency disclosure: the same parallel session also filed CL-AUD-048 (finite-r law reconstruction + certificate-domain vacuity finding), CL-AUD-049 (V1 discharge), CL-RSP-050, and raw-source receipts, and GP filed GP-AUD-074 / GP-RSP-077 in response; none of those overlap in artifact number or subject with the batch recorded below (CL-051–055 were claimed by preflight and remain collision-free). The gate-delta card CL-NAV-055 predates GP-RSP-077's adjudication and the vacuity finding; by the tracker's supersedes-by-date policy, later cards govern.
+
+
+Date: 2026-07-21. Author: Claude (Anthropic), CL-* instance. Authority: work record. Canonical mathematical impact: NONE. P0.2: OPEN.
+
+
+1. EC-014 (GP-REQ-057) — gates 1–4 discharged by a non-GP line
+
+
+CL-DER-051 (ID 1473ziDIe6j0Lf-mq-i68WWNWNqvJRU42Gfq6rNdTImY) reconstructs the corrected six-pin pair frame directly from File 4 §3.2 eqs (3.1)–(3.4), without reading GP-DER-061's body: full 6×6 T_r displayed entry-by-entry; det T_r = −r⁻⁵ by hand (generalized Laplace) and by exact Fraction arithmetic at 30 rational points; row-order sign disclosure with |det T_r| = r⁻⁵ as the density invariant; density convention p_X = r⁻⁵p_Y derived and numerically cross-checked (rel. err 8×10⁻¹⁵); two planted denominator-power mutations produce the predicted failures (−r⁻⁴, −r⁻⁶); power ledger (r³/6)·r⁻⁵·r² = 1/6 exact; scope boundary per GP-REQ-057 §2G. OPEN: acceptance-rule gate 5 — different-line scope inspection (AO48 / CW/C047R / GP-as-inspector) — then the EC-014 terminal package goes to the operator.
+
+
+2. V2 — GP-DER-071's CL-audit request discharged; all checks pass
+
+
+CL-AUD-052 (ID 1kqZ2KB5ysCHZiVueNaVfIKJfAsljF0W3HagoMVNT5Yw) audits GP-DER-071: endpoint-Hessian factorization and exact r⁴ scaling verified in exact arithmetic (Schwartz–Zippel, 60 rational points; (D_M D_S)²|_{r=0} = q⁴ so falsifier 4 fails); R⁸ domination verified by hand plus a 200,000-draw sweep; the five truncated-normal moments and the planar closed form (b⁴+12b²+12)Φ(b/√2)+√2b(b²+10)φ(b/√2) re-derived symbolically over Q(√2)[b]; the b=6/5 constant reproduced to all 40 printed digits and extended (…618492882); z₀(6/5), σ₅²=945, L₆²=11340, c=1/7560, |He₈(0)|=105 re-confirmed exactly. CL-AUD-047's DM2 classification upgraded additively to "symbolically proven (GP-DER-071) + CL-audited (CL-AUD-052)". V2 residue: outside-lineage line-by-line review (AO48 or CW/C047R) of GP-DER-046 §§4–8 and GP-DER-071; optional exact-torus interval enclosures. Tracker delta card: CL-NAV-055 (ID 1M1o-yY5FqTrHX3nhK4IYyX2_t7kSKIV_Km5pzoe-XeQ), subject to the concurrency disclosure above.
+
+
+3. HA-004 — approved hash-first procedure executed to the connector's capability boundary
+
+
+CL-DATA-053 (ID 1EF5XaIkRz1O4mBmiR_A0IjGqbjlnkOPv55A3wG81H3g): M-007 pair fully retrieved, size-identical at 25,861 B, presumptively byte-identical, SHA-256 certification pending (this CL connector's sandbox blocked payload decoding — disclosed); M-008 PDFs size-identical (53,752 B, uploaded 1.4 s apart) with a CAUTION flag that differing hashes would make them distinct tables (retain both, correct the manifest); Text3 and Texts Google-Doc pairs shown to have EXACTLY equal text-export lengths (1,365,578 and 1,644,710 chars), disfavoring the partial-conversion hypothesis; certification hand-off list included. CL-REC-054 (ID 1bV8N8xiMcL5le-JWdaCykxmUrzHCt8Rg2x4GCyJ3gBY) records the operator-delegated item-3 DECISION: pipeline entry under strict identity gates, retain-docx-plus-one-conversion rule, first tranche of four staging candidates, 24 h objection window for GP/AO48/CW, seven cross-format copies protected pending a future operator format-consolidation card.
+
+
+4. Status boundary
+
+
+No theorem, machine root, ballot, canonical source, deletion, or release status is changed by any document in this batch. Operator-pending items unchanged: EC-013, HA-001 console steps, HA-002/003/005, post-certification deletions.
+
+
+END ENTRY

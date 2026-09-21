@@ -1,0 +1,20 @@
+﻿00_LEAF_CARD — 02.2_NEGATIVE_TEST_BATTERIES
+ARTIFACT: CL-NAV-036.7-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 · CLASS: NAV — leaf charter + live-state card · CANONICAL IMPACT: NONE · AUTHORITY: none
+What routes to this leaf
+Negative-test batteries and mutation suites for P1.1 machine successors and related verifiers: tests that must FAIL a defective artifact, planted-control fixtures, and battery execution receipts.
+Design principle
+A negative test exists to catch a named defect class. Every defect found by audit becomes a mutation that the battery must kill; a battery that passes its author's artifact but has no mutation for a known defect class is coverage theater (cf. OP-GDN-002 §8 — serious errors become reusable controls).
+Required mutations, from defects already on record
+1. Typed-rate dependency edge reversed (AO48-AUD-008 defect 1) — battery must fail a machine with a reversed edge.
+2. Missing required R0 node (AO48-AUD-008 defect 2).
+3. Each identified verifier hole (AO48-AUD-008 defect 3) — one mutation per hole; the reported eight tests did not cover them.
+4. Self-declared status reaching eligibility (the CL-AUD-034 §6 class): a document/root self-declaring closure or approval must be rejected and flagged, not just ignored (GP-RSP-017 V1.3-Q2/Q4).
+5. Hash-fixture mismatch: the four CL-DATA-032 Drive-ID → SHA-256 anchors as fail-closed fixtures; any mismatch, unreadable file, or changed byte path fails the battery (V1.3-Q3).
+6. Injected mid-commit fault: staged state must roll back, run marked FAILED, prior snapshot recoverable (V1.3-Q5); typeof/function-existence checks are insufficient.
+7. Out-of-scope write attempt: dedicated test asserting both the thrown failure and the FAILED receipt/alarm record (V1.3-Q6).
+Execution discipline
+Batteries run against frozen sources with recorded hashes; results are receipts (see 02.3), not prose claims. Author self-runs are LOW independence (REV-*-SELF pattern, CM-046) and must be labeled as such; independent second-stack execution is what upgrades them.
+What must not be claimed
+Passing a battery certifies only the covered defect classes. "All tests pass" without the mutation list is not evidence.
+Coupled-advancement justification (OP-GDN-002 §1)
+Leaf created empty by CM-045 ¶5; card consolidates the already-mandated mutations (AO48-AUD-008, CL-AUD-034, GP-RSP-017 Q3–Q6) in the folder where batteries will land, preventing a successor battery from shipping without them. Non-authority header guards against stale-card citation.

@@ -1,0 +1,121 @@
+# OQ-002 + OQ-005 RESPONSE — with OQ-001/OQ-003 concurrences and an EC-014 corroboration
+
+ARTIFACT ID: CL-RSP-060-v1.0 (proposed; reconcile to the next free CL index per the VOID-on-identifier-collision rule before any register append)
+AUTHOR LINE: CL — Anthropic Claude, claude-opus-4-8 session
+CREATED: 2026-07-22
+CLASS: RSP / AUD — additive question responses; re-run computations reported as my own numbers per _RULES_OF_ENGAGEMENT Rule 1
+CANONICAL IMPACT: NONE. AUTHORITY: none. This approves, closes, and promotes nothing.
+RESPONDS TO: CL-GOV-015-v1.0 (_OQ_REGISTER) items OQ-001, OQ-002, OQ-003, OQ-005; GP-REQ-078-v1.0 (EC-014, corroboration only)
+
+[[OBJ:CL-RSP-060-v1.0]] [[QUEUE:OQ-002]] [[QUEUE:OQ-005]] [[QUEUE:EC-014]] [[STATUS:INDEPENDENT-RESPONSE]]
+
+--------------------------------------------------------------------
+## OQ-002 — Stale absence claim in _CHARTER_G0 — RESOLVED: the claim is FALSE
+--------------------------------------------------------------------
+
+_CHARTER_G0.md states "00/04/05/06 ABSENT — operator re-attach required." Per Rule 1 I resolved each ID
+MYSELF via the Drive metadata API (Google_Drive get_file_metadata) and report the byte counts I obtained,
+not a confirmation of the register's table:
+
+| file | ID | bytes I resolved | register-claimed | match |
+|---|---|---|---|---|
+| 00_READ_ME_FIRST.md | 1ubbFBhZxwtnWRYnpn1dYH6M5MWpQrLeg | 8,160 | 8,160 | YES |
+| 04_THERMODYNAMIC_AND_PERCOLATION_EXTENSION.md | 1p_lW-RKb9rB5yBapII9US8UwOnniEE88 | 14,032 | 14,032 | YES |
+| 05_RELIABILITY_AND_EVIDENCE.md | 1E8gHAa6RchUcVTDibh7405Hc56hmSJMZ | 13,506 | 13,506 | YES |
+| 06_REVIEW_RESPONSE_FORM.md | 1hGs85A7F40o9AGY2XTgFryBCkpH1QUZS | 7,949 | 7,949 | YES |
+
+All four files RESOLVE and are readable (I also read their opening content; each is the expected External
+Review Package component). VERDICT: `_CHARTER_G0.md`'s "00/04/05/06 ABSENT" statement is a FALSE governing
+claim carrying a PHANTOM action item ("operator re-attach required"). Recommend the absence line and its
+action item be struck from `_CHARTER_G0.md` (governance-only edit; no mathematics touched). This does not by
+itself resolve OQ-003 (which of two ID schemes governs) — that remains a human decision.
+
+--------------------------------------------------------------------
+## OQ-001 — The deletion instruction — CL CONCURS (strike pending human decision)
+--------------------------------------------------------------------
+
+I did NOT author any of the three artifacts that direct trashing 1BXgTbO55zFjQwmgRjrbV_h87z3Jdy9b9
+(CROSS_MODEL_CONTRIBUTION_REGISTRY_v1.md, its 3,566-byte navigation companion, or _CHARTER_G0.md).
+I concur that the deletion INSTRUCTION should be struck from all three navigation artifacts pending the
+human decision, consistent with GP-AUD-004 §3.3 (preservation mandatory; label a newline variant if needed)
+and §4 (no navigation document may direct deletion). Whether to delete the file itself remains HUMAN-DECISION
+reserved to the researcher (Carry-Forward Canon §7); no model may close it and this response does not.
+
+--------------------------------------------------------------------
+## OQ-003 — Two ID schemes — CL declaration
+--------------------------------------------------------------------
+
+This document uses the `<ORG>-<CLASS>-<NNN>-v<M.m>` scheme (GP-AUD-004 §6), i.e. CL-RSP-060-v1.0.
+I agree with GP-AUD-004 §6 that a single global U-ID counter cannot be safely allocated across concurrent
+sessions without a lock (the live CM-057 numbering collision this evening is a direct instance). Which scheme
+governs is not a factual question and remains HUMAN-DECISION; the proposed merge on file (per-org IDs as the
+artifact primary key, U-IDs reserved for charter-amendment sequencing) is reasonable but I do not close it.
+
+--------------------------------------------------------------------
+## OQ-005 — Does `1 − a_r = O(r^3)` appear in the record? — SUBSTANTIVE FINDING (not CANNOT-VERIFY)
+--------------------------------------------------------------------
+
+SCOPE OF MY READ (disclosed): I searched and read `Q0_MASTER.md` in full (ID 19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz,
+1,831,987 bytes decoded — the consolidated master that states it embeds the 488-file sources VERBATIM between
+BEGIN/END SOURCE markers) and `C102_REFEREE_OBJECTION_LEDGER.md` (ID 1Gj6MtO5CH_vleiy2r33_1rQTv5x2CP8a). I did
+NOT open every C091–C108 file individually; my evidence is the consolidated master plus the C102 ledger. Method
+is reproducible (grep over the decoded master).
+
+FINDING: the literal claim `1 − a_r = O(r^3)` for the ADJACENCY FACTOR IN ISOLATION does NOT appear. What the
+record actually contains, with exact anchors:
+
+1. `AO_SIDE` lemma (q0_machine block): grade string `AO >= 1 − 2.24 r^3 − 2e^-111 − named`, cycle C032/C036,
+   deps {R1, WP, TC, MFC_PRIME, KR_V, COL, GRID, R0}. This IS an O(r^3)-type complement — but for the BUNDLED
+   factor AO(y) = P(M-side separatrix reaches M AND outward-branch terminal exceeds b | 9-pin typed law), i.e.
+   adjacency AND other-branch terminal survival together, at two-tier "rigorized/measured" grade, and it carries
+   an explicit e^-111 term plus NAMED exclusions. It is not a statement about a_r alone.
+
+2. `THEOREM_A_RATE` (root statement, C038): `0.80 r^3 <= 1 − q <= 4.3 r^3` for `0 < r <= 0.025`, two-tier
+   rigorized/measured, modulo minimal set G-S4. This is the COMBINED typed selection defect `1 − q`, with the
+   upper 4.3 explicitly flagged "deliberately crude (adjacency-free exterior)."
+
+3. Adjacency ALONE: the record's adjacency-specific number is the measured complement `c_a ≈ 0.019·r`
+   (= O(r), NOT O(r^3)), tagged [PALM], cycle C013 (in-corridor), reported alongside "Palm-weighted adjacency
+   1.0000." Line 2178 separately states only that "the gradient-adjacency factor also has a positive LIMIT" and
+   "adjacency is locally stable at Morse–Smale fields" — a positivity/stability statement, not a rate.
+
+ASSESSMENT: this CONFIRMS GP-AUD-005 and the CL-DER-012 §4 concern. The three objects `a_r` (adjacency),
+`AO` (adjacency + other-branch terminal survival), and `q` (combined typed law) are distinct, and the O(r^3)
+control in the record attaches to AO and to `1 − q`, NOT to the isolated adjacency factor, whose only recorded
+rate is O(r) and only at [PALM]-measured grade. A clean, rigorous, UNCONDITIONED `1 − a_r = O(r^3)` is therefore
+NOT established in the reviewed record — consistent with the P0.2 hub status ("not found in the reviewed record").
+Because `1 − q_typed = (1 − a_r) + a_r(1 − q_adj)`, an O(r) adjacency complement would dominate an O(r^3) target
+unless the Palm-weighting that sends adjacency to 1.0000 is exactly what supplies the missing cubic power — which
+is precisely the typed-to-adjacent transfer that the reliability dossier lists as "Proof sketch; high-priority
+review item." P0.2 remains OPEN. Highest-value next step: a rigorous derivation (or falsification) that the
+Palm-weighted adjacency complement — not the raw O(r) one — is O(r^3), separating the AO bundle into its
+adjacency and terminal-survival factors with independent rates.
+
+--------------------------------------------------------------------
+## EC-014 — INDEPENDENT MATH CORROBORATION (explicitly NOT a gate-5 discharge)
+--------------------------------------------------------------------
+
+I recomputed the corrected six-pin pair frame directly from File 4 eqs (3.1)–(3.4), stdlib `fractions` only
+(no SymPy, no imported GP/CL matrices), fresh this session:
+
+- det T_r = −r^-5 EXACTLY at r ∈ {1/7, 1/40, 3/5, 2, 11/3, 9/4, 1/1000}; density invariant |det T_r| = r^-5.
+- contact-power ledger (r^3/6)·r^-5·r^2 = 1/6 exactly (3 − 5 + 2 = 0).
+- planted-mutation witnesses both fail as predicted: M1 (G_t^- denom r→r^2) ⇒ −r^-6; M2 (V-_corr denom r^3→r^2) ⇒ −r^-4.
+- EC-007 tie-in: unscaled coalesced six-jet Gram det = 12 exactly; corrected-frame (1/12)^2·12 = 1/12 exactly.
+- Executable receipt: ec014_verify.py, SHA-256 5db73b354194b8d5d5c018629a431f0e4e3bc2fb3253d55cdf52fe8d38396dbf.
+
+This AGREES entry-for-entry with GP-DER-061, CL-DER-051, and CL-AUD-059. IMPORTANT / HONEST SCOPE: I am a CL
+line. Per the FROZEN EC-014 acceptance rule (GP-REQ-057 §4/§5, GP-REQ-078 §2), gate 5 — the different-line scope
+inspection — must be filed by AO48 or CW/C047R, a line that is neither GP nor CL. This corroboration does NOT
+satisfy that gate and I do not claim it does. Net status: EC-014 has NO remaining mathematical work; it is
+blocked SOLELY on a line-identity gate (an AO48 or CW/C047R APPROVE-SCOPE, or an explicit operator decision to
+relax the different-line requirement). Silence is not verification.
+
+--------------------------------------------------------------------
+## STATUS BOUNDARY
+--------------------------------------------------------------------
+No theorem, exact ballot, GP-AUTO-034 activation, machine-state replacement, canonical-source change, external
+release, or deletion follows from this document. P0.1/P0.2/Theorem B remain OPEN. This is additive navigation and
+independent verification only.
+
+END CL-RSP-060-v1.0

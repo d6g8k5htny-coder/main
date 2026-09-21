@@ -1,0 +1,296 @@
+﻿AUTHORITATIVE FAIL-CLOSED RECONCILIATION — LCR-COR-060 — 2026-07-25
+This document’s one-sided quotient reduction is mathematically correct only conditionally. The displayed endpoint mean/covariance envelopes used to derive Z_r^{exact}<=15r^2 have not yet been reconstructed from the exact field in an auditable Drive chain; GP-AUD-202 verifies the downstream arithmetic, not that envelope premise.
+Controlling reconciliation:
+https://docs.google.com/document/d/11BoGn054LHON8F9stoB_OtfeeMqYEHxAQU02cIqWwJE/edit
+Current unconditional same-line P0.1 radius graph:
+    r_*=min(r_GR,r_N,r_T,r_D).
+Conditional reduced graph after an accepted exact one-sided upper-normalizer theorem on r<=r_D:
+    r_*=min(r_GR,r_T,r_D),
+    c_A>=p_B/120>0.
+All lower statements removing r_N unconditionally are nonoperative where they conflict with this banner. P02-LM-006 and P0.2 remain unchanged and still require the full normalizer interface.
+[[ROUTE-U:r_N-RETAINED]] [[ROUTE-C:r_N-REMOVABLE-CONDITIONALLY]] [[C_Z=15:ENVELOPE-PREMISE-OPEN]] [[NO-PROMOTION]]
+
+
+GP-COR-203-v1.0 — P0.1 COMMON-RADIUS REDUCTION AFTER CORRECTED ONE-SIDED NORMALIZER BOUND
+
+
+Artifact ID: GP-COR-203-v1.0
+Date: 2026-07-25
+Author/reconciler: OpenAI GPT-5.6 Thinking
+Class: COR / DEPENDENCY REDUCTION / PROBABILITY-QUOTIENT DIRECTION AUDIT
+Authority: same-line mathematical and routing correction only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+Target: frozen P0.1 theorem and reviewer-facing proof companion
+
+
+[[TARGET:P0.1]] [[NORMALIZER-DIRECTION:UPPER-BOUND-ONLY]] [[C_Z:15-SAME-LINE]] [[r_N:REMOVED-FROM-P01-MINIMUM]] [[r_STAR:min-r_GR-r_T-r_D]] [[p_B:EXISTENTIAL]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE RESULT
+
+
+The P0.1 lower-probability argument does not require the full two-sided exact-normalizer asymptotic or a lower normalizer bound. It uses only:
+
+
+    Z_r^{exact} <= C_Z r^2
+
+
+on the final common radius.
+
+
+LS-COR-006-v1.0 and GP-AUD-202-v1.0 supply the same-line one-sided candidate
+
+
+    Z_r^{exact} <= 15 r^2
+
+
+for every 0<r<=r_D, where
+
+
+    r_D=0.0000549270747778704575598758916462559552302418705897....
+
+
+Consequently the separate shared normalizer radius r_N is nonbinding for the P0.1 qualitative theorem and may be removed from its reduced radius graph. The honest same-line P0.1 radius becomes
+
+
+    r_* = min{r_GR,r_T,r_D}.
+
+
+Here r_GR>0 and r_T>0 remain existential. No numerical r_* follows.
+
+
+This correction does not change the frozen P0.1 theorem body or its SHA-256. It changes only the reviewer-facing dependency reduction and quantitative routing.
+
+
+2. EXACT NUMERATOR CHAIN
+
+
+Let
+
+
+    E_r={J_r in B_q} intersect G_r,
+
+
+where B_q is the fixed positive-volume exact nine-jet box and G_r is the exact conditioned fifth-derivative good event.
+
+
+For 0<r<=min(r_GR,r_T),
+
+
+    Q_{6,r}(J_r in B_q)>=p_B>0,
+
+
+and
+
+
+    Q_{6,r}(G_r^c)<=p_B/2.
+
+
+No independence is required. Therefore
+
+
+    Q_{6,r}(E_r)
+      >=Q_{6,r}(J_r in B_q)-Q_{6,r}(G_r^c)
+      >=p_B/2.
+
+
+For 0<r<=r_D, the deterministic exact-field transfer gives
+
+
+    E_r subset A_r
+
+
+and the exact endpoint determinant estimate gives
+
+
+    W_r^{exact}>=r^2/4
+
+
+on E_r. Hence
+
+
+    E_{Q_{6,r}}[W_r^{exact}1_{A_r}]
+      >=E_{Q_{6,r}}[W_r^{exact}1_{E_r}]
+      >=(r^2/4)Q_{6,r}(E_r)
+      >=r^2p_B/8.
+
+
+Every step is a numerator lower bound.
+
+
+3. DENOMINATOR DIRECTION
+
+
+The exact typed Palm probability is
+
+
+    P_r^{MS}(A_r)
+      =E_{Q_{6,r}}[W_r^{exact}1_{A_r}]/Z_r^{exact}.
+
+
+To lower-bound this quotient, the denominator must be bounded from above. A lower normalizer bound has the wrong direction and is not used.
+
+
+On 0<r<=r_D, the corrected same-line certificate gives
+
+
+    Z_r^{exact}<=15r^2.
+
+
+Therefore, for 0<r<=min(r_GR,r_T,r_D),
+
+
+    P_r^{MS}(A_r)
+      >=(r^2p_B/8)/(15r^2)
+      =p_B/120
+      >0.
+
+
+Thus a qualitative r-independent constant exists:
+
+
+    c_A:=p_B/120>0.
+
+
+Because the current Drive does not contain a reproducible numerical certificate for p_B, this is a symbolic positive constant, not a validated numerical theorem constant.
+
+
+4. POSITIVITY AND FINITENESS OF THE NORMALIZER
+
+
+No lower normalizer asymptotic is needed merely to define the quotient on this common range.
+
+
+Positivity follows from the same certified event:
+
+
+    Z_r^{exact}
+      =E_{Q_{6,r}}[W_r^{exact}]
+      >=E_{Q_{6,r}}[W_r^{exact}1_{E_r}]
+      >=r^2p_B/8
+      >0.
+
+
+Finiteness follows from the finite-dimensional Gaussian endpoint moment bounds used in the corrected C_Z certificate. In particular, the exact weight is dominated by an integrable polynomial of the regularized endpoint Gaussian vector.
+
+
+Hence the one-sided route is logically sufficient for the P0.1 quotient on the stated common range.
+
+
+5. REDUCED RADIUS GRAPH
+
+
+Before this correction, the reduced ledger displayed
+
+
+    r_* = min{r_GR,r_N,r_T,r_D},
+
+
+where r_N represented the shared two-sided normalizer-asymptotic radius.
+
+
+For P0.1 only:
+
+
+- r_GR is required for the fixed-box mass p_B>0;
+- r_T is required to make Q_{6,r}(G_r^c)<=p_B/2;
+- r_D is required for exact-field capture, determinant lower bounds, and the corrected upper normalizer bound;
+- no additional normalizer radius is needed.
+
+
+Therefore
+
+
+    r_* = min{r_GR,r_T,r_D}
+
+
+is the correct current same-line dependency reduction.
+
+
+6. WHAT REMAINS OPEN
+
+
+This correction does not close or supersede P02-LM-006. The full exact-normalizer asymptotic
+
+
+    Z_r^{exact}/r^2 -> E[Q_L^2 1{Q_L<0}]
+
+
+and its two-sided bounds remain valuable and review-pending for:
+
+
+- P02-LM-006 itself;
+- P02-LM-003 hypothesis H2;
+- P02-LM-008 Palm-tail transfer applications;
+- P02-LM-010/P02-LM-011 and the P0.2 chain;
+- any argument requiring a denominator lower bound or asymptotic identification.
+
+
+The removal of r_N applies only to the P0.1 lower-probability quotient after the corrected one-sided C_Z=15 bound.
+
+
+7. EVIDENCE AND PACKAGE LIMITS
+
+
+The C_Z=15 algebra has same-line PASS under GP-AUD-202-v1.0. The declared v1.1 raw source and result carriers remain absent from Drive, so byte-level source identity and execution receipt remain CANNOT-VERIFY.
+
+
+The claimed numerical LS-DER-008 values
+
+
+    p_B=10^-48,
+    r_GR>=r_D
+
+
+remain nonoperative because LS-DER-008 and LS-DATA-008 are empty Drive shells and their cited proof URL is unavailable. Current admissible status is only
+
+
+    p_B>0,
+    r_GR>0
+
+
+existentially under the closed exact nine-jet Gaussian regularity interface.
+
+
+Accordingly:
+
+
+- no numerical c_A is established;
+- no numerical final r_* is established;
+- no external-family approval is supplied;
+- no theorem promotion follows.
+
+
+8. CORRECTION TARGETS
+
+
+The following reviewer-facing surfaces should use this correction:
+
+
+- LS-DER-007-v1.0 common-radius ledger;
+- LCR-DER-010-v1.0 repaired linear P0.1 proof companion;
+- P0.1 queue/status summaries that list r_N as a necessary P0.1 radius;
+- any future external review packet for the frozen P0.1 theorem.
+
+
+The frozen theorem body itself remains unchanged.
+
+
+9. STATUS
+
+
+P0.1 qualitative proof candidate:
+
+
+    COMPLETE SAME-LINE / COMMON RADIUS min(r_GR,r_T,r_D) /
+    ORGANIZATIONALLY DISTINCT REVIEW PENDING / NONTERMINAL / NOT PROMOTED.
+
+
+P02-LM-006 and P0.2:
+
+
+    UNCHANGED / FULL NORMALIZER REVIEW STILL REQUIRED.
+
+
+END GP-COR-203-v1.0

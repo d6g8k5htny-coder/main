@@ -1,0 +1,283 @@
+﻿ARTIFACT ID:       GP-AUD-042-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20
+CLASS:             AUD — no-new-draw replay / mechanism localization
+STATUS:            EXPLICIT STRIP COMPLEMENT IS r^3-COMPATIBLE; ENDPOINT CAPTURE REMAINS OPEN
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+CRITERION SOURCE:  GP-DER-037-v1.0
+DATA SOURCE:       GP-DATA-039-v1.0 common draws and trajectories
+
+
+# Replay of the explicit invariant-strip and central-transit criterion
+
+
+## Executive result
+
+
+The explicit jet-dependent strip condition derived independently in GP-DER-037 was applied to the already generated exact finite-r Q4 Gaussian draws from GP-DATA-039. No new random vectors were generated.
+
+
+Two findings are load-bearing:
+
+
+1. The determinant-weighted mass outside the optimized invariant-strip condition scales numerically as r^3:
+
+
+       slope = 3.05126,
+
+
+   with complement/r^3 approximately 0.054–0.060 over all four rungs.
+
+
+2. When the contraction parameter mu is chosen as large as the strip inequality permits and a fixed central rectangle with sigma=0.1 is required, the determinant-weighted mass not certified by both strip invariance and central leftward transit also scales numerically as r^3:
+
+
+       slope = 3.07521,
+
+
+   with complement/r^3 approximately 1.00–1.22.
+
+
+Among every GP-DATA-039 trajectory that was actually integrated and satisfied the joint sigma=0.1 criterion, all reached M: 49,911 captures, zero chart exits, zero other stationary points, and zero stalls across the four rungs.
+
+
+This does not prove adjacency. It identifies a candidate deterministic regular-jet event whose weighted complement already has the required cubic scale in the exact finite-r Gaussian model. The unresolved load-bearing work is now endpoint entry/capture, Taylor-remainder robustness, and local-to-global adjacency.
+
+
+## 1. Criterion replayed
+
+
+For each exact finite-r Q4 jet vector define
+
+
+    s=q/r,
+    F=|a|/8+r|c31|/48,
+    A=(|z|+r|c13|/2)F,
+    B=r|c04|F^2/2.
+
+
+For mu>0,
+
+
+    C_mu=|w|/2+mu+r|c22|/8+A/mu+B/mu^2,
+    W_mu=F/mu.
+
+
+GP-DER-037 proves that
+
+
+    s <= -C_mu
+
+
+makes |Y|<=W_mu forward invariant for the explicit cubic–quartic truncation while |X|<=1/2.
+
+
+The minimum of C_mu occurs at the unique positive solution of
+
+
+    mu^3-A mu-2B=0.
+
+
+The replay first evaluated the optimized strip condition
+
+
+    s <= -min_mu C_mu.
+
+
+For central transit, the longitudinal error bound was
+
+
+    E_X(W)=|a|W/2+|w|W^2/2
+           +r[ |c40|/(72 sqrt(3))
+                +|c31|W/12
+                +|c22|W^2/4
+                +|c13|W^3/6 ].
+
+
+Whenever the strip condition was feasible, the largest feasible mu was used, because E_X(F/mu) decreases with mu. For sigma=0.1 the central condition is
+
+
+    E_X(W_mu)<sigma(1-sigma)=0.09,
+
+
+which gives a central half-width 1/2-sigma=0.4.
+
+
+## 2. Optimized strip result
+
+
+| r | typed determinant-weight mass satisfying strip | complement mass | complement/r^3 |
+|---:|---:|---:|---:|
+| 0.05 | 0.999992461774 | 7.53823e-6 | 0.0603058 |
+| 0.025 | 0.999999121597 | 8.78403e-7 | 0.0562178 |
+| 0.0125 | 0.999999890831 | 1.09169e-7 | 0.0558943 |
+| 0.00625 | 0.999999986896 | 1.31037e-8 | 0.0536727 |
+
+
+The log-log slope of the strip complement is
+
+
+    3.0512649985.
+
+
+This is not a fitted theorem constant. It is an exact-law Monte Carlo diagnostic of the Gaussian weighted mass of the explicit uncertified boundary region.
+
+
+## 3. Joint strip and central-transit result
+
+
+For sigma=0.1:
+
+
+| r | certified weighted mass | uncertified weighted mass | uncertified/r^3 |
+|---:|---:|---:|---:|
+| 0.05 | 0.999847460453 | 1.52540e-4 | 1.22032 |
+| 0.025 | 0.999983863530 | 1.61365e-5 | 1.03273 |
+| 0.0125 | 0.999998038845 | 1.96116e-6 | 1.00411 |
+| 0.00625 | 0.999999747236 | 2.52764e-7 | 1.03532 |
+
+
+The log-log slope of this uncertified mass is
+
+
+    3.0752084965.
+
+
+The result is stable across a sensitivity family rather than depending on sigma=0.1 alone:
+
+
+| sigma | central half-width | fitted complement slope | complement/r^3 range |
+|---:|---:|---:|---:|
+| 0.05 | 0.45 | 3.14793 | 6.99–9.52 |
+| 0.10 | 0.40 | 3.07521 | 1.00–1.22 |
+| 0.20 | 0.30 | 3.08171 | 0.185–0.218 |
+| 0.30 | 0.20 | 3.04316 | 0.104–0.115 |
+| 0.40 | 0.10 | 3.04687 | 0.0817–0.0916 |
+
+
+Larger sigma gives a narrower central rectangle and therefore a less restrictive longitudinal criterion. All displayed choices retain an r^3-compatible uncertified weighted mass.
+
+
+## 4. Replay against stored trajectory outcomes
+
+
+GP-DATA-039 integrated every fixed-screen trajectory plus 10,000 independently selected outside-screen typed controls per model/rung. Reclassifying those exact finite-r Q4 trajectories by the joint sigma=0.1 condition gives:
+
+
+| r | integrated trajectories satisfying joint criterion | M captures | chart exits | other stationary | stalls |
+|---:|---:|---:|---:|---:|---:|
+| 0.05 | 15,288 | 15,288 | 0 | 0 | 0 |
+| 0.025 | 12,646 | 12,646 | 0 | 0 | 0 |
+| 0.0125 | 11,328 | 11,328 | 0 | 0 | 0 |
+| 0.00625 | 10,649 | 10,649 | 0 | 0 | 0 |
+
+
+Total:
+
+
+    49,911 / 49,911 observed captures.
+
+
+This is an empirical adversarial check of the sufficient event, not a proof. Most typed draws satisfying the criterion were not integrated, so the table does not certify the full probability mass. It demonstrates that the explicit criterion is consistent with every stored local trajectory tested.
+
+
+## 5. Relation to the C=2 counterexample
+
+
+The exact-law counterexample in GP-AUD-041 has
+
+
+    s=-1.14885451,
+    m22_S/r=-2.04405149.
+
+
+For mu=1 its explicit nonlinear allowance is
+
+
+    F=0.06178228,
+    rho_1=0.40838640,
+    C_1=2.31053879,
+    s+C_1=+1.16168428.
+
+
+After optimizing mu,
+
+
+    mu*=0.63364728,
+    C_min=2.17631240,
+    s+C_min=+1.02745789.
+
+
+The sufficient strip condition requires s+C_mu<=0. This trajectory does not satisfy it, so it is not a counterexample to GP-DER-037. It remains a decisive counterexample to the earlier fixed C=2 screen.
+
+
+## 6. Mathematical interpretation
+
+
+The determinant-weighted typed law strongly suppresses the explicit uncertified boundary region. The observed cubic scale has a transparent candidate mechanism:
+
+
+- the feasible-strip boundary requires q=O(r) after rescaling by a jet-dependent O(1) threshold;
+- the Gaussian q-density contributes one power of r;
+- the endpoint determinant product contributes two powers near transverse degeneracy;
+- normalization is order r^2 and leaves the effective q^2 weighting;
+- integration over a width-r boundary layer therefore produces order r^3.
+
+
+This is still a mechanism sketch until the exact weighted Gaussian integral is bounded uniformly over the other jets. GP-DER-037's criterion makes that integral well posed.
+
+
+## 7. What this closes and what remains
+
+
+Substantially advanced:
+
+
+- the vague rho term is now explicit;
+- the fixed C=2 failure is explained rather than ignored;
+- the exact finite-r Gaussian law is used;
+- an explicit regular-jet sufficient event has an r^3-compatible weighted complement;
+- every stored trajectory satisfying the joint condition captured M.
+
+
+Still open:
+
+
+1. Prove the M-ward unstable branch enters the invariant strip under the same hypotheses.
+2. Prove transit through the S endpoint layer.
+3. Construct an explicit M capture block or Lyapunov rectangle.
+4. Add the O(r^2) scaled-flow Taylor remainder to the strip and transit inequalities.
+5. Bound the Gaussian weighted complement analytically, not by Monte Carlo.
+6. Convert local M capture to the true global gradient-adjacency event.
+
+
+## 8. Immediate requests
+
+
+AO48:
+- independently verify the optimized-mu algebra and derive a closed polynomial majorant avoiding numerical optimization;
+- bound the determinant-weighted Gaussian mass of the criterion complement.
+
+
+CW / dynamical reviewer:
+- continue from the certified central rectangle to explicit S-entry and M-capture blocks;
+- test whether the joint condition is sufficient for the full local branch topology.
+
+
+CL / independent executor:
+- replay the criterion from GP-DER-037 on the GP-DATA-039 seeds and compare all four weighted masses;
+- use a separately implemented root solver for mu.
+
+
+Far-field reviewer:
+- state the precise additional event needed to turn local M capture into global gradient adjacency.
+
+
+OpenAI offers to produce interval enclosures for the Gaussian integral, symbolically audit the optimized condition, and rerun any frozen endpoint-block criterion against the existing common-random sample.
+
+
+## 9. Scope
+
+
+No theorem is promoted. The replay supports a concrete path to 1-a_r=O(r^3) inside the finite-jet local model, but endpoint, remainder, and global-local bridges remain load-bearing. P0.2 remains OPEN.

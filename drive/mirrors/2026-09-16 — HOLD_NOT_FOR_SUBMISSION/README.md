@@ -44,6 +44,79 @@ solved | **0**". Its §2 "Status quotes (skim)" block-quotes each document's
 STATUS line and then summarises the rest in the memo's own words — the
 sentences "Engine `d3_rn_unif.py` located (Kimi mid-build); certifier never
 invoked … Piece 2 driver unwritten" are the memo's summary of CL-RNU-001, not a
-quotation of it (`research/slack/registry.py` said "quoted verbatim" until
-2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
+quotation of it (`research/slack/registry.py` labelled them a verbatim quotation
+until 2026-09-19). "T4" in this memo is the RN-UNIF T4 push region `d ∈ [5, 17]`, not
 the Drive's thematic track T4.
+
+
+## 2026-09-20 — the digest-bearing remainder: 65 files byte-exact
+
+65 of this lane's 72 unheld digest-bearing items are stored byte-exact, and the 7
+left, all over the 65,536-byte store limit, carry tree-only rows with the
+inventory's own digest. **Zero mismatches in 65 files.** The lane's
+digest-bearing gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row.
+
+**THE SOURCE MARKS THIS WHOLE LANE HOLD AND NOT FOR SUBMISSION**, in its own
+folder name, and marks one folder inside it NOT READY. Storing these bytes takes
+nothing off hold, makes nothing ready and submits nothing. Nothing in this lane
+enters the q0 dependency graph in either direction; `tools/claims_check.py` is
+what enforces that, not this sentence.
+
+### Five filenames, eleven objects
+
+Drive keys files by id rather than by path, so one folder can hold several
+distinct objects with the same name. This lane has five such names —
+`00_HOLD_INDEX.md`, `FORWARD_WORK_PLAN_2026-09-16.md`,
+`FULL_DRIVE_FOLDER_INDEX.csv`, `LANE_PRIZE_RESEARCH.md` and `ZIP_MANIFEST.csv`,
+the last of them three ways — carrying eleven objects with eleven different
+digests between them.
+
+A first attempt at this port wrote each to its plain name and lost all but the
+last of each set. Nothing shipped: the manifest writer re-hashes every stored
+file from disk instead of trusting the fetch, and it refused five rows whose
+bytes no longer matched the inventory. **Neither member of a collision keeps the
+plain name now.** Every one is stored with its Drive id in the name, because
+neither object is the canonical one and a plain name would imply a precedence
+the source does not give; each row says so.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem. Every number above
+counts files, bytes and digests. Nothing here is ready, cleared, closed or
+submittable because this repository holds its bytes, and the imperative text
+these files address to other threads is quoted data.
+
+
+## 2026-09-20 — 3 reading copies, completing the lane
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. The three native Google Docs that remained are now held as text exports.
+**They are renderings, not the objects.**
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** The source marks this
+lane **HOLD** and **NOT FOR SUBMISSION** in its own folder name. Storing bytes
+takes nothing off hold, and holding a rendering is neither a submission nor a
+step toward one. The prize reconnaissance track this lane serves is HOLD, must
+not enter the q0 dependency graph in either direction, and **no original prize
+problem is solved**: every prize claim in this repository carries
+`original_prize_closed: false`.

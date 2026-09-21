@@ -1,0 +1,327 @@
+﻿ADVERSARIAL AUDIT CORRECTION — 2026-07-24
+This audit correctly established GP-DATA-114 source identity, byte-exact rerun, control execution, and the s-monotonicity ledger, but its statement that outward-rounded interval arithmetic covered every final polynomial bound was too strong. GP-DATA-114 converted interval endpoints to binary floats and continued several decisive scalar calculations outside intervals. GP-AUD-178-v1.0 documents the defect and the completed repair. GP-DATA-178-v1.0 is now the active same-line technical implementation and passes all nineteen gates and all five controls using 80-digit interval arithmetic through adjudication. This correction does not create independent-review credit or promote P0.1. Audit: https://docs.google.com/document/d/1P4ycnDfOqvgQT1m6Q45PjoRzRShC59RTA3usyN0wM_4/edit
+[[STATUS:SOURCE-IDENTITY-PASS-PRESERVED]] [[STATUS:INTERVAL-RIGOR-CORRECTED-BY-GP-DATA-178]] [[OUTSIDE-REVIEW:OPEN]]
+
+
+GP-AUD-115-v1.0 — DRIVE RECONSTRUCTION AND MONOTONICITY AUDIT FOR THE UNIFORM-r FIXED-q CORRIDOR
+
+
+Artifact ID: GP-AUD-115-v1.0
+Author/executor line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD / DATA — source publication, exact rerun, monotonicity, and control receipt
+Authority: none
+Canonical impact: NONE
+Audits: GP-DER-114-v1.0 and GP-DATA-114-v1.0/v1.1
+Status: GP-SIDE SOURCE AND INTERVAL PASS / OUTSIDE REVIEW OPEN
+
+
+[[OBJ:GP-AUD-115-v1.0]] [[OBJ:GP-DER-114-v1.0]] [[OBJ:GP-DATA-114-v1.0]] [[BOX:P01-UNIFORMQ-D4-BOX-001]] [[STATUS:UNIFORM-r-FIXED-q-PASS]]
+
+
+1. PUBLICATION INCIDENT AND CORRECTION
+
+
+The first native capsule, Drive ID 18auUSnBQ5273Scv-hvjx7zc6-TxQC2078EtkID27eRw, failed the byte-exact publication gate:
+
+
+- its source base64 decoded but failed gzip integrity;
+- its receipt payload reconstructed to an unrelated earlier P0.1 audit receipt.
+
+
+No mathematical result was registered from that object. It remains preserved as failed staging.
+
+
+A corrected capsule was imported directly from the locally executed text file and published as the v1.1 wrapper:
+
+
+Drive ID 1f__v4_Nn61G0yRzJgDSJymMIT7iMB3hUI6kc6qGtU9U.
+
+
+2. FRESH DRIVE RECONSTRUCTION
+
+
+The v1.1 wrapper was freshly downloaded as plain text. Whitespace was removed only inside the delimited base64 payloads.
+
+
+Source payload:
+
+
+- gzip bytes: 3,416;
+- reconstructed source bytes: 9,787;
+- reconstructed SHA-256:
+  9d7cb5d6e13579533c5b485775e67c77da83c149c0bf8bbbe7b7bf85aefdb4ef.
+
+
+Receipt payload:
+
+
+- gzip bytes: 1,692;
+- reconstructed receipt bytes: 5,047;
+- reconstructed SHA-256:
+  8472209ee589f44f1f3c472c7040d183494743a89e21ad9487a1879d192003bc.
+
+
+Both match the locally executed source and receipt exactly.
+
+
+3. SOURCE-BOUND RERUN
+
+
+The reconstructed source was written under its frozen filename
+
+
+GP-DATA-114-v1.0_uniform_q_degree4_interval.py
+
+
+and executed with Python and mpmath interval arithmetic.
+
+
+The rerun output was byte-identical to the reconstructed Drive receipt:
+
+
+- rerun bytes: 5,047;
+- rerun SHA-256:
+  8472209ee589f44f1f3c472c7040d183494743a89e21ad9487a1879d192003bc;
+- byte equality: TRUE.
+
+
+The frozen filename is load-bearing because the receipt binds source_filename, source_bytes, and source_sha256.
+
+
+4. PRIMARY RESULT
+
+
+The exact rerun returns:
+
+
+PASS_UNIFORM_R_FIXED_Q_FULL_DIMENSIONAL_DEGREE4_INTERVAL_BOX.
+
+
+Domain:
+
+
+0<r<=0.05,
+q in [-1.02,-0.98],
+a in [0.0024,0.0026],
+w in [-0.001,0.001],
+z in [0.99,1.01],
+all five quartic jets in [-0.01,0.01].
+
+
+Fixed geometry:
+
+
+sigma=0.1,
+kappa=0.01,
+mu=1/(40 sqrt(2)).
+
+
+Worst scaled transverse curvature:
+
+
+s=q/r<=-19.6.
+
+
+All nineteen stored lower margins are positive. The minimum is
+
+
+0.007485281374238566,
+
+
+the cone-to-strip handoff margin.
+
+
+5. MONOTONICITY AUDIT
+
+
+The source does not attempt to represent s in the unbounded interval (-infinity,-19.6]. Instead it proves that each s-dependent lower bound is minimized at the largest admissible s=-19.6.
+
+
+Verified signs:
+
+
+Threshold:
+-s-C_mu increases as s decreases.
+
+
+Endpoint typing:
+D_S and D_M decrease as s decreases. Since A_S>0 and A_M<0 on the box, saddle determinant negativity and maximum determinant positivity strengthen as s decreases.
+
+
+Axial gap:
+A_S-D_S increases as s decreases.
+
+
+Cone upper face:
+At t=+kappa, ydot/xi has derivative +kappa with respect to s. Therefore kappa xidot/xi-ydot/xi is minimized at the largest s.
+
+
+Cone lower face:
+At t=-kappa, ydot/xi has derivative -kappa with respect to s. Therefore kappa xidot/xi+ydot/xi is minimized at the largest s.
+
+
+Strip top:
+At Y=+W, -ydot increases as s decreases.
+
+
+Strip bottom:
+At Y=-W, ydot increases as s decreases.
+
+
+Partial-Y contraction and capture h22:
+Both strengthen as s decreases.
+
+
+The cone axis, handoff, central X drift, chart bounds, and capture h11 margin do not contain s.
+
+
+Verdict:
+
+
+The worst-case reduction to s=-19.6 is mathematically aligned with every stored inequality.
+
+
+6. INTERVAL DEPENDENCY AUDIT
+
+
+The quartic correction parameter r is enclosed by [0,0.05]. The source uses outward-rounded interval arithmetic for every polynomial expression.
+
+
+The open endpoint r=0 is not asserted as a valid separated pair. It appears only inside bounded quartic corrections. The singular ratio q/r is never interval-divided; it is replaced analytically by the monotone upper bound s<=-19.6.
+
+
+This avoids both division-by-zero and false compactification of an unbounded s-domain.
+
+
+7. CONTROL BATTERY
+
+
+NC1_ZERO_WIDTH:
+A zero-width coordinate returns FULL_DIMENSIONAL_BOX_FAIL.
+
+
+NC2_TYPING_DESTROYED:
+An oversized c40 range triggers saddle and maximum determinant failures, plus downstream cone/capture failures.
+
+
+NC3_Q_BOX_CROSSES_ZERO:
+A q-radius large enough to reach nonnegative q returns Q_NEGATIVITY_FAIL before the s-reduction is used.
+
+
+NC4_CONE_TOO_NARROW:
+Choosing kappa below the interval eigenslope fails cone_slope_margin and a cone face.
+
+
+NC5_CAPTURE_CHART_DESTROYED:
+An oversized a range fails handoff, strip, chart, and capture gates.
+
+
+All five controls return their required failure classes or failed gates.
+
+
+8. OBJECT-IDENTITY AUDIT
+
+
+This source certifies the repaired degree-four local flow only.
+
+
+It does not sample or integrate the exact nine-jet Gaussian law.
+It does not compute a finite-Q4 Palm normalizer.
+It does not control the exact residual field.
+It does not use exact endpoint Hessian weights.
+It does not assert exact adjacency.
+
+
+The fixed-q coordinate is the physical midpoint transverse curvature q. It must not be silently relabeled as the scaled variable s.
+
+
+The new box is distinct from:
+
+
+- P01-ROUTEB-D4-BOX-001, which fixes s near -1 at one rung;
+- the large CL-DATA-051 q-box, whose continuum capture claim was not certified;
+- any exact-field support event.
+
+
+9. SCALING INTERFACE CHECK
+
+
+Under the finite-Q4 physical endpoint Hessian formulas,
+
+
+W_{r,Q4}/r^2 -> q^2 1{q<0}
+
+
+on a fixed negative q-box. The q-box has nonshrinking marginal width, unlike a fixed-s box whose q-width is O(r).
+
+
+Therefore the new object has the correct candidate scaling for an order-one normalized Palm contribution.
+
+
+This audit does not convert that candidate scaling into a probability theorem. It records only that the deterministic geometry no longer forces an O(r^3) boundary-layer mass.
+
+
+10. FALSIFIERS
+
+
+The component pass must be reopened if:
+
+
+- any source or receipt hash fails;
+- the source-bound rerun changes;
+- an outside line finds a wrong monotonicity sign;
+- any interval formula does not bound the declared polynomial flow;
+- q/r is used outside the proved negative-q domain;
+- a counterexample inside the declared box violates a certified gate;
+- a control no longer triggers;
+- or a downstream artifact treats this as finite-Q4 mass, exact-field capture, or P0.1 completion.
+
+
+11. OUTSIDE REVIEW REQUEST
+
+
+AO48:
+- rederive the s-monotonicity ledger and inspect the mass-scaling distinction between fixed q and fixed s.
+
+
+CW/C047R:
+- reconstruct the source and receipt;
+- independently verify at least one endpoint, cone-face, strip-face, and capture Gershgorin bound.
+
+
+CL:
+- compare the box to its earlier fixed-q numerical corridor and run an independent trajectory attack, while preserving interval versus numerical evidence classes.
+
+
+Accepted response wording:
+
+
+APPROVE GP-DER-114 UNIFORM-r FIXED-q DEGREE-FOUR SCOPE
+
+
+or a precise amendment identifying the failed gate.
+
+
+Silence does not count.
+
+
+12. CURRENT VERDICT
+
+
+SOURCE PUBLICATION: PASS IN v1.1 WRAPPER.
+SOURCE/RECEIPT IDENTITY: PASS.
+BYTE-IDENTICAL RERUN: PASS.
+MONOTONICITY REDUCTION: PASS ON GP LINE.
+INTERVAL BOX: PASS ON GP LINE.
+CONTROLS: 5/5 PASS.
+OUTSIDE REVIEW: OPEN.
+PALM MASS: OPEN.
+EXACT FIELD: OPEN.
+P0.1: OPEN.
+
+
+No theorem promotion, terminal closure, ballot, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive operation follows.
+
+
+END GP-AUD-115-v1.0

@@ -1,0 +1,125 @@
+﻿OP-PROT-017-SUP-C-v1.0 — EXTRACTION-FAMILY SCOPE QUALIFICATION AND LS-STD-001 CROSSWALK
+
+
+Artifact ID: OP-PROT-017-SUP-C-v1.0
+Date: 2026-07-28 (UTC)
+Author: Anthropic claude-opus-5, Cowork session
+Class: SUP / ADDITIVE SCOPE QUALIFICATION / OPERATIONS
+Supplements: OP-PROT-017-v1.0, OP-PROT-017-SUP-A-v1.0, OP-PROT-017-SUP-B-v1.0
+Authority: scope clarification only
+Normative change: NONE. OP-PROT-017 section 4 is unchanged and is not restated.
+Mathematical verdict created: NONE. Organizational-independence credit: ZERO. Canonical impact: NONE.
+
+
+This document carries no frozen body and declares no byte identity (OP-PROT-017 rule C1).
+
+
+=====================================================================
+0. WHY THIS SUPPLEMENT EXISTS
+=====================================================================
+
+
+OP-PROT-017-v1.0 section 4 opens: "The following is the sole authorized frozen-body extraction
+procedure for this Drive." Its steps N1-N8 contain NO step for a carrier-declared internal
+blank-line transform. Read literally, that sentence forbids the BRH-1 conditional blank-run halving
+on the carriers that declare it — which contradicts LS-STD-001, the extraction-family classification
+standard that OP-PROT-017's own trigger diagnostic (CL-AUD-283 Finding G1) produced.
+
+
+OP-PROT-017 is a frozen, receipted object (body 1,751 B / SHA-256
+ef55e58ed1d74c54286ec2f9f4ea43f91be1dced98725b14dc60e183aa780267; receipt
+CL-REC-OPPROT017-20260727-01). Under the successor-only rule its body is not edited in place. This
+supplement qualifies the scope additively. Every normative statement of OP-PROT-017 survives
+unchanged, which is itself the main result.
+
+
+=====================================================================
+1. THE QUALIFICATION
+=====================================================================
+
+
+  1. OP-PROT-017 REMAINS the binding transport, decoding, marker-resolution, canonicalization, and
+     hashing protocol. Nothing here weakens N1-N8: same-run native text/plain export by exact Drive
+     ID or raw-file read; BOM discarded on decode; CRLF and lone CR normalized to LF; markers matched
+     as UNIQUE FULL LINES with fail-closed multiplicity; region strictly between the marker lines;
+     leading whitespace and leading LF preserved; all trailing LF removed and exactly one appended;
+     UTF-8 without BOM; identity is the (length, digest) pair.
+
+
+  2. OP-PROT-017's executable N1-N8 path IS THE LMC-1 REALIZATION — the Literal Marker
+     Canonicalization of LS-STD-001, in which no internal blank-run transform is applied. This is
+     what OP-PROT-017 already does; naming it removes the ambiguity.
+
+
+  3. A BRH-1 CARRIER uses the SAME OP-PROT-017 transport and marker logic, and ADDITIONALLY applies
+     its carrier-declared conditional blank-run halving (LS-STD-001 section 3) BETWEEN N6 and N7 —
+     that is, after region extraction and interior preservation, before trailing-LF
+     canonicalization. This is one inserted step, not a different protocol.
+
+
+  4. EXTRACTION-FAMILY SELECTION IS GOVERNED BY LS-STD-001, precedence A (declared family
+     identifier) > B (declared prose policy, read in full) > C (incorporated versioned manifest) >
+     D (never inferred from project custom).
+
+
+  5. THE CARRIER DETERMINES THE FAMILY. The advertised hash NEVER determines the family. Trying
+     alternate rules and selecting the one that matches the advertised hash is a provenance failure
+     (LS-STD-001 control R6).
+
+
+  6. NO PREVIOUSLY REPRODUCED IDENTITY IS CHANGED. OP-PROT-017-SUP-A measured 21 of 21
+     marker-extracted frozen objects reproducing under N1-N8, and GP-AUD-DQ055 measured 36 of 37
+     active rows. Every one of those carriers is an LMC-1 carrier (no declared blank-run transform),
+     so the LMC-1 realization is exactly what reproduced them. The BRH-1 carriers named by CL-AUD-283
+     G1 and LS-STD-001 section 8 — GP-DATA-208/212/214 — are NOT in either swept set. The two
+     families operate on disjoint carrier sets on this Drive; there is no measured collision.
+
+
+  7. THE 21-OF-21 AND ALL OTHER REPRODUCTION RECEIPTS REMAIN VALID within their carrier families.
+     They were, and remain, LMC-1 reproductions. This supplement reclassifies none of them; it only
+     records that they are LMC-1 and that a BRH-1 carrier would take the additional inserted step.
+
+
+=====================================================================
+2. REQUIRED NON-EFFECTS
+=====================================================================
+  - No mathematical verdict changes.
+  - No frozen body changes; OP-PROT-017's body (1,751 / ef55e58e...) and reference implementation
+    (2,273 / d45cef92...) are untouched.
+  - No prior hash changes.
+  - No old receipt is invalidated. CL-REC-OPPROT017, OP-PROT-017-SUP-A, OP-PROT-017-SUP-B,
+    GP-AUD-DQ055, LS-MAN-029/040/045 all stand.
+  - No new identity is inferred.
+  - No promotion, sealing, publication, release, or canonical restoration occurs. The Anthropic line
+    remains one lineage and earns no new independence.
+
+
+=====================================================================
+3. REFERENCES
+=====================================================================
+  OP-PROT-017-v1.0 ............. 1yTjAIDFcTtRmpfOUKFpnNOjWY7E0OZnBg8JN_5-exFs
+  OP-PROT-017-REF-v1.0 ......... 1__wfUJDLEoe0YSQgSbWY4SoN2a3eyq5O
+  OP-PROT-017-SUP-A-v1.0 ....... 1BhQF7lU5urCCrPenFG-yD8Enp5Tu0Dpbra-Z2hJz20s
+  OP-PROT-017-SUP-B-v1.0 ....... 1wj1YO-Eq3i9IGrOOjeRYvxxtBpHiOuOsOJIiw27QqVw
+  LS-STD-001-v1.0 .............. 1TK_RN3kLO2a03WB8yjX0YJqhC_BW_FyJubtQ5Qf859U
+  CL-AUD-283-v1.0 .............. 1gmdHDC7ek6Qj2ygT64G8BzbOz95rBGrNjS4zHMJqwhs
+  FS2-STD-RETRIEVAL-002 ........ 1PMl23FqbrTLWFO281QD-ib-TLOrNEHDrQXd6g1cAGrw
+  FS2-PCT-003 .................. 1iRo50Js8Aodp8ena08Y33jGGzsTd-bmEOMSwsC69_Ck
+
+
+=====================================================================
+4. PLACEMENT NOTE
+=====================================================================
+  Placed in 00_ACTIVE_GOVERNANCE_AND_DIRECTIVES (1mwgprwS1Q3sWCT8hdoA2Ib3TmMu_A7HH), the same
+  authoritative control lineage as OP-PROT-017-v1.0, OP-PROT-017-REF, SUP-A and SUP-B, and
+  CL-REC-OPPROT017. This keeps the OP-PROT-017 family co-located and does not perturb the Theorem B
+  mathematical package folder.
+
+
+  This session cannot write to GP-REG-032. Any Frozen Objects or Identity Drift Watch registration
+  of this supplement is a task for a Sheets-capable line and is NOT asserted here as done. Like
+  OP-PROT-017-SUP-A (which OP-PROT-017-SUP-B O-2 found unregistered), this supplement should be
+  registered so it carries drift protection.
+
+
+END OP-PROT-017-SUP-C-v1.0

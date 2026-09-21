@@ -1,0 +1,226 @@
+﻿CURRENT-STATE SUPERSESSION NOTICE — TRC-COR-005-v1.0
+This record remains the accurate integrity audit for the five-carrier state it inspected. Concurrent execution subsequently populated frozen_register_rows.json and link_validation.json; both now independently decode, match their declared byte counts and SHA-256 values, parse as JSON, and have been restored to the active support folder. The current blocker is manifest.json alone. EC-020 remains ASSEMBLY; no accepted ROOT_SHA256 or seal exists.
+
+
+TRC-COR-004-v1.0 — EC-020 RESTORED CARRIER INTEGRITY AUDIT AND VALIDATION-CLAIM RETRACTION
+
+
+Artifact ID: TRC-COR-004-v1.0
+Author/reconciler line: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: COR / VALIDATION-INTEGRITY / CARRIER-RECONSTRUCTION AUDIT
+Authority: factual fail-closed reconciliation under TRC-STANDARD-001-v1.0
+Canonical mathematical impact: NONE
+Files deleted or trashed: 0
+
+
+[[OBJ:TRC-COR-004-v1.0]] [[OBJ:TRC-EC020-v0.1]] [[STATUS:ASSEMBLY]] [[MANIFEST:DECODE-FAIL]] [[E3:PAYLOAD-VERIFIED]] [[FROZEN-ROWS:EMPTY]] [[LINK-VALIDATION:EMPTY]] [[ROOT-HASH:UNVERIFIED]] [[NO-SEAL]]
+
+
+1. PURPOSE
+
+
+TRC-COR-003-v1.0 correctly recorded that concurrent execution late-populated five of the seven original empty support shells. This audit asks the next question required by TRC-STANDARD-001: do the restored carriers actually decode, reproduce their declared hashes, parse in their declared formats, and support the validation claims they contain?
+
+
+The answer is mixed. One carrier is fully reconstructed and usable as supporting evidence. Three carriers contain internally hash-correct payloads but depend on an invalid manifest or make claims contradicted by the two still-empty carriers. The manifest carrier itself is malformed and cannot be decoded. The capsule therefore remains ASSEMBLY and cannot enter VALIDATION.
+
+
+2. METHOD
+
+
+On 2026-07-23, GP independently exported the five restored native Google Docs as text/plain and applied each document’s own extraction rule:
+
+
+- locate the exact BEGIN_*_BASE64 and END_*_BASE64 lines;
+- concatenate only the intervening lines;
+- remove whitespace;
+- Base64-decode;
+- compare decoded byte count and SHA-256 with the carrier header;
+- parse JSON where applicable;
+- compare semantic claims with the current Drive state.
+
+
+This is a GP-line carrier-integrity audit. It is not the required non-author capsule approval.
+
+
+3. CARRIER-BY-CARRIER RESULTS
+
+
+3.1 manifest.json carrier — INVALID / CANNOT RECONSTRUCT
+
+
+Drive ID: 1WZCCDl5Zg2VnACD_ObC11MY2x9gbm0yVcry0Z4mVXvc
+Declared canonical bytes: 15,179
+Declared canonical SHA-256: 3bcfe14831cd57d87153a06a17680eea31001fce069119286cdb89d7a9a1977c
+
+
+Observed extracted Base64 data length: 20,849 characters.
+Observed length modulo 4: 1.
+Result: Base64 decoding fails. A Base64 data string with this length cannot decode under the declared rule.
+
+
+Therefore:
+- the declared 15,179 canonical bytes were not reconstructed;
+- the declared manifest SHA-256 was not reproduced;
+- the JSON manifest was not parsed;
+- ROOT_SHA256 = 3bcfe148... is unverified;
+- the carrier cannot serve as the canonical manifest for VALIDATION or sealing.
+
+
+The carrier is not an empty shell, but it is a malformed publication.
+
+
+3.2 e3_reconstruction_receipt.json carrier — PAYLOAD VERIFIED
+
+
+Drive ID: 1EEuCNeZSvGq-Xe-EfzNXtb2QJI-oJT_1j9oRTMiniIE
+Declared canonical bytes: 913
+Declared SHA-256: af934e76efa01d56fac95359bc9032858462e37ce5b6a71da6e956e4266c1e18
+
+
+Observed:
+- Base64 decoding succeeds;
+- decoded bytes: 913;
+- reproduced SHA-256: af934e76efa01d56fac95359bc9032858462e37ce5b6a71da6e956e4266c1e18;
+- JSON parsing succeeds.
+
+
+The decoded receipt records the four GP-DATA-114 embedded source/receipt hashes and the verified v1.1 wrapper identity. This carrier provides valid GP-line support evidence. It does not independently prove the underlying reconstruction and does not seal the capsule.
+
+
+3.3 root_hash_receipt.json carrier — CARRIER HASH VALID / ROOT CLAIM UNVERIFIED
+
+
+Drive ID: 1p-RN-2M2SN0mzOazLD1MAHgfHZszBLxuNL1Hsh0nVek
+Declared canonical bytes: 600
+Declared carrier SHA-256: ca1b4c0d55f5ba82e04abe6b44130a13fa1e1429c834d62ea95e28037dcf4890
+
+
+Observed:
+- Base64 decoding succeeds;
+- decoded bytes: 600;
+- reproduced carrier SHA-256: ca1b4c0d55f5ba82e04abe6b44130a13fa1e1429c834d62ea95e28037dcf4890;
+- JSON parsing succeeds.
+
+
+However, the decoded receipt asserts ROOT_SHA256 = 3bcfe148... over a 15,179-byte manifest. Because the manifest carrier cannot be decoded, the root hash cannot be independently recomputed. The root-receipt carrier’s own identity is valid; its root-hash claim is provisional and receives no sealing credit.
+
+
+3.4 checksums.sha256 carrier — CARRIER HASH VALID / REFERENCED SET INCOMPLETE
+
+
+Drive ID: 1s42nh7VTUewswkgriKqMt7_5gEUVAqBzNQJvgIAiUmw
+Declared canonical bytes: 842
+Declared carrier SHA-256: 225c81b54c04055412c1863b0d46d2adb6d4d47d1e4e0150a266a5ec4de1e1ff
+
+
+Observed:
+- Base64 decoding succeeds;
+- decoded bytes: 842;
+- reproduced carrier SHA-256: 225c81b54c04055412c1863b0d46d2adb6d4d47d1e4e0150a266a5ec4de1e1ff;
+- decoded payload is a checksum list.
+
+
+The list includes hashes for manifest.json, frozen_register_rows.json, link_validation.json, root_hash_receipt.json, validation_summary.json, e3_reconstruction_receipt.json, the GP-DATA-114 source/receipt, and a register snapshot. The list itself is reconstructed, but several referenced identities are not currently admissible:
+- manifest.json cannot be decoded;
+- frozen_register_rows.json remains empty/failed;
+- link_validation.json remains empty/failed;
+- root and summary claims depend on those missing/invalid objects.
+
+
+Accordingly, this is a valid checksum-list carrier but not a completed verified checksum set.
+
+
+3.5 validation_summary.json carrier — CARRIER HASH VALID / VALIDATION CLAIMS RETRACTED
+
+
+Drive ID: 1qa5JL1mwiyH6j3In1YDRrHJ9knJ4bmSA76_ksiOsyKI
+Declared canonical bytes: 662
+Declared carrier SHA-256: 58ad2004690cfc2add08d30971464792ca61350db19a441e3482c65f103e5eb8
+
+
+Observed:
+- Base64 decoding succeeds;
+- decoded bytes: 662;
+- reproduced carrier SHA-256: 58ad2004690cfc2add08d30971464792ca61350db19a441e3482c65f103e5eb8;
+- JSON parsing succeeds.
+
+
+The decoded summary states:
+- all_required_links_resolved = true;
+- frozen_register_rows_complete = true;
+- manifest_generated = true;
+- status = VALIDATION — NOT SEALED.
+
+
+Those current-state claims are false or unverified:
+- the link-validation carrier remains empty/failed;
+- the frozen-register carrier remains empty/failed;
+- the manifest cannot be decoded or hashed;
+- the root hash is therefore unverified.
+
+
+The carrier’s byte identity is valid, but its validation-completion claims are retracted. It cannot advance the capsule.
+
+
+3.6 frozen_register_rows.json — EMPTY / FAILED
+
+
+Drive ID: 1qc2DZw2NYPFeYpzftIEgxgfsJoFVb34ihN-piethO_M
+Current status: failed empty native document in CORRUPTED/2026-07.
+No deterministic register serialization is available from this object.
+
+
+3.7 link_validation.json — EMPTY / FAILED
+
+
+Drive ID: 1QU4Q0saBMV-d4SxhI_HWew5w9AwDyrtgmrK6rF28Wqs
+Current status: failed empty native document in CORRUPTED/2026-07.
+No link-resolution record is available from this object.
+
+
+4. CORRECT CURRENT STATE
+
+
+TRC-EC020-v0.1 remains ASSEMBLY — NOT VALIDATION — NOT SEALED.
+
+
+Carrier classification:
+- fully reconstructed supporting payload: 1 (E3 reconstruction receipt);
+- structurally reconstructed but semantically provisional or contradicted: 3 (root receipt, checksums, validation summary);
+- malformed nonempty publication: 1 (manifest);
+- empty/failed: 2 (frozen rows, link validation).
+
+
+Accepted ROOT_SHA256: NONE.
+Accepted canonical manifest: NONE.
+Qualifying non-author package verdict: NONE.
+Closure Log capsule locator write: PROHIBITED.
+Mathematical EC-020 terminal status: UNAFFECTED.
+
+
+5. REQUIRED REPAIR ORDER
+
+
+1. Publish a new corrected canonical manifest payload under a numbered successor identity or clearly versioned replacement carrier. Do not silently retain ROOT_SHA256 3bcfe148... unless the exact declared bytes are independently reconstructed.
+2. Publish a deterministic frozen_register_rows payload from the exact load-bearing EC-020 register rows, with canonicalization, byte count, and SHA-256.
+3. Publish a complete link_validation payload identifying each required Drive ID, expected artifact, resolution result, and retrieval date.
+4. Regenerate the canonical manifest from the repaired current payload set.
+5. Regenerate checksums.sha256, root_hash_receipt.json, and validation_summary.json from that exact new manifest and repaired carriers.
+6. Independently reconstruct every carrier and the manifest/root hash from a fresh Drive read.
+7. Obtain one qualifying non-author package-level verdict under the corrected TRC-REQ-002 checklist.
+8. Only then may the tracker move EC-020 from ASSEMBLY to VALIDATION or SEALED.
+
+
+6. PRESERVATION AND SCOPE
+
+
+TRC-COR-002 and TRC-COR-003 remain valid historical incident/current-state records for their inspection times. This correction supersedes only the claim that five populated carriers were sufficient to create a provisional validation package.
+
+
+No file was deleted, trashed, merged, or overwritten by this audit.
+No terminal mathematical claim, operator decision, model vote, automation tier, machine root, release state, or destructive authority changed.
+
+
+END TRC-COR-004-v1.0

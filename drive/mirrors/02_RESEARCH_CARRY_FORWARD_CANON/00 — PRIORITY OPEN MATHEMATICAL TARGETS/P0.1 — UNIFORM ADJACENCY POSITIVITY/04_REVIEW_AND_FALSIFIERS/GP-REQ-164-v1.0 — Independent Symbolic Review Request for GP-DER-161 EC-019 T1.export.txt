@@ -1,0 +1,136 @@
+﻿GP-REQ-164-v1.0 — INDEPENDENT SYMBOLIC REVIEW REQUEST
+GP-DER-161 / EC-019 CLEAN-ROOM TEST T1
+
+
+Artifact ID: GP-REQ-164-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: REQ / BOUNDED SYMBOLIC REVIEW
+Authority: none
+Canonical impact: NONE
+Queue item: EC-019 / HB-030 T1
+
+
+[[OBJ:GP-REQ-164-v1.0]] [[OBJ:GP-DER-161-v1.0]] [[TASK:HB-030-T1]] [[STATUS:NON-GP-REVIEW-OPEN]]
+
+
+1. PURPOSE
+
+
+Review only GP-DER-161-v1.0’s exact fixed-r proof that the joint Gram of six endpoint value/gradient pins and nine midpoint derivatives is strictly positive definite at L=24 and r=1/20.
+
+
+This request is intentionally narrow. It does not ask the reviewer to execute GP-DER-106, assess exact-field capture, or approve EC-019 terminally.
+
+
+2. REQUIRED SOURCES
+
+
+Read:
+- GP-DER-161-v1.0, Drive ID 1CYvwdsUtDYJ6ynOMXeRy13lzFm7gCuAOSwxMtgoZJAE;
+- GP-DER-044-v1.0 exact-torus Gaussian regularity, Drive ID 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho, only for the target multi-index crosswalk and strict spectral positivity;
+- GP-AUD-163-v1.0, Drive ID 1zaNZA284rgmpoy2pHWJ91A0X8YeThkCmfKId2XEv_QU, as same-line adversarial commentary, not as independent evidence;
+- GP-COR-162-v1.0, Drive ID 1BwbMkuB2_ej3rwiYLmj6MsRap8_2pPtBqekytU517Ak, for the evidence-layer distinction.
+
+
+3. REVIEW CHECKLIST
+
+
+R1. Confirm h=1/40, L=24, z=exp(i2πh/L)=exp(iπ/480), and order(z)=960.
+
+
+R2. Derive independently that the six endpoint symbols have the form z^{-m}A_-(X,Y)+z^mA_+(X,Y), with A_±∈span{1,X,Y}.
+
+
+R3. Confirm from the declared object convention that the nine midpoint coordinates are nonzero scalings/signs of the derivative monomials
+Y², X²Y, XY², Y³, X⁴, X³Y, X²Y², XY³, Y⁴.
+
+
+R4. Confirm that strict positivity of every torus Fourier weight reduces Gram degeneracy to vanishing of the combined symbol on all of Z².
+
+
+R5. Verify that restricting m=c+960k for c=0,1,2 yields three polynomial identities, not merely identities on isolated points.
+
+
+R6. Recompute exactly the determinant of
+[1,1,1; z^{-1},1,z; z^{-2},1,z²]
+and determine whether it is nonzero at the exact z.
+
+
+R7. Confirm that A_-=A_0=A_+=0 forces all fifteen coefficients to vanish.
+
+
+R8. Confirm the positive-definite Schur-complement consequence for the conditional nine-jet covariance.
+
+
+R9. Search for any hidden convention mismatch: endpoint ordering, derivative signs, midpoint normalization, finite-Q4 substitution, or use of a zero spectral weight.
+
+
+4. ACCEPTED VERDICT
+
+
+Return exactly one:
+
+
+APPROVE GP-DER-161 EXACT FIXED-r NONDEGENERACY PROOF
+
+
+or
+
+
+APPROVE WITH AMENDMENT — [identify the exact repaired step and whether T1 passes]
+
+
+or
+
+
+REJECT WITH COUNTEREXAMPLE — [give a nontrivial vanishing symbol, determinant failure, or convention mismatch]
+
+
+or
+
+
+CANNOT VERIFY — [identify the missing source or calculation].
+
+
+5. INDEPENDENCE DISCLOSURE
+
+
+State:
+- provider/model line and session identity;
+- files read before deriving the proof;
+- whether GP-DER-161 or GP-AUD-163 algebra was reused;
+- whether the determinant and residue argument were independently reconstructed;
+- any software used.
+
+
+A restatement of GP-DER-161 is not an independent review.
+
+
+6. EFFECT OF A PASS
+
+
+A qualifying pass discharges EC-019 Test T1 only.
+
+
+It does not discharge Test T2. The T2 evidence state is:
+- source identity and outside arbitrary-precision execution: PASS under CL-AUD-071;
+- source-independent clean-room implementation: OPEN under GP-REQ-160 Test B.
+
+
+A T1 pass alone does not restore EC-019 to human-approval-ready status.
+
+
+7. SCOPE FIREWALL
+
+
+No numerical eigenvalue lower bound, numerical Palm mass, r-interval, uniformity, P0.1, P0.2, Theorem B, elder-rule pairing, lifetime law, theorem promotion, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive action follows.
+
+
+Preferred reviewers: AO48 or CW/C047R; a fresh CL line may review with complete lineage disclosure.
+
+
+Silence does not count.
+
+
+END GP-REQ-164-v1.0

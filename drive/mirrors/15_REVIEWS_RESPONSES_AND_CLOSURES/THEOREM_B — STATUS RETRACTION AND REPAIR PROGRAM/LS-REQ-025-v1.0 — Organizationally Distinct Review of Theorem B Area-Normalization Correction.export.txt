@@ -1,0 +1,111 @@
+﻿LS-REQ-025-v1.0 — ORGANIZATIONALLY DISTINCT REVIEW OF THEOREM B AREA-NORMALIZATION CORRECTION
+
+
+Artifact ID: LS-REQ-025-v1.0
+Date: 2026-07-26
+Class: REQ / EXACT-HASH NORMALIZATION REVIEW / COEFFICIENT FALSIFICATION
+Dispatch: DQ-043
+Prepared by: OpenAI GPT-5.6 Thinking — routing only
+Authority: NONE
+Independence created by this packet: ZERO
+
+
+REVIEW OBJECT
+
+
+LS-DER-030-v1.0 — Explicit Fixed-Window Coefficient and Torus-Area Normalization Correction
+Drive ID: 1xou7oHKy2nTa_eml5YBDhO_UVTmbspmArtWzwUiDpRY
+Frozen body: 12,794 bytes
+SHA-256: 5476f11a281635ad99a7ed125a55e06e875681aa273fb682ada02c9e0035d0c1
+Candidate: https://docs.google.com/document/d/1xou7oHKy2nTa_eml5YBDhO_UVTmbspmArtWzwUiDpRY/edit
+
+
+CONTROLLING INPUTS
+
+
+LS-DER-021-v1.0 — J_r declared per unit torus area — 11,924 bytes / SHA 3369ddd55dea0f308ab0f396aae7c451b7d4b50934a1b42752bd61d50e9844dd.
+LS-DER-025-v1.0 — compact selected component — 8,275 bytes / SHA 7a488bafc0b1007d295732ef2831f908faf800ab1aba0f2d4f8d13770d44be87.
+LS-DER-026-v1.0 — full-kappa near component — 11,725 bytes / SHA e4d8094ed1bfc9f9cc7491f13efd5cc5294ba3b5f4fbd4bc8bbba33dd1a2ab5d.
+LS-DER-027-v1.0 — full fixed-window theorem candidate — 11,330 bytes / SHA 60768783048ae9f5347735caa6a543ff074b785f2d5a1c568237c92d12f12f39.
+
+
+REVIEW PURPOSE
+
+
+Adjudicate whether the current chain correctly distinguishes the specific lifetime density per unit torus area from the total lifetime density on the side-24 torus, and whether the total coefficient equals 576 times the specific coefficient under ordinary Lebesgue area.
+
+
+The review must not treat the area correction as a change to the -1/3 exponent unless it finds an independent defect in the radial pushforward or convergence argument.
+
+
+REQUIRED CHECKS
+
+
+R0. Reproduce the 12,794-byte frozen body and SHA-256 exactly.
+R1. Reproduce the four controlling input identities and inspect the exact sentence in LS-DER-021 stating that the base point is integrated per unit torus area.
+R2. Define ordinary Lebesgue area, normalized Haar area, specific density, and total density without mixing conventions.
+R3. Verify area(T_24^2)=24^2=576.
+R4. Independently compute the four-dimensional Jacobian of M=x-h/2, S=x+h/2 and verify dM dS=dx dh.
+R5. Verify directed polar displacement gives dh=r dr dtheta over one full S^1 and requires no factor 1/2.
+R6. Verify the value-gap-to-kappa Jacobian r^3/6 is already contained in J_r and must not be inserted again.
+R7. Independently derive r dr=(6^(2/3)/3)kappa^(-2/3)ell^(-1/3)dell from ell=kappa r^3/6.
+R8. Verify the exact specific coefficient
+
+
+    c_spec=(6^(2/3)/3) integral_{S^1} integral_{B_*} integral_0^infinity J_0(theta,b,kappa) kappa^(-2/3) dkappa db dtheta.
+
+
+R9. Verify the ordinary-area total coefficient C_tot=576 c_spec.
+R10. Audit the small-kappa and large-kappa domination used for finiteness.
+R11. Audit strict positivity by restriction to K_*=[3/4,5/4].
+R12. Rewrite the far density under both conventions and verify that the O(1) conclusion survives.
+R13. Verify the corrected near/far recombination separately for specific and total densities.
+R14. Determine whether LS-DER-025 and LS-DER-026 require only labeling clarification or a mathematical correction.
+R15. Determine whether LS-DER-027 requires AMEND REQUIRED because its written near and far terms use different undeclared area conventions.
+R16. Verify that the -1/3 exponent, positivity, finiteness, and lower-order far term survive the area repair.
+R17. State the exact downstream effect on DQ-034 and the full-theorem review.
+R18. Distinguish this same-family correction candidate from an organizationally independent approval.
+
+
+HOSTILE MUTATIONS
+
+
+M1. Omit the factor 576 from total side-24 counts.
+M2. Multiply by 576 twice.
+M3. Insert a factor 1/2 for an already ordered maximum-saddle pair.
+M4. Integrate theta over a half-circle without changing the atom convention.
+M5. Count the r^3/6 value-to-kappa Jacobian twice.
+M6. Drop the r factor from polar displacement area.
+M7. Give the (M,S) to (x,h) coordinate map a false determinant.
+M8. Call the LS-DER-026 coefficient total while retaining a per-unit-area J_r.
+M9. Divide the far dx dy integral by 576 without declaring a specific-density convention.
+M10. Use normalized Haar measure in one component and ordinary Lebesgue area in the other.
+M11. Claim the area defect changes the exponent without identifying a failed exponent-producing step.
+M12. Treat the correction review as approval of TB-G1 through TB-G5 dependencies.
+M13. Promote canonical Theorem B from a pass on this correction alone.
+
+
+VERDICT FORMAT
+
+
+Return exactly one:
+- APPROVE;
+- APPROVE WITH NONMATERIAL CLARIFICATIONS;
+- AMEND REQUIRED;
+- FAIL;
+- CANNOT VERIFY.
+
+
+The verdict must include reviewer identity and provider lineage, prior exposure, exact hash reproduction, an R0-R18 ledger, M1-M13 outcomes, exact convention used, explicit formulas for c_spec and C_tot, source-specific findings for LS-DER-025/026/027, and the downstream effect on DQ-034.
+
+
+STATUS FIREWALL
+
+
+Approval means only that the area-normalization correction is mathematically accepted at its exact frozen scope. It does not approve the underlying component proofs, restore canonical status, seal a package, establish publication readiness, or authorize release.
+
+
+[[OBJECT:LS-DER-030]] [[HASH:5476F11A281635AD99A7ED125A55E06E875681AA273FB682ADA02C9E0035D0C1]] [[DISPATCH:DQ-043]] [[AREA-REVIEW:OPEN]] [[FULL-THEOREM-APPROVAL:DEPENDENT]] [[CANONICAL:NO]]
+
+
+END LS-REQ-025-v1.0

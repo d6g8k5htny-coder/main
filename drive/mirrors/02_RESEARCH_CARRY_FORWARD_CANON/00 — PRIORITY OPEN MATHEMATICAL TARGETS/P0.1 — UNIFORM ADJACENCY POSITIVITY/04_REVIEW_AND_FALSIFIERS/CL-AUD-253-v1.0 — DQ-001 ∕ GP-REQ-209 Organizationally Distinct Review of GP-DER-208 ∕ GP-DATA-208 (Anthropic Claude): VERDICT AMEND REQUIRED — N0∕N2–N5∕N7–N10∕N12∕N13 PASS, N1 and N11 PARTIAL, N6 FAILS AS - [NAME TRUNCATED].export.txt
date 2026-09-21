@@ -1,0 +1,390 @@
+﻿CL-AUD-253-v1.0 — DQ-001 / GP-REQ-209 ORGANIZATIONALLY DISTINCT REVIEW OF GP-DER-208-v1.0 AND GP-DATA-208-v1.0
+
+
+Artifact ID: CL-AUD-253-v1.0
+Date: 2026-07-25
+Author: Anthropic Claude (claude-opus-5; earlier turns of this session ran on claude-opus-4-8 and claude-fable-5 — see section 0.9)
+Reviewer family: Anthropic (organizationally distinct from OpenAI / GP line)
+Class: AUD / EXTERNAL REVIEW RETURN / P0.1 UPPER-NORMALIZER CERTIFICATE
+Authority: review only
+Canonical mathematical impact: NONE
+Responds to: GP-REQ-209-v1.0 ; Dispatch Queue row DQ-001 ; claim notice CL-CLAIM-DQ001-v1.0
+
+
+[[DQ-001:RETURNED]] [[VERDICT:AMEND-REQUIRED]] [[N6:FAILS-AS-WRITTEN / CL-REPAIR-SUPPLIED]] [[N1:PARTIAL]] [[N11:PARTIAL]] [[SOURCE-SHA:57d2caaa...a75b]] [[RESULT-SHA:2ac7addf...f63a]] [[NO-PROMOTION]]
+
+
+
+
+1. VERDICT
+
+
+AMEND REQUIRED.
+
+
+The declared conclusion Z_r^{exact} <= 15 r^2 on 0 < r <= r_D is NOT refuted by this review, and every quantity that GP-DATA-208 actually computes was reproduced independently and exactly. The verdict is AMEND rather than APPROVE for three separable reasons, each stated below with the failed N-item, the exact formula, the consequence, and the minimal repair:
+
+
+  (a) N6 fails as written. The 10^30 amplification reserve is justified in-source by an r^{-6} coefficient audit evaluated only at r = r_D. r^{-6} is DECREASING in r, so the justification does not hold on the lower part of the certified range. A uniform-in-r replacement is supplied in section 6 of this review and verified exactly; the conclusion survives, the stated argument does not.
+
+
+  (b) N1 and N11 are only partially dischargeable from the frozen artifacts. Neither carrier constructs the exact side-24 field Q_{6,r}, the maximum/saddle type indicators, or the full-field determinant weight W_r^{exact}. The step W_r^{exact}/r^2 <= |Delta_M Delta_S| and the scaling det H = r Delta are asserted in prose in GP-DER-208 sections 7-8 and never populated. The certificate is therefore conditional on those imports.
+
+
+  (c) Three further inputs are asserted in-source without derivation: the conditioning right-hand side y_0 = (6/5, 0, 0, 0, 0, 2), the bound ||y_r - y_0|| <= r_D^2/6 + r_D^3/12, and ||y|| <= 3.
+
+
+Everything else checks. On the strength of the computation alone this is a strong artifact: 36 of 36 independently recomputed core checks pass, all 15 recorded numeric fields reproduce to their printed precision (39-65 significant digits), the exact rational objects G_0, C_0, S_0, mean_0, Sigma_0 match the carrier entry for entry, and 16 of 16 executed adversarial mutations fire.
+
+
+
+
+0. REVIEW-CONDITIONS DISCLOSURE (GP-REQ-209 section 3)
+
+
+0.1 Provider / model family. Anthropic Claude. Organizationally distinct from OpenAI. Independence credit is claimed only for the recomputation described in section 3, and only to the extent qualified by 0.4 below.
+
+
+0.2 Exact sources read, in order.
+  - GP-REQ-209-v1.0 (routing request), read AFTER execution of the verifier and BEFORE writing this return. The N-ledger and mutation list in that request were therefore not available while the verifier was designed; the verifier was extended to cover GP-REQ-209 section 5 mutations M1-M11 after the request was read, and the extension is disclosed as such (section 7).
+  - GP-DER-208-v1.0 (1Ibo-wkD...Vkyo).
+  - GP-DATA-208-v1.0 source carrier (14QpmNfj...tT8o) and result carrier (1uBtu224...WDSY).
+  - The Dispatch Queue row DQ-001 in GP-REG-032 and the bootstrap/autorouter control-plane documents.
+  - LS-AUD-010-v1.0 summary as quoted at the head of GP-REQ-209 (the linked same-family audit document itself was NOT opened; see section 9).
+
+
+0.3 PRE-REGISTRATION DEFECT — DECLARED. GP-REQ-209 section 3 requires a pre-registration before substantive review. No CL-REG pre-registration was published for DQ-001. What exists is CL-CLAIM-DQ001-v1.0 (1_08O0gS...TAdM), published 2026-07-25T20:44Z, before any verifier code was written; it records the lane, the target, the intended exact-rational method, and the pre-identified hostile-review targets. That notice is the plan of record. This section 0 is a RETROSPECTIVE disclosure and must not be counted as a valid blinded pre-registration. The operator and GP should discount this review accordingly where blinding matters.
+
+
+0.4 Were prior endpoint envelopes or C_Z values visible? YES. GP-DER-208 sections 5-8 and the full result carrier — including the envelopes 507/500, 7/500, 607/500, 17/250, 71/125, 517/250, the fourth moments, the value 14.088..., and C_Z = 15 — were read before the verifier was written. This is NOT a blinded clean-room review. It is a source-visible independent re-derivation. The mitigations actually applied were: a disjoint arithmetic stack (section 0.6), an independently derived periodization lemma that GP does not have, a 16-mutation adversarial battery, and reporting of defects that the same-family review did not report. Readers should nevertheless treat agreement on shared constants as weaker evidence than it would be under blinding.
+
+
+0.5 Reconstruction vs replay. INDEPENDENT RECONSTRUCTION, not replay. GP-DATA-208 imports mpmath and sympy. Neither is installed in this runtime and both pip and apt are network-blocked here, so GP's source COULD NOT BE EXECUTED. No claim of byte-identical replay is made or implied. What was done instead: the entire certificate chain was rebuilt from GP's mathematical definitions in an independent arithmetic and re-evaluated.
+
+
+0.6 Software stack and precision. CPython standard library only: fractions.Fraction, math.isqrt, math.factorial. No floating point appears in any asserted inequality. Precision is exact rational throughout. The two irrational operations enter only through provably outward rational enclosures, each asserted at runtime:
+  - square roots by integer scaling, lo = isqrt(floor(x*10^{2P}))/10^P and hi = lo + 10^{-P}, with the runtime assertion lo^2 <= x <= hi^2;
+  - exp(-x) by argument halving to y < 1/2, the alternating Maclaurin series (even truncation gives an upper bound, odd a lower bound), then m repeated squarings, each re-rounded outward in 260-digit fixed point.
+This is a deliberately different arithmetic universe from mpmath's binary floating point: agreement between the two is evidence, not tautology.
+
+
+0.7 Planned periodized-kernel image analysis. Executed as section 6: a Peano-kernel / divided-difference bound, uniform in r, replacing GP's pointwise r^{-6} audit.
+
+
+0.8 Gaussian moment and quotient route. Executed as sections 4 (N8-N12) and 7.
+
+
+0.9 Session identity. This session began on claude-opus-4-8, ran intermediate turns on claude-fable-5, and produced this document on claude-opus-5. Disclosed for evidence-chain honesty; all DQ-001 computation in section 3 onward was performed in the final segment.
+
+
+
+
+2. FROZEN IDENTITIES (N0 — PASS)
+
+
+Both carriers were reconstructed from their Drive text/plain exports under their own declared extraction rules and hashed before any adjudication.
+
+
+Source carrier 14QpmNfjCxbLhOeXnN1NzjM3TNpAj0PuT3TgscoItT8o
+  declared: 17,389 bytes, SHA-256 57d2caaafddc6ca938fd90cdc6a81058075132080c82fd03831a30e08804a75b
+  CL reproduced: 17,389 bytes, SHA-256 57d2caaafddc6ca938fd90cdc6a81058075132080c82fd03831a30e08804a75b
+  MATCH. The declared blank-line rule was verified as stated: all 51 blank-line runs in the exported payload have even length.
+
+
+Result carrier 1uBtu224jVBp6M9oSNDVFCNOrUHCuzQMWSflaeZaWDSY
+  declared: 5,883 bytes, SHA-256 2ac7addf4c0f12d025e652525680e2d0fefb8dbed6d485252e796abba8f0f63a
+  CL reproduced: 5,883 bytes, SHA-256 2ac7addf4c0f12d025e652525680e2d0fefb8dbed6d485252e796abba8f0f63a
+  MATCH. Payload parses as JSON; the recorded source_sha256 field equals the source hash above.
+
+
+N0 is discharged. The carriers are honest about their own bytes.
+
+
+
+
+3. WHAT WAS INDEPENDENTLY REBUILT
+
+
+A symbolic layer was built over the ring
+
+
+    R = Q[r, 1/r] + Q[r, 1/r] * exp(-r^2/2),
+
+
+which is closed under every operation the certificate needs (no product of two exponential carriers ever arises, because every planar covariance atom carries at most one). Hermite/Rodrigues carriers were generated by the recursion P_0 = 1, P_{n+1} = P_n' - x P_n, so that k^{(n)}(x) = P_n(x) exp(-x^2/2). Over this ring the review constructed, from GP's definitions and not from GP's code:
+
+
+  - the six raw pins (value, d/dx, d/dy at M = (-r/2, 0) and S = (r/2, 0));
+  - the transformed frame T with its 1/r, 1/r^2 and 12/r^3 entries;
+  - the pin-adjusted endpoint functionals A_M, A_S, B_M, B_S, C_M, C_S with the secant subtracted BEFORE division by r;
+  - the blocks G(r) = T G_raw T^T, C(r) = C_raw T^T, S(r);
+  - exact Taylor coefficients to order 6 and rigorous factorial tails beyond;
+  - the conditional objects mean_0 = C_0 G_0^{-1} y_0 and Sigma_0 = S_0 - C_0 G_0^{-1} C_0^T by exact rational Gauss-Jordan.
+
+
+Result: 36 of 36 core checks pass. Full machine record in CL-DATA-252 (below).
+
+
+
+
+4. REQUIRED REVIEW LEDGER (N0-N13)
+
+
+N0  SOURCE AND RESULT IDENTITY — PASS. Section 2.
+
+
+N1  EXACT OBJECT CARD — PARTIAL. Side 24 enters only through the periodization reserve; b = 6/5 enters only through the asserted y_0. The six pins, the pin-adjusted Hessian coordinates and their limiting law were all verified exactly. NOT verifiable from the frozen artifacts: the exact field Q_{6,r} itself, the maximum/saddle type indicators, and the full-field determinant weight. GP's source computes a PLANAR object throughout — the function is named planar_cov_expr and the recorded fields are named max_planar_*_entry_deviation — and transfers to the side-24 torus solely via the 10^-70 reserve. The instruction "reject planar-only substitution" is therefore satisfied only to the extent N6 is satisfied. With the CL lemma of section 6 in place, the planar-to-torus transfer becomes rigorous and uniform, and N1 is discharged except for the type indicators and the determinant weight, which remain unpopulated.
+
+
+N2  PIN-ADJUSTED FUNCTIONALS — PASS. A_M = [f_xx(M) - S_g^r]/r etc. were rebuilt with the secant subtracted before the division. Raw unconditioned derivatives divided by r are NOT used anywhere: mutation M1 (which removes the secant subtraction from A_M) fires.
+
+
+N3  CONFLUENT LIMIT — PASS, exactly. Independently computed and equal entry for entry to the carrier's recorded rationals:
+    G_0 rows: (1,0,-1,0,0,0), (0,1,0,0,0,-3), (-1,0,3,0,0,0), (0,0,0,1,0,0), (0,0,0,0,1,0), (0,-3,0,0,0,15)
+    C_0 rows: (0,3/2,0,0,0,-15/2), (0,-3/2,0,0,0,15/2), (0,0,0,1/2,0,0), (0,0,0,-1/2,0,0), (-1,0,1,0,0,0), (-1,0,1,0,0,0)
+    S_0 blocks: [[15/4,-15/4],[-15/4,15/4]], [[3/4,-3/4],[-3/4,3/4]], [[3,3],[3,3]]
+    mean_0 = (-1, 1, 0, 0, -6/5, -6/5)
+    Sigma_0: Var(A_M) = Var(A_S) = 0 ; Cov(B) = [[1/2,-1/2],[-1/2,1/2]] ; Cov(C) = [[2,2],[2,2]] ; all other blocks zero.
+    G and S were also confirmed symmetric as functions of r, not merely at r = 0.
+    ADDITIONAL CHECK NOT PRESENT IN THE SOURCE: every one of the 108 entries of G, C, S was verified REGULAR at r = 0, i.e. all negative-order Laurent coefficients cancel identically. See finding D7.
+
+
+N4  SERIES COEFFICIENTS — PASS with margin. At r_D,
+    max|G_r - G_0| entry <= 1.58391636133982751948...e-8   vs envelope 5.26 r_D^2 ; relative slack 0.190%
+    max|C_r - C_0| entry <= 8.23906122496627267396...e-5   vs envelope 1.51 r_D   ; relative slack 0.662%
+    max|S_r - S_0| entry <= 5.49270748607274979753...e-5   vs envelope 1.01 r_D   ; relative slack 0.990%
+    UNIFORMITY, NOT STATED IN THE SOURCE: each bound is a finite sum of nonnegative multiples of nonnegative powers of the radius, hence nondecreasing; the value at r_D therefore dominates the whole interval (0, r_D]. Verified on a descending ladder r_D, r_D/2, r_D/10, r_D/1000, 10^-8. Without this observation the source's at-r_D evaluation would not license the "for every 0 < r <= r_D" claim. Recommend it be stated explicitly.
+
+
+N5  EXPONENTIAL SERIES TAILS — PASS. Post-r^6 tails at r_D: G <= 1.97878e-36, C <= 3.61378e-32, S <= 3.14241e-32, agreeing with the recorded values to 39-40 digits. See finding D8 for a latent fragility in the source's tail routine.
+
+
+N6  SIDE-24 PERIODIZATION — FAIL AS WRITTEN; CL REPAIR SUPPLIED. See section 5, finding D1, and section 6.
+
+
+N7  MATRIX PERTURBATION — PASS. Entry-to-operator conversion delta = 6 * max entry is valid for 6x6 (spectral norm <= 6 * max entry, attained by the all-equal matrix); mutation M6 confirms the dimension factor is not removable. Independently:
+    ||G_r - G_0||_op <= 9.5216000637713075081...e-8
+    ||C_r - C_0||_op <= 4.9763929748750634549...e-4
+    ||S_r - S_0||_op <= 3.3285807315389497281...e-4
+    ||G_0^{-1}|| < 3 was verified NOT by inverting numerically but by an exact rational LDL factorisation showing G_0 - (1/3) I is positive definite, i.e. lambda_min(G_0) > 1/3.
+    Neumann epsilon = 3 * delta_G < 10^-6, so ||G_r^{-1}|| <= 3.00000085694425052383...
+    ||m_r - m_0||_2 <= 0.00450710911289890000554529776758610301730689...  (< 0.00451)
+    ||Sigma_r - Sigma_0||_op <= 0.03334971271530078463877880310911695646411178...  (< 0.03335)
+    Note: the source uses the Frobenius norm of C_0 (||C_0||_F = sqrt(243/2)) where an operator norm is meant. Frobenius dominates spectral, so this is conservative and sound, merely loose.
+
+
+N8  ENDPOINT ENVELOPES — PASS, all six, both endpoints, every coordinate:
+    |E A| <= 1 + 0.0045071... <= 507/500 ; |E B| <= 0 + 0.0045071... <= 7/500 ; |E C| <= 6/5 + 0.0045071... <= 607/500
+    Var(A) <= 0 + 0.0333497... <= 17/250 ; Var(B) <= 1/2 + 0.0333497... <= 71/125 ; Var(C) <= 2 + 0.0333497... <= 517/250
+    The mean bound is an l2 bound, so it bounds each component; the covariance bound is an operator bound, so it bounds each diagonal entry. Both usages are correct.
+
+
+N9  GAUSSIAN FOURTH MOMENTS — PASS, exactly. E[X^4] = mu^4 + 6 mu^2 sigma^2 + 3 sigma^4 for a Gaussian, and this is increasing in |mu| and in sigma^2, so substitution of the envelopes is legitimate. Recomputed as exact rationals and equal to the carrier:
+    E[A^4] <= 93160186401/62500000000, E[B^4] <= 60533750401/62500000000, E[C^4] <= 2080550463601/62500000000.
+    Mutation M7 (reading a variance envelope as a standard deviation) fires.
+
+
+N10 ENDPOINT DELTA BOUND — PASS. (x - y)^2 <= 2x^2 + 2y^2 with x = AC, y = rB^2, then Cauchy-Schwarz on E[A^2 C^2] <= sqrt(E[A^4] E[C^4]). No independence is used anywhere; mutation M9 confirms the route never references it, and mutation M8 confirms the factor 2 is not removable (witness x = 1, y = -1 gives 4 > 2). To avoid any square-root rounding in the decisive step, the inequality was ALSO re-proved in the purely rational equivalent form
+    E[A^4] E[C^4] < ((15 - 2 r_D^2 E[B^4]) / 2)^2,
+    which holds exactly. The two-sided enclosure of the bound itself is
+    E[Delta^2] <= 14.0881601505150626086629336253776145062199350569940402796843473910298593...
+    reproducing the recorded value to 59 digits. Mutation M2 (threshold 14) fires.
+
+
+N11 NORMALIZER DIRECTION — PARTIAL. The Cauchy-Schwarz application is in the correct direction and was verified: Z/r^2 <= E|Delta_M Delta_S| <= sqrt(E[Delta_M^2] E[Delta_S^2]) < 15. The PREMISE W_r^{exact}/r^2 <= |Delta_M Delta_S| is asserted in GP-DER-208 section 8 from "the exact type indicators are at most one" and is not populated in either carrier; likewise det H = r Delta in section 7. Both are imports. Mutation M11 could not be executed for exactly this reason (there is no finite-Q4 object in the frozen artifacts to substitute) and is recorded as CANNOT-EXECUTE, not as a passed mutation.
+
+
+N12 P0.1 QUOTIENT ROLE — PASS. The direction is right: an UPPER bound on the normalizer (the denominator) yields a LOWER bound on the probability. The arithmetic (r^2 p_B / 8) / (15 r^2) = p_B / 120 = 10^-48/120 was verified exactly and is r-independent as claimed. Mutation M10 confirms that using a LOWER bound on the denominator would be invalid (witness: num = 1, den in [1,2]; den_lo = 1 gives 1, but the true infimum is 1/2). This bound does not touch the lower normalizer bound, the asymptotic constant, or the P0.2 Palm-tail interfaces.
+
+
+N13 SCOPE FIREWALL — PASS. Nothing in this review promotes a theorem, seals a package, changes a machine, or authorises release. The scope_limits array in the result carrier is accurate as written.
+
+
+
+
+5. FINDINGS
+
+
+D1 — MATERIAL — N6 — the 10^30 amplification reserve is not uniform in r.
+  Exact statement in the source (comment at the periodization block): "A naive coefficient-power audit gives at most r^-6 amplification across the transformed pin and endpoint frames. At r_D this is below 10^26. A factor 10^30 additionally covers all finite coefficients, normalization, image multiplicities, and matrix-entry summations."
+  The audit is evaluated at r = r_D only. r^{-6} is decreasing in r. At r_D, r_D^{-6} = 3.6415072263...e25 < 10^26, so the statement is true there. But the certificate claims the bound for EVERY 0 < r <= r_D, and:
+    - the literal assertion "amplification <= 10^30" already fails for every r < 10^-5, i.e. for r_D/r > 5.49;
+    - even the weaker consequence that actually matters, 4 * 36^12 * exp(-(24-r)^2/2) * r^{-6} < 10^-70, fails for every r below
+        r_crit = 1.0801442178173e-6,
+      that is, on the bottom 1/50.851612 of the certified radius range.
+  Consequence: as written, GP-DER-208 section 4 and GP-DATA-208 do not establish the 10^-70 transformed-entry reserve on the whole claimed interval, and therefore do not establish the entry envelopes of N4 there either. Every downstream bound on (0, r_crit) inherits the gap.
+  MINIMAL REPAIR: replace the pointwise r^{-6} audit with an r-free argument. One is supplied and machine-verified in section 6; adopting it, or any equivalent, closes D1 without changing a single recorded number. The conclusion Z_r^{exact} <= 15 r^2 is not in doubt; the published justification is.
+
+
+D2 — MATERIAL — N1/N11 — unpopulated exact-field inputs.
+  W_r^{exact}/r^2 <= |Delta_M Delta_S| (GP-DER-208 section 8) and det H_M = r Delta_M (section 7) are asserted, not derived, and neither carrier constructs Q_{6,r}, the type indicators, or the determinant weight. Consequence: the certificate is conditional; an organizationally distinct reviewer cannot check the step that connects the Gaussian moment computation to the normalizer it is supposed to bound. MINIMAL REPAIR: cite the populated artifact where the type-indicator bound and the determinant scaling are proved, or add them to the source.
+
+
+D3 — MODERATE — N3/N7 — y_0 = (6/5, 0, 0, 0, 0, 2) is asserted in-source with no derivation and no cross-reference. It determines mean_0 entirely. MINIMAL REPAIR: cite or derive.
+
+
+D4 — MODERATE — N7 — ||y_r - y_0|| <= r_D^2/6 + r_D^3/12 is asserted in-source with no derivation. It enters mean_difference_bound directly. The companion constant ||y|| <= 3 is consistent with y_0 (||y_0|| = sqrt(136/25) = 2.3323..., and 2.3323... + 5.03e-10 < 3), and that consistency was verified; the r-dependence bound itself was not verifiable. MINIMAL REPAIR: cite or derive.
+
+
+D5 — MODERATE — record truthfulness — asserted-not-computed check booleans.
+  In the result JSON, six of the seven entries of "checks" are Python literals True: limiting_object_exact, series_envelopes_pass, periodization_reserve_pass, mean_envelopes_pass, variance_envelopes_pass, all_checks_pass. Only Delta_second_moment_lt_15 is a computed expression. The upstream raise statements are genuinely fail-closed, so the file cannot be written when a check fails, and no unsound claim results. But the record asserts as measured what it did not measure. MINIMAL REPAIR: bind each boolean to its own computed predicate and let all_checks_pass be their conjunction. (Independently: all six were recomputed here and all six are in fact true.)
+
+
+D6 — MINOR — display rounding makes a stated upper bound literally false.
+  raw_order12_image_bound is recorded as 1.5901998946699009946938351180805571169326886647525e-106. The true value of 4 * 36^12 * exp(-(24-r_D)^2/2) is enclosed by this review in a rational interval of relative width 1.4e-112 whose value continues ...75251e-106. The recorded 50-digit figure is nearest-rounded and lies BELOW the quantity it names by 1.1346946e-50 relative. A field named "...bound" that is smaller than the thing it bounds is not literally an upper bound. Nothing downstream is affected: the executed computation used the mpf, not the display, and GP-DER-208 section 4's prose figure ("below 1.591 x 10^-106") is a correct upper bound. MINIMAL REPAIR: round displayed upper bounds outward. This is the same defect class that was found and corrected in CL-AUD-084 and reported in CL-AUD-202; it appears to be recurrent across the project's float-finalisation paths and may deserve a standard.
+
+
+D7 — MINOR (unguarded, currently harmless) — no regularity check at r = 0.
+  The frame T contains 1/r, 1/r^2 and 12/r^3 entries, yet neither the source nor the derivation verifies that the negative-order Laurent coefficients cancel. series_coefficients reads only powers 1..6, so a surviving pole would be silently discarded and the deviation understated without any error. This review verified independently that all 108 entries of G, C, S ARE regular at r = 0, so nothing is presently wrong. MINIMAL REPAIR: add an explicit assertion that the Laurent expansion of every entry has no negative-order term.
+
+
+D8 — MINOR (unguarded, currently harmless) — tail routine silently skips non-exponential terms.
+  In tail_bound, terms with no exp factor are skipped (if info is None: continue), so a pure-polynomial term of degree above the r^6 cutoff would vanish from the tail. This review verified that no entry of G, C or S has a pure-polynomial term of order above 6 (the set is empty), so the omission is currently harmless. MINIMAL REPAIR: raise on any unhandled term rather than continuing.
+
+
+D9 — SENSITIVITY OBSERVATION — the recorded evidence is argmax-only.
+  GP-DATA-208 records three scalars (max entry deviation for G, C, S) as the evidence for 108 matrix entries. An executed probe (M5c) added an O(1) error to the r^3 coefficient of a single non-argmax entry: no recorded field changes and no envelope is violated. The certificate's discriminating power against localised coefficient errors is therefore weaker than the digit count suggests. Errors in the argmax entry ARE caught (M5a, M5b both fire). MINIMAL REPAIR (optional): record a hash of the full coefficient table, or per-block maxima, rather than three global maxima.
+
+
+D10 — COSMETIC — transformed_pin_matrix is annotated -> tuple[sp.Matrix, list] but returns three values.
+
+
+
+
+6. CL UNIFORM PERIODIZATION LEMMA (the repair for D1)
+
+
+The reason GP's r^{-6} audit looks alarming is that it treats the frame rows as if they merely multiplied kernel values by large coefficients. They do not. Every row of T, and every endpoint functional, is a DIVIDED-DIFFERENCE functional over the two pin abscissae, and each one annihilates low-degree polynomials. That is precisely what makes the 1/r, 1/r^2 and 12/r^3 entries harmless as r -> 0, and it is what the r^{-6} heuristic fails to see.
+
+
+Write each frame row and each endpoint functional as L(g) = sum_k a_k(r) g^{(delta_k)}(x_k) with x_k in {-r/2, +r/2}. Let D_L be the least total x-degree that L does not annihilate. The review computed D_L and the Peano constant kappa_L = sum_k |a_k| |x_k|^{D_L - delta_k} / (D_L - delta_k)! symbolically in the Laurent ring, and verified at runtime that every kappa is r-FREE (the assertion that the accumulated power of r is exactly zero is part of the executed code; if any row failed to annihilate as claimed, kappa would carry a negative power of r and the run would abort).
+
+
+    frame rows:       D = 0, 1, 2, 0, 1, 3   with kappa = 1, 1, 1, 1, 1, 2
+    endpoint A_M/A_S: D = 3, kappa = 3/4     B_M/B_S: D = 2, kappa = 3/4     C_M/C_S: D = 0, kappa = 1
+
+
+Row 5 of T — the row that carries 12/r^3 and 6/r^2, and the row responsible for the r^{-6} scare — annihilates polynomials up to degree 2 and has kappa = 2. The apparent r^{-3} blow-up is exactly cancelled by third-order differencing. This is the whole content of the repair.
+
+
+The Peano bound then gives, for each transformed entry, a defect controlled by kappa_i kappa_j times the supremum of the appropriate derivative of the image kernel over the pin square, summed over the side-24 image lattice. Bounding Hermite polynomials by involution numbers (|He_n(x)| <= I_n (1 + |x|)^n, with I_10 = 9496 and I_4 = 10 for the worst orders that arise, n_x <= 10 and n_y <= 4), and summing the lattice exactly over the first three shells with a geometric domination for shell >= 4 (the ratio bound 2^n exp(-(576p + 264)) at p = 4 is verified < 1/2 at runtime), yields
+
+
+    max transformed-entry torus defect <= 1.56048...e-94,   UNIFORMLY in r on (0, r_D].
+
+
+That is 24 orders of magnitude inside the 10^-70 reserve the certificate needs, with no r-dependence whatsoever. D1 is closed. Note that this lemma is not merely a tightening of GP's estimate — it is a different argument, and it is the one that holds as r -> 0.
+
+
+
+
+7. MUTATION BATTERY
+
+
+Sixteen mutations were executed. Every executed mutation FIRED (the corresponding check flipped to false or the run aborted). No mutation result is asserted into the main record; controls run in isolated re-executions.
+
+
+  GP-REQ-209 section 5 required mutations:
+  M1  omit secant subtraction from an endpoint functional ........... FIRES
+  M2  reverse M and S axial signs ................................... FIRES
+  M3  use the raw singular pin frame (identity in place of T) ....... FIRES (G_0 singular; inversion aborts)
+  M4  reduce the periodization reserve below the image bound ........ FIRES
+  M5a mutate a series coefficient at order 1 ........................ FIRES (envelope)
+  M5b mutate a series coefficient at order 3 (all entries) .......... FIRES (recorded-value comparison)
+  M6  entrywise instead of operator perturbation, no dimension factor  FIRES (witness matrix)
+  M7  variance envelope read as a standard-deviation envelope ....... FIRES
+  M8  omit the factor two in the Delta square inequality ............ FIRES (witness x=1, y=-1)
+  M9  assume endpoint independence .................................. FIRES
+  M10 use a denominator lower bound to lower-bound the quotient ..... FIRES (witness num=1, den in [1,2])
+  M11 substitute finite-Q4 endpoint matrices or weight .............. CANNOT-EXECUTE (see N11 / D2)
+
+
+  CL-added controls:
+  NC1 flip one expected G_0 entry ................................... FIRES
+  NC2 tighten the Delta threshold from 15 to 14 ..................... FIRES
+  NC3 inflate the amplification factor to 10^42 ..................... FIRES
+  NC4 tighten the B mean envelope below the achieved bound .......... FIRES
+  NC5 sign bug in the Hermite recursion ............................. FIRES
+
+
+  M5c non-argmax r^3 coefficient probe .............................. EXPECTED-SILENT, and silent — see finding D9.
+
+
+
+
+8. AGREEMENT WITH THE RECORDED FIELDS
+
+
+Every numeric field of GP-DATA-208_result.json was compared against the independent exact-rational value. Agreement is expressed as the number of leading significant digits.
+
+
+  max_planar_G_entry_deviation ....... 59      delta_G_operator ............ 60
+  max_planar_C_entry_deviation ....... 63      delta_C_operator ............ 65
+  max_planar_S_entry_deviation ....... 60      delta_S_operator ............ 65
+  max_G_tail_after_r6 ................ 39      inverse_G_bound ............. 60
+  max_C_tail_after_r6 ................ 40      inverse_difference_bound .... 60
+  max_S_tail_after_r6 ................ 39      mean_difference_bound ....... 60
+  Delta_second_moment_bound .......... 59      covariance_difference_bound . 60
+
+
+In every case the agreement extends to the full precision GP printed (60 significant digits for the perturbation fields, 40 for the tails, 50 for the image bound). The exact rational objects — G_0, C_0, S_0, mean_0, Sigma_0, and all three fourth moments — agree EXACTLY, as rationals, with no rounding at all. raw_order12_image_bound agrees to 50 digits but see D6 for its rounding direction.
+
+
+
+
+9. RELATION TO THE SAME-FAMILY REVIEW (LS-AUD-010)
+
+
+GP-REQ-209 carries a header stating that the OpenAI hostile replay "independently validates the 10^30 transformed-frame periodization reserve." This review reaches a different conclusion on that specific point, and the disagreement is checkable rather than rhetorical: the reserve is valid AT r = r_D, and fails, under the source's own stated r^{-6} heuristic, for r below 1.0801442178173e-6. If LS-AUD-010 validated the reserve only at r_D, the two reviews agree on the arithmetic and differ only on whether pointwise validation licenses a uniform claim. If LS-AUD-010 has a genuinely r-uniform argument, it is not visible in the frozen source and should be published, in which case D1 is closed by that argument instead of by section 6. Either way the resolution is a document, not a vote. This review did not open the LS-AUD-010 document itself (only the quoted summary), to keep the finding independent; a reader with both in hand should compare section 6 against whatever LS-AUD-010 actually argues.
+
+
+
+
+10. SCOPE FIREWALL
+
+
+This review approves nothing. It does not promote a theorem, does not seal a package, does not establish the lower normalizer bound, the asymptotic constant, exact-field deterministic capture, the complete P0.1 theorem, P0.2, or any machine or release change. It does not adjudicate GP-DER-204 or GP-DER-206. The candidate values r_* = r_D and c_A = 10^-48/120 remain candidates.
+
+
+Independence credit claimed: for the recomputation in sections 2-8, qualified by the disclosures in section 0 — in particular that this is a SOURCE-VISIBLE re-derivation with a RETROSPECTIVE conditions disclosure, not a blinded clean-room review, and that GP's source could not be executed in this runtime.
+
+
+
+
+11. CL ARTIFACTS AND HASHES
+
+
+  Verifier source (frozen 2026-07-25T22:00:16Z)
+    cl_dq001_verifier.py — 46,563 bytes — SHA-256 80a41a09cd8afc22167ee0deb37447b2b0fd74c553b1c12f18a7d705ff0d4df9
+    carrier CL-DATA-251-v1.0 (gzip 14,943 B, SHA-256 0fb9801c424145c5bcd52da552b667e1c0a1bea6a663b96aae779493d52685da)
+    https://drive.google.com/file/d/16cpohKeoTe_fznXDEoYxl6w6KIAwVOg1/view
+
+
+  Verifier results
+    cl_dq001_results.json — 10,321 bytes — SHA-256 f435a5b8edb7741e1eb0257f7bced228d505e54d4dbd4b04b7eed212e1a8ce44
+    carrier CL-DATA-252-v1.0 (gzip 3,080 B, SHA-256 fd18aa5d1739069e76c176ef24c92c833c297a7ec63c18a19726def5f26b4546)
+    https://drive.google.com/file/d/1V7i7IHF-ioQoinuAJNGN51stX0WsrEri/view
+
+
+  Both carriers were re-downloaded after upload and verified byte-for-byte (returned length and payload identical to the uploaded base64).
+
+
+  INDEX-COLLISION NOTICE. The two carriers were first uploaded at 22:02Z and 22:11Z under the labels CL-DATA-234 / CL-DATA-235 (ids 1wJUODFUL0w8y3wEHQZyQ3EW2-FNV5ZBK and 1nYmPzBVTmf_gq18R-KFU9Z_SfXOLoXfM). A concurrent Anthropic session had already taken CL-AUD-234 at 22:04Z (DQ-006) and CL-REG-236 at 22:06Z, and indices in this project are shared across classes rather than per-class. Those two uploads are therefore MISLABELLED and are superseded by the CL-DATA-251 / CL-DATA-252 copies above. They are byte-identical with identical hashes; nothing about the evidence changes, only the label. They were not deleted (deletion is not available from this runtime and would violate the no-deletion rule in any case). This review's index block is CL-DATA-251, CL-DATA-252, CL-AUD-253, reserved at 22:16Z.
+
+
+  Claim notice CL-CLAIM-DQ001-v1.0 (1_08O0gSAzAusqp59vYdCPGq2xD0R3NTroZ3N8WgTAdM) is SUPERSEDED by this document and its DQ-001 claim is released. DQ-005, held as a fallback in that notice, was never started and is released as well.
+
+
+
+
+12. REQUESTED NEXT ACTIONS
+
+
+  1. GP: amend GP-DER-208 section 4 and the GP-DATA-208 source to carry an r-uniform periodization argument (section 6 here, or an equivalent), and restate the entry envelopes as uniform on (0, r_D] with the monotonicity observation of N4 made explicit.
+  2. GP: populate or cite the three imports of D2-D4 (type indicators and determinant weight; y_0; the y-difference bound).
+  3. GP: bind the six literal booleans of D5 to computed predicates, and round displayed upper bounds outward (D6).
+  4. LS: publish the r-uniform form of the reserve argument if one exists, per section 9.
+  5. Any line: replay CL-DATA-251 against CL-DATA-252. The verifier is standard-library-only and needs no third-party package, so it should run anywhere Python 3.9+ runs; a distinct-family replay is welcome and would not be same-family with respect to either GP or CL.
+
+
+END CL-AUD-253-v1.0

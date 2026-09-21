@@ -3,7 +3,12 @@
 Three Drive objects created 2026-09-19 14:59 UTC in folder
 `1glz4_QXkwq7NV7ub07eGYEjseYtcNr0K` (owner `th3realdyll@gmail.com`), announced
 on pull request #2 at 15:00 UTC by the GitHub account `th3realdyll-afk` (not the
-repository owner's account) as an "Owner-authorized isolated engineering
+repository owner's account), whose comment presented them as an owner-authorized
+isolated engineering candidate from ChatGPT, NOT DEPLOYED, with no merge
+requested. That comment is a pull-request comment and not a Drive object; it is
+not stored here, so the sentence above is this repository's description of it,
+not a transcription of a stored byte. Until 2026-09-20 that description
+stood inside quotation marks, as an "Owner-authorized isolated engineering
 candidate from ChatGPT — NOT DEPLOYED, no merge requested".
 
 | file | identity |
@@ -22,10 +27,14 @@ mathematical review." Task `CG-CI-20260919-6c6f47b`, pinned base
 `fetch-depth: 0`), `.github/workflows/research.yml` (the lane-check failure
 mask removed, receipt upload failing when no files are found, final
 governed-path check including untracked and ignored files), a new
-`tools/manifest_integrity_check.py`, and two test files. `VERIFICATION.json`:
-"146 scoped tests passed", "10/10 deliberate regressions detected", Python
-3.13.5 runtime, and, under NOT_RUN: the Python 3.11 runtime, the full
-repository test suite, the full manifest corpus, remote CI, independent review.
+`tools/manifest_integrity_check.py`, and two test files. `HANDOFF.md` again:
+"146 scoped tests passed" and "10/10 deliberate regressions were detected".
+`VERIFICATION.json` carries those two counts as fields rather than as sentences,
+records the Python 3.13.5 runtime, and lists, under NOT_RUN: the Python 3.11
+runtime, the full repository test suite, the full manifest corpus, remote CI,
+independent review. Until 2026-09-20 both quotations were attributed to
+`VERIFICATION.json`, which carries neither of them as text, and the second was
+given as "10/10 deliberate regressions detected".
 The patch touches no file under `research/`, `registers/`, `claims/`, `drive/`
 or `engine/`.
 

@@ -1,0 +1,38 @@
+{
+  "cycle": "C095",
+  "amendment_id": "C095-UBG-RESIDUAL-UNIFORMITY",
+  "type": "CORRECTION",
+  "timestamp_utc": "2026-07-17T18:59:16.395830+00:00",
+  "affected_claims": [
+    "UPPER_RATE_PROGRAM_GRADE",
+    "Q0_LIMIT"
+  ],
+  "finding": "The C094 4.35 assembly did not include Gamma and collar residuals as arithmetic inputs. The named residuals therefore fail Gate 14 ASSEMBLY and the uniform coefficient fails until a full-domain residual certificate is supplied.",
+  "arithmetic": {
+    "near": "0.657",
+    "exterior": "2.8185310984873743106223995278378565957688812716057680797457",
+    "typing": "0.80",
+    "base_coefficient": "4.344413873109217888277999409797320744711101589507210099682125",
+    "remaining_budget_to_4p35": "0.005586126890782111722000590202679255288898410492789900317875",
+    "display_input_coefficient": "4.35",
+    "display_input_margin": "0"
+  },
+  "exact_structural_replacement": "D(r) <= ((C_near(r)+C_ext(r))/P_typed(r)) r^3 + Gamma(r) + Collar(r)",
+  "condition_for_4p35": "For every 0<r<=0.025, the complete near/exterior/typing coefficient plus [Gamma(r)+Collar(r)]/r^3 must be <=4.35.",
+  "current_status": {
+    "4p35_uniform_decimal": "BLOCKED",
+    "q0_limit_via_UBG_rate": "PROVEN-MODULO UB_G_RESIDUAL_UNIFORM",
+    "structural_UBG_decomposition": "DERIVED"
+  },
+  "owner": "Q0-REFEREE with Q0-SHARP reuse",
+  "unblock_artifact": "A hashed full-domain certificate for Gamma(r)/r^3 and Collar(r)/r^3, or a new conservatively assembled coefficient containing explicit residual budgets.",
+  "v5_evidence": {
+    "script": "q0_llm_verifier_v5.py",
+    "validation": "q0_llm_verifier_v5_validation.json",
+    "failing_gates": [
+      "ASSEMBLY",
+      "UB_G_RESIDUAL_UNIFORM"
+    ]
+  },
+  "frozen_C094_untouched": true
+}

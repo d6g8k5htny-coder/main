@@ -1,0 +1,308 @@
+﻿GP-DATA-080-v1.0 — FAIL-CLOSED PRACTICAL-r REPLAY RECEIPT SCHEMA AND NEGATIVE-CONTROL CONTRACT
+
+
+Artifact ID: GP-DATA-080-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: DATA / SCHEMA — machine-readable receipt contract
+Authority: none
+Canonical impact: NONE
+Status: PROPOSED / IMPLEMENTATION-NEUTRAL / OUTSIDE REVIEW REQUESTED
+Parent objects: GP-PRP-078-v1.0 and GP-REG-079-v1.0
+
+
+1. Purpose
+
+
+This contract defines what an exact-law PRCP replay must record before any result concerning S_r, T_r, H_r, or A_r may be interpreted. It contains no expected probability, slope, or preferred conclusion.
+
+
+2. Run-level record
+
+
+Every run must include:
+
+
+run_id
+created_utc
+reviewer_line
+reviewer_model
+independence_disclosure
+source_file_ids
+source_sha256
+schema_version
+python_or_runtime_version
+library_versions
+platform
+random_seed_protocol
+field_or_draw_seed_ids
+r_values
+b_value
+torus_period
+probability_law_id
+weight_definition
+normalizer_definition
+pin_order
+jet_order
+coordinate_frame
+branch_convention_id
+optimizer_source_id
+exact_field_source_id
+trajectory_integrator
+receipt_output_hash
+
+
+No run is admissible if the executable source, exact law, or branch convention is missing or only described in prose.
+
+
+3. Per-draw record
+
+
+Each typed draw must produce one record, including failed and unresolved draws:
+
+
+draw_id
+r
+field_or_gaussian_seed
+raw_jet_vector
+conditioning_residual
+law_log_density_or_sampling_receipt
+determinant_weight
+type_indicator_M
+type_indicator_S
+typed_weight
+normalizer_contribution
+q
+s_equals_q_over_r
+F
+A
+B
+mu_star
+mu_optimizer_status
+mu_bracket
+mu_polynomial_residual
+C_star
+W_star
+sigma
+E_X_W_star
+strip_scalar_margin
+transit_scalar_margin
+selected_branch_projection
+branch_orientation_status
+trajectory_object_tag
+exact_field_hash
+initial_branch_state
+solver_success
+solver_status
+event_detected
+event_time
+termination_reason
+strip_entry_detected
+strip_entry_state
+strip_exit_detected
+central_section_detected
+central_section_state
+capture_block_entry_detected
+capture_block_entry_state
+endpoint_identity
+endpoint_certification_status
+perturbation_replay_status
+S_r_boolean
+T_r_boolean
+H_r_boolean
+A_r_observed_or_unadjudicated
+failure_class
+eligible_for_probability_estimate
+notes
+
+
+4. Frozen failure taxonomy
+
+
+At minimum, implementations must distinguish:
+
+
+NOT_TYPED_MAX_SADDLE
+LAW_OR_CONDITIONING_FAILURE
+OPTIMIZER_FAILURE
+OPTIMIZER_NONUNIQUE_OR_UNBRACKETED
+SELECTED_BRANCH_UNDEFINED
+BRANCH_INITIALIZATION_FAILURE
+EXACT_FIELD_OBJECT_MISMATCH
+SOLVER_FAILURE
+NONFINITE_TRAJECTORY
+NO_STRIP_ENTRY
+STRIP_ESCAPE
+CENTRAL_TRANSIT_FAILURE
+NONMONOTONE_ORIENTATION_FAILURE
+CAPTURE_BLOCK_NOT_ENTERED
+CAPTURE_BLOCK_INVARIANCE_FAILURE
+ENDPOINT_AMBIGUOUS
+PERTURBATION_UNSTABLE
+S_R_FAIL
+T_R_FAIL
+H_R_FAIL
+UNADJUDICATED_GLOBAL_EVENT
+PASS_S_ONLY
+PASS_T_ONLY
+PASS_H_AND_A_CERTIFIED
+
+
+Failure classes may be refined, but may not be merged into a generic rejected/invalid category in the primary receipt.
+
+
+5. Denominator rules
+
+
+The denominator for P_r^MS probabilities is the total determinant-weighted typed mass under the exact governing law.
+
+
+The following must remain in the denominator when typed:
+- optimizer failures;
+- unresolved branches;
+- solver failures;
+- event nonentry;
+- strip exits;
+- transit failures;
+- capture-block failures;
+- endpoint ambiguity;
+- perturbation instability.
+
+
+A failure may block a claim or classify an event as false/unadjudicated according to the frozen event definition, but it may not be silently removed.
+
+
+Any importance-sampling, rejection-sampling, truncation, or conditioning step must provide the exact Radon-Nikodym weight or an explicit statement that the output is diagnostic only.
+
+
+6. Aggregate receipt
+
+
+For each r, report:
+
+
+typed_draw_count
+typed_total_weight
+normalizer_estimate_or_exact_value
+S_r_weight
+T_r_weight
+H_r_weight
+A_r_certified_weight
+unadjudicated_weight
+failure_weight_by_class
+effective_sample_size
+field_or_seed_cluster_count
+clustered_uncertainty_method
+confidence_intervals
+zero_failure_upper_bounds
+sensitivity_results
+source_and_output_hashes
+
+
+Report probabilities and weighted masses separately. Do not report a fitted slope unless at least three rungs are nonzero, event identity is unchanged across rungs, and the uncertainty method is field/draw-cluster aware.
+
+
+7. Mandatory replay sensitivities
+
+
+A claim-eligible implementation must rerun or analytically check:
+
+
+- independent mu optimizer or root solver;
+- tighter optimizer tolerance;
+- branch offset factors at preregistered values;
+- tighter ODE tolerances and smaller max step;
+- saddle and maximum localization replay;
+- exact field versus any truncated or approximate field;
+- exact-torus versus planar approximation, if both are used;
+- at least two sigma values unless sigma is analytically fixed;
+- source reconstruction from Drive or another independently verifiable source.
+
+
+Any event membership change must be recorded and classified; it may not be resolved by majority vote among numerical settings.
+
+
+8. Mandatory negative controls
+
+
+NC1_OPTIMIZER_SIGN:
+Replace s<=-C_* by the wrong sign or negate C_*. The mutation must change event membership on a planted fixture or be detected structurally.
+
+
+NC2_FIXED_MU_SUBSTITUTION:
+Replace mu_* by mu=1 while retaining the optimized event label. The verifier must reject the mislabeled receipt.
+
+
+NC3_LAW_CONDITIONING:
+Insert hidden conditioning on S_r, T_r, H_r, A_r, or successful solver resolution. The verifier must reject the changed denominator/law.
+
+
+NC4_BRANCH_SWAP:
+Launch the opposite unstable branch. The receipt must show the projection sign failure or distinct branch mark.
+
+
+NC5_AUXILIARY_FIELD:
+Integrate a truncated or different field while labeling it exact. The source/object hash gate must fail.
+
+
+NC6_DROP_FAILURES:
+Remove unresolved or failed typed draws before aggregation. Denominator reconciliation must fail.
+
+
+NC7_FALSE_EVENT_ARRIVAL:
+Terminate at max arclength or solver failure, Newton-snap to M, and mark capture. Event-certification gates must reject it.
+
+
+NC8_EVENT_LAUNDERING:
+Treat S_r or scalar transit as T_r/H_r without branch entry, exact transit, or capture-block evidence. Relation gates must reject it.
+
+
+NC9_FIXED_VS_OPTIMIZED_CONSTANT:
+Combine or average fixed-mu and optimized-mu probabilities under one event ID. Event-card hash validation must fail.
+
+
+NC10_VACUOUS_REGIME_SUBSTITUTION:
+Use GP-DER-047 REG_r/C_cap at accessible r while labeling the result PRCP. Object-card and regime gates must reject it.
+
+
+NC11_ENDPOINT_AMBIGUITY:
+Plant a trajectory with perturbation-dependent endpoint. Claim eligibility must fail.
+
+
+NC12_SOURCE_HASH_MUTATION:
+Change one executable byte. Reconstruction or hash verification must fail before execution evidence is accepted.
+
+
+9. Claim grades
+
+
+DIAGNOSTIC_ONLY:
+Any source, law, event, denominator, failure, or sensitivity gate is missing.
+
+
+INSTRUMENT_PASS:
+Source and controls pass, but no outside execution or exact-field production result exists.
+
+
+OUTSIDE_REPLAY_PASS:
+A nonauthor line reconstructs and executes the exact source and agrees on event memberships and aggregation.
+
+
+COMPONENT_EVIDENCE:
+Exact-law replay, failure accounting, sensitivities, and outside execution pass for the declared finite r schedule. This is still not a theorem.
+
+
+THEOREM_SUPPORT:
+Requires a separate analytic result proving the relevant event inclusion and probability bound. No numerical receipt grants this grade automatically.
+
+
+10. Requested reviewer response
+
+
+Reviewers should state:
+- which fields are unnecessary, missing, or underspecified;
+- whether any failure should be false versus unadjudicated for each event;
+- whether the denominator and weighting rules exactly match P_r^MS;
+- which negative control is decisive;
+- what implementation help is required from GP;
+- whether they claim replay, audit, or decline.

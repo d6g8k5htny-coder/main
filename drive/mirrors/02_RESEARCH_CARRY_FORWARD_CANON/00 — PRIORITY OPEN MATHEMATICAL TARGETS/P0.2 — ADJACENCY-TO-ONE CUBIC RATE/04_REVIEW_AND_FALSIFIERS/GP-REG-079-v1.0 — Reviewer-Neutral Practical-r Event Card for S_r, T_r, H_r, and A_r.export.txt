@@ -1,0 +1,180 @@
+﻿GP-REG-079-v1.0 — REVIEWER-NEUTRAL PRACTICAL-r EVENT CARD FOR S_r, T_r, H_r, AND A_r
+
+
+Artifact ID: GP-REG-079-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: REG — frozen reviewer-neutral mathematical object card
+Authority: none
+Canonical impact: NONE
+Status: PROPOSED / OPEN REVIEW / NO CONCLUSION EMBEDDED
+Parent program: GP-PRP-078-v1.0
+Primitive source for optimized strip: GP-DER-037 / GP-AUD-042
+Branch convention: GP-PROT-065-v1.0
+
+
+1. Governing law and configured object
+
+
+For each declared finite r, work under the exact normalized-periodized side-24 determinant-weighted typed maximum-saddle pair-Palm law P_r^MS at b=6/5. The ordered configured pair is M maximum and S index-one saddle, with midpoint-normalized positions M=(-1/2,0), S=(1/2,0). The selected unstable branch is oriented by e_u·(M-S)>0.
+
+
+No event below changes the underlying law. In particular, there is no conditioning on adjacency, capture, branch success, numerical resolution, or event membership.
+
+
+2. Exact optimized-strip quantities
+
+
+For each exact finite-r jet U define
+
+
+s=q/r,
+F=|a|/8 + r|c31|/48,
+A=(|z| + r|c13|/2)F,
+B=r|c04|F^2/2.
+
+
+For mu>0 define
+
+
+C_mu(U;r)=|w|/2 + mu + r|c22|/8 + A/mu + B/mu^2,
+W_mu(U;r)=F/mu.
+
+
+The stationary condition is
+
+
+mu^3 - A mu - 2B = 0.
+
+
+When A,B>=0 and not both zero, the optimizer mu_*(U;r) is the unique positive solution. In degenerate cases the implementation must declare and justify the exact limiting rule; it may not silently substitute mu=1.
+
+
+Define
+
+
+C_*(U;r)=C_{mu_*}(U;r),
+W_*(U;r)=W_{mu_*}(U;r).
+
+
+Optimizer source, tolerances, residual, bracketing interval, and any fallback must be included in every executable receipt.
+
+
+3. Event S_r — optimized invariant strip
+
+
+S_r is the exact-law event
+
+
+S_r := { s <= -C_*(U;r) }.
+
+
+Its deterministic content is only that the declared degree-four strip |Y|<=W_* is forward invariant while |X|<=1/2 under the exact GP-DER-037 truncation hypotheses.
+
+
+S_r is not adjacency, is not branch entry into the strip, and is not exact-field capture.
+
+
+4. Event T_r — exact-field selected-branch transit
+
+
+Fix a declared sigma in (0,1/2); sigma=0.1 is the initial frozen value unless a separate version changes it.
+
+
+Define the central longitudinal error bound
+
+
+E_X(W)=|a|W/2 + |w|W^2/2
+       + r[ |c40|/(72 sqrt(3)) + |c31|W/12 + |c22|W^2/4 + |c13|W^3/6 ].
+
+
+The scalar transit inequality is
+
+
+E_X(W_*) < sigma(1-sigma).
+
+
+T_r requires all of the following on the same exact selected branch and same exact finite field:
+
+
+T1. S_r holds.
+T2. The exact selected branch is well-defined under GP-PROT-065.
+T3. The branch enters the exact-field strip through a declared S-side entry section rather than being initialized inside it by fiat.
+T4. It remains in the exact-field strip until reaching the central transit section X=1/2-sigma in the M-ward direction.
+T5. The exact-field trajectory satisfies the declared transit inequality including any Taylor/remainder allowance.
+T6. Solver or analytic proof receipts distinguish event arrival from Newton attraction or post hoc endpoint assignment.
+
+
+Thus T_r is not merely S_r plus a scalar inequality. Entry and exact-field transit are part of the event.
+
+
+5. Event H_r — verified local exact-field capture
+
+
+H_r requires T_r and, additionally:
+
+
+H1. The selected exact branch enters a declared forward-invariant neighborhood B_M of M.
+H2. B_M is verified for the exact field, not only the degree-four truncation.
+H3. The exact flow within B_M converges to M, with nondegenerate maximum status and no alternative stationary endpoint.
+H4. Entry, invariance, and convergence are supported by analytic proof or fail-closed numerical receipts with perturbation replay.
+
+
+H_r is a local-to-global sufficient event for the exact selected branch to converge to M, provided the branch is the global continuation of the configured unstable germ.
+
+
+6. Event A_r — exact gradient adjacency
+
+
+A_r is the governing exact event
+
+
+A_r := { lim_{t->infinity} gamma_sel(t) = M }.
+
+
+The desired deterministic inclusion is
+
+
+H_r subseteq A_r.
+
+
+S_r and T_r are not defined as subsets of A_r unless the corresponding deterministic implication is separately proved. Failure of S_r, T_r, or H_r is not the complement of A_r.
+
+
+7. Required relation ledger
+
+
+Every implementation or proof must state which of the following is established, tested, conjectured, or absent:
+
+
+S_r -> degree-four strip invariance,
+S_r plus entry assumptions -> T_r,
+T_r plus capture-block assumptions -> H_r,
+H_r -> A_r.
+
+
+No arrow may be inherited from GP-DER-047's REG_r/C_cap certificate without an exact object crosswalk.
+
+
+8. Denominator and failure rules
+
+
+All typed draws remain in the P_r^MS denominator. Draws with optimizer failure, branch ambiguity, unresolved trajectory, solver failure, exact-field mismatch, strip nonentry, strip escape, transit failure, capture-block failure, or endpoint ambiguity must remain recorded in their failure class. They may not disappear from probability estimates.
+
+
+9. Noncontamination boundary
+
+
+This card defines the PRCP finite-r event hierarchy only. It does not revise GP-DER-047, does not prove cubic asymptotics, does not establish elder-rule pairing, and does not change any q-machine root.
+
+
+10. Reviewer questions
+
+
+A reviewer should answer:
+- Are the law, pins, weights, coordinates, and branch mark identical to the intended P0.2 objects?
+- Is mu_* uniquely and reproducibly defined?
+- Does T_r include genuine exact-field branch entry and transit rather than only a scalar proxy?
+- Is H_r sufficient for A_r without a hidden far-field assumption?
+- Which relation arrow fails first under adversarial construction?
+- What exact help or source package is required from GP?

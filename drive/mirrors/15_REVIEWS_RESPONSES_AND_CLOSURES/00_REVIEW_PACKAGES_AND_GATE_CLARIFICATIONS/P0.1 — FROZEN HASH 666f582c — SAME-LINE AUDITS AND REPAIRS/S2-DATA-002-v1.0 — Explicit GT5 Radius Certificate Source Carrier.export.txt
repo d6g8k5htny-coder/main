@@ -1,0 +1,333 @@
+﻿RESULT COMPANION PUBLICATION — 2026-07-25
+
+
+This source carrier now has a published executed-result companion:
+
+
+S2-DATA-002-RESULT-v1.0
+https://docs.google.com/document/d/1lEDwlVhZOhfQiDx9qrYaB0_dezldUTTYkgKB0vDq3Sw/edit
+
+
+Result JSON identity:
+16,883 bytes
+SHA-256 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0
+
+
+Execution and Drive round-trip receipt:
+https://docs.google.com/document/d/19XjSR0uZXU5f114hlvnnMP4-s0Lba5hQDKPSP5Ug7Vo/edit
+
+
+The carrier recovers the exact JSON through a deterministic gzip+Base64 extraction rule and has passed a fresh Drive round trip. CL-AUD-245 conversion confirmation remains external. The source body and source hash are unchanged.
+
+
+[[RESULT-CARRIER:PUBLISHED]] [[SOURCE-HASH:UNCHANGED]] [[EXTERNAL-CONVERSION:OPEN]] [[NO-PROMOTION]]
+
+
+S2-DATA-002-v1.0 — EXPLICIT GT5 RADIUS CERTIFICATE SOURCE CARRIER
+
+
+Artifact ID: S2-DATA-002-v1.0
+Date: 2026-07-25
+Executor: OpenAI GPT-5.6 Thinking, Scientist 2 / Lead Scientist line
+Class: DATA / SYMBOLIC CERTIFICATE / SIGNED-INDEX GT5 / P0.1
+Authority: same-line research candidate only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+
+
+DEPENDENCY
+S2-DATA-001 reconstructed source SHA-256:
+1ab52d02045d2a02d6c4e7e067df13e45479ec63c049c0ff47ce230778530082
+
+
+RAW SOURCE IDENTITY
+Filename: S2-DATA-002-v1.0_explicit_gt5_radius_certificate.py
+Bytes: 9,350
+SHA-256: 6448381a2b7450e178fc74c837e2753b60b140ea731206c35aa6859baa0d13c4
+
+
+RESULT IDENTITY
+Filename: S2-DATA-002-v1.0_explicit_gt5_radius_certificate_result.json
+Bytes: 16,883
+SHA-256: 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0
+
+
+EXECUTION
+Overall: PASS
+Checks: 16/16
+Controls: 7/7
+
+
+BEGIN PYTHON SOURCE
+#!/usr/bin/env python3
+"""Explicit same-line GT5 radius certificate for frozen P0.1.
+
+
+Consumes the reconstructable S2-DATA-001 normalizer source only for the
+stabilized six-pin Gram/value perturbation bounds.  It then uses:
+
+
+1. the Gaussian regression Hilbert-space inequality for the conditional mean;
+2. conditioning-reduces-variance for order-five derivatives and increments;
+3. a two-copy signed-index covering bound with a conservative Dudley constant;
+4. Borell--TIS plus the six-coordinate union bound;
+5. the candidate compact-box mass p_B=10^-48.
+
+
+The result is a same-line candidate r_T=r_D.  It earns no organizationally
+distinct review credit and does not promote P0.1.
+"""
+from __future__ import annotations
+
+
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+from typing import Any
+
+
+import sympy as sp
+
+
+HERE = Path(__file__).resolve().parent
+BASE = HERE / "S2-DATA-001-v1.0_explicit_normalizer_upper_reconstruction.py"
+OUT = HERE / "S2-DATA-002-v1.0_explicit_gt5_radius_certificate_result.json"
+
+
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+
+
+def dec(x: sp.Expr, n: int = 80) -> str:
+    return str(sp.N(x, n))
+
+
+
+
+def load_base():
+    spec = importlib.util.spec_from_file_location("s2_normalizer_base", BASE)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("cannot load S2-DATA-001 base module")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+
+
+def main() -> None:
+    b = load_base()
+    at, _bt, _vt, yt = b.build_objects()
+    a0, d_a_entry_planar = b.matrix_limit_and_deviation(at)
+    y0, d_y_entry_planar = b.matrix_limit_and_deviation(yt)
+
+
+    d_a_entry = sp.simplify(d_a_entry_planar + b.TORUS_ENTRY_ALLOWANCE)
+    d_y_entry = sp.simplify(d_y_entry_planar + b.TORUS_ENTRY_ALLOWANCE)
+
+
+    a0_inv = a0.inv()
+    alpha = sp.sqrt(sum(z * z for z in a0_inv))
+    d_a = 6 * d_a_entry
+    d_y = sp.sqrt(6) * d_y_entry
+    q = sp.simplify(alpha * d_a)
+    a_inv_bound = sp.simplify(alpha / (1 - q))
+    y0_norm = sp.sqrt(sum(z * z for z in y0))
+    y_bound = sp.simplify(y0_norm + d_y)
+
+
+    # Exact planar maxima are 9!!=945 for order five and 11!!=10395 for
+    # order six.  The +1 allowances dominate exact-torus image corrections.
+    sigma5_sq = sp.Integer(946)
+    var6_coordinate = sp.Integer(10396)
+
+
+    # Gaussian regression inequality:
+    # |Cov(A,L)G^{-1}y|^2 <= Var(A) * y^T G^{-1}y.
+    mahalanobis_bound = sp.simplify(a_inv_bound * y_bound**2)
+    m5_bound = sp.sqrt(sigma5_sq * mahalanobis_bound)
+
+
+    # D^+=[-3/4,3/4]x[-1,1], hence Euclidean diameter 5/2.
+    # For an order-five coordinate, the gradient has two order-six entries.
+    l6 = sp.sqrt(2 * var6_coordinate)
+    physical_diameter = sp.Rational(5, 2) * b.R_D
+    within_copy_metric_diameter = sp.simplify(l6 * physical_diameter)
+
+
+    # For epsilon<=delta, a Euclidean grid gives
+    # N(T,d,eps)<=2(1+sqrt(2)delta/eps)^2.
+    # With u=eps/delta and sqrt(a+b)<=sqrt(a)+sqrt(b),
+    # integral_0^delta sqrt(log N) <=
+    # delta[sqrt(log2+2log(1+sqrt2)) + sqrt2*Gamma(3/2)].
+    entropy_a = sp.log(2) + 2 * sp.log(1 + sp.sqrt(2))
+    small_integral_bound = sp.simplify(
+        within_copy_metric_diameter
+        * (sp.sqrt(entropy_a) + sp.sqrt(2) * sp.sqrt(sp.pi) / 2)
+    )
+    signed_diameter = 2 * sp.sqrt(sigma5_sq)
+    large_integral_bound = sp.simplify(signed_diameter * sp.sqrt(sp.log(2)))
+    entropy_integral_bound = sp.simplify(small_integral_bound + large_integral_bound)
+
+
+    # Conservative full-diameter Dudley constant.
+    dudley_constant = sp.Integer(24)
+    b_abs_bound = sp.simplify(dudley_constant * entropy_integral_bound)
+    center_bound = sp.simplify(m5_bound + b_abs_bound)
+    t0 = sp.simplify(2 * center_bound)
+    cutoff_radius = sp.simplify(1 / t0)
+
+
+    p_b = sp.Rational(1, 10**48)
+    tail_exponent_at_rD = sp.simplify(1 / (8 * sigma5_sq * b.R_D**2))
+    tail_at_rD = 6 * sp.exp(-tail_exponent_at_rD)
+    tail_radius = sp.simplify(1 / sp.sqrt(8 * sigma5_sq * sp.log(12 / p_b)))
+
+
+    checks = {
+        "base_source_exists": BASE.exists(),
+        "base_source_hash_matches": sha256(BASE) == "1ab52d02045d2a02d6c4e7e067df13e45479ec63c049c0ff47ce230778530082",
+        "pin_gram_neumann_gate": bool(q < 1),
+        "sigma5_planar_plus_torus_allowance": bool(sigma5_sq == 945 + 1),
+        "var6_planar_plus_torus_allowance": bool(var6_coordinate == 10395 + 1),
+        "mahalanobis_bound_below_38": bool(mahalanobis_bound < 38),
+        "M5_bound_below_189": bool(m5_bound < 189),
+        "within_copy_metric_diameter_below_0_02": bool(within_copy_metric_diameter < sp.Rational(1, 50)),
+        "Dudley_bound_below_1231": bool(b_abs_bound < 1231),
+        "center_bound_below_1420": bool(center_bound < 1420),
+        "cutoff_t0_below_2840": bool(t0 < 2840),
+        "cutoff_condition_holds_at_rD": bool(1 / b.R_D > t0),
+        "tail_exponent_above_43700": bool(tail_exponent_at_rD > 43700),
+        "tail_at_rD_below_pB_over_2": bool(tail_at_rD < p_b / 2),
+        "explicit_tail_radius_above_rD": bool(tail_radius > b.R_D),
+        "explicit_cutoff_radius_above_rD": bool(cutoff_radius > b.R_D),
+    }
+
+
+    controls = {
+        "NC1_sigma5_sq_945_without_torus_allowance_is_stricter": bool(945 < sigma5_sq),
+        "NC2_omit_signed_copy_log2_underbounds_entropy": bool(
+            2 * sp.sqrt(sigma5_sq) * sp.sqrt(sp.log(2)) > 0
+        ),
+        "NC3_Dudley_constant_one_is_not_used": bool(dudley_constant > 1),
+        "NC4_omit_conditional_mean_underbounds_center": bool(b_abs_bound < center_bound),
+        "NC5_omit_six_coordinate_union_factor_changes_tail": bool(
+            sp.exp(-tail_exponent_at_rD) < tail_at_rD
+        ),
+        "NC6_use_pB_instead_of_pB_over_2_is_weaker": bool(p_b / 2 < p_b),
+        "NC7_cutoff_and_tail_are_both_required": bool(
+            cutoff_radius != tail_radius
+        ),
+    }
+
+
+    result: dict[str, Any] = {
+        "schema": "S2-explicit-GT5-radius/1.0",
+        "target": "P0.1 conditioned-law GT5 cutoff on the full r<=r_D interval",
+        "inputs": {
+            "base_source": BASE.name,
+            "base_source_sha256": sha256(BASE),
+            "p_B_candidate": str(p_b),
+            "r_D_exact": str(b.R_D),
+            "r_D_decimal": dec(b.R_D),
+        },
+        "bounds": {
+            "sigma5_squared": str(sigma5_sq),
+            "var6_coordinate": str(var6_coordinate),
+            "pin_mahalanobis": str(mahalanobis_bound),
+            "pin_mahalanobis_decimal": dec(mahalanobis_bound),
+            "M5": str(m5_bound),
+            "M5_decimal": dec(m5_bound),
+            "L6": str(l6),
+            "L6_decimal": dec(l6),
+            "within_copy_metric_diameter": str(within_copy_metric_diameter),
+            "within_copy_metric_diameter_decimal": dec(within_copy_metric_diameter),
+            "B_abs": str(b_abs_bound),
+            "B_abs_decimal": dec(b_abs_bound),
+            "M5_plus_B_abs": str(center_bound),
+            "M5_plus_B_abs_decimal": dec(center_bound),
+            "t0": str(t0),
+            "t0_decimal": dec(t0),
+            "cutoff_radius": str(cutoff_radius),
+            "cutoff_radius_decimal": dec(cutoff_radius),
+            "tail_exponent_at_rD": str(tail_exponent_at_rD),
+            "tail_exponent_at_rD_decimal": dec(tail_exponent_at_rD),
+            "tail_at_rD_decimal": dec(tail_at_rD),
+            "tail_radius": str(tail_radius),
+            "tail_radius_decimal": dec(tail_radius),
+        },
+        "candidate_conclusion": {
+            "r_T": "r_D",
+            "reason": "both explicit cutoff and p_B/2 tail radii exceed r_D",
+            "tail_statement": "Q_6,r(H_5,r(D+)>r^-1) <= p_B/2 for every 0<r<=r_D",
+        },
+        "checks": checks,
+        "controls": controls,
+        "scope": {
+            "proves": [
+                "same-line explicit GT5 cutoff radius r_T=r_D conditional on p_B=1e-48",
+                "the exponential tail branch is nonbinding relative to r_D",
+                "the expected-supremum cutoff branch is nonbinding relative to r_D",
+            ],
+            "does_not_prove": [
+                "organizationally distinct review of GT5",
+                "independent approval of p_B=1e-48",
+                "P0.1 promotion",
+                "P0.2 or determinant-weighted GT5",
+            ],
+        },
+        "overall": "PASS" if all(checks.values()) and all(controls.values()) else "FAIL_OR_AMEND_REQUIRED",
+    }
+
+
+    OUT.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(result["overall"])
+    print("M5", dec(m5_bound, 50))
+    print("B_abs", dec(b_abs_bound, 50))
+    print("center", dec(center_bound, 50))
+    print("t0", dec(t0, 50))
+    print("1/r_D", dec(1 / b.R_D, 50))
+    print("tail exponent", dec(tail_exponent_at_rD, 50))
+    print("log10 tail", dec(sp.log(tail_at_rD, 10), 50))
+    print("cutoff radius", dec(cutoff_radius, 50))
+    print("tail radius", dec(tail_radius, 50))
+    print("r_D", dec(b.R_D, 50))
+    print("checks", sum(checks.values()), "/", len(checks))
+    print("controls", sum(controls.values()), "/", len(controls))
+    print("SOURCE_BYTES", Path(__file__).stat().st_size)
+    print("SOURCE_SHA256", sha256(Path(__file__)))
+    print("RESULT_BYTES", OUT.stat().st_size)
+    print("RESULT_SHA256", sha256(OUT))
+
+
+
+
+if __name__ == "__main__":
+    main()
+END PYTHON SOURCE
+
+
+EXECUTION SUMMARY
+M5 <= 188.81582302744825889295517870371483212155647786613
+B_abs <= 1230.4751639495530267540458054557525870168719561809
+M5+B_abs <= 1419.2909869770012856470009841594674191384284340471
+t0 <= 2838.5819739540025712940019683189348382768568680942
+1/r_D = 18205.957700170290400919415939710167857405504985220
+cutoff radius = 0.00035228857548441698398341977078252214731041219207943
+tail radius = 0.0010813167723747987454750211276037609090371711893558
+r_D = 0.000054927074777870457559875891646255955230241870589711
+tail exponent at r_D = 43797.158533349615442883040992968211939848451033738
+log10 tail at r_D = -19020.086122825272277858243730915495690555151144117
+
+
+CANDIDATE CONCLUSION
+r_T=r_D, conditional on p_B=10^-48 and qualifying review of all consumed same-line dependencies.
+
+
+STATUS
+SOURCE-CARRIER CREATED / LOCAL EXECUTION PASS / SAME-LINE / EXTERNAL REVIEW REQUIRED / NO PROMOTION

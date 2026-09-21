@@ -168,6 +168,49 @@ def check_bound_member_annotations(ex: list[dict], binding: str, manifest: str) 
     return problems
 
 
+VAULT_PATH = "99_DO_NOT_OPEN"
+
+
+def vault_rows(scan_root: str) -> list[str]:
+    """Manifest rows that store bytes of an object inside the do-not-open vault.
+
+    CLAUDE.md rule 9: the vault is never opened for authority, proofs,
+    certificates or "latest" status unless an operator names a vault id for
+    forensic recovery -- metadata only.  Until this check existed the rule was
+    kept by care alone: nothing refused a row, and a later port sweeping "every
+    remaining native Doc" would have taken the vault with it and passed every
+    checker in the tree.  An INDEX row naming the vault is metadata and is
+    allowed; a row with stored bytes is not.
+
+    Scanned from the tree passed in, never from the module's own ROOT, so a
+    control can run the checker against a synthetic root and have it look there.
+    """
+    found = []
+    for dirpath, dirnames, filenames in os.walk(scan_root):
+        dirnames[:] = [d for d in dirnames if d not in (".git", "node_modules", "__pycache__")]
+        for fn in filenames:
+            if fn != "_MANIFEST.jsonl" and fn != "MANIFEST.jsonl":
+                continue
+            path = os.path.join(dirpath, fn)
+            with open(path, encoding="utf-8", errors="replace") as handle:
+                for line in handle:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        row = json.loads(line)
+                    except ValueError:
+                        continue
+                    if not row.get("stored"):
+                        continue
+                    if VAULT_PATH in (row.get("drive_path") or ""):
+                        found.append(
+                            "%s: row for Drive id %s stores bytes from %s, which is "
+                            "metadata only and is never opened"
+                            % (os.path.relpath(path, scan_root), row.get("id"), VAULT_PATH))
+    return found
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--exclusions", default=EXCLUSIONS)
@@ -225,6 +268,8 @@ def main(argv: list[str] | None = None) -> int:
                 f"{e['key']}: excluded payload {d[:16]} is consumed by manifest {digests[d]}")
 
     problems += check_bound_member_annotations(ex, args.binding, args.manifest)
+    vault = vault_rows(args.scan_root)
+    problems += vault
 
     for p in problems:
         print(p)
@@ -237,7 +282,8 @@ def main(argv: list[str] | None = None) -> int:
     except ValueError:
         pass
     print(f"exclusions={len(ex)} archive_members={archive_members} "
-          f"manifest_digests={len(digests)} bound_members_named={bound} problems={len(problems)}")
+          f"manifest_digests={len(digests)} bound_members_named={bound} "
+          f"vault_rows_storing_bytes={len(vault)} problems={len(problems)}")
     print("A pass here excludes claims; it certifies none. A bound member named by an exclusion stays "
           "bound as bytes and is logically quarantined at the scope its record names.")
     return 1 if problems else 0

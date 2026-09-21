@@ -1,0 +1,148 @@
+{
+  "cycle": "C099",
+  "result_id": "NEAR_SCALED_FRAME_CERTIFICATE",
+  "grade": "DERIVED-EXACT-EXISTENCE",
+  "generic_frame": {
+    "conditioned_jets": [
+      "f",
+      "f_x",
+      "f_y",
+      "f_xx",
+      "f_xy",
+      "f_xxx"
+    ],
+    "free_jets": [
+      "f_yy",
+      "f_xxy",
+      "f_xyy",
+      "f_yyy"
+    ],
+    "free_jet_covariance": [
+      [
+        "2",
+        "0",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "2",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "2",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "0",
+        "6"
+      ]
+    ],
+    "frame_covariance": [
+      [
+        "s**2*(3*c**4 + 3*c**2*s**2 + s**4)/24",
+        "c*s**2*(-2*c**2 - s**2)/4",
+        "0"
+      ],
+      [
+        "c*s**2*(-2*c**2 - s**2)/4",
+        "s**2*(4*c**2 + s**2)/2",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "2*s**2"
+      ]
+    ],
+    "principal_minors": {
+      "first": "s**2*(3*c**4 + 3*c**2*s**2 + s**4)/24",
+      "second": "s**6*(c**2 + s**2)*(3*c**2 + s**2)/48",
+      "determinant": "s**8*(c**2 + s**2)*(3*c**2 + s**2)/24"
+    },
+    "mean_Y2": "c**2 - eta**2/4",
+    "checks": {
+      "free_jet_covariance": true,
+      "determinant_identity": true,
+      "first_minor_positive_form": true,
+      "second_minor_positive_form": true
+    }
+  },
+  "axis_frame": {
+    "A_eta": "1 - eta**2/4",
+    "factorization": "g(x)=(x^2-r^2/4)^2(C0+C1 x+...), f_y(x,0)=(x^2-r^2/4)(D0+...)",
+    "frame": [
+      "[g(t)-(A_eta/4)t g'(t)]/t^5",
+      "g'(t)/t^3",
+      "f_y(t,0)/t^2"
+    ],
+    "target_jet_covariance": [
+      [
+        "120",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "24",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "2"
+      ]
+    ],
+    "frame_covariance": [
+      [
+        "(eta**2 - 4)**6/7864320",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "(eta**2 - 4)**2/24",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "(eta**2 - 4)**2/32"
+      ]
+    ],
+    "determinant": "(eta - 2)**10*(eta + 2)**10/6039797760",
+    "checks": {
+      "target_jet_covariance": true,
+      "frame_covariance": true,
+      "determinant": true
+    }
+  },
+  "axis_overlap": {
+    "wedge": "|s|<=1/2",
+    "outside_collar_bound": "eta^2<=4/15",
+    "mean_Y2_lower_bound": "41/60",
+    "variance_Y2_upper_bound": "2 s^2",
+    "density_suppression": "The Y2 density at zero is bounded by C |s|^-1 exp[-(41/60)^2/(4 s^2)]. Combined with the remaining scaled Gaussian density factors, all polynomial angular singularities are integrable.",
+    "exponent_constant": "1681/14400"
+  },
+  "analytic_continuation": {
+    "statement": "The exact periodized covariance and every scaled frame entry are analytic in t, eta, and chart coordinates after the displayed divided differences. The limiting covariance is positive definite on each compact chart.",
+    "consequence": "There exists delta_0>0 and positive finite covariance/moment bounds on 0<t<=delta_0. The complementary t-range is compact and nonsingular by ordinary Kac--Rice nondegeneracy.",
+    "numeric_constant": "NOT EXTRACTED"
+  },
+  "status_delta": {
+    "NEAR_GENERIC_SCALED_FRAME": "CLOSED-QUALITATIVELY",
+    "NEAR_AXIS_SCALED_FRAME": "CLOSED-QUALITATIVELY",
+    "interval_numeric_floor": "OPEN"
+  },
+  "not_claimed": [
+    "No outward-rounded numerical covariance floor is supplied.",
+    "No sharpened near coefficient is supplied.",
+    "The result is an existence certificate, not a decimal certificate."
+  ]
+}

@@ -1,0 +1,296 @@
+﻿CURRENT HINDSIGHT CORRECTION AND REVIEW ROUTE — 2026-07-28
+
+
+LS-DER-071-v1.0 supersedes one nonstructural sentence in this frozen body: det(H_M)det(H_S)det(H_y) is generically a degree-nine polynomial in the concatenated 3x3 Hessian coordinates, not degree six. The conditional Gaussian moment conclusion survives unchanged with N=9 (or any larger declared integer).
+
+
+Hardened successor:
+https://docs.google.com/document/d/1KIDjxhpBsOK4Zexh9trMB32YJViRM3XdIKLZe9Qd8GQ/edit
+
+
+Controlling low-budget Anthropic amendment gate:
+LS-REQ-038-v1.0 / DQ-099
+https://docs.google.com/document/d/18CJqwlk5TttMmOr1JhkWiWrDXmqj00AOp9ZgLnVg4kY/edit
+
+
+The frozen body below remains unchanged as provenance. No external PASS is claimed.
+[[DEGREE:9-CORRECTED-BY-LS-DER-071]] [[CONTROLLING-REVIEW:LS-REQ-038]] [[DQ-099:READY]]
+
+
+CURRENT CONTROLLING EXTERNAL REVIEW — 2026-07-28
+
+
+This conditional-moment repair is an explicit target of LS-REQ-037-v1.0 / DQ-096:
+https://docs.google.com/document/d/1KGpfr5lWfTq7evVi2_inA0qIrA9TPnsu4GlBddRhsWo/edit
+Frozen body: 7,013 bytes / SHA-256 e5ae1b6d55539a7b5dd4b90e6e38a48b8402437bc7d7af9f5a884f163cf06737.
+
+
+No external amendment PASS is claimed yet.
+
+
+[[EXTERNAL-REVIEW:LS-REQ-037]] [[DQ-096:READY]]
+
+
+LS-DER-069-v1.0 — DENSITY-BLOCK AND CONDITIONAL-MOMENT SEPARATION FOR SIDE-24 G7
+
+
+Artifact ID: LS-DER-069-v1.0
+Dispatch: DQ-095
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / GAUSSIAN REGRESSION / CONDITIONAL MOMENTS / G7 COMPOSITION REPAIR
+Authority: same-OpenAI-family analytic repair candidate
+Organizational-independence credit: ZERO FOR THIS SUCCESSOR; TARGETED EXTERNAL REVIEW REQUIRED
+Canonical impact: NONE
+Status: LS-DER-067 CONDITIONAL-MOMENT AMBIGUITY REPAIRED
+BODY_BYTES: 6706
+BODY_SHA256: 712119d8d0e9b31b05ac53e671e3b6645b724ebf92f0e8ef0e0bdd750faa8622
+
+
+CONTROLLING INPUTS
+LS-DER-051-v1.0 — conditional selection recombination.
+LS-DER-056-v1.0 — exact finite-torus coefficient map.
+LS-DER-065-v1.0 — local structural periodized transfer.
+LS-DER-067-v1.0 — full-spectrum density-block nondegeneracy and side-24 G7.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER069_FROZEN_BODY and strictly before the unique full line END_LSDER069_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER069_FROZEN_BODY
+DENSITY-BLOCK AND CONDITIONAL-MOMENT SEPARATION FOR SIDE-24 G7
+
+
+1. PURPOSE
+
+
+LS-DER-067 correctly proves strict nondegeneracy of the density block formed by the corrected collapsing-pair pins and a remote value-gradient evaluation. One sentence in its Section 5 may be read as asserting strict positive definiteness after adjoining all endpoint and remote Hessian coordinates. That stronger statement is unnecessary and can fail as written because some contact-limit endpoint Hessian coordinates already occur among the corrected pair pins.
+
+
+This successor separates the Kac--Rice density block from the determinant-moment block, proves the uniform regression bounds actually required by G7, and makes the all-mark quadratic penalty explicit.
+
+
+2. DENSITY BLOCK
+
+
+Let
+
+
+    A_r
+      =(P_r^corr, f(y), grad f(y)),                          (1)
+
+
+where P_r^corr is the corrected maximum--saddle pair frame and
+
+
+    dist(y,{M,S})>=delta>0.                                 (2)
+
+
+At r=0, the pair-frame distributions are the linearly independent derivative basis identified in LS-DER-067 Section 4 and are supported at the pair midpoint x. The remote value-gradient distributions are supported at y. Complete positive Fourier support and LS-DER-067 Theorem 3.1 give
+
+
+    Cov(A_0)>0.                                             (3)
+
+
+Analytic dependence and compactness yield constants r_delta,c_delta,C_delta>0 such that
+
+
+    c_delta I<=Cov(A_r)<=C_delta I                          (4)
+
+
+for 0<=r<=r_delta, uniformly in pair base point, pair direction, transverse-frame chart, and remote configuration.
+
+
+Only the covariance in (4) is inverted in the Kac--Rice density and Gaussian regression formulas.
+
+
+3. HESSIAN MOMENT BLOCK
+
+
+Let H_r collect every Hessian entry at M,S,y needed to form
+
+
+    det H_M det H_S det H_y.                                (5)
+
+
+The concatenated vector (A_r,H_r) need not have a strictly positive covariance matrix. At contact, some endpoint Hessian coordinates can be deterministic linear combinations of, or identical to, coordinates already present in P_0^corr. This creates no problem.
+
+
+Write the raw covariance blocks
+
+
+    Sigma_AA=Cov(A_r),
+    Sigma_HA=Cov(H_r,A_r),
+    Sigma_HH=Cov(H_r).                                      (6)
+
+
+Stationarity, analyticity, compact configuration sets, and the fixed local derivative order give
+
+
+    ||Sigma_HA||+||Sigma_HH||<=C_H.                         (7)
+
+
+By (4), the conditional Gaussian law of H_r given A_r=a has
+
+
+    E[H_r|A_r=a]
+      =Sigma_HA Sigma_AA^(-1)a,                             (8)
+
+
+and
+
+
+    Cov(H_r|A_r)
+      =Sigma_HH
+       -Sigma_HA Sigma_AA^(-1)Sigma_AH.                     (9)
+
+
+Therefore
+
+
+    ||E[H_r|A_r=a]||<=C(1+||a||),
+    ||Cov(H_r|A_r)||<=C.                                    (10)
+
+
+No inverse of the enlarged covariance Cov(A_r,H_r) is used. Degeneracy of the conditional Hessian law is allowed.
+
+
+Since (5) is a polynomial of degree six in the Hessian coordinates, Gaussian polynomial-moment bounds give an integer N and uniform C such that
+
+
+    E[|det H_M det H_S det H_y| | A_r=a]
+      <=C(1+||a||^N).                                       (11)
+
+
+This is the exact conditional-moment statement needed in the fixed-distance Kac--Rice integral.
+
+
+4. EXPLICIT MARK INJECTIVITY
+
+
+In the contact frame, the target of the corrected pair pins has the form
+
+
+    a_0(b,kappa)
+      =(b,2kappa,0,...,0).                                  (12)
+
+
+Hence the linear target map L_0:R^2->R^m satisfies
+
+
+    ||L_0(b,kappa)||^2>=b^2+4kappa^2.                       (13)
+
+
+The finite-r corrected target map L_r depends continuously on r and the compact direction atlas. After reducing r_delta if necessary,
+
+
+    ||L_r(b,kappa)||^2
+      >=(1/2)(b^2+kappa^2).                                 (14)
+
+
+Combining (4) and (14), the Gaussian density of the pair pins at their target satisfies
+
+
+    p_(P_r^corr)(L_r(b,kappa))
+      <=C exp[-c(b^2+kappa^2)].                             (15)
+
+
+Conditioning further on the remote value-gradient target preserves a quadratic Gaussian envelope, with polynomial factors absorbed into (11).
+
+
+5. FIXED-DISTANCE G7 BOUND
+
+
+The remote density block A_r has a uniform density bound by (4) and (15). The determinant moment is bounded by (11). The maximum--saddle value window contributes O(r^3). Integration over the fixed-distance compact configuration region therefore gives
+
+
+    E_r^MS N_far
+      <=C r^3
+        [1+(|b|+kappa)^N]
+        exp[-c(b^2+kappa^2)].                               (16)
+
+
+This proves G7 with the mark envelope required for global integration.
+
+
+6. ALL-MARK DOMINATION
+
+
+After the exact lifetime pushforward, the complete near and far integrands are dominated by
+
+
+    C[1+(|b|+kappa)^N]
+      exp[-c(b^2+kappa^2)] kappa^(-2/3),                    (17)
+
+
+which is integrable over b in R and kappa in (0,infinity). Thus compact-mark elder selection extends to all marks by dominated convergence.
+
+
+7. CORRECTED COMPOSITION
+
+
+The side-24 selected-persistence conclusion uses:
+
+
+- LS-DER-065 for structural collar and singular-near factorizations;
+- LS-DER-067 for full-spectrum positivity of the density block A_r;
+- this theorem for conditional Hessian moments without an enlarged-covariance inversion;
+- LS-DER-051 for the selection recombination;
+- the exact coefficient map LS-DER-056.
+
+
+Consequently
+
+
+    nu_(3,24)(ell)
+      =c_(3,24)ell^(-1/3)(1+o(1))                           (18)
+
+
+at same-family candidate level.
+
+
+8. RELATION TO LS-DER-067
+
+
+Replace the potentially ambiguous sentence in LS-DER-067 Section 5 by:
+
+
+    “The density block A_r is uniformly positive definite.
+     All raw cross-covariances with the Hessian moment block
+     are uniformly bounded, so Gaussian regression yields
+     uniform conditional means, covariances, and polynomial
+     determinant moments. No enlarged covariance inverse is
+     required.”
+
+
+Every other claim of LS-DER-067 is unchanged.
+
+
+9. SCOPE FIREWALL
+
+
+Established here:
+
+
+- the exact density block that must be inverted;
+- uniform conditional Hessian-moment control even under conditional degeneracy;
+- explicit mark-target injectivity and Gaussian penalty;
+- the corrected G7 and all-mark majorant;
+- preservation of the side-24 selected-persistence theorem.
+
+
+Still open:
+
+
+- organizationally distinct amendment review under LS-REQ-036;
+- directed-rounding full nonlinear coefficient interval;
+- uniform-in-L limit interchange and an infinite-volume process;
+- canonical promotion and package sealing.
+
+
+FINAL STATUS
+
+
+LS-DER-067 CONDITIONAL-MOMENT AMBIGUITY REPAIRED; SIDE-24 G7 AND ALL-MARK COMPOSITION PRESERVED AT SAME-FAMILY CANDIDATE LEVEL; EXTERNAL REVIEW REQUIRED.
+END_LSDER069_FROZEN_BODY

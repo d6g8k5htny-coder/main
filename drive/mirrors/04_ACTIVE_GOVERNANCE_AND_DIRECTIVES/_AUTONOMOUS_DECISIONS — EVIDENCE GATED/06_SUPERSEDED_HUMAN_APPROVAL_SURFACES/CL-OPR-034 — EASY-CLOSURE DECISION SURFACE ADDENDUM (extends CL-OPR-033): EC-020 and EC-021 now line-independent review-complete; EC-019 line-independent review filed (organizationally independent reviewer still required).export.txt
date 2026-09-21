@@ -1,0 +1,92 @@
+﻿CORRECTION NOTICE — 2026-07-22
+
+
+GP-PRP-130-v1.1 identifies an internal contradiction in the EC-019 organizational-independence gate. Until Dylan M. Roy selects the intended option, EC-019 remains fail-closed under the stricter interpretation. AO48 is Anthropic-family and must not be listed as a third-organization reviewer under that strict option. This notice changes routing only; CL-AUD-072’s R1–R10 findings remain preserved.
+
+
+CL-OPR-034 — EASY-CLOSURE DECISION SURFACE ADDENDUM (2026-07-22, extends CL-OPR-033)
+
+
+Prepared by CL (Claude), Cowork session, on Dylan's instruction to provide second-model
+review of the pending GP proof-review packages. Additive. Canonical impact: NONE. Records
+review state and exact decision wording; confers no approval and closes nothing. Only Dylan
+M. Roy's explicit written decision is terminal. General authorization to continue Drive work
+is NOT a terminal approval for any item below.
+
+
+[[OBJ:CL-OPR-034]] [[EXTENDS:CL-OPR-033]] [[STATUS:TWO-AT-HUMAN-GATE + ONE-NEEDS-ORG-INDEPENDENT-REVIEW]]
+
+
+This addendum does NOT supersede CL-OPR-033; the five items it parks at the human gate
+(EC-014, EC-015, EC-016, EC-017, EC-018) are unchanged. This card covers the next tier
+(EC-019, EC-020, EC-021), whose GP review packages (GP-PRP-130/131/132) requested a non-GP
+second-model review that had not yet been filed.
+
+
+────────────────────────────────────────────────────────────
+TWO ITEMS NOW AT ONLY THE HUMAN GATE (line-independent non-GP review satisfied)
+
+
+EC-020 — Deterministic interval/monotonicity certificate: every point of
+  P01-UNIFORMQ-D4-BOX-001 satisfies the repaired degree-four capture gates for all
+  0<r<=1/20, fixed physical-q formulation (interval/monotonicity ONLY).
+  Review package: GP-PRP-131 (line independence sufficient).
+  Review gate: SATISFIED — CL-AUD-073-v1.0. Independent pure-Python interval re-execution
+  of the verified capsule GP-DATA-114-v1.1; all four hashes reproduced; C1–C11 all PASS;
+  all 19 margins strictly positive under outward rounding (min = handoff 0.007485281374238566);
+  monotonicity confirmed analytically + numerically; 5/5 planted controls fire; corrupt v1.0
+  staging capsule confirmed corrupt and excluded.
+  Decision (proposed wording):  APPROVE EC-020 EXACT INTERVAL AND MONOTONICITY SCOPE
+  (interval/monotonicity certificate only; no mass, exact-field, adjacency, or P0.1/P0.2).
+
+
+EC-021 — Uniform positive finite-Q4 Palm mass: there exist r_1>0 and c_Q4>0 with
+  inf_{0<r<=r_1} P_{r,Q4}^{MS}(P01-UNIFORMQ-D4-BOX-001) >= c_Q4 > 0 under the TYPED
+  FINITE-Q4 Palm law.
+  Review package: GP-PRP-132 (line independence sufficient).
+  Review gate: SATISFIED — CL-AUD-074-v1.0. Q1–Q10 all PASS (Q4 conditional on EC-020, which
+  is approved concurrently in CL-AUD-073). Independently reproduced: Vol(B_q)=1.024e-18;
+  s=q/r<=-19.6; d_M,d_S>=0.97993 (rigorous outward interval), w_0>=0.96026; the r^2/r^2
+  numerator/normalizer cancellation is genuine and all constants (w_0, c_phi, Vol, C_Z) are
+  r-independent; z_0 planar limit = 3.230978535287005 (exact match). No hidden exact-field
+  substitution. One cosmetic precision note only (GP's stated determinant digits are optimistic
+  at the 14th significant figure; does not affect any conclusion).
+  Decision (proposed wording):  APPROVE EC-021 EXACT UNIFORM FINITE-Q4 SCOPE
+  (finite-Q4 mass only; no exact full-field Palm mass, no A_r, no c_A, no P0.1/P0.2).
+
+
+────────────────────────────────────────────────────────────
+ONE ITEM WITH LINE-INDEPENDENT REVIEW FILED — STILL NEEDS AN ORGANIZATIONALLY INDEPENDENT REVIEWER
+
+
+EC-019 — Fixed-r exact full-field Palm positivity: P_{1/20}^{MS}(A_{1/20}) > 0 under the exact
+  six-pin full-field typed maximum–saddle Palm law, exact endpoint Hessians, GP-PROT-065 branch.
+  Review package: GP-PRP-130 — requires ORGANIZATIONAL independence (a non-GP-family model or a
+  human), and states that a single Anthropic-family (CL/C047R) line does NOT satisfy that gate.
+  Review filed: CL-AUD-072-v1.0 — line-independent commentary. R1–R10 adjudicated: 9 PASS, 1
+  cosmetic AMEND (R2 normalization display). R3 Gaussian-algebra crux independently reproduced;
+  R7 margin ledger (GP-DER-106/GP-DATA-106/GP-AUD-107) confirmed strictly positive and covering
+  every GP-DER-045 transfer hypothesis, with an internal-consistency cross-check to <1e-15.
+  Stance: SUPPORT ON THE MERITS, explicitly NON-TERMINAL.
+  Residual (advisory, not a defect): an outside, disjoint-environment mpmath re-execution of the
+  GP-DATA-106 interval box has not been done (GP itself lists this open); and the terminal gate
+  still requires a non-GP, non-Anthropic organizational reviewer (e.g. Gemini, Grok, AO48) or a
+  human mathematician. EC-019 therefore does NOT yet advance to the human gate.
+
+
+────────────────────────────────────────────────────────────
+SCOPE GUARD (all three)
+None of these touch exact full-field Palm mass beyond the narrow EC-019 fixed-r qualitative
+statement, exact-field r-uniform positivity, P0.1, P0.2, Theorem B, the q-machine, GP-AUTO-034,
+any ballot, release, or deletion. Approving EC-020 / EC-021 removes only their narrow declared
+objects from active re-derivation. Each GP package carries its own additive reopening rule.
+
+
+WHAT REMAINS OPEN AT THE REVIEW LEVEL
+- EC-019 terminal closure: awaits an organizationally independent (non-GP, non-Anthropic) or
+  human review, plus optionally an outside mpmath interval re-execution.
+- The hard research fronts (P0.1, P0.2, exact-field transfer, Theorem B) are not advanced by
+  this card and remain the active program.
+
+
+END CL-OPR-034 — additive decision surface addendum; canonical impact NONE. Extends CL-OPR-033.

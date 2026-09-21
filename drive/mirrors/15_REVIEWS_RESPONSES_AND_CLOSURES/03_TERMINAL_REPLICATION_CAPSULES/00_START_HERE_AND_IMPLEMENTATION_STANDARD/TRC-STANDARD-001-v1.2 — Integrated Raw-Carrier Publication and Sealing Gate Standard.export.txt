@@ -1,0 +1,142 @@
+﻿TRC-STANDARD-001-v1.2 — INTEGRATED RAW-CARRIER PUBLICATION AND SEALING GATE STANDARD
+
+
+Artifact ID: TRC-STANDARD-001-v1.2
+Authority: OD-GP-PROP-175-001
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: STANDARD / NUMBERED INTEGRATED REVISION / PUBLICATION-INTEGRITY
+Canonical mathematical impact: NONE
+Destructive authority: NONE
+Supersedes for active machine-carrier publication: TRC-STANDARD-001-v1.1 and TRC-AMD-001-v1.0. Both remain preserved as convergent amendment provenance. Retains all nonconflicting provisions of TRC-STANDARD-001-v1.0.
+Evidence: TRC-COR-002; TRC-COR-007; AO48-COR-026; TRC-VAL-001; CL-AUD-083.
+
+
+[[OBJ:TRC-STANDARD-001-v1.2]] [[STATUS:ACTIVE-INTEGRATED-STANDARD]] [[CARRIERS:RAW-FILES-ONLY]] [[POSTWRITE-ROUNDTRIP:REQUIRED]] [[FAIL-CLOSED]] [[NO-MATHEMATICAL-CHANGE]]
+
+
+1. RESOLVED PUBLICATION RULE
+
+
+Machine-readable support carriers MUST be non-Google-native raw files. New native-Google-Doc or Base64-inside-Doc machine carriers are prohibited.
+
+
+Required formats:
+- application/json for JSON carriers;
+- text/plain for checksums.sha256 and line-oriented normalization/checksum records;
+- another raw MIME type only when explicitly defined by a numbered standard revision.
+
+
+The four human-readable capsule elements may remain native Google Docs and use declared native-export hashing.
+
+
+2. VALIDATED BASIS
+
+
+TRC-VAL-001-v1.0 passed the decisive raw-write falsifier using the actual connector path:
+- source and destination: 6,983 bytes;
+- MIME type: application/json;
+- SHA-256: fccf253ff35505fa7ffb8f01014c22678b9cf413ebd2027cb7ebd64d8d9fd331;
+- direct binary equality: TRUE.
+
+
+Therefore the raw carrier path is technically viable and is the governing publication path. The earlier GP-RSP-176 statement that the test was connector-blocked is superseded for current status by TRC-VAL-001; it remains accurate as a record of the earlier local-path attempt.
+
+
+3. WRITE-THEN-READ TRANSACTION
+
+
+A carrier is not published merely because an upload call returns success. Before final title, indexing, manifest inclusion, validation credit, or dependent-receipt generation, the publishing line must:
+
+
+1. Generate the canonical bytes before upload.
+2. Compute expected byte count and SHA-256.
+3. Upload as a raw file with conversion disabled.
+4. Confirm returned Drive ID and raw MIME type.
+5. Freshly download that exact Drive ID.
+6. Recompute observed byte count and SHA-256.
+7. Require exact byte-count equality and exact hash equality.
+8. Parse or validate the payload format.
+9. Record the upload and fresh-download receipt.
+
+
+Any failure is a WRITE-FAULT or ROUNDTRIP-FAULT. Preserve the object, visibly label it failed, route it to corrupted provenance, and give it zero evidence, validation, manifest, root-hash, or sealing credit.
+
+
+4. DEPENDENCY ORDER
+
+
+Publish and verify in this order:
+
+
+A. independent leaf carriers;
+B. canonical manifest generated only from verified leaf IDs, MIME types, bytes and hashes;
+C. fresh round-trip verification of the manifest;
+D. checksums, root receipt and validation summary generated only from the verified manifest and leaf set;
+E. fresh round-trip verification of every dependent carrier;
+F. package-level independent review;
+G. SEALED only after an APPROVE verdict and every TRC-STANDARD sealing box passes.
+
+
+No ROOT_SHA256 may be computed or accepted from intended local payloads, filenames, unverified uploads, malformed carriers or native-Doc shells.
+
+
+5. NATIVE-DOC DIAGNOSTIC RULE
+
+
+Native Google Doc fileSize metadata is only a warning signal. Determine emptiness through body retrieval and/or declared export content.
+
+
+The seven v0.2 carrier files were empty because each returned no readable body and the manifest export was BOM-only. TRC-COR-007 is not empty: it has a full readable body and a later metadata size of 4,026 bytes. AO48-COR-026’s statement that TRC-COR-007 itself was empty is retracted; its primary carrier-failure diagnosis remains valid.
+
+
+6. EC-020 CAPSULE STATE AFTER CL-AUD-083
+
+
+CL-AUD-083 independently confirms:
+- the four primary human-readable elements faithfully reproduce the exact EC-020 terminal object, label, exclusions, dependencies, reopening rule, reading order and approval record;
+- the E3 content identities are consistent and were independently reconstructed by the CL line;
+- the correction lineage is correct;
+- no scope expansion or live-source mutation was found.
+
+
+Sealing remains blocked on:
+S1. raw successor carriers and a well-formed canonical manifest;
+S2. reproducible identities for native Docs E1, E2, E4, E5, E6 and E7;
+S3. a deterministic frozen and hashed export of the exact E8 register rows;
+S4. relocation of supplemental collision copies out of the four-primary-document surface;
+S5. a final non-author APPROVE FOR SEALING verdict naming the accepted ROOT_SHA256.
+
+
+7. VERSION STATE
+
+
+- TRC-EC020-v0.1: ASSEMBLY; four primary elements faithful; six legacy support carriers reconstruct; manifest malformed; no root hash.
+- TRC-EC020-v0.2: FAILED PUBLICATION / PROVENANCE ONLY.
+- TRC-EC020-v0.3: raw-carrier successor scaffold; raw publication path passed globally, but no EC-020 v0.3 carrier set is complete yet.
+- VALIDATION: 0.
+- SEALED: 0.
+
+
+A higher version does not supersede a lower one until its required carriers are actually published, freshly retrieved and verified.
+
+
+8. INDEPENDENCE AND SEALING
+
+
+CL-AUD-083 is a package-level non-author CANNOT VERIFY verdict, not an approval. It supplies valuable confirmation and a precise blocker list. Because the reviewer also authored the earlier CL mathematical review, a final AO48 or CW/C047R package review is preferred for additional cross-family independence, though the governing package-independence rule remains the standard’s exact requirement.
+
+
+9. SCOPE FIREWALL
+
+
+This revision governs replication-package publication only. It does not change any mathematical closure, Easy Closure queue status, theorem, ballot, GP-AUTO-034 gate, machine root, release, deletion or destructive authority.
+
+
+10. REOPENING
+
+
+Amend this standard only by numbered revision if a raw carrier fails exact round-trip equality, a required MIME type proves unsuitable, or a later connector/runtime supplies a stronger deterministic content-addressed publication mechanism.
+
+
+END TRC-STANDARD-001-v1.2

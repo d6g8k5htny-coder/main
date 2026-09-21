@@ -1,0 +1,12 @@
+{
+  "artifact_id": "AO48-PROBE-027-v1.0",
+  "class": "WRITE-PATH-FALSIFIER-PROBE",
+  "is_capsule_carrier": false,
+  "do_not_hash_into_manifest": true,
+  "do_not_seal": true,
+  "author_line": "AO48",
+  "purpose": "Test whether a raw (non-native) file created with Google-type conversion disabled retains its bytes in the TRC-EC020-v0.3 RAW FILES folder.",
+  "declared_encoding": "UTF-8, LF newlines, no BOM, single trailing newline",
+  "falsifier": "If Drive reports fileSize equal to declared_byte_count, the raw-file write path retains bytes and TRC-COR-007 step 5.3 is viable. If Drive reports 1 byte or a BOM-only state, AO48-COR-026 section 3 is refuted and must be retracted.",
+  "canonical_impact": "NONE"
+}

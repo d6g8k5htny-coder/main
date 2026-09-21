@@ -1,0 +1,204 @@
+﻿GP-CLS-PROP-012-v1.0 — PROPOSED TERMINAL CLOSURE OF THE PLANAR COALESCED CONDITIONAL NINE-JET LAW
+
+
+Artifact ID: GP-CLS-PROP-012-v1.0
+Author: OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: CLS-PROP — additive terminal-closure proposal
+Status: READY FOR HUMAN APPROVAL
+Authority: none until Dylan M. Roy accepts or modifies the terminal statement
+Canonical impact: NONE before approval
+
+
+1. Exact object card
+
+
+OBJECT: PLANAR_COALESCED_BF_CONDITIONAL_NINE_JET
+FIELD: centered planar Bargmann–Fock field with covariance K(h)=exp(-|h|^2/2)
+FRAME: same-point midpoint Cartesian derivatives
+UNITS / NORMALIZATION: ordinary coordinate derivatives in the declared planar normalization; no torus periodization and no finite-r pin separation
+CONDITIONING ORDER:
+P=(f,f_x,f_y,f_xx,f_xy,f_xxx)
+CONDITIONING VALUE:
+P=(b,0,0,0,0,2)
+FREE-JET ORDER:
+J=(f_yy,f_xxy,f_xyy,f_yyy,f_xxxx,f_xxxy,f_xxyy,f_xyyy,f_yyyy)
+EVIDENCE CLASS: exact Gaussian Schur complement
+PROPOSED TERMINAL LABEL: CLOSED — EXACT PLANAR COALESCED CONDITIONAL NINE-JET LAW
+
+
+2. Exact terminal statement
+
+
+For the object card above,
+
+
+E[J|P]=(-b,0,0,0,-3b,0,0,0,3b).
+
+
+In the declared J ordering,
+
+
+Cov(J|P)=
+[[  2,0,0,0, 0,0,-2,0,-12],
+ [  0,2,0,0, 0,0, 0,0,  0],
+ [  0,0,2,0, 0,0, 0,0,  0],
+ [  0,0,0,6, 0,0, 0,0,  0],
+ [  0,0,0,0,24,0, 0,0,  0],
+ [  0,0,0,0, 0,6, 0,0,  0],
+ [ -2,0,0,0, 0,0, 6,0, 12],
+ [  0,0,0,0, 0,0, 0,6,  0],
+ [-12,0,0,0, 0,0,12,0, 96]].
+
+
+Equivalently, the variances are
+(2,2,2,6,24,6,6,6,96),
+and the only nonzero off-diagonal covariances are
+Cov(f_yy,f_xxyy)=-2,
+Cov(f_yy,f_yyyy)=-12,
+Cov(f_xxyy,f_yyyy)=12,
+with symmetry completing the matrix.
+
+
+3. First-principles verification
+
+
+For multi-indices alpha,beta, the same-point planar Bargmann–Fock derivative covariance is
+
+
+Cov(partial^alpha f,partial^beta f)=(-1)^|beta| m_(alpha_1+beta_1)m_(alpha_2+beta_2),
+
+
+where m_n=0 for odd n and m_(2k)=(-1)^k(2k-1)!!.
+
+
+Using the declared conditioning vector gives
+
+
+Sigma_PP=
+[[ 1, 0,0,-1,0, 0],
+ [ 0, 1,0, 0,0,-3],
+ [ 0, 0,1, 0,0, 0],
+ [-1, 0,0, 3,0, 0],
+ [ 0, 0,0, 0,1, 0],
+ [ 0,-3,0, 0,0,15]].
+
+
+A fresh symbolic reconstruction from this kernel and object card evaluated
+
+
+E[J|P]=Sigma_JP Sigma_PP^{-1}(b,0,0,0,0,2)^T
+
+
+and
+
+
+Cov(J|P)=Sigma_JJ-Sigma_JP Sigma_PP^{-1}Sigma_PJ,
+
+
+reproducing exactly the mean vector and all 81 covariance entries displayed above.
+
+
+4. Evidence and review classification
+
+
+Primary derivation:
+• GP-DER-019-v1.0, Drive ID 1AqelaMkARv-n_i_zOKZlm0f3kYb9xSNcTcaU-qnG61Y, derives the complete planar coalesced nine-jet law from the covariance kernel.
+
+
+Cross-organization verification:
+• AO48-DER-007-v1.0, Drive ID 1TGGWvrBZ7hDqoYYL3mWWDnLgwbpvV7IJ, redoes the Schur complement entry by entry and reproduces every mean, variance, and nonzero covariance.
+• Per AO48-AUD-023-v1.0, this should be classified as strong cross-organization dependent verification with the source derivation visible, not blind reconstruction. The closure tier does not require a blind referee-tier route.
+
+
+Fresh same-line reconstruction:
+• OpenAI reconstructed Sigma_PP, the conditional mean, and the full conditional covariance directly from the primitive derivative-covariance rule during preparation of this package. This is a fresh exact re-execution, but it is not counted as a new independent model line.
+
+
+Not relied upon:
+• GP-AUD-039-v1.0 is titled as an independent finite-r nine-jet re-execution, but its document body is currently unreadable through the connected Drive text interface. This package does not count it as evidence.
+
+
+5. Scope boundary and forbidden extrapolations
+
+
+This closure applies only to the PLANAR_COALESCED same-point object with the exact conditioning and jet order declared above.
+
+
+It does not establish:
+• the exact normalized-periodized torus law;
+• the exact finite-r six-pin conditioned law;
+• equality between planar and torus coefficients;
+• determinant-weighted Palm normalization;
+• maximum/saddle typing probabilities;
+• adjacency or elder-rule pairing;
+• P0.2, Theorem B, C_Q0, C_*, or any machine-root transition.
+
+
+The exact finite-r and exact-torus laws must retain distinct object cards and their own covariance evaluators.
+
+
+6. Dependencies affected
+
+
+If approved, this closure:
+• retires repeated reconstruction of the full planar coalesced nine-jet Schur complement;
+• supplies a fixed full-law object card extending the cubic sub-block in EC-007;
+• fixes the exact mean signs and the three nonzero cross-covariances for planar sampling and algebraic checks;
+• prevents partial-conditioning means from being cited as full-conditioning means;
+• permits later artifacts to cite this matrix directly when, and only when, their object card matches.
+
+
+7. Dependencies explicitly unaffected
+
+
+Unaffected:
+• GP-DER-019 quartic-compensation uniqueness language, which was separately corrected;
+• quartic gauge dependence and Q4-on diagnostic interpretation;
+• exact finite-r Gaussian laws and their executable sources;
+• regional counting, defect dichotomy, adjacency, pair-Palm transfer, P0.2, Theorem B;
+• active q0 machine state and all canonical promotion decisions.
+
+
+8. Coupled-advancement no-change certificate
+
+
+Mathematical status change proposed: the already-derived exact planar nine-jet law moves from active rechecking to terminal narrow closure.
+
+
+Architectural change required: none beyond registering the complete object card, including the explicit UNITS / NORMALIZATION field used here.
+
+
+Reason existing controls are sufficient:
+• OP-PROT-004 closure packages require exact object, scope, affected/unaffected dependencies, independent-review classification, human approval, and additive reopening;
+• OP-CNS-001-R0.2 object cards distinguish planar/coalesced from torus/finite-r laws;
+• this package corrects the independence label in accordance with AO48-AUD-023 rather than laundering dependent verification as blind review.
+
+
+Failure that would falsify this no-change judgment:
+• a downstream artifact cites this closed planar matrix for an exact-torus or finite-r object without being flagged as an object mismatch;
+• a different jet ordering silently inherits this matrix;
+• a partial conditioning set is cited as the declared six-pin conditioning law.
+
+
+9. Human approval requirement
+
+
+Human approval is REQUIRED because terminal mathematical closure remains reserved to Dylan M. Roy.
+
+
+Suggested approval statement:
+
+
+“I approve GP-CLS-PROP-012-v1.0 exactly within its declared PLANAR_COALESCED object, conditioning order, free-jet order, frame, units, and scope boundaries. Record the terminal label CLOSED — EXACT PLANAR COALESCED CONDITIONAL NINE-JET LAW, move EC-009 to the Closure Log, preserve all provenance, and do not infer any exact-torus, finite-r, Palm, adjacency, P0.2, Theorem B, or machine-state claim from this closure.”
+
+
+10. Additive correction and reopening path
+
+
+A future correction must:
+• identify the exact matrix entry, conditioning convention, derivative order, or object-card field alleged to fail;
+• provide contradictory symbolic or mechanical evidence;
+• state affected and unaffected dependencies;
+• preserve this proposal and every source artifact unchanged;
+• reopen only EC-009 unless the new evidence establishes a broader dependency failure.

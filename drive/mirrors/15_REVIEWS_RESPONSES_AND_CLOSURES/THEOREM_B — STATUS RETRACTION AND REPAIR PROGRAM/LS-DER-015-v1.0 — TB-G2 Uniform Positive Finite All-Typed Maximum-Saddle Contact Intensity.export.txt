@@ -1,0 +1,975 @@
+﻿LS-DER-015-v1.0 — TB-G2 UNIFORM POSITIVE FINITE ALL-TYPED MAXIMUM-SADDLE CONTACT INTENSITY
+
+
+Artifact ID: LS-DER-015-v1.0
+Date: 2026-07-25
+Author/executor: OpenAI GPT-5.6 Thinking, Lead Scientist
+Session: OPENAI-GPT56-THINKING-THEOREMB-G2-20260725-01
+Class: DER / KAC-RICE / GAUSSIAN CONTACT INTENSITY / THEOREM-B BRIDGE
+Authority: same-line mathematical derivation only
+Canonical impact: NONE
+Terminal impact: NONE
+Dispatch: DQ-011
+Claim: LS-CLAIM-TBG2-20260725-01
+Predecessor: S2-DER-010-v1.0 — TB-G1 exact persistence-pair process and selection decomposition
+Governing audit: GP-AUD-187-v1.0
+
+
+[[OBJECT:THEOREM-B-TB-G2]] [[LAW:EXACT-NORMALIZED-PERIODIZED-BARGMANN-FOCK-SIDE24]] [[PROCESS:ALL-TYPED-ORDERED-MAX-SADDLE]] [[WINDOW:B=[11/10,13/10]]] [[WINDOW:K=[9/10,11/10]]] [[ADJACENCY:NOT-CONDITIONED]] [[SELECTION:p=a*qadj+eta]] [[STATUS:COMPLETE-SAME-LINE-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+======================================================================
+0. EXECUTIVE RESULT
+======================================================================
+
+
+Let f be the exact normalized-periodized Bargmann–Fock Gaussian field on the flat side-24 torus X=T^2_24. Let
+
+
+    B=[11/10,13/10],
+    K=[9/10,11/10].
+
+
+For an ordered pair of points with directed maximum-to-saddle displacement
+
+
+    S-M=r e_theta,
+    e_theta=(cos theta,sin theta),
+    n_theta=(-sin theta,cos theta),
+
+
+let the marks be
+
+
+    b=f(M),
+    kappa=6[f(M)-f(S)]/r^3.
+
+
+Let J_r(theta,b,kappa) be the whole-torus, all-typed ordered maximum–index-one-saddle Kac–Rice density with respect to
+
+
+    r dr dtheta db dkappa,
+
+
+before adjacency or persistence selection.
+
+
+This document proves:
+
+
+THEOREM TB-G2.
+
+
+There exists r_0>0 and a continuous function J_0 on
+
+
+    S^1 x B x K
+
+
+such that
+
+
+    sup_{theta,b,kappa}|J_r(theta,b,kappa)-J_0(theta,b,kappa)| -> 0
+
+
+as r->0, and there are finite constants 0<c_*<=C_*<infinity with
+
+
+    c_* <= J_0(theta,b,kappa) <= C_*
+
+
+for every theta in S^1, b in B, and kappa in K.
+
+
+Consequently, after reducing r_0 if necessary,
+
+
+    c_*/2 <= J_r(theta,b,kappa) <= 2C_*
+
+
+for every 0<r<=r_0 on the same compact parameter set, and the contact coefficient
+
+
+    I_contact(B,K)
+      := integral_{0}^{2pi} integral_B integral_K
+           J_0(theta,b,kappa) d kappa db dtheta
+
+
+is finite and strictly positive.
+
+
+The limiting density is explicitly
+
+
+    J_0(theta,b,kappa)
+      =2 L^2 phi_{0,theta}(y_0(b,kappa))
+        kappa^2
+        E[ Q_theta^2 1{Q_theta<0}
+           | Lambda_{0,theta}=y_0(b,kappa)],
+
+
+where L=24,
+
+
+    y_0(b,kappa)=(b,0,0,0,0,2kappa),
+
+
+phi_{0,theta} is the six-dimensional Gaussian density of the confluent pin vector, and Q_theta is the transverse Hessian coordinate D^2_{n_theta n_theta}f at the coalesced point under that conditioned law.
+
+
+This is the all-typed contact intensity. It contains neither the direct-gradient-adjacency mark nor the persistence/elder-selection mark.
+
+
+The exact persistence-selected intensity remains
+
+
+    J_r p_r
+      =J_r a_r q_r^adj + J_r eta_r,
+
+
+as proved in TB-G1. Nothing in TB-G2 permits replacing p_r by a_r q_r^adj without separately controlling eta_r.
+
+
+======================================================================
+1. EXACT OBJECT AND DIRECTED CONVENTION
+======================================================================
+
+
+Fix theta in [0,2pi), let
+
+
+    e=e_theta,
+    n=n_theta,
+
+
+and parameterize the ordered point pair by a base point x in X and
+
+
+    M=x-(r/2)e,
+    S=x+(r/2)e.
+
+
+For r below the injectivity radius, this is the unique short torus lift and the directed angle is maximum-to-saddle. The angle theta+pi describes the reversed displacement and is not an identification of the same ordered typed pair.
+
+
+Define the raw six-pin vector
+
+
+    P_{r,theta}
+      =( f(M), D_e f(M), D_n f(M),
+         f(S), D_e f(S), D_n f(S) ).
+
+
+For marks b and kappa, define the pin value
+
+
+    z_r(b,kappa)
+      =( b,0,0,b-kappa r^3/6,0,0 ).
+
+
+Because K is contained in (0,infinity), these pins impose a positive value gap
+
+
+    f(M)-f(S)=kappa r^3/6>0.
+
+
+Let H_M and H_S be the exact physical Hessians in the orthonormal frame (e,n). Define the exact typed event
+
+
+    Tau_r
+      ={H_M is negative definite}
+       intersect
+       {det H_S<0}.
+
+
+In two dimensions det H_S<0 is exactly the index-one-saddle condition. No adjacency, merge-tree, elder-rule, or persistence condition is included in Tau_r.
+
+
+======================================================================
+2. SECOND-ORDER KAC–RICE FORMULA
+======================================================================
+
+
+For each fixed r>0, the field is analytic and the joint Gaussian law of the values and gradients at two distinct points is nondegenerate. The standard second-order Kac–Rice formula therefore gives the first-moment intensity of ordered typed pairs.
+
+
+Changing the two value coordinates
+
+
+    (u,v)=(f(M),f(S))
+
+
+to
+
+
+    (b,kappa)
+      =(u,6(u-v)/r^3)
+
+
+has inverse
+
+
+    u=b,
+    v=b-kappa r^3/6
+
+
+and absolute Jacobian
+
+
+    |partial(u,v)/partial(b,kappa)|=r^3/6.
+
+
+The spatial displacement measure in polar coordinates is
+
+
+    dS=r dr dtheta.
+
+
+Stationarity makes the base-point integral equal to the torus area L^2. Hence the all-typed whole-torus density with respect to
+
+
+    r dr dtheta db dkappa
+
+
+is
+
+
+    J_r(theta,b,kappa)
+      =L^2 (r^3/6)
+       p_{P_{r,theta}}(z_r(b,kappa))
+       E[ |det H_M det H_S| 1_{Tau_r}
+          | P_{r,theta}=z_r(b,kappa) ].          (2.1)
+
+
+The corresponding per-unit-area density is J_r/L^2.
+
+
+There is no factor 1/2: the process is ordered and the direction is fixed from maximum to saddle. Introducing 1/2 would change the frozen object.
+
+
+======================================================================
+3. STABLE CONFLUENT PIN FRAME
+======================================================================
+
+
+Raw endpoint pins become ill-conditioned as r->0. Define the transformed pin vector
+
+
+    Lambda_{r,theta}=T_r P_{r,theta}
+
+
+with components
+
+
+    L0=(f(S)+f(M))/2,
+    L1=(f(S)-f(M))/r,
+    L2=(D_e f(S)-D_e f(M))/r,
+    L3=(D_n f(S)+D_n f(M))/2,
+    L4=(D_n f(S)-D_n f(M))/r,
+    L5=(12/r^2)[(D_e f(S)+D_e f(M))/2-L1].
+
+
+In the raw order
+
+
+    (f(M),D_e f(M),D_n f(M),f(S),D_e f(S),D_n f(S)),
+
+
+the exact transformation determinant is
+
+
+    det T_r=12/r^5.                              (3.1)
+
+
+Under the pins z_r(b,kappa),
+
+
+    y_r(b,kappa):=T_r z_r(b,kappa)
+      =( b-kappa r^3/12,
+         -kappa r^2/6,
+         0,
+         0,
+         0,
+         2kappa ).                               (3.2)
+
+
+Therefore
+
+
+    p_{P_{r,theta}}(z_r)
+      =(12/r^5) phi_{r,theta}(y_r),              (3.3)
+
+
+where phi_{r,theta} is the Gaussian density of Lambda_{r,theta}.
+
+
+The confluent limit is
+
+
+    Lambda_{0,theta}
+      =( f,
+         D_e f,
+         D^2_{ee}f,
+         D_n f,
+         D^2_{en}f,
+         D^3_{eee}f ),                            (3.4)
+
+
+and
+
+
+    y_0(b,kappa)=(b,0,0,0,0,2kappa).            (3.5)
+
+
+The factor 2kappa is exact. The one-dimensional cubic Hermite interpolant satisfying the four axial endpoint pins is
+
+
+    p(x)=b-kappa r^3/12-kappa r^2 x/4+kappa x^3/3,
+
+
+so
+
+
+    p''(-r/2)/r=-kappa,
+    p''( r/2)/r=+kappa,
+    p'''=2kappa.                                  (3.6)
+
+
+======================================================================
+4. STABLE ENDPOINT HESSIAN VARIABLES
+======================================================================
+
+
+Off the pin affine space, raw quantities such as D^2_{ee}f(M)/r are singular Gaussian coordinates. Use the pin-adjusted representatives
+
+
+    A_M^r
+      =D^2_{ee}f(M)/r
+       +[D_e f(M)-D_e f(S)]/r^2,
+
+
+    A_S^r
+      =D^2_{ee}f(S)/r
+       +[D_e f(M)-D_e f(S)]/r^2,
+
+
+    B_M^r
+      =D^2_{en}f(M)/r
+       +[D_n f(M)-D_n f(S)]/r^2,
+
+
+    B_S^r
+      =D^2_{en}f(S)/r
+       +[D_n f(M)-D_n f(S)]/r^2,
+
+
+    C_M^r=D^2_{nn}f(M),
+    C_S^r=D^2_{nn}f(S).
+
+
+On the six-pin event, the gradient secants vanish, so these equal the physical normalized Hessian entries.
+
+
+Define
+
+
+    Delta_M^r=A_M^r C_M^r-r(B_M^r)^2,
+    Delta_S^r=A_S^r C_S^r-r(B_S^r)^2.            (4.1)
+
+
+Conditioned on the pins,
+
+
+    det H_M=r Delta_M^r,
+    det H_S=r Delta_S^r.                          (4.2)
+
+
+Substituting (3.3) and (4.2) into (2.1) gives the exact finite-r identity
+
+
+    J_r(theta,b,kappa)
+      =2L^2 phi_{r,theta}(y_r)
+       E[ |Delta_M^r Delta_S^r| 1_{Tau_r}
+          | Lambda_{r,theta}=y_r ].               (4.3)
+
+
+The contact prefactor is exactly
+
+
+    (r^3/6)(12/r^5)(r^2)=2.                      (4.4)
+
+
+Thus no unbalanced power of r remains.
+
+
+======================================================================
+5. ANALYTIC CONFLUENCE AND CONDITIONAL GAUSSIAN FAMILY
+======================================================================
+
+
+The exact side-24 covariance kernel is analytic. Every covariance among transformed pins and pin-adjusted endpoint variables is an analytic Hermite divided difference of that kernel. All apparent negative powers of r have removable singularities.
+
+
+Therefore the joint Gaussian family
+
+
+    (Lambda_{r,theta},
+     A_M^r,A_S^r,B_M^r,B_S^r,C_M^r,C_S^r)
+
+
+extends continuously through r=0, jointly in theta. The extension is uniform over the compact circle.
+
+
+The limiting transformed pin symbols in Fourier coordinates
+
+
+    u=xi dot e_theta,
+    v=xi dot n_theta
+
+
+are, up to harmless powers of i,
+
+
+    1, u, u^2, v, uv, u^3.                       (5.1)
+
+
+The normalized-periodized Gaussian has strictly positive spectral weight at every lattice frequency. If a linear combination of the six functionals had zero variance, its finite-degree polynomial symbol would vanish at every lattice point. A polynomial vanishing on the full integer lattice is identically zero. The six monomials in (5.1) are linearly independent, so the limiting pin Gram G_{0,theta} is positive definite for every theta.
+
+
+The dependence on theta is continuous. Compactness of S^1 gives uniform constants
+
+
+    0<lambda_pin^-<=lambda_min(G_{0,theta}),
+    lambda_max(G_{0,theta})<=lambda_pin^+<infinity.
+
+
+After reducing r_0, the finite-r pin Gram remains uniformly invertible.
+
+
+Conditional means and covariances of the endpoint variables are therefore continuous in
+
+
+    (r,theta,b,kappa)
+
+
+on
+
+
+    [0,r_0] x S^1 x B x K.
+
+
+All fixed polynomial moments are uniformly bounded.
+
+
+======================================================================
+6. LIMITING ENDPOINT GEOMETRY
+======================================================================
+
+
+Let
+
+
+    Z_theta=D^3_{een}f,
+    Q_theta=D^2_{nn}f
+
+
+at the confluent point, under the conditioned law
+
+
+    Lambda_{0,theta}=y_0(b,kappa).
+
+
+Taylor/Hermite convergence gives
+
+
+    A_M^0=-kappa,
+    A_S^0=+kappa,
+
+
+    B_M^0=-Z_theta/2,
+    B_S^0=+Z_theta/2,
+
+
+    C_M^0=C_S^0=Q_theta.                         (6.1)
+
+
+Consequently
+
+
+    Delta_M^0=-kappa Q_theta,
+    Delta_S^0=+kappa Q_theta.                    (6.2)
+
+
+Because kappa>0, away from Q_theta=0:
+
+
+- if Q_theta<0, the M endpoint has negative axial and transverse curvatures and positive determinant, hence is a strict maximum; the S endpoint has negative determinant, hence is an index-one saddle;
+- if Q_theta>0, the desired maximum–saddle type combination fails.
+
+
+Thus
+
+
+    1_{Tau_r} -> 1{Q_theta<0}                    (6.3)
+
+
+at every limiting sample with Q_theta !=0.
+
+
+The extended polynomial symbol v^2 for Q_theta is linearly independent of the six pin symbols (5.1). Therefore the seven-functional limiting Gram is positive definite. Equivalently,
+
+
+    Var(Q_theta | Lambda_{0,theta})>0             (6.4)
+
+
+for every theta. Uniform compactness gives
+
+
+    0<v_Q^-<=Var(Q_theta | Lambda_{0,theta})
+             <=v_Q^+<infinity.                   (6.5)
+
+
+In particular, Q_theta=0 has conditional probability zero, so the type-boundary discontinuity is null.
+
+
+======================================================================
+7. UNIFORM CONVERGENCE OF THE TYPED DETERMINANT MOMENT
+======================================================================
+
+
+Define
+
+
+    M_r(theta,b,kappa)
+      =E[ |Delta_M^r Delta_S^r| 1_{Tau_r}
+          | Lambda_{r,theta}=y_r ].
+
+
+The integrand has polynomial growth of degree four in a finite-dimensional Gaussian vector. The conditional means and covariances are uniformly bounded on the compact parameter set, so the family is uniformly bounded in L^2 and hence uniformly integrable in L^1.
+
+
+The conditional Gaussian vectors converge in distribution to their limiting vectors. Equations (6.2)–(6.3), the null boundary Q_theta=0, and uniform integrability imply
+
+
+    M_r(theta,b,kappa)
+      -> kappa^2
+         E[ Q_theta^2 1{Q_theta<0}
+            | Lambda_{0,theta}=y_0 ].             (7.1)
+
+
+The convergence is uniform over S^1 x B x K.
+
+
+A concise proof of uniformity is by contradiction. If uniform convergence failed, choose r_j->0 and parameters p_j in the compact set with an error bounded below. Pass to a convergent subsequence p_j->p_*. Continuous Gaussian means/covariances give distributional convergence at p_*, and the uniform L^2 bound gives uniform integrability, contradicting the assumed error.
+
+
+The Gaussian pin densities also converge uniformly:
+
+
+    phi_{r,theta}(y_r)
+      ->phi_{0,theta}(y_0).                       (7.2)
+
+
+Combining (4.3), (7.1), and (7.2) proves the uniform contact limit
+
+
+    J_r -> J_0,                                   (7.3)
+
+
+with
+
+
+    J_0(theta,b,kappa)
+      =2L^2 phi_{0,theta}(y_0)
+        kappa^2
+        E[Q_theta^2 1{Q_theta<0}
+          |Lambda_{0,theta}=y_0].                 (7.4)
+
+
+======================================================================
+8. STRICT POSITIVITY ON THE FROZEN COMPACT WINDOW
+======================================================================
+
+
+The pin density is continuous and strictly positive on the compact parameter set. Hence
+
+
+    phi_*:=min_{theta,b,kappa}
+             phi_{0,theta}(y_0(b,kappa))>0.       (8.1)
+
+
+Let
+
+
+    mu_Q(theta,b,kappa)
+      =E[Q_theta|Lambda_{0,theta}=y_0].
+
+
+Continuity and compactness give a finite M_Q with
+
+
+    |mu_Q|<=M_Q.
+
+
+Together with (6.5), the conditional Q_theta laws lie in the compact Gaussian family
+
+
+    N(mu,sigma^2),
+    |mu|<=M_Q,
+    v_Q^-<=sigma^2<=v_Q^+.
+
+
+Set
+
+
+    R=M_Q+2
+
+
+and define the purely typed lower event
+
+
+    E_-={-R<=Q_theta<=-R+1/2}.                    (8.2)
+
+
+This interval is strictly negative. The Gaussian density is jointly continuous and positive in
+
+
+    (mu,sigma,q)
+
+
+on the corresponding compact set, so
+
+
+    pi_-:=inf P(E_-)>0.                           (8.3)
+
+
+On E_-,
+
+
+    Q_theta^2>=(R-1/2)^2.
+
+
+Since kappa>=9/10,
+
+
+    kappa^2 E[Q_theta^2 1{Q_theta<0}]
+      >=(9/10)^2 (R-1/2)^2 pi_->0.               (8.4)
+
+
+This lower event is a type event only. It contains no adjacency or persistence condition.
+
+
+Using (8.1) and (8.4),
+
+
+    J_0(theta,b,kappa)>=c_*>0                    (8.5)
+
+
+uniformly.
+
+
+======================================================================
+9. FINITE UPPER BOUND
+======================================================================
+
+
+The pin density has a finite compact maximum phi^*. The conditional second moment satisfies
+
+
+    E[Q_theta^2]
+      =Var(Q_theta)+mu_Q^2
+      <=v_Q^+ + M_Q^2.
+
+
+Also kappa<=11/10. Therefore
+
+
+    J_0(theta,b,kappa)
+      <=2L^2 phi^* (11/10)^2 (v_Q^+ + M_Q^2)
+      =:C_*<infinity.                             (9.1)
+
+
+This proves the uniform two-sided limit bound. Uniform convergence then supplies finite-r bounds after reducing r_0.
+
+
+======================================================================
+10. POSITIVE FINITE CONTACT COEFFICIENT
+======================================================================
+
+
+The parameter set has positive finite Lebesgue measure:
+
+
+    |S^1|=2pi,
+    |B|=1/5,
+    |K|=1/5.
+
+
+Thus
+
+
+    0<c_* (2pi/25)
+      <=I_contact(B,K)
+      <=C_* (2pi/25)<infinity.                   (10.1)
+
+
+This closes the all-typed contact-intensity bridge needed before selection probabilities can be inserted into the Theorem B coefficient.
+
+
+It does not by itself establish that selected persistence pairs have the same coefficient.
+
+
+======================================================================
+11. SELECTION AND ADJACENCY FIREWALL
+======================================================================
+
+
+TB-G1 defines, under the identical typed conditioning object,
+
+
+    p_r=P{D_f(M)=S|T_r},
+    a_r=P{A_f(M,S)=1|T_r},
+    q_r^adj=P{D_f(M)=S|A_f(M,S)=1,T_r},
+    eta_r=P{D_f(M)=S,A_f(M,S)=0|T_r},
+
+
+with the exact identity
+
+
+    p_r=a_r q_r^adj+eta_r.                       (11.1)
+
+
+The persistence-selected first-moment density is
+
+
+    J_r p_r.                                      (11.2)
+
+
+TB-G2 proves properties of J_r only. It does not prove:
+
+
+    p_r->1,
+    a_r->1,
+    q_r^adj->1,
+    eta_r=0,
+
+
+or any compact-mark uniform selection theorem.
+
+
+An adjacency-conditioned intensity
+
+
+    I_r=J_r a_r
+
+
+is a different object. The product I_r q_r^adj is only the adjacent-selected contribution and must not be labeled the full persistence intensity without a theorem controlling J_r eta_r.
+
+
+======================================================================
+12. RELATION TO THEOREM B
+======================================================================
+
+
+TB-G1 supplies:
+
+
+- the exact selected point process;
+- unit multiplicity for finite non-essential H0 bars;
+- the separation between all-typed, adjacent, and persistence-selected processes;
+- the exact decomposition (11.1).
+
+
+TB-G2 now supplies:
+
+
+- the exact all-typed Kac–Rice density;
+- the r-power cancellation at contact;
+- uniform finite positive compact-mark contact intensity;
+- a positive lower type event that does not assume adjacency.
+
+
+Still open for the unconditional Theorem B chain:
+
+
+- TB-G3: compact-mark uniform elder/selection theorem for p_r or for the full decomposition;
+- TB-G4: integrable small- and large-kappa domination;
+- TB-G5: off-fold and nonlocal contribution o(ell^-1/3);
+- organizationally distinct review of TB-G1/TB-G2;
+- final coefficient synthesis and operator promotion.
+
+
+No unconditional short-bar law follows from TB-G2 alone.
+
+
+======================================================================
+13. ALGEBRAIC MACHINE COMPANION
+======================================================================
+
+
+The exact algebraic companion independently verifies:
+
+
+- det T_r=12/r^5;
+- the transformed pin vector (3.2);
+- the mark Jacobian r^3/6;
+- the cubic Hermite pin values and gradients;
+- A_M^0=-kappa and A_S^0=+kappa;
+- D^3_{eee}f=2kappa;
+- the contact prefactor 2;
+- the limiting determinant product kappa^2 Q^2;
+- the exact selection partition.
+
+
+Source:
+
+
+LS-DATA-015-v1.0_TBG2_contact_algebra.py
+Bytes: 4,264
+SHA-256: 66a18e445545abdd02815b3ec9a7836393620269a2ea0e620efe5e0d1a889e82
+
+
+Result:
+
+
+LS-DATA-015-v1.0_TBG2_contact_algebra_result.json
+Bytes: 1,832
+SHA-256: a119b7de0b15fa952cd13c98fb34e5fb97bcbda2a93df05141e7dc5888ac6388
+
+
+Verdict:
+
+
+- 10/10 checks PASS;
+- 6/6 controls PASS;
+- overall PASS.
+
+
+The companion checks algebraic scaling and object conventions only. It does not substitute for the Gaussian nondegeneracy and uniform-integrability proof above.
+
+
+======================================================================
+14. ADVERSARIAL CONTROLS AND FALSIFIERS
+======================================================================
+
+
+C1 — OMIT THE MARK JACOBIAN
+
+
+Without r^3/6, the expression scales like r^-3 and diverges. The finite contact density is destroyed.
+
+
+C2 — OMIT ONE DETERMINANT POWER
+
+
+Using only one r factor leaves an r^-1 divergence. Both endpoint determinants are load-bearing.
+
+
+C3 — INSERT AN UNORDERED 1/2 FACTOR
+
+
+This changes the directed maximum-to-saddle object and produces the wrong coefficient.
+
+
+C4 — REVERSE THE DIRECTED GAP
+
+
+Replacing kappa by -kappa reverses the axial fold signs: M ceases to have the required negative axial curvature for positive kappa.
+
+
+C5 — USE A FIXED s=kappa/r OR SHRINKING PHYSICAL-gap WINDOW
+
+
+A shrinking mark window is not the frozen positive-volume K and cannot establish a positive compact-mark coefficient.
+
+
+C6 — INSERT ADJACENCY INTO J_r
+
+
+This changes the all-typed base process and hides an unproved selection theorem inside the contact density.
+
+
+C7 — LOSE PIN-GRAM NONDEGENERACY
+
+
+If the six confluent Fourier symbols were linearly dependent, phi_{0,theta} would not define the required density. The polynomial-lattice argument excludes this.
+
+
+C8 — TRANSVERSE CONDITIONAL VARIANCE ZERO
+
+
+If Q_theta lay in the span of the pin functionals, the typed lower event could collapse. The independent v^2 symbol excludes this.
+
+
+C9 — TYPE BOUNDARY HAS POSITIVE MASS
+
+
+The convergence of indicators would fail if P(Q_theta=0)>0. Nondegenerate Gaussianity gives zero boundary mass.
+
+
+C10 — NO UNIFORM INTEGRABILITY
+
+
+Weak convergence alone does not pass the determinant moment. Uniform Gaussian polynomial moments provide the required L^2 bound.
+
+
+C11 — CLAIM J_r IS THE PERSISTENCE INTENSITY
+
+
+The exact persistence intensity is J_r p_r. Omitting p_r contradicts TB-G1.
+
+
+======================================================================
+15. REQUIRED INDEPENDENT REVIEW
+======================================================================
+
+
+A distinct-family Gaussian/Kac–Rice reviewer should:
+
+
+1. reproduce the exact TB-G1 process and directed convention;
+2. independently derive (2.1);
+3. verify det T_r=12/r^5 and the mark Jacobian;
+4. verify the stable endpoint representatives and exact determinant factorization;
+5. reconstruct the Fourier-symbol nondegeneracy argument uniformly in theta;
+6. verify the conditional transverse variance is uniformly positive;
+7. verify the limiting endpoint signs and type event Q_theta<0;
+8. verify parameter-uniform distributional convergence and uniform integrability;
+9. verify the compact-window positive lower event;
+10. verify no adjacency or persistence mark enters J_r;
+11. issue a hash-specific PASS / AMEND / FAIL verdict.
+
+
+The review must not count same-family agreement as organizational independence.
+
+
+======================================================================
+16. FINAL STATUS
+======================================================================
+
+
+TB-G2 ALL-TYPED CONTACT INTENSITY:
+COMPLETE SAME-LINE CANDIDATE.
+
+
+EXACT CONTACT LIMIT:
+PROVED ON THE OPENAI LINE.
+
+
+UNIFORM POSITIVE FINITE WINDOW B x K:
+PROVED ON THE OPENAI LINE.
+
+
+ADJACENCY/SELECTION:
+NOT INCLUDED; REMAINS SEPARATE.
+
+
+ORGANIZATIONALLY DISTINCT REVIEW:
+OPEN.
+
+
+THEOREM B:
+NONTERMINAL / NOT PROMOTED.
+
+
+END LS-DER-015-v1.0

@@ -1,0 +1,81 @@
+LB-3 fail-closed certificate: R0 / gamma-LOC (SIDE24/q0)
+S1 F.4 capture/escape budgets (threshold-free inward tube; exact Fractions)
+  R=1 ok: cone s4=0.251038<1/3 strip s5=0.875153<9/10 tube adv=1.000246<2 tubecost=1.46e-03<=12/8192=1.46e-03
+  R=2 ok: cone s4=0.251038<1/3 strip s5=0.875153<9/10 tube adv=1.000246<2 tubecost=9.16e-05<=12/8192=1.46e-03
+  R=5 ok: cone s4=0.251038<1/3 strip s5=0.875153<9/10 tube adv=1.000246<2 tubecost=2.34e-06<=12/8192=1.46e-03
+  R=50 ok: cone s4=0.251038<1/3 strip s5=0.875153<9/10 tube adv=1.000246<2 tubecost=2.34e-10<=12/8192=1.46e-03
+S1 OK: 64 exact-rational checks (16 x 4 R values)
+S2 periodized BF kernel: lattice (pi/12)Z^2, masses e^{-|k|^2/2}, |k|<=30
+  truncation tail |k|^0-weighted <= 3.372e-190 < 1e-60
+  truncation tail |k|^1-weighted <= 1.498e-187 < 1e-60
+  truncation tail |k|^2-weighted <= 6.622e-185 < 1e-60
+  truncation tail |k|^3-weighted <= 4.449e-186 < 1e-60
+  Z = 91.673247220931713403 (Poisson deviation 0.0)
+  spectral moments lam2=1, lam4=3, lam22=1 verified to <1e-60
+  spectral == planar+images at 3 pts x 4 derivs, max diff 1.249e-16 < 1e-13
+S2 OK
+S3 pin Gram certificates (mp dps 60, eigsy + residual, pin-preserving)
+  mp evaluation kernel: planar + 24 images; image tail <= 6.044e-281 < 1e-60
+  r=0.050 6pin: lam_min=3.255206e-10 lam_max=2.0 resid=4.92e-61 margin=6.62e+50 ||Ginv||_inf=3.14688e+9
+  r=0.050 9pin: lam_min=1.3212178e-12 lam_max=3.0 resid=1.36e-60 margin=9.73e+47 ||Ginv||_inf=1.04696e+12
+  r=0.025 6pin: lam_min=5.0862628e-12 lam_max=2.0 resid=6.96e-61 margin=7.31e+48 ||Ginv||_inf=1.99035e+11
+  r=0.025 9pin: lam_min=3.3328771e-14 lam_max=3.0 resid=8.54e-61 margin=3.9e+46 ||Ginv||_inf=4.02474e+13
+  ||G6^{-1} v||_1 = 65560.01989 (r=0.05) / 518320.01 (r=0.025)  [C022: 6.556e4 / 5.183e5]
+  lam_min G9 r=0.05 = 1.3212178e-12  [C022 C5_gram9: 1.321e-12]
+S3 OK
+S4 far-field stabilization tables (C022 gamma_LOC corollary recomputation)
+  conditional law given pins at testbed values (b,0,0,b-ell,0,0[,v*,0,0]),
+  v* = b - ell/2; evaluation: one-point law of each jet component at
+  toroidal distance >= d0 from every pin; grid: polar per pin,
+  720 angles x dr=0.03, r in [d0, 7.0]/[d0, 6.0]; argmax refined in mp.
+  r=0.050 6pin d>=3: red_f=1.9102e-02 red_dx=8.8978e-02 red_max=8.8978e-02 tv_f=6.5809e-02 tv_max=1.4907e-01
+  r=0.050 6pin d>=5: red_f=3.2844e-08 red_dx=6.5108e-07 red_max=3.8371e-06 tv_f=7.7044e-05 tv_max=8.4852e-04
+  r=0.050 9pin d>=3: red_f=2.2374e-02 red_dx=9.4461e-02 red_max=1.0297e-01 tv_f=1.5376e-01 tv_max=3.0993e-01
+  r=0.050 9pin d>=5: red_f=4.6132e-08 red_dx=8.0845e-07 red_max=4.5432e-06 tv_f=2.2420e-04 tv_max=2.1409e-03
+  r=0.025 6pin d>=3: red_f=2.0134e-02 red_dx=9.2519e-02 red_max=9.2519e-02 tv_f=6.7651e-02 tv_max=1.5235e-01
+  r=0.025 6pin d>=5: red_f=3.6612e-08 red_dx=7.2145e-07 red_max=4.2232e-06 tv_f=8.1388e-05 tv_max=8.9080e-04
+  r=0.025 9pin d>=3: red_f=2.1273e-02 red_dx=9.3569e-02 red_max=1.0119e-01 tv_f=1.3187e-01 tv_max=2.8562e-01
+  r=0.025 9pin d>=5: red_f=4.1343e-08 red_dx=7.5788e-07 red_max=4.3661e-06 tv_f=1.8469e-04 tv_max=1.8045e-03
+  mp refinement (dps 60) of f-argmax points:
+    r=0.050 6pin d>=3 (red): x=(3.0250,0.0000) m=0.164073 red=0.0191019
+    r=0.050 6pin d>=3 (tv): x=(3.0250,0.0000) m=0.164073 red=0.0191019
+    r=0.050 6pin d>=5 (red): x=(5.0250,0.0000) m=0.000193122 red=3.28435e-8
+    r=0.050 6pin d>=5 (tv): x=(5.0250,0.0000) m=0.000193122 red=3.28435e-8
+    r=0.050 9pin d>=3 (red): x=(-2.4589,1.8174) m=0.308711 red=0.022374
+    r=0.050 9pin d>=3 (tv): x=(2.7439,1.2679) m=0.385533 red=0.0218929
+    r=0.050 9pin d>=5 (red): x=(-4.0298,3.0558) m=0.000435736 red=4.61306e-8
+    r=0.050 9pin d>=5 (tv): x=(4.6275,1.9537) m=0.000561977 red=4.46366e-8
+    r=0.025 6pin d>=3 (red): x=(3.0125,0.0000) m=0.168619 red=0.0201336
+    r=0.025 6pin d>=3 (tv): x=(3.0125,0.0000) m=0.168619 red=0.0201336
+    r=0.025 6pin d>=5 (red): x=(5.0125,0.0000) m=0.000204009 red=3.6612e-8
+    r=0.025 6pin d>=5 (tv): x=(5.0125,0.0000) m=0.000204009 red=3.6612e-8
+    r=0.025 9pin d>=3 (red): x=(-2.3778,1.8745) m=0.318218 red=0.0212777
+    r=0.025 9pin d>=3 (tv): x=(-2.1140,2.1650) m=0.330272 red=0.0209844
+    r=0.025 9pin d>=5 (red): x=(-3.8881,3.1874) m=0.000452695 red=4.13549e-8
+    r=0.025 9pin d>=5 (tv): x=(-3.5345,3.5733) m=0.000463164 red=4.08213e-8
+  certified: red_max(d>=3)<=0.115, red_f(d>=3)<=0.025, red_max(d>=5)<=1e-4,
+  tv_max(d>=5)<=2.5e-3, tv_f(d>=5)<=1e-4 (6pin) / <=3e-4 (9pin)
+  envelopes: red(x) <= n||Ginv||_inf E(d)^2/s02, |m(x)| <= ||w||_1 E(d),
+  E(d) = d e^{-d^2/2} (decreasing for d>1; verified):
+    r=0.050 6pin: var-env <1e-4 for d>=6.1; mean-env <1e-4 for d>=6.7
+    r=0.050 9pin: var-env <1e-4 for d>=6.6; mean-env <1e-4 for d>=7.1
+    r=0.025 6pin: var-env <1e-4 for d>=6.4; mean-env <1e-4 for d>=7.0
+    r=0.025 9pin: var-env <1e-4 for d>=6.9; mean-env <1e-4 for d>=7.5
+  NOTE (for the discharge text): full one-point TV including the
+  conditional mean at testbed values exceeds 2.2% at d=3 (value TV up to
+  0.068 (6pin) / 0.154 (9pin)); the ledger's 2.2% matches the value-
+  variance channel: red_f(d>=3) in [0.0191, 0.0224] vs ledger 0.022.
+S4 OK
+S5 dependency hash binding (sha256, byte-exact)
+  ok e7998ef0d17d951b...  C031_LBRATE_Integration.md
+  ok 9bc0647b885931ba...  C022 Observed Update.json
+  ok c6a90469b6e43c59...  Lemma UB0.md
+  ok 224438cb740565ff...  Lemma UB0 Addendum.md
+  ok 0e9bb486c2dec103...  R0UNIF and LBRestate.md
+  ok 6575e2bb5178e122...  MS Shift R0 Closure.md
+  ok 4a77f3b7ed390c0e...  02_GAUSSIAN_TRANSVERSALITY - WORKING-SOURCE - 19242B - SHA4a77f3b7 - ID19G4QeIu.md
+  ok 33609b70d8c4d970...  SIDE24_GAP_FILL_SUPPLEMENT.md
+  ok 8efcd937502b67ab...  KIMI-AUD-022.md
+  ok KIMI-AUD-022 self-hash b00f0721... (verdict binds byte-exact body)
+S5 OK
+LB3_CERTIFICATE_PASS

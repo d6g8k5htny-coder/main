@@ -88,3 +88,56 @@ def test_negative_control_the_pre_2026_09_19_line_is_refused():
 
 def test_unmasked_checker_passes():
     assert masked_checker_lines("  - run: python tools/lanes_check.py\n") == []
+
+
+# ---------------------------------------------------------------------------
+# The other way a green build can be a lie: a guard for a tool that is gone
+# ---------------------------------------------------------------------------
+#
+# Most steps read ``if [ -f tools/x_check.py ]; then python tools/x_check.py;
+# else echo "skipped (tool absent)"; fi``.  That is honest about a checker that
+# has not landed yet -- and it also means deleting a checker turns its step
+# green and silent.  The mask test above cannot see it, because there is no
+# ``|| echo``.  So: every guarded path must exist in the tree.  A checker may
+# still be removed deliberately, but only by removing its CI step in the same
+# commit, which is a visible act in the diff.
+
+GUARD = re.compile(r"\[\s*-f\s+(\S+?)\s*\]")
+
+
+def guarded_paths(text: str) -> list[str]:
+    return [m.group(1) for block in run_blocks(text) for m in GUARD.finditer(block)]
+
+
+@pytest.mark.parametrize("path", WORKFLOWS, ids=lambda p: p.name)
+def test_every_guarded_tool_exists_in_the_tree(path):
+    missing = [p for p in guarded_paths(path.read_text()) if not (ROOT / p).is_file()]
+    assert missing == [], f"{path.name} guards a path that is not in the tree: {missing}"
+
+
+def test_the_guard_scanner_is_not_vacuous():
+    """Exercise the parser without requiring production to use weaker guards."""
+    text = ('steps:\n  - run: if [ -f tools/claims_check.py ]; then '
+            'python tools/claims_check.py; fi\n'
+            '  - run: python tools/quarantine_check.py\n')
+    assert guarded_paths(text) == ['tools/claims_check.py']
+
+
+def test_negative_control_a_guard_for_a_missing_tool_is_refused():
+    text = ('steps:\n  - run: if [ -f tools/no_such_check.py ]; then '
+            'python tools/no_such_check.py; else echo "skipped (tool absent)"; fi\n')
+    assert [p for p in guarded_paths(text) if not (ROOT / p).is_file()] == ["tools/no_such_check.py"]
+
+
+def test_negative_control_a_guard_for_a_present_tool_passes():
+    text = ('steps:\n  - run: if [ -f tools/claims_check.py ]; then '
+            'python tools/claims_check.py; else echo "skipped (tool absent)"; fi\n')
+    assert [p for p in guarded_paths(text) if not (ROOT / p).is_file()] == []
+
+
+def test_the_mirror_quote_checker_runs_unguarded_in_ci():
+    """It landed with its tool, so it needs no guard -- and must not acquire one."""
+    blocks = run_blocks((ROOT / ".github" / "workflows" / "ci.yml").read_text())
+    calls = [b for b in blocks if "tools/mirror_quotes_check.py" in b]
+    assert len(calls) == 1, calls
+    assert "if [" not in calls[0] and "-f " not in calls[0], calls[0]

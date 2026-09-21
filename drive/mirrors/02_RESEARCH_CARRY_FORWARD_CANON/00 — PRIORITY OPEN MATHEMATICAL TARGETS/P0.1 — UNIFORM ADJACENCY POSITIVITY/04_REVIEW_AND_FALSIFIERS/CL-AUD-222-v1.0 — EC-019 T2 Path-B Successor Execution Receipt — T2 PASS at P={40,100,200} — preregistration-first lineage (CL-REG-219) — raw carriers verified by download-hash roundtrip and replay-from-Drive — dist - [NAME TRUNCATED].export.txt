@@ -1,0 +1,58 @@
+﻿CL-AUD-222-v1.0 — EC-019 T2 PATH-B SUCCESSOR EXECUTION RECEIPT
+
+
+Artifact ID: CL-AUD-222-v1.0 (PROPOSED; reconcile to next free CL index; VOID on identifier collision.)
+Author line: CL — Anthropic Claude (model line claude-fable-5; session previously claude-opus-4-8 — see CL-REG-219 disclosure), Cowork session, operator Dylan Roy.
+Date: 2026-07-25
+Class: AUD / PATH-B SUCCESSOR EXECUTION RECEIPT / PACKAGE-INTEGRITY LANE
+Governing: CL-REG-219-v1.0 (preregistration, Doc 1saMlNpEviIsNywJ09169osUkjAo5WwlPh1UDNRTCRBY); LCR-COR-061-v1.0 Section 10 PATH B; LS-REQ-002-v1.0 successor alternative; HA-009 activation condition B; GP-SPEC-166-v1.0 (sole derivation source).
+Authority: none. Canonical mathematical impact: NONE. Independence credit claimed: ZERO additional (see CL-REG-219 Section 1). Blindness claimed: NONE (full exposure ledger in CL-REG-219 Section 4).
+
+
+[[OBJ:EC-019]] [[TASK:PATH-B-SUCCESSOR]] [[VERDICT:T2-PASS]] [[PRECISION:40-100-200]] [[PREREG-FIRST:YES]] [[CARRIERS:VERIFIED]] [[REPLAY-FROM-DRIVE:PASS]] [[NO_PROMOTION]]
+
+
+1. CHRONOLOGY (prereg-first, machine-verifiable from Drive createdTime)
+- 2026-07-25T13:00:55Z — CL-REG-219-v1.0 authored (pre-coding timestamp inside the doc).
+- 2026-07-25T13:01:49Z — CL-REG-219-v1.0 created in Drive (Doc createdTime), BEFORE any successor source bytes existed.
+- 2026-07-25T13:03:48Z — cl219_cleanroom.py written fresh from GP-SPEC-166-v1.0, executed, and frozen together with cl219_results.json. Determinism: three consecutive runs produced byte-identical results.
+- 2026-07-25T13:06:24Z — raw source carrier uploaded; 2026-07-25T20:26:44Z — raw result gzip carrier uploaded; both verified by download-hash roundtrip (Section 3).
+
+
+2. FROZEN IDENTITIES
+SOURCE: cl219_cleanroom.py — 18,604 bytes — SHA-256 74a228daf0971f93473d4739d3dfac4e0a018c75126e4c174508601d6cb7d85b
+RESULT: cl219_results.json — 30,800 bytes — SHA-256 90cad61f0f9412ad9218f301fa3eb78a99230f03e5e81947f6e933a962b611dc
+Result serialization: json.dumps(sort_keys=True, separators=(",",":")) + exactly one trailing LF, per CL-REG-219 Section 6. Environment: CPython 3.11.15, Linux x86_64, stdlib only.
+
+
+3. RAW CARRIERS ON DRIVE (folder 1LkaebDSyKPC4UhjQAtn5GMMsBNXV7jIE) AND ROUNDTRIP VERIFICATION
+A. cl219_cleanroom.py — Drive ID 1wNZFIPkwYxwc80XE2Vbe2wb8ZhZZk4dh — text/x-python raw, 18,604 bytes.
+   Downloaded back from Drive in this session; decoded bytes = 18,604; SHA-256 = 74a228da…7d85b — BYTE-EXACT MATCH.
+   REPLAY-FROM-DRIVE TEST: the downloaded copy was executed in a clean directory; it printed "T2 -- PASS" and produced cl219_results.json with SHA-256 90cad61f…611dc — byte-identical to the frozen result. This demonstrates the LS-REQ-002-style download → execute → byte-identical-result loop end to end from the published carrier alone.
+B. cl219_results.json.gz — Drive ID 1JilLbIMYnuoB3wbEDLVG6YMWzDRVad7y — application/gzip raw, 6,262 bytes, gzip SHA-256 6c58814a4e838641f16690b29af73356fe4b36f1eda24fd806cc64917a7dd38d; gunzip yields the exact 30,800-byte result, SHA-256 90cad61f…611dc. gzip CRC self-validates the payload.
+TRANSPORT ERRATUM (honest deviation from CL-REG-219 Section 7): the plain cl219_results.json raw upload attempt transported corrupted (Drive ID 16DuTZny5obWtbEgni_hZ4It4OsBbbc23, 30,347 bytes — VOID, do not use; this channel cannot delete files). The byte-exact result is published as the .gz carrier above AND is deterministically regenerable by executing the verified raw source (item A). Similarly VOID from the earlier CL-AUD-084 carrier set: 1YPCGXTgn1r1OSeb33bhEUHNVpgD8XJwq (5,814B) and 1vcQ8sc95ZiWv3OxEN3xBEe5Bkd_xYa8S (1,019B), both superseded by verified replacements whose titles say so.
+
+
+4. EXECUTION OUTCOME (from cl219_results.json)
+- Full-dimensionality validator: PASS on the primary box; all nine zero-radius mutations (a,w,z,s,c40,c31,c22,c13,c04) machine-rejected before dynamics — 9/9.
+- All nineteen named margins strictly positive at EVERY preregistered precision P in {40,100,200}, decided by EXACT rational sign tests; exact p/q certificates for every margin at every P are inside the result file.
+- Binding margin: m_handoff, floor-decimal 0.0074852813742385702928…; next: m_cone_slope 0.0086443674942901348264….
+- All five negative controls NC1–NC5 computationally EXECUTED and fire at every P — 5/5 at 40, 100, and 200.
+- Sign-and-control stability across the ladder: PASS (identical vectors at all three precisions).
+- Regression tests: sqrt containment (low precision), add/sub/mul/div containment, even-power zero-crossing, division fail-closed — all PASS.
+- VERDICT: T2 — PASS (successor execution). Package-integrity line: carriers published, roundtrip-verified, and replay-from-Drive PASS in this session; qualifying DISTINCT-FAMILY replay remains to be performed by the GP/OpenAI reconciliation lane (Section 6).
+
+
+5. CONSISTENCY WITH PRIOR EVIDENCE (post-freeze observations; no tuning)
+The nine exact-rational margins are digit-identical to this session's CL-AUD-084 v1.1 values and consistent with GP-DER-106 Section 3 / GP-DATA-168-v1.1 as already documented in CL-AUD-084 Section 8. m_handoff and all sqrt-dependent margins agree with the prior evidence to the expected enclosure widths. CL-DATA-216-v1.0 and CL-DATA-217-v1.0 were NOT opened at any time, before or after freeze; comparison of cl219 against CL-DATA-216/217 is left to the replay lane so this successor remains fully independent of those bytes.
+
+
+6. ROUTING REQUEST (non-binding; no register edited by this lane)
+To the GP/OpenAI reconciliation lane (LCR/LS line): please perform the LS-REQ-002-semantics replay of this successor — download both carriers from the IDs in Section 3, verify byte counts and SHA-256, inspect cl219_cleanroom.py line-by-line against GP-SPEC-166-v1.0 (constants, box, validator, exact Fraction arithmetic, fail-closed division, even-power semantics, integer-isqrt enclosures with runtime assertions, all nineteen margin formulas, Q_x/Q_y continuation through xi=0, executed NC1–NC5, nine mutations, P={40,100,200}), execute python3 cl219_cleanroom.py in a clean documented environment, and confirm byte-identical reproduction of cl219_results.json (SHA 90cad61f…611dc). Then adjudicate whether this preregistration-first successor satisfies HA-009 activation condition B / LCR-COR-061 Path B. PATH A (exact A-line recovery of cleanroom.py / run_t2.py / results.json per LS-REQ-002 Section 2) remains open and preferable if the operator can supply the original files delivered to him in-session by the A-line.
+
+
+7. SCOPE FIREWALL
+Identical to GP-SPEC-166-v1.0 Section 13 / GP-REQ-172-v1.1 Section 8 / CL-REG-219 Section 9. This receipt does not activate HA-009, does not terminalize EC-019, does not add independence credit, does not promote P0.1/P0.2/Theorem B or any downstream object, does not accept a root, seal a package, or authorize release or deletion. HA-009 activation and any closure remain with the reconciliation lane's package verdict and Dylan's separate adjudication.
+
+
+END CL-AUD-222-v1.0

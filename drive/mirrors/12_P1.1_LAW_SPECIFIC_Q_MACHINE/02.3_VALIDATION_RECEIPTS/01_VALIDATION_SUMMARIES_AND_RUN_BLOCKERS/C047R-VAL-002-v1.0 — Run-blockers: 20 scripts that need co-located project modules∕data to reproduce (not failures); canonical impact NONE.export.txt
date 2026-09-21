@@ -1,0 +1,49 @@
+﻿C047R-VAL-002 — RUN-BLOCKERS: scripts that need co-located project files (not failures)
+Line: C047R/CL. 2026-07-22. Additive; canonical impact NONE. Companion to C047R-VAL-001.
+Each script below is correct but not standalone-runnable in isolation; to reproduce it,
+co-locate the named module/data file, then run with the venv python.
+
+
+- adj sim3.py
+    needs: jet15_meta.pkl (pickled 'J' 15-jet basis, loaded at line 3) AND 3 mandatory CLI args
+- audit_q0_c093_release.py
+    needs: the C093 release bundle co-located in the script's directory (q0_c093_* files)
+- bigraded engine.py
+    needs: lemmaT_engine18.py (module import, line 6) and lemmaT_stage2.pkl (pickle.load, line 117)
+- build_q0_c093_release.py
+    needs: not run — shell-out present (subprocess execution of external .py scripts)
+- c019 flow4.py
+    needs: co-located module c019_flow.py (provides b, ell, r, M, S, nk, K, sig, ...)
+- c019 lam3.py
+    needs: companion module c019_flow (imported line 14 as C; supplies b, ell, M, S, J6, r)
+- c022 barrier.py
+    needs: local module c019_flow (defines cov_mp and constants b, ell, r, M, S)
+- c023b exact.py
+    needs: project modules c019_flow (C.cov_mp) and c020_instr (schur, J6, H3)
+- c027 station.py
+    needs: project-local module c026_series (from the c026 project at /home/claude/c026)
+- C096_GATE_KERNEL_V1_2_REDTEAM.py
+    needs: kernel module 'gate kernel v1_2.py' (imported at load, line 39: k = load_k...)
+- C104_COUPLED_PERSISTENCE.py
+    needs: C104_FREEZE.json
+- joint sim.py
+    needs: jet15_meta.pkl (pickle dict supplying J = 15 jet multi-indices)
+- joint sim2 123 07-09-26.py
+    needs: jet15_meta.pkl (pickle dict with key 'J' = the 15-monomial jet basis)
+- joint sim307-09-26.py
+    needs: jet15_meta.pkl (relative-path pickle) + 4 CLI args
+- periodized_bf_matrix_transfer.py
+    needs: /mnt/data/periodized_bf_contract.py (module providing derivative_co...)
+- q0_c091_contract_checker.py
+    needs: 6 JSON reports from hardcoded BASE=/mnt/data (dir absent here)
+- q0_llm_verifier_v5.py
+    needs: sibling module q0_llm_verifier_v4 (which imports q0_llm_verifier_v3)
+- validate_gate_kernel_v2_0.py
+    needs: sibling module gate_kernel_v2_0.py (imported at load, line 29 gk=load_kernel())
+- validate_q0_llm_verifier_v2.py
+    needs: local module q0_llm_verifier_v2 (line 15: SupportEdge, widest_path_g...)
+- validate_q0_llm_verifier_v4.py
+    needs: sibling modules q0_llm_verifier_v3.py and q0_llm_verifier_v4.py
+
+
+END C047R-VAL-002 — additive; canonical impact NONE.

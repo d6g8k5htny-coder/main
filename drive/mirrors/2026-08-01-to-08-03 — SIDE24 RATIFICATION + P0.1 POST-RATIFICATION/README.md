@@ -54,7 +54,10 @@ CORRUPT … DO NOT USE IT", and the P0.1 (2D) sub-lane.
   status from HOLD to RATIFIED-AT-STATED-SCOPE".
 * The register (`registers/json/operator_decisions.json`, row AO48-OPR-045,
   2026-08-02T16:10:54Z): decision `RATIFIED-AT-STATED-SCOPE`, "3,397 B; SHA-256
-  e48d7c27…; q0/P0.1 explicitly unchanged."
+  e48d7c27…" and, after the full digest and the cell's own full stop,
+  "q0/P0.1 explicitly unchanged." Until 2026-09-20 the two were run together as
+  one span ending "; q0/P0.1 explicitly unchanged.", a semicolon where the cell
+  has a period.
 * `AO48-AUD-044` — `AUTHORITY: none — the decision below is the operator's
   alone`; `CANONICAL IMPACT: NONE until ratified`; verification ledger §B:
   "Kimi (third family): every display in the facewise draft recomputed
@@ -82,3 +85,66 @@ computed or awarded here. Nothing on this track bears on the 2D upper or lower
 tracks, Theorem D1's five OPEN premises, `D3-LEMMA-RN-UNIF`, P0.1, P0.2 or
 Theorem B, and the standing firewall (CLAUDE.md rule 4, `FW-2D-3D-COMPOSITION`)
 forbids composing it with them.
+
+
+## 2026-09-20 — the digest-bearing remainder: 51 files byte-exact
+
+51 of this lane's 60 unheld digest-bearing items are stored byte-exact — 40 under
+`01_SIDE24_3D_RATIFICATION_AND_RECOVERY`, 16 under
+`02_P0.1_POST_RATIFICATION_AUDITS` and 4 under the work orders — and the 9 left,
+all over the 65,536-byte store limit, carry tree-only rows with the inventory's
+own digest. **Zero mismatches in 51 files.** `AO48-AUD-033` stays tree-only for
+the reason an earlier pass recorded: two downloads disagreed with the inventory
+by one byte, and a row that cannot be proved is not stored as though it could.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row.
+
+**The ratification status is the register's word**, `RATIFIED-AT-STATED-SCOPE`,
+with the stated scope, the carried dependencies and the reopening conditions the
+register gives. That status is carried in `claims/graph.json` and is not read
+from anything stored here; holding the record's bytes neither widens nor narrows
+it, and a post-ratification audit filed beside it does neither either.
+
+**Nothing on the 3D track composes with the 2D upper or lower tracks.**
+`ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws exactly that composition, and
+`tools/claims_check.py` fails the build on it. Storing more of the 3D track's
+bytes changes nothing about that.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation or theorem. Every number above
+counts files, bytes and digests. A ratification record is a record; copying it is
+not ratifying anything, and no scope stated in it is extended by being held here.
+
+
+## 2026-09-20 — 5 reading copies, completing the lane
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. The five native Google Docs that remained are now held as text exports.
+**They are renderings, not the objects.**
+
+This is a weaker thing than a byte-exact copy, and the difference is not a matter
+of degree. A byte-exact copy here was written only because its SHA-256 and byte
+count already equalled the ones `drive/inventory.jsonl` declares. **That rule
+cannot apply to a native Google Doc**: the corpus declares no payload digest for
+one anywhere, so nothing can prove an export and a re-fetch could differ. Each
+row carries `exact: false` and `inventory_sha256: null`; its `sha256` and `bytes`
+are of the export, computed at store time. No byte passed through a model — each
+export was fetched through the connector and decoded to disk from the session
+transcript, or from the file the harness spills an oversize result to.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and — for
+this class — **nothing about the objects' bytes either.** The SIDE24 status is
+the register's own word, `RATIFIED-AT-STATED-SCOPE`, with the scope, carried
+dependencies and reopening conditions the register states; holding a rendering
+ratifies nothing and widens no scope. **Nothing on this 3D track composes with
+the 2D upper or lower tracks** — `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws
+exactly that composition and `tools/claims_check.py` fails the build on it — and
+the record itself says so.

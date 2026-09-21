@@ -1,0 +1,429 @@
+﻿GP-DER-116-v1.0 — UNIFORM POSITIVE FINITE-Q4 PALM MASS OF THE FIXED-q CORRIDOR
+
+
+Artifact ID: GP-DER-116-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: DER — finite-dimensional uniform-positive-mass theorem candidate
+Authority: none
+Canonical impact: NONE
+Priority: P0.1 finite-Q4 bridge
+Status: COMPLETE GP-SIDE CANDIDATE / NON-GP REVIEW REQUIRED / EXACT-FIELD P0.1 OPEN
+
+
+Primary dependencies:
+- GP-DER-114-v1.0 uniform-r fixed-q degree-four corridor;
+- GP-AUD-115-v1.0 source and monotonicity audit;
+- GP-DER-043-v1.0 finite-Q4 typed Palm law and normalizer reduction;
+- GP-DER-044-v1.0 exact-torus Gaussian regularity;
+- DEF-053 typed finite-Q4 Palm law.
+
+
+[[OBJ:GP-DER-116-v1.0]] [[BOX:P01-UNIFORMQ-D4-BOX-001]] [[LAW:P_r,Q4^MS]] [[TARGET:P0.1]] [[STATUS:UNIFORM-FINITE-Q4-MASS-CANDIDATE]] [[STATUS:EXACT-FIELD-OPEN]]
+
+
+0. THEOREM CANDIDATE
+
+
+Let B_q=P01-UNIFORMQ-D4-BOX-001 be the full-dimensional fixed-q box of GP-DER-114. Let gamma_r be the exact normalized-periodized six-pin conditional Gaussian law of the nine midpoint jets
+
+
+J_r=(q,a,w,z,c40,c31,c22,c13,c04).
+
+
+Let P_{r,Q4}^{MS} be the typed finite-Q4 Palm law defined in GP-DER-043 from the normalized quartic endpoint Hessians.
+
+
+Then there exist
+
+
+r_1 in (0,1/20]
+
+
+and
+
+
+c_{Q4}>0
+
+
+such that
+
+
+inf_{0<r<=r_1} P_{r,Q4}^{MS}(B_q) >= c_{Q4}.
+
+
+Because GP-DER-114 proves
+
+
+B_q subset H_r^(4)
+
+
+for every 0<r<=1/20, it follows that
+
+
+inf_{0<r<=r_1} P_{r,Q4}^{MS}(H_r^(4)) >= c_{Q4}>0.
+
+
+No numerical value of c_{Q4} is claimed.
+
+
+This is a uniform finite-dimensional degree-four theorem candidate. It is not the exact full-field P0.1 theorem.
+
+
+1. THE FIXED-q BOX
+
+
+For every r, B_q is the same product box:
+
+
+q in [-1.02,-0.98],
+a in [0.0024,0.0026],
+w in [-0.001,0.001],
+z in [0.99,1.01],
+
+
+c40,c31,c22,c13,c04 in [-0.01,0.01].
+
+
+Its Euclidean volume in the nine-jet coordinates is
+
+
+Vol(B_q)=1.024e-18>0.
+
+
+Unlike a fixed-s=q/r box, this box does not shrink in the physical q coordinate as r tends to zero.
+
+
+2. UNIFORM DEGREE-FOUR CAPTURE
+
+
+GP-DER-114 and GP-AUD-115 establish that every point of B_q satisfies the repaired degree-four capture gates for every 0<r<=1/20.
+
+
+The proof uses
+
+
+q/r<=-19.6
+
+
+and a complete monotonicity ledger to reduce the unbounded scaled transverse curvature to one finite worst case.
+
+
+Therefore
+
+
+B_q subset H_r^(4)
+
+
+uniformly on the full deterministic interval.
+
+
+3. EXACT FINITE-Q4 GAUSSIAN REGULARITY
+
+
+GP-DER-044 proves that, in the exact confluent divided-difference frame, the conditional nine-jet law
+
+
+gamma_r=N(m_r,Sigma_r)
+
+
+extends continuously through r=0 and that Sigma_0 is positive definite.
+
+
+Consequently there exists r_GR>0 such that on [0,r_GR]:
+
+
+- m_r is continuous and uniformly bounded;
+- Sigma_r is continuous;
+- all eigenvalues of Sigma_r are bounded above and away from zero;
+- the Gaussian density phi_r(u) is continuous jointly in (r,u) and strictly positive.
+
+
+Set
+
+
+r_1=min(r_GR,1/20).
+
+
+The compact set
+
+
+[0,r_1] x B_q
+
+
+therefore has a strictly positive density minimum
+
+
+c_phi := min_{0<=r<=r_1, u in B_q} phi_r(u)>0.
+
+
+No explicit c_phi is required.
+
+
+4. UNIFORM FINITE-Q4 ENDPOINT TYPE AND WEIGHT
+
+
+The physical quartic endpoint Hessians of GP-DER-043 are
+
+
+H_M^(4)=
+[[-r+r^2 c40/12, -ar/2+r^2 c31/12],
+ [-ar/2+r^2 c31/12, q-rw/2+r^2 c22/8]],
+
+
+H_S^(4)=
+[[ r+r^2 c40/12,  ar/2+r^2 c31/12],
+ [ ar/2+r^2 c31/12, q+rw/2+r^2 c22/8]].
+
+
+Factor one power of r from each determinant:
+
+
+d_M(r,u):=det H_M^(4)/r
+
+
+=(-1+r c40/12)(q-rw/2+r^2 c22/8)
+-r(-a/2+r c31/12)^2,
+
+
+and
+
+
+d_S(r,u):=-det H_S^(4)/r
+
+
+=-(1+r c40/12)(q+rw/2+r^2 c22/8)
++r(a/2+r c31/12)^2.
+
+
+Outward interval evaluation on
+
+
+0<=r<=1/20
+
+
+and u in B_q gives
+
+
+ d_M(r,u) >= 0.9799309528350694,
+ d_S(r,u) >= 0.9799310428385416.
+
+
+The longitudinal M entry is strictly negative, the M transverse entry is strictly negative, and the S determinant is strictly negative. Hence the finite-Q4 type indicators equal one throughout the box.
+
+
+Define
+
+
+w_0=0.9799309528350694 x 0.9799310428385416
+
+
+so that conservatively
+
+
+w_0>=0.9602647605214353.
+
+
+Therefore the finite-Q4 determinant/type weight satisfies
+
+
+W_{r,Q4}(u)>=r^2 w_0
+
+
+for every 0<r<=1/20 and every u in B_q.
+
+
+5. UNIFORM FINITE-Q4 NORMALIZER
+
+
+GP-DER-043 and GP-DER-044 prove
+
+
+Z_{r,Q4}=r^2 z_r,
+
+
+where z_r extends continuously to r=0 and
+
+
+z_0=z_{0,L}=E[Q_L^2 1{Q_L<0}]>0.
+
+
+Thus, after decreasing r_1 if necessary, there are constants
+
+
+0<c_Z<=C_Z<infinity
+
+
+such that
+
+
+c_Z<=z_r<=C_Z
+
+
+for 0<=r<=r_1.
+
+
+Only the upper bound is needed below.
+
+
+6. UNIFORM POSITIVE MASS
+
+
+The finite-Q4 Palm mass of B_q is
+
+
+P_{r,Q4}^{MS}(B_q)
+=
+[ integral_{B_q} W_{r,Q4}(u) phi_r(u) du ] / Z_{r,Q4}.
+
+
+Using Sections 3–5,
+
+
+integral_{B_q} W_{r,Q4} phi_r du
+>=r^2 w_0 c_phi Vol(B_q).
+
+
+Also
+
+
+Z_{r,Q4}<=r^2 C_Z.
+
+
+The factors r^2 cancel, yielding
+
+
+P_{r,Q4}^{MS}(B_q)
+>=
+[w_0 c_phi Vol(B_q)]/C_Z
+=:c_{Q4}>0
+
+
+uniformly for 0<r<=r_1.
+
+
+This proves the theorem candidate.
+
+
+7. WHY FIXED q IS LOAD-BEARING
+
+
+On a fixed negative q-box,
+
+
+W_{r,Q4}/r^2 -> q^2
+
+
+uniformly on compact jet sets, while the Gaussian q-width remains fixed. Division by the r^2 Palm normalizer therefore leaves an order-one mass contribution.
+
+
+For a fixed-s box, q=rs and the q-width contributes an additional factor r. On the typed boundary layer the determinant product is order r^4 and division by the r^2 normalizer leaves an O(r^3) normalized contribution.
+
+
+Therefore the fixed-s Route-B box is suitable for fixed-r existence and boundary-layer analysis, but the fixed-q box is the correct geometry for uniform adjacency positivity.
+
+
+8. EXACT OBJECT BOUNDARY
+
+
+The theorem uses:
+
+
+- the exact finite-r Gaussian law gamma_r of the nine midpoint jets;
+- the normalized quartic endpoint Hessians H_M^(4),H_S^(4);
+- the finite-Q4 typed Palm law P_{r,Q4}^{MS};
+- the degree-four capture event H_r^(4).
+
+
+It does not use or prove:
+
+
+- exact full-field endpoint Hessians;
+- exact full-field Palm weights;
+- exact-field selected-branch capture;
+- a conditional residual support probability;
+- exact adjacency A_r;
+- the exact P0.1 quantity a_r.
+
+
+The finite-Q4 and exact full-field Palm laws remain distinct under GP-AUD-112 and DEF-053.
+
+
+9. DEPENDENCIES AFFECTED
+
+
+Advanced:
+
+
+- uniform finite-Q4 positive mass for an explicit corridor;
+- the finite-dimensional probability layer of the P0.1 preferred route;
+- GP-REQ-105's fixed-q mass interface;
+- the route from deterministic degree-four geometry to a nonvanishing normalized finite-Q4 event.
+
+
+Retained as open:
+
+
+- non-GP review of GP-DER-044 regularity and GP-DER-114 intervals;
+- exact full-field support/transfer uniform in r;
+- exact endpoint-weight compatibility;
+- a uniform exact-field normalizer and positive support mass;
+- P0.1.
+
+
+10. FALSIFIERS
+
+
+The theorem candidate fails or requires amendment if:
+
+
+1. GP-DER-044's exact-torus continuity or positive-definiteness proof fails;
+2. the joint density is not continuous and positive on the compact box;
+3. either determinant-factor lower bound is wrong;
+4. a finite-Q4 type indicator fails inside B_q;
+5. Z_{r,Q4}/r^2 is not uniformly bounded above for small r;
+6. GP-DER-114's box inclusion fails;
+7. finite-Q4 and exact full-field weights are conflated.
+
+
+11. REQUIRED OUTSIDE REVIEW
+
+
+AO48:
+- review compact-density positivity and the determinant/normalizer cancellation.
+
+
+CW/C047R:
+- independently reconstruct the exact-torus Gaussian-regularity and determinant-factor bounds.
+
+
+CL:
+- compare with its fixed-q numerical corridor and test the predicted nonvanishing finite-Q4 mass under independent draws, without replacing the proof.
+
+
+Accepted response wording:
+
+
+APPROVE GP-DER-116 UNIFORM FINITE-Q4 MASS SCOPE
+
+
+or a precise numbered amendment naming the failed step.
+
+
+Silence does not count.
+
+
+12. CURRENT STATUS
+
+
+UNIFORM DEGREE-FOUR CORRIDOR: GP-SIDE PASS.
+UNIFORM FINITE-Q4 MASS THEOREM: COMPLETE GP-SIDE CANDIDATE.
+NON-GP REVIEW: OPEN.
+EXACT FULL-FIELD UNIFORM MASS: OPEN.
+P0.1: OPEN.
+
+
+No theorem promotion, terminal closure, ballot, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive operation follows.
+
+
+END GP-DER-116-v1.0

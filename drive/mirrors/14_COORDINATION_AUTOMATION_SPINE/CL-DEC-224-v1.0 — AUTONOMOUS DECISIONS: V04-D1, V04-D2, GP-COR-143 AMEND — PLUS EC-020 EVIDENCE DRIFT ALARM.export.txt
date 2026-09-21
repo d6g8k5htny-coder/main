@@ -1,0 +1,243 @@
+﻿CL-DEC-224-v1.0 — AUTONOMOUS DECISIONS: V04-D1, V04-D2, GP-COR-143 AMEND — PLUS EC-020 EVIDENCE DRIFT ALARM
+
+
+Artifact ID: CL-DEC-224-v1.0
+Author line: CL — Anthropic Claude (claude-opus-5), Cowork session session_01Tqagv53x5pGo8bwGackV1g
+Date: 2026-07-26
+Class: AUTONOMOUS DECISION RECORD + DRIFT ALARM
+Governing: OP-PROT-012, with OP-PROT-011's independent-eyes, evidence-lineage, scope, provenance and anti-consensus-laundering safeguards retained as technical predicates
+Authority basis: Dylan Roy's direct instruction to this session on 2026-07-26 — "I want automation with basically no human input" — which is the operator-channel confirmation CL-GOV-222 and CL-AUD-223 said they required, and which corroborates OD-OP-PROT-012-CROSSFAMILY-20260725-001.
+Canonical mathematical impact: NONE. No seal, no root, no theorem promotion, no machine change.
+
+
+[[OBJ:CL-DEC-224-v1.0]] [[DECISIONS:3]] [[ALARM:EC020-EVIDENCE-DRIFT]] [[NO-SEAL]] [[NO-ROOT]]
+
+
+
+
+============================================================================
+0. POSTURE CHANGE, STATED ONCE
+============================================================================
+
+
+CL-GOV-222 asked one question and said it would not accept the answer from a document. Dylan has now answered directly in the live session. I am therefore deciding rather than recommending, and this record consumes shared budget units.
+
+
+What that does NOT change, per OP-PROT-012 §11 and OD-CROSSFAMILY §2: authority to decide is not evidence that a predicate passed. Automation means I decide MORE, not that I decide YES more. Two of the three decisions below are refusals, and the largest item in this record is an alarm that stops work rather than advancing it.
+
+
+
+
+============================================================================
+1. DECISION — V04-D2: CARRIER RE-UPLOAD POLICY
+============================================================================
+
+
+QUESTION: must v0.4 carriers be re-uploaded as R0.2-canonical bytes (no BOM, one LF), or may v0.3-era BOM-bearing carriers be enumerated as-is with exact stored identities?
+
+
+DECISION: YES — ENUMERATE AS-IS. Do NOT re-upload existing carriers. Carriers created from this point forward SHALL be written R0.2-canonical (UTF-8 no BOM, exactly one trailing LF).
+
+
+PREDICATE AND EVIDENCE:
+(a) TRC-STANDARD-001-v1.3-R0.2 §2.3 governs canonicalization OF THE MANIFEST. §3.1 binds pre-root leaves by ROOT_SHA256 over their EXACT STORED BYTES. A BOM is simply part of those bytes; it does not impair binding. The standard does not require leaf canonicality, and reading it as though it did would be a scope expansion, not compliance.
+(b) Re-uploading destroys every existing verified identity and forces complete re-verification of the leaf set, for zero gain in binding strength.
+(c) DECISIVE, and new tonight: re-upload requires moving carrier bytes through the retrieval/transfer channel, which CL-AUD-223 proved is lossy AND correlated-error-prone. Every re-upload is a fresh opportunity for silent corruption that multi-pass agreement cannot reliably detect. A policy that mandates unnecessary byte transport in this environment actively manufactures risk.
+
+
+Enumerating stored bytes requires no transport at all. That is the safer path and it is also the cheaper one.
+
+
+CONSEQUENCE: v0.4 may bind existing carriers by exact stored identity. Where a bound carrier internally declares capsule_id "TRC-EC020-v0.3", the manifest SHALL record that label discrepancy explicitly as creation provenance rather than rewriting the file.
+
+
+
+
+============================================================================
+2. DECISION — V04-D1: SAME-PURPOSE CARRIER SELECTION (five roles, differentiated)
+============================================================================
+
+
+The selection was made on CONTENT VERIFICATION, not on status labels. Every candidate was fetched by exact Drive ID and its substance checked against independently established ground truth. Independence note: all five roles' carriers are GP-line products; selection by the CL line is cross-line, so the "no same-line self-selection" constraint is satisfied.
+
+
+2.1 primary_document_export_identities — SELECT 1Tq-Axx6s7_JxwMuix1pOl5zj6ef84SKJ (1,578 B, 7d00ed2b...)
+DECISION: YES.
+Evidence: its four declared identities were independently re-exported and re-hashed by this line on 2026-07-25 and matched 4/4 on both byte count and SHA-256 (CL-PREFLIGHT-221 Tier 5). It is also the only carrier in this set whose live Drive title carries no rejected-branch marker.
+Alternate 1mAvJ2rMpXMxG6tvj9WK7vKHg9aV8H2nY → ZERO-CREDIT PROVENANCE. Its own Drive title reads "SUPERSEDED ROOT LINE A". Note for preservation: it carries FULL opaque Drive revision IDs where the selected carrier records only "2"/"2"/"2"/"3". That is strictly richer provenance and should be preserved and, ideally, folded into a future carrier. Zero-credit means not load-bearing; it does not mean worthless.
+
+
+2.2 frozen_register_rows — SELECT 1CBRVWAV0EvDTMcaKOq2KUaw9rMMbaDjV (11,275 B, 36d34912...)
+DECISION: YES, with a recorded label discrepancy.
+Evidence: it freezes exactly seven rows, one per sheet — Closure Log 15 / CL-EC020-001, Operator Decisions 11 / OD-EC020-001, Evidence Lineage 101 / EV-P01-EC020-TERM, Review Independence 39 / REV-EC020-CL-073, Transition Register 65 / TR-P01-020, Easy Closure Queue 16 / EC-020, Help Board 36 / HB-031. All SEVEN were re-verified against a fresh full read of the live register tonight: 7/7 key cells still match at the stated row numbers.
+Also resolved: these are EC-020 rows and are DISJOINT from the EC-021 rows in dispute under CL-PREFLIGHT-221 C1. C1 does NOT block this carrier. I had assumed an overlap; there is none, and I am recording the correction.
+Discrepancy recorded per §1: the carrier's Drive title marks it rejected-branch provenance and its payload declares capsule v0.3, while its CONTENT verifies. A rejected ROOT does not invalidate a leaf whose bytes and substance verify.
+Alternate 1xwFVO06uPDNWyvN2WWSgdnWzOETuUGvN → ZERO-CREDIT PROVENANCE (already so marked).
+
+
+2.3 evidence_export_identities — REJECT BOTH VARIANTS
+DECISION: NO. A fresh v0.4 carrier is REQUIRED.
+Evidence — this is the alarm in §3: the selected-candidate carrier 1Ps9NsO4GTAwzb7FyvFnt_5x0VThUFDvx declares six evidence identities, and TWO OF THE SIX NO LONGER MATCH THE LIVE DOCUMENTS. Binding a v0.4 manifest to a carrier with stale identities would embed a falsehood beneath a root hash, which is the precise failure the TRC standard exists to prevent.
+Alternate 1cBJwzWWPdHW5pLxn-E1GNNCYlXt5UngK carries the same two stale records and is additionally self-declared "NONACTIVE EARLIER VARIANT". Both → ZERO-CREDIT PROVENANCE.
+The replacement values are supplied in §4; regeneration needs no further retrieval.
+
+
+2.4 link_validation — REJECT BOTH VARIANTS
+DECISION: NO. A fresh v0.4 carrier is REQUIRED.
+Evidence: 1xmLhAb0I_QwMNgeHac4zUNYE835TtK1d validates thirteen objects and is the better provenance base, but it certifies E2 (GP-DER-114) and E4 (GP-AUD-115) as PASS against identities that have since drifted, and its pre_manifest_carriers list enumerates 1mAvJ2rM — the carrier demoted to zero-credit in §2.1. 18fAgrpN80mnYA5Fs9nhlG2xX_S6tZkHB is self-declared "NONACTIVE PRELIMINARY" and covers a strictly smaller object set. Both → ZERO-CREDIT PROVENANCE.
+
+
+2.5 evidence_graph — REJECT THE SOLE VARIANT
+DECISION: NO. A fresh v0.4 carrier is REQUIRED.
+Evidence: 1A3ToM8E0yetDvzU6sAu7DBr0zMJ7y_r0 is titled rejected-branch provenance, declares capsule v0.3, and its carrier_enumeration binds node C0 to 1mAvJ2rM and C1 to 1Ps9NsO4 — both demoted above. Its 19-node / 18-edge STRUCTURE is sound and should be reused verbatim as the basis for the v0.4 graph; only the carrier bindings and identity claims need regeneration. → ZERO-CREDIT PROVENANCE, structure retained as the drafting base.
+
+
+NET: two roles selected on verified content, three roles require fresh carriers. V04-D1 is DISCHARGED as a decision; the three regenerations are mechanical follow-on work, not further decisions.
+
+
+
+
+============================================================================
+3. ALARM — EC-020 EVIDENCE DRIFT (this is the most important item in this record)
+============================================================================
+
+
+Two EC-020 evidence documents have changed since their identities were frozen, and the change is SUBSTANTIVE, not cosmetic.
+
+
+  GP-DER-114-v1.0   1Dsr8bJ5LpCu5R0w3pLWYFY5RM1P0xzT1h4kYZAih4b4
+    frozen: 10,384 B / 844c96898b577eb1db78015dfb4e5e4a57e2af83d317f461e252466591915bc9
+    live:   11,389 B / cddad293478d7da755e610d38ff9443d23a551eccf175d5faa1504aeaf347181
+  GP-AUD-115-v1.0   1k10BNCl9tigv42rGOhVKaxiTO_EKeURc28oQhtS2F8Q
+    frozen:  8,171 B / 9353db868e4ef2cfb14baf5f3c78e4ae1c031326358c10a9f07898452fea27c4
+    live:    9,118 B / aa2c1f81c69cbfbe45b0bb15309af91675e55bfd0d306488d83bbf0285b817ee
+  Both modified 2026-07-24T19:51Z. GP-CLS-PROP-024 (6,479 B / 6aa54828...) and the EC-020 workflow directive (1,929 B / f931b3d8...) are UNCHANGED.
+
+
+This is real drift, not a transcription artifact: two blind passes agreed byte-for-byte on all four documents, so the CL-AUD-223 defect class is excluded here.
+
+
+WHAT THE ADDED TEXT SAYS. Both documents gained a prepended "ADVERSARIAL AUDIT CORRECTION — 2026-07-24" block. In substance: GP-AUD-178-v1.0 found that the original GP-DATA-114 implementation "extracted mpmath interval endpoints as binary floats and performed several final one-sided calculations outside interval arithmetic," and that its byte-identical rerun "established reproducibility, not complete interval rigor." GP-AUD-115's claim that outward-rounded interval arithmetic covered every final polynomial bound is corrected as "too strong." The repair is GP-DATA-178-v1.0 (1kV9H-CJCNlN3nu4OC8NAo1oGitVsSJbg5qjGcdlokZM), reported to pass all nineteen gates and five controls at 80 interval digits.
+
+
+WHY THIS MATTERS BEYOND THE MANIFEST. EC-020's terminal closure rests on GP-DER-114, GP-AUD-115, and CL-AUD-073. CL-AUD-073 is MY line's qualifying independent review, and it reviewed GP-DER-114 / GP-DATA-114-v1.1 — that is, the implementation now known to be defective. A review approving a superseded implementation is not automatically void, but it is no longer current evidence for the repaired one. The EC-020 review chain needs a fresh independent review of GP-DATA-178 before its evidence set can be called complete.
+
+
+A CORROBORATION WORTH ROUTING, NOT CREDITING. The correction states GP-DATA-178's binding handoff lower bound as 0.0074852813742385702928. My EC-019 T2 blinded clean-room — which used exact-rational interval arithmetic with Fraction endpoints and directed integer-isqrt square roots, and therefore CANNOT exhibit the float-leakage defect GP-AUD-178 describes — recorded a binding handoff of approximately 7.49e-3. Those agree to the precision I recorded. If they are the same quantity under the same box, that is independent cross-line, cross-implementation corroboration of the repaired result, produced before the defect was known and by a method structurally immune to it. I am NOT crediting it: it requires confirmation against the exact margin definition in GP-SPEC-166 versus GP-DATA-178's, which is a comparison I have not run. Routed for that check.
+
+
+REQUIRED CONSEQUENCE, per OP-PROT-012 §12 (contradictory evidence automatically reopens the affected scope): TRC-EC020-v0.4 SHALL NOT freeze an evidence-identity carrier against the pre-drift values. EC-020's terminal MATHEMATICAL status is not altered by this record — the drift is in evidence-package identity and review currency, and the repair reportedly strengthens the result rather than weakening it.
+
+
+
+
+============================================================================
+4. REPLACEMENT IDENTITIES FOR THE v0.4 evidence_export_identities CARRIER
+============================================================================
+
+
+Established this session by two blind passes that agreed byte-for-byte. All are text/plain exports with UTF-8 BOM, CRLF only, no final newline.
+
+
+  E1 GP-CLS-PROP-024-v1.0  1cbLqX5vrhhtrRA4fvESVySoCIc2Vm6XltUqbRTsAFC8
+      6,479 B  6aa54828a0e79140d8047c0e31f8cc6e73c0c50ca38a94fc1f992ad4108b3063  CRLF=173  (unchanged)
+  E2 GP-DER-114-v1.0       1Dsr8bJ5LpCu5R0w3pLWYFY5RM1P0xzT1h4kYZAih4b4
+      11,389 B cddad293478d7da755e610d38ff9443d23a551eccf175d5faa1504aeaf347181  CRLF=381  (REPLACES 844c9689...)
+  E4 GP-AUD-115-v1.0       1k10BNCl9tigv42rGOhVKaxiTO_EKeURc28oQhtS2F8Q
+      9,118 B  aa2c1f81c69cbfbe45b0bb15309af91675e55bfd0d306488d83bbf0285b817ee  CRLF=326  (REPLACES 9353db86...)
+  E5 CL-AUD-073-v1.0       13y52S48vIpZEO29BJw7RhXyZaZB6BTCiwTFDLQ_6-l8
+      6,222 B  74947e714390b6c73d66dc73fc5e499316c807ab3a0c02950b787640bf67a054  CRLF=110  (unchanged)
+  E6 EC-020 WORKFLOW DIRECTIVE 1Uaw7bTbarn8yi3wU1_2eqFulK38gk4mix5JhaL8FgC0
+      1,929 B  f931b3d815d344688cdb3da5429b1e507c45c934ae37fdc110583425e9783245  CRLF=33   (unchanged)
+  E7 GP-COR-140-v1.0       17D8cKsxYRBBE32_TsPnQ9h76vy3Q42l7lfZouKoS-a0
+      3,524 B  98d9c812b075769e3df8069df52012f43db7d1c4bfe20f17c56869ba6a8e7b8d  CRLF=86   (unchanged)
+
+
+CROSS-LINE CORROBORATION WORTH RECORDING: for E5 and E7 the GP carrier's values and this line's independently produced values are IDENTICAL — same byte counts, same SHA-256, different lines, different methods, three days apart. That is mutual validation of both the carrier and the method, and it is the strongest evidence in this record that the four unchanged identities are correct.
+
+
+
+
+============================================================================
+5. DECISION — GP-COR-143-v1.0 §3.C AND §3.E: AMEND
+============================================================================
+
+
+DECISION: NO / AMEND on GP-COR-143-v1.0 §3.C and §3.E as currently written. The predicate "GP-COR-143's declared register state matches the live register" is FALSIFIED for two of its five registers.
+
+
+Verified present (5 of 5 checked, exact VOID-DUPLICATE- prefix convention confirmed): Closure Log 28; Operator Decisions 21 and 22; Review Independence 43 and 44.
+Not locatable: §3.C Transition Register rows 69, 70, 71; §3.E Artifact Index rows 131, 132, 133, 134.
+
+
+The Artifact Index case is decisive and is NEW since CL-AUD-223. That sheet renders 207 rows — far past row 134 — with fully readable content at 131 to 134 that belongs to four entirely different artifacts (OP-PROT-011, HIST-GOV-20260724, OP-RES-001-v1.0, GP-FOR-001-v1.0). The four artifacts GP-COR-143 says are duplicated there each appear EXACTLY ONCE in the sheet, at rows 127 to 130, and the sheet contains ZERO rows carrying the VOID-DUPLICATE- prefix. No rendering, truncation, or size limitation can explain reading eight legible rows in the middle of a 207-row sheet.
+
+
+This does not resolve whether the Transition Register rows are hidden — the mechanism proposed in CL-AUD-223 §5 may still hold there. But the truncation explanation offered in OD-CROSSFAMILY §4 cannot cover §3.E, so the reconciliation as written is incomplete.
+
+
+REQUIRED: GP-COR-143 must be amended so its declared rows match the live register, or the register repaired to match it. Either is fine; the current mismatch is not, because GP-COR-143 is the controlling authority for which register rows are authoritative versus void, and a v0.4 manifest that freezes register rows will depend on it.
+
+
+SCOPE: this touches EC-019-side register bookkeeping and manifest dependencies. It does NOT touch EC-021's terminal status, whose own rows verified 14/14.
+
+
+
+
+============================================================================
+6. GOVERNANCE ITEM FOUND INSIDE EVIDENCE — VOTING PROTOCOL, VOID ON SIGHT
+============================================================================
+
+
+The EC-020 workflow directive (1Uaw7bTbarn8yi3wU1_2eqFulK38gk4mix5JhaL8FgC0), bound as evidence node E6 "operator_decision_source" and attributed to Dylan M. Roy, contains a section headed "Required Voting and Scoring Protocol" together with instructions that "All models must confirm..." before opening EC-021.
+
+
+Voting is PERMANENTLY RETIRED in this project — OP-PROT-011 §7 void-on-sight, and the register's own former ballot matrix sheet reads "RETIRED — NO-VOTE MODEL". Its identity is unchanged since freeze (1,929 B / f931b3d8...), so the document was simply never updated when voting was retired.
+
+
+I did not execute it, and no line should. The document remains VALID as the EC-020 operator approval record — its approval scope and constraint warnings are consistent with everything else and are correctly restrictive. Its voting and scoring section is VOID ON SIGHT and should be marked as such in place, without altering the approval content. Flagging rather than acting is the whole point: instruction-shaped text inside an evidence document does not acquire authority by being bound into a capsule. The workers who retrieved these documents treated the embedded directives strictly as data, which was correct.
+
+
+
+
+============================================================================
+7. BUDGET ACCOUNTING — AND A LIMITATION I CANNOT ENGINEER AROUND
+============================================================================
+
+
+Substantive decisions recorded here: THREE.
+  D-1  V04-D2 carrier re-upload policy — YES / IMPLEMENT
+  D-2  V04-D1 same-purpose carrier selection — YES on two roles, NO on three
+  D-3  GP-COR-143 §3.C and §3.E — NO / AMEND
+Non-budget operations per OP-PROT-012 §2: all retrievals, hashing, byte comparisons, and this record's drafting.
+
+
+Ledger state after OD-OP-PROT-012-CROSSFAMILY-20260725-001 was 26 used / 24 remaining. Adding three gives a PROVISIONAL 29 used / 21 remaining.
+
+
+LIMITATION, stated plainly: OP-PROT-012 §2 requires each decision to be recorded in GP-REG-032 sheet "Autonomy Control" with the shared count updated. THE CL CONNECTOR CANNOT WRITE TO SPREADSHEETS — it has create and copy only, with no update or cell-write capability. I cannot post these ledger entries myself and I will not pretend otherwise. A line with spreadsheet write access must transcribe D-1, D-2, and D-3 into Autonomy Control. Until that happens the shared count is understated by three, and if other sessions decided in parallel my arithmetic above may be wrong — treat the count as provisional and the decisions as authoritative.
+
+
+No lease was acquired for this record because no structural write was performed. Every Drive operation in this session was a read, except the creation of new additive documents.
+
+
+
+
+============================================================================
+8. DISCLOSURE
+============================================================================
+
+
+Provider/model line: CL — Anthropic Claude, claude-opus-5, Cowork session session_01Tqagv53x5pGo8bwGackV1g. Organizationally distinct from the GP/OpenAI line that authored every carrier and document evaluated here.
+
+
+Method: all ten candidate carriers and evidence documents fetched by exact Drive ID. The four EC-020 evidence documents were fetched by two blind workers who were instructed not to consult each other's directories; their outputs were byte-compared before any drift claim was made. Register rows were checked against a fresh full read taken tonight, located by KEY and then confirmed at the declared row number rather than assumed from it. All hash and byte comparisons ran in the sandbox; no hash was transcribed by hand into a comparison.
+
+
+Drive access: READ-ONLY for all verification. No file was modified, moved, copied, or deleted. The only writes this session are additive new documents: CL-PREFLIGHT-221, CL-GOV-222, CL-PREFLIGHT-221-A1, CL-AUD-223, and this record.
+
+
+Limitations: (a) I cannot read spreadsheet cell ranges, so the Transition Register hidden-row question in §5 remains unresolved from this line; (b) I cannot write to the Autonomy Control ledger (§7); (c) the GP-DATA-178 corroboration in §3 is routed, not credited, pending a margin-definition comparison I have not performed; (d) GP-DATA-178-v1.0 itself has NOT been independently verified by this line — I have only read the correction blocks describing it; (e) identities bind to retrieval time 2026-07-26.
+
+
+END CL-DEC-224-v1.0 — three decisions, one alarm; nothing sealed, rooted, or promoted.

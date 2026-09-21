@@ -1,0 +1,139 @@
+﻿S2-REQ-006-v1.0 — REPAIR GP-DER-208 UPPER NORMALIZER AFTER CL-AUD-253
+
+
+Date: 2026-07-25
+Class: REPAIR SPECIFICATION / P0.1 UPPER NORMALIZER / DISTINCT-FAMILY DEFECT RESPONSE
+Authority: research execution routing only
+Canonical mathematical impact: NONE
+Promotion effect: NONE
+
+
+TARGET
+
+
+Predecessor proof: GP-DER-208-v1.0
+Drive: https://docs.google.com/document/d/1Ibo-wkDU6yt0TILgs722vIMqHonbB56E5FR2bV_Vkyo/edit
+Source SHA-256: 57d2caaafddc6ca938fd90cdc6a81058075132080c82fd03831a30e08804a75b
+Result SHA-256: 2ac7addf4c0f12d025e652525680e2d0fefb8dbed6d485252e796abba8f0f63a
+
+
+Controlling external review:
+CL-AUD-253-v1.0
+https://docs.google.com/document/d/1_YNh_IPFuDMGIPQRq5e5TY0pUXu8ZbPRsOgZ1SSH3PY/edit
+
+
+VERDICT TO PRESERVE
+
+
+AMEND REQUIRED.
+
+
+The numerical conclusion Z_r^{exact} <= 15 r^2 on 0<r<=r_D was not falsified. The frozen predecessor does not prove it on the whole interval because its stated r^{-6} periodization-amplification argument is checked only at r_D and fails as r decreases. The predecessor also leaves several exact-field bridge inputs unpopulated.
+
+
+REQUIRED SUCCESSOR
+
+
+Create new immutable proof, source, and result artifacts. Do not edit or relabel the predecessor as approved. The successor must retain exact lineage to both predecessor hashes and to CL-AUD-253.
+
+
+R1 — UNIFORM PERIODIZATION
+
+
+Replace the pointwise r^{-6} amplification heuristic with an r-uniform argument valid on the entire interval 0<r<=r_D.
+
+
+Preferred route: encode the frame rows and endpoint functionals as divided-difference/Peano functionals, prove the relevant annihilation orders, derive r-free Peano constants, and bound the side-24 image-lattice derivative remainder. The supplied CL route obtains a maximum transformed-entry torus defect below 1.561e-94 uniformly in r, which is more than sufficient for the 1e-70 reserve. An equivalent independently derived uniform bound is acceptable.
+
+
+Acceptance: the source must contain executable or independently checkable assertions proving uniformity rather than evaluating a decreasing-in-r quantity only at r_D.
+
+
+R2 — EXACT-FIELD OBJECT BRIDGE
+
+
+Populate or cite exact, hash-addressable proofs for:
+
+
+1. the exact normalized periodized side-24 six-pin field Q_{6,r};
+2. the maximum and index-one-saddle type indicators;
+3. the full determinant weight W_r^{exact};
+4. det H_M = r Delta_M and det H_S = r Delta_S in the configured pin-adjusted frame;
+5. W_r^{exact}/r^2 <= |Delta_M Delta_S|.
+
+
+The successor may use existing exact-field artifacts only if their object, pins, coordinates, signs, radius range, and hashes are stated explicitly.
+
+
+R3 — PIN TARGET AND RIGHT-HAND-SIDE DERIVATION
+
+
+Derive or cite:
+
+
+- y_0=(6/5,0,0,0,0,2);
+- the exact finite-r target y_r;
+- ||y_r-y_0|| <= r_D^2/6 + r_D^3/12, or a stronger valid bound;
+- ||y_r||<=3.
+
+
+No asserted target vector without a derivation or exact cross-reference.
+
+
+R4 — COMPUTED CHECK BOOLEANS
+
+
+Replace literal True fields with computed predicates. all_checks_pass must be the conjunction of the actual checks. Add fail-closed assertions for:
+
+
+- regularity of every transformed G, C, and S entry at r=0;
+- absence of unhandled pure-polynomial tail terms;
+- uniform periodization reserve;
+- every mean, covariance, moment, and quotient-direction bound.
+
+
+R5 — OUTWARD ROUNDING AND EVIDENCE RESOLUTION
+
+
+Every displayed upper bound must be rounded outward. Record either the full coefficient table hash or per-block coefficient evidence rather than only three global argmax values.
+
+
+R6 — CONCLUSION AND FIREWALL
+
+
+The successor may conclude only:
+
+
+Z_r^{exact} <= 15 r^2 for 0<r<=r_D
+
+
+and the resulting candidate quotient lower bound p_B/120 when combined with separately approved numerator inputs.
+
+
+It must not claim P0.1 closure, P0.2 closure, theorem promotion, package sealing, or release.
+
+
+REQUIRED TESTS
+
+
+- reproduce the new source and result hashes;
+- rerun all predecessor checks;
+- add a radius ladder extending below 1.0801442178173e-6;
+- mutate the annihilation order or Peano constant and require failure;
+- remove a type indicator or determinant scaling and require failure;
+- mutate y_0 and y_r-y_0 and require failure;
+- force inward rounding of an upper bound and require failure;
+- insert a negative Laurent term or unhandled polynomial tail and require failure;
+- verify quotient direction with a negative control.
+
+
+SUCCESS VERDICT
+
+
+A qualifying reviewer may approve only the new successor hashes. CL-AUD-253 remains AMEND REQUIRED for the predecessor. No approval transfers backward or forward across hashes.
+
+
+[[TARGET:P0.1-UPPER-NORMALIZER]] [[PREDECESSOR:AMEND-REQUIRED]] [[REPAIR:UNIFORM-PEANO-ROUTE]] [[EXACT-FIELD-BRIDGES:REQUIRED]] [[NO-PROMOTION]]
+
+
+END S2-REQ-006-v1.0

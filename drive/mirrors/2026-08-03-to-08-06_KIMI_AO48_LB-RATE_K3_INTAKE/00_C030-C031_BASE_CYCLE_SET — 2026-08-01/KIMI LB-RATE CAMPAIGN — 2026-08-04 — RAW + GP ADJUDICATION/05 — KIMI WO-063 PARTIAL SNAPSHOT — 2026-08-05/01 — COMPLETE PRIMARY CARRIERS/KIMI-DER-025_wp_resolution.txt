@@ -1,0 +1,186 @@
+KIMI-DER-025 — WP RESOLUTION (AO48-WO-063 Task 1)
+KIMI line — derivation report, machine-certified
+2026-08-05
+
+Inputs
+  work order        : AO48-WO-063, sha256 e699bf44b7b84fca88faa2b509c1686ea9f8e500aee0dbe618c859b5ec5ad2e2
+  state of record   : KIMI-THM-023 (body ba3974c0…), KIMI-AUD-023 v1.0 (body 61f2b702dcfe729beb03e13090ef),
+                      C030 CountingLemmas Package (freeze ae20f4e3…f4b), C031 line 29 (freeze e7998ef0…),
+                      LB-1 sup-over-zone proof + certificate, KIMI-DER-027c (Task 4c, sha256 258f55df…,
+                      cross-check source), c031_verify.json (sha256 83313c96…)
+  certificate       : verify_wp_witness_v1.py (fail-closed, SystemExit, survives -O, no bare asserts)
+                      sha256 da424a76788934ed54fe09a27dc9cbc4d546cea6734cd77c28e7be5660cd57af
+                      t_wp_normal.txt sha256 371f308f3ea0f3e5091a88340f7cfe350ab987d928ebbfa80ab7dc584f297515
+                      t_wp_O.txt      sha256 6f1a226fe1ecefeba95aa955f4bbacfc582ebee789bc454ca5248c1c674dcebc
+                      (program output byte-identical across normal and -O modes; both exit 0;
+                      all in /mnt/agents/output/SIDE24_gap_fill/scripts/)
+  platform          : exact normalized periodized side-24 Bargmann-Fock field, spectral lattice
+                      (pi/12)Z^2 with masses e^{-|k|^2/2}, Z1-normalized (K(0)=1), kernel factorized
+                      into 1D periodized kernels; mp.dps = 100; BOTH representations (spectral
+                      lattice sum AND wrapped-kernel image sum) for every certified quantity.
+  independence      : this report's computations were built from the kernel up inside this session;
+                      LB-1's machinery was re-derived, not imported (its prints are reproduced as
+                      independent confirmations); Task 4c's Kantorovich values are an external
+                      cross-check cited, not consumed.
+
+====================================================================
+1. THE CONTRADICTION (as named: THM-023 conditional (i))
+====================================================================
+C030 Lemma WP prints the rigidity-zone (d <= 1.5) window-saddle contribution as
+"~3e-15 (superexponential kill)"; C031 line 29 prints 3.6e-15 inside a WP channel
+total 0.213*r^3 = 3.328125e-6 at r = 0.025. LB-1's certified recheck (its Section 9
+side-finding) binds the same zone integral at ~= 1.3e-5 (upper-bound grade) and
+flags Lemma WP for re-derivation. Reading note: the WO's phrase "|grad f|(WP) ~ 3e-15
+at the witness point" compresses two objects — the zone-integral figure (3e-15) and
+the pointwise kill evaluation that produced it (Section 5 below); this resolution
+covers both readings.
+
+====================================================================
+2. CERTIFIED WITNESS LAW (the mandated recomputation)
+====================================================================
+Pins at r = 0.025 (b = 6/5, ell = r^3/6): M = (-0.0125, 0) jet (b,0,0);
+S = (0.0125, 0) jet (b-ell,0,0); Y = (-0.0315, 0.006) jet (mu_t,0,0) with mu_t the
+6-pin gradient-conditioned mean. Certified (both representations):
+  mu_t = 1.19999869865649,  (mu_t - b)/ell = -0.49971590677285  (LB-1 print -0.4997159: exact)
+  cross-representation: Gram 8.57e-101, mu_t 3.17e-91, witness law 1.01e-84/2.07e-87 (all < 1e-50)
+  truncation tail < 1e-60 certified; det(Gram) = 1.26e-42 > 0, min eigenvalue 2.03e-14 > 0.
+
+f and all first derivatives at the witness points (conditional law given the 9 pins):
+  A = (-0.04, -0.58) [LB-1's printed hot spot]:
+    E[f] = 1.13957237223   E[fx] = 0.0300416539695   E[fy] = 0.226334010713
+    Var(f) = 0.00488859123991   Cov(grad) = (0.00786482, 0.0155077, 0.109598)
+    E[f|grad=0] = 1.18700343977   Var(f|grad=0) = 5.938219586e-5   p_grad(0) = 5.051949717
+    E[det^2 H | grad=0] = 0.63865194   P(f in window | grad=0) = 3.25242e-5
+    CS upper-bound window-saddle intensity wp = 1.31310e-4/unit-area
+    -> reproduces LB-1's prints (1.1870, 5.94e-5, 5.05, 1.313e-4) EXACTLY.
+  B = (-0.05, -0.575) [operator-cited hot spot]:
+    E[f] = 1.14027611901   E[fx] = 0.0539626172999   E[fy] = 0.223275923942
+    Var(f) = 0.00472905884467   E[f|grad=0] = 1.18744457534   Var(f|grad=0) = 5.651835787e-5
+    p_grad(0) = 5.011162784   wp = 1.33374e-4/unit-area  (-> the operator's 1.33e-4: confirmed)
+
+====================================================================
+3. THE RULING
+====================================================================
+(3a) C030's rigidity-zone figure ~3e-15 (3.6e-15) is REFUTED as the zone value.
+     The certified two-sided zone integral (u-slice exact-1D formulation with
+     Gauss-Hermite inner expectation; two spatial meshes 0.1/0.05 stable to 2.8%,
+     fine strip 0.0125, derived-on-grid grade per C027/C031):
+         I_true(d <= 1.5) = 4.7602e-6
+     — 1.3e9 times the printed figure (nine orders). Its derivation premise is
+     CERTIFIED FALSE: the zone-wide value-kill e^{-(b-m)^2/2v} fails because
+     m exceeds b on ridge arcs:
+         m(P*) = 1.93119035755525 > b at P* = (1.30561, 0.68576)
+         m(Q*) = 1.66659821930345 > b at Q* = (-1.10400, 0.87969)
+     (cross-agent agreement with Task 4c's independent Kantorovich certificate
+     KIMI-DER-027c to < 1e-9 at both points).
+
+(3b) The printed WP channel total 0.213*r^3 = 3.328125e-6 is FALSIFIED as an
+     upper bound at r = 0.025: the rigidity-zone truth alone (4.7602e-6) exceeds
+     it by a factor 1.43. Corrected channel arithmetic in Section 6.
+
+(3c) LB-1's recheck figure ~1.3e-5 is CONFIRMED as a valid certified upper bound:
+     I_cs(mesh 0.025) = 1.30399e-5 (mesh stability 0.7% against 0.05), and
+     I_true < I_cs holds. It is loose by a factor 2.7 at zone level — and loose
+     by >= 14 orders at its own argmax: the TRUE intensity at LB-1's printed hot
+     spot A is <= ~1e-21 (two GH meshes each at A and B; the window condition
+     forces det H > 0 on the -y side, killing saddles), versus the bound's
+     1.31e-4 there. The bound's argmax is a phantom; the TRUE hot spot is
+         (0, 0.5875), rho_true = 1.07e-4/unit-area (two independent engines:
+         u-slice 1.05771e-4, direct 4D GH 1.04111e-4, agreement 1.6%),
+     on the +y side, toward the mean ridge.
+
+(3d) Errata notes for AUD-023 v1.1: LB-1 Section 9's "exceeds the lemma's zone
+     figure by ~4 orders" misprints the ratio 1.3e-5/3e-15 = 4.3e9 (~9.6 orders);
+     its "~4x" of the lemma total (1.3e-5/3.33e-6 = 3.9x) stands.
+
+====================================================================
+4. WHICH PRINTED VALUE WAS WRONG
+====================================================================
+C030's ~3e-15 was wrong (as the zone value, nine orders low; and its premise is
+certified false). The derived channel total 0.213*r^3 falls with it as a bound.
+LB-1's 1.3e-5 was RIGHT as a certified upper bound and its "Lemma WP needs
+re-derivation" flag was correct grade discipline. The superseded zone figure of
+record is I_true = 4.7602e-6 (derived-on-grid), with the certified rigorous-class
+upper bound 1.30399e-5 standing above it.
+
+====================================================================
+5. CODE-PATH ORIGIN OF THE BAD PRINT
+====================================================================
+C030's figure derives from its own consequence (i): the zone-wide kill
+e^{-(b-m)^2/2v} "throughout d <~ 1.5". Scanning the certified zone (mesh 0.025):
+  * the kill attains C031's figure class POINTWISE: kill = 3.94e-15 at
+    (-0.450, -0.125), where m = 1.11658, v = 1.05e-4, (b-m)^2/2v = 33.17
+    (e^-33.17 = 3.9e-15 ~= 3.6e-15). The bad print's origin: a pointwise kill
+    evaluated deep inside the horizon (small conditional variance, mean ~0.08
+    below b) was extended zone-wide as a uniform bound.
+  * the extension is invalid on a positive-area band: the rim band
+    {mu_t within 2 sd of the window} has area 2.0175 (3228 cells) and carries
+    92.8% of the upper-bound zone integral; along the +y arch-rim the
+    conditional mean climbs to 1.187+ (1.7 sd below the window) and on the
+    ridge arcs past b (Section 3a). On that band the kill is O(0.1-1), not e^-33.
+  * kill min over the zone is 1.68e-14976 at (0,0) (the pins nail the field at
+    the cluster center) — the premise is not even monotone across the zone.
+
+====================================================================
+6. PROPAGATION old -> new (r = 0.025 rung of record; r^3 = 1.5625e-5)
+====================================================================
+  rigidity zone : old ~3e-15 (= 2.3e-10*r^3)
+               -> new truth 4.7602e-6 (= 0.3047*r^3); certified ub 1.30399e-5 (= 0.8346*r^3)
+  WP channel    : old total 0.213*r^3 = 3.328125e-6
+               -> new truth 8.0802e-6 (= 0.5171*r^3) [zone truth + transition 1.95e-6 + far 1.37e-6,
+                  the latter two carried at their C031 prints — outside this task's scope];
+                  certified ub 1.6360e-5 (= 1.047*r^3)
+  AO_lb ledger  : old 0.9666 - (0.1759 + 0.213 + eps)*r^3
+               -> new 0.9666 - (0.1759 + 0.5171 .. 1.047 + eps)*r^3   [Task 5 owns the re-assembly]
+  c limit       : UNCHANGED. Every correction is O(r^3) and vanishes as r -> 0;
+                  c -> 0.9666 * 0.946 = 0.9144 stands.
+  G-F2a rung ratios 7.76/8.19 : consumed the TRANSITION piece's ell-scaling, not
+                  the rigidity figure — unaffected. The true rigidity piece is
+                  ell-linear at fixed geometry (Pw ~ (ell/sf)*phi), so the ratio
+                  architecture survives; the constant changes as displayed.
+                  Recomputation at other rungs is Task 5's.
+  AUD-023 E/tol rung chain 1.7e-23 -> 2.5e-506 : belongs to the above-b saddle
+                  channel over B_{3r}; never consumed the WP value. Untouched.
+
+====================================================================
+7. LB-1 SUP-OVER-ZONE SURVIVAL
+====================================================================
+LB-1's sup-over-zone conclusion SURVIVES, on the recomputation's own evidence:
+  (i) its certificate is a self-contained exact-kernel computation over
+      B_{3r}(M) of the ABOVE-B CRITICAL-POINT intensity bound (E/tol =
+      1.7e-23 ... 2.5e-506 at six rungs; transcripts byte-identical both modes);
+  (ii) the WP correction concerns WINDOW-SADDLES over d <= 1.5 — a different
+      event functional and a different zone;
+  (iii) the corrected mass sits at d >= 0.375 (min zone-d of significant
+      upper-bound mass), more than 5x outside B_{3r} = radius 0.075; the
+      witness point (d = 0.5807 from M) and the true hot spot (d = 0.5876)
+      are likewise outside.
+Nothing in this resolution touches LB-1's zone, functional, or margins.
+
+====================================================================
+8. GRADE DISCLOSURES (measured/derived vs theorem-grade)
+====================================================================
+  exact-certified class : the pin assembly, the witness laws, both
+      representations' agreement, m(P*)/m(Q*), the CS upper-bound integral
+      (inequality is rigorous; the integration is Riemann-grid with displayed
+      mesh stability).
+  derived-on-grid class : the two-sided TRUE intensity and its zone integral
+      (Gauss-Hermite inner expectation + Riemann grid; two-mesh stability
+      displayed; two independent engines agree at the dominant point).
+  carried-at-print     : the transition (1.95e-6) and far (1.37e-6) WP pieces
+      (C031 prints; outside this task's scope).
+  No status or Boolean claims are made here. HOLD language stands until
+  AO48/GP reconciliation. Measured values are diagnostic and never become
+  theorem constants.
+
+====================================================================
+9. FALSIFIER
+====================================================================
+An independent recomputation disagreeing with any certified value beyond the
+stated tail/quadrature bounds kills this resolution. Concretely: reproduce the
+witness law at A or B beyond 1e-50 disagreement; or show m(P*) <= b; or bound
+the true rigidity-zone integral below 3e-15 or above 1.3e-5 at the stated
+quadrature grade.
+
+SHA-256 of this report body (text after this line is excluded):
+7e76c5481ba83817a0e3b28fda4c5e090e423bdab25840cdd99ed8bfe8b0c2a2

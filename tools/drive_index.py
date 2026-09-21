@@ -6,6 +6,12 @@ verified migration coverage, dated reconciliation and later delivery records.
 `--snapshot` retains the original 2026-09-17 metadata view. Neither is a live
 account inventory or scientific verdict. See docs/DRIVE_SEARCH_GUIDE.md.
 
+The original metadata snapshot has 4,456 items. Its Start Here, Reading Copies
+and Reading Links exports are held byte-exact as Start_Here.csv,
+Reading_Copies.csv and Reading_Links.csv under
+``drive/deltas/2026-09-18/07_MODEL_ACCESSIBILITY_extras/``. This tool does not
+read those three exports. The R17 File Catalog is a separate snapshot.
+
 Examples:
     python3 tools/drive_index.py find rnu_ds3.py
     python3 tools/drive_index.py search Cholesky --json

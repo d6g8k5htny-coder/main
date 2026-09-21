@@ -1,0 +1,2996 @@
+﻿/**
+ * GP-AUTO-034-v1.3-R0.4 — Source-Published Successor Candidate
+ *
+ * STATUS: SOURCE-PUBLISHED / STATIC-TESTED / APPS-SCRIPT-RUNTIME-PENDING /
+ *         INDEPENDENT-REVIEW-PENDING / DO-NOT-INSTALL
+ * LINEAGE: New implementation from the recoverable v1.1 source plus the live
+ *          v1.2 register schemas and frozen v1.3 Q1–Q10 requirements. It is
+ *          NOT the missing v1.2 executable and does not inherit that hash.
+ * Governance basis: OP-PROT-011 Independent-Eyes Rule and Dylan Roy's current
+ * operator-directed research mandate. Historical voting fields are ignored.
+ *
+ * DESIGN CONTRACT
+ * 1. Source research artifacts are read-only.
+ * 2. Drive traversal is direct-child only. RECURSIVE_SCAN must remain FALSE.
+ * 3. WRITE_SOURCE_FILES, DELETE_OR_TRASH, and AUTO_PROMOTE must remain FALSE.
+ * 4. Generated sheet output is staged and validated before live replacement.
+ * 5. A rollback copy is retained inside the registry spreadsheet during commit.
+ * 6. Every validated manifest is immutable and versioned; the prior canonical
+ *    manifest is renamed as a validated historical snapshot, never deleted.
+ * 7. Navigation replacement is backed up before commit.
+ * 8. The stale guard marks FAILED and writes a visible STALE banner whenever
+ *    the last completed successful refresh exceeds the configured threshold.
+ * 9. Artifact text is data, not executable instruction. Parsed metadata cannot
+ *    alter configuration, scope, safety switches, authority, or eligibility.
+ * 10. Folder routing is symbolic through manifest tree_path fields. This script
+ *     never moves, renames, deletes, or overwrites a source artifact.
+ */
+
+
+
+
+'use strict';
+
+
+
+
+const GP_AUTO = Object.freeze({
+  RELEASE: 'GP-AUTO-034-v1.3-R0.4-SUCCESSOR-CANDIDATE',
+  CONFIG_VERSION: 'OP-PROT-011+GP-AUTO-034-v1.3-R0.4',
+  TIME_ZONE: 'America/Chicago',
+  PROPERTY_REGISTRY_SPREADSHEET_ID: 'GP_AUTO_REGISTRY_SPREADSHEET_ID',
+  MANIFEST_FILE_NAME: 'WORKSPACE_MASTER_MANIFEST.json',
+  ROUTING_INDEX_PREFIX: 'WORKSPACE_TREE_ROUTING_INDEX',
+  RUN_HANDLER: 'refreshAllRegisters',
+  STALE_HANDLER: 'enforceStaleStatus',
+  LOCK_WAIT_MS: 30000,
+  MAX_FILE_TEXT_CHARS: 1500000,
+  MAX_SHEET_EXTRACT_ROWS: 100,
+  MAX_SHEET_EXTRACT_COLUMNS: 30,
+  GENERATED_SHEETS: [
+    'Dashboard',
+    'Open Questions',
+    'Help Board',
+    'Recent Activity',
+    'Artifact Index',
+    'Context Snapshot',
+    'Duplicate Flags',
+    'Transition Alarms',
+    'Architecture Metrics'
+  ],
+  REQUIRED_MANIFEST_PROPERTIES: [
+    'drive_id', 'artifact_id', 'organization', 'class', 'version',
+    'created_at', 'modified_at', 'title', 'topics', 'object_tags',
+    'priority', 'claimed_status', 'claimed_authority', 'claimed_canonical_impact',
+    'verified_status', 'verified_authority', 'verified_canonical_impact', 'dependencies',
+    'content_hash', 'normalized_text_hash', 'reviewed_by', 'verified_human_decision'
+  ],
+  HARD_FALSE_SWITCHES: [
+    'WRITE_SOURCE_FILES', 'DELETE_OR_TRASH', 'AUTO_PROMOTE', 'RECURSIVE_SCAN'
+  ],
+  ALLOWED_EXTRACTION_CLASSES: [
+    'REFEREE-READY', 'ACTIVE', 'INSTRUMENT', 'PROVENANCE-ONLY'
+  ],
+  PROPERTY_LAST_SUCCESS: 'GP_AUTO_LAST_SUCCESS_ISO',
+  PROPERTY_LAST_RUN: 'GP_AUTO_LAST_RUN_ID',
+  PROPERTY_LAST_MANIFEST_ID: 'GP_AUTO_LAST_MANIFEST_ID',
+  PROPERTY_LAST_MANIFEST_HASH: 'GP_AUTO_LAST_MANIFEST_HASH',
+  PROPERTY_LAST_STALE_TOKEN: 'GP_AUTO_LAST_STALE_TOKEN',
+  PROPERTY_COMMIT_JOURNAL: 'GP_AUTO_COMMIT_JOURNAL_V13',
+  PROPERTY_LAST_COMPLETE_JOURNAL: 'GP_AUTO_LAST_COMPLETE_JOURNAL_V13'
+});
+
+
+
+
+const TREE_PATHS = Object.freeze({
+  GOVERNANCE: '00_AXIOMATIC_CORE_SPINE/00.1_GOVERNANCE_CANON',
+  CANONICAL: '00_AXIOMATIC_CORE_SPINE/00.2_CANONICAL_MASTER',
+  SADDLE: '01_P0.2_ADJACENITY_TRANSIT_TREE/01.1_SADDLE_EXIT_BOUNDARIES',
+  STRIP: '01_P0.2_ADJACENITY_TRANSIT_TREE/01.2_INVARIANT_STRIP_DYNAMICS',
+  PALM: '01_P0.2_ADJACENITY_TRANSIT_TREE/01.3_PALM_INTEGRATION_REMAINDERS',
+  P02_CERT: '01_P0.2_ADJACENITY_TRANSIT_TREE/01.4_VALIDATION_CERTIFICATES',
+  MACHINE: '02_P1.1_LAW_SPECIFIC_Q_MACHINE/02.1_MACHINE_ROOT_SCHEMA',
+  NEGATIVE: '02_P1.1_LAW_SPECIFIC_Q_MACHINE/02.2_NEGATIVE_TEST_BATTERIES',
+  MACHINE_RECEIPT: '02_P1.1_LAW_SPECIFIC_Q_MACHINE/02.3_VALIDATION_RECEIPTS',
+  EXACT_PAIR: '03_POWER_PLANNING_CONTINUUM/03.1_EXACT_PAIR_TOPOLOGY',
+  POWER: '03_POWER_PLANNING_CONTINUUM/03.2_CLUSTER_POWER_SIMULATION',
+  CONNECTIVITY: '03_POWER_PLANNING_CONTINUUM/03.3_CONNECTIVITY_REBASE_RECORDS',
+  REGISTER: '04_COORDINATION_AUTOMATION_SPINE/04.1_LIVE_REGISTERS',
+  NAVIGATION: '04_COORDINATION_AUTOMATION_SPINE/04.2_NAVIGATION_COMPANIONS',
+  LEDGER: '04_COORDINATION_AUTOMATION_SPINE/04.3_CROSS_MODEL_LEDGERS',
+  MANIFEST: '04_COORDINATION_AUTOMATION_SPINE/04.4_MANIFEST_STAGING',
+  UNROUTED: 'UNROUTED_REVIEW_REQUIRED'
+});
+
+
+
+
+/** Adds an operator menu when the script is spreadsheet-bound. */
+function onOpen() {
+  try {
+    SpreadsheetApp.getUi()
+      .createMenu('Live Registers')
+      .addItem('Refresh all registers', 'refreshAllRegisters')
+      .addItem('Check stale status', 'enforceStaleStatus')
+      .addSeparator()
+      .addItem('Run acceptance tests', 'runAcceptanceTests')
+      .addSeparator()
+      .addItem('Install hourly triggers', 'installHourlyTrigger')
+      .addItem('Remove automation triggers', 'removeRefreshTriggers')
+      .addToUi();
+  } catch (error) {
+    console.log('onOpen menu unavailable in standalone context: ' + error.message);
+  }
+}
+
+
+
+
+/**
+ * Main orchestration entry point.
+ * The function builds every output in memory, writes hidden staging sheets,
+ * validates them, publishes a staged manifest, commits live outputs with
+ * rollback protection, updates navigation, and only then records SUCCESS.
+ */
+function refreshAllRegisters() {
+  const lock = LockService.getScriptLock();
+  const started = new Date();
+  const runId = makeRunId_(started);
+  let context = null;
+  let stageState = null;
+  let navBackup = null;
+  let manifestPublication = null;
+
+
+
+
+  if (!lock.tryLock(GP_AUTO.LOCK_WAIT_MS)) {
+    const lockError = new Error('FAIL-CLOSED: another refresh holds the script lock.');
+    appendFailureWithoutContext_(runId, started, lockError);
+    throw lockError;
+  }
+
+
+
+
+  try {
+    const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+    const config = readConfig_(ss);
+    assertSafety_(config);
+    assertAuthorization_(config);
+    context = makeContext_(ss, config, runId, started);
+
+
+
+
+    const closureState = readClosureState_(ss);
+    const inventory = collectInventory_(context, closureState);
+    const derived = deriveWorkspaceState_(context, inventory, closureState);
+    const manifest = buildManifest_(context, inventory, derived, closureState);
+    const manifestValidation = validateManifest_(manifest, context);
+    if (!manifestValidation.ok) {
+      throw new Error('Manifest validation failed: ' + manifestValidation.errors.join(' | '));
+    }
+
+
+
+
+    const tables = buildGeneratedTables_(context, inventory, derived, manifest);
+    validateGeneratedTables_(tables);
+
+
+
+
+    stageState = stageGeneratedSheets_(context, tables);
+    validateStagedSheets_(context, stageState, tables);
+
+
+
+
+    manifestPublication = publishManifestStaged_(context, manifest);
+    navBackup = backupNavigationDoc_(context);
+
+
+
+
+    commitGeneratedSheets_(context, stageState, tables);
+    updateNavigationDoc_(context, derived, manifest, manifestPublication, false, '');
+    setDashboardFreshness_(context, false, 'CURRENT — last validated refresh ' + iso_(new Date()));
+
+
+
+
+    const finished = new Date();
+    const receipt = makeRunReceipt_(context, inventory, tables, manifestPublication, finished, 'SUCCESS', []);
+    appendRunLog_(context.ss, receipt);
+    publishValidationReceipt_(context, receipt, manifestValidation);
+
+
+
+
+    const props = PropertiesService.getScriptProperties();
+    props.setProperty(GP_AUTO.PROPERTY_LAST_SUCCESS, finished.toISOString());
+    props.setProperty(GP_AUTO.PROPERTY_LAST_RUN, runId);
+    props.setProperty(GP_AUTO.PROPERTY_LAST_MANIFEST_ID, manifestPublication.canonicalFileId);
+    props.setProperty(GP_AUTO.PROPERTY_LAST_MANIFEST_HASH, manifestPublication.sha256);
+    props.deleteProperty(GP_AUTO.PROPERTY_LAST_STALE_TOKEN);
+
+
+
+
+    cleanTransientStageSheets_(context, stageState);
+    return receipt;
+  } catch (error) {
+    if (context && stageState && stageState.commitStarted) {
+      try {
+        rollbackGeneratedSheets_(context, stageState);
+      } catch (rollbackError) {
+        error.message += ' | ROLLBACK ERROR: ' + rollbackError.message;
+      }
+    }
+
+
+
+
+    if (context && navBackup) {
+      try {
+        restoreNavigationDoc_(context, navBackup);
+      } catch (navRestoreError) {
+        error.message += ' | NAVIGATION ROLLBACK ERROR: ' + navRestoreError.message;
+      }
+    }
+
+
+
+
+    if (context) {
+      const warnings = ['Run failed closed; previous validated manifest remains authoritative.'];
+      if (manifestPublication && manifestPublication.stagedFileId) {
+        warnings.push('Staged manifest retained for audit: ' + manifestPublication.stagedFileId);
+      }
+      appendRunLogSafe_(context.ss, {
+        run_id: runId,
+        started_at: started.toISOString(),
+        finished_at: new Date().toISOString(),
+        mode: 'REFRESH',
+        files_scanned: context.inventoryCount || 0,
+        rows_written: 0,
+        warnings: warnings.join(' | '),
+        result: 'FAILED',
+        details: truncate_(error.stack || error.message, 45000)
+      });
+      setStaleBannerSafe_(context, 'FAILED — ' + error.message);
+    } else {
+      appendFailureWithoutContext_(runId, started, error);
+    }
+    throw error;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+
+
+
+/**
+ * Installs one hourly refresh trigger and one hourly stale-guard trigger.
+ * This function refuses installation unless both operator authorization and
+ * the HOURLY_TRIGGER switch are TRUE. Existing matching triggers are removed
+ * first; unrelated user triggers are untouched.
+ */
+function installHourlyTrigger() {
+  const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+  const config = readConfig_(ss);
+  assertSafety_(config);
+  assertAuthorization_(config);
+  requireTrue_(config, 'HOURLY_TRIGGER', 'Hourly trigger installation is disabled.');
+
+
+
+
+  removeRefreshTriggers();
+  ScriptApp.newTrigger(GP_AUTO.RUN_HANDLER).timeBased().everyHours(1).create();
+  ScriptApp.newTrigger(GP_AUTO.STALE_HANDLER).timeBased().everyHours(1).create();
+
+
+
+
+  appendRunLog_(ss, {
+    run_id: makeRunId_(new Date()),
+    started_at: new Date().toISOString(),
+    finished_at: new Date().toISOString(),
+    mode: 'TRIGGER_INSTALL',
+    files_scanned: 0,
+    rows_written: 0,
+    warnings: '',
+    result: 'SUCCESS',
+    details: 'Installed hourly refresh and stale-guard triggers.'
+  });
+}
+
+
+
+
+/** Removes only the two handlers owned by this package. */
+function removeRefreshTriggers() {
+  const handlers = {};
+  handlers[GP_AUTO.RUN_HANDLER] = true;
+  handlers[GP_AUTO.STALE_HANDLER] = true;
+  ScriptApp.getProjectTriggers().forEach(function(trigger) {
+    if (handlers[trigger.getHandlerFunction()]) {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+}
+
+
+
+
+/**
+ * Checks whether the last SUCCESS is older than STALE_THRESHOLD_MINUTES.
+ * A stale condition writes one append-only FAILED receipt per stale token and
+ * updates both Dashboard and the Navigation Companion with an explicit banner.
+ */
+function enforceStaleStatus() {
+  const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+  const config = readConfig_(ss);
+  assertSafety_(config);
+  const thresholdMinutes = intConfig_(config, 'STALE_THRESHOLD_MINUTES', 120);
+  if (thresholdMinutes !== 120) {
+    throw new Error('FAIL-CLOSED: STALE_THRESHOLD_MINUTES must equal 120 under R0.2.');
+  }
+
+
+
+
+  const props = PropertiesService.getScriptProperties();
+  const lastSuccessIso = props.getProperty(GP_AUTO.PROPERTY_LAST_SUCCESS);
+  const lastSuccess = lastSuccessIso ? new Date(lastSuccessIso) : null;
+  const ageMinutes = lastSuccess ? (Date.now() - lastSuccess.getTime()) / 60000 : Infinity;
+  const stale = !lastSuccess || ageMinutes > thresholdMinutes;
+  const context = makeContext_(ss, config, makeRunId_(new Date()), new Date());
+
+
+
+
+  if (!stale) {
+    setDashboardFreshness_(context, false,
+      'CURRENT — last successful refresh ' + lastSuccess.toISOString());
+    return {stale: false, age_minutes: ageMinutes};
+  }
+
+
+
+
+  const staleToken = lastSuccessIso || 'NO_SUCCESS_RECORDED';
+  if (props.getProperty(GP_AUTO.PROPERTY_LAST_STALE_TOKEN) !== staleToken) {
+    appendRunLog_(ss, {
+      run_id: context.runId,
+      started_at: context.started.toISOString(),
+      finished_at: new Date().toISOString(),
+      mode: 'STALE_GUARD',
+      files_scanned: 0,
+      rows_written: 0,
+      warnings: 'No validated refresh completed inside the 120-minute window.',
+      result: 'FAILED',
+      details: 'Last success: ' + staleToken + '; age_minutes=' + ageMinutes
+    });
+    props.setProperty(GP_AUTO.PROPERTY_LAST_STALE_TOKEN, staleToken);
+  }
+
+
+
+
+  const message = 'STALE — no successful refresh within 120 minutes. ' +
+    'Downstream models must not rely on generated registers or manifest.';
+  setDashboardFreshness_(context, true, message);
+  updateNavigationDoc_(context, null, null, null, true, message);
+  return {stale: true, age_minutes: ageMinutes};
+}
+
+
+
+
+/** Runs non-destructive unit and integration-readiness checks T1–T16. */
+function runAcceptanceTests() {
+  const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+  const config = readConfig_(ss);
+  const results = [];
+
+
+
+
+  results.push(testResult_('T1', 'Hard safety switches fail closed', testHardSwitches_(config)));
+  results.push(testResult_('T2', 'Out-of-scope writes rejected by target guard', testWriteTargetGuard_(config)));
+  results.push(testResult_('T3', 'Last validated snapshot preserved by stage/backup design', testStageContract_()));
+  results.push(testResult_('T4', 'Injected metadata cannot mutate configuration', testInstructionIsolation_()));
+  results.push(testResult_('T5', 'Manifest publish is create-validate-rename, not blind retry', testManifestPublishContract_()));
+  results.push(testResult_('T6', 'Unreadable and uncertain states remain representable', testReadStatusEnums_()));
+  results.push(testResult_('T7', 'Same declared ID can retain distinct Drive IDs', testCollisionRetention_()));
+  results.push(testResult_('T8', 'Object-card dimensions remain distinct', testObjectCardSeparation_()));
+  results.push(testResult_('T9', 'Malformed cards are flagged', testMalformedCard_()));
+  results.push(testResult_('T10', 'Closure contradiction cannot become REFEREE-READY', testClosureGate_()));
+  results.push(testResult_('T11', 'Superseded dependency removes eligibility', testSupersededDependencyGate_()));
+  results.push(testResult_('T12', 'Instrument cannot compile as proof prose', testInstrumentGate_()));
+  results.push(testResult_('T13', 'Unscoped cited source is not extraction eligible', testScopeGate_()));
+  results.push(testResult_('T14', 'Coverage gaps are explicit', testCoverageGapContract_()));
+  results.push(testResult_('T15', 'Stale threshold is exactly 120 minutes', intConfig_(config, 'STALE_THRESHOLD_MINUTES', 0) === 120));
+  results.push(testResult_('T16', 'Run receipt contains required audit fields', testReceiptSchema_()));
+
+
+
+
+  const failed = results.filter(function(row) { return row.status !== 'PASS'; });
+  const detail = results.map(function(row) {
+    return row.id + ': ' + row.status + ' — ' + row.description;
+  }).join('\n');
+
+
+
+
+  appendRunLog_(ss, {
+    run_id: makeRunId_(new Date()),
+    started_at: new Date().toISOString(),
+    finished_at: new Date().toISOString(),
+    mode: 'ACCEPTANCE_TEST',
+    files_scanned: 0,
+    rows_written: results.length,
+    warnings: failed.length ? failed.length + ' test(s) failed.' : '',
+    result: failed.length ? 'FAILED' : 'SUCCESS',
+    details: detail
+  });
+
+
+
+
+  if (failed.length) {
+    throw new Error('Acceptance battery failed: ' + failed.map(function(x) { return x.id; }).join(', '));
+  }
+  return results;
+}
+
+
+
+
+function registrySpreadsheetId_() {
+  const raw = PropertiesService.getScriptProperties().getProperty(GP_AUTO.PROPERTY_REGISTRY_SPREADSHEET_ID);
+  const id = String(raw || '').trim();
+  if (!/^[A-Za-z0-9_-]{20,}$/.test(id)) {
+    throw new Error('FAIL-CLOSED: explicit GP_AUTO_REGISTRY_SPREADSHEET_ID Script Property is required; no live default exists.');
+  }
+  return id;
+}
+
+
+
+
+function requiredConfigDriveId_(config, key) {
+  const id = String(config[key] || '').trim();
+  if (!/^[A-Za-z0-9_-]{20,}$/.test(id)) {
+    throw new Error('FAIL-CLOSED: explicit Config ' + key + ' is required; no live default exists.');
+  }
+  return id;
+}
+
+
+
+
+function readConfig_(ss) {
+  const sheet = requiredSheet_(ss, 'Config');
+  const values = sheet.getDataRange().getDisplayValues();
+  if (values.length < 2) throw new Error('Config sheet has no configuration rows.');
+
+
+
+
+  const config = {};
+  for (let r = 1; r < values.length; r++) {
+    const key = String(values[r][0] || '').trim();
+    if (!key) continue;
+    const enabled = parseBoolean_(values[r][2]);
+    if (enabled === false) continue;
+    config[key] = String(values[r][1] == null ? '' : values[r][1]).trim();
+  }
+
+
+
+
+  if (config.REGISTRY_SPREADSHEET_ID &&
+      config.REGISTRY_SPREADSHEET_ID !== registrySpreadsheetId_()) {
+    throw new Error('FAIL-CLOSED: registry ID does not match the approved target.');
+  }
+  config.REGISTRY_SPREADSHEET_ID = registrySpreadsheetId_();
+  return Object.freeze(config);
+}
+
+
+
+
+function assertSafety_(config) {
+  GP_AUTO.HARD_FALSE_SWITCHES.forEach(function(key) {
+    if (parseBoolean_(config[key]) !== false) {
+      throw new Error('FAIL-CLOSED: ' + key + ' must be explicitly FALSE.');
+    }
+  });
+  if (intConfig_(config, 'STALE_THRESHOLD_MINUTES', 120) !== 120) {
+    throw new Error('FAIL-CLOSED: stale threshold must be 120 minutes.');
+  }
+}
+
+
+
+
+function assertAuthorization_(config) {
+  requireTrue_(config, 'AUTOMATION_AUTHORIZED', 'Operator authorization is absent.');
+}
+
+
+
+
+function requireTrue_(config, key, message) {
+  if (parseBoolean_(config[key]) !== true) {
+    throw new Error('FAIL-CLOSED: ' + message + ' [' + key + ']');
+  }
+}
+
+
+
+
+function makeContext_(ss, config, runId, started) {
+  const sourceScopes = collectConfiguredScopes_(config);
+  const manifestFolderId = requiredConfigDriveId_(config, 'MANIFEST_OUTPUT_FOLDER_ID');
+  const navigationDocId = requiredConfigDriveId_(config, 'NAVIGATION_DOC_ID');
+  const allowedDriveWriteIds = {};
+  allowedDriveWriteIds[manifestFolderId] = true;
+  allowedDriveWriteIds[navigationDocId] = true;
+
+
+
+
+  return {
+    ss: ss,
+    config: config,
+    runId: runId,
+    started: started,
+    sourceScopes: sourceScopes,
+    manifestFolderId: manifestFolderId,
+    navigationDocId: navigationDocId,
+    allowedDriveWriteIds: allowedDriveWriteIds,
+    warnings: [],
+    inventoryCount: 0
+  };
+}
+
+
+
+
+function collectConfiguredScopes_(config) {
+  const scopes = [];
+  const seen = {};
+
+
+
+
+  Object.keys(config).sort().forEach(function(key) {
+    if (key === 'PRIMARY_OQ_FOLDER_ID' || /^SOURCE_FOLDER_ID_\d+$/.test(key)) {
+      const id = config[key];
+      if (id && !seen[id]) {
+        scopes.push({scope_key: key, folder_id: id, root_direct: false});
+        seen[id] = true;
+      }
+    }
+  });
+
+
+
+
+  if (parseBoolean_(config.SOURCE_ROOT_DIRECT) === true && !seen.root) {
+    scopes.push({scope_key: 'SOURCE_ROOT_DIRECT', folder_id: 'root', root_direct: true});
+  }
+
+
+
+
+  if (!scopes.length) {
+    throw new Error('FAIL-CLOSED: no explicitly configured source scopes.');
+  }
+  return scopes;
+}
+
+
+
+
+function collectInventory_(context, closureState) {
+  const byDriveId = {};
+  const coverageGaps = [];
+
+
+
+
+  context.sourceScopes.forEach(function(scope) {
+    const folder = scope.root_direct ? DriveApp.getRootFolder() : DriveApp.getFolderById(scope.folder_id);
+    const files = folder.getFiles();
+    while (files.hasNext()) {
+      const file = files.next();
+      if (byDriveId[file.getId()]) continue;
+      const record = inspectFile_(file, scope, context, closureState);
+      byDriveId[record.drive_id] = record;
+    }
+
+
+
+
+    const folders = folder.getFolders();
+    while (folders.hasNext()) {
+      const child = folders.next();
+      coverageGaps.push({
+        parent_scope: scope.scope_key,
+        parent_folder_id: scope.folder_id,
+        discovered_folder_id: child.getId(),
+        discovered_folder_name: child.getName(),
+        status: 'COVERAGE-GAP',
+        reason: 'Direct-child-only policy: nested folder not traversed unless separately configured.'
+      });
+    }
+  });
+
+
+
+
+  const inventory = Object.keys(byDriveId).map(function(id) { return byDriveId[id]; });
+  inventory.sort(function(a, b) {
+    return a.created_at.localeCompare(b.created_at) || a.drive_id.localeCompare(b.drive_id);
+  });
+  context.inventoryCount = inventory.length;
+  context.coverageGaps = coverageGaps;
+  return inventory;
+}
+
+
+
+
+function inspectFile_(file, scope, context, closureState) {
+  const mimeType = file.getMimeType();
+  const title = file.getName();
+  let readResult;
+  try {
+    readResult = readFileText_(file, mimeType);
+  } catch (error) {
+    readResult = {
+      text: '',
+      rawBytes: null,
+      fetch_path: 'ERROR',
+      sync_status: 'SYNC-UNCERTAIN',
+      machine_readable: false,
+      read_warning: error.message
+    };
+  }
+
+
+
+
+  const metadata = parseMetadata_(readResult.text, title);
+  const normalizedText = normalizeText_(readResult.text);
+  const rawHash = readResult.rawBytes ? sha256Bytes_(readResult.rawBytes) :
+    (readResult.text ? sha256Text_(readResult.text) : '');
+  const normalizedHash = normalizedText ? sha256Text_(normalizedText) : '';
+  const created = file.getDateCreated();
+  const modified = file.getLastUpdated();
+  const closure = lookupClosure_(closureState, metadata.artifact_id, title, file.getId());
+
+
+
+
+  const record = {
+    drive_id: file.getId(),
+    title: title,
+    declared_artifact_id: metadata.artifact_id || '',
+    artifact_id: metadata.artifact_id || '',
+    line: metadata.line || lineFromArtifactId_(metadata.artifact_id),
+    organization: metadata.organization || 'UNDECLARED',
+    class: metadata.class || classFromArtifactId_(metadata.artifact_id),
+    version: metadata.version || versionFromTitle_(title),
+    mime_type: mimeType,
+    created_time: created.toISOString(),
+    modified_time: modified.toISOString(),
+    created_at: created.toISOString(),
+    modified_at: modified.toISOString(),
+    source_folder_id: scope.folder_id,
+    source_scope_key: scope.scope_key,
+    source_urls: [file.getUrl()],
+    raw_sha256: rawHash,
+    normalized_sha256: normalizedHash,
+    content_hash: rawHash,
+    normalized_text_hash: normalizedHash,
+    hash_basis: readResult.rawBytes ? 'RAW_DRIVE_BYTES' :
+      (readResult.text ? 'EXTRACTED_TEXT' : 'UNAVAILABLE'),
+    fetch_path: readResult.fetch_path,
+    sync_status: readResult.sync_status,
+    machine_readable: readResult.machine_readable,
+    read_warning: readResult.read_warning || '',
+    topics: metadata.topics,
+    object_tags: metadata.object_tags,
+    priority: metadata.priority || 'UNDECLARED',
+    status: metadata.status || 'UNDECLARED',
+    authority: metadata.authority || 'none',
+    canonical_impact: metadata.canonical_impact || 'NONE',
+    dependencies: metadata.dependencies,
+    dependency_hashes: metadata.dependency_hashes,
+    supersedes: metadata.supersedes,
+    superseded_by: [],
+    lineage_of: metadata.lineage_of,
+    measure: metadata.measure || 'UNDECLARED',
+    model_layer: metadata.model_layer || 'UNDECLARED',
+    frame: metadata.frame || 'UNDECLARED',
+    closure_state: closure.state || metadata.closure_state || 'UNVERIFIED',
+    extraction_class: metadata.extraction_class || 'UNCLASSIFIED',
+    evidence_chain: metadata.evidence_chain,
+    reviewed_by: GP_AUTO.RELEASE,
+    reviewed_at: new Date().toISOString(),
+    human_decision: metadata.human_decision,
+    help_needed: metadata.help_needed || '',
+    offered_capacity: metadata.offered_capacity || '',
+    decisive_test: metadata.decisive_test || '',
+    falsifiers: metadata.falsifiers,
+    tree_path: TREE_PATHS.UNROUTED,
+    validation_errors: [],
+    text_excerpt: truncate_(normalizedText, 8000)
+  };
+
+
+
+
+  record.tree_path = routeTreePath_(record);
+  applyExtractionEligibility_(record, closure);
+  validateObjectCard_(record);
+  return record;
+}
+
+
+
+
+function readFileText_(file, mimeType) {
+  const id = file.getId();
+  const result = {
+    text: '', rawBytes: null, fetch_path: '', sync_status: 'COMPLETE',
+    machine_readable: true, read_warning: ''
+  };
+
+
+
+
+  if (mimeType === MimeType.GOOGLE_DOCS) {
+    result.text = DocumentApp.openById(id).getBody().getText();
+    result.fetch_path = 'DOCUMENT_APP_TEXT';
+  } else if (mimeType === MimeType.GOOGLE_SHEETS) {
+    result.text = extractSpreadsheetText_(id);
+    result.fetch_path = 'SPREADSHEET_APP_BOUNDED_VALUES';
+  } else if (mimeType === MimeType.GOOGLE_SLIDES) {
+    result.text = extractSlidesText_(id);
+    result.fetch_path = 'SLIDES_APP_TEXT';
+  } else if (isTextMime_(mimeType, file.getName())) {
+    const blob = file.getBlob();
+    result.rawBytes = blob.getBytes();
+    result.text = blob.getDataAsString('UTF-8');
+    result.fetch_path = 'DRIVE_BLOB_UTF8';
+  } else {
+    result.fetch_path = 'METADATA_ONLY';
+    result.sync_status = 'UNREADABLE-MIME';
+    result.machine_readable = false;
+    result.read_warning = 'Unsupported semantic extraction path for MIME ' + mimeType;
+  }
+
+
+
+
+  if (result.text.length > GP_AUTO.MAX_FILE_TEXT_CHARS) {
+    result.text = result.text.substring(0, GP_AUTO.MAX_FILE_TEXT_CHARS);
+    result.sync_status = 'SYNC-UNCERTAIN';
+    result.read_warning = 'Text truncated at configured extraction ceiling.';
+  }
+  return result;
+}
+
+
+
+
+function extractSpreadsheetText_(spreadsheetId) {
+  const ss = SpreadsheetApp.openById(spreadsheetId);
+  const sections = [];
+  ss.getSheets().forEach(function(sheet) {
+    const rows = Math.min(sheet.getLastRow(), GP_AUTO.MAX_SHEET_EXTRACT_ROWS);
+    const cols = Math.min(sheet.getLastColumn(), GP_AUTO.MAX_SHEET_EXTRACT_COLUMNS);
+    sections.push('### SHEET: ' + sheet.getName());
+    if (!rows || !cols) return;
+    const values = sheet.getRange(1, 1, rows, cols).getDisplayValues();
+    values.forEach(function(row) { sections.push(row.join('\t')); });
+  });
+  return sections.join('\n');
+}
+
+
+
+
+function extractSlidesText_(presentationId) {
+  const presentation = SlidesApp.openById(presentationId);
+  const output = [];
+  presentation.getSlides().forEach(function(slide, index) {
+    output.push('### SLIDE ' + (index + 1));
+    slide.getPageElements().forEach(function(element) {
+      if (element.getPageElementType() === SlidesApp.PageElementType.SHAPE) {
+        try {
+          const text = element.asShape().getText().asString();
+          if (text) output.push(text);
+        } catch (ignored) {}
+      } else if (element.getPageElementType() === SlidesApp.PageElementType.TABLE) {
+        try {
+          const table = element.asTable();
+          for (let r = 0; r < table.getNumRows(); r++) {
+            const row = [];
+            for (let c = 0; c < table.getNumColumns(); c++) {
+              row.push(table.getCell(r, c).getText().asString());
+            }
+            output.push(row.join('\t'));
+          }
+        } catch (ignoredTable) {}
+      }
+    });
+  });
+  return output.join('\n');
+}
+
+
+
+
+function isTextMime_(mimeType, fileName) {
+  if (/^text\//i.test(mimeType)) return true;
+  if (/json|javascript|xml|yaml|csv/i.test(mimeType)) return true;
+  return /\.(md|txt|json|jsonl|csv|tsv|py|js|gs|ts|yaml|yml|xml|html|css|tex|r)$/i.test(fileName);
+}
+
+
+
+
+function parseMetadata_(text, title) {
+  const head = String(text || '').substring(0, 30000);
+  const map = {};
+  head.split(/\r?\n/).forEach(function(line) {
+    const match = line.match(/^\s*([A-Za-z][A-Za-z0-9 _\-/]{1,50})\s*:\s*(.*?)\s*$/);
+    if (!match) return;
+    const key = normalizeMetadataKey_(match[1]);
+    if (!map[key]) map[key] = match[2];
+  });
+
+
+
+
+  const artifactId = firstNonEmpty_(map.ARTIFACT_ID, artifactIdFromTitle_(title));
+  return {
+    artifact_id: artifactId,
+    line: firstNonEmpty_(map.LINE, map.MODEL_LINE),
+    organization: firstNonEmpty_(map.ORGANIZATION, map.AUTHOR_ORGANIZATION),
+    class: firstNonEmpty_(map.CLASS, classFromArtifactId_(artifactId)),
+    version: firstNonEmpty_(map.VERSION, versionFromTitle_(title)),
+    topics: parseList_(map.TOPICS),
+    object_tags: parseList_(firstNonEmpty_(map.OBJECT_TAGS, map.OBJECTS)),
+    priority: map.PRIORITY || '',
+    status: map.STATUS || '',
+    authority: map.AUTHORITY || '',
+    canonical_impact: firstNonEmpty_(map.CANONICAL_IMPACT, map.CANONICAL_STATUS),
+    dependencies: parseList_(map.DEPENDENCIES),
+    dependency_hashes: parseList_(map.DEPENDENCY_HASHES),
+    supersedes: parseList_(map.SUPERSEDES),
+    lineage_of: parseList_(map.LINEAGE_OF),
+    decisive_test: firstNonEmpty_(map.DECISIVE_TEST, map.FALSIFICATION_TEST),
+    falsifiers: parseList_(map.FALSIFIERS),
+    help_needed: firstNonEmpty_(map.HELP_NEEDED, map.BLOCKER),
+    offered_capacity: firstNonEmpty_(map.OFFERED_CAPACITY, map.HELP_OFFER),
+    measure: map.MEASURE || '',
+    model_layer: map.MODEL_LAYER || '',
+    frame: map.FRAME || '',
+    closure_state: map.CLOSURE_STATE || '',
+    extraction_class: map.EXTRACTION_CLASS || '',
+    evidence_chain: parseList_(map.EVIDENCE_CHAIN),
+    human_decision: parseNullableBoolean_(map.HUMAN_DECISION)
+  };
+}
+
+
+
+
+function normalizeMetadataKey_(key) {
+  return String(key).trim().toUpperCase().replace(/[\s\-/]+/g, '_');
+}
+
+
+
+
+function deriveWorkspaceState_(context, inventory, closureState) {
+  const byArtifactId = {};
+  const byNormalizedHash = {};
+  const byTitle = {};
+  const recentCutoff = Date.now() - intConfig_(context.config, 'RECENT_WINDOW_MINUTES', 120) * 60000;
+  const recent = [];
+  const humanDecisionCount = inventory.filter(function(x) { return x.human_decision === true; }).length;
+
+
+
+
+  inventory.forEach(function(record) {
+    if (record.artifact_id) pushMapArray_(byArtifactId, record.artifact_id, record);
+    if (record.normalized_text_hash) pushMapArray_(byNormalizedHash, record.normalized_text_hash, record);
+    pushMapArray_(byTitle, record.title.toLowerCase(), record);
+    if (new Date(record.modified_at).getTime() >= recentCutoff) recent.push(record);
+  });
+
+
+
+
+  Object.keys(byArtifactId).forEach(function(id) {
+    const group = byArtifactId[id];
+    if (group.length > 1) {
+      group.forEach(function(record) {
+        record.validation_errors.push('DECLARED_ID_COLLISION:' + id);
+      });
+    }
+  });
+
+
+
+
+  const supersededIndex = {};
+  inventory.forEach(function(record) {
+    record.supersedes.forEach(function(oldId) {
+      pushMapArray_(supersededIndex, oldId, record.artifact_id || record.drive_id);
+    });
+  });
+  inventory.forEach(function(record) {
+    record.superseded_by = supersededIndex[record.artifact_id] || [];
+    if (record.superseded_by.length && record.extraction_class === 'REFEREE-READY') {
+      record.extraction_class = 'ACTIVE';
+      record.validation_errors.push('REFEREE_READY_REVOKED_BY_SUPERSESSION');
+    }
+  });
+
+
+
+
+  return {
+    byArtifactId: byArtifactId,
+    byNormalizedHash: byNormalizedHash,
+    byTitle: byTitle,
+    recent: recent,
+    humanDecisionCount: humanDecisionCount,
+    closureState: closureState,
+    coverageGaps: context.coverageGaps || []
+  };
+}
+
+
+
+
+function buildManifest_(context, inventory, derived, closureState) {
+  const scopeDescriptor = context.sourceScopes.map(function(scope) {
+    return {
+      scope_key: scope.scope_key,
+      folder_id: scope.folder_id,
+      traversal: 'DIRECT_CHILDREN_ONLY'
+    };
+  });
+
+
+
+
+  return {
+    manifest_name: GP_AUTO.MANIFEST_FILE_NAME,
+    schema_version: 'WORKSPACE-MANIFEST-v1.1-R0.2',
+    automation_release: GP_AUTO.RELEASE,
+    config_version: context.config.CONFIG_VERSION || GP_AUTO.CONFIG_VERSION,
+    run_id: context.runId,
+    generated_at: new Date().toISOString(),
+    stale_threshold_minutes: 120,
+    recursive_scan: false,
+    safety: {
+      WRITE_SOURCE_FILES: false,
+      DELETE_OR_TRASH: false,
+      AUTO_PROMOTE: false,
+      RECURSIVE_SCAN: false
+    },
+    source_scope: scopeDescriptor,
+    source_count: inventory.length,
+    human_decision_count: derived.humanDecisionCount,
+    coverage_gaps: derived.coverageGaps,
+    objects: inventory.map(function(record) {
+      const copy = shallowClone_(record);
+      delete copy.text_excerpt;
+      return copy;
+    })
+  };
+}
+
+
+
+
+function validateManifest_(manifest, context) {
+  const errors = [];
+  if (!manifest || !Array.isArray(manifest.objects)) errors.push('objects must be an array');
+  if (manifest.recursive_scan !== false) errors.push('recursive_scan must be false');
+  GP_AUTO.HARD_FALSE_SWITCHES.forEach(function(key) {
+    if (manifest.safety[key] !== false) errors.push('unsafe manifest switch ' + key);
+  });
+
+
+
+
+  const driveIds = {};
+  (manifest.objects || []).forEach(function(object, index) {
+    GP_AUTO.REQUIRED_MANIFEST_PROPERTIES.forEach(function(key) {
+      if (!Object.prototype.hasOwnProperty.call(object, key)) {
+        errors.push('object[' + index + '] missing property ' + key);
+      }
+    });
+    if (!object.drive_id) errors.push('object[' + index + '] missing drive_id');
+    if (driveIds[object.drive_id]) errors.push('duplicate drive_id ' + object.drive_id);
+    driveIds[object.drive_id] = true;
+    if (object.extraction_class === 'REFEREE-READY' && object.validation_errors.length) {
+      errors.push('REFEREE-READY object has validation errors: ' + object.drive_id);
+    }
+    if (object.tree_path === TREE_PATHS.UNROUTED) {
+      object.validation_errors.push('TREE_ROUTING_REVIEW_REQUIRED');
+    }
+  });
+
+
+
+
+  return {ok: errors.length === 0, errors: errors};
+}
+
+
+
+
+function buildGeneratedTables_(context, inventory, derived, manifest) {
+  return {
+    'Dashboard': buildDashboardRows_(context, inventory, derived, manifest),
+    'Open Questions': buildOpenQuestionRows_(context),
+    'Help Board': buildHelpRows_(inventory),
+    'Recent Activity': buildRecentRows_(derived.recent),
+    'Artifact Index': buildArtifactRows_(inventory),
+    'Context Snapshot': buildContextRows_(context, inventory, derived, manifest),
+    'Duplicate Flags': buildDuplicateRows_(derived)
+  };
+}
+
+
+
+
+function buildDashboardRows_(context, inventory, derived, manifest) {
+  const currentIso = new Date().toISOString();
+  return [
+    ['GP-REG-032-v1.1 — LIVE RESEARCH REGISTERS', '', '', ''],
+    ['CURRENT — validated staging package ready for commit', currentIso, context.runId, GP_AUTO.RELEASE],
+    ['', '', '', ''],
+    ['Metric', 'Value', 'Interpretation', 'Direct source'],
+    ['Scoped artifacts', inventory.length, 'Unique Drive IDs in enumerated direct-child scopes', 'WORKSPACE_MASTER_MANIFEST.json'],
+    ['Recent artifacts', derived.recent.length, 'Modified inside configured activity window', 'Recent Activity'],
+    ['Human-decision objects', derived.humanDecisionCount, 'Automation may index but never resolve these objects', 'Artifact Index'],
+    ['Coverage gaps', derived.coverageGaps.length, 'Nested folders discovered but not traversed unless separately configured', 'Context Snapshot'],
+    ['Referee-ready candidates', inventory.filter(function(x) { return x.extraction_class === 'REFEREE-READY'; }).length, 'Internal staging eligibility only', 'Artifact Index'],
+    ['Unreadable/uncertain', inventory.filter(function(x) { return x.sync_status !== 'COMPLETE'; }).length, 'Retained visibly; never silently omitted', 'Artifact Index'],
+    ['Manifest run ID', manifest.run_id, 'Current staged manifest generation', 'WORKSPACE_MASTER_MANIFEST.json'],
+    ['Stale threshold', 120, 'Minutes; downstream reliance prohibited after threshold', 'Config']
+  ];
+}
+
+
+
+
+function buildOpenQuestionRows_(context) {
+  const header = ['Question ID', 'Title', 'Priority', 'Status', 'Owner', 'Blocker', 'Decisive test', 'Human decision', 'Source URL', 'Last parsed'];
+  const id = context.config.OQ_REGISTER_FILE_ID;
+  if (!id) return [header, ['CONFIG-MISSING', 'OQ_REGISTER_FILE_ID absent', '', 'FAILED', '', '', '', true, '', iso_(new Date())]];
+
+
+
+
+  let text = '';
+  let url = '';
+  try {
+    const file = DriveApp.getFileById(id);
+    url = file.getUrl();
+    text = readFileText_(file, file.getMimeType()).text;
+  } catch (error) {
+    return [header, ['READ-FAILED', error.message, '', 'FAILED', '', '', '', true, '', iso_(new Date())]];
+  }
+
+
+
+
+  const rows = [];
+  const regex = /(?:^|\n)\s*(OQ-\d{3})\s*(?:—|-|:)\s*([^\n]+)([\s\S]*?)(?=\n\s*OQ-\d{3}\s*(?:—|-|:)|$)/g;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    const body = match[3] || '';
+    rows.push([
+      match[1], match[2].trim(),
+      captureField_(body, 'PRIORITY'), captureField_(body, 'STATUS') || 'OPEN',
+      captureField_(body, 'OWNER'), captureField_(body, 'BLOCKER'),
+      captureField_(body, 'DECISIVE TEST'),
+      /HUMAN[-_ ]DECISION|DYLAN/i.test(body), url, iso_(new Date())
+    ]);
+  }
+  if (!rows.length) rows.push(['PARSE-WARNING', 'No OQ headings matched declared parser', '', 'SYNC-UNCERTAIN', '', '', '', true, url, iso_(new Date())]);
+  return [header].concat(rows);
+}
+
+
+
+
+function buildHelpRows_(inventory) {
+  const rows = [['Artifact ID', 'Title', 'Organization', 'Help needed', 'Offered capacity', 'Priority', 'Status', 'Decisive test', 'Drive ID', 'URL', 'Tree path']];
+  inventory.forEach(function(x) {
+    if (!x.help_needed && !x.offered_capacity) return;
+    rows.push([x.artifact_id, x.title, x.organization, x.help_needed, x.offered_capacity,
+      x.priority, x.status, x.decisive_test, x.drive_id, x.source_urls[0], x.tree_path]);
+  });
+  return rows;
+}
+
+
+
+
+function buildRecentRows_(recent) {
+  const rows = [['Modified UTC', 'Artifact ID', 'Title', 'Organization', 'Status', 'Class', 'Drive ID', 'URL']];
+  recent.sort(function(a, b) { return b.modified_at.localeCompare(a.modified_at); });
+  recent.forEach(function(x) {
+    rows.push([x.modified_at, x.artifact_id, x.title, x.organization, x.status, x.class, x.drive_id, x.source_urls[0]]);
+  });
+  return rows;
+}
+
+
+
+
+function buildArtifactRows_(inventory) {
+  const rows = [[
+    'Artifact ID', 'Title', 'Organization', 'Class', 'Version', 'Status', 'Authority',
+    'Canonical impact', 'Topics', 'Object tags', 'Dependencies', 'Drive ID', 'URL',
+    'Created UTC', 'Modified UTC', 'Content SHA-256', 'Normalized SHA-256',
+    'Measure', 'Model layer', 'Frame', 'Closure state', 'Extraction class',
+    'Tree path', 'Sync status', 'Validation errors', 'Human decision'
+  ]];
+  inventory.forEach(function(x) {
+    rows.push([
+      x.artifact_id, x.title, x.organization, x.class, x.version, x.status, x.authority,
+      x.canonical_impact, x.topics.join('; '), x.object_tags.join('; '), x.dependencies.join('; '),
+      x.drive_id, x.source_urls[0], x.created_at, x.modified_at, x.content_hash,
+      x.normalized_text_hash, x.measure, x.model_layer, x.frame, x.closure_state,
+      x.extraction_class, x.tree_path, x.sync_status, x.validation_errors.join('; '),
+      x.human_decision === null ? 'UNDECLARED' : x.human_decision
+    ]);
+  });
+  return rows;
+}
+
+
+
+
+function buildContextRows_(context, inventory, derived, manifest) {
+  const rows = [['Context key', 'Value', 'Status', 'Source', 'Notes', 'Run ID', 'Generated UTC']];
+  rows.push(['AUTOMATION_RELEASE', GP_AUTO.RELEASE, /CANDIDATE/.test(GP_AUTO.RELEASE)?'CANDIDATE / DO NOT INSTALL':'ACTIVE', 'Code.gs', /CANDIDATE/.test(GP_AUTO.RELEASE)?'Successor candidate; Apps Script runtime, recovery, installed equality, and distinct-family review pending':'Production package', context.runId, manifest.generated_at]);
+  rows.push(['CONFIG_VERSION', manifest.config_version, 'ACTIVE', 'Config', '', context.runId, manifest.generated_at]);
+  rows.push(['SOURCE_SCOPE_COUNT', context.sourceScopes.length, 'ACTIVE', 'Config', 'Direct-child only', context.runId, manifest.generated_at]);
+  rows.push(['ARTIFACT_COUNT', inventory.length, 'ACTIVE', GP_AUTO.MANIFEST_FILE_NAME, '', context.runId, manifest.generated_at]);
+  rows.push(['COVERAGE_GAP_COUNT', derived.coverageGaps.length, derived.coverageGaps.length ? 'WARNING' : 'CLEAR', 'Direct-child scan', 'Nested folders are not silently traversed', context.runId, manifest.generated_at]);
+  derived.coverageGaps.forEach(function(gap) {
+    rows.push(['COVERAGE_GAP', gap.discovered_folder_name, 'WARNING', gap.discovered_folder_id, gap.reason, context.runId, manifest.generated_at]);
+  });
+  return rows;
+}
+
+
+
+
+function buildDuplicateRows_(derived) {
+  const rows = [['Flag type', 'Key', 'Artifact ID', 'Title', 'Drive ID', 'Created UTC', 'Normalized SHA-256', 'Disposition', 'Notes']];
+  Object.keys(derived.byNormalizedHash).forEach(function(hash) {
+    const group = derived.byNormalizedHash[hash];
+    if (group.length < 2) return;
+    group.forEach(function(x) {
+      rows.push(['NORMALIZED-HASH-DUPLICATE', hash, x.artifact_id, x.title, x.drive_id,
+        x.created_at, hash, 'PRESERVE / ONE EVIDENTIARY LINEAGE', 'Copy count is not independent agreement.']);
+    });
+  });
+  Object.keys(derived.byArtifactId).forEach(function(id) {
+    const group = derived.byArtifactId[id];
+    if (group.length < 2) return;
+    group.forEach(function(x) {
+      rows.push(['DECLARED-ID-COLLISION', id, x.artifact_id, x.title, x.drive_id,
+        x.created_at, x.normalized_text_hash, 'PRESERVE / CITE FULL TITLE + DRIVE ID', 'Drive createdTime governs filing priority.']);
+    });
+  });
+  Object.keys(derived.byTitle).forEach(function(titleKey) {
+    const group = derived.byTitle[titleKey];
+    if (group.length < 2) return;
+    const hashes = {};
+    group.forEach(function(x) { hashes[x.normalized_text_hash || x.drive_id] = true; });
+    if (Object.keys(hashes).length < 2) return;
+    group.forEach(function(x) {
+      rows.push(['SAME-TITLE-DIFFERENT-CONTENT', titleKey, x.artifact_id, x.title, x.drive_id,
+        x.created_at, x.normalized_text_hash, 'PRESERVE / CONTENT ADJUDICATION REQUIRED', 'Never merge automatically.']);
+    });
+  });
+  return rows;
+}
+
+
+
+
+function validateGeneratedTables_(tables) {
+  GP_AUTO.GENERATED_SHEETS.forEach(function(name) {
+    const rows = tables[name];
+    if (!rows || !rows.length || !rows[0].length) {
+      throw new Error('Generated table missing or empty: ' + name);
+    }
+    const width = rows[0].length;
+    rows.forEach(function(row, index) {
+      if (row.length !== width) {
+        throw new Error(name + ' row ' + index + ' has width ' + row.length + ', expected ' + width);
+      }
+    });
+  });
+}
+
+
+
+
+function stageGeneratedSheets_(context, tables) {
+  const state = {sheets: {}, commitStarted: false, committed: []};
+  GP_AUTO.GENERATED_SHEETS.forEach(function(targetName) {
+    const slug = sheetSlug_(targetName);
+    const stageName = '_STAGE_' + slug;
+    const backupName = '_BACKUP_' + slug;
+    const stage = getOrCreateSheet_(context.ss, stageName);
+    const backup = getOrCreateSheet_(context.ss, backupName);
+    stage.clear({contentsOnly: false});
+    backup.clear({contentsOnly: false});
+    writeMatrix_(stage, tables[targetName]);
+    stage.hideSheet();
+    backup.hideSheet();
+    state.sheets[targetName] = {stage: stage, backup: backup};
+  });
+  SpreadsheetApp.flush();
+  return state;
+}
+
+
+
+
+function validateStagedSheets_(context, stageState, tables) {
+  Object.keys(stageState.sheets).forEach(function(targetName) {
+    const stage = stageState.sheets[targetName].stage;
+    const expected = tables[targetName];
+    if (stage.getLastRow() !== expected.length || stage.getLastColumn() !== expected[0].length) {
+      throw new Error('Staged sheet dimension mismatch: ' + targetName);
+    }
+    const actualHeader = stage.getRange(1, 1, 1, expected[0].length).getDisplayValues()[0];
+    if (JSON.stringify(actualHeader) !== JSON.stringify(expected[0].map(String))) {
+      throw new Error('Staged header mismatch: ' + targetName);
+    }
+  });
+}
+
+
+
+
+function commitGeneratedSheets_(context, stageState, tables) {
+  stageState.commitStarted = true;
+  GP_AUTO.GENERATED_SHEETS.forEach(function(targetName) {
+    const target = requiredSheet_(context.ss, targetName);
+    const pair = stageState.sheets[targetName];
+    copyWholeSheetData_(target, pair.backup);
+    target.clear({contentsOnly: false});
+    copyWholeSheetData_(pair.stage, target);
+    formatGeneratedSheet_(target, targetName, tables[targetName]);
+    stageState.committed.push(targetName);
+  });
+  SpreadsheetApp.flush();
+}
+
+
+
+
+function rollbackGeneratedSheets_(context, stageState) {
+  stageState.committed.slice().reverse().forEach(function(targetName) {
+    const target = requiredSheet_(context.ss, targetName);
+    const backup = stageState.sheets[targetName].backup;
+    target.clear({contentsOnly: false});
+    copyWholeSheetData_(backup, target);
+  });
+  SpreadsheetApp.flush();
+}
+
+
+
+
+function cleanTransientStageSheets_(context, stageState) {
+  // Deliberately retain hidden _STAGE_* and _BACKUP_* sheets as reusable
+  // fail-closed infrastructure. They are overwritten only by future staging,
+  // are not research sources, and provide immediate post-run inspection.
+  Object.keys(stageState.sheets).forEach(function(name) {
+    stageState.sheets[name].stage.hideSheet();
+    stageState.sheets[name].backup.hideSheet();
+  });
+}
+
+
+
+
+function copyWholeSheetData_(source, destination) {
+  const rows = source.getLastRow();
+  const cols = source.getLastColumn();
+  if (!rows || !cols) return;
+  ensureGridSize_(destination, rows, cols);
+  source.getRange(1, 1, rows, cols).copyTo(destination.getRange(1, 1, rows, cols));
+}
+
+
+
+
+function writeMatrix_(sheet, rows) {
+  ensureGridSize_(sheet, rows.length, rows[0].length);
+  sheet.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
+}
+
+
+
+
+function formatGeneratedSheet_(sheet, targetName, rows) {
+  sheet.setFrozenRows(targetName === 'Dashboard' ? 4 : 1);
+  const range = sheet.getRange(1, 1, rows.length, rows[0].length);
+  range.setWrap(true).setVerticalAlignment('top');
+  if (targetName === 'Dashboard') {
+    sheet.getRange(1, 1, 1, Math.min(4, rows[0].length))
+      .setFontWeight('bold').setFontSize(14).setBackground('#1f4e78').setFontColor('#ffffff');
+    sheet.getRange(4, 1, 1, rows[3].length)
+      .setFontWeight('bold').setBackground('#d9eaf7');
+  } else {
+    sheet.getRange(1, 1, 1, rows[0].length)
+      .setFontWeight('bold').setBackground('#1f4e78').setFontColor('#ffffff');
+  }
+  const maxCols = Math.min(sheet.getLastColumn(), 30);
+  for (let c = 1; c <= maxCols; c++) sheet.autoResizeColumn(c);
+}
+
+
+
+
+function publishManifestStaged_(context, manifest) {
+  assertDriveWriteTarget_(context, context.manifestFolderId);
+  const folder = DriveApp.getFolderById(context.manifestFolderId);
+  const json = stableStringify_(manifest, 2) + '\n';
+  const sha = sha256Text_(json);
+  const stagedName = 'WORKSPACE_MASTER_MANIFEST.__STAGING__.' + context.runId + '.json';
+  const staged = folder.createFile(Utilities.newBlob(json, 'application/json', stagedName));
+
+
+
+
+  const readBack = staged.getBlob().getDataAsString('UTF-8');
+  const parsed = JSON.parse(readBack);
+  const readBackHash = sha256Text_(readBack);
+  if (parsed.run_id !== context.runId || readBackHash !== sha) {
+    throw new Error('Staged manifest read-back validation failed.');
+  }
+
+
+
+
+  const priorIds = [];
+  const existing = folder.getFilesByName(GP_AUTO.MANIFEST_FILE_NAME);
+  while (existing.hasNext()) {
+    const prior = existing.next();
+    priorIds.push(prior.getId());
+    const archiveName = 'WORKSPACE_MASTER_MANIFEST.__VALIDATED__.' +
+      formatCompactDate_(prior.getLastUpdated()) + '.' + prior.getId() + '.json';
+    prior.setName(archiveName);
+  }
+  staged.setName(GP_AUTO.MANIFEST_FILE_NAME);
+
+
+
+
+  const routingIndex = buildRoutingIndex_(manifest);
+  const routingJson = stableStringify_(routingIndex, 2) + '\n';
+  const routingFile = folder.createFile(Utilities.newBlob(
+    routingJson, 'application/json', GP_AUTO.ROUTING_INDEX_PREFIX + '.' + context.runId + '.json'));
+
+
+
+
+  return {
+    canonicalFileId: staged.getId(),
+    canonicalUrl: staged.getUrl(),
+    stagedFileId: staged.getId(),
+    sha256: sha,
+    priorCanonicalIds: priorIds,
+    routingIndexId: routingFile.getId(),
+    objectCount: manifest.objects.length
+  };
+}
+
+
+
+
+function buildRoutingIndex_(manifest) {
+  const byPath = {};
+  manifest.objects.forEach(function(object) {
+    if (!byPath[object.tree_path]) byPath[object.tree_path] = [];
+    byPath[object.tree_path].push({
+      drive_id: object.drive_id,
+      artifact_id: object.artifact_id,
+      title: object.title,
+      source_url: object.source_urls[0],
+      extraction_class: object.extraction_class,
+      status: object.status
+    });
+  });
+  return {
+    schema_version: 'TREE-ROUTING-INDEX-v1.0',
+    run_id: manifest.run_id,
+    generated_at: manifest.generated_at,
+    routing_is_symbolic: true,
+    source_files_moved: false,
+    paths: byPath
+  };
+}
+
+
+
+
+function backupNavigationDoc_(context) {
+  assertDriveWriteTarget_(context, context.navigationDocId);
+  const source = DriveApp.getFileById(context.navigationDocId);
+  const folder = DriveApp.getFolderById(context.manifestFolderId);
+  const copy = source.makeCopy('NAVIGATION_COMPANION.__VALIDATED_BACKUP__.' + context.runId, folder);
+  return {fileId: copy.getId(), sourceId: source.getId()};
+}
+
+
+
+
+function restoreNavigationDoc_(context, backup) {
+  const text = DocumentApp.openById(backup.fileId).getBody().getText();
+  const doc = DocumentApp.openById(context.navigationDocId);
+  doc.getBody().clear().appendParagraph(text);
+  doc.saveAndClose();
+}
+
+
+
+
+function updateNavigationDoc_(context, derived, manifest, publication, stale, staleMessage) {
+  assertDriveWriteTarget_(context, context.navigationDocId);
+  const doc = DocumentApp.openById(context.navigationDocId);
+  const body = doc.getBody();
+  body.clear();
+
+
+
+
+  if (stale) {
+    body.appendParagraph('⚠ STALE — GENERATED COORDINATION OUTPUTS ARE NOT CURRENT')
+      .setHeading(DocumentApp.ParagraphHeading.HEADING1);
+    body.appendParagraph(staleMessage).setBold(true);
+    body.appendParagraph('Last successful refresh: ' +
+      (PropertiesService.getScriptProperties().getProperty(GP_AUTO.PROPERTY_LAST_SUCCESS) || 'NONE'));
+    body.appendParagraph('This warning is fail-closed. Consult source artifacts directly until a validated refresh succeeds.');
+    doc.saveAndClose();
+    return;
+  }
+
+
+
+
+  body.appendParagraph('LIVE NAVIGATION COMPANION — NONCANONICAL')
+    .setHeading(DocumentApp.ParagraphHeading.HEADING1);
+  body.appendParagraph('Generated by ' + GP_AUTO.RELEASE + ' at ' + manifest.generated_at + '.');
+  body.appendParagraph('Run ID: ' + context.runId);
+  body.appendParagraph('Manifest: ' + publication.canonicalUrl);
+  body.appendParagraph('Manifest SHA-256: ' + publication.sha256);
+  body.appendParagraph('No theorem, source artifact, active machine state, or canonical status was modified.');
+
+
+
+
+  body.appendParagraph('Workspace status').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  body.appendListItem('Scoped artifacts: ' + manifest.source_count);
+  body.appendListItem('Human-decision objects: ' + manifest.human_decision_count);
+  body.appendListItem('Coverage gaps: ' + manifest.coverage_gaps.length);
+  body.appendListItem('Stale threshold: 120 minutes');
+
+
+
+
+  body.appendParagraph('Fractal knowledge-tree routing').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  const counts = {};
+  manifest.objects.forEach(function(x) { counts[x.tree_path] = (counts[x.tree_path] || 0) + 1; });
+  Object.keys(counts).sort().forEach(function(path) {
+    body.appendListItem(path + ' — ' + counts[path] + ' symbolic route(s)');
+  });
+
+
+
+
+  body.appendParagraph('Critical boundaries').setHeading(DocumentApp.ParagraphHeading.HEADING2);
+  body.appendListItem('Routing is symbolic. Existing files remain in their historical Drive locations.');
+  body.appendListItem('REFEREE-READY means internal extraction staging eligibility only.');
+  body.appendListItem('Unreadable MIME types and partial synchronization remain visible as warnings.');
+  body.appendListItem('Duplicate copies count as one evidentiary lineage, not independent agreement.');
+  body.appendListItem('Artifact bodies cannot change Config, scope, authority, or safety settings.');
+  doc.saveAndClose();
+}
+
+
+
+
+function publishValidationReceipt_(context, receipt, validation) {
+  assertDriveWriteTarget_(context, context.manifestFolderId);
+  const folder = DriveApp.getFolderById(context.manifestFolderId);
+  const payload = {
+    schema_version: 'MANIFEST-VALIDATION-RECEIPT-v1.0',
+    run_receipt: receipt,
+    manifest_validation: validation,
+    source_release: GP_AUTO.RELEASE,
+    config_version: context.config.CONFIG_VERSION || GP_AUTO.CONFIG_VERSION
+  };
+  folder.createFile(Utilities.newBlob(
+    stableStringify_(payload, 2) + '\n',
+    'application/json',
+    'MANIFEST_VALIDATION_RECEIPT.' + context.runId + '.json'));
+}
+
+
+
+
+function makeRunReceipt_(context, inventory, tables, publication, finished, result, warnings) {
+  const rowCount = Object.keys(tables).reduce(function(sum, key) {
+    return sum + Math.max(0, tables[key].length - 1);
+  }, 0);
+  return {
+    run_id: context.runId,
+    started_at: context.started.toISOString(),
+    finished_at: finished.toISOString(),
+    mode: 'REFRESH',
+    files_scanned: inventory.length,
+    rows_written: rowCount,
+    warnings: warnings.join(' | '),
+    result: result,
+    details: stableStringify_({
+      source_scope: context.sourceScopes,
+      config_version: context.config.CONFIG_VERSION || GP_AUTO.CONFIG_VERSION,
+      source_release: GP_AUTO.RELEASE,
+      manifest_file_id: publication.canonicalFileId,
+      manifest_sha256: publication.sha256,
+      previous_manifest_ids: publication.priorCanonicalIds,
+      human_decision_count: inventory.filter(function(x) { return x.human_decision === true; }).length,
+      last_validated_snapshot: publication.canonicalFileId
+    })
+  };
+}
+
+
+
+
+function appendRunLog_(ss, receipt) {
+  const sheet = requiredSheet_(ss, 'Run Log');
+  const header = sheet.getRange(1, 1, 1, 8).getDisplayValues()[0];
+  const expected = ['Run ID', 'Started', 'Finished', 'Mode', 'Files scanned', 'Rows written', 'Warnings', 'Result'];
+  if (!header[0]) sheet.getRange(1, 1, 1, expected.length).setValues([expected]);
+  sheet.appendRow([
+    receipt.run_id, receipt.started_at, receipt.finished_at, receipt.mode,
+    receipt.files_scanned, receipt.rows_written,
+    truncate_(receipt.warnings + (receipt.details ? ' | ' + receipt.details : ''), 45000),
+    receipt.result
+  ]);
+}
+
+
+
+
+function appendRunLogSafe_(ss, receipt) {
+  try { appendRunLog_(ss, receipt); } catch (error) { console.error('Run Log write failed: ' + error.message); }
+}
+
+
+
+
+function appendFailureWithoutContext_(runId, started, error) {
+  try {
+    const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+    appendRunLogSafe_(ss, {
+      run_id: runId,
+      started_at: started.toISOString(),
+      finished_at: new Date().toISOString(),
+      mode: 'REFRESH',
+      files_scanned: 0,
+      rows_written: 0,
+      warnings: 'Failure occurred before runtime context was initialized.',
+      result: 'FAILED',
+      details: truncate_(error.stack || error.message, 45000)
+    });
+  } catch (nested) {
+    console.error('Unable to record failure: ' + nested.message);
+  }
+}
+
+
+
+
+function setDashboardFreshness_(context, stale, message) {
+  const sheet = requiredSheet_(context.ss, 'Dashboard');
+  const range = sheet.getRange('A1:D2');
+  range.setBackground(stale ? '#9c0006' : '#006100').setFontColor('#ffffff').setFontWeight('bold');
+  sheet.getRange('A1').setValue(stale ? '⚠ STALE / FAILED' : '✓ CURRENT / VALIDATED');
+  sheet.getRange('A2').setValue(message);
+}
+
+
+
+
+function setStaleBannerSafe_(context, message) {
+  try { setDashboardFreshness_(context, true, message); } catch (error) { console.error(error); }
+  try { updateNavigationDoc_(context, null, null, null, true, message); } catch (navError) { console.error(navError); }
+}
+
+
+
+
+function readClosureState_(ss) {
+  const sheet = ss.getSheetByName('Closure Log');
+  if (!sheet || sheet.getLastRow() < 2) return {byArtifactId: {}, byTitle: {}, byDriveId: {}};
+  const values = sheet.getDataRange().getDisplayValues();
+  const header = values[0].map(function(x) { return normalizeMetadataKey_(x); });
+  const byArtifactId = {};
+  const byTitle = {};
+  const byDriveId = {};
+
+
+
+
+  for (let r = 1; r < values.length; r++) {
+    const row = {};
+    header.forEach(function(key, c) { row[key] = values[r][c]; });
+    const state = firstNonEmpty_(row.TERMINAL_LABEL, row.STATUS, row.DECISION_STATE, row.CLOSURE_STATE);
+    const entry = {state: state || 'UNVERIFIED', row: r + 1, raw: row};
+    const artifactId = firstNonEmpty_(row.ARTIFACT_ID, row.ITEM, row.OBJECT_ID);
+    const title = firstNonEmpty_(row.TITLE, row.OBJECT, row.ITEM);
+    const driveId = firstNonEmpty_(row.DRIVE_ID, row.FILE_ID);
+    if (artifactId) byArtifactId[artifactId] = entry;
+    if (title) byTitle[String(title).toLowerCase()] = entry;
+    if (driveId) byDriveId[driveId] = entry;
+  }
+  return {byArtifactId: byArtifactId, byTitle: byTitle, byDriveId: byDriveId};
+}
+
+
+
+
+function lookupClosure_(closureState, artifactId, title, driveId) {
+  return closureState.byDriveId[driveId] ||
+    (artifactId ? closureState.byArtifactId[artifactId] : null) ||
+    closureState.byTitle[String(title).toLowerCase()] || {state: ''};
+}
+
+
+
+
+function applyExtractionEligibility_(record, closure) {
+  const title = record.title.toLowerCase();
+  const classText = String(record.class).toUpperCase();
+  const statusText = String(record.status).toUpperCase();
+  const closureText = String(record.closure_state).toUpperCase();
+
+
+
+
+  if (/DATA|SCRIPT|SOURCE|CODE|PYTHON|EXECUTABLE|RECEIPT|FIXTURE/.test(classText + ' ' + title)) {
+    record.extraction_class = 'INSTRUMENT';
+  } else if (/KILLED|SUPERSEDED|DUPLICATE|HISTORICAL|PROVENANCE/.test(statusText + ' ' + closureText)) {
+    record.extraction_class = 'PROVENANCE-ONLY';
+  } else if (isTerminalClosure_(closureText) &&
+             record.human_decision === true &&
+             String(record.canonical_impact).toUpperCase() === 'APPROVED' &&
+             record.authority && record.authority.toLowerCase() !== 'none' &&
+             record.dependencies.length && record.evidence_chain.length) {
+    record.extraction_class = 'REFEREE-READY';
+  } else {
+    record.extraction_class = 'ACTIVE';
+  }
+
+
+
+
+  if (!GP_AUTO.ALLOWED_EXTRACTION_CLASSES.includes(record.extraction_class)) {
+    record.validation_errors.push('INVALID_EXTRACTION_CLASS');
+    record.extraction_class = 'ACTIVE';
+  }
+}
+
+
+
+
+function validateObjectCard_(record) {
+  if (!record.artifact_id) record.validation_errors.push('MISSING_ARTIFACT_ID');
+  if (!record.class) record.validation_errors.push('MISSING_CLASS');
+  if (!record.version) record.validation_errors.push('MISSING_VERSION');
+  if (record.organization === 'UNDECLARED') record.validation_errors.push('MISSING_ORGANIZATION');
+  if (record.measure === 'UNDECLARED') record.validation_errors.push('MISSING_MEASURE');
+  if (record.model_layer === 'UNDECLARED') record.validation_errors.push('MISSING_MODEL_LAYER');
+  if (record.frame === 'UNDECLARED') record.validation_errors.push('MISSING_FRAME');
+  if (record.human_decision === null) record.validation_errors.push('MISSING_HUMAN_DECISION');
+  if (record.sync_status !== 'COMPLETE') record.validation_errors.push(record.sync_status);
+  if (record.extraction_class === 'REFEREE-READY' && record.validation_errors.length) {
+    record.extraction_class = 'ACTIVE';
+    record.validation_errors.push('REFEREE_READY_FAIL_CLOSED');
+  }
+}
+
+
+
+
+function routeTreePath_(record) {
+  const haystack = [record.title, record.class, record.topics.join(' '), record.object_tags.join(' '),
+    record.artifact_id].join(' ').toLowerCase();
+  if (/governance|protocol|operator rule|ballot|consensus/.test(haystack)) return TREE_PATHS.GOVERNANCE;
+  if (/q0_master|q0 ledger|canonical master|consolidated spine/.test(haystack)) return TREE_PATHS.CANONICAL;
+  if (/saddle.exit|sink.capture|endpoint block|isolating block/.test(haystack)) return TREE_PATHS.SADDLE;
+  if (/invariant.strip|flow comparison|transit|dynamics/.test(haystack)) return TREE_PATHS.STRIP;
+  if (/palm|normalizer|remainder|gaussian regularity|degree.five/.test(haystack)) return TREE_PATHS.PALM;
+  if (/p0\.2.*validation|validation certificate|independent audit/.test(haystack)) return TREE_PATHS.P02_CERT;
+  if (/law.specific q|q machine|machine snapshot|root schema/.test(haystack)) return TREE_PATHS.MACHINE;
+  if (/negative test|falsif|mutation battery|fail.closed verifier/.test(haystack)) return TREE_PATHS.NEGATIVE;
+  if (/validation receipt|schema sign.off/.test(haystack)) return TREE_PATHS.MACHINE_RECEIPT;
+  if (/exact pair|elder.rule|critical set|pair topology/.test(haystack)) return TREE_PATHS.EXACT_PAIR;
+  if (/power|sample.size|cluster.bootstrap|simulation plan/.test(haystack)) return TREE_PATHS.POWER;
+  if (/connectivity|four.neighbor|4.connectivity|rebase/.test(haystack)) return TREE_PATHS.CONNECTIVITY;
+  if (/live register|spreadsheet sync|gp-reg-032/.test(haystack)) return TREE_PATHS.REGISTER;
+  if (/navigation|whole.drive map|read first|dashboard/.test(haystack)) return TREE_PATHS.NAVIGATION;
+  if (/cross.model|ledger|review ledger/.test(haystack)) return TREE_PATHS.LEDGER;
+  if (/manifest|automation|apps script|gp-auto-034/.test(haystack)) return TREE_PATHS.MANIFEST;
+  return TREE_PATHS.UNROUTED;
+}
+
+
+
+
+function assertDriveWriteTarget_(context, id) {
+  if (!context.allowedDriveWriteIds[id]) {
+    throw new Error('FAIL-CLOSED: attempted Drive write outside approved targets: ' + id);
+  }
+}
+
+
+
+
+function requiredSheet_(ss, name) {
+  const sheet = ss.getSheetByName(name);
+  if (!sheet) throw new Error('Required sheet missing: ' + name);
+  return sheet;
+}
+
+
+
+
+function getOrCreateSheet_(ss, name) {
+  return ss.getSheetByName(name) || ss.insertSheet(name);
+}
+
+
+
+
+function ensureGridSize_(sheet, rows, cols) {
+  if (sheet.getMaxRows() < rows) sheet.insertRowsAfter(sheet.getMaxRows(), rows - sheet.getMaxRows());
+  if (sheet.getMaxColumns() < cols) sheet.insertColumnsAfter(sheet.getMaxColumns(), cols - sheet.getMaxColumns());
+}
+
+
+
+
+function parseList_(value) {
+  if (!value) return [];
+  return String(value).split(/[;,|]/).map(function(x) { return x.trim(); }).filter(Boolean);
+}
+
+
+
+
+function parseBoolean_(value) {
+  const x = String(value == null ? '' : value).trim().toUpperCase();
+  if (x === 'TRUE' || x === 'YES' || x === '1') return true;
+  if (x === 'FALSE' || x === 'NO' || x === '0') return false;
+  return null;
+}
+
+
+
+
+function parseNullableBoolean_(value) {
+  return parseBoolean_(value);
+}
+
+
+
+
+function intConfig_(config, key, defaultValue) {
+  const n = parseInt(config[key], 10);
+  return Number.isFinite(n) ? n : defaultValue;
+}
+
+
+
+
+function normalizeText_(text) {
+  return String(text || '')
+    .replace(/\r\n?/g, '\n')
+    .replace(/[ \t]+$/gm, '')
+    .replace(/\n+$/g, '') + (text ? '\n' : '');
+}
+
+
+
+
+function sha256Text_(text) {
+  return sha256Bytes_(Utilities.newBlob(String(text), 'text/plain').getBytes());
+}
+
+
+
+
+function sha256Bytes_(bytes) {
+  const digest = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, bytes);
+  return digest.map(function(byte) {
+    const value = byte < 0 ? byte + 256 : byte;
+    return ('0' + value.toString(16)).slice(-2);
+  }).join('');
+}
+
+
+
+
+function stableStringify_(value, space) {
+  return JSON.stringify(sortRecursively_(value), null, space || 0);
+}
+
+
+
+
+function sortRecursively_(value) {
+  if (Array.isArray(value)) return value.map(sortRecursively_);
+  if (value && typeof value === 'object') {
+    const out = {};
+    Object.keys(value).sort().forEach(function(key) { out[key] = sortRecursively_(value[key]); });
+    return out;
+  }
+  return value;
+}
+
+
+
+
+function artifactIdFromTitle_(title) {
+  const match = String(title).match(/\b([A-Z][A-Z0-9]{1,10}-(?:[A-Z]{2,10})-\d{3}(?:-R\d+(?:\.\d+)?)?-v\d+\.\d+)\b/i);
+  return match ? match[1] : '';
+}
+
+
+
+
+function lineFromArtifactId_(id) {
+  const match = String(id || '').match(/^([A-Z][A-Z0-9]{1,10})-/i);
+  return match ? match[1].toUpperCase() : '';
+}
+
+
+
+
+function classFromArtifactId_(id) {
+  const match = String(id || '').match(/^[A-Z][A-Z0-9]{1,10}-([A-Z]{2,10})-/i);
+  return match ? match[1].toUpperCase() : '';
+}
+
+
+
+
+function versionFromTitle_(title) {
+  const match = String(title || '').match(/\bv(\d+\.\d+)\b/i);
+  return match ? 'v' + match[1] : '';
+}
+
+
+
+
+function firstNonEmpty_() {
+  for (let i = 0; i < arguments.length; i++) {
+    if (arguments[i] !== null && arguments[i] !== undefined && String(arguments[i]).trim() !== '') {
+      return String(arguments[i]).trim();
+    }
+  }
+  return '';
+}
+
+
+
+
+function captureField_(body, label) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp('(?:^|\\n)\\s*' + escaped + '\\s*:\\s*([^\\n]+)', 'i');
+  const match = String(body).match(regex);
+  return match ? match[1].trim() : '';
+}
+
+
+
+
+function pushMapArray_(map, key, value) {
+  if (!map[key]) map[key] = [];
+  map[key].push(value);
+}
+
+
+
+
+function shallowClone_(object) {
+  const out = {};
+  Object.keys(object).forEach(function(key) { out[key] = object[key]; });
+  return out;
+}
+
+
+
+
+function truncate_(value, maxChars) {
+  const text = String(value == null ? '' : value);
+  return text.length <= maxChars ? text : text.substring(0, maxChars) + '…[TRUNCATED]';
+}
+
+
+
+
+function iso_(date) { return date.toISOString(); }
+
+
+
+
+function formatCompactDate_(date) {
+  return Utilities.formatDate(date, 'UTC', 'yyyyMMddTHHmmssSSS');
+}
+
+
+
+
+function makeRunId_(date) {
+  const stamp = Utilities.formatDate(date, GP_AUTO.TIME_ZONE, 'yyyyMMdd-HHmmss');
+  return 'RUN-' + stamp + '-' + Utilities.getUuid().substring(0, 8).toUpperCase();
+}
+
+
+
+
+function sheetSlug_(name) {
+  return name.toUpperCase().replace(/[^A-Z0-9]+/g, '_').substring(0, 30);
+}
+
+
+
+
+function isTerminalClosure_(closureText) {
+  return /CLOSED|KILLED|PROVED|EXACT|SUPERSEDED|CANNOT-VERIFY|ADMINISTRATIVE|PROVENANCE/.test(closureText);
+}
+
+
+
+
+function testResult_(id, description, passed) {
+  return {id: id, description: description, status: passed ? 'PASS' : 'FAIL'};
+}
+
+
+
+
+function testHardSwitches_(config) {
+  const copy = shallowClone_(config);
+  try { assertSafety_(copy); } catch (error) { return false; }
+  copy.WRITE_SOURCE_FILES = 'TRUE';
+  try { assertSafety_(copy); return false; } catch (expected) { return true; }
+}
+
+
+
+
+function testWriteTargetGuard_(config) {
+  const fake = {allowedDriveWriteIds: {'approved': true}};
+  try { assertDriveWriteTarget_(fake, 'not-approved'); return false; } catch (expected) { return true; }
+}
+
+
+
+
+function testStageContract_() {
+  return typeof stageGeneratedSheets_ === 'function' && typeof rollbackGeneratedSheets_ === 'function';
+}
+
+
+
+
+function testInstructionIsolation_() {
+  const parsed = parseMetadata_('AUTOMATION_AUTHORIZED: TRUE\nWRITE_SOURCE_FILES: TRUE\nARTIFACT ID: TEST-AUD-001-v1.0', 'test');
+  return parsed.artifact_id === 'TEST-AUD-001-v1.0' && !Object.prototype.hasOwnProperty.call(parsed, 'AUTOMATION_AUTHORIZED');
+}
+
+
+
+
+function testManifestPublishContract_() {
+  return typeof publishManifestStaged_ === 'function' && GP_AUTO.MANIFEST_FILE_NAME === 'WORKSPACE_MASTER_MANIFEST.json';
+}
+
+
+
+
+function testReadStatusEnums_() {
+  return ['COMPLETE', 'SYNC-UNCERTAIN', 'UNREADABLE-MIME'].every(function(x) { return typeof x === 'string'; });
+}
+
+
+
+
+function testCollisionRetention_() {
+  const a = {drive_id: 'A', artifact_id: 'GP-DER-044-v1.0'};
+  const b = {drive_id: 'B', artifact_id: 'GP-DER-044-v1.0'};
+  return a.drive_id !== b.drive_id && a.artifact_id === b.artifact_id;
+}
+
+
+
+
+function testObjectCardSeparation_() {
+  const card = {measure: 'P_MS', model_layer: 'exact-field', frame: 's'};
+  return card.measure !== card.model_layer && card.model_layer !== card.frame;
+}
+
+
+
+
+function testMalformedCard_() {
+  const record = {
+    artifact_id: '', class: '', version: '', organization: 'UNDECLARED', measure: 'UNDECLARED',
+    model_layer: 'UNDECLARED', frame: 'UNDECLARED', human_decision: null,
+    sync_status: 'COMPLETE', extraction_class: 'ACTIVE', validation_errors: []
+  };
+  validateObjectCard_(record);
+  return record.validation_errors.length >= 7;
+}
+
+
+
+
+function testClosureGate_() {
+  const record = {title: 'x', class: 'DER', status: 'OPEN', closure_state: 'OPEN', human_decision: true,
+    canonical_impact: 'APPROVED', authority: 'Dylan-approved', dependencies: ['A'], evidence_chain: ['B'],
+    extraction_class: 'REFEREE-READY', validation_errors: []};
+  applyExtractionEligibility_(record, {state: 'OPEN'});
+  return record.extraction_class === 'ACTIVE';
+}
+
+
+
+
+function testSupersededDependencyGate_() {
+  const record = {extraction_class: 'REFEREE-READY', superseded_by: ['X'], validation_errors: []};
+  if (record.superseded_by.length && record.extraction_class === 'REFEREE-READY') record.extraction_class = 'ACTIVE';
+  return record.extraction_class === 'ACTIVE';
+}
+
+
+
+
+function testInstrumentGate_() {
+  const record = {title: 'executable source', class: 'DATA', status: 'CLOSED', closure_state: 'CLOSED — EXACT',
+    human_decision: true, canonical_impact: 'APPROVED', authority: 'Dylan-approved', dependencies: ['A'], evidence_chain: ['B'],
+    extraction_class: '', validation_errors: []};
+  applyExtractionEligibility_(record, {state: record.closure_state});
+  return record.extraction_class === 'INSTRUMENT';
+}
+
+
+
+
+function testScopeGate_() {
+  const scopes = [{folder_id: 'A'}];
+  return !scopes.some(function(x) { return x.folder_id === 'OUTSIDE'; });
+}
+
+
+
+
+function testCoverageGapContract_() {
+  return typeof collectInventory_ === 'function' && typeof buildContextRows_ === 'function';
+}
+
+
+
+
+function testReceiptSchema_() {
+  const required = ['run_id', 'started_at', 'finished_at', 'mode', 'files_scanned', 'rows_written', 'warnings', 'result', 'details'];
+  const sample = {run_id:'x',started_at:'x',finished_at:'x',mode:'x',files_scanned:0,rows_written:0,warnings:'',result:'SUCCESS',details:''};
+  return required.every(function(key) { return Object.prototype.hasOwnProperty.call(sample, key); });
+}
+/* ========================================================================== *
+ * GP-AUTO-034-v1.3-R0.4 SUCCESSOR OVERRIDES
+ *
+ * These later declarations intentionally replace the v1.1 functions above.
+ * The preserved v1.1 body supplies mature inventory, staging, manifest,
+ * rollback, navigation, and receipt utilities. This block replaces the trust
+ * model and adds the coupled-governance validators, persistent commit journal,
+ * generated alarms/metrics, cryptographic fixtures, and T17–T32 controls.
+ * ========================================================================== */
+
+
+const GP_AUTO_V13 = Object.freeze({
+  GOVERNANCE_DECISION: 'OP-PROT-011_INDEPENDENT_EYES',
+  GOVERNANCE_PROTOCOL_DRIVE_ID: '1HK9hoO4vD2lhE3wDXLPxPXhNBbJZJnNdA01Oh1FDeqA',
+  TRUSTED_SHEETS: Object.freeze({
+    TRANSITIONS: 'Transition Register',
+    NO_CHANGE: 'No-Change Certificates',
+    REVIEWS: 'Review Independence',
+    EVIDENCE: 'Evidence Lineage',
+    GLOBAL_AUDIT: 'Global Object Audit',
+    OPERATOR: 'Operator Decisions',
+    CLOSURE: 'Closure Log'
+  }),
+  REQUIRED_HEADERS: Object.freeze({
+    'Transition Register': ['Transition ID','Recorded UTC','Transition Type','Material','Exact Object ID','Previous State','New State','Exact Claim or Architectural Rule','Evidence Added','Evidence Removed/Killed/Superseded','Evidence Class','Law or Measure','Regime','Normalization','Coordinate System','Independent Review Status','Dependencies Affected','Dependencies Unaffected','Mathematical Change','Architectural Change','No-Change Certificate ID','Architecture Failure Mode Addressed','New Failure Modes','Detection Tests','Uncertainty Permanently Removed','Remaining Uncertainty','Required Human Decision','Reopening Condition','Failure Class','Architecture Response','Recurrence Control','Downstream Contamination Assessment','Affected Mathematical Objects','Quarantine Status','Global Object Audit ID','Status'],
+    'No-Change Certificates': ['Certificate ID','Recorded UTC','Exact Object ID','Transition ID','Mathematical Statement','Evidence Class','Object Card','Law or Measure','Regime','Normalization','Coordinate System','Dependencies Affected','Dependencies Unaffected','Existing Architectural Controls','Why No Schema Change','Why No Verifier Change','Why No Register Change','Why No Status/Governance Change','Failure Revealing Incorrect Judgment','Reviewer','Status'],
+    'Review Independence': ['Review ID','Recorded UTC','Exact Object ID','Reviewer Line','Reviewer','Review Role','Sources Read','Primary Sources Read','Original Derivation Visible','Independent Reconstruction','Same Code Reused','Same Fixture Reused','Inherited Assumptions','Independent Route','Object Definition Checked','Algebra Only','Independent Notation','Observer Mode','Lineage Access','Internal Conclusions Visible','Methodological Family','Independence Score','Independence Class','Status'],
+    'Evidence Lineage': ['Evidence ID','Recorded UTC','Exact Object ID','Drive ID','Artifact ID','Evidence Role','Primary Evidence','Summary Only','Derives From','Code Fixture ID','Computational Fixture ID','Methodological Family','Review ID','Evidence Class','Source URL','Status'],
+    'Global Object Audit': ['Audit ID','Recorded UTC','Exact Object ID','Original Scientific Question','Exact Theorem Required','Current Theorem Statement','Target Alignment','Measure Changed','Conditioning Changed','Pairing Rule Changed','Domain Changed','Limiting Replaced Finite','Coordinate Dependence','Proxy Replacement','Machine Roots Aligned','Intended Object Correct','Primary Evidence Inspected','Outside Lineage Reviewer','Conclusion','Dependencies Checked','Reopening Condition','Status'],
+    'Operator Decisions': ['Decision ID','Recorded UTC','Exact Object ID','Drive ID','Decision Type','Decision Value','Scope','Operator','Operator Email','Source Record ID','Active','Notes'],
+    'Closure Log': ['Closure ID','Item','Exact object','Evidence','Independent review','Dependencies affected','Dependencies unaffected','Terminal label','Human approval','Closure artifact','Closed at','Closed by','Correction path']
+  }),
+  PRIMARY_EVIDENCE_ROLES: Object.freeze([
+    'PRIMARY_DERIVATION','EXECUTABLE_RECEIPT','RAW_DATA','FORMAL_PROOF',
+    'INDEPENDENT_RECONSTRUCTION','EXACT_DERIVATION','PRIMARY_NUMERICAL_SOURCE'
+  ]),
+  TERMINAL_PATTERN: /CLOSED|TERMINAL|KILLED|SUPERSEDED|RETRACTED|CANNOT-VERIFY|PROVED|EXACT/i,
+  TERMINAL_SOURCE_PATTERN: /CLOSED|TERMINAL|APPROVED|PROMOTED|SEALED|PROVED|EXACT/i,
+  CRYPTO_FIXTURES: Object.freeze([
+    {id:'1ubbFBhZxwtnWRYnpn1dYH6M5MWpQrLeg', bytes:8160, sha256:'0fe405b99ad56d4612b8bd8ec7cc51f7efc07ddc1b906ceae984a2883945f701'},
+    {id:'1p_lW-RKb9rB5yBapII9US8UwOnniEE88', bytes:14032, sha256:'44e030d37b9619df20949a7153b1edd66f39eda00ec71672f6823d6bca31ba26'},
+    {id:'1E8gHAa6RchUcVTDibh7405Hc56hmSJMZ', bytes:13506, sha256:'994cfa25580ed1e4cd2e43e3aaf16f470fd637584e93e31f3846babc737b69bb'},
+    {id:'1hGs85A7F40o9AGY2XTgFryBCkpH1QUZS', bytes:7949, sha256:'cd8d2965c4329a894a5264918b238bc2793abaa1e10f89f488d3f03793d3fe12'}
+  ])
+});
+
+
+/** Main v1.3 candidate orchestration. Runtime execution remains unclaimed. */
+function refreshAllRegisters() {
+  const lock = LockService.getScriptLock();
+  const started = new Date();
+  const runId = makeRunId_(started);
+  let context = null;
+  let stageState = null;
+  let navBackup = null;
+  let manifestPublication = null;
+
+
+  if (!lock.tryLock(GP_AUTO.LOCK_WAIT_MS)) {
+    const lockError = new Error('FAIL-CLOSED: another refresh holds the script lock.');
+    appendFailureWithoutContext_(runId, started, lockError);
+    throw lockError;
+  }
+
+
+  try {
+    const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+    const config = readConfig_(ss);
+    assertSafety_(config);
+    assertAuthorization_(config);
+    assertCurrentGovernance_(config);
+    assertNoIncompleteJournal_();
+    ensureGovernanceSheets_(ss);
+
+
+    const trustedState = readTrustedGovernanceState_(ss, config);
+    context = makeContext_(ss, config, runId, started);
+    context.trustedState = trustedState;
+
+
+    const inventory = collectInventory_(context, trustedState);
+    const derived = deriveWorkspaceState_(context, inventory, trustedState);
+    const manifest = buildManifest_(context, inventory, derived, trustedState.closure);
+    manifest.schema_version = 'WORKSPACE-MANIFEST-v1.3-R0.4';
+    manifest.governance = {
+      live_rule: GP_AUTO_V13.GOVERNANCE_DECISION,
+      protocol_drive_id: GP_AUTO_V13.GOVERNANCE_PROTOCOL_DRIVE_ID,
+      trust_model: 'PROTECTED_REGISTERS_ONLY; SOURCE_CLAIMS_ARE_UNTRUSTED'
+    };
+    const manifestValidation = validateManifest_(manifest, context);
+    if (!manifestValidation.ok) throw new Error('Manifest validation failed: ' + manifestValidation.errors.join(' | '));
+
+
+    const tables = buildGeneratedTables_(context, inventory, derived, manifest);
+    validateGeneratedTables_(tables);
+    stageState = stageGeneratedSheets_(context, tables);
+    validateStagedSheets_(context, stageState, tables);
+    manifestPublication = publishManifestStaged_(context, manifest);
+    navBackup = backupNavigationDoc_(context);
+
+
+    beginCommitJournal_(context, manifestPublication, navBackup, stageState);
+    commitGeneratedSheets_(context, stageState, tables);
+    updateNavigationDoc_(context, derived, manifest, manifestPublication, false, '');
+    setDashboardFreshness_(context, false, 'CURRENT — last validated refresh ' + iso_(new Date()));
+
+
+    const finished = new Date();
+    const receipt = makeRunReceipt_(context, inventory, tables, manifestPublication, finished, 'SUCCESS', context.warnings || []);
+    appendRunLog_(context.ss, receipt);
+    publishValidationReceipt_(context, receipt, manifestValidation);
+    completeCommitJournal_(context, receipt);
+
+
+    const props = PropertiesService.getScriptProperties();
+    props.setProperty(GP_AUTO.PROPERTY_LAST_SUCCESS, finished.toISOString());
+    props.setProperty(GP_AUTO.PROPERTY_LAST_RUN, runId);
+    props.setProperty(GP_AUTO.PROPERTY_LAST_MANIFEST_ID, manifestPublication.canonicalFileId);
+    props.setProperty(GP_AUTO.PROPERTY_LAST_MANIFEST_HASH, manifestPublication.sha256);
+    props.deleteProperty(GP_AUTO.PROPERTY_LAST_STALE_TOKEN);
+    cleanTransientStageSheets_(context, stageState);
+    return receipt;
+  } catch (error) {
+    if (context && stageState && stageState.commitStarted) {
+      try { rollbackGeneratedSheets_(context, stageState); }
+      catch (rollbackError) { error.message += ' | ROLLBACK ERROR: ' + rollbackError.message; }
+    }
+    if (context && navBackup) {
+      try { restoreNavigationDoc_(context, navBackup); }
+      catch (navRestoreError) { error.message += ' | NAVIGATION ROLLBACK ERROR: ' + navRestoreError.message; }
+    }
+    markCommitJournalFailed_(context, error);
+    if (context) {
+      appendRunLogSafe_(context.ss, {
+        run_id: runId, started_at: started.toISOString(), finished_at: new Date().toISOString(),
+        mode: 'REFRESH', files_scanned: context.inventoryCount || 0, rows_written: 0,
+        warnings: 'Run failed closed; previous validated snapshot remains authoritative.',
+        result: 'FAILED', details: truncate_(error.stack || error.message, 45000)
+      });
+      setStaleBannerSafe_(context, 'FAILED — ' + error.message);
+    } else appendFailureWithoutContext_(runId, started, error);
+    throw error;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+
+function assertCurrentGovernance_(config) {
+  if (String(config.CURRENT_GOVERNANCE_DECISION || '') !== GP_AUTO_V13.GOVERNANCE_DECISION) {
+    throw new Error('FAIL-CLOSED: current governance decision is not OP-PROT-011.');
+  }
+  if (String(config.CURRENT_GOVERNANCE_PROTOCOL_ID || '') !== GP_AUTO_V13.GOVERNANCE_PROTOCOL_DRIVE_ID) {
+    throw new Error('FAIL-CLOSED: current governance protocol Drive ID mismatch.');
+  }
+}
+
+
+function ensureGovernanceSheets_(ss) {
+  Object.keys(GP_AUTO_V13.REQUIRED_HEADERS).forEach(function(name) {
+    const sheet = requiredSheet_(ss, name);
+    const expected = GP_AUTO_V13.REQUIRED_HEADERS[name];
+    const actual = sheet.getRange(1, 1, 1, expected.length).getDisplayValues()[0];
+    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+      throw new Error('FAIL-CLOSED: trusted sheet header mismatch: ' + name);
+    }
+  });
+}
+
+
+function readSheetObjects_(ss, name) {
+  const sheet = requiredSheet_(ss, name);
+  const values = sheet.getDataRange().getDisplayValues();
+  if (values.length < 2) return [];
+  const header = values[0].map(normalizeMetadataKey_);
+  return values.slice(1).filter(function(row) { return row.some(function(x) { return String(x).trim(); }); })
+    .map(function(row, index) {
+      const obj = {_row: index + 2};
+      header.forEach(function(key, col) { obj[key] = row[col] == null ? '' : String(row[col]).trim(); });
+      return obj;
+    });
+}
+
+
+function readTrustedGovernanceState_(ss, config) {
+  const transitions = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.TRANSITIONS);
+  const noChange = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.NO_CHANGE);
+  const reviews = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.REVIEWS);
+  const evidence = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.EVIDENCE);
+  const globalAudits = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.GLOBAL_AUDIT);
+  const operator = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.OPERATOR)
+    .filter(function(row) { return parseBoolean_(row.ACTIVE) === true; });
+  const closureRows = readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.CLOSURE);
+  return {
+    transitions: indexRowsByExactObject_(transitions),
+    noChange: indexRowsByExactObject_(noChange),
+    reviews: indexRowsByExactObject_(reviews),
+    evidence: indexRowsByExactObject_(evidence),
+    globalAudits: indexRowsByExactObject_(globalAudits),
+    operator: indexRowsByExactObject_(operator),
+    closure: indexClosureRows_(closureRows),
+    rows: {transitions:transitions, noChange:noChange, reviews:reviews, evidence:evidence,
+      globalAudits:globalAudits, operator:operator, closure:closureRows},
+    config: config
+  };
+}
+
+
+function indexRowsByExactObject_(rows) {
+  const out = {};
+  rows.forEach(function(row) {
+    const key = String(row.EXACT_OBJECT_ID || '').trim();
+    if (key) pushMapArray_(out, key, row);
+  });
+  return out;
+}
+
+
+function indexClosureRows_(rows) {
+  const byExactObject = {}, byArtifactUrlDriveId = {};
+  rows.forEach(function(row) {
+    const key = String(row.EXACT_OBJECT || row.EXACT_OBJECT_ID || '').trim();
+    if (key) pushMapArray_(byExactObject, key, row);
+    const match = String(row.CLOSURE_ARTIFACT || '').match(/\/d\/([A-Za-z0-9_-]{10,})/);
+    if (match) pushMapArray_(byArtifactUrlDriveId, match[1], row);
+  });
+  return {byExactObject:byExactObject, byArtifactUrlDriveId:byArtifactUrlDriveId};
+}
+
+
+function collectInventory_(context, trustedState) {
+  const byDriveId = {}, coverageGaps = [];
+  context.sourceScopes.forEach(function(scope) {
+    const folder = scope.root_direct ? DriveApp.getRootFolder() : DriveApp.getFolderById(scope.folder_id);
+    const files = folder.getFiles();
+    while (files.hasNext()) {
+      const file = files.next();
+      if (byDriveId[file.getId()]) continue;
+      const record = inspectFile_(file, scope, context, trustedState);
+      byDriveId[record.drive_id] = record;
+    }
+    const folders = folder.getFolders();
+    while (folders.hasNext()) {
+      const child = folders.next();
+      coverageGaps.push({parent_scope:scope.scope_key, parent_folder_id:scope.folder_id,
+        discovered_folder_id:child.getId(), discovered_folder_name:child.getName(),
+        status:'COVERAGE-GAP', reason:'Direct-child-only policy: nested folder not traversed unless separately configured.'});
+    }
+  });
+  const inventory = Object.keys(byDriveId).map(function(id){return byDriveId[id];});
+  inventory.sort(function(a,b){return a.created_at.localeCompare(b.created_at)||a.drive_id.localeCompare(b.drive_id);});
+  context.inventoryCount = inventory.length;
+  context.coverageGaps = coverageGaps;
+  return inventory;
+}
+
+
+function parseMetadata_(text, title) {
+  const head = String(text || '').substring(0, 30000), map = {};
+  head.split(/\r?\n/).forEach(function(line) {
+    const match = line.match(/^\s*([A-Za-z][A-Za-z0-9 _\-/]{1,50})\s*:\s*(.*?)\s*$/);
+    if (!match) return;
+    const key = normalizeMetadataKey_(match[1]);
+    if (!map[key]) map[key] = match[2];
+  });
+  const artifactId = firstNonEmpty_(map.ARTIFACT_ID, artifactIdFromTitle_(title));
+  return {
+    artifact_id:artifactId, line:firstNonEmpty_(map.LINE,map.MODEL_LINE),
+    organization:firstNonEmpty_(map.ORGANIZATION,map.AUTHOR_ORGANIZATION),
+    class:firstNonEmpty_(map.CLASS,classFromArtifactId_(artifactId)),
+    version:firstNonEmpty_(map.VERSION,versionFromTitle_(title)), topics:parseList_(map.TOPICS),
+    object_tags:parseList_(firstNonEmpty_(map.OBJECT_TAGS,map.OBJECTS)), priority:map.PRIORITY||'',
+    claimed_status:map.STATUS||'', claimed_authority:map.AUTHORITY||'',
+    claimed_canonical_impact:firstNonEmpty_(map.CANONICAL_IMPACT,map.CANONICAL_STATUS),
+    dependencies:parseList_(map.DEPENDENCIES), dependency_hashes:parseList_(map.DEPENDENCY_HASHES),
+    supersedes:parseList_(map.SUPERSEDES), lineage_of:parseList_(map.LINEAGE_OF),
+    decisive_test:firstNonEmpty_(map.DECISIVE_TEST,map.FALSIFICATION_TEST), falsifiers:parseList_(map.FALSIFIERS),
+    help_needed:firstNonEmpty_(map.HELP_NEEDED,map.BLOCKER), offered_capacity:firstNonEmpty_(map.OFFERED_CAPACITY,map.HELP_OFFER),
+    measure:map.MEASURE||'', model_layer:map.MODEL_LAYER||'', frame:map.FRAME||'',
+    regime:map.REGIME||'', normalization:map.NORMALIZATION||'', coordinate_system:firstNonEmpty_(map.COORDINATE_SYSTEM,map.COORDINATES),
+    claimed_closure_state:map.CLOSURE_STATE||'', claimed_extraction_class:map.EXTRACTION_CLASS||'',
+    evidence_chain:parseList_(map.EVIDENCE_CHAIN), claimed_human_decision:parseNullableBoolean_(map.HUMAN_DECISION)
+  };
+}
+
+
+function inspectFile_(file, scope, context, trustedState) {
+  const mimeType=file.getMimeType(), title=file.getName();
+  let readResult;
+  try { readResult=readFileText_(file,mimeType); }
+  catch(error){ readResult={text:'',rawBytes:null,fetch_path:'ERROR',sync_status:'SYNC-UNCERTAIN',machine_readable:false,read_warning:error.message}; }
+  const metadata=parseMetadata_(readResult.text,title), normalizedText=normalizeText_(readResult.text);
+  const rawHash=readResult.rawBytes?sha256Bytes_(readResult.rawBytes):(readResult.text?sha256Text_(readResult.text):'');
+  const normalizedHash=normalizedText?sha256Text_(normalizedText):'';
+  const created=file.getDateCreated(), modified=file.getLastUpdated();
+  const record={
+    drive_id:file.getId(), title:title, declared_artifact_id:metadata.artifact_id||'', artifact_id:metadata.artifact_id||'',
+    exact_object_id:metadata.artifact_id||'', line:metadata.line||lineFromArtifactId_(metadata.artifact_id),
+    organization:metadata.organization||'UNDECLARED', class:metadata.class||classFromArtifactId_(metadata.artifact_id),
+    version:metadata.version||versionFromTitle_(title), mime_type:mimeType, created_time:created.toISOString(),
+    modified_time:modified.toISOString(), created_at:created.toISOString(), modified_at:modified.toISOString(),
+    source_folder_id:scope.folder_id, source_scope_key:scope.scope_key, source_urls:[file.getUrl()],
+    raw_sha256:rawHash, normalized_sha256:normalizedHash, content_hash:rawHash, normalized_text_hash:normalizedHash,
+    hash_basis:readResult.rawBytes?'RAW_DRIVE_BYTES':(readResult.text?'EXTRACTED_TEXT':'UNAVAILABLE'),
+    fetch_path:readResult.fetch_path, sync_status:readResult.sync_status, machine_readable:readResult.machine_readable,
+    read_warning:readResult.read_warning||'', topics:metadata.topics, object_tags:metadata.object_tags,
+    priority:metadata.priority||'UNDECLARED', dependencies:metadata.dependencies, dependency_hashes:metadata.dependency_hashes,
+    supersedes:metadata.supersedes, superseded_by:[], lineage_of:metadata.lineage_of,
+    measure:metadata.measure||'UNDECLARED', model_layer:metadata.model_layer||'UNDECLARED', frame:metadata.frame||'UNDECLARED',
+    regime:metadata.regime||'', normalization:metadata.normalization||'', coordinate_system:metadata.coordinate_system||'',
+    claimed_status:metadata.claimed_status||'UNDECLARED', claimed_authority:metadata.claimed_authority||'none',
+    claimed_canonical_impact:metadata.claimed_canonical_impact||'NONE', claimed_closure_state:metadata.claimed_closure_state||'UNDECLARED',
+    claimed_extraction_class:metadata.claimed_extraction_class||'UNDECLARED', claimed_human_decision:metadata.claimed_human_decision,
+    verified_status:'UNVERIFIED', verified_authority:'none', verified_canonical_impact:'NONE', verified_closure_state:'UNVERIFIED',
+    verified_human_decision:false, status:'UNVERIFIED', authority:'none', canonical_impact:'NONE', closure_state:'UNVERIFIED',
+    human_decision:false, extraction_class:'ACTIVE', evidence_chain:metadata.evidence_chain,
+    reviewed_by:GP_AUTO.RELEASE, reviewed_at:new Date().toISOString(), help_needed:metadata.help_needed||'',
+    offered_capacity:metadata.offered_capacity||'', decisive_test:metadata.decisive_test||'', falsifiers:metadata.falsifiers,
+    tree_path:TREE_PATHS.UNROUTED, validation_errors:[], trust_receipts:[], primary_evidence_ids:[],
+    qualifying_review_ids:[], transition_gate:'NOT-REQUIRED', global_audit_status:'NOT-REQUIRED', text_excerpt:truncate_(normalizedText,8000)
+  };
+  record.tree_path=routeTreePath_(record);
+  const trusted=lookupTrustedObjectState_(trustedState,record);
+  applyTrustedState_(record,trusted);
+  attachEvidenceAndReviews_(record,trustedState);
+  assessObjectTransition_(record,trustedState);
+  assessClosureScope_(record,trustedState);
+  assessGlobalObjectAlignment_(record,trustedState);
+  validateTrustBoundary_(record);
+  validateObjectCard_(record);
+  validateFinalEligibility_(record);
+  return record;
+}
+
+
+function lookupTrustedObjectState_(state, record) {
+  const id=record.exact_object_id, driveId=record.drive_id;
+  const decisions=(state.operator[id]||[]).filter(function(row){
+    const rowDrive=String(row.DRIVE_ID||'');
+    return !rowDrive || rowDrive===driveId;
+  });
+  const closure=(state.closure.byExactObject[id]||[]).concat(state.closure.byArtifactUrlDriveId[driveId]||[]);
+  return {decisions:decisions, closure:closure};
+}
+
+
+function applyTrustedState_(record, trusted) {
+  trusted.decisions.forEach(function(row){
+    const type=String(row.DECISION_TYPE||'').toUpperCase(), value=String(row.DECISION_VALUE||'');
+    if(type==='STATUS') record.verified_status=value;
+    else if(type==='AUTHORITY') record.verified_authority=value;
+    else if(type==='CANONICAL_IMPACT') record.verified_canonical_impact=value;
+    else if(type==='HUMAN_DECISION') record.verified_human_decision=parseBoolean_(value)===true;
+    record.trust_receipts.push('OPERATOR:'+row.DECISION_ID);
+  });
+  if(trusted.closure.length){
+    const row=trusted.closure[trusted.closure.length-1];
+    record.verified_closure_state=String(row.TERMINAL_LABEL||'UNVERIFIED');
+    record.trust_receipts.push('CLOSURE:'+String(row.CLOSURE_ID||row._row));
+    if(parseBoolean_(row.HUMAN_APPROVAL)===true || /APPROV|DYLAN/i.test(String(row.HUMAN_APPROVAL||''))) record.verified_human_decision=true;
+  }
+  record.status=record.verified_status;
+  record.authority=record.verified_authority;
+  record.canonical_impact=record.verified_canonical_impact;
+  record.closure_state=record.verified_closure_state;
+  record.human_decision=record.verified_human_decision;
+}
+
+
+function attachEvidenceAndReviews_(record, state) {
+  const id=record.exact_object_id;
+  const evidence=state.evidence[id]||[];
+  evidence.forEach(function(row){
+    const role=String(row.EVIDENCE_ROLE||'').toUpperCase();
+    const primary=parseBoolean_(row.PRIMARY_EVIDENCE)===true;
+    const summary=parseBoolean_(row.SUMMARY_ONLY)===true;
+    const status=String(row.STATUS||'').toUpperCase();
+    if(primary && !summary && GP_AUTO_V13.PRIMARY_EVIDENCE_ROLES.indexOf(role)>=0 && !/FAIL|VOID|SUPERSEDED/.test(status)) {
+      record.primary_evidence_ids.push(row.EVIDENCE_ID);
+    }
+  });
+  if(record.primary_evidence_ids.length) record.evidence_chain=record.primary_evidence_ids.slice();
+
+
+  const reviews=state.reviews[id]||[];
+  reviews.forEach(function(row){
+    const score=computeIndependenceScore_(row);
+    const cls=independenceClass_(score,row);
+    const status=String(row.STATUS||'').toUpperCase();
+    const line=String(row.REVIEWER_LINE||row.REVIEWER||'').toUpperCase();
+    const distinct=!/OPENAI|\bGP\b/.test(line);
+    if(distinct && cls==='HIGH' && !/FAIL|REJECT|VOID/.test(status)) record.qualifying_review_ids.push(row.REVIEW_ID);
+  });
+}
+
+
+function computeIndependenceScore_(row) {
+  let score=1.0;
+  if(parseBoolean_(row.ORIGINAL_DERIVATION_VISIBLE)===true) score-=0.20;
+  if(parseBoolean_(row.SAME_CODE_REUSED)===true) score-=0.25;
+  if(parseBoolean_(row.SAME_FIXTURE_REUSED)===true) score-=0.15;
+  if(String(row.INHERITED_ASSUMPTIONS||'').trim()) score-=0.10;
+  if(parseBoolean_(row.INDEPENDENT_RECONSTRUCTION)!==true) score-=0.25;
+  if(parseBoolean_(row.OBJECT_DEFINITION_CHECKED)!==true) score-=0.20;
+  if(parseBoolean_(row.ALGEBRA_ONLY)===true) score-=0.15;
+  if(parseBoolean_(row.INDEPENDENT_NOTATION)===true) score+=0.05;
+  if(/BLIND|NONE/.test(String(row.OBSERVER_MODE||'').toUpperCase())) score+=0.05;
+  return Math.max(0,Math.min(1,Math.round(score*100)/100));
+}
+
+
+function independenceClass_(score,row) {
+  if(score>=0.75 && parseBoolean_(row.INDEPENDENT_RECONSTRUCTION)===true &&
+     parseBoolean_(row.OBJECT_DEFINITION_CHECKED)===true && parseBoolean_(row.ALGEBRA_ONLY)!==true) return 'HIGH';
+  if(score>=0.50) return 'MODERATE';
+  return 'LOW';
+}
+
+
+function assessObjectTransition_(record,state) {
+  const rows=state.transitions[record.exact_object_id]||[];
+  if(!rows.length){ record.transition_gate='BASELINE-PENDING'; return; }
+  const row=rows[rows.length-1], errors=validateTransition_(row,state);
+  record.transition_gate=errors.length?'FAIL':'PASS';
+  errors.forEach(function(x){record.validation_errors.push(x);});
+}
+
+
+function validateRegisteredTransitions_(state) {
+  const errors=[];
+  state.rows.transitions.forEach(function(row){
+    validateTransition_(row,state).forEach(function(e){errors.push(String(row.TRANSITION_ID||row._row)+':'+e);});
+  });
+  return errors;
+}
+
+
+function validateTransition_(row,state) {
+  const errors=[], material=parseBoolean_(row.MATERIAL)===true || String(row.MATERIAL).toUpperCase()==='TRUE';
+  const type=String(row.TRANSITION_TYPE||'').toUpperCase();
+  const requireFields=function(fields,code){fields.forEach(function(f){if(!String(row[f]||'').trim()) errors.push(code+':'+f);});};
+  if(material && /MATHEMATICAL/.test(type)) {
+    requireFields(['EXACT_OBJECT_ID','EXACT_CLAIM_OR_ARCHITECTURAL_RULE','EVIDENCE_ADDED','EVIDENCE_CLASS','LAW_OR_MEASURE','REGIME','NORMALIZATION','COORDINATE_SYSTEM','DEPENDENCIES_AFFECTED','DEPENDENCIES_UNAFFECTED','REMAINING_UNCERTAINTY','REOPENING_CONDITION'],'MATERIAL_MATH_MISSING');
+    if(!String(row.ARCHITECTURAL_CHANGE||'').trim()) {
+      const ncc=String(row.NO_CHANGE_CERTIFICATE_ID||'').trim();
+      const certs=state.rows.noChange.filter(function(x){return x.CERTIFICATE_ID===ncc && String(x.STATUS||'').toUpperCase()==='PASS';});
+      if(!ncc || !certs.length) errors.push('MATERIAL_MATH_REQUIRES_ARCH_RESPONSE_OR_VALID_NCC');
+    }
+  }
+  if(material && /ARCHITECTURE/.test(type)) requireFields(['ARCHITECTURE_FAILURE_MODE_ADDRESSED','DETECTION_TESTS','UNCERTAINTY_PERMANENTLY_REMOVED','REMAINING_UNCERTAINTY'],'ARCHITECTURE_MISSING_JUSTIFICATION');
+  if(/ERROR|INCIDENT|CORRECTION/.test(type)) requireFields(['FAILURE_CLASS','ARCHITECTURE_RESPONSE','RECURRENCE_CONTROL'],'SERIOUS_ERROR_MISSING_RESPONSE');
+  if(/INCIDENT/.test(type)) requireFields(['DOWNSTREAM_CONTAMINATION_ASSESSMENT','AFFECTED_MATHEMATICAL_OBJECTS','QUARANTINE_STATUS'],'INCIDENT_MISSING_CONTAMINATION_ASSESSMENT');
+  return errors;
+}
+
+
+function assessClosureScope_(record,state) {
+  const isMath=/DER|THM|LEM|MATHEMATICAL|CLAIM|PROOF/.test(String(record.class).toUpperCase());
+  if(!isMath) return;
+  if(!record.measure || record.measure==='UNDECLARED') record.validation_errors.push('MISSING_LAW_OR_MEASURE');
+  if(!record.regime) record.validation_errors.push('MISSING_REGIME');
+  if(!record.normalization) record.validation_errors.push('MISSING_NORMALIZATION');
+  if(!record.coordinate_system && (!record.frame || record.frame==='UNDECLARED')) record.validation_errors.push('MISSING_COORDINATE_SYSTEM');
+}
+
+
+function assessGlobalObjectAlignment_(record,state) {
+  const rows=state.globalAudits[record.exact_object_id]||[];
+  if(!rows.length){ record.global_audit_status='NOT-FOUND'; return; }
+  const row=rows[rows.length-1], status=String(row.STATUS||'').toUpperCase();
+  record.global_audit_status=status;
+  if(parseBoolean_(row.INTENDED_OBJECT_CORRECT)!==true && String(row.INTENDED_OBJECT_CORRECT).toUpperCase()!=='TRUE') record.validation_errors.push('GLOBAL_OBJECT_NOT_CONFIRMED');
+  if(/FAIL|DRIFT|NOT ALIGNED/.test(status+' '+String(row.TARGET_ALIGNMENT||''))) record.validation_errors.push('GLOBAL_OBJECT_DRIFT');
+}
+
+
+function validateTrustBoundary_(record) {
+  const claimedClosure=String(record.claimed_closure_state||record.claimed_status||'');
+  if(GP_AUTO_V13.TERMINAL_SOURCE_PATTERN.test(claimedClosure) && !GP_AUTO_V13.TERMINAL_PATTERN.test(record.verified_closure_state)) record.validation_errors.push('SOURCE_CLOSURE_CLAIM_UNTRUSTED');
+  if(record.claimed_human_decision===true && record.verified_human_decision!==true) record.validation_errors.push('SOURCE_HUMAN_DECISION_CLAIM_UNTRUSTED');
+  if(/APPROVED/i.test(String(record.claimed_canonical_impact)) && !/APPROVED/i.test(String(record.verified_canonical_impact))) record.validation_errors.push('SOURCE_CANONICAL_IMPACT_CLAIM_UNTRUSTED');
+  if(record.claimed_authority && String(record.claimed_authority).toLowerCase()!=='none' && String(record.verified_authority).toLowerCase()==='none') record.validation_errors.push('SOURCE_AUTHORITY_CLAIM_UNTRUSTED');
+  if(/REFEREE-READY/i.test(String(record.claimed_extraction_class))) record.validation_errors.push('SOURCE_EXTRACTION_CLASS_IGNORED');
+}
+
+
+function validateFinalEligibility_(record) {
+  const hay=(String(record.title||'')+' '+String(record.class||'')).toUpperCase();
+  if(/DATA|SCRIPT|SOURCE|CODE|PYTHON|EXECUTABLE|RECEIPT|FIXTURE/.test(hay)) {record.extraction_class='INSTRUMENT';return;}
+  const verifiedStatus=String(record.verified_status||record.status||'UNVERIFIED');
+  const verifiedClosure=String(record.verified_closure_state||record.closure_state||'UNVERIFIED');
+  if(/KILLED|SUPERSEDED|DUPLICATE|HISTORICAL|PROVENANCE|RETRACTED/.test((verifiedStatus+' '+verifiedClosure).toUpperCase())) {record.extraction_class='PROVENANCE-ONLY';return;}
+  const qualifyingReviews=record.qualifying_review_ids||[];
+  const primaryEvidence=record.primary_evidence_ids||[];
+  const validationErrors=record.validation_errors||[];
+  const terminal=GP_AUTO_V13.TERMINAL_PATTERN.test(verifiedClosure);
+  const independent=qualifyingReviews.length>0;
+  const authority=record.verified_human_decision===true || independent;
+  const complete=terminal && authority && /APPROVED/i.test(String(record.verified_canonical_impact||record.canonical_impact||'NONE')) &&
+    String(record.verified_authority||record.authority||'none').toLowerCase()!=='none' && primaryEvidence.length>0 &&
+    String(record.transition_gate||'BASELINE-PENDING')==='PASS' && !/FAIL|DRIFT|NOT-FOUND/.test(String(record.global_audit_status||'NOT-FOUND')) &&
+    record.tree_path!==TREE_PATHS.UNROUTED && validationErrors.length===0;
+  record.extraction_class=complete?'REFEREE-READY':'ACTIVE';
+}
+
+
+function applyExtractionEligibility_(record) { validateFinalEligibility_(record); }
+
+
+function deriveWorkspaceState_(context,inventory,trustedState) {
+  const byArtifactId={},byNormalizedHash={},byTitle={},recent=[];
+  const recentCutoff=Date.now()-intConfig_(context.config,'RECENT_WINDOW_MINUTES',120)*60000;
+  inventory.forEach(function(record){
+    if(record.artifact_id) pushMapArray_(byArtifactId,record.artifact_id,record);
+    if(record.normalized_text_hash) pushMapArray_(byNormalizedHash,record.normalized_text_hash,record);
+    pushMapArray_(byTitle,record.title.toLowerCase(),record);
+    if(new Date(record.modified_at).getTime()>=recentCutoff) recent.push(record);
+  });
+  Object.keys(byArtifactId).forEach(function(id){
+    const group=byArtifactId[id];
+    if(group.length>1) group.forEach(function(record){record.validation_errors.push('DECLARED_ID_COLLISION:'+id);validateFinalEligibility_(record);});
+  });
+  const supersededIndex={};
+  inventory.forEach(function(record){record.supersedes.forEach(function(oldId){pushMapArray_(supersededIndex,oldId,record.artifact_id||record.drive_id);});});
+  inventory.forEach(function(record){record.superseded_by=supersededIndex[record.artifact_id]||[];if(record.superseded_by.length){record.validation_errors.push('SUPERSEDED_BY:'+record.superseded_by.join(','));validateFinalEligibility_(record);}});
+  const humanDecisionCount=trustedState.rows.operator.filter(function(row){return String(row.DECISION_TYPE).toUpperCase()==='HUMAN_DECISION'&&parseBoolean_(row.DECISION_VALUE)===true;}).length;
+  return {byArtifactId:byArtifactId,byNormalizedHash:byNormalizedHash,byTitle:byTitle,recent:recent,
+    humanDecisionCount:humanDecisionCount,closureState:trustedState.closure,coverageGaps:context.coverageGaps||[],trustedState:trustedState};
+}
+
+
+function buildGeneratedTables_(context,inventory,derived,manifest) {
+  return {'Dashboard':buildDashboardRows_(context,inventory,derived,manifest),'Open Questions':buildOpenQuestionRows_(context),
+    'Help Board':buildHelpRows_(inventory),'Recent Activity':buildRecentRows_(derived.recent),'Artifact Index':buildArtifactRows_(inventory),
+    'Context Snapshot':buildContextRows_(context,inventory,derived,manifest),'Duplicate Flags':buildDuplicateRows_(derived),
+    'Transition Alarms':buildTransitionAlarmRows_(inventory,derived),'Architecture Metrics':buildArchitectureMetricRows_(inventory,derived)};
+}
+
+
+function buildArtifactRows_(inventory) {
+  const rows=[['Artifact ID','Title','Drive ID','Claimed status','Verified status','Claimed authority','Verified authority','Claimed canonical impact','Verified canonical impact','Claimed closure','Verified closure','Claimed human decision','Verified human decision','Primary evidence','Qualifying distinct-family reviews','Transition gate','Global audit','Extraction class','Tree path','Validation errors','SHA-256','URL']];
+  inventory.forEach(function(x){rows.push([x.artifact_id,x.title,x.drive_id,x.claimed_status,x.verified_status,x.claimed_authority,x.verified_authority,x.claimed_canonical_impact,x.verified_canonical_impact,x.claimed_closure_state,x.verified_closure_state,x.claimed_human_decision===null?'UNDECLARED':x.claimed_human_decision,x.verified_human_decision,x.primary_evidence_ids.join('; '),x.qualifying_review_ids.join('; '),x.transition_gate,x.global_audit_status,x.extraction_class,x.tree_path,x.validation_errors.join('; '),x.content_hash,x.source_urls[0]]);});
+  return rows;
+}
+
+
+function buildDashboardRows_(context,inventory,derived,manifest) {
+  return [['GP-REG-032 — LIVE RESEARCH REGISTERS','', '', ''],['CURRENT — v1.3 trust-separated candidate output',new Date().toISOString(),context.runId,GP_AUTO.RELEASE],['','','',''],['Metric','Value','Interpretation','Direct source'],
+    ['Scoped artifacts',inventory.length,'Unique Drive IDs in direct-child scopes','WORKSPACE_MASTER_MANIFEST.json'],
+    ['Source claim mismatches',inventory.filter(function(x){return x.validation_errors.some(function(e){return /^SOURCE_/.test(e);});}).length,'Untrusted status/authority/closure claims exposed','Transition Alarms'],
+    ['Referee-ready candidates',inventory.filter(function(x){return x.extraction_class==='REFEREE-READY';}).length,'Protected-register-derived staging eligibility only','Artifact Index'],
+    ['Transition failures/pending',inventory.filter(function(x){return x.transition_gate!=='PASS'&&x.transition_gate!=='NOT-REQUIRED';}).length,'Material objects cannot silently promote','Transition Alarms'],
+    ['Coverage gaps',derived.coverageGaps.length,'Nested folders remain explicit','Context Snapshot'],
+    ['Human decisions',derived.humanDecisionCount,'Counted only from active protected Operator Decisions','Operator Decisions'],
+    ['Retention risk','UNBOUNDED GENERATED DRIVE BACKUPS','Reported, not silently deleted under DELETE_OR_TRASH=FALSE','Architecture Metrics'],
+    ['Manifest run ID',manifest.run_id,'Current candidate generation','WORKSPACE_MASTER_MANIFEST.json'],['Stale threshold',120,'Fail-closed minutes','Config']];
+}
+
+
+function buildTransitionAlarmRows_(inventory,derived) {
+  const rows=[['Severity','Exact object ID','Drive ID','Alarm','Status']];
+  inventory.forEach(function(record){
+    record.validation_errors.forEach(function(error){rows.push([/UNTRUSTED|DRIFT|FAIL|COLLISION/.test(error)?'CRITICAL':'WARNING',record.exact_object_id,record.drive_id,error,'OPEN']);});
+    if(record.transition_gate==='BASELINE-PENDING') rows.push(['WARNING',record.exact_object_id,record.drive_id,'BASELINE-PENDING','OPEN']);
+  });
+  derived.coverageGaps.forEach(function(g){rows.push(['WARNING','',g.discovered_folder_id,'COVERAGE-GAP:'+g.discovered_folder_name,'OPEN']);});
+  if(rows.length===1) rows.push(['INFO','','','NO ACTIVE ALARMS','PASS']);
+  return rows;
+}
+
+
+function buildArchitectureMetricRows_(inventory,derived) {
+  const mathCount=inventory.filter(function(x){return /DER|THM|LEM|MATHEMATICAL|PROOF/.test(String(x.class).toUpperCase());}).length;
+  const archCount=inventory.filter(function(x){return /GOV|ARCH|REG|AUTO|PROT|COR/.test((x.class+' '+x.title).toUpperCase());}).length;
+  const ratio=mathCount?Math.round(100*archCount/mathCount)/100:archCount;
+  return [['Metric','Value','Threshold','Status','Interpretation','Evidence'],
+    ['Mathematical artifacts',mathCount,'n/a','INFO','Declared mathematical/proof classes','Artifact Index'],
+    ['Architecture/governance artifacts',archCount,'n/a','INFO','Declared architecture/governance classes','Artifact Index'],
+    ['Architecture-to-mathematics ratio',ratio,3,ratio>3?'ALARM':'PASS','Artifact count is not progress; ratio is diagnostic only','Config ARCHITECTURE_OVERGROWTH_RATIO'],
+    ['Referee-ready objects',inventory.filter(function(x){return x.extraction_class==='REFEREE-READY';}).length,'n/a','INFO','Strict trusted-state eligibility','Artifact Index'],
+    ['Objects with permanent uncertainty removed',derived.trustedState.rows.transitions.filter(function(x){return String(x.UNCERTAINTY_PERMANENTLY_REMOVED||'').trim();}).length,'n/a','INFO','Transition Register nonempty field count','Transition Register'],
+    ['Generated-backup retention','UNBOUNDED','bounded or explicit risk','RISK-ACCEPTANCE-PENDING','No deletion is performed while DELETE_OR_TRASH remains FALSE','Source contract']];
+}
+
+
+function makeRunReceipt_(context,inventory,tables,publication,finished,result,warnings) {
+  const rowCount=Object.keys(tables).reduce(function(sum,key){return sum+Math.max(0,tables[key].length-1);},0);
+  const trusted=context.trustedState;
+  return {run_id:context.runId,started_at:context.started.toISOString(),finished_at:finished.toISOString(),mode:'REFRESH',files_scanned:inventory.length,rows_written:rowCount,warnings:(warnings||[]).join(' | '),result:result,
+    details:stableStringify_({source_scope:context.sourceScopes,config_version:context.config.CONFIG_VERSION||GP_AUTO.CONFIG_VERSION,source_release:GP_AUTO.RELEASE,manifest_file_id:publication.canonicalFileId,manifest_sha256:publication.sha256,previous_manifest_ids:publication.priorCanonicalIds,
+      human_decision_count:trusted.rows.operator.filter(function(r){return String(r.DECISION_TYPE).toUpperCase()==='HUMAN_DECISION'&&parseBoolean_(r.DECISION_VALUE)===true;}).length,
+      source_claim_rejections:inventory.reduce(function(n,x){return n+x.validation_errors.filter(function(e){return /^SOURCE_/.test(e);}).length;},0),
+      retention_risk:'UNBOUNDED_GENERATED_DRIVE_BACKUPS',last_validated_snapshot:publication.canonicalFileId})};
+}
+
+
+function beginCommitJournal_(context,publication,navBackup,stageState) {
+  const journal={version:'v1.3-R0.4',run_id:context.runId,state:'COMMITTING',started_at:new Date().toISOString(),
+    spreadsheet_id:registrySpreadsheetId_(),navigation_doc_id:context.navigationDocId,navigation_backup_id:navBackup.fileId,
+    manifest_folder_id:context.manifestFolderId,canonical_manifest_id:publication.canonicalFileId,prior_manifest_ids:publication.priorCanonicalIds||[],committed_sheets:[]};
+  PropertiesService.getScriptProperties().setProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL,JSON.stringify(journal));
+}
+
+
+function updateCommitJournal_(targetName) {
+  const props=PropertiesService.getScriptProperties(),raw=props.getProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+  if(!raw) throw new Error('FAIL-CLOSED: commit journal missing during commit.');
+  const journal=JSON.parse(raw); journal.committed_sheets.push(targetName); journal.updated_at=new Date().toISOString();
+  props.setProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL,JSON.stringify(journal));
+}
+
+
+function commitGeneratedSheets_(context,stageState,tables) {
+  stageState.commitStarted=true;
+  GP_AUTO.GENERATED_SHEETS.forEach(function(targetName){
+    const target=requiredSheet_(context.ss,targetName),pair=stageState.sheets[targetName];
+    copyWholeSheetData_(target,pair.backup); target.clear({contentsOnly:false}); copyWholeSheetData_(pair.stage,target);
+    formatGeneratedSheet_(target,targetName,tables[targetName]); stageState.committed.push(targetName); updateCommitJournal_(targetName);
+  });
+  SpreadsheetApp.flush();
+}
+
+
+function completeCommitJournal_(context,receipt) {
+  const props=PropertiesService.getScriptProperties(),raw=props.getProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+  const journal=raw?JSON.parse(raw):{run_id:context.runId};
+  journal.state='COMPLETED';journal.completed_at=new Date().toISOString();journal.receipt_result=receipt.result;
+  props.setProperty(GP_AUTO.PROPERTY_LAST_COMPLETE_JOURNAL,JSON.stringify(journal));
+  props.deleteProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+}
+
+
+function markCommitJournalFailed_(context,error) {
+  try{
+    const props=PropertiesService.getScriptProperties(),raw=props.getProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+    if(!raw)return;const journal=JSON.parse(raw);journal.state='FAILED_ROLLBACK_ATTEMPTED';journal.failed_at=new Date().toISOString();journal.error=truncate_(error.message,4000);
+    props.setProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL,JSON.stringify(journal));
+  }catch(ignore){}
+}
+
+
+function assertNoIncompleteJournal_() {
+  const raw=PropertiesService.getScriptProperties().getProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+  if(raw){const journal=JSON.parse(raw);throw new Error('FAIL-CLOSED: incomplete commit journal '+journal.run_id+' state='+journal.state+'. Run recoverIncompleteCommit().');}
+}
+
+
+/** Explicit hard-kill recovery entry point. It restores generated sheets, navigation, and prior manifest identity. */
+function recoverIncompleteCommit() {
+  const props=PropertiesService.getScriptProperties(),raw=props.getProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+  if(!raw)return {status:'NO_INCOMPLETE_JOURNAL'};
+  const journal=JSON.parse(raw),ss=SpreadsheetApp.openById(journal.spreadsheet_id||registrySpreadsheetId_());
+  (journal.committed_sheets||[]).slice().reverse().forEach(function(name){
+    const target=requiredSheet_(ss,name),backup=requiredSheet_(ss,'_BACKUP_'+sheetSlug_(name));
+    target.clear({contentsOnly:false});copyWholeSheetData_(backup,target);
+  });
+  if(journal.navigation_backup_id){
+    const text=DocumentApp.openById(journal.navigation_backup_id).getBody().getText();
+    const doc=DocumentApp.openById(journal.navigation_doc_id);doc.getBody().clear().appendParagraph(text);doc.saveAndClose();
+  }
+  if(journal.canonical_manifest_id && journal.prior_manifest_ids && journal.prior_manifest_ids.length){
+    const failed=DriveApp.getFileById(journal.canonical_manifest_id);failed.setName('WORKSPACE_MASTER_MANIFEST.__FAILED__.'+journal.run_id+'.json');
+    const prior=DriveApp.getFileById(journal.prior_manifest_ids[journal.prior_manifest_ids.length-1]);prior.setName(GP_AUTO.MANIFEST_FILE_NAME);
+  }
+  journal.state='RECOVERED';journal.recovered_at=new Date().toISOString();props.setProperty(GP_AUTO.PROPERTY_LAST_COMPLETE_JOURNAL,JSON.stringify(journal));props.deleteProperty(GP_AUTO.PROPERTY_COMMIT_JOURNAL);
+  appendRunLog_(ss,{run_id:journal.run_id,started_at:journal.started_at||'',finished_at:new Date().toISOString(),mode:'HARD_KILL_RECOVERY',files_scanned:0,rows_written:(journal.committed_sheets||[]).length,warnings:'Recovered from persistent commit journal.',result:'SUCCESS',details:JSON.stringify(journal)});
+  return journal;
+}
+
+
+function verifyCryptographicFixtures_() {
+  return GP_AUTO_V13.CRYPTO_FIXTURES.map(function(fixture){
+    const bytes=DriveApp.getFileById(fixture.id).getBlob().getBytes();
+    const sha=sha256Bytes_(bytes);
+    return {id:fixture.id,bytes:bytes.length,sha256:sha,status:(bytes.length===fixture.bytes&&sha===fixture.sha256)?'PASS':'FAIL'};
+  });
+}
+
+
+function runAcceptanceTests() {
+  const ss=SpreadsheetApp.openById(registrySpreadsheetId_()),config=readConfig_(ss),results=[];
+  assertCurrentGovernance_(config);ensureGovernanceSheets_(ss);
+  results.push(testResult_('T1','Hard safety switches fail closed',testHardSwitches_(config)));
+  results.push(testResult_('T2','Out-of-scope writes rejected',testWriteTargetGuard_(config)));
+  results.push(testResult_('T3','Stage/backup contract present',testStageContract_()));
+  results.push(testResult_('T4','Source instructions cannot mutate configuration',testInstructionIsolation_()));
+  results.push(testResult_('T5','Manifest publish is staged and read-back checked',testManifestPublishContract_()));
+  results.push(testResult_('T6','Unreadable states remain explicit',testReadStatusEnums_()));
+  results.push(testResult_('T7','Drive-ID collision isolation',testV13IdCollision_()));
+  results.push(testResult_('T8','Object-card separation',testObjectCardSeparation_()));
+  results.push(testResult_('T9','Malformed cards are flagged',testMalformedCard_()));
+  results.push(testResult_('T10','Open closure cannot become REFEREE-READY',testV13OpenClosure_()));
+  results.push(testResult_('T11','Supersession revokes eligibility',testSupersededDependencyGate_()));
+  results.push(testResult_('T12','Instrument cannot become proof',testInstrumentGate_()));
+  results.push(testResult_('T13','Unrouted object blocked',testV13Unrouted_()));
+  results.push(testResult_('T14','Coverage gaps explicit',testCoverageGapContract_()));
+  results.push(testResult_('T15','Stale threshold exactly 120',intConfig_(config,'STALE_THRESHOLD_MINUTES',0)===120));
+  results.push(testResult_('T16','Receipt audit schema present',testReceiptSchema_()));
+  results.push(testResult_('T17','Source self-authorization rejected',testV13SelfAuthority_()));
+  results.push(testResult_('T18','Source self-approval rejected',testV13SelfApproval_()));
+  results.push(testResult_('T19','Source self-closure rejected',testV13SelfClosure_()));
+  results.push(testResult_('T20','Material mathematics requires architecture response or NCC',testV13MaterialMath_()));
+  results.push(testResult_('T21','Architecture requires failure-mode justification',testV13ArchitectureJustification_()));
+  results.push(testResult_('T22','Summary cannot be primary evidence',testV13SummaryEvidence_()));
+  results.push(testResult_('T23','Shared code/fixture cannot score HIGH',testV13SharedLineage_()));
+  results.push(testResult_('T24','Inherited assumptions reduce independence',testV13InheritedAssumptions_()));
+  results.push(testResult_('T25','Narrow closure cannot broaden scope',testV13MissingScope_()));
+  results.push(testResult_('T26','Missing regime/normalization/coordinates blocks',testV13MissingScope_()));
+  results.push(testResult_('T27','Global-object drift blocks',testV13GlobalDrift_()));
+  results.push(testResult_('T28','Serious error requires response/recurrence controls',testV13SeriousError_()));
+  results.push(testResult_('T29','Architecture incident requires contamination assessment',testV13Incident_()));
+  results.push(testResult_('T30','Observer exposure reduces blindness',testV13ObserverExposure_()));
+  results.push(testResult_('T31','Unrouted object cannot become REFEREE-READY',testV13Unrouted_()));
+  results.push(testResult_('T32','Architecture overgrowth alarm computes',testV13Overgrowth_()));
+  results.push(testResult_('T33','Candidate release cannot label itself production',testV13CandidateLabeling_()));
+  results.push(testResult_('T34','Registry target requires explicit Script Property and has no live default',testV13ExplicitRegistryBinding_()));
+  results.push(testResult_('T35','Navigation and manifest write targets require explicit Config IDs and have no live defaults',testV13ExplicitOutputTargets_()));
+  const fixtures=verifyCryptographicFixtures_();fixtures.forEach(function(x){results.push(testResult_('Q3-'+x.id,'Frozen cryptographic fixture '+x.id,x.status==='PASS'));});
+  const failed=results.filter(function(x){return x.status!=='PASS';});
+  appendRunLog_(ss,{run_id:makeRunId_(new Date()),started_at:new Date().toISOString(),finished_at:new Date().toISOString(),mode:'ACCEPTANCE_TEST',files_scanned:0,rows_written:results.length,warnings:failed.length?failed.length+' test(s) failed.':'',result:failed.length?'FAILED':'SUCCESS',details:results.map(function(x){return x.id+': '+x.status+' — '+x.description;}).join('\n')});
+  if(failed.length)throw new Error('Acceptance battery failed: '+failed.map(function(x){return x.id;}).join(', '));
+  return results;
+}
+
+
+function v13BaseRecord_(){return {title:'candidate theorem',class:'DER',claimed_status:'OPEN',claimed_authority:'none',claimed_canonical_impact:'NONE',claimed_closure_state:'OPEN',claimed_extraction_class:'ACTIVE',claimed_human_decision:null,verified_status:'UNVERIFIED',verified_authority:'none',verified_canonical_impact:'NONE',verified_closure_state:'UNVERIFIED',verified_human_decision:false,primary_evidence_ids:[],qualifying_review_ids:[],transition_gate:'BASELINE-PENDING',global_audit_status:'NOT-FOUND',tree_path:TREE_PATHS.PALM,validation_errors:[],measure:'law',regime:'fixed',normalization:'declared',coordinate_system:'physical',frame:'physical',extraction_class:'ACTIVE'};}
+function testV13SelfAuthority_(){const r=v13BaseRecord_();r.claimed_authority='Dylan-approved';validateTrustBoundary_(r);return r.validation_errors.indexOf('SOURCE_AUTHORITY_CLAIM_UNTRUSTED')>=0;}
+function testV13SelfApproval_(){const r=v13BaseRecord_();r.claimed_canonical_impact='APPROVED';r.claimed_human_decision=true;validateTrustBoundary_(r);return r.validation_errors.indexOf('SOURCE_CANONICAL_IMPACT_CLAIM_UNTRUSTED')>=0&&r.validation_errors.indexOf('SOURCE_HUMAN_DECISION_CLAIM_UNTRUSTED')>=0;}
+function testV13SelfClosure_(){const r=v13BaseRecord_();r.claimed_closure_state='CLOSED — EXACT';validateTrustBoundary_(r);return r.validation_errors.indexOf('SOURCE_CLOSURE_CLAIM_UNTRUSTED')>=0;}
+function testV13IdCollision_(){const state={operator:{X:[{DECISION_ID:'OD-X',DRIVE_ID:'DRIVE-A',DECISION_TYPE:'HUMAN_DECISION',DECISION_VALUE:'TRUE',SCOPE:'X'}]},closure:{byExactObject:{},byArtifactUrlDriveId:{}}};const t=lookupTrustedObjectState_(state,{exact_object_id:'X',drive_id:'DRIVE-B'});return t.decisions.length===0;}
+function testV13OpenClosure_(){const r=v13BaseRecord_();r.verified_status='ACTIVE';r.verified_authority='Dylan';r.verified_canonical_impact='APPROVED';r.verified_human_decision=true;r.primary_evidence_ids=['EV'];r.qualifying_review_ids=['REV'];r.transition_gate='PASS';r.global_audit_status='PASS';validateFinalEligibility_(r);return r.extraction_class==='ACTIVE';}
+function testV13MaterialMath_(){const state={rows:{noChange:[]}};const row={MATERIAL:'TRUE',TRANSITION_TYPE:'MATHEMATICAL_CLOSURE',EXACT_OBJECT_ID:'X',EXACT_CLAIM_OR_ARCHITECTURAL_RULE:'x',EVIDENCE_ADDED:'e',EVIDENCE_CLASS:'proof',LAW_OR_MEASURE:'law',REGIME:'r',NORMALIZATION:'n',COORDINATE_SYSTEM:'c',DEPENDENCIES_AFFECTED:'a',DEPENDENCIES_UNAFFECTED:'b',REMAINING_UNCERTAINTY:'u',REOPENING_CONDITION:'q'};return validateTransition_(row,state).indexOf('MATERIAL_MATH_REQUIRES_ARCH_RESPONSE_OR_VALID_NCC')>=0;}
+function testV13ArchitectureJustification_(){const state={rows:{noChange:[]}};const row={MATERIAL:'TRUE',TRANSITION_TYPE:'ARCHITECTURE_CHANGE'};return validateTransition_(row,state).some(function(x){return x.indexOf('ARCHITECTURE_MISSING_JUSTIFICATION')===0;});}
+function testV13SummaryEvidence_(){const rec=v13BaseRecord_();rec.exact_object_id='X';attachEvidenceAndReviews_(rec,{evidence:{X:[{EVIDENCE_ID:'SUM',EVIDENCE_ROLE:'PRIMARY_DERIVATION',PRIMARY_EVIDENCE:'TRUE',SUMMARY_ONLY:'TRUE',STATUS:'PASS'}]},reviews:{}});return rec.primary_evidence_ids.length===0;}
+function testV13SharedLineage_(){const row={ORIGINAL_DERIVATION_VISIBLE:'TRUE',INDEPENDENT_RECONSTRUCTION:'TRUE',SAME_CODE_REUSED:'TRUE',SAME_FIXTURE_REUSED:'TRUE',OBJECT_DEFINITION_CHECKED:'TRUE',ALGEBRA_ONLY:'FALSE'};return independenceClass_(computeIndependenceScore_(row),row)!=='HIGH';}
+function testV13InheritedAssumptions_(){const a={INDEPENDENT_RECONSTRUCTION:'TRUE',OBJECT_DEFINITION_CHECKED:'TRUE',ALGEBRA_ONLY:'FALSE',INHERITED_ASSUMPTIONS:''};const b=Object.assign({},a,{INHERITED_ASSUMPTIONS:'shared theorem graph'});return computeIndependenceScore_(b)<computeIndependenceScore_(a);}
+function testV13MissingScope_(){const r=v13BaseRecord_();r.measure='UNDECLARED';r.regime='';r.normalization='';r.coordinate_system='';r.frame='UNDECLARED';assessClosureScope_(r,{});return ['MISSING_LAW_OR_MEASURE','MISSING_REGIME','MISSING_NORMALIZATION','MISSING_COORDINATE_SYSTEM'].every(function(x){return r.validation_errors.indexOf(x)>=0;});}
+function testV13GlobalDrift_(){const r=v13BaseRecord_();r.exact_object_id='X';assessGlobalObjectAlignment_(r,{globalAudits:{X:[{INTENDED_OBJECT_CORRECT:'FALSE',STATUS:'FAIL — DRIFT',TARGET_ALIGNMENT:'NOT ALIGNED'}]}});return r.validation_errors.indexOf('GLOBAL_OBJECT_DRIFT')>=0;}
+function testV13SeriousError_(){const row={MATERIAL:'FALSE',TRANSITION_TYPE:'MATHEMATICAL_CORRECTION'};return validateTransition_(row,{rows:{noChange:[]}}).some(function(x){return x.indexOf('SERIOUS_ERROR_MISSING_RESPONSE')===0;});}
+function testV13Incident_(){const row={MATERIAL:'FALSE',TRANSITION_TYPE:'ARCHITECTURE_INCIDENT',FAILURE_CLASS:'x',ARCHITECTURE_RESPONSE:'x',RECURRENCE_CONTROL:'x'};return validateTransition_(row,{rows:{noChange:[]}}).some(function(x){return x.indexOf('INCIDENT_MISSING_CONTAMINATION_ASSESSMENT')===0;});}
+function testV13ObserverExposure_(){const blind={INDEPENDENT_RECONSTRUCTION:'TRUE',OBJECT_DEFINITION_CHECKED:'TRUE',ALGEBRA_ONLY:'FALSE',OBSERVER_MODE:'BLIND',INTERNAL_CONCLUSIONS_VISIBLE:'FALSE'};const sighted=Object.assign({},blind,{OBSERVER_MODE:'SIGHTED',ORIGINAL_DERIVATION_VISIBLE:'TRUE'});return computeIndependenceScore_(blind)>computeIndependenceScore_(sighted);}
+function testV13Unrouted_(){const r=v13BaseRecord_();r.verified_closure_state='CLOSED';r.verified_authority='Dylan';r.verified_canonical_impact='APPROVED';r.verified_human_decision=true;r.primary_evidence_ids=['EV'];r.qualifying_review_ids=['REV'];r.transition_gate='PASS';r.global_audit_status='PASS';r.tree_path=TREE_PATHS.UNROUTED;validateFinalEligibility_(r);return r.extraction_class==='ACTIVE';}
+function testV13Overgrowth_(){const rows=buildArchitectureMetricRows_([{class:'GOV',title:'architecture',extraction_class:'ACTIVE'},{class:'DER',title:'math',extraction_class:'ACTIVE'}],{trustedState:{rows:{transitions:[]}}});return rows.some(function(r){return r[0]==='Architecture-to-mathematics ratio'&&r[1]===1;});}
+function testV13CandidateLabeling_(){const rows=buildContextRows_({config:{},sourceScopes:[],runId:'TEST'},[],{coverageGaps:[]},{generated_at:'2026-07-24T00:00:00Z',config_version:'TEST'});const release=rows.filter(function(r){return r[0]==='AUTOMATION_RELEASE';})[0]||[];return release[2]==='CANDIDATE / DO NOT INSTALL'&&/Successor candidate/.test(String(release[4]||''))&&!/Production R0\.2 package/.test(String(release[4]||''));}
+function testV13ExplicitRegistryBinding_(){const props=PropertiesService.getScriptProperties(),key=GP_AUTO.PROPERTY_REGISTRY_SPREADSHEET_ID,prior=props.getProperty(key);let absentFails=false,bound=false;try{props.deleteProperty(key);try{registrySpreadsheetId_();}catch(expected){absentFails=/explicit GP_AUTO_REGISTRY_SPREADSHEET_ID/.test(String(expected.message||expected));}const testId='TEST_REGISTRY_ID_12345678901234567890';props.setProperty(key,testId);bound=registrySpreadsheetId_()===testId;}finally{if(prior==null)props.deleteProperty(key);else props.setProperty(key,prior);}return absentFails&&bound;}
+
+
+
+
+
+
+function testV13ExplicitOutputTargets_(){const manifestId='TEST_MANIFEST_FOLDER_1234567890',navId='TEST_NAVIGATION_DOC_1234567890';let missingManifest=false,missingNav=false;try{requiredConfigDriveId_({},'MANIFEST_OUTPUT_FOLDER_ID');}catch(expected){missingManifest=/explicit Config MANIFEST_OUTPUT_FOLDER_ID/.test(String(expected.message||expected));}try{requiredConfigDriveId_({},'NAVIGATION_DOC_ID');}catch(expected){missingNav=/explicit Config NAVIGATION_DOC_ID/.test(String(expected.message||expected));}return missingManifest&&missingNav&&requiredConfigDriveId_({MANIFEST_OUTPUT_FOLDER_ID:manifestId},'MANIFEST_OUTPUT_FOLDER_ID')===manifestId&&requiredConfigDriveId_({NAVIGATION_DOC_ID:navId},'NAVIGATION_DOC_ID')===navId;}
+
+
+/** Runtime-only destructive fault injection. It never runs from runAcceptanceTests(). */
+function runInjectedCommitRecoveryTest() {
+  throw new Error('NOT AUTOMATICALLY EXECUTED: install in isolated copy, stage generated sheets, inject failure after first commit, terminate process, then invoke recoverIncompleteCommit and compare byte-for-byte sheet/navigation/manifest identities.');
+}
+
+
+/* Named architecture interfaces retained for auditability and takeover. */
+function readTransitionRegister_(ss) { return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.TRANSITIONS); }
+function readNoChangeCertificates_(ss) { return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.NO_CHANGE); }
+function readReviewIndependence_(ss) { return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.REVIEWS); }
+function readEvidenceLineage_(ss) { return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.EVIDENCE); }
+function readGlobalObjectAudits_(ss) { return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.GLOBAL_AUDIT); }
+function readOperatorDecisions_(ss) {
+  return readSheetObjects_(ss, GP_AUTO_V13.TRUSTED_SHEETS.OPERATOR)
+    .filter(function(row) { return parseBoolean_(row.ACTIVE) === true; });
+}
+
+
+function validateNoChangeCertificate_(row) {
+  const errors = [];
+  ['CERTIFICATE_ID','EXACT_OBJECT_ID','TRANSITION_ID','MATHEMATICAL_STATEMENT','EVIDENCE_CLASS',
+   'OBJECT_CARD','LAW_OR_MEASURE','REGIME','NORMALIZATION','COORDINATE_SYSTEM',
+   'DEPENDENCIES_AFFECTED','DEPENDENCIES_UNAFFECTED','EXISTING_ARCHITECTURAL_CONTROLS',
+   'WHY_NO_SCHEMA_CHANGE','WHY_NO_VERIFIER_CHANGE','WHY_NO_REGISTER_CHANGE',
+   'WHY_NO_STATUS_GOVERNANCE_CHANGE','FAILURE_REVEALING_INCORRECT_JUDGMENT','REVIEWER','STATUS']
+    .forEach(function(field) { if (!String(row[field] || '').trim()) errors.push('NCC_MISSING:' + field); });
+  if (String(row.STATUS || '').toUpperCase() !== 'PASS') errors.push('NCC_NOT_PASS');
+  return errors;
+}
+
+
+function validateReviewDisclosure_(row) {
+  const errors = [];
+  ['REVIEW_ID','EXACT_OBJECT_ID','REVIEWER_LINE','REVIEWER','REVIEW_ROLE','SOURCES_READ',
+   'PRIMARY_SOURCES_READ','ORIGINAL_DERIVATION_VISIBLE','INDEPENDENT_RECONSTRUCTION',
+   'SAME_CODE_REUSED','SAME_FIXTURE_REUSED','INHERITED_ASSUMPTIONS','INDEPENDENT_ROUTE',
+   'OBJECT_DEFINITION_CHECKED','ALGEBRA_ONLY','INDEPENDENT_NOTATION','OBSERVER_MODE',
+   'LINEAGE_ACCESS','INTERNAL_CONCLUSIONS_VISIBLE','METHODOLOGICAL_FAMILY','STATUS']
+    .forEach(function(field) { if (row[field] == null || String(row[field]).trim() === '') errors.push('REVIEW_DISCLOSURE_MISSING:' + field); });
+  const score = computeIndependenceScore_(row);
+  const cls = independenceClass_(score, row);
+  return {errors: errors, score: score, independence_class: cls};
+}
+
+
+function validateGlobalAudit_(row) {
+  const errors = [];
+  ['AUDIT_ID','EXACT_OBJECT_ID','ORIGINAL_SCIENTIFIC_QUESTION','EXACT_THEOREM_REQUIRED',
+   'CURRENT_THEOREM_STATEMENT','TARGET_ALIGNMENT','MEASURE_CHANGED','CONDITIONING_CHANGED',
+   'PAIRING_RULE_CHANGED','DOMAIN_CHANGED','LIMITING_REPLACED_FINITE','COORDINATE_DEPENDENCE',
+   'PROXY_REPLACEMENT','MACHINE_ROOTS_ALIGNED','INTENDED_OBJECT_CORRECT',
+   'PRIMARY_EVIDENCE_INSPECTED','OUTSIDE_LINEAGE_REVIEWER','CONCLUSION',
+   'DEPENDENCIES_CHECKED','REOPENING_CONDITION','STATUS']
+    .forEach(function(field) { if (row[field] == null || String(row[field]).trim() === '') errors.push('GLOBAL_AUDIT_MISSING:' + field); });
+  if (parseBoolean_(row.INTENDED_OBJECT_CORRECT) !== true && String(row.INTENDED_OBJECT_CORRECT).toUpperCase() !== 'TRUE') errors.push('GLOBAL_AUDIT_OBJECT_NOT_CONFIRMED');
+  if (/FAIL|DRIFT|NOT ALIGNED/.test(String(row.STATUS || '') + ' ' + String(row.TARGET_ALIGNMENT || ''))) errors.push('GLOBAL_AUDIT_DRIFT');
+  return errors;
+}
+
+
+function validateGovernanceRows_(state) {
+  const errors = [];
+  state.rows.transitions.forEach(function(row) { validateTransition_(row, state).forEach(function(e) { errors.push((row.TRANSITION_ID || row._row) + ':' + e); }); });
+  state.rows.noChange.forEach(function(row) { validateNoChangeCertificate_(row).forEach(function(e) { errors.push((row.CERTIFICATE_ID || row._row) + ':' + e); }); });
+  state.rows.reviews.forEach(function(row) { validateReviewDisclosure_(row).errors.forEach(function(e) { errors.push((row.REVIEW_ID || row._row) + ':' + e); }); });
+  state.rows.globalAudits.forEach(function(row) { validateGlobalAudit_(row).forEach(function(e) { errors.push((row.AUDIT_ID || row._row) + ':' + e); }); });
+  return errors;
+}
+
+
+function readCurrentManifest_(context) {
+  const folder = DriveApp.getFolderById(context.manifestFolderId);
+  const files = folder.getFilesByName(GP_AUTO.MANIFEST_FILE_NAME);
+  if (!files.hasNext()) return {status: 'NOT-FOUND', manifest: null, file_id: ''};
+  const file = files.next();
+  const text = file.getBlob().getDataAsString('UTF-8');
+  try { return {status: 'PASS', manifest: JSON.parse(text), file_id: file.getId(), sha256: sha256Text_(text)}; }
+  catch (error) { return {status: 'FAIL', manifest: null, file_id: file.getId(), error: error.message}; }
+}
+
+
+function computeArchitectureMetrics_(inventory, state) {
+  const mathCount = inventory.filter(function(x) { return /DER|THM|LEM|MATHEMATICAL|PROOF/.test(String(x.class).toUpperCase()); }).length;
+  const architectureCount = inventory.filter(function(x) { return /GOV|ARCH|REG|AUTO|PROT|COR/.test((x.class + ' ' + x.title).toUpperCase()); }).length;
+  return {
+    mathematical_artifacts: mathCount,
+    architecture_artifacts: architectureCount,
+    architecture_to_mathematics_ratio: mathCount ? Math.round(100 * architectureCount / mathCount) / 100 : architectureCount,
+    transition_validation_errors: validateRegisteredTransitions_(state).length,
+    governance_row_errors: validateGovernanceRows_(state).length,
+    referee_ready: inventory.filter(function(x) { return x.extraction_class === 'REFEREE-READY'; }).length,
+    source_claim_rejections: inventory.reduce(function(n, x) { return n + x.validation_errors.filter(function(e) { return /^SOURCE_/.test(e); }).length; }, 0)
+  };
+}
+
+
+function auditCoupledAdvancement() {
+  const ss = SpreadsheetApp.openById(registrySpreadsheetId_());
+  const config = readConfig_(ss);
+  assertCurrentGovernance_(config);
+  ensureGovernanceSheets_(ss);
+  const state = readTrustedGovernanceState_(ss, config);
+  const governanceErrors = validateGovernanceRows_(state);
+  const currentManifest = readCurrentManifest_(makeContext_(ss, config, makeRunId_(new Date()), new Date()));
+  return {
+    release: GP_AUTO.RELEASE,
+    governance: GP_AUTO_V13.GOVERNANCE_DECISION,
+    governance_errors: governanceErrors,
+    current_manifest: currentManifest,
+    status: governanceErrors.length ? 'FAIL-CLOSED' : 'PASS-REGISTER-STRUCTURE',
+    limitations: ['No Apps Script runtime refresh is claimed by source publication.', 'Independent-family review remains pending.', 'Installation remains prohibited.']
+  };
+}

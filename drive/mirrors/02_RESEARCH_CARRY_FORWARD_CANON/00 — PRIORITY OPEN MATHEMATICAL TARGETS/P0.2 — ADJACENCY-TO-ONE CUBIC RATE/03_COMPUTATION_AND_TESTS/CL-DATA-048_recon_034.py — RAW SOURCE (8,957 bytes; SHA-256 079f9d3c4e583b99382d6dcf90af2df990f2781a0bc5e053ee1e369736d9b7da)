@@ -1,0 +1,195 @@
+#!/usr/bin/env python3
+"""
+CL-DATA-048 — Independent reconstruction of the exact finite-r six-pin
+midpoint nine-jet law (GP-DER-034), via an INDEPENDENT ROUTE:
+conditioning in the confluent divided-difference frame (GP-DER-044-reg s3)
+instead of raw pins. The L-frame Gram is well-conditioned (PD limit), so
+IEEE float64 reproduces the published 12-digit table without the 100-digit
+arithmetic GP-DATA-035 needed for the ill-conditioned raw-pin route.
+Equivalence of the two conditionings is the invertible-map lemma of
+GP-DER-044-reg s3. Discharges the CL ask in GP-DER-034 s8 and supplies the
+reconstruction receipt missing from the empty GP-AUD-039.
+
+Also: (B) determinant-weighted boundary-mass measurement
+P_MS( s > -C_cap(U) ) at the four rungs, semi-analytic in q
+(per-sample 1D quadrature), testing the O(r^3) prediction of
+GP-DER-043 Thm 4.1 / GP-DER-047 s10 and estimating the constant K_B.
+
+Kernel: planar Bargmann-Fock e^{-t^2/2} factors. Torus image terms for the
+side-24 periodized kernel are O(exp(-(L-1)^2/2)) < 1e-100 near the origin,
+far below float64 and below every displayed digit of the GP-DER-034 table;
+they are dropped and this is disclosed.
+Deterministic seed 20260721. Author: CL line, 2026-07-21.
+"""
+import numpy as np, json
+from math import sqrt, pi
+
+b = 1.2
+RNG = np.random.default_rng(20260721)
+
+# ---------- kernel derivatives (probabilists' Hermite recurrence) ----------
+def He(m, t):
+    if m == 0: return np.ones_like(t) if isinstance(t, np.ndarray) else 1.0
+    hm1, h = (np.ones_like(t) if isinstance(t, np.ndarray) else 1.0), t
+    for k in range(1, m):
+        hm1, h = h, t*h - k*hm1
+    return h
+def kder(m, t):
+    return ((-1)**m) * He(m, t) * np.exp(-t*t/2)
+def cov_dd(ax, ay, bx, by, dx, dy):
+    """Cov(d^{(ax,ay)}f(p), d^{(bx,by)}f(s)), p-s=(dx,dy)."""
+    return ((-1)**(bx+by)) * kder(ax+bx, dx) * kder(ay+by, dy)
+
+# ---------- raw pin list: (bx,by,px) at (px,0) ----------
+def raw_pins(h):
+    return [ (0,0,-h),(1,0,-h),(0,1,-h),   # f, fx, fy at M=(-h,0)
+             (0,0, h),(1,0, h),(0,1, h) ]  # f, fx, fy at S=(+h,0)
+
+# L-frame transform: rows give L_i as combos of the 6 raw pins
+def Lmat(h):
+    T = np.zeros((6,6))
+    FM,XM,YM,FS,XS,YS = 0,1,2,3,4,5
+    T[0,FS]=0.5; T[0,FM]=0.5                       # L0=(F+ + F-)/2
+    T[1,FS]=1/(2*h); T[1,FM]=-1/(2*h)              # L1=(F+ - F-)/(2h)
+    T[2,XS]=1/(2*h); T[2,XM]=-1/(2*h)              # L2=(X+ - X-)/(2h)
+    T[3,YS]=0.5; T[3,YM]=0.5                       # L3=(Y+ + Y-)/2
+    T[4,YS]=1/(2*h); T[4,YM]=-1/(2*h)              # L4=(Y+ - Y-)/(2h)
+    # L5=(3/h^2)[(X+ + X-)/2 - L1]
+    T[5,XS]=1.5/h**2; T[5,XM]=1.5/h**2
+    T[5,FS]=-3/h**2/(2*h)*0  # placeholder (set below)
+    T[5,:] += -(3/h**2)*T[1,:]
+    return T
+
+# targets: nine jets at origin, multi-indices (ax, ay)
+TARGETS = [(0,2),(2,1),(1,2),(0,3),(4,0),(3,1),(2,2),(1,3),(0,4)]
+NAMES   = ['q','a','w','z','c40','c31','c22','c13','c04']
+
+def build_law(r):
+    h = r/2
+    pins = raw_pins(h)
+    T = Lmat(h)
+    # raw covariances
+    G_raw = np.zeros((6,6))
+    for i,(bx,by,px) in enumerate(pins):
+        for j,(cx,cy,qx) in enumerate(pins):
+            G_raw[i,j] = cov_dd(bx,by,cx,cy,px-qx,0.0)
+    C_raw = np.zeros((9,6))
+    for k,(ax,ay) in enumerate(TARGETS):
+        for j,(cx,cy,qx) in enumerate(pins):
+            C_raw[k,j] = cov_dd(ax,ay,cx,cy,0.0-qx,0.0)
+    S_TT = np.zeros((9,9))
+    for k,(ax,ay) in enumerate(TARGETS):
+        for l,(cx,cy) in enumerate(TARGETS):
+            S_TT[k,l] = cov_dd(ax,ay,cx,cy,0.0,0.0)
+    # transform to L-frame
+    G_L = T @ G_raw @ T.T
+    C_L = C_raw @ T.T
+    y_L = np.array([b - r**3/12, -r**2/6, 0.0, 0.0, 0.0, 2.0])
+    sol = np.linalg.solve(G_L, np.vstack([y_L, C_L]).T)   # solve for y and rows
+    m_r = C_L @ np.linalg.solve(G_L, y_L)
+    Sig = S_TT - C_L @ np.linalg.solve(G_L, C_L.T)
+    Sig = 0.5*(Sig+Sig.T)
+    return m_r, Sig, np.linalg.cond(G_L), np.linalg.cond(G_raw)
+
+# ---------- (A) table comparison ----------
+TABLE = {  # from GP-DER-034 s3 (means) and covariance table
+ 0.05:    dict(Eq=-1.19998952475, Ew=0.000625065085855, Ec40=-3.60071833346,
+               Ec22=-0.000374957676537, Ec04=3.59996857426,
+               Vq=2, Va=2.00124980444, Vw=2, Vz=6.00000175781,
+               Cq22=-2.00000000004, Cq04=-12, C2204=12.0000000001),
+ 0.025:   dict(Eq=-1.19999869425, Ew=0.000156254068724, Ec40=-3.60018356791,
+               Ec22=-9.37474567758e-05, Ec04=3.59999608276,
+               Vq=2, Va=2.00031248779, Vw=2, Vz=6.00000010986,
+               Cq22=-2, Cq04=-12, C2204=12),
+ 0.0125:  dict(Eq=-1.19999983701, Ew=3.90627543087e-05, Ec40=-3.60004638511,
+               Ec22=-2.34373442317e-05, Ec04=3.59999951103,
+               Vq=2, Va=2.00007812424, Vw=2, Vz=6.00000000687,
+               Cq22=-2, Cq04=-12, C2204=12),
+ 0.00625: dict(Eq=-1.19999997964, Ew=9.7656408945e-06, Ec40=-3.60001165761,
+               Ec22=-5.85936536389e-06, Ec04=3.59999993892,
+               Vq=2, Va=2.0000195312, Vw=2, Vz=6.00000000043,
+               Cq22=-2, Cq04=-12, C2204=12),
+}
+iq,ia,iw,iz,i40,i31,i22,i13,i04 = range(9)
+report = {}
+laws = {}
+for r, tab in TABLE.items():
+    m, S, condL, condRaw = build_law(r)
+    laws[r] = (m, S)
+    got = dict(Eq=m[iq], Ew=m[iw], Ec40=m[i40], Ec22=m[i22], Ec04=m[i04],
+               Vq=S[iq,iq], Va=S[ia,ia], Vw=S[iw,iw], Vz=S[iz,iz],
+               Cq22=S[iq,i22], Cq04=S[iq,i04], C2204=S[i22,i04])
+    devs = {k: abs(got[k]-tab[k]) for k in tab}
+    parity = max(abs(m[ia]), abs(m[iz]), abs(m[i31]), abs(m[i13]))
+    report[r] = dict(max_abs_dev=max(devs.values()), devs={k: float(v) for k, v in devs.items()},
+                     parity_means_max=float(parity), cond_L=float(condL), cond_raw=float(condRaw),
+                     min_eig=float(np.linalg.eigvalsh(S)[0]))
+# published min eigenvalue check at r=0.00625
+mineig_dev = abs(report[0.00625]['min_eig'] - 0.4332852749)
+# ratio diagnostics of s3
+m5, S5 = laws[0.00625]; r5 = 0.00625
+ratios = dict(Eq_ratio=float((m5[iq]+b)/r5**3), Ew_ratio=float(m5[iw]/r5**2),
+              Ec40_ratio=float((m5[i40]+3*b)/r5**2), Ec22_ratio=float(m5[i22]/r5**2),
+              Ec04_ratio=float((m5[i04]-3*b)/r5**3),
+              Va_ratio=float((S5[ia,ia]-2)/r5**2), V40_ratio=float((S5[i40,i40]-24)/r5**2),
+              V31_ratio=float((S5[i31,i31]-6)/r5**2))
+EXPECT = dict(Eq_ratio=1/12, Ew_ratio=1/4, Ec40_ratio=-3/10, Ec22_ratio=-3/20,
+              Ec04_ratio=-1/4, Va_ratio=1/2, V40_ratio=12, V31_ratio=1.5)
+
+# ---------- (B) boundary-mass measurement ----------
+K = 4096
+def boundary_mass(r, m, S, NU=20000, nq=600):
+    # partition: q index 0; U indices 1..8
+    mU, mq = m[1:], m[0]
+    SUU = S[1:,1:]; Sqq = S[0,0]; SqU = S[0,1:]
+    A = np.linalg.solve(SUU, SqU)          # regression coefs
+    var_q = Sqq - SqU @ A
+    sd_q = sqrt(var_q)
+    U = RNG.multivariate_normal(mU, SUU, size=NU)
+    mu_q = mq + (U - mU) @ A
+    a_, w_, z_, c40_, c31_, c22_, c13_, c04_ = U.T
+    Rj = 1 + np.abs(U).sum(axis=1)
+    Ccap = 2*K*Rj**5 + 2*Rj
+    lo_b = -r*Ccap                          # boundary event: q > -r*Ccap
+    num = np.zeros(NU); den = np.zeros(NU)
+    # q grid per sample: cover [mu-8sd, mu+8sd] plus the boundary window
+    for i in range(NU):
+        qlo = min(mu_q[i]-8*sd_q, lo_b[i]-1e-3)
+        qhi = mu_q[i]+8*sd_q
+        qg = np.linspace(qlo, qhi, nq)
+        d11M = -r + r*r*c40_[i]/12
+        d12M = -a_[i]*r/2 + r*r*c31_[i]/12
+        d22M = qg - r*w_[i]/2 + r*r*c22_[i]/8
+        dM = d11M*d22M - d12M*d12M
+        d11S = r + r*r*c40_[i]/12
+        d12S = a_[i]*r/2 + r*r*c31_[i]/12
+        d22S = qg + r*w_[i]/2 + r*r*c22_[i]/8
+        dS = d11S*d22S - d12S*d12S
+        typed = (d11M < 0) & (dM > 0) & (dS < 0)
+        Wt = np.abs(dM*dS)*typed
+        dens = np.exp(-(qg-mu_q[i])**2/(2*var_q))/(sd_q*sqrt(2*pi))
+        den[i] = np.trapezoid(Wt*dens, qg)
+        num[i] = np.trapezoid(Wt*dens*(qg > lo_b[i]), qg)
+    P = num.mean()/den.mean()
+    se = P*sqrt((num.std(ddof=1)/num.mean())**2/NU + (den.std(ddof=1)/den.mean())**2/NU)
+    return P, se, den.mean()/r**2
+
+bm = {}
+for r in [0.05, 0.025, 0.0125, 0.00625]:
+    m, S = laws[r]
+    P, se, Zr2 = boundary_mass(r, m, S)
+    bm[r] = dict(P_boundary=P, se=se, P_over_r3=P/r**3, Z_over_r2=Zr2)
+# slope fit
+rs = np.array([0.05, 0.025, 0.0125, 0.00625])
+Ps = np.array([bm[r]['P_boundary'] for r in rs])
+slope = np.polyfit(np.log(rs), np.log(Ps), 1)[0]
+
+out = dict(A_table_comparison={str(k): v for k, v in report.items()},
+           A_mineig_published_dev=float(mineig_dev),
+           A_ratio_diagnostics=ratios, A_ratio_expected=EXPECT,
+           B_boundary_mass={str(k): v for k, v in bm.items()},
+           B_loglog_slope=float(slope),
+           seed=20260721, b=b, K=K,
+           route="confluent divided-difference frame (GP-DER-044-reg s3), float64; independent of GP-DATA-035 raw-pin 100-digit route")
+print(json.dumps(out, indent=1, default=float))
+json.dump(out, open('/home/claude/recon_results.json','w'), indent=1, default=float)

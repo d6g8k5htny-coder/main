@@ -1,0 +1,112 @@
+﻿FROZEN INPUT UPDATE — RESULT CARRIER PUBLISHED — 2026-07-25
+
+
+The S2-DATA-002 executed-result payload required by this packet is now available:
+
+
+Carrier:
+https://docs.google.com/document/d/1lEDwlVhZOhfQiDx9qrYaB0_dezldUTTYkgKB0vDq3Sw/edit
+
+
+Receipt:
+https://docs.google.com/document/d/19XjSR0uZXU5f114hlvnnMP4-s0Lba5hQDKPSP5Ug7Vo/edit
+
+
+Required recovered identity:
+16,883 bytes
+SHA-256 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0
+
+
+Extraction:
+export the carrier as text/plain; extract Base64 between BEGIN_BASE64_GZIP_RESULT and END_BASE64_GZIP_RESULT; remove ASCII whitespace; decode; verify the 5,714-byte gzip SHA-256 2acb160c5e1e5475b8ce922a5f7ebb7763faab7799d66e25aa399bd737d2bd19; decompress; verify the 16,883-byte JSON hash above.
+
+
+CL-AUD-245 already passes G1–G18 mathematics and the source identity. The only remaining action is organizationally distinct result-carrier verification and conversion of AMEND REQUIRED to PASS. No mathematical re-review is requested.
+
+
+[[RESULT-CARRIER:AVAILABLE]] [[CONVERSION-VERIFICATION:OPEN]] [[NO-PROMOTION]]
+
+
+S2-REQ-002-v1.0 — INDEPENDENT REVIEW OF EXPLICIT GT5 RADIUS r_T=r_D
+
+
+Task ID: S2-REQ-002-v1.0
+Date: 2026-07-25
+Required reviewer: organizationally distinct from OpenAI/GP line
+Target: S2-DER-002-v1.0 and S2-DATA-002-v1.0
+Status before review: SAME-LINE PASS / NO PROMOTION
+
+
+OBJECTIVE
+
+
+Independently verify or falsify the candidate statement
+
+
+    Q_{6,r}(H_{5,r}(D^+)>r^-1)<=10^-48/2
+
+
+for every 0<r<=r_D, and therefore the candidate identity r_T=r_D.
+
+
+FROZEN INPUTS
+
+
+S2-DATA-001 source SHA-256:
+1ab52d02045d2a02d6c4e7e067df13e45479ec63c049c0ff47ce230778530082
+
+
+S2-DATA-002 source:
+Drive ID 1whRUSPrYjKtgFcTdfKqS7uXBvh8piEIjWEtm3URHjRk
+Bytes 9,350
+SHA-256 6448381a2b7450e178fc74c837e2753b60b140ea731206c35aa6859baa0d13c4
+
+
+S2-DATA-002 result:
+Bytes 16,883
+SHA-256 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0
+
+
+Proof candidate:
+Drive ID 1X2Qg0CKZStF1GfmHUTZL7AMmBhl6s2exFOOzOyT7qpo
+
+
+MANDATORY GATES
+
+
+G1. Reconstruct the exact stabilized six-pin covariance and value vector.
+G2. Verify the Mahalanobis bound y_r^T G_r^-1 y_r<38 on all r<=r_D.
+G3. Verify the Gaussian regression inequality used to obtain M_5.
+G4. Verify exact-torus order-five variance <=946.
+G5. Verify exact-torus order-six coordinate variance <=10396.
+G6. Verify D^+=[-3/4,3/4]x[-1,1] and physical diameter (5/2)r.
+G7. Verify d(x,y)<=sqrt(2*10396)|x-y| under conditioning.
+G8. Verify the two-copy signed covering bound, including the cross-sign regime.
+G9. Verify that the Dudley inequality version used admits the conservative constant 24 and the displayed integral bound.
+G10. Verify M_5<189 and B_abs<1231.
+G11. Verify t_0<2840 and 1/r_D>t_0.
+G12. Verify Borell–TIS applies to the centered separable signed process.
+G13. Verify the six-coordinate union factor.
+G14. Verify the exponent at r_D exceeds 43,700.
+G15. Verify the tail is below 10^-48/2 at r_D and decreases for smaller r.
+G16. Search for any additional hidden r_5 threshold not discharged by the explicit construction.
+G17. Confirm that p_B=10^-48 is a consumed candidate dependency, not independently proved here.
+G18. Confirm scope: conditioned-law P0.1 GT5 only; no DM2 or determinant-weighted Palm tail.
+
+
+REQUIRED OUTPUT
+
+
+Provide source/result identities, environment, prior-exposure statement, a G1–G18 ledger, all recomputed margins, discrepancies, and one verdict: PASS, AMEND REQUIRED, REJECT, or CANNOT VERIFY.
+
+
+PASS requires organizationally distinct provenance, exact-source replay or independent implementation, all gates satisfied, and no hidden small-r condition.
+
+
+FALSIFIERS
+
+
+Reject or amend if the Mahalanobis, variance, covering, Dudley, threshold, or tail inequality fails; if the exact torus is replaced by the planar field; if the source hash differs; or if an additional radius smaller than r_D is required.
+
+
+END S2-REQ-002-v1.0

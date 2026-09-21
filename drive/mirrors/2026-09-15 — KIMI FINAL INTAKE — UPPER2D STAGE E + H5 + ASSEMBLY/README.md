@@ -1,8 +1,10 @@
 # Mirror of `01_ACTIVE_RESEARCH_PACKAGES/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY` (partial)
 
 Drive folder id `1bRmeImIMT-6kc-zBNZVoWW1aYNPBPLWs` (56 inventory items, 47 files). This directory
-mirrors the current D1 assembly of the 2D upper track and the two 2026-09-15 Anthropic-side proposals
-that sit next to it: 4 byte-exact markdown files, 51,562 bytes.
+mirrors the current D1 assembly of the 2D upper track, the two 2026-09-15 Anthropic-side proposals
+that sit next to it, and — after the 2026-09-19 completion pass recorded below — the rest of what this
+lane ports: 38 byte-exact objects, 331,432 bytes, plus three `stored:false` rows. Until 2026-09-20 this
+sentence ended "4 byte-exact markdown files, 51,562 bytes", the first pass's figure, left unrevised.
 `_MANIFEST.jsonl` in each subdirectory is checked by `tools/verify_manifests.py`. **Mirroring is not
 review, replay, endorsement or promotion.** Ported 2026-09-19.
 
@@ -10,13 +12,22 @@ review, replay, endorsement or promotion.** Ported 2026-09-19.
 
 | top-level subfolder | inventory items (files) | objects mirrored here |
 |---|---:|---:|
-| `05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15` | 31 (28) | 2 |
-| `(files directly in the lane folder)` | 7 (1) | 0 — not ported by this lane |
-| `03_H5_PROMOTION_AND_RUNG_CERTIFICATES` | 6 (6) | 0 — not ported by this lane |
-| `04_STAGE_E_REVIEWS_AND_DEFECT_FINDINGS` | 5 (5) | 0 — not ported by this lane |
-| `01_CURRENT_ASSEMBLY_AND_STATE` | 3 (3) | 2 |
-| `02_H4_EVENT_LEVEL_REPAIR` | 2 (2) | 0 — not ported by this lane |
-| `06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES` | 2 (2) | 0 — not ported by this lane |
+| `05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15` | 31 (28) | 20 |
+| `(files directly in the lane folder)` | 7 (1) | 0 — the one file is the 30 MB intake zip, a `stored:false` row |
+| `03_H5_PROMOTION_AND_RUNG_CERTIFICATES` | 6 (6) | 6 |
+| `04_STAGE_E_REVIEWS_AND_DEFECT_FINDINGS` | 5 (5) | 5 |
+| `01_CURRENT_ASSEMBLY_AND_STATE` | 3 (3) | 3 |
+| `02_H4_EVENT_LEVEL_REPAIR` | 2 (2) | 2 |
+| `06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES` | 2 (2) | 2 |
+
+The right-hand column is recounted here from the `_MANIFEST.jsonl` rows that carry `stored: true`; it sums
+to the 38 objects the header states. Until 2026-09-20 the table still reported the first pass: 2 for
+`05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15`, 2 for `01_CURRENT_ASSEMBLY_AND_STATE`, and
+"0 — not ported by this lane" for `(files directly in the lane folder)`, `02_`, `03_`, `04_` and `06_`
+— which the 2026-09-19 completion pass below had already made false for six of those seven rows:
+every one except `(files directly in the lane folder)`, which was 0 then and is 0 now. (Until
+2026-09-20 this sentence said five. Recounted from the `stored: true` rows: 05_ 2→20, 01_ 2→3,
+03_ 0→6, 04_ 0→5, 02_ 0→2, 06_ 0→2.)
 
 ## What is here
 
@@ -40,7 +51,12 @@ inventory's.
 * `D1_ASSEMBLY_v2_2.md`: "**Artifact:** D1-ASM-20260915-v2.2 … This v2.2 is the current strongest form and supersedes all prior status lines." §5: "**Strongest conditional theorem:** Theorem D1 v2.2(2) — 1 − q(r, 6/5) ≤ C·r³ for all 0 < r ≤ r₀ (r₀ existential), conditional on five named validity premises." §3: "**OPEN — VALIDITY premises of Theorem (2):** OBL-D1-PROMOTE (H5 lane + D1; sub-obligations OBL-H5-JETMOD / OBL-H5-ZBAND / OBL-H5-REMOTE-THRESHOLD); D3-LEMMA-RN-UNIF (rung + uniform parts; foundations); PERC-DECAY (B1.dir-far, B2-far, B4.rem; percolation lane); OBL-B1-BRANCH(loop|B1) (branch-control lane; constant-level); **the B4.loc dam-line tube certificate** (… asserted-not-established — scope ruling V2 …)". `claims/graph.json` adds, of the rung: "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed."
 * `D1_ASSEMBLY_v2_2_REGISTER_NOTE.md`: "**Scope:** register actions only — the frozen v2.2 body (490ad6b2…) is NOT altered; everything below takes effect at the next issuance (v2.3)."
 * `D1_ASSEMBLY_v2_3_DRAFT.md`: "**Agent:** Claude (Anthropic family) acting for the assembly role while Kimi is dark (2026-09-15 → 09-30). **Status:** PROPOSED." — "v2.2 remains the last Kimi-issued form; this v2.3 becomes the current strongest form only upon operator promotion." — §5: "conditional on **TWO** named validity premises: OBL-D1-PROMOTE, D3-LEMMA-RN-UNIF."
-* `H5_ZBAND_CONSUMPTION_2026-09-15.md`: "AUTHOR: Claude (Anthropic) · CLASS: OBL-DISCHARGE (H5 promotion lane, sub-obligation) · STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: OBL-H5-ZBAND OPEN → DISCHARGED (consumption grade) upon promotion; no theorem statement changes; no frozen carrier edited."
+* `H5_ZBAND_CONSUMPTION_2026-09-15.md`: "AUTHOR: Claude (Anthropic) · CLASS: OBL-DISCHARGE (H5 promotion lane, sub-obligation) · STATUS: PROPOSED" · "AUTHORITY: none · CANONICAL IMPACT: OBL-H5-ZBAND OPEN → DISCHARGED (consumption grade) upon promotion; no theorem statement changes; no frozen carrier edited." (the file breaks the line after "STATUS: PROPOSED"; the middot between the two spans above is this README's, not the file's).
+
+Until 2026-09-20 that last bullet was one span, reading "AUTHOR: Claude (Anthropic) · CLASS: OBL-DISCHARGE
+(H5 promotion lane, sub-obligation) · STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: OBL-H5-ZBAND
+OPEN → DISCHARGED (consumption grade) upon promotion; no theorem statement changes; no frozen carrier
+edited." — a middot run in where the file breaks the line.
 
 The v2.3 draft and the H5_ZBAND note are **proposals**. The status this repository carries for Theorem
 D1 v2.2(2) is the register's: five validity premises OPEN, `D3-LEMMA-RN-UNIF` not closed
@@ -77,10 +93,12 @@ SHA-256 `488b1b0c…`, Drive `16o9u_KgysJv9lnR93PNXCqc-MdrW9QL6`), byte-exact
 against the inventory. Its header: "STATUS: PROPOSED · AUTHORITY: none ·
 CANONICAL IMPACT: NONE — the lemma is NOT closed by this document." It is the
 source of the `chi2_grad_bound` slack record in `research/slack/registry.py`
-("`chi2_grad_bound` = 1.57e14 with χ² = 1.94e-6"; "True |∇χ²| at (5,0) … 1.563e-5
+("`chi2_grad_bound` = 1.57e14 with χ² = 1.94e-6"; "**True |∇χ²| at (5,0) … 1.563e-5**
 (vs the engine's bound 1.57e14 — 1e19 slack)"; "the adaptive polar certifier is
-defined and never invoked"; "its driver is likewise unwritten"). D3-LEMMA-RN-UNIF
-stays OPEN; nothing here closes it.
+defined and never invoked"; "its driver is likewise unwritten"). Until 2026-09-20 the second of those
+quotations dropped the source's bold, which opens at `True` and closes immediately
+before ` (vs`, so the span as rendered was not byte-verbatim; the words were
+unchanged. D3-LEMMA-RN-UNIF stays OPEN; nothing here closes it.
 
 ## 2026-09-19 — lane completion pass (33 further objects, all byte-exact)
 
@@ -102,14 +120,14 @@ Nothing already in this directory was modified; rows were appended and this sect
 * `CL-OBL-001_H5-ZBAND_DISCHARGE_AND_RN-UNIF_WORK_ORDER_2026-09-15.md`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE until the owning lanes consume/execute." · "NOTE 2026-09-16: … §2 and Appendix A are SUPERSEDED by CL-RNU-001 … Retained as the record of the reasoning that led there."
 * `00_LANDING_NOTE.md`: "All PROPOSED, non-authoritative, no frozen carrier edited."
 * `CURRENT_STATE_DELTA_2026-09-15.md`: "The matching 2D upper theorem is NOT closed at unconditional all-small-r theorem grade." · "historical v2.0/v2.1 failure findings remain provenance, not current authority." It is ported **as the dated 2026-09-15 return note it is**, not as the current premise list: `00_LANDING_NOTE.md` says it "is superseded by the register note in the same folder", and `CL-ERR-001` E6 calls it stale.
-* `CL-ERR-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE — **no theorem in the tree is weakened by any item**."
+* `CL-ERR-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE — **no theorem in the tree is weakened by any item**; every item is a label, display, or provenance defect with conservative or non-operative polarity."
 * `CL-AUD-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE (confirms; asserts no new theorem content)" · "Nothing here bears on the mathematical validity of the frozen theorem bodies beyond what their own gates check; those bodies were not re-derived line by line."
-* `CL-LEDGER-001`: "STATUS: PROPOSED (for the operator to append; the frozen ledger is not edited) · AUTHORITY: none."
+* `CL-LEDGER-001`: "STATUS: PROPOSED (for the operator to append; the frozen ledger is not edited) · AUTHORITY: none" — the line ends there, with no terminal period.
 * `CL-REG-001`: "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE (record-integrity only; no theorem content)"; one claim is "**UNRESOLVED** — none of 9 candidate rules reproduces it".
-* `CL-PIN-001`: "CAVEAT: these are the bytes present at snapshot time. They are NOT certified to be the bytes that generated the rung-2/3 banks." (the file breaks the line after "generated")
+* `CL-PIN-001`: "CAVEAT: these are the bytes present at snapshot time. They are NOT certified to be the bytes that generated the rung-2/3 banks." (the file is a commented header block: it breaks the line after "generated", and the continuation resumes after a `#` and six spaces, so the span above is joined across that prefix as well as the break).
 * `CL-GROK-CLOSE-001`: "This closes the **session work**, not D3-LEMMA-RN-UNIF, not D1 v2.3, not any prize problem." · "`NOT-CLAIMED` for all theorems." · "The research program itself is **not** CORE-CLOSED." · loose end 2: "Scale-T₄ cell CLOSE rows in `RNU_EXECUTE_RECEIPT.json` — must not be cited as certified cells."
-* `CL-RNU-002`: "STATUS: PROPOSED / AUTHORITY: none · CANONICAL IMPACT: NONE (the lemma is not closed; this is certified-numerics infrastructure)."
-* `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` (quoted from the bytes fetched on 2026-09-19; the file is NOT stored here — its payload is the one quarantine key `Q-RN5-MOMENT-004` names, so its row is tree-only and these two sentences cannot be re-verified from this directory): "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE yet" · "Nothing here changes a frozen carrier."
+* `CL-RNU-002`: "STATUS: PROPOSED" · "AUTHORITY: none · CANONICAL IMPACT: NONE (the lemma is not closed; this is certified-numerics infrastructure)" (the file breaks the line after "STATUS: PROPOSED", and the second line ends without a period).
+* `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` — read on 2026-09-19 and deliberately NOT stored (its payload is the one quarantine key `Q-RN5-MOMENT-004` names, so its row is tree-only). No byte in this repository carries its words, so they are not put in quotation marks: as this repository recorded them at the time, its header gave STATUS: PROPOSED, AUTHORITY: none, CANONICAL IMPACT: NONE yet, and it stated that nothing in it changes a frozen carrier. Neither statement can be re-verified from this directory.
 * `CL-RNU-003_T4_PUSH_2026-09-16.md`: "STATUS: PROPOSED. D3-LEMMA-RN-UNIF is NOT closed. AUTHORITY: none. Frozen engine not edited." · of its T₄: "This is a **candidate** … That implication is not proved."
 * `RNU_EXECUTE_RECEIPT.json` / `.md`: `"status": "PROPOSED"`, `"lemma_closed": false`; "T4 used here is INTERNAL scale envelope 1.853e+4, not env_form."
 * `RNU_T4_PUSH_RECEIPT.json`: `"status": "PROPOSED"`, `"lemma_closed": false`; "Wick/Bures/ratio 4-jets are NOT separately certified."
@@ -121,6 +139,19 @@ Nothing already in this directory was modified; rows were appended and this sect
 * `H4_JC_EVENT_LEVEL.md`: "Theorem H4-JC as frozen in H4_CLOSURE.md §2.3 (body `a67d50b9…`) is FALSE as stated" (joined across the file's line break; the file has no backticks around the file name) · "Frozen carriers are untouched."
 * `PERC_DECAY.md`: "**The o(r³)-order reading of the far lanes is NOT reachable with this lane's machinery, and the registered percolation-decay input would not deliver it either.**" · "The far lanes are **Θ(r³), not o(r³)**".
 * `CL-MIRROR-001_MANIFEST.sha256`: "These are NOT new artifacts … Any copy landed here must re-hash to the value on its row before it is cited."
+
+Until 2026-09-20 five of those bullets departed from the bytes they quote, as follows.
+`CL-ERR-001` read "STATUS: PROPOSED · AUTHORITY: none · CANONICAL IMPACT: NONE — **no theorem in the tree
+is weakened by any item**." — a period where the file has a semicolon, and the rest of the sentence
+dropped without an ellipsis. `CL-LEDGER-001` ended "STATUS: PROPOSED (for the operator to append; the
+frozen ledger is not edited) · AUTHORITY: none." with a terminal period the line does not carry.
+`CL-PIN-001` disclosed the line break only, not the comment marker its continuation line begins with.
+`CL-RNU-002` read "STATUS: PROPOSED / AUTHORITY: none · CANONICAL IMPACT: NONE (the lemma is not closed;
+this is certified-numerics infrastructure)." — an invented " / " where the file breaks the line,
+inconsistent with the middot the same README had run into the H5_ZBAND banner for the identical situation,
+and again a terminal period the file does not carry. And the `CL-RNU-003_PIECE1` bullet put its two
+sentences in quotation marks under a heading that says verbatim, although no byte in this repository
+carries them.
 
 Every "DISCHARGED", "CLOSED", "ADJUDICATED YES", "TWO premises" or "current strongest form" sentence in
 these documents belongs to that PROPOSED tier or to a register note "effective at the next issuance".
@@ -137,7 +168,9 @@ RN_UNIF documents and receipts in `RN_UNIF_2026-09-16/`, including `rnu_execute.
 `FREEZE_H5_ZBAND.txt`; the five Stage-E reviews and the two H4 event-level repair files; and
 `PERC_DECAY.md` with `CL-MIRROR-001_MANIFEST.sha256` (stored as `…​.sha256.txt`) in `06_`.
 
-Deliberately not ported, recorded as `stored:false` rows in the manifests:
+Deliberately not ported. The first two carry `stored:false` rows in the manifests; the last two have no
+manifest row at all. Until 2026-09-20 this line read "Deliberately not ported, recorded as
+`stored:false` rows in the manifests:", which is true of the first two bullets only.
 
 * `d1_falsify_v4.py` (`1uTcWaYLtJUszT7iBEWzI1Xa6J7_nw9E6`, 20,558 B) — the gap that wants these bytes
   targets `engine/carriers/blobs/`, which another agent owns; this mirror writes only under its own
@@ -150,17 +183,32 @@ Deliberately not ported, recorded as `stored:false` rows in the manifests:
 * The RN_UNIF-folder duplicate of `CL-GROK-CLOSE-001` (`1Y_3zFonLsFIAHP5KSkUfsJXqHZXIUAL2`,
   quarantine `Q-R17-DUP-001`, EXACT_DUPLICATE) — only the keeper `1Hc8…` is here.
 * `rnu_ds3_scalar_SUPERSEDED.py` (`1v7JAh_FbXHYMaL7W6DNwEoLnHPwQ5U21`, quarantine `Q-R17-RN-OLD`,
-  SUPERSEDED) — not mirrored and not consumable; "Source portfolio explicitly retires scalar DS3."
+  SUPERSEDED) — not mirrored and not consumable. The `Q-R17-RN-OLD` reason cell in
+  `registers/json/quarantine_index.json` and `quarantine/EXCLUSIONS.json` reads "Source portfolio
+  explicitly retires scalar DS3; different content, not duplicate". Until 2026-09-20 this quoted it as "Source portfolio
+  explicitly retires scalar DS3." — a period where the cell has a semicolon, and the rest of it dropped.
+
+Five further files the 2026-09-17 inventory lists under `05_` are neither stored nor given a row here:
+`h5_zband_consume.py`, `rnu_chi2_white_v2.py`, `rnu_ds3.py`, `rnu_meanfix.py` and `rnu_t4_push.py`. With
+`d1_falsify_v4.py`, `rnu_ds3_scalar_SUPERSEDED.py` and `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md`
+they are the whole difference between the 28 files the inventory lists under `05_` and the 20 stored here.
+Until 2026-09-20 this section named none of the five.
 
 `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` is **not** stored, and its row in
 `RN_UNIF_2026-09-16/_MANIFEST.jsonl` is `stored:false`. It is under quarantine `Q-RN5-MOMENT-004`,
 class DEFECTIVE_SCOPE, scope "Section 3 claim that the near integrand with sqrt(E dy^4) is certified, and
 the derived near/remote forecasts. Far progress and declared partial coverage are retained." The audit's
 gap list suggested mirroring the bytes with the exclusion key attached, but `tools/quarantine_check.py`
-invariant 3 forbids an excluded payload digest from appearing in **any** repository manifest, and that
-firewall outranks the suggestion: the bytes were fetched, hashed to the inventory digest, and then
-removed rather than carried. The exclusion is enforced here, not annotated. Its successor object is
+invariant 3 refuses an excluded payload digest as the `sha256` of a manifest row — the digest of bytes
+this repository stores — and that firewall outranks the suggestion: the bytes were fetched, hashed to the
+inventory digest, and then removed rather than carried. The row does annotate the exclusion, at length:
+the key, class, scope, restoration test and successor, and the digest itself under `inventory_sha256`.
+Annotating is what the checker leaves open; storing the payload is what it closes. The successor object is
 mirrored in `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_NEAR_MOMENT_REPAIR.md`.
+Until 2026-09-20 this passage said invariant 3 "forbids an excluded payload digest from appearing in
+**any** repository manifest", and closed "The exclusion is enforced here, not annotated." The row it
+describes contradicts both: that digest is in this very manifest twice, as `inventory_sha256` and again
+inside the `note`, and `tools/quarantine_check.py` passes.
 
 Two body digests were reproduced from the stored bytes and agree with the digest their own lane
 declares elsewhere: `PERC_DECAY.md` → 7,409 B `5137a811…` under rule `marker_raw` (the rule
@@ -180,12 +228,43 @@ Piece 2 remain OPEN with receipts at `lemma_closed: false`, and OBL-D1-PROMOTE, 
 OBL-H5-ZBAND and OBL-H5-REMOTE-THRESHOLD remain OPEN. The H5 rung certificates certify their own rungs
 and discharge nothing. The Stage-E reviews are same-program reviews at zero organizational-independence
 credit, their FAIL verdicts are on v2.0/v2.1 and are provenance rather than current authority, and no
-review route moves. `rnu_execute.py.txt` and the two zips are inert bytes: nothing was executed,
-nothing was extracted, no test, workflow step or import in this repository reads them, and no bound
-carrier was registered. No 2D upper object here is composed with the 3D SIDE24 track
-(CL-STATE-001: "3D — separate family … firewall holds"), and no original prize problem is touched.
+review route moves. `rnu_execute.py.txt` is inert bytes: nothing was executed, no test, workflow step or
+import in this repository reads it, and no bound carrier was registered. The lane's one archive, the 30 MB
+`09152026OKComputer_Project_Gap_Closure.zip`, is not stored and nothing was extracted from it. No 2D upper
+object here is composed with the 3D SIDE24 track (CL-STATE-001: "3D — separate family … firewall holds"),
+and no original prize problem is touched. Until 2026-09-20 this paragraph read "`rnu_execute.py.txt` and
+the two zips are inert bytes"; this directory stores no archive at all.
 
-Reading copies (`exact: false`) are not the objects: the only non-exact entries in this directory are
-the derived `*.zip.members.txt` listings, which are written here and are not Drive objects. A PDF
-rendering of any of these documents would not be a frozen body either; the frozen body is the
+Reading copies (`exact: false`) are not the objects, and this directory holds none: every one of the 38
+stored rows is `exact: true`, and the only `exact: false` rows are the three `stored: false` ones, which
+carry no bytes at all. Until 2026-09-20 this sentence read "the only non-exact entries in this
+directory are the derived `*.zip.members.txt` listings, which are written here and are not Drive objects";
+this lane stores no such listing, and no archive of its own.
+A PDF rendering of any of these documents would not be a frozen body either; the frozen body is the
 marker-delimited byte range of the object itself, under the rule its own lane names.
+
+
+## 2026-09-20 — the digest-bearing remainder: 6 files byte-exact
+
+The last 6 digest-bearing items of this lane are stored byte-exact, all of them
+Python sources of the RN-uniform and H5 z-band work. The lane's digest-bearing
+gap is now zero.
+
+Each file was fetched through the Drive connector and decoded to disk from the
+session transcript, or from the file the harness spills an oversize tool result
+to, so no model retyped a byte; a file was written only when its SHA-256 and
+byte count already equalled the ones the 2026-09-17 inventory declares, and
+every stored file was re-hashed from disk again by the process that wrote its
+manifest row. **Zero mismatches.**
+
+**The obligations this lane touches are OPEN.** `OBL-H5-ZBAND` and both pieces of
+`D3-LEMMA-RN-UNIF` are open in the register, and nothing stored here changes
+that. Some of these files carry status strings of their own — a *consumption
+certificate* line, a `LEMMA_CLOSED=NO`, a `status: PROPOSED` — and those are
+quoted bytes inside a mirrored file. They are transcribed from no register, they
+carry no status in this repository, and they license nothing.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate or theorem. A file named for a
+consumption or a discharge does not discharge anything by being held here.

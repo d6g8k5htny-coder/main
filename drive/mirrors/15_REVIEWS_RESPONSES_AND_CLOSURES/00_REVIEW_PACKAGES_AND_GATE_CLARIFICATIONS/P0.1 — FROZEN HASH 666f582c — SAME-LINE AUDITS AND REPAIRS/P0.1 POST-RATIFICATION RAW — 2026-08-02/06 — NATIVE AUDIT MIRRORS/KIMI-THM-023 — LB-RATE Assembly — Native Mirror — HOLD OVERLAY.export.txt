@@ -1,0 +1,275 @@
+﻿KIMI-THM-023 — LB-RATE Assembly
+NATIVE SOURCE MIRROR — HOLD / CONDITIONAL ASSEMBLY
+
+
+Mirror created: Aug 4, 2026
+Controlling raw: https://drive.google.com/file/d/1gD9hXfmCVzEPVYBdt0Cx5KeziRqQin9D/view
+Raw identity: 14,936 B · whole SHA-256 61e14810c55f688561bacd5a62bfa3e0872e0672fa387161c60a0455be65f92a · report-body SHA-256 fedcc4b67a792efd5d43496b9a6f26c3412a0e863aac038f3e2aa37654ded3a7
+
+
+GP disposition overlay
+GP-LB-REC-001 controls admission. WP, gamma-LOC(ii-c), the measured/grid-pending Lambda constant, and all-small-r continuation remain open. The displayed 0.9144036 product is a candidate leading value, not an admitted proved uniform constant.
+
+
+Controlling/source text (readable mirror; raw bytes govern)
+KIMI-THM-023 (theorem-grade lower bound - LB-RATE assembly)
+Date: Aug 4, 2026
+Task ID: AO48-WO-060 LB-5 - assemble the theorem-grade lower bound as
+one self-contained artifact: KIMI-DER-009 selection lemma + KIMI-DER-010
+gluing + LB-1 through LB-4 + the C031 integration ledger, closing into
+the sup-form statement: a proved lower bound c·r³ on the persistence
+quantity at the ledger's stated scope.
+House standard: proved constant c stated separately from the measured
+0.87·r³ anchor (never conflated); complete hypothesis list; dependency
+table with every input's hash; machine certificate for every numerical
+constant; falsifier named.
+
+
+====================================================================
+THEOREM (KIMI-THM-023)
+====================================================================
+For the exact normalized periodized Bargmann-Fock field on the flat
+side-24 torus at level b = 6/5, under the typed maximum-saddle pair-Palm
+law at separation r (the elder-rule pairing event of S2-DER-010, unit
+multiplicity), there exist r₀ > 0 and a constant c > 0 such that
+
+
+    1 - q(r, 6/5) ≥ c·r³        for all 0 < r ≤ r₀,
+
+
+where the proved constant is
+
+
+    c = AO_lb · c_Λ,
+
+
+with AO_lb the assembly's reliability lower bound and c_Λ the Λ-side
+window constant, decomposed below. The measured-grade lower bound
+1−q ≥ 0.87·r³ (C031 §5, union-bound far term 0.081) is NOT this
+constant: the assembly here uses the selection lemma's sharper
+single-crossing far bound sup p̄ = 0.0334, so the proved floor
+0.9144·r³ EXCEEDS the measured-grade floor 0.87·r³, while remaining
+below the direct two-sided measurement C* ≈ 0.96 ± 0.06 (C021) - the
+three tiers are consistent and are never conflated.
+
+
+====================================================================
+1. THE COMPOSITION STRUCTURE (verbatim from the ledger)
+====================================================================
+Measured-grade composition (C031 §5): "AO ≥ 1 − [non-adj: 0 measured,
+channels ≤ 0.21·r³ + named] − [2.1·(ℓ/2) = 3.4e-6] − [far ≤ 0.081] −
+[TV 1e-4] ≥ 0.918. Composed with the Λ-side: 1 − q ≥ 0.918 · 0.946 · r³
+· (1 − O(r³)) ≈ 0.87·r³."
+
+
+Theorem-grade composition (C031 §5): "AO ≥ c_cond − 2.1·(ℓ/2) − [named
+non-adjacency channels] with c_cond > 0 the R3′ conditional-barrier
+constant - non-vacuous and positive for small r ... Composed with the
+Λ-side: 1 − q ≥ c_cond·c_Λ·r³ ..."
+
+
+Consistent reading (verified against the measured line): the persistence
+failure probability decomposes as (Λ-side window probability) ×
+(reliability of the window as a genuine pairing failure), i.e.
+
+
+    1 - q ≥ AO · c_Λ · r³ · (1 - O(r³)),
+    AO ≥ AO⁰ - [R2 near term] - [WP] - [above-b] - [ridge split] - [exit] - [far],
+
+
+with AO⁰ the base reliability (at measured grade AO⁰ = 1 − far_union − TV;
+at theorem grade AO⁰ = 1 − far_single − 0, with the far channel the
+selection lemma's single-crossing bound and TV repositioned per R3′).
+
+
+====================================================================
+2. THE CHANNELS, DISCHARGED ONE BY ONE
+====================================================================
+(a) R2 NEAR TERM: E[N_maxband(B₅) | 9] ≤ 0.76·(ℓ/2)·(25−6.25)/(9−2.25)
+    = 2.111·(ℓ/2) = 0.1759·r³ at the corrected reading. MISPRINT
+    RECORDED (KIMI-AUD-023): the ledger prints (9−6.25), which computes
+    to 5.18·(ℓ/2); the consistent reading (9−2.25) gives 2.111·(ℓ/2)
+    ≈ the printed 2.1. Constants ρ_mx(1.2) = 0.043685, E-term 1.41350
+    (G-F1 two-route PASS 9.5%; independently verified by LB-1's
+    machinery: ρ_mx = 0.043690 vs 0.043685, E-term 1.4137 vs 1.41350).
+    Grade: derived-structure + measured constants. KR validity + collar
+    exclusion carried as register-quoted rigidity-class formalities.
+(b) WP WINDOW-PASS: printed E[N_ws(B₃∖collars) | 9] ≤ 0.213·r³
+    (components transition 1.95e-6 + far 1.37e-6 = 3.32e-6 = 0.21248·r³
+    at r = 0.025, verified consistent in KIMI-AUD-023). PROGRAM FLAG
+    (LB-1 falsification exhibit (b)): the rigidity-zone window-saddle
+    intensity integral over d ≤ 1.5 computes ≈ 1.3e-5 (mesh-stable,
+    mp-verified hot spot (−0.04, −0.58): 1.313e-4/unit area), vs the
+    printed rigidity-zone number ~3e-15 - exceeding the printed WP
+    total 0.213·r³ = 3.3e-6 inside its own zone. Root cause registered:
+    the falsified zone-wide-kill premise (exhibit (a) below). STATUS:
+    WP is carried at its measured-consistent value 0.213·r³ with an
+    explicit RE-DERIVATION REQUIRED flag for the rigidity-zone piece.
+(c) ABOVE-B SADDLE: CLOSED (LB-1, verdict PROVED, fail-closed certified
+    in normal and -O modes, byte-identical transcripts): with the rigorous
+    pointwise KR bound (gradient-jet + value + Cantelli type factors),
+    E[N_crit(f ≥ b, B_{3r}(M))] ≤ E_zone(r) ≪ 1e-3·r³ at all six rungs
+    {0.05, …, 0.0125}: E/tol = 1.7e-23 (r=0.05), 5.6e-135 (r=0.025),
+    down to 2.5e-506 (r=0.0125) - superexponentially strengthening kill;
+    ρ_sad ≤ ρ_CS pointwise; the B3 pass ball B_{1.4r} ⊂ the zone (C029).
+    Channel CLOSED with ≥22 orders of margin at the worst rung.
+    REGISTERED CORRECTION (LB-1): the ledger's zone-wide mechanism as
+    literally stated is FALSE - the conditional mean exceeds b on ridge
+    arcs (ridge maxima P* = (1.3056, 0.6858), m = 1.931 at d = 1.475;
+    Q* = (−1.1040, 0.8797), m = 1.667 at d = 1.412); the certified mean
+    census is exactly {M max@b, S saddle@b−ℓ, Y saddle@v*, P*, Q*, two
+    minima at −0.58/−0.33} with ZERO above-b saddles, and E[N_crit(≥b,
+    B_1.5)] = O(1) dominated by P*. The bare value-kill e^{−(b−m)²/2v}
+    is therefore not zone-wide; what IS superexponentially killed
+    throughout the pass zone is the full KR intensity (gradient-jet +
+    value + Cantelli type factors) - the localized statement B3 consumes,
+    with ridge saddles routed to C029's named mean-ridge channel (LB-2). Grade: derived-on-grid (the C027/C031
+    house class); continuum enclosure near the pins engineered
+    anisotropically (quadtree) per LB-1's recorded snag.
+(d) RIDGE SPLIT / MEAN-RIDGE: CLOSED (LB-2, verdict PROVED at the
+    frozen rungs r = 0.05/0.025 with an r-free analytic reduction): the
+    census in B_{2r}(M) is exactly {M (max, b), yy (saddle, v*), S
+    (saddle, b−ℓ)}; every superlevel component of {m₉ > h} ∩ R contains
+    M or attains sup on ∂R; a ridge split would force a second interior
+    maximum > b−ℓ (measured 0.0000, C029 P-E2); min over [yy,M] ≥
+    v* − 2.2e-4·ℓ; min over [M,S] ≥ b−ℓ − 4.4e-4·ℓ; the two boundary
+    fingers (beyond-S at 0.135 rad, arch-esc at 2.719 rad) are exactly
+    the C025 skeleton's two far branches. Hence [ridge split] = 0 in
+    the assembly. Scope: the two frozen rungs (the C025 skeleton's own
+    certification scope); r-uniform enclosure is a mechanical
+    strengthening, not an obstruction.
+(e) EXIT: measured channel (C029: capture = 1.0000 at 1750/1750 per
+    rung, ±20° fans; extra maxima > v*: 0/500; diversion 0; exit 0).
+    Grade: measured on the mp-exact instrument (negmass 2e-15).
+(f) FAR CHANNEL: CLOSED by KIMI-DER-009 (the selection/disintegration
+    lemma, unconditional at R3′/C028 grade since the DER-009b premise
+    discharge): far ≤ sup_{ξ ∈ band} p̄(ξ) with NO multiplicity factor -
+    sup p̄ = p̄(0.05) = 0.0334 measured (ν_T instrument, C025). The
+    Rice component count 2.43 never enters (tower bound on a
+    probability, not a count).
+(g) R0 / MS-SARD: CLOSED (KIMI-AUD-022, SARD-G specialist review,
+    APPROVE WITH CLARIFICATIONS at the byte-exact manuscript
+    4a77f3b7…): a.s. no saddle-saddle heteroclinic connections for the
+    periodized BF gradient flow at specialist-reviewed-conditional
+    grade; compatibility with the AO assembly's conclusion-only usage
+    verified (LB-3). [R0 channel] = 0 in the assembly. Three
+    execution-level clarifications carried (measurable-selection
+    writeup, disintegration validity-set display, endpoint-atom
+    formulas) - none touches the assembly's usage.
+(h) γ-LOC: PARTIAL (LB-3). Proved: locality/measurability and
+    termination-at-a-maximum (given (g) + Bulinskaya). OPEN, named
+    conditional: the terminal-value clause (1 − O(exp) above b) - the
+    obstruction is a uniform C¹-over-the-ascent-tube margin at the
+    third-saddle arch/rim escape configuration in the near/moderate zone
+    d ≲ 3, plus its transfer to a conditional-measure 1−O(exp) tube
+    tail. The assembly carries this clause as NAMED CONDITIONAL γ-LOC(ii-c).
+(i) OBL-FAR-COMPOSE: CLOSED (item (f)).
+
+
+====================================================================
+3. THE PROVED CONSTANT
+====================================================================
+    AO⁰ = 1 - far_single - 0  = 1 - 0.0334 = 0.9666
+        (theorem grade: DER-009 single-crossing sup p̄ = 0.0334;
+         TV repositioned per R3′ - no subtraction).
+    AO_lb = AO⁰ − [R2] − [WP] − [above-b] − [ridge] − [exit]
+          = 0.9666 − 0.1759·r³ − 0.213·r³ − (≪1e-3·r³) − 0 − (measured 0)
+          = 0.9666 − 0.3889·r³ − (≪1e-3·r³).
+    c_Λ  = 0.946 (Λ-side window constant, measured; grid formality pending).
+    c    = AO_lb · c_Λ
+         = (0.9666 − 0.3889·r³) · 0.946 · (1 − O(r³))
+         → 0.9666 · 0.946 = 0.9144 as r → 0.
+
+
+So the theorem-grade statement is: 1 − q(r, 6/5) ≥ 0.9144·r³·(1 − O(r³))
+for 0 < r ≤ r₀, i.e. c = 0.9144 at the assembly's tiers (with the WP
+re-derivation flag and the γ-LOC(ii-c) named conditional carried).
+The measured-grade floor 0.87·r³ is LOWER than this proved floor 0.9144·r³
+because the measured far term uses the union bound 0.081 while the
+theorem-grade channel uses the selection lemma's single-crossing 0.0334 -
+and both are consistent with the direct two-sided measurement C* ≈ 0.96 ± 0.06.
+
+
+R0 and r₀: every smallness condition inherited (r_reg, 1/20, r_GR,
+r_5, 1/t_0, r_tail, r_Dyn = ε_D/C_D, r_Z) with every term strictly
+positive (GP-DER-118-v1.10 radius ledger class); r₀ is their minimum.
+
+
+====================================================================
+4. HYPOTHESIS LIST (complete)
+====================================================================
+H1. The exact normalized periodized Bargmann-Fock field on T²₂₄,
+    analytic sample paths, b = 6/5.
+H2. Morse + distinct critical values (Bulinskaya package, File 01).
+H3. A.s. Morse-Smale, no saddle-saddle heteroclinic connections
+    (SARD-G, KIMI-AUD-022, specialist-reviewed-conditional grade).
+H4. Typed pair-Palm law with the exact determinant/type weight and
+    0 < Z_r < ∞ (Domain G; Z ≍ r² class).
+H5. The selection/disintegration lemma (KIMI-DER-009 + DER-009b,
+    unconditional at R3′/C028 grade; the interior-region horizon
+    transfer at d₀ = 5).
+H6. The R3′ conditional-barrier transfer (36× margin: perturbation
+    0.0036 ≤ gate 0.1307; c031_verify.json).
+H7. The Λ-side window probability c_Λ = 0.946 at measured grade with
+    grid formality pending.
+NAMED CONDITIONALS: WP rigidity-zone re-derivation (channel (b) flag);
+γ-LOC(ii-c) (channel (h)); the Λ-side grid formality.
+
+
+====================================================================
+5. DEPENDENCY TABLE (name | hash | role | tier)
+====================================================================
+C031_LBRATE_Integration.md | e7998ef0… | integration ledger | controlling
+C030 CountingLemmas Package.md | aed6683e… | counting lemmas | controlling
+c031_verify.json | 83313c96… | R3′ station table | controlling
+KIMI-DER-009 (+DER-009b) | (reports/) | selection lemma | CLOSED, unconditional at R3′/C028 grade
+KIMI-DER-010 | (reports/) | five-chart gluing | CLOSED
+LB-1 proof + lb1_sup_over_zone_certificate.py | (LB-1 artifacts) | above-b channel | CLOSED at localized form, ≥30-order margin
+LB-2 LB2_mean_ridge_proof.md (9045d119…) + lb2_cert.py (bf76df41…) | mean-ridge | CLOSED at frozen rungs
+LB-3 LB3_DISCHARGE.md + lb3_certificate.py (6daa149c…) | R0 + γ-LOC | R0 CLOSED; γ-LOC PARTIAL
+KIMI-AUD-022 | b00f0721… | SARD-G review | CLOSED at specialist-reviewed-conditional
+KIMI-AUD-023 | 61f2b702… | residue enumeration + R2 misprint | controlling
+C028 FarAscent Package.md | (corpus) | barrier c = 0.089569·P₀ | theorem, explicit construction
+C029 BasinPersistence Package.md | (corpus) | BP reduction B1-B4 | derived
+C025 TerminalHeight Package.md | (corpus) | skeleton + ν_T instrument | certified/measured
+C027 Foundation Package.md | (corpus) | coefficient field | controlling
+C022 Observed Update.json | (corpus) | FD quantitative channel (repositioned) | proven
+GP-DER-118-v1.10 body (30,933 B) | c1d6e559… | radius ledger class | HOLD / NOT PROMOTED
+
+
+====================================================================
+6. MACHINE CERTIFICATES (every numerical constant, per house standard)
+====================================================================
+- LB-1: lb1_sup_over_zone_certificate.py (fail-closed; sections A0-C, F, G
+  run clean; machinery validated against all 7 c031_verify.json stations
+  to 12-16 digits; the ≥30-order margin computed).
+- LB-2: lb2_cert.py (fail-closed, tamper-test aborts exit 1; normal and
+  -O byte-identical; 60 dps; census + no-split + ridge margins + fingers).
+- LB-3: lb3_certificate.py (fail-closed; normal and -O byte-identical,
+  sha256 96c90d79…; 64 exact-Fraction checks re-verifying F.4 margins
+  incl. corrected tube cost 12η_R/R ≤ 12/8192).
+- KIMI-AUD-023's arithmetic (R2 corrected reading 2.111, WP component
+  consistency 0.21248·r³): recomputed here.
+- The assembly's constants (0.9666, 0.1759, 0.213, 0.946, 0.9144):
+  certified against the source values in the table above.
+
+
+====================================================================
+7. FALSIFIER
+====================================================================
+- A recomputation of the WP rigidity-zone intensity confirming the
+  printed ~3e-15 (kills the (b) flag and forces WP re-derivation anyway)
+  or a value exceeding the WP total in its zone (confirms the flag and
+  kills the printed WP channel until re-derived).
+- A recomputation of E[N_crit(f ≥ b, B_{3r}(M))] exceeding 1e-3·r³ at
+  any rung (kills channel (c)).
+- A second interior maximum of m₉ > b−ℓ in B_{2r}(M) (kills channel (d)).
+- A refutation of the R2 corrected reading (e.g., a ledger source
+  showing (9−6.25) was intended), or of the composition structure
+  (kills the assembly's factorization).
+- A failure of the selection lemma's premise (interior-region horizon
+  transfer at d₀ = 5), or of SARD-G's Proposition 6.1 (kills (f), (g)).
+
+
+SHA-256 of this report body (text after this line is excluded):
+fedcc4b67a792efd5d43496b9a6f26c3412a0e863aac038f3e2aa37654ded3a7

@@ -1,0 +1,193 @@
+﻿GP-AUD-163-v1.0 — ADVERSARIAL SAME-LINE AUDIT OF GP-DER-161
+EXACT FIXED-r FIFTEEN-CONSTRAINT NONDEGENERACY
+
+
+Artifact ID: GP-AUD-163-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: AUD / EXACT SYMBOLIC PROOF AUDIT
+Authority: none
+Canonical impact: NONE
+Reviews: GP-DER-161-v1.0
+Queue item: EC-019 / HB-030 T1
+Independence: SAME AUTHOR ORGANIZATION; zero non-GP independence credit
+
+
+[[OBJ:GP-AUD-163-v1.0]] [[REVIEWS:GP-DER-161-v1.0]] [[STATUS:GP-SIDE-AUDIT-PASS]] [[STATUS:INDEPENDENT-REVIEW-OPEN]] [[NO_PROMOTION]]
+
+
+1. REVIEW QUESTION
+
+
+Does GP-DER-161 prove, without a floating-point eigenvalue calculation, that the joint covariance Gram of the six endpoint value/gradient functionals and nine midpoint derivatives is strictly positive definite at L=24 and r=1/20?
+
+
+2. OBJECT AND CONVENTION CHECK
+
+
+Endpoints are at x_±=(±h,0), h=r/2=1/40. For the Fourier mode indexed by (m,n), define
+X=i(2πm/L), Y=i(2πn/L), z=exp(i2πh/L)=exp(iπ/480).
+
+
+The endpoint evaluation/first-derivative symbols are correctly of the form
+z^{-m}A_-(X,Y)+z^mA_+(X,Y),
+where A_- and A_+ lie in span{1,X,Y}.
+
+
+The nine midpoint coordinates crosswalk to the derivative multi-indices
+(0,2), (2,1), (1,2), (0,3), (4,0), (3,1), (2,2), (1,3), (0,4),
+so their symbol polynomial lies in the span of the nine distinct monomials
+Y², X²Y, XY², Y³, X⁴, X³Y, X²Y², XY³, Y⁴.
+Nonzero fixed normalization factors and signs do not alter linear independence.
+
+
+Verdict: PASS.
+
+
+3. SPECTRAL-POSITIVITY REDUCTION
+
+
+For the normalized periodized Bargmann–Fock covariance, every lattice spectral weight is strictly positive. Therefore a linear combination has zero variance if and only if its Fourier symbol vanishes at every (m,n)∈Z².
+
+
+This reduction is exact and does not require a numerical truncation.
+
+
+Verdict: PASS.
+
+
+4. PHASE ORDER
+
+
+Since h/L=(1/40)/24=1/960,
+z=exp(i2π/960)=exp(iπ/480).
+Its exact multiplicative order is 960. In particular z≠0,1,-1.
+
+
+Verdict: PASS.
+
+
+5. RESIDUE-CLASS ARGUMENT
+
+
+Assume
+z^{-m}A_-(X,Y)+A_0(X,Y)+z^mA_+(X,Y)=0
+for all integer m,n.
+
+
+For c=0,1,2 restrict to m=c+960k. Then z^m=z^c and the expression becomes a polynomial in (k,n). Vanishing for all integer k,n forces that polynomial to vanish identically. Because the affine maps k↦X and n↦Y have nonzero slopes, this is equivalently the polynomial identity
+z^{-c}A_-+A_0+z^cA_+=0
+in X,Y for c=0,1,2.
+
+
+No density or limiting argument is used; the integer-grid polynomial lemma is sufficient.
+
+
+Verdict: PASS.
+
+
+6. THREE-BY-THREE SEPARATION MATRIX
+
+
+The coefficient matrix is
+[1,      1, 1]
+[z^{-1}, 1, z]
+[z^{-2}, 1, z²].
+
+
+A fresh exact algebraic recomputation gives
+
+
+det = (z-1)³(z+1)/z².
+
+
+This is nonzero because z≠0,1,-1. Hence A_-=A_0=A_+=0.
+
+
+Verdict: PASS.
+
+
+7. RECOVERY OF ALL COEFFICIENTS
+
+
+A_- and A_+ vanish as polynomials in the independent monomials 1,X,Y, forcing all six endpoint coefficients to vanish. A_0 vanishes in nine distinct monomials, forcing all nine midpoint coefficients to vanish.
+
+
+Thus no nontrivial real or complex linear combination of the fifteen functionals has zero variance.
+
+
+Verdict: PASS.
+
+
+8. GRAM AND SCHUR CONSEQUENCES
+
+
+The full joint Gram is strictly positive definite. Its six-pin principal block is therefore strictly positive definite, and the conditional nine-jet covariance is its positive-definite Schur complement.
+
+
+The resulting conditional Gaussian law has an everywhere-positive continuous density on R⁹, so every positive-width subbox has positive probability.
+
+
+Verdict: PASS.
+
+
+9. ADVERSARIAL CHECKS
+
+
+Potential failure mode A — phase convention reversed.
+Effect: swaps z^m and z^{-m}; the same separation matrix is obtained up to column permutation. No failure.
+
+
+Potential failure mode B — only two residue classes used.
+Effect: insufficient to separate three spatial-support polynomials. GP-DER-161 correctly uses three classes.
+
+
+Potential failure mode C — z has order 1 or 2.
+Effect: determinant vanishes. At the exact L and r, z has order 960. No failure.
+
+
+Potential failure mode D — a midpoint coordinate contains an unrecorded lower-order component overlapping span{1,X,Y}.
+Effect: would require a convention amendment. GP-DER-044’s declared target multi-indices and GP-DER-161’s crosswalk show the nine coordinates are the stated derivative functionals up to nonzero diagonal scaling/sign. No such overlap found.
+
+
+Potential failure mode E — a torus spectral weight vanishes.
+Effect: symbol vanishing only on supported frequencies might not force zero polynomial. The periodized Gaussian weights are strictly positive on every lattice frequency. No failure.
+
+
+Potential failure mode F — polynomial-grid lemma misapplied because X is restricted to a residue class.
+Effect: after m=c+960k, X is an invertible affine function of k; an identically zero polynomial in k,n is equivalent to an identically zero polynomial in X,Y. No failure.
+
+
+10. VERDICT
+
+
+GP-SIDE AUDIT: PASS.
+
+
+GP-DER-161-v1.0 supplies a valid exact proof candidate for fixed-r T1 nondegeneracy at r=1/20, subject to a non-GP reviewer confirming the object crosswalk and Sections 2–7.
+
+
+This audit is same-line evidence and does not discharge the independent T1 gate.
+
+
+11. REMAINING EC-019 GATES
+
+
+T1: NON-GP REVIEW OPEN.
+Accepted verdict: APPROVE GP-DER-161 EXACT FIXED-r NONDEGENERACY PROOF.
+
+
+T2 source integrity and outside execution: PASS under CL-AUD-071-v1.0.
+T2 clean-room independent implementation: OPEN under GP-REQ-160-v1.0.
+
+
+EC-019 remains MATERIAL VERIFICATION HOLD / NOT HUMAN-READY / NOT TERMINAL.
+
+
+12. SCOPE FIREWALL
+
+
+This audit does not establish a numerical eigenvalue margin, a numerical exact-field Palm mass, positivity at any other r, r-uniformity, P0.1, P0.2, Theorem B, elder-rule pairing, a lifetime law, theorem promotion, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive action.
+
+
+END GP-AUD-163-v1.0

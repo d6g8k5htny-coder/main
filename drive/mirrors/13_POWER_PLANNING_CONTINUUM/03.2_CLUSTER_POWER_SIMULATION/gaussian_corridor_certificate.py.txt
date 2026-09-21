@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""
+gaussian_corridor_certificate.py
+
+Falsification and replacement framework for the C089 H4 corridor product.
+The exact finite-dimensional six-pin Gaussian law is evaluated at several
+checkpoint skeletons. The product q_step^n is compared with the actual joint
+orthant probability. A rigorous replacement theorem is recorded:
+
+    P(X >= t) <= exp(-theta.(t-mu)+.5 theta^T Sigma theta), theta >= 0.
+
+The CDF values are diagnostics rather than interval certificates. The theorem
+and explicit counterexample margins show that the Markov-product architecture
+cannot be used as a general proof rule.
+"""
+from __future__ import annotations
+import json, math
+from pathlib import Path
+import mpmath as mp
+import numpy as np
+from numpy.polynomial.hermite_e import hermeval
+from scipy.optimize import minimize
+from scipy.stats import multivariate_normal, norm
+
+mp.mp.dps = 90
+
+def he(n,x):
+    coeff=[mp.mpf('0')]*(n+1); coeff[n]=mp.mpf('1')
+    # recurrence, safer under mp
+    if n==0: return mp.mpf('1')
+    if n==1: return x
+    hm2=mp.mpf('1'); hm1=x
+    for k in range(1,n): hm2,hm1=hm1,x*hm1-k*hm2
+    return hm1
+
+def cov_der(P,a,Q,c):
+    dx=mp.mpf(P[0])-mp.mpf(Q[0]); dy=mp.mpf(P[1])-mp.mpf(Q[1])
+    n1=a[0]+c[0]; n2=a[1]+c[1]
+    # (-1)^|c| partial^(a+c) K(P-Q) = (-1)^|a| He_(a+c) K
+    return (-1)**(a[0]+a[1])*he(n1,dx)*he(n2,dy)*mp.e**(-(dx*dx+dy*dy)/2)
+
+def conditional_values(r,points,b=1.2):
+    r=mp.mpf(str(r)); b=mp.mpf(str(b)); ell=r**3/6
+    M=(-r/2,mp.mpf('0')); S=(r/2,mp.mpf('0'))
+    pins=[]
+    for P in [M,S]: pins.extend([(P,(0,0)),(P,(1,0)),(P,(0,1))])
+    values=mp.matrix([b,0,0,b-ell,0,0])
+    A=mp.matrix([[cov_der(P,a,Q,c) for Q,c in pins] for P,a in pins])
+    target=[((mp.mpf(str(x)),mp.mpf('0')),(0,0)) for x in points]
+    B=mp.matrix([[cov_der(P,a,Q,c) for Q,c in pins] for P,a in target])
+    C=mp.matrix([[cov_der(P,a,Q,c) for Q,c in target] for P,a in target])
+    Ainv=A**-1
+    mu=B*Ainv*values
+    Sigma=C-B*Ainv*B.T
+    muf=np.array([float(mu[i]) for i in range(len(points))])
+    Sf=np.array([[float((Sigma[i,j]+Sigma[j,i])/2) for j in range(len(points))] for i in range(len(points))])
+    return muf,Sf,float(min(mp.eigsy(A,eigvals_only=True)))
+
+def chernoff(mu,Sigma,t):
+    threshold=np.full(len(mu),t); d=threshold-mu
+    def objective(theta): return -float(theta@d)+.5*float(theta@Sigma@theta)
+    def jac(theta): return -d+Sigma@theta
+    res=minimize(objective,np.zeros(len(mu)),jac=jac,bounds=[(0,None)]*len(mu),method='L-BFGS-B')
+    theta=np.maximum(res.x,0)
+    exponent=objective(theta)
+    return min(1.0,math.exp(exponent)),theta.tolist(),exponent
+
+def evaluate(label,r,points,b=1.2):
+    mu,Sigma,floor=conditional_values(r,points,b)
+    threshold=np.full(len(points),b)
+    sd=np.sqrt(np.maximum(np.diag(Sigma),0))
+    tails=1-norm.cdf((threshold-mu)/sd)
+    # P(X>=t)=P(-X<=-t)
+    p=float(multivariate_normal.cdf(-threshold, mean=-mu, cov=Sigma, allow_singular=False, maxpts=5000000, abseps=1e-11, releps=1e-9))
+    cb,theta,exponent=chernoff(mu,Sigma,b)
+    q=1-norm.cdf((b-b*math.exp(-.5))/math.sqrt(1-math.exp(-1)))
+    naive=q**len(points)
+    return {
+      'label':label,'r':r,'points':points,'dimension':len(points),
+      'conditional_mean':mu.tolist(),'conditional_sd':sd.tolist(),
+      'minimum_marginal_tail_bound':float(min(tails)),'marginal_tails':tails.tolist(),
+      'orthant_probability_diagnostic':p,'chernoff_certificate_candidate':cb,
+      'chernoff_theta':theta,'chernoff_exponent':exponent,'one_step_q':q,
+      'naive_q_step_power':naive,'orthant_over_naive_product':p/naive,
+      'raw_six_pin_floor_float_diagnostic':floor,
+      'product_is_valid_upper_for_this_skeleton':bool(p<=naive)
+    }
+
+def main():
+    skeletons=[
+      ('opposite checkpoints at distance 1',[-1.,1.]),
+      ('opposite ridge checkpoints',[-1.45,1.45]),
+      ('two two-cell branches',[-1.45,-2.45,1.45,2.45]),
+      ('one three-cell east chain',[1.45,2.45,3.45]),
+      ('two three-cell branches',[-3.,-2.,-1.,1.,2.,3.])]
+    rows=[]
+    for r in [.025,.05]:
+        for label,points in skeletons: rows.append(evaluate(label,r,points))
+    counter=[f"r={row['r']}: {row['label']}" for row in rows if not row['product_is_valid_upper_for_this_skeleton']]
+    report={
+      'cycle':'C091',
+      'theorem':{
+        'statement':'For X~N(mu,Sigma), t componentwise, and every theta>=0: P(X>=t) <= exp(-theta.(t-mu)+0.5 theta^T Sigma theta).',
+        'optimization':'Minimize the convex quadratic exponent over theta>=0. With interval upper bounds on mu and Sigma, the resulting number is a proof certificate.',
+        'path_union':'For a finite path family P, P(any corridor) <= sum_p B_p. Path entropy must be included explicitly.'},
+      'one_step_value':rows[0]['one_step_q'],'skeletons':rows,
+      'adjudication':{
+        'naive_markov_product_status':'REJECTED AS A GENERAL UPPER BOUND',
+        'number_of_tested_skeletons_where_product_underestimates':len(counter),
+        'counterexample_labels':counter,
+        'important':'The numerical orthant values are diagnostics, not interval proofs. The invalid-product conclusion is robust by factors well above numerical CDF error in the listed counterexamples.',
+        'H4_replacement_gate':['freeze the actual finite corridor skeleton family','interval-enclose each six-pin conditional mean and covariance matrix','solve/evaluate a nonnegative Chernoff witness for each skeleton','incorporate the Palm determinant weight using the weighted-Chernoff theorem','multiply by certified ring/sector weights','sum over path entropy and carry one-sided uncertainty']}}
+    Path('/mnt/data/gaussian_corridor_certificate_report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+    print(json.dumps(report,indent=2))
+if __name__=='__main__': main()

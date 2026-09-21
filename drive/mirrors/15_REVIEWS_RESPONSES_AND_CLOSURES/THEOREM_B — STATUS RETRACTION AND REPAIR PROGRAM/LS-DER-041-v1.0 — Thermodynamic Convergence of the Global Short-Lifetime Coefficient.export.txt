@@ -1,0 +1,286 @@
+﻿LS-DER-041-v1.0 — THERMODYNAMIC CONVERGENCE OF THE GLOBAL SHORT-LIFETIME COEFFICIENT
+
+
+Artifact ID: LS-DER-041-v1.0
+Dispatch: DQ-064
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / PERIODIZED-COVARIANCE LIMIT / GAUSSIAN REGRESSION / THERMODYNAMIC COEFFICIENT
+Authority: same-OpenAI-family theorem candidate only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: COMPLETE COEFFICIENT-LIMIT CANDIDATE / REVIEW DEFERRED / NO LIMIT-INTERCHANGE CLAIM
+BODY_BYTES: 8721
+BODY_SHA256: a6dc7146c64e6ed40557ac4e4752fe58e37ac52c4eed15a7a67df8406a531358
+
+
+CONTROLLING INPUTS
+GP-DER-044-v1.0 — exact-torus confluent Gaussian regularity and the normalized periodized kernel.
+LS-DER-021-v1.0 / LS-DER-032-v1.0 — exact contact-limit and uniform Gaussian regression interfaces.
+LS-DER-039-v1.0 / LS-DER-040-v1.0 — global-birth coefficient and complete finite-torus lifetime laws at L=24.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_THERMODYNAMIC_COEFFICIENT_FROZEN_BODY and strictly before the unique full line END_THERMODYNAMIC_COEFFICIENT_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace and any initial LF. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM. Fail closed on marker absence or multiplicity.
+
+
+BEGIN_THERMODYNAMIC_COEFFICIENT_FROZEN_BODY
+THERMODYNAMIC CONVERGENCE OF THE GLOBAL SHORT-LIFETIME COEFFICIENT
+
+
+1. NORMALIZED PERIODIZED BARGMANN–FOCK FAMILY
+
+
+For L>0 define the normalized one-dimensional periodized kernel
+
+
+    k_L(t)
+      = [sum_{n in Z} exp(-(t+nL)^2/2)]
+        /[sum_{n in Z} exp(-(nL)^2/2)],                            (1)
+
+
+and the two-dimensional covariance
+
+
+    K_L(x_1,x_2)=k_L(x_1)k_L(x_2).                                (2)
+
+
+Let f_L be the centered stationary Gaussian field on T_L^2 with covariance K_L. Let
+
+
+    K_infty(x)=exp(-|x|^2/2)                                     (3)
+
+
+be the planar Bargmann–Fock covariance.
+
+
+The denominator in (1) tends to one. For every derivative order m and every fixed compact interval |t|<=R,
+
+
+    max_{0<=j<=m} sup_{|t|<=R}
+      |d^j k_L(t)/dt^j - d^j exp(-t^2/2)/dt^j|
+      ->0                                                       (4)
+
+
+as L->infinity. Indeed, every nonzero image derivative is a polynomial in t+nL times exp(-(t+nL)^2/2), and the image sum is uniformly dominated by a summable Gaussian tail. The same statement holds for every mixed derivative of K_L on compact subsets of R^2.
+
+
+2. CONTACT-LIMIT GAUSSIAN OBJECT
+
+
+For theta in S^1, b in R, and kappa>0, let J_{0,L}(theta,b,kappa) be the exact r=0 all-typed ordered maximum–saddle contact-limit intensity obtained from the confluent six-pin frame:
+
+
+    J_{0,L}
+      =(1/6) p_{Y,L}(theta,b,kappa)
+        E_L[W_{0,L}(theta,b,kappa)].                              (5)
+
+
+Here p_{Y,L} is the density of the limiting six-pin Gaussian vector at the corrected target, and W_{0,L} is the limiting normalized determinant weight with the exact maximum and index-one-saddle type indicators. For L=infinity, define J_{0,infty} by the identical construction using K_infty.
+
+
+All covariance entries in (5) are finite linear combinations of derivatives of K_L at zero. Equation (4) therefore implies uniform convergence, in theta, of every pin, endpoint, and cross-covariance block to its planar counterpart.
+
+
+The planar constraint Gram matrix and the joint constraint-plus-endpoint Gram matrix are positive definite. Hence there exist L_0<infinity and constants 0<lambda_-<lambda_+<infinity such that, for L>=L_0 and all theta,
+
+
+    lambda_- I <= G_L(theta) <= lambda_+ I,                        (6)
+
+
+and the conditioned endpoint covariance blocks have the same uniform eigenvalue bounds.
+
+
+Gaussian regression is continuous on the compact set of covariance matrices satisfying (6). Consequently the conditioned means and covariances converge locally uniformly in (theta,b,kappa):
+
+
+    m_L(theta,b,kappa)->m_infty(theta,b,kappa),
+    Gamma_L(theta)->Gamma_infty(theta).                            (7)
+
+
+3. CONVERGENCE OF THE TYPED DETERMINANT EXPECTATION
+
+
+The determinant weight is polynomial in the endpoint Hessian entries, multiplied by the indicators
+
+
+    1{H_M negative definite} 1{H_S index one}.                    (8)
+
+
+Under every limiting conditioned Gaussian law, the event that either Hessian has zero determinant or a zero eigenvalue has probability zero, because the relevant polynomial zero sets have Lebesgue measure zero and the conditioned covariance is nondegenerate.
+
+
+Therefore the typed determinant functional is almost surely continuous under the limiting law. Uniform Gaussian moments following from (6) give uniform integrability. From (7), convergence in distribution plus uniform integrability yields
+
+
+    E_L[W_{0,L}(theta,b,kappa)]
+      ->E_infty[W_{0,infty}(theta,b,kappa)]                       (9)
+
+
+locally uniformly in theta,b,kappa. The Gaussian pin densities converge locally uniformly as well. Thus
+
+
+    J_{0,L}(theta,b,kappa)
+      ->J_{0,infty}(theta,b,kappa)                               (10)
+
+
+locally uniformly on S^1 x R x (0,infinity).
+
+
+4. UNIFORM GLOBAL DOMINATION FOR LARGE L
+
+
+The corrected target contains an affine birth coordinate and a nonzero gap coordinate. Uniform eigenvalue bounds in (6) imply, for L>=L_0,
+
+
+    p_{Y,L}(theta,b,kappa)
+      <=C exp[-c(b^2+kappa^2)].                                  (11)
+
+
+The conditional endpoint mean is affine in the target and the residual covariance is uniformly bounded, so
+
+
+    E_L[W_{0,L}(theta,b,kappa)]
+      <=C[1+(|b|+kappa)^4].                                      (12)
+
+
+Hence
+
+
+    J_{0,L}(theta,b,kappa)
+      <=C[1+(|b|+kappa)^4]exp[-c(b^2+kappa^2)]                   (13)
+
+
+with constants independent of L>=L_0 and theta. Therefore
+
+
+    D(b,kappa)
+      =C kappa^(-2/3)[1+(|b|+kappa)^4]
+        exp[-c(b^2+kappa^2)]                                    (14)
+
+
+is an L-independent integrable majorant on R x (0,infinity).
+
+
+5. SPECIFIC LEADING COEFFICIENT
+
+
+Put
+
+
+    alpha=6^(2/3)/3.                                             (15)
+
+
+For L>=L_0 define the specific short-lifetime coefficient
+
+
+    c_L
+      =alpha integral_{S^1} integral_R integral_0^infinity
+        J_{0,L}(theta,b,kappa) kappa^(-2/3)
+        dkappa db dtheta.                                        (16)
+
+
+Define c_infty by replacing J_{0,L} with J_{0,infty}.
+
+
+Equations (10), (13), and dominated convergence give
+
+
+    c_L -> c_infty                                               (17)
+
+
+as L->infinity.
+
+
+The coefficient c_infty is finite by (14). It is strictly positive: the planar pin density is positive, and the nondegenerate conditioned endpoint Gaussian assigns positive probability to the open set on which H_M is negative definite and H_S has index one with both determinants nonzero. Therefore J_{0,infty}>0 on every nonempty compact target window, and
+
+
+    0<c_infty<infinity.                                          (18)
+
+
+For all sufficiently large L, local uniform convergence on one compact positive window also gives a uniform positive lower contribution, so c_L>0.
+
+
+6. TOTAL COEFFICIENT AND EXTENSIVE SCALING
+
+
+On T_L^2 the ordinary area is L^2. Whenever the finite-L lifetime theorem is stated in both specific and total conventions, the total leading coefficient is exactly
+
+
+    C_L^tot=L^2 c_L.                                             (19)
+
+
+Combining (17) and (19),
+
+
+    C_L^tot/L^2 -> c_infty.                                      (20)
+
+
+Thus the leading short-lifetime coefficient is asymptotically extensive, and its density per unit area converges to the planar Bargmann–Fock coefficient.
+
+
+7. WHAT THIS THEOREM DOES NOT INTERCHANGE
+
+
+Equation (17) concerns the coefficient obtained after taking the short-lifetime contact limit at fixed L. It does not assert the uniform two-parameter limit
+
+
+    lim_{L->infinity} lim_{ell->0}
+      ell^(1/3) bar_nu_L(ell)
+      =lim_{ell->0} lim_{L->infinity}
+        ell^(1/3) bar_nu_L(ell),                                 (21)
+
+
+nor does it prove that the remainder o_L(1) in the finite-L lifetime law is uniform in L. No percolation localization, global elder-rule stabilization, or infinite-volume persistence process is used or claimed.
+
+
+8. MAIN THEOREM
+
+
+THEOREM 8.1 — THERMODYNAMIC CONVERGENCE OF THE LEADING COEFFICIENT.
+For the normalized periodized Bargmann–Fock fields f_L, the specific leading coefficients defined by (16) converge to the finite strictly positive planar coefficient c_infty. The total coefficients satisfy C_L^tot/L^2->c_infty.
+
+
+9. SCOPE AND REOPENING CONDITIONS
+
+
+Established here at same-family candidate level:
+- compact derivative convergence of normalized periodized covariance kernels;
+- convergence of all contact-limit Gaussian regression blocks;
+- convergence of typed determinant expectations;
+- an L-uniform all-b/all-kappa integrable majorant;
+- thermodynamic convergence of the specific coefficient;
+- exact extensive scaling of the total coefficient.
+
+
+Not established here:
+- a uniform-in-L lifetime remainder;
+- interchange of L->infinity and ell->0;
+- an infinite-volume elder-rule persistence process;
+- percolation stabilization;
+- a numerical value of c_infty;
+- organizationally distinct review or canonical promotion.
+
+
+Amend or reject this theorem if:
+- a required kernel derivative fails to converge as in (4);
+- a planar or large-L Gram matrix degenerates;
+- the typed determinant boundary carries positive Gaussian mass;
+- uniform integrability fails;
+- the global majorant cannot be made independent of L;
+- c_infty vanishes;
+- the total coefficient is not exactly L^2 times the specific coefficient;
+- or the theorem is cited as an interchange-of-limits or infinite-volume persistence result.
+
+
+FINAL STATUS
+THERMODYNAMIC SPECIFIC-COEFFICIENT LIMIT: COMPLETE SAME-FAMILY CANDIDATE.
+PLANAR COEFFICIENT: 0<c_infty<infinity.
+TOTAL COEFFICIENT: C_L^tot=L^2 c_L AND C_L^tot/L^2->c_infty.
+UNIFORM LIFETIME REMAINDER: OPEN.
+LIMIT INTERCHANGE: NOT CLAIMED.
+CANONICAL STATUS: UNCHANGED / NOT PROMOTED.
+END_THERMODYNAMIC_COEFFICIENT_FROZEN_BODY
+
+
+END LS-DER-041-v1.0

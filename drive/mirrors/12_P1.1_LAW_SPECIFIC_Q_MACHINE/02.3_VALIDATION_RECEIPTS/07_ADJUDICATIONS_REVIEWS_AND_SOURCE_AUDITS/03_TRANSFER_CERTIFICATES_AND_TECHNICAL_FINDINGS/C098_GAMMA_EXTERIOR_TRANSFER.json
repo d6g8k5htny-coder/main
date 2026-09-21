@@ -1,0 +1,64 @@
+{
+  "cycle": "C098",
+  "result_id": "GAMMA_MAXCOUNT_EXTERIOR_TRANSFER",
+  "grade": "DERIVED-EXACT-EXISTENCE-THEOREM",
+  "statement": "For the exact periodized BF field at L=24, under the typed six-pin maximum-saddle pair-Palm law, there exists a finite C_ext^max such that the expected number of local maxima in T_24^2 minus B3 with values in (b-r^3/6,b) is at most C_ext^max r^3 uniformly for 0<r<=0.025.",
+  "proof_objects": {
+    "scaled_pair_weight": "The six-pin pair constraints give H_xx(M),H_xx(S)=O(r), H_xy(M),H_xy(S)=O(r), and H_yy(M),H_yy(S)=O(1); hence W_MS=r^2 W_hat_r in the corrected divided-difference frame.",
+    "denominator": "Z_r=E[W_MS|J6]=r^2 z_r with z_r->z_0>0; the archived exact limit is z_0=3.230979-class.",
+    "exterior_gaussian_extension": "For x outside B3, the exact analytic six-pin Schur law of (f(x),grad f(x),H_M,H_S,H_x), expressed in the corrected divided-difference frame, extends continuously to r=0.",
+    "density_floor": "The conditional covariance of (f(x),grad f(x)) is uniformly positive definite on the compact exterior parameter set.",
+    "weighted_moment": "After conditioning on f(x)=u and grad f(x)=0, r^-2 E[W_MS W_x^max] is bounded by continuity plus uniform Gaussian polynomial moments. Index-boundary sets have Gaussian measure zero, so the typed moment is continuous.",
+    "compact_interval": "u belongs to [b-r^3/6,b], which lies in a fixed compact height interval and converges uniformly to b."
+  },
+  "formal_bound": {
+    "intensity_bound": "sup_{0<r<=0.025,x in exterior,u in [b-ell,b]} lambda_max^Palm(x,u;r) <= M_ext < infinity",
+    "count_bound": "E N_max(W_r;exterior) <= |exterior| M_ext ell = (|exterior| M_ext/6) r^3",
+    "coefficient": "C_ext^max=|T_24^2 minus B3| M_ext/6"
+  },
+  "continuity_argument": [
+    "For sufficiently small r, use the corrected divided-difference frame and the positive limit z_0.",
+    "For r in a closed interval [r_1,0.025], ordinary covariance nondegeneracy and compactness give a finite maximum.",
+    "Take the larger of the two finite bounds."
+  ],
+  "diagnostic_support": {
+    "denominator_scaling": [
+      {
+        "r": 0.05,
+        "Z_r": 0.008084179604961533,
+        "Z_r_over_r2": 3.2336718419846124
+      },
+      {
+        "r": 0.025,
+        "Z_r": 0.002015292420710905,
+        "Z_r_over_r2": 3.2244678731374474
+      },
+      {
+        "r": 0.0125,
+        "Z_r": 0.0005036211445086625,
+        "Z_r_over_r2": 3.2231753248554393
+      }
+    ],
+    "exterior_ratio_range": [
+      0.9846732256501691,
+      1.010298402749313
+    ],
+    "interpretation": "The station atlas is not used to prove compactness, but it falsification-checks the predicted approach to the stationary maximum-height intensity."
+  },
+  "dependencies": [
+    "exact periodized covariance analyticity",
+    "six-pin conditional covariance factorization and differentiated form",
+    "corrected divided-difference pair frame",
+    "positive pair-Palm denominator limit",
+    "KR-V nondegeneracy away from the pins"
+  ],
+  "not_claimed": [
+    "No explicit numerical C_ext^max is certified here.",
+    "The near region and collar coefficients are not closed by this theorem.",
+    "The 4.35 total coefficient remains blocked."
+  ],
+  "terminal_status": {
+    "GAMMA_MAXCOUNT_EXTERIOR_CUBIC": "CLOSED-QUALITATIVELY",
+    "explicit_exterior_decimal": "OPEN"
+  }
+}

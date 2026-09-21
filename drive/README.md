@@ -87,17 +87,43 @@ not edited.
 as `mirrors/<Drive lane folder>/<path inside the lane>/`, one `_MANIFEST.jsonl`
 per directory that holds files (Drive id, title, path, `dest`, `bytes`,
 `sha256`, `exact`, inventory digest and byte count), verified by
-`tools/verify_manifests.py` in CI. A row with `exact: true` hashes to the
-digest the 2026-09-17 inventory declares for that id; a row with `exact: false`
-is a text export of a native Google Doc, for which no payload digest exists
-anywhere in the corpus — a reading copy, not the object. Each lane directory has
-a README quoting the source's own status banners verbatim. Mirrored so far: the
-reviews lane (21 cold-review packets, the post-ratification theorem package, the
-Theorem B retraction folder, the terminal closure records and gate documents as
-reading copies), the status layer of the prize reconnaissance lane, the SIDE24
-3D ratification chain (`AO48-OPR-045`, `AO48-AUD-044/043/036`, `AO48-REC-034/035`,
-the folder README; `AO48-AUD-033` tree-only after a hash mismatch), the 2026-08
-KIMI/AO48 LB-RATE and K3 intake (22 files, 8 manifests) and, from the
-`HOLD_NOT_FOR_SUBMISSION` lane, the `CLOSE-20260917-b9c2` carrier byte-exact.
+`tools/verify_manifests.py` in CI, and every quotation in those READMEs is
+verified against the stored bytes by `tools/mirror_quotes_check.py`
+(see [`docs/MIRROR_QUOTES.md`](../docs/MIRROR_QUOTES.md)). A row with
+`exact: true` hashes to the digest the 2026-09-17 inventory declares for that
+id; a row with `exact: false` is a text export of a native Google Doc, for which
+no payload digest exists anywhere in the corpus — a reading copy, not the object.
+**A reading copy is not the object, and one difference is now measured.** The
+export doubles blank lines. The source's own export-fidelity probe, a Drive
+document titled `ZZ-PROBE-EXPORT-FIDELITY (temporary)`, is held here: its body
+labels one gap `blank line above`, and the export renders that gap as **two**
+blank lines. Across the 1,380 non-blank reading copies in this tree, **97.95% of
+blank-line runs are exactly two lines long and 99.86% are even-length** — the
+signature of a rule `recovery/README.md` had already inferred from digests alone
+for the Drive's reading volumes (*every blank line is shown twice*; a run of *k*
+newlines is displayed as 2*k*−1), here confirmed independently for an ordinary
+connector export of an ordinary Doc. It is not exceptionless: 94 odd-length runs
+survive in 31 of those files, and this repository does not explain them. Exports
+also carry CRLF line endings (1,357 of 1,380) and a leading UTF-8 byte-order mark
+(1,374 of 1,380). So a reading copy differs from its object in ways that are
+visible, unproven and not corrected here — correcting them would be inventing
+bytes.
+
+A reading copy that renders nothing — empty, whitespace only, or nothing but a
+UTF-8 byte-order mark — is carried **only** where `drive/inventory.jsonl` itself
+records that Drive id as `EMPTY_NATIVE_BODY`, which eight of the 4,456 rows do.
+There the blank result is the one the inventory predicts and the manifest row
+says so in words; anywhere else a blank export is a failed fetch rather than a
+rendering, and `tools/verify_manifests.py` refuses it. The corroboration is read
+from the inventory, never from the row, so a manifest cannot talk its own file
+into being acceptable.
+Each lane directory has a README quoting the source's own status banners verbatim.
+
+**What is mirrored is listed in [`MIRRORS.md`](MIRRORS.md), per lane, with counts
+generated from the manifests by `tools/mirrors_index_check.py` and refused by CI if
+they drift.** Until 2026-09-20 this section instead carried a hand-written sentence
+beginning "Mirrored so far:" that named six lanes; the tree held twenty-one, and no
+check could tell.
+
 **A mirror is a copy: it is not review, replay, endorsement or promotion, and it
 moves no status.**

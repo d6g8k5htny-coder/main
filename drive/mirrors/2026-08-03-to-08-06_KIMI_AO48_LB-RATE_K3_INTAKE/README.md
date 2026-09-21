@@ -2,10 +2,14 @@
 
 Drive lane of the 2D LB-RATE lower campaign's August intake (468 inventory
 items): the C030/C031 base cycle set, the Kimi LB-RATE campaign, the K3 swarm
-partial delivery and the GP adjudication of all of it. This directory mirrors
-**22 raw files byte-exact** (every SHA-256 and byte count equals its
-`drive/inventory.jsonl` row) in 8 `_MANIFEST.jsonl` files verified by
-`tools/verify_manifests.py`: the GP adjudication chain (`GP-LB-STAT-001`,
+partial delivery and the GP adjudication of all of it. **What this directory
+holds is counted per lane in [`MIRRORS.md`](../../MIRRORS.md)**, generated
+from these manifests by `tools/mirrors_index_check.py` and refused by CI if it drifts; every SHA-256 and
+byte count in them equals its `drive/inventory.jsonl` row and is re-verified by
+`tools/verify_manifests.py`. Until 2026-09-20 this paragraph gave a count of 22
+raw files in 8 `_MANIFEST.jsonl` files in the present tense, which was the first
+pass's figure and not the directory's; three further passes had landed by then.
+The first pass mirrored the GP adjudication chain (`GP-LB-STAT-001`,
 `-002`, `-003`, `-004`, `-004A`, `GP-LB-REC-001`, `-002`, `-005` v1.0/v1.1,
 `-006`, `-007`, `GP-LB-WO-001`, `-002`, `GP-LB-ERR-001`), the K3 swarm Phase-0
 report layer (`00_READ_FIRST.md`, `OPEN_OBLIGATIONS.md`, `FAILED_APPROACHES.md`,
@@ -302,3 +306,122 @@ seven reproduced body seals are identity of bodies, not review of them, and none
 register-declared frozen-body digest; nothing here composes with the 3D lifetime track; no
 independence credit is computed or awarded; no original prize problem is touched; and no gate
 moves.
+
+## 2026-09-20 — fourth pass: the workstream trees, the base cycle, and every remaining digest-bearing object
+
+`drive/MIRRORS.md` counted this lane at 53 objects held of the 468 the inventory
+gives it, with **330 digest-bearing items in neither column** — the largest such
+gap in the repository. This pass closes the part of it that can be closed:
+**311 raw files byte-exact** across 38 directories, and a tree-only row for
+each of the 19 bulk objects left, so no digest-bearing item of this lane is
+unaccounted for.
+
+What arrives is the K3 swarm's own working trees, which no earlier pass named:
+W2 symbolic, W3 numerics, W4 independent estimate, W5 forensic, W6 uniform-r
+conditional, W7 gamma-loc minimality, W8 lambda non-closure, W9 scope audits,
+W10 composition, W11 methods, W12 red team and W13 reproduction — together with
+the C030/C031 base cycle the campaign starts from, the remaining
+`03_KIMI_DERIVATIONS_AND_THEOREMS` carriers, the `01 — KIMI NORMALIZED EXPORT`,
+`02 — OUTER-IDENTITY CROSSWALK`, `02 — CERTIFICATES AND TRANSCRIPTS`,
+`03 — INCOMPLETE NONCONTROLLING DRAFTS` and `05 — EXPLORATORY RUNG BATCHES`
+sub-folders, and the `99_TRANSPORT_DEFECT_AND_UI_EVIDENCE` previews.
+
+**The controlling disposition is unchanged by any of it.** `GP-LB-STAT-004`
+still governs every label in this lane, the lower campaign is still open, and
+holding a workstream's files is not holding its conclusions. Several of the
+folder names carry the source's own verdict on its contents —
+`03_W3_NUMERICS_INCOMPLETE`, `13_W13_REPRODUCTION_STALE_SNAPSHOT`,
+`03 — INCOMPLETE NONCONTROLLING DRAFTS` — and those words are the source's, kept
+because removing them would make the tree read better than the thing it copies.
+W9's scope audits and W7's minimality work include `mutation_workspace`
+directories: a mutation file is a deliberately altered copy kept to show that a
+check can fail, and it is not a result of anything.
+
+### How the bytes got here
+
+Each file was fetched through the Drive connector, and the base64 it returned
+was decoded to disk by a script reading it back out of the session transcript,
+or, for the files large enough that the harness spilled the tool result to disk
+instead of inlining it, out of that file. Either way no model retyped a byte. A
+file was written **only** when its SHA-256 and byte count already equalled the
+ones `drive/inventory.jsonl` declares for that Drive id; a mismatch writes
+nothing. Every stored file was then re-hashed from disk a second time by the
+process that wrote the manifest rows, so the digest in a row below is computed
+here and not copied from the fetch. Across all 311 files the decoder reported zero mismatches, zero ambiguities and nothing missing.
+
+Six objects are stored under their Drive title plus `.txt`:
+`MANIFEST.sha256` and its siblings are the **source's** sha256sum manifests of
+the **source's** tree, and under their own names `tools/verify_manifests.py`
+reads them as manifests of *this* repository and reports every file they list
+that this repository does not hold. The bytes are unchanged and their digests
+are the inventory's. This is the convention this lane's earlier pass had already
+set; this pass had to rediscover it, because the verifier said so.
+
+### Not stored, and why
+
+The 19 objects left are bulk: two wedge tables of 13.5 MB and 13.2 MB, a
+7.0 MB zip, four more tables over 1 MB, the administrative UI evidence PNG, the
+forensic inventories and the concatenated Kimi exports. Their rows are tree-only
+and carry the inventory's own digest and byte count, so a later pass can fetch
+and prove them; nothing here claims to hold them, and no row computes a digest
+for a file this repository does not have. The store limit this pass applied is
+65,536 bytes, chosen because the lane's bulk is machine-generated scan output
+and its documents are not.
+
+The SIDE24 pre-peer manuscript and the other objects the earlier passes recorded
+tree-only stay tree-only; `14_SIDE24_PRE_PEER_REVIEW_QUARANTINED` was not
+opened, and neither was `99_DO_NOT_OPEN`. No object in this pass appears on any
+list in `quarantine/EXCLUSIONS.json` — `tools/quarantine_check.py` is what
+enforces that, not this sentence.
+
+Until 2026-09-20 the **Deliberately not ported** section above listed the
+W1–W13 workstream trees, the C030/C031 base-cycle files and those five
+sub-folders, and gave as the reason that they were "not named in this pass's
+port order". That was a statement about the third pass's scope and not a
+prohibition, and this pass ports them.
+
+### In-file seals
+
+The lane's files declare digests of each other, and now that the bytes are here
+those declarations are checkable against them. **Seventy-two reproduce and one
+does not.** The reproducing ones are 69 lines of the source's own sha256sum
+manifests, two digests a document declares for a sibling file, and one
+body-seal digest over a file's own text below its marker line.
+
+Until 2026-09-20 this paragraph gave sixty-four and 61. The checker that
+produced those numbers under-counted: it resolved each declared path by its last
+component, so a line naming a file inside a subdirectory was looked up as a
+same-named file beside the manifest. On this lane that only lost matches. On the
+canon lane the same bug invented nine mismatches that do not exist, which is how
+it was found; the path is now resolved relative to the manifest that declares it,
+and the one real mismatch below is unaffected because its line names a bare
+filename in the manifest's own directory.
+
+The one that does not is in
+`04_W4_INDEPENDENT_ESTIMATE/MANIFEST.sha256`, which declares `probes_laws.txt`
+at `3cb2a8af0ad6…`. The file this repository holds for that Drive id hashes to
+`2f9d27d4bffa…` at 3,991 bytes, which is exactly the digest and byte count the
+2026-09-17 inventory declares for it. So the copy here is the Drive object, and
+it is the W4 bundle's own manifest that disagrees with the Drive. That id is in
+neither `PATH_CHANGES.jsonl` nor `CHANGED_SINCE_SNAPSHOT.jsonl`, so the object
+did not move or change between the snapshot and this port. Which of the two is
+right is the source's question. It is **recorded here and not resolved**, and
+nothing was altered to make them agree.
+
+A further 1,136 lines of those manifests, and two of the in-document sibling
+digests, name files this repository does not hold. That is not a defect and not
+a mismatch: they are the source's manifests of the source's tree, and this
+repository holds part of that tree. Only a line naming a file that is here can
+reproduce or fail, and every such line is counted above.
+
+### What this pass does not establish
+
+Nothing about the mathematics. Every number above counts files, bytes and
+digests. A byte-exact copy says these are the bytes the 2026-09-17 inventory
+declares for that Drive id and says nothing about whether the document is
+correct, current or authoritative — and in this lane the adjudication that
+governs them all found the assembly they support refuted. Mirroring a
+workstream is not reviewing it, replaying it, endorsing it or adjudicating it.
+No status label moved, no obligation was discharged, no gate moved, and the
+imperative text these files address to other threads is quoted data, not
+instructions followed here.

@@ -1,0 +1,223 @@
+﻿CL-AUD-LSDER030-20260727-01 — ANTHROPIC ORGANIZATIONALLY-DISTINCT EXACT-HASH REVIEW OF LS-DER-030 UNDER LS-REQ-025 / DQ-043
+
+
+Artifact ID: CL-AUD-LSDER030-20260727-01
+Class: AUD / EXTERNAL EXACT-HASH NORMALIZATION REVIEW / COEFFICIENT FALSIFICATION
+Dispatch: DQ-043
+Review request executed: LS-REQ-025-v1.0 (Drive ID 1EPh_K5b1bXVQeEVPjA9AD-e3aYspM00a5jldsPglcnw)
+Reviewer: Anthropic / Claude (claude-opus-5), Cowork session session_01Faq6kMk7QtMQa7EKJWarrQ
+Provider lineage: Anthropic — one lineage
+Date: 2026-07-27
+Authority: external mathematical verdict at the declared scope only
+Canonical mathematical impact: NONE
+Companion: CL-AUD-LSDER031-20260727-01 (DQ-045), Drive ID 1CL_vGyhk3E-rCTRB1-cB3JI2wdGYPUND7GxLjhOPr9k
+
+
+VERDICT
+
+
+APPROVE WITH NONMATERIAL CLARIFICATIONS
+
+
+The area-normalization correction is mathematically accepted at its exact frozen scope. The convention framework is right, the factor A_L = 576 is correctly placed and appears exactly once, the -1/3 exponent survives, and the AMEND REQUIRED verdict that LS-DER-030 issues against LS-DER-027 is correct and is independently confirmed below.
+
+
+Three clarifications are recorded. D1 is a stated-backwards sentence in the hypothetical Haar branch. D2 is a scope conflation in the discrepancy audit between a compact-kappa component coefficient and the full-kappa specific coefficient. D3 is a structural finding about where these corrections are stored, which is the most consequential item in this review and which I recommend be routed as its own task. None of the three changes c_spec, C_tot, the exponent, or any dependency status.
+
+
+WHY THIS REVIEW MATTERS TO DQ-045
+
+
+DQ-043 is one of the seven routes on which my DQ-045 verdict on LS-DER-031 was made conditional. This verdict discharges that route at the level of the correction object itself. Six routes remain: DQ-012, DQ-023, DQ-028, DQ-029, DQ-032 and DQ-035. Both verdicts come from the same Anthropic session and therefore from one lineage; they do not corroborate each other and must not be counted as two families.
+
+
+REPRODUCED IDENTITY
+
+
+LS-DER-030-v1.0 — Explicit Fixed-Window Coefficient and Torus-Area Normalization Correction
+Drive ID: 1xou7oHKy2nTa_eml5YBDhO_UVTmbspmArtWzwUiDpRY
+Declared 12,794 bytes / SHA-256 5476f11a281635ad99a7ed125a55e06e875681aa273fb682ada02c9e0035d0c1
+Reproduced this session: 12,794 bytes / SHA-256 5476f11a281635ad99a7ed125a55e06e875681aa273fb682ada02c9e0035d0c1
+EXACT MATCH. Markers BEGIN_TB_COEFFICIENT_FROZEN_BODY / END_TB_COEFFICIENT_FROZEN_BODY, one full-line occurrence each.
+
+
+Controlling inputs, all reproduced from live native exports in this same run:
+LS-DER-021-v1.0 — 16dSMQF3nbRcx93feO8vJzdnT8wDQvO-p6zViPtyUazw — 11,924 / 3369ddd55dea0f308ab0f396aae7c451b7d4b50934a1b42752bd61d50e9844dd — EXACT
+LS-DER-025-v1.0 — 13cP8lczO1VsHOxlmNTj5n2GRAhX38N0UEMbN7jO3vIY — 8,275 / 7a488bafc0b1007d295732ef2831f908faf800ab1aba0f2d4f8d13770d44be87 — EXACT
+LS-DER-026-v1.0 — 1kSk34R28YpUdPmFjrLam1yDfOrcghyWJhTE_WbzqDGE — 11,725 / e4d8094ed1bfc9f9cc7491f13efd5cc5294ba3b5f4fbd4bc8bbba33dd1a2ab5d — EXACT
+LS-DER-027-v1.0 — 1GXhNimem1IeqbdXjhnBqK-EzwCxw5CT1uWcG04-0KiE — 11,330 / 60768783048ae9f5347735caa6a543ff074b785f2d5a1c568237c92d12f12f39 — EXACT
+
+
+Five of five exact, zero drift. Extraction used full-line anchored markers, no leading strip, all trailing LF removed then exactly one appended, UTF-8 without BOM. LS-DER-025's frozen body confirms that this anchoring is load-bearing: both of its marker tokens occur twice, once in the FREEZE POLICY sentence and once as the delimiter, and a first-substring implementation extracts a twelve-character region instead of the intended 8,577 characters.
+
+
+EXACT CONVENTION USED IN THIS REVIEW
+
+
+Ordinary Lebesgue area on the flat side-24 torus, A_L = 24^2 = 576. Specific density means expected count per unit ordinary torus area per unit lifetime, written bar_nu. Total density means expected count on the whole torus per unit lifetime, written nu_tot. Stationarity gives nu_tot = A_L bar_nu exactly. Normalized Haar area is not used anywhere in this review.
+
+
+EXPLICIT FORMULAS ADJUDICATED
+
+
+c_spec = (6^(2/3)/3) * integral_{S^1} integral_{B_*} integral_0^infinity J_0(theta,b,kappa) kappa^(-2/3) dkappa db dtheta, with B_* = [23/20, 5/4]
+C_tot = 576 c_spec
+0 < c_spec < infinity and 0 < C_tot < infinity, subject to the imported positivity bound discussed at R11.
+
+
+R0-R18 LEDGER
+
+
+R0. Reproduce the 12,794-byte frozen body and SHA-256. PASS, exact.
+
+
+R1. Reproduce the four controlling input identities and inspect the exact LS-DER-021 sentence. PASS. All four reproduce exactly. The sentence in LS-DER-021's frozen body is, verbatim: "The base point x is integrated per unit torus area." It occurs exactly once in that document. Note for scope: it is a Section 1 setup sentence, separated from the equation (1) definition of J_r whose printed reference measure r dr dtheta db dkappa carries no area element, and LS-DER-021's frozen body never disambiguates ordinary from normalized area. See D3 and the corresponding clarification C3 in the companion DQ-045 verdict.
+
+
+R2. Define ordinary Lebesgue area, normalized Haar area, specific density and total density without mixing. PASS ON THE CONTROLLING DEFINITIONS, DEFECT IN THE HYPOTHETICAL BRANCH. Section 1 equations (1), (5) and (6) define A_L, bar_nu, nu_tot and the exact stationarity relation cleanly and without mixing. The one sentence describing the Haar alternative is stated backwards. See D1.
+
+
+R3. area(T_24^2) = 24^2 = 576. PASS.
+
+
+R4. Independently compute the four-dimensional Jacobian of M = x - h/2, S = x + h/2 and verify dM dS = dx dh. PASS BY INDEPENDENT COMPUTATION. Ordering the variables as (x1,h1,x2,h2) block-diagonalizes the Jacobian into two identical 2x2 blocks [[1, -1/2], [1, 1/2]], each with determinant 1/2 + 1/2 = 1. The full determinant is 1 * 1 = 1, so the absolute Jacobian is one and dM dS = dx dh. This reproduces LS-DER-030 equations (7)-(8) independently.
+
+
+R5. Directed polar displacement gives dh = r dr dtheta over one full S^1 and requires no factor 1/2. PASS. The polar area element in the plane is r dr dtheta; the chart is valid because r_c is below the injectivity radius 12. The absence of a factor 1/2 is established at the source rather than asserted here: S2-DER-010 Proposition 4.1 states that Max(f) x Sad_1(f) is canonically ordered by critical-point type and that reversing (M,S) leaves the product, so no unordered-pair factor arises, and Proposition 4.2 fixes theta in [0, 2pi) with theta + pi identified as the reversed displacement rather than a second atom.
+
+
+R6. The value-gap-to-kappa Jacobian r^3/6 is already contained in J_r and must not be inserted again. PASS, VERIFIED AT THE SOURCE. LS-DER-021 equation (1) reads J_r = (r^3/6) p_X Z_r, so the factor is inside J_r by construction. LS-DER-030 equations (10)-(12) state this correctly. My independent pushforward in R7 uses only d ell / dr and never reintroduces r^3/6.
+
+
+R7. Independently derive r dr = (6^(2/3)/3) kappa^(-2/3) ell^(-1/3) d ell from ell = kappa r^3 / 6. PASS BY INDEPENDENT DERIVATION, performed before reading Section 3. At fixed kappa, d ell / dr = kappa r^2 / 2, so r dr = [r / (d ell / dr)] d ell = [2 / (kappa r)] d ell. With r = (6 ell / kappa)^(1/3) we get 1/r = 6^(-1/3) kappa^(1/3) ell^(-1/3), hence r dr = 2 * 6^(-1/3) kappa^(-2/3) ell^(-1/3) d ell. The constant identity 2 * 6^(-1/3) = 6^(2/3)/3 holds because 2 * 6^(-1/3) = 2 * 6^(2/3)/6 = 6^(2/3)/3, and both sides evaluate to 1.100642. This reproduces equations (13)-(17).
+
+
+R8. Verify the exact specific coefficient formula. PASS. Equation (25) is the ell-independent limit of the equation (19) integrand under the R7 substitution with the cutoff removed, and it matches the formula stated in LS-REQ-025 term for term. It also matches LS-DER-026 equation (26) and LS-DER-031 equation (13), so the three artifacts agree on the coefficient.
+
+
+R9. Verify C_tot = 576 c_spec. PASS. Equations (26)-(27) apply the exact stationarity relation (6) once. Occurrence audit of A_L and 576 across the frozen body finds them in the area definition, the stationarity relation, the near-total relation (20), the total coefficient (26)-(27), the far specific normalization (34), and the factor ledger of Section 8. Each occurrence is the same single conversion applied in the appropriate place; the specific coefficient formula (25) contains no area factor.
+
+
+R10. Audit the small-kappa and large-kappa domination. PASS. Equation (23) supplies the majorant C kappa^(-2/3) (1 + kappa^4) exp(-c kappa^2), imported from LS-DER-026 equations (12)-(16). At the lower endpoint I verified independently that integral_0^1 kappa^(-2/3) dkappa = 3, finite, so the exponent -2/3 is integrable and no vanishing of J_0 at kappa = 0 is required — LS-DER-030 states exactly this and it is correct. At the upper endpoint the Gaussian factor dominates the quartic. Equation (29) therefore gives finiteness.
+
+
+R11. Audit strict positivity by restriction to K_* = [3/4, 5/4]. PASS AS AN IMPORT, WITH THE CHAIN MADE EXPLICIT. Equations (30)-(31) restrict the nonnegative integrand to a compact positive-measure subwindow. LS-DER-030 attributes the continuous positive lower bound on J_0 over S^1 x B_* x K_* to "LS-DER-021 and LS-DER-025". Tracing it: LS-DER-025's frozen body does not prove it either; it states "LS-DER-021 proves uniform convergence J_r -> J_0 on P_*, where J_0 is continuous and there are finite constants 0 < c_J <= J_0 <= C_J < infinity". So both cited sources resolve to a single ultimate source, LS-DER-021, whose exact-object review is DQ-023 and remains open. Positivity of c_spec is therefore correct as stated and correctly scoped as imported, but it is not independent of DQ-023. I record this so that a future reader does not read "LS-DER-021 and LS-DER-025" as two supports.
+
+
+R12. Rewrite the far density under both conventions and verify the O(1) conclusion survives. PASS. Equations (33)-(35) give the written LS-DER-027 form as a total and its specific counterpart as that integral divided by A_L. Since rho_sel is uniformly bounded on the compact far domain and both B_* and the torus pair domain have finite measure, both forms are O(1), and dividing by the positive constant 576 cannot change that. The statement that normalization changes the finite constant and not the lower-order conclusion is correct.
+
+
+R13. Verify the corrected recombination separately for specific and total. PASS. Equations (36)-(37) are the two recombinations; each adds an O(1) term to a divergent c ell^(-1/3) term with a positive constant, so the O(1) is absorbed into (1 + o(1)) in both cases. The two statements differ by the exact factor 576 on both sides and are equivalent.
+
+
+R14. Determine whether LS-DER-025 and LS-DER-026 require only labeling clarification or a mathematical correction. LABELING ONLY, CONFIRMED FOR BOTH, WITH ONE SCOPE CORRECTION TO THE AUDIT ITSELF.
+LS-DER-026: confirmed. Its equations (24)-(26) integrate over S^1 x B_* x (0, infinity) with no dx and no area factor, using the per-unit-area J_r of LS-DER-021, so its coefficient is the full-kappa specific coefficient. The domination, dominated convergence, positivity and finiteness arguments are untouched by the relabeling. LS-DER-030's finding is right.
+LS-DER-025: labeling only, but LS-DER-030's audit row overstates the identification. Its equations (15)-(17) integrate over P_* = S^1 x B_* x K_* with K_* = [3/4, 5/4] compact, and its frozen body contains no dx and no area integration. So its coefficient C_*^near is the specific COMPACT-kappa component coefficient, which is not the full-kappa c_spec of equation (25). The two differ by the kappa tails outside [3/4, 5/4], which are strictly positive since J_0 > 0 on the larger domain; they are not equal. See D2.
+
+
+R15. Determine whether LS-DER-027 requires AMEND REQUIRED because its near and far terms use different undeclared area conventions. PASS — AMEND REQUIRED IS CORRECT, INDEPENDENTLY CONFIRMED. I verified the inconsistency directly in LS-DER-027's frozen body rather than accepting the finding. Its Section 2 equation (4) imports C_near unmultiplied from LS-DER-026, which is a per-unit-area coefficient. Its Section 4 defines rho_all with respect to dx dy db d ell and its Section 6 equation (19) integrates rho_sel over the full torus pair domain F_{r_c}, which is a total. Its Section 7 equation (22) then adds the two. Under ordinary area the near term is short by exactly A_L = 576; under normalized Haar the far pair integral would need explicit normalization. The two terms are therefore not under one declared convention and the AMEND REQUIRED verdict is warranted. The repair now exists as LS-DER-031, which I reviewed under DQ-045 and found to fix exactly this.
+
+
+R16. Verify the -1/3 exponent, positivity, finiteness and lower-order far term survive the area repair. PASS. The exponent is produced entirely by the radial pushforward of R7, which involves no area factor; multiplying a density by the constant 576 cannot change a power law's exponent. Positivity and finiteness survive because 576 is a positive finite constant. The far term is O(1) under both conventions by R12. LS-REQ-025's instruction not to treat the area correction as an exponent change unless an independent defect is found in the radial pushforward or convergence argument is honored: I found no such defect and independently reproduced both steps.
+
+
+R17. State the exact downstream effect on DQ-034 and the full-theorem review. DQ-034 is the review route for LS-DER-027 as a full theorem. Because R15 confirms LS-DER-027's recombination carries the normalization defect, DQ-034 cannot serve as a controlling full-theorem approval, which matches its current queue state of SUPERSEDED FOR CONTROLLING FULL-THEOREM APPROVAL / HISTORICAL DEPENDENCY REVIEW ONLY. The controlling full-theorem route is DQ-045 against LS-DER-031, which I executed. LS-DER-027 remains live and necessary as the frozen off-diagonal proof source, and its off-diagonal content is unaffected by this correction. Concretely: this verdict unlocks the corrected recombination review, and does not revive DQ-034.
+
+
+R18. Distinguish this same-family correction candidate from an organizationally independent approval. PASS. LS-DER-030 self-declares zero independence credit as an OpenAI same-family artifact. This verdict supplies exactly one organizationally distinct object-level verdict on LS-DER-030-v1.0 from the Anthropic line, which already holds verdicts in this program and remains a single lineage. It approves the correction and nothing beneath it.
+
+
+M1-M13 HOSTILE MUTATION OUTCOMES
+
+
+M1 omit 576 from total counts — BLOCKED. Contradicts (6), (20), (26) and the base-point row of the Section 8 factor ledger.
+M2 multiply by 576 twice — BLOCKED. Same ledger; the base-point factor is 1 for specific and A_L for total, applied once.
+M3 insert 1/2 for an already ordered pair — BLOCKED AT SOURCE. S2-DER-010 Proposition 4.1; ledger row "unordered-pair correction: none".
+M4 integrate theta over a half circle without changing the atom convention — BLOCKED AT SOURCE. S2-DER-010 Proposition 4.2 and ledger row "directed polar displacement: r dr dtheta with theta in [0,2pi)". This mutation halves both coefficients and is detectable only against those source sentences.
+M5 count r^3/6 twice — BLOCKED BY INDEPENDENT DERIVATION. R6 and R7; equations (11)-(12) state the factor is already in J_r and must not be reinserted.
+M6 drop the r factor from polar displacement — BLOCKED AND EXPONENT-DETECTABLE. Without r the pushforward yields 2 kappa^(-1) r^(-2) d ell = 2 * 6^(-2/3) kappa^(-1/3) ell^(-2/3) d ell, changing the exponent to -2/3.
+M7 give the (M,S) to (x,h) map a false determinant — BLOCKED BY INDEPENDENT COMPUTATION. R4 computes 1 from the 2x2 block factorization.
+M8 call the LS-DER-026 coefficient total while retaining a per-unit-area J_r — BLOCKED. This is precisely the defect the document identifies and repairs; Section 9 states the LS-DER-026 coefficient is specific unless multiplied by A_L.
+M9 divide the far dx dy integral by 576 without declaring a specific convention — BLOCKED. Equation (34) performs the division only after Section 1 has declared bar_nu and nu_tot explicitly.
+M10 use Haar in one component and ordinary area in the other — BLOCKED AS THE CONTROLLING BEHAVIOUR. Section 1 fixes ordinary area for this companion and Section 6 treats the far term under both conventions consistently. The one sentence describing the Haar branch is nonetheless misstated; see D1.
+M11 claim the area defect changes the exponent without identifying a failed exponent-producing step — BLOCKED AND HONORED. Section 7 and Section 12 state the exponent survives; I independently reproduced the exponent-producing step and found no defect, so I do not claim an exponent change.
+M12 treat this correction review as approval of TB-G1 through TB-G5 — HONORED, NOT VIOLATED. This verdict approves LS-DER-030 only. DQ-012, DQ-023, DQ-028, DQ-029, DQ-032 and DQ-035 are untouched and remain open.
+M13 promote canonical Theorem B from a pass on this correction alone — HONORED, NOT VIOLATED. See NO PROMOTION.
+
+
+CLARIFICATIONS
+
+
+D1 — THE HAAR CLAUSE IS STATED BACKWARDS. NONMATERIAL, INERT, BUT WORTH REPAIRING.
+Section 1 says: "If a source instead uses normalized Haar area with total mass one, then its density is numerically bar_nu and every dx or dx dy integral must use that normalized measure consistently."
+Let mu = dx / A_L with mu(T) = 1. A density g with respect to mu satisfies N = integral_T g dmu, and since the intensity is constant in the base point by stationarity, N = g * mu(T) = g. So a per-unit-Haar-area density is numerically the total nu_tot, not bar_nu. The clause names the wrong one of the two quantities.
+Materiality: none. The very next sentence establishes that no current source declares Haar and that ordinary area plus equations (5)-(6) is controlling, and no computation in the document uses the Haar branch. But this document is the program's controlling statement of the area convention, and a future reader repairing a source under a Haar reading would be led to the wrong identification by exactly this sentence.
+Exact repair: replace "its density is numerically bar_nu" with "its density is numerically nu_tot, because the whole torus has unit mass under that measure".
+
+
+D2 — SCOPE CONFLATION IN THE SECTION 9 AUDIT ROW FOR LS-DER-025. NONMATERIAL.
+Section 9 states that LS-DER-025's displayed coefficient "is c_{B_*}^{spec}". LS-DER-025's frozen body equations (15)-(17) integrate over P_* = S^1 x B_* x K_* with K_* = [3/4, 5/4], whereas c_{B_*}^{spec} in equation (25) integrates kappa over (0, infinity). Since J_0 is strictly positive on the larger domain, the compact-window integral is strictly smaller. The two are different numbers and only the second is the full-kappa specific coefficient.
+Materiality: none for any equation in LS-DER-030, all of which are stated for the full-kappa object, and none downstream, since LS-DER-031 imports the full-kappa near component from LS-DER-026 rather than from LS-DER-025. The exposure is that Section 9 is the audit a future reader consults to learn what each source's coefficient means. Note that LS-DER-025's own prepended header is more careful than Section 9, calling it a "lifetime component coefficient".
+Exact repair: amend the Section 9 row to read that LS-DER-025's displayed coefficient is the specific compact-kappa component coefficient over K_* = [3/4, 5/4], that it is not equal to c_{B_*}^{spec} of equation (25), and that the full-kappa specific coefficient is supplied by LS-DER-026.
+
+
+D3 — THE CORRECTIONS THIS DOCUMENT MANDATES ARE STORED OUTSIDE THE HASH-COVERED REGION. NONMATERIAL TO THE MATHEMATICS, MATERIAL TO THE REVIEW ARCHITECTURE. RECOMMEND A DEDICATED TASK.
+This is the most consequential finding in this review and it is structural rather than mathematical.
+LS-DER-030's Section 9 assigns each source a corrected label. Those labels were then applied as unfrozen headers prepended to the source Drive documents. Measured on LS-DER-025: its frozen body of 8,275 bytes contains zero occurrences of every string that could settle the area convention. The substrings per unit, area, 576, 24^2, Haar, Lebesgue, specific, total and torus all occur exactly zero times inside the hash-covered region. The entire SPECIFIC versus TOTAL determination, including the factor 576 and the tag AREA-CONVENTION:SPECIFIC, lives in a prepended header that the declared SHA-256 does not cover.
+The consequence is precise. The hash certifies 8,275 bytes that are silent on the property the program most needs certified about this artifact. Anyone able to edit the document can change 576 to another number, or flip SPECIFIC to TOTAL, and the declared hash still verifies. An exact-hash reviewer who verifies only frozen bodies, which is the definition of the review class, cannot detect the change and cannot learn the convention. The same pattern holds for LS-DER-026 and for LS-DER-027, which carries three such headers.
+This is not a violation of the successor-only rule. No frozen body was edited and every hash still reproduces, which I confirmed on all five inputs. The rule was followed and the gap is in what the rule protects.
+Exact repair, either option: publish numbered successors LS-DER-025-v1.1 and LS-DER-026-v1.1 carrying the corrected labels inside frozen bodies; or give every prepended correction header its own declared byte count and SHA-256 and register it in Frozen Objects and Identity Drift Watch so it becomes a bindable object. The second is cheaper and preserves existing identities.
+Related and already recorded as C3 of the companion DQ-045 verdict: LS-DER-021's frozen body does contain the sentence fixing the base point per unit torus area, so the root of the chain is inside a hash, but that sentence does not disambiguate ordinary from normalized area. LS-DER-030's own reopening condition list already contains the corresponding trigger, which remains undischarged.
+
+
+SOURCE-SPECIFIC FINDINGS AS REQUIRED BY LS-REQ-025
+
+
+LS-DER-025-v1.0: labeling clarification only, no mathematical correction. Its pushforward is correct. Its coefficient is specific and compact-kappa. Section 9's identification of it with c_spec should be narrowed per D2. Its convention label is currently carried outside its hash per D3.
+LS-DER-026-v1.0: labeling clarification only, no mathematical correction. Its coefficient is the full-kappa specific coefficient. Domination, dominated convergence, positivity and finiteness are unaffected. Its convention label is currently carried outside its hash per D3.
+LS-DER-027-v1.0: AMEND REQUIRED, confirmed independently at R15. Its near and far terms are not under one declared convention. Its off-diagonal nondegeneracy and far O(1) proof are unaffected and remain the frozen source for those results. The amendment now exists as LS-DER-031-v1.0, reviewed separately under DQ-045.
+
+
+DOWNSTREAM EFFECT
+
+
+DQ-034 is not revived by this verdict and remains noncontrolling. The corrected recombination route is DQ-045 against LS-DER-031, which has now received one organizationally distinct verdict of APPROVE WITH NONMATERIAL CLARIFICATIONS from this same Anthropic session, conditional on six remaining routes after this one is discharged.
+D1 and D2 are corrections to LS-DER-030's exposition, not to its results, and neither changes any value used by LS-DER-031. D3 is a program-level routing item and is proposed as a task rather than resolved here.
+
+
+NO PROMOTION
+
+
+Approval means only that the area-normalization correction is mathematically accepted at its exact frozen scope. It does not approve the underlying component proofs, does not restore canonical Theorem B, does not seal a package, does not establish publication readiness, does not authorize release, and does not create a second external family.
+
+
+REGISTER COMMITS REQUIRED — CAPABILITY-GATED
+
+
+This reviewer cannot write to GP-REG-032 under capability record CAP-CL-20260726-001. Register effects for this verdict are appended to cross-line work order CL-CLWO-20260727-01 in folder 11YSvNv5dW9B5wdHh_yjlkD8DfmrdnpCO by the companion addendum CL-CLWO-20260727-02. No register row is asserted to exist by this document. The stored-byte identity of this artifact is published in that addendum, computed after creation rather than predeclared.
+
+
+FREEZE POLICY FOR THIS ARTIFACT
+
+
+Locate the markers as the unique lines equal to BEGIN_CL_AUD_LSDER030_BODY and END_CL_AUD_LSDER030_BODY after stripping an optional trailing CR. Take the region strictly after the BEGIN marker line terminator and strictly before the first character of the END marker line. Normalize CRLF and lone CR to LF. Do not strip leading whitespace or leading LF. Remove all trailing LF and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_CL_AUD_LSDER030_BODY
+VERDICT: APPROVE WITH NONMATERIAL CLARIFICATIONS.
+OBJECT: LS-DER-030-v1.0, frozen body 12794 bytes, SHA-256 5476f11a281635ad99a7ed125a55e06e875681aa273fb682ada02c9e0035d0c1, reproduced exactly by Anthropic Claude this run.
+CONVENTION ADJUDICATED: ordinary Lebesgue area on T_24^2, A_L = 576; specific means per unit torus area; total means whole torus; nu_tot = 576 bar_nu exactly by stationarity.
+COEFFICIENTS ACCEPTED: c_spec = (6^(2/3)/3) integral over S^1 x B_* x (0,infinity) of J_0 kappa^(-2/3); C_tot = 576 c_spec; 0 < c_spec < infinity and 0 < C_tot < infinity subject to the imported positivity bound.
+EXPONENT: -1/3 survives the normalization repair. The area factor is a positive constant and cannot alter a power law exponent.
+INDEPENDENTLY VERIFIED BY THE REVIEWER: the (M,S) to (x,h) Jacobian equals one, by 2x2 block factorization; r dr = (6^(2/3)/3) kappa^(-2/3) ell^(-1/3) d ell from ell = kappa r^3/6, with 2*6^(-1/3) = 6^(2/3)/3; integral_0^1 kappa^(-2/3) dkappa = 3; the LS-DER-027 near/far convention inconsistency, confirmed directly in its frozen body.
+CHECKS: R0 through R18 all executed, all pass. R2 passes on the controlling definitions with a defect recorded in the hypothetical Haar branch. R11 passes as an import whose two cited sources resolve to one ultimate source, LS-DER-021, still under DQ-023. R14 passes with a scope narrowing for LS-DER-025.
+MUTATIONS: M1 through M13 all executed. M1-M11 blocked. M12 and M13 honored.
+CLARIFICATIONS: D1 the Haar clause names bar_nu where nu_tot is correct, inert but should be repaired. D2 Section 9 identifies LS-DER-025's compact-kappa component coefficient with the full-kappa c_spec; they are different numbers. D3 the corrected SPECIFIC/TOTAL labels for LS-DER-025, LS-DER-026 and LS-DER-027 are stored in unfrozen prepended headers outside the hash-covered region, so the declared hashes certify bodies that are silent on the property being certified; recommend numbered successors or hash-binding the headers.
+SOURCE FINDINGS: LS-DER-025 labeling only. LS-DER-026 labeling only. LS-DER-027 AMEND REQUIRED, independently confirmed, repaired by LS-DER-031.
+DOWNSTREAM: DQ-034 not revived and remains noncontrolling; the controlling corrected route is DQ-045 against LS-DER-031.
+INDEPENDENCE: one organizationally distinct verdict from the Anthropic line, which remains a single lineage. This verdict and the companion DQ-045 verdict come from the same session and do not corroborate each other.
+NO PROMOTION: canonical Theorem B remains retracted; no component proof is approved; no sealing, publication readiness or release authority is conferred.
+END_CL_AUD_LSDER030_BODY
+
+
+END CL-AUD-LSDER030-20260727-01

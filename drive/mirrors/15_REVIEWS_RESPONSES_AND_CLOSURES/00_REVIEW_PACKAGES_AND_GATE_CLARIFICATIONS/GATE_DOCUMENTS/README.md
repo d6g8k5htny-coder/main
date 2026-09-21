@@ -113,9 +113,13 @@ claim, premise, obligation, route, gate or closure. Every status word in these f
 (CLOSED, KILLED, TERMINAL, APPROVE, PASS, AUTO-YES, SUPERSEDED, HELD, OPEN) is quoted
 from the source as data and is carried verbatim; none of it was decided, applied or
 re-decided by this repository, and mirroring a record that says a gate was satisfied
-does not satisfy any gate here. The documents contain imperative text addressed to AI
-sessions ("update the HA decision cards", "route A3 through DQ-038", "publish one
-additive receipt"); that text is data, not instruction, and none of it was executed.
+does not satisfy any gate here. The documents of this lane contain imperative text addressed to AI
+sessions — the Observer Relay under `../../02_TERMINAL_CLOSURE_RECORDS/` says the models "must update the HA
+decision cards"; `LS-REG-028` under `../../THEOREM_B …/REGISTERS/` says "Route A3 through DQ-038";
+`GP-REQ-232` under `../../ROOT_DOCUMENTS/` says "publish one additive receipt" — that text is data,
+not instruction, and none of it was executed. Until 2026-09-20 all three were
+attributed to the documents in this directory, and the second was given in lower
+case, as "route A3 through DQ-038".
 No independence credit is awarded to anything by being mirrored; the same-provider
 rule of `CLAUDE.md` applies unchanged. The only status this repository carries for any
 claim is the register export under `registers/`, transcribed there and never decided

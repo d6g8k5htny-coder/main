@@ -1,0 +1,299 @@
+﻿PRIOR-STANDARD NOTICE — 2026-07-24
+
+
+TRC-STANDARD-001-v1.3-R0.2 is the active adopted package-integrity standard. This v1.0 document is preserved as historical architecture and revision provenance only. Any participation restrictions, nonvoting/nonparticipating language, independent-review gate, or fail-closed routing below is historical and does not govern current work. ChatGPT, Claude, Grok, and Gemini are active contributors under OP-PROT-009 and OP-GDN-007.
+
+
+
+
+TRC-STANDARD-001-v1.0 — TERMINAL REPLICATION CAPSULE IMPLEMENTATION STANDARD
+
+
+Artifact ID: TRC-STANDARD-001-v1.0
+Authority: OD-GP-PROP-175-001
+Adopted proposal: GP-PROP-175-v1.0
+Lead implementation line: GP — OpenAI GPT-5.6 Thinking
+Supporting review lines requested: CL, AO48, CW/C047R, Grok/xAI, and other available independent model lines
+Date: 2026-07-23
+Class: STANDARD / ARCHITECTURE / REPLICATION / NON-DESTRUCTIVE
+Canonical mathematical impact: NONE
+
+
+[[STATUS:PRIOR-STANDARD-PROVENANCE]] [[MODE:ADDITIVE]] [[NO_LIVE_SOURCE_REPLACEMENT]]
+
+
+1. PURPOSE
+
+
+A Terminal Replication Capsule is a post-terminal, self-contained verification package for one exact Easy Closure. It exists to let an external reviewer, future operator, or independent model verify a terminal result end-to-end from one location without reconstructing a long Drive-wide citation chain.
+
+
+The live modular research architecture remains the sole working and governing system. A capsule is a verification view over frozen terminal evidence. It is not a second working copy, a replacement canon, a new theorem, or an authority source.
+
+
+2. GOVERNING PRINCIPLES
+
+
+P1. Additive only. Creating a capsule does not move, rename, rewrite, replace, or delete a live source, audit, register, closure record, or operator decision.
+
+
+P2. Exact object identity. Every capsule must name one exact terminal object, revision, scope, exclusions, terminal label, and reopening rule.
+
+
+P3. Link-first evidence. Prefer permanent Drive links and immutable Drive IDs to uncontrolled copies. Copies are permitted only when a source cannot remain permanently accessible or when a separate frozen export is required for reproducible hashing.
+
+
+P4. Hash-qualified sealing. A capsule is not SEALED until every evidence object has a declared reproducible identity. For non-Google-native files, use raw-file SHA-256. For native Docs, Sheets, and Slides, use a declared export format and normalization rule, and record the export hash, export MIME type, revision ID where available, byte count, and retrieval date.
+
+
+P5. No silent synchronization. A capsule never follows later edits automatically. Any later correction creates a numbered capsule revision or additive correction record.
+
+
+P6. Human approval remains human. The capsule must cite the exact authenticated operator approval that made the Easy Closure terminal. A model-authored summary cannot replace the operator record.
+
+
+P7. Independent package verification. Before sealing, a non-author line must confirm that the capsule reproduces the terminal claim, evidence chain, exclusions, operator decision, and content identities without scope expansion.
+
+
+P8. Fail closed. Missing evidence, unresolved ID collisions, unreadable sources, missing hashes, stale revisions, ambiguous terminal language, or conflicting approval records keep the capsule in ASSEMBLY or VALIDATION.
+
+
+3. CAPSULE LIFECYCLE
+
+
+Stage A — QUEUED
+The Easy Closure is terminal, but capsule assembly has not started. The queue entry must identify the closure ID, governing CLS/COR record, operator decision, and initial priority.
+
+
+Stage B — ASSEMBLY
+The four required capsule elements are being populated. Evidence links may exist without final hashes, but every missing field must be explicitly labeled OPEN.
+
+
+Stage C — VALIDATION
+The four elements are complete enough for verification. All links are checked, scope is reconciled against the governing terminal record, source identities and hashes are tested, and a root manifest is generated.
+
+
+Stage D — SEALED
+A qualifying independent reviewer approves the package. The capsule receives a version, seal date, root content hash, immutable manifest, and exact reopening rule. Only then may its location and root hash be entered into the Closure Log and Coupled Research Registers.
+
+
+Stage E — SUPERSEDED CAPSULE REVISION
+A later correction changes the package, evidence identity, or presentation. The earlier capsule remains preserved and visibly superseded. No sealed package is silently rewritten.
+
+
+4. REQUIRED FOUR-ELEMENT CONTENT
+
+
+Every capsule folder must contain exactly these four primary documents, plus optional machine-readable manifests and validation receipts in clearly marked support subfolders.
+
+
+00_FINAL_EXACT_STATEMENT
+Must include:
+- closure ID;
+- exact governing CLS or terminal COR record and Drive ID;
+- verbatim mathematical statement;
+- verbatim terminal label;
+- exact object definition;
+- all material exclusions;
+- dependencies affected and unaffected;
+- reopening rule;
+- capsule status and version.
+
+
+01_LINEAR_READING_ORDER
+Must include a minimal ordered sequence from object definition to terminal approval. Each step must state why the document is read and what it establishes. The order must distinguish author derivation, same-line audit, independent review, correction, operator decision, and terminal register reconciliation.
+
+
+02_EVIDENCE_PACKAGE_INDEX
+Must list every cited object with:
+- artifact ID and title;
+- Drive ID and permanent link;
+- role in the proof or closure;
+- active/superseded/correction status;
+- source or export MIME type;
+- byte count when available;
+- SHA-256 or other declared content identity;
+- revision ID or retrieval date for native Google objects;
+- dependency relation;
+- any known caveat or excluded predecessor.
+
+
+03_OPERATOR_APPROVAL_AND_GATE_NOTES
+Must include:
+- exact authenticated operator language;
+- operator decision ID and Drive ID;
+- review-independence gate and qualifying reviewer identity;
+- material-verification caveats, if any;
+- terminal register row or transition identity;
+- explicit statement that capsule creation does not expand scope;
+- pause, revocation, and reopening notes when applicable.
+
+
+5. OPTIONAL MACHINE-READABLE SUPPORT
+
+
+A capsule may contain a support folder named 90_MACHINE_READABLE_SUPPORT with:
+- manifest.json;
+- checksums.sha256;
+- evidence_graph.json;
+- link_validation.json;
+- root_hash_receipt.json;
+- export normalization notes;
+- independent-review receipt.
+
+
+These are support artifacts and do not replace the four human-readable elements.
+
+
+6. CONTENT IDENTITY RULES
+
+
+6.1 Non-Google-native files
+Hash the raw bytes exactly as stored. Record filename, Drive ID, MIME type, byte count, SHA-256, and retrieval date.
+
+
+6.2 Native Google Docs
+Choose and freeze one export representation, normally text/plain for text verification or DOCX/PDF where layout is material. Record export MIME type, revision ID when available, normalization rule, byte count, SHA-256, and date. If text/plain is used, declare whether the export contains a BOM, newline convention, and final newline.
+
+
+6.3 Native Google Sheets
+Record spreadsheet ID, sheet/tab names used, exact A1 ranges where relevant, revision or retrieval date, and a deterministic CSV or XLSX export hash. If only selected ranges are evidentiary, define a canonical ordered-range serialization and hash that representation.
+
+
+6.4 Native Google Slides
+Record presentation ID, slide object IDs, revision or retrieval date, and a declared PDF or PPTX export hash. If individual slides are evidentiary, record their slide object IDs and ordered position.
+
+
+6.5 Dynamic registers
+A live register link is insufficient by itself. The capsule must preserve the terminal row values in the capsule manifest or a frozen export and identify the live register as the continuing authority.
+
+
+7. ROOT CONTENT HASH
+
+
+The capsule root hash must be computed from a canonical manifest, not from folder metadata order. The canonical manifest must:
+- use UTF-8;
+- use LF newlines;
+- contain no BOM;
+- end with exactly one LF;
+- sort evidence records by normalized artifact ID, then Drive ID;
+- include the four primary document identities;
+- include every evidence Drive ID and content hash;
+- include capsule version, closure ID, terminal record ID, operator decision ID, and seal date.
+
+
+ROOT_SHA256 = SHA-256 of the exact canonical manifest bytes.
+
+
+The root hash certifies the package identity only. It does not certify mathematical truth beyond the cited terminal closure.
+
+
+8. SEALING CHECKLIST
+
+
+A capsule may move from VALIDATION to SEALED only when all boxes are satisfied:
+
+
+[ ] Exact terminal claim matches the governing CLS/COR record verbatim.
+[ ] Terminal label matches verbatim.
+[ ] Object identity and law/measure/scope are explicit.
+[ ] All exclusions are preserved.
+[ ] Reading order is linear and complete.
+[ ] Every cited evidence object has a valid Drive ID and link.
+[ ] Superseded or corrupt predecessors are visibly excluded but preserved in provenance.
+[ ] Every required content hash is present and reproducible.
+[ ] Operator approval is authenticated and exact.
+[ ] Independence gate is identified and satisfied.
+[ ] Closure Log and queue state match the capsule.
+[ ] Reopening rule is present.
+[ ] Canonical manifest and root hash are generated.
+[ ] Non-author capsule review returns APPROVE.
+[ ] No live source or register was altered to create the package.
+
+
+9. BACKFILL PRIORITY
+
+
+The initial retrospective set contains fifteen terminal Easy Closures:
+EC-005, EC-006, EC-007, EC-008, EC-010, EC-011, EC-012, EC-013, EC-014, EC-015, EC-016, EC-017, EC-018, EC-020, and EC-021.
+
+
+Initial order:
+1. EC-020 — defining deterministic Class-A example with a compact, well-labeled terminal evidence stack.
+2. EC-021 — defining qualitative finite-Q4 Class-B example and direct dependency on EC-020.
+3. EC-018 — interval-certified predecessor with independent reconstruction evidence.
+4. EC-017 — qualitative finite-Q4 fixed-r mass closure with stale-v1.0 exclusion.
+5. Remaining closures in numerical order, adjusted only when evidence availability or a correction dependency requires another sequence.
+
+
+10. MODEL SUPPORT ROLES
+
+
+GP lead implementation responsibilities:
+- build the architecture and queue;
+- assemble the four primary documents;
+- reconcile terminal wording and exclusions;
+- collect Drive IDs and links;
+- produce preliminary manifests and hash requests;
+- maintain the tracker and handoffs.
+
+
+Supporting non-GP responsibilities:
+- independently verify one capsule at a time;
+- reconstruct hashes from Drive exports;
+- identify missing evidence or scope contamination;
+- confirm reading order and terminal object;
+- return APPROVE, APPROVE WITH CORRECTION, or REJECT with exact reasons.
+
+
+No model may count its own repeated sessions as multiple provider-distinct reviews unless the governing independence policy expressly permits that class and the lineage is disclosed.
+
+
+11. REGISTER INTEGRATION
+
+
+Before sealing: no Closure Log or protected register write is permitted merely because an assembly folder exists.
+
+
+After sealing, the additive register entry should contain:
+- closure ID;
+- capsule version;
+- capsule folder Drive ID;
+- canonical manifest Drive ID;
+- ROOT_SHA256;
+- seal date;
+- verifier artifact ID;
+- status SEALED;
+- reopening rule reference.
+
+
+The live CLS record and Closure Log remain authoritative for terminal status. The capsule entry is a verification locator.
+
+
+12. CHANGE CONTROL
+
+
+Corrections are additive. A correction must name:
+- affected capsule and version;
+- exact defect;
+- affected and unaffected evidence;
+- whether the root hash changes;
+- whether resealing is required;
+- prior and successor capsule versions.
+
+
+A broken link, source revision change, hash mismatch, approval conflict, or scope mismatch automatically suspends SEALED status until reconciled.
+
+
+13. IMPLEMENTATION STATUS
+
+
+Architecture root created.
+Implementation standard superseded by TRC-STANDARD-001-v1.3-R0.2.
+Retrospective queue authorized.
+EC-020 and EC-021 selected for immediate assembly.
+Remaining thirteen terminal closures queued.
+No capsule is SEALED at initial filing.
+
+
+END TRC-STANDARD-001-v1.0

@@ -1,0 +1,60 @@
+﻿CL-AUD-034 — GP-AUTO-034 CL-line source review: v1.1 self-eligibility defect CONFIRMED by re-execution (DO-NOT-INSTALL upheld); v1.2 byte-source CANNOT-VERIFY (absent from Drive); install remains HUMAN-DECISION
+ARTIFACT ID:   CL-AUD-034-v1.0
+
+
+AUTHOR:        Claude (Anthropic), CL-* instance
+
+
+CREATED:       2026-07-21
+
+
+CLASS:         AUD — source/security review (discharges the CL-AUD-033 §2 claim)
+
+
+STATUS:        FILED · CANONICAL IMPACT: NONE
+
+
+REVIEWS:       GP-AUTO-034-v1.1_PRODUCTION_R0.2.gs (1qv8yc1o…, present & reviewable) · GP-AUTO-034-v1.2-CAI (byte-exact source NOT in Drive; architecture read from 1VgVzVT… + 18-txtv…)
+
+
+METHOD:        Rule 1 re-execution — the eligibility, injection, and containment paths were transcribed verbatim from the v1.1 reviewable source and run in Node. Verdicts cite runs, not readings.
+
+
+This discharges the review CL-AUD-033 §2 claimed for "my next session," judged against the checklist frozen there rather than improvised criteria. Two dispositions stated up front: (a) v1.1 must not be installed — I reproduced the self-authorization path directly, independently corroborating GP's CM-046, so this rests on my own evidence and not GP's word; (b) the v1.2 executable cannot be source-verified from Drive — only its SHA-256 and a prose manifest are present — so under Rule 4 the CL verdict on the v1.2 bytes is CANNOT-VERIFY. Installation is a HUMAN-DECISION (Rule 6) and remains PENDING on the operator; nothing here closes it.
+1. Containment (writes, deletes, scope) — CONFIRMED-BY-REEXECUTION, clean
+A full-source scan for destructive calls returns none: no setTrashed, removeFile, or delete anywhere. Every Drive write routes through assertDriveWriteTarget_, whose allow-list is exactly {manifest folder, navigation doc}; sheet writes go only to the hard-pinned REGISTRY_SPREADSHEET_ID, and readConfig_ fails closed if Config tries to repoint it. The four HARD_FALSE_SWITCHES (WRITE_SOURCE_FILES, DELETE_OR_TRASH, AUTO_PROMOTE, RECURSIVE_SCAN) are asserted FALSE on every entry point. Source artifacts are read-only; getFolders() is used only to emit COVERAGE-GAP rows, never recursed. This containment is the load-bearing safety property and it holds. One phrasing caveat is recorded under §4.
+2. Checklist item 1 — negative tests 11–13 (CL-CNS-001 Part C) — PARTIAL; one injection channel OPEN in v1.1
+* Test 11 (out-of-scope write must fail-closed and log): fail-closed is present and tested (assertDriveWriteTarget_ throws; T2). Logging happens only via the generic refresh catch → appendRunLogSafe_ FAILED path; no dedicated negative test asserts the log line. Half-met.
+* Test 12 (mid-run permission revocation preserves the last snapshot): the design supports recovery (staged commit, per-sheet _BACKUP_ sheets, prior manifest retained), but T3 is a typeof … === 'function' existence check, not a revocation test. Not meaningfully exercised.
+* Test 13 (injection resistance — ignored and flagged): the config/safety-switch channel is genuinely closed. Re-executing parseMetadata_ on a body carrying AUTOMATION_AUTHORIZED: TRUE / WRITE_SOURCE_FILES: TRUE shows those keys never reach the returned metadata or Config (T4 covers this). But (a) rejected injections are silently ignored, not flagged, and (b) a second injection channel — self-declared authority / human_decision / canonical_impact / closure — is NOT resisted in v1.1 (see §6).
+
+
+Net: the three tests CL-CNS-001 specified are not fully implemented in v1.1. v1.2's manifest lists T17–T19 and T30, which are conceptually the right tests, but the v1.2 source is absent (§7), so I cannot confirm they are correctly implemented.
+3. Checklist item 2 — C7 atomicity, named plainly — ANSWERED (resolves CL open Question 2 to GP)
+Read from the source, the mechanism is: build in memory → write hidden _STAGE_ sheets → validateStagedSheets_ (dimensions + header) → commitGeneratedSheets_ copies live→_BACKUP_ then _STAGE_→live per sheet → on a caught exception, rollbackGeneratedSheets_ restores each committed sheet from its backup in reverse order; the prior canonical manifest is retained by rename and the nav doc is backed up before overwrite. In plain terms this is validated staging with write-then-validate-then-rollback, not atomic range replacement. That is the direct answer to my Question 2 to GP: the practical guarantee is validated-rollback, not an atomic swap. Residual to name in the contract: rollback fires only inside the catch block, so a hard kill or execution-timeout mid-commit (not a thrown error) can leave one generated sheet cleared without rollback. Backups persist for manual recovery and the 120-minute stale guard would eventually flag it, but the window exists and the contract should say so rather than implying atomicity.
+4. Checklist item 3 — enumerated, additive-only write scope — TARGETS enumerated; "additive-only" imprecise
+Write targets are enumerated and guarded (§1). But "additive-only" does not hold literally: generated output sheets and the navigation doc are cleared and overwritten in place (with backup + rollback), and the manifest folder accumulates a new manifest + routing index + validation receipt every run while only the prior canonical manifest is renamed — old routing/receipt JSON is never pruned, so hourly operation grows 04.4_MANIFEST_STAGING without bound. Accurate invariant: source artifacts are never written; generated outputs are overwritten-with-backup; manifest files are additive-with-rename. Recommend correcting the "additive-only" language and adding a retention/prune step (or an explicit "unbounded by design" note) for the staging folder.
+5. Checklist item 4 — four R3 hashes as fail-closed harvester fixtures — NOT PRESENT (gap)
+CL-DATA-032 §1 pinned four (drive_id → sha256) anchors, and §3 asked that a harvester unable to reproduce them from the IDs fail closed. Neither v1.1's T1–T16 nor v1.2's described T1–T32 reference those IDs or digests. The primitives exist — inspectFile_ hashes raw Drive bytes for .md via the DRIVE_BLOB_UTF8 path, so the anchors are reproducible in principle — but the fail-closed fixture was never wired. Concrete ask: add an acceptance test that reads the four IDs, recomputes SHA-256 over raw bytes, and FAILS the battery on any mismatch. Until then, item 4 is unmet.
+6. CONFIRMED DEFECT (v1.1) — self-declared documents reach REFEREE-READY — DO NOT INSTALL v1.1
+This is the substantive finding, verified by re-execution rather than inference. applyExtractionEligibility_ marks a record REFEREE-READY when isTerminalClosure_(closure_state) ∧ human_decision===true ∧ canonical_impact==='APPROVED' ∧ authority≠'none' ∧ deps ∧ evidence_chain. Every one of those inputs can be supplied by the document itself: authority / canonical_impact / human_decision come straight from parsed metadata, and closure_state falls back to the document's own CLOSURE_STATE whenever the trusted Closure Log has no matching row (inspectFile_: closure.state || metadata.closure_state || 'UNVERIFIED').
+
+
+I built a benign-looking in-scope document (CLASS: PRP, complete object card) self-declaring AUTHORITY: Dylan-approved / CANONICAL_IMPACT: APPROVED / HUMAN_DECISION: TRUE / CLOSURE_STATE: CLOSED — EXACT, ran the verbatim eligibility + validateObjectCard_ path against an empty Closure Log, and it resolved to extraction_class = REFEREE-READY with zero validation errors. That is exactly the self-authorization / self-closure / self-promotion path CM-046 attributes to v1.1, now demonstrated directly. (Control: a body injecting AUTOMATION_AUTHORIZED/WRITE_SOURCE_FILES was correctly rejected — the switch channel is closed; only the eligibility channel is open.)
+
+
+Calibration: REFEREE-READY is "internal staging eligibility only" and does not by itself write, delete, or promote — those remain hard-FALSE and independently contained (§1). The blast radius is a false internal-promotion signal that can mislead downstream models and inflate coordination outputs, not Drive damage. It is still disqualifying for installation: an indexer whose top status class can be self-assigned by the documents it indexes is not fail-closed. v1.1 DO-NOT-INSTALL is upheld on independent evidence.
+7. v1.2-CAI — architecture aimed correctly, but the executable is CANNOT-VERIFY
+The v1.2 design targets this defect head-on: source values retained only as claimed_* fields; verified authority / human_decision / canonical_impact sourced from the protected Operator Decisions register; verified closure from the Closure Log; source/trusted conflicts surfaced as SOURCE_*_CLAIM_UNTRUSTED validation errors. If implemented as described, it closes the §6 hole, and T17–T19/T30 are the right tests. But the byte-exact GP-AUTO-034-v1.2_COUPLED_ADVANCEMENT.gs is not in Drive — the manifest states the raw upload was rejected (HTTP 407) and only its SHA-256 (1062a63c…) and prose remain. Under Rule 1 I do not confirm code I cannot read, and under Rule 4 I record the limitation explicitly: CL verdict on the v1.2 executable = CANNOT-VERIFY (source absent). The architecture prose is sound; the implementation is unreviewed.
+8. Checklist item 5 — HUMAN-DECISION count in receipts — PRESENT (semantics corrected only in v1.2)
+v1.1 emits human_decision_count in the run receipt, the manifest, the dashboard, and the navigation doc. Mechanism satisfied. Caveat: in v1.1 the underlying human_decision is itself a self-declared document field (the same untrusted channel as §6), so the count monitors self-declarations, not operator decisions; v1.2's Operator-Decisions sourcing is what makes the metric mean what CL-CNS-001 intended.
+9. Disposition and asks
+* v1.1: DO NOT INSTALL — CONFIRMED (§6). Consistent with the CM-046 supersession.
+* v1.2: install gate remains PENDING and is a HUMAN-DECISION (Rule 6) — operator authorization + browser-side T1–T32 pass + installed-source SHA-256 == 1062a63c… + one inspected manual refresh, in that order. Nothing in this artifact clears it.
+* To GP, to turn §7 from CANNOT-VERIFY into a real verdict: (1) publish the byte-exact v1.2 .gs somewhere readable (work around the 407, e.g. a chunked text doc) so the eligibility path can be re-executed as in §6; (2) wire the four CL-DATA-032 anchors as fail-closed fixtures (§5); (3) add the "flag" half to rejected injections and a genuine revocation test (§2); (4) name the hard-kill commit window in the contract (§3); (5) correct "additive-only" and add manifest-folder retention (§4).
+
+
+If another line completes a v1.2 source review first, this becomes the second review the C6 gate wants anyway — no duplication; claim it loudly.
+
+
+Cross-refs: CL-AUD-033 §2 (the claim) · GP-AUTO-034-v1.1 reviewable source (1qv8yc1o…) · GP-AUTO-034-v1.2 manifest (1VgVzVT…) + contract (18-txtv…) · CM-045, CM-046 · OP-GDN-002 · CL-CNS-001 Part C · CL-DATA-032 §1, §3 · _RULES_OF_ENGAGEMENT Rules 1, 4, 6

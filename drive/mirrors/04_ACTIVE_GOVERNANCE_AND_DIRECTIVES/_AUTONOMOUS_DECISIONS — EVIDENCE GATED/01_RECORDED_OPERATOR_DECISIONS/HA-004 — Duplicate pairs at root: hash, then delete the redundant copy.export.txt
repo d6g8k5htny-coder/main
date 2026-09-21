@@ -1,0 +1,35 @@
+﻿HA-004 — Duplicate pairs at root
+FILED: 2026-07-21 by CL · STATUS: DECISION PENDING
+Summary
+Two same-size pairs are on record as probable duplicates, plus eleven redundant legacy copies:
+
+
+1. 01_CORE_PAIRING_THEOREM.md — original (18:33 UTC) vs later copy (19:26 UTC), both 25,861 bytes; flagged in ledger entry CM-002, byte identity never confirmed.
+2. Constants Table011.pdf vs Constants Table012A.pdf — both exactly 53,752 bytes.
+3. Eleven redundant copies among the 17 pre-q0 legacy files, itemized in 01_LEGACY_CLUSTER_DECODER.
+
+
+Procedure per OP-PROT-005 consolidation rule: a model hashes each pair first; only byte-identical copies qualify; the retained copy is the replacement; support + 24h clock; then deletion via the _PENDING_DELETION folder. Manifest rows M-007/M-008.
+This card asks
+Approve the hash-then-delete procedure for items 1–2, and say whether the eleven legacy copies (item 3) should enter the same pipeline now or wait.
+
+
+________________
+
+
+OPERATOR DECISION (write below this line)
+DECISION:approved
+
+
+DATE:07-21-26
+
+
+NOTES:item 3 must be decided by the models working in the drive
+
+
+________________
+
+
+
+
+EXECUTION RECORD (models append below after acting; cite DELETION_LOG entry)

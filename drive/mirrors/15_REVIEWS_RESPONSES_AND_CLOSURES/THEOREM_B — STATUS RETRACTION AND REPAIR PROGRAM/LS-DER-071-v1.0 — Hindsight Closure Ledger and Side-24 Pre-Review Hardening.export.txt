@@ -1,0 +1,300 @@
+﻿CURRENT ANTHROPIC VERDICT AND SUCCESSOR — 2026-07-28
+
+
+CL-AUD-LSDER071-20260728-01 returns AMEND REQUIRED: Gate A PASS, Gate B not proved. Gate A's |epsilon_24|<10^(-180) and analytic rational interval are externally proved at reviewed mathematical scope. Gate B's earliest defect is frozen equation (31)->(32), plus the unreviewed LS-DER-051 terminal implication.
+
+
+Controlling Gate-B successor:
+LS-DER-072-v1.0 — https://docs.google.com/document/d/19UCMJehB-RXez4cDWk8TZ2WrehVXA7vz9HA-h8GrWrI/edit
+It supplies the endpoint r^2 factor, Palm division, corrected T_r=-Q_perp/(kappa r) normalization, and G5/G6'/G7 recombination.
+Controlling external review: LS-REQ-039-v1.0 / DQ-101 — https://docs.google.com/document/d/18D9xX26dxjSyDFjawp1NUeewy0jzbtWzSsPNxZjQ2Hk/edit
+The frozen body below remains unchanged as the reviewed target.
+[[GATE-A:PASS]] [[GATE-B:AMEND-REQUIRED]] [[SUCCESSOR:LS-DER-072]] [[REVIEW:DQ-101]]
+
+
+CURRENT EXECUTABLE SUPPORT — 2026-07-28
+
+
+The combined exact pre-review ledger supporting Sections 2–4 is frozen as:
+LS-DATA-071A-v1.0 — source
+https://docs.google.com/document/d/1JJJ7bKiExGWzUkWTJ_qAx-RaOtVSRK9nZCQT3mXU5Vk/edit
+Body 3,603 bytes / SHA-256 077ea0dfa70bbacb3cf2487bb95a605487c1c55d56a1690af2f4f32bd8a7f0cf.
+
+
+LS-DATA-071B-v1.0 — result
+https://docs.google.com/document/d/1Nnh64jtvMg-FxS_CcAouK_V7ULJO2xA-CBeKKGaLndU/edit
+Body 1,081 bytes / SHA-256 1445c90b5d1b438df76e1de318f38e75e07a8d42d3e62fbd727633655a5dfc05.
+
+
+All exact assertions pass, including P_3(24)=-620813376/35, the degree-nine determinant correction, and a combined epsilon majorant below 10^(-180). This is same-family support only. The frozen LS-DER-071 body remains unchanged.
+[[EXECUTABLE-SUPPORT:LS-DATA-071A/B]] [[ALL-ASSERTIONS:PASS]] [[INDEPENDENCE-CREDIT:ZERO]]
+
+
+LS-DER-071-v1.0 — HINDSIGHT CLOSURE LEDGER AND SIDE-24 PRE-REVIEW HARDENING
+
+
+Artifact ID: LS-DER-071-v1.0
+Dispatch: DQ-098
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / INTERNAL ADVERSARIAL HARDENING / AMENDMENT RECONCILIATION / CLOSURE LEDGER
+Authority: same-OpenAI-family repair successor only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: READY FOR ORGANIZATIONALLY DISTINCT AMENDMENT REVIEW
+BODY_BYTES: 11814
+BODY_SHA256: 53f9cbcc95c21ecb3c73e98f07ec17915ccbfa40bfa02849ad61d1c90ddf3f7b
+
+
+CONTROLLING INPUTS
+
+
+CL-AUD-LSDER062-20260728-01 — first Anthropic AMEND REQUIRED verdict.
+LS-DER-063-v1.0 — precision-corrected deterministic evaluation.
+LS-DER-064-v1.0 and LS-DER-068-v1.0 — analytic remainder repair.
+LS-DER-065-v1.0, LS-DER-067-v1.0, and LS-DER-069-v1.0 — side-24 persistence-transfer repair.
+LS-DER-051-v1.0 and LS-DER-053-v1.0 — G1–G7 selection composition and externally checked planar charts.
+
+
+FREEZE POLICY
+
+
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER071_FROZEN_BODY and strictly before the unique full line END_LSDER071_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER071_FROZEN_BODY
+TAKING A STEP BACK: HINDSIGHT CLOSURE LEDGER AND SIDE-24 PRE-REVIEW HARDENING
+
+
+1. PURPOSE AND SCOPE
+
+
+The first Anthropic review preserved the exact local coefficient chain but identified two analytic debts: the side-24 periodized selected-persistence transfer and the analytic remainder supporting the rational interval. Same-family successors LS-DER-063 through LS-DER-069 address those debts. This document performs the final internal adversarial pass before another Anthropic call.
+
+
+It makes no canonical promotion and creates no organizational-independence credit. It does four things only:
+
+
+(1) corrects an avoidable polynomial-degree error in LS-DER-069;
+(2) makes the coefficient-map Gaussian derivative and Taylor norms explicit;
+(3) proves that the nearest-image first variation is exactly P_3(24)e^(-288), rather than merely citing that identification;
+(4) gives a complete side-24 G1--G7 dependency ledger, including the fixed-field Borell step and the exact density block used in G7.
+
+
+The broader field-class theorem LS-DER-070 is not part of the low-budget Anthropic closure request. It remains a separate same-family theorem candidate.
+
+
+2. TWO NONSTRUCTURAL CORRECTIONS
+
+
+2.1. Determinant polynomial degree.
+
+
+For three 3 by 3 Hessians,
+    det H_M det H_S det H_y
+is a polynomial of total degree nine in the concatenated Hessian coordinates, not degree six. The degree-six sentence in LS-DER-069 Section 3 is superseded.
+
+
+The conclusion of LS-DER-069 equation (11) is unchanged. If H_r conditioned on A_r=a has mean mu(a) with ||mu(a)||<=C(1+||a||) and covariance operator norm at most C, then for every polynomial P of degree at most nine,
+    E[|P(H_r)| | A_r=a] <= C_P(1+||a||^9).                  (1)
+This follows by writing H_r=mu(a)+G_r, allowing G_r to be degenerate, expanding P, and using uniform Gaussian moments. Thus one may take N=9 in the determinant-moment bound, or any larger integer used elsewhere.
+
+
+2.2. Display-only Taylor line.
+
+
+The final print string in LS-DATA-064A says
+    TAYLOR_REMAINDER_AT_1e-113 < 5e-187.
+That line refers to the unnormalized 10^40 Hessian scale. For the relative map, LS-DER-064 correctly uses the 10^42 bound and obtains
+    (1/2)10^42(10^(-113))^2 = 5*10^(-185).                  (2)
+All executable assertions and the theorem-level 10^(-180) conclusion are unaffected. The display string is historical only.
+
+
+3. FIXED-CONE DIFFERENTIATION OF THE GAUSSIAN MOMENT
+
+
+Let q in R^3 be fixed linear coordinates on Sym_2 and let Q(q) be the associated symmetric matrix. Put
+    C={q:Q(q)<0}.
+For a positive covariance Gamma define
+    D(Gamma)=integral_C (det Q(q))^2 phi_Gamma(q)dq.          (3)
+
+
+The domain C is fixed in q-coordinates; Gamma changes only the Gaussian density. Hence there is no moving-boundary derivative.
+
+
+For a symmetric direction H and A=Gamma^(-1), along Gamma_s=Gamma+sH,
+    l_s(q)=log phi_(Gamma_s)(q)
+satisfies at s=0
+    l'(q)=-(1/2)tr(AH)+(1/2)q^T AHA q,                       (4)
+    l''(q)=(1/2)tr(AHAH)-q^T AHAHA q.                        (5)
+Therefore
+    dD[H]=integral_C (det Q)^2 phi_Gamma l' dq,              (6)
+    d^2D[H,H]=integral_C (det Q)^2 phi_Gamma[(l')^2+l'']dq.  (7)
+
+
+On 1/2 I<=Gamma<=4I and ||H||_op<=1,
+    |l'|<=3+2||q||^2,
+    |(l')^2+l''|<=15+20||q||^2+4||q||^4.                    (8)
+Using |det Q|<=||q||^2 and the moment bounds
+    E||q||^4<=240, E||q||^6<=6720, E||q||^8<=241920,
+one recovers exactly the LS-DATA-064A bounds
+    |D|<=240, ||D'||<2*10^4, ||D''||<2*10^6.                 (9)
+Equations (3)--(9) replace any appeal to a measure-zero boundary sketch.
+
+
+4. EXACT NEAREST-IMAGE LINEAR RESPONSE
+
+
+Let
+    F(J)=Phi(J)/Phi(J_0),
+where J_0 is the planar Bargmann--Fock even covariance jet and Phi is the exact LS-DER-056/060 coefficient functional. The derivative and Hessian norms below are from the jet max norm to the absolute scalar norm:
+    sup_B ||DF||<10^16,
+    sup_B ||D^2F||<10^42.                                   (10)
+
+
+For side 24 write q=e^(-288) and decompose the exact normalized jet perturbation as
+    J_24-J_0=J_near^(1)+R_jet,                               (11)
+where J_near^(1) is the term linear in the six images +/-24e_i. LS-DER-068 proves
+    ||J_24-J_0||_max<10^(-113),
+    ||R_jet||_max<10^(-230).                                (12)
+
+
+The identity
+    DF(J_0)[J_near^(1)]=P_3(24)q                            (13)
+is exact. Indeed Phi is O(3)-invariant and J_0 is O(3)-fixed, so its first derivative sees only the Haar rotational projection of J_near^(1). The six-image cubic orbit has radial moment variations
+    delta a=-2L^2,
+    delta m_4=6L^2(L^2-10)/5,
+    delta chi=30L^2[-L^4+21L^2-105]/35                     (14)
+at d=3. Substitution into the logarithmic differential
+    delta log c=(delta Omega)/9+(delta m_4)/6-(13/6)delta a (15)
+gives
+    P_3(L)=-(2/21)L^6+(7/5)L^4-3L^2
+          =-L^2(10L^4-147L^2+315)/105.                     (16)
+At L=24,
+    P_3(24)=-620813376/35.                                  (17)
+Thus the first term retained in LS-DER-068 is exactly the six-nearest-image response in the same normalized jet coordinates used by Phi.
+
+
+Taylor's theorem applied to (11) now gives
+    F(J_24)-1
+      =P_3(24)e^(-288)+DF(J_0)[R_jet]+R_quad,                (18)
+with
+    |DF(J_0)[R_jet]|<10^16*10^(-230)<10^(-210),             (19)
+    |R_quad|<=(1/2)10^42(10^(-113))^2<5*10^(-185).          (20)
+Consequently
+    F(J_24)-1=P_3(24)e^(-288)+epsilon_24,
+    |epsilon_24|<10^(-180).                                 (21)
+This proof is independent of the direct 280-digit value.
+
+
+5. SIDE-24 G1--G7 CLOSURE LEDGER
+
+
+Only the fixed side-24 field is asserted here.
+
+
+G1 -- corrected pair-pin nondegeneracy.
+LS-DER-065 Section 3 gives a positive contact covariance and uniform inverse after the structural divided-difference change of basis.
+
+
+G2 -- endpoint fold normalizer.
+Under the corrected pins, r^(-2)W_r converges in every compact positive mark family to the nonnegative planar contact weight. Its expectation is strictly positive because the negative-definite transverse cone has positive Gaussian measure and the odd Schur variance is positive. Its second moment is finite by Gaussian polynomial moments. Jet continuity and compactness therefore give
+    c_Z r^2<=Z_r<=C_Z r^2, E[W_r^2]<=C_W r^4.               (22)
+
+
+G3 -- fixed-chart jet and fifth-derivative control.
+For the fixed side-24 periodized Bargmann--Fock field, every spectral moment is finite and every derivative process is continuous on the compact torus. Conditioning on the corrected pair pins changes the fifth-derivative field by a uniformly bounded affine mean and a covariance dominated by the unconditional covariance. On compact marks, Borell--TIS therefore gives constants C,c such that
+    P(H_5>u)<=C exp(-c u^2).                                (23)
+Taking u=r^(-1) gives the required exp(-c/r^2) failure bound. This fixed-field argument does not rely on the C^8 neighbourhood alone. Any general field-class theorem must separately assume a common high-derivative spectral envelope.
+
+
+G4 -- matrix-boundary regularity.
+At contact the transverse Hessian is -bI_2+GOE_2, jointly nondegenerate with the remaining finite jet. Side-24 jet perturbation and compactness preserve bounded conditional densities and the shallow-eigenvalue coarea estimate.
+
+
+G5 -- collar triple contact.
+LS-DER-053 Sections 3--4 give the exact planar covariance and determinant cancellation. LS-DER-065 proves that the rho-powers arise before covariance insertion and persist for side 24.
+
+
+G6' -- singular-near triple contact.
+The controlling three-dimensional interface is G6', not the stronger generic G6 wording in LS-DER-051. LS-DER-053 gives the t^(-7) angular density and the anisotropic determinant envelope
+    [r(r+t^2)]^2(r^2+t^3),                                  (24)
+whose six radial terms integrate to O(r^3). LS-DER-065 preserves the singular-axis rho cancellation for side 24.
+
+
+G7 -- fixed-distance witnesses.
+LS-DER-067 proves full-spectrum positivity for the density block. LS-DER-069 separates that block from the possibly degenerate Hessian moment block. Section 6 below makes the joint target and mark envelope explicit.
+
+
+Thus every imported LS-DER-051 interface used by the side-24 composition has a named fixed-field proof. No claim is made that local sixth-jet/C^8 proximity alone proves G3 or G7 for an arbitrary field.
+
+
+6. EXACT G7 DENSITY BLOCK AND ALL-MARK ENVELOPE
+
+
+Let
+    A_r=(P_r^corr,f(y),grad f(y)),
+    dist(y,{M,S})>=delta.                                   (25)
+For the side-24 field, complete positive Fourier support and derivative-distribution independence give, uniformly on the compact separated configuration set,
+    c_delta I<=Sigma_AA<=C_delta I.                          (26)
+
+
+Let L_r(b,kappa) be the corrected pair-pin target and let the remote critical value be
+    u=b-alpha kappa r^3/6, alpha in [0,1].                  (27)
+The full density target is
+    a_r(b,kappa,alpha)=(L_r(b,kappa),u,0).                   (28)
+The pair component obeys, after reducing r_delta if needed,
+    ||L_r(b,kappa)||^2>=(1/2)(b^2+kappa^2).                 (29)
+Since lambda_max(Sigma_AA)<=C_delta, the joint density itself satisfies
+    p_A(a_r)<=C exp[-c||a_r||^2]
+             <=C exp[-c'(b^2+kappa^2)].                    (30)
+No second conditioning step is needed to preserve the Gaussian penalty.
+
+
+Let H_r contain the endpoint and remote Hessian coordinates. Only Sigma_AA is inverted. Raw cross-covariances are bounded, so the conditional mean is linear in a_r with bounded operator norm and the conditional covariance is bounded positive semidefinite. By the degree-nine correction (1),
+    E[|det H_M det H_S det H_y| | A_r=a_r]
+      <=C[1+(|b|+kappa)^9].                                 (31)
+
+
+Integration over u contributes the exact window width kappa r^3/6. Absorbing the extra factor kappa into the polynomial gives
+    E_r^MS N_far
+      <=C r^3[1+(|b|+kappa)^10]
+        exp[-c(b^2+kappa^2)].                               (32)
+After the lifetime pushforward, multiplication by kappa^(-2/3) remains integrable at zero and the Gaussian dominates infinity. Hence the all-mark majorant is valid.
+
+
+7. INTERNAL CLOSURE VERDICT
+
+
+At same-family candidate level, the six repairs requested by CL-AUD-LSDER062-20260728-01 now stand as follows:
+
+
+R1--R3, numerical precision and cancellation: LS-DER-063 / LS-DATA-063A/B.
+R4, explicit analytic remainder: LS-DER-064 + LS-DER-068 + Sections 3--4 here.
+R5, periodized selected-persistence transfer: LS-DER-065 + LS-DER-067 + LS-DER-069 + Sections 5--6 here.
+R6, narrowed independence language: LS-DER-063 and the banners on LS-DER-061/062.
+
+
+The side-24 chain is therefore READY FOR ORGANIZATIONALLY DISTINCT AMENDMENT REVIEW at the reviewed scope. It is not ready for canonical promotion until that verdict is returned. A full directed-rounding interval for the nonlinear quadrature remains optional strengthening, not a prerequisite for the analytic relative interval (21).
+
+
+8. REVIEW FIREWALL
+
+
+The next Anthropic call should decide only:
+
+
+A. Does the analytic chain (3)--(21) prove |epsilon_24|<10^(-180), making the rational relative interval unconditional at the reviewed mathematical scope?
+
+
+B. Do the fixed-field interfaces (22)--(32), together with the already externally checked planar charts, prove that the LS-DER-056 side-24 coefficient is the selected finite nonessential H0 persistence coefficient?
+
+
+LS-DER-070 and all general field-class claims are excluded from that call. Hash reproduction is not required for a mathematical verdict and must not be claimed if raw marker extraction remains unavailable.
+
+
+FINAL STATUS
+
+
+AVOIDABLE PRE-REVIEW DEFECTS REPAIRED; SIDE-24 REMAINDER AND SELECTED-PERSISTENCE CHAINS INTERNALLY CLOSED AT SAME-FAMILY CANDIDATE LEVEL; READY FOR ONE BINARY ANTHROPIC AMENDMENT GATE.
+END_LSDER071_FROZEN_BODY

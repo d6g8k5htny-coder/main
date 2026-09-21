@@ -1,0 +1,98 @@
+﻿SAME-LINE PRE-AUDIT NOTE — 2026-07-30
+P02-AUD-004-012-v1.0 reproduces the target at 10,416 bytes / SHA-256 d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87, confirms that the v1.1 drift is confined to the explicit saddle-spectrum/Weyl repair, and finds the proof internally consistent under its declared hypotheses.
+Audit: https://docs.google.com/document/d/1_BXYctXrnetAxsIiXSvgm0g9XRHPO4YD4-3-ZmdvF-o
+This removes transport and drift ambiguity only. A qualifying organizationally distinct reviewer must still reconstruct the exact body and issue an affirmative exact-hash verdict. No review credit or closure follows from the same-line audit.
+[[TARGET:LM004-v1.1]] [[SAME-LINE-PASS]] [[EXTERNAL-EXACT-HASH-VERDICT:OPEN]]
+
+
+OPTIONAL JOINT SHARED TAYLOR-TRANSFER REVIEW ROUTE — GP-COR-194 / GP-REQ-194 — 2026-07-24
+P02-LM-004 and P0.1 Domain D share the pin-preserving C1 Taylor-transfer and physical-Hessian scaling interface, but their full robustness theorems are distinct. A reviewer may reconstruct the shared interface once and separately audit the adaptive RW/4 application and the fixed-q epsilon_D application.
+Joint packet: https://docs.google.com/document/d/1mM355KwRN4ZiYCB9FHftl5gdiIT1BuYoQQhGMQKgynQ/edit
+Crosswalk: https://docs.google.com/document/d/1qvfGFsiegUHMWX6l_56xXF9CoIs9J-2eg1djOa6yWrk/edit
+An approval of P02-LM-004 alone may support the shared transfer interface but does not approve the P0.1 fixed-q margin/sensitivity theorem or frozen P0.1 hash. Counting: one shared-interface reconstruction / separate application verdicts / one independence credit.
+This packet remains the controlling P02-LM-004-only route. The joint route is optional.
+[[JOINT-ROUTE:GP-REQ-194]] [[SHARED:TAYLOR-TRANSFER]] [[APPLICATIONS:DISTINCT]] [[NO-DOUBLE-COUNT]]
+
+
+LCR-REQ-039-v1.0 — INDEPENDENT REVIEW OF P02-LM-004 v1.1 EXPLICIT SADDLE SPECTRUM
+
+
+Artifact ID: LCR-REQ-039-v1.0
+Date: 2026-07-24
+Class: REQ / FROZEN-HASH DYNAMICAL ROBUSTNESS REVIEW
+Authority: review routing only
+Status: OPEN ASSIGNMENT
+
+
+Frozen object:
+LCR-DER-016-v1.1
+https://docs.google.com/document/d/1tPt0KKJEKE6c-7xNwJW82dooRkDyANnToRErc3oWX84/edit
+
+
+BODY_BYTES: 10416
+BODY_SHA256: d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87
+
+
+Freeze receipt:
+https://docs.google.com/document/d/1YTgYx-ndR_q5IoqxA1M_GlTr1cN8OsYZIRuoWmVP44E/edit
+
+
+Predecessor v1.0, SHA 6a85ccf61dbe86b371cee4af6a663f5583729faaf5df0bb7f04ddaefd01cdb3d, is superseded for review. Use v1.1 only.
+
+
+[[TARGET:P02-LM-004-v1.1]] [[HASH:d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87]] [[EXPLICIT-SADDLE-SPECTRUM]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+Required ledger:
+
+
+A0 — reproduce BODY_BYTES 10416 and the full SHA-256.
+A1 — verify the exact Euclidean/operator C1 norm, gradient symmetry, open-neighborhood domain, and exact pin preservation.
+A2 — verify Q1 and eta=RW/4<=1/8192.
+A3 — reconstruct the saddle entries A_S, B_S, D_S and verify
+
+
+    lambda_max>=A_S>=1-epsilon_0/12,
+
+
+    lambda_min<=D_S
+      <=-2KR^5-(3/2)R+epsilon_0/8<-1.
+
+
+A4 — apply Weyl to preserve exact saddle index under operator perturbation eta.
+A5 — verify the selected exact positive eigendirection lies strictly inside the cone and follows the exact M-ward sign convention.
+A6 — verify pin-preserving mean-value perturbation bounds on cone rays.
+A7 — verify cone-axis and face losses against 7/8 and 511R margins.
+A8 — verify strip flux and central transit under eta.
+A9 — verify sink contraction using 63/128, 3/64, and eta.
+A10 — verify handoff geometry and complete chart containment.
+A11 — verify the Taylor corollary C_Dr<=RW/4 uniformly on REG_r, including the r^(1/5) calculation.
+A12 — confirm the theorem is conditional and sufficient, not necessary, and proves no probability estimate or P0.2.
+
+
+Adversarial mutations:
+
+
+- remove exact pin preservation;
+- use C0 rather than C1 control;
+- drop gradient symmetry;
+- replace RW/4 by a fixed tolerance;
+- omit the explicit negative saddle eigenvalue margin;
+- use a chart that does not contain all segments and trajectory regions;
+- allow C_D to depend on r or U;
+- change the branch sign convention.
+
+
+Accepted affirmative verdict:
+
+
+APPROVE P02-LM-004 VERSION 1.1 FROZEN SHA256 d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87 EXACT ADAPTIVE C1 ROBUSTNESS AND TAYLOR-REMAINDER TRANSFER WITH EXPLICIT SADDLE SPECTRUM
+
+
+Other verdicts: AMEND REQUIRED / REJECT / CANNOT VERIFY.
+
+
+One organizationally distinct non-OpenAI reviewer is sufficient for this isolated lemma. No P0.2 promotion follows.
+
+
+END LCR-REQ-039-v1.0

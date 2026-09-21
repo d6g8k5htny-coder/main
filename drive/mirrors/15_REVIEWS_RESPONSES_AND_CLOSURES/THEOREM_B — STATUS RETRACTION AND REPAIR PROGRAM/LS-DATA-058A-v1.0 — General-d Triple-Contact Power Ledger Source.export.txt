@@ -1,0 +1,66 @@
+﻿LS-DATA-058A-v1.0 — GENERAL-d TRIPLE-CONTACT POWER LEDGER SOURCE
+
+
+Artifact ID: LS-DATA-058A-v1.0
+Supports: LS-DER-058-v1.0
+Class: DATA / SYMBOLIC SOURCE / EXACT POWER LEDGER
+Status: ACTIVE REPRODUCIBILITY CARRIER
+BODY_BYTES: 1518
+BODY_SHA256: 0bd95cf8a3e79192e0519ba9527a5d00ec0d542eb3d016270dc79ffe638c6844
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDATA058A_FROZEN_BODY and strictly before the unique full line END_LSDATA058A_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDATA058A_FROZEN_BODY
+import sympy as sp
+
+
+d,n,r,t,rho,X = sp.symbols('d n r t rho X', positive=True)
+
+
+# Transverse GOE action covariance C=rho^2 I + Y Y^T.
+# Eigenvalues: 2 rho^2 along Y, rho^2 with multiplicity n-1.
+det_Cperp = 2*rho**(2*n)
+Y_Cinv_Y = sp.Rational(1,2)
+
+
+# Collar axial variance and complete scaled-gradient determinant.
+var_axial = rho**2*(4*X**2+rho**2)/2
+det_collar = sp.factor(var_axial*det_Cperp)
+assert sp.simplify(det_collar-rho**(2*(n+1))*(4*X**2+rho**2)) == 0
+
+
+# Set n=d-1.
+det_collar_d = sp.simplify(det_collar.subs(n,d-1))
+assert sp.simplify(det_collar_d-rho**(2*d)*(4*X**2+rho**2)) == 0
+
+
+# Singular-near (L0,L1) determinant times transverse block.
+c = sp.symbols('c', real=True)
+det_L01 = rho**6*(c**2+rho**2)*(3*c**2+rho**2)/48
+det_singular = sp.factor(det_L01*det_Cperp)
+det_singular_d = sp.simplify(det_singular.subs(n,d-1))
+expected_singular = rho**(2*d+4)*(c**2+rho**2)*(3*c**2+rho**2)/24
+assert sp.simplify(det_singular_d-expected_singular) == 0
+
+
+# Dimension-independent Kac-Rice powers.
+collar_r_power = sp.simplify(-(d+1)+6-2+d)
+singular_t_power = sp.simplify(-(d+4)+(d-1))
+axis_rho_power = sp.simplify(-(d+2)+(d-2))
+assert collar_r_power == 3
+assert singular_t_power == -5
+assert axis_rho_power == -4
+
+
+print('det_Cperp =',det_Cperp)
+print('Y_Cinv_Y =',Y_Cinv_Y)
+print('det_collar_d =',det_collar_d)
+print('det_singular_d =',det_singular_d)
+print('collar_r_power =',collar_r_power)
+print('singular_t_power =',singular_t_power)
+print('axis_rho_power =',axis_rho_power)
+print('ALL_ASSERTIONS_PASS')
+END_LSDATA058A_FROZEN_BODY

@@ -1,0 +1,1166 @@
+{
+  "mutations": [
+    {
+      "byte_identical": true,
+      "name": "gap_sign",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:pin_value_S",
+        "mutation": "gap_sign",
+        "result": "REJECTED"
+      },
+      "sha256": "5cc25c8af77b7aaa5c8ee74c9a1349a94f85fde02ae67a4fda00d241c159596a"
+    },
+    {
+      "byte_identical": true,
+      "name": "denominator_power",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:Palm_power_ledger",
+        "mutation": "denominator_power",
+        "result": "REJECTED"
+      },
+      "sha256": "3d892dfa891d235e89e5c472d376ac1478c9be671b7e8ad66560ca82d8ba134e"
+    },
+    {
+      "byte_identical": true,
+      "name": "omit_rare_mass",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:Palm_power_ledger",
+        "mutation": "omit_rare_mass",
+        "result": "REJECTED"
+      },
+      "sha256": "e4190f732f74ca111403c4dc1dd648e2e2aeb4fc95ee1b0a7d86acaf7db4f917"
+    },
+    {
+      "byte_identical": true,
+      "name": "hessian_scale",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:Palm_power_ledger",
+        "mutation": "hessian_scale",
+        "result": "REJECTED"
+      },
+      "sha256": "c9492266870918b5a29c9739f92f5794ee3f5469c1454067e132fc17bd3fccaa"
+    },
+    {
+      "byte_identical": true,
+      "name": "clearance",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": false,
+            "value": "-137/3840"
+          }
+        ],
+        "error": "CHECK_FAILED:robust_path_above_S",
+        "mutation": "clearance",
+        "result": "REJECTED"
+      },
+      "sha256": "edea67dc452d570f246880734f5cd47a3bdc5fc567932c1246a28c5cb6bce555"
+    },
+    {
+      "byte_identical": true,
+      "name": "drop_palm_weight",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:Palm_power_ledger",
+        "mutation": "drop_palm_weight",
+        "result": "REJECTED"
+      },
+      "sha256": "76b7d03a07c06747c657577693c501bd0fdfb5d6ebab3457264abda9a6343a0c"
+    },
+    {
+      "byte_identical": true,
+      "name": "unauthorized_promotion",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": true
+          },
+          {
+            "name": "numerator_constant",
+            "pass": true
+          },
+          {
+            "name": "final_symbolic_bound",
+            "pass": true
+          },
+          {
+            "name": "conditional_tail_not_global_subtraction",
+            "pass": true
+          },
+          {
+            "name": "bad_global_tail_subtraction_can_be_negative",
+            "pass": true
+          },
+          {
+            "name": "no_unreviewed_theorem_promotion",
+            "pass": false
+          }
+        ],
+        "error": "CHECK_FAILED:no_unreviewed_theorem_promotion",
+        "mutation": "unauthorized_promotion",
+        "result": "REJECTED"
+      },
+      "sha256": "3afc52dfd873c1cef52a9dfc823436fa48ee8fb06745c9cdfa2f337e9673ed35"
+    },
+    {
+      "byte_identical": true,
+      "name": "duplicate_keys",
+      "normal_exit": 1,
+      "optimized_exit": 1,
+      "output": {
+        "artifact": "LPW-CAND-20260912",
+        "checks": [
+          {
+            "name": "pin_value_M",
+            "pass": true
+          },
+          {
+            "name": "pin_value_S",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_M_y",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_x",
+            "pass": true
+          },
+          {
+            "name": "pin_gradient_S_y",
+            "pass": true
+          },
+          {
+            "name": "Hessian_M",
+            "pass": true
+          },
+          {
+            "name": "Hessian_S",
+            "pass": true
+          },
+          {
+            "name": "M_maximum_determinant",
+            "pass": true
+          },
+          {
+            "name": "S_saddle_determinant",
+            "pass": true
+          },
+          {
+            "name": "path_starts_at_M",
+            "pass": true
+          },
+          {
+            "name": "path_endpoint_y",
+            "pass": true
+          },
+          {
+            "name": "path_y_derivative",
+            "pass": true
+          },
+          {
+            "name": "path_rectangle_bound",
+            "pass": true
+          },
+          {
+            "name": "ridge_polynomial",
+            "pass": true
+          },
+          {
+            "name": "ridge_derivative",
+            "pass": true
+          },
+          {
+            "name": "ridge_minimum_value",
+            "pass": true
+          },
+          {
+            "name": "ridge_global_minimum_factorization",
+            "pass": true
+          },
+          {
+            "name": "minimum_residual_positive_coefficients",
+            "pass": true
+          },
+          {
+            "name": "endpoint_is_older",
+            "pass": true
+          },
+          {
+            "name": "robust_path_above_S",
+            "pass": true,
+            "value": "103/3840"
+          },
+          {
+            "name": "robust_endpoint_above_M",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_axial_sign",
+            "pass": true
+          },
+          {
+            "name": "robust_maximum_det_floor",
+            "pass": true,
+            "value": "81/16"
+          },
+          {
+            "name": "robust_saddle_det_ceiling",
+            "pass": true,
+            "value": "-1673/128"
+          },
+          {
+            "name": "safe_weight_constant",
+            "pass": true
+          },
+          {
+            "name": "coefficient_perturbation_budget",
+            "pass": true
+          },
+          {
+            "name": "Taylor_C2_majorant",
+            "pass": true,
+            "value": "2089/384"
+          },
+          {
+            "name": "six_pin_Hermite_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transform_determinant",
+            "pass": true
+          },
+          {
+            "name": "six_pin_transformed_values",
+            "pass": true
+          },
+          {
+            "name": "Hermite_exact_on_selected_basis",
+            "pass": true
+          },
+          {
+            "name": "degree_three_lattice_unisolvence",
+            "pass": true
+          },
+          {
+            "name": "four_remaining_jet_coordinates",
+            "pass": true
+          },
+          {
+            "name": "rare_jet_box_volume",
+            "pass": true
+          },
+          {
+            "name": "conditional_half_mass",
+            "pass": true
+          },
+          {
+            "name": "Palm_power_ledger",
+            "pass": true
+          },
+          {
+            "name": "numerator_constant",
+            "pass": true
+          },
+          {
+            "name": "final_symbolic_bound",
+            "pass": true
+          },
+          {
+            "name": "conditional_tail_not_global_subtraction",
+            "pass": true
+          },
+          {
+            "name": "bad_global_tail_subtraction_can_be_negative",
+            "pass": true
+          }
+        ],
+        "error": "DUPLICATE_JSON_KEY:authorized_promotion",
+        "mutation": "duplicate_keys",
+        "result": "REJECTED"
+      },
+      "sha256": "a388780fda3ab7c43b80eab71cde92adf2483bf19a31f547e1a47648573d327a"
+    }
+  ],
+  "scope": "Same-source adversarial regression, not independent review"
+}

@@ -19,6 +19,12 @@ The [H3 radius-band and RN N6 continuation](docs/H3_RN_N6.md) proves fixed-axis
 `1.7 r² <= Z(r) <= 3.49 r²` for every `0 < r <= 1/20` and improves four
 local RN squares, with full-annulus and all-angle obligations retained.
 
+The [finite-width RN inner wedge](docs/RN_INNER_WEDGE.md) adds a complete
+scoped cover at `r=1/20`: twelve auxiliary strips, zero pending cells, and
+an exact area-weighted integral below `33/256000000000`, conditional on the
+imported fixed-radius H3 floor. The remaining annulus and all-radius problem
+stay open.
+
 The [twelve-project mathematical continuation](docs/TWELVE_PROJECT_MATH.md)
 adds uniform six-pin covariance bounds, a conditional LPW coefficient,
 two gradient-jet bands, and exact persistence/contact, weighted-event,
@@ -30,7 +36,7 @@ adjacency are different events; the LPW coefficient does not identify them.
 command, exact RN certificate replay and derived dependency/diagnostic
 checkpoints. These retain the existing source and scientific-status boundaries.
 [Bounded recurring continuation](docs/RESEARCH_AUTOMATION.md) advances one
-verified private delivery at a time and coordinates through the live register.
+verified delivery at a time and coordinates through the live register.
 
 Git-side home of a multi-model mathematics research program that until now
 lived entirely in a Google Drive shared drive. This repository carries the

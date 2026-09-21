@@ -1,0 +1,203 @@
+﻿CL-DATA-214-v1.0 — EC-019 T2 INDEPENDENT CLEAN-ROOM SOURCE + FROZEN RUN RECEIPT
+
+
+Artifact ID: CL-DATA-214-v1.0
+Author line: CL — Anthropic Claude (model line Claude Opus, configured id claude-opus-4-8)
+Session: Cowork session session_01Tqagv53x5pGo8bwGackV1g, under Dylan Roy operator direction
+Class: DATA / FROZEN INDEPENDENT IMPLEMENTATION + RESULT RECEIPT
+Governing protocol: OP-PROT-011 (Independent-Eyes Rule)
+Task: EC-019 / HB-030 / GP-REQ-160 Test B / GP-REQ-172-v1.1 blinded non-GP T2 takeover
+Pre-registration: CL-REG-214-v1.0 (published 2026-07-24T20:03:19Z, before any code)
+Canonical impact: NONE. Authorizes no promotion, terminalization, root, seal, or release.
+
+
+This receipt records the frozen source and the blinded primary-run result BEFORE any GP
+comparison material (GP-DER-106 Section 3, CL-AUD-071, GP-DATA-168, GP-AUD-169/176) was opened.
+
+
+============================================================================
+A. PROVENANCE AND BLINDNESS
+============================================================================
+Provider Anthropic is organizationally distinct from OpenAI/GP, satisfying the
+"organizationally distinct" requirement of GP-REQ-172-v1.1 Section 1.
+
+
+The implementation was derived SOLELY from GP-SPEC-166-v1.0. No GP/OpenAI source code,
+interval array, margin table, control outcome, or discrepancy analysis was read before the
+source and result hashes below were frozen. Sources read before freezing: GP-REQ-172-v1.1,
+GP-SPEC-166-v1.0, the 2026-07-24 COMMAND CENTER snapshot and DELEGATED DECISION DISPOSITION
+(which state the expected outcome in words but contain no numerical margin values or source),
+and Drive file-listing metadata. Full disclosure is in CL-REG-214-v1.0.
+
+
+============================================================================
+B. RIGOR MODEL (self-contained; no external interval library)
+============================================================================
+mpmath and python-flint are unavailable in this sandbox (package index blocked). A
+self-contained rigorous interval arithmetic was implemented using only the Python standard
+library:
+ * Interval endpoints are EXACT rationals (fractions.Fraction). Addition, subtraction,
+   multiplication, division by intervals excluding zero, negation, and integer powers are
+   computed EXACTLY — zero rounding — so their enclosure is the exact natural-interval-
+   extension range (outward by construction).
+ * Even powers of zero-crossing intervals use I^2 = [0, max(a^2,b^2)] (not self-multiply).
+ * SQUARE ROOT is enclosed by a PROVEN directed rational construction using integer isqrt
+   on scaled integers at scale D = 10^P:
+       lower(sqrt x) = isqrt(floor(x*D^2))/D  <= sqrt(x)
+       upper(sqrt x) = (isqrt(ceil(x*D^2))+1)/D  >  sqrt(x)
+   (Proof: isqrt(n)=floor(sqrt n)<=sqrt n and floor(xD^2)<=xD^2 give the lower bound;
+    isqrt(m)+1>sqrt m and ceil(xD^2)>=xD^2 give the upper bound.)
+   This is the "documented guarantee of lower and upper enclosure" required by
+   GP-REQ-172-v1.1 Section 4.A, proven here rather than delegated to a library rounding mode.
+ * Because all non-sqrt operations are exact, the preregistered precision P controls only the
+   sqrt-enclosure width (<= 10^-P). Signs are decided on exact rationals.
+
+
+============================================================================
+C. ENVIRONMENT AND FREEZE RECEIPT
+============================================================================
+Environment: Python 3.11.15; Linux 6.18.5; x86_64. No third-party packages.
+Preregistered sqrt precisions P: {40, 100, 200}.
+
+
+SOURCE FREEZE (2026-07-24T20:08:59Z, before execution and before any comparison):
+  cleanroom.py : 13549 bytes ; SHA-256 bccf61151eea44a07f254072ab61b020fc941414fdbe5a0a69947bbf4e9a23dc
+  run_t2.py    : 10919 bytes ; SHA-256 147dd0e9578970a46a4af6159a7595a2bbb8e839b0f1a470d7c64405d7f10c59
+
+
+RESULT FREEZE (2026-07-24T20:09:09Z):
+  results.json : 36105 bytes ; SHA-256 2d32bb01944fdca6caf87a879c5db9d844a7ea0327636269c5501136341db874
+
+
+The three canonical byte-exact artifacts were delivered to the operator in-session. The
+SHA-256 values are computed on those canonical files; re-run `sha256sum` on them to verify.
+
+
+============================================================================
+D. PRIMARY RESULT — NINETEEN MARGINS (all strictly positive; sign-stable over P{40,100,200})
+============================================================================
+Values are 60-digit decimal approximations, truncated toward zero, of exact-rational lower-
+bound certificates; the exact p/q certificates are in results.json.
+
+
+  m_threshold                = 0.94259122467741621442097692944058...   > 0
+  m_saddle_det               = 0.97939803184027777777777777777777...   > 0
+  m_max_A                    = 0.99995833333333333333333333333333...   > 0
+  m_max_D                    = 0.97943750000000000000000000000000...   > 0
+  m_max_det                  = 0.97939489003472222222222222222222...   > 0
+  m_axial                    = 1.97939583333333333333333333333333...   > 0
+  m_cone_slope               = 0.00864436749429013482649377440506...   > 0
+  m_cone_axis                = 0.89992870183250000000000000000000...   > 0
+  m_cone_upper               = 0.01980236151749166666666666666666...   > 0
+  m_cone_lower               = 0.01743763551749166666666666666666...   > 0
+  m_handoff                  = 0.00748528137423857029281013234525...   > 0
+  m_strip_top                = 0.01653529266825702461804688111682...   > 0
+  m_strip_bottom             = 0.01642665968214591350693577000571...   > 0
+  m_central_drift            = 0.08996598847018422956041481904275...   > 0
+  m_transverse_contraction   = 0.96039234290867799448225994295938...   > 0
+  m_chart_X                  = 0.04643169314562849772497273800601...   > 0
+  m_chart_Y                  = 0.79643169314562849772497273800601...   > 0
+  m_gersh_1                  = 0.58993148103746107618912083528122...   > 0
+  m_gersh_2                  = 0.77126898078092252451170453494112...   > 0
+
+
+  Strictly positive: 19 / 19. Sign vector identical at P=40, P=100, P=200.
+
+
+============================================================================
+E. DERIVED QUANTITIES (enclosures)
+============================================================================
+  W        in [0.016970562748477140585..., 0.018974031961839025238...]
+  rho      in [0.202859557329695462391..., 0.203568306854371502275...]
+  tau_upper<= 0.000677816252854932586753112797465556619759817284314447800780
+  mu       in [0.017677669529663688110..., 0.017677669529663688111...]
+
+
+============================================================================
+F. NEGATIVE CONTROLS (executed, not asserted; all five fire)
+============================================================================
+  NC1 zero width        radius(c04)=0    -> validator FULL_DIMENSIONAL_BOX_FAIL       FIRES
+  NC2 endpoint typing   radius(c40)=500  -> m_saddle_det=-1.10560803..., m_max_det=-1.10561117...  FIRES
+  NC3 threshold         radius(s)=1.1    -> m_threshold=-0.13740877...                FIRES
+  NC4 cone too narrow   kappa=0.0005     -> m_cone_slope=-0.00085563...               FIRES
+  NC5 capture/chart     radius(a)=0.5    -> m_chart_X=-6.86041499..., m_gersh_1=-20.73346722...  FIRES
+
+
+============================================================================
+G. FULL-DIMENSIONALITY MUTATION TESTS (nine; all rejected before any dynamical gate)
+============================================================================
+  radius(a)=0, radius(w)=0, radius(z)=0, radius(s)=0, radius(c40)=0, radius(c31)=0,
+  radius(c22)=0, radius(c13)=0, radius(c04)=0  ->  each returns FULL_DIMENSIONAL_BOX_FAIL.
+  All nine rejected: YES.
+
+
+============================================================================
+H. REGRESSION / STABILITY (all pass)
+============================================================================
+  sqrt containment (L^2 <= x <= U^2 for x in {2,3,1/3,101/100}) : PASS
+  representative interval add/sub/signed-mul/div containment      : PASS
+  even-power over zero-crossing interval ([-3,2]^2 == [0,9])      : PASS
+  division-by-zero-width-divisor guard raises                     : PASS
+
+
+============================================================================
+I. INDEPENDENT TRANSCRIPTION AUDIT
+============================================================================
+A separate, isolated auditor (instructed to access no network/Drive; only the spec text and
+the source file) checked all 47 spec quantities — every coefficient, division constant, sign,
+term ordering, domain, even-power semantics, and lower()/upper()/supabs() extraction, plus the
+five controls by execution. Result: TRANSCRIPTION: FAITHFUL, zero defects.
+
+
+============================================================================
+J. PRE-COMPARISON VERDICT (based solely on the independent run)
+============================================================================
+T2 — PASS. All nineteen named margins are rigorously (exact-rational) positive and sign-stable
+across the three preregistered precisions; all five negative controls are computationally
+executed and fire; the full-dimensionality gate rejects all nine zero-radius mutations;
+source independence and reproducibility are documented. The post-freeze comparison against
+GP-DER-106 Section 3 / CL-AUD-071 is recorded separately in CL-AUD-214-v1.0 and does not alter
+any constant, domain, or the frozen result above.
+
+
+SCOPE: A qualifying T2 PASS makes EC-019 eligible for separate operator/canonical adjudication;
+it does NOT pass T1, terminalize EC-019, establish a probability, prove r-uniformity / P0.1 /
+P0.2 / Theorem B, activate GP-AUTO-034, replace a machine, accept a root, seal a package,
+authorize release, or permit any destructive action. EC-019 remains MATERIAL VERIFICATION HOLD.
+
+
+============================================================================
+K. REPRODUCTION
+============================================================================
+Run `python3 run_t2.py` (with cleanroom.py alongside) on CPython 3.11 with only the standard
+library. Output is deterministic; results.json reproduces byte-for-byte (SHA-256 above). The
+complete implementation source (cleanroom.py) follows in Section L.
+
+
+============================================================================
+L. COMPLETE IMPLEMENTATION SOURCE — cleanroom.py
+(human-readable reproduction; authoritative bytes are the delivered file, SHA-256 in Section C)
+============================================================================
+See the delivered file cleanroom.py (13549 bytes, SHA-256 bccf6115...a23dc) and run_t2.py
+(10919 bytes, SHA-256 147dd0e9...f10c59). Both were delivered to the operator in-session as the
+canonical frozen artifacts. Key rigor primitives, verbatim:
+
+
+  def _sqrt_lower(x):                       # rational L <= sqrt(x), x = p/q >= 0
+      num, den = x.numerator, x.denominator
+      N = (num * SQRT_D * SQRT_D) // den    # floor(x * D^2)
+      return Fr(isqrt(N), SQRT_D)
+
+
+  def _sqrt_upper(x):                       # rational U >= sqrt(x)
+      num, den = x.numerator, x.denominator
+      M = -((-num * SQRT_D * SQRT_D) // den) # ceil(x * D^2)
+      return Fr(isqrt(M) + 1, SQRT_D)
+
+
+  # Iv.ipow even-power branch (zero-crossing):
+  #   a>=0 -> [a^n, b^n]; b<=0 -> [b^n, a^n]; else -> [0, max(a^n, b^n)]
+  # Iv.__truediv__ raises if the divisor interval contains 0; inv = [1/d, 1/c].
+
+
+END CL-DATA-214-v1.0

@@ -1,0 +1,311 @@
+﻿GP-DER-212-v1.0 — FULL-MATRIX AND EXPLICIT-GEOMETRY REPAIR OF THE P0.1 NINE-JET BASE-MASS CERTIFICATE
+
+
+Artifact ID: GP-DER-212-v1.0
+Date: 2026-07-25
+Author/reconciler: OpenAI GPT-5.6 Thinking
+Class: DER / NUMBERED SOURCE SUCCESSOR / EXTERNAL-REVIEW DEFECT REPAIR
+Authority: same-line research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+Predecessor: GP-DER-204-v1.0 and GP-DATA-204-v1.0 — AMEND REQUIRED
+External trigger: CL-AUD-257-PART1-v1.0, Anthropic Claude, organizationally distinct
+Status: SOURCE-AND-RESULT ROUNDTRIP PASS / SAME NUMERICAL CONCLUSIONS / DISTINCT-FAMILY SUCCESSOR REVIEW REQUIRED / NO PROMOTION
+
+
+[[TARGET:P0.1-DOMAIN-G-BASE-MASS]] [[SUCCESSOR:GP-DATA-212]] [[FULL-9X9-SPECTRUM]] [[BOX-GEOMETRY:DERIVED]] [[r_GR:r_D-CANDIDATE]] [[p_B:1E-48-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE DISPOSITION
+
+
+CL-AUD-257-PART1 identified a material logical defect in GP-DATA-204-v1.0. The predecessor tested a 3×3 principal submatrix of the limiting 9×9 conditional covariance and then treated those bounds as bounds for the full matrix. Cauchy interlacing runs in the wrong direction for both claims:
+
+
+    lambda_min(full) <= lambda_min(principal block),
+    lambda_max(principal block) <= lambda_max(full).
+
+
+Therefore the predecessor source did not prove its displayed full-matrix bounds, even though CL independently established that the bounds themselves are true.
+
+
+The same review also found that the predecessor source hardcoded
+
+
+    distance0_squared = 339162597/12500000
+
+
+without declaring the box location from which that value follows.
+
+
+GP-DATA-212-v1.0 repairs both defects inside a new executable source. It does not alter the radius, covariance perturbation bounds, density formula, mass lower bound, or final candidate constants.
+
+
+2. EXACT SUCCESSOR IDENTITIES
+
+
+Source carrier:
+https://docs.google.com/document/d/1yaQ8R1OW1t-WJT7JGp3rVco3FQkIYXELshVI6Wt6vUY/edit
+
+
+Normalized raw source:
+- bytes: 17,251;
+- SHA-256: 34959db6e13ed4b797b3501aecc162ac9dbe863c4c7a43a0621ad5b35c7943c2.
+
+
+Result carrier:
+https://docs.google.com/document/d/1mmIwF4m7yoXw2DOnjmdfqiZg36xyYNZX_PuAhMsoT3E/edit
+
+
+Normalized raw result:
+- bytes: 5,593;
+- SHA-256: b9c079171d2520f2a39f5b6adb1ae5a23dbe838dc1063a568ee86703270102b7.
+
+
+Fresh execution at 120 decimal digits regenerated the result and returned ALL CHECKS PASS. Both native-Doc text exports reproduce the declared raw bytes and hashes under their marker policies.
+
+
+3. FULL 9×9 SPECTRAL REPAIR
+
+
+Let Sigma_0 be the exact limiting conditional covariance in the jet order
+
+
+    (q,a,w,z,c40,c31,c22,c13,c04).
+
+
+The successor applies Sylvester’s criterion directly to the full matrices
+
+
+    Sigma_0-(43/100)I_9,
+    100I_9-Sigma_0.
+
+
+The nine leading principal minors of the lower matrix are
+
+
+    157/100,
+    24649/10000,
+    3869893/1000000,
+    2155530401/100000000,
+    5080585155157/10000000000,
+    2829885931422449/1000000000000,
+    855256417580024093/100000000000000,
+    476377824592073419801/10000000000000000,
+    13153053875809885198157/1000000000000000000.
+
+
+Every value is strictly positive. Therefore
+
+
+    Sigma_0-(43/100)I_9 > 0
+
+
+and
+
+
+    lambda_min(Sigma_0)>0.43.
+
+
+The nine leading principal minors of the upper matrix are
+
+
+    98,
+    9604,
+    941192,
+    88472048,
+    6723875648,
+    632044310912,
+    59386367498752,
+    5582318544882688,
+    5218570594521088.
+
+
+Every value is strictly positive. Therefore
+
+
+    100I_9-Sigma_0 > 0
+
+
+and
+
+
+    lambda_max(Sigma_0)<100.
+
+
+The source also performs an independent structural cross-check. Under the permutation
+
+
+    (0,6,8,1,2,3,4,5,7),
+
+
+Sigma_0 is the direct sum of
+
+
+    [[2,-2,-12],[-2,6,12],[-12,12,96]]
+
+
+and the scalar blocks
+
+
+    2,2,6,24,6,6.
+
+
+This explains why the predecessor’s 3×3 bounds happened to equal the full extremal bounds, but the valid proof is direct-sum structure or the full 9×9 Sylvester certificate—not Cauchy interlacing.
+
+
+4. EXPLICIT BOX-GEOMETRY REPAIR
+
+
+The successor declares the complete fixed box in the same jet order:
+
+
+    q   in [-51/50,-49/50],
+    a   in [3/1250,13/5000],
+    w   in [-1/1000,1/1000],
+    z   in [99/100,101/100],
+    c40 in [-1/100,1/100],
+    c31 in [-1/100,1/100],
+    c22 in [-1/100,1/100],
+    c13 in [-1/100,1/100],
+    c04 in [-1/100,1/100].
+
+
+Its exact widths are
+
+
+    1/25, 1/5000, 1/500, 1/50, 1/50, 1/50, 1/50, 1/50, 1/50,
+
+
+so
+
+
+    Vol(B_q)=1/976562500000000000.
+
+
+The limiting mean is
+
+
+    m_0=(-6/5,0,0,0,-18/5,0,0,0,18/5).
+
+
+For a rectangular box, the maximum squared Euclidean distance is the sum of the coordinatewise farthest squared distances. The successor derives
+
+
+    121/2500,
+    169/25000000,
+    1/1000000,
+    10201/10000,
+    130321/10000,
+    1/10000,
+    1/10000,
+    1/10000,
+    130321/10000.
+
+
+Their exact sum is
+
+
+    339162597/12500000
+      =27.13300776.
+
+
+The value is no longer a hardcoded unexplained input.
+
+
+5. UNCHANGED FINITE-r AND MASS CONCLUSIONS
+
+
+The successor retains the independently supported uniform side-24 transformed-entry reserve. CL-AUD-257-PART1 independently obtained a Peano/divided-difference bound
+
+
+    max transformed-entry torus defect <= 7.48518024×10^-90
+
+
+uniformly on 0<r<=r_D, which is below the source allowance 10^-87. CL also found the true amplification factor approximately 4.707068×10^16, below the source reserve 10^18.
+
+
+The corrected source returns the same finite-r bounds:
+
+
+    lambda_min(Sigma_r)
+      >0.4297310777489862114...
+      >0.42,
+
+
+    lambda_max(Sigma_r)
+      <100.0002689222510138...
+      <151,
+
+
+    ||m_r-m_0||_2
+      <0.00004557647544437678...
+      <0.001.
+
+
+Using the explicit box geometry gives
+
+
+    inf_{u in B_q} phi_r(u)
+      >3.7082994693227193...×10^-28,
+
+
+and therefore
+
+
+    Q_{6,r}(J_r in B_q)
+      >3.7972986565864646...×10^-46
+      >10^-48.
+
+
+Thus the same-line successor candidate may still take
+
+
+    r_GR=r_D,
+    p_B=10^-48.
+
+
+6. VERSION FIREWALL
+
+
+GP-DATA-204-v1.0 and GP-DER-204-v1.0 remain preserved as historical provenance. They are AMEND REQUIRED for review because their executable spectral witness is logically insufficient and their box-distance input is underived.
+
+
+No independent approval of the predecessor transfers automatically to GP-DATA-212. Reviewers may reuse their independent full-matrix and Peano calculations, but the successor source and result hashes must be checked explicitly.
+
+
+7. REQUIRED REVIEW
+
+
+A qualifying reviewer should:
+
+
+1. reproduce both successor carrier hashes;
+2. execute or independently reconstruct the successor;
+3. verify all eighteen full-matrix Sylvester minors;
+4. verify the block-diagonal permutation cross-check;
+5. verify every box endpoint, width, and limiting-mean coordinate;
+6. reproduce the nine coordinate-distance squares and their exact sum;
+7. verify the finite-r perturbation and Gaussian-density directions;
+8. verify that no numerical output changed from the predecessor;
+9. run the hostile mutations from GP-REQ-205 against the successor;
+10. issue a hash-specific successor verdict.
+
+
+8. SCOPE FIREWALL
+
+
+This artifact repairs only the explicit nine-jet Gaussian base-mass certificate. It does not prove the conditioned fifth-derivative tail, exact-field capture, the exact Palm quotient, P0.1, P0.2, Theorem B, or any canonical promotion.
+
+
+Current state:
+
+
+GP-DATA-212 SOURCE/RESULT: DRIVE ROUNDTRIP PASS.
+FULL-MATRIX AND BOX-GEOMETRY DEFECTS: REPAIRED SAME-LINE.
+CANDIDATE r_GR=r_D AND p_B=10^-48: UNCHANGED.
+ORGANIZATIONALLY DISTINCT SUCCESSOR REVIEW: OPEN.
+P0.1: NONTERMINAL / NOT PROMOTED.
+
+
+END GP-DER-212-v1.0

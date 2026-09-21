@@ -1,0 +1,814 @@
+﻿CL-AUD-281-v1.0 — GP-REQ-226 / GP-REQ-215 CARRIER-B FINAL VERDICT
+GP-DATA-214-v1.0 / GP-DER-214-v1.0 — R-Uniform Exact Endpoint Normalizer
+
+
+Artifact ID: CL-AUD-281-v1.0
+Date: 2026-07-26
+Lane: Anthropic Claude (CL)
+Class: AUD / ORGANIZATIONALLY DISTINCT EXTERNAL REVIEW / EXACT RATIONAL RECOMPUTATION
+Authority: review verdict only. No promotion, no terminalization, no deletion.
+Pre-registration: CL-REG-269-v1.0 (1y5_AavuOq_PrtR5ydgsJG0NwUUkd3N7J42sDhE_VVKU)
+Targets: GP-DATA-214-v1.0 source (1ohTtnu7o2sbbcwTfoNTBte9TPLbC2vFlPd9raoDutE0)
+         GP-DATA-214-v1.0 result (1h_fCDDQU43NdUP-0l8YMpnca3OyRHdIIunyAV_h-b6k)
+         GP-DER-214-v1.0 (1GvbQcyNRxUbR-nqvWXWIU3LmwiqStZd_8mKFzmykSkM)
+Verifier carrier: CL-DATA-280-v1.0 (see section 10 for identities)
+
+
+
+
+0. GOVERNANCE PREAMBLE
+
+
+0.1 INDEX COLLISION NOTICE
+
+
+CL-REG-269 reserved the block 269-271 and named CL-DATA-270 and CL-AUD-271.
+That reservation is void for 270. The concurrent Anthropic session published
+CL-REG-270-v1.0 (1lNdWoztfLNZVKm-jxrT4tV_3BeOZ2NrF6ycmUkTnA0I, GP-REQ-229
+ledger V0-V14) at 2026-07-26T13:13:12.508Z, seven seconds before CL-REG-269
+landed at 13:13:19.368Z. Neither session could have seen the other in time.
+
+
+This lane has moved to CL-DATA-280 and CL-AUD-281, leaving 271-279 clear for
+the concurrent session's V-ledger outputs. Nothing is deleted or renamed.
+CL-REG-269 stands as published, with this notice as its correction of record.
+
+
+Recommendation to the operator: index reservation by announcement does not work
+when two sessions in the same lane write concurrently. A durable fix is to give
+each concurrent CL session a disjoint residue class (for example, one session
+takes even indices and the other odd) or a distinct prefix (CL-A-, CL-B-).
+
+
+0.2 THE DECLARED INDEPENDENCE CONFLICT
+
+
+CL-REG-269 section 0 declared this conflict in advance, before any 214 material
+was opened. It is now discharged as declared, and it is the single most
+important governance output of this review.
+
+
+GP-REQ-226 item B4 asks the reviewer to verify the Peano functional annihilation
+orders and r-free constants including the L5 constant two. Item B5 asks the
+reviewer to verify r-uniformity, especially below 1.0801442178173e-6. That
+radius is CL's own number, computed in CL-AUD-253 finding D1. The Peano /
+divided-difference periodization lemma that GP-DER-214 section 5 uses to repair
+GP-DATA-208 is the lemma CL authored in CL-AUD-253.
+
+
+A reviewer cannot supply independent verification of their own lemma.
+
+
+Consequences, exactly as pre-registered:
+
+
+  (a) CL CAN and DOES verify that the lemma is correctly APPLIED to the 214
+      frame. Section 3, items B4 and B5, report that application check.
+  (b) CL CANNOT supply organizational independence for the lemma ITSELF.
+  (c) This verdict states, and the operator must carry forward, that the
+      periodization step still requires a check from a third lane (RS2, LS, or
+      human) that did not author the lemma. CL's agreement with the lemma is
+      not independence for it.
+
+
+Note for completeness: GP-DER-214 does not attribute the lemma to CL. It
+attributes only the defect trigger ("External trigger: CL-AUD-253-v1.0 —
+Anthropic Claude"). CL does not raise that as a finding; the lemma as GP states
+it is a standard divided-difference/Peano construction and GP may well have
+reached it independently. CL raises it only because the INDEPENDENCE ACCOUNTING
+must be conservative regardless of who reached it first: the same lane cannot
+both supply and audit the same argument.
+
+
+0.3 LINEAGE NOTE — ONE ANTHROPIC LINEAGE, NOT TWO
+
+
+CL-AUD-268 (Carrier A) and this verdict (Carrier B) share the same Gaussian
+reconstruction and the same periodization machinery. They are ONE Anthropic
+lineage. If the operator's independence ledger counts them as two distinct
+Anthropic reviews, that ledger is overstated. One organizational family counts
+once regardless of session count or artifact count.
+
+
+0.4 PRE-REGISTRATION COMPLIANCE
+
+
+CL-REG-269 was published at 13:13:19Z before GP-DER-214, either 214 carrier,
+GP-AUD-228, or RS2-AUD-214 was opened. Order of operations actually executed:
+
+
+  1. CL-REG-269 published.
+  2. GP-DATA-214 result carrier extracted and hash-verified.
+  3. GP-DATA-214 source carrier extracted and hash-verified.
+  4. GP source read as DATA. It was never executed. This review is an
+     independent recomputation, not a replay.
+  5. CL verifier written from the mathematical description, using CL's own
+     Laurent-plus-exponential ring with a per-atom carrier scale.
+  6. Ledger B1-B15 executed. Mutation battery executed.
+  7. CL FREEZE MANIFEST computed (section 10). All CL values and file hashes
+     fixed at this point.
+  8. ONLY THEN were GP-DER-214, GP-AUD-228 and RS2-AUD-214 opened.
+  9. One post-freeze supplement was added to close coverage gaps that
+     RS2's thirteen conditions exposed. It is separately hashed, is marked
+     as post-freeze in its own provenance field, and changed no frozen value.
+
+
+No post-comparison tuning occurred. Item 9 adds checks; it does not alter
+results.
+
+
+
+
+1. VERDICT
+
+
+AMEND REQUIRED — RECORD-CLASS ONLY.
+
+
+NO MATHEMATICAL DEFECT WAS FOUND IN GP-DATA-214-v1.0 OR GP-DER-214-v1.0.
+
+
+Every quantitative claim in the result carrier was recomputed from scratch in
+exact rational arithmetic and every declared upper bound was confirmed to be a
+valid OUTWARD bound on CL's exact value. The headline conclusion
+
+
+    Z_r^{exact} <= 15 r^2   for   0 < r <= r_D
+
+
+is supported by the chain as given, subject to the two undischarged constants
+in findings F1 and F2 — both of which CL has independently verified to be TRUE
+and for which CL supplies exact proofs below.
+
+
+The amendments are record-class, not mathematics-class:
+
+
+  F1  planar_derivative_bound = 100 is load-bearing and undischarged.
+  F2  ||G0^{-1}|| <= 3 is load-bearing and undischarged.
+  F3  Three of the nine internal controls are tautologies, not mutations.
+  F4  The five-point radius ladder is one constant evaluated five times.
+
+
+INDEPENDENCE ACCOUNTING (the controlling output for GP-REQ-215):
+
+
+  GRANTED — organizationally distinct verification, Anthropic vs OpenAI:
+      B1 frame and carrier-scale audit
+      B2 Laurent regularity at r = 0
+      B3 limiting object G0, C0, S0, mean0, covariance0
+      B6 entry-deviation envelopes
+      B7 spectral bound on G0
+      B8 perturbation chain
+      B9 mean and variance envelopes
+      B10 fourth moments and the C_Z = 15 conclusion
+      B11 determinant / type bridge
+
+
+  REFUSED — CL authored the argument, no independence credit:
+      B4 Peano orders and r-free constants
+      B5 r-uniform periodization bound
+
+
+GP-REQ-215 IS THEREFORE PARTIALLY, NOT FULLY, DISCHARGED. The periodization leg
+remains open for a lane that did not author the lemma.
+
+
+NO PROMOTION. NO TERMINALIZATION. P0.1 REMAINS NONTERMINAL. Dylan Roy retains
+final promotion and release authority.
+
+
+
+
+2. B0 — CARRIER TRANSPORT
+
+
+Both carriers reproduced byte-exact on the FIRST attempt under the artifact's
+own declared extraction rule (text/plain export; CRLF/CR to LF; text strictly
+between the marker lines; halve every blank-line run if all runs are even;
+strip trailing LFs; append exactly one LF; UTF-8 without BOM).
+
+
+  RESULT carrier
+    export bytes 12440, BOM present, markers at export lines 20 and 468
+    blank runs inside payload: 0
+    payload 10944 bytes  — DECLARED 10944 — MATCH
+    sha256 af2779575ce3d18eeb69499e32ecc6e7c40898181ddf0fd6e4815d35cf8a6cbf
+    DECLARED identical — MATCH. JSON parses; 16 top-level keys.
+
+
+  SOURCE carrier
+    export bytes 39786, BOM present, markers at export lines 20 and 1129
+    payload lines 1108; blank runs 72; odd-length runs 0 (parity invariant HOLDS)
+    payload 37512 bytes — DECLARED 37512 — MATCH
+    sha256 63ef800a51969903b9c3d97c74e61f77ee037afadff73038047ef7cfce040fb9
+    DECLARED identical — MATCH.
+
+
+B0: PASS, both carriers.
+
+
+TRANSPORT METHOD NOTE, offered to every lane. CL-REG-269 section 3.4 warned that
+the 37512-byte source might not survive a single session because prior large
+carriers had to be hand-transcribed in base64 chunks, and that a junction error
+had previously cost a full cycle. That did not happen here. The Drive download
+returned a payload too large to inline, and the tool spilled the complete base64
+to a file on disk. Decoding from that file removes hand transcription from the
+loop entirely and with it the whole class of junction errors. RS2-AUD-214
+section 2 records that RS2 had to detect and repair one base64 transcription
+character in its own carrier before issuing. The spill-to-disk route would have
+prevented that. Recommended as standard practice for any carrier above roughly
+10 KB.
+
+
+A COUNTEREXAMPLE FROM CL'S OWN WORK, reported because the standard applies to
+this lane too. In the first draft of the comparison pass, CL re-typed GP's
+declared 60-digit bounds by hand into comparison literals. Two comparisons then
+came back FALSE: the G entry deviation and the mean perturbation bound appeared
+to be understated by GP. Both were CL transcription errors — a doubled digit in
+the mean literal, and a similar slip in the G literal. The discriminator that
+caught them was implausibility of magnitude: a relative gap of 3.57e-10 against
+a value declared to 60 significant digits cannot be a rendering artefact. The
+comparison pass was rewritten to PARSE every GP value programmatically from the
+hash-verified carrier, and all comparisons then passed. No hand-typed declared
+value appears anywhere in the final verifier. CL reports this because a review
+that hides its own near-miss is not worth more than the lane it audits.
+
+
+
+
+3. LEDGER B1 - B15, EXACT RATIONAL THROUGHOUT
+
+
+No floating point appears in any asserted inequality anywhere in CL's verifier.
+Square roots use isqrt bracketing with the runtime assertion lo^2 <= x <= hi^2.
+
+
+B1  FRAME AND CARRIER-SCALE AUDIT — PASS
+    Separations present in the frame, in units of r: {-1, 0, +1}.
+    Distinct exponential carrier scales present: {1/2}, i.e. exp(-r^2/2) only.
+    CL's ring carries the scale PER ATOM and raises on any collision between
+    two different scales. This is the guard against the Carrier-A trap in which
+    CL itself previously scaled a Hermite polynomial to argument r/2 while
+    leaving the exponential at the pin-to-pin scale, producing an error of
+    exactly 16/7. The trap does not arise in the 214 frame: the midpoint jets
+    of Carrier A have been replaced by pin-adjusted endpoint functionals sited
+    at the pins themselves, so every separation is 0 or +-r and no half-
+    separation atom exists. Verified, not assumed.
+
+
+B2  LAURENT REGULARITY AT r = 0 — PASS
+    Most negative raw exponent anywhere in G, C, S: r^-6.
+    Every coefficient of r^n for n < 0, over every entry of all three blocks,
+    is exactly zero. Uncancelled poles: none. The frame extends regularly
+    through r = 0.
+
+
+B3  LIMITING OBJECT — PASS, exact agreement
+    G0, C0, S0 reproduce GP's declared matrices entry for entry.
+    G0 and S0 symmetric. G0 invertible over the rationals.
+    mean0    = (-1, 1, 0, 0, -6/5, -6/5)                    matches
+    cov0     A block zero; B block [[1/2,-1/2],[-1/2,1/2]];
+             C block [[2,2],[2,2]]; cross blocks zero        matches
+
+
+B4  PEANO ORDERS AND r-FREE CONSTANTS — APPLICATION VERIFIED, NO INDEPENDENCE
+    CL's own implementation of the annihilation-order and constant computation
+    returns, for all twelve functionals, exactly GP's declared values:
+      L0 (0,1)  L1 (1,1)  L2 (2,1)  L3 (0,1)  L4 (1,1)  L5 (3,2)
+      A_M (3,3/4)  A_S (3,3/4)  B_M (2,3/4)  B_S (2,3/4)
+      C_M (0,1)    C_S (0,1)
+    Every kappa is a single r^0 monomial. CL tests r-freeness DIRECTLY by
+    inspecting the r-exponent set of kappa, rather than by equality against an
+    r-free literal as GP does. GP's method is sound but implicit; CL's is
+    explicit. Both agree.
+    Ceilings: max paired x order 6, max paired y order 4, max kappa product 4.
+    Hermite absolute coefficient sums, orders 0 to 6: 1, 1, 2, 4, 10, 26, 76.
+    All match GP.
+    INDEPENDENCE: REFUSED. See section 0.2.
+
+
+B5  R-UNIFORM PERIODIZATION — APPLICATION VERIFIED, NO INDEPENDENCE
+    CL reproduces the exact rational chain:
+      exponential gate (8/3)^264 > 10^112                            TRUE
+      one-dimensional image sum   19/(4 * 10^100) = 4.75e-100        matches GP
+      one-dimensional normalized error            4.7975e-98         matches GP
+      two-dimensional derivative error            9.595e-96          matches GP
+      transformed entry error                     3.8380e-95         matches GP
+      declared allowance                          1e-70
+      margin                                      2.6055e24 orders
+    CL independently re-derived the three inequalities the envelope rests on:
+      48n^2 - 48n + 1 >= 0 for all n >= 1, so (24n-1)^2/2 >= 264n^2   TRUE
+      n^6 <= 64^n for all n >= 1                                     TRUE
+      |He_m(u)| <= 76 |u|^6 for |u| >= 1 and m <= 6, since the order-6
+        absolute coefficient sum is 76                               TRUE
+    The bound is a pure rational constant containing no r. It therefore holds
+    at every positive radius, including every point below CL-AUD-253's critical
+    radius 1.0801442178173e-6. THE r-UNIFORMITY REPAIR IS REAL AND CORRECT.
+    This is the material repair of CL-AUD-253 finding D1.
+    INDEPENDENCE: REFUSED. See section 0.2. Note also F1 — one constant inside
+    this chain is undischarged.
+
+
+B6  ENTRY-DEVIATION ENVELOPES AT r_D — PASS
+    CL exact values, and GP's declared values parsed from the verified carrier:
+      max G entry deviation   CL 1.5839163613398275194874119941990638171e-8
+      max C entry deviation   CL 8.2390612249662726739622467907904406584e-5
+      max S entry deviation   CL 5.4927074860727497975308167539210699497e-5
+      max G tail after r^6    CL 1.978780076382533845296368445037e-36
+      max C tail after r^6    CL 3.613781561402866555418164395821e-32
+      max S tail after r^6    CL 3.142418749080321010711394814379e-32
+    Every GP declared value is >= the CL exact value. Relative excess:
+      G 3.158650e-60   C 1.213398e-60   S 3.533502e-61
+      G tail 2.513176e-40   C tail 8.558532e-41   S tail 1.165604e-40
+    Those excesses are exactly the 60-significant-digit and 40-significant-digit
+    outward rendering grids. GP's outward renderer is behaving correctly and its
+    mpmath working precision of 100 digits is not leaking into the declared
+    values. Envelopes hold:
+      G  deviation + 1e-70 <= 5.26 r_D^2 + 1e-70   headroom 1.00190476x
+      C  deviation + 1e-70 <= 1.51 r_D  + 1e-70    headroom 1.00666666x
+      S  deviation + 1e-70 <= 1.01 r_D  + 1e-70    headroom 1.00999999x
+    MONOTONICITY: the deviation bound is a sum of |coefficient| rho^p with
+    p >= 1 plus a tail increasing in rho, so evaluating at r_D dominates every
+    0 < r <= r_D. Confirmed numerically at r_D/2. The single-radius evaluation
+    is therefore legitimate.
+    OBSERVATION, not a finding: CL's exact leading constants are 5.25, 1.50 and
+    1.00 to eight digits. GP's declared 5.26, 1.51, 1.01 are those values with
+    the second decimal rounded up by one. The constants are principled, not
+    arbitrary — but the resulting headroom is only 0.19 to 1.0 percent, so any
+    future change to the frame will require the constants to be recomputed
+    rather than carried forward.
+
+
+B7  SPECTRAL BOUND ON G0 — PASS, and see F2
+    G0 positive definite by exact LDL.
+    lambda_min(G0) bracketed exactly: > 0.3841 and < 0.3843.
+    This is 8 - sqrt(58) = 0.38422689..., the same characteristic value that
+    appears in the DQ-005 line. RS2-AUD-214 independently reports
+    lambda_min(G_r) = 0.38422689396044858518 at r_D; the two agree.
+    Hence ||G0^{-1}||_2 = 2.6026... < 2.611 < 3. GP's asserted 3 is VALID.
+
+
+B8  PERTURBATION CHAIN — PASS
+    Operator-norm rule ||E||_2 <= 6 max|E_ij| for 6x6 — outward, correct.
+      delta_G  9.5216000637713075081303941347356077701e-8
+      delta_C  4.97639297487506345492475578315078954385e-4
+      delta_S  3.32858073153894972812847903376311088695e-4
+      Neumann epsilon 2.856480019131e-7 < 1e-6                     holds
+      inverse_G bound 3.000000856944250523830588816555030783448...
+      inverse difference 8.56944250523830588816555030783448099e-7
+      ||C0||_Frobenius^2 = 243/2 exactly; Frobenius >= spectral, outward, OK
+      ||y0||^2 = 136/25 exactly; ||y0|| + Delta_y < 3                holds
+      ||y_r - y_0||^2 = r^4(r^2+4)/144 exactly                       matches
+      and (r^2/6 + r^3/12) is a valid upper bound on its square root holds
+      mean difference  0.004507109112898900005545297767586103017306890663995...
+      covariance diff  0.033349712715300784638778803109116956464111783378595...
+    GP declared >= CL exact in every one of the seven quantities. Relative
+    excess between 3.16e-61 and 3.00e-60 — again exactly the rendering grid.
+
+
+B9  MEAN AND VARIANCE ENVELOPES — PASS
+      1   + mean_diff <= 507/500     |   mean_diff <= 7/500  (headroom 3.106x)
+      6/5 + mean_diff <= 607/500     |   cov_diff  <= 17/250 (headroom 2.039x)
+      1/2 + cov_diff  <= 71/125      |   2 + cov_diff <= 517/250
+    Tightest binding constraint 1.0079x. All six hold.
+
+
+B10 FOURTH MOMENTS AND C_Z = 15 — PASS
+      E[A^4] <= 93160186401/62500000000     matches GP exactly
+      E[B^4] <= 60533750401/62500000000     matches GP exactly
+      E[C^4] <= 2080550463601/62500000000   matches GP exactly
+      E[Delta^2] <= 2 sqrt(E[A^4] E[C^4]) + 2 r_D^2 E[B^4]
+      CL exact, outward sqrt:
+        14.088160150515062608662933625377614506219935056...
+      GP declared value is an upper bound of CL's, relative excess 3.734268e-60
+      STRICTLY BELOW 15: TRUE.  Headroom 15 - bound = 0.9118398494849373913...
+      The bound also exceeds 14, so C_Z = 15 is the smallest integer that works
+      by this route; it is not slack padding.
+    CONCLUSION Z_r^{exact} <= 15 r^2 on 0 < r <= r_D: SUPPORTED.
+
+
+B11 DETERMINANT / TYPE BRIDGE — PASS on the identity, PROBE on the ceiling
+    det [[r a, r b],[r b, c]] = r a c - r^2 b^2 = r (a c - r b^2) = r Delta.
+    Identity confirmed structurally and on an exact rational grid.
+    The type-indicator ceiling max(i j : i,j in {0,1}) = 1 is a TAUTOLOGY in
+    CL's check exactly as it is in GP's NC2. CL reports its own version as a
+    PROBE, not a pass, under the same standard applied to GP in F3.
+
+
+B12 CONTROL AUDIT OF GP'S NINE — see F3.
+
+
+B13 CARRIER-A TRAP REGRESSION — PASS. Not applicable to this frame, verified.
+
+
+B14 SCOPE — declarative, recorded in section 8.
+
+
+B15 ENVELOPE-SHAPE RE-DERIVATION — PASS, reported inside B6.
+
+
+
+
+4. FINDINGS
+
+
+F1 — UNDISCHARGED LOAD-BEARING CONSTANT: planar_derivative_bound = 100
+     Class: RECORD / COMPLETENESS. Severity: MATERIAL for review, not for truth.
+
+
+     The source sets planar_derivative_bound = 100 and uses it twice, in
+
+
+         error_2d = normalized_error_1d * (100 + normalized_error_1d)
+                    + 100 * normalized_error_1d
+
+
+     This is the step that converts the one-dimensional periodization image
+     error into the two-dimensional transformed-entry error. It is the hinge of
+     the entire r-uniform repair. The constant appears nowhere in GP-DER-214.
+     A full read of the derivation companion confirms the string
+     "planar_derivative_bound", the value 100, and any 1D-to-2D conversion
+     constant are all absent. GP-AUD-228 does not address it. RS2-AUD-214 does
+     not address it. It is discharged in no artifact in the set.
+
+
+     CL SUPPLIES THE MISSING JUSTIFICATION, so that the amendment is cheap:
+     the main (index zero) planar factor is |He_m(t)| exp(-t^2/2) with m <= 6
+     and |t| <= 1. The absolute coefficient sum of He_6 is 76, so
+     |He_m(t)| <= 76 for |t| <= 1, and exp(-t^2/2) <= 1. Hence the planar
+     principal part is bounded by 76 < 100. The constant is TRUE with 24 units
+     of slack.
+
+
+     AMENDMENT REQUESTED: state the constant and this two-line proof in
+     GP-DER-214 section 5, or derive it in the source with a fail-closed
+     assertion. Do not leave a magic number carrying the repair.
+
+
+F2 — UNDISCHARGED LOAD-BEARING CONSTANT: ||G0^{-1}|| <= 3
+     Class: RECORD / COMPLETENESS. Severity: MATERIAL for review, not for truth.
+
+
+     The source sets g0_inverse_bound = mp.mpf(3) with no derivation. Every
+     downstream quantity depends on it: inverse_G_bound = 3/(1 - 3 delta_G),
+     inverse_difference_bound, mean_difference_bound, covariance_difference_
+     bound, and through them the mean and variance envelopes, the fourth
+     moments, and finally C_Z. GP-DER-214 contains no operator-norm bound on any
+     inverse of G0; its only "< 3" is the unrelated target-vector bound
+     ||y_r|| < 3. GP-AUD-228 and RS2-AUD-214 do not address it either.
+
+
+     CL SUPPLIES THE MISSING PROOF: G0 decomposes under permutation into the
+     blocks [[1,-1],[-1,3]] on indices {0,2}, [[1,-3],[-3,15]] on {1,5}, and
+     two unit blocks. The second block has trace 16 and determinant 6, so its
+     eigenvalues are 8 +- sqrt(58) and lambda_min(G0) = 8 - sqrt(58) =
+     0.3842268... . CL confirms by exact LDL that G0 - (1/3) I is positive
+     definite and brackets lambda_min in (0.3841, 0.3843). Therefore
+     ||G0^{-1}||_2 = 1/(8 - sqrt(58)) = 2.6026... < 3. The constant is TRUE.
+
+
+     AMENDMENT REQUESTED: state lambda_min(G0) = 8 - sqrt(58) and the resulting
+     norm bound in GP-DER-214 section 7, or compute it in the source.
+
+
+     Observation offered without prejudice: 8 - sqrt(58) is the same value that
+     governed the G0 block in the DQ-005 line (CL-AUD-257). The two frames share
+     this spectral structure. That is a reason to state it once, canonically,
+     rather than to hardcode 3 in each successor.
+
+
+F3 — THREE OF NINE INTERNAL CONTROLS ARE TAUTOLOGIES
+     Class: RECORD QUALITY / ADVERSARIAL COVERAGE. Severity: MODERATE.
+
+
+     The result carrier records all nine controls NC1 to NC9 as true. Reading
+     the source, three of them cannot be false under any state of the
+     certificate:
+
+
+       NC1 "lowered L5 Peano constant rejected" is computed as
+           sp.Rational(1) < sp.Rational(2).   This is 1 < 2.
+       NC2 "type indicator above one rejected" is computed as  2 > 1.
+       NC9 "denominator lower bound direction rejected" is computed as
+           mp.mpf(1)/mp.mpf(2) < mp.mpf(1)/mp.mpf(1).   This is 0.5 < 1.
+
+
+     None of the three feeds a mutated value into the pipeline. Each is a
+     constant comparison that evaluates true independently of the frame, the
+     functionals, the series, or the arithmetic. Recording them alongside NC7
+     and NC8 — which ARE real executed mutations, injecting a 1/r pole and an
+     r^7 term and requiring a RuntimeError — overstates the adversarial coverage
+     of the artifact. NC3 is a real symbolic test; NC4 and NC5 are weak but
+     real; NC6 genuinely re-parses the outward renderer and checks direction.
+
+
+     CONVERGENT INDEPENDENT OBSERVATION: RS2-AUD-214 section 7 reaches the same
+     conclusion from the OpenAI side, writing that "Several internal controls
+     are nevertheless truth or witness flags rather than mutations of the actual
+     proof path. This is a record-quality limitation, not a demonstrated theorem
+     defect." Two organizationally distinct lanes independently identified this.
+     That materially raises confidence in the finding. RS2 is also candid about
+     its own thirteen conditions, noting they "should not be described as
+     thirteen executions of mutated GP source."
+
+
+     GP-AUD-228 did NOT identify it. That audit records only "all nine source
+     controls pass" as a bare aggregate, with no per-control breakdown. A
+     same-family replay that reports the aggregate reproduces the overstatement
+     rather than detecting it. This is the LS-AUD-011 lesson recurring: replay
+     fidelity does not detect scope errors in what a check proves.
+
+
+     CL EXECUTED THE MUTATION NC1 CLAIMS TO PERFORM. Lowering the L5 Peano
+     constant from 2 to 1 changes the maximum Peano-constant product from 4 to
+     1, which propagates into the transformed-entry error. The mutation IS
+     discriminating; NC1 simply never performs it.
+
+
+     AMENDMENT REQUESTED: either replace NC1, NC2 and NC9 with executed
+     mutations on the model of NC7 and NC8, or relabel them in the result
+     carrier as witnesses rather than controls, and reduce the declared control
+     count accordingly.
+
+
+F4 — THE RADIUS LADDER IS ONE CONSTANT EVALUATED FIVE TIMES
+     Class: PRESENTATION. Severity: MINOR but capable of misleading a reviewer.
+
+
+     The source computes
+
+
+         radius_ladder_pass = all(radius > 0 and
+                                  transformed_entry_error < declared_allowance
+                                  for radius in radius_ladder)
+
+
+     The predicate does not depend on radius except through radius > 0. The
+     five ladder points r_D, r_D/2, 1e-6, 1e-8, 1e-12 all evaluate the same
+     rational constant. GP-DER-214 section 5 says "The same bound is explicitly
+     checked on the radius ladder", and GP-AUD-228 section 8 says "The
+     executable radius ladder ... passes at every point". A reviewer skimming
+     either sentence would reasonably infer five independent evaluations.
+
+
+     This is not an error. It is the CORRECT behaviour and it is exactly why the
+     repair works: the bound is r-free, so there is nothing radius-dependent
+     left to test. But the r-uniformity is established by the r-freeness of the
+     Peano constants — CL's B4 — and NOT by the ladder. The ladder is
+     decoration on a result that stands without it.
+
+
+     AMENDMENT REQUESTED: say plainly that the bound contains no r, so the
+     ladder is a presentational restatement rather than five tests. As written,
+     the ladder invites a reviewer to credit evidence that is not there.
+
+
+F5 — LABELLING HAZARD IN GP-AUD-228 (raised against GP-AUD-228, not against 214)
+     Class: RECORD. Severity: MINOR.
+
+
+     GP-AUD-228 is titled "Independent Same-Line Replay and Moment Audit" and
+     its section 10 refers to "The independent audit", while its header declares
+     "Independence credit: ZERO" and "Authority: same-line technical evidence
+     only". The document is internally consistent for a careful reader, but the
+     word "Independent" in a title that will be read from an index is a hazard
+     in a project whose central governance rule is that independence credit
+     attaches only to organizationally distinct review. Suggest retitling to
+     "Same-Line Replay and Moment Audit".
+
+
+
+
+5. COVERAGE AGAINST RS2-AUD-214'S THIRTEEN HOSTILE CONDITIONS
+
+
+CL-REG-269 pre-declared that RS2's conditions could not be enumerated before
+freezing and that coverage would be reported honestly afterwards. This is that
+report. It distinguishes what CL actually covered from what it did not.
+
+
+  M01 lower L5 Peano constant        COVERED. CL executed it; product 4 -> 1.
+  M02 remove a divided-difference
+      cancellation                   COVERED. CL's M5 (L5 coefficient 12 -> 6)
+                                     and M9 (asymmetric pin) both fire; M9
+                                     produces a kappa carrying r^-2, matching
+                                     RS2's reported r^-2 defect signature.
+  M03 restore predecessor r^-6       PARTIAL / INHERITED. CL did not re-derive
+                                     the predecessor failure this cycle. It is
+                                     CL-AUD-253 finding D1, critical radius
+                                     1.0801442178173e-6. RS2 reports the
+                                     predecessor reserve ~1.5881e-58 at 1e-8
+                                     against an allowed 1e-70, consistent in
+                                     direction. Not re-verified here.
+  M04 remove physical r from det     COVERED. B11.
+  M05 type indicator set to two      PROBE ONLY. CL's check is itself a
+                                     tautology; declared as such, see B11.
+  M06 alter terminal target coord    COVERED. CL's M8 fires on mean0.
+  M07 divide target allowance by 3   PARTIAL. CL verified the exact difference
+                                     norm and the triangle bound symbolically
+                                     and numerically; CL did not run the /3
+                                     mutation.
+  M08 inject r^-1 Laurent term       COVERED, and more strongly: CL checks every
+                                     negative power of every entry of all three
+                                     blocks down to r^-6, exactly.
+  M09 inject unhandled r^7           COVERED DIFFERENTLY. GP raises on such a
+                                     term; CL's tail sums all polynomial terms
+                                     above the cutoff instead of rejecting them,
+                                     which is stronger — it bounds rather than
+                                     refuses.
+  M10 variance read as std deviation COVERED post-freeze. The declared envelope
+                                     71/125 has headroom 1.065x under the
+                                     correct variance reading 1/2 and 2.005x
+                                     under the conflated reading. The tightness
+                                     of the declared constant is itself evidence
+                                     the correct reading was used.
+  M11 remove factor two in Delta     COVERED post-freeze. (x-y)^2 <= 2x^2+2y^2
+                                     holds with equality at x=1, y=-1, where the
+                                     factor-one form fails: 4 > 2. Identity
+                                     2x^2+2y^2-(x-y)^2 = (x+y)^2 >= 0 verified.
+  M12 denominator lower bound used
+      for a quotient lower bound     COVERED post-freeze. With numerator 1 and
+                                     d in [1,2] the quotient falls to 1/2, so a
+                                     lower bound on d gives an UPPER bound on
+                                     the quotient. CL separately confirms GP
+                                     uses the correct direction: an upper bound
+                                     on epsilon yields an upper bound on
+                                     3/(1-epsilon).
+  M13 substitute a finite-Q4 object  NOT COVERED. CL did not fetch or hash
+                                     P02-LM-005 / LCR-CAP-016 or P02-LM-006 /
+                                     LCR-DER-019 (declared 9147 bytes, sha256
+                                     239ed094f70aa4352021572ad8bdc0c6ac6404edab
+                                     4e1d7e61addec0c6659150). The object-identity
+                                     firewall is an OPEN COVERAGE GAP in this
+                                     verdict. It should be closed by the next
+                                     reviewer, or by CL in a later cycle.
+
+
+Honest tally: 8 covered, 3 partial, 1 probe only, 1 not covered.
+
+
+CL'S OWN MUTATION BATTERY, all ten fire, none reported as a pass without firing:
+  M1  carrier scale exp(-r^2/8), the Carrier-A trap    FIRES on G0,C0,S0,cov0,
+                                                        all deviations, lambda_min
+  M2  pins at +-r instead of +-r/2                     FIRES
+  M3  drop the Rodrigues sign (-1)^(beta_x+beta_y)     FIRES
+  M4  He_n instead of P_n, odd-order sign flip         FIRES
+  M5  L5 leading coefficient 12 -> 6                   FIRES
+  M6  swap A_M and A_S endpoint functionals            FIRES on C0 and mean0
+  M7  carrier scale doubled to exp(-r^2)               FIRES
+  M8  y0 terminal coordinate 2 -> 1                    FIRES on mean0
+  M9  asymmetric pin, kappa acquires r^-2              FIRES
+  M10 inward sqrt is not an upper bound                FIRES
+Ten of ten discriminate. No probes required this cycle. That M1 fires is the
+specific regression guarantee that CL's Carrier-A error could not recur here
+undetected.
+
+
+
+
+6. CROSS-LANE COMPARISON, PERFORMED ONLY AFTER THE FREEZE
+
+
+RS2-AUD-214-v1.0 — OpenAI GPT-5.6 Thinking / Resolution Scientist 2.
+  Declares SAME-FAMILY ADVERSARIAL PASS, independence ZERO, no defect found.
+  Reproduces the same L0-L5 and A/B/C Peano tables CL computed.
+  Reports lambda_min(G_r) = 0.38422689396044858518 at r_D. CL's independent
+  exact bracket (0.3841, 0.3843) contains it. AGREEMENT.
+  Reports E[Delta^2] <= 14.0881601505150626086629336253776145062199350569940
+  402796844. CL's exact value agrees to every digit CL computed.
+  Independently raises the control-quality issue that CL raises as F3.
+  Its five-radius direct torus reconstruction is a genuinely separate code path
+  and is the strongest same-family evidence in the set.
+
+
+GP-AUD-228-v1.0 — OpenAI GPT-5.6 Thinking.
+  Declares same-line replay PASS, independence ZERO, no defect found.
+  Byte-identical replay of the source at 80, 100, 120 and 160 digits.
+  Reproduces the same moment chain. Does not address F1, F2 or F4, and records
+  the nine controls only as an aggregate, so does not detect F3.
+
+
+CONVERGENCE AND DIVERGENCE:
+  All three lanes agree on every number CL checked. No lane disagrees with any
+  other on any quantity.
+  CL is the only lane to raise F1, F2 and F4. RS2 and CL independently raise F3.
+  Neither same-family audit is a substitute for distinct-family review, and
+  both say so themselves. CL agrees with that self-assessment.
+
+
+
+
+7. CL'S SELF-AUDIT OF ITS OWN WEAK ITEMS
+
+
+Reported so that this verdict is held to the standard it applies to others.
+
+
+  B11 type-indicator ceiling is a tautology in CL's implementation exactly as
+      NC2 is in GP's. Declared a PROBE, not a pass.
+  B14 scope items are declarative, not computational.
+  B5's statement that the bound is an r-free constant is true by construction of
+      the recomputed expression, which contains no r. Its force comes entirely
+      from B4's computed r-freeness of every kappa.
+  The comparison-literal transcription errors described in section 2 were CL's,
+      were caught by CL, and are reported rather than quietly fixed.
+  Section 5's M03, M07 and M13 rows record real gaps in CL's coverage.
+
+
+
+
+8. WHAT THIS VERDICT DOES AND DOES NOT DO
+
+
+DOES:
+  Confirm both carrier identities byte-exact.
+  Supply organizationally distinct exact-rational verification of B1-B3 and
+    B6-B11, including the conclusion E[Delta^2] < 15.
+  Confirm that GP-DATA-214 materially repairs CL-AUD-253 finding D1: the
+    periodization reserve is now genuinely uniform in r.
+  Raise four amendments against GP-DATA-214 / GP-DER-214 and one against
+    GP-AUD-228.
+  Supply the two missing proofs (F1, F2) so the amendments are cheap.
+
+
+DOES NOT:
+  Grant independence for the periodization leg. See section 0.2.
+  Approve the lower normalizer bound or any asymptotic constant.
+  Approve GP-DATA-204, GP-DATA-206, GP-DATA-212, or exact-field capture.
+  Close P0.1 or P0.2, promote Theorem B, seal a package, change a machine, or
+    authorize any release.
+  Transfer any approval from GP-DATA-208. CL-AUD-253 REMAINS AMEND REQUIRED FOR
+    GP-DATA-208.
+  Delete or supersede anything. No deletion occurred or was attempted.
+
+
+
+
+9. REOPENING CONDITIONS
+
+
+Reopen this verdict if any of the following changes: either GP-DATA-214 carrier
+hash; the transformed pin ordering; the frozen P02-LM-005 or P02-LM-006 object
+identity; the entry-envelope constants 5.26 / 1.51 / 1.01 (headroom is under one
+percent, so any frame change invalidates them); the value of r_D; or if a lane
+that did not author the Peano lemma reaches a different conclusion on B4 or B5.
+
+
+
+
+10. IDENTITIES — CL FREEZE MANIFEST
+
+
+Computed before GP-DER-214, GP-AUD-228 and RS2-AUD-214 were opened.
+
+
+  GP-DATA-214-v1.0_source.py.txt   37512  63ef800a51969903b9c3d97c74e61f77
+                                          ee037afadff73038047ef7cfce040fb9
+  GP-DATA-214-v1.0_result.json     10944  af2779575ce3d18eeb69499e32ecc6e7
+                                          c40898181ddf0fd6e4815d35cf8a6cbf
+  b0_extract.py                     2067  d92d24004d200cfd71b78531c938e8c4
+                                          1e8816d68cd759afeb182ae88ff24613
+  b0_source.py                      2468  8efa77ff9c7585646d55fda9be9b3224
+                                          0c3af8dda32e0fc4d8f5b53ac7743ce0
+  cl_req226_b.py                   12289  8f1cad891552a8528b66eba316711364
+                                          8add0f27dc84ff75bdc8a35d2069e698
+  cl_req226_run.py                 18250  5e0021744e533b5142344855b757650b
+                                          50347265575f2989bcf98a2bba9d3f47
+  cl_req226_cmp.py                  6070  42ca8a1936208357af2dec777dabb334
+                                          15159d844aac69bfb45cea0274dfeb3b
+  cl_req226_mut.py                  7412  7dba1fc97d136573aca3440c02eeb8e4
+                                          f16a2fddcfe755d313a9b5416496eb4a
+  cl_req226_out.json                9062  f8e02532749d59d14daf68c32472bb22
+                                          b79b3a297b6488bfe1d8173b3ab491c6
+  cl_req226_cmp.json                2293  b1b44521238337418bced54a95040757
+                                          e94af68504a16ff16aa893fcd971d6e6
+  cl_req226_mut.json                2143  986af5c5100d206b92b2d4128431ea6c
+                                          d84cb2faacea413c30a3be6454a87e15
+
+
+Post-freeze supplement, added after RS2-AUD-214 was read, changing no frozen
+value: cl_req226_rs2gap.py and cl_req226_rs2gap.json. Identities are recorded
+inside CL-DATA-280.
+
+
+All of the above are shipped in CL-DATA-280-v1.0.
+
+
+
+
+11. OPEN ITEMS CARRIED FORWARD
+
+
+  1. GP-REQ-215 periodization leg needs a lane that did not author the lemma.
+  2. The object-identity firewall (RS2 M13) is unverified by CL.
+  3. F1 and F2 amendments are outstanding against GP-DER-214.
+  4. Standing request to the operator, unanswered since an earlier cycle: if the
+     A-line's cleanroom.py, run_t2.py and results.json from the other Claude
+     session are still available, uploading them to landing folder
+     1VrQftyvEKrYFrLYvsfuqR380ePJFGYaj would enable the full LS-REQ-002 replay.
+  5. Index allocation between the two concurrent CL sessions needs a structural
+     fix, not another announcement. See section 0.1.
+
+
+END CL-AUD-281-v1.0

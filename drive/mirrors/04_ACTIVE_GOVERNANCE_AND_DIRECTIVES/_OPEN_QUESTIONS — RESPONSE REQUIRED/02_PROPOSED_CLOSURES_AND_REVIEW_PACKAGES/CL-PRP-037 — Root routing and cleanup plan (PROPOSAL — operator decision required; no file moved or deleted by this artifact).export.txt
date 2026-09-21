@@ -1,0 +1,34 @@
+﻿CL-PRP-037 — Root routing and cleanup plan
+ARTIFACT: CL-PRP-037-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 ~18:01 UTC · CLASS: PRP — proposal · CANONICAL IMPACT: NONE · AUTHORITY: none · STATUS: RESPONSE REQUIRED (operator)
+
+
+Per CM-045 ¶6, any physical migration of preserved artifacts "requires a separate, explicit, file-specific provenance plan." This is that plan's first draft for the ~250 loose root files, plus a disposal proposal for the six failed-upload files. Nothing here executes anything: the authoring connector cannot move, rename, or delete files, and the Canon reserves those operations to explicit operator instruction. Every item below awaits an operator YES/NO (or the deployed GP-AUTO-034 with WRITE/DELETE still hard-FALSE simply routing them symbolically via tree_path).
+Part A — Six failed-upload files at root (2026-07-21 17:32–17:33 UTC)
+Content fully recovered and refiled as CL-REC-038 in 00.1_GOVERNANCE_CANON. The originals are now redundant surface area that will confuse future scans (title-only .txt files read as empty directives; "mobilebasic" HTML reads as junk).
+
+
+* A1. 1lr5ZXAli1vLVO2CMRp2nYd2PuJn7B2aL — "Corrected Model Coordination and Approval Protocols.txt" (90-byte title-only stub) → PROPOSE: operator trash after confirming CL-REC-038.
+* A2. 1cEcsxiq4PwEsHHnKdu8TwZxdNQHjVUwj — same title, second stub → same.
+* A3. 1_HRFxxIV7IQQOtjvAVY21j7bB8GwHyhj — "Model Coordination and Approval Protocols.txt" (title-only stub) → same.
+* A4. 1y0CdVa6oSx473URFh0YLap9_KYLdJynx — "mobilebasic" (HTML capture, Corrected doc, first attempt) → PROPOSE: operator trash OR retain one capture as provenance for CL-REC-038; if one is retained, prefer A5 and trash A4.
+* A5. 1rYQQa33aJttcyAvAf69FEifIlyyShs4m — "mobilebasic" (HTML capture, Corrected doc; transcription source) → PROPOSE: retain as provenance (or trash if operator prefers zero residue).
+* A6. 1jDPi-MIzidntsdgO-lNBBwaBCeh2ujQA — "mobilebasic" (HTML capture, original Protocols doc; transcription source) → PROPOSE: retain as provenance.
+
+
+Also recommended: the operator (or GP line) re-create the two protocol notes as native Google Docs in 00.1_GOVERNANCE_CANON if the originals should carry operator authorship rather than a CL transcription wrapper.
+Part B — Known duplicate pairs at root
+* B1. 01_CORE_PAIRING_THEOREM.md — 1wXPF-YurmEvy_5U_nMkqGKI9_zeXGKd0 (18:33 UTC) vs 1ddmi--Ef9wMw4rnjRfaeWzWsa8jSffs1 (19:26 UTC), same reported size 25,861 bytes (CM-002). PROPOSE: hash both; if identical, operator trashes the later copy; if different, file a diff report.
+* B2. Constants Table011.pdf (1P5SD7H4_Q-U05eA2_TSFNkV8G-h_gcuL) vs Constants Table012A.pdf (13iUIj3-kDBlEfhhXolDVUDZO19x94wte) — both exactly 53,752 bytes. PROPOSE: hash; if identical, keep the higher-numbered title, trash the other; if different, keep both and note the delta.
+* B3. Eleven redundant legacy copies among the 17 pre-q0 files — itemized in 01_LEGACY_CLUSTER_DECODER (in _NAV). PROPOSE: adopt that document's copy-reconciliation table as the disposition list; operator batch-decision.
+Part C — Cluster-level tree_path routing for the two root strata
+Physical moves are optional; symbolic tree_path routing via the (future) deployed GP-AUTO-034 manifest achieves organization without provenance risk. Proposed cluster → leaf assignments:
+
+
+* C1. Q0/C09x archive dump (2026-07-20 18:29–18:33 UTC, ~150 files: C091–C108 packages, q0 registries/contracts/verifiers, gate framework, E-ledgers, manifests, attestations) → tree_path 00.2_CANONICAL_MASTER for the master/ledger/registry/verifier lineage; per-project C-package files to the matching target leaf where one exists (e.g. C099/C100 collar-cubic → 01_P0.2 tree; C104 coupled persistence → T3/P1.2-adjacent; C095/C096/C098 gate-framework families → 02_P1.1 tree); anything unmatched stays 00.2.
+* C2. Theorem-A/AClaude stratum (2026-07-14, ~90 files: Parts I–V mds, Theorem A masters, AClaude Files 1–6 PDFs, lemma packages, constants tables, sims) → tree_path by theorem folder T1–T5 (Part III upper side → T1; Part IV SARD-G → T2; near-diagonal law files → T3; Lower Side A/B → T4; thermo/percolation → T5); AClaude literature-verification PDFs → the matching P-target 01_SOURCE_LINKS_AND_OBJECT_CARD folders; process docs (backstory.txt, Obligations Registry, Claim Language Annex) → G0.
+* C3. Root-level q0 canonical files (Q0_MASTER-linked IDs, q0_machine.json, q0_verify.py, _Q0 DRIVE INDEX, Navigation Companions) → REMAIN AT ROOT (or 00.2) — these are the live authority set; do not move without a dedicated plan.
+
+
+Execution options, operator to choose one: (i) operator performs moves by hand per the tables above; (ii) wait for GP-AUTO-034 v1.3 deployment and use symbolic tree_path only (no moves at all); (iii) authorize a per-file move plan to be generated as CL-PRP-037-v1.1 with one row per file (old parent, new parent, ID, hash) before anything moves. CL recommends (ii) first, (iii) later if physical tidiness is wanted.
+Failure mode this plan guards against
+Loose-file root scans repeatedly re-derive the same navigation (three generations of maps already exist), and duplicate/stub files keep re-entering summaries as if they were content — both are the stale-summary/duplicate-evidence architectural risks named in OP-GDN-002 §9. Reopening condition: any disposition executed differently from the operator's recorded decision, or any hash mismatch discovered in Part B, reopens this proposal.

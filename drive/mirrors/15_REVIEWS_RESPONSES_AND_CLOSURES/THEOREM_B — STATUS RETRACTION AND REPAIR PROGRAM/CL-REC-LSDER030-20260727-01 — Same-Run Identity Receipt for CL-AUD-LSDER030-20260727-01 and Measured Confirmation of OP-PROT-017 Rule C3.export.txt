@@ -1,0 +1,89 @@
+﻿CL-REC-LSDER030-20260727-01 — SAME-RUN IDENTITY RECEIPT FOR CL-AUD-LSDER030-20260727-01 AND MEASURED CONFIRMATION OF OP-PROT-017 RULE C3
+
+
+Artifact ID: CL-REC-LSDER030-20260727-01
+Generated UTC: 2026-07-27
+Dispatch: DQ-043
+Prepared by: Claude, Anthropic, model claude-opus-5 — Cowork session
+Class: REC / SAME-RUN IDENTITY RECEIPT / CREATION-PATH EVIDENCE
+Authority: mechanical measurement only
+Mathematical verdict created: NONE
+Organizational-independence credit created: ZERO
+Canonical impact: NONE
+
+
+PURPOSE
+
+
+OP-PROT-017 Section 6 rule C1 forbids a converting upload from declaring its own post-conversion identity before that identity exists. CL-AUD-LSDER030-20260727-01 therefore deferred its BODY_BYTES and BODY_SHA256 to this receipt. This document supplies them from a fresh native export taken in the same run as the creation, and records one new measured fact about the creation path.
+
+
+SUBJECT OBJECT
+
+
+Object ID: CL-AUD-LSDER030-20260727-01
+Drive ID: 1kNyQp-_qXvIiceENCJh5OkoigcMW18L3mLnHI6NWx4k
+Parent verified at creation: 10SVV8yx9M1sgUJ6X2l99cZgR_hq1f_1g
+Created UTC: 2026-07-27T05:38:16Z
+Reported file size at metadata read-back: 11,779
+
+
+DECLARED IDENTITY
+
+
+Extraction governed by OP-PROT-017 Section 4. Marker tokens are the two unique delimiter lines inside the artifact; copy them mechanically from the object rather than retyping, per the DEF-LSDER034-TOKENS precedent recorded in CL-CLWO-20260727-03 Item 3.
+
+
+Raw native text/plain export: 30,754 bytes
+Raw export SHA-256: 9a940a18f66fe14ff2a7d293c41f8e076c6cbf384b084ebc8cf4df91f4dec6a1
+BOM present: yes
+CRLF terminators: yes
+Whole-line begin marker matches: 1
+Whole-line end marker matches: 1
+Substring occurrences of the begin token in the whole export: 1
+Substring occurrences of the end token in the whole export: 1
+Leading LF characters in the extracted region: 0
+Frozen body line count: 18
+
+
+BODY_BYTES: 5506
+BODY_SHA256: d9fbb807a5b98f8f874ac58693c8e7a6367b010679cfe2bd8adc90ae069822cf
+
+
+Binding Class: C. Current Status: ACTIVE. Drift Status: NONE AT CREATION.
+
+
+SELF-CONFORMANCE UNDER RULE N9
+
+
+The artifact names its marker tokens nowhere except on the two delimiter lines themselves. Substring occurrence counts are therefore 1 and 1, against 2 and 2 for every one of the twenty-one marker-extracted objects previously swept. The artifact carries the normative policy sentence of OP-PROT-017 Section 4.1 verbatim, which does not name the tokens. CL-AUD-LSDER030-20260727-01 is consequently immune to the substring-matching defect D-A even under a non-conforming extractor, and is the first object in this corpus measured at 1 and 1 rather than 2 and 2.
+
+
+NEW MEASURED FACT — RULE C3 CONFIRMED, AND A BYTE-PRESERVING CONVERTING PATH DEMONSTRATED
+
+
+OP-PROT-017 Section 6 states that a converting upload prepends a BOM, converts terminators to CRLF, and expands blank lines, and rule C3 advises that a frozen body authored for a converting upload should avoid consecutive blank lines inside the delimiters. That advice had not been tested; it was inferred from the observed non-idempotence of blank-line expansion.
+
+
+It was tested here. The frozen body of CL-AUD-LSDER030-20260727-01 was authored with single blank lines only inside the delimiters. The authored pre-upload region measured 5,506 bytes with SHA-256 d9fbb807a5b98f8f874ac58693c8e7a6367b010679cfe2bd8adc90ae069822cf. The post-conversion re-export measured 5,506 bytes with SHA-256 d9fbb807a5b98f8f874ac58693c8e7a6367b010679cfe2bd8adc90ae069822cf. The two are identical.
+
+
+Three consequences, stated at the strength the evidence supports:
+
+
+E-C3-1. Rule C3 is confirmed by measurement, not only by inference. Blank-line expansion is the only component of the converting transform that perturbs the frozen region, and removing consecutive blank lines removes it.
+
+
+E-C3-2. A third creation path exists alongside the two offered in rule C2. A converting upload whose frozen region contains no consecutive blank lines is byte-preserving over that region, so the authored identity and the post-export identity coincide. This does not repeal rule C1: the identity is still declared from the post-creation re-export, as it is here. What it changes is that an author can now predict the identity before creation and verify the prediction afterwards, which converts C1 from a blocking dependency into a check.
+
+
+E-C3-3. Scope of the claim. This is one object on one Drive on one date. It shows the transform preserves this region, not that it preserves every region. It says nothing about leading whitespace, tab runs, very long lines, or non-ASCII payloads beyond the single em dash present here. It is offered as evidence for a bounded amendment to OP-PROT-017, not as a new normative rule, and OP-PROT-017 falsifier F4 remains the correct place to record any contrary observation.
+
+
+WHAT THIS RECEIPT DOES NOT DO
+
+
+It creates no mathematical verdict and endorses none. It transfers no review credit. It restores, promotes, seals, publishes, and releases nothing. It does not alter the retracted status of Theorem B. It writes no register row: this session had no sheet-write capability, and every register commit implied by CL-AUD-LSDER030-20260727-01 and by this receipt is specified for another line in CL-CLWO-20260727-04 and is not asserted here as done.
+
+
+END CL-REC-LSDER030-20260727-01

@@ -1,0 +1,180 @@
+﻿CL-AUD-008 — Class 3 resolved: the two navigation companions are different documents, and both carry stale absence claims
+ARTIFACT ID:       CL-AUD-008-v1.0
+
+
+AUTHOR:            Claude (Anthropic)
+
+
+CREATED:           2026-07-20
+
+
+CLASS:             audit
+
+
+AUTHORITY:         none — asserts nothing on its own authority
+
+
+FILES REVIEWED:    1mWIvwLfEEiyk2XMnP_6oRvgU8e_wIBWrxTt1NqhBc2s (5,336 B)
+
+
+                   1WLd0cGTG2dKRyuonKzDx-YaIMVYJfg_OHIBIWiPwUSU (3,566 B)
+
+
+                   both read in full
+
+
+RELATION:          resolves Class 3 of CL-REG-007-v1.1; corroborates GP-AUD-004-v1.0 §4;
+
+
+                   reports a direct conflict with GP-AUD-004-v1.0 §3.3
+
+
+CANONICAL IMPACT:  NONE
+
+
+________________
+
+
+Verdict
+Both files are titled EXTERNAL REVIEW PACKAGE — NAVIGATION COMPANION. They are not duplicates. They are two different documents.
+
+
+Class 3 of CL-REG-007-v1.1 is closed: semantically divergent, confirmed by full read of both. Different structure, different section titles, different coverage. The 5,336-byte copy carries a Recorded roles of the four absent files section and per-file header maps; the 3,566-byte copy reorganizes around per-file titles and adds a housekeeping paragraph the other lacks. Neither is a formatting variant of the other.
+
+
+This is the only genuinely divergent set in the census. Everything else GP-AUD-004 hashed came back byte-identical or newline-only.
+
+
+________________
+
+
+Finding 1 — both copies carry absence claims that are now stale
+This is the reviewer-facing map. It is the document an external specialist would read first, and both versions of it currently misstate what exists.
+
+
+Copy
+	Claim
+	1mWIvwLf…
+	"Absent — re-upload needed: 00_READ_ME_FIRST.md, 04_THERMODYNAMIC_AND_PERCOLATION_EXTENSION.md, 05_RELIABILITY_AND_EVIDENCE.md, 06_REVIEW_RESPONSE_FORM.md"
+	1WLd0cGT…
+	"Files 00…, 04…, 05…, 06… are pending re-upload"
+	
+
+All four are present in Drive. Verified independently in CL-AUD-006 and confirmed by GP-AUD-004 §4:
+
+
+File
+	File ID
+	Bytes
+	00_READ_ME_FIRST.md
+	1ubbFBhZxwtnWRYnpn1dYH6M5MWpQrLeg
+	8,160
+	04_THERMODYNAMIC_AND_PERCOLATION_EXTENSION.md
+	1p_lW-RKb9rB5yBapII9US8UwOnniEE88
+	14,032
+	05_RELIABILITY_AND_EVIDENCE.md
+	1E8gHAa6RchUcVTDibh7405Hc56hmSJMZ
+	13,506
+	06_REVIEW_RESPONSE_FORM.md
+	1hGs85A7F40o9AGY2XTgFryBCkpH1QUZS
+	7,949
+	
+
+All four are also named in the Carry-Forward Canon's retain-hot set and its active-links section.
+
+
+Both copies also state that the four files' contents "did not survive into any recoverable record" and were not reconstructed, per the no-invention rule. The no-invention discipline was correctly applied — the files were not fabricated. But the conclusion drawn from it, that they are absent, is contradicted by their presence in Drive. The reasoning was sound; the premise went stale.
+
+
+Per GP-AUD-004 §4, the correct vocabulary distinguishes four conditions: present anywhere in Drive · present in the intended package folder · byte-verified against a specific source attachment · canonical under the authority order. These four files are PRESENT IN DRIVE and NOT YET BYTE-VERIFIED — not absent.
+
+
+Recommended: whichever copy is retained should be reissued with the absence paragraph corrected. Until then, a specialist reading either one will believe four of seven package files are missing when none are.
+
+
+________________
+
+
+Finding 2 — one copy directs a deletion, targeting the exact file GP-AUD-004 ordered preserved
+This is the sharper problem.
+
+
+1WLd0cGT… contains, verbatim in its housekeeping paragraph, an instruction to trash the 15,873-byte copy of 03_NEAR_DIAGONAL_LIFETIME_LAW.md created at 19:36:33Z — naming the 15,874-byte copy as canonical.
+
+
+That file is 1BXgTbO55zFjQwmgRjrbV_h87z3Jdy9b9. GP-AUD-004 §3.3 ruled specifically on it:
+
+
+"do not delete or trash the shorter file. Label it as a noncanonical newline variant if needed; preservation remains mandatory."
+
+
+And GP-AUD-004 §4 states the general rule: "No navigation document may direct deletion. Recommendations such as 'trash it' are outside navigation authority and conflict with the explicit no-deletion instruction."
+
+
+Three points on this:
+
+
+1. GP-AUD-004 §6 attributes the trash-a-duplicate instruction to CROSS_MODEL_CONTRIBUTION_REGISTRY_v1.md. It also appears here, in a navigation companion, targeting a specifically-named file ID. Flagging the second location so the ruling can be applied to both.
+2. The instruction is technically correct and procedurally out of bounds. The 15,873-byte file genuinely is a newline-short variant — GP-AUD-004 §3.3 confirms it by hash. Being right about which file is canonical does not confer authority to direct its removal. Canon §7 reserves deletion to explicit instruction from the researcher.
+3. This is the failure mode CM-001 named, in its most concrete form yet: a navigation document, carrying no theorem authority, issuing an operational command about a source file — and doing so in the reviewer-facing map, where it is most likely to be acted on without checking.
+
+
+Recommended: the trash instruction should be struck from whichever copy is retained, and replaced with the neutral label GP-AUD-004 §3.3 prescribes.
+
+
+________________
+
+
+Finding 3 — both copies claim supersession over the Drive Index, and they disagree on scope
+1mWIvwLf… claims it supersedes the _Q0 DRIVE INDEX section titled "Not in this folder" for the items now uploaded. 1WLd0cGT… claims it supersedes the "Not in this folder" paragraph, noting the Index predates the uploads and cannot be edited in place.
+
+
+Both claims are reasonable in isolation. With two divergent copies asserting supersession over the same target, the effective state is undefined — a reader cannot tell which supersession is in force, and the two copies disagree about which files the superseding statement covers.
+
+
+GP-AUD-004 §5.5 requires that a new version identify the exact predecessor it incorporates. The same principle applies to cross-document supersession: a supersession claim should name the file ID of the superseded document and the file ID of the superseding one. Neither copy does.
+
+
+________________
+
+
+What I did not do
+* Did not delete, trash, move, rename, or modify either copy, or the file the trash instruction targets. Canon §7.
+* Did not determine which copy is intended as authoritative. Both are plausible; the 3,566-byte copy is later, but CM-001 established that creation time is not evidence of authority. This is the researcher's call, or the authoring model's.
+* Did not hash the two. Not needed — a full read establishes semantic divergence directly, which is a stronger result than a hash mismatch.
+* Did not reproduce any numerical constant from either document. Both display decimals from the manuscripts. 1WLd0cGT… states that no numerical constant is claimed anywhere in the package and that every finite decimal in the historical record is killed or rung-tagged with ledger line references. Canon §3 governs; nothing is promoted here.
+
+
+________________
+
+
+Census status after this audit
+Class
+	Sets
+	Status
+	1 — byte-identical
+	5
+	resolved by GP-AUD-004 §3
+	2 — formatting-only
+	1
+	resolved by GP-AUD-004 §3.3
+	3 — semantically divergent
+	1
+	resolved here — two distinct documents
+	4 — fork, not duplicate
+	1
+	resolved by GP-AUD-004 §2.1
+	unhashed
+	1
+	gate-framework PDFs — oldest open item, still open
+	
+
+Seven of eight duplicate sets are now classified. The remaining item is the two gate-framework PDFs (1tX2omUL… 77,525 B · 1nBgMT82… 92,754 B), which differ in both title and size and have never been compared. That is the last census item outstanding.
+
+
+________________
+
+
+
+
+Cross-references: GP-AUD-004-v1.0 §2.1, §3.3, §4, §5.5, §6 · GP-LED-001-v1.0 CM-001, CM-007 · CL-REG-007-v1.1 Class 3 · CL-AUD-006-v1.0 · UN-CAN-001-v1.0 §3, §7

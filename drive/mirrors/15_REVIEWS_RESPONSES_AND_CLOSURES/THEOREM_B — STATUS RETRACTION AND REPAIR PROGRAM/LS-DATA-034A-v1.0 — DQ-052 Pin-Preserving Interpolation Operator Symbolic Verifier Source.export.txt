@@ -1,0 +1,115 @@
+﻿LS-DATA-034A-v1.0 — DQ-052 PIN-PRESERVING INTERPOLATION OPERATOR SYMBOLIC VERIFIER SOURCE
+
+
+Artifact ID: LS-DATA-034A-v1.0
+Dispatch: DQ-052
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: DATA / EXECUTABLE SOURCE / EXACT SYMBOLIC ALGEBRA
+Authority: same-family verification source only
+Independence credit: ZERO
+Canonical impact: NONE
+Local source bytes: 3,958
+Local source SHA-256: abdfdf2f9c2a2fDrive-export source bytes: 3,959
+Drive-export source SHA-256: 5a67ffa73ce27234e23ed68f87d4372fa53e6b432545c01ab150ab51518b9006
+Drive-export execution: PASS; stdout 1,281 bytes / SHA-256 57c972e1b66186ba272cf9aea83e89feaf72a79b7cca1cdd2256ffd3d278933f
+
+
+83adbe6a6f51423356e31a9d9c44ca3bfd8c0bc6c795c1ff8a
+
+
+BEGIN_DQ052_SOURCE
+import json
+import sympy as sp
+
+
+X,Y=sp.symbols("X Y")
+bx,by,hxx,hxy,hyy,txxx,txxy,txyy,tyyy,qxxxx,qxxxy,qxxyy,qxyyy,qyyyy=sp.symbols(
+    "bx by hxx hxy hyy txxx txxy txyy tyyy qxxxx qxxxy qxxyy qxyyy qyyyy"
+)
+kappa=sp.symbols("kappa")
+tau=(
+    bx*X+by*Y
+    +sp.Rational(1,2)*(hxx*X**2+2*hxy*X*Y+hyy*Y**2)
+    +sp.Rational(1,6)*(txxx*X**3+3*txxy*X**2*Y+3*txyy*X*Y**2+tyyy*Y**3)
+    +sp.Rational(1,24)*(qxxxx*X**4+4*qxxxy*X**3*Y+6*qxxyy*X**2*Y**2+4*qxyyy*X*Y**3+qyyyy*Y**4)
+)
+T=sp.Matrix([sp.diff(tau,X),sp.diff(tau,Y)])
+pm={X:-sp.Rational(1,2),Y:0}
+pp={X:sp.Rational(1,2),Y:0}
+em=sp.simplify(T.subs(pm))
+ep=sp.simplify(T.subs(pp))
+a=(ep[0]+em[0])/2
+b=(ep[1]+em[1])/2
+c=ep[0]-em[0]
+d=ep[1]-em[1]
+h=a*X+b*Y+c*X**2/2+d*X*Y
+H=sp.Matrix([sp.diff(h,X),sp.diff(h,Y)])
+P=sp.simplify(T-H)
+expected=sp.Matrix([
+    txxx/sp.Integer(2)*(X**2-sp.Rational(1,4))+txxy*X*Y+txyy/sp.Integer(2)*Y**2
+    +qxxxx/sp.Integer(6)*X*(X**2-sp.Rational(1,4))
+    +qxxxy/sp.Integer(6)*(3*X**2-sp.Rational(1,4))*Y
+    +qxxyy/sp.Integer(2)*X*Y**2+qxyyy/sp.Integer(6)*Y**3,
+    hyy*Y+txxy/sp.Integer(2)*(X**2-sp.Rational(1,4))+txyy*X*Y+tyyy/sp.Integer(2)*Y**2
+    +qxxxy/sp.Integer(6)*X*(X**2-sp.Rational(1,4))
+    +qxxyy/sp.Integer(2)*X**2*Y+qxyyy/sp.Integer(2)*X*Y**2+qyyyy/sp.Integer(6)*Y**3
+])
+checks={}
+checks["projection_formula"]=all(sp.simplify(P[i]-expected[i])==0 for i in range(2))
+checks["projected_endpoint_minus"]=all(sp.simplify(v)==0 for v in P.subs(pm))
+checks["projected_endpoint_plus"]=all(sp.simplify(v)==0 for v in P.subs(pp))
+checks["correction_gradient_symmetry"]=sp.simplify(sp.diff(H[0],Y)-sp.diff(H[1],X))==0
+psi=X**3/sp.Integer(3)-X/sp.Integer(4)
+B=sp.Matrix([sp.diff(psi,X),sp.diff(psi,Y)])
+checks["psi_grad_minus"]=all(sp.simplify(v)==0 for v in B.subs(pm))
+checks["psi_grad_plus"]=all(sp.simplify(v)==0 for v in B.subs(pp))
+checks["psi_gap"]=sp.simplify(psi.subs(pp)-psi.subs(pm)+sp.Rational(1,6))==0
+lam=kappa-txxx/sp.Integer(2)
+Fcorr=sp.simplify(P+lam*B)
+expected_k=expected.subs({txxx:2*kappa})
+checks["kappa_replacement"]=all(sp.simplify(Fcorr[i]-expected_k[i])==0 for i in range(2))
+checks["four_gradient_pins"]=all(sp.simplify(v)==0 for v in list(Fcorr.subs(pm))+list(Fcorr.subs(pp)))
+tilde=sp.expand(tau-h)
+Delta=sp.simplify(tilde.subs(pp)-tilde.subs(pm))
+checks["projected_midpoint_gap"]=sp.simplify(Delta+txxx/sp.Integer(12))==0
+lam2=sp.simplify(kappa+6*Delta)
+checks["lambda_formula"]=sp.simplify(lam2-lam)==0
+Ipot=sp.expand(tilde+lam2*psi)
+checks["two_value_pins_gap"]=sp.simplify(Ipot.subs(pp)-Ipot.subs(pm)+kappa/sp.Integer(6))==0
+checks["gradient_matches"]=all(sp.simplify(sp.diff(Ipot,v)-Fcorr[i])==0 for i,v in enumerate((X,Y)))
+mutations={}
+H_bad=sp.Matrix([a+c*X,b+d*X])
+mutations["omit_dY_breaks_symmetry"]=sp.simplify(sp.diff(H_bad[0],Y)-sp.diff(H_bad[1],X))!=0
+psi_bad=X**3/sp.Integer(3)-X/sp.Integer(8)
+mutations["wrong_psi_breaks_endpoint_gradient"]=any(
+    sp.simplify(v)!=0 for v in sp.Matrix([sp.diff(psi_bad,X),sp.diff(psi_bad,Y)]).subs(pp)
+)
+I_bad=sp.expand(tilde-lam2*psi)
+mutations["wrong_lambda_sign_breaks_gap"]=sp.simplify(
+    I_bad.subs(pp)-I_bad.subs(pm)+kappa/sp.Integer(6)
+)!=0
+h_noavg=c*X**2/2+d*X*Y
+P_noavg=sp.simplify(T-sp.Matrix([sp.diff(h_noavg,X),sp.diff(h_noavg,Y)]))
+mutations["drop_endpoint_averages_breaks_pins"]=any(
+    sp.simplify(v)!=0 for v in list(P_noavg.subs(pm))+list(P_noavg.subs(pp))
+)
+mutations["raw_taylor_not_pin_preserving"]=any(
+    sp.simplify(v)!=0 for v in list(T.subs(pm))+list(T.subs(pp))
+)
+assert all(checks.values())
+assert all(mutations.values())
+result={
+    "checks":checks,
+    "checks_passed":sum(checks.values()),
+    "mutations":mutations,
+    "mutations_detected":sum(mutations.values()),
+    "correction_potential":str(sp.expand(h)),
+    "gap_basis":str(psi),
+    "gap_coefficient":str(lam2),
+    "projected_field_x":str(sp.factor(Fcorr[0])),
+    "projected_field_y":str(sp.factor(Fcorr[1])),
+    "projected_gap":str(Delta)
+}
+print(json.dumps(result,sort_keys=True,indent=2))
+END_DQ052_SOURCE

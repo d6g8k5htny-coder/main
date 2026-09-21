@@ -1,0 +1,212 @@
+﻿GP-AUD-186-v1.0 — GP-AUTO-034 v1.3-R0.4 COMPLETE WRITE-TARGET REPAIR AND STATIC QUALIFICATION RECEIPT
+
+
+Artifact ID: GP-AUD-186-v1.0
+Executed: 2026-07-24
+Executor: ChatGPT — OpenAI GPT-5.6 Thinking under Dylan Roy’s authenticated instruction to continue nonterminal Drive research
+Class: AUD / SOURCE CORRECTION / STATIC REQUALIFICATION / RUNTIME FIREWALL
+Authority: nonterminal source publication, testing, factual reconciliation, and reversible sandbox preparation under OP-PROT-011
+Canonical mathematical impact: NONE
+Installation or activation authority exercised: NONE
+
+
+STATUS
+
+
+R0.4 RAW SOURCE PUBLISHED / REGISTRY-NAVIGATION-MANIFEST TARGETS EXPLICIT / STATIC T1–T35 PASS / FIXTURES 4-OF-4 PASS / SANDBOX HANDOFF UPDATED / APPS SCRIPT RUNTIME PENDING / DISTINCT-FAMILY R0.4 REVIEW PENDING / DO NOT INSTALL
+
+
+[[OBJ:GP-AUTO-034]] [[RELEASE:v1.3-R0.4-SUCCESSOR-CANDIDATE]] [[R0.3:SUPERSEDED-AS-CANDIDATE]] [[ALL-WRITE-TARGETS:EXPLICIT]] [[STATIC:PASS]] [[RUNTIME:PENDING]] [[NO-INSTALL]]
+
+
+1. R0.3 DEFECT
+
+
+R0.3 correctly removed the hardcoded live registry spreadsheet and required explicit Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID. During continued static review, two additional live-target fallbacks were found:
+
+
+- DEFAULT_NAVIGATION_DOC_ID pointed to the live Navigation Companion;
+- DEFAULT_MANIFEST_FOLDER_ID, together with the TREE_04_4 fallback, could point generated manifest, routing, validation-receipt, and backup writes to live staging when Config fields were absent.
+
+
+The isolated copied Config already supplied safe explicit values, so no live write occurred. Nevertheless, source-level fallback remained a safety defect. R0.3 is preserved and superseded for current routing.
+
+
+2. R0.4 REPAIR
+
+
+R0.4 removes DEFAULT_NAVIGATION_DOC_ID and DEFAULT_MANIFEST_FOLDER_ID.
+
+
+makeContext_ now requires:
+- MANIFEST_OUTPUT_FOLDER_ID through requiredConfigDriveId_();
+- NAVIGATION_DOC_ID through requiredConfigDriveId_().
+
+
+requiredConfigDriveId_():
+- rejects absent or malformed IDs;
+- contains no live fallback;
+- returns only the exact explicit Config value.
+
+
+The registry remains separately bound through registrySpreadsheetId_() and Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID.
+
+
+New control:
+- T35 — Navigation and manifest write targets require explicit Config IDs and have no live defaults.
+
+
+T35 tests missing-manifest failure, missing-navigation failure, and exact explicit test-ID binding.
+
+
+3. EXACT SOURCE IDENTITY
+
+
+Raw source:
+- Title: GP-AUTO-034-v1.3-R0.4-SUCCESSOR_CANDIDATE.gs
+- Drive ID: 1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99
+- URL: https://drive.google.com/file/d/1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99/view
+- MIME type: text/plain
+- Exact bytes: 135,668
+- SHA-256: 11ba6ccdb3f68a38215036b55dec4a4e53cc2022adf6af8f5c6dffec8f9aa9d3
+- Encoding: UTF-8 BOM, CRLF line endings, no final line terminator
+- Drive round-trip equality: PASS
+- JavaScript syntax: PASS
+
+
+Editable carrier:
+- Drive ID: 1VVKDeG8-PcV5EJYfNc1JSlv7b_s2KeUUjpdtRDA-yXk
+- URL: https://docs.google.com/document/d/1VVKDeG8-PcV5EJYfNc1JSlv7b_s2KeUUjpdtRDA-yXk/edit
+
+
+Apps Script manifest:
+- Drive ID: 1PaSu-mKpcJai33YjFvyJCw_Tm-zH3XJB
+- Bytes: 106
+- SHA-256: 53f85c56a0fb4fe0e4b1a46fe0955fc45cd1d950224bc63db774f5ead6ec0b84
+- JSON: valid
+
+
+Normalized correspondence:
+- UTF-8, LF-only, no BOM, exactly one trailing LF
+- Bytes: 132,283
+- Lines: 2,608
+- SHA-256: e6dbb29eac4d78bd1ce8e0be1457e1632704b9f612bebebc0abefabaa14f847f
+- Direct raw Drive publication remains connector-blocked.
+
+
+4. STATIC RESULTS
+
+
+The exact raw Drive object was downloaded and tested.
+
+
+Results:
+- byte round trip: PASS;
+- JavaScript syntax: PASS;
+- T1–T35: PASS 35/35;
+- frozen fixtures: PASS 4/4;
+- total returned records: PASS 39/39.
+
+
+T33 prevents false production labeling.
+T34 prevents implicit registry targeting.
+T35 prevents implicit navigation or manifest targeting.
+
+
+No Google Apps Script service call was represented as executed.
+
+
+5. ISOLATED RUNTIME HANDOFF
+
+
+Sandbox folder:
+- 1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH
+
+
+Current read-first protocol:
+- Drive ID: 1gZum-OCx4IhdhDS3CyLJ1jajJHK1Ik9Orph4NAELiic
+- URL: https://docs.google.com/document/d/1gZum-OCx4IhdhDS3CyLJ1jajJHK1Ik9Orph4NAELiic/edit
+
+
+Isolated registry:
+- 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo
+
+
+Isolated navigation:
+- 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE
+
+
+Generated-only output folder:
+- 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y
+
+
+The copied Config explicitly binds navigation and manifest destinations to the isolated objects. The required registry Script Property must bind to the isolated registry. All authorization, trigger, source-write, deletion, promotion, and recursion switches remain FALSE.
+
+
+6. CURRENT GATES
+
+
+G1 — complete immutable raw source: PARTIAL PASS; exact raw executable is published, while the separately requested normalized raw Drive object remains connector-blocked.
+
+
+G2 — exact raw byte identity and Drive round trip: PASS.
+
+
+G3 — JavaScript syntax: PASS.
+
+
+G4 — T1–T35: PASS 35/35.
+
+
+G5 — frozen fixtures: PASS 4/4.
+
+
+G6 — source-level registry, navigation, and manifest target isolation: PASS statically.
+
+
+G7 — isolated runtime objects and protocol: PREPARED.
+
+
+G8 — installed-source equality: OPEN.
+
+
+G9 — Apps Script T1–T35, fixture execution, and normal isolated refresh: OPEN.
+
+
+G10 — write-target and source-immutability audit: OPEN.
+
+
+G11 — partial-commit injection and recoverIncompleteCommit restoration: OPEN.
+
+
+G12 — trigger inspection and teardown: OPEN.
+
+
+G13 — exact-byte distinct-family R0.4 review: OPEN.
+
+
+G14 — production installation or activation: PROHIBITED pending remaining gates and Dylan’s explicit decision.
+
+
+7. ACCEPTANCE STANDARD
+
+
+A qualifying runtime must use only the current R0.4 read-first protocol. It must establish installed-source correspondence, prove all three target types are explicit, run T1–T35 and four fixtures in Apps Script, execute one isolated refresh, prove live/source immutability, inject and recover a partial commit, inspect/remove triggers, reset authorization, and publish complete receipts.
+
+
+8. FALSIFICATION CONDITIONS
+
+
+Reject or revise R0.4 if any registry, navigation, or manifest target has a live fallback; a missing target does not fail closed; installed source differs without a new identity; any test or fixture fails; trusted state can be changed by source claims; eligibility or independence can be laundered; candidate output claims production; writes escape the sandbox; source artifacts change; recovery fails; or trigger state is inferred rather than inspected.
+
+
+9. TERMINAL BOUNDARY
+
+
+This receipt advances GP-AUTO-034 to COMPLETE R0.4 SOURCE PUBLISHED / ALL WRITE TARGETS EXPLICIT / STATICALLY REQUALIFIED / SANDBOX HANDOFF UPDATED.
+
+
+It does not claim successful Apps Script execution, runtime refresh, recovery, installed-source equality, trigger safety, independent review, production readiness, installation, activation, package sealing, machine-root acceptance, theorem closure, or mathematical promotion.
+
+
+END GP-AUD-186-v1.0

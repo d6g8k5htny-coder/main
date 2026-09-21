@@ -1,7 +1,7 @@
 # Bounded research continuation
 
 Dylan Roy authorized recurring advancement and optimization in the current
-research task. The Codex task heartbeat **Advance private research and
+research task. The Codex task heartbeat **Advance research and
 verification** is enabled hourly, attached to task
 `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`. Its scheduler identifier is
 `advance-private-research-and-verification`. This document records the setup;
@@ -30,12 +30,13 @@ complete master verification once, after focused development checks; failures
 or further edits require the relevant fresh verification. A reused receipt
 must never be described as a new execution.
 
-The repository stays **private** until Dylan explicitly authorizes public
-publication. Deliveries use the existing private draft PR and one immutable,
+Dylan explicitly authorized public repository visibility on 2026-09-20, and
+unauthenticated access was verified. Visitors have no write access; Drive
+sharing remains separate. Deliveries use the existing draft PR and one immutable,
 read-back Drive bundle with a release/handoff event. Tests, hashes, scheduler
 runs and same-provider checks do not promote scientific status or manufacture
 independence. Frozen sources and historic errors stay intact. No automatic
-merge, public release, visibility change, source deletion or third-party
+merge, GitHub Release, visibility or access change, source deletion or third-party
 message is authorized by this schedule.
 
 The worker stays quiet when nothing actionable changes and reports substantive

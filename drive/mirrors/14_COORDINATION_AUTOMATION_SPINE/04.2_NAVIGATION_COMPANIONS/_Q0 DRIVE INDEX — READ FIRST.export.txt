@@ -1,0 +1,56 @@
+﻿Q0 Drive Folder Index — read this first
+What this folder is: the consolidated q0 portfolio at its 2026-07-19 close (consolidation C-CONS-2026-07-19), plus the C091–C108 working artifacts it consolidates, plus the July-14 Master-v3.2 compiled set. The folder is flat; this index and the two Navigation Companions supply the structure. Nothing in this index supersedes anything — it duplicates headers and adds context so you can find things.
+Reading order
+1) This index.  2) Q0_MASTER.md lines 1–19 — the LIVE THEOREM STATE block: the current theorem, the kills, and the authority order, in half a page.  3) For anything deeper in the master: the doc "Q0_MASTER — NAVIGATION COMPANION" (every embedded source, line-anchored, with context).  4) For any correction, kill, or freeze: the doc "Q0_LEDGER — NAVIGATION COMPANION".  5) Executable trust: run python3 q0_verify.py selftest (verified passing 2026-07-20 in an offline sandbox: kernel 36/36, verifier v4, v5 22/22).  6) q0_machine.json is machine-facing (registries, contracts, fixtures, the 488-file manifest) — access it through q0_verify.py, not by eye.
+Authority order (verbatim from Q0_MASTER)
+C108 portfolio close ▸ C104/C105 ▸ C102 referee package ▸ C101 rate roots ▸ C094–C098 successor corrections ▸ C092 frozen core ▸ Master v3.2 compiled set (00–08) ▸ inherited pre-C024 sources ▸ ancestor program. Later governs live text; earlier remains verbatim under its status banner.
+The four consolidation files (supersede-for-use everything else here)
+File
+	Size
+	Role
+	Q0_MASTER.md
+	1.83 MB / 36,063 lines
+	Every source verbatim in 8 parts with sha-prefixed banners. Use its Navigation Companion.
+	Q0_LEDGER.md
+	253 KB / 5,245 lines
+	Append-only correction/kill/freeze spine. Use its Navigation Companion.
+	q0_machine.json
+	5.9 MB
+	Registries, contracts, data fixtures, 488-file sha256 manifest.
+	q0_verify.py
+	957 KB
+	48 embedded instruments + selftest batteries; auto-rehydrates fixtures from q0_machine.json.
+	Working artifacts in this folder (consolidated into the four files above; kept as originals)
+Masters: Q0_C092_FINAL_MASTER.md (frozen core), Q0_C091_PROOF_GATE_REDUCTION.md, GATE_FRAMEWORK_MASTER_v1_2_RECONCILED.md/.pdf and v1_1.md. Note: two PDF copies of the gate framework are present ("# THE GATE FRAMEWORK — MASTER….pdf" and GATE_FRAMEWORK_MASTER_v1_2_RECONCILED.pdf) — apparent duplicate, left in place for you to reconcile.
+Kernels & verifiers: gate kernel v1_2.py; gate_kernel_v2_0.py + gate_kernel_v2_0_validation.json + validate_gate_kernel_v2_0.py; q0_llm_verifier_v4.py; q0_llm_verifier_v5.py + q0_llm_verifier_v5_validation.json; q0_registry_v2_0.json.
+Contract reports (pattern q0_cNNN_*_contract*_report.json): C096 conditional; C097 gamma; C098 conditional v2 + gamma maxcount v2; C101 limit; C108 portfolio.
+Evidence artifacts (pattern CNNN_* / q0_c091_* / bf_*): C094_FRESH_STATE-era JSONs, C096 deep review + red-team + contact sheets (PNG), C098 gamma benchmark, C099 near-endpoint scan, C100 collar profile scan, C101 window-saddle scan, C104_COUPLED_PERSISTENCE.json (2.4 MB — the Theorem-B coupled-refinement data), q0_c091 bonferroni/corridor PNGs, bf_susceptibility_probe.png + raw.csv.
+Master v3.2 compiled set (uploaded 2026-07-14): the ten files 00_INVENTORY … 08_COMPLETENESS_REPORT. Identical content is embedded verbatim as Q0_MASTER Part V — read either.
+Not in this folder (lives in the session workspace; say the word and it gets added)
+The external review package (00_READ_ME_FIRST … 06_REVIEW_RESPONSE_FORM — the distribution face for specialists); MASTER_SET_ERRATA.md (annotations mapping E-C094-2/-3 onto the compiled set); Adjudication_C094_C108_vs_C024_C047.md (the in-loop reviewer's concurrence record, 2026-07-20).
+Where do I find X (line anchors into Q0_MASTER unless marked L = ledger)
+X
+	Anchor
+	The current theorem + the kills, in one block
+	lines 4–16
+	C101 canonical theorem + proof chain
+	line 336
+	C108 portfolio close (terminal states, prohibited-statement closure)
+	line 25
+	Why 4.3 became 4.35 then died (downward rounding)
+	L 846 (E-ledger), L 1116 (full adjudication)
+	Why 0.8411 was never licensed bare (factor propagation)
+	L 1247
+	The lower side's conditional status (marked-repulsion gate)
+	line 4582 (inside the C091 frozen source)
+	SARD-G as shipped (Theorem A v3.2 §8)
+	line 11450; companion manuscript: review-package file 02
+	Claim Language Annex v1
+	line 12025
+	Theorem B package (C104)
+	line 2023
+	Referee objection ledger (14 objections)
+	line 1808
+	Ancestor manuscript OCR bundles (image layers dropped, E-CONS-3)
+	line 29661 onward
+	Companion docs created 2026-07-20 by the in-loop reviewer instance; line anchors refer to the byte-exact files in this folder.

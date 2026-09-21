@@ -1,0 +1,379 @@
+﻿LS-DER-055-v1.0 — ROTATIONAL PROJECTION AND UNIVERSAL FIRST PERIODIZATION CORRECTION
+
+
+Artifact ID: LS-DER-055-v1.0
+Dispatch: DQ-078
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / O(d)-INVARIANT FIRST VARIATION / PERIODIZED BARGMANN–FOCK / UNIVERSAL FINITE-SIZE CORRECTION
+Authority: same-OpenAI-family analytic theorem candidate only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: COMPLETE UNIVERSAL FIRST-CORRECTION THEOREM CANDIDATE / REVIEW DEFERRED
+BODY_BYTES: 9657
+BODY_SHA256: 9a27bdcc8a72a4fd4c427a4c5d05fcc34558f0d2d6ebf7b48e01f39e4fb8daff
+
+
+CONTROLLING INPUTS
+LS-DER-045-v1.0 — exact two-dimensional first periodization correction.
+LS-DER-047-v1.0 — arbitrary-dimensional planar Bargmann–Fock fold coefficient.
+LS-DER-050-v1.0 — arbitrary-dimensional isotropic spectral-moment coefficient law.
+LS-DER-051-v1.0 — dimension-portable elder-selection interface.
+LS-DER-053-v1.0 — complete fixed-torus d=3 Bargmann–Fock first-moment law.
+LS-DATA-055A-v1.0 — exact symbolic source, Drive ID 1I0jvetsZI8J3BQkdE-BxR-qLgvU2WsjmzSyRrDuOLrs.
+LS-DATA-055B-v1.0 — exact symbolic result, Drive ID 1gEb2pYSjwyIIDpSje8hgjUVSIC3jeLGSD7olVxIpXrg.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_UNIVERSAL_PERIODIZATION_CORRECTION_FROZEN_BODY and strictly before the unique full line END_UNIVERSAL_PERIODIZATION_CORRECTION_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_UNIVERSAL_PERIODIZATION_CORRECTION_FROZEN_BODY
+ROTATIONAL PROJECTION AND THE UNIVERSAL FIRST PERIODIZATION CORRECTION
+
+
+1. OBJECT AND HINDSIGHT MECHANISM
+
+
+Let d>=2. Consider the normalized cubic periodization of the unit-scale Bargmann–Fock covariance,
+
+
+    K_{d,L}(x)
+      =Z_{d,L}^{-1}
+       sum_{n in Z^d} exp[-|x+nL|^2/2],                     (1)
+
+
+where
+
+
+    Z_{d,L}=sum_{n in Z^d}exp[-|n|^2L^2/2].                 (2)
+
+
+Let c_{d,L}^{fold} denote the specific all-typed generic-fold short-lifetime coefficient obtained after angular integration. Where the dimension-portable selection interfaces and global domination are verified, the same coefficient is the selected H0 persistence coefficient. In particular, this applies to the completed two-dimensional and three-dimensional Bargmann–Fock fixed-torus chains.
+
+
+The exact finite-L coefficient is an O(d)-invariant smooth functional of the covariance jet through order six in a neighborhood of the planar Bargmann–Fock jet. The smoothness follows from finite-dimensional Gaussian regression on a positive-definite covariance cone and Gaussian integration of polynomial determinant weights over the fixed negative-definite matrix cone.
+
+
+The overlooked simplification is that the first variation of any O(d)-invariant scalar functional at an isotropic point only sees the rotational average of the perturbation. Thus the leading anisotropic cubic-periodization correction can be computed from the isotropic spectral-moment law of LS-DER-050 without differentiating the full angular matrix-cone integral.
+
+
+2. ROTATIONAL-PROJECTION LEMMA
+
+
+Let Phi be a differentiable O(d)-invariant scalar functional on a finite-dimensional O(d)-module V, and let v_0 be O(d)-fixed. For h in V define its rotational projection
+
+
+    R h=integral_{O(d)}g h dg,                               (3)
+
+
+with normalized Haar measure. Invariance gives
+
+
+    D Phi(v_0)[g h]=D Phi(v_0)[h]                            (4)
+
+
+for every g. Averaging (4) yields
+
+
+    D Phi(v_0)[h]=D Phi(v_0)[R h].                           (5)
+
+
+LEMMA 2.1 — ROTATIONAL PROJECTION OF THE CONTACT COEFFICIENT.
+
+
+The first variation of c_d^{fold} at the planar Bargmann–Fock covariance depends only on the O(d)-radialization of the covariance-jet perturbation.
+
+
+For a stationary covariance, radialization preserves the complete contractions of the derivative tensors, equivalently the radial spectral moments
+
+
+    M_2=(-Delta K)(0),
+    M_4=(Delta^2 K)(0),
+    M_6=(-Delta^3 K)(0).                                    (6)
+
+
+Therefore the first cubic-periodization correction is determined entirely by the leading changes in M_2,M_4,M_6.
+
+
+3. LEADING PERIODIZATION-IMAGE MOMENTS
+
+
+Put
+
+
+    q_L=exp(-L^2/2).                                        (7)
+
+
+The leading nonzero images are the 2d vectors +/-L e_i. The next lattice shell is O(exp(-L^2)). For a shifted Gaussian image at distance r,
+
+
+    -Delta exp[-|x+a|^2/2]|_{x=0}
+      =[d-r^2]exp(-r^2/2),                                  (8)
+
+
+    Delta^2 exp[-|x+a|^2/2]|_{x=0}
+      =[r^4-2(d+2)r^2+d(d+2)]exp(-r^2/2),                   (9)
+
+
+and
+
+
+    -Delta^3 exp[-|x+a|^2/2]|_{x=0}
+      =[-r^6+3(d+4)r^4
+        -3(d+2)(d+4)r^2+d(d+2)(d+4)]exp(-r^2/2).            (10)
+
+
+After normalization by Z_{d,L},
+
+
+    M_2(L)
+      =d-2dL^2q_L+O_d(L^2e^{-L^2}),                         (11)
+
+
+    M_4(L)
+      =d(d+2)
+       +2d[L^4-2(d+2)L^2]q_L
+       +O_d(L^4e^{-L^2}),                                   (12)
+
+
+    M_6(L)
+      =d(d+2)(d+4)
+       +2d[-L^6+3(d+4)L^4
+             -3(d+2)(d+4)L^2]q_L
+       +O_d(L^6e^{-L^2}).                                   (13)
+
+
+4. ISOTROPIC COEFFICIENT DIFFERENTIAL
+
+
+For an isotropic field define the directional moments
+
+
+    a=M_2/d,
+    m_4=3M_4/[d(d+2)],
+    chi=15M_6/[d(d+2)(d+4)],                                (14)
+
+
+and
+
+
+    Omega=a chi-m_4^2.                                      (15)
+
+
+LS-DER-050 gives
+
+
+    c_d^{iso}
+      =A_d Omega^{2/3}m_4^{(d-2)/2}
+       a^{-(3d+4)/6},                                       (16)
+
+
+where A_d is independent of the field moments. At the unit Bargmann–Fock point,
+
+
+    a=1, m_4=3, chi=15, Omega=6.                            (17)
+
+
+Writing delta for the coefficient of q_L in the first-image perturbation, (11)--(13) give
+
+
+    delta a=-2L^2,                                          (18)
+
+
+    delta m_4
+      =6L^2[L^2-2d-4]/(d+2),                               (19)
+
+
+    delta chi
+      =30L^2[-L^4+3(d+4)L^2
+              -3(d+2)(d+4)]/[(d+2)(d+4)],                  (20)
+
+
+    delta Omega
+      =-6L^2[5L^4-9(d+4)L^2
+              +8(d+2)(d+4)]/[(d+2)(d+4)].                  (21)
+
+
+Taking the logarithmic differential of (16),
+
+
+    delta log c_d
+      =(delta Omega)/9
+       +(d-2)(delta m_4)/6
+       -(3d+4)(delta a)/6                                   (22)
+
+
+simplifies exactly to
+
+
+    P_d(L)
+      =-dL^2
+       +(d+4)L^4/(d+2)
+       -10L^6/[3(d+2)(d+4)].                                (23)
+
+
+5. UNIVERSAL FIRST-CORRECTION THEOREM
+
+
+THEOREM 5.1 — UNIVERSAL FIRST PERIODIZATION CORRECTION.
+
+
+For every fixed d>=2, the specific generic-fold coefficient of the normalized cubic periodized Bargmann–Fock field satisfies
+
+
+    [c_{d,L}^{fold}-c_{d,infinity}^{fold}]
+      /c_{d,infinity}^{fold}
+
+
+      =P_d(L)exp(-L^2/2)
+       +O_d(L^12exp(-L^2)),                                 (24)
+
+
+where P_d is (23).
+
+
+The error contains the next lattice shell, normalization terms of order q_L^2, and the quadratic Taylor remainder of the finite-dimensional coefficient functional. The sixth-jet perturbation is O_d(L^6q_L), hence its quadratic response is O_d(L^12q_L^2).
+
+
+Because the leading coefficient of P_d as a polynomial in L is negative,
+
+
+    c_{d,L}^{fold}<c_{d,infinity}^{fold}                    (25)
+
+
+for all sufficiently large L. Thus cubic periodization approaches the planar generic-fold coefficient from below in every fixed dimension.
+
+
+Where elder-rule selection tends one and the global mark majorant holds, (24) is also the first correction to the selected H0 persistence coefficient.
+
+
+6. EXACT TWO-DIMENSIONAL RECOVERY
+
+
+For d=2,
+
+
+    P_2(L)
+      =-L^2(5L^4-54L^2+72)/36.                             (26)
+
+
+Therefore (24) becomes exactly the first-correction formula independently derived in LS-DER-045. This recovery is a stringent check on the rotational-projection argument, the image moments, and every coefficient in (23).
+
+
+7. THREE-DIMENSIONAL CONSEQUENCE
+
+
+For d=3,
+
+
+    P_3(L)
+      =-L^2(10L^4-147L^2+315)/105                          (27)
+
+
+      =-(2/21)L^6+(7/5)L^4-3L^2.
+
+
+Using the exact planar value from LS-DER-047,
+
+
+    c_{3,infinity}^{BF}
+      =2^(1/6)3^(1/3)(29sqrt(6)-36)Gamma(1/6)
+        /(432pi^(5/2))                                      (28)
+
+
+      =0.0417759318405983433429366654285755565... .
+
+
+At L=24 the leading relative correction is
+
+
+    P_3(24)exp(-288)
+      =-1.4862170290658276072289278509316668033...
+        x10^(-118),                                         (29)
+
+
+and the corresponding leading absolute correction is
+
+
+    -6.2088101306590581058286627715790446599...
+      x10^(-120).                                           (30)
+
+
+Equations (29)--(30) are the exact first-image asymptotic terms. A separate explicit finite-dimensional remainder enclosure would be required to promote them to a certified side-24 interval.
+
+
+8. TOTAL COEFFICIENT AND SCALE
+
+
+On a side-L d-torus, the total coefficient is
+
+
+    C_{d,L}^{tot}=L^d c_{d,L}^{fold}.                        (31)
+
+
+The relative correction (24) is unchanged by this volume factor. In particular, finite-size correction and extensivity separate cleanly.
+
+
+9. STRUCTURAL INTERPRETATION
+
+
+The first finite-size correction has three layers:
+
+
+LATTICE GEOMETRY
+    the 2d nearest periodization images and q_L=e^{-L^2/2};
+
+
+ROTATIONAL PROJECTION
+    anisotropic jet perturbations collapse to M_2,M_4,M_6 at first order;
+
+
+FOLD RESPONSE
+    the universal logarithmic sensitivities encoded by LS-DER-050.
+
+
+The explicit polynomial P_d is therefore not a Bargmann–Fock covariance accident in one dimension or two dimensions. It is the universal linear response of the generic-fold coefficient to the nearest cubic image shell.
+
+
+10. SCOPE FIREWALL
+
+
+Established at same-family analytic-candidate level:
+- the rotational-projection lemma for the coefficient first variation;
+- exact nearest-image changes in M_2,M_4,M_6;
+- the universal dimension-dependent polynomial P_d;
+- exact recovery of LS-DER-045 at d=2;
+- the first three-dimensional finite-size correction and side-24 leading scale;
+- approach from below for sufficiently large cubic tori.
+
+
+Not established here:
+- an exact finite-L angular/matrix-cone coefficient formula in d>=3;
+- a certified side-24 d=3 interval;
+- a uniform-in-L lifetime remainder in ell;
+- interchange of L->infinity and ell->0;
+- an infinite-volume persistence process;
+- organizationally distinct review;
+- canonical promotion or package sealing.
+
+
+11. REOPENING CONDITIONS
+
+
+Amend or reject if:
+- the coefficient functional is not differentiable on the declared positive-definite jet neighborhood;
+- rotational averaging fails to preserve its first variation at the isotropic point;
+- any Laplacian image polynomial (8)--(10) is incorrect;
+- the radial moment changes (11)--(13) fail;
+- the logarithmic derivative of LS-DER-050 does not simplify to (23);
+- d=2 fails to reproduce LS-DER-045;
+- a direct finite-L calculation yields a different first-order d=3 correction;
+- or the L=24 leading term is quoted as a certified interval rather than an asymptotic prediction.
+
+
+FINAL STATUS
+
+
+COMPLETE SAME-FAMILY UNIVERSAL FIRST-PERIODIZATION-CORRECTION THEOREM CANDIDATE.
+END_UNIVERSAL_PERIODIZATION_CORRECTION_FROZEN_BODY

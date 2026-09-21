@@ -1,0 +1,3101 @@
+{
+  "cycle": "C098",
+  "result_id": "GAMMA_MAXIMUM_WINDOW_KAC_RICE_STATION_ATLAS",
+  "grades": {
+    "event_inclusion": "DERIVED-EXACT",
+    "integrand_formula": "DERIVED-EXACT",
+    "station_atlas": "MEASURED-DIAGNOSTIC",
+    "continuum_uniformity": "OPEN"
+  },
+  "law": {
+    "model": "exact normalized periodized Bargmann--Fock, L=24",
+    "base_conditioning": "six linear pins at M,S: values and gradients",
+    "Palm_weight": "|det H_M det H_S| 1_{M maximum}1_{S saddle}",
+    "window": "(b-ell,b), ell=r^3/6, b=1.2"
+  },
+  "monte_carlo": {
+    "denominator_samples_per_rung": 500000,
+    "numerator_samples_per_station": 80000,
+    "denominator_seed_base": 2026071801,
+    "numerator_seed_base": 2026071810,
+    "u_quadrature": "three-node Gauss--Legendre",
+    "common_random_numbers_across_u_nodes": true,
+    "covariance_precision_decimal_digits": 90
+  },
+  "stationary_benchmark": {
+    "rho_max_b": "0.043685",
+    "stationary_coefficient_per_area": "0.0072808333333333333333333333333333333",
+    "stationary_full_torus_coefficient": "4.19376",
+    "stationary_B3_coefficient": "0.20586071260810517643336086429784763",
+    "stationary_exterior_coefficient": "3.9878992873918948235666391357021524",
+    "hypothetical_full_torus_coefficients": {
+      "transfer_factor_1": "4.19376",
+      "transfer_factor_1p014": "4.25247264",
+      "transfer_factor_1p0235": "4.29231336",
+      "typing_division_0p80_only": "5.2422"
+    },
+    "nine_pin_terminal_count_comparison": {
+      "half_window_coefficient": "2.03",
+      "linear_full_window_benchmark": "4.06",
+      "warning": "The 9-pin terminal count is a different conditioned law and is comparison evidence only, not a MEASURE bridge."
+    }
+  },
+  "rungs": [
+    {
+      "r": "0.05",
+      "ell": "0.000020833333333333333333333333333333333",
+      "pair_points": {
+        "M": [
+          "-0.025",
+          "0.0"
+        ],
+        "S": [
+          "0.025",
+          "0.0"
+        ]
+      },
+      "denominator_pair_weight": {
+        "mean": 0.008084179604961533,
+        "standard_error": 1.5829086773250857e-05,
+        "relative_standard_error": 0.001958032545879611,
+        "positive_weight_fraction": 0.794438,
+        "source_anchor": 0.00808,
+        "relative_difference_from_source_anchor": 0.000517277841773689
+      },
+      "pair_hessian_spectrum": {
+        "minimum_eigenvalue": "0.00000000026025395855434553935418032978027093",
+        "maximum_eigenvalue": "3.9975015618491617330021309477114078",
+        "condition_ratio_min_over_max": "6.5104154314315621814712260997282957e-11"
+      },
+      "station_rows": [
+        {
+          "name": "east_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.1375",
+            "0"
+          ],
+          "distance_to_M_over_r": "3.25",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2007127566186978957180306307578957",
+            "0.016503232974964221156996024204651722",
+            "-2.7661803527509834480023111049036591e-501"
+          ],
+          "observed_covariance_determinant": "6.9698656366733304643646758296062753e-22",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "2.8258830203368950703837901840776195e-18",
+            "maximum_eigenvalue": "5.9724509148210351268777992393692599",
+            "condition_ratio_min_over_max": "4.7315299206968414835049856083461937e-19"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-15954.633945012943125554688893494194",
+              "density_f_grad": "9.7840101500109432516610881725884285e-6930",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-14563.432689696347959501981812860451",
+              "density_f_grad": "1.5189563557732134796504025005162079e-6325",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-13235.731643735338578507676504786068",
+              "density_f_grad": "6.2342350641649980292874954916181219e-5749",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "north_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.025",
+            "0.1125"
+          ],
+          "distance_to_M_over_r": "2.462214450449026180436553",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1924095245838710597558835178189231",
+            "5.06735788290820495987536931496199e-87",
+            "-0.13414607151568549422253689575462884"
+          ],
+          "observed_covariance_determinant": "2.0063992213772667075796285969701361e-13",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026024033685889070906538410212341943",
+            "maximum_eigenvalue": "0.024949172721004060241421511791583354",
+            "condition_ratio_min_over_max": "0.000000010430820282862570889041835423293952"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "11.500656697002185631192368854777882",
+              "density_f_grad": "98780.618651947022846502148737727992",
+              "weighted_hessian_moment": {
+                "mean": 2.844303812199557e-11,
+                "standard_error": 7.877666099138027e-13,
+                "relative_standard_error": 0.027696289212670536,
+                "positive_weight_fraction": 0.07475
+              },
+              "lambda_u": "0.00034754558153399721896549486928989716",
+              "lambda_u_mc_se_numerator_only": "0.000009625722940751355259408553"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "11.50004170483584196310414407318045",
+              "density_f_grad": "98719.888021634548621678978762244437",
+              "weighted_hessian_moment": {
+                "mean": 4.453413516031309e-11,
+                "standard_error": 9.46040374598381e-13,
+                "relative_standard_error": 0.021243039102316546,
+                "positive_weight_fraction": 0.1282875
+              },
+              "lambda_u": "0.00054382819914938864554144304267461042",
+              "lambda_u_mc_se_numerator_only": "0.00001155256369947285193381167"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "11.498658410440766757070083403520736",
+              "density_f_grad": "98583.423760735785635421986312759155",
+              "weighted_hessian_moment": {
+                "mean": 4.687699088982561e-11,
+                "standard_error": 9.39897786172368e-13,
+                "relative_standard_error": 0.020050301188943586,
+                "positive_weight_fraction": 0.1577875
+              },
+              "lambda_u": "0.00057164665845419680978657650325612642",
+              "lambda_u_mc_se_numerator_only": "0.00001146168767565981013141628"
+            }
+          ],
+          "window_intensity": "0.000000010354845825388980680661922689961807",
+          "coefficient_per_area_r3": "0.000082838766603111845445295381519694456",
+          "coefficient_per_area_mc_se_numerator_only": "0.000001832014469239246689116829",
+          "ratio_to_stationary_maximum_benchmark": "0.0113776490699020504216956000714"
+        },
+        {
+          "name": "midpoint_diag_3r",
+          "family": "pair-scaled",
+          "point": [
+            "0.106066017177982128660126654316",
+            "0.106066017177982128660126654316"
+          ],
+          "distance_to_M_over_r": "3.372138838120346813725712",
+          "distance_to_S_over_r": "2.669958736842267648080995",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1935694373957677615244849815011383",
+            "0.0097993273714278012799610018835424163",
+            "-0.12659715644993396829327649375564195"
+          ],
+          "observed_covariance_determinant": "6.323292815607404829720245574966112e-13",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000021010863299793744382942523982390819",
+            "maximum_eigenvalue": "0.010572098967800320511217973447224796",
+            "condition_ratio_min_over_max": "0.000000019873880639773618335246958760402114"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "10.664401196548249507789007281385863",
+              "density_f_grad": "42804.614729837894324188514380577358",
+              "weighted_hessian_moment": {
+                "mean": 4.299375153859687e-11,
+                "standard_error": 2.4561223674543276e-12,
+                "relative_standard_error": 0.05712742618539319,
+                "positive_weight_fraction": 0.0263125
+              },
+              "lambda_u": "0.00022764597774034377872820519209492343",
+              "lambda_u_mc_se_numerator_only": "0.00001300482878976315043269573"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "10.67514090838820927835619368043469",
+              "density_f_grad": "43266.801390804472260732057754618065",
+              "weighted_hessian_moment": {
+                "mean": 3.9928581884572465e-11,
+                "standard_error": 2.3328653707037835e-12,
+                "relative_standard_error": 0.058425951050496784,
+                "positive_weight_fraction": 0.026125
+              },
+              "lambda_u": "0.00021369911439820003998506913625799974",
+              "lambda_u_mc_se_numerator_only": "0.00001248557399736374848058402"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "10.685170974736118052620349734971025",
+              "density_f_grad": "43702.953942444231282709715252422401",
+              "weighted_hessian_moment": {
+                "mean": 3.3778785795895474e-11,
+                "standard_error": 2.1273585153442144e-12,
+                "relative_standard_error": 0.06297912921436963,
+                "positive_weight_fraction": 0.0224375
+              },
+              "lambda_u": "0.00018260761042019596885416904711887404",
+              "lambda_u_mc_se_numerator_only": "0.00001150046829218079119773729"
+            }
+          ],
+          "window_intensity": "0.0000000043528482129494202057782688496909552",
+          "coefficient_per_area_r3": "0.000034822785703595361646226150797527641",
+          "coefficient_per_area_mc_se_numerator_only": "0.000002059361827672497185155901",
+          "ratio_to_stationary_maximum_benchmark": "0.0047828022026226890208849011053"
+        },
+        {
+          "name": "midpoint_north_8r",
+          "family": "pair-scaled",
+          "point": [
+            "0",
+            "0.4"
+          ],
+          "distance_to_M_over_r": "8.015609770940698682435677",
+          "distance_to_S_over_r": "8.015609770940698682435677",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1077299457915762695555678846445758",
+            "-0.00057700779830876357306796400764055505",
+            "-0.44309197831663050782222715385783033"
+          ],
+          "observed_covariance_determinant": "0.00000053628990614441668450570217748396798",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.0000000002602539584512769812742652930695237",
+            "maximum_eigenvalue": "0.2980459044295952350255787408973755",
+            "condition_ratio_min_over_max": "0.0000000008732009216813596139875474834641478"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "4.0882712505918279746957014217180916",
+              "density_f_grad": "59.636705618857613431869424103061816",
+              "weighted_hessian_moment": {
+                "mean": 3.97974338627261e-07,
+                "standard_error": 5.76155097821731e-09,
+                "relative_standard_error": 0.014477192167944084,
+                "positive_weight_fraction": 0.3272125
+              },
+              "lambda_u": "0.0029358425512970098355612006672364855",
+              "lambda_u_mc_se_numerator_only": "0.00004250275678995405016822663"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "4.0882640767489035945247255541938712",
+              "density_f_grad": "59.636277796033544951450055186806994",
+              "weighted_hessian_moment": {
+                "mean": 3.970131936167482e-07,
+                "standard_error": 5.751769723403718e-09,
+                "relative_standard_error": 0.01448760347485106,
+                "positive_weight_fraction": 0.3270125
+              },
+              "lambda_u": "0.0029287312083823388695053248964839097",
+              "lambda_u_mc_se_numerator_only": "0.00004243029643146471728371931"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "4.0882565361781854311108603605783246",
+              "density_f_grad": "59.635828106158917203154346492141172",
+              "weighted_hessian_moment": {
+                "mean": 3.960463168722846e-07,
+                "standard_error": 5.7419571820318395e-09,
+                "relative_standard_error": 0.014498196138719508,
+                "positive_weight_fraction": 0.3269125
+              },
+              "lambda_u": "0.00292157661373300193285468921756455",
+              "lambda_u_mc_se_numerator_only": "0.00004235759078019702293689737"
+            }
+          ],
+          "window_intensity": "0.000000061014983208574965044122741430412565",
+          "coefficient_per_area_r3": "0.00048811986566859972035298193144330052",
+          "coefficient_per_area_mc_se_numerator_only": "0.000007071704715763639849957171",
+          "ratio_to_stationary_maximum_benchmark": "0.0670417579034359235920313972453"
+        },
+        {
+          "name": "north_0p25",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.25"
+          ],
+          "distance_to_M_over_r": "5.024937810560445135109632",
+          "distance_to_S_over_r": "5.024937810560445135109632",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1630697284134002179588997836054775",
+            "-0.00060583385492194485694770176282791934",
+            "-0.29076743210335005448972494590136938"
+          ],
+          "observed_covariance_determinant": "0.0000000022390689455701128312312330296078624",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026025395397181499518851703480630268",
+            "maximum_eigenvalue": "0.12366967310334994920270265403266815",
+            "condition_ratio_min_over_max": "0.0000000021044282518182322861189289220557265"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "6.8361046431578120111884849998184635",
+              "density_f_grad": "930.85604676530121816678319683522738",
+              "weighted_hessian_moment": {
+                "mean": 1.1710777978087648e-08,
+                "standard_error": 1.765055188562659e-10,
+                "relative_standard_error": 0.015072057482989612,
+                "positive_weight_fraction": 0.277625
+              },
+              "lambda_u": "0.0013484421457606503242372023497120175",
+              "lambda_u_mc_se_numerator_only": "0.00002032379753339037794784357"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "6.8361004941644842437113176847394323",
+              "density_f_grad": "930.85218465778601161742833184961963",
+              "weighted_hessian_moment": {
+                "mean": 1.1517838472730655e-08,
+                "standard_error": 1.7445969826872485e-10,
+                "relative_standard_error": 0.015146913084583644,
+                "positive_weight_fraction": 0.2776125
+              },
+              "lambda_u": "0.001326220547883020969714787762564159",
+              "lambda_u_mc_se_numerator_only": "0.0000200881473697730191048471"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "6.836090045794939282596956822609106",
+              "density_f_grad": "930.84245882097862971487978720229552",
+              "weighted_hessian_moment": {
+                "mean": 1.131948088772134e-08,
+                "standard_error": 1.7237130256993575e-10,
+                "relative_standard_error": 0.015227845188281847,
+                "positive_weight_fraction": 0.2768375
+              },
+              "lambda_u": "0.0013033670622108529690653937895323938",
+              "lambda_u_mc_se_numerator_only": "0.00001984747184685258439261836"
+            }
+          ],
+          "window_intensity": "0.000000027625937989492690074341762496221446",
+          "coefficient_per_area_r3": "0.00022100750391594152059473409996977157",
+          "coefficient_per_area_mc_se_numerator_only": "0.000003347791906105545967973023",
+          "ratio_to_stationary_maximum_benchmark": "0.0303546989469073852253268764981"
+        },
+        {
+          "name": "north_0p5",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.5"
+          ],
+          "distance_to_M_over_r": "10.01249219725039286384861",
+          "distance_to_S_over_r": "10.01249219725039286384861",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.058987038727863179550005171063762",
+            "-0.00055161800218123917919487507394328344",
+            "-0.52949351936393158977500258553188099"
+          ],
+          "observed_covariance_determinant": "0.0000067320730230209571596461358663226169",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.0000000002602539585375919295995478000499831",
+            "maximum_eigenvalue": "0.44461667252198519029920416000833402",
+            "condition_ratio_min_over_max": "0.00000000058534457797401427330006782060252468"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "2.8154750087729654881334553401310525",
+              "density_f_grad": "16.701107068842308009006372658964357",
+              "weighted_hessian_moment": {
+                "mean": 1.969210210414133e-06,
+                "standard_error": 2.7670029253659562e-08,
+                "relative_standard_error": 0.014051333426633228,
+                "positive_weight_fraction": 0.342775
+              },
+              "lambda_u": "0.0040681914767207130457801201788317755",
+              "lambda_u_mc_se_numerator_only": "0.00005716351488279014971043027"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "2.8154676459515325090067084538457412",
+              "density_f_grad": "16.700984102025918968802388256744206",
+              "weighted_hessian_moment": {
+                "mean": 1.9673915490368863e-06,
+                "standard_error": 2.7651687578483177e-08,
+                "relative_standard_error": 0.014054999673054274,
+                "positive_weight_fraction": 0.3427625
+              },
+              "lambda_u": "0.0040644043784924706207901193064882534",
+              "lambda_u_mc_se_numerator_only": "0.00005712520221087203120371041"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "2.8154601890231720815787137535544433",
+              "density_f_grad": "16.700859564448255998616699734934788",
+              "weighted_hessian_moment": {
+                "mean": 1.965567755054338e-06,
+                "standard_error": 2.7633319895380512e-08,
+                "relative_standard_error": 0.014058696182984845,
+                "positive_weight_fraction": 0.3427875
+              },
+              "lambda_u": "0.0040606063503863144253802861157293937",
+              "lambda_u_mc_se_numerator_only": "0.00005708683099878010193935004"
+            }
+          ],
+          "window_intensity": "0.000000084675027966984840650605307783231335",
+          "coefficient_per_area_r3": "0.00067740022373587872520484246226585068",
+          "coefficient_per_area_mc_se_numerator_only": "0.000009520864324952106554431341",
+          "ratio_to_stationary_maximum_benchmark": "0.093038831233038167591371289312"
+        },
+        {
+          "name": "north_1",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "1.0"
+          ],
+          "distance_to_M_over_r": "20.00624902374255662409008",
+          "distance_to_S_over_r": "20.00624902374255662409008",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.72783043809626042940915869252888628",
+            "-0.00037912113888726080455656528390670033",
+            "-0.72783043809626042940915869252888628"
+          ],
+          "observed_covariance_determinant": "0.0083756528240164272172088944509146507",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026025395855429491826581155161226458",
+            "maximum_eigenvalue": "1.2657001594711212277210269669684762",
+            "condition_ratio_min_over_max": "0.00000000020562054654638209137825623777027283"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-0.80814208927438459604498897088149456",
+              "density_f_grad": "0.44568534105898090228698999083891381",
+              "weighted_hessian_moment": {
+                "mean": 0.00019121833468419317,
+                "standard_error": 2.5535727750446044e-06,
+                "relative_standard_error": 0.013354225572887454,
+                "positive_weight_fraction": 0.367625
+              },
+              "lambda_u": "0.010541973691201843745930466519326012",
+              "lambda_u_mc_se_numerator_only": "0.0001407798946557544031206732"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-0.8081499054920590021782865895461917",
+              "density_f_grad": "0.44568185749895504281208609730224898",
+              "weighted_hessian_moment": {
+                "mean": 0.000191211587293992,
+                "standard_error": 2.5534959725411973e-06,
+                "relative_standard_error": 0.013354295148521211,
+                "positive_weight_fraction": 0.36765
+              },
+              "lambda_u": "0.010541519308676399603516889212510255",
+              "lambda_u_mc_se_numerator_only": "0.0001407745601618999084478486"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-0.80815772300807948335092789426458598",
+              "density_f_grad": "0.44567837338751257317718336003396811",
+              "weighted_hessian_moment": {
+                "mean": 0.00019120483777031408,
+                "standard_error": 2.553419158996032e-06,
+                "relative_standard_error": 0.01335436482032605,
+                "positive_weight_fraction": 0.3676625
+              },
+              "lambda_u": "0.010541064801306117551137536436735947",
+              "lambda_u_mc_se_numerator_only": "0.0001407692249513396353624656"
+            }
+          ],
+          "window_intensity": "0.00000021961498487494329087207769500045351",
+          "coefficient_per_area_r3": "0.0017569198789995463269766215600036281",
+          "coefficient_per_area_mc_se_numerator_only": "0.00002346242666046916166665262",
+          "ratio_to_stationary_maximum_benchmark": "0.241307526015732584682607974362"
+        },
+        {
+          "name": "north_2",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "2.0"
+          ],
+          "distance_to_M_over_r": "40.00312487793922331194334",
+          "distance_to_S_over_r": "40.00312487793922331194334",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.16240092221332043243479680141262417",
+            "-0.00008459336043556961107246172843731141",
+            "-0.32480184442664086486959360282524835"
+          ],
+          "observed_covariance_determinant": "0.60923672902151529138077276538498064",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026025395855434546282924654266618505",
+            "maximum_eigenvalue": "2.9086322737064340909590676711282433",
+            "condition_ratio_min_over_max": "8.9476404737374059999063375065817355e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-3.1183814117948203640294542481099709",
+              "density_f_grad": "0.044228698564979462583375216749830498",
+              "weighted_hessian_moment": {
+                "mean": 0.005896247639654484,
+                "standard_error": 7.547753052256449e-05,
+                "relative_standard_error": 0.012800943097258956,
+                "positive_weight_fraction": 0.3709375
+              },
+              "lambda_u": "0.032258481659499291565926015948321104",
+              "lambda_u_mc_se_numerator_only": "0.0004129389881272221190020453"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-3.1183903501997313773045996797407225",
+              "density_f_grad": "0.044228303232729824138068831272216595",
+              "weighted_hessian_moment": {
+                "mean": 0.005896287829062115,
+                "standard_error": 7.547782929367412e-05,
+                "relative_standard_error": 0.012800906516410665,
+                "positive_weight_fraction": 0.3709375
+              },
+              "lambda_u": "0.032258413196456235230358240244031831",
+              "lambda_u_mc_se_numerator_only": "0.0004129369316955843987243656"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-3.1183992886786040023844493960395064",
+              "density_f_grad": "0.044227907900742642266698472501662334",
+              "weighted_hessian_moment": {
+                "mean": 0.0058963280180460145,
+                "standard_error": 7.547812806371653e-05,
+                "relative_standard_error": 0.012800869936799962,
+                "positive_weight_fraction": 0.3709375
+              },
+              "lambda_u": "0.032258344727355723237163791079712407",
+              "lambda_u_mc_se_numerator_only": "0.0004129348752313374419495252"
+            }
+          ],
+          "window_intensity": "0.00000067205027489111684705823490404215532",
+          "coefficient_per_area_r3": "0.0053764021991289347764658792323372426",
+          "coefficient_per_area_mc_se_numerator_only": "0.00006882282194775437957919239",
+          "ratio_to_stationary_maximum_benchmark": "0.738432258092562862739962810897"
+        },
+        {
+          "name": "east_1",
+          "family": "fixed-near",
+          "point": [
+            "1.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "20.5",
+          "distance_to_S_over_r": "19.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2936444499573635183748374909831568",
+            "0.040590073917758829302921161705012061",
+            "-1.3381865109345183685497227067074545e-499"
+          ],
+          "observed_covariance_determinant": "0.000024665457950315696135508341628834641",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.7446556013142670413570154694588456e-13",
+            "maximum_eigenvalue": "4.9839214399211320411975101156701089",
+            "condition_ratio_min_over_max": "1.3532828883075247069785610119160144e-13"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-4.6449780392538361064911613249925966",
+              "density_f_grad": "0.0096097406944284890571101143670964795",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-4.6435530144813566348203048961062527",
+              "density_f_grad": "0.0096234445748406528876573583840611521",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-4.6421281309561795819832310170639116",
+              "density_f_grad": "0.0096371666363188132328247563105930299",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "east_2",
+          "family": "fixed-near",
+          "point": [
+            "2.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "40.5",
+          "distance_to_S_over_r": "39.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.84814185247633846950477697116521038",
+            "-0.82979688620693856789405335602298998",
+            "-1.6220672746880419304331872509495977e-499"
+          ],
+          "observed_covariance_determinant": "0.15271043479966526619955411023054296",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "2.8770945558564774678676888345307096e-11",
+            "maximum_eigenvalue": "4.068474796017992117737012679041053",
+            "condition_ratio_min_over_max": "7.0716784547182777256465769702656792e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-2.5068313655768675036964163269552651",
+              "density_f_grad": "0.08152615698898883276381685368480741",
+              "weighted_hessian_moment": {
+                "mean": 0.000699395584074002,
+                "standard_error": 1.8745643638241687e-05,
+                "relative_standard_error": 0.026802633681281923,
+                "positive_weight_fraction": 0.0930125
+              },
+              "lambda_u": "0.0070531627166754341090842324556125438",
+              "lambda_u_mc_se_numerator_only": "0.0001890433365895268940522149"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-2.5068253693345717977231871545710332",
+              "density_f_grad": "0.081526645841045212727473872966720262",
+              "weighted_hessian_moment": {
+                "mean": 0.0006994430117115603,
+                "standard_error": 1.8746371629050304e-05,
+                "relative_standard_error": 0.02680185707078166,
+                "positive_weight_fraction": 0.0930125
+              },
+              "lambda_u": "0.0070536833034740269845356522209279336",
+              "lambda_u_mc_se_numerator_only": "0.0001890518117222698985452288"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-2.5068193733116667260547771440765003",
+              "density_f_grad": "0.081527134678146587064220493653773323",
+              "weighted_hessian_moment": {
+                "mean": 0.0006994904402302346,
+                "standard_error": 1.874709964114139e-05,
+                "relative_standard_error": 0.026801080562260226,
+                "positive_weight_fraction": 0.093025
+              },
+              "lambda_u": "0.0070542039036004001586629641585186805",
+              "lambda_u_mc_se_numerator_only": "0.0001890602871230048837107828"
+            }
+          ],
+          "window_intensity": "0.00000014695173556617058705442268615518471",
+          "coefficient_per_area_r3": "0.0011756138845293646964353814892414777",
+          "coefficient_per_area_mc_se_numerator_only": "0.00003150863529945201923311869",
+          "ratio_to_stationary_maximum_benchmark": "0.161466940761730300529066932252"
+        },
+        {
+          "name": "east_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "100.5",
+          "distance_to_S_over_r": "99.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00021599409564693366634250198410258165",
+            "-0.00096410957543129743299923838142052728",
+            "-5.003745418002611485411374740901851e-503"
+          ],
+          "observed_covariance_determinant": "0.99999915583994494350241962901454679",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026021217072447075050418462245586768",
+            "maximum_eigenvalue": "3.9975015619056213114074474660162768",
+            "condition_ratio_min_over_max": "6.5093700826579991871391092401256349e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-3.4765343237061000358744743003149236",
+              "density_f_grad": "0.030914364773314343169048912226634219",
+              "weighted_hessian_moment": {
+                "mean": 0.01128208475460148,
+                "standard_error": 0.00013094840514542492,
+                "relative_standard_error": 0.011606756020159897,
+                "positive_weight_fraction": 0.3874625
+              },
+              "lambda_u": "0.043143336807255211066261160304807638",
+              "lambda_u_mc_se_numerator_only": "0.0005007541842173954926954234"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-3.4765440043054650147634430881874941",
+              "density_f_grad": "0.030914065505182899675223330560522358",
+              "weighted_hessian_moment": {
+                "mean": 0.011282203539076423,
+                "standard_error": 0.00013094930691287372,
+                "relative_standard_error": 0.011606713746948888,
+                "positive_weight_fraction": 0.3874625
+              },
+              "lambda_u": "0.043143373390140619674681467115043443",
+              "lambda_u_mc_se_numerator_only": "0.000500752785017093978367862"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-3.4765536849699341629885734678996171",
+              "density_f_grad": "0.030913766237935921969807250010031343",
+              "weighted_hessian_moment": {
+                "mean": 0.011282322324063078,
+                "standard_error": 0.0001309502086849204,
+                "relative_standard_error": 0.011606671474509124,
+                "positive_weight_fraction": 0.387475
+              },
+              "lambda_u": "0.043143409967422603803535260764353259",
+              "lambda_u_mc_se_numerator_only": "0.0005007513857819365325639006"
+            }
+          ],
+          "window_intensity": "0.00000089882027892883568489170583595619447",
+          "coefficient_per_area_r3": "0.0071905622314306854791336466876495558",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008345879750123529586332885",
+          "ratio_to_stationary_maximum_benchmark": "0.987601542602360372548972876866"
+        },
+        {
+          "name": "north_5",
+          "family": "exterior",
+          "point": [
+            "0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "100.0012499921875976547241",
+          "distance_to_S_over_r": "100.0012499921875976547241",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.0000044719447688793261859300496069113601",
+            "-0.0000000023294007849589677671947168163977421",
+            "-0.000022359723844396630929650248034556801"
+          ],
+          "observed_covariance_determinant": "0.99999999093117431213265660625408474",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026025395855434553935418021028588782",
+            "maximum_eigenvalue": "3.9975050368826543476509276537198796",
+            "condition_ratio_min_over_max": "6.5104097719235774954607439405951989e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-3.4767880470609409791390076294063333",
+              "density_f_grad": "0.030906522071951604740598825512136106",
+              "weighted_hessian_moment": {
+                "mean": 0.011329444182247664,
+                "standard_error": 0.00012899775659451187,
+                "relative_standard_error": 0.011386062239190963,
+                "positive_weight_fraction": 0.3910125
+              },
+              "lambda_u": "0.043313450936527935571406729327003906",
+              "lambda_u_mc_se_numerator_only": "0.0004931696481574511742813389"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-3.4767977293666259432301113352583584",
+              "density_f_grad": "0.030906222827005937872507248855630085",
+              "weighted_hessian_moment": {
+                "mean": 0.011329564234931117,
+                "standard_error": 0.00012899865336656228,
+                "relative_standard_error": 0.011386020741101045,
+                "positive_weight_fraction": 0.3910125
+              },
+              "lambda_u": "0.043313490531897243063506863364254516",
+              "lambda_u_mc_se_numerator_only": "0.0004931683015656657357777145"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-3.4768074117374150740113899418799735",
+              "density_f_grad": "0.030905923582945533615700187099242628",
+              "weighted_hessian_moment": {
+                "mean": 0.011329684288130299,
+                "standard_error": 0.0001289995501432059,
+                "relative_standard_error": 0.011385979243777699,
+                "positive_weight_fraction": 0.3910125
+              },
+              "lambda_u": "0.043313530121591087192208541667525724",
+              "lambda_u_mc_se_numerator_only": "0.0004931669549391762708779318"
+            }
+          ],
+          "window_intensity": "0.00000090236438604834844713672599755403273",
+          "coefficient_per_area_r3": "0.0072189150883867875770938079804322618",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008219471692600428807424138",
+          "ratio_to_stationary_maximum_benchmark": "0.991495720048545850121617211459"
+        },
+        {
+          "name": "diag_5_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "141.7753504668565437575889",
+          "distance_to_S_over_r": "141.0682458953821400354517",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00000000080493508169290920971932426891718523",
+            "-0.0000000035929020075124653043496063484216316",
+            "-0.0000000040246754084645460485966213445859262"
+          ],
+          "observed_covariance_determinant": "0.99999999999999996810128700310593384",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.00000000026025395855434194029971042535365628",
+            "maximum_eigenvalue": "3.9975015618491618954331182732019167",
+            "condition_ratio_min_over_max": "6.5104154314314718843357248204799818e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-3.4767934163606001610403712349836905",
+              "density_f_grad": "0.030906356126018684432147849323126981",
+              "weighted_hessian_moment": {
+                "mean": 0.011477236165760463,
+                "standard_error": 0.0001354187660716919,
+                "relative_standard_error": 0.011798900372520066,
+                "positive_weight_fraction": 0.3860875
+              },
+              "lambda_u": "0.043878236953532151717891841747329823",
+              "lambda_u_mc_se_numerator_only": "0.0005177149463365542099726521"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-3.4768030987023579837010073744918607",
+              "density_f_grad": "0.030906056881564879216471340713793852",
+              "weighted_hessian_moment": {
+                "mean": 0.01147735705342742,
+                "standard_error": 0.00013541967985051723,
+                "relative_standard_error": 0.011798855713918702,
+                "positive_weight_fraction": 0.3860875
+              },
+              "lambda_u": "0.043878274268616472501589621280334429",
+              "lambda_u_mc_se_numerator_only": "0.00051771342707115745023533"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-3.4768127811092199730283101807119792",
+              "density_f_grad": "0.030905757637996353448680045277142134",
+              "weighted_hessian_moment": {
+                "mean": 0.011477477941612926,
+                "standard_error": 0.00013542059363400494,
+                "relative_standard_error": 0.011798811056131233,
+                "positive_weight_fraction": 0.3860875
+              },
+              "lambda_u": "0.043878311577990509843656771950404417",
+              "lambda_u_mc_se_numerator_only": "0.0005177119077707654978441855"
+            }
+          ],
+          "window_intensity": "0.00000091413071389646422201442134112424379",
+          "coefficient_per_area_r3": "0.0073130457111717137761153707289939503",
+          "coefficient_per_area_mc_se_numerator_only": "0.000086285571176906093897841",
+          "ratio_to_stationary_maximum_benchmark": "1.00442427073435464476804908719"
+        },
+        {
+          "name": "east_8",
+          "family": "exterior",
+          "point": [
+            "8.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "160.5",
+          "distance_to_S_over_r": "159.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "2.674163760356161185467810590597647e-12",
+            "-2.0454413583409521943079960229575439e-11",
+            "-6.2902420353802366222457851432276347e-511"
+          ],
+          "observed_covariance_determinant": "0.99999999999999999999956138865816149",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "0.0000000002602539585543455387796027916536001",
+            "maximum_eigenvalue": "3.9975015618491617330021309483793544",
+            "condition_ratio_min_over_max": "6.5104154314315621670978098726094445e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999815146180287345481558765304171",
+              "log_density_f_grad": "-3.4767934173232984330310791267617961",
+              "density_f_grad": "0.03090635609626518881042205219910951",
+              "weighted_hessian_moment": {
+                "mean": 0.011544358310413592,
+                "standard_error": 0.00013340800845294405,
+                "relative_standard_error": 0.011556121602064562,
+                "positive_weight_fraction": 0.3906375
+              },
+              "lambda_u": "0.044134849332830793584166354848010108",
+              "lambda_u_mc_se_numerator_only": "0.0005100276857789906485624517"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999895833333333333333333333333333",
+              "log_density_f_grad": "-3.4768030996650627289066553358759722",
+              "density_f_grad": "0.030906056851811471615315034218763244",
+              "weighted_hessian_moment": {
+                "mean": 0.01154447960675605,
+                "standard_error": 0.00013340891914084021,
+                "relative_standard_error": 0.011556079068541709,
+                "positive_weight_fraction": 0.3906375
+              },
+              "lambda_u": "0.044134885725696141146417442384444973",
+              "lambda_u_mc_se_numerator_only": "0.0005100262291271974627510973"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999976520486379321185107901362495",
+              "log_density_f_grad": "-3.4768127820719311914488982116568153",
+              "density_f_grad": "0.030905757608243033871115108292766969",
+              "weighted_hessian_moment": {
+                "mean": 0.011544600903617197,
+                "standard_error": 0.00013340982983337912,
+                "relative_standard_error": 0.01155603653579559,
+                "positive_weight_fraction": 0.3906375
+              },
+              "lambda_u": "0.044134922112828831184788549520828803",
+              "lambda_u_mc_se_numerator_only": "0.0005100247724403426957267779"
+            }
+          ],
+          "window_intensity": "0.00000091947678591882783913902090384230826",
+          "coefficient_per_area_r3": "0.0073558142873506227131121672307384661",
+          "coefficient_per_area_mc_se_numerator_only": "0.0000850043715195763557727308",
+          "ratio_to_stationary_maximum_benchmark": "1.01029840274931295132592430776"
+        }
+      ],
+      "summary": {
+        "exterior_ratio_min": 0.9876015426023603,
+        "exterior_ratio_max": 1.010298402749313,
+        "outside_collar_coefficient_per_area_min": 0.0,
+        "outside_collar_coefficient_per_area_max": 0.007355814287350623,
+        "largest_station": "east_8"
+      }
+    },
+    {
+      "r": "0.025",
+      "ell": "0.0000026041666666666666666666666666666667",
+      "pair_points": {
+        "M": [
+          "-0.0125",
+          "0.0"
+        ],
+        "S": [
+          "0.0125",
+          "0.0"
+        ]
+      },
+      "denominator_pair_weight": {
+        "mean": 0.002015292420710905,
+        "standard_error": 3.9558466748347645e-06,
+        "relative_standard_error": 0.0019629144803905525,
+        "positive_weight_fraction": 0.796812,
+        "source_anchor": 0.00202046,
+        "relative_difference_from_source_anchor": -0.002557625139371744
+      },
+      "pair_hessian_spectrum": {
+        "minimum_eigenvalue": "4.0683746848759493912482521979258941e-12",
+        "maximum_eigenvalue": "3.999375097646078268637262388120506",
+        "condition_ratio_min_over_max": "1.0172525921038220131156273935627848e-12"
+      },
+      "station_rows": [
+        {
+          "name": "east_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.06875",
+            "0"
+          ],
+          "distance_to_M_over_r": "3.25",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2000929056816034084514393764499198",
+            "0.0043643852454831360998874366267465496",
+            "-6.7191329552620021178804872211805168e-502"
+          ],
+          "observed_covariance_determinant": "6.8380402298721124323992062038629994e-28",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.9042069686365632725679264821464597e-22",
+            "maximum_eigenvalue": "5.993082902464181442063575362110528",
+            "condition_ratio_min_over_max": "1.1520292779193416639047632233802887e-22"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-255085.42106696897534068566112674824",
+              "density_f_grad": "6.4449068961800696087430040425142396e-110783",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-232855.95062858388099339431971707368",
+              "density_f_grad": "8.8219312705556269579778906151238655e-101129",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-211640.21563061787258995434024819017",
+              "density_f_grad": "6.6405309977821712501780114450068092e-91915",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "north_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.0125",
+            "0.05625"
+          ],
+          "distance_to_M_over_r": "2.462214450449026180436553",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1981004633520791065065550560337324",
+            "-3.3486067399567890612118999957983637e-85",
+            "-0.067393151063554449740993721901897449"
+          ],
+          "observed_covariance_determinant": "4.9793521314439687206473150600440037e-17",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.068163082716669885215151590315994e-12",
+            "maximum_eigenvalue": "0.0062643160461354958743316956664157858",
+            "condition_ratio_min_over_max": "0.00000000064941855627261184805900940089555339"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "15.652191799322532451885602649283817",
+              "density_f_grad": "6275676.2074682443036547587848895355",
+              "weighted_hessian_moment": {
+                "mean": 5.4116317236664634e-15,
+                "standard_error": 4.246577437757065e-16,
+                "relative_standard_error": 0.07847129395715687,
+                "positive_weight_fraction": 0.0070375
+              },
+              "lambda_u": "0.000016851970514439705040477537898984399",
+              "lambda_u_mc_se_numerator_only": "0.000001322395931995937987852831"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "15.651581726449373628087274115927197",
+              "density_f_grad": "6271848.7552844262818093599169968996",
+              "weighted_hessian_moment": {
+                "mean": 3.534574889136653e-14,
+                "standard_error": 1.1491208534035842e-15,
+                "relative_standard_error": 0.032510864515428776,
+                "positive_weight_fraction": 0.0465625
+              },
+              "lambda_u": "0.0001100005085667484160340361577952159",
+              "lambda_u_mc_se_numerator_only": "0.000003576211630641820472356797"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "15.650201528189935320776320661228647",
+              "density_f_grad": "6263198.3315720147239591481524613948",
+              "weighted_hessian_moment": {
+                "mean": 7.326450255353229e-14,
+                "standard_error": 1.5763569793371482e-15,
+                "relative_standard_error": 0.021515971915394484,
+                "positive_weight_fraction": 0.1101
+              },
+              "lambda_u": "0.00022769405841107079215747122267903363",
+              "lambda_u_mc_se_numerator_only": "0.000004899058966074790100726672"
+            }
+          ],
+          "window_intensity": "0.00000000030421501926526907035040987633851524",
+          "coefficient_per_area_r3": "0.000019469761232977220502426232085664975",
+          "coefficient_per_area_mc_se_numerator_only": "0.000000552934884587853742793999",
+          "ratio_to_stationary_maximum_benchmark": "0.0026741116492586316359060865861"
+        },
+        {
+          "name": "midpoint_diag_3r",
+          "family": "pair-scaled",
+          "point": [
+            "0.0530330085889910643300633271579",
+            "0.0530330085889910643300633271579"
+          ],
+          "distance_to_M_over_r": "3.372138838120346813725712",
+          "distance_to_S_over_r": "2.669958736842267648080995",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1983526414849461087664793257211661",
+            "0.0025620942194033489932813028339386924",
+            "-0.063552245928511276616742776754769479"
+          ],
+          "observed_covariance_determinant": "1.573077481521709513233717994639999e-16",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "3.3579232512117594976264072310419779e-12",
+            "maximum_eigenvalue": "0.0025685301472781517376216503381392128",
+            "condition_ratio_min_over_max": "0.0000000013073326216435966391897572945320853"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "14.81161303624668062868037517169786",
+              "density_f_grad": "2707707.885469748465216799711558572",
+              "weighted_hessian_moment": {
+                "mean": 6.763772412552131e-14,
+                "standard_error": 4.190238026522313e-15,
+                "relative_standard_error": 0.061951197807101226,
+                "positive_weight_fraction": 0.016425
+              },
+              "lambda_u": "0.000090876736838665212164109800453766751",
+              "lambda_u_mc_se_numerator_only": "0.000005629922699956031468635488"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "14.822445609488996654026795609971169",
+              "density_f_grad": "2737198.7721704119664090938572953579",
+              "weighted_hessian_moment": {
+                "mean": 5.8063521722313e-14,
+                "standard_error": 3.808643579532992e-15,
+                "relative_standard_error": 0.06559442945517001,
+                "positive_weight_fraction": 0.0161875
+              },
+              "lambda_u": "0.000078862699394334694071925157632035602",
+              "lambda_u_mc_se_numerator_only": "0.000005172953772065965763815925"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "14.832564654512056577218364419404897",
+              "density_f_grad": "2765037.2215012136561087238884960796",
+              "weighted_hessian_moment": {
+                "mean": 3.7494687611411745e-14,
+                "standard_error": 3.0204324518888103e-15,
+                "relative_standard_error": 0.08055627728365237,
+                "positive_weight_fraction": 0.010625
+              },
+              "lambda_u": "0.000051443753665059825918995832361871126",
+              "lambda_u_mc_se_numerator_only": "0.000004144117284754467719528381"
+            }
+          ],
+          "window_intensity": "0.00000000019422801615643847554845622470116814",
+          "coefficient_per_area_r3": "0.000012430593034012062435101198380874761",
+          "coefficient_per_area_mc_se_numerator_only": "0.0000008356836120377798338087661",
+          "ratio_to_stationary_maximum_benchmark": "0.00170730361002798156370853131018"
+        },
+        {
+          "name": "midpoint_north_8r",
+          "family": "pair-scaled",
+          "point": [
+            "0",
+            "0.2"
+          ],
+          "distance_to_M_over_r": "8.015609770940698682435677",
+          "distance_to_S_over_r": "8.015609770940698682435677",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1762371280783465909530569748091938",
+            "-0.00015316003086235308011947020692132723",
+            "-0.23524742561566931819061139496183875"
+          ],
+          "observed_covariance_determinant": "0.00000000015968292084610819001864270765192223",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746831949289736078109151771243e-12",
+            "maximum_eigenvalue": "0.079040931472487971121744629899635673",
+            "condition_ratio_min_over_max": "5.1471745175612222045908655494088334e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "8.1584984140307936259115037777379441",
+              "density_f_grad": "3492.9377176545709891317738015133643",
+              "weighted_hessian_moment": {
+                "mean": 6.057490584227179e-10,
+                "standard_error": 9.18313009504245e-12,
+                "relative_standard_error": 0.015159957687683377,
+                "positive_weight_fraction": 0.282175
+              },
+              "lambda_u": "0.0010498941552373221268031489335904933",
+              "lambda_u_mc_se_numerator_only": "0.00001591635096994388708366868"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "8.1584976921338101300889214538320434",
+              "density_f_grad": "3492.9351961142792217884418298537386",
+              "weighted_hessian_moment": {
+                "mean": 6.023183742807393e-10,
+                "standard_error": 9.147286274002268e-12,
+                "relative_standard_error": 0.015186795994602579,
+                "positive_weight_fraction": 0.2817875
+              },
+              "lambda_u": "0.0010439472838633415814840706143327031",
+              "lambda_u_mc_se_numerator_only": "0.00001585421442915203698391639"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "8.1584965925680277847209181776350427",
+              "density_f_grad": "3492.9313554043691817050570158785225",
+              "weighted_hessian_moment": {
+                "mean": 5.98861522057416e-10,
+                "standard_error": 9.11125422622771e-12,
+                "relative_standard_error": 0.015214292270649785,
+                "positive_weight_fraction": 0.2814625
+              },
+              "lambda_u": "0.0010379546741914736566880361455950572",
+              "lambda_u_mc_se_numerator_only": "0.00001579174577683615229855548"
+            }
+          ],
+          "window_intensity": "0.000000002718579632241133039544052417619991",
+          "coefficient_per_area_r3": "0.00017398909646343251453081935472767942",
+          "coefficient_per_area_mc_se_numerator_only": "0.000002642353695991819377615295",
+          "ratio_to_stationary_maximum_benchmark": "0.0238968657154765957922608705131"
+        },
+        {
+          "name": "north_0p25",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.25"
+          ],
+          "distance_to_M_over_r": "10.01249219725039286384861",
+          "distance_to_S_over_r": "10.01249219725039286384861",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1630786157999227716115995337964065",
+            "-0.00015144663642975376711479794943793269",
+            "-0.29076965394998069290289988344910164"
+          ],
+          "observed_covariance_determinant": "0.0000000022384222880807770039735137720716546",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746845961651326361516327900273e-12",
+            "maximum_eigenvalue": "0.12178415470507049858043741837299138",
+            "condition_ratio_min_over_max": "3.3406436941231878021551544771996058e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "6.8363315436444854195984291850897606",
+              "density_f_grad": "931.06728241916521390091142295953817",
+              "weighted_hessian_moment": {
+                "mean": 3.3002946410007003e-09,
+                "standard_error": 4.919572395797065e-11,
+                "relative_standard_error": 0.01490646421286002,
+                "positive_weight_fraction": 0.3074625
+              },
+              "lambda_u": "0.0015247397007999024718876217325437101",
+              "lambda_u_mc_se_numerator_only": "0.0000227284777839006428309719"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "6.8363306804454026959256376908946056",
+              "density_f_grad": "931.06647872308795056294508045196986",
+              "weighted_hessian_moment": {
+                "mean": 3.292835413383041e-09,
+                "standard_error": 4.911833178522769e-11,
+                "relative_standard_error": 0.01491672847831887,
+                "positive_weight_fraction": 0.3072
+              },
+              "lambda_u": "0.0015212922163780764215008579776571385",
+              "lambda_u_mc_se_numerator_only": "0.00002269270292789168373972367"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "6.8363297187904488376922459101656037",
+              "density_f_grad": "931.06558335882683097156786051844058",
+              "weighted_hessian_moment": {
+                "mean": 3.2853498123992798e-09,
+                "standard_error": 4.904076704582155e-11,
+                "relative_standard_error": 0.014927106654133505,
+                "positive_weight_fraction": 0.3071
+              },
+              "lambda_u": "0.0015178324039646380482819332379022687",
+              "lambda_u_mc_se_numerator_only": "0.00002265684617708000214541535"
+            }
+          ],
+          "window_intensity": "0.0000000039616895623332340817208678636410593",
+          "coefficient_per_area_r3": "0.0002535481319893269812301355432730278",
+          "coefficient_per_area_mc_se_numerator_only": "0.000003782113363222561988886348",
+          "ratio_to_stationary_maximum_benchmark": "0.0348240538385249373327415190486"
+        },
+        {
+          "name": "north_0p5",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.5"
+          ],
+          "distance_to_M_over_r": "20.00624902374255662409008",
+          "distance_to_S_over_r": "20.00624902374255662409008",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.058995130785377553921152596031887",
+            "-0.00013789373166544574402721845693382574",
+            "-0.52949756539268877696057629801594349"
+          ],
+          "observed_covariance_determinant": "0.0000067319426603003389884035435986030311",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848749263605637552941126321e-12",
+            "maximum_eigenvalue": "0.4429496716713932535111745958432212",
+            "condition_ratio_min_over_max": "9.184733492461174575355297845626815e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "2.8154777169504413270555451195861977",
+              "density_f_grad": "16.701152298465538317739707948518237",
+              "weighted_hessian_moment": {
+                "mean": 4.99360686760998e-07,
+                "standard_error": 7.055650727473187e-09,
+                "relative_standard_error": 0.014129367638526447,
+                "positive_weight_fraction": 0.3596875
+              },
+              "lambda_u": "0.0041383070743251380271964781121049806",
+              "lambda_u_mc_se_numerator_only": "0.00005847166205425466881596172"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "2.8154767914392615451088878611446684",
+              "density_f_grad": "16.701136841369523705616821334386795",
+              "weighted_hessian_moment": {
+                "mean": 4.993054967580514e-07,
+                "standard_error": 7.055091180507701e-09,
+                "relative_standard_error": 0.014129808756995097,
+                "positive_weight_fraction": 0.3596875
+              },
+              "lambda_u": "0.0041378458735346145018630938199963202",
+              "lambda_u_mc_se_numerator_only": "0.00005846697085896542175290386"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "2.8154758644576335280008318379129868",
+              "density_f_grad": "16.701121359729680355355791955313481",
+              "weighted_hessian_moment": {
+                "mean": 4.992502855780257e-07,
+                "standard_error": 7.054531530214046e-09,
+                "relative_standard_error": 0.014130250365398186,
+                "positive_weight_fraction": 0.3597
+              },
+              "lambda_u": "0.0041373844920118439527690497715832092",
+              "lambda_u_mc_se_numerator_only": "0.00005846227873004314981490853"
+            }
+          ],
+          "window_intensity": "0.000000010775640164925032684423088827895184",
+          "coefficient_per_area_r3": "0.00068964097055520209180307768498529177",
+          "coefficient_per_area_mc_se_numerator_only": "0.000009744495099937152473866501",
+          "ratio_to_stationary_maximum_benchmark": "0.0947200600510750269158399017949"
+        },
+        {
+          "name": "north_1",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "1.0"
+          ],
+          "distance_to_M_over_r": "40.00312487793922331194334",
+          "distance_to_S_over_r": "40.00312487793922331194334",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.72783599968063341883784920918841478",
+            "-0.00009477288338614005106165959147492023",
+            "-0.72783599968063341883784920918841478"
+          ],
+          "observed_covariance_determinant": "0.0083756408608910344612704070173471615",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848759463001349587275762407e-12",
+            "maximum_eigenvalue": "1.2646051096457837905495486412281306",
+            "condition_ratio_min_over_max": "3.2171107437763706910671482289031726e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-0.80815470096672455678849602171076866",
+              "density_f_grad": "0.44567972024802307969807505340589206",
+              "weighted_hessian_moment": {
+                "mean": 4.763489800999713e-05,
+                "standard_error": 6.354260493170823e-07,
+                "relative_standard_error": 0.013339506871280073,
+                "positive_weight_fraction": 0.3696875
+              },
+              "lambda_u": "0.010534405727407872035951361578535571",
+              "lambda_u_mc_se_numerator_only": "0.0001405237775856094763960735"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-0.80815567807261150171448940458454305",
+              "density_f_grad": "0.4456792847719574865352960309518789",
+              "weighted_hessian_moment": {
+                "mean": 4.763469065339726e-05,
+                "standard_error": 6.354237300125611e-07,
+                "relative_standard_error": 0.013339516249534902,
+                "positive_weight_fraction": 0.3696875
+              },
+              "lambda_u": "0.010534349577542010330670411644315327",
+              "lambda_u_mc_se_numerator_only": "0.000140523127367902783407514"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-0.8081566551987851313150465549960863",
+              "density_f_grad": "0.44567884928727605311024434280382393",
+              "weighted_hessian_moment": {
+                "mean": 4.7634483288031995e-05,
+                "standard_error": 6.354214106665763e-07,
+                "relative_standard_error": 0.013339525629455581,
+                "positive_weight_fraction": 0.3696875
+              },
+              "lambda_u": "0.010534293425623661570466189104649163",
+              "lambda_u_mc_se_numerator_only": "0.0001405224771393122575075623"
+            }
+          ],
+          "window_intensity": "0.000000027433202023364257910510857432066881",
+          "coefficient_per_area_r3": "0.0017557249294953125062726948756522804",
+          "coefficient_per_area_mc_se_numerator_only": "0.00002342052122747991608128047",
+          "ratio_to_stationary_maximum_benchmark": "0.241143403387246767486234846147"
+        },
+        {
+          "name": "north_2",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "2.0"
+          ],
+          "distance_to_M_over_r": "80.00156248474150895344812",
+          "distance_to_S_over_r": "80.00156248474150895344812",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.1624021631705322565707159058121756",
+            "-0.000021146688647677894244314781096606585",
+            "-0.3248043263410645131414318116243512"
+          ],
+          "observed_covariance_determinant": "0.60923668647304112448365629039709139",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848759493865753509280853848e-12",
+            "maximum_eigenvalue": "2.9096385191243618134284767156136795",
+            "condition_ratio_min_over_max": "1.3982405917901795728086516112028938e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-3.1183984500929989051989582147976207",
+              "density_f_grad": "0.044227944989645102501240553931444574",
+              "weighted_hessian_moment": {
+                "mean": 0.0014642820374890571,
+                "standard_error": 1.844831528937747e-05,
+                "relative_standard_error": 0.012598881101493632,
+                "positive_weight_fraction": 0.371925
+              },
+              "lambda_u": "0.032135378835269108687645976996708635",
+              "lambda_u_mc_se_numerator_only": "0.0004048698170970104150211936"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-3.1183995674061479199535935677416241",
+              "density_f_grad": "0.044227895573208218492026375717818955",
+              "weighted_hessian_moment": {
+                "mean": 0.0014642832920283425,
+                "standard_error": 1.84483247268127e-05,
+                "relative_standard_error": 0.012598876752365222,
+                "positive_weight_fraction": 0.371925
+              },
+              "lambda_u": "0.032135370462306353581889128556799605",
+              "lambda_u_mc_se_numerator_only": "0.0004048695718461955639902021"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-3.1184006847204525849219161778046402",
+              "density_f_grad": "0.04422784615677543616681267596441698",
+              "weighted_hessian_moment": {
+                "mean": 0.0014642845465659825,
+                "standard_error": 1.8448334164243626e-05,
+                "relative_standard_error": 0.012598872403255483,
+                "positive_weight_fraction": 0.371925
+              },
+              "lambda_u": "0.03213536208924894445341215710903244",
+              "lambda_u_mc_se_numerator_only": "0.0004048693265948610023670204"
+            }
+          ],
+          "window_intensity": "0.00000008368586057885432499427136848713863",
+          "coefficient_per_area_r3": "0.0053558950770466767996333675831768723",
+          "coefficient_per_area_mc_se_numerator_only": "0.00006747826197434186665613599",
+          "ratio_to_stationary_maximum_benchmark": "0.735615668130480961378052088796"
+        },
+        {
+          "name": "east_1",
+          "family": "fixed-near",
+          "point": [
+            "1.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "40.5",
+          "distance_to_S_over_r": "39.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2938613815443219985672312974909933",
+            "0.040473674477704872868138025178639188",
+            "-1.3390451257807766908450457576656205e-499"
+          ],
+          "observed_covariance_determinant": "0.000024778035980804125409998612933106041",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "1.0627108682331861696270440805138316e-14",
+            "maximum_eigenvalue": "4.9852609306077117574050653994569477",
+            "condition_ratio_min_over_max": "2.1317056078419548513097735208353603e-15"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-4.6658438147830865834169828723067895",
+              "density_f_grad": "0.0094113034750330539736728354874618544",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-4.6656657186168509998413762914489368",
+              "density_f_grad": "0.0094129797413651099648756114597744696",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-4.6654876246509247247787955792458856",
+              "density_f_grad": "0.0094146562855452030915780625867256679",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "east_2",
+          "family": "fixed-near",
+          "point": [
+            "2.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "80.5",
+          "distance_to_S_over_r": "79.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.84811184898840451619789662511646445",
+            "-0.82999225277885378174637221549189822",
+            "-1.6222435141727255840260201516208703e-499"
+          ],
+          "observed_covariance_determinant": "0.15283178784484927192082806683060788",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.5021046405468812718019103979116057e-13",
+            "maximum_eigenvalue": "4.0701877077109112422455331323706307",
+            "condition_ratio_min_over_max": "1.1061172024124857191422145773611551e-13"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-2.5075037016746545189086290731358494",
+              "density_f_grad": "0.081471362432974361646087272345878276",
+              "weighted_hessian_moment": {
+                "mean": 0.00017929505397160203,
+                "standard_error": 4.917609203299356e-06,
+                "relative_standard_error": 0.02742746715187269,
+                "positive_weight_fraction": 0.093925
+              },
+              "lambda_u": "0.0072482842561414718372758807598658811",
+              "lambda_u_mc_se_numerator_only": "0.0001988020783427561844396822"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-2.5075029525494512372616638854314875",
+              "density_f_grad": "0.081471423465248166285147916035201512",
+              "weighted_hessian_moment": {
+                "mean": 0.00017929655568957,
+                "standard_error": 4.917632456951006e-06,
+                "relative_standard_error": 0.02742736712391332,
+                "positive_weight_fraction": 0.093925
+              },
+              "lambda_u": "0.0072483503953696799701905559340726558",
+              "lambda_u_mc_se_numerator_only": "0.0001988031673365664923216157"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-2.5075022034276734037630668438342372",
+              "density_f_grad": "0.081471484497288615410137993220877363",
+              "weighted_hessian_moment": {
+                "mean": 0.00017929805740885568,
+                "standard_error": 4.917655710685262e-06,
+                "relative_standard_error": 0.027427267097888675,
+                "positive_weight_fraction": 0.093925
+              },
+              "lambda_u": "0.0072484165347213551998942854865592921",
+              "lambda_u_mc_se_numerator_only": "0.0001988042563345552767848382"
+            }
+          ],
+          "window_intensity": "0.000000018875912488031188505117951201491191",
+          "coefficient_per_area_r3": "0.0012080583992339960643275488768954362",
+          "coefficient_per_area_mc_se_numerator_only": "0.00003313386122295453004347711",
+          "ratio_to_stationary_maximum_benchmark": "0.165923094778619122947585973707"
+        },
+        {
+          "name": "east_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "200.5",
+          "distance_to_S_over_r": "199.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00021573531256773095559193023803952857",
+            "-0.00096306666899865064663615476253370257",
+            "-4.9981297420096247918439628430909495e-503"
+          ],
+          "observed_covariance_determinant": "0.99999915776571623865594889390259284",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0677222755381426463210862111391283e-12",
+            "maximum_eigenvalue": "3.999375097701856040512610000657831",
+            "condition_ratio_min_over_max": "1.0170894642704458141204301728083798e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-3.4765540400647202672773482662454689",
+              "density_f_grad": "0.03091375526062066102578978945282103",
+              "weighted_hessian_moment": {
+                "mean": 0.00283367560736687,
+                "standard_error": 3.2544441696206905e-05,
+                "relative_standard_error": 0.011484886135731008,
+                "positive_weight_fraction": 0.3890875
+              },
+              "lambda_u": "0.04346741609995675629325406411972212",
+              "lambda_u_mc_se_numerator_only": "0.0004992183245224441276888126"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-3.4765552501526550297171438996261066",
+              "density_f_grad": "0.030913717852281035644610165174533848",
+              "weighted_hessian_moment": {
+                "mean": 0.002833679313036945,
+                "standard_error": 3.254446953964662e-05,
+                "relative_standard_error": 0.011484880942567798,
+                "positive_weight_fraction": 0.3890875
+              },
+              "lambda_u": "0.043467420343975915604820326818837756",
+              "lambda_u_mc_se_numerator_only": "0.0004992181475311127808952533"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-3.476556460241607044802713399895665",
+              "density_f_grad": "0.030913680443955230593259728640725375",
+              "weighted_hessian_moment": {
+                "mean": 0.0028336830187090036,
+                "standard_error": 3.2544497383104015e-05,
+                "relative_standard_error": 0.011484875749416373,
+                "positive_weight_fraction": 0.3890875
+              },
+              "lambda_u": "0.043467424587907364876473746590447727",
+              "lambda_u_mc_se_numerator_only": "0.0004992179705392422383181167"
+            }
+          ],
+          "window_intensity": "0.00000011319640714570716589803264874154388",
+          "coefficient_per_area_r3": "0.0072445700573252586174740895194588082",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008320302458849383404811734",
+          "ratio_to_stationary_maximum_benchmark": "0.995019350897368701037988717334"
+        },
+        {
+          "name": "north_5",
+          "family": "exterior",
+          "point": [
+            "0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "200.0006249990234405517459",
+          "distance_to_S_over_r": "200.0006249990234405517459",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.0000044719789404347347847036132421414193",
+            "-0.00000000058230472086165555590689118679753961",
+            "-0.000022359894702173673923518066210707097"
+          ],
+          "observed_covariance_determinant": "0.99999999093117276262355847407281141",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848759493912482521906291159e-12",
+            "maximum_eigenvalue": "3.9993785706906107265802839183470526",
+            "condition_ratio_min_over_max": "1.0172517087256944644703051939848037e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-3.4768074564304977940896467827745489",
+              "density_f_grad": "0.030905922201664565249550591365207689",
+              "weighted_hessian_moment": {
+                "mean": 0.0028195586367512574,
+                "standard_error": 3.323748294597312e-05,
+                "relative_standard_error": 0.011788186460370942,
+                "positive_weight_fraction": 0.3902
+              },
+              "lambda_u": "0.043239908499098256269837695668843752",
+              "lambda_u_mc_se_numerator_only": "0.0005097201039167484775633919"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-3.4768086667314616365098191791316031",
+              "density_f_grad": "0.030905884796219772063583877928674948",
+              "weighted_hessian_moment": {
+                "mean": 0.002819562376259814,
+                "standard_error": 3.323751119659358e-05,
+                "relative_standard_error": 0.011788180845526663,
+                "positive_weight_fraction": 0.3902
+              },
+              "lambda_u": "0.043239913513743084482111820702146185",
+              "lambda_u_mc_se_numerator_only": "0.0005097199202449357322466617"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-3.4768098770334427315345255583778529",
+              "density_f_grad": "0.030905847390788811642353417893188024",
+              "weighted_hessian_moment": {
+                "mean": 0.002819566115770374,
+                "standard_error": 3.3237539447232076e-05,
+                "relative_standard_error": 0.011788175230695298,
+                "positive_weight_fraction": 0.3902
+              },
+              "lambda_u": "0.043239918528299175975191051295021132",
+              "lambda_u_mc_se_numerator_only": "0.0005097197365725790487333433"
+            }
+          ],
+          "window_intensity": "0.00000011260394144197509217043378189185386",
+          "coefficient_per_area_r3": "0.0072066522522864058989077620410786472",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008495332004079743971719416",
+          "ratio_to_stationary_maximum_benchmark": "0.98981145733589184831055447514"
+        },
+        {
+          "name": "diag_5_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "283.1964865601266600572475",
+          "distance_to_S_over_r": "282.4893803313675011255212",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00000000080397068690991814174791454290114179",
+            "-0.0000000035890154569470609071094303989734998",
+            "-0.0000000040198534345495907087395727145057089"
+          ],
+          "observed_covariance_determinant": "0.9999999999999999681873830492362492",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848758932121226449300230035e-12",
+            "maximum_eigenvalue": "3.9993750976460784292814577129947118",
+            "condition_ratio_min_over_max": "1.0172525921038079252794140485766119e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-3.4768128258446291726513429246416746",
+              "density_f_grad": "0.030905756255414669813717079528177461",
+              "weighted_hessian_moment": {
+                "mean": 0.002844569038458068,
+                "standard_error": 3.2479303912426724e-05,
+                "relative_standard_error": 0.0114180051435955,
+                "positive_weight_fraction": 0.3906
+              },
+              "lambda_u": "0.043623226312374236104483274118436879",
+              "lambda_u_mc_se_numerator_only": "0.000498090222414919585352476"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-3.4768140361501021578257726008936169",
+              "density_f_grad": "0.03090571885003136311418545871057023",
+              "weighted_hessian_moment": {
+                "mean": 0.002844572782755421,
+                "standard_error": 3.247933184664972e-05,
+                "relative_standard_error": 0.011417999934312922,
+                "positive_weight_fraction": 0.3906
+              },
+              "lambda_u": "0.043623230936023867953166554585533424",
+              "lambda_u_mc_se_numerator_only": "0.0004980900479620379260002546"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-3.4768152464565923956043689438129313",
+              "density_f_grad": "0.03090568144466188944245947348453576",
+              "weighted_hessian_moment": {
+                "mean": 0.00284457652705478,
+                "standard_error": 3.247935978089078e-05,
+                "relative_standard_error": 0.011417994725042355,
+                "positive_weight_fraction": 0.3906
+              },
+              "lambda_u": "0.043623235559584797323095988960627653",
+              "lambda_u_mc_se_numerator_only": "0.0004980898735086192896947459"
+            }
+          ],
+          "window_intensity": "0.00000011360216389583132389514304862262588",
+          "coefficient_per_area_r3": "0.007270538489333204729289155111848056",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008301500799364812762257543",
+          "ratio_to_stationary_maximum_benchmark": "0.998586034931881157736864614195"
+        },
+        {
+          "name": "east_8",
+          "family": "exterior",
+          "point": [
+            "8.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "320.5",
+          "distance_to_S_over_r": "319.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "2.6656774704857913210728586635157466e-12",
+            "-2.0391636153734973487948463359310275e-11",
+            "-6.2706386080149768602458840162072487e-511"
+          ],
+          "observed_covariance_determinant": "0.99999999999999999999956400047314287",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "4.0683746848759493823018534976296061e-12",
+            "maximum_eigenvalue": "3.9993750976460782686372623887685682",
+            "condition_ratio_min_over_max": "1.01725259210382201087867824962749e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999976893272535918185194845663021",
+              "log_density_f_grad": "-3.4768128268061933329886334495428129",
+              "density_f_grad": "0.030905756225696802264678126527910793",
+              "weighted_hessian_moment": {
+                "mean": 0.0028714153667111337,
+                "standard_error": 3.2959364089462376e-05,
+                "relative_standard_error": 0.0114784382892028,
+                "positive_weight_fraction": 0.3913125
+              },
+              "lambda_u": "0.044034931325246304145006192685349696",
+              "lambda_u_mc_se_numerator_only": "0.0005054522417861229802090739"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999986979166666666666666666666667",
+              "log_density_f_grad": "-3.4768140371116671263508114508097394",
+              "density_f_grad": "0.030905718820313506555199176063507023",
+              "weighted_hessian_moment": {
+                "mean": 0.0028714191434854684,
+                "standard_error": 3.295939235631052e-05,
+                "relative_standard_error": 0.011478433035834262,
+                "positive_weight_fraction": 0.3913125
+              },
+              "lambda_u": "0.044034935948661321552453601851774117",
+              "lambda_u_mc_se_numerator_only": "0.0005054520635239598551971985"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999997065060797415148138487670312",
+              "log_density_f_grad": "-3.4768152474181581723171561187433326",
+              "density_f_grad": "0.0309056814149440438735730209695598",
+              "weighted_hessian_moment": {
+                "mean": 0.0028714229202618236,
+                "standard_error": 3.295942062317696e-05,
+                "relative_standard_error": 0.011478427782477839,
+                "positive_weight_fraction": 0.3913125
+              },
+              "lambda_u": "0.044034940571986834634665378854730442",
+              "lambda_u_mc_se_numerator_only": "0.0005054518852612542340358131"
+            }
+          ],
+          "window_intensity": "0.00000011467431236624077927054205331519005",
+          "coefficient_per_area_r3": "0.0073391559914394098733146914121721632",
+          "coefficient_per_area_mc_se_numerator_only": "0.0000842420105873015269703891",
+          "ratio_to_stationary_maximum_benchmark": "1.00801043718980105848433440479"
+        }
+      ],
+      "summary": {
+        "exterior_ratio_min": 0.9898114573358918,
+        "exterior_ratio_max": 1.008010437189801,
+        "outside_collar_coefficient_per_area_min": 0.0,
+        "outside_collar_coefficient_per_area_max": 0.00733915599143941,
+        "largest_station": "east_8"
+      }
+    },
+    {
+      "r": "0.0125",
+      "ell": "0.00000032552083333333333333333333333333333",
+      "pair_points": {
+        "M": [
+          "-0.00625",
+          "0.0"
+        ],
+        "S": [
+          "0.00625",
+          "0.0"
+        ]
+      },
+      "denominator_pair_weight": {
+        "mean": 0.0005036211445086625,
+        "standard_error": 9.885350770230651e-07,
+        "relative_standard_error": 0.0019628545937789986,
+        "positive_weight_fraction": 0.799712
+      },
+      "pair_hessian_spectrum": {
+        "minimum_eigenvalue": "6.3575804283442620450795704620401738e-14",
+        "maximum_eigenvalue": "3.9998437561033566823849590346324203",
+        "condition_ratio_min_over_max": "1.5894571928324044822603573333501721e-14"
+      },
+      "station_rows": [
+        {
+          "name": "east_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.034375",
+            "0"
+          ],
+          "distance_to_M_over_r": "3.25",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2000118308782801710913583372675815",
+            "0.0011179093461062461840432825005185695",
+            "-1.651907522590140209034539598805796e-502"
+          ],
+          "observed_covariance_determinant": "6.5676537092470326950780778828147999e-34",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "1.6859065216441171628764718627554954e-25",
+            "maximum_eigenvalue": "5.9982688537931053140304617601227472",
+            "condition_ratio_min_over_max": "2.8106551452391235617008296889098079e-26"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-4079676.9425345897787160895805467392",
+              "density_f_grad": "6.5449946796341110537233202724091345e-1771782",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3724120.2151455210793409759903427227",
+              "density_f_grad": "1.3823497846109921632139377996541903e-1617365",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3384774.1679843136857605386443076413",
+              "density_f_grad": "1.8044952459328847899302371471450134e-1469989",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "north_of_S_2p25r",
+          "family": "pair-scaled",
+          "point": [
+            "0.00625",
+            "0.028125"
+          ],
+          "distance_to_M_over_r": "2.462214450449026180436553",
+          "distance_to_S_over_r": "2.25",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1995251590763727401831550490979656",
+            "2.229017235213941130662342801737244e-83",
+            "-0.033736645099022983317651235755880282"
+          ],
+          "observed_covariance_determinant": "1.2206539329941391022780507369147508e-20",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3572502867278227409434321622701514e-14",
+            "maximum_eigenvalue": "0.0015677737915809379887938409944047043",
+            "condition_ratio_min_over_max": "4.0549537955454608300103291061013803e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "19.809238317453135798565921263953657",
+              "density_f_grad": "400906310.15167678934357079800318443",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "19.808628677680518220326532264529235",
+              "density_f_grad": "400661976.2053281589519473796793509",
+              "weighted_hessian_moment": {
+                "mean": 4.061135363630401e-18,
+                "standard_error": 4.907954564285923e-19,
+                "relative_standard_error": 0.12085178465705015,
+                "positive_weight_fraction": 0.0027125
+              },
+              "lambda_u": "0.0000032308860304444836195229342087323525",
+              "lambda_u_mc_se_numerator_only": "0.0000003904583428027483378814607"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "19.8072484556366412429262229136246",
+              "density_f_grad": "400109355.17122202372864025053898666",
+              "weighted_hessian_moment": {
+                "mean": 1.016439248385392e-16,
+                "standard_error": 2.780017848888124e-18,
+                "relative_standard_error": 0.027350555906849986,
+                "positive_weight_fraction": 0.062525
+              },
+              "lambda_u": "0.000080752537234902685812096779792985763",
+              "lambda_u_mc_se_numerator_only": "0.000002208626784263190959448452"
+            }
+          ],
+          "window_intensity": "7.7692739875952925711926246497899963e-12",
+          "coefficient_per_area_r3": "0.0000039778682816487897964506238206924781",
+          "coefficient_per_area_mc_se_numerator_only": "0.0000001311740802197957546323513",
+          "ratio_to_stationary_maximum_benchmark": "0.000546347938420344254977766806093"
+        },
+        {
+          "name": "midpoint_diag_3r",
+          "family": "pair-scaled",
+          "point": [
+            "0.0265165042944955321650316635789",
+            "0.0265165042944955321650316635789"
+          ],
+          "distance_to_M_over_r": "3.372138838120346813725712",
+          "distance_to_S_over_r": "2.669958736842267648080995",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1995831455750968886478217302678326",
+            "0.00065288686766222714958597408303751455",
+            "-0.031808751631246515780558325791325133"
+          ],
+          "observed_covariance_determinant": "3.8586333168208653179820487746363886e-20",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "5.2780388563039665691897110494062334e-14",
+            "maximum_eigenvalue": "0.0006376142748530512215292208316092685",
+            "condition_ratio_min_over_max": "8.2777928043100636512839685852210628e-11"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "18.967594772936155848335699461738262",
+              "density_f_grad": "172791249.38798638207802593608673976",
+              "weighted_hessian_moment": {
+                "mean": 9.220124820213335e-17,
+                "standard_error": 8.520604972928865e-18,
+                "relative_standard_error": 0.09241311955179925,
+                "positive_weight_fraction": 0.0061
+              },
+              "lambda_u": "0.000031634034920280087955118929766901872",
+              "lambda_u_mc_se_numerator_only": "0.000002923399850993636094830328"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "18.978450495167247913769128700923235",
+              "density_f_grad": "174677241.57751473752878593859473489",
+              "weighted_hessian_moment": {
+                "mean": 9.498731385101314e-17,
+                "standard_error": 9.015646986423385e-18,
+                "relative_standard_error": 0.09491422191982771,
+                "positive_weight_fraction": 0.00795
+              },
+              "lambda_u": "0.000032945642074937228530749717955070623",
+              "lambda_u_mc_se_numerator_only": "0.000003127009983191804970972515"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "18.988591714450319356766669230043284",
+              "density_f_grad": "176457694.51082659591449466047892944",
+              "weighted_hessian_moment": {
+                "mean": 5.044656648979339e-17,
+                "standard_error": 6.939193494175726e-18,
+                "relative_standard_error": 0.13755531797351758,
+                "positive_weight_fraction": 0.0036625
+              },
+              "lambda_u": "0.000017675359575024656126881231223048903",
+              "lambda_u_mc_se_numerator_only": "0.000002431339706638775000792813"
+            }
+          ],
+          "window_intensity": "9.2251177133250424742476589371802455e-12",
+          "coefficient_per_area_r3": "0.0000047232602692224217468148013758362857",
+          "coefficient_per_area_mc_se_numerator_only": "0.0000004795349782749675485731095",
+          "ratio_to_stationary_maximum_benchmark": "0.000648725228690271957900625117432"
+        },
+        {
+          "name": "midpoint_north_8r",
+          "family": "pair-scaled",
+          "point": [
+            "0",
+            "0.1"
+          ],
+          "distance_to_M_over_r": "8.015609770940698682435677",
+          "distance_to_S_over_r": "8.015609770940698682435677",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1940148128548357873061611419200887",
+            "-0.000038867928008775000081941674388661044",
+            "-0.11940148128548357873061611419200887"
+          ],
+          "observed_covariance_determinant": "4.0980111857693290966857291239571966e-14",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804256892301433366699005665087e-14",
+            "maximum_eigenvalue": "0.020057621998956375301379163918714486",
+            "condition_ratio_min_over_max": "3.1696581110263337759689381514579497e-12"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "12.29511473836045074091801102673127",
+              "density_f_grad": "218625.33363065064929410058207568407",
+              "weighted_hessian_moment": {
+                "mean": 8.218829625055901e-13,
+                "standard_error": 1.3781529042485443e-14,
+                "relative_standard_error": 0.016768237901502562,
+                "positive_weight_fraction": 0.2356
+              },
+              "lambda_u": "0.00035678493415607872262948859366417707",
+              "lambda_u_mc_se_numerator_only": "0.000005982654655601054902773416"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "12.295114815051671232241674710141043",
+              "density_f_grad": "218625.35039729495867872776114621856",
+              "weighted_hessian_moment": {
+                "mean": 8.118678458222135e-13,
+                "standard_error": 1.3669705304979261e-14,
+                "relative_standard_error": 0.016837352748137677,
+                "positive_weight_fraction": 0.2348875
+              },
+              "lambda_u": "0.00035243733152297275178758619629737296",
+              "lambda_u_mc_se_numerator_only": "0.000005934111672464634491570287"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "12.295114511242382521647282633983665",
+              "density_f_grad": "218625.28397689284994015242879233119",
+              "weighted_hessian_moment": {
+                "mean": 8.017278658415333e-13,
+                "standard_error": 1.3556911642336934e-14,
+                "relative_standard_error": 0.01690961761458413,
+                "positive_weight_fraction": 0.2339125
+              },
+              "lambda_u": "0.00034803539178800030990321946862652998",
+              "lambda_u_mc_se_numerator_only": "0.00000588514539147705883348372"
+            }
+          ],
+          "window_intensity": "0.00000000011472078056105644489590982859216795",
+          "coefficient_per_area_r3": "0.00005873703964726089978670583223918999",
+          "coefficient_per_area_mc_se_numerator_only": "0.000000988999014954700413091185",
+          "ratio_to_stationary_maximum_benchmark": "0.00806735121628855210530468109042"
+        },
+        {
+          "name": "north_0p25",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.25"
+          ],
+          "distance_to_M_over_r": "20.00624902374255662409008",
+          "distance_to_S_over_r": "20.00624902374255662409008",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.1630797233969708441158922444504739",
+            "-0.00003786091970615732508196095511182826",
+            "-0.29076993084924271102897306111261847"
+          ],
+          "observed_covariance_determinant": "0.0000000022383818721432365159382646651005155",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.357580428342554190448050330124758e-14",
+            "maximum_eigenvalue": "0.1213255810187562482571779130604827",
+            "condition_ratio_min_over_max": "5.2400988933732847593660602364055395e-13"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "6.8363448336826731644628513339837889",
+              "density_f_grad": "931.07965642112922162772442626004998",
+              "weighted_hessian_moment": {
+                "mean": 9.833990379337915e-10,
+                "standard_error": 1.3780395206980784e-11,
+                "relative_standard_error": 0.014013024901808542,
+                "positive_weight_fraction": 0.3432375
+              },
+              "lambda_u": "0.001818078625863800511175360660262527",
+              "lambda_u_mc_se_numerator_only": "0.00002547678105767529257019977"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "6.8363447203977310698654120964170761",
+              "density_f_grad": "931.07955094383023299738867017412543",
+              "weighted_hessian_moment": {
+                "mean": 9.831444475521955e-10,
+                "standard_error": 1.3777834705415815e-11,
+                "relative_standard_error": 0.014014049247513392,
+                "positive_weight_fraction": 0.343225
+              },
+              "lambda_u": "0.0018176077408999120772630662027770941",
+              "lambda_u_mc_se_numerator_only": "0.00002547204439363292985585747"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "6.8363446055743885217372383316740857",
+              "density_f_grad": "931.07944403417015327899112860488615",
+              "weighted_hessian_moment": {
+                "mean": 9.828897100567227e-10,
+                "standard_error": 1.3775273403877753e-11,
+                "relative_standard_error": 0.014015075407680055,
+                "positive_weight_fraction": 0.34325
+              },
+              "lambda_u": "0.0018171365812675466771055687041658351",
+              "lambda_u_mc_se_numerator_only": "0.00002546730621251860127635302"
+            }
+          ],
+          "window_intensity": "0.00000000059166916165465915363695703928599833",
+          "coefficient_per_area_r3": "0.00030293461076718548666212200411443114",
+          "coefficient_per_area_mc_se_numerator_only": "0.000004245340662037341741477997",
+          "ratio_to_stationary_maximum_benchmark": "0.0416071343619803804503315102366"
+        },
+        {
+          "name": "north_0p5",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "0.5"
+          ],
+          "distance_to_M_over_r": "40.00312487793922331194334",
+          "distance_to_S_over_r": "40.00312487793922331194334",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.058996139263966057876068492333914",
+            "-0.000034472759683833761583053090160010326",
+            "-0.52949806963198302893803424616695701"
+          ],
+          "observed_covariance_determinant": "0.000006731934512636416882125446292199192",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283442558002668790065921878e-14",
+            "maximum_eigenvalue": "0.44253603504296605999979081231849803",
+            "condition_ratio_min_over_max": "1.4366243480549544221658658142398138e-13"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "2.8154771160368258791405847370222703",
+              "density_f_grad": "16.701142262518743869396497838967694",
+              "weighted_hessian_moment": {
+                "mean": 1.314984243310204e-07,
+                "standard_error": 1.7822417117872211e-09,
+                "relative_standard_error": 0.013553331310653517,
+                "positive_weight_fraction": 0.36685
+              },
+              "lambda_u": "0.0043607658574225187656098845631557973",
+              "lambda_u_mc_se_numerator_only": "0.00005910290443383345513801677"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "2.8154770002673643432328392610233472",
+              "density_f_grad": "16.701140329036609022104500654570677",
+              "weighted_hessian_moment": {
+                "mean": 1.314966958533662e-07,
+                "standard_error": 1.782223730647434e-09,
+                "relative_standard_error": 0.013553372722268373,
+                "positive_weight_fraction": 0.36685
+              },
+              "lambda_u": "0.0043607080326110900039446020673115448",
+              "lambda_u_mc_se_numerator_only": "0.00005910230129896772826757229"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "2.8154768844749270268007690677159433",
+              "density_f_grad": "16.701138395170976322706957991103226",
+              "weighted_hessian_moment": {
+                "mean": 1.3149496729201867e-07,
+                "standard_error": 1.7822057490692536e-09,
+                "relative_standard_error": 0.013553414140264421,
+                "positive_weight_fraction": 0.36685
+              },
+              "lambda_u": "0.0043606502049373555017176169318197442",
+              "lambda_u_mc_se_numerator_only": "0.00005910169814834490462669414"
+            }
+          ],
+          "window_intensity": "0.0000000014195013124401058190139309174871612",
+          "coefficient_per_area_r3": "0.00072678467196933417933513262975342654",
+          "coefficient_per_area_mc_se_numerator_only": "0.000009850383549098459490408638",
+          "ratio_to_stationary_maximum_benchmark": "0.0998216328674832339707175409985"
+        },
+        {
+          "name": "north_1",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "1.0"
+          ],
+          "distance_to_M_over_r": "80.00156248474150895344812",
+          "distance_to_S_over_r": "80.00156248474150895344812",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.72783669279715518785864983484419477",
+            "-0.000023692758141036608787483100054159658",
+            "-0.72783669279715518785864983484419477"
+          ],
+          "observed_covariance_determinant": "0.0083756401131957046146785614360602052",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283442620262107016210949655e-14",
+            "maximum_eigenvalue": "1.264332067556330666267531000929898",
+            "condition_ratio_min_over_max": "5.0284103294414054890581442864483598e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-0.80815633690085530606279944471262334",
+              "density_f_grad": "0.44567899114595372481132760391874783",
+              "weighted_hessian_moment": {
+                "mean": 1.1840678983706877e-05,
+                "standard_error": 1.574564738060758e-07,
+                "relative_standard_error": 0.013297926075247928,
+                "positive_weight_fraction": 0.3715875
+              },
+              "lambda_u": "0.010478396154494279997127028224268204",
+              "lambda_u_mc_se_numerator_only": "0.000139340937449627098666492"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-0.80815645904031853867788071651508283",
+              "density_f_grad": "0.44567893671096429652139288025129548",
+              "weighted_hessian_moment": {
+                "mean": 1.1840672479768503e-05,
+                "standard_error": 1.574564014134612e-07,
+                "relative_standard_error": 0.013297927265744252,
+                "positive_weight_fraction": 0.3715875
+              },
+              "lambda_u": "0.010478389119016097852820089560158278",
+              "lambda_u_mc_se_numerator_only": "0.0001393408563668420715294807"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-0.80815658118009875076761544086340021",
+              "density_f_grad": "0.44567888227584024583347401294958011",
+              "weighted_hessian_moment": {
+                "mean": 1.184066597579598e-05,
+                "standard_error": 1.5745632902068294e-07,
+                "relative_standard_error": 0.013297928456266418,
+                "positive_weight_fraction": 0.3715875
+              },
+              "lambda_u": "0.010478382083505936482141547673853955",
+              "lambda_u_mc_se_numerator_only": "0.0001393407752838857947223647"
+            }
+          ],
+          "window_intensity": "0.0000000034109339580101610463488063507645583",
+          "coefficient_per_area_r3": "0.0017463981865012024557305888515914538",
+          "coefficient_per_area_mc_se_numerator_only": "0.00002322347606113241702944564",
+          "ratio_to_stationary_maximum_benchmark": "0.239862404006116853253600391657"
+        },
+        {
+          "name": "north_2",
+          "family": "fixed-near",
+          "point": [
+            "0",
+            "2.0"
+          ],
+          "distance_to_M_over_r": "160.0007812480926606803564",
+          "distance_to_S_over_r": "160.0007812480926606803564",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.16240231782573276041497694974897679",
+            "-0.0000052865689183675131224401621679745948",
+            "-0.32480463565146552082995389949795358"
+          ],
+          "observed_covariance_determinant": "0.60923668381376112439317675378579226",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283442620450510459935829929e-14",
+            "maximum_eigenvalue": "2.9098903031626930079628947392514292",
+            "condition_ratio_min_over_max": "2.1848179023911498455754150367310126e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-3.1184005823670241635200370042297801",
+              "density_f_grad": "0.044227850683647353677527914947643526",
+              "weighted_hessian_moment": {
+                "mean": 0.00035823375850019615,
+                "standard_error": 4.491378165586112e-06,
+                "relative_standard_error": 0.012537562580338595,
+                "positive_weight_fraction": 0.3729625
+              },
+              "lambda_u": "0.031459976122023086695131407426134148",
+              "lambda_u_mc_se_numerator_only": "0.000394431419405822353394222"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3.1184007220313636221000001676903032",
+              "density_f_grad": "0.044227844506594233630247964017939258",
+              "weighted_hessian_moment": {
+                "mean": 0.0003582337966872368,
+                "standard_error": 4.49137845124196e-06,
+                "relative_standard_error": 0.012537562041258903,
+                "positive_weight_fraction": 0.3729625
+              },
+              "lambda_u": "0.031459975081760053948075055119798271",
+              "lambda_u_mc_se_numerator_only": "0.0003944313894040258264882489"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3.1184008616957211377145807480190477",
+              "density_f_grad": "0.044227838329541177673343809812410059",
+              "weighted_hessian_moment": {
+                "mean": 0.000358233834874271,
+                "standard_error": 4.4913787368977895e-06,
+                "relative_standard_error": 0.012537561502179504,
+                "positive_weight_fraction": 0.3729625
+              },
+              "lambda_u": "0.031459974041495563515338288753555836",
+              "lambda_u_mc_se_numerator_only": "0.0003944313594022213017455238"
+            }
+          ],
+          "window_intensity": "0.000000010240877305260302420373063546311416",
+          "coefficient_per_area_r3": "0.0052433291802932748392310085357114452",
+          "coefficient_per_area_mc_se_numerator_only": "0.00006573856490067060081115482",
+          "ratio_to_stationary_maximum_benchmark": "0.720155089430231178559827199594"
+        },
+        {
+          "name": "east_1",
+          "family": "fixed-near",
+          "point": [
+            "1.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "80.5",
+          "distance_to_S_over_r": "79.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "1.2939145508015315164208466934225967",
+            "0.040444903349805102489979612090599097",
+            "-1.3392589536087092509878879654122525e-499"
+          ],
+          "observed_covariance_determinant": "0.000024806251143502149561515969476448438",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "1.6639697025856512270040833711460615e-16",
+            "maximum_eigenvalue": "4.9855960762289546948296637390278538",
+            "condition_ratio_min_over_max": "3.3375541803704603949139995401042916e-17"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-4.6712041383247010338747416295449771",
+              "density_f_grad": "0.0093609908100096526234459467672286145",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-4.6711818772098142985639405632067133",
+              "density_f_grad": "0.0093611991984209984990780526349088896",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-4.6711596161292813597986151778930255",
+              "density_f_grad": "0.0093614075911497544835495153112890007",
+              "weighted_hessian_moment": {
+                "mean": 0.0,
+                "standard_error": 0.0,
+                "relative_standard_error": null,
+                "positive_weight_fraction": 0.0
+              },
+              "lambda_u": "0.0",
+              "lambda_u_mc_se_numerator_only": "0.0"
+            }
+          ],
+          "window_intensity": "0.0",
+          "coefficient_per_area_r3": "0.0",
+          "coefficient_per_area_mc_se_numerator_only": "0.0",
+          "ratio_to_stationary_maximum_benchmark": "0.0"
+        },
+        {
+          "name": "east_2",
+          "family": "fixed-near",
+          "point": [
+            "2.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "160.5",
+          "distance_to_S_over_r": "159.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.84810386115185520786937965500206447",
+            "-0.8300404556529641273448693396189915",
+            "-1.6222867879800692615797207447515628e-499"
+          ],
+          "observed_covariance_determinant": "0.15286213478570972059992564998986698",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "7.0371361688438543297457732435109521e-15",
+            "maximum_eigenvalue": "4.0706162521412158979980266925263378",
+            "condition_ratio_min_over_max": "1.7287643277948877316007097778009887e-15"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-2.5076716354333765924531632232990414",
+              "density_f_grad": "0.08145768178960586673068633616037139",
+              "weighted_hessian_moment": {
+                "mean": 4.242431110199846e-05,
+                "standard_error": 1.171809891730888e-06,
+                "relative_standard_error": 0.027621188448141664,
+                "positive_weight_fraction": 0.091025
+              },
+              "lambda_u": "0.0068618763758645018302611701380963871",
+              "lambda_u_mc_se_numerator_only": "0.0001895331804856047652382513"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-2.5076715418051101873892343080993013",
+              "density_f_grad": "0.081457689416347755106134179846596891",
+              "weighted_hessian_moment": {
+                "mean": 4.242435683688264e-05,
+                "standard_error": 1.1718105857546396e-06,
+                "relative_standard_error": 0.02762117503065828,
+                "positive_weight_fraction": 0.091025
+              },
+              "lambda_u": "0.0068618844156724128435096231500838835",
+              "lambda_u_mc_se_numerator_only": "0.0001895333104854340177846765"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-2.5076714481768972950746081326325446",
+              "density_f_grad": "0.081457697043085998534916134681025302",
+              "weighted_hessian_moment": {
+                "mean": 4.242440257177187e-05,
+                "standard_error": 1.1718112797787315e-06,
+                "relative_standard_error": 0.027621161613208555,
+                "positive_weight_fraction": 0.091025
+              },
+              "lambda_u": "0.0068618924554822185465753974470415572",
+              "lambda_u_mc_se_numerator_only": "0.0001895334404853308504504815"
+            }
+          ],
+          "window_intensity": "0.0000000022336863332268682116655783985525316",
+          "coefficient_per_area_r3": "0.0011436474026121565243727761400588962",
+          "coefficient_per_area_mc_se_numerator_only": "0.00003158888508090879834000996",
+          "ratio_to_stationary_maximum_benchmark": "0.157076443073662335955972458289"
+        },
+        {
+          "name": "east_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "400.5",
+          "distance_to_S_over_r": "399.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00021567058245625669290969430569254661",
+            "-0.00096280575219312459670023598271367299",
+            "-4.9967249748011367664237587897302509e-503"
+          ],
+          "observed_covariance_determinant": "0.99999915824657171033487873270547243",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.356561243969802292518767522753842e-14",
+            "maximum_eigenvalue": "3.9998437561589648974392009923639236",
+            "condition_ratio_min_over_max": "1.5892023867637231023122841329116422e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-3.476556543465600187919825317919035",
+              "density_f_grad": "0.030913677871195408354690448934458089",
+              "weighted_hessian_moment": {
+                "mean": 0.0007007736155815303,
+                "standard_error": 8.194122342998191e-06,
+                "relative_standard_error": 0.01169296640284948,
+                "positive_weight_fraction": 0.39025
+              },
+              "lambda_u": "0.043015449309332423546581854416599532",
+              "lambda_u_mc_se_numerator_only": "0.0005029782035774989032833201"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3.4765566947267994597979910805682042",
+              "density_f_grad": "0.030913673195155773304841817178741237",
+              "weighted_hessian_moment": {
+                "mean": 0.0007007737305936214,
+                "standard_error": 8.194123207934357e-06,
+                "relative_standard_error": 0.011692965718040203,
+                "positive_weight_fraction": 0.39025
+              },
+              "lambda_u": "0.043015449862528013722543899650063301",
+              "lambda_u_mc_se_numerator_only": "0.0005029781805886172666217225"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3.4765568459880146262487466555143663",
+              "density_f_grad": "0.030913668519116354198754437629847212",
+              "weighted_hessian_moment": {
+                "mean": 0.0007007738456057204,
+                "standard_error": 8.194124072870594e-06,
+                "relative_standard_error": 0.011692965033231122,
+                "positive_weight_fraction": 0.39025
+              },
+              "lambda_u": "0.043015450415722254465912629555444526",
+              "lambda_u_mc_se_numerator_only": "0.0005029781575997274493060427"
+            }
+          ],
+          "window_intensity": "0.00000001400242508545821578130106367659011",
+          "coefficient_per_area_r3": "0.0071692416437546064800261446024141361",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008382969676476916570296846",
+          "ratio_to_stationary_maximum_benchmark": "0.984673225650169139982988843184"
+        },
+        {
+          "name": "north_5",
+          "family": "exterior",
+          "point": [
+            "0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "400.0003124998779297828673",
+          "distance_to_S_over_r": "400.0003124998779297828673",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.000004471983199089830133802235508776912",
+            "-0.00000000014557333725457464236926993302887388",
+            "-0.00002235991599544915066901117754388456"
+          ],
+          "observed_covariance_determinant": "0.99999999093117266577922442958577749",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283442620450795704619956326e-14",
+            "maximum_eigenvalue": "3.9998472286507689483849937996765618",
+            "condition_ratio_min_over_max": "1.5894558129133359883427886143404856e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-3.4768098826201029515954101834565114",
+              "density_f_grad": "0.030905847218128343939258762234718144",
+              "weighted_hessian_moment": {
+                "mean": 0.0007147884885255898,
+                "standard_error": 8.430465364434207e-06,
+                "relative_standard_error": 0.01179434965695085,
+                "positive_weight_fraction": 0.3923875
+              },
+              "lambda_u": "0.043864607474336864600526174633161954",
+              "lambda_u_mc_se_numerator_only": "0.0005173545181172286930547361"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3.4768100339079227009918682866749209",
+              "density_f_grad": "0.030905842542450454487237696543726335",
+              "weighted_hessian_moment": {
+                "mean": 0.0007147886061690089,
+                "standard_error": 8.430466256408676e-06,
+                "relative_standard_error": 0.011794348963664547,
+                "positive_weight_fraction": 0.3923875
+              },
+              "lambda_u": "0.043864608057609148681286730004924519",
+              "lambda_u_mc_se_numerator_only": "0.0005173544945858139767125835"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3.4768101851957583449602722333760373",
+              "density_f_grad": "0.030905837866772781173213348045451622",
+              "weighted_hessian_moment": {
+                "mean": 0.0007147887238124357,
+                "standard_error": 8.430467148383214e-06,
+                "relative_standard_error": 0.011794348270378441,
+                "positive_weight_fraction": 0.3923875
+              },
+              "lambda_u": "0.043864608640880027490607990269530637",
+              "lambda_u_mc_se_numerator_only": "0.000517354471054390578430025"
+            }
+          ],
+          "window_intensity": "0.000000014278843768752851018264696624581509",
+          "coefficient_per_area_r3": "0.0073107680096014597213515246717857325",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008622574909763526084374512",
+          "ratio_to_stationary_maximum_benchmark": "1.00411143544943935740206359232"
+        },
+        {
+          "name": "diag_5_5",
+          "family": "exterior",
+          "point": [
+            "5.0",
+            "5.0"
+          ],
+          "distance_to_M_over_r": "566.0390887562448191105256",
+          "distance_to_S_over_r": "565.3319821131650782735954",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "0.00000000080372946023466357474465696100106859",
+            "-0.0000000035880431105060986194029467666998257",
+            "-0.000000004018647301173317873723284805005343"
+          ],
+          "observed_covariance_determinant": "0.99999999999999996820887407280791457",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283441742871007011236118831e-14",
+            "maximum_eigenvalue": "3.9998437561033568425846015252747095",
+            "condition_ratio_min_over_max": "1.5894571928323824782485233495793862e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-3.4768152520486728559816142915660831",
+              "density_f_grad": "0.030905681271834832604353529917356305",
+              "weighted_hessian_moment": {
+                "mean": 0.0007048094427956954,
+                "standard_error": 8.33612089639495e-06,
+                "relative_standard_error": 0.011827481855704022,
+                "positive_weight_fraction": 0.388275
+              },
+              "lambda_u": "0.043251988590897213733388917380223552",
+              "lambda_u_mc_se_numerator_only": "0.0005115621102819542144942275"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3.4768154033370562487895986441416762",
+              "density_f_grad": "0.030905676596164629022382003745182866",
+              "weighted_hessian_moment": {
+                "mean": 0.0007048095593747451,
+                "standard_error": 8.336121760712372e-06,
+                "relative_standard_error": 0.011827481125692397,
+                "positive_weight_fraction": 0.388275
+              },
+              "lambda_u": "0.043251989201471054998350770960163787",
+              "lambda_u_mc_se_numerator_only": "0.0005115620859290502447288506"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3.4768155546254555361695231008839471",
+              "density_f_grad": "0.030905671920494641582517649071476882",
+              "weighted_hessian_moment": {
+                "mean": 0.0007048096759538026,
+                "standard_error": 8.336122625029867e-06,
+                "relative_standard_error": 0.011827480395680984,
+                "positive_weight_fraction": 0.388275
+              },
+              "lambda_u": "0.043251989812043513132835906293934334",
+              "lambda_u_mc_se_numerator_only": "0.0005115620615761382740666835"
+            }
+          ],
+          "window_intensity": "0.00000001407942356818706731622414435134729",
+          "coefficient_per_area_r3": "0.0072086648669117784659067619078898122",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008526034765484133704292",
+          "ratio_to_stationary_maximum_benchmark": "0.990087883746610296336055200809"
+        },
+        {
+          "name": "east_8",
+          "family": "exterior",
+          "point": [
+            "8.0",
+            "0"
+          ],
+          "distance_to_M_over_r": "640.5",
+          "distance_to_S_over_r": "639.5",
+          "outside_two_r_collars": true,
+          "observed_conditional_mean": [
+            "2.6635581600818374211691733231908378e-12",
+            "-2.0375957584845298484164144010207241e-11",
+            "-6.2657428005725222466309491462697678e-511"
+          ],
+          "observed_covariance_determinant": "0.99999999999999999999956465132506772",
+          "triple_hessian_spectrum": {
+            "minimum_eigenvalue": "6.3575804283442620311130557128635879e-14",
+            "maximum_eigenvalue": "3.9998437561033566823849590352755749",
+            "condition_ratio_min_over_max": "1.5894571928324044787685922540549208e-14"
+          },
+          "quadrature": [
+            {
+              "t": "-0.7745966692414833770358531",
+              "u": "1.1999997111659066989773149355707878",
+              "log_density_f_grad": "-3.4768152530099517076577205996821574",
+              "density_f_grad": "0.030905681242125854815375703334171168",
+              "weighted_hessian_moment": {
+                "mean": 0.000715769850020075,
+                "standard_error": 8.164725381358367e-06,
+                "relative_standard_error": 0.011406914360990998,
+                "positive_weight_fraction": 0.3921875
+              },
+              "lambda_u": "0.043924595042621710765385448712911788",
+              "lambda_u_mc_se_numerator_only": "0.0005010440939923955692592185"
+            },
+            {
+              "t": "0.0",
+              "u": "1.1999998372395833333333333333333333",
+              "log_density_f_grad": "-3.47681540429833520145902834836083",
+              "density_f_grad": "0.030905676566455652606760070865748051",
+              "weighted_hessian_moment": {
+                "mean": 0.000715769967178558,
+                "standard_error": 8.164726261567765e-06,
+                "relative_standard_error": 0.011406913723625078,
+                "positive_weight_fraction": 0.3921875
+              },
+              "lambda_u": "0.043924595586996041121238176024305445",
+              "lambda_u_mc_se_numerator_only": "0.0005010440722059866332416023"
+            },
+            {
+              "t": "0.7745966692414833770358531",
+              "u": "1.1999999633132599676893517310958789",
+              "log_density_f_grad": "-3.4768155555867345898322762012061694",
+              "density_f_grad": "0.030905671890785666540252346545857924",
+              "weighted_hessian_moment": {
+                "mean": 0.0007157700843370489,
+                "standard_error": 8.164727141777236e-06,
+                "relative_standard_error": 0.011406913086259343,
+                "positive_weight_fraction": 0.3921875
+              },
+              "lambda_u": "0.043924596131368982291523390710870194",
+              "lambda_u_mc_se_numerator_only": "0.0005010440504195693276829156"
+            }
+          ],
+          "window_intensity": "0.00000001429837095930848152225205449423744",
+          "coefficient_per_area_r3": "0.0073207659311659425393930519010495692",
+          "coefficient_per_area_mc_se_numerator_only": "0.00008350734536766405139484712",
+          "ratio_to_stationary_maximum_benchmark": "1.00548461913690409148124782892"
+        }
+      ],
+      "summary": {
+        "exterior_ratio_min": 0.9846732256501691,
+        "exterior_ratio_max": 1.005484619136904,
+        "outside_collar_coefficient_per_area_min": 0.0,
+        "outside_collar_coefficient_per_area_max": 0.007320765931165943,
+        "largest_station": "east_8"
+      }
+    }
+  ],
+  "adjudication": {
+    "selected_maximum_density_route": "mathematically valid but not load-bearing for the Gamma upper bound once the global maximum-window count route is used",
+    "station_result": "The exterior station intensity approaches the stationary maximum-height benchmark; near-pair stations are strongly anisotropic and often suppressed.",
+    "remaining_for_theorem": [
+      "interval/analytic continuum bound on the near maximum-window integral",
+      "uniform exterior transfer under the exact typed pair-Palm law",
+      "explicit collar coefficient"
+    ],
+    "decimal_4p35": "not targeted: even the stationary all-torus maximum-window benchmark is order 4.19 in r^3 units"
+  }
+}

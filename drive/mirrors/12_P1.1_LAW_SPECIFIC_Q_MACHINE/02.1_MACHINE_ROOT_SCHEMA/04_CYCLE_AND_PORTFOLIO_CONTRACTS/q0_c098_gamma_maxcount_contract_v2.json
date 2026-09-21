@@ -1,0 +1,770 @@
+{
+  "schema": "gate-kernel/2.0",
+  "roots": [
+    "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+    "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2"
+  ],
+  "metadata": {
+    "contract_id": "Q0-C098-GAMMA-MAXCOUNT-SUPERSESSION-v2",
+    "supersedes": "Q0-C098-GAMMA-MAXCOUNT-SUPERSESSION",
+    "status": "PROVEN-MODULO collar and near count obligations",
+    "exterior_transfer": "CLOSED-QUALITATIVELY",
+    "no_decimal_promotion": true
+  },
+  "claims": [
+    {
+      "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+      "statement": "Gamma is contained in the event that at least one local maximum has value in (b-r^3/6,b), so P(Gamma) is at most the expected count.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "EXACT",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "aeceff5c6df3609c3fe486fe30f2001759ee9c0cb10861bfcfd85f0502f56ed4"
+    },
+    {
+      "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+      "statement": "The maximum-window count in the two radius-2r collars has an explicit finite uniform coefficient times r^3.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "f65d3872631b5a3b408d6853e0862e2d69f5bd17f6e6459c90dfd8800bd05c56"
+    },
+    {
+      "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+      "statement": "There exists a finite C_ext^max such that the exact typed pair-Palm maximum-window Kac--Rice integral over T_24^2 minus B3 is at most C_ext^max r^3 uniformly for 0<r<=0.025.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-GAMMA-EXTERIOR-TRANSFER",
+      "evidence_ids": [
+        "C098_GAMMA_EXTERIOR_TRANSFER.md",
+        "C095_SIX_PIN_COVARIANCE_FACTORIZATION.json",
+        "KR-V"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "71bea78a87acea1e9a25d3fc8870ce323bf182127744f55e64f550b4bea2ffc6"
+    },
+    {
+      "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+      "statement": "The exact pair-Palm maximum-window Kac--Rice integral over B3 outside the collars has a finite uniform coefficient times r^3.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "91116e58652288982bc7b0f010a8550beb46ccb559f8f4ff33431d286b1d3592"
+    },
+    {
+      "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+      "statement": "The torus count is the exact sum of collar, near, and exterior counts.",
+      "kind": "WITNESS",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "EXACT-DISJOINT-COUNT-DECOMPOSITION"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "CONDITIONAL",
+      "quantifier_order": "",
+      "direction": "NONE",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": {
+        "operation": "EXACT-IDENTITY",
+        "witness_type": "EXACT-ALGEBRA",
+        "covered_claim_ids": [
+          "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "GAMMA_MAXCOUNT_EXTERIOR_CUBIC"
+        ],
+        "statement": "N(T)=N(collars)+N(near)+N(exterior)."
+      },
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "c52251f3d343f2691dcf637f339e9b251592b1a8cdcbfee5e88b795d51c79ec5"
+    },
+    {
+      "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+      "statement": "The expected maximum-window count equals the exact determinant-weighted three-point Kac--Rice integral under the same pair-Palm law.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C098_GAMMA_MAXCOUNT_BENCHMARK.py"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "EXACT",
+      "quantifier_order": "",
+      "direction": "EQUALITY",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "f9cc9904890e01192a4ce371512b28ac363e87272261f96be90f64c879787d7c"
+    },
+    {
+      "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+      "statement": "Conditional on GAMMA_MAXCOUNT_COLLAR_CUBIC and GAMMA_MAXCOUNT_NEAR_CUBIC, and using the proved exterior transfer, the expected maximum-window count is at most C_Gamma r^3 for a finite constant on 0<r<=0.025.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md",
+        "C098_GAMMA_EXTERIOR_TRANSFER.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "supplied_marks": [],
+      "operation": "EXACT-IDENTITY",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "kind": "SUPPORT",
+          "pinned_hash": "f9cc9904890e01192a4ce371512b28ac363e87272261f96be90f64c879787d7c",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "kind": "SUPPORT",
+          "pinned_hash": "71bea78a87acea1e9a25d3fc8870ce323bf182127744f55e64f550b4bea2ffc6",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "kind": "COMPOSITION-WITNESS",
+          "pinned_hash": "c52251f3d343f2691dcf637f339e9b251592b1a8cdcbfee5e88b795d51c79ec5",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "kind": "CONDITION",
+          "pinned_hash": "f65d3872631b5a3b408d6853e0862e2d69f5bd17f6e6459c90dfd8800bd05c56",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "kind": "CONDITION",
+          "pinned_hash": "91116e58652288982bc7b0f010a8550beb46ccb559f8f4ff33431d286b1d3592",
+          "conditional": true,
+          "role": ""
+        }
+      ],
+      "content_hash": "4cd0db8dd115ad2712bbf3ae540477a84cd171b428299c013ca05c9d2e967165"
+    },
+    {
+      "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+      "statement": "Conditional on GAMMA_MAXCOUNT_COLLAR_CUBIC and GAMMA_MAXCOUNT_NEAR_CUBIC, the direct-gain event satisfies P_pair-Palm(Gamma_r)<=C_Gamma r^3 for a finite constant.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C098-GAMMA-MAXCOUNT-v2",
+      "evidence_ids": [
+        "C098_GAMMA_MAXCOUNT_SUPERSESSION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "T_24^2 partitioned into collars, B3-near, and exterior",
+        "scale_id": "maximum-window first moment / r^3",
+        "conditioning_depth": "six value/gradient pins plus determinant Palm weight",
+        "marks": [
+          "critical-type",
+          "maximum-window",
+          "pair-Palm"
+        ],
+        "deployment_mode": "conditional qualitative cubic-rate theorem"
+      },
+      "required_marks": [
+        "critical-type",
+        "maximum-window",
+        "pair-Palm"
+      ],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "kind": "SUPPORT",
+          "pinned_hash": "aeceff5c6df3609c3fe486fe30f2001759ee9c0cb10861bfcfd85f0502f56ed4",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "kind": "SUPPORT",
+          "pinned_hash": "4cd0db8dd115ad2712bbf3ae540477a84cd171b428299c013ca05c9d2e967165",
+          "conditional": false,
+          "role": ""
+        }
+      ],
+      "content_hash": "ab724712cab16c4de64a91b1d39aaf93bff51ad50abe9f37bfa6034469b806fe"
+    }
+  ]
+}

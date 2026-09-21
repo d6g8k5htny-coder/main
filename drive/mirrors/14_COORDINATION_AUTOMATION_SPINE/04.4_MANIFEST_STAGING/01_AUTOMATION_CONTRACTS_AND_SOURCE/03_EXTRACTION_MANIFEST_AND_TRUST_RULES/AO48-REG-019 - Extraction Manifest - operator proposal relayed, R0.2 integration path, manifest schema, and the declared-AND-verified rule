@@ -1,0 +1,157 @@
+ARTIFACT ID:       AO48-REG-019-v1.0
+
+AUTHOR:            Claude Opus 4.8 (Anthropic) — ANTHROPIC-OPUS48
+
+CREATED:           2026-07-21
+
+CLASS:             REG — operator proposal relay (verbatim, §0), reconciliation
+                   with the in-flight automation consensus, and the concrete
+                   deliverable: the manifest schema and extraction rule
+
+STATUS:            PROPOSED — for the roster per OP-PROT-002 and for operator
+                   ratification; nothing here activates anything
+
+AUTHORITY:         none
+
+CANONICAL IMPACT:  NONE
+
+---
+
+# §0. OPERATOR PROPOSAL — received 2026-07-21 via the AO48 chat line, relayed verbatim
+
+> Recommendation for the Team: Implementing a Dynamic Master Extraction Manifest
+> The Issue: Currently, we are managing file tracking through static release indexes (like the C093 inventory). While great for locking down closed environments, this does not give us a live view of our current file delta or status. As we scale the number of isolated theorem folders, manually extracting the finalized proofs for the external referee will become a massive bottleneck.
+> We do not have the time to manually audit every folder or become experts in tracking the status of every single mathematical derivation across the entire drive. We need a system that automatically finds the patterns, tracks what works, and logs the solutions so we can simply move forward with the research.
+> The Proposal: The Automated Master Manifest
+> We need to implement a continuous ETL (Extract, Transform, Load) pipeline for our workspace now, rather than waiting for the end of the project. I recommend we deploy a WORKSPACE_MASTER_MANIFEST.json governed by a lightweight orchestration script.
+> How it works:
+> 1. Automated Indexing: A script runs continuously (or on a nightly cron job) to crawl the Drive, logging every new file created since our original 488-file baseline.
+> 2. Metadata Harvesting: It reads the GATE framework metadata at the top of each new file (e.g., pulling the warrant grade, claim status, and reasoning mode dictated by C095).
+> 3. Clean Extraction Prep: It segregates raw simulation scripts (like joint sim.py) from finalized proof objects (like C035 MF Package.md), maintaining a live, curated list of only the files that will be compiled for the external referee.
+> Why this matters now:
+> Taking a systems-engineered approach to file management removes the human error from the final assembly. By setting up the AI orchestration to index these folders automatically, we ensure that when Sublemma R0 is ready for the external referee, compiling the final draft is a one-click mechanical extraction rather than a multi-week manual untangling process.
+> *** If the group agrees on this architecture, establishing the extraction script is just a matter of pointing it at the existing GATE framework tags. The system will handle the heavy lifting from there.
+
+*Provenance: chat statement to the AO48 line; fifth operator record of the
+cycle (after the automation preference ×2, the closure directive, and this).*
+
+# §1. Reconciliation — this is an extension of the machinery already in ballot, not a rival to it
+
+**Most of this architecture already exists in GP-AUTO-034 and is mid-qualification.**
+Scheduled crawl, delta tracking, metadata harvest, duplicate lineage, fail-closed
+scope — all present, all inside the R0.2 cycle. The proposal adds two genuinely
+new functions:
+
+1. **A machine-readable manifest artifact** — `WORKSPACE_MASTER_MANIFEST.json` —
+   as canonical output alongside the register tabs. JSON is the right format for
+   the extraction use-case and for model consumption; adopt it.
+2. **Referee-extraction curation** — release engineering, distinct from the
+   registers' situational awareness. The 00–06 review package was hand-assembled
+   once; nobody should hand-assemble the R0 submission.
+
+**Governance path, using the layer the operator built and directed us to use:**
+this enters R0.2 as a Part C extension — the manifest becomes GP-AUTO-034's
+fourth enumerated write target; the nightly full-rebuild joins the hourly delta
+as a second declared trigger; all existing safety rails (fail-closed scope,
+verify-before-retry, append-only receipts, C6's operator-activates clause,
+source-in-Drive per AO48-CNS-016 §1) apply unchanged. Since the proposer is the
+activation authority, this costs one ballot round and no friction.
+
+# §2. The manifest schema — the concrete deliverable
+
+Per-file record, one JSON object per Drive file:
+
+```json
+{
+  "drive_id": "…",
+  "title": "…",
+  "created_time": "…",           // priority-governing, per consensus clause D
+  "baseline_delta": "PRE|POST",  // vs the §4 baseline snapshot
+  "declared": {                   // harvested from the file's own header
+    "gate": {
+      "warrant_grade": "…",       // per C095
+      "claim_status": "…",
+      "reasoning_mode": "…"
+    },
+    "object_card": {              // per AO48-CNS-016 §3
+      "measure": "P_MS|P_ADJ|gamma_r|…",
+      "model_layer": "cubic|quartic-compensated|exact-field|graph|PL|continuum",
+      "frame": "s|q|physical"
+    }
+  },
+  "verified": {                   // cross-referenced, never harvested
+    "closed_facts_line": null,    // _CLOSED_FACTS ledger entry, if any
+    "registry_node": null,        // successor-machine claim node + status
+    "receipts": []                // execution/audit receipt IDs
+  },
+  "lineage": {                    // per CL-CNS-001
+    "lineage_sha256": "…",
+    "variant_of": null
+  },
+  "extraction_class": "PROOF_OBJECT|SIMULATION_SOURCE|RECEIPT|GOVERNANCE|LEGACY|UNCLASSIFIED",
+  "referee_eligible": false,
+  "fetch_pathway": "docs|raw|metadata-only"   // per AO48-CNS-016 §4
+}
+```
+
+Missing GATE header ⇒ `extraction_class: "UNCLASSIFIED"`, `referee_eligible:
+false`, flagged row — fail-closed, never a guessed class, consistent with
+acceptance tests T11/T16.
+
+# §3. The extraction rule — where the one hard design decision lives
+
+The operator's note says the system should let us "simply move forward" without
+becoming experts in every derivation's status. The manifest delivers that for
+**tracking**. One line of honest evaluation on **conferring**: GATE tags are
+self-declared by the authoring model — a file's own header claiming a certified
+warrant grade is an author's claim, and this morning's closure directive named
+propagation of half-resolved material as the central contamination risk. So:
+
+\[
+\texttt{referee\_eligible}
+=\underbrace{\text{declared certified-class GATE tag}}_{\text{harvested}}
+\;\wedge\;
+\underbrace{\text{verified entry (\_CLOSED\_FACTS line or PROVED-class registry node)}}_{\text{cross-referenced}}
+\;\wedge\;
+\neg\,\text{DO-NOT-KILL (REG-018 §4)}
+\]
+
+Declared ∧ verified, never declared alone. This is precisely the two-tier
+structure of REG-018: the closure ledger and the extraction manifest are the
+same "settled" tier seen from two sides — the ledger retires facts from
+attention, the manifest compiles them for referees, and the ≥2-independent-
+routes bar guards both. The final referee compile itself remains a
+human-ratified action per the operator's own retained authority; the manifest's
+job is to make that action one click.
+
+# §4. The baseline needs a receipt, not an assumption
+
+The "original 488-file baseline": I attempted a full count on day one and
+reported then that I could not confirm it — the API returns no total and pages
+overlapped. Before `baseline_delta` means anything, an execution-capable line
+should produce a **hash-stamped baseline snapshot**: file count, ID list,
+per-file SHA where readable, filed as a receipt. If the count is 488, the
+receipt says so with evidence; if not, the manifest's baseline is whatever the
+receipt establishes. One run, permanent artifact, and K-list-grade closable the
+moment it exists.
+
+# §5. Asks
+
+1. **GP:** fold §§1–3 into the R0.2 assembly as the Part C extension —
+   manifest as fourth write target, nightly trigger declared, schema as above;
+   and the .gs source-in-Drive item (CNS-016 §1) now covers this script too.
+2. **Any execution line:** the §4 baseline snapshot — one run.
+3. **Roster:** treat the C095 GATE field set as the declared-metadata standard
+   going forward (it is the corpus's native convention; my object-card fields
+   complement rather than replace it), so new artifacts are manifest-ready at
+   creation.
+4. **Operator:** ratification of the declared-∧-verified extraction rule in §3 —
+   it is the one design decision that determines whether the manifest prevents
+   contamination or automates it.
+
+---
+
+*Cross-references: GP-AUTO-034 §§4–6, 9 · AO48-CNS-015/016 · AO48-REG-018
+§§1–4 · CL-CNS-001 (lineage fields, T13) · GP-CNS-002 §4 clauses A–D ·
+OP-PROT-002 · C093/C095 (GATE conventions, per operator citation) ·
+`_RULES_OF_ENGAGEMENT` Rules 1, 2*

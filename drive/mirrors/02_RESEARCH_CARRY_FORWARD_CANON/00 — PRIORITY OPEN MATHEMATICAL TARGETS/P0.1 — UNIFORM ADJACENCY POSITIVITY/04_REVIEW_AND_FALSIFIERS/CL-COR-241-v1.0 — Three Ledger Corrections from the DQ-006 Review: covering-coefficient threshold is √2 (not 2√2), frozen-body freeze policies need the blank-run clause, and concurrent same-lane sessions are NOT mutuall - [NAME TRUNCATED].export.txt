@@ -1,0 +1,95 @@
+﻿CL-COR-241-v1.0 — THREE LEDGER CORRECTIONS ARISING FROM THE DQ-006 REVIEW
+
+
+Artifact ID: CL-COR-241-v1.0
+Date/time (UTC): 2026-07-25T22:32Z
+Lane: Anthropic Claude (CL), runtime model claude-fable-5
+Class: COR / LEDGER AND PROCESS CORRECTION
+Authority: correction and routing only. Canonical mathematical impact: NONE. No promotion. No theorem is changed by this artifact.
+Origin: successor task S3 of CL-REC-238-v1.0; findings recorded in CL-AUD-234-v1.0 (discrepancy D2, note N1) and CL-AUD-237-v1.0 (note L1-N).
+
+
+[[LEDGER-CORRECTION]] [[NO-MATHEMATICAL-CHANGE]] [[FIREWALL-LABEL-INSIDE]] [[NO-PROMOTION]]
+
+
+=====================================================================
+C1. COVERING-COEFFICIENT THRESHOLD: THE CONSTRUCTIVE MINIMUM IS sqrt(2), NOT 2 sqrt(2)
+=====================================================================
+WHERE IT APPEARS. LS-AUD-012-v1.0 section 10 derives the grid covering bound for the physical square r[-1,1]^2 using spacing epsilon/(sqrt2 L_6), obtaining at most (1 + 2 sqrt2 L_6 r / epsilon)^2 centers, and concludes: "A coefficient two is not justified by this grid construction because 2 < 2 sqrt2." Its mutation ledger then classifies M7 (replace the covering coefficient four by two, without a new cover) as FIRING.
+
+
+CORRECTION. The spacing can be twice as coarse. Grid each axis at spacing l. Any point of the square is within l/2 of a grid point in each coordinate, so the worst EUCLIDEAN distance to a grid point is the half-diagonal sqrt((l/2)^2 + (l/2)^2) = l/sqrt(2). To force canonical distance at most epsilon it therefore suffices that L_6 * l/sqrt(2) <= epsilon, i.e.
+    l <= sqrt(2) epsilon / L_6,
+which is twice LS's spacing. The count per axis is then at most 1 + 2r/l = 1 + sqrt(2) L_6 r / epsilon, giving
+    N(rD_plus, d, epsilon) <= (1 + sqrt(2) L_6 r / epsilon)^2,
+and with the two sign sheets N(T_r, d_Y, epsilon) <= 2 (1 + sqrt(2) L_6 r / epsilon)^2.
+Hence the smallest coefficient PROVABLE by the grid construction is
+    sqrt(2) = 1.4142135623730950488,
+not 2 sqrt(2) = 2.8284271247461900976. In particular coefficient 2 IS justified, and mutation M7 at coefficient 2 does NOT fire.
+
+
+CONSEQUENCE. None for either certificate: GP-DATA-206 and P02-LM-007 both use the declared coefficient 4, which is valid under either derivation with room to spare, and CL-AUD-234 and CL-AUD-237 both approve on that basis. The correction matters only for the FALSIFICATION THRESHOLD: as the Domain-T ledger currently stands, a future artifact using coefficient 2 would be rejected against LS's stated threshold even though it is provably correct. CL ran its own M7 mutation at coefficient 1 for exactly this reason — 1 < sqrt(2), so coefficient 1 is genuinely unproven by this construction.
+
+
+REQUESTED LEDGER EDIT. Record the constructive minimum as sqrt(2), note that coefficients in [sqrt(2), 4] are all provable by the half-diagonal grid, and restate the M7 falsifier as "coefficient strictly below sqrt(2) without a new covering construction".
+
+
+=====================================================================
+C2. FROZEN-BODY FREEZE POLICIES NEED THE BLANK-RUN NORMALIZATION CLAUSE
+=====================================================================
+WHERE IT APPEARS. LCR-DER-021-v1.0's freeze policy reads: "extract only the text after the LF ending BEGIN_FROZEN_LEMMA_BODY and before the first subsequent END_FROZEN_LEMMA_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM." It contains no clause about blank-line runs.
+
+
+THE PROBLEM. The frozen body's blank structure is perfectly uniform: 118 maximal runs of empty lines, EVERY one of length exactly 2, with no run of length 1 or 3. That uniformity is the signature of the Google Docs text/plain export's paragraph spacing, not of authored content — the document as read contains 118 single visual blank lines. So the frozen hash encodes an export-pipeline convention. A reviewer whose client renders one LF per paragraph gap reproduces 8,493 bytes with byte-identical VISIBLE TEXT and fails the 8,541-byte hash. CL hit exactly this: its independent hand transcription produced 8,493 bytes / SHA-256 b41751d45d221a3c2b18371f064c364206fd22c9403f1f0808afa2da7007e0ce, and a line-by-line comparison confirmed all 194 non-blank lines agree CHARACTER FOR CHARACTER with the true frozen body. The 48-byte delta was entirely paragraph spacing.
+
+
+THE FIX, ALREADY IN USE ELSEWHERE. The GP-DATA-206 carriers carry the needed clause: "every run of blank lines in the exported payload must have even length and is replaced by a run of half that length; append exactly one trailing LF." That clause makes the identity pipeline-independent, and CL reproduced BOTH GP-DATA-206 carriers on the first attempt with no forensics.
+
+
+REQUESTED STANDARD. Adopt the GP-DATA-206 blank-run clause verbatim in every future frozen-body and carrier freeze policy, and add it as an amendment note to LCR-DER-021's policy without rehashing the body (the existing hash stays valid under the existing policy; the amendment tells future reviewers how to normalize a divergent export).
+
+
+RECURRENCE. CL raised this class of issue informationally against GP-DER-118 in CL-AUD-231, where reproducing the frozen 14,591-byte body required reconstructing from the docx paragraph model after the plain-text export diverged. This is now the second independent occurrence and should be treated as a systemic policy gap rather than a one-off.
+
+
+SECOND TRAP, SAME ARTIFACT. In LCR-DER-021 the literal tokens BEGIN_FROZEN_LEMMA_BODY and END_FROZEN_LEMMA_BODY also occur INSIDE the prose sentence stating the freeze policy. A substring search anchors on the earlier occurrence and pulls the BODY_BYTES / BODY_SHA256 / [[TARGET:...]] preamble into the payload, yielding 8,997 bytes (+456). Markers must be matched as WHOLE LINES. Recommend that freeze policies say so explicitly, or that the policy sentence refer to the markers indirectly so the tokens appear exactly once each.
+
+
+=====================================================================
+C3. CONCURRENT SAME-LANE SESSIONS ARE NOT MUTUALLY INDEPENDENT
+=====================================================================
+OBSERVED STATE. At least two Anthropic/CL sessions are running concurrently against this Drive. Evidence: CL-AUD-240, CL-AUD-253, CL-DATA-251/252 and CL-REG-254 were published by a session other than this one, and that session explicitly renumbered two uploads out of indices 234 and 235 "to avoid collision with the concurrent CL 23x block". This session published CL-REG-233, CL-AUD-234, CL-REG-236, CL-AUD-237, CL-REC-238, CL-DER-239 and the present artifact.
+
+
+THE CORRECTION TO RECORD. Two sessions of the same lane are the SAME organizational family and the same model family. Under OP-PROT-011 they therefore carry ONE independence credit between them, not two, regardless of how strictly each firewalls itself from the other. Specifically:
+  - CL-AUD-234 (DQ-006 / GP-DER-206) and CL-AUD-253 (DQ-001 / GP-DER-208) are distinct-family reviews of distinct GP artifacts and each earns its own credit against ITS target, because the targets differ.
+  - But if a finding from one CL session informs another CL session's review of the SAME target, the second review is not independent of the first, and the pair must be counted once.
+  - CL-DER-239 is CL-authored; a CL review of it would earn NOTHING. It needs an OpenAI, xAI or Google lane. The same holds for CL-DER-207 and CL-DER-204.
+No double counting has occurred so far, as far as this session can see. This entry exists so that the register records the constraint before it can.
+
+
+INDEX-BLOCK CONVENTION, proposed to avoid further near-collisions. This session holds CL indices 233-239 plus 241-242. The concurrent session holds 240 and 251-254 and appears to be climbing from 25x. Suggested rule going forward: each CL session declares a contiguous block in its first artifact of a cycle and stays inside it, and every artifact is title-searched immediately before creation regardless. Two near-misses have already occurred (234 and 235) and were caught only by the other session's own vigilance.
+
+
+=====================================================================
+C4. FIREWALL LABEL FOR THE OPEN DQ-005 REVIEWER — DO NOT READ BEFORE YOUR PASS-A FREEZE
+=====================================================================
+CL-REG-254-v1.0 claims DQ-005 (organizationally distinct review of GP-DER-204 / GP-DATA-204 under GP-REQ-205) and states it was published BEFORE opening GP-DER-204, either carrier, or LS-AUD-011. That reviewer is running a blind Pass-A.
+
+
+THIS SESSION HAS ALREADY READ THE GP-DATA-204 RESULT CARRIER, as required by ledger item T1 of the DQ-006 review, and recorded an observation about it as note N1 of CL-AUD-234-v1.0, published 2026-07-25T22:04Z. That note concerns which matrix GP-DATA-204's published limiting spectral witnesses actually describe. It is a genuine observation about the target of DQ-005.
+
+
+DISCIPLINE. The DQ-005 reviewer should NOT read CL-AUD-234 note N1, CL-REC-238 section 3, or section 6.1 of CL-DER-239 until its own Pass-A reconstruction is frozen. After that freeze, N1 should be read and either confirmed or contradicted, and the resulting agreement or discrepancy recorded in the post-freeze comparison table. Because both artifacts come from the CL lane, confirming N1 adds NO independence credit — it is a within-lane cross-check only, and must be reported as such.
+
+
+RELEVANT AND SAFE TO READ AT ANY TIME, because it REMOVES a dependency rather than describing the target: CL-DER-239-v1.0 establishes that the Domain-T conditional-mean bound needs no GP-DATA-204 Gram import at all. If accepted, GP-DER-204 / GP-DATA-204 stops being load-bearing for Domain T, though it remains load-bearing for the compact-box mass p_B and for r_GR, which is where the DQ-005 review's value now concentrates.
+
+
+=====================================================================
+C5. WHAT THIS ARTIFACT DOES NOT DO
+=====================================================================
+It changes no theorem, no constant, and no verdict. CL-AUD-234's APPROVE and CL-AUD-237's APPROVE both stand unaltered; neither depended on the corrected threshold in C1 or on the policy gap in C2. It does not approve, amend or reject LS-AUD-012, which remains a valid same-family audit whose bottom line CL independently reached; C1 corrects one stated threshold inside it, nothing else. It does not adjudicate GP-DER-204 / GP-DATA-204. It does not close P0.1, P0.2 or any lemma, and it has no bearing on promotion, which is Dylan's decision alone.
+
+
+END CL-COR-241-v1.0

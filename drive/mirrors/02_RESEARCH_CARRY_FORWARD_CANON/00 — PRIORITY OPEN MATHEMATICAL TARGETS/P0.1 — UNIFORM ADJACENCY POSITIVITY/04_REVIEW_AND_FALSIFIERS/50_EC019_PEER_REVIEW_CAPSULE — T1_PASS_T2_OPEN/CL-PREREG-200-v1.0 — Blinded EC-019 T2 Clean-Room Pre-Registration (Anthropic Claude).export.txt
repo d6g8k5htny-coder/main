@@ -1,0 +1,87 @@
+﻿DUPLICATE / SUPERSEDED PREREGISTRATION NOTICE — GP-COR-180-v1.0 — 2026-07-24
+This document is a later publication from the same Anthropic Cowork preregistration lineage as CL-REG-214-v1.0. Its precision set {40,80,120} conflicts with the earlier authoritative commitment {40,100,200}. Preserve this body as provenance only. It earns zero additional independence or preregistration credit and must not govern an EC-019 T2 implementation. If source was written under this conflicting policy, the run requires restart or an INCONCLUSIVE preregistration-fidelity verdict.
+Authoritative preregistration: https://docs.google.com/document/d/1QR6tsjvcO-kga3Zrh5AHiV_GGYemY1RJ0EEhO9HjZzI/edit
+Correction: https://docs.google.com/document/d/11ZmEt04O5APXjI_XJfUxCLVk-oEx2ZsAyxXpby9BYYY/edit
+[[STATUS:VOID-DUPLICATE-PREREG]] [[INDEPENDENCE-CREDIT:ZERO]] [[DO-NOT-GOVERN-EXECUTION]] [[T2:OPEN]]
+
+
+CL-PREREG-200-v1.0 — BLINDED EC-019 T2 CLEAN-ROOM PRE-REGISTRATION
+
+
+Artifact ID: CL-PREREG-200-v1.0
+Prepared by: CL — Anthropic Claude (model line claude-opus-4-8)
+Timestamp (UTC): 2026-07-24T20:02Z (published before implementation coding)
+Class: PRE-REGISTRATION / BLIND-LANE COMMITMENT / EC-019 T2
+Governing protocol: OP-PROT-011 — Independent-Eyes Rule
+Driver packet: GP-REQ-172-v1.1
+Permitted interface: GP-SPEC-166-v1.0 (Drive ID 1MzToKSsTJ-PtMMH6TVN6qETiInRz8Q4SpqUz5QTWeJY)
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-PREREG-200-v1.0]] [[TASK:EC019-T2-BLIND]] [[LANE:NON-OPENAI-INDEPENDENT]] [[STATUS:PRE-FREEZE]] [[NO_PROMOTION]]
+
+
+1. PROVIDER AND SESSION IDENTITY
+- Provider / organization: Anthropic (organizationally distinct from the OpenAI/GP line; satisfies the non-GP independence requirement).
+- Base-model family: Claude.
+- Model line: claude-opus-4-8.
+- Session identity: Cowork cloud session operating in Dylan Roy's connected Google Drive under the 2026-07-24 operator-directed continuation instruction.
+- Role: independent (CL-line) reviewer executing the EC-019 Test T2 clean-room implementation.
+
+
+2. SOFTWARE, LIBRARY, AND PRECISION POLICY
+- Language: Python 3.11.15, standard library only.
+- Interval package: NONE third-party. mpmath / sympy are unavailable in this sandbox (no package-index egress). I therefore implement a CUSTOM exact rational interval arithmetic over fractions.Fraction, with directed rational square-root enclosures computed via math.isqrt. hashlib and json (stdlib) are used for freezing/serialization.
+- Precision policy: every polynomial, Jacobian/Hessian, Gershgorin, endpoint-determinant, threshold, cone, strip, and handoff operation is performed in EXACT rational arithmetic (no rounding whatsoever). The only irrational quantities are mu = 1/(40*sqrt(2)) and rho = 2*sqrt(sigma^2 + W^2). These are enclosed by rigorous rational lower/upper bounds derived from math.isqrt at a square-root scale S. Three preregistered scales are frozen in advance: S in {10^40, 10^80, 10^120}. Acceptance requires that all nineteen margin SIGNS and all five control verdicts be identical across all three scales.
+
+
+3. SOURCES ALREADY READ (FULL DISCLOSURE)
+- Read and used as permitted inputs: GP-REQ-172-v1.1 (this task's driver packet) and GP-SPEC-166-v1.0 (the permitted mathematical interface).
+- Read during pre-task orientation, before the T2 task was scoped: the "COMMAND CENTER — 2026-07-24" snapshot and GP-REC-175-v1.0. These are governance/status documents. They contain qualitative EC-019 status only — e.g., that a prior same-line GP preflight "reported nineteen margins positive," and that GP-AUD-176 classified that certificate as amend-required because NC1 was asserted rather than executed and only four controls were run. They contain NO source code, NO numeric margin values, NO interval endpoints, NO per-control numeric outcomes, and NO discrepancy table.
+
+
+4. PRIOR IMPLEMENTATION / STORED OUTPUT SEEN
+- NONE. I have not opened GP-DATA-106, GP-DATA-168-v1.0/v1.1, GP-DATA-178, GP-DER-106 Section 3, GP-AUD-169, GP-AUD-176, CL-AUD-071, or any interval array, numeric margin, per-control numeric outcome, discrepancy table, or same-line execution receipt. Awareness that such artifacts exist (and the qualitative governance summary in Section 3) does not include their code or numbers. My implementation is derived solely from the formulas and domains in GP-SPEC-166-v1.0.
+
+
+5. BLINDNESS AND INDEPENDENCE COMMITMENT
+- I commit to derive the implementation ONLY from GP-SPEC-166-v1.0, transcribing its formulas by hand, importing no GP or CL code and no numeric result arrays.
+- I will freeze (a) the complete implementation source bytes with SHA-256 and byte count, and (b) the complete primary+control result bytes with SHA-256 and byte count, BEFORE opening any comparison material listed in GP-REQ-172-v1.1 Section 6.
+- I will not tune any constant, domain, or convention to match a GP or CL output. Any post-comparison change would be disclosed and would disqualify the run.
+
+
+6. SOURCE NORMALIZATION AND RESULT SERIALIZATION RULES
+- Source: a single UTF-8 Python file with LF line endings. Freeze = SHA-256 over the exact file bytes; record byte count.
+- Results: deterministic JSON with sorted keys. Each interval endpoint is serialized as an exact rational "numerator/denominator" string plus a truncated decimal for readability; margin signs and control verdicts are serialized explicitly. Freeze = SHA-256 over the exact result-file bytes; record byte count.
+
+
+7. OUTWARD-ENCLOSURE MECHANISM
+- Addition, subtraction, multiplication, negation, and reciprocal-of-a-sign-definite-interval are EXACT over Fraction endpoints (multiplication enclosed by min/max of the four endpoint products). No rounding is introduced, so these operations are their own tight rigorous enclosures.
+- Interval absolute value absI(I): [lo,hi] with lo>=0 -> [lo,hi]; hi<=0 -> [-hi,-lo]; else [0, max(-lo,hi)]. supabs(I) = max(|lo|,|hi|).
+- Square root of a nonnegative rational x=p/q: lower = isqrt(p*q*S^2)/(q*S), upper = (isqrt(p*q*S^2)+1)/(q*S). This guarantees lower^2 <= x <= upper^2 by construction. Interval sqrt over [a,b], a>=0, is [sqrt_lower(a), sqrt_upper(b)].
+
+
+8. FULL-DIMENSIONALITY REPRESENTATION AND VALIDATION
+- Each of the nine parameters is stored as exact (center, radius) rationals; its interval is center + radius*[-1,1].
+- A validator checks that every radius is strictly positive by exact rational comparison BEFORE any dynamical margin is computed; a nonpositive or missing radius raises FULL_DIMENSIONAL_BOX_FAIL. No hard-coded pass flag is used.
+- Nine mutation tests each set exactly one radius (a, w, z, s, c40, c31, c22, c13, c04) to zero and require a machine-generated FULL_DIMENSIONAL_BOX_FAIL.
+
+
+9. PLANNED NEGATIVE-CONTROL EXECUTION (ALL EXECUTED, NOT ASSERTED)
+- NC1: c04 radius -> 0. Expected: FULL_DIMENSIONAL_BOX_FAIL before any dynamical certification.
+- NC2: c40 radius -> 500 (center 0). Expected: m_saddle_det or m_max_det nonpositive.
+- NC3: s radius -> 1.1 (center -1). Expected: m_threshold nonpositive.
+- NC4: primary box but kappa = 0.0005. Expected: m_cone_slope nonpositive.
+- NC5: a radius -> 0.5 (center 0.0025). Expected: m_chart_X or m_gersh_1 nonpositive.
+
+
+10. PLANNED MULTI-PRECISION / ALTERNATIVE CONTAINMENT CHECKS
+- Re-run the full primary box and all controls at S in {10^40, 10^80, 10^120}; require identical signs/verdicts.
+- Self-tests executed before the primary verdict: (i) sqrt containment lower^2 <= x <= upper^2 for a non-square positive input; (ii) interval containment for representative add/sub/mul operations; (iii) an even-power test on an interval crossing zero (square of [-c,c] must be [0, c^2], not a negative-inclusive band).
+
+
+11. SCOPE
+- This pre-registration and the run it governs verify only the EC-019 Test T2 independent-verification gate for the fixed-r qualitative object within the declared interface. They do not pass T1, promote EC-019, establish any probability, prove r-uniformity or any other r, promote P0.1/P0.2/Theorem B, activate GP-AUTO-034, replace any machine root, seal any package, authorize release, or permit any deletion or destructive action.
+
+
+END CL-PREREG-200-v1.0

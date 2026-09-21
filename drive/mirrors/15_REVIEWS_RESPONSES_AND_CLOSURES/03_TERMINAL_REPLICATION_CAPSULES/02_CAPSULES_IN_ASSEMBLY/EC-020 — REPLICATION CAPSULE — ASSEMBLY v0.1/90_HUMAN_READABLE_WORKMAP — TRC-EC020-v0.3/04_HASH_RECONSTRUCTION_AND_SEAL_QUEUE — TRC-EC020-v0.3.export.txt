@@ -1,0 +1,77 @@
+﻿TRC-EC020-v0.3 — HASH RECONSTRUCTION AND SEAL QUEUE
+
+
+Artifact class: replication-capsule work queue
+Date: 2026-07-23
+Authority: OD-GP-PROP-175-001; TRC-STANDARD-001-v1.2
+Canonical mathematical impact: NONE
+Current status: OPEN / NOT SEALED
+
+
+PURPOSE
+This queue converts CL-AUD-083-v1.0’s sealing blockers into exact, ordered work. It does not alter EC-020’s terminal mathematical status.
+
+
+CURRENT GATE STATE
+S1 — RAW SUCCESSOR CARRIERS AND CANONICAL MANIFEST: PARTIAL.
+- TRC-VAL-001 proves that raw non-Google-native publication can preserve exact bytes.
+- The v0.3 candidate folder contains readable 00_READ_ME, 01_MANIFEST_CANDIDATE, 02_FROZEN_REGISTER_ROWS, 03_LINK_VALIDATION, this queue, and 05_VALIDATION_STATUS.
+- No canonical raw JSON manifest has yet been published, freshly downloaded, and hash-verified.
+- Accepted ROOT_SHA256: NONE.
+
+
+S2 — NATIVE-DOCUMENT CONTENT IDENTITIES: OPEN.
+A qualifying non-author reviewer must freshly export and hash the following exact Drive IDs under one declared export convention:
+- E1 GP-CLS-PROP-024-v1.0 — 1cbLqX5vrhhtrRA4fvESVySoCIc2Vm6XltUqbRTsAFC8
+- E2 GP-DER-114-v1.0 — 1Dsr8bJ5LpCu5R0w3pLWYFY5RM1P0xzT1h4kYZAih4b4
+- E4 GP-AUD-115-v1.0 — 1k10BNCl9tigv42rGOhVKaxiTO_EKeURc28oQhtS2F8Q
+- E5 CL-AUD-073-v1.0 — 13y52S48vIpZEO29BJw7RhXyZaZB6BTCiwTFDLQ_6-l8
+- E6 EC-020 WORKFLOW DIRECTIVE — 1Uaw7bTbarn8yi3wU1_2eqFulK38gk4mix5JhaL8FgC0
+- E7 GP-COR-140-v1.0 — 17D8cKsxYRBBE32_TsPnQ9h76vy3Q42l7lfZouKoS-a0
+The receipt must state MIME/export type, revision ID when available, normalization, BOM/newline policy, byte count, SHA-256, retrieval date, and reviewer identity.
+
+
+S3 — FROZEN REGISTER ROWS: PARTIAL.
+- 02_FROZEN_REGISTER_ROWS is a readable direct-row freeze candidate.
+- The exact rows must be serialized deterministically as canonical JSON or line-oriented UTF-8/LF text and freshly hashed.
+- Required objects: CL-EC020-001, OD-EC020-001, EV-P01-EC020-TERM, REV-EC020-CL-073, TR-P01-020, EC-020 queue row, HB-031.
+- A later live-register change does not invalidate the frozen terminal record, but the retrieval timestamp and source spreadsheet ID must be included.
+
+
+S4 — COLLISION-COPY SURFACE: PASS.
+- The capsule root contains the four primary documents and named support/provenance folders.
+- Supplemental collision copies are isolated in 92_COLLISION_PROVENANCE — DO NOT COUNT AS PRIMARY.
+- Failed v0.2 shells remain preserved outside the primary surface and receive zero manifest or sealing credit.
+
+
+S5 — FINAL PACKAGE REVIEW: OPEN.
+After S1–S3 pass, publish an amended bounded request containing the exact verified carrier IDs and hashes. A qualifying non-author reviewer must:
+1. reproduce every leaf hash;
+2. validate the canonical manifest bytes;
+3. recompute the manifest SHA-256 and ROOT_SHA256;
+4. confirm E3 embedded source/receipt identities;
+5. confirm the frozen register-row hash;
+6. confirm the primary surface contains no ambiguous duplicate;
+7. return APPROVE FOR SEALING with the exact ROOT_SHA256, or a numbered blocker.
+
+
+DEPENDENCY ORDER
+1. Freeze/export/hash native documents and register rows.
+2. Publish each independent raw leaf carrier and immediately round-trip verify bytes, MIME, hash, and parseability.
+3. Generate the canonical manifest only from verified leaf data.
+4. Publish and round-trip verify the manifest.
+5. Generate checksums, root receipt, reconstruction receipt, and validation summary only from the verified manifest.
+6. Round-trip verify every dependent carrier.
+7. Obtain package-level independent review.
+8. Mark SEALED only after an APPROVE verdict and exact ROOT_SHA256 are recorded.
+
+
+FAIL-CLOSED RULE
+No filename, local intended payload, Google-Doc shell, unverified upload, copied hash, malformed manifest, or partial reviewer statement may receive validation, root-hash, or sealing credit.
+
+
+SCOPE FIREWALL
+This queue packages an already-terminal narrow deterministic closure. It creates no new mathematics, vote, theorem promotion, GP-AUTO-034 activation, machine-root replacement, external release, deletion authority, or destructive authority.
+
+
+END TRC-EC020-v0.3 HASH RECONSTRUCTION AND SEAL QUEUE

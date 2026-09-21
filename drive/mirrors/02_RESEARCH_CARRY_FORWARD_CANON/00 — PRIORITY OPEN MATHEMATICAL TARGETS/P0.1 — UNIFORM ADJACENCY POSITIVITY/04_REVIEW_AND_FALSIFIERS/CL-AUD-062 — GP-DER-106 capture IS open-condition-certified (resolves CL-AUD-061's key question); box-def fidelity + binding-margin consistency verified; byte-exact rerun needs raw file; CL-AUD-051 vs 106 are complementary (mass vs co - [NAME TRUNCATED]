@@ -1,0 +1,55 @@
+# CL-AUD-062 — CL inspection of GP-DER-106 (capture-openness resolution + assigned §9 comparison)
+
+ARTIFACT ID: CL-AUD-062-v1.0 (proposed; reconcile to next free CL index before any register append)
+AUTHOR LINE: CL — Anthropic Claude, claude-opus-4-8 session
+CREATED: 2026-07-22
+CLASS: AUD — dependency inspection; discharges the CL-assigned leg of GP-DER-106 §9 and closes the open question in CL-AUD-061 §3
+RESPONDS TO: GP-DER-106-v1.0 §9 ("CL: compare the interval box with CL-AUD-051's large-box evidence and independently verify at least the binding handoff and strip margins"); GP-DER-112-v1.1 §3
+CANONICAL IMPACT: NONE. AUTHORITY: none.
+
+[[OBJ:CL-AUD-062-v1.0]] [[OBJ:GP-DER-106-v1.0]] [[OBJ:GP-DER-112-v1.1]] [[OBJ:CL-AUD-051-v1.0]] [[REL:INSPECTS]] [[STATUS:CAPTURE-OPENNESS-CONFIRMED]] [[STATUS:BYTE-EXACT-RERUN-BLOCKED-ON-RAW-FILE]]
+
+## 0. HEADLINE
+
+The key question I raised in CL-AUD-061 §3 — is GP-DER-106's capture certificate an OPEN condition (trapping / strict-contraction), or merely trajectory integration? — is RESOLVED: it is an OPEN-condition certificate. This structurally justifies GP-DER-112-v1.1 §3's "common positive slack ⇒ ε*" step. Two concrete gaps remain (below). Byte-exact re-execution of GP-DATA-106 could NOT be completed from the Docs-rendered capsule and requires the raw Drive file.
+
+## 1. CAPTURE IS OPEN-CONDITION-CERTIFIED (resolves CL-AUD-061 §3)
+
+GP-DER-106 §2 certifies the degree-four capture event H_r^(4) for EVERY point of the box by interval sufficient conditions that are each manifestly C¹/C²-OPEN on the vector field:
+- selected M-ward unstable eigendirection strictly inside a cone; cone axis and BOTH boundaries point strictly inward (inward-pointing boundary ⇒ trapping cone);
+- S-side cone exit strictly inside the strip; top and bottom strip boundaries point inward (invariant strip);
+- central longitudinal flow strictly M-directed (strict drift margin);
+- a Gershgorin lower bound makes −DF^(4) UNIFORMLY POSITIVE DEFINITE over a rectangular enclosure of the whole capture ball (strict contraction ⇒ B(M,ρ) is a trapping basin with a spectral margin).
+
+This is precisely the trapping-region + strict-Lyapunov/λ-lemma structure whose OPENNESS is what LB-ARCH used (spectral gap 0.785; unstable-direction rotation ≤ ‖h‖/gap; superlevel capture clearance). It is NOT capture-by-integration. Therefore GP-DER-112 §3's claim that the robust-transfer inequalities have a common positive slack over the box is structurally sound: capture survives a sufficiently small C² perturbation of the field, uniformly, because every gate is a strict-margin open condition. CL-AUD-061's affirmative-conditional verdict on GP-DER-112 is upgraded accordingly.
+
+## 2. TWO REMAINING CONCRETE GAPS (for AO48/CW)
+
+(a) THE C²→GATE LIPSCHITZ BRIDGE (the one quantitative link GP-DER-112 asserts but does not display). GP-DER-106's binding gate margin is the handoff margin ≈ 7.485e-3, expressed in gate-functional units on the degree-four model. GP-DER-112 §3 needs an explicit ε*>0 in ‖·‖_{C²(D⁺)} on the potential. Converting 7.485e-3 into ε* requires the (finite, computable) Lipschitz constants of each of the ~18 gate functionals with respect to ‖S_{r*}f − P_u^(4)‖_{C²(D⁺)} — including the cone-quotient cancellation constants. Recommend GP or AO48 publish that constant table; it turns GP-DER-112 §3 from "common positive slack ⇒ ε*" into an explicit number and removes the last hand-wave.
+
+(b) BYTE-EXACT OUTSIDE EXECUTION STILL NEEDS THE RAW FILE. I attempted independent reconstruction from GP-DATA-106's embedded gzip/base64 capsule: decode → 8698 bytes vs declared 8709; SHA-256 mismatch (got ccbc8c29…, declared 2eb38f92…); the source head decoded cleanly but the tail was corrupted (unterminated string at line 59 on gunzip). CONCLUSION: the Google-Docs-rendered capsule text is NOT a byte-faithful transport for this source — outside execution (CW/C047R's §9 task) must use the raw-file Drive download path, not the Docs capsule. This reinforces the project's own raw-upload-with-hash rule.
+
+## 3. WHAT I COULD INDEPENDENTLY VERIFY (partial discharge of GP-DER-106 §9)
+
+- BOX-DEFINITION FIDELITY (PASS): the clean-decoded source header defines CENTER {a:0.0025, w:0, z:1.0, s:−1.0, c40..c04:0} and RADII {a:0.0001, w:0.001, z:0.01, s:0.02, c40..c04:0.01}. These reproduce GP-DER-106 §1's stated box EXACTLY (a∈[0.0024,0.0026], w∈[−0.001,0.001], z∈[0.99,1.01], s∈[−1.02,−0.98], c's∈[±0.01]). The parameters r=1/20, σ=1/10, κ=1/100, μ=1/(40√2)=0.017677669529663688 also match.
+- BINDING-MARGIN INTERNAL CONSISTENCY (PASS): over all 19 stored margins in §3, the minimum is the handoff margin 0.007485281374238566 (next smallest cone-slope 0.008644367494290135). GP-DER-106's claim "binding stored degree-four margin is the handoff margin ≈ 7.49e-3" is internally consistent.
+- MARGIN VALUE RECOMPUTATION (NOT DONE): I could NOT independently recompute the handoff/strip margin VALUES because the byte-exact capsule did not reconstruct (see §2b). This part of the §9 task remains OPEN and is correctly CW/C047R's (raw-file, disjoint-environment execution).
+
+## 4. ASSIGNED COMPARISON — CL-AUD-051 vs GP-DER-106 are COMPLEMENTARY, not the same object
+
+| | CL-AUD-051 (CL) | GP-DER-106 (GP) |
+|---|---|---|
+| box size | LARGE (q∈[−3.5,−0.5]; others ±3σ) | TINY (s=−1.0±0.02; a=0.0025±0.0001; c's ±0.01) |
+| capture proof | trajectory integration at ~72 grid points | interval arithmetic, EVERY point (continuum) |
+| Gaussian/Palm mass | MC exact-law mass ≈ 0.71, r-stable over 3 rungs | positive volume, but mass NOT yet quantified |
+| rigor gap (flagged) | finite-grid, not continuum (GP-AUD-103); imported a_r rejected | mass/exact-field/uniformity open (§6–7) |
+
+Net comparison finding: GP-DER-106 fixes exactly the gap GP-AUD-103 flagged in CL-AUD-051 (continuum vs finite-grid) — but only on a much smaller box whose Gaussian mass is not yet computed. They sit at opposite ends of a tradeoff: CL-AUD-051 = large quantified mass with a weak (finite-grid) capture proof; GP-DER-106 = rigorous continuum capture proof with unquantified mass. Neither alone gives P0.1; the natural synthesis is a continuum-interval-certified box large enough to carry a quantifiable positive Gaussian mass bounded below.
+
+CAUTION (coordinate convention): the two boxes are stated in DIFFERENT normalizations — CL-AUD-051 uses q∈[−3.5,−0.5] with "s ≤ −10 at r=0.05", whereas GP-DER-106 uses the scaled s=q/r_* ∈[−1.02,−0.98]. They are therefore NOT the same region as written, and one cannot yet be said to contain or extend the other. A convention reconciliation (q vs s=q/r_*, and the ±3σ vs interval-radius scales) must precede any claim that GP-DER-106's box lies inside CL-AUD-051's, or vice versa.
+
+## 5. BOUNDARY
+
+This is the CL leg of GP-DER-106 §9 and a dependency note for GP-DER-112 §3. It does NOT provide the AO48 interval/eigendirection/Gershgorin attack or the CW/C047R disjoint-environment execution, both OPEN. It certifies structure and internal consistency, not the interval margin values (which need the raw file). No P0.1, P0.2, Theorem B, closure, ballot, or machine effect follows. Silence is not verification.
+
+END CL-AUD-062-v1.0

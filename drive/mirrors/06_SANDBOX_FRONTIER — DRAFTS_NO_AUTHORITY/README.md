@@ -26,3 +26,17 @@ The routing basis those rules name (OP-PROT-012 / OP-PROT-011, 2026-07-25) is
 HISTORICAL under R17 (2026-09-17); the Research Home's current sandbox sentence
 is the one `sandbox/README.md` quotes. The never-link rule is carried into
 `sandbox/README.md`.
+
+## What this directory does not establish
+
+A reading copy is not the object: the export's digest is the export's, computed
+here, and no payload digest for the native Doc exists anywhere in the corpus, so
+nothing here can be checked against the Drive's own identity for it. Mirroring
+the sandbox rules neither adopts them nor puts this repository under them, and it
+grants no line, session or model any authority the rules describe. The words
+quoted above are the source document's, at its own 2026-07-25 date, and the
+routing basis they name is historical under R17; quoting them moves no claim,
+premise, obligation, gate or grade, and `sandbox/` in this repository is governed
+by its own README, not by this copy. The lane's second inventory item is not held
+here. Nothing in this directory is imported or executed, and nothing here feeds a
+claim, a bound, a carrier or a grade.

@@ -1,0 +1,229 @@
+﻿GP-AUD-056-v1.0 — STATIC SOURCE AUDIT OF GP-DATA-054
+
+
+Artifact ID: GP-AUD-056-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: AUD — same-line static source audit / qualification-blocker report
+Status: MATERIAL TECHNICAL BLOCKERS IDENTIFIED — NO PRODUCTION EXECUTION — NOT INDEPENDENT REVIEW
+Canonical impact: NONE
+Authority: none
+
+
+Hyper-tags
+[[OBJ:GP-AUD-056-v1.0]] [[OBJ:GP-DATA-054-v1.0]] [[OBJ:GP-PRE-053-v1.0]] [[TR:TR-P12-003]] [[REL:AUDITS]] [[DEF:REVIEWABLE_SOURCE_MIRROR]] [[DEF:BYTE_EXACT_SOURCE]] [[DEF:FAIL_CLOSED_NO_FIT]]
+
+
+1. EXACT OBJECT AUDITED
+
+
+This audit inspects the readable Google Docs mirror titled “GP-DATA-054-v1.0 — Hardened Exact-Field Pairing REVIEWABLE SOURCE MIRROR,” Drive ID 1n5rmtvI8Xn5GIX1TUGI4KLOcYg4cC91lI6gjPQOSjdE. The mirror declares a frozen raw source of 30,606 bytes with SHA-256 7f061dd71032c76e785e259a115d3dad50e6adf5274dc8b3cf7104b9c2bd4c22, while explicitly warning that Google Docs normalization prevents the mirror from serving as the byte-identity authority.
+
+
+The audited object is therefore the reviewable source text and its stated control logic. This audit does not claim a hash match, byte-exact reconstruction, installed-source identity, independent execution, production-field validity, or theorem evidence.
+
+
+2. EVIDENCE READ
+
+
+Primary specification: GP-PRE-053-v1.0.
+Reviewable implementation mirror: GP-DATA-054-v1.0.
+Author self-test receipt: GP-AUD-055-v1.0, reporting Python syntax compilation and 13/13 self-tests.
+Trusted coordination state: TR-P12-003 in GP-REG-032.
+Prior incident context: CL-DATA-024 and the exact-field/object-identity repair rationale preserved by TR-P12-002 and TR-P12-003.
+
+
+3. WHAT THE SOURCE SUCCESSFULLY FIXES
+
+
+The mirror implements several genuine repairs relative to the earlier incident:
+
+
+A. One finite trigonometric field object is used for field, gradient, Hessian, trajectory, and endpoint certification calculations.
+B. Unresolved branch endpoints remain visible and block fitting rather than silently disappearing.
+C. A torus Euler-count gate, finite-bar-count gate, branch-resolution gate, endpoint-tolerance replay gate, and denser-seed census replay gate are represented as executable booleans.
+D. Aggregate fitting is blocked when any requested field is ineligible.
+E. Receipts retain field seeds, counts, endpoint matrices, branch results, gate observations, configuration, runtime metadata, and source-hash output.
+F. Statistical resampling is clustered by field rather than treating all bars as independent observations.
+
+
+These are meaningful instrument-level improvements. They do not resolve the blockers below.
+
+
+4. MATERIAL BLOCKER B1 — ENDPOINTS MAY BE ACCEPTED WITHOUT AN ENDPOINT EVENT
+
+
+Exact code path: endpoint_from_branch.
+
+
+The adaptive solve defines endpoint_event and asks solve_ivp to stop when the gradient norm falls below endpoint_grad_tol. After solve_ivp returns, however, the function does not require that the endpoint event actually fired. It also does not require solution.success.
+
+
+Instead, it always takes solution.y[:, -1], applies Newton refinement, verifies that the refined point is a maximum, and matches that maximum to the census. Therefore a trajectory that merely reaches max_arclength, terminates unsuccessfully, or stops for a non-event reason can still be snapped by Newton’s method to a nearby maximum and returned as “resolved.”
+
+
+Why this matters: the claimed endpoint is supposed to encode the unstable separatrix destination. Newton attraction from an arbitrary final integration point is not equivalent to dynamical arrival at the maximum’s critical neighborhood. A false destination can change saddle endpoint pairs, elder-rule unions, finite lifetimes, missingness, and the fitted short-bar law.
+
+
+Required repair:
+
+
+1. Reject unless solution.success is true.
+2. Reject unless solution.status == 1 and the endpoint-event array contains an event.
+3. Record event time, event state, terminal gradient norm, and termination reason.
+4. Apply Newton only after a certified event, and record the distance from event state to refined maximum.
+5. Add a negative control in which max_arclength is deliberately too short; the branch must remain unresolved even when its final state lies in the Newton basin of a maximum.
+6. Add a solver-failure injection and require fail-closed rejection.
+
+
+Decisive negative control NC-F1:
+Force max_arclength to terminate before endpoint_event while ensuring the final state lies inside a maximum’s Newton basin. The current implementation may accept the branch; the repaired implementation must retain it as unresolved.
+
+
+5. MATERIAL BLOCKER B2 — CRITICAL-CENSUS REPLAY COMPARES COUNTS, NOT IDENTITIES
+
+
+Exact code path: census_signature and build_gates.
+
+
+The V5 replay compares only the tuple (number of maxima, number of minima, number of saddles) between the primary and denser seed lattices. Two censuses can contain different critical-point locations, different critical values, different saddle-to-maximum incidence, or a missed/spurious critical-point exchange while preserving the same type counts. Count equality alone does not establish critical-set replay stability.
+
+
+Why this is material:
+The elder-rule bars and branch endpoints depend on the identities, values, and incidence structure of individual critical points, not merely on type totals. A count-preserving census mismatch can pass V5 while changing the pairing distribution.
+
+
+Required repair:
+Replace or supplement count-signature replay with a periodic bipartite matching audit, stratified by critical type, that records:
+- one-to-one point matching under a preregistered torus-distance tolerance;
+- matched critical-value differences;
+- matched Hessian-sign/type agreement;
+- unmatched points on both sides;
+- endpoint-incidence replay after the matched index map is applied.
+Any unmatched point, type mismatch, or incidence disagreement must fail closed.
+
+
+Decisive negative control NC-F2:
+Construct two synthetic CriticalSet objects having identical type counts but displaced or permuted identities and altered values/incidence. The current count-only gate passes; the repaired gate must fail.
+
+
+5. FINDING F3 — SOLVER FAILURE AND DYNAMICAL VALIDITY ARE NOT SEPARATE GATES
+
+
+Exact code path: endpoint_from_branch.
+
+
+Observed logic:
+The return path records only a textual endpoint message and function-evaluation count. It does not expose solve_ivp success/status/event-time diagnostics as mandatory gates. It also does not verify the expected monotone ascent of f along the normalized gradient trajectory.
+
+
+Failure mechanism:
+A failed, stalled, numerically corrupted, or directionally inconsistent integration can still be Newton-certified as a maximum. Primary and replay runs can share the same failure mode.
+
+
+Required repair:
+Add per-branch fields and fail-closed checks for solver_success, solver_status, event_detected, event_time, final_arclength, initial_f, event_f, minimum observed df/ds tolerance, gradient-norm trace summary, and Newton correction distance. A branch with solver failure, no event, nonfinite state, or material descent must remain unresolved.
+
+
+Decisive controls:
+- NC-F3a: force solve failure or nonfinite RHS and require explicit rejection.
+- NC-F3b: substitute a sign-reversed or deliberately non-ascent RHS and require monotonicity failure.
+- NC-F3c: force both primary and replay to fail identically and verify that replay agreement does not convert shared failure into stability.
+
+
+6. FINDING F4 — REPLAY DOES NOT TEST BRANCH-OFFSET OR CENSUS-IDENTITY SENSITIVITY
+
+
+Exact code path: trace_all_branches.
+
+
+Observed logic:
+Primary and replay integrations use the same saddle census, the same unstable eigenvector, and the same branch_offset; only ODE tolerances and max_step differ.
+
+
+Failure mechanism:
+Near a separatrix boundary, endpoint assignment can be sensitive to branch offset, saddle localization, or eigenvector perturbation while remaining invariant to ODE tolerance. The existing replay does not probe these modes.
+
+
+Required repair:
+Add preregistered offset and saddle-location replay, for example branch_offset multiplied by fixed factors on both sides, with an explicit admissible interval. Match saddle identities across the critical-census replay before comparing endpoint incidence. Any endpoint change within the admissible perturbation battery must fail the field or classify the branch as numerically ambiguous.
+
+
+7. FINDING F5 — FINAL NONDEGENERACY IS NOT AN EXPLICIT CENSUS ACCEPTANCE CONDITION
+
+
+Exact code path: newton_refine.
+
+
+Observed logic:
+The Newton iteration avoids division when |det H| is below newton_det_tol, but the final returned set is filtered only by gradient norm. Final determinant magnitude is not separately required before a point enters the census arrays.
+
+
+Failure mechanism:
+A nearly degenerate stationary point with small gradient can be retained and then left unclassified, or numerical classification can become unstable around the determinant threshold. Euler/count replay may detect some consequences but does not directly certify the Morse/nondegeneracy condition for every retained critical point.
+
+
+Required repair:
+Require finite values and |det H| >= a declared final nondegeneracy threshold for every accepted census point. Record rejected near-degenerate candidates, and fail the field or assign an explicit non-Morse/uncertain status according to the preregistered policy.
+
+
+Decisive negative control NC-F5:
+Use an analytic degenerate critical-point fixture with zero gradient and singular Hessian. It must not enter a claim-eligible Morse census.
+
+
+8. ITEMS THAT REMAIN VALID AND UNAFFECTED
+
+
+This audit does not negate the following limited achievements:
+- the source mirror is now readable for line-level review;
+- one TrigonometricField object is used for field, gradient, Hessian, trajectory, and Newton evaluation;
+- unresolved endpoint entries are represented in receipts rather than silently removed;
+- aggregate fitting is blocked when a requested field is marked ineligible;
+- the author-reported syntax pass and 13/13 self-test receipt remain valid as author-line internal evidence, subject to byte-exact reconstruction.
+
+
+9. DEPENDENCIES AFFECTED
+
+
+Affected:
+- technical qualification of GP-DATA-054;
+- any future production use of V3, V4, or V5 as sufficient endpoint/census certificates;
+- P1.2 exact-field pairing production readiness;
+- any future claim derived from a_hat, short-bar fits, or endpoint incidence produced by the current unamended implementation.
+
+
+Unaffected:
+- GP-PRE-053 as a preregistration artifact;
+- GP-AUD-055 as an author self-test receipt, correctly scoped;
+- TR-P12-002 incident findings about the earlier CL-DATA-024 pipeline;
+- the four-connectivity correction;
+- Theorem B, Q0_MASTER, the active q machine, and all mathematical canon;
+- the seven human-approval closure candidates EC-005–008 and EC-010–012;
+- GP-AUTO-034 governance and technical qualification state.
+
+
+10. TERMINAL / CURRENT LABEL
+
+
+No closure is proposed. The exact current label should be:
+
+
+REPAIR CANDIDATE — REVIEWABLE MIRROR AVAILABLE / AUTHOR SELF-TEST 13 OF 13 / MATERIAL ENDPOINT-EVENT AND COUNT-ONLY CENSUS-REPLAY BLOCKERS / BYTE-EXACT PREIMAGE, AMENDMENT, NON-AUTHOR EXECUTION, AND PRODUCTION V1–V5 RECEIPTS REQUIRED.
+
+
+11. REGISTER AND LEDGER UPDATES REQUIRED
+
+
+Additive updates:
+- Transition Alarms: add ENDPOINT_ACCEPTED_WITHOUT_EVENT risk and COUNT_ONLY_CENSUS_REPLAY risk.
+- Help Board HB-011: add NC-F1, NC-F2, NC-F3a–c, offset replay, and degenerate-Hessian controls to the decisive review battery.
+- Review Independence: record this audit as same-line static review with independence class NONE or LOW; it does not satisfy the required outside review.
+- Relation Index: link GP-AUD-056 AUDITS GP-DATA-054 and IDENTIFIES_BLOCKER_FOR production qualification.
+- Recent Activity: record the material blocker without changing mathematical or canonical state.
+- Cross-Model review request: direct CL, AO48, and CW/C047R to challenge F1–F5, rerun the negative controls against byte-exact amended source, and state explicit agreement or disagreement. Silence is not review.
+
+
+12. REOPENING / CLEARANCE CONDITIONS
+
+
+F1–F5 may be cleared only by amended byte-exact source, source-hash publication, direct negative-control receipts, and a non-author review that reconstructs or executes the decisive paths. A production field must then pass the amended gates. No exponent fit, theorem inference, machine-state replacement, or promotion follows automatically from clearance.

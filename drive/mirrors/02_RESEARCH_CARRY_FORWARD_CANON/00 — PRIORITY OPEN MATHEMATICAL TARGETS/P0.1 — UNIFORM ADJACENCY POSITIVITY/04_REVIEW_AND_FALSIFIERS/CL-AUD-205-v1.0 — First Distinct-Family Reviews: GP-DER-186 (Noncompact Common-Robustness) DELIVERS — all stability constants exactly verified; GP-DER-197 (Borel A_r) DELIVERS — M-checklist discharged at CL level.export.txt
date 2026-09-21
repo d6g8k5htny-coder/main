@@ -1,0 +1,164 @@
+﻿CL-AUD-205-v1.0 — DISTINCT-FAMILY REVIEWS OF GP-DER-186 AND GP-DER-197
+
+
+Artifact ID: CL-AUD-205-v1.0
+Author line: CL — Anthropic Claude (main-line inline review)
+Date: 2026-07-25
+Class: AUD — organizationally distinct (non-GP) reviews of the two remaining P0.1 Domain-D/measurability repair lemmas
+Governing protocol: OP-PROT-011
+Reviewed objects:
+  GP-DER-186-v1.0  Drive 1vm5ROIE5Jb2LYWkZ74iJ5jqC4yqKUOOdWHf10v2vZvI
+  GP-DER-197-v1.0  Drive 1hGQVFDZKHMcdG94_OIgVEwipTR6pvKCk_-llHyIq3uQ
+    (frozen body identity reviewed: BODY_BYTES 13,797; SHA-256 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d)
+Method disclosure: SINGLE-LENS inline review by the CL main line. The planned parallel multi-lens
+pass with adversarial refuters could not run (platform agent limits at review time); refutation-
+grade redundancy may be added later by any family. Under OP-PROT-011 this review is nevertheless
+the FIRST organizationally distinct examination of both documents (all prior audits — LCR-AUD-008,
+LS-AUD-006, LS-DER-004/006, LCR-DER-057 hostile audit — are same-OpenAI-line).
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-AUD-205-v1.0]] [[TARGET:P0.1]] [[186:DELIVERS]] [[197:DELIVERS]] [[LEDGER-ITEMS-2-3:CL-DISCHARGED]] [[NO_PROMOTION]]
+
+
+==================================================================
+1. GP-DER-186 — VERDICT: DELIVERS AS CITED (high confidence)
+==================================================================
+Deliverable: Theorem 10.1 — a single explicit common threshold epsilon_D = 10^-4 such that any
+pin-sharing C1 gradient field within epsilon_D of the quartic model in C1(D+) satisfies all ten
+exact capture conclusions, uniformly over the fixed-q box and 0 < r <= 1/20 — replacing the
+RETRACTED raw-family compactness argument. This is exactly the delta_* existence GP-DER-118
+Section 4 consumes, strengthened to an explicit constant.
+
+
+1.1 The retraction is correct. sup_{D+}|J22| = |s| + O(1) -> infinity as r -> 0 at fixed q < 0,
+    so the raw scaled family is genuinely noncompact in C1; adjoining r = 0 is impossible. The
+    document is right that only the REDUCED margins (worst case s = -19.6), the physical jet box,
+    and s-independent quantities are compact. This matches the independent account in the CL
+    review of GP-DER-045 (CL-AUD-203).
+
+
+1.2 The replacement mechanism is sound and now rests on a NON-GP-VERIFIED input: the Section 3
+    worst-case margin ledger is quoted from GP-DATA-178, which the CL line independently
+    confirmed to ~80 significant digits in exact rational arithmetic, including the s-monotone
+    reduction itself (CL-AUD-201). The D4 ledger input to this lemma therefore already carries
+    distinct-family verification.
+
+
+1.3 Every displayed stability constant verifies EXACTLY (CL machine log, sha256 164164b6...):
+    A_S >= 23999/24000; |B_S| <= 161/120000; D_S <= -313591/16000; lambda_u >= 59917/60000;
+    -lambda_s >= 4703543/240000; g_0 >= 988771/48000 = 20.5993958... — NOTE: g_0 >= A_S - D_S is
+    valid via the exact symmetric-2x2 eigengap identity gap = sqrt((A-D)^2 + 4B^2) >= A - D
+    (a naive two-disc Gershgorin subtraction would give only 20.5967; the document's sharper
+    bound is rigorous); Weyl type-preservation threshold 0.9986 with four orders of slack;
+    Davis-Kahan eta = 2e/(g_0 - 2e) = 9.7091e-6 < 9.71e-6 (the DK constant form used is
+    conservative-safe relative to the sharp sin-theta bound); perturbed eigenslope 7.484e-5
+    < 7.49e-5 < kappa/2; L_axis = sqrt(1+kappa^2) < 1.00005; L_face = (1+kappa)L_axis < 1.01006;
+    all Section 7-8 retained bounds (loss e for C0/diagonal, 2e for Gershgorin) re-verified.
+
+
+1.4 The load-bearing structural point is correctly identified: the division-by-xi cone-quotient
+    perturbation bound is legitimate ONLY because R_r(S) = 0 (exact and quartic fields share the
+    six endpoint pins), which converts ||DR|| <= e into |R(S+v)| <= e|v| along chart-contained
+    segments. Without shared pins the quotient perturbation would blow up at xi -> 0. Verified
+    as stated; requires segment containment in the convex chart (holds; the explicit D+ coverage
+    lemma LS-DER-004 remains a same-line addendum).
+
+
+1.5 Sections 12-13 (physical-Hessian scaling; Corollary 4.2 wording correction) agree with the
+    independent readings in CL-AUD-201 Section 5.5 and the CL review of GP-DER-045 — three-way
+    convergence on the once-confusing scaled-vs-physical convention. H_exact = H^(4) + r E_r
+    with E_r the SCALED Jacobian error is now stated consistently everywhere.
+
+
+1.6 Findings: NO real defects. Minor notes: (i) cite the specific Davis-Kahan variant used;
+    (ii) the numeric addenda (explicit C_D = 343/192 + sqrt(1074)/960, r_D ~ 5.4927e-5 via
+    LS-AUD-006/GP-DER-100; D+ coverage via LS-DER-004; determinant sharpening via LS-DER-006)
+    remain SAME-LINE and are needed only for a NUMERIC r_D — Theorem 10.1 with symbolic
+    r_D = min(1/20, epsilon_D/C_D) stands without them; their full-arithmetic distinct review
+    stays open; (iii) falsifier list Section 15 is well-formed; none triggered.
+
+
+STATUS EFFECT: CL-AUD-203 remaining-review ledger item 2 is DISCHARGED at the distinct-family
+level for the qualitative theorem. Open residue: distinct-family arithmetic review of the
+numeric-constant addenda only.
+
+
+==================================================================
+2. GP-DER-197 — VERDICT: DELIVERS AS CITED (high confidence)
+==================================================================
+Deliverable: A_r = {selected exact unstable branch converges to M_r} is a Borel event on
+separable C3 torus field space under Q_{6,r}, with fail-closed handling outside the strict
+typed/nonorthogonal domain O_r, selector-independence, agreement with the GP-PROT-065 branch
+convention, E_r subset A_r compatibility, and a well-defined exact Palm quotient — the
+measurability foundation the frozen GP-DER-118-v1.3 body silently presupposes (CL-AUD-203
+secondary finding).
+
+
+M-checklist adjudication (Section 14 of the document):
+  M2  O_r open/Borel: PROVEN — continuity of endpoint-Hessian evaluations C3 -> Sym(2), openness
+      of negative-definiteness, index-one type, and nonzero projection; fail-closed outside. OK.
+  M3  Oriented projector formula: PROVEN and elegant — P_u(H) = (H - lambda_s I)/(lambda_u -
+      lambda_s) is continuous on the strict-saddle set (eigenvalues always distinct there), and
+      e_u . d_r = ||P_u d_r|| > 0 because P_u is an ORTHOGONAL projector (P_u d . d = ||P_u d||^2),
+      so the M-ward orientation is single-valued with no eigensolver sign ambiguity. Matches
+      GP-PROT-065's coordinate-free rule (M9: OK by the same computation).
+  M4/M5 Parameter-dependent local unstable manifold + fixed-eta local branch point:
+      CITED-STANDARD, with hypotheses verified in-doc (f -> grad f continuous C3 -> C2 -> C1;
+      S_r an equilibrium on the pin fiber; hyperbolicity open; orientation continuous). The
+      same-line Lyapunov-Perron companion LCR-DER-057 (BODY 11,087 B, sha 4165696d...) now
+      constructs the local selected point explicitly; its external review remains OPEN — this is
+      the single remaining nontrivial imported step.
+  M6  Selector independence: PROVEN — two positive branch points lie on one orbit of the 1-D
+      branch; forward omega-limits are invariant under finite time shifts. OK.
+  M7  Global flow measurability: PROVEN/CITED-STANDARD — compact torus + C1 field gives global
+      flow; joint continuity in (f, t, x); composition with the Borel selector is Borel. OK.
+  M8  Borel convergence event: PROVEN — the displayed countable representation
+      intersect_k union_N intersect_{q in Q, q >= N} {dist(gamma(q), M_r) <= 1/k} is correct:
+      closed evaluation sets; rational density + path continuity upgrade rational-time bounds to
+      real-time bounds; k -> infinity yields exactly convergence. Verified in detail. OK.
+  M10 E_r subset A_r: PROVEN at the stated level — the certificate's cone-entry gate follows the
+      same M-ward branch selected by e_u. OK.
+  M11 Palm quotient: PROVEN — W_r^exact Borel; quotient well-defined when 0 < Z < infinity. OK.
+  M12 No hidden adjacency conditioning: confirmed — A_r enters only through 1_{A_r}. OK.
+  M1  Realization of Q_{6,r} as a Borel law on C3: CITED-STANDARD (Gaussian conditioning on six
+      linear functionals; analytic version). Reasonable; flagged for the record.
+
+
+Freeze-hygiene note (record, not defect): the artifact went through three identities
+(ee9a34f9... invalidated by a self-referential post-freeze edit; e56c55f1... wrong marker
+occurrence; final 035d5a18... controlling). The retraction trail is correctly kept; reviewers
+must hash-check against 035d5a18... only. The frozen body reviewed here is that object.
+
+
+Findings: NO real defects in the frozen body. Open residues: LCR-DER-057 external review (M4/M5
+companion); and the CL-AUD-203 bookkeeping item stands — the NEXT GP-DER-118 revision must cite
+GP-DER-197 explicitly (the frozen v1.3 predates it).
+
+
+STATUS EFFECT: CL-AUD-203 remaining-review ledger item 3 is DISCHARGED at the distinct-family
+level (first non-GP review of the A_r measurability foundation; shared interface
+P02-LM-013 / P01-MEAS-001 also serves P0.2).
+
+
+==================================================================
+3. UPDATED P0.1 REMAINING-REVIEW LEDGER (after this document)
+==================================================================
+1. CL-DER-204 endpoint-Hessian lemma (closes the principal Section-5 gap): PUBLISHED, awaiting
+   NON-CL distinct-family review (GP / Grok / Gemini or operator) — the reciprocal of this
+   document's role.
+2. GP-DER-186 numeric addenda only (explicit C_D arithmetic, D+ coverage, determinant
+   sharpening): distinct-family arithmetic review OPEN; not needed for the qualitative theorem.
+3. LCR-DER-057 (Lyapunov-Perron local-selector companion): external review OPEN.
+4. GP-DER-046 Lemma 4.1 moving-point cross-covariance display: OPEN (GP side).
+5. Next GP-DER-118 revision: cite GP-DER-197 and CL-DER-204 (if approved); manifest additions
+   (GP-DER-116); full-title+ID citations; extended-CMT wording; exact-torus z_{0,L} caution.
+With items 1-5 closed, the P0.1 stack would be fully reviewed at candidate level; promotion
+remains a separate operator decision.
+
+
+CL evidence delivered to operator: exact arithmetic verification log
+(gp_der_186_arith_log.txt, sha256 164164b60b194437357ca88ddaa144b1056d9d72bfb205496bf9fc0df40a96e1).
+
+
+END CL-AUD-205-v1.0 — additive review; closes nothing terminally.

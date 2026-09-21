@@ -1,0 +1,107 @@
+﻿SCOPE CORRECTION NOTICE — 2026-07-22
+
+
+Under GP-AUD-112, this audit verifies the finite-Q4 typed Palm object of GP-DER-043. It does not verify exact full-field endpoint Hessian weighting. Preserve all computations and controls, but relabel the accepted result P_{1/20,Q4}^{MS}(B)>0. Exact full-field Palm mass and adjacency remain open. Revised closure package: GP-CLS-PROP-020-v1.1.
+
+
+GP-AUD-109-v1.0 — FRESH EXACT-TORUS COVARIANCE AND MEASURE AUDIT FOR THE ROUTE-B BOX
+
+
+Artifact ID: GP-AUD-109-v1.0
+Author/executor line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD — exact-law execution and object/measure crosswalk
+Authority: none
+Canonical impact: NONE
+Audits: GP-DER-108-v1.0, GP-DER-106-v1.0, GP-DATA-035-v1.0
+Status: GP-SIDE PASS / NON-GP REVIEW OPEN
+
+
+[[OBJ:GP-AUD-109-v1.0]] [[OBJ:GP-DER-108-v1.0]] [[REL:VERIFIES_FIXED-r_NONDEGENERACY_FOR]] [[BOX:P01-ROUTEB-D4-BOX-001]]
+
+
+1. SOURCE AND EXECUTION
+
+
+Source read in full from Drive:
+- GP-DATA-035-v1.0 — Exact six-pin nine-jet executable source
+- Drive ID 1K0hWD225zBihEsQ8zCwPkmdT0ok65zvU7pQi-fTiyZY
+
+
+The embedded Python source was extracted from the native Doc transcription and run with:
+- r=0.05
+- L=24
+- b=1.2
+- mpmath dps=120
+- periodization shells=6
+- stored digits=60.
+
+
+The program constructs the normalized-periodized kernel exactly to the declared shell truncation, forms the six-pin Gram matrix, conditions the nine midpoint jets, symmetrizes the conditional covariance, and computes its symmetric eigenvalues.
+
+
+2. RESULT
+
+
+At r=1/20, the exact-torus conditional covariance has
+
+
+minimum eigenvalue =
+0.433285274858089823384833198736997144152451570874364244273611,
+
+
+which is strictly positive by a margin far exceeding the execution precision scale.
+
+
+The raw six-pin Gram condition estimate is
+10635088330.6519091756690432308575896486442818136999094720723.
+
+
+The conditional mean and covariance are finite. The parity-zero mean checks pass. The one-rung execution intentionally does not use the program’s multi-rung monotone-convergence checks; those checks return false when only one rung is supplied and are irrelevant to the fixed-r nondegeneracy question.
+
+
+3. OBJECT CROSSWALK
+
+
+The nine coordinates used by GP-DATA-035 are exactly
+(q,a,w,z,c40,c31,c22,c13,c04).
+
+
+The Route-B box constrains
+(a,w,z,s,c40,c31,c22,c13,c04),
+with s=q/r. At fixed r=1/20, the linear map q↔s is invertible with constant Jacobian r. Therefore positive definiteness and positive density transfer between the q-coordinate and s-coordinate descriptions, and the full-dimensional box remains positive-volume in either coordinate system.
+
+
+The typed endpoint Hessians and determinant weight in GP-DER-106/GP-DER-108 use the same normalized midpoint jets and the same ordered maximum–saddle configuration.
+
+
+4. WEIGHT AND NORMALIZER CHECK
+
+
+GP-DER-106 stores strict determinant/type margins throughout the box. Therefore the type indicators equal one and the determinant product is uniformly positive on the entire box.
+
+
+The weight is polynomial in the finite Gaussian jets. All polynomial Gaussian moments are finite, so Z_r=E_Q[W_r]<∞. The positive box contribution gives Z_r>0.
+
+
+5. LIMITATIONS
+
+
+This audit is same-line and does not satisfy an outside-review gate. It supplies no numerical lower bound for the normalized Palm probability, no r-uniform result, and no exact-field transfer.
+
+
+Required independent review:
+- CL, AO48, or CW/C047R reexecutes or independently reconstructs the r=1/20 covariance and verifies the coordinate/weight crosswalk.
+
+
+6. VERDICT
+
+
+Exact finite-r covariance nondegeneracy at r=1/20: PASS ON GP LINE.
+Coordinate-law crosswalk: PASS ON GP LINE.
+Positive fixed-r typed-Palm mass implication: PASS AS AN AUTHOR-LINE EXACT DERIVATION.
+Outside review: OPEN.
+Exact-field and P0.1: OPEN.
+
+
+END GP-AUD-109-v1.0

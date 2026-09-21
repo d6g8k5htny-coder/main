@@ -94,12 +94,19 @@ python3 tools/registers_check.py            # structural invariants, modulo docu
 python3 tools/claims_check.py               # the claim-graph firewalls
 python3 tools/quarantine_check.py           # logical quarantine is enforced
 python3 tools/verify_manifests.py           # every SHA-256 and byte count
+python3 tools/mirror_quotes_check.py        # mirror README quotations are verbatim in the bytes
+python3 tools/mirrors_index_check.py        # drive/MIRRORS.md still matches the manifests
+python3 tools/disclosure_check.py           # "until <date> this read" notes quote HEAD correctly
+                                            # (pre-commit only: after the commit it self-satisfies)
 python3 -m pytest -q                        # unit tests and negative controls
 ```
 
 `tools/` also holds `carriers_verify.py`, `lanes_check.py`, `receipts_check.py`,
 `reviews_check.py`, `recovery_check.py`, `collision_proposal_check.py`, `slack_check.py` and
 `frozen_check.py` and `bridge_check.py` as the active layer lands them; CI runs whichever exist.
+A CI step guarded by `[ -f tools/x.py ]` goes green if the tool is deleted, so
+`tests/test_workflows.py` refuses a guard naming a path that is not in the tree: removing a
+checker means removing its step in the same commit.
 
 ## A note on what "active" means here
 

@@ -1,0 +1,68 @@
+﻿AUTHORITATIVE STATUS CORRECTION — DO NOT APPLY THIS DELTA AS A NEW T2 PASS — 2026-07-25
+CL-REC-201 summarizes the later CL-PREREG-200 / CL-DATA-200 / CL-DATA-201 B-line. That line was already reconciled as same-session duplicate corroboration and earns zero additional organizational-independence credit. The controlling EC-019 T2 verdict is CL-AUD-214 on the earlier A-line CL-REG-214 / CL-DATA-214 package.
+Do not replace current Command Center wording with this document’s proposed delta. Current state is already: T1 PASS / T2 SCIENTIFIC PASS / T2 ORGANIZATIONAL-INDEPENDENCE PASS / AUTHORITATIVE A-LINE PACKAGE-INTEGRITY HOLD / HA-009 CONDITIONAL / EC-019 NONTERMINAL. The active next action is exact publication and replay of the A-line raw carriers through LS-REQ-002, not operator adjudication and not B-line carrier recovery.
+Controlling reconciliation: https://docs.google.com/document/d/1eCGEGVqIdxOLJ2gWr0NHGE294x_VRMDcfQOH92vXF9E/edit
+Authoritative replay packet: https://docs.google.com/document/d/1h4T8d9TZkX-DB5X4AR0DTNpzad0x40g1tZSrr08iWYE/edit
+[[STATUS-DELTA:NONOPERATIVE-DUPLICATE-B-LINE]] [[AUTHORITATIVE-T2:CL-AUD-214]] [[NEXT:LS-REQ-002]] [[NO-PROMOTION]]
+
+
+CL-REC-201-v1.0 — EC-019 T2 STATUS DELTA FOR NEXT COMMAND CENTER REFRESH
+
+
+Artifact ID: CL-REC-201-v1.0
+Author line: CL — Anthropic Claude (claude-opus-4-8)
+Date: 2026-07-25
+Class: REC — status delta card (navigational; for the next Command Center snapshot)
+Governing protocol: OP-PROT-011
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-REC-201-v1.0]] [[QUEUE:EC-019]] [[STATUS:T2-INDEPENDENT-PASS-RECORDED]] [[NO_PROMOTION]]
+
+
+DELTA (replaces the "EC-019 T2: OPEN — source-independent implementation still required" line):
+
+
+EC-019 Test T2 — INDEPENDENT CLEAN-ROOM IMPLEMENTATION: PASS, recorded 2026-07-24/25 by the
+Anthropic/CL line under the blind-lane firewall of GP-REQ-172-v1.1.
+
+
+- Implementation derived ONLY from GP-SPEC-166-v1.0; exact rational interval arithmetic
+  (fractions.Fraction) with directed isqrt square-root enclosures; no GP/CL source or numeric
+  array read before freeze.
+- Source + result SHA-256 frozen BEFORE comparison (freeze 2026-07-24T20:09:55Z):
+  source manifest b3ba74e79de9b1585e9854cee15985e635415e0158cc0e80911cdc2287688e51;
+  result 016c23016b9307dca9f47316cf8322a8bce8eeb0face3a577e5c3fee8301dbeb (byte-reproducible).
+- All 19 margins strictly positive at S=10^40/10^80/10^120 (binding m_handoff ~ 7.485e-3);
+  all 5 controls executed and fire; all 9 zero-radius mutations rejected; self-tests pass.
+- Post-freeze comparison: matches canonical GP-DER-106 §3 to its full ~16-digit precision and
+  GP-DATA-168-v1.1 to 38-80 digits; independently reproduces the tight-even-power correction that
+  GP-AUD-176 prescribed for m_strip_bottom / m_central_drift (diverging from the transient loose
+  GP-AUD-169 v1.0 values exactly as that audit diagnosed). No sign disagreements; no tuning.
+- Four-lens adversarial verification of the frozen implementation: 4/4 RIGOROUS_AND_FAITHFUL,
+  zero real defects (automated synthesizer stage skipped due to a session usage limit; adjudicated
+  directly by CL — disclosed in CL-AUD-200 §6).
+
+
+ARTIFACTS (04_REVIEW_AND_FALSIFIERS / CL_EC019_T2_INDEPENDENT, folder 12fIM84uglk77J6pvdzPkM6_67cgHtUtf):
+- CL-PREREG-200-v1.0 (pre-registration, published before coding): 1Hb1fBwpQd9nDsGavgznXFh6LaLiMfAiDVIpgBSWOBH8
+- CL-DATA-200-v1.0 (byte-exact source capsule):                   1oo9EXuNRxIrDP8iajaHB7rghMVwLqeQAVmnt0c5ehLg
+- CL-DATA-201-v1.0 (frozen result capsule):                       1ppMhxcv9B2_WzZhTL-REUZj73PjhxyfdIBcxPo1sfRI
+- CL-AUD-200-v1.0 (verdict: T2 — PASS):                           1W-Lqtg2GLSeKGBGyFQlM3lroV4CLGnBGmp2VcYflXoE
+Byte-exact .py/.json files additionally delivered to the operator in-session.
+
+
+REQUIRED REGISTER WORDING (per CL-AUD-200 §8):
+"EC-019 T2 clean-room independent implementation: PASS under CL-AUD-200-v1.0 (Anthropic/CL line,
+source-independent, blinded, frozen). EC-019 remains NONTERMINAL; T1 + T2 now both have qualifying
+non-GP evidence; terminal closure remains a separate operator/canonical decision."
+
+
+BOUNDARIES: This delta records evidence only. It does not terminally close EC-019, does not promote
+P0.1/P0.2/Theorem B, does not establish any probability value or r-uniformity, does not qualify
+GP-AUTO-034, and does not authorize sealing, release, or deletion. Active next tasks list: item
+"D. Complete EC-019 source-independent T2" may be marked DONE (evidence recorded); operator
+adjudication of EC-019 is the successor item.
+
+
+END CL-REC-201-v1.0

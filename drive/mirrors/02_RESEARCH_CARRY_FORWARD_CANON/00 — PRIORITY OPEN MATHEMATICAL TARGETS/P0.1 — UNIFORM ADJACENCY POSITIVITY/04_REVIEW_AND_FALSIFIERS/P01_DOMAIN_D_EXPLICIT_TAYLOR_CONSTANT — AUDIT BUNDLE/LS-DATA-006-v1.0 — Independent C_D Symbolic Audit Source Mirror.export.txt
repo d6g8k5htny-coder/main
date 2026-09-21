@@ -1,0 +1,322 @@
+﻿LS-DATA-006-v1.0 — INDEPENDENT C_D SYMBOLIC AUDIT SOURCE MIRROR
+
+
+Artifact ID: LS-DATA-006-v1.0-SOURCE-MIRROR
+Date: 2026-07-24
+Author/executor: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: DATA / SOURCE MIRROR / SYMBOLIC AUDIT / SAME-LINE
+Authority: none
+Canonical mathematical impact: NONE
+Source filename: LS-DATA-006-v1.0_Independent_CD_Symbolic_Audit.py
+Source bytes: 11,137
+Source SHA-256: e17ce1230d55387a8d24712f1e4e21580734966c71f0d1fd5e5119ec795e1c19
+Target: GP-DER-100-v1.0 / GP-DATA-101-v1.0
+Status: EXACT HUMAN-READABLE SOURCE MIRROR / NATIVE-DOC NORMALIZATION MEANS THIS DOC IS NOT THE RAW PREIMAGE
+
+
+The exact raw source was generated in the execution runtime. This Google Doc preserves the complete source text and the controlling raw byte/hash identity. Google Docs normalization means exporting this document is not expected to reproduce the raw source hash.
+
+
+================ BEGIN SOURCE ================
+
+
+#!/usr/bin/env python3
+"""Independent symbolic/source audit of GP-DER-100 / GP-DATA-101.
+
+
+This script independently derives the full-chart Hermite suprema and C_D,
+checks endpoint interpolation identities, re-executes the published source,
+and records byte/hash equality with the stored receipt.
+"""
+from __future__ import annotations
+
+
+import hashlib
+import json
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from typing import Any
+
+
+import sympy as sp
+
+
+T = sp.symbols("t", real=True)
+I = sp.Interval(sp.Rational(-1, 4), sp.Rational(5, 4))
+
+
+H00 = 2*T**3 - 3*T**2 + 1
+H10 = T**3 - 2*T**2 + T
+H01 = -2*T**3 + 3*T**2
+H11 = T**3 - T**2
+B0 = 1 - T
+B1 = T
+
+
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+
+
+def exact_sup_abs(poly: sp.Expr) -> sp.Expr:
+    """Exact sup |poly| on I by endpoints and real critical points."""
+    derivative = sp.diff(poly, T)
+    candidates = [I.start, I.end]
+    for root in sp.solve(sp.Eq(derivative, 0), T):
+        if root.is_real and bool(I.contains(root)):
+            candidates.append(root)
+    values = [sp.Abs(sp.simplify(poly.subs(T, x))) for x in candidates]
+    return sp.simplify(sp.Max(*values))
+
+
+
+
+def exact_sup_sum_abs(polys: list[sp.Expr]) -> sp.Expr:
+    """Exact sup of sum |p_i| via sign breakpoints and critical points per cell."""
+    points = {I.start, I.end}
+    for p in polys:
+        for root in sp.solve(sp.Eq(p, 0), T):
+            if root.is_real and bool(I.contains(root)):
+                points.add(root)
+    points_sorted = sorted(points, key=lambda x: float(x))
+    candidates = set(points_sorted)
+    for a, b in zip(points_sorted[:-1], points_sorted[1:]):
+        mid = sp.Rational(1, 2) * (a + b)
+        signed = sp.Integer(0)
+        for p in polys:
+            val = sp.N(p.subs(T, mid))
+            sign = 1 if val >= 0 else -1
+            signed += sign * p
+        for root in sp.solve(sp.Eq(sp.diff(signed, T), 0), T):
+            if root.is_real and float(a) <= float(root) <= float(b):
+                candidates.add(root)
+    vals = []
+    for x in candidates:
+        vals.append(sp.simplify(sum(sp.Abs(p.subs(T, x)) for p in polys)))
+    return sp.simplify(max(vals, key=lambda x: float(x)))
+
+
+
+
+def dec(x: sp.Expr, n: int = 70) -> str:
+    return str(sp.N(x, n))
+
+
+
+
+def main() -> None:
+    root = Path("/mnt/data")
+    published_source = root / "GP-DATA-101-v1.0_explicit_pin_operator_constant.py"
+    stored_receipt = root / "GP-DATA-101-v1.0_receipt.json"
+    if not published_source.exists() or not stored_receipt.exists():
+        raise FileNotFoundError("Published source/receipt must be present in /mnt/data")
+
+
+    cardinal_checks = {
+        "h00_left_value": sp.simplify(H00.subs(T, 0)) == 1,
+        "h00_right_value": sp.simplify(H00.subs(T, 1)) == 0,
+        "h10_left_derivative": sp.simplify(sp.diff(H10, T).subs(T, 0)) == 1,
+        "h10_right_derivative": sp.simplify(sp.diff(H10, T).subs(T, 1)) == 0,
+        "h01_left_value": sp.simplify(H01.subs(T, 0)) == 0,
+        "h01_right_value": sp.simplify(H01.subs(T, 1)) == 1,
+        "h11_left_derivative": sp.simplify(sp.diff(H11, T).subs(T, 0)) == 0,
+        "h11_right_derivative": sp.simplify(sp.diff(H11, T).subs(T, 1)) == 1,
+        "B0_left": B0.subs(T, 0) == 1,
+        "B0_right": B0.subs(T, 1) == 0,
+        "B1_left": B1.subs(T, 0) == 0,
+        "B1_right": B1.subs(T, 1) == 1,
+    }
+
+
+    suprema = {
+        "sup_abs_h00_prime": exact_sup_abs(sp.diff(H00, T)),
+        "sup_abs_h01_prime": exact_sup_abs(sp.diff(H01, T)),
+        "sup_abs_h10_prime": exact_sup_abs(sp.diff(H10, T)),
+        "sup_abs_h11_prime": exact_sup_abs(sp.diff(H11, T)),
+        "sup_abs_h00_second": exact_sup_abs(sp.diff(H00, T, 2)),
+        "sup_abs_h01_second": exact_sup_abs(sp.diff(H01, T, 2)),
+        "sup_abs_h10_second": exact_sup_abs(sp.diff(H10, T, 2)),
+        "sup_abs_h11_second": exact_sup_abs(sp.diff(H11, T, 2)),
+        "sup_sum_abs_B0_B1": exact_sup_sum_abs([B0, B1]),
+        "abs_B0prime_plus_abs_B1prime": sp.Abs(sp.diff(B0, T)) + sp.Abs(sp.diff(B1, T)),
+    }
+    derived_sums = {
+        "value_cardinal_first_sum": sp.simplify(suprema["sup_abs_h00_prime"] + suprema["sup_abs_h01_prime"]),
+        "xder_cardinal_first_sum": sp.simplify(suprema["sup_abs_h10_prime"] + suprema["sup_abs_h11_prime"]),
+        "value_cardinal_second_sum": sp.simplify(suprema["sup_abs_h00_second"] + suprema["sup_abs_h01_second"]),
+        "xder_cardinal_second_sum": sp.simplify(suprema["sup_abs_h10_second"] + suprema["sup_abs_h11_second"]),
+        "ylinear_value_combined": sp.simplify(suprema["sup_sum_abs_B0_B1"]),
+        "ylinear_derivative_combined": sp.Integer(2),
+    }
+    expected_sums = {
+        "value_cardinal_first_sum": sp.Rational(15, 4),
+        "xder_cardinal_first_sum": sp.Rational(35, 8),
+        "value_cardinal_second_sum": sp.Integer(18),
+        "xder_cardinal_second_sum": sp.Integer(11),
+        "ylinear_value_combined": sp.Rational(3, 2),
+        "ylinear_derivative_combined": sp.Integer(2),
+    }
+    suprema_checks = {k: sp.simplify(derived_sums[k] - v) == 0 for k, v in expected_sums.items()}
+
+
+    L = sp.Rational(7, 4)
+    value_residual = sp.Rational(1, 3840)
+    gradient_residual = sp.Rational(1, 384)
+
+
+    c_grad = L**4 / sp.factorial(4)
+    C_vec_taylor = sp.sqrt(2) * c_grad
+    c_hess = L**3 / sp.factorial(3)
+    C_J_taylor = 2 * c_hess
+
+
+    pin_px = value_residual * sp.Rational(15, 4) + gradient_residual * sp.Rational(35, 8) + gradient_residual * 2
+    pin_py = gradient_residual * sp.Rational(3, 2)
+    C_vec_pin = sp.sqrt(pin_px**2 + pin_py**2)
+
+
+    pin_pxx = value_residual * 18 + gradient_residual * 11
+    pin_pxy = gradient_residual * 2
+    C_J_pin = sp.sqrt(pin_pxx**2 + 2 * pin_pxy**2)
+
+
+    C_vec = sp.simplify(C_vec_taylor + C_vec_pin)
+    C_J = sp.simplify(C_J_taylor + C_J_pin)
+    C_D = C_J if float(C_J) >= float(C_vec) else C_vec
+    epsilon_D = sp.Rational(1, 10000)
+    r_D = sp.simplify(epsilon_D / C_D)
+
+
+    exact_checks = {
+        "pin_px_is_9_over_512": sp.simplify(pin_px - sp.Rational(9, 512)) == 0,
+        "pin_py_is_1_over_256": sp.simplify(pin_py - sp.Rational(1, 256)) == 0,
+        "pin_pxx_is_1_over_30": sp.simplify(pin_pxx - sp.Rational(1, 30)) == 0,
+        "pin_pxy_is_1_over_192": sp.simplify(pin_pxy - sp.Rational(1, 192)) == 0,
+        "C_vec_pin_is_sqrt85_over_512": sp.simplify(C_vec_pin - sp.sqrt(85)/512) == 0,
+        "C_J_taylor_is_343_over_192": sp.simplify(C_J_taylor - sp.Rational(343, 192)) == 0,
+        "jacobian_channel_binding": sp.simplify(C_J - C_vec) > 0,
+    }
+
+
+    with tempfile.TemporaryDirectory() as td:
+        replay = Path(td) / "receipt.json"
+        proc = subprocess.run(
+            [sys.executable, str(published_source), "--output", str(replay)],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        replay_bytes_equal = replay.exists() and replay.read_bytes() == stored_receipt.read_bytes()
+        replay_sha = sha256(replay) if replay.exists() else None
+
+
+    stored = json.loads(stored_receipt.read_text(encoding="utf-8"))
+    published_CD = sp.Float(stored["combined"]["C_D_conservative"], 90)
+    CD_matches_published = abs(published_CD - sp.N(C_D, 90)) < sp.Float("1e-80")
+
+
+    prose_typo = {
+        "exact_formula": "sqrt(85)/512",
+        "correct_decimal": dec(sp.sqrt(85)/512),
+        "prose_display": "0.018005...",
+        "classification": "NONMATERIAL_DECIMAL_DISPLAY_TYPO_EXACT_FORMULA_AND_COMBINED_CONSTANT_CORRECT",
+    }
+
+
+    result: dict[str, Any] = {
+        "schema": "LS-independent-CD-audit/1.0",
+        "target": "GP-DER-100-v1.0 / GP-DATA-101-v1.0",
+        "chart": {"X": "[-3/4,3/4]", "Y": "[-1,1]", "t": "[-1/4,5/4]"},
+        "published_source": {
+            "bytes": published_source.stat().st_size,
+            "sha256": sha256(published_source),
+        },
+        "stored_receipt": {
+            "bytes": stored_receipt.stat().st_size,
+            "sha256": sha256(stored_receipt),
+        },
+        "published_execution": {
+            "returncode": proc.returncode,
+            "stdout": proc.stdout.strip().splitlines(),
+            "stderr": proc.stderr.strip(),
+            "replay_receipt_sha256": replay_sha,
+            "byte_identical_to_stored_receipt": replay_bytes_equal,
+        },
+        "cardinal_checks": {k: bool(v) for k, v in cardinal_checks.items()},
+        "suprema": {k: str(sp.simplify(v)) for k, v in suprema.items()},
+        "derived_sums": {k: str(v) for k, v in derived_sums.items()},
+        "suprema_checks": {k: bool(v) for k, v in suprema_checks.items()},
+        "constants_exact": {
+            "c_grad": str(c_grad),
+            "C_vec_taylor": str(C_vec_taylor),
+            "c_hess": str(c_hess),
+            "C_J_taylor": str(C_J_taylor),
+            "pin_px": str(pin_px),
+            "pin_py": str(pin_py),
+            "C_vec_pin": str(C_vec_pin),
+            "pin_pxx": str(pin_pxx),
+            "pin_pxy": str(pin_pxy),
+            "C_J_pin": str(C_J_pin),
+            "C_vec": str(C_vec),
+            "C_J": str(C_J),
+            "C_D": str(C_D),
+            "r_D_for_epsilon_1e-4": str(r_D),
+        },
+        "constants_decimal": {
+            "C_vec_pin": dec(C_vec_pin),
+            "C_vec": dec(C_vec),
+            "C_J": dec(C_J),
+            "C_D": dec(C_D),
+            "r_D_for_epsilon_1e-4": dec(r_D),
+        },
+        "exact_checks": {k: bool(v) for k, v in exact_checks.items()},
+        "published_CD_matches": bool(CD_matches_published),
+        "prose_typo": prose_typo,
+        "overall": "PASS_WITH_NONMATERIAL_DECIMAL_DISPLAY_CORRECTION" if (
+            all(cardinal_checks.values())
+            and all(suprema_checks.values())
+            and all(exact_checks.values())
+            and proc.returncode == 0
+            and replay_bytes_equal
+            and CD_matches_published
+        ) else "FAIL_OR_AMEND_REQUIRED",
+        "scope": {
+            "proves": [
+                "explicit deterministic C_D on D+",
+                "source and receipt byte replay",
+                "full-chart Hermite suprema",
+                "explicit qualitative radius r_D=1e-4/C_D on H5<=r^-1",
+            ],
+            "does_not_prove": [
+                "conditioned field satisfies a fixed H5 threshold at r=1/20",
+                "organizationally distinct arithmetic review of the explicit constant",
+                "P0.1 promotion",
+            ],
+        },
+    }
+
+
+    out = root / "LS-DATA-006-v1.0_independent_CD_symbolic_audit_result.json"
+    out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(result["overall"])
+    print("C_D", result["constants_decimal"]["C_D"])
+    print("r_D", result["constants_decimal"]["r_D_for_epsilon_1e-4"])
+    print("RESULT", out)
+    print("RESULT_SHA256", sha256(out))
+
+
+
+
+if __name__ == "__main__":
+    main()
+
+
+================ END SOURCE ================
+
+
+END LS-DATA-006-v1.0 SOURCE MIRROR

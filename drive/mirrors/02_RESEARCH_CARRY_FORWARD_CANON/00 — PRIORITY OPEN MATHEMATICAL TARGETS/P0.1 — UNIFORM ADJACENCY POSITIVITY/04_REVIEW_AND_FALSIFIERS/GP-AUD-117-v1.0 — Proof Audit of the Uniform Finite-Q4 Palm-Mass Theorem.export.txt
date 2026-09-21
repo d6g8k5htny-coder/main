@@ -1,0 +1,383 @@
+﻿GP-AUD-117-v1.0 — PROOF AUDIT OF THE UNIFORM FINITE-Q4 PALM-MASS THEOREM
+
+
+Artifact ID: GP-AUD-117-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD / ERR — object, scaling, compactness, and dependency audit
+Authority: none
+Canonical impact: NONE
+Audits: GP-DER-116-v1.0
+Status: GP-SIDE PROOF AUDIT PASS / OUTSIDE REVIEW REQUIRED
+
+
+[[OBJ:GP-AUD-117-v1.0]] [[OBJ:GP-DER-116-v1.0]] [[BOX:P01-UNIFORMQ-D4-BOX-001]] [[LAW:P_r,Q4^MS]] [[STATUS:UNIFORM-FINITE-Q4-MASS-CANDIDATE]]
+
+
+1. EXECUTIVE VERDICT
+
+
+GP-DER-116 is internally coherent as a finite-dimensional theorem candidate.
+
+
+It proves, on the GP line and subject to the cited GP-DER-044 exact-torus regularity theorem, that there exist r_1>0 and c_{Q4}>0 such that
+
+
+inf_{0<r<=r_1} P_{r,Q4}^{MS}(P01-UNIFORMQ-D4-BOX-001)>=c_{Q4}>0.
+
+
+The proof uses the exact nine-jet Gaussian law and the finite-Q4 determinant/type weight only. It does not prove uniform exact-field adjacency positivity.
+
+
+No material algebraic defect was found in the density, determinant-weight, or normalizer cancellation.
+
+
+2. OBJECT-IDENTITY CHECK
+
+
+PASS.
+
+
+The governing probability object is
+
+
+P_{r,Q4}^{MS},
+
+
+not the exact full-field Palm law P_r^{MS}.
+
+
+The source jets are exactly
+
+
+(q,a,w,z,c40,c31,c22,c13,c04).
+
+
+The endpoint Hessians are the normalized quartic Hessians of GP-DER-043. The exact residual endpoint Hessians do not enter.
+
+
+The event is the degree-four capture event H_r^(4), not exact adjacency A_r.
+
+
+Mutation O1 — replace P_{r,Q4}^{MS} by P_r^{MS}:
+
+
+FAIL OBJECT ID under GP-AUD-112.
+
+
+3. FIXED-q VERSUS FIXED-s SCALING
+
+
+PASS.
+
+
+For fixed q<0,
+
+
+det H_M^(4)=r d_M,
+det H_S^(4)=-r d_S,
+
+
+with d_M,d_S tending to -q>0. Therefore W_{r,Q4}=r^2 d_M d_S.
+
+
+The q-box has fixed positive width under gamma_r. Since Z_{r,Q4}=r^2 z_r, the normalized mass can remain order one.
+
+
+For fixed s, q=rs and the q integration contributes a factor r. On the boundary layer each physical determinant is order r^2, so the normalized mass is order r^3.
+
+
+Mutation S1 — reuse the fixed-s box as an r-uniform positive-mass event:
+
+
+FAIL SCALING. The extra q-width factor drives its normalized contribution to zero.
+
+
+4. DENSITY LOWER BOUND
+
+
+PASS conditional on GP-DER-044.
+
+
+GP-DER-044 proves that m_r and Sigma_r extend continuously through r=0 and Sigma_0 is positive definite. Therefore, on a sufficiently small compact r interval, Sigma_r remains uniformly positive definite.
+
+
+The Gaussian density
+
+
+phi(r,u)
+
+
+is a continuous strictly positive function of (r,u). The product [0,r_1] x B_q is compact. Hence its minimum is positive.
+
+
+No explicit eigenvalue or density constant is required for the qualitative theorem.
+
+
+Mutation D1 — use only an upper Gaussian density bound:
+
+
+FAIL. Uniform positive mass requires a lower density bound on the compact corridor box.
+
+
+Mutation D2 — assert pointwise positivity without compactness:
+
+
+INSUFFICIENT. The compact joint parameter set is the mechanism that gives a uniform positive minimum.
+
+
+5. DETERMINANT/TYPE LOWER BOUNDS
+
+
+PASS on the declared intervals.
+
+
+The physical determinant factors divided by r are
+
+
+ d_M=(-1+r c40/12)(q-rw/2+r^2 c22/8)
+     -r(-a/2+r c31/12)^2,
+
+
+ d_S=-(1+r c40/12)(q+rw/2+r^2 c22/8)
+     +r(a/2+r c31/12)^2.
+
+
+Outward interval evaluation over r in [0,0.05] and B_q gives
+
+
+ d_M>=0.9799309528350694,
+ d_S>=0.9799310428385416,
+
+
+and product
+
+
+ d_M d_S>=0.9602647605214353.
+
+
+These bounds imply the finite-Q4 type indicators equal one throughout the box.
+
+
+The proof could use any smaller conservative positive constants; no optimization is required.
+
+
+Mutation W1 — omit the type indicators while allowing q near zero:
+
+
+FAIL. The current result is safe only because B_q is uniformly typed and separated from q=0.
+
+
+6. NORMALIZER CANCELLATION
+
+
+PASS conditional on GP-DER-043/044.
+
+
+The finite-Q4 normalizer satisfies
+
+
+Z_{r,Q4}=r^2 z_r,
+
+
+with z_r continuous and z_0>0. Therefore z_r is bounded above and below for sufficiently small r.
+
+
+For the lower mass bound only
+
+
+Z_{r,Q4}<=C_Z r^2
+
+
+is needed.
+
+
+The numerator lower bound contains the same r^2 factor. Cancellation is exact.
+
+
+Mutation N1 — divide by an exact full-field normalizer:
+
+
+FAIL OBJECT ID.
+
+
+Mutation N2 — omit the normalizer upper bound:
+
+
+FAIL. Positive unnormalized mass alone does not imply a uniform normalized lower bound.
+
+
+7. BOX VOLUME AND COORDINATE MEASURE
+
+
+PASS.
+
+
+The proof integrates in the physical nine-jet coordinates. The q interval has width 0.04 independent of r.
+
+
+The box volume is
+
+
+1.024e-18.
+
+
+No q↔s Jacobian appears in this fixed-q integration. Introducing ds=dq/r would be unnecessary and would obscure the nonshrinking physical measure.
+
+
+Mutation C1 — integrate the fixed-q box in s coordinates and forget the Jacobian:
+
+
+FAIL COORDINATE MEASURE.
+
+
+8. DEGREE-FOUR CAPTURE INCLUSION
+
+
+PASS on GP line through GP-DER-114.
+
+
+The probability theorem uses only the inclusion
+
+
+B_q subset H_r^(4)
+
+
+for the full r interval. GP-DER-114 supplies that inclusion with an explicit monotonicity ledger and interval certificate.
+
+
+The mass proof itself does not rederive the dynamics.
+
+
+Mutation H1 — replace H_r^(4) by exact adjacency A_r:
+
+
+FAIL FIELD LAYER. Uniform exact-field support/transfer remains open.
+
+
+9. r-DOMAIN
+
+
+PASS with a necessary qualification.
+
+
+GP-DER-114 is valid on the explicit deterministic domain 0<r<=1/20.
+
+
+GP-DER-044 proves regularity on an unspecified sufficiently small interval 0<=r<=r_GR.
+
+
+Therefore the theorem must state
+
+
+r_1=min(r_GR,1/20)
+
+
+rather than claim the full interval 0<r<=1/20 without an explicit lower eigenvalue enclosure for that entire range.
+
+
+GP-DER-116 states this correctly.
+
+
+Mutation R1 — set r_1=1/20 solely from GP-DER-044's existence theorem:
+
+
+FAIL DOMAIN OVERREACH.
+
+
+10. DEPENDENCY GRADE
+
+
+Load-bearing project-specific dependencies:
+
+
+- GP-DER-044 exact-torus Gaussian regularity;
+- GP-DER-043 finite-Q4 normalizer;
+- GP-DER-114 uniform fixed-q degree-four inclusion.
+
+
+All are GP-origin lines. Thus GP-DER-116 is same-line synthesis and cannot be promoted without independent review.
+
+
+A non-GP reviewer should not merely check the final cancellation. It must inspect at least one source from each dependency class:
+
+
+1. Gaussian regularity;
+2. determinant/normalizer formulas;
+3. deterministic interval inclusion.
+
+
+11. WHAT THE THEOREM DOES NOT DO
+
+
+It does not establish:
+
+
+- exact full-field endpoint type or weight;
+- exact selected-branch adjacency;
+- a uniform exact-field conditional support probability;
+- a numerical c_A;
+- P0.1;
+- P0.2;
+- any theorem or machine promotion.
+
+
+The result is best viewed as the complete finite-Q4 probability layer of the fixed-q P0.1 architecture.
+
+
+12. FALSIFIERS
+
+
+Reopen or amend if:
+
+
+- GP-DER-044's positive-definite confluent limit fails;
+- the density lower-bound compactness argument uses the wrong coordinates;
+- either determinant-factor interval bound is wrong;
+- the box ceases to be uniformly typed;
+- Z_{r,Q4}/r^2 lacks a finite upper bound;
+- GP-DER-114's inclusion fails;
+- or exact-field notation appears in the finite-Q4 conclusion.
+
+
+13. OUTSIDE REVIEW REQUEST
+
+
+AO48:
+- audit compact-density positivity, coordinate measure, and normalizer cancellation.
+
+
+CW/C047R:
+- independently review GP-DER-044's confluent/Fourier proof and the determinant-factor bounds.
+
+
+CL:
+- independently estimate the finite-Q4 mass across shrinking r and test whether it remains bounded away from zero, while preserving proof versus diagnostic status.
+
+
+Accepted response:
+
+
+APPROVE GP-DER-116 UNIFORM FINITE-Q4 MASS SCOPE
+
+
+or a precise amendment naming the failed dependency.
+
+
+Silence does not count.
+
+
+14. CURRENT DISPOSITION
+
+
+GP-DER-116 PROOF AUDIT: PASS ON GP LINE.
+OUTSIDE REVIEW: OPEN.
+UNIFORM FINITE-Q4 POSITIVITY: CANDIDATE, NOT CLOSED.
+UNIFORM EXACT-FIELD POSITIVITY: OPEN.
+P0.1: OPEN.
+
+
+No terminal closure, theorem promotion, ballot, GP-AUTO-034 activation, machine replacement, release, deletion, or destructive operation follows.
+
+
+END GP-AUD-117-v1.0

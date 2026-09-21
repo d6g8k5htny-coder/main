@@ -1,0 +1,48 @@
+LB-2 MEAN-RIDGE CONNECTIVITY - fail-closed certificate
+periodized BF (L=24, lattice (pi/12)Z^2, masses e^{-|k|^2/2}, |k|<=30); b=6/5; ell=r^3/6; ytil=(-0.76,0.24); region B_{2r}(M); mp.dps=60
+C0  spectral tail (|k|>30) <= 2.16e-186  (ledger commits < 1e-60)
+C0  Poisson images: |K_per-K| <= 5.766e-121 ; orders<=4 <= 8.428e-117
+==============================================================================
+RUNG r=0.05 : ell=2.0833333333e-05  v*=1.199989602595  (b-v*)/ell=0.499075
+C1  pins: max|d^a m9(p_j)-v_j|=1.53e-53  max|grad m9(value pins)|=3.55e-54
+C2  ||m9||_H^2=13.1595532  ||Spp^-1||_F=7.5836e+11
+C2  G1=3.6276 G2=6.2832 G3=14.0497 D2F=10.8828 D3F=48.6695
+C0  propagated |m9_per - m9| <= 8.26e-108 (all grid margins >= 1e-7)
+C3  CENSUS: exclusion to d=1.95e-05; survivors per pin {M,yy,S}=[36, 26, 14]; no other critical points in B_{2r}(M)
+C4  M  m=1.200000000000 (m-b)/ell=+0.00000 lam=(-0.029889,-0.653473) res<3e-54 gamma=14.294 rho2=4.18e-03=0.084r
+C4  yy m=1.199989602595 (m-b)/ell=-0.49908 lam=(+0.046601,-0.738280) res<2e-54 gamma=14.187 rho2=6.57e-03=0.131r
+C4  S  m=1.199979166667 (m-b)/ell=-1.00000 lam=(+0.066668,-0.672531) res<4e-54 gamma=14.235 rho2=9.37e-03=0.187r
+C5  min_[yy,M] m9 >= v* - 2.087e-04*ell  (raw min 1.199989602595 at t=0.0000)
+C5  min_[M,S] m9 >= b-ell - 4.254e-04*ell  (raw min 1.199979166667 at t=1.0000)
+C6  dB_{2r}(M) at h=b-ell/2: live-runs=2 certified-above arcs=2 gray=5  max band=2.873e-02*ell
+C6  arc centers (rad): ['0.135', '2.719']  (skeleton sectors: beyond-S ~0; arch-esc ~2.7)
+C7  grid 1001x1001 d=2.0e-04; certification band <= 4.965e-01*ell
+C7  h=b- 2/16*ell: clusters=3 interior=1 M-cluster=True bad=0
+C7  h=b- 7/16*ell: clusters=3 interior=1 M-cluster=True bad=0
+C7  h=b- 8/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  h=b-11/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  h=b-14/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  verdict: 13 heights PASS - every superlevel cluster contains M or touches dB_{2r}(M)
+==============================================================================
+RUNG r=0.025 : ell=2.6041666667e-06  v*=1.199998698656  (b-v*)/ell=0.499716
+C1  pins: max|d^a m9(p_j)-v_j|=1.09e-51  max|grad m9(value pins)|=1.12e-52
+C2  ||m9||_H^2=13.21973646  ||Spp^-1||_F=4.94337e+13
+C2  G1=3.6359 G2=6.2976 G3=14.0818 D2F=10.9077 D3F=48.7807
+C0  propagated |m9_per - m9| <= 5.34e-106 (all grid margins >= 1e-7)
+C3  CENSUS: exclusion to d=4.88e-06; survivors per pin {M,yy,S}=[36, 28, 14]; no other critical points in B_{2r}(M)
+C4  M  m=1.200000000000 (m-b)/ell=-0.00000 lam=(-0.014943,-0.327324) res<8e-53 gamma=14.311 rho2=2.09e-03=0.084r
+C4  yy m=1.199998698656 (m-b)/ell=-0.49972 lam=(+0.023373,-0.369907) res<6e-53 gamma=14.274 rho2=3.27e-03=0.131r
+C4  S  m=1.199997395833 (m-b)/ell=-1.00000 lam=(+0.033373,-0.336752) res<1e-52 gamma=14.297 rho2=4.67e-03=0.187r
+C5  min_[yy,M] m9 >= v* - 2.158e-04*ell  (raw min 1.199998698656 at t=0.0000)
+C5  min_[M,S] m9 >= b-ell - 4.364e-04*ell  (raw min 1.199997395833 at t=1.0000)
+C6  dB_{2r}(M) at h=b-ell/2: live-runs=2 certified-above arcs=2 gray=12  max band=3.897e-02*ell
+C6  arc centers (rad): ['0.135', '2.718']  (skeleton sectors: beyond-S ~0; arch-esc ~2.7)
+C7  grid 1001x1001 d=1.0e-04; certification band <= 5.145e-01*ell
+C7  h=b- 2/16*ell: clusters=3 interior=1 M-cluster=True bad=0
+C7  h=b- 7/16*ell: clusters=3 interior=1 M-cluster=True bad=0
+C7  h=b- 8/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  h=b-11/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  h=b-14/16*ell: clusters=2 interior=0 M-cluster=True bad=0
+C7  verdict: 13 heights PASS - every superlevel cluster contains M or touches dB_{2r}(M)
+==============================================================================
+LB-2 CERT PASS: mean-ridge connectivity certified at r=0.05 and r=0.025.

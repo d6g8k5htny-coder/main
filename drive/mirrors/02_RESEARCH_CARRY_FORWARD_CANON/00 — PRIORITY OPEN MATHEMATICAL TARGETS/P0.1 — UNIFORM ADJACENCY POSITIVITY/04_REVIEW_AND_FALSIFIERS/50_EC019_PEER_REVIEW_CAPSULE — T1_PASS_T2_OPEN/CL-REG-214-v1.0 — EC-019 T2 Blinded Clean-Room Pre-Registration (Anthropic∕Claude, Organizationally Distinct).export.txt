@@ -1,0 +1,91 @@
+﻿AUTHORITATIVE PREREGISTRATION RECONCILIATION — GP-COR-180-v1.0 — 2026-07-24
+This is the sole authoritative preregistration for Anthropic Cowork session session_01Tqagv53x5pGo8bwGackV1g. Governing square-root precision exponents: P={40,100,200}. The later CL-PREREG-200-v1.0 publication is the same-session duplicate and earns zero additional independence or preregistration credit. Any qualifying implementation must use this document's policy and disclose whether source bytes existed before the reconciliation. EC-019 remains T2 OPEN / NONTERMINAL.
+Correction: https://docs.google.com/document/d/11ZmEt04O5APXjI_XJfUxCLVk-oEx2ZsAyxXpby9BYYY/edit
+[[STATUS:AUTHORITATIVE-PREREG]] [[PRECISION:40-100-200]] [[DUPLICATE-CREDIT:ZERO]] [[T2:OPEN]]
+
+
+CL-REG-214-v1.0 — EC-019 T2 BLINDED CLEAN-ROOM PRE-REGISTRATION
+
+
+Artifact ID: CL-REG-214-v1.0
+Author line: CL — Anthropic Claude (model line: Claude Opus, configured identifier claude-opus-4-8)
+Session identity: Cowork session session_01Tqagv53x5pGo8bwGackV1g, operating under Dylan Roy's operator direction
+Timestamp (pre-coding): 2026-07-24T20:02:32Z
+Class: REG / BLINDED PRE-REGISTRATION / EC-019 T2 INDEPENDENT REVIEW
+Governing protocol: OP-PROT-011 — Independent-Eyes Rule
+Task: EC-019 / HB-030 / GP-REQ-160 Test B / GP-REQ-172-v1.1 blinded non-GP T2 takeover
+Canonical impact: NONE. This document authorizes no promotion, terminalization, root, seal, or release.
+
+
+This pre-registration is published BEFORE any implementation code is written, per GP-REQ-172-v1.1 Section 3 and GP-SPEC-166-v1.0 Section 2 Phase 1.
+
+
+1. PROVIDER / MODEL / SESSION IDENTITY
+- Provider: Anthropic (organizationally distinct from OpenAI/GP).
+- Base-model family: Claude.
+- Model line: Claude Opus; configured identifier claude-opus-4-8.
+- Session identity: Cowork cloud session session_01Tqagv53x5pGo8bwGackV1g.
+- Independence basis: Anthropic is an organizationally distinct family from the OpenAI/GP same-line implementations. This satisfies the "organizationally distinct" requirement of GP-REQ-172-v1.1 Section 1.
+
+
+2. SOFTWARE / INTERVAL PACKAGE / PRECISION POLICY (COMMITTED BEFORE CODING)
+- Language: Python 3.11.15 on Linux (x86_64).
+- Interval package: NONE external. mpmath and python-flint are unavailable in this sandbox (package registry blocked). Instead, a self-contained rigorous interval arithmetic is implemented using only the Python standard library:
+  * fractions.Fraction for EXACT rational arithmetic. Interval endpoints are exact rationals. Addition, subtraction, multiplication, division by intervals not containing zero, negation, and integer powers are computed EXACTLY with ZERO rounding, so their enclosures are the exact natural-interval-extension ranges (outward by construction, no rounding error introduced).
+  * Directed square-root enclosure via integer math.isqrt on scaled integers. For rational x = p/q >= 0 and scale D:
+      lower(sqrt(x)) := isqrt( floor(x * D^2) ) / D          (<= sqrt(x), proven: isqrt(n) = floor(sqrt(n)) <= sqrt(n), and floor(x D^2) <= x D^2)
+      upper(sqrt(x)) := ( isqrt( ceil(x * D^2) ) + 1 ) / D    (>= sqrt(x), proven: isqrt(n)+1 > sqrt(n), and ceil(x D^2) >= x D^2)
+    These bounds are rigorous rational enclosures of sqrt with documented, proven directed behavior (this is the "documented guarantee of lower and upper enclosure" required by GP-REQ-172-v1.1 Section 4.A; the guarantee is self-contained, not delegated to any library's rounding-mode documentation).
+  * Even powers of zero-crossing intervals use the correct semantics: for I=[a,b] with a<0<b, I^2 = [0, max(a^2,b^2)]. Squares are NOT computed as generic self-multiplication.
+  * Interval absolute value and supabs are rigorous per GP-SPEC-166-v1.0 Section 5.
+- Precision policy: three preregistered square-root scales D = 10^P for P in {40, 100, 200}. Because every non-sqrt operation is exact, P controls only the sqrt-enclosure width (<= 10^-P). All nineteen primary margin SIGNS and all five negative-control verdicts must be identical and stable across P in {40, 100, 200}. The exact set {40, 100, 200} is frozen here before comparison.
+
+
+3. ALL SOURCES ALREADY READ (FULL DISCLOSURE)
+Read before this pre-registration:
+- GP-REQ-172-v1.1 (this blinded takeover packet).
+- GP-SPEC-166-v1.0 (the clean-room mathematical interface; the sole permitted implementation source).
+- COMMAND CENTER snapshot dated 2026-07-24 (navigational status). It states the EXPECTED outcome in words ("nineteen margins positive; five controls pass") and that GP's same-line run was executed at 40/80/120 digits. It contains NO numerical margin values, NO interval outputs, and NO source code.
+- DELEGATED DECISION DISPOSITION (Pending Human Queue, 2026-07-24) and the LEAD SCIENTIST EXECUTION UPDATE header (operator/governance routing only; no EC-019 numeric margins).
+- Google Drive file-listing metadata (titles, ids, timestamps only).
+
+
+4. WHETHER ANY GP/OPENAI OR OTHER PRIOR IMPLEMENTATION OR STORED OUTPUT WAS SEEN
+NO. I have NOT opened or read: GP-DATA-168-v1.0/v1.1, GP-AUD-169-v1.0, GP-AUD-176-v1.0, GP-DATA-106 source or stored arrays, GP-DER-106 Section 3 numerical outputs, CL-AUD-071 output values, or any copied implementation, interval array, margin table, discrepancy table, or execution receipt. The only prior-outcome awareness is the binary claim that a same-line preflight "passed"; no numerical margin, interval, or control value has been read. Per GP-REQ-172-v1.1 Section 2, awareness that prior implementations exist does not invalidate blindness; I have read none of their code, margins, interval outputs, control outcomes, or discrepancy analysis.
+
+
+5. COMMITMENT
+I commit to deriving the entire implementation ONLY from the formulas and interval domains in GP-SPEC-166-v1.0, without importing, transcribing, or consulting GP code or numeric result arrays. Constants and domains will NOT be tuned after comparison.
+
+
+6. SOURCE NORMALIZATION AND RESULT SERIALIZATION RULES
+- Source normalization: the frozen artifact is the exact UTF-8 bytes of the single Python file as written; byte count and SHA-256 recorded before any comparison material is opened.
+- Result serialization: a canonical UTF-8 JSON record with sorted keys listing every input interval, all nineteen margins (as exact rational lower-bound certificates and decimal enclosures), derived W, rho, tau_upper, the validator outcome, all five negative-control outcomes, and all nine zero-radius full-dimensionality mutation outcomes; byte count and SHA-256 recorded.
+
+
+7. OUTWARD ENCLOSURE MECHANISM
+Exact rational arithmetic (no rounding) for all field operations; proven directed isqrt enclosure for square roots; correct even-power semantics for zero-crossing intervals. Point sampling and binary floating-point error bars are NOT used anywhere.
+
+
+8. FULL-DIMENSIONALITY REPRESENTATION AND VALIDATION
+The parameter object stores each of the nine parameters as an exact (center, radius) pair of Fractions. A validator rejects any parameter whose radius is missing or <= 0, emitting a machine-generated FULL_DIMENSIONAL_BOX_FAIL before any dynamical margin is computed. The primary box must pass the validator.
+
+
+9. PLANNED NEGATIVE-CONTROL EXECUTION
+NC1 (c04 radius -> 0), NC2 (c40 radius -> 500), NC3 (s radius -> 1.1), NC4 (kappa -> 0.0005), NC5 (a radius -> 0.5) will be EXECUTED (not asserted), and each required firing condition machine-checked. Additionally, nine separate zero-radius mutation tests (each of a, w, z, s, c40, c31, c22, c13, c04 set to radius 0 in turn) will be executed and each must return a machine-generated full-dimensionality failure.
+
+
+10. PLANNED MULTI-PRECISION / ALTERNATIVE CONTAINMENT CHECKS
+- Re-run at the three preregistered scales P in {40, 100, 200}; require identical margin signs and control verdicts.
+- Regression/stability tests: (a) a low-precision sqrt containment test verifying lower^2 <= x <= upper^2 for a non-square positive x; (b) interval-containment tests for representative +, -, *, / operations against exact rational references; (c) an even-power test on an interval crossing zero (confirming [0, max] semantics).
+
+
+11. VERDICT SPACE
+Exactly one of T2 — PASS / T2 — FAIL / T2 — INCONCLUSIVE will be returned per GP-REQ-172-v1.1 Section 7, based solely on the independent run before comparison; the post-freeze comparison against GP-DER-106 Section 3 and CL-AUD-071 will only add a discrepancy table and will not alter constants or domains.
+
+
+12. SCOPE
+A qualifying T2 PASS makes EC-019 eligible for separate operator/canonical adjudication and closes only the independent verification gate for the fixed-r qualitative object; it does not pass T1, terminalize EC-019, establish a probability, prove r-uniformity/P0.1/P0.2/Theorem B, activate GP-AUTO-034, replace a machine, accept a root, seal a package, authorize release, or permit any destructive action.
+
+
+END CL-REG-214-v1.0

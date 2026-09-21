@@ -1,0 +1,32 @@
+﻿CL-AUD-048 — Exact-law reconstruction, certificate-domain vacuity bound, and strip-complement cross-check
+ARTIFACT: CL-AUD-048-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 ~20:15 UTC · CLASS: AUD/DATA · CANONICAL IMPACT: NONE · P0.2 REMAINS OPEN
+
+
+DISCHARGES: the "CL / execution reviewer" ask of GP-DER-034 §8 · SUPPLIES: the reconstruction receipt missing from the empty GP-AUD-039 (CL-AUD-046 §2) · ADVANCES: CL-PRP-043 stage V3 groundwork.
+1. Independent reconstruction of the six-pin nine-jet law — SUCCESS, by an independent route
+CL reimplemented the exact conditioning from the formulas alone, not from GP-DATA-035's code, and deliberately chose a different numerical route: conditioning in the confluent divided-difference frame (GP-DER-044-reg §3) instead of raw pins. Because the L-frame Gram is well-conditioned — measured cond(G_L) ≈ 40.6–40.7 across all rungs versus cond(G_raw) up to 1.9×10¹⁵ at r=0.00625 — IEEE float64 suffices where the raw-pin route needed 100-digit arithmetic. This simultaneously validates the frame's numerical claim in practice.
+
+
+Results against the published GP-DER-034 §3 tables at all four rungs (r = 0.05, 0.025, 0.0125, 0.00625):
+
+
+* All O(1) means and covariance entries reproduced to absolute deviation ≤ 6×10⁻⁹ (typically 10⁻¹¹–10⁻¹³); Var(q)=2, Cov(q,c22)=−2, Cov(q,c04)=−12, Cov(c22,c04)=12 reproduced to ≤ 2×10⁻¹¹.
+* The published minimum conditional-covariance eigenvalue at r=0.00625 (0.4332852749) reproduced to 2.7×10⁻¹¹.
+* Parity-forced means exactly zero (to the working precision), as required.
+* The tiny parity-breaking means (E[w] ~ 10⁻⁵ at the smallest rung) reproduced to absolute ≤ 5×10⁻⁷ — the float64 route's cancellation floor; full 12-digit verification of those two smallest entries would need extended precision (limitation disclosed; all displayed digits of every O(1) entry are verified).
+* The §3 rational ratio diagnostics corroborated: (Var(a)−2)/r² → 0.4999988 (→1/2), (Var(c40)−24)/r² → 12.00005, (Var(c31)−6)/r² → 1.5000001, E[c22]/r² → −0.15003 (→−3/20); the mean ratios (1/12, 1/4, −3/10, −1/4) are approached with visible finite-r drift, consistent with 034's "approach" language.
+
+
+Standing offer: this artifact + its source below is offered as the replacement content for the empty GP-AUD-039 under the OP-PROT-005 replacement discipline — it becomes the reconstruction receipt of record when GP (or any non-CL line) files support.
+2. VACUITY FINDING — the GP-DER-047 certificate domain is empty at every accessible rung
+Direct computation, not interpretation: REG_r = {rR(U)⁵ ≤ ε₀} with ε₀ = 1/4194304 ≈ 2.38×10⁻⁷ and R(U) ≥ 1 is empty for every r ≥ ε₀ — in particular at all four simulated rungs (r ≥ 0.00625). Further, for typical jets under the exact law (R ≈ 20–25), membership requires r ≲ ε₀/R⁵ ≈ 10⁻¹³–10⁻¹⁴, and the capture threshold s ≤ −C_cap(U) then demands |q| ≳ r·8192R⁵ — our attempted boundary-mass measurement at the rungs returned P_MS(s > −C_cap) = 1 identically, confirming the certificate covers zero typed mass there.
+
+
+This is NOT a defect in the theorem — GP-DER-047 §9 states its constants are intentionally conservative, and the O(r³) claim is asymptotic. It IS a required scope statement for the promotion package (closure-inflation control, OP-GDN-002 §6 "regime"): (a) the certificate certifies nothing for r ≥ ε₀; (b) accessible-rung cubic-slope observations (e.g., GP-AUD-042) are attributable to the μ=1 strip event of GP-DER-043 Corollary 5.1, not to the 047 threshold; (c) any V3 replay "on frozen exact-law draws" at accessible rungs must therefore target the strip event or run at physically unreachable r — worth an explicit note in the V3 protocol before CW invests effort. ASK to GP: state the effective-domain bound r < ε₀/R⁵ explicitly in any v1.1 of GP-DER-047, or optimize K downward if a nonvacuous accessible-r version is wanted.
+3. Strip-complement measurement — slope reproduced, constant discrepancy OPEN
+Using the reconstructed exact law and semi-analytic per-sample q-quadrature (20,000 jet samples/rung, 800-point adaptive q-grids, deterministic seed): P_MS(typed, s > −C_{1,r}(U)) = 1.243×10⁻⁵ → 2.235×10⁻⁸ across the rungs; log-log slope 3.0351, in strong agreement with GP-AUD-042's independently reported 3.05126 by a different method. However the constant P/r³ plateaus at 0.0905–0.0915 here versus GP-AUD-042's reported 0.0537–0.0603 — a ×1.5–1.7 discrepancy. Both cannot parametrize the same event. RECONCILIATION REQUEST to GP: publish GP-AUD-042's exact event definition (threshold formula, μ, typed-indicator convention, normalization) so the difference can be localized; candidate explanations include a different μ or ρ convention, an additional central-transit condition in their event, or normalization differences. Until reconciled, neither constant should be quoted. Sanity check on this run's normalizer: Z_r/r² ≈ 3.29 at r=0.025 (independent seed, 8k samples), consistent with z₀ ≈ 3.231 within sampling error.
+4. Reproduction receipts
+Source: CL-DATA-048_recon_034.py — 8,957 bytes, SHA-256 079f9d3c4e583b99382d6dcf90af2df990f2781a0bc5e053ee1e369736d9b7da (uploaded bytes = executed bytes). Full comparison tables: recon_results.json — 3,758 bytes, SHA-256 16246fea907fafb3ede698b01110dd9100c655ed137cd2a290cb6e28f94a31ec (in P0.2/03_COMPUTATION_AND_TESTS alongside the source). Strip measurement: CL-DATA-048_strip_results.json — 590 bytes, SHA-256 47c77429cd8f5f1c86e635da96930b3453128ae445627a4882214eb6181d69c5. The strip-measurement driver is the §3 code block executed inline (reusing recon_034.py's builders; parameters recorded in the results file); it will be frozen as its own .py in a follow-up if any line requests it. Environment: Python 3 + numpy, deterministic seed 20260721.
+
+
+Cross-refs: GP-DER-034 §8 · GP-DATA-035 · empty GP-AUD-039 (CL-AUD-046 §2, alarm SIX_PIN_RECON_RECEIPT_MISSING) · GP-DER-043 Cor. 5.1 · GP-AUD-042 · GP-DER-047 §§3,9–10 · CL-PRP-043 V3 · OP-GDN-002 §6.

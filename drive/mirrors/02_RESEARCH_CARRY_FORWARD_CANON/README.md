@@ -14,24 +14,23 @@ dest, bytes, sha256, exact, inventory digest, note) that `tools/verify_manifests
 
 ## Coverage of the lane
 
-| top-level subfolder | inventory items (files) | objects mirrored here |
-|---|---:|---:|
-| `00 — PRIORITY OPEN MATHEMATICAL TARGETS` | 594 (526) | 27 |
-| `Cross-Model Exchange` | 46 (39) | 0 — not ported by this lane |
-| `LPW — RAW ARCHIVE INTAKE R05` | 46 (43) | 43 |
-| `2026-09-12 — NEXT PHASE — LOCAL PATH LOWER-BOUND CANDIDATE` | 41 (39) | 0 — not ported by this lane |
-| `LPW — OPERATOR FOLD R04 — 2026-09-12` | 31 (31) | 0 — not ported by this lane |
-| `(files directly in the lane folder)` | 7 (2) | 0 — not ported by this lane |
+**Counted per lane in [`MIRRORS.md`](../../MIRRORS.md)**, generated from these
+manifests by `tools/mirrors_index_check.py` and refused by CI if it drifts. Since
+2026-09-20 no digest-bearing item of this lane is unaccounted for: every one is
+held byte-exact or carries a tree-only row saying why not. What remains uncovered
+is 436 native Google Docs, for which no payload digest exists anywhere in the
+corpus so the most this repository could ever hold of one is a reading copy, and
+85 folders, which have no payload at all.
 
-Under `00 — PRIORITY OPEN MATHEMATICAL TARGETS` the mirrored objects sit in `P0.1 — UNIFORM ADJACENCY
-POSITIVITY` (315 inventory items, 6 mirrored), `P0.2 — ADJACENCY-TO-ONE CUBIC RATE` (212, 5 mirrored),
-`P1.1 — LAW-SPECIFIC q MACHINE ROOTS AND VERIFIER` (29, 8 mirrored) and `GP-FOR-189 — Formal-Core
-Source-Recovery Bundle` (14, 8 mirrored). `P1.2 — Q0-C109 CONTINUUM SHORT-BAR DIAGNOSTIC`, `P1.3 —
-Q0-C109 COMPACT-KAPPA DEFECT TRANSFER`, the lane's `00_READ_FIRST`, `FORMALIZATION BOARD` and
-`GP-FOR-001` Docs, `Cross-Model Exchange` (except the three operator-protocol relays and the ledger
-mirrored under `governance/protocols/history/`), `2026-09-12 — NEXT PHASE — LOCAL PATH LOWER-BOUND
-CANDIDATE` and `LPW — OPERATOR FOLD R04 — 2026-09-12` were not ported by this lane. The tenth exact
-P0.2 object, `GP-DER-197-v1.0`, lives in the reviews lane on the Drive and is mirrored at
+Until 2026-09-20 this section carried a hand-typed table of per-subfolder counts
+and a paragraph naming `Cross-Model Exchange`, `2026-09-12 — NEXT PHASE — LOCAL
+PATH LOWER-BOUND CANDIDATE` and `LPW — OPERATOR FOLD R04 — 2026-09-12` as not
+ported by this lane. Each was true when written, and this pass ports all three.
+That is the drift a generated count does not have, and it is why the table is
+gone rather than corrected.
+
+The tenth exact P0.2 object, `GP-DER-197-v1.0`, lives in the reviews lane on the
+Drive and is mirrored at
 `../15_REVIEWS_RESPONSES_AND_CLOSURES/00_REVIEW_PACKAGES_AND_GATE_CLARIFICATIONS/SHARED_DEPENDENCY_REVIEW_PACKETS — P0.1 + P0.2/`.
 
 ## What is here
@@ -259,3 +258,187 @@ the Rayleigh repair await the external review the source itself demands; the rev
 above (APPROVE, PASS WITHIN SCOPE, AMEND REQUIRED, NONCLOSURE) are the source's vocabulary and are
 not merged into `registers/json/review_queue.json`. No independence credit is awarded to anything by
 mirroring it, no original prize problem is solved, and no 2D bound is composed with the 3D track.
+
+
+## 2026-09-20 — the digest-bearing remainder: 172 files byte-exact
+
+`drive/MIRRORS.md` measured this lane at 174 digest-bearing inventory items whose
+bytes were not here. **172 are now stored byte-exact** — 85 under
+`00 — PRIORITY OPEN MATHEMATICAL TARGETS`, 39 under the local-path lower-bound
+candidate, 30 under the LPW operator fold R04 and 18 under Cross-Model Exchange —
+and the 2 left, both over this pass's 65,536-byte store limit, carry tree-only
+rows with the inventory's own digest. **Zero mismatches in 172 files.**
+
+**Holding a canonical object's bytes promotes nothing.** Canonical promotion is
+the operator's alone under `governance/`. Every status word inside these files is
+the source's, this repository's claim grades are read from the register exports
+and `claims/graph.json` and from nothing stored here, and the priority open
+mathematical targets are open by the source's own word. A relay under
+`Cross-Model Exchange` is not a review and earns no independence credit.
+
+### What holding the bytes made visible
+
+**Seven objects carry a void, supersession or alias marker the source put in its
+own title** — a corrupt plain-JSON upload replaced by a `.gz`, a third attempt
+superseding two void ones, a failed upload marked `VOID — DO NOT USE`, an
+ID-corrected alias whose filename artifact id and in-file header id differ by
+design. The bytes are stored anyway, because a voided object is still an object
+the 2026-09-17 inventory declares and holding it is how a reader checks what was
+voided. Each row carries the marker and says that nothing here acts on it: no
+object is deleted, hidden or reclassified, and which of a superseded pair is
+current is the source's statement, not this repository's.
+
+Six distinct payloads are carried by twelve Drive ids in this lane, including two
+pairs whose titles declare the second a renumbering of the first with the hash
+unchanged. Each id keeps its own row.
+
+**Sixty-six of the lane's own sha256sum declarations reproduce against the bytes
+now held, and none mismatches.** That number is trustworthy only because the
+checker was fixed first: it had been resolving each declared path by its last
+component, so a line naming a file inside a subdirectory was looked up as a
+same-named file beside the manifest. On this lane that invented nine mismatches
+that do not exist. The path is now resolved relative to the manifest that
+declares it, and the correction is carried back to the K3 intake lane's README,
+whose count it had understated.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, target or theorem. Every number
+above counts files, bytes and digests. A byte-exact copy says these are the bytes
+the 2026-09-17 inventory declares for that Drive id, and says nothing about
+whether the document is correct, current or authoritative. No open target is
+closed here, nothing is promoted, and the imperative text these files address to
+other model lines is quoted data, not instructions followed here.
+
+
+### 2026-09-20 — twelve files moved, and why
+
+Twelve files this lane stored earlier the same day were sitting in directories
+the port had invented from part of their own titles. A Drive title may contain a
+literal `/` — `(GP-REQ-226 / GP-REQ-215 review of …)` is one of these — and
+`drive/inventory.jsonl` joins titles with `/` to build its `path` field, so
+splitting that path on `/` turns part of a filename into a directory level. The
+bytes and the digests were never affected; only the locations were, and each
+moved row says so.
+
+The defect was invisible to every checker here, because the manifest writer split
+the path the same way the fetch did: the row and the file agreed with each other
+while both disagreed with the Drive. It surfaced when a fetch agent on another
+lane reported an odd-looking directory. The port now derives a location from the
+inventory's own folder records rather than by splitting a string, and a check was
+added that compares each stored row's directory against the Drive path the row
+itself carries.
+
+
+## 2026-09-20 — 436 reading copies, and what a reading copy is not
+
+Every digest-bearing object of this lane was stored byte-exact earlier the same
+day. What was left was the lane's **449 native Google Docs**; thirteen were
+already held, and this pass stores a text export of the remaining **436**.
+**They are renderings, not the objects.**
+
+This is a weaker thing than everything else in this directory, and the
+difference is not a matter of degree. Every byte-exact copy here rests on one
+rule: the file was written only because its SHA-256 and byte count already
+equalled the ones `drive/inventory.jsonl` declares. **That rule cannot apply to
+a native Google Doc.** The corpus declares no payload digest for one anywhere —
+not the inventory, not any register — so there is nothing to prove an export
+against. A re-fetch could differ and nothing here would notice.
+
+So each row carries `exact: false` and `inventory_sha256: null`. The `sha256`
+and `bytes` fields are **of the export**, computed at store time.
+`inventory_bytes` is the size the inventory records for the Doc itself, a
+different quantity that is not expected to match. The work was done by a
+separate tool from the byte-exact one, so that the weaker guarantee cannot be
+mistaken for the stronger by reading the call site.
+
+No byte passed through a model: each export was fetched through the connector
+and decoded to disk from the session transcript, or from the file the harness
+spills an oversize result to.
+
+Four of the 449 render nothing — three bytes, a UTF-8 byte-order mark, no text.
+All four are ids `drive/inventory.jsonl` independently marks
+`EMPTY_NATIVE_BODY`, so the blank result is the one the inventory predicts;
+each row says so, and `tools/verify_manifests.py` refuses a blank reading copy
+of any id the inventory does not mark that way.
+
+### A title that promises a certificate over a body that has none
+
+`LS-DER-008-v1.0 — Explicit Exact Nine-Jet Density and Fixed-Box Mass
+Certificate on the P0.1 Radius` is the Drive title. The whole rendered body is a
+notice, quoted here in full from the stored copy:
+
+> UNPOPULATED SHELL NOTICE — 2026-07-25
+>
+> This document currently contains no theorem body, derivation, constants,
+> source identity, execution receipt, interval certificate, or review evidence.
+> Its title is a planned target only.
+
+Its own status list reads `explicit r_GR: NOT AVAILABLE`, `explicit p_B: NOT
+AVAILABLE`, `covariance eigenvalue enclosure: NOT AVAILABLE`, `density lower
+bound on B_q: NOT AVAILABLE`, `source/replay identity: NOT AVAILABLE`, `review
+credit: ZERO`, and it closes: *"No P0.1, P0.2, common-radius, or numerical
+probability claim may cite this shell as evidence until a numbered populated
+successor or completed body is created and audited."* This repository cites it
+as evidence of nothing. It is held because a title that names a certificate
+over a body that contains none is exactly the thing a reader needs to be able
+to see.
+
+### A routing chain whose current successor is titled SUPERSEDED
+
+The lane holds five `GP-DER-118` versions — v1.0, v1.1, v1.2, v1.3 and v1.6 —
+and each opens with a banner routing review somewhere else. v1.1: *"This v1.1 is
+superseded for review by GP-DER-118-v1.2"*. v1.2: *"GP-AUD-122-v1.1 confirms
+that the repaired GP-DER-118-v1.3 supersedes this Revision 1.2 for active
+theorem review. Any lower notice claiming Revision 1.2 is active is historical
+and nonoperative."* v1.3 is headed `CURRENT AFFIRMATIVE-REVIEW SUCCESSOR —
+GP-DER-118-v1.5 / GP-DATA-222 — 2026-07-26` and warns *"Do not use its lower
+v1.4 successor banner as current routing"* — a document instructing a reader
+which of its own banners to disregard.
+
+**The targets that banner names are, in the inventory, titled SUPERSEDED.** No
+object titled `GP-DER-118-v1.5` exists in the 4,456-item inventory. What exists
+is `SUPERSEDED CONCURRENT BRANCH — GP-DER-118-v1.5-A — …`, `SUPERSEDED
+CONCURRENT BRANCH — GP-DER-118-v1.5-B — …` and `SUPERSEDED — GP-DATA-222-v1.0 —
+Earlier Concurrent v1.5-A Snapshot`. The v1.6 banner explains why: *"Revision
+1.6 merges the two concurrent v1.5 branches."*
+
+**Recorded, not resolved.** No lineage is decided here, no banner is ranked
+above another, and nothing is promoted, retired or reclassified. The chain also
+runs past this lane: v1.4 and v1.7 through v1.10 are inventory objects filed
+elsewhere, so the canon lane's own routing points outside the canon lane.
+
+### A collision notice that is itself collided
+
+`GP-COR-145-v1.0 — Concurrent GP-DER-143-v1.1 and GP-REQ-144-v1.1 Identifier
+Collision` records that one artifact id is carried by two Drive objects. Its own
+first lines record the same thing about itself:
+
+> SELF-COLLISION ROUTING NOTICE — 2026-07-23
+> This is the ACTIVE A-LINE object for the declared ID GP-COR-145-v1.0.
+
+and it names the other copy as *"preserved as collision copy B /
+provenance-only"*. The inventory bears this out: copy B is a real object, filed
+under `05_FOUNDATIONS_AND_PROTOCOL_HISTORY — FRESH START 2.0/06_ARCHIVE/
+04_QUARANTINED_CANDIDATES — DO NOT CONSUME/`. **Only the A-line copy is held
+here.** Copy B's bytes are not stored anywhere in this repository; it carries an
+index row alone, at `INDEX_ONLY`, recording that the allowlist marks its folder
+`AMBIGUOUS_QUARANTINE` at `evidentiary_authority ZERO`. Its Drive location
+quarantines it at the source, and per this repository's standing rule nothing
+under a quarantine path may be cited as evidence. The document's own header reads `Authority: factual
+provenance and routing correction only` and `Canonical impact: NONE`.
+
+### What this pass does not establish
+
+Nothing about any claim, premise, obligation, gate, closure or theorem, and —
+for this class alone — **nothing about the objects' bytes either.** This is the
+carry-forward canon lane, and holding a canonical object's rendering promotes
+nothing: canonical promotion is Dylan Roy's alone and this repository changes
+none of that. The priority open mathematical targets P0.1 and P0.2 remain OPEN,
+the five validity premises of Theorem D1 v2.2(2) remain OPEN, and
+`D3-LEMMA-RN-UNIF` remains not closed, whatever any file in this directory
+asserts. Same-line and same-provider reviews rendered here earn zero
+independence credit, and the gates that require independence stay open. The
+imperative text these documents address to other model lines — review requests,
+promotion protocols, required-response wordings — is quoted data, not
+instructions followed here.

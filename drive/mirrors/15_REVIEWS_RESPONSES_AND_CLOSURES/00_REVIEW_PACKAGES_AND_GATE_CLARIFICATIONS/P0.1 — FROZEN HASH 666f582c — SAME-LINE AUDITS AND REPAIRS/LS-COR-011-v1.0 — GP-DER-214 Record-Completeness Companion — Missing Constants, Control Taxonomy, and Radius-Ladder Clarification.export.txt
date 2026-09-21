@@ -1,0 +1,466 @@
+﻿LS-COR-011-v1.0 — GP-DER-214 RECORD-COMPLETENESS COMPANION
+MISSING CONSTANTS, CONTROL TAXONOMY, AND RADIUS-LADDER CLARIFICATION
+
+
+Artifact ID: LS-COR-011-v1.0
+Date: 2026-07-26
+Prepared by: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: COR / ADDITIVE DERIVATION COMPANION / RECORD-COMPLETENESS REPAIR
+Authority: same-line mathematical documentation only
+Canonical mathematical impact: NONE
+Independent-review credit: ZERO
+Terminal impact: NONE
+
+
+[[TARGET:GP-DER-214-v1.0]] [[TARGET:GP-DATA-214-v1.0]] [[CL-AUD-281:F1-F4]] [[NUMERICAL-CARRIERS:UNCHANGED]] [[C_Z:15]] [[EXTERNAL-PERIODIZATION-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. PURPOSE
+
+
+This document supplies the exact record-level amendments requested by CL-AUD-281-v1.0 for the current r-uniform exact endpoint-normalizer certificate.
+
+
+It does not alter, replace, or reinterpret the frozen numerical carriers:
+
+
+GP-DATA-214 source
+- 37,512 bytes;
+- SHA-256 63ef800a51969903b9c3d97c74e61f77ee037afadff73038047ef7cfce040fb9.
+
+
+GP-DATA-214 result
+- 10,944 bytes;
+- SHA-256 af2779575ce3d18eeb69499e32ecc6e7c40898181ddf0fd6e4815d35cf8a6cbf.
+
+
+CL-AUD-281 independently recomputed the certificate and found no mathematical defect. It confirmed
+
+
+E[Delta^2] <= 14.088160150515062608662933625377614506219935056... < 15
+
+
+and therefore
+
+
+Z_r^exact <= 15 r^2
+
+
+for every 0<r<=r_D, subject to completion of the record and independence gates isolated below.
+
+
+2. F1 — PLANAR DERIVATIVE BOUND 100
+
+
+2.1 Exact use in the source
+
+
+The source converts a one-dimensional normalized periodization error into a two-dimensional derivative-entry error using
+
+
+error_2d
+ = normalized_error_1d (100 + normalized_error_1d)
+   + 100 normalized_error_1d.
+
+
+Thus the constant 100 is load-bearing and must be justified.
+
+
+2.2 Derivation
+
+
+For the normalized planar Gaussian factor and derivatives of total one-dimensional order m<=6, the derivative polynomial is a probabilists' Hermite polynomial He_m.
+
+
+For |t|<=1,
+
+
+|He_m(t)|
+<= sum of absolute values of the coefficients of He_m.
+
+
+For m=0,...,6, the corresponding absolute coefficient sums are
+
+
+1, 1, 2, 4, 10, 26, 76.
+
+
+Therefore
+
+
+|He_m(t)| <= 76
+
+
+for every m<=6 and |t|<=1.
+
+
+Since
+
+
+exp(-t^2/2) <= 1,
+
+
+one obtains
+
+
+|He_m(t)| exp(-t^2/2) <= 76 < 100.
+
+
+Hence 100 is a valid conservative upper bound for every planar main-image derivative factor used in the two-dimensional product estimate.
+
+
+2.3 Scope
+
+
+This proof applies because the transformed frame in GP-DATA-214 uses derivative orders no larger than six and main-image separation arguments with |t|<=1 on the declared normalized pair geometry.
+
+
+The constant is not claimed optimal. It has 24 units of deterministic slack.
+
+
+F1 disposition:
+PASS ON THE SAME LINE / EXTERNAL CONFIRMATION INCLUDED IN CL-AUD-281 / RECORD DEFECT REPAIRED.
+
+
+3. F2 — EXACT BOUND ON ||G0^{-1}||_2
+
+
+3.1 Limiting Gram structure
+
+
+After a simultaneous permutation of coordinates, the limiting six-pin Gram G0 decomposes into
+
+
+[[1,-1],[-1,3]],
+
+
+[[1,-3],[-3,15]],
+
+
+and two scalar unit blocks.
+
+
+3.2 Eigenvalues
+
+
+For the first 2x2 block, the characteristic polynomial is
+
+
+lambda^2 - 4 lambda + 2,
+
+
+with eigenvalues
+
+
+2 +- sqrt(2).
+
+
+For the second block, the trace is 16 and determinant is 6, so the characteristic polynomial is
+
+
+lambda^2 - 16 lambda + 6,
+
+
+with eigenvalues
+
+
+8 +- sqrt(58).
+
+
+The two scalar blocks have eigenvalue 1.
+
+
+Therefore
+
+
+lambda_min(G0)
+ = min(2-sqrt(2), 8-sqrt(58), 1)
+ = 8-sqrt(58)
+ = 0.384226894136091... .
+
+
+3.3 Inverse norm
+
+
+Because G0 is real symmetric positive definite,
+
+
+||G0^{-1}||_2 = 1/lambda_min(G0).
+
+
+Thus
+
+
+||G0^{-1}||_2
+ = 1/(8-sqrt(58))
+ = (8+sqrt(58))/6
+ = 2.6026... < 3.
+
+
+Hence the source constant
+
+
+g0_inverse_bound=3
+
+
+is valid and conservative.
+
+
+3.4 Downstream use
+
+
+The Neumann bound
+
+
+||G_r^{-1}||
+<= 3/(1-3 delta_G)
+
+
+is valid whenever 3 delta_G<1. GP-DATA-214 proves the far stronger inequality
+
+
+3 delta_G < 10^-6.
+
+
+The inverse-difference, conditional-mean, conditional-covariance, Gaussian-envelope, fourth-moment, and C_Z bounds therefore inherit a valid load-bearing inverse estimate.
+
+
+F2 disposition:
+PASS ON THE SAME LINE / EXTERNAL CONFIRMATION INCLUDED IN CL-AUD-281 / RECORD DEFECT REPAIRED.
+
+
+4. F3 — CONTROL TAXONOMY CORRECTION
+
+
+4.1 Executed mutation controls
+
+
+The following GP-DATA-214 checks alter a load-bearing object, expression, or parser path and require the resulting mutant to be rejected or distinguished:
+
+
+- Laurent pole injection / negative-power mutation;
+- unhandled higher-order term mutation;
+- limiting-object or frame-coordinate mutation;
+- carrier-scale or asymmetry mutation where executed;
+- outward-rendering direction check where the rendered endpoint is re-parsed;
+- other source checks that actually feed a changed value into the proof path.
+
+
+These may be called mutation controls when the exact mutated input and required failure mode are recorded.
+
+
+4.2 Witnesses or probes, not mutations
+
+
+The original NC1, NC2, and NC9 are constant logical comparisons:
+
+
+NC1: 1<2;
+NC2: 2>1;
+NC9: 1/2<1.
+
+
+They do not inject a changed value into the certificate. They demonstrate intended order or direction, but cannot fail as a function of source state.
+
+
+They are therefore reclassified as:
+
+
+- W1 — L5 Peano-constant direction witness;
+- W2 — type-indicator ceiling witness;
+- W3 — denominator-bound direction witness.
+
+
+They must not be counted as executed adversarial mutations.
+
+
+4.3 Actual replacements recommended
+
+
+A future source successor may replace them with:
+
+
+M-W1 — change the L5 Peano constant from 2 to 1 and require a changed transformed-entry bound or explicit certificate mismatch;
+
+
+M-W2 — replace an exact type indicator by the illegal value 2 inside the weight bridge and require rejection by the type-domain validator;
+
+
+M-W3 — substitute a denominator lower bound into a quotient-lower-bound test using a nontrivial interval d in [1,2] and require detection of the reversed inequality direction.
+
+
+CL-AUD-281 executed the substantive L5 mutation and independently demonstrated the quotient-direction counterexample. Until a source successor incorporates the replacements, the current record must state:
+
+
+- six executed controls or mutations, according to the source-level per-item audit;
+- three logical witnesses/probes;
+- not nine executed mutations.
+
+
+The exact count may be refined only by a line-by-line source taxonomy. The aggregate phrase 'nine controls pass' is retained only as historical source output, not as the current adversarial-coverage claim.
+
+
+F3 disposition:
+RECORD AMENDED / NUMERICAL CERTIFICATE UNAFFECTED / FUTURE SOURCE HARDENING RECOMMENDED.
+
+
+5. F4 — RADIUS-LADDER CLARIFICATION
+
+
+The periodization allowance after the Peano reduction is an r-free rational constant.
+
+
+The source evaluates the predicate
+
+
+transformed_entry_error < declared_allowance
+
+
+at the positive radii
+
+
+r_D, r_D/2, 10^-6, 10^-8, 10^-12.
+
+
+But the left and right sides of this particular comparison contain no radius. The loop therefore verifies positivity of each radius and repeats the identical constant inequality five times.
+
+
+Correct evidentiary statement:
+
+
+- r-uniformity is established by the proof that the transformed Peano constants are r-free and that the periodization envelope is a global r-independent bound;
+- the five-point ladder is a presentation and regression restatement of one r-free inequality;
+- it is not five independent numerical radius tests;
+- it does not add fivefold evidentiary weight.
+
+
+F4 disposition:
+RECORD AMENDED / MATHEMATICAL CONCLUSION UNAFFECTED.
+
+
+6. OBJECT-IDENTITY FIREWALL
+
+
+The exact GP-DATA-214 application must use:
+
+
+- the exact six-pin conditioned full-field law;
+- pin-adjusted exact endpoint Hessian functionals;
+- exact physical endpoint determinant/type weight W_r^exact;
+- exact normalizer Z_r^exact.
+
+
+It must not substitute:
+
+
+- the finite-Q4 endpoint Hessian weight;
+- P02-LM-006's standalone carrier without an exact crosswalk;
+- a planar covariance in place of the exact side-24 periodized covariance;
+- a differently conditioned jet law.
+
+
+CL-AUD-281 did not execute the complete finite-Q4/exact-field mutation M13. That firewall remains an independent review obligation even though the current source and derivation are written in the correct exact endpoint frame.
+
+
+7. INDEPENDENCE BOUNDARY
+
+
+CL-AUD-281 supplies organizationally distinct verification of:
+
+
+- frame and carrier scale;
+- Laurent regularity;
+- limiting matrices and law;
+- entry-deviation envelopes;
+- limiting Gram spectrum;
+- perturbation chain;
+- mean and variance envelopes;
+- fourth moments and C_Z=15;
+- determinant/type identity.
+
+
+It does not supply independent credit for:
+
+
+- B4 Peano annihilation orders and r-free constants;
+- B5 periodization bound and r-uniformity lemma;
+
+
+because the same Anthropic lane authored the underlying lemma.
+
+
+Therefore this companion repairs the record but does not by itself make N1 TRUE under LS-CTL-001. A provider family that did not author the Peano/periodization lemma must verify B4/B5 and the object-identity firewall.
+
+
+8. CORRECTED EVIDENCE STATEMENT
+
+
+The strongest current justified statement is:
+
+
+The exact GP-DATA-214 source and result carriers are byte-reconstructable. Their exact-rational quantitative chain has been independently recomputed by Anthropic for B1–B3 and B6–B11, with no numerical or mathematical defect found. The missing load-bearing constants 100 and ||G0^{-1}||<=3 are now explicitly derived. Three source 'controls' are reclassified as witnesses, and the radius ladder is identified as repeated evaluation of one r-free inequality. The conclusion
+
+
+Z_r^exact <= 15 r^2
+
+
+on 0<r<=r_D is mathematically supported. Full independent qualification still requires a non-Anthropic/non-author review of B4/B5 and the exact-object firewall.
+
+
+9. REQUIRED EXTERNAL SUPPLEMENT
+
+
+The next reviewer must:
+
+
+1. reproduce the GP-DATA-214 source/result hashes;
+2. independently derive the Peano annihilation orders and constants;
+3. prove those constants are r-free;
+4. independently prove the side-24 periodization envelope uniformly in r;
+5. verify the planar derivative bound and G0 inverse proof recorded here;
+6. verify the controls/witness taxonomy;
+7. execute the finite-Q4/exact-object firewall mutation;
+8. state whether the unchanged carriers plus this companion qualify the one-sided normalizer upper bound.
+
+
+10. SCOPE FIREWALL
+
+
+This document does not:
+
+
+- create new source or result bytes;
+- alter C_Z=15;
+- prove a lower normalizer bound;
+- prove an exact asymptotic coefficient;
+- close P02-LM-006;
+- satisfy B4/B5 independence;
+- close P0.1;
+- promote the theorem;
+- authorize release, sealing, machine action, or deletion.
+
+
+11. FINAL STATUS
+
+
+GP-DATA-214 / GP-DER-214 mathematics:
+SUPPORTED / NO MATHEMATICAL DEFECT FOUND.
+
+
+F1 and F2 record completeness:
+REPAIRED BY THIS COMPANION.
+
+
+F3 and F4 evidence-description defects:
+CORRECTED BY THIS COMPANION.
+
+
+Independent periodization and object-firewall supplement:
+OPEN.
+
+
+LS-CTL-001 N1:
+FALSE UNTIL THE EXTERNAL SUPPLEMENT PASSES.
+
+
+END LS-COR-011-v1.0

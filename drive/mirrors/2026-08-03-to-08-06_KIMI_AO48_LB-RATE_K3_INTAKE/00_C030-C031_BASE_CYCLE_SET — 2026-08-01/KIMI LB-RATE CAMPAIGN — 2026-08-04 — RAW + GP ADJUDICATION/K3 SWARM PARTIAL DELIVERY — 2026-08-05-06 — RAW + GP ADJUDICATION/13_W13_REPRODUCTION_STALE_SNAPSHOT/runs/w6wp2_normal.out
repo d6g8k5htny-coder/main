@@ -1,0 +1,42 @@
+==============================================================================
+W6 WP-min CERTIFICATE (exact integrand): E_WP(r) = 3.5e-3*r^{3/2} on (0, 0.05]
+==============================================================================
+
+## Q0 exact integrand anchor vs W4 frozen value 2.020901410980e-05
+[ck] E_win((0,0.5672);0.025) == W4 probe: PASS  2.0209014109802034e-05
+
+## Q1 rho_exact >= 0 (so I_WP = int_{B3} rho >= int_zone rho = E[N_ws])
+[ck] rho >= 0 on 144 samples: PASS  
+
+## Q2 rung grid: C_I = I_WP/r^{3/2} <= 3.5e-3 (sup expected at r0=0.05)
+[ck] C_I(0.05) <= 0.0035: PASS  3.201512e-03
+[ck] C_I(0.04) <= 0.0035: PASS  2.635340e-03
+[ck] C_I(0.035) <= 0.0035: PASS  2.373813e-03
+[ck] C_I(0.03) <= 0.0035: PASS  2.127474e-03
+[ck] C_I(0.025) <= 0.0035: PASS  1.897185e-03
+[ck] C_I(0.02) <= 0.0035: PASS  1.684092e-03
+[ck] C_I(0.015) <= 0.0035: PASS  1.489740e-03
+[ck] C_I(0.0125) <= 0.0035: PASS  1.400222e-03
+[ck] C_I(0.01) <= 0.0035: PASS  1.316397e-03
+[ck] C_I(0.0075) <= 0.0035: PASS  1.237600e-03
+[ck] C_I(0.00625) <= 0.0035: PASS  1.202388e-03
+max C_I over grid: 3.201512e-03 (sup at largest rung r0=0.05)
+
+## Q3 coverage premise P-mono: d log I_WP/d log r >= 3/2 (measured >= 1.55)
+  [0.00625,0.0075]: log-slope +1.658
+  [0.0075,0.01]: log-slope +1.715
+  [0.01,0.0125]: log-slope +1.777
+  [0.0125,0.015]: log-slope +1.840
+  [0.015,0.02]: log-slope +1.926
+  [0.02,0.025]: log-slope +2.034
+  [0.025,0.03]: log-slope +2.128
+  [0.03,0.035]: log-slope +2.211
+  [0.035,0.04]: log-slope +2.283
+  [0.04,0.05]: log-slope +2.372
+[ck] all discrete log-slopes >= 1.55: PASS  min 1.658
+
+P-mono (named, quantified): if d log I_WP/d log r >= 3/2 on (0, r0], then
+C_I(r) <= C_I(r0) = 3.202e-3 <= 3.5e-3 for all r in (0, r0] -- coverage.
+
+==============================================================================
+WP2 CERT PASS (exact-integrand modulus, rung grid + monotonicity premise)

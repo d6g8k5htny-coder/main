@@ -1,0 +1,553 @@
+﻿DISTINCT-FAMILY MATHEMATICAL REVIEW / EXACT-HASH HOLD — 2026-07-25
+
+
+CL-AUD-241 independently reconstructed this P02-LM-006 mathematics and returned PASS WITH CLARIFICATION at high confidence. The reviewer could not reproduce the frozen hash because its connector transformed whitespace and escaping.
+
+
+Review: https://docs.google.com/document/d/1PsK9vBh1UHFFVTd4sYef8Hyre9AZDjPB4tPeKENKSrc/edit
+Raw-export supplement: https://docs.google.com/document/d/13aLHEMKmN9n1v7PLSGbs_u_7dQ-Euvc91eWC4veIP0g/edit
+
+
+Current exact-object status: CANNOT VERIFY / NOT APPROVED. Preserve these clarifications: P02-LM-005 supplies the load-bearing regularity and nondegeneracy interface; constants are non-effective; repair the denominator-direction sentence; text outside the frozen markers earns no review credit.
+
+
+[[MATH:PASS-WITH-CLARIFICATION]] [[HASH:CANNOT-VERIFY]] [[EXACT-APPROVAL:OPEN]] [[NO-PROMOTION]]
+
+
+EXPLICIT Q_L NONDEGENERACY CROSSWALK — P02-LM-005 — 2026-07-24
+
+
+The nondegeneracy used by this theorem is an immediate consequence of the closed exact nine-jet interface P02-LM-005:
+
+
+- its limiting conditional covariance Sigma_0 for the ordered nine-jet vector is positive definite;
+- its q-coordinate is q=f_yy(0);
+- this theorem’s Q_L is that identical limiting q-coordinate.
+
+
+Therefore, with e_q the q-coordinate basis vector,
+
+
+    Var(Q_L)=e_q^T Sigma_0 e_q>0.
+
+
+Hence Q_L is nondegenerate Gaussian, P(Q_L=0)=0, and both half-lines have positive probability. This is a source-level crosswalk, not a new probabilistic assumption. The frozen theorem body and hash remain unchanged.
+
+
+Closed source: https://docs.google.com/document/d/1e8u5p9b4lEnRaZRNytj2Tu9ncAS1OnjhRbi4FP0hYU4/edit
+
+
+[[Q_L:NONDEGENERATE-BY-P02-LM-005]] [[TYPE-BOUNDARY:NULL]] [[THEOREM-HASH:UNCHANGED]] [[EXTERNAL-REVIEW:OPEN]]
+
+
+EXACT HERMITE PIN CERTIFICATE COMPANION — GP-DER-190-v1.0 — 2026-07-24
+
+
+A deterministic repeated-node certificate now independently derives the load-bearing N1–N2 sign and factor identities:
+
+
+GP-DER-190-v1.0
+https://docs.google.com/document/d/1ugHOaFmfuo7hoCoFeNbvjjsJ5qwXaiL17FEIWWpc_g8/edit
+
+
+From the exact ordered pins it proves:
+
+
+    f_xxx(0)=2,
+    A_M^r -> -1,
+    A_S^r -> +1,
+    B_M^r -> -a/2,
+    B_S^r -> +a/2,
+    C_M^r,C_S^r -> Q_L.
+
+
+This is additive same-family evidence with zero independent closure credit. It does not change this frozen theorem body or hash and does not prove Gaussian convergence, Q_L nondegeneracy, uniform integrability, or the exact type-boundary limit.
+
+
+[[HERMITE-PIN-CERTIFICATE:AVAILABLE]] [[N1-N2:ALGEBRAICALLY-ISOLATED]] [[THEOREM-HASH:UNCHANGED]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+LCR-DER-019-v1.0 — P02-LM-006 EXACT FULL-FIELD NORMALIZER r^2 ASYMPTOTIC
+
+
+Artifact ID: LCR-DER-019-v1.0
+Lemma ID: P02-LM-006
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: DER / FROZEN EXACT GAUSSIAN-PALM LEMMA / COMPLETE PROOF CANDIDATE
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Primary sources: LCR-DER-003-v1.0; LCR-DER-010-v1.0 Domain G; closed P02-LM-005; exact six-pin field definitions
+Status: OBJECT-FROZEN / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / P0.2 OPEN
+
+
+Freeze policy: extract only the text after the LF ending BEGIN_FROZEN_LEMMA_BODY and before the first subsequent END_FROZEN_LEMMA_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM.
+
+
+BODY_BYTES: 9147
+BODY_SHA256: 239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150
+
+
+[[TARGET:P02-LM-006]] [[BODY_BYTES:9147]] [[BODY_SHA256:239ed094f70aa4352021572ad8bdc0c6ac6404edab4e1d7e61addec0c6659150]] [[STATUS:OBJECT-FROZEN]] [[LAW:EXACT-SIDE24-SIX-PIN]] [[WEIGHT:EXACT-ENDPOINT-HESSIANS]] [[LIMIT:EXACT-TORUS-Q_L]] [[STATUS:PROOF-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]] [[NO-PROMOTION]]
+
+
+BEGIN_FROZEN_LEMMA_BODY
+P02-LM-006 — EXACT FULL-FIELD TYPED MAXIMUM–SADDLE NORMALIZER r^2 ASYMPTOTIC
+
+
+1. EXACT FIELD AND CONDITIONING LAW
+
+
+Fix the normalized-periodized Bargmann–Fock Gaussian field on the side-24 flat torus and fix b=6/5. For every r>0 set
+
+
+    M=(-r/2,0),
+    S=(+r/2,0).
+
+
+Let Q_{6,r} be the exact Gaussian field law conditioned on the six endpoint value and gradient constraints
+
+
+    (f,f_x,f_y)(M)=(b,0,0),
+
+
+    (f,f_x,f_y)(S)=(b-r^3/6,0,0).
+
+
+Let H_M(f) and H_S(f) be the exact physical two-by-two Hessians at M and S. Define the exact typed weight
+
+
+    W_r^{exact}(f)
+      =|det H_M(f) det H_S(f)|
+       1{H_M(f) is negative definite}
+       1{H_S(f) has index one}.
+
+
+Define
+
+
+    Z_r^{exact}=E_{Q_{6,r}}[W_r^{exact}].
+
+
+2. PIN-ADJUSTED ENDPOINT FUNCTIONALS
+
+
+Set h=r/2 and define the one-dimensional restrictions
+
+
+    g(x)=f_x(x,0),
+    k(x)=f_y(x,0).
+
+
+Let
+
+
+    S_g^r=[g(h)-g(-h)]/(2h),
+    S_k^r=[k(h)-k(-h)]/(2h).
+
+
+Define the pin-adjusted endpoint functionals
+
+
+    A_M^r=[g'(-h)-S_g^r]/r,
+    A_S^r=[g'(+h)-S_g^r]/r,
+
+
+    B_M^r=[k'(-h)-S_k^r]/r,
+    B_S^r=[k'(+h)-S_k^r]/r,
+
+
+    C_M^r=f_yy(M),
+    C_S^r=f_yy(S).
+
+
+On the exact six-pin affine conditioning subspace,
+
+
+    g(-h)=g(h)=k(-h)=k(h)=0.
+
+
+Therefore under Q_{6,r}, these pin-adjusted functionals are exactly
+
+
+    A_M^r=f_xx(M)/r,
+    A_S^r=f_xx(S)/r,
+
+
+    B_M^r=f_xy(M)/r,
+    B_S^r=f_xy(S)/r,
+
+
+    C_M^r=f_yy(M),
+    C_S^r=f_yy(S).
+
+
+The subtraction must occur before division by r. Raw unconditioned derivatives divided by r are not the functionals used in this proof.
+
+
+3. CONFLUENT CONDITIONAL GAUSSIAN LIMIT
+
+
+Use the exact invertible six-pin confluent divided-difference frame. The closed exact Gaussian interface P02-LM-005 supplies:
+
+
+- continuous extension of the transformed pin covariance through r=0;
+- uniform invertibility of the transformed pin Gram matrix;
+- continuous bounded conditional means;
+- uniform finite-order moments for fixed transformed derivative vectors;
+- nondegeneracy of the limiting exact-torus transverse curvature coordinate Q_L.
+
+
+Because the periodized covariance kernel is real analytic, every covariance between the transformed pins and the six pin-adjusted endpoint functionals is an analytic divided difference with a removable singularity at r=0. The same is true for their mutual covariance matrix.
+
+
+Hence the conditional Gaussian vector
+
+
+    V_r=(A_M^r,A_S^r,B_M^r,B_S^r,C_M^r,C_S^r)
+
+
+has means and covariance matrices extending continuously through r=0. The limiting covariance of V_r is allowed to be singular because the limiting variables satisfy exact affine relations.
+
+
+Taylor expansion at the midpoint gives
+
+
+    A_M^r -> -f_xxx(0)/2,
+    A_S^r -> +f_xxx(0)/2,
+
+
+    B_M^r -> -f_xxy(0)/2,
+    B_S^r -> +f_xxy(0)/2,
+
+
+    C_M^r,C_S^r -> f_yy(0)
+
+
+in the confluent conditional law.
+
+
+The transformed endpoint constraints force the limiting conditioned value
+
+
+    f_xxx(0)=2.
+
+
+Write
+
+
+    a=f_xxy(0)
+
+
+and let Q_L be the limiting exact-torus conditioned variable f_yy(0). Therefore
+
+
+    V_r => V_0
+
+
+with
+
+
+    A_M^0=-1,
+    A_S^0=+1,
+
+
+    B_M^0=-a/2,
+    B_S^0=+a/2,
+
+
+    C_M^0=C_S^0=Q_L.
+
+
+The variable Q_L is a nondegenerate one-dimensional Gaussian. It is the exact side-24 torus variable, not the planar N(-b,2) approximation.
+
+
+4. EXACT DETERMINANT FACTORIZATION
+
+
+Define
+
+
+    Delta_M^r
+      =A_M^r C_M^r-r(B_M^r)^2,
+
+
+    Delta_S^r
+      =A_S^r C_S^r-r(B_S^r)^2.
+
+
+Then exactly
+
+
+    det H_M=r Delta_M^r,
+    det H_S=r Delta_S^r.
+
+
+By the joint convergence in Section 3,
+
+
+    Delta_M^r => -Q_L,
+    Delta_S^r => +Q_L
+
+
+jointly.
+
+
+5. TYPE-INDICATOR LIMIT
+
+
+For a real symmetric two-by-two matrix, negative definiteness is equivalent to a negative first diagonal entry and positive determinant. Index one is equivalent to negative determinant.
+
+
+Fix a limiting configuration with Q_L<0. Then for all sufficiently nearby endpoint vectors and sufficiently small r:
+
+
+- at M, A_M^r<0 and C_M^r<0;
+- Delta_M^r>0, hence det H_M>0;
+- therefore H_M is negative definite;
+- at S, Delta_S^r<0, hence det H_S<0;
+- therefore H_S has index one.
+
+
+Fix a limiting configuration with Q_L>0. Then the M transverse entry is positive in a sufficiently small neighborhood, so H_M cannot be negative definite. Thus the required maximum–saddle type combination fails.
+
+
+The only boundary of this limiting type decision is Q_L=0. Since Q_L is nondegenerate Gaussian,
+
+
+    P(Q_L=0)=0.
+
+
+Therefore the type indicator converges in the extended continuous-mapping sense to
+
+
+    1{Q_L<0}.
+
+
+6. WEAK CONVERGENCE OF THE NORMALIZED WEIGHT
+
+
+Using the exact determinant factorization,
+
+
+    W_r^{exact}/r^2
+      =|Delta_M^r Delta_S^r|
+       1{H_M negative definite}
+       1{H_S index one}.
+
+
+Sections 4–5 and the extended continuous-mapping theorem give
+
+
+    W_r^{exact}/r^2
+      => Q_L^2 1{Q_L<0}.
+
+
+This is convergence in distribution under the changing exact conditioned laws Q_{6,r}. No unconstructed almost-sure coupling is asserted.
+
+
+7. UNIFORM INTEGRABILITY
+
+
+Let
+
+
+    R_r=||V_r||_2.
+
+
+For 0<r<=1,
+
+
+    |Delta_M^r|
+      <=|A_M^r C_M^r|+(B_M^r)^2
+      <=R_r^2,
+
+
+and similarly
+
+
+    |Delta_S^r|<=R_r^2.
+
+
+Consequently
+
+
+    0<=W_r^{exact}/r^2
+      <=|Delta_M^r Delta_S^r|
+      <=R_r^4,
+
+
+and
+
+
+    (W_r^{exact}/r^2)^2<=R_r^8.
+
+
+The conditional Gaussian family V_r has uniformly bounded means and covariance matrices for sufficiently small r. Hence every fixed polynomial moment is uniformly bounded, in particular
+
+
+    sup_{0<r<=r_1} E_{Q_{6,r}}[R_r^8]<infinity
+
+
+for some r_1>0.
+
+
+Therefore W_r^{exact}/r^2 is uniformly bounded in L^2 and is uniformly integrable.
+
+
+8. EXPECTATION LIMIT
+
+
+Convergence in distribution together with uniform integrability yields
+
+
+    Z_r^{exact}/r^2
+      =E_{Q_{6,r}}[W_r^{exact}/r^2]
+      ->z_{0,L}^{exact},
+
+
+where
+
+
+    z_{0,L}^{exact}
+      =E[Q_L^2 1{Q_L<0}].
+
+
+The limit is finite because Q_L has a finite second moment.
+
+
+The limit is strictly positive because every nondegenerate Gaussian assigns positive probability to (-infinity,0), and Q_L^2>0 almost surely on that event. Thus
+
+
+    0<z_{0,L}^{exact}<infinity.
+
+
+9. TWO-SIDED SMALL-r BOUNDS
+
+
+Choose r_Z>0 such that for 0<r<=r_Z,
+
+
+    |Z_r^{exact}/r^2-z_{0,L}^{exact}|
+      <=z_{0,L}^{exact}/2.
+
+
+Then
+
+
+    (z_{0,L}^{exact}/2)r^2
+      <=Z_r^{exact}
+      <=(3z_{0,L}^{exact}/2)r^2.
+
+
+Thus there exist finite constants
+
+
+    0<c_Z^{exact}<=C_Z^{exact}<infinity
+
+
+such that
+
+
+    c_Z^{exact}r^2
+      <=Z_r^{exact}
+      <=C_Z^{exact}r^2
+
+
+for every 0<r<=r_Z.
+
+
+No numerical value of z_{0,L}^{exact}, c_Z^{exact}, C_Z^{exact}, or r_Z is claimed.
+
+
+10. THEOREM
+
+
+For the exact normalized-periodized side-24 six-pin field law and exact full-field typed maximum–saddle weight defined in Section 1,
+
+
+    Z_r^{exact}/r^2
+      ->E[Q_L^2 1{Q_L<0}]
+      in (0,infinity)
+
+
+as r->0. Consequently Z_r^{exact} is bounded above and below by positive constant multiples of r^2 for all sufficiently small r.
+
+
+11. EDGE CASES AND OBJECT FIREWALL
+
+
+SINGULAR LIMITING ENDPOINT COVARIANCE.
+The theorem does not require the limiting covariance matrix of V_r to be positive definite. It may be singular because V_0 satisfies exact affine relations. The transformed pin Gram and the limiting Q_L coordinate must be nondegenerate in the senses stated above.
+
+
+TYPE BOUNDARY.
+The set Q_L=0 is null. No conclusion is obtained by pointwise continuity on that boundary; the extended continuous-mapping theorem removes it probabilistically.
+
+
+EXACT TORUS VERSUS PLANAR LAW.
+The limit is expressed using the exact side-24 variable Q_L. The planar truncated-normal decimal is not asserted as the exact torus constant.
+
+
+EXACT FULL FIELD VERSUS DEGREE FOUR.
+All endpoint Hessians, type indicators, weights, and expectations in this lemma are exact full-field objects. No finite-Q4 weight or normalizer is substituted.
+
+
+NORMALIZER DIRECTIONS.
+The lower bound is appropriate when upper-bounding a Palm probability denominator from below; the upper bound is appropriate when lower-bounding a Palm probability through a numerator lower bound. Downstream arguments must use the direction they require.
+
+
+12. EXCLUSIONS
+
+
+This lemma does not prove:
+
+
+- P02-LM-003 except that its H2 normalizer premise is available for the identical law after this lemma closes;
+- P02-LM-004;
+- a fifth-derivative tail probability;
+- any deterministic or exact-field bad-event inclusion;
+- determinant-weighted boundary-layer numerator scaling;
+- P0.1 or P0.2;
+- a numerical normalizer constant;
+- theorem promotion or external release.
+
+
+13. REOPENING CONDITIONS
+
+
+Reopen or amend if:
+
+
+- the pin-adjusted endpoint identities or any factor of two is corrected;
+- a required covariance divided difference lacks a removable singularity;
+- the transformed pin Gram loses uniform invertibility;
+- Q_L is degenerate;
+- the endpoint vector lacks uniform eighth moments;
+- the type boundary has positive limiting probability;
+- a finite-Q4 object is discovered in the exact proof;
+- the exact side-24 law is replaced by another covariance model without a new crosswalk;
+- the result is cited as proving a probability numerator or complete P0.2 theorem.
+END_FROZEN_LEMMA_BODY
+
+
+14. PROVENANCE AND STATUS
+
+
+This lemma extracts the exact normalizer subchain from the broader frozen P0.1 proof candidate and gives it a unique P0.2 interface identity. Its proof is the content of LCR-DER-003-v1.0 and Domain G of LCR-DER-010-v1.0, with the exact nine-jet regularity dependency now terminal under P02-LM-005.
+
+
+It is designed to discharge H2 of P02-LM-003 only when the identical exact six-pin law and exact endpoint weight are used.
+
+
+Current status:
+
+
+OBJECT-FROZEN AFTER HASH REPRODUCTION / COMPLETE SAME-LINE PROOF CANDIDATE / ORGANIZATIONALLY DISTINCT REVIEW PENDING / NONTERMINAL.
+
+
+No P0.1 or P0.2 promotion is claimed.
+
+
+END LCR-DER-019-v1.0

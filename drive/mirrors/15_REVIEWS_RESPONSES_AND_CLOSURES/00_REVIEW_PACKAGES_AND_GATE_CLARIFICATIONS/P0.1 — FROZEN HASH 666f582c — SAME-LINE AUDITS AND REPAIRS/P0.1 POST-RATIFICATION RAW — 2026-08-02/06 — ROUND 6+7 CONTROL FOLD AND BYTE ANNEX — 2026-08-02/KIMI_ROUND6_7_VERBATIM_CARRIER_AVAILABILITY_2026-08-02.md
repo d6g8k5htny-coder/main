@@ -1,0 +1,43 @@
+# Kimi Round 6+7 Verbatim-Carrier Availability Record
+
+Date: 2026-08-02
+Class: REC — negative-provenance and carrier-availability receipt
+Scope: KIMI-AUD-006, KIMI-AUD-006b, KIMI-AUD-012, KIMI-AUD-013, KIMI-AUD-014, KIMI-DATA-015, and KIMI-AUD-016
+Authority: none; this record reports byte availability and prevents false provenance
+
+## Available and already landed verbatim
+
+| Report | Bytes | Whole-file SHA-256 | Body SHA-256 | Raw Drive ID | Native mirror ID |
+|---|---:|---|---|---|---|
+| KIMI-AUD-006 | 8,329 | `17c8eba9fcc4a5d1475d7f9e6f3b51ff060aa5ecca78ee879617a20ea0c127fd` | `4b66f85e97e2338362e9086abd0f8c939a71248fbdea08e4a462d141756f5a38` | `1HQIpE8Ey7VOiXN7vJWucJIVEAdsXgx0h` | `1axGkg99tds4Dj1vfI_CHSJP5Kj79AC1GqK58s0ii72w` |
+| KIMI-AUD-006b | 4,624 | `2a38f2d412b4a7b51f008fc5593889b2598fbe01197ad1d873646bb7444877ce` | `9e615e81d0d0569c57b66df94414085d1bf9ac5cc6e7d11e0c8ddfe160629d77` | `1hfUOS2YXKfDfE8Al-sCGNf1PX-FgtSgN` | `1yIK60kq428NE3QuSB9PW1Jcri4AD2iOCWWkidejnCGQ` |
+
+The authoritative raw reports control. The native Docs are reading mirrors.
+
+## Not available verbatim
+
+No exact report text, raw carrier, or native mirror was present for:
+
+- KIMI-AUD-012 — only body SHA prefix `8e8b0bd5…` and the AO48-AUD-049 reconciliation are available.
+- KIMI-AUD-013 — disposition and scope are summarized by AO48-AUD-050; report bytes, length, and hash are unavailable.
+- KIMI-AUD-014 — disposition and scope are summarized by AO48-AUD-050; report bytes, length, and hash are unavailable.
+- KIMI-DATA-015 — the cited object is DATA, not AUD; only document-level E0 linkage is recorded by AO48-AUD-050, with the exact byte tier pending.
+- KIMI-AUD-016 — only body SHA prefix `80227561…` and the AO48-AUD-051 reconciliation are available.
+
+AO48 reconciliation identities:
+
+| Record | Bytes | SHA-256 | Drive ID |
+|---|---:|---|---|
+| AO48-AUD-049 | 4,032 | `04b596dd56a08924d12c8bd2b64f2b8eb02e2a73fcf444706e3bc6f5ce0dfd74` | `1A3xlubAwtJKF_Ek3VnAFHd0nZ6tZR8D2` |
+| AO48-AUD-050 | 4,173 | `a77ef4db4172c3e461c115b1a4aa4f43b936f6c1735214de79c2d260d190c0cd` | `1erEOdiOLafYbRtITquAaiEZ2g1GW3eWM` |
+| AO48-AUD-051 | 4,361 | `d067d0599b91ffb8891cf33ee0af279152b300151e13c16c9dde396f36662d15` | `1JwJKkZLlcbeMhi8PW2JjqPAdcBoW-T1V` |
+
+## Search basis
+
+The absence determination covered the operator-supplied 184-file Kimi snapshot, exact-title and identifier Drive searches, a created-time sweep of recent Kimi-named files, and the coupled-register Recent Activity, Artifact Index, Frozen Objects, and Identity Drift Watch surfaces. The available sources contain AO48 summaries but not the missing verbatim Kimi texts.
+
+## Integrity rule
+
+No AO48 summary or locally authored paraphrase may be relabeled as a Kimi raw report or native report mirror. When exact bytes are supplied, land them under their own report names, compute whole-file and declared-body hashes, create a clearly marked native reading mirror, and append a successor carrier manifest. Their later landing does not retroactively change the provenance status recorded here.
+
+END KIMI_ROUND6_7_VERBATIM_CARRIER_AVAILABILITY_2026-08-02

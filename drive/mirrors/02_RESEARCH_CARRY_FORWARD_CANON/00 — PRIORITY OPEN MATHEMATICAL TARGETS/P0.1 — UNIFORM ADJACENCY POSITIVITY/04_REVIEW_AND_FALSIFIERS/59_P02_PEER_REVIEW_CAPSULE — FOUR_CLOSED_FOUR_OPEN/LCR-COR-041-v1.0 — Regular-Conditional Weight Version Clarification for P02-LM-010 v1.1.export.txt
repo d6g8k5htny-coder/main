@@ -1,0 +1,201 @@
+﻿LCR-COR-041-v1.0 — REGULAR-CONDITIONAL WEIGHT VERSION CLARIFICATION FOR P02-LM-010 v1.1
+
+
+Artifact ID: LCR-COR-041-v1.0
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: COR / MEASURE-THEORETIC VERSION CLARIFICATION / SAME-LINE REPAIR COMPANION
+Authority: technical correction companion only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Target: LCR-DER-030-v1.1 / P02-LM-010
+Frozen target identity: BODY_BYTES 9335; SHA-256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+Status: NONFATAL CLARIFICATION / THEOREM AND HASH UNCHANGED / EXTERNAL REVIEW STILL REQUIRED
+
+
+[[TARGET:P02-LM-010-v1.1]] [[ISSUE:RCE-VERSION-AE]] [[DISPOSITION:REPAIRED-BY-VERSION-SELECTION]] [[HASH:UNCHANGED]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. ISSUE
+
+
+P02-LM-010 v1.1 defines
+
+
+    barW_r(q,U)=E[W_r^{exact} | J_r=(q,U)],
+
+
+    tildeW_r(q,U)=E[W_r^{exact} 1_{G_r} | J_r=(q,U)].
+
+
+As regular conditional expectations, these functions are canonically determined only up to null sets for the jet law mu_r=Law_{Q_{6,r}}(J_r). Therefore statements such as
+
+
+    tildeW_r(rs,U)=0 outside the declared interval,
+
+
+and
+
+
+    tildeW_r(rs,U)<=r^4 K_D(1+|s|+||U||)^4
+
+
+are initially conclusions for mu_r-almost every (q,U), not literally for every point for an arbitrary chosen version.
+
+
+The proof uses these statements only inside integrals against the exact jet density phi_r(q,U)dq dU. Thus an almost-everywhere formulation already suffices. Nevertheless, the frozen text is best read with an explicit support-respecting bounded-version convention.
+
+
+2. STANDARD-BOREL INPUT
+
+
+The full conditioned-field sample space may be realized as a standard Borel probability space, and J_r takes values in R^9, also standard Borel. Hence regular conditional distributions and regular conditional expectations given J_r exist.
+
+
+Let mu_r be the exact law of J_r. Choose any measurable versions barW_r^0 and tildeW_r^0 of the two conditional expectations.
+
+
+3. POINTWISE DOMINATION BEFORE CONDITIONING
+
+
+On the good event G_r, the exact Hessian remainder hypothesis gives the deterministic jet-dependent bound
+
+
+    W_r^{exact} 1_{G_r}
+      <= B_r(J_r),
+
+
+where, writing J_r=(q,U) and s=q/r,
+
+
+    B_r(q,U)
+      =r^4 K_D(1+|q|/r+||U||)^4.
+
+
+This is a pointwise full-field inequality. Conditional monotonicity gives
+
+
+    0<=tildeW_r^0(q,U)<=B_r(q,U)
+
+
+for mu_r-almost every (q,U).
+
+
+Similarly, exact type plus G_r and s>-C_cap(U) imply the upper-endpoint condition
+
+
+    s<U_r(U)
+
+
+for every contributing full-field realization. Therefore
+
+
+    tildeW_r^0(q,U) 1{s>-C_cap(U)}=0
+
+
+for mu_r-almost every jet outside the nonoriented interval
+
+
+    -C_cap(U)<q/r<U_r(U).
+
+
+4. SUPPORT-RESPECTING VERSION SELECTION
+
+
+Define the measurable interval set
+
+
+    I_r={(q,U): -C_cap(U)<q/r<U_r(U)}.
+
+
+A pointwise bounded, support-respecting version may be chosen by
+
+
+    tildeW_r(q,U)
+      =1_{I_r}(q,U)
+         min{ B_r(q,U), max{0,tildeW_r^0(q,U)} }.
+
+
+The modified function differs from tildeW_r^0 only on a mu_r-null set because the nonnegativity, domination, and support properties already hold mu_r-almost everywhere. Therefore it remains a valid regular-conditional-expectation version.
+
+
+Likewise choose
+
+
+    barW_r(q,U)=max{0,barW_r^0(q,U)}
+
+
+after modification on the corresponding mu_r-null exceptional set if necessary. This remains a version of E[W_r^{exact}|J_r].
+
+
+With these versions:
+
+
+- barW_r and tildeW_r are nonnegative and measurable everywhere;
+- tildeW_r is pointwise supported in I_r after multiplication by 1{s>-C_cap(U)};
+- tildeW_r obeys the declared pointwise r^4 polynomial majorant everywhere;
+- the full normalizer identity remains
+
+
+      Z_r^{exact}=integral barW_r phi_r dq dU;
+
+
+- the numerator identity remains
+
+
+      N_r=integral tildeW_r 1{s>-C_cap(U)} phi_r dq dU.
+
+
+5. EFFECT ON THE PROOF
+
+
+No probability, law, exponent, interval endpoint, determinant factor, normalizer, or conclusion changes.
+
+
+The integration may be read in either of two equivalent ways:
+
+
+A. use arbitrary regular-conditional versions and interpret support/domination statements phi_r dq dU-almost everywhere; or
+
+
+B. use the support-respecting bounded versions constructed above and retain the pointwise wording.
+
+
+Both routes give
+
+
+    N_r<=K_N r^5,
+
+
+and, with the full exact normalizer lower bound,
+
+
+    P_r^{MS}(B_r)=N_r/Z_r^{exact}<=K_B r^3.
+
+
+6. ADJUDICATION
+
+
+Classification: NONFATAL MEASURE-THEORETIC CLARIFICATION.
+
+
+The frozen P02-LM-010 v1.1 body remains mathematically valid when conditional expectations are understood in the standard almost-everywhere sense. This companion makes the required version choice explicit and prevents a reviewer from mistaking a null-set representative issue for an object or normalization defect.
+
+
+The frozen hash remains unchanged. P02-LM-010 v1.1 remains nonterminal and still requires an organizationally distinct exact-hash review.
+
+
+7. REQUIRED EXTERNAL-REVIEW ADDITION
+
+
+An external reviewer should add one check:
+
+
+X9A — REGULAR-CONDITIONAL VERSION CONTROL.
+Confirm standard-Borel disintegration, identify the jet-law almost-everywhere nature of the conditional weights, and verify that modification on a jet-law null set produces a measurable support-respecting bounded version without altering the numerator or denominator integrals.
+
+
+No P0.2 closure or promotion follows.
+
+
+END LCR-COR-041-v1.0

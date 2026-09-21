@@ -1,0 +1,317 @@
+﻿GP-AUD-227-v1.0 — INDEPENDENT SAME-LINE REPLAY AND ARITHMETIC AUDIT OF GP-DATA-212 BASE-MASS SUCCESSOR
+
+
+Artifact ID: GP-AUD-227-v1.0
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: AUD / SOURCE REPLAY / EXACT RATIONAL RECONSTRUCTION / ADVERSARIAL CHECK
+Authority: same-line technical evidence only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+Target: GP-DATA-212-v1.0 / GP-DER-212-v1.0
+
+
+[[TARGET:GP-DATA-212]] [[SOURCE-REPLAY:BYTE-IDENTICAL]] [[FULL-9X9:PASS]] [[BOX-MASS:PASS]] [[PERIODIZATION:CROSS-LINE-PASS]] [[EXTERNAL-SUCCESSOR-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. EXACT SOURCE AND RESULT RECONSTRUCTION
+
+
+Drive source carrier:
+https://docs.google.com/document/d/1yaQ8R1OW1t-WJT7JGp3rVco3FQkIYXELshVI6Wt6vUY/edit
+
+
+Declared extraction policy was applied to a fresh text/plain download:
+
+
+- source bytes: 17,251;
+- source SHA-256: 34959db6e13ed4b797b3501aecc162ac9dbe863c4c7a43a0621ad5b35c7943c2;
+- declared source identity: MATCH.
+
+
+Drive result carrier:
+https://docs.google.com/document/d/1mmIwF4m7yoXw2DOnjmdfqiZg36xyYNZX_PuAhMsoT3E/edit
+
+
+Fresh result extraction:
+
+
+- result bytes: 5,593;
+- result SHA-256: b9c079171d2520f2a39f5b6adb1ae5a23dbe838dc1063a568ee86703270102b7;
+- declared result identity: MATCH.
+
+
+Executing the exact extracted source produced a result file that was byte-identical to the stored result carrier:
+
+
+    replay bytes: 5,593;
+    replay SHA-256: b9c079171d2520f2a39f5b6adb1ae5a23dbe838dc1063a568ee86703270102b7.
+
+
+2. REPLAY OUTPUT
+
+
+The source replay reports:
+
+
+    lambda_min(Sigma_r) > 0.42973107774898621142...,
+    lambda_max(Sigma_r) < 100.00026892225101378858...,
+    ||m_r-m_0||_2 < 0.00004557647544437678028...,
+    Q_{6,r}(J_r in B_q)
+      > 3.797298656586464623958443151466341060958... x 10^-46.
+
+
+The declared simplified constants therefore have substantial slack:
+
+
+    lambda_min>0.42,
+    lambda_max<151,
+    ||m_r-m_0||<0.001,
+    p_B=10^-48.
+
+
+All source-computed predicates pass.
+
+
+3. INDEPENDENT FULL-MATRIX RECONSTRUCTION
+
+
+A separate audit program reconstructed the planar limiting matrices from the Bargmann-Fock covariance derivative formula and the declared six confluent constraints and nine jet derivatives. It did not import the source's check flags or stored Sigma_0 matrix.
+
+
+The exact limiting covariance characteristic polynomial is
+
+
+    (lambda-24)(lambda-6)^3(lambda-2)^2
+    (lambda^3-104lambda^2+488lambda-192).
+
+
+Its distinct eigenvalues are approximately
+
+
+    0.4332852749267097251097987947994771,
+    2,
+    4.471730544183762907389409913298232,
+    6,
+    24,
+    99.09498418088952736750079129190229.
+
+
+Thus
+
+
+    lambda_min(Sigma_0)>0.43,
+    lambda_max(Sigma_0)<100.
+
+
+The permutation
+
+
+    (0,6,8,1,2,3,4,5,7)
+
+
+puts Sigma_0 into the direct sum of the exact 3x3 block
+
+
+    [[  2, -2, -12],
+     [ -2,  6,  12],
+     [-12, 12,  96]]
+
+
+and scalar blocks
+
+
+    2,2,6,24,6,6.
+
+
+This verifies the source's direct-sum claim and proves the full-matrix spectrum is not inferred from a principal submatrix by invalid interlacing.
+
+
+4. FULL SYLVESTER WITNESSES
+
+
+For Sigma_0-(43/100)I, all nine leading principal minors are strictly positive:
+
+
+    157/100,
+    24649/10000,
+    3869893/1000000,
+    2155530401/100000000,
+    5080585155157/10000000000,
+    2829885931422449/1000000000000,
+    855256417580024093/100000000000000,
+    476377824592073419801/10000000000000000,
+    13153053875809885198157/1000000000000000000.
+
+
+For 100I-Sigma_0, all nine leading principal minors are strictly positive:
+
+
+    98,
+    9604,
+    941192,
+    88472048,
+    6723875648,
+    632044310912,
+    59386367498752,
+    5582318544882688,
+    5218570594521088.
+
+
+The lower and upper Sylvester directions are correct.
+
+
+5. BOX GEOMETRY
+
+
+The audit independently reconstructed the declared exact box
+
+
+    q in [-51/50,-49/50],
+    a in [3/1250,13/5000],
+    w in [-1/1000,1/1000],
+    z in [99/100,101/100],
+    c40,c31,c22,c13,c04 in [-1/100,1/100].
+
+
+The exact volume is
+
+
+    Vol(B_q)=1/976562500000000000.
+
+
+Using
+
+
+    m_0=(-6/5,0,0,0,-18/5,0,0,0,18/5),
+
+
+the sum of the nine farthest-coordinate squared distances is
+
+
+    339162597/12500000.
+
+
+This verifies that GP-DATA-212 repairs the predecessor's under-specified/hardcoded box geometry.
+
+
+6. GAUSSIAN DENSITY DIRECTION
+
+
+With
+
+
+    lambda_min(Sigma_r)>=0.42,
+    lambda_max(Sigma_r)<=151,
+    ||m_r-m_0||<=0.001,
+
+
+the correct pointwise density lower bound on B_q is
+
+
+    (2pi)^(-9/2) 151^(-9/2)
+    exp[-d^2/(2*0.42)],
+
+
+where
+
+
+    d=sqrt(339162597/12500000)+0.001.
+
+
+The determinant prefactor correctly uses the covariance upper eigenvalue, while the exponent correctly uses the covariance lower eigenvalue. The resulting values are
+
+
+    density lower bound
+      =3.70829946932271935933441714010384869234... x 10^-28,
+
+
+    mass lower bound
+      =3.79729865658646462395844315146634106096... x 10^-46.
+
+
+7. PERIODIZATION RESERVE
+
+
+CL-AUD-257-PART1 independently reconstructs the Peano/divided-difference side-24 image bound for the same transformed frame. It proves uniformly on 0<r<=r_D:
+
+
+    transformed-entry torus defect <=7.48518024 x 10^-90
+
+
+and
+
+
+    true amplification <=4.707068 x 10^16 < 10^18.
+
+
+Therefore the GP-DATA-212 reserve
+
+
+    10^-87 per transformed entry
+
+
+is valid and uniform in r. The external analysis specifically confirms that the apparent r^-3 and r^-2 coefficients cancel through the divided-difference annihilation orders; no nonuniform r^-k reserve remains.
+
+
+The predecessor review does not automatically approve the successor hash, but this shared analytic result is valid evidence for the unchanged transformed-frame/periodization subchain.
+
+
+8. ADVERSARIAL DIRECTION TESTS
+
+
+The independent audit verifies that each following mutation produces an unsafe larger claimed density bound or changes the object:
+
+
+- use lambda_max in the exponent denominator;
+- use lambda_min in the determinant prefactor;
+- omit the finite-r mean-error allowance;
+- swap q and a in the jet ordering.
+
+
+All four mutations are detected and rejected.
+
+
+Additional successor mutations remain assigned to the organizationally distinct reviewer under GP-REQ-213 / GP-REQ-226.
+
+
+9. LOCAL AUDIT FILE IDENTITIES
+
+
+Independent audit source:
+
+
+    filename: gp_aud_227_independent_212.py
+    bytes: 4,330
+    SHA-256: 0acbb2a510b596e22a415bc40315a57ee596162562e35fb4e648eb267a6e0679.
+
+
+Independent audit result:
+
+
+    filename: gp_aud_227_result.json
+    SHA-256: 422505a9b95680ef2f3f4d15d26b4129ba73ad3112a602df7bc49f1efad88c99.
+
+
+The audit result records the full exact Sigma_0, characteristic polynomial, both nine-minor ledgers, block decomposition, exact box geometry, density/mass values, and mutation outcomes.
+
+
+10. VERDICT
+
+
+SAME-LINE SOURCE REPLAY: PASS.
+SAME-LINE INDEPENDENT ARITHMETIC RECONSTRUCTION: PASS.
+EXTERNAL PERIODIZATION SUBCHAIN: PASS WITHIN SHARED SCOPE.
+ORGANIZATIONALLY DISTINCT GP-DATA-212 SUCCESSOR VERDICT: OPEN.
+
+
+No same-family audit or predecessor subchain review supplies the required exact-source successor approval.
+
+
+11. SCOPE
+
+
+This audit does not independently approve GP-DATA-212, close the quantitative P0.1 base-mass gate, prove GT5, exact capture, the upper normalizer, the final Palm quotient, P0.1, P0.2, or Theorem B. No promotion, machine, package, release, sealing, deletion, or destructive action follows.
+
+
+END GP-AUD-227-v1.0

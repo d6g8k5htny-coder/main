@@ -1,0 +1,943 @@
+{
+  "schema": "gate-kernel/2.0",
+  "roots": [
+    "GAMMA_GAIN_DENSITY_MODULO",
+    "GAMMA_EVENT_CUBIC_MODULO"
+  ],
+  "metadata": {
+    "contract_id": "Q0-C097-GAMMA-DENSITY-REDUCTION",
+    "status": "PROVEN-MODULO seven explicit obligations",
+    "no_decimal_promotion": true
+  },
+  "claims": [
+    {
+      "claim_id": "GAIN_CHARTWISE_CALCULUS",
+      "statement": "On a stable nondegenerate selected-maximum chart, DG_r(h)=h(X_dagger), ||DG_r||^2=K_r^(6)(X_dagger,X_dagger), and D2G_r(h,k)=-grad h^T H^(-1) grad k.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "CONDITIONAL",
+      "quantifier_order": "",
+      "direction": "EQUALITY",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "3f0a35094ed58e04ffc4ceee93a712630dcdbe888c0f837635a3f4d2c3191c2b"
+    },
+    {
+      "claim_id": "GAIN_CHART_COVER",
+      "statement": "Finite-overlap stable chart cover for the selected maximum.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "e74f18a3196110c3543273facb4e0a820f9090ee5830c6faf12ebe8898840a4b"
+    },
+    {
+      "claim_id": "GAIN_CHART_RESIDUAL",
+      "statement": "Uncovered/chart-switching gain-window mass is O(ell).",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "e0603551a1ed29c68ee8de1dcd4a81286a4022a0c3b360ed67e8254d1c4dcb4d"
+    },
+    {
+      "claim_id": "GAIN_HESSIAN_INVERSE_MOMENT",
+      "statement": "Uniform inverse-Hessian moment on active charts.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "4dc54251ad640f7633ce96b8e8d93f85d84bb24136c0ee0ddac17b20d66953c4"
+    },
+    {
+      "claim_id": "GAIN_KERNEL_DERIVATIVE_BOUND",
+      "statement": "Uniform residual-kernel derivative bounds.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "ae117b1e2bb4a06d332808255a9565993f16c8620180f900baf1d2883113fd53"
+    },
+    {
+      "claim_id": "GAIN_MALLIAVIN_DIVERGENCE",
+      "statement": "Uniform chart-local Malliavin divergence bound.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "1ce6e05ffd9e714bafd2f6162e13690c537fe30f3adf5ee79586480b4afe5659"
+    },
+    {
+      "claim_id": "GAIN_PALM_FIBER_WEIGHT",
+      "statement": "Uniform determinant Palm fiber-weight ratio near zero gain.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "16f5165b528c402da05ba715343b89e422d481f876324edb664287bb825c5160"
+    },
+    {
+      "claim_id": "GAIN_RESIDUAL_VARIANCE_FLOOR",
+      "statement": "Uniform positive six-pin residual variance at the selected maximum.",
+      "kind": "ASSUMPTION",
+      "status": "OPEN",
+      "warrant": "CONJECTURE",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "PRIMITIVE-HYPOTHESIS",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": false,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [
+        "critical-type",
+        "gain",
+        "selected-maximum"
+      ],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [],
+      "active_gates": [],
+      "edges": [],
+      "content_hash": "0f95e006adf24c90f018854e89222dd18cfae532d108c3ace4ff272c9c4efd47"
+    },
+    {
+      "claim_id": "GAMMA_GAIN_DENSITY_MODULO",
+      "statement": "Conditional on the seven named chart, variance, Hessian, kernel, Malliavin, Palm-weight, and residual obligations, the pair-Palm gain variable G_r has a uniformly bounded density near zero.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GAIN_CHART_COVER",
+        "GAIN_RESIDUAL_VARIANCE_FLOOR",
+        "GAIN_HESSIAN_INVERSE_MOMENT",
+        "GAIN_KERNEL_DERIVATIVE_BOUND",
+        "GAIN_MALLIAVIN_DIVERGENCE",
+        "GAIN_PALM_FIBER_WEIGHT",
+        "GAIN_CHART_RESIDUAL"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "GAIN_CHARTWISE_CALCULUS",
+          "kind": "SUPPORT",
+          "pinned_hash": "3f0a35094ed58e04ffc4ceee93a712630dcdbe888c0f837635a3f4d2c3191c2b",
+          "conditional": false,
+          "role": ""
+        },
+        {
+          "target": "GAIN_CHART_COVER",
+          "kind": "CONDITION",
+          "pinned_hash": "e74f18a3196110c3543273facb4e0a820f9090ee5830c6faf12ebe8898840a4b",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_RESIDUAL_VARIANCE_FLOOR",
+          "kind": "CONDITION",
+          "pinned_hash": "0f95e006adf24c90f018854e89222dd18cfae532d108c3ace4ff272c9c4efd47",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_HESSIAN_INVERSE_MOMENT",
+          "kind": "CONDITION",
+          "pinned_hash": "4dc54251ad640f7633ce96b8e8d93f85d84bb24136c0ee0ddac17b20d66953c4",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_KERNEL_DERIVATIVE_BOUND",
+          "kind": "CONDITION",
+          "pinned_hash": "ae117b1e2bb4a06d332808255a9565993f16c8620180f900baf1d2883113fd53",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_MALLIAVIN_DIVERGENCE",
+          "kind": "CONDITION",
+          "pinned_hash": "1ce6e05ffd9e714bafd2f6162e13690c537fe30f3adf5ee79586480b4afe5659",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_PALM_FIBER_WEIGHT",
+          "kind": "CONDITION",
+          "pinned_hash": "16f5165b528c402da05ba715343b89e422d481f876324edb664287bb825c5160",
+          "conditional": true,
+          "role": ""
+        },
+        {
+          "target": "GAIN_CHART_RESIDUAL",
+          "kind": "CONDITION",
+          "pinned_hash": "e0603551a1ed29c68ee8de1dcd4a81286a4022a0c3b360ed67e8254d1c4dcb4d",
+          "conditional": true,
+          "role": ""
+        }
+      ],
+      "content_hash": "f43f51489dbc7cc544f65cf00027f988a3e007aedbd1df0e3a255108a9e3206d"
+    },
+    {
+      "claim_id": "GAMMA_EVENT_CUBIC_MODULO",
+      "statement": "Under the same seven conditions, P_pair-Palm(0<G_r<r^3/6)<=C_Gamma r^3 for a finite C_Gamma.",
+      "kind": "STATEMENT",
+      "status": "LIVE",
+      "warrant": "PROVEN-MODULO",
+      "source_precedence_id": "C097-GAMMA-REDUCTION",
+      "evidence_ids": [
+        "C097_GAMMA_DENSITY_REDUCTION.md"
+      ],
+      "supersedes": [],
+      "alias_of": "",
+      "assumption_role": "NONE",
+      "reasoning_mode": "DEDUCTIVE",
+      "load_bearing": true,
+      "quantifier": "FOR-ALL",
+      "quantifier_order": "",
+      "direction": "UPPER",
+      "bound_coefficient": null,
+      "uncertainty_side": "NONE",
+      "establishment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "deployment_regime": {
+        "model_id": "EXACT-PERIODIZED-BF-L24",
+        "measure_id": "TYPED-MAX-SADDLE-PAIR-PALM",
+        "domain": {
+          "r": {
+            "lower": "0",
+            "upper": "0.025",
+            "lower_open": true,
+            "upper_open": false
+          }
+        },
+        "spatial_region": "second-branch maximum selection charts",
+        "scale_id": "gain density near zero",
+        "conditioning_depth": "typed six-pin pair-Palm",
+        "marks": [
+          "critical-type",
+          "gain",
+          "selected-maximum"
+        ],
+        "deployment_mode": "conditional theorem"
+      },
+      "required_marks": [],
+      "supplied_marks": [],
+      "operation": "ATOMIC",
+      "measured_values": [],
+      "finite_range_bound": false,
+      "registered_endpoints": [],
+      "bridge_spec": null,
+      "witness_spec": null,
+      "assembly_spec": null,
+      "extremum_spec": null,
+      "band_spec": null,
+      "common_mode_spec": null,
+      "coverage_spec": null,
+      "verification_mode": "NONE",
+      "closed_core": false,
+      "conditional_on": [
+        "GAIN_CHART_COVER",
+        "GAIN_RESIDUAL_VARIANCE_FLOOR",
+        "GAIN_HESSIAN_INVERSE_MOMENT",
+        "GAIN_KERNEL_DERIVATIVE_BOUND",
+        "GAIN_MALLIAVIN_DIVERGENCE",
+        "GAIN_PALM_FIBER_WEIGHT",
+        "GAIN_CHART_RESIDUAL"
+      ],
+      "active_gates": [],
+      "edges": [
+        {
+          "target": "GAMMA_GAIN_DENSITY_MODULO",
+          "kind": "SUPPORT",
+          "pinned_hash": "f43f51489dbc7cc544f65cf00027f988a3e007aedbd1df0e3a255108a9e3206d",
+          "conditional": false,
+          "role": ""
+        }
+      ],
+      "content_hash": "bacb48aa1231b10b09fde14d75fa66c31c49fa75cc6a1657eacc592e687a71dc"
+    }
+  ]
+}

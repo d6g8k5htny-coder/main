@@ -1,0 +1,384 @@
+﻿MATHEMATICAL CORRECTION — GP-AUD-199 CONSTANT/RADIUS SECTION AMEND REQUIRED — 2026-07-24
+
+
+Do not use this audit’s replacement formula
+    C_D=(343+192sqrt(2))/192
+or its derived value
+    r_D=(343-192sqrt(2))/50522500 ≈ 1.8903×10^-5.
+Those expressions are not the constant proved by GP-DER-100 / GP-DATA-101 and independently replayed same-line by LS-AUD-006.
+
+
+The controlling exact result is:
+    C_D=343/192+sqrt(1074)/960
+       =1.8205957700170290400919415939710167857405504985220485...
+and, for epsilon_D=10^-4,
+    r_D=10^-4/C_D
+       =0.0000549270747778704575598758916462559552302418705897....
+
+
+Controlling supporting records:
+- GP-DER-100-v1.0, Drive ID 1hKLX5Rp_fj0rA0UMTG58kFGteKnxxbBkyGvLOOTHtV8;
+- GP-DER-045-v1.0, Drive ID 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc;
+- LS-AUD-006-v1.0, Drive ID 1pitjLTwCOgffbol9noR2EJFbRDfiEfDXGdCkd1WvlGI;
+- GP-DATA-101 exact source/receipt lineage identified in GP-README-198-v1.0.
+
+
+Surviving parts of GP-AUD-199:
+- GP-DER-197 event-admissibility must be included as a theorem-validity gate;
+- the exact application should be realized on a common C5 probability space as in GP-AUD-198;
+- LS-AUD-006 is same OpenAI family and earns zero organizational-independence credit;
+- P0.1 remains nonterminal and unpromoted.
+
+
+Retracted/amend-required parts:
+- Sections 1–3 and 10 insofar as they assert the incorrect C_D formula, incorrect rationalization, incorrect r_D value, or a successful audit of that altered algebra;
+- any downstream use of the 1.8903×10^-5 radius as controlling.
+
+
+Current disposition: AMEND REQUIRED / CONSTANT AUDIT FAILED / EVENT-GATE, C5, AND INDEPENDENCE CORRECTIONS SURVIVE / ZERO INDEPENDENCE CREDIT / NO PROMOTION.
+[[CONSTANT-FORMULA:RETRACTED]] [[CONTROLLING-C_D:1.820595770017029...]] [[CONTROLLING-r_D:5.492707477787046e-5]] [[EVENT-GATE:SURVIVES]] [[C5-LIFT:SURVIVES]] [[INDEPENDENCE-CORRECTION:SURVIVES]] [[P0.1:OPEN]]
+
+
+GP-AUD-199-v1.0 — P0.1 COMMON-RADIUS THEOREM AUDIT
+EVENT GATE AND INDEPENDENCE CORRECTION
+
+
+Artifact ID: GP-AUD-199-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking, Adversarial Research Critic
+Date: 2026-07-24
+Class: AUD / EXACT CONSTANT / COMMON-DOMAIN / DEPENDENCY COMPLETENESS / REVIEW-LINEAGE
+Authority: factual technical correction only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Reviewed objects: LS-DER-007-v1.0; LS-AUD-006-v1.0; LS-DER-006-v1.0; GP-DER-186-v1.0; GP-DER-197-v1.0; GP-AUD-198-v1.0
+
+
+[[TARGET:P0.1]] [[RADIUS-ALGEBRA:PASS]] [[EVENT-GATE:MISSING-AND-ADDED]] [[C5-COMPATIBILITY:REQUIRED]] [[LS-AUD-006:SAME-FAMILY-NOT-INDEPENDENT]] [[P0.1:OPEN]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+LS-DER-007’s quantitative common-radius construction is mathematically sound as a conditional same-line reduction:
+
+
+    r_D=epsilon_D/C_D
+
+
+with
+
+
+    epsilon_D=10^-4,
+    C_D=(343+192sqrt(2))/192,
+
+
+and
+
+
+    r_*=min{r_GR,r_N,r_T,r_D}>0.
+
+
+The exact simplification
+
+
+    r_D=(343-192sqrt(2))/50522500
+
+
+is correct.
+
+
+No sign error, missing factor of r, reversed inequality, or false compactness argument was found in the radius algebra.
+
+
+However, the document overstates dependency completeness in two ways:
+
+
+1. It was written before GP-DER-197 and therefore claims the full P0.1 conclusion without including the theorem that the selected branch is a measurable mark and A_r is a Borel event.
+2. It uses the phrase “independent exact computation” for LS-AUD-006 even though LS-AUD-006 is another OpenAI GPT-5.6 same-family derivation and earns zero organizational-independence credit.
+
+
+A third clarification is required for application consistency:
+
+
+3. The exact bridge law should be realized on C^5 so the fifth-derivative event and GP-DER-197’s C^3 Borel branch event live on one measurable probability space by continuous pullback, as shown in GP-AUD-198.
+
+
+These defects do not change the numerical radius or the conditional probability inequality. They change the theorem’s prerequisite list and evidentiary classification.
+
+
+Adjudication:
+
+
+- explicit C_D: PASS SAME-LINE;
+- determinant perturbation threshold epsilon_D: PASS SAME-LINE;
+- exact r_D algebra: PASS;
+- finite positive minimum construction: PASS CONDITIONAL;
+- selected-event measurability prerequisite: OMITTED / REPAIR REQUIRED;
+- common C^5 realization: OMITTED / REPAIR REQUIRED;
+- LS-AUD-006 “independent” wording: INCORRECT EVIDENCE CLASS;
+- organizationally distinct review: OPEN;
+- P0.1 promotion: PROHIBITED.
+
+
+2. EXACT CONSTANT CHECK
+
+
+LS-AUD-006 proves
+
+
+    C_D=1+sqrt(2)+(35/24+sqrt(2))
+        =(59/24)+2sqrt(2)
+        =(343+192sqrt(2))/192.
+
+
+The first term controls the unperturbed fifth-order Taylor remainder after scaled differentiation. The second is the exact Euclidean C^1 operator norm of the fixed normalized pin-correction map.
+
+
+For r<=1 and on
+
+
+    G_r={H_{5,r}(D^+)<=r^-1},
+
+
+    ||F_r-F_r^(4)||_{C^1(D_cert)}<=C_Dr.
+
+
+GP-DER-186 supplies the fixed-q common deterministic tolerance
+
+
+    epsilon_D=10^-4.
+
+
+Thus C_Dr<=epsilon_D whenever
+
+
+    r<=r_D:=epsilon_D/C_D.
+
+
+Rationalizing:
+
+
+    r_D=(1/10000)·192/(343+192sqrt(2))
+       =192(343-192sqrt(2))
+         /[10000(343^2-2·192^2)].
+
+
+Since
+
+
+    343^2-2·192^2=117649-73728=43921
+
+
+and
+
+
+    10000·43921=439210000,
+
+
+cancelling 192/439210000 gives
+
+
+    r_D=(343-192sqrt(2))/50522500.
+
+
+The numerator is positive because 343^2>2·192^2. Therefore r_D>0.
+
+
+The displayed decimal approximately 1.8903×10^-5 is consistent.
+
+
+3. NORMALIZER AND TAIL RADII
+
+
+Let r_GR>0 be the exact Gaussian regularity radius and r_Z>0 the exact normalizer radius. Defining
+
+
+    r_N=min{r_GR,r_Z}
+
+
+is valid.
+
+
+For the tail theorem, if
+
+
+    Q_{6,r}(G_r^c)<=C_5 exp(-c_5r^-2)
+
+
+holds for r<=r_5 and threshold r^-1>=t_0, set
+
+
+    r_cutoff=min{1,1/t_0}
+
+
+with the convention that any explicit positive cutoff ensuring r^-1>=t_0 is acceptable. If 2C_5>p_B, solving
+
+
+    C_5 exp(-c_5r^-2)<=p_B/2
+
+
+gives
+
+
+    r<=sqrt[c_5/log(2C_5/p_B)].
+
+
+If 2C_5<=p_B, the inequality holds throughout the GT5 domain.
+
+
+Thus the definition of r_T as a finite minimum of positive endpoints is valid conditional on accepted explicit constants.
+
+
+No independence between the jet-box event and G_r is used.
+
+
+4. MISSING EVENT-ADMISSIBILITY PREMISE
+
+
+LS-DER-007 concludes
+
+
+    P_r^{MS}(A_r)>=p_B/(8C_N)>0.
+
+
+This expression requires A_r to be measurable.
+
+
+GP-PROT-065 gave the correct branch convention but did not prove measurable branch selection. GP-DER-197 now supplies:
+
+
+- the strict typed/nonorthogonal Borel domain;
+- the continuously oriented unstable spectral projector;
+- local parameter-dependent unstable branches;
+- a countable Borel selected-branch point;
+- measurable global flow trajectories;
+- a Borel path-convergence-to-M event;
+- compatibility with the deterministic certificate;
+- exact Palm-event admissibility.
+
+
+Controlling identity:
+
+
+GP-DER-197-v1.0
+BODY_BYTES: 13797
+SHA-256: 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d
+
+
+This premise introduces no additional small-r radius. It is a theorem-validity gate rather than a quantitative threshold.
+
+
+Therefore the corrected reduced theorem should read:
+
+
+Assume G, D, T, and event-admissibility interface I are valid on their exact objects, with GP-DER-197 approved or explicitly retained as a condition. Then for
+
+
+    0<r<=min{r_GR,r_N,r_T,r_D},
+
+
+    P_r^{MS}(A_r)>=p_B/(8C_N)>0.
+
+
+5. COMMON C5 APPLICATION SPACE
+
+
+GP-DER-197 is naturally proved on C^3. The high-derivative event uses physical fifth derivatives.
+
+
+Because the normalized-periodized field and finite-pin Gaussian bridge have analytic versions, realize Q_{6,r} as a Borel law on
+
+
+    X_5=C^5(T_L^2).
+
+
+The inclusion X_5->X_3 is continuous. Pull back GP-DER-197’s Borel event A_r from C^3 to C^5. On C^5 the following are Borel:
+
+
+- midpoint jet J_r;
+- endpoint Hessians;
+- exact weight W_r^{exact};
+- H_{5,r}(D^+);
+- G_r;
+- E_r={J_r in B_q} intersect G_r;
+- A_r;
+- all numerator and denominator integrands.
+
+
+This application lift introduces no new radius and does not alter C_D or r_D.
+
+
+6. REVIEW-LINEAGE CORRECTION
+
+
+LS-AUD-006 describes itself as an “independent exact computation.” Its author/reviewer line is OpenAI GPT-5.6 Thinking, the same provider/model family as the surrounding LS/GP proof chain.
+
+
+Correct classification:
+
+
+SAME-FAMILY EXACT RECONSTRUCTION / SAME-LINE CORROBORATION / ZERO ORGANIZATIONAL-INDEPENDENCE CREDIT.
+
+
+Its mathematical calculation may be correct and useful. Its evidentiary weight must not be counted as an organizationally distinct review.
+
+
+Any Review Independence or Evidence Lineage entry should use that corrected class.
+
+
+7. CORRECTED DEPENDENCY LEDGER
+
+
+R1 — exact Gaussian regularity and fixed-box density;
+R2 — exact full-field normalizer upper bound;
+R3 — repaired conditioned GT5 with explicit constants;
+R4 — fixed-q deterministic certificate and gatewise epsilon_D;
+R5 — explicit C_D and exact r_D;
+R6 — exact determinant-weight lower bound on E_r;
+R7 — GP-DER-197 Borel selected-branch event;
+R8 — common C^5 field-space compatibility;
+R9 — exact law/weight/Palm quotient and correct directions;
+R10 — finite positive minimum of quantitative radii.
+
+
+R7–R9 are theorem/review gates but do not reduce the numerical r_* beyond R1–R6/R10.
+
+
+8. CLAIM NARROWING
+
+
+Overbroad wording:
+
+
+“P0.1 is reduced exactly to G,D,T with an independently checked explicit deterministic constant.”
+
+
+Correct wording:
+
+
+“P0.1 has a same-line explicit quantitative radius conditional on accepted G,D,T and shared event/quotient integration interface I. The explicit C_D calculation is same-family corroboration, not organizationally independent evidence.”
+
+
+9. REQUIRED DRIVE ACTIONS
+
+
+- Add a current correction banner to LS-DER-007.
+- Add an evidence-class correction banner to LS-AUD-006.
+- Add GP-DER-197 and common C^5 to any common-radius review packet.
+- Keep r_* formula unchanged.
+- Do not count LS-AUD-006 as external review.
+- Do not promote P0.1 until G,D,T,I and collective-review gates pass.
+
+
+10. FINAL VERDICT
+
+
+LS-DER-007 QUANTITATIVE RADIUS ALGEBRA: SURVIVES.
+LS-DER-007 COMPLETE-DEPENDENCY CLAIM: AMEND REQUIRED.
+GP-DER-197 / COMMON C5 ADDITION: REQUIRED, NO NEW RADIUS.
+LS-AUD-006 MATHEMATICS: SURVIVES SAME-LINE.
+LS-AUD-006 INDEPENDENCE LABEL: RETRACT.
+P0.1: NONTERMINAL / REVIEW-PENDING / NOT PROMOTED.
+
+
+END GP-AUD-199-v1.0

@@ -1,0 +1,76 @@
+H4-JC event-level repair (STAGE E REPAIR R1) -- FREEZE record
+Artifact: H4JC-R1-20260914-v1.0
+Date: 2026-09-14
+Lane: U2D-UPPER Stage E repair, D2 (branch control), owning the event-level
+re-issue of H4-JC. Frozen carriers untouched; this is a NEW directory.
+
+Frozen body extraction (corpus convention): the body of
+H4_JC_EVENT_LEVEL.md is the lines strictly between the unique marker lines
+BEGIN_FROZEN_BODY and END_FROZEN_BODY, LF-normalized, terminated by exactly
+one LF. The body's last content line directly precedes END_FROZEN_BODY, so
+trailing-blank handling is unambiguous (both conventions coincide; verified
+at freeze time).
+
+Frozen body: 16241 bytes
+Body SHA-256: 42ee88da984b82921d68cf3fcf6bc76ede9dd59b7ab5b1f947e24a29b08bf74c
+
+Companion artifacts (SHA-256 of the whole file):
+  h4jc_mirror.py     18112 bytes  e593735a333b43061c3e440fadeed473bc991b5669915b1874bf65deb4f67a60
+  h4jc_falsifier.py   2535 bytes  298fd31ee9b33a117e0f60f1ddf4dcece72ff5bd189510552aff84307c7851f0
+  t_normal.txt        2087 bytes  68e124dd5bbfdd15365f50dafcfff2f9acadb0eaf17998dbc60fa43dc21fa1b5
+  t_opt.txt           2087 bytes  68e124dd5bbfdd15365f50dafcfff2f9acadb0eaf17998dbc60fa43dc21fa1b5
+  tf_normal.txt        478 bytes  10e9964394645d2ec042c92036cd298e3abbfb88c4496ab537675fb7b4826025
+  tf_opt.txt           478 bytes  10e9964394645d2ec042c92036cd298e3abbfb88c4496ab537675fb7b4826025
+
+Mode discipline: python3 and python3 -O transcripts byte-identical (both
+pairs above); h4jc_falsifier.py re-verifies this on every run and re-checks
+the certified headline tallies.
+
+Program digests (printed by the programs):
+  H4JC-MIRROR DIGEST      284d4eae5a90d377007edc109e4da62807a3863aba0ab1b628c7eb7d234cae52
+  H4JC-FALSIFIER digest   72fdc49bd8b5d994b7935de4aa559dc748e50b59fdb00fc0a8a456cb080d8215
+
+Consumed, hash-pinned (freeze-before-consume, fail-closed on drift):
+  ../B1_taxonomy/b1_falsifier.py   818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185
+  ../C2_B_classes/c2_falsifier.py  2441b630170f51d17d0795dd7983ac37ff0609e594aa843dab45a3351d480452
+  ../D2_branch_control/d2_falsifier.py 824284be876ce685f63e600a642ee84ad601e6fb2424a852dafe8c21178122d8
+
+Frozen carriers cited (steps pinned in the body):
+  ../B1_taxonomy/B1_TAXONOMY.md           body 7d7ddbec6e63b4c2a2c745b20e33a3d92cfdf5cb97588312a8d54fbd1ea68930
+  ../C2_B_classes/C2_B_CLASSES.md         body 2aba099d630dc7593b1c26bdd2ad3336c1c521e438ba5845edb0b98f2dadf3d2
+  ../D2_branch_control/D2_BRANCH_CONTROL.md body 9e95648acbe5307d7f61f7e7ccc102577b80974b38d03fc760f7ce7766a0b8fa
+  ../C1_alpha_intensity/C1_ALPHA_INTENSITY.md body ca2c02b81a05e4cbc955b1aeab1f4120e9b8d4fda328aa191da08a49db72853f
+  ../H4_closure/H4_CLOSURE.md             body a67d50b9a24c82f970c60c5881eaa41cdf7d4b81cb1cf15904a3fc1b92b6b1d3 (superseded in its section 2.3 by this artifact)
+
+Consumed counter-probes (verified by re-derivation on this artifact's own
+code path; not imported):
+  /mnt/agents/output/counter_H4JC.py
+  ../STAGE_E/attack_h4jc.py
+
+Certified tallies (frozen ensemble: B1's 40 fields, 427 close pairs, 1612
+window saddles; plus 12 synthetic pairs):
+  OLD claim (N_qual + N_loop <= N_w): 132 violations, all on A-pairs
+  (175 A-pairs; death saddles firing N_loop 175/175; carved R1-QUIET
+  2 > 1 = N_w).
+  NEW claim (N_qual*1{A} + N_loop*1{B1} <= N_w): 0 violations on all 439
+  audited pairs.
+  Guards: alpha_s (old-mirror level-s predicate) 0 firings / 1612
+  two-cluster saddles (vacuous, MUT-A); loop_eq (relocalized predicate)
+  0/175 death saddles and 0/2 T-B1W certified absorption witnesses
+  (MUT-B); old-claim tally pinned at 132 (MUT-C).
+  Bookkeeping: sum N_qual*1{A} = 175 (= #A-pairs); sum N_loop*1{B1} = 12;
+  sum N_w = 1612.
+
+Run environment: python3 stdlib only (B1's frozen discrete model),
+single process, deterministic; mirror ~40 s per mode; falsifier (two
+mirror reruns) ~90 s per mode.
+
+Status summary: H4-JC as frozen (H4_CLOSURE.md section 2.3) is FALSE;
+Lemma/Theorem H4-JC-R1 re-issue the joint carrier at the event level with
+the assembly display preserved verbatim (D1 v2.0 section 2 display (1)
+unchanged, C_RN form unchanged). Retracted: the pointwise sum claim, the
+population-orthogonality paragraphs (H4 section 2.3; C2 section 2.3), and
+the vacuous F-H4c/F-H4d/F-B1b mirrors. Re-pointed: the sharp B1 loop
+factor now runs through the event-restricted population N_loop*1{B1}
+(OBL-B1-BRANCH(loop|B1)); E[N_loop] >= P(A) stated and traced (no
+theorem-grade consumer of the historical small loop fraction exists).

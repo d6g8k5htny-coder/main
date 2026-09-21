@@ -44,6 +44,69 @@ Within the active lane:
 | `11_P0.2_ADJACENCY_TRANSIT_TREE` | 19 |
 | `2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM` | 8 |
 
+**How much of that this repository holds** is measured per lane in
+[`drive/MIRRORS.md`](../drive/MIRRORS.md), generated from the manifests'
+own Drive paths by `tools/mirrors_index_check.py`. At 2026-09-20: of the
+inventory's 4,456 items, 2,993 are held and a further 986 are indexed tree-only
+— 67.2% held, 89.3% held or indexed. **Held is two different things.** 1,597 of
+those files hash to the digest the inventory declares for their Drive id. The
+other 1,396 are reading copies of native Google Docs and Sheets: text exports,
+for which the corpus declares no digest anywhere, so nothing can prove them and
+each row says so at `exact: false`. A reading copy also differs from its object
+in ways now measured rather than assumed — the export doubles blank lines —
+which [`drive/README.md`](../drive/README.md) states with its numbers. The byte-exact figure has not moved since the
+digest-bearing gap closed; every item added since is a reading copy, and the two
+numbers are kept apart here for that reason. The three sub-lanes that
+had been at zero of either — `12_P1.1_LAW_SPECIFIC_Q_MACHINE` (145 items),
+`10_AXIOMATIC_CORE_SPINE` (41) and `11_P0.2_ADJACENCY_TRANSIT_TREE` (19), 205
+items in all — were ported the same day and each now reads `neither = 0`.
+
+The 477 items in neither column are not one kind of gap, and the index splits
+them by reading each inventory record's own fields: **472 are folders**, which
+have no payload for any manifest row to hold or index; **5 are native Google
+Docs** the corpus declares no digest for anywhere, so the most this repository
+can ever hold of one is a reading copy at `exact: false` — a text export, not the
+object, and 1,180 of them became exactly that on 2026-09-20 across nine lanes;
+and **none carries a digest**.
+
+The digest-bearing count is the only one of the three that measures work this
+repository could do and has not done, and after ten ports on 2026-09-20 it is
+**zero**: every item in the 4,456-entry inventory for which a payload digest
+exists anywhere in the corpus is now either held byte-exact here or carries a
+manifest row stating why it is not. All 26 Drive lanes are at zero.
+
+What remains uncovered is what cannot be held at all: the folders, which have no
+payload, and **five native Google Docs — the whole of the native-Doc gap —
+all five inside `99_DO_NOT_OPEN`**, which is at zero deliberately and
+permanently: it is metadata only and is never opened. That is now enforced rather
+than merely kept. `tools/quarantine_check.py` refuses any manifest row that
+stores bytes from that lane, because until 2026-09-20 nothing did: a later pass
+sweeping "every remaining native Doc" would have taken the vault with it and
+passed every checker in the tree.
+
+Both paragraphs were corrected ten times on 2026-09-20, because ten ports landed
+that day. The first gave 700 held and 873 indexed, named those three
+sub-lanes as at zero coverage, and printed the remaining 2,883 as a single number
+with no statement of what kind of gap they are; the second gave 861 held, 917
+indexed and 1,020 digest-bearing, before the KIMI/AO48 LB-RATE intake's 330
+digest-bearing items — 311 stored and 19 indexed — took that lane to zero; the
+third gave 1,172 held, 936 indexed and 690 digest-bearing, before the reviews and
+closures lane's 235 — 215 stored and 20 indexed — took that lane to zero too; and
+the fourth gave 1,387 held, 956 indexed and 455 digest-bearing, before the
+carry-forward canon's 174 — 172 stored and 2 indexed — did the same there; and the
+fifth gave 1,559 held, 958 indexed and 281 digest-bearing, before the peer-review
+packages, the HOLD lane, the SIDE24 ratification intake and the coordination
+spine took theirs to zero together; and the sixth gave 1,789 held, 985 indexed
+and 24 digest-bearing, before the last two dozen files closed the gap entirely.
+
+Four further corrections followed the same day, as the native-Doc gap was worked
+down by holding reading copies: the seventh gave 1,918 held and 1,081 native Docs
+uncovered, after the governance lane's 105; the eighth 2,412 and 587, after the
+reviews lane's 494; the ninth 2,848 and 151, after the canon's 436; and the tenth
+2,937 and 61, after the spine's 89. The figures above are the eleventh, and they
+are the last this way round: the native-Doc gap is now five items, all of them in
+the vault, which is never opened.
+
 The largest sub-lane, `15_REVIEWS_RESPONSES_AND_CLOSURES`, is where the
 program's terminal closure records live: the documents behind every
 `closure_log` row (`GP-CLS-141`, the `GP-CLS-BATCH-129` and `-137` batches,
@@ -62,11 +125,19 @@ gave the lane a row count and nothing else.
 
 `16_THEMATIC_RESEARCH_TRACKS` (T1–T5) and `13_POWER_PLANNING_CONTINUUM` hold the
 workspace charters, the T1 closure-and-reduction packages, the T2 SARD-G
-working source and the 03.x leaf and live-state cards. One object is held so
-far (`Q0_C101_QUALITATIVE_RATE_THEOREM.md`, byte-exact; its grade block records
-"R0/SARD-G external status: SPECIALIST-REVIEW-PENDING" and "numerical upper
-coefficient: NOT-CLAIMED"); the charters' fences and the leaf cards' withdrawn
-claims are not yet transcribed here (`drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/README.md`).
+working source and the 03.x leaf and live-state cards. Both lanes were ported on
+2026-09-20: the thematic lane now holds 26 objects across 13 directories (24
+byte-exact, two reading copies of native Docs), including all five workspace
+charters, the T1 core pairing manuscript, the ten packages of its
+closure-and-reduction directory, the T2 transversality manuscript with the chart
+atlas and finite-jet certificate, the T3 continuum-validation adjudication and machine report, the T4
+adjudications and the T5 extension manuscript; the power-planning lane holds 24
+objects across its three 03.x directories (21 byte-exact) with 6 further items
+indexed tree-only. Counts are generated per lane in
+[`drive/MIRRORS.md`](../drive/MIRRORS.md). Until 2026-09-20 this paragraph read
+"One object is held so far" and said the charters' fences and the leaf cards'
+withdrawn claims were "not yet transcribed here"; both lane READMEs now quote
+them, and each lane README states what it does not establish.
 Note the name collision: the RN-UNIF lane's "T4 push" (§3, `LANE_RN_UNIF.md`)
 is unrelated to the thematic track T4 (Lower Side). The `99_DO_NOT_OPEN` vault
 (6 inventory items: the folder and five native Docs) sits inside
@@ -554,11 +625,11 @@ below is quoted from those bytes.
   promotion." The Board's OPERATOR PACKAGE DECISION of 2026-07-24 is the one
   operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
   private Git repository creation and exact-history push are approved when
-  platform access becomes available." (This repository is now private by
-  Dylan's subsequent explicit instruction; public publication requires his
-  explicit authorization. The authenticated API confirmed private visibility
-  on 2026-09-20 UTC. The
-  visibility decision is the owner's — see `governance/GIT_ADAPTATION.md`.)
+  platform access becomes available." (Dylan subsequently authorized public
+  visibility on 2026-09-20; unauthenticated access was verified that day.
+  Public visitors have no write access. This later visibility decision does
+  not change the quoted historical routing, Drive sharing, or scientific
+  gates — see `governance/GIT_ADAPTATION.md`.)
 * `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers
   (`04.1_LIVE_REGISTERS`: the GP-REG-032-v1.2 workbook, its leaf card, the
   deletion log), the automation lineage (GP-AUTO-034: **R0.4 current

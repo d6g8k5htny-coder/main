@@ -1,0 +1,164 @@
+﻿GP-REC-197-v1.0 — FREEZE RECEIPT AND SELF-REFERENCE INCIDENT
+MEASURABLE SELECTED UNSTABLE BRANCH AND BOREL EXACT ADJACENCY EVENT
+
+
+Artifact ID: GP-REC-197-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking, Adversarial Research Critic
+Date: 2026-07-24
+Class: REC / CONTENT-ADDRESS FREEZE / INCIDENT / ROUNDTRIP VERIFICATION
+Authority: factual identity and correction record only
+Canonical mathematical impact: NONE
+Target object: GP-DER-197-v1.0
+Target Drive ID: 1hGQVFDZKHMcdG94_OIgVEwipTR6pvKCk_-llHyIq3uQ
+
+
+[[TARGET:GP-DER-197-v1.0]] [[FREEZE:PASS]] [[CURRENT-BODY-BYTES:13797]] [[CURRENT-SHA256:035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d]] [[PRIOR-FREEZE:INVALIDATED]] [[INCIDENT:SELF-REFERENCE]] [[NO-PROMOTION]]
+
+
+1. CONTROLLING FROZEN IDENTITY
+
+
+Freeze policy:
+
+
+1. export the current Google Doc as text/plain;
+2. normalize CRLF and CR to LF;
+3. locate the line BEGIN_FROZEN_BODY;
+4. take only the bytes after the LF ending that marker line and before the first subsequent END_FROZEN_BODY line;
+5. remove trailing LF characters and append exactly one LF;
+6. encode as UTF-8 without BOM;
+7. compute byte count and SHA-256 over those bytes.
+
+
+Controlling result:
+
+
+BODY_BYTES: 13797
+BODY_SHA256: 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d
+
+
+This is the sole admissible frozen identity for review, dependency routing, and citation.
+
+
+2. ROUNDTRIP VERIFICATION
+
+
+A fresh Drive text export was obtained after the body was stabilized. The marker-delimited body reconstructed from the stored Google Doc yielded exactly:
+
+
+- 13,797 UTF-8 bytes;
+- SHA-256 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d.
+
+
+The displayed header metadata and the reconstructed stored body agree.
+
+
+3. INVALIDATED INITIAL FREEZE
+
+
+The initial displayed identity was:
+
+
+BODY_BYTES: 13783
+BODY_SHA256: ee9a34f97740e5346936d6e4eebd7c5015045ac30e6ea8a7f04ad8d5fbf73dc7
+
+
+That identity is invalid.
+
+
+Cause:
+
+
+After the first hash was computed, the full hash was inserted into an accepted-verdict sentence located inside BEGIN_FROZEN_BODY / END_FROZEN_BODY. That edit changed the bytes of the hashed object. Because the embedded text named the hash of the object containing that text, the representation also created a self-reference problem.
+
+
+Detection:
+
+
+A fresh Drive export after the edit did not reproduce the displayed byte count or hash.
+
+
+Repair:
+
+
+- the internal verdict sentence now uses the stable placeholder <BODY_SHA256_FROM_HEADER>;
+- the body was exported again after that repair;
+- the new marker-delimited bytes were recomputed;
+- only the header and metadata outside the frozen body were updated with the resulting identity.
+
+
+Disposition of ee9a34f9…73dc7:
+
+
+FAILED FREEZE ATTEMPT / PROVENANCE ONLY / ZERO REVIEW CREDIT / MUST NOT BE USED.
+
+
+4. NONCIRCULARITY CHECK
+
+
+The controlling frozen body does not contain its own full SHA-256 value.
+
+
+The accepted-verdict template inside the body refers to:
+
+
+    <BODY_SHA256_FROM_HEADER>
+
+
+Therefore changing header metadata does not change the frozen body. The object can be reconstructed independently without solving a self-referential fixed-point problem.
+
+
+5. CURRENT REVIEW ROUTING
+
+
+Primary proof:
+https://docs.google.com/document/d/1hGQVFDZKHMcdG94_OIgVEwipTR6pvKCk_-llHyIq3uQ/edit
+
+
+Independent review request:
+https://docs.google.com/document/d/1YWkhswy_I0THJX8RG1LrxrEN9PEVuv1i3B3GN0CZNjU/edit
+
+
+Every reviewer must reproduce:
+
+
+- BODY_BYTES 13797;
+- SHA-256 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d.
+
+
+A verdict naming ee9a34f9…73dc7, 13,783 bytes, or any other body identity is version-mismatched and does not apply.
+
+
+6. EVIDENTIARY EFFECT
+
+
+Advanced:
+
+
+- exact source identity of the measurable-selected-branch lemma;
+- reproducibility of the marker-delimited body;
+- review readiness of P02-LM-013 / GP-DER-197;
+- exact dependency routing for P0.1 and P0.2.
+
+
+Not advanced:
+
+
+- mathematical correctness beyond the same-line proof;
+- organizational independence;
+- P0.1 or P0.2 closure;
+- theorem promotion;
+- machine, formalization, package, release, sealing, or destructive authority.
+
+
+7. FINAL STATUS
+
+
+GP-DER-197 FROZEN BODY IDENTITY: PASS.
+ROUNDTRIP RECONSTRUCTION: PASS.
+INITIAL SELF-REFERENTIAL FREEZE: INVALIDATED AND PRESERVED.
+ORGANIZATIONALLY DISTINCT MATHEMATICAL REVIEW: OPEN.
+P0.1 / P0.2: NONTERMINAL.
+
+
+END GP-REC-197-v1.0
