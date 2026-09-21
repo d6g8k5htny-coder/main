@@ -464,3 +464,55 @@ def test_unknown_lane_is_an_error():
     out = subprocess.run([sys.executable, DISPATCHER, "--lane", "NOPE"],
                          capture_output=True, text=True)
     assert out.returncode == 2
+
+
+# --- the repo_state disclaimer --------------------------------------------
+#
+# `repo_state` is a code state. The sentence saying so is what stops it being
+# read as a mathematical grade, and until 2026-09-21 the checker required only
+# that `repo_state_note` be NON-EMPTY -- a note could be rewritten without the
+# sentence and still pass. A third-party branch rewrote two lane notes in one
+# change; the A1 rewrite kept the idea in new words, the A5 rewrite dropped it,
+# and nothing here could tell. The required phrase is deliberately short so an
+# honest rewording keeps it and only dropping the idea trips the check.
+
+def test_every_lane_note_says_repo_state_is_not_a_status():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import lanes_check as L
+
+    for name in sorted(os.listdir(LANES)):
+        with open(os.path.join(LANES, name), encoding="utf-8") as f:
+            lane = json.load(f)
+        note = " ".join(str(lane.get("repo_state_note", "")).lower().split())
+        assert L.NOT_A_STATUS in note, name
+
+
+def test_negative_control_note_without_the_disclaimer(ws):
+    """Drop the sentence from one lane; the checker must refuse."""
+    path = os.path.join(ws.lanes, "A5.json")
+    with open(path, encoding="utf-8") as f:
+        lane = json.load(f)
+    lane["repo_state_note"] = (
+        "The generic partition ledger and local spatial adapter now exist. "
+        "Both RN pieces remain OPEN."
+    )
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(lane, f, ensure_ascii=False, indent=2)
+    out = ws.run()
+    assert out.returncode != 0, out.stdout
+    assert "not a mathematical status" in out.stdout
+
+
+def test_an_honest_rewording_still_passes(ws):
+    """The control must not force one fixed sentence, only the idea."""
+    path = os.path.join(ws.lanes, "A5.json")
+    with open(path, encoding="utf-8") as f:
+        lane = json.load(f)
+    lane["repo_state_note"] = (
+        "Some code exists. repo_state stays partial for the actual obligation, "
+        "not a mathematical status. Both RN pieces remain OPEN."
+    )
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(lane, f, ensure_ascii=False, indent=2)
+    out = ws.run()
+    assert out.returncode == 0, out.stdout

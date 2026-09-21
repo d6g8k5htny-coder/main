@@ -80,6 +80,10 @@ STATUS_STRENGTH = {
 HEADING = re.compile(r"^(#{2,3})\s+([A-Z][0-9]*)\.\s+(.+?)\s*$")
 TOKEN = re.compile(r"^[A-Z][A-Z0-9_().|+-]*$")
 
+# Every lane's repo_state_note must say this much, however it is worded.
+NOT_A_STATUS = "not a mathematical status"
+
+
 # Files that carry evidentiary meaning. `repo_state` describes code, so it must
 # never appear in any of them.
 EVIDENTIARY_GLOBS = ("claims/graph.json", "registers/json/*.json", "reviews/records/*.json",
@@ -344,8 +348,22 @@ def check(lanes_dir: str, doc: str, graph_path: str, registers_dir: str,
         if hits != ["repo_state"]:
             problems.append(f"{where}: repo_state must appear exactly once, at the top level of "
                             f"the lane; found {hits}")
-        if not str(lane.get("repo_state_note") or "").strip():
+        note = str(lane.get("repo_state_note") or "")
+        if not note.strip():
             problems.append(f"{where}: repo_state_note is empty")
+        elif NOT_A_STATUS not in " ".join(note.lower().split()):
+            # The sentence exists so `repo_state` cannot be read as a grade,
+            # and until now only its PRESENCE of any text was required -- a
+            # note could be rewritten without it and still pass.  All fifteen
+            # lanes carry it; a rewrite of one dropped it on a third-party
+            # branch while the sibling lane edited in the same change kept it,
+            # which is what a rule kept by habit rather than by a checker looks
+            # like.  The required phrase is short on purpose: an honest
+            # rewording keeps it, only dropping the idea trips this.
+            problems.append(
+                f"{where}: repo_state_note does not say that repo_state is "
+                f"{NOT_A_STATUS!r}. That sentence is what stops a code state "
+                f"being read as a mathematical grade; reword freely but keep it")
         for item in lane.get("sub_items", []) or []:
             for field in ("technical_status", "label", "status"):
                 if isinstance(item, dict) and item.get(field) in REPO_STATES:
