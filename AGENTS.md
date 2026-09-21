@@ -56,14 +56,20 @@ warrants. The executable checker is an unreviewed loss-only pilot, not a verdict
 engine. Existing scientific records are NOT_MIGRATED. Apply the safeguards to new
 work; do not bulk-convert historical statuses. Use the existing R17 event log.
 
-## Governance rollout compatibility — 2026-09-21
+## Governance rollout compatibility — scoped correction v1.1
 
-Drive governance is being re-audited for premature or overly broad activation. Read the
-Governance Rollout Audit (Drive id `1QQOu8r9FBnYZL3XxURSHqsu0mkqcK5P466dXUtpklu8`) before
-interpreting a newly installed rule as universally active. Default adoption is
-`PROPOSED -> SHADOW -> PILOT -> REVIEWED -> ACTIVE_SCOPED -> ACTIVE_GENERAL`.
-Immediate containment is reserved for narrow integrity/safety hazards. Words such as
-`mandatory`, `automatic`, `superseded`, `complete`, `abandoned`, `retired`, and `HOLD`
-do not cross object types: an operational state is not a scientific verdict. Preserve
-predecessor rules as compatibility evidence while affected consumers are audited. Do not
-pause unrelated research solely because the governance audit is open.
+Read [the scoped rollout correction](governance/rollout/OP-ROLLOUT-AUDIT-20260921-v1.1.md)
+for changed governance behavior. R17's expressly authorized clause replacements remain
+controlling; incomplete uptake evidence does not revive retired budgets or provider
+restrictions. Historical rules are evidence, not "stricter-wins" fallback authority.
+Material behavior changes need phased, cohort-bound tests and review. A verified
+semantics-preserving link/range repair does not require six new approval stages.
+The rollout checker is read-only author-side shadow tooling, not a live admission engine.
+
+Use current Home/Start Here metadata and stable keys, not stale prefix ranges. Qualify
+binding classes by protocol/version; OP-PROT-013 class A and OP-PROT-014 class A differ.
+Recheck source policy, expected base and candidate before publication. A clean Git merge
+is not semantic reconciliation, and an ordinary fast-forward update is not a distributed
+lock or cross-system transaction. A schedule only in a nondefault branch is not a deployed
+scheduled workflow. No settings, broad migration, or scientific status moves are authorized
+by this notice. Preserve exact existing review targets; amendments get separate identities.
