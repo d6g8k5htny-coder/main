@@ -55,3 +55,15 @@ its parent's premises. Preserve alternative proofs and require exact survivor
 warrants. The executable checker is an unreviewed loss-only pilot, not a verdict
 engine. Existing scientific records are NOT_MIGRATED. Apply the safeguards to new
 work; do not bulk-convert historical statuses. Use the existing R17 event log.
+
+## Governance rollout compatibility — 2026-09-21
+
+Drive governance is being re-audited for premature or overly broad activation. Read the
+Governance Rollout Audit (Drive id `1QQOu8r9FBnYZL3XxURSHqsu0mkqcK5P466dXUtpklu8`) before
+interpreting a newly installed rule as universally active. Default adoption is
+`PROPOSED -> SHADOW -> PILOT -> REVIEWED -> ACTIVE_SCOPED -> ACTIVE_GENERAL`.
+Immediate containment is reserved for narrow integrity/safety hazards. Words such as
+`mandatory`, `automatic`, `superseded`, `complete`, `abandoned`, `retired`, and `HOLD`
+do not cross object types: an operational state is not a scientific verdict. Preserve
+predecessor rules as compatibility evidence while affected consumers are audited. Do not
+pause unrelated research solely because the governance audit is open.
