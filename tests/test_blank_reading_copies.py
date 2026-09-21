@@ -178,3 +178,69 @@ def test_every_manifested_blank_reading_copy_is_corroborated_and_disclosed(tmp_p
                 assert "byte-order mark" in row.get("note", ""), row["id"]
     assert carried, "no blank reading copy found -- this control has gone vacuous"
     assert set(carried) <= declared, set(carried) - declared
+
+
+# --- the not-stored marker convention -------------------------------------
+#
+# Found by a third party's checker, not by this repository's own.  A row that
+# stores nothing must open its note with one of NOT_STORED_MARKERS; 1,012 rows
+# did and one did not, and the one that did not was invisible here because it
+# also had a null `dest` and fell through the branch that skips rows with no
+# destination.  A structured `not_stored_reason` field does not help: nothing
+# in this checker reads it.
+
+def test_an_unmarked_not_stored_row_is_refused(tmp_path):
+    root = build(tmp_path, payload=b"text", inventory_status="DIRECT_NATIVE",
+                 row={"stored": False, "dest": None, "bytes": None,
+                      "sha256": None, "not_stored_reason": "SOME_REASON",
+                      "note": "Not held, and the refusal is the finding."})
+    out = run(root)
+    assert out.returncode != 0, out.stdout
+    assert "UNMARKED NOT-STORED ROW" in out.stdout
+
+
+def test_a_structured_reason_alone_does_not_satisfy_it(tmp_path):
+    """The field nothing reads must not be able to stand in for the note."""
+    root = build(tmp_path, payload=b"text", inventory_status="DIRECT_NATIVE",
+                 row={"stored": False, "dest": None, "bytes": None,
+                      "sha256": None, "not_stored_reason": "AMBIGUOUS_RENDERING_REFUSED",
+                      "note": "no marker here at all"})
+    out = run(root)
+    assert out.returncode != 0, out.stdout
+    assert "UNMARKED NOT-STORED ROW" in out.stdout
+
+
+def test_each_established_marker_is_accepted(tmp_path):
+    """The positive case, so the control cannot pass by refusing everything."""
+    for i, marker in enumerate(("skipped", "failed", "tree-only")):
+        d = tmp_path / str(i)
+        d.mkdir()
+        root = build(d, payload=b"text", inventory_status="DIRECT_NATIVE",
+                     row={"stored": False, "dest": None, "bytes": None,
+                          "sha256": None,
+                          "note": f"{marker}: a reason in the established form"})
+        out = run(root)
+        assert out.returncode == 0, (marker, out.stdout)
+        assert "UNMARKED NOT-STORED ROW" not in out.stdout
+
+
+def test_the_repository_has_no_unmarked_not_stored_row():
+    """The standing invariant, over the tree as it is."""
+    import json as _json
+    import glob as _glob
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import verify_manifests as V
+
+    unmarked = []
+    for m in _glob.glob(os.path.join(ROOT, "drive", "**", "_MANIFEST.jsonl"),
+                        recursive=True):
+        with open(m, encoding="utf-8") as handle:
+            for n, line in enumerate(handle, 1):
+                line = line.strip()
+                if not line:
+                    continue
+                row = _json.loads(line)
+                if row.get("stored") is False and not str(
+                        row.get("note", "")).startswith(V.NOT_STORED_MARKERS):
+                    unmarked.append((m, n))
+    assert not unmarked, unmarked

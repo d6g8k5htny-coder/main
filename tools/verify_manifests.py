@@ -58,6 +58,9 @@ def check_sha256sum(manifest: str) -> tuple[int, int, list[str]]:
     return ok, bad, problems
 
 
+NOT_STORED_MARKERS = ("skipped", "failed", "tree-only")
+
+
 def is_blank(path: str) -> bool:
     """True when a file holds no text: empty, whitespace only, or a lone BOM.
 
@@ -133,9 +136,24 @@ def check_jsonl(manifest: str) -> tuple[int, int, list[str]]:
             problems.append(f"BAD JSON LINE in {manifest}: {line[:80]}")
             continue
         note = str(row.get("note", ""))
-        if note.startswith(("skipped", "failed", "tree-only")):
+        if note.startswith(NOT_STORED_MARKERS):
             continue
         dest = row.get("dest")
+        if row.get("stored") is False:
+            # A row that stores nothing must SAY so in the form the rest of the
+            # tree uses.  1,012 such rows open with one of NOT_STORED_MARKERS;
+            # this checker skips exactly those, so a row that declares itself
+            # not stored in any other words is invisible to it -- it fell
+            # through the `not dest` branch below and was never examined.  One
+            # did, added 2026-09-20, and a third party's checker found it
+            # before this one could.  The structured `not_stored_reason` field
+            # is not enough on its own: nothing reads it here.
+            bad += 1
+            problems.append(
+                f"UNMARKED NOT-STORED ROW {manifest}: id {row.get('id')} has "
+                f"stored=false but its note does not begin with one of "
+                f"{'/'.join(NOT_STORED_MARKERS)}")
+            continue
         if not dest:
             continue
         path = dest if os.path.isabs(dest) else os.path.normpath(os.path.join(base, dest))
