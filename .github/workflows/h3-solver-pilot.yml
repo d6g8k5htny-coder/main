@@ -1,0 +1,26 @@
+name: h3-search-and-certify-pilot
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  scalar-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Exact arithmetic and adversarial controls
+        run: |
+          python3 -m unittest discover -s tests -p test_h3_solver_pilot.py -v
+          python3 -O -m unittest discover -s tests -p test_h3_solver_pilot.py -v
+      - name: Cold candidate reproduction (not scientific acceptance)
+        run: |
+          expected=$(python3 -c "import json; print(json.load(open('engine/solver_pilots/h3_20260921/CERTIFICATE_IDENTITY.json'))['canonical_sha256'])")
+          python3 engine/solver_pilots/h3_20260921/h3_solver.py \
+            --source-archive research/campaigns/h3_rn_n6_20260920_v1.zip \
+            --context engine/solver_pilots/h3_20260921/CONTEXT.json \
+            --expected-certificate-sha "$expected" \
+            --out "${RUNNER_TEMP}/h3-scalar-${GITHUB_RUN_ID}.json" --search --cold

@@ -1,0 +1,153 @@
+"""Independent scalar rational enclosures for the bounded H3 experiment.
+
+This is not a replacement for research.interval. Its separate construction is
+intentional for an alternate-method check. No float arithmetic in endpoints.
+Every elementary result is rounded OUTWARD to a 2**-BITS lattice. Series use
+explicit rational remainder bounds, not observed convergence.
+"""
+from fractions import Fraction as F
+from math import isqrt
+from functools import lru_cache
+BITS = 256
+SCALE = 1 << BITS
+
+
+def q(x):
+    if isinstance(x, bool) or isinstance(x, float):
+        raise TypeError('use an exact integer, rational, or decimal string')
+    if isinstance(x, (int, F, str)):
+        return F(x)
+    raise TypeError('unsupported scalar')
+
+
+def floor_grid(x):
+    return F((x.numerator*SCALE)//x.denominator, SCALE)
+
+
+def ceil_grid(x):
+    return -floor_grid(-x)
+
+
+class I:
+    __slots__=('lo','hi')
+    def __init__(self, lo, hi=None):
+        self.lo=q(lo); self.hi=self.lo if hi is None else q(hi)
+        if self.lo>self.hi: raise ValueError('empty interval')
+    @classmethod
+    def bound(cls, lo, hi):
+        return cls(floor_grid(lo), ceil_grid(hi))
+    @staticmethod
+    def of(x): return x if isinstance(x,I) else I(x)
+    def __add__(self,b):
+        b=I.of(b); return I.bound(self.lo+b.lo,self.hi+b.hi)
+    __radd__=__add__
+    def __neg__(self): return I(-self.hi,-self.lo)
+    def __sub__(self,b): return self+-I.of(b)
+    def __rsub__(self,b): return I.of(b)+-self
+    def __mul__(self,b):
+        b=I.of(b); v=[self.lo*b.lo,self.lo*b.hi,self.hi*b.lo,self.hi*b.hi]
+        return I.bound(min(v),max(v))
+    __rmul__=__mul__
+    def __truediv__(self,b):
+        b=I.of(b)
+        if b.lo<=0<=b.hi: raise ZeroDivisionError('denominator includes zero')
+        return self*I.bound(1/b.hi,1/b.lo)
+    def __rtruediv__(self,b): return I.of(b)/self
+    def __pow__(self,n):
+        if type(n) is not int or n<0: raise ValueError('nonnegative integer power required')
+        if n==0: return I(1)
+        if n%2:
+            return I.bound(self.lo**n,self.hi**n)
+        lo=0 if self.lo<=0<=self.hi else min(self.lo**n,self.hi**n)
+        return I.bound(lo,max(self.lo**n,self.hi**n))
+    def encode(self): return {'lo':str(self.lo),'hi':str(self.hi)}
+    def __repr__(self): return str(self.encode())
+
+
+def sqrt(x):
+    x=I.of(x)
+    if x.lo<0: raise ValueError('negative square root')
+    def bounds(y):
+        k=isqrt((y.numerator*SCALE*SCALE)//y.denominator)
+        a=F(k,SCALE)
+        return a, a if a*a==y else F(k+1,SCALE)
+    return I(bounds(x.lo)[0],bounds(x.hi)[1])
+
+
+def atan_reciprocal(n,terms=160):
+    """Alternating series, 0<1/n<=1/2, tail <= first omitted term."""
+    if type(n) is not int or n<2 or type(terms) is not int or terms<1:
+        raise ValueError('bad arctan parameters')
+    x=F(1,n); total=F(0)
+    for k in range(terms): total+=(-1)**k*x**(2*k+1)/(2*k+1)
+    nxt=(-1)**terms*x**(2*terms+1)/(2*terms+1)
+    return I.bound(min(total,total+nxt),max(total,total+nxt))
+
+
+@lru_cache(None)
+def pi():
+    # Machin's identity, principal arctangents: pi=16 atan(1/5)-4 atan(1/239).
+    return 16*atan_reciprocal(5)-4*atan_reciprocal(239)
+
+
+def exp_negative_point(x,terms=240):
+    """exp(-x), 0<=x<=50. Alternating tail decreases from the omitted term."""
+    x=q(x)
+    if not 0<=x<=50 or type(terms) is not int or terms<max(2,int(x)+2):
+        raise ValueError('outside certified exponential series domain')
+    term=F(1); total=term
+    for k in range(1,terms):
+        term*= -x/k; total+=term
+    nxt=term*(-x)/terms
+    lo,hi=min(total,total+nxt),max(total,total+nxt)
+    if lo<=0: raise ValueError('exponential tail too coarse')
+    return I.bound(lo,hi)
+
+
+def exp_negative(x):
+    x=I.of(x)
+    return I(exp_negative_point(x.hi).lo,exp_negative_point(x.lo).hi)
+
+
+def cdf_point(x,terms=200):
+    """Normal CDF. Integrated power series with an alternating tail bound.
+
+    Integral_0^x exp(-t²/2)dt = sum (-1)^k x^(2k+1)/(2^k k!(2k+1)).
+    For 0<=x<=8, terms decrease after k>=32. Using terms>=40 proves the
+    remainder between zero and the first omitted term. Endpoint rounding
+    is enclosed separately and pi is also an enclosure.
+    """
+    x=q(x)
+    if not -8<=x<=8 or type(terms) is not int or terms<40:
+        raise ValueError('outside certified CDF series domain')
+    if x<0: return 1-cdf_point(-x,terms)
+    term=x; total=term
+    for k in range(terms-1):
+        term*= -x*x*F(2*k+1,2*(k+1)*(2*k+3)); total+=term
+    nxt=term*(-x*x)*F(2*terms-1,2*terms*(2*terms+1))
+    area=I.bound(min(total,total+nxt),max(total,total+nxt))
+    return F(1,2)+area/sqrt(2*pi())
+
+
+def cdf(x):
+    x=I.of(x)
+    return I(cdf_point(x.lo).lo,cdf_point(x.hi).hi)
+
+
+def sf(x): return 1-cdf(x)
+
+
+def pdf(x):
+    x=I.of(x)
+    return exp_negative(x*x/2)/sqrt(2*pi()) if x.lo>=0 else exp_negative((x**2)/2)/sqrt(2*pi())
+
+
+def outward_decimal(x,places=12):
+    """Decimal enclosure generated by rational floor/ceiling, never floats."""
+    x=I.of(x); scale=10**places
+    def dec(v,upper):
+        n=v.numerator*scale; d=v.denominator
+        k=-((-n)//d) if upper else n//d
+        sign='-' if k<0 else ''; digits=str(abs(k)).rjust(places+1,'0')
+        return sign+(digits[:-places]+'.'+digits[-places:] if places else digits)
+    return {'lo':dec(x.lo,False),'hi':dec(x.hi,True)}
