@@ -1,0 +1,26 @@
+name: withdrawal-governance-pilot
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  loss-only-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Synthetic negative controls (normal and optimized)
+        run: |
+          python3 -m unittest discover -s tests -p test_withdrawal.py -v
+          python3 -O -m unittest discover -s tests -p test_withdrawal.py -v
+      - name: Synthetic loss-only transition
+        run: >-
+          python3 tools/withdrawal_check.py check
+          --before governance/withdrawal/examples/before.json
+          --after governance/withdrawal/examples/after.json
+          --ticket governance/withdrawal/examples/ticket.json
+      - name: Read-only research enrolment inventory (not migration)
+        run: python3 tools/withdrawal_check.py inventory --legacy-graph claims/graph.json

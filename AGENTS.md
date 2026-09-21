@@ -42,3 +42,16 @@ whatever its provider or name.
 
 Dylan Roy is the single final authority for canonical promotion, external
 release, permanent deletion and machine-root replacement.
+
+## Support withdrawal and scheduling — 2026-09-21 operational addendum
+
+Read [OP-WITHDRAWAL-20260921-v1.0](governance/withdrawal/PROTOCOL.md) before
+proposing abandonment, retiring a proof route, changing admissibility or resuming
+affected work. Revalidate current R17 Work Events and exact source/head identities;
+the historical bridge descriptions above are not a substitute for live records.
+Drive delivery folder: `1VfuXdkyIi0VIsmz42WS6ALEhlc2qneM_`.
+Closing a workstream is not refuting a claim. Withdrawing a warrant cannot erase
+its parent's premises. Preserve alternative proofs and require exact survivor
+warrants. The executable checker is an unreviewed loss-only pilot, not a verdict
+engine. Existing scientific records are NOT_MIGRATED. Apply the safeguards to new
+work; do not bulk-convert historical statuses. Use the existing R17 event log.
