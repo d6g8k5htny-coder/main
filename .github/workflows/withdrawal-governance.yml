@@ -24,3 +24,8 @@ jobs:
           --ticket governance/withdrawal/examples/ticket.json
       - name: Read-only research enrolment inventory (not migration)
         run: python3 tools/withdrawal_check.py inventory --legacy-graph claims/graph.json
+      - name: Rollout shadow controls (normal and optimized; no live admission)
+        run: |
+          python3 -m unittest discover -s tests -p test_rollout_guard.py -v
+          python3 -O -m unittest discover -s tests -p test_rollout_guard.py -v
+          python3 tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json
