@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -428,6 +429,85 @@ def main(argv: list[str] | None = None) -> int:
                     f"evidence record it cites is floating point "
                     f"({sorted({str(a) for a, _c, _w in views})}). A high-precision float "
                     f"computation is not a certified bound.")
+
+    # FW-PROPOSED-LAYER-NOT-A-STATUS. The corpus transcribes some PROPOSED-tier
+    # promotions verbatim, so a reader can see what a source proposed without
+    # leaving this repository. `OBL-H5-ZBAND` carries
+    # "OBL-H5-ZBAND: OPEN -> DISCHARGED (consumption grade)" beside two status
+    # fields that both say OPEN, which is correct -- and until 2026-09-22 it was
+    # correct by FIELD NAMING AND PROSE ALONE. Nothing here knew the field
+    # existed. A word search for DISCHARGED in this graph finds a sentence a
+    # source proposed and no operator granted, and the PR owner flagged exactly
+    # that skim-trap on 2026-09-22: "do not promote from word search. Green CI
+    # != discharge."
+    #
+    # Three rules, so the transcription can never become the status:
+    #   (a) a proposed-layer transcription must name its source, and that source
+    #       must record the tier and the absent authority;
+    #   (b) the value the transition proposes must not appear in ANY status or
+    #       grade field of that entry;
+    #   (c) where the transition names a from-value, every status field of that
+    #       entry must still carry it.
+    # Plus a general rule: no status or grade field anywhere may hold a
+    # TRANSITION at all. A status is a value, not an arrow.
+    arrow = re.compile(r"\s*(?:->|\u2192)\s*")
+    for kind, table in (("premise", premises), ("claim", claims)):
+        for name, node in table.items():
+            status_fields = {f: str(v) for f, v in node.items()
+                             if ("status" in f or "grade" in f)
+                             and isinstance(v, str)
+                             and not f.startswith("proposed_layer")
+                             and not f.endswith("_source")}
+            for f, v in status_fields.items():
+                if arrow.search(v):
+                    problems.append(
+                        f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} field {f!r} holds a "
+                        f"transition ({v[:60]!r}). A status is a value, not an arrow; "
+                        f"transcribe the transition in proposed_layer_verbatim instead")
+            verbatim = node.get("proposed_layer_verbatim")
+            if not verbatim:
+                continue
+            source = str(node.get("proposed_layer_source") or "")
+            if not source:
+                problems.append(
+                    f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} transcribes a proposed-layer "
+                    f"promotion and names no proposed_layer_source. An unsourced proposal is "
+                    f"indistinguishable from an assertion")
+            else:
+                upper = source.upper()
+                if "PROPOSED" not in upper:
+                    problems.append(
+                        f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} proposed_layer_source does "
+                        f"not record the PROPOSED tier")
+                if "AUTHORITY" not in upper:
+                    problems.append(
+                        f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} proposed_layer_source does "
+                        f"not record the authority the proposal carries (none, unless an operator "
+                        f"granted one)")
+            parts = arrow.split(str(verbatim))
+            if len(parts) < 2:
+                problems.append(
+                    f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} proposed_layer_verbatim names no "
+                    f"transition ({str(verbatim)[:60]!r}); if it is not a proposed promotion it does "
+                    f"not belong in this field")
+                continue
+            was = parts[0].split(":")[-1].strip().upper().split()
+            proposes = parts[-1].strip().upper().split()
+            proposed_token = proposes[0] if proposes else ""
+            from_token = was[-1] if was else ""
+            for f, v in status_fields.items():
+                up = v.upper()
+                if proposed_token and proposed_token in up.split():
+                    problems.append(
+                        f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} field {f!r} carries "
+                        f"{proposed_token!r}, which is what proposed_layer_verbatim PROPOSES and no "
+                        f"operator has granted. Only the operator applies the licensing predicate")
+                if from_token and from_token not in up.split():
+                    problems.append(
+                        f"FW-PROPOSED-LAYER-NOT-A-STATUS: {kind} {name} proposed_layer_verbatim reads "
+                        f"{from_token!r} -> {proposed_token!r} but field {f!r} is {v[:40]!r}. The "
+                        f"pre-promotion value is what the sources record; a status that has moved "
+                        f"off it needs its own transcribed source, not a proposal")
 
     for p in problems:
         print(p)

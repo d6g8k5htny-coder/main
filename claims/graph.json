@@ -792,6 +792,11 @@
    "id": "FW-RETRACTED-NOT-UNCONDITIONAL",
    "rule": "A claim carrying a retraction record, or whose transcribed register_status says RETRACTED, cannot carry an unconditional grade (LIVE_ROOT_THEOREM, FROZEN_CERTIFICATE, RATIFIED_3D_ONLY). The historical label is what the audit withdrew.",
    "source": "registers/json/automation_config.json THEOREM_B_CURRENT_STATUS: 'Do not cite Q0_C104 or Q0_MASTER historical PROVEN-HERE labels as current proof'; activity_log GP-AUD-187-v1.0"
+  },
+  {
+   "id": "FW-PROPOSED-LAYER-NOT-A-STATUS",
+   "rule": "A PROPOSED-tier promotion transcribed verbatim in this graph is a record of what a source proposed, never a status. An entry carrying proposed_layer_verbatim must name its proposed_layer_source, that source must record the tier and the authority the proposal carries, the value the transition PROPOSES must appear in no status or grade field of that entry, and every status field must still carry the pre-promotion value. No status or grade field anywhere may hold a transition: a status is a value, not an arrow. Only the operator applies the licensing predicate.",
+   "source": "claims/graph.json premises.OBL-H5-ZBAND.proposed_layer_source, transcribing H5_ZBAND_CONSUMPTION_2026-09-15.md (Drive 18R0wwSFHa--ZMdLRV3ElMO0T5u5YD3lk, mirrored byte-exact): 'STATUS: PROPOSED · AUTHORITY: none'. Added 2026-09-22 after the pull request's owner flagged the skim-trap in d6g8k5htny-coder/main#2 (comment 5785276754): the verbatim 'OPEN → DISCHARGED (consumption grade)' string was contained by field naming and prose only, and tools/claims_check.py did not know the field existed. 'Green CI ≠ discharge.'"
   }
  ]
 }

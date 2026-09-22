@@ -638,3 +638,106 @@ def test_the_five_original_firewalls_are_still_declared():
     for added in ("FW-LM011-PRECONDITION", "FW-NO-RECEIPT-PROMOTION",
                   "FW-FLOAT-NOT-CERTIFIED", "FW-RETRACTED-NOT-UNCONDITIONAL"):
         assert added in ids
+
+
+# ---------------------------------------------------------------------------
+# FW-PROPOSED-LAYER-NOT-A-STATUS
+#
+# The corpus transcribes some PROPOSED-tier promotions verbatim so a reader can
+# see what a source proposed without leaving this repository. `OBL-H5-ZBAND`
+# carries "OBL-H5-ZBAND: OPEN -> DISCHARGED (consumption grade)" beside two
+# status fields that both say OPEN. That is correct -- and until 2026-09-22 it
+# was correct by FIELD NAMING AND PROSE ALONE; `tools/claims_check.py` did not
+# know the field existed. The pull request's owner flagged exactly that
+# skim-trap: "do not promote from word search. Green CI != discharge."
+# ---------------------------------------------------------------------------
+
+PROPOSED_PREMISE = "OBL-H5-ZBAND"
+
+
+def test_the_proposed_layer_premise_is_still_shaped_the_way_the_firewall_expects():
+    """Not vacuous: the graph really does carry a proposed-layer transcription."""
+    p = graph()["premises"][PROPOSED_PREMISE]
+    assert "DISCHARGED" in p["proposed_layer_verbatim"]
+    assert "→" in p["proposed_layer_verbatim"] or "->" in p["proposed_layer_verbatim"]
+    assert p["proposed_layer_source"]
+    assert p["status_frozen_v2_2"] == "OPEN"
+    assert p["status_register_note"] == "OPEN"
+
+
+def test_the_firewall_is_declared_in_the_graph():
+    ids = {f["id"] for f in graph()["firewalls"]}
+    assert "FW-PROPOSED-LAYER-NOT-A-STATUS" in ids
+
+
+def test_rejects_the_proposed_value_appearing_in_a_status_field():
+    """The skim-trap itself: DISCHARGED pasted where OPEN belongs."""
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["status_frozen_v2_2"] = "DISCHARGED"
+    assert run_on(g) != 0
+
+
+def test_rejects_the_proposed_value_in_the_other_status_field():
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["status_register_note"] = "DISCHARGED (consumption grade)"
+    assert run_on(g) != 0
+
+
+def test_rejects_a_status_field_holding_a_transition():
+    """A status is a value, not an arrow."""
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["status_frozen_v2_2"] = "OPEN → DISCHARGED"
+    assert run_on(g) != 0
+
+
+def test_rejects_an_ascii_transition_in_a_status_field():
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["status_register_note"] = "OPEN -> DISCHARGED"
+    assert run_on(g) != 0
+
+
+def test_rejects_a_transcription_with_no_source():
+    """An unsourced proposal is indistinguishable from an assertion."""
+    g = graph()
+    del g["premises"][PROPOSED_PREMISE]["proposed_layer_source"]
+    assert run_on(g) != 0
+
+
+def test_rejects_a_source_that_does_not_record_the_tier():
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["proposed_layer_source"] = \
+        "H5_ZBAND_CONSUMPTION_2026-09-15.md, AUTHORITY: none"
+    assert run_on(g) != 0
+
+
+def test_rejects_a_source_that_does_not_record_the_authority():
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["proposed_layer_source"] = \
+        "H5_ZBAND_CONSUMPTION_2026-09-15.md, STATUS: PROPOSED"
+    assert run_on(g) != 0
+
+
+def test_rejects_a_status_moved_off_the_pre_promotion_value():
+    """The transition says OPEN -> ...; a status that is no longer OPEN needs its own source."""
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["status_frozen_v2_2"] = "CLOSED"
+    assert run_on(g) != 0
+
+
+def test_rejects_a_verbatim_field_that_names_no_transition():
+    g = graph()
+    g["premises"][PROPOSED_PREMISE]["proposed_layer_verbatim"] = "OBL-H5-ZBAND is discharged"
+    assert run_on(g) != 0
+
+
+def test_a_second_proposed_layer_entry_is_guarded_too():
+    """The rule is general: a new transcription cannot land unguarded."""
+    g = graph()
+    victim = "OBL-H5-JETMOD"
+    assert victim in g["premises"], "pick a premise that exists"
+    g["premises"][victim]["proposed_layer_verbatim"] = "OBL-H5-JETMOD: OPEN → DISCHARGED"
+    assert run_on(g) != 0, "a transcription with no source must be refused"
+    g["premises"][victim]["proposed_layer_source"] = "somewhere: STATUS: PROPOSED, AUTHORITY: none"
+    assert run_on(g) == 0, "sourced, with statuses still OPEN, is the legal shape"
+    g["premises"][victim]["status_frozen_v2_2"] = "DISCHARGED"
+    assert run_on(g) != 0, "and the proposed value must not reach a status field"
