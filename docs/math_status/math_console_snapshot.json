@@ -1,0 +1,64 @@
+{
+  "generated_at_utc": "2026-09-22T02:18:38Z",
+  "discipline": "fail-closed; display \u2260 certified enclosure; Drive SoT",
+  "paths": {
+    "jetmod_multi": "/workspace/drive_peer_review_triage/code_prototypes/jetmod_multi_jet_band_receipt.json",
+    "jetmod_ext": "/workspace/drive_peer_review_triage/code_prototypes/jetmod_g12_ext_named_receipt.json",
+    "rnu_white_box": "/workspace/drive_peer_review_triage/code_prototypes/RN_UNIF_WHITE_BOX_GRAD_BOUND_V1_RECEIPT.json",
+    "rnu_envelope": "/workspace/drive_peer_review_triage/code_prototypes/rnu_white_grad_box_envelope_receipt.json",
+    "rnu_hess": "/workspace/drive_peer_review_triage/code_prototypes/rnu_white_hess_calibrate_v1_receipt.json",
+    "piece2": "/workspace/drive_peer_review_triage/code_prototypes/piece2_first_cell_failclosed_receipt.json",
+    "rnu_exact_grad": "/workspace/drive_peer_review_triage/code_prototypes/rnu_chi2_white_exact_grad_receipt.json"
+  },
+  "OBL_H5_JETMOD": {
+    "status": "OPEN",
+    "jets_named": 8,
+    "jets_claimed_by_OBL": 24,
+    "max_enclosure_width": 10.322060513607537,
+    "struct_model_halfwidth": 7.81264984375e-05,
+    "width_exceeds_struct": true,
+    "blocked": [
+      "Full 24-jet roster + p_J unenumerated in H5 sources; PinFrame DER admits no order>2 jets; further names would invent a 24-list.",
+      "24-jet roster + p_J unenumerated in H5 sources",
+      "PinFrame DER stops at order 2; no F(G12-band) cover runner"
+    ],
+    "lemma_closed": false,
+    "discharges_OBL": false
+  },
+  "D3_LEMMA_RN_UNIF": {
+    "status": "OPEN",
+    "lemma_closed": false,
+    "abs_grad_kap_pair_white_center": 0.010120209914316738,
+    "U_or_envelope": 0.1854801297504021,
+    "U_source": "white_box_provisional_U",
+    "U_certified": false,
+    "empirical_envelope_upper": 0.01794579134867599,
+    "C_H_prior_provisional": 20.0,
+    "measured_hess_op_over_rss": 0.012127335821179978,
+    "C_H_loose_factor_vs_center": 1649.1668322625883,
+    "piece2_annulus_driver": "UNWRITTEN",
+    "discharges_lemma": false
+  },
+  "mesh_plan_toy": {
+    "budget": 0.68,
+    "margin": 0.0002,
+    "kap_far_center": 0.6772849052159596,
+    "envelope_or_U": 0.01794579134867599,
+    "source": "empirical_envelope",
+    "hw_max_toy": 0.14014956126334316,
+    "dd_max_if_theta_zero": 0.2802991225266863,
+    "note": "Toy first-order only (no Hessian remainder). Engine \u0394d=0.5 is too coarse if dd_max_if_theta_zero < 0.5. Envelope is EMPIRICAL / provisional \u2014 not a certificate.",
+    "certified": false
+  },
+  "next_action": {
+    "id": "rnu_tighten_CH",
+    "why": "Whitening killed 1e17 slack; C_H still provisional (~20 vs measured ratio ~0.012). Tight certified Lip-of-Hess is the RN bottleneck.",
+    "command": "python3 code_prototypes/rnu_white_hess_calibrate_v1.py",
+    "do_not": "Do not flip lemma_closed; do not invent a 24-jet roster; do not treat CI green as discharge."
+  },
+  "non_claims": [
+    "This console never discharges OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.",
+    "Toy mesh plan is not a certificate.",
+    "Provisional U / empirical envelope \u2260 FREEZE."
+  ]
+}

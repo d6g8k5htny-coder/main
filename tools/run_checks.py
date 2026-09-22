@@ -79,6 +79,7 @@ REQUIRED_COMMANDS = (
     "python tools/research_frontier.py self-check",
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",
+    "python tools/math_status_check.py",
     "python -m pytest -q",
 )
 CI_PREFIX = '''name: ci
