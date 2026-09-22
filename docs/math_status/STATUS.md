@@ -62,3 +62,21 @@
 - Certified object this pass = **whitened env_form q=2 over box**; \|∇κ_pair\| box majorant remains provisional.
 
 *End. Lemma remains OPEN.*
+
+---
+
+## Walls recorded 2026-09-22 evening CT
+
+**As of:** 2026-09-22 evening CT (America/Chicago)  
+D3-LEMMA-RN-UNIF stays **OPEN**. `lemma_closed: false`.  
+This section does not discharge D3-LEMMA-RN-UNIF, does not FREEZE it, and is **NOT FREEZE-grade**.
+
+The sentences above that use the word CERTIFIED name a form-level whitened residual-form q=2 envelope only. That wording does not certify C_H. `certified_C_H=false`. FORM/√λ proxy not promoted.
+
+Ordered blockers, first to last: ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT.
+
+Recorded wall: the Drive and local hunt for historical `rnu_env.py`, `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, and `allcell_fdz_enclosures.json` is empty. Those three objects are **ABSENT**. A filename search of this workspace tree on 2026-09-22 finds none of the three names. Absence is a blocker. It is not a discharge.
+
+Piece-2 annulus Riemann-sum driver stays **UNWRITTEN**. Short wall note: `STATUS_RN_UNIF.md`.
+
+*Lemma remains OPEN.*

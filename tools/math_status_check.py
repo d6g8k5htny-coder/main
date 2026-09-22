@@ -17,9 +17,11 @@ from quietly saying otherwise. It asserts:
      ``piece2_annulus_driver`` ``UNWRITTEN``, and the console's own non-claims.
      Floats in that file are a display. This checker does not certify them.
 
-  3. **Transcriptions.** The five uploaded bodies match the digests pinned in
+  3. **Transcriptions.** The six uploaded bodies match the digests pinned in
      ``PACKET.json``. Refreshing a digest to match an edited body does not
-     excuse a flag that left false: both checks run.
+     excuse a flag that left false: both checks run. The 2026-09-22 evening
+     CT wall notes are part of that pin. They do not discharge either
+     obligation.
 
   4. **Prose.** The packet README carries the OPEN/HOLD, Drive-source-of-truth,
      bridge, prize, independence, RUNG2/3, and certified-enclosure sentences.
@@ -90,6 +92,7 @@ PACKET_KEYS = frozenset({
 TRANSCRIPTION_NAMES = (
     "STATUS.md",
     "STATUS_JETMOD.md",
+    "STATUS_RN_UNIF.md",
     "STATUS_MATH_PUSH_2026-09-21.md",
     "math_console.py",
     "math_console_snapshot.json",
@@ -122,6 +125,8 @@ README_PHRASES = (
     "residual-form q=2 envelope. That sentence does not establish a certified "
     "enclosure of D3-LEMMA-RN-UNIF, does not FREEZE the lemma, and does not "
     "discharge it.",
+    "STATUS_JETMOD.md records the 2026-09-22 evening CT JETMOD walls and does not discharge OBL-H5-JETMOD.",
+    "STATUS_RN_UNIF.md records the 2026-09-22 evening CT RN-UNIF walls and does not discharge D3-LEMMA-RN-UNIF.",
 )
 
 NOTE_PHRASES = {
@@ -130,6 +135,11 @@ NOTE_PHRASES = {
         "still OPEN",
         "NOT FREEZE-grade",
         "Lemma remains OPEN.",
+        "Walls recorded 2026-09-22 evening CT",
+        "certified_C_H=false",
+        "FORM/√λ proxy not promoted",
+        "ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT",
+        "does not discharge D3-LEMMA-RN-UNIF",
     ),
     "STATUS_JETMOD.md": (
         "**OPEN (display only)**",
@@ -137,6 +147,32 @@ NOTE_PHRASES = {
         "`lemma_closed` | **false**",
         "RUNG2/3 do NOT discharge JETMOD.",
         "**OBL-H5-JETMOD remains OPEN.**",
+        "Walls recorded 2026-09-22 evening CT",
+        "These lines do not discharge OBL-H5-JETMOD.",
+        "F(G12)/Lip **REFUSED**",
+        "cover pipeline F **REFUSED**",
+        "explicit_interval_map_F_G12box_to_Rplus",
+        "joint-(r,y) `cancelled_detgg_s_t2` identity **ABSENT**",
+        "documented detgg=ad-c^2 still straddles",
+        "det(A)=det(G6)det(T)^2",
+        "is not a StationBox detgg enclosure",
+        "Inventing φ/r^α is refused.",
+        "jetmod_lat_k1_detgg_factor_probe_receipt.json",
+        "That identity does not discharge OBL-H5-JETMOD.",
+    ),
+    "STATUS_RN_UNIF.md": (
+        "D3-LEMMA-RN-UNIF remains OPEN",
+        "lemma_closed: false",
+        "does not discharge D3-LEMMA-RN-UNIF",
+        "certified_C_H=false",
+        "FORM/√λ proxy not promoted",
+        "ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT",
+        "rnu_env.py",
+        "CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+        "allcell_fdz_enclosures.json",
+        "**ABSENT**",
+        "Piece-2 annulus driver stays **UNWRITTEN**",
+        "Lemma remains OPEN.",
     ),
     "STATUS_MATH_PUSH_2026-09-21.md": (
         "## OBL-H5-JETMOD — OPEN",
@@ -265,7 +301,7 @@ def check_packet_schema(packet: Any, problems: list) -> None:
         problems.append("PACKET.json: does_not_establish must say it does not discharge")
     transcriptions = packet.get("transcriptions")
     if not isinstance(transcriptions, dict) or set(transcriptions) != set(TRANSCRIPTION_NAMES):
-        problems.append("PACKET.json: transcriptions must name exactly the five uploaded files")
+        problems.append("PACKET.json: transcriptions must name exactly the transcribed files")
 
 
 def check_snapshot(snapshot: Any, problems: list) -> None:

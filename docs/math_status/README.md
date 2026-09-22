@@ -1,6 +1,6 @@
 # Math status packet — OPEN / HOLD
 
-**As of:** 2026-09-22  
+**As of:** 2026-09-22 evening CT  
 **Base:** `chatgpt/drive-github-hardening-20260919` at `d107ab121d230de33c09e727c7804098ec4e8249`  
 **Default branch `main` is untouched.**
 
@@ -31,6 +31,8 @@ is not obligation discharge.
 
 `lemma_closed` is false. `prizes_solved` is false. `original_prize_closed` is false.
 `OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays OPEN.
+STATUS_JETMOD.md records the 2026-09-22 evening CT JETMOD walls and does not discharge OBL-H5-JETMOD.
+STATUS_RN_UNIF.md records the 2026-09-22 evening CT RN-UNIF walls and does not discharge D3-LEMMA-RN-UNIF.
 RUNG2 and RUNG3 do not discharge OBL-H5-JETMOD.
 Eight named jets are a display subset of a 24-jet obligation whose roster is
 still unenumerated in the transcribed note. Widths that exceed the struct
@@ -63,6 +65,7 @@ a premise promotion, a prize closure, or an independence credit.
 - The five validity premises of Theorem D1 v2.2(2) stay OPEN. This packet
   does not speak for them.
 - Green CI is a run. A green checker is not obligation discharge.
+- The chart identity det(A)=det(G6)det(T)^2 and a positive chart det(A_reg) on a thin r-subcell are not a StationBox detgg enclosure. They do not discharge OBL-H5-JETMOD. Inventing φ/r^α is refused. `jetmod_lat_k1_detgg_factor_probe_receipt.json` is cited by name only and is not vendored here.
 
 The snapshot's `paths` point at a workspace (`drive_peer_review_triage`) that
 is not this tree. Those paths are provenance of a display. They are not
@@ -79,8 +82,9 @@ OPEN board. That rewrite is still a display. It still must not flip
 | File | Role |
 |---|---|
 | `PACKET.json` | Machine flags. OPEN / HOLD only. |
-| `STATUS.md` | Transcribed 2026-09-21 RN-UNIF note, byte-exact |
-| `STATUS_JETMOD.md` | Transcribed 2026-09-21 JETMOD note, byte-exact |
+| `STATUS.md` | 2026-09-21 RN-UNIF note, retained, plus the 2026-09-22 evening CT walls |
+| `STATUS_JETMOD.md` | 2026-09-21 JETMOD note, retained, plus the 2026-09-22 evening CT walls |
+| `STATUS_RN_UNIF.md` | Short 2026-09-22 evening CT RN-UNIF wall note; OPEN; does not discharge |
 | `STATUS_MATH_PUSH_2026-09-21.md` | Transcribed 2026-09-21 push note, byte-exact |
 | `math_console.py` | Transcribed fail-closed console, byte-exact |
 | `math_console_snapshot.json` | Transcribed 2026-09-22T02:18:38Z display, byte-exact |
