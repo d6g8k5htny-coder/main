@@ -31,7 +31,7 @@
     }
   ],
   "repo_state": "partial",
-  "repo_state_note": "`quarantine/EXCLUSIONS.json` carries the path-and-hash exclusions and `tools/quarantine_check.py` enforces them; `recovery/LEDGER.json` records 31 recovery attempts against the accessibility exceptions. No corrected-kernel replay has been performed here. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "repo_state_note": "`quarantine/EXCLUSIONS.json` carries the path-and-hash exclusions and `tools/quarantine_check.py` enforces them; `recovery/LEDGER.json` carries 34 records against 31 accessibility exceptions — the three extra being numbered successors, each pinning its predecessor's canonical SHA-256, because a record is never edited in place — and `tools/recovery_check.py` recomputes both counts. No corrected-kernel replay has been performed here. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
   "artifacts": [
     "quarantine/EXCLUSIONS.json",
     "quarantine/README.md",

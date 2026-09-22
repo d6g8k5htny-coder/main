@@ -101,6 +101,26 @@ much depth is granted. Every integrand exercised is a labelled reference; no
 cell of the program's actual cover is certified, and the frozen engine
 `engine/rn_engine/frozen/` is `mpmath` throughout. Both Pieces remain OPEN.
 
+On the whitened `env_form` line of the same action: `research/rn/hermite_envelope.py`
+carries the two quantities `env_form` multiplies — the Hermite envelope in exact
+rationals, with the containment proof written out, and the Gaussian kernel as a
+certified enclosure — and `research/rn/env_form_reference.py` assembles the
+`env_form` shape at orders 0–4 over certified intervals on labelled reference
+moment data. The whitened artifact itself is **not** built, and the reason is a
+disagreement between sources rather than an absence of effort: the only build
+that ever realised it computed `env_form(k, γ, d, q)/√LAM0[k]` for `q ∈ {2, 3, 4}`
+at `d = 5` and marked its own result "**PROXY only**", adding "This is **not**
+the missing whitened residual-covariance construction for log q(A, m′)"
+(`MATH_PUSH_WHITENED_ENV_FORM_2_4.md` lines 30 and 34), while the author-side
+jet theorem refuses that reading outright — "Norms of all covariance derivatives
+refer to their actual ordered Schur/inverse construction, not to a residual form
+divided by √λ" (`MATH-20260917-b9c2_RN_WHITENED_JET_THEOREM.md` line 150). Both
+are mirrored byte-exact under `drive/mirrors/`, both sit in a Drive lane whose
+name is its own status word — HOLD, not for submission — and both are
+transcribed verbatim in `engine/lanes/A5.json` under
+`additional_source_directives`. Choosing between them is a mathematical
+decision and is not made here. The smoke the action asks for is still missing.
+
 ### A6. `PERC-DECAY`
 
 Frozen v2.2: OPEN. The `o(r³)` far-lane reading is not reachable; what the note

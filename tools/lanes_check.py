@@ -26,7 +26,21 @@ This tool refuses that. It checks, and exits non-zero on any failure:
      absent from every structure in this repository that carries evidentiary
      meaning;
   7. lane D's per-route sub-items still match `registers/json/review_queue.json`
-     verbatim.
+     verbatim;
+  8. **a lane's `artifacts` list names paths that exist, and names every
+     repository path its own section of `docs/OPEN_PROBLEMS.md` says exists.**
+     A lane that understates what code is present is as inaccurate as one that
+     overstates it, and understatement is the direction this ledger actually
+     drifted: `engine/lanes/A5.json` went on saying the annulus driver was
+     "still unwritten here" for four days after `research/cover/` landed and
+     `docs/OPEN_PROBLEMS.md` said so. Nothing compared the two;
+  9. **a sentence of a `repo_state_note` that asserts something is not here
+     names, in backticks, the path it means, and that path does not exist.**
+     An absence claim with no path in it cannot be checked by anything, and
+     both notes that went stale were exactly that shape: A1's "the interval-`r`
+     lattice-sum evaluator ... do not exist in this repository" while
+     `research/bands/lattice.py` did, and A5's "is still unwritten here" while
+     `research/cover/` did. Name the file or say it positively.
 
 It checks the shape of transcribed statements. It verifies no mathematics, it
 grades nothing, and passing it is not evidence of anything.
@@ -80,6 +94,11 @@ STATUS_STRENGTH = {
 HEADING = re.compile(r"^(#{2,3})\s+([A-Z][0-9]*)\.\s+(.+?)\s*$")
 TOKEN = re.compile(r"^[A-Z][A-Z0-9_().|+-]*$")
 
+#: `HEADING` is applied line by line elsewhere; this is the same pattern over a
+#: whole document. Built from `HEADING.pattern` rather than retyped, so the two
+#: cannot drift apart.
+HEADING_ANYWHERE = re.compile(HEADING.pattern, re.M)
+
 # Every lane's repo_state_note must say this much, however it is worded.
 NOT_A_STATUS = "not a mathematical status"
 
@@ -88,6 +107,83 @@ NOT_A_STATUS = "not a mathematical status"
 # never appear in any of them.
 EVIDENTIARY_GLOBS = ("claims/graph.json", "registers/json/*.json", "reviews/records/*.json",
                      "quarantine/EXCLUSIONS.json", "governance/PROVENANCE.json")
+
+
+#: The paragraph in which a section of `docs/OPEN_PROBLEMS.md` describes what
+#: code exists for it. Written by hand, so what it names is the honest list.
+REPO_STATE_PARA = re.compile(
+    r"\*Repository state \(code, not status\):\*(.*?)(?:\n[ \t]*\n|\Z)", re.S)
+
+#: A backticked repository path: at least one "/" so prose words in backticks
+#: (`repo_state`, `CLOSED`) are not mistaken for files.
+BACKTICK_PATH = re.compile(r"`([A-Za-z0-9_][A-Za-z0-9_.-]*(?:/[A-Za-z0-9_.-]*)+)`")
+
+
+#: Phrasings that assert something is NOT in this repository. Matched against
+#: the whitespace-collapsed lower-cased sentence, so wrapping cannot hide one.
+ABSENCE_PHRASES = (
+    "do not exist", "does not exist", "still unwritten", "is unwritten",
+    "still missing", "is missing", "are missing", "not present",
+    "no such", "is absent", "are absent", "is not in the tree",
+)
+
+#: Sentence split for a note: a full stop or semicolon then whitespace. Coarse
+#: on purpose -- a split that joins two sentences only makes the check more
+#: permissive, never less.
+NOTE_SENTENCE = re.compile(r"(?<=[.;])\s+")
+
+#: The repository's disclosure convention: "Until <date> this note said ...".
+#: Such a sentence QUOTES a superseded claim, so it will contain the absence
+#: phrasing and the paths of things that now exist, by construction. Exempting
+#: it is what lets a note be corrected without the correction tripping the
+#: check on the text it is correcting. The date makes the exemption narrow: an
+#: undated "this note said" does not qualify.
+DISCLOSURE_SENTENCE = re.compile(r"^\s*Until\s+\d{4}-\d{2}-\d{2}\b")
+
+
+def artifact_path(entry: str) -> str:
+    """The path part of an artifact entry.
+
+    An entry may carry a section reference — `docs/CONTRIBUTION_PLAN.md §3`
+    points into a document, and the section is not part of the filename. Only
+    the leading path is checked for existence.
+    """
+    return entry.split(" ")[0].rstrip("/")
+
+
+def repository_state_paragraphs(doc_path: str) -> dict[str, str]:
+    """{section key: its "Repository state (code, not status)" paragraph}.
+
+    Sections without such a paragraph are absent from the mapping rather than
+    present-and-empty, so a lane is never asked to match a paragraph that was
+    never written.
+    """
+    with open(doc_path, encoding="utf-8") as f:
+        doc = f.read()
+    marks = [(m.group(2), m.start()) for m in HEADING_ANYWHERE.finditer(doc)]
+    out: dict[str, str] = {}
+    for i, (key, pos) in enumerate(marks):
+        end = marks[i + 1][1] if i + 1 < len(marks) else len(doc)
+        m = REPO_STATE_PARA.search(doc, pos, end)
+        if m:
+            out[key] = m.group(1)
+    return out
+
+
+def named_repository_paths(text: str, repo_root: str) -> set[str]:
+    """Backticked paths in `text` that exist under `repo_root`.
+
+    A path that does not exist is skipped rather than reported: prose may name
+    a Drive path, a path in a frozen body, or an elided one
+    (`engine/rn_engine/frozen/.../D3_percolation`), and none of those is a
+    claim that this repository holds the file.
+    """
+    out = set()
+    for q in BACKTICK_PATH.findall(text):
+        q = q.rstrip("/")
+        if os.path.exists(os.path.join(repo_root, q)):
+            out.add(q)
+    return out
 
 
 def parse_sections(doc_path: str) -> dict[str, dict]:
@@ -229,9 +325,18 @@ def binding_member_ids(path: str) -> set[str]:
 
 def check(lanes_dir: str, doc: str, graph_path: str, registers_dir: str,
           review_queue: str, manifest: str, repo_root: str,
-          binding: str | None = None) -> list[str]:
+          binding: str | None = None, artifact_root: str | None = None) -> list[str]:
     if binding is None:
         binding = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
+    # `repo_root` and `artifact_root` are deliberately separate roots with
+    # different jobs, and conflating them broke six tests the first time this
+    # invariant landed. `repo_root` is SCANNED, for structures that carry
+    # evidentiary meaning and must not carry `repo_state`; a test points it at
+    # an empty directory precisely to scan nothing. `artifact_root` is
+    # RESOLVED AGAINST: it is the repository whose files the artifact lists
+    # name, which for a mutated copy of the ledger is still the real tree.
+    if artifact_root is None:
+        artifact_root = ROOT
     problems: list[str] = []
 
     with open(graph_path, encoding="utf-8") as f:
@@ -411,6 +516,64 @@ def check(lanes_dir: str, doc: str, graph_path: str, registers_dir: str,
                     problems.append(
                         f"lane {key}: sub-item {k} {field} is {got!r}; the register says {want!r}. "
                         f"Statuses are transcribed, never edited here.")
+
+    # 8. artifacts exist, and cover what the document says exists
+    state_paras = repository_state_paragraphs(doc)
+    for key in sorted(lanes):
+        lane = lanes[key]
+        where = f"lane {key}.json"
+        entries = lane.get("artifacts") or []
+        if not isinstance(entries, list):
+            continue
+        listed = set()
+        for entry in entries:
+            if not isinstance(entry, str):
+                problems.append(f"{where}: artifact {entry!r} is not a string")
+                continue
+            rel = artifact_path(entry)
+            listed.add(rel)
+            if not os.path.exists(os.path.join(artifact_root, rel)):
+                problems.append(
+                    f"{where}: artifact {rel!r} does not exist. An artifact list is a "
+                    f"pointer to code that is here; a dangling entry says this lane has "
+                    f"work it does not have")
+        para = state_paras.get(key)
+        if para is None:
+            continue
+        for rel in sorted(named_repository_paths(para, artifact_root)):
+            if rel in listed:
+                continue
+            if any(rel.startswith(a + "/") or a.startswith(rel + "/") for a in listed):
+                continue
+            problems.append(
+                f"{where}: {os.path.basename(doc)} section {key} says {rel!r} exists for "
+                f"this lane and the artifacts list does not name it. Understating what "
+                f"code is present is an inaccuracy in the same field that must not "
+                f"overstate it; add the path, or stop naming it in the document")
+
+    # 9. an absence claim names the path it means, and that path is absent
+    for key in sorted(lanes):
+        note = lanes[key].get("repo_state_note") or ""
+        where = f"lane {key}.json"
+        for sentence in NOTE_SENTENCE.split(note):
+            if DISCLOSURE_SENTENCE.match(sentence):
+                continue
+            flat = " ".join(sentence.lower().split())
+            if not any(phrase in flat for phrase in ABSENCE_PHRASES):
+                continue
+            named = [q.rstrip("/") for q in BACKTICK_PATH.findall(sentence)]
+            present = [q for q in named
+                       if os.path.exists(os.path.join(artifact_root, q))]
+            if not named:
+                problems.append(
+                    f"{where}: repo_state_note asserts something is not here without "
+                    f"naming it, so nothing can check the claim: "
+                    f"{' '.join(sentence.split())[:120]!r}. Name the path in backticks, "
+                    f"or state what IS here instead")
+            elif len(present) == len(named):
+                problems.append(
+                    f"{where}: repo_state_note says {present!r} is not here and it is: "
+                    f"{' '.join(sentence.split())[:120]!r}")
     return problems
 
 
@@ -427,11 +590,14 @@ def main(argv: list[str] | None = None) -> int:
                     help="archive-member index; a lane input may resolve here instead of the manifest")
     ap.add_argument("--repo-root", default=ROOT,
                     help="root scanned for evidentiary structures that must not carry repo_state")
+    ap.add_argument("--artifact-root", default=ROOT,
+                    help="root the artifacts lists are resolved against; separate from "
+                         "--repo-root, which is scanned rather than resolved against")
     args = ap.parse_args(argv)
 
     problems = check(args.lanes, args.doc, args.graph, args.registers,
                      args.review_queue, args.manifest, args.repo_root,
-                     binding=args.binding)
+                     binding=args.binding, artifact_root=args.artifact_root)
     if problems:
         print(f"lanes_check: {len(problems)} problem(s)")
         for p in problems:

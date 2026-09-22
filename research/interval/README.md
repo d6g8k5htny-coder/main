@@ -49,9 +49,14 @@ infrastructure, not a result.
 ## Public API
 
 ```python
-from research.interval import (Interval, sqrt, exp, log, sin, cos, pi,
-                               erf, erfc, Phi, normal_sf, normal_pdf)
+from research.interval import (Interval, to_fraction, sqrt, exp, log, sin,
+                               cos, pi, erf, erfc, Phi, normal_sf, normal_pdf,
+                               ERF_CROSSOVER, EXP_BIT_LIMIT, MILLS_MIN)
 ```
+
+All sixteen names in `__init__.__all__` are shown. `to_fraction` converts a
+scalar exactly; `ERF_CROSSOVER`, `EXP_BIT_LIMIT` and `MILLS_MIN` are the three
+regime boundaries the tables below refer to by name.
 
 `core.Interval` — endpoints `lo, hi : Fraction`, invariant `lo <= hi`.
 

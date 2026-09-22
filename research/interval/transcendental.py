@@ -68,7 +68,7 @@ from .core import Interval, _exact_fraction_string
 
 __all__ = [
     "sqrt", "exp", "log", "sin", "cos", "pi", "erf", "erfc", "Phi",
-    "normal_pdf", "normal_sf", "EXP_BIT_LIMIT", "ERF_CROSSOVER",
+    "normal_pdf", "normal_sf", "EXP_BIT_LIMIT", "ERF_CROSSOVER", "MILLS_MIN",
 ]
 
 _HALF = Fraction(1, 2)

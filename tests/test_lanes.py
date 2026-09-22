@@ -82,14 +82,21 @@ class Workspace:
         lane.update(fields)
         self.write_lane(key, lane)
 
-    def run(self):
-        return subprocess.run(
-            [sys.executable, CHECKER, "--lanes", self.lanes, "--doc", self.doc,
-             "--graph", self.graph, "--registers", REGISTERS,
-             "--review-queue", REVIEW_QUEUE, "--manifest", self.manifest,
-             "--binding", self.binding,          # never the real one: a workspace resolves only what it wrote
-             "--repo-root", self.repo_root],
-            capture_output=True, text=True)
+    def run(self, artifact_root=None):
+        """Run the checker over this workspace.
+
+        ``artifact_root`` defaults to the real tree, because a mutated copy of
+        the LEDGER still describes the real repository's files. A control that
+        wants the artifact paths to resolve somewhere else passes its own root.
+        """
+        cmd = [sys.executable, CHECKER, "--lanes", self.lanes, "--doc", self.doc,
+               "--graph", self.graph, "--registers", REGISTERS,
+               "--review-queue", REVIEW_QUEUE, "--manifest", self.manifest,
+               "--binding", self.binding,        # never the real one: a workspace resolves only what it wrote
+               "--repo-root", self.repo_root]
+        if artifact_root is not None:
+            cmd += ["--artifact-root", artifact_root]
+        return subprocess.run(cmd, capture_output=True, text=True)
 
 
 @pytest.fixture
@@ -516,3 +523,201 @@ def test_an_honest_rewording_still_passes(ws):
         json.dump(lane, f, ensure_ascii=False, indent=2)
     out = ws.run()
     assert out.returncode == 0, out.stdout
+
+
+# --------------------------------------------------------------------------
+# Invariant 8: artifacts exist, and cover what the document says exists
+#
+# The defect these controls exist for is real and was live in the tree:
+# `engine/lanes/A5.json` said the annulus Riemann-sum driver was "still
+# unwritten here" for four days after `research/cover/` landed and
+# `docs/OPEN_PROBLEMS.md` A5 said it existed. Every checker passed, because
+# nothing compared a lane's artifacts against the document's own account of
+# what code is present. Understating what exists is an inaccuracy in exactly
+# the field that must not overstate it.
+# --------------------------------------------------------------------------
+
+def test_negative_control_dangling_artifact_is_refused(ws):
+    lane = ws.lane("A5")
+    lane["artifacts"] = list(lane["artifacts"]) + ["research/rn/not_a_file.py"]
+    ws.write_lane("A5", lane)
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "does not exist" in out.stdout
+    assert "not_a_file.py" in out.stdout
+
+
+def test_negative_control_artifact_omitted_from_a_lane_is_refused(ws):
+    """Drop `research/cover/` from A5 and the checker must notice."""
+    lane = ws.lane("A5")
+    lane["artifacts"] = [a for a in lane["artifacts"] if not a.startswith("research/cover")]
+    ws.write_lane("A5", lane)
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "research/cover" in out.stdout
+    assert "does not name it" in out.stdout
+
+
+def test_the_historical_a5_defect_is_caught(ws):
+    """The exact shape of the live defect: empty artifacts, document unchanged."""
+    lane = ws.lane("A5")
+    lane["artifacts"] = []
+    ws.write_lane("A5", lane)
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "section A5 says" in out.stdout
+
+
+def test_a_path_named_in_prose_but_absent_from_the_tree_is_not_demanded(ws):
+    """Prose may name a Drive path or an elided one; neither is a claim.
+
+    `docs/OPEN_PROBLEMS.md` A6 names
+    `engine/rn_engine/frozen/.../D3_percolation`, which is an ellipsis and not
+    a file. Demanding it as an artifact would force noise into the ledger.
+    """
+    out = ws.run()
+    assert out.returncode == 0, out.stdout
+
+
+def test_a_parent_directory_covers_a_named_child(ws):
+    """Naming `research/cover/` must cover `research/cover/driver.py`."""
+    doc = open(ws.doc, encoding="utf-8").read()
+    doc = doc.replace("now exists at `research/cover/`",
+                      "now exists at `research/cover/driver.py`", 1)
+    open(ws.doc, "w", encoding="utf-8").write(doc)
+    out = ws.run()
+    assert out.returncode == 0, out.stdout
+
+
+def test_a_section_reference_on_an_artifact_is_accepted(ws):
+    """`docs/CONTRIBUTION_PLAN.md §3` points into a file that exists."""
+    lane = ws.lane("A5")
+    lane["artifacts"] = list(lane["artifacts"]) + ["docs/OPEN_PROBLEMS.md §A5"]
+    ws.write_lane("A5", lane)
+    out = ws.run()
+    assert out.returncode == 0, out.stdout
+
+
+def test_a_non_string_artifact_is_refused(ws):
+    lane = ws.lane("A5")
+    lane["artifacts"] = list(lane["artifacts"]) + [{"path": "research/cover/"}]
+    ws.write_lane("A5", lane)
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "is not a string" in out.stdout
+
+
+def test_artifact_root_is_resolved_not_scanned(tmp_path):
+    """The two roots are different jobs; pointing artifacts at an empty tree fails.
+
+    This control exists because conflating `--repo-root` and `--artifact-root`
+    broke six unrelated tests the first time invariant 8 landed. It pins that
+    the artifact root is a thing paths are RESOLVED against.
+    """
+    ws = Workspace(tmp_path)
+    empty = os.path.join(str(tmp_path), "empty")
+    os.makedirs(empty, exist_ok=True)
+    out = ws.run(artifact_root=empty)
+    assert out.returncode == 1, out.stdout
+    assert "does not exist" in out.stdout
+
+
+# --------------------------------------------------------------------------
+# Invariant 9: an absence claim names the path it means
+#
+# Both notes that went stale were unfalsifiable by construction. A1 said "the
+# interval-`r` lattice-sum evaluator ... do not exist in this repository" while
+# `research/bands/lattice.py` did; A5 said the annulus driver "is still
+# unwritten here" while `research/cover/` did. Neither sentence named a path,
+# so no checker could ever have contradicted either one.
+# --------------------------------------------------------------------------
+
+STATUS_TAIL = (" `repo_state` describes only what code exists in this repository."
+               " It is not a mathematical status and no verdict, promotion or"
+               " discharge may be read from it.")
+
+
+def _set_note(ws, key, note):
+    lane = ws.lane(key)
+    lane["repo_state_note"] = note + STATUS_TAIL
+    ws.write_lane(key, lane)
+
+
+def test_negative_control_a_pathless_absence_claim_is_refused(ws):
+    _set_note(ws, "A2", "The driver is still unwritten here.")
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "without naming it" in out.stdout
+
+
+def test_negative_control_an_absence_claim_naming_a_present_path_is_refused(ws):
+    _set_note(ws, "A2", "`research/cover/driver.py` does not exist in this repository.")
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "is not here and it is" in out.stdout
+
+
+def test_an_absence_claim_naming_an_absent_path_is_accepted(ws):
+    _set_note(ws, "A2", "`research/rn/no_such_driver.py` does not exist in this repository.")
+    out = ws.run()
+    assert out.returncode == 0, out.stdout
+
+
+def test_the_historical_a5_sentence_is_caught(ws):
+    """The exact text that sat in the tree for four days."""
+    _set_note(ws, "A5",
+              "The annulus Riemann-sum driver the source calls **unwritten** is "
+              "still unwritten here, and the whitened `env_form` orders 2-4 smoke "
+              "is still missing.")
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+    assert "without naming it" in out.stdout
+
+
+def test_the_historical_a1_sentence_is_caught(ws):
+    _set_note(ws, "A1",
+              "The interval-`r` lattice-sum evaluator for the 24-jet set, and any "
+              "per-band enclosure certificate, do not exist in this repository.")
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+
+
+def test_a_dated_disclosure_sentence_is_exempt(ws):
+    """A correction must be able to quote the text it corrects."""
+    _set_note(ws, "A2",
+              "The driver is here at `research/cover/`. Until 2026-09-22 this note "
+              "said the driver was still unwritten here, which `research/cover/` "
+              "had contradicted since it landed.")
+    out = ws.run()
+    assert out.returncode == 0, out.stdout
+
+
+def test_an_undated_disclosure_is_not_exempt(ws):
+    """The exemption is narrow on purpose: the date is what makes it one."""
+    _set_note(ws, "A2", "Previously this note said the driver was still unwritten here.")
+    out = ws.run()
+    assert out.returncode == 1, out.stdout
+
+
+def test_the_disclosure_exemption_can_be_abused_and_that_is_known(ws):
+    """A stated limitation, pinned so it stays visible rather than forgotten.
+
+    Prefixing a live false claim with "Until <date>" exempts it. The checker
+    cannot tell a correction from a sentence dressed as one, and this control
+    exists so that fact is recorded in the suite rather than discovered later.
+    Closing it would need the checker to diff against the committed text, which
+    is what `tools/disclosure_check.py` does for quoted prose; a lane note is
+    not quoted prose and that machinery does not reach it.
+    """
+    _set_note(ws, "A2", "Until 2026-09-22 the driver is still unwritten here.")
+    out = ws.run()
+    assert out.returncode == 0, out.stdout      # known hole, deliberately pinned
+
+
+def test_the_real_notes_name_what_they_say_is_absent():
+    """A5's live note names an absent path; the checker's positive case."""
+    import glob as _glob
+    a5 = json.load(open(os.path.join(LANES, "A5.json"), encoding="utf-8"))
+    assert "research/rn/env_form_smoke.py" in a5["repo_state_note"]
+    assert not os.path.exists(os.path.join(ROOT, "research", "rn", "env_form_smoke.py"))
+    assert _glob.glob(os.path.join(ROOT, "research", "rn", "*.py"))

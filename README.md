@@ -133,6 +133,12 @@ python3 tools/receipts_check.py             # receipts: schema, append-only, non
 python3 tools/slack_check.py                # bound-slack registry bookkeeping; utility never correctness
 python3 tools/frozen_check.py               # frozen-object register vs source-map digests, offline; classes B/C not comparable
 python3 tools/bridge_check.py               # execution-bridge orders/receipts: schema, digests, git freeze; no enforcement
+python3 tools/consumers_check.py            # which register tabs anything here actually reads
+python3 tools/operations_check.py           # reusable-operations registry and trial ledger bookkeeping
+python3 tools/mirror_quotes_check.py        # mirror README quotations are verbatim in the mirrored bytes
+python3 tools/mirrors_index_check.py        # drive/MIRRORS.md still matches the manifests
+python3 tools/operator_directive_check.py   # an asserted operator directive cites its source
+python3 tools/drive_index.py stats          # the source-map overlay still resolves
 python3 -m pytest -q                        # negative controls throughout
 ```
 

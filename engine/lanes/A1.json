@@ -37,10 +37,13 @@
     }
   ],
   "repo_state": "scaffolded",
-  "repo_state_note": "`research/interval/` supplies certified interval arithmetic over exact rationals and names this lane as a consumer; the interval-`r` lattice-sum evaluator for the 24-jet set, and any per-band enclosure certificate, do not exist in this repository. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "repo_state_note": "`research/interval/` supplies certified interval arithmetic over exact rationals and names this lane as a consumer, and `research/bands/` holds the machinery this proof step needs — interval-`r` lattice sums with a tail bound proved uniform over the band, the falsifier, and the ladder analysis — exercised on reference kernels only. What it still lacks to bear on the obligation is enumerated in `research/bands/README.md`: a certified decay envelope for the program's `kplane` at every order the 24-jet set reaches, the 24-jet definitions with their powers `p_J`, the actual band endpoints `r_k`, and the six-pin `r`-to-displacement geometry. None of those four is in this repository, so no per-band enclosure certificate is produced here and `OBL-H5-JETMOD` is untouched. Until 2026-09-22 this note said the interval-`r` lattice-sum evaluator did not exist in this repository, a sentence `research/bands/lattice.py` had contradicted since it landed. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
   "artifacts": [
     "research/interval/",
-    "docs/CONTRIBUTION_PLAN.md §3"
+    "docs/CONTRIBUTION_PLAN.md §3",
+    "research/bands/",
+    "research/bands/README.md",
+    "tests/test_bands.py"
   ],
   "does_not_establish": "This lane file establishes nothing mathematical. It does not certify any band enclosure, does not discharge `OBL-H5-JETMOD` or `OBL-D1-PROMOTE`, and does not make the displayed modulus into a certified enclosure.",
   "obligation": "Certified interval bounds for the full 24-jet set — not just the displayed `c₂` — over the r-bands `[r_{k+1}, r_k]`, with lattice-tail constants re-certified **uniformly in the band** (the current LAT tail bound certifies at point separations only). Content: for each jet `J` and band `B`, `J(B)/r^{p_J} ∈` a certified interval."
