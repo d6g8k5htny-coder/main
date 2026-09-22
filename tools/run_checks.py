@@ -107,7 +107,7 @@ jobs:
         with:
           python-version: "3.11.16"
       - name: Install test dependencies
-        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock'''
+        run: "python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock"'''
 
 
 def utc_now() -> str:

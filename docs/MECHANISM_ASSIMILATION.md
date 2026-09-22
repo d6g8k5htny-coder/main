@@ -3,11 +3,12 @@
 Observed 2026-09-22 UTC. Follows architecture audit `ASSIMILATION-20260922-01a0c69f`.
 This records engineering decisions and their measured limits. It is not a new
 governing protocol, queue, scientific verdict or evidence of deployed enforcement.
-The changes are a review candidate until their exact revision is integrated.
+The code changes remain a review candidate until integrated; native enforcement
+has the separately verified deployment state recorded below.
 
 | Mechanism | Decision | Implemented or measured scope | Remaining gate |
 |---|---|---|---|
-| Native GitHub required checks and branch rules | **ADOPT target** | Use server rules rather than a home-grown merge authority. Existing workflow checks alone are not enforcement. | Live configuration, required producer/revision checks, bypass and non-bypass identity tests remain separate owner-authorized work; no live result is asserted here. |
+| Native GitHub required checks and branch rules | **ADOPT, active** | Ruleset 23798639 protects exact `main` and the dedicated test branch: PR required, strict `verify` from Actions app 15368, deletion/force blocked, admin recovery through PR only. | Direct and force updates were rejected on the protected probe; the same credential updated an unprotected control. Protected PR success/failure, deletion and recovery bypass were not exercised. [Exact receipt](https://drive.google.com/file/d/16-cSRzAPfE80D_SYAMEUmlshX2kyvOF2/view). |
 | Pinned CI actions and hashed test dependencies | **ADOPT in this candidate** | Full action commit IDs, Python 3.11.16, Ubuntu 24.04 series, and the minimal hashed pytest dependency closure. Withdrawal and rollout checkers run unconditionally in full CI. | Final full-suite and remote CI evidence must bind the published revision. Hosted OS and bootstrap tooling remain outside the lock. |
 | SQLite FTS5 metadata candidates | **ADAPT, explicit opt-in** | In-process trigram candidates followed by the original matcher, ordering and current metadata. Default/CLI behavior remains the original scan. | Sustained callers must justify construction/maintenance cost; no relevance or scientific-quality gain has been measured. |
 | Existing withdrawal semantics | **ADAPT integration, synthetic CI only** | Reuse the current grounded-support pilot and its synthetic controls; full CI now runs its loss-only transition. | Actual scientific claims remain **NOT_MIGRATED**. Coverage, source authenticity and authorized status transitions remain separate requirements. |
@@ -55,7 +56,13 @@ a dry-run with a deliberately substituted local wheel failed hash validation.
 The scoped workflow/bridge/withdrawal/rollout/runner suite passed **760 tests**.
 Withdrawal and rollout controls also passed under optimized Python (36 and
 46 tests). The subsequent protected-lock change passed 42 relevant bridge tests.
-These are local results, not a claim that GitHub CI or the full master run passed.
+The subsequent complete local run passed all 43 checks and 3,042 tests, with 2
+conditional skips, on the source tree published as `105a426`. GitHub then caught
+unquoted YAML colon-whitespace in the CI/research dependency install commands
+before execution. This successor quotes those scalars; Ruby/Psych confirms all
+three workflows parse, and 208 affected tests pass with the same 43 checker
+commands. The failed observation is retained. Final remote results and the
+source-bound delivery receipt are linked from [PR 9](https://github.com/d6g8k5htny-coder/main/pull/9).
 The task retains logs and JUnit output under `ci-evidence/` outside the repository.
 
 Action pins were checked against official refs and their declared interfaces:
