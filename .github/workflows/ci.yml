@@ -107,5 +107,7 @@ jobs:
         run: python tools/lpw_amplitude_check.py
       - name: Validate the scoped automated closure plan
         run: python tools/closure_pipeline.py check-plan
+      - name: Math status packet (OPEN/HOLD only; flags stay false)
+        run: python tools/math_status_check.py
       - name: Unit tests and negative controls
         run: python -m pytest -q

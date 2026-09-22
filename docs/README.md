@@ -16,3 +16,7 @@ inexact until 2026-09-18. Their Drive ids, digests and byte counts live in
 `governance/PROVENANCE.json`, and the digests come from the accessibility
 source map and inventory — the registers name neither object. They are evidence of what the program said about itself on those
 dates, not independent verification of anything.
+
+`math_status/` is a fail-closed OPEN/HOLD display for `OBL-H5-JETMOD` and
+`D3-LEMMA-RN-UNIF`. It is an execution/workspace mirror. Drive stays the
+source of truth. The packet discharges nothing; see `math_status/README.md`.
