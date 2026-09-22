@@ -21,7 +21,8 @@ from quietly saying otherwise. It asserts:
      ``PACKET.json``. Refreshing a digest to match an edited body does not
      excuse a flag that left false: both checks run. The 2026-09-22 evening
      CT wall notes are part of that pin. They do not discharge either
-     obligation.
+     obligation. The 2026-09-22 evening CT sibling sweep CLOSED EMPTY is
+     part of that pin. It does not discharge either obligation.
 
   4. **Prose.** The packet README carries the OPEN/HOLD, Drive-source-of-truth,
      bridge, prize, independence, RUNG2/3, and certified-enclosure sentences.
@@ -140,6 +141,14 @@ NOTE_PHRASES = {
         "FORM/√λ proxy not promoted",
         "ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT",
         "does not discharge D3-LEMMA-RN-UNIF",
+        "Sibling sweep CLOSED EMPTY does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.",
+        "REFUSED_IA_STRADDLES",
+        "jetmod_interval_schur_detgg_via_ainv_receipt.json",
+        "jetmod_eval_F_G12box_sibling_probe_receipt.json",
+        "jetmod_joint_ry_cancel_rewrite_hunt_receipt.json",
+        "correlated_C_Ainv_Ct_cancellation_under_joint_r_y",
+        "cancelled_detgg_s_t2_under_joint_r_y_for_StationBox_TM",
+        "still **ABSENT** (prior)",
     ),
     "STATUS_JETMOD.md": (
         "**OPEN (display only)**",
@@ -159,6 +168,14 @@ NOTE_PHRASES = {
         "Inventing φ/r^α is refused.",
         "jetmod_lat_k1_detgg_factor_probe_receipt.json",
         "That identity does not discharge OBL-H5-JETMOD.",
+        "Sibling sweep CLOSED EMPTY does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.",
+        "REFUSED_IA_STRADDLES",
+        "jetmod_interval_schur_detgg_via_ainv_receipt.json",
+        "jetmod_eval_F_G12box_sibling_probe_receipt.json",
+        "jetmod_joint_ry_cancel_rewrite_hunt_receipt.json",
+        "correlated_C_Ainv_Ct_cancellation_under_joint_r_y",
+        "cancelled_detgg_s_t2_under_joint_r_y_for_StationBox_TM",
+        "still **ABSENT** (prior)",
     ),
     "STATUS_RN_UNIF.md": (
         "D3-LEMMA-RN-UNIF remains OPEN",

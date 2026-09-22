@@ -80,3 +80,22 @@ Recorded wall: the Drive and local hunt for historical `rnu_env.py`, `CL_ANTHROP
 Piece-2 annulus Riemann-sum driver stays **UNWRITTEN**. Short wall note: `STATUS_RN_UNIF.md`.
 
 *Lemma remains OPEN.*
+
+---
+
+## Sibling sweep CLOSED EMPTY — 2026-09-22 evening CT
+
+**As of:** 2026-09-22 evening CT (America/Chicago)  
+OBL-H5-JETMOD stays **OPEN**. D3-LEMMA-RN-UNIF stays **OPEN**.  
+`lemma_closed` stays **false**. `discharges_OBL_H5_JETMOD` stays **false**. `prizes_solved` stays false. `certified_C_H=false`.  
+Sibling sweep CLOSED EMPTY does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF. It does not FREEZE either. It is **NOT FREEZE-grade**.  
+Recorded by name only. This note does not re-derive these walls. Receipts below are not vendored in this tree. A receipt name is not a certificate.
+
+1. Interval Schur via Ainv: **REFUSED_IA_STRADDLES**. Receipt: `jetmod_interval_schur_detgg_via_ainv_receipt.json`. Point-r OK; positive-width (r,y) detgg straddles. Primary still missing: `correlated_C_Ainv_Ct_cancellation_under_joint_r_y` / `cancelled_detgg_s_t2_under_joint_r_y_for_StationBox_TM`.
+2. `eval_F(G12_box)` sibling: **REFUSED**. Exact missing object: `explicit_interval_map_F_G12box_to_Rplus`. Receipt: `jetmod_eval_F_G12box_sibling_probe_receipt.json`.
+3. Joint (r,y) cancel rewrite corpus hunt: **EMPTY**. Receipt: `jetmod_joint_ry_cancel_rewrite_hunt_receipt.json`. Structural Schur `S1=Grr−C Ainv C^T` documented. No joint cancel formula.
+4. φ(det A)→detgg bridge: still **ABSENT** (prior).
+
+**OBL-H5-JETMOD remains OPEN.** D3-LEMMA-RN-UNIF remains OPEN. No promotions.
+
+*Lemma remains OPEN.*
