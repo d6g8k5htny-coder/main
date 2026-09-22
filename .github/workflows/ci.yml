@@ -61,6 +61,8 @@ jobs:
         run: python tools/frozen_check.py
       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)
         run: python tools/bridge_check.py
+      - name: Math status packet (OPEN/HOLD only; no discharge)
+        run: python tools/math_status_check.py
       - name: Reusable operations (registry is the register's words; trials are records, append-only, no status claimed)
         run: python tools/operations_check.py
       - name: Eligible mirror README quotations match eligible retained text

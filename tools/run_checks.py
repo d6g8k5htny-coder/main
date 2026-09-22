@@ -58,6 +58,7 @@ REQUIRED_COMMANDS = (
     "python tools/receipts_check.py",
     "python tools/frozen_check.py",
     "python tools/bridge_check.py",
+    "python tools/math_status_check.py",
     "python tools/operations_check.py",
     "python tools/mirror_quotes_check.py",
     "python tools/mirrors_index_check.py",
