@@ -157,6 +157,18 @@ def audit(root: str, docs=None):
     for rel in docs:
         path = os.path.join(root, rel)
         if not os.path.isfile(path):
+            # Skipping silently was a hole in this checker: with the whole
+            # governed set absent it printed `docs=0 directives=0 problems=0`
+            # and exited 0, and deleting any one governed document dropped the
+            # count by one and still passed. A checker whose coverage can fall
+            # to nothing without failing is not enforcing anything. The set is
+            # explicit at the top of this file precisely so a change to it is a
+            # visible edit; a file vanishing is not that edit.
+            problems.append(
+                f"{rel}: governed document is missing. It is named in "
+                f"GOVERNED_DOCS, so either restore it or remove it from that "
+                f"tuple in the same commit -- a governed document that is "
+                f"merely absent makes this checker pass by scanning less")
             continue
         scanned += 1
         with open(path, encoding="utf-8", errors="replace") as handle:

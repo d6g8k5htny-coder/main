@@ -255,3 +255,78 @@ def test_the_transcendental_submodule_exports_what_the_package_re_exports():
     core = set(_all_names(ROOT / "research" / "interval" / "core.py"))
     missing = sorted(package - sub - core)
     assert not missing, f"re-exported by the package, in no submodule __all__: {missing}"
+
+
+# --------------------------------------------------------------------------
+# The other direction: a checker no workflow runs is invisible
+#
+# `test_every_guarded_tool_exists_in_the_tree` travels workflow-text -> tree,
+# so a step naming a deleted tool fails. Nothing travelled tree -> workflow, so
+# a checker could land in `tools/` and never run in CI, and the only signal
+# would be someone noticing. CLAUDE.md already worries about the reverse case
+# ("A CI step guarded by `[ -f tools/x.py ]` goes green if the tool is
+# deleted"); this is the same hole from the other side.
+# --------------------------------------------------------------------------
+
+#: Tools deliberately not run by any workflow, each with the reason. An entry
+#: here is a claim a reviewer can check, which is the point of listing them
+#: rather than filtering them out silently.
+NOT_IN_CI = {
+    "tools/disclosure_check.py":
+        "pre-commit only. It compares the working tree against the committed "
+        "text, so after the commit it self-satisfies and a CI run would prove "
+        "nothing. CLAUDE.md's 'Before you commit' block says so in the same "
+        "words.",
+}
+
+
+def workflow_tools() -> set[str]:
+    out: set[str] = set()
+    for path in WORKFLOWS:
+        for block in run_blocks(path.read_text(encoding="utf-8")):
+            out |= {m.group(0) for m in TOOL.finditer(block)}
+    return out
+
+
+def tools_in_tree() -> set[str]:
+    return {f"tools/{p.name}" for p in sorted((ROOT / "tools").glob("*.py"))}
+
+
+def test_every_checker_in_the_tree_runs_in_a_workflow_or_says_why_not():
+    unrun = sorted(tools_in_tree() - workflow_tools() - set(NOT_IN_CI))
+    assert not unrun, (
+        f"these are in tools/ and no workflow runs them: {unrun}. Add a step, "
+        f"or add an entry to NOT_IN_CI in this file giving the reason.")
+
+
+def test_the_exemption_list_names_only_tools_that_exist_and_are_unrun():
+    for rel, reason in NOT_IN_CI.items():
+        assert (ROOT / rel).is_file(), f"{rel} is exempted and not in the tree"
+        assert rel not in workflow_tools(), (
+            f"{rel} is exempted from CI and a workflow runs it; drop the exemption")
+        assert len(reason) > 40, f"{rel}: the reason must say something"
+
+
+def test_the_pre_commit_block_and_the_exemption_agree():
+    """CLAUDE.md's block is where a contributor meets the pre-commit-only tool."""
+    claude = (ROOT / "CLAUDE.md").read_text(encoding="utf-8")
+    for rel in NOT_IN_CI:
+        assert rel.split("/")[-1] in claude, (
+            f"{rel} runs in no workflow and CLAUDE.md does not mention it, so "
+            f"nothing tells a contributor to run it")
+
+
+def test_negative_control_an_unrun_checker_is_refused():
+    invented = "tools/not_wired_up_check.py"
+    unrun = (tools_in_tree() | {invented}) - workflow_tools() - set(NOT_IN_CI)
+    assert invented in unrun
+
+
+def test_negative_control_a_stale_exemption_is_refused():
+    stale = "tools/claims_check.py"           # CI does run this one
+    assert stale in workflow_tools()
+
+
+def test_the_tree_scanner_is_not_vacuous():
+    assert len(tools_in_tree()) >= 20
+    assert "tools/verify_manifests.py" in tools_in_tree()

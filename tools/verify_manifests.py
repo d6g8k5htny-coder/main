@@ -32,6 +32,16 @@ def sha256(path: str) -> str:
     return h.hexdigest()
 
 
+def _is_hex(token: str) -> bool:
+    """True when every character is a hex digit.
+
+    Length alone was checked before. A 64-character non-hex token would then
+    reach the comparison and be reported as a SHA MISMATCH, which is the wrong
+    diagnosis for a malformed manifest.
+    """
+    return all(c in "0123456789abcdefABCDEF" for c in token)
+
+
 def check_sha256sum(manifest: str) -> tuple[int, int, list[str]]:
     base = os.path.dirname(manifest)
     ok = bad = 0
@@ -41,7 +51,15 @@ def check_sha256sum(manifest: str) -> tuple[int, int, list[str]]:
         if not line.strip() or line.startswith("#"):
             continue
         parts = line.split(None, 1)
-        if len(parts) != 2 or len(parts[0]) != 64:
+        if len(parts) != 2 or len(parts[0]) != 64 or not _is_hex(parts[0]):
+            # Silence here was a hole: a line that is neither blank nor a
+            # comment and does not parse as `<64 hex> <name>` was counted
+            # neither ok nor bad, so a manifest could be truncated mid-line, or
+            # have its digest column mangled, and still report problems=0. A
+            # row that cannot be read is a problem with the manifest.
+            bad += 1
+            problems.append(f"UNPARSABLE LINE {manifest}: {line.strip()[:90]!r} "
+                            f"is not '<64 hex digits> <name>'")
             continue
         digest, rel = parts
         rel = rel.lstrip("*")
@@ -190,8 +208,36 @@ def check_jsonl(manifest: str) -> tuple[int, int, list[str]]:
     return ok, bad, problems
 
 
+DEFAULT_MIN_MANIFESTS = 1
+
+
+def _split_argv(argv: list[str]) -> tuple[list[str], int]:
+    """Positional roots, plus an optional ``--min-manifests N``.
+
+    Deliberately hand-parsed rather than moved to argparse: this tool has taken
+    bare positional roots since it was written and several callers pass one,
+    so adding a flag must not change how a path is read.
+    """
+    roots, min_manifests, i = [], DEFAULT_MIN_MANIFESTS, 1
+    while i < len(argv):
+        arg = argv[i]
+        if arg == "--min-manifests":
+            if i + 1 >= len(argv):
+                raise SystemExit("--min-manifests needs a number")
+            min_manifests = int(argv[i + 1])
+            i += 2
+            continue
+        if arg.startswith("--min-manifests="):
+            min_manifests = int(arg.split("=", 1)[1])
+            i += 1
+            continue
+        roots.append(arg)
+        i += 1
+    return (roots or [ROOT]), min_manifests
+
+
 def main(argv: list[str]) -> int:
-    roots = argv[1:] or [ROOT]
+    roots, min_manifests = _split_argv(argv)
     total_ok = total_bad = 0
     all_problems = []
     manifests = 0
@@ -210,6 +256,14 @@ def main(argv: list[str]) -> int:
                 total_ok += ok
                 total_bad += bad
                 all_problems += pr
+    if manifests < min_manifests:
+        all_problems.append(
+            f"VACUOUS RUN: found {manifests} manifest(s) under {[os.path.relpath(r) for r in roots]}, "
+            f"fewer than the required {min_manifests}. A run that verified nothing is not a pass: "
+            f"the exit code would be the same if every manifest had been deleted. Point --root at "
+            f"a tree that has them, or pass --min-manifests 0 if an empty scan is genuinely what "
+            f"you want")
+        total_bad += 1
     for pr in all_problems:
         print(pr)
     print(f"manifests={manifests} verified={total_ok} problems={total_bad}")

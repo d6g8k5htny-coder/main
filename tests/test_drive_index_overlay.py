@@ -95,3 +95,103 @@ def test_control_a_snapshot_path_that_disagrees_with_the_export_is_refused(tmp_p
     monkeypatch.setattr(DI, "path_change_files", lambda deltas_dir=None: [str(f)])
     with pytest.raises(ValueError):
         DI.load(overlay=True)
+
+
+# --------------------------------------------------------------------------
+# The deltas directory is an argument, not a module global bound at the call
+# site, and the CLI has a failing exit code that something asserts.
+#
+# `load()` used to call `path_change_files()` with no argument, so `DELTAS` --
+# resolved against the real repository at import time -- was fixed for every
+# caller. CLAUDE.md records that exact shape as the bug that silently neutered
+# every mutation test in `tools/claims_check.py`. Separately, the only
+# returncode assertion in this file was `== 0`: nothing pinned that the tool
+# can fail at all.
+# --------------------------------------------------------------------------
+
+def _tiny_inventory(tmp_path):
+    rows = [{"id": "AAA", "path": "x/old.txt", "name": "old.txt", "mimeType": "text/plain"},
+            {"id": "BBB", "path": "x/keep.txt", "name": "keep.txt", "mimeType": "text/plain"}]
+    inv = tmp_path / "inventory.jsonl"
+    inv.write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+    return str(inv)
+
+
+def _deltas(tmp_path, rows, date="2026-09-30"):
+    d = tmp_path / "deltas" / date
+    d.mkdir(parents=True)
+    (d / "PATH_CHANGES.jsonl").write_text(
+        "".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+    return str(tmp_path / "deltas")
+
+
+def test_load_takes_the_deltas_directory_as_an_argument(tmp_path):
+    inv = _tiny_inventory(tmp_path)
+    deltas = _deltas(tmp_path, [{"id": "AAA", "path_snapshot": "x/old.txt",
+                                 "path_live": "y/new.txt"}])
+    moved = {e["id"]: e for e in DI.load(inv, overlay=True, deltas_dir=deltas)}
+    assert moved["AAA"]["path"] == "y/new.txt"
+    assert moved["AAA"]["path_snapshot"] == "x/old.txt"
+    assert moved["AAA"]["moved"] == "2026-09-30"
+    assert "moved" not in moved["BBB"]
+
+
+def test_the_argument_is_what_decides_and_not_the_module_global(tmp_path):
+    """Pointing it at an empty directory must yield no overlay at all.
+
+    If `DELTAS` were still bound at the call site this would silently apply the
+    real repository's 2026-09-18 delta instead, and the assertion below would
+    still pass by accident only because these ids are not in it. So the test
+    also checks the positive direction above.
+    """
+    inv = _tiny_inventory(tmp_path)
+    empty = tmp_path / "no_deltas"
+    empty.mkdir()
+    rows = DI.load(inv, overlay=True, deltas_dir=str(empty))
+    assert all("moved" not in e for e in rows)
+    assert {e["path"] for e in rows} == {"x/old.txt", "x/keep.txt"}
+
+
+def test_a_delta_naming_an_unknown_id_still_fails_closed_through_the_argument(tmp_path):
+    inv = _tiny_inventory(tmp_path)
+    deltas = _deltas(tmp_path, [{"id": "ZZZ", "path_snapshot": "q", "path_live": "r"}])
+    with pytest.raises(ValueError):
+        DI.load(inv, overlay=True, deltas_dir=deltas)
+
+
+def test_the_cli_threads_both_paths_through(tmp_path):
+    inv = _tiny_inventory(tmp_path)
+    deltas = _deltas(tmp_path, [{"id": "AAA", "path_snapshot": "x/old.txt",
+                                 "path_live": "y/new.txt"}])
+    out = run("id", "AAA", "--inventory", inv, "--deltas", deltas)
+    assert out.returncode == 0, out.stdout + out.stderr
+    assert "y/new.txt" in out.stdout
+
+
+def test_the_cli_snapshot_flag_refuses_the_overlay(tmp_path):
+    inv = _tiny_inventory(tmp_path)
+    deltas = _deltas(tmp_path, [{"id": "AAA", "path_snapshot": "x/old.txt",
+                                 "path_live": "y/new.txt"}])
+    out = run("id", "AAA", "--inventory", inv, "--deltas", deltas, "--snapshot")
+    assert out.returncode == 0, out.stdout + out.stderr
+    assert "x/old.txt" in out.stdout and "y/new.txt" not in out.stdout
+
+
+def test_the_cli_exits_nonzero_on_an_unknown_id():
+    out = run("id", "NOT-AN-ID")
+    assert out.returncode != 0, out.stdout
+
+
+def test_the_cli_exits_nonzero_when_a_delta_cannot_be_tied_to_the_export(tmp_path):
+    """The fail-closed path, asserted at the CLI rather than only in-process."""
+    inv = _tiny_inventory(tmp_path)
+    deltas = _deltas(tmp_path, [{"id": "ZZZ", "path_snapshot": "q", "path_live": "r"}])
+    out = run("stats", "--inventory", inv, "--deltas", deltas)
+    assert out.returncode != 0, out.stdout
+    assert "not in the inventory" in (out.stdout + out.stderr)
+
+
+def test_a_find_with_no_hits_is_not_an_error():
+    """Pinned because it is a choice, not an oversight: an empty result is a result."""
+    out = run("find", "zzzz-no-such-path-zzzz")
+    assert out.returncode == 0, out.stdout

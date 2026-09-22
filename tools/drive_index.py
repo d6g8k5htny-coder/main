@@ -107,12 +107,25 @@ def load_path_changes(files: list[str], known_ids: set[str] | None = None) -> di
     return changes
 
 
-def load(path: str = INVENTORY, overlay: bool = True) -> list[dict]:
+def load(path: str = INVENTORY, overlay: bool = True,
+         deltas_dir: str | None = None) -> list[dict]:
+    """Inventory rows, with the dated path overlay applied unless refused.
+
+    ``deltas_dir`` is threaded through rather than left to the module global.
+    It used to call ``path_change_files()`` with no argument, so ``DELTAS`` --
+    resolved against the real repository at import time -- was bound at the
+    call site and no caller could point the overlay anywhere else. CLAUDE.md
+    records that exact shape as the bug that silently neutered every mutation
+    test in ``tools/claims_check.py``: "Resolve module globals at call time".
+    A test that cannot vary an input cannot control it.
+    """
     with open(path, encoding="utf-8") as f:
         entries = [json.loads(line) for line in f if line.strip()]
     if not overlay:
         return entries
-    changes = load_path_changes(path_change_files(), {e["id"] for e in entries})
+    if deltas_dir is None:
+        deltas_dir = DELTAS
+    changes = load_path_changes(path_change_files(deltas_dir), {e["id"] for e in entries})
     for e in entries:
         c = changes.get(e["id"])
         if c is None:
@@ -242,10 +255,14 @@ def main() -> int:
     ap.add_argument("--depth", type=int, default=2)
     ap.add_argument("--snapshot", action="store_true",
                     help="show the 2026-09-17 export's paths without the drive/deltas overlay")
+    ap.add_argument("--inventory", default=INVENTORY,
+                    help="inventory to read; resolved here, never at import time")
+    ap.add_argument("--deltas", default=None,
+                    help="directory of dated PATH_CHANGES.jsonl; defaults to drive/deltas")
     a = ap.parse_args()
     if a.cmd in ("archive", "exceptions"):
         return cmd_archive(a.arg) if a.cmd == "archive" else cmd_exceptions(a.arg)
-    entries = load(overlay=not a.snapshot)
+    entries = load(a.inventory, overlay=not a.snapshot, deltas_dir=a.deltas)
     return {
         "find": lambda: cmd_find(entries, a.arg),
         "id": lambda: cmd_id(entries, a.arg),

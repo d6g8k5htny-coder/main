@@ -654,8 +654,39 @@ question for whoever patches the engine, not as a finding.
   work against the EXECUTE freeze list should know that recovering this engine
   does **not** recover `T4_form`; the fourth-order envelope machinery is a
   separate, still-unverified carrier. What this engine supplies toward it is
-  `env_form` (orders 0–2 in `qord` as used) and the DS/DM arithmetic that
-  `rnu_ds3.py` lifts to third order.
+  `env_form` and the DS/DM arithmetic that `rnu_ds3.py` lifts to third order.
+
+  Two corrections to that sentence, both made 2026-09-22. **Until then it read
+  "`env_form` (orders 0–2 in `qord` as used)".** "As used" reads as "as
+  exercised", and it is not: `env_form` is itself unreachable from this
+  module's top-level execution, and so are all three of its in-file call sites
+  — `env_tau` and `env_small` (lines 478–483) and `bounds_point` (556–557),
+  the last reached only from `kappa_far_point`, which has no call site either.
+  Orders 0–2 are the orders appearing in code no run of this body reaches. And
+  the only code in this repository that *does* call `env_form` calls it at
+  **orders 0 through 4**: the carrier
+  `engine/carriers/blobs/7b7cc46ba5605250__rnu_t4_push.py` does
+  `import d3_rn_unif as R` and evaluates `R.env_form(k, g, d, q)` over
+  `for q in range(5)`.
+
+  **The never-called list in this document is not complete, and §3.8's heading
+  promises that it is.** Computed with `ast` over the body's own module-level
+  entry points, **22 of its 79 top-level definitions are unreachable**:
+  `CertStats`, `Hn_diag`, `_Refine`, `bounds_point`, `certify_cell`,
+  `dE_crude`, `d_entry`, `dm_vec_col`, `env_TY6`, `env_form`, `env_m`,
+  `env_small`, `env_tau`, `form_thrd`, `kap_fn_p1`, `kappa_far_point`,
+  `kp_msad`, `point_pieces`, `qblock`, `run_certification`, `spair_dir`,
+  `wick4_grad`. This document named three of them; `certify_cell`, whose
+  signature §3.8 quotes at line 2158, is among the nineteen it did not.
+  `tests/test_frozen_reachability.py` recomputes the set and fails if it
+  changes, so a future transcription cannot wire one in quietly.
+
+  "Unreachable" here means *from this module's own top-level statements*, which
+  is not the same as never called: the T4 push carrier above calls `env_form`,
+  and `engine/rn_engine/frozen/RN_UNIF_2026-09-16/rnu_ds3.py` rebinds
+  `R.d_entry` in its `install()`. An unreachable definition is not a defect —
+  this body is a snapshot of work in progress and says so — and none of this
+  moves any status. The frozen body is not edited; it is read.
 
 ### 3.8 The certifier, and a flat statement of what is not called
 

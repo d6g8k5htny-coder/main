@@ -21,6 +21,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECKER = os.path.join(ROOT, "tools", "operator_directive_check.py")
 
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import operator_directive_check as ODC  # noqa: E402
+
 # The sentence as the branch actually wrote it, with the sentence that followed.
 REAL_OFFENDER = (
     "Dylan subsequently directed that the repository remain private until "
@@ -191,3 +194,44 @@ def test_the_real_readme_block_no_longer_counts():
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
     assert "directives=3" in out.stdout
+
+
+# ---------------------------------------------------------------------------
+# A checker whose coverage can fall to nothing is not enforcing anything
+#
+# This tool used to skip a governed document that was absent. With the whole
+# set gone it printed `docs=0 directives=0 problems=0` and exited 0; deleting
+# any one of the six dropped the count by one and still passed. CI invokes it
+# bare, so nothing else would have noticed.
+# ---------------------------------------------------------------------------
+
+def test_an_empty_root_is_refused(tmp_path):
+    out = run(str(tmp_path))
+    assert out.returncode != 0, out.stdout
+    assert "docs=0" in out.stdout
+    assert out.stdout.count("governed document is missing") == 6
+
+
+def test_one_missing_governed_document_is_refused(tmp_path):
+    """Copy the real governed set, drop one, and the checker must object."""
+    import shutil
+    for rel in ODC.GOVERNED_DOCS:
+        src = os.path.join(ROOT, rel)
+        dst = os.path.join(str(tmp_path), rel)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copyfile(src, dst)
+    out = run(str(tmp_path))
+    assert out.returncode == 0, out.stdout
+    assert "docs=6" in out.stdout
+
+    os.remove(os.path.join(str(tmp_path), ODC.GOVERNED_DOCS[0]))
+    out = run(str(tmp_path))
+    assert out.returncode != 0, out.stdout
+    assert ODC.GOVERNED_DOCS[0] in out.stdout
+    assert "docs=5" in out.stdout
+
+
+def test_the_governed_set_is_explicit_and_all_of_it_is_in_the_tree():
+    for rel in ODC.GOVERNED_DOCS:
+        assert os.path.isfile(os.path.join(ROOT, rel)), rel
+    assert len(ODC.GOVERNED_DOCS) == 6
