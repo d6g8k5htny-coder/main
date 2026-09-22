@@ -419,6 +419,7 @@ def test_order_naming_its_own_directory_as_authority_is_refused(field, ref):
     "orders/FIXTURE-TASK-001.json",                     # a file name
     "engine/bridge/examples/work_order.example.json",   # another repository path
     "tests/test_bridge.py",
+    "requirements-ci.lock",
     "see CLAUDE.md",
     "drive/deltas/2026-09-18/x",
     "this pull request (the PR that adds this order)",
@@ -620,6 +621,7 @@ def test_disclosure_paths_without_approval_are_refused():
     "engine/bridge/", "engine/bridge/work_order.py", "engine/", "tools/bridge_check.py",
     "tools/claims_check.py", "tools/", "tests/test_bridge.py", "tests/", "engine/lanes/",
     "engine/lanes/D.json", "engine/receipts/", "CLAUDE.md", "AGENTS.md", "quarantine/",
+    "requirements-ci.lock",
     "drive/", "drive/inventory.jsonl", "Engine/Bridge/Orders/", "claude.md", ".",
 ])
 def test_scope_reaching_a_protected_surface_is_refused_even_with_both_references(path):
@@ -1796,7 +1798,9 @@ def test_agents_md_points_and_does_not_legislate():
     for needle in ("CLAUDE.md", "180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8",
                    "1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc", "DG-EXEC-20260918-49291487",
                    "NOT DEPLOYED", "engine/bridge/", "99_DO_NOT_OPEN", "No status moves",
-                   "enforcement"):
+                   "enforcement", "governance/withdrawal/PROTOCOL.md",
+                   "governance/rollout/OP-ROLLOUT-AUDIT-20260921-v1.1.md",
+                   "NOT_MIGRATED"):
         assert needle in text, needle
 
 

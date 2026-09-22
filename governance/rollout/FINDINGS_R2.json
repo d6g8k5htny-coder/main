@@ -1,0 +1,128 @@
+{
+  "audit_id": "ROLLOUT-R2-20260921",
+  "scientific_effect": "NONE",
+  "coverage": "TARGETED_CRITICAL_PATH_NOT_WORKSPACE_COMPLETE",
+  "findings": [
+    {
+      "id": "R2-01",
+      "classification": "CONFIRMED_ROUTING_GAP",
+      "source_scope": "Home; Start Here C8; active Drive Review Pickup",
+      "observation": "Entry prefixes end at row31 and row24, while rollout key is row32 in the100-row compact sheet.",
+      "proposed_response": "Bound reads to current allocated compact view; retain stable-key/tail reads elsewhere."
+    },
+    {
+      "id": "R2-02",
+      "classification": "INTERPRETATION_RISK",
+      "source_scope": "Audit v1.0 DEFAULT ADOPTION/GLOBAL COMPATIBILITY and R17 opening",
+      "observation": "Treating authorized R17 supersession as only an intended end-state could revive explicitly retired restrictions. No actual revival by another model proved.",
+      "proposed_response": "Clarify authority versus uptake; source-specific supersession, no stricter-wins fallback."
+    },
+    {
+      "id": "R2-03",
+      "classification": "INTERPRETATION_RISK",
+      "source_scope": "Audit v1.0 DEFAULT ADOPTION/FLOW REQUIREMENT",
+      "observation": "Six mandatory phases for every minor maintenance repair could create a new workflow bottleneck.",
+      "proposed_response": "Separate bounded semantics-preserving maintenance from material behavior changes."
+    },
+    {
+      "id": "R2-04",
+      "classification": "CONFIRMED_VOCABULARY_COLLISION",
+      "source_scope": "OP-PROT-013 §8; OP-PROT-014 binding classes",
+      "observation": "A=raw/B=embedded in013, A=metadata/B=marker body in014; no downstream misbinding incident proved.",
+      "proposed_response": "Require standard/version-qualified classes; preserve historic records and extraction rules."
+    },
+    {
+      "id": "R2-05",
+      "classification": "CONFIRMED_DOCUMENTATION_OVERCLAIM",
+      "source_scope": "governance/GIT_ADAPTATION.md claim lease/publication conflict rows",
+      "observation": "Ordinary merges/fast-forward checks do not guarantee base-head compare-and-swap or semantic reconciliation across Drive/GitHub.",
+      "proposed_response": "Qualify guide through the current AGENTS correction; retain real clean-merge semantic mismatch test."
+    },
+    {
+      "id": "R2-06",
+      "classification": "CONFIRMED_SOURCE_DEPLOYMENT_GAP",
+      "source_scope": "Working-branch research.yml; default branch main root listing",
+      "observation": "Research schedule source is present on working branch but no workflow directory on observed default branch. This does not prove execution in external schedulers.",
+      "proposed_response": "Do not claim GitHub scheduled deployment or activate it just to match prior prose."
+    },
+    {
+      "id": "R2-07",
+      "classification": "CONFIRMED_CHRONOLOGY_BINDING_DEFECT",
+      "source_scope": "R17 Work Events row122; rollout v1.0 provider metadata",
+      "observation": "Event timestamp17:20Z/expiry19:20Z predates Doc creation21:58:49Z; digest field is a placeholder. It is not proof of a valid contemporaneous claim.",
+      "proposed_response": "Append corrected chronology and source binding; preserve original; new actual-time claim for R2."
+    },
+    {
+      "id": "R2-08",
+      "classification": "RETAINED_CONTROL",
+      "source_scope": "OP-PROT-017-SUP-C/LS-STD-001",
+      "observation": "Existing LMC/BRH scope qualification prevents one extraction family from being imposed universally.",
+      "proposed_response": "Reuse qualification; no rehash or invalidation of previously reproduced LMC objects."
+    },
+    {
+      "id": "R2-09",
+      "classification": "RETAINED_CONTROL",
+      "source_scope": "OP-PROT-016 §9; OP-PROT-015 export appendix",
+      "observation": "A failed XLSX route need not invalidate explicitly qualified native control use.",
+      "proposed_response": "Keep export/native status separate; no formula edits in this round."
+    },
+    {
+      "id": "R2-10",
+      "classification": "RETAINED_CONTROL",
+      "source_scope": "R17 review rules; OP-PROT-018 collision semantics; original withdrawal pilot",
+      "observation": "Review age and operational ABANDONED/HOLD cannot prove/refute science. Current lane checker invocation is already direct/failure-propagating.",
+      "proposed_response": "Retain safeguards; original scientific and nonauthor review gates remain open."
+    }
+  ],
+  "not_audited": [
+    "all historical registry formulas",
+    "all branch variants and workers",
+    "external or local Codex schedulers",
+    "all package-level governance",
+    "all consuming model behavior",
+    "all scientific proofs"
+  ],
+  "input_sources": [
+    {
+      "id": "1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc",
+      "role": "R17 raw source",
+      "sha256": "04987ba47b58be623a3b2a5a8a21236f43d4393cc04009e87f4a62b59a787390",
+      "bytes": 14073
+    },
+    {
+      "id": "1QQOu8r9FBnYZL3XxURSHqsu0mkqcK5P466dXUtpklu8",
+      "role": "audit predecessor",
+      "binding": "native revision recorded in v1.1; text extraction is not original raw bytes",
+      "created_utc": "2026-09-21T21:58:49.926Z"
+    },
+    {
+      "id": "1fnDuNgkWyaUsfphMaaZfAJHECHLJmuKYjgD6qdFFQrw",
+      "role": "OP013 semantic full read"
+    },
+    {
+      "id": "1WFOMp3C5nHvPkZS9oOwQsn2ejZMpLbYrtckphEIkBo0",
+      "role": "OP014 semantic full read"
+    },
+    {
+      "id": "1U155GYd-MlPvnqXQtzTMRdtu7T1x6vsEPSNjC1LQOm0",
+      "role": "OP015 semantic full read"
+    },
+    {
+      "id": "1ITLtjJXHx9bEYMLqcExvrYnG9LHjS3tsX8MCfnbsVDQ",
+      "role": "OP016 semantic full read"
+    },
+    {
+      "id": "1-raBN4fKaUqtqPw7Mz7szGE2ZNA4qVW0skOYn2zVvRs",
+      "role": "OP017SUPC semantic full read"
+    },
+    {
+      "repo": "d6g8k5htny-coder/main",
+      "commit": "4353db4aa511062ba7cbfb0f4b2d43180f9d9946",
+      "files": {
+        "AGENTS.md": "5ac876123b8f4e4bf29d0df0d76a6a619a91de2c",
+        "governance/GIT_ADAPTATION.md": "0280a3deae700da3e54988a03443af046ba70ade",
+        ".github/workflows/research.yml": "181042ecd3b2b4741d4f7fabe62b72fb9439007d"
+      }
+    }
+  ]
+}

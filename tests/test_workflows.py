@@ -9,6 +9,7 @@ repository checker or the test suite is invoked.
 """
 from __future__ import annotations
 
+import json
 import pathlib
 import re
 
@@ -17,12 +18,16 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 WORKFLOWS = sorted((ROOT / ".github" / "workflows").glob("*.yml"))
 
-CHECKER = re.compile(r"python3?\s+(tools/\S+\.py|-m\s+pytest)")
+CHECKER = re.compile(r"python3?\s+(?:-O\s+)?(tools/\S+\.py|-m\s+(?:pytest|unittest))")
 MASK = re.compile(r"\|\|\s*(?:echo|true|:)(?:\s|$)")
 
 
 def run_blocks(text: str) -> list[str]:
-    """Every ``run:`` value, single-line or block scalar, as one string each."""
+    """Read this repository's plain, JSON-quoted, single-quoted or block runs.
+
+    JSON string quoting is a subset of YAML double-quoted scalar syntax. This
+    reader deliberately does not pretend to validate the entire YAML grammar.
+    """
     blocks: list[str] = []
     lines = text.splitlines()
     i = 0
@@ -40,9 +45,63 @@ def run_blocks(text: str) -> list[str]:
                 i += 1
             blocks.append("\n".join(body))
         else:
-            blocks.append(rest)
+            if rest.startswith('"'):
+                blocks.append(json.loads(rest))
+            elif rest.startswith("'"):
+                if not re.fullmatch(r"'(?:[^']|'')*'", rest):
+                    raise ValueError("unsupported single-quoted YAML run scalar")
+                blocks.append(rest[1:-1].replace("''", "'"))
+            else:
+                blocks.append(rest)
             i += 1
     return blocks
+
+
+def unsafe_plain_run_scalars(text: str) -> list[str]:
+    """Detect colon separators in plain run values, not colons in block bodies.
+
+    Shell quotes inside a plain YAML scalar do not protect YAML's ': ' token.
+    Quote the whole scalar or use a block. This is a bounded syntax regression
+    check, not a replacement for GitHub's workflow parser.
+    """
+    bad = []
+    for line in text.splitlines():
+        match = re.match(r"^\s*(?:-\s+)?run:\s*(.*)$", line)
+        if not match:
+            continue
+        value = match[1]
+        if value.startswith(('"', "'", "|", ">")):
+            continue
+        if re.search(r":(?:\s|$)", value):
+            bad.append(value)
+    return bad
+
+
+@pytest.mark.parametrize("path", WORKFLOWS, ids=lambda p: p.name)
+def test_workflow_plain_run_scalars_do_not_contain_yaml_mapping_separator(path):
+    assert unsafe_plain_run_scalars(path.read_text()) == []
+
+
+@pytest.mark.parametrize("command", [
+    "python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock",
+    'echo "result: passed"',
+    "echo result:\tpassed",
+])
+def test_negative_control_plain_run_colon_separator_is_rejected(command):
+    assert unsafe_plain_run_scalars("  - run: " + command + "\n") == [command]
+
+
+@pytest.mark.parametrize("quote", ['"', "'"])
+def test_whole_scalar_quoting_preserves_pip_command(quote):
+    command = "python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock"
+    text = "  - run: " + quote + command + quote + "\n"
+    assert unsafe_plain_run_scalars(text) == []
+    assert run_blocks(text) == [command]
+
+
+def test_colon_in_block_body_or_without_whitespace_is_not_mapping_separator():
+    text = 'steps:\n  - run: |\n      echo "result: passed"\n  - run: curl https://example.invalid\n'
+    assert unsafe_plain_run_scalars(text) == []
 
 
 def masked_checker_lines(text: str) -> list[str]:
@@ -55,7 +114,8 @@ def masked_checker_lines(text: str) -> list[str]:
 
 
 def test_workflow_files_exist():
-    assert [p.name for p in WORKFLOWS] == ["ci.yml", "research.yml"]
+    # Keep an exact reviewed inventory: do not accept arbitrary new workflows.
+    assert [p.name for p in WORKFLOWS] == ["ci.yml", "research.yml", "withdrawal-governance.yml"]
 
 
 @pytest.mark.parametrize("path", WORKFLOWS, ids=lambda p: p.name)
@@ -88,6 +148,11 @@ def test_negative_control_the_pre_2026_09_19_line_is_refused():
 
 def test_unmasked_checker_passes():
     assert masked_checker_lines("  - run: python tools/lanes_check.py\n") == []
+
+
+def test_negative_control_optimized_pilot_tests_cannot_mask_failure():
+    line = "python3 -O -m unittest discover -s tests -p test_withdrawal.py || true"
+    assert masked_checker_lines("  - run: " + line + "\n") == [line]
 
 
 # ---------------------------------------------------------------------------
