@@ -8,10 +8,39 @@ Two scripts backing a nonauthor technical review of
 artifacts, not part of the engine, not invoked by any workflow, and nothing in
 the repository depends on them.
 
-| script | question it answers | method |
+| file | question it answers | method |
 |---|---|---|
 | `reconstruct_bound.py` | does an implementation written from `PROOF.md` alone land inside the author-side rational enclosure? | mpmath, 120 dps, imports nothing from `engine/solver_pilots/` |
 | `sample_true_value.py` | is the claimed inequality consistent with the quantity it is about? | float Monte Carlo of the conditional law at `r=1/20` |
+| `PENDING_REV-H3-SOLVER-20260921.json` | the R17 §4 review record itself — **held, not filed** | see below |
+
+## The held review record
+
+`PENDING_REV-H3-SOLVER-20260921.json` is a complete review record that cannot yet
+be filed. `tools/reviews_check.py` requires every `route_key` to appear verbatim
+in `registers/json/review_queue.json`, and `RV-H3-SOLVER-20260921-01` exists only
+in the live Drive register (sheet `1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no`,
+modified 2026-09-22T00:18:28Z), not in the 2026-09-18 export this repository
+carries. Filing it under `reviews/records/` today would fail CI, so it is parked
+here instead.
+
+That the route key is the *only* thing blocking it is checkable:
+
+```
+$ python3 tools/reviews_check.py --records <dir-holding-a-copy> \
+    --schema reviews/review_record.schema.json \
+    --queue registers/json/review_queue.json
+PROBLEM  REV-H3-SOLVER-20260921.json: route_key 'RV-H3-SOLVER-20260921-01' is not
+         a Review key in registers/json/review_queue.json
+reviews_check: 1 record(s), 1 problem(s).
+```
+
+One problem, and it is the register's staleness rather than the record's form:
+schema, the anti-boilerplate floors on `exposure_disclosure` and
+`does_not_establish`, the promotion-language and confidence-voting scans, the
+independence rules and the gate rule all pass. Once the register export is
+refreshed from its source, this file moves to
+`reviews/records/REV-H3-SOLVER-20260921.json` unchanged.
 
 Both guard their imports: `mpmath` and `numpy` are not guaranteed present, and
 each script exits 0 with a message when its dependency is missing.
