@@ -202,6 +202,21 @@ def test_negative_chart_factor_phrase_dropped_is_refused_even_with_a_refreshed_d
     assert "discharges_OBL_H5_JETMOD must be false" not in result.stdout
 
 
+def test_negative_sibling_sweep_nondischarge_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
+    packet_dir = copy_packet(tmp_path)
+    path = os.path.join(packet_dir, "STATUS_JETMOD.md")
+    text = open(path, encoding="utf-8").read().replace(
+        "Sibling sweep CLOSED EMPTY does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.",
+        "Sibling sweep CLOSED EMPTY is noted beside the walls.",
+    )
+    open(path, "w", encoding="utf-8").write(text)
+    refresh_pin(packet_dir, "STATUS_JETMOD.md")
+    result = run(packet_dir)
+    assert result.returncode != 0
+    assert "missing required phrase" in result.stdout
+    assert "discharges_OBL_H5_JETMOD must be false" not in result.stdout
+
+
 def test_negative_extra_file_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     open(os.path.join(packet_dir, "CLOSED.md"), "w", encoding="utf-8").write("CLOSED\n")
