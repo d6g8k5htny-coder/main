@@ -52,6 +52,44 @@ import sys
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCAN_RELS = (os.path.join("drive", "mirrors"), os.path.join("drive", "deltas"))
 
+# Governed prose that is not a Drive-mirror README.
+#
+# ``mirror_quotes_check.readmes()`` walks a tree and takes files named
+# README.md, which is right for the mirrors and wrong for everything else:
+# governance/GIT_ADAPTATION.md and docs/RESEARCH_MAP.md are not READMEs, so
+# neither the scan nor the removal scan could ever see them.  Between them
+# these five files carry 22 "Until <date>" notes and roughly 150 quoted
+# fragments, and none of it was checked -- the disclosure discipline was
+# enforced under drive/ and nowhere else.
+#
+# That is the gap a third-party branch walked through on 2026-09-21: it
+# replaced a sourced sentence about this repository's visibility with an
+# uncited operator directive, deleted the sourced reading, and recorded no
+# disclosure note.  Nothing failed, because nothing was looking.
+#
+# The list is explicit rather than "every .md outside drive/" so that adding a
+# file to it is a deliberate act a reviewer can see.
+GOVERNED_DOCS = (
+    os.path.join("governance", "GIT_ADAPTATION.md"),
+    os.path.join("docs", "RESEARCH_MAP.md"),
+    os.path.join("docs", "OPEN_PROBLEMS.md"),
+    os.path.join("docs", "FINDINGS_2026-09-18.md"),
+    "README.md",
+)
+
+
+def documents(quotes, root, scan_rels):
+    """Every file this checker governs: the mirror READMEs, plus GOVERNED_DOCS.
+
+    Resolved when this runs, never at import time.
+    """
+    found = list(quotes.readmes(root, scan_rels))
+    for rel in GOVERNED_DOCS:
+        path = os.path.join(root, rel)
+        if os.path.isfile(path) and path not in found:
+            found.append(path)
+    return sorted(found)
+
 
 def _quotes_module():
     """Import the quote checker by path, so the two tools share one definition
@@ -100,7 +138,7 @@ def scan(root, scan_rels, rev, min_fragment=None):
         min_fragment = quotes.MIN_FRAGMENT
     total = checked = new_file = 0
     problems = []
-    for path in quotes.readmes(root, scan_rels):
+    for path in documents(quotes, root, scan_rels):
         text = quotes.readable(path)
         if text is None:
             continue
@@ -150,7 +188,7 @@ def scan_removals(root, scan_rels, rev, min_fragment=None):
         min_fragment = quotes.MIN_FRAGMENT
     files = reworded = 0
     problems, noted = [], []
-    for path in quotes.readmes(root, scan_rels):
+    for path in documents(quotes, root, scan_rels):
         new_text = quotes.readable(path)
         if new_text is None:
             continue

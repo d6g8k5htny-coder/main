@@ -1,0 +1,137 @@
+"""Negative controls for tools/operator_directive_check.py.
+
+The checker exists because a third-party branch asserted, in
+``governance/GIT_ADAPTATION.md``, that "Dylan subsequently directed that the
+repository remain private until publication is explicitly authorized" -- with
+no source anywhere in the tree, deleting a sourced sentence that said the
+opposite, and alongside a present-tense status claim that was false. Every
+checker in the repository passed.
+
+Each control runs the checker through its CLI against a synthetic document, so
+a path or a pattern bound at import time cannot silently re-check the real
+tree. The last two controls run it against the real offending text and against
+the real repository.
+"""
+from __future__ import annotations
+
+import os
+import subprocess
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CHECKER = os.path.join(ROOT, "tools", "operator_directive_check.py")
+
+# The sentence as the branch actually wrote it, with the sentence that followed.
+REAL_OFFENDER = (
+    "Dylan subsequently directed that the repository remain private until "
+    "publication is explicitly authorized. The authenticated GitHub API "
+    "confirmed private visibility on 2026-09-20 UTC. Private draft work may "
+    "continue; this does not authorize public publication or mathematical "
+    "promotion.\n"
+)
+
+
+def run(root, *docs):
+    args = [sys.executable, CHECKER, "--root", root]
+    for d in docs:
+        args += ["--doc", d]
+    return subprocess.run(args, capture_output=True, text=True)
+
+
+def write(tmp_path, name, body):
+    path = tmp_path / name
+    path.write_text(body, encoding="utf-8")
+    return str(tmp_path), name
+
+
+def test_the_real_offending_sentence_is_refused(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md", REAL_OFFENDER)
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+    assert "asserts an operator directive with no source" in out.stdout
+    # It must name the directive, not some neighbouring run-on chunk.
+    assert "Dylan subsequently directed" in out.stdout
+
+
+def test_the_noun_form_is_refused(tmp_path):
+    """"by Dylan's subsequent explicit instruction" asserts just as plainly."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "This repository is now private by Dylan's subsequent "
+                       "explicit instruction; public publication requires his "
+                       "explicit authorization.\n")
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+
+
+def test_a_bare_date_is_not_a_citation(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The operator approved the change on 2026-09-20 UTC, "
+                       "confirmed at 17:46 the same day.\n")
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+
+
+def test_a_drive_id_in_the_same_sentence_is_accepted(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The operator approved it (Drive "
+                       "`10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`).\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+
+
+def test_a_citation_in_the_following_sentence_is_accepted(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The operator approved the routing. See OP-PROT-012 for "
+                       "the decision as recorded.\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+
+
+def test_a_cross_reference_to_a_governed_file_is_accepted(tmp_path):
+    """docs/RESEARCH_MAP.md cites by pointing at the file holding the id."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The Board's decision of 2026-07-24 is the one operator "
+                       "sentence about a Git repository. (The visibility "
+                       "decision is the owner's -- see "
+                       "`governance/GIT_ADAPTATION.md`.)\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+
+
+def test_the_explicit_disclaimer_opts_a_paragraph_out(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "A reader might think the operator approved this; no "
+                       "operator directive is asserted here.\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+
+
+def test_prose_with_no_directive_is_untouched(tmp_path):
+    """The control cannot pass by refusing everything."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The lane holds 449 native Google Docs. None of them is "
+                       "certified, and the premises remain OPEN.\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+    assert "directives=0" in out.stdout
+
+
+def test_authority_does_not_rub_off_from_a_neighbouring_citation(tmp_path):
+    """The defect the first version of this checker missed.
+
+    An uncited directive appended to a long, heavily cited paragraph about a
+    different decision. Paragraph-granularity passed it; sentences do not.
+    """
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The Board's OPERATOR PACKAGE DECISION of 2026-07-24 "
+                       "(Drive `10o4YRYOr8a2fB6rtnFnzMn7HkQMfv9-FZ5Mh0L-KF_o`) "
+                       "approved private repository creation. " + REAL_OFFENDER)
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+    assert "Dylan subsequently directed" in out.stdout
+
+
+def test_the_repository_passes():
+    out = run(ROOT)
+    assert out.returncode == 0, out.stdout
+    assert "problems=0" in out.stdout
