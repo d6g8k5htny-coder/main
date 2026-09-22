@@ -520,3 +520,23 @@ def test_the_module_docstring_records_the_non_monotonicity():
     src = open(MODULE, encoding="utf-8").read()
     assert "NOT MONOTONE IN ``d``" in src
     assert "12.0115565" in src
+
+
+def test_the_image_constants_are_named_and_their_provenance_is_stated():
+    """The 8 is the first image shell; where the 6 comes from is not recorded.
+
+    Both are transcribed from the frozen body. Naming them stops a reader
+    reading either as derived, and the module says in as many words that no
+    source in this repository explains the 6.
+    """
+    from research.rn.env_form_reference import (  # noqa: PLC0415
+        IMAGE_BASE_ORDER, IMAGE_SHELL_COUNT,
+    )
+    assert IMAGE_SHELL_COUNT == 8
+    assert IMAGE_BASE_ORDER == 6
+    src = open(MODULE, encoding="utf-8").read()
+    assert "not stated in the frozen body" in src
+    p = env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), F(5), 2)
+    assert p.image_coefficient == (
+        sum((abs(c) for _, c in REFERENCE_FORMS), F(0))
+        * IMAGE_SHELL_COUNT * he_abs(IMAGE_BASE_ORDER + 2, p.rimg))

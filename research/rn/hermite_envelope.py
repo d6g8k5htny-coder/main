@@ -64,7 +64,7 @@ from research.interval import Interval, exp
 __all__ = [
     "he_coefficients", "he_abs_coefficients", "he", "he_abs",
     "he_interval", "he_abs_interval", "gaussian_kernel", "kernel_exponent",
-    "MAX_TABULATED_ORDER",
+    "MAX_TABULATED_ORDER", "FROZEN_MAX_ORDER",
 ]
 
 #: The frozen body tabulates ``_HE_ABS`` explicitly for ``n <= 10`` and
@@ -72,6 +72,21 @@ __all__ = [
 #: agree is a negative control, not an assumption -- see
 #: ``tests/test_hermite_envelope.py::test_frozen_table_matches_the_recurrence``.
 MAX_TABULATED_ORDER = 10
+
+#: The frozen table stops at 19, and the frozen ``he_abs`` (line 141) is a bare
+#: dict lookup, so it raises ``KeyError`` at 20 rather than returning a wrong
+#: number -- fail-closed, and nowhere recorded in this repository until now.
+#: It bites through ``env_form``'s remainder term, whose ``mx2`` loop reaches
+#: index ``11 + max(gamma) + qord``: with the zero gamma that is ``qord = 9``,
+#: and with the lane's larger gammas it arrives sooner. The orders this
+#: repository builds, 0 to 4, are inside the table either way.
+#:
+#: This module has NO such ceiling: ``he_abs`` computes the coefficients from
+#: the recurrence, so any order is available. That is a difference in the
+#: arithmetic and in nothing else. It re-certifies nothing the frozen body
+#: computed, and an order the frozen body could not reach is not thereby a
+#: result.
+FROZEN_MAX_ORDER = 19
 
 
 def he_coefficients(n: int) -> tuple[int, ...]:

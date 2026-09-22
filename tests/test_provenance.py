@@ -209,3 +209,63 @@ def test_subject_matter_mentions_of_byte_exactness_are_not_flagged(tmp_path):
         a for a in d["artifacts"] if os.path.isfile(os.path.join(fake_root, a["path"]))
     ]
     assert run(write_tmp(d, str(tmp_path)), root=fake_root) == 0
+
+
+# --------------------------------------------------------------------------
+# README.md's provenance tally is computed from the register, not typed
+#
+# The sentence said "the seven artifacts under `governance/` and `docs/`". The
+# seven span three directories: four under `governance/`, two under `docs/`,
+# and `registers/source/GP-REG-032_v1.2_export_2026-09-17.md`. Naming two of
+# the three left one of the four undeclared-digest artifacts out of the account
+# it belongs to, and nothing compared the sentence against the register.
+# --------------------------------------------------------------------------
+
+def _provenance_artifacts():
+    with open(os.path.join(ROOT, "governance", "PROVENANCE.json"), encoding="utf-8") as f:
+        return json.load(f)["artifacts"]
+
+
+def _readme_paragraph():
+    with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+        text = f.read()
+    marker = "that mirror a Drive"
+    assert marker in text, "README.md has no provenance tally paragraph"
+    start = text.rindex("**Of the", 0, text.index(marker))
+    return text[start:text.index("\n\n", start)]
+
+
+def test_the_readme_names_every_directory_the_seven_artifacts_live_in():
+    arts = _provenance_artifacts()
+    roots = sorted({a["path"].split("/")[0] + "/" for a in arts})
+    para = _readme_paragraph()
+    missing = [r for r in roots if f"`{r}" not in para]
+    assert not missing, (
+        f"PROVENANCE.json puts artifacts under {roots} and README.md's tally "
+        f"paragraph does not name {missing}")
+
+
+def test_the_readme_tally_matches_the_register():
+    arts = _provenance_artifacts()
+    exact = sum(1 for a in arts if a.get("outcome") == "REPLACED_BYTE_EXACT")
+    para = _readme_paragraph()
+    words = {3: "three", 4: "four", 5: "five", 6: "six", 7: "seven"}
+    assert words[len(arts)] in para, f"{len(arts)} artifacts; the paragraph must say so"
+    assert words[exact] in para, f"{exact} byte-identical; the paragraph must say so"
+    assert words[len(arts) - exact] in para
+
+
+def test_negative_control_a_dropped_directory_is_refused():
+    arts = _provenance_artifacts()
+    roots = sorted({a["path"].split("/")[0] + "/" for a in arts})
+    assert len(roots) >= 3, roots
+    # The paragraph may name a deeper path (`registers/source/`) than the root
+    # the register groups by (`registers/`), so drop the backtick-prefixed
+    # root rather than an exact `root/` token.
+    para = _readme_paragraph().replace(f"`{roots[-1]}", "")
+    assert [r for r in roots if f"`{r}" not in para]
+
+
+def test_the_artifact_paths_all_exist():
+    for a in _provenance_artifacts():
+        assert os.path.isfile(os.path.join(ROOT, a["path"])), a["path"]

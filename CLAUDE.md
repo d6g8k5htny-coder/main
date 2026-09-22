@@ -97,6 +97,7 @@ python3 tools/verify_manifests.py           # every SHA-256 and byte count
 python3 tools/mirror_quotes_check.py        # mirror README quotations are verbatim in the bytes
 python3 tools/mirrors_index_check.py        # drive/MIRRORS.md still matches the manifests
 python3 tools/operator_directive_check.py   # an asserted operator directive cites its source
+python3 tools/noncertifying_check.py        # every float path is labelled NON-CERTIFYING, or declared
 python3 tools/disclosure_check.py           # "until <date> this read" notes quote HEAD correctly
                                             # (pre-commit only: after the commit it self-satisfies)
 python3 -m pytest -q                        # unit tests and negative controls

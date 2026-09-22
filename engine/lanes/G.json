@@ -37,7 +37,7 @@
     }
   ],
   "repo_state": "none",
-  "repo_state_note": "No Theorem B computation exists in this repository. repo_state describes code only; it is not a mathematical status.",
+  "repo_state_note": "No Theorem B computation exists in this repository, and `repo_state` is `none` for that reason. What does exist is the firewall that keeps the retraction honest: `tools/claims_check.py` refuses an unconditional grade on any claim carrying a retraction (`FW-RETRACTED-NOT-UNCONDITIONAL`), and `tests/test_claims.py` binds `Q0-C104-THEOREM-B`'s `register_status` to the register row verbatim, so the historical `LIVE_ROOT_THEOREM` label this repository carried until 2026-09-18 cannot come back by an edit that nothing reads. Until 2026-09-22 this note said only that no computation exists, naming neither. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
   "artifacts": [
     "tools/claims_check.py",
     "tests/test_claims.py"

@@ -253,18 +253,18 @@ What the package does about it, concretely:
    which is the same route `LANE_RN_UNIF.md`'s T4 item 1 already names as
    acceptable: "interval DS on each cell".
 
-**How this relates to RN5's own ten cells.** `docs/RESEARCH_MAP.md` §3 records
-that the RN5 repair's ten spatial certificates are **boxes**, certified by
-centered Taylor jets of order `N+2` with `N = 6`, separate marginal whitening,
-an L² remainder bound and interval Cholesky pivots — and that "ten boxes **do
-not** cover the annulus". Two consequences worth stating plainly. First, their
-geometry is Cartesian, so `rn5_annulus_bracket` is the closer analogue of it
-and `rn5_annulus_polar` is the boundary-exact alternative; **neither is their
-cover**, and no cell certified here is one of theirs. Second, their per-cell
-bound is already a *jet* bound, not a constant one — which is the higher-order
-route point 3 above argues for, and the reason the constant-per-cell cost model
-above is an upper bound on what a real cover would have to pay per unit of
-tolerance, not a prediction of it.
+   **How this relates to RN5's own ten cells.** `docs/RESEARCH_MAP.md` §3 records
+   that the RN5 repair's ten spatial certificates are **boxes**, certified by
+   centered Taylor jets of order `N+2` with `N = 6`, separate marginal whitening,
+   an L² remainder bound and interval Cholesky pivots — and that "ten boxes **do
+   not** cover the annulus". Two consequences worth stating plainly. First, their
+   geometry is Cartesian, so `rn5_annulus_bracket` is the closer analogue of it
+   and `rn5_annulus_polar` is the boundary-exact alternative; **neither is their
+   cover**, and no cell certified here is one of theirs. Second, their per-cell
+   bound is already a *jet* bound, not a constant one — which is the higher-order
+   route point 3 above argues for, and the reason the constant-per-cell cost model
+   above is an upper bound on what a real cover would have to pay per unit of
+   tolerance, not a prediction of it.
 4. **The receipt carries `refine_depth`, `min_cell_width` and
    `max_cell_width`** next to any total. Read the first two for the resolution
    actually achieved: `max_cell_width` is the coarsest leaf and can saturate at

@@ -1286,3 +1286,61 @@ def test_38_provisional_enclosure_sums_contributions_not_just_residuals():
 
     counts = led.provisional_leaf_counts()
     assert counts["omitted"] == 0
+
+
+def test_39_the_readme_showcase_run_produces_what_the_readme_publishes():
+    """`research/cover/README.md` publishes a table of this exact run's output.
+
+    Nothing pinned it. A drift in the driver would have left the README quietly
+    wrong while the whole suite stayed green -- which is the failure mode this
+    repository exists to prevent, and the README is where a reader goes to
+    learn what the package does. The run takes under two seconds.
+
+    Every figure below is transcribed from the README's table, not from a run.
+    """
+    region = rn5_annulus_polar(split="radius")
+    led = run(region, RadialGaussianReference(),
+              DriverConfig(tol=F(1, 10), max_depth=20, prec=40))
+
+    from research.cover.ledger import DISPOSITIONS  # noqa: PLC0415
+
+    counts = {d: len(led.by_disposition(d)) for d in DISPOSITIONS}
+    assert counts == {"ACCEPTED": 1020, "REFINED": 1016,
+                      "REJECTED": 0, "PENDING": 0}, counts
+    assert sum(counts.values()) == 2036
+
+    rec = led.receipt()
+    assert rec["refine_depth"] == 10
+    assert rec["max_cell_width"] == "10"          # saturated at the diameter cap
+    assert rec["min_cell_width"] == "17/80"       # the finest leaf
+    assert F(rec["area_rejected_bound"]) == 0     # the polar boundary is exact
+
+    total = led.total()
+    assert total.certified and total.covers_region
+    # The README prints the enclosure to seven places. That is a ROUNDED
+    # rendering of exact rational endpoints, so the published values are not
+    # bounds on the enclosure in either direction -- they agree with it to the
+    # precision shown, which is the claim being pinned. Asserting the published
+    # numbers bracket the endpoints is the wrong relation and fails.
+    lo, hi = total.enclosure.lo, total.enclosure.hi
+    assert abs(lo - F("6.2286534")) < F(1, 10**7), str(lo)
+    assert abs(hi - F("6.2784424")) < F(1, 10**7), str(hi)
+    assert abs((hi - lo) - F("0.0498")) < F(1, 10**4)    # width 0.0498
+
+    closed = radial_gaussian_closed_form(region, 40)
+    assert lo <= closed.lo and closed.hi <= hi, "the closed form must be inside"
+
+
+def test_40_the_readme_table_is_transcribed_from_the_same_numbers():
+    """The figures in the prose must match the ones control 39 asserts.
+
+    Control 39 pins the run; this pins the README against control 39, so the
+    two cannot drift apart silently in either direction.
+    """
+    readme = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "research", "cover", "README.md")
+    with open(readme, encoding="utf-8") as f:
+        text = f.read()
+    for figure in ("2,036 total", "1,020 ACCEPTED", "1,016 REFINED",
+                   "0 REJECTED", "0 PENDING", "`17/80", "6.2286534", "6.2784424"):
+        assert figure in text, figure

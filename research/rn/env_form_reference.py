@@ -184,6 +184,7 @@ from research.rn.hermite_envelope import gaussian_kernel, he_abs
 __all__ = [
     "EnvFormParts", "env_form_parts", "env_form_enclosure",
     "REFERENCE_R", "TORUS_PERIOD", "REMAINDER_ORDER", "MX2_INDEX_SUM",
+    "IMAGE_BASE_ORDER", "IMAGE_SHELL_COUNT",
     "REFERENCE_MOMENTS", "REFERENCE_FORMS",
 ]
 
@@ -198,6 +199,14 @@ TORUS_PERIOD = 24
 
 #: The Taylor remainder is taken at order 9; moments are carried to order 8.
 REMAINDER_ORDER = 9
+
+#: The fixed one-axis order in the image allowance, `he_abs(6 + qord, rimg)`.
+#: Transcribed, not derived: no source in this repository says where the 6
+#: comes from. See the comment at its use.
+IMAGE_BASE_ORDER = 6
+
+#: The first image shell: the 3x3 block of torus translates without its centre.
+IMAGE_SHELL_COUNT = 8
 
 #: The ``mx2`` loop of the frozen body runs ``for d1 in range(12): d2 = 11 - d1``
 #: (lines 409-410), so its index pairs sum to 11 -- while the comment on line
@@ -342,7 +351,15 @@ def env_form_parts(moments: Mapping[tuple[int, int], Fraction],
                       * he_abs(d1 + gamma[0] + e1, rho)
                       * he_abs(d2 + gamma[1] + e2, rho))
 
-    img = coeff_l1 * 8 * he_abs(6 + qord, rimg)
+    # Two constants transcribed from the frozen body, neither derived here.
+    # The factor 8 is the FIRST image shell only -- the 3x3 block of torus
+    # translates without its centre, which `_IMG` (line 150) builds and
+    # `docs/ENGINE_RECOVERY.md` §3.2 names as "the **first** shell only". Where
+    # the ORDER 6 comes from is not stated in the frozen body, in
+    # ENGINE_RECOVERY, or anywhere else in this repository; it is reproduced
+    # because the code is what produced the frozen numbers, and the gap in the
+    # record is noted rather than filled with a guess.
+    img = coeff_l1 * IMAGE_SHELL_COUNT * he_abs(IMAGE_BASE_ORDER + qord, rimg)
 
     return EnvFormParts(tot_coefficient=tot,
                         remainder_coefficient=inner_total * mx2,

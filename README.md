@@ -98,8 +98,11 @@ tests/          CI-enforced invariants and negative controls
 docs/           research map, open problems, contribution plan, findings, ported reports
 ```
 
-**Of the seven artifacts under `governance/` and `docs/` that mirror a Drive
-object, three are byte-identical to it and four are not.** The three are
+**Of the seven artifacts under `governance/`, `docs/` and `registers/source/`
+that mirror a Drive object, three are byte-identical to it and four are not.**
+Until 2026-09-22 this sentence named only the first two directories, leaving
+`registers/source/GP-REG-032_v1.2_export_2026-09-17.md` — one of the four with
+no declared digest — out of the account it is part of. The three are
 proved by a full SHA-256 match to a digest the corpus declares; the four have
 no payload digest anywhere in the corpus, so their exactness is unverifiable —
 and two of them have known content divergences. Until 2026-09-18 the count was
@@ -138,6 +141,7 @@ python3 tools/operations_check.py           # reusable-operations registry and t
 python3 tools/mirror_quotes_check.py        # mirror README quotations are verbatim in the mirrored bytes
 python3 tools/mirrors_index_check.py        # drive/MIRRORS.md still matches the manifests
 python3 tools/operator_directive_check.py   # an asserted operator directive cites its source
+python3 tools/noncertifying_check.py        # every float path is labelled, or declared with a reason
 python3 tools/drive_index.py stats          # the source-map overlay still resolves
 python3 -m pytest -q                        # negative controls throughout
 ```

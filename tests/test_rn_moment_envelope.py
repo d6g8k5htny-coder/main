@@ -73,6 +73,9 @@ def test_published_rational_margins():
 def test_published_decimal_values():
     c = counterexample()
     assert c["typed_expectation_lower"] == F(207675035568, 10**12)
+    # NON-CERTIFYING. The verdict of this file rests on the exact rational
+    # comparisons above; these two lines only check that the DECIMALS RN5
+    # published round-trip, and a float agreement is not evidence of a bound.
     assert abs(float(c["defective_pow4"]) ** 0.25 - 0.0625040624) < 1e-9
     assert abs(float(c["correct_pow4"]) ** 0.25 - 0.2500046250) < 1e-9
 

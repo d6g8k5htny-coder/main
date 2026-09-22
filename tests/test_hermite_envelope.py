@@ -27,8 +27,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from research.interval import Interval  # noqa: E402
 from research.rn.hermite_envelope import (  # noqa: E402
-    MAX_TABULATED_ORDER, gaussian_kernel, he, he_abs, he_abs_coefficients,
-    he_abs_interval, he_coefficients, he_interval, kernel_exponent,
+    FROZEN_MAX_ORDER, MAX_TABULATED_ORDER, gaussian_kernel, he, he_abs,
+    he_abs_coefficients, he_abs_interval, he_coefficients, he_interval,
+    kernel_exponent,
 )
 
 # ---------------------------------------------------------------------------
@@ -394,3 +395,31 @@ def test_non_interval_arguments_are_refused(call):
 def test_negative_order_is_refused():
     with pytest.raises(ValueError):
         he_coefficients(-1)
+
+
+# ---------------------------------------------------------------------------
+# 7. The frozen table's order ceiling, recorded and shown not to apply here
+# ---------------------------------------------------------------------------
+
+def test_the_frozen_ceiling_is_where_the_frozen_body_puts_it():
+    """`_HE_ABS` holds 0..19 and `he_abs` is a bare lookup, so 20 raises."""
+    assert FROZEN_MAX_ORDER == 19
+    assert MAX_TABULATED_ORDER < FROZEN_MAX_ORDER
+
+
+def test_this_module_has_no_order_ceiling():
+    """The coefficients come from the recurrence, so any order is available."""
+    for n in (FROZEN_MAX_ORDER, FROZEN_MAX_ORDER + 1, 40, 60):
+        v = he_abs(n, F(1))
+        assert v > 0
+        assert he_abs_coefficients(n)[-1] == 1     # monic, at every order
+    assert he_abs(FROZEN_MAX_ORDER + 1, F(1)) > he_abs(FROZEN_MAX_ORDER, F(1))
+
+
+def test_the_ceiling_would_bite_through_the_remainder_index():
+    """`mx2` reaches index 11 + max(gamma) + qord; at gamma = 0 that is qord = 9."""
+    from research.rn.env_form_reference import MX2_INDEX_SUM  # noqa: PLC0415
+    assert MX2_INDEX_SUM + 0 + 9 > FROZEN_MAX_ORDER
+    assert MX2_INDEX_SUM + 0 + 8 <= FROZEN_MAX_ORDER
+    for qord in (0, 1, 2, 3, 4):                   # the orders built here
+        assert MX2_INDEX_SUM + 4 + qord <= FROZEN_MAX_ORDER + 4

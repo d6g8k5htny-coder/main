@@ -151,6 +151,10 @@ def counterexample() -> dict:
 
 if __name__ == "__main__":
     c = counterexample()
+    # NON-CERTIFYING display block. Every comparison this module makes is an
+    # exact rational comparison of fourth powers; the decimals below are a
+    # float rendering for reading and no bound may be taken from one.
+    print("(decimals below are NON-CERTIFYING displays of exact rationals)")
     print(f"P(event)                  >= {c['prob_event']} = {float(c['prob_event'])}")
     print(f"typed expectation         >= {float(c['typed_expectation_lower']):.12f}")
     print(f"defective envelope_v       = {float(c['defective_pow4']) ** 0.25:.12f}")
