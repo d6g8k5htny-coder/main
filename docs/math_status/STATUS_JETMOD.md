@@ -105,4 +105,14 @@ Still refused, straddling, or absent:
 - joint-(r,y) `cancelled_detgg_s_t2` identity **ABSENT** from the corpus
 - documented detgg=ad-c^2 still straddles 0 (width ≈ 1.26)
 
-**OBL-H5-JETMOD remains OPEN.** No promotions. RUNG2/3 do NOT discharge JETMOD.
+### Chart factor (sharpened wall, still OPEN)
+
+Recorded from existing cancelled series. This note does not re-derive the figure. The chart identity det(A)=det(G6)det(T)^2 is recorded as checked at point-r with rel_err ~4.5e-19. Cancelled-A negative Laurent poles cancel. That identity does not discharge OBL-H5-JETMOD.
+
+A chart det(A_reg) that is positive on a thin r-subcell is not a StationBox detgg enclosure.
+
+Missing object, absent from the corpus: a bridge φ such that det(Σ_gg)=φ(det A, det T, det G6, A_ser). Inventing φ/r^α is refused.
+
+Receipt cited by name only, from local triage, not vendored in this tree: `jetmod_lat_k1_detgg_factor_probe_receipt.json`. This workspace tree has no file under that name. The name is not a certificate.
+
+**OBL-H5-JETMOD remains OPEN.** No promotions. RUNG2/3 do NOT discharge JETMOD. `discharges_OBL_H5_JETMOD` stays **false**.

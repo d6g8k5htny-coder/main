@@ -65,6 +65,7 @@ a premise promotion, a prize closure, or an independence credit.
 - The five validity premises of Theorem D1 v2.2(2) stay OPEN. This packet
   does not speak for them.
 - Green CI is a run. A green checker is not obligation discharge.
+- The chart identity det(A)=det(G6)det(T)^2 and a positive chart det(A_reg) on a thin r-subcell are not a StationBox detgg enclosure. They do not discharge OBL-H5-JETMOD. Inventing φ/r^α is refused. `jetmod_lat_k1_detgg_factor_probe_receipt.json` is cited by name only and is not vendored here.
 
 The snapshot's `paths` point at a workspace (`drive_peer_review_triage`) that
 is not this tree. Those paths are provenance of a display. They are not

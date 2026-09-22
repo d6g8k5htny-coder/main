@@ -154,6 +154,11 @@ NOTE_PHRASES = {
         "explicit_interval_map_F_G12box_to_Rplus",
         "joint-(r,y) `cancelled_detgg_s_t2` identity **ABSENT**",
         "documented detgg=ad-c^2 still straddles",
+        "det(A)=det(G6)det(T)^2",
+        "is not a StationBox detgg enclosure",
+        "Inventing φ/r^α is refused.",
+        "jetmod_lat_k1_detgg_factor_probe_receipt.json",
+        "That identity does not discharge OBL-H5-JETMOD.",
     ),
     "STATUS_RN_UNIF.md": (
         "D3-LEMMA-RN-UNIF remains OPEN",

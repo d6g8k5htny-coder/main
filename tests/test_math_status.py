@@ -187,6 +187,21 @@ def test_negative_evening_wall_phrase_dropped_is_refused_even_with_a_refreshed_d
     assert "lemma_closed must be false" not in result.stdout
 
 
+def test_negative_chart_factor_phrase_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
+    packet_dir = copy_packet(tmp_path)
+    path = os.path.join(packet_dir, "STATUS_JETMOD.md")
+    text = open(path, encoding="utf-8").read().replace(
+        "Inventing φ/r^α is refused.",
+        "A bridge formula is unnamed.",
+    )
+    open(path, "w", encoding="utf-8").write(text)
+    refresh_pin(packet_dir, "STATUS_JETMOD.md")
+    result = run(packet_dir)
+    assert result.returncode != 0
+    assert "missing required phrase" in result.stdout
+    assert "discharges_OBL_H5_JETMOD must be false" not in result.stdout
+
+
 def test_negative_extra_file_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     open(os.path.join(packet_dir, "CLOSED.md"), "w", encoding="utf-8").write("CLOSED\n")
