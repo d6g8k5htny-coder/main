@@ -1791,8 +1791,19 @@ def test_every_module_docstring_says_what_it_does_not_establish(path):
 
 def test_agents_md_points_and_does_not_legislate():
     text = open(os.path.join(ROOT, "AGENTS.md"), encoding="utf-8").read()
-    lines = text.strip().splitlines()
+    # The original bridge navigation stays short. The two later, explicitly
+    # linked operational addenda do not silently replace that bridge contract.
+    prefix, separator, addenda = text.partition("\n## Support withdrawal and scheduling — 2026-09-21 operational addendum")
+    assert separator, "missing current withdrawal navigation"
+    lines = prefix.strip().splitlines()
     assert len(lines) <= 45, len(lines)
+    for heading, link in (
+        ("Read [OP-WITHDRAWAL-20260921-v1.0]", "governance/withdrawal/PROTOCOL.md"),
+        ("## Governance rollout compatibility — scoped correction v1.1",
+         "governance/rollout/OP-ROLLOUT-AUDIT-20260921-v1.1.md"),
+    ):
+        assert heading in addenda and f"({link})" in addenda
+        assert os.path.isfile(os.path.join(ROOT, link)), link
     for needle in ("CLAUDE.md", "180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8",
                    "1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc", "DG-EXEC-20260918-49291487",
                    "NOT DEPLOYED", "engine/bridge/", "99_DO_NOT_OPEN", "No status moves",

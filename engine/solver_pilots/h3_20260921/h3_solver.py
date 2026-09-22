@@ -22,6 +22,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
 from h3_scalar_certificate import prove, digest, canonical, need
 from h3_scalar_arithmetic import I, BITS
+import h3_source_admission as admission
 
 ARCHIVE_SHA='73b9e63800f77c677c504f3097fe0bb2459ff6c94cdee5772b56062320aefc21'
 MANIFEST_SHA='81770e26ec654d3b462f06cebaa20d0dd282cfd4df10ac593c7887ea0d292b40'
@@ -51,41 +52,17 @@ def strict_json(text):
 def file_hash(p): return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
-def source_check(path):
-    need(file_hash(path)==ARCHIVE_SHA,'original H3 archive identity mismatch')
-    with zipfile.ZipFile(path) as z:
-        names=z.namelist()
-        need(len(names)==len(set(names)),'duplicate archive names')
-        for name in names:
-            p=Path(name)
-            need(not p.is_absolute() and '..' not in p.parts,'unsafe archive member')
-        manifest=z.read('MANIFEST.json')
-        need(hashlib.sha256(manifest).hexdigest()==MANIFEST_SHA,'source manifest mismatch')
-        records=strict_json(manifest)['files']
-        need(len({x['path'] for x in records})==len(records),'duplicate manifest entries')
-        for row in records:
-            body=z.read(row['path'])
-            need(len(body)==row['bytes'] and hashlib.sha256(body).hexdigest()==row['sha256'],
-                 'source manifest leaf mismatch: '+row['path'])
-        proof=z.read('h3_floor/PROOF.md')
-    return {'archive_sha256':ARCHIVE_SHA,'manifest_sha256':MANIFEST_SHA,
-            'archive_entries':len(names),'verified_manifest_leaves':len(records),
-            'analytic_proof_sha256':hashlib.sha256(proof).hexdigest(),
-            'scope':'byte custody; source review/acceptance is not inferred'}
-
+source_check = admission.source_check
 
 def recipe(source,context,params):
-    need(isinstance(context,dict),'context must be an object')
-    need(context.get('scientific_use')=='REQUIRES_REVIEW','context does not permit this candidate-only run')
-    need(context.get('source_usable_for_candidate') is True,'source use denied or unknown')
-    need(context.get('source_archive_sha256')==source.get('archive_sha256'),'context/source identity mismatch')
-    need(context.get('organizational_independence_credit')==0,'this exposed pilot earns no independence credit')
-    return {'schema':'local-h3-recipe-v1','source':source,
-            'code':{name:file_hash(HERE/name) for name in ('h3_scalar_arithmetic.py','h3_scalar_certificate.py','h3_solver.py')},
+    admission.validate_context(context)
+    need(context['source_archive_sha256']==source.get('archive_sha256'),'context/source identity mismatch')
+    return {'schema':'local-h3-recipe-v2','source':source,
+            'code':{name:file_hash(HERE/name) for name in ('h3_scalar_arithmetic.py','h3_scalar_certificate.py','h3_solver.py','h3_source_admission.py')},
             'runtime':{'python':sys.version,'implementation':platform.python_implementation(),
                        'platform':platform.platform(),'bits':BITS},
             'context_sha256':digest(context),'parameters':params,
-            'hermetic':False,'context_authentication':'caller supplied, not authenticated by this program'}
+            'hermetic':False,'context_authentication':'caller-supplied deny-only filter; source admission is separate'}
 
 
 def formula_lineage(result,source):
@@ -183,7 +160,8 @@ def main():
     p.add_argument('--target',type=F,default=F(1747,1000))
     args=p.parse_args()
     start=time.perf_counter();cpu=time.process_time()
-    source=source_check(args.source_archive);context=strict_json(args.context.read_text())
+    context=admission.strict_json(admission.read_bounded(args.context,admission.MAX_METADATA))
+    source=source_check(args.source_archive,context)
     diagnostic=search() if args.search else None
     epsilon=args.epsilon if args.epsilon is not None else F(diagnostic['epsilon']) if diagnostic else F(103,500)
     gap_half=args.gap_half if args.gap_half is not None else F(diagnostic['gap_half']) if diagnostic else F(9,100)
@@ -196,7 +174,8 @@ def main():
     if args.verify_result:
         expected=strict_json(args.verify_result.read_text())
         need(expected.get('certificate',expected)==result,'candidate differs from exact recomputation')
-    need(source_check(args.source_archive)==source and recipe(source,strict_json(args.context.read_text()),params)==rec,
+    final_context=admission.strict_json(admission.read_bounded(args.context,admission.MAX_METADATA))
+    need(source_check(args.source_archive,final_context)==source and recipe(source,final_context,params)==rec,
          'source/context/code changed during run')
     output={'certificate':result,'formula_lineage':formula_lineage(result,source),'recipe':rec,'recipe_sha256':key,
             'cache':cache_state,'parameter_search':diagnostic,
@@ -204,7 +183,7 @@ def main():
             'timing':{'wall_seconds':time.perf_counter()-start,'cpu_seconds':time.process_time()-cpu,
                       'energy_joules':None,'energy_measurement':'NOT_MEASURED'},
             'arb_backend':'NOT_EXECUTED; no second rigorous backend claimed',
-            'source_admissibility':'context rechecked for candidate use; no authenticated live permission or acceptance service',
+            'source_admissibility':'pinned authored provenance and current local exclusions/upstream eligibility rechecked; caller context is deny-only; no live permission or canonical acceptance service',
             'automatic_promotion':False,'scheduled_execution':False}
     args.out.parent.mkdir(parents=True,exist_ok=True)
     with args.out.open('x') as f:f.write(json.dumps(output,sort_keys=True,indent=2)+'\n')
