@@ -420,3 +420,103 @@ def test_the_tot_coefficient_matches_an_independent_assembly(qord):
             e2 = qord - e1
             tot += base * comb(qord, e1) * he_abs(b1 + e1, F(5)) * he_abs(b2 + e2, F(5))
     assert p.tot_coefficient == tot
+
+
+# ---------------------------------------------------------------------------
+# 7. The envelope is not monotone in d, and the separations must be positive.
+#
+# `docs/ENGINE_RECOVERY.md` raises the "for |y| >= d" uniformity question
+# qualitatively. With the shape in exact arithmetic it becomes a number: the
+# image allowance sits at rimg = 24 - d - R/2, which shrinks as d grows, so
+# that part grows, overtakes the moment series, and eventually runs away.
+# ---------------------------------------------------------------------------
+
+def _parts_of(d, qord=2, prec=80):
+    from research.rn.hermite_envelope import gaussian_kernel
+    p = env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), d, qord)
+    tot = gaussian_kernel(Interval.exact(p.d * p.d), prec) * Interval.exact(p.tot_coefficient)
+    img = gaussian_kernel(Interval.exact(p.rimg * p.rimg), prec) * Interval.exact(p.image_coefficient)
+    return p, tot, img
+
+
+def test_the_image_part_overtakes_the_moment_series():
+    """Below the crossover the moment series dominates; above it, the image."""
+    _, tot_lo, img_lo = _parts_of(F(11))
+    assert img_lo.hi < tot_lo.lo
+    _, tot_hi, img_hi = _parts_of(F(13))
+    assert img_hi.lo > tot_hi.hi
+
+
+def test_the_crossover_is_where_it_was_measured():
+    """Between d = 12.0115565 and 12.0115566, on the reference data at q = 2."""
+    _, tot_a, img_a = _parts_of(F(120115565, 10**7))
+    assert img_a.hi < tot_a.lo
+    _, tot_b, img_b = _parts_of(F(120115566, 10**7))
+    assert img_b.lo > tot_b.hi
+
+
+def test_the_envelope_is_not_monotone_in_d():
+    """The headline: a larger d does not buy a smaller bound past the minimum."""
+    at = {d: env_form_enclosure(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), F(d), 2, 80)
+          for d in (5, 9, 12, 16, 20, 23)}
+    assert at[9].hi < at[5].lo                     # still falling
+    assert at[12].hi < at[9].lo                    # still falling
+    assert at[16].lo > at[12].hi                   # risen again
+    assert at[20].lo > at[16].hi
+    assert at[23].lo > at[20].hi
+    assert at[23].lo / at[12].hi > 10**24          # by twenty-four orders
+
+
+def test_the_crossover_falls_inside_the_lanes_own_T4_region():
+    """The part that bears on the lane, and the claim I first got backwards.
+
+    An earlier draft of this module's docstring said the image allowance stays
+    negligible across `d` in [5, 17]. It does not: on this reference data it
+    goes from 68 orders below the moment series at d = 5 to 48 orders above it
+    at d = 17, crossing at about d = 12.01, inside the RN-UNIF lane's own T4
+    region. The location is a property of the reference moments and not of the
+    program's, which are not here.
+    """
+    _, tot5, img5 = _parts_of(F(5))
+    assert img5.hi / tot5.lo < F(1, 10**60)        # negligible where the push evaluated
+    _, tot17, img17 = _parts_of(F(17))
+    assert img17.lo / tot17.hi > 10**40            # the whole bound at the top of T4
+
+
+@pytest.mark.parametrize("d", [F(24), F(25), F(959, 40), F(100)])
+def test_a_non_positive_image_separation_is_refused(d):
+    """`he_abs` takes abs(), so nothing else would have raised."""
+    with pytest.raises(ValueError, match="rimg"):
+        env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), d, 2)
+
+
+@pytest.mark.parametrize("d", [F(1, 100), F(0), F(-1), REFERENCE_R / 2])
+def test_a_non_positive_taylor_separation_is_refused(d):
+    with pytest.raises(ValueError, match="rho"):
+        env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), d, 2)
+
+
+def test_the_largest_accepted_separation_is_just_below_the_collapse():
+    largest = F(TORUS_PERIOD) - REFERENCE_R / 2
+    ok = env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0),
+                        largest - F(1, 1000), 2)
+    assert ok.rimg > 0
+    with pytest.raises(ValueError):
+        env_form_parts(REFERENCE_MOMENTS, REFERENCE_FORMS, (0, 0), largest, 2)
+
+
+def test_control_without_the_guard_a_negative_separation_returns_a_number():
+    """Why the guard is needed: the arithmetic itself does not object.
+
+    `he_abs(n, t)` evaluates at `abs(t)`, so a negative separation produces a
+    perfectly ordinary Fraction. The guard is the only thing standing between
+    a caller and a number with no referent.
+    """
+    assert he_abs(8, F(-1, 40)) == he_abs(8, F(1, 40))
+    assert he_abs(8, F(-1, 40)) > 0
+
+
+def test_the_module_docstring_records_the_non_monotonicity():
+    src = open(MODULE, encoding="utf-8").read()
+    assert "NOT MONOTONE IN ``d``" in src
+    assert "12.0115565" in src

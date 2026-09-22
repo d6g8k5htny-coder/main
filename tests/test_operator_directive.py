@@ -135,3 +135,59 @@ def test_the_repository_passes():
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
     assert "problems=0" in out.stdout
+
+
+# ---------------------------------------------------------------------------
+# Fenced code blocks are not prose
+#
+# README.md's "What CI enforces" block lists `tools/operator_directive_check.py`.
+# That filename contains both "operator" and "directive", so the first version
+# of this checker counted it as an asserted operator directive -- and PASSED
+# it, because the same block names `registers/`, which counts as a citation. A
+# false positive that passes is worse than one that fails: it inflates the
+# count and teaches a reader to ignore it.
+# ---------------------------------------------------------------------------
+
+def test_a_filename_in_a_bash_block_is_not_a_directive(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "## What CI enforces\n\n```bash\n"
+                       "python3 tools/operator_directive_check.py   # cites its source\n"
+                       "python3 tools/registers_check.py\n```\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+    assert "directives=0" in out.stdout
+
+
+def test_a_tilde_fence_is_stripped_too(tmp_path):
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "~~~\nthe operator directed everything here\n~~~\n")
+    out = run(root, name)
+    assert out.returncode == 0, out.stdout
+    assert "directives=0" in out.stdout
+
+
+def test_prose_after_a_fence_is_still_read(tmp_path):
+    """Stripping must not swallow the rest of the document."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "```bash\npython3 tools/operator_directive_check.py\n```\n\n"
+                       "Dylan subsequently directed that the repository remain private.\n")
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+    assert "Dylan subsequently directed" in out.stdout
+
+
+def test_line_numbers_survive_the_stripping(tmp_path):
+    """Blanked fences keep their newlines, so a report still points at the line."""
+    body = ("```bash\n" + "echo hello\n" * 8 + "```\n\n"
+            "The operator approved the routing with no source at all.\n")
+    root, name = write(tmp_path, "GOVERNED.md", body)
+    out = run(root, name)
+    assert out.returncode != 0, out.stdout
+    assert f"{name}:12:" in out.stdout, out.stdout
+
+
+def test_the_real_readme_block_no_longer_counts():
+    """The live tree: three directives, all in prose, none from a code block."""
+    out = run(ROOT)
+    assert out.returncode == 0, out.stdout
+    assert "directives=3" in out.stdout

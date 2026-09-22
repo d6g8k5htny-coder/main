@@ -32,6 +32,10 @@ next to it.
 A bare date is NOT a citation: "confirmed on 2026-09-20 UTC" is an observation
 someone made, not a record anyone else can look up.
 
+Fenced code blocks are removed before sentences are cut. A filename is not an
+assertion about anybody, and `tools/operator_directive_check.py` listed in a
+bash block contains both "operator" and "directive".
+
 WHAT THIS DOES NOT ESTABLISH.  That a cited directive is real, that it says
 what the paragraph says it says, that the citation resolves, or that an
 uncited paragraph is false.  This is a presence check on sourcing, not on
@@ -91,6 +95,26 @@ DISCLAIMER = "no operator directive is asserted here"
 SENTENCE_END = re.compile(r"(?<=[.!?])[)\]\"'\u201d`*]*\s+(?=[\"“(*`A-Z])")
 
 
+#: A fenced code block. Its contents are commands and filenames, not prose, and
+#: a filename is not an assertion about anybody. `README.md`'s "What CI
+#: enforces" block lists `tools/operator_directive_check.py`, which contains
+#: both "operator" and "directive" and was read as an operator directive by
+#: this checker's first version -- passing only because the same block names
+#: `registers/`, which counts as a citation. A false positive that passes is
+#: worse than one that fails: it inflates the directive count and teaches a
+#: reader to ignore it. Blocks are removed before sentences are cut, with their
+#: newlines kept so reported line numbers stay right.
+CODE_FENCE = re.compile(r"^(?P<fence>```+|~~~+).*?^(?P=fence)[ \t]*$",
+                        re.S | re.M)
+
+
+def strip_code_fences(text: str) -> str:
+    """Blank out fenced blocks, preserving line count."""
+    def blank(m):
+        return "\n" * m.group(0).count("\n")
+    return CODE_FENCE.sub(blank, text)
+
+
 def sentences(text: str):
     """(1-based line of the sentence, sentence text) over the whole document.
 
@@ -101,6 +125,14 @@ def sentences(text: str):
     line_no = 1
     buf, start = [], 1
     for raw in text.splitlines():
+        if not buf and not raw.strip():
+            # A blank line before any content of the next sentence. Skipping it
+            # is what lets `start` advance past a paragraph break -- and past a
+            # blanked-out code fence, whose lines are all blank. Without this,
+            # every sentence in a document that opens with a fence is reported
+            # at line 1.
+            line_no += 1
+            continue
         if not buf:
             start = line_no
         buf.append(raw)
@@ -129,7 +161,7 @@ def audit(root: str, docs=None):
         scanned += 1
         with open(path, encoding="utf-8", errors="replace") as handle:
             text = handle.read()
-        items = sentences(text)
+        items = sentences(strip_code_fences(text))
         for index, (start, sentence) in enumerate(items):
             if not DIRECTIVE.search(sentence):
                 continue

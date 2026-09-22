@@ -376,6 +376,37 @@ outer edge of the polar cover, `d = 17`, the same expression gives
 `rimg = 6.975`. Whether the constant was meant to be read at `d ≈ 12` only is
 not stated in the body.
 
+**Since 2026-09-22 that question has a number attached to it.**
+`research/rn/env_form_reference.py` assembles this same three-part shape in
+exact rationals with certified enclosures, so the two parts can be weighed
+against each other directly. They move in opposite directions, and that much is
+a property of the shape rather than of any moment table: the moment series
+carries `exp(-d²/2)` against a polynomial in `d` and decays, while the image
+allowance sits at `rimg = 24 − d − R/2` and therefore *grows* as `d` grows. A
+crossover exists for every moment table; only its location depends on the
+table.
+
+On the module's own **reference** moments at `qord = 2` — which are not the
+program's `MOMS[k]`, and the location is not transferable to them — the
+measured ratio of image allowance to moment series is `1.0e−68` at `d = 5`,
+`0.77` at `d = 12`, and `5.5e+48` at `d = 17`, crossing between
+`d = 12.0115565` and `12.0115566`. The total bottoms out near `d = 12.0111` and
+by `d = 23` is about `5.3e+24` times that minimum; past `d = 24 − R/2 = 23.975`
+the image separation is negative, and the reference module refuses that input
+rather than return the number `he_abs`'s `abs(t)` would otherwise produce.
+
+Two things follow, and only two. First, "take `d` larger to get a smaller
+bound" stops working at a computable place, so the best bound of this shape is
+the one at its minimum rather than the one at the largest `d` in range.
+Second, on this reference data the crossover falls **inside** the lane's own T4
+region `d ∈ [5, 17]` — negligible where the push evaluated, the whole bound at
+the top. The near-coincidence between the crossover at `12.0116` and the `d`
+at which the parenthetical's `rimg ≥ 11.97` stops holding (`d ≈ 12.005`) is
+noted and **not** concluded from: the crossover moves with the moment table and
+the parenthetical does not, so the two agreeing here is a fact about the
+reference data and not a derivation. Nothing above is a statement about the
+program's envelope, and no status turns on it.
+
 **What a certified interval version needs**, stated without overclaiming: a
 proved remainder for `Σ_{|n| ≥ 2}` that is (i) added into the enclosure rather
 than asserted negligible, (ii) uniform over an `r`-band rather than pinned to

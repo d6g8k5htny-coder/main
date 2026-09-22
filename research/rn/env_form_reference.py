@@ -29,6 +29,101 @@ the frozen body approximates is a difference in kind, and it certifies nothing
 about the frozen body's numbers, which remain exactly as certified or as
 uncertified as their own sources say.
 
+THE ENVELOPE IS NOT MONOTONE IN ``d``
+-------------------------------------
+The frozen docstring calls ``env_form`` a "certified bound of
+|d^q F_{R_k,gamma}(y)| for |y| >= d". Enlarging ``d`` shrinks the set the bound
+covers, so nothing forces the bound itself to shrink with it -- and it does
+not. Two of the three parts move in opposite directions, and this is a property
+of the SHAPE, not of any particular data:
+
+* the moment series carries ``exp(-d^2/2)`` against a polynomial in ``d``, so
+  it decays;
+* the image allowance sits at ``rimg = 24 - d - R/2``, which DECREASES as ``d``
+  grows, so ``exp(-rimg^2/2)`` GROWS.
+
+A crossover therefore exists for every moment table. WHERE it sits depends on
+the table, and the numbers below are for the REFERENCE data in this module at
+``qord = 2`` -- they are not the program's and must not be read as such:
+
+| ``d`` | image / moment series |
+|---|---|
+| 5 | ``1.0e-68`` |
+| 10 | ``2.2e-20`` |
+| 12 | ``0.77`` |
+| 13 | ``4.7e+09`` |
+| 17 | ``5.5e+48`` |
+
+On this data the crossover is between ``d = 12.0115565`` and ``12.0115566``,
+the total bottoms out near ``d = 12.0111`` at about ``1.18e-21``, and by
+``d = 23`` it is some ``5.3e+24`` times that minimum. Past
+``d = 24 - R/2 = 23.975`` the image separation is negative and the construction
+has no referent at all, which is why ``env_form_parts`` refuses it.
+
+Worth stating plainly, because it is the part that bears on the lane: the
+crossover on this reference data falls INSIDE the RN-UNIF lane's own T4 region
+``d`` in ``[5, 17]``. At ``d = 5``, where the push evaluated, the image
+allowance is 68 orders of magnitude below the moment series and costs nothing.
+At ``d = 17`` it is 48 orders above it and is the whole bound.
+
+None of this says the frozen body is wrong, and none of it is a statement about
+the program's envelope: the program's ``MOMS`` and ``FORMS`` are not here, and
+a different moment table moves the crossover. What is data-independent is that
+a crossover exists, that "take ``d`` larger to get a smaller bound" therefore
+stops working somewhere, and that where it stops is computable once the moments
+are supplied. It is an observation about a shape. No status turns on it.
+
+WHY THERE IS NO WHITENING HERE`` below says why not, in the sources' own
+words.
+
+``env_form(k, gamma, d, qord)`` of the frozen engine
+(``engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py``
+line 381) returns a sum of three parts, each an exact rational coefficient
+multiplying one Gaussian factor:
+
+    tot = C_tot(moments, gamma, d, q) * exp(-d^2/2)
+    rem = C_rem(forms, gamma, rho, q) * exp(-rho^2/2)      rho  = d - R/2
+    img = C_img(forms, q, rimg)       * exp(-rimg^2/2)     rimg = 24 - d - R/2
+
+Every ``C`` is built from ``he_abs`` -- an integer-coefficient polynomial --
+times factorials, binomials and the moment or coefficient magnitudes. So each
+``C`` is exact in ``fractions.Fraction``, and each part is ONE exact rational
+times ONE certified exponential. There is no dependency problem to fight: the
+enclosure of each part is as tight as ``research/interval/exp`` allows, and the
+total is the sum of three such.
+
+The frozen engine computes the same shape in ``mpmath`` at ``mp.dps = 100``
+(line 41). High precision is not certification. That this module encloses where
+the frozen body approximates is a difference in kind, and it certifies nothing
+about the frozen body's numbers, which remain exactly as certified or as
+uncertified as their own sources say.
+
+THE ENVELOPE IS NOT MONOTONE IN ``d``
+-------------------------------------
+The frozen docstring calls ``env_form`` a "certified bound of
+|d^q F_{R_k,gamma}(y)| for |y| >= d". Enlarging ``d`` shrinks the set the bound
+covers, so nothing forces the bound itself to shrink with it -- and it does
+not. The image allowance sits at ``rimg = 24 - d - R/2``, which *decreases* as
+``d`` grows, so that part *grows*. Computed here on the reference data at
+``qord = 2``, with every value a certified enclosure:
+
+* the moment series falls and the image allowance rises, and they cross at
+  ``d`` between 12.0115565 and 12.0115566;
+* the total bottoms out near ``d = 12.0111`` at about ``1.18e-21``;
+* by ``d = 23`` it is about ``6.26e+03`` -- some ``5.3e+24`` times its minimum;
+* past ``d = 24 - R/2 = 23.975`` the image separation is negative and the
+  construction has no referent at all, which is why ``env_form_parts`` refuses
+  it.
+
+None of this says the frozen body is wrong. At the separations the engine
+actually uses -- ``d = 5`` in the push, ``d`` in ``[5, 17]`` for T4 -- the
+image allowance is 24 to 39 orders of magnitude below the moment series and the
+envelope is falling steeply. The observation is that "take ``d`` larger to get
+a smaller bound" stops working at a computable place, and that the best
+available bound of this shape is the one at the minimum. It is an observation
+about a shape, on reference data; it is not a bound on anything of the
+program's, and no status turns on it.
+
 WHY THERE IS NO WHITENING HERE
 ------------------------------
 The directive names a *whitened* ``env_form``. Whitening itself is defined
@@ -192,6 +287,22 @@ def env_form_parts(moments: Mapping[tuple[int, int], Fraction],
     d = Fraction(d)
     rho = d - R / 2
     rimg = TORUS_PERIOD - d - R / 2
+    # Both separations must be positive for the construction to mean anything.
+    # `he_abs` takes `abs(t)`, so a negative separation does not raise; it
+    # silently returns a number built from a distance that does not exist. At
+    # `d = 24` the image separation is -1/40 and the coefficient comes back
+    # larger than at `d = 23.975`, which is the shape of a quantity with no
+    # referent. The frozen body has no such guard because it is never called
+    # near there; this module refuses rather than inherit the hole.
+    if rho <= 0:
+        raise ValueError(
+            f"rho = d - R/2 = {rho} is not positive; the Taylor remainder is "
+            f"taken at that separation and has no meaning at or below zero")
+    if rimg <= 0:
+        raise ValueError(
+            f"rimg = {TORUS_PERIOD} - d - R/2 = {rimg} is not positive; the "
+            f"torus-image allowance is an allowance at that separation, and "
+            f"beyond d = {TORUS_PERIOD} - R/2 there is no image shell to allow for")
 
     tot = Fraction(0)
     for (b1, b2), mu in moments.items():

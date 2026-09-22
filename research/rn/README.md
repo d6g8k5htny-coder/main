@@ -63,6 +63,53 @@ frozen explicit table, against `abs` of the exact coefficients, and against
 `(−i)^n He_n(it)` computed in exact Gaussian rationals — and five negative
 controls assert that containment FAILS when the envelope is weakened.
 
+## The envelope is not monotone in `d`
+
+`docs/ENGINE_RECOVERY.md` §3.2 asks, of the image allowance, "Whether the
+constant was meant to be read at `d ≈ 12` only is not stated in the body." With
+the shape in exact arithmetic the question has a number attached to it.
+
+Two of the three parts move in opposite directions, and that much is a property
+of the **shape**, not of any moment table:
+
+* the moment series carries `exp(-d²/2)` against a polynomial in `d`, so it
+  decays;
+* the image allowance sits at `r_img = 24 − d − R/2`, which *decreases* as `d`
+  grows, so `exp(-r_img²/2)` **grows**.
+
+A crossover therefore exists for every moment table. Where it sits depends on
+the table. On this module's **reference** moments at `qord = 2` — which are not
+the program's, and the location does not transfer to them:
+
+| `d` | image / moment series |
+|---|---|
+| 5 | `1.0e−68` |
+| 10 | `2.2e−20` |
+| 12 | `0.77` |
+| 13 | `4.7e+09` |
+| 17 | `5.5e+48` |
+
+The crossover is between `d = 12.0115565` and `12.0115566`; the total bottoms
+out near `d = 12.0111` at about `1.18e−21`; by `d = 23` it is some `5.3e+24`
+times that minimum. Past `d = 24 − R/2 = 23.975` the image separation is
+negative. `he_abs` evaluates at `abs(t)`, so nothing in the arithmetic objects
+— it returns an ordinary number built from a distance that does not exist — and
+`env_form_parts` refuses that input for exactly this reason.
+
+Two things follow, and only two. **"Take `d` larger to get a smaller bound"
+stops working at a computable place**, so the best bound of this shape is the
+one at its minimum rather than the one at the largest `d` in range. And on this
+reference data the crossover falls **inside** the RN-UNIF lane's own T4 region
+`d ∈ [5, 17]`: negligible at `d = 5` where the push evaluated, the whole bound
+at `d = 17`.
+
+The near-coincidence between the crossover at `12.0116` and the `d` at which
+§3.2's parenthetical `r_img ≥ 11.97` stops holding (`d ≈ 12.005`) is **noted
+and not concluded from**. The crossover moves with the moment table and the
+parenthetical does not, so the two agreeing here is a fact about the reference
+data, not a derivation. None of this is a statement about the program's
+envelope, and no status turns on it.
+
 ## Two observations about the frozen body, recorded and not acted on
 
 Neither is a defect report against any claim, and no status turns on either.
