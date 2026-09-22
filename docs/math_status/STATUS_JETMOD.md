@@ -81,3 +81,28 @@ Further named “jets” toward 24 without a source roster would **invent** the 
 | `code_prototypes/jetmod_g12_ext_named.py` | +κ, +s_f_fx; inventory; stop |
 | `code_prototypes/jetmod_g12_ext_named_receipt.json` | 6→8; discharges=false |
 | `code_prototypes/STATUS_JETMOD.md` | this file |
+
+---
+
+## Walls recorded 2026-09-22 evening CT
+
+**As of:** 2026-09-22 evening CT (America/Chicago)  
+**OBL-H5-JETMOD remains OPEN.** These lines do not discharge OBL-H5-JETMOD.  
+`discharges_OBL_H5_JETMOD` stays **false**. `lemma_closed` stays **false**.  
+Figures below are recorded walls. This note does not re-derive them, and a display is not a certified enclosure.
+
+Recorded partial, not a discharge: cancelled A/Ainv on B0 via LAT.k1 Taylor–Lagrange remainder tails is recorded at theorem grade, with Neumann ρ≈9.77e-4 < 1/2. The partial does not discharge OBL-H5-JETMOD.
+
+Still refused, straddling, or absent:
+
+- F(G12)/Lip **REFUSED**
+- cover pipeline F **REFUSED** (point-r / `mpf(r)` wall)
+- `KernelSeriesIv` accepts interval-r
+- StationBox TM straddles 0 even at r-width 1e-9
+- CoarseBox cancelled detgg **REFUSED**
+- `eval_F(G12_box)` **REFUSED**
+- Drive and local hunt for `explicit_interval_map_F_G12box_to_Rplus` is **EMPTY**. On hand is structural H5_PROMOTE wording only (`Î(r)/r³ = F(G12(r))`, and the band step `Î(r)/r³ ≤ F(G12-band)`), not that explicit interval map. This workspace tree has no object under that name.
+- joint-(r,y) `cancelled_detgg_s_t2` identity **ABSENT** from the corpus
+- documented detgg=ad-c^2 still straddles 0 (width ≈ 1.26)
+
+**OBL-H5-JETMOD remains OPEN.** No promotions. RUNG2/3 do NOT discharge JETMOD.
