@@ -1097,3 +1097,192 @@ def test_29_max_cell_width_is_the_coarsest_leaf_and_does_not_track_tolerance():
     assert F(rec["min_cell_width"]) < F(rec["max_cell_width"])
     assert "saturate" in rec["cell_width_note"]
     assert "not monotone in the tolerance" in rec["cell_width_note"]
+
+
+# ===========================================================================
+# Controls added 2026-09-22 from a systematic mutation sweep.
+#
+# 93 single-operator mutants (every comparison and boolean operator in
+# ledger.py, regions.py and driver.py, flipped one at a time) were run against
+# this file. 71 were caught and 35 of the then-37 tests fired at least once --
+# a far better picture than the README's "ten controls were never confirmed to
+# fail", which described a 29-test snapshot. 22 survived, and the ones below
+# are the survivors that were real holes rather than equivalent mutants. Each
+# control names the mutant it exists to catch, so the claim stays checkable.
+# ===========================================================================
+
+def test_30_a_degenerate_box_is_legal_and_a_half_inverted_one_is_not():
+    """Mutants: ledger.py:152 `>` -> `>=`, and `or` -> `and`.
+
+    A zero-width box is legal -- `is_degenerate()` exists to ask about it --
+    so tightening the guard to `>=` must fail. An inverted box must be refused
+    even when only ONE of the two axes is inverted, so weakening `or` to `and`
+    must fail too. Nothing built a degenerate box or a half-inverted one.
+    """
+    flat = Box.of(1, 1, 0, 2)
+    assert flat.is_degenerate() and flat.param_area() == 0
+    thin = Box.of(0, 2, 3, 3)
+    assert thin.is_degenerate()
+    for u0, u1, v0, v1 in ((2, 1, 0, 1), (0, 1, 2, 1)):
+        with pytest.raises(ValueError, match="empty box"):
+            Box.of(u0, u1, v0, v1)
+
+
+def test_31_covers_u_strip_is_inclusive_at_both_edges_and_needs_both():
+    """Mutants: ledger.py:194 `<=` -> `<` on either side, and `and` -> `or`.
+
+    Exact tiling is the whole point of the partition check, and a strip flush
+    with the box edge is the case that arises at every seam. Nothing tested a
+    flush strip, so both edge relaxations survived; nor did anything test a
+    strip covered on one side only, so the conjunction could be weakened.
+    """
+    b = Box.of(0, 1, 0, 1)
+    assert b.covers_u_strip(F(0), F(1))              # flush at both edges
+    assert b.covers_u_strip(F(0), F(1, 2))           # flush at the low edge
+    assert b.covers_u_strip(F(1, 2), F(1))           # flush at the high edge
+    assert b.covers_u_strip(F(1, 4), F(3, 4))
+    assert not b.covers_u_strip(F(-1, 4), F(1, 2))   # low side only
+    assert not b.covers_u_strip(F(1, 2), F(5, 4))    # high side only
+    assert not b.covers_u_strip(F(-1), F(2))
+
+
+def test_32_certified_enclosure_refuses_each_flag_on_its_own():
+    """Mutant: ledger.py:389 `and` -> `or`.
+
+    `not (certified and covers_region)` and `not (certified or covers_region)`
+    agree when both flags are True and when both are False. They differ exactly
+    on the mixed cases, and no test built one: control 10 sets both False.
+    """
+    from research.cover.ledger import Total  # noqa: PLC0415
+
+    iv = Interval.exact(F(1))
+
+    def total(cert, covers):
+        return Total(enclosure=iv, certified=cert, covers_region=covers,
+                     caveats=(), area_accounted=iv, area_rejected_bound=F(0),
+                     integrand="REFERENCE:flags")
+
+    assert total(True, True).certified_enclosure() == iv
+    for cert, covers in ((True, False), (False, True), (False, False)):
+        with pytest.raises(UncertifiedTotalError):
+            total(cert, covers).certified_enclosure()
+
+
+def test_33_a_zero_boundary_area_bound_is_accepted():
+    """Mutant: ledger.py:542 `< 0` -> `<= 0`.
+
+    A boundary bound of exactly zero is the honest value for a cell whose
+    boundary is provably empty. Tightening the guard to reject it survived
+    because nothing ever passed zero.
+    """
+    led = Ledger("hand", UNIT, "cartesian", integrand="REFERENCE:zero-bound")
+    led.add(Cell("c", UNIT, 0))
+    led.reject("c", RejectKind.OUTSIDE, "proved disjoint", F(0))
+    assert led.records["c"].boundary_area_bound == 0
+
+    led2 = Ledger("hand", UNIT, "cartesian", integrand="REFERENCE:zero-bound")
+    led2.add(Cell("c", UNIT, 0))
+    with pytest.raises(ValueError):
+        led2.reject("c", RejectKind.OUTSIDE, "negative", F(-1, 1000))
+
+
+def test_34_the_receipt_reports_both_cell_widths_when_there_are_cells():
+    """Mutant: ledger.py:805 `is None` -> `is not None` on min_cell_width.
+
+    The receipt's width fields were never read by a test, so inverting the
+    guard -- which reports `None` exactly when a width exists -- survived. The
+    README publishes both numbers for its showcase run.
+    """
+    reg = rn5_annulus_bracket()
+    led = run(reg, RadialGaussianReference(),
+              DriverConfig(tol=F(30), max_depth=4, prec=32))
+    rec = led.receipt()
+    assert rec["max_cell_width"] is not None
+    assert rec["min_cell_width"] is not None
+    assert F(rec["min_cell_width"]) <= F(rec["max_cell_width"])
+    assert rec["max_cell_width_decimal"] is not None
+    assert rec["min_cell_width_decimal"] is not None
+
+
+def test_35_the_polar_region_guards_reject_each_bad_shape_on_its_own():
+    """Mutants: regions.py:198 both `<` -> `<=`, and regions.py:201 `or` -> `and`.
+
+    `0 < r_lo < r_hi` has two strict inequalities and nothing built an instance
+    that violates either on its own, so both could be relaxed. `shells[0] !=
+    r_lo or shells[-1] != r_hi` could be weakened to `and`, which only rejects
+    a shell list wrong at BOTH ends.
+    """
+    from research.cover.regions import PolarRegion  # noqa: PLC0415
+
+    PolarRegion("ok", F(1, 10), F(5), (F(1, 10), F(1), F(5)))   # the good shape
+
+    with pytest.raises(ValueError, match="r_lo > 0"):    # r_lo = 0 exactly
+        PolarRegion("bad", F(0), F(5), (F(0), F(5)))
+    with pytest.raises(ValueError, match="r_lo > 0"):    # r_lo = r_hi exactly
+        PolarRegion("bad", F(5), F(5), (F(5), F(5)))
+
+    for shells in ((F(1, 5), F(1), F(5)),                # wrong at the low end
+                   (F(1, 10), F(1), F(6)),               # wrong at the high end
+                   (F(1, 5), F(1), F(6))):               # wrong at both
+        with pytest.raises(ValueError, match="shells must"):
+            PolarRegion("bad", F(1, 10), F(5), shells)
+
+
+def test_36_the_driver_config_guards_reject_each_bad_field_on_its_own():
+    """Mutants: driver.py:132 `< 0` -> `<= 0`, and driver.py:134 `or` -> `and`.
+
+    A tolerance of exactly zero is legal -- it asks for an exact answer and
+    gets refinement to the depth cap -- so tightening the guard must fail.
+    `max_depth < 0 or max_cells < 1` could be weakened to `and`, which only
+    rejects a config wrong in BOTH fields.
+    """
+    DriverConfig(tol=F(0))                               # zero tolerance is legal
+    DriverConfig(tol=F(1), max_depth=0)                  # so is depth zero
+
+    with pytest.raises(ValueError, match="non-negative"):
+        DriverConfig(tol=F(-1, 1000))
+    with pytest.raises(ValueError, match="max_depth"):    # bad depth only
+        DriverConfig(tol=F(1), max_depth=-1)
+    with pytest.raises(ValueError, match="max_cells"):    # bad cells only
+        DriverConfig(tol=F(1), max_cells=0)
+    with pytest.raises(ValueError):                       # both
+        DriverConfig(tol=F(1), max_depth=-1, max_cells=0)
+
+
+def test_37_refinement_never_goes_past_the_depth_cap():
+    """Mutant: driver.py:220 `cell.depth < cfg.max_depth` -> `<=`.
+
+    Relaxing the cap buys one extra level of refinement everywhere. The
+    receipt reports `refine_depth`, and nothing compared it against the cap.
+    """
+    reg = rn5_annulus_bracket()
+    for cap in (2, 3, 4):
+        led = run(reg, RadialGaussianReference(),
+                  DriverConfig(tol=F(30), max_depth=cap, prec=32))
+        rec = led.receipt()
+        assert rec["refine_depth"] <= cap, (cap, rec["refine_depth"])
+        assert max(r.cell.depth for r in led.records.values()) <= cap
+
+
+def test_38_provisional_enclosure_sums_contributions_not_just_residuals():
+    """Mutant: ledger.py:766 `is not None` -> `is None`.
+
+    `part = contribution if contribution is not None else residual` inverted
+    makes the sum skip every accepted cell and keep only residuals. Controls 6b
+    and 28 check what the number is CALLED and which leaves it omits; neither
+    checked that an accepted contribution is in it, so the inversion survived.
+    """
+    led = Ledger("hand", UNIT, "cartesian", integrand="REFERENCE:provisional")
+    halves = UNIT.split_u()
+    for i, b in enumerate(halves):
+        led.add(Cell(f"c{i}", b, 0))
+    half = Interval.exact(F(1, 2))
+    led.accept("c0", half, Interval.exact(F(6)), Interval.exact(F(3)))
+    led.accept("c1", half, Interval.exact(F(10)), Interval.exact(F(5)))
+
+    prov = led.provisional_enclosure()
+    assert prov.lo <= F(8) <= prov.hi, (str(prov.lo), str(prov.hi))
+    assert prov.lo > 0, "a sum of two positive contributions cannot be zero"
+
+    counts = led.provisional_leaf_counts()
+    assert counts["omitted"] == 0

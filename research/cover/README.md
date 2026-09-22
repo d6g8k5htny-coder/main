@@ -379,6 +379,55 @@ reader would rely on when deciding how much the suite is worth.
 The honest version is the one the test module's own docstring makes: a specific,
 enumerated list of mutations was run and caught. That claim is checkable.
 
+### The systematic sweep of 2026-09-22, and what it measured
+
+The paragraph above was written from a docstring scan. It has now been replaced
+by a measurement. Every comparison and boolean operator in `ledger.py`,
+`regions.py` and `driver.py` was flipped one at a time -- 93 single-operator
+mutants -- and the suite was run against each.
+
+| | before | after |
+|---|---|---|
+| mutants run | 93 | 93 |
+| caught | 71 | **84** |
+| survived | 22 | **9** |
+| tests firing on at least one mutant | 36 of 37 | **45 of 46** |
+
+So the "ten controls were never confirmed to fail" of the previous section was
+both stale and, in the direction that matters, pessimistic: most of this file's
+tests do catch something. What the sweep found instead was **22 specific holes**,
+and controls 30-38 close the thirteen of them that were real rather than
+equivalent. Each names the mutant it exists to catch in its own docstring, and
+each was confirmed by hand-applying that mutation to a copy of the package
+outside the repository -- not by trusting the sweep, which is the right order
+given the caveat below.
+
+**The nine survivors, classified.** None is left silent:
+
+| site | mutation | why it survives |
+|---|---|---|
+| `ledger.py:394` | `or` -> `and` | inside the *text* of an error message (`" \| ".join(caveats) or "(none recorded)"`). Cosmetic. |
+| `ledger.py:667` | `<=` -> `<` | the "(+N more)" threshold in a message, at exactly 8 pending cells. Cosmetic. |
+| `ledger.py:684` | `or` -> `and` | a defensive branch already marked `# pragma: no cover`. |
+| `regions.py:297`, `:299` | `>` -> `>=` | the theta-halving policy, differing only when arc and radial extent are *exactly* equal. |
+| `regions.py:399`, `:412` (x2) | `<=` -> `<`, `<` -> `<=` | disjointness tests, differing only at exact tangency. |
+| `driver.py:217` | `<=` -> `<` | accept-at-budget, differing only when the width is *exactly* the budget. |
+
+Six of the nine are exact-equality boundaries that the reference geometry never
+lands on, and three are message text or a `pragma`-marked branch. That is a
+statement about what was measured, not a claim that they are all provably
+equivalent; a cover whose cell widths happened to hit one of those equalities
+would separate them.
+
+**A caveat on the harness, stated because it bit.** The sweep identifies a
+mutation site by index and reports the source line of the node it mutated. On
+one site (`ledger.py:805`, the receipt's `min_cell_width`) its verdict
+disagreed with hand-applying the same edit, which the suite caught at once. So
+the per-site attributions above are the sweep's, spot-checked by hand where
+they drove a decision, and every control added from them was verified by hand
+mutation rather than by the harness. The headline counts are the sweep's own
+and have not been reproduced by a second method.
+
 ### Mutations that survived, recorded rather than fixed quietly
 
 **Three surviving mutations are on record**, two of them found by an adversarial
