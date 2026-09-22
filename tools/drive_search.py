@@ -139,10 +139,20 @@ def sha_matches(records, prefix):
             'matches':hits, 'match_count':len(hits)}
 
 
-def keyword_matches(records, query):
+def keyword_matches(records, query, *, use_index=False):
     if not isinstance(query, str) or not query.strip():
         raise ValueError('nonempty keyword query required')
     q = query.casefold()
+    # Index construction pays off only for sustained in-process workloads.
+    # Default/CLI callers keep the original scan. An opted-in index supplies
+    # candidates only; matching/ranking and held metadata navigation stay here.
+    if use_index and query.isascii():
+        from tools.drive_search_index import candidates
+        if not isinstance(records, (list, tuple)):
+            records = list(records)
+        selected = candidates(records, q)
+        if selected is not None:
+            records = selected
     out = [{**e, 'match_kind':'METADATA'} for e in records
            if any(q in str(e.get(k, '')).casefold() for k in ('title','path','path_snapshot','id','context'))]
     # A rank is navigation only. It cannot confer proof authority.

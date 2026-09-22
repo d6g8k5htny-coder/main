@@ -106,7 +106,7 @@ def test_workflow_parser_fails_closed(mutation):
     elif mutation == "environment":
         source = source.replace("        run: ", "        env: {PYTHONOPTIMIZE: 1}\n        run: ", 1)
     elif mutation == "header":
-        source = source.replace('python-version: "3.11"', 'python-version: "3.12"')
+        source = source.replace('python-version: "3.11.16"', 'python-version: "3.12.0"')
     with pytest.raises(ValueError):
         runner.parse_workflow(source)
 

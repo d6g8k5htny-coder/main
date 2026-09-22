@@ -11,18 +11,18 @@ defaults:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, reviewed 2026-09-22
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, reviewed 2026-09-22
         with:
-          python-version: "3.11"
+          python-version: "3.11.16"
       - name: Install test dependencies
-        run: python -m pip install --upgrade pip pytest
+        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock
       - name: Registers round-trip from the source export
         run: python tools/registers_import.py --check
       - name: Register structural invariants (modulo documented findings)
@@ -31,6 +31,10 @@ jobs:
         run: python tools/provenance_check.py
       - name: Claim-graph firewalls
         run: python tools/claims_check.py
+      - name: Synthetic loss-only withdrawal (pilot, no scientific migration)
+        run: python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json
+      - name: Governance rollout shadow controls (no live admission)
+        run: python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json
       - name: Logical quarantine is enforced
         run: python tools/quarantine_check.py
       - name: Content manifests (SHA-256 and byte counts)

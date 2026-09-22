@@ -17,7 +17,7 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 WORKFLOWS = sorted((ROOT / ".github" / "workflows").glob("*.yml"))
 
-CHECKER = re.compile(r"python3?\s+(tools/\S+\.py|-m\s+pytest)")
+CHECKER = re.compile(r"python3?\s+(?:-O\s+)?(tools/\S+\.py|-m\s+(?:pytest|unittest))")
 MASK = re.compile(r"\|\|\s*(?:echo|true|:)(?:\s|$)")
 
 
@@ -55,7 +55,8 @@ def masked_checker_lines(text: str) -> list[str]:
 
 
 def test_workflow_files_exist():
-    assert [p.name for p in WORKFLOWS] == ["ci.yml", "research.yml"]
+    # Keep an exact reviewed inventory: do not accept arbitrary new workflows.
+    assert [p.name for p in WORKFLOWS] == ["ci.yml", "research.yml", "withdrawal-governance.yml"]
 
 
 @pytest.mark.parametrize("path", WORKFLOWS, ids=lambda p: p.name)
@@ -88,6 +89,11 @@ def test_negative_control_the_pre_2026_09_19_line_is_refused():
 
 def test_unmasked_checker_passes():
     assert masked_checker_lines("  - run: python tools/lanes_check.py\n") == []
+
+
+def test_negative_control_optimized_pilot_tests_cannot_mask_failure():
+    line = "python3 -O -m unittest discover -s tests -p test_withdrawal.py || true"
+    assert masked_checker_lines("  - run: " + line + "\n") == [line]
 
 
 # ---------------------------------------------------------------------------

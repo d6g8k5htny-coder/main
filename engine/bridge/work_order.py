@@ -168,13 +168,14 @@ PROTECTED_SURFACES = (
     "quarantine/",
     "CLAUDE.md",
     "AGENTS.md",
+    "requirements-ci.lock",
 )
 
 #: Every top-level entry of this repository. A reference that names one is a
 #: repository path, and a repository path is never an owner-side record.
 #: ``tests/test_bridge.py`` asserts this list matches the checkout.
 REPOSITORY_TOP_LEVEL = (
-    ".github", ".gitignore", "AGENTS.md", "CITATION.cff", "CLAUDE.md",
+    ".github", ".gitignore", "requirements-ci.lock", "AGENTS.md", "CITATION.cff", "CLAUDE.md",
     "CONTRIBUTING.md", "LICENSE", "README.md", "claims", "docs", "drive",
     "engine", "governance", "legacy", "packages", "quarantine", "recovery",
     "registers", "research", "reviews", "sandbox", "tests", "tools",

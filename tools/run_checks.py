@@ -43,6 +43,8 @@ REQUIRED_COMMANDS = (
     "python tools/registers_check.py",
     "python tools/provenance_check.py",
     "python tools/claims_check.py",
+    "python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json",
+    "python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json",
     "python tools/quarantine_check.py",
     "python tools/verify_manifests.py",
     "python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json",
@@ -94,18 +96,18 @@ defaults:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, reviewed 2026-09-22
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, reviewed 2026-09-22
         with:
-          python-version: "3.11"
+          python-version: "3.11.16"
       - name: Install test dependencies
-        run: python -m pip install --upgrade pip pytest'''
+        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock'''
 
 
 def utc_now() -> str:

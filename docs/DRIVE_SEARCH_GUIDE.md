@@ -54,6 +54,51 @@ digests are ambiguous and exit with status 2. No identity match exits 1.
 Multiple occurrences of one digest are not ambiguity and remain separate.
 `--snapshot` retains the original September 17 metadata view.
 
+### Repeated metadata queries
+
+`keyword_matches(records, query)` keeps the original scan by default, including
+for every CLI query. Persistent callers with enough repeated queries to amortize
+construction can explicitly use `keyword_matches(records, query, use_index=True)`.
+That candidate path uses SQLite's standard-library
+[FTS5 trigram index](https://sqlite.org/fts5.html#the_trigram_tokenizer) to select
+candidates; the original Python matcher still filters and sorts those candidates.
+Casefolded substring matching, result fields, duplicate occurrences and ordering
+are preserved. This changes query execution, not scope or scientific authority.
+
+The first opted-in eligible query builds one disposable in-memory index per
+thread. Before every indexed lookup, the exact searchable field values and
+row order are compared with the supplied records; changes rebuild the index.
+The projection carries a SHA-256 fingerprint. Result rows always come from the
+current caller-supplied records, so updated digests, custody or exclusion labels
+are returned immediately even when searchable fields did not change. As with
+the original scan, callers must not mutate records concurrently with a query.
+
+ASCII printable queries of at least three characters use the index. Short,
+non-ASCII or control-character queries, unavailable SQLite/FTS5 support, and
+database errors use the original scan. Metadata containing NUL or lone Unicode
+surrogates is scanned alongside indexed candidates. SQL parameters and literal
+FTS phrase quoting preserve punctuation rather than interpreting it as query
+syntax. Unexpected cache writes/schema changes cause reconstruction; no cached
+database file is loaded or persisted.
+
+Held, vault, legacy and quarantine **metadata** remains navigable. The index
+never opens source bodies, invokes text extraction or changes the content
+eligibility predicate. SHA identity lookup and content search remain separate.
+
+The scoped September 22 implementation experiment compared all 16,583 current
+metadata records (4,934 file/folder identities plus 11,649 archive occurrences).
+All 18 fixed queries preserved exact results. Including projection validation,
+the opted-in repeated warm workload was about 1.43 times faster on the measured
+machine; index construction took about 0.41 seconds and required roughly 71
+queries to amortize on that run (the initial run estimated 124). That measured
+cost and variability are why indexing is explicitly
+opt-in for sustained sessions, rather than automatically enabled after a second
+query. This is not a claimed CLI speedup, relevance improvement or general
+performance result; short sessions should retain the default scan.
+The earlier raw-index microbenchmark omitted this validation cost. Focused
+parity, invalidation, corruption, scope and escaping controls are in
+`tests/test_drive_search_index.py`.
+
 ## Scope and identity types
 
 The default view has **4,934 file/folder identities**: 4,928 reconciled objects
