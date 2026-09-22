@@ -75,6 +75,7 @@ REQUIRED_COMMANDS = (
     "python tools/twelve_project_check.py",
     "python tools/h3_rn_n6_check.py",
     "python tools/rn_inner_wedge_check.py",
+    "python tools/rn_bernstein_sharp_check.py",
     "python tools/research_frontier.py self-check",
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",
