@@ -1344,3 +1344,87 @@ def test_40_the_readme_table_is_transcribed_from_the_same_numbers():
     for figure in ("2,036 total", "1,020 ACCEPTED", "1,016 REFINED",
                    "0 REJECTED", "0 PENDING", "`17/80", "6.2286534", "6.2784424"):
         assert figure in text, figure
+
+
+def test_41_NEGATIVE_CONTROL_outside_cannot_carry_a_nonzero_residual():
+    """CONTROL 41. The ledger must refuse a residual it is about to discard.
+
+    ``total()`` skips every OUTSIDE cell with ``continue`` before it reaches
+    the branch that sums a residual, and until this control landed ``reject()``
+    validated the kind, the reason and the boundary-area bound but never the
+    residual. So a caller could reject a cell OUTSIDE while handing over a
+    non-zero residual and the number was stored on the record, dropped from
+    every total, and the run still reported ``certified=True``,
+    ``covers_region=True``, ``caveats=()``.
+
+    Observed before the guard, on a two-cell unit cover with one cell accepted
+    at exactly 1 and the other rejected OUTSIDE carrying ``[10**6, 10**6]``::
+
+        total.certified       True
+        total.covers_region   True
+        total.caveats         ()
+        certified_enclosure   Interval(1, 1)
+
+    An enclosure of ``[1, 1]`` while holding a discarded possible contribution
+    of a million. The two statements cannot both be true: OUTSIDE asserts the
+    cell is proved disjoint and contributes exactly zero.
+
+    This is a live-path control, not a mutation control. Nothing had to be
+    broken to produce the number above.
+    """
+    def two_cells():
+        led = Ledger("guard", Box(F(0), F(2), F(0), F(1)), "cartesian",
+                     integrand="f=1 reference")
+        led.add(Cell("a", Box(F(0), F(1), F(0), F(1)), 0))
+        led.add(Cell("b", Box(F(1), F(2), F(0), F(1)), 0))
+        led.accept("a", Interval.exact(F(1)), Interval.exact(F(1)),
+                   Interval.exact(F(1)))
+        return led
+
+    with pytest.raises(ValueError) as exc:
+        two_cells().reject("b", RejectKind.OUTSIDE, "proved disjoint", F(1),
+                           Interval.exact(F(10) ** 6))
+    assert "OUTSIDE" in str(exc.value)
+    assert "discard" in str(exc.value)
+
+    # A residual that really is zero is not a contradiction, in either spelling.
+    two_cells().reject("b", RejectKind.OUTSIDE, "proved disjoint", F(1), None)
+    two_cells().reject("b", RejectKind.OUTSIDE, "proved disjoint", F(1),
+                       Interval.exact(F(0)))
+
+    # And the guard is scoped to OUTSIDE: the two kinds whose residuals ARE
+    # summed must still accept a non-zero one, or this control would have
+    # closed the hole by breaking the feature.
+    for kind in (RejectKind.EXCLUDED, RejectKind.UNRESOLVED_BOUNDARY):
+        led = two_cells()
+        led.reject("b", kind, "held", F(1), Interval.exact(F(7)))
+        assert led.records["b"].residual == Interval.exact(F(7))
+
+
+def test_42_NEGATIVE_CONTROL_the_outside_guard_is_load_bearing():
+    """CONTROL 42. Control 41 must fail if the guard is removed.
+
+    Re-implements the pre-guard ``reject`` on a copy of the record and shows
+    the old behaviour reappearing — the residual stored, skipped by ``total()``
+    and the run still ``certified=True`` — so that control 41 is known to be
+    testing the guard rather than some other refusal along the path.
+    """
+    led = Ledger("nogurad", Box(F(0), F(2), F(0), F(1)), "cartesian",
+                 integrand="f=1 reference")
+    led.add(Cell("a", Box(F(0), F(1), F(0), F(1)), 0))
+    led.add(Cell("b", Box(F(1), F(2), F(0), F(1)), 0))
+    led.accept("a", Interval.exact(F(1)), Interval.exact(F(1)),
+               Interval.exact(F(1)))
+
+    rec = led.records["b"]
+    rec.disposition = REJECTED
+    rec.reject_kind = RejectKind.OUTSIDE
+    rec.reason = "proved disjoint"
+    rec.boundary_area_bound = F(1)
+    rec.residual = Interval.exact(F(10) ** 6)   # the guard would have refused
+    rec.pending_reason = None
+
+    total = led.total()
+    assert total.certified and total.covers_region and total.caveats == ()
+    assert total.certified_enclosure() == Interval.exact(F(1))
+    assert led.records["b"].residual == Interval.exact(F(10) ** 6)

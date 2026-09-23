@@ -162,9 +162,43 @@ kinds, and the distinction matters:
 
 | kind | meaning | effect on the total |
 |---|---|---|
-| `OUTSIDE` | proved disjoint from the region by an exact rational test | contributes nothing; the total stays an enclosure |
+| `OUTSIDE` | proved disjoint from the region by an exact rational test | contributes nothing; the total stays an enclosure. A non-zero `residual` here is **refused at the point of entry** — see below |
 | `UNRESOLVED_BOUNDARY` | straddles the boundary, unresolved at the depth limit | contributes its `residual`; without one, `covers_region=False` and `certified=False` |
 | `EXCLUDED` | excluded by a stated predicate (unused here) | as above |
+
+### An `OUTSIDE` residual the total would have discarded (found 2026-09-23)
+
+`total()` skips every `OUTSIDE` cell with `continue` *before* it reaches the
+branch that sums a residual, and until 2026-09-23 `Ledger.reject` validated the
+kind, the reason and the `boundary_area_bound` but never the residual. So a
+caller could reject a cell `OUTSIDE` while handing over a non-zero residual, and
+the number was stored on the record, dropped from every total, and the run still
+reported itself sound. On a two-cell unit cover with one cell accepted at
+exactly `1` and the other rejected `OUTSIDE` carrying `[10**6, 10**6]`:
+
+```
+total.certified       True
+total.covers_region   True
+total.caveats         ()
+certified_enclosure   Interval(1, 1)
+```
+
+An enclosure of `[1, 1]` while holding a discarded possible contribution of a
+million. **This was a live path, not a mutation** — nothing had to be broken to
+produce those four lines.
+
+`reject` now refuses a non-zero residual on an `OUTSIDE` cell. The two
+statements cannot both be true: `OUTSIDE` asserts the cell is *proved disjoint*
+and therefore contributes exactly zero, so a non-zero possible contribution
+denies the very rejection the call is recording. Whichever is wrong, the caller
+must say which. `None` and an exact `[0, 0]` are both still accepted, and the
+two kinds whose residuals *are* summed still take a non-zero one — the guard is
+scoped to `OUTSIDE`, so it closes the hole without removing the feature.
+
+Controls 41 and 42 in `tests/test_cover.py`. Control 41 was confirmed to FAIL
+against a copy of the package with the guard deleted; control 42 rebuilds the
+pre-guard record by hand and asserts the old behaviour, so the defect stays
+demonstrable after the fix rather than surviving only as prose.
 
 > **`boundary_area_bound` is the right name for two of those three kinds.** An
 > `OUTSIDE` cell is *proved disjoint* from the region: it holds no boundary and
