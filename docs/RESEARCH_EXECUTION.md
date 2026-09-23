@@ -71,17 +71,6 @@ python tools/rn_side24_spatial_check.py
 python tools/parallel_math_check.py
 ```
 
-The three SIDE24 commands above — `rn_side24_check.py`,
-`rn_side24_density_check.py`, and `rn_side24_spatial_check.py` — follow the
-prep path in [RN_SIDE24.md](RN_SIDE24.md),
-[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md), and
-[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md). Each note states what is **ABSENT**,
-what the adapter **REFUSED**, and what stays **OPEN**. The lane pointer is
-[RESEARCH_MAP.md](RESEARCH_MAP.md) §3. `field_certified` stays false. A
-passing run of these commands does not discharge `D3-LEMMA-RN-UNIF` or
-`OBL-H5-JETMOD`. `parallel_math_check.py` stays the parallel-candidate replay
-named in the paragraph above.
-
 The [twelve-project continuation](TWELVE_PROJECT_MATH.md) replays the exact
 frozen candidate archive in a fresh external directory. The portable wrapper
 checks its allowlist, every input identity and the current repository
