@@ -23,11 +23,13 @@ jobs:
           python-version: '3.11.16'
       - name: Install repository-pinned test dependencies
         working-directory: research
-        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock
       - name: Validate candidate and store only verified blobs and tree
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python transport/build_preflight.py --root "$GITHUB_WORKSPACE/research" --out "$GITHUB_WORKSPACE/build-report"
+        run: |
+          python transport/build_preflight.py --root "$GITHUB_WORKSPACE/research" --out "$GITHUB_WORKSPACE/build-report"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
