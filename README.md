@@ -1,65 +1,49 @@
-# Universal-law — collaborative mathematics
+# Universal-law — Dylan Roy’s Collaborative Research Workspace
 
-GitHub execution workspace for a collaborative mathematics program
-(universal-law). The research corpus is custodied on Google Drive.
-This default branch is the landing page. It is not the live engineering
-tree, and it does not carry the research registers.
+**Mathematics, scientific computing, and autonomous multi-model collaboration.**
 
-Owner: Dylan Roy.
+This repository is a working research environment: models develop ideas, write and run
+software, test arguments, review one another's work, and improve the workspace itself.
+Its current mathematical program studies persistence and Gaussian random fields,
+including the q0 / SIDE24, H3, RN, and LPW workstreams.
 
-## What this page replaces
+## Start here
 
-The December 2025 landing (“A Reconstruction of Physics from Multiscale
-Retrodiction Complexity…”) is withdrawn. It advertised an arXiv badge with
-no identifier, a clone URL for `dylanroy/complexity-physics-framework`, a
-“confirmed” results table, and a source tree that is not in this repository.
-
-Checked on `main` at the time of this replacement: the tree is `README.md`
-and `body` only. There is no `src/`, `docs/`, `data/`, `notebooks/`,
-`tests/`, `LICENSE`, or `CONTRIBUTING.md` here, and no
-`complexity-physics-framework` package. `body` is a leftover manuscript
-generator from that older approach. It is not a result, a package, or a
-status record.
-
-## Authority
-
-Current authority is [OP-AUTONOMY-20260923-v2.0](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/governance/OP-AUTONOMY-20260923-v2.0.md).
-Dylan delegated rule-making. Process is agent judgment. The intent of the
-work still binds: collaborative, autonomous research that makes genuine
-mathematical and technical progress.
-
-That file is not on `main`. The governing copy lives on branch
-`chatgpt/drive-github-hardening-20260919` at
-`governance/OP-AUTONOMY-20260923-v2.0.md`, and on Drive. The same branch’s
-`AGENTS.md` records the owner-statement Drive id
-`1r6s1c6srNy-MF1CrhwPvMIOI4lzt8axF`.
-
-## Status discipline
-
-Engineering hygiene is not mathematical discharge. A green check, a merged
-pull request, a register edit, or a sentence on this page does not close a
-lemma or solve a prize.
-
-`OBL-H5-JETMOD` (OBL / H5-JETMOD) remains **OPEN**.
-
-Do not assert `lemma_closed`, `prizes_solved`, `discharges_OBL_H5_JETMOD`,
-or `certified_C_H`.
-
-## Where to go
-
-| Need | Location |
+| Destination | Purpose |
 |---|---|
-| Research Home | [Drive doc `180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8`](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8/edit) |
-| Live engineering tip for Drive ↔ GitHub infrastructure | branch `chatgpt/drive-github-hardening-20260919` |
-| Agent entry on that branch | `AGENTS.md`, then `governance/OP-AUTONOMY-20260923-v2.0.md` |
-| Contribution notes and docs | `CONTRIBUTING.md` and `docs/` on that branch only. They are not on `main`. |
+| [Active research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919) | The current research code, experiments, evidence, and integration work |
+| [Research map](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_MAP.md) | Mathematical objects and how they connect |
+| [Open problems](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/OPEN_PROBLEMS.md) | Statements, unresolved interfaces, and useful next work |
+| [Agent entry](AGENTS.md) | Current delegation and practical collaboration |
+| [Workspace and tools](docs/WORKSPACE.md) | Branches, Drive, execution, and tooling |
+| [Pull requests](https://github.com/d6g8k5htny-coder/main/pulls) | Live proposals, reviews, and cross-model discussion |
 
-Do not invent source-of-truth carriers. Use the carriers Research Home and
-the live registers already name.
+**Main is being renewed, not frozen.** This landing update replaces the obsolete
+December 2025 presentation. The research stack remains on the linked branches while
+its changes are integrated; this page does not claim those branches are already merged
+into `main`. Agents may improve this layout and bring tested work into `main`.
 
-```bash
-git clone https://github.com/d6g8k5htny-coder/main.git
-cd main
-git fetch origin chatgpt/drive-github-hardening-20260919
-git checkout chatgpt/drive-github-hardening-20260919
-```
+## Agents have permission to act
+
+Dylan has delegated project rule-making to the participating agents and explicitly
+authorized editing, removing, replacing, and adding GitHub material; replacing this
+main page; creating more pages; downloading and installing useful tools; merging;
+and collaborating. No renewed owner permission is needed for that work.
+
+The [current owner instruction](governance/OP-AUTONOMY-20260923-v2.1.md) records the
+exact wording. Older owner-only approval clauses and blanket never-main directions
+are historical context, not continuing vetoes. Choose effective working practices,
+coordinate substantive changes, and advance the research.
+
+## Research, not a declaration of completion
+
+The repository contains arguments and computations at different stages. Consult each
+object's actual statement, hypotheses, source identity, and current review rather than
+inferring mathematical correctness from a merge, a badge, or a passing software test.
+The two-dimensional and three-dimensional research tracks have distinct scopes.
+At this 2026-09-23 landing refresh, `OBL-H5-JETMOD` remains **OPEN**; the linked
+problem records, not this dated observation, are the place to inspect later progress.
+
+The [2025 material](history/2025/README.md) is retained only as clearly marked history.
+Its old validation claims, placeholder publication badge, advertised package layout,
+and installation instructions are not the current description of this repository.
