@@ -43,3 +43,15 @@ python3 tools/math_status_check.py
 Does not invent a 24-jet roster. Does not promote display/κ. Does not merge PR #12.
 `discharges_OBL_H5_JETMOD` stays false. `lemma_closed` stays false. `certified_C_H` stays false.
 `prizes_solved` stays 0. OBL-H5-JETMOD stays OPEN. Green ≠ discharge.
+
+## Honesty labels and tip provenance
+
+`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`, `PARTIAL`, and `REFUSED_NOT_24JET` are honesty labels. They are not discharge, not a source of truth, and not FREEZE. They are not an RN source of truth. `STATUS_RN_UNIF.md` keeps that lane.
+
+`aligned_to_base_tip` on `INVENTABLE_PROBES_INDEX.json`, and on the three shortcut receipts that already carry it (`inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json`, `inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json`, `inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json`), is `1ea0ae8183fb0459c6678243946295518fded1ba`. That SHA is generation provenance (`HISTORICAL_NONCURRENT`). It is not a re-run on hardening LOCK `b3da6688a55d34681bb27f17ba6c6c5e16ad534c` (short `b3da668`). Sibling receipts and instrumentation receipts that omit the field stay without it. Receipt bytes are not re-hashed here.
+
+Advancing the tip does not re-execute `inventable_jetmod_probes.py` or `inventable_jetmod_instrumentation_status.py`. It does not upgrade a refusal, `EMPTY`, `ABSENT`, or `PARTIAL` into `PRESENT` or `SUCCESS`.
+
+24-jet STOP in `docs/math_status/STATUS_JETMOD.md`: the source-named subset stays 8 (6 MS-diag + `kappa_c2` + `s_f_fx`). Inventing toward 24 without a Drive/PROMOTE enumeration stays **REFUSED_NOT_24JET**.
+
+`scientific_status_changed` stays false. OBL-H5-JETMOD stays OPEN. Green ≠ discharge.
