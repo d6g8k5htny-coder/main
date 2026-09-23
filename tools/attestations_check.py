@@ -26,6 +26,7 @@ Every path is resolved when ``main()`` runs, never at import time.
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import sys
 
@@ -53,7 +54,8 @@ MIN_DISTINCT_TOKENS = {"does_not_establish": 25}
 
 
 def check_record(record: dict, schema: dict, stem: str,
-                 seen_ids: set[str], seen_prose: dict[str, str]) -> list[str]:
+                 seen_ids: set[str], seen_prose: dict[str, str],
+                 seen_successors: set[tuple[str, str]]) -> list[str]:
     problems: list[str] = []
 
     def fail(message: str) -> None:
@@ -107,6 +109,26 @@ def check_record(record: dict, schema: dict, stem: str,
         elif key:
             seen_prose.setdefault(key, stem)
 
+    # -- the object's current bytes ---------------------------------------- #
+    # An attestation speaks for the commit it names. When the object still
+    # exists at that path and its bytes have since changed, the record is
+    # historical and must say so: a stale digest presented as current is the
+    # one failure this form cannot tolerate.
+    path = record["object_id"].split(" @ ")[0].strip()
+    candidate = os.path.join(ROOT, path)
+    if os.path.isfile(candidate):
+        raw = open(candidate, "rb").read()
+        digest = hashlib.sha256(raw).hexdigest()
+        if digest != record["object_sha256"] or len(raw) != record["object_bytes"]:
+            successor = record.get("superseded_by")
+            if not successor:
+                fail(f"object {path} now has {len(raw)} bytes / sha256 {digest[:16]}..., "
+                     f"not the attested {record['object_bytes']} / "
+                     f"{record['object_sha256'][:16]}...; re-run the gates and attest the "
+                     f"current bytes, or set superseded_by to the record that did")
+            else:
+                seen_successors.add((stem, successor))
+
     # -- free-text scans --------------------------------------------------- #
     for path, text in walk_strings(record):
         lowered = text.lower()
@@ -129,6 +151,7 @@ def check_all(records_dir: str, schema_path: str) -> list[str]:
     problems: list[str] = []
     seen_ids: set[str] = set()
     seen_prose: dict[str, str] = {}
+    seen_successors: set[tuple[str, str]] = set()
     for filename in sorted(os.listdir(records_dir)):
         if not filename.endswith(".json"):
             continue
@@ -141,7 +164,13 @@ def check_all(records_dir: str, schema_path: str) -> list[str]:
         if not isinstance(record, dict):
             problems.append(f"{filename}: top level is not an object")
             continue
-        problems.extend(check_record(record, schema, stem, seen_ids, seen_prose))
+        problems.extend(check_record(record, schema, stem, seen_ids, seen_prose,
+                                     seen_successors))
+    for stem, successor in sorted(seen_successors):
+        if successor not in seen_ids:
+            problems.append(f"{stem}.json: superseded_by names {successor!r}, which is not a "
+                            f"record in this directory; a record cannot be retired by a "
+                            f"successor that does not exist")
     return problems
 
 

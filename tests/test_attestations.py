@@ -25,7 +25,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECKER = os.path.join(ROOT, "tools", "attestations_check.py")
 SCHEMA = os.path.join(ROOT, "attestations", "attestation.schema.json")
 RECORDS = os.path.join(ROOT, "attestations", "records")
-GOOD = os.path.join(RECORDS, "ATT-RN-INNER-WEDGE-20260923.json")
+GOOD = os.path.join(RECORDS, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 def run_checker(records_dir):
@@ -40,13 +40,13 @@ def good_record():
         return json.load(handle)
 
 
-def write(tmp_path, record, stem="ATT-RN-INNER-WEDGE-20260923"):
+def write(tmp_path, record, stem="ATT-RN-INNER-WEDGE-20260923B"):
     path = tmp_path / f"{stem}.json"
     path.write_text(json.dumps(record, indent=1), encoding="utf-8")
     return tmp_path
 
 
-def refuse(tmp_path, record, needle, stem="ATT-RN-INNER-WEDGE-20260923"):
+def refuse(tmp_path, record, needle, stem="ATT-RN-INNER-WEDGE-20260923B"):
     result = run_checker(write(tmp_path, record, stem))
     assert result.returncode == 1, result.stdout
     assert needle in result.stdout, result.stdout
@@ -109,7 +109,7 @@ def test_a_genuine_refusal_is_accepted(tmp_path):
 def test_empty_checks_is_refused(tmp_path):
     record = good_record()
     record["checks"] = []
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -140,7 +140,7 @@ def test_nonzero_independence_credit_is_refused(tmp_path, value):
 def test_admitted_with_empty_awaiting_is_refused(tmp_path):
     record = good_record()
     record["awaiting"] = []
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -177,7 +177,7 @@ def test_confidence_voting_is_refused(tmp_path, phrase):
 def test_an_unknown_field_is_refused(tmp_path):
     record = good_record()
     record["approved_by"] = "nobody"
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 def test_id_not_matching_the_filename_is_refused(tmp_path):
@@ -206,19 +206,72 @@ def test_a_copied_does_not_establish_is_refused(tmp_path):
 def test_a_malformed_object_digest_is_refused(tmp_path, digest):
     record = good_record()
     record["object_sha256"] = digest
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 def test_zero_object_bytes_is_refused(tmp_path):
     record = good_record()
     record["object_bytes"] = 0
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
 
 
 def test_a_missing_records_directory_is_reported(tmp_path):
     result = run_checker(tmp_path / "absent")
     assert result.returncode == 1
     assert "does not exist" in result.stdout
+
+
+# --------------------------------------------------------------------------- #
+# The object's current bytes                                                   #
+# --------------------------------------------------------------------------- #
+
+def test_a_stale_digest_on_a_live_path_is_refused(tmp_path):
+    """The rule that caught this suite's own first real defect: PR #19 appended a
+    banner to an attested document, and nothing noticed until this existed."""
+    record = good_record()
+    record["object_sha256"] = "0" * 64
+    refuse(tmp_path, record, "re-run the gates and attest the current bytes")
+
+
+def test_a_stale_byte_count_on_a_live_path_is_refused(tmp_path):
+    record = good_record()
+    record["object_bytes"] = record["object_bytes"] + 1
+    refuse(tmp_path, record, "re-run the gates and attest the current bytes")
+
+
+def test_superseded_by_exempts_a_historical_record(tmp_path):
+    record = good_record()
+    record["object_sha256"] = "0" * 64
+    record["superseded_by"] = "ATT-SUCCESSOR-RECORD"
+    successor = good_record()
+    successor["attestation_id"] = "ATT-SUCCESSOR-RECORD"
+    successor["does_not_establish"] = (
+        "This successor record establishes nothing whatever about correctness, soundness, "
+        "sharpness or acceptance of any mathematical statement anywhere in the programme; it "
+        "exists purely so that its predecessor may be retired honestly rather than quietly "
+        "edited, and it awards no independence credit to anybody under any circumstances."
+    )
+    write(tmp_path, record)
+    write(tmp_path, successor, stem="ATT-SUCCESSOR-RECORD")
+    result = run_checker(tmp_path)
+    assert result.returncode == 0, result.stdout
+
+
+def test_superseded_by_naming_a_missing_record_is_refused(tmp_path):
+    record = good_record()
+    record["object_sha256"] = "0" * 64
+    record["superseded_by"] = "ATT-DOES-NOT-EXIST"
+    refuse(tmp_path, record, "is not a record in this directory")
+
+
+def test_an_object_path_absent_from_the_tree_is_not_checked(tmp_path):
+    """A Drive id or a path outside this checkout cannot be byte-compared, and the
+    rule must not invent a failure for one."""
+    record = good_record()
+    record["object_id"] = "drive:1abcDEFghiJKLmnoPQRstu @ 0123456789abcdef"
+    record["object_sha256"] = "0" * 64
+    result = run_checker(write(tmp_path, record))
+    assert result.returncode == 0, result.stdout
 
 
 # --------------------------------------------------------------------------- #

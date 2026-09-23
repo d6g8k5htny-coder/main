@@ -101,6 +101,11 @@
       "minLength": 200,
       "description": "What this attestation does NOT establish, specific to this object. Boilerplate shared with another record is rejected."
     },
+    "superseded_by": {
+      "type": "string",
+      "pattern": "^ATT-[A-Z0-9][A-Z0-9._-]{2,60}$",
+      "description": "The attestation that re-ran the gates against this object's current bytes. An attestation speaks only for the commit it names, so when the object changes the record does not become false, it becomes historical. Setting this marks it as such and exempts it from the current-bytes check; the named successor must exist in the same directory."
+    },
     "notes": {"type": "string"}
   }
 }
