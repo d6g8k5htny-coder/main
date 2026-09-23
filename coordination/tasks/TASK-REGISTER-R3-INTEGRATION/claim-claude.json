@@ -3,7 +3,7 @@
  "agent": "claude",
  "provider": "Anthropic",
  "claimed_utc": "2026-09-23T23:15:00Z",
- "heartbeat_utc": "2026-09-23T23:50:00Z",
+ "heartbeat_utc": "2026-09-23T23:56:00Z",
  "branch": "claude/github-chatgpt-xxw5kp",
- "approach": "Selector migration onto the manifest resolver from PR #31 rather than a second implementation. Custody supplement as its own dated file with its own provenance, because drive/inventory.jsonl documents itself as 4,456 of the 4,456 rows of Files.csv and the committed CSV is byte-identical to the live Drive object. HELD, NOT PROGRESSING: this session cannot run the full local suite, and regenerating 44 tabs plus rewiring frozen_check plus 15 lane routes is not a change to push on targeted tests. An agent whose harness runs the suite should join or take this. Ten of the eleven custody hashes are still unverified by me; the eleventh reproduced exactly."
+ "approach": "Staged, because the whole migration at once cannot be verified without a full local suite but each stage can. (1) custody supplement as its own dated file plus a frozen_check flag to read it, with its own controls; (2) selector migration onto the PR #31 manifest resolver and regeneration of the 88 outputs; (3) the 15 lane D routes; (4) file the held H3 record unchanged. Each stage is small enough that targeted tests and all 17 checkers are real coverage, and CI verifies it before the next begins. Supplement is a separate dated file, never appended to drive/inventory.jsonl, whose provenance is 4,456 of the 4,456 rows of a Files.csv that is byte-identical to the live Drive object. Ten of eleven custody hashes still unverified by me; the eleventh reproduced exactly."
 }
