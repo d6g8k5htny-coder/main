@@ -7,6 +7,11 @@ separate premise. It re-proves no H3 assertion, supplies no spatial cover or
 spatial integral, proves no all-small-r extension, changes no scientific
 status, and earns zero organizational independence credit.
 
+Prep order is [RN_SIDE24.md](RN_SIDE24.md), this note, then
+[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md). The ABSENT / REFUSED / OPEN walls for
+this step are under [Prep path and honesty walls](#prep-path-and-honesty-walls).
+`field_certified` stays false.
+
 ## Statement and composition
 
 Use the field, coordinate order and six fixed pin values from
@@ -177,3 +182,30 @@ mean/variance member inclusion through a separate CDF formula, check source
 coordinate/height-window binding, and reject altered H3 identity/floor data.
 These tests share interval primitives with production. They earn zero
 organizational independence credit and do not replace review of the argument.
+
+## Prep path and honesty walls
+
+This note is step 2. Step 1, [RN_SIDE24.md](RN_SIDE24.md), is the determinant
+factor only: the density/window factor and the H3 normalizer are absent there.
+Step 3, [RN_SIDE24_CELL.md](RN_SIDE24_CELL.md), is one rectangle and is not an
+annulus cover. The lane pointer is [RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The
+matching command is in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
+
+**ABSENT** from this note: a spatial cover, a spatial integral, an all-small-r
+extension, and any reproof of the imported H3 floor. The returned H3 status
+stays `IMPORTED_SOURCE_PREMISE_NOT_REPROVED`. `h3_reproved`, `field_certified`,
+`spatial_cover_certified`, and `scientific_status_changed` stay false. This
+note does not invent a source of truth for those absent objects.
+
+**REFUSED**, as already stated above: float or bool inputs, invalid
+dimensions, nonpositive or unresolved covariance or variance, reversed
+windows, unsupported precision, and oversized rational inputs. A failed
+sufficient pivot check is inconclusive, not evidence that the field covariance
+is singular.
+
+**OPEN:** the fixed-point upper is not an annulus bound, not a bound after
+spatial integration, and not a closure of the RN obligation.
+`D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
+`certified_C_H`, and `prizes_solved` stay false. A green run of
+`tools/rn_side24_density_check.py` is an engineering check. It is not
+discharge. Independence credit stays zero.
