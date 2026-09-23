@@ -37,6 +37,14 @@ RUNG2 and RUNG3 do not discharge OBL-H5-JETMOD.
 Eight named jets are a display subset of a 24-jet obligation whose roster is
 still unenumerated in the transcribed note. Widths that exceed the struct
 halfwidth are the falsifier shape that note already records.
+The 2026-09-23 instrumentation STATUS vocab in STATUS_JETMOD.md closes the
+previously unmarked (`?`) rows for `jetmod_first_band_proto`,
+`jetmod_first_band_multi_gram_v1`, `jetmod_first_band_interval_r`,
+`jetmod_multi_jet_band`, and `jetmod_g12_ext_named` to PARTIAL_C2_ONLY /
+REFUSED_NOT_24JET, PARTIAL_GRAM_BLOCKS / REFUSED_NOT_24JET, PARTIAL_C2_SMOKE /
+REFUSED_NOT_24JET, PARTIAL_6_MS_DIAG / REFUSED_NOT_24JET, and PARTIAL_8_NAMED /
+REFUSED_NOT_24JET. Those labels do not discharge OBL-H5-JETMOD. They do not
+invent a 24-jet roster.
 There is no novelty claim. No original prize problem is solved.
 
 `independence_credit` is 0. This packet is same-workspace execution material
@@ -83,7 +91,7 @@ OPEN board. That rewrite is still a display. It still must not flip
 |---|---|
 | `PACKET.json` | Machine flags. OPEN / HOLD only. |
 | `STATUS.md` | 2026-09-21 RN-UNIF note, retained, plus the 2026-09-22 evening CT walls |
-| `STATUS_JETMOD.md` | 2026-09-21 JETMOD note, retained, plus the 2026-09-22 evening CT walls |
+| `STATUS_JETMOD.md` | 2026-09-21 JETMOD note, retained, plus the 2026-09-22 evening CT walls, plus the 2026-09-23 instrumentation STATUS vocab |
 | `STATUS_RN_UNIF.md` | Short 2026-09-22 evening CT RN-UNIF wall note; OPEN; does not discharge |
 | `STATUS_MATH_PUSH_2026-09-21.md` | Transcribed 2026-09-21 push note, byte-exact |
 | `math_console.py` | Transcribed fail-closed console, byte-exact |
