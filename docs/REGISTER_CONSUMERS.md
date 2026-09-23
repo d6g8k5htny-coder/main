@@ -87,3 +87,35 @@ A cold-start smoke pass and a green dashboard do not imply `lemma_closed`,
 do not imply `discharges_OBL_H5_JETMOD`, and do not discharge
 `D3-LEMMA-RN-UNIF`. Green CI is a run. It is not obligation discharge.
 `OBL-H5-JETMOD` stays OPEN.
+
+## Inventable jetmod instrumentation
+
+The surfaces under [`docs/math_status_probes/`](math_status_probes/README.md)
+are UI/probe and instrumentation STATUS:
+`inventable_jetmod_instrumentation_status.py`,
+that directory's README, and the `inventable_*` PARTIAL / REFUSED_NOT_24JET
+receipts (`inventable_first_band_proto_PARTIAL_receipt.json`,
+`inventable_first_band_smoke_PARTIAL_receipt.json`,
+`inventable_first_band_multi_gram_PARTIAL_receipt.json`,
+`inventable_multi_jet_band_REFUSED_NOT_24JET_receipt.json`,
+`inventable_g12_ext_named_REFUSED_NOT_24JET_receipt.json`,
+`inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json`).
+They are not a mathematics source of truth. `PARTIAL`, `REFUSED_NOT_24JET`,
+and similar tokens are not discharge. `UNREAD` means unnamed in this corpus.
+An `UNREAD` tab is not defective. This section names those surfaces only to
+route a reader. It does not add a consumer, and it does not move any class:
+this document is map machinery and stays outside the scan.
+
+Repository entry is the root [`README.md`](../README.md), which points on to
+[`docs/RESEARCH_MAP.md`](RESEARCH_MAP.md) and
+[`docs/OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md). The docs index is
+[`docs/README.md`](README.md). The STATUS packet is
+[`docs/math_status/`](math_status/README.md): an OPEN/HOLD display, not a
+second claim log. Probe and instrumentation honesty for these receipts is
+[`docs/math_status_probes/README.md`](math_status_probes/README.md). Exported
+tab roles are listed in [`registers/README.md`](../registers/README.md).
+
+These surfaces do not imply `lemma_closed`, do not imply
+`discharges_OBL_H5_JETMOD`, and do not discharge `D3-LEMMA-RN-UNIF`. A green
+checker and a green dashboard do not discharge. Green CI is a run. It is not
+obligation discharge. `OBL-H5-JETMOD` stays OPEN.
