@@ -325,7 +325,7 @@ def check_packet_schema(packet: Any, problems: list) -> None:
         problems.append("PACKET.json: schema must be q0.math-status-packet/v1")
     if packet.get("base_branch") != "chatgpt/drive-github-hardening-20260919":
         problems.append("PACKET.json: base_branch must be the hardening tip branch")
-    if packet.get("base_commit") != "d107ab121d230de33c09e727c7804098ec4e8249":
+    if packet.get("base_commit") != "a89f9a703739aed9d290c94d68f80bf4e8bd9d62":
         problems.append("PACKET.json: base_commit must be the hardening tip")
     if packet.get("git_role") != "execution_workspace_mirror_only":
         problems.append("PACKET.json: git_role must be execution_workspace_mirror_only")
