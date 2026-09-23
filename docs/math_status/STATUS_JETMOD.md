@@ -184,3 +184,25 @@ Receipts remain under `code_prototypes/` (vendor path as in PR #15) or cited by 
 | `jetmod_g12_ext_named` | 8 / 24 | +κ_c2,+s_f_fx source-named; stop_reason: further names invent 24-list |
 
 `discharges_OBL_H5_JETMOD` stays **false**. `lemma_closed` stays **false**. `certified_C_H=false`. `inventable_attempt_accepted` stays false. OBL-H5-JETMOD remains OPEN. Green CI ≠ discharge.
+
+## Instrumentation STATUS vocabulary (PARTIAL / REFUSED_NOT_24JET) — 2026-09-23 CT
+
+**As of:** 2026-09-23 ~12:06 CT (America/Chicago)  
+**Runner:** `docs/math_status_probes/inventable_jetmod_instrumentation_status.py`  
+**Index:** `docs/math_status_probes/INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json`
+
+Local `code_prototypes` inventory rows previously marked `?` only (no new walls; no 24-jet roster invention; no display/κ promotion). Honest STATUS vocabulary:
+
+| Inventory row | Lane | STATUS vocabulary | File |
+|---|---|---|---|
+| `jetmod_first_band_receipt.json` | first_band_proto / first_band_smoke / first_band_multi_gram family | **PARTIAL** | `inventable_first_band_proto_PARTIAL_receipt.json` |
+| `jetmod_first_band_smoke_receipt.json` | first_band_proto / first_band_smoke / first_band_multi_gram family | **PARTIAL** | `inventable_first_band_smoke_PARTIAL_receipt.json` |
+| `jetmod_first_band_multi_gram_receipt.json` | first_band_proto / first_band_smoke / first_band_multi_gram family | **PARTIAL** | `inventable_first_band_multi_gram_PARTIAL_receipt.json` |
+| `jetmod_multi_jet_band_receipt.json` | multi_jet_band (6 MS-diag) | **REFUSED_NOT_24JET** | `inventable_multi_jet_band_REFUSED_NOT_24JET_receipt.json` |
+| `jetmod_g12_ext_named_receipt.json` | g12_ext_named (8 named) | **REFUSED_NOT_24JET** | `inventable_g12_ext_named_REFUSED_NOT_24JET_receipt.json` |
+
+`PARTIAL` = finite display / thin-cell / Gram scaffolding instrumentation — **not** a certified 24-jet band enclosure.  
+`REFUSED_NOT_24JET` = inventable attempt to treat 6–8 named jets as the unenumerated 24-jet roster (or to invent further names toward 24 without a Drive/PROMOTE list) is refused.
+
+All five keep `discharges_OBL_H5_JETMOD: false`, `lemma_closed: false`, `inventable_attempt_accepted: false`, `certified_C_H: false`, `prizes_solved: 0`.  
+**OBL-H5-JETMOD remains OPEN.** These instrumentation STATUS receipts do not discharge OBL-H5-JETMOD. Green ≠ discharge. PR #12 left unmerged. Certificate skim-trap PRs not reopened.
