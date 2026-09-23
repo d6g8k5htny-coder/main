@@ -57,9 +57,9 @@
  "counts": {
   "tabs": 44,
   "generic_files": 4,
-  "MACHINE": 23,
+  "MACHINE": 26,
   "PROSE_ONLY": 3,
-  "UNREAD": 18
+  "UNREAD": 15
  },
  "tabs": {
   "active_work_claims": {
@@ -95,6 +95,7 @@
     "registers/collision_proposal_2026-09-19.json",
     "tests/test_collision_proposal.py",
     "tests/test_operations.py",
+    "tests/test_register_source_selection.py",
     "tools/collision_proposal_check.py",
     "tools/registers_check.py"
    ],
@@ -221,6 +222,7 @@
     "registers/KNOWN_FINDINGS.json",
     "registers/collision_proposal_2026-09-19.json",
     "tests/test_collision_proposal.py",
+    "tests/test_register_source_selection.py",
     "tools/collision_proposal_check.py",
     "tools/registers_check.py"
    ],
@@ -244,9 +246,11 @@
    "class": "MACHINE",
    "machine": [
     "tests/test_frozen_check.py",
+    "tests/test_register_source_selection.py",
     "tools/frozen_check.py",
     "tools/register_migration_preflight.py",
-    "tools/registers_check.py"
+    "tools/registers_check.py",
+    "tools/registers_preflight.py"
    ],
    "prose": [
     "docs/FINDINGS_2026-09-18.md",
@@ -264,8 +268,10 @@
    "prose": []
   },
   "identity_drift_watch": {
-   "class": "UNREAD",
-   "machine": [],
+   "class": "MACHINE",
+   "machine": [
+    "tests/test_register_source_selection.py"
+   ],
    "prose": []
   },
   "lpw_fold_dispositions": {
@@ -420,11 +426,14 @@
     "engine/lanes/D.json",
     "tests/test_claims.py",
     "tests/test_lanes.py",
+    "tests/test_register_preflight.py",
+    "tests/test_register_source_selection.py",
     "tests/test_reviews.py",
     "tools/closure_pipeline.py",
     "tools/lanes_check.py",
     "tools/register_migration_preflight.py",
     "tools/registers_check.py",
+    "tools/registers_preflight.py",
     "tools/reviews_check.py"
    ],
    "prose": [
@@ -448,8 +457,10 @@
    ]
   },
   "start_here": {
-   "class": "UNREAD",
-   "machine": [],
+   "class": "MACHINE",
+   "machine": [
+    "tests/test_register_source_selection.py"
+   ],
    "prose": []
   },
   "task_gates": {
@@ -483,6 +494,7 @@
     "engine/receipt.py",
     "engine/receipts/README.md",
     "tests/test_bridge.py",
+    "tests/test_register_source_selection.py",
     "tools/registers_check.py"
    ],
    "prose": [
@@ -492,8 +504,10 @@
    ]
   },
   "work_orders": {
-   "class": "UNREAD",
-   "machine": [],
+   "class": "MACHINE",
+   "machine": [
+    "tests/test_register_source_selection.py"
+   ],
    "prose": []
   }
  }
