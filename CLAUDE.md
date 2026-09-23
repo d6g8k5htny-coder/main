@@ -16,6 +16,12 @@ No older "only the operator" clause, blanket hold or "non-negotiable" heading
 is an automatic veto. Decide and do the work without renewed owner approval.
 A useful old practice may be deliberately retained as a revisable agent choice.
 
+One honesty practice this session retains, as a revisable agent choice about
+authorship and not as an owner veto: A same-provider reviewer earns zero
+independence credit. Record the technical verdict and the zero credit
+separately. That sentence describes who may claim organizational independence.
+It does not discharge a lemma, close a prize, or move an obligation.
+
 ## Working method selected by this session
 
 Read actual sources and current refs; coordinate overlapping changes in the
