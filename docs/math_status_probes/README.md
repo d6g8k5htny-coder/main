@@ -10,6 +10,17 @@ They are not in the sibling-sweep four.
 - Promote the display residual or struct κ as a certified enclosure — display ≠ certified.
 - Merge draft PR #12 as a math_status catch-up, or claim RUNG2/3 discharges JETMOD. PR #12 stays unmerged. Green ≠ discharge.
 
+Sibling `inventable_*` receipts that sit in this directory and were unnamed above:
+
+- `inventable_eval_F_G12box_REFUSED_receipt.json` — `REFUSED`
+- `inventable_interval_schur_ainv_REFUSED_receipt.json` — `REFUSED_IA_STRADDLES`
+- `inventable_joint_ry_cancel_EMPTY_receipt.json` — `EMPTY`
+- `inventable_phi_bridge_ABSENT_receipt.json` — `ABSENT`
+- `inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json` — `REFUSED`
+- `inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json` — `REFUSED`
+
+Those tokens are honesty labels, not discharge. Naming the merge receipt does not merge draft PR #12.
+
 ```bash
 python3 docs/math_status_probes/inventable_jetmod_probes.py
 python3 tools/math_status_check.py   # also validates these receipts
