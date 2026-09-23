@@ -353,8 +353,7 @@ false. `D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN.
 `lemma_closed`, `certified_C_H`, and `prizes_solved` stay false. The checker
 commands in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md) are engineering
 checks; a green run is not discharge. This paragraph is a reader route. It
-adds no source of truth and no mathematical claim. The docs index lists the
-same three notes in [README.md](README.md).
+adds no source of truth and no mathematical claim.
 
 `CANNOT_VERIFY` is recorded for the current CL executable and checkpoint
 identity: `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py` and `rnu_spine.py`
