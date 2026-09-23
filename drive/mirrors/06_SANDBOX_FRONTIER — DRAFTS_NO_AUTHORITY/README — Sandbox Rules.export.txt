@@ -1,7 +1,0 @@
-﻿CURRENT SANDBOX ROUTING — OP-PROT-012 / GENERIC PROMPT AUTOROUTER — 2026-07-25
-
-
-A generically dispatched model may use this sandbox only for a bounded experiment tied to its claimed active task. Record the task in GP-REG-032 / Active Work Claims, create a clearly dated and session-identified scratch artifact or subfolder, and state the acceptance or falsification test before relying on the result. Sandbox work has zero authority and zero closure effect. Anything valuable must be reproduced, verified, assigned a permanent artifact ID, and placed in the correct package before citation or use. Lower OP-PROT-011 terminal wording is superseded for approval routing; OP-PROT-012 controls autonomous decisions.
-
-
-Sandbox rules. Any line may create, edit, delete, overwrite, or rearrange anything here freely, any time. It is a shared scratch pad and experimental workspace. Nothing here is live, canonical, or load-bearing — terminal/promoted status under OP-PROT-011 never applies to sandbox items, and governance is never decided here. Anything of lasting value must be copied out into its proper permanent location with a proper ID before it is relied on; the sandbox copy may then be deleted. Never link to a sandbox file from a live/permanent record, so a wipe can never break anything. The entire sandbox may be wiped at any time without review. Hygiene: stamp subfolders by date and line, for example 2026-07-24 — GP.
