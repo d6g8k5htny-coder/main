@@ -66,6 +66,7 @@ deletion and machine-root replacement. This repository changes none of that.
 | `engine/` | the active layer: lanes, bound carriers, the runner, receipts; `bridge/` holds the work-order and run-receipt schemas of the proposed (not deployed) Drive–GitHub execution contract and nothing that enforces it |
 | `research/` | the mathematics: certified intervals and the per-lane drivers |
 | `reviews/` | nonauthor technical review records, all at zero independence credit |
+| `attestations/` | architectural admission records: which objects cleared the structural gates and what each is still waiting on. Never a grade, a gate movement or an independence credit |
 | `recovery/` | recovered accessibility exceptions, with provenance |
 | `quarantine/` | non-authoritative material and the logical-exclusion list |
 | `packages/`, `sandbox/`, `legacy/` | submission packages, drafts, zero-authority material |

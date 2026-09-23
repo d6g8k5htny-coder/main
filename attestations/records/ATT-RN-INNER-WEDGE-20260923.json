@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-RN-INNER-WEDGE-20260923",
+  "attested_utc": "2026-09-23T16:40:00Z",
+  "object_id": "docs/RN_INNER_WEDGE.md @ 7dd6a141d90d5b3d8c670dcf847fd4fc1de1a83e",
+  "object_title": "SIDE24 inner-axis wedge: fixed-radius RN integrand bound",
+  "object_bytes": 4651,
+  "object_sha256": "7483724b6ffe4575dbb36f2713bb700cad11bf344f1c775f50c422caf59eb288",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities. Passing means the object is structurally admissible here. It does not mean the mathematics is correct, and a wrong argument that is correctly filed, correctly hashed and correctly scoped passes this predicate exactly as a right one does.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_inner_wedge_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {"command": "python3 tools/claims_check.py", "exit_code": 0, "summary": "claims=26 premises=13 firewalls=9 problems=0"},
+    {"command": "python3 tools/quarantine_check.py", "exit_code": 0, "summary": "logical quarantine enforced; excludes claims, certifies none"},
+    {"command": "python3 tools/verify_manifests.py", "exit_code": 0, "summary": "manifests=414 verified=3203 problems=0"},
+    {"command": "python3 tools/consumers_check.py", "exit_code": 0, "summary": "register-consumer map free of drift"},
+    {"command": "python3 tools/lanes_check.py", "exit_code": 0, "summary": "no lane reads stronger than the claim graph"},
+    {"command": "python3 tools/frozen_check.py", "exit_code": 0, "summary": "register and source-map digests agree, offline"},
+    {"command": "python3 tools/rn_inner_wedge_check.py", "exit_code": 0, "summary": "12 auxiliary strips, zero pending; exact area 21*pi/5120000"}
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the independence-requiring predicate for this object is OPEN and no record in this repository can supply it.",
+    "Full annulus coverage 1/10 <= |y| <= 5, which this fixed wedge does not address.",
+    "All radii and all pin orientations; the object is stated for one fixed radius and the original x-axis six pins.",
+    "Weighted-Palm moment and event-identification interfaces, which remain unbuilt.",
+    "The imported fixed-radius H3 normalization floor it is conditional on, which is carried, not re-derived here.",
+    "Canonical acceptance by the operator, which no automated record can stand in for."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "This attestation does not establish that the wedge bound is mathematically correct, that its integrand cap is sharp, or that its conditional dependency on the imported H3 floor holds. It verifies no arithmetic and re-derives no inequality; the replay driver reproducing a stated quantity is a record of a computation, not evidence for it. It supplies no organizationally distinct reviewer and awards no independence, so every predicate requiring one is exactly where it was. It says nothing about the full annulus, other radii, other pin orientations, elder pairing, q0, or any original prize problem, and it moves no claim, premise or obligation anywhere.",
+  "notes": "First record under this schema. Written to demonstrate that architectural admission can be recorded autonomously and at scale without any status moving. The seven commands above were run at the stated commit and their real exit codes transcribed; none was inferred."
+}

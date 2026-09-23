@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/q0-research/attestations/attestation.schema.json",
+  "title": "Architectural admission attestation",
+  "description": "Machine-checkable record that a named object cleared a named, machine-checkable ARCHITECTURAL predicate at a stated commit. It is NOT a review, NOT a grade, NOT a promotion and NOT an independence credit. Admission says the repository's own structural gates accepted the object; it says nothing whatever about whether the mathematics is correct. Every admitted object is still waiting on something, and `awaiting` is where that is written down. Enforced by tools/attestations_check.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attestation_id",
+    "attested_utc",
+    "object_id",
+    "object_title",
+    "object_bytes",
+    "object_sha256",
+    "predicate_id",
+    "predicate_statement",
+    "predicate_source",
+    "checks",
+    "outcome",
+    "awaiting",
+    "claim_grade_after",
+    "gate_status_after",
+    "independence_credit",
+    "does_not_establish"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "attestation_id": {
+      "type": "string",
+      "pattern": "^ATT-[A-Z0-9][A-Z0-9._-]{2,60}$",
+      "description": "Unique in attestations/records/ and equal to the filename stem."
+    },
+    "attested_utc": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+      "description": "When the predicate was evaluated. Age never converts a REFUSED into an ADMITTED, and never converts an ADMITTED into anything further."
+    },
+    "object_id": {
+      "type": "string",
+      "minLength": 3,
+      "description": "Exact object identity: repository path plus commit, Drive file id, or carrier id plus member path. Not a title, not a folder."
+    },
+    "object_title": {"type": "string", "minLength": 3},
+    "object_bytes": {"type": "integer", "minimum": 1},
+    "object_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "predicate_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9._-]{2,60}$",
+      "description": "Identifier of the architectural predicate evaluated, e.g. ARCH-ADMISSION-V1."
+    },
+    "predicate_statement": {
+      "type": "string",
+      "minLength": 80,
+      "description": "What passing this predicate means, stated so a reader can tell what it does not mean."
+    },
+    "predicate_source": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Where the predicate is defined: the checker paths, the schema, or the governance document."
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["command", "exit_code", "summary"],
+        "properties": {
+          "command": {"type": "string", "minLength": 5},
+          "exit_code": {"type": "integer"},
+          "summary": {"type": "string", "minLength": 3}
+        }
+      },
+      "description": "Every command actually run, with its real exit code. A single non-zero exit code forbids ADMITTED."
+    },
+    "outcome": {
+      "enum": ["ADMITTED", "REFUSED"],
+      "description": "ADMITTED: the structural gates accepted the object. REFUSED: they did not. There is no third value, and no partial credit."
+    },
+    "awaiting": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 5},
+      "description": "What the object is still waiting on after this attestation. Required to be non-empty: architectural admission never finishes anything, so an attestation that claimed nothing remained would be false by construction."
+    },
+    "claim_grade_after": {
+      "const": "UNCHANGED",
+      "description": "The grade of every claim after this record exists. Always UNCHANGED. An attestation cannot raise, lower or create a grade."
+    },
+    "gate_status_after": {
+      "const": "UNCHANGED",
+      "description": "The state of every gate, premise and obligation after this record exists. Always UNCHANGED."
+    },
+    "independence_credit": {
+      "const": 0,
+      "description": "Always zero. An attestation is not a review and cannot carry organizational independence."
+    },
+    "does_not_establish": {
+      "type": "string",
+      "minLength": 200,
+      "description": "What this attestation does NOT establish, specific to this object. Boilerplate shared with another record is rejected."
+    },
+    "notes": {"type": "string"}
+  }
+}
