@@ -5,6 +5,9 @@ Fills local code_prototypes inventory rows previously marked `?`:
   first_band_proto / first_band_smoke / first_band_multi_gram → PARTIAL
   multi_jet_band / g12_ext_named → REFUSED_NOT_24JET
 
+PARTIAL and REFUSED_NOT_24JET are honesty labels, not discharge, not a source
+of truth, and not FREEZE. Source-named subset stays 8. A later hardening tip
+does not upgrade these tokens to PRESENT or SUCCESS and is not a re-run.
 Does not invent a 24-jet roster, does not promote display/κ, does not claim OBL
 discharge, does not merge PR #12, does not reopen skim-trap PRs #7/#8.
 Green ≠ discharge.

@@ -97,6 +97,15 @@ does not merge draft PR #12.
 `PARTIAL`, and similar receipt tokens are honesty labels. They are not
 discharge. They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`,
 `certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.
+They are not a source of truth and not FREEZE.
+
+Where `aligned_to_base_tip` is already present, it is generation provenance
+(`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index),
+not a re-run on hardening LOCK `b3da6688a55d34681bb27f17ba6c6c5e16ad534c`
+(short `b3da668`). Advancing the tip does not upgrade those labels into
+`PRESENT` or `SUCCESS`. The source-named jet subset stays 8. Inventing
+toward 24 without a Drive/PROMOTE enumeration stays `REFUSED_NOT_24JET`.
+`scientific_status_changed` stays false.
 
 A green checker, a green dashboard, and green CI are not obligation discharge.
 `OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays OPEN. Disposition stays
