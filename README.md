@@ -1,201 +1,95 @@
-# A Reconstruction of Physics from Multiscale Retrodiction Complexity and Gauge Representation Minimization
+# q0 / SIDE24 — research program repository
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![arXiv](https://img.shields.io/badge/arXiv-2025.xxxxx-b31b1b.svg)](https://arxiv.org)
+This branch is a **front door, not the work.** It carries this page, the
+contributor and agent notes beside it, and the licence. Everything else lives
+on the working branches below.
 
-**Author:** Dylan Roy  
-**Affiliation:** Independent Researcher  
-**Date:** December 2025
+Read that literally. `main` holds three files. If you are looking for the
+registers, the claim graph, the certified arithmetic or the Drive mirrors, you
+are on the wrong branch and the table says which one you want.
 
-## Abstract
+---
 
-This repository contains the complete technical implementation, empirical validation code, and manuscript for a unified physics framework in which spacetime geometry, quantum mechanics, gauge structure, fermion generations, and arithmetic regularities emerge as stable stationary points of a constrained complexity functional.
+## Where the work is
 
-The central hypothesis: **δC = 0** where **C = R + K + B** (retrodiction + representation + barrier complexity).
+| branch | holds | what it is |
+|---|---|---|
+| `claude/drive-audit-github-migration-rrglpp` | 3,879 files | the Drive research program ported to git: 44 register tabs, the 4,456-item source map, the machine-checked claim graph, certified interval arithmetic, per-lane drivers, the runner and its receipts |
+| `chatgpt/drive-github-hardening-20260919` | 4,235 files | the active integration lane, forked from the migration branch; most open pull requests target it |
+| `main` | 3 files | this page |
 
-## Key Results
+Both working branches carry a full `README.md`, `CLAUDE.md`, `docs/RESEARCH_MAP.md`
+and `docs/OPEN_PROBLEMS.md`. Those are the real documentation. This page
+deliberately does not restate them, because a summary that drifts from its
+source is the defect this repository exists to avoid.
 
-| Prediction | Value | Validation | Status |
-|------------|-------|------------|--------|
-| Fermion generations | n = 3 | LEP: N_ν = 2.984 ± 0.008 | ✅ Confirmed |
-| Stelle ratio | γ₁/γ₂ = −1/2 | GW ringdown | 🔬 Testable |
-| Helicity barrier τ | 0.022 ± 0.008 | ACE solar wind | ✅ Validated |
-| Critical beta | β_c ≈ 0.5 | PSP encounters | ✅ Confirmed |
-| Primordial f_NL | < O(1) | Planck: −0.9 ± 5.1 | ✅ Consistent |
+---
 
-## Repository Structure
+## What this program does not claim
+
+The single most important thing about this repository is that **every status
+label in it is transcribed from a source register, never decided in the
+repository.** Some consequences, current as of 2026-09-23 and carried verbatim
+from the registers rather than assessed here:
+
+* The five validity premises of **Theorem D1 v2.2(2)** are **OPEN**.
+* Both pieces of **`D3-LEMMA-RN-UNIF`** are **OPEN**.
+* **`OBL-H5-JETMOD`**, **`OBL-H5-ZBAND`** and **`OBL-H5-REMOTE-THRESHOLD`** are **OPEN**.
+* **Theorem B** is **`RETRACTED_TO_CANDIDATE`**, retracted since `GP-AUD-187` (2026-07-24).
+* **No original prize problem is solved.** Every prize claim carries `original_prize_closed: false`.
+* **No independence credit has been awarded.** Every review on file sits at zero,
+  and the gates that require organizational independence remain open.
+* The 2D upper, 2D lower and 3D lifetime tracks are **composed nowhere**.
+* The proposed Drive–GitHub execution contract is **PROPOSED / NOT DEPLOYED**.
+
+A green CI run is a record that a computation ran. It is not a discharge, a
+closure or a certificate, and nothing in this repository can promote a claim —
+that is an operator decision recorded under `governance/`, and Dylan Roy is the
+single final authority for canonical promotion, external release, permanent
+deletion and machine-root replacement.
+
+---
+
+## What used to be on this page
+
+Until 2026-09-23 `main` carried a 2025 single-file README for *A Reconstruction
+of Physics from Multiscale Retrodiction Complexity and Gauge Representation
+Minimization*, together with `body`, a 75 KB JavaScript manuscript generator.
+That page presented a results table marking predictions "✅ Confirmed" and
+"✅ Validated" — a grading style the present program does not use, applied to a
+different body of work.
+
+`body` is removed from this branch and the README replaced. **Neither file is
+lost.** Both are preserved, byte-for-byte and with zero evidentiary authority,
+on the migration branch:
 
 ```
-complexity-physics-framework/
-├── README.md                 # This file
-├── LICENSE                   # MIT License
-├── requirements.txt          # Python dependencies
-├── setup.py                  # Package installation
-├── src/
-│   ├── __init__.py
-│   ├── complexity.py         # Core complexity functional
-│   ├── gauge_theory.py       # Gauge group complexity calculations
-│   ├── fermion_sector.py     # Cl(6) mass hierarchy
-│   ├── helicity_barrier.py   # Solar wind turbulence model
-│   ├── riemann_zeta.py       # Number theory analysis
-│   └── validation.py         # Empirical validation tools
-├── data/
-│   ├── pdg_2024/             # Particle Data Group parameters
-│   ├── ace_solar_wind/       # ACE spacecraft data
-│   ├── planck_2018/          # Cosmological parameters
-│   └── riemann_zeros/        # Zeta zero database
-├── docs/
-│   ├── manuscript.docx       # Complete technical manuscript
-│   ├── derivations/          # Detailed mathematical derivations
-│   └── figures/              # Publication figures
-├── notebooks/
-│   ├── 01_gauge_complexity.ipynb
-│   ├── 02_fermion_masses.ipynb
-│   ├── 03_helicity_barrier.ipynb
-│   └── 04_riemann_analysis.ipynb
-├── tests/
-│   └── test_all.py           # Unit tests
-└── results/
-    └── validation_report.md  # Empirical validation summary
+legacy/complexity-physics-framework/README.md
+legacy/complexity-physics-framework/manuscript_generator_docx.js
 ```
 
-## Installation
+They also remain in this branch's own history at `4fc1d7c` and earlier. Nothing
+here reassesses that work; it is moved out of the front door because it
+describes a repository this is no longer, not because anyone adjudicated it.
 
-```bash
-git clone https://github.com/dylanroy/complexity-physics-framework.git
-cd complexity-physics-framework
-pip install -e .
-```
+---
 
-## Quick Start
+## A note on the branch topology
 
-```python
-from src.complexity import TotalComplexity
-from src.gauge_theory import GaugeGroupComplexity
-from src.fermion_sector import Cl6MassHierarchy
+`main` is not the trunk, and that is deliberate rather than an accident of
+neglect. The migration landed on `main` on 2026-09-23 and was reverted the same
+hour (PR #32, `cos/revert-pr2-never-main`); the integration lane has continued
+on `chatgpt/drive-github-hardening-20260919` since. Anyone — human or agent —
+opening a pull request should read [`AGENTS.md`](AGENTS.md) first and pick a
+base deliberately. Targeting the wrong one produces a diff of hundreds of
+unrelated files, which has already happened once and was caught by another
+agent rather than by a check.
 
-# Calculate Standard Model complexity
-sm_gauge = GaugeGroupComplexity("SU3xSU2xU1")
-print(f"SM Gauge Complexity: K(G) = {sm_gauge.compute():.2f}")
+`main` currently defines no CI workflow, so nothing merged here is gated by
+tests. The working branches define and run their own.
 
-# Compare with GUT alternatives
-su5 = GaugeGroupComplexity("SU5")
-print(f"SU(5) Complexity: K(G) = {su5.compute():.2f}")
+---
 
-# Fermion mass predictions from Cl(6)
-cl6 = Cl6MassHierarchy()
-predictions = cl6.mass_ratios()
-print(f"Predicted m_t/m_c: {predictions['top_charm']:.1f}")
-print(f"Observed m_t/m_c: 135")
-```
+## Licence
 
-## Core Equations
-
-### Total Complexity Functional
-```
-C[H, G, R] = R[H] + K[G, R] + B[H]
-```
-
-### Retrodiction Complexity (Geometric)
-```
-R[g] = α ∫ R √(−g) d⁴x + O(R²)
-```
-
-### Representation Complexity
-```
-K(G) = λ · r(G) · ||f||²
-K(R|G) = μ Σᵢ d(Rᵢ) C₂(Rᵢ)
-```
-
-### Three-Generation Theorem
-```
-C(n) = n · K_{1-gen} + exp(α(n−3)²)
-Minimum at n = 3 for all α > 0
-```
-
-### Helicity Barrier Constitutive Law
-```
-|Δζ₄| = 0.1843 − 0.2051 C_B + 0.022 C_B²
-```
-
-## Empirical Validation Data Sources
-
-### Particle Physics (PDG 2024)
-- Fermion masses: 9 quarks + leptons with uncertainties
-- CKM matrix: 9 elements with full error analysis
-- Gauge couplings: α_s, sin²θ_W, G_F at various scales
-
-### Heliophysics (NASA)
-- Parker Solar Probe encounters 1-25 (2018-2025)
-- ACE solar wind data (1998-present)
-- Helicity barrier threshold: β ≈ 0.5, σ_c ≳ 0.4
-
-### Gravitational Waves (LIGO/Virgo)
-- GWTC-3: ~90 events with QNM analysis
-- GW250114: 4.1σ ringdown overtone detection
-- Graviton mass bound: m_g < 1.27 × 10⁻²³ eV
-
-### Cosmology (Planck 2018)
-- n_s = 0.9649 ± 0.0042
-- r < 0.032 (95% CL)
-- f_NL^local = −0.9 ± 5.1
-
-### Number Theory
-- 12.4 trillion zeta zeros verified on critical line
-- GUE statistics confirmed (Odlyzko 1987)
-- de Bruijn-Newman constant: 0 ≤ Λ ≤ 0.22
-
-## Key Publications
-
-1. Squire, J., Meyrand, R., & Schekochihin, A.A. (2022). High-frequency heating of the solar wind triggered by low-frequency turbulence. *Nature Astronomy*, 6, 715-723.
-
-2. McIntyre, J.R. et al. (2025). Evidence for the helicity barrier from measurements of the turbulence transition range in the solar wind. *Phys. Rev. X*, 15, 031008.
-
-3. Planck Collaboration (2020). Planck 2018 results. VI. Cosmological parameters. *A&A*, 641, A6.
-
-4. LIGO Scientific Collaboration (2021). Tests of general relativity with GWTC-3.
-
-5. Platt, D.J. & Trudgian, T.S. (2021). The Riemann hypothesis is true up to 3×10¹². *Bull. London Math. Soc.*, 53, 792.
-
-## Falsifiable Predictions
-
-1. **Fourth Generation**: Framework predicts exactly 3 generations. Discovery of sequential 4th generation would falsify.
-   - Current limit: m_t' > 656 GeV (LHC)
-
-2. **Stelle Ratio**: Quadratic gravity corrections have γ₁/γ₂ = −1/2.
-   - Testable via gravitational wave ringdown spectroscopy
-
-3. **Primordial Non-Gaussianity**: f_NL < O(1) without fundamental inflaton.
-   - Current: f_NL = −0.9 ± 5.1 (consistent)
-   - Future: CMB-S4 target σ(f_NL) ~ 1
-
-4. **Spectral Rigidity**: All Riemann zeros on critical line σ = 1/2.
-   - 12.4 trillion verified; continued computation tests this
-
-## Contributing
-
-Contributions welcome! Please read CONTRIBUTING.md for guidelines.
-
-## Citation
-
-```bibtex
-@article{roy2025complexity,
-  title={A Reconstruction of Physics from Multiscale Retrodiction Complexity 
-         and Gauge Representation Minimization},
-  author={Roy, Dylan},
-  journal={arXiv preprint},
-  year={2025}
-}
-```
-
-## License
-
-MIT License - see LICENSE file for details.
-
-## Acknowledgments
-
-- NASA Parker Solar Probe team for heliophysics data
-- Particle Data Group for SM parameter compilation
-- LIGO/Virgo collaboration for gravitational wave observations
-- Planck collaboration for cosmological parameters
+MIT. See [`LICENSE`](LICENSE).
