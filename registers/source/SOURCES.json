@@ -24,13 +24,34 @@
    "status": "SUPERSEDED as the import source on 2026-09-18; retained byte for byte and never edited",
    "defect": "TRUNCATED_RENDERING: the connector's markdown rendering returned only a prefix of seven large tabs. The prefix rows it did return agree cell for cell with the xlsx export apart from markdown escaping (\\<, \\`, \\~, &lt;), the '[merged] ' repetition of merged cells, date serials rounded to five decimals, one mangled emoji and in-cell newlines flattened to spaces. Every derived file in this repository built before 2026-09-18 saw only these prefixes.",
    "truncated_tabs": {
-    "file_catalog": {"prefix_rows": 310, "total_rows": 2952},
-    "activity_log": {"prefix_rows": 241, "total_rows": 518},
-    "artifact_index": {"prefix_rows": 206, "total_rows": 761},
-    "transition_log": {"prefix_rows": 67, "total_rows": 82},
-    "review_ledger": {"prefix_rows": 101, "total_rows": 138},
-    "evidence_lineage": {"prefix_rows": 137, "total_rows": 485},
-    "relations": {"prefix_rows": 164, "total_rows": 367}
+    "file_catalog": {
+     "prefix_rows": 310,
+     "total_rows": 2952
+    },
+    "activity_log": {
+     "prefix_rows": 241,
+     "total_rows": 518
+    },
+    "artifact_index": {
+     "prefix_rows": 206,
+     "total_rows": 761
+    },
+    "transition_log": {
+     "prefix_rows": 67,
+     "total_rows": 82
+    },
+    "review_ledger": {
+     "prefix_rows": 101,
+     "total_rows": 138
+    },
+    "evidence_lineage": {
+     "prefix_rows": 137,
+     "total_rows": 485
+    },
+    "relations": {
+     "prefix_rows": 164,
+     "total_rows": 367
+    }
    },
    "truncation_evidence": "Row counts compared against the 2026-09-18 xlsx export by tools/registers_import.py; the markdown rendering of the same live workbook taken minutes before the xlsx export (2026-09-18) showed the identical cut, so the cut is a property of the rendering, not of an edit to the Sheet."
   },
@@ -50,6 +71,23 @@
    "zip_crc_check": "clean (zipfile.testzip() returned None)",
    "status": "CURRENT import source for tools/registers_import.py",
    "completeness": "All 44 worksheets are complete: the seven tabs the markdown rendering truncated are delivered in full (file_catalog 2952, activity_log 518, artifact_index 761, transition_log 82, review_ledger 138, evidence_lineage 485, relations 367 rows). Two worksheets were added to the workbook after the 2026-09-17 export: Reusable Operations (15 rows) and Operation Trials (header only)."
+  },
+  {
+   "file": "GP-REG-032_v1.2_export_2026-09-23_R1.xlsx",
+   "export_date": "2026-09-23",
+   "modified_time_at_export": "2026-09-23T19:36:14.667Z",
+   "modified_time_note": "Reported by the exporting session. This session verified the native Sheet's modifiedTime independently at 2026-09-23T19:43:26.943Z, after the export, and Drive's fileSize for the native object was 1,413,423. A native Sheet carries no digest, so neither figure makes the export byte-exact against the source.",
+   "export_method": "Cross-model transfer: a ChatGPT session retrieved the live Sheet through the streaming Drive path, validated the XLSX ZIP CRC and all 44 worksheet parts, uploaded this immutable R1 successor (Drive id 1XU1OaiXJzNdzxJc0AwayVP37irnDsC7f) and re-downloaded it for a raw-byte comparison. This session downloaded that Drive object independently and confirmed the byte count and SHA-256 below, then re-verified ZIP integrity and the 44 worksheet parts locally.",
+   "export_mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (a rendering; the native object is application/vnd.google-apps.spreadsheet)",
+   "bytes": 1979318,
+   "sha256": "6cec54cefa3ee8f9885dcfd763407a2e0274d2887d73bdc23ccc7793cd721469",
+   "exact": false,
+   "drive_file_size_native_at_export": 1413423,
+   "worksheets": 44,
+   "status": "RECEIVED AND VERIFIED, NOT YET THE IMPORT SOURCE. Retained byte for byte so the transfer never has to be repeated. Making it current is a reconciliation, not a swap: regenerating from it changes 16 tabs and takes review_queue from 25 to 40 rows, which registers_check, reviews_check, lanes_check, frozen_check and collision_proposal_check all refuse until their dependents are updated together. Those refusals are the checks working, not obstacles to route around.",
+   "defect": null,
+   "truncated_tabs": [],
+   "truncation_evidence": "None in this export. An earlier automatic mount of the same object was truncated at 1,048,576 bytes and failed ZIP integrity; that copy was rejected and is not this file. The bytes recorded here were obtained through the streaming path and verified by SHA-256 on both sides of the transfer."
   }
  ],
  "does_not_establish": "An export records what the Sheet held at one moment. It certifies nothing, promotes nothing and closes nothing: every status word in registers/json is the register's own word, transcribed, and a register row is not a verdict."
