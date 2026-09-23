@@ -8,39 +8,38 @@ on:
 permissions:
   contents: read
 jobs:
-  capture-existing-source:
+  reconstruct-verified-export:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: b02efe21d8d7475ac9b4aa25b3dcc26a5b6f4bf4
+          ref: ${{ github.sha }}
+          path: transfer
           persist-credentials: false
-          sparse-checkout: registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: b02efe21d8d7475ac9b4aa25b3dcc26a5b6f4bf4
+          path: research
+          persist-credentials: false
+          sparse-checkout: |
+            registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx
+            tools/registers_import.py
           sparse-checkout-cone-mode: false
-      - name: Verify and copy only the existing public source workbook
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Reconstruct exact R1, replay importer, reject mutations, store only blob
+        env:
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import hashlib, json, shutil, zipfile
-          source = Path('registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx')
-          data = source.read_bytes()
-          expected = 'c3229ecefc642f3e32f23cb8320fb66236d11affb83f67bd135153d068a3f460'
-          if len(data) != 1919741 or hashlib.sha256(data).hexdigest() != expected:
-              raise SystemExit('Existing-source identity mismatch')
-          with zipfile.ZipFile(source) as archive:
-              if archive.testzip() is not None:
-                  raise SystemExit('ZIP CRC mismatch')
-          out = Path('transport_output')
-          out.mkdir()
-          shutil.copyfile(source, out / source.name)
-          (out / 'identity.json').write_text(json.dumps({'bytes': len(data), 'sha256': expected, 'source_commit': 'b02efe21d8d7475ac9b4aa25b3dcc26a5b6f4bf4', 'scientific_status_changed': False, 'purpose': 'Binary transport of an already-public existing export; not a mathematical computation.'}, indent=2) + '\n')
-          print('Existing public source verified; no repository write.')
-          PY
+          python transfer/publish_rebuilt_blob.py --research "$GITHUB_WORKSPACE/research" --output "$GITHUB_WORKSPACE/transport_output" --publish
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: register-existing-source-20260923
+          name: register-r1-rebuilt-20260923
           path: transport_output/
           if-no-files-found: error
           retention-days: 1
