@@ -4,9 +4,9 @@ Fail-closed inventable attempts. The first four receipts are the sibling-sweep
 CLOSED EMPTY named walls. Do not invent lemmas or new walls.
 
 Three tip-aligned shortcut refusals record already-stated false-progress paths.
-They are not in the sibling-sweep four. Each stays **REFUSED**:
+They are not in the sibling-sweep four.
 
-- Invent a 24-jet roster and `p_J` without a Drive enumeration — **UNENUMERATED**; order>2 API missing (`STATUS_JETMOD` STOP).
+- Invent a 24-jet roster and `p_J` without a Drive enumeration — **REFUSED_NOT_24JET**. Not PARTIAL. No roster is invented. Order>2 API missing (`STATUS_JETMOD` STOP).
 - Promote the display residual or struct κ as a certified enclosure — display ≠ certified.
 - Merge draft PR #12 as a math_status catch-up, or claim RUNG2/3 discharges JETMOD. PR #12 stays unmerged. Green ≠ discharge.
 

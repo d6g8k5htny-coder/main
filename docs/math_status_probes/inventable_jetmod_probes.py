@@ -8,7 +8,7 @@ Sibling-sweep named walls (CLOSED EMPTY; do not invent new walls or lemmas):
   4. φ(det A)→detgg bridge → ABSENT
 
 Tip-aligned shortcut refusals (already-recorded false-progress paths; not in #15):
-  5. 24-jet roster + p_J without Drive enumeration → REFUSED (UNENUMERATED)
+  5. 24-jet roster + p_J without Drive enumeration → REFUSED_NOT_24JET
   6. Promote display residual / struct κ as certified enclosure → REFUSED
   7. Merge draft PR #12 as status catch-up OR claim RUNG2/3 discharges JETMOD → REFUSED
 
@@ -211,19 +211,23 @@ def probe_24jet_roster_without_drive_list() -> dict[str, Any]:
     body: dict[str, Any] = {
         "prototype": "inventable_jetmod_probe_24jet_roster_without_Drive_list",
         "named_wall": (
-            "24-jet roster + p_J without Drive enumeration: "
-            "REFUSED (UNENUMERATED; order>2 API missing)"
+            "24-jet roster + p_J without Drive enumeration: REFUSED_NOT_24JET"
         ),
-        "status": "REFUSED",
+        "status": "REFUSED_NOT_24JET",
+        "refused_not_24jet": True,
+        "partial_roster": False,
+        "roster_invented": False,
         "inventable_attempt": inventable_claim,
         "refusal_reason": (
-            "STATUS_JETMOD STOP: inventing named jets toward 24 without a source "
-            "roster would invent the 24-list. Recorded wall: full 24-jet roster + "
-            "p_J is BLOCKED — UNENUMERATED (Drive H5_ANALYTIC_ADVANCE; PROMOTE never "
-            "lists them). Order>2 jets (fxxx…) are BLOCKED: DER/JETS_MS/JETS_H stop "
-            "at order 2 (h5_kernel.py:33-35, cited by STATUS_JETMOD; that file is "
-            "not vendored in this tree and this probe does not re-quote it). "
-            "jets_done stays the recorded 8. This probe does not enumerate 24."
+            "REFUSED_NOT_24JET. Inventing named jets toward 24 without a Drive "
+            "source roster would invent the 24-list. This receipt is not PARTIAL "
+            "and it does not carry a jet roster. Recorded wall in STATUS_JETMOD: "
+            "full 24-jet roster + p_J is unenumerated (Drive H5_ANALYTIC_ADVANCE; "
+            "PROMOTE never lists them). Order>2 jets (fxxx…) stay blocked: "
+            "DER/JETS_MS/JETS_H stop at order 2 (h5_kernel.py:33-35, cited by "
+            "STATUS_JETMOD; that file is not vendored here and this probe does not "
+            "re-quote it). The recorded source-named subset is 8 jets, which is "
+            "not a 24-jet roster."
         ),
         "exact_missing_object": {
             "name": "Drive_sourced_24jet_roster_with_p_J",
@@ -246,8 +250,9 @@ def probe_24jet_roster_without_drive_list() -> dict[str, Any]:
         ],
         "receipts_vendored_in_this_tree": False,
         "does_not_establish": (
-            "Does not enumerate 24 jets, does not invent p_J, does not close "
-            "OBL-H5-JETMOD, does not set lemma_closed or FREEZE."
+            "REFUSED_NOT_24JET. Does not enumerate 24 jets, does not invent p_J, "
+            "does not publish a PARTIAL roster, does not close OBL-H5-JETMOD, "
+            "does not set lemma_closed or FREEZE."
         ),
         "aligned_to_base_branch": BASE_BRANCH,
         "aligned_to_base_tip": BASE_TIP,
@@ -425,7 +430,7 @@ def main() -> int:
         ("inventable_joint_ry_cancel_EMPTY_receipt.json", probe_joint_ry_cancel),
         ("inventable_phi_bridge_ABSENT_receipt.json", probe_phi_bridge),
         (
-            "inventable_24jet_roster_without_Drive_list_REFUSED_receipt.json",
+            "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json",
             probe_24jet_roster_without_drive_list,
         ),
         (
@@ -459,10 +464,7 @@ def main() -> int:
             "eval_F(G12_box): REFUSED (missing explicit_interval_map_F_G12box_to_Rplus)",
             "Joint (r,y) cancel rewrite: EMPTY",
             "φ(det A)→detgg bridge: ABSENT",
-            (
-                "24-jet roster + p_J without Drive enumeration: "
-                "REFUSED (UNENUMERATED; order>2 API missing)"
-            ),
+            "24-jet roster + p_J without Drive enumeration: REFUSED_NOT_24JET",
             (
                 "Promote display residual / struct κ as certified enclosure: "
                 "REFUSED (display ≠ certified)"
@@ -495,8 +497,21 @@ def main() -> int:
         )
         for key in required:
             assert body.get(key) is False, (name, key, body.get(key))
-        if body.get("status") not in ("REFUSED", "REFUSED_IA_STRADDLES", "EMPTY", "ABSENT"):
+        if body.get("status") not in (
+            "REFUSED",
+            "REFUSED_IA_STRADDLES",
+            "REFUSED_NOT_24JET",
+            "EMPTY",
+            "ABSENT",
+        ):
             raise AssertionError(f"{name} status {body.get('status')}")
+        if "24jet" in name:
+            if body.get("status") != "REFUSED_NOT_24JET" or body.get("refused_not_24jet") is not True:
+                raise AssertionError(f"{name} must be REFUSED_NOT_24JET")
+            if body.get("partial_roster") is not False or body.get("roster_invented") is not False:
+                raise AssertionError(f"{name} must not invent a partial 24-jet roster")
+            if isinstance(body.get("jet_roster"), list) or isinstance(body.get("roster"), list):
+                raise AssertionError(f"{name} must not carry a jet roster")
         path = _write(name, body)
         index["receipts"].append(
             {

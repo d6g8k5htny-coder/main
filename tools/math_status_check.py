@@ -362,10 +362,13 @@ def check_assignment_text(rel: str, text: str, problems: list) -> None:
 # Tip-aligned shortcut receipts. Same refusal bar as the sibling-sweep four,
 # plus explicit discharges_lemma / certified_C_H false. Green ≠ discharge.
 SHORTCUT_RECEIPTS = frozenset({
-    "inventable_24jet_roster_without_Drive_list_REFUSED_receipt.json",
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json",
     "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json",
     "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json",
 })
+NOT_24JET_RECEIPT = (
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json"
+)
 
 
 def check_inventable_probes(root: str, problems: list) -> None:
@@ -376,7 +379,7 @@ def check_inventable_probes(root: str, problems: list) -> None:
         "inventable_eval_F_G12box_REFUSED_receipt.json": "REFUSED",
         "inventable_joint_ry_cancel_EMPTY_receipt.json": "EMPTY",
         "inventable_phi_bridge_ABSENT_receipt.json": "ABSENT",
-        "inventable_24jet_roster_without_Drive_list_REFUSED_receipt.json": "REFUSED",
+        "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json": "REFUSED_NOT_24JET",
         "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json": "REFUSED",
         "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json": "REFUSED",
     }
@@ -407,6 +410,23 @@ def check_inventable_probes(root: str, problems: list) -> None:
             for key in ("discharges_lemma", "certified_C_H"):
                 if obj.get(key) is not False:
                     problems.append(f"math_status_probes/{name}: {key} must be false")
+        if name == NOT_24JET_RECEIPT:
+            if obj.get("refused_not_24jet") is not True:
+                problems.append(
+                    f"math_status_probes/{name}: refused_not_24jet must be true"
+                )
+            if obj.get("partial_roster") is not False or obj.get("roster_invented") is not False:
+                problems.append(
+                    f"math_status_probes/{name}: must not be a partial 24-jet roster"
+                )
+            if isinstance(obj.get("jet_roster"), list) or isinstance(obj.get("roster"), list):
+                problems.append(
+                    f"math_status_probes/{name}: must not invent a 24-jet roster"
+                )
+            if obj.get("status") == "PARTIAL":
+                problems.append(
+                    f"math_status_probes/{name}: invent probe must be REFUSED_NOT_24JET"
+                )
     index_path = os.path.join(probes_dir, "INVENTABLE_PROBES_INDEX.json")
     if not os.path.isfile(index_path):
         problems.append("INVENTABLE_PROBES_INDEX.json: missing")
