@@ -545,6 +545,28 @@ class Ledger:
             raise TypeError("boundary_area_bound must be an exact Fraction")
         if boundary_area_bound < 0:
             raise ValueError("boundary_area_bound must be non-negative")
+        if (kind == RejectKind.OUTSIDE and residual is not None
+                and not (residual.lo == 0 and residual.hi == 0)):
+            # ``total()`` skips OUTSIDE cells before it reaches the branch that
+            # sums a residual, so a non-zero one handed over here is stored on
+            # the record and then dropped from every total with no caveat, no
+            # flag and no receipt entry -- the run still reports
+            # ``certified=True``, ``covers_region=True``, ``caveats=()``.
+            # Refusing it at the point of entry is the only place the
+            # contradiction is visible: OUTSIDE asserts the cell is proved
+            # disjoint from the region, so it contributes exactly zero, and a
+            # non-zero possible contribution denies the very rejection this
+            # call is recording. Whichever of the two is wrong, the caller
+            # must say which rather than have the ledger silently keep both.
+            raise ValueError(
+                f"cell {cid!r} is rejected OUTSIDE -- proved disjoint from the "
+                f"region, so it contributes exactly zero -- but carries a "
+                f"non-zero residual {residual!r}. An OUTSIDE cell's residual "
+                f"must be None or exactly [0, 0]; total() would discard this "
+                f"number and still report the run certified. If the cell can "
+                f"contribute, it is not OUTSIDE: reject it "
+                f"UNRESOLVED_BOUNDARY or EXCLUDED, whose residuals are summed."
+            )
         rec.disposition = REJECTED
         rec.reject_kind = kind
         rec.reason = reason
