@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 import shutil
 import subprocess
 import sys
@@ -21,23 +22,41 @@ EXPECTED = {
 }
 
 
-def test_runner_writes_partial_and_refused_not_24jet_only():
-    result = subprocess.run(
-        [sys.executable, RUNNER], cwd=ROOT, capture_output=True, text=True, check=False
-    )
+def _probe_snapshot():
+    return {
+        p.name: (p.read_bytes(), p.stat().st_mtime_ns)
+        for p in Path(PROBES).glob("*.json")
+    }
+
+
+def test_runner_writes_partial_and_refused_not_24jet_only(tmp_path):
+    before = _probe_snapshot()
+    probes = tmp_path / "repo" / "docs" / "math_status_probes"
+    probes.mkdir(parents=True)
+    runner = probes / Path(RUNNER).name
+    shutil.copy2(RUNNER, runner)
+    # No old output is copied: success requires fresh receipts from the runner.
+    assert not list(probes.glob("*.json"))
+    try:
+        result = subprocess.run(
+            [sys.executable, str(runner)], cwd=probes.parent.parent,
+            capture_output=True, text=True, check=False, timeout=60,
+        )
+    finally:
+        assert _probe_snapshot() == before, "probe runner modified source receipts"
     assert result.returncode == 0, result.stdout + result.stderr
     assert "discharges=false" in result.stdout
     for name, status in EXPECTED.items():
-        path = os.path.join(PROBES, name)
-        obj = json.load(open(path, encoding="utf-8"))
+        path = probes / name
+        obj = json.loads(path.read_text(encoding="utf-8"))
         assert obj["status"] == status
         assert obj["inventable_attempt_accepted"] is False
         assert obj["discharges_OBL_H5_JETMOD"] is False
         assert obj["lemma_closed"] is False
         assert obj["certified_C_H"] is False
         assert obj["prizes_solved"] == 0
-    index = json.load(
-        open(os.path.join(PROBES, "INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json"), encoding="utf-8")
+    index = json.loads(
+        (probes / "INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json").read_text(encoding="utf-8")
     )
     assert index["discharges_OBL_H5_JETMOD"] is False
     assert index["lemma_closed"] is False
