@@ -377,6 +377,18 @@ def check_assignment_text(rel: str, text: str, problems: list) -> None:
             problems.append(f"{rel}:{lineno}: controlling flag assigned true or nonzero")
 
 
+# Tip-aligned shortcut receipts. Same refusal bar as the sibling-sweep four,
+# plus explicit discharges_lemma / certified_C_H false. Green ≠ discharge.
+SHORTCUT_RECEIPTS = frozenset({
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json",
+    "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json",
+    "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json",
+})
+NOT_24JET_RECEIPT = (
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json"
+)
+
+
 def check_inventable_probes(root: str, problems: list) -> None:
     """Named-wall inventable probes must exist and stay REFUSED/EMPTY/ABSENT."""
     probes_dir = os.path.join(root, "docs", "math_status_probes")
@@ -385,6 +397,9 @@ def check_inventable_probes(root: str, problems: list) -> None:
         "inventable_eval_F_G12box_REFUSED_receipt.json": "REFUSED",
         "inventable_joint_ry_cancel_EMPTY_receipt.json": "EMPTY",
         "inventable_phi_bridge_ABSENT_receipt.json": "ABSENT",
+        "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json": "REFUSED_NOT_24JET",
+        "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json": "REFUSED",
+        "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json": "REFUSED",
     }
     if not os.path.isdir(probes_dir):
         problems.append("math_status_probes: directory missing")
@@ -407,8 +422,33 @@ def check_inventable_probes(root: str, problems: list) -> None:
             problems.append(f"math_status_probes/{name}: discharges_OBL_H5_JETMOD must be false")
         if obj.get("lemma_closed") is not False:
             problems.append(f"math_status_probes/{name}: lemma_closed must be false")
+        if obj.get("freeze") is not False:
+            problems.append(f"math_status_probes/{name}: freeze must be false")
+        if name in SHORTCUT_RECEIPTS:
+            for key in ("discharges_lemma", "certified_C_H"):
+                if obj.get(key) is not False:
+                    problems.append(f"math_status_probes/{name}: {key} must be false")
+        if name == NOT_24JET_RECEIPT:
+            if obj.get("refused_not_24jet") is not True:
+                problems.append(
+                    f"math_status_probes/{name}: refused_not_24jet must be true"
+                )
+            if obj.get("partial_roster") is not False or obj.get("roster_invented") is not False:
+                problems.append(
+                    f"math_status_probes/{name}: must not be a partial 24-jet roster"
+                )
+            if isinstance(obj.get("jet_roster"), list) or isinstance(obj.get("roster"), list):
+                problems.append(
+                    f"math_status_probes/{name}: must not invent a 24-jet roster"
+                )
+            if obj.get("status") == "PARTIAL":
+                problems.append(
+                    f"math_status_probes/{name}: invent probe must be REFUSED_NOT_24JET"
+                )
     index_path = os.path.join(probes_dir, "INVENTABLE_PROBES_INDEX.json")
-    if os.path.isfile(index_path):
+    if not os.path.isfile(index_path):
+        problems.append("INVENTABLE_PROBES_INDEX.json: missing")
+    else:
         try:
             index = load_json(index_path)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -420,6 +460,48 @@ def check_inventable_probes(root: str, problems: list) -> None:
                 problems.append("INVENTABLE_PROBES_INDEX.json: lemma_closed must be false")
             if index.get("OBL_H5_JETMOD") != "OPEN":
                 problems.append("INVENTABLE_PROBES_INDEX.json: OBL_H5_JETMOD must be OPEN")
+            if index.get("freeze") is not False:
+                problems.append("INVENTABLE_PROBES_INDEX.json: freeze must be false")
+            if index.get("discharges_lemma") is not False:
+                problems.append("INVENTABLE_PROBES_INDEX.json: discharges_lemma must be false")
+            if index.get("certified_C_H") is not False:
+                problems.append("INVENTABLE_PROBES_INDEX.json: certified_C_H must be false")
+            if index.get("inventable_attempt_accepted") is not False:
+                problems.append(
+                    "INVENTABLE_PROBES_INDEX.json: inventable_attempt_accepted must be false"
+                )
+            if index.get("disposition") != "OPEN_HOLD":
+                problems.append("INVENTABLE_PROBES_INDEX.json: disposition must stay OPEN_HOLD")
+            if index.get("pr12_action") != "NONE_left_unmerged":
+                problems.append("INVENTABLE_PROBES_INDEX.json: PR #12 must stay unmerged")
+            rows = index.get("receipts")
+            by_file = {}
+            if isinstance(rows, list):
+                by_file = {
+                    row.get("file"): row
+                    for row in rows
+                    if isinstance(row, dict)
+                }
+            else:
+                problems.append("INVENTABLE_PROBES_INDEX.json: receipts must be a list")
+            walls = index.get("named_walls_only")
+            if not isinstance(walls, list):
+                problems.append("INVENTABLE_PROBES_INDEX.json: named_walls_only must be a list")
+                walls = []
+            for name, status in expected.items():
+                row = by_file.get(name)
+                if not isinstance(row, dict):
+                    problems.append(f"INVENTABLE_PROBES_INDEX.json: missing receipt {name}")
+                    continue
+                if row.get("status") != status:
+                    problems.append(
+                        f"INVENTABLE_PROBES_INDEX.json: {name} status must be {status}"
+                    )
+                wall = row.get("named_wall")
+                if not isinstance(wall, str) or wall not in walls:
+                    problems.append(
+                        f"INVENTABLE_PROBES_INDEX.json: named wall for {name} missing"
+                    )
 
 
 def check_packet(packet_dir: str) -> list:

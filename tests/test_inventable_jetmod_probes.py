@@ -16,6 +16,15 @@ EXPECTED = {
     "inventable_eval_F_G12box_REFUSED_receipt.json": "REFUSED",
     "inventable_joint_ry_cancel_EMPTY_receipt.json": "EMPTY",
     "inventable_phi_bridge_ABSENT_receipt.json": "ABSENT",
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json": "REFUSED_NOT_24JET",
+    "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json": "REFUSED",
+    "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json": "REFUSED",
+}
+
+SHORTCUTS = {
+    "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json",
+    "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json",
+    "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json",
 }
 
 
@@ -37,11 +46,35 @@ def test_runner_writes_refused_receipts_only():
         assert obj["inventable_attempt_accepted"] is False
         assert obj["discharges_OBL_H5_JETMOD"] is False
         assert obj["lemma_closed"] is False
+        assert obj["freeze"] is False
+        if name in SHORTCUTS:
+            assert obj["discharges_lemma"] is False
+            assert obj["certified_C_H"] is False
+            assert obj["works"] is False
+        if "24jet" in name:
+            assert obj["status"] == "REFUSED_NOT_24JET"
+            assert obj["refused_not_24jet"] is True
+            assert obj["partial_roster"] is False
+            assert obj["roster_invented"] is False
+            assert "jet_roster" not in obj
+            assert "roster" not in obj
     # re-run is allowed; flags must stay false
     index = json.load(open(os.path.join(PROBES, "INVENTABLE_PROBES_INDEX.json"), encoding="utf-8"))
     assert index["discharges_OBL_H5_JETMOD"] is False
+    assert index["discharges_lemma"] is False
     assert index["lemma_closed"] is False
+    assert index["certified_C_H"] is False
+    assert index["freeze"] is False
+    assert index["inventable_attempt_accepted"] is False
     assert index["OBL_H5_JETMOD"] == "OPEN"
+    assert index["disposition"] == "OPEN_HOLD"
+    assert index["pr12_action"] == "NONE_left_unmerged"
+    walls = index["named_walls_only"]
+    assert any("24-jet roster" in wall and "REFUSED_NOT_24JET" in wall for wall in walls)
+    assert any("display residual" in wall for wall in walls)
+    assert any("PR #12" in wall and "RUNG2/3" in wall for wall in walls)
+    files = {row["file"] for row in index["receipts"]}
+    assert SHORTCUTS <= files
 
 
 def test_math_status_check_validates_inventable_probes():

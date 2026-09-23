@@ -1,0 +1,47 @@
+{
+  "prototype": "inventable_jetmod_probe_24jet_roster_without_Drive_list",
+  "named_wall": "24-jet roster + p_J without Drive enumeration: REFUSED_NOT_24JET",
+  "status": "REFUSED_NOT_24JET",
+  "refused_not_24jet": true,
+  "partial_roster": false,
+  "roster_invented": false,
+  "inventable_attempt": "Invent a 24-jet roster and p_J weights from OBL text alone, padding beyond the 8 source-named jets (6 MS-diag + kappa_c2 + s_f_fx) without a Drive H5_ANALYTIC_ADVANCE / PROMOTE enumeration.",
+  "inventable_attempt_accepted": false,
+  "discharges_OBL_H5_JETMOD": false,
+  "discharges_lemma": false,
+  "lemma_closed": false,
+  "certified_C_H": false,
+  "freeze": false,
+  "works": false,
+  "refusal_reason": "REFUSED_NOT_24JET. Inventing named jets toward 24 without a Drive source roster would invent the 24-list. This receipt is not PARTIAL and it does not carry a jet roster. Recorded wall in STATUS_JETMOD: full 24-jet roster + p_J is unenumerated (Drive H5_ANALYTIC_ADVANCE; PROMOTE never lists them). Order>2 jets (fxxx\u2026) stay blocked: DER/JETS_MS/JETS_H stop at order 2 (h5_kernel.py:33-35, cited by STATUS_JETMOD; that file is not vendored here and this probe does not re-quote it). The recorded source-named subset is 8 jets, which is not a 24-jet roster.",
+  "exact_missing_object": {
+    "name": "Drive_sourced_24jet_roster_with_p_J",
+    "also_missing": [
+      "order_gt_2_jet_API_DER_JETS_MS_JETS_H",
+      "H5_ANALYTIC_ADVANCE_or_PROMOTE_enumeration_of_24"
+    ]
+  },
+  "recorded_wall_cite": {
+    "path": "docs/math_status/STATUS_JETMOD.md",
+    "fact": "STOP honored: roster + p_J missing; order>2 API missing. jets_done=8 (6 MS-diag + kappa_c2 + s_f_fx). h5_kernel.py is not in this tree."
+  },
+  "cited_existing_receipts_by_name_only": [
+    "jetmod_multi_jet_band_receipt.json",
+    "jetmod_g12_ext_named_receipt.json"
+  ],
+  "receipts_vendored_in_this_tree": false,
+  "does_not_establish": "REFUSED_NOT_24JET. Does not enumerate 24 jets, does not invent p_J, does not publish a PARTIAL roster, does not close OBL-H5-JETMOD, does not set lemma_closed or FREEZE.",
+  "aligned_to_base_branch": "chatgpt/drive-github-hardening-20260919",
+  "aligned_to_base_tip": "1ea0ae8183fb0459c6678243946295518fded1ba",
+  "generated_at_utc": "2026-09-23T17:11:10Z",
+  "generated_at_human": "2026-09-23 17:11 UTC",
+  "constraints_honored": [
+    "named_wall_or_named_nonclaim_only",
+    "no_lemma_invention",
+    "no_new_wall_invention",
+    "no_discharge_flip",
+    "no_RN_slice_expansion",
+    "PR12_left_unmerged",
+    "honest_REFUSED_receipt"
+  ]
+}

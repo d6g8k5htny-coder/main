@@ -1,45 +1,76 @@
 {
   "schema": "q0.inventable-jetmod-probes/v1",
-  "as_of_note": "48h coding lane under Bot 5; named walls only",
+  "as_of_note": "Sibling-sweep named walls plus three tip-aligned shortcut refusals on chatgpt/drive-github-hardening-20260919 @ 1ea0ae8183fb0459c6678243946295518fded1ba. No new lemmas. PR #12 left unmerged.",
+  "aligned_to_base_branch": "chatgpt/drive-github-hardening-20260919",
+  "aligned_to_base_tip": "1ea0ae8183fb0459c6678243946295518fded1ba",
   "discharges_OBL_H5_JETMOD": false,
+  "discharges_lemma": false,
   "lemma_closed": false,
+  "certified_C_H": false,
   "freeze": false,
+  "inventable_attempt_accepted": false,
   "OBL_H5_JETMOD": "OPEN",
+  "disposition": "OPEN_HOLD",
+  "pr12_action": "NONE_left_unmerged",
   "named_walls_only": [
     "Interval Schur via Ainv: REFUSED_IA_STRADDLES",
     "eval_F(G12_box): REFUSED (missing explicit_interval_map_F_G12box_to_Rplus)",
     "Joint (r,y) cancel rewrite: EMPTY",
-    "\u03c6(det A)\u2192detgg bridge: ABSENT"
+    "\u03c6(det A)\u2192detgg bridge: ABSENT",
+    "24-jet roster + p_J without Drive enumeration: REFUSED_NOT_24JET",
+    "Promote display residual / struct \u03ba as certified enclosure: REFUSED (display \u2260 certified)",
+    "Merge draft PR #12 as status catch-up OR claim RUNG2/3 discharges JETMOD: REFUSED"
   ],
   "receipts": [
     {
       "file": "inventable_interval_schur_ainv_REFUSED_receipt.json",
       "status": "REFUSED_IA_STRADDLES",
       "named_wall": "Interval Schur via Ainv: REFUSED_IA_STRADDLES",
-      "sha256": "9dfa593f5c841d2e3258cda76ae083daa5edff9869890826fd94dab1e225d5c2",
+      "sha256": "feefcd3fe146f006e119d0998665874670e3bb6654cb4ba3fb93c63b15b98b2f",
       "bytes": 1191
     },
     {
       "file": "inventable_eval_F_G12box_REFUSED_receipt.json",
       "status": "REFUSED",
       "named_wall": "eval_F(G12_box): REFUSED (missing explicit_interval_map_F_G12box_to_Rplus)",
-      "sha256": "6b227cf117f7ecdd8d0c4bcf27aa29b2ab1b045b36c2c5f4673b17dbd55aec96",
+      "sha256": "f13070c47dd1fdec8e51a0eb03a6b22da19a8c8e0b4ab95a56ca753dba8f0bc5",
       "bytes": 1049
     },
     {
       "file": "inventable_joint_ry_cancel_EMPTY_receipt.json",
       "status": "EMPTY",
       "named_wall": "Joint (r,y) cancel rewrite: EMPTY",
-      "sha256": "c5346201a043e146abb01597b3439b57344759bea164f9a3e7c4f1e85e6f0cba",
+      "sha256": "bfbd81c4ff6387120c6b7d22f87264b0d128408b2bc0cb8cc5fb6b6039135350",
       "bytes": 983
     },
     {
       "file": "inventable_phi_bridge_ABSENT_receipt.json",
       "status": "ABSENT",
       "named_wall": "\u03c6(det A)\u2192detgg bridge: ABSENT",
-      "sha256": "f9379d990a3aa96dcce3a34794b7a7fc76d70c2d100a3f7e0a32e12b2f288c70",
+      "sha256": "5fae4fbe8ff2306f781cbc5f6f847254a2466ca8888317021d527b134a64c1c7",
       "bytes": 920
+    },
+    {
+      "file": "inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json",
+      "status": "REFUSED_NOT_24JET",
+      "named_wall": "24-jet roster + p_J without Drive enumeration: REFUSED_NOT_24JET",
+      "sha256": "faf68ff9464528750265d92eb4d565c854bf6a68c123bf02a9455b18c2d668c0",
+      "bytes": 2561
+    },
+    {
+      "file": "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json",
+      "status": "REFUSED",
+      "named_wall": "Promote display residual / struct \u03ba as certified enclosure: REFUSED (display \u2260 certified)",
+      "sha256": "180d3337ef949261134e4f68b0d7325eab461c5afdfc8ffd27631539ed73aff7",
+      "bytes": 2399
+    },
+    {
+      "file": "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json",
+      "status": "REFUSED",
+      "named_wall": "Merge draft PR #12 as status catch-up OR claim RUNG2/3 discharges JETMOD: REFUSED",
+      "sha256": "8961cd5df845f3ed2e451fe0ad0b71ae31fe0b5ee825924e8345741a8c3d60d9",
+      "bytes": 2653
     }
   ],
-  "does_not_establish": "These inventable probes do not discharge OBL-H5-JETMOD, do not FREEZE, do not certify an enclosure, and do not invent new walls. Green \u2260 discharge."
+  "does_not_establish": "These inventable probes do not discharge OBL-H5-JETMOD, do not FREEZE, do not certify an enclosure, do not invent lemmas, and do not merge or rebase draft PR #12. Green \u2260 discharge. OBL-H5-JETMOD stays OPEN."
 }
