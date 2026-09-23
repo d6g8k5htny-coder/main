@@ -22,7 +22,10 @@ from quietly saying otherwise. It asserts:
      excuse a flag that left false: both checks run. The 2026-09-22 evening
      CT wall notes are part of that pin. They do not discharge either
      obligation. The 2026-09-22 evening CT sibling sweep CLOSED EMPTY is
-     part of that pin. It does not discharge either obligation.
+     part of that pin. It does not discharge either obligation. The
+     2026-09-23 instrumentation STATUS vocab (PARTIAL_* / REFUSED_NOT_24JET)
+     is part of that pin. It does not discharge OBL-H5-JETMOD and does not
+     invent a 24-jet roster.
 
   4. **Prose.** The packet README carries the OPEN/HOLD, Drive-source-of-truth,
      bridge, prize, independence, RUNG2/3, and certified-enclosure sentences.
@@ -127,6 +130,7 @@ README_PHRASES = (
     "enclosure of D3-LEMMA-RN-UNIF, does not FREEZE the lemma, and does not "
     "discharge it.",
     "STATUS_JETMOD.md records the 2026-09-22 evening CT JETMOD walls and does not discharge OBL-H5-JETMOD.",
+    "Those labels do not discharge OBL-H5-JETMOD. They do not invent a 24-jet roster.",
     "STATUS_RN_UNIF.md records the 2026-09-22 evening CT RN-UNIF walls and does not discharge D3-LEMMA-RN-UNIF.",
 )
 
@@ -181,6 +185,20 @@ NOTE_PHRASES = {
         "REFUSED_IA_STRADDLES",
         "inventable_attempt_accepted: false",
         "These receipts do not discharge OBL-H5-JETMOD",
+        "Instrumentation STATUS vocab (2026-09-23)",
+        "Fail-closed tokens only. Green smoke ≠ certification.",
+        "PARTIAL_C2_ONLY / REFUSED_NOT_24JET",
+        "PARTIAL_GRAM_BLOCKS / REFUSED_NOT_24JET",
+        "PARTIAL_C2_SMOKE / REFUSED_NOT_24JET",
+        "PARTIAL_6_MS_DIAG / REFUSED_NOT_24JET",
+        "PARTIAL_8_NAMED / REFUSED_NOT_24JET",
+        "Do **not**: invent a 24-roster; treat κ=1/8 display residual as certified modulus; flip `discharges_OBL_H5_JETMOD`.",
+        "c2 enclosure only; width ≫ display residual & struct κ halfwidth",
+        "G00, G0S, c2 only; note_on_24jet explicit",
+        "`certifies_24jet_band=false`; width_exceeds_struct_model",
+        "MS-diag scaled only; roster unenumerated; widths ≫ modulus",
+        "+κ_c2,+s_f_fx source-named; stop_reason: further names invent 24-list",
+        "Green CI ≠ discharge.",
     ),
     "STATUS_RN_UNIF.md": (
         "D3-LEMMA-RN-UNIF remains OPEN",
@@ -451,6 +469,13 @@ def check_packet(packet_dir: str) -> list:
             digest = hashlib.sha256(data).hexdigest()
             if spec.get("sha256") != digest or spec.get("bytes") != len(data):
                 problems.append(f"{name}: sha256/bytes drifted from PACKET.json")
+
+    jetmod_path = os.path.join(packet_dir, "STATUS_JETMOD.md")
+    if os.path.isfile(jetmod_path):
+        jetmod_text = open(jetmod_path, encoding="utf-8").read()
+        for bad in ("CERTIFIED_24JET", "| READY |", "| DISCHARGED |"):
+            if bad in jetmod_text:
+                problems.append(f"STATUS_JETMOD.md: forbidden status token {bad!r}")
 
     for name, phrases in {"README.md": README_PHRASES, **NOTE_PHRASES}.items():
         path = os.path.join(packet_dir, name)

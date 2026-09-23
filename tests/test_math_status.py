@@ -217,6 +217,49 @@ def test_negative_sibling_sweep_nondischarge_dropped_is_refused_even_with_a_refr
     assert "discharges_OBL_H5_JETMOD must be false" not in result.stdout
 
 
+JETMOD_STATUS_VOCAB = (
+    ("jetmod_first_band_proto", "PARTIAL_C2_ONLY / REFUSED_NOT_24JET"),
+    ("jetmod_first_band_multi_gram_v1", "PARTIAL_GRAM_BLOCKS / REFUSED_NOT_24JET"),
+    ("jetmod_first_band_interval_r", "PARTIAL_C2_SMOKE / REFUSED_NOT_24JET"),
+    ("jetmod_multi_jet_band", "PARTIAL_6_MS_DIAG / REFUSED_NOT_24JET"),
+    ("jetmod_g12_ext_named", "PARTIAL_8_NAMED / REFUSED_NOT_24JET"),
+)
+
+
+def test_jetmod_instrumentation_status_vocab_is_partial_or_refused():
+    text = open(os.path.join(PACKET, "STATUS_JETMOD.md"), encoding="utf-8").read()
+    for prototype, token in JETMOD_STATUS_VOCAB:
+        assert prototype in text
+        assert token in text
+    assert "CERTIFIED_24JET" not in text
+    assert "| READY |" not in text
+    assert "| DISCHARGED |" not in text
+    assert "`discharges_OBL_H5_JETMOD` stays **false**" in text
+    assert "`lemma_closed` stays **false**" in text
+    assert "inventable_attempt_accepted" in text
+    assert "certified_C_H=false" in text
+    packet = load(os.path.join(PACKET, "PACKET.json"))
+    assert packet["lemma_closed"] is False
+    assert packet["OBL-H5-JETMOD"]["discharges_OBL_H5_JETMOD"] is False
+    assert packet["OBL-H5-JETMOD"]["status"] == "OPEN"
+
+
+def test_negative_jetmod_status_vocab_token_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
+    packet_dir = copy_packet(tmp_path)
+    path = os.path.join(packet_dir, "STATUS_JETMOD.md")
+    text = open(path, encoding="utf-8").read().replace(
+        "PARTIAL_C2_ONLY / REFUSED_NOT_24JET",
+        "CERTIFIED_24JET",
+    )
+    open(path, "w", encoding="utf-8").write(text)
+    refresh_pin(packet_dir, "STATUS_JETMOD.md")
+    result = run(packet_dir)
+    assert result.returncode != 0
+    assert "PARTIAL_C2_ONLY / REFUSED_NOT_24JET" in result.stdout
+    assert "forbidden status token" in result.stdout
+    assert "discharges_OBL_H5_JETMOD must be false" not in result.stdout
+
+
 def test_negative_extra_file_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     open(os.path.join(packet_dir, "CLOSED.md"), "w", encoding="utf-8").write("CLOSED\n")
