@@ -199,6 +199,11 @@ NOTE_PHRASES = {
         "MS-diag scaled only; roster unenumerated; widths ≫ modulus",
         "+κ_c2,+s_f_fx source-named; stop_reason: further names invent 24-list",
         "Green CI ≠ discharge.",
+        "Instrumentation STATUS vocabulary (PARTIAL / REFUSED_NOT_24JET)",
+        "inventable_jetmod_instrumentation_status.py",
+        "REFUSED_NOT_24JET",
+        "first_band_proto / first_band_smoke / first_band_multi_gram",
+        "These instrumentation STATUS receipts do not discharge OBL-H5-JETMOD",
     ),
     "STATUS_RN_UNIF.md": (
         "D3-LEMMA-RN-UNIF remains OPEN",
@@ -390,7 +395,11 @@ NOT_24JET_RECEIPT = (
 
 
 def check_inventable_probes(root: str, problems: list) -> None:
-    """Named-wall inventable probes must exist and stay REFUSED/EMPTY/ABSENT."""
+    """Named-wall inventable probes must exist and stay REFUSED/EMPTY/ABSENT.
+
+    Instrumentation inventory STATUS vocabulary (PARTIAL / REFUSED_NOT_24JET)
+    for former `?` rows is checked here too.
+    """
     probes_dir = os.path.join(root, "docs", "math_status_probes")
     expected = {
         "inventable_interval_schur_ainv_REFUSED_receipt.json": "REFUSED_IA_STRADDLES",
@@ -401,10 +410,17 @@ def check_inventable_probes(root: str, problems: list) -> None:
         "inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json": "REFUSED",
         "inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json": "REFUSED",
     }
+    instrumentation_expected = {
+        "inventable_first_band_proto_PARTIAL_receipt.json": "PARTIAL",
+        "inventable_first_band_smoke_PARTIAL_receipt.json": "PARTIAL",
+        "inventable_first_band_multi_gram_PARTIAL_receipt.json": "PARTIAL",
+        "inventable_multi_jet_band_REFUSED_NOT_24JET_receipt.json": "REFUSED_NOT_24JET",
+        "inventable_g12_ext_named_REFUSED_NOT_24JET_receipt.json": "REFUSED_NOT_24JET",
+    }
     if not os.path.isdir(probes_dir):
         problems.append("math_status_probes: directory missing")
         return
-    for name, status in expected.items():
+    for name, status in {**expected, **instrumentation_expected}.items():
         path = os.path.join(probes_dir, name)
         if not os.path.isfile(path):
             problems.append(f"math_status_probes: missing {name}")
@@ -445,6 +461,11 @@ def check_inventable_probes(root: str, problems: list) -> None:
                 problems.append(
                     f"math_status_probes/{name}: invent probe must be REFUSED_NOT_24JET"
                 )
+        if name in instrumentation_expected:
+            if obj.get("certified_C_H") is not False:
+                problems.append(f"math_status_probes/{name}: certified_C_H must be false")
+            if obj.get("prizes_solved") != 0:
+                problems.append(f"math_status_probes/{name}: prizes_solved must be 0")
     index_path = os.path.join(probes_dir, "INVENTABLE_PROBES_INDEX.json")
     if not os.path.isfile(index_path):
         problems.append("INVENTABLE_PROBES_INDEX.json: missing")
@@ -502,6 +523,26 @@ def check_inventable_probes(root: str, problems: list) -> None:
                     problems.append(
                         f"INVENTABLE_PROBES_INDEX.json: named wall for {name} missing"
                     )
+    inst_name = "INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json"
+    inst_path = os.path.join(probes_dir, inst_name)
+    if not os.path.isfile(inst_path):
+        problems.append(f"math_status_probes: missing {inst_name}")
+    else:
+        try:
+            inst = load_json(inst_path)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            problems.append(f"{inst_name}: {exc}")
+        else:
+            if inst.get("discharges_OBL_H5_JETMOD") is not False:
+                problems.append(f"{inst_name}: discharges_OBL_H5_JETMOD must be false")
+            if inst.get("lemma_closed") is not False:
+                problems.append(f"{inst_name}: lemma_closed must be false")
+            if inst.get("OBL_H5_JETMOD") != "OPEN":
+                problems.append(f"{inst_name}: OBL_H5_JETMOD must be OPEN")
+            if inst.get("certified_C_H") is not False:
+                problems.append(f"{inst_name}: certified_C_H must be false")
+            if inst.get("prizes_solved") != 0:
+                problems.append(f"{inst_name}: prizes_solved must be 0")
 
 
 def check_packet(packet_dir: str) -> list:
