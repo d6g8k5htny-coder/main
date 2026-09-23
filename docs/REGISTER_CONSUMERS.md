@@ -64,3 +64,26 @@ defective. No class is a status, promotion, review verdict or licensing
 predicate; no claim, premise or obligation moves. The map describes literal
 names within the declared corpus at one tree, not the export's coverage of
 Drive, runtime dependency completeness, or the truth of any referenced data.
+
+## Cold-start navigation
+
+`cold_start_control_view`, `cold_start_tests`, and the related UNREAD tabs
+`start_here` and `prompt_intent_tests` are UI/ops cold-start surfaces: entry
+routing and entry-behaviour tests. They are not a mathematics source of truth.
+`UNREAD` means unnamed in this corpus. An `UNREAD` tab is not defective.
+This section names those tabs only to route a reader. It does not add a
+consumer, and it does not move any class: this document is map machinery and
+stays outside the scan.
+
+Repository entry is the root [`README.md`](../README.md), which points on to
+[`docs/RESEARCH_MAP.md`](RESEARCH_MAP.md) and
+[`docs/OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md). The docs index is
+[`docs/README.md`](README.md). The STATUS packet is
+[`docs/math_status/`](math_status/README.md): an OPEN/HOLD display, not a
+second claim log. Exported tab roles are listed in
+[`registers/README.md`](../registers/README.md).
+
+A cold-start smoke pass and a green dashboard do not imply `lemma_closed`,
+do not imply `discharges_OBL_H5_JETMOD`, and do not discharge
+`D3-LEMMA-RN-UNIF`. Green CI is a run. It is not obligation discharge.
+`OBL-H5-JETMOD` stays OPEN.
