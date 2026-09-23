@@ -1,0 +1,236 @@
+﻿SUPERSEDED FOR SUCCESSOR DEVELOPMENT — GP-AUD-188-v1.0 — 2026-07-24
+This q0-law-specific/1.1 snapshot is preserved as prior design provenance but is not the active repair candidate. Its Theorem B graph omits multiplicity, compact-mark uniform selection/domination, full-kappa tails, and off-fold control; archive-claimed statuses can escape the predecessor verifier’s blocker set. The additive q0-law-specific/1.2 successor and fail-closed verifier are published under GP-REG-188 / GP-DATA-188. Active q0_machine.json remains untouched.
+Audit: https://docs.google.com/document/d/1P9acBlckVQ_C-e_Uq9f-P3o3bm-AgMRU07fgy--0Svc/edit
+Machine: https://drive.google.com/file/d/1KWNv1Yz95o42tMocUA_G7qocQrioS52o/view
+[[STATUS:SUPERSEDED-REPAIR-CANDIDATE]] [[ACTIVE-MACHINE:UNCHANGED]] [[SUCCESSOR:1.2]] [[NO-PROMOTION]]
+
+
+ARTIFACT ID:       GP-REG-051-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             REG — proposed law-specific q successor repair snapshot
+AUTHORITY:         none — asserts nothing on its own authority
+SUPERSEDES:        GP-REG-021-v1.0 only as a repair candidate; active q0_machine.json remains untouched
+CANONICAL IMPACT:  NONE
+STATUS:            PROPOSED / NONCANONICAL / VALIDATED LOCALLY / NOT APPROVED FOR INSTALLATION
+TRANSITION:        TR-QM-002
+REPAIR BASIS:      AO48-AUD-008-v1.0; TR-QM-001; OP-GDN-002
+
+
+# q0-law-specific/1.1 repaired successor snapshot
+
+
+Exact JSON SHA-256: 082e85add126621e348f4c5cf0f417220e2d292979ef1c9aea50356f96db785a
+Exact JSON bytes: 12719
+
+
+Key repairs:
+- Q_TYPED_MS_RATE has a direct typed-regional route and a redundant adjacent-law route; the detour is no longer hardcoded as mandatory.
+- MORSE_SMALE_R0, DEFECT_DICHOTOMY, ADJ_POSITIVITY_POINTWISE, and ADJ_POSITIVITY_COMPACT_REMAINDER are explicit claim nodes.
+- ADJ_POSITIVITY_UNIFORM records the sequential implication from ADJACENCY_TO_ONE_CUBIC plus the compact remainder.
+- Dependencies may reference claims only; object-dependency smuggling is invalid.
+- Every claim declares dependency_routes, law, measure, marks, sources, and falsifiers.
+- Only independently terminal statuses can be reported promotable.
+- No active machine file was changed.
+
+
+```json
+{
+  "active_machine_untouched": true,
+  "claims": {
+    "ADJACENCY_TO_ONE_CUBIC": {
+      "bridge_ids": [],
+      "claim_grade": "CANDIDATE-EXACT-PROOF-CHAIN",
+      "dependency_ids": ["MORSE_SMALE_R0"],
+      "dependency_routes": [],
+      "falsifiers": ["one exact-law configuration satisfying the registered certificate hypotheses whose selected branch does not reach M", "dependency-object mismatch in the assembled proof chain"],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-DER-047-v1.0", "GP-DATA-048-v1.0", "CL-AUD-028-v1.0", "CW-AUD-018-v1.0", "AO48-AUD-012-v1.0"],
+      "statement": "1-A_ADJ(r)=O(r^3)",
+      "status": "CANDIDATE"
+    },
+    "ADJ_CONDITIONING_TRANSFER": {
+      "bridge_ids": [],
+      "claim_grade": "EXACT-IDENTITY-CONDITIONAL-ON-POSITIVITY",
+      "dependency_ids": ["ADJ_POSITIVITY_POINTWISE"],
+      "dependency_routes": [],
+      "falsifiers": ["D(M)=S is not contained in A_r under the stated branch convention"],
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_MS->P_ADJ",
+      "required_marks": ["GRADIENT_ADJACENCY_MS"],
+      "source_files": ["GP-AUD-005-v1.0"],
+      "statement": "P_ADJ(E)=P_MS(E intersect A_r)/A_ADJ and therefore 1-Q_ADJ_CONFIGURED <= P_MS(B_r)/A_ADJ",
+      "status": "PROVED-EXACT-CONDITIONAL"
+    },
+    "ADJ_POSITIVITY_COMPACT_REMAINDER": {
+      "bridge_ids": [],
+      "claim_grade": "ANALYTIC-CANDIDATE",
+      "dependency_ids": ["ADJ_POSITIVITY_POINTWISE"],
+      "dependency_routes": [],
+      "falsifiers": ["a sequence in the compact remainder with A_ADJ tending to zero"],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-DER-008-v1.0", "GP-AUD-009-v1.0"],
+      "statement": "A_ADJ(r) is bounded below on the compact remainder r in [r_1,0.025].",
+      "status": "OPEN"
+    },
+    "ADJ_POSITIVITY_POINTWISE": {
+      "bridge_ids": [],
+      "claim_grade": "ANALYTIC-CANDIDATE",
+      "dependency_ids": ["MORSE_SMALE_R0"],
+      "dependency_routes": [],
+      "falsifiers": ["a fixed admissible r with A_ADJ(r)=0", "failure of the open trapping event or finite-jet nondegeneracy"],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-DER-008-v1.0 endpoint isolating-block argument", "AO48-AUD-008 §2(c)"],
+      "statement": "For every fixed r in the declared domain, A_ADJ(r)>0.",
+      "status": "OPEN"
+    },
+    "ADJ_POSITIVITY_UNIFORM": {
+      "bridge_ids": [],
+      "claim_grade": "CANDIDATE",
+      "dependency_ids": ["ADJACENCY_TO_ONE_CUBIC", "ADJ_POSITIVITY_COMPACT_REMAINDER"],
+      "dependency_routes": [],
+      "falsifiers": ["A_ADJ(r_n)->0", "failure of the endpoint isolating-block argument"],
+      "law_object": "A_ADJ",
+      "measure_tag": "P_MS",
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["GP-DER-008-v1.0", "GP-AUD-009-v1.0", "GP-DER-047-v1.0", "AO48-AUD-008 §3"],
+      "statement": "inf_{0<r<=r0} A_ADJ(r) > 0",
+      "status": "OPEN"
+    },
+    "DEFECT_DICHOTOMY": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "dependency_ids": ["MORSE_SMALE_R0"],
+      "dependency_routes": [],
+      "falsifiers": ["an exact configured pair with D(M) != S outside Pi_r union Gamma_r"],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "ORIENTED_M_WARD_BRANCH", "MORSE_SMALE_FLOW"],
+      "source_files": ["01_CORE_PAIRING_THEOREM.md Proposition 3.1"],
+      "statement": "Under MORSE_SMALE_R0, {D(M) != S} is contained in the registered regional obstruction union Pi_r union Gamma_r.",
+      "status": "PROVED-IN-ARCHIVE-CLAIMED"
+    },
+    "J_TYPED_CONTACT_LIMIT": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "dependency_ids": [],
+      "dependency_routes": [],
+      "falsifiers": ["contact intensity vanishes or diverges"],
+      "law_object": "J_TYPED_CONTACT",
+      "measure_tag": "P_MS",
+      "required_marks": ["NORMALIZED_GAP_KAPPA"],
+      "source_files": ["C103 contact-neutrality argument"],
+      "statement": "J_TYPED_CONTACT has a finite positive contact limit",
+      "status": "PROVED-IN-ARCHIVE-CLAIMED"
+    },
+    "MORSE_SMALE_R0": {
+      "bridge_ids": [],
+      "claim_grade": "CONDITIONAL-EXTERNAL-REVIEW",
+      "dependency_ids": [],
+      "dependency_routes": [],
+      "falsifiers": ["a positive-probability non-Morse–Smale configuration in the declared field law", "failure of the proposed transversality proof"],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": ["MORSE_SMALE_FLOW"],
+      "source_files": ["02_GAUSSIAN_TRANSVERSALITY.md", "SARD-G chain", "05_RELIABILITY_AND_EVIDENCE.md §8"],
+      "statement": "The exact normalized-periodized Bargmann–Fock field on T^2_L has the Morse–Smale regularity required by the deterministic pairing dichotomy almost surely.",
+      "status": "OPEN"
+    },
+    "Q_ADJ_CONFIGURED_RATE": {
+      "bridge_ids": ["ADJ_CONDITIONING_TRANSFER"],
+      "claim_grade": "PROVEN-MODULO",
+      "dependency_ids": ["MORSE_SMALE_R0", "DEFECT_DICHOTOMY", "TYPED_REGIONAL_DEFECT_CUBIC", "ADJ_POSITIVITY_UNIFORM", "ADJ_CONDITIONING_TRANSFER"],
+      "dependency_routes": [],
+      "falsifiers": ["ADJ_POSITIVITY_UNIFORM is false"],
+      "law_object": "Q_ADJ_CONFIGURED",
+      "measure_tag": "P_ADJ",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"],
+      "source_files": ["C098-C102 regional chain", "GP-AUD-005-v1.0"],
+      "statement": "1-Q_ADJ_CONFIGURED(r)=O(r^3)",
+      "status": "PROVEN-MODULO"
+    },
+    "Q_TYPED_MS_RATE": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-MODULO",
+      "dependency_ids": ["MORSE_SMALE_R0"],
+      "dependency_routes": [
+        {"dependencies": ["DEFECT_DICHOTOMY", "TYPED_REGIONAL_DEFECT_CUBIC"], "route_id": "DIRECT_TYPED_REGIONAL"},
+        {"dependencies": ["Q_ADJ_CONFIGURED_RATE", "ADJACENCY_TO_ONE_CUBIC"], "route_id": "REDUNDANT_VIA_ADJACENCY"}
+      ],
+      "falsifiers": ["both registered dependency routes fail", "the deterministic defect dichotomy or regional cubic bound is false"],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S"],
+      "source_files": ["01_CORE_PAIRING_THEOREM.md §§2.4,3,9–13", "AO48-AUD-008 §1"],
+      "statement": "1-Q_TYPED_MS(r)=O(r^3)",
+      "status": "PROVEN-MODULO"
+    },
+    "THEOREM_B_ADJ_CONTACT_FACTOR": {
+      "bridge_ids": ["ADJ_CONDITIONING_TRANSFER"],
+      "claim_grade": "PROVEN-MODULO",
+      "dependency_ids": ["J_TYPED_CONTACT_LIMIT", "ADJ_POSITIVITY_UNIFORM"],
+      "dependency_routes": [],
+      "falsifiers": ["A_ADJ contact limit is zero"],
+      "law_object": "I_ADJ_CONTACT",
+      "measure_tag": "P_ADJ-CANDIDATE",
+      "required_marks": ["GRADIENT_ADJACENCY_MS", "NORMALIZED_GAP_KAPPA"],
+      "source_files": ["03_NEAR_DIAGONAL_LIFETIME_LAW.md"],
+      "statement": "I_ADJ_CONTACT = J_TYPED_CONTACT * A_ADJ has a finite positive contact limit",
+      "status": "PROVEN-MODULO"
+    },
+    "TYPED_REGIONAL_DEFECT_CUBIC": {
+      "bridge_ids": [],
+      "claim_grade": "PROVEN-HERE-PENDING-EXTERNAL",
+      "dependency_ids": ["MORSE_SMALE_R0"],
+      "dependency_routes": [],
+      "falsifiers": ["a regional obstruction not covered by the count atlas"],
+      "law_object": "Q_TYPED_MS",
+      "measure_tag": "P_MS",
+      "required_marks": ["MAXIMUM_M", "SADDLE_S"],
+      "source_files": ["C098-C102 regional counting chain", "01_CORE_PAIRING_THEOREM.md"],
+      "statement": "P_MS(B_r) <= C_B r^3 for the registered regional obstruction event",
+      "status": "PROVED-IN-ARCHIVE-CLAIMED"
+    }
+  },
+  "migration_map": {
+    "Q0_CUBIC_RATE_CONDITIONAL_MS_C102": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_CUBIC_RATE_EXISTENCE_C101": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_LIMIT_C101": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "Q0_LIMIT_CONDITIONAL_MS_C102": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE"],
+    "THEOREM_B_FULL_KAPPA_C104": ["THEOREM_B_ADJ_CONTACT_FACTOR", "Q_ADJ_CONFIGURED_RATE"]
+  },
+  "notes": [
+    "Additive, noncanonical repair candidate; active q0_machine.json and q0_verify.py remain untouched.",
+    "Bare q is forbidden; every root is law-, conditioning-, frame-, and mark-specific.",
+    "Only independently terminal statuses may become unconditionally promotable; claimed/archive/modulo/candidate statuses remain blockers.",
+    "Q_TYPED_MS_RATE has a primary direct route and a redundant adjacent-law route; the verifier does not hardcode the detour as mandatory.",
+    "No scientific claim is promoted by this snapshot."
+  ],
+  "object_domain": {
+    "b": "6/5",
+    "frame": "MIDPOINT_PHYSICAL_PLUS_DECLARED_NORMALIZED_LOCAL_COORDINATES",
+    "gap": "r^3/6",
+    "model": "EXACT-NORMALIZED-PERIODIZED-BF-L24",
+    "model_layer": "EXACT_FINITE_R_TORUS",
+    "pairing_rule": "ELDER_RULE_SELECTED_BRANCH",
+    "r": {"lower": 0.0, "lower_open": true, "upper": 0.025, "upper_open": false}
+  },
+  "objects": {
+    "A_ADJ": {"conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"], "definition": "P_MS(A_r)", "event": "A_r", "measure_tag": "P_MS", "object_type": "probability", "required_marks": ["MAXIMUM_M", "SADDLE_S", "ORIENTED_M_WARD_BRANCH"]},
+    "I_ADJ_CONTACT": {"definition": "J_TYPED_CONTACT * A_ADJ", "measure_tag": "P_ADJ-CANDIDATE", "object_type": "intensity", "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "NORMALIZED_GAP_KAPPA"]},
+    "J_TYPED_CONTACT": {"definition": "typed candidate contact intensity", "measure_tag": "P_MS", "object_type": "intensity", "required_marks": ["MAXIMUM_M", "SADDLE_S", "NORMALIZED_GAP_KAPPA"]},
+    "Q_ADJ_CONFIGURED": {"conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"], "definition": "P_MS(D(M)=S | A_r)", "event": "D(M)=S", "measure_tag": "P_ADJ", "object_type": "probability", "required_marks": ["MAXIMUM_M", "SADDLE_S", "GRADIENT_ADJACENCY_MS", "ORIENTED_M_WARD_BRANCH"]},
+    "Q_TYPED_MS": {"conditioning_pins": ["f(M)=b", "grad f(M)=0", "f(S)=b-r^3/6", "grad f(S)=0"], "definition": "P_MS(D(M)=S)", "event": "D(M)=S", "measure_tag": "P_MS", "object_type": "probability", "required_marks": ["MAXIMUM_M", "SADDLE_S"]}
+  },
+  "proposed_roots": ["Q_ADJ_CONFIGURED_RATE", "Q_TYPED_MS_RATE", "THEOREM_B_ADJ_CONTACT_FACTOR"],
+  "repair_basis": ["AO48-AUD-008-v1.0", "TR-QM-001", "OP-GDN-002"],
+  "schema": "q0-law-specific/1.1",
+  "status": "PROPOSED-NONCANONICAL-REPAIR-CANDIDATE"
+}
+```

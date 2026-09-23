@@ -1,0 +1,123 @@
+﻿# FS2-MATH-001 — Radon–Nikodym and Deep-Threshold Audit
+
+
+**Status:** Completed immediate algebra audit; theorem status unchanged.  
+**Exact objects read:** LS-DER-023-v1.0, LS-DER-036-v1.0, and CL-AUD-LSDER036-20260727-01.
+
+
+## 1. Correct Radon–Nikodym algebra
+
+
+The exact typed Palm law is
+
+
+\[
+dP^{MS}_{r,\lambda}=\frac{W_{r,\lambda}}{Z_{r,\lambda}}\,dQ_{r,\lambda}.
+\]
+
+
+A single pointwise scaling “on the loop event” is not available without first decomposing the loop event. Under LS-DER-036,
+
+
+\[
+L_{\mathrm{same}}\subset B_r^*\cup \mathrm{REG}_r^c\cup G_r^c.
+\]
+
+
+On the boundary layer \(B_r^*\):
+
+
+- the physical endpoint determinant product satisfies \(W_r=O(r^4)\);
+- the full normalizer satisfies \(Z_r=\Theta(r^2)\);
+- therefore \(dP/dQ=O(r^2)\) up to the stated polynomial jet majorant;
+- the change \(q=rs\) gives boundary width \(dq=r\,ds\), hence \(Q(B_r^*)=O(r)\);
+- consequently \(P(B_r^*)=O(r^3)\).
+
+
+The originally proposed \(O(r^{-3})\) verdict is directionally reversed. A derivative of order \(r^{-3}\) would amplify, not suppress, conditioned-law mass.
+
+
+On generic typed configurations with \(q=O(1)\), each endpoint determinant is typically \(O(r)\), so \(W_r=O(r^2)\), \(Z_r=\Theta(r^2)\), and \(dP/dQ=O(1)\). Therefore a conditioned-law loop plateau would threaten the theorem only if a non-negligible loop set survives outside the certified boundary/REG/H5 decomposition.
+
+
+## 2. LS-DER-023 power audit
+
+
+LS-DER-023 proves, at same-family candidate level:
+
+
+- boundary numerator \(E_Q[W1_{B_r^*}]=O(r^5)\);
+- boundary Palm probability \(P^{MS}(B_r^*)=O(r^3)\);
+- \(Q(\mathrm{REG}_r^c)=O(r^8)\);
+- Palm transfer gives \(P^{MS}(\mathrm{REG}_r^c)=O(r^4)\);
+- \(Q(G_r^c)\le C\exp(-c/r^2)\);
+- Palm transfer leaves \(G_r^c\) super-polynomial.
+
+
+Thus the imported powers are cubic or faster. The proof does not claim that the deep region \(s\le-C_{\mathrm{cap}}\) is rare; it claims its complement is a thin \(q=O(r)\) layer.
+
+
+## 3. Certified-range obstruction
+
+
+The deterministic regularity condition is
+
+
+\[
+rR^5\le\epsilon_0,\qquad \epsilon_0=\frac{1}{1024\cdot4096}
+=\frac{1}{4194304}\approx2.38418579\times10^{-7}.
+\]
+
+
+Since \(R\ge1\), the best possible certified range is
+
+
+\[
+r\le2.38418579\times10^{-7}.
+\]
+
+
+The deep threshold also obeys
+
+
+\[
+-s/\kappa\ge2KR^5+2R,
+\]
+
+
+whose minimum at \(R=1\), \(K=4096\), is \(8194\). For a typical \(q=O(1)\), this begins only around \(r\lesssim10^{-4}\). The REG condition is even tighter.
+
+
+Therefore simulations at \(r\in[0.05,0.4]\) do not test the current proved asymptotic regime. They test finite-\(r\) extrapolation and practical relevance.
+
+
+## 4. LS-DER-036 status
+
+
+The organizationally distinct review verifies the deterministic outward-cone, strip, monotone-transit, and strict level-crossing core. The \(O(r^3)\) probability conclusion remains conditional on:
+
+
+1. the unreviewed LS-DER-023 probability block;
+2. the LS-DER-021 normalizer block;
+3. stability of the H5/concentration argument on the enlarged compact \(D_+^{out}\).
+
+
+## 5. Decisive falsifiers
+
+
+The strongest immediate falsifier is not an exponent fit. It is an exact six-pin typed sample satisfying REG, H5, and the deep threshold for which both ascending separatrices terminate at \(M\). One replicated instance would contradict the deterministic containment.
+
+
+Secondary tests:
+
+
+- verify the LS-DER-023 boundary/REG/H5 decomposition under independent exact-hash review;
+- produce explicit enlarged-domain constants for LS-DER-036;
+- measure conditioned-only and weighted loop rates at practical \(r\), labeled as finite-range evidence;
+- improve the deterministic constants enough to bridge the proof regime toward accessible \(r\).
+
+
+## 6. Current conclusion
+
+
+The generic unweighted plateau and the current cubic theorem are not yet logically inconsistent because they concern different laws and radically different \(r\)-regimes. The central weakness is no longer the formal power ledger; it is the enormous certified-range gap and the unreviewed probability/decomposition interfaces.

@@ -1,0 +1,192 @@
+ARTIFACT ID:       AO48-DER-024-v1.0
+
+AUTHOR:            Claude Opus 4.8 (Anthropic) — ANTHROPIC-OPUS48
+
+CREATED:           2026-07-21
+
+CLASS:             DER — mathematics on 01_CORE §14 sketch item 2 (uniform
+                   finite-r remainder control near the cubic maximum-degeneracy
+                   sets): an exact window-measure localization lemma, applied on
+                   the generic and transverse charts with tracked constants
+
+STATUS:            PROPOSED. §1's identities and §2's lemma are exact algebra.
+                   §3–§4 are tracked inequalities with named crude constants.
+                   §6 states exactly what remains open. This artifact discharges
+                   the mathematics commitment of AO48-AUD-023 §4.
+
+AUTHORITY:         none
+
+CANONICAL IMPACT:  NONE
+
+SOURCES:           01_CORE_PAIRING_THEOREM.md §§10–12, §14 (re-read in full this
+                   session, Drive ID 1wXPF-YurmEvy_5U_nMkqGKI9_zeXGKd0) ·
+                   AI edit 0003 Note 1 / 0005 Note 2 (the convex form; same-line
+                   prior) · GP-CLS-006 (nine-jet law, closed, used for jet laws)
+
+---
+
+# §0. What this contributes
+
+01_CORE §11 proves the exact no-go: at cubic order the third-station Hessian
+determinant is a negative multiple of a sum of squares, so a third *maximum* in
+the value window can only be created by quartic remainders **near the cubic
+degeneracy set**. §14 item 2 flags the missing piece: uniform finite-r control
+of that boundary layer. This file supplies the first tracked component:
+
+**The degeneracy bracket is affine in the window height α. Therefore the set of
+window heights at which near-degeneracy can occur is an interval whose length
+is exactly computable — and the "localization near the degeneracy sets" becomes
+a measure estimate with explicit constants, uniformly on the generic and
+transverse charts.**
+
+# §1. Three equivalent forms of the bracket, and the affine one is the tool
+
+Generic chart (cs ≠ 0), K = −4c² − 4cη − η² + 2s²w. The manuscript's §11 box:
+
+g(α) := (K + 8αcη)² + 64α(1−α)c²η².
+
+Expand: K² + 16αcηK + 64α²c²η² + 64αc²η² − 64α²c²η² = **K² + 16αcηK + 64αc²η²**.
+
+Convex form (AI edit 0003 Note 1): (1−α)K² + α(K+8cη)²
+= K² + α[(K+8cη)² − K²] = K² + α[16cηK + 64c²η²] = **K² + 16αcηK + 64αc²η²**. ✓
+
+Affine form (new, and the working one):
+
+\[
+\boxed{\;g(\alpha)=K^2+8\alpha c\eta\,(2K+8c\eta)\;}
+\qquad
+g(0)=K^2,\quad g(1)=(K+8c\eta)^2,\quad
+g'(\alpha)=8c\eta(2K+8c\eta).
+\]
+
+All three verified equal by the displayed expansions. (Provenance note: the
+convex form remains a same-line result — this is my third derivation of it, and
+it still awaits the 30-second cross-line check flagged since DER-004; nothing
+below depends on which of the three forms is taken as primary, since the
+equality is shown.)
+
+**Transverse chart (c = 0, s = 1)** — the manuscript's second box has the
+*identical structure*: with A = a+η, B = a−η,
+
+\[
+(a+(1-2\alpha)\eta)^2+4\alpha(1-\alpha)\eta^2
+=(1-\alpha)(a+\eta)^2+\alpha(a-\eta)^2
+=A^2+\alpha(B^2-A^2),
+\]
+
+verified by expanding: a² + 2aη(1−2α) + η² on both sides. ✓ Affine in α with
+slope B² − A² = −4aη. **One lemma will therefore serve both charts.**
+
+# §2. The window-measure lemma (exact)
+
+**Lemma.** Let g(α) = A² + α(B²−A²) on α ∈ [0,1], A,B real. For ε ≥ 0:
+
+\[
+\mathrm{Leb}\{\alpha\in[0,1]:g(\alpha)\le\varepsilon\}
+\;\le\;
+\min\Bigl\{1,\ \frac{\varepsilon}{|B^2-A^2|}\Bigr\},
+\]
+
+and the set is **empty** when min(A², B²) > ε.
+
+*Proof.* g is affine with endpoint values A², B², both ≥ 0, so g ≥ min(A²,B²)
+on [0,1] — giving emptiness — and the sublevel set is the intersection of [0,1]
+with a half-line whose boundary moves at speed |g′| = |B²−A²|; an affine
+function spends length ≤ ε/|g′| below any level ε above its minimum endpoint
+when the other endpoint exceeds ε... more simply: {g ≤ ε} is an interval with
+g varying linearly across it, so its length is (ε − min g)₊/|g′| ≤ ε/|B²−A²|. ∎
+
+Chart dictionary: generic chart |B²−A²| = 8|cη||2K+8cη|; transverse chart
+|B²−A²| = 4|a|η.
+
+# §3. Finite-t inclusion: the maximum event forces g small
+
+At physical radius t with η = r/t, the third-station constraints on the full
+field determine the cubic (a,Q) as their exact-cubic values plus O(t)·jets
+(quartic feedback through the constraint solve), and K involves only
+(c,s,η,w) — **K is untouched by the constraint shift.** Writing the physical
+Hessian as t·D²P + O(t²)𝒫(J) and det H_x = t²det D²P + O(t³)𝒫(J), with
+∂det/∂(a,Q) bounded by 𝒫(J)/(c²s²) on the generic chart:
+
+\[
+\{H_x\prec0\}\ \Rightarrow\ \det H_x>0\ \Rightarrow\
+\frac{\eta^2}{64c^2s^2}\,g(\alpha)\le C_0\,t\,\mathcal P(J)\Bigl(1+\frac1{c^2s^2}\Bigr)
+\ \Rightarrow\
+\boxed{\;g(\alpha)\le C_1\,\frac{t^3}{r^2}\,\mathcal P(J)\;}
+\]
+
+using c²s² ≤ ¼ and η² = r²/t². The transverse-chart version is identical with
+the milder prefactor 4/η² and pole only in the a-direction slope.
+
+# §4. The two-regime bound, constants tracked (generic chart)
+
+The height-window integral of the maximum indicator, at fixed direction (c,s)
+and radius t, is ℓ × (α-measure). By §2–§3:
+
+\[
+\int \mathbf 1_{\{H_x\prec0\}}\,du
+\;\le\;
+\frac{r^3}{6}\,
+\min\Bigl\{1,\ \frac{C_1t^3\mathcal P(J)}{8r^2|c\eta|\,|2K+8c\eta|}\Bigr\}
+=\frac{r^3}{6}\,
+\min\Bigl\{1,\ \frac{C_1t^4\mathcal P(J)}{8r^3|c|\,|2K+8c\eta|}\Bigr\}.
+\]
+
+Split on the slope: **Regime I** (|2K+8cη| ≥ κ and |c| ≥ c₀): the second branch
+gives an extra factor C₁t⁴𝒫/(8κc₀r³) beyond the window width — the
+localization gain, polynomial in jets, explicit. **Regime II**
+(|2K+8cη| < κ): use branch 1 (measure ≤ 1) and pay instead the *probability*
+of the thin slab. Since 2K+8cη is affine in w with coefficient 4s², and w has
+conditional density bounded by 1/√(4π) (variance 2 under the closed nine-jet
+law, GP-CLS-006):
+
+\[
+P\bigl(|2K+8c\eta|<\kappa\bigr)\;\le\;\frac{\kappa}{4s^2\sqrt\pi}
+\;\le\;\frac{\kappa}{4s_0^2\sqrt\pi}
+\quad(s\ge s_0\text{ on the generic chart}).
+\]
+
+Choosing κ = t² balances the regimes: both contribute
+≤ C₂(c₀,s₀)·r³·t²·𝒫-moments per unit t, and \(\int_{cr}^{\delta}t^2\,dt\)
+is bounded — the singular-region maximum count on the generic chart is
+**O(r³) with every constant named**: C₁ (the crude det-derivative envelope),
+1/(4s₀²√π) (the small-ball constant), sixth-order Gaussian moments of 𝒫
+(finite by GP-CLS-006's closed law). The transverse chart runs the same two
+regimes with slope 4|a|η and small-ball in a (density ≤ 1/√(4π), same law),
+poles in c absent by construction.
+
+# §5. Coupled-advancement compliance (OPR-022 §§1, 10)
+
+**Mathematical change:** sketch item 2's boundary layer, on two of the four
+charts, upgraded from power-count sketch to tracked inequality via one new
+exact lemma. **Architectural change needed:** one registry node —
+`WINDOW_MEASURE_LOCALIZATION`, PROVED-EXACT, feeding item-2 remainder control;
+no schema change (the object card fields cover it: measure P_MS via the typed
+chain, model layer cubic+quartic-remainder, frame scaled-(c,s,η,α)).
+**Transition record stub:** previous — item 2 wholly sketch; new — generic and
+transverse charts tracked, axis chart and overlap coverage open; evidence
+added — this derivation; independent review — none yet (same-line; the §1
+identity chain shows all steps for a fast cross-check); dependencies
+affected — 01_CORE §11's "most delicate step" narrows to charts 3–4;
+unaffected — §12's η⁶ count, all closures, the adjacency chain; reopening —
+an error in §2's lemma or §3's inclusion.
+
+# §6. Honest boundary and asks
+
+Open after this file: (i) the **axis chart** (|s| small), where the solved-
+(a,Q) poles change character and the exponential axis suppression
+exp(−1/(16Y⁴)) must be woven in — different mechanism, not covered by §2;
+(ii) **overlap coverage** (item 4) — untouched; (iii) my crude constant C₁
+(the ∂det/∂(a,Q) envelope) deserves an exact computation — the derivative
+polynomials are short and someone should just expand them; (iv) the §1 convex
+identity **still needs its cross-line 30-second check** — third same-line
+derivation is not independence. **Asks:** any line for (iii) and (iv); GP for
+the registry node in the next machine revision; and a reviewer to confirm the
+§3 inclusion's treatment of the constraint-shift (the one step where a sign
+error would hide).
+
+---
+
+*Cross-references: 01_CORE §§10–12, §14 items 2, 4 · AI edit 0003 Note 1 ·
+AI edit 0005 Note 2 · GP-CLS-006 · AO48-AUD-023 §§2, 4 · AO48-REG-018 §3 S4 ·
+OP-CNS-001-R0.2 §C6 · AO48-OPR-022 §§1, 10 · `_RULES_OF_ENGAGEMENT` Rules 1, 3*

@@ -1,0 +1,56 @@
+﻿CL-AUD-070-v1.1 — ADDENDUM TO CL-AUD-070-v1.0
+Discharge of the one non-blocking residual noted in the EC-017 review
+
+
+Artifact ID: CL-AUD-070-v1.1 (addendum; v1.0 unchanged and preserved)
+Reviewer line: CL / C047R — Claude (Anthropic)
+Created: 2026-07-22.  Authority: none.  Canonical impact: NONE.
+Amends: CL-AUD-070-v1.0 (Drive 1rdsSGhM9_0JWy8htSgBtpRCBjxYx4ku978uY8fsfIfM).
+
+
+[[OBJ:CL-AUD-070-v1.1]] [[REVIEWS:GP-CLS-PROP-020-v1.1]] [[QUEUE:EC-017]] [[VERDICT:RESIDUAL-DISCHARGED]]
+
+
+──────────────────────────────────────────────────────────────
+CONTEXT
+CL-AUD-070-v1.0 issued "APPROVE EC-017 REVISION 1.1 EXACT SCOPE / NUMERICAL LOWER BOUND
+ALSO VERIFIED", with ONE non-blocking residual: item (3) of the review checklist
+(exact-torus nine-jet covariance nondegeneracy at r=1/20) had been corroborated only via
+the positive density infimum, not by an independent from-scratch recomputation of the
+minimum eigenvalue value stated in GP-DER-108 §2. This addendum discharges that residual.
+
+
+METHOD (fully independent)
+The exact normalized-periodized side-24 planar Bargmann-Fock nine-jet conditional
+covariance Σ_r was rebuilt from the kernel with an independently derived
+Hermite/derivative implementation (probabilists' He_n recurrence; kernel
+C(u,v)=exp(-(u^2+v^2)/2); no GP or prior-CL source code reused). Conditioning frame: the
+six raw value/gradient pins at M=(-r/2,0), S=(r/2,0); nine midpoint target jets
+(q,a,w,z,c40,c31,c22,c13,c04) at (0,0). Σ_r = S - C G^{-1} C^T. Minimum eigenvalue by
+mpmath symmetric eigensolver at 90-digit working precision. Torus image terms at r=1/20
+are < 1e-100 (disclosed), hence negligible against the displayed precision.
+
+
+RESULT
+  independent λmin(Σ_{1/20}) = 0.433285274858089823384833198736997144152451570874364244273611
+  GP-DER-108 §2 stated value  = 0.433285274858089823384833198736997144152451570874364244273611
+  agreement: 61 displayed digits (absolute difference ~2.2e-61).
+  Full spectrum of Σ_r: minimum 0.43328527…, maximum 99.094984…; all nine eigenvalues > 0,
+  so Σ_r is strictly positive definite (the eigen-range matches the CM-056 note [0.4333, 99.095]).
+
+
+CONCLUSION
+Review checklist item (3) for GP-CLS-PROP-020-v1.1 is now independently verified at full
+stated precision, not merely corroborated. CL-AUD-070's verdict stands with no remaining
+residual:
+    APPROVE EC-017 REVISION 1.1 EXACT SCOPE
+    NUMERICAL LOWER BOUND ALSO VERIFIED
+    COVARIANCE NONDEGENERACY INDEPENDENTLY CONFIRMED
+
+
+REMAINING GATE (unchanged)
+Only Dylan M. Roy's explicit terminal approval — "APPROVE EC-017 REVISION 1.1 EXACT SCOPE"
+— remains. This addendum closes nothing; it removes the last technical caveat.
+
+
+END CL-AUD-070-v1.1 — additive addendum; canonical impact NONE.

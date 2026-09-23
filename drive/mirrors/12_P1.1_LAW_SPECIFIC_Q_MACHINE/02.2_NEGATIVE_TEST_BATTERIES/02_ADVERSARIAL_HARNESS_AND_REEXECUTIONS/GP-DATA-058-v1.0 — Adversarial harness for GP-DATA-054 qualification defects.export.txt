@@ -1,0 +1,93 @@
+﻿GP-DATA-058-v1.0 — ADVERSARIAL HARNESS FOR GP-DATA-054 QUALIFICATION DEFECTS
+
+
+Artifact ID: GP-DATA-058-v1.0
+Created: 2026-07-21
+Class: DATA — executable adversarial test harness review mirror
+Status: EXECUTED — 3 OF 3 DEFECT CONTROLS CONFIRMED
+Canonical impact: NONE
+Harness SHA-256 before Docs publication: f907e0eb3394c35518cea19bb0cb848f651db4819123d8da30f181c23bd7a121
+
+
+Hyper-tags
+[[OBJ:GP-DATA-058-v1.0]] [[OBJ:GP-DATA-054-v1.0]] [[OBJ:GP-AUD-057-v1.0]] [[TEST:NC-F1]] [[TEST:NC-F2]] [[TEST:NC-F5]] [[REL:TESTS]]
+
+
+NOTICE
+Google Docs may normalize formatting. The hash above refers to the locally executed harness bytes. The code is reproduced below for review and independent reimplementation. It expects the reconstructed GP-DATA-054 Python file at the path declared in the first variable.
+
+
+SOURCE
+
+
+from __future__ import annotations
+import importlib.util, json
+from types import SimpleNamespace
+import numpy as np
+
+
+path='/tmp/GP-DATA-054-v1.0_ep2_hardened.py'
+spec=importlib.util.spec_from_file_location('gp054', path)
+m=importlib.util.module_from_spec(spec); import sys; sys.modules['gp054']=m; spec.loader.exec_module(m)
+
+
+results=[]
+def rec(name, observed, expected):
+    results.append({'name':name,'observed':observed,'expected':expected,'defect_confirmed':observed==expected})
+
+
+# NC-F1: failed/no-event ODE result whose final point is exactly a known maximum.
+orig=m.solve_ivp
+class FakeSolution:
+    success=False
+    status=-1
+    message='forced failure / no event'
+    nfev=1
+    y=np.array([[0.0],[0.0]],dtype=float)
+    t_events=[np.array([],dtype=float)]
+    y_events=[np.empty((0,2),dtype=float)]
+
+
+def fake_solve_ivp(*args, **kwargs): return FakeSolution()
+m.solve_ivp=fake_solve_ivp
+cfg=m.Config(torus=2*np.pi, branch_offset=1e-2, max_arclength=0.1, endpoint_match_tol=1e-4)
+control=m.AnalyticMorseControl()
+endpoint,msg,nfev=m.endpoint_from_branch(control,np.array([0.1,0.1]),np.array([[0.0,0.0]]),cfg,rtol=1e-7,atol=1e-9,max_step=0.05)
+rec('NC-F1_FAILED_NO_EVENT_ACCEPTED', {'endpoint':endpoint,'message':msg,'solver_success':False,'solver_status':-1,'event_count':0}, {'endpoint':0,'message':'resolved','solver_success':False,'solver_status':-1,'event_count':0})
+m.solve_ivp=orig
+
+
+# NC-F2: different census identities with equal count signatures pass V5.
+points=np.array([[0.,0.],[1.,1.],[2.,2.],[3.,3.],[4.,4.],[5.,5.]])
+values=np.array([3.,2.,0.,1.,.5,.2])
+det=np.array([1.,1.,1.,-1.,-1.,-1.]); tr=np.array([-1.,-1.,1.,0.,0.,0.])
+maxmask=np.array([1,1,0,0,0,0],bool); minmask=np.array([0,0,1,0,0,0],bool); sadmask=np.array([0,0,0,1,1,1],bool)
+primary=m.CriticalSet(points,values,det,tr,maxmask,minmask,sadmask)
+replay=m.CriticalSet((points+0.37)%24,values[::-1].copy(),det,tr,maxmask,minmask,sadmask)
+endpoints=np.array([[0,1],[0,0],[1,1]])
+receipts=[m.BranchReceipt(si,sg,int(endpoints[si,bi]),int(endpoints[si,bi]),True,'resolved','resolved',1,1) for si in range(3) for bi,sg in enumerate((-1,1))]
+bars=m.elder_rule_bars(primary.maximum_values, primary.saddle_values, endpoints)
+gates=m.build_gates(primary,replay,endpoints,receipts,bars,m.Config())
+v5=next(g for g in gates if g.name=='V5_CRITICAL_CENSUS_REPLAY')
+rec('NC-F2_COUNT_IDENTICAL_DIFFERENT_CENSUS_PASSES', {'passed':v5.passed,'primary_signature':v5.expected,'replay_signature':v5.observed,'max_point_shift':float(np.max(np.abs(primary.points-replay.points)))}, {'passed':True,'primary_signature':(2,1,3),'replay_signature':(2,1,3),'max_point_shift':0.3700000000000001})
+
+
+# NC-F5: zero-gradient singular Hessian is retained by newton_refine.
+class DegenerateField:
+    def fgh(self,p):
+        p=np.atleast_2d(p); n=len(p); z=np.zeros(n)
+        return z.copy(),z.copy(),z.copy(),z.copy(),z.copy(),z.copy()
+pts,f,d,t=m.newton_refine(DegenerateField(),np.array([[0.2,0.3]]),m.Config(torus=1.0,newton_iterations=1))
+rec('NC-F5_DEGENERATE_STATIONARY_POINT_RETAINED', {'retained':len(pts),'determinant':d.tolist(),'trace':t.tolist()}, {'retained':1,'determinant':[0.0],'trace':[0.0]})
+
+
+print(json.dumps({'source_sha256':m.source_sha256(),'results':results,'confirmed':sum(r['defect_confirmed'] for r in results),'total':len(results)},indent=2,sort_keys=True))
+
+
+OBSERVED RECEIPT SUMMARY
+source_sha256 = dbff5918f74b93d6d35ccefb6e2d3f27086736e0726c053047fb64f87b55bcc7
+confirmed = 3
+total = 3
+NC-F1_FAILED_NO_EVENT_ACCEPTED = defect confirmed
+NC-F2_COUNT_IDENTICAL_DIFFERENT_CENSUS_PASSES = defect confirmed
+NC-F5_DEGENERATE_STATIONARY_POINT_RETAINED = defect confirmed

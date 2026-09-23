@@ -1,0 +1,270 @@
+﻿TERMINAL EXTERNAL VERDICT — 2026-07-28
+
+
+CL-AUD-LSDER076-20260728-01 returns PAIR-COUNTING PASS — ABSOLUTE c_(3,24) CLOSED AT REVIEWED SCOPE.
+
+
+Authoritative final closure:
+LS-CLS-077-v1.0 — https://docs.google.com/document/d/1V_SC4co_YV6shC4TljncojRjhcn0bYO9ONPbbp419XY/edit
+
+
+This theorem is externally passed at its reviewed d=3 crosswalk scope. No additional pair-counting multiplier remains. Frozen theorem body below remains unchanged.
+[[LS-DER-076:ANTHROPIC-PASS]] [[PAIR-COUNTING:CLOSED]] [[CONTROLLING-CLOSURE:LS-CLS-077]]
+
+
+CURRENT EXECUTABLE SUPPORT AND TERMINAL REVIEW — 2026-07-28
+
+
+Exact coordinate ledger:
+LS-DATA-076A-v1.0 — https://docs.google.com/document/d/1oYYruwcjvbkaOtBqPn9O0D4cfHnWEq4Xjd0noEl2ipc/edit
+LS-DATA-076B-v1.0 — https://docs.google.com/document/d/1LyOJFTf9uTOdEahzqkXSxcXpD9TeQ84Qx6M-m9MPXNk/edit
+All assertions pass.
+
+
+Controlling organizationally distinct review:
+LS-REQ-043-v1.0 / DQ-109 — https://docs.google.com/document/d/1YJ6KPZajzMl3O9TMblr3T0oPHIdyB7TVFRukuspfpO8/edit
+
+
+No d=3 pair-counting PASS or fully caveat-free absolute coefficient is claimed yet. Frozen body and hash below remain unchanged.
+[[CONTROLLING:LS-DER-076-v1.0]] [[LEDGER:PASS-SAME-FAMILY]] [[EXTERNAL-REVIEW:LS-REQ-043]] [[DQ-109:READY]]
+
+
+LS-DER-076-v1.0 — DIMENSION-INDEPENDENT ORDERED-PAIR JACOBIAN, DIRECTED-SPHERE CONVENTION, AND H0 UNIT-MULTIPLICITY CROSSWALK
+
+
+Artifact ID: LS-DER-076-v1.0
+Dispatch: DQ-108
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / PAIR-COUNTING NORMALIZATION / GENERAL-d COORDINATE JACOBIAN / H0 MULTIPLICITY
+Authority: same-OpenAI-family repair successor informed by organizationally distinct review
+Organizational-independence credit: ZERO FOR THIS SUCCESSOR; NARROW EXTERNAL REVIEW REQUIRED
+Canonical impact: NONE
+Status: FINAL RESIDUAL ABSOLUTE-NORMALIZATION CANDIDATE / READY FOR REVIEW
+BODY_BYTES: 7167
+BODY_SHA256: 8250c80a0c034be676f221ec6ecc913bdec767aff9995e845bd6fc66ac92ea1f
+
+
+CONTROLLING EXTERNAL EVIDENCE
+CL-AUD-S2DER010-20260727-01 — Anthropic PASS for unit multiplicity, typed ordering, directed angle, and branch-count firewall in the surface process.
+CL-AUD-LSDER030-20260727-01 — Anthropic PASS for midpoint/displacement determinant one, planar polar measure, and no factor 1/2.
+CL-AUD-LSDER075-20260728-01 — Anthropic PASS for all other absolute-normalization factors; isolates only the d=3 pair-counting crosswalk.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER076_FROZEN_BODY and strictly before the unique full line END_LSDER076_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER076_FROZEN_BODY
+DIMENSION-INDEPENDENT ORDERED-PAIR JACOBIAN, DIRECTED-SPHERE CONVENTION, AND H0 UNIT-MULTIPLICITY CROSSWALK
+
+
+1. PURPOSE AND REVIEW SCOPE
+
+
+CL-AUD-LSDER075-20260728-01 passed the exact Kac--Rice factor 1/6, the lifetime pushforward factor 6^(2/3)/3, their nonduplication, and the complete d=3 Bargmann--Fock recombination. It then named one residual absolute-normalization question: whether the process underlying J_0 counts every physical maximum--saddle persistence pair exactly once, without an additional factor 1/2.
+
+
+The Drive already contains organizationally distinct Anthropic review of the surface version:
+- CL-AUD-S2DER010-20260727-01 passed unit H0 multiplicity, typed ordering, the directed-angle convention, and the branch-count firewall;
+- CL-AUD-LSDER030-20260727-01 independently passed the midpoint/displacement Jacobian and absence of a factor 1/2 in the planar directed convention.
+
+
+This theorem proves the dimension-independent coordinate and H0-counting statements and crosswalks them to the full S^2 integral used by LS-DER-056. It does not reopen the selected side-24 theorem, the relative correction, or the normalization factors already passed.
+
+
+2. ORDERED TYPED PAIR SPACE
+
+
+Let d>=2 and let X=T_L^d be the flat side-L torus. Fix 0<rho<L/2. For a Morse function f with distinct critical values define the typed ordered local pair space
+
+
+    P_rho(f)
+      ={(M,S): M is a local maximum,
+                S is an index-(d-1) critical point,
+                0<dist(M,S)<rho,
+                f(M)>f(S)}.                                  (1)
+
+
+For (M,S) in P_rho(f), the short torus displacement
+
+
+    u=Log_M(S) in R^d                                         (2)
+
+
+is unique. Put
+
+
+    x=M+u/2  mod L,
+    r=|u|,
+    t=u/r in S^(d-1).                                        (3)
+
+
+Conversely,
+
+
+    M=x-(r/2)t,
+    S=x+(r/2)t.                                               (4)
+
+
+Equations (2)--(4) define a bijection between ordered distinct pairs with distance below rho and midpoint--radius--directed-sphere coordinates (x,r,t).
+
+
+3. EXACT JACOBIAN AND ABSENCE OF A HALF FACTOR
+
+
+Work in the unique local Euclidean lift. Set u=S-M and x=(M+S)/2. The inverse linear map is
+
+
+    (x,u) -> (M,S)=(x-u/2,x+u/2).                            (5)
+
+
+Its 2d by 2d block matrix is
+
+
+    A=[[I,-I/2],
+       [I, I/2]].                                             (6)
+
+
+Subtracting the first block row from the second gives the block-triangular matrix
+
+
+    [[I,-I/2],
+     [0, I]],                                                 (7)
+
+
+so
+
+
+    |det A|=1,
+    dM dS=dx du.                                              (8)
+
+
+Standard polar coordinates in the directed displacement give
+
+
+    du=r^(d-1) dr d sigma_(d-1)(t).                          (9)
+
+
+Therefore
+
+
+    dM dS
+      =dx r^(d-1) dr d sigma_(d-1)(t),                       (10)
+
+
+with no numerical prefactor.
+
+
+The antipodal coordinate (x,r,-t) maps by (4) to (S,M), not to (M,S). It is not another atom of P_rho(f), because S is not a maximum and M is not an index-(d-1) saddle. Hence integration over the full directed sphere counts each typed ordered pair once. A factor 1/2 belongs only to a different quotient convention using unoriented axes t~ -t; LS-DER-056 does not use that quotient.
+
+
+4. DIMENSION-INDEPENDENT H0 UNIT MULTIPLICITY
+
+
+Let f be Morse with pairwise distinct critical values on a compact connected d-manifold. For the superlevel filtration X_a={f>=a}:
+
+
+- every local maximum creates one H0 component;
+- crossing an index-(d-1) critical point attaches a one-handle to the superlevel set;
+- that handle either merges two distinct components or creates a loop inside one component;
+- a merge lowers beta_0 by exactly one and a loop leaves beta_0 unchanged.
+
+
+At a merge, the two components immediately above the saddle have unique elder maxima because critical values are distinct. The elder rule retains the higher maximum and kills the lower one. Thus each merge kills exactly one H0 class.
+
+
+Every non-global maximum eventually dies: below the global minimum the connected manifold is one superlevel component represented by the global maximum. No maximum can die twice, and no generic binary merge can kill two classes. Therefore
+
+
+    {non-global maxima}
+      <--> {finite superlevel H0 bars}
+      <--> {index-(d-1) H0-merge saddles}                     (11)
+
+
+are bijective through the elder death map. Every finite nonessential H0 bar has one ordered pair (M,D_f(M)).
+
+
+This is the dimension-independent version of the externally passed S2-DER-010 unit-multiplicity theorem. The proof uses only connectedness, Morse nondegeneracy, distinct critical values, and the one-handle description of an index-(d-1) superlevel saddle.
+
+
+5. BRANCH-COUNT FIREWALL
+
+
+An index-(d-1) superlevel merge saddle has a one-dimensional unstable manifold under gradient ascent and hence two half-branches. The pair process counts the critical-point pair (M,S), not branch incidences. Direct adjacency is an existential Boolean mark:
+
+
+    A(M,S)=1
+      iff at least one unstable half-branch of S converges to M. (12)
+
+
+If both branches converge to M, the same ordered pair still contributes one atom. No branch factor 2 enters J_r or c_(3,24).
+
+
+6. CROSSWALK TO THE d=3 SIDE-24 COEFFICIENT
+
+
+LS-DER-056 uses exactly
+
+
+    t in S^2,
+    M=x-(r/2)t,
+    S=x+(r/2)t,                                               (13)
+
+
+and integrates over the full S^2 surface measure. By (10), this is the exact ordered-pair coordinate measure
+
+
+    dx r^2 dr d sigma_2(t).                                  (14)
+
+
+For d=3, the complete local power count is
+
+
+    gap Jacobian       r^3/6,
+    corrected pins     r^(-6),
+    endpoint weights   r^2,
+    pair polar measure r^2 dr d sigma_2,
+
+
+whose radial product is
+
+
+    (1/6) r dr d sigma_2.                                    (15)
+
+
+The factor 1/6 and lifetime pushforward were externally passed in CL-AUD-LSDER075. Equations (10)--(15) show that no additional ordering, antipodal, branch, merge-index, or factor-1/2 multiplier remains.
+
+
+7. REVIEWED-SCOPE CONSEQUENCE
+
+
+At same-family candidate level, this theorem reconciles the previously reviewed d=2 convention with the d=3 S^2 coefficient architecture. If organizationally distinct review confirms Sections 2--6, then the residual caveat in CL-AUD-LSDER075 is discharged and the absolute c_(3,24) normalization is closed at the same fixed-side reviewed scope as the selected-coefficient theorem.
+
+
+8. SCOPE FIREWALL
+
+
+Established here:
+- exact midpoint/displacement determinant one in every d;
+- exact polar factor r^(d-1);
+- full directed sphere, not projective sphere;
+- no unordered-pair factor 1/2;
+- dimension-independent H0 unit multiplicity;
+- branch incidence does not multiply pair atoms;
+- exact d=3 crosswalk to LS-DER-056.
+
+
+Not established or changed:
+- other torus sides or field classes;
+- infinite-volume persistence;
+- non-Morse or tied-critical-value multiplicity;
+- higher-handle persistence in H_k for k>0;
+- canonical restoration, sealing, publication, or release.
+
+
+FINAL STATUS
+
+
+THE LAST PAIR-COUNTING NORMALIZATION QUESTION IS CLOSED AT SAME-FAMILY CANDIDATE LEVEL; READY FOR ONE NARROW ORGANIZATIONALLY DISTINCT REVIEW.
+END_LSDER076_FROZEN_BODY

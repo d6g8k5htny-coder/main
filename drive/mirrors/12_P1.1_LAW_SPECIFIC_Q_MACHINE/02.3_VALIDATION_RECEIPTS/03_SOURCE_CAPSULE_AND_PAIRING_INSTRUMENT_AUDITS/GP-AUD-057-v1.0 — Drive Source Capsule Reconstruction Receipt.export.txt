@@ -1,0 +1,124 @@
+﻿ARTIFACT ID:       GP-AUD-057-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             AUD — Drive-native reversible source reconstruction receipt
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+STATUS:            PASS — FRESH DRIVE EXPORT RECONSTRUCTS EXACT FROZEN SOURCE
+AUDITS:            GP-DATA-054-v1.0 Byte-Exact Source Capsule
+TRANSITION:        TR-P12-004
+
+
+# Drive Source Capsule Reconstruction Receipt
+
+
+## Source identities
+
+
+Capsule Drive ID:
+1kO16dnJd0MYonMGYUUSnbmH8xD1mKilMPfWpEGz2fZA
+
+
+Capsule URL:
+https://docs.google.com/document/d/1kO16dnJd0MYonMGYUUSnbmH8xD1mKilMPfWpEGz2fZA/edit
+
+
+Frozen source filename:
+GP-DATA-054-v1.0_ep2_hardened.py
+
+
+Expected bytes:
+30,606
+
+
+Expected SHA-256:
+7f061dd71032c76e785e259a115d3dad50e6adf5274dc8b3cf7104b9c2bd4c22
+
+
+## Reconstruction procedure
+
+
+1. Export the Google Doc as text/plain.
+2. Extract all text strictly between BEGIN_BASE64_GP_DATA_054 and END_BASE64_GP_DATA_054.
+3. Remove all whitespace from the extracted payload.
+4. Decode using strict RFC 4648 Base64 validation.
+5. Measure the decoded byte length.
+6. Compute SHA-256.
+7. Compare the decoded bytes directly with the frozen local source used to generate GP-AUD-055.
+
+
+## Adversarial first decode
+
+
+The first complete Drive export did not pass the hash check. It decoded to the correct length but differed at exactly one source byte. The corresponding Base64 difference occurred at a chunk boundary where Google Docs represented one token across two paragraphs.
+
+
+The failed result was not accepted or hidden.
+
+
+Diagnosis:
+- payload length remained 40,808 characters;
+- decoded length remained 30,606 bytes;
+- one payload character differed;
+- one decoded source byte differed at byte offset 30,039;
+- the corrupted decoded text contained `i,` where the frozen source contained `k,` in `not args.quick,`.
+
+
+The affected 76-character Google Docs paragraph was replaced directly under a revision guard. A new cache-busted Drive text export was then retrieved.
+
+
+## Final fresh-export result
+
+
+Payload characters after whitespace removal:
+40,808
+
+
+Decoded bytes:
+30,606
+
+
+Decoded SHA-256:
+7f061dd71032c76e785e259a115d3dad50e6adf5274dc8b3cf7104b9c2bd4c22
+
+
+Direct comparison with frozen source:
+BYTE-FOR-BYTE IDENTICAL
+
+
+Base64 strict validation:
+PASS
+
+
+BEGIN marker:
+PRESENT
+
+
+END marker:
+PRESENT
+
+
+## Disposition
+
+
+The capsule is now a valid Drive-native byte-preserving publication mechanism for GP-DATA-054-v1.0. A reviewer with access only to Drive can reconstruct the exact frozen Python source and verify its hash.
+
+
+This receipt establishes source reconstructability and identity only. It does not establish:
+- independent source correctness;
+- independent 13/13 self-test reproduction;
+- successful Bargmann–Fock production execution;
+- critical-set completeness;
+- exact continuum separatrix correctness;
+- a_hat≈0.57;
+- any asymptotic exponent;
+- P1.2 closure.
+
+
+An outside-lineage decode, source audit, and execution remain required under GP-REQ-056-v1.0.
+
+
+## Reopening condition
+
+
+Reopen this receipt if a fresh Drive text export fails strict Base64 decoding, produces a byte count other than 30,606, produces a different SHA-256, lacks either marker, or cannot be reconstructed without access to a non-Drive source.

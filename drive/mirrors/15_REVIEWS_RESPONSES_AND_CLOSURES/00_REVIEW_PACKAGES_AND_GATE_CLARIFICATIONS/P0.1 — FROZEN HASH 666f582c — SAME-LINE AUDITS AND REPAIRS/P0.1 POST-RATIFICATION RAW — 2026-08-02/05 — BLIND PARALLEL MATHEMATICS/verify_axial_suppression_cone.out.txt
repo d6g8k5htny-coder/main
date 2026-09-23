@@ -1,0 +1,28 @@
+[ok] 01 cubic Hermite reproduces degree 0
+[ok] 02 cubic Hermite reproduces degree 1
+[ok] 03 cubic Hermite reproduces degree 2
+[ok] 04 cubic Hermite reproduces degree 3
+[ok] 05 fourth-order derivative residual a*chi/12
+[ok] 06 midpoint fourth-order cancellation
+[ok] 07 midpoint fifth-order residual is nonzero
+[ok] 08 cone d0 factorization
+[ok] 09 cone ceiling constant is 40 for 0<=lambda<=2 and d<=1
+[ok] 10 midpoint d0^2=d^4/16
+[ok] 11 normalized mean/variance cancellation
+[ok] 12 cone exponent certificate has d^-2 scale
+[ok] 13 determinant factor is a^6*d0^2*A
+[ok] 14 squared density prefactor is a^-6*d0^-2*A^-1
+[ok] 15 +5% window ratio
+[ok] 16 -5% window ratio
+[ok] 17 5% window is separated from midpoint and second endpoint
+[ok] 18 exponential absorbs a fixed d^-24 loss
+CHECK_COUNT=18
+CONE=lambda=rho/d in (epsilon,2], punctured at lambda=1
+D0SQ=d^2*[4(2lambda-1)^2+d^2 lambda^2(lambda-1)^2]
+MAHALANOBIS_LOWER>=kappa^2/(320*C*d^2)
+MIDPOINT_STRENGTH=d^-4
+WINDOW=|rho|<=0.05d; leading axial ratio in
+[3810716361/6400000000,10377700641/6400000000]
+SCOPE_LIMIT: local density suppression only; collision weights and the
+full RP-C/RP-S regional integration are not asserted here.
+ALL_ASSERTIONS_PASS

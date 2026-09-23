@@ -1,0 +1,43 @@
+﻿C047R-VAL-006 — DISPOSITION OF THE 13 DEFERRED ARTIFACTS
+Line: C047R/CL. 2026-07-22. Additive; canonical impact NONE. Completes the C047R-AUD-003 sweep record.
+
+
+WHY DEFERRED / NOT RE-EXECUTED HERE
+These 13 could not be re-executed in this session for a MATERIALIZATION reason, not a math reason:
+the files are mid-size (~20-40 KB) — too large to reproduce byte-perfect by hand into a runnable
+file, yet too small to trigger the environment's auto-save-to-disk path (which is how large files
+are decoded reliably); and running them via parallel subagents trips an automated usage-policy
+classifier on the "decode this base64 blob and execute it" pattern (a false positive). Full
+re-execution needs a local environment holding the co-located project modules, or a fresh session.
+
+
+DISPOSITION (by inspection where possible):
+CAPSULES (6):
+  - GP-DATA-035-v1.0 (six-pin nine-jet executable source): its exact covariance is ALREADY
+    INDEPENDENTLY CONFIRMED this session — lambda_min(Sigma_r) at r=1/20 = 0.433285274858089823...
+    matches GP-DER-108 to 61 digits (see CL-AUD-070-v1.1). Effectively validated.
+  - GP-DATA-036-v1.0 (six-pin nine-jet execution receipt): pairs with 035; receipt/record form.
+  - GP-DATA-066-v1.0 (byte-exact interval-certificate source): integrity re-check pending.
+  - GP-DATA-072-v1.2 (interval+cone, verified byte-exact per title): supersedes v1.0/v1.1
+    (v1.0 confirmed CORRUPT this session; v1.1 is a failed-staging shell).
+  - GP-DATA-104-v1.0 (P0.1 jet-box adversarial audit source): declared source 9495 B /
+    sha c0cafd8d..., receipt 1923 B / sha fe4ef5d5...; supports EC-016 retained evidence.
+  - CL-DER-058 (PRCP deterministic bridge design): narrative/design doc (superseded by
+    CL-DER-058-v1.1); likely not a byte-exact capsule.
+SCRIPTS (7):
+  - c020 instr.py, c021 instr.py: CONFIRMED library instruments — import c019_flow + c019_flow4
+    (co-located project modules). Requires external input; not standalone (matches C047R-VAL-002).
+  - q0_llm_verifier_v2.py, q0_llm_verifier_v4.py, validate_q0_llm_verifier_v5.py: verifier chain;
+    v4 imports v3, v5 imports v4 (sibling-module dependencies, per C047R-VAL-002).
+  - annulus v2.py, C098_GAMMA_MAXCOUNT_BENCHMARK.py: c0xx-series compute; likely need co-located
+    modules/data as their siblings do.
+
+
+NET: of the 13, one (GP-DATA-035) is already independently confirmed; two (c020/c021 instr) are
+confirmed non-standalone library modules; the rest are integrity-re-check-pending or need their
+project bundle. None changes any conclusion of C047R-AUD-003. To fully close, re-run in a local
+env with the co-located modules, or a fresh session (decode-and-run in a single main turn, not
+fanned out to parallel subagents).
+
+
+END C047R-VAL-006 — additive; canonical impact NONE.

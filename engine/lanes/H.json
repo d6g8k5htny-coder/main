@@ -1,0 +1,58 @@
+{
+  "key": "H",
+  "title": "Lower-bound campaign (LB-RATE / K3) — OPEN / HOLD",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## H. Lower-bound campaign (LB-RATE / K3) — OPEN / HOLD",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [
+    "K3-THM-001",
+    "H-B3"
+  ],
+  "status": "OPEN",
+  "status_source": {
+    "transcribed_from": [
+      "registers/json/open_questions.json rows OQ-014, OQ-015, OQ-016, OQ-016-U1, OQ-016-U2 (Register status)",
+      "claims/graph.json claims.K3-THM-001 (REFUTED_AS_WRITTEN) and premises.H-B3 (OPEN)"
+    ],
+    "quote": "OPEN — K3-THM-001 REFUTED AS WRITTEN / LOWER HOLD",
+    "note": "All five register rows read OPEN; the lane token OPEN ranks at the floor of the ordering. Falsifier: The sources name no falsifier for the campaign as a whole; GP-LB-STAT-004 refutes one assembly. A falsifier here would be a new construction, which this ledger does not make."
+  },
+  "next_exact_action": "OQ-016-U1: Do not mint a successor. Prove Lambda positive uniform constant, exact weighted-Palm losses, eta_r, exit o(1), H-Bonf, analytic DER-027a/027c uniformity; complete W8 receipts; then new blind review and final-tree clean-room replay.",
+  "falsifier": null,
+  "inputs": [
+    "CR-JETS"
+  ],
+  "inputs_note": "CR-JETS is jets.py from the DER-027b INCOMPLETE NONCONTROLLING draft (mpmath, certifying:false), bound as bytes only. Until 2026-09-18 it was bound to lane A1.",
+  "not_a_substitute": [
+    {
+      "quote": "REFUTED AS WRITTEN / NONCONTROLLING. No theorem successor is minted here",
+      "source": "GP-LB-STAT-004 §4 on K3-THM-001"
+    },
+    {
+      "quote": "LOWER-BOUND THEOREM OPEN / ALL DRAFTS NONCONTROLLING",
+      "source": "registers/json/open_questions.json OQ-016-U1 Live state"
+    }
+  ],
+  "repo_state": "none",
+  "repo_state_note": "No lower-campaign computation exists in this repository, and `repo_state` is `none` for that reason. What does exist is the binding record: `engine/carriers/MANIFEST.json` binds `jets.py` (`CR-JETS`, from the DER-027b INCOMPLETE draft, mpmath, `certifying: false`) to this lane rather than to A1, where it sat until 2026-09-18 as if its Taylor jets were the upper chart's 24-jet set — which the source never says — and `tools/carriers_verify.py` recomputes every bound blob's digest against that manifest. Binding an input records which bytes exist and where; it is not review, not replay and not endorsement. Until 2026-09-22 this note said only that no computation exists, naming neither. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "engine/carriers/MANIFEST.json",
+    "tools/carriers_verify.py"
+  ],
+  "does_not_establish": "This lane does not rehabilitate K3-THM-001, does not close or reopen the LB-RATE lower campaign, supplies none of the premises OQ-016-U1 names (Lambda uniform constant, weighted-Palm losses, eta_r, exit o(1), H-Bonf, H-B3), and does not adjudicate between the AO48-layer and GP-layer labels.",
+  "register_next_decisive_action": "Prove exhaustive failure-event coverage, exact weighted/height-integrated bounds, eta-preserving conversions, all-small-r and spatial regime control.",
+  "firewalls": [
+    {
+      "quote": "Target: same-law `1 − q(r, 6/5) ≤ C r³` for all sufficiently small `r`, with **no** combination with the 3D upper.",
+      "source": "docs/OPEN_PROBLEMS.md §B"
+    },
+    {
+      "id": "FW-2D-3D-COMPOSITION",
+      "source": "claims/graph.json firewalls",
+      "rule": "No claim may depend, transitively, on objects from both the UPPER2D/LOWER2D tracks and the LIFETIME3D track."
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+==============================================================================
+W6 MASTER CERTIFICATE -- uniform-in-r analysis (mandates 1-3)
+dps=80; kernel K-B (m2=1); pins M=(-r/2,0), S=(r/2,0), Y=M+r(-0.76,0.24)
+==============================================================================
+
+## S0 kernel
+[ck] K1(0)=1: PASS  
+[ck] K1''(0)=-1 (m2=1): PASS  
+[ck] K1''''(0)=3 (m4=3): PASS  
+[ck] K1^(6)(0)=-15 (m6=15): PASS  
+[ck] wrapped==spectral: PASS  max diff 1.83e-59
+
+## S1 validation anchors
+[ck] c(0.025)=-0.4997159: PASS  -0.4997159068
+[ck] c_inf == -3476069/6953125 (1e-9): PASS  -0.499929024719
+[ck] v-triple arch ray d=1,2,3: PASS  0.017699 0.557476 0.977642
+[ck] W5 station v=0.0005554263945655655: PASS  0.0005554263945655643
+[ck] W5 phi2=0.22614080268832848: PASS  0.22614080268833
+c exact rational adopted: c = -3476069/6953125 = -0.4999290247191011
+D3 limit value = (1.52 - 2c)/0.24 = 10.49940853932584
+
+## S2 limit jet: span, values, free direction
+[ck] Var(f|pins)->0: PASS  6.36e-23 9.7e-28 1.48e-32  (collapse x4293860611)
+[ck] Var(fx|pins)->0: PASS  1.27e-23 1.94e-28 2.96e-33  (collapse x4294967247)
+[ck] Var(fy|pins)->0: PASS  1.66e-14 4.54e-17 1.73e-19  (collapse x96230)
+[ck] Var(fxx|pins)->0: PASS  2.6e-11 1.02e-13 3.97e-16  (collapse x65519)
+[ck] Var(fxy|pins)->0: PASS  6.51e-12 2.54e-14 9.93e-17  (collapse x65519)
+[ck] Var(fyy|pins)->0: PASS  2.48e-7 8.32e-9 4.92e-10  (collapse x504)
+[ck] Var(fxxx|pins)->0: PASS  4.69e-11 1.83e-13 7.15e-16  (collapse x65536)
+[ck] Var(A3|pins)->0: PASS  0.000209 1.31e-5 8.18e-7  (collapse x256)
+[ck] Var(D3|pins)->0: PASS  0.00355 0.000222 1.39e-5  (collapse x256)
+[ck] free dir n=(0,1,21/2,209/3) stays free: PASS  28511.0 28510.0 28510.0
+[ck] E[f_xxx|pins]->+2 (trap value -4 REFUTED): PASS  2.000000049
+  trap display: 24*(f(S)-f(M))/r^3 -> -4 (ignores grad pins forcing f_x(0)=-r^2/4); consistent f_xxx=+2
+[ck] E[A3|pins]->1/2: PASS  0.4999984738
+[ck] E[D3|pins]->(1.52-2c)/0.24: PASS  Richardson 10.49941462 vs 10.49940854 (raw 10.504833 10.502133 10.500774)
+  limit values v* = (b,0,0,0,0,0,2,1/2,(1.52-2c)/0.24)
+
+## S3 limiting conditional law: Gram G0, certified inverse
+[ck] G0 SPD (9 independent limit functionals): PASS  eigs [5.4404e-03, 56.1577]
+[ck] ||G0*G0i - I||_max < 1e-70: PASS  2.61e-81
+  G0[f,f] = 1.0
+  G0[fx,fx] = 1.0
+  G0[fy,fy] = 1.0
+  G0[fxx,fxx] = 3.0
+  G0[fxy,fxy] = 1.0
+  G0[fyy,fyy] = 3.0
+  G0[fxxx,fxxx] = 15.0
+  G0[A3,A3] = 39.4630833600000058629227872586
+  G0[D3,D3] = 18.3481113600000017469871949061
+  r=0.00625: max|mean-lim|=0.0395 max|cov-lim|=0.00601
+  r=0.000390625: max|mean-lim|=0.00244 max|cov-lim|=0.000379
+[ck] pin law -> limit law at C034 station: PASS  
+  10-component limit jet E[d^al f(0)|F=v*] and residual Var:
+    d(0, 0): E=1.2  Var=0.0
+    d(1, 0): E=1.2371254908184e-81  Var=2.1084396e-81
+    d(0, 1): E=4.1874305674806e-83  Var=0.0
+    d(2, 0): E=-8.3388075340246e-493  Var=0.0
+    d(1, 1): E=2.158623358289e-495  Var=0.0
+    d(0, 2): E=2.7495966559101e-495  Var=0.0
+    d(3, 0): E=2.0  Var=3.3735033e-80
+    d(2, 1): E=4.3835205992509  Var=0.0011566946
+    d(1, 2): E=-0.41747815230961  Var=0.12752558
+    d(0, 3): E=-1.5868649706862e-15  Var=5.6139532
+
+## S4 variance laws (fixed y: r^0 laws; cluster: v~r^6, v_t~r^8)
+  y=(0,0.4): v(r) -> v0~0.0005698540977  v_t(r) -> 2.802765266e-6
+[ck] v(y;r) r^0 law at (0,0.4): PASS  converging
+  y=(0,0.7): v(r) -> v0~0.01288552528  v_t(r) -> 0.0002490809844
+[ck] v(y;r) r^0 law at (0,0.7): PASS  converging
+  y=(0,1.0): v(r) -> v0~0.07641671962  v_t(r) -> 0.004413425213
+[ck] v(y;r) r^0 law at (0,1.0): PASS  converging
+  cluster (y = r*yhat): v/r^6 and v_t/r^8
+  yhat=('0.5', '0.5'): v/r^6=['0.00683929', '0.00657469', '0.00650846'] vt/r^8=['0.0509538', '0.0512462', '0.0513199']
+[ck] v~r^6 cluster law at (0.5, 0.5): PASS  v/r^6 converging
+  yhat=('0.0', '1.0'): v/r^6=['0.187098', '0.182929', '0.181886'] vt/r^8=['5.73395', '5.78356', '5.7961']
+[ck] v~r^6 cluster law at (0.0, 1.0): PASS  v/r^6 converging
+
+RESULT v_t: at fixed y, v_t(y;r) -> v_{t,0}(y) > 0 (r^0 law); in the cluster v_t ~ r^8.
+The 'v_t ~ r^4' hypothesis is REFUTED in both regimes; the r^4-class appears only
+as the crossover v_t ~ d^8 interpolating to the constant at d=O(1).
+
+==============================================================================
+CERTIFICATE PASS (mandates 1-3)

@@ -1,0 +1,735 @@
+﻿CURRENT P0.2 DEPENDENCY REPAIR — P02-LM-012 v1.1 — 2026-07-26
+
+
+Resolution Scientist #2 found and repaired a narrow frozen-body overstatement in the common-domain/chart-lift interface.
+
+
+Predecessor LCR-DER-043-v1.0 is AMEND REQUIRED: it stated deterministic capture on REG_r intersect G_r, omitting the load-bearing deep-saddle event {s<=-C_cap(U)}.
+
+
+Current successor:
+- LCR-DER-043-v1.1;
+- Drive ID 1RlkK7LWmJedt12fD4Dsg3XQbmVc7XL00fODQVTMxrBY;
+- BODY_BYTES 11543;
+- SHA-256 68df32086da07fac8b042789de7a1c280aa2df56885532618c2fcabdb04b9ad4;
+- fresh Drive roundtrip PASS.
+
+
+Review packet: https://docs.google.com/document/d/1X-46gXEIqZr8JMc458ikHGKtLsQpRIrEgwUknhUd5ig/edit
+Audit: https://docs.google.com/document/d/1LxBFj9rDf_eV5kYINLlRZDF_b4HHKhptj-hkev-tqxI/edit
+
+
+The repair distinguishes radius compatibility from sample-event hypotheses. The common radius remains min{1,r_GR,r_Z,r_rob,r_tail}>0; deterministic capture is used only on REG_r intersect G_r intersect {s<=-C_cap(U)}. P02-LM-011 already uses the correct event, so its frozen body is unchanged.
+
+
+Status: SAME-FAMILY REPAIR COMPLETE / ZERO INDEPENDENCE CREDIT / EXTERNAL EXACT-HASH REVIEW OPEN / P0.2 NONTERMINAL / NO PROMOTION.
+
+
+[[P02-LM-012:v1.1-CURRENT]] [[V1.0:AMEND-REQUIRED]] [[ROUNDTRIP:PASS]] [[P0.2:OPEN]] [[NO-PROMOTION]]
+
+
+CURRENT P0.2 SINGLE-OBJECT ADVANCEMENT — P02-LM-009 — 2026-07-26
+
+
+Resolution Scientist #2 completed a hash-specific same-family adversarial reconstruction of P02-LM-009 / LCR-DER-027-v1.0.
+
+
+Frozen target:
+- BODY_BYTES 3919;
+- SHA-256 ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1;
+- fresh export reproduction PASS.
+
+
+Evidence:
+- audit https://docs.google.com/document/d/1XXHOvgtk-Kv28v7essHbXShpgXzk7aB4QHqlpwMFO7E/edit
+- verifier source https://docs.google.com/document/d/1vJcxZE8VAyxfrWT9Qge5kACcrL4zeos6pIcyD3xtZuA/edit
+- verifier result https://docs.google.com/document/d/1udGxXR4teNyDR-Hz9vP_XgRB_k_IygjdGWYPDHS3gc8/edit
+
+
+Result: the all-fixed-moments / Markov proof survives direct reconstruction; exponent and radius directions pass; 12/12 hostile controls pass. The audit preserves the exact quantifiers, rejects fixed stretched-exponential overclaim, and confirms that the P02-LM-008 Palm transfer requires conditioned exponent 2N for desired Palm exponent N.
+
+
+Adjudication: SAME-FAMILY ADVERSARIAL PASS / ZERO INDEPENDENCE CREDIT. LCR-REQ-029 remains open. P0.2 remains five terminal / eight review-pending / ten exact objects remaining; no closure or promotion.
+
+
+[[P02-LM-009:SAME-FAMILY-PASS]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:NONTERMINAL]] [[NO-PROMOTION]]
+
+
+CURRENT P0.1 INTEGRATED-THEOREM STATE — V1.6 MERGED AND FROZEN — 2026-07-26
+
+
+The two concurrent GP-DER-118-v1.5 branches are reconciled by GP-DER-118-v1.6. Current raw object GP-DATA-228-v1.0: 26,333 bytes, SHA-256 e9fd8cee4a56d3009a407b31240577c92ab7fa91d859fac777483d9e8e838619; post-upload byte replay PASS.
+
+
+Theorem: https://docs.google.com/document/d/1y6g3qdwNA081iFsWUNCKJ7lbPSgR6dbkYlNwTUmOoBY/edit
+Raw: https://drive.google.com/file/d/1-TQ5qj7AVx99jc-bnB7Otq1AMiIyjRYF/view
+Review: https://docs.google.com/document/d/1Gk1TMBb1LKQtNqBzha8In6O_-hRdCpBBqPO9d0uynNU/edit
+Receipt: https://docs.google.com/document/d/18jlzvrkv5KNgy-h05LtybQmHFvCHq-dPGuySjWd1LGk/edit
+
+
+The earlier v1.5/GP-DATA-222 and later v1.5/e82477f4 branch remain provenance only. GP-DATA-224 and GP-REC-226 labels from the later branch are recorded as index incidents because GP-REC-224 and GP-REQ-226 already exist. No promotion. P0.1 remains nonterminal.
+
+
+[[P0.1:V1.6-CURRENT]] [[COLLISION:RECONCILED]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+CURRENT P0.1 INTEGRATED-THEOREM STATE — V1.5 FROZEN — 2026-07-26
+
+
+GP-DER-118-v1.5 replaces v1.4 as the current affirmative-review candidate. The controlling raw object is GP-DATA-224-v1.0, Drive ID 1WA6LT7K74kdUpDFIy9i1UkzWa-bn2250, 20,017 bytes, SHA-256 e82477f43682044c399b611a56d9b457fafafb5d3b49cfcb24403dfc029504dd. The raw file was downloaded after publication and matched byte-for-byte.
+
+
+Theorem: https://docs.google.com/document/d/1hNNjrJZT8JjmPkeuM-wGP6CyFhsbWmTSG238Jo80Xv4/edit
+Review: https://docs.google.com/document/d/11QwtdyGe5_8MRpj9e_dxIlI1f3xVnpSS5D-fF3RKeU8/edit
+Receipt: https://docs.google.com/document/d/1goGxDsmDNDK85tpgCFI9DDpJ9VZFSRH7XRPdc5Kxmjs/edit
+
+
+Repair delta: changing-law convergence is coupling-safe; r_chart and r_event are removed as unsupported/redundant radius placeholders; LS-DER-006 supplies W_r^{exact}>=r^2/4 on E_r for the full r<=1/20 interval and removes any separate r_det.
+
+
+V1.4 / GP-DATA-220 remains exact provenance. GP-REQ-221 is superseded by GP-REQ-225. No theorem, numerical corollary, package, machine, or release state is promoted. P0.1 remains NONTERMINAL.
+
+
+[[P0.1:V1.5-CURRENT]] [[ROUNDTRIP:PASS]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+CURRENT P0.1 INTEGRATED-THEOREM STATE — V1.4 FROZEN — 2026-07-26
+
+
+GP-DER-118-v1.4 has replaced the prior “v1.4 required” routing state. The exact theorem body is frozen through GP-DATA-220-v1.0 at 18,522 bytes and SHA-256 701dffe260e165c69f52f1fe45257efb39fb6e78bb53eedd4a23f35f1fc8fe2e; source-to-carrier Drive roundtrip PASS.
+
+
+Theorem: https://docs.google.com/document/d/1DjteXS8XFbuj3mkekm90a3yaH2yojw_idJj0ZmyIW3o/edit
+Carrier: https://docs.google.com/document/d/1pMlSYtCqNXrfse_b-aO1uvKyCW5YGOgwLaO6S6luOeo/edit
+Review packet: https://docs.google.com/document/d/12qauFknIpzyCWLanv9lPSf_Xcixu185v4xkfc3tmhjg/edit
+Receipt: https://docs.google.com/document/d/1DTmUHlTdCuqTW2dLArXx2oxEJxTKJHGQKgEWgFQqjPE/edit
+
+
+GP-DER-118-v1.3 / GP-DATA-123 remains PARTIAL PASS provenance and is superseded only for affirmative review. GP-REQ-221 is OPEN. Base-mass and upper-normalizer successor reviews remain open. P0.1 remains NONTERMINAL / NOT PROMOTED.
+
+
+[[GP-DER-118:v1.4-FROZEN]] [[GP-DATA-220:ROUNDTRIP-PASS]] [[GP-REQ-221:OPEN]] [[P0.1:NONTERMINAL]] [[NO-PROMOTION]]
+
+
+CURRENT P0.1 UPPER-NORMALIZER UPDATE — RS2 ADVERSARIAL PASS — 2026-07-26
+
+
+GP-DATA-214 / GP-DER-214 now has reconstructable same-family adversarial evidence under RS2-AUD-214-v1.0. Exact source/result identities and byte-identical replay pass. A separately coded direct normalized-periodized side-24 reconstruction passes at five radii from r_D down to 10^-12. All 13 GP-REQ-215 hostile conditions fire or are rejected by explicit proof, counterexample, or object guards.
+
+
+Audit: https://docs.google.com/document/d/1f0VG_xji4QumQTSSsjwuS8rpfwW2ByOUxUDVqXDwA28/edit
+Verifier source carrier: https://docs.google.com/document/d/19skReZC0BgalbXykwQJCVsDzNYFTBqPigE1ermcie3M/edit
+Verifier result carrier: https://docs.google.com/document/d/1xOcNb4qkUw3tQChCq3pV9PUP4NYX965wbQyrIHN4rxQ/edit
+
+
+Adjudication: SAME-FAMILY ADVERSARIAL PASS / ZERO INDEPENDENCE CREDIT. The candidate C_Z=15 on 0<r<=r_D is retained, but GP-REQ-215 remains organizationally distinct review OPEN. GP-DATA-208 remains AMEND REQUIRED. P0.1 remains NONTERMINAL and NOT PROMOTED.
+
+
+No GP-REG-032 spreadsheet mutation was attempted in this update. DQ-018 is complete only for sandbox qualification; DQ-020 external verifier/security review remains open and the production helper is explicitly DO NOT INSTALL.
+
+
+[[GP-DATA-214:RS2-PASS]] [[GP-REQ-215:OPEN]] [[INDEPENDENCE:ZERO]] [[P0.1:NONTERMINAL]] [[DQ-020:OPEN]] [[NO-PROMOTION]]
+
+
+CURRENT REGISTER-SAFETY STATE — DQ-018 COMPLETE — 2026-07-26
+
+
+GP-DATA-218 stable-key guarded writes are sandbox-qualified. Exact source: 19,759 bytes / SHA-256 199b7ce57f065b54b2a8f160e89fe38ef90f3118408d2fbb5eeca8a601a8855a. Fourteen deterministic checks pass, including stale row-index, duplicate/missing key, stale/missing sheet identity, precondition drift, primary-key mutation, unknown column, and post-write tampering controls. Five actual isolated Drive writes passed with pre- and post-read key verification.
+
+
+Proof: https://docs.google.com/document/d/1pzgS54wGicsakLmpL53m2Jf5-YLAlfNfBIDXRgWUvWw/edit
+Package: https://docs.google.com/document/d/1EktScfxgfH9OkeosIS8_6h1flyQmHgnCs142iFvQcRc/edit
+Review: https://docs.google.com/document/d/1fVXf0h33ZKHqklydALKXCXB65gPKJZSdILew1Genmeg/edit
+
+
+DQ-018 is completed. DQ-020 carries the organizationally distinct verifier/security review. No production helper, Apps Script trigger, active automation, theorem, or canonical object was changed.
+
+
+[[DQ-018:COMPLETE]] [[DQ-020:OPEN]] [[PRODUCTION:DO-NOT-INSTALL]] [[NO-PROMOTION]]
+
+
+P0.1 EXTERNAL-REVIEW AND VERSION ROUTING DELTA — 2026-07-26
+
+
+New exact state:
+- GP-DATA-204 / GP-DER-204 predecessor: Anthropic CL-AUD-257 AMEND REQUIRED. The numerical full-matrix bounds appear true, but the frozen proof used a 3x3 principal-submatrix witness with interlacing in the wrong direction and did not state the box location needed for its mass bound. GP-DATA-212 controls active base-mass review.
+- GP-DATA-123 / GP-DER-118-v1.3 frozen integrated theorem: Anthropic CL-AUD-260 PARTIAL PASS. Synthesis arithmetic survived; affirmative approval is blocked by a stale GT5 citation, incomplete common-r intersection, and separately unreviewed dependencies.
+- GP-DER-118-v1.4 is required under DQ-019. Controlling addendum: https://docs.google.com/document/d/1VhsprhIwxyhOdJaQsA13p3SdVXTSDcTbRlQfWrVzCYQ/edit
+- GP-DATA-214 remains the controlling upper-normalizer successor with external review open.
+- Domain T retains its exact scope-limited approval.
+
+
+No p_B=1e-48, C_Z=15, c_A, r_*=r_D, P0.1 closure, or promotion is terminally established.
+
+
+CURRENT OPERATIONS-STATE UPDATE — REGISTER IDENTITY RECOVERY — 2026-07-25
+
+
+GP-AUD-216 completed the bounded duplicate/supersession audit and recovered two register-write incidents.
+
+
+Recovered:
+- DQ-002 and DQ-004 restored from spreadsheet revision 672 after cached row-index writes landed on the wrong tasks;
+- DQ-007 correctly records the q0 verifier successor completion;
+- three misplaced Artifact Index rows were cleared after a cached numeric grid ID routed Duplicate Flags content to the wrong sheet;
+- four current findings are now present in Duplicate Flags;
+- critical Transition Alarm STALE_POSITIONAL_AND_GRID_IDENTIFIERS_RECOVERED is active.
+
+
+DQ-018 now controls a sandbox-first stable-key/stable-sheet-identity write helper. Fresh sheet-title→grid-ID resolution, unique primary-key lookup, key assertion, and post-write destination verification are mandatory for future register writes.
+
+
+No research theorem, exact source object, active verifier, machine root, GP-AUTO-034 authorization, trigger, package, or canonical status changed.
+
+
+Audit: https://docs.google.com/document/d/1mZ_swPmsdTFnaxch5e6PUbFxDRpkR5108DM7lwVthCM/edit
+
+
+[[REGISTER-INTEGRITY:RECOVERED]] [[DQ-004:COMPLETE]] [[DQ-018:OPEN]] [[NO-PROMOTION]]
+
+
+CURRENT RESEARCH-STATE UPDATE — P0.1 QUANTITATIVE SUCCESSORS — 2026-07-25
+
+
+P0.1 has one qualifying quantitative component review and two source successors awaiting exact-hash review:
+
+
+- GP-DATA-206 conditioned H5 / Domain T: Anthropic PASS under CL-AUD-234; P02-LM-007 exact-hash approved under CL-AUD-243.
+- GP-DATA-212 base mass: source/result roundtrip pass; external successor review GP-REQ-213 open. GP-DATA-204 is AMEND REQUIRED.
+- GP-DATA-214 upper normalizer: source 37,512 bytes SHA 63ef800a...40fb9; result 10,944 bytes SHA af277957...a6cbf; roundtrip pass; external successor review GP-REQ-215 open. GP-DATA-208 is AMEND REQUIRED.
+
+
+The explicit same-line candidate remains r_*=r_D and c_A=10^-48/120, but it is not independently recombined and has no canonical or terminal effect.
+
+
+No GP-AUTO-034 state changed. No triggers, authorization, theorem promotion, package seal, or deletion occurred.
+
+
+[[P0.1:QUANTITATIVE-SUCCESSORS-CURRENT]] [[RECOMBINATION:OPEN]] [[NONTERMINAL]] [[NO-PROMOTION]]
+
+
+P0.1 CURRENT REVIEW STATE — 2026-07-25
+
+
+Anthropic CL-AUD-234 supplies a qualifying external APPROVE verdict for GP-DER/DATA-206 at the frozen hashes, limited to r_T=r_D and conditioned tail <5e-49.
+https://docs.google.com/document/d/1N__i7Ql8nXFXnqQGWU1ZBwTdpR30VCUAvoyyueg5YGg/edit
+
+
+Anthropic CL-AUD-253 supplies a qualifying external AMEND REQUIRED verdict for GP-DER/DATA-208. The predecessor periodization argument is not uniform as written and exact-field bridge inputs remain unpopulated. A repaired successor is routed through S2-REQ-006 / DQ-013.
+https://docs.google.com/document/d/1_YNh_IPFuDMGIPQRq5e5TY0pUXu8ZbPRsOgZ1SSH3PY/edit
+https://docs.google.com/document/d/1sJwS9pXRk3jLRGgLrCAcvkrShFH2ijdCgRWYo4XuZ2o/edit
+
+
+Current P0.1 status: one quantitative component now has qualifying external approval; the upper-normalizer component is reopened for repair. P0.1 remains NONTERMINAL / NOT PROMOTED.
+
+
+[[DOMAIN-T:APPROVED-SCOPE-LIMITED]] [[UPPER-NORMALIZER:REPAIR-OPEN]] [[NO-PROMOTION]]
+
+
+CONTROL-PLANE BANNER — OP-PROT-012 — 2026-07-25
+
+
+Current approval and decision routing is autonomous and evidence-gated. Human approval is not required. Use 00_AI_DRIVE_BOOTSTRAP and GP-REG-032 / Autonomy Control before interpreting this append-heavy state record. Lower language requiring Dylan, a human-ready queue, or an operator decision is superseded for workflow purposes unless OP-PROT-012 is later revoked. This banner changes no research result or evidence status.
+
+
+Bootstrap: https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8/edit
+Protocol: https://docs.google.com/document/d/1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo/edit
+
+
+P0.1 FULL QUANTITATIVE CANDIDATE CURRENT STATE — 2026-07-25
+
+
+The P0.1 same-line proof program now has populated, exact-roundtrip packages for all three quantitative components.
+
+
+GP-DER-204 / GP-DATA-204:
+    candidate r_GR=r_D,
+    candidate p_B=10^-48.
+
+
+GP-DER-206 / GP-DATA-206:
+    candidate r_T=r_D,
+    candidate Q_{6,r}(G_r^c)<5e-49.
+
+
+GP-DER-208 / GP-DATA-208:
+    candidate Z_r^{exact}<=15r^2 for r<=r_D.
+
+
+Combined candidate:
+
+
+    r_*=r_D,
+    c_A=10^-48/120.
+
+
+All source/result carriers pass exact declared Drive round trip. All three packages remain same-line and require organizationally distinct reviews under GP-REQ-205, GP-REQ-207, and GP-REQ-209. The full G/D/T/I recombination also remains review-pending.
+
+
+Current classification:
+
+
+    QUANTITATIVE SAME-LINE CHAIN COMPLETE /
+    EXTERNAL TECHNICAL GATES OPEN /
+    P0.1 NONTERMINAL / NOT PROMOTED.
+
+
+The full two-sided normalizer asymptotic remains open for P02-LM-006 and P0.2.
+
+
+[[P0.1:r_STAR-r_D-CANDIDATE]] [[P0.1:c_A-1e-48/120-CANDIDATE]] [[THREE-HASH-REVIEWS:OPEN]] [[RECOMBINATION:OPEN]] [[NO-PROMOTION]]
+
+
+P0.1 GT5 RADIUS SUCCESSOR — S2-DER-002 / S2-DATA-002 — 2026-07-25
+
+
+A new same-line explicit certificate gives r_T=r_D conditional on p_B=10^-48 and the S2-DATA-001 stabilized-pin bounds.
+
+
+Execution:
+- PASS;
+- checks 16/16;
+- controls 7/7;
+- M_5<189;
+- B_abs<1231;
+- t_0<2840<1/r_D;
+- r_cut=0.00035228857548...>r_D;
+- r_tail=0.00108131677237...>r_D;
+- log10 tail at r_D<-19020.
+
+
+Candidate synthesis only:
+    r_GR=r_D,
+    r_T=r_D,
+    C_Z=15 on r<=r_D,
+therefore candidate r_*=r_D.
+
+
+Unconditional status remains fail-closed and nonterminal pending organizationally distinct review. No P0.1 promotion is made.
+
+
+Source: https://docs.google.com/document/d/1whRUSPrYjKtgFcTdfKqS7uXBvh8piEIjWEtm3URHjRk/edit
+Proof: https://docs.google.com/document/d/1X2Qg0CKZStF1GfmHUTZL7AMmBhl6s2exFOOzOyT7qpo/edit
+Review: https://docs.google.com/document/d/1ygKfpHeQ726UxGw_prvPuIx47V90QdB26pqpnLTg74k/edit
+
+
+[[GT5:r_T=r_D-CANDIDATE]] [[CANDIDATE-r_STAR:r_D]] [[EXTERNAL-REVIEW:OPEN]] [[P0.1:NONTERMINAL]] [[NO-PROMOTION]]
+
+
+P0.1 DOMAIN-T CURRENT STATE — GP-DER-206 / GP-DATA-206 — 2026-07-25
+
+
+A populated same-line conditioned fifth-derivative tail successor is now available.
+
+
+Source carrier:
+https://docs.google.com/document/d/1aB39eeNwZFuk5_C6SB2iA-9NIsomMqF-8r0xJjUYTd0/edit
+- 10,422 normalized bytes;
+- SHA-256 fa0fe850b8e4ac2ca6f9b6b7fcf9d81d354b3d6fceab06633c55fbd6836e7cc0.
+
+
+Result carrier:
+https://docs.google.com/document/d/1cwxgbezgq4666a23Vdc5mDUx_JCtOPUHtKJQ-crwwsk/edit
+- 3,555 normalized bytes;
+- SHA-256 f6bc0b68866ba069eacec349085e672f2718ac6047f242dc5a9523e08f2aee17.
+
+
+Drive round trip: PASS.
+
+
+Candidate result:
+
+
+    r_T=r_D,
+    Q_{6,r}(G_r^c)<5 x 10^-49
+
+
+on 0<r<=r_D.
+
+
+Proof: https://docs.google.com/document/d/1vuzGBPeTHoGGFhjqMXpIhfRtY8IVmCmxaQ2yo84A2cg/edit
+Review: https://docs.google.com/document/d/1XJfNDwnNRfRg628C_4oLtMFVG6ZEEFYLwfMPsHlo1mU/edit
+
+
+Current classification:
+
+
+    SOURCE-RECONSTRUCTABLE / SAME-LINE CHECKS PASS /
+    ORGANIZATIONALLY DISTINCT REVIEW PENDING /
+    P0.1 NONTERMINAL / NO PROMOTION.
+
+
+Together with GP-DER-204 approval, this would reduce the fail-closed radius to min(r_N,r_D). The exact upper-normalizer gate remains open.
+
+
+[[GP-DER-206:ROUNDTRIP-PASS]] [[r_T:r_D-CANDIDATE]] [[r_N:RETAINED]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+P0.1 ONE-SIDED NORMALIZER CURRENT STATE — S2-DER-001 / S2-DATA-001 — 2026-07-25
+
+
+A reconstructable Scientist-2 successor now repairs the missing raw-source and exact-envelope gap in the C_Z=15 route.
+
+
+Base source replay:
+- exact quarantined v1.0 source: 12,966 bytes, SHA-256 1656c05968a77fd5c6b9b48f3a1f014251589cde5c9eec2f41d0ad033a5e319f;
+- reproduced verdict FAIL_OR_AMEND_REQUIRED, checks 4/10, controls 5/5.
+
+
+Successor:
+- source reconstruction: 14,503 bytes, SHA-256 1ab52d02045d2a02d6c4e7e067df13e45479ec63c049c0ff47ce230778530082;
+- result: 11,515 bytes, SHA-256 5092460d3ab3bd3a1f2dbb687c5e95c9f727a4cb6eb253a1c712c1bac0fa3a92;
+- execution PASS, checks 19/19, controls 8/8;
+- same-line theorem candidate: Z_r^{exact}<=15r^2 for every 0<r<=r_D.
+
+
+The reconstructed exact limiting endpoint law is
+    mean=(-1,+1,0,0,-6/5,-6/5),
+    covariance diagonal=(0,0,1/2,1/2,2,2).
+The candidate second-moment ceiling is 14.088160150649566...<15. C_Z=14 is rejected by a negative control.
+
+
+Current classification:
+    SOURCE-RECONSTRUCTABLE / EXECUTION PASS / SAME-LINE CANDIDATE /
+    ORGANIZATIONALLY DISTINCT REVIEW PENDING / P0.1 NONTERMINAL / NO PROMOTION.
+
+
+Current fail-closed graph remains min(r_GR,r_N,r_T,r_D). After qualifying review of this normalizer theorem, r_N may be removed from P0.1 only. P02-LM-006 and P0.2 remain unchanged because their lower normalizer/asymptotic requirements are not supplied here.
+
+
+Source: https://docs.google.com/document/d/15rh7wFF-f15eOcFQ2wSqyFpadP87rjkqukI1WAj0tKI/edit
+Proof: https://docs.google.com/document/d/1HdZJlChYMtfv-pmMASDHiO10YqrXUqkDp9GwZb64f1U/edit
+External review request: https://docs.google.com/document/d/1WIf8haXzD8lJs-23-xWaLHo9uc0cSsC5vjQdAgHShNA/edit
+
+
+[[P0.1:NORMALIZER-UPPER-CANDIDATE]] [[C_Z:15]] [[SOURCE-RECONSTRUCTABLE]] [[CHECKS:19/19]] [[CONTROLS:8/8]] [[EXTERNAL-REVIEW:OPEN]] [[ROUTE-C:NOT-ACTIVE]] [[NO-PROMOTION]]
+
+
+P0.1 FINITE-DIMENSIONAL BASE-MASS CURRENT STATE — GP-DER-204 / GP-DATA-204 — 2026-07-25
+
+
+A new populated same-line successor replaces the empty LS-DER-008 / LS-DATA-008 numerical lineage.
+
+
+Source carrier: https://docs.google.com/document/d/1QYLkJ3GO8X5VCDvKvqZ9ttkiMYDm6uAxCpLMDcZGpTI/edit
+- normalized source bytes: 14,899;
+- SHA-256: 28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134.
+
+
+Result carrier: https://docs.google.com/document/d/1n4QxE3dG7hDwCfPrWSCgJDWvYyadPeKejbeN1d6nmUw/edit
+- normalized result bytes: 3,732;
+- SHA-256: 5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf.
+
+
+Drive round-trip: PASS for both.
+
+
+Same-line candidate constants:
+
+
+    r_GR=r_D,
+    p_B=10^-48.
+
+
+Proof: https://docs.google.com/document/d/1Vom-SmByypl4jPBVGOI0xSqOV01Gyk01z5rCFBl7qVk/edit
+Review request: https://docs.google.com/document/d/1FuxlxAxeJqVcJhBpB4u8cBKfXjg0kp74coFnViUfFW0/edit
+
+
+Current classification:
+
+
+    SOURCE-RECONSTRUCTABLE / SAME-LINE CHECKS PASS /
+    ORGANIZATIONALLY DISTINCT REVIEW PENDING /
+    P0.1 NONTERMINAL / NO PROMOTION.
+
+
+The unconditional P0.1 radius graph remains fail-closed at min(r_GR,r_N,r_T,r_D). Approval of GP-DER-204 would validate the r_GR and p_B members only. Normalizer and Domain-T/recombination gates remain open.
+
+
+[[GP-DER-204:ROUNDTRIP-PASS]] [[r_GR:r_D-CANDIDATE]] [[p_B:1e-48-CANDIDATE]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+FORMAL-CORE CURRENT-STATE CORRECTION — GP-AUD-189-v1.0 — 2026-07-24
+GP-FOR-001 remains operator-approved only as the historical formalization/status/CI-handoff record. Its declared ZIP, Git object database, exact Lean/Lake sources, toolchain, and Mathlib lock are not present in Drive and cannot be independently reconstructed. GP-FOR-189 is the current additive source-recovery candidate: exact raw ZIP and source files are published, Drive round-trip identity passes, the static scope/placeholder audit passes, and no `sorry`, `admit`, or `axiom` occurs. Lean and Lake are unavailable and no exact dependency lock has been recovered; compilation was not attempted and no theorem is machine-checked. Current status: ORIGINAL BUNDLE MISSING / R1 SOURCE RECOVERED / STATIC PASS / CI-PENDING / NONCANONICAL / NO PROMOTION.
+Audit: https://docs.google.com/document/d/1Z5KLJ4qlIMWx8AYsXoIshJ1xq2hzM6kU38DXcCw8ALg/edit
+Source ZIP: https://drive.google.com/file/d/14SKjjD_c6CBEKWaXxX9W-Sm5blNxIRuN/view
+[[FORMAL:ORIGINAL-SOURCE-MISSING]] [[R1:ROUNDTRIP-PASS]] [[STATIC:PASS]] [[LEAN-CI:NOT-RUN]] [[COMPILED-PROOFS:NONE]] [[NO-PROMOTION]]
+
+
+LATEST CONTROLLING AUTOMATION STATE — R0.4 — 2026-07-24
+
+
+GP-AUTO-034 current candidate is GP-AUTO-034-v1.3-R0.4-SUCCESSOR-CANDIDATE. Exact raw source: Drive ID 1Z2BGcE8r9AqsnyPs1k8_qqn_kQFeaT99; 135,668 bytes; SHA-256 11ba6ccdb3f68a38215036b55dec4a4e53cc2022adf6af8f5c6dffec8f9aa9d3.
+
+
+R0.4 supersedes R0.3 for current routing because R0.3 still retained implicit live Navigation Companion and manifest-staging fallbacks. R0.4 contains no known live fallback for registry, navigation, or manifest writes. Registry requires explicit Script Property GP_AUTO_REGISTRY_SPREADSHEET_ID; navigation and manifest require explicit Config IDs. Missing or malformed targets fail closed.
+
+
+Exact Drive round trip: PASS. JavaScript syntax: PASS. T1–T35: PASS 35/35. Frozen fixtures: PASS 4/4. Receipt: GP-AUD-186-v1.0, Drive ID 14vEk4o6yL37U2Q8zcNQ-3VBaMHkMz69kdHQVcVha0Ns. Transition: TR-CAI-005.
+
+
+Current isolated runtime/recovery handoff: Drive ID 1gZum-OCx4IhdhDS3CyLJ1jajJHK1Ik9Orph4NAELiic. Sandbox targets remain copied registry 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo, copied navigation 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE, and generated-only folder 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y. All authorization and trigger switches remain FALSE. No Apps Script project was executed.
+
+
+Remaining blockers: normalized raw-object publication; installed-source equality; explicit target tests in Apps Script; T1–T35 and fixtures in Apps Script; one isolated refresh; complete write-target/source-immutability audit; injected partial-commit recovery; trigger inspection/teardown; exact R0.4 distinct-family review; Dylan activation decision.
+
+
+Exact status: COMPLETE SOURCE PUBLISHED / ALL KNOWN WRITE TARGETS EXPLICIT / STATICALLY REQUALIFIED / SANDBOX PREPARED / RUNTIME-RECOVERY-REVIEW-PENDING / DO NOT INSTALL.
+
+
+This notice supersedes every older section naming R0.1, R0.2, or R0.3 as current, or stating no complete v1.3 successor exists. Historical text remains provenance. No installation, activation, package root, seal, machine change, theorem closure, or mathematical promotion is claimed.
+
+
+[[GP-AUTO:R0.4-CURRENT]] [[STATIC:T1-T35-PASS]] [[ALL-WRITE-TARGETS:EXPLICIT]] [[SANDBOX:PREPARED]] [[RUNTIME:PENDING]] [[NO-INSTALL]]
+
+
+THEOREM B CURRENT-STATE CORRECTION — GP-AUD-187-v1.0 — 2026-07-24
+The historical C103/C104 and Q0_MASTER `PROVEN-HERE` status is not current. Exact observed-gap/cubic-fold Jacobian: PROVED. Conditional compact-mark pushforward Theorem B0: PROVED under explicit marked-intensity, domination, convergence, positive-integral, and multiplicity hypotheses. Unconditional Theorem B with finite positive full-kappa coefficient: CANNOT VERIFY. Missing primary proofs: compact-mark contact intensity, uniform elder selection, small/large-kappa domination, persistence multiplicity, and off-fold lower-order contribution. Current routing: CANDIDATE / STATUS NARROWED / NO PROMOTION. Historical raw files and machine roots remain preserved as provenance, not proof.
+Audit: https://docs.google.com/document/d/1GCxx8Th9C5J8SrddCjwNa30O2LuYiwEB4pEYLxXK5pg/edit
+[[THEOREM-B:CURRENT-CANDIDATE]] [[PROVEN-HERE:RETRACTED]] [[B0:CONDITIONAL-PROVED]] [[TB-G1-TB-G7:OPEN]]
+
+
+NEW NARROW TERMINAL RESULT — P02-LM-001 — 2026-07-24
+
+
+P02-LM-001 is CLOSED within the exact conditional degree-four deterministic capture-majorant scope recorded by LCR-CAP-009-v1.0 and Closure Log row LCR-CLS-008-v1.0. The primary proof is GP-DER-047-v1.0; organizationally distinct review is CL-AUD-049-v1.0; LCR-DATA-010 supplies reconstructable hostile stress testing. The result may be used only as the declared deterministic degree-four implication.
+
+
+This closure does not establish exact-field transfer, Gaussian or Palm probability, 1-a_r=O(r^3), P0.2, P0.1, Theorem B, numerical accessible-r guarantees, package state, or machine state. P0.2 remains open. Terminal exact-object count is now 16.
+
+
+Closure capsule: https://docs.google.com/document/d/1_ovqOV8q1YCC9J5Q72fYsfzGg3v_5Z71Uv4uwyZU3N4/edit
+
+
+CURRENT DEVELOPMENT AND REVIEW STATE — 2026-07-24
+
+
+GP-AUTO-034
+Current development candidate is v1.3-R0.3, raw Drive ID 1bLNbR77ggE-TBppO_p9kRX3IAn-FQ7vX, 134,700 stored bytes, SHA-256 4f491c622fbd400167bb62dbd0564d6ab4ee9515338891c41e1779459f1ea34e. Static T1–T34 and four fixtures pass. R0.3 removes the live-registry default and requires an explicit Script Property. An isolated runtime sandbox exists at Drive ID 1UlWMqsNWdhl5bxqD50BC0QLOtTNrxDiH. No Apps Script runtime, authorized refresh, injected recovery, installed-source equality, trigger inspection, independent exact-byte review, installation, or activation has occurred. DO NOT INSTALL. R0.2 is preserved as the last statically qualified predecessor, not the current development route.
+
+
+R0.3 qualification lineage: GP-AUD-185-v1.0 (Drive ID 18GqRkhCEMtitSXQjyjSLEoAC3T30UmSGlbI-VPreLlM), TR-CAI-004, and 00_READ_FIRST sandbox handoff 1obzqC59KPxQ6YV38rvHRNWKEFv1FYAfyoOEMw8h3lVQ. The isolated Config targets copied registry 11kjAdxXCB4gY_2IleE9dWbscwkOpmZijpceUhrGnGpo, copied navigation 1169aii8OHoYLs6B6h6TYmZxxFUHjxsZowRr6yP7WSDE, and generated-only folder 1qJtgalAusNPBjbgrEMXQ4JOHV4s7oe0Y. AUTOMATION_AUTHORIZED and HOURLY_TRIGGER remain FALSE.
+
+
+
+
+P0.1 DOMAIN D
+GP-DER-186-v1.0 and LCR-AUD-008-v1.0 replace the invalid compactness argument for the raw scaled fixed-q family with a monotone finite-worst-case gate reduction and a common perturbation budget. Same-line source execution, nineteen gates, five controls, and epsilon_D=10^-4 survive with scope clarifications. Organizationally distinct review and full D+ coverage verification remain open. The frozen theorem body remains candidate and unpromoted.
+
+
+This notice supersedes older body language naming R0.2 as current or relying on compactness of the raw scaled Domain-D vector-field family. No closure, automation activation, package root, seal, or release is claimed.
+
+
+CURRENT CONTROLLING OPERATIONS STATE — 2026-07-24
+
+
+EC-019
+- Scientific verification: T1 PASS; T2 mathematical PASS; T2 organizational-independence PASS under authoritative Anthropic A-line CL-REG-214 / CL-DATA-214 / CL-AUD-214.
+- Package integrity: HOLD. Authoritative cleanroom.py, run_t2.py, and results.json are not present as exact raw Drive carriers and have not been independently replayed.
+- Operator adjudication: CONDITIONAL / NOT YET EXECUTABLE. HA-009 is stored in 02_CONDITIONAL_DECISIONS_PENDING_PREREQUISITES and activates only after package-integrity PASS.
+- Current exact state: VERIFIED WITHIN SCIENTIFIC SCOPE / PACKAGE-INTEGRITY PENDING / CONDITIONAL OPERATOR ADJUDICATION STAGED / NONTERMINAL.
+- Next action: publish and replay the authoritative three raw carriers, then issue a package-integrity PASS receipt.
+
+
+GP-AUTO-034
+- Current candidate: v1.3-R0.2, not R0.1.
+- Raw source Drive ID 14jTtCmv7xhYrFCfx3kumP9mysNPxNP7m; 133,632 bytes; SHA-256 50589fc1f6f5e0df0d5acf8148848c10d6e3c06ebaa319fb830c71c856502b06.
+- R0.2 repairs the false production labeling, adds regression T33, passes syntax, T1–T33, and four frozen fixture checks.
+- Runtime, normal refresh, hard-kill recovery, installed-source equality, normalized raw-object publication, exact-byte distinct-family review, trigger inspection, and activation remain open. DO NOT INSTALL.
+
+
+P0.1
+- Frozen body: 14,591 bytes; SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28.
+- Domains G, D, and T survive same-line attack with the recorded clarification, scaling-wording correction, and LS-COR-001 GT5 repair.
+- Same-line work earns zero organizationally distinct review credit. P0.1 remains CANDIDATE / NOT PROMOTED; hash-specific non-GP G/D/T review is the next decisive front.
+
+
+This notice supersedes earlier body sections stating HA-009 is active, T2 is scientifically open, no complete v1.3 source exists, or R0.1 is current. Historical text remains for provenance. No closure, installation, activation, package root, seal, or release is claimed.
+
+
+CURRENT RECONCILIATION — EC-019 AND GP-AUTO-034 — 2026-07-24
+
+
+EC-019
+- T1 fixed-r symbolic nondegeneracy: PASS within declared scope.
+- Independent T2 mathematical verdict: PASS under CL-AUD-214-v1.0, with nineteen positive margins, five firing controls, and qualifying organizationally distinct implementation evidence.
+- Package-integrity layer: OPEN. The declared Anthropic raw implementation, runner, and result files are not yet preserved as separately replayable raw Drive carriers; the embedded-core semantic replay supports the mathematics but does not reproduce those declared file hashes.
+- Exact current classification: VERIFIED ON MATHEMATICAL MERITS / PACKAGE-INTEGRITY-PENDING / OPERATOR-ADJUDICATION-SURFACE PRESENT / NONTERMINAL.
+- HA-009 is the active operator surface, but no broader result, numerical probability, r-uniformity, P0.1, P0.2, Theorem B, machine state, root, seal, or release follows.
+
+
+GP-AUTO-034
+- The original v1.2 executable remains unrecovered.
+- Current complete successor candidate: GP-AUTO-034-v1.3-R0.2-SUCCESSOR-CANDIDATE.
+- Exact raw source: Drive ID 14jTtCmv7xhYrFCfx3kumP9mysNPxNP7m; 133,632 bytes; SHA-256 50589fc1f6f5e0df0d5acf8148848c10d6e3c06ebaa319fb830c71c856502b06.
+- R0.1 is preserved but superseded after a distinct-family audit found false production labeling.
+- R0.2 repairs the generated Context Snapshot to CANDIDATE / DO NOT INSTALL and adds T33 preventing candidate-to-production mislabeling.
+- Exact Drive round trip: PASS. JavaScript syntax: PASS. T1–T33: PASS 33/33. Frozen fixture identities: PASS 4/4.
+- Receipt: GP-AUD-182-v1.0, Drive ID 1CutMuk6HBGaXM8L8YfSWrvJMdVodr5EVZu_HclITlNU. Transition: TR-CAI-003.
+- Remaining blockers: directly published normalized LF raw object; isolated Apps Script runtime; normal refresh; injected hard-kill recovery; installed-source equality; exact R0.2 distinct-family review; trigger inspection; Dylan activation decision.
+- Current status: STATICALLY REQUALIFIED CANDIDATE / RUNTIME-PENDING / DO NOT INSTALL.
+
+
+Canonical mathematical impact of this reconciliation: NONE.
+
+
+[[EC019:T2-MERITS-PASS]] [[EC019:PACKAGE-INTEGRITY-PENDING]] [[EC019:NONTERMINAL]] [[GP-AUTO:R0.2-STATIC-PASS]] [[GP-AUTO:NO-INSTALL]]
+
+
+EC-019 SOURCE-REPLAY REFINEMENT — 2026-07-24
+GP-DATA-168-v1.1 upgrades the author-line computational state to SAME-LINE REPAIR RECEIPT PASS: nineteen margins positive and five controls executed at 40, 80, and 120 digits. Its declared 20,949-byte source is not reconstructably published in Drive; only receipt/capsule hash references are available. Current remaining gates are therefore (1) exact-source publication and replay of v1.1, and (2) organizationally distinct clean-room T2 evidence. T1 remains PASS; EC-019 remains NONTERMINAL.
+[[EC019:V1.1-RECEIPT-PASS]] [[SOURCE-REPLAY:OPEN]] [[INDEPENDENT-T2:OPEN]] [[NONTERMINAL]]
+
+
+GP-AUTO-034 FAIL-CLOSED CORRECTION — 2026-07-24
+GP-AUD-179-v1.0 confirms that no byte-exact reconstructable v1.2/v1.3 executable or installed-source match is available. Config no longer enables the v1.2 manifest/hash as executable identity, and the Drive-side HOURLY_TRIGGER flag is now FALSE/FALSE pending G1–G7 qualification. This does not prove or remove any browser-side trigger; actual Apps Script project, installed source, and trigger ID remain platform-unverified. Audit: https://docs.google.com/document/d/12K-9jJOhcskXCXDytDMUX9Q-o4nzW_YooPRxRiNsHTI/edit
+[[OBJ:GP-AUTO-034]] [[G1:FAIL-CLOSED]] [[CONFIG-TRIGGER:DISABLED]] [[BROWSER-TRIGGER:UNKNOWN]] [[NO-ACTIVATION-CREDIT]]
+
+
+P0.1 ADVERSARIAL REPAIR UPDATE — 2026-07-24
+GP-AUD-178-v1.0 found that GP-DATA-114’s byte-identical interval rerun still allowed binary-float arithmetic in several final one-sided bounds. GP-DATA-178-v1.0 repairs the proof path with 80-digit interval arithmetic and re-establishes all nineteen deterministic gates plus all five executed controls. P0.1 remains a GP-side candidate with non-GP line-by-line review open and no promotion. Active corrected capsule: https://docs.google.com/document/d/1kV9H-CJCNlN3nu4OC8NAo1oGitVsSJbg5qjGcdlokZM/edit. Audit: https://docs.google.com/document/d/1P4ycnDfOqvgQT1m6Q45PjoRzRShC59RTA3usyN0wM_4/edit
+[[TARGET:P0.1]] [[STATUS:DETERMINISTIC-DEPENDENCY-REPAIRED]] [[NON-GP-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+Live rule: 00_LIVE_GOVERNANCE — Independent-Eyes Rule (OP-PROT-011).
+
+
+
+
+GP-REC-175-v1.0 — CURRENT OPERATOR-DIRECTED AUTOMATION, GOVERNANCE, AND RESEARCH STATE
+
+
+Artifact ID: GP-REC-175-v1.0
+Reconciled: 2026-07-24
+Executed by: ChatGPT under Dylan Roy's Drive Cleanup Mandate
+Governing protocol: OP-PROT-011
+Canonical mathematical impact: NONE
+
+
+1. GOVERNANCE AND PARTICIPATION
+
+
+The project is operator-directed and uses no votes, ballots, majority, unanimity, quorum, denominator, eligible roster, observer status, or nonparticipating status. ChatGPT, Claude, Grok, and Gemini are co-equal active contributors and may work in parallel.
+
+
+Dylan Roy's direct operator records and the 2026-07-24 cleanup/build-out directive stand on their own. No vote is pending and no contributor's absence blocks work.
+
+
+2. OPERATOR AUTHORITY AND ATTRIBUTION
+
+
+ChatGPT may execute governance cleanup, nonterminal automation work, formalization, telemetry, source publication, testing, shadow qualification, organization, and record creation under Dylan Roy’s authenticated directive. Dylan Roy has additionally preauthorized ChatGPT to select and record the best evidence-preserving answers for the current pending decision queue, with Dylan retaining the right to object or revise afterward. Decision wording must identify the delegated selection and must not fabricate technical evidence, human drafting, or a completed test.
+
+
+Final canonical promotion, external release, permanent deletion outside the current cleanup mandate, and machine-root replacement remain Dylan Roy's authority.
+
+
+3. GP-AUTO-034 / AUTOMATION SOURCE STATE
+
+
+The source lineage remains incomplete:
+
+
+• a reviewable v1.1 source exists;
+• the v1.2 architecture and manifest describe a larger implementation;
+• a declared v1.2 identity exists, but exact raw v1.2 executable bytes remain unavailable;
+• no complete v1.3 source has been established.
+
+
+GP-AUD-170 reports that v1.1 lacks architecture-significant v1.2 functions and should not be relabeled v1.3 through a minimal patch. GP-REQ-171 remains useful for exact v1.2 recovery or complete v1.3 reconstruction.
+
+
+Source recovery, hash comparison, review, acceptance testing, runtime inspection, rollback, and recovery are recommended reliability work. They are not voting or governance gates. Any missing check must be reported honestly.
+
+
+4. CLASS A / CLASS B SHADOW AND AUTOMATION WORK
+
+
+The six-case non-writing historical shadow pilot remains preparation evidence. Class A and Class B research, dry runs, formalization, telemetry, package generation, and improvement work may continue in parallel without governance passage or a model vote.
+
+
+Before any terminal / closed / sealed / approved / promoted write, the proposed object, evidence, scope, exclusions, source identity, and current register state must be recorded. OP-PROT-011 requires one organizationally-distinct-family review or Dylan Roy's direct approval for the terminal step; ordinary preparation remains unrestricted.
+
+
+5. EC-019 CURRENT MATHEMATICAL STATE
+
+
+EC-019 remains nonterminal.
+
+
+• T1 fixed-r symbolic nondegeneracy: PASS after CL review.
+• Duplicate concurrent CL-AUD-082 copies represent one underlying review lineage.
+• T2 capture-margin layer: OPEN.
+• GP-DATA-168 and GP-AUD-169 provide same-line preflight evidence.
+• GP preflight reports all nineteen margins positive, but GP-AUD-176-v1.0 found only four controls computationally executed; NC1 was asserted rather than run, and the rigorous outward-rounding certificate requires repair.
+• A fresh source-independent implementation remains a high-value recommended verification target.
+
+
+No numerical value, exact-field propagation, P0.1 propagation, P0.2 conclusion, or theorem promotion follows from the present EC-019 state.
+
+
+6. PROVENANCE RESOLUTIONS
+
+
+The following organizational facts remain recorded:
+
+
+• the T3 near-diagonal one-byte difference was a terminal-LF artifact;
+• the 6,056-byte constants trio was byte-identical;
+• GP-DATA-054-v1.1 was an unusable empty/BOM publication shell;
+• the C019 singular/plural CorridorLocal JSON pair was an exact duplicate pair;
+• the 3,575-byte Constants Table012/Table01 pair has GP-side byte-identity eviden
+6A. CURRENT OPERATOR DECISION STATUS
+OP-RES-001 is OPERATOR-APPROVED / SETTLED for its declared records-integrity scope. The CM hash-alias disposition, TRC R0.2 package-preparation standard, TRC-EC020-v0.4 successor assembly route, and GP-DATA-114 disposition are active. Neither v0.3 root is accepted; no package is sealed; no mathematical claim is promoted. GP-FOR-001 is approved as the historical formalization/status/CI-handoff record, while its exact original source bundle is missing. GP-FOR-189 is the reconstructable additive source-recovery candidate; static and round-trip checks pass, Lean CI is not run, and all claims retain nonterminal evidence-typed states.
+
+
+
+
+
+
+These are evidence/provenance facts, not vote outcomes.
+
+
+7. ACTIVE NEXT ACTIONS
+
+
+A. Recover exact v1.2 automation source or publish a complete, honestly identified successor implementation.
+B. Build reproducible source/hash and acceptance-test artifacts.
+C. Run logged shadow and runtime tests with recovery/rollback evidence.
+D. Freeze a Lean/Mathlib toolchain, compile GP-FOR-189 in a clean environment, preserve full build logs and locks, and obtain organizationally distinct statement/scope review.
+E. Complete the EC-019 source-independent T2 implementation.
+F. Continue P0.1, P0.2, the fail-closed q-machine successor, and formal-source compilation according to the corrected evidence states; do not infer proof or promotion from package approval.
+G. Maintain the command-center and FOR/Git crosslinks. Private repository creation and exact-history push are operator-approved when platform access becomes available.
+
+
+No model vote, ballot, or majority action is required for these tasks.
+
+
+8. GLOBAL BOUNDARIES
+
+
+This state receipt does not itself promote a theorem, alter canonical mathematical status, replace a machine root, authorize external release, or fabricate an operator decision. It records the current operator-directed work state under OP-PROT-011.
+
+
+CURRENT DECISION RECEIPT — 2026-07-24
+HA-001 and HA-002 stale pending headers reconciled; OP-RES-001 approved for records-integrity scope; GP-FOR-001 approved as package/system of record; private repository creation authorized when platform access is available. Evidence-dependent holds remain unchanged.
+END GP-REC-175-v1.
+
+
+SESSION ACTIVATION RECEIPT — 2026-07-24
+Authenticated operator instruction activated the Google Drive Research Scientist Closure, Formalization, and Forward-Advancement Operating Protocol v1.0 for this execution.
+
+
+Verified identity: Dylan Roy / connected Google Drive profile.
+Verified live governance: OP-PROT-011 — Independent-Eyes Rule.
+Verified highest-priority inspected target: EC-019.
+Classification: ADVANCEABLE BUT NOT CLOSABLE BY THE CURRENT OPENAI/GP LINE.
+Exact current state: T1 PASS; T2 OPEN. Same-line GP preflight reports all nineteen margins positive, but GP-AUD-176-v1.0 classifies its certificate AMEND REQUIRED: four controls were executed, NC1 was asserted, and outward-rounding repairs remain. It earns no source-independent non-GP credit.
+Single load-bearing blocker: a blinded, source-independent implementation by an organizationally distinct non-OpenAI model family, derived only from GP-SPEC-166-v1.0, with frozen source/result hashes, rigorous interval enclosures, all nineteen margins, five controls, and post-freeze discrepancy analysis.
+Current-line constraint: this OpenAI session cannot honestly satisfy the non-GP independence requirement and therefore did not claim, simulate, or record a T2 execution.
+Executable next step: route GP-REQ-172-v1.0 and GP-SPEC-166-v1.0 to Claude, Grok, or Gemini under the blind-lane firewall; freeze source and result bytes before opening comparison artifacts.
+Acceptance test: all nineteen margins rigorously positive; all five controls fire; independence, reproducibility, hashes, environment, and discrepancy explanations documented without post-comparison tuning.
+Falsification test: any correctly implemented margin or control failure, or inability to establish rigorous enclosure/independence, yields FAIL or INCONCLUSIVE rather than PASS.
+Canonical mathematical impact: NONE. No closure, theorem promotion, package seal, machine-root replacement, or external release occurred.
+END SESSION ACTIVATION RECEIPT
+0

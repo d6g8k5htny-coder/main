@@ -1,0 +1,361 @@
+﻿CURRENT SUCCESSOR STATUS — 2026-07-28
+LS-DER-045-v1.0 analytically derives the leading periodization correction and closes the side-24 sign:
+https://docs.google.com/document/d/1LzM9tfmG_nrl_3X0ewIlx-4ZLGwR0RyiSjC2VtDsD8U/edit
+Relative interval: (-2.1824,-2.1823) x 10^(-118). The LS-DER-043 frozen body and its 220-digit value remain unchanged; only its former sign-open status is superseded.
+[[SUCCESSOR:LS-DER-045]] [[SIGN:NEGATIVE-CANDIDATE-PROOF]] [[FROZEN-BODY:UNCHANGED]]
+
+
+LS-DER-043-v1.0 — EXACT ANGULAR REDUCTION AND SIDE-24 SHORT-LIFETIME COEFFICIENT
+
+
+Artifact ID: LS-DER-043-v1.0
+Dispatch: DQ-066
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / EXACT FINITE-TORUS GAUSSIAN REDUCTION / HIGH-PRECISION COEFFICIENT
+Authority: same-OpenAI-family theorem and computation candidate only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: COMPLETE EXACT REDUCTION / HIGH-PRECISION SIDE-24 VALUE / INTERVAL CERTIFICATION OPEN
+BODY_BYTES: 8108
+BODY_SHA256: 41c72fb37026a32acebf28f7311c2d0a2411c7480b126faaf8584ac0d9452d6b
+
+
+EXECUTABLE CARRIERS
+LS-DATA-043A-v1.0 — high-precision source
+Drive ID: 12UXqlq08gsDcPlSKk1rGfvQK8aSQOLCT
+Raw SHA-256: d6f3bf5c8cd9ee1ea99fb5e3a5dee0a95901b6b3ec026639be70a6a8d86fe474.
+
+
+LS-DATA-043B-v1.0 — high-precision result
+Drive ID: 1Ei1jOcjuJg8aA8iAJHvIV4KYgk8N04UF
+Raw SHA-256: c6068b26b2329aca1c128ce958daaa6076a3e3149dece248a57538385ebd08a3.
+
+
+CONTROLLING INPUTS
+GP-DER-044-v1.0 — exact normalized-periodized covariance.
+LS-DER-021-v1.0 — exact contact intensity and 1/6 factor.
+LS-DER-041-v1.0 — finite-L coefficient definition.
+LS-DER-042-v1.0 — closed planar coefficient and consistency target.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_SIDE24_COEFFICIENT_FROZEN_BODY and strictly before the unique full line END_SIDE24_COEFFICIENT_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace and any initial LF. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM. Fail closed on marker absence or multiplicity.
+
+
+BEGIN_SIDE24_COEFFICIENT_FROZEN_BODY
+EXACT ANGULAR REDUCTION AND SIDE-24 SHORT-LIFETIME COEFFICIENT
+
+
+1. FINITE-L COVARIANCE MOMENTS
+
+
+For the normalized periodized kernel
+
+
+    k_L(t)
+      =[sum_{n in Z} exp(-(t+nL)^2/2)]
+       /[sum_{n in Z} exp(-(nL)^2/2)],                             (1)
+
+
+put
+
+
+    m_j(L)=k_L^(j)(0),  0<=j<=6.                                  (2)
+
+
+All odd moments vanish. The two-dimensional covariance is
+
+
+    K_L(x,y)=k_L(x)k_L(y).                                        (3)
+
+
+For theta in S^1 define
+
+
+    D_t=cos(theta)partial_x+sin(theta)partial_y,
+    D_s=-sin(theta)partial_x+cos(theta)partial_y.                  (4)
+
+
+Every same-point directional derivative covariance through order six is an exact polynomial in
+
+
+    m_0(L),m_2(L),m_4(L),m_6(L)                                  (5)
+
+
+and sin(theta),cos(theta).
+
+
+2. EXACT ANGULAR GAUSSIAN BLOCKS
+
+
+Define the confluent pin vector and transverse curvature
+
+
+    Y_theta
+      =(f,-D_t^3 f/12,D_t f,D_t^2 f,D_s f,D_tD_s f),             (6)
+
+
+    q_theta=D_s^2 f.                                              (7)
+
+
+Let
+
+
+    Sigma_theta=Cov(Y_theta),
+    v_theta=Cov(q_theta,Y_theta),
+    tau_theta=Var(q_theta).                                       (8)
+
+
+Let
+
+
+    e_b=(1,0,0,0,0,0)^T,
+    e_kappa=(0,-1/6,0,0,0,0)^T.                                  (9)
+
+
+Define
+
+
+    A_theta=(1/2)e_b^T Sigma_theta^(-1)e_b,
+    B_theta=(1/2)e_kappa^T Sigma_theta^(-1)e_kappa,                (10)
+
+
+    mu_theta=v_theta Sigma_theta^(-1)e_b,
+    sigma_theta^2
+      =tau_theta-v_theta Sigma_theta^(-1)v_theta^T,               (11)
+
+
+    N_theta
+      =(2pi)^(-3)[det Sigma_theta]^(-1/2).                         (12)
+
+
+Even/odd parity gives exactly
+
+
+    e_b^T Sigma_theta^(-1)e_kappa=0,
+    v_theta Sigma_theta^(-1)e_kappa=0.                            (13)
+
+
+Thus the pin density separates as
+
+
+    p_{0,L}(theta,b,kappa)
+      =N_theta exp(-A_theta b^2-B_theta kappa^2),                 (14)
+
+
+and
+
+
+    q_theta | pins
+      ~N(mu_theta b,sigma_theta^2),                               (15)
+
+
+with no kappa dependence in the conditional transverse-curvature law.
+
+
+3. EXACT BIRTH AND GAP INTEGRALS AT FIXED ANGLE
+
+
+The contact-limit formula is
+
+
+    J_{0,L}(theta,b,kappa)
+      =(1/6)p_{0,L}(theta,b,kappa)
+        kappa^2 E[q_theta^2 1{q_theta<0}|pins].                   (16)
+
+
+The birth-height integral can be performed exactly. Under the normalized weight exp(-A_theta b^2), let
+
+
+    B~N(0,1/(2A_theta)).                                          (17)
+
+
+After averaging b, the variable
+
+
+    q=mu_theta B+sigma_theta Z                                  (18)
+
+
+is centered Gaussian with variance
+
+
+    V_theta
+      =sigma_theta^2+mu_theta^2/(2A_theta).                       (19)
+
+
+Therefore
+
+
+    integral_R exp(-A_theta b^2)
+      E[q_theta^2 1{q_theta<0}|b] db
+      =sqrt(pi/A_theta)(V_theta/2).                               (20)
+
+
+The normalized-gap integral is
+
+
+    integral_0^infinity
+      kappa^(4/3)exp(-B_theta kappa^2)dkappa
+      =(1/2)B_theta^(-7/6)Gamma(7/6).                            (21)
+
+
+4. EXACT ONE-DIMENSIONAL COEFFICIENT FORMULA
+
+
+Put
+
+
+    alpha=6^(2/3)/3.                                              (22)
+
+
+Then the exact finite-L specific coefficient is
+
+
+    c_L
+      =(alpha/6) integral_0^(2pi)
+        N_theta
+        [sqrt(pi/A_theta)/2]
+        [sigma_theta^2+mu_theta^2/(2A_theta)]
+        [(1/2)B_theta^(-7/6)Gamma(7/6)]
+        dtheta.                                                    (23)
+
+
+For the square periodized kernel, dihedral symmetry gives
+
+
+    c_L
+      =8(alpha/6) integral_0^(pi/4) [same integrand] dtheta.      (24)
+
+
+Equations (1)–(24) are an exact deterministic reduction. The original three-dimensional coefficient integral over theta,b,kappa has become one angular integral.
+
+
+5. SIDE-24 PERIODIZATION MOMENTS
+
+
+At L=24 the first nonzero image corrections are extremely small. The executable result gives
+
+
+    m_2(24)+1
+      =9.652541798959913055009686348891555698... x 10^(-123),    (25)
+
+
+    m_4(24)-3
+      =5.501948825407150441355521218868186747... x 10^(-120),    (26)
+
+
+    m_6(24)+15
+      =3.119518111129663661031085443921121862... x 10^(-117).    (27)
+
+
+The n=+/-2 image terms are of order exp(-1152) and are below the 220-digit working scale used in the result.
+
+
+6. HIGH-PRECISION SIDE-24 VALUE
+
+
+Evaluating (24) at 220 decimal working digits yields the deterministic candidate
+
+
+    c_24
+      =0.07340691930603427103013596295777405001766424468433267185138118762995119251435351835734656676917134654225848631565582102995707660645960856927032476986566508586394655828934832880648831217761064... . (28)
+
+
+The corresponding complete side-24 total coefficient is
+
+
+    C_24^tot=576 c_24
+      =42.28238552027574011335831466367785281017460493817561898639556407485188688826762657383162245904269560834088811781775291325527612532073453589970706744262308945763321757466463739253726781430373... . (29)
+
+
+Against the exact planar closed form of LS-DER-042,
+
+
+    c_24-c_infinity
+      =-1.6019908936929244015871991651484246788800653495126502794554299123321656355238253356379773052405799805876342124134535160745... x 10^(-119), (30)
+
+
+and
+
+
+    (c_24-c_infinity)/c_infinity
+      =-2.1823431753268467426071399866208918278029905772768723599074002096620834711250642998010691932810... x 10^(-118). (31)
+
+
+Thus periodization decreases the coefficient at the displayed candidate precision, by approximately 2.18 x 10^(-118) relatively.
+
+
+7. EXECUTION CHECKS
+
+
+The stored execution performed the following checks:
+- planar angular quadrature reproduced the closed form to approximately 220-digit working precision;
+- square symmetry F(theta)=F(pi/2-theta) held with residuals below 7 x 10^(-223);
+- parity cross blocks were below 10^(-180), with fail-closed rejection above that threshold;
+- source SHA-256 was d6f3bf5c8cd9ee1ea99fb5e3a5dee0a95901b6b3ec026639be70a6a8d86fe474;
+- final stored result SHA-256 was c6068b26b2329aca1c128ce958daaa6076a3e3149dece248a57538385ebd08a3.
+
+
+8. MAIN THEOREM AND NUMERICAL STATUS
+
+
+THEOREM 8.1 — EXACT FINITE-L ANGULAR REDUCTION.
+For every nondegenerate normalized periodized Bargmann–Fock torus, the specific leading coefficient is exactly the one-dimensional integral (23), or (24) for the square torus.
+
+
+NUMERICAL RESULT 8.2 — SIDE-24 VALUE.
+Equations (28)–(31) are a deterministic 220-digit working-precision evaluation of the exact angular formula.
+
+
+The numerical result is not yet a certified interval theorem. It is a high-precision candidate supported by exact symbolic construction, deterministic quadrature, symmetry tests, and an independent planar closed-form reproduction within the same execution.
+
+
+9. SCOPE FIREWALL
+
+
+Established exactly at same-family candidate level:
+- the finite-L angular reduction;
+- analytic elimination of b and kappa;
+- square-symmetry reduction to [0,pi/4].
+
+
+Established computationally but not interval-certified:
+- the displayed side-24 decimal;
+- the sign and magnitude of c_24-c_infinity at 220-digit working precision.
+
+
+Not claimed:
+- a rigorous enclosure of the final decimal;
+- a certified truncation-plus-quadrature error bound;
+- equality of c_24 and c_infinity;
+- interchange of lifetime and thermodynamic limits;
+- canonical promotion or external review.
+
+
+10. REOPENING CONDITIONS
+
+
+Amend or reject this theorem if:
+- the covariance construction in (8) is incorrect;
+- parity does not imply (13);
+- either analytic integral (20) or (21) fails;
+- square symmetry does not imply (24);
+- the raw source/result hashes do not reproduce;
+- the planar control does not equal LS-DER-042;
+- a higher-precision execution changes the displayed leading digits;
+- a certified interval excludes the candidate value;
+- or the numerical candidate is cited as a rigorous interval result.
+
+
+FINAL STATUS
+EXACT FINITE-L ANGULAR REDUCTION: COMPLETE SAME-FAMILY CANDIDATE.
+SIDE-24 SPECIFIC COEFFICIENT: HIGH-PRECISION DETERMINISTIC CANDIDATE.
+SIDE-24 TOTAL COEFFICIENT: 576 TIMES SPECIFIC.
+RELATIVE PLANAR CORRECTION: APPROXIMATELY -2.18234 x 10^(-118).
+INTERVAL CERTIFICATION: OPEN.
+CANONICAL STATUS: UNCHANGED / NOT PROMOTED.
+END_SIDE24_COEFFICIENT_FROZEN_BODY
+
+
+END LS-DER-043-v1.0

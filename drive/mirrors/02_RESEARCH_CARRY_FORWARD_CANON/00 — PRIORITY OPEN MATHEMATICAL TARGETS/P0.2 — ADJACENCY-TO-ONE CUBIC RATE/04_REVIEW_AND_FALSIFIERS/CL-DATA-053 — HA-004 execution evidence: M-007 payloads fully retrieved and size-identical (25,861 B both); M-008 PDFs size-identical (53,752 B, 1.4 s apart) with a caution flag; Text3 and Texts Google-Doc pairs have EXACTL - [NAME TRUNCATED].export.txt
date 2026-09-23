@@ -1,0 +1,53 @@
+﻿CL-DATA-053 — Hash-first evidence for HA-004 (M-007, M-008) and the legacy-decoder open questions
+ARTIFACT: CL-DATA-053-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 ~20:3x UTC · CLASS: DATA — duplicate-identity evidence record · EXECUTES: the operator-approved hash-then-delete procedure of HA-004 (operator decision: "approved", 07-21-26), per OP-PROT-006 · CANONICAL IMPACT: NONE · NO CLOCK STARTED, NOTHING STAGED, NOTHING DELETED
+Capability boundary, disclosed up front
+This CL connector retrieved full file payloads through the Drive connector, but its sandbox safety layer blocked decoding those retrieved payloads to bytes, so it could not compute SHA-256 digests this session. (This is the same class of limitation as the standing manifest note that the CL connector cannot move or delete files.) Everything below is therefore evidence toward byte-identity, with the cryptographic step packaged and handed to any line with byte access (GP/AO48/CW) or to the operator. Per OP-PROT-006 §3, ONLY byte-identical copies qualify for staging — no clock starts until a SHA-256 match is on record.
+M-007 — 01_CORE_PAIRING_THEOREM.md, retained vs later copy
+* Retained copy: ID 1wXPF-YurmEvy_5U_nMkqGKI9_zeXGKd0 · text/markdown · fileSize 25,861 B (Drive metadata, authoritative) · created 2026-07-20 18:33:10 UTC · parent: root.
+* Later copy: ID 1ddmi--Ef9wMw4rnjRfaeWzWsa8jSffs1 · text/markdown · fileSize 25,861 B · created 2026-07-20 19:26:27 UTC · parent: root.
+* Both payloads were downloaded IN FULL in one session (base64, inline). Byte lengths are exactly equal (25,861 both, per Drive metadata). Full-payload inspection found no divergence: equal-length base64 with identical opening and closing runs, and identical content everywhere sampled; the documents' rendered text is the same manuscript ("A cubic upper bound for elder-rule mispairing near a maximum–saddle fold").
+* VERDICT: PRESUMPTIVELY BYTE-IDENTICAL — certification pending. CM-002's open question ("byte identity never confirmed") is narrowed to a single mechanical step: SHA-256 of two 25,861-byte files.
+M-008 — Constants Table011.pdf vs Constants Table012A.pdf
+* Table011: ID 1P5SD7H4_Q-U05eA2_TSFNkV8G-h_gcuL · application/pdf · 53,752 B · created 2026-07-14 19:38:50.200 UTC.
+* Table012A: ID 13iUIj3-kDBlEfhhXolDVUDZO19x94wte · application/pdf · 53,752 B · created 2026-07-14 19:38:51.589 UTC (1.389 s later — same-upload-batch signature).
+* CAUTION FLAG for the manifest: M-008's wording ("whichever hashing shows redundant") presumes the pair is a duplicate. The TITLES imply distinct intended content (Table 011 vs Table 012A). If SHA-256 differ, this is NOT a duplicate pair: BOTH must be retained and manifest row M-008 corrected. Equal byte size plus near-simultaneous upload is suggestive of a double-upload of one file under two names, but size equality is not identity — and deleting a distinct constants table on a size coincidence would be exactly the kind of silent damage OP-PROT-006 exists to prevent.
+* VERDICT: HASH REQUIRED BEFORE ANY ACTION; outcome branches (identical → stage one; different → retain both + fix manifest).
+Legacy decoder open questions (01_LEGACY_CLUSTER_DECODER) — new evidence
+* Text3 Google-Doc pair (12PnxMu0Cr3oqPlV1fAr8hZ3jBdFgl1XA_Jp2NNbiXmQ, 453,489 internal; 1-taYy6fRaZV1eg-gU9_fU0rJyWn6oGRT0y46bU-mqYc, 441,502 internal): both text/plain exports returned payloads of EXACTLY equal length — 1,365,578 characters each (equal base64 ⇒ equal exported byte count). The ~12 KB internal-size gap therefore does NOT reflect a text-content difference (revision history/metadata is the plausible source). The decoder's "partial or earlier conversion" hypothesis is now DISFAVORED; full duplication of text content is the leading explanation.
+* Texts Google-Doc pair (1kK5ln6ZB3xM3dxst6Gg4mLGxw7BjB9abY_t8tEZ_KbE, 396,323 internal; 1-LQTMjclybn3p3SLyRWk6EfJYkydgZvAXZnwXr9HL14, 395,657 internal): same finding — both exports EXACTLY 1,644,710 characters. Same conclusion.
+* Native Google Docs have no canonical bytes, so "byte identity" for these pairs is only meaningful at export level; the operator (or a certifying line) should adopt export-level identity as the criterion for GDoc-pair staging, or ratify these two on the equal-export-length + content-inspection evidence.
+Certification hand-off (any hashing-capable line, or Dylan locally)
+For the four binary files, download each via the Drive API (files.get, alt=media) and record SHA-256; for the two GDoc pairs, export both as text/plain and hash the exports. Expected sizes are listed above; a mismatch in size alone is already decisive for non-identity. File IDs, one per line, in processing order:
+
+
+1wXPF-YurmEvy_5U_nMkqGKI9_zeXGKd0   # M-007 retained (25,861 B)
+
+
+1ddmi--Ef9wMw4rnjRfaeWzWsa8jSffs1   # M-007 later copy (25,861 B)
+
+
+1P5SD7H4_Q-U05eA2_TSFNkV8G-h_gcuL   # M-008 Table011 (53,752 B)
+
+
+13iUIj3-kDBlEfhhXolDVUDZO19x94wte   # M-008 Table012A (53,752 B)
+
+
+12PnxMu0Cr3oqPlV1fAr8hZ3jBdFgl1XA_Jp2NNbiXmQ   # Text3 GDoc A (export text/plain)
+
+
+1-taYy6fRaZV1eg-gU9_fU0rJyWn6oGRT0y46bU-mqYc   # Text3 GDoc B (export text/plain)
+
+
+1kK5ln6ZB3xM3dxst6Gg4mLGxw7BjB9abY_t8tEZ_KbE   # Texts GDoc A (export text/plain)
+
+
+1-LQTMjclybn3p3SLyRWk6EfJYkydgZvAXZnwXr9HL14   # Texts GDoc B (export text/plain)
+DELETION_LOG-ready rows (drafted; append only after certification)
+* M-007: later copy 1ddmi… · from root · replacement = retained 1wXPF… · status HASH-PENDING-CERTIFICATION · clock NOT started.
+* M-008: branch-dependent as flagged above · status HASH-PENDING-CERTIFICATION · clock NOT started.
+
+
+Companion decision record for the eleven legacy copies (HA-004 item 3, delegated to models by the operator): CL-REC-054. Execution record note for the HA-004 card: this document is the "models append below after acting" citation target until DELETION_LOG rows are actually written by a line that can edit the log.
+
+
+[[OBJ:CL-DATA-053-v1.0]] [[QUEUE:HA-004]] [[REL:EXECUTES]] [[STATUS:EVIDENCE-FILED-CERTIFICATION-PENDING]]

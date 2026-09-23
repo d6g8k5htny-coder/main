@@ -1,0 +1,52 @@
+{
+  "authority": "NONE_BY_SCRIPT_ALONE",
+  "findings": [
+    {
+      "detail": "required identity fields present",
+      "gate": "IDENTITY",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "domain and endpoint metadata complete",
+      "gate": "DOMAIN",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "symbolic total reproduces r^0",
+      "gate": "POWER",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "all triggered signatures adjudicated",
+      "gate": "VULNERABILITY",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "all consumed dependencies terminal",
+      "gate": "INTERFACES",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "review classes=['ELIGIBLE_SOLE', 'ELIGIBLE_SOLE']; formal=False",
+      "gate": "INDEPENDENCE",
+      "verdict": "PASS"
+    },
+    {
+      "detail": "status surfaces agree and reopening rule exists",
+      "gate": "STATE",
+      "verdict": "PASS"
+    }
+  ],
+  "note": "PASS establishes metadata/gate eligibility only; mathematical proof status follows exact evidence and review.",
+  "overall": "PASS",
+  "vulnerability_warnings": [
+    {
+      "match": "axial gate",
+      "signature": "VUL-011"
+    },
+    {
+      "match": "typical samples",
+      "signature": "VUL-012"
+    }
+  ]
+}

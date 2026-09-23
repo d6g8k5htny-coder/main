@@ -1,0 +1,265 @@
+﻿P1.2 — Q0-C109 CONTINUUM SHORT-BAR DIAGNOSTIC
+Read First / Field-Level Falsification Protocol
+
+
+Priority: P1 — continuum validation and falsification target
+Canonical impact: NONE. Numerical results are diagnostic evidence, not theorem proof.
+
+
+TARGET
+Test the coefficient-free consequences of the near-diagonal lifetime law on actual Bargmann–Fock field realizations while controlling both numerical refinement and the lower-tail cutoff.
+
+
+ANALYTIC INPUT
+Conditional on
+
+
+nu_B(ell)=C_* ell^(-1/3)(1+o(1)),
+
+
+with 0<C_*<∞, define N_B(L)=∫_0^L nu_B(ell)dell and the normalized short-bar intensity law below cutoff L.
+
+
+The coefficient-free predictions are:
+• N_B(uL)/N_B(L) → u^(2/3), for fixed 0≤u≤1.
+• U_L=ell/L | {ell≤L} ⇒ Beta(2/3,1).
+• -log U_L ⇒ Exp(rate 2/3).
+• Q_L(tau)/L → tau^(3/2).
+• cumulative log-slope → 2/3.
+• rescaled mean → 2/5.
+• rescaled variance → 9/100.
+• coefficient of variation → 3/4.
+
+
+These are intensity-law consequences. They do not imply that persistence bars within one field realization are iid.
+
+
+CURRENT STATUS
+The truncated-moment and coefficient-free shape laws have been independently derived and corrected. Existing iid synthetic simulations establish implementation sanity and nonvacuous identifiability against selected wrong exponents. They do not test continuum refinement, field dependence, persistence extraction, or finite-cutoff bias.
+
+
+REQUIRED PREREGISTRATION
+Freeze before observing outcomes:
+1. Exact field covariance, torus size, and normalization.
+2. Number of independent field realizations and random seeds.
+3. Fourier truncation or exact simulation method.
+4. Nested grid resolutions h_1>h_2>... using the same underlying field realization.
+5. Filtration, triangulation/cubical convention, boundary handling, and persistence software version.
+6. Birth-height window B and any mark restrictions.
+7. Cross-resolution diagram/bar matching rule.
+8. Stability or interpolation threshold for retaining a bar.
+9. Cutoff ladder L_1>...>L_m.
+10. Minimum effective count per field and cutoff.
+11. Primary statistic, confidence procedure, rejection rule, and multiple-testing rule.
+12. Rules for excluding unresolved essential bars or numerical duplicates.
+
+
+CONTINUUM EXTRACTION
+• Generate identical Fourier realizations on all nested grids.
+• Compute persistence using one frozen convention.
+• Match bars across successive resolutions.
+• Retain only bars whose birth, death, and lifetime movement satisfy the preregistered stability bound.
+• Record unmatched, split, merged, or unstable bars rather than silently discarding them.
+• Report the effective minimum resolvable lifetime at each resolution.
+
+
+PRIMARY DIAGNOSTICS
+A. Nested count ratios
+For fixed lambda in (0,1), compute per realization
+
+
+R_j(lambda,L)=N_j(lambda L)/N_j(L).
+
+
+Test whether field-level summaries approach lambda^(2/3) as h→0 and L→0.
+
+
+B. Cumulative log-slope
+Estimate the slope of log N_j(L) against log L over preregistered cutoff windows. The target is 2/3, not the density exponent -1/3.
+
+
+SECONDARY CROSS-CHECKS
+• Rescaled mean of ell/L toward 2/5.
+• Rescaled variance toward 9/100.
+• Quantile curve toward tau^(3/2).
+• Exponential QQ behavior of -log(ell/L) against Exp(2/3).
+• Beta CDF distance for the pooled intensity measure, reported only with dependence-aware inference.
+
+
+DEPENDENCE-AWARE INFERENCE
+Resample whole independent field realizations, not individual bars. Preferred methods:
+• direct confidence intervals across independent realizations;
+• field-level bootstrap;
+• hierarchical model with field as the sampling unit.
+If only one large domain exists, use spatial blocks with a justified block scale and explicitly downgrade the evidence.
+
+
+TWO REQUIRED LIMITS
+A valid continuum diagnostic must demonstrate stability in:
+• numerical resolution h→0;
+• tail cutoff L→0.
+Sample-size convergence at a fixed synthetic distribution is neither limit.
+
+
+FINITE-L BIAS
+Do not force a pure-power fit at one cutoff. Use a cutoff ladder and report drift. A correction model such as
+
+
+N_B(L)=A L^(2/3)(1+bL^rho+o(L^rho))
+
+
+may be fitted only when rho and the fitting rule are preregistered or separately justified. No numerical C_* may be promoted from this diagnostic without a separate coefficient-certification cycle.
+
+
+REQUIRED OUTPUT PACKAGE
+1. Immutable prediction snapshot and preregistration.
+2. Field-generation code and environment manifest.
+3. Persistence-extraction code and exact conventions.
+4. Bar-matching and stability-filter code.
+5. Per-field, per-grid, per-cutoff ledger.
+6. Raw diagrams or compact reproducible representations.
+7. Field-level statistical report.
+8. Refinement and cutoff-stability plots/tables.
+9. Failure log for unstable or unmatched bars.
+10. Reproducibility instructions and cryptographic hashes.
+
+
+DECISIVE FALSIFIERS / CHALLENGES
+After cross-resolution stabilization, the prediction is challenged if:
+• count ratios do not approach lambda^(2/3);
+• cumulative slopes remain systematically separated from 2/3;
+• rescaled moments or quantiles drift away from their limits as L decreases;
+• conclusions change materially under nearby preregistered cutoffs;
+• the apparent law disappears under grid refinement;
+• stable bars are too sparse to identify the tail without extrapolation;
+• different legitimate persistence conventions yield incompatible limiting behavior.
+
+
+KILL CONDITIONS
+• Treat a refinement-sensitive slope as a discretization diagnostic, not theorem evidence.
+• Stop if cutoff selection is data-dependent and cannot be independently validated.
+• Do not pool individual bars as independent observations.
+• Do not claim continuum support without matched nested-grid stability.
+• Do not estimate or promote C_* from coefficient-free tests.
+
+
+PROMOTION / STATUS CRITERIA
+Objective 4 may be marked COMPLETED-AS-DIAGNOSTIC only when the full field-level nested-grid protocol is executed reproducibly. A successful result supports consistency; it does not prove Theorem B. A failed result must be classified as theorem challenge, discretization failure, or unresolved finite-L bias based on the preregistered decision tree.
+
+
+SOURCE LINKS
+CL-DER-009:
+https://docs.google.com/document/d/10UDw8RdootRyYt3KWuZ_T_I0RneEIgboWyqGw-3_x1s/edit
+
+
+GP-AUD-007:
+https://docs.google.com/document/d/1Mg4EsOF-LHXbCk4vdbizfKzORgK_OEg8KMFlEooUgDc/edit
+
+
+Near-Diagonal Lifetime Law:
+https://drive.google.com/file/d/12YJfoJI92kuWQm_D628zt-AWyR9RC2mV
+
+
+Q0_MASTER:
+https://drive.google.com/file/d/19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz
+
+
+Research Carry-Forward Canon:
+https://docs.google.com/document/d/13ix3HD-AKBpxXKLydC1oMO9ask8SgreOOIOl7OeLMgI/edit
+
+
+WORKSPACE RULE
+Keep this document at the folder root. Store preregistrations, source code, manifests, raw outputs, review reports, and final diagnostic packages under the numbered lifecycle. Preserve failed runs and parameter deviations.
+
+
+CURRENT VERIFICATION STATUS — GP-AUD-008-v1.0 — 2026-07-20
+
+
+Latest independent audit:
+https://docs.google.com/document/d/1uY1qgIkDG65nvwwSluZcuxdij83NCKcDNL6L2JeLiPw/edit
+
+
+Verified:
+• The canonical A₂ normal-form critical-value gap is cubic and gives ell=r^3/6 in the canonical coordinate.
+• The compact-kappa Jacobian yielding an ell^(-1/3) prefactor is exact algebra.
+
+
+Not verified:
+• a approximately 0.205 from the unconditioned full-field diagnostic.
+• beta approximately 2.926, s approximately -0.263, and the reported fold prefactor approximately 2.
+• the claim that Palm conditioning or the planar factor r dr alone fixes the lifetime exponent.
+• the claim that the observed small-r separation law is a continuum field property.
+
+
+Reproducibility block:
+The named scripts, preregistration artifact, raw outputs, environment specification, seed manifest, and hashes were not located in Drive. These numerical results cannot be independently rerun from the current shared record.
+
+
+Protocol conflict:
+C104 and CL-DER-011 report materially different full-field exponent estimates under different pipelines. Neither should be treated as verified until both methods are run on the same nested-grid field realizations with triangulation, matching, stability filters, truncation, and estimator definitions controlled.
+
+
+Binding disposition:
+P1.2 remains OPEN. Theorem B is unchanged. No decimal exponent or prefactor is promoted. The next admissible evidence is a complete, hashed execution package; a same-realization C104/CL-DER-011 reconciliation; sub-grid critical-point and saddle reconstruction; and eventual implementation of the actual pinned typed pair-Palm diagnostic.
+
+
+
+
+ERRATUM RECONCILIATION — GP-AUD-010-v1.0 / CM-020 — 2026-07-20
+
+
+Independent audit:
+https://docs.google.com/document/d/1Dd3TQyNY1E_uo-4J0Qv9SoHD-WSwpxNwCgn5IS6sVdw/edit
+
+
+Accepted withdrawals from CL-ERR-013:
+• The separation estimate s=-0.263 is withdrawn.
+• The claimed numerical closure of the exponent dictionary is withdrawn.
+• No quantitative claim comparing the unconditioned field exponent with -1/3 survives.
+• The preregistered R3 failure remains a failure.
+
+
+Remaining unverified claims:
+• The floor-test rerun is not reproducible from Drive because floor_test.py, raw outputs, preregistration, environment files, command lines, seeds, and hashes are absent.
+• The trust-floor conversion must retain the physical-field mark kappa through ell=kappa r^3/6; an unqualified ell approximately r^3/3 is not an exact object card.
+• The beta sequence 2.425, 2.599, 2.727, 2.740 is a diagnostic, not verified convergence to 3.
+• Negative fitted s values from a resolution- and range-sensitive merge-pixel estimator do not establish a negative continuum radial candidate-pair exponent.
+• A roughly constant below-floor fraction is compatible with genuine short bars but does not distinguish them from refinement-dependent pair counts, discretization-created pairs, merge-pixel bias, or heterogeneous local error.
+• CL-DER-011's a approximately 0.205 remains refinement-sensitive, unreproduced, based on the wrong conditioning object, and in protocol conflict with C104.
+
+
+Binding status:
+CL-ERR-013 is accepted as a necessary withdrawal, not as verification of a replacement mechanism. Theorem B is unchanged. P1.2 remains OPEN. No slope, exponent, prefactor, sign conclusion, or below-floor interpretation is promoted.
+
+
+Next admissible package:
+1. Complete hashed execution package for all continuum scripts.
+2. Nested matching of the same reconstructed continuum maximum-saddle pairs.
+3. Local interpolation-error certificates and kappa measurements.
+4. Same-realization reconciliation of C104 and CL-DER-011.
+
+
+CURRENT FOUR-CONNECTIVITY / EXACT-PAIRING STATUS — GP-AUD-031-v1.0 / CM-035 — 2026-07-20
+
+
+Audit:
+https://docs.google.com/document/d/1DP5E_u2eQzW3624W0XPuNU2zBzV-Za7h2iRzWC3BSXo/edit
+
+
+Confirmed by independent twelve-field re-execution:
+• The four-neighbor graph object contains a large ridge-artifact population and is invalid as a proxy for continuum smooth-field maxima in the earlier CL pipeline.
+• Totals are 803 four-neighbor maxima, 639 eight-neighbor maxima, and 629 Newton-refined maxima.
+• The all-field four-minus-eight excess is 20.42%; the two displayed examples give 21.64%.
+• The field-level excess correlates 0.971 with the earlier type-check failures, strongly explaining the dominant reconstruction failure pattern.
+
+
+Object-scope correction:
+The failure is mismatch between the four-edge graph and the intended continuum/PL object. It does not imply that eight-connectivity is the unique valid digital-topology convention. C104's six-neighbor Freudenthal object remains governed by its separate limitations.
+
+
+Unverified:
+The named exact critical-set/separatrix-pairing script CL-DATA-024 / ep2.py was not present in the inspected OQ folder. Complete critical-set certification, separatrix endpoints, elder-rule pairs, V1/V2/V3 gates, per-field lifetimes, a_hat≈0.57, drift 0.007, and comparison to 2/3 remain reported but not Rule-1 verified.
+
+
+Binding disposition:
+Earlier four-neighbor CL exponents remain withdrawn/demoted as continuum-bar evidence. The root cause is confirmed; the replacement exact-pairing exponent is blocked pending the complete execution package. P1.2 remains OPEN. Theorem B and canon remain unchanged.

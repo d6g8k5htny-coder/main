@@ -1,0 +1,47 @@
+﻿ARTIFACT ID:       GP-AUD-055-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             AUD — hardened pairing instrument self-test receipt
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+STATUS:            13/13 SELF-TESTS PASS; PRODUCTION BARGMANN–FOCK EXECUTION NOT PERFORMED
+EXECUTES:          GP-DATA-054-v1.0
+PREREGISTRATION:   GP-PRE-053-v1.0
+
+
+# Receipt
+
+
+Source SHA-256: 7f061dd71032c76e785e259a115d3dad50e6adf5274dc8b3cf7104b9c2bd4c22
+Source bytes: 30606
+Source lines: 808
+Receipt SHA-256: ab4b128c90a3e4f72cf3d172826f40e66a5ac85e8e1523e7caa3edc0c301a1ba
+Python syntax compilation: PASS
+Self-tests passed: 13/13
+
+
+## Covered controls
+
+
+- ST1_ANALYTIC_MORSE_CONTROL: PASS
+- ST2_ELDER_RULE_FIXTURE: PASS
+- ST3_ALL_GATES_PASS_FIXTURE: PASS
+- ST4_UNRESOLVED_BRANCH_BLOCKS: PASS
+- ST5_ENDPOINT_REPLAY_MISMATCH_BLOCKS: PASS
+- ST6_BAR_COUNT_MISMATCH_BLOCKS: PASS
+- ST7_EULER_MISMATCH_BLOCKS: PASS
+- ST8_CENSUS_REPLAY_MISMATCH_BLOCKS: PASS
+- ST9_FAILED_FIELD_BLOCKS_GLOBAL_FIT: PASS
+- ST10_SOURCE_HASH_AVAILABLE: PASS
+- ST11_SINGLE_FIELD_CLASS: PASS
+- ST12_SCHEMA_FIXED: PASS
+- ST13_ADAPTIVE_EXACT_FIELD_ENDPOINT_CONTROL: PASS
+
+
+## Interpretation boundary
+
+
+The receipt verifies only the control logic, analytic fixtures, fail-closed gates, source hashing, and exact-field adaptive endpoint control. It does not verify a full Bargmann–Fock field census, full torus separatrix pairing, the historical six-field output, a_hat≈0.57, or any asymptotic exponent.
+
+
+The source is a proposed repair candidate and must undergo independent source review before a production run is treated as evidence.

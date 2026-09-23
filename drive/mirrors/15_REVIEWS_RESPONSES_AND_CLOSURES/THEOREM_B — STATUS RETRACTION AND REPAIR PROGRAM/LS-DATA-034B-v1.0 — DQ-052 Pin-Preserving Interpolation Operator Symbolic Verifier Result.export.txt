@@ -1,0 +1,64 @@
+﻿LS-DATA-034B-v1.0 — DQ-052 PIN-PRESERVING INTERPOLATION OPERATOR SYMBOLIC VERIFIER RESULT
+
+
+Artifact ID: LS-DATA-034B-v1.0
+Dispatch: DQ-052
+Date: 2026-07-26
+Executor: OpenAI GPT-5.6 Thinking
+Class: DATA / EXECUTION RECEIPT / EXACT SYMBOLIC ALGEBRA
+Authority: same-family execution evidence only
+Independence credit: ZERO
+Canonical impact: NONE
+Source: LS-DATA-034A-v1.0, Drive ID 1uzedokTGRUPPGG8sSMZ8t5rtFc8nxFbsVpKM-bTDfJQ
+Local source bytes: 3,958
+Local source SHA-256: abdfdf2f9c2a2f83adbe6a6f51423356e31a9d9c44ca3bfd8c0bc6c795c1ff8a
+Result bytes: 1,281
+Result SHA-256: 57c972e1b66186ba272cf9aea83e89feaf72a7Drive-export source bytes: 3,959
+Drive-export source SHA-256: 5a67ffa73ce27234e23ed68f87d4372fa53e6b432545c01ab150ab51518b9006
+Drive-export execution reproduced this exact 1,281-byte result.
+
+
+9b7cca1cdd2256ffd3d278933f
+Execution status: PASS
+Checks passed: 13
+Hostile mutations detected: 5 of 5
+Numerical sampling: NONE
+
+
+BEGIN_DQ052_RESULT
+{
+  "checks": {
+    "correction_gradient_symmetry": true,
+    "four_gradient_pins": true,
+    "gradient_matches": true,
+    "kappa_replacement": true,
+    "lambda_formula": true,
+    "projected_endpoint_minus": true,
+    "projected_endpoint_plus": true,
+    "projected_midpoint_gap": true,
+    "projection_formula": true,
+    "psi_gap": true,
+    "psi_grad_minus": true,
+    "psi_grad_plus": true,
+    "two_value_pins_gap": true
+  },
+  "checks_passed": 13,
+  "correction_potential": "X**2*hxx/2 + X**2*qxxxx/48 + X*Y*hxy + X*Y*qxxxy/24 + X*bx + X*txxx/8 + Y*by + Y*txxy/8",
+  "gap_basis": "X**3/3 - X/4",
+  "gap_coefficient": "kappa - txxx/2",
+  "mutations": {
+    "drop_endpoint_averages_breaks_pins": true,
+    "omit_dY_breaks_symmetry": true,
+    "raw_taylor_not_pin_preserving": true,
+    "wrong_lambda_sign_breaks_gap": true,
+    "wrong_psi_breaks_endpoint_gradient": true
+  },
+  "mutations_detected": 5,
+  "projected_field_x": "(4*X**3*qxxxx + 12*X**2*Y*qxxxy + 24*X**2*kappa + 12*X*Y**2*qxxyy + 24*X*Y*txxy - X*qxxxx + 4*Y**3*qxyyy + 12*Y**2*txyy - Y*qxxxy - 6*kappa)/24",
+  "projected_field_y": "(4*X**3*qxxxy + 12*X**2*Y*qxxyy + 12*X**2*txxy + 12*X*Y**2*qxyyy + 24*X*Y*txyy - X*qxxxy + 4*Y**3*qyyyy + 12*Y**2*tyyy + 24*Y*hyy - 3*txxy)/24",
+  "projected_gap": "-txxx/12"
+}
+END_DQ052_RESULT
+
+
+Execution note: the Python process emitted an unrelated artifact-tool spreadsheet warmup warning on stderr but exited with status 0 after every exact assertion passed. The JSON above is stdout only and is the hashed result payload.

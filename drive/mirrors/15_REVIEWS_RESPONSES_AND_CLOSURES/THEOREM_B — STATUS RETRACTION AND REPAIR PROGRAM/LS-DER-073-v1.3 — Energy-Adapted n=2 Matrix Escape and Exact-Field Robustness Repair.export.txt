@@ -1,0 +1,338 @@
+﻿ORGANIZATIONALLY DISTINCT PASS — 2026-07-28
+
+
+CL-AUD-LSDER073V13-20260728-01 verifies equations (1)–(34), the T-energy cone/strip, the complete level bound, inherited inward capture, exact-field robustness, and the terminal side-24 selection implication.
+
+
+Terminal status:
+SELECTED SIDE-24 COEFFICIENT CLOSED AT REVIEWED SCOPE.
+
+
+Closure capsule:
+LS-CLS-074-v1.0 — https://docs.google.com/document/d/1ivIKJqhdxB_uPUb8g-0rVqRxtMqD5_IpfhKKxjKjYrg/edit
+
+
+The frozen body below remains unchanged. This PASS is fixed-side and fixed-field only; it does not promote general L, general fields, or infinite-volume claims.
+[[LS-DER-073-v1.3:ANTHROPIC-PASS]] [[GATE-B:CLOSED]] [[SELECTED-SIDE24:CLOSED-REVIEWED-SCOPE]] [[CLOSURE:LS-CLS-074]]
+
+
+CURRENT EXECUTABLE SUPPORT AND TERMINAL REVIEW — 2026-07-28
+
+
+Exact T-energy ledger:
+LS-DATA-073A-v1.3 — https://docs.google.com/document/d/1jjNrjUaaNsvX4NoE0lhsjk7trSVOezrQbxvgdst0VEA/edit
+LS-DATA-073B-v1.3 — https://docs.google.com/document/d/166T2Ep8wYBzTFKVvFjOC4fjDigxENUXxNvmMQdKlV4Q/edit
+All Fraction assertions pass.
+
+
+Controlling organizationally distinct review:
+LS-REQ-041-v1.0 / DQ-105 — https://docs.google.com/document/d/1af-jtraSI6GdT5bpB2kgE7h7W0LuTXpIWxo1_Fs-iSA/edit
+
+
+No external energy-repair PASS or selected-persistence closure is claimed yet. Frozen body and hash below remain unchanged.
+[[CONTROLLING:LS-DER-073-v1.3]] [[ENERGY-LEDGER:PASS-SAME-FAMILY]] [[EXTERNAL-REVIEW:LS-REQ-041]] [[DQ-105:READY]]
+
+
+LS-DER-073-v1.3 — ENERGY-ADAPTED n=2 MATRIX ESCAPE AND EXACT-FIELD ROBUSTNESS REPAIR
+
+
+Artifact ID: LS-DER-073-v1.3
+Dispatch: DQ-104
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / T-ENERGY LYAPUNOV GEOMETRY / ANISOTROPIC ESCAPE / EXACT-FIELD ROBUSTNESS
+Authority: same-OpenAI-family repair successor informed by organizationally distinct Anthropic review
+Organizational-independence credit: ZERO FOR THIS SUCCESSOR; TERMINAL EXTERNAL REVIEW REQUIRED
+Canonical impact: NONE
+Status: CONTROLLING CL-AUD-LSDER073 SINGLE-DEFECT REPAIR / READY FOR TERMINAL REVIEW
+BODY_BYTES: 8558
+BODY_SHA256: c9c5bf657e8e2fc5c71a0f870afd8a8c486daa89b8445c746f0f39257402d0bc
+
+
+SUPERSEDES FOR ACTIVE REVIEW
+LS-DER-073-v1.0, v1.1, and v1.2 — provenance only. Version 1.3 replaces the outward Euclidean cone and strip by T-energy-adapted regions, thereby controlling the omitted quadratic term without any upper bound on lambda_max(T). No external PASS existed for any predecessor.
+
+
+CONTROLLING INPUTS
+CL-AUD-LSDER073-20260728-01 — Anthropic M1/M3/M4 PASS; M2 AMEND REQUIRED at v1.2 equation (20).
+LS-DER-073-v1.2 — passed inward tube and all dynamics through its equation (19); superseded only in the outward geometry and level estimate.
+LS-DER-072-v1.0 — B1 and B3 externally passed.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDER073_V13_FROZEN_BODY and strictly before the unique full line END_LSDER073_V13_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDER073_V13_FROZEN_BODY
+ENERGY-ADAPTED TWO-TRANSVERSE-DIMENSION MATRIX ESCAPE REPAIR
+
+
+1. PURPOSE AND REVIEW SCOPE
+
+
+CL-AUD-LSDER073-20260728-01 returned AMEND REQUIRED for one reason only: LS-DER-073-v1.2 controlled the outward strip by |Y| but omitted the potentially large anisotropic energy term -(1/2)Y^T T Y when lambda_max(T) is unbounded.
+
+
+The same review passed:
+- M1: the normalized potential, endpoint inertia, eigenvector slope, and pin-preserving Q bounds;
+- every outward dynamical inequality through LS-DER-073-v1.2 equation (19);
+- M3: the inward tapered tube and convergence to M;
+- M4: exact-field C1 robustness;
+- all exact Fraction brackets that were actually displayed.
+
+
+This successor replaces only the outward Euclidean cone/strip and level estimate by T-energy-adapted regions. It preserves the passed inward tube and the externally passed B1/B3 portions of LS-DER-072. It does not reopen Gate A, B1, or B3.
+
+
+2. NORMALIZED POTENTIAL AND DEEP EVENT
+
+
+Let Y in R^2 and
+    p_0(X)=X^3/3-X/4-1/12.
+
+
+On a fixed compact convex normalized chart D^+, consider
+    P(X,Y)
+      =p_0(X)
+       +(1/2)(X^2-1/4)a·Y
+       -(1/2)Y^T T Y
+       +(1/2)X Y^T W Y
+       +(1/6)C[Y,Y,Y]
+       +r Q(X,Y),                                            (1)
+where T is symmetric positive definite, W is symmetric, C is a symmetric cubic tensor, and
+    Q(M)=Q(S)=0,
+    grad Q(M)=grad Q(S)=0,
+for M=(-1/2,0), S=(1/2,0).
+
+
+Put
+    R=1+|a|+||W||_op+||C||_op+||Q||_(C^2(D^+)) >=1,
+    tau=lambda_min(T),                                       (2)
+and, for the side-24 field,
+    T=-Q_perp/(kappa r).                                     (3)
+
+
+Fix
+    K=4096,
+    epsilon_0=1/(1024K),                                    (4)
+and assume
+    rR^5<=epsilon_0,
+    tau>=2KR^5+2R.                                          (5)
+
+
+Define
+    delta=1/(512R^3),
+    X_*=5/4,
+    eta_R=1/(8192R^3).                                      (6)
+
+
+Write
+    E(Y)=Y^T T Y,
+    q(Y)=|TY|.                                               (7)
+Since T>=tau I,
+    q(Y)^2>=tau E(Y),
+    |Y|^2<=E(Y)/tau.                                        (8)
+
+
+The gradient is
+    F_X=X^2-1/4+X a·Y+(1/2)Y^T W Y+rQ_X,
+    F_Y=(1/2)(X^2-1/4)a-TY+XWY
+         +(1/2)C[Y,Y,·]+r grad_Y Q.                          (9)
+
+
+3. ENDPOINT ENERGY SLOPE
+
+
+At S, the exact or comparison Jacobian has block form
+    J_S=[[A,B^T],[B,-T+E_D]],                                (10)
+and, after one fixed small-r reduction,
+    A>=3/4,
+    |B|<=R,
+    ||E_D||_op<=3R/4.                                       (11)
+
+
+It has exactly one positive eigenvalue. For its positive eigenvector v=(v_X,v_Y), the already reviewed Euclidean estimate gives
+    |v_Y|/|v_X|<2R/tau.                                     (12)
+
+
+Taking the scalar product of
+    (lambda_+ I+T-E_D)v_Y=Bv_X
+with v_Y yields
+    v_Y^T T v_Y
+      <=R|v_Y||v_X|+(3R/4)|v_Y|^2
+      <(7/2)(R^2/tau)|v_X|^2
+      <4(R^2/tau)|v_X|^2.                                  (13)
+
+
+Thus the outward orientation enters the energy cone below. The strict final inequality leaves a fixed normalized margin and persists under the exact C1 perturbation.
+
+
+4. OUTWARD ENERGY CONE
+
+
+Write xi=X-1/2 and define
+    C_E={0<=xi<=delta,
+         E(Y)<=4(R^2/tau)xi^2}.                              (14)
+
+
+The cone implies
+    q>=2Rxi on its nonzero boundary,
+    |Y|<=2Rxi/tau<=2Rxi/(2KR^5)<=xi/K.                      (15)
+Hence it lies inside the previously reviewed Euclidean cone estimates, so
+    F_X>=3xi/4.                                              (16)
+
+
+Set
+    G_E=E(Y)-4(R^2/tau)xi^2.
+Then
+    (1/2)dG_E/dt
+      =(TY)·F_Y-4(R^2/tau)xi F_X.                           (17)
+
+
+On G_E=0, the leading term is -q^2. The a,W,C,Q terms, divided by q^2, are bounded by
+    257/1024
+      +257/(1024K)
+      +1/(2048K^2)
+      +2epsilon_0
+      <1/3.                                                  (18)
+The moving-boundary term is nonpositive by (16). Therefore
+    (1/2)dG_E/dt<=-(2/3)q^2<0.                              (19)
+
+
+The outward half-branch remains in C_E and reaches xi=delta. At that section,
+    E(Y)<=4(R^2/tau)delta^2
+          <(9/16)(R^2/tau),                                 (20)
+so it enters the energy strip below.
+
+
+5. OUTWARD ENERGY STRIP
+
+
+Define
+    S_E={1/2+delta<=X<=5/4,
+         E(Y)<=E_*},
+    E_*=(9/16)(R^2/tau).                                    (21)
+
+
+On its boundary,
+    q>=3R/4,
+    |Y|<=3R/(4tau)=3m/8,                                   (22)
+where m=2R/tau. Thus every previously reviewed Euclidean longitudinal estimate remains valid, in particular
+    F_X>=3delta/4>0.                                        (23)
+
+
+For the energy derivative,
+    (1/2)dE/dt=(TY)·F_Y.                                    (24)
+After division by q^2, the four adverse terms are bounded by
+    7/8
+      +5/(8K)
+      +3/(32K^2)
+      +(4/3)epsilon_0
+      <9/10.                                                 (25)
+Consequently
+    (1/2)dE/dt<=-(1/10)q^2<0                                (26)
+on E=E_*. The energy strip is strictly invariant, and the branch reaches X=5/4 monotonically.
+
+
+6. COMPLETE FORWARD LEVEL BOUND
+
+
+At X=5/4,
+    p_0(5/4)=49/192.                                        (27)
+
+
+The previously reviewed a,W,C,rQ and exact-field path-error reserve is
+    21/(32K)+1/K^2+3epsilon_0+3/8192.                       (28)
+
+
+The omitted quadratic energy now satisfies, throughout S_E,
+    (1/2)Y^T T Y
+      <=9R^2/(32tau)
+      <=9/(64KR^3)
+      <1/(4K).                                               (29)
+
+
+Therefore the complete adverse level bracket is
+    21/(32K)+1/K^2+3epsilon_0+3/8192+1/(4K)
+      =9869/16777216
+      <1/768.                                                (30)
+
+
+Hence
+    P(5/4,Y)
+      >49/192-1/768
+      =65/256
+      >1/4.                                                  (31)
+Because P(M)=0, the outward branch reaches a point strictly above the maximum level and cannot terminate at M.
+
+
+7. INWARD CAPTURE
+
+
+The inward tapered tube
+    T_in={-1/2<X<1/2,
+          |Y|<=(2R/tau)(1/4-X^2)}                           (32)
+and its flux, monotonicity, and convergence proof are exactly the M3-passed equations (22)--(26) of LS-DER-073-v1.2. They do not use lambda_max(T). Thus the M-ward half-branch converges to M.
+
+
+8. EXACT-FIELD ROBUSTNESS
+
+
+Let F_exact-F be pin preserving and have C1 norm at most eta_R. In C_E, endpoint pin preservation makes the error O(eta_R xi); substituting in (17) costs less than
+    3eta_R/R
+of q^2, far below the 2/3 margin in (19). On E=E_*, the energy-flux error is at most q eta_R and hence at most
+    (4eta_R/(3R))q^2,
+far below the 1/10 margin in (26). The X margin (23), path-level bound (30), and inward-tube margins retain the already reviewed v1.2 reserves.
+
+
+For the conditioned side-24 field,
+    ||F_exact-F||_(C1(D^+))<=C_+ r                          (33)
+on the fifth-derivative good event. The reviewed implication
+    C_+r<=eta_R
+holds for
+    r<=r_mat
+      :=min{1,[1/(8192C_+epsilon_0^(3/5))]^(5/2)}.           (34)
+
+
+Thus the exact unstable branches satisfy the same capture and escape conclusions.
+
+
+9. MATRIX CAPTURE/ESCAPE THEOREM
+
+
+THEOREM 9.1 — ENERGY-ADAPTED n=2 MATRIX CAPTURE AND ESCAPE.
+
+
+Under (1)--(6) and for 0<r<=r_mat:
+(i) the M-ward unstable half-branch converges to M through T_in;
+(ii) the outward half-branch remains in C_E union S_E, reaches X=5/4 above f(M), and cannot terminate at M;
+(iii) both conclusions hold for the exact conditioned field on the fifth-derivative good event.
+
+
+No bound on lambda_max(T) is assumed or used.
+
+
+10. SIDE-24 CONSEQUENCE AND SCOPE FIREWALL
+
+
+The shallow-layer, regular-domain, fifth-derivative, Palm-normalization, G5, G6', G7, trichotomy, union-bound, and dominated-convergence steps were externally passed in CL-AUD-LSDER072 and CL-AUD-LSDER073 except for the repaired level defect. Theorem 9.1 supplies that sole missing dynamical link.
+
+
+At same-family candidate level this yields
+    1-p_r=O(r^3)                                             (35)
+and identifies c_(3,24) as the selected finite nonessential H0 short-lifetime coefficient at fixed side 24.
+
+
+Not changed or asserted:
+- Gate A, already externally closed;
+- LS-DER-070 or a general field-class theorem;
+- directed rounding of the nonlinear quadrature;
+- limit interchange or infinite-volume persistence;
+- canonical promotion, package sealing, publication readiness, or release authority.
+
+
+FINAL STATUS
+
+
+THE ANISOTROPIC LEVEL DEFECT IN CL-AUD-LSDER073-20260728-01 IS REPAIRED BY T-ENERGY-ADAPTED OUTWARD REGIONS AT SAME-FAMILY CANDIDATE LEVEL; READY FOR ONE TERMINAL ORGANIZATIONALLY DISTINCT REVIEW.
+END_LSDER073_V13_FROZEN_BODY

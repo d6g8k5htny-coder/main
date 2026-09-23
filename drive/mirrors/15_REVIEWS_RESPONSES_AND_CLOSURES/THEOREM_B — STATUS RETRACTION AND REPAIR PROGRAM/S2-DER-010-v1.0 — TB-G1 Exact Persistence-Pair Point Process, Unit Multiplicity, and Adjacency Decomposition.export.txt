@@ -1,0 +1,730 @@
+﻿S2-DER-010-v1.0 — TB-G1 EXACT PERSISTENCE-PAIR POINT PROCESS, UNIT MULTIPLICITY, AND ADJACENCY DECOMPOSITION
+
+
+Prepared by: OpenAI GPT-5.6 Thinking — Scientist 2 line
+Date: 2026-07-25
+Class: DER / DETERMINISTIC PERSISTENCE OBJECT / MEASURABLE MARKED POINT PROCESS / THEOREM B REPAIR
+Authority: same-line research derivation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Primary target: Theorem B repair task TB-G1
+Current status: COMPLETE SAME-LINE CANDIDATE / EXTERNAL REVIEW REQUIRED / NO THEOREM RESTORATION
+
+
+PRIMARY SOURCES
+
+
+1. Theorem B controlling read-first and retraction audit:
+https://docs.google.com/document/d/1GCxx8Th9C5J8SrddCjwNa30O2LuYiwEB4pEYLxXK5pg/edit
+
+
+2. Near-diagonal lifetime-law source:
+https://drive.google.com/file/d/12YJfoJI92kuWQm_D628zt-AWyR9RC2mV
+
+
+3. P0.2 exact adjacency-to-one program:
+https://docs.google.com/document/d/1_hJQkq7Y8BFGZvGmCtvJR1UheV_YHmqXuimtYsYUDeA/edit
+
+
+PURPOSE
+
+
+Close the deterministic and measurable multiplicity part of TB-G1 without silently assuming that persistence pairing is identical to direct gradient adjacency.
+
+
+The decisive repair is to distinguish three objects:
+
+
+A. the all-typed ordered maximum–saddle process;
+B. the persistence-selected process obtained by the exact global mark 1{D_f(M)=S};
+C. the gradient-adjacent sub-process obtained by the separate local dynamical mark 1{A_f(M,S)}.
+
+
+For the all-typed process, the persistence-selection mark produces every non-essential superlevel H0 bar exactly once. The multiplicity is one. There is no factor of two under the directed maximum-to-saddle orientation convention.
+
+
+For the gradient-adjacent process, the product “adjacency probability times elder-selection probability conditional on adjacency” gives only the adjacent-selected contribution unless a separate theorem proves that every selected pair is gradient adjacent or proves that the omitted selected-but-nonadjacent contribution is negligible.
+
+
+This document proves the exact point-process and unit-multiplicity statements, proves a Borel realization on the generic Morse/distinct-critical-value locus, and gives the corrected probability decomposition required by Theorem B0.
+
+
+FREEZE POLICY
+
+
+Export this native Google Doc as text/plain, normalize line endings to LF, extract the text strictly between the unique marker lines, remove trailing LF characters, append exactly one LF, and hash the UTF-8 bytes without BOM.
+
+
+BODY_BYTES: 17845
+BODY_SHA256: bd4e839f5b61ca3edb9d0aaaaf5dcd12031b44e6f707929cd747c712646cb10f
+
+
+[[TARGET:THEOREM-B-TB-G1]] [[OBJECT:ALL-TYPED-ORDERED-PAIR-PROCESS]] [[MULTIPLICITY:ONE]] [[ADJACENCY:SEPARATE-MARK]] [[THEOREM-B:NOT-RESTORED]] [[EXTERNAL-REVIEW:REQUIRED]]
+
+
+BEGIN_TBG1_FROZEN_BODY
+
+
+TB-G1 — EXACT PERSISTENCE-PAIR PROCESS AND MULTIPLICITY THEOREM
+
+
+1. DETERMINISTIC SETTING
+
+
+Let X be a compact connected smooth surface. The application is X=T_L^2 with L=24.
+
+
+Let f:X->R be a C^2 Morse function with pairwise distinct critical values. Define the superlevel filtration
+
+
+    X_t={x in X : f(x)>=t}.
+
+
+Every local maximum creates one connected component when the threshold passes downward through its critical value. At an index-one saddle, one of two events occurs:
+
+
+MERGE EVENT:
+two distinct connected components immediately above the saddle level become one component immediately below it;
+
+
+LOOP EVENT:
+one connected component acquires a one-handle, so the two local upper sectors already belong to the same connected component and H0 does not change.
+
+
+Only merge saddles are deaths of superlevel H0 classes.
+
+
+Because the critical values are distinct, every connected component C of a regular superlevel set has a unique elder representative
+
+
+    e_f(C)=the maximum M in C with maximal f(M).
+
+
+At a merge saddle S, let C_1(S) and C_2(S) be the two distinct components immediately above f(S) that merge at S. Their elder representatives are distinct maxima. The elder rule retains the representative with larger birth value and kills the representative with smaller birth value.
+
+
+Define
+
+
+    Y_f(S)=the younger of e_f(C_1(S)) and e_f(C_2(S)),
+
+
+for every H0-merge saddle S.
+
+
+Equivalently, for a non-global maximum M, define D_f(M) to be the unique merge saddle at which the superlevel component whose elder representative is M first merges into a component whose elder representative has a larger maximum value.
+
+
+The unique global maximum is excluded because its H0 class is essential on a connected compact surface.
+
+
+2. THE UNIT-MULTIPLICITY THEOREM
+
+
+THEOREM 2.1 — CANONICAL H0 PERSISTENCE PAIRING
+
+
+For a C^2 Morse function f on a compact connected surface with pairwise distinct critical values:
+
+
+(a) every non-global local maximum M has a unique finite death saddle D_f(M);
+
+
+(b) D_f(M) is an index-one merge saddle;
+
+
+(c) every index-one merge saddle S equals D_f(M) for exactly one non-global maximum M, namely M=Y_f(S);
+
+
+(d) the map
+
+
+    M -> (M,D_f(M))
+
+
+is a bijection from the set of non-global local maxima to the set of finite superlevel H0 persistence pairs;
+
+
+(e) the induced map
+
+
+    (M,D_f(M)) -> [f(D_f(M)), f(M))
+
+
+is a bijection onto the non-essential superlevel H0 barcode intervals.
+
+
+In particular, every non-essential H0 bar is counted with multiplicity exactly one.
+
+
+PROOF
+
+
+Step 1: every merge saddle kills exactly one elder representative.
+
+
+Immediately above a merge saddle S there are two distinct connected components C_1 and C_2. Immediately below S they form one component. Each C_i has one elder representative e_f(C_i). The critical values are distinct, so the two representative birth values are unequal. The elder rule retains the larger birth value and kills the smaller. Thus S kills exactly one H0 class and exactly one representative maximum Y_f(S).
+
+
+Step 2: every non-global maximum eventually dies.
+
+
+Let M be a non-global maximum. Immediately below f(M), M is the elder representative of its newly born component. Decrease the threshold. The ambient surface X is connected, so for thresholds below the global minimum the superlevel set is X and has one connected component whose elder representative is the unique global maximum. Therefore the component represented by M cannot remain a distinct elder component forever. At the first merge at which it meets a component with a larger elder representative, the class born at M dies. Distinct saddle levels make this first death level unique. Call the saddle D_f(M).
+
+
+Step 3: no maximum dies twice.
+
+
+After the elder class born at M is killed, it is no longer the representative of any surviving H0 component. Hence M cannot be killed at another saddle.
+
+
+Step 4: no merge saddle kills two maxima.
+
+
+A binary H0 merge reduces the number of connected components by exactly one. Therefore it kills exactly one H0 class and one elder representative.
+
+
+Step 5: bijection.
+
+
+Steps 1–4 show that M->D_f(M) maps every non-global maximum to exactly one merge saddle, and every merge saddle has exactly one inverse Y_f(S). The standard interval associated with M has birth f(M) and death f(D_f(M)). These are precisely all finite H0 intervals. QED.
+
+
+COROLLARY 2.2 — CARDINALITY IDENTITY
+
+
+For every such f,
+
+
+    #Max(f)-1 = #MergeSaddle_H0(f) = #FiniteBars_H0(f).
+
+
+Index-one loop saddles are not included in the second count.
+
+
+3. THE EXACT ORDERED CANDIDATE-PAIR PROCESS
+
+
+Fix a radius
+
+
+    0<rho<inj(X).
+
+
+For X=T_L^2 with the flat metric, one may take any rho<L/2. The strict inequality avoids the torus cut locus.
+
+
+For every ordered pair (M,S) with M a local maximum, S an index-one saddle, and
+
+
+    0<dist(M,S)<rho,
+
+
+let
+
+
+    v(M,S)=Log_M(S),
+    r(M,S)=|v(M,S)|,
+    theta(M,S)=Arg(v(M,S)) in [0,2pi),
+    b(M)=f(M),
+    ell(M,S)=f(M)-f(S).
+
+
+When ell(M,S)>0, define the exact normalized gap
+
+
+    kappa(M,S)=6 ell(M,S)/r(M,S)^3.
+
+
+The directed angle convention is always maximum-to-saddle:
+
+
+    S-M = r(cos theta, sin theta)
+
+
+in the unique short torus lift.
+
+
+Define the all-typed local candidate measure
+
+
+    Xi_all,rho(f)
+      = sum over M in Max(f)
+        sum over S in Sad_1(f)
+        1{0<dist(M,S)<rho}
+        1{f(M)>f(S)}
+        delta_(M,r,theta,b,kappa,M,S).
+
+
+The final two labels M,S are retained conceptually even when a Kac–Rice density later pushes the process to only the geometric marks.
+
+
+Define the persistence-selected measure
+
+
+    Xi_pers,rho(f)
+      = sum over M,S
+        1{0<dist(M,S)<rho}
+        1{D_f(M)=S}
+        delta_(M,r,theta,b,kappa,M,S).
+
+
+The event D_f(M)=S automatically implies f(M)>f(S), maximum type, saddle type, merge-saddle status, non-essential birth, and finite positive lifetime.
+
+
+THEOREM 3.1 — EXACT LOCAL BAR-PROCESS IDENTITY
+
+
+The pushforward
+
+
+    (M,S) -> (b=f(M), d=f(S), ell=f(M)-f(S))
+
+
+maps Xi_pers,rho(f) bijectively onto the finite H0 bars whose paired critical-point distance is strictly less than rho.
+
+
+Every such bar appears once.
+
+
+PROOF
+
+
+Theorem 2.1 gives a unique ordered persistence pair (M,D_f(M)) for each finite bar. The strict distance restriction either retains or removes that unique pair. No other pair maps to the same labeled bar because the birth maximum and death saddle are unique. QED.
+
+
+4. ORDERING, ORIENTATION, AND THE FACTOR-OF-TWO FIREWALL
+
+
+PROPOSITION 4.1 — NO ORDERING FACTOR
+
+
+The process Max(f) x Sad_1(f) is already canonically ordered by critical-point type. Reversing (M,S) produces (S,M), which is not an element of Max x Sad_1. Therefore the ordered candidate process has no unordered-pair factor 1/2.
+
+
+Even if one writes the pair as an unordered set {M,S}, the types recover the unique ordering. No factor two is created.
+
+
+PROPOSITION 4.2 — NO ANGULAR DOUBLE COUNT
+
+
+With theta in the half-open interval [0,2pi) and the directed displacement from M to S, every pair with distance below rho has one angle. The angle theta+pi corresponds to the reversed displacement from S to M and is not another atom of the ordered maximum-to-saddle process.
+
+
+If a later source instead uses an unoriented line angle modulo pi, it must explicitly convert its angular intensity. The directed and unoriented conventions must not be mixed.
+
+
+PROPOSITION 4.3 — BRANCH INCIDENCE IS A DIFFERENT PROCESS
+
+
+Let S have two ascending separatrix branches under the gradient-ascent flow.
+
+
+A branch-incidence process that counts each branch separately can count the same ordered pair (M,S) twice when both branches terminate at M.
+
+
+The TB-G1 candidate process does not count branches. It uses a Boolean adjacency mark on an already once-counted ordered pair. Therefore branch multiplicity cannot enter the persistence coefficient silently.
+
+
+5. MEASURABILITY
+
+
+Let G be the set of C^2 functions on X that are Morse and have pairwise distinct critical values.
+
+
+G is open in the C^2 topology.
+
+
+THEOREM 5.1 — BOREL PERSISTENCE-PAIR MARK
+
+
+On G, the map
+
+
+    f -> Xi_pers,rho(f)
+
+
+is Borel as a map into the space of finite point measures with the vague topology.
+
+
+It may be extended fail-closed by the zero measure outside G, producing a Borel map on all C^2(X).
+
+
+PROOF
+
+
+Fix f_0 in G.
+
+
+Because f_0 has finitely many nondegenerate critical points, the implicit-function theorem gives a C^2 neighborhood U of f_0 in which every critical point continues uniquely, continuously, and with unchanged Morse index.
+
+
+Because the critical values of f_0 are pairwise distinct, U may be shrunk so their order remains unchanged and no critical value collision occurs.
+
+
+Choose one regular level between every two consecutive critical values of f_0. Shrink U so these levels remain regular for every f in U. Gradient-flow continuation between neighboring regular levels identifies the corresponding superlevel cobordisms. Consequently the following finite combinatorial data are constant on U when expressed in the continued critical-point labels:
+
+
+- which index-one saddles merge two distinct H0 components;
+- which saddles are loop saddles;
+- the elder representative of each component immediately above every merge saddle;
+- the pairing label D_f(M)=S.
+
+
+Thus the indicator 1{D_f(M_i(f))=S_j(f)} is locally constant in the continued labels. The critical-point positions and values, and therefore r, theta, b, ell, and kappa away from r=0 and the cut locus, vary continuously. A finite sum of continuously moving atoms with locally constant inclusion labels is continuous on U in the vague topology.
+
+
+Hence the map is locally continuous on G and therefore Borel. The set G is open, so extension by zero outside G is Borel. QED.
+
+
+REMARK 5.2 — MORSE–SMALE IS NOT NEEDED FOR MULTIPLICITY
+
+
+The H0 elder pairing and unit multiplicity use only Morse critical points, distinct critical values, and superlevel connectivity.
+
+
+Morse–Smale transversality is relevant to the separate gradient-adjacency mark, not to the existence or uniqueness of D_f(M).
+
+
+6. GRADIENT ADJACENCY IS A SEPARATE MARK
+
+
+Define the Boolean direct-gradient-adjacency event
+
+
+    A_f(M,S)=1
+
+
+when at least one ascending branch of the index-one saddle S has forward omega-limit M under the gradient-ascent flow.
+
+
+This is an existential pair mark. It does not count the number of branches.
+
+
+Define
+
+
+    Xi_adj,rho(f)
+      = 1{A_f(M,S)=1} Xi_all,rho(f),
+
+
+and
+
+
+    Xi_adj-pers,rho(f)
+      = 1{A_f(M,S)=1} Xi_pers,rho(f).
+
+
+The exact persistence process decomposes as
+
+
+    Xi_pers,rho
+      = Xi_adj-pers,rho + Xi_nonadj-pers,rho,
+
+
+where
+
+
+    Xi_nonadj-pers,rho
+      = 1{A_f(M,S)=0} Xi_pers,rho.
+
+
+The unit-multiplicity theorem applies to Xi_pers,rho. It does not state that Xi_adj-pers,rho equals Xi_pers,rho.
+
+
+The elder representative of a connected superlevel component is defined by the highest maximum in that component. A separatrix branch entering that component is defined by the gradient basin containing the branch. These are different constructions. A component may contain several maxima after earlier merges. Therefore direct gradient adjacency of the elder representative to the later death saddle is an additional geometric property, not part of the elder-rule definition.
+
+
+This document does not require a deterministic counterexample to use the exact all-pair process. It establishes the correct object identity without assuming the additional property.
+
+
+7. EXACT PALM-PROBABILITY DECOMPOSITION
+
+
+Fix a typed two-point conditioning object T_r(theta,b,kappa) that pins a maximum M and an index-one saddle S at the declared separation and values.
+
+
+Let J_r(theta,b,kappa) denote the all-typed ordered-pair Kac–Rice intensity before adjacency or persistence selection.
+
+
+Define
+
+
+    p_r = P{D_f(M)=S | T_r},
+
+
+    a_r = P{A_f(M,S)=1 | T_r},
+
+
+    q_r^adj = P{D_f(M)=S | A_f(M,S)=1, T_r},
+
+
+and
+
+
+    eta_r = P{D_f(M)=S, A_f(M,S)=0 | T_r}.
+
+
+When a_r=0, interpret a_r q_r^adj as the joint probability
+P{D_f(M)=S, A_f(M,S)=1 | T_r}.
+
+
+PROPOSITION 7.1 — EXACT SELECTION IDENTITY
+
+
+For every mark at which the regular conditional probabilities are defined,
+
+
+    p_r = a_r q_r^adj + eta_r.
+
+
+Therefore the exact persistence-pair intensity is
+
+
+    J_r p_r
+      = J_r a_r q_r^adj + J_r eta_r.
+
+
+If a source defines
+
+
+    I_r=J_r a_r,
+
+
+then
+
+
+    I_r q_r^adj
+
+
+is the adjacent-selected intensity only. It equals the full persistence intensity if and only if eta_r=0, or after an explicitly controlled remainder J_r eta_r is included.
+
+
+PROOF
+
+
+Partition the event {D_f(M)=S} by A_f(M,S) and its complement. QED.
+
+
+COROLLARY 7.2 — ADJACENCY-COMPLEMENT CONTROL
+
+
+Always,
+
+
+    0<=eta_r<=1-a_r.
+
+
+Thus any bound
+
+
+    1-a_r<=epsilon_r
+
+
+implies
+
+
+    eta_r<=epsilon_r.
+
+
+The fixed-mark P0.2 target 1-a_r=O(r^3), if approved under the identical law and mark convention, controls the omitted selected-but-nonadjacent probability at that fixed mark. Theorem B requires the corresponding compact-(b,kappa,theta) uniform statement before this control can be inserted into a positive-measure coefficient integral.
+
+
+8. CORRECTED THEOREM B0 ASSUMPTION A5
+
+
+The old A5 wording required the candidate-pair multiplicity and elder marking to make the marked density “exactly the persistence first-moment intensity.”
+
+
+The exact replacement is:
+
+
+A5* — EXACT PROCESS AND SELECTION MARK.
+
+
+There exists a measurable all-typed ordered maximum–saddle Kac–Rice first-moment density J_r with respect to
+
+
+    r dr dtheta db dkappa,
+
+
+using the directed maximum-to-saddle convention and one count per ordered typed pair.
+
+
+The persistence-selected density is
+
+
+    J_r p_r,
+
+
+where
+
+
+    p_r(theta,b,kappa)
+      = P{D_f(M)=S | T_r(theta,b,kappa)}.
+
+
+The deterministic map from selected ordered pairs to non-essential superlevel H0 bars has multiplicity one.
+
+
+If the proof factors through direct gradient adjacency, it must use
+
+
+    p_r=a_r q_r^adj+eta_r
+
+
+and must either retain the eta_r term or prove a uniform bound making its pushed-forward contribution negligible.
+
+
+COROLLARY 8.1 — TB-G1 MULTIPLICITY OBLIGATION
+
+
+Under A5*, the candidate-process multiplicity part of Theorem B0 is discharged exactly. There is no unknown coefficient factor.
+
+
+The remaining analytic work is not multiplicity. It is:
+
+
+- existence and control of J_r;
+- control of p_r, or of a_r, q_r^adj, and eta_r separately;
+- compact-mark uniformity;
+- full-kappa tails;
+- off-fold contributions.
+
+
+9. RELATION TO THE CURRENT NEAR-DIAGONAL SOURCE
+
+
+The near-diagonal source defines a candidate pair by maximum type, saddle type, orientation, and direct gradient adjacency, then writes the persistence mark 1{D(M)=S}.
+
+
+That construction is a valid adjacent-selected sub-process.
+
+
+The source’s statement that the candidate-pair first moment equals the complete persistence first moment requires one additional premise:
+
+
+    every persistence-selected pair in the retained window is directly gradient adjacent,
+
+
+or an asymptotic replacement:
+
+
+    the selected-but-nonadjacent contribution is lower order under the same exact measure.
+
+
+Neither premise follows from unit multiplicity alone.
+
+
+The safe repair is to start from Xi_all and the exact D mark. Direct adjacency may then be introduced as a favorable event used to prove p_r->1, with the nonadjacent-selected remainder bounded by 1-a_r.
+
+
+10. THEOREM B STATUS EFFECT
+
+
+This document closes the deterministic counting convention and supplies the exact measurable persistence-selection process at same-line candidate level.
+
+
+It does not prove:
+
+
+- a finite positive contact limit for J_r;
+- compact-mark uniform adjacency-to-one;
+- compact-mark uniform elder selection;
+- eta_r=0;
+- full-kappa domination;
+- off-fold lower order;
+- the unconditional Theorem B coefficient;
+- theorem restoration or canonical promotion.
+
+
+Theorem B remains:
+
+
+    CANDIDATE / CANNOT VERIFY / UNCONDITIONAL PROVEN-HERE STATUS RETRACTED.
+
+
+11. NEXT EXECUTABLE FRONT
+
+
+TB-G2 may now use the exact all-typed process J_r and target the compact-mark contact intensity.
+
+
+TB-G3 must choose one of two precise routes:
+
+
+ROUTE A — DIRECT SELECTION:
+prove compact-mark convergence and domination for p_r=P{D(M)=S|T_r};
+
+
+ROUTE B — ADJACENCY FACTORIZATION:
+prove compact-mark bounds for a_r and q_r^adj and prove eta_r is zero or negligible after pushforward.
+
+
+The current P0.2 program supplies a fixed-mark prototype for the a_r part, not yet the compact-mark theorem.
+
+
+12. REOPENING AND FALSIFICATION CONDITIONS
+
+
+Reopen this TB-G1 candidate if any of the following is found:
+
+
+- a finite H0 bar has no unique birth maximum under the declared distinct-critical-value scope;
+- one merge saddle kills more than one H0 class;
+- one non-global maximum has two death saddles;
+- the directed short torus displacement is not unique for the declared rho;
+- the Kac–Rice implementation counts both directed and unoriented angles without compensation;
+- branch incidences, rather than Boolean pair adjacency, enter J_r;
+- the persistence pairing fails to be Borel on the generic locus;
+- the random-field application uses a law outside the declared generic fail-closed scope;
+- a later theorem cites I_r q_r^adj as the full persistence intensity without resolving eta_r.
+
+
+13. FINAL VERDICT
+
+
+TB-G1 DETERMINISTIC MULTIPLICITY:
+PASS — UNIT MULTIPLICITY EXACTLY ONE.
+
+
+TB-G1 ORDERING/ORIENTATION:
+PASS — NO FACTOR TWO UNDER THE DIRECTED MAXIMUM-TO-SADDLE CONVENTION.
+
+
+TB-G1 MEASURABILITY:
+PASS AT SAME-LINE CANDIDATE LEVEL ON THE MORSE/DISTINCT-VALUE LOCUS, WITH FAIL-CLOSED BOREL EXTENSION.
+
+
+OLD ADJACENCY-ONLY FIRST-MOMENT IDENTITY:
+AMEND REQUIRED — ADD THE NONADJACENT-SELECTED TERM eta_r OR PROVE IT ZERO/NEGLIGIBLE.
+
+
+THEOREM B:
+UNCHANGED — NONTERMINAL / UNCONDITIONAL STATUS RETRACTED / NO PROMOTION.
+
+
+END_TBG1_FROZEN_BODY
+
+
+PROVENANCE AND HANDOFF
+
+
+This object resolves the explicit TB-04 multiplicity defect in the controlling Theorem B audit at same-line candidate level and exposes an exact object-identity correction in the adjacency factorization.
+
+
+Required next actions:
+
+
+1. reproduce the frozen body and hash;
+2. obtain an organizationally distinct review of Theorems 2.1, 3.1, 5.1, and Proposition 7.1;
+3. update Theorem B0 A5 to A5* in the next version-specific theorem package;
+4. route TB-G2 against J_r, not an adjacency-preconditioned process;
+5. preserve the eta_r remainder in all future coefficient formulas unless independently eliminated.
+
+
+Current status:
+COMPLETE SAME-LINE TB-G1 CANDIDATE / REVIEW-PENDING / THEOREM B UNCHANGED.
+
+
+END S2-DER-010-v1.0

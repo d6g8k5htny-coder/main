@@ -1,0 +1,120 @@
+# C097 Collar–Gamma Coefficient Budget
+
+**Grade:** `DERIVED-EXACT`
+
+The complete cubic coefficient has the form
+
+\[
+oxed{
+C_{m total}
+=
+C_{m base}
++
+rac{M_\Gamma}6
++
+N_{m collar}rac{16\pi}3C_{m nd}.
+}
+\]
+
+For the unrounded near/exterior/typing assembly,
+
+\[
+C_{m base}
+=
+4.344413873109217888277999409797320744711101589507210099682125.
+\]
+
+A proposed \(4.35\) display leaves margin
+
+\[
+\Delta
+=
+4.35-C_{m base}
+=
+0.005586126890782111722000590202679255288898410492789900317875.
+\]
+
+Multiplying the residual inequality by six gives
+
+\[
+oxed{
+M_\Gamma
++
+N_{m collar}32\pi C_{m nd}
+\le
+6\Delta
+=
+0.033516761344692670332003541216075531733390462956739401907250.
+}
+\]
+
+## One collar
+
+\[
+M_\Gamma+32\pi C_{m nd}
+\le
+0.033516761344692670332003541216075531733390462956739401907250.
+\]
+
+If \(C_{m nd}=0\),
+
+\[
+M_\Gamma
+\le
+0.033516761344692670332003541216075531733390462956739401907250.
+\]
+
+If \(M_\Gamma=0\),
+
+\[
+C_{m nd}
+\le
+0.00033339739027744995855399323056327462444554929370102691608852975421514992721535275.
+\]
+
+## Two collars
+
+\[
+M_\Gamma+64\pi C_{m nd}
+\le
+0.033516761344692670332003541216075531733390462956739401907250.
+\]
+
+If \(M_\Gamma=0\),
+
+\[
+C_{m nd}
+\le
+0.00016669869513872497927699661528163731222277464685051345804426487710757496360767638.
+\]
+
+## Two-collar allocation table
+
+| Fraction of margin assigned to Gamma | \(M_\Gamma\) ceiling | \(C_{m nd}\) ceiling |
+|---:|---:|---:|
+| 0 | 0E-60 | 0.00016669869513872497927699661528163731222277464685051345804426487710757496360767638 |
+| 0.25 | 0.00837919033617316758300088530401888293334761573918485047681250 | 0.00012502402135404373445774746146122798416708098513788509353319865783068122270575729 |
+| 0.50 | 0.01675838067234633516600177060803776586669523147836970095362500 | 0.000083349347569362489638498307640818656111387323425256729022132438553787481803838190 |
+| 0.75 | 0.02513757100851950274900265591205664880004284721755455143043750 | 0.000041674673784681244819249153820409328055693661712628364511066219276893740901919095 |
+| 1 | 0.033516761344692670332003541216075531733390462956739401907250 | 0E+18 |
+
+## Consequence
+
+The \(4.35\) target is a very narrow residual budget. More importantly, using
+the rounded displayed base inputs gives
+
+\[
+\frac{0.66+2.82}{0.80}=4.35
+\]
+
+and therefore leaves **zero** margin for any positive residual.
+
+The correct work order is:
+
+1. certify \(M_\Gamma\);
+2. certify \(C_{\rm nd}\) and the exact number of collar charts;
+3. assemble every term;
+4. round the completed upper coefficient upward.
+
+The decimal \(4.35\) is not an optimization target that the proof is obliged
+to meet.

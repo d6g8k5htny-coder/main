@@ -1,0 +1,288 @@
+﻿LCR-DER-071-v1.0 — NUMERATOR-ONLY POLYNOMIAL BOUNDARY-LAYER O(r^5) PROPOSITION
+
+
+Artifact ID: LCR-DER-071-v1.0
+Prepared by: ChatGPT — OpenAI GPT-5.6 Thinking
+Date: 2026-07-25
+Class: DER / LABELLED CONDITIONAL NUMERATOR PROPOSITION / PACKAGING REPAIR
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Source: P02-LM-003 / LCR-DER-014-v1.0 and P02-LM-010-v1.1 / LCR-DER-030-v1.1
+Status: COMPLETE SAME-LINE PROOF / REVIEW SUPPORT / NOT A NEW P0.2 INTERFACE / NONTERMINAL
+
+
+Freeze policy: extract only the text after the LF ending BEGIN_FROZEN_PROPOSITION_BODY and before the first subsequent END_FROZEN_PROPOSITION_BODY line; normalize CRLF/CR to LF; remove trailing LF characters and append exactly one LF; encode as UTF-8 without BOM.
+
+
+BODY_BYTES: 4561
+BODY_SHA256: b3c6e4c50ff439fc5ca353a7de6d5a36ba0ab76625fb079b0bde30ea04687af3
+
+
+[[TARGET:NUMERATOR-O-r5]] [[ROLE:PACKAGING-REPAIR]] [[P02-LM-003:COMPANION]] [[P02-LM-010-v1.1:COMPANION]] [[NO-NEW-GRAPH-NODE]] [[NO-PROMOTION]]
+
+
+BEGIN_FROZEN_PROPOSITION_BODY
+NUMERATOR-ONLY POLYNOMIAL BOUNDARY-LAYER PROPOSITION
+
+
+1. SETTING
+
+
+Fix an integer m>=1 and r_0 in (0,1]. For every r in (0,r_0], let gamma_r be a probability measure on R x R^m with jointly measurable Lebesgue density phi_r(q,U).
+
+
+Let V_r:R x R^m->[0,infinity) be measurable, and let B_r be a measurable event. Define the unnormalized numerator mass
+
+
+    N_r
+      = integral_{R x R^m}
+          V_r(q,U) 1_{B_r}(q,U)
+          phi_r(q,U) dq dU.
+
+
+Let
+
+
+    C_r:R^m->[0,infinity),
+    U_r:R^m->R
+
+
+be measurable. For every U define the possibly empty nonoriented interval
+
+
+    I_r(U)={s in R:-C_r(U)<s<U_r(U)}.
+
+
+If U_r(U)<=-C_r(U), then I_r(U) is empty.
+
+
+2. HYPOTHESES
+
+
+Assume there exist constants
+
+
+    K_phi>0, c_phi>0,
+    K_C>0, K_U>0, K_D>0,
+
+
+and nonnegative integers d_C,d_U,d_D, all independent of r, such that for every r in (0,r_0]:
+
+
+H1 — DENSITY ENVELOPE.
+For every (q,U),
+
+
+    phi_r(q,U)<=K_phi exp(-c_phi||U||^2).
+
+
+H2 — CONTRIBUTING SUPPORT INCLUSION.
+For gamma_r-almost every (q,U) with V_r(q,U)>0,
+
+
+    (q,U) in B_r
+
+
+implies
+
+
+    q/r in I_r(U).
+
+
+H3 — POLYNOMIAL ENDPOINT GROWTH.
+For every U,
+
+
+    0<=C_r(U)<=K_C(1+||U||^{d_C}),
+
+
+    |U_r(U)|<=K_U(1+||U||^{d_U}).
+
+
+H4 — r^4 NUMERATOR-WEIGHT MAJORANT.
+For every U and every s in I_r(U),
+
+
+    V_r(rs,U)
+      <=r^4 K_D(1+|s|+||U||)^{d_D}.
+
+
+3. PROPOSITION
+
+
+Under H1–H4, there exists a finite constant K_N, depending only on
+
+
+    m,r_0,K_phi,c_phi,
+    K_C,K_U,K_D,d_C,d_U,d_D,
+
+
+and not on r, such that
+
+
+    N_r<=K_N r^5
+
+
+for every r in (0,r_0].
+
+
+No normalizer is defined or assumed. No independence assumption is imposed. Empty intervals contribute zero. No optimal value of K_N is asserted.
+
+
+4. PROOF
+
+
+Because V_r>=0, H2 gives, gamma_r-almost everywhere,
+
+
+    V_r(q,U)1_{B_r}(q,U)
+      <=V_r(q,U)1_{I_r(U)}(q/r).
+
+
+Tonelli's theorem and q=rs, dq=r ds, yield
+
+
+    N_r
+      <=r integral_{R^m}
+          integral_{I_r(U)}
+            V_r(rs,U)phi_r(rs,U) ds dU.
+
+
+By H1 and H4,
+
+
+    N_r
+      <=K_phi K_D r^5
+        integral_{R^m}
+          exp(-c_phi||U||^2)J_r(U)dU,
+
+
+where
+
+
+    J_r(U)
+      =integral_{I_r(U)}
+        (1+|s|+||U||)^{d_D}ds.
+
+
+The integral is over the measurable set I_r(U), not an oriented integral. Hence J_r(U)=0 when I_r(U) is empty.
+
+
+Set
+
+
+    d=max{1,d_C,d_U},
+    t=||U||,
+    K_A=2 max{1,K_C,K_U}.
+
+
+Since t^j<=1+t^d for every integer 0<=j<=d, H3 implies
+
+
+    C_r(U)<=K_A(1+t^d),
+    |U_r(U)|<=K_A(1+t^d).
+
+
+Let A(U)=K_A(1+t^d). Then
+
+
+    I_r(U) subset [-A(U),A(U)],
+    |I_r(U)|<=2A(U).
+
+
+For s in I_r(U),
+
+
+    1+|s|+t
+      <=(K_A+2)(1+t^d).
+
+
+Therefore
+
+
+    J_r(U)
+      <=2K_A(K_A+2)^{d_D}
+        (1+t^d)^{d_D+1}.
+
+
+With n=d_D+1 and M=dn,
+
+
+    (1+t^d)^n<=2^{n-1}(1+t^{dn}),
+
+
+so there is a finite K_P, independent of r, such that
+
+
+    J_r(U)<=K_P(1+||U||^M).
+
+
+The Gaussian polynomial integral
+
+
+    integral_{R^m}
+      exp(-c_phi||U||^2)(1+||U||^M)dU
+
+
+is finite. Hence
+
+
+    N_r<=K_N r^5
+
+
+for a finite r-independent K_N. QED.
+
+
+5. APPLICATION MAP
+
+
+P02-LM-003.
+Take V_r=W_r and B_r equal to the determinant-weighted bad event. The proposition supplies the unnormalized numerator estimate N_r=O(r^5). The separate normalizer lower bound Z_r>=c_Zr^2 then gives P_r(B_r)=O(r^3).
+
+
+P02-LM-010 v1.1.
+Take V_r(q,U) to be the good-event conditional subweight
+
+
+    tildeW_r(q,U)
+      =E[W_r^{exact}1_{G_r}|J_r=(q,U)]
+
+
+using either jet-law-almost-everywhere statements or the support-respecting bounded version in LCR-COR-041. The proposition gives the exact good-boundary numerator N_r=O(r^5). Division remains by the full exact normalizer Z_r^{exact}, never by the integral of tildeW_r.
+
+
+6. SCOPE FIREWALL
+
+
+This proposition proves only an unnormalized numerator estimate. It does not prove:
+
+
+- a normalizer lower or upper bound;
+- that V_r is a probability density or full Palm weight;
+- the application-specific density envelope;
+- the application-specific support inclusion;
+- the exact-field Hessian comparison;
+- the regular-conditional version selection;
+- P02-LM-003 or P02-LM-010 v1.1 without their other hypotheses;
+- P02-LM-011 or P0.2;
+- theorem promotion, formal compilation, or external release.
+
+
+7. REOPENING CONDITIONS
+
+
+Reopen or amend if the q=rs substitution is not Lebesgue-valid, if the relevant weight is not O(r^4), if either interval endpoint exceeds polynomial growth, if the density constants depend on r, if the support inclusion fails on positive contributing weight, or if the proposition is cited as a normalized probability theorem without a separate positive normalizer lower bound.
+END_FROZEN_PROPOSITION_BODY
+
+
+PROVENANCE AND STATUS
+
+
+This labelled proposition discharges the packaging recommendation in CL-AUD-241 for P02-LM-003 and P02-LM-010 v1.1. It extracts an already proved intermediate estimate and creates no additional interface or independent-review credit.
+
+
+Current status: OBJECT-FROZEN AFTER DRIVE EXPORT / COMPLETE SAME-LINE LABELLED PROPOSITION / ORGANIZATIONALLY DISTINCT REVIEW NOT REQUIRED FOR THE PACKAGING FINDING / NONTERMINAL.
+
+
+END LCR-DER-071-v1.0

@@ -1,0 +1,42 @@
+﻿CL-OPR-031 — Install authorization acknowledged; the Drive connector cannot execute the Apps Script install; browser-side runbook + LIVE CONFIG HAZARD
+ARTIFACT ID:   CL-OPR-031-v1.0
+
+
+AUTHOR:        Claude (Anthropic), CL-* instance
+
+
+CREATED:       2026-07-21
+
+
+CLASS:         OPR — operator-authorization capture + deployment runbook
+
+
+STATUS:        FILED · CANONICAL IMPACT: NONE · serves HB-008
+
+
+Operator authorization to proceed with installation was given directly (Cowork session, 2026-07-21: "You can touch the installation"). This artifact records that authorization, states plainly which install steps are and are not executable from my connector, flags a live hazard in the Config sheet that must be fixed first, and gives the exact browser-side runbook so the operator (or any Apps-Script-authorized browser session) can complete it safely.
+0. Current state — authorization is not the blocker
+Config already carries AUTOMATION_AUTHORIZED = TRUE and HOURLY_TRIGGER = TRUE, and HB-008 records the trigger "ENABLED BY OPERATOR OVERRIDE — TECHNICAL QUALIFICATION OPEN" with no first live-run receipt visible. So the outstanding work is execution + verification, not permission. HB-008's own blocker line is current: "v1.1 remains disqualified, v1.2 source is absent, and v1.3 source is not yet published."
+1. Why I cannot perform the install from here (capability limit, not a permission choice)
+The Google Drive connector available to me is file-only: read and create. It has no Apps Script API, no cell-level edit on the registry spreadsheet, no code execution, no OAuth-scope grant, and no trigger installation. The registry's own Config note confirms exactly this on the HOURLY_TRIGGER row: "Drive connector prepared configuration but cannot install OAuth-backed Apps Script triggers." The install must be done by a browser session with Apps Script authorization — which is what HB-008's owner field already specifies. Granting me authorization does not change the connector's capabilities; everything in §4 is therefore for that browser session. I will not record installation as done, because from here it cannot be.
+2. LIVE CONFIG HAZARD — fix this before pasting any source
+The Config HOURLY_TRIGGER row currently reads "Install only from GP-AUTO-034-v1.1 after acceptance tests and one inspected manual refresh." v1.1 is the disqualified version. CL-AUD-034 §6 reproduced, by direct re-execution of the v1.1 source, a benign in-scope document self-declaring AUTHORITY / CANONICAL_IMPACT: APPROVED / HUMAN_DECISION: TRUE / CLOSURE_STATE: CLOSED — EXACT and reaching extraction_class = REFEREE-READY with zero validation errors, with no trusted Closure Log entry. A browser operator following that Config note literally would paste the one version proven to self-promote. Correct the note to name GP-AUTO-034-v1.2-CAI (SHA-256 1062a63c…) and never install v1.1 (SHA-256 9f6847eb…, 68,316 bytes). This is the top pre-install action. (Stale control-sheet instructions of exactly this kind are the risk OP-GDN-002 §9 names.)
+3. Outstanding verification gap (unchanged, and now widened)
+The byte-exact v1.2 source is still not in Drive — only its SHA-256 and prose — so the CL verdict on the v1.2 executable remains CANNOT-VERIFY, and the only review on record is the author self-audit REV-CAI-SELF-001 (LOW independence). HB-008 now also calls for a "reconstructable v1.3 source" that is likewise unpublished. Recommendation before triggers go live: publish the exact executable as readable text (chunked to dodge the HTTP 407) and have one non-GP line re-run the CL-AUD-034 §6 self-promotion probe against it. Containment (CL-AUD-034 §1 — no delete/trash calls; writes hard-scoped to two targets + the registry sheet; hard switches FALSE) bounds the blast radius if you proceed without that, but the eligibility logic would be running unreviewed. Proceeding anyway is a legitimate operator override — your decision, recorded here as explicit rather than silent.
+4. Browser-side install runbook (execute in the Apps Script editor)
+1. Open GP-REG-032-v1.2 (1O6x8iv…) → Extensions → Apps Script.
+2. Replace all code with the exact GP-AUTO-034-v1.2_COUPLED_ADVANCEMENT.gs; set the manifest to appsscript.v1.2.json.
+3. HASH GATE. The pasted source must SHA-256 to 1062a63c4a21caac4b7c9f6ae9674d9fbb1a9790c67dd73e8fff6393ec4509ee (125,771 bytes, 2,390 lines) and the manifest to f8dfdb43a92e2eaad477fbb675efc97f44a9dcc0ad361960991d3a84dfe1c80f. If either differs, STOP — you do not have the reviewed artifact. Reject anything hashing to 9f6847eb… (v1.1).
+4. Config check: AUTOMATION_AUTHORIZED = TRUE; the four hard switches (WRITE_SOURCE_FILES, DELETE_OR_TRASH, AUTO_PROMOTE, RECURSIVE_SCAN) = FALSE; STALE_THRESHOLD_MINUTES = 120. Temporarily set HOURLY_TRIGGER = FALSE so triggers install last.
+5. Run runAcceptanceTests(). Require T1–T32 all PASS. Any FAIL → stop, read the Run Log receipt, do not proceed.
+6. Run auditCoupledAdvancement(). Inspect Transition Alarms + Architecture Metrics; resolve or quarantine any critical alarm.
+7. Run refreshAllRegisters() once, manually. Verify: Dashboard shows CURRENT/VALIDATED; generated sheets populated; WORKSPACE_MASTER_MANIFEST.json written to 04.4 staging (1i5c9cP…) with a matching read-back hash; and no source-file modified-times changed.
+8. Only if 5–7 all pass: set HOURLY_TRIGGER = TRUE, run installHourlyTrigger(), and confirm exactly two hourly triggers exist (refreshAllRegisters, enforceStaleStatus).
+9. Within ~2 hours: confirm the stale guard has not tripped and spot-check one hourly receipt. File the first-live-run receipt against HB-008 to close its "no first live-run receipt" blocker.
+5. Instant rollback
+removeRefreshTriggers() halts automation immediately. Generated sheets retain _BACKUP_ copies; the prior manifest is retained by rename; no source artifact is ever written, so nothing on the research side needs restoring.
+6. What I did and did not do
+Did: acknowledged the operator authorization; produced this runbook; flagged the v1.1 Config hazard (§2). Did not, because the connector cannot: create or run the Apps Script project, edit Config cells, run the acceptance battery, or install triggers. Nothing in this artifact asserts that installation occurred. The canonical operator-authorization row belongs in the protected Operator Decisions sheet (protected to th3realdyll@gmail.com, range 1941466925) and must be entered by the operator; I cannot and do not write that range.
+
+
+Cross-refs: CL-AUD-034 §1, §6, §7, §9 · GP-AUTO-034-v1.2 manifest (1VgVzVT…) + contract (18-txtv…) · CM-045, CM-046 · OP-GDN-002 §9 · HB-008 · Config sheet (GP-REG-032-v1.2, gid 200010) · _RULES_OF_ENGAGEMENT Rule 6

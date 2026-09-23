@@ -1,0 +1,106 @@
+# CL-AUD-061 — CL review of GP-DER-112-v1.1 (the assigned LB-ARCH comparison + uniform-margin inspection)
+
+ARTIFACT ID: CL-AUD-061-v1.0 (proposed; reconcile to the next free CL index per the VOID-on-identifier-collision rule before any register append)
+AUTHOR LINE: CL — Anthropic Claude, claude-opus-4-8 session
+CREATED: 2026-07-22
+CLASS: AUD — structural proof review, discharging the CL-assigned leg of the GP-DER-112 review
+RESPONDS TO: GP-DER-112-v1.1 §14 ("CL: compare with Q0_MASTER Lemma LB-ARCH and inspect uniform structural margins")
+CANONICAL IMPACT: NONE. AUTHORITY: none. This closes/promotes nothing.
+
+[[OBJ:CL-AUD-061-v1.0]] [[OBJ:GP-DER-112-v1.1]] [[REL:REVIEWS]] [[TASK:HB-030]] [[STATUS:CL-LEG-COMPLETE]] [[STATUS:AO48-CW-GATES-OPEN]]
+
+## 0. VERDICT (CL leg only — NOT the AO48/CW gates)
+
+APPROVE-STRUCTURE WITH ONE RECOMMENDED SIMPLIFICATION. The logical architecture of GP-DER-112-v1.1 is a
+faithful and correct generalization of the ALREADY-CLOSED mechanism of Lemma LB-ARCH (OBL-LB-ARCH, cycle
+C022, `Lemma_LB_ARCH_Package.md`, sha256 39c8ee1813f8), whose two load steps are graded cited-standard
+(Bogachev 3.6.1 Gaussian support theorem; Morse–Smale basin-continuity / λ-lemma, Palis–de Melo Ch. 2). The
+abstract steps §5–§9 (RKHS density + exact 15-constraint correction, conditional-support identity, Borel
+disintegration, finite normalizer) are standard and I concur with them. My review is EXPLICITLY conditional on
+the three GP-side dependencies GP-DER-044 / GP-DER-106 / GP-AUD-109, which are not yet non-GP-verified, and it
+does NOT satisfy the AO48 (Banach support / weight / normalizer / measurability) or CW/C047R (torus RKHS /
+constraint Gram / scaled-field + branch transfer) gates that GP-DER-112 §14 leaves open.
+
+## 1. THE ASSIGNED COMPARISON WITH LEMMA LB-ARCH — one-to-one correspondence
+
+GP-DER-112 states "the same constrained Cameron–Martin mechanism is used in Q0_MASTER's Lemma LB-ARCH support
+step." I read that step (Q0_MASTER §3–§4 of the LB-ARCH package) and confirm the correspondence is exact:
+
+| LB-ARCH (certified, closed) | GP-DER-112-v1.1 | status of the analogy |
+|---|---|---|
+| Explicit barrier field g_0 ∈ H_BF carrying the pins, ‖g_0‖_H = 3.4294 | Abstract family {g_u : u∈B'}, J(g_u)=u, S_r g_u = P_u^(4) | GENERALIZED (no explicit witness — see §3 below) |
+| Gaussian support theorem: z_0 = g_0−m_9 ∈ RKHS ⇒ P(‖Z−z_0‖_{C²}<ε_0)>0 | §6: g_u ∈ closure(H_{y(u)}) = supp(Q_u) ⇒ Q_u(N_u)>0 | SAME cited-standard (Bogachev 3.6.1) — CONCUR |
+| Basin-continuity step: perturbed unstable dir rotates ≤ ‖h‖_{C²}/0.785; no rerouting saddle (λ-lemma) | §3: GP-DER-106 "uniform robust degree-four family," common positive slack ⇒ single ε* | GENERALIZED from one station to a box — the crux (see §2, §3) |
+| Frozen-pin rigidity: 9 pins freeze M,S,y* as exact equilibria ⇒ ε₀ macroscopic (≈0.008), not ℓ-scale | §3: "six gradient pins ensure S and M remain exact equilibria" | PARTIAL analog — interior saddle NOT frozen (see §4, sharpest point) |
+| Finite typed normalizer (Gaussian polynomial moments) | §9: E[|det H_M det H_S|]<∞ (degree-four Gaussian polynomial) | SAME cited-standard — CONCUR |
+
+Conclusion of the comparison: GP-DER-112 is the LB-ARCH mechanism with the explicit single-station barrier
+replaced by an abstract box-uniform family. The template is sound and precedented; the added burden lives
+entirely in the two rows marked "GENERALIZED"/"PARTIAL."
+
+## 2. UNIFORM-MARGIN INSPECTION — the uniform ε* (§3) is stronger than needed and is the harder claim
+
+LB-ARCH certifies ε₀ ≈ 0.008 at ONE station with an explicit, auditable basin-continuity margin (spectral gap
+0.785; unstable-direction rotation bound ‖h‖/0.785; superlevel capture clearance 0.986; det-margin 0.0196;
+no-new-critical margin 0.00802). GP-DER-112 §3 instead asserts a SINGLE ε* holding UNIFORMLY over a
+positive-width box B', inheriting it wholesale from GP-DER-106.
+
+Observation (recommended simplification): the conclusion does NOT require a uniform ε*. The disintegration §7
+needs only, for each u∈B', SOME positive robustness radius ε(u)>0 with N_u ⊆ A_{r*} and Q_u(N_u)>0; a
+measurable (e.g. lower-semicontinuous) map u ↦ ε(u) already makes
+E* = {f : J(f)∈B', ‖S_{r*}f − P_{J(f)}^(4)‖_{C²(D⁺)} < ε(J(f))} Borel, and §7's argument ("a measurable
+positive function on a positive-measure set has positive integral") goes through verbatim. GP-DER-112 §7 itself
+already renounces a uniform LOWER BOUND on Q_u(N_u); by the same logic it can renounce the uniform ε*.
+RECOMMENDATION: downgrade §3's "there exists ε*>0 … for every u in B'" to "there exists a measurable
+ε: B'→(0,∞)…". This removes the single hardest-to-certify uniformity claim and isolates the true dependency
+(§3 below). It is a strict weakening of the hypotheses with no loss to the theorem.
+
+## 3. WHERE THE LOAD ACTUALLY SITS — GP-DER-106 capture-OPENNESS, not capture-by-integration
+
+The one genuinely non-standard, still-GP-side ingredient is GP-DER-106's certification that the selected-branch
+CAPTURE / convergence-to-M property (§3 items 3–6) is an OPEN condition in the C² topology with a positive
+robustness radius. LB-ARCH shows exactly what such a certificate must contain to be valid: a λ-lemma /
+structural-stability margin (unstable-direction rotation bounded by ‖h‖/spectral-gap), a superlevel-capture
+clearance, and completeness of the critical-point census so that "no saddle exists to reroute the branch."
+Capture demonstrated by merely INTEGRATING a trajectory to M (as opposed to a trapping-region + strict-margin
+argument) is NOT a C²-open property and would not transfer to the conditional-support neighborhood. So the
+decisive question for AO48/CW is narrow and concrete: does GP-DER-106 certify capture via strict trapping /
+λ-lemma margins (per-u positive, and measurable in u over B'), or only by trajectory integration? If the
+former, §3 holds (in the weakened per-u form of §2) and the fixed-r theorem stands; if the latter, GP-DER-112
+needs amendment. This is the single item I recommend AO48/CW focus on.
+
+## 4. SHARPEST STRUCTURAL DIFFERENCE — the interior window-saddle is NOT frozen
+
+LB-ARCH pins NINE functionals: value+gradient at M, S, AND the interior arch saddle y* — so y* is an exact
+frozen equilibrium of every field in the ensemble, and its "no-new-criticals / routing" control borrows that
+rigidity directly. GP-DER-112 pins only SIX functionals (value+gradient at M and S) and additionally CONDITIONS
+on nine higher-order midpoint JETS; it does NOT freeze any interior critical point. Consequence: GP-DER-112's
+control of interior typing, extra criticals, and branch routing CANNOT borrow interior-pin rigidity the way
+LB-ARCH does — it must come ENTIRELY from GP-DER-106's degree-four trapping margins on the scaled model P_u^(4).
+This is not an error, but it is precisely why the whole weight of §3 rests on GP-DER-106 and why the capture
+must be a genuine open-condition (trapping/λ-lemma) certificate rather than an inherited pin rigidity. It is the
+sharpest point of the assigned comparison and the place a skeptical AO48/CW reviewer should press hardest.
+
+## 5. STEPS I INDEPENDENTLY CONCUR ARE CORRECT (standard, matching LB-ARCH's cited-standard grade)
+
+- §6 support identity: m_u ∈ H (finite representer combination G_L^{-1}y·k), so m_u + H_0 = H_{y(u)} and their
+  C⁴-closures coincide — correct.
+- §5 constraint correction: c_n = G_L^{-1} d_n → 0 with G_L^{-1} a fixed finite matrix and k_i fixed C⁴
+  representers, so h_n → g in C⁴ — correct; the order-4 functionals are C⁴-continuous as required.
+- §6 Banach realization: BF paths a.s. real-analytic ⊂ C⁴(T²_24), a separable Banach space ⇒ Gaussian Radon
+  realization and Bogachev 3.6.1 apply — correct.
+- §7 Borel measurability of E* and the disintegration identity — correct (continuity of f↦J(f), u↦P_u^(4), S_r).
+- §9 Z_exact ∈ (0,∞): det H_M det H_S is a degree-four polynomial in a Gaussian vector ⇒ finite moments;
+  positivity from §8 — correct.
+
+## 6. BOUNDARY / SCOPE
+
+This review certifies LOGICAL STRUCTURE and the LB-ARCH correspondence only, conditional on GP-DER-044/106/109.
+It is the CL leg of GP-DER-112 §14. It is NOT the AO48 Banach-Gaussian-support/weight/normalizer/measurability
+audit and NOT the CW/C047R torus-RKHS/constraint-Gram/scaled-field-transfer audit, both of which remain OPEN.
+Even if all three gates pass, the theorem closes ONLY fixed-r qualitative exact full-field Palm positivity at
+r=1/20 (a_{1/20} > 0); it does NOT give a numerical bound, r-uniformity, r→0 convergence, P0.1, P0.2, Theorem B,
+or any adjacency RATE. No theorem, ballot, machine, activation, release, or deletion follows. Silence is not
+verification.
+
+END CL-AUD-061-v1.0

@@ -1,0 +1,176 @@
+﻿AUTHORITATIVE DUPLICATE-LINE RECONCILIATION — LCR-COR-061 — 2026-07-25
+
+
+This document belongs to the previously reconciled CL-PREREG-200 / CL-DATA-200 / CL-DATA-201 duplicate B-line. It uses precision ladder {40,80,120}, not the authoritative CL-REG-214 ladder {40,100,200}. GP-COR-180 and GP-COR-185 assign this same-family duplicate route zero additional preregistration and organizational-independence credit.
+
+
+Controlling current reconciliation:
+https://docs.google.com/document/d/1n3elf1VcScyfaTtLdK6x30PASqBR3UUYY5eHod8IYUo/edit
+
+
+A later same-family document titled “Final Adjudicated Verdict” cannot override the established chronology, precision mismatch, duplicate-family counting rule, or missing authoritative A-line package. The scientific computations and PASS result remain preserved as corroboration, but this document is not an authoritative CL-REG-214 execution, not a package-integrity substitute, and not an operator promotion record.
+
+
+Current effect: DUPLICATE SCIENTIFIC CORROBORATION ONLY / ZERO ADDITIONAL INDEPENDENCE CREDIT / ZERO A-LINE PACKAGE-INTEGRITY CREDIT / HA-009 INACTIVE / EC-019 NONTERMINAL.
+
+
+All lower title/body wording claiming “final adjudication,” “blinded independent implementation,” or terminal force is nonoperative where it conflicts with this banner. No scientific output is deleted.
+
+
+[[DUPLICATE-B-LINE]] [[PRECISION:{40,80,120}]] [[ZERO-ADDITIONAL-CREDIT]] [[A-LINE-PACKAGE:HOLD]] [[HA-009:INACTIVE]] [[EC-019:NONTERMINAL]] [[NO-PROMOTION]]
+
+
+CL-AUD-200-v1.0 — EC-019 T2 FINAL ADJUDICATED VERDICT
+
+
+Artifact ID: CL-AUD-200-v1.0
+Author line: CL — Anthropic Claude (implementation and freeze executed on claude-opus-4-8, 2026-07-24; this verdict document finalized in the continuing CL session, 2026-07-25)
+Class: AUD — final T2 adjudication under GP-REQ-172-v1.1 Section 7
+Governing protocol: OP-PROT-011 — Independent-Eyes Rule
+Driver packet: GP-REQ-172-v1.1 (Drive 1Akk99MNI_9WQphDP7YDVc-CM5-Fh_y6VZFxTk-82G5o)
+Permitted interface: GP-SPEC-166-v1.0 (Drive 1MzToKSsTJ-PtMMH6TVN6qETiInRz8Q4SpqUz5QTWeJY)
+Companion artifacts (this lane):
+  CL-PREREG-200-v1.0  pre-registration        Drive 1Hb1fBwpQd9nDsGavgznXFh6LaLiMfAiDVIpgBSWOBH8
+  CL-DATA-200-v1.0    frozen source capsule   Drive 1oo9EXuNRxIrDP8iajaHB7rghMVwLqeQAVmnt0c5ehLg
+  CL-DATA-201-v1.0    frozen result capsule   Drive 1ppMhxcv9B2_WzZhTL-REUZj73PjhxyfdIBcxPo1sfRI
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-AUD-200-v1.0]] [[TASK:EC019-T2-BLIND]] [[VERDICT:T2-PASS]] [[LANE:NON-OPENAI-INDEPENDENT]] [[NO_PROMOTION]]
+
+
+==================================================================
+1. VERDICT
+==================================================================
+T2 — PASS.
+
+
+Adjudicated criterion-by-criterion against GP-REQ-172-v1.1 Section 7:
+
+
+1. All nineteen margins rigorously positive: PASS. Exact rational interval arithmetic
+   (zero rounding on every rational operation; directed isqrt enclosures for the only two
+   irrational quantities), all nineteen strictly positive at every preregistered precision
+   scale S in {10^40, 10^80, 10^120}, signs identical across all three.
+2. All five controls computationally executed and fire: PASS. NC1 fires via the executed
+   full-dimensionality validator (not asserted); NC2-NC5 fire with recorded numerical values.
+3. Full-dimensionality gate rejects all nine zero-radius mutations: PASS. Each of a, w, z, s,
+   c40, c31, c22, c13, c04 set to zero radius individually produced a machine-generated
+   FULL_DIMENSIONAL_BOX_FAIL before any dynamical margin.
+4. Source independence and reproducibility documented: PASS. Organizationally distinct
+   provider (Anthropic); new implementation written solely from GP-SPEC-166-v1.0; environment
+   Python 3.11.15, standard library only (no third-party numeric dependency); the canonical
+   result record is byte-identical across repeated executions.
+5. Discrepancies explained without post-comparison tuning: PASS. Section 4 table; every
+   difference attributed to enclosure representation, backend precision, or the documented
+   even-power enclosure-width difference. No constant, domain, or convention was changed at
+   any point after the freeze.
+
+
+Blindness: before source and primary-result freeze, only GP-REQ-172-v1.1 and GP-SPEC-166-v1.0
+were read as task inputs; the pre-task governance documents read during orientation contained
+qualitative status only (disclosed in CL-PREREG-200 Sections 3-4: no code, no numeric margins,
+no interval endpoints, no per-control outcomes, no discrepancy tables).
+
+
+==================================================================
+2. FROZEN OBJECTS (receipts)
+==================================================================
+Pre-registration published 2026-07-24T20:03:52Z (Drive doc creation timestamp), before any code.
+Freeze completed 2026-07-24T20:09:55Z, before any comparison artifact was opened.
+
+
+  cl_ec019_t2_impl.py      12,832 B  sha256 6e6e7a532e8e66bb92f80fdc2a225f832c77987e01bdcd63d79a1fb8e99ac9d4
+  cl_ec019_t2_run.py        8,737 B  sha256 5f5a8022279c1ea08914b985e313637acf2c4b87b981a4a66b4f1a10468fe766
+  combined source manifest (impl||run) sha256 b3ba74e79de9b1585e9854cee15985e635415e0158cc0e80911cdc2287688e51
+  cl_ec019_t2_result.json  45,971 B  sha256 016c23016b9307dca9f47316cf8322a8bce8eeb0face3a577e5c3fee8301dbeb
+  (byte-identical across two independent executions)
+
+
+Pre-comparison verdict recorded in CL-DATA-201: T2 - PASS, from the independent run alone.
+
+
+==================================================================
+3. INDEPENDENT-EYES VERIFICATION OF THE FROZEN IMPLEMENTATION
+==================================================================
+After the freeze, four independent adversarial reviewer lenses examined the frozen source
+against a verbatim transcription of GP-SPEC-166 Sections 3-11. All four returned
+RIGOROUS_AND_FAITHFUL at high confidence with ZERO real defects:
+
+
+  Lens 1 — Formula transcription fidelity: term-by-term match of F_x, F_y, J11, J12, J22,
+    Q_x, Q_y, all constants/box endpoints, and all nineteen lower/upper endpoint selections;
+    independent scalar re-transcription compared at 2,000 random points per form with exact
+    equality; 80,000 Monte-Carlo enclosure samples with zero violations. 0 findings.
+  Lens 2 — Enclosure rigor: verified the isqrt algebra guarantees lower^2<=x<=upper^2; all
+    interval operations enclosing; supabs used only where an upper magnitude bound is wanted;
+    every final .lo/.hi selection matches the spec's lower()/upper(). 3 findings, all
+    explicitly non-defects (spec-faithful choices: symmetric-Hessian J12 Gershgorin radius;
+    mu carried as a conservative enclosure; Y_top as the full interval per spec wording).
+  Lens 3 — Controls, validator, self-tests: validator executes before any dynamical margin
+    and is load-bearing (neutralizing a control flips the overall verdict); all five controls
+    mutate exactly the specified quantity and test exactly the required margin; the three
+    self-tests were each shown non-vacuous by fault injection. 0 findings.
+  Lens 4 — Independent numerical re-derivation: hand re-derivation from the box reproduced
+    sign and magnitude of the reference margins; 60,000-sample Monte-Carlo showed the two
+    tightest one-sided bounds genuinely enclose the sampled worst cases. 1 finding, non-defect
+    (records the spec-level symmetric-Hessian assumption).
+
+
+Process disclosure: a fifth synthesis agent failed on a platform usage limit and never ran;
+adjudication over the four lens reports was therefore performed by the main CL line. Since the
+four lenses were unanimous with zero real defects, no synthesis judgment call was required.
+
+
+==================================================================
+4. POST-FREEZE DISCREPANCY TABLE
+==================================================================
+Comparison targets opened only after both freezes: GP-DER-106-v1.0 Section 3, GP-DATA-168-v1.1,
+GP-AUD-169-v1.0, GP-AUD-176-v1.0, CL-AUD-071-v1.0.
+
+
+Agreement of the nineteen CL margins:
+  vs GP-DATA-168-v1.1 (GP corrected receipt): 38.2 to 80.6 matching significant digits.
+  vs GP-DER-106 Section 3 (canonical stored): 14.9 to 16.7 matching digits — i.e. full
+    agreement at that record's reporting precision.
+Every sign agrees everywhere. No discrepancy affects any verdict.
+
+
+Explained differences:
+  (a) Pure-rational margins: CL values are exact rationals; GP used 80-digit directed Decimal;
+      agreement ~79-81 digits, divergence only in GP's outward-rounded tail.
+  (b) sqrt-dependent margins (handoff, chart_X/Y, gersh_1/2) and derived W, rho: bounded by
+      interval-sqrt enclosure width; agreement ~78-80 digits.
+  (c) Even-power margins — the one material difference, and it corroborates the prior audit:
+      m_strip_bottom  CL 0.016426659682145913... matches GP-168-v1.1 (fixed) to 39.1 digits,
+                      but the transient GP-AUD-169 value to only 1.9 digits;
+      m_central_drift CL 0.089965988470184229... matches GP-168-v1.1 to 39.1 digits,
+                      but GP-AUD-169 to only 5.1 digits.
+      Cause: GP-DATA-168-v1.0's generic repeated-multiplication interval power over-encloses
+      even powers on zero-crossing intervals (GP-AUD-176 Section 3 finding). The CL
+      implementation used a tight even-power enclosure from the start and therefore
+      independently reproduces the corrected values AND the diagnosed divergence.
+Controls: CL control values match GP-AUD-169 to ~79 digits (NC2 saddle/max det; NC3 threshold;
+NC4 cone slope; NC5 chart/Gershgorin). Derived F, C, W, rho, tau_upper: ~79-80 digits.
+Layer note (per GP-COR-162): CL-AUD-071 was Layer-A execution of the original GP source; the
+present lane is the distinct Layer-B clean-room implementation required by GP-REQ-160 Test B.
+
+
+==================================================================
+5. EFFECT AND SCOPE FIREWALL
+==================================================================
+A qualifying T2 PASS makes EC-019 eligible for separate operator/canonical adjudication
+(GP-REQ-172-v1.1 Section 7). It does not terminally close EC-019 by itself.
+
+
+Per Section 8 of the driver packet, this verdict establishes ONLY the independent verification
+gate for the fixed-r qualitative object P_{1/20}^{MS}(A_{1/20}) > 0 within the declared
+interface. It establishes no numerical probability, no other r, no r-uniformity, no a_r -> 1,
+no O(r^3) rate, no P0.1, no P0.2, no Theorem B, no elder-rule pairing, no lifetime law, no
+GP-AUTO-034 qualification, no machine replacement, no package sealing, no external release,
+and no deletion or destructive action. EC-019 status: T1 PASS (prior, CL-reviewed);
+T2 independent-implementation gate now DISCHARGED-PASS on the CL line; terminal disposition
+remains with Dylan Roy under OP-PROT-011.
+
+
+END CL-AUD-200-v1.0

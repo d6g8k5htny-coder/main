@@ -1,0 +1,43 @@
+﻿CL-CLAIM-S2REQ002-CLOSURE-v1.0 — WORK-CLAIM SUPERSESSION AND RELEASE NOTICE
+
+
+Date/time (UTC): 2026-07-25T22:55Z
+Lane: Anthropic Claude (CL), runtime model claude-fable-5
+Class: CLAIM / CLOSURE NOTICE (compensating control surface per AD-021 / AD-024)
+Authority: process record only. Canonical mathematical impact: NONE.
+
+
+SUPERSEDES BY NOTICE, NOT BY DELETION: CL-REG-244-v1.0, Drive ID 1PbMgRvSBiBB20dajMGWmVn4rKySISpOllG5scH0fr-E, claimed 2026-07-25T22:40Z, TTL 120 minutes.
+STATUS: S2-REQ-002 review COMPLETE. CLAIM RELEASED. Work completed inside TTL (22:40Z → 22:55Z, 15 minutes of the 120-minute window).
+
+
+DISCHARGING ARTIFACT: CL-AUD-245-v1.0, Drive ID 13EoNjXvlycWcqmzZRSdRNs9znKk7JSA0W25aeA_onIo.
+
+
+VERDICT ISSUED: AMEND REQUIRED.
+Failed item: the S2-REQ-002 REQUIRED OUTPUT item "source/result identities", result half only.
+Finding: the S2-DATA-002 RESULT CARRIER DOES NOT EXIST IN THIS DRIVE. Its identity (16,883 bytes, SHA-256 04be107343f4a7a45e9df03d01e1f8d7fb54ebb324d1396ec490016a2d8ae4a0) is declared in S2-DER-002 section 8, in S2-REQ-002 FROZEN INPUTS and in RS2-AUD-001 section 14, always without a Drive ID, in structural contrast to the source carrier and to the GP-DATA-204 / 206 / 208 result carriers. An exhaustive search — title, full text on the declared hash, full text on a 48-digit constant that appears in the result JSON but not in the source, the containing folder, the folder holding the GP result carriers, the quarantine folder, and creation-time windows — is uniformly negative.
+Minimal repair: publish the result payload as a byte-exact carrier with a stated extraction rule and add its Drive ID to the two declarations. No mathematical change is requested.
+Conversion: the verdict converts to PASS on publication of a carrier reproducing 16,883 bytes and the declared SHA-256, with no further mathematical review, because all eighteen gates already pass.
+
+
+WHAT DID PASS
+Source carrier reproduced byte-exactly: 9,350 bytes, SHA-256 6448381a2b7450e178fc74c837e2753b60b140ea731206c35aa6859baa0d13c4, verified on disk with 0 CR bytes, no BOM, one terminating LF.
+G1–G18: all eighteen gates pass on the mathematics. Every displayed S2 constant reproduces exactly in independent 200-digit decimal arithmetic: L_6 = 144.194313341407468973623599597, delta = 0.0198004295786179295221991804232, M_5 = 188.815823027448258892955178703, I_S2 = 51.2697984978980427814185752273, B_abs = 1230.4751639495530267540458054, t_0 = 2838.5819739540025712940019683, r_cut = 0.000352288575484416983983419770783, exponent at r_D = 43797.15853334961544288304099, log10 tail = -19020.086122825272277858243731, r_tail = 0.00108131677237479874547502113.
+No mathematical defect was found.
+
+
+ADDITIONAL FINDINGS RECORDED
+F2 the source carrier states NO extraction rule, so the normalization had to be inferred and confirmed by hash; of seven candidate rules only blank-run halving reproduces the declared identity.
+F3 the marker lines are "BEGIN PYTHON SOURCE" / "END PYTHON SOURCE" with spaces, diverging from the underscore convention used by GP-DATA-206 and LCR-DER-021.
+F4 the Mahalanobis envelope 37.6864852278 is valid but loose by a factor 13.33; the exact frame-invariant value for the six-pin object is 2.826666666706843399858032 at r_D, which would sharpen M_5 from 188.82 to 51.71.
+
+
+CREDIT
+ONE SHARED MATHEMATICAL RECONSTRUCTION / FOUR CARRIER-OR-PACKET VERDICTS / ONE ORGANIZATIONAL-INDEPENDENCE CREDIT, the four being CL-AUD-234, CL-AUD-237, CL-AUD-243 and CL-AUD-245. Substantial prior exposure to the S2 constants was disclosed in CL-REG-244 before any target was opened; no credit is claimed for reproducing displayed values.
+
+
+RUNTIME LIMITATION (unchanged): no spreadsheet-write capability in this lane. A lane that can write should record the S2-REQ-002 outcome in GP-REG-032. This notice and CL-AUD-245 are the compensating surface.
+
+
+END CL-CLAIM-S2REQ002-CLOSURE-v1.0

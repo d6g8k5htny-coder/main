@@ -1,0 +1,249 @@
+﻿ROUTING CORRECTION — SUPERSEDED FOR CURRENT EC-019 GATE — 2026-07-24
+
+
+This packet remains valid only for recovery of the duplicate Anthropic B-line files cl_ec019_t2_impl.py / cl_ec019_t2_run.py / cl_ec019_t2_result.json. The B-line is not authoritative and earns zero additional independence credit.
+
+
+The controlling package-integrity task is the authoritative A-line CL-REG-214 / CL-DATA-214 / CL-AUD-214 with raw files cleanroom.py, run_t2.py, and results.json. Use LS-REQ-002-v1.0:
+https://docs.google.com/document/d/1h4T8d9TZkX-DB5X4AR0DTNpzad0x40g1tZSrr08iWYE/edit
+
+
+Current status: T2 SCIENTIFIC PASS / PACKAGE INTEGRITY HOLD / EC-019 NONTERMINAL.
+
+
+[[B-LINE-PACKET:SUPERSEDED-FOR-CURRENT-GATE]] [[A-LINE-PACKET:LS-REQ-002]] [[NO-PROMOTION]]
+
+
+LS-REQ-001-v1.0 — EC-019 T2 RAW-CARRIER PUBLICATION, EXACT REPLAY, AND FINAL ADJUDICATION PACKET
+
+
+Artifact ID: LS-REQ-001-v1.0
+Date: 2026-07-24
+Prepared by: OpenAI GPT-5.6 Thinking, Lead Scientist
+Assigned role: Anthropic/Claude implementing line or any execution-capable custodian holding the original frozen files; followed by an organizationally distinct replay reviewer
+Class: REQ / EXACT EXECUTION PACKET / EVIDENCE-INTEGRITY REPAIR
+Authority: research preparation and routing only
+Canonical mathematical impact: NONE
+Target: EC-019 Test T2
+Input audit: LS-AUD-004-v1.0
+Status: READY FOR EXECUTION / NO MATHEMATICAL REIMPLEMENTATION REQUESTED
+
+
+[[OBJ:EC-019]] [[TEST:T2]] [[TASK:RAW-CARRIERS-AND-REPLAY]] [[NO-NEW-MATH-IMPLEMENTATION]] [[NO-PROMOTION]]
+
+
+1. PURPOSE
+
+
+Close the remaining evidence-integrity and adjudication gates for the already executed Anthropic T2 implementation. Do not create a third implementation unless the original frozen files cannot be recovered.
+
+
+2. FROZEN IDENTITIES TO PUBLISH
+
+
+A. Mathematical implementation
+Filename: cl_ec019_t2_impl.py
+Required bytes: 12,832
+Required SHA-256: 6e6e7a532e8e66bb92f80fdc2a225f832c77987e01bdcd63d79a1fb8e99ac9d4
+
+
+B. Runner
+Filename: cl_ec019_t2_run.py
+Required bytes: 8,737
+Required SHA-256: 5f5a8022279c1ea08914b985e313637acf2c4b87b981a4a66b4f1a10468fe766
+
+
+C. Frozen result
+Filename: cl_ec019_t2_result.json
+Required bytes: 45,971
+Required SHA-256: 016c23016b9307dca9f47316cf8322a8bce8eeb0face3a577e5c3fee8301dbeb
+
+
+D. Combined implementation-plus-runner manifest
+Required SHA-256 over impl bytes followed immediately by runner bytes:
+b3ba74e79de9b1585e9854cee15985e635415e0158cc0e80911cdc2287688e51
+
+
+3. PUBLICATION RULE
+
+
+Upload each raw file as a non-native Drive carrier preserving exact bytes. Do not convert the files to Google Docs. Place all three in the EC-019 T2 receipt folder or a clearly linked successor folder.
+
+
+After upload, record:
+
+
+- Drive file ID;
+- exact filename;
+- MIME type;
+- byte count;
+- SHA-256;
+- upload timestamp;
+- parent folder;
+- executor identity.
+
+
+4. ROUNDTRIP RULE
+
+
+A distinct replay reviewer must download each file back from Drive and compute the byte count and SHA-256 from the downloaded bytes.
+
+
+Acceptance requires exact equality with every identity in Section 2.
+
+
+Failure of any identity is not automatically a mathematical failure. It requires one of:
+
+
+- recover the correct frozen carrier;
+- identify the published file as a nonidentical successor;
+- issue INCONCLUSIVE if provenance cannot be reconstructed.
+
+
+Never relabel successor bytes as the originals.
+
+
+5. EXACT EXECUTION
+
+
+Run the downloaded runner against the downloaded implementation in a clean Python environment.
+
+
+Record:
+
+
+- Python implementation and version;
+- operating system/runtime;
+- exact command;
+- working directory;
+- environment variables affecting execution;
+- stdout/stderr;
+- return code;
+- produced result filename;
+- produced result byte count and SHA-256.
+
+
+Acceptance:
+
+
+- return code 0;
+- no unhandled exception;
+- produced result exactly 45,971 bytes;
+- produced result SHA-256 exactly 016c23016b9307dca9f47316cf8322a8bce8eeb0face3a577e5c3fee8301dbeb;
+- byte-for-byte equality with the downloaded frozen result.
+
+
+6. SCIENTIFIC ACCEPTANCE TESTS
+
+
+The exact output must record:
+
+
+- nineteen strictly positive primary margins at every governed precision;
+- five computationally executed negative controls firing;
+- all nine single-coordinate zero-radius mutations rejected by machine-generated FULL_DIMENSIONAL_BOX_FAIL before dynamical margins;
+- square-root containment tests passing;
+- interval containment tests passing;
+- tight even-power test passing;
+- stable margin signs across the executed precision ladder.
+
+
+Any failed sign, failed control, zero-radius bypass, containment failure, or result nondeterminism is a T2 FAIL unless an implementation defect is found and a new successor is separately frozen and reviewed.
+
+
+7. PRECISION-POLICY DISPOSITION
+
+
+The record must explicitly preserve this history:
+
+
+- CL-REG-214-v1.0 was reconciled as the sole authoritative preregistration with exponents {40,100,200};
+- CL-PREREG-200-v1.0 used {40,80,120} and was later classified as a same-session duplicate;
+- CL-DATA-201-v1.0 reports the frozen execution at {40,80,120};
+- LS-DATA-002 semantically replayed the embedded mathematical core successfully at both {40,80,120} and {40,100,200}.
+
+
+The final adjudicator must choose and state one of:
+
+
+A. AMEND — PRE-REGISTRATION NONCOMPLIANCE, OUTCOME UNAFFECTED.
+Preserve the original result as noncompliant but scientifically supportive, and attach a separately frozen supplemental run at {40,100,200}.
+
+
+B. CANNOT VERIFY — PRE-REGISTRATION LINEAGE AMBIGUOUS.
+Use if the exact timestamped commitments cannot be reconciled.
+
+
+Do not claim exact preregistration compliance for the {40,80,120} frozen result under the authoritative {40,100,200} record.
+
+
+8. COMPARISON AFTER FREEZE
+
+
+Only after source/result freeze and exact replay, compare against:
+
+
+- GP-DATA-168-v1.1 exact source and result;
+- LS-REC-001-v1.0;
+- LS-AUD-004-v1.0;
+- GP-SPEC-166-v1.0.
+
+
+Produce a discrepancy table containing all nineteen margins, all controls, all zero-radius mutations, and implementation-method differences.
+
+
+Numerical equality is not required. Sign, control, and scope agreement are required.
+
+
+9. FINAL AUDIT DELIVERABLE
+
+
+File CL-AUD-200-v1.0 if that identifier was genuinely reserved, or an honestly numbered successor otherwise.
+
+
+Mandatory sections:
+
+
+- author/model/session identity;
+- exact reviewed sources;
+- precomparison freeze chronology;
+- raw carrier identities;
+- roundtrip identities;
+- exact execution receipt;
+- nineteen-margin ledger;
+- control ledger;
+- nine-mutation ledger;
+- precision-policy disposition;
+- comparison table;
+- independence analysis;
+- limitations;
+- one final verdict: PASS / FAIL / INCONCLUSIVE.
+
+
+A PASS must be scoped exactly to EC-019 Test T2 at r=1/20 under GP-SPEC-166. It does not itself promote or close EC-019.
+
+
+10. FAILURE AND FALLBACK
+
+
+If original frozen raw carriers cannot be recovered:
+
+
+- do not fabricate them;
+- preserve CL-DATA-200/201 as historical receipts;
+- use the embedded mathematical core as the basis for a complete, newly frozen Anthropic successor;
+- publish a new raw implementation, runner, and result with new IDs/hashes;
+- identify it as a successor, not the original;
+- repeat Sections 3–9.
+
+
+11. ROUTING AFTER COMPLETION
+
+
+Return the completed packet to the Lead Scientist/OpenAI reconciliation line.
+
+
+If final T2 verdict is PASS and independence/provenance are accepted, prepare EC-019 for separate Dylan adjudication under OP-PROT-011. Do not mark terminal automatically.
+
+
+END LS-REQ-001-v1.0

@@ -1,0 +1,109 @@
+﻿P02-AUD-013B-v1.0
+Exact Successor Verification of LM013 Carrier B
+Verdict: PASS — SAME-LINE SUCCESSOR VERIFICATION. LCR-DER-061-v1.1 repairs CL-AUD-274 B10 and CL-AUD-275 J1. Organizationally distinct exact-hash conversion remains required.
+Date: 30 July 2026. Authority: research preparation and same-line audit only. Independent-review credit: zero. Terminal impact: none. P0.2 remains open, nonterminal, and unpromoted.
+1. Controlling objects
+Role
+	Object
+	Exact identity
+	Drive ID
+	Carrier B successor
+	LCR-DER-061-v1.1
+	8,928 bytes
+SHA-256 8ec4386fc1214523c98a5ae84acf4f5f64a6601aa2c63728f4382701b82dc3b7
+	164lkFwvYVMRNDDGAKu05LLBN5yRUmOMM3SlAr2jrNGU
+	Predecessor
+	LCR-DER-061-v1.0
+	8,240 bytes
+SHA-256 04efac4014b21a387d9eae7d4e78e8e37e5b149629a000e7b4dbf64a8e2ead3b
+	1FlNO3RQZPAKEq-GCOCrhhcD52B59Lr1BHBViwN8_n9o
+	Bound Carrier A
+	LCR-DER-057-v1.1
+	11,144 bytes
+SHA-256 62c23788fbed764240546b9f9aa84b40620a4e0725a39f2bec1fe7678fc74e72
+	1ooqFTdifp8cxHYhRxmzJ2Y-nqx-971lpMQ4criehXWM
+	Fresh native Drive text/plain export of the controlling successor was normalized exactly as declared: remove the UTF-8 BOM, convert CRLF/CR to LF, locate the unique exact marker lines BEGIN_BOREL_FROZEN_BODY and END_BOREL_FROZEN_BODY, trim trailing LF characters, append one LF, and hash the UTF-8 bytes. Result: 8,928 bytes and the declared SHA-256. Both marker counts were one.
+2. Exact predecessor-to-successor change set
+A line-level longest-common-subsequence comparison found 183 unchanged lines out of the 191-line v1.0 frozen body. The v1.1 body has 193 lines. The complete change set is eight substitutions and two added reopening conditions; no other frozen-body line changed.
+Location
+	Exact effect
+	Classification
+	Title
+	Adds “conditional” to Palm admissibility.
+	Terminology aligned with B10 repair.
+	A1
+	States that the countable cover consists of Borel subsets of O.
+	Relative-Borel clarification.
+	Abstract application
+	Binds LCR-DER-057-v1.1 by version, byte count, and full SHA-256.
+	J1 repair.
+	Six-pin selector bullet
+	Repeats the exact Carrier A binding and identifies C_p as the full flow orbit containing the local branch.
+	J1 plus branch clarification.
+	Six-pin Palm bullet
+	Replaces the unconditional P02-LM-006 import with “whenever 0<Z_r^{exact}<infinity.”
+	B10 repair.
+	Six-pin conclusion
+	Makes the Palm quotient explicitly conditional and calls it well defined.
+	B10 repair.
+	Application theorem
+	Repeats the exact LCR-DER-057-v1.1 SHA-256 binding.
+	J1 repair.
+	Reopening conditions
+	Adds certificate-equivalence misuse and selector version/hash drift.
+	Fail-closed clarification.
+	Preservation finding: the priority-partition proof, one-orbit argument, selector-independence argument, path-space measurability proof, rational-time characterization of convergence, certificate inclusion, and abstract weighted-law calculation are textually unchanged. The successor contains no new probability estimate, capture claim, or asymptotic claim.
+3. Mathematical verification
+Check
+	Result
+	Reason
+	Borel selector
+	PASS
+	The disjoint priority partition B_j is Borel and exhaustive; continuity of b_j on U_j makes the piecewise selector Borel. Overlap compatibility is unnecessary.
+	Single flow orbit
+	PASS
+	On the connected one-dimensional invariant branch C_p, nonvanishing of the vector field makes every orbit open by the flow-box theorem. An orbit and the union of the remaining open orbits would separate C_p; hence C_p is one orbit.
+	Selector independence
+	PASS
+	Any two selected points differ by a finite time shift. Measurability of that shift is not needed for pointwise invariance of the forward-limit event.
+	Path-space map
+	PASS
+	For C([0,infinity),Y) with Y compact metric, rational evaluations generate the Borel sigma algebra. Every rational-time coordinate p↦Phi(p,q,b(p)) is Borel.
+	Convergence event
+	PASS
+	The displayed countable intersection/union over rational times is Borel and equals convergence to m by path continuity and closed distance bounds.
+	Certificate logic
+	PASS
+	Only E_cert⊂A is asserted. Certificate failure is not identified with A^c, and the successor adds this misuse to its reopening conditions.
+	Palm admissibility
+	PASS
+	The weighted law and quotient are asserted only under 0<Z<infinity. In the exact application the same condition is repeated; no unconditional normalizer theorem is imported.
+	Weight identity
+	PASS
+	The adjacency indicator remains in the numerator event, not in W. The base weighted law therefore does not condition on adjacency.
+	Local-selector dependency
+	PASS
+	Carrier A v1.1 constructs a continuous nonzero point on the locally oriented positive unstable branch. The successor binds its exact version and hash and does not treat it as proving capture or convergence.
+	4. Controlling theorem and essential proof chain
+Exact theorem statement from the frozen body: “Under A1–A5, a countable family of local continuous points on one declared connected one-dimensional flow branch globalizes to a Borel selected point. The forward-convergence event to m is Borel and independent of the local selector. Any Borel integrable weight with finite positive normalizer defines a weighted probability of that event by the exact Radon–Nikodym quotient.”
+* Priority-partition the countable Borel cover and define a piecewise Borel point b(p).
+* Use connectedness, one-dimensional invariance, and nonvanishing flow to identify the declared branch as one complete flow orbit.
+* Deduce pointwise selector independence from invariance of a forward limit under finite time translation.
+* Map p to its selected trajectory in continuous-path space; rational evaluations prove Borel measurability.
+* Express convergence to m by a countable rational-time formula and pull it back to obtain the Borel event A.
+* For Borel W with 0<∫W dμ<infinity, evaluate A under dP/dμ=W/Z; retain 1_A only in the event numerator.
+5. Scope firewall and disposition
+* This audit does not prove the local Lyapunov–Perron theorem independently of bound Carrier A.
+* It does not prove positivity or finiteness of Z_r^{exact}; it certifies that Carrier B is correctly conditional on that premise.
+* It does not prove deterministic capture, convergence of a particular branch, an adjacency lower bound, or an O(r^3) failure rate.
+* It does not grant organizationally distinct review credit, close LM013, alter the P0.2 terminal count, restore Theorem B, or authorize submission.
+* The parallel v1.1 object with Drive ID 1wck7YOWQiD--9Nm1rdxPjhYtLF-8HEQBOfTeCy5ZH3s is superseded and is not a review target.
+Current same-line disposition: the exact successor is mathematically ready for the narrow external conversion requested in LS-P01-REQ-002-v1.0. The accepted conversion wording, if an organizationally distinct reviewer independently agrees, is: “PASS CONVERSION — LCR-DER-061-v1.1 REPAIRS CL-AUD-274 B10 AND CL-AUD-275 J1.”
+6. Reviewer source map
+Controlling Carrier B v1.1: https://docs.google.com/document/d/164lkFwvYVMRNDDGAKu05LLBN5yRUmOMM3SlAr2jrNGU
+Carrier B predecessor v1.0: https://docs.google.com/document/d/1FlNO3RQZPAKEq-GCOCrhhcD52B59Lr1BHBViwN8_n9o
+Bound Carrier A v1.1: https://docs.google.com/document/d/1ooqFTdifp8cxHYhRxmzJ2Y-nqx-971lpMQ4criehXWM
+CL-AUD-274 predecessor review: https://docs.google.com/document/d/1BL2yNN319VXakGfWhhKkV8rh2JdTQcHe4KcFFWvz7Us
+CL-AUD-275 joint ledger: https://docs.google.com/document/d/1yjhc2z4nDmavLM5GGpAC6Ziephg9iIfrA3VrDxELyLQ
+Narrow conversion request: https://docs.google.com/document/d/1c_-wbmoEiwKl4lzpKQFCY5BpdKDP0iYCqPhfEUSFkdk
+Parent GP-DER-197-v1.0: https://docs.google.com/document/d/1hGQVFDZKHMcdG94_OIgVEwipTR6pvKCk_-llHyIq3uQ

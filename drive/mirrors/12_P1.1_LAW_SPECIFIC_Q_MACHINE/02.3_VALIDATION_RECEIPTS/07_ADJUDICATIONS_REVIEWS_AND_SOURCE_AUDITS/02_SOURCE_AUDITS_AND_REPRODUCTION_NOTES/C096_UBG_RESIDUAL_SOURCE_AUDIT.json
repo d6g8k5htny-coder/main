@@ -1,0 +1,53 @@
+{
+  "cycle": "C096",
+  "audit_id": "UB_G_RESIDUAL_UNIFORM_SOURCE_AUDIT",
+  "grade": "DERIVED-EXACT-IMPLICATION-AUDIT",
+  "inputs": {
+    "near": "0.657",
+    "exterior": "2.8185310984873743106223995278378565957688812716057680797457",
+    "typing": "0.8",
+    "display": "4.35",
+    "gamma_absolute_ceiling": "1.108939019312136379459597534352117145641980176873064965893702126853638866722979505118611312e-40"
+  },
+  "arithmetic": {
+    "base_coefficient": "4.344413873109217888277999409797320744711101589507210099682125",
+    "margin_to_4p35": "0.00558612689078211172200059020267925528889841049278990031787500000000000000000000000000000013",
+    "r_where_gamma_equals_margin_times_r3": "0.0000000000002707690093883541437041039891222756067232764080067681042304164283779642167156826243612075574",
+    "r_where_gamma_equals_4p35_times_r3": "0.00000000000002943107571456216073444934273404352856393460706443589473091231222381352255971492702878101541"
+  },
+  "logical_adjudication": {
+    "source_bound": "D(r) <= C_base r^3 + exp(-92) + Collar(r)",
+    "limit_implied_without_new_gamma_theorem": "limsup_{r->0} D(r) <= exp(-92) + limsup Collar(r); exp(-92) does not vanish",
+    "q0_from_source_as_printed": false,
+    "reason": "No positive constant exp(-92) can be absorbed into C r^3 on the full punctured interval 0<r<=r0.",
+    "restricted_domain_note": "Ignoring collar and using the exact unrounded base margin, the absolute gamma ceiling fits inside 4.35 r^3 only for r >= 2.707690093883541437e-13."
+  },
+  "collar_reduction": {
+    "assumption": "lambda_2 <= C_nd * distance",
+    "one_collar_coefficient": "(16*pi/3) C_nd because integral_0^(2r) C_nd t * 2*pi*t dt",
+    "two_collar_coefficient": "(32*pi/3) C_nd",
+    "numeric_factors": {
+      "one_collar": "16.755160819145563938467431377490682049051570130001",
+      "two_collars": "33.510321638291127876934862754981364098103140260001"
+    },
+    "C_nd_budget_if_gamma_coefficient_zero": {
+      "one_collar": "0.00033339739027744995855399323056327462444554929370103",
+      "two_collars": "0.00016669869513872497927699661528163731222277464685051"
+    },
+    "status": "The source supplies O(r^3) structure but no explicit C_nd small enough for the 4.35 display."
+  },
+  "minimal_repair_theorem": {
+    "gamma_gain_variable": "Let G_r be the gain of the maximum reached by the second branch of the canonical saddle, under the typed pair-Palm law.",
+    "required_hypothesis": "sup_{0<r<=r0} sup_{u in [0,ell0]} p_{G_r}(u) <= M_Gamma",
+    "consequence": "P(Gamma)=P(0<G_r<ell) <= M_Gamma*ell = (M_Gamma/6) r^3",
+    "complete_coefficient": "C_total = C_base + M_Gamma/6 + N_collar*(16*pi/3)*C_nd",
+    "qualitative_result": "Finite M_Gamma and C_nd imply D(r)=O(r^3) and q(r)->1.",
+    "numeric_4p35_gate": "M_Gamma/6 + N_collar*(16*pi/3)*C_nd <= 4.35-C_base"
+  },
+  "terminal_status": {
+    "structural_UB_G": "DERIVED",
+    "uniform_4p35": "BLOCKED",
+    "q0": "PROVEN-MODULO GAMMA-DENSITY and explicit COL backstop",
+    "absolute_e_minus_92": "station/rung-scale diagnostic ceiling, not a uniform r^3 coefficient on a punctured neighborhood of zero"
+  }
+}

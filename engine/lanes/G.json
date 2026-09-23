@@ -1,0 +1,58 @@
+{
+  "key": "G",
+  "title": "Theorem B — status retraction and repair program",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## G. Theorem B — status retraction and repair program",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [
+    "Q0-C104-THEOREM-B"
+  ],
+  "status": "RETRACTED_TO_CANDIDATE",
+  "status_source": {
+    "transcribed_from": [
+      "registers/json/automation_config.json row THEOREM_B_CURRENT_STATUS",
+      "registers/json/activity_log.json row GP-AUD-187-v1.0",
+      "claims/graph.json claims.Q0-C104-THEOREM-B.register_status"
+    ],
+    "quote": "CANDIDATE_UNCONDITIONAL_PROVEN_HERE_RETRACTED_EXACT_JACOBIAN_PROVED_CONDITIONAL_B0_PROVED",
+    "note": "The lane token RETRACTED_TO_CANDIDATE is the graph's transcription of the register word; it ranks with CONDITIONAL and below every unconditional grade."
+  },
+  "next_exact_action": "DQ-009 — direct exact candidate-process and multiplicity derivation (TB-G1); does not restore theorem status (registers/json/automation_config.json THEOREM_B_TBG1_DISPATCH).",
+  "falsifier": "TB_G7_CONTINUUM_FALSIFICATION — one of the seven named gates (automation_config THEOREM_B_OPEN_GATES, GP-AUD-187 §8): a continuum falsification of the candidate law settles the candidate negatively.",
+  "inputs": [
+    "CR-C104-COUPLED-PERSISTENCE"
+  ],
+  "inputs_note": "Bound 2026-09-19 from engine/carriers/MANIFEST.json: CR-C104-COUPLED-PERSISTENCE (C104_COUPLED_PERSISTENCE.py, Drive 18ScMI7l_ltN_DVuUfW1zJ32IabUJFNJk) is a manifest record whose blob is NOT stored — an identity binding, not bytes. The READ_FIRST (1GCxx8Th9C5J8SrddCjwNa30O2LuYiwEB4pEYLxXK5pg) is a native Doc with no payload digest and is held as a reading copy under drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/THEOREM_B …/. Binding an input records which object exists and where; it is not review, not replay and not endorsement, and it changes no status. Until 2026-09-19 this note said no Theorem B carrier was bound and the READ_FIRST was not mirrored.",
+  "not_a_substitute": [
+    {
+      "quote": "Canonical Theorem B remains RETRACTED / NOT RESTORED / NOT PROMOTED. Package remains UNSEALED.",
+      "source": "Theorem B READ_FIRST banner, Drive 1GCxx8Th9C5J8SrddCjwNa30O2LuYiwEB4pEYLxXK5pg"
+    },
+    {
+      "quote": "Canonical impact: NONE BY ITSELF",
+      "source": "LS-CLS-077-v1.0 (d = 3, L = 24; 3D track; never composed with 2D)"
+    }
+  ],
+  "repo_state": "none",
+  "repo_state_note": "No Theorem B computation exists in this repository, and `repo_state` is `none` for that reason. What does exist is the firewall that keeps the retraction honest: `tools/claims_check.py` refuses an unconditional grade on any claim carrying a retraction (`FW-RETRACTED-NOT-UNCONDITIONAL`), and `tests/test_claims.py` binds `Q0-C104-THEOREM-B`'s `register_status` to the register row verbatim, so the historical `LIVE_ROOT_THEOREM` label this repository carried until 2026-09-18 cannot come back by an edit that nothing reads. Until 2026-09-22 this note said only that no computation exists, naming neither. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "tools/claims_check.py",
+    "tests/test_claims.py"
+  ],
+  "does_not_establish": "This lane does not restore, promote, re-review or kill Theorem B, closes none of TB-G1..G7, does not compose the d = 3 side-24 coefficient with any 2D object, and admits no numerical C*.",
+  "register_next_decisive_action": "Prove exhaustive failure-event coverage, exact weighted/height-integrated bounds, eta-preserving conversions, all-small-r and spatial regime control.",
+  "firewalls": [
+    {
+      "quote": "Target: same-law `1 − q(r, 6/5) ≤ C r³` for all sufficiently small `r`, with **no** combination with the 3D upper.",
+      "source": "docs/OPEN_PROBLEMS.md §B"
+    },
+    {
+      "id": "FW-2D-3D-COMPOSITION",
+      "source": "claims/graph.json firewalls",
+      "rule": "No claim may depend, transitively, on objects from both the UPPER2D/LOWER2D tracks and the LIFETIME3D track."
+    }
+  ]
+}

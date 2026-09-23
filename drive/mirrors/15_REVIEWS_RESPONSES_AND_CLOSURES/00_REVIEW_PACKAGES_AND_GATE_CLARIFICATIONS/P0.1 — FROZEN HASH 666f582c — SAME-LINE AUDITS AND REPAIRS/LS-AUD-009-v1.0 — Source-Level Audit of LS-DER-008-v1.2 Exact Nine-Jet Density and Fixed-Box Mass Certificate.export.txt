@@ -1,0 +1,562 @@
+﻿LS-AUD-009-v1.0 — SOURCE-LEVEL AUDIT OF LS-DER-008-v1.2 EXACT NINE-JET DENSITY AND FIXED-BOX MASS CERTIFICATE
+
+
+Artifact ID: LS-AUD-009-v1.0
+Date: 2026-07-25
+Reviewer line: OpenAI GPT-5.6 Thinking, same organizational/model family
+Class: AUD / SOURCE REPLAY / SYMBOLIC GAUSSIAN / MATRIX PERTURBATION / DENSITY LOWER BOUND
+Authority: same-line technical audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+
+
+[[TARGET:P0.1]] [[OBJECT:LS-DER-008-v1.2]] [[SOURCE-ROUNDTRIP:PASS]] [[RESULT-ROUNDTRIP:PASS]] [[CHECKS:31/31]] [[CONTROLS:5/5]] [[VERDICT:PASS-WITH-CLARIFICATIONS-SAME-LINE]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+1. AUDIT TARGETS
+
+
+Primary theorem candidate:
+LS-DER-008-v1.2
+Drive ID: 1cHFXIQAozeYamADVtWTHp_WIqbNh_i3lrOBbZRBsRU0
+
+
+Base source capsule:
+LS-DATA-008-v1.1 source
+Drive ID: 1rILqd6l1U0n1XzbSiJsPW1M9-mStJa8zOlkM-mlaj3o
+Controlling payload: 11,297 bytes
+SHA-256: e869cd11f8828111aa7a34f86218acc4c0fa90609938f4d4b88d81bc95e07aef
+
+
+V1.2 source patch:
+Drive ID: 1-6nI3HInYkvM2skLC9dLJB0ZYj50Co8tPvZYl3H9zxY
+Controlling patch: 2,477 UTF-8 bytes
+SHA-256: 2793c90401117ddf86d1faa2c39dfec1b61799669b6a991af3851b40a2108672
+
+
+Reconstructed v1.2 source:
+Bytes: 11,566
+SHA-256: 6ebe667997f9d06c45ec3624cd933b692f520f5a633f28123e4e24a6fd9ea0e6
+
+
+V1.2 result:
+Drive ID: 1pgvLuMg3Em8ePP-TCg_na7OJXepEhEc5Fzq_-Jk8x5w
+Bytes: 6,183
+SHA-256: cae816577340053ed6b3d3ecb7bc5bd807d4f4e18e331990f1ae54c88ebba3a8
+
+
+Bound exact-law implementation:
+CL-DATA-052 raw source
+Drive ID: 1sVBYiNO3BxPQIto3Lwf38imBOnqpF2_S
+Bytes: 21,090
+SHA-256: 9ff702e46cc06f508c8003d714fb995451470d42acf3140813710811df14e439
+
+
+2. BYTE AND EXECUTION REPLAY
+
+
+The marker-delimited v1.1 Drive source was extracted using the controlling LAST-marker rule. The marker-delimited v1.2 patch was independently exported and applied using a standard unified-patch utility.
+
+
+Observed identities:
+
+
+    reconstructed source bytes=11,566,
+    reconstructed source SHA=6ebe6679...a0e6.
+
+
+The source was executed against the exact CL-DATA-052 raw file. It returned
+
+
+    PASS_SAME_LINE_CANDIDATE,
+    checks 31/31,
+    controls 5/5.
+
+
+The emitted JSON was
+
+
+    6,183 bytes,
+    SHA-256 cae81657...a3a8,
+
+
+and was byte-for-byte identical to the marker-delimited Drive result payload.
+
+
+The patch document originally labeled 2,473 as bytes. That value is the Unicode-character count. The UTF-8 payload is 2,477 bytes because the two filenames contain a multibyte en dash. The SHA was correct. The document now carries an authoritative byte-count correction.
+
+
+Disposition:
+
+
+    SOURCE ROUND-TRIP: PASS.
+    PATCH APPLICATION: PASS.
+    EXECUTION REPLAY: PASS.
+    RESULT ROUND-TRIP: PASS.
+
+
+3. OBJECT IDENTITY
+
+
+The bound source and theorem use the same object:
+
+
+- normalized periodized Bargmann–Fock field on side-24 torus;
+- level b=6/5;
+- ordered endpoints M=(-r/2,0), S=(r/2,0);
+- six values/gradients (b,0,0,b-r^3/6,0,0);
+- midpoint jet ordering (q,a,w,z,c40,c31,c22,c13,c04);
+- physical midpoint derivatives, not scaled s=q/r coordinates;
+- exact six-pin conditioned field law Q_{6,r};
+- no determinant/Palm reweighting inside the density certificate.
+
+
+The fixed box is exactly the frozen P0.1 box. Its widths are
+
+
+    1/25,
+    1/5000,
+    1/500,
+    six copies of 1/50,
+
+
+with exact volume
+
+
+    1/976562500000000000.
+
+
+No object, coordinate, type, branch, or weight substitution was found.
+
+
+4. INDEPENDENT RE-DERIVATION OF THE TRANSFORMED MATRICES
+
+
+Starting from
+
+
+    Cov(partial^a f(p),partial^b f(q))
+      =(-1)^|b| partial^(a+b)K(p-q),
+
+
+and the divided-difference frame
+
+
+    (V_+,V_c,Gx_+,Gx_-,Gy_+,Gy_-),
+
+
+the audit independently rederived the sparse exact planar formulas stated in the proof.
+
+
+The limiting transformed pin matrix is
+
+
+    P_0=
+      [[1,0,0,-1,0,0],
+       [0,5/48,1/4,0,0,0],
+       [0,1/4,1,0,0,0],
+       [-1,0,0,3,0,0],
+       [0,0,0,0,1,0],
+       [0,0,0,0,0,1]].
+
+
+The exact r^2 coefficient tables give maximum leading magnitudes
+
+
+    pin matrix: 5/4,
+    jet–pin matrix: 35/8.
+
+
+Therefore the chosen coarse envelopes
+
+
+    max entry |P_r-P_0|<=2r^2,
+    max entry |J_r-J_0|<=5r^2
+
+
+are correctly oriented and have positive slack.
+
+
+The most cancellation-sensitive entry is P_11. The proof's Taylor identity was checked:
+
+
+    2x+4-(4+6x+4x^2)E_4(x)-(5/3)x^3
+      =-x^4(2x^2-5x+14)/12.
+
+
+For 0<=x<=1, the polynomial part is below (14/12)x^4 and the alternating exponential remainder contributes below (14/120)x^5. Division by 16x^3 gives a bound below 0.081x, which is far smaller than 2r^2=4x.
+
+
+No hidden singularity remains after the stated removable extensions.
+
+
+5. TORUS IMAGE ENVELOPE
+
+
+The audit directly attacked the 10^-90 entrywise exact-torus correction.
+
+
+For |t|<=1/18000 and a nonzero first shell,
+
+
+    |t+24n|>23.9999.
+
+
+All transformed pin and jet–pin entries can be expressed through Gaussian derivatives of order at most twelve after the finite-difference mean-value reductions. A recurrence induction gives a deliberately coarse first-shell polynomial bound below 40^12.
+
+
+The exact rational gates
+
+
+    e>8/3,
+    (8/3)^287>10^120,
+    40^12<10^20
+
+
+imply a first-shell derivative contribution below 10^-100.
+
+
+For farther shells, the ratio to the first shell is dominated by a polynomial factor times exp(-864) already at |n|=2 and decreases thereafter. The proof's aggregate factor 10^10 is vastly larger than the sum of:
+
+
+- both signs;
+- all farther one-dimensional shells;
+- the second coordinate factor;
+- local derivative values at zero;
+- kernel normalization;
+- divided-difference mean-value constants through order three.
+
+
+Thus 10^-90 is conservative. The same image argument applies to:
+
+
+- transformed pin covariance P_L;
+- jet–pin covariance J_L;
+- unconditional target covariance S_L.
+
+
+V1.1 omitted the last item from its executable total. V1.2 explicitly adds
+
+
+    delta_S<=9x10^-90
+
+
+at the 9x9 operator-norm level. This repair is correct and nonbinding.
+
+
+6. MATRIX INVERSE AND MEAN PERTURBATION
+
+
+Exact leading principal minors establish
+
+
+    P_0>(1/26)I.
+
+
+With
+
+
+    delta_P<1/25000000,
+
+
+one has
+
+
+    26 delta_P<1/27.
+
+
+The resolvent bounds
+
+
+    ||P_r^-1||<27,
+
+
+    ||P_r^-1-P_0^-1||<3/100000
+
+
+follow from the standard inverse perturbation identity
+
+
+    P_r^-1-P_0^-1
+      =-P_0^-1(P_r-P_0)P_r^-1.
+
+
+The audit independently verified
+
+
+    ||J_0||_F^2=4689/16<18^2,
+
+
+    ||y_0||^2=1321/900<(61/50)^2,
+
+
+    ||y_r-y_0||=r^3/12.
+
+
+The three-term telescoping bound for
+
+
+    m_r=J_rP_r^-1y_r
+
+
+returns
+
+
+    ||m_r-m_0||
+      <1299274843/1944000000000
+      =0.0006683512566872428...,
+
+
+which is below 10^-3.
+
+
+No missing term or reversed inverse inequality was found.
+
+
+7. COVARIANCE PERTURBATION
+
+
+Write
+
+
+    Sigma_r=S_r-J_rP_r^-1J_r^T.
+
+
+The audit checked the exact telescoping decomposition
+
+
+    J_rP_r^-1J_r^T-J_0P_0^-1J_0^T
+
+
+    =(J_r-J_0)P_r^-1J_r^T
+      +J_0(P_r^-1-P_0^-1)J_r^T
+      +J_0P_0^-1(J_r-J_0)^T.
+
+
+The finite-dimensional part is bounded by
+
+
+    83061/8000000
+      =0.010382625.
+
+
+V1.2 adds the previously omitted exact-torus target term:
+
+
+    ||S_r-S_0||<=9x10^-90.
+
+
+Hence the correct total is
+
+
+    ||Sigma_r-Sigma_0||
+      <=83061/8000000+9x10^-90
+      <0.011.
+
+
+The proof and v1.2 executable now agree.
+
+
+8. LIMITING COVARIANCE FENCES
+
+
+The exact limiting covariance matrix and characteristic polynomial were reconstructed. Exact Sylvester minors verify
+
+
+    Sigma_0>(433/1000)I,
+
+
+    Sigma_0<(199/2)I.
+
+
+Adding the v1.2 total perturbation gives
+
+
+    lambda_min(Sigma_r)>0.422617375-9x10^-90>0.42,
+
+
+    lambda_max(Sigma_r)<99.510382625+9x10^-90<100.
+
+
+The exact-torus correction is far below the displayed decimal resolution and does not change either fence.
+
+
+9. DENSITY AND BOX-MASS DIRECTIONS
+
+
+The audit checked all inequality directions:
+
+
+- an upper covariance eigenvalue gives an upper determinant and therefore a lower determinant prefactor;
+- a lower covariance eigenvalue gives an upper inverse quadratic form and therefore a lower exponential factor;
+- a uniform density lower bound multiplied by box volume gives a probability lower bound.
+
+
+The maximum box-to-limiting-mean squared distance is exactly
+
+
+    339162597/12500000.
+
+
+Using the exact mean perturbation and sqrt bound gives
+
+
+    sup_{B_q}||u-m_r||^2
+      <678587719/25000000
+      <28.
+
+
+The rational proof of the exponential estimate is now executable:
+
+
+    e<65/24+1/96=261/96<11/4,
+
+
+    (11/4)^34<10^15,
+
+
+so
+
+
+    exp(-34)>10^-15.
+
+
+Together with
+
+
+    (2pi)^(-9/2)>1/20000,
+
+
+    (det Sigma_r)^(-1/2)>10^-9,
+
+
+one obtains
+
+
+    inf_{B_q}phi_r>5x10^-29.
+
+
+Multiplication by the exact box volume gives
+
+
+    Q_{6,r}(B_q)>5.12x10^-47>10^-48.
+
+
+The constant p_B=10^-48 is therefore conservative.
+
+
+10. ENDPOINT AND PRECISION REPLAY
+
+
+At r=r_D, the bound CL source produced
+
+
+    max mean deviation 9.0505363...x10^-10,
+
+
+    max covariance-entry deviation 3.6203803...x10^-8,
+
+
+    lambda_min 0.4332852749267097...,
+
+
+    lambda_max 99.0949841808895273....
+
+
+The 250-versus-320-digit difference was approximately
+
+
+    1.0577441x10^-231.
+
+
+The endpoint is not used to prove uniformity. It strongly corroborates that the analytic budgets are conservative.
+
+
+11. CONTROL AUDIT
+
+
+All controls are executable and correctly targeted:
+
+
+NC1 rejects a pin-entry constant below the exact 5/4 leading coefficient.
+
+
+NC2 rejects a jet–pin constant below the exact 35/8 leading coefficient.
+
+
+NC3 rejects the false lower covariance fence 0.434.
+
+
+NC4 rejects the underbudgeted covariance perturbation 0.005.
+
+
+NC5 rejects a zero-width fixed box.
+
+
+Controls: 5/5 PASS.
+
+
+12. CLARIFICATIONS REQUIRED FOR EXTERNAL REVIEW
+
+
+C1. The exact-torus derivative-order ceiling twelve and the aggregate 10^10 shell factor should be independently rederived rather than accepted from this audit.
+
+
+C2. The P_11 Taylor/remainder calculation should be checked directly against the marker-delimited source, not only the prose.
+
+
+C3. The bound CL-DATA-052 source is organizationally distinct, but the v1.2 interval proof and this audit are OpenAI same-line. The package therefore has zero new independence credit.
+
+
+C4. P02-LM-005 remains the closed qualitative theorem. LS-DER-008-v1.2 is a stronger numerical companion and requires its own review; it must not silently inherit the terminal label.
+
+
+13. VERDICT
+
+
+PASS WITH CLARIFICATIONS — SAME-LINE CANDIDATE.
+
+
+The v1.2 source/result/proof package is internally reproducible, the quantitative inequalities are correctly directed, and the v1.1 target-covariance omission is repaired.
+
+
+Accepted same-line candidate outputs:
+
+
+    r_GR=r_D,
+
+
+    p_B=10^-48,
+
+
+    ||m_r-m_0||<10^-3,
+
+
+    ||Sigma_r-Sigma_0||<0.011,
+
+
+    0.42<lambda_min(Sigma_r),
+
+
+    lambda_max(Sigma_r)<100.
+
+
+Organizationally distinct review remains mandatory before theorem-level use or promotion.
+
+
+14. NON-EFFECT
+
+
+This audit does not:
+
+
+- approve the frozen P0.1 theorem;
+- close the shared exact normalizer;
+- close repaired GT5;
+- satisfy Family A or Family B;
+- provide a theorem promotion;
+- change P0.2 or Theorem B;
+- authorize machine changes, package sealing, release, deletion, or destructive action.
+
+
+END LS-AUD-009-v1.0

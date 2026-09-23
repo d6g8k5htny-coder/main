@@ -1,0 +1,106 @@
+{
+  "release_id": "Q0-C108-PORTFOLIO-CLOSE",
+  "bundle_filename": "Q0_C108_PORTFOLIO_CLOSE.zip",
+  "bundle_sha256": "eb17f042e7b9b250fc49c91f572969e3e7b348a3ea8f6a3cc6c61ae8480f15f7",
+  "fresh_extract_directory": "/mnt/data/q0_c108_immutable_qvn2hlmx",
+  "execution_copy_directory": "/mnt/data/q0_c108_execution_ck6kxhah",
+  "immutable_tree_sha256_before": "994cbbeb3f0b0af7d5d5ff3db87d111b3566217ab250916c4c5551af5207036e",
+  "immutable_tree_sha256_after_extracted_verification": "994cbbeb3f0b0af7d5d5ff3db87d111b3566217ab250916c4c5551af5207036e",
+  "immutable_tree_sha256_after_execution_copy_audit": "994cbbeb3f0b0af7d5d5ff3db87d111b3566217ab250916c4c5551af5207036e",
+  "immutable_tree_unchanged": true,
+  "extracted_verifier": {
+    "returncode": 0,
+    "elapsed_seconds": 8.464633464813232,
+    "stdout": "{\n  \"release_id\": \"Q0-C108-PORTFOLIO-CLOSE\",\n  \"mode\": \"extracted-directory\",\n  \"valid\": true,\n  \"issues\": [],\n  \"declared_files\": 25,\n  \"verified_files\": 25,\n  \"zip_entries_expected\": 26,\n  \"portfolio_root\": \"a5c9d8b4003e53f5cd34f1a08420aeb4abbcf632ef6dea6c62fae0783be0992c\",\n  \"bundle_sha256\": null\n}\n",
+    "stderr_tail": "Spreadsheet runtime warmup failed during python startup\nTraceback (most recent call last):\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py\", line 26, in warm_spreadsheet_runtime_on_startup\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 785, in warm_spreadsheet_runtime\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 720, in _warm_feature_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 704, in _warm_collaboration_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py\", line 30820, in hydrate_crdt_from_proto\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py\", line 749, in __call__\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py\", line 150, in call\nartifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.\n",
+    "result": {
+      "release_id": "Q0-C108-PORTFOLIO-CLOSE",
+      "mode": "extracted-directory",
+      "valid": true,
+      "issues": [],
+      "declared_files": 25,
+      "verified_files": 25,
+      "zip_entries_expected": 26,
+      "portfolio_root": "a5c9d8b4003e53f5cd34f1a08420aeb4abbcf632ef6dea6c62fae0783be0992c",
+      "bundle_sha256": null
+    }
+  },
+  "execution_copy_audit": {
+    "returncode": 0,
+    "elapsed_seconds": 8.667205095291138,
+    "stdout_tail": "{\n  \"release_id\": \"Q0-C108-PORTFOLIO-CLOSE\",\n  \"valid\": true,\n  \"issues\": [],\n  \"checks\": {\n    \"missing\": [],\n    \"json_failures\": [],\n    \"compile_failures\": [],\n    \"control_characters\": [],\n    \"absolute_output_paths\": [],\n    \"invariants\": {\n      \"five_projects\": true,\n      \"all_projects_terminal\": true,\n      \"project_unowned_zero\": true,\n      \"LE_count_25\": true,\n      \"LE_unique_25\": true,\n      \"prohibited_count_10\": true,\n      \"prohibited_all_closed\": true,\n      \"cross_graph_acyclic\": true,\n      \"cross_graph_no_core_invalidation\": true,\n      \"cross_graph_unowned_zero\": true,\n      \"state_release_closed\": true,\n      \"state_unowned_zero\": true,\n      \"contract_shell_valid\": true,\n      \"contract_unconditional_promotable\": true,\n      \"contract_conditions_empty\": true,\n      \"root_hash_exact\": true,\n      \"stored_contract_report_matches\": true,\n      \"inventory_unique\": true,\n      \"inventory_present\": true\n    },\n    \"parent_hashes\": {\n      \"Q0_C102_REFEREE_PACKAGE.zip\": {\n        \"expected\": \"4cc7aa1aa1188875a265a8e05f3081e07a430561c2af50f1c0683751a82692e1\",\n        \"actual\": \"4cc7aa1aa1188875a265a8e05f3081e07a430561c2af50f1c0683751a82692e1\",\n        \"matches\": true\n      },\n      \"Q0_C104_THEOREM_B_RELEASE.zip\": {\n        \"expected\": \"1d7da15e6215fde30ed1bfe7627867d9998109e8653c79b1a51277e36b624076\",\n        \"actual\": \"1d7da15e6215fde30ed1bfe7627867d9998109e8653c79b1a51277e36b624076\",\n        \"matches\": true\n      },\n      \"Q0_C105_IV_RELEASE.zip\": {\n        \"expected\": \"ec8f0ff2b9d828757af0e0c40e31381c8c58a382479464223ca3a180e801e05e\",\n        \"actual\": \"ec8f0ff2b9d828757af0e0c40e31381c8c58a382479464223ca3a180e801e05e\",\n        \"matches\": true\n      },\n      \"Q0_C106_SHARP_CLOSE.zip\": {\n        \"expected\": \"fc61fa751ed90c819fd7495c5d83f44f853b52b84eed479462bc39fbb2664a75\",\n        \"actual\": \"fc61fa751ed90c819fd7495c5d83f44f853b52b84eed479462bc39fbb2664a75\",\n        \"matches\": true\n      },\n      \"Q0_C107_LLM_CLOSE.zip\": {\n        \"expected\": \"bcf6ddfc592d6ee7b2f5a8b468f93edc71ca4da5a5e9b47fcd326306b654d56e\",\n        \"actual\": \"bcf6ddfc592d6ee7b2f5a8b468f93edc71ca4da5a5e9b47fcd326306b654d56e\",\n        \"matches\": true\n      }\n    },\n    \"contract_metadata\": {\n      \"contract_id\": \"Q0-C108-PORTFOLIO-CLOSE\",\n      \"terminal_state\": \"RELEASE-CLOSED\",\n      \"unowned_items\": 0,\n      \"C092_core_reopened\": false,\n      \"external_dependencies\": [\n        \"independent SARD-G specialist acceptance\",\n        \"real LLM endpoint, trace, latent/logit, token-accounting, and benchmark capabilities\"\n      ],\n      \"future_numerical_sharpening\": \"new freeze required\"\n    }\n  }\n}\n",
+    "stderr_tail": "Spreadsheet runtime warmup failed during python startup\nTraceback (most recent call last):\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py\", line 26, in warm_spreadsheet_runtime_on_startup\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 785, in warm_spreadsheet_runtime\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 720, in _warm_feature_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/spreadsheet_warmup.py\", line 704, in _warm_collaboration_flows\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/generated/interface/models.py\", line 30820, in hydrate_crdt_from_proto\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/remote.py\", line 749, in __call__\n  File \"/tmp/tmp.yTcnQsZYiA/artifact_tool_v2-2.8.4/artifact_tool/rpc/client.py\", line 150, in call\nartifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.\n",
+    "result": {
+      "release_id": "Q0-C108-PORTFOLIO-CLOSE",
+      "valid": true,
+      "issues": [],
+      "checks": {
+        "missing": [],
+        "json_failures": [],
+        "compile_failures": [],
+        "control_characters": [],
+        "absolute_output_paths": [],
+        "invariants": {
+          "five_projects": true,
+          "all_projects_terminal": true,
+          "project_unowned_zero": true,
+          "LE_count_25": true,
+          "LE_unique_25": true,
+          "prohibited_count_10": true,
+          "prohibited_all_closed": true,
+          "cross_graph_acyclic": true,
+          "cross_graph_no_core_invalidation": true,
+          "cross_graph_unowned_zero": true,
+          "state_release_closed": true,
+          "state_unowned_zero": true,
+          "contract_shell_valid": true,
+          "contract_unconditional_promotable": true,
+          "contract_conditions_empty": true,
+          "root_hash_exact": true,
+          "stored_contract_report_matches": true,
+          "inventory_unique": true,
+          "inventory_present": true
+        },
+        "parent_hashes": {
+          "Q0_C102_REFEREE_PACKAGE.zip": {
+            "expected": "4cc7aa1aa1188875a265a8e05f3081e07a430561c2af50f1c0683751a82692e1",
+            "actual": "4cc7aa1aa1188875a265a8e05f3081e07a430561c2af50f1c0683751a82692e1",
+            "matches": true
+          },
+          "Q0_C104_THEOREM_B_RELEASE.zip": {
+            "expected": "1d7da15e6215fde30ed1bfe7627867d9998109e8653c79b1a51277e36b624076",
+            "actual": "1d7da15e6215fde30ed1bfe7627867d9998109e8653c79b1a51277e36b624076",
+            "matches": true
+          },
+          "Q0_C105_IV_RELEASE.zip": {
+            "expected": "ec8f0ff2b9d828757af0e0c40e31381c8c58a382479464223ca3a180e801e05e",
+            "actual": "ec8f0ff2b9d828757af0e0c40e31381c8c58a382479464223ca3a180e801e05e",
+            "matches": true
+          },
+          "Q0_C106_SHARP_CLOSE.zip": {
+            "expected": "fc61fa751ed90c819fd7495c5d83f44f853b52b84eed479462bc39fbb2664a75",
+            "actual": "fc61fa751ed90c819fd7495c5d83f44f853b52b84eed479462bc39fbb2664a75",
+            "matches": true
+          },
+          "Q0_C107_LLM_CLOSE.zip": {
+            "expected": "bcf6ddfc592d6ee7b2f5a8b468f93edc71ca4da5a5e9b47fcd326306b654d56e",
+            "actual": "bcf6ddfc592d6ee7b2f5a8b468f93edc71ca4da5a5e9b47fcd326306b654d56e",
+            "matches": true
+          }
+        },
+        "contract_metadata": {
+          "contract_id": "Q0-C108-PORTFOLIO-CLOSE",
+          "terminal_state": "RELEASE-CLOSED",
+          "unowned_items": 0,
+          "C092_core_reopened": false,
+          "external_dependencies": [
+            "independent SARD-G specialist acceptance",
+            "real LLM endpoint, trace, latent/logit, token-accounting, and benchmark capabilities"
+          ],
+          "future_numerical_sharpening": "new freeze required"
+        }
+      }
+    }
+  },
+  "valid": true
+}

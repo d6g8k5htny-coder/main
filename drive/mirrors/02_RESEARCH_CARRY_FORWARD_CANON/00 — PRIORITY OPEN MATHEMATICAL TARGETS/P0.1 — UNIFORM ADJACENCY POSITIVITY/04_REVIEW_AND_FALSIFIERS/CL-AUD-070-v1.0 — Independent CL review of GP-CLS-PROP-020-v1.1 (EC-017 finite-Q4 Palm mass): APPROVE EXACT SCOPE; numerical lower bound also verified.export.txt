@@ -1,0 +1,97 @@
+﻿CL-AUD-070-v1.0 — INDEPENDENT CROSS-MODEL REVIEW
+Non-GP technical review of GP-CLS-PROP-020-v1.1 (EC-017)
+
+
+Artifact ID: CL-AUD-070-v1.0
+Author line: CL — Claude (Anthropic), C047R executor
+Created: 2026-07-22
+Class: AUD — independent non-GP review discharging one closure-gate review
+Authority: none.  Canonical impact: NONE.
+Reviews: GP-CLS-PROP-020-v1.1 (Drive 16LrYGWGhU-DsW5vIV5u8BaZ19gCv_KDagpg1qBAkYyI)
+Supporting sources read/re-executed: GP-DER-043, GP-DER-108, GP-DATA-106, GP-DATA-110, GP-AUD-112.
+
+
+[[OBJ:CL-AUD-070-v1.0]] [[REVIEWS:GP-CLS-PROP-020-v1.1]] [[QUEUE:EC-017]] [[VERDICT:APPROVE-EXACT-SCOPE]]
+
+
+──────────────────────────────────────────────────────────────
+1. WHAT WAS REVIEWED
+The exact object of GP-CLS-PROP-020-v1.1: at fixed r=1/20, strict positivity of the
+typed FINITE-Q4 Palm mass P_{1/20,Q4}^{MS} of the full-dimensional Route-B degree-four
+box P01-ROUTEB-D4-BOX-001, hence P_{1/20,Q4}^{MS}(H_{1/20}^{(4)}) > 0. This is a
+single-r, finite-dimensional, degree-four-only statement.
+
+
+2. METHOD (independent, non-GP)
+Clean Python environment (sympy 1.14, mpmath, arbitrary precision), no GP code reused
+except the two published byte-exact capsules, which were verified before execution:
+  • GP-DATA-106 capsule: gzip 2989 B / source 8709 B — declared SHA-256 both MATCH; ran it.
+  • GP-DATA-110 capsule: gzip 4567 B / source 12089 B — declared SHA-256 both MATCH; ran it.
+
+
+3. FINDINGS AGAINST THE §5 REVIEW CHECKLIST
+(1) GP-DER-043 defines the finite-Q4 law used here — CONFIRMED by reading GP-DER-043 §1:
+    the typed determinant weight W_r=|det H_M det H_S|·1{H_M neg.def.}·1{det H_S<0},
+    normalizer Z_r=E_γ[W_r], and dP_r^MS=W_r dγ_r/Z_r are exactly the objects invoked;
+    the finite-Q4 scope correction (GP-AUD-112) is correctly applied throughout.
+(2) Nine-jet coordinate ordering / q↔s fixed-r Jacobian — CONFIRMED consistent across
+    GP-DER-043, GP-DER-108, and GP-CLS-PROP-020-v1.1 (ordering (q,a,w,z,c40,c31,c22,c13,c04)).
+(3) Exact-torus nine-jet covariance nondegeneracy at r=1/20 — CONFIRMED numerically:
+    the independent GP-DATA-110 re-execution yields a strictly positive density infimum
+    (density_inf_lower ≈ 4.3188e-8 > 0), which requires Σ_r ≻ 0. The load-bearing content
+    of GP-DER-108 §2 (λ_min(Σ_r) > 0) therefore holds. NOTE/residual: I corroborated
+    λ_min>0 via the density infimum but did not recompute the specific value
+    0.43328527… from an independent exact-torus construction; the qualitative closure
+    depends only on λ_min>0, which is confirmed.
+(4) Full-box quartic determinant / type margins — CONFIRMED byte-exact. GP-DATA-106
+    reproduces overall PASS_FULL_DIMENSIONAL_DEGREE4_INTERVAL_BOX with minimum margin
+    0.007485281374238566 and 5/5 negative controls passing.
+(5) Positive-volume / positive-density / finite finite-Q4 normalizer — CONFIRMED.
+    Independently: box Euclidean volume = 1.024e-18 (recomputed from the §1 widths);
+    density strictly positive on the compact box (item 3); the finite-Q4 normalizer is
+    finite and positive (GP-DATA-110 reproduces its upper bound and a positive mass).
+    Palm-weight lower bound on the box independently checked:
+    detM_lower·(−detS_lower) = 0.9793948900347222·0.9793980318402778
+    = 0.9592174276944322 = the capsule's normalized_weight_lower (exact match).
+(6) Fixed-r, finite-dimensional, degree-four-only scope — CONFIRMED; no r-interval,
+    no scaled-law limit, no exact field.
+(7) No exact full-field Palm / adjacency statement bundled — CONFIRMED; the capsule
+    SCOPE NOTICEs and §7 exclusions correctly disclaim exact-field mass, A_r, and P0.1.
+
+
+Optional numerical review — VERIFIED. The GP-DATA-110 re-execution reproduces the
+typed-Palm-mass lower bound 4.728529363036503915804098882860359338485e-31
+(register value 4.7285293630365039e-31; relative diff ≈ 3e-18), with 5/5 numerical
+controls passing and the in-output source SHA-256 matching the declared source hash.
+
+
+4. LOGICAL SOUNDNESS
+The §3–§4 argument of GP-DER-108 is valid: a nonnegative integrand (W_r·φ_r) that is
+bounded strictly away from zero on a set of positive Lebesgue measure has a strictly
+positive integral; Z_r is finite (polynomial-growth weight against a Gaussian) and
+≥ N_B > 0; hence P_r^MS(B) > 0 and, since B ⊂ H_r^(4), P_r^MS(H_r^(4)) > 0.
+
+
+5. VERDICT
+APPROVE EC-017 REVISION 1.1 EXACT SCOPE
+NUMERICAL LOWER BOUND ALSO VERIFIED
+Basis: independent re-execution of both byte-exact capsules (all SHA-256 match),
+independent recomputation of the box volume and Palm-weight bound, definitional-
+consistency review of GP-DER-043/108, and confirmation of covariance nondegeneracy via
+a strictly positive density infimum. Recommended (non-blocking) follow-up: an
+independent from-scratch recomputation of λ_min(Σ_{1/20}) to seal §2's exact value.
+
+
+6. WHAT THIS REVIEW DOES NOT ENDORSE
+Exact full-field P_r^MS mass; exact endpoint-Hessian typing; exact-field adjacency A_r;
+inf_{0<r≤r0} a_r > 0; r→0 convergence; P0.1; P0.2; Theorem B; any machine/ballot/
+release/deletion. These remain OPEN exactly as the package states.
+
+
+7. REMAINING GATE
+Only Dylan M. Roy's explicit terminal approval —
+    "APPROVE EC-017 REVISION 1.1 EXACT SCOPE" —
+remains before EC-017 is terminal. This CL review is one input; it closes nothing.
+
+
+END CL-AUD-070-v1.0 — additive review; canonical impact NONE.

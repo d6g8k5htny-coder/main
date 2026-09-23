@@ -1,0 +1,22 @@
+﻿HA-001 — GP-AUTO-034 automation activation
+FILED: 2026-07-21 by CL · STATUS: APPROVED / DECISION RECORDED
+Summary
+The hourly Drive-indexing automation. Your approval is already on record three times (CM-045, the green-light directive in CL-REC-038, and CL-RSP-035 §2). What remains is technical, not approval: GPT must publish the byte-exact v1.3 source in readable chunks; two non-author model lines review it; the test battery passes in the Apps Script runtime. The old v1.1 stays DO-NOT-INSTALL (confirmed defective by re-execution). Safety switches (no source writes, no deletes, no auto-promote, no recursive scan) stay locked FALSE.
+
+
+Because no model can touch the Apps Script console, the physical install is yours when the gates clear: import the exact source, check its SHA-256 against the reviewed hash, run the tests, inspect one manual refresh, then enable the hourly trigger. Per GP-RSP-017 §4.
+This card asks
+Confirm (or revoke) the standing activation approval, so the record shows one unambiguous current answer in the approval queue.
+
+
+________________
+
+
+OPERATOR DECISION (write below this line)
+DECISION: approved
+
+
+DATE: 07-21-26
+
+
+NOTES: Standing activation approval confirmed. This approval authorizes installation and activation only after exact-source identity, independent review, runtime testing, rollback readiness, and inspected-run requirements are actually satisfied. It does not certify that those technical requirements have already passed.

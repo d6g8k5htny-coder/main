@@ -1,0 +1,373 @@
+﻿ARTIFACT ID:       GP-AUD-031-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20 17:55 CDT / 22:55 UTC
+CLASS:             AUD — independent re-execution and scope adjudication
+STATUS:            ROOT CAUSE CONFIRMED; EXACT-PAIRING EXPONENT UNREPRODUCED
+AUTHORITY:         none — non-authoritative unless Dylan M. Roy formally promotes it
+CANONICAL IMPACT:  NONE
+TARGET:             OQ-008 / P1.2 continuum short-bar diagnostic
+
+
+# Independent audit of the 4-connectivity root cause and exact-pairing claim
+
+
+## Sources consulted
+
+
+1. CL-ERR-025-v1.0 — 4-connectivity root-cause erratum and claimed exact-pairing exponent.
+   Drive ID: 1Y1MyF82Xxn3vi7KaAdiZEode-qc0xhmFljYmRmGJ3TQ
+2. GP-ERR-027-v1.0 — OQ-008 rebase after the connectivity correction.
+   Drive ID: 13WHX1LxtG2ViJAAwAQWzjWpyX40HJpu5bw4175oD_XA
+3. CL-DATA-019 — uploaded exact field generator/evaluator and 4-neighbor persistence pipeline.
+   Drive ID: 1_nnwDeVcL53PFQfeZkBTTkqm4qmd-lK5
+4. GP-AUD-013-v1.0 — independent audit of the earlier exact-lifetime reversal.
+   Drive ID: 1d1Ya3KJ1Vdh3w0FnafKNY-SWom9WE8EaDbfbieP-Yr4
+5. CL-DATA-019 instrumented failure record produced by independent re-execution in GP-AUD-013.
+6. OQ-008 folder contents inspected directly on 2026-07-20.
+
+
+## Executive disposition
+
+
+The central root-cause correction survives independent re-execution strongly:
+
+
+- The uploaded CL field generator reproduces the two displayed census examples exactly.
+- Across all twelve frozen fields, four-neighbor local-maximum counts are systematically inflated relative to eight-neighbor counts and Newton-refined continuum maxima.
+- The field-by-field excess four-neighbor maxima closely tracks the previously unexplained Newton type-check failures.
+
+
+Therefore all earlier CL numerical claims built from the four-neighbor pixel-persistence object must remain withdrawn or demoted as continuum H0 evidence.
+
+
+However, the claimed exact-critical-set separatrix pairing and flat range estimate near 0.57 are not independently reproducible from the shared Drive at this time. The governing script named CL-DATA-024 / ep2.py is absent from the folder. The available uploaded script CL-DATA-019 does not construct the complete critical set, integrate saddle separatrices, or perform exact elder-rule pairing.
+
+
+Admissible current status:
+
+
+- 4-neighbor contamination/root cause: CONFIRMED-BY-INDEPENDENT-REEXECUTION.
+- approximate magnitude “about 22%”: confirmed for the two displayed examples; all-twelve-field rate is 20.4% by the same census definition.
+- field-by-field explanation of earlier type failures: strongly supported, not a one-to-one proof.
+- exact critical-set completeness: plausible and supported by census agreement, not independently certified.
+- exact separatrix pairing: CANNOT-VERIFY until ep2.py and its execution receipt are uploaded.
+- a_hat approximately 0.57 and drift 0.007: CANNOT-VERIFY independently.
+- asymptotic 2/3 law: neither confirmed nor falsified.
+- Theorem B and canon: unchanged.
+
+
+## 1. Independent execution protocol
+
+
+The same twelve deterministic fields were regenerated from the uploaded CL-DATA-019 object using
+
+
+    seed_k = 20260720 + 8000 + k,
+    k = 0,...,11,
+    torus side = 24,
+    base spectral grid = 128,
+    evaluation grid = 512,
+    amplitude cutoff = 1e-13.
+
+
+For each field, three maxima censuses were computed:
+
+
+1. FOUR-NEIGHBOR PIXEL MAXIMUM:
+   a grid value strictly exceeds its four periodic axis neighbors.
+2. EIGHT-NEIGHBOR PIXEL MAXIMUM:
+   the same value also strictly exceeds all four periodic diagonal neighbors.
+3. NEWTON-REFINED MAXIMUM:
+   Newton refinement from every eight-neighbor candidate using the exact trigonometric field, followed by determinant-positive, trace-negative Hessian typing and periodic deduplication at 1e-6.
+
+
+This does not use CL-ERR-025's unavailable ep2.py and does not assume its reported counts.
+
+
+## 2. Exact reproduced census
+
+
+The full independently computed census is:
+
+
+    field   four-neighbor   eight-neighbor   Newton maxima
+      0          73               58              57
+      1          63               52              52
+      2          65               55              55
+      3          77               58              56
+      4          61               47              47
+      5          71               52              51
+      6          76               56              55
+      7          70               56              55
+      8          67               53              53
+      9          60               50              48
+     10          58               47              46
+     11          62               55              54
+
+
+Totals:
+
+
+    four-neighbor maxima = 803
+    eight-neighbor maxima = 639
+    Newton maxima = 629
+
+
+The two examples displayed in CL-ERR-025 reproduce exactly:
+
+
+    field 0: 73, 58, 57
+    field 4: 61, 47, 47.
+
+
+The two-example excess is
+
+
+    (29 / 134) = 21.64%,
+
+
+which supports the artifact's “about 22%” wording for those examples.
+
+
+Across all twelve fields, the corresponding excess is
+
+
+    (803-639)/803 = 20.42%.
+
+
+Thus “approximately one fifth” is the more representative twelve-field statement. This is a dataset-specific empirical fraction, not a universal constant of four-connectivity.
+
+
+## 3. Relation to the earlier type-check failures
+
+
+GP-AUD-013 independently reconstructed the CL-DATA-019 failure ledger:
+
+
+    saddle type failures = 109
+    maximum type failures = 63
+    total type failures   = 172
+    Newton nonconvergence = 7
+
+
+The independently measured four-minus-eight excess is 164. Field by field:
+
+
+    field   4-minus-8 excess   type failures
+      0            15               15
+      1            11               11
+      2            10               10
+      3            19               20
+      4            14               14
+      5            19               21
+      6            20               21
+      7            14               15
+      8            14               15
+      9            10               13
+     10            11               12
+     11             7                5
+
+
+The Pearson correlation is approximately 0.971.
+
+
+This is strong independent evidence that the previously unexplained type failures are primarily generated by the four-neighbor object set: ridge samples used as pixel birth/merge seeds commonly refine to a true critical point of an incompatible type.
+
+
+Scope limit: the totals are not identical, and this aggregate correlation does not produce a bijection from each spurious maximum to each failed reconstructed pair. The supported wording is “the connectivity defect explains the dominant failure pattern,” not “every failure has been individually identified with a specific spurious maximum.”
+
+
+## 4. What the census verifies mathematically
+
+
+A point can exceed its four axis neighbors while being below a diagonal neighbor. For a sampled smooth field, such a grid point can lie along a ridge without representing a local maximum of the underlying continuum field. The four-neighbor graph therefore realizes a different discrete topological object from either an eight-neighbor graph or a fixed triangulated piecewise-linear complex.
+
+
+Important convention correction:
+
+
+It is too broad to say that digital topology universally “requires eight-connectivity” for the superlevel foreground. Valid digital-topology constructions use a declared complementary foreground/background convention; a Freudenthal triangulation produces a six-neighbor one-skeleton; an axis-edge cubical graph produces four neighbors; an eight-neighbor graph is another declared object.
+
+
+The verified failure is object mismatch, not the abstract illegitimacy of four-connectivity:
+
+
+- the prior CL calculations interpreted the four-edge graph's births as continuum smooth-field maxima;
+- the independent census shows that interpretation is false for about one fifth of the births in these fields;
+- internal identities such as bars = graph-maxima minus one can still hold perfectly for the wrong graph object.
+
+
+This distinction preserves GP-ERR-027's correct observation that C104's six-neighbor Freudenthal object is not invalidated automatically by the present correction.
+
+
+## 5. Strength and limit of eight-neighbor/Newton agreement
+
+
+Across the twelve fields, eight-neighbor maxima total 639 and Newton-refined maxima total 629, a difference of ten maxima, or about 0.83 per field. For fields 1, 2, 4, and 8 the counts agree exactly; the maximum discrepancy is two.
+
+
+This is strong evidence that eight-neighbor maxima form a useful seed census for continuum maxima at n=512. It is not a proof that the complete continuum critical set has been found:
+
+
+- the Newton census here starts only from eight-neighbor pixel maxima;
+- it does not search independently for maxima whose basin contains no eight-neighbor grid maximum;
+- it does not certify all saddles or minima;
+- it does not verify Euler balance;
+- it does not perform seed-density convergence;
+- and it does not establish the correctness of the separatrix graph.
+
+
+The stronger completeness claim in CL-ERR-025 requires the missing dense-seed implementation and its full critical-point receipt.
+
+
+## 6. Exact pairing and exponent remain blocked
+
+
+CL-ERR-025 names
+
+
+    CL-DATA-024 (ep2.py, this folder)
+
+
+as the execution artifact for the exact critical set, separatrix ascent, elder-rule pairing, V1/V2/V3 gates, and the a_hat approximately 0.57 result.
+
+
+Direct folder inspection found no CL-DATA-024 or ep2.py. The current folder contains CL-DATA-017 and CL-DATA-019, but neither implements the claimed exact pairing pipeline.
+
+
+Therefore the following cannot presently be independently checked:
+
+
+- dense-seed critical-point completeness;
+- the stated Euler = 0 result for 6/6 fields;
+- bars = #maxima-1 for the exact separatrix pairing;
+- the endpoint-resolution percentages 89.7%, 85.4%, and the four passing fields;
+- the saddle-to-two-maxima separatrix assignment;
+- the exact elder-rule convention;
+- the per-field lifetime arrays;
+- the strict-subset selection rule;
+- the estimates 0.5757, 0.5687, 0.5749;
+- the stated drift 0.0070;
+- or the claim that 2/3 lies within roughly two standard deviations.
+
+
+The reported numbers may be correct. They are not Rule-1 verified until the named script, fixed seeds, output receipt, and per-field data are shared.
+
+
+## 7. Statistical issues that remain even after script upload
+
+
+The strict exponent result uses only four fields and 210 bars. Bars within a field are dependent; four independent clusters are too few for ordinary asymptotic cluster-robust inference to be reliable.
+
+
+Required reporting should include:
+
+
+1. per-field bar counts and per-field a_hat values;
+2. all-six-field estimates alongside the predeclared four-field strict subset;
+3. leave-one-field-out sensitivity;
+4. the exact field-selection gate applied without post-outcome changes;
+5. a finite-cluster randomization, wild-cluster bootstrap, or explicitly exploratory interval;
+6. minimum short-bar counts at every cutoff;
+7. no “approximately two sigma” statement without a frozen and inspectable uncertainty construction.
+
+
+The comparison to 2/3 is not meaningful as an asymptotic test if the fitting window is a bulk interval and the populated data do not extend into the near-diagonal regime.
+
+
+## 8. Required re-runnable package
+
+
+To promote the exact-pairing pipeline from reported to independently reproducible diagnostic status, upload:
+
+
+1. CL-DATA-024 / ep2.py exactly as executed.
+2. Dependency/version receipt.
+3. Frozen seeds and all numerical tolerances.
+4. Complete per-field critical-point tables:
+   position, value, Hessian eigenvalues/type, deduplication representative.
+5. Saddle branch endpoints, integration termination reason, and unresolved branches.
+6. Exact elder-rule pair table.
+7. V1/V2/V3 gate receipt by field.
+8. Per-field lifetime arrays and exponent calculations.
+9. A hash for the script and output package.
+10. A negative-control field with known Morse structure and pairing.
+
+
+## 9. Current adjudication
+
+
+CONFIRMED:
+
+
+- The earlier four-neighbor pixel object contains a large ridge-artifact population.
+- The two displayed census examples are exact.
+- Across twelve fields, the contamination fraction is 20.4% by four-minus-eight count.
+- The contamination pattern strongly explains the earlier type-check failures.
+- Prior four-neighbor pixel exponents are invalid as continuum-bar evidence.
+
+
+SUPPORTED BUT NOT CERTIFIED:
+
+
+- Eight-neighbor maxima are a much better continuum-maxima seed set at n=512.
+- The exact critical set is likely close to complete for maxima.
+
+
+CANNOT VERIFY:
+
+
+- complete critical set;
+- exact saddle separatrix pairing;
+- flat a_hat approximately 0.57;
+- drift 0.007;
+- two-sigma comparison to 2/3.
+
+
+CANONICAL DISPOSITION:
+
+
+- P1.2 remains OPEN.
+- Theorem B remains unchanged.
+- CL-DER-011 and four-neighbor descendants remain withdrawn/demoted.
+- C104 remains governed by its separate Freudenthal-object, matching, finite-window, and sample-size limitations.
+
+
+## 10. Falsification conditions for this audit
+
+
+This audit is superseded if:
+
+
+1. CL-DATA-024 is produced and independent execution contradicts the census or pairing findings.
+2. The independent census is shown to regenerate different fields or normalization.
+3. A declared continuum model proves the four-neighbor graph—not the smooth field or triangulated interpolation—is the intended theorem object.
+4. A complete critical-set certificate shows that the eight-neighbor-seeded Newton census materially misses maxima.
+
+
+## 11. Help exchange
+
+
+Requests:
+
+
+- CL: upload CL-DATA-024 / ep2.py, its exact output receipt, and per-field pair data.
+- AO48 or another analytic model: provide a statistically valid power calculation for distinguishing a=0.57 from a=2/3 using a field-clustered design at cutoffs with adequate genuine short-bar counts.
+- C047R successor: verify the exact connectivity/triangulation object used in every historical continuum diagnostic and machine-tag it.
+- Independent execution model: rerun the exact pairing package once uploaded and test seed-grid/dedup/integration sensitivity.
+
+
+OpenAI offers:
+
+
+- independent execution and profiling of ep2.py;
+- seed-density and deduplication sensitivity tests;
+- field-level bootstrap/power analysis;
+- audit of separatrix termination and elder-rule assignment;
+- and a machine-readable object-card proposal distinguishing four-neighbor graph, eight-neighbor graph, Freudenthal PL complex, and continuum Morse critical set.
+
+
+Cross-references: CL-ERR-025-v1.0; GP-ERR-027-v1.0; GP-AUD-013-v1.0; CL-DATA-019; GP-RSP-013 / CM-023; _RULES_OF_ENGAGEMENT Rules 1, 3, 4, and 7.
+
+
+END OF GP-AUD-031-v1.0

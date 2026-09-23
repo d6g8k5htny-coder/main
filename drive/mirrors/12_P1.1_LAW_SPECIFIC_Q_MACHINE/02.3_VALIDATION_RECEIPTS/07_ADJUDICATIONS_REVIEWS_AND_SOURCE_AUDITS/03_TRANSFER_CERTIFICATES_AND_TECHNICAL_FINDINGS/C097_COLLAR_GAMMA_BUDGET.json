@@ -1,0 +1,48 @@
+{
+  "cycle": "C097",
+  "result_id": "COLLAR_GAMMA_COEFFICIENT_BUDGET",
+  "grade": "DERIVED-EXACT",
+  "base_coefficient": "4.344413873109217888277999409797320744711101589507210099682125",
+  "proposed_display": "4.35",
+  "available_coefficient_margin": "0.005586126890782111722000590202679255288898410492789900317875",
+  "coefficient_formula": "C_total=C_base+M_Gamma/6+N_collar*(16*pi/3)*C_nd",
+  "equivalent_feasibility_inequality": {
+    "general": "M_Gamma+N_collar*32*pi*C_nd <= 6*(C_display-C_base)",
+    "one_collar": "M_Gamma+32*pi*C_nd <= 0.033516761344692670332003541216075531733390462956739401907250",
+    "two_collars": "M_Gamma+64*pi*C_nd <= 0.033516761344692670332003541216075531733390462956739401907250"
+  },
+  "axis_intercepts": {
+    "M_Gamma_max_if_C_nd_zero": "0.033516761344692670332003541216075531733390462956739401907250",
+    "C_nd_max_one_collar_if_M_Gamma_zero": "0.00033339739027744995855399323056327462444554929370102691608852975421514992721535275",
+    "C_nd_max_two_collars_if_M_Gamma_zero": "0.00016669869513872497927699661528163731222277464685051345804426487710757496360767638"
+  },
+  "allocation_table_two_collars": [
+    {
+      "gamma_fraction_of_margin": "0",
+      "M_Gamma_max": "0E-60",
+      "two_collar_C_nd_max": "0.00016669869513872497927699661528163731222277464685051345804426487710757496360767638"
+    },
+    {
+      "gamma_fraction_of_margin": "0.25",
+      "M_Gamma_max": "0.00837919033617316758300088530401888293334761573918485047681250",
+      "two_collar_C_nd_max": "0.00012502402135404373445774746146122798416708098513788509353319865783068122270575729"
+    },
+    {
+      "gamma_fraction_of_margin": "0.50",
+      "M_Gamma_max": "0.01675838067234633516600177060803776586669523147836970095362500",
+      "two_collar_C_nd_max": "0.000083349347569362489638498307640818656111387323425256729022132438553787481803838190"
+    },
+    {
+      "gamma_fraction_of_margin": "0.75",
+      "M_Gamma_max": "0.02513757100851950274900265591205664880004284721755455143043750",
+      "two_collar_C_nd_max": "0.000041674673784681244819249153820409328055693661712628364511066219276893740901919095"
+    },
+    {
+      "gamma_fraction_of_margin": "1",
+      "M_Gamma_max": "0.033516761344692670332003541216075531733390462956739401907250",
+      "two_collar_C_nd_max": "0E+18"
+    }
+  ],
+  "rounded_input_warning": "Using the displayed rounded base inputs (0.66+2.82)/0.80=4.35 leaves zero residual budget. Every positive Gamma or collar term then forces a coefficient strictly above 4.35.",
+  "decision_rule": "Do not optimize toward 4.35 before M_Gamma and C_nd are certified. First certify the residual coefficients; then round the complete assembly upward."
+}

@@ -1,0 +1,22 @@
+﻿C047R-VAL-005 — RAW PER-ARTIFACT VALIDATION LEDGER. Part 3/3 (END). (C047R/CL, 2026-07-22). Additive; canonical impact NONE.
+Completes all 91 records (5 real capsules, 35 not-capsules, 51 scripts). 13 further artifacts were deferred (see CL-NAV-101).
+
+
+[scri|no-hash|clean|ran=1] q0_llm_verifier .py
+    -> Exit 0, all 5 embedded asserts passed. Printed JSON: proof_graph_valid=true; root_merkle_hash_prefix=04d
+[scri|no-hash|clean|ran=0] q0_llm_verifier_v5.py
+    -> requires external input: sibling module q0_llm_verifier_v4 (which itself imports q0_llm_verifier_v3).
+[scri|no-hash|clean|ran=1] q0_verify.py
+    -> Materialized 957321 bytes / 7883 lines; py_compile OK; all 49 base64-embedded sources decode cleanly.
+[scri|no-hash|FLAG|ran=0] validate_gate_kernel_v2_0.py
+    -> requires external input: sibling module gate_kernel_v2_0.py (imported at load, line 29 gk=load_kernel())
+[scri|no-hash|clean|ran=0] validate_q0_llm_verifier_v2.py
+    -> requires external input: local module q0_llm_verifier_v2 (line 15: SupportEdge, widest_path_g...)
+[scri|no-hash|clean|ran=0] validate_q0_llm_verifier_v4.py
+    -> requires external input: sibling modules q0_llm_verifier_v3.py and q0_llm_verifier_v4.py
+[scri|no-hash|clean|ran=1] verify_q0_c093_release.py
+    -> Decoded to 2894 bytes; py_compile OK. Ran under the venv python; executed to completion and emitted its report.
+
+
+END C047R-VAL-005 — full per-artifact validation ledger complete. Additive; canonical impact NONE.
+Summary: 5 real capsules (3 sha-OK+ran, 2 corrupt); 35 candidate docs not byte-exact capsules; 51 scripts (31 ran, 20 need co-located inputs incl. 5 shell-out FLAG). The other big file (drive_manifest.csv) is in 04.4_MANIFEST_STAGING + CL-NAV-100.

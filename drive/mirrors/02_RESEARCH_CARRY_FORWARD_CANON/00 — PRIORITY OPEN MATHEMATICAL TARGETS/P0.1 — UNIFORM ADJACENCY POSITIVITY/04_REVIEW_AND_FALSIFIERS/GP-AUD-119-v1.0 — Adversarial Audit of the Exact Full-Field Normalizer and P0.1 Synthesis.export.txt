@@ -1,0 +1,325 @@
+﻿RECONCILIATION NOTICE — 2026-07-22
+
+
+This audit applies only to the synthesized alternate GP-DER-118-v1.1 line. It does not identify a defect in the concurrently populated governing GP-DER-118-v1.0, which explicitly constructs a continuous square-root coupling for its finite-dimensional Gaussian family before using almost-sure convergence and uniform integrability. Accordingly, GP-DER-118-v1.2 is an optional weak-convergence cross-check, not a required governing revision. The active theorem-review stack remains GP-DER-118-v1.0 + GP-DER-119-v1.0 + GP-AUD-120-v1.0 + GP-PRP-121-v1.0.
+
+
+GP-AUD-119-v1.0 — ADVERSARIAL AUDIT OF THE EXACT FULL-FIELD NORMALIZER AND P0.1 SYNTHESIS
+
+
+Artifact ID: GP-AUD-119-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: AUD / ERR — theorem-synthesis audit and numbered-revision trigger
+Authority: none
+Canonical impact: NONE
+Audits: GP-DER-118-v1.1
+Status: CORE ARGUMENT SURVIVES / NUMBERED REVISION REQUIRED BEFORE OUTSIDE REVIEW
+
+
+[[OBJ:GP-AUD-119-v1.0]] [[OBJ:GP-DER-118-v1.1]] [[TARGET:P0.1]] [[STATUS:MATERIAL-PRESENTATION-AMENDMENT]] [[REL:REQUIRES_NUMBERED_REVISION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+The GP-DER-118-v1.1 synthesis contains a coherent candidate route to P0.1:
+
+
+- a fixed-q positive-volume jet box with uniform degree-four capture;
+- a uniform exact six-pin fifth-derivative tail;
+- exact-field transfer on H5<=r^-1;
+- a new exact endpoint-Hessian divided-difference normalizer lemma;
+- an exact determinant-weight lower bound on the transferred event;
+- cancellation of the exact r^2 numerator and exact r^2 normalizer.
+
+
+The theorem candidate is not falsified by this audit.
+
+
+However, v1.1 contains one unnecessary and insufficiently supported convergence assertion in the exact normalizer section:
+
+
+“in every finite Lp and almost surely along a common continuous Gaussian realization after the standard coupling.”
+
+
+No common realization or almost-sure coupling is needed, and none is constructed. The subsequent phrase “dominated convergence” likewise presumes a common pointwise probability space. The correct route is finite-dimensional convergence in distribution plus uniform integrability, followed by convergence of expectations.
+
+
+A numbered v1.2 is required before outside review.
+
+
+2. CHECK A — OBJECT IDENTITY
+
+
+PASS.
+
+
+The synthesis consistently uses:
+
+
+- Q_{6,r}: exact full-field six-pin conditional law;
+- W_r^{exact}: exact endpoint-Hessian determinant/type weight;
+- Z_r^{exact}: exact full-field Palm normalizer;
+- A_r: exact selected-branch event;
+- J_r in B_q: exact midpoint finite-jet event;
+- H5 event under the exact six-pin field law.
+
+
+It does not reuse the finite-Q4 normalizer as the exact normalizer. GP-AUD-112's field-layer correction is respected.
+
+
+3. CHECK B — FIXED-q BASE MASS
+
+
+PASS modulo the existing GP-DER-044 review gate.
+
+
+GP-DER-044 gives joint continuity and uniform nondegeneracy of the exact nine-jet Gaussian family. Since B_q is fixed and compact,
+
+
+inf_{0<r<=r_GR} Q_{6,r}(J_r in B_q)>0.
+
+
+No fixed-s shrinkage or hidden r-Jacobian is present.
+
+
+4. CHECK C — HIGH-DERIVATIVE INTERSECTION
+
+
+PASS.
+
+
+GP-DER-046 gives a uniform exact six-pin tail. Choosing G_r={H5<=r^-1} gives
+
+
+Q(G_r^c)<=C exp(-c/r^2).
+
+
+The proof correctly uses
+
+
+Q(J in B_q and G_r)>=Q(J in B_q)-Q(G_r^c),
+
+
+so no false independence assumption is made.
+
+
+Mutation M1 — multiply marginal probabilities as though J and H5 were independent:
+
+
+FAIL. GP-DER-118 does not do this.
+
+
+5. CHECK D — UNIFORM EXACT-FIELD TRANSFER
+
+
+PASS AS A CANDIDATE DEPENDENCY / OUTSIDE REVIEW LOAD-BEARING.
+
+
+On G_r,
+
+
+||F_r-F_r^(4)||_{C1}<=C_D r.
+
+
+The fixed-q degree-four margins are uniform, with the binding margin independent of the unbounded negative s tail. Therefore a common delta_*>0 is plausible and sufficient.
+
+
+Required outside check:
+
+
+- every GP-DER-114 gate must be represented in the GP-DER-045 transfer ledger;
+- no transfer threshold may secretly deteriorate as s=q/r->-infinity;
+- exact branch orientation and exact sink convergence must be included.
+
+
+Mutation M2 — transfer only endpoint type and strip signs but not selected-branch capture:
+
+
+FAIL. The theorem needs the full branch/capture ledger.
+
+
+6. CHECK E — EXACT ENDPOINT DIVIDED DIFFERENCES
+
+
+PASS AS A NEW CANDIDATE LEMMA / REQUIRES EXPLICIT OUTSIDE RECONSTRUCTION.
+
+
+The asserted limits are consistent with the exact pin constraints and Taylor expansions:
+
+
+- f_xx(M)/r -> -1;
+- f_xx(S)/r -> +1;
+- f_xy(M)/r -> -a/2;
+- f_xy(S)/r -> +a/2;
+- f_yy(M),f_yy(S) -> Q_L.
+
+
+The conditional covariance removability follows by the same analytic-kernel divided-difference method used in GP-DER-044, but the endpoint-Hessian variables are a new object and should be reconstructed explicitly by a non-GP line.
+
+
+Mutation M3 — divide unconditioned endpoint Hessians by r and assume bounded variance:
+
+
+FAIL. Boundedness comes only after conditioning and confluent cancellation.
+
+
+7. CHECK F — NORMALIZER CONVERGENCE MODE
+
+
+AMENDMENT REQUIRED.
+
+
+The correct statement is:
+
+
+- the finite-dimensional vector of scaled endpoint Hessian variables converges in distribution to its confluent Gaussian limit;
+- the map to W_r^{exact}/r^2 converges in distribution at every limit point outside the type boundary Q_L=0;
+- the boundary has probability zero;
+- uniform polynomial moment bounds imply uniform integrability;
+- therefore
+
+
+E[W_r^{exact}/r^2] -> E[Q_L^2 1{Q_L<0}].
+
+
+This is an application of convergence in distribution plus uniform integrability, not ordinary dominated convergence unless a concrete common coupling is separately built.
+
+
+Mutation M4 — infer expectation convergence from weak convergence without uniform integrability:
+
+
+FAIL.
+
+
+Mutation M5 — assert almost-sure convergence under an unnamed “standard coupling”:
+
+
+UNSUPPORTED AND UNNECESSARY.
+
+
+8. CHECK G — TYPE INDICATORS
+
+
+PASS under the corrected convergence mode.
+
+
+For Q_L<0, the exact limiting axial/transverse signs imply maximum at M and saddle at S for sufficiently small r. For Q_L>0, the required combination fails. Q_L=0 is a null Gaussian boundary.
+
+
+The discontinuous type-indicator map is therefore continuous almost surely at the limiting law, which is enough for the extended continuous-mapping theorem.
+
+
+9. CHECK H — EXACT WEIGHT LOWER BOUND ON THE EVENT
+
+
+PASS AS A CONSERVATIVE CANDIDATE.
+
+
+The determinant perturbation identity is exact. On the fixed-q box, the finite-Q4 physical Hessian entries are uniformly bounded after the appropriate factorization, and the exact physical Hessian perturbation equals r times the scaled Jacobian perturbation.
+
+
+Thus the determinant factors differ by O(||DF-DF4||)+O(r||DF-DF4||^2)=O(r) on G_r. The finite-Q4 factors are uniformly near one, so a conservative exact factor lower bound of 1/2 is available for sufficiently small r.
+
+
+Required outside check: verify the exact physical/scaled Hessian relation and all signs.
+
+
+10. CHECK I — EXACT NORMALIZER UPPER BOUND
+
+
+PASS after the convergence-mode repair.
+
+
+Once
+
+
+Z_r^{exact}/r^2 -> z_{0,L}^{exact}>0,
+
+
+both upper and lower exact r^2 bounds follow on a sufficiently small interval.
+
+
+This is the decisive object missing from the earlier finite-Q4-only route.
+
+
+11. CHECK J — NUMERATOR/NORMALIZER CANCELLATION
+
+
+PASS.
+
+
+On E_r={J in B_q} intersect G_r:
+
+
+- E_r subset A_r;
+- Q(E_r)>=p_B/2;
+- W_r^{exact}>=r^2/4.
+
+
+Hence the exact numerator is at least r^2 p_B/8, and division by Z_r^{exact}<=C_Z r^2 yields a uniform positive constant.
+
+
+No numerical c_A is claimed.
+
+
+12. SCOPE
+
+
+If the corrected proof passes non-GP review, it establishes the exact P0.1 positivity statement only.
+
+
+It does not establish:
+
+
+- P0.2 or a_r->1;
+- a numerical c_A;
+- Theorem B;
+- elder-rule selection;
+- any machine, ballot, release, deletion, or destructive operation.
+
+
+13. REQUIRED REVISION
+
+
+GP-DER-118-v1.2 must:
+
+
+1. remove the common almost-sure coupling claim;
+2. replace dominated convergence by weak convergence plus uniform integrability;
+3. state the endpoint-Hessian family convergence as finite-dimensional Gaussian convergence in law;
+4. preserve the null-boundary type-indicator argument;
+5. retain the exact numerator/normalizer proof unchanged otherwise;
+6. add this audit to the dependency and falsifier ledger.
+
+
+14. REQUIRED OUTSIDE REVIEW AFTER REVISION
+
+
+AO48:
+- endpoint-Hessian weak convergence, uniform integrability, exact normalizer, and measure cancellation.
+
+
+CW/C047R:
+- confluent covariance reconstruction and physical/scaled determinant transfer.
+
+
+CL:
+- fixed-q base event, H5 intersection, and comparison with prior numerical corridor evidence.
+
+
+Accepted response must name Revision 1.2 exactly.
+
+
+15. CURRENT DISPOSITION
+
+
+GP-DER-118-v1.1: CORE ARGUMENT SURVIVES / SUPERSEDED FOR REVIEW AFTER v1.2.
+P0.1 CANDIDATE: NOT FALSIFIED.
+NUMBERED REVISION: REQUIRED.
+NON-GP REVIEW: NOT YET SATISFIED.
+PROMOTION: PROHIBITED.
+
+
+END GP-AUD-119-v1.0

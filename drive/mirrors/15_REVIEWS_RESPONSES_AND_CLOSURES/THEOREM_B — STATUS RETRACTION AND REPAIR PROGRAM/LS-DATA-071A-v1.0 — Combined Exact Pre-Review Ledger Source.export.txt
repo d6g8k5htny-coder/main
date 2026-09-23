@@ -1,0 +1,175 @@
+﻿LS-DATA-071A-v1.0 — COMBINED EXACT PRE-REVIEW LEDGER SOURCE
+
+
+Artifact ID: LS-DATA-071A-v1.0
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DATA / EXACT INTEGER-FRACTION LEDGER / PRE-REVIEW SUPPORT
+Authority: executable same-family support only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+BODY_BYTES: 3603
+BODY_SHA256: 077ea0dfa70bbacb3cf2487bb95a605487c1c55d56a1690af2f4f32bd8a7f0cf
+
+
+FREEZE POLICY
+
+
+Extract UTF-8 text strictly after the unique full line BEGIN_LSDATA071A_FROZEN_BODY and strictly before the unique full line END_LSDATA071A_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSDATA071A_FROZEN_BODY
+from fractions import Fraction
+
+
+# LS-DATA-071A-v1.0
+# Combined exact pre-review ledger for LS-DER-071 Gate A and the
+# degree-nine correction in Gate B. Pure integer/Fraction arithmetic.
+
+
+DIM = 3
+JET_CONTRACTION = 729
+ENTRY_UPPER = 16
+OP_UPPER = DIM * ENTRY_UPPER
+INV_UPPER = 2
+L1 = DIM * JET_CONTRACTION
+INV_D1 = INV_UPPER**2 * L1
+INV_D2 = 2 * INV_UPPER**3 * L1**2
+C = OP_UPPER
+
+
+SCHUR_D1 = (
+    JET_CONTRACTION
+    + 2 * L1 * INV_UPPER * C
+    + C**2 * INV_D1
+)
+SCHUR_D2 = (
+    2 * L1**2 * INV_UPPER
+    + 4 * L1 * INV_D1 * C
+    + C**2 * INV_D2
+)
+S1 = 30_000_000
+S2 = 200_000_000_000
+assert SCHUR_D1 < S1
+assert SCHUR_D2 < S2
+
+
+# f=(det Sigma_g det Sigma_h)^(-1/2).
+F0 = 8
+LOGF_D1 = 3 * INV_UPPER * L1
+LOGF_D2 = 3 * INV_UPPER**2 * L1**2
+F1 = F0 * LOGF_D1
+F2 = F0 * (LOGF_D1**2 + LOGF_D2)
+assert F1 < 200_000
+assert F2 < 3_000_000_000
+
+
+# g=(sigma^2)^(2/3), with the deliberately loose bounds inherited
+# from LS-DATA-064A.
+G0 = 1
+G1 = 100_000_000
+G2 = 50_000_000_000_000_000
+
+
+# Fixed-cone Gaussian determinant moment. The density differentiation
+# bounds are |l'| <= 3+2||q||^2 and
+# |(l')^2+l''| <= 15+20||q||^2+4||q||^4.
+M4, M6, M8 = 240, 6720, 241_920
+D0 = M4
+D1_GAMMA = 3*M4 + 2*M6
+D2_GAMMA = 15*M4 + 20*M6 + 4*M8
+assert D1_GAMMA < 20_000
+assert D2_GAMMA < 2_000_000
+
+
+DJ1 = D1_GAMMA * S1
+DJ2 = D2_GAMMA * S1**2 + D1_GAMMA * S2
+assert DJ1 < 1_000_000_000_000
+assert DJ2 < 3_000_000_000_000_000_000_000
+
+
+INTEGRAND_D1 = G1*F0*D0 + G0*F1*D0 + G0*F0*DJ1
+PHI_D1 = 13 * INTEGRAND_D1
+RELATIVE_D1 = 25 * PHI_D1
+assert RELATIVE_D1 < 10**16
+
+
+INTEGRAND_D2 = (
+    G2*F0*D0
+    + G0*F2*D0
+    + G0*F0*DJ2
+    + 2*G1*F1*D0
+    + 2*G1*F0*DJ1
+    + 2*G0*F1*DJ1
+)
+PHI_D2 = 13 * INTEGRAND_D2
+RELATIVE_D2 = 25 * PHI_D2
+assert PHI_D2 < 10**25
+assert RELATIVE_D2 < 10**42
+
+
+# Exact nearest-image and normalization remainder ledger.
+L = 24
+Q = Fraction(1, 10**125)  # e^(-288) < 10^(-125).
+M0 = 15
+H1_BOUND = 2 * L**6 + M0
+DELTA = 2 * Q * H1_BOUND
+
+
+TAIL_SCALAR = 4 * Q**4
+TAIL_MOMENT = 512 * L**6 * Q**4
+MOMENT_REMAINDER = (
+    4 * Q**2 * H1_BOUND
+    + TAIL_MOMENT
+    + TAIL_SCALAR * (M0 + DELTA)
+)
+TENSOR_REMAINDER = (
+    3 * M0 * DELTA**2
+    + DELTA**3
+    + 3 * MOMENT_REMAINDER
+      * (M0 + DELTA + MOMENT_REMAINDER)**2
+)
+INDUCED_LINEAR_ERROR = RELATIVE_D1 * TENSOR_REMAINDER
+
+
+assert Fraction(3, 2)**6 * Q**5 < Fraction(1, 2)
+assert DELTA < Fraction(1, 10**116)
+assert TAIL_MOMENT < Fraction(1, 10**480)
+assert MOMENT_REMAINDER < Fraction(1, 10**240)
+assert TENSOR_REMAINDER < Fraction(1, 10**230)
+assert INDUCED_LINEAR_ERROR < Fraction(1, 10**210)
+
+
+# Coefficient-map quadratic Taylor remainder.
+JET_RADIUS = Fraction(1, 10**113)
+QUADRATIC_ERROR = Fraction(1, 2) * 10**42 * JET_RADIUS**2
+assert QUADRATIC_ERROR == Fraction(5, 10**185)
+
+
+# Exact rotationally projected first-image polynomial.
+P3 = -Fraction(2, 21)*L**6 + Fraction(7, 5)*L**4 - 3*L**2
+assert P3 == -Fraction(620_813_376, 35)
+
+
+# Three 3x3 determinants form a degree-nine polynomial.
+assert 3 * 3 == 9
+
+
+EPS_MAJORANT = QUADRATIC_ERROR + INDUCED_LINEAR_ERROR
+assert EPS_MAJORANT < Fraction(1, 10**180)
+
+
+print("SCHUR_D1 =", SCHUR_D1)
+print("SCHUR_D2 =", SCHUR_D2)
+print("D1_GAMMA =", D1_GAMMA)
+print("D2_GAMMA =", D2_GAMMA)
+print("RELATIVE_D1 =", RELATIVE_D1)
+print("RELATIVE_D2 =", RELATIVE_D2)
+print("P3_24 =", P3)
+print("TENSOR_REMAINDER_SCI =", f"{float(TENSOR_REMAINDER):.18e}")
+print("INDUCED_LINEAR_ERROR_SCI =", f"{float(INDUCED_LINEAR_ERROR):.18e}")
+print("QUADRATIC_ERROR_SCI =", f"{float(QUADRATIC_ERROR):.18e}")
+print("EPS_MAJORANT_SCI =", f"{float(EPS_MAJORANT):.18e}")
+print("DETERMINANT_PRODUCT_DEGREE = 9")
+print("ALL_ASSERTIONS_PASS")
+END_LSDATA071A_FROZEN_BODY

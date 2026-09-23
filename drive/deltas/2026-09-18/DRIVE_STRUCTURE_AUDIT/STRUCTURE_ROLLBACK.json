@@ -1,0 +1,604 @@
+{
+  "schema": "guarded-drive-structure-rollback-v1",
+  "session_id": "STRUCTURE-20260918-C2087",
+  "status": "RECORDED_ONLY_NOT_EXECUTED",
+  "requirements": [
+    "Acquire a current scoped work claim before use.",
+    "Fetch each target immediately before applying its inverse; abort if any expected name, parent or permission differs.",
+    "Use metadata-only updates; never replace evidence bytes.",
+    "Keep newly created folders, indexes and historical records. No deletion is specified.",
+    "After reversing moves, recompute Folder Directory and Path Changes from actual metadata and append a new Work Events record. Do not blindly erase publication rows."
+  ],
+  "metadata_inverses": [
+    {
+      "expected_current": {
+        "id": "1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp",
+        "name": "90_HISTORICAL_TRIAGE_MIGRATION_INDEX_2026-07-22.md",
+        "parent_ids": [
+          "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1zCAlbdkQ0YwySc8RT9UL4huJuZc0T8Kp",
+        "name": "00_READ ME + MASTER INDEX — single triage inbox (CL, 2026-07-22).md"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1Is5uSVJxrl8gU1-YV1C-DfraUVqqCMOA",
+        "name": "07_JULY",
+        "parent_ids": [
+          "1lKAIS6uZLGcEHo_kUUI9y23LMG297LYX"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1Is5uSVJxrl8gU1-YV1C-DfraUVqqCMOA",
+        "name": "2026-07 — July",
+        "addParents": "15wSOaiQSxGc_pH6lvIA5IPEetxzvSjZX",
+        "removeParents": "1lKAIS6uZLGcEHo_kUUI9y23LMG297LYX"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1kvpIYUOyFK6SsELYlSGrWAoAIzmYVU5I",
+        "name": "07_JULY",
+        "parent_ids": [
+          "11AxOLCrz2d9xUohyO0OhCtQEAn2jcIHZ"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1kvpIYUOyFK6SsELYlSGrWAoAIzmYVU5I",
+        "name": "2026-07 — July",
+        "addParents": "1vAdsCIlyPnqULcHHE29ZYIgXSQpWRxdm",
+        "removeParents": "11AxOLCrz2d9xUohyO0OhCtQEAn2jcIHZ"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1plMzzxMjo5UWdTHuDPJLuSHUDbD0Ezzy",
+        "name": "07_JULY",
+        "parent_ids": [
+          "1L5wyT15TZFmhEgdcd_4I5xIB1iaWleI4"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1plMzzxMjo5UWdTHuDPJLuSHUDbD0Ezzy",
+        "name": "2026-07 — July",
+        "addParents": "1zHMePbR4BP1iGwBZnF1wVj7FFzeHAvAL",
+        "removeParents": "1L5wyT15TZFmhEgdcd_4I5xIB1iaWleI4"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "13SoArV9ABrIKvDX6eEpAFRQuvLVCBBxh",
+        "name": "07_JULY",
+        "parent_ids": [
+          "1ij72wg9hOirrJPVsA8jPWYEGYadI5Z9I"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "13SoArV9ABrIKvDX6eEpAFRQuvLVCBBxh",
+        "name": "2026-07",
+        "addParents": "1KFs0lDjHQIhK2SN4ky2hAsihQweFuOvD",
+        "removeParents": "1ij72wg9hOirrJPVsA8jPWYEGYadI5Z9I"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1cohBT2r5pMnlzQXWxkqWp89c8RezwYQ7",
+        "name": "07_JULY",
+        "parent_ids": [
+          "1ASSVTIYo9zhU_ZMoBDjmozN7GqgkDhPM"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1cohBT2r5pMnlzQXWxkqWp89c8RezwYQ7",
+        "name": "2026-07",
+        "addParents": "1HBrjw1py5NoaozbhTR0kRRs69NUUGeQD",
+        "removeParents": "1ASSVTIYo9zhU_ZMoBDjmozN7GqgkDhPM"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1YglECnb_eNAkGHj6a3OBTTqOmo1ibw_e",
+        "name": "07_JULY",
+        "parent_ids": [
+          "1pTxJfI6UtPVL7WJUf-mMKG5HTleY7t5a"
+        ],
+        "permissions": [
+          {
+            "type": "anyone",
+            "role": "reader",
+            "emailAddress": null,
+            "domain": null,
+            "displayName": null,
+            "allowFileDiscovery": false
+          },
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1YglECnb_eNAkGHj6a3OBTTqOmo1ibw_e",
+        "name": "2026-07",
+        "addParents": "1usdvL4Wb3O9LSPT78E0nWjxwOh4Ece_O",
+        "removeParents": "1pTxJfI6UtPVL7WJUf-mMKG5HTleY7t5a"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1F3r8PjNDCcAItFC-uc0Z5TMEspjGOSbx",
+        "name": "01_FROM_04_COORDINATION_AUTOMATION_SPINE",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1F3r8PjNDCcAItFC-uc0Z5TMEspjGOSbx",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1hak1nwyeRQzr9ECOvP8-188OufcPPv5O",
+        "name": "02_FROM_ACTIVE_RESEARCH_PACKAGES",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1hak1nwyeRQzr9ECOvP8-188OufcPPv5O",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1cMeGa2bQAu2r22iPy423_oUNpEETascH",
+        "name": "03_FROM_DRIVE_ROOT",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1cMeGa2bQAu2r22iPy423_oUNpEETascH",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1fX9VZFi6nOAHkObZWplC8GDUAPMvz2oB",
+        "name": "04_FROM_G0_GOVERNANCE_REGISTRY_REVIEW",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1fX9VZFi6nOAHkObZWplC8GDUAPMvz2oB",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "19E2iIP1PMTRBj5KmiDTMgSY_w3Uc-Cku",
+        "name": "05_FROM_THEOREM_TRACKS",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "19E2iIP1PMTRBj5KmiDTMgSY_w3Uc-Cku",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1BtwopTuhDI9ZI6WJjpJbHKumEWYY3d4-",
+        "name": "06_FROM_03_LEGACY_CODE_DATA_AND_CALIBRATION",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1BtwopTuhDI9ZI6WJjpJbHKumEWYY3d4-",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1mkzMCLPqmt_gYJTeM8lMrR7qUIlK-vqG",
+        "name": "07_FROM_04.3_CROSS_MODEL_LEDGERS",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1mkzMCLPqmt_gYJTeM8lMrR7qUIlK-vqG",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1jzungKcM3DLqHi-zFTA-mN2G7vAcFB59",
+        "name": "08_FROM_00.1_GOVERNANCE_CANON",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1jzungKcM3DLqHi-zFTA-mN2G7vAcFB59",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1BqDgJTPg_91f9EpPEkmyPGE5T6nFyI14",
+        "name": "09_FROM_00.2_CANONICAL_MASTER",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1BqDgJTPg_91f9EpPEkmyPGE5T6nFyI14",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1Vfwb-K1r6Ltwn7yifxlor-rMA-Bx_Uyy",
+        "name": "10_FROM_04_CONSTANTS_REGISTRIES_AND_TABLE_EXPORTS",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1Vfwb-K1r6Ltwn7yifxlor-rMA-Bx_Uyy",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "14wxBlxuRWa5WzQlGW2oPbqS9X8R9tArB",
+        "name": "11_FROM_00_AXIOMATIC_CORE_SPINE",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "14wxBlxuRWa5WzQlGW2oPbqS9X8R9tArB",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1ZmdA_alEQPRRwpz-CBxr75oePk-ZBkqr",
+        "name": "12_FROM_03_PERSONAL_AND_EARLIER_RESEARCH",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1ZmdA_alEQPRRwpz-CBxr75oePk-ZBkqr",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1Ljtt9qArIJ8FAnd02tfPbvfFrqq2RFvN",
+        "name": "13_FROM_02_LEGACY_MANUSCRIPTS_AND_PROOFS",
+        "parent_ids": [
+          "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1Ljtt9qArIJ8FAnd02tfPbvfFrqq2RFvN",
+        "addParents": "1VvBQrv1M0E51socyGY-fjzlypEkc9IPz",
+        "removeParents": "1R4KwLRc99CInmV2iWCiD3mvxE7byD4oR"
+      },
+      "reason": "Restore the recorded pre-maintenance metadata only."
+    },
+    {
+      "expected_current": {
+        "id": "1hO3MPQwtAiEjCGdOjZJTbB8fKIvt_3GU6KgxPGTPiLg",
+        "name": "START HERE — Drive Source Map and Folder Directory",
+        "parent_ids": [
+          "1j5vfg98shKLuNVEIUam9KD5TlfdW3kOH"
+        ],
+        "permissions": [
+          {
+            "type": "user",
+            "role": "owner",
+            "emailAddress": "th3realdyll@gmail.com",
+            "domain": null,
+            "displayName": "Dylan Roy",
+            "allowFileDiscovery": null
+          }
+        ]
+      },
+      "inverse_drive_update": {
+        "fileId": "1hO3MPQwtAiEjCGdOjZJTbB8fKIvt_3GU6KgxPGTPiLg",
+        "name": "START HERE — Drive Accessibility Source Map — 2026-09-17"
+      }
+    }
+  ],
+  "research_home_text_inverses": {
+    "document_id": "180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8",
+    "guard": "Use a freshly read requiredRevisionId; each current string must occur once. Retain native dates, links and paragraph styles.",
+    "replacements": [
+      {
+        "current": "Read Start Here A1:H28 and the needed task/events",
+        "restore": "Read Start Here A1:H24 and the needed task/events"
+      },
+      {
+        "current": "Use File Catalog for direct IDs and the source map linked in Start Here for reading copies, Folder Directory and Path Changes; each view states its snapshot coverage.",
+        "restore": "Use File Catalog for direct IDs; its coverage is a metadata snapshot."
+      }
+    ]
+  }
+}

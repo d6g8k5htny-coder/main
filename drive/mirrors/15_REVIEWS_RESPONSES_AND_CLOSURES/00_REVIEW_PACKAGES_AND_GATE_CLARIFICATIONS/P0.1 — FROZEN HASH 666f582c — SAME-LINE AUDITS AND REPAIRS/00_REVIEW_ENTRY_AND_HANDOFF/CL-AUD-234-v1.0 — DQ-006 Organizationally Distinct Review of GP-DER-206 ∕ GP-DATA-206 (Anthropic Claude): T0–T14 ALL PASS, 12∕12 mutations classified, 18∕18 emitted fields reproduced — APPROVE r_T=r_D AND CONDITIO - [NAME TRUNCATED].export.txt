@@ -1,0 +1,280 @@
+﻿CL-AUD-234-v1.0 — DQ-006 ORGANIZATIONALLY DISTINCT REVIEW OF GP-DER-206 / GP-DATA-206
+
+
+Artifact ID: CL-AUD-234-v1.0
+Date/time (UTC): 2026-07-25T22:05Z
+Reviewer: Anthropic Claude (CL lane), runtime model claude-fable-5. Organizationally distinct from OpenAI (GP / LS / LCR / S2 / RS2), xAI and Google. Same human operator (Dylan) across lanes; disclosed per OP-PROT-011.
+Class: AUD / ORGANIZATIONALLY DISTINCT EXACT-OBJECT REVIEW / P0.1 DOMAIN-T
+Authority: review only. Canonical mathematical impact: NONE. No promotion.
+Governing packet: GP-REQ-207-v1.0. Pre-registration: CL-REG-233-v1.0. Claim: CL-CLAIM-DQ006-v1.0 (DQ-006).
+Target: GP-DER-206-v1.0 (1vuzGBPeTHoGGFhjqMXpIhfRtY8IVmCmxaQ2yo84A2cg) / GP-DATA-206-v1.0.
+
+
+[[TARGET:P0.1-DOMAIN-T]] [[SOURCE-SHA:fa0fe850...e7cc0]] [[RESULT-SHA:f6bc0b68...ee17]] [[T0-T14:ALL-PASS]] [[MUTATIONS:12/12]] [[REVIEW:ORGANIZATIONALLY-DISTINCT]] [[NO-PROMOTION]]
+
+
+=====================================================================
+0. VERDICT (GP-REQ-207 section 6, verbatim form)
+=====================================================================
+
+
+APPROVE GP-DER-206 / GP-DATA-206 SOURCE SHA fa0fe850b8e4ac2ca6f9b6b7fcf9d81d354b3d6fceab06633c55fbd6836e7cc0 AND RESULT SHA f6bc0b68866ba069eacec349085e672f2718ac6047f242dc5a9523e08f2aee17 FOR r_T=r_D AND CONDITIONED TAIL <5e-49 ONLY
+
+
+No T-item failed, so no nonapproval clause is triggered. Two findings are recorded below as MANDATORY DISCLOSURE with a recommended (non-blocking) amendment at the next revision, and one dependency-health note is recorded against GP-DATA-204 without adjudicating that artifact.
+
+
+This approval is version-specific and scope-limited exactly as GP-REQ-207 sections 2 and 7 delimit. It does not approve GP-DER-204 / GP-DATA-204, the exact upper normalizer, exact-field capture, the Palm quotient, P0.1, P0.2, or any promotion.
+
+
+=====================================================================
+1. PROCESS AND FIREWALL RECORD
+=====================================================================
+
+
+Pre-registration CL-REG-233-v1.0 was published at 2026-07-25T21:02:54Z, before any target byte was read.
+
+
+PHASE 1 (pre-exposure). A complete certified reconstruction of the Domain-T chain was derived and executed from the model definition alone, before GP-DER-206, GP-DATA-206, GP-DER/DATA-204 or any alternate audit was opened. Frozen 2026-07-25T21:15:00Z:
+  dq006_phase1_verify.py   24,621 B  SHA-256 0cc92365d50813f25681bae0f03249e1c8f018f3e3a357f52e6d9eca3a462a66
+  dq006_phase1_results.json 10,342 B SHA-256 f1969c39578b2cd9d9d70c1b2aca22d9a284ade958526a83fb02f5bd74830ee4
+  dq006_phase1_notes.txt   13,716 B  SHA-256 77bc0f9ead098481c134d3a789efda9a49d72742e558ff4d8630bcea3afd0659
+
+
+PHASE 2 (exact-source replay and ledger). Frozen 2026-07-25T21:58:51Z:
+  dq006_phase2_replay.py   19,726 B  SHA-256 489a45382e528ca0cef32b42bf75b2237e4959f7a6f7bd749dca2db26a765d04
+  dq006_phase2_results.json 11,555 B SHA-256 32a77de45c496a7050ffe825fc53e1a7541d12149a9f9cf07da1642aa8c1ed1f
+  dq006_phase2_gram.py      6,926 B  SHA-256 ba7a2a93a99743d72a7eebd87d5150170da5a2152e0287be6a7dfefddefcef56
+  dq006_phase2_gram.json    1,299 B  SHA-256 46bf657895e28b8de6b4f55155bbe6af197e3dd9be4084e4c43fc30614a350ad
+  dq006_phase2_frames.py    7,157 B  SHA-256 3c029bc2a1c105cc736e847f9e46651acda04ec9447ce6bc76654cf5ae2ca756
+  dq006_phase2_frames.json  1,487 B  SHA-256 0ec70539bcee13afe348052f1d5c85234c6c3f7cfff531ad5c0649ced5fe5ae3
+  dq006_phase2_notes.txt   15,660 B  SHA-256 2f527472887593e029c4adac1ca7ea7dce3bd63560f80c6be7a72a9106151182
+
+
+PHASE 3 (comparison). RS2-AUD-001-v1.0 and LS-AUD-012-v1.0 were opened only after the 21:58:51Z freeze. Nothing above was altered afterwards. The post-freeze discrepancy table is section 6.
+
+
+EXPOSURE DISCLOSURE, honestly stated. GP-REQ-207 itself displays the headline constants (r_D, sigma_5^2<=946, L_6^2<=11342, trace 22, ||y||<3, M_5<1300, A, 54.665, Dudley 24, t_0=5226, r_D^{-1}, 43797.1585, tail 5e-49, rho<=1/256). GP-REQ-207 also now carries a header notice summarising the LS-AUD-012 same-family verdict. This review therefore does NOT claim blind reproduction of those numbers and claims no independence credit for them. What it does claim is: an independent pre-exposure derivation of the chain and its constants; a byte-exact carrier roundtrip; an independent recomputation of every emitted field; an adversarial mutation battery; and the findings in section 5, which are new.
+
+
+RUNTIME LIMITATION, disclosed. mpmath cannot be installed in this container (PyPI returns 403), so the frozen source was NOT re-executed under its own library. Instead all eighteen emitted numeric fields were recomputed independently in 160-digit decimal arithmetic with independently written Machin pi, exp and ln, and mpmath's nstr formatter was reimplemented from its observed conventions. 18/18 fields reproduce EXACTLY, character for character. This does not certify mpmath's formatter; the emitted bytes are certified separately by T0.
+
+
+=====================================================================
+2. REVIEW LEDGER T0-T14
+=====================================================================
+
+
+T0 SOURCE AND RESULT IDENTITY — PASS.
+Both carriers were reconstructed from the Drive text export under each carrier's own declared normalization rule and reproduce the declared identities byte for byte, on the first attempt, with no forensic repair:
+  source 10,422 B SHA-256 fa0fe850b8e4ac2ca6f9b6b7fcf9d81d354b3d6fceab06633c55fbd6836e7cc0
+  result  3,555 B SHA-256 f6bc0b68866ba069eacec349085e672f2718ac6047f242dc5a9523e08f2aee17
+Two further identity checks pass: the result's self-declared source_sha256 equals the reproduced source hash; and the result bytes equal json.dumps(obj, indent=2) + exactly one LF, so the emitted JSON is self-consistent with the source's own writer call.
+
+
+T1 DEPENDENCY IDENTITY — PASS, with note N1 (section 5).
+The imported identities 28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134 and 5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf appear verbatim in GP-DATA-204's own result carrier, and the two consumed numbers match its matrix_perturbation block exactly. Provenance recovered by arithmetic: delta_G_operator = 6 x (5.26 r_D^2 + 1e-87), agreeing to about 58 significant digits, i.e. six times an entrywise envelope that GP-DATA-204 itself declares to be QUADRATIC in r; and inverse_G_bound = 1/(1/3 - delta_G) exactly, i.e. the inverse bound presupposes lambda_min(G_0) >= 1/3. Both consumed numbers are independently confirmed TRUE for the six-pin transformed frame (sections 3 and 5). The law referenced is the identical exact normalized-periodized side-24 field with the same six endpoint pins and the same r_D; no differently conditioned field is imported.
+
+
+T2 CHART CONTAINMENT — PASS.
+rho_max = 16/4096 = 1/256 = 0.00390625 exactly. Strip |X|<=1/2, |Y|<1/1000, endpoint balls of radius rho at X=+/-1/2, and the cone/transit sections contained in those regions, all lie inside [-0.50390625, 0.50390625] x [-0.00390625, 0.00390625], strictly inside D_plus=[-1,1]^2 with a factor 1.98 of slack in X and 256 in Y. Physical image rD_plus has Euclidean diameter 2 sqrt(2) r as declared.
+
+
+T3 FIFTH-DERIVATIVE VARIANCE — PASS (blind confirmation).
+Phase 1, before exposure, derived the six order-five variances 945, 105, 45, 45, 105, 945 directly from the periodized side-24 kernel at 160 digits by Hermite recursion, with torus deviation below 1e-93 — far inside the declared one-unit reserve. sigma_5^2 = 946 is valid with slack above 0.9 certified. The side-24 order-twelve image reserve 4 x 36^12 x exp(-(24-r)^2/2) = 1.5901998946699009946938351180805571169326886647525e-106 reproduces exactly and clears its 1e18-factor test against 1e-87.
+
+
+T4 SIXTH-DERIVATIVE METRIC — PASS (blind confirmation).
+The six gradient variance sums 11340, 1260, 540, 540, 1260, 11340 reproduce, deviation below 1e-93; L_6^2 = 11342 is valid with slack above 1.9. The metric step is sound: for |alpha|=5, X_s - X_t = |s-t| int_0^1 (e.grad X) du, and Var(e.grad X) <= lambda_max(Cov(grad X)) <= trace = V_1 + V_2 <= L_6^2. CL additionally certifies that the same-point cross-covariance Cov(d^{alpha+e1} f, d^{alpha+e2} f)(0) vanishes EXACTLY by parity (odd derivative of an even kernel), so Cov(grad X) is diagonal at every point and the true sup_e Var(e.grad X) equals max(V_1,V_2), not the sum: the declared constant is conservative by up to a factor sqrt(2) in L_6.
+
+
+T5 CONDITIONING MONOTONICITY — PASS.
+Var(W | Lambda) = Var(W) - Cov(W,Lambda)' G^{-1} Cov(W,Lambda) with G^{-1} positive definite, so the Schur term is nonnegative for EVERY linear functional of the field — point evaluations of derivatives and their increments alike. Phase-1 probes exhibit strict reduction (825.0 at alpha=(5,0), x=0) and residual variances confined to [0, 946] at all nine probes.
+
+
+T6 CONDITIONAL MEAN — ARITHMETIC PASS; specification finding F1 (section 5).
+The chain is correctly directed and reproduces exactly: |m| <= ||Cov(X,L)|| ||G_r^{-1}|| ||y||, with ||Cov(X,L)||^2 <= Var(X) trace(G_r) and |tr(G_r) - tr(G_0)| <= 6 ||G_r - G_0||_op, giving 1298.37321554758368764243468152160830203984638844292717071215 < 1300. CL independently confirms trace(G_0) = 22 and ||y_r|| = 2.3323807580 < 3 (both derived blind in Phase 1, before the target was opened), and certifies lambda_min(G_0) = 8 - sqrt(58) = 0.38422689413609171433858897284167699463929440745340 >= 1/3, so the inverse bound actually consumed is valid with room.
+
+
+T7 SIGNED-INDEX PROCESS — PASS.
+sup_x |Z(x)| = sup over {-1,+1} x rD_plus of Y(s,x) = s Z(x) is a pointwise identity requiring no symmetry and no one-sided inequality; Y is centered because Z is the centered residual; the signed canonical diameter satisfies D <= 2 sqrt(946) = 61.5142259969187940362811861585411447397655900260156959636897, reproduced exactly. The historically false step sup|Z| <= sup Z + sup(-Z) does not occur anywhere in the chain.
+
+
+T8 COVERING NUMBER — PASS; declared coefficient provable with more slack than stated.
+Constructive proof: grid each axis of [-r,r] at spacing l = sqrt(2) eps / L_6; the worst Euclidean distance to a grid point is l/sqrt(2) = eps/L_6, hence canonical distance <= eps by T4; the count per axis is at most 1 + 2r/l = 1 + sqrt(2) L_6 r/eps. Therefore N(rD_plus, d, eps) <= (1 + sqrt(2) L_6 r/eps)^2 <= (1 + 4 L_6 r/eps)^2, and covering the two sign sheets separately gives N <= 2(1 + A/eps)^2. The declared coefficient 4 is valid. The minimum coefficient obtainable from this construction is sqrt(2) = 1.41421356; see discrepancy D2 in section 6. Uniformity in r: A_r = 4 L_6 r increases in r, so A = 4 L_6 r_D majorizes the whole interval.
+
+
+T9 ENTROPY INTEGRAL — PASS, majorant verified term by term and independently bounded.
+sqrt(log2 + 2log(1+A/eps)) <= sqrt(log2) + sqrt(2) sqrt(log(1+A/eps)); below A, log(1+A/eps) <= log(2A/eps) and, with eps = A t, int_0^A sqrt(log(2A/eps)) deps = A int_0^1 sqrt(log2 + log(1/t)) dt <= A(sqrt(log2) + Gamma(3/2)) = A(sqrt(log2) + sqrt(pi)/2); above A, log(1+A/eps) <= A/eps and int_A^D sqrt(A/eps) deps = 2 sqrt(A)(sqrt(D) - sqrt(A)) <= 2 sqrt(AD). Summing reproduces the source expression exactly: 54.6641763635620495742551755591685402054183961541954498772247 < 54.665. CROSS-CHECK: an independent CERTIFIED UPPER bound for the true integral, by a monotone left-endpoint Riemann sum on [A/1000, D] plus an integration-by-parts majorant on (0, A/1000], gives <= 51.4721308222, strictly below the declared analytic majorant. The majorant is therefore genuinely a majorant, with about 6% of conservatism.
+
+
+T10 DUDLEY CONSTANT — PASS.
+CL derives the chaining bound from scratch rather than citing it: dyadic nets eps_k = D 2^{-k}, increments of standard deviation at most 3 eps_k, at most N_k^2 distinct increments per stage, E max of m centered Gaussians <= s sqrt(2 log m), and sum_k eps_k sqrt(log N_k) <= 2 int_0^{D/2} sqrt(log N) deps, yielding E sup <= 12 int_0^{D/2} sqrt(log N(eps)) deps. Since 24 int_0^{D} dominates both 12 int_0^{D/2} and 12 int_0^{D}, the declared coefficient 24 with the full-diameter terminus is conservative-valid under either convention, with at least a factor 2 of headroom. B_5 = 24 x 54.66417636 = 1311.94023272548918978212421342004496493004150770069079705339 < 1313, reproduced exactly.
+
+
+T11 BORELL-TIS — PASS.
+Applied to the CENTERED residual, with sup_t Var(Y_t) = sup_x Var(Z(x)) <= 946 (the sign index does not change variance). Since B_5 >= E sup |Z|, P(sup|Z| > B_5 + u) <= P(sup|Z| - E sup|Z| > u) <= exp(-u^2/(2 x 946)). The deterministic mean enters separately via H_{5,r} <= M_5 + max_alpha sup|Z_alpha|, and the union runs over exactly the six order-five multi-indices, with no independence assumed among them.
+
+
+T12 RADIUS AND TAIL — PASS.
+t_0 = 2(1300 + 1313) = 5226 exactly. For t >= t_0, t - M_5 - B_5 >= t - t_0/2 >= t/2, giving Q(H > t) <= 6 exp(-t^2/(8 x 946)). r_D^{-1} = 18205.9577001702904009194159397101678574055049852239758775937 >= 5226 and r_D^{-2}/(8 x 946) = 43797.158533349615442883040992968211939848451033754789050 6459, both reproduced exactly and cross-checked in EXACT RATIONAL arithmetic (integer certificate 10^104 > 114 x 7568 x N^2 with N = 549270747778704575598758916462559552302418705897). Tail 8.2011956888665955912189057002e-19021 < 5e-49, a margin of about 18,972 decimal orders. MONOTONICITY on 0 < r <= r_D is valid and CL verifies each ingredient separately: sigma_5, M_5 and B_5 are r-uniform; A_r = 4 L_6 r increases so the entropy majorant at r_D dominates; the domain rD_plus shrinks; and the threshold r^{-1} increases. Hence the per-alpha tail and the six-way union both decrease as r decreases, and the single evaluation at r = r_D certifies the whole interval.
+
+
+T13 EVENT INTERSECTION — PASS.
+Q(B_q intersect G_r) >= Q(B_q) - Q(G_r^c) is inclusion-exclusion under ONE measure Q_{6,r}. No independence is claimed or used; no Palm reweighting or determinant tilt occurs before the intersection estimate. With p_B = 1e-48 and the certified tail, Q(B_q intersect G_r) >= p_B/2.
+
+
+T14 SCOPE FIREWALL — PASS.
+The frozen result's scope_limits list and the companion's section 11 jointly disclaim GP-DATA-204, the exact upper normalizer, Palm tail transfer, exact-field capture, the P0.1 quotient, P0.2, promotion, sealing and release. The status string carries ORGANIZATIONALLY DISTINCT REVIEW REQUIRED / NO PROMOTION.
+
+
+=====================================================================
+3. INDEPENDENT SUFFICIENCY — THE CLAIM CERTIFIED WITHOUT THE GP CHAIN
+=====================================================================
+
+
+The Phase-1 reconstruction, frozen before exposure, certifies the reviewed claim outright using CL's own constants and importing NOTHING from GP-DATA-204:
+  sigma_5^2 <= 946 and L_6^2 <= 11342 (certified from the periodized kernel);
+  lambda_min(G_r) >= 0.3721 UNIFORMLY on 0 < r <= r_D, via Hermite-Genocchi derivative estimates giving ||G_r - G_0||_F <= r ||B||_F <= 5.4927e-5 x 52.466 <= 0.002882 and Weyl's inequality against the certified lambda_min(G_0) >= 0.375;
+  M_5 <= sqrt(946) sqrt(||y||^2 / lambda_min) <= 117.60212981 uniformly (and, using the exact invariant y' G_r^{-1} y = 2.8266666667068433 at r = r_D, M_5 <= 51.7109917397 there);
+  J <= 25.63022, B_5 = 24 J <= 615.13;
+  M_5 + B_5 <= 733 <= t_0 / 2, exponent >= 161,370, tail <= 6 e^{-161370} << 5e-49.
+The two routes agree on the conclusion and differ only in conservatism. This is what makes the approval robust to finding F1.
+
+
+A quantity worth recording for downstream use: y' G_r^{-1} y is BASIS-INVARIANT (under L -> TL, y -> Ty, G -> TGT' it is unchanged), so for the six-pin set it is a frame-free number. Its confluent value is exactly 2.16 + 2/3 = 2.8266666666..., composed of b^2 x 3/2 = 2.16 from the (f, f_xx) block and 2^2 x 1/6 = 2/3 from the (f_x, f_xxx) block, and at r = r_D it is 2.8266666667068433.
+
+
+=====================================================================
+4. MUTATION LEDGER — ALL TWELVE OF GP-REQ-207 SECTION 5 ATTEMPTED AND CLASSIFIED
+=====================================================================
+
+
+Caught by numerics or by an executable guard inside GP-DATA-206:
+  M1 parse r_D before raising precision — the emitted 60-digit exponent field diverges at digit 17; identity and reproducibility failure, not a mathematical counterexample (the coarse conclusion survives on slack).
+  M2 shrink D_plus to [-1/2,1/2]^2 — the guard 0.5 + rho_max >= halfwidth trips, since the endpoint balls reach 0.50390625.
+  M4 sigma_5^2 = 944 — contradicts Var(d^{(5,0)} f) = 945 and trips the constants guard.
+  M8 Dudley 12 in place of 24 — the emitted B_5 field changes (655.9701164 vs 1311.9402327); an identity failure. The downstream conclusion survives either convention, since t_0 would be 2(1300+656) = 3912 <= 18205.96.
+Caught structurally:
+  M3 omit one order-five multi-index; M5 reverse the conditioning inequality; M11 claim independence of B_q and G_r; M12 transfer the conditioned tail to a Palm law without DM2/normalizer control.
+
+
+FINDING F2 — EXECUTABLE-GUARD BLINDNESS (informational, no amendment required).
+Four required mutations are caught by NO check inside GP-DATA-206, and three of them make the printed numbers look BETTER rather than worse:
+  M6  remove the sign index        -> entropy 54.664176 -> 3.4502239, B_5 1311.94 -> 82.81
+  M7  covering coefficient 4 -> 1  -> entropy 54.664176 -> 52.924846, still below 54.665
+  M9  Borell on the noncentered    -> exponent 43797.15853 -> 150830.8773
+  M10 omit the factor six          -> tail exp(-E) instead of 6 exp(-E)
+Each is excluded only by the PROSE derivation in GP-DER-206 sections 7 to 9, not by the executable certificate. This is expected for a certificate of this design and is not a defect in the present artifact, but it means the computational carrier alone must never be treated as the proof: the load-bearing content of sections 7, 8 and 9 is not machine-checked anywhere in the GP-DATA-206 pipeline. A cheap improvement for future certificates in this family: have the source assert its own structural constants — sheet factor 2, union factor 6, a mean-added-separately flag, and the covering coefficient — as named, compared values, so that a silent structural mutation trips a guard rather than merely printing a smaller number.
+
+
+=====================================================================
+5. FINDINGS
+=====================================================================
+
+
+FINDING F1 — L_r IS UNDER-SPECIFIED IN GP-DER-206 SECTION 6, AND THE IMPORTED PERTURBATION IS FRAME-DEPENDENT BY A FACTOR 1755.
+MANDATORY DISCLOSURE. AMEND RECOMMENDED AT NEXT REVISION. NON-BLOCKING: the conclusion survives under every reading tested.
+
+
+Section 6 introduces L_r only as "the six-dimensional confluent transformed pin vector". At least two natural confluent frames have the SAME limit functionals (f, f_x, f_y, f_xx, f_xxx, f_xy)(0), hence the SAME G_0 with trace 22, and the SAME pinned-value norm — yet they differ by three orders of magnitude in the one quantity the certificate imports:
+
+
+  FRAME A, anchored and triangular (Newton divided differences based at M):
+    ( f(M), f_x(M), f_y(M), 2[M,M,S]f, 6[M,M,S,S]f, [M,S]f_y )
+    y_r = (6/5, 0, 0, -r/3, 2, 0),  ||y_r|| = 2.3323807580
+    ||G_r - G_0||_op = 1.6712104160e-4 at r = r_D;  empirical order in r: 1.0000138 (LINEAR)
+
+
+  FRAME B, parity-adapted and symmetric about the midpoint:
+    E1 = (f(M)+f(S))/2,  E2 = (f_x(M)+f_x(S))/2,  E3 = (f_y(M)+f_y(S))/2,
+    E4 = (f_x(S)-f_x(M))/r,  E5 = (12/r^2)[E2 - (f(S)-f(M))/r],  E6 = (f_y(S)-f_y(M))/r
+    y_r = (6/5 - r^3/12, 0, 0, 0, 2, 0),  ||y_r|| = 2.3323807579
+    ||G_r - G_0||_op = 1.8650933470e-8 at r = r_D;  empirical order in r: 1.9999999 (QUADRATIC)
+
+
+The imported bound 9.5216000638e-8 HOLDS for frame B with 5.1x headroom and FAILS for frame A by a factor 1755. Neither trace(G_0) = 22 nor ||y_r|| < 3 discriminates between them: both hold identically for both frames, and in fact y' G^{-1} y is frame-invariant. The quadratic envelope declared inside GP-DATA-204 ("G_entry_envelope": "5.26*r_D^2 + 1e-87") shows GP's frame is in fact the parity-adapted one, so GP's own arithmetic is correct — but that disambiguation is available only by opening GP-DATA-204, not from GP-DER-206 or GP-DATA-206, which are the objects under review. A reviewer restricted to the reviewed carriers, reading section 6 in the equally natural anchored sense, would be led to a false imported constant. That is a specification defect in the reviewed artifact, not a numerical error.
+
+
+MATERIALITY: NONE to the theorem. Substituting frame A's much larger perturbation into GP's OWN formula still gives trace <= 22.001003, ||G_r^{-1}|| <= 3.0015048 and M_5 <= 1299.0537 < 1300 — the declared M_5 survives even under the least favourable reading, with the margin falling from 1.6268 to 0.9463. With CL's independently certified lambda_min(G_0) >= 0.3841 the same substitution gives M_5 <= 1127.2825.
+
+
+MINIMAL REPAIR (constructive). Replace the Cauchy-Schwarz-and-trace route by the basis-invariant route
+    |m_alpha(x)| = |<c_x, y>_{G^{-1}}| <= sigma_5 sqrt(y' G_r^{-1} y) <= sqrt(946) sqrt(||y||^2 / lambda_min(G_r)) <= 117.61,
+which is frame-free — the conditional mean itself is frame-invariant, verified by CL at nine probes to better than 1e-55 — needs no trace bound, and removes the GP-DATA-204 Gram import from GP-DER-206 entirely, leaving only lambda_min(G_r) >= 1/3, which CL certifies independently and uniformly in r (section 3). One sentence naming the frame explicitly would also suffice to close the finding without changing any number.
+
+
+FINDING F2 — see section 4.
+
+
+NOTE N1 — DEPENDENCY-HEALTH OBSERVATION AGAINST GP-DATA-204 (recorded, NOT adjudicated; GP-DATA-204 is outside this review's scope).
+GP-DATA-204's limiting spectral witnesses do not describe the six-dimensional transformed-pin Gram that GP-DER-206 section 6 names. Its declared witness block is [[2,-2,-12],[-2,6,12],[-12,12,96]], with trace 104 and eigenvalues 0.4332852749, 4.4717305441, 99.0949841800 — consistent with its own "lambda_min_strictly_above: 0.43" and "lambda_max_strictly_below: 100". The six-pin transformed Gram used by GP-DER-206 has trace 22 and eigenvalues {2 +/- sqrt2, 8 +/- sqrt58, 1, 1} = {0.5857864376, 3.4142135624, 0.3842268941, 15.6157731059, 1, 1}; its lambda_min is 8 - sqrt(58) = 0.3842268941 < 0.43. Since the frame must contain both f_x and f_xxx (the latter carries the pinned value 2 and variance 15), the block [[1,-3],[-3,15]] is forced and lambda_min = 8 - sqrt(58) is unavoidable. So GP-DATA-204's 0.43 witness is about a different matrix. This does NOT invalidate anything GP-DER-206 uses: the number GP-DER-206 actually consumes is ||G_r^{-1}|| <= 1/(1/3 - delta_G), i.e. lambda_min >= 1/3, and 0.3842268941 >= 1/3 holds with room. Recorded so that whoever reviews GP-REQ-205 / GP-DER-204 can confirm which matrix each witness describes.
+
+
+=====================================================================
+6. POST-FREEZE DISCREPANCY TABLE (opened only after 21:58:51Z)
+=====================================================================
+
+
+Compared: RS2-AUD-001-v1.0 (same-family arithmetic replay) and LS-AUD-012-v1.0 (same-family hostile replay, the other DQ-006 execution).
+
+
+AGREEMENTS
+A1. Verdict. All three reach the same bottom line: r_T = r_D and the conditioned tail below 5e-49, within the six-pin conditioned-law scope. CL's is the first organizationally distinct one; LS and RS2 both record ZERO independence credit, as does CL for the parts covered by the section-1 exposure disclosure.
+A2. All displayed constants. sigma_5^2, L_6^2, image bound, M_5, A, D, entropy majorant, B_5, t_0, r_D^{-1}, exponent, tail and log10 tail agree across all three to every displayed digit.
+A3. Side-24 image magnitude. LS reports an independent all-image derivative audit through order twelve giving raw correction below 5.46e-109; CL's Phase-1 measurement of the same object gives a worst deviation of 5.4457352e-109. Independent agreement to three significant digits.
+A4. Dudley convention. CL derived E sup <= 12 int_0^{D/2} sqrt(log N) from scratch; LS cites the same convention (coefficient 12, integration to half the diameter) and reaches the same conclusion that 24 with the full-diameter terminus is conservative-valid. Convergent.
+A5. Entropy conservatism. RS2 and LS both report a direct quadrature of the true integral equal to 51.43768882471205748. CL's independent CERTIFIED UPPER bound for the same integral is 51.4721308222, which exceeds their quadrature value by 0.0344420 (0.067%) — exactly the expected sign and magnitude for a one-sided Riemann-plus-tail construction. Consistent; no discrepancy.
+A6. Structural items T5, T7, T11, T13 and the mutation classifications M1-M6, M8-M12 agree in substance across CL and LS.
+
+
+DISCREPANCIES
+D1. CARRIER IDENTITY COVERAGE. RS2-AUD-001 explicitly declares a HOLD: "it did not perform a byte-exact extraction-and-hash replay of the declared GP-DATA-206 source/result payloads". LS-AUD-012 and CL-AUD-234 both discharge it, independently and by different routes (LS by extraction plus execution at --dps 120; CL by reconstruction of both carriers from the Drive text export under the declared normalization rules). RS2's hold is therefore resolved twice over, once organizationally distinctly. No conflict.
+D2. COVERING-NUMBER SHARPNESS — A SUBSTANTIVE DISAGREEMENT WITH LS-AUD-012.
+LS section 10 derives the grid bound with spacing eps/(sqrt2 L_6), obtaining at most (1 + 2 sqrt2 L_6 r / eps)^2 centers, and concludes "a coefficient two is not justified by this grid construction because 2 < 2 sqrt2", classifying mutation M7 (coefficient 4 -> 2) as FIRING. CL's construction uses spacing sqrt2 eps / L_6 — twice as coarse, and still sufficient, because the worst Euclidean distance to a grid point is the half-diagonal l/sqrt(2), so l <= sqrt2 eps / L_6 already delivers canonical distance at most eps. That gives at most (1 + sqrt2 L_6 r / eps)^2 centers. Since sqrt2 = 1.4142136 < 2, coefficient 2 IS justified by the grid construction, and CL's mutation M7 was therefore run at coefficient 1 rather than 2. CONSEQUENCE: none for the certificate, which uses the declared coefficient 4, valid under both derivations. But LS's stated falsification threshold is not sharp: the smallest coefficient provable by this construction is sqrt(2), not 2 sqrt(2), and a future artifact rejected on LS's threshold would be rejected incorrectly. RECOMMENDATION: record sqrt(2) as the constructive minimum in the Domain-T ledger.
+D3. FRAME SPECIFICATION. Neither RS2 nor LS raises finding F1. This is structurally expected rather than an error on their part: LS replayed GP-DATA-204 itself in LS-AUD-011 and RS2 inspected it as a dependency, so both had GP's actual frame in hand and never faced the ambiguity that GP-DER-206 alone presents. It is precisely the kind of gap the independent-eyes rule exists to surface, and it is CL's principal distinct contribution here.
+D4. GP-DATA-204 SPECTRAL WITNESSES. Neither alternate raises note N1. LS-AUD-012 section 3 states that the GP-DATA-204 identities "refer to the identical normalized-periodized side-24 field, six endpoint pins, transformed pin Gram G_r" — which CL agrees is true of the FIELD and PINS, while observing that GP-DATA-204's published lambda_min > 0.43 and lambda_max < 100 witnesses cannot be describing that six-dimensional Gram (whose spectrum is {0.3842, 0.5858, 1, 1, 3.4142, 15.6158}). Routed to the GP-REQ-205 / GP-DER-204 review, not adjudicated here.
+D5. S2 ALTERNATE MEAN ROUTE. RS2 section 14 and LS section 19.2 record the S2-DER-002 route via |Cov(A,L) G^{-1} y|^2 <= Var(A) y' G^{-1} y with y' G^{-1} y <= 37.6864852278 and M_5 <= 188.8158230274. CL reproduces that arithmetic exactly (sqrt(946 x 37.686485227835793) = 188.81582302744825887). CL notes, as new information, that y' G^{-1} y is basis-invariant given the conditioning set, and that for the SIX-PIN set its exact value is 2.8266666667068433 at r = r_D — a factor 13.3 smaller than the S2 envelope, which is therefore bounding a larger conditioning set or using a cruder envelope. Using the exact invariant, the same S2 inequality yields M_5 <= 51.7109917397. Three routes now bound the same frame-invariant quantity: 1298.3732 (GP), 188.8158 (S2), 51.7110 (CL). No contradiction; strictly increasing sharpness.
+D6. UNIFORM M_5. LS and RS2 both take M_5's uniformity in r from the imported GP-DATA-204 bounds. CL establishes it self-containedly by a Weyl perturbation argument on the frame Gram (lambda_min(G_r) >= 0.3721 for ALL 0 < r <= r_D), which is stronger in the sense of removing the import, and weaker in the sense of using a cruder constant. Both reach uniformity; the conclusions coincide.
+
+
+NO ITEM IN THIS TABLE CHANGES ANY VERDICT.
+
+
+=====================================================================
+7. CREDIT ACCOUNTING (honest)
+=====================================================================
+
+
+- Organizational independence: this is an Anthropic-family review of an OpenAI-family artifact and is, to CL's knowledge, the FIRST organizationally distinct execution of DQ-006 / GP-REQ-207. LS-AUD-012 and RS2-AUD-001 both self-record ZERO independence credit.
+- Blindness: PARTIAL, and only partial. The headline constants were visible in GP-REQ-207 before work began, and the LS verdict summary was visible in the same packet. No independence credit is claimed for reproducing any visible number. The Phase-1 derivation of the chain, the frame identification, the covering and chaining constants, the certified entropy bound, and findings F1, F2, N1 and D2 were produced before the target was opened or (for the findings) before the alternates were opened.
+- One mathematical reconstruction; one carrier-specific verdict; one organizational-independence credit. No second credit is created by the existence of RS2-AUD-001, S2-DER-002 or LS-AUD-012.
+- Reproducibility: every artifact behind this verdict is hash-listed in section 1. The extraction and replay are re-executable from the frozen sources with only the Python standard library.
+
+
+=====================================================================
+8. SCOPE FIREWALL AND DOWNSTREAM EFFECT
+=====================================================================
+
+
+This approval bears only on r_T = r_D and the conditioned tail below 5e-49 for the exact six-pin conditioned law, at the two named hashes. It does NOT approve or discharge: GP-DER-204 / GP-DATA-204 and its side-24 amplification reserve (RS2's second hold, still open to a distinct family); the exact upper-normalizer theorem; selected-branch measurability; deterministic exact-field capture; the endpoint determinant lower bound; the Palm quotient; the full G/D/T/I recombination; P0.1 or P0.2 terminal status; Theorem B; package sealing; external release; or Dylan's promotion decision, which remains his alone.
+
+
+Prohibited wordings, not recorded here and not to be inferred from this artifact: P0.1 CLOSED; P02-LM-007 CLOSED; r_* = r_D unconditionally; c_A numerically terminal; theorem promoted.
+
+
+Per GP-REQ-207 section 7, a qualifying approval combined with approval of GP-DER-204 would reduce the P0.1 unconditional candidate radius graph to min(r_N, r_D). GP-DER-204 is NOT approved by this artifact.
+
+
+=====================================================================
+9. CLAIM CLOSURE
+=====================================================================
+
+
+CL-CLAIM-DQ006-v1.0 is discharged by this artifact. DQ-006 primary objective — reconstruct and rerun GP-DER-206 / GP-DATA-206, audit the conditioned H5 entropy/Dudley/Borell chain, signed-index domain, chart/event match, transformed torus reserves, r_T = r_D, hashes, controls, and comparison discipline with the alternate — is complete. Acceptance criteria met: exact carrier roundtrip PASS; every conditioning, metric-entropy, tail, event and reserve step checked; post-freeze discrepancy table supplied (section 6); no theorem or numerical promotion.
+
+
+The optional joint P02-LM-007 verdict route offered in the GP-REQ-207 header notice (GP-COR-210 / GP-REQ-211, frozen body 8,541 bytes, SHA-256 5267dc4be0fd7eb986d30eb4f5aa3a415a0ba250acdf5b31afc2f984bbe310c9) is NOT exercised in this artifact. A GP-DER-206-only approval does not close P02-LM-007, and none is claimed.
+
+
+END CL-AUD-234-v1.0

@@ -1,0 +1,76 @@
+﻿RS2-DATA-LM009B-v1.0 — P02-LM-009 ADVERSARIAL VERIFIER RESULT CARRIER
+
+
+Artifact ID: RS2-DATA-LM009B-v1.0
+Date: 2026-07-26
+Class: DATA / SAME-FAMILY ADVERSARIAL VERIFIER RESULT
+Authority: research preparation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — OpenAI organizational family
+Target: P02-LM-009 / LCR-DER-027-v1.0
+Status: PASS / EXTERNAL REVIEW STILL REQUIRED / NO PROMOTION
+
+
+Execution summary:
+- frozen body bytes reproduced: 3919;
+- frozen body SHA-256 reproduced: ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1;
+- exponent selections checked for N=0.1, 0.5, 1.0, 1.7, 3.0, 8.25;
+- radius ladder checked at 1, 1/2, 1/10, 10^-3, and 10^-12;
+- hostile controls: 12/12 PASS;
+- exact P0.2 U-coordinate count: 8;
+- epsilon_0=1/(1024*4096)=2.384185791015625e-7 >0;
+- Palm exponent map: conditioned exponent 2N is required before the square-root transfer.
+
+
+BEGIN_EXACT_JSON_RESULT
+{
+  "all_checks_pass": true,
+  "artifact_id": "RS2-DATA-LM009B-v1.0",
+  "exact_application": {
+    "K": 4096,
+    "coordinate_count": 8,
+    "coordinates": ["a", "w", "z", "c40", "c31", "c22", "c13", "c04"],
+    "desired_palm_exponent_example": 3.5,
+    "epsilon_0": 2.384185791015625e-07,
+    "epsilon_positive": true,
+    "required_conditioned_exponent_example": 7.0
+  },
+  "hostile_controls": {
+    "H1_reject_insufficient_moment_order": true,
+    "H2_reject_radius_above_one": true,
+    "H3_reject_nonpositive_epsilon": true,
+    "H4_reject_finitely_many_moments": true,
+    "H5_reject_r_dependent_epsilon": true,
+    "H6_reject_fixed_stretched_exponential": true,
+    "H7_require_conditioned_exponent_2N": true,
+    "H8_allow_dependent_coordinates": true,
+    "H9_detect_nonuniform_changing_law": true,
+    "H10_no_density_or_gaussian_needed": true,
+    "H11_exact_application_shape": true,
+    "H12_constant_quantifier_correct": true
+  },
+  "hostile_controls_passed": 12,
+  "hostile_controls_total": 12,
+  "identity": {
+    "body_bytes": 3919,
+    "body_sha256": "ccc07d959428519733c7fdf6c72f1bce63a40d0b0dc956ce0fe9f2ec459eb0b1",
+    "bytes_match": true,
+    "sha_match": true
+  },
+  "independence_credit": "ZERO — same OpenAI organizational family",
+  "status": "PASS",
+  "target": "P02-LM-009 / LCR-DER-027-v1.0"
+}
+END_EXACT_JSON_RESULT
+
+
+Declared local result identity before Drive publication:
+RESULT_BYTES: 3241
+RESULT_SHA256: 2f68f709dd80fa06e183068b9ef33e05a4bc0bd86e1ffe1157afc6a42a5e7cef
+
+
+Scope:
+- validates the frozen identity and elementary all-fixed-moments-to-super-polynomial-tail argument;
+- supplies no organizationally distinct review credit;
+- does not approve P02-LM-006 or P02-LM-008;
+- does not close or promote P0.2.

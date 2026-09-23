@@ -1,0 +1,611 @@
+﻿LCR-CAP-009-v1.0 — P02-LM-001 CLOSED CONDITIONAL DETERMINISTIC CAPTURE LEMMA
+PEER-REVIEW CAPSULE AND TERMINAL RECORD
+
+
+Artifact ID: LCR-CAP-009-v1.0
+Lemma ID: P02-LM-001
+Prepared and adjudicated by: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Date: 2026-07-24
+Class: CAP / CLS / EXACT DETERMINISTIC LEMMA / REVIEW CAPSULE
+Authority: terminal lemma record within exact conditional deterministic scope under OP-PROT-011
+Canonical theorem impact: NONE unless separately promoted by Dylan Roy
+Terminal label: CLOSED — CONDITIONAL EXACT DEGREE-FOUR DETERMINISTIC CAPTURE MAJORANT
+
+
+[[OBJ:P02-LM-001]] [[STATUS:CLOSED-CONDITIONAL]] [[SCOPE:DEGREE-FOUR-DETERMINISTIC-ONLY]] [[P0.2:OPEN]] [[EXACT-FIELD:NOT-INCLUDED]] [[PROBABILITY:NOT-INCLUDED]]
+
+
+1. READ FIRST
+
+
+One-sentence result:
+
+
+For the exact pin-preserving degree-four local vector field defined below, the explicit hypotheses rR(U)^5<=1/(1024K) and q/r<=-[2KR(U)^5+2R(U)] force the selected M-ward unstable branch of the saddle S to enter an invariant strip, traverse it, enter an invariant contracting neighborhood of M, and converge exponentially to M.
+
+
+Why it matters:
+
+
+This closes the deterministic finite-jet core of the P0.2 adjacency-to-one program. It replaces several formerly separate saddle-exit, strip, transit, and sink-capture obligations with one explicit polynomial-growth sufficient condition. It does not close P0.2 because exact-field transfer and probability integration are separate lemmas.
+
+
+Current status:
+
+
+CLOSED — CONDITIONAL EXACT DEGREE-FOUR DETERMINISTIC CAPTURE MAJORANT.
+
+
+Authoritative proof:
+
+
+GP-DER-047-v1.0, Sections 2–9.
+Drive ID: 1jm1WxNmDd_rBLZA9FQsc2Nlzb9_PPCuEBV0fX3mCL1c.
+
+
+Independent review:
+
+
+CL-AUD-049-v1.0 — Anthropic/Claude derivation-blind analytic reconstruction.
+Drive ID: 1fzL4HgJDsawb6ew66XpOCfJGnnxw6TFTom7BM3H8OnI.
+
+
+Adversarial computation:
+
+
+LCR-DATA-010-v1.0 — reconstructable 200,000-sample hostile stress capsule.
+Drive ID: 1It6VYebsawBCA3S7Zs_g7ndB26-yr_NH6K_yNQs373Q.
+
+
+Recommended review order:
+
+
+1. Exact statement and exclusions in Sections 2–4 of this capsule.
+2. GP-DER-047 Sections 2–3 for the field and geometry.
+3. GP-DER-047 Sections 4–9 for the analytic proof.
+4. CL-AUD-049 Sections 1–5 for the derivation-blind reconstruction and lineage disclosure.
+5. LCR-DATA-010 for hostile edge testing and source identity.
+6. Closure and reopening rules in Sections 12–14 below.
+
+
+2. FROZEN EXACT STATEMENT
+
+
+Let
+
+
+U=(a,w,z,c40,c31,c22,c13,c04) in R^8,
+
+
+R=R(U)=1+|a|+|w|+|z|+|c40|+|c31|+|c22|+|c13|+|c04|.
+
+
+Fix
+
+
+K=4096,
+epsilon_0=1/(1024K).
+
+
+Let 0<r<=1 and let s=q/r be a real parameter. Define the pin-preserving degree-four vector field F_r^(4)=(F_X,F_Y) on R^2 by
+
+
+F_X(X,Y)
+= X^2-1/4+aXY+(w/2)Y^2
++ r[(c40/6)X(X^2-1/4)
+    +(c31/6)(3X^2-1/4)Y
+    +(c22/2)XY^2
+    +(c13/6)Y^3],
+
+
+F_Y(X,Y)
+= sY+(a/2)(X^2-1/4)+wXY+(z/2)Y^2
++ r[(c31/6)X(X^2-1/4)
+    +(c22/2)X^2Y
+    +(c13/2)XY^2
+    +(c04/6)Y^3].
+
+
+Let
+
+
+S=(1/2,0),
+M=(-1/2,0).
+
+
+Define
+
+
+F=|a|/8+r|c31|/48,
+F_*=1+F,
+mu=KR^5,
+W=F_*/mu,
+sigma=4RW,
+rho=8RW,
+kappa=1/(16R),
+C_cap(U)=2KR^5+2R.
+
+
+Define the regular-jet condition
+
+
+REG_r(U): rR^5<=epsilon_0.
+
+
+Define local saddle coordinates
+
+
+xi=1/2-X,
+y=Y,
+
+
+and the fixed cone
+
+
+C_S={xi>=0, |y|<=kappa xi}.
+
+
+Define the central strip and endpoint regions
+
+
+S_strip={|X|<=1/2, |Y|<=W},
+S_center={|X|<=1/2-sigma, |Y|<=W},
+B_S=B(S,rho),
+B_M=B(M,rho).
+
+
+THEOREM P02-LM-001.
+
+
+Assume
+
+
+REG_r(U)
+
+
+and
+
+
+s<=-C_cap(U).
+
+
+Then:
+
+
+1. S and M are exact equilibria of F_r^(4).
+
+
+2. The Jacobian at S has one positive and one negative eigenvalue. The branch of the one-dimensional unstable manifold whose tangent points into increasing xi lies strictly inside C_S.
+
+
+3. C_S∩B_S is forward invariant until the branch reaches the section xi=sigma. The branch reaches that section before leaving B_S, and at the crossing
+
+
+|Y|<=kappa sigma=W/4<W.
+
+
+4. The strip S_strip is strictly forward invariant in its horizontal boundaries:
+
+
+F_Y(X,W)<=-1,
+F_Y(X,-W)>=1
+
+
+for |X|<=1/2.
+
+
+5. In the central rectangle S_center,
+
+
+F_X(X,Y)<=-3RW<0.
+
+
+Consequently every trajectory entering the right central section X=1/2-sigma with |Y|<W crosses the central rectangle from right to left in finite forward time without leaving S_strip.
+
+
+6. The matrix -DF_r^(4)(M) is uniformly positive definite with
+
+
+lambda_min(-DF_r^(4)(M))>=63/128.
+
+
+The ball B_M is forward invariant, contains no equilibrium other than M, and every trajectory entering B_M converges exponentially to M.
+
+
+7. The left central section
+
+
+X=-1/2+sigma,
+|Y|<=W
+
+
+lies strictly inside B_M.
+
+
+Therefore the selected increasing-xi unstable branch of S enters S_strip, crosses the central region, enters B_M, and converges exponentially to M.
+
+
+Equivalently, S and M are connected by the declared selected branch in the degree-four local flow.
+
+
+3. HYPOTHESES AND PARAMETER SCOPE
+
+
+The theorem is uniform over every U in R^8 and every 0<r<=1 satisfying rR(U)^5<=epsilon_0 and s<=-C_cap(U).
+
+
+The theorem permits equality in both hypothesis inequalities. Strict dynamical conclusions remain valid at the equality boundary because the derived cone, strip, transit, and sink margins remain strictly positive.
+
+
+R>=1 automatically. The geometry is nondegenerate even when U=0 because F_*=1+F>=1 and hence W>0.
+
+
+No compact upper bound on R is assumed. Large R is compensated by the shrinking regularity domain r<=epsilon_0/R^5 and by the adaptive geometry.
+
+
+4. EXPLICIT EXCLUSIONS
+
+
+This closed lemma does not establish:
+
+
+- any property of the full exact Gaussian field beyond its degree-four Taylor model;
+- robustness under fifth-and-higher derivatives;
+- probability under a Gaussian or Palm law;
+- determinant-weighted mass of the hypothesis set;
+- 1-a_r=O(r^3);
+- P0.2;
+- P0.1;
+- Theorem B;
+- an accessible-r numerical guarantee outside REG_r;
+- optimality or necessity of C_cap;
+- any canonical theorem or machine-state promotion.
+
+
+The theorem is sufficient, conditional, deterministic, local-model, and asymptotic-domain compatible.
+
+
+5. DEPENDENCY MAP
+
+
+D0 — Exact vector field and endpoint conventions.
+Source: GP-DER-047 Section 2.
+Status: CLOSED WITH THIS LEMMA.
+
+
+D1 — Elementary adaptive-geometry inequalities.
+Source: GP-DER-047 Lemma 3.1.
+Status: CLOSED.
+
+
+D2 — Strict transverse contraction and strip boundary flux.
+Source: GP-DER-047 Lemma 4.1.
+Status: CLOSED.
+
+
+D3 — Central error and monotone transit.
+Source: GP-DER-047 Lemmas 5.1–5.2.
+Status: CLOSED.
+
+
+D4 — Endpoint Jacobian variation.
+Source: GP-DER-047 Lemma 6.1.
+Status: CLOSED.
+
+
+D5 — Fixed-coordinate saddle cone and selected unstable branch.
+Source: GP-DER-047 Lemmas 7.1–7.3.
+Status: CLOSED.
+
+
+D6 — Sink contraction, invariant M ball, and central-to-sink geometry.
+Source: GP-DER-047 Lemmas 8.1–8.3.
+Status: CLOSED.
+
+
+D7 — Composition into complete degree-four capture.
+Source: GP-DER-047 Theorem 9.1.
+Status: CLOSED.
+
+
+The lemma has no probabilistic, exact-field, or external-theorem dependency.
+
+
+6. PROOF ROADMAP
+
+
+The proof uses one adaptive width W and two endpoint scales sigma and rho.
+
+
+First, the threshold s<=-2mu-2R makes the Y-direction strongly contracting throughout the strip. Because mu W=F_*, the horizontal strip boundary flux has a unit buffer rather than merely a nonpositive sign.
+
+
+Second, the perturbation of X^2-1/4 is at most 0.501RW. The central loss sigma(1-sigma) exceeds 3.99RW, leaving Xdot<=-3RW.
+
+
+Third, the endpoint Jacobian changes by at most 3/64 in each endpoint ball. At S, the large separation A-D generated by the threshold dominates the mixed term and nonlinear variation, yielding an invariant fixed cone with positive xi growth. At M, the same threshold yields a strongly positive matrix -J_M, and the Jacobian variation is less than half its contraction margin.
+
+
+Finally, the cone handoff identity kappa sigma=W/4 places the selected branch inside the strip, and the geometric identity sqrt(sigma^2+W^2)<rho places the left central section inside the M ball. The components therefore glue without an uncovered transition region.
+
+
+7. PROOF-OBLIGATION LEDGER
+
+
+O1 — S and M are exact equilibria.
+Disposition: PASS. Every pin-preserving polynomial factor vanishes at X=±1/2,Y=0.
+
+
+O2 — Geometry is positive and lies in the intended chart.
+Disposition: PASS. W>0, sigma<1/4, rho<1.
+
+
+O3 — Strict strip confinement.
+Disposition: PASS. partial_Y F_Y<=-mu and boundary fluxes have at least unit inward margin.
+
+
+O4 — Central monotone transit.
+Disposition: PASS. F_X<=-3RW.
+
+
+O5 — Endpoint Jacobian variation.
+Disposition: PASS. ||D^2F||<=12R and 12Rrho<=3/64.
+
+
+O6 — Saddle type and cone invariance.
+Disposition: PASS. det DF(S)<0; cone constants exceed 7/8 and 511R respectively.
+
+
+O7 — Selected branch identity and handoff.
+Disposition: PASS. The positive eigenvector slope is less than kappa; xi grows; kappa sigma=W/4.
+
+
+O8 — Sink type and contraction.
+Disposition: PASS. lambda_min(-DF(M))>=63/128 and nonlinear variation is below half the contraction margin.
+
+
+O9 — Central section enters M ball.
+Disposition: PASS. sqrt(sigma^2+W^2)<rho.
+
+
+O10 — Global composition within the local polynomial flow.
+Disposition: PASS. Cone→strip→transit→M-ball transitions cover the complete selected trajectory.
+
+
+O11 — Equality and zero-jet edge cases.
+Disposition: PASS. U=0, REG equality, and threshold equality retain positive strict dynamical margins.
+
+
+O12 — Large-R behavior.
+Disposition: PASS within scope. All inequalities remain valid for R>=1; the theorem domain shrinks as R^-5 but is nonempty for every finite U.
+
+
+8. INDEPENDENT REVIEW
+
+
+Review artifact:
+
+
+CL-AUD-049-v1.0.
+Provider/model family: Anthropic/Claude.
+Review type: ORGANIZATIONALLY DISTINCT / DERIVATION-BLIND ANALYTIC RECONSTRUCTION WITH SHARED-DEFINITION FIXTURE.
+Original GP proof visible: NO.
+Definitions supplied through a CL harness: YES.
+Independent analytic route: YES.
+Independent symbolic differentiation of endpoint Jacobians: YES.
+Machine corroboration: 4,800 parameter points, zero violations.
+Verdict: V1 DISCHARGED / all certificate inequalities independently derived on the declared domain.
+
+
+Lineage limitation:
+
+
+The reviewer received definitions through a same-family CL harness whose author had seen GP-DER-047. This could have propagated a definition transcription error. The current closure process separately compared the displayed field, endpoint Jacobians, geometry, and hypothesis definitions in GP-DER-047 against CL-AUD-049. No mismatch was found. CL-AUD-049 also differentiated the field independently, reducing the remaining shared-fixture risk to the explicit scalar geometry definitions, which were directly crosswalked.
+
+
+The review qualifies under OP-PROT-011 as an organizationally distinct review of the exact conditional deterministic object. It counts once, not as multiple Claude reviews.
+
+
+9. ADVERSARIAL TESTING
+
+
+LCR-DATA-010 executed 200,000 adversarial parameter draws over the full REG-scaled hypothesis domain, including:
+
+
+- the exact U=0 edge;
+- exact REG-boundary equality;
+- threshold equality and near equality;
+- Gaussian coefficients;
+- one-hot coefficients spanning six to three positive logarithmic orders;
+- Cauchy heavy tails;
+- uniform wide coefficients;
+- extreme R above 10^5.
+
+
+No negative strict margin was found. The smallest sampled section-in-ball margin was positive but extremely small at very large R, as expected from the shrinking adaptive geometry. This does not threaten the exact algebraic inequality.
+
+
+The source and receipt are marker-delimited and hash-reconstructable in Drive.
+
+
+10. COUNTEREXAMPLE SEARCH AND FALSIFIERS
+
+
+The lemma is false or must be reopened if any of the following is demonstrated under its exact hypotheses:
+
+
+- S or M is not an equilibrium;
+- the endpoint Jacobian formulas differ from the displayed derivatives;
+- a strip boundary has outward or zero flux;
+- F_X is nonnegative somewhere in S_center;
+- the selected increasing-xi unstable eigenvector lies outside C_S;
+- the cone loses invariance before xi=sigma;
+- the branch leaves B_S before the handoff;
+- -DF(M) fails the claimed eigenvalue lower bound;
+- B_M is not invariant or contains another equilibrium;
+- the left central section is not contained in B_M;
+- a trajectory satisfying all hypotheses fails the stated branch composition;
+- CL-AUD-049’s frozen definitions materially differ from GP-DER-047.
+
+
+No such counterexample is currently present.
+
+
+11. SOURCE AND VERSION HISTORY
+
+
+Primary proof:
+GP-DER-047-v1.0, created 2026-07-20/21.
+
+
+Independent review:
+CL-AUD-049-v1.0, created 2026-07-21.
+
+
+Closure stress capsule:
+LCR-DATA-010-v1.0, created 2026-07-24.
+
+
+Terminal capsule:
+LCR-CAP-009-v1.0, created 2026-07-24.
+
+
+No mathematical statement was changed during closure. The closure extracts the deterministic Theorem 9.1 component from the broader unclosed P0.2 candidate chain and assigns it a unique lemma identity and exact scope.
+
+
+12. CLOSURE DECISION
+
+
+Closure ID: LCR-CLS-008-v1.0
+Lemma ID: P02-LM-001
+Date: 2026-07-24
+Terminal label:
+
+
+CLOSED — CONDITIONAL EXACT DEGREE-FOUR DETERMINISTIC CAPTURE MAJORANT.
+
+
+Decisive evidence:
+
+
+- complete exact proof in GP-DER-047 Sections 2–9;
+- organizationally distinct derivation-blind analytic reconstruction in CL-AUD-049;
+- direct source-definition crosswalk;
+- reproducible hostile stress test with no counterexample;
+- explicit edge-case and scope analysis;
+- no unresolved critical, high, or medium mathematical objection within the frozen deterministic scope.
+
+
+Closure authority:
+
+
+OP-PROT-011 independent-eyes condition is satisfied by the Anthropic review. This terminal record closes the lemma as a reusable exact conditional deterministic result. It does not promote P0.2 or change the canonical mathematical program state.
+
+
+13. DOWNSTREAM USAGE AUTHORIZED
+
+
+P02-LM-001 may be used as the deterministic degree-four implication
+
+
+REG_r(U) and q/r<=-C_cap(U)
+=> selected degree-four S branch converges to M.
+
+
+Any downstream use must preserve:
+
+
+- the exact field polynomial;
+- the exact U/R definitions;
+- K=4096 and epsilon_0=1/(1024K);
+- the REG condition;
+- the threshold C_cap=2KR^5+2R;
+- the branch orientation;
+- the conclusion’s degree-four deterministic scope.
+
+
+The lemma may serve as an input to a separately proved robust exact-field transfer lemma and a separately proved probability lemma.
+
+
+It may not be cited alone as proof of exact-field adjacency or O(r^3) probability.
+
+
+14. REOPENING CONDITIONS
+
+
+Reopen P02-LM-001 if:
+
+
+- an exact counterexample under the hypotheses appears;
+- a coefficient, sign, endpoint convention, or branch orientation is corrected;
+- the CL frozen-definition crosswalk is shown false;
+- a proof inequality is found to use a premise not included in the statement;
+- a dependency cycle or hidden exact-field assumption is discovered.
+
+
+Do not reopen merely because:
+
+
+- better constants are found;
+- the theorem domain is impractically small at accessible r;
+- a stronger exact-field theorem is desired;
+- another proof is developed;
+- P0.2 later fails at a probabilistic or transfer layer.
+
+
+15. MANIFEST
+
+
+P02-LM-001 primary proof
+- Artifact: GP-DER-047-v1.0
+- Drive ID: 1jm1WxNmDd_rBLZA9FQsc2Nlzb9_PPCuEBV0fX3mCL1c
+- Role: exact proof and definitions
+- Status: controlling primary proof for this lemma
+
+
+P02-LM-001 independent review
+- Artifact: CL-AUD-049-v1.0
+- Drive ID: 1fzL4HgJDsawb6ew66XpOCfJGnnxw6TFTom7BM3H8OnI
+- Role: organizationally distinct derivation-blind reconstruction
+- Status: PASS with disclosed shared-definition fixture
+
+
+P02-LM-001 hostile stress capsule
+- Artifact: LCR-DATA-010-v1.0
+- Drive ID: 1It6VYebsawBCA3S7Zs_g7ndB26-yr_NH6K_yNQs373Q
+- Role: source-identified numerical falsification aid
+- Status: PASS / zero independence credit
+
+
+P02-LM-001 closure capsule
+- Artifact: LCR-CAP-009-v1.0
+- Drive ID: 1_ovqOV8q1YCC9J5Q72fYsfzGg3v_5Z71Uv4uwyZU3N4
+- Role: frozen statement, review package, closure record, and downstream fence
+- Status: terminal within exact conditional scope
+
+
+16. REVIEW CHECKLIST RESULT
+
+
+Statement exact: PASS.
+Variables/domains explicit: PASS.
+Quantifiers explicit: PASS.
+Proof obligations discharged: PASS.
+Cases and equality boundaries covered: PASS.
+Dependencies noncircular: PASS.
+Independent review version-specific: PASS.
+Independence lineage disclosed: PASS.
+Computational source identity: PASS.
+Counterexample search meaningful: PASS.
+Residual limitations explicit: PASS.
+Downstream scope mapped: PASS.
+P0.2 separation explicit: PASS.
+
+
+FINAL VERDICT:
+
+
+APPROVE AND CLOSE P02-LM-001 WITHIN THE EXACT CONDITIONAL DEGREE-FOUR DETERMINISTIC SCOPE.
+
+
+END LCR-CAP-009-v1.0

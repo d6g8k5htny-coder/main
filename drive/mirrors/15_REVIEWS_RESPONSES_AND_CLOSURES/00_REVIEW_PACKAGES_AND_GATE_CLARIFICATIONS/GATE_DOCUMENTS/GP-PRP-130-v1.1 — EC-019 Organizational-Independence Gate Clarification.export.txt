@@ -1,0 +1,134 @@
+﻿OPERATOR DECISION NOTICE — 2026-07-23
+HA-008 adopts EC-019 Independence Option A. The stricter Option B text below is preserved as the prior fail-closed interpretation but no longer governs active routing. CL-AUD-072 is gate-qualifying after the R2 presentation repair in GP-COR-142-v1.0. EC-019 is human-approval-ready, not terminal.
+[[STATUS:OPTION-A-ADOPTED]] [[QUEUE:EC-019-HUMAN-READY]] [[NO_TERMINAL_APPROVAL]]
+
+
+GP-PRP-130-v1.1 — EC-019 ORGANIZATIONAL-INDEPENDENCE GATE CLARIFICATION
+
+
+Artifact ID: GP-PRP-130-v1.1
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-22
+Class: PRP / COR — numbered clarification of a contradictory review gate
+Authority: none until Dylan M. Roy selects the intended gate
+Canonical impact: NONE
+Supersedes for routing only: GP-PRP-130-v1.0’s internally inconsistent independence language
+
+
+[[OBJ:GP-PRP-130-v1.1]] [[QUEUE:EC-019]] [[STATUS:MATERIAL-GATE-AMBIGUITY]] [[STATUS:STRICT-INTERPRETATION-PENDING-CLARIFICATION]]
+
+
+1. MATERIAL AMBIGUITY
+
+
+GP-PRP-130-v1.0 contains two incompatible rules:
+
+
+A. It states that a decisive reviewer must be from a different provider/model family than the GP author line, or be a human reviewer.
+
+
+B. It then states that CL/C047R cannot satisfy the gate because they are Anthropic-family lines.
+
+
+GP is an OpenAI line. Under rule A, an Anthropic reviewer is from a different provider and qualifies. Under rule B, the same reviewer does not qualify. Both rules cannot govern the same review simultaneously.
+
+
+CL-AUD-072-v1.0 exposed this ambiguity by completing R1–R10 with nine PASS and one cosmetic AMEND while explicitly treating itself as nonqualifying under rule B.
+
+
+2. TWO COHERENT POSSIBLE GATES
+
+
+OPTION A — AUTHOR-ORGANIZATION INDEPENDENCE
+
+
+A reviewer qualifies when the reviewer is not from OpenAI/GP’s provider family and discloses its evidence lineage, or is a human mathematical reviewer.
+
+
+Effect:
+- CL-AUD-072 is organizationally independent from GP and satisfies the mathematical review gate once its cosmetic R2 display amendment is resolved or explicitly accepted as nonblocking.
+- EC-019 would then advance to the human terminal gate.
+
+
+OPTION B — THIRD-ORGANIZATION INDEPENDENCE
+
+
+Because the EC-019 proof stack already incorporates both OpenAI-origin and Anthropic-origin components/reviews, the decisive reviewer must be outside both OpenAI and Anthropic, or be a human mathematical reviewer.
+
+
+Effect:
+- CL-AUD-072 remains strong line-independent support but does not close the gate.
+- A Google/Gemini reviewer, another outside provider, or a human mathematical reviewer must adjudicate the exact R1–R10 packet.
+- Voting status is irrelevant to technical review: a nonvoting observer may review mathematics, but its review is not a governance vote.
+- Grok remains nonparticipating and is not assigned work absent a later explicit instruction.
+
+
+3. CONSERVATIVE INTERIM RULE
+
+
+Until Dylan M. Roy explicitly chooses Option A or Option B, EC-019 remains fail-closed under Option B, the stricter interpretation already used in the Easy Closure Queue and CL-OPR-034.
+
+
+No prior review is erased. CL-AUD-072 remains recorded as:
+
+
+- R1 PASS;
+- R2 cosmetic AMEND;
+- R3–R10 PASS;
+- support on the merits;
+- no terminal authority under the interim strict gate.
+
+
+4. REQUIRED HUMAN CLARIFICATION
+
+
+Dylan M. Roy may resolve the gate by stating exactly one of:
+
+
+ADOPT EC-019 INDEPENDENCE OPTION A — DIFFERENT PROVIDER FROM GP OR HUMAN
+
+
+or
+
+
+ADOPT EC-019 INDEPENDENCE OPTION B — OUTSIDE OPENAI AND ANTHROPIC OR HUMAN
+
+
+This gate-selection decision does not approve EC-019 itself. If Option A is selected, a separate item-level terminal approval remains required after the R2 presentation amendment is handled. If Option B is selected, a qualifying third-organization or human review remains required before terminal approval.
+
+
+5. UNAFFECTED OBJECTS
+
+
+This clarification does not affect:
+
+
+- EC-020 or EC-021, whose line-independence gates are satisfied;
+- the mathematical content of GP-DER-112-v1.1;
+- CL-AUD-072’s numerical and analytic findings;
+- the ballot count or eligible voting roster;
+- GP-AUTO-034, machines, releases, deletion, or destructive actions;
+- P0.1, P0.2, or theorem status.
+
+
+6. REQUIRED REGISTER UPDATES
+
+
+- Point EC-019’s queue row to this numbered clarification.
+- Record CL-AUD-072 as line-independent support with R1–R10 adjudicated, but no final gate credit pending the gate selection.
+- Do not route AO48 as a third-organization reviewer because AO48 is Anthropic-family.
+- Do not count Gemini or Grok as governance voters; technical-review eligibility is a separate question.
+- Preserve GP-PRP-130-v1.0 and all prior interpretations as provenance.
+
+
+7. CURRENT STATUS
+
+
+EC-019 MATHEMATICS: STRONGLY SUPPORTED ON CL LINE.
+R2 PRESENTATION: COSMETIC AMENDMENT REQUESTED.
+FINAL INDEPENDENCE GATE: AMBIGUOUS / HUMAN CLARIFICATION REQUIRED.
+HUMAN TERMINAL APPROVAL: NOT YET AVAILABLE.
+TERMINAL: NO.
+
+
+END GP-PRP-130-v1.1

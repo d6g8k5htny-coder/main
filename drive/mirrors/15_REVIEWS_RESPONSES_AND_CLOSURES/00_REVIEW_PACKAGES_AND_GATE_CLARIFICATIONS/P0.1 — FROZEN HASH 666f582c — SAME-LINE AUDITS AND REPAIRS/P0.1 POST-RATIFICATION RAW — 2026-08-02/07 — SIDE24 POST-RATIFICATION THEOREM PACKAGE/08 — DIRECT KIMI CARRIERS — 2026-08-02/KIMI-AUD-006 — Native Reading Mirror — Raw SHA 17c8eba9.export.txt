@@ -1,0 +1,129 @@
+﻿KIMI-AUD-006 — Task 7 facewise audit
+Secondary native reading mirror | Raw Drive ID 1HQIpE8Ey7VOiXN7vJWucJIVEAdsXgx0h | Whole-file SHA-256 17c8eba9fcc4a5d1475d7f9e6f3b51ff060aa5ecca78ee879617a20ea0c127fd
+Authority note: the byte-identical raw text carrier controls. This mirror normalizes line wrapping. Compact evidence-body override: 2 pt after and 1.04 line spacing.
+KIMI-AUD-006
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 7 (independent audit of the SIDE24 V3.4
+facewise closure of RP-C and RP-S)
+Inputs (hashes as received; verdict binds to them):
+* proof draft ("SIDE24-V3.4 - rp_c_rp_s_facewise_closure.md - OPERATOR
+  RELAY 2026-08-01 ... audit pending.md"), sha256
+ 40faad08824e4e77520143078ed606c8681532cc77ae9c9d42551baa5277b400
+* disposition file ("SSIDE24-V3.4 - RP-C RP-S closure disposition +
+  check results ... HOLD preserved.md"), sha256
+ d262021d7c0819ba09a6680c29379e3d731e982705a939bd60b8361e3382fbb1
+Independence disclosure: audit executed by the KIMI line with three
+independent verifier agents (section-split) plus orchestrator-level
+numeric cross-checks against the KIMI line's own certified objects
+(G.9.1-corrected planar collar theorem, G.9.2 periodized transfer, and
+the dps-100 Hermite conditioning engine of KIMI-AUD-003). No draft
+text was trusted; every assigned display was recomputed (exact rational
+sympy; mpmath 50-120 dps). Prior exposure: the draft consumes the
+KIMI line's V5-era objects (corrected trapezoidal pin basis, endpoint
+Hermite machinery); that is a shared technique class, disclosed, not a
+dependence — all conclusions below rest on independent recomputation.
+Methods: per-display verdicts VERIFIED / WRONG / UNVERIFIABLE-AS-STATED.
+VERDICT: AMEND REQUIRED — every recomputed display in the draft is
+CORRECT (including both flagship exact computations: the (3.6) face
+monomial and the (5.8) 18-minor factorization), the §6X withdrawal is
+COMPLETE, and the final Cr³ ledgers are exact; but three amendments are
+required before this draft can close RP-C/RP-S at the audit gate. With
+those amendments landed, my verdict converts to APPROVE without further
+review: the mathematics as it stands after repair is an internally
+complete, correct proof of E^MS N_col <= Cr³ and E^MS N_sing <= Cr³,
+hence of RP-C and RP-S, hence (with the already-audited RP-A/RP-L/RP-F
+bounds) of sup(1-p_r) <= Cr³.
+RECEIPTS — section verdicts
+§2 mechanism: VERIFIED (spectral independence = my own G.1 argument).
+§3 (corrected pin basis, residuals, transverse face): PASS. The
+ trapezoidal correction kills T³ exactly (coefficient 6ξ1²−3/2 verified);
+ det C_24 = r⁸·det Cov(R|V_r) scale exact; contact Gram determinant of
+ the three symbols = (9/4)·ρ_ξ⁶(4ξ1²+ρ_ξ²) EXACT (sympy), homogeneity
+ ϱ⁶(4X²+ϱ²) exact; r⁻⁷ Jacobian exact. Orchestrator cross-check:
+ det C_24/[r⁸ρ_ξ⁶(4ξ1²+ρ_ξ²)] measured on a 4×3 chart grid at r=0.1
+ and r=0.05 — ratio in [0.17, 5.0], r-stable to 3 digits: the
+ two-sided compact-chart claim confirmed numerically.
+§4 (axial AI, midpoint MP, endpoint charts): PASS. (4.2) a⁶d0²
+ factorization exact; scales q⁶r⁸ / r¹⁴ / r¹⁶ verified (midpoint r¹⁶
+ additionally verified by the orchestrator at 100 dps: det ratio
+ between r=0.1 and r=0.05 is 2¹⁶ exactly); AI.2 constants (ζA_ζ/6,
+ A_ζ/2) exact; MP.2 coefficients (ρζ, ρ²/2, −rρ/24, −rζ/24, r²/1920)
+ all exact (1/1920 = −1/384+1/320 verified); Var(L₁|V₀) = ρ²(4ζ²+ρ²)/2
+ exact as the CONDITIONAL variance; (4.10) endpoint symbols
+ (cR T⁴/12 − P T²V/2 etc.) exact; (4.4)/(4.5) suppression structure
+ (μ = a·m, m→κ; Mahalanobis κ²/d_0²; interior e^{−c/r²}, midpoint
+ e^{−c/r⁴}) verified and consistent with KIMI-AUD-003's measured B-law
+ (axis B·d ≈ 9.9 — the same first-order constant class).
+§5 (singular-near): PASS. (5.1) Schur determinant = ϱ¹⁰(c²+ϱ²)(3c²+ϱ²)/24
+ EXACT (sympy contact-face elimination; mpmath ratio →1 as η→0); the
+ pair-pin-measurable frame (5.3a) with Jacobian exactly s⁻⁷; all 14
+ coefficients of (5.3b) exact; λ = 12c/(c²+3a) exact; the (5.8)
+ 18-minor factorization (D²/16)(R²+T²D²)(R²+2T²D²)⁴ > 0 exact
+ (Cauchy–Binet, difference exactly 0, exactly 18 nonzero minors);
+ (5.14)–(5.16) verified.
+§6 (hybrid envelope): PASS WITH TWO MATERIAL FINDINGS (below). Pinned
+ cubic form (6.4) exact (kernel computed); the confluent identity
+ h[−r/2,−r/2,r/2,r/2] = 2h'(r/2)/r² exact; the 10×10 determinant is
+ exactly −24σ⁶ UNDER THE CONFLUENT third-order row normalization
+ (finding A); D(r,s) ≥ r²s⁷ with costs s⁻⁶/r⁻³ exact; (6.10)–(6.12)
+ Hadamard chain exact (split at dρ=r² verified); (EP.1) exact.
+§6X withdrawal: VERIFIED COMPLETE. Exhaustive grep: zero live
+ dependencies in §§7–10 on the withdrawn all-face pathwise statement;
+ the falseness is internally consistent (axis product scale violates
+ the required monomial). Every later §6 reference is to the CURRENT
+ (face-restricted) statements, which all verify.
+§7 (moment form): PASS (face table references exist; ESIP logic
+ (7.1)–(7.2) standard and correctly stated; sup θ^{−m}e^{−c/θ²}
+ verified against the closed form at 50 dps).
+§8 (collar integration): PASS. (8.1) r⁻⁴·r³·r⁶ = r⁵ exact; (8.2) is a
+ TRUE INEQUALITY (not an identity — exact form is
+ p_G(0)E[Q·1_{h≤F≤b}|G=0], valid for Q≥0 as written); (8.3), (8.4),
+ (EP.2) chains multiply out exactly; (8.5), (MP.7) verified;
+ (8.6) E^MS N_col ≤ Cr³ follows by (1.3).
+§9 (singular integration): PASS. (9.1) uniform bound proved
+ (z-substitution + Gamma cap); (9.2) assembly exact; (9.3) six-term
+ expansion EXACT (sympy: r⁷s⁻⁵ + 2r⁶s⁻³ + r⁵s⁻² + r⁵s⁻¹ + 2r⁴ + r³s²);
+ (9.4) six integrals recomputed exactly; (9.5) E^MS N_sing ≤ Cr³.
+ ORCHESTRATOR CONFESSION: before the section auditor's expansion I
+ drafted a "misprint" claim against (9.3) from my own hand expansion —
+ it contained two exponent slips of mine (r²s³ misread as r³s³, 2rs⁵
+ as 2r²s⁵). The draft is correct; my claim is RETRACTED and logged.
+§10: PASS (logic chain (8.6)+(9.5)+RP-A/L/F ⇒ sup(1−p_r) ≤ Cr³;
+ HOLD wording internally consistent).
+THE THREE REQUIRED AMENDMENTS
+A. (§6, −24σ⁶) The confluent third-order row must be displayed
+  explicitly. The literal average/divided-difference reading of
+  "rows through order three" gives det = 2η²σ⁶ (NOT independent of η);
+  the natural confluent row T4 = 3[(pX(a)+pX(−a))/2 − (p(a)−p(−a))/(2a)]/a²
+  (unit limit pXXX(0)) gives exactly −24σ⁶ independent of (η, c). As
+  written, the display is decodable only by reverse-engineering.
+B. (§6, (6.7)/(6.8)) The two-regime structure must be displayed.
+  Single-chart pointwise, s⁻⁶ (or r⁻³) is NOT absorbed by
+  Θ⁻ᴺe^{−c/Θ²} when Θ≫s (verified numerically at 50 dps); the
+  estimate holds via the stated case split (near-axis Θ≍s vs
+  angular-dominant overlap with deficit-free (6.2)). The text states
+  the split; the displays must stop compressing it.
+C. (record) The three supporting files must enter the audit record:
+  three_hessian_conditional_moment_envelope.md (proof details of (6.2)),
+  quartic_remainder_audit_note.md and scripts/
+  verify_quartic_endpoint_counterexample.py (the §6X counterexample
+  evidence). All three are ABSENT from the upload; (6.2) is currently
+  UNVERIFIABLE-AS-STATED (mechanisms verified, proof text absent) and
+  the §6X counterexample cannot be replayed. REQUEST PASTE of all three.
+SCOPE NOTES
+* The O(r⁻⁷) collar joint density origin and the s⁻⁷ frame bounds rest
+  on frozen V3.3-layer eigenfloor tables (consistent with, and of the
+ same class as, the KIMI line's G.3/G.7.1 normalizer work, which is
+ independently proved). Not re-derived here; internally consistent.
+* The RP-A/RP-L/RP-F bounds consumed by §10 are the already-audited
+  closures (V5 Theorem G.7.1 and the G.8 audit on the KIMI line).
+* This verdict says nothing about P0.1/P0.2 or Theorem B promotion.
+FALSIFIER: a counterexample to any verified display (each receipt names
+its recomputation path), a live §§7–10 dependency on the withdrawn §6.1
+located after my grep, or an amendment-A/B/C objection showing the
+required row/regime/files are unnecessary, kills the corresponding part
+of this verdict. After amendments A–C land, a re-run of the three
+section audits reproducing any current PASS line converts AMEND to
+APPROVE as stated above.
+SHA-256 of this report body (text after this line is excluded):
+4b66f85e97e2338362e9086abd0f8c939a71248fbdea08e4a462d141756f5a38

@@ -1,0 +1,271 @@
+﻿CURRENT DISPOSITION CORRECTION — LM012 v1.0 RETRACTED / LM004 UNCHANGED — 2026-07-26
+
+
+This same-family audit’s P02-LM-004 v1.1 analysis and its coupled event inclusion remain valid. Its LM012 carrier verdict is narrowed:
+
+
+- LCR-DER-043-v1.0, 10,808 bytes / SHA cfbbd5913667aa347ff7102c2d058dcdc9f1d791dd35e6ca727f4c3ea65eab74, is AMEND REQUIRED because the frozen common-domain checklist states deterministic capture on REG_r intersect G_r without retaining {s<=-C_cap(U)}.
+- The audit’s own Section 4 used the correct stronger inclusion REG_r intersect G_r intersect {s<=-C_cap(U)} subset A_r, so the coupled algebra is not falsified.
+- The repaired active object is LCR-DER-043-v1.1, 11,543 bytes / SHA 68df32086da07fac8b042789de7a1c280aa2df56885532618c2fcabdb04b9ad4.
+
+
+Successor proof: https://docs.google.com/document/d/1RlkK7LWmJedt12fD4Dsg3XQbmVc7XL00fODQVTMxrBY/edit
+Successor review: https://docs.google.com/document/d/1X-46gXEIqZr8JMc458ikHGKtLsQpRIrEgwUknhUd5ig/edit
+Defect/freeze audit: https://docs.google.com/document/d/1LxBFj9rDf_eV5kYINLlRZDF_b4HHKhptj-hkev-tqxI/edit
+
+
+Corrected carrier-specific dispositions:
+- P02-LM-004 v1.1: SAME-FAMILY PASS WITH CLARIFICATIONS — unchanged;
+- P02-LM-012 v1.0: AMEND REQUIRED;
+- P02-LM-012 v1.1: SAME-FAMILY REPAIR/FREEZE PASS, fresh external exact-hash review required;
+- P02-LM-013 stack: prior same-family findings unchanged, current version firewalls still apply.
+
+
+No independence credit, closure, or promotion follows.
+
+
+[[LM004:SAME-FAMILY-PASS-UNCHANGED]] [[LM012:v1.0-AMEND-REQUIRED]] [[LM012:v1.1-CURRENT]] [[P0.2:OPEN]] [[NO-PROMOTION]]
+
+
+S2-AUD-006-v1.0 — COUPLED HOSTILE SAME-FAMILY REVIEW
+P02-LM-004 v1.1 / P02-LM-012 / P02-LM-013
+
+
+Reviewer: OpenAI GPT-5.6 Thinking — Scientist 2 line
+Date: 2026-07-25
+Authority: same-family technical audit only
+Independence credit: ZERO
+Canonical impact: NONE
+P0.2 status: OPEN / NONTERMINAL / NOT PROMOTED
+
+
+OBJECTS REVIEWED
+
+
+P02-LM-004 v1.1
+LCR-DER-016-v1.1
+BODY_BYTES 10416
+SHA-256 d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87
+
+
+P02-LM-012
+LCR-DER-043-v1.0
+BODY_BYTES 10808
+SHA-256 cfbbd5913667aa347ff7102c2d058dcdc9f1d791dd35e6ca727f4c3ea65eab74
+
+
+P02-LM-013 / P01-MEAS-001
+GP-DER-197-v1.0
+BODY_BYTES 13797
+SHA-256 035d5a18018606bd8736dc5774a7adbed29de453b30a1780976e1e4f69285d4d
+
+
+Local-selector proof companion
+LCR-DER-057-v1.0
+BODY_BYTES 11087
+SHA-256 4165696dd982e65f005070ac787ae439e041d787f2eff77624ec9c1a5a4576d1
+
+
+EXECUTIVE VERDICT
+
+
+PASS WITH CLARIFICATIONS — SAME-FAMILY ONLY.
+
+
+No theorem-breaking defect was found in the deterministic robustness, coordinate-typed common-domain, measurable branch, Borel adjacency, or certificate-identity chain.
+
+
+The bundle may be used as a same-line candidate dependency of P02-LM-011. It earns no organizationally distinct closure credit and does not close P0.2.
+
+
+1. P02-LM-004 v1.1 — ADAPTIVE C1 ROBUSTNESS
+
+
+Checked:
+
+
+1. The exact field preserves the configured equilibria F(S)=F(M)=0.
+2. The comparison and exact fields are gradient fields, so endpoint Jacobians are symmetric.
+3. The C1 norm is explicitly Euclidean/operator norm and controls both vector-field flux and spectral perturbation.
+4. The adaptive tolerance eta=RW/4 is correctly used rather than a fixed U-independent tolerance.
+5. The universal estimate RW<=1/2048 gives eta<=1/8192.
+6. Strip boundary flux survives because the comparison margins are plus/minus one and the perturbation is smaller than one.
+7. Central transit survives because -3RW+RW/4=-(11/4)RW<0.
+8. Weyl perturbation preserves one positive and one negative saddle eigenvalue using the explicit v1.1 spectral margins.
+9. E(S)=0 plus the derivative bound yields the required linear-in-distance perturbation estimate inside the saddle cone.
+10. The exact selected eigendirection uses e_u dot (M-S)>0 and matches the configured M-ward branch.
+11. Sink contraction survives from 63/128-3/64-eta>0.44.
+12. Every certified trajectory portion remains in the declared fixed chart; no far-field continuation is imported.
+
+
+Taylor power check:
+
+
+On G_r, the remainder estimate gives
+
+
+||F_r-F_r^(4)||_{C1(D)} <= C_D r.
+
+
+On REG_r,
+
+
+RW=F_*/(K R^4) >= r^(4/5)/(K epsilon_0^(4/5)).
+
+
+Therefore
+
+
+C_D r/(RW) <= C_D K epsilon_0^(4/5) r^(1/5),
+
+
+and the displayed positive radius
+
+
+r_rob=min{1,[4 C_D K epsilon_0^(4/5)]^(-5)}
+
+
+correctly guarantees C_D r<=RW/4.
+
+
+Verdict for LM004 v1.1: PASS WITH CLARIFICATIONS.
+
+
+External reviewer should independently reconstruct at least one cone-face perturbation inequality, the selected-eigenline-in-cone implication, and the sink-ball contraction estimate rather than relying only on imported Q1–Q5 labels.
+
+
+2. P02-LM-012 — COORDINATE-TYPED COMMON DOMAIN
+
+
+The predecessor’s coordinate defect is repaired.
+
+
+Checked:
+
+
+1. Normalized endpoints are M_hat=(-1/2,0), S_hat=(1/2,0).
+2. Physical endpoints are M_r=rM_hat, S_r=rS_hat.
+3. Scaled fields and Jacobians are evaluated only at normalized coordinates.
+4. Pins, exact Hessians, determinant weights, type indicators, and A_r are evaluated only at physical endpoints.
+5. D_cert is contained in the interior of one fixed convex D_plus.
+6. r_lift keeps rD_plus inside a single Euclidean lift of the side-24 torus.
+7. H5 monotonicity has the correct direction:
+
+
+H_{5,r}(D_cert)<=H_{5,r}(D_plus).
+
+
+8. The scaled-to-physical bridge has the restored factor r:
+
+
+H_exact(M_r)=r DF_r(M_hat),
+H_exact(S_r)=r DF_r(S_hat).
+
+
+Thus an O(r) scaled Jacobian error yields O(r^2) physical Hessian error.
+
+
+9. The common good event G_r simultaneously supports GT5, Taylor transfer, and the boundary-layer Hessian crosswalk.
+10. The minimum of finitely many positive source endpoints is positive.
+
+
+Verdict for LM012: PASS WITH CLARIFICATIONS.
+
+
+The theorem is qualitative. It does not provide a numerical accessible radius. Any future quantitative application must include every source-specific validity endpoint in the final minimum. P02-LM-011 independently retains the safer min_j formulation.
+
+
+3. P02-LM-013 — MEASURABLE SELECTED BRANCH AND BOREL EVENT
+
+
+Checked:
+
+
+1. C^3(T_L^2) is a separable Banach field space and supports the analytic Gaussian law and exact finite-dimensional conditional Gaussian law.
+2. The strict maximum/saddle/nonorthogonality domain O_r is relatively open and Borel.
+3. The unstable orientation
+
+
+e_u=P_u(H_S)(M_r-S_r)/||P_u(H_S)(M_r-S_r)||
+
+
+is continuous and single-valued on O_r.
+4. LCR-DER-057 supplies an explicit local continuous selected point by a uniform Lyapunov–Perron contraction.
+5. The backward-path operator has the correct unstable and stable variation-of-constants signs.
+6. Its contraction and self-map bounds are uniform on a local field-space neighborhood.
+7. The local graph is tangent to the oriented unstable eigendirection because h_p(xi)=o(xi).
+8. A countable open cover and disjoint Borel stratification produce a Borel branch-point selector.
+9. Different positive selector points lie on the same one-dimensional unstable orbit and have the same forward convergence behavior.
+10. The global flow is jointly continuous for finite times on the compact torus and gives a Borel path map.
+11. Convergence to M_r is Borel through a countable rational-time representation.
+12. The deterministic certified event follows the identical selected branch, giving E_r subset A_r.
+13. The exact Palm quotient contains no adjacency indicator in the weight; A_r remains the event being measured.
+
+
+Verdict for LM013: PASS WITH CLARIFICATIONS.
+
+
+Review package requirement:
+
+
+A qualifying independent review of LM013 should inspect both:
+
+
+- GP-DER-197 SHA 035d5a18...85d4d; and
+- LCR-DER-057 SHA 4165696d...576d1.
+
+
+GP-DER-197’s frozen body names a standard parameter-dependent unstable-manifold theorem. LCR-DER-057 is the explicit same-line replacement for that local step. Reviewing only one object leaves the current proof lineage incomplete.
+
+
+4. COUPLED EVENT INCLUSION
+
+
+The reviewed interfaces support the exact same-line implication
+
+
+REG_r intersect G_r intersect {s<=-C_cap(U)} subset A_r.
+
+
+Therefore
+
+
+A_r^c subset {s>-C_cap(U)} union REG_r^c union G_r^c.
+
+
+Under exact typed Palm support, the threshold event intersected with G_r is the exact B_r used by LM010 v1.1. No adjacency conditioning enters the base law and no finite-Q4 weight enters the final quotient.
+
+
+5. ADVERSARIAL MUTATIONS
+
+
+The following mutations would invalidate the bundle and are not present:
+
+
+- evaluating a scaled Jacobian at M_r or S_r;
+- evaluating a physical Hessian at M_hat or S_hat;
+- dropping the factor r between scaled Jacobian and physical Hessian;
+- reversing H5 chart monotonicity;
+- using C0 rather than C1 closeness;
+- allowing the exact pins to drift;
+- selecting an arbitrary eigensolver sign;
+- defining A_r by certificate success rather than exact branch convergence;
+- conditioning the Palm base law on adjacency;
+- using a nonmeasurable branch representative;
+- treating failure of the sufficient certificate as equivalent to nonadjacency.
+
+
+6. FINAL DISPOSITION
+
+
+P02-LM-004 v1.1: SAME-FAMILY PASS WITH CLARIFICATIONS.
+P02-LM-012: SAME-FAMILY PASS WITH CLARIFICATIONS.
+P02-LM-013 plus LCR-DER-057: SAME-FAMILY PASS WITH CLARIFICATIONS.
+
+
+No status promotion follows.
+No terminal count changes.
+P0.2 remains OPEN / NONTERMINAL / NOT PROMOTED.
+
+
+[[LM004:SAME-FAMILY-PASS]] [[LM012:SAME-FAMILY-PASS]] [[LM013+LP:SAME-FAMILY-PASS]] [[INDEPENDENCE-CREDIT:ZERO]] [[P0.2:OPEN]] [[NO-PROMOTION]]

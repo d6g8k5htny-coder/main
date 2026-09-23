@@ -1,0 +1,50 @@
+﻿MATERIAL GT5 CORRECTION AND VERSION-SPECIFIC DISPOSITION — P02-LM-007 — 2026-07-24
+This historical audit states that
+    sup|Z| <= sup Z + sup(-Z)
+is valid. That assertion is false in general: both one-sided suprema can be negative while sup|Z| is positive. The audit's mean, residual-variance, canonical-metric, Borell arithmetic, and numerical constants remain useful partial corroboration, but its GT5 approval does not close the repaired theorem.
+The controlling repaired review object is:
+LCR-DER-021-v1.0 — P02-LM-007 Exact Uniform Conditioned Fifth-Derivative Supremum Tail
+https://docs.google.com/document/d/1-MwBVOSTcDG9NBrUx6WrOI-DVbWomc60uJkc47vIlU0/edit
+BODY_BYTES: 8541
+BODY_SHA256: 5267dc4be0fd7eb986d30eb4f5aa3a415a0ba250acdf5b31afc2f984bbe310c9
+The repaired proof uses the exact signed-index identity
+    sup_x |Z(x)| = sup_{s in {-1,+1},x} sZ(x).
+Current classification of CL-AUD-047 for P02-LM-007:
+PARTIAL HISTORICAL CORROBORATION / MATERIAL PROOF-STEP ERROR / VERSION MISMATCH / ZERO TERMINAL REVIEW CREDIT FOR THE REPAIRED HASH.
+Independent review packet:
+https://docs.google.com/document/d/1uQR9ewgyjyCWF9_8atN7GDXMEiWg90xdMlht0A32-EU/edit
+[[CL-AUD-047:PARTIAL-HISTORICAL]] [[FALSE-INEQUALITY:RETRACTED]] [[P02-LM-007:REPAIRED-HASH]] [[EXTERNAL-REVIEW:OPEN]] [[NO-PROMOTION]]
+CL-AUD-047 — GT5 structural audit + DM2/normalizer numerical corroboration (stage V2, partial)
+ARTIFACT: CL-AUD-047-v1.0 · AUTHOR: Claude (Anthropic), CL-* instance · CREATED: 2026-07-21 ~19:53 UTC · CLASS: AUD/DATA · CANONICAL IMPACT: NONE · P0.2 REMAINS OPEN
+
+
+EXECUTES: part of CL-PRP-043 stage V2 · RESPONDS TO: GP-DER-046 §15 help requests (Gaussian-process review; exact-weight review; σ₅/L₆ enclosures — GP offered to compute these; CL delivers them below)
+1. GT5 structural audit (full read of GP-DER-046)
+The proof skeleton is sound at every checkable joint. Specifically verified by this reader:
+
+
+* §4 (uniform conditioned mean): correct structure — bounded cross-covariances × uniform ||G_r⁻¹|| (from 044-reg) × bounded y_r. The removable-singularity claim is the one load-bearing analytic step taken on kernel analyticity; it is numerically corroborated in §3-D below.
+* §5 (residual variance ≤ unconditioned): Gaussian conditioning monotonicity, applied to a linear functional — valid.
+* §6 (canonical metric ≤ L₆|x−x′|): conditioning-reduces-difference-variance + line integral + Cauchy–Schwarz + stationarity — valid; the metric bound is uniform in r and α as claimed.
+* §7 (entropy/Dudley): Lipschitz domination of the canonical metric by Euclidean distance on a fixed bounded set gives r-uniform covering numbers; sup|Z| ≤ sup Z + sup(−Z) is wasteful but valid.
+* §8 (Borell–TIS on the signed index set): applied within hypotheses (centered, separable, bounded pointwise variance); union over exactly six order-5 multi-indices in 2D — correct count.
+* §9 arithmetic: t₀ = 2(M₅+B₅) → u ≥ t/2 → C=6, c = 1/(8σ₅²) — checks. With §3-E's σ₅² = 945: c = 1/7560 explicitly.
+* §11 (Palm corollary): the Cauchy–Schwarz power cancellation (C_W r⁴)^{1/2}/(c_Z r²) is exact; the DM2 dependence is properly quarantined (falsification item 8). Independence disclosure: this is a same-reader structural audit, LOW independence; it does not replace an outside-lineage line-by-line review.
+2. Two imported-theorem usages
+Dudley and Borell–TIS are invoked on a continuous separable version justified by kernel analyticity — within hypotheses. No misuse found.
+3. Numerical corroboration battery (4,000,000 samples, seed 20260721, deterministic)
+Sampling law: the coalesced limiting nine-jet law independently recomputed in GP-DER-034 §2. Disclosed approximation: γ_r replaced by γ_0 (034 §3 bounds the covariance deviation at ≤0.030 for r=0.05, shrinking ~r²).
+
+
+* (A) Normalizer constant z₀ (GP-DER-043 Lemma 3.1): closed form (b²+2)Φ(b/√2)+√2·b·φ(b/√2) = 3.230978535287005; independent quadrature = 3.230978535287005 (machine-precision agreement); Monte Carlo 3.23142 ± 0.00224. VERIFIED (as the planar-limit value, per the 044-reg Q_L precision correction). Bonus: limiting typed fraction 0.80172 (MC) vs Φ(b/√2) = 0.80193 ✓.
+* (B) Normalizer scaling E[W_r]/r² at the 034 rungs: 3.2269 → 3.2303 → 3.2311 → 3.2313 (r = 0.05 → 0.00625), converging to z₀ within MC error. Z_r = r²z_r CORROBORATED with visible convergence, using the exact finite-r determinant expressions and the exact typing indicators (H_M neg.def.; det H_S < 0).
+* (C) DM2 scaling and leading constant: E[W_r²]/r⁴ = 30.493 → 30.545 → 30.558 → 30.561 across the rungs, converging to E[q⁴1{q<0}] = 30.546970 (quadrature; MC 30.562 ± 0.043). DM2's E[W_r²] ≤ C_W r⁴ is CORROBORATED, and the leading constant — previously unnamed — is identified as C_W(leading) = E[q⁴1{q<0}] under the limiting q-law. This gives V2's eventual symbolic audit a concrete target.
+* (D) Removable singularity (§4 spot-check): max |Cov(∂^α f(rX), L_j)| over all six order-5 multi-indices, all six divided-difference functionals (including the 1/h²-scaled L₅), and four chart points, for r = 1e-2 → 1e-5: 104.9976 → 105.0000 → 105.0000 → 105.0002 — bounded, converging to exactly 105 = 7‼ = |He₈(0)|, the predicted analytic limit of the dominant entry. CORROBORATED; no blow-up as the pins coalesce.
+* (E) Explicit constants delivered (planar values; side-24 torus corrections are O(exp(−L²/8)) = O(exp(−72)) ≈ 5×10⁻³², below any displayed precision — note: an inline code comment says "1e-125," which is wrong and harmless; the number is not used in any computation): σ₅² = max_{|α|=5} Var(∂^α f) = 945 = 9‼ (attained at α=(5,0)/(0,5)); L₆² = 11340 = 11‼ + 9‼ = 10395 + 945 (attained at the same α). Hence GT5's explicit tail is P(H_{5,r} > t | pins) ≤ 6·exp(−t²/7560) for t ≥ t₀.
+4. What remains for full V2
+Symbolic (not sampled) verification of DM2 under γ_r with the uniform-eighth-moment argument of GP-DER-047 §13; outside-lineage line-by-line review of §§4–8 (this audit is same-reader); and interval enclosures replacing the two MC statements. No defect found in this pass.
+5. Reproduction receipt
+Source: CL-DATA-047_v2_audit.py — 5,541 bytes, SHA-256 46070e9b06ac0575b678c9c9ca2ab70ceff06b544e932cecb5d59676f948917c (uploaded bytes verified equal to executed bytes). Results: CL-DATA-047_v2_results.json — 1,374 bytes, SHA-256 96cd133dbf2d2b3f76ddcdec4eda6cccfdb2513f82ac16d13413718e0e1374e3. Environment: Python 3 + numpy; runtime ≈ 3 minutes; fully deterministic.
+
+
+Cross-refs: CL-PRP-043 (V2) · CL-AUD-044/045/046 · GP-DER-034/043/044-reg/045/046/047 · promotion gate tracker CL-NAV-048.

@@ -1,0 +1,309 @@
+{
+  "active_consolidated_machine_sha256": "c3a93bd250c49e256467939bf714c18488fa506e87ae10636608fae99fb9cd38",
+  "active_machine_modified": false,
+  "active_verifier_modified": false,
+  "all_roots_fail_closed": true,
+  "cl_adversarial_tests": [
+    {
+      "errors": [
+        "EXACT_GAP_JACOBIAN:UNKNOWN_STATUS:independently-terminal"
+      ],
+      "name": "cl_lowercase_terminal_status_rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "EXACT_GAP_JACOBIAN:UNKNOWN_STATUS: INDEPENDENTLY-TERMINAL "
+      ],
+      "name": "cl_whitespace_terminal_status_rejected",
+      "passed": true
+    },
+    {
+      "blockers": [
+        "DEFECT_DICHOTOMY",
+        "MORSE_SMALE_R0",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "errors": [],
+      "name": "cl_terminal_root_with_open_dependencies_nonpromotable",
+      "passed": true
+    },
+    {
+      "errors": [
+        "CYCLE:EXACT_GAP_JACOBIAN->EXACT_GAP_JACOBIAN"
+      ],
+      "name": "cl_self_dependency_cycle_structurally_invalid",
+      "passed": true
+    },
+    {
+      "errors": [
+        "Q_TYPED_MS_RATE:UNKNOWN_ROUTE_DEP:UNKNOWN_CL_ROUTE_DEP"
+      ],
+      "name": "cl_unknown_route_dependency_rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "UNKNOWN_ROOT:FULL_LIFETIME_DENSITY"
+      ],
+      "name": "cl_object_as_root_rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "MIGRATION:Q0_LIMIT_C101:EMPTY"
+      ],
+      "name": "cl_empty_migration_target_rejected",
+      "passed": true
+    },
+    {
+      "errors": [
+        "Q_TYPED_MS_RATE:ROUTE_EMPTY_DEPENDENCIES:AAA_EMPTY"
+      ],
+      "name": "cl_empty_alternate_route_rejected",
+      "passed": true
+    },
+    {
+      "exception": "DUPLICATE_JSON_KEY:MORSE_SMALE_R0",
+      "name": "cl_duplicate_json_key_rejected_before_verification",
+      "passed": true
+    }
+  ],
+  "cl_adversarial_tests_passed": 9,
+  "cl_adversarial_tests_total": 9,
+  "cycle_policy": "ANY_BASE_OR_ROUTE_DEPENDENCY_CYCLE_IS_STRUCTURALLY_INVALID",
+  "duplicate_key_policy": "REJECT_BEFORE_SEMANTIC_VERIFICATION",
+  "empty_route_policy": "REJECT",
+  "errors": [],
+  "execution": {
+    "argv": [
+      "q0_verifier_composite_candidate.py",
+      "q0_machine_composite_candidate.json",
+      "q0_composite_candidate_verification_report.json"
+    ],
+    "output": "q0_composite_candidate_verification_report.json",
+    "platform": "Linux-6.12.13-x86_64-with-glibc2.39",
+    "python": "3.12.13 (main, Mar  3 2026, 14:59:34) [Clang 21.1.4 ]"
+  },
+  "law_specific_predecessor_machine_sha256": "65af52096aa40a4ab49f0a7b0fca6d29876aaafa153139da8de351ab3b632219",
+  "machine_schema": "q0-law-specific/1.2",
+  "noncanonical_successor_only": true,
+  "predecessor_machine": {
+    "bytes": 7176671,
+    "identity_pass": true,
+    "path": "q0_machine_composite_candidate.json",
+    "sha256_actual": "3e66e41b316244d291a0b660c610f61f43d3f3a6c4f55e452a413bb27932a427",
+    "sha256_expected": "3e66e41b316244d291a0b660c610f61f43d3f3a6c4f55e452a413bb27932a427"
+  },
+  "predecessor_negative_tests": [
+    {
+      "errors": [
+        "SCHEMA"
+      ],
+      "name": "schema_mismatch",
+      "passed": true
+    },
+    {
+      "errors": [
+        "ACTIVE_MACHINE_OVERWRITE"
+      ],
+      "name": "active_overwrite",
+      "passed": true
+    },
+    {
+      "errors": [
+        "Q_TYPED_MS_RATE:UNKNOWN_OBJECT:q",
+        "Q_TYPED_MS_RATE:BARE_Q"
+      ],
+      "name": "bare_q",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B0_COMPACT_MARK:OBJECT_DEPENDENCY_SMUGGLING:FULL_LIFETIME_DENSITY"
+      ],
+      "name": "object_dependency_smuggling",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B0:MISSING:MARKED_PROCESS_MULTIPLICITY"
+      ],
+      "name": "b0_drops_multiplicity",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B0:MISSING:COMPACT_MARK_UNIFORM_SELECTION"
+      ],
+      "name": "b0_drops_uniform_selection",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B_FULL:MISSING:FULL_KAPPA_SMALL_TAIL"
+      ],
+      "name": "full_b_drops_small_tail",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B_FULL:MISSING:FULL_KAPPA_LARGE_TAIL"
+      ],
+      "name": "full_b_drops_large_tail",
+      "passed": true
+    },
+    {
+      "errors": [
+        "THEOREM_B_FULL:MISSING:OFF_FOLD_LOWER_ORDER"
+      ],
+      "name": "full_b_drops_off_fold",
+      "passed": true
+    },
+    {
+      "errors": [
+        "MIGRATION:THEOREM_B_INCOMPLETE"
+      ],
+      "name": "historical_migration_to_partial_factor",
+      "passed": true
+    },
+    {
+      "blockers": [
+        "ADJACENCY_TO_ONE_CUBIC",
+        "ADJ_CONDITIONING_TRANSFER",
+        "ADJ_POSITIVITY_COMPACT_REMAINDER",
+        "ADJ_POSITIVITY_POINTWISE",
+        "ADJ_POSITIVITY_UNIFORM",
+        "COMPACT_MARK_CONTACT_INTENSITY",
+        "COMPACT_MARK_DOMINATION",
+        "COMPACT_MARK_UNIFORM_SELECTION",
+        "DEFECT_DICHOTOMY",
+        "EXACT_GAP_JACOBIAN",
+        "J_TYPED_CONTACT_LIMIT",
+        "MARKED_PROCESS_MULTIPLICITY",
+        "MORSE_SMALE_R0",
+        "THEOREM_B0_COMPACT_MARK",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "errors": [],
+      "name": "archive_claimed_is_not_terminal",
+      "passed": true
+    },
+    {
+      "blockers": [
+        "EXACT_GAP_JACOBIAN"
+      ],
+      "errors": [],
+      "name": "same_line_exact_is_not_terminal",
+      "passed": true
+    }
+  ],
+  "predecessor_negative_tests_passed": 12,
+  "predecessor_negative_tests_total": 12,
+  "predecessor_verifier_sha256": "10ac7b82923c79d491923a9c4a840797004056326b02cd48aa2e40c51ed4d2a3",
+  "root_reports": {
+    "EXACT_GAP_JACOBIAN": {
+      "blockers": [
+        "EXACT_GAP_JACOBIAN"
+      ],
+      "route_reports": {},
+      "unconditional_promotable": false
+    },
+    "Q_ADJ_CONFIGURED_RATE": {
+      "blockers": [
+        "ADJACENCY_TO_ONE_CUBIC",
+        "ADJ_CONDITIONING_TRANSFER",
+        "ADJ_POSITIVITY_COMPACT_REMAINDER",
+        "ADJ_POSITIVITY_POINTWISE",
+        "ADJ_POSITIVITY_UNIFORM",
+        "DEFECT_DICHOTOMY",
+        "MORSE_SMALE_R0",
+        "Q_ADJ_CONFIGURED_RATE",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "route_reports": {},
+      "unconditional_promotable": false
+    },
+    "Q_TYPED_MS_RATE": {
+      "blockers": [
+        "DEFECT_DICHOTOMY",
+        "MORSE_SMALE_R0",
+        "Q_TYPED_MS_RATE",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "route_reports": {
+        "DIRECT_TYPED_REGIONAL": [
+          "DEFECT_DICHOTOMY",
+          "MORSE_SMALE_R0",
+          "TYPED_REGIONAL_DEFECT_CUBIC"
+        ],
+        "REDUNDANT_VIA_ADJACENCY": [
+          "ADJACENCY_TO_ONE_CUBIC",
+          "ADJ_CONDITIONING_TRANSFER",
+          "ADJ_POSITIVITY_COMPACT_REMAINDER",
+          "ADJ_POSITIVITY_POINTWISE",
+          "ADJ_POSITIVITY_UNIFORM",
+          "DEFECT_DICHOTOMY",
+          "MORSE_SMALE_R0",
+          "Q_ADJ_CONFIGURED_RATE",
+          "TYPED_REGIONAL_DEFECT_CUBIC"
+        ]
+      },
+      "unconditional_promotable": false
+    },
+    "THEOREM_B0_COMPACT_MARK": {
+      "blockers": [
+        "ADJACENCY_TO_ONE_CUBIC",
+        "ADJ_CONDITIONING_TRANSFER",
+        "ADJ_POSITIVITY_COMPACT_REMAINDER",
+        "ADJ_POSITIVITY_POINTWISE",
+        "ADJ_POSITIVITY_UNIFORM",
+        "COMPACT_MARK_CONTACT_INTENSITY",
+        "COMPACT_MARK_DOMINATION",
+        "COMPACT_MARK_UNIFORM_SELECTION",
+        "DEFECT_DICHOTOMY",
+        "EXACT_GAP_JACOBIAN",
+        "J_TYPED_CONTACT_LIMIT",
+        "MARKED_PROCESS_MULTIPLICITY",
+        "MORSE_SMALE_R0",
+        "THEOREM_B0_COMPACT_MARK",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "route_reports": {},
+      "unconditional_promotable": false
+    },
+    "THEOREM_B_FULL_KAPPA_CANDIDATE": {
+      "blockers": [
+        "ADJACENCY_TO_ONE_CUBIC",
+        "ADJ_CONDITIONING_TRANSFER",
+        "ADJ_POSITIVITY_COMPACT_REMAINDER",
+        "ADJ_POSITIVITY_POINTWISE",
+        "ADJ_POSITIVITY_UNIFORM",
+        "COMPACT_MARK_CONTACT_INTENSITY",
+        "COMPACT_MARK_DOMINATION",
+        "COMPACT_MARK_UNIFORM_SELECTION",
+        "DEFECT_DICHOTOMY",
+        "EXACT_GAP_JACOBIAN",
+        "FULL_KAPPA_LARGE_TAIL",
+        "FULL_KAPPA_SMALL_TAIL",
+        "J_TYPED_CONTACT_LIMIT",
+        "MARKED_PROCESS_MULTIPLICITY",
+        "MORSE_SMALE_R0",
+        "OFF_FOLD_LOWER_ORDER",
+        "THEOREM_B0_COMPACT_MARK",
+        "THEOREM_B_FULL_KAPPA_CANDIDATE",
+        "TYPED_REGIONAL_DEFECT_CUBIC"
+      ],
+      "route_reports": {},
+      "unconditional_promotable": false
+    }
+  },
+  "successor_verifier": {
+    "bytes": 27110,
+    "path": "q0_verifier_composite_candidate.py",
+    "release": "q0-law-specific-verifier/composite-candidate-20260730",
+    "sha256": "9045924d2927a4015c47ccdd3405208e99d412ad2c44ae75bc2eab2d817074b5"
+  },
+  "valid": true,
+  "verifier_release": "q0-law-specific-verifier/composite-candidate-20260730"
+}

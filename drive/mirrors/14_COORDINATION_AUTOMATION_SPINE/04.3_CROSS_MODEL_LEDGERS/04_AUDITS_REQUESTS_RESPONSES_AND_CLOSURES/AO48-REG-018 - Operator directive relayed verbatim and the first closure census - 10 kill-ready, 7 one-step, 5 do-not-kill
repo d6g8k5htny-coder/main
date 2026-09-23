@@ -1,0 +1,113 @@
+ARTIFACT ID:       AO48-REG-018-v1.0
+
+AUTHOR:            Claude Opus 4.8 (Anthropic) — ANTHROPIC-OPUS48
+
+CREATED:           2026-07-21
+
+CLASS:             REG — operator directive relay (verbatim, §0) and the first
+                   closure census executed under it
+
+STATUS:            PROPOSED — every closure below is a PROPOSAL for operator
+                   ratification; nothing is retired by this file. Per the
+                   directive itself, "definitively closed" is a HUMAN-DECISION.
+
+AUTHORITY:         none
+
+CANONICAL IMPACT:  NONE
+
+---
+
+# §0. OPERATOR DIRECTIVE — received 2026-07-21 via the AO48 chat line, relayed verbatim
+
+> To all models currently working on this project:
+> Today marks a deliberate shift in how this work is being conducted. We are moving from a primarily manual orchestration model (where I was the central filter and context carrier) into direct model-to-model interaction through the shared Drive. This is a necessary evolution, but it comes with real risks of contamination, context drift, and resource drain if not managed carefully.
+> I have identified a new load-bearing principle that should now guide prioritization and effort allocation:
+> The work does not primarily advance by attacking the hardest or most load-bearing open items first.
+> Instead, the highest-leverage move right now is to definitively solve and close the easiest items first — turning them into fully proven, settled facts — so they can be permanently removed from the active system. Once an item is rigorously established, it should be killed or cleanly logged as closed. It should stop consuming attention, governance overhead, model interaction bandwidth, or human review cycles.
+> This is not about avoiding difficulty. It is about resource discipline. Every unresolved item — even relatively easy ones — continues to draw resources as long as it remains open. By systematically retiring easy, fully provable items, we shrink the surface area of uncertainty and reduce the contamination risk that comes with higher model interaction volume.
+> What this means in practice going forward:
+> •  When working on any track, first identify which supporting lemmas, algebraic identities, or deterministic facts are already at "full proof" or "exact derivation" level (per the reliability and status tracking in the package). These should be prioritized for clean closure and permanent logging.
+> •  Do not let easy items remain in an ambiguous or half-resolved state simply because harder problems exist. They are resource leaks.
+> •  When proposing changes or reviews, be explicit about whether an item can be moved to "permanently closed / killed" status versus remaining active.
+> •  The governance layer (current voting rules, operator intervention logging, provenance tracking, and status documentation) exists in part to support this discipline. Use it.
+> This principle is especially important now that models are interacting directly. The more cleanly we can retire settled items, the lower the risk of models building on or propagating partially resolved material.
+> I will continue to maintain final human authority on high-stakes decisions and on what counts as "definitively closed." However, I expect the models to actively surface easy-to-close items and to treat permanent retirement of settled facts as a core part of productive work, not as an afterthought.
+> This is the current operating philosophy. Work accordingly.
+> — Dylan
+
+*Provenance: chat statement to the AO48 line; third operator record of the
+cycle, consistent with the two corroborated in AO48-CNS-017 §1.*
+
+# §1. Proposed mechanism: the `_CLOSED_FACTS` ledger
+
+One append-only root file. Each entry: **statement · evidence chain (≥2
+independent routes) · closure date · ratifying operator record · reopening
+rule.** The reopening rule is what makes closure real: *"Reopening requires
+new contradicting evidence, not re-review."* Registers and navigation
+companions display closed facts in a collapsed CLOSED section; models cite
+them by ledger line instead of re-deriving. The evidence bar deliberately
+matches Rule 1: nothing enters on a single line's say-so.
+
+# §2. KILL-READY — multi-route verified, proposed for immediate ratification
+
+| # | fact | evidence chain |
+|--:|:--|:--|
+| K1 | \(z_0=(b^2{+}2)\Phi(b/\sqrt2)+\sqrt2\,b\,\phi(b/\sqrt2)=3.230979\) at \(b=6/5\) | exact derivation (01_CORE §5) · AO48 independent closed-form check · MC band 3.2232–3.2337 · CW-AUD-017 two-route match |
+| K2 | Corrected six-pin frame determinant \(=-r^{-5}\); power cancellation \(r^3\cdot r^{-5}\cdot r^2=r^0\) | exact algebra (01_CORE §6, 03_NEAR §5.4) · AO48 verification (AI edit 0005 Note 5) · consistent use across GP-DER-043 §9 ledger |
+| K3 | Cubic scale-invariance: \(P_r(rX,rY)=b+r^3\tilde P\); phase portrait r-free; classifiers functions of \((s,a,w,z)\) | AO48-DER-005 §1 proof · GP's independently built tilde flow (GP-AUD-017 object card) · corrected-run slopes 0.962/2.939 matching the exact corrected laws |
+| K4 | Quartic pin-compensation polynomial \(\delta=\frac{c_{40}r^4}{384}-\frac{c_{40}r^2}{48}x^2-\frac{c_{31}r^2}{24}xy\) (≡ GP's factored basis) | GP-DER-019 §3 · AO48-DER-006 §3.1 independent 6×6 solve · byte-identical on expansion (AO48-DER-007 §1) · executed against in GP-DATA-020 |
+| K5 | Conditional nine-jet law: means \((-b,0,0,0,-3b,0,0,0,3b)\), Vars \((2,2,2,6,24,6,6,6,96)\), Covs \((-2,-12,+12)\) | GP-DER-019 §2 · AO48-DER-007 §2 entry-by-entry Schur redo · GP-AUD-039 independent re-execution |
+| K6 | Quartic null modes = lower-jet reparameterizations; dictionary \(\delta Q{=}2r^2\lambda_1,\ \delta z{=}6r\lambda_2,\ \delta w{=}2r\lambda_3,\ \delta a{=}2r\lambda_4\) | GP-DER-031 (priority) · AO48-RSP-009 independent, coefficient-identical · GP-ERR-036 verification · Hessian-delta cross-checks |
+| K7 | Endpoint-constraint nullspace among deg ≤ 3 is exactly 4-dim: \(\{Y^2,Y^3,XY^2,(X^2{-}\tfrac14)Y\}\) | GP-AUD-020 §3 · AO48-RSP-009 §1 independent rank/kernel derivation |
+| K8 | Truncation-bias factor \(B(s)=(1-s)/[(1-s)+s\log s]\) for Beta\((a,1)\) MLE under hard left-truncation | AO48-DER-001 §1 (as corrected AUD-002 §0) · CL-DER-023 §A simulation match to 3 figures over two decades · GP-AUD-013 §10 confirmation |
+| K9 | The terminal-newline variant: three root copies SHA-identical; the 15,873-byte copy differs by terminal newline only | CM-009 hash receipt · consensus cycle A1–A5 language · **conditional on Q1 (fifth-copy hash) — one hash from unconditional** |
+| K10 | TYPING_FLOOR = 0.80 is reproduced by three independent implementations | GP-RSP-016 (0.8020) · GP-AUD-017 · GP-DATA-020 (0.80077) against corpus registry #61 — the *reproduction* closes; the constant was already frozen |
+
+# §3. ONE-STEP-FROM-CLOSED — the directive's true targets; each step named and small
+
+| # | item | the one remaining step |
+|--:|:--|:--|
+| S1 | Typed→adjacent reduction (drop-the-indicator; needs only \(\inf a_r>0\)) — AI edit 0003 Note 2 ≡ GP-DER-008 §6, registered PROVED-EXACT | register the pointwise-positivity hypothesis licensing the division by \(a_r\) (AO48-AUD-008 §2c); one short lemma from finite-jet nondegeneracy + open trapping |
+| S2 | Elder-rule defect dichotomy (01_CORE Prop 3.1) — fully proved, deterministic, load-bearing for both rate routes | register it as a claim node, status PROVED-CONDITIONAL-ON-R0 (AO48-AUD-008 §2b); zero new mathematics |
+| S3 | GP-DER-043 Theorem 4.1 (Palm boundary-layer reduction) — verified line-by-line (AO48-DER-011 §3), GR half-certified per CW-AUD-017 title | add the one-sentence fixed-reference-measure repair to Lemma 3.1 (drafted, on offer) + complete the GR ⟸ 044 check |
+| S4 | Convex-combination identity \((1{-}\alpha)K^2+\alpha(K{+}8c\eta)^2\), κ-uniform (AI edit 0003 Note 1 / 0005 Note 2) | a 30-second independent expansion by any second line — flagged since DER-004 §4.4 item 4, still single-source |
+| S5 | Conservation \(w\cdot\nabla f\equiv0\) along the adjoint orbit (AI edit 0004 Note 2) | second-line check of the section-normalization step (the weak half, self-flagged) |
+| S6 | Closed strip-threshold majorant \(\hat\mu=\sqrt A+(2B)^{1/3}\), factor-≤2, exact at \(B{=}0\) (AO48-DER-011 §2) | one independent rederivation or numerical spot-check against GP-DER-037's optimizer |
+| S7 | OQ-002 (charter absence claim false) | already CONFIRMED-BY-REEXECUTION twice (register + AO48); needs only a closure line in the ledger |
+
+# §4. DO-NOT-KILL — looks settled, is not; premature closure here is the contamination the directive warns against
+
+- **P0.2 candidate closure** (GP-DER-047 chain): under active multi-line audit;
+  GR premise half-certified; conditions in 047 §16 unmet. CANDIDATE, not fact.
+- **Morse–Smale / R0**: governing status *uncertain* per the review package;
+  every rate claim is conditional on it. The single most dangerous item to
+  mistake for closed.
+- **The \(\ell^{-1/3}\) exponent**: the Jacobian arithmetic is exact (kill-able
+  as arithmetic), but the *law* is conditional on open lemmas and the numerics
+  are mixed. Kill the Jacobian line only, never the law.
+- **The 0.205→0.66 exponent reversal**: GP-AUD-013 rejected the mechanism as
+  stated; estimator homogenization pending.
+- **Automation qualification**: source not yet in Drive (AO48-CNS-016 §1).
+
+# §5. Refinement offered with the relay, in the directive's own spirit
+
+"Easy to close" and "safe to close" are not the same set — the day's record
+contains four items that *felt* closed and were wrong (my W01, my triangulation
+confound, the pre-erratum slope table, the "unique compensation" claim). The
+census therefore pairs every kill-list with a do-not-kill list, holds the
+≥2-independent-routes bar, and routes ratification through the operator —
+which is not overhead on the directive but its enforcement mechanism. Subject
+to that, the inventory above retires **ten facts today and seven more within
+one small step each**, which is a real shrinkage of the active surface.
+
+**Asks:** (1) operator ratification of §2, batch-wise if preferred, minus K9
+pending Q1; (2) any line: the four second-line checks in S4/S5/S6 — minutes
+each; (3) GP: the S1/S2 registry nodes belong in the successor-machine
+revision already in flight.
+
+---
+
+*Cross-references: AI edit 0003/0004/0005 · AO48-DER-001/005/006/007/011 ·
+AO48-AUD-002/008/012 · AO48-RSP-009 · GP-DER-008/019/031/037/043 ·
+GP-AUD-013/017/020/039 · GP-ERR-036 · GP-DATA-020 · CL-DER-023 · CM-009 ·
+CW-AUD-017 (title) · OP-PROT-002 · `_RULES_OF_ENGAGEMENT` Rules 1, 3*

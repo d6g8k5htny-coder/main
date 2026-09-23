@@ -1,0 +1,150 @@
+﻿EXECUTED — TERMINAL PASS — 2026-07-28
+
+
+This packet was executed as CL-AUD-LSDER073V13-20260728-01.
+Verdict: ENERGY REPAIR PASS — SELECTED SIDE-24 COEFFICIENT CLOSED AT REVIEWED SCOPE.
+
+
+Closure capsule:
+LS-CLS-074-v1.0 — https://docs.google.com/document/d/1ivIKJqhdxB_uPUb8g-0rVqRxtMqD5_IpfhKKxjKjYrg/edit
+
+
+Residual absolute-normalization front:
+LS-DER-075-v1.0 — https://docs.google.com/document/d/1wTwM9AaSmFtstiqjLaXUOaWiOvBFuOglqwbzsCTThoI/edit
+Optional narrow review: LS-REQ-042-v1.0 / DQ-107 — https://docs.google.com/document/d/1XmydVmTxhjdaQP7IZhEW9jw0KcreH-liXzIdz9iHsMA/edit
+
+
+Do not execute this packet again. Its frozen body remains provenance.
+[[LS-REQ-041:EXECUTED-PASS]] [[SELECTED-SIDE24:CLOSED-REVIEWED-SCOPE]] [[CLOSURE:LS-CLS-074]] [[NORM-REVIEW:OPTIONAL-OPEN]]
+
+
+LS-REQ-041-v1.0 — CLAUDE TERMINAL T-ENERGY REVIEW FOR SIDE-24 SELECTION CLOSURE
+
+
+Artifact ID: LS-REQ-041-v1.0
+Dispatch: DQ-105
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: REQ / ORGANIZATIONALLY DISTINCT TERMINAL REVIEW / T-ENERGY MATRIX DYNAMICS
+Authority: review routing only
+Independence credit created by packet: ZERO
+Canonical impact: NONE
+Status: READY FOR ANTHROPIC EXECUTION
+BODY_BYTES: 3134
+BODY_SHA256: 5f77ee25472032771d1bd2350043f03c61a11644caac63f197b6a49362774bd5
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_LSREQ041_FROZEN_BODY and strictly before the unique full line END_LSREQ041_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM.
+
+
+BEGIN_LSREQ041_FROZEN_BODY
+CLAUDE TERMINAL T-ENERGY REVIEW — SIDE-24 SELECTION CLOSURE
+
+
+ROLE
+
+
+You are the organizationally distinct terminal reviewer following CL-AUD-LSDER073-20260728-01. That verdict already established:
+- Gate A closed;
+- B1 and B3 passed;
+- M1, M3, and M4 of LS-DER-073-v1.2 passed;
+- the sole remaining defect was the missing anisotropic level term in the outward Euclidean strip.
+
+
+Do not reopen those results unless the new successor contradicts them.
+
+
+REVIEW OBJECT
+
+
+LS-DER-073-v1.3 — Energy-Adapted n=2 Matrix Escape and Exact-Field Robustness Repair
+Drive:
+https://docs.google.com/document/d/1siKfXIjfckIeX16VWTfnuehafjsmDzVHoIY5jcONX6M/edit
+
+
+Frozen body: 8,558 bytes
+SHA-256 identity label:
+c9c5bf657e8e2fc5c71a0f870afd8a8c486daa89b8445c746f0f39257402d0bc
+
+
+Exact support:
+LS-DATA-073A-v1.3
+https://docs.google.com/document/d/1jjNrjUaaNsvX4NoE0lhsjk7trSVOezrQbxvgdst0VEA/edit
+LS-DATA-073B-v1.3
+https://docs.google.com/document/d/166T2Ep8wYBzTFKVvFjOC4fjDigxENUXxNvmMQdKlV4Q/edit
+
+
+Do not review LS-DER-073-v1.0/v1.1/v1.2 except when comparing a specifically inherited passed statement.
+
+
+NARROW QUESTION
+
+
+Does LS-DER-073-v1.3 repair the sole anisotropic level defect without assuming an upper bound on lambda_max(T), thereby closing the selected fixed-side-24 persistence coefficient at the already reviewed scope?
+
+
+MANDATORY ATTACKS
+
+
+E1. ENDPOINT ENERGY SLOPE
+Audit equations (10)--(13):
+- the energy estimate from the block eigenvector equation;
+- the coefficient 7/2;
+- entry of the outward eigenvector into C_E;
+- exact-field stability of that strict inclusion.
+
+
+E2. ENERGY CONE
+Audit equations (14)--(20):
+- q^2>=tau E and |Y|^2<=E/tau;
+- every term in the 257/1024 + 257/(1024K) + 1/(2048K^2) + 2epsilon_0 bracket;
+- the sign of the moving boundary;
+- the cone-to-strip handoff.
+
+
+E3. ENERGY STRIP
+Audit equations (21)--(26):
+- q>=3R/4 and |Y|<=3R/(4tau);
+- the 7/8, 5/(8K), 3/(32K^2), and (4/3)epsilon_0 terms;
+- strict energy invariance;
+- preservation of the already passed F_X margin.
+
+
+E4. COMPLETE LEVEL
+Audit equations (27)--(31):
+- (1/2)Y^T T Y<=9R^2/(32tau)<1/(4K);
+- exact Fraction total 9869/16777216<1/768;
+- inclusion of every potential term and exact-field path error;
+- the strict above-b conclusion.
+
+
+E5. TERMINAL CLOSURE
+Audit exact-field robustness and decide whether the v1.3 theorem, combined only with the already passed results, establishes
+    1-p_r=O(r^3)
+and identifies c_(3,24) as the selected finite nonessential H0 coefficient at fixed side 24.
+
+
+OUTPUT — MAXIMUM 900 WORDS
+
+
+I. TERMINAL VERDICT — exactly one:
+- ENERGY REPAIR PASS — SELECTED SIDE-24 COEFFICIENT CLOSED AT REVIEWED SCOPE
+- AMEND REQUIRED — earliest exact defect and minimal repair
+- REJECTED — fatal defect
+
+
+II. E1--E5 — PASS/FAIL with equation references.
+
+
+III. CITATION SCOPE — separately state:
+(a) analytic rational relative interval;
+(b) local all-typed side-24 coefficient;
+(c) selected side-24 persistence coefficient.
+
+
+IV. MINIMAL REPAIR — only if needed.
+
+
+Do not review LS-DER-070, directed rounding, limit interchange, infinite-volume persistence, canonical promotion, or hashes without raw marker extraction.
+END_LSREQ041_FROZEN_BODY

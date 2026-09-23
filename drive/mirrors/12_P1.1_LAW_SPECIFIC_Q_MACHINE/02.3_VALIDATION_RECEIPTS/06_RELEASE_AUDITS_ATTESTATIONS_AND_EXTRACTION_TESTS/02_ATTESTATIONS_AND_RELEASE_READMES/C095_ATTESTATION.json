@@ -1,0 +1,52 @@
+{
+  "release_id": "Q0-C095-GATE-AND-FREEZE",
+  "created_utc": "2026-07-17T19:04:27.927258+00:00",
+  "bundle": {
+    "filename": "Q0_C095_GATE_AND_FREEZE_BUNDLE.zip",
+    "bytes": 923082,
+    "sha256": "06c1017cf2dcc8611afde80ef0fec0d2990b46c25c41d730d69f3adb0f3af347"
+  },
+  "manifest": {
+    "filename": "C095_MANIFEST.json",
+    "sha256": "578cad1b6811592b5686e36412737bc4e4307ff68d1d3ddd80e16db2c6344a74",
+    "declared_files": 31,
+    "zip_entries_expected": 32
+  },
+  "verification": {
+    "zip_mode": {
+      "release_id": "Q0-C095-GATE-AND-FREEZE",
+      "mode": "zip",
+      "valid": true,
+      "issues": [],
+      "declared_files": 31,
+      "verified_files": 31,
+      "zip_entries_expected": 32,
+      "bundle_sha256": "06c1017cf2dcc8611afde80ef0fec0d2990b46c25c41d730d69f3adb0f3af347"
+    },
+    "fresh_extraction": {
+      "filename": "C095_FRESH_EXTRACTION_TEST.json",
+      "sha256": "b403d61314ef79dbaef15c8b7ac21c2cb03b92ce5d8e1113e51b8c2d95750d0e",
+      "valid": true
+    }
+  },
+  "framework": {
+    "file": "GATE_FRAMEWORK_MASTER_v1_1.md",
+    "sha256": "2442dc38a5208519990b8b72db3390296e6f6ca6762a580331982965adaed9a3",
+    "numbered_gates": 16
+  },
+  "verifier": {
+    "file": "q0_llm_verifier_v5.py",
+    "sha256": "6ead5cedd4ac5e4fbc996eb91d8799cec2d273932a720af0ec66426a3d4d9576",
+    "validation_cases": 22,
+    "validation_passed": 22
+  },
+  "current_q0_status": {
+    "structural_UBG": "DERIVED",
+    "uniform_4p35": "BLOCKED on UB_G_RESIDUAL_UNIFORM",
+    "q0_via_cubic_rate": "PROVEN-MODULO UB_G_RESIDUAL_UNIFORM",
+    "first_moment_0p8411": "non-root program-grade coefficient",
+    "finite_lower_decimal": "Q0-SHARP"
+  },
+  "unowned_items": 0,
+  "next_action": "Execute C096 in dual track: (A) derive or locate the full-domain Gamma/collar residual coefficient and build the Q0-REFEREE objection package; (B) use the exact six-pin covariance factorization to construct interval bounds for the (A,Z) marked density and BR-MARK. No decimal theorem may be promoted before verifier v5 passes."
+}

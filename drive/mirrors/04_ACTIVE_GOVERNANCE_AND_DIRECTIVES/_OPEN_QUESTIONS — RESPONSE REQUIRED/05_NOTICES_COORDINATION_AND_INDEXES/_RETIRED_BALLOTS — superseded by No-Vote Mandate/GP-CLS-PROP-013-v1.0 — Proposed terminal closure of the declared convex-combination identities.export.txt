@@ -1,0 +1,163 @@
+﻿GP-CLS-PROP-013-v1.0 — PROPOSED TERMINAL CLOSURE OF THE DECLARED CONVEX-COMBINATION IDENTITIES
+
+
+Artifact ID: GP-CLS-PROP-013-v1.0
+Author: OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: CLS-PROP — additive terminal-closure proposal
+Status: READY FOR HUMAN APPROVAL
+Authority: none until Dylan M. Roy approves or modifies the terminal statement
+Canonical impact: NONE before approval
+
+
+1. Exact object card
+
+
+OBJECT CLASS: DETERMINISTIC ALGEBRAIC IDENTITIES
+SOURCE CONTEXT: generic and transverse local-chart brackets in the maximum–saddle fold analysis
+VARIABLES: real α, K, c, η for Identity A; real α, a, η for Identity B
+EVIDENCE CLASS: exact polynomial expansion
+PROPOSED TERMINAL LABEL: CLOSED — EXACT DECLARED CONVEX-COMBINATION IDENTITIES
+
+
+2. Exact terminal statements
+
+
+Identity A — generic chart:
+
+
+(K + 8αcη)^2 + 64α(1-α)c^2η^2
+= (1-α)K^2 + α(K+8cη)^2.
+
+
+Identity B — transverse chart:
+
+
+(a + (1-2α)η)^2 + 4α(1-α)η^2
+= (1-α)(a+η)^2 + α(a-η)^2.
+
+
+Both identities hold for all real values of their declared variables. Their interpretation as convex combinations of endpoint squares, and the resulting automatic nonnegativity, applies when 0 ≤ α ≤ 1.
+
+
+3. Fresh independent expansion
+
+
+For Identity A, the left side expands as
+
+
+K^2 + 16αKcη + 64α^2c^2η^2 + 64αc^2η^2 - 64α^2c^2η^2
+= K^2 + 16αKcη + 64αc^2η^2.
+
+
+The right side expands as
+
+
+K^2 - αK^2 + α(K^2 + 16Kcη + 64c^2η^2)
+= K^2 + 16αKcη + 64αc^2η^2.
+
+
+For Identity B, the left side expands as
+
+
+a^2 + 2a(1-2α)η + (1-2α)^2η^2 + 4α(1-α)η^2
+= a^2 + 2aη - 4αaη + η^2.
+
+
+The right side expands as
+
+
+(1-α)(a^2+2aη+η^2) + α(a^2-2aη+η^2)
+= a^2 + 2aη - 4αaη + η^2.
+
+
+Thus both identities are exact coefficient-by-coefficient polynomial equalities.
+
+
+4. Evidence and review classification
+
+
+Primary source: AI edit 0003 — 01_CORE_PAIRING_THEOREM.md, Review Note 1, Drive ID 1xMAeJYcjnqyFg16-sxnqjJi6MbB3cM-e.
+
+
+Closure census: AO48-REG-018-v1.0 identified the independent expansion as the sole remaining step for S4.
+
+
+Second-line route completed here: OpenAI expanded both sides independently from the displayed formulas and matched all coefficients. This is a separate exact algebraic re-execution, not an independent theorem proof and not evidence for the broader geometric interpretation.
+
+
+5. Scope boundary and forbidden extrapolations
+
+
+This proposed closure establishes only the two declared algebraic identities.
+
+
+It does not by itself establish:
+• a third-critical-point no-go theorem;
+• strict positivity or strict negativity without the source-specific nondegeneracy assumptions;
+• the interpretation of α as a persistence-window coordinate in every chart;
+• quartic boundary-layer estimates;
+• integrable determinant-weighted bounds;
+• typed or adjacency-conditioned Palm estimates;
+• P0.2, Theorem B, a numerical constant, or any machine-root transition.
+
+
+The phrase “convex combination” is restricted to 0 ≤ α ≤ 1. Outside that interval the equality remains exact, but the coefficients need not be nonnegative.
+
+
+6. Dependencies affected
+
+
+If approved, this closure:
+• retires repeated expansion of these two brackets;
+• permits exact citation of their endpoint-square interpolation form;
+• supports later local sign arguments only when all source conventions and additional hypotheses match;
+• prevents the algebraic equality from being repeatedly treated as an unresolved proof obligation.
+
+
+7. Dependencies explicitly unaffected
+
+
+Unaffected:
+• the validity of the surrounding fold theorem;
+• the maximum/saddle classification and nondegeneracy conditions;
+• finite-r remainder control;
+• regional counting and defect dichotomy;
+• typed-to-adjacent transfer;
+• P0.2, Theorem B, canonical theorem status, and active q0 machine state.
+
+
+8. Coupled-advancement no-change certificate
+
+
+Mathematical status change proposed: two already-stated polynomial identities move from single-source review-note status to exact second-line-verified narrow closure.
+
+
+Architectural change required: none beyond retaining α-domain and scope fields in the closure record.
+
+
+Existing controls are sufficient because OP-PROT-004 requires exact object, evidence, affected and unaffected dependencies, human approval, and additive reopening. The current object-card discipline distinguishes exact algebra from the broader probabilistic and geometric claims.
+
+
+Failure that would falsify this no-change judgment:
+• a later artifact cites automatic nonnegativity outside 0 ≤ α ≤ 1;
+• a different coefficient convention is silently substituted;
+• the closed equality is cited as proof of a broader no-go or rate theorem.
+
+
+9. Human approval requirement
+
+
+Human approval is REQUIRED because terminal mathematical closure remains reserved to Dylan M. Roy.
+
+
+Suggested approval statement:
+
+
+“I approve GP-CLS-PROP-013-v1.0 exactly as a closure of the two declared polynomial identities and their convex-combination interpretation on 0 ≤ α ≤ 1. Record the terminal label CLOSED — EXACT DECLARED CONVEX-COMBINATION IDENTITIES, preserve all provenance, and do not infer any broader fold, Palm, rate, P0.2, Theorem B, or machine-state result from this closure.”
+
+
+10. Additive correction and reopening path
+
+
+Reopening requires new contradictory evidence identifying an algebraic error, a mismatched coefficient convention, or an invalid scope use. A correction must preserve this proposal and every source artifact, identify affected and unaffected dependencies, and reopen only this narrow identity unless broader contamination is demonstrated.

@@ -1,0 +1,428 @@
+﻿LS-AUD-013-v1.0 — NONCANONICAL q0 VERIFIER 1.2.1 HARDENING
+EXACT REPLAY, STRICT-JSON BOUNDARY, EMPTY-ROUTE REPAIR, AND CYCLE-VALIDITY VERDICT
+
+
+Artifact ID: LS-AUD-013-v1.0
+Date: 2026-07-25
+Executor/reviewer: OpenAI GPT-5.6 Thinking
+Session: OPENAI-GPT56-THINKING-QM-VERIFIER-20260725-01
+Class: AUD / IMPLEMENTATION / BYTE-INTEGRITY / FAIL-CLOSED VERIFIER HARDENING
+Authority: noncanonical research preparation and implementation only
+Canonical impact: NONE
+Machine impact: NONE
+Dispatch: DQ-007
+Claim: LS-CLAIM-QM-121-20260725-01
+Independent defect source: CL-AUD-218-v1.0
+Organizational-independence credit for this implementation: ZERO
+
+
+[[OBJECT:q0-law-specific/1.2]] [[VERIFIER-RELEASE:1.2.1]] [[NONCANONICAL]] [[PREDECESSOR-BYTES:UNCHANGED]] [[ORIGINAL-TESTS:12/12]] [[CL-MUTATIONS:9/9]] [[ROOTS-PROMOTABLE:0]] [[NO-INSTALL]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+APPROVE LS-DATA-013-v1.0 AS A NONCANONICAL IMMUTABLE VERIFIER SUCCESSOR FOR MACHINE SCHEMA q0-law-specific/1.2.
+
+
+The successor closes the two material fail-closed defects independently found by CL-AUD-218:
+
+
+1. alternate dependency routes with an empty dependency list are rejected before route minimization;
+2. repeated JSON keys are rejected at the byte-parsing boundary before semantic verification.
+
+
+It also makes one explicit policy decision requested by DQ-007:
+
+
+3. any directed dependency cycle, whether introduced through base dependencies or alternate-route dependencies, makes the machine structurally invalid. A cycle is not treated as a legitimate machine state that merely blocks promotion.
+
+
+On the unmodified predecessor machine:
+
+
+- machine validation: PASS;
+- predecessor negative tests: 12/12 PASS;
+- CL-AUD-218 adversarial tests: 9/9 PASS;
+- root reports: byte-for-byte-equivalent as JSON data to the predecessor verifier's root reports;
+- unconditional promotable roots: zero;
+- predecessor machine modified: no;
+- predecessor verifier modified: no;
+- active machine or verifier installed: no.
+
+
+This successor is an independently replayable preparation artifact. It does not replace the active machine, install a verifier, promote a root, change canonical theorem status, or satisfy an organizationally distinct successor review.
+
+
+2. PREDECESSOR IDENTITIES — REPRODUCED AND UNCHANGED
+
+
+Machine:
+
+
+GP-REG-188-v1.0_q0_law_specific_successor_v1_2.json
+Drive ID: 1KWNv1Yz95o42tMocUA_G7qocQrioS52o
+Bytes: 25,524
+SHA-256: 65af52096aa40a4ab49f0a7b0fca6d29876aaafa153139da8de351ab3b632219
+
+
+Verifier:
+
+
+GP-DATA-188-v1.0_q0_law_specific_verify_v1_2.py
+Drive ID: 1COFvunwQWUWxET6AB0j0kYd-SfUO0BSU
+Bytes: 11,496
+SHA-256: 10ac7b82923c79d491923a9c4a840797004056326b02cd48aa2e40c51ed4d2a3
+
+
+Predecessor replay report:
+
+
+Bytes: 5,409
+SHA-256: 2b5b0805525bd7ac549a1c0c50227625731083e10fefae763d1f51aa1ba118ca
+
+
+The predecessor source and machine hashes were recomputed after successor construction and remain identical to the values above.
+
+
+3. SUCCESSOR IDENTITIES
+
+
+Verifier source:
+
+
+LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py
+Bytes: 25,843
+SHA-256: 5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9
+Verifier release: q0-law-specific-verifier/1.2.1
+Accepted machine schema: q0-law-specific/1.2
+
+
+Passing report:
+
+
+LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json
+Bytes: 8,685
+SHA-256: 5442f3148a5a042b74a3e08fff0b4f5504ff9026323381ac133951d2875d4b01
+
+
+Package receipt:
+
+
+LS-REC-013-v1.0_q0_verifier_1_2_1_receipt.json
+Bytes: 3,105
+SHA-256: b9cf949103b690394236e76f7187b5c5126340d48df7b43aca1851fa5da2a268
+
+
+Full duplicate-key machine specimen:
+
+
+LS-MUT-013-duplicate-key-machine.json
+Bytes: 26,213
+SHA-256: 6ccfad60868c1e557c741ee7ae002e56665e74e8fd45d9013dead1da1c187191
+
+
+Deterministic duplicate-key rejection report:
+
+
+LS-MUT-013-duplicate-key-report.json
+Bytes: 1,727
+SHA-256: 9f724c86ad740bf3d28bf521dda35ed653fe685542c7656381333387b2fa4feb
+
+
+4. STRICT JSON BOUNDARY
+
+
+The predecessor used ordinary json.loads. Python's standard parser accepts repeated object keys and keeps the last value. Thus a byte stream containing two MORSE_SMALE_R0 keys could be presented differently to a human reviewer and to the verifier.
+
+
+The successor uses object_pairs_hook and rejects any repeated key with
+
+
+    DUPLICATE_JSON_KEY:<key>
+
+
+before verify() is entered.
+
+
+The full predecessor machine was mutated by inserting a second MORSE_SMALE_R0 key. Running the successor returns code one and writes a deterministic failure report containing
+
+
+    INPUT_REJECTED:DUPLICATE_JSON_KEY:MORSE_SMALE_R0.
+
+
+No semantic root report is generated for the malformed input. The attack cannot launder a terminal status through last-wins parsing.
+
+
+5. EMPTY ALTERNATE ROUTE REPAIR
+
+
+The predecessor route minimizer selected the route with the fewest blockers. An injected route
+
+
+    {"route_id":"AAA_EMPTY","dependencies":[]}
+
+
+therefore had zero blockers and could bypass an open route such as MORSE_SMALE_R0.
+
+
+The successor requires:
+
+
+- dependency_routes is a list;
+- each route is an object;
+- every route has a nonempty route_id;
+- route IDs within one claim are unique;
+- dependencies is a list;
+- dependencies is nonempty;
+- every route dependency is a claim, not an object or unknown ID.
+
+
+The mutation now produces
+
+
+    Q_TYPED_MS_RATE:ROUTE_EMPTY_DEPENDENCIES:AAA_EMPTY
+
+
+and makes the machine invalid before root minimization can create a bypass.
+
+
+6. CYCLE-VALIDITY DECISION
+
+
+The predecessor recursion returned CYCLE:<claim> as a blocker but left report.valid=true. CL-AUD-218 classified this as a minor policy gap.
+
+
+The successor adopts the following explicit policy:
+
+
+    ANY DIRECTED CYCLE ACROSS BASE OR ALTERNATE-ROUTE CLAIM DEPENDENCIES IS STRUCTURALLY INVALID.
+
+
+A deterministic DFS collects unique directed cycles and reports
+
+
+    CYCLE:A->B->...->A.
+
+
+A self-dependency mutation on EXACT_GAP_JACOBIAN therefore makes report.valid=false with
+
+
+    CYCLE:EXACT_GAP_JACOBIAN->EXACT_GAP_JACOBIAN.
+
+
+Rationale:
+A dependency cycle is malformed evidence architecture. It is not a scientifically meaningful open state and should fail before promotion logic.
+
+
+The unmodified predecessor machine is acyclic, so this policy does not change its valid root reports.
+
+
+7. PREDECESSOR REGRESSION BATTERY — 12/12 PASS
+
+
+The successor preserves all predecessor tests:
+
+
+1. schema mismatch;
+2. active overwrite;
+3. bare-q law object;
+4. object dependency smuggling;
+5. Theorem B0 missing multiplicity;
+6. Theorem B0 missing uniform selection;
+7. full Theorem B missing small tail;
+8. full Theorem B missing large tail;
+9. full Theorem B missing off-fold term;
+10. historical migration to a partial factor;
+11. archive-claimed status is not terminal;
+12. same-line exact status is not terminal.
+
+
+All twelve pass under the successor.
+
+
+The successor and predecessor root_reports objects are identical on the original machine. The hardening therefore does not alter the scientific dependency verdict for valid predecessor input.
+
+
+8. CL-AUD-218 BATTERY — 9/9 PASS
+
+
+QM-CL-01 — empty route bypass:
+REJECTED STRUCTURALLY.
+
+
+QM-CL-02 — duplicate-key laundering:
+REJECTED BEFORE SEMANTIC PARSING.
+
+
+QM-CL-03 — lowercase terminal status:
+REJECTED AS UNKNOWN STATUS.
+
+
+QM-CL-04 — whitespace-padded terminal status:
+REJECTED AS UNKNOWN STATUS.
+
+
+QM-CL-05 — terminal root with open dependencies:
+MACHINE REMAINS VALID BUT ROOT REMAINS NONPROMOTABLE; MORSE_SMALE_R0 IS STILL A BLOCKER.
+
+
+QM-CL-06 — self-cycle:
+REJECTED AS STRUCTURALLY INVALID.
+
+
+QM-CL-07 — unknown route dependency:
+REJECTED.
+
+
+QM-CL-08 — object inserted as proposed root:
+REJECTED AS UNKNOWN ROOT.
+
+
+QM-CL-09 — empty migration target:
+REJECTED.
+
+
+9. ROOT DISPOSITION
+
+
+The unmodified machine remains valid. Every proposed root remains fail-closed.
+
+
+No root is unconditionally promotable.
+
+
+The successor does not upgrade any status, remove a blocker, or change a theorem dependency. It only prevents malformed input from reducing blocker sets or changing parsed meaning.
+
+
+10. EXECUTION COMMANDS
+
+
+Passing successor run:
+
+
+    python3 LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py \
+      GP-REG-188-v1.0_q0_law_specific_successor_v1_2.json \
+      LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1_report.json
+
+
+Duplicate-key rejection run:
+
+
+    python3 LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py \
+      LS-MUT-013-duplicate-key-machine.json \
+      LS-MUT-013-duplicate-key-report.json
+
+
+Predecessor equivalence run:
+
+
+    python3 GP-DATA-188-v1.0_q0_law_specific_verify_v1_2.py \
+      GP-REG-188-v1.0_q0_law_specific_successor_v1_2.json
+
+
+11. DRIVE ROUND-TRIP
+
+
+Direct generated-file upload was unavailable through the connector, so exact bytes were preserved using gzip+Base64 capsules.
+
+
+Source capsule:
+https://docs.google.com/document/d/1nkKiFCt5KDSuSzlC01CBsO8TD6N_lsUCQMGywhCCYUM/edit
+
+
+Report and receipt capsule:
+https://docs.google.com/document/d/1lryBmUS0z5jvj6ie2dd0uiyflsqwJr5flzknvvGXqMA/edit
+
+
+Duplicate-key specimen and rejection capsule:
+https://docs.google.com/document/d/1_xHs54Oo2LFgKLaotpyW0lu-Q-ycRwMxj0vuUgxqfAM/edit
+
+
+Every capsule was downloaded from Drive, Base64-decoded, gzip-verified, decompressed, and compared byte-for-byte with the local source object. All five payloads pass.
+
+
+12. DISCREPANCY TABLE AGAINST CL-AUD-218
+
+
+Agreement:
+
+
+- predecessor identities reproduce;
+- original 12/12 tests pass;
+- zero roots are promotable;
+- empty-route bypass is real;
+- duplicate-key laundering is real;
+- status normalization remains strict;
+- open dependencies block terminal roots;
+- unknown routes, object roots, and empty migration targets fail closed.
+
+
+Successor resolution:
+
+
+- empty-route defect repaired;
+- duplicate-key defect repaired;
+- cycle policy strengthened from blocker-only to structural invalidity.
+
+
+No contradiction with CL-AUD-218 was found.
+
+
+13. REQUIRED NEXT GATE
+
+
+A distinct-family reviewer should:
+
+
+- reconstruct the successor source from the Drive capsule;
+- reproduce SHA-256 5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9;
+- reconstruct the passing report and receipt;
+- execute the original machine;
+- execute all 21 tests;
+- execute the full duplicate-key specimen;
+- inspect the strict parser, route validation, and cycle detector;
+- verify predecessor root-report equivalence;
+- verify active machine and verifier hashes remain unchanged;
+- issue PASS / AMEND / REJECT.
+
+
+No installation or machine migration is authorized by this audit.
+
+
+14. FINAL STATUS
+
+
+VERIFIER RELEASE 1.2.1:
+PASS AS NONCANONICAL IMMUTABLE SUCCESSOR CANDIDATE.
+
+
+PREDECESSOR MACHINE:
+UNCHANGED.
+
+
+PREDECESSOR VERIFIER:
+UNCHANGED.
+
+
+ORIGINAL TESTS:
+12/12 PASS.
+
+
+CL MUTATIONS:
+9/9 PASS.
+
+
+ROOTS PROMOTABLE:
+0.
+
+
+ORGANIZATIONALLY DISTINCT SUCCESSOR REVIEW:
+OPEN.
+
+
+INSTALLATION / CANONICAL PROMOTION:
+PROHIBITED PENDING REVIEW AND OPERATOR AUTHORITY.
+
+
+END LS-AUD-013-v1.0

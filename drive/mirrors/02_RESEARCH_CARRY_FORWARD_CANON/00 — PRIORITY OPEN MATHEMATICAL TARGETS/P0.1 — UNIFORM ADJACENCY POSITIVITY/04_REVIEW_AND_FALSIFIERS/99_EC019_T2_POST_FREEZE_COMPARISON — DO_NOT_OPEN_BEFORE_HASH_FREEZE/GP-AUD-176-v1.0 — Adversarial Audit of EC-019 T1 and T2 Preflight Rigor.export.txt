@@ -1,0 +1,198 @@
+﻿SUCCESSOR DISPOSITION ADDENDUM — 2026-07-24
+GP-DATA-168-v1.1 subsequently reports that the v1.0 defects isolated by this audit were corrected and rerun: executable full-dimensionality checks, widened square-root endpoints, interval-preserving scalar bounds, regression tests, nineteen positive margins, and five executed controls at 40, 80, and 120 digits. The numerical values agree with the tighter independent reconstruction recorded below. Therefore this audit's AMEND REQUIRED verdict remains controlling for v1.0 as historical provenance, while the current same-line computational result is upgraded to PASS BY EXECUTION RECEIPT. The declared 20,949-byte v1.1 source is not reconstructably published in Drive, so exact-source replay remains SOURCE REQUIRED / CANNOT VERIFY. Organizationally distinct T2 evidence remains OPEN.
+[[V1.0:AMEND-REQUIRED-HISTORICAL]] [[V1.1:SAME-LINE-RECEIPT-PASS]] [[V1.1-SOURCE:REQUIRED]] [[T2:OPEN]]
+
+
+GP-AUD-176-v1.0 — ADVERSARIAL AUDIT OF EC-019 T1 AND T2 PREFLIGHT RIGOR
+
+
+Artifact ID: GP-AUD-176-v1.0
+Author/reviewer line: GP — OpenAI GPT-5.6 Thinking, adversarial audit session
+Date: 2026-07-24
+Class: AUD / FALSIFICATION / COMPUTATIONAL-RIGOR CORRECTION
+Authority: factual technical audit and nonterminal status correction only
+Canonical mathematical impact: NONE
+Reviewed objects: GP-DER-161-v1.0; CL-AUD-082-v1.0 active A-line; GP-SPEC-166-v1.0; GP-DATA-168-v1.0; GP-AUD-169-v1.0; current EC-019 register and command-center surfaces
+
+
+[[OBJ:EC-019]] [[STATUS:T1-SURVIVES]] [[STATUS:T2-OPEN]] [[STATUS:GP-PREFLIGHT-AMEND-REQUIRED]] [[NO_TERMINAL_PROMOTION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+EC-019 remains nonterminal. The current T1 fixed-r symbolic nondegeneracy result survives this attack. The residue-class Fourier argument in GP-DER-161 is logically valid for the declared periodized Bargmann–Fock torus object at L=24 and r=1/20, assuming the stated fifteen functionals and strictly positive Fourier weights. CL-AUD-082 therefore remains a qualifying non-GP T1 review credit, subject to its already declared scope.
+
+
+The T2 same-line GP preflight does not presently justify the phrases “rigorous directed-rounding interval certificate” or “all five negative controls fire.” The reported primary margins remain positive and their signs were independently reconstructed from GP-SPEC-166, but GP-DATA-168 contains two certificate-level defects:
+
+
+A. NC1 is not executed. The source hard-codes `"pass": True` and a prose reason for the zero-width control. It does not create a zero-radius c04 test object, does not call a full-dimensionality validator, and contains no general radius metadata or zero-width rejection function. Thus only four controls are computationally executed.
+
+
+B. Outward rounding is incomplete. `Decimal.sqrt()` returns a nearest-rounded Decimal result; changing the context rounding mode around `.sqrt()` does not create distinct lower and upper outward endpoints. In addition, several calculations are performed after extracting Decimal endpoints and therefore use the default global nearest rounding rather than ROUND_FLOOR or ROUND_CEILING. Examples include `tau_upper = supabs(b_s)/gap.lo`, `m_cone_slope`, `m_handoff`, `m_chart_X`, `m_chart_Y`, and the Gershgorin endpoint subtractions.
+
+
+These defects do not presently reverse any sign: the smallest reported primary margin is approximately 7.485×10^-3, while the rounding defects are at the working-precision ulp scale. They do, however, invalidate the stronger evidentiary description that the stored source is already a rigorous interval certificate with five executed controls.
+
+
+Adjudication:
+- T1: SURVIVES.
+- T2 mathematical interface: SURVIVES INITIAL ALGEBRA CHECK; still requires source-independent non-GP implementation.
+- GP-DATA-168 / GP-AUD-169 certificate wording: AMEND REQUIRED.
+- EC-019 terminal status: unchanged; NONTERMINAL / T2 OPEN.
+
+
+2. T1 RECONSTRUCTION AND ATTACK
+
+
+Exact claim reviewed: at L=24 and r=1/20, the joint covariance Gram of six endpoint value/gradient pins at x_±=(±1/40,0) and nine declared midpoint derivative functionals is strictly positive definite.
+
+
+The proof reduces zero variance to vanishing of the Fourier symbol at every lattice frequency because every torus spectral weight is strictly positive. Writing X=i2πm/L, Y=i2πn/L, and z=exp(iπ/480), the symbol has form
+
+
+S(m,n)=z^{-m}A_-(X,Y)+A_0(X,Y)+z^mA_+(X,Y),
+
+
+where A_± lie in span{1,X,Y} and A_0 lies in the span of nine distinct derivative monomials. Restricting m to c mod 960 for c=0,1,2 converts each relation into a polynomial in the free integer variables k,n. Vanishing on all Z² forces each polynomial identity to vanish identically. The resulting 3×3 coefficient matrix has determinant (z−1)^3(z+1)/z², nonzero because z has order 960. Therefore A_-=A_0=A_+=0, and the distinct monomials force all fifteen coefficients to vanish.
+
+
+Attack results:
+- The quantifier transition from lattice vanishing to polynomial identity is valid after the affine substitution m=c+960k.
+- The determinant separation is exact and nonzero.
+- The Schur-complement conclusion is valid.
+- No numerical eigenvalue lower bound, finite-Q4 transfer, uniform-r statement, or exact-field capture result is imported.
+
+
+Remaining scope condition: the exact crosswalk from the project coordinates to the nine displayed nonzero-scaled monomials remains part of the declared source dependency. No contradictory crosswalk was found in the reviewed current artifacts.
+
+
+3. T2 ALGEBRA RECONSTRUCTION
+
+
+The flow and Jacobian formulas in GP-SPEC-166 were differentiated independently. The displayed J11, J12, and J22 agree with the derivatives of the stated degree-four flow, including equality of the two mixed derivatives.
+
+
+Under X=1/2−ξ and Y=tξ:
+- the displayed Q_x equals −F_x/ξ after exact cancellation;
+- the displayed Q_y equals F_y/ξ after exact cancellation;
+- both polynomial continuations include ξ=0 without numerical division.
+
+
+An independent interval reconstruction reproduced the signs of all nineteen primary margins and reproduced seventeen reported numerical values essentially exactly. Two values differed because GP-DATA-168’s generic repeated-multiplication interval power deliberately over-encloses even powers on intervals crossing zero; this is conservative, not unsound. The discrepancies are:
+- m_strip_bottom: independent tighter enclosure approximately 0.01642666 versus stored 0.01621866;
+- m_central_drift: independent tighter enclosure approximately 0.08996599 versus stored 0.08996523.
+
+
+Both remain positive. The discrepancy should be documented as implementation-dependent enclosure width, not treated as evidence of failure.
+
+
+4. COMPUTATIONAL DEFECTS
+
+
+FINDING 1 — NC1 IS ASSERTED, NOT TESTED
+Severity: HIGH for test-suite integrity; MEDIUM for the underlying mathematical claim.
+Repair status: REPAIR PROPOSED.
+
+
+Evidence: GP-DATA-168 sets the NC1 result dictionary to `"pass": True` with a prose reason. No altered zero-width box is passed to `compute`; no radius field is preserved by `primary_box`; no validator checks strict positivity of all nine radii.
+
+
+Consequence: the statement “all five required negative controls fire” is false as an execution claim. Four controls run; one expected outcome is manually asserted. A future implementation could silently omit full-dimensionality checks and still report 5/5 under the same structure.
+
+
+Minimal repair: represent each parameter by center and radius or preserve a separate radii map; implement `validate_full_dimension(radii)`; execute NC1 by setting c04 radius to zero and require the validator to reject before any dynamical margin calculation.
+
+
+Acceptance test: mutate each of the nine radii to zero one at a time; each case must fail with a machine-generated FULL_DIMENSIONAL_BOX_FAIL result, and the primary positive-radius box must pass the dimensionality gate.
+
+
+Falsification condition: any zero-radius case reaches primary PASS or bypasses the dimensionality validator.
+
+
+FINDING 2 — SQRT OUTWARD ROUNDING IS NOT ESTABLISHED
+Severity: HIGH for certificate wording; LOW for current sign stability.
+Repair status: REPAIR PROPOSED.
+
+
+Evidence: `I.sqrt()` calls Decimal `.sqrt()` under ROUND_FLOOR and ROUND_CEILING contexts. Decimal square root is nearest-rounded rather than controlled into distinct floor/ceiling outputs by those context changes. The same nearest result can therefore be returned as both endpoints.
+
+
+Consequence: MU and rho are not proven outward enclosures by the current implementation. Downstream W, handoff, chart, and Gershgorin bounds are not fully certified as rigorous intervals.
+
+
+Minimal repair: compute a high-precision nearest square root, then widen unconditionally with context `next_minus` for the lower endpoint and `next_plus` for the upper endpoint, or use a verified interval library whose square root operation guarantees directed enclosure.
+
+
+Acceptance test: at deliberately low precision, sqrt([2,2]) must return endpoints bracketing the exact square root with lower²≤2≤upper²; the endpoints must not both lie below or both lie above the exact value.
+
+
+FINDING 3 — ENDPOINT SCALAR ARITHMETIC ESCAPES DIRECTED ROUNDING
+Severity: MEDIUM.
+Repair status: REPAIR PROPOSED.
+
+
+Evidence: several margins are computed with ordinary Decimal operations after `.lo` or `.hi` extraction. These operations use the global nearest-rounding context, not explicit outward rounding.
+
+
+Consequence: the last stored digits are not rigorous one-sided bounds even where the enclosing interval operations were directed.
+
+
+Minimal repair: keep derived quantities as intervals until the final bound extraction, or wrap each scalar operation in explicit ROUND_FLOOR/ROUND_CEILING calculations appropriate to the required inequality direction.
+
+
+Acceptance test: run the corrected implementation at 40, 80, and 120 digits. Every lower-bound margin must be monotone/nondecreasing under tighter enclosures or overlap consistently, and every sign must remain positive.
+
+
+5. REQUIRED STATUS CORRECTION
+
+
+Until a corrected source is published and rerun, describe GP-DATA-168 / GP-AUD-169 as:
+
+
+“SAME-LINE NUMERICAL PREFLIGHT: all nineteen reported margins positive; four negative controls computationally executed; zero-width control specified but not executed; rigorous outward-rounding certificate AMEND REQUIRED.”
+
+
+Do not describe it as:
+- a completed T2;
+- an independent implementation;
+- a five-control execution;
+- a fully rigorous interval certificate.
+
+
+6. STRONG REPAIR PACKET
+
+
+Create GP-DATA-168-v1.1 or a clearly identified successor with:
+1. a corrected interval square-root implementation;
+2. directed rounding for every endpoint-derived scalar bound;
+3. explicit center/radius metadata;
+4. executable full-dimensionality validation;
+5. NC1 executed, not asserted;
+6. regression tests for interval containment, square roots, even powers, zero widths, and all five controls;
+7. source and result byte counts and SHA-256 hashes;
+8. a discrepancy table against v1.0;
+9. no retroactive alteration of v1.0 provenance.
+
+
+The non-GP blind T2 reviewer must use the corrected specification or independently discover and repair the same issues. The reviewer must not copy a corrected GP implementation if clean-room implementation credit is claimed.
+
+
+7. DRIVE ACTIONS
+
+
+- Add correction banners to GP-DATA-168-v1.0 and GP-AUD-169-v1.0.
+- Correct current-state and command-center wording from “5/5 controls passing” to the amended status above.
+- Preserve T1 PASS and T2 OPEN.
+- Keep GP-DATA-168-v1.0 and GP-AUD-169-v1.0 as provenance; do not delete or silently rewrite their original bodies.
+- Route the corrected arithmetic/control requirements into the T2 acceptance packet.
+
+
+8. TOP NEXT ATTACK
+
+
+After the status repair, audit P0.1’s admissible body GP-DATA-123 at its exact Drive ID and hash. Locate the earliest unresolved uniformity or exact-field dependency, with special attention to U1*, common epsilon_* selection, covariance assumptions, and transfer from fixed finite-dimensional constraints to the full field.
+
+
+END GP-AUD-176-v1.0

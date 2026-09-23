@@ -1,0 +1,74 @@
+﻿LS-COR-014-v1.0 — RECONCILIATION OF LS-REQ-023 IDENTIFIER COLLISION AND P0.1 v1.8 SOURCE ADDRESS
+
+
+Artifact ID: LS-COR-014-v1.0
+Date: 2026-07-26
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: COR / IDENTIFIER COLLISION / VERSION ROUTING / EXACT-HASH FIREWALL
+Authority: provenance and review-routing correction only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+
+
+DECISIVE COLLISION
+
+
+Two distinct review requests acquired the same artifact identifier LS-REQ-023-v1.0:
+
+
+A. Theorem B TB-G5 review packet
+Drive ID: 1pYBHj-2as10YOc9O9S_76Py6FHsm7RnO66NwUPejRbs
+Target: LS-DER-027-v1.0, BODY 11,330 / SHA-256 60768783048ae9f5347735caa6a543ff074b785f2d5a1c568237c92d12f12f39
+Status: legitimate first-routed TB-G5 request; remains LS-REQ-023-v1.0.
+
+
+B. LCR-DER-061-v1.1 conversion packet
+Drive ID: 1c_-wbmoEiwKl4lzpKQFCY5BpdKDP0iYCqPhfEUSFkdk
+Target: LCR-DER-061-v1.1, BODY 8,928 / SHA-256 8ec4386fc1214523c98a5ae84acf4f5f64a6601aa2c63728f4382701b82dc3b7
+Status: redesignated to LS-REQ-025-v1.0. Same Drive ID and review content; only the colliding request identifier changes.
+
+
+CONTROL RULE
+
+
+- LS-REQ-023-v1.0 refers only to TB-G5 / LS-DER-027.
+- LS-REQ-025-v1.0 refers only to the Anthropic exact-hash conversion of LCR-DER-061-v1.1.
+- Theorem B G4 remains LS-REQ-022-v1.0.
+- P0.1 v1.8 supplement review remains LS-REQ-024-v1.0.
+
+
+P0.1 v1.8 CONSEQUENCE
+
+
+GP-DER-118-v1.8 / GP-DATA-232 is frozen at BODY 27,647 / SHA-256 7c71f6ab85040910f4ce6b14c1b5b6aaf573873393e7cc25dcb8bfb021b63e17. Its frozen Section 1 states that LCR-DER-061-v1.1 conversion is routed through LS-REQ-023-v1.0. That identifier became ambiguous after TB-G5 claimed the same request number.
+
+
+The theorem mathematics, exact law, event meaning, fixed box, radius ledger, and quotient are unaffected. However, the source-addressed frozen body is no longer clean enough for affirmative exact-hash review. Therefore:
+
+
+- GP-DER-118-v1.8 and GP-DATA-232 remain reproducible provenance;
+- they are AMEND REQUIRED on source-address identity only;
+- LS-REQ-024 must not issue an affirmative theorem conversion against v1.8;
+- a numbered GP-DER-118-v1.9 / new snapshot successor must replace the frozen text LS-REQ-023-v1.0 with LS-REQ-025-v1.0 and preserve all other theorem bytes except unavoidable version/supersession metadata;
+- the v1.9 body requires a fresh hash, snapshot, and hash-specific conversion packet.
+
+
+No prior mathematical verdict transfers automatically to v1.9. The narrow diff may be reviewed as a version-linked source-address conversion only after exact identity is reproduced.
+
+
+STATUS FIREWALL
+
+
+This correction does not:
+- approve LCR-DER-061-v1.1;
+- approve P0.1;
+- alter P0.2 or Theorem B mathematics;
+- create a second Anthropic credit;
+- promote a theorem, package, root, seal, or release;
+- authorize deletion or mutation of frozen predecessors.
+
+
+[[COLLISION:LS-REQ-023]] [[TB-G5:LS-REQ-023-CONTROLS]] [[LCR061-CONVERSION:LS-REQ-025]] [[P01-v1.8:SOURCE-ADDRESS-AMEND]] [[P01-v1.9:REQUIRED]] [[NO-PROMOTION]]
+
+
+END LS-COR-014-v1.0

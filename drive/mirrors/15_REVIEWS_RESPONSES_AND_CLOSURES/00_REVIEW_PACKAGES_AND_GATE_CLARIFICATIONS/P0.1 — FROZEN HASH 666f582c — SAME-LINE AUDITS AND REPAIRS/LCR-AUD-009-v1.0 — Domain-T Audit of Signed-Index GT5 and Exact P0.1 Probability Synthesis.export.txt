@@ -1,0 +1,621 @@
+﻿LCR-AUD-009-v1.0 — DOMAIN-T AUDIT OF SIGNED-INDEX GT5 AND EXACT P0.1 PROBABILITY SYNTHESIS
+
+
+Artifact ID: LCR-AUD-009-v1.0
+Reviewer: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: AUD / GAUSSIAN PROCESS / PROBABILITY SYNTHESIS / REVIEW-CAPSULE COMPANION
+Authority: technical same-line audit and evidence reconciliation only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Frozen target: GP-DER-118-v1.3 body, BODY_BYTES 14591, SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+Primary sources: GP-DER-046-v1.0; LS-COR-001-v1.0; LS-AUD-003-v1.0; repaired Domains G and D
+
+
+[[TARGET:P0.1]] [[DOMAIN:T]] [[GT5:SIGNED-INDEX-PASS-SAME-LINE]] [[P01-SYNTHESIS:PASS-SAME-LINE]] [[DM2:NOT-REQUIRED-FOR-P01]] [[NON-GP-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+====================================================================
+0. EXECUTIVE VERDICT
+====================================================================
+
+
+GP-DER-046 originally contained a false pointwise inequality in its expected-absolute-supremum step. That proof route is invalid and remains retracted. LS-COR-001 replaces it with the correct signed-index Gaussian process
+
+
+    Y_{r,alpha}(s,x)=s Z_{r,alpha}(x),
+    s in {-1,+1},
+    x in K_r,
+
+
+whose supremum is exactly sup_x|Z_{r,alpha}(x)|.
+
+
+After reconstructing the law, mean, metric, entropy, Borell–TIS, cutoff, dependence-free intersection, exact-weight lower bound, normalizer direction, and common-r-domain steps, this audit finds no additional mathematical defect in the frozen P0.1 Domain-T chain.
+
+
+Same-line verdict:
+
+
+P0.1 DOMAIN T — PASS AFTER SIGNED-INDEX REPAIR / ORGANIZATIONALLY DISTINCT REVIEW PENDING.
+
+
+The determinant second-moment estimate
+
+
+    DM2: E[W_r^2]<=C_W r^4
+
+
+is not required for the frozen P0.1 proof. It is needed only for the optional conversion of the conditioned GT5 tail into a determinant-weighted Palm-tail statement, chiefly relevant to P0.2. The frozen P0.1 proof uses the GT5 tail directly under the exact conditioned law Q_{6,r} and combines it with the fixed-box probability through a subtraction inequality.
+
+
+No theorem promotion follows.
+
+
+====================================================================
+1. EXACT CONDITIONED PROCESS
+====================================================================
+
+
+For each multi-index alpha of total order five, define on the shrinking physical chart K_r=rD^+:
+
+
+    X_{r,alpha}(x)
+      = partial^alpha f(x) conditioned on the exact six endpoint pins.
+
+
+The conditioned process is generally noncentered. Write
+
+
+    X_{r,alpha}(x)=m_{r,alpha}(x)+Z_{r,alpha}(x),
+
+
+where Z_{r,alpha} is centered.
+
+
+The exact conditioning object is the invertible confluent divided-difference pin frame L_r with transformed pin value y_r. Therefore
+
+
+    m_{r,alpha}(x)
+      = Cov(partial^alpha f(x),L_r) G_r^{-1} y_r.
+
+
+The proof correctly keeps the deterministic conditional mean separate from the centered process to which Dudley and Borell–TIS are applied.
+
+
+The mean is uniformly bounded because:
+
+
+1. the exact normalized-periodized kernel is analytic;
+2. the fifth-derivative/pin divided-difference covariances have removable singularities at r=0;
+3. the extension is uniform for x=rX with X in fixed compact D^+;
+4. G_r^{-1} is uniformly bounded by Domain G;
+5. y_r is uniformly bounded and converges.
+
+
+Hence there exists M_5<infinity with
+
+
+    max_{|alpha|=5} sup_{0<r<=r_0} sup_{x in K_r}
+    |m_{r,alpha}(x)| <= M_5.
+
+
+This is a finite-dimensional analytic-kernel statement and requires no finite-Q4 substitution.
+
+
+====================================================================
+2. RESIDUAL VARIANCE AND CANONICAL METRIC
+====================================================================
+
+
+For any linear Gaussian functional A, conditioning on the six linear pins subtracts a positive-semidefinite Schur term. Therefore
+
+
+    Var(A | pins)<=Var(A).
+
+
+Taking A=partial^alpha f(x) gives
+
+
+    Var(Z_{r,alpha}(x))
+      <= Var(partial^alpha f(0))
+      <= sigma_5^2,
+
+
+where sigma_5^2 is the maximum unconditioned variance over the six order-five derivative coordinates.
+
+
+For the canonical metric
+
+
+    d_{r,alpha}(x,y)^2
+      = Var(partial^alpha f(x)-partial^alpha f(y) | pins),
+
+
+conditioning again gives
+
+
+    d_{r,alpha}(x,y)^2
+      <= Var(partial^alpha f(x)-partial^alpha f(y)).
+
+
+A line integral along the segment from x to y, contained in the larger physical chart rD^+, and the finite second moments of sixth derivatives imply
+
+
+    d_{r,alpha}(x,y)<=L_6|x-y|
+
+
+with L_6 independent of r and alpha.
+
+
+This step uses physical coordinates consistently. It does not introduce inverse powers of r.
+
+
+====================================================================
+3. SIGNED-INDEX REPAIR
+====================================================================
+
+
+The original displayed inequality
+
+
+    sup|Z|<=sup Z+sup(-Z)
+
+
+is false. The exact identity is
+
+
+    sup|Z|=max{sup Z,sup(-Z)}.
+
+
+The corrected index set is
+
+
+    T_r={-1,+1}xK_r
+
+
+with centered Gaussian process
+
+
+    Y(s,x)=sZ(x).
+
+
+Then
+
+
+    sup_{(s,x) in T_r}Y(s,x)=sup_{x in K_r}|Z(x)|.
+
+
+Within one sign copy,
+
+
+    d_Y((s,x),(s,y))=d_Z(x,y)<=L_6|x-y|.
+
+
+Across signs,
+
+
+    d_Y((s,x),(-s,y))^2
+      =E[(Z(x)+Z(y))^2]
+      <=2E[Z(x)^2]+2E[Z(y)^2]
+      <=4sigma_5^2.
+
+
+Thus the full signed metric diameter is at most 2sigma_5.
+
+
+For every epsilon>0, an epsilon-net for each same-sign copy yields
+
+
+    N(T_r,d_Y,epsilon)
+      <=2N(K_r,d_Z,epsilon).
+
+
+Because K_r lies in a fixed bounded planar chart and d_Z<=L_6|x-y|,
+
+
+    N(K_r,d_Z,epsilon)
+      <=C_D(1+A_D/epsilon)^2
+
+
+with constants independent of r and alpha. Therefore the signed Dudley integral is uniformly finite:
+
+
+    integral_0^{2sigma_5}
+      sqrt(log N(T_r,d_Y,epsilon)) d epsilon
+      < infinity.
+
+
+Consequently there is B_abs<infinity, uniform in r and alpha, such that
+
+
+    E sup_{x in K_r}|Z_{r,alpha}(x)|<=B_abs.
+
+
+This completely replaces the invalid two-one-sided-suprema argument.
+
+
+====================================================================
+4. BORELL–TIS AND THE SIX DERIVATIVE COORDINATES
+====================================================================
+
+
+The signed process is centered and separable, has finite expected supremum, and has maximal pointwise variance at most sigma_5^2. Borell–TIS gives
+
+
+    P(sup_x|Z_{r,alpha}(x)|>B_abs+u)
+      <=exp[-u^2/(2sigma_5^2)]
+
+
+for u>=0.
+
+
+There are exactly six multi-indices of total order five in two dimensions. A union bound gives
+
+
+    P(max_{|alpha|=5}sup_x|Z_{r,alpha}(x)|>B_abs+u)
+      <=6exp[-u^2/(2sigma_5^2)].
+
+
+Because
+
+
+    H_{5,r}(D^+)
+      <=M_5+max_{|alpha|=5}sup_x|Z_{r,alpha}(x)|,
+
+
+one obtains
+
+
+    P(H_{5,r}(D^+)>M_5+B_abs+u | exact six pins)
+      <=6exp[-u^2/(2sigma_5^2)].
+
+
+Set
+
+
+    t_0=2(M_5+B_abs).
+
+
+For t>=t_0, u=t-(M_5+B_abs)>=t/2, hence
+
+
+    P(H_{5,r}(D^+)>t | exact six pins)
+      <=6exp[-t^2/(8sigma_5^2)].
+
+
+The constants are uniform for all sufficiently small r.
+
+
+The argument is valid even though the conditioned process has nonzero mean, because the mean is removed before applying the centered Gaussian-process theorems and is restored only through the deterministic M_5 shift.
+
+
+====================================================================
+5. P0.1 CUTOFF EVENT
+====================================================================
+
+
+The frozen P0.1 proof chooses
+
+
+    G_r={H_{5,r}(D^+)<=r^(-1)}.
+
+
+For sufficiently small r, r^(-1)>=t_0, so GT5 gives
+
+
+    Q_{6,r}(G_r^c)
+      <=6exp[-c r^(-2)]
+
+
+for c=1/(8sigma_5^2), or the equivalent constants used in the theorem package.
+
+
+Domain G gives a fixed number p_B>0 satisfying
+
+
+    Q_{6,r}(J_r in B_q)>=p_B
+
+
+for sufficiently small r. Since the GT5 tail tends to zero, there exists r_tail>0 such that
+
+
+    Q_{6,r}(G_r^c)<=p_B/2
+
+
+for 0<r<=r_tail.
+
+
+No numerical knowledge of p_B is required for this existence step.
+
+
+====================================================================
+6. DEPENDENCE-FREE INTERSECTION
+====================================================================
+
+
+For arbitrary events B and G,
+
+
+    P(B intersect G)
+      =P(B)-P(B intersect G^c)
+      >=P(B)-P(G^c).
+
+
+Thus, without assuming independence,
+
+
+    Q_{6,r}(J_r in B_q and G_r)
+      >=Q_{6,r}(J_r in B_q)-Q_{6,r}(G_r^c)
+      >=p_B/2.
+
+
+The lower-jet vector J_r and the fifth-derivative supremum may be strongly correlated. The subtraction inequality remains valid.
+
+
+====================================================================
+7. USE OF REPAIRED DOMAIN D
+====================================================================
+
+
+Let
+
+
+    E_r={J_r in B_q} intersect G_r.
+
+
+On G_r, GP-DER-045 gives
+
+
+    ||F_r-F_r^(4)||_{C^1(D^+)}<=C_Dr.
+
+
+The controlling common-threshold proof is now GP-DER-186, not the retracted raw-family compactness argument. Set
+
+
+    r_D=min(1/20,10^(-4)/C_D).
+
+
+For 0<r<=r_D, the repaired Domain-D result gives
+
+
+    E_r subset A_r,
+
+
+where A_r is the exact GP-PROT-065 event that the selected exact M-ward unstable branch converges to M.
+
+
+The same repaired domain gives, after a further finite reduction of r if necessary,
+
+
+    det H_M^{exact}/r>=1/2,
+    -det H_S^{exact}/r>=1/2
+
+
+on E_r, with exact maximum/saddle indicators equal to one. Therefore
+
+
+    W_r^{exact}>=r^2/4
+
+
+on E_r.
+
+
+Scope: the weight bound is on E_r, not on all of A_r.
+
+
+====================================================================
+8. EXACT NUMERATOR AND NORMALIZER DIRECTIONS
+====================================================================
+
+
+Because E_r subset A_r and W_r^{exact} is nonnegative,
+
+
+    E_Q[W_r^{exact}1_{A_r}]
+      >=E_Q[W_r^{exact}1_{E_r}]
+      >=(r^2/4)Q(E_r)
+      >=r^2p_B/8.
+
+
+Domain G gives the exact full-field normalizer limit
+
+
+    Z_r^{exact}/r^2
+      ->E[Q_L^2 1{Q_L<0}]
+      in (0,infinity).
+
+
+For the desired lower probability bound, one needs the resulting denominator upper bound
+
+
+    Z_r^{exact}<=C_Zr^2.
+
+
+Using a denominator lower bound would point in the wrong direction.
+
+
+Therefore
+
+
+    P_r^{MS}(A_r)
+      =E_Q[W_r^{exact}1_{A_r}]/Z_r^{exact}
+      >=(r^2p_B/8)/(C_Zr^2)
+      =p_B/(8C_Z)
+      =:c_A>0.
+
+
+The r^2 factors cancel exactly.
+
+
+====================================================================
+9. WHY DM2 IS NOT A P0.1 OBLIGATION
+====================================================================
+
+
+GP-DER-046 also states an optional determinant-weighted Palm tail corollary. That corollary uses
+
+
+    DM2: E_Q[W_r^2]<=C_Wr^4
+
+
+together with a normalizer lower bound and Cauchy–Schwarz.
+
+
+The frozen P0.1 proof does not use that corollary. Its route is:
+
+
+1. GT5 under Q_{6,r};
+2. fixed positive Q_{6,r}-mass of B_q;
+3. dependence-free subtraction under Q_{6,r};
+4. deterministic exact capture and exact weight lower bound on E_r;
+5. one final Palm numerator/denominator quotient.
+
+
+Therefore:
+
+
+- conditioned-law GT5: load-bearing for P0.1;
+- DM2 and the Palm GT5 corollary: not load-bearing for P0.1;
+- DM2 remains relevant to P0.2 and other weighted-tail claims.
+
+
+Review packets should not delay P0.1 Domain-T adjudication on an unnecessary DM2 proof, but must keep DM2 open wherever the Palm-tail corollary is invoked.
+
+
+====================================================================
+10. COMMON r-DOMAIN
+====================================================================
+
+
+The final r-domain is the minimum of finitely many positive thresholds:
+
+
+- r_GR for Domain-G density regularity;
+- r_5 and r_tail for GT5 and the p_B/2 cutoff;
+- r_D for the explicit noncompact Domain-D transfer;
+- r_det for the exact determinant-factor lower bound;
+- r_Z for the exact normalizer upper bound;
+- r_chart for the fixed torus lift and chart containment;
+- 1/20 for the fixed-q deterministic certificate.
+
+
+Thus
+
+
+    r_*=min(r_GR,r_5,r_tail,r_D,r_det,r_Z,r_chart,1/20)>0.
+
+
+No uniform numerical value is claimed.
+
+
+====================================================================
+11. OBJECT-IDENTITY FIREWALL
+====================================================================
+
+
+The audit verifies the following separation:
+
+
+- Q_{6,r}: exact normalized-periodized field conditioned on six endpoint value/gradient pins;
+- J_r: exact midpoint nine-jet under Q_{6,r};
+- H_{5,r}: exact physical fifth derivatives under Q_{6,r};
+- F_r^(4): deterministic quartic comparison field using the exact finite jet;
+- W_r^{exact}: exact physical endpoint Hessian determinant product with exact type indicators;
+- Z_r^{exact}: expectation of W_r^{exact} under Q_{6,r};
+- P_r^{MS}: exact typed pair-Palm law obtained by weighting Q_{6,r};
+- A_r: exact selected-branch convergence event.
+
+
+No finite-Q4 probability law, weight, or normalizer enters the exact quotient.
+
+
+====================================================================
+12. DECISIVE T-LEDGER
+====================================================================
+
+
+T1 exact conditional process and mean decomposition: PASS.
+T2 uniform conditional mean bound: PASS at same-line candidate scope.
+T3 uniform residual variance: PASS.
+T4 canonical-metric Lipschitz bound: PASS.
+T5 original two-suprema inequality: FAIL / RETRACTED.
+T6 signed-index metric and covering numbers: PASS.
+T7 signed Dudley expected supremum: PASS.
+T8 Borell–TIS and six-coordinate union bound: PASS.
+T9 cutoff G_r under identical exact six-pin law: PASS.
+T10 independence-free intersection: PASS.
+T11 repaired Domain-D inclusion E_r subset A_r: PASS SAME-LINE.
+T12 exact weight lower bound on E_r: PASS SAME-LINE.
+T13 exact normalizer upper direction: PASS SAME-LINE.
+T14 exact Palm quotient: PASS SAME-LINE.
+T15 finite common r-domain: PASS.
+T16 DM2 required for frozen P0.1: NO.
+T17 organizationally distinct Domain-T review: OPEN.
+
+
+====================================================================
+13. MATERIAL OBJECTIONS
+====================================================================
+
+
+LCR-T-OBJ-01 — FALSE EXPECTED-SUPREMUM INEQUALITY
+Severity: HIGH for the original written proof step.
+Disposition: REPAIRED by LS-COR-001 signed-index process.
+Theorem-statement impact: NONE.
+
+
+LCR-T-OBJ-02 — POTENTIAL CONDITIONED/WEIGHTED LAW CONFUSION
+Severity: HIGH if conflated.
+Disposition: RESOLVED. GT5 and subtraction occur under Q_{6,r}; weighting occurs only in the final exact Palm quotient.
+
+
+LCR-T-OBJ-03 — DM2 SCOPE
+Severity: MEDIUM for review efficiency and dependency accuracy.
+Disposition: DM2 is excluded from the frozen P0.1 load-bearing chain and remains attached only to the optional Palm-tail/P0.2 route.
+
+
+LCR-T-OBJ-04 — DOMAIN-D DEPENDENCY VERSION
+Severity: HIGH if an external reviewer uses the superseded compactness argument.
+Disposition: reviewer must use GP-DER-186 and LCR-AUD-008.
+
+
+No additional critical objection was found in Domain T during this same-line audit.
+
+
+====================================================================
+14. STATUS AND EXTERNAL ACCEPTANCE TEST
+====================================================================
+
+
+Current status:
+
+
+P0.1 DOMAIN T — VERIFIED-WITHIN-SAME-LINE-SCOPE / PASS AFTER REPAIR / INDEPENDENT-REVIEW-PENDING.
+
+
+A qualifying organizationally distinct reviewer must:
+
+
+1. reproduce the frozen theorem hash;
+2. check the analytic divided-difference bound for the fifth-derivative conditional mean;
+3. verify the conditional covariance and metric inequalities;
+4. reconstruct the signed-index covering-number and Dudley argument;
+5. verify Borell–TIS hypotheses;
+6. confirm the cutoff is under Q_{6,r}, not a Palm law;
+7. verify no independence assumption appears;
+8. use repaired Domain D and accepted Domain G;
+9. verify the exact numerator and denominator directions;
+10. state explicitly that DM2 is not required for the P0.1 verdict.
+
+
+Accepted affirmative wording:
+
+
+APPROVE GP-DER-118 REVISION 1.3 FROZEN SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28 GT5-SYNTHESIS SUBCHAIN WITH SIGNED-INDEX DUDLEY REPAIR, NONCOMPACT DOMAIN-D DEPENDENCY, AND CONDITIONED-LAW/PALM-LAW FIREWALL
+
+
+This audit authorizes no P0.1 promotion, P0.2 theorem, Theorem B consequence, machine action, package seal, external release, deletion, or destructive operation.
+
+
+END LCR-AUD-009-v1.0

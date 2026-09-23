@@ -1,0 +1,128 @@
+D1 ASSEMBLY v2.2 RECEIPTS — D1-ASM-20260915-v2.2 (Stage-E round-2 repair re-issuance)
+=====================================================================================
+
+Issuance document:
+  D1_ASSEMBLY_v2_2.md  frozen body 18311 B
+  body sha256 = 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6
+  (extraction: lines strictly between the unique exact marker lines, LF,
+   blank-trimmed, one terminal LF)
+
+Historical (preserved untouched; re-verified by the operative gate):
+  v1.0 006b8a7d…, v1.1 634338b4…, v1.2 a7e1958c…, v2.0 86882dca…,
+  v2.1 bcc177fea4ee06f9d25c56f207ed4b6e7577eff96bfc030202928813c0688189
+  gates d1_falsify.py (v2.0), d1_falsify_v2.py (v2.1) frozen historical.
+
+Round-2 carrier consumed (hash-verified FROM BYTES):
+  D3_percolation/D3_REMOTE_AMENDMENT_v2.md body 6796deea4bfd5e3df19fd561e6bc34efe2531263db9db8d015d0553c3a3d1302
+  (raw marker segment, 4,553 B). v1 amendment 63d91cdd… re-verified, historical.
+All other carriers as the v2.1 ledger (D1_V2_1_RECEIPTS.txt), re-verified by gate v3.
+
+Consumed certified values (round-UP display discipline):
+  E_w(0.05) ≤ 8.1272827e-2 = 650.1827·(0.05)³  [exact 650.1826140…]
+    = chart 628.2548·r³ (= I_hi(v3) 8.0975589252e-2 = 647.8048·r³ − 19.55·r³)
+    + B_remote = 17.6804 + 2.5282637·(1+κ_far), κ_far ≤ 0.68 floor-certified
+      = 21.92788306… → 21.9279·r³ = 2.7409875e-3
+  κ floor assembly: recomputed from the Z-free numerators = 0.67678902;
+    the amendment's ratio-scaled display = 0.677284905; the cap 0.68 covers
+    BOTH (recorded nit N-D3V2-1; bracket prices at the cap — unaffected).
+  Z_{0.05} floor Z_lo = 7.7592917375327855e-3 (R2; margin +92.12% over c_Z(0.05)²).
+  C_RN(0.05) ≤ 3.46 (rounded up from 3.4591).
+  P_r(A.rem) ≤ 1.284 + 21.9279 = 23.2119·r³.
+  v1 historical displays 731.4311 / 711.8811 (round-UP).
+
+Re-review dispositions: H4JC-R1 PASS-WITHSTOOD; numerics PASS for the v2.1
+gate/chain with two BRANCH_dir receipts defects (owner's errata in flight,
+non-blocking — recorded E-BDIR-1/2) and the κ-probe sensitivity flag
+(repaired at source); scope V1/V2 both repaired (see the v2.2 CHANGES table).
+G.7-scope normalizer at the rung recorded CLOSED (every consumed 1/Z_r
+divides the certified floor).
+
+Operative gate: d1_falsify_v3.py — 92 fail-closed cks, exit 0 both modes,
+transcripts v3_t_normal.txt ≡ v3_t_opt.txt byte-identical.
+PASS digest = d800849ed5966b4d583a10cf72525e89350d9a53780b45a807a21ccbadf91085
+Mutation self-tests: retracted-string injection → FAIL; upward-drift
+h5_totals_v4.json → FAIL; QMC-denominator (21.2153) substitution → FAIL
+F-remote-display; B4.loc-premise removal → FAIL F-B4loc-premise-bullet;
+restored state PASS byte-identical.
+
+Recorded nits/errata (display-only): N-D3V2-1 (κ assembled display vs its own
+numerators, ~5e-4, cap covers both); N-v3-1 (I_hi(v3) inline truncation
+1.3e-13); N-v3-2 (647.8047/647.8048 round pair reconciled); E-H3-2 (h3 CR5f
+mislabel); E-BDIR-1/2 (BRANCH_dir receipts, owner's errata in flight);
+prior: E-H3-1, E-C1-1, E-H5-1/2/3.
+
+ADDENDUM (2026-09-15) — H3 BAND FLOOR landed; register action (frozen v2.2 body
+490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6 NOT altered).
+
+Carrier ledger addition (verified from bytes; grade CERTIFIED):
+  H3_closure/H3_BAND_FLOOR.md  body sha256
+  281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7
+  (body rule: document excluding its own hash-record line, per its MANIFEST;
+  recomputed). Companions: h3_band_floor.py a907eeedd767b0b97461df8e237cdca130a607b5dede50ad5ba4b05c957d22a5;
+  band_normal.txt ≡ band_O.txt byte-identical dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d;
+  band_out.txt 617b2d07fcaef23313427e68020182d0b27cad78032b399336a1b925db489f54. All MATCH.
+
+CERTIFIED CONTENT: for EVERY r ∈ (0, 0.05], E[G_r] ≥ 2.30659559567154 > c_Z,
+hence Z_r ≥ 2.30659559567154·r² UNIFORMLY on the whole band — worst certified
+margin +42.78% (cell (0.04, 0.05]); seven per-cell floors 2.5829/2.5817/2.5424/
+2.4559/2.4402/2.4179/2.3066; analytic series blow-up, no whitening, no Monte
+Carlo in the certificate; mutations fail-closed (planar-moments and window
+guards). Scope note carried: the uniform band-minimum 2.3066·r² is distinct
+from the sharper rung-point certificate 7.7592917375327855e-3 (= 3.1037·r²)
+at r = 0.05 — consumers at the rung keep the rung value.
+
+Register actions:
+(1) Theorem (2), premise OBL-D1-PROMOTE — its NORMALIZER sub-part is recorded
+    DISCHARGED via the band floor (uniform modulus on (0, 0.05], not just
+    pointwise rungs). The remaining promotion content is the chart side
+    (H5's r-scaled rung family + interpolation; RUNNING).
+(2) Theorem (1)'s named-hypothesis context — D3's κ denominators and C_RN's
+    floor at r = 0.05 can now ALSO be stated via the band floor (2.3066·r²
+    uniform) or the sharper rung point (3.1037·r²); both certified; the
+    assembly currently consumes the rung point (R2). The band form
+    strengthens Theorem (2)'s all-small-r normalizer side.
+(3) The artifact enters the carrier ledger at CERTIFIED grade (above); the
+    operative gate will absorb the pin at the next issuance.
+No other changes; held for the focused pass.
+
+ADDENDUM (2026-09-15, second) — H3 BAND CEIL landed; the normalizer module
+closes two-sided on the whole band. Frozen v2.2 body untouched.
+
+Carrier ledger addition (verified from bytes; grade CERTIFIED):
+  H3_closure/H3_BAND_CEIL.md  body sha256
+  cfe8a3a49e3281dfdc4ef5d925ae622b4f7aeea3d0462baae61b87dae699ede2
+  (body rule: document excluding its own hash-record line, per MANIFEST;
+  recomputed, MATCH). Companions per MANIFEST.sha256: h3_band_ceil.py
+  b97c5428…; ceil_normal ≡ ceil_O byte-identical 26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00;
+  ceil_out 1642236c…; mutations ceil_mut_cap/planar/window fail-closed.
+
+CERTIFIED CONTENT: cellwise ceilings E[G_r] ≤ 3.66282864761194 (0, 0.0025];
+3.66435028046302 (0.0025, 0.005]; 3.67360595202419 (0.005, 0.01];
+3.69805856644731 (0.01, 0.02]; 3.71138266685765 (0.02, 0.03];
+3.72414748332433 (0.03, 0.04]; 3.74767948915996 (0.04, 0.05]; uniform form
+E[G_r] ≤ 3.74767948915996 for ALL r ∈ (0, 0.05]; each cell ck'd to nest the
+band floor and to meet the consumption cap U ≤ 4 (cap never widened);
+margins +13.3%…+16.4% over the ~3.22 diagnostic; MC point estimates labeled
+diagnostic, non-load-bearing.
+
+Register actions:
+(i) The two-sided uniform normalizer bracket is now available for Theorem
+    (2)'s displays:
+        2.30659559567154·r² ≤ Z_r ≤ 3.74767948915996·r², ∀ r ∈ (0, 0.05]
+    — the lower side discharged by H3_BAND_FLOOR (281477c3…), the UPPER side
+    discharged by this carrier; the normalizer promotion inside
+    OBL-D1-PROMOTE is thereby discharged on BOTH sides.
+(ii) Polarity discipline recorded: D3's κ pieces and every UPPER-bound
+    intensity display divide by the FLOOR (lower side) — unchanged; the
+    CEILING is consumable only where an upper normalizer is the safe
+    direction (lower-bound displays, LPW-side compositions).
+(iii) DAG record: H3's three certificates form the COMPLETE NORMALIZER
+    MODULE on (0, 0.05], recorded CLOSED:
+      rung point floor  H3_RUNG_FLOOR.md  whole 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa
+      band floor        H3_BAND_FLOOR.md  body  281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7
+      band ceiling      H3_BAND_CEIL.md   body  cfe8a3a49e3281dfdc4ef5d925ae622b4f7aeea3d0462baae61b87dae699ede2
+    Downstream edge recorded (separate family per the firewall): the ceiling
+    carrier feeds LPW_CONSTANT v4 (its ×2.274e12 lever — the v4 domain cell
+    (0, 0.0025] contains v3's r₀ ≈ 4.39e-10 and discharges the lever per its
+    owner's estimate 4B₃/3.6629); v3 frozen; the DAG shows the edge without
+    importing LPW-side content into the upper theorem.

@@ -1,0 +1,59 @@
+# CL-AUD-082 — EC-019 Test T1: GP-DER-161 verified + the decisive high-precision Gram test executed
+
+ARTIFACT ID: CL-AUD-082-v1.0 (proposed; reconcile to next free CL index before any register append)
+AUTHOR LINE: CL — Anthropic Claude, claude-opus-4-8 session
+CREATED: 2026-07-23
+CLASS: AUD — independent verification of GP-DER-161 (T1 exact proof) AND execution of the pre-committed decisive test in CL-AUD-081 §4a
+RESPONDS TO: GP-DER-161-v1.0 §9 (R1–R9; "CL: convention crosswalk"), GP-REQ-160-v1.0, GP-REQ-164-v1.0, CL-AUD-081-v1.0 §4a
+CANONICAL IMPACT: NONE. AUTHORITY: none. EC-019 remains HUMAN-DECISION and non-terminal.
+
+[[OBJ:CL-AUD-082-v1.0]] [[OBJ:GP-DER-161-v1.0]] [[QUEUE:EC-019]] [[TASK:HB-030-T1]] [[STATUS:T1-CONFIRMED-BOTH-ROUTES]] [[STATUS:T2-OPEN]]
+
+## 0. HEADLINE
+
+EC-019 Test T1 (strict nondegeneracy of the six-pin + nine-jet covariance Gram at r=1/20) is now confirmed from the CL line by TWO independent routes:
+1. GP-DER-161's exact symbolic proof is CORRECT — I verified R1–R8 (below); verdict APPROVE.
+2. The decisive high-precision test that CL-AUD-081 §4a pre-committed PASSED: at 55-digit precision the variance-normalized 15-constraint Gram at r=1/20 is strictly positive definite (Cholesky succeeds with all-positive pivots), with min eigenvalue λ_min = 3.2552×10⁻¹⁰ > 0.
+
+This upgrades CL-AUD-081's §2/R3 verdict from CANNOT-VERIFY (double precision) to CONFIRMED (high precision), exactly per its pre-committed outcome map. T2 (independent reconstruction of GP-DER-106's capture margins) remains OPEN, so EC-019 is not restored to human-approval-ready by this note alone.
+
+## 1. VERIFICATION OF GP-DER-161'S EXACT PROOF (R1–R9)
+
+- R1 CONFIRMED: h/L = (1/40)/24 = 1/960, so z = exp(i·2π·h/L) = exp(iπ/480) has exact order 960; z ≠ 1 and z ≠ −1.
+- R2 CONFIRMED (structure): the Fourier symbol of ∂^(a,b) at (±h,0) is (iξ₁)^a(iξ₂)^b·e^{±iξ₁h} = z^{±m}·X^aY^b with X=iξ₁, Y=iξ₂; the three endpoint functionals {f,f_x,f_y} give z^{±m}·(deg-≤1 polynomial in {1,X,Y}). Correct.
+- R3 CONFIRMED: the nine midpoint multi-indices {(0,2),(2,1),(1,2),(0,3),(4,0),(3,1),(2,2),(1,3),(0,4)} are distinct monomials.
+- R4 CONFIRMED (standard): strictly positive Fourier weights ρ_{m,n}>0 ⇒ Var(Λf)=Σρ|S_Λ|² = 0 iff S_Λ(m,n)=0 at every lattice point.
+- R5 CONFIRMED: for m≡c (mod 960), z^m=z^c since z^960=1; the residual is a polynomial in (k,n) vanishing on all of Z², hence identically zero, giving the three polynomial identities z^{−c}A_−+A_0+z^c A_+ = 0 for c=0,1,2.
+- R6 CONFIRMED: det[[1,1,1],[z^{−1},1,z],[z^{−2},1,z²]] = (z−1)³(z+1)/z² as an algebraic identity (verified to double-precision noise across 39 test points), and it is NONZERO at z=e^{iπ/480}: |det| = 5.607×10⁻⁷.
+- R7 CONFIRMED: det≠0 ⇒ A_−=A_0=A_+=0; A_± ∈ span{1,X,Y} ⇒ the six endpoint coefficients vanish; A_0 ∈ span of the nine distinct monomials ⇒ the nine jet coefficients vanish; hence only the trivial combination has zero variance.
+- R8 CONFIRMED: G_joint ≻ 0 ⇒ pin block ≻ 0 ⇒ Schur complement Σ = S − C G_pin^{-1} Cᵀ ≻ 0 (Schur criterion).
+- R9 CONFIRMED: the argument is pure covariance nondegeneracy; no finite-Q4, exact-field-capture, probability-magnitude, r-uniformity, theorem, machine, ballot, or destructive claim is imported.
+
+CL VERDICT ON GP-DER-161: **APPROVE GP-DER-161 EXACT FIXED-r NONDEGENERACY PROOF.** (This is the CL convention-crosswalk leg; GP-DER-161 §9 also routes an AO48 symbolic/Schur leg and a CW/C047R independent algebraic reconstruction — those remain open and I do not stand in for them.)
+
+## 2. THE DECISIVE HIGH-PRECISION TEST (CL-AUD-081 §4a) — EXECUTED, PASSED
+
+Independent implementation (Python stdlib decimal, no shared code, no mpmath): assembled the periodized Bargmann–Fock covariance Gram (L=24, weights ρ_{m,n}=exp(−|ξ|²/2), ξ=2π(m,n)/24) of the six pins {f,f_x,f_y at ±(1/40,0)} plus the nine midpoint jets, at r=1/20. The sum factorizes over the two frequency axes (all points on y=0), evaluated at dps=55 with Fourier cutoff |m|,|n|≤100 (truncation error ~e^{−342}≈10^{−149}, negligible). Positive-definiteness certified by exact-arithmetic Cholesky (a symmetric matrix is PD iff Cholesky completes with positive pivots); λ_min by inverse-power iteration on the Cholesky factor.
+
+RESULTS (variance-normalized / correlation matrix):
+- Cholesky: COMPLETES, all pivots real and positive ⇒ POSITIVE DEFINITE. min pivot² = 1.04×10⁻⁶.
+- λ_min = 3.25520509×10⁻¹⁰ > 0 (STRICT).
+- λ_max = 3.304; condition number κ ≈ 1.02×10¹⁰; det(correlation) = 3.58×10⁻¹⁸.
+
+Interpretation: κ ≈ 10¹⁰ places λ_min far below the double-precision floor (~10⁻¹⁶ relative), which is exactly why CL-AUD-081's double-precision run reported the Schur complement as numerically indefinite (min eig ≈ −1.3×10⁻¹³). At 55 digits the positivity is cleanly resolved. Per CL-AUD-081 §4a's outcome map ("both reproduce within tolerance → §2 upgrades to CONFIRMED"), §2/R3 is now CONFIRMED.
+
+Normalization note (honest): my λ_min = 3.26×10⁻¹⁰ is for the correlation matrix of the raw physical-derivative functionals; CL-AUD-072 reported 2.98×10⁻⁸ under a different (variance-normalized jet) convention. Both are strictly positive; the exact value is normalization-dependent, and GP-DER-161 guarantees positivity independent of nonzero coordinate scalings — so the two numbers corroborate rather than conflict.
+
+## 3. BRIDGE — WHY THE EXACT PROOF AND THE NUMERICS AGREE ON DELICACY
+
+GP-DER-161's separation determinant (z−1)³(z+1)/z² ≈ 5.607×10⁻⁷ is SMALL precisely because z=e^{iπ/480} is close to 1 (π/480 ≈ 0.00654 rad ⇒ (z−1)³ ≈ (0.00654i)³ ≈ −2.8×10⁻⁷·i, ×(z+1)≈2 ⇒ ~5.6×10⁻⁷). This same near-degeneracy of the three spatial supports is the algebraic source of the Gram's tiny λ_min≈3.3×10⁻¹⁰ and κ≈10¹⁰. So the exact proof not only establishes nondegeneracy but explains the numerical delicacy: one quantity (the closeness of z to 1 at r=1/20) governs both. The proof is correct AND consistent with the observed conditioning.
+
+## 4. STATUS AND BOUNDARY
+
+- EC-019 T1: CONFIRMED from the CL line by exact proof (GP-DER-161, APPROVE) + high-precision numerics (λ_min>0). AO48 symbolic and CW/C047R algebraic-reconstruction legs of GP-DER-161 remain open per its §9.
+- EC-019 T2 (independent reconstruction of GP-DER-106 capture margins / binding handoff 7.485×10⁻³): STILL OPEN. Byte-exact rerun needs the raw GP-DATA-106 file — the Docs-rendered capsule does not reconstruct (CL-AUD-062 §2b). CL-DER-063 pinned ε* for 5 of 7 gate classes; endpoint-typing and handoff Lipschitz constants remain the residual.
+- EC-019 remains HUMAN-DECISION and non-terminal (Rule 6). Even fully verified it is a single-r qualitative positivity P_{1/20}^{MS}(A_{1/20})>0; no numerical value, no r-interval, no uniformity; it does not touch P0.1, P0.2, or Theorem B.
+
+Reproduction: ec019_T1.py, SHA-256 14a59f6ce083b017eed3cfc4545f4e300ad068333f2beaafc7af4c3f096e67b5 (symbolic checks + decimal Cholesky/inverse-power PD certificate). No theorem, closure, ballot, GP-AUTO-034, machine, release, or deletion follows. Silence is not verification.
+
+END CL-AUD-082-v1.0

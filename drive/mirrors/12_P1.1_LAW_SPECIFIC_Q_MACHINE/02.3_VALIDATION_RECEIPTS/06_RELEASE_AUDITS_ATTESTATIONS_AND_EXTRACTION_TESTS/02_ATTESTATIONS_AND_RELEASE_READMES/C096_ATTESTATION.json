@@ -1,0 +1,76 @@
+{
+  "release_id": "Q0-C096-RECONCILED-GATE",
+  "created_utc": "2026-07-17T20:12:37.724761+00:00",
+  "detached_from_zip": true,
+  "bundle": {
+    "filename": "Q0_C096_RECONCILED_GATE_RELEASE.zip",
+    "bytes": 2492221,
+    "sha256": "735913ddf4dd2a3dfd3bf5c076ce798e13711f16f600b3d71aa7b7046e4fc188"
+  },
+  "manifest": {
+    "filename": "C096_MANIFEST.json",
+    "sha256": "ccadf508b53b5b4f38a49bade526de3ea9da3ab72c87deb620f60f40c5af1707",
+    "declared_files": 44,
+    "zip_entries_expected": 45,
+    "self_excluded": true
+  },
+  "verification": {
+    "zip_mode": {
+      "filename": "C096_BUNDLE_VERIFICATION.json",
+      "sha256": "86668f37707347dc569096467635e5d2bd88f4a8508c1e8dc02a58fae920d29a",
+      "valid": true
+    },
+    "deep_audit": {
+      "filename": "C096_RELEASE_AUDIT.json",
+      "sha256": "a32e9432b46e4ec5f4c9f44f7868f88388f4c01d003fb342cd9b15e41e97b59a",
+      "valid": true
+    },
+    "fresh_extraction": {
+      "filename": "C096_FRESH_EXTRACTION_TEST.json",
+      "sha256": "dcc67989f42534763ece79390c8213eb6e0db8fd1220c628f7abebc314a7da77",
+      "valid": true,
+      "immutable_root_unchanged": true
+    }
+  },
+  "authority": {
+    "conceptual_master": {
+      "filename": "GATE_FRAMEWORK_MASTER_v1_2_RECONCILED.md",
+      "sha256": "ea3b0bce7087e37b9606fe04bf0c4d6161794f1acaf1bbcee8a05d72809a648f"
+    },
+    "rendered_master": {
+      "filename": "GATE_FRAMEWORK_MASTER_v1_2_RECONCILED.pdf",
+      "sha256": "e2a8b7d3b9c2e5f161c76ee38e2b1ece8a42c6314daac5e2880c3e61d06e3ede"
+    },
+    "executable_shell": {
+      "filename": "gate_kernel_v2_0.py",
+      "sha256": "9747f8572e13c7d2799b83d7e7e47bf2bd46f1c687ff9dd10953c67890ae4962",
+      "schema": "gate-kernel/2.0",
+      "validation_cases": 36,
+      "validation_passed": 36
+    }
+  },
+  "conditional_q0_roots": {
+    "UB_G_CUBIC_MODULO_RESIDUALS": "90d517d1f04babd31bc9ceda71a85f335722b68ff50447b53b8a50c3f8447e10",
+    "Q0_LIMIT_MODULO_RESIDUALS": "a8a9cd7162425a1698a992eccf718aed020550d9ad462e6c34c1a6a30fb72d80"
+  },
+  "q0_status": {
+    "shell_valid": true,
+    "conditional_promotable": true,
+    "unconditional_promotable": false,
+    "conditions": [
+      "COLLAR_CUBIC_EXPLICIT",
+      "GAMMA_GAIN_DENSITY_UNIFORM",
+      "GLOBAL_INTERCEPTOR_CUBIC_UNIFORM"
+    ]
+  },
+  "principal_findings": {
+    "gate_kernel_v1_2_redteam": "17/17 reproduced implementation gaps",
+    "gate_kernel_v2_0_validation": "36/36 expected outcomes",
+    "legacy_registry": "archive-valid migration; not candidate or promotion valid",
+    "uniform_4p35": "blocked",
+    "q0_limit": "Proven-Modulo three explicit residual conditions",
+    "BR_MARK": "uniform bounded six-pin mark-density factorization falsified on tested pair-scaled charts; joint regional architecture required"
+  },
+  "unowned_items": 0,
+  "next_action": "C097: prove or kill GAMMA_GAIN_DENSITY_UNIFORM and COLLAR_CUBIC_EXPLICIT; derive the joint typed spatial-marked pair-scaled Kac-Rice bound that replaces the false uniform BR-MARK factorization."
+}

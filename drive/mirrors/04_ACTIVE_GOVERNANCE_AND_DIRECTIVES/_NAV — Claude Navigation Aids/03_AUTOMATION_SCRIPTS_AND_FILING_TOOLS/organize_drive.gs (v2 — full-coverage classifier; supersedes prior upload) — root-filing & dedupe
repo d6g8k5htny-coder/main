@@ -1,0 +1,203 @@
+/**
+ * organize_drive.gs — file the loose root files, stage duplicates & junk.
+ * Runs in YOUR Drive as YOU (script.google.com), so it has the move/trash
+ * powers the chat connector lacks. Reversible by design.
+ *
+ * SETUP (2 min):
+ *   1. https://script.google.com  ->  New project
+ *   2. Paste this whole file over the default Code.gs
+ *   3. Left sidebar: Services (+)  ->  add "Drive API"  (Advanced service, v3)
+ *   4. Run `planOnly` first  (DRY_RUN stays true) -> read the Execution log
+ *   5. When the plan looks right, set DRY_RUN = false and run `organize`
+ *
+ * Nothing is hard-deleted. Duplicates and junk are MOVED to the existing
+ * "_PENDING_DELETION" staging folder (your OP-PROT-005 flow) unless you flip
+ * TRASH_INSTEAD_OF_STAGE. Every move is logged; re-running is safe (idempotent).
+ */
+
+const SHARED_DRIVE_ID    = '0AGEUF_sx7o_MUk9PVA';               // shared drive root
+const PENDING_DELETION_ID = '1FlRV7xrEb5l9iX11wOxd_sWLMarUlURX'; // _PENDING_DELETION — OP-PROT-005 STAGING
+const FILED_PARENT_NAME  = '01_FILED_BY_KIND';                  // new home for filed loose files
+
+const DRY_RUN = true;                  // true = log the plan only, change nothing
+const TRASH_INSTEAD_OF_STAGE = false;  // false = move dupes/junk to _PENDING_DELETION (reversible)
+                                       // true  = send them to Drive trash instead
+
+// KIND -> destination subfolder name (created under 01_FILED_BY_KIND on demand).
+// Repoint any value to an EXISTING folder ID string if you'd rather file into the
+// current spine — see the note at the bottom of this file.
+const KIND_TO_FOLDER = {
+  DER:  'Derivations',           AUD: 'Audits_and_Falsifiers',   ERR: 'Errata',
+  DATA: 'Computation_and_Tests', CLS: 'Closure_Packages',        REQ: 'Requests',
+  RSP:  'Responses',             CNS: 'Consensus',               OPR: 'Operator',
+  NAV:  'Navigation',            REG: 'Registers',               AUTO:'Automation',
+  PRE:  'Preprints',             SCHEMA:'Schemas',
+  OQ:   'Open_Questions',        HA:  'Human_Approval',          EC:  'Closure_Packages',
+  CFILE:'Computation_and_Tests', // C0xx experiment series
+  CANON:'Canon_Markdown',        MANU:'Manuscripts',             FIG:  'Figures',
+  NOTES:'Notes',                 MISC:'Uncategorized'
+};
+
+// ---- classification ------------------------------------------------------
+// title-prefix first; then a mimeType fallback so descriptive-named files still file well.
+function classifyKind(title, mimeType) {
+  var t = title || '';
+  var m = t.match(/^(?:GP|CL|AO48|CW)-([A-Z]+)/);      // line-prefixed artifacts
+  if (m) {
+    var k = m[1];
+    if (k === 'CLS' || k.indexOf('CLS') === 0) return 'CLS';
+    if (KIND_TO_FOLDER[k]) return k;
+  } else {
+    if (/^EC-\d/.test(t)) return 'EC';
+    if (/^OQ-\d/.test(t)) return 'OQ';
+    if (/^HA-\d/.test(t)) return 'HA';
+    if (/^OP-PROT/.test(t)) return 'OPR';
+    if (/^C\d{2,}/.test(t)) return 'CFILE';            // C093..C108 experiment ids
+    if (/^\d\d[_ ]/.test(t)) return 'CANON';           // 00_/01_/02_ canon .md at root
+  }
+  // fallback by content type (drains the descriptive-named files)
+  var mt = mimeType || '';
+  if (mt.indexOf('json') >= 0 || mt.indexOf('python') >= 0 ||
+      mt === 'text/csv' || mt === 'application/octet-stream') return 'CFILE';
+  if (mt === 'application/pdf') return 'MANU';
+  if (mt.indexOf('image/') === 0) return 'FIG';
+  if (mt.indexOf('markdown') >= 0 || mt === 'text/plain' ||
+      mt.indexOf('google-apps.document') >= 0 || mt.indexOf('wordprocessing') >= 0) return 'NOTES';
+  return 'MISC';
+}
+
+function isJunk(title) { return /^mobilebasic/i.test(title || '') || title === 'mobilebasic'; }
+
+// ---- Drive helpers (shared-drive aware) ----------------------------------
+function listChildren(parentId) {
+  var out = [], pageToken = null;
+  do {
+    var r = Drive.Files.list({
+      q: "'" + parentId + "' in parents and trashed=false",
+      driveId: SHARED_DRIVE_ID, corpora: 'drive',
+      includeItemsFromAllDrives: true, supportsAllDrives: true,
+      fields: 'nextPageToken, files(id,name,mimeType,modifiedTime,parents)',
+      pageSize: 1000, pageToken: pageToken
+    });
+    out = out.concat(r.files || []);
+    pageToken = r.nextPageToken;
+  } while (pageToken);
+  return out;
+}
+
+function ensureFolder(name, parentId) {
+  var r = Drive.Files.list({
+    q: "'" + parentId + "' in parents and name='" + name.replace(/'/g, "\\'") +
+       "' and mimeType='application/vnd.google-apps.folder' and trashed=false",
+    driveId: SHARED_DRIVE_ID, corpora: 'drive',
+    includeItemsFromAllDrives: true, supportsAllDrives: true,
+    fields: 'files(id,name)'
+  });
+  if (r.files && r.files.length) return r.files[0].id;
+  if (DRY_RUN) { Logger.log('   [dry-run] would CREATE folder "%s" under %s', name, parentId); return 'DRYRUN_' + name; }
+  var f = Drive.Files.create(
+    { name: name, mimeType: 'application/vnd.google-apps.folder', parents: [parentId] },
+    null, { supportsAllDrives: true });
+  Logger.log('   created folder "%s" -> %s', name, f.id);
+  return f.id;
+}
+
+function moveFile(file, newParentId) {
+  if (DRY_RUN) { Logger.log('   [dry-run] MOVE  "%s"  ->  %s', file.name, newParentId); return; }
+  Drive.Files.update({}, file.id, null, {
+    addParents: newParentId,
+    removeParents: (file.parents || []).join(','),
+    supportsAllDrives: true, fields: 'id,parents'
+  });
+  Logger.log('   moved "%s"', file.name);
+}
+
+function trashFile(file) {
+  if (DRY_RUN) { Logger.log('   [dry-run] TRASH "%s"', file.name); return; }
+  Drive.Files.update({ trashed: true }, file.id, null, { supportsAllDrives: true });
+  Logger.log('   trashed "%s"', file.name);
+}
+
+function stageOrTrash(file, why) {
+  if (TRASH_INSTEAD_OF_STAGE) { Logger.log(' %s -> TRASH', why); trashFile(file); }
+  else { Logger.log(' %s -> _PENDING_DELETION', why); moveFile(file, PENDING_DELETION_ID); }
+}
+
+// ---- entry points --------------------------------------------------------
+function planOnly()  { run(true);  }   // never changes anything
+function organize()  { run(DRY_RUN); } // honors the DRY_RUN flag above
+
+function run(forceDry) {
+  var savedDry = DRY_RUN;
+  if (forceDry) this.DRY_RUN = true;   // planOnly is always safe
+
+  Logger.log('=== organize_drive  (DRY_RUN=%s, stage=%s) ===',
+             DRY_RUN, !TRASH_INSTEAD_OF_STAGE);
+
+  // 1) whole-drive duplicate-title detection (keep 1, stage the rest)
+  var all = crawlAll(SHARED_DRIVE_ID);
+  var byName = {};
+  all.forEach(function (f) {
+    if (f.mimeType === 'application/vnd.google-apps.folder') return;
+    (byName[f.name] = byName[f.name] || []).push(f);
+  });
+  var stagedDup = 0;
+  Object.keys(byName).forEach(function (name) {
+    var group = byName[name];
+    if (group.length < 2) return;
+    // keep the copy that is NOT loose at root if possible, else the newest
+    group.sort(function (a, b) {
+      var aRoot = (a.parents || []).indexOf(SHARED_DRIVE_ID) >= 0 ? 1 : 0;
+      var bRoot = (b.parents || []).indexOf(SHARED_DRIVE_ID) >= 0 ? 1 : 0;
+      if (aRoot !== bRoot) return aRoot - bRoot;                 // prefer non-root as keeper
+      return (b.modifiedTime || '').localeCompare(a.modifiedTime || ''); // then newest
+    });
+    var keeper = group[0];
+    Logger.log('DUP "%s": keeping %s, staging %d copy(ies)', name, keeper.id, group.length - 1);
+    for (var i = 1; i < group.length; i++) stageOrTrash(group[i], 'DUP');
+    stagedDup += group.length - 1;
+  });
+
+  // 2) file the loose root children by KIND (skip folders & junk & dupes handled above)
+  var root = listChildren(SHARED_DRIVE_ID);
+  var filedParent = ensureFolder(FILED_PARENT_NAME, SHARED_DRIVE_ID);
+  var folderCache = {};
+  var filed = 0, junked = 0;
+  root.forEach(function (f) {
+    if (f.mimeType === 'application/vnd.google-apps.folder') return;
+    if (isJunk(f.name)) { stageOrTrash(f, 'JUNK'); junked++; return; }
+    var kind = classifyKind(f.name, f.mimeType);
+    var folderName = KIND_TO_FOLDER[kind] || KIND_TO_FOLDER.MISC;
+    if (!folderCache[folderName]) folderCache[folderName] = ensureFolder(folderName, filedParent);
+    moveFile(f, folderCache[folderName]);
+    filed++;
+  });
+
+  Logger.log('=== DONE: filed %d, staged %d duplicate(s), staged %d junk. DRY_RUN=%s ===',
+             filed, stagedDup, junked, DRY_RUN);
+  this.DRY_RUN = savedDry;
+}
+
+// full recursive crawl for duplicate detection
+function crawlAll(rootId) {
+  var out = [], stack = [rootId], seen = {};
+  while (stack.length) {
+    var pid = stack.pop();
+    if (seen[pid]) continue; seen[pid] = 1;
+    var kids = listChildren(pid);
+    kids.forEach(function (k) {
+      out.push(k);
+      if (k.mimeType === 'application/vnd.google-apps.folder') stack.push(k.id);
+    });
+  }
+  return out;
+}
+
+/*
+ * TO FILE INTO YOUR EXISTING SPINE INSTEAD OF NEW FOLDERS:
+ *   replace a KIND_TO_FOLDER value with an existing folder ID, e.g.
+ *     DER: '1FtibfyyZj8-VPjY60hQD5hUB-tewnarB',   // P0.1/02_ACTIVE_DERIVATIONS
+ *   and in ensureFolder() add: if (name.length > 25) return name;  // treat as an ID
+ *   (or just have moveFile target the ID directly). Ask and I'll wire whichever
+ *   target tree you want per KIND.
+ */

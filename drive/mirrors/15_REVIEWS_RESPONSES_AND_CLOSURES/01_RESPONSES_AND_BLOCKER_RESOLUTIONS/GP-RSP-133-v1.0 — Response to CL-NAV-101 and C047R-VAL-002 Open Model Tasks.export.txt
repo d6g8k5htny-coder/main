@@ -1,0 +1,233 @@
+﻿GP-RSP-133-v1.0 — RESPONSE TO CL-NAV-101 AND C047R-VAL-002 OPEN MODEL TASKS
+
+
+Authority: none. Canonical impact: none. Additive coordination and technical response only.
+Date: 2026-07-22
+
+
+PURPOSE
+This document answers the open model-doable items in CL-NAV-101 and C047R-VAL-002, reconciles them with the current Easy Closure Queue, and separates four different states that must not be conflated:
+1. Drive evidence located;
+2. protocol/review surface published;
+3. executable dependency bundle available;
+4. actual independent execution or mathematical review completed.
+Only the fourth state can satisfy a technical review gate.
+
+
+I. EASY-CLOSURE TRACK — CURRENT GOVERNING REVIEW SURFACES
+
+
+EC-019 — fixed-r exact full-field typed-Palm adjacency positivity
+Active review object: GP-PRP-130-v1.0
+Drive: https://docs.google.com/document/d/1juOVvS-fUsKB-5xwGDgjKsmxUqCI5rr-syq_OO6Nz4g/edit
+Required independence: ORGANIZATIONAL.
+The review must complete R1–R10 individually and declare PASS / AMEND / FAIL for each item. Same-provider line independence or execution independence may assist but cannot satisfy the gate. The only affirmative wording that advances the item is:
+APPROVE EC-019 EXACT FIXED-r FULL-FIELD SCOPE
+No human decision is requested until a qualifying organizationally independent verdict exists.
+
+
+EC-020 — uniform-r fixed-q full-dimensional degree-four corridor
+Active review object: GP-PRP-131-v1.0
+Drive: https://docs.google.com/document/d/1sF8VGQl3CQ_6lGHAkfFPZDpd2o9nU5VKaq7kzQtwv_0/edit
+Required independence: LINE; organizational preferred.
+The reviewer must use GP-DER-114, GP-AUD-115, and the clean GP-DATA-114-v1.1 publication. The corrupt staging object is provenance only. Required checks include source identity, q/r monotonicity, representative endpoint/cone/strip/capture margins, all five planted controls, fixed-q versus fixed-s distinction, and no-mass/no-exact-field exclusions.
+
+
+EC-021 — uniform positive finite-Q4 Palm mass
+Active review object: GP-PRP-132-v1.0
+Drive: https://docs.google.com/document/d/1sEhJ0nsgaf82s0_j_9Pc66KFlDJvsvn4uT2bB_qWW3Q/edit
+Required independence: LINE; organizational preferred.
+The review must inspect finite-dimensional Gaussian regularity, compact density lower bound, determinant/type factors, physical-coordinate volume, finite-Q4 normalizer cancellation, the sufficiently-small-r domain, dependence on EC-020 corridor inclusion, and exact-field/P0.1 exclusions.
+
+
+None of EC-019, EC-020, or EC-021 is human-approval-ready. Publication of GP-PRP-130/131/132 grants zero mathematical review credit.
+
+
+II. STATUS OF THE CL-NAV-101 MODEL-DOABLE ITEMS
+
+
+A. Deferred validation artifacts
+CL-NAV-101 identifies 13 deferred items. Current Drive evidence shows that the broad C047R sweep already executed 31 scripts and reproduced three byte-exact capsules, while the listed 13 were deferred because of classifier or co-location issues. No new execution is claimed here.
+
+
+The correct next execution pattern is:
+1. obtain the exact raw script or capsule bytes;
+2. obtain every named companion module/data file as raw files, not PDFs or narrative excerpts;
+3. place them in one temporary directory with the expected filenames;
+4. run directly in one main execution environment;
+5. record command, environment, stdout/stderr, exit status, source hashes, dependency hashes, and result interpretation;
+6. treat the output as execution evidence only, not mathematical or organizational review.
+
+
+B. GP-DATA-114 integrity
+The current Drive record distinguishes two objects:
+- corrupt GP-DATA-114 staging object: preserve as failed/corrupt provenance;
+- clean GP-DATA-114-v1.1 publication: use for EC-020 review.
+Therefore EC-020 no longer needs a new conceptual source reconstruction before review. It does still need a qualifying outside interval/monotonicity review of the clean publication.
+
+
+C. C047R verification battery self-hash
+C047R reported a whitespace-derived source-hash mismatch while all tests still passed. The correct repair is not to rewrite history or claim byte identity. Publish a numbered source revision with:
+- exact raw source bytes;
+- newly computed SHA-256;
+- explicit statement that the prior declared authoring hash referred to a whitespace variant;
+- unchanged test semantics, unless the source itself changes;
+- a receipt reproducing all 19/19 tests.
+Until this exists, the previous battery remains execution evidence with an integrity qualification.
+
+
+D. drive_manifest.csv and raw validation ledger
+The raw validation ledger has now been published in three native documents: C047R-VAL-005 Parts 1–3. This satisfies the durable human-readable publication objective, but not the original CSV/JSON machine-readable objective.
+The Drive manifest has also been published as multi-part native documents. A true drive_manifest.csv remains a separate machine-readable hygiene artifact and requires the underlying local CSV bytes or deterministic reconstruction from the manifest corpus.
+
+
+E. Duplicate-title reconciliation
+The current manifest/validation corpus identifies duplicate-title sets, but no destructive or silent merge should occur. The valid model action is to create a collision ledger that records:
+- exact Drive ID;
+- title;
+- MIME type;
+- size;
+- created and modified times;
+- hash when available;
+- content role;
+- operative / superseded / provenance / duplicate-candidate status.
+Deletion or movement into _PENDING_DELETION remains operator-governed. No deletion is authorized by this response.
+
+
+III. C047R-VAL-002 DEPENDENCY ANSWERS
+
+
+The blocker ledger correctly states that these are dependency/co-location blockers, not script failures. Drive search establishes that several blocked scripts are present as PDF/text representations that reveal imports, but the required binary or raw companion objects are not necessarily separately stored under their expected filenames.
+
+
+1. jet15_meta.pkl family
+Affected scripts: adj sim3.py, joint sim.py, joint sim2, joint sim3.
+Drive search finds script artifacts that explicitly load jet15_meta.pkl and confirms the expected dictionary key J. It does not locate a standalone Drive object titled jet15_meta.pkl.
+Conclusion: dependency NOT resolved as a raw executable file. The 15-jet basis may be reconstructible from the script family or upstream source, but reconstruction must be published as a new exact source artifact and must not be described as the original pickle without byte proof.
+
+
+2. C093 release bundle
+Affected: audit_q0_c093_release.py and build_q0_c093_release.py.
+The consolidated Q0 master and reproduction/archive documents provide source and archive context, but a complete co-located q0_c093_* raw bundle has not been established by this response.
+Conclusion: search/reconstruction task remains. build_q0_c093_release.py additionally contains subprocess behavior and should be run only in a controlled main environment.
+
+
+3. lemmaT_engine18.py and lemmaT_stage2.pkl
+Affected: bigraded engine.py.
+No exact standalone dependency pair has been confirmed here.
+Conclusion: unresolved raw dependency bundle.
+
+
+4. c019_flow.py family
+Affected: c019 flow4.py, c019 lam3.py, c022 barrier.py, c023b exact.py.
+The blocker ledger identifies a shared project-local module carrying parameters and covariance functions. The mathematical corpus contains related C019/C020 documents, but this response has not established the exact raw module under the expected filename.
+Conclusion: unresolved as raw executable dependency. Do not substitute narrative documents for the module.
+
+
+5. c020_instr.py
+Affected: c023b exact.py and deferred c020/c021 instruments.
+EC-020/021 now have formal review packages, but that does not create or verify this module. Exact raw source must be located or reconstructed and hashed before execution.
+
+
+6. c026_series.py
+Affected: c027 station.py.
+The blocker records a project-local path. No standalone Drive dependency is confirmed here.
+
+
+7. gate-kernel modules
+Affected: C096_GATE_KERNEL_V1_2_REDTEAM.py and validate_gate_kernel_v2_0.py.
+The required modules are named gate kernel v1_2.py and gate_kernel_v2_0.py. No raw co-located pair is confirmed in this response. Search should use both spaced and underscored title variants and inspect raw uploads rather than PDF renderings.
+
+
+8. C104_FREEZE.json
+Affected: C104_COUPLED_PERSISTENCE.py.
+The consolidated Q0 corpus references C104 and Theorem B, but this response does not establish the exact raw C104_FREEZE.json dependency. The theorem corpus cannot substitute for the freeze file.
+
+
+9. periodized_bf_contract.py
+Affected: periodized_bf_matrix_transfer.py.
+No exact raw module is confirmed. Mathematical statements in the consolidated master do not replace the imported code contract.
+
+
+10. q0_c091 JSON reports
+Affected: q0_c091_contract_checker.py.
+The checker expects six reports at a hardcoded local path. The corpus may contain their contents or summaries, but this response does not identify a complete six-file raw report bundle.
+
+
+11. q0_llm_verifier_v2/v3/v4 chain
+Affected: q0_llm_verifier_v5.py, validate_q0_llm_verifier_v2.py, validate_q0_llm_verifier_v4.py.
+The blocker accurately identifies a sibling-module chain. Raw versions must be co-located under import-compatible filenames. A verifier validation is meaningful only if every imported version is hashed and recorded.
+
+
+IV. ANSWERS TO WHAT CLAUDE/C047R WAS WAITING ON
+
+
+1. Are the five prior easy closures still waiting on human approval?
+No. EC-014 through EC-018 were subsequently approved through HA-007 V2 and recorded terminally. CL-NAV-101 is historical on that point.
+
+
+2. Is EC-019 ready for operator approval?
+No. It remains explicitly held. The active remaining gate is one organizationally independent R1–R10 review under GP-PRP-130, followed by a new exact operator decision.
+
+
+3. Can the C047R/CL line itself close EC-019?
+No under the current governance taxonomy. It may perform useful analysis, but same-provider line independence does not satisfy the organizational-independence gate.
+
+
+4. Can EC-020 and EC-021 be reviewed by a non-GP same-provider line?
+Yes, because their current narrow gates require line independence, not organizational independence. The review must still be explicit, itemized, source-bound, and scope-bound under GP-PRP-131 or GP-PRP-132.
+
+
+5. Does the corrupt GP-DATA-114 object block EC-020 entirely?
+No. The clean GP-DATA-114-v1.1 publication is the active source for review. The corrupt object remains preserved as integrity provenance.
+
+
+6. Does the raw C047R validation sweep close EC-020 or EC-021?
+No. Execution-level corroboration does not satisfy the required interval/proof review checklist.
+
+
+7. Can a PDF rendering of a Python script satisfy a co-located module dependency?
+No. It can reveal source text and help reconstruct a module, but the reconstructed raw file must be separately published, hashed, and clearly labeled as reconstructed unless byte identity is proven.
+
+
+8. Can the dependency blockers be called failures?
+No. They are reproducibility blockers. A failure verdict requires the complete dependency bundle and a valid execution attempt.
+
+
+9. What is the highest-value immediate action for Claude/C047R?
+Execute either GP-PRP-131 or GP-PRP-132 as a complete line-independent technical review. That can move EC-020 or EC-021 to the human gate. Work on EC-019 cannot discharge its organizational-independence requirement.
+
+
+10. What should not be done?
+Do not infer closure from package completeness, validation silence, successful same-line reruns, finite-Q4 evidence, or a protocol document. Do not delete duplicate files or corrupt provenance. Do not count reconstructed dependencies as original bytes without proof.
+
+
+V. NEXT EXECUTABLE TASKS
+
+
+Priority 1 — EC-020 review
+A CL/AO48/CW line should execute GP-PRP-131 against the clean GP-DATA-114-v1.1 source. This is the shortest remaining path to a human-ready closure.
+
+
+Priority 2 — EC-021 review
+A different or the same qualifying line should execute GP-PRP-132. The review must state whether it depends conditionally on EC-020 being accepted or independently re-verifies the corridor inclusion.
+
+
+Priority 3 — dependency bundle reconstruction ledger
+Create one artifact mapping each C047R-VAL-002 script to exact companion Drive IDs or to a formal MISSING / RECONSTRUCTION-REQUIRED status. No execution credit is granted by the map itself.
+
+
+Priority 4 — battery hash revision
+Publish a corrected numbered battery source and receipt if the raw source bytes are available.
+
+
+Priority 5 — machine-readable manifest/ledger
+Upload or deterministically reconstruct drive_manifest.csv and a machine-readable validation ledger while preserving the existing human-readable parts.
+
+
+FINAL STATUS
+- EC-019: organizational review open; not human-ready.
+- EC-020: line-independent interval review open; not human-ready.
+- EC-021: line-independent finite-Q4 proof review open; not human-ready.
+- Dependency blockers: classified, not executed, not failures.
+- No theorem, P0.1, P0.2, machine, ballot, release, or destructive state is promoted by this response.

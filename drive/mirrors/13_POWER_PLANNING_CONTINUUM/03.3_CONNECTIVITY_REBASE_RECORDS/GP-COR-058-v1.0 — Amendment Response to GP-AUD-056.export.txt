@@ -1,0 +1,162 @@
+﻿ARTIFACT ID:       GP-COR-058-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-21
+CLASS:             COR — source amendment and explicit response to independent audit
+AUTHORITY:         none
+CANONICAL IMPACT:  NONE
+STATUS:            AMENDMENT IMPLEMENTED LOCALLY / 21 OF 21 CONTROLS PASS / OUTSIDE REVIEW PENDING
+RESPONDS TO:       GP-AUD-056-v1.0
+AMENDS:            GP-DATA-054-v1.0 -> GP-DATA-054-v1.1
+TRANSITION:        TR-P12-006
+
+
+# Amendment Response to GP-AUD-056
+
+
+## Exact amended source identity
+
+
+Filename: GP-DATA-054-v1.1_ep2_hardened_amended.py
+Bytes: 51,213
+Lines: 1,159
+SHA-256: f1371c16459ef2f2bec45a8eec5be10bb2feb1bc02cc6994f82e2e2d2de6a10f
+Schema: ep2-hardened/1.1
+Python byte-compilation: PASS
+Self-tests: 21/21 PASS
+Receipt SHA-256: 3d92d6bc89441f6590f23f2427d2fbca7d94ac10a990c993e3495d3609679f0d
+
+
+The amended source is additive and noncanonical. GP-DATA-054-v1.0 and GP-AUD-056 remain preserved as the prior source and independent defect record. No production Bargmann–Fock result has been generated.
+
+
+## Finding 1 — endpoint accepted without certified event
+
+
+GP-AUD-056 finding:
+A branch could be accepted after Newton refinement of the terminal solver state even when the terminal event was never detected.
+
+
+Amendment:
+`endpoint_from_branch` now accepts an endpoint only if all of the following hold:
+- `solve_ivp` reports success;
+- solver status is exactly 1;
+- the terminal event array is present and nonempty;
+- the event state is finite;
+- the exact field value is nondecreasing along the trajectory within the declared tolerance;
+- the directional derivative is nonnegative;
+- the terminal gradient norm is recorded;
+- Newton refinement begins from the certified event state, not an arbitrary terminal state;
+- the Newton correction distance is below the declared tolerance;
+- the refined point is a nondegenerate maximum present in the registered maximum census.
+
+
+The receipt records solver status, event detection, event time, arclength, initial and event field values, minimum directional derivative, terminal gradient norm, Newton correction distance, and function-evaluation count.
+
+
+New controls:
+- ST13_ADAPTIVE_EVENT_CERTIFIED_ENDPOINT_CONTROL
+- ST14_SHORT_ARCLENGTH_CANNOT_NEWTON_SNAP
+- ST15_SOLVER_FAILURE_BLOCKS
+- ST16_NON_ASCENT_RHS_BLOCKS
+- ST17_SHARED_FAILURE_NOT_STABLE
+
+
+## Finding 2 — repeated shared failure could appear stable
+
+
+GP-AUD-056 finding:
+The prior stability rule could call two unresolved runs stable when both returned the same missing endpoint.
+
+
+Amendment:
+`EndpointResult.certified` requires a resolved endpoint, successful event-terminated solver state, and ascent diagnostics. `BranchReceipt.stable` requires every primary, tighter-tolerance, and branch-offset replay result to be certified and all endpoints to agree. Equality of two `None` endpoints cannot pass.
+
+
+New control:
+- ST17_SHARED_FAILURE_NOT_STABLE
+
+
+## Finding 3 — count-only census replay
+
+
+GP-AUD-056 finding:
+V5 compared only the count triple and could pass when the actual critical-point identities changed.
+
+
+Amendment:
+`match_critical_censuses` now performs one-to-one type-stratified matching using the Hungarian assignment algorithm. Every maximum, minimum, and saddle is matched by torus location and critical value under explicit tolerances. The receipt records matched identities, distances, value differences, and unmatched points.
+
+
+A second branch integration is performed on the denser replay census. `endpoint_incidence_replay` maps replay maxima and saddles back to primary identities and requires each matched saddle to have the same unordered maximum-endpoint pair.
+
+
+New gates:
+- V5_CRITICAL_CENSUS_IDENTITY_REPLAY
+- V6_ENDPOINT_INCIDENCE_REPLAY
+
+
+New controls:
+- ST8_COUNT_PRESERVING_IDENTITY_MISMATCH_BLOCKS
+- ST20_ENDPOINT_INCIDENCE_REPLAY_MISMATCH_BLOCKS
+
+
+## Finding 4 — branch-offset and saddle-perturbation sensitivity absent
+
+
+GP-AUD-056 finding:
+The prior source replayed numerical tolerances but did not test branch-offset sensitivity or replay from independently located saddle coordinates.
+
+
+Amendment:
+Every branch is now integrated using the primary offset and additional offset factors 0.5 and 1.5. All runs must terminate successfully and identify the same maximum. The denser independent critical census supplies replay saddle coordinates; its branch incidence is compared after the explicit identity map.
+
+
+New control:
+- ST18_BRANCH_OFFSET_SENSITIVITY_BLOCKS
+
+
+The matched replay-census incidence gate serves as the independent saddle-location replay.
+
+
+## Finding 5 — final nondegeneracy not explicitly gated
+
+
+GP-AUD-056 finding:
+The final census filter did not explicitly impose and record a determinant lower bound.
+
+
+Amendment:
+`newton_refine` now requires finite position/value/gradient/Hessian data, gradient convergence, and `abs(det Hessian) >= final_det_tol`. It records rejected nonfinite and near-degenerate candidates. Any rejected near-degenerate or nonfinite candidate blocks the field through V7_FINAL_NONDEGENERACY. Accepted primary and replay critical points are rechecked against the same bound.
+
+
+New control:
+- ST19_DEGENERATE_CRITICAL_POINT_REJECTED
+
+
+## Additional closure controls
+
+
+- V0_CLAIM_ELIGIBLE_MODE prevents quick-mode output from becoming claim-eligible.
+- ST21_QUICK_MODE_NOT_CLAIM_ELIGIBLE confirms the block.
+- The source continues to retain unresolved branches, block all fitting after a failed field, emit per-field receipts, and preserve fields as bootstrap clusters.
+
+
+## Current status
+
+
+The amendments answer the identified source-level defects and pass the author-side 21-control battery. They do not establish:
+- independent source correctness;
+- exact continuum critical-set completeness;
+- successful full-field production execution;
+- historical a_hat≈0.57 reproduction;
+- a continuum or asymptotic exponent;
+- P1.2 closure.
+
+
+The amended source remains quarantined until an outside line reconstructs the exact v1.1 bytes, executes the 21-control battery, reviews the amended scientific object, and completes at least one frozen full field without changing parameters after observing the result.
+
+
+## Reopening condition
+
+
+Reopen this amendment if any exact-source reconstruction differs, any of the 21 controls fails independently, any production V0–V7 gate fails, endpoint identities change under tolerance or offset replay, census identities fail matching, final nondegeneracy fails, or an outside reviewer identifies a new object mismatch.

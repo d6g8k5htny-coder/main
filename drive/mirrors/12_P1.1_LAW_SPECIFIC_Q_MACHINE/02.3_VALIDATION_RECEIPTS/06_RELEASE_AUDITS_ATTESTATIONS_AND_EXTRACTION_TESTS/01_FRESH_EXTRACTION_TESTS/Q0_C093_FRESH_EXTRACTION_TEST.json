@@ -1,0 +1,44 @@
+{
+  "release_id": "Q0-C093-CLOSEOUT",
+  "test": "fresh extraction cold start",
+  "all_pass": true,
+  "checks": [
+    {
+      "script": "validate_q0_llm_verifier_v4.py",
+      "args": [],
+      "returncode": 0,
+      "stdout_tail": "\",\n      \"RATE_PROGRAM_GRADE\",\n      \"TORUS_TRANSFER\",\n      \"UB_G\"\n    ],\n    \"issues\": [],\n    \"root_hashes\": {\n      \"RATE_PROGRAM_GRADE\": \"e24569bfedfac0d02a30ea606bcf271ad9a06650b2e935f8bdd81aa917ef5d48\",\n      \"Q0_LIMIT\": \"0c643c9d26fdda9e87065b040c6d55d91c932a8748f4a5eb223f1babf10cb4c6\"\n    },\n    \"gate_counts\": {}\n  },\n  \"bad_contract_regressions\": {\n    \"missing_mark\": {\n      \"valid\": false,\n      \"gates\": [\n        \"MARK\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"missing_composition_witness\": {\n      \"valid\": false,\n      \"gates\": [\n        \"COMPOSITION\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"endpoint_failure\": {\n      \"valid\": false,\n      \"gates\": [\n        \"ENDPOINT\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"missing_rung_tag\": {\n      \"valid\": false,\n      \"gates\": [\n        \"RUNG\"\n      ],\n      \"expected_gate_detected\": true\n    },\n    \"uncertainty_polarity\": {\n      \"valid\": false,\n      \"gates\": [\n        \"POLARITY\"\n      ],\n      \"expected_gate_detected\": true\n    }\n  },\n  \"numerical_regressions\": {\n    \"grounding_c0\": 0.66,\n    \"grounding_c2\": 0.66,\n    \"retained_grounding_edges\": 3,\n    \"anchored_rkhs_score_squared\": 0.06493872436962203,\n    \"q_sard_rank_deficient_bound\": 0.00041887902047863933,\n    \"effective_transverse_rank\": 2,\n    \"coverage_floor\": 0.002,\n    \"target_below_coverage_floor_rejected\": true,\n    \"rank_for_target_0p01_after_coverage\": 4,\n    \"selection_aware_total_risk\": 0.0323,\n    \"selection_aware_exponential_limit_floor\": 0.032100000000000004\n  },\n  \"all_expected_checks_pass\": true\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "q0_c092_contract_checker.py",
+      "args": [],
+      "returncode": 0,
+      "stdout_tail": "  },\n    \"C092_FINAL_CORRECTION_LEDGER.md\": {\n      \"exists\": true,\n      \"sha256\": \"195136457d8b95d6272fb0f34f5cf4813f8bcbd493406bddacfeb7659ba69a96\",\n      \"bytes\": 6181\n    },\n    \"C092_PUBLICATION_CLAIM_LANGUAGE.md\": {\n      \"exists\": true,\n      \"sha256\": \"5ca523a825750f9cc4befda26950cd430ff5588b13abec3a6d7bde02321eeb80\",\n      \"bytes\": 4989\n    },\n    \"C092_REPRODUCTION_README.md\": {\n      \"exists\": true,\n      \"sha256\": \"330748d90f2f7164dd5aaa8fac0222494067b60172506684817de0eb2442e1bb\",\n      \"bytes\": 3279\n    },\n    \"q0_c092_final_contract.json\": {\n      \"exists\": true,\n      \"sha256\": \"7d59266efa7148248647bd9619520e3b59ea4f44e5e9201e6ef760de96151190\",\n      \"bytes\": 16698\n    },\n    \"q0_llm_verifier_v4.py\": {\n      \"exists\": true,\n      \"sha256\": \"5305c19577649e424c99cb4a5165bb1cb05f71dabe4477c0d3b2fd9ceab279cc\",\n      \"bytes\": 36551\n    },\n    \"validate_q0_llm_verifier_v4.py\": {\n      \"exists\": true,\n      \"sha256\": \"d3d92ffe9cea955de08ec1a905fd115fcd569f92ea5572e684936b3bee369f7d\",\n      \"bytes\": 4429\n    },\n    \"q0_llm_verifier_v4_validation.json\": {\n      \"exists\": true,\n      \"sha256\": \"6b058bb0bdea6e18dc7ef4a0ad9502aae8cbb22a584182d07544914da4249ec0\",\n      \"bytes\": 1926\n    }\n  },\n  \"completion_definition\": {\n    \"program_finished\": true,\n    \"finished_scope\": \"fixed-L=24, b=1.2 q0 Rate Program at its declared program/verification-grade standard\",\n    \"core_roots\": [\n      \"RATE_PROGRAM_GRADE\",\n      \"Q0_LIMIT\"\n    ],\n    \"core_has_open_nodes\": false,\n    \"external_referee_conversion_is_separate\": true,\n    \"future_extensions_do_not_reopen_core\": true\n  }\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "audit_q0_c093_release.py",
+      "args": [
+        "--no-write"
+      ],
+      "returncode": 0,
+      "stdout_tail": "sing_active_files\": [],\n    \"json_parse_failures\": [],\n    \"control_characters\": [],\n    \"python_compile_failures\": [],\n    \"absolute_output_paths\": [],\n    \"semantic_core\": {\n      \"valid\": true,\n      \"roots\": [\n        \"RATE_PROGRAM_GRADE\",\n        \"Q0_LIMIT\"\n      ],\n      \"reachable\": [\n        \"AO_SIDE\",\n        \"BONFERRONI_INTERNAL\",\n        \"LAMBDA_SIDE\",\n        \"LOWER_RATE_PG\",\n        \"MODEL_EXACT\",\n        \"ND_PRIME_INTERNAL\",\n        \"Q0_LIMIT\",\n        \"R0_SARD_G\",\n        \"RATE_PROGRAM_GRADE\",\n        \"TORUS_TRANSFER\",\n        \"UB_G\"\n      ],\n      \"issues\": [],\n      \"root_hashes\": {\n        \"RATE_PROGRAM_GRADE\": \"e24569bfedfac0d02a30ea606bcf271ad9a06650b2e935f8bdd81aa917ef5d48\",\n        \"Q0_LIMIT\": \"0c643c9d26fdda9e87065b040c6d55d91c932a8748f4a5eb223f1babf10cb4c6\"\n      },\n      \"gate_counts\": {}\n    },\n    \"successor_unowned_items\": 0,\n    \"missing_deprecations\": [],\n    \"broken_release_index_references\": [],\n    \"invariants\": {\n      \"v4_regressions_pass\": true,\n      \"c092_contract_valid\": true,\n      \"periodized_exact_ensemble_closed\": true,\n      \"matrix_transfer_local_pass\": true,\n      \"matrix_transfer_far_pass\": true,\n      \"critical_value_gap_exact_reference_closed\": true,\n      \"corridor_product_rejected\": true,\n      \"palm_weighted_chernoff_available\": true\n    },\n    \"deep_execution_requested\": false,\n    \"deep_executions\": []\n  },\n  \"declared_terminal_dispositions\": [\n    \"CORE-CLOSED\",\n    \"KILLED\",\n    \"SUPERSEDED\",\n    \"DISPOSITIONED-SUCCESSOR\",\n    \"EXTERNAL-REVIEW-TRACK\",\n    \"NOT-CLAIMED\",\n    \"RELEASE-CLOSED\"\n  ],\n  \"unowned_items\": 0\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "script": "verify_q0_c093_release.py",
+      "args": [],
+      "returncode": 0,
+      "stdout_tail": "{\n  \"release_id\": \"Q0-C093-CLOSEOUT\",\n  \"mode\": \"extracted-directory\",\n  \"valid\": true,\n  \"issues\": [],\n  \"declared_files\": 39,\n  \"verified_files\": 39,\n  \"zip_entries_expected\": 40,\n  \"bundle_sha256\": null,\n  \"core_root_hashes\": {\n    \"RATE_PROGRAM_GRADE\": \"e24569bfedfac0d02a30ea606bcf271ad9a06650b2e935f8bdd81aa917ef5d48\",\n    \"Q0_LIMIT\": \"0c643c9d26fdda9e87065b040c6d55d91c932a8748f4a5eb223f1babf10cb4c6\"\n  }\n}\n",
+      "stderr_tail": ""
+    }
+  ],
+  "declared_files": 39,
+  "zip_entries": 40,
+  "bundle_sha256": "996ece6ebaad1373826733b7acebf53be2add58ad0e04e40d322d33cc841c5a9",
+  "core_root_hashes": {
+    "RATE_PROGRAM_GRADE": "e24569bfedfac0d02a30ea606bcf271ad9a06650b2e935f8bdd81aa917ef5d48",
+    "Q0_LIMIT": "0c643c9d26fdda9e87065b040c6d55d91c932a8748f4a5eb223f1babf10cb4c6"
+  }
+}

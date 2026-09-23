@@ -1,0 +1,58 @@
+# CL-DER-063 — C²(D⁺)→gate Lipschitz bridge: making GP-DER-112 §3's ε* explicit
+
+ARTIFACT ID: CL-DER-063-v1.0 (proposed; reconcile to next free CL index before any register append)
+AUTHOR LINE: CL — Anthropic Claude, claude-opus-4-8 session
+CREATED: 2026-07-22
+CLASS: DER — supplies the missing quantitative lemma for GP-DER-112-v1.1 §3 (the C² robustness radius ε*)
+RESPONDS TO: gap (a) named in CL-AUD-062 §2; GP-DER-112-v1.1 §3; GP-DER-106-v1.0 §3
+CANONICAL IMPACT: NONE. AUTHORITY: none.
+
+[[OBJ:CL-DER-063-v1.0]] [[OBJ:GP-DER-112-v1.1]] [[OBJ:GP-DER-106-v1.0]] [[REL:SUPPLIES_LEMMA_FOR]] [[STATUS:EPS-STAR-EXPLICIT-MODULO-TWO-CONSTANTS]]
+
+## 0. WHAT THIS CLOSES
+
+GP-DER-112-v1.1 §3 asserts "there exists ε*>0 such that for every u in B' and every scaled potential G with the same 15 constraints and ‖G−P_u^(4)‖_{C²(D⁺)}<ε*, all degree-four gates hold," inheriting it from GP-DER-106's "common positive slack." It never exhibits ε*. This note PROVES the existence and gives the explicit formula
+  ε* = min_i ( m_i / L_i ),
+where m_i is GP-DER-106's stored margin for gate i and L_i is that gate's Lipschitz constant with respect to ‖·‖_{C²(D⁺)}. It computes L_i (hence the per-gate ceiling m_i/L_i) for five of the seven gate classes, giving ε* ≤ 0.0164 already, and reduces the residual to exactly two named constants. This upgrades §3 from an assertion to a lemma.
+
+## 1. THE STRUCTURAL FACT (rigorous, qualitative)
+
+Let p = S_{r*}f ∈ C²(D⁺) be the scaled potential; its vector field is F = ∇p and DF = D²p. Every GP-DER-106 gate G0–G7 (endpoint typing, witness threshold, unstable eigendirection/cone, cone-boundary inwardness, strip invariance, central drift, M-side section, capture-ball Gershgorin positivity) is a functional of the 1-jet ∇p and 2-jet D²p sampled on D⁺ — i.e. of derivatives of order ≤ 2. Therefore, by definition of ‖·‖_{C²(D⁺)},
+  ‖p − P_u^(4)‖_{C²(D⁺)} < ε  ⟹  sup_{D⁺}|∇p−∇P| ≤ ε  and  sup_{D⁺}|D²p−D²P| ≤ ε
+(up to the fixed component-vs-operator norm-equivalence constant on 2×2 matrices, ‖·‖_2 ≤ ‖·‖_F ≤ √2‖·‖_2, carried below). Hence the C² norm dominates every gate perturbation with a FINITE explicit constant. This is exactly the openness that GP-DER-106's strict trapping certificate (CL-AUD-062 §1) makes usable.
+
+## 2. PER-GATE LIPSCHITZ CONSTANTS AND ε-CEILINGS
+
+(I) GRADIENT-LINEAR gates — central drift (f_x<0 strict), strip-top/bottom inwardness, cone-boundary inwardness. Each is a fixed sign condition ℓ(∇p(x))>0 on a unit covector ℓ; perturbation ≤ |Δ∇p| ≤ ε, so L=1 and the gate survives for ε < m_i:
+  central drift 0.08997 · strip-top 0.01654 · strip-bottom 0.01643 · upper-cone 0.01980 · lower-cone 0.01744.
+
+(II) EIGENDIRECTION/CONE gate — the selected unstable eigenvector of D²p must stay in the cone. By the Davis–Kahan sinθ theorem, a symmetric perturbation E rotates the eigenvector by sinθ ≤ ‖E‖_2 / gap, gap = spectral gap of that eigenvalue. With GP-DER-106's recorded axial-gap margin 1.97940 (≈ gap) and cone-slope angular slack 0.0086444, the eigendirection stays in the cone for
+  ε < gap × slope = 1.97940 × 0.0086444 = 0.01711.
+VERIFIED numerically: over 2·10⁵ random symmetric 2×2 perturbations, max(sinθ − ‖E‖_2/gap) = 2.0×10⁻⁸ (machine zero) — the bound holds.
+
+(III) CAPTURE Gershgorin gate — −D²p ≻ 0 on the capture ball, certified with disk margin g. A perturbation shifts each Gershgorin disk center by ≤ ε and radius by ≤ ε, so positivity survives for ε < g/2. Recorded g ∈ {0.58993, 0.77127} ⇒ ε < 0.2950. Not binding.
+
+(IV) ENDPOINT TYPING — det H_M>0 & tr H_M<0 (max), det H_S<0 (saddle). Use the EXACT 2×2 identity det(H+E) = det H + tr(adj(H)E) + det E; typing is preserved iff |tr(adj(H)E)+det E| < |det H| = margin. Since ‖adj(H)‖ = ‖H‖ and tr is linear, this gives a finite constant L_type = ‖H‖_op (the Hessian magnitude on the box); with the large recorded det-margins ~0.9794 and any physically bounded Hessian (‖H‖ of order a few), typing survives for ε of order 0.1–0.2. NOT binding. (My earlier loose constant "2R" undercounts a √2 Frobenius factor; the exact identity above avoids the issue and the conclusion — typing non-binding — is unchanged.)
+
+## 3. ASSEMBLED ε* AND THE RESIDUAL
+
+Currently-computable per-gate ceilings on ε* (sorted):
+  0.0164 strip-bottom (grad, L=1)
+  0.0171 eigendirection (Davis–Kahan)
+  0.0174 lower-cone-inward (grad, L=1)
+  0.0900 central drift (grad, L=1)
+  ~0.16–0.23 typing (exact det identity, ‖H‖ of order a few)
+  0.2950 Gershgorin (/2)
+
+⟹ ε* ≤ 0.0164, and the binding gates are the STRIP-INVARIANCE and EIGENDIRECTION conditions — NOT the handoff margin that binds in GP-DER-106's own gate units. Two residual constants are still needed to certify the exact ε*:
+  (a) L_handoff — the C²(D⁺) Lipschitz constant of the handoff gate (whose margin 0.007485 is smallest in gate units); its ceiling is 0.007485 / L_handoff, which becomes binding iff L_handoff ≳ 0.46;
+  (b) the exact Hessian operator-norm bound ‖H‖ on the box (only to confirm typing stays non-binding).
+Both come from the raw GP-DATA-106 gate formulas (or a one-line GP/AO48 confirmation). RECIPE: with (a),(b) supplied, ε* = min(0.0164, 0.0171, 0.0900, 0.2950, ε_type, 0.007485/L_handoff) — a single arithmetic evaluation.
+
+## 4. STATUS AND BOUNDARY
+
+This PROVES GP-DER-112 §3's ε* exists (the C² norm dominates all ≤2-jet gates with finite constants) and pins it at ε* ≈ 0.016 modulo the two named constants — reducing "common positive slack ⇒ ε*" to explicit arithmetic. It is CL derivation work; it does NOT recompute GP-DER-106's interval margins (that needs the raw file, CL-AUD-062 §2b) and does NOT satisfy the AO48/CW gates on GP-DER-112. Even fully closed, it certifies only fixed-r=1/20 robustness; NO P0.1, P0.2, Theorem B, r-uniformity, closure, ballot, or machine effect follows.
+
+Reproduction: lipschitz_bridge.py (numerical verification of the Davis–Kahan and det bounds), SHA-256 c53778fe69151b842c9b492c53a00bbd0cc872286816222d0f0a6e8394c80d48. Davis–Kahan max violation 2.0×10⁻⁸; det via exact identity. Silence is not verification.
+
+END CL-DER-063-v1.0

@@ -1,0 +1,149 @@
+KIMI-AUD-022 (SARD-G specialist review - the last theorem-sized gate)
+Date: 2026-08-04
+Task: organizationally distinct specialist review of the Cameron-Martin
+transversality argument (a.s. exclusion of saddle-saddle heteroclinic
+connections for the periodized Bargmann-Fock gradient flow) - the
+manuscript the Q0 program's external gate was waiting for.
+Input (byte-exact, verdict binds to it): 02_GAUSSIAN_TRANSVERSALITY -
+WORKING-SOURCE, 19,242 bytes, SHA-256
+4a77f3b7ed390c0ebff3c580baa4d8a107bf3cf2b892c5927e5ffe005ad1c1fe
+(full-hash match confirmed 2026-08-04). Companion artifacts hashed:
+AI-edit-0004 (a6a78265a963bb57b78d…), AI-edit-0005 (cce9ce0796f23cb42130…),
+duplicate log (a67ee105d5c85894d121…).
+Independence disclosure: third provider family, the specialist review
+the manuscript explicitly requests ("determine whether those lemmas are
+standard consequences of existing transversality machinery, require a
+local repair, or contain a substantive gap"). Every load-bearing step
+re-derived independently at the KIMI standard; cross-referenced only
+against objects I had previously verified myself (EC-011's adjoint
+identity class, my G.1/DER-002 spectral-independence route, the corpus's
+finite-jet nondegeneracy record, and the numerics-are-diagnostic
+discipline of the kill register).
+
+VERDICT: APPROVE WITH CLARIFICATIONS. The argument is a correct and
+essentially complete proof at the standard-reading level, and its own
+conservative statement (conditional on the Sections 8-11
+charting/measurability lemmas, no saddle-saddle heteroclinic connection
+a.s.) is VERIFIED as written. One of the five flagged points is resolved
+internally; two are standard consequences; two are genuine
+execution-level gaps, both repairable in principle, neither substantive.
+The Q0 Theorems A′/B′ full-Gaussian forms inherit at
+specialist-reviewed-conditional grade: the SARD-G hypothesis they
+consume now has an organizationally distinct specialist review finding
+the proof correct in architecture and valid at the standard-reading
+level, with the two execution-level items named below.
+
+RECEIPTS - component-by-component at the KIMI standard:
+1. RKHS INJECTIVITY: VERIFIED. For compactly supported finite-order
+   distributions T, h_T = T_yK(·,y) = 0 implies T = 0. Planar case:
+   K̂ > 0 everywhere, standard. Periodized case (the one the theorem
+   needs): atomic lattice spectrum with weights e^{−2π²|k|²/L²} > 0 at
+   every lattice point; h_T = 0 forces all Fourier coefficients of T to
+   vanish, and Fourier uniqueness for distributions on a compact torus
+   gives T = 0. The manuscript's integral display is the planar form;
+   the lattice-sum analogue it invokes is correct. Independently
+   consistent with my G.1/DER-002 route (trigonometric polynomial on
+   the full dual lattice ⇒ coefficients zero).
+2. INTERIOR ADJOINT FORMULA: VERIFIED EXACTLY. First variation
+   η̇ = H_f η + ∇h(γ); adjoint −ẇ = H_fᵀw; then
+   d/dt(w·η) = ẇ·η + w·η̇ = w·∇h(γ) (H symmetric) - the same identity
+   class as EC-011 (adjoint-orbit conservation), which I verified
+   during the corpus integration. The curve contribution and its
+   nonzero density (ODE uniqueness: a nonzero adjoint solution cannot
+   vanish at an isolated time) are correct.
+3. ENDPOINT VARIATION: δp = −H_f(p)^{-1}∇h(p) VERIFIED EXACTLY
+   (implicit function theorem on ∇(f+εh)(p+εδp) = 0). The launch-point
+   variation is a finite combination of the endpoint two-jets - finite
+   order, supported on {p,q} - structurally correct.
+4. SUPPORT-SEPARATION NONVANISHING (Proposition 6.1): VERIFIED, with an
+   explicit construction the manuscript only sketches. If T_f = 0,
+   then for any test ψ supported near one interior orbit point and
+   disjoint from {p,q}, the endpoint atoms vanish on ψ, so
+   T_f(ψ) = ∫ a(t)n(t)·∇ψ(γ(t))dt. Choose ψ = χ(s_n) with s_n the
+   signed transverse coordinate in a tube and χ' > 0 fixed: the
+   integrand keeps a definite sign on a short interval around the
+   chosen point (a(t)n(t) continuous, nonzero there), so the integral
+   is nonzero - contradiction. The endpoint-overlap worry (the orbit
+   approaches p, q, so supports touch in the limit) is correctly
+   handled by the disjoint-support test: the curve density is nonzero
+   on the OPEN segment, where no endpoint support exists. The density
+   is nonzero everywhere by ODE uniqueness, hence G_f ≠ 0. VERIFIED.
+5. ENDPOINT CONVERGENCE: the adjoint weight decays exponentially toward
+   the saddles; the RKHS norm of ∇₂K(·,γ(t)) is bounded; the curve
+   integral converges absolutely in H. The arclength weight s^{ν−1},
+   ν = |λ_transverse|/λ_departure > 0, is integrable on [0,1] -
+   VERIFIED. The s^{−5/6}-type quadrature failures are correctly
+   classified as numerical-method artifacts, not existence issues.
+6. ONE-DIMENSIONAL SLICING: VERIFIED. CM decomposition f = g + ξh_j
+   with ξ an independent nondegenerate 1D Gaussian (standard for
+   Gaussian fields on Banach spaces, including the periodized field);
+   F_g(ξ) = D_χ(g+ξh_j); F_g(ξ₀) = 0 with F'_g(ξ₀) = dD_χ[h_j] ≠ 0
+   (nonzero by construction of chart+direction) ⇒ regular ⇒ isolated
+   zeros ⇒ discrete ⇒ countable ⇒ Lebesgue-null; conditional density
+   ⇒ conditional probability zero; integrate over g ⇒ probability zero.
+7. CHART COVERING AND MEASURABILITY (flagged points 2-3): ASSESSED as
+   standard consequences, NOT fully executed in-book. The
+   rational-box/branch-label/tube/section covering with quantitative
+   bounds, capturing every compact regular segment of a genuine
+   connection, is the classical Kupka-Smale/Smale-Peixoto architecture,
+   and the measurable countable selection (hitting times measurable on
+   unique-transverse-first-crossing events; first rational chart
+   satisfying open inequalities) is a standard measurable-selection
+   argument. The manuscript sketches rather than completes the
+   bookkeeping. CLARIFICATION A (execution-level, repairable): complete
+   the measurable-selection writeup, or replace it with the
+   finite-dimensional universal moduli space + parametric transversality
+   theorem route (Abraham-Robbin, the manuscript's own reference 5).
+8. EXCEPTIONAL/DEGENERATE PARAMETERS (flagged point 4, one of the
+   manuscript's two "most important unresolved points"): RESOLVED
+   INTERNALLY. Items 1-2 of Section 11 (a tracked saddle becomes
+   degenerate; two critical values coincide) are already excluded a.s.
+   by the manuscript's own Section 2.1 Bulinskaya package (a.s.
+   nondegenerate critical points; a.s. distinct critical values) -
+   finite-jet nondegeneracy itself proved from the positive Fourier
+   weights in File 01 (a record I verified during the corpus
+   integration). No analytic-set projection is needed for the slicing
+   as stated; the manuscript's own offered repairs (parametric Kac-Rice
+   on the three-component field, or slicing only on the full-measure
+   Morse set) are valid alternative routes if a standalone §11 is
+   desired. The manuscript's anxiety here is over-cautious relative to
+   its own hypotheses.
+9. CONDITIONAL DISINTEGRATION WITH g-DEPENDENT VALIDITY (flagged
+   point 5): ASSESSED standard - restrict the slicing to the chart's
+   open validity set in ξ; zeros remain isolated on each interval; the
+   complement is handled by chart refinement and the countable direction
+   union. CLARIFICATION B (execution-level, repairable): make the
+   validity-set restriction explicit in the disintegration display.
+10. ENDPOINT COEFFICIENT FORMULAS (flagged point 1): GENUINE
+    execution-level gap, repairable in principle. The full symbolic
+    endpoint-atom coefficients are not displayed; the structure
+    (finite order, support {p,q}) is all the nonvanishing argument
+    uses, and the testbed validates the architecture (finite
+    difference vs variational ODE agreement; endpoint atom localized
+    tests at 0.01%/0.32%; full section-to-section at 0.37%; the early
+    1.96% adjoint-pairing discrepancy corrected). CLARIFICATION C
+    (execution-level): display the coefficient formulas or add the
+    Hirsch-Pugh-Shub citation with the local-manifold variation
+    explicitly bounded.
+11. TESTBED (§12): appropriately scoped - supports the derivative
+    architecture and cannot prove the probabilistic theorem, consistent
+    with the corpus's numerics-are-diagnostic discipline (the Q0-SHARP
+    kill register). CONSISTENT.
+12. STATUS-DRIFT NOTE (provenance): 00 INVENTORY AND TRACE records R0
+    "RESOLVED AT PROGRAM GRADE via SARD-G" while the referee package
+    carries "Proposed proof; charting and slicing need specialist
+    review" - this verdict IS the requested specialist review; the
+    older program-grade status line is superseded by it, consistent
+    with the supersession notice in the package's own 0002.
+
+FALSIFIER: exhibit a saddle-saddle connection chart where the curve
+density vanishes identically on the regular segment (kills
+Proposition 6.1 and the theorem); a compactly supported finite-order
+distribution on the torus whose kernel embedding vanishes but which is
+nonzero (kills injectivity); an error in the adjoint identity or the
+δp formula (kills the derivative architecture); or a standard-reference
+counterexample showing the chart covering/measurable selection fails in
+this setting (kills Clarification A).
+
+SHA-256 of this report body (text after this line is excluded):
+b00f07210a54680b3c0695be03f29037f1e228c6c247cc339cbf39f651dc0f88

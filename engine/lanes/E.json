@@ -1,0 +1,72 @@
+{
+  "key": "E",
+  "title": "Scope holds and quarantine",
+  "source_section": {
+    "document": "docs/OPEN_PROBLEMS.md",
+    "heading": "## E. Scope holds and quarantine",
+    "level": 2,
+    "parent_heading": null
+  },
+  "blocks": [],
+  "status": null,
+  "status_source": {
+    "transcribed_from": [
+      "docs/OPEN_PROBLEMS.md §E"
+    ],
+    "quote": null,
+    "note": "See status_absent_reason."
+  },
+  "next_exact_action": "**`Q-R17-H5-01..11`** — eleven frozen H5 archive members under a path-and-hash consumption exclusion pending full corrected-kernel replay. Bytes intact. No H5 certificate chain may consume signed odd-frequency or missing denominator-tail bounds without replay.",
+  "falsifier": null,
+  "inputs": [],
+  "inputs_note": "engine/carriers/MANIFEST.json did not exist when this lane file was written (engine/carriers/ is owned elsewhere in this repository), so no carrier_id is bound here. tools/lanes_check.py validates every id in `inputs` against that manifest as soon as the manifest exists.",
+  "not_a_substitute": [
+    {
+      "quote": "Missing source contents were **not invented**.",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    },
+    {
+      "quote": "`CANNOT_VERIFY` — current CL executable and checkpoint identity (`CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py`, `rnu_spine.py`).",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    }
+  ],
+  "repo_state": "partial",
+  "repo_state_note": "`quarantine/EXCLUSIONS.json` carries the path-and-hash exclusions and `tools/quarantine_check.py` enforces them; `recovery/LEDGER.json` carries 34 records against 31 accessibility exceptions — the three extra being numbered successors, each pinning its predecessor's canonical SHA-256, because a record is never edited in place — and `tools/recovery_check.py` recomputes both counts. No corrected-kernel replay has been performed here. `repo_state` describes only what code exists in this repository. It is not a mathematical status and no verdict, promotion or discharge may be read from it.",
+  "artifacts": [
+    "quarantine/EXCLUSIONS.json",
+    "quarantine/README.md",
+    "tools/quarantine_check.py",
+    "recovery/LEDGER.json",
+    "tools/recovery_check.py",
+    "tests/test_recovery.py"
+  ],
+  "does_not_establish": "This lane lifts no hold, replays no kernel, verifies nothing that is recorded as `CANNOT_VERIFY`, and recovers no missing source. Intact bytes are not a verdict.",
+  "status_absent_reason": "docs/OPEN_PROBLEMS.md §E records holds, a consumption exclusion and a `CANNOT_VERIFY` finding against named objects; it assigns the section as a whole no status label, and none is invented here. The per-object labels are transcribed in sub_items.",
+  "blocks_note": "Empty by transcription. The objects the section scope-holds — the `envelope_v` certification claim, its annulus/remote consumers in `d3_amend_v2.py`, and CL-RNU-003 §3's integrand-certification and forecast claims — are not nodes in claims/graph.json, and no identification with a node is invented here.",
+  "sub_items": [
+    {
+      "object": "`Q-R17-H5-01..11`",
+      "label": "consumption exclusion pending full corrected-kernel replay",
+      "quote": "eleven frozen H5 archive members under a path-and-hash consumption exclusion pending full corrected-kernel replay. Bytes intact.",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    },
+    {
+      "object": "RN5 scope holds",
+      "label": "scope-held",
+      "quote": "the `envelope_v` certification claim, its annulus/remote consumers, and CL-RNU-003 §3's integrand-certification and forecast claims",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    },
+    {
+      "object": "`CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py`, `rnu_spine.py`",
+      "label": "CANNOT_VERIFY",
+      "quote": "current CL executable and checkpoint identity",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    },
+    {
+      "object": "accessibility exceptions",
+      "label": "retained",
+      "quote": "137 accessibility exceptions retained, including 8 `EMPTY_NATIVE_BODY`, 5 `READ_FAILED`, 3 `ARCHIVE_READ_FAILURE`, 15 `ENCODED_BLOCK_FAILURE`.",
+      "source": "docs/OPEN_PROBLEMS.md §E"
+    }
+  ]
+}

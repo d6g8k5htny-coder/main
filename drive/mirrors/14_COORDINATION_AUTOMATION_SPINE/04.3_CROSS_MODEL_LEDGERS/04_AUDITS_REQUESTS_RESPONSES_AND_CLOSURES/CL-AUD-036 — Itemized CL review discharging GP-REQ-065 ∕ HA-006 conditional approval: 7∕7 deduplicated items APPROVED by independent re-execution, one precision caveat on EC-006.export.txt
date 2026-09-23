@@ -1,0 +1,120 @@
+﻿CL-AUD-036 — Itemized CL review discharging GP-REQ-065 / HA-006 conditional approval
+ARTIFACT ID:   CL-AUD-036-v1.0
+
+
+AUTHOR:        Claude (Anthropic), CL-* instance
+
+
+CREATED:       2026-07-21
+
+
+CLASS:         AUD — itemized terminal-closure review (discharges GP-REQ-065; satisfies HA-006 operator condition)
+
+
+STATUS:        FILED · CANONICAL IMPACT: NONE · VERDICT: APPROVE 7/7 (one precision caveat on EC-006)
+
+
+METHOD:        Rule 1 re-execution. Each decisive computation was transcribed into an independent verifier and re-run — exact rational arithmetic (fractions) for the algebra and Gaussian conditioning; high-precision numerics + an independent quadrature + Monte Carlo for the one transcendental constant. Verdicts cite my own numbers.
+
+
+This discharges the operator condition Dylan recorded in HA-006 ("DECISION: approved — NOTES: with CL approval for each item") as formalized by GP-REQ-065. I reviewed the seven deduplicated items A–G. Verdict: APPROVE all seven, each by independent re-execution, with one bounded precision caveat on EC-006 (item B) that refines the terminal record rather than blocking it. I also ran an adversarial pass on each item (sign/orientation, matrix invertibility, coefficient domain, base-term role) — each holds. GP-CLS-BATCH-PROP-011 is the wrapper for A–D and is discharged by them, not counted as an eighth closure. EC-013 / GP-CLS-PROP-016 and EC-014 are outside HA-006 and are not reviewed or closed here.
+Re-execution receipt (Rule 1)
+Verifier verify_closures.py, 7,636 bytes, SHA-256 4ace1b61b4f4584908134c741cbe772367625271022f0e2221775ada3954438e, Python 3.11 + numpy, no network.
+
+
+PASS  A PROP-006  ℓ=r³/6                                    (exact, 200 rational λ)
+
+
+PASS  B PROP-007  z0(6/5)                                   (formula = quadrature to 15 sig figs)
+
+
+PASS  C PROP-008  E[J|P]=(-b,0,0,0), Cov=diag(2,2,2,6)      (exact rational Schur complement)
+
+
+PASS  D PROP-009  detM=s⁸(c²+s²)(3c²+s²)/24                 (exact, 300 rational (c,s))
+
+
+PASS  E PROP-013  Identity A & B                            (exact, 600 rational points)
+
+
+PASS  F PROP-014  d/dt[w·∇f]=0                              (exact, 200 symmetric H)
+
+
+PASS  G PROP-015  majorant + factor-2 + endpoints          (4000 random A,B,β)
+
+
+z0(6/5): formula = 3.2309785352870048; independent quadrature = 3.2309785352870057 (agree to 15 significant figures); Monte-Carlo (5×10⁷) = 3.23198 within band.
+
+
+________________
+
+
+A — GP-CLS-PROP-006 / EC-005 — canonical A₂ fold-gap identity — APPROVE
+1. Object/source read: GP-CLS-PROP-006-v1.0 (10c4ryK…). f_λ(x)=−x³/3+λx, λ>0; r=2√λ; ℓ=f(√λ)−f(−√λ); claim ℓ=r³/6.
+2. Independently checked: with u=√λ, f(u)=2u³/3 and f(−u)=−2u³/3, so ℓ=4u³/3 and r³/6=(2u)³/6=4u³/3 — equal exactly over 200 random rational u. Orientation checked: x₊=+√λ is the max (f″=−2x<0), so the gap is positive; dℓ/dr=r²/2 is consistent with the canonical convention.
+3. Prior CL evidence: CL-DATA-032 §2 C1 ("fold gap = A₂", via CL-DER-012 §1 + hostile cross-check CL-AUD-021); it predates this terminal package. Bound to the current wording and independently re-derived now.
+4. Dependencies: affected — retires repeated A₂-algebra/coefficient re-verification and the narrow CL-DER-012 identity portion. Unaffected (confirmed the identity implies none of these) — Theorem B, the −1/3 density, the separation measure, adjacency/elder-rule/q-objects/Palm transfers, the physical-field κ distribution, P0.1/P0.2/P1.1/P1.2.
+5. Terminal label: CLOSED — EXACT CANONICAL NORMAL-FORM IDENTITY. Appropriate.
+6. Exclusion boundary (concur, essential): canonical A₂ coordinate + canonical cubic normalization ⇒ ℓ=r³/6; NOT "every physical maximum–saddle pair ⇒ ℓ=r³/6." Physical-field use must retain κ=6ℓ/r³.
+7. Provenance: additive; all source derivations/errata/audits preserved; only repeated algebra-verification requests are retired — no active object.
+B — GP-CLS-PROP-007 / EC-006 — exact planar z₀(6/5) normalizer — APPROVE (bounded precision caveat)
+1. Object/source read: GP-CLS-PROP-007-v1.0 (1N4bU2P…). Q~N(−b,2); z₀(b)=E[Q²1{Q<0}]=(b²+2)Φ(b/√2)+√2·b·φ(b/√2); z₀(6/5)=3.2309785352870049480962….
+2. Independently checked three ways: (a) the general truncated second moment E[X²1{X≤a}]=(μ²+σ²)Φ(α)−σ(μ+a)φ(α) reduces at a=0, μ=−b, σ=√2 to the stated formula; (b) direct numerical quadrature of ∫_{−∞}^0 q²·N(−1.2,2) dq = 3.2309785352870057; (c) the closed form = 3.2309785352870048. (a)/(b)/(c) agree to 15 significant figures; MC(5×10⁷)=3.23198. b²+2=86/25 and √2·b=6√2/5 confirmed exactly. CAVEAT: double precision + quadrature confirm the first ~16 significant digits. Digits 17–50 of the stated constant rest on GP's arbitrary-precision claim, which I did not reproduce (no mpmath available here).
+3. Prior CL evidence: CL-DATA-026 evaluated the closed form as 3.230978535 with MC 3.23094, labeled CONFIRMED-BY-REEXECUTION; predates this package. Bound to the current wording; my quadrature extends the independent check to ~16 digits.
+4. Dependencies: affected — planar formula/decimal citable for Q~N(−b,2) without reopening; permanently blocks using the planar decimal as a literal side-24 torus identity. Unaffected (confirmed) — exact finite-r/torus coefficient, GP-DER-044 regularity theorem, adjacency/P0.2, Theorem B, any C_Q0/C_* numeric promotion.
+5. Terminal label: CLOSED — EXACT PLANAR TRUNCATED-NORMAL SECOND-MOMENT IDENTITY. Appropriate.
+6. Exclusion boundary (concur, essential): PLANAR_COALESCED only; the exact-torus coefficient z₀,L>0 is a distinct object, not the planar decimal (GP-DER-044). Recommendation: the terminal record should cite the decimal to the independently confirmed precision (≈16 sig figs) or attach an arbitrary-precision receipt for the full 50-digit tail. This refines the record; it does not affect the identity.
+7. Provenance: additive; sources preserved; no active object retired.
+C — GP-CLS-PROP-008 / EC-007 — planar coalesced six-pin conditional jet law — APPROVE
+1. Object/source read: GP-CLS-PROP-008-v1.0 (1kBBCBi…). Bargmann–Fock K=exp(−(x²+y²)/2); P=(f,f_x,f_y,f_xx,f_xy,f_xxx)=(b,0,0,0,0,2), J=(f_yy,f_xxy,f_xyy,f_yyy); claim E[J|P]=(−b,0,0,0), Cov(J|P)=diag(2,2,2,6), with the stated Σ_PP, Σ_JJ, Σ_JP.
+2. Independently checked (exact): built the derivative covariances from Cov(∂^α f,∂^β f)=(−1)^{|β|}∂^{α+β}K(0), with g^{(k)}(0)=(−1)^{k/2}(k−1)!! for even k — reproduced Σ_PP and Σ_JJ identically to the stated matrices; computed the regression Σ_JP·Σ_PP⁻¹ and obtained E[J|(b,0,0,0,0,2)]=(−b,0,0,0); the Schur complement Σ_JJ−Σ_JP·Σ_PP⁻¹·Σ_PJ = diag(2,2,2,6). Σ_PP inverts with no zero pivot, so the conditioning is well-posed.
+3. Prior CL evidence: CL-DATA-032 §2 C3 (diag(2,2,2,6); E[f_yy|pins]=−b, via CL-RSP-016 P1); predates. Bound + independently re-derived. This six-pin object is distinct from the already-closed nine-jet law (GP-CLS-006).
+4. Dependencies: affected — planar conditional mean/cov citable without reopening the Schur calc for the exact ordering. Unaffected (confirmed) — exact finite-r/torus equality, adjacency/P0.2, Palm normalization, Theorem B, machine roots.
+5. Terminal label: CLOSED — EXACT PLANAR COALESCED SIX-PIN CONDITIONAL JET LAW. Appropriate.
+6. Exclusion boundary (concur): planar coalesced only; exact-torus and finite-r are distinct objects carrying corrections.
+7. Provenance: additive; sources preserved; no active object retired.
+D — GP-CLS-PROP-009 / EC-008 — planar collision-Gram covariance determinant — APPROVE
+1. Object/source read: GP-CLS-PROP-009-v1.0 (1LCkRwi…). Jets (a_yy,a_xxy,a_xyy,a_yyy) with cov diag(2,2,2,6); Y1,Y2,Y3 as defined; claim the M entries and det M=s⁸(c²+s²)(3c²+s²)/24.
+2. Independently checked (exact, 300 rational (c,s)): built M=Cov(Y) from the source variances; every stated entry reproduced exactly (M11, M22, M33=2s², M12=M21=−cs²(2c²+s²)/4, M13=M23=0); det M reproduced exactly as s⁸(c²+s²)(3c²+s²)/24; confirmed the block reduction det=2s²(M11M22−M12²) since Y3 decouples; confirmed the planted-control sensitivity (Var(a_yyy) 6→5 shifts M11 by −s⁶/144).
+3. Prior CL evidence: CL-DATA-032 §2 C4 (collision-Gram det); predates. Bound + re-derived.
+4. Dependencies: affected — matrix/determinant citable for the exact object card. Unaffected (confirmed) — Palm/Kac–Rice theorem, adjacency/P0.2, exact-torus/finite-r transfer, Theorem B, machine state.
+5. Terminal label: CLOSED — EXACT PLANAR COLLISION-GRAM COVARIANCE IDENTITY. Appropriate.
+6. Exclusion boundary (concur): declared jet ordering, covariance diag(2,2,2,6), Y-map, and c,s convention only; not torus/finite-r/other orderings/weights.
+7. Provenance: additive; sources preserved; no active object retired.
+E — GP-CLS-PROP-013 / EC-010 — declared convex-combination identities — APPROVE
+1. Object/source read: GP-CLS-PROP-013-v1.0 (1GNp80P…). Identity A (generic chart) and Identity B (transverse chart) as displayed.
+2. Independently checked (exact, 300 rational points each): both differences are identically 0, including at α outside [0,1] (equality persists; only the nonnegativity interpretation needs 0≤α≤1).
+3. Prior evidence: AO48-REG-018 S4 named the independent expansion as the sole remaining step. No prior CL re-execution existed — this is a genuinely new independent CL route.
+4. Dependencies: affected — retires repeated bracket expansion; permits citing the endpoint-square interpolation form. Unaffected (confirmed) — the fold theorem, max/saddle classification and nondegeneracy, finite-r remainder, regional counting/defect dichotomy, typed-to-adjacent transfer, P0.2/Theorem B/machine state.
+5. Terminal label: CLOSED — EXACT DECLARED CONVEX-COMBINATION IDENTITIES. Appropriate.
+6. Exclusion boundary (concur, essential): only the two algebraic identities. NOT a third-critical-point no-go, NOT strict positivity without the source nondegeneracy hypotheses, NOT the persistence-window interpretation, NOT quartic/Palm/P0.2/Theorem B. "Convex combination"/automatic nonnegativity restricted to 0≤α≤1.
+7. Provenance: additive; sources preserved; no active object retired.
+F — GP-CLS-PROP-014 / EC-011 — adjoint-orbit conservation / section-normalization — APPROVE
+1. Object/source read: GP-CLS-PROP-014-v1.0 (1HHQAwZ…). γ̇=∇f, ẇ=−H_f·w, H_f symmetric; claims d/dt[w·∇f(γ)]=0 (conservation), and =0 throughout under the terminal normalization w(t₊)·γ̇(t₊)=0.
+2. Independently checked (exact, 200 random symmetric H and vectors): d/dt[w·∇f] = (−H_f·w)·∇f + w·(H_f·γ̇) = −wᵀH_f∇f + wᵀH_f∇f = 0 by symmetry — exact cancellation every time. The zero-throughout consequence follows validly (constant along the orbit + zero at t₊ ⇒ zero).
+3. Prior evidence: AO48-REG-018 S5 named the section-normalization check as the sole remaining second-line step; new independent CL route.
+4. Dependencies: affected — repairs the local objection that continuity + nonvanishing did not exclude a tangential adjoint contribution; permits citing that the normalized adjoint is normal to the orbit. Unaffected (confirmed) — all global charting/covering/slicing/exceptional-parameter/uniformity/disintegration obligations, Morse–Smale/R0, P0.2/Theorem B/machine state.
+5. Terminal label: CLOSED — EXACT ADJOINT-ORBIT CONSERVATION / SECTION-NORMALIZATION IDENTITY. Appropriate.
+6. Exclusion boundary (concur, and I emphasize it): this closes ONLY the local deterministic identity and its normalization consequence. It does NOT close the surrounding Gaussian-transversality / Morse–Smale theorem, endpoint-atom formulas, chart coverage, measurable selection, or exceptional-parameter exclusion. Retaining the separate "conservation" and "zero-under-normalization" fields is required so the zero conclusion is never cited without the terminal condition, and so a local identity cannot launder the global theorem.
+7. Provenance: additive; sources preserved; the global transversality theorem remains OPEN — no active object retired.
+G — GP-CLS-PROP-015 / EC-012 — closed strip-threshold majorant — APPROVE
+1. Object/source read: GP-CLS-PROP-015-v1.0 (1DHOrg2…). C(μ)=β+μ+A/μ+B/μ²; μ̂=√A+(2B)^{1/3} for A+B>0; claims C(μ̂)≤C_closed=β+2√A+(3/2)·2^{1/3}·B^{1/3}, and C_closed−β≤2(C_min−β), plus endpoint exactness and the A=B=0 bypass.
+2. Independently checked (4000 random A,B≥0, β): C(μ̂)≤C_closed always; the two lower bounds C_min−β≥2√A and C_min−β≥(3/2)·2^{1/3}·B^{1/3} hold, so with x=2√A, y=(3/2)·2^{1/3}B^{1/3}, C_closed−β=x+y≤2·max(x,y)≤2(C_min−β); endpoint exactness confirmed (B=0 ⇒ μ̂=√A optimal, C_closed=C_min; A=0 ⇒ μ̂=(2B)^{1/3} optimal, C_closed=C_min); A=B=0 ⇒ inf=β as μ↓0, with μ̂=0 correctly bypassed.
+3. Prior evidence: AO48-REG-018 S6 named one independent rederivation/spot-check as remaining; this is that independent CL route.
+4. Dependencies: affected — retires repeated one-variable optimization / cubic-root solving for this threshold; records endpoint exactness and the degenerate bypass. Unaffected (confirmed) — GP-DER-037's dynamical strip proof outside the scalar step, central transit / endpoint capture, adjacency/pair-Palm, P0.2/Theorem B/machine state.
+5. Terminal label: CLOSED — EXACT CLOSED STRIP-THRESHOLD MAJORANT. Appropriate.
+6. Exclusion boundary (concur): the scalar objective only; the factor-two guarantee holds after subtracting the common base β (must not be quoted as C_closed≤2·C_min); not the joint transit criterion, not capture, not P0.2. A=B=0 must bypass root-finding, not substitute μ̂=0.
+7. Provenance: additive; sources preserved; no active object retired.
+
+
+________________
+
+
+Closure effect and boundaries
+* Deduplication: GP-CLS-BATCH-PROP-011 is the navigation/approval wrapper for A–D; approving A–D discharges it. It is not an eighth closure.
+* Excluded, untouched: EC-013 / GP-CLS-PROP-016 (elder-rule defect dichotomy) and EC-014 are not named in HA-006 and are NOT reviewed or closed here.
+* Effect (per GP-REQ-065 §6): with exact CL APPROVE recorded for all of A–G, Dylan's conditional HA-006 approval is satisfied for these seven items; GP may enter the additive terminal closure records (move EC-005–008 and EC-010–012 from the Easy Closure Queue to the Closure Log) without a second Dylan response, provided no new material objection appears before entry. The item-B caveat is a record-precision recommendation, not a block.
+* Rule 1: all seven are CONFIRMED-BY-REEXECUTION — my own numbers, not a restatement of GP's algebra. Verifier SHA-256 4ace1b61….
+
+
+Cross-refs: GP-REQ-065 · HA-006 (operator: approved, conditional) · GP-CLS-PROP-006/007/008/009/013/014/015 · GP-CLS-BATCH-PROP-011 · CL-DATA-032 §2 (C1,C3,C4) · CL-DATA-026 · CL-RSP-016 · CL-AUD-033 (EC-009 precedent) · AO48-REG-018 (S4–S6) · OP-GDN-002 §6 (closure-inflation control) · _RULES_OF_ENGAGEMENT Rules 1, 4

@@ -1,0 +1,613 @@
+﻿ARTIFACT ID: GP-DATA-040-v1.0
+AUTHOR: OpenAI GPT-5.6 Thinking
+STATUS: EXECUTABLE SOURCE TRANSCRIPTION
+SOURCE SHA-256: 7bc8c2066ee3db9e6a64015cae5b6b56b96f23c6d9e70bb21232e59222579e86
+CANONICAL IMPACT: NONE
+
+
+Save the code below as GP_DATA_039_exact_law_flow_compare.py. It imports the exact finite-r Gaussian source transcribed in GP-DATA-035.
+
+
+#!/usr/bin/env python3
+"""Fresh-seed execution of GP-PRE-038-v1.0.
+
+
+Compares three local finite-r flow stages with common Gaussian draws:
+A LIMIT_CUBIC, B FINITE_CUBIC, C FINITE_Q4.
+
+
+This is a local diagnostic only. Screened failure mass is a lower-bound/localization
+quantity unless the outside-screen capture assertion is proved analytically.
+"""
+from __future__ import annotations
+
+
+import hashlib
+import importlib.util
+import json
+import math
+import platform
+import sys
+import time
+from pathlib import Path
+
+
+import mpmath as mp
+import numba
+from numba import njit, prange
+import numpy as np
+
+
+HERE = Path(__file__).resolve().parent
+EXACT_SOURCE = HERE / "GP_DATA_034_exact_six_pin_nine_jet.py"
+OUTPUT = HERE / "GP_DATA_039_exact_law_flow_compare.json"
+CHECKPOINT = HERE / "GP_DATA_039_checkpoint.json"
+
+
+RUNGS = np.array([0.05, 0.025, 0.0125, 0.00625], dtype=np.float64)
+N = 1_000_000
+DT = 0.005
+TAU_MAX = 500.0
+EPS = 1e-6
+CAPTURE_RADIUS = 1e-3
+CHART_RADIUS = 16.0
+OTHER_GRAD_TOL = 1e-7
+OTHER_MIN_TAU = 5.0
+OTHER_MIN_DIST = 1e-2
+OUTSIDE_AUDIT_N = 10_000
+STABILITY_N = 2_000
+BASE_SEED = 202607203800
+AUDIT_SEED_BASE = 202607204800
+DPS = 100
+
+
+MODEL_NAMES = ["LIMIT_CUBIC", "FINITE_CUBIC", "FINITE_Q4"]
+CAPTURE, EXIT, OTHER, STALL = 1, 2, 3, 4
+
+
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+
+
+def load_exact_module():
+    spec = importlib.util.spec_from_file_location("exact_nine_jet", EXACT_SOURCE)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("cannot load exact source")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+
+
+@njit(cache=True)
+def quartic_derivatives(x, y, c40, c31, c22, c13, c04):
+    p4x = ((c40 / 6.0) * x * (x * x - 0.25)
+           + (c31 / 6.0) * (3.0 * x * x - 0.25) * y
+           + (c22 / 2.0) * x * y * y
+           + (c13 / 6.0) * y * y * y)
+    p4y = ((c31 / 6.0) * x * (x * x - 0.25)
+           + (c22 / 2.0) * x * x * y
+           + (c13 / 2.0) * x * y * y
+           + (c04 / 6.0) * y * y * y)
+    return p4x, p4y
+
+
+
+
+@njit(cache=True)
+def nonlinear_rhs(x, y, r, params, q4_on):
+    q, a, w, z, c40, c31, c22, c13, c04 = params
+    fx = x * x - 0.25 + a * x * y + 0.5 * w * y * y
+    fy = 0.5 * a * (x * x - 0.25) + w * x * y + 0.5 * z * y * y
+    if q4_on:
+        p4x, p4y = quartic_derivatives(x, y, c40, c31, c22, c13, c04)
+        fx += r * p4x
+        fy += r * p4y
+    return fx, fy
+
+
+
+
+@njit(cache=True)
+def full_rhs(x, y, r, params, q4_on):
+    fx, fy = nonlinear_rhs(x, y, r, params, q4_on)
+    fy += (params[0] / r) * y
+    return fx, fy
+
+
+
+
+@njit(cache=True)
+def unstable_vector_at_s(r, params, q4_on):
+    q, a, w, z, c40, c31, c22, c13, c04 = params
+    A = 1.0
+    B = 0.5 * a
+    D = q / r + 0.5 * w
+    if q4_on:
+        A += r * c40 / 12.0
+        B += r * c31 / 12.0
+        D += r * c22 / 8.0
+    theta = 0.5 * math.atan2(2.0 * B, A - D)
+    vx = math.cos(theta)
+    vy = math.sin(theta)
+    if vx > 0.0:
+        vx = -vx
+        vy = -vy
+    norm = math.sqrt(vx * vx + vy * vy)
+    return vx / norm, vy / norm
+
+
+
+
+@njit(cache=True)
+def rk4_nonlinear_step(x, y, dt, r, params, q4_on):
+    k1x, k1y = nonlinear_rhs(x, y, r, params, q4_on)
+    k2x, k2y = nonlinear_rhs(x + 0.5 * dt * k1x, y + 0.5 * dt * k1y, r, params, q4_on)
+    k3x, k3y = nonlinear_rhs(x + 0.5 * dt * k2x, y + 0.5 * dt * k2y, r, params, q4_on)
+    k4x, k4y = nonlinear_rhs(x + dt * k3x, y + dt * k3y, r, params, q4_on)
+    return (x + (dt / 6.0) * (k1x + 2.0 * k2x + 2.0 * k3x + k4x),
+            y + (dt / 6.0) * (k1y + 2.0 * k2y + 2.0 * k3y + k4y))
+
+
+
+
+@njit(cache=True)
+def integrate_one(r, params, q4_on, dt, tau_max):
+    vx, vy = unstable_vector_at_s(r, params, q4_on)
+    x = 0.5 + EPS * vx
+    y = EPS * vy
+    lam = params[0] / r
+    linear_half = math.exp(lam * dt * 0.5)
+    steps = int(math.ceil(tau_max / dt))
+    cap2 = CAPTURE_RADIUS * CAPTURE_RADIUS
+    other_dist2 = OTHER_MIN_DIST * OTHER_MIN_DIST
+    for step in range(steps):
+        y *= linear_half
+        x, y = rk4_nonlinear_step(x, y, dt, r, params, q4_on)
+        y *= linear_half
+        tau = (step + 1) * dt
+
+
+        dxm = x + 0.5
+        if dxm * dxm + y * y <= cap2:
+            return CAPTURE, x, y, tau
+        if abs(x) >= CHART_RADIUS or abs(y) >= CHART_RADIUS or not math.isfinite(x) or not math.isfinite(y):
+            return EXIT, x, y, tau
+        if tau >= OTHER_MIN_TAU and (step % 20 == 0):
+            f1, f2 = full_rhs(x, y, r, params, q4_on)
+            dsm = (x - 0.5) * (x - 0.5) + y * y
+            dmm = (x + 0.5) * (x + 0.5) + y * y
+            if f1 * f1 + f2 * f2 <= OTHER_GRAD_TOL * OTHER_GRAD_TOL and dsm > other_dist2 and dmm > cap2:
+                return OTHER, x, y, tau
+    return STALL, x, y, tau_max
+
+
+
+
+@njit(parallel=True, cache=True)
+def integrate_batch(r, samples, q4_on, dt, tau_max):
+    n = samples.shape[0]
+    status = np.empty(n, dtype=np.int8)
+    xend = np.empty(n, dtype=np.float64)
+    yend = np.empty(n, dtype=np.float64)
+    tend = np.empty(n, dtype=np.float64)
+    for i in prange(n):
+        st, x, y, t = integrate_one(r, samples[i], q4_on, dt, tau_max)
+        status[i] = st
+        xend[i] = x
+        yend[i] = y
+        tend[i] = t
+    return status, xend, yend, tend
+
+
+
+
+def type_and_weight(samples: np.ndarray, r: float, q4_on: bool):
+    q, a, w = samples[:, 0], samples[:, 1], samples[:, 2]
+    if q4_on:
+        c40, c31, c22 = samples[:, 4], samples[:, 5], samples[:, 6]
+        hm11 = -r + r * r * c40 / 12.0
+        hm12 = -a * r / 2.0 + r * r * c31 / 12.0
+        hm22 = q - w * r / 2.0 + r * r * c22 / 8.0
+        hs11 = r + r * r * c40 / 12.0
+        hs12 = a * r / 2.0 + r * r * c31 / 12.0
+        hs22 = q + w * r / 2.0 + r * r * c22 / 8.0
+    else:
+        hm11 = np.full_like(q, -r)
+        hm12 = -a * r / 2.0
+        hm22 = q - w * r / 2.0
+        hs11 = np.full_like(q, r)
+        hs12 = a * r / 2.0
+        hs22 = q + w * r / 2.0
+    detm = hm11 * hm22 - hm12 * hm12
+    dets = hs11 * hs22 - hs12 * hs12
+    typed = (hm11 < 0.0) & (detm > 0.0) & (dets < 0.0)
+    weights = np.zeros(samples.shape[0], dtype=np.float64)
+    weights[typed] = np.abs(detm[typed] * dets[typed])
+    return typed, weights, hs22, detm, dets
+
+
+
+
+def weighted_ess(x: np.ndarray) -> float:
+    s = float(np.sum(x))
+    ss = float(np.dot(x, x))
+    return 0.0 if ss == 0.0 else s * s / ss
+
+
+
+
+def estimate_and_if(weights: np.ndarray, indicator: np.ndarray):
+    n = weights.size
+    sw = float(weights.sum())
+    if sw <= 0.0:
+        return 0.0, float("nan"), np.zeros(n)
+    est = float(np.dot(weights, indicator) / sw)
+    meanw = sw / n
+    psi = weights * (indicator - est) / meanw
+    se = float(np.std(psi, ddof=1) / math.sqrt(n))
+    return est, se, psi
+
+
+
+
+def selected_quantiles(values: np.ndarray, weights: np.ndarray, probs=(0.5, 0.9, 0.99)):
+    if values.size == 0 or weights.sum() <= 0:
+        return {str(p): None for p in probs}
+    order = np.argsort(values)
+    v = values[order]
+    w = weights[order]
+    c = np.cumsum(w)
+    c /= c[-1]
+    return {str(p): float(v[min(np.searchsorted(c, p), len(v)-1)]) for p in probs}
+
+
+
+
+def full_cov_from_result(result):
+    return np.array([[float(result.covariance[i, j]) for j in range(9)] for i in range(9)], dtype=np.float64)
+
+
+
+
+def full_mean_from_result(result):
+    return np.array([float(result.mean[i]) for i in range(9)], dtype=np.float64)
+
+
+
+
+def stable_cholesky(cov):
+    cov = (cov + cov.T) / 2.0
+    vals = np.linalg.eigvalsh(cov)
+    if vals[0] <= 0:
+        cov = cov + np.eye(cov.shape[0]) * (-vals[0] + 1e-14)
+    return np.linalg.cholesky(cov)
+
+
+
+
+def summarize_model(model_name, model_index, r, samples, q4_on, rung_index):
+    typed, weights, m22s, detm, dets = type_and_weight(samples, r, q4_on)
+    typed_idx = np.flatnonzero(typed)
+    screen = typed & (m22s > -2.0 * r)
+    screen_idx = np.flatnonzero(screen)
+    outside_idx = np.flatnonzero(typed & ~screen)
+    rng_audit = np.random.default_rng(AUDIT_SEED_BASE + 10 * rung_index + model_index)
+    if outside_idx.size <= OUTSIDE_AUDIT_N:
+        audit_idx = outside_idx
+    else:
+        audit_idx = rng_audit.choice(outside_idx, size=OUTSIDE_AUDIT_N, replace=False)
+
+
+    integrate_idx = np.unique(np.concatenate((screen_idx, audit_idx)))
+    integrated_samples = samples[integrate_idx]
+    start = time.time()
+    st, xe, ye, te = integrate_batch(r, integrated_samples, q4_on, DT, TAU_MAX)
+    runtime = time.time() - start
+    pos = {int(idx): j for j, idx in enumerate(integrate_idx)}
+
+
+    screen_status = np.array([st[pos[int(i)]] for i in screen_idx], dtype=np.int8)
+    audit_status = np.array([st[pos[int(i)]] for i in audit_idx], dtype=np.int8)
+    screen_failure = np.isin(screen_status, np.array([EXIT, OTHER], dtype=np.int8))
+    screen_stall = screen_status == STALL
+    audit_failure = np.isin(audit_status, np.array([EXIT, OTHER], dtype=np.int8))
+
+
+    failure_indicator = np.zeros(samples.shape[0], dtype=np.float64)
+    stall_indicator = np.zeros(samples.shape[0], dtype=np.float64)
+    failure_indicator[screen_idx[screen_failure]] = 1.0
+    stall_indicator[screen_idx[screen_stall]] = 1.0
+    est, se, psi = estimate_and_if(weights, failure_indicator)
+    stall_est, stall_se, stall_psi = estimate_and_if(weights, stall_indicator)
+    failure_weights = weights * failure_indicator
+
+
+    stab_idx = integrate_idx[: min(STABILITY_N, integrate_idx.size)]
+    st1 = np.array([st[pos[int(i)]] for i in stab_idx], dtype=np.int8)
+    st2, _, _, _ = integrate_batch(r, samples[stab_idx], q4_on, DT / 2.0, TAU_MAX)
+    nonstall = (st1 != STALL) & (st2 != STALL)
+    disagreements = int(np.sum(nonstall & (st1 != st2)))
+    denom = int(np.sum(nonstall))
+    disagreement_rate = 0.0 if denom == 0 else disagreements / denom
+
+
+    fail_idx = screen_idx[screen_failure]
+    fail_w = weights[fail_idx]
+    q_over_r = samples[fail_idx, 0] / r if fail_idx.size else np.array([])
+    m22_over_r = m22s[fail_idx] / r if fail_idx.size else np.array([])
+
+
+    other_local_positions = np.flatnonzero(st == OTHER)
+    others = []
+    for j in other_local_positions[:100]:
+        global_idx = int(integrate_idx[j])
+        others.append({
+            "index": global_idx,
+            "x": float(xe[j]),
+            "y": float(ye[j]),
+            "tau": float(te[j]),
+            "weight": float(weights[global_idx]),
+        })
+
+
+    counts = {
+        "capture": int(np.sum(screen_status == CAPTURE)),
+        "chart_exit": int(np.sum(screen_status == EXIT)),
+        "other_stationary": int(np.sum(screen_status == OTHER)),
+        "stall": int(np.sum(screen_status == STALL)),
+    }
+    audit_counts = {
+        "capture": int(np.sum(audit_status == CAPTURE)),
+        "chart_exit": int(np.sum(audit_status == EXIT)),
+        "other_stationary": int(np.sum(audit_status == OTHER)),
+        "stall": int(np.sum(audit_status == STALL)),
+    }
+    return {
+        "model": model_name,
+        "r": r,
+        "n": int(samples.shape[0]),
+        "typed_n": int(typed_idx.size),
+        "typed_fraction": float(typed_idx.size / samples.shape[0]),
+        "weight_sum": float(weights.sum()),
+        "weight_ess": weighted_ess(weights),
+        "screen_n": int(screen_idx.size),
+        "outside_typed_n": int(outside_idx.size),
+        "screen_counts": counts,
+        "outside_audit_n": int(audit_idx.size),
+        "outside_audit_counts": audit_counts,
+        "outside_screen_failures": int(audit_failure.sum()),
+        "screened_weighted_failure": est,
+        "screened_weighted_failure_se": se,
+        "screened_weighted_stall": stall_est,
+        "screened_weighted_stall_se": stall_se,
+        "raw_screen_failures": int(screen_failure.sum()),
+        "failure_weight_ess": weighted_ess(failure_weights),
+        "q_over_r_failure_quantiles": selected_quantiles(q_over_r, fail_w),
+        "m22_over_r_failure_quantiles": selected_quantiles(m22_over_r, fail_w),
+        "stability_audit_n": int(stab_idx.size),
+        "stability_nonstall_compared": denom,
+        "stability_disagreements": disagreements,
+        "stability_disagreement_rate": disagreement_rate,
+        "integrated_unique_n": int(integrate_idx.size),
+        "runtime_seconds": runtime,
+        "other_stationary_examples": others,
+        "_weights": weights,
+        "_failure_indicator": failure_indicator,
+        "_psi": psi,
+    }
+
+
+
+
+def paired_comparison(a, b, label):
+    est_a = a["screened_weighted_failure"]
+    est_b = b["screened_weighted_failure"]
+    psi_diff = b["_psi"] - a["_psi"]
+    n = psi_diff.size
+    diff = est_b - est_a
+    se = float(np.std(psi_diff, ddof=1) / math.sqrt(n))
+    lo, hi = diff - 1.96 * se, diff + 1.96 * se
+    ratio = None
+    log_ratio_se = None
+    ratio_ci = None
+    admissible = (
+        a["raw_screen_failures"] >= 20
+        and b["raw_screen_failures"] >= 20
+        and a["failure_weight_ess"] >= 10
+        and b["failure_weight_ess"] >= 10
+        and est_a > 0 and est_b > 0
+    )
+    if admissible:
+        psi_log = b["_psi"] / est_b - a["_psi"] / est_a
+        log_ratio_se = float(np.std(psi_log, ddof=1) / math.sqrt(n))
+        lr = math.log(est_b / est_a)
+        ratio = est_b / est_a
+        ratio_ci = [math.exp(lr - 1.96 * log_ratio_se), math.exp(lr + 1.96 * log_ratio_se)]
+    return {
+        "label": label,
+        "difference": diff,
+        "difference_se": se,
+        "difference_95ci": [lo, hi],
+        "ratio_admissible": admissible,
+        "ratio": ratio,
+        "log_ratio_se": log_ratio_se,
+        "ratio_95ci": ratio_ci,
+    }
+
+
+
+
+def strip_private(d):
+    return {k: v for k, v in d.items() if not k.startswith("_")}
+
+
+
+
+def main():
+    t0 = time.time()
+    mp.mp.dps = DPS
+    exact = load_exact_module()
+    limit_mean_mp, limit_cov_mp = exact.coalesced_limiting_law(mp.mpf("1.2"))
+    limit_mean = np.array([float(limit_mean_mp[i]) for i in range(9)])
+    limit_cov = np.array([[float(limit_cov_mp[i, j]) for j in range(9)] for i in range(9)])
+    L_limit = stable_cholesky(limit_cov)
+
+
+    if CHECKPOINT.exists():
+        checkpoint = json.loads(CHECKPOINT.read_text(encoding="utf-8"))
+        all_rows = checkpoint.get("rows", [])
+        comparisons = checkpoint.get("paired_comparisons", [])
+        completed = set(checkpoint.get("completed_rung_indices", []))
+        print(f"resuming checkpoint with completed rungs {sorted(completed)}", flush=True)
+    else:
+        all_rows = []
+        comparisons = []
+        completed = set()
+    for rung_index, r in enumerate(RUNGS):
+        if rung_index in completed:
+            continue
+        print(f"rung {r}", flush=True)
+        rng = np.random.default_rng(BASE_SEED + rung_index)
+        Z = rng.standard_normal((N, 9), dtype=np.float64)
+        finite_result = exact.finite_r_law(mp.mpf(str(r)), L=mp.mpf("24"), b=mp.mpf("1.2"), shells=6)
+        finite_mean = full_mean_from_result(finite_result)
+        finite_cov = full_cov_from_result(finite_result)
+        L_finite = stable_cholesky(finite_cov)
+        limit_samples = Z @ L_limit.T + limit_mean
+        finite_samples = Z @ L_finite.T + finite_mean
+
+
+        rows = []
+        for model_name, model_index, model_samples, q4_on in [
+            (MODEL_NAMES[0], 0, limit_samples, False),
+            (MODEL_NAMES[1], 1, finite_samples, False),
+            (MODEL_NAMES[2], 2, finite_samples, True),
+        ]:
+            print(f"  model {model_name}", flush=True)
+            row = summarize_model(model_name, model_index, float(r), model_samples, q4_on, rung_index)
+            print(
+                f"    typed={row['typed_n']} screen={row['screen_n']} "
+                f"fail={row['raw_screen_failures']} stall={row['screen_counts']['stall']} "
+                f"outside_fail={row['outside_screen_failures']} "
+                f"weighted={row['screened_weighted_failure']:.6e} "
+                f"runtime={row['runtime_seconds']:.1f}s",
+                flush=True,
+            )
+            rows.append(row)
+        comparisons.append({
+            "r": float(r),
+            "A_to_B": paired_comparison(rows[0], rows[1], "FINITE_CUBIC - LIMIT_CUBIC"),
+            "B_to_C": paired_comparison(rows[1], rows[2], "FINITE_Q4 - FINITE_CUBIC"),
+        })
+        all_rows.extend(strip_private(row) for row in rows)
+        completed.add(rung_index)
+        CHECKPOINT.write_text(json.dumps({
+            "completed_rung_indices": sorted(completed),
+            "rows": all_rows,
+            "paired_comparisons": comparisons,
+        }, indent=2) + "\n", encoding="utf-8")
+        print(f"  checkpoint saved after rung {r}", flush=True)
+        del Z, limit_samples, finite_samples, rows
+
+
+    valid_rows = [row for row in all_rows if row["stability_disagreement_rate"] <= 0.005 and row["screened_weighted_stall"] <= 0.01]
+    any_screen_fail = any(row["outside_screen_failures"] > 0 for row in all_rows)
+    disposition = {
+        "screen_falsified": any_screen_fail,
+        "all_rows_numerically_valid": len(valid_rows) == len(all_rows),
+        "law_stable": None,
+        "q4_stable": None,
+        "material_finite_law_effect": False,
+        "new_q4_mechanism": False,
+        "notes": [],
+    }
+    if any_screen_fail:
+        disposition["notes"].append("At least one outside-screen failure occurred; screen-based complement interpretation is invalid for that row.")
+
+
+    law_ok = 0
+    q4_ok = 0
+    law_adm = 0
+    q4_adm = 0
+    for comp in comparisons:
+        ab = comp["A_to_B"]
+        bc = comp["B_to_C"]
+        if ab["ratio_admissible"]:
+            law_adm += 1
+            lo, hi = ab["ratio_95ci"]
+            if lo >= 0.5 and hi <= 2.0:
+                law_ok += 1
+        if bc["ratio_admissible"]:
+            q4_adm += 1
+            lo, hi = bc["ratio_95ci"]
+            if lo >= 0.5 and hi <= 2.0:
+                q4_ok += 1
+            if lo > 10.0:
+                disposition["new_q4_mechanism"] = True
+        if ab["ratio_admissible"]:
+            lo, hi = ab["ratio_95ci"]
+            if hi < 0.25 or lo > 4.0:
+                disposition["material_finite_law_effect"] = True
+    disposition["law_stable"] = (law_adm >= 3 and law_ok >= 3 and not any_screen_fail) if law_adm >= 3 else None
+    disposition["q4_stable"] = (q4_adm >= 3 and q4_ok >= 3 and not any_screen_fail) if q4_adm >= 3 else None
+
+
+    q4_r025 = next(row for row in all_rows if row["model"] == "FINITE_Q4" and abs(row["r"] - 0.025) < 1e-12)
+    if q4_r025["screened_weighted_failure"] > 1e-4 and q4_r025["screened_weighted_failure"] - 1.96*q4_r025["screened_weighted_failure_se"] > 1e-4:
+        disposition["new_q4_mechanism"] = True
+
+
+    report = {
+        "artifact_id": "GP-DATA-039-v1.0",
+        "preregistration": "GP-PRE-038-v1.0",
+        "canonical_impact": "NONE",
+        "source_sha256": sha256(Path(__file__)),
+        "exact_law_source_sha256": sha256(EXACT_SOURCE),
+        "parameters": {
+            "rungs": RUNGS.tolist(),
+            "N_per_rung": N,
+            "base_seed": BASE_SEED,
+            "audit_seed_base": AUDIT_SEED_BASE,
+            "dt": DT,
+            "tau_max": TAU_MAX,
+            "branch_offset": EPS,
+            "capture_radius": CAPTURE_RADIUS,
+            "chart_radius_both_coordinates": CHART_RADIUS,
+            "outside_audit_n": OUTSIDE_AUDIT_N,
+            "stability_n": STABILITY_N,
+        },
+        "rows": all_rows,
+        "paired_comparisons": comparisons,
+        "disposition": disposition,
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "numba": numba.__version__,
+            "mpmath": mp.__version__,
+            "platform": platform.platform(),
+        },
+        "runtime_seconds": time.time() - t0,
+        "scope_limits": [
+            "Local finite-jet flow only.",
+            "Screened failure mass is a lower-bound/localization diagnostic without an analytic outside-screen capture theorem.",
+            "No fifth-order remainder or far-field coupling.",
+            "No theorem or canonical-machine promotion.",
+        ],
+    }
+    OUTPUT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(disposition, indent=2))
+    print(f"wrote {OUTPUT}")
+    print(f"runtime={report['runtime_seconds']:.2f}s")
+
+
+
+
+if __name__ == "__main__":
+    main()

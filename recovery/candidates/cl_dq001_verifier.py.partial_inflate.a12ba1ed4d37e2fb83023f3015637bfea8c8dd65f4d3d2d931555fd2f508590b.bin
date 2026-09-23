@@ -1,0 +1,1277 @@
+#!/usr/bin/env python3
+"""
+CL-DQ001 — Independent exact-rational verifier for GP-DER-208 / GP-DATA-208.
+
+Reviewer lane: CL (Anthropic Claude), organizationally distinct from GP (OpenAI).
+Method: full independent re-derivation of the certificate chain in Python
+stdlib exact rational arithmetic (fractions.Fraction). No sympy, no mpmath,
+no floating point in any asserted inequality. Irrational quantities
+(square roots, exp) enter only through provably-outward rational enclosures:
+  * sqrt via integer isqrt scaling (lo^2 <= x <= hi^2 asserted at runtime);
+  * exp(-x) upper bounds via e_lo^{-floor(x)} with e_lo < e rational.
+
+Structure:
+  1. Planar Gaussian covariance algebra over the ring
+         R = Q[r, 1/r]  +  Q[r, 1/r] * exp(-r^2/2)
+     (Laurent polynomials with an exponential carrier; closed under all
+     operations used: no E*E product ever occurs).
+  2. Transformed pin frame T, endpoint functionals, and the three blocks
+     G(r), C(r), S(r), built independently from GP's definitions.
+  3. Exact regularity check at r=0 (all negative Laurent-Taylor coefficients
+     must cancel identically), exact limits G0, C0, S0, and exact
+     conditional objects mean0 = C0 G0^{-1} y0, cov0 = S0 - C0 G0^{-1} C0^T.
+  4. Exact Taylor coefficients through r^6 with rigorous factorial-tail
+     bounds; per-entry deviation bounds at r_D; envelope checks.
+  5. CL periodization lemma (uniform in r): Peano-kernel divided-difference
+     bounds for every frame row, machine-checked annihilation identities,
+     involution-number Hermite bounds, exact lattice shell summation.
+     This replaces the source's r^{-6} pointwise heuristic, which is not
+     uniform on (0, r_D].
+  6. Neumann / perturbation chain, envelopes, fourth moments, and the final
+     Cauchy-Schwarz bound  2*sqrt(EA4*EC4) + 2 r_D^2 EB4 < 15, all exact.
+  7. Negative controls NC1-NC5 (executed, expected to FIRE; never asserted
+     into the main result).
+  8. Digit-agreement comparison against every recorded numeric field of
+     GP-DATA-208_result.json.
+"""
+
+from __future__ import annotations
+
+from fractions import Fraction as Fr
+from math import isqrt, factorial
+import hashlib
+import json
+from pathlib import Path
+
+# ----------------------------------------------------------------------
+# Constants
+# ----------------------------------------------------------------------
+
+RECORDED_G_DEVIATION = (
+    "0.0000000158391636133982751948741199419906381710005863517273694888788")
+R_D = Fr(549270747778704575598758916462559552302418705897, 10 ** 52)
+assert str(R_D.numerator) == "549270747778704575598758916462559552302418705897"
+TEN70 = Fr(1, 10 ** 70)
+
+# e lower bound (e = 2.71828182845904523536...)
+E_LO = Fr(2718281828459045235, 10 ** 18)
+
+# involution numbers I_n = sum_j n! / (j! (n-2j)! 2^j)  (|He_n(x)| <= I_n |x|^n for |x|>=1)
+def involution(n: int) -> int:
+    total = 0
+    for j in range(n // 2 + 1):
+        total += factorial(n) // (factorial(j) * factorial(n - 2 * j) * 2 ** j)
+    return total
+
+# ----------------------------------------------------------------------
+# Exact helpers
+# ----------------------------------------------------------------------
+
+def sqrt_bounds(x: Fr, digits: int) -> tuple[Fr, Fr]:
+    """Provably outward enclosure of sqrt(x): lo <= sqrt(x) <= hi."""
+    assert x >= 0
+    S = 10 ** digits
+    m = (x.numerator * S * S) // x.denominator
+    L = isqrt(m)
+    lo, hi = Fr(L, S), Fr(L + 1, S)
+    assert lo * lo <= x <= hi * hi
+    return lo, hi
+
+
+FP_D = 260
+FP_S = 10 ** FP_D
+
+
+def _ru(f: Fr) -> Fr:
+    return Fr(-((-f.numerator * FP_S) // f.denominator), FP_S)
+
+
+def _rd(f: Fr) -> Fr:
+    return Fr((f.numerator * FP_S) // f.denominator, FP_S)
+
+
+def exp_neg_enclosure(x: Fr, terms: int = 60) -> tuple[Fr, Fr]:
+    """Rigorous rational [lo, hi] with lo <= exp(-x) <= hi, for x > 0.
+
+    Scaling-and-squaring: y = x / 2^m with 0 < y < 1/2, so the alternating
+    Maclaurin series for exp(-y) has strictly decreasing terms and its
+    partial sums bracket the value (even index -> upper, odd -> lower).
+    Each squaring step is re-rounded outward in fixed point, which preserves
+    the bracket because t -> t^2 is monotone on nonnegative reals.
+    """
+    assert x > 0
+    m = 0
+    y = x
+    while y >= Fr(1, 2):
+        y /= 2
+        m += 1
+    part = Fr(0)
+    t = Fr(1)
+    partials = []
+    for k in range(terms + 1):
+        if k:
+            t = t * (-y) / k
+        part += t
+        partials.append(part)
+    hi = _ru(partials[terms if terms % 2 == 0 else terms - 1])
+    lo = _rd(partials[terms - 1 if terms % 2 == 0 else terms])
+    assert 0 < lo <= hi
+    for _ in range(m):
+        lo = _rd(lo * lo)
+        hi = _ru(hi * hi)
+    return lo, hi
+
+
+def exp_neg_upper(x: Fr) -> Fr:
+    """Rigorous rational upper bound for exp(-x), x >= 0."""
+    assert x >= 0
+    if x == 0:
+        return Fr(1)
+    return exp_neg_enclosure(x)[1]
+
+
+def dec_str(x: Fr, nd: int) -> str:
+    """Exact decimal string of x truncated toward zero at nd digits after the point."""
+    sign = "-" if x < 0 else ""
+    ax = abs(x)
+    scaled = ax.numerator * 10 ** nd // ax.denominator
+    s = str(scaled).rjust(nd + 1, "0")
+    return f"{sign}{s[:-nd]}.{s[-nd:]}"
+
+
+def parse_decimal(s: str) -> Fr:
+    """Parse a decimal or scientific string into an exact Fraction."""
+    s = s.strip()
+    if "e" in s or "E" in s:
+        mant, ex = s.replace("E", "e").split("e")
+        return parse_decimal(mant) * Fr(10) ** int(ex)
+    neg = s.startswith("-")
+    if neg:
+        s = s[1:]
+    if "." in s:
+        a, b = s.split(".")
+        v = Fr(int(a or "0")) + Fr(int(b or "0"), 10 ** len(b)) if b else Fr(int(a or "0"))
+    else:
+        v = Fr(int(s))
+    return -v if neg else v
+
+
+def agree_sig_digits(mine: Fr, theirs_str: str) -> int:
+    """Number of leading significant digits on which mine agrees with theirs."""
+    theirs = parse_decimal(theirs_str)
+    if theirs == 0:
+        return 99 if mine == 0 else 0
+    rel = abs(mine - theirs) / abs(theirs)
+    if rel == 0:
+        return 999  # exact
+    # digits ~ -log10(rel)
+    d = 0
+    v = rel
+    while v < Fr(1, 10) and d < 200:
+        v *= 10
+        d += 1
+    return d
+
+
+# ----------------------------------------------------------------------
+# Ring R = Q[r,1/r] + Q[r,1/r]*E,  E = exp(-r^2/2)
+# Laurent polynomials as dict {exponent: Fraction}
+# ----------------------------------------------------------------------
+
+def lp_clean(d: dict) -> dict:
+    return {k: v for k, v in d.items() if v != 0}
+
+
+def lp_add(a: dict, b: dict) -> dict:
+    out = dict(a)
+    for k, v in b.items():
+        out[k] = out.get(k, Fr(0)) + v
+    return lp_clean(out)
+
+
+def lp_scale(a: dict, c: Fr, shift: int = 0) -> dict:
+    return lp_clean({k + shift: v * c for k, v in a.items()})
+
+
+def lp_mul(a: dict, b: dict) -> dict:
+    out: dict = {}
+    for ka, va in a.items():
+        for kb, vb in b.items():
+            out[ka + kb] = out.get(ka + kb, Fr(0)) + va * vb
+    return lp_clean(out)
+
+
+class LE:
+    """Element P(r) + Q(r) * exp(-r^2/2)."""
+
+    __slots__ = ("P", "Q")
+
+    def __init__(self, P=None, Q=None):
+        self.P = lp_clean(P or {})
+        self.Q = lp_clean(Q or {})
+
+    @staticmethod
+    def const(c: Fr) -> "LE":
+        return LE({0: Fr(c)}, {})
+
+    @staticmethod
+    def mono(c: Fr, k: int) -> "LE":
+        return LE({k: Fr(c)}, {})
+
+    def __add__(self, o: "LE") -> "LE":
+        return LE(lp_add(self.P, o.P), lp_add(self.Q, o.Q))
+
+    def __sub__(self, o: "LE") -> "LE":
+        return self + o.scale(Fr(-1))
+
+    def scale(self, c: Fr, shift: int = 0) -> "LE":
+        return LE(lp_scale(self.P, c, shift), lp_scale(self.Q, c, shift))
+
+    def __mul__(self, o: "LE") -> "LE":
+        if self.Q and o.Q:
+            raise RuntimeError("E*E product not in ring")
+        P = lp_mul(self.P, o.P)
+        Q = lp_add(lp_mul(self.P, o.Q), lp_mul(self.Q, o.P))
+        return LE(P, Q)
+
+    def is_zero(self) -> bool:
+        return not self.P and not self.Q
+
+    # Taylor coefficient of r^n of P + Q*exp(-r^2/2), exact
+    def taylor(self, n: int) -> Fr:
+        t = Fr(self.P.get(n, 0))
+        for k, b in self.Q.items():
+            j2 = n - k
+            if j2 >= 0 and j2 % 2 == 0:
+                j = j2 // 2
+                t += b * Fr((-1) ** j, 2 ** j * factorial(j))
+        return t
+
+    def min_exp(self) -> int:
+        exps = list(self.P.keys()) + list(self.Q.keys())
+        return min(exps) if exps else 0
+
+    def check_regular(self) -> bool:
+        """All Taylor coefficients of negative order vanish exactly."""
+        me = self.min_exp()
+        return all(self.taylor(n) == 0 for n in range(me, 0))
+
+    def tail_after(self, cutoff: int, rho: Fr) -> Fr:
+        """Rigorous upper bound for | f(r) - sum_{p<=cutoff} t_p r^p | tail mass
+        contributed by orders > cutoff, valid for all 0 < r <= rho.
+        = sum_{k>cutoff} |P_k| rho^k  +  sum_k |Q_k| rho^k * T_k,
+        T_k = sum_{j>=j0} (rho^2/2)^j / j!  <=  x^{j0}/j0! * 1/(1-x/(j0+1))."""
+        x = rho * rho / 2
+        total = Fr(0)
+        for k, a in self.P.items():
+            if k > cutoff:
+                total += abs(a) * rho ** k
+        for k, b in self.Q.items():
+            j0 = 0
+            while k + 2 * j0 <= cutoff:
+                j0 += 1
+            first = x ** j0 / factorial(j0)
+            ratio = x / (j0 + 1)
+            assert ratio < 1
+            total += abs(b) * (rho ** k if k >= 0 else Fr(1) / rho ** (-k)) * first / (1 - ratio)
+        return total
+
+    def has_pure_terms_above(self, cutoff: int) -> bool:
+        return any(k > cutoff and v != 0 for k, v in self.P.items())
+
+
+# ----------------------------------------------------------------------
+# Hermite carriers:  d^n/dx^n exp(-x^2/2) = P_n(x) exp(-x^2/2),
+# P_0 = 1,  P_{n+1} = P_n' - x P_n   (P_n = (-1)^n He_n)
+# ----------------------------------------------------------------------
+
+MAXDER = 12
+
+def build_hermite(flip_sign: bool = False) -> list:
+    polys = [{0: Fr(1)}]
+    for _ in range(MAXDER):
+        p = polys[-1]
+        d: dict = {}
+        for j, c in p.items():  # derivative
+            if j >= 1:
+                d[j - 1] = d.get(j - 1, Fr(0)) + c * j
+        for j, c in p.items():  # -x * p   (or +x*p for the NC5 planted bug)
+            d[j + 1] = d.get(j + 1, Fr(0)) + (c if flip_sign else -c)
+        polys.append(lp_clean(d))
+    return polys
+
+HERM = build_hermite()
+
+def k0(n: int, herm=None) -> Fr:
+    h = (herm or HERM)[n]
+    return Fr(h.get(0, 0))
+
+def k_signed_r(n: int, sgn: int, herm=None) -> LE:
+    """k^{(n)}(sgn*r) as an LE element: Q = P_n(sgn*r)."""
+    h = (herm or HERM)[n]
+    return LE({}, {j: c * (sgn ** j) for j, c in h.items()})
+
+
+# ----------------------------------------------------------------------
+# Pins and planar covariance atoms.
+# Pin points: index 0 -> m = -r/2, index 1 -> s = +r/2 (x-coordinates; y=0).
+# planar_cov(p,alpha,q,beta) = (-1)^{b1+b2} k^{(a1+b1)}(px-qx) k^{(a2+b2)}(0)
+# ----------------------------------------------------------------------
+
+def planar_cov(p: int, alpha: tuple, q: int, beta: tuple, herm=None) -> LE:
+    sgn = Fr((-1) ** (beta[0] + beta[1]))
+    n1 = alpha[0] + beta[0]
+    n2 = alpha[1] + beta[1]
+    c2 = k0(n2, herm)
+    if c2 == 0:
+        return LE()
+    if p == q:
+        return LE.const(sgn * k0(n1, herm) * c2)
+    dsgn = -1 if (p, q) == (0, 1) else 1  # m-s = -r ; s-m = +r
+    return k_signed_r(n1, dsgn, herm).scale(sgn * c2)
+
+
+PIN_DERIVS = [(0, 0), (1, 0), (0, 1)]
+PINS = [(0, d) for d in PIN_DERIVS] + [(1, d) for d in PIN_DERIVS]  # (point, deriv)
+
+# Transformed frame T: rows of (coef Fr, exponent int) applied to raw pins
+T_ROWS = [
+    {0: (Fr(1, 2), 0), 3: (Fr(1, 2), 0)},
+    {0: (Fr(-1), -1), 3: (Fr(1), -1)},
+    {1: (Fr(-1), -1), 4: (Fr(1), -1)},
+    {2: (Fr(1, 2), 0), 5: (Fr(1, 2), 0)},
+    {2: (Fr(-1), -1), 5: (Fr(1), -1)},
+    {0: (Fr(12), -3), 1: (Fr(6), -2), 3: (Fr(-12), -3), 4: (Fr(6), -2)},
+]
+
+# Endpoint functionals: list of (coef Fr, exponent int, point idx, deriv)
+F_AM = [(Fr(1), -1, 0, (2, 0)), (Fr(-1), -2, 1, (1, 0)), (Fr(1), -2, 0, (1, 0))]
+F_AS = [(Fr(1), -1, 1, (2, 0)), (Fr(-1), -2, 1, (1, 0)), (Fr(1), -2, 0, (1, 0))]
+F_BM = [(Fr(1), -1, 0, (1, 1)), (Fr(-1), -2, 1, (0, 1)), (Fr(1), -2, 0, (0, 1))]
+F_BS = [(Fr(1), -1, 1, (1, 1)), (Fr(-1), -2, 1, (0, 1)), (Fr(1), -2, 0, (0, 1))]
+F_CM = [(Fr(1), 0, 0, (0, 2))]
+F_CS = [(Fr(1), 0, 1, (0, 2))]
+FUNCTIONALS = [F_AM, F_AS, F_BM, F_BS, F_CM, F_CS]
+
+
+PINS_0 = list(PINS)
+FUNCTIONALS_0 = [list(f) for f in FUNCTIONALS]
+T_ROWS_0 = [dict(t) for t in T_ROWS]
+
+
+def build_blocks(herm=None, mut=None):
+    """Return G(r), C(r), S(r) as 6x6 LE matrices."""
+    mut = mut or {}
+    global PINS, FUNCTIONALS, T_ROWS
+    pins = list(PINS_0)
+    funs = [list(f) for f in FUNCTIONALS_0]
+    trows = [dict(t) for t in T_ROWS_0]
+    if "reverse_axial" in mut:                      # M2
+        pins = [(1 - p, d) for (p, d) in pins]
+        funs = [[(c, e, 1 - pt, al) for (c, e, pt, al) in f] for f in funs]
+    if "omit_secant" in mut:                        # M1
+        funs[0] = [(Fr(1), -1, 0, (2, 0))]
+    if "raw_pin_frame" in mut:                      # M3
+        trows = [{i: (Fr(1), 0)} for i in range(6)]
+    PINS, FUNCTIONALS, T_ROWS = pins, funs, trows
+    try:
+        return _build_blocks_inner(herm)
+    finally:
+        PINS = list(PINS_0)
+        FUNCTIONALS = [list(f) for f in FUNCTIONALS_0]
+        T_ROWS = [dict(t) for t in T_ROWS_0]
+
+
+def _build_blocks_inner(herm=None):
+    graw = [[planar_cov(p, a, q, b, herm) for (q, b) in PINS] for (p, a) in PINS]
+    # G = T graw T^T
+    G = [[LE() for _ in range(6)] for _ in range(6)]
+    for i in range(6):
+        for j in range(6):
+            acc = LE()
+            for k, (ck, ek) in T_ROWS[i].items():
+                for l, (cl, el) in T_ROWS[j].items():
+                    acc = acc + graw[k][l].scale(ck * cl, ek + el)
+            G[i][j] = acc
+    # C_raw[i,k] = cov(functional_i, pin_k); C = C_raw T^T
+    Craw = [[LE() for _ in range(6)] for _ in range(6)]
+    for i, fun in enumerate(FUNCTIONALS):
+        for k, (q, b) in enumerate(PINS):
+            acc = LE()
+            for (c, e, pt, al) in fun:
+                acc = acc + planar_cov(pt, al, q, b, herm).scale(c, e)
+            Craw[i][k] = acc
+    C = [[LE() for _ in range(6)] for _ in range(6)]
+    for i in range(6):
+        for j in range(6):
+            acc = LE()
+            for k, (ck, ek) in T_ROWS[j].items():
+                acc = acc + Craw[i][k].scale(ck, ek)
+            C[i][j] = acc
+    # S[i,j] = cov(functional_i, functional_j)
+    S = [[LE() for _ in range(6)] for _ in range(6)]
+    for i, f1 in enumerate(FUNCTIONALS):
+        for j, f2 in enumerate(FUNCTIONALS):
+            acc = LE()
+            for (c1, e1, p1, a1) in f1:
+                for (c2, e2, p2, a2) in f2:
+                    acc = acc + planar_cov(p1, a1, p2, a2, herm).scale(c1 * c2, e1 + e2)
+            S[i][j] = acc
+    return G, C, S
+
+
+# ----------------------------------------------------------------------
+# Exact rational linear algebra
+# ----------------------------------------------------------------------
+
+def mat_inv(M):
+    n = len(M)
+    A = [[Fr(M[i][j]) for j in range(n)] + [Fr(1 if i == j else 0) for j in range(n)]
+         for i in range(n)]
+    for col in range(n):
+        piv = next(r for r in range(col, n) if A[r][col] != 0)
+        A[col], A[piv] = A[piv], A[col]
+        pv = A[col][col]
+        A[col] = [x / pv for x in A[col]]
+        for r in range(n):
+            if r != col and A[r][col] != 0:
+                f = A[r][col]
+                A[r] = [x - f * y for x, y in zip(A[r], A[col])]
+    return [row[n:] for row in A]
+
+
+def mat_mul(A, B):
+    n, m, p = len(A), len(B), len(B[0])
+    return [[sum(A[i][k] * B[k][j] for k in range(m)) for j in range(p)] for i in range(n)]
+
+
+def mat_vec(A, v):
+    return [sum(A[i][k] * v[k] for k in range(len(v))) for i in range(len(A))]
+
+
+def mat_sub(A, B):
+    return [[A[i][j] - B[i][j] for j in range(len(A[0]))] for i in range(len(A))]
+
+
+def transpose(A):
+    return [[A[j][i] for j in range(len(A))] for i in range(len(A[0]))]
+
+
+def ldl_min_eig_above(M, lam: Fr) -> bool:
+    """Check M - lam*I positive definite via exact rational LDL pivots."""
+    n = len(M)
+    A = [[Fr(M[i][j]) - (lam if i == j else 0) for j in range(n)] for i in range(n)]
+    for k in range(n):
+        if A[k][k] <= 0:
+            return False
+        for i in range(k + 1, n):
+            f = A[i][k] / A[k][k]
+            for j in range(k, n):
+                A[i][j] -= f * A[k][j]
+    return True
+
+
+# ----------------------------------------------------------------------
+# CL periodization lemma (uniform in r on (0, r_D]).
+#
+# Frame rows and endpoint functionals are divided-difference functionals
+#   L(g) = sum_k a_k(r) g^{(delta_k)}(x_k),   x_k in {-r/2, +r/2},
+# which annihilate all polynomials of degree < D_L (machine-checked below)
+# and satisfy the Peano bound
+#   |L(g)| <= kappa_L * sup_{|t|<=r/2} |g^{(D_L)}(t)|,
+#   kappa_L = sum_k |a_k| |x_k|^{D_L-delta_k} / (D_L-delta_k)!   (r-free).
+# Image kernels g are x-slices of k^{(n)}(t - 24p) k^{(m)}(-24q); hence the
+# torus defect of any transformed entry is bounded, uniformly in r, by
+#   kappa_i kappa_j * sup |d/dx^{Dx} ...| over the pin square, summed over
+# the image lattice with |He_n(x)| <= I_n |x|^n  (|x|>=1) and
+# |He_n(x)| <= I_n (1+|x|)^n generally.
+# ----------------------------------------------------------------------
+
+def functional_terms_for_row(row) -> list:
+    """T row -> abstract 1-D x-functional terms (coef Fr, exp int, xsign, delta_x, delta_y).
+    Pin index k -> point (k<3 ? m : s), deriv PIN_DERIVS[k%3]."""
+    out = []
+    for k, (c, e) in row.items():
+        pt = 0 if k < 3 else 1
+        dv = PIN_DERIVS[k % 3]
+        out.append((c, e, pt, dv[0], dv[1]))
+    return out
+
+
+def functional_terms_for_endpoint(fun) -> list:
+    return [(c, e, pt, al[0], al[1]) for (c, e, pt, al) in fun]
+
+
+def check_annihilation_and_kappa(terms):
+    """Find D = smallest total x-degree j such that L(x^j) != 0 as a rational
+    function (checked exactly in the Laurent ring), restricted to the x-part;
+    y-derivatives are carried separately. Returns (D, kappa, max_dy).
+    kappa uses |x_k| = r/2 and must come out r-free (asserted)."""
+    max_dy = max(t[4] for t in terms)
+    # L acts on g(x) placed in the x-slot; y-derivative order is bookkeeping.
+    D = None
+    for j in range(0, 9):
+        # L(x^j) = sum c r^e * d^{dx}/dx^{dx} x^j |_{x=pt} ; pt = -r/2 or r/2
+        acc: dict = {}
+        for (c, e, pt, dx, dy) in terms:
+            if j - dx < 0:
+                continue
+            coef = c * Fr(factorial(j), factorial(j - dx))
+            # (pt)^(j-dx) = (±r/2)^(j-dx)
+            sgn = (-1) ** (j - dx) if pt == 0 else 1
+            coef = coef * Fr(sgn, 2 ** (j - dx))
+            k = e + (j - dx)
+            acc[k] = acc.get(k, Fr(0)) + coef
+        acc = lp_clean(acc)
+        if acc:
+            D = j
+            break
+    assert D is not None
+    kappa = Fr(0)
+    kexp = None
+    for (c, e, pt, dx, dy) in terms:
+        term = abs(c) * Fr(1, 2 ** (D - dx)) / factorial(D - dx)
+        ex = e + (D - dx)
+        if kexp is None:
+            kexp = ex
+        assert ex == kexp, "kappa not r-homogeneous"
+        kappa += term
+    assert kexp == 0, f"kappa carries r^{kexp}, not uniform"
+    return D, kappa, max_dy
+
+
+def periodization_lemma(report: dict) -> Fr:
+    """Uniform-in-r bound on the max transformed-entry torus defect."""
+    rows_G = [functional_terms_for_row(row) for row in T_ROWS]
+    rows_F = [functional_terms_for_endpoint(f) for f in FUNCTIONALS]
+    info_G = [check_annihilation_and_kappa(t) for t in rows_G]
+    info_F = [check_annihilation_and_kappa(t) for t in rows_F]
+    report["frame_peano"] = {
+        f"T_row{i}": {"D": d, "kappa": str(k), "dy": dy}
+        for i, (d, k, dy) in enumerate(info_G)
+    }
+    report["endpoint_peano"] = {
+        ["A_M", "A_S", "B_M", "B_S", "C_M", "C_S"][i]: {"D": d, "kappa": str(k), "dy": dy}
+        for i, (d, k, dy) in enumerate(info_F)
+    }
+    # raw pin data itself may carry an x-derivative (pins (1,0)); that is already
+    # inside delta_k, so the x-derivative order hitting the image kernel for a
+    # (row_i, row_j) pair is at most D_i + max_dx_i ... conservatively:
+    # total x-order n_x <= D_i + D_j + 2 (pin first derivatives) + 4 (atom orders)
+    # is over-counting; the exact statement: entry = (L_i (x) L_j) K_img where the
+    # delta_k already include ALL x-derivatives of the kernel. The Peano step
+    # replaces L_i by D_i extra derivatives. Hence
+    #   n_x <= D_i + D_j + max_delta_x_i + max_delta_x_j
+    # and y-order n_y <= dy_i + dy_j.
+    def side_stats(terms, info):
+        D, kappa, dy = info
+        mdx = max(t[3] for t in terms)
+        return D, kappa, dy, mdx
+
+    statsG = [side_stats(t, i) for t, i in zip(rows_G, info_G)]
+    statsF = [side_stats(t, i) for t, i in zip(rows_F, info_F)]
+
+    def worst_pair(stA, stB):
+        best = None
+        for (Da, ka, dya, mxa) in stA:
+            for (Db, kb, dyb, mxb) in stB:
+                nx = Da + mxa + Db + mxb
+                ny = dya + dyb
+                kk = ka * kb
+                cand = (nx, ny, kk)
+                if best is None or (kk, nx) > (best[2], best[0]):
+                    best = cand
+        # take max over all pairs of each quantity separately (conservative)
+        nx = max(Da + mxa + Db + mxb for (Da, ka, dya, mxa) in stA for (Db, kb, dyb, mxb) in stB)
+        ny = max(dya + dyb for (_, _, dya, _) in stA for (_, _, dyb, _) in stB)
+        kk = max(ka * kb for (_, ka, _, _) in stA for (_, kb, _, _) in stB)
+        return nx, ny, kk
+
+    pairs = {
+        "G": worst_pair(statsG, statsG),
+        "C": worst_pair(statsF, statsG),
+        "S": worst_pair(statsF, statsF),
+    }
+    report["worst_pair_orders"] = {k: {"nx": v[0], "ny": v[1], "kappa2": str(v[2])} for k, v in pairs.items()}
+
+    NX = max(v[0] for v in pairs.values())
+    NY = max(v[1] for v in pairs.values())
+    KK = max(v[2] for v in pairs.values())
+    assert NX <= MAXDER and NY <= MAXDER
+
+    I_NX = involution(NX)
+    I_NY = involution(NY)
+
+    def axis_factor(pshift: int, n: int, I_n: int) -> Fr:
+        """sup over |t| <= 1/2+... of |k^{(n)}(t - 24 p)|, p = pshift >= 0.
+        For p=0: |arg| <= 1 -> |He_n| <= I_n * 2^n, exp <= 1.
+        For p>=1: |arg| in [24p-1, 24p+1] -> I_n (24p+1)^n exp(-(24p-1)^2/2)."""
+        if pshift == 0:
+            return Fr(I_n) * Fr(2) ** n
+        return Fr(I_n) * Fr(24 * pshift + 1) ** n * exp_neg_upper(Fr((24 * pshift - 1) ** 2, 2))
+
+    # lattice sum: sum over (p,q) != (0,0) of ax(|p|) * ay(|q|)
+    def axis_sum(n: int, I_n: int) -> tuple[Fr, Fr]:
+        a0 = axis_factor(0, n, I_n)
+        s = Fr(0)
+        for p in range(1, 4):
+            s += 2 * axis_factor(p, n, I_n)
+        # geometric domination of p >= 4 tail: ratio F(p+1)/F(p) < 2^n * exp(-(576p+264))
+        ratio_bound = Fr(2) ** n * exp_neg_upper(Fr(576 * 4 + 264))
+        assert ratio_bound < Fr(1, 2)
+        s += 2 * axis_factor(4, n, I_n) / (1 - ratio_bound)
+        return a0, s
+
+    ax0, axs = axis_sum(NX, I_NX)
+    ay0, ays = axis_sum(NY, I_NY)
+    lattice = (ax0 + axs) * (ay0 + ays) - ax0 * ay0
+    defect = KK * lattice
+    report["NX"], report["NY"] = NX, NY
+    report["I_NX"], report["I_NY"] = I_NX, I_NY
+    report["kappa2_max"] = str(KK)
+    report["lattice_sum_bound"] = dec_str(lattice, 120)
+    report["uniform_defect_bound"] = dec_str(defect, 120)
+    return defect
+
+
+# ----------------------------------------------------------------------
+# Main verification
+# ----------------------------------------------------------------------
+
+def run(herm=None, mutations=None):
+    mut = mutations or {}
+    res: dict = {"checks": {}, "controls": {}}
+    G, C, S = build_blocks(herm, mut)
+    if "mutate_coefficient" in mut:                 # M5
+        G[0][0] = G[0][0] + LE.mono(Fr(1), 1)
+    if "mutate_coefficient_r3" in mut:              # M5b (argmax-visible)
+        for _i in range(6):
+            for _j in range(6):
+                G[_i][_j] = G[_i][_j] + LE.mono(Fr(1), 3)
+    if "mutate_nonargmax_r3" in mut:                # M5c (argmax-invisible)
+        G[0][0] = G[0][0] + LE.mono(Fr(1), 3)
+
+    # -- regularity + pure-term audit
+    all_regular = True
+    pure_above = []
+    for name, M in (("G", G), ("C", C), ("S", S)):
+        for i in range(6):
+            for j in range(6):
+                if not M[i][j].check_regular():
+                    all_regular = False
+                if M[i][j].has_pure_terms_above(6):
+                    pure_above.append((name, i, j))
+    res["checks"]["all_entries_regular_at_0"] = all_regular
+    res["checks"]["pure_polynomial_terms_above_r6"] = pure_above
+    if not all_regular:
+        raise RuntimeError("entry with non-cancelling negative Taylor coefficient")
+
+    # -- exact limits
+    G0 = [[M.taylor(0) for M in row] for row in G]
+    C0 = [[M.taylor(0) for M in row] for row in C]
+    S0 = [[M.taylor(0) for M in row] for row in S]
+
+    G0_expected = [
+        [1, 0, -1, 0, 0, 0],
+        [0, 1, 0, 0, 0, -3],
+        [-1, 0, 3, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 1, 0],
+        [0, -3, 0, 0, 0, 15],
+    ]
+    C0_expected = [
+        [0, Fr(3, 2), 0, 0, 0, Fr(-15, 2)],
+        [0, Fr(-3, 2), 0, 0, 0, Fr(15, 2)],
+        [0, 0, 0, Fr(1, 2), 0, 0],
+        [0, 0, 0, Fr(-1, 2), 0, 0],
+        [-1, 0, 1, 0, 0, 0],
+        [-1, 0, 1, 0, 0, 0],
+    ]
+    S0_expected = [
+        [Fr(15, 4), Fr(-15, 4), 0, 0, 0, 0],
+        [Fr(-15, 4), Fr(15, 4), 0, 0, 0, 0],
+        [0, 0, Fr(3, 4), Fr(-3, 4), 0, 0],
+        [0, 0, Fr(-3, 4), Fr(3, 4), 0, 0],
+        [0, 0, 0, 0, 3, 3],
+        [0, 0, 0, 0, 3, 3],
+    ]
+    if "G0_expected_flip" in mut:
+        G0_expected[0][2] = 1
+    res["checks"]["G0_matches_carrier"] = G0 == [[Fr(x) for x in row] for row in G0_expected]
+    res["checks"]["C0_matches_carrier"] = C0 == [[Fr(x) for x in row] for row in C0_expected]
+    res["checks"]["S0_matches_carrier"] = S0 == [[Fr(x) for x in row] for row in S0_expected]
+
+    # -- conditional objects
+    y0 = [Fr(6, 5), Fr(0), Fr(0), Fr(0), Fr(0), Fr(2)]
+    G0inv = mat_inv(G0)
+    mean0 = mat_vec(mat_mul(C0, G0inv), y0)
+    cov0 = mat_sub(S0, mat_mul(mat_mul(C0, G0inv), transpose(C0)))
+    mean0_expected = [Fr(-1), Fr(1), Fr(0), Fr(0), Fr(-6, 5), Fr(-6, 5)]
+    cov0_expected = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, Fr(1, 2), Fr(-1, 2), 0, 0],
+        [0, 0, Fr(-1, 2), Fr(1, 2), 0, 0],
+        [0, 0, 0, 0, 2, 2],
+        [0, 0, 0, 0, 2, 2],
+    ]
+    res["checks"]["mean0_matches"] = mean0 == mean0_expected
+    res["checks"]["cov0_matches"] = cov0 == [[Fr(x) for x in row] for row in cov0_expected]
+    res["mean0"] = [str(v) for v in mean0]
+
+    # -- G symmetric & S symmetric (sanity)
+    res["checks"]["G_symmetric"] = all(
+        (G[i][j] - G[j][i]).is_zero() for i in range(6) for j in range(6))
+    res["checks"]["S_symmetric"] = all(
+        (S[i][j] - S[j][i]).is_zero() for i in range(6) for j in range(6))
+
+    # -- series deviations at r_D (exact rational upper bounds)
+    def matrix_deviation(M, rho=R_D):
+        dev = Fr(0)
+        tail_max = Fr(0)
+        for i in range(6):
+            for j in range(6):
+                e = M[i][j]
+                b = Fr(0)
+                for p in range(1, 7):
+                    t = e.taylor(p)
+                    if t:
+                        b += abs(t) * rho ** p
+                tl = e.tail_after(6, rho)
+                dev = max(dev, b + tl)
+                tail_max = max(tail_max, tl)
+        return dev, tail_max
+
+    devG, tailG = matrix_deviation(G)
+    devC, tailC = matrix_deviation(C)
+    devS, tailS = matrix_deviation(S)
+
+    # Uniformity of the at-r_D evaluation. Each deviation bound is a finite
+    # sum of nonnegative multiples of nonnegative powers of rho, hence
+    # nondecreasing in rho; the value at r_D therefore dominates the whole
+    # range (0, r_D]. Verified numerically at a descending ladder of radii.
+    mono = True
+    prev = None
+    ladder = [R_D, R_D / 2, R_D / 10, R_D / 1000, Fr(1, 10 ** 8)]
+    for rho in ladder:
+        v = tuple(matrix_deviation(M, rho)[0] for M in (G, C, S))
+        if prev is not None and not all(a <= b for a, b in zip(v, prev)):
+            mono = False
+        prev = v
+    res["checks"]["deviation_bounds_monotone_in_r"] = mono
+    res["planar_deviation"] = {
+        "G": dec_str(devG, 90), "C": dec_str(devC, 90), "S": dec_str(devS, 90),
+        "tail_G": dec_str(tailG, 120), "tail_C": dec_str(tailC, 120), "tail_S": dec_str(tailS, 120),
+    }
+
+    # -- envelope constants
+    envG = Fr(263, 50) * R_D ** 2      # 5.26 r_D^2
+    envC = Fr(151, 100) * R_D          # 1.51 r_D
+    envS = Fr(101, 100) * R_D          # 1.01 r_D
+    if "shrink_env_G" in mut:
+        envG = devG * Fr(99, 100)
+    res["checks"]["G_series_envelope"] = devG <= envG
+    res["checks"]["C_series_envelope"] = devC <= envC
+    res["checks"]["S_series_envelope"] = devS <= envS
+    # Sensitivity probe: does the deviation still reproduce the RECORDED
+    # value to 50 significant digits?  (Envelope slack alone is insensitive
+    # to high-order coefficient errors; the recorded-value comparison is not.)
+    res["checks"]["G_deviation_matches_recorded_50_digits"] = (
+        agree_sig_digits(devG, RECORDED_G_DEVIATION) >= 50)
+    res["envelope_slack"] = {
+        "G": dec_str((envG - devG) / envG, 6),
+        "C": dec_str((envC - devC) / envC, 6),
+        "S": dec_str((envS - devS) / envS, 6),
+    }
+
+    # -- GP's own periodization arithmetic (as literally claimed)
+    x = (24 - R_D) ** 2 / 2
+    e_lo, e_hi = exp_neg_enclosure(x)
+    pre = 4 * Fr(36) ** 12
+    gp_img_lo, gp_img = pre * e_lo, pre * e_hi
+    amp = Fr(10) ** 42 if "amp_1e42" in mut else Fr(10) ** 30
+    reserve = Fr(1, 10 ** 110) if "reserve_1e110" in mut else TEN70   # M4
+    res["checks"]["gp_reserve_inequality"] = gp_img * amp < reserve
+    res["gp_image_bound_upper"] = dec_str(gp_img, 120)
+    res["gp_image_bound_lower"] = dec_str(gp_img_lo, 120)
+    res["checks"]["gp_naive_r6_below_1e26"] = Fr(1) / R_D ** 6 < Fr(10) ** 26
+
+    # Display-rounding adjudication of the recorded raw_order12_image_bound.
+    gp_recorded_img = Fr(
+        15901998946699009946938351180805571169326886647525, 10 ** 155)
+    res["checks"]["gp_recorded_image_is_valid_upper_bound"] = (
+        gp_recorded_img >= gp_img)
+    res["checks"]["gp_recorded_image_within_enclosure"] = (
+        gp_img_lo <= gp_recorded_img <= gp_img)
+    res["gp_recorded_image_relative_shortfall"] = dec_str(
+        (gp_img - gp_recorded_img) / gp_img, 60)
+
+    # Uniformity audit of GP's stated r^{-6} amplification heuristic.
+    # The heuristic asserts "amplification <= 1e30"; it is evaluated only at
+    # r_D. r^{-6} is DEcreasing in r, so the assertion fails for small r.
+    res["r_where_amplification_reaches_1e30"] = dec_str(Fr(1, 10 ** 5), 12)
+    res["checks"]["amp_1e30_covers_whole_range"] = Fr(1) / R_D ** 6 < Fr(10) ** 30 and (
+        Fr(10) ** 30 >= Fr(1) / Fr(1, 10 ** 12) ** 6)  # false: no uniform cover
+
+    def reserve_holds_at(rr: Fr) -> bool:
+        xx = (24 - rr) ** 2 / 2
+        return pre * exp_neg_enclosure(xx)[1] / rr ** 6 < TEN70
+
+    loR, hiR = Fr(1, 10 ** 8), R_D
+    for _ in range(48):
+        mid = (loR + hiR) / 2
+        if not reserve_holds_at(mid):
+            loR = mid
+        else:
+            hiR = mid
+    res["r_critical_for_gp_heuristic"] = dec_str(hiR, 20)
+    res["r_D_over_r_critical"] = dec_str(R_D / hiR, 6)
+    res["checks"]["gp_heuristic_uniform_on_range"] = reserve_holds_at(Fr(1, 10 ** 8))
+
+    # -- CL uniform periodization lemma
+    plr: dict = {}
+    defect = periodization_lemma(plr)
+    res["cl_periodization_lemma"] = plr
+    res["checks"]["cl_uniform_defect_below_1e-70"] = defect < TEN70
+
+    # -- operator norm chain (all exact)
+    dim = Fr(1) if "no_dimension_factor" in mut else Fr(6)   # M6
+    dG = dim * (envG + TEN70)
+    dC = dim * (envC + TEN70)
+    dS = dim * (envS + TEN70)
+    # Soundness witness for the dimension factor: the all-eps 6x6 matrix has
+    # spectral norm exactly 6 eps, so an entrywise bound alone is NOT an
+    # operator bound. The witness check must hold for the claimed conversion.
+    eps_w = envG + TEN70
+    res["checks"]["dimension_factor_witness"] = dim * eps_w >= 6 * eps_w
+
+    res["checks"]["G0inv_norm_le_3"] = ldl_min_eig_above(G0, Fr(1, 3))
+    eps = 3 * dG
+    res["checks"]["neumann_eps_lt_1e-6"] = eps < Fr(1, 10 ** 6)
+    invG = Fr(3) / (1 - eps)
+    invDiff = 3 * dG * invG
+
+    c0f2 = sum(C0[i][j] ** 2 for i in range(6) for j in range(6))
+    res["c0_frobenius_sq"] = str(c0f2)
+    _, c0f_hi = sqrt_bounds(c0f2, 80)
+
+    ydiff = R_D ** 2 / 6 + R_D ** 3 / 12          # IMPORTED INPUT (finding D2)
+    ynorm = Fr(3)
+    res["checks"]["y_norm_3_consistent"] = (Fr(12, 5) + ydiff) < 3 and Fr(136, 25) <= Fr(144, 25)
+
+    meanDiff = dC * invG * ynorm + c0f_hi * invDiff * ynorm + c0f_hi * 3 * ydiff
+    cBound = c0f_hi + dC
+    covDiff = dS + dC * invG * cBound + c0f_hi * invDiff * cBound + c0f_hi * 3 * dC
+
+    res["checks"]["mean_diff_lt_0.00451"] = meanDiff < Fr(451, 100000)
+    res["checks"]["cov_diff_lt_0.03335"] = covDiff < Fr(3335, 100000)
+    res["delta_ops"] = {"G": dec_str(dG, 80), "C": dec_str(dC, 80), "S": dec_str(dS, 80)}
+    res["inverse_G_bound"] = dec_str(invG, 80)
+    res["inverse_difference_bound"] = dec_str(invDiff, 90)
+    res["mean_difference_bound"] = dec_str(meanDiff, 80)
+    res["covariance_difference_bound"] = dec_str(covDiff, 80)
+
+    # -- envelopes
+    mA, mB, mC = Fr(507, 500), Fr(7, 500), Fr(607, 500)
+    if "tight_env_B" in mut:
+        mB = Fr(9, 2000)
+    vA, vB, vC = Fr(17, 250), Fr(71, 125), Fr(517, 250)
+    res["checks"]["mean_env_A"] = 1 + meanDiff <= mA
+    res["checks"]["mean_env_B"] = meanDiff <= mB
+    res["checks"]["mean_env_C"] = Fr(6, 5) + meanDiff <= mC
+    res["checks"]["var_env_A"] = covDiff <= vA
+    res["checks"]["var_env_B"] = Fr(1, 2) + covDiff <= vB
+    res["checks"]["var_env_C"] = 2 + covDiff <= vC
+
+    # -- fourth moments (exact)
+    def fourth(m, v):
+        if "sd_envelope" in mut:            # M7: treat v as a standard deviation
+            v = v * v
+        return m ** 4 + 6 * m ** 2 * v + 3 * v ** 2
+
+    fA, fB, fC = fourth(mA, vA), fourth(mB, vB), fourth(mC, vC)
+    res["fourth_moments"] = {"A": str(fA), "B": str(fB), "C": str(fC)}
+    res["checks"]["fourth_A_exact_match"] = fA == Fr(9316_range(1,  res["fourth_moments"] = {"A": stb.items():
+             ) == Fr(9316_range(1,  res["Bourth_moments"] = B"A": st60533750):
+             ) == Fr(9316_range(1,  res["Courth_moments"] = C"A": st2cks"]04636:
+             ) (m, v):
+   CTIO Cauchy-Schwarzimed c     t  first d2 ** difA*= f    #1.51 = B"<70
+r(9vG +  fo>four*= "<7((  i-  #1.51 = B)f pt2theirs r(9vG +  + c0f_# M6
+ cz_1410 ** 110) if "resd_upper_h-6"](s r(9vG + ------D INPUT (*= B)        l = mono
+    res["(dC2res[s r(9vG + CL unh = s0 ** 1 {"* = "<7nh =B, vBlo * lo <= x  + R_D ** 3  {"* = dec_str(co["(dC2reo )
+    eo +-----D INPUT (*= Btr(co["(dC2r<= x 2 Fr)  +-----D INPUT (*= Btr(co = moDr(dC,seFr(0str(fC)ed_img <= gp_im[ilG, 120),(dC2reo, 70or k,G, 120),(dC2r / 270o    res["cheM8m exac  res[ LE()
+(x-ypt2 fou2x^ct)
+2y  assed
+    m(x) <e 1e30"; Won.
+   xe_n)
+#ys-m =:
+(x-ypt2 * e_> x^ct)
+yt2 * 2 1e30"twor(6)   # M6
+ 1
+     res["two10 ** 110) if "re3_consixw
+#ywr(6)   # 0, 2, ) == Fr(9316_range(1,  res["two"checks"]["G0(xw --ywre(xx)[foutwor*ixwe(xx)[+utwor*iywmB, vB), fo["cheM9:nctionals
+S[k%es_ry is ssed
+   erteconIfEcrewivatasngep |dives of th witnewoul)| < exacums bracke -- envtP, o.P)
+ E[D_M] E[D_S];dives of thcific), 12fereu2fe(Cauchy-Schwarz)D
+    d
+    (delta_kit. == Fr(9316_range(1,S[k%es_ry isandt_asngep ]["G0"asngep_S[k%es_ry is"        mutB), fo["cheP0.1 + D_jqulta_k R_D) ** 2 /Fr(0), Fr(0),n GP-DER-204/206   putC0[i][jpB        mid = (48) == Fr(9316_range(1,p01_quotible) R_D) ** 2 Fr(144, 2  [0m ovB    cover
+
+ 5eturnvB   12 dim = Fr(1)M10: quotibleke re"E" in Autwardt."""
+    rowsDENOMINATORD
+    d
+ ax(|p|) ward-."""
+ rowsquotible. Won.
+  :   me_n)
+#dring 3],
+ 2];dusly decrethe nreo )
+1 yieldsn)
+#bu    f(  m/e n - d1/2 1e30"  m,he nreo,he nr<= x )   # 0, 21at_vec(m * inv res["c=   mef2 e nreo M6
+ quotible)e re"E" i  res["checks0) if e nr<=) == Fr(9316_range(1,quotible)e re"E" i checks"]["G0v res["c<=   mef2e nr<=
+------------r(9i][j] forin             for kb, ")
+    reatc"CL-DQ001
+S[k%es_ry t-------------
+    #-DER-208/ #-DATA-208"A == Fsr = jPa" ingp208_s rece.py").The _byt
+   ------j= jPa" ingp208_r(9ult.json").The _byt
+   -----b
+  s_ats rece_sha251 - ephashlib.sha251(sr ).hexdigest  -----b
+  s_atr(9ult_sha251 - ephashlib.sha251(rj).hexdigest  -----b
+  s_ats rece_byt
+ 3 * dGen(sr )-----b
+  s_atr(9ult_byt
+ 3 * dGen(rj) == Fr(_img = = json.loa 3 rj.k,Gode( plr: diorintr(9L unun  -----b
+  sorin_C"] =rintr(9
+el
+    while- 50)
+__ = vsFr(_img = fields == FsbL uni_img =["ity proD ** 3"ix_devmp_L uni_img =["
+      pifiurb: dec_s
+) >= 50)
+kb, vb in b.itee in     g 3]0)
+
+    # "visiG, 90),Gchecky, "C": dec_, =rintr(9evG, 90), "C": dec_s[: d]),
+    }
+
+  "visiG, 90),Cchecky, "C": dec_, =rintr(9evG, 90), "C": dec_s[:Cd]),
+    }
+
+  "visiG, 90),Schecky, "C": dec_, =rintr(9evG, 90), "C": dec_s[:Sd]),
+    }
+
+  "visiG_v, b + tl)    , =rintr(9evG, 90), "C": dec_s[:(tailC,]),
+    }
+
+  "visiC_v, b + tl)    , =rintr(9evG, 90), "C": dec_s[:(tailCd]),
+    }
+
+  "visiS_v, b + tl)    , =rintr(9evG, 90), "C": dec_s[:(tailSd]),
+    s = Fr(0)
+  50)
+[ee for i50)
+    res["env = s.startswith   at_sb[ee f)b in b.itee in     g 3]0)
+
+    # "tr(dC,G_ the cla , =rintr(9evtr(dC, 80),[: d]),
+    }
+
+  "tr(dC,C_ the cla , =rintr(9evtr(dC, 80),[:Cd]),
+    }
+
+  "tr(dC,S_ the cla , =rintr(9evtr(dC, 80),[:Sd]),
+    }
+
+  "inverse_differen, =rintr(9evinverse_differenc),
+    }
+
+  "inverse_# -- envelopes
+  , =rintr(9evinverse_# -- envelopes
+   ),
+    }
+
+  "v    res["covariance_d, =rintr(9ev
+    res["covariance_di),
+    }
+
+  ", 80)
+
+    # -- envelopes
+  , =rintr(9ev, 80)
+
+    # -- envelopes
+   ),
+    s = Fr(0)
+  50)
+[ee for i50)
+    res["env = s.startswith   at_mp_[ee f)b in  50)
+[oDr(dC,seFr(0str(fC)epes
+    mAi50)
+    res["envbounds_mon= s.startswithrintr(9evDr(dC,seFr(0str(fC)ed_img <= gpihil, ** 2
+
+    _img =[" dC
+aliz]["g[oDr(dC,seFr(0str(fC)epes
+   )b in  50)
+[oFr(
+        15901998946_ovev resg >= g   mAeturvbounds_mon= s.startswithrintr(9ev   res["gp_image_boundb for a, b<= n= s.startswit"1.591e-106") -----b
+  ses["e_ 50)
+__ =_vgits(devG,   mAi50)
+ ax(|p|) row ly -, Fr(0cums ngtion_matchesagrinmax(in S0_Blo * lL uni_img =[" row ly _, Fr(0_s
+) >=  """= s.sfrac(stch"]|k^{(n)}(t - 24 p_neg_upperC0[i][j(in S0__ok/ 2, R_D / 1G0c PINS]= s.sfrac(res["mean0"] = [str(v) for vlo1, 3"]0, 0, Frc PINS]= s.sfrac(res["mean0"] = [str(v) for vlo1,C3"]0, 0, Src PINS]= s.sfrac(res["mean0"] = [str(v) for vlo1,S3"]0, 0, # musE:j(in S0_ctedrted)15/4 n mut: ** 13s;------ysagrinmaxmyow] fortedor no.mutate_coefficient" in mut: r(0), Fy    C0 eexpected = [
+  eor M in row] for row in C]
+myC   C0 eexpected = [
+  eor M in row] for rowCin C]
+myS   C0 eexpected = [
+  eor M in row] for row) for tb
+  s(in S0__ow] for _C"] =yted]
+ G0cfor tb
+  s(in S0__Cw] for _C"] =yted]
+ C0cfor tb
+  s(in S0__Sw] for _C"] =yted]
+
+S0cfor tb
+  s(in S0__es["checks"ric & S symmetric (sa7, 250), Fub(S0, mat_mul(=yte,inv), y0)=yte0, (   G0i5),= [
+  = [
+  = [
+  = [
+  = [2)])]d]
+
+lo1,ymmetrinv), transpose(C0)))=yte   mean0_expected =yte,inv), y0)=yte0, (r(1), Fr(0=yte)) -----b
+  s(in S0__, 80)
+
+   checks"ric &  S symmetric (san = [str(v) for v in ]d]
+
+lo1,, 80)
+
+   c"]rror("entry (b
+  s(in S0__ow] for _C"oduct
+  s(in S0__Cw] for _C"oduct
+  s(in S0__Sw] for _C# M7: treat(in S0__ok/ 2tion_bim = Fr(111111111111111limits
+    mut)
+  nvelec rho,ed
+   erms)
+    r(111111111
+ll 0 < r 
+  nb, vb in mut:   res(tag, fn,tee # M7: treat   finally:
+ 24 p_] = n            forv + r316_range(1ee f
+factorial(j), fa 
+  [tag    re  redatc(p(v, r _ inrm,  = Fadevia.ite}one:
+      cept E cept24 - s   
+    anegativ _ o  L_j)s- s   rly decreorial(j), fa 
+  [tag    re  redatc, R_rm,e cept24 atch"] ex)[:100]vb in m  res("NC1  res_ier"] = C0 "tive bda:unun res: dict {0][2] = 1
+    res[: 1}l, ** 2
+
+    row] for row in G0_e) in m  res("NC2[s r(9vG +_141tive bda:unun res: dict {0cz_141: 1}l, ** 2
+
+    r["(dC2res[s r(9vG + ) in m  res("NC3_= Fr(1, 1tive bda:unun res: dict {0= Fr(1, 1: 1}l, ** 2
+
+    re
+    res["gp_image_bo) in m  res("NC4_   vA, vB, vtive bda:unun res: dict {0   vA, vB, v: 1}l, ** 2
+
+    r["mean_env_) in m  res("NC5  h = (h_DERI_bugvtive bda:unun  or {
+    polys = [{0: Fr(1)=, R_)l, ** 2
+
+    row] for row in G0_e) in m#  #-REQ-209 se"E" i 5p_nqu red "controls in m  res("M1_1
+        fC0)) xsigdec_, ve bda:unun res: dict {01
+        fu: 1}l, ** 2
+
+    rCw] for row in G0_e) in m  res("M2_2
+      M,S_  pinFr(1)s_, ve bda:unun res: dict {02
+        pins: 1}l, ** 2
+
+    rCw] for row in G0_e) in m  res("M3or __sly re_po      trow, ve bda:unun res: dict {02
+        trow: 1}l, ** 2
+
+    row] for row in G0_e) in m  res("M4    res["or norres["gp_ima_, ve bda:unun res: dict {02
+checks"]["gp: 1}l, ** 2
+
+    re
+    res["gp_image_bo) in m  res("M5a_5c (argity promax-visible)      ", ** 2
+
+    ve bda:unun res: dict {05
+        G[0][0] =: 1}l, ecks"]["C_series_en) in m  res("M5b_5c (argity promax-visible)     3", ** 2
+
+    ve bda:unun res: dict {05
+        G[0][0] ible: 1}l, ** 2
+
+    ro     agree_sig_digits(devG, RECORDED_G) in m# ] + irm orEXPECTED-SILENTRECORD2_max"] ed       oduce the R["y_nor.mutat_m5cL unun res: dict {05
+     max-invisible: 1}l
+ll 0 < r 
+  ["M5c max-invisibl_    r_ECORDG, 6),
+        "  redatc}
+   
+        "e heu   i"EXPECTED-SILENTR( oduce the R["y_norf peria0 < r 
+ )", ** 2
+
+  r["t 1
+   by_anyits(devG, field":        mdecreorial(j)_m5c316_range(1e)]
+
+
+def mdecreorial(j)hecks"]["C_series_en, ro     agree_sig_digits(devG, RECORDED_Gil, ** 2
+
+  "r.
+ 4 atcmdecreorial(j)" #-DATA-208uni_imgsso thes r(_k Rnvis cc
+ = s]
+
+
+d108uo an en"decreorial(j)"hecks"]. An O  #     rng.
+    r^3son is not.)
+_n:     # Rnvis "decreorial(j)"heckysionng   d
+Fr(_img = field"oducviolumerid
+Fseries_e."{"nx": v[0],   res("M6_bound. Th_recot
+  dG = dim * (envG , ** 2
+
+    ve bda:unun res: dict {0   dG = dim * (envG : 1}l, e eps_w
+
+    res["checks"]) in m  res("M7_80)
+
+     - devG) as_  return, "C": dec_, ** 2
+
+    ve bda:unun res: dict {0s a standard: 1}l, e  res["fourth_moments) in m  res("M8_1
+     res["two    Dr(dC,s_n(x)_, ** 2
+
+    ve bda:unun res: dict {01
+     res["two1: 1}l, e  res["two"checks"]) in m  res("M9_asngep [check_a_S[k%es_ry is", ** 2
+
+    ve bda:unun res: dict {0asngep_S[k%es_ry is": 1}l, eS[k%es_ry isandt_asngep ]) in m  res("M1ECOened nums[" wardgp_imagr_D_quotible", ** 2
+
+    ve bda:unun res: dict {0quotible)e re"E" i  res[: 1}l, ** 2
+
+    rquotible)e re"E" i checks"]l
+ll 0 < r 
+  ["M11C0))stit rh_nnegat_Q4 [check_a_S, FUNCT_s["ce  vAG, 6),
+        "  redatc}
+   
+        "e heu   i"CANmus-EXECUTE", ** 2
+
+  "r.
+ 4 atcmdecreorial(j)"Nei_D]. frozenj(in S0_c  # 5ruordeg where theide-24 field"Q_{6,rerm,decreorial(j)"rows_G imum/saddle typeor d.
+  ors, EN70
+  full-field"["t rd nu.)
+,decreorial(j)"ce  vA W_r^{ere t};so thes e -> m = six-pr v i(0), Fr   res
+,decreorial(j)"populumeconverrs sse_D]. Verifd
+Fnnegat-Q4), Fr(0ng.
+    frozenj,decreorial(j)")
+    res-val0))stit rh_k| _img = arm orN1/N11 populum" i gaprm,decreorial(j)"         prms)d "control."{"nx": v[0], t
+  simits
+  _ mut)
+   ] = Frut)
+  s_lt_1lec rho[2])} fvfor v in pairFrut)
+  ues())
+ ("envc)
+  "  reda)(v, prev)):
+v[0], t
+  sFrut)
+  _1lec rho3 * dGen(1lec rho)[0], t
+  sFrut)
+  _  reda] range(1etric (san1lec rhoXDER
+
+   ("env["  reda])[0], t
+  swithFrut)
+  _  reda] ra   mv["  reda]etric (san1lec rhoXDER
+
+   )bim = Fr(111111111111111l   for k  putC------------------------
+
+def run(herm=No
+ll 0 <re * [7, 250), Fuintr(9ev,_range(1e)        acc =  g 3]0)
+
+    #l(j)")["checks"]["pure_polynom, row] for row in G0_e, rCw] for row in G0_e,0)
+
+    #l(j)"Sw] for row in G0_e, res["checks"]["rm, mvchecks"]["rm,).is_zero() ,0)
+
+    #l(j)"S.is_zero() , ecks"]["C_series_en, rcks"]["S_series_en,0)
+
+    #l(j)"S.i"]["C_series_en, re
+    res["gp_image_bo, re
+ 0) ** 26
+
+    # Disp,0)
+
+    #l(j)"0
+
+    # -- operator norm chai, row))
+    eps = 3,0)
+
+    #l(j)"  invG = Fr(3) / (1 , r and Fr(136, 25) <= , res["
+    res["checks",0)
+
+    #l(j)"00)
+    res["delta_o, cks"]["mean_, r["mean_env_, r["mean_enC",0)
+
+    #l(j)"var_env_B", ["checks"][, ["checks"    e  res["fourth_moments,0)
+
+    #l(j)"  res["Bourth_moments  e  res["Courth_moments  e["(dC2res[s r(9vG + ,0)
+
+    #l(j)"p01_quotible) R_D) ** 2   e["planar_deviation"] = {
+      ,0)
+
+    #l(j)" eps_w
+
+    res["checks"], e  res["two"checks"],0)
+
+    #l(j)"S[k%es_ry isandt_asngep ], rquotible)e re"E" i checks"],0)
+
+    #l(j)"o     agree_sig_digits(devG, RECORDED_G,0)
+
+    #]n0 == mean0t
+  swd      ["y_norsG, 6),
+        } fFuintr(9ev,_range(1e)        acc =  g 3]0)
+
+    #l(j)"      gp_recorded_img >= gp_img)
+    re,0)
+
+    #l(j)"      gp_recorded_recorded_img <= g,0)
+
+    #l(j)"6 < Fr(10) ** 30 and (
+     ,0)
+
+    #l(j)"   (Fr(1, 10 ** 8))
+
+    # -- ,0)
+
+    #]n0 ==v[0], t
+  s)
+    res["r_D_over_r_critical"]Fuintr(9ev)
+    res["r_D_over_r_critica[0], t
+  s)
+ res["checks"]["gp_heuFuintr(9ev)
+ res["checks"]["gp_-----b
+  s_atr(      (gp_img - gp_recorded_img) / gFuintr(9e
+   #l(j)"      gp_recorded_ - gp_recorded_img) [0], t
+  sFrr _ _rang_prms)da] range(1etriccpairFrrs sf + irm, R_)[0], t
+  sFrr _ _rang_eriva3 * dGen(Frr )[0], t
+  swithFrr _ _rang_prmsa] ra   m+ irm, R_etriccpairFrrs ----t(in S0__ok[0], t
+  sbove.append((nam    raisFuintr(9ev,_range(1    if not all_regular:
+        rbim = Pa" in0
+
+dq001_r(9ults.json").wrgat_t
+   
+   #l(j)json.dumps(b
+ ,
+S[k%nt=2,he fault=h"]|k+ "\c_, d_io_nor="utf-8"img = prk_anjson.dumps()} ft
+  ))]
+
+
+def mae
+   #l(j)"   s rece_sha251 , re
+    ult_sha251 rm, mr _ _rang_prms)da, ** 2
+
+  "Frr _ _rang_eriva3, swithFrr _ _rang_prmsa, swithFrut)
+  _  reda, ** 2
+
+  "Fin S0__ow] for _, s(in S0__Cw] for _, s(in S0__Sw] for _, ** 2
+
+  "Fin S0__es["checks"r, s(in S0__, 80)
+
+   checks"ri},
+S[k%nt=1)img = prk_anses["e  50)
+__ =:r, json.dumps(b
+  ses["e_ 50)
+__ =_vgits(devG,  ,
+S[k%nt=1)img = prk_anseh-order coeff: , =rintr(9ev - devG) / envG,img = prk_ans    defe opera: , =rintr(9ev]["cl_uniform_defect_bel
+    return defect
+
+
+# -[:6n pai..."img = prk_anoDr(dC2 d_img <= : , =rintr(9evDr(dC,seFr(0str(fC)ed_img <= gpi0-[:40,img = prk_ansFrut)
+  : , )} fvc)
+  "  reda)(or v in pairFrut)
+  ues())
+ })bi
+sf __ular__d]
+
+"__=rint_":r: diorin()

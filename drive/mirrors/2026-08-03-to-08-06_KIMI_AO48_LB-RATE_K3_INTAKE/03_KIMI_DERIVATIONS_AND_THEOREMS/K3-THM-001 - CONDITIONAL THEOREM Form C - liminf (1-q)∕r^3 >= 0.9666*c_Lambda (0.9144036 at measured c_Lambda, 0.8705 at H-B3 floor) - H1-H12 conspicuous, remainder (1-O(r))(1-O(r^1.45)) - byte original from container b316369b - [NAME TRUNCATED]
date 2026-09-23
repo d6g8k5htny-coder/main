@@ -1,0 +1,135 @@
+# K3-THM-001 — CONDITIONAL THEOREM (successor assembly of record, K3 swarm)
+
+**Status marker:** CONDITIONAL THEOREM — the strongest valid result the K3 campaign establishes at mint
+date. Every hypothesis and named conditional is inside the theorem statement (Section 1). This is not an
+unconditional theorem; it changes no LS-CTL Boolean, eligibility predicate, theorem status, RP status,
+AO48 operator record, or q0 package status. The ratified upper chain (AO48-OPR-045) is untouched.
+KIMI-THM-023 v1.0 and the v1.1 HOLD draft are preserved unchanged; this document supersedes nothing
+externally and cites its own dependency DAG (Section 3) with hash-bound receipts.
+
+Date: 2026-08-05. Owner: KIMI lead coordinator. Gate status at mint: G0/G1/G6/G12(red-team) PASS;
+G2/G3 [W3 in flight]; G4 PASS per-certificate; G5 PASS with named premises conspicuous; G7–G11 as stated.
+
+## 1. Theorem (conditional form, Form C of W10's composition)
+
+For the exact normalized periodized Bargmann–Fock field on the flat side-24 torus T²₂₄ (Var f = 1,
+spectral masses e^{−|k|²/2} on (π/12)ℤ²), level b = 6/5, window width ℓ = r³/6, with q(r, 6/5) the typed
+pair-Palm probability of elder-rule pairing success (estimands per Section 4):
+
+$$
+\liminf_{r \to 0} \frac{1 - q(r, 6/5)}{r^3} \;\ge\; \mathrm{AO}^0 \cdot c_\Lambda \;=\; 0.9666 \cdot c_\Lambda,
+$$
+
+with the following hypothesis set, each item at its stated tier:
+
+(H1) c_Λ: the Λ-side window-passage constant, any positive r-uniform value. Tiers at mint (W8,
+     certificate-standard formal nonclosure KIMI-DER-027c_NONCLOSURE.md b9ca525d…): 0.946 (measured),
+     0.9091 (derived-on-grid), 0.9001 (certified floor, conditional on the single named premise H-B3:
+     per-cell third-derivative constant B₃ = 8× the local exact third-difference quotient, rung-stability
+     machine-checked, explicit falsifier). The r → 0 limit object is certified; the r* continuity radius
+     is not (part of the nonclosure; the exact missing piece is a certified cell-sup σ(D²λ) / regional
+     sup|D³λ| — interval evaluation amplifies cancellation junk ~7500×, global sup-bounds compound
+     ≥10¹⁰×, both documented). At c_Λ = 0.946 measured the liminf constant is 0.9144036…; at the
+     H-B3-conditional certified floor 0.9001 it is 0.8705… (mixed-tier anchors, NOT fixed proved
+     constants; Section 5 keeps the tiers distinct).
+(H2) FAR: the far channel's single-crossing bound (selection lemma, R3′/C028 grade) with sup p̄ = 0.0334
+     measured, giving AO⁰ = 1 − 0.0334 = 0.9666 at measured tier; the theorem far tier
+     AO⁰ = 0.089569·P₀ (P₀ > 0 by the support theorem) is the existential alternative (Form B,
+     Section 6).
+(H3) WP: the window-pass modulus E⁰_r[N_ws(B₃∖collars)] ≤ 3.5e-3·r^{3/2} on (0, 0.05] (W6,
+     exact-integrand grade, validity PROVED), hence WP(r) → 0, subject to the single named premise
+     P-mono: d log I_WP/d log r ≥ 3/2 on (0, 0.05] (measured discrete slopes 1.66–2.37, asymptote → 3;
+     C-3 pattern, conspicuous).
+(H4) ABOVE-B SADDLE: LB-1's six-rung localized closure (E/tol 1.7e-23 → 2.5e-506), its bounds
+     conservative (red-team B2 note: its D2 display is inflated by a mean-dropping Isserlis form; the
+     bounds remain valid; margins absorb the factor).
+(H5) RIDGE: ridge split = 0 (LB-2 frozen rungs) with the r-uniform Kantorovich continuation of the mean
+     census at house grade on [1e-6, 0.05] (W9c; named mesh cap disclosed).
+(H6) R2: near term 0.1759·r³ (derived-structure + measured constants; the (9−2.25) corrected reading;
+     misprint registered).
+(H7) EXIT: measured channel (exit = 0 at the measured tier; mp-exact instrument, negmass 2e-15).
+     Theorem-grade exit modulus: P-NMZ-γ (C-1) or any other explicit exit modulus — REQUIRED ONLY for
+     Form A (Section 6), NOT for the liminf form here, whose exit requirement is o(1).
+(H8) R0: degenerate connections have probability 0 (SARD-G at specialist-reviewed-conditional grade).
+(H9) γ-LOC: discharged-by-minimality for Forms B/C/D (W7): the terminal-value floor is the constant
+     c_cond/2 > 0 with r₀(P₀) = 0.634887184·P₀^{1/3}; no 1−O(exp) rate is consumed.
+(H10) Measurability and the exact Palm disintegration (FOUNDATION conversion verdicts E0/E2);
+     Bulinskaya regularity (standard-tool grade).
+(H11) The honest remainder form is (1 − O(r))·(1 − O(r^{1.45})), NOT (1 − O(r³)) (W10/W6).
+(H12) Measured-grade inputs (H1 at 0.946, H2 at 0.0334, H7, AO⁰'s measured lineage) are diagnostic and
+     never become theorem constants; the liminf constant inherits the weakest consumed tier (measured/
+     mixed tier at mint).
+
+## 2. What this theorem does NOT claim
+
+- No fixed proved constant and no explicit r₀ at theorem tier today: an explicit-r₀ unconditional theorem
+  (Form A) requires a certified r-uniform Λ-side constant (H1), a theorem-grade exit modulus (H7), and a
+  P₀-floor for the explicit constant (H2's alternative). None is minted at mint date; each is a named
+  obligation in OPEN_OBLIGATIONS.md.
+- No use of the refuted WP bounds (the missing-CS-root artifacts; quarantined) and no use of the v1.1
+  HOLD draft's placeholders.
+- No change to any Boolean, eligibility predicate, theorem status, RP status, AO48 record, or q0 status.
+
+## 3. Dependency DAG (hash-bound receipts)
+
+| node | receipt | tier |
+|---|---|---|
+| WP chains (G1) | W2_DERIVATION 26e2d1dd… + LEAD (+ B2 addendum) | frozen symbolic, red-team HOLDS |
+| WP modulus | W6_REPORT 752bd2eb…, w6_wp2.py (exit 0 both modes) | exact-integrand grade, validity PROVED |
+| WP estimate (evidence) | lead 4.7602e-6; W4 4.7569e-6 (669401f7…); reconciled full channel 7.50e-6 | derived-on-grid estimate |
+| WP forensic | W5_REPORT 9b033b57… | provenance verified |
+| γ-LOC | K3_W7 audit 03f2e944… + r₀ addendum c0dedd63… + scope addendum 659e0bf9… | discharged-by-minimality |
+| Λ-side | KIMI-DER-027c_NONCLOSURE b9ca525d… (formal nonclosure; missing piece named; transcripts in flight with resumable caching) | certificate-standard nonclosure; certified floor 0.9001 conditional on H-B3 |
+| Far scope | W9a cdf8c973… (d = 3 interval grade; continuation (0, 1/20]) | interval-grade scope |
+| Ridge scope | W9c 5b8ef639… (r-uniform [1e-6, 0.05] house grade) | house-grade continuation |
+| Composition | W10_REPORT 67c7fe63… | frozen, red-team HOLDS |
+| Methods | W11_REPORT 5dcd89be… | methods support |
+| Red team | W12_AUDIT 5e6b00bb… (B1–B4 closed/corrected/re-scoped) | complete |
+
+## 4. Estimands and the η_r firewall
+
+q(r, 6/5) = p_r := P⁰_r{D(M) = S} (typed merge-tree pairing). p_r = a_r·q_r^adj + η_r stated explicitly;
+the lower-bound chain incurs NO η_r loss (built from ω-limit and merge-tree events; W10 verified, also
+avoiding the adjacency-measurability gap). η_r is load-bearing only upper-side: I_r·q_r^adj = J_r·(p_r − η_r).
+Every typed-to-adjacent transfer retains η_r. Elder-rule pairing and gradient adjacency are never
+conflated; p_r, q_r, q_r^adj, and the ratified upper theorem are distinct.
+
+## 5. The four tiers (kept distinct per the work order)
+
+1. **Fixed proved constant:** none minted.
+2. **Asymptotic limiting coefficient:** AO⁰·c_Λ → 0.9666·c_Λ as r → 0 (at c_Λ = 0.946 measured:
+   0.9144036…).
+3. **Measured-grade anchor:** the register's measured floor (0.87-class).
+4. **Direct numerical estimate:** I_WP(rigidity zone, r = 0.025) ≈ 4.76e-6 (two independent pipelines,
+   0.07%); full channel ≈ 7.50e-6 = 0.48·r³; the falsified budget 0.213·r³ = 3.328125e-6 is exceeded
+   (rigidity piece 1.43×, full channel 2.25×) — EVIDENCE grade; the formal refutation is W3's box
+   integration [in flight].
+
+## 6. Forms B and A (recorded, not minted)
+
+- **Form B (existential):** for every P₀ > 0 there EXISTS r₀ > 0 with the floor ≥ c_cond/2 > 0 on
+  (0, r₀] (W7's r₀(P₀) = 0.634887184·P₀^{1/3}); P₀ > 0 free (support theorem). Requires H1's Λ-side at
+  any positive r-uniform constant. One-line statement; no explicit constant.
+- **Form A (unconditional explicit):** 1 − q ≥ c·r³·(1 − O(r))·(1 − O(r^{1.45})) for every 0 < r ≤ r₀
+  with fixed conservative c > 0 and explicit r₀. Requires: certified r-uniform Λ-side constant (H1 at
+  certified tier), exit modulus (H7), P₀-floor (explicit c), and the WP modulus with P-mono discharged
+  or carried. NOT minted today; each requirement is a named obligation.
+
+## 7. Falsifiers (assembly level)
+
+- WP: a certified count or exact integrand value violating I_WP(r) ≤ 3.5e-3·r^{3/2} at a covered rung,
+  or P-mono failing against a station of record (rerun w6_wp2.py: any nonzero exit).
+- Composition: a failure-mode exhibit outside F0–F3 (W10's verified trichotomy).
+- Λ-side: an off-grid excursion beyond a minted net-spacing margin (W8's kill condition).
+- γ-LOC: any node of Forms B/C/D consuming a 1−O(exp) terminal-value rate (W7's F4).
+- Red-team repeat: any B1–B4-class defect in a consumed artifact (rerun W12's re-executions).
+- Any consumed input failing its whole-file hash (G0).
+
+## 8. Operator handoff
+
+The assembly of record is the CONDITIONAL liminf theorem of Section 1 at measured/mixed tier, with the
+WP channel closed at the exact-integrand modulus grade, the old WP budget refuted at estimate grade
+(formal refutation in flight), and Forms A/B recorded with their exact missing pieces. Next milestones:
+W3's formal lower bound (refutation upgrade), W8's Λ-side successor (H1 certified tier), the non-γ-LOC
+exit modulus (Form A's exit node), and the P₀-floor (explicit constant). Clean-room reproduction
+(REPRODUCTION.md) precedes any use of this document outside the campaign record.

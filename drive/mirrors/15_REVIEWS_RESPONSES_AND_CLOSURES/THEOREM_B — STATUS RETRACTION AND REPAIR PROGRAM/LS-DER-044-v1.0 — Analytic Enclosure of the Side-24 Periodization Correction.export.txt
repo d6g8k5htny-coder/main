@@ -1,0 +1,364 @@
+﻿CURRENT SUCCESSOR STATUS — 2026-07-28
+LS-DER-045-v1.0 sharpens this coarse enclosure and closes the side-24 correction sign:
+https://docs.google.com/document/d/1LzM9tfmG_nrl_3X0ewIlx-4ZLGwR0RyiSjC2VtDsD8U/edit
+The bound |c_24-c_infinity|<10^(-100) survives. The frozen statement that the sign remained open is historical and superseded by the relative interval (-2.1824,-2.1823) x 10^(-118).
+[[SUCCESSOR:LS-DER-045]] [[COARSE-ENCLOSURE:SURVIVES]] [[SIGN-OPEN:SUPERSEDED]] [[FROZEN-BODY:UNCHANGED]]
+
+
+LS-DER-044-v1.0 — ANALYTIC ENCLOSURE OF THE SIDE-24 PERIODIZATION CORRECTION
+
+
+Artifact ID: LS-DER-044-v1.0
+Dispatch: DQ-067
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / EXPLICIT PERTURBATION BOUND / FINITE-TORUS COEFFICIENT ENCLOSURE
+Authority: same-OpenAI-family analytic candidate only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: COMPLETE COARSE ANALYTIC ENCLOSURE CANDIDATE / CORRECTION SIGN NOT CERTIFIED
+BODY_BYTES: 7783
+BODY_SHA256: ca4c831408a86c1d355c04dff23700add27c1661c819801d9450b8effd00c460
+
+
+CONTROLLING INPUTS
+GP-DER-044-v1.0 — normalized periodized kernel and exact-torus Gaussian regularity.
+LS-DER-042-v1.0 — exact planar coefficient.
+LS-DER-043-v1.0 — exact finite-L angular coefficient formula and side-24 numerical candidate.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_SIDE24_ENCLOSURE_FROZEN_BODY and strictly before the unique full line END_SIDE24_ENCLOSURE_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace and any initial LF. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM. Fail closed on marker absence or multiplicity.
+
+
+BEGIN_SIDE24_ENCLOSURE_FROZEN_BODY
+ANALYTIC ENCLOSURE OF THE SIDE-24 PERIODIZATION CORRECTION
+
+
+1. TARGET
+
+
+Let c_24 be the exact specific coefficient defined by the side-24 angular integral of LS-DER-043, and let
+
+
+    c_infinity
+      =2^(2/3)3^(5/6)Gamma(1/6)/(54pi^(3/2))                     (1)
+
+
+be the exact planar coefficient of LS-DER-042.
+
+
+The objective is a conservative analytic bound on
+
+
+    |c_24-c_infinity|                                            (2)
+
+
+that does not rely on the sign or final digits of the 220-digit floating-point computation.
+
+
+2. PERIODIZED DERIVATIVE-MOMENT TAIL
+
+
+For
+
+
+    k_L(t)
+      =[sum_{n in Z}exp(-(t+nL)^2/2)]
+       /[sum_{n in Z}exp(-(nL)^2/2)],                             (3)
+
+
+let
+
+
+    m_j(L)=k_L^(j)(0),  0<=j<=6.                                  (4)
+
+
+The planar moments are
+
+
+    m_0(infinity)=1,
+    m_2(infinity)=-1,
+    m_4(infinity)=3,
+    m_6(infinity)=-15.                                           (5)
+
+
+For even j,
+
+
+    d^j exp(-u^2/2)/du^j
+      =He_j(u)exp(-u^2/2),                                       (6)
+
+
+where He_j is the probabilists' Hermite polynomial. At L=24, the denominator in (3) is at least one, and direct comparison of the n=+/-1 image terms with the n>=2 Gaussian tail gives
+
+
+    max_{j in {0,2,4,6}}
+      |m_j(24)-m_j(infinity)|
+      <10^(-116).                                                (7)
+
+
+A sufficient elementary estimate is obtained from
+
+
+    |He_j(x)|<=(1+x)^6,  j<=6, x>=0,                             (8)
+
+
+followed by the ratio bound on
+
+
+    (1+24n)^6 exp[-(24n)^2/2].                                   (9)
+
+
+The n=1 contribution is below 4 x 10^(-117), while the complete n>=2 tail is below 10^(-490). The rounded bound (7) is deliberately conservative.
+
+
+3. COVARIANCE-BLOCK PERTURBATION
+
+
+Every covariance entry used in LS-DER-043 has total derivative order at most six. The l1 norm of the Cartesian expansion of a directional derivative of order d is at most
+
+
+    (|cos theta|+|sin theta|)^d<=2^(d/2).                         (10)
+
+
+For two operators with total combined order at most six, the product expansion has l1 norm at most eight.
+
+
+All planar even moments through order six have absolute value at most 15. From (7), each product of one-dimensional moments changes by less than
+
+
+    33 x 10^(-116).                                              (11)
+
+
+Therefore every entry of the pin covariance Sigma_theta, the q-to-pin vector v_theta, and the scalar Var(q_theta) changes by less than
+
+
+    epsilon_entry=3 x 10^(-114)                                  (12)
+
+
+uniformly in theta.
+
+
+For the six-by-six pin covariance,
+
+
+    ||Sigma_24(theta)-Sigma_infinity||_2
+      <=6 epsilon_entry
+      <2 x 10^(-113).                                            (13)
+
+
+4. UNIFORM INVERSE CONTROL
+
+
+The planar pin covariance splits into the two nontrivial blocks
+
+
+    [[1,-1],[-1,3]],
+    [[5/48,1/4],[1/4,1]],                                        (14)
+
+
+and two unit coordinates. Direct two-by-two eigenvalue calculation gives
+
+
+    lambda_min(Sigma_infinity)>1/32.                              (15)
+
+
+Hence
+
+
+    ||Sigma_infinity^(-1)||_2<32.                                (16)
+
+
+Equations (13) and (16) imply
+
+
+    ||Sigma_infinity^(-1)(Sigma_24-Sigma_infinity)||_2
+      <7 x 10^(-112).                                            (17)
+
+
+The Neumann resolvent identity therefore gives
+
+
+    ||Sigma_24^(-1)||_2<33,                                      (18)
+
+
+    ||Sigma_24^(-1)-Sigma_infinity^(-1)||_2
+      <3 x 10^(-110).                                            (19)
+
+
+All bounds are uniform in theta.
+
+
+5. PERTURBATION OF THE ANGULAR PARAMETERS
+
+
+Use the exact angular parameters of LS-DER-043:
+
+
+    A=(1/2)e_b^T Sigma^(-1)e_b,
+    B=(1/2)e_kappa^T Sigma^(-1)e_kappa,
+    mu=v Sigma^(-1)e_b,
+    sigma^2=tau-v Sigma^(-1)v^T,
+    N=(2pi)^(-3)(det Sigma)^(-1/2).                               (20)
+
+
+At the planar point,
+
+
+    A_infinity=3/4,
+    B_infinity=1/3,
+    mu_infinity=-1,
+    sigma_infinity^2=2,
+    N_infinity=sqrt(3)/(4pi^3).                                  (21)
+
+
+Equations (12), (18), and (19), together with ||v_infinity||_2<2, give the conservative uniform bounds
+
+
+    |A_24-A_infinity|<2 x 10^(-110),                              (22)
+
+
+    |B_24-B_infinity|<10^(-111),                                 (23)
+
+
+    |mu_24-mu_infinity|<10^(-109),                               (24)
+
+
+    |sigma_24^2-sigma_infinity^2|<10^(-108).                     (25)
+
+
+For the determinant normalization, write
+
+
+    det Sigma_24
+      =det Sigma_infinity det(I+Sigma_infinity^(-1)E).            (26)
+
+
+Using (17), the eigenvalue product or logarithmic determinant series gives
+
+
+    |N_24-N_infinity|<10^(-111).                                 (27)
+
+
+In particular, every parameter remains in the fixed box
+
+
+    0.7<A<0.8,
+    0.30<B<0.37,
+    |mu|<1.1,
+    1.9<sigma^2<2.1,
+    0.013<N<0.015.                                               (28)
+
+
+6. COEFFICIENT-INTEGRAND LIPSCHITZ BOUND
+
+
+Define
+
+
+    F(A,B,mu,sigma^2,N)
+      =(alpha/6)N
+        [sqrt(pi/A)/2]
+        [sigma^2+mu^2/(2A)]
+        [(1/2)B^(-7/6)Gamma(7/6)],                               (29)
+
+
+where alpha=6^(2/3)/3. Then
+
+
+    c_L=integral_0^(2pi) F_L(theta)dtheta.                        (30)
+
+
+Elementary differentiation of (29) on the box (28) gives the deliberately loose bound
+
+
+    |partial_A F|+|partial_B F|+|partial_mu F|
+      +|partial_{sigma^2}F|+|partial_N F|
+      <10^6.                                                      (31)
+
+
+Combining (22)–(27) with the mean-value theorem yields
+
+
+    sup_theta |F_24(theta)-F_infinity|
+      <10^(-102).                                                (32)
+
+
+Finally,
+
+
+    |c_24-c_infinity|
+      <=2pi sup_theta |F_24-F_infinity|
+      <10^(-100).                                                (33)
+
+
+7. ENCLOSURE
+
+
+THEOREM 7.1 — COARSE SIDE-24 COEFFICIENT ENCLOSURE.
+At same-family analytic-candidate level,
+
+
+    c_infinity-10^(-100)
+      <c_24
+      <c_infinity+10^(-100).                                     (34)
+
+
+Consequently the exact side-24 specific coefficient agrees with the planar closed form through at least 98 decimal places. The total side-24 coefficient satisfies
+
+
+    |576 c_24-576 c_infinity|<576 x 10^(-100)<10^(-97).           (35)
+
+
+8. RELATION TO THE HIGH-PRECISION CANDIDATE
+
+
+The deterministic computation of LS-DER-043 gives a much smaller candidate correction,
+
+
+    c_24-c_infinity
+      approximately -1.60199 x 10^(-119).                        (36)
+
+
+Equation (33) is compatible with that value but does not certify its sign or its 10^(-119) magnitude. It only certifies a broad enclosure that is independent of the floating-point quadrature result.
+
+
+9. STATUS AND LIMITATIONS
+
+
+Established here as an analytic same-family candidate:
+- an explicit image-tail moment bound;
+- uniform covariance and inverse perturbation bounds;
+- a conservative coefficient enclosure of radius 10^(-100).
+
+
+Still open:
+- machine-certified interval arithmetic for the exact angular integral;
+- certification of the sign of c_24-c_infinity;
+- certification at the natural 10^(-119) correction scale;
+- organizationally distinct review.
+
+
+10. REOPENING CONDITIONS
+
+
+Amend or reject this theorem if:
+- the moment tail bound (7) fails;
+- a directional covariance expansion exceeds (10);
+- the planar eigenfloor is not above 1/32;
+- a parameter perturbation bound (22)–(27) fails;
+- the derivative bound (31) is false on (28);
+- or a certified interval lies outside (34).
+
+
+FINAL STATUS
+ANALYTIC SIDE-24 ENCLOSURE: |c_24-c_infinity|<10^(-100).
+CERTIFIED DIGIT SCALE AT CANDIDATE-PROOF LEVEL: AT LEAST 98 DECIMAL PLACES.
+CORRECTION SIGN: OPEN.
+NATURAL 10^(-119) SCALE: HIGH-PRECISION CANDIDATE ONLY.
+CANONICAL STATUS: UNCHANGED / NOT PROMOTED.
+END_SIDE24_ENCLOSURE_FROZEN_BODY
+
+
+END LS-DER-044-v1.0

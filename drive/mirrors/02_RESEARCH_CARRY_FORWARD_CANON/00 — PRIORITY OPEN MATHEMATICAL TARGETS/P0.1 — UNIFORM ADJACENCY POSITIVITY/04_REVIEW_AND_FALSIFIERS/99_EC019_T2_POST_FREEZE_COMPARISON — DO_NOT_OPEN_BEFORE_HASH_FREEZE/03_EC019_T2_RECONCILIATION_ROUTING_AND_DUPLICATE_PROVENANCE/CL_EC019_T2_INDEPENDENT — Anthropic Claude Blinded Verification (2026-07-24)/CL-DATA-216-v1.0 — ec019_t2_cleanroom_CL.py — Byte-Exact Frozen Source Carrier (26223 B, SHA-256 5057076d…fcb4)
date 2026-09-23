@@ -1,0 +1,734 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+CL-side independent clean-room implementation of the EC-019 Test T2
+Route-B capture-margin certificate.
+
+Author line ............ CL - Anthropic Claude (configured identifier claude-opus-4-8)
+Governing pre-registration  CL-REG-214-v1.0 (authoritative), precision P in {40, 100, 200}
+Permitted interface source  GP-SPEC-166-v1.0 (formulas transcribed by hand)
+Method ................. Exact rational interval arithmetic over fractions.Fraction,
+                         with directed square-root enclosure via math.isqrt at
+                         scale D = 10**P.  Python standard library only.
+
+BLINDNESS STATEMENT
+    This file is derived solely from the formulas and interval domains stated in
+    GP-SPEC-166-v1.0.  No GP or CL numeric result array, interval table, margin
+    value, per-control numeric outcome, or discrepancy analysis was consulted
+    while it was written.  The only prior-outcome awareness is the qualitative,
+    numbers-free governance statement that a same-line GP preflight "passed";
+    per GP-COR-180-v1.0 Section 4 that awareness does not destroy source
+    independence.
+
+RIGOR
+    Every field operation (+, -, *, /, integer powers, abs) is EXACT over
+    fractions.Fraction, so its natural interval extension is an outward
+    (rigorous) enclosure of the true range with NO rounding error introduced.
+    The only inexact quantity is the square root, which is bracketed by a
+    directed rational enclosure proven below.  A margin is certified positive
+    only when the rigorous LOWER bound of its enclosure is strictly positive;
+    because an enclosure can only be wider than the true range, a positive
+    lower bound is a valid one-sided certificate.
+
+SCOPE FIREWALL
+    A T2 PASS closes only the independent-verification gate for the fixed-r
+    qualitative object P_{1/20}^{MS}(A_{1/20}) > 0 within the declared
+    interface.  It does NOT pass T1, promote EC-019, establish a probability,
+    prove r-uniformity/P0.1/P0.2/Theorem B, activate GP-AUTO-034, replace a
+    machine root, seal a package, authorize release, or permit any destructive
+    action.
+"""
+
+from fractions import Fraction as Q
+import math
+import json
+import hashlib
+import sys
+
+# =====================================================================
+# 1.  Rigorous interval arithmetic over exact rationals
+# =====================================================================
+
+
+class I:
+    """Closed interval [lo, hi] with exact rational endpoints."""
+    __slots__ = ("lo", "hi")
+
+    def __init__(self, lo, hi=None):
+        if hi is None:
+            hi = lo
+        lo = Q(lo)
+        hi = Q(hi)
+        if lo > hi:
+            raise ValueError("empty interval: lo > hi")
+        self.lo = lo
+        self.hi = hi
+
+    @staticmethod
+    def _as(x):
+        return x if isinstance(x, I) else I(Q(x))
+
+    def lower(self):
+        return self.lo
+
+    def upper(self):
+        return self.hi
+
+    # ---- additive group ----
+    def __add__(a, b):
+        b = I._as(b)
+        return I(a.lo + b.lo, a.hi + b.hi)
+
+    __radd__ = __add__
+
+    def __neg__(a):
+        return I(-a.hi, -a.lo)
+
+    def __sub__(a, b):
+        b = I._as(b)
+        return I(a.lo - b.hi, a.hi - b.lo)
+
+    def __rsub__(a, b):
+        return I._as(b).__sub__(a)
+
+    # ---- multiplication ----
+    def __mul__(a, b):
+        b = I._as(b)
+        p = (a.lo * b.lo, a.lo * b.hi, a.hi * b.lo, a.hi * b.hi)
+        return I(min(p), max(p))
+
+    __rmul__ = __mul__
+
+    def reciprocal(a):
+        if a.lo <= 0 <= a.hi:
+            raise ZeroDivisionError("reciprocal of interval containing 0")
+        return I(Q(1) / a.hi, Q(1) / a.lo)
+
+    def __truediv__(a, b):
+        b = I._as(b)
+        return a * b.reciprocal()
+
+    def __rtruediv__(a, b):
+        return I._as(b).__truediv__(a)
+
+    # ---- powers with correct even/odd semantics ----
+    def square(a):
+        if a.lo >= 0:
+            return I(a.lo * a.lo, a.hi * a.hi)
+        if a.hi <= 0:
+            return I(a.hi * a.hi, a.lo * a.lo)
+        m = max(-a.lo, a.hi)
+        return I(Q(0), m * m)
+
+    def intpow(a, n):
+        if n < 0:
+            raise ValueError("negative power")
+        if n == 0:
+            return I(Q(1), Q(1))
+        if n == 1:
+            return I(a.lo, a.hi)
+        if n % 2 == 1:                       # odd -> x^n monotone increasing on R
+            return I(a.lo ** n, a.hi ** n)
+        s = a.square()                       # even -> (x^2)^(n/2), s >= 0 monotone
+        k = n // 2
+        return I(s.lo ** k, s.hi ** k)
+
+    # ---- absolute value / sup ----
+    def absI(a):
+        if a.lo >= 0:
+            return I(a.lo, a.hi)
+        if a.hi <= 0:
+            return I(-a.hi, -a.lo)
+        return I(Q(0), max(-a.lo, a.hi))
+
+    def supabs(a):
+        return max(abs(a.lo), abs(a.hi))
+
+    def __repr__(a):
+        return "I(%s, %s)" % (a.lo, a.hi)
+
+
+# =====================================================================
+# 2.  Directed square-root enclosure
+#
+#   For rational x = p/q >= 0 and integer scale D >= 1:
+#       lower := isqrt(floor(x*D^2)) / D
+#       upper := (isqrt(ceil (x*D^2)) + 1) / D
+#
+#   Proof of enclosure.
+#     isqrt(n) = floor(sqrt(n)), so isqrt(n)^2 <= n <= (isqrt(n)+1)^2.
+#     lower^2 = isqrt(floor(x D^2))^2 / D^2 <= floor(x D^2)/D^2 <= x,  so lower <= sqrt(x).
+#     upper    = (isqrt(ceil(x D^2)) + 1)/D  > sqrt(ceil(x D^2))/D >= sqrt(x D^2)/D = sqrt(x).
+#   Hence lower <= sqrt(x) <= upper and lower^2 <= x <= upper^2.
+# =====================================================================
+
+
+def sqrt_lower(x, D):
+    x = Q(x)
+    assert x >= 0
+    n = x * D * D                 # nonnegative rational
+    fl = n.numerator // n.denominator          # floor (denominator > 0)
+    return Q(math.isqrt(fl), D)
+
+
+def sqrt_upper(x, D):
+    x = Q(x)
+    assert x >= 0
+    n = x * D * D
+    ce = -((-n.numerator) // n.denominator)    # ceil
+    return Q(math.isqrt(ce) + 1, D)
+
+
+def isqrt_interval(iv, D):
+    assert iv.lo >= 0
+    return I(sqrt_lower(iv.lo, D), sqrt_upper(iv.hi, D))
+
+
+# =====================================================================
+# 3.  Fixed constants and full-dimensional parameter box (GP-SPEC-166 Sec 3)
+# =====================================================================
+
+R = Q(1, 20)        # r
+SIGMA = Q(1, 10)    # sigma
+KAPPA0 = Q(1, 100)  # kappa (primary)
+
+PARAM_NAMES = ["a", "w", "z", "s", "c40", "c31", "c22", "c13", "c04"]
+
+
+def primary_centers_radii():
+    # (center, radius) exact rationals
+    return {
+        "a":   (Q(25, 10000), Q(1, 10000)),   # 0.0025, 0.0001
+        "w":   (Q(0),         Q(1, 1000)),     # 0,      0.001
+        "z":   (Q(1),         Q(1, 100)),      # 1,      0.01
+        "s":   (Q(-1),        Q(2, 100)),      # -1,     0.02
+        "c40": (Q(0),         Q(1, 100)),      # 0,      0.01
+        "c31": (Q(0),         Q(1, 100)),
+        "c22": (Q(0),         Q(1, 100)),
+        "c13": (Q(0),         Q(1, 100)),
+        "c04": (Q(0),         Q(1, 100)),
+    }
+
+
+class BoxFail(Exception):
+    """FULL_DIMENSIONAL_BOX_FAIL"""
+
+
+def validate_box(cr):
+    for nm in PARAM_NAMES:
+        if nm not in cr:
+            raise BoxFail("FULL_DIMENSIONAL_BOX_FAIL: missing parameter %s" % nm)
+        _, rad = cr[nm]
+        if not (rad > 0):
+            raise BoxFail("FULL_DIMENSIONAL_BOX_FAIL: non-positive radius for %s" % nm)
+    return True
+
+
+def box_intervals(cr):
+    d = {}
+    for nm in PARAM_NAMES:
+        c, rad = cr[nm]
+        d[nm] = I(c - rad, c + rad)
+    return d
+
+
+MARGIN_NAMES = [
+    "m_threshold", "m_saddle_det", "m_max_A", "m_max_D", "m_max_det",
+    "m_axial", "m_cone_slope", "m_cone_axis", "m_cone_upper", "m_cone_lower",
+    "m_handoff", "m_strip_top", "m_strip_bottom", "m_central_drift",
+    "m_transverse_contraction", "m_chart_X", "m_chart_Y", "m_gersh_1", "m_gersh_2",
+]
+
+
+# =====================================================================
+# 4.  The Route-B capture certificate (GP-SPEC-166 Sec 4-9)
+# =====================================================================
+
+
+def certificate(cr, D, kappa=KAPPA0):
+    """Validate the box then compute the 19 margins as exact rational
+    one-sided certificates.  Returns (margins, derived).
+    margins[name] is a Fraction, or None if its gate is structurally
+    undefined (treated as 'not strictly positive')."""
+    validate_box(cr)
+    P = box_intervals(cr)
+    a, w, z, s = P["a"], P["w"], P["z"], P["s"]
+    c40, c31, c22, c13, c04 = P["c40"], P["c31"], P["c22"], P["c13"], P["c04"]
+    r = R
+    sigma = SIGMA
+    KAP = kappa
+
+    # mu = 1 / (40 sqrt 2)  -> rigorous interval
+    s2 = I(sqrt_lower(2, D), sqrt_upper(2, D))
+    mu = (s2 * 40).reciprocal()
+
+    # ---- degree-four flow (Sec 4) ----
+    def Fx(X, Y):
+        return (X.square() - Q(1, 4) + a * X * Y + (w * Q(1, 2)) * Y.square()
+                + r * (c40 * (X.intpow(3) - X * Q(1, 4)) * Q(1, 6)
+                       + c31 * (X.square() * 3 - Q(1, 4)) * Y * Q(1, 6)
+                       + c22 * X * Y.square() * Q(1, 2)
+                       + c13 * Y.intpow(3) * Q(1, 6)))
+
+    def Fy(X, Y):
+        return (a * (X.square() - Q(1, 4)) * Q(1, 2) + s * Y + w * X * Y
+                + (z * Q(1, 2)) * Y.square()
+                + r * (c31 * (X.intpow(3) - X * Q(1, 4)) * Q(1, 6)
+                       + c22 * X.square() * Y * Q(1, 2)
+                       + c13 * X * Y.square() * Q(1, 2)
+                       + c04 * Y.intpow(3) * Q(1, 6)))
+
+    def J11(X, Y):
+        return (X * 2 + a * Y
+                + r * (c40 * (X.square() * 3 - Q(1, 4)) * Q(1, 6)
+                       + c31 * X * Y + c22 * Y.square() * Q(1, 2)))
+
+    def J12(X, Y):
+        return (a * X + w * Y
+                + r * (c31 * (X.square() * 3 - Q(1, 4)) * Q(1, 6)
+                       + c22 * X * Y + c13 * Y.square() * Q(1, 2)))
+
+    def J22(X, Y):
+        return (s + w * X + z * Y
+                + r * (c22 * X.square() * Q(1, 2)
+                       + c13 * X * Y + c04 * Y.square() * Q(1, 2)))
+
+    # ---- witness / strip quantities (Sec 5) ----
+    F = a.absI() * Q(1, 8) + r * c31.absI() * Q(1, 48)
+    A = (z.absI() + r * c13.absI() * Q(1, 2)) * F
+    B = r * c04.absI() * F.square() * Q(1, 2)
+    C = (w.absI() * Q(1, 2) + mu + r * c22.absI() * Q(1, 8)
+         + A / mu + B / mu.square())
+    W = F / mu
+    m_threshold = (-s - C).lower()
+
+    # ---- endpoint typing / unstable-slope gates (Sec 6) ----
+    A_S = 1 + r * c40 * Q(1, 12)
+    B_S = a * Q(1, 2) + r * c31 * Q(1, 12)
+    D_S = s + w * Q(1, 2) + r * c22 * Q(1, 8)
+    det_S = A_S * D_S - B_S.square()
+
+    A_M = -1 + r * c40 * Q(1, 12)
+    B_M = -(a * Q(1, 2)) + r * c31 * Q(1, 12)
+    D_M = s - w * Q(1, 2) + r * c22 * Q(1, 8)
+    det_M = A_M * D_M - B_M.square()
+
+    g = A_S - D_S
+    if g.lower() > 0:
+        tau_upper = B_S.supabs() / g.lower()
+        m_cone_slope = KAP - 2 * tau_upper
+    else:
+        tau_upper = None
+        m_cone_slope = None          # cone-slope gate fails structurally
+
+    m_saddle_det = -det_S.upper()
+    m_max_A = -A_M.upper()
+    m_max_D = -D_M.upper()
+    m_max_det = det_M.lower()
+    m_axial = g.lower()
+
+    # ---- S-side cone & handoff gates (Sec 7) ----
+    def Qx(xi, t):
+        num = (a * t * xi * 12 - a * t * 6
+               - c13 * r * t.intpow(3) * xi.square() * 2
+               + c22 * r * t.square() * xi.square() * 6
+               - c22 * r * t.square() * xi * 3
+               - c31 * r * t * xi.square() * 6
+               + c31 * r * t * xi * 6
+               - c31 * r * t
+               + c40 * r * xi.square() * 2
+               - c40 * r * xi * 3
+               + c40 * r
+               - t.square() * w * xi * 6
+               - xi * 12 + I(Q(12)))
+        return num * Q(1, 12)
+
+    def Qy(xi, t):
+        num = (a * xi * 12 - a * 12
+               + c04 * r * t.intpow(3) * xi.square() * 4
+               - c13 * r * t.square() * xi.square() * 12
+               + c13 * r * t.square() * xi * 6
+               + c22 * r * t * xi.square() * 12
+               - c22 * r * t * xi * 12
+               + c22 * r * t * 3
+               - c31 * r * xi.square() * 4
+               + c31 * r * xi * 6
+               - c31 * r * 2
+               + s * t * 24
+               + t.square() * xi * z * 12
+               - t * w * xi * 24
+               + t * w * 12)
+        return num * Q(1, 24)
+
+    xi_iv = I(Q(0), sigma)
+    t_iv = I(-KAP, KAP)
+    t_pos = I(KAP)
+    t_neg = I(-KAP)
+
+    m_cone_axis = Qx(xi_iv, t_iv).lower()
+    m_cone_upper = (Qx(xi_iv, t_pos) * KAP - Qy(xi_iv, t_pos)).lower()
+    m_cone_lower = (Qx(xi_iv, t_neg) * KAP + Qy(xi_iv, t_neg)).lower()
+    m_handoff = W.lower() * Q(1, 2) - KAP * sigma
+
+    # ---- central strip gates (Sec 8) ----
+    Xc = I(sigma - Q(1, 2), Q(1, 2) - sigma)
+    Wlo, Whi = W.lower(), W.upper()
+    Ytop = I(Wlo, Whi)
+    Ybot = I(-Whi, -Wlo)
+    Ystrip = I(-Whi, Whi)
+
+    m_strip_top = (-Fy(Xc, Ytop)).lower()
+    m_strip_bottom = (Fy(Xc, Ybot)).lower()
+    m_central_drift = (-Fx(Xc, Ystrip)).lower()
+    m_transverse_contraction = -(J22(Xc, Ystrip)).upper()
+
+    # ---- M-side capture ball & sink gates (Sec 9) ----
+    rho = isqrt_interval(I(sigma * sigma) + W.square(), D) * 2
+    rho_u = rho.upper()
+    Xcap = I(Q(-1, 2) - rho_u, Q(-1, 2) + rho_u)
+    Ycap = I(-rho_u, rho_u)
+    j11 = J11(Xcap, Ycap)
+    j12 = J12(Xcap, Ycap)
+    j22 = J22(Xcap, Ycap)
+    offdiag = j12.supabs()
+
+    m_chart_X = Q(3, 4) - (Q(1, 2) + rho_u)
+    m_chart_Y = 1 - rho_u
+    m_gersh_1 = (-j11).lower() - offdiag
+    m_gersh_2 = (-j22).lower() - offdiag
+
+    margins = {
+        "m_threshold": m_threshold,
+        "m_saddle_det": m_saddle_det,
+        "m_max_A": m_max_A,
+        "m_max_D": m_max_D,
+        "m_max_det": m_max_det,
+        "m_axial": m_axial,
+        "m_cone_slope": m_cone_slope,
+        "m_cone_axis": m_cone_axis,
+        "m_cone_upper": m_cone_upper,
+        "m_cone_lower": m_cone_lower,
+        "m_handoff": m_handoff,
+        "m_strip_top": m_strip_top,
+        "m_strip_bottom": m_strip_bottom,
+        "m_central_drift": m_central_drift,
+        "m_transverse_contraction": m_transverse_contraction,
+        "m_chart_X": m_chart_X,
+        "m_chart_Y": m_chart_Y,
+        "m_gersh_1": m_gersh_1,
+        "m_gersh_2": m_gersh_2,
+    }
+    derived = {"W": W, "rho": rho, "tau_upper": tau_upper, "mu": mu, "F": F}
+    return margins, derived
+
+
+def margin_positive(v):
+    return (v is not None) and (v > 0)
+
+
+def all_positive(margins):
+    return all(margin_positive(margins[nm]) for nm in MARGIN_NAMES)
+
+
+# =====================================================================
+# 5.  Serialization helpers (deterministic; result is a pure function of source)
+# =====================================================================
+
+
+def dec_str(q, places=50):
+    """Exact truncated-toward-zero decimal string, deterministic."""
+    q = Q(q)
+    sign = "-" if q < 0 else ""
+    q = -q if q < 0 else q
+    whole = q.numerator // q.denominator
+    frac = q - whole
+    out = []
+    for _ in range(places):
+        frac *= 10
+        d = frac.numerator // frac.denominator
+        out.append(str(d))
+        frac -= d
+    return "%s%d.%s" % (sign, whole, "".join(out))
+
+
+def ser_frac(q, places=50):
+    if q is None:
+        return None
+    q = Q(q)
+    return {"q": "%d/%d" % (q.numerator, q.denominator), "dec": dec_str(q, places)}
+
+
+def ser_interval(iv, places=50):
+    return {"lo": ser_frac(iv.lo, places), "hi": ser_frac(iv.hi, places)}
+
+
+def ser_margins(margins):
+    out = {}
+    for nm in MARGIN_NAMES:
+        v = margins[nm]
+        if v is None:
+            out[nm] = {"q": None, "dec": None, "positive": False, "gate": "STRUCTURAL_FAIL"}
+        else:
+            out[nm] = {"q": "%d/%d" % (v.numerator, v.denominator),
+                       "dec": dec_str(v, 50),
+                       "positive": bool(v > 0)}
+    return out
+
+
+def ser_derived(derived):
+    out = {}
+    for k in ("W", "rho", "mu", "F"):
+        out[k] = ser_interval(derived[k])
+    tu = derived["tau_upper"]
+    out["tau_upper"] = ser_frac(tu) if tu is not None else None
+    return out
+
+
+# =====================================================================
+# 6.  Self-tests (GP-REQ-172 Sec 4.D)
+# =====================================================================
+
+
+def self_tests():
+    res = {}
+    D = 10 ** 40
+
+    x = Q(7, 3)                                   # non-square positive
+    lo = sqrt_lower(x, D)
+    hi = sqrt_upper(x, D)
+    res["sqrt_containment"] = bool(lo * lo <= x <= hi * hi and lo > 0 and hi > lo)
+
+    aiv, biv = I(1, 2), I(3, 4)
+    res["add"] = bool((aiv + biv).lo == 4 and (aiv + biv).hi == 6)
+    res["sub"] = bool((aiv - biv).lo == -3 and (aiv - biv).hi == -1)
+    m = aiv * I(-1, 3)
+    res["mul"] = bool(m.lo == -2 and m.hi == 6)
+    d = aiv / I(2, 4)
+    res["div"] = bool(d.lo == Q(1, 4) and d.hi == 1)
+
+    sq = I(-3, 2).square()
+    res["even_power_cross_zero"] = bool(sq.lo == 0 and sq.hi == 9)
+    res["even_power_intpow"] = bool(I(-3, 2).intpow(2).lo == 0 and I(-3, 2).intpow(2).hi == 9)
+    res["odd_power"] = bool(I(-2, 3).intpow(3).lo == -8 and I(-2, 3).intpow(3).hi == 27)
+
+    res["all_pass"] = all(bool(v) for v in res.values())
+    return res
+
+
+# =====================================================================
+# 7.  Negative controls (GP-SPEC-166 Sec 11) - EXECUTED, not asserted
+# =====================================================================
+
+
+def run_controls(D):
+    out = {}
+
+    # NC1 - zero width on c04 -> validator must fail before any dynamical gate
+    cr = primary_centers_radii()
+    cr["c04"] = (Q(0), Q(0))
+    try:
+        certificate(cr, D)
+        out["NC1"] = {"kind": "validator", "fired": False, "detail": "no box fail (UNEXPECTED)"}
+    except BoxFail as e:
+        out["NC1"] = {"kind": "validator", "fired": True, "detail": str(e)}
+
+    # NC2 - endpoint typing destroyed: c40 radius 500
+    cr = primary_centers_radii()
+    cr["c40"] = (Q(0), Q(500))
+    mg, _ = certificate(cr, D)
+    fired = (not margin_positive(mg["m_saddle_det"])) or (not margin_positive(mg["m_max_det"]))
+    out["NC2"] = {"kind": "gate", "fired": bool(fired),
+                  "m_saddle_det": ser_frac(mg["m_saddle_det"]),
+                  "m_max_det": ser_frac(mg["m_max_det"])}
+
+    # NC3 - threshold destroyed: s radius 1.1
+    cr = primary_centers_radii()
+    cr["s"] = (Q(-1), Q(11, 10))
+    mg, _ = certificate(cr, D)
+    out["NC3"] = {"kind": "gate", "fired": bool(not margin_positive(mg["m_threshold"])),
+                  "m_threshold": ser_frac(mg["m_threshold"])}
+
+    # NC4 - cone too narrow: primary box but kappa = 0.0005
+    cr = primary_centers_radii()
+    mg, _ = certificate(cr, D, kappa=Q(5, 10000))
+    out["NC4"] = {"kind": "gate", "fired": bool(not margin_positive(mg["m_cone_slope"])),
+                  "m_cone_slope": ser_frac(mg["m_cone_slope"])}
+
+    # NC5 - capture/chart destroyed: a radius 0.5
+    cr = primary_centers_radii()
+    cr["a"] = (Q(25, 10000), Q(5, 10))
+    mg, _ = certificate(cr, D)
+    fired = (not margin_positive(mg["m_chart_X"])) or (not margin_positive(mg["m_gersh_1"]))
+    out["NC5"] = {"kind": "gate", "fired": bool(fired),
+                  "m_chart_X": ser_frac(mg["m_chart_X"]),
+                  "m_gersh_1": ser_frac(mg["m_gersh_1"])}
+    return out
+
+
+def run_zero_radius_mutations(D):
+    """Each of the nine parameter radii set to zero must yield a machine
+    FULL_DIMENSIONAL_BOX_FAIL before any dynamical margin is computed."""
+    out = {}
+    for nm in PARAM_NAMES:
+        cr = primary_centers_radii()
+        c, _ = cr[nm]
+        cr[nm] = (c, Q(0))
+        try:
+            certificate(cr, D)
+            out[nm] = {"validator_fail": False, "detail": "no box fail (UNEXPECTED)"}
+        except BoxFail as e:
+            out[nm] = {"validator_fail": True, "detail": str(e)}
+    return out
+
+
+# =====================================================================
+# 8.  Main - blinded primary run at P in {40, 100, 200}
+# =====================================================================
+
+PRECISIONS_P = [40, 100, 200]
+
+
+def main():
+    st = self_tests()
+
+    primary_box = primary_centers_radii()
+    box_ser = {}
+    for nm in PARAM_NAMES:
+        c, rad = primary_box[nm]
+        box_ser[nm] = ser_interval(I(c - rad, c + rad))
+
+    by_prec = {}
+    signs_reference = None
+    signs_stable = True
+    all_pos_all_P = True
+
+    controls_by_prec = {}
+    for Pexp in PRECISIONS_P:
+        D = 10 ** Pexp
+        margins, derived = certificate(primary_box, D)
+        signs = {nm: margin_positive(margins[nm]) for nm in MARGIN_NAMES}
+        if signs_reference is None:
+            signs_reference = signs
+        elif signs != signs_reference:
+            signs_stable = False
+        if not all_positive(margins):
+            all_pos_all_P = False
+        by_prec[str(Pexp)] = {
+            "margins": ser_margins(margins),
+            "derived": ser_derived(derived),
+        }
+        controls_by_prec[str(Pexp)] = run_controls(D)
+
+    mutations = run_zero_radius_mutations(10 ** 40)
+
+    controls_fired_all_P = all(
+        all(controls_by_prec[str(P)][nc]["fired"] for nc in
+            ("NC1", "NC2", "NC3", "NC4", "NC5"))
+        for P in PRECISIONS_P
+    )
+    mutations_all_fail = all(mutations[nm]["validator_fail"] for nm in PARAM_NAMES)
+
+    # ---- verdict ----
+    if not st["all_pass"]:
+        verdict = "T2 - INCONCLUSIVE"
+        verdict_reason = "self-tests failed (rigorous arithmetic not established)"
+    elif (all_pos_all_P and signs_stable and controls_fired_all_P
+          and mutations_all_fail):
+        verdict = "T2 - PASS"
+        verdict_reason = ("all nineteen margins strictly positive and sign-stable "
+                          "across P in {40,100,200}; all five controls executed and "
+                          "fired at every precision; all nine zero-radius mutations "
+                          "rejected by the validator")
+    elif not all_pos_all_P:
+        failing = [nm for nm in MARGIN_NAMES
+                   if not margin_positive(certificate(primary_box, 10 ** 200)[0][nm])]
+        verdict = "T2 - FAIL"
+        verdict_reason = "non-positive margin(s) under correct implementation: " + ",".join(failing)
+    else:
+        verdict = "T2 - INCONCLUSIVE"
+        verdict_reason = ("instability or control/validator coverage gap: "
+                          "signs_stable=%s controls_fired=%s mutations=%s"
+                          % (signs_stable, controls_fired_all_P, mutations_all_fail))
+
+    result = {
+        "artifact_class": "CL independent EC-019 T2 clean-room result",
+        "object": "EC-019 Test T2 - Route-B degree-four capture margins (fixed r=1/20)",
+        "provider": "Anthropic",
+        "model_line": "Claude Opus (claude-opus-4-8)",
+        "governing_prereg": "CL-REG-214-v1.0",
+        "permitted_interface": "GP-SPEC-166-v1.0",
+        "precision_policy_P": PRECISIONS_P,
+        "python_version": "3.11.15",
+        "arithmetic": "exact rational (fractions.Fraction) interval arithmetic; "
+                      "directed isqrt square-root enclosure; stdlib only",
+        "fixed_constants": {"r": "1/20", "sigma": "1/10", "kappa": "1/100",
+                            "mu": "1/(40*sqrt(2))"},
+        "primary_box": box_ser,
+        "primary_by_precision": by_prec,
+        "primary_signs_stable_across_P": bool(signs_stable),
+        "primary_all_positive_all_P": bool(all_pos_all_P),
+        "controls_by_precision": controls_by_prec,
+        "controls_fired_all_P": bool(controls_fired_all_P),
+        "zero_radius_mutations": mutations,
+        "zero_radius_mutations_all_fail": bool(mutations_all_fail),
+        "self_tests": st,
+        "verdict": verdict,
+        "verdict_reason": verdict_reason,
+        "scope_firewall": ("closes only the independent-verification gate for the "
+                           "fixed-r qualitative object; no T1, no promotion, no "
+                           "probability, no r-uniformity, no P0.1/P0.2/Theorem B, no "
+                           "automation activation, no machine-root replacement, no "
+                           "seal, no release, no deletion"),
+    }
+
+    result_bytes = json.dumps(result, sort_keys=True, indent=2,
+                              ensure_ascii=True).encode("utf-8") + b"\n"
+    with open("ec019_t2_result_CL.json", "wb") as fh:
+        fh.write(result_bytes)
+    result_sha = hashlib.sha256(result_bytes).hexdigest()
+
+    with open(__file__, "rb") as fh:
+        source_bytes = fh.read()
+    source_sha = hashlib.sha256(source_bytes).hexdigest()
+
+    # ---- human-readable summary to stdout ----
+    print("=" * 68)
+    print("EC-019 T2 CL independent clean-room run")
+    print("=" * 68)
+    print("self-tests all_pass :", st["all_pass"])
+    print("precision policy P  :", PRECISIONS_P)
+    print("-" * 68)
+    mg200, dv200 = certificate(primary_box, 10 ** 200)
+    for nm in MARGIN_NAMES:
+        v = mg200[nm]
+        tag = "POS " if margin_positive(v) else "**NONPOS**"
+        print("  %-26s %s  %s" % (nm, tag, dec_str(v, 18) if v is not None else "GATE-FAIL"))
+    print("-" * 68)
+    print("W       (P=200):", dec_str(dv200["W"].lower(), 18), "..", dec_str(dv200["W"].upper(), 18))
+    print("rho     (P=200):", dec_str(dv200["rho"].lower(), 18), "..", dec_str(dv200["rho"].upper(), 18))
+    print("tau_up  (P=200):", dec_str(dv200["tau_upper"], 18))
+    print("-" * 68)
+    print("all positive @ all P  :", all_pos_all_P)
+    print("signs stable across P :", signs_stable)
+    print("controls fired @ all P:", controls_fired_all_P)
+    for P in PRECISIONS_P:
+        row = controls_by_prec[str(P)]
+        print("    P=%-4d NC1..NC5 fired: %s" % (
+            P, [row[nc]["fired"] for nc in ("NC1", "NC2", "NC3", "NC4", "NC5")]))
+    print("zero-radius mutations all fail:", mutations_all_fail)
+    print("    ", {nm: mutations[nm]["validator_fail"] for nm in PARAM_NAMES})
+    print("-" * 68)
+    print("VERDICT :", verdict)
+    print("reason  :", verdict_reason)
+    print("-" * 68)
+    print("source_sha256 :", source_sha)
+    print("source_bytes  :", len(source_bytes))
+    print("result_sha256 :", result_sha)
+    print("result_bytes  :", len(result_bytes))
+    print("=" * 68)
+
+    return result_sha, len(result_bytes)
+
+
+if __name__ == "__main__":
+    main()

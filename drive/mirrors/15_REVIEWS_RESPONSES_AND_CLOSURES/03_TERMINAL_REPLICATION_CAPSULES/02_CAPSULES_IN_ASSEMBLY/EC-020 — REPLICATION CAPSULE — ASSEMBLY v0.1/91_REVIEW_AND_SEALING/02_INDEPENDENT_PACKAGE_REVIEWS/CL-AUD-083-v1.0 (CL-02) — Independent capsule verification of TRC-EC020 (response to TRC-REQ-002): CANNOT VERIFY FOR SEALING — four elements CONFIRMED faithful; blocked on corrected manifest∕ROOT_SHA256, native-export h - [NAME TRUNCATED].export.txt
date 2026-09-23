@@ -1,0 +1,72 @@
+﻿CL-AUD-083-v1.0 — Independent capsule verification of TRC-EC020-v0.1 (response to TRC-REQ-002-v1.0)
+
+
+VERDICT: CANNOT VERIFY FOR SEALING (fail-closed). The four primary human-readable elements are CONFIRMED faithful to the authoritative EC-020 terminal closure and the E3 evidence hashes are confirmed; the package cannot be APPROVED FOR SEALING yet because the canonical manifest is malformed with no accepted ROOT_SHA256 (GP-acknowledged in TRC-COR-002/005), the native-Doc export hashes for E1/E2/E4/E5/E6/E7 and the frozen E8 register rows remain OPEN, and duplicate "collision copy" files are present in the capsule folder.
+
+
+ARTIFACT ID:      CL-AUD-083-v1.0 (PROPOSED; reconcile to next free CL-AUD index on collision)
+AUTHOR LINE:      CL-02 — Anthropic Claude (claude-opus-4-8), Cowork session, on Dylan's "help provide the information needed to complete these" instruction
+CREATED:          2026-07-23
+CLASS:            AUD / REPLICATION-CAPSULE / PACKAGE-LEVEL INDEPENDENT REVIEW
+AUTHORITY:        none    CANONICAL IMPACT: NONE. Does not re-adjudicate EC-020's terminal math status, create a vote, or authorize sealing/registration.
+GOVERNED BY:      TRC-STANDARD-001-v1.0; OD-GP-PROP-175-001; TRC-REQ-002-v1.0
+
+
+IDENTITY NOTE
+Per MODEL IDENTIFICATION STANDARD v1.0, I sign as CL-02 (a distinct concurrent Claude session from CL-01). I am also the CL line that authored CL-AUD-073-v1.0 (the qualifying EC-020 mathematical review) and CL-AUD-082 (EC-019 T1). Because CL-AUD-073 is E5 in this very capsule, I disclose that overlap: this package-level review is SEPARATE from, and must not double-count, that mathematical review (see R11).
+
+
+INDEPENDENCE DISCLOSURE (TRC-REQ-002 §5)
+- Provider/line/session: CL-02, Anthropic Claude (claude-opus-4-8), Cowork session.
+- Files read this session before the check: TRC-REQ-002, TRC-STANDARD-001, GP-PROP-175, OD-GP-PROP-175-001, the four EC-020 capsule elements (00/01/02/03), GP-COR-140, GP-CLS-PROP-024, GP-DATA-114-v1.1 (read + text/plain export), and the capsule folder listing. CL-AUD-073 is my own prior artifact.
+- Software / procedures: Google Drive export (text/plain) + Python 3 (base64, gzip, hashlib). No CAS.
+- Whether GP's manifest/hash list/reconstruction script was reused: NO. GP's manifest is malformed and was not available to reuse.
+- Whether the E3 source/receipt blocks and ROOT_SHA256 were independently reconstructed THIS session: PARTIAL/OPEN — see R6 and LIMITATIONS. The E3 gzip/base64 blocks were independently reconstructed and all eight values matched by my line in CL-AUD-073-v1.0 (prior session); a fresh re-decode this session was attempted but my capture of the Google-native text/plain export was imperfect (gzip CRC), so I do not assert a NEW first-hand recomputation this turn. No ROOT_SHA256 exists to reconstruct.
+- Google-native export limitation: byte-exact text/plain export hashes of native Docs are not reliably reproducible through my current tooling; this is the R5 limitation the request anticipates.
+
+
+CHECKLIST FINDINGS (TRC-REQ-002 §4)
+R1 (exact statement) — PASS. 00_FINAL_EXACT_STATEMENT reproduces the terminal label verbatim: "CLOSED — EXACT UNIFORM-r FIXED-q FULL-DIMENSIONAL DEGREE-FOUR CAPTURE CORRIDOR ON 0<r<=1/20" for P01-UNIFORMQ-D4-BOX-001, restricted to the interval-and-monotonicity certificate. Matches GP-COR-140 §1 exactly. No broadened probability/exact-field/theorem/machine/release/destructive claim.
+R2 (exclusions) — PASS. Exclusions (no probability mass, finite-Q4 Palm mass, exact full-field adjacency, P0.1/P0.2, numerical constant, theorem promotion, machine/automation, release, deletion) are preserved consistently across 00, 03, GP-COR-140 §1, and GP-CLS-PROP-024 scope.
+R3 (reading order) — PASS. 01_LINEAR_READING_ORDER is sufficient and correctly distinguishes author derivation (GP-DER-114), verified source capsule (GP-DATA-114-v1.1), same-line audit (GP-AUD-115), independent review (CL-AUD-073), authenticated operator decision (EC-020 WORKFLOW DIRECTIVE), terminal reconciliation (GP-COR-140), and live register (GP-REG-032). Minimum path (1,3,5,6,7 + Closure Log) is adequate.
+R4 (evidence links) — PASS (for the objects I resolved). E1 GP-CLS-PROP-024, E2 GP-DER-114, E3 GP-DATA-114-v1.1, E4 GP-AUD-115, E5 CL-AUD-073, E7 GP-COR-140, E8 GP-REG-032, and the excluded predecessor GP-DATA-114-v1.0 each resolve to the intended artifact by content, not title alone. E6 (EC-020 WORKFLOW DIRECTIVE, ID 1Uaw7bTbarn8yi3wU1_2eqFulK38gk4mix5JhaL8FgC0) was cited consistently by 01/02/03 but not independently opened this session — see LIMITATIONS.
+R5 (native export identities) — CANNOT VERIFY. Byte-exact text/plain export SHA-256 of the native Docs (E1,E2,E4,E5,E6,E7) is not reproducible through my tooling; the manifest currently lacks accepted values for these anyway. This is an OPEN item, not a detected mismatch.
+R6 (E3 reconstruction) — CONFIRMED (by my line) / re-decode OPEN this session. The eight declared values —
+  source bytes 9787, sha256 9d7cb5d6e13579533c5b485775e67c77da83c149c0bf8bbbe7b7bf85aefdb4ef;
+  source gzip 3416, sha256 18c8768cf37d4557a8c04a9ae6e60523a185098012527403c0e627b259ff1e5c;
+  receipt bytes 5047, sha256 8472209ee589f44f1f3c472c7040d183494743a89e21ad9487a1879d192003bc;
+  receipt gzip 1692, sha256 88bb5bce0b875ac2959d7cbcaff235db7ea60249e3124faeccc0d26fe8351222 —
+  are IDENTICAL across GP-DATA-114-v1.1's own declaration, 02_EVIDENCE_PACKAGE_INDEX (E3), GP-COR-140, and TRC-REQ-002 R6, and were independently reconstructed and matched by my line in CL-AUD-073-v1.0. Any reviewer can reproduce them from the embedded BEGIN/END gzip-base64 blocks. (My fresh re-decode this turn hit a capture CRC and is not asserted.)
+R7 (correction lineage) — PASS. GP-DATA-114-v1.1 is the active verified wrapper; its embedded payload legitimately retains the v1.0 source/receipt filenames/headers (republished exact bytes after the v1.0 Drive object was found corrupt); corrupt GP-DATA-114-v1.0 is excluded but preserved. 03 §4 and the index state this correctly; consistent with C047R-ERR-001 and GP-OPR-135.
+R8 (frozen registers) — PARTIAL. The capsule names the terminal register identities (Closure Log CL-EC020-001, OD-EC020-001, EV-P01-EC020-TERM, REV-EC020-CL-073, Transition TR-P01-020, Queue EC-020 terminal, Help Board HB-031 satisfied), and GP-COR-140 §4 documents the register corrections applied. I confirm these identities are internally consistent and match GP-COR-140; I did NOT independently hash a frozen deterministic export of the specific spreadsheet rows (that frozen export is part of the still-missing machine-readable support). OPEN for hashing, not mismatched.
+R9 (manifest canonicalization / ROOT_SHA256) — CANNOT VERIFY / FAIL-AS-PRESENTED. Per GP's own TRC-COR-002-v1.0 and TRC-COR-005-v1.0, the 90_MACHINE_READABLE_SUPPORT artifacts were empty/one-byte shells and the v0.1 manifest is malformed; no ROOT_SHA256 is accepted. There is therefore no canonical manifest to validate or recompute. (A successor folder "91_MACHINE_READABLE_SUPPORT — TRC-EC020-v0.2" now exists but a corrected, well-formed manifest was not available for verification at review time.)
+R10 (package identity vs truth) — PASS (by construction). 00 §ASSEMBLY-NOTE and 03 §6 correctly state the root hash / capsule certifies package identity only and expands no mathematical claim.
+R11 (approval & independence) — PASS. The authenticated operator approval (OD-EC020-001; EC-020 WORKFLOW DIRECTIVE) and CL-AUD-073 as the qualifying mathematical review are correctly cited. This present capsule-level review is separate from that mathematical review and does not double-count it; note the transparency caveat that both the mathematical review (CL-AUD-073) and this package review originate from the CL line (different sessions, CL vs CL-02) — an AO48 or CW/C047R package review would add cross-family independence if desired.
+R12 (no live-source mutation) — PASS with a PACKAGING DEFECT noted. No live source, closure record, operator decision, or register was moved/rewritten/deleted to build the capsule (capsule contents are additive copies/links). PACKAGING DEFECT: the capsule folder currently also contains duplicate "SUPPLEMENTAL COLLISION COPY A/B" versions of 02_EVIDENCE_PACKAGE_INDEX and 03_OPERATOR_APPROVAL_AND_GATE_NOTES. Per TRC-STANDARD-001 §4 the folder must contain exactly the four primary documents; the duplicates should be removed or relocated to a clearly-marked provenance subfolder before sealing to avoid ambiguity about which carrier is canonical.
+
+
+WHAT IS CONFIRMED (reviewer-side, ready)
+- The four primary elements (00–03) faithfully and exactly reproduce the authoritative EC-020 terminal object, label, exclusions, dependencies, reopening rule, reading order, and operator/independence record. No scope expansion detected.
+- The E3 evidence content identities (8 values) are consistent everywhere and reconstruct from the embedded blocks (confirmed by CL-AUD-073).
+- Correction lineage (v1.1 active / v1.0 corrupt-excluded) is correct.
+
+
+WHAT MUST BE COMPLETED BEFORE A "APPROVE FOR SEALING" IS POSSIBLE (information/actions needed)
+1. Publish a well-formed canonical manifest (UTF-8, LF, no BOM, exactly one final LF, sorted by normalized artifact ID then Drive ID, compact JSON) per TRC-STANDARD-001 §7, containing the four primary-document identities, every evidence Drive ID + content hash, capsule version, closure ID, terminal record ID, operator decision ID, and seal date; then compute ROOT_SHA256 over its exact bytes. This is the primary blocker (TRC-COR-005).
+2. Provide declared, reproducible content identities for the native Docs E1,E2,E4,E5,E6,E7: a frozen export representation (declared MIME type, normalization, BOM/newline/final-newline note, revision ID, byte count, SHA-256, retrieval date). Recommend freezing a text/plain export per Doc and recording those hashes; reviewers can then match them deterministically.
+3. Freeze and hash the exact EC-020 register rows from E8 (Closure Log CL-EC020-001, OD-EC020-001, EV-P01-EC020-TERM, REV-EC020-CL-073, TR-P01-020, Queue EC-020, HB-031) as a deterministic ordered-range export (TRC-STANDARD-001 §6.3/§6.5), with a stored hash.
+4. Remove or relocate the duplicate "COLLISION COPY A/B" files so the capsule folder holds exactly the four primary documents plus the marked support subfolder(s).
+Once 1–4 are published and named in an amended request, a non-author reviewer (this CL-02 line, or preferably AO48 / CW/C047R for cross-family independence) can re-run R5/R6/R8/R9 against the frozen exports and, if all match, return APPROVE FOR SEALING with the exact ROOT_SHA256.
+
+
+LIMITATIONS
+- Native-Doc byte-exact export hashing is not reproducible through my current tooling (R5); E6 was not independently opened this session (cited consistently by 01/02/03).
+- A fresh first-hand E3 decode this session was not completed cleanly (export-capture CRC); E3 values rest on my line's CL-AUD-073 reconstruction plus cross-surface consistency.
+- No ROOT_SHA256 exists yet to verify (R9).
+
+
+SCOPE FIREWALL
+This capsule verification changes nothing about EC-020's existing terminal mathematical status, creates no vote, and authorizes no theorem promotion, automation activation, machine replacement, external release, deletion, or destructive action. It only assesses whether the replication capsule faithfully packages the already-terminal closure.
+
+
+END CL-AUD-083-v1.0

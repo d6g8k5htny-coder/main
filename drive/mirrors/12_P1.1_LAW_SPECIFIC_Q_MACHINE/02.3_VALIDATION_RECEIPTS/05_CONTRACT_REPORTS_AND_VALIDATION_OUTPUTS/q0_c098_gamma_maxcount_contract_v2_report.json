@@ -1,0 +1,1262 @@
+{
+  "roots": [
+    "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+    "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2"
+  ],
+  "graph_errors": [],
+  "claim_reports": {
+    "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2": {
+      "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "required marks are supplied by evidence dependencies",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN-MODULO",
+      "conditions": [
+        "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": false,
+      "closable": false
+    },
+    "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT": {
+      "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_EVENT_TO_MAXIMUM_WINDOW_COUNT",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": true,
+      "closable": true
+    },
+    "GAMMA_MAXCOUNT_COLLAR_CUBIC": {
+      "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "CONJECTURE",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": false,
+      "unconditional_promotable": false,
+      "closable": false
+    },
+    "GAMMA_MAXCOUNT_EXTERIOR_CUBIC": {
+      "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_MAXCOUNT_EXTERIOR_CUBIC",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": true,
+      "closable": true
+    },
+    "GAMMA_MAXCOUNT_NEAR_CUBIC": {
+      "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_MAXCOUNT_NEAR_CUBIC",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "CONJECTURE",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": false,
+      "unconditional_promotable": false,
+      "closable": false
+    },
+    "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2": {
+      "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "sidedness and uncertainty direction are compatible",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "required marks are supplied by evidence dependencies",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "EXACT-IDENTITY licensed by MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS:EXACT-ALGEBRA",
+          "evidence_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN-MODULO",
+      "conditions": [
+        "GAMMA_MAXCOUNT_COLLAR_CUBIC",
+        "GAMMA_MAXCOUNT_NEAR_CUBIC"
+      ],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": false,
+      "closable": false
+    },
+    "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS": {
+      "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not one-sided",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "MAXCOUNT_REGIONAL_EXACT_SUM_WITNESS",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": true,
+      "closable": true
+    },
+    "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY": {
+      "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+      "gate_results": [
+        {
+          "gate": "SCHEMA",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "required typed fields and canonical hash are present",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "every load-bearing dependency covers the full parent domain",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ENDPOINT",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not finite-range",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "POLARITY",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not one-sided",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MEASURE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "all measure changes are absent or typed and graded",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MARK",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no required marks",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMPOSITION",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "atomic claim",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "RUNG",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no measured values",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "PRECEDENCE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "no killed, superseded, or retired node is reachable",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "CORE-CLOSURE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "not declared closed core",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "MODEL",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "exact model is stable or every transfer is typed and scoped",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COVERAGE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim makes no registered global coverage assertion",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "COMMON-MODE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "promotion does not rest on instrument agreement",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "HEURISTIC-BRIDGE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing heuristic or analogy",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "ASSEMBLY",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no numerical assembly",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DOMAIN-INFIMUM",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "claim does not require a numerical full-domain extremum",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "BAND-PROVENANCE",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "NOT-APPLICABLE",
+          "message": "no load-bearing uncertainty band",
+          "evidence_id": "",
+          "grade_cap": null
+        },
+        {
+          "gate": "DEPENDENCY-WARRANT",
+          "claim_id": "PAIR_PALM_MAXCOUNT_KAC_RICE_IDENTITY",
+          "verdict": "PASS",
+          "message": "dependency warrants and explicit condition edges are admissible",
+          "evidence_id": "",
+          "grade_cap": null
+        }
+      ],
+      "effective_warrant": "PROVEN",
+      "conditions": [],
+      "shell_valid": true,
+      "conditional_promotable": true,
+      "unconditional_promotable": true,
+      "closable": true
+    }
+  },
+  "root_hashes": {
+    "GAMMA_MAXIMUM_WINDOW_COUNT_CUBIC_MODULO_v2": "f80a6cdde5744d2523e869de02882a353550bf8cee0658ad27bf99936fd5bc60",
+    "GAMMA_EVENT_CUBIC_BY_MAXCOUNT_MODULO_v2": "6a2c48e594697967180ad69632592a9804e697e817903c85affbf42201c36db9"
+  },
+  "shell_valid": true,
+  "conditional_promotable": true,
+  "unconditional_promotable": false
+}

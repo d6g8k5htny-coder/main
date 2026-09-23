@@ -1,0 +1,109 @@
+KIMI-DER-009
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 10 (selection/disintegration lemma, C031 §4-G2)
+Inputs: C031_LBRATE_Integration.md (held; sha256
+e7998ef0d17d951bc89978f9fe32e510019059dd0650c8f0e0ae33273f40f32e);
+the R3′ conditional-barrier content (C031 §4-G1) and the C028/C030
+statements as quoted there. Independence disclosure: proof architecture
+by the KIMI line; the measure-theoretic steps are executed in full; one
+analytic premise is named, not smuggled (see PREMISE P below). No line's
+parallel attempt consulted.
+
+VERDICT: (a) FULL PROOF MODULO ONE NAMED ANALYTIC PREMISE. The
+selection/disintegration lemma in its single-crossing form
+  far ≤ sup_{ξ ∈ band} p̄(ξ)   (no multiplicity factor)
+follows from a five-step measure-theoretic argument (complete below)
+plus PREMISE P (the boundary-layer transfer estimate). The naive
+Palm-restart form is REFUTED with an explicit bias mechanism (receipt
+4). The residual gap is isolated in one sentence (receipt 5).
+
+THEOREM (modulo PREMISE P). Let f be an a.s.-analytic centered Gaussian
+field on a compact manifold, γ̇ = ∇f(γ), B₅ the slab ball, band =
+{ξ ∈ ∂B₅ : f(ξ) ∈ [v*, b]}. Let Ξ be the trajectory's first
+band-crossing (∅ if none), and F the downstream failure event. Then
+  P(F) ≤ sup_{ξ ∈ band} p̄(ξ),
+where p̄(ξ) is the C028-grade conditional barrier at a level-pinned
+boundary point (the R3′ object), provided PREMISE P holds.
+
+PROOF (measure-theoretic steps, complete).
+1. MEASURABLE SELECTION. The level sets of an a.s.-analytic f are
+   analytic; crossings at band levels are a.s. transverse except on a
+   null tangency set (handled as a null case). The first-exit map of a
+   continuous flow on a compact ball into an open band is then defined
+   and measurable on a full-measure set; Ξ : Ω → band ∪ {∅} is
+   measurable. (Standard; no Gaussian input.)
+2. INTERIOR MEASURABILITY. The flow up to the crossing is driven by
+   ∇f on B₅, so Ξ = Ξ(f|_{B₅}): the crossing location is a measurable
+   function of the INTERIOR field. (This is the step the naive
+   Palm-restart gets wrong; see receipt 4.)
+3. REGULAR CONDITIONAL DISTRIBUTION. The field's law on a separable
+   Banach completion of the analytic class is Gaussian, hence admits a
+   regular conditional distribution Q given the σ-field I = σ(f|_{B₅});
+   the exterior conditional law is Gaussian with CM space
+   H_I = {h ∈ H : h ≡ 0 on B₅}.
+4. TOWER BOUND. P(F) = E[ Q(F | I) ]. Since Ξ is I-measurable,
+   Q(F | I)(ω) = Q(F | I, Ξ = Ξ(ω))(ω). If for Q-a.e. interior field
+   the conditional failure probability at the field-selected crossing
+   is ≤ p̄(Ξ(ω)) — this is PREMISE P — then Q(F | I)(ω) ≤ p̄(Ξ(ω)) ≤
+   sup_{band} p̄, and integration gives P(F) ≤ sup p̄. The Rice count
+   2.43 (expected number of band components) NEVER ENTERS: the tower
+   bound is applied to a probability, not to a count; multiplicity of
+   components is irrelevant because the trajectory selects exactly one
+   crossing.
+5. RESIDUAL GAP (one sentence). PREMISE P — that the C028/R3′ barrier
+   survives conditioning on the FULL interior field (not only the
+   9-pin class of R3′), i.e. that the induced perturbation's C¹ size on
+   the slab stays within the barrier margin — reduces to the C030
+   horizon/pull estimate (pull ~ √(1−v), v = 1 − O(1e-7) at d₀ = 5)
+   holding for interior-REGION conditioning as it does for the
+   on-grid/pin class; that extension is the single named analytic input
+   this proof does not supply.
+
+RECEIPTS.
+4. WHY THE NAIVE FORM FAILS (counterexample to the Palm-restart).
+   Conditioning on {Ξ = s} is conditioning on a probability-zero,
+   flow-selected event: it forces ∇f near s to point outward with a
+   sign and magnitude compatible with the crossing (a hard local
+   constraint), so the Palm kernel at the crossing is a
+   gradient-biased law, not the free barrier law; running the free
+   C028 argument from it double-counts the local work the field has
+   already done, and the band's component count contaminates the
+   measure (the 2.43 Rice factor). The minimal correct strengthening
+   is the interior-conditioning route of steps 2–4: condition on the
+   interior field (crossing becomes measurable), apply the free
+   barrier on the exterior with the boundary level pin f(Ξ) = ℓ — the
+   level parametric barrier p̄(ℓ) is the C028/R3′ object itself.
+   Concrete bias display: at a band point s, the crossing constraint
+   forces ∂_n f(s) > 0 (outward normal derivative of the right sign),
+   so E[∂_n f(s) | Ξ = s] > E[∂_n f(s)] — the Palm-at-crossing mean
+   gradient is strictly biased upward; the barrier's Gaussian model is
+   centered, so the bias is material, not cosmetic.
+5. PREMISE P (explicit). For Q-a.e. interior field, at the
+   field-selected crossing Ξ with level ℓ = f(Ξ) ∈ [v*, b], the
+   conditional failure probability satisfies Q(F | I, Ξ, ℓ) ≤ p̄(Ξ),
+   where p̄ is the R3′ conditional-barrier function (C031: transfer
+   closed at 36× margin). Sufficient condition: the induced
+   perturbation (conditional mean given the interior + CM projection
+   field) has C¹ size on the d₀ = 5 slab ≤ the barrier margin, which
+   by the R3′ computation holds whenever the horizon pull
+   ‖·‖_H·√(1−v_slab) stays ≲ 0.13; at v_slab = 1 − O(1e-7) the pull is
+   ≲ 4e-4, a > 300× underrun — the extension needed is the horizon
+   estimate for interior-region conditioning (on-grid class covers pin
+   conditionings; the region version follows from an ε-net discretization
+   of the interior plus continuity, not yet proved anywhere in the
+   corpus).
+6. CONSISTENCY. With PREMISE P, far ≤ sup_{band} p̄ = p̄(0.05)
+   ≈ 0.0334 at the measured grade (vs 0.081 by the union route): the
+   2.43 multiplicity is removed, as the work order required. The
+   theorem-grade AO assembly then reads AO ≥ c_cond − 2.1·(ℓ/2) −
+   [named channels] with c_cond the R3′ constant, non-vacuous for
+   small r.
+
+FALSIFIER: a proof that the interior-conditioning pull at d₀ = 5
+exceeds the barrier margin (killing PREMISE P), or a measure-theoretic
+error in steps 1–4 (each is displayed replayably), kills the
+corresponding part; a proof of PREMISE P converts this verdict to a
+full unconditional proof of the selection/disintegration lemma.
+
+SHA-256 of this report body (text after this line is excluded):
+65feb4ad61d597ffaf0a00c6d541757a9ad82d24bd01bc902ea58e161dfd65aa

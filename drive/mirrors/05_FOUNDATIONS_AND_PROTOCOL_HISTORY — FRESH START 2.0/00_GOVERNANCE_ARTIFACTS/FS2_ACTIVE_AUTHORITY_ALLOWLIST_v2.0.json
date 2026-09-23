@@ -1,0 +1,85 @@
+{
+  "artifact": "FS2_ACTIVE_AUTHORITY_ALLOWLIST_v2.0",
+  "version": "2.0",
+  "effective": "2026-07-29",
+  "authority": "Dylan Roy",
+  "executed_by": "Claude (Anthropic), claude-opus-5",
+  "principle": "POSITIVE ADMISSION. A Drive object carries evidentiary authority ONLY if it is inside an allowlisted zone below. Everything not listed here is, by default, NOT authoritative. Absence from this list is a denial, not an omission.",
+  "root_folder_id": "0AGEUF_sx7o_MUk9PVA",
+  "fs2_governance_folder_id": "1PTiK2AUZSAn969ZATfUJuF7LC3wKGu7A",
+  "active_zones": [
+    { "id": "01_ACTIVE_RESEARCH_PACKAGES", "folder_id": "1cOnYpeU3Fdt06jJ8Np9wmNmJ8F4KWzzm", "descendants_observed": 680, "status": "ACTIVE_CANONICAL", "note": "Primary q0 research tree. Individual artifact status still governed by q0's own ledger; zone membership is necessary, not sufficient." },
+    { "id": "00_ACTIVE_GOVERNANCE_AND_DIRECTIVES", "folder_id": "1mwgprwS1Q3sWCT8hdoA2Ib3TmMu_A7HH", "descendants_observed": 144, "status": "ACTIVE_CANONICAL", "note": "Operating directives and protocols." },
+    { "id": "THEOREM_B_AUTHORITATIVE", "folder_id": "10SVV8yx9M1sgUJ6X2l99cZgR_hq1f_1g", "descendants_observed": null, "status": "ACTIVE_CANONICAL", "note": "Theorem B review packets and external verdicts, incl. the CL-AUD series. Created before the 07-01..07-22 inventory window; descendant count not measured this session." }
+  ],
+  "q0_canonical_surface": [
+    { "name": "Q0_MASTER.md", "file_id": "19nO3CU8B_YqGV9vTOwmvVe2Vyfeo0Jbz", "path": "01_ACTIVE_RESEARCH_PACKAGES/00_AXIOMATIC_CORE_SPINE/00.2_CANONICAL_MASTER/00_CANONICAL_MASTERS_AND_SOURCE", "present": true },
+    { "name": "Q0_LEDGER.md", "file_id": "17gpxTn4MPsrWLf4yhDJsuBE4v3UqQXa3", "path": "01_ACTIVE_RESEARCH_PACKAGES/04_COORDINATION_AUTOMATION_SPINE/04.3_CROSS_MODEL_LEDGERS/01_CURRENT_LEDGER_AND_REGISTRIES", "present": true },
+    { "name": "q0_machine.json", "file_id": "1PXa-ZqCrICicUUDIy37PafHgdjCOb3cj", "path": "01_ACTIVE_RESEARCH_PACKAGES/02_P1.1_LAW_SPECIFIC_Q_MACHINE/02.1_MACHINE_ROOT_SCHEMA/01_PRIMARY_MACHINE_ROOT", "present": true },
+    { "name": "q0_verify.py", "file_id": "1FxdPkPmK-WhTm-9hQwyJsuJiscCJoy-7", "path": "01_ACTIVE_RESEARCH_PACKAGES/02_P1.1_LAW_SPECIFIC_Q_MACHINE/02.1_MACHINE_ROOT_SCHEMA/01_PRIMARY_MACHINE_ROOT", "present": true }
+  ],
+  "q0_surface_check": { "required": 4, "found": 4, "result": "PASS", "note": "All four canonical surface objects exist and sit inside an allowlisted active zone." },
+  "denied_zones": [
+    { "id": "03_PERSONAL_AND_EARLIER_RESEARCH", "folder_id": "1q8aCmqiM0YaqcEi-QpKrridXyQR5CXnB", "status": "QUARANTINED_LEGACY", "evidentiary_authority": "ZERO", "holds_legacy_primary": 14 },
+    { "id": "OUTDATED - SUPERSEDED PROVENANCE", "folder_id": "1HBrjw1py5NoaozbhTR0kRRs69NUUGeQD", "status": "SUPERSEDED", "evidentiary_authority": "ZERO", "holds_legacy_primary": 2 },
+    { "id": "2026/07_JULY/02_CONTENT_AND_PROVENANCE_REVIEW", "folder_id": "13tB9NlI8KO4bK-CfCV-P7DfCOqUPvObU", "status": "QUARANTINED_LEGACY", "evidentiary_authority": "ZERO", "holds_legacy_primary": 1 },
+    { "id": "DELETE - QUARANTINED CANDIDATES", "folder_id": "1KFs0lDjHQIhK2SN4ky2hAsihQweFuOvD", "status": "AMBIGUOUS_QUARANTINE", "evidentiary_authority": "ZERO", "holds_legacy_primary": 0 },
+    { "id": "CORRUPTED - FAILED OR UNREADABLE", "folder_id": "1usdvL4Wb3O9LSPT78E0nWjxwOh4Ece_O", "status": "AMBIGUOUS_QUARANTINE", "evidentiary_authority": "ZERO", "holds_legacy_primary": 0 },
+    { "id": "RETIRED - INACTIVE BUT VALID", "folder_id": "1UyPRYMaoP62vqCH6U6rGX2cnpnBvIMP0", "status": "LEGACY_REFERENCE_ONLY", "evidentiary_authority": "ZERO", "holds_legacy_primary": 0 },
+    { "id": "_SANDBOX - TEMPORARY / DELETE-ANYTHING", "folder_id": "1NehvnoZCiqRWXSVGRdfHFOccB7HXaF8q", "status": "AMBIGUOUS_QUARANTINE", "evidentiary_authority": "ZERO", "holds_legacy_primary": 0 }
+  ],
+  "special_case_not_legacy": {
+    "id": "02_LEGACY_Q0_ARCHIVE",
+    "folder_id": "13guGw-6_jgWwczOlvgvR83fBlJiGHz6X",
+    "descendants_observed": 343,
+    "status": "SUPERSEDED_Q0",
+    "warning": "NAME COLLISION. This folder says LEGACY but contains ZERO of the 17 pre-method legacy files. It holds earlier-generation q0 work under the CURRENT method. Do NOT apply the RUFT/RUFL quarantine rules to it, and do NOT treat the pre-method stratum as merely 'superseded q0'. Different ontologies."
+  },
+  "legacy_primary_file_ids": [
+    "1riI_sT5mMqhMWd2Rq9AOsGwr8IA7fNkU",
+    "1-hIszDDWnQ1MMTZ2ZgUkX415Z68kQ_qqVmpgzJpgewA",
+    "1vD2odTaHdc0L97HYxGYK_2BHYgDtU01M",
+    "12PnxMu0Cr3oqPlV1fAr8hZ3jBdFgl1XA_Jp2NNbiXmQ",
+    "1-taYy6fRaZV1eg-gU9_fU0rJyWn6oGRT0y46bU-mqYc",
+    "1EMfkX4RmXvsAjRd8xl2DTgBDpM7Fjhr4",
+    "1kK5ln6ZB3xM3dxst6Gg4mLGxw7BjB9abY_t8tEZ_KbE",
+    "1-LQTMjclybn3p3SLyRWk6EfJYkydgZvAXZnwXr9HL14",
+    "1Cdi88eYQmhcg9wZzLUPX63LGYf3Yai_UEdkIcqKaSM4",
+    "1Rcj6ANOhHE9RBAKAEUZ6XcMyIb6OEAT28304x1siqR4",
+    "1Cy6QOorYWEG6BxDlfAjclTUeoHp-CgUjuMky8SAZO8s",
+    "1ay-r5OAAbkVLETxI5aSggLYGLWkvYJO9QCHOx623J3E",
+    "1_oAgiEds7wGnUXF5DYXrqVU-eCmVfVYw",
+    "1mFrNQxV9mzwwHwM7V4QMPPAA0vDvN07gCm50WIfUvpc",
+    "1stss-v0TS3LiRwlhp0Tbbe7_wR90DeGD",
+    "1F6CKEgEHqkDnjZsShEUm3tM_-WD88rlixsJaepNbRXY",
+    "1oJ_8RsVNZ5MYWDcgaEfTgy5GLc2FEohZ"
+  ],
+  "highest_risk_object": { "file_id": "1vD2odTaHdc0L97HYxGYK_2BHYgDtU01M", "title": "Text3.docx", "reason": "1.84 MB RUFL equation vault, untitled, self-asserts '100% understanding' / 'fully grasped' / '100% tested'. Every value in it is UNVERIFIED." },
+  "counts": {
+    "legacy_primary_files": 17,
+    "legacy_document_groups": 8,
+    "redundant_copies": 9,
+    "legacy_files_inside_active_zones": 0,
+    "files_inventoried_2026_07_01_to_07_22": 1422,
+    "folders_in_that_window": 358,
+    "files_inventoried_before_2026_07_01": 17
+  },
+  "lexical_scan_reliability": {
+    "verdict": "UNRELIABLE_DO_NOT_USE_FOR_QUARANTINE",
+    "reason": "Drive fullText contains does token-OR / fuzzy matching, not phrase matching",
+    "example": "fullText contains 'Roy Unified Field Theory' returned 77 hits including Q0_MASTER.md and q0_machine.json",
+    "title_scans": { "RUFT": 0, "RUFL": 0, "Magneto": 0, "FIM": 1 }
+  },
+  "inventory_gap": {
+    "window": "createdTime >= 2026-07-23",
+    "status": "NOT_ENUMERATED",
+    "reason": "sweep agent terminated by an API weekly-limit error at page 12",
+    "impact_on_this_allowlist": "NONE for the legacy census - every file in that window was created during the active q0 program and cannot belong to the pre-2026-07-01 stratum. Impact is limited to total-file-count completeness."
+  },
+  "blockers": [
+    "IN_PLACE_BANNER_INSERTION_UNAVAILABLE",
+    "FILE_MOVE_UNAVAILABLE",
+    "SET_DESCRIPTION_UNAVAILABLE",
+    "SHA256_OF_LEGACY_FILES_NOT_COMPUTED"
+  ]
+}

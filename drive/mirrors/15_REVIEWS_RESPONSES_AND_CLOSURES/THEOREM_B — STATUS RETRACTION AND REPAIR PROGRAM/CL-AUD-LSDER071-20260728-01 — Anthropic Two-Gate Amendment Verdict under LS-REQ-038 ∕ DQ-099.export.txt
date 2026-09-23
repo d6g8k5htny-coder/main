@@ -1,0 +1,76 @@
+﻿CL-AUD-LSDER071-20260728-01 — ANTHROPIC TWO-GATE AMENDMENT VERDICT UNDER LS-REQ-038 / DQ-099
+
+
+Reviewer: Claude, Anthropic, model claude-opus-5, Cowork session. Provider lineage Anthropic.
+Packet executed: LS-REQ-038-v1.0 / DQ-099 (Drive 18CJqwlk5TttMmOr1JhkWiWrDXmqj00AOp9ZgLnVg4kY). LS-REQ-037/DQ-096 and all earlier packets treated as superseded and not executed. LS-DER-070 and all general field-class claims excluded per the packet.
+Exact-hash reproduction: NOT PERFORMED and NOT CLAIMED — the Drive connector returns rendered text, not raw frozen-body bytes. All hashes treated as identity labels only.
+Independence: external-family amendment-review credit for LS-DER-071 at the two reviewed gates, and for LS-DER-064 sections 4-6 and LS-DER-065 sections 3-5 to the extent recomputed below. Counted once for this lineage.
+
+
+I. TERMINAL VERDICT
+
+
+AMEND REQUIRED — Gate A proved at reviewed scope; Gate B not proved, earliest defect LS-DER-071 (31)-&gt;(32).
+
+
+II. GATE A — PROVED AT REVIEWED SCOPE
+
+
+A1. (4)-(5) are the correct first and second log-density variations: l'=-(1/2)tr(AH)+(1/2)q^T AHA q and l''=(1/2)tr(AHAH)-q^T AHAHA q with A=Gamma^-1. The cone C is fixed in q-coordinates, so (6)-(7) carry no boundary term; this is a real repair of the LS-DER-059 sketch, not a restatement. On (1/2)I&lt;=Gamma&lt;=4I with ||H||_op&lt;=1, ||A||&lt;=2 gives |l'|&lt;=3+2||q||^2 and |(l')^2+l''|&lt;=15+20||q||^2+4||q||^4 ((1/2)|tr AHAH|&lt;=6, |q^T AHAHA q|&lt;=8||q||^2). Since ||q||^2 is dominated by 4*chi^2_3, the moments 240 / 6720 / 241920 are exact, and |det Q|&lt;=||q||^2 yields |D|&lt;=240, ||D'||&lt;=14160, ||D''||&lt;=1105680. (9) holds. No boundary derivative is omitted.
+
+
+A2. Recomputed the LS-DER-064 chain end to end: l1 coefficient &lt;=3^6 gives L=2187; ||d(A^-1)||&lt;=4L=8748; ||d^2(A^-1)||&lt;=16L^2=76527504; ||dGamma||&lt;=2.06e7 (&lt;3e7); ||d^2 Gamma||&lt;=1.80e11 (&lt;2e11); ||d^2 D(Gamma(J,t))||&lt;=1.8e21 (&lt;3e21); product with (16)-(17) gives 2.6e22 (&lt;3e22); times 4pi and B_3 gives 3.9e23; division by c_(3,infinity)&gt;1/25 gives &lt;1e25, far inside 10^42. Likewise ||DF||&lt;=2.7e15&lt;10^16. Both bounds in (10) hold, loose by roughly seventeen orders.
+
+
+A3. Recomputed the jet directly rather than accepting LS-DER-068: ||J_24-J_0||_max = 3.1195e-117 (declared &lt;1e-113) and ||R_jet||_max = 5.3200e-242 at gamma=(0,2,4) (declared &lt;1e-230, twelve orders spare).
+
+
+A4. (13) is correct and is the load-bearing new content. Phi is O(3)-invariant and J_0 is O(3)-fixed, so DPhi(J_0) annihilates the anisotropic part of any perturbation and sees only its Haar projection. I rederived that projection independently through the Laplacian contractions a=-Delta K/3, m_4=Delta^2 K/5, chi=-Delta^3 K/7, obtaining delta a=-1152, delta m_4=1956096/5, delta chi=-1105176960/7 — exactly (14) — and (15) then returns P_3(L)=-L^2(10L^4-147L^2+315)/105, verified at L=2,3,5,7,11,24 and P_3(24)=-620813376/35. (18)-(21) arithmetic checks: 1e16*1e-230&lt;1e-210 and (1/2)10^42(10^-113)^2=5e-185, so |epsilon_24|&lt;10^-180 with four orders of margin.
+
+
+III. GATE B — NOT PROVED
+
+
+Earliest defect: (31)-&gt;(32).
+
+
+(31) bounds E[|det H_M det H_S det H_y| | A_r=a_r] by C[1+(|b|+kappa)^9] with no power of r. Multiplying by the window width kappa r^3/6 and by (30) bounds the UNNORMALIZED Kac-Rice integral E[W_r N_far]. (32) labels that product E_r^MS N_far, a Palm expectation. The Palm expectation is E[W_r N_far]/Z_r and (22) gives Z_r&gt;=c_Z r^2. Dividing, (32) as derived yields O(r), not O(r^3) — a shortfall of exactly r^2.
+
+
+The r^3 is true and recoverable: the corrected pins force det H_M and det H_S to be O(r) each — the same fact that produces Z_r ~ r^2 in (22) — so (31) should carry an r^2. Section 6 never states that factor and never divides by Z_r; the two omissions cancel, which is why the stated answer is right while the stated derivation is not. As written, (32) does not establish that the fixed-distance witness term meets the O(r^3) regional rate asserted in (16) and in LS-DER-065 (18).
+
+
+This alone is not fatal. The mark envelope of Section 6 is untouched, kappa^(-2/3) times polynomial times Gaussian remains integrable, 1-p_r -&gt; 0 still follows, and nu_(3,24)(ell)=c_(3,24) ell^(-1/3)(1+o(1)) survives with the weaker rate.
+
+
+What blocks a PASS is B5. The implication G1-G7 =&gt; sup(1-p_r)=O(r^3) =&gt; selected equals all-typed is LS-DER-051. That theorem is in no review set: not this packet's, not CL-AUD-LSDER062-20260728-01's. Section 5 is a ledger of the INPUTS; the theorem that consumes them has never been examined externally at any scope. Section 5 itself records that LS-DER-051's G6 wording is too strong and must be replaced by G6'. An interface list with one already-known mis-statement cannot carry the terminal implication on trust, and Gate B is exactly the question of whether that implication holds at side 24.
+
+
+The remaining gap is narrow, because the rest checks out. (1)'s degree-nine correction is right: three 3x3 determinants give total degree nine, and H_r=mu(a)+G_r with G_r allowed to be degenerate gives (1+||a||^9). G1 (3)-(4) check — det Cov_0(P)=12 (reproduced exactly in the prior review), lambda_min&gt;=12/120^7=3.35e-14 against a jet-ball perturbation of 5.83e-107. LS-DER-065 Lemma 5.1 is precisely the random-variable-level proportionality L_0=-(1/12)(Y f_112+Z f_113)+O(rho^2), L_1^random=c(Y f_112+Z f_113)+O(rho^2) that repair R5 asked for; it is correct and kernel-independent, and A_sing(K_0)=1/24 matches LS-DER-053 (34). A_col(K_0)=(4X^2+rho^2)/(X^2+rho^2) matches LS-DER-053 (18) with radial-blow-up minimum one. (26)-(30) are correct Gaussian regression: only Sigma_AA is inverted, and degeneracy of the Hessian block is genuinely harmless.
+
+
+Minor, not a gate failure: (29)'s constant 1/2 is normalization-dependent. With the LS-DER-056 target -kappa/6 the constant is 1/36, not 1/2. (30) needs only some c&gt;0, so nothing downstream moves.
+
+
+IV. CITATION SCOPE
+
+
+Analytic rational relative interval: now unconditional at reviewed mathematical scope — |epsilon_24|&lt;10^(-180) is externally proved, so the LS-DER-062 construction may be cited without the LS-DER-059 conditionality.
+Externally reproduced deterministic relative value: unchanged; 280 digits externally reproduced in CL-AUD-LSDER062-20260728-01.
+Local all-typed side-24 coefficient: externally supported.
+Selected side-24 persistence coefficient: NOT externally closed; cite as same-family candidate pending the two repairs below.
+
+
+V. MINIMAL REPAIR
+
+
+B-i. Restate (31) as E[|det H_M det H_S det H_y| | A_r=a_r] &lt;= C r^2 [1+(|b|+kappa)^9], citing the same corrected-pin endpoint scaling det H_M, det H_S = O(r) already used for (22); then divide by Z_r &gt;= c_Z r^2 explicitly so (32) reads E_r^MS N_far &lt;= C r^3 [1+(|b|+kappa)^10] exp[-c(b^2+kappa^2)].
+
+
+B-ii. Add LS-DER-051 to the review set and state, with proof or explicit citation, the implication G1-G7 =&gt; sup(1-p_r)=O(r^3), using G6' throughout. Without it Gate B has no reviewed terminal step.
+
+
+A-i. Optional: record in LS-DER-071 that (29)'s constant is convention-dependent.
+
+
+END CL-AUD-LSDER071-20260728-01

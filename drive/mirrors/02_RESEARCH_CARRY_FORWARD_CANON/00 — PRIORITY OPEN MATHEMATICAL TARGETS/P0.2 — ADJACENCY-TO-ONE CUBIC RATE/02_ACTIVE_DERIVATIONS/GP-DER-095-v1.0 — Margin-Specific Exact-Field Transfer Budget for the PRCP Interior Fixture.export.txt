@@ -1,0 +1,250 @@
+﻿GP-DER-095-v1.0 — MARGIN-SPECIFIC EXACT-FIELD TRANSFER BUDGET FOR THE PRCP INTERIOR FIXTURE
+
+
+Artifact ID: GP-DER-095-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: DER / PRE — deterministic perturbation certificate and exact-field gate definition
+Authority: none
+Canonical impact: NONE
+Responds to: GP-DER-092-v1.0, GP-AUD-090-v1.0, GP-DER-045-v1.0
+Executable source: GP-DATA-096-v1.0, Drive ID 1N7sUEwm_44VFDHjquppFR2PzlH_NRKXo
+Machine receipt: Drive ID 1jhqCO7xLu-7WEWaeOMNLG7Vv9khY6pPK
+
+
+[[OBJ:GP-DER-095-v1.0]] [[OBJ:GP-DATA-096-v1.0]] [[OBJ:GP-DER-092-v1.0]] [[REL:DERIVES_TRANSFER_BUDGET_FOR]] [[STATUS:EXACT-FIELD-MEMBERSHIP-OPEN]]
+
+
+1. Exact object and scope
+
+
+This artifact derives a sufficient exact-field transfer budget for the single strict degree-four fixture PRCP-INTERIOR-001. It does not assert that an exact conditioned field satisfies the budget.
+
+
+Let F^(4) be the degree-four pin-preserving vector field of GP-DER-092 and F the exact scaled field on
+
+
+    D = {|X| <= 0.75, |Y| <= 1}.
+
+
+Let R=F-F^(4). Required endpoint identity:
+
+
+    R(S)=R(M)=0.
+
+
+Define
+
+
+    delta = ||R||_{C^1(D)},
+
+
+using the Euclidean norm for vectors and operator norm for Jacobians. GP-DER-045 proves the general estimate
+
+
+    delta <= C_D r^2 H_{5,r}(D),
+
+
+and CW-AUD-018 independently rederived that transfer mechanism. The application to the new witness fixture and the numerical budget below are GP-side and still require outside review.
+
+
+2. Frozen fixture
+
+
+The degree-four witness is
+
+
+    r=1/20, a=1/400, w=0, z=1, s=-1,
+    c40=c31=c22=c13=c04=0,
+    sigma=1/10, kappa=1/100.
+
+
+Its optimized witness quantities are
+
+
+    mu=W=sqrt(1/3200)=0.01767766952966368811... .
+
+
+All degree-four margins and five controls are preserved in GP-DATA-093 / GP-AUD-094.
+
+
+3. Endpoint-type and unstable-eigendirection budgets
+
+
+At S, the degree-four symmetric Jacobian has eigenvalues
+
+
+    lambda_u^0=+sqrt(1+(a/2)^2),
+    lambda_s^0=-sqrt(1+(a/2)^2),
+
+
+with spectral gap g=lambda_u^0-lambda_s^0. In xi=1/2-X coordinates, write the M-ward unit unstable eigenvector as e_0=(nu_0,e_{y,0}).
+
+
+Under ||DR||_op<=delta, GP-DER-045 gives the Davis–Kahan bound
+
+
+    ||e-e_0|| <= theta = 2 delta/g.
+
+
+The exact eigendirection remains inside |y|<kappa xi if
+
+
+    |e_{y,0}|+theta < kappa(nu_0-theta).
+
+
+Therefore a sufficient eigendirection budget is
+
+
+    delta < (g/2) [kappa nu_0-|e_{y,0}|]/(1+kappa)
+          = 0.0092821838983191239971017427180462345... .
+
+
+This is the binding budget. Weyl endpoint-type preservation is much less restrictive.
+
+
+4. Cone budgets
+
+
+Because R(S)=0 and ||DR||_op<=delta, at a cone point with |y|<=kappa xi,
+
+
+    ||R|| <= delta xi sqrt(1+kappa^2).
+
+
+The upper/lower cone-face functionals have norm sqrt(1+kappa^2), so their normalized inward margins lose at most delta(1+kappa^2). The resulting cone-face budget is
+
+
+    delta < 0.0178783121687831216878312168783121687... .
+
+
+The longitudinal cone drift loses at most delta sqrt(1+kappa^2), giving
+
+
+    delta < 0.899945003874681277731886946365612328... .
+
+
+5. Strip and transit budgets
+
+
+The C^1 norm includes the vector-field C^0 bound. Thus the exact strip faces remain inward and the central drift remains M-ward if delta is below the corresponding degree-four margins:
+
+
+    strip-face budget     = 0.0175214195296636881100211090526212259...,
+    transverse-derivative = 0.982322330470336311889978890947378774...,
+    central-transit       = 0.0899823223304703363118899788909473788... .
+
+
+The cone handoff geometry remains strict:
+
+
+    W/2-kappa sigma = 0.00783883476483184405501055452631061299... > 0.
+
+
+6. Sink-capture budget
+
+
+For h=x-M, the pin identity R(M)=0 implies
+
+
+    h·R(M+h) <= delta ||h||^2.
+
+
+The degree-four Lyapunov contraction margin is
+
+
+    lambda_min(-J_M^0)-rho N_2
+      = 0.3884316148517234779204512469340137188... .
+
+
+Therefore delta below that value preserves strict exact-field contraction on the same ball. The M-side section uses |Y|<=W, not the smaller S-cone bound. With rho=2 sqrt(sigma^2+W^2), the entire M-side section lies at distance at most rho/2 from M and hence strictly inside B(M,rho).
+
+
+7. Combined transfer gate
+
+
+The open maximal sufficient budget is the minimum of all component budgets:
+
+
+    delta_max = 0.0092821838983191239971017427180462345...,
+
+
+bound by unstable-eigendirection retention.
+
+
+The fail-closed machine threshold uses a factor-two safety margin:
+
+
+    delta_accept = delta_max/2
+                 = 0.00464109194915956199855087135902311727... .
+
+
+A fixture may receive EXACT_FIELD_TRANSFER_PASS only if all of the following are supplied explicitly:
+
+
+1. the exact same finite-jet fixture and coordinate convention;
+2. R(S)=R(M)=0;
+3. a verified C^1(D) bound delta <= delta_accept;
+4. source and receipt hashes for the exact-field or rigorous remainder computation;
+5. no failure in the endpoint, eigendirection, cone, strip, transit, section, or capture object checks.
+
+
+Using GP-DER-045, at r=1/20 it is sufficient to verify
+
+
+    C_D r^2 H_{5,r}(D) <= delta_accept,
+
+
+or equivalently
+
+
+    H_{5,r}(D) <= 1.8564367796638247994203485436092469... / C_D.
+
+
+No value of C_D or H_{5,r}(D) is supplied here. Exact-field membership therefore remains OPEN.
+
+
+8. Negative controls
+
+
+GP-DATA-096 freezes five required failures:
+
+
+NC1: delta above the binding budget fails eigendirection retention.
+NC2: a C^0-only bound cannot verify a C^1 transfer.
+NC3: missing R(S)=0 or R(M)=0 fails endpoint identity.
+NC4: substituting kappa sigma for W at the M-side section fails object identity.
+NC5: declaring a numerical delta without a reconstructable exact-remainder receipt remains CANNOT VERIFY.
+
+
+9. Dependencies
+
+
+Affected:
+- PRCP exact-field transfer gate for PRCP-INTERIOR-001;
+- GP-DER-092 / GP-DATA-093 review routing;
+- exact-field replay receipt schema;
+- future CL/AO48/CW comparison.
+
+
+Unaffected:
+- the degree-four fixture pass itself;
+- GP-DER-045 and CW-AUD-018 general transfer results;
+- exact-torus six-pin reconstruction;
+- P0.2 theorem status;
+- EC-014;
+- ballots, GP-AUTO-034, machines, releases, and destructive workflows.
+
+
+10. Required outside work
+
+
+CL: compare this margin decomposition with the intended PRCP bridge and identify any missing term.
+AO48: independently attack the eigendirection, cone-functional, and direct Lyapunov bounds.
+CW/C047R: execute the byte-exact checker and, if possible, provide an exact-field or rigorous remainder receipt satisfying or failing delta_accept.
+
+
+Silence is not verification. A transfer-budget pass is not exact-field membership, probability evidence, or theorem promotion.
+
+
+END GP-DER-095-v1.0

@@ -1,0 +1,458 @@
+﻿LS-DER-037-v1.0 — TB-G1 BOREL PAIR AND ADJACENCY MARKS, DIRECTED UNIT MULTIPLICITY, AND FORMALIZATION SCHEMA
+
+
+Artifact ID: LS-DER-037-v1.0
+Date: 2026-07-27
+Dispatch: DQ-051
+Class: DER / MEASURABILITY / POINT PROCESS / COUNTING CONVENTION / FORMALIZATION-READY PROOF
+Authority: same-OpenAI-family mathematical companion only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: FROZEN CANDIDATE / EXTERNAL REVIEW REQUIRED / NO THEOREM B PROMOTION
+BODY_BYTES: 16155
+BODY_SHA256: 9ba9cf45dba1b5c498fce296c8d6ae70b9e1b03e0576d20e6428e1cc417d86b0
+Freeze policy: apply OP-PROT-017 to the unique full lines BEGIN_TBG1_MEASURABILITY_FROZEN_BODY and END_TBG1_MEASURABILITY_FROZEN_BODY; preserve leading bytes; normalize CRLF and CR to LF; remove trailing LF characters; append exactly one LF; encode UTF-8 without BOM.
+
+
+BEGIN_TBG1_MEASURABILITY_FROZEN_BODY
+TB-G1 BOREL PAIR AND ADJACENCY MARKS, DIRECTED UNIT MULTIPLICITY, AND FORMALIZATION SCHEMA
+
+
+1. PURPOSE, SCOPE, AND CONTROLLING INPUTS
+
+
+This companion discharges DQ-051 and the sole load-bearing clarification C2 in CL-AUD-S2DER010-20260727-01. It also supplies the minimal repairs requested by clarification C1, anchors clarification C3 at the foundational object, and gives an explicit formalization schema.
+
+
+Controlling inputs:
+- S2-DER-010-v1.0, Drive ID 1rBECSuJoa8kWU71Z0bDYDZsB9qkRh16q8GgqaeM0wQE, frozen body 17,845 bytes, SHA-256 bd4e839f5b61ca3edb9d0aaaaf5dcd12031b44e6f707929cd747c712646cb10f.
+- CL-AUD-S2DER010-20260727-01, Drive ID 1aQK0-emveJQqUDWP_Pck32mHNjtkMtT0hn7SA9toxBk, external verdict APPROVE WITH CLARIFICATIONS.
+- S2-REQ-005-v1.0, Drive ID 1tiaXTaG6c-GGbSTtttT6HVExX5mk7ofZJLwFH-8ec00.
+- GP-DER-197-v1.0, Drive ID 1hGQVFDZKHMcdG94_OIgVEwipTR6pvKCk_-llHyIq3uQ, measurable selected unstable branch and Borel exact adjacency event.
+- LCR-DER-057-v1.1, Drive ID 1ooqFTdifp8cxHYhRxmzJ2Y-nqx-971lpMQ4criehXWM, approved local continuous unstable-branch selector.
+- LCR-DER-061-v1.1, Drive ID 164lkFwvYVMRNDDGAKu05LLBN5yRUmOMM3SlAr2jrNGU, countable Borel globalization companion.
+
+
+This document does not re-prove the externally approved unit-multiplicity theorem. It proves the missing event-theoretic layer and records the exact conventions that must be preserved downstream.
+
+
+2. FIELD SPACE AND GENERIC LOCUS
+
+
+Let X be a compact connected smooth surface equipped with a fixed smooth Riemannian metric. The application is the flat torus T_L^2 with L=24. Let
+
+
+    F = C^3(X;R)
+
+
+with its C^3 norm. F is a separable Banach space and therefore a standard Borel space.
+
+
+Let G_MS be the subset of functions f satisfying:
+1. f is Morse;
+2. all critical values are pairwise distinct;
+3. the gradient flow of f is Morse–Smale.
+
+
+The Morse and distinct-value conditions are open in C^2. Morse–Smale gradient flows are structurally stable and open in the C^1 vector-field topology. Since f -> grad f is continuous from C^3 functions to C^2 vector fields, G_MS is open in F and hence Borel.
+
+
+Every mark defined below is assigned the value false, or the zero point measure, outside G_MS. This fail-closed convention is Borel and prevents ties, degenerate critical points, nontransverse separatrix bifurcations, or recurrent non-Morse dynamics from being silently included.
+
+
+3. LOCAL CRITICAL-POINT LABELS AND THE ELDER MARK
+
+
+Fix f_0 in G_MS. Because f_0 has finitely many nondegenerate critical points, there is a neighborhood U of f_0 and continuous critical-point continuations
+
+
+    c_1(f),...,c_N(f),   f in U,
+
+
+that exhaust Crit(f), preserve Morse index, and preserve the strict ordering of all critical values.
+
+
+Choose one regular level between every two consecutive critical values of f_0. After shrinking U, all chosen levels remain regular. Structural stability and the isotopy lemma identify the superlevel cobordisms between adjacent regular levels. Expressed in the continued labels, the following finite combinatorial data are constant on U:
+- which index-one saddles merge two distinct H0 components;
+- which index-one saddles are loop/self-attachment saddles;
+- the elder representative of every superlevel component;
+- the death label D_f(M)=S for every non-global maximum M.
+
+
+Thus the elder-rule indicator
+
+
+    d_ij(f)=1{c_i(f) is a maximum, c_j(f) is an index-one saddle, and D_f(c_i(f))=c_j(f)}
+
+
+is locally constant on U.
+
+
+4. DIRECT BOREL PROOF FOR THE CANDIDATE AND PERSISTENCE PROCESSES
+
+
+Fix 0<rho<inj(X). For a locally labelled maximum M_i(f) and saddle S_j(f), define
+
+
+    r_ij(f)=dist(M_i(f),S_j(f)),
+    b_i(f)=f(M_i(f)),
+    ell_ij(f)=f(M_i(f))-f(S_j(f)),
+    kappa_ij(f)=6 ell_ij(f)/r_ij(f)^3
+
+
+on {r_ij>0}. On the flat torus with rho<L/2, the unique short displacement Log_{M_i}(S_j) is continuous. The directed angle
+
+
+    theta_ij(f)=Arg(Log_{M_i(f)} S_j(f)) in [0,2pi)
+
+
+is Borel. It is not continuous across the half-open branch cut, and continuity is not asserted.
+
+
+The cutoff
+
+
+    1{0<r_ij(f)<rho}
+
+
+is Borel because r_ij is continuous. This explicitly repairs clarification C1: a pair at distance exactly rho may enter or leave under perturbation, but its inclusion label remains Borel.
+
+
+Let E be the geometric mark space carrying base point, r, theta, b, kappa, and the labelled critical points. On U define
+
+
+    Xi_all,rho(f)
+      = sum_{i,j} 1{M_i max}1{S_j saddle1}1{0<r_ij<rho}1{ell_ij>0}
+          delta_{atom_ij(f)},
+
+
+    Xi_pers,rho(f)
+      = sum_{i,j} 1{0<r_ij<rho} d_ij(f) delta_{atom_ij(f)}.
+
+
+For every bounded continuous compactly supported test function phi on E, the maps
+
+
+    f -> integral phi dXi_all,rho(f),
+    f -> integral phi dXi_pers,rho(f)
+
+
+are finite sums of products of continuous functions, Borel cutoff/angle functions, and locally constant elder labels. Hence they are Borel on U. A countable cover of G_MS by such U, together with a countable convergence-determining family of test functions on E, proves that
+
+
+    f -> Xi_all,rho(f),
+    f -> Xi_pers,rho(f)
+
+
+are Borel maps into the space of finite point measures with the vague topology. Extension by the zero measure outside G_MS is Borel.
+
+
+No local-continuity claim is needed. The exact statement of S2-DER-010 Theorem 5.1 survives; only its proof route is replaced.
+
+
+5. TWO-BRANCH BOREL ADJACENCY MARK
+
+
+Fix a local label neighborhood U and one continued saddle S_j(f). The Hessian H_j(f)=Hess f(S_j(f)) is a continuous family of symmetric index-one matrices. Its one-dimensional unstable eigenspace L_j(f) varies continuously as a line.
+
+
+After shrinking U if needed, choose a continuous local unit vector e_j(f) spanning L_j(f). Its sign is arbitrary. The parameter-dependent local unstable-manifold theorem gives two continuous nonstationary representative points
+
+
+    z_j^+(f), z_j^-(f)
+
+
+lying on the two connected components of W^u(S_j(f);f)\{S_j(f)}, with initial tangents +e_j(f) and -e_j(f).
+
+
+The choice of sign only swaps z_j^+ and z_j^-. The existential adjacency mark below is therefore independent of that local orientation.
+
+
+Because G_MS is second countable, choose countably many such neighborhoods U_n covering it. Form the disjoint Borel partition
+
+
+    B_1=U_1,
+    B_n=U_n\union_{m<n}U_m.
+
+
+On each B_n use its two continuous branch representatives. This yields Borel maps z_j^+,z_j^- on every local critical-label stratum. The construction is independent of the countable cover in the only sense used below: any two nonstationary representatives on the same connected branch differ by a finite flow-time shift and have the same forward omega-limit.
+
+
+Let Phi(f,t,x) be the gradient-ascent flow. Compactness of X and C^1 regularity give a global flow, and finite-time ODE dependence makes
+
+
+    (f,t,x) -> Phi(f,t,x)
+
+
+jointly continuous on the relevant local field spaces.
+
+
+For a continued maximum M_i(f), define
+
+
+    C_ij^sigma
+      ={f: lim_{t->infinity} Phi(f,t,z_j^sigma(f))=M_i(f)},
+      sigma in {+,-}.
+
+
+This is Borel. An explicit countable representation is
+
+
+    C_ij^sigma
+      = intersection_{k>=1} union_{N>=1} intersection_{q in Q, q>=N}
+          {f: dist(Phi(f,q,z_j^sigma(f)),M_i(f))<1/k}.
+
+
+Each set in braces is Borel; continuity of the path and density of rational times make the representation equivalent to convergence.
+
+
+Define the existential direct-gradient-adjacency mark
+
+
+    A_ij(f)=1{f in C_ij^+ union C_ij^-}.
+
+
+Therefore A_ij is Borel on G_MS. It is invariant under swapping the two branches and under replacing either representative point by another point on the same branch. Extend A_ij=0 outside G_MS and whenever the labelled pair is not maximum/index-one-saddle typed. The extension is Borel on F.
+
+
+This proves clarification C2: the symbol A_f(M,S) is a legitimate Borel event. No adjacency condition is inserted into the base field law or the Kac–Rice weight.
+
+
+6. BOREL ADJACENCY-MARKED POINT PROCESSES
+
+
+Define
+
+
+    Xi_adj,rho(f)
+      =sum_{i,j} A_ij(f) 1{typed candidate and 0<r_ij<rho} delta_{atom_ij(f)},
+
+
+    Xi_adj-pers,rho(f)
+      =sum_{i,j} A_ij(f)d_ij(f)1{0<r_ij<rho} delta_{atom_ij(f)},
+
+
+    Xi_nonadj-pers,rho(f)
+      =sum_{i,j} (1-A_ij(f))d_ij(f)1{0<r_ij<rho} delta_{atom_ij(f)}.
+
+
+All three are Borel finite point-measure maps. Pointwise,
+
+
+    Xi_pers,rho=Xi_adj-pers,rho+Xi_nonadj-pers,rho.
+
+
+This identity includes every branch configuration. A pair with both ascending branches ending at M has A_ij=1 but contributes one atom, not two. A loop/self-merge saddle can carry A_ij=1 in Xi_adj, but it has d_ij=0 and therefore is not an H0 persistence death in Xi_pers or Xi_adj-pers.
+
+
+7. EXACT PROBABILITY DECOMPOSITION
+
+
+Let T_r(lambda) be the exact all-typed ordered maximum-saddle conditioning object on a standard Borel field space. Since D_f(M)=S and A_f(M,S) are Borel, their regular conditional probabilities are well defined for almost every mark and admit measurable versions.
+
+
+Define
+
+
+    p_r=P(D=S|T_r),
+    a_r=P(A=1|T_r),
+    eta_r=P(D=S,A=0|T_r).
+
+
+Where a_r>0 define q_r^adj=P(D=S|A=1,T_r). Where a_r=0, define the product a_r q_r^adj directly as P(D=S,A=1|T_r), without assigning an arbitrary conditional probability on a null conditioning event.
+
+
+Partitioning {D=S} by A gives the exact identity
+
+
+    p_r=a_r q_r^adj+eta_r,
+
+
+and
+
+
+    0<=eta_r<=1-a_r.
+
+
+This is an equality of the same exact law and the same ordered-pair convention. It neither assumes nor implies eta_r=0.
+
+
+8. UNIT MULTIPLICITY, DIRECTION, AND ANGULAR CONVERSION
+
+
+The externally reviewed deterministic result remains controlling:
+- every non-global maximum has one death saddle;
+- every H0 merge saddle kills one elder representative;
+- every finite ordinary superlevel H0 bar is represented once;
+- loop saddles kill no H0 class;
+- the global maximum represents the one essential class.
+
+
+The candidate domain Max(f) x Sad_1(f) is already ordered by critical-point type. Reversal is not another atom of that domain. Hence there is no unordered-pair factor 1/2.
+
+
+The directed angle theta in [0,2pi) uses the displacement from maximum to saddle. If a different source uses an unoriented line angle alpha in [0,pi), the density conversion is
+
+
+    J_line(alpha)=J_dir(alpha)+J_dir(alpha+pi).
+
+
+Conversely,
+
+
+    integral_0^pi J_line(alpha)dalpha
+      =integral_0^{2pi} J_dir(theta)dtheta.
+
+
+Only under an additional pi-rotation symmetry giving J_dir(alpha)=J_dir(alpha+pi) may one write J_line=2J_dir on [0,pi). This is a coordinate pushforward, not a multiplicity correction to the ordered critical-pair process.
+
+
+9. BASE-AREA CONVENTION
+
+
+The first-moment intensity is specific per unit ordinary base-point area. Under stationarity, with x denoting the base point used to place the ordered pair,
+
+
+    E Xi_all(dx dr dtheta db dkappa)
+      =J_r(theta,b,kappa) dx r dr dtheta db dkappa.
+
+
+Thus J_r is a density per unit Lebesgue area in x. Integrating over the side-24 torus multiplies the specific intensity by
+
+
+    area(T_24^2)=24^2=576.
+
+
+This anchors clarification C3 at TB-G1. It changes no frozen numerical claim. Every downstream formula must state whether it is specific per unit area or total over the torus.
+
+
+10. EDGE-CASE FIREWALL
+
+
+Ties: distinct critical values are required. Outside that locus all marks fail closed.
+
+
+Degenerate critical points: excluded by the Morse condition. A monkey saddle may kill more than one class and is not covered.
+
+
+Non-Morse-Smale flows: adjacency is assigned false by the declared fail-closed convention; elder pairing may still exist but is not inserted through this adjacency interface.
+
+
+Distance diagonal: r=0 is excluded. The normalized gap kappa is undefined there and no atom is created.
+
+
+Cut locus: rho<inj(X); on T_L^2 this is rho<L/2. The short logarithm is then unique.
+
+
+Angle branch cut: Arg in [0,2pi) is Borel, not globally continuous. The proof uses Borel measurability only.
+
+
+Reversed orientation: (S,M) is not a maximum-saddle atom. theta+pi is not a duplicate of the same labelled atom.
+
+
+Two branches to one maximum: adjacency is existential Boolean and contributes one pair atom.
+
+
+Self-merge/loop saddle: may be adjacency-marked in Xi_all or Xi_adj, but never receives D_f(M)=S because it is not an H0 merge.
+
+
+Selected-but-nonadjacent pair: retained by Xi_nonadj-pers and eta_r. It is never silently discarded.
+
+
+11. FORMALIZATION-READY STATEMENT SCHEMA
+
+
+The following object graph is sufficient for Lean, Coq, Isabelle, or a proof assistant with finite Morse data supplied as an abstract interface.
+
+
+Structure GenericField:
+- field f:F;
+- proof f in G_MS;
+- finite type CritLabel;
+- maps point:CritLabel->X and value:CritLabel->R;
+- predicates IsMax, IsSaddle1, IsMergeSaddle;
+- strict total order on critical values;
+- finite component/merge-tree data.
+
+
+Definitions:
+- Death : {i // IsMax i and i is not global}-> {j // IsMergeSaddle j};
+- PairAtom(i,j) with r,theta,b,kappa and proof 0<r<rho;
+- PersMark(i,j) : Prop := Death(i)=j;
+- BranchSide := plus | minus;
+- BranchPoint(f,j,side):X, supplied by the Borel unstable-manifold selector;
+- ConvergesTo(f,x,i):Prop via the rational-time Cauchy/convergence formula;
+- AdjMark(i,j):Prop := ConvergesTo(f,BranchPoint(f,j,plus),i) or ConvergesTo(f,BranchPoint(f,j,minus),i).
+
+
+Core theorem targets:
+T1. Death is a bijection between non-global maxima and merge saddles / finite H0 bars.
+T2. PersMark is locally constant on generic label charts and globally Borel after chart globalization.
+T3. AdjMark is Borel and independent of selector orientation and representative point.
+T4. PairAtom uses one directed maximum-to-saddle orientation; no factor 1/2.
+T5. PersMeasure=AdjPersMeasure+NonAdjPersMeasure.
+T6. For every regular conditional law, p=a*q_adj+eta and eta<=1-a.
+T7. Specific intensity uses dx r dr dtheta db dkappa; total side-24 intensity is 576 times the specific intensity.
+
+
+The dynamical selector may be isolated as an imported theorem with explicit hypotheses: hyperbolic index-one saddle, continuous parameter dependence, two local unstable branches, global C^1 flow, and Borel convergence to a moving hyperbolic maximum.
+
+
+12. DEPENDENCY GRAPH
+
+
+S2-DER-010 unit multiplicity
+  -> local critical labels and merge-tree constancy
+  -> Borel elder mark and Xi_pers.
+
+
+GP-DER-197 / LCR-DER-057-v1.1 / LCR-DER-061-v1.1
+  -> local two-branch representatives
+  -> countable Borel branch selectors
+  -> Borel convergence events
+  -> Borel existential adjacency mark.
+
+
+Borel elder mark + Borel adjacency mark
+  -> exact conditional probabilities
+  -> p=a q_adj+eta
+  -> measurable adjacency/nonadjacency point-process decomposition.
+
+
+No edge runs from an adjacency-conditioned law back into the all-typed base intensity.
+
+
+13. REOPENING AND FALSIFIERS
+
+
+Reopen or amend this companion if:
+- G_MS is not Borel/open in the declared C^3 topology;
+- critical points cannot be locally continued with constant index and critical-value order;
+- the merge/death label changes inside a generic structural-stability neighborhood;
+- the direct cutoff/Arg construction is not Borel;
+- parameter-dependent unstable manifolds fail to provide two local continuous branch representatives;
+- the countable patching does not yield Borel representatives;
+- two representatives on one branch can have different forward omega-limits;
+- convergence to a moving maximum is not Borel in compact-open path space;
+- loop saddles enter the death mark;
+- a branch incidence is counted as a second pair atom;
+- the directed/unoriented angular conversion is used as a universal multiplicity factor;
+- the base-area convention is silently changed;
+- or this same-family companion is counted as independent review or used to promote Theorem B.
+
+
+14. FINAL VERDICT
+
+
+DQ-051 C1 DIRECT BOREL REPAIR: PROVED.
+DQ-051 C2 ADJACENCY-MARK MEASURABILITY: PROVED ON THE MORSE-SMALE DISTINCT-VALUE LOCUS WITH BOREL FAIL-CLOSED EXTENSION.
+DQ-051 C3 BASE-AREA CLARIFICATION: ANCHORED AS SPECIFIC PER UNIT AREA; TOTAL SIDE-24 FACTOR 576.
+DIRECTED UNIT MULTIPLICITY: UNCHANGED AND EXTERNALLY APPROVED.
+EXACT DECOMPOSITION p=a q_adj+eta: NOW EVENT-THEORETICALLY WELL-DEFINED.
+THEOREM B: RETRACTED / NOT RESTORED / NOT PROMOTED.
+
+
+END_TBG1_MEASURABILITY_FROZEN_BODY
+
+
+END LS-DER-037-v1.0

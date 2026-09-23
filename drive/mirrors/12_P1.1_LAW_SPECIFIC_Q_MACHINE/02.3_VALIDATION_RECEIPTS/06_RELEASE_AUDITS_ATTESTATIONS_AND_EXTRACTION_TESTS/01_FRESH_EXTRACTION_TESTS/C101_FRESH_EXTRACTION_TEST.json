@@ -1,0 +1,45 @@
+{
+  "release_id": "Q0-C101-QUALITATIVE-RATE",
+  "protocol": "immutable verification root plus disposable execution copy",
+  "valid": true,
+  "bundle_sha256": "5222e0ea1c1622531a3119e7df68aae245db27a9c56020e6cedfd1b7c18406c0",
+  "bundle_bytes": 2871903,
+  "immutable_root_manifest_digest_before": "fc90408609b9a710ac70372a697cf2a013f0593f15f00bed6747b5079102daaa",
+  "immutable_root_manifest_digest_after": "fc90408609b9a710ac70372a697cf2a013f0593f15f00bed6747b5079102daaa",
+  "immutable_root_unchanged": true,
+  "declared_files": 64,
+  "steps": [
+    {
+      "name": "immutable_verify_before",
+      "returncode": 0,
+      "stdout_sha256": "9f83a6e22dba3fc60bd88acfc864b9de77fdb91f9e06d83c65f4e719e126ad80",
+      "stdout_tail": "{\n  \"release_id\": \"Q0-C101-QUALITATIVE-RATE\",\n  \"mode\": \"extracted-directory\",\n  \"valid\": true,\n  \"issues\": [],\n  \"declared_files\": 64,\n  \"verified_files\": 64,\n  \"zip_entries_expected\": 65,\n  \"root_hashes\": {\n    \"Q0_CUBIC_RATE_EXISTENCE_C101\": \"f92e4aae4c5b6cf7a3a34c41a43642f14f129543d03eceb82d73a4e77f49100f\",\n    \"Q0_LIMIT_C101\": \"5ed20eafac7cffa923518fce06cae56822c0a2a62b2d8061e5cd90163ca47996\"\n  },\n  \"bundle_sha256\": null\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "disposable_execution_copy_deep_audit",
+      "returncode": 0,
+      "stdout_sha256": "1536dbb2b0a2964360b186a0464910b39d404dc6ee6ffe1e078cf6b3b062c2a5",
+      "stdout_tail": ",\n    \"absolute_output_paths\": [],\n    \"execution_results\": [\n      {\n        \"script\": \"C099_CUBIC_TYPE_NOGO.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"3b3177580a7111ce87b70fbf8c4f21a46e94b00d1f467bd2d8f2cfa43041af00\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"C099_SCALED_FRAME_CERTIFICATE.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"59b6aa73ca3d6ee653854e3464195f14487ee873864726d5b077be4fcfdebd15\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"C100_COLLAR_SCALED_FRAME.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"f57c6f0b2ab1949a90cecffd5269c36dbdf3a8f5e7f01c2f76b9641bc7fcf43b\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"C101_WINDOW_SADDLE_FRAME.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"bbc7df35e4ea7c9a4ebcc2ffffdd66d1a35e314d756fa6ece3d771bd097c0546\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"C101_INDEPENDENT_CHECK.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"7dc6c85ee7e9e62f5cb8e3fdfeb0e7c8085637c536bfc60cb0da8cdaf36480de\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"gate_kernel_v2_0.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"35f67ee6a27ecace5afd6bc99ba5af8c6b98ab97380c3740a005c655abd11c2a\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"validate_gate_kernel_v2_0.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"f7d05a8f64daed525b62247cdb36672e1eb4fd56131ed97fb611c6a4eb7fd616\",\n        \"stderr_tail\": \"\"\n      },\n      {\n        \"script\": \"C098_GAMMA_MAXCOUNT_BENCHMARK.py\",\n        \"returncode\": 0,\n        \"stdout_sha256\": \"ee9ad10856d2e597d8c32160e990667f4e3709310a29b426efb96a2fabf762c3\",\n        \"stderr_tail\": \"\"\n      }\n    ],\n    \"invariants\": {\n      \"contract_shell_valid\": true,\n      \"contract_unconditional_promotable\": true,\n      \"contract_conditions_empty\": true,\n      \"root_hashes_exact\": true,\n      \"gate_kernel_36_of_36\": true,\n      \"independent_check\": true,\n      \"collar_closed\": true,\n      \"near_closed\": true,\n      \"global_closed\": true,\n      \"state_core_closed\": true,\n      \"state_unowned_zero\": true\n    },\n    \"claim_language\": {\n      \"contains_rate_statement\": true,\n      \"contains_limit_statement\": true,\n      \"4p35_not_claimed\": true,\n      \"finite_lower_not_claimed\": true,\n      \"external_review_flag\": true\n    },\n    \"parent_C096_sha256\": \"735913ddf4dd2a3dfd3bf5c076ce798e13711f16f600b3d71aa7b7046e4fc188\",\n    \"parent_hash_matches\": true\n  }\n}\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "execution_copy_local_import",
+      "returncode": 0,
+      "module_path": "/tmp/q0_c101_fresh_q368v2ec/execution/gate_kernel_v2_0.py",
+      "local_import": true,
+      "stdout_tail": "/tmp/q0_c101_fresh_q368v2ec/execution/gate_kernel_v2_0.py\n",
+      "stderr_tail": ""
+    },
+    {
+      "name": "immutable_verify_after",
+      "returncode": 0,
+      "stdout_sha256": "9f83a6e22dba3fc60bd88acfc864b9de77fdb91f9e06d83c65f4e719e126ad80",
+      "stdout_tail": "{\n  \"release_id\": \"Q0-C101-QUALITATIVE-RATE\",\n  \"mode\": \"extracted-directory\",\n  \"valid\": true,\n  \"issues\": [],\n  \"declared_files\": 64,\n  \"verified_files\": 64,\n  \"zip_entries_expected\": 65,\n  \"root_hashes\": {\n    \"Q0_CUBIC_RATE_EXISTENCE_C101\": \"f92e4aae4c5b6cf7a3a34c41a43642f14f129543d03eceb82d73a4e77f49100f\",\n    \"Q0_LIMIT_C101\": \"5ed20eafac7cffa923518fce06cae56822c0a2a62b2d8061e5cd90163ca47996\"\n  },\n  \"bundle_sha256\": null\n}\n",
+      "stderr_tail": ""
+    }
+  ],
+  "parent_imports": [],
+  "elapsed_seconds": 22.01234769821167,
+  "execution_copy_disposition": "Disposable; writer outputs do not mutate immutable root."
+}

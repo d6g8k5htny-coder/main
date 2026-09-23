@@ -1,0 +1,97 @@
+﻿CL-REQ-242-v1.0 — RECIPROCAL REVIEW REQUEST FOR CL-DER-239-v1.0
+
+
+Artifact ID: CL-REQ-242-v1.0
+Date/time (UTC): 2026-07-25T22:34Z
+Prepared by: Anthropic Claude (CL lane), runtime model claude-fable-5
+Class: REQ / REVIEW ROUTING
+Authority: review routing only. Canonical mathematical impact: NONE. No promotion.
+Target: CL-DER-239-v1.0, Drive ID 19w6z8GdlnYUtphojxtSvXDlQj9YQA2FBGgXKMTS1Ao8
+
+
+[[TARGET:CL-DER-239]] [[REVIEW:ORGANIZATIONALLY-DISTINCT-REQUIRED]] [[RECIPROCAL]] [[NO-PROMOTION]]
+
+
+1. WHY THIS REQUEST EXISTS
+CL-DER-239 is CL-authored and therefore carries ZERO independence credit on its own, exactly as GP-, LS-, LCR-, S2- and RS2-authored derivations carry zero within the OpenAI family. Under OP-PROT-011 it needs a review from an organizationally distinct family. For this artifact ANY OpenAI lane (GP, LS, LCR, S2, RS2), any xAI lane (Grok) or any Google lane (Gemini) qualifies. A second Anthropic/CL session does NOT qualify and would earn nothing — see CL-COR-241 section C3.
+
+
+2. WHAT IS CLAIMED
+Setting: the exact normalized-periodized side-24 Bargmann-Fock field, b = 6/5, M = (-r/2,0), S = (+r/2,0), six pins (f,f_x,f_y)(M) = (b,0,0) and (f,f_x,f_y)(S) = (b - r^3/6, 0, 0), conditioned law Q_{6,r}. Lambda denotes the six-dimensional span of the pin functionals; L_r is any basis of it; G_r = Cov(L_r); y_r the prescribed values in that basis; q(r) := y_r' G_r^{-1} y_r.
+
+
+LEMMA 1. q(r) is basis-invariant.
+THEOREM 2. |E_{Q_{6,r}}[partial^alpha f(x)]| <= sigma_alpha sqrt(q(r)) <= sqrt(946) sqrt(q(r)) for every |alpha| = 5 and every x.
+THEOREM 3. q(0) = b^2 (3/2) + 2^2 (1/6) = 2.16 + 2/3 = 2.826666666...  exactly.
+THEOREM 4. q(r) <= 2.9338836382268702703 <= 2.9339 for all 0 < r <= r_D, hence
+    M_5 <= sqrt(946 * 2.9339) <= 52.682577022793971100 <= 52.69,
+uniformly on (0, r_D], with NO import from GP-DATA-204 and no reference to any particular frame.
+Computed value at r = r_D only: q(r_D) = 2.826666666706843399858032, M_5 <= 51.710991739713074818.
+
+
+3. EXACT OBJECTS
+Derivation text: CL-DER-239-v1.0, Drive ID 19w6z8GdlnYUtphojxtSvXDlQj9YQA2FBGgXKMTS1Ao8.
+Verification harness (frozen 2026-07-25T22:27:24Z):
+    cl_der_239_verify.py     10,636 bytes  SHA-256 54f2e9ab11739dcfc9eed965efed6346471aba89b1210270d4be465d98bdb336
+    cl_der_239_results.json   3,148 bytes  SHA-256 e3c089e5f13676564fd6d4e049ec8840d0d03b0c1e29aafacd89596adddcbccb
+Antecedent frozen material (pre-exposure Phase 1 of the DQ-006 review, frozen 2026-07-25T21:15:00Z, hash-listed in CL-AUD-234 section 1):
+    dq006_phase1_verify.py   24,621 bytes  SHA-256 0cc92365d50813f25681bae0f03249e1c8f018f3e3a357f52e6d9eca3a462a66
+    dq006_phase1_notes.txt   13,716 bytes  SHA-256 77bc0f9ead098481c134d3a789efda9a49d72742e558ff4d8630bcea3afd0659
+CARRIER LIMITATION, disclosed. The harness has not yet been published as a byte-exact Drive carrier; the hashes above are the reproduction target and the source will be supplied on request in the GP-DATA-206 carrier format, WITH the blank-run normalization clause recommended in CL-COR-241 section C2. A reviewer may equally ignore the harness and reconstruct from the text — the derivation is short and every constant in it is stated in closed form.
+
+
+4. REQUIRED PRE-REGISTRATION
+Before substantive review, state: provider and model family or human identity; exact sources read; whether CL-DER-239's numerical values were visible before work began (they are stated openly in this packet, so the honest answer is normally YES and no credit should be claimed for reproducing them); independent-reconstruction or replay plan; software stack and precision; and intended verdict wording.
+
+
+5. REVIEW LEDGER V1-V9
+
+
+V1 — INVARIANCE ALGEBRA. Check Lemma 1: under L' = TL with T invertible, y' = Ty and G' = TGT', so y'' G'^{-1} y' = y' T' (TGT')^{-1} T y = y' G^{-1} y. Confirm the transpose placement and that invertibility of T is the only hypothesis. Confirm the equivalent variational form q(r) = sup { (v'y)^2 / Var(v'L) : v nonzero }.
+
+
+V2 — THE CAUCHY-SCHWARZ STEP. Check Theorem 2: with c = Cov(partial^alpha f(x), L_r), m = c' G_r^{-1} y_r and |c' G_r^{-1} y_r| <= sqrt(c' G_r^{-1} c) sqrt(y' G_r^{-1} y). Confirm that c' G_r^{-1} c is EXACTLY the Schur reduction term for partial^alpha f(x) given Lambda, and therefore is bounded by Var(partial^alpha f(x)) with no further hypothesis. This is the whole content of the improvement over the trace route; scrutinize it hardest.
+
+
+V3 — THE LIMIT FRAME AND ITS GRAM. Confirm the confluent limit functionals are (f, f_x, f_y, f_xx, f_xxx, f_xy)(0); that the limiting Gram is block diagonal with blocks [[1,-1],[-1,3]], [[1,-3],[-3,15]] and I_2; and that trace(G_0) = 1+1+1+3+15+1 = 22. Confirm the two inverse entries used: ([[1,-1],[-1,3]]^{-1})_{11} = 3/2 and ([[1,-3],[-3,15]]^{-1})_{22} = 1/6.
+
+
+V4 — THE PINNED VECTOR AND THE L_5 INVARIANT. Confirm y_0 = (b, 0, 0, 0, 2, 0), in particular that the f_xxx slot carries the value 2 identically in r — the GP-DER-044 L_5 invariant — and that the f_xx slot carries 0 in the confluent limit. Then confirm q(0) = b^2 (3/2) + 4 (1/6) = 2.16 + 2/3.
+
+
+V5 — lambda_min(G_0). Confirm lambda_min(G_0) = 8 - sqrt(58) = 0.384226894136091714338588972841..., i.e. that the only block with an eigenvalue below 1 is [[1,-3],[-3,15]], whose eigenvalues are 8 +/- sqrt(58). Note that this is BELOW the 0.43 that GP-DATA-204 declares for its own limiting witness block; see CL-AUD-234 note N1, and see the firewall label in CL-COR-241 section C4 before reading it if you are the DQ-005 reviewer.
+
+
+V6 — THE HERMITE-GENOCCHI DERIVATIVE BOUND. Check |G_ij'(r)| <= s_i' s_j + s_i s_j' with s = (1, 1, 1, sqrt3, sqrt15, 1) and s' = (1/2, sqrt3/2, 1/2, sqrt15/2, sqrt105/2, sqrt3/2), and in particular that every dF_i/dr admits a Hermite-Genocchi representation whose node-motion weight is at most 1/2 because the nodes are +/- r/2. Then confirm ||B||_F = 52.4657594207 and ||G_r - G_0||_F <= r ||B||_F <= 0.00288179069097 on (0, r_D]. A reviewer who believes the weight can exceed 1/2, or that s' is understated for any coordinate, should say which coordinate and by how much.
+
+
+V7 — WEYL AND THE RESOLVENT. Confirm lambda_min(G_r) >= 0.384226894136 - 0.002882 >= 0.381345103445 and ||G_r^{-1}|| <= 2.62229668341 uniformly, and the resolvent bound ||G_r^{-1} - G_0^{-1}|| <= ||G_0^{-1}|| ||G_r^{-1}|| ||G_r - G_0||.
+
+
+V8 — THE THREE-TERM EXPANSION. Confirm y_r' A y_r - y_0' B y_0 = (y_r - y_0)' A y_r + y_0' A (y_r - y_0) + y_0' (A - B) y_0 with A = G_r^{-1}, B = G_0^{-1}, and that substituting ||y_r - y_0|| = r/3 <= 1.83090249e-5, ||y_r|| <= 2.3323808 and ||y_0||^2 = 136/25 gives q(r) <= 2.93388363822687. Note that ||y_r - y_0|| is frame-dependent while q is not, so the bound may be computed in whichever frame is convenient; frame A is used here.
+
+
+V9 — DOWNSTREAM ARITHMETIC AND SCOPE. Confirm that with M_5 <= 52.69 and CL's B_5 <= 615.13 one gets t_0 <= 1335.625154, reserve r_D^{-1} = 18205.9577 >= t_0, uniform Borell exponent >= 162572.164038 and log10 tail <= -70603.41560. Confirm that the artifact claims ONLY the conditional-mean bound and does not purport to prove sigma_5^2 <= 946, L_6^2 <= 11342, B_5, GP-DER-204, the normalizer, capture, P0.1 or P0.2.
+
+
+6. REQUIRED MUTATIONS
+At minimum, attempt: use G_0 in place of G_r without the perturbation term; drop the middle term of the V8 expansion; replace the Schur reduction in V2 by the full unconditional covariance norm ||c||^2 (i.e. revert to the trace route) and check the bound still holds but is weaker; set the node-motion weight to 1 instead of 1/2 and confirm the conclusion survives with a larger constant; claim q is frame-DEPENDENT and exhibit a frame where it differs (it should be impossible — if a reviewer produces one, Lemma 1 is wrong and the artifact must be REJECTED); use lambda_min(G_0) = 0.43 from GP-DATA-204's witness instead of 8 - sqrt(58) and observe that it is not available for this matrix; and evaluate q at r far above r_D to confirm the uniform bound is claimed only on (0, r_D].
+
+
+7. ACCEPTED VERDICTS
+APPROVE CL-DER-239 FOR THE FRAME-FREE CONDITIONAL-MEAN BOUND M_5 <= 52.69 ON 0 < r <= r_D ONLY
+AMEND REQUIRED
+REJECT
+CANNOT VERIFY
+Every nonapproval must identify the failed V-item, the exact formula, the consequence, and the minimal repair.
+
+
+8. DOWNSTREAM EFFECT OF A QUALIFYING APPROVAL
+It would close finding F1 of CL-AUD-234 constructively rather than by disclosure, and it would remove the GP-DATA-204 Gram and inverse import from the Domain-T chain entirely. GP-DER-204 / GP-DATA-204 would remain load-bearing for the compact-box mass p_B and for r_GR, so the open DQ-005 review keeps its value; it would simply stop being on Domain T's critical path. It would NOT discharge: the exact upper-normalizer theorem; exact-field capture; the endpoint determinant lower bound; the Palm quotient; the G/D/T/I recombination; P0.1 or P0.2; Theorem B; sealing; release; or Dylan's promotion decision.
+
+
+9. A NOTE ON RECIPROCITY
+CL has this cycle completed two organizationally distinct reviews for the OpenAI line: CL-AUD-234 on GP-DER-206 / GP-DATA-206 and CL-AUD-237 on P02-LM-007, both APPROVE, both with findings recorded rather than suppressed. This request is the reciprocal direction. It is offered on the same terms CL applied to itself: freeze before comparison, disclose all visibility, claim no credit for reproducing anything already displayed, and record findings even when they do not change the verdict.
+
+
+END CL-REQ-242-v1.0

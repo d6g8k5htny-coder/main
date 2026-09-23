@@ -1,0 +1,68 @@
+KIMI-AUD-007
+Date: 2026-08-02
+Task ID: AO48-WO-040 TASK 5 (axial-suppression verification/sharpening)
+Inputs: the landed V3.4 displays ((4.4)–(4.5), (AI.4), (MP.6),
+(5.15)–(5.16), (H.26)–(H.27)) as audited in KIMI-AUD-006/006b (hashes
+bound there); calibration constants from KIMI-AUD-003 and the derived
+B-law of KIMI-DER-006. Independence disclosure: suppression exponents
+verified against the dps-80 Hermite conditioning engine by direct
+computation of the conditional mean/covariance at cone points; no
+text trusted.
+
+VERDICT: VERIFIED, with measured sharpening. The landed machinery
+absorbs the cone ρ ∈ (εd, 2d] with explicit constants; every stated
+exponent is conservative by a measured factor. No loose exponent found
+that requires tightening for the O(r^3) conclusion; the sharpening
+below upgrades constants, not the argument.
+
+RECEIPTS
+1. Verified displays (from the audit chain): (4.4) μ = a·m_{r,q},
+   m → κ; (4.5) p ≤ C|a|^{-3}d_0^{-1} exp(−cκ²/d_0²); (AI.4)
+   p ≤ Cr^{-4}ε_a^{-3} exp(−cκ²/ε_a²); (MP.6) p ≤ Cr^{-4}δ_m^{-1}ε_m^{-2}
+   exp(−cκ²/δ_m²); (5.15)–(5.16) |V_1-target − E V_1| ≥ c_K κ,
+   Var(V_1|V_r) ≤ CΛ², p ≤ Cs^{-7}Λ^{-5} exp(−c_K/Λ²); (H.26)–(H.27)
+   density-weighted envelope and endpoint-axis measure ledger with
+   integral O(r^3). All verified in KIMI-AUD-006.
+2. Direct exponent calibration (engine, dps-80, d=0.1, b=6/5, κ=1;
+   axial witness y = M+ρt; μ_t = conditional mean, C_tt = conditional
+   axial variance):
+   ρ/d = 0.2: μ_t²/C_tt = 1726 vs κ²/d_0² = 69.4 → factor 24.9
+   ρ/d = 0.5: 1.92e7 vs 1.6e5 (midpoint) → factor 120.1
+   ρ/d = 0.8: 1606 vs 69.4 → factor 23.1
+   ρ/d = 1.5: 131.9 vs 6.25 → factor 21.1
+   ρ/d = 2.0: 54.5 vs 2.77 → factor 19.7
+   The conditional mean matches μ = a·κ to four digits
+   (ρ/d=0.5: μ_t = −0.0025 = −κd²/4 exactly). So on the whole cone the
+   true Mahalanobis distance exceeds the stated exponent by a measured
+   factor ~20–25 (interior/outer) and ~120 (midpoint): with the 1/2
+   Gaussian convention, exp(−cκ²/d_0²) is valid with c ≈ 12 (interior),
+   c ≈ 60 (midpoint) — conservative as written. The exact endpoints
+   ρ ∈ {0, d} are pinned (handled by the endpoint charts (4.13)/(EP.2)),
+   and the exact axis ρ = 0 is the transverse-chart face, not a gap.
+3. First-order density calibration (derived B-law, KIMI-DER-006):
+   B = |c1|/detΓ = 10/d − (38/15)d + … on the axis, so on the cone
+   ρ ∈ (εd, 2d] the first-order correction factor 1 ± Bρ obeys
+   |Bρ| ≤ 10ρ/d ≤ 20 at the edge — bounded (not small), so
+   (det C)^{-1/2} = (ρ⁶detΓ)^{-1/2}(1+O(Bρ))^{-1/2} stays within a
+   bounded factor of (ρ⁶detΓ)^{-1/2} over the full cone, and at
+   ρ ≤ 0.05d it is two-sided within factor ≤ 2. Transverse parity
+   (Round-1 + proved lemma): the O(ρ) slope vanishes on the transverse
+   face, giving (ρ/d)² benignity there; only the axial cone sector
+   needs the full exponential, exactly as the machinery states.
+4. Cone absorption assembly: on the cone, |a| = |q(q−d)| ≥ ε(1−ε)d²/2
+   for ρ ∈ (εd,(1−ε)d] (mirror at S for the rest), d_0² = 4χ²+a² with
+   χ = 2ρ−d = O(d) (interior) and d_0² ~ d⁴ (midpoint); hence
+   Θ = d_0 with exp(−cκ²/d²) interior and exp(−cκ²/d⁴) at the midpoint;
+   the (AI.4)/(MP.6)/(5.16)/(8.5)/(MP.7)/(H.27) integrals close the
+   Kac–Rice contribution at O(r³) (verified in §8 audit: the
+   e^{-c/Θ²} factor absorbs every fixed projective power, and the
+   endpoint-axis d^{-1} divisor is integrable after the d² dd measure).
+
+FALSIFIER: a cone point (d, ρ) where the true Mahalanobis distance
+falls below κ²/d_0² (recompute with an independent conditioning stack),
+or a failure of the absorption integrals at their stated orders, kills
+the corresponding claim; the factor table in receipt 2 is replayable
+(engine path labeled).
+
+SHA-256 of this report body (text after this line is excluded):
+768aab11e0af7aa1a0189e830243a16ea30dabb595496eea515112e9b8d27bdd

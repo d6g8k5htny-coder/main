@@ -1,0 +1,522 @@
+﻿A16 CHART-COVERAGE SUCCESSOR DISPOSITION — LS-DER-004-v1.0 — 2026-07-24
+
+
+The prior A16 status “candidate / external confirmation open” is refined as follows:
+
+
+- same-line geometric proof: PASS;
+- fixed chart: D^+=[-3/4,3/4]x[-1,1];
+- rigorous maximum certificate extents: |X|<0.7035683068543716 and |Y|<0.2035683068543716;
+- chart margins: m_chart_X>0.0464316931456284 and m_chart_Y>0.7964316931456284;
+- complete cone/strip/transit/capture union: contained in D^+;
+- exact certified trajectory: contained in that union under GP-DER-186;
+- organizationally distinct verification: still open.
+
+
+Lemma: https://docs.google.com/document/d/1GbZajOphtKmnmK7Iwgf2XdxYvz0YcDJ64KB65Ze-dNs/edit
+
+
+[[A16:SAME-LINE-PASS]] [[DPLUS:COVERAGE-EXPLICIT]] [[EXTERNAL-CONFIRMATION:OPEN]] [[NO-PROMOTION]]
+
+
+LCR-AUD-008-v1.0 — SOURCE-LEVEL AUDIT OF GP-DER-186 NONCOMPACT DOMAIN-D ROBUSTNESS REPAIR
+
+
+Artifact ID: LCR-AUD-008-v1.0
+Reviewer/executor: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure and Peer-Review Readiness Director
+Date: 2026-07-24
+Class: AUD / SOURCE REPLAY / ADVERSARIAL MATHEMATICAL REVIEW / DOMAIN-D REPAIR
+Authority: factual evidence reconciliation and same-line technical audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+Target: GP-DER-186-v1.0, Drive ID 1vm5ROIE5Jb2LYWkZ74iJ5jqC4yqKUOOdWHf10v2vZvI
+Frozen theorem affected: GP-DER-118-v1.3 body, BODY_BYTES 14591, SHA-256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28
+Primary executable dependency: GP-DATA-178-v1.0, Drive ID 1kV9H-CJCNlN3nu4OC8NAo1oGitVsSJbg5qjGcdlokZM
+
+
+[[TARGET:P0.1]] [[DOMAIN:D]] [[GP-DER-186:SAME-LINE-PASS-WITH-CLARIFICATIONS]] [[RAW-C1-COMPACTNESS:REJECTED]] [[MONOTONE-REPAIR:PASS]] [[EPSILON-D:1E-4-PASS]] [[SOURCE-REPLAY:PASS-SAME-LINE]] [[NON-GP-REVIEW:OPEN]] [[NO-PROMOTION]]
+
+
+====================================================================
+0. EXECUTIVE VERDICT
+====================================================================
+
+
+GP-DER-186 correctly identifies a genuine defect in the earlier LS-AUD-002 Section 7 proof method. At fixed physical q<0, the scaled coefficient s=q/r tends to negative infinity as r tends to zero. Because the scaled Jacobian contains s, the raw family of fixed-q quartic scaled vector fields is unbounded in C^1 on the normalized chart. It cannot be made compact by adjoining a finite r=0 field.
+
+
+The repaired argument survives this audit. The needed common perturbation threshold follows from:
+
+
+1. exact monotonic reduction of every s-dependent quartic gate to the finite weakest value s=-19.6;
+2. a finite source-verified positive margin ledger at that value;
+3. pin-preserving C^1 perturbation bounds whose sensitivity coefficients do not depend on s;
+4. direct endpoint spectral and eigendirection estimates;
+5. separate physical-Hessian determinant transfer, where r s=q remains bounded.
+
+
+The explicit candidate threshold
+
+
+    epsilon_D = 10^(-4)
+
+
+is conservative and remains below every reviewed perturbation budget by a wide margin.
+
+
+Same-line verdict:
+
+
+APPROVE GP-DER-186-v1.0 AS A SAME-LINE DOMAIN-D REPAIR COMPANION, SUBJECT TO TWO SCOPE CLARIFICATIONS AND ORGANIZATIONALLY DISTINCT REVIEW.
+
+
+This verdict does not close or promote P0.1.
+
+
+====================================================================
+1. SOURCE IDENTITY AND EXECUTION REPLAY
+====================================================================
+
+
+The source embedded in GP-DATA-178-v1.0 was reconstructed from the text between BEGIN_SOURCE_GZIP_BASE64 and END_SOURCE_GZIP_BASE64.
+
+
+Reconstructed source identity:
+
+
+- filename: GP-DATA-178-v1.0_corrected_uniform_q_degree4_interval.py
+- bytes: 11652
+- SHA-256: 8a27c6043acf8f95e33e8637507c76540824294699e9bbc83b69cdfb7a908df3
+
+
+The reconstructed byte count and SHA-256 exactly match the controlling capsule.
+
+
+Execution environment for this replay:
+
+
+- CPython 3.13.5
+- Linux 6.12.13 x86_64
+- source executed without modification
+- mpmath interval arithmetic loaded from the available environment
+
+
+Execution result:
+
+
+    PASS_CORRECTED_UNIFORM_R_FIXED_Q_DEGREE4_INTERVAL_BOX
+
+
+Observed source-level result:
+
+
+- all nineteen primary gates pass;
+- all five negative controls execute and pass;
+- no binary float is used in the source's proof path;
+- interval precision is 80 decimal digits;
+- the reported binding lower bound is the handoff margin.
+
+
+This is a same-line source reconstruction and execution replay. It earns no organizational-independence credit and is not a substitute for the required non-OpenAI interval review.
+
+
+====================================================================
+2. REPRODUCED LOWER-MARGIN LEDGER
+====================================================================
+
+
+The replay returns the following lower bounds:
+
+
+threshold slack                         19.56259122467741621442...
+saddle determinant negativity          19.59862219850694444444...
+maximum axial negativity                 0.99995833333333333333...
+maximum transverse negativity           19.59943750000000000000...
+maximum determinant positivity          19.59861905670138888888...
+saddle axial gap                        20.59939583333333333333...
+cone-slope margin                        0.00986973727991617877...
+cone-axis advance                        0.89992870183250000000...
+upper cone-face inward margin            0.20600236151749166666...
+lower cone-face inward margin            0.20363763551749166666...
+cone-to-strip handoff                    0.00748528137423857029...
+strip-top inward margin                  0.33252717104490138232...
+strip-bottom inward margin               0.33241853805879027121...
+central negative-X drift                 0.08996598847018422956...
+transverse contraction                  19.58039234290867799448...
+chart-X containment                      0.04643169314562849772...
+chart-Y containment                      0.79643169314562849772...
+sink Gershgorin margin 1                 0.58993148103746107618...
+sink Gershgorin margin 2                19.39126898078092252451...
+
+
+The source computes the s-dependent formulas only at
+
+
+    s_worst = q_hi / r_max = -0.98 / 0.05 = -19.6,
+
+
+after separately requiring q_hi<0. This is consistent with GP-DER-114's monotonicity ledger. No unbounded interval s in (-infinity,-19.6] is passed to the interval engine.
+
+
+====================================================================
+3. NONCOMPACTNESS DEFECT
+====================================================================
+
+
+The scaled Y-Jacobian entry has the form
+
+
+    J_22(X,Y)=s+wX+zY+r(c22 X^2/2+c13 XY+c04 Y^2/2),
+
+
+where s=q/r. At fixed q in [-1.02,-0.98],
+
+
+    sup_{D+}|J_22| -> infinity
+
+
+as r->0. Therefore the raw vector-field family is not bounded, hence not relatively compact, in C^1(D+).
+
+
+The previous wording that formed a compact parameter set by adjoining r=0 is invalid as a proof about the raw scaled vector fields. The lower endpoint r=0 may still be used inside interval bounds for terms explicitly multiplied by r, but it is not a field configuration and does not define a finite s.
+
+
+Disposition:
+
+
+- raw-family compactness proof method: RETRACTED;
+- frozen P0.1 theorem body: not altered by this proof-method correction;
+- replacement: GP-DER-186 monotone gatewise argument.
+
+
+====================================================================
+4. ENDPOINT SPECTRAL BUDGET
+====================================================================
+
+
+At the saddle S, the quartic source and exact box bounds imply
+
+
+    lambda_u^(4) >= 0.998616666666...,
+    -lambda_s^(4) >= 19.598095833333...,
+    gap g_0 >= 20.599395833333....
+
+
+For a symmetric Jacobian perturbation E with ||E||_op<=epsilon_D, Weyl's inequality changes each eigenvalue by at most epsilon_D. With epsilon_D=10^(-4), the positive and negative eigenvalue signs retain more than 0.9985 of slack.
+
+
+The source cone-slope ledger yields
+
+
+    tau_0 <= 0.00006513136004191066.
+
+
+Using the conservative eigendirection perturbation estimate
+
+
+    eta <= 2 epsilon_D/(g_0-2 epsilon_D),
+
+
+one obtains
+
+
+    eta < 0.000009710.
+
+
+Consequently the perturbed physical slope is bounded by
+
+
+    (tau_0/sqrt(1+tau_0^2)+eta)
+    --------------------------------
+    (1/sqrt(1+tau_0^2)-eta)
+
+
+    < 0.000074842
+    < kappa/2
+    < kappa,
+
+
+for kappa=0.01. Thus the exact M-ward positive eigendirection remains strictly inside the fixed physical cone and the GP-PROT-065 orientation remains defined.
+
+
+====================================================================
+5. CONE-FLUX BUDGET
+====================================================================
+
+
+On the S-side cone, write
+
+
+    X=1/2-xi,
+    Y=t xi,
+    0<=xi<=sigma,
+    |t|<=kappa.
+
+
+Because the exact and quartic vector fields share the S pin,
+
+
+    R(S)=0.
+
+
+If ||DR||_op<=epsilon_D, then
+
+
+    |R(S+(-xi,t xi))|
+      <= epsilon_D xi sqrt(1+kappa^2).
+
+
+After division by xi, the cone-axis loss is at most
+
+
+    L_axis epsilon_D,
+    L_axis=sqrt(1+kappa^2)<1.00005.
+
+
+The loss in either cone-face expression kappa F_X ± F_Y is at most
+
+
+    L_face epsilon_D,
+    L_face=(1+kappa)sqrt(1+kappa^2)<1.01006.
+
+
+At epsilon_D=10^(-4), the retained lower bounds are:
+
+
+cone axis       > 0.8998286968,
+upper cone face > 0.2059013564,
+lower cone face > 0.2035366304.
+
+
+All remain strictly positive. The proof uses no upper bound on |s|. The quartic s-contribution is first reduced monotonically to its weakest finite value, and only the additive exact-field perturbation is budgeted.
+
+
+====================================================================
+6. STRIP, TRANSIT, AND SINK BUDGET
+====================================================================
+
+
+A C^0 perturbation of size epsilon_D decreases each one-component strip or drift margin by at most epsilon_D. A Jacobian perturbation of operator norm epsilon_D decreases the transverse contraction margin by at most epsilon_D.
+
+
+Retained lower bounds:
+
+
+strip top              > 0.3324271710,
+strip bottom           > 0.3323185380,
+central negative drift > 0.0898659884,
+transverse contraction > 19.5802923429.
+
+
+For the symmetric sink Jacobian, each Gershgorin lower bound for -DF can lose at most 2 epsilon_D: one epsilon_D in the diagonal and one in the absolute off-diagonal bound.
+
+
+Retained sink bounds:
+
+
+Gershgorin 1 > 0.5897314810,
+Gershgorin 2 > 19.3910689807.
+
+
+Therefore the exact field remains strictly contracting throughout the declared capture enclosure. Once the branch enters the capture ball, invariance, uniqueness of the equilibrium, and exponential convergence to M follow.
+
+
+====================================================================
+7. HANDOFF AND CHART CLARIFICATION
+====================================================================
+
+
+The handoff and chart gates do not consume an additional arbitrary perturbation budget, but the reason must be stated precisely.
+
+
+The cone-to-strip handoff is preserved because:
+
+
+1. the exact eigendirection remains inside the same fixed physical cone;
+2. the exact cone faces remain inward;
+3. the cone-axis coordinate continues to advance;
+4. the exact branch reaches the fixed outer section xi=sigma while satisfying |Y|<=kappa sigma;
+5. the source proves W/2-kappa sigma>0.
+
+
+Thus handoff is not preserved merely because it is called geometric. It is preserved through the already verified exact cone inclusion and the fixed section geometry.
+
+
+Likewise chart containment is preserved because the exact trajectory is proved to remain in the same fixed cone, strip, and capture enclosure whose geometric union is contained in D+. A qualifying external review must still confirm that the declared D+ used in GP-DER-045 contains every region used by the certificate.
+
+
+====================================================================
+8. EXACT-FIELD IMPLICATION
+====================================================================
+
+
+GP-DER-045 establishes
+
+
+    ||F_r-F_r^(4)||_{C^1(D+)}
+       <= C_D r^2 H_{5,r}(D+).
+
+
+On
+
+
+    G_r={H_{5,r}(D+)<=r^(-1)},
+
+
+this gives
+
+
+    ||F_r-F_r^(4)||_{C^1(D+)}<=C_D r.
+
+
+Set
+
+
+    r_D=min(1/20,10^(-4)/C_D).
+
+
+Then for every 0<r<=r_D,
+
+
+    {J_r in B_q} intersect G_r subset A_r.
+
+
+The constant C_D need not be numerical for the qualitative P0.1 existence theorem. A later machine-auditable strengthening may compute C_D and a numerical r_D.
+
+
+====================================================================
+9. PHYSICAL-HESSIAN AND WEIGHT TRANSFER
+====================================================================
+
+
+Let
+
+
+    E_r=DF_r-DF_r^(4)
+
+
+be the scaled Jacobian error. The physical endpoint Hessians satisfy
+
+
+    H_exact=H^(4)+r E_r.
+
+
+The noncompact scaled coefficient does not cause an unbounded physical cofactor because
+
+
+    r s=q in [-1.02,-0.98].
+
+
+For a symmetric two-by-two matrix H,
+
+
+    det(H+rE)-det H
+      =r(H_22 E_11+H_11 E_22-2H_12 E_12)+r^2 det E.
+
+
+After division by r, the normalized determinant-factor error is bounded by
+
+
+    C_H||E||+r||E||^2,
+
+
+with C_H uniform in physical variables. On G_r, ||E||<=C_D r, so the error tends uniformly to zero. Shrinking r if necessary preserves the conservative normalized factors 1/2 at both endpoints and gives
+
+
+    W_r^{exact}>=r^2/4
+
+
+on the transferred certified event
+
+
+    E_r^{cert}={J_r in B_q} intersect G_r.
+
+
+Scope clarification: this lower bound is established on the transferred certified event, not on every configuration in the larger event A_r.
+
+
+====================================================================
+10. DECISIVE AUDIT LEDGER
+====================================================================
+
+
+A1 — GP-DATA-178 source bytes and SHA-256: PASS.
+A2 — exact source execution: PASS SAME-LINE.
+A3 — nineteen primary gates: PASS.
+A4 — five negative controls: PASS.
+A5 — raw C^1 compactness after adjoining r=0: FAIL; proof method retracted.
+A6 — monotonic reduction to s=-19.6: PASS at candidate same-line scope.
+A7 — endpoint type under epsilon_D=10^(-4): PASS.
+A8 — selected eigendirection remains inside cone: PASS.
+A9 — cone-axis and cone-face perturbation budgets: PASS.
+A10 — strip and central-transit perturbation budgets: PASS.
+A11 — sink Gershgorin perturbation budget: PASS.
+A12 — handoff transfer: PASS with explicit cone-based clarification.
+A13 — exact C^1 Taylor transfer: PASS as GP-DER-045 dependency.
+A14 — physical/scaled Hessian distinction: PASS with corrected factor r.
+A15 — determinant-factor lower bound: PASS on transferred certified event.
+A16 — complete chart coverage: CANDIDATE / EXTERNAL CONFIRMATION OPEN.
+A17 — organizationally distinct Domain-D review: OPEN.
+
+
+====================================================================
+11. MATERIAL OBJECTIONS AND DISPOSITIONS
+====================================================================
+
+
+LCR-D186-OBJ-01
+Severity: HIGH for proof method.
+Issue: LS-AUD-002 Section 7 incorrectly compactified the raw scaled vector-field family through r=0.
+Disposition: REPAIRED by GP-DER-186 monotone gatewise proof.
+Theorem-body impact: NONE; dependency proof route changed.
+
+
+LCR-D186-OBJ-02
+Severity: LOW/MEDIUM for scope wording.
+Issue: the determinant-weight statement should not read as if W_r^{exact}>=r^2/4 holds throughout all of A_r.
+Disposition: CLARIFY that it holds on the transferred certified event {J_r in B_q}∩G_r, which is contained in A_r.
+
+
+LCR-D186-OBJ-03
+Severity: LOW/MEDIUM for explanatory precision.
+Issue: the handoff margin is not independent of the dynamical transfer merely because its formula is geometric.
+Disposition: CLARIFY that handoff follows from exact eigendirection entry, exact cone invariance, exact axis advance, and the fixed section inequality |Y|<=kappa sigma<W/2.
+
+
+No critical mathematical objection remains within this same-line audit. Independent review remains mandatory.
+
+
+====================================================================
+12. STATUS AND NEXT ACCEPTANCE TEST
+====================================================================
+
+
+Current exact status:
+
+
+GP-DER-186-v1.0 — PROOF-CANDIDATE / SAME-LINE SOURCE-LEVEL PASS WITH CLARIFICATIONS / INDEPENDENT-REVIEW-PENDING.
+
+
+A qualifying organizationally distinct reviewer must:
+
+
+1. reproduce GP-DATA-178 source identity;
+2. audit the monotonicity direction of every s-dependent gate;
+3. independently check the spectral and cone sensitivity estimates;
+4. verify the sink Gershgorin loss bound;
+5. confirm D+ contains the complete cone, strip, transit, and capture regions;
+6. verify the exact pin-preserving remainder hypothesis;
+7. confirm the determinant lower bound is restricted to the transferred certified event;
+8. name the full frozen theorem SHA-256 in the verdict.
+
+
+Accepted affirmative wording:
+
+
+APPROVE GP-DER-118 REVISION 1.3 FROZEN SHA256 666f582cb1374e3191b04053d2f7b75b129006fc83f3c6bbb237055721c4eb28 DYNAMICAL-TRANSFER SUBCHAIN WITH NONCOMPACT MONOTONE ROBUSTNESS REPAIR AND PHYSICAL-HESSIAN SCALING CORRECTION
+
+
+No P0.1 promotion, P0.2 consequence, Theorem B consequence, package seal, machine action, external release, deletion, or destructive operation follows from this audit.
+
+
+END LCR-AUD-008-v1.0

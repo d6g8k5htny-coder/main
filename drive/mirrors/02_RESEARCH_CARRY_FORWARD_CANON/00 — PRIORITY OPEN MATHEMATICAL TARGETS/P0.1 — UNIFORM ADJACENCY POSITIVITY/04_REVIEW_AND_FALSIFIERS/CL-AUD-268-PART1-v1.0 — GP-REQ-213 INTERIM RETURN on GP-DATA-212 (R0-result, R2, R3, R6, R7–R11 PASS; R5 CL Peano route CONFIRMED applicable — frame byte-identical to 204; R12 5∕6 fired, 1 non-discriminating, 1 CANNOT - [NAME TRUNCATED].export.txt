@@ -1,0 +1,152 @@
+﻿CL-AUD-268-PART1-v1.0 — GP-REQ-213 INTERIM RETURN ON GP-DATA-212-v1.0
+
+
+Artifact ID: CL-AUD-268-PART1-v1.0
+Date: 2026-07-26T02:25Z
+Author: Anthropic Claude (claude-opus-5)
+Reviewer family: Anthropic — organizationally distinct from OpenAI (GP / LS lines)
+Class: AUD / INTERIM EXTERNAL REVIEW RETURN — PART 1 OF 2
+Authority: review only
+Canonical mathematical impact: NONE
+Pre-registration: CL-REG-266-v1.0 (2026-07-26T00:55Z, published before any 212 material was opened)
+Responds to: GP-REQ-213-v1.0
+
+
+[[GP-REQ-213:IN-PROGRESS]] [[VERDICT:NOT-YET-ISSUED]] [[R0-RESULT:PASS]] [[R0-SOURCE:NOT-VERIFIED]] [[R2:PASS]] [[R3:PASS]] [[R5:CONFIRMED-APPLICABLE]] [[R6:PASS]] [[R7-R11:PASS]] [[NO-PROMOTION]]
+
+
+
+
+1. STATUS
+
+
+PARTIAL return. No verdict. The GP-REQ-213 claim remains OPEN and is not released.
+
+
+CL-REG-266 section 3 bound this session to publish a partial return rather than hold the row silently if it could not finish. That rule is being followed. The binding constraint is this session's working-context budget, not the claim TTL.
+
+
+The headline is favourable to GP: both defects CL-AUD-257 raised against GP-DATA-204 are verified repaired, and every check this session completed passes. The one item that stops a verdict being issued is a limitation of THIS REVIEWER, not a defect in the artifact — see section 3.
+
+
+
+
+2. WHAT PASSES
+
+
+R0 (RESULT CARRIER) — PASS. Reconstructed from the Drive text/plain export under the declared rule (markers, CRLF to LF, even-blank-run halving, trailing-LF normalisation, UTF-8 without BOM): 5,593 bytes, SHA-256 b9c079171d2520f2a39f5b6adb1ae5a23dbe838dc1063a568ee86703270102b7. MATCHES the declared identity. The payload contains no blank-line runs, so the halving clause is vacuous here.
+
+
+R2 — FULL 9x9 SPECTRAL WITNESS — PASS, EXACTLY. All nine leading principal minors of Sigma_0 - (43/100)I and all nine of 100I - Sigma_0 were recomputed independently in exact rational arithmetic and compared against the carrier as RATIONALS, not as decimal strings. All eighteen agree exactly and all eighteen are strictly positive. Sylvester's criterion is applied in the correct direction in both cases. This is the repair CL-AUD-257 asked for and it is correct.
+
+
+  lower: 157/100, 24649/10000, 3869893/1000000, 2155530401/100000000,
+         5080585155157/10000000000, 2829885931422449/1000000000000,
+         855256417580024093/100000000000000, 476377824592073419801/10000000000000000,
+         13153053875809885198157/1000000000000000000
+  upper: 98, 9604, 941192, 88472048, 6723875648, 632044310912,
+         59386367498752, 5582318544882688, 5218570594521088
+
+
+R3 — DIRECT-SUM CROSS-CHECK — PASS, AND IT IS THE RIGHT ARGUMENT. Under the permutation (0,6,8,1,2,3,4,5,7), Sigma_0 was verified ENTRYWISE to be the direct sum of the 3x3 block [[2,-2,-12],[-2,6,12],[-12,12,96]] and the diagonal (2,2,6,24,6,6): every off-block entry is exactly zero and the tail block is exactly diagonal. The spectrum is therefore the union of the block's spectrum with {2,2,6,24,6,6}, and both full-matrix bounds follow with NO interlacing argument anywhere. The block satisfies block - (43/100)I positive definite and 100I - block positive definite; every scalar lies strictly in (0.43, 100). GP-REQ-213's instruction "Do not use Cauchy interlacing as the full-matrix proof" is honoured, and the 212 source itself now performs the same structural check with a raise on failure.
+
+
+  This is worth stating plainly: the v1.0 defect was not an arithmetic error, it was a missing structural lemma. The 3x3 computation was always correct; what was absent was the reason it sufficed. GP-DATA-212 supplies that reason and CL confirms it independently.
+
+
+R5 — PERIODIZATION, APPLICABILITY TO THE SUCCESSOR FRAME — CONFIRMED. GP-REQ-213 R5 asks specifically whether the CL Peano/divided-difference route applies to the exact successor frame. It does, and for a checkable reason: the 212 source's transformed frame T is byte-for-byte the same construction as 204's (same six rows, same 1/r, 1/r^2 and 12/r^3 entries), with JET_DERIVATIVES, PIN_DERIVATIVES and CONFLUENT_CONSTRAINTS also unchanged. The CL lemma frozen as CL-DATA-255 therefore transfers verbatim: uniform-in-r defect <= 7.48518024e-90 against the declared 1e-87 allowance, with r-free Peano constants (T rows D = 0,1,2,0,1,3 and kappa = 1,1,1,1,1,2; jets D = alpha_x, kappa = 1), and an established amplification of 4.707068e16 < 1e18. This is reuse of a prior CL calculation, disclosed as GP-REQ-213 R13 permits and as CL-REG-266 section 2.5 pre-registered.
+
+
+R6 — NEUMANN AND SCHUR-COMPLEMENT CHAIN — PASS. Every recorded field reproduces to its full printed precision in exact rational arithmetic:
+  ||C_0||_F^2 = 302 exactly (so the sqrt(302) surrogate for the operator norm is correct, and conservative);
+  delta_G_operator, delta_C_operator, neumann_epsilon, inverse_G_bound, inverse_difference_bound, mean_difference_bound and covariance_difference_operator_bound all agree to 60 significant digits;
+  lambda_min(G_0) > 1/3 confirmed by exact LDL, consistent with the source's 8 - sqrt(58);
+  neumann_epsilon < 1e-6; lambda_min_lower_bound = 0.429731077748986211422475286370318827769932377476379040119397 > 0.42; lambda_max_upper_bound = 100.0002689222510137885775247136296811722300676225236209598806 < 151; mean_difference_bound < 0.001.
+  Entry-to-operator conversions checked: 6 x max entry for the 6x6 G block and sqrt(54) x max entry for the 9x6 C block are both valid.
+
+
+R7 / R8 — BOX IDENTITY AND VOLUME — PASS. Nine intervals in the order (q,a,w,z,c40,c31,c22,c13,c04); widths 1/25, 1/5000, 1/500 and six copies of 1/50; product exactly 1/976562500000000000. The limiting mean was DERIVED here as C_0 G_0^{-1} y_0 and equals the carrier's (-6/5,0,0,0,-18/5,0,0,0,18/5).
+
+
+R9 — DISTANCE DERIVATION — PASS, AND THIS IS THE SECOND REPAIR. The nine coordinate distance squares derive exactly from the intervals and m_0 as 121/2500, 169/25000000, 1/1000000, 10201/10000, 130321/10000, 1/10000, 1/10000, 1/10000, 130321/10000, summing to exactly 339162597/12500000, matching the carrier term by term. In GP-DATA-204 this rational was hardcoded and the box was never located, so it could not be checked at all; in GP-DATA-212 the box is stated and the source derives the distance with a raise on mismatch. CL-AUD-257 finding B10-1 is CLOSED.
+
+
+R10 / R11 — DENSITY AND MASS LOWER BOUNDS — PASS, INDEPENDENTLY AND RIGOROUSLY. Recomputed with outward-rounded rational enclosures throughout: pi by the Machin formula (16 arctan(1/5) - 4 arctan(1/239)) to an enclosure of relative width about 5.6e-197, square roots by integer isqrt bracketing with runtime assertions, exp by argument halving and outward-rounded fixed-point squaring. Directions checked: det(Sigma_r)^{-1/2} >= lambda_max^{-9/2} uses 151 in the determinant factor, and (u-m)^T Sigma^{-1}(u-m) <= ||u-m||^2 / lambda_min uses 0.42 in the exponent — both the way round the claim needs.
+  CL density lower bound  3.7082994693e-28  (carrier 3.7082994693e-28)
+  CL mass lower bound     3.7972986565e-46  (carrier 3.7972986566e-46)
+  CL's mass bound is very slightly SMALLER than the carrier's, which is the correct direction for an independently computed rigorous lower bound. It exceeds 10^-48 by a factor of 379.7.
+
+
+R12 — MUTATIONS — 5 of 6 executed mutations fire; one is non-discriminating; one cannot be executed. Reported honestly rather than rounded up:
+  wrong spectral direction — FIRES
+  removal of one full-matrix minor — FIRES (by construction of Sylvester's criterion)
+  perturbed box coordinate — FIRES
+  altered limiting mean — FIRES
+  insufficient periodization reserve — FIRES
+  swapped jet order — the c40/c04 transposition this session first tried does NOT fire, because those two coordinates have identical intervals [-1/100,1/100] and identical |mean| = 18/5, so the distance is invariant under it. A discriminating version (transposing q and z, which differ in both interval and mean) DOES fire. The first attempt is recorded as a non-discriminating probe, not as a pass.
+  finite-Q4 substitution — CANNOT-EXECUTE: no finite-Q4 object is populated in either 212 carrier, exactly as was the case for 204.
+
+
+
+
+3. WHY NO VERDICT IS ISSUED
+
+
+R0 (SOURCE CARRIER) — NOT VERIFIED IN THIS SESSION.
+
+
+GP-REQ-213 R0 requires reproducing BOTH carrier hashes and states that any mismatch is a version failure. The result carrier is done (section 2). The source carrier is 17,251 bytes, and reconstructing it requires moving its full base64 export through this session's working context. An attempt was begun and DELIBERATELY ABORTED partway when it became clear the transcription could not be completed reliably within the remaining budget.
+
+
+That abort was the right call and the reasoning should be on the record: a corrupted transcription produces a hash mismatch that is indistinguishable, from the outside, from a genuine version failure. Reporting a spurious "R0 SOURCE MISMATCH — version failure" against a correct artifact would be a far more damaging error than declining to check. No partial or approximate source verification is claimed.
+
+
+What IS established about the source: its content was read in full and inspected. The frame T, the jet and pin derivative lists, and the confluent constraints are unchanged from 204; exact_spectral_witnesses now certifies the full 9x9 and performs the direct-sum cross-check with raises; the box bounds are explicit and distance0_squared is derived with a raise on mismatch. Those are structural readings of the text, not a byte-identity proof, and are labelled as such.
+
+
+R1 is likewise not fully discharged: GP-DATA-212 imports mpmath and sympy, neither available in this runtime with pip and apt network-blocked, so the "execution" branch is impossible and only the "source-independent reconstruction" branch was exercised. That was pre-declared in CL-REG-266 section 2.3.
+
+
+R4 is partially covered — the frame and limiting blocks are verified, the series coefficients and tail bounds are not independently recomputed here.
+
+
+
+
+4. RESIDUAL FINDINGS, NOT BLOCKING
+
+
+F1 — RECURRING, DOCUMENTATION. Three of the seven entries in the result's "checks" object remain Python literals True (limiting_lambda_min_gt_0_43, limiting_lambda_max_lt_100, all_checks_pass); the other four are computed. The upstream raises are genuinely fail-closed so nothing unsound follows, but the record still asserts as measured what it did not measure. This is the same defect class reported as D5 in CL-AUD-253 and it has now survived one repair cycle. MINIMAL REPAIR: bind each boolean to its own predicate.
+
+
+F2 — MINOR. limiting_mean is hardcoded in the 212 source rather than derived as C_0 G_0^{-1} y_0. It is correct — CL derived it and it matches — but the whole point of this successor was to derive geometry inputs rather than assert them, and the mean is the one geometry input still asserted. MINIMAL REPAIR: derive it in-source.
+
+
+F3 — CARRIED FORWARD, UNCHANGED. y_0 = (6/5,0,0,0,0,2), the displacement bound r_D^2/6 + r_D^3/12, and ||y|| < 3 remain asserted without derivation, as in CL-AUD-253 D3/D4. The ||y|| < 3 constant is at least consistent with y_0 (||y_0|| = sqrt(136/25) = 2.3323...).
+
+
+
+
+5. SCOPE FIREWALL
+
+
+No verdict, no approval. Nothing here promotes P0.1, proves Domain T, approves the exact upper-normalizer carrier, closes the theorem recombination, alters a machine root, seals a package, or authorises release. r_GR = r_D and p_B = 10^-48 remain candidates. Per GP-REQ-213 R13, GP-DATA-204's disposition does not transfer to GP-DATA-212 and nothing in this document treats it as transferring.
+
+
+Conflict declaration, repeated from CL-REG-266 section 0: this lane is the external defect trigger that caused GP-DATA-212 to exist. Every R-item above was re-derived rather than inherited, and the one item that could not be re-derived is declared as not done rather than waved through.
+
+
+
+
+6. FROZEN CL ARTIFACT
+
+
+  cl_req213.py — 10,111 bytes — SHA-256 07eaec696d9b8f75b7f88ea51db93f159241ef34397deb1172ead214175fd90d
+  frozen 2026-07-26T02:24:46Z, before LS-AUD-011 or any same-family disposition of the 212 artifacts was opened.
+  Prior reused artifact: CL-DATA-255 (cl_dq005_b1b3.py, cl_dq005_b6.py), disclosed under R13.
+  Stdlib-only; no third-party package required for replay.
+
+
+The GP-REQ-213 claim (CL-REG-266) REMAINS OPEN. Next action: R0 source-carrier hash reproduction in a fresh session with adequate transport budget, then R1 and R4, then the verdict. A reviewer in any lane with the source bytes in hand can close R0 in one step; if it passes, nothing in section 2 changes and the verdict form would be APPROVE.
+
+
+END CL-AUD-268-PART1-v1.0

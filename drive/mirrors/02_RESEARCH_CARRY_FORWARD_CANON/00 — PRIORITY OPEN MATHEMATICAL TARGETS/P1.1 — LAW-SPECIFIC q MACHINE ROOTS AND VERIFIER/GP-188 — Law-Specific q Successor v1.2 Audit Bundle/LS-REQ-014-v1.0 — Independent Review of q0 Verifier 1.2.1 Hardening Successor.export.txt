@@ -1,0 +1,258 @@
+﻿LS-REQ-014-v1.0 — INDEPENDENT REVIEW OF q0 VERIFIER 1.2.1 HARDENING SUCCESSOR
+
+
+Artifact ID: LS-REQ-014-v1.0
+Date: 2026-07-25
+Prepared by: OpenAI GPT-5.6 Thinking
+Assigned reviewer: organizationally distinct non-OpenAI verifier/security reviewer or qualified human
+Class: REQ / HASH-SPECIFIC SOURCE REVIEW / ADVERSARIAL EXECUTION
+Authority: review routing only
+Canonical impact: NONE
+Machine impact: NONE
+Status: READY FOR INDEPENDENT REVIEW / DO NOT INSTALL
+
+
+[[OBJECT:q0-law-specific/1.2]] [[VERIFIER-RELEASE:1.2.1]] [[SOURCE-SHA:5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9]] [[REVIEW:OPEN]] [[NO-INSTALL]]
+
+
+1. REVIEW TARGET
+
+
+Reconstruct and review:
+
+
+LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py
+Bytes: 25,843
+SHA-256: 5202c5fa33b1f08d502220943443573cc8c8e3a31682e6f3079443647fe0f6b9
+
+
+The verifier release is 1.2.1. The accepted machine schema remains q0-law-specific/1.2. No machine JSON successor is introduced by this packet.
+
+
+2. PREDECESSOR OBJECTS
+
+
+Machine:
+Drive ID 1KWNv1Yz95o42tMocUA_G7qocQrioS52o
+25,524 bytes
+SHA-256 65af52096aa40a4ab49f0a7b0fca6d29876aaafa153139da8de351ab3b632219
+
+
+Verifier:
+Drive ID 1COFvunwQWUWxET6AB0j0kYd-SfUO0BSU
+11,496 bytes
+SHA-256 10ac7b82923c79d491923a9c4a840797004056326b02cd48aa2e40c51ed4d2a3
+
+
+Confirm both remain unchanged before and after review.
+
+
+3. REVIEW INPUTS
+
+
+Read first:
+https://docs.google.com/document/d/1B8_l-jXd5jo5ETMmoF-tMx8PcuwwshAq51KiagHDMp0/edit
+
+
+Source capsule:
+https://docs.google.com/document/d/1nkKiFCt5KDSuSzlC01CBsO8TD6N_lsUCQMGywhCCYUM/edit
+
+
+Report and receipt capsule:
+https://docs.google.com/document/d/1lryBmUS0z5jvj6ie2dd0uiyflsqwJr5flzknvvGXqMA/edit
+
+
+Duplicate-key attack capsule:
+https://docs.google.com/document/d/1_xHs54Oo2LFgKLaotpyW0lu-Q-ycRwMxj0vuUgxqfAM/edit
+
+
+Same-line audit and discrepancy ledger:
+https://docs.google.com/document/d/1B7YRIniaDmiXdKVSGLHy-S_y_hwQ7Yt5MNIx3zameCo/edit
+
+
+Independent defect report:
+CL-AUD-218-v1.0
+https://docs.google.com/document/d/1imoUIXgOFrLI9I35WNidr_gCcRzASpOzF6nux2d7-dg/edit
+
+
+4. REQUIRED PREREGISTRATION
+
+
+Before opening the same-line audit, record:
+
+
+- provider organization;
+- model or human identity;
+- session/run ID;
+- date/time;
+- source exposure;
+- whether predecessor outputs or defect descriptions were visible;
+- planned reconstruction and test method;
+- intended output filename and hash algorithm.
+
+
+A review may be source-visible and still qualify as distinct-family technical review, but its exposure must be explicit.
+
+
+5. EXACT EXECUTION
+
+
+Reconstruct the five payloads from their Drive capsules and verify every original and gzip identity.
+
+
+Run:
+
+
+python3 LS-DATA-013-v1.0_q0_law_specific_verify_v1_2_1.py \
+  GP-REG-188-v1.0_q0_law_specific_successor_v1_2.json \
+  independent_successor_report.json
+
+
+Required result:
+
+
+- return code zero;
+- machine valid;
+- predecessor machine identity pass;
+- predecessor negative tests 12/12;
+- CL adversarial tests 9/9;
+- all roots fail closed;
+- active machine modified false;
+- active verifier modified false.
+
+
+Compare the generated semantic report with the frozen report. Environment-specific execution metadata may differ; all mathematical, structural, test, and hash fields must agree.
+
+
+6. DUPLICATE-KEY ATTACK
+
+
+Run the successor against the reconstructed full-machine duplicate-key specimen.
+
+
+Required result:
+
+
+- nonzero return code;
+- deterministic failure report;
+- error INPUT_REJECTED:DUPLICATE_JSON_KEY:MORSE_SMALE_R0;
+- no semantic root reports for the malformed input.
+
+
+Inspect that repeated keys are rejected through object_pairs_hook before the semantic verifier sees a dictionary.
+
+
+7. EMPTY-ROUTE ATTACK
+
+
+Confirm the injected route
+
+
+{"route_id":"AAA_EMPTY","dependencies":[]}
+
+
+produces
+
+
+Q_TYPED_MS_RATE:ROUTE_EMPTY_DEPENDENCIES:AAA_EMPTY
+
+
+and cannot become the least-blocked route.
+
+
+Inspect all route validation:
+
+
+- route list type;
+- route object type;
+- route ID presence and uniqueness;
+- dependency list type;
+- nonempty dependencies;
+- no object smuggling;
+- no unknown dependency.
+
+
+8. CYCLE POLICY
+
+
+Verify the successor detects cycles across:
+
+
+- base dependency_ids;
+- every alternate route dependency.
+
+
+The exact policy under review is:
+
+
+ANY DIRECTED DEPENDENCY CYCLE MAKES THE MACHINE STRUCTURALLY INVALID.
+
+
+Confirm a self-cycle produces report.valid=false and a deterministic CYCLE path. Search for a multi-node cycle and an alternate-route cycle as additional reviewer-generated attacks.
+
+
+9. PREDECESSOR EQUIVALENCE
+
+
+Execute the predecessor verifier on the unmodified machine. Compare predecessor and successor root_reports.
+
+
+PASS requires exact JSON-data equality of root_reports. The successor may add metadata and tests but must not change valid predecessor scientific blockers.
+
+
+10. REVIEWER-GENERATED ATTACKS
+
+
+Add at least five attacks not already in the 21-test suite. Recommended surfaces:
+
+
+- duplicate route IDs;
+- route dependencies stored as a string rather than a list;
+- nested duplicate keys outside claims;
+- BOM or invalid UTF-8;
+- two-node route-only cycle;
+- mixed base/route cycle;
+- migration target pointing to an object;
+- non-list proposed_roots;
+- top-level JSON array.
+
+
+Report the exact mutation bytes or reproducible construction.
+
+
+11. ACCEPTANCE VERDICT
+
+
+Return one:
+
+
+PASS
+The source identity, all tests, strict loader, cycle policy, root equivalence, Drive roundtrip, and active-byte firewall survive.
+
+
+AMEND REQUIRED
+The scientific intent is recoverable but one implementation, identity, output, or test defect requires a versioned successor.
+
+
+REJECT
+A repair fails open, changes valid root semantics, permits malformed input, or modifies an active object.
+
+
+12. SCOPE FIREWALL
+
+
+An affirmative review supports only the noncanonical verifier successor. It does not:
+
+
+- install the verifier;
+- replace GP-DATA-188;
+- migrate the active machine;
+- promote any root;
+- close a theorem;
+- authorize release, deletion, or destructive operations.
+
+
+Operator authorization and any separate installation protocol remain required.
+
+
+END LS-REQ-014-v1.0

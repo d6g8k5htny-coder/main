@@ -1,0 +1,96 @@
+﻿Blind axial d^7 mechanism — native audit mirror
+
+
+Carrier rule: the raw derivation, verifier, and transcript named below remain canonical. This native card is a searchable/auditable mirror only; if it conflicts with a raw carrier, the raw bytes and their checksum control.
+
+
+Carrier identity
+
+
+* Derivation: Drive `1oWZXyITjccf5f3k2s4IaP0OrJV9fikAJ`; 6,613 bytes; SHA-256 `6d634ae6ffbada87d37c185d04daaef46be31670e471b2ca5c13aeca77c34527`; status `LOCAL_RESULT`.
+* Fail-closed verifier: Drive `190rc-iKf1UzwI0r1gjwnX-VRdNLm4I_0`; 8,389 bytes; SHA-256 `95e2b60fd5dda09b8cadc2e5093282f4f90897db59d26007f390e0e01280f234`; status `PASS_NORMAL_AND_O`.
+* Byte-identical transcript: Drive `1bp1Z0nf0LpgMC2z68G-AsY3r2tPfiWpy`; 1,482 bytes; SHA-256 `eb9fb668154e99cab004bd07df27ab9cb2acda4d8d02824856c76018ab9d70aa`.
+* Axial-suppression note: Drive `1fx0P1TO-Uksm_0c-G43q8cuq6wnPPUYS`; 5,316 bytes; SHA-256 `333f2e5193aef79ff83bc815e08d2fdce8a3e6f68854697432e261c144f9ac3d`; status `LOCAL_PUNCTURED_CONE_ONLY`.
+* Axial-suppression verifier: Drive `1-hi3bfKNY3qqBb-bKjcuvSn9KlUaRvvq`; 4,866 bytes; SHA-256 `8f8acf80d36c40c07071f712d4663d5f6f25dfba5f45409a433f95a282e66a6a`; status `PASS_NORMAL_AND_O`.
+* Axial-suppression transcript: Drive `1B0TMSCNodTcc7morCzSR2dBXU4Uc1D0V`; 1,207 bytes; SHA-256 `489025ee37cf8e07a813da512c94a836e924a62b76a15d2d8c64dc1cc98a40a1`; normal and optimized output byte-identical.
+
+
+Exact covariance mechanism
+
+
+For `M=0`, `S=dt`, `d>0`, condition on `(f,∇f)(M),(f,∇f)(S)`. With axial components `G_1=f_tt(M)` and `G_1'=(1/2)f_ttt(M)`, the corrected pair-pin frame yields, modulo the pin span,
+
+
+`G_1=(d^2/12)R_4+O_{L^2}(d^3)`,
+
+
+`G_1'=-(d/4)R_4+O_{L^2}(d^2)`.
+
+
+Therefore
+
+
+`Cov(G_1,G_1' | pins)=-(d^3/48) Var(R_4 | P_0)+O(d^4)`.
+
+
+For Euclidean Bargmann-Fock, `Var(R_4 | P_0)=24`, so
+
+
+`Cov(G_1,G_1' | pins)=-(1/2)d^3+(1/5)d^5+O(d^7)`.
+
+
+The cancellation is midpoint-reflection parity plus the corrected odd-sector pin: both leading survivors come from the same even fourth-jet residual.
+
+
+Determinant derivative and logarithmic slope
+
+
+With `η=z/d`,
+
+
+`D_ax(d,ηd)=det Cov(𝒢_{d,t}(ηd) | pins)=(d^8/24)(1-η)^6(1-2η)^2+O(d^10)`.
+
+
+At `η=0`,
+
+
+`D_ax(d,0)=d^8/24+O(d^10)`,
+
+
+`∂_z D_ax(d,0)=-(5/12)d^7+O(d^9)`,
+
+
+`(∂_z D_ax(d,0))/D_ax(d,0)=-10/d+O(d)`.
+
+
+For the side-24 field, compact residual-Gram positivity preserves a first `z` coefficient uniformly of order `Θ(d^7)` and the same leading logarithmic slope `-10/d`.
+
+
+Local axial-suppression cone
+
+
+For `y=M+ρt`, `λ=ρ/d`, the proved local cone is `εd<ρ≤2d`, equivalently `ε<λ≤2`, with the pinned collision point `λ=1` deleted from the witness set. Exact Hermite division gives
+
+
+`a=ρ(ρ-d)`, `χ=2ρ-d`, `d_0^2=4χ^2+a^2`,
+
+
+and
+
+
+`det Cov(∇f(y)|V_d)=a^6 d_0^2 det Cov(U,C^v,C^w|V_d)`,
+
+
+where the normalized residual Gram determinant has a uniform positive floor and ceiling. For compact pair marks with `κ≥κ_->0`, the resulting punctured-cone density bound is
+
+
+`p_{∇f(y)|V_d}(0) ≤ C|a|^-3 d_0^-1 exp(-cκ_-^2/d^2)`.
+
+
+At `λ=1/2` the suppression strengthens to the `exp(-c/d^4)` class.
+
+
+Scope firewall
+
+
+Confirmed: `Cov(G_1,G_1'|pins)=-Θ(d^3)`, the axial determinant's first `z` coefficient is `Θ(d^7)`, the Euclidean transverse linear term is zero, and the local axial mean-mismatch estimate holds on the punctured cone. The collision slice `λ=1` is excluded: integration across it still requires Hessian collision weights and radial measure, and the algebraic factor `|a|^-3` is not independently integrable at both endpoint divisors. Not established: an explicit side-24 `d_*`, transverse first-order cancellation for every rotated side-24 frame, a full three-Hessian moment envelope, a regional `O(d^3)` count, endpoint collision integrability, or the full RP-C/RP-S Kac-Rice ledger. RP-C/RP-S and the package remain `HOLD / NOT PROMOTED`.

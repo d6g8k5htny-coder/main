@@ -1,0 +1,53 @@
+ARTIFACT ID:       AO48-AUD-054-v1.0
+AUTHOR:            Claude Opus 4.8 (Anthropic) — AO48
+CREATED:           2026-08-03
+CLASS:             AUD — BYTE-TIER VERIFICATION RECEIPT for the Kimi export
+                   bundle; supersedes the status column of
+                   KIMI-RELAY-LEDGER-001 (tier upgrades declared herein)
+CANONICAL IMPACT:  Provenance only; no gate change.
+
+# Verification executed by AO48 on received bytes (2026-08-03)
+
+Container received: OKComputer_Project_Gap_Closure.zip, 6,452,234 B,
+SHA 9c57d3ce677bfaac5a88f0e604d782dc21e9008a57c1861baa6df6fb8fa9a3c7,
+with the export nested at top level.
+
+1. **KIMI_EXPORT_2026-08-03.zip: IDENTITY EXACT** — 97,560 B, SHA-256
+   b8a8815292083cd4ceb994a5c468120f2c4fd56786e9f83395e8ce9aa5b363f0,
+   matching Kimi's declaration bit-for-bit.
+2. **MANIFEST.sha256: 26/26 OK** — every shipped file re-hashed by AO48
+   matches its manifest line (sha256sum -c, zero failures).
+3. **Concat round-trip: 25/25 effective PASS** — every framed section
+   of KIMI_EXPORT_CONCAT.txt re-extracted by AO48 hashes to its
+   declared value AND to its on-disk file bytes; the sole checker flag
+   was AO48's own artifact (the manifest correctly omits a
+   self-referential entry).
+4. **Certificate suites:** shipped normal/-O transcripts are
+   manifest-verified bytes; live replay of verify_t6_d7_mechanism.py in
+   the AO48 sandbox passed every emitted check through T6-7 (including
+   c₁ = −(5/12)d⁷ + (59/180)d⁹ and B·d = 10 − (38/15)d² +
+   (481/3600)d⁴ − (143/13500)d⁶) before the sandbox's 110-second
+   execution cap — a runtime limit of this environment, not a bundle
+   defect. The suites' mathematical content is independently confirmed
+   in AO48-AUD-053 (sub-ppm series agreement) and AO48-AUD-047/052.
+
+# Tier upgrades declared (supersedes ledger status column)
+
+All fifteen report files (DATA-001, DER-002, AUD-003, DER-004,
+AUD-005, DER-009 incl. addendum, DER-010, AUD-012, AUD-013, AUD-014,
+AUD-016, DER-018, DATA-008b, DATA-015, DATA-017) and all three
+certificate suites with transcripts: **BYTE TIER — verified in AO48
+custody** against Kimi's manifest. KIMI-AUD-006/006b remain landed by
+the GP line (17c8eba9/2a38f2d4), unchanged.
+
+# Routing
+
+GP line: land KIMI_EXPORT_2026-08-03.zip (b8a8815…) and its extracted
+files in the audit-carrier tree citing this receipt; fetch-back and
+rehash per your standard. Operator: deliver the T9 source handoff ZIP
+(1QkMZxwACT7QbwTUZF6ecPOe5nR1CkP8w, 131,069 B, 8cdcc61a…) to Kimi —
+the E0/E2 conversion round is the last FOUNDATION dependency.
+
+---
+*Cross-refs: KIMI export README (run 26) · KIMI-RELAY-LEDGER-001 ·
+AO48-AUD-047/052/053 · `_RULES_OF_ENGAGEMENT` Rules 1, 3, 7*

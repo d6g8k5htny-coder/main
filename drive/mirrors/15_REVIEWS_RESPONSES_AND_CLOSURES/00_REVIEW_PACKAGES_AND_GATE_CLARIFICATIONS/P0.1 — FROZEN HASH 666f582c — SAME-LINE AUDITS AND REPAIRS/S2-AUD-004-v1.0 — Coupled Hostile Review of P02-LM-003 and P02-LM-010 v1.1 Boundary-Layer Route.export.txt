@@ -1,0 +1,310 @@
+﻿S2-AUD-004-v1.0 — COUPLED HOSTILE REVIEW OF P02-LM-003 AND P02-LM-010 v1.1 BOUNDARY-LAYER ROUTE
+
+
+Artifact ID: S2-AUD-004-v1.0
+Date: 2026-07-25
+Reviewer line: OpenAI GPT-5.6 Thinking, Scientist 2
+Class: AUD / HOSTILE MEASURE-THEORETIC REVIEW / EXACT GAUSSIAN-PALM BOUNDARY LAYER
+Authority: same-family technical audit only
+Independence credit: ZERO
+Targets:
+- P02-LM-003 / LCR-DER-014-v1.0 / SHA-256 5173d26d6bfaae5ef65a8ae2d0ca9b829a291be3f7dacaba82bb38d2526bb83e
+- P02-LM-010 v1.1 / LCR-DER-030-v1.1 / SHA-256 05e0f20f0feb938ab7fca43c49b1f70fd0b8a492138ae805a418a5d028177ef2
+Status effect: NO TERMINAL PROMOTION
+
+
+[[TARGET:P02-LM-003+010v1.1]] [[VERDICT:PASS-WITH-CLARIFICATIONS-SAME-FAMILY]] [[INDEPENDENCE-CREDIT:ZERO]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]]
+
+
+1. EXECUTIVE VERDICT
+
+
+PASS WITH CLARIFICATIONS — SAME-FAMILY ONLY.
+
+
+The coupled route proving
+
+
+    P_r^{MS}(B_r)=O(r^3)
+
+
+for the exact good-remainder threshold boundary survives hostile review.
+
+
+The abstract integration lemma correctly derives an O(r^5) unnormalized numerator from:
+
+
+- q=rs and dq=r ds;
+- an r^4 physical determinant-weight bound;
+- polynomially bounded interval endpoints;
+- an r-uniform Gaussian envelope in U.
+
+
+The exact-field crosswalk correctly divides this numerator by the full exact normalizer lower bound Z_r^{exact}>=c_Z r^2, yielding O(r^3).
+
+
+No reversed normalizer direction, good-event renormalization, finite-Q4 weight substitution, missing Jacobian, or empty-interval sign error was found.
+
+
+2. P02-LM-003 ABSTRACT INTEGRATION AUDIT
+
+
+The weighted bad mass is
+
+
+    N_r=∫W_r 1_{B_r} phi_r dq dU.
+
+
+The boundary inclusion on positive-weight support gives
+
+
+    W_r 1_{B_r}<=W_r 1_{I_r(U)}(q/r).
+
+
+After q=rs,
+
+
+    N_r<=r∫∫_{I_r(U)}W_r(rs,U)phi_r(rs,U)dsdU.
+
+
+H1 and H5 give the factor r*r^4=r^5. The remaining interval integral is uniformly bounded by a Gaussian U-integral times a polynomial because both endpoints have polynomial growth.
+
+
+The proof correctly treats I_r(U) as an ordinary measurable set. If U_r(U)<=-C_r(U), the interval is empty and contributes zero; no oriented-integral convention is used.
+
+
+The lower normalizer bound is used in the correct direction:
+
+
+    P_r(B_r)=N_r/Z_r<=(K_N r^5)/(c_Z r^2)=K_B r^3.
+
+
+Abstract integration verdict: PASS.
+
+
+3. EXACT-LAW OBJECT CROSSWALK
+
+
+P02-LM-010 v1.1 uses:
+
+
+- the exact side-24 conditioned law Q_{6,r};
+- the exact physical midpoint nine-jet J_r=(q,U);
+- exact endpoint Hessians;
+- exact maximum/saddle type indicators;
+- exact determinant weight W_r^{exact};
+- the full exact normalizer Z_r^{exact}.
+
+
+The displayed degree-four endpoint Hessians are used only as deterministic comparison formulas. They do not replace the exact type indicators or weight.
+
+
+Object identity verdict: PASS.
+
+
+4. FINITE UPPER-ENDPOINT AUDIT
+
+
+On the exact typed boundary event B_r, negative definiteness of H_M^{exact} implies its yy entry is negative.
+
+
+The physical-Hessian remainder estimate
+
+
+    ||H_M^{exact}-H_M^(4)||_op<=C_T r^2
+
+
+and
+
+
+    (H_M^(4))_22=r(s-w/2+r c22/8)
+
+
+give
+
+
+    s<w/2-r c22/8+C_T r.
+
+
+The correction is C_T r, not C_T, because the physical entry error is divided by r>0.
+
+
+Together with s>-C_cap(U), this confines every contributing point to a finite interval with polynomially growing endpoints.
+
+
+Upper-endpoint scaling verdict: PASS.
+
+
+5. EXACT r^4 WEIGHT AUDIT
+
+
+On G_r, normalized exact Hessians satisfy
+
+
+    Hhat_X^{exact}=H_X^{exact}/r
+
+
+and differ from their normalized degree-four counterparts by O(r). Their entries are therefore bounded by a fixed polynomial in 1+|s|+||U||.
+
+
+For 2x2 matrices,
+
+
+    |det A|<=||A||_op^2.
+
+
+Since det H_X^{exact}=r^2 det Hhat_X^{exact}, the product of the two exact determinant magnitudes has the required r^4 factor:
+
+
+    W_r^{exact}<=r^4 K_D(1+|s|+||U||)^4.
+
+
+The exact type indicators only decrease the nonnegative weight.
+
+
+Weight-power verdict: PASS.
+
+
+6. DISINTEGRATION AND FULL-NORMALIZER FIREWALL
+
+
+Define
+
+
+    barW_r(q,U)=E[W_r^{exact}|J_r=(q,U)],
+
+
+and
+
+
+    tildeW_r(q,U)=E[W_r^{exact}1_{G_r}|J_r=(q,U)].
+
+
+The numerator uses tildeW_r because the Hessian comparison is available only on G_r. The denominator remains
+
+
+    Z_r^{exact}=∫barW_r phi_r.
+
+
+The proof does not divide by ∫tildeW_r phi_r and therefore does not introduce a good-event-renormalized Palm law.
+
+
+For every realization contributing to W_r^{exact}1_{G_r}, exact type holds and the finite interval conclusion follows. Because the polynomial majorant depends only on J_r=(q,U), conditional expectation preserves it almost everywhere.
+
+
+Disintegration and denominator verdict: PASS WITH CLARIFICATION.
+
+
+Clarification C1: barW_r and tildeW_r are regular conditional expectations defined only jet-law almost everywhere. The existing correction permits either explicit almost-everywhere language or a measurable null-set-modified version. An organizationally distinct reviewer must verify that every support and pointwise-majorant statement is interpreted in this almost-everywhere sense.
+
+
+7. POWER LEDGER
+
+
+Boundary coordinate: q=rs.
+Jacobian: dq=r ds.
+Exact determinant product: O(r^4).
+Unnormalized exact good-boundary mass: O(r^5).
+Full exact normalizer lower bound: Omega(r^2).
+Exact Palm probability: O(r^3).
+
+
+Power ledger: PASS.
+
+
+8. ADVERSARIAL FAILURE TESTS
+
+
+F1. Use an upper normalizer bound to prove a probability upper bound.
+Result: not present.
+
+
+F2. Normalize by the good-event subweight.
+Result: not present.
+
+
+F3. Replace exact type with degree-four type.
+Result: not present.
+
+
+F4. Replace exact determinant weight with quartic determinant weight.
+Result: not present.
+
+
+F5. Lose the dq=r ds Jacobian.
+Result: not present.
+
+
+F6. Treat an empty interval as negatively oriented.
+Result: not present.
+
+
+F7. Assume the exact weight is nine-jet measurable.
+Result: not present; regular conditional expectation is used.
+
+
+F8. Apply the O(r^3) result to the full threshold event without separately controlling G_r^c.
+Result: explicitly excluded.
+
+
+F9. Require REG_r for the boundary integration itself.
+Result: not required; C_cap has global polynomial growth. REG_r belongs to deterministic capture and the final union decomposition.
+
+
+9. VERDICT LEDGER
+
+
+B1 abstract measurable setup: PASS.
+B2 positive-weight support inclusion: PASS.
+B3 empty-interval handling: PASS.
+B4 density envelope use: PASS.
+B5 r^4 weight premise: PASS.
+B6 polynomial endpoint integration: PASS.
+B7 lower-normalizer direction: PASS.
+B8 exact-law identity: PASS.
+B9 exact maximum-type upper endpoint: PASS.
+B10 physical/scaled error conversion: PASS.
+B11 exact determinant majorant: PASS.
+B12 full/subweight disintegration: PASS WITH CLARIFICATION C1.
+B13 full-normalizer denominator: PASS.
+B14 finite-Q4 firewall: PASS.
+B15 good-event scope firewall: PASS.
+
+
+10. SCIENTIFIC EFFECT
+
+
+P02-LM-003 and P02-LM-010 v1.1 are strengthened to:
+
+
+    COUPLED HOSTILE SAME-FAMILY PASS WITH CLARIFICATION / ZERO INDEPENDENCE CREDIT / ORGANIZATIONALLY DISTINCT REVIEW STILL OPEN.
+
+
+The mathematical work remaining on this boundary-layer branch is no longer same-line repair. It is independent exact-hash reconstruction and then integration with:
+
+
+- P02-LM-006 for the normalizer lower bound;
+- P02-LM-005 for the exact nine-jet density envelope;
+- the exact Taylor/Hessian remainder interface for G_r;
+- P02-LM-007 and P02-LM-008 for G_r^c.
+
+
+11. NEXT DECISIVE ACTION
+
+
+Route both frozen hashes to one organizationally distinct reviewer as a coupled packet. Require separate verdicts for each hash and an additional recombination verdict covering:
+
+
+- numerator subweight versus full denominator;
+- almost-everywhere conditional-weight versions;
+- exact maximum-type upper endpoint;
+- r^4 determinant scaling;
+- q=rs Jacobian;
+- lower-normalizer direction;
+- exclusion of G_r^c from the boundary-layer result.
+
+
+No closure, theorem promotion, machine change, package seal, or external release follows from this audit.
+
+
+END S2-AUD-004-v1.0

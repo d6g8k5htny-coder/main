@@ -1,0 +1,350 @@
+﻿LS-DER-042-v1.0 — CLOSED-FORM PLANAR BARGMANN–FOCK SHORT-LIFETIME COEFFICIENT
+
+
+Artifact ID: LS-DER-042-v1.0
+Dispatch: DQ-065
+Date: 2026-07-28
+Prepared by: OpenAI GPT-5.6 Thinking — Lead Scientist / Research Program Director
+Class: DER / EXACT GAUSSIAN ALGEBRA / GAMMA INTEGRAL / PLANAR COEFFICIENT
+Authority: same-OpenAI-family theorem candidate only
+Organizational-independence credit: ZERO
+Canonical impact: NONE
+Status: COMPLETE CLOSED-FORM COEFFICIENT CANDIDATE / REVIEW DEFERRED
+BODY_BYTES: 7073
+BODY_SHA256: 54cedb1eba9d72648619468beed9b8870bb3d28dbe206805dc72b4f796557cf3
+
+
+CONTROLLING INPUTS
+LS-DER-021-v1.0 — exact contact-limit formula J_0=(1/6)p_0 kappa^2 E[Q^2 1{Q<0}].
+LS-DER-032-v1.0 — confluent pin covariance and planar transverse-curvature law.
+LS-DER-041-v1.0 — definition and thermodynamic role of the planar coefficient c_infinity.
+
+
+FREEZE POLICY
+Extract UTF-8 text strictly after the unique full line BEGIN_PLANAR_COEFFICIENT_FROZEN_BODY and strictly before the unique full line END_PLANAR_COEFFICIENT_FROZEN_BODY. Normalize CRLF and lone CR to LF. Preserve leading whitespace and any initial LF. Remove all trailing LF characters and append exactly one LF. Encode UTF-8 without BOM. Fail closed on marker absence or multiplicity.
+
+
+BEGIN_PLANAR_COEFFICIENT_FROZEN_BODY
+CLOSED-FORM PLANAR BARGMANN–FOCK SHORT-LIFETIME COEFFICIENT
+
+
+1. PLANAR CONFLUENT PIN VECTOR
+
+
+Let f be the centered planar Bargmann–Fock field with covariance
+
+
+    K(x,y)=exp[-(x^2+y^2)/2].                                     (1)
+
+
+By rotational invariance fix the pair axis as the x-axis. Use the limiting corrected six-pin vector
+
+
+    Y=(f,-f_xxx/12,f_x,f_xx,f_y,f_xy).                            (2)
+
+
+Changing the harmless signs of the zero-target f_xx or f_xy coordinates leaves every density and conditional law below unchanged.
+
+
+For derivative multi-indices alpha,beta,
+
+
+    Cov(partial^alpha f,partial^beta f)
+      =(-1)^|beta| partial^(alpha+beta)K(0).                       (3)
+
+
+Direct differentiation gives
+
+
+    Sigma=Cov(Y)
+      =[[ 1,    0,   0, -1, 0, 0],
+        [ 0, 5/48, 1/4,  0, 0, 0],
+        [ 0,  1/4,   1,  0, 0, 0],
+        [-1,    0,   0,  3, 0, 0],
+        [ 0,    0,   0,  0, 1, 0],
+        [ 0,    0,   0,  0, 0, 1]].                              (4)
+
+
+Its determinant and inverse are
+
+
+    det Sigma=1/12,                                               (5)
+
+
+    Sigma^(-1)
+      =[[3/2,  0,   0, 1/2, 0, 0],
+        [  0, 24,  -6,   0, 0, 0],
+        [  0, -6, 5/2,   0, 0, 0],
+        [1/2,  0,   0, 1/2, 0, 0],
+        [  0,  0,   0,   0, 1, 0],
+        [  0,  0,   0,   0, 0, 1]].                              (6)
+
+
+The exact limiting pin target is
+
+
+    y(b,kappa)=(b,-kappa/6,0,0,0,0).                              (7)
+
+
+Therefore
+
+
+    y^T Sigma^(-1)y
+      =(3/2)b^2+(2/3)kappa^2.                                    (8)
+
+
+The six-dimensional pin density is
+
+
+    p_0(b,kappa)
+      =(2pi)^(-3)(det Sigma)^(-1/2)
+        exp[-(1/2)y^T Sigma^(-1)y]
+      =sqrt(3)/(4pi^3)
+        exp[-3b^2/4-kappa^2/3].                                  (9)
+
+
+It is independent of the directed angle theta.
+
+
+2. EXACT PLANAR TRANSVERSE-CURVATURE LAW
+
+
+Let
+
+
+    Q=f_yy.                                                       (10)
+
+
+Then Var(Q)=3 and
+
+
+    Cov(Q,Y)=(-1,0,0,1,0,0).                                     (11)
+
+
+Gaussian regression using (6) and (7) gives
+
+
+    E[Q|Y=y]=-b,                                                  (12)
+
+
+    Var(Q|Y=y)=2.                                                 (13)
+
+
+Thus exactly
+
+
+    Q|Y=y ~ N(-b,2),                                              (14)
+
+
+independent of kappa and theta.
+
+
+3. EXACT PLANAR CONTACT INTENSITY
+
+
+The controlling contact theorem gives
+
+
+    J_0(theta,b,kappa)
+      =(1/6)p_0(b,kappa)
+        kappa^2 E[Q^2 1{Q<0}],                                   (15)
+
+
+where Q has law (14). Hence
+
+
+    J_0(theta,b,kappa)
+      =sqrt(3)/(24pi^3)
+        exp[-3b^2/4-kappa^2/3]
+        kappa^2 R(b),                                             (16)
+
+
+with
+
+
+    R(b)=E[Q^2 1{Q<0}],
+    Q~N(-b,2).                                                    (17)
+
+
+No factor one-half appears: theta ranges over the complete directed circle S^1 and the maximum-to-saddle critical types already order each pair.
+
+
+4. COEFFICIENT SEPARATION
+
+
+Let
+
+
+    alpha=6^(2/3)/3.                                              (18)
+
+
+The planar specific coefficient of LS-DER-041 is
+
+
+    c_infinity
+      =alpha integral_{S^1} integral_R integral_0^infinity
+        J_0(theta,b,kappa) kappa^(-2/3)
+        dkappa db dtheta.                                         (19)
+
+
+Using angle independence and (16),
+
+
+    c_infinity
+      =alpha (2pi) sqrt(3)/(24pi^3) I_b I_kappa,                  (20)
+
+
+where
+
+
+    I_b
+      =integral_R exp(-3b^2/4)R(b) db,                            (21)
+
+
+    I_kappa
+      =integral_0^infinity kappa^(4/3)exp(-kappa^2/3) dkappa.      (22)
+
+
+5. EXACT BIRTH-HEIGHT INTEGRAL
+
+
+Write the unnormalized weight exp(-3b^2/4) as the density of
+
+
+    B~N(0,2/3)                                                    (23)
+
+
+multiplied by
+
+
+    Z_b=integral_R exp(-3b^2/4)db=2sqrt(pi/3).                    (24)
+
+
+Let Z~N(0,1) be independent of B. Under (14),
+
+
+    Q=-B+sqrt(2)Z.                                                (25)
+
+
+After averaging over B,
+
+
+    Q~N(0,8/3).                                                   (26)
+
+
+By symmetry,
+
+
+    E[Q^2 1{Q<0}]
+      =(1/2)E[Q^2]
+      =4/3.                                                       (27)
+
+
+Therefore
+
+
+    I_b
+      =Z_b(4/3)
+      =(8/3)sqrt(pi/3).                                          (28)
+
+
+6. EXACT NORMALIZED-GAP INTEGRAL
+
+
+The standard Gamma integral gives
+
+
+    I_kappa
+      =(1/2)3^(7/6)Gamma(7/6)
+      =(1/12)3^(7/6)Gamma(1/6).                                  (29)
+
+
+The integrability at kappa=0 follows from the exponent 4/3, and the Gaussian controls infinity.
+
+
+7. CLOSED FORM
+
+
+Substituting (28) and (29) into (20) and simplifying yields
+
+
+    c_infinity
+      =2^(2/3) 3^(5/6) Gamma(1/6)
+        /[54 pi^(3/2)].                                          (30)
+
+
+Numerically,
+
+
+    c_infinity
+      =0.0734069193060342710301359629577740500... .               (31)
+
+
+Thus the total leading coefficient on a large side-L torus obeys
+
+
+    C_L^tot
+      =L^2 c_L,
+    C_L^tot/L^2 ->
+      2^(2/3) 3^(5/6) Gamma(1/6)
+      /[54 pi^(3/2)].                                             (32)
+
+
+The exact fixed side-24 coefficient is c_24, not literally c_infinity; normalized-periodization image terms make c_24 exponentially close but mathematically distinct.
+
+
+8. MAIN THEOREM
+
+
+THEOREM 8.1 — CLOSED-FORM PLANAR COEFFICIENT.
+Under the exact directed all-typed contact convention and ordinary per-unit-area normalization, the planar Bargmann–Fock short-lifetime coefficient is the constant in (30), finite and strictly positive.
+
+
+9. FACTOR AND SCOPE FIREWALL
+
+
+The closed form uses exactly:
+- the exact mark Jacobian factor 1/6;
+- the full directed angular measure 2pi;
+- determinant weight kappa^2 Q^2 1{Q<0};
+- lifetime weight kappa^(-2/3);
+- no unordered-pair factor 1/2;
+- no torus-area factor.
+
+
+The number (31) is a specific planar coefficient per unit ordinary area. It is not:
+- the exact side-24 specific coefficient c_24;
+- the side-24 total coefficient 576 c_24;
+- an infinite-volume persistence theorem by itself;
+- a numerical review of any finite-L remainder;
+- evidence that the limits L->infinity and ell->0 commute.
+
+
+10. REOPENING CONDITIONS
+
+
+Amend or reject this theorem if:
+- any covariance entry in (4) is incorrect;
+- det Sigma differs from 1/12;
+- the target differs from (7);
+- Q is not N(-b,2);
+- the contact theorem carries a factor other than 1/6;
+- the directed angular domain is not the full S^1;
+- the normalized determinant limit differs from kappa^2Q^2 1{Q<0};
+- the lifetime Jacobian weight differs from kappa^(-2/3);
+- either integral (28) or (29) is wrong;
+- or the planar coefficient is substituted for the exact finite-torus coefficient.
+
+
+FINAL STATUS
+PLANAR SPECIFIC COEFFICIENT: CLOSED FORM SAME-FAMILY CANDIDATE.
+VALUE: 2^(2/3)3^(5/6)Gamma(1/6)/(54pi^(3/2)).
+DECIMAL: 0.07340691930603427103...
+FINITE AND STRICTLY POSITIVE: YES.
+SIDE-24 EXACT COEFFICIENT: DISTINCT / NOT COMPUTED HERE.
+LIMIT INTERCHANGE: NOT CLAIMED.
+CANONICAL STATUS: UNCHANGED / NOT PROMOTED.
+END_PLANAR_COEFFICIENT_FROZEN_BODY
+
+
+END LS-DER-042-v1.0

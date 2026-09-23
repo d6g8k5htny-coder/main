@@ -1,0 +1,153 @@
+﻿LS-DATA-006-v1.0 — INDEPENDENT C_D SYMBOLIC AUDIT RESULT MIRROR
+
+
+Artifact ID: LS-DATA-006-v1.0-RESULT-MIRROR
+Date: 2026-07-24
+Author/executor: OpenAI GPT-5.6 Thinking, Lead Scientist
+Class: DATA / RESULT MIRROR / SYMBOLIC AUDIT / SOURCE REPLAY
+Authority: none
+Canonical mathematical impact: NONE
+Raw result filename: LS-DATA-006-v1.0_Independent_CD_Symbolic_Audit_Result.json
+Raw result bytes: 4,467
+Raw result SHA-256: 334b36f73c9a60b99e5ebd6994fef277bb779f1352f6566a75eedb2c3ef66334
+Status: PASS WITH NONMATERIAL DECIMAL DISPLAY CORRECTION / ZERO INDEPENDENCE CREDIT
+
+
+The JSON below is the complete machine result. Google Docs normalization means exporting this document is not expected to reproduce the raw result hash.
+
+
+================ BEGIN RESULT ================
+
+
+{
+  "cardinal_checks": {
+    "B0_left": true,
+    "B0_right": true,
+    "B1_left": true,
+    "B1_right": true,
+    "h00_left_value": true,
+    "h00_right_value": true,
+    "h01_left_value": true,
+    "h01_right_value": true,
+    "h10_left_derivative": true,
+    "h10_right_derivative": true,
+    "h11_left_derivative": true,
+    "h11_right_derivative": true
+  },
+  "chart": {
+    "X": "[-3/4,3/4]",
+    "Y": "[-1,1]",
+    "t": "[-1/4,5/4]"
+  },
+  "constants_decimal": {
+    "C_D": "1.820595770017029040091941593971016785740550498522048530130699400791502",
+    "C_J": "1.820595770017029040091941593971016785740550498522048530130699400791502",
+    "C_vec": "0.5706642735588079199044404163751039395398346082950393704090659305633237",
+    "C_vec_pin": "0.01800692276815017052734819195656795538524766611078606251564014102625522",
+    "r_D_for_epsilon_1e-4": "0.00005492707477787045755987589164625595523024187058971053101121498291178077"
+  },
+  "constants_exact": {
+    "C_D": "sqrt(1074)/960 + 343/192",
+    "C_J": "sqrt(1074)/960 + 343/192",
+    "C_J_pin": "sqrt(1074)/960",
+    "C_J_taylor": "343/192",
+    "C_vec": "sqrt(85)/512 + 2401*sqrt(2)/6144",
+    "C_vec_pin": "sqrt(85)/512",
+    "C_vec_taylor": "2401*sqrt(2)/6144",
+    "c_grad": "2401/6144",
+    "c_hess": "343/384",
+    "pin_px": "9/512",
+    "pin_pxx": "1/30",
+    "pin_pxy": "1/192",
+    "pin_py": "1/256",
+    "r_D_for_epsilon_1e-4": "4116/73503775 - 12*sqrt(1074)/367518875"
+  },
+  "derived_sums": {
+    "value_cardinal_first_sum": "15/4",
+    "value_cardinal_second_sum": "18",
+    "xder_cardinal_first_sum": "35/8",
+    "xder_cardinal_second_sum": "11",
+    "ylinear_derivative_combined": "2",
+    "ylinear_value_combined": "3/2"
+  },
+  "exact_checks": {
+    "C_J_taylor_is_343_over_192": true,
+    "C_vec_pin_is_sqrt85_over_512": true,
+    "jacobian_channel_binding": true,
+    "pin_px_is_9_over_512": true,
+    "pin_pxx_is_1_over_30": true,
+    "pin_pxy_is_1_over_192": true,
+    "pin_py_is_1_over_256": true
+  },
+  "overall": "PASS_WITH_NONMATERIAL_DECIMAL_DISPLAY_CORRECTION",
+  "prose_typo": {
+    "classification": "NONMATERIAL_DECIMAL_DISPLAY_TYPO_EXACT_FORMULA_AND_COMBINED_CONSTANT_CORRECT",
+    "correct_decimal": "0.01800692276815017052734819195656795538524766611078606251564014102625522",
+    "exact_formula": "sqrt(85)/512",
+    "prose_display": "0.018005..."
+  },
+  "published_CD_matches": true,
+  "published_execution": {
+    "byte_identical_to_stored_receipt": true,
+    "replay_receipt_sha256": "621ec28939bb00a39817501a9f9c9a3474f7b791f672b974a2c542cc27278a8c",
+    "returncode": 0,
+    "stderr": "",
+    "stdout": [
+      "PASS_EXPLICIT_C_D_BOUND_ONLY_H5_MEMBERSHIP_OPEN",
+      "C_D 1.82059577001702904009194159397101678574055049852204853013069940079150234940400960757506804",
+      "H5_THRESHOLD 1.01968641816983927108878541952845103178732292308534879855633128034319622162432898482009448",
+      "CONTROLS 5 / 5",
+      "SOURCE_SHA256 b2252c330c0f7d0871d479a984eecfbb049c07a5f38e3d0a19b8df1854476511",
+      "RECEIPT_SHA256 621ec28939bb00a39817501a9f9c9a3474f7b791f672b974a2c542cc27278a8c"
+    ]
+  },
+  "published_source": {
+    "bytes": 8071,
+    "sha256": "b2252c330c0f7d0871d479a984eecfbb049c07a5f38e3d0a19b8df1854476511"
+  },
+  "schema": "LS-independent-CD-audit/1.0",
+  "scope": {
+    "does_not_prove": [
+      "conditioned field satisfies a fixed H5 threshold at r=1/20",
+      "organizationally distinct arithmetic review of the explicit constant",
+      "P0.1 promotion"
+    ],
+    "proves": [
+      "explicit deterministic C_D on D+",
+      "source and receipt byte replay",
+      "full-chart Hermite suprema",
+      "explicit qualitative radius r_D=1e-4/C_D on H5<=r^-1"
+    ]
+  },
+  "stored_receipt": {
+    "bytes": 3887,
+    "sha256": "621ec28939bb00a39817501a9f9c9a3474f7b791f672b974a2c542cc27278a8c"
+  },
+  "suprema": {
+    "abs_B0prime_plus_abs_B1prime": "2",
+    "sup_abs_h00_prime": "15/8",
+    "sup_abs_h00_second": "9",
+    "sup_abs_h01_prime": "15/8",
+    "sup_abs_h01_second": "9",
+    "sup_abs_h10_prime": "35/16",
+    "sup_abs_h10_second": "11/2",
+    "sup_abs_h11_prime": "35/16",
+    "sup_abs_h11_second": "11/2",
+    "sup_sum_abs_B0_B1": "3/2"
+  },
+  "suprema_checks": {
+    "value_cardinal_first_sum": true,
+    "value_cardinal_second_sum": true,
+    "xder_cardinal_first_sum": true,
+    "xder_cardinal_second_sum": true,
+    "ylinear_derivative_combined": true,
+    "ylinear_value_combined": true
+  },
+  "target": "GP-DER-100-v1.0 / GP-DATA-101-v1.0"
+}
+
+
+================ END RESULT ================
+
+
+END LS-DATA-006-v1.0 RESULT MIRROR

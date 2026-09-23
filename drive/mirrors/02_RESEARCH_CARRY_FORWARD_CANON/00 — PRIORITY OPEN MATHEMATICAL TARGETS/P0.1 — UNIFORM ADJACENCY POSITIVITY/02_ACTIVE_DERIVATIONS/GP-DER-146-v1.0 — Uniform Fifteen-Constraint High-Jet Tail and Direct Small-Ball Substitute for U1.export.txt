@@ -1,0 +1,374 @@
+﻿GP-DER-146-v1.0 — UNIFORM FIFTEEN-CONSTRAINT HIGH-JET TAIL AND DIRECT SMALL-BALL SUBSTITUTE FOR U1
+
+
+Artifact ID: GP-DER-146-v1.0
+Author line: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-23
+Class: DER — candidate exact Gaussian-process lemma / alternate-route repair
+Authority: none
+Canonical impact: NONE
+Targets: HB-026; GP-DER-143-v1.1 U1 alternate route
+Primary sources: GP-DER-044-v1.0; GP-DER-045-v1.0; GP-DER-046-v1.0; terminal EC-020; GP-DER-143-v1.1
+
+
+[[OBJ:GP-DER-146-v1.0]] [[TASK:HB-026]] [[STATUS:GP-SIDE-CANDIDATE]] [[STATUS:NON-GP-REVIEW-REQUIRED]] [[NO-PROMOTION]]
+
+
+1. PURPOSE AND RESULT
+
+
+GP-DER-143-v1.1 formulates U1 as weak continuity and pointwise support positivity for the fifteen-constraint pushed-forward conditional laws on a compact parameter set. That route is mathematically natural, but it is stronger than the uniform small-ball conclusion actually consumed by its conditional theorem.
+
+
+This document proves, on the GP line, a direct substitute:
+
+
+U1* — Uniform conditional capture-neighborhood mass.
+
+
+There exist r_sb>0 and p_sb>0 such that, for every 0<r<=r_sb and every u in a fixed compact subbox B' of the terminal EC-020 corridor,
+
+
+Q_{r,u}( ||S_r f-P_{r,u}^{(4)}||_{C^2(D^+)} < epsilon_* ) >= p_sb.
+
+
+Here Q_{r,u} is the exact field law conditioned on the six endpoint pins and the nine midpoint-jet coordinates J_r=u; S_r is the exact affine-scaled local-potential map; P_{r,u}^{(4)} is the pin-preserving degree-four reference; and epsilon_*>0 is one common deterministic capture threshold supplied by the terminal EC-020 margins and GP-DER-045 robustness.
+
+
+The proof does not require a limiting r=0 conditional measure, weak convergence on C^2, or the compact moving-ball lemma. It uses a fifteen-constraint version of the GP-DER-046 uniform high-derivative tail plus the deterministic Taylor/Hermite remainder bound.
+
+
+This is an alternate GP-side candidate. It does not change the frozen GP-DER-118-v1.3 theorem or provide independent-review credit.
+
+
+2. EXACT FIFTEEN-CONSTRAINT OBJECT
+
+
+Let L_r=(L_{r,0},...,L_{r,5}) be the confluent divided-difference representation of the exact six endpoint value/gradient pins from GP-DER-044. Let
+
+
+J_r=(q,a,w,z,c40,c31,c22,c13,c04)
+
+
+be the nine midpoint-jet vector in the same physical convention. Define the fifteen-dimensional constraint map
+
+
+Lambda_r=(L_r,J_r).
+
+
+For u in B', let y(r,u) be the corresponding fifteen-component conditioning vector: the six transformed pin values together with J_r=u.
+
+
+Let Q_{r,u} denote a regular conditional Gaussian law of the exact side-24 normalized-periodized Bargmann–Fock field given Lambda_r=y(r,u).
+
+
+GP-DER-044 proves that the full limiting fifteen-constraint joint Gram matrix is positive definite and that its finite-r family extends continuously through r=0. Therefore, after reducing r_0>0 if necessary, there are constants 0<g_-<=g_+<infinity with
+
+
+g_- I <= G_15(r):=Cov(Lambda_r,Lambda_r) <= g_+ I
+
+
+for 0<=r<=r_0.
+
+
+Because B' is compact and the transformed pin vector is continuous in r, the set
+
+
+{y(r,u): 0<=r<=r_0, u in B'}
+
+
+is bounded.
+
+
+3. UNIFORM FIFTH-DERIVATIVE CONDITIONAL MEAN
+
+
+Fix a compact normalized chart D^+ containing the complete EC-020 certificate domain. For every multi-index alpha with |alpha|=5, define on rD^+
+
+
+X_{r,u,alpha}(x)=partial^alpha f(x) under Q_{r,u}.
+
+
+Write
+
+
+X_{r,u,alpha}(x)=m_{r,u,alpha}(x)+Z_{r,u,alpha}(x),
+
+
+where Z is centered.
+
+
+Let
+
+
+c_{r,alpha}(x)=Cov(partial^alpha f(x),Lambda_r).
+
+
+The conditional mean is
+
+
+m_{r,u,alpha}(x)=c_{r,alpha}(x) G_15(r)^{-1} y(r,u).
+
+
+Claim 3.1. There exists M_15<infinity such that
+
+
+max_{|alpha|=5} sup_{0<r<=r_0} sup_{u in B'} sup_{x in rD^+} |m_{r,u,alpha}(x)| <= M_15.
+
+
+Proof. Write x=rX with X in D^+. Each component of c_{r,alpha}(rX) is either an ordinary derivative covariance or an analytic divided difference of the exact torus covariance kernel. The apparent powers of r in the confluent functionals have removable singularities. Taylor expansion of the analytic kernel therefore extends every component continuously to r=0, uniformly on compact X.
+
+
+Thus c_{r,alpha}(rX) is uniformly bounded. The inverse Gram matrices are uniformly bounded by g_-^{-1}, and y(r,u) is uniformly bounded on the compact parameter set. Multiplication yields M_15. QED.
+
+
+This is the exact fifteen-constraint analogue of GP-DER-046 Lemma 4.1. The additional nine constraints do not create a singular mean because their joint confluent Gram is uniformly invertible and their conditioned values remain in the fixed compact box B'.
+
+
+4. UNIFORM CENTERED-PROCESS BOUNDS
+
+
+Conditioning a Gaussian field on finitely many linear observations subtracts a positive-semidefinite Schur term. Hence, for every linear field functional A,
+
+
+Var(A | Lambda_r) <= Var(A).
+
+
+For |alpha|=5,
+
+
+sup_{r,u,x} Var(Z_{r,u,alpha}(x)) <= sigma_5^2,
+
+
+where
+
+
+sigma_5^2=max_{|alpha|=5} Var(partial^alpha f(0))<infinity.
+
+
+For x,x' in rD^+, define the conditional canonical metric
+
+
+d_{r,u,alpha}(x,x')^2=E[(Z_{r,u,alpha}(x)-Z_{r,u,alpha}(x'))^2].
+
+
+Applying the same variance-reduction statement to the difference functional and using the line-integral estimate from GP-DER-046 gives
+
+
+d_{r,u,alpha}(x,x') <= L_6 |x-x'|,
+
+
+with L_6 independent of r,u,alpha.
+
+
+Therefore the covering-number and Dudley estimates in GP-DER-046 apply uniformly after adding u to the parameter list. There exists B_15<infinity such that
+
+
+sup_{r,u,|alpha|=5} E_{Q_{r,u}} sup_{x in rD^+}|Z_{r,u,alpha}(x)| <= B_15.
+
+
+Borell–TIS and a union bound over the six order-five multi-indices yield, for every t>=0,
+
+
+sup_{0<r<=r_0,u in B'} Q_{r,u}
+(
+H_{5,r}(D^+)>M_15+B_15+t
+)
+<=6 exp(-t^2/(2 sigma_5^2)),
+
+
+where
+
+
+H_{5,r}(D^+)=max_{|alpha|=5} sup_{x in rD^+}|partial^alpha f(x)|.
+
+
+Theorem 4.1 — Uniform fifteen-constraint high-jet tail.
+
+
+There exist C_15,c_15,T_15,r_0>0 such that
+
+
+sup_{u in B'} Q_{r,u}(H_{5,r}(D^+)>T)
+<=C_15 exp(-c_15 T^2)
+
+
+for every 0<r<=r_0 and T>=T_15.
+
+
+This theorem is a GP-side candidate using the same standard Dudley and Borell–TIS inputs as GP-DER-046. Its project-specific additions are the uniformly invertible fifteen-constraint Gram and the compact u-domain.
+
+
+5. DETERMINISTIC SCALED REMAINDER
+
+
+Because Q_{r,u} fixes the exact six pins and the nine midpoint jets, P_{r,u}^{(4)} has the same fifteen constraints as the exact field. GP-DER-045’s Taylor/Hermite argument gives a deterministic constant C_D such that
+
+
+||S_r f-P_{r,u}^{(4)}||_{C^2(D^+)}
+<=C_D r^2 H_{5,r}(D^+).
+
+
+The constant C_D depends only on the fixed normalized chart and fixed pin-correcting interpolation operator, not on r or u.
+
+
+Terminal EC-020 supplies a compact family of strict degree-four capture inequalities. Continuity of the finite family of dynamical gates gives one epsilon_*>0 such that every exact scaled potential within epsilon_* in C^2 of P_{r,u}^{(4)}, for u in B' and sufficiently small r, preserves endpoint type, selected branch, cone exit, strip transit, M-neighborhood entry, and convergence to M.
+
+
+6. DIRECT UNIFORM SMALL-BALL THEOREM
+
+
+Theorem 6.1 — Direct U1* discharge on the GP line.
+
+
+There exist r_sb>0 and p_sb>0 such that
+
+
+inf_{0<r<=r_sb,u in B'}
+Q_{r,u}
+(
+||S_r f-P_{r,u}^{(4)}||_{C^2(D^+)}<epsilon_*
+)
+>=p_sb>0.
+
+
+Proof. By the deterministic remainder inequality,
+
+
+Q_{r,u}(||S_r f-P_{r,u}^{(4)}||_{C^2}>=epsilon_*)
+<=Q_{r,u}(H_{5,r}>=epsilon_*/(C_D r^2)).
+
+
+For sufficiently small r, the threshold exceeds T_15. Theorem 4.1 gives
+
+
+sup_{u in B'} Q_{r,u}(N_{r,u}(epsilon_*)^c)
+<=C_15 exp[-c_15 epsilon_*^2/(C_D^2 r^4)].
+
+
+The right-hand side tends to zero as r decreases. Choose r_sb<=r_0 so that it is at most 1/2 for every 0<r<=r_sb. Then one may take
+
+
+p_sb=1/2.
+
+
+QED.
+
+
+The value 1/2 is a proof convenience, not a claimed optimized or numerical project constant.
+
+
+7. CONSEQUENCE FOR GP-DER-143-v1.1
+
+
+The compact moving-ball theorem in GP-DER-143-v1.1 consumes a uniform lower bound p_*>0. Theorem 6.1 supplies that bound directly, without proving the stronger weak-continuity formulation U1.
+
+
+Accordingly, a future numbered alternate-route revision may replace U1 by:
+
+
+U1*. There exist r_sb,p_sb>0 such that every fifteen-constraint conditional capture neighborhood has probability at least p_sb for 0<r<=r_sb and u in B'.
+
+
+Combined with GR, U2, and U3, the same disintegration and exact numerator/normalizer calculation yields
+
+
+inf_{0<r<=r_*} P_r^{MS}(A_r)>0.
+
+
+U2 and U3 remain the frozen-theorem candidate subchains and require the exact hash-specific reviews defined in GP-REQ-144-v1.1. This document does not supply those reviews.
+
+
+8. RELATION TO GT5
+
+
+This route does not genuinely eliminate Gaussian high-derivative control. It proves a fifteen-constraint version of the same high-jet estimate used by GP-DER-046 under the six-pin law.
+
+
+The distinction is architectural:
+
+
+- the frozen theorem uses the six-pin tail and a subtraction bound before conditioning on J_r;
+- U1* conditions on J_r=u first and proves a uniform conditional small-ball estimate over a compact u-box.
+
+
+Thus U1* relocates and strengthens the conditioning-uniformity work; it does not remove it. Failure of U1* does not by itself falsify the frozen theorem’s six-pin subtraction route.
+
+
+9. EVIDENCE AND REVIEW REQUIREMENT
+
+
+Primary evidence:
+
+
+- GP-DER-044-v1.0: confluent fifteen-constraint nondegeneracy and uniform covariance control;
+- GP-DER-045-v1.0: deterministic C^2 Taylor/Hermite remainder and robust exact capture;
+- GP-DER-046-v1.0: six-pin Dudley/Borell template;
+- EC-020 terminal record: uniform fixed-q degree-four margins;
+- GP-DER-143-v1.1: alternate-route architecture.
+
+
+Required independent review:
+
+
+1. verify that the full fifteen-constraint Gram and conditioning vector are the exact objects used by Q_{r,u};
+2. verify uniform boundedness of fifth-derivative/constraint cross-covariances in the confluent frame;
+3. verify that conditioning on J_r=u cannot invalidate the covariance-reduction and canonical-metric estimates;
+4. verify the uniform Dudley/Borell application over compact u;
+5. verify that the deterministic Hermite remainder is exactly P_{r,u}^{(4)} and has one u-independent C_D;
+6. verify the one epsilon_* compact-family capture threshold;
+7. verify the r-domain intersection and exact-field/finite-Q4 scope separation.
+
+
+Accepted response wording:
+
+
+APPROVE GP-DER-146 REVISION 1.0 FIFTEEN-CONSTRAINT SMALL-BALL SCOPE
+
+
+or a numbered objection naming the first invalid step and affected dependencies.
+
+
+10. FALSIFIERS
+
+
+This candidate fails or requires amendment if any of the following is shown:
+
+
+- the fifteen-constraint covariance is not uniformly invertible on the declared compact parameter domain;
+- a fifth-derivative cross-covariance has a nonremovable singularity in the confluent frame;
+- the conditional mean is not uniformly bounded over u in B';
+- the conditional canonical metric cannot be dominated by the unconditioned difference metric;
+- the Dudley or Borell–TIS hypotheses fail for the declared conditioned process;
+- the P_{r,u}^{(4)} subtraction is not the exact pin-preserving Taylor/Hermite object in GP-DER-045;
+- C_D or epsilon_* necessarily depends on u without a uniform compact bound;
+- the conditional law, coordinate convention, branch event, or exact-weight object differs from the declared one.
+
+
+11. SCOPE FIREWALL
+
+
+Even if independently verified, this document closes only the analytic small-ball input for an alternate uniform exact-field positivity route. It does not prove or promote:
+
+
+- U2 or U3;
+- the frozen GP-DER-118 theorem;
+- a numerical exact-field mass;
+- a_r tending to one;
+- 1-a_r=O(r^3);
+- P0.2, elder-rule selection, Theorem B, or any lifetime law;
+- GP-AUTO-034 activation;
+- machine replacement, external release, deletion, or destructive action.
+
+
+12. CURRENT STATUS
+
+
+FIFTEEN-CONSTRAINT HIGH-JET TAIL: GP-SIDE CANDIDATE PROVED.
+DIRECT UNIFORM SMALL-BALL U1* SUBSTITUTE: GP-SIDE CANDIDATE PROVED.
+NON-GP REVIEW: OPEN.
+FROZEN P0.1 DOMAINS G, D, T: OPEN.
+NO THEOREM PROMOTION OR TERMINAL MATHEMATICAL CLOSURE.
+
+
+END GP-DER-146-v1.0

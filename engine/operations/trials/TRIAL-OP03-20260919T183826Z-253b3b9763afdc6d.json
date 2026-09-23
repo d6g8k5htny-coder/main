@@ -1,0 +1,142 @@
+{
+ "Trial ID": "TRIAL-OP03-20260919T183826Z-253b3b9763afdc6d",
+ "Problem ID / SHA-256": "bfd8100595694f94e447a78497e0091516bdd6857624ffac4e9b53c1c39d01f3",
+ "Split": "EXPOSED_DEVELOPMENT",
+ "Operation ID": "OP03",
+ "Library / catalog SHA-256": "570d9cdebcf2113918e80a82067811dbd39f9076827c03899a1d9f88553b0513",
+ "Arm": "NONE_SINGLE_EXACT_REPLAY",
+ "Budget / cost unit": "unit=checked_equalities; budget=NONE (one deterministic exact replay, unbounded); failure rule: a computation that raises is IDENTITY_NOT_REPRODUCED and charged 1",
+ "Seed / environment": {
+  "seed": "NONE (deterministic; no randomness anywhere in the computation)",
+  "python": "3.11.15",
+  "implementation": "CPython",
+  "platform": "Linux",
+  "repository_commit_at_run": "6c6f47b7884651b2330ab1380155f667caad0178",
+  "runner": "engine/operations/trial.py"
+ },
+ "Verified result": "IDENTITY_REPRODUCED",
+ "Search cost": "NOT_MEASURED",
+ "Retrieval cost": "NOT_MEASURED",
+ "Verification cost": 4,
+ "Acquisition cost": "NOT_MEASURED",
+ "Maintenance cost": "NOT_MEASURED",
+ "Timeout / failure charge": 0,
+ "Run evidence": {
+  "record_schema": "q0.operation.trial/v1",
+  "trial_kind": "EXACT_IDENTITY",
+  "identity_displayed": "r dr = 6^(2/3)/(3 kappa^(2/3)) ell^(-1/3) d ell",
+  "reproduces": null,
+  "identity_spec": {
+   "displayed": "r dr = 6^(2/3)/(3 kappa^(2/3)) ell^(-1/3) d ell",
+   "scope_displayed": "gap_map=ell=kappa*r^3/6",
+   "kind": "pushforward_jacobian",
+   "gap_map": {
+    "coefficient": "1/6",
+    "exponents": {
+     "kappa": "1",
+     "r": "3"
+    }
+   },
+   "inverse_displayed": "r=(6 ell/kappa)^(1/3)",
+   "inverse": {
+    "coefficient": "1",
+    "exponents": {
+     "6": "1/3",
+     "ell": "1/3",
+     "kappa": "-1/3"
+    }
+   },
+   "expected": {
+    "coefficient": "1/3",
+    "exponents": {
+     "6": "2/3",
+     "kappa": "-2/3",
+     "ell": "-1/3"
+    }
+   },
+   "expected_ell_exponent": "-1/3"
+  },
+  "arithmetic": "exact rational (fractions.Fraction); constants as (rational coefficient, exponent vector) monomials; exact integer roots; no floats anywhere",
+  "steps": [
+   {
+    "statement": "gap map evaluated at the displayed inverse returns ell",
+    "lhs": {
+     "coefficient": "1",
+     "exponents": {
+      "ell": "1"
+     }
+    },
+    "rhs": {
+     "coefficient": "1",
+     "exponents": {
+      "ell": "1"
+     }
+    },
+    "equal": true
+   },
+   {
+    "statement": "r(ell) * dr/dell as a monomial equals the displayed constant times ell^(-1/3)",
+    "lhs": {
+     "coefficient": "1/3",
+     "exponents": {
+      "2": "2/3",
+      "3": "2/3",
+      "ell": "-1/3",
+      "kappa": "-2/3"
+     }
+    },
+    "rhs": {
+     "coefficient": "1/3",
+     "exponents": {
+      "2": "2/3",
+      "3": "2/3",
+      "ell": "-1/3",
+      "kappa": "-2/3"
+     }
+    },
+    "equal": true
+   },
+   {
+    "statement": "the ell exponent of r dr / d ell",
+    "lhs": "-1/3",
+    "rhs": "-1/3",
+    "equal": true
+   },
+   {
+    "statement": "the displayed constant 6^(2/3)/(3 kappa^(2/3)) in reduced monomial form equals the computed constant",
+    "lhs": {
+     "coefficient": "1/3",
+     "exponents": {
+      "2": "2/3",
+      "3": "2/3",
+      "kappa": "-2/3"
+     }
+    },
+    "rhs": {
+     "coefficient": "1/3",
+     "exponents": {
+      "2": "2/3",
+      "3": "2/3",
+      "kappa": "-2/3"
+     }
+    },
+    "equal": true
+   }
+  ],
+  "checked_equalities": 4,
+  "all_equal": true,
+  "failure": null,
+  "utc": "2026-09-19T18:38:26.044923Z",
+  "reason_not_run": null
+ },
+ "Scope / constraints": "input_measure=r dr; gap_map=ell=kappa*r^3/6; kappa=fixed_positive",
+ "Notes": "Do not infer (register, verbatim): No full asymptotic from this Jacobian alone. Weighted mass, domination/tails, mark integration and selection bridge remain separate obligations. | Trial kind: EXACT_IDENTITY | A trial is a record of a computation, not evidence; it moves no status. | Register cells, verbatim: Utility: UNMEASURED; Novelty: NOT_ASSESSED.",
+ "does_not_establish": [
+  "A trial is a record that an exact computation ran on a register cell. It is not evidence, not a review verdict and not a status, and it warrants nothing; it moves no claim, premise, obligation, gate or grade, and it earns no independence credit for anything.",
+  "The Jacobian identity is local algebra for one fixed kappa > 0 under the caller-supplied measure r dr. It is not an asymptotic; weighted mass, domination and tails, mark integration and the selection bridge are untouched by it.",
+  "IDENTITY_REPRODUCED means only that the algebra the Action / output cell displays was reproduced in exact arithmetic from the cell alone. It does not establish that the operation's premises hold in any application, that any caller meets its Required scope, or that the source object the cell cites is correct.",
+  "Utility remains UNMEASURED and Novelty remains NOT_ASSESSED, as the register says; this trial measures neither. It is an exposed development check on the register's own displayed cell, not a held-out trial; Utility stays UNMEASURED and Novelty stays NOT_ASSESSED, and no gain of either sign is assigned to the operation.",
+  "The five validity premises of Theorem D1 v2.2(2) are OPEN and D3-LEMMA-RN-UNIF remains open. Nothing recorded here composes the 2D upper or lower tracks with the 3D lifetime track, and no original prize problem is solved."
+ ],
+ "authority": "NONE — a trial is a record of a computation, not evidence"
+}

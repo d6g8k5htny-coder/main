@@ -1,0 +1,607 @@
+﻿SUCCESSOR FREEZE — LCR-DER-016-v1.0 — 2026-07-24
+
+
+The proposed statement below is now critique history. The authoritative P02-LM-004 review object is:
+
+
+LCR-DER-016-v1.0
+https://docs.google.com/document/d/1hwPg0RO0HZwMCtGBhYKhFGou46d38dRTMa5sAhsJR3U/edit
+
+
+BODY_BYTES: 10004
+BODY_SHA256: 6a85ccf61dbe86b371cee4af6a663f5583729faaf5df0bb7f04ddaefd01cdb3d
+
+
+The successor makes explicit the Euclidean/operator C1 norm, open-neighborhood domain, gradient symmetry, exact pin preservation, imported Q1–Q5 quantitative facts, and the separation between the deterministic robustness theorem and its conditional Taylor-remainder corollary. The same-line verdict survives. External review must target the frozen successor hash.
+
+
+[[SUPERSEDED-PROPOSAL:LCR-AUD-014-SECTION-3]] [[CURRENT:LCR-DER-016]] [[BODY_SHA256:6a85ccf61dbe86b371cee4af6a663f5583729faaf5df0bb7f04ddaefd01cdb3d]] [[EXTERNAL-REVIEW:OPEN]]
+
+
+LCR-AUD-014-v1.0 — ADVERSARIAL AUDIT OF P02-LM-004 ADAPTIVE EXACT-FIELD C1 ROBUSTNESS TRANSFER
+
+
+Artifact ID: LCR-AUD-014-v1.0
+Reviewer: ChatGPT — OpenAI GPT-5.6 Thinking, Lemma Closure Director
+Date: 2026-07-24
+Class: AUD / DYNAMICAL ROBUSTNESS / EXACT-FIELD TRANSFER / PROOF RECONSTRUCTION
+Authority: same-organization technical audit only
+Canonical mathematical impact: NONE
+Independence credit: ZERO
+Target: proposed P02-LM-004 — adaptive exact-field C1 robustness transfer
+
+
+Primary dependencies:
+- P02-LM-001 closed deterministic degree-four capture lemma, LCR-CAP-009-v1.0, Drive ID 1_ovqOV8q1YCC9J5Q72fYsfzGg3v_5Z71Uv4uwyZU3N4
+- GP-DER-047-v1.0 Section 11, Drive ID 1jm1WxNmDd_rBLZA9FQsc2Nlzb9_PPCuEBV0fX3mCL1c
+- GP-DER-045-v1.0 exact scaled-field Taylor transfer, Drive ID 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc
+- GP-PROT-065-v1.0 selected-branch convention, Drive ID 1C5CUvDYScSGk35yG-KThF5vLHQtt2itMC8Ks1oN155w
+- CL-RSP-053-v1.0 Anthropic agreement with the branch convention, Drive ID 1vXcqCidioXIkOmMkRsjtYS2pkQBfwb-TJ5ItOERD7ak
+
+
+[[TARGET:P02-LM-004]] [[STATUS:SURVIVES-SAME-LINE-AFTER-SUCCESSOR-FREEZE]] [[CURRENT-SHA256:6a85ccf61dbe86b371cee4af6a663f5583729faaf5df0bb7f04ddaefd01cdb3d]] [[TOLERANCE:ONE-QUARTER-RW]] [[EXTERNAL-REVIEW:OPEN]] [[P0.2:OPEN]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE VERDICT
+
+
+The adaptive exact-field transfer claimed in GP-DER-047 Section 11 survives a direct gatewise reconstruction after being separated from the fixed-q compact-box transfer in GP-DER-186.
+
+
+The correct reusable robustness statement is:
+
+
+If an exact pin-preserving gradient vector field F on the complete certificate chart satisfies
+
+
+||F-F^(4)||_{C^1} <= (1/4)R(U)W(U),
+
+
+then every strict cone, strip, central-transit, and sink-capture gate in P02-LM-001 survives, and the exact selected M-ward unstable branch converges to M.
+
+
+This tolerance is adaptive. It shrinks polynomially when R(U) grows. It must not be replaced by the fixed absolute tolerance epsilon_D=10^-4 from GP-DER-186, which applies only to the compact fixed-q P0.1 box.
+
+
+Under the exact Taylor-remainder estimate
+
+
+||F_r-F_r^(4)||_{C^1(D)} <= C_D r^2 H_{5,r}(D),
+
+
+and the cutoff H_{5,r}(D)<=r^-1, the error is at most C_Dr. On REG_r,
+
+
+R(U)W(U)>=1/(KR(U)^4)>=r^(4/5)/(K epsilon_0^(4/5)),
+
+
+so
+
+
+C_Dr/[R(U)W(U)]
+<=C_DK epsilon_0^(4/5) r^(1/5)->0.
+
+
+Therefore the one-quarter adaptive tolerance holds uniformly for sufficiently small r.
+
+
+No mathematical counterexample was found.
+
+
+Current status:
+
+
+PROOF-CANDIDATE / SAME-LINE VERIFIED / ORGANIZATIONALLY DISTINCT PROOF REVIEW PENDING.
+
+
+2. WHY A SEPARATE ADAPTIVE LEMMA IS NECESSARY
+
+
+There are two noninterchangeable exact-field transfer regimes in the Drive:
+
+
+A. Fixed-q compact-box regime — P0.1.
+
+
+The physical midpoint jets lie in one compact box. GP-DER-186 reduces the unbounded s=q/r direction to its worst endpoint and proves one fixed absolute tolerance epsilon_D=10^-4.
+
+
+B. Adaptive polynomial-jet regime — P0.2.
+
+
+U ranges over all finite vectors. The regularity event rR(U)^5<=epsilon_0 permits R(U) to grow like r^-1/5. The strip width W, endpoint radii, and smallest deterministic slack shrink with R. A fixed absolute tolerance is not justified. The correct tolerance is proportional to R(U)W(U).
+
+
+Conflating these regimes would create a hidden noncompactness error.
+
+
+3. PROPOSED FROZEN STATEMENT
+
+
+Retain the exact notation and hypotheses of P02-LM-001:
+
+
+- U=(a,w,z,c40,c31,c22,c13,c04);
+- R=1+sum |U_i|;
+- K=4096;
+- epsilon_0=1/(1024K);
+- REG_r: rR^5<=epsilon_0;
+- s=q/r<=-(2KR^5+2R);
+- F^(4) is the exact pin-preserving degree-four gradient vector field;
+- W=(1+|a|/8+r|c31|/48)/(KR^5);
+- sigma=4RW, rho=8RW, kappa=1/(16R);
+- S=(1/2,0), M=(-1/2,0);
+- D is a fixed chart containing the two endpoint balls and complete connecting strip.
+
+
+Let F be a C^1 gradient vector field on D satisfying
+
+
+F(S)=F(M)=0
+
+
+and
+
+
+||F-F^(4)||_{C^1(D)} <= delta_* RW,
+
+
+with
+
+
+delta_*=1/4.
+
+
+THEOREM P02-LM-004.
+
+
+Under REG_r and s<=-(2KR^5+2R), the exact field F has:
+
+
+1. a nondegenerate index-one saddle at S and a strict local maximum at M;
+2. a uniquely oriented M-ward unstable direction under GP-PROT-065;
+3. a forward-invariant saddle cone carrying the selected branch to xi=sigma;
+4. strict entrance into the invariant strip with |Y|<W;
+5. strict leftward transit across the central rectangle;
+6. entrance into an invariant contracting ball around M;
+7. exponential convergence of the selected global branch to M.
+
+
+Consequently the selected branch event A_r holds for F.
+
+
+COROLLARY — EXACT TAYLOR TRANSFER.
+
+
+Assume additionally
+
+
+||F_r-F_r^(4)||_{C^1(D)}<=C_Dr^2H_{5,r}(D)
+
+
+with a constant C_D independent of r,U, and impose
+
+
+H_{5,r}(D)<=r^-1.
+
+
+Then P02-LM-004 applies for every
+
+
+0<r<=r_rob,
+
+
+where one sufficient choice is
+
+
+r_rob
+=min{1,[4C_DK epsilon_0^(4/5)]^-5}.
+
+
+4. UNIVERSAL SIZE OF THE ROBUSTNESS BUDGET
+
+
+P02-LM-001 gives
+
+
+W<=2/(KR^4).
+
+
+Hence
+
+
+RW<=2/(KR^3)<=2/K=1/2048.
+
+
+Therefore the allowed perturbation satisfies
+
+
+eta:=delta_*RW<=1/8192.
+
+
+This tiny absolute ceiling makes all constant-order endpoint, cone, strip-boundary, and contraction margins stable. The only gate whose deterministic slack can shrink substantially is the central longitudinal drift, whose slack is proportional to RW. The choice delta_*=1/4 leaves a large relative buffer there.
+
+
+5. GATEWISE PROOF
+
+
+T1 — Exact equilibria.
+
+
+The explicit premise F(S)=F(M)=0 preserves the two configured critical points exactly. A mere C^0-nearby field without this pin condition would move the equilibria and would not satisfy the theorem.
+
+
+Status: PASS.
+
+
+T2 — Strip boundary flux.
+
+
+P02-LM-001 gives
+
+
+F_Y^(4)(X,W)<=-1,
+F_Y^(4)(X,-W)>=1.
+
+
+The C^0 perturbation of either component is at most eta<=1/8192. Thus
+
+
+F_Y(X,W)<0,
+F_Y(X,-W)>0.
+
+
+The strip remains strictly forward invariant.
+
+
+Status: PASS.
+
+
+T3 — Central leftward drift.
+
+
+On the central rectangle,
+
+
+F_X^(4)<=-3RW.
+
+
+Therefore
+
+
+F_X<=-3RW+eta
+<=-(11/4)RW<0.
+
+
+Every trajectory in the strip crosses the central region in finite forward time.
+
+
+Status: PASS.
+
+
+T4 — Saddle type.
+
+
+At S, the degree-four Jacobian is symmetric with one positive and one negative eigenvalue. The positive direction has a fixed-coordinate cone-axis margin exceeding 7/8, while the negative direction has magnitude controlled by the large threshold s.
+
+
+The exact endpoint Jacobian differs by operator norm at most eta<=1/8192. Weyl stability preserves one positive and one negative eigenvalue. In particular, the exact saddle is nondegenerate.
+
+
+Status: PASS.
+
+
+T5 — Exact invariant cone.
+
+
+Write the exact perturbation as E=F-F^(4). Since E(S)=0 and ||DE||<=eta,
+
+
+|E(S+v)|<=eta||v||.
+
+
+The degree-four cone-axis inequality has margin greater than 7/8. The perturbation loss is at most
+
+
+eta sqrt(1+kappa^2)<1/8000.
+
+
+The exact axis velocity remains positive.
+
+
+The degree-four cone-face inequality has margin greater than 511R. The perturbation loss is at most
+
+
+eta(1+kappa)sqrt(1+kappa^2)<1/7000.
+
+
+The two exact cone faces remain strictly inward.
+
+
+Status: PASS.
+
+
+T6 — Selected M-ward eigendirection.
+
+
+The exact linear cone is strictly invariant and contains a positive direction. For the symmetric exact saddle Jacobian, its unique positive eigenvector lies strictly inside the cone. The sign is selected by
+
+
+e_u·(M-S)>0,
+
+
+which in the frozen frame is negative X component. This agrees with GP-PROT-065 and with the branch convention independently reviewed in CL-RSP-053.
+
+
+No branch switching or adjacency conditioning is introduced.
+
+
+Status: PASS.
+
+
+T7 — Saddle exit and handoff.
+
+
+Inside the exact cone,
+
+
+xi_dot>=c xi
+
+
+for a fixed positive c after the perturbation loss. Thus the selected branch cannot stall before xi=sigma and reaches the section in finite forward time.
+
+
+At xi=sigma, cone geometry gives
+
+
+|Y|<=kappa sigma=W/4<W,
+
+
+and
+
+
+||(xi,Y)||<rho.
+
+
+The handoff uses geometry plus exact cone invariance; it is not preserved merely by naming the inequality “geometric.”
+
+
+Status: PASS.
+
+
+T8 — Exact M-ball contraction.
+
+
+At M,
+
+
+lambda_min(-DF^(4)(M))>=63/128.
+
+
+Across B(M,rho), P02-LM-001 bounds the degree-four Jacobian variation by 3/64. Hence throughout the ball,
+
+
+lambda_min(-DF^(4)(x))
+>=63/128-3/64
+=57/128.
+
+
+The exact Jacobian perturbation is at most eta<=1/8192, so
+
+
+lambda_min(-DF(x))>0.44
+
+
+throughout the ball.
+
+
+Because F is a gradient field and F(M)=0,
+
+
+(x-M)·F(x)<0
+
+
+on the ball boundary. The ball is forward invariant, M is its unique equilibrium, and trajectories entering it converge exponentially to M.
+
+
+Status: PASS.
+
+
+T9 — Central-to-sink composition.
+
+
+The left central section is geometrically contained in B(M,rho). This containment does not depend on the vector field. Exact strict strip invariance and central drift therefore place the selected branch inside the exact contracting ball.
+
+
+Status: PASS.
+
+
+T10 — Global selected-branch event.
+
+
+GP-PROT-065 defines A_r as convergence of the exact selected global unstable branch to M. The certified branch remains in the exact chart, crosses the sections in order, enters the invariant M ball, and converges to M. Therefore A_r holds. No additional far-field lemma is needed on this event.
+
+
+Status: PASS.
+
+
+6. TAYLOR-REMAINDER COROLLARY
+
+
+On the cutoff H_{5,r}(D)<=r^-1,
+
+
+||F_r-F_r^(4)||_{C^1(D)}<=C_Dr.
+
+
+On REG_r,
+
+
+R^5<=epsilon_0/r
+
+
+and hence
+
+
+R^4<=(epsilon_0/r)^(4/5).
+
+
+Since W>=1/(KR^5),
+
+
+RW>=1/(KR^4)
+>=r^(4/5)/(K epsilon_0^(4/5)).
+
+
+Therefore
+
+
+C_Dr/(RW)
+<=C_DK epsilon_0^(4/5)r^(1/5).
+
+
+The right side is at most 1/4 whenever
+
+
+r<=[4C_DK epsilon_0^(4/5)]^-5.
+
+
+This gives a single r_rob independent of U and closes the noncompact adaptive-uniformity issue.
+
+
+7. ADVERSARIAL MUTATIONS
+
+
+M1 — Remove exact pin preservation.
+
+
+Then S and M may move. The theorem fails as stated. Exact pin preservation is load-bearing.
+
+
+M2 — Replace eta<=RW/4 by a fixed absolute tolerance independent of U.
+
+
+As R grows on REG_r, RW can shrink like r^(4/5). A fixed tolerance need not preserve central drift. This mutation kills adaptive uniformity.
+
+
+M3 — Bound only the C^0 difference.
+
+
+Endpoint type, cone invariance, and sink contraction require derivative control. C^1 is load-bearing.
+
+
+M4 — Use physical Hessian error equal to the scaled Jacobian error.
+
+
+This confuses coordinate scales. The physical Hessian perturbation carries an additional factor r. The theorem is stated directly in scaled-vector-field C^1 norm and avoids that mismatch.
+
+
+M5 — Keep the old raw C^1 compactness claim as s=q/r->-infinity.
+
+
+The family is noncompact. The adaptive proof instead uses explicit gate margins and the relative RW tolerance.
+
+
+M6 — Choose the opposite unstable branch.
+
+
+That does not certify A_r. The GP-PROT-065 dot-product orientation is load-bearing.
+
+
+M7 — Infer nonadjacency when the certificate fails.
+
+
+Invalid. This theorem is sufficient only. Failure of its hypotheses says nothing about A_r^c.
+
+
+8. OBJECTION LEDGER
+
+
+P02TR-OBJ-001
+Severity: HIGH in the old proof architecture; resolved in this theorem.
+Category: noncompact uniformity.
+Issue: raw compactness of the adaptive field family is false.
+Disposition: REPAIRED by explicit relative tolerance eta<=RW/4 and the REG power comparison.
+
+
+P02TR-OBJ-002
+Severity: MEDIUM.
+Category: coordinate scaling.
+Issue: scaled Jacobian and physical Hessian perturbations were previously conflated in GP-DER-045 wording.
+Disposition: this theorem works in scaled C^1 norm. Any physical-Hessian corollary must insert the factor r.
+
+
+P02TR-OBJ-003
+Severity: MEDIUM.
+Category: handoff justification.
+Issue: a geometric inequality alone does not preserve the exact handoff.
+Disposition: repaired by exact cone invariance, axis advance, and the unchanged section geometry.
+
+
+P02TR-OBJ-004
+Severity: LOW.
+Category: branch definition.
+Issue: GP-PROT-065 was initially proposed without external review.
+Disposition: CL-RSP-053 records an Anthropic AGREES verdict. A reviewer of P02-LM-004 should still confirm that the same branch is used.
+
+
+Open critical/high objections after repair: NONE on the OpenAI line.
+
+
+9. SAME-LINE VERDICT
+
+
+SURVIVES — PROPOSED P02-LM-004 ADAPTIVE EXACT-FIELD C1 ROBUSTNESS TRANSFER.
+
+
+The exact relative-tolerance theorem and its Taylor-remainder corollary are internally complete. This verdict earns zero qualifying independence credit.
+
+
+10. EXTERNAL ACCEPTANCE TEST
+
+
+A qualifying organizationally distinct reviewer must independently check:
+
+
+1. the exact statement and adaptive versus fixed-q distinction;
+2. the universal bound RW<=1/2048;
+3. strip-boundary loss;
+4. central-drift loss;
+5. saddle type under C^1 perturbation;
+6. cone-axis and cone-face perturbation losses;
+7. exact selected eigendirection and branch orientation;
+8. finite-time saddle exit and handoff;
+9. uniform exact M-ball contraction;
+10. the REG comparison C_Dr/(RW)=O(r^(1/5));
+11. the explicit sufficient r_rob;
+12. the global event identity under GP-PROT-065.
+
+
+Accepted verdict:
+
+
+APPROVE P02-LM-004 EXACT ADAPTIVE C1 ROBUSTNESS AND TAYLOR-REMAINDER TRANSFER
+
+
+or AMEND REQUIRED / REJECT / CANNOT VERIFY with the exact failed item.
+
+
+11. SCOPE FIREWALL
+
+
+Approval would close only the deterministic robustness transfer from P02-LM-001 to an exact pin-preserving C^1-nearby gradient field, plus the conditional H5-cutoff corollary.
+
+
+It would not prove:
+
+
+- the H5 tail probability;
+- P02-LM-003;
+- a normalizer bound;
+- determinant/Palm reweighting;
+- P0.2;
+- a numerical accessible-r range unless C_D is explicitly evaluated;
+- theorem promotion or release.
+
+
+END LCR-AUD-014-v1.0

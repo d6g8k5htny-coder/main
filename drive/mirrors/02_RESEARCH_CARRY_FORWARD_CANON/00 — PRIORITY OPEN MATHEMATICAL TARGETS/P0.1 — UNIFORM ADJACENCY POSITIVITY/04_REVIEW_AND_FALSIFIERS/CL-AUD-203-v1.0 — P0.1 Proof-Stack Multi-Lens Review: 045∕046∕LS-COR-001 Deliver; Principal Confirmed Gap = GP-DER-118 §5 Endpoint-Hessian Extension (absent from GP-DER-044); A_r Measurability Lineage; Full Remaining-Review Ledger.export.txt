@@ -1,0 +1,161 @@
+﻿CL-AUD-203-v1.0 — P0.1 PROOF-STACK MULTI-LENS DEPENDENCY REVIEW
+
+
+Artifact ID: CL-AUD-203-v1.0
+Author line: CL — Anthropic Claude (lead adjudication by the main CL line over five independent CL reviewer lenses and three adversarial refuters; 8/8 agents completed, 0 errors)
+Date: 2026-07-25
+Class: AUD — non-GP review of the GP-DER-118-v1.3 dependency stack, document by document, against what the synthesis cites each for
+Governing protocol: OP-PROT-011
+Reviewed objects (each read in full by its reviewer):
+  GP-DER-044-v1.0 (confluent twin)  Drive 1dn8BVsmScu690vX4Z_ewNgl0QRvMDBXcyzWiTtyJeho
+  GP-DER-045-v1.0                   Drive 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc
+  GP-DER-046-v1.0                   Drive 1LyYDRVmTl0AKZcKhmDaRMEiWE_HDsmfwac4l2QsFV7c
+  GP-DATA-123-v1.0 (frozen GP-DER-118-v1.3 body)  Drive 1NuxlEngfFjqnM7HZ2347v-Y6zLeWM9v6kyUGCcM3YT0
+  LS-COR-001-v1.0                   Drive 1XVnd9Hd7Ds1SO5_NH_44OSeLG9ZBxM3Ahiq9h7JAY-k
+Companion: CL-AUD-201-v1.0 (corridor verification + synthesis structural review)
+Canonical mathematical impact: NONE
+
+
+[[OBJ:CL-AUD-203-v1.0]] [[TARGET:P0.1]] [[PRINCIPAL-GAP:GP-DER-118-S5]] [[GAP-NOT-FALSEHOOD]] [[NO_PROMOTION]]
+
+
+==================================================================
+1. PER-DOCUMENT VERDICTS
+==================================================================
+GP-DER-045  DELIVERS_AS_CITED (high). Theorem 4.1 — ||F_r - F_r^(4)||_{C1(D)} <= C_D r^2 H_{5,r} —
+  is PROVEN-IN-DOC: the r^2 is |beta|-independent (chain-rule factor r^{|beta|-3} times physical
+  remainder r^{5-|beta|} H_5), the bound is a sup over the whole chart, D+ is convex so the
+  Taylor segment step is valid, and the pin-correcting Hermite operator has r-independent norm.
+  The Corollary 4.2 history is resolved: the original wording conflated the physical Hessian with
+  the scaled Jacobian; the in-place correction (scaled <= delta_r, physical <= r*delta_r) is
+  verified and matches the convention CL-AUD-201 Section 5.5 identified as the sound reading of
+  the synthesis's H_exact = H^(4) + rE_r. The C1 topology covers every consumer (field values for
+  strip/cone/drift; Jacobian for Weyl/Davis-Kahan eigenstructure and Gershgorin).
+  Routing notes (not defects): the explicit numeric C_D = 343/192 + sqrt(1074)/960 lives in the
+  GP-DER-100/LS-AUD-006 addendum (non-GP arithmetic review OPEN); the SINGLE shared perturbation
+  threshold across the fixed-q family is delivered by GP-DER-186 (which replaced a RETRACTED raw
+  compactness argument — s = q/r is unbounded as r->0, so naive family compactness fails), and
+  GP-DER-186's organizationally distinct review is OPEN.
+
+
+GP-DER-044  DELIVERS_WITH_ISSUES (high). The Section-2 citation is fully PROVEN-IN-DOC and every
+  displayed computation checked correct (confluent frame inverse; pinned L_0 = b - r^3/12,
+  L_1 = -r^2/6, L_5 = 2; Fourier-positivity + polynomial-lattice lemma for PD of G_0; Schur
+  complement for Sigma_0; uniform eigenvalue bounds; bounded m_r; NONDEGENERATE Q_L). Two
+  cautions verified in-doc: Q_L is exact-torus and only exponentially close to planar N(-b,2)
+  (the planar decimal 3.230978... must not be used as an exact value), and r_0 is existence-only.
+  The Section-5 citation is NOT delivered — see Section 2 below.
+
+
+GP-DER-046  DELIVERS_WITH_ISSUES (high; zero real defects). The GT5 tail
+  Q_{6,r}(H_{5,r} > t) <= 6 exp(-t^2/(8 sigma_5^2)) for r <= r_0, t >= t_0 = 2(M_5+B_5) is
+  delivered under the exact six-pin law with r-uniform constants: the non-centered conditional
+  field is correctly split into deterministic mean (absorbed into t_0) plus centered fluctuation;
+  Dudley + Borell-TIS are applied only to the centered signed process; and — elegantly — the
+  centered part needs NO confluence control because conditioning only subtracts PSD terms, so
+  variance and canonical metric are dominated by the unconditional stationary field. The
+  notorious false supremum inequality (below) is retracted in the current text. Residual (the
+  doc's earliest unresolved): Lemma 4.1's moving-point cross-covariance uniformity — the
+  removable-singularity continuity of c_{r,alpha}(rX) at MOVING points — is asserted in one
+  sentence; GP-DER-044's displayed analogue covers the fixed midpoint only.
+
+
+LS-COR-001  DELIVERS_AS_CITED (high). The false step is precisely identified: the original
+  GP-DER-046 Section 7 used sup|Z| <= sup Z + sup(-Z), which is FALSE on one-signed sample paths
+  (sup|Z| = max, not sum; singleton counterexample Z = -2 gives 2 <= 0). The signed-index repair
+  is verified line-by-line: sup|Z| realized as the supremum of the genuinely centered separable
+  process Y(s,x) = sZ(x) on {-1,+1} x K_r; within-copy metric d_Z <= L_6|x-y|, cross-sign
+  <= 2 sigma_5; two-copy covering bound; uniformly finite Dudley integral; Borell-TIS with
+  variance sigma_5^2. Constant propagation confirmed: C_5 = 6 and c_5 = 1/(8 sigma_5^2) are
+  UNCHANGED by the repair, so no downstream document needs a constants update.
+
+
+GP-DATA-123 (frozen GP-DER-118-v1.3 body)  DELIVERS_WITH_ISSUES (high). Delivered and verified:
+  type-indicator convergence displayed with the correct sign chain, all discontinuity boundaries
+  collapsing to Q_L = 0 whose nullity is properly grounded in GP-DER-044's proven nondegeneracy;
+  exact vs finite-Q4 normalizer distinctness maintained throughout (no weight conflation); the
+  A_r event definition matches GP-PROT-065 exactly, with fail-closed UNDEFINED handling. Header
+  values match the expected frozen identity (BODY_BYTES 14591; SHA-256 prefix 666f582c).
+  Real defects: Section 2 below. Bookkeeping: GP-DER-116 is load-bearing in Section 7 (the
+  d^(4) >= 0.9799... determinant factors) but absent from the primary dependency manifest;
+  the corpus-level GP-DER-044 identifier collision (GP-CLS-001) makes bare-ID citation a
+  traceability violation; the finite-r indicator maps need the EXTENDED continuous mapping
+  theorem (one-line fix since all boundaries collapse to {Q_L=0}).
+
+
+==================================================================
+2. CONFIRMED REAL FINDINGS (all survived independent adversarial refutation, high confidence)
+==================================================================
+PRINCIPAL — GP-DER-118-v1.3 Section 5 endpoint-Hessian extension is UNPROVEN AS CITED.
+  Found independently by two reviewers (GP-DER-044 lens and GP-DATA-123 lens) and confirmed by
+  two independent refuters after full reads of BOTH GP-DER-044 collision twins:
+  - Neither GP-DER-044 contains the claim. The confluent twin treats ONLY the nine fixed-midpoint
+    jets, relies on "the target block is independent of r because all targets are at the fixed
+    midpoint" (exactly the device that fails for endpoint targets at r-dependent points), and
+    disclaims endpoint-capture content verbatim; its Section 10 lists the endpoint blocks as open.
+    The other twin gives deterministic truncated-flow Jacobians only. The word "Hessian" does not
+    appear in the cited artifact.
+  - The extension is materially new mathematics, not a verbatim mechanism reuse: (i) endpoint
+    targets sit at r-dependent points; (ii) the UNCONDITIONAL variances of f_xx/r and f_xy/r
+    DIVERGE as r->0 — continuity can only come from a conditional projection cancellation that is
+    never performed in any reviewed document; (iii) the limiting six-variable law is partially
+    degenerate (A's deterministic +-1; B_S = -B_M; C_S = C_M = Q_L), so the PD/Schur machinery
+    does not transfer as-is; (iv) the joint variable J_r is not even defined in the cited doc.
+  - IMPORTANT LIMIT: this is a GAP, not a falsehood. Three separate independent computations
+    (both reviewers' re-derivations in the doc's own frame, corroborated by the dynamics twin's
+    truncated-flow Jacobians) confirm the claimed limits and signs A_M(0) = -1, A_S(0) = +1,
+    B_M(0) = -a/2, B_S(0) = +a/2, C_M(0) = C_S(0) = Q_L are consistent. The step is plausibly
+    true and repairable. But everything downstream — Section 6 normalizer, Section 7 weight
+    lower bound, Section 8 assembly — rests on it, so P0.1 cannot pass line-by-line review until
+    a real theorem ("GP-DER-044-B": conditional endpoint divided-difference regularity with
+    uniform moments) is written and independently reviewed.
+
+
+SECONDARY — A_r measurability is silently assumed at the freeze.
+  The frozen body never addresses measurability of A_r ("measurable" does not appear); the
+  theorem statement and Section 8 both presuppose it. GP-PROT-065's own 2026-07-24 addendum
+  concedes the protocol originally asserted measurability without proof; the repair
+  (GP-DER-197-v1.0) is same-line GP work, POSTDATES the GP-DER-118-v1.3 freeze (2026-07-22), and
+  is not cited by the frozen body. Confirmed by refuter after full reads. Disposition: the next
+  GP-DER-118 revision must cite the measurability foundation explicitly, and GP-DER-197 needs
+  organizationally distinct review.
+
+
+==================================================================
+3. WHAT IS NOW SOLID (verified positive, this review cycle + CL-AUD-200/201/202)
+==================================================================
+- Deterministic corridor: GP-DATA-178 uniform-r certificate independently confirmed to ~80
+  digits, exact arithmetic, monotonic reduction proven sound (CL-AUD-201).
+- Fixed-r EC-019 object: CL clean-room T2 PASS, adversarially verified (CL-AUD-200).
+- Transfer inequality (045): proven, correct topology, corrected scaling convention verified.
+- GT5 tail (046 + LS-COR-001): delivered post-repair, constants unchanged, repair verified
+  line-by-line; conditioning-helps-the-centered-part argument is sound.
+- Regularity core (044 Section-2 scope): proven, including nondegenerate Q_L.
+- Synthesis assembly arithmetic (subtraction bound, r-domain intersection, normalizer UI logic,
+  determinant perturbation identity, type-indicator boundary): verified (CL-AUD-201 + 123 lens).
+
+
+==================================================================
+4. REMAINING-REVIEW LEDGER FOR P0.1 (precise, minimal)
+==================================================================
+1. PROVE the Section-5 endpoint theorem (conditional endpoint divided-difference regularity +
+   uniform moments + limits, including J_r) — the one theorem-sized gap; then distinct review.
+2. GP-DER-186 (single uniform perturbation threshold for the family, replacing the retracted
+   compactness argument): organizationally distinct review OPEN.
+3. GP-DER-197 (A_r measurability repair): distinct review OPEN; cite it in the next revision.
+4. GP-DER-100 / LS-AUD-006 (numeric C_D and transfer radius): full arithmetic review OPEN —
+   needed only if a numeric constant is consumed; the qualitative synthesis needs only symbolic C_D.
+5. GP-DER-046 Lemma 4.1: display the moving-point cross-covariance uniformity (currently a
+   one-sentence appeal; the fixed-midpoint analogue is proven in 044).
+6. Bookkeeping at next revision: add GP-DER-116 to the dependency manifest; full-title+ID
+   citations per GP-CLS-001; refresh GP-PROT-065 scope label to include P0.1; state the
+   r_GR, r_* <= r_0 bookkeeping; upgrade the indicator-convergence wording to the extended
+   continuous mapping theorem; do not substitute the planar decimal for exact-torus z_{0,L}.
+
+
+P0.1 remains CANDIDATE / NOT PROMOTED. This review promotes nothing and closes nothing
+terminally; it hands the operator a complete, refutation-tested map of exactly what stands
+between the current stack and a reviewable proof.
+
+
+END CL-AUD-203-v1.0

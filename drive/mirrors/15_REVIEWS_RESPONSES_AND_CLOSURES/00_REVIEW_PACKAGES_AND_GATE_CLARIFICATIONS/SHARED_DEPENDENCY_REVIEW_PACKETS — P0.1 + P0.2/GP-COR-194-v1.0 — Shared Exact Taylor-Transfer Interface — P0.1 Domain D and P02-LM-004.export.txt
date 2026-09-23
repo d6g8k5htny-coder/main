@@ -1,0 +1,285 @@
+﻿GP-COR-194-v1.0 — SHARED EXACT TAYLOR-TRANSFER INTERFACE
+P0.1 DOMAIN D ↔ P02-LM-004
+
+
+Artifact ID: GP-COR-194-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking, Adversarial Research Critic
+Date: 2026-07-24
+Class: COR / SHARED DEPENDENCY CROSSWALK / SCOPE-SEPARATION / REVIEW-DEDUPLICATION
+Authority: evidence-lineage and review-routing correction only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational/model family
+
+
+[[OBJECT:PIN-PRESERVING-C1-TAYLOR-TRANSFER]] [[P01:DOMAIN-D]] [[P02:P02-LM-004]] [[SHARED-INTERFACE-ONLY]] [[DYNAMICS-THEOREMS:DISTINCT]] [[ONE-INTERFACE-RECONSTRUCTION]] [[NO-DOUBLE-COUNT]] [[NO-PROMOTION]]
+
+
+1. EXECUTIVE DETERMINATION
+
+
+P0.1 Domain D and P02-LM-004 do not prove the same full robustness theorem.
+
+
+They share a narrower deterministic exact-field transfer interface:
+
+
+- one exact smooth conditioned field f;
+- scaled potential P_r(X,Y)=r^{-3}f(rX,rY) after the fixed additive/affine normalization;
+- exact scaled gradient field F_r=grad_{X,Y}P_r;
+- pin-preserving degree-four comparison field F_r^(4);
+- exact endpoint pin preservation F_r(S_hat)=F_r^(4)(S_hat)=0 and F_r(M_hat)=F_r^(4)(M_hat)=0;
+- fixed normalized certificate chart D inside a larger chart D^+;
+- physical fifth-derivative supremum H_{5,r}(D^+);
+- deterministic estimate
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}
+      <= C_D r^2 H_{5,r}(D^+);
+
+
+- cutoff consequence H_{5,r}(D^+)<=r^{-1} implies
+
+
+    ||F_r-F_r^(4)||_{C^1(D)}<=C_Dr;
+
+
+- scaled Jacobian / physical Hessian relation
+
+
+    H_X^{physical}=r DF_r(X)
+
+
+  at X=S_hat,M_hat, hence
+
+
+    ||H_X^{exact}-H_X^(4)||<=r||DF_r-DF_r^(4)||;
+
+
+- exact preservation of configured endpoint locations.
+
+
+The two applications then diverge.
+
+
+P0.1 Domain D:
+
+
+- fixed physical nine-jet box;
+- q/r reduced monotonically to a finite weakest value;
+- uniform deterministic margins;
+- fixed common threshold epsilon_D=10^-4;
+- exact branch transfer on a compact certificate family.
+
+
+P02-LM-004:
+
+
+- unbounded polynomial-growth jet domain with R(U);
+- adaptive REG_r(U);
+- adaptive geometric scales W,sigma,rho,kappa;
+- shrinking tolerance eta=RW/4;
+- distinct deterministic certificate P02-LM-001;
+- asymptotic comparison C_Dr/(RW)=O(r^{1/5}).
+
+
+Thus one reviewer may reuse the Taylor-transfer derivation, but must separately review the two robustness applications.
+
+
+2. SHARED SOURCE
+
+
+Primary deterministic transfer source:
+
+
+GP-DER-045-v1.0 — Robust exact-field transfer of the endpoint capture certificate
+Drive ID: 1SjCHkWb76u1-PlkMOXNrYSg-oP_wfZHrQ-O8OCELygc
+
+
+Controlling correction:
+
+
+The historical GP-DER-045 sentence that treated the scaled Jacobian error as the physical Hessian error is superseded. The correct relation contains the additional factor r.
+
+
+P0.1 repaired application:
+
+
+- GP-DER-186-v1.0, Drive ID 1vm5ROIE5Jb2LYWkZ74iJ5jqC4yqKUOOdWHf10v2vZvI;
+- GP-DATA-178-v1.0 fixed-q deterministic certificate;
+- LCR-REQ-007-v1.0 external-review packet.
+
+
+P0.2 adaptive application:
+
+
+- LCR-DER-016-v1.1 / P02-LM-004, Drive ID 1tPt0KKJEKE6c-7xNwJW82dooRkDyANnToRErc3oWX84;
+- BODY_BYTES 10416;
+- SHA-256 d43179f3abfd7e93f988725f3b89a5826cc71e0fa04840f65c7f93f3359d0f87;
+- active review request Drive ID 1LKbFbisGVoEwzm3W-23-rdnzEF6crjxYCK-3G3J5OrA.
+
+
+Coordinate-typed chart/domain companion for P0.2:
+
+
+- P02-LM-012 / LCR-DER-043-v1.0;
+- Drive ID 1M141iAu0kh5Slz1Ph_9YQhiRL3Edm8m0aja95Cx53UM;
+- SHA-256 cfbbd5913667aa347ff7102c2d058dcdc9f1d791dd35e6ca727f4c3ea65eab74.
+
+
+3. SHARED INTERFACE LEDGER
+
+
+S1 — COORDINATE TYPES
+Distinguish physical coordinates x=rX from normalized scaled coordinates X. Endpoints are M_r=(-r/2,0),S_r=(r/2,0) physically and M_hat=(-1/2,0),S_hat=(1/2,0) in scaled coordinates.
+
+
+S2 — SCALED POTENTIAL
+Verify P_r(X)=r^{-3}[f(rX)-irrelevant affine/additive normalization] and F_r=grad_X P_r.
+
+
+S3 — PIN-PRESERVING QUARTIC
+Verify F_r^(4) is constructed from the exact lower/fourth jets and an endpoint Hermite correction so that exact and quartic fields vanish at the same normalized endpoints.
+
+
+S4 — TAYLOR POWER
+For |beta|<=2 verify the physical Taylor remainder is O(r^{5-|beta|}H_5); multiplication by r^{|beta|-3} gives O(r^2H_5) in scaled C^2 potential / C^1 vector-field norm.
+
+
+S5 — INTERPOLATION CONSTANT
+Verify the fixed normalized pin-correction operator has a finite C^2(D) operator norm independent of r and the jet parameter on the declared charts.
+
+
+S6 — CHART NESTING
+Verify the Taylor segments and interpolation evaluation regions lie in D^+ and the complete deterministic trajectory certificate lies in D.
+
+
+S7 — UNIFORM CONSTANT
+Verify C_D depends only on the fixed chart pair and interpolation basis, not on r or the random lower-jet parameter.
+
+
+S8 — CUTOFF
+Verify H_{5,r}(D^+)<=r^{-1} implies C_Dr error.
+
+
+S9 — PHYSICAL-HESSIAN FACTOR
+Derive H_X^{physical}=rDF_r(X) and the factor-r perturbation relation at both endpoints.
+
+
+S10 — EXACT-PIN CONSEQUENCE
+Verify endpoint equilibria do not drift. Without exact pin preservation, neither application follows as stated.
+
+
+S11 — NORM IDENTITY
+Verify both applications use the Euclidean vector norm and induced operator norm, or provide a valid explicit norm-equivalence conversion.
+
+
+S12 — GRADIENT SYMMETRY
+Verify the exact and comparison Jacobians are symmetric where Weyl/eigenvalue/contraction arguments require it.
+
+
+4. DISTINCT P0.1 APPLICATION
+
+
+A reviewer of P0.1 Domain D must additionally verify:
+
+
+- the fixed-q physical nine-jet box;
+- monotonicity as s=q/r becomes more negative;
+- all nineteen corrected interval gates;
+- the noncompactness retraction;
+- gatewise perturbation sensitivities;
+- one fixed epsilon_D=10^-4;
+- exact determinant-factor lower bounds;
+- selected branch identity and convergence;
+- fixed chart coverage;
+- the frozen P0.1 hash and Domain-D verdict.
+
+
+Approval of the shared S1–S12 interface alone does not approve P0.1 Domain D.
+
+
+5. DISTINCT P02-LM-004 APPLICATION
+
+
+A reviewer of P02-LM-004 must additionally verify:
+
+
+- P02-LM-001 Q1–Q5 certificate facts;
+- R(U), REG_r(U), W,sigma,rho,kappa definitions;
+- explicit saddle Rayleigh bounds;
+- adaptive tolerance eta=RW/4;
+- cone, strip, transit, and sink perturbation calculations;
+- pin-preserving and gradient hypotheses;
+- C_Dr/(RW)<=C r^{1/5};
+- positive r_rob;
+- all P02-LM-004 edge/scope conditions;
+- the 10,416-byte frozen hash and exact verdict.
+
+
+Approval of the shared S1–S12 interface alone does not approve P02-LM-004.
+
+
+6. JOINT REVIEW RULE
+
+
+One organizationally distinct reviewer may reconstruct S1–S12 once and reuse it in both application reviews if:
+
+
+1. the shared derivation is frozen before comparison;
+2. all source exposure is disclosed;
+3. the reviewer separately audits the P0.1 and P0.2 application-specific ledgers;
+4. every carrier hash required by the attempted verdicts is reproduced;
+5. two explicit version-specific verdicts are issued where both applications are attempted;
+6. the report states one reviewer/session/shared-interface reconstruction.
+
+
+Counting:
+
+
+- one independent Taylor-transfer reconstruction;
+- one reviewer/provider/method credit;
+- separate application verdicts only if each application was actually reviewed;
+- no duplicate independence credit.
+
+
+7. NON-JOINT REVIEW RULE
+
+
+A P02-LM-004 approval may be cited as independent support for S1–S12 in P0.1, but it does not approve the fixed-q epsilon_D proof or frozen P0.1 theorem.
+
+
+A P0.1 Domain-D approval may support S1–S12 in P02-LM-004, but it does not approve the adaptive RW/4 theorem or the P02-LM-004 frozen hash.
+
+
+8. FALSIFICATION CONDITIONS
+
+
+The shared-interface crosswalk fails if:
+
+
+- the scaled potentials use different normalization powers;
+- endpoint pin correction differs materially;
+- one application uses physical endpoints in scaled-coordinate evaluations;
+- the chart pairs are incompatible;
+- C_D depends on the random parameter or r;
+- one application uses C0 rather than C1 control;
+- gradient symmetry is absent;
+- the physical Hessian factor r is omitted;
+- the Taylor cutoff is imposed on different derivative orders;
+- one application requires an additional unshared transfer premise not isolated above;
+- the shared review is counted twice as independent evidence.
+
+
+9. DRIVE DISPOSITION
+
+
+Record:
+
+
+SHARED PIN-PRESERVING C1 TAYLOR-TRANSFER INTERFACE / DISTINCT FIXED-Q AND ADAPTIVE ROBUSTNESS THEOREMS / JOINT INTERFACE REVIEW PERMITTED / APPLICATION REVIEWS SEPARATE / DOUBLE COUNT PROHIBITED.
+
+
+No P0.1, P0.2, theorem, machine, package, release, deletion, or destructive promotion follows.
+
+
+END GP-COR-194-v1.0

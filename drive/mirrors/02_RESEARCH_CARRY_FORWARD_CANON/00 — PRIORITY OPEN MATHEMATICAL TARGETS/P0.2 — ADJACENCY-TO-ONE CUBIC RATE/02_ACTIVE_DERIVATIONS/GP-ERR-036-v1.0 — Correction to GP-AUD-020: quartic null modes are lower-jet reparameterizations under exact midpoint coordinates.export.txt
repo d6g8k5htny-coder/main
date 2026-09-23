@@ -1,0 +1,327 @@
+﻿ARTIFACT ID:       GP-ERR-036-v1.0
+AUTHOR:            OpenAI GPT-5.6 Thinking
+CREATED:           2026-07-20 18:08 CDT / 23:08 UTC
+CLASS:             ERR — correction to the author's own prior interpretation
+STATUS:            CORRECTION ACCEPTED / RECONCILIATION
+AUTHORITY:         none — non-authoritative unless Dylan M. Roy formally promotes it
+CANONICAL IMPACT:  NONE
+CORRECTS:           GP-AUD-020-v1.0 and the physical interpretation attached to GP-AUD-030-v1.0
+RESPONDS TO:        GP-DER-031-v1.0
+
+
+# Correction to GP-AUD-020: quartic null modes are lower-jet reparameterizations under exact midpoint coordinates
+
+
+## Executive correction
+
+
+GP-AUD-020 correctly proved that endpoint value/gradient conditions plus the five fourth derivatives do not uniquely determine a degree-at-most-four compensation polynomial. Its four-dimensional interpolation nullspace is exact.
+
+
+GP-AUD-020 then treated those four directions as potentially independent physical gauge coefficients in the finite-r conditioned flow. That interpretation is too strong once the lower coefficients q_r, a_r, w_r, and z_r are defined as the exact finite-r midpoint derivatives.
+
+
+Independent review of GP-DER-031 confirms that the four null modes alter those lower midpoint derivatives directly. They are therefore lower-jet reparameterizations, not independent physical degrees of freedom after the exact midpoint-jet coordinate convention is fixed.
+
+
+The corrected status is:
+
+
+- interpolation-only nonuniqueness: CONFIRMED;
+- four-dimensional nullspace calculation: CONFIRMED;
+- null modes as independent physical gauge after exact lower jets are fixed: WITHDRAWN;
+- normalized quartic representative under exact midpoint-jet coordinates: DERIVED CONDITIONALLY;
+- exact finite-r conditional joint law and Taylor remainder: OPEN;
+- GP-DATA-020: still only a limiting-law zero-null-mode sensitivity diagnostic, not an exact finite-r execution.
+
+
+No theorem, machine root, or canonical status changes.
+
+
+## 1. What remains correct in GP-AUD-020
+
+
+The following findings stand without qualification:
+
+
+1. The planar Bargmann-Fock conditional nine-jet mean and covariance stated in GP-DER-019 are exact.
+2. The displayed polynomial P4 is a valid pin-preserving representative.
+3. Under only the endpoint value/gradient conditions and the prescribed fourth derivatives, the difference of two representatives has the exact nullspace basis
+
+
+       Y^2,
+       Y^3,
+       X Y^2,
+       (X^2-1/4)Y.
+
+
+4. The original sentence claiming uniqueness from only those constraints was false.
+5. CW-PRP-006 and GP-DATA-020 did not derive or sample the exact periodized finite-r conditional law.
+6. P0.2 remains open.
+
+
+The correction concerns the physical interpretation of the four null directions, not the linear-algebra result.
+
+
+## 2. Independent verification of GP-DER-031's normalization
+
+
+Let the normalized quartic representative be required not to duplicate the lower midpoint derivatives already carried by q_r, z_r, w_r, and a_r. The four added normalization conditions are
+
+
+    P4_YY(0,0)  = 0,
+    P4_YYY(0,0) = 0,
+    P4_XYY(0,0) = 0,
+    P4_XXY(0,0) = 0.
+
+
+On the nullspace basis, the derivative map is diagonal:
+
+
+    Y^2                    -> (2,0,0,0),
+    Y^3                    -> (0,6,0,0),
+    X Y^2                  -> (0,0,2,0),
+    (X^2-1/4)Y             -> (0,0,0,2).
+
+
+Hence all four null coefficients are forced to zero. The normalized representative is unique within this coordinate convention.
+
+
+This is not an arbitrary gauge choice. It is the standard bookkeeping requirement that the order-r quartic correction must not duplicate lower derivatives already represented in the lower-order polynomial.
+
+
+## 3. Independent verification of the lower-jet shifts
+
+
+In physical coordinates x=rX and y=rY, adding the four null modes to the scaled quartic layer changes the exact midpoint derivatives by
+
+
+    lambda1 Y^2:
+        q_r -> q_r + 2 lambda1 r^2;
+
+
+    lambda2 Y^3:
+        z_r -> z_r + 6 lambda2 r;
+
+
+    lambda3 X Y^2:
+        w_r -> w_r + 2 lambda3 r;
+
+
+    lambda4 (X^2-1/4)Y:
+        a_r -> a_r + 2 lambda4 r.
+
+
+These formulas were independently differentiated and are exact at the displayed order.
+
+
+The null modes are dynamically relevant if added while q_r,a_r,w_r,z_r are held numerically fixed, because that operation changes the total polynomial. But it is not a second representation of the same exact finite-r midpoint-jet object. It is a perturbation of the lower jets themselves.
+
+
+Therefore the correct statement is:
+
+
+> The interpolation problem has four null directions, but the exact midpoint-jet coordinate convention absorbs them uniquely into q_r,a_r,w_r,z_r.
+
+
+## 4. Independent verification of the axial Hermite expansion
+
+
+For g_r(x)=f(x,0), the endpoint value and x-gradient pins imply
+
+
+    g_r(x)=p_r(x)+(x^2-r^2/4)^2 h_r(x),
+
+
+where
+
+
+    p_r(x)=b+x^3/3-r^2 x/4-r^3/12.
+
+
+Direct substitution verifies
+
+
+    p_r(-r/2)=b,
+    p_r(r/2)=b-r^3/6,
+    p_r'(+-r/2)=0.
+
+
+Expanding through the physical order contributing r^4 gives
+
+
+    c20(r) = -r^2 c40(r)/24 + O(r^4),
+    c10(r) = -r^2/4 + O(r^4),
+    c00(r) = b-r^3/12+r^4 c40(r)/384+O(r^5).
+
+
+These are exactly the lower-degree terms encoded by
+
+
+    (c40/24)(X^2-1/4)^2.
+
+
+Thus the axial compensation is forced once c40 and the exact lower midpoint derivatives are used.
+
+
+## 5. Independent verification of the transverse-gradient expansion
+
+
+For v_r(x)=f_y(x,0), the transverse-gradient pins imply
+
+
+    v_r(x)=(x^2-r^2/4)k_r(x).
+
+
+Expanding k_r around the midpoint yields
+
+
+    c01(r) = -r^2 a_r/8 + O(r^4),
+    c11(r) = -r^2 c31(r)/24 + O(r^4),
+
+
+and produces the scaled terms
+
+
+    r^3 (a_r/2)(X^2-1/4)Y,
+    r^4 (c31/6)X(X^2-1/4)Y.
+
+
+This independently confirms the corresponding GP-DER-031 factorization and shows that the lambda4 direction duplicates the exact finite-r a_r coordinate rather than adding a new physical coefficient.
+
+
+## 6. Scope check against CW-PRP-006
+
+
+CW-PRP-006 did not define or sample q,a,w,z as the complete exact finite-r midpoint-jet vector. It sampled a certified limiting nine-dimensional Gaussian and explicitly left the following as mandatory pre-execution obligations:
+
+
+- exact r-power bookkeeping;
+- finite-r pin values and pin-shift terms;
+- induced finite-r lower-jet mean shifts;
+- re-solving the endpoint critical points;
+- and the finite-r analogue of the saddle-degeneracy fingerprint.
+
+
+Therefore GP-DER-031 supplies the correct coordinate convention for the next exact derivation, but it does not retrospectively make GP-DATA-020 an exact finite-r conditioned execution.
+
+
+The remaining physical approximation is not an unresolved polynomial gauge. It is the use of the limiting lower-jet law and omission of the exact finite-r joint law and remainder.
+
+
+## 7. Correction to the proposed gauge-sensitivity program
+
+
+GP-PRE-025's bounded lambda grid remains a valid artificial stress test: it asks how the local diagnostic reacts when the finite-r lower jets are perturbed in structured pin-preserving directions.
+
+
+It should no longer be described as sampling or resolving a four-dimensional physical gauge freedom.
+
+
+The controls required by GP-AUD-030 remain useful if the stress test is executed:
+
+
+- common-typed paired-flow decomposition;
+- paired uncertainty and failure-weight ESS;
+- honest outside-screen falsification;
+- and a numerical layer-shift criterion.
+
+
+But this stress test is optional diagnostic work, not the primary repair. The primary physical task is now:
+
+
+1. derive the exact normalized periodized-torus six-pin conditional joint law of
+
+
+       q_r,a_r,w_r,z_r,c40,c31,c22,c13,c04;
+
+
+2. use the normalized zero-null-mode representative;
+3. include finite-r covariance/mean corrections and correlations;
+4. control fifth- and higher-order Taylor remainder terms;
+5. re-evaluate endpoint typing and the exact adjacency event.
+
+
+## 8. Corrected disposition of the artifact chain
+
+
+GP-AUD-020:
+
+
+    interpolation nonuniqueness and nine-jet checks: STAND;
+    independent physical-gauge interpretation: WITHDRAWN;
+    exact finite-r law blocker: STANDS.
+
+
+GP-ERR-024:
+
+
+    withdrawal of the original unqualified uniqueness sentence: STANDS;
+    should be supplemented by the normalized-coordinate uniqueness statement.
+
+
+GP-DER-031:
+
+
+    lower-jet reparameterization and normalized uniqueness: INDEPENDENTLY VERIFIED;
+    exact finite-r law: correctly left OPEN.
+
+
+GP-PRE-025 / GP-AUD-030:
+
+
+    admissible as a controlled lower-jet perturbation stress test;
+    not a necessary physical gauge-identification step.
+
+
+GP-DATA-020:
+
+
+    limiting-law zero-null-mode sensitivity only;
+    no theorem or exact finite-r conclusion.
+
+
+## 9. Falsification conditions
+
+
+This correction is false or incomplete if any of the following is established:
+
+
+1. the intended q,a,w,z objects are not exact finite-r midpoint derivatives;
+2. one null mode leaves all midpoint derivatives through order three unchanged;
+3. the exact divided-difference frame contains an additional independent order-r coefficient not represented by the exact lower and fourth midpoint jets;
+4. the displayed Hermite expansions use the wrong pin vector or scaling convention;
+5. the total coordinate-invariant adjacency observable changes under a pure redistribution between lower and quartic terms while the full polynomial is held fixed.
+
+
+## 10. Help exchange
+
+
+Targeted requests:
+
+
+- CW/C047R or another exact-Gaussian model: freeze the exact normalized periodized-torus six-pin conditioning vector and derive its finite-r Schur complement through the order needed by the scaled flow.
+- AO48 or another analytic model: independently audit the Hermite/divided-difference expansion and identify any additional finite-r coefficient not represented by the midpoint jets.
+- Execution-capable model: implement the exact finite-r joint sampler once the object card is frozen and compare it against the limiting sampler with common random numbers.
+- C047R successor/verifier: machine-tag limiting jets versus exact finite-r midpoint jets so they cannot share one unqualified object ID.
+
+
+OpenAI offers:
+
+
+- exact symbolic covariance and Schur-complement calculations;
+- independent finite-r expansion checks;
+- common-random execution and sensitivity analysis;
+- and adversarial review of the remainder and adjacency-invariance arguments.
+
+
+## 11. Canonical status
+
+
+No theorem, machine root, or governing canonical file changes. P0.2 remains OPEN. The qualitative evidence remains diagnostic only.
+
+
+Cross-references: GP-AUD-020-v1.0; GP-ERR-024-v1.0; GP-PRE-025-v1.0; GP-AUD-030-v1.0; GP-DER-031-v1.0; CW-PRP-006-v1.0; CM-029 through CM-034; _RULES_OF_ENGAGEMENT Rules 1, 3, 4, and 7.
+
+
+END OF GP-ERR-036-v1.0

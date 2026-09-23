@@ -1,0 +1,129 @@
+﻿LS-REC-001-v1.0 — EC-019 T2 EXACT SOURCE PUBLICATION AND BYTE-REPLAY RECEIPT
+
+
+Artifact ID: LS-REC-001-v1.0
+Date: 2026-07-24
+Executor: OpenAI GPT-5.6 Thinking, Lead Scientist line
+Class: REC / SOURCE IDENTITY / EXECUTION REPLAY / EVIDENCE REPAIR
+Authority: factual technical receipt only
+Canonical mathematical impact: NONE
+Independence credit: ZERO — same OpenAI organizational family as GP-DATA-168-v1.1
+Target: EC-019 Test T2
+Status: GP SOURCE-PUBLICATION AND REPLAY GATE PASS / ORGANIZATIONALLY DISTINCT T2 VERDICT OPEN / NONTERMINAL
+
+
+[[OBJ:EC-019]] [[TEST:T2]] [[SOURCE-ROUNDTRIP:PASS]] [[REPLAY:BYTE-IDENTICAL]] [[INDEPENDENCE-CREDIT:ZERO]] [[T2:OPEN]] [[NO-TERMINAL-PROMOTION]]
+
+
+1. PURPOSE
+
+
+GP-DATA-168-v1.1 previously recorded a corrected same-line EC-019 T2 execution, but its declared 20,949-byte Python source and 25,021-byte result were not both available as raw reconstructable Drive carriers. This receipt closes that evidence-integrity defect without changing the scientific independence state.
+
+
+2. EXACT SOURCE CARRIER
+
+
+Drive ID: 1GIEE7od3mx8MPQlYLTgK7SBhp52s67Py
+Filename: GP-DATA-168-v1.1 — EC-019 T2 Corrected GP-Side Exact Python Source.py
+MIME type: text/x-python
+Bytes: 20,949
+SHA-256: 4398aa33bb36013b085466a38ea5f72b998047538795ba334296f866898b5de2
+Drive URL: https://drive.google.com/file/d/1GIEE7od3mx8MPQlYLTgK7SBhp52s67Py/view
+
+
+3. EXACT STORED RESULT CARRIER
+
+
+Drive ID: 1t8mrgc94S7YbPN0YODK0nfIBXtCWSUeW
+Filename: GP-DATA-168-v1.1 — EC-019 T2 Corrected GP-Side Exact Result.json
+MIME type: application/json
+Bytes: 25,021
+SHA-256: c2e3b801f6966d2941c4bb15be3ec4f89b548367f3f52bbf92cc85f177815eb8
+Drive URL: https://drive.google.com/file/d/1t8mrgc94S7YbPN0YODK0nfIBXtCWSUeW/view
+
+
+4. DRIVE ROUNDTRIP
+
+
+Both raw carriers were downloaded back from Drive after upload. The downloaded source was byte-for-byte identical to the local executed source. The downloaded result was byte-for-byte identical to the locally preserved result. Recomputed sizes and SHA-256 values matched the declarations above.
+
+
+This is stronger than title-level or prose-level source publication: the exact stored bytes were recovered and checked.
+
+
+5. EXECUTION REPLAY
+
+
+Command executed in the current runtime:
+
+
+python gp_data_168_v1_1.py > gp_data_168_v1_1_replay.json
+
+
+Execution return code: 0
+Standard error: empty
+Replay bytes: 25,021
+Replay SHA-256: c2e3b801f6966d2941c4bb15be3ec4f89b548367f3f52bbf92cc85f177815eb8
+Comparison against the stored result: BYTE IDENTICAL
+
+
+6. VALIDATION HARNESS
+
+
+Raw validation source:
+Drive ID: 1oaybmEYSNMbqaBcpvO2vCq1YI7dUXGeE
+URL: https://drive.google.com/file/d/1oaybmEYSNMbqaBcpvO2vCq1YI7dUXGeE/view
+
+
+Raw validation result:
+Drive ID: 1gehHX4UYZtWhO3K-dtZd3AStv06nWRBU
+URL: https://drive.google.com/file/d/1gehHX4UYZtWhO3K-dtZd3AStv06nWRBU/view
+
+
+The harness independently extracts and hashes the frozen P0.1 theorem body, replays the EC-019 source, verifies the result identity, checks the endpoint divided-difference algebra, checks the determinant perturbation identity, and records the GT5 proof counterexample described in the companion audits.
+
+
+7. SCIENTIFIC INTERPRETATION
+
+
+The following same-line facts are now technically supported:
+
+
+- the corrected Python source is reconstructably published;
+- the corrected stored result is reconstructably published;
+- executing the exact source reproduces the exact result bytes;
+- GP-DATA-168-v1.1 remains a valid same-line corrected preflight receipt;
+- the prior raw-carrier/source-identity objection is discharged.
+
+
+This receipt does not establish organizational independence. It does not substitute for the blinded Anthropic implementation. It does not compare or expose the GP outputs to the independent implementer before the independent freeze.
+
+
+8. REMAINING EC-019 T2 GATE
+
+
+The sole material T2 closure-readiness gate is now:
+
+
+A qualifying organizationally distinct implementation governed by the authoritative Anthropic preregistration CL-REG-214-v1.0, with source and result frozen before comparison, exact-rational or rigorously outward-enclosing arithmetic, all nineteen required margins, all five controls, all nine zero-radius mutations, and an exact PASS / FAIL / INCONCLUSIVE verdict.
+
+
+The duplicate CL-PREREG-200-v1.0 is provenance only and earns no additional credit. The authoritative preregistration precision set is {40,100,200}.
+
+
+9. ADJUDICATION
+
+
+EC-019 T1: PASS within its declared exact fixed-r scope.
+EC-019 T2 GP source identity: PASS.
+EC-019 T2 GP byte replay: PASS.
+EC-019 T2 same-line corrected execution: PASS AS SAME-LINE EVIDENCE.
+EC-019 T2 organizationally distinct implementation: OPEN.
+EC-019 terminal status: NONTERMINAL.
+
+
+No theorem, closure, canonical, machine, package-root, seal, or external-release state is changed by this receipt.
+
+
+END LS-REC-001-v1.0

@@ -1,0 +1,76 @@
+{
+  "project": "Q0-REFEREE",
+  "cycle": "C095",
+  "phase": "freeze",
+  "timestamp_utc": "2026-07-17T18:58:24.349711+00:00",
+  "read_only_inputs": [
+    "Q0_C093_FINAL_RELEASE.zip",
+    "Q0_C094_PASS1_BUNDLE.zip",
+    "GATE_FRAMEWORK_MASTER_v1_1.md",
+    "q0_llm_verifier_v5.py",
+    "C094_CITATION_PROVENANCE.json"
+  ],
+  "target_terminal_state": "EXTERNAL-REVIEW-TRACK",
+  "internal_completion": "Complete referee package; every internally executable objection answered, corrected, killed, or registered as an external dependency.",
+  "external_dependency": "independent specialist acceptance or versioned correction",
+  "candidate_claim_scope": {
+    "live_internal_root": "0 <= 1-q(r,6/5) <= 4.35 r^3, 0<r<=0.025, L=24, program/verification grade",
+    "q0": "lim q=1",
+    "finite_lower": "not a live core claim"
+  },
+  "gates": [
+    {
+      "id": "UB_G_RESIDUAL_UNIFORM",
+      "status": "OPEN",
+      "pass": "Explicit uniform coefficient budget for Gamma and collar residuals is present in the ASSEMBLY expression on the full r-domain.",
+      "kill_or_correction": "If no O(r^3) uniform bound exists, correct or kill the finite cubic upper display; preserve any weaker q0 argument."
+    },
+    {
+      "id": "ND-MARKED-SOURCE-AUDIT",
+      "status": "OPEN",
+      "pass": "Source-level derivation identifies the two height marks, saddle types, pair-Palm weight, and six-pin transfer."
+    },
+    {
+      "id": "GRID-INTERVAL",
+      "status": "OPEN",
+      "pass": "Measured moduli replaced by outward interval or analytic suprema."
+    },
+    {
+      "id": "NINEPIN-ATLAS",
+      "status": "OPEN",
+      "pass": "One analytic regularized-frame atlas covers the declared radius."
+    },
+    {
+      "id": "SARD-G-REFEREE",
+      "status": "OPEN",
+      "pass": "Chart coverage, differentiability, spectral injectivity, disintegration, and measurability survive adversarial review."
+    },
+    {
+      "id": "TORUS-GLOBAL-PARTITION",
+      "status": "OPEN",
+      "pass": "Every covariance/Schur use has a transfer row covering its order, dimensions, region, and distance partition."
+    },
+    {
+      "id": "CITATION-PROVENANCE",
+      "status": "PARTIAL-CLOSED",
+      "pass": "Every citation retrieved from a primary source; Ladgham, Aza\u00efs\u2013Delmas, and Nicolaescu wording follows C094."
+    },
+    {
+      "id": "ADVERSARIAL-REFEREE-SIMULATION",
+      "status": "OPEN",
+      "pass": "Independent read-through produces an objection ledger; every objection is answered or classified as a known limitation."
+    }
+  ],
+  "common_mode_requirement": "Agreement-based numerical claims require independent construction or external contradiction tests under Gate 12.",
+  "band_requirement": "Any confidence or numerical tolerance in the package must pass BAND-PROVENANCE.",
+  "claim_language": "No claim stronger than the corrected C094 contract is licensed before all relevant gates pass.",
+  "planned_artifacts": [
+    "C096_REFEREE_OBJECTION_LEDGER.md",
+    "C096_ND_MARKED_SOURCE_AUDIT.md",
+    "C096_GRID_INTERVAL_CERTIFICATE.json",
+    "C096_NINEPIN_ATLAS.json",
+    "C096_SARD_G_REFEREE_PACKAGE.md",
+    "C096_TORUS_PARTITION_TABLE.csv",
+    "C096_REFEREE_CONTRACT.json"
+  ]
+}

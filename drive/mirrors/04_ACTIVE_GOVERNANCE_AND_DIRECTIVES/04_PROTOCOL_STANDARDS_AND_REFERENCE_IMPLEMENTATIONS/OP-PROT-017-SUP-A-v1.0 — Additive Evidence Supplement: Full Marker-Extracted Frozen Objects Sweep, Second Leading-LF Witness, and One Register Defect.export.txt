@@ -1,0 +1,146 @@
+﻿OP-PROT-017-SUP-A-v1.0 — ADDITIVE EVIDENCE SUPPLEMENT: FULL MARKER-EXTRACTED FROZEN OBJECTS SWEEP, SECOND LEADING-LF WITNESS, AND ONE REGISTER DEFECT
+
+
+Artifact ID: OP-PROT-017-SUP-A-v1.0
+Dispatch: DQ-054
+Generated UTC: 2026-07-27
+Prepared by: Claude, Anthropic, model claude-opus-5 — session_01EkKVrmmSk92bvfArEp8YjW
+Class: SUP / ADDITIVE EVIDENCE / OPERATIONS
+Supplements: OP-PROT-017-v1.0, Drive ID 1yTjAIDFcTtRmpfOUKFpnNOjWY7E0OZnBg8JN_5-exFs
+Authority: evidence only
+Normative change: NONE. The standard of OP-PROT-017 Section 4 is unchanged and is not restated here.
+Mathematical verdict created: NONE
+Organizational-independence credit created: ZERO
+Canonical impact: NONE
+Status: COMPLETE
+
+
+WHY THIS IS A SUPPLEMENT AND NOT A REVISION
+
+
+OP-PROT-017-v1.0 entered a receipt, CL-REC-OPPROT017-20260727-01, and is therefore a frozen object. Under the Drive's successor-only rule its body is not edited in place. This artifact is additive: it widens the evidence base, records two findings that sharpen but do not alter the rule, and reports one defect found by applying the rule. Every normative statement of OP-PROT-017 survives unchanged, which is itself the main result below.
+
+
+1. SCOPE EXTENSION — FROM TEN OBJECTS TO ALL TWENTY-ONE
+
+
+OP-PROT-017 Section 2 verified the ten Theorem B chain leaves named in LS-MAN-034. The Frozen Objects register carries 34 rows, of which 21 declare a marker-delimited frozen body and 13 are whole-file or embedded bindings that need no marker extraction. This supplement re-fetched the remaining 11 marker-extracted objects by exact Drive ID in the same run and re-ran the identical falsification matrix over all 21.
+
+
+RESULT: 21 of 21 reproduce their declared frozen-body byte count and SHA-256 under OP-PROT-017 Section 4. The 64-combination matrix again returns exactly SIX survivors, and they are the same six: line-anchored resolution, preserve leading whitespace, normalize terminators, one trailing LF, with BOM handling and first/final/unique selection still indistinguishable. The conservativity claim of OP-PROT-017 Section 7 therefore now covers every marker-extracted frozen object on the Drive, not only the Theorem B chain.
+
+
+Columns: artifact, raw export bytes, occurrences of the BEGIN token as a substring, lines exactly equal to the BEGIN token, leading LF in the extracted region, declared body bytes.
+
+
+S2-DER-010                        22137  1  1  2  17845
+LS-DER-021                        15424  2  1  0  11924
+LS-DER-022                        26465  2  1  0  21932
+LS-DER-023                        17919  2  1  0  13795
+LS-DER-024                        22799  2  1  0  19078
+LS-DER-025                        12076  2  1  0   8275
+LS-DER-026                        15281  2  1  0  11725
+LS-DER-027                        16153  2  1  0  11330
+LS-DER-030                        16940  2  1  0  12794
+LS-DER-031                        10919  2  1  0   7963
+LCR-DER-061-v1.1                  13882  2  1  0   8928
+GP-DER-197-v1.0                   24769  3  1  2  13797
+LS-DER-023B-v1.0                  22903  2  1  0  18208
+GP-DER-118-v1.9                   30941  1  1  0  28257
+GP-DATA-236-v1.0                  31963  1  1  0  28257
+GP-DER-118-v1.9-B                 32456  1  1  0  28465
+GP-DATA-234-v1.0                  32456  1  1  0  28465
+LS-DER-032-v1.0                   15139  2  1  0  12106
+LS-DER-033-v1.0                   13317  2  1  0  10913
+CL-AUD-TBG3A-IMPORTS-20260726-01  19221  2  1  0  15198
+LS-DER-034-v1.0                   11147  2  1  0   8910
+
+
+2. FACT E3 NOW HOLDS OVER TWENTY-ONE OF TWENTY-ONE
+
+
+Every marker-extracted frozen object on this Drive contains exactly ONE line equal to its BEGIN token and exactly ONE equal to its END token. The fail-closed uniqueness requirement of rule N4 therefore breaks nothing that currently exists. This was the one place OP-PROT-017 could have been non-conservative, and it is now closed against the full register rather than against a ten-object sample.
+
+
+3. FINDING S-1 — DEFECT B HAS A SECOND WITNESS
+
+
+OP-PROT-017 Section 3 recorded S2-DER-010 as the sole object distinguishing preserve-leading from strip-leading. GP-DER-197-v1.0 is a second, independent witness: its frozen body also begins with two LF characters, and stripping them yields 13,795 bytes against a declared 13,797. The leading-strip family now scores 19 of 21 rather than 9 of 10.
+
+
+This matters because a single witness invites the reading that S2-DER-010 is anomalous and could be normalized away. Two witnesses in unrelated document families show that leading LF is a recurring authoring pattern, not an accident, and that preserve-leading is the correct general rule.
+
+
+4. FINDING S-2 — SUBSTRING MATCHING IS WORSE THAN UNIFORMLY WRONG
+
+
+OP-PROT-017 reported substring matching at 0 of 10. Over the full 21 it scores 4 of 21. The four it gets right are GP-DER-118-v1.9, GP-DATA-236, GP-DER-118-v1.9-B and GP-DATA-234, each of which names its marker token exactly once, at the delimiter line itself, and has no leading LF.
+
+
+The corrected characterization is therefore sharper and more alarming than the original. Substring matching is not a rule that always fails and is thus easy to detect. It is a rule that silently succeeds on about one object in five and produces a 6 to 737 byte fragment of prose on the rest. An implementer who tests against the GP-DER-118 family alone will conclude their extractor is correct and will then mis-verify seventeen other objects. GP-DER-197-v1.0 is the extreme case: its BEGIN token occurs three times as a substring and a first-occurrence search returns 737 bytes of header prose that hashes cleanly and looks like a real answer.
+
+
+5. FINDING S-3 — TWO SNAPSHOT PAIRS INDEPENDENTLY CONFIRMED
+
+
+The register declares GP-DATA-236-v1.0 to be a content-addressed snapshot of GP-DER-118-v1.9, and GP-DATA-234-v1.0 to be a snapshot of GP-DER-118-v1.9-B. Both relations were verified here from independent fetches:
+GP-DER-118-v1.9 and GP-DATA-236-v1.0 both yield 28,257 bytes / d894c0fe35d17be878820971df5b7b300b6182ee71d79a89efe0d25ef6fad7f5.
+GP-DER-118-v1.9-B and GP-DATA-234-v1.0 both yield 28,465 bytes / f34aad2bca220ce15564dbc1946955826ec821f22cb6a486b87d93549d135546.
+The raw exports differ, as they must, since the surrounding headers differ; the frozen bodies are identical. The must-equal-source condition on both snapshots holds.
+
+
+6. DEFECT DEF-LSDER034-TOKENS — REGISTER DECLARES MARKER TOKENS THAT DO NOT EXIST IN THE OBJECT
+
+
+Severity: MEDIUM. Class: register metadata defect, not body drift. Status: OPEN, repair specified.
+
+
+Measured. The Frozen Objects row for LS-DER-034-v1.0 declares its Frozen Body Rule as
+    BEGIN_TBG3A_INTERP_FROZEN_BODY / END_TBG3A_INTERP_FROZEN_BODY
+The document at Drive ID 1_KF28jr2RS8ySFrealYRVuxARY2EHyCEaByGb36rGnk contains neither token. Its actual delimiters are
+    BEGIN_TBG3A_INTERPOLATION_FROZEN_BODY / END_TBG3A_INTERPOLATION_FROZEN_BODY
+The register cell abbreviates INTERPOLATION to INTERP.
+
+
+Consequence. A verifier that follows the register cell verbatim, which is the documented purpose of that cell, finds zero candidate marker lines. Under OP-PROT-017 rule N4 it returns a hard failure and records an extraction-ambiguity defect, which is correct behaviour and is how this was found. Under the older permissive wordings it would return nothing to compare and could be misread as an unverifiable object rather than a metadata error.
+
+
+The object itself is sound. With its true tokens LS-DER-034-v1.0 reproduces exactly 8,910 bytes / e2144a8423439076ee6bd0bdec301a224fa20acdf367b8cf2136f977054a6dad, matching its declared receipt. No body drift, no identity change, no successor to the theorem object required.
+
+
+Repair. One cell edit in the Frozen Objects register, replacing INTERP with INTERPOLATION in both tokens. Specified as an item in CL-CLWO-20260727-03. Rollback is the inverse edit. No scientific status is affected.
+
+
+Why this is the headline result of the sweep. It is the first defect this Drive has found by applying a fail-closed extraction rule rather than by a human noticing. Every previous verification run reproduced this object successfully because runs read the tokens from the document's own header instead of from the register cell, which silently masked the discrepancy. The register was wrong for at least a day while every check passed.
+
+
+7. RECOMMENDED FOLLOW-ON, NOT PERFORMED HERE
+
+
+R-1. Cross-check every Frozen Objects row's declared marker tokens against the tokens actually present in the object, for all 21 marker-extracted rows. This supplement performed that check as a side effect for the 11 objects it swept and found exactly one mismatch; the other 10 were driven from the same register cells and matched. A deliberate, complete token-versus-object reconciliation is still worth running as its own pass.
+R-2. Extend the sweep to the 13 whole-file and embedded-binding rows, which need no marker resolution but do need a same-run whole-file digest check.
+R-3. Consider requiring that a Frozen Objects row's token cell be copied mechanically from the object rather than retyped, since DEF-LSDER034-TOKENS is a transcription defect of exactly the kind that mechanical copying eliminates.
+
+
+8. SCOPE FIREWALL
+
+
+This supplement changes no normative rule, certifies no mathematics, creates no independence credit, and confers no canonical, sealing, publication or release authority. The Anthropic line remains one lineage. Theorem B remains RETRACTED / NOT RESTORED. All identity claims are same-run measurements from fresh native exports fetched by exact Drive ID.
+
+
+BEGIN_OPPROT017_SUPA_FROZEN_BODY
+OP-PROT-017-SUP-A — EVIDENCE SUPPLEMENT RESULTS
+1. All 21 marker-extracted frozen objects on this Drive reproduce their declared byte count and SHA-256 under the OP-PROT-017 standard. The 64-combination matrix returns the same six survivors over 21 objects as over 10.
+2. Fact E3, exactly one exact BEGIN line and one exact END line per object, holds 21 of 21. The fail-closed uniqueness rule breaks no existing object.
+3. Defect B has a second witness. GP-DER-197-v1.0 also carries two leading LF characters; leading-strip scores 19 of 21, failing on S2-DER-010 and GP-DER-197-v1.0.
+4. Substring matching scores 4 of 21, not 0. It silently succeeds on the GP-DER-118 family and returns 6 to 737 byte prose fragments elsewhere. A partially correct rule is more dangerous than a uniformly wrong one.
+5. Both declared snapshot relations hold: GP-DER-118-v1.9 equals GP-DATA-236 at 28257 bytes, and GP-DER-118-v1.9-B equals GP-DATA-234 at 28465 bytes, on frozen bodies though not on raw exports.
+6. DEF-LSDER034-TOKENS, MEDIUM, OPEN. The Frozen Objects row for LS-DER-034-v1.0 declares marker tokens abbreviated to INTERP that do not occur in the object, whose real tokens spell INTERPOLATION. The object reproduces its declared identity with its true tokens. Repair is one register cell edit.
+7. No normative rule changed. No frozen body edited. No mathematical or canonical status affected.
+END_OPPROT017_SUPA_FROZEN_BODY
+
+
+The identity of the region above is declared in CL-CLWO-20260727-03, which is published after this artifact exists and is re-exported, per OP-PROT-017 rule C1.
+
+
+END OP-PROT-017-SUP-A-v1.0

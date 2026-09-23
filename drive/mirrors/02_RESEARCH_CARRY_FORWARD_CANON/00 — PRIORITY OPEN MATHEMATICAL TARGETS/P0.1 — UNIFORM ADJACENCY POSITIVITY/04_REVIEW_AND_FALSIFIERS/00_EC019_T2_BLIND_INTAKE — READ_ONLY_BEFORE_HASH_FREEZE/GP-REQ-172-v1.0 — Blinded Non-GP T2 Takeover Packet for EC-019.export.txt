@@ -1,0 +1,127 @@
+﻿GP-REQ-172-v1.0 — BLINDED NON-GP T2 TAKEOVER PACKET FOR EC-019
+
+
+Artifact ID: GP-REQ-172-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Date: 2026-07-23
+Class: REQ / BLINDED CLEAN-ROOM REVIEW ROUTING
+Authority: none
+Canonical impact: NONE
+Queue: EC-019 / HB-030 / T2 only
+
+
+[[OBJ:GP-REQ-172-v1.0]] [[TASK:EC019-T2-BLIND]] [[STATUS:T1-PASS]] [[STATUS:T2-OPEN]] [[NO_PROMOTION]]
+
+
+1. CURRENT GATE STATE
+
+
+EC-019 Test T1 is PASS under the qualifying non-GP exact-symbolic review in the active A-line CL-AUD-082-v1.0 and GP-COR-170-v1.0. Only Test T2 remains open on the preferred fail-closed path.
+
+
+T2 asks for one source-independent, non-GP, directed-rounding or otherwise rigorous implementation of the nineteen Route-B capture margins and five planted controls defined in GP-SPEC-166-v1.0.
+
+
+This packet does not approve EC-019, restore human-ready status, or change any theorem, machine, ballot, release, deletion, or destructive-operation state.
+
+
+2. BLIND-LANE FIREWALL
+
+
+Before freezing both implementation source and primary result records, the reviewer must read only:
+
+
+- this packet; and
+- GP-SPEC-166-v1.0, Drive ID 1MzToKSsTJ-PtMMH6TVN6qETiInRz8Q4SpqUz5QTWeJY.
+
+
+Before the source and primary results are frozen, do not open or use:
+
+
+- GP-DATA-168-v1.0;
+- GP-AUD-169-v1.0;
+- GP-DATA-106 source or stored arrays;
+- GP-DER-106 Section 3 numerical outputs;
+- CL-AUD-071 output values;
+- any copied implementation, interval array, stored margin table, or discrepancy report.
+
+
+Awareness that prior implementations exist does not invalidate blindness. Reading their code, numerical margins, or result arrays before freezing does.
+
+
+3. REQUIRED PRE-REGISTRATION
+
+
+Publish a short timestamped pre-registration before coding that states:
+
+
+- provider, model line, and session identity;
+- software, interval library, and precision;
+- all sources already read;
+- whether any GP/CL implementation or stored output was seen;
+- commitment to derive the implementation only from GP-SPEC-166;
+- intended source and result serialization rules;
+- planned negative-control handling.
+
+
+4. IMPLEMENTATION AND FREEZE
+
+
+Write a new implementation from the formulas and domains in GP-SPEC-166 without copying existing code.
+
+
+Before opening any comparison material:
+
+
+- freeze the complete source bytes;
+- record source byte count and SHA-256;
+- record environment and library versions;
+- run the primary box and all five controls;
+- serialize every interval, all nineteen named margins, W, rho, tau_upper, and control outcomes;
+- freeze the primary result bytes;
+- record result byte count and SHA-256.
+
+
+Point sampling, non-rigorous floating-point bounds, omitted xi=0 handling, or post-comparison tuning are not qualifying.
+
+
+5. POST-FREEZE COMPARISON LANE
+
+
+Only after both hashes are fixed may the reviewer open:
+
+
+- GP-DER-106 Section 3;
+- CL-AUD-071-v1.0;
+- GP-DATA-168-v1.0; and
+- GP-AUD-169-v1.0.
+
+
+Then publish a discrepancy table explaining every difference by interval representation, algebraic rearrangement, precision, or convention. Constants may not be tuned after comparison.
+
+
+6. REQUIRED VERDICT
+
+
+Return exactly one:
+
+
+T2 — PASS: all nineteen margins are rigorously positive, all five controls fire, source independence and reproducibility are documented, and discrepancies are explained without tuning.
+
+
+T2 — FAIL: a declared gate or control fails under a correct independent implementation; identify the exact object, formula, interval, and counterevidence.
+
+
+T2 — INCONCLUSIVE: rigorous enclosure, blindness, source independence, reproducibility, or convention resolution is insufficient.
+
+
+A qualifying T2 PASS restores EC-019 to human-approval-ready status. It does not terminally close EC-019; Dylan M. Roy’s separate exact item-level approval remains required.
+
+
+7. SCOPE FIREWALL
+
+
+A T2 pass closes only the remaining independent verification gate for the fixed-r qualitative object P_{1/20}^{MS}(A_{1/20})>0. It does not establish a numerical probability, any other r, r-uniformity, a_r→1, 1-a_r=O(r^3), P0.1, P0.2, Theorem B, elder-rule pairing, a lifetime law, GP-AUTO-034 qualification, tier activation, machine replacement, release, deletion, or destructive action.
+
+
+END GP-REQ-172-v1.0

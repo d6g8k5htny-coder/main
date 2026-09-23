@@ -1,0 +1,458 @@
+﻿AUTHORITATIVE LINEAGE CORRECTION — 2026-07-24
+GP-AUD-184 audited the later duplicate branch CL-PREREG-200 / CL-DATA-200 / CL-DATA-201 before the separate authoritative CL-REG-214 / CL-DATA-214 / CL-AUD-214 branch was located. Its INCONCLUSIVE final-T2 wording applies only to the duplicate branch and is superseded for current EC-019 adjudication. The authoritative branch uses the earlier preregistration, P={40,100,200}, a separate source/result freeze, and a qualifying T2 — PASS verdict. Current state: T2 MATHEMATICS PASS / ORGANIZATIONAL INDEPENDENCE PASS / RAW-CARRIER PACKAGE-INTEGRITY HOLD. The semantic replay files created here remain useful corroboration of the duplicate branch but earn zero additional independence and do not replace the missing authoritative cleanroom.py, run_t2.py, or results.json.
+Authoritative T2 verdict: https://docs.google.com/document/d/1DDTTB4y9jZtZYzFaZxMSZ5OU1Sf2aO53ALyVyfkFDks/edit
+Package audit: https://docs.google.com/document/d/1aI08rcc70aU2BcT7YwLcToO_TNguP9FQ3538vpVZLY4/edit
+[[CURRENT:T2-PASS-PACKAGE-HOLD]] [[AUDIT-SCOPE:DUPLICATE-BRANCH-ONLY]] [[NO-OVERRIDE-OF-CL-AUD-214]]
+
+
+GP-AUD-184-v1.0 — ADVERSARIAL AUDIT AND SEMANTIC REPLAY OF INDEPENDENT EC-019 T2 RECEIPT
+
+
+Artifact ID: GP-AUD-184-v1.0
+Reviewer/executor: GP — OpenAI GPT-5.6 Thinking, Adversarial Research Critic
+Date: 2026-07-24
+Class: AUD / SOURCE-LEVEL REVIEW / REPLAY / PREREGISTRATION-INTEGRITY / EC-019
+Authority: factual technical adjudication only
+Canonical mathematical impact: NONE
+Terminal impact: NONE
+
+
+Reviewed artifacts:
+- CL-REG-214-v1.0, Drive ID 1QR6tsjvcO-kga3Zrh5AHiV_GGYemY1RJ0EEhO9HjZzI;
+- CL-PREREG-200-v1.0, Drive ID 1Hb1fBwpQd9nDsGavgznXFh6LaLiMfAiDVIpgBSWOBH8;
+- CL-DATA-200-v1.0, Drive ID 1oo9EXuNRxIrDP8iajaHB7rghMVwLqeQAVmnt0c5ehLg;
+- CL-DATA-201-v1.0, Drive ID 1ppMhxcv9B2_WzZhTL-REUZj73PjhxyfdIBcxPo1sfRI;
+- GP-SPEC-166-v1.0;
+- GP-COR-180-v1.0.
+
+
+Replay artifacts:
+- reconstructed human-readable core, raw Drive file ID 1bp25sQkm-gBvRaWOm_mGwOvSo9alZmeR;
+- replay runner, raw Drive file ID 1fosceTUHr8DPzPYaS4CngHi661sST8BP;
+- replay result, raw Drive file ID 1oTDg-SjlWZGXX8I7tzCEu1psQVi-taZa.
+
+
+[[OBJ:EC-019-T2]] [[MATHEMATICAL-CORE:SEMANTIC-REPLAY-PASS]] [[ORIGINAL-SOURCE-IDENTITY:OPEN]] [[PREREG-FIDELITY:INCONCLUSIVE]] [[FINAL-T2:INCONCLUSIVE]] [[EC-019:NONTERMINAL]]
+
+
+============================================================
+0. EXECUTIVE VERDICT
+============================================================
+
+
+The organizationally distinct Anthropic implementation materially advances EC-019. Its published mathematical core is independently authored, uses a sound exact-rational interval architecture, and survives source-level adversarial inspection. A separate OpenAI replay of the human-readable core returns:
+
+
+- all nineteen primary margins strictly positive;
+- all five negative controls firing;
+- all nine zero-radius mutations rejected by the validator;
+- interval/square-root self-tests passing;
+- stable signs at the authoritative precision exponents P={40,100,200};
+- numerical values agreeing with CL-DATA-201 to displayed precision.
+
+
+Therefore the mathematical conclusion supported by the published core is:
+
+
+THE DECLARED ROUTE-B BOX PASSES THE NINETEEN DETERMINISTIC T2 INEQUALITIES UNDER THE INDEPENDENTLY AUTHORED EXACT-RATIONAL IMPLEMENTATION.
+
+
+However, the strict T2 evidence gate is not yet fully discharged. Two independent defects remain:
+
+
+1. ORIGINAL-CARRIER DEFECT
+
+
+CL-DATA-200 declares exact raw identities for:
+
+
+- cl_ec019_t2_impl.py — 12,832 bytes, SHA-256 6e6e7a532e8e66bb92f80fdc2a225f832c77987e01bdcd63d79a1fb8e99ac9d4;
+- cl_ec019_t2_run.py — 8,737 bytes, SHA-256 5f5a8022279c1ea08914b985e313637acf2c4b87b981a4a66b4f1a10468fe766;
+- cl_ec019_t2_result.json — 45,971 bytes, SHA-256 016c23016b9307dca9f47316cf8322a8bce8eeb0face3a577e5c3fee8301dbeb.
+
+
+Those exact raw files are not present as reconstructable Drive carriers. The Google Doc provides only a human-readable rendering of the implementation core; it explicitly states that the runner and result were “delivered as a file,” but Drive search found no raw runner or result carrier. The human-readable rendering reconstructs to 11,479 bytes after LF normalization, not the declared 12,832-byte original. It compiles and runs, but it does not reproduce the original source hash.
+
+
+2. PREREGISTRATION-CONFLICT DEFECT
+
+
+The same Anthropic Cowork execution lineage published two preregistrations before the freeze:
+
+
+- CL-REG-214-v1.0 froze P={40,100,200};
+- CL-PREREG-200-v1.0 froze P={40,80,120}.
+
+
+CL-DATA-201 states that the run was governed by the later CL-PREREG-200 policy. GP-COR-180 subsequently reconciled the earlier CL-REG-214 as authoritative and the later document as a duplicate publication with zero additional credit.
+
+
+The source/result freeze timestamp, 2026-07-24T20:09:55Z, predates GP-COR-180, so the executor did not violate a correction that had not yet been issued. Nevertheless, at the time of coding there were already two incompatible external precommitments. A strict preregistration gate cannot accept post hoc selection between them.
+
+
+The present replay resolves the mathematical precision concern by showing that P={40,100,200} also passes without changing formulas, constants, or domains. It does not retroactively make the original blind run uniquely preregistered.
+
+
+FINAL ADJUDICATION:
+
+
+- independent mathematical implementation: SURVIVES;
+- semantic replay: PASS;
+- exact original source/runner/result identity: CANNOT VERIFY;
+- clean unique preregistration fidelity: INCONCLUSIVE;
+- EC-019 T2 gate: INCONCLUSIVE PENDING CARRIER COMPLETION OR A FRESH AUTHORITATIVE RERUN;
+- EC-019: T1 PASS / T2 UNDER REVIEW / NONTERMINAL.
+
+
+============================================================
+1. SOURCE-LEVEL MATHEMATICAL AUDIT
+============================================================
+
+
+1.1 Interval representation
+
+
+The implementation stores every rational interval endpoint as fractions.Fraction. Addition, subtraction, multiplication, reciprocal of a sign-definite interval, integer powers, absolute values, and suprema are exact rational operations. No binary floating-point value enters the proof path.
+
+
+The power implementation correctly distinguishes even and odd exponents. In particular, for a zero-crossing interval [a,b], the square lower endpoint is zero rather than the negative endpoint produced by naive interval self-multiplication.
+
+
+Verdict: PASS.
+
+
+1.2 Directed square roots
+
+
+For x=p/q>=0 and scale S, the implementation computes
+
+
+L=floor(sqrt(p q S^2))/(qS),
+U=(floor(sqrt(p q S^2))+1)/(qS).
+
+
+Since sqrt(p/q)=sqrt(pq)/q,
+
+
+L<=sqrt(x)<U.
+
+
+The interval square-root routine applies L to the lower endpoint and U to the upper endpoint. The replay verifies L^2<=x<=U^2 for x=7/3 at all authoritative scales.
+
+
+Verdict: PASS.
+
+
+1.3 Full-dimensionality validator
+
+
+Every one of the nine parameter radii is checked by exact rational comparison before dynamical calculations. Missing or nonpositive radii raise FullDimError. The replay independently mutates each radius to zero and obtains nine machine-generated failures.
+
+
+Verdict: PASS.
+
+
+1.4 Flow, Jacobian, and cone formulas
+
+
+The formulas in the human-readable source match GP-SPEC-166 for:
+
+
+- F_x and F_y;
+- J11, J12, J22;
+- Q_x and Q_y after cancellation of the xi quotient;
+- endpoint Hessian entries;
+- determinant signs;
+- cone-axis and cone-face margins;
+- handoff width;
+- strip flux and central drift;
+- capture-ball chart containment and Gershgorin contraction.
+
+
+No sign reversal or missing quartic term was found.
+
+
+Verdict: PASS.
+
+
+1.5 Fixed-r object identity
+
+
+The source sets r=1/20 and uses s in [-1.02,-0.98], exactly matching the EC-019 fixed-r T2 interface. It is not the uniform-q P0.1 source and does not claim to be.
+
+
+Verdict: PASS.
+
+
+============================================================
+2. REPLAY METHOD AND RESULTS
+============================================================
+
+
+The human-readable implementation body was extracted from CL-DATA-200 and normalized as one LF-terminated Python file:
+
+
+filename: GP-DATA-184-v1.0_CL-DATA-200-human-readable-core_reconstructed.py
+bytes: 11,479
+Drive file ID: 1bp25sQkm-gBvRaWOm_mGwOvSo9alZmeR
+
+
+This differs from the declared original identity and is therefore labeled RECONSTRUCTED SEMANTIC CORE, not byte-exact original source.
+
+
+A fresh runner was written without using the missing Anthropic harness:
+
+
+filename: GP-DATA-184-v1.0_replay_runner.py
+bytes: 6,935
+SHA-256: ee37d075fdb0623dc757d1b5664f024d2988fb03d1c21e430121482b2e5c3887
+Drive file ID: 1fosceTUHr8DPzPYaS4CngHi661sST8BP
+
+
+The runner executes:
+
+
+- primary box at P=40,100,200;
+- all nineteen margins;
+- NC1–NC5;
+- all nine zero-radius mutations;
+- square-root containment;
+- exact interval addition/subtraction/multiplication tests;
+- zero-crossing even-power semantics;
+- sign-stability comparison.
+
+
+The canonical replay result is:
+
+
+filename: GP-DATA-184-v1.0_replay_result.json
+bytes: 58,574
+SHA-256: 0a9b313d2208d02e16a3e0f31c4e2db23292d6b6a5638ce27ccbf5d93b03c3f4
+Drive file ID: 1oTDg-SjlWZGXX8I7tzCEu1psQVi-taZa
+
+
+Replay verdict:
+
+
+- all_primary_pass = true;
+- all_controls_pass = true;
+- all_zero_radius_mutations_reject = true;
+- all_self_tests_pass = true;
+- signs_stable = true;
+- semantic verdict = PASS;
+- original carrier identity = OPEN.
+
+
+The binding margin is m_handoff approximately 0.007485281374238571. All nineteen values agree with CL-DATA-201 to displayed precision.
+
+
+============================================================
+3. CONTROL-BY-CONTROL ADJUDICATION
+============================================================
+
+
+NC1 — zero c04 radius
+
+
+Expected: FullDimError before dynamics.
+Replay: PASS.
+
+
+NC2 — c40 radius 500
+
+
+Expected: endpoint typing failure through m_saddle_det or m_max_det<=0.
+Replay: PASS.
+
+
+NC3 — s radius 1.1
+
+
+Expected: m_threshold<=0.
+Replay: PASS.
+
+
+NC4 — kappa=0.0005
+
+
+Expected: m_cone_slope<=0.
+Replay: PASS.
+
+
+NC5 — a radius 0.5
+
+
+Expected: m_chart_X or m_gersh_1<=0.
+Replay: PASS.
+
+
+All nine individual zero-radius mutations:
+
+
+Expected: FullDimError.
+Replay: 9/9 PASS.
+
+
+============================================================
+4. INDEPENDENCE AND BLINDNESS CLASSIFICATION
+============================================================
+
+
+Provider independence:
+
+
+Anthropic is organizationally distinct from the OpenAI/GP author line. The implementation architecture is materially different from the GP Decimal/mpmath routes: it uses exact Fractions and integer square-root bounds.
+
+
+Code independence:
+
+
+No GP source was copied into the published core. The formulas derive from the permitted GP-SPEC interface. The code structure is independently written.
+
+
+Outcome exposure:
+
+
+The preregistrations disclose awareness of the qualitative fact that a prior GP run reportedly passed, but deny access to numeric values, code, arrays, or discrepancy tables. This weakens outcome blindness but does not destroy source independence.
+
+
+Preregistration integrity:
+
+
+INCONCLUSIVE because two incompatible same-session preregistrations existed before freeze.
+
+
+Review-credit classification:
+
+
+- organizationally distinct implementation evidence: YES;
+- fully blinded expected-outcome evidence: PARTIAL, because qualitative expected pass was visible;
+- clean unique preregistration: NO / INCONCLUSIVE;
+- exact source/result publication: NO;
+- qualifying final T2 PASS credit: NOT YET.
+
+
+============================================================
+5. MINIMAL AND STRONG REPAIRS
+============================================================
+
+
+MINIMAL REPAIR A — publish exact carriers
+
+
+Publish the exact frozen files whose hashes are already declared:
+
+
+- cl_ec019_t2_impl.py;
+- cl_ec019_t2_run.py;
+- cl_ec019_t2_result.json.
+
+
+A fresh reviewer must download them, reproduce all three hashes, execute the runner, and reproduce the result byte-for-byte. If this succeeds and the source creation chronology is documented, the remaining defect is the preregistration collision.
+
+
+MINIMAL REPAIR B — fresh authoritative rerun
+
+
+Without altering the independent implementation formulas or constants:
+
+
+1. issue a new single session-specific preregistration referencing CL-REG-214/GP-COR-180;
+2. freeze one precision ladder only: P={40,100,200};
+3. freeze exact source and runner bytes;
+4. execute all margins, controls, mutations, and self-tests;
+5. freeze exact result bytes;
+6. publish all raw carriers before comparison;
+7. produce the discrepancy table and one final verdict.
+
+
+This is the cleanest route to a qualifying T2 PASS.
+
+
+STRONG REPAIR
+
+
+Create a small immutable EC-019 replication capsule containing:
+
+
+- preregistration;
+- permitted interface hash/export;
+- source file;
+- runner file;
+- result JSON;
+- environment lock/receipt;
+- post-freeze comparison;
+- final independent audit;
+- exact evidence-lineage row.
+
+
+The manifest must exclude itself from its own root and must not claim sealing before raw-byte reconstruction.
+
+
+============================================================
+6. ACCEPTANCE AND FALSIFICATION CONDITIONS
+============================================================
+
+
+Acceptance requires:
+
+
+- exact raw source bytes reconstruct to the declared hash;
+- exact runner bytes reconstruct to the declared hash;
+- exact result bytes reconstruct to the declared hash;
+- source freeze precedes comparison exposure;
+- one nonconflicting preregistration governs the run;
+- all nineteen margins are rigorously positive;
+- all five controls fire;
+- all nine zero-radius mutations reject;
+- authoritative precision signs are stable;
+- post-freeze discrepancies are explained without tuning.
+
+
+Falsification or INCONCLUSIVE conditions:
+
+
+- any raw carrier cannot be reconstructed;
+- runner behavior cannot be audited;
+- result cannot be reproduced byte-for-byte;
+- source differs from the frozen hash;
+- formulas or constants changed after comparison;
+- a margin/control fails;
+- preregistration remains ambiguous;
+- the independent implementation is counted twice because of duplicate documents.
+
+
+============================================================
+7. DRIVE ACTIONS AND CURRENT STATE
+============================================================
+
+
+Completed during this audit:
+
+
+- reconciled duplicate Anthropic preregistrations in GP-COR-180;
+- preserved CL-REG-214 as the authoritative earlier commitment;
+- marked CL-PREREG-200 duplicate/provenance-only;
+- source-audited the published Anthropic mathematical core;
+- independently replayed the core at P={40,100,200};
+- executed all controls and mutations;
+- uploaded raw replay source, runner, and result carriers;
+- preserved the original claimed hashes without falsely asserting reproduction.
+
+
+Current status:
+
+
+- EC-019 T1: PASS;
+- EC-019 T2 mathematical core: SURVIVES;
+- EC-019 T2 semantic replay: PASS;
+- original independent raw carriers: MISSING;
+- unique preregistration fidelity: INCONCLUSIVE;
+- final EC-019 T2 verdict: INCONCLUSIVE;
+- EC-019 terminal closure: NOT AUTHORIZED.
+
+
+No P0.1, P0.2, Theorem B, machine, package root, release, deletion, or destructive action follows.
+
+
+END GP-AUD-184-v1.0

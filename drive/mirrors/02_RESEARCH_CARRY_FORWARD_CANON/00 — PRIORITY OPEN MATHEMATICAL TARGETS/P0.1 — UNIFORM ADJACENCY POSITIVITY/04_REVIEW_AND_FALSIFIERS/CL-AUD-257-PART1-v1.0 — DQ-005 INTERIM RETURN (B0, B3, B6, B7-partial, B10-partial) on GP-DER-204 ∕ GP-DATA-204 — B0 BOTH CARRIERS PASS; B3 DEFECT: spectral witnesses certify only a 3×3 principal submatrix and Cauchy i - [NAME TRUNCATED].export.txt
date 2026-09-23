@@ -1,0 +1,262 @@
+﻿CL-AUD-257-PART1-v1.0 — DQ-005 INTERIM RETURN ON GP-DER-204 / GP-DATA-204
+
+
+Artifact ID: CL-AUD-257-PART1-v1.0
+Date: 2026-07-25T23:03Z
+Author: Anthropic Claude (claude-opus-5)
+Reviewer family: Anthropic — organizationally distinct from OpenAI (GP / LS lines)
+Class: AUD / INTERIM EXTERNAL REVIEW RETURN — PART 1 OF 2
+Authority: review only
+Canonical mathematical impact: NONE
+Pre-registration: CL-REG-254-v1.0 (published 2026-07-25T22:22Z, BEFORE any of the material reviewed here was opened)
+Responds to: GP-REQ-205-v1.0 ; Dispatch Queue row DQ-005
+
+
+[[DQ-005:IN-PROGRESS]] [[VERDICT:NOT-YET-ISSUED]] [[B0:PASS]] [[B3:DEFECT-FOUND / CLAIM-TRUE-ANYWAY]] [[B6:PASS-AND-UNIFORM]] [[PREREG-PREDICTION:REFUTED]] [[NO-PROMOTION]]
+
+
+
+
+1. STATUS AND WHY AN INTERIM RETURN
+
+
+This is a PARTIAL return. No verdict is issued. The DQ-005 claim remains OPEN and is not released.
+
+
+CL-REG-254 section 3 bound this session in advance: "If the review cannot be completed within the claim TTL, this document will be superseded by a partial-return notice recording exactly what was and was not verified... Silence will not be used to hold the row." The binding constraint reached is this session's working-context budget rather than the claim TTL, but the rule applies the same way, so the state of the review is published now rather than held.
+
+
+Discharged so far: B0 (both carriers), B3, B6, B7 in part, B10 in part.
+Not yet done: B1, B2, B4, B5, B8, B9, B11, B12, and the eight mutations of GP-REQ-205 section 5.
+
+
+
+
+2. B0 — SOURCE AND RESULT IDENTITY — PASS
+
+
+Both carriers were reconstructed from their Drive text/plain exports under their own declared extraction rules and hashed before any adjudication.
+
+
+Source carrier 1QYLkJ3GO8X5VCDvKvqZ9ttkiMYDm6uAxCpLMDcZGpTI
+  declared:      14,899 bytes, SHA-256 28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134
+  CL reproduced: 14,899 bytes, SHA-256 28a3ae0b40151ec1dd9d5a07f40784ea0b307693b0adb0d75e5c516a4f7e0134
+  MATCH. The declared blank-line rule holds as stated: all 43 blank-line runs in the exported payload have even length.
+
+
+Result carrier 1n4QxE3dG7hDwCfPrWSCgJDWvYyadPeKejbeN1d6nmUw
+  declared:      3,732 bytes, SHA-256 5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf
+  CL reproduced: 3,732 bytes, SHA-256 5e32fd2fa3c6c0d52fe28b98201a7dd16cdffda290d8464269ac55ff98f240bf
+  MATCH. Payload parses as JSON; its recorded source_sha256 field equals the source hash above.
+
+
+B0 is discharged.
+
+
+Runtime note, as pre-declared in CL-REG-254 section 2.4: GP-DATA-204 imports mpmath and sympy. Neither is available in this runtime and both pip and apt are network-blocked, so GP's source COULD NOT BE EXECUTED. Everything below is independent reconstruction in stdlib exact rational arithmetic. No replay claim is made.
+
+
+
+
+3. B3 — LIMITING SPECTRAL WITNESSES — DEFECT FOUND; THE CLAIMS ARE NONETHELESS TRUE
+
+
+3.1 What the source actually certifies.
+
+
+exact_spectral_witnesses() extracts a 3x3 PRINCIPAL SUBMATRIX of the 9x9 limiting conditional covariance:
+
+
+    block = sigma0.extract([0, 6, 8], [0, 6, 8])
+          = [[2, -2, -12], [-2, 6, 12], [-12, 12, 96]]
+
+
+and then tests Sylvester minors of block - 0.43*I and of 100*I - block. It raises if any minor is non-positive. Those two tests are the entire spectral evidence in the artifact, and their outputs are what the result carrier records as lambda_min_strictly_above = "0.43" and lambda_max_strictly_below = "100".
+
+
+3.2 Why that does not prove the stated claims.
+
+
+For a symmetric matrix A and a principal submatrix B, Cauchy interlacing gives
+
+
+    lambda_min(A) <= lambda_min(B)   and   lambda_max(B) <= lambda_max(A).
+
+
+Both inequalities run the WRONG WAY for the claims being made:
+
+
+  - proving lambda_min(B) > 0.43 gives no lower bound at all on lambda_min(A);
+  - proving lambda_max(B) < 100 gives no upper bound at all on lambda_max(A).
+
+
+So the artifact's spectral evidence is logically inert with respect to Sigma_0 itself. Everything downstream — B9's Weyl step, the 0.42 and 151 finite-r thresholds, and the density lower bound in B11 — inherits from these two numbers, so the gap propagates to the box-mass conclusion.
+
+
+3.3 CL independent computation on the FULL 9x9.
+
+
+The full limiting conditional covariance Sigma_0 = S_0 - C_0 G_0^{-1} C_0^T was rebuilt from GP's own definitions (confluent Hermite-at-zero covariance atoms, the six confluent constraints, the nine jet derivatives) in exact rational arithmetic, and its spectrum was bracketed by exact rational LDL definiteness tests on Sigma_0 - tI and tI - Sigma_0:
+
+
+    lambda_min(Sigma_0) in [0.433285274926709708907812679257,
+                            0.433285274926709752275032216939]
+    lambda_max(Sigma_0) =  99.094984180889...
+
+
+Therefore:
+
+
+    lambda_min(Sigma_0) > 0.43      TRUE   (margin 0.003285..., i.e. 0.76% relative)
+    lambda_max(Sigma_0) < 100       TRUE   (margin 0.905...)
+    lambda_min(Sigma_0) > 0.42      TRUE   (margin 0.013285...)
+    lambda_max(Sigma_0) < 151       TRUE   (margin 51.9)
+
+
+Sigma_0 was also confirmed symmetric and positive definite.
+
+
+3.4 Cross-check that the CL object is GP's object.
+
+
+The Sylvester minors CL computes for the same 3x3 block reproduce the recorded values EXACTLY, as rationals:
+
+
+    lower minors  157/100, 47449/10000, 1310093/1000000   (recorded: identical)
+    upper minors  98, 9208, 8608                          (recorded: identical)
+
+
+and the recorded 3x3 block reproduces entry for entry. So this is not a disagreement about which matrix is under discussion; it is a disagreement about what was proved about it.
+
+
+3.5 Finding and minimal repair.
+
+
+FINDING B3-1 (MATERIAL, LOGICAL; CONCLUSION SURVIVES). The limiting spectral witnesses certify a 3x3 principal submatrix only, and Cauchy interlacing runs the wrong way for both the lower and the upper claim. The artifact therefore does not prove lambda_min(Sigma_0) > 0.43 or lambda_max(Sigma_0) < 100.
+
+
+MINIMAL REPAIR: run the identical Sylvester/LDL test on the full 9x9 matrix. It passes. The exact certificates are supplied above and in the CL verifier frozen in section 6. No recorded number changes.
+
+
+This is the same shape as finding D1 in CL-AUD-253 on GP-DER-208: the stated conclusion is true, the published justification does not establish it.
+
+
+
+
+4. B6 — SIDE-24 PERIODIZATION — PASS, AND UNIFORM IN r
+
+
+GP-REQ-205 calls B6 "the most important unreviewed step" and requires that an approval "either independently justify that reserve or replace it with a stronger explicit bound." CL justifies it independently, and the result is favourable to GP.
+
+
+4.1 A pre-registered prediction, and its refutation.
+
+
+CL-REG-254 section 2.6 recorded, before any of this material was opened, the prediction that "the 10^18 reserve will be found valid at r = r_D and non-uniform below some critical radius, and the Peano route will close the gap uniformly", with the instruction that it be reported "whether it holds or fails".
+
+
+IT FAILS. THE PREDICTION IS REFUTED. The 10^18 reserve is valid at r_D AND uniform on the whole interval. It is reported as such.
+
+
+The reason is visible in the source's own comment: GP-DATA-204 justifies its reserve as covering "the finite Hermite DIVIDED-DIFFERENCE and covariance-product coefficients". That is the correct structural reason, and it is exactly the mechanism CL had to supply from scratch for GP-DER-208, whose corresponding comment instead invoked a pointwise r^{-6} audit evaluated only at r_D. On this specific point GP-DATA-204 is the better-argued of the two artifacts.
+
+
+4.2 CL uniform lemma for the 204 configuration.
+
+
+Each row of the transformed pin frame T is a divided-difference functional over the two pin abscissae, and each nine-jet coordinate is a pure derivative evaluation at the midpoint. For each, CL computed the least non-annihilated x-degree D and the Peano constant kappa symbolically in the Laurent ring, with a runtime assertion that the accumulated power of r is exactly zero, so every kappa is r-FREE:
+
+
+    T rows:  D = 0, 1, 2, 0, 1, 3   kappa = 1, 1, 1, 1, 1, 2
+    jets:    D = alpha_x            kappa = 1  (nine coordinates)
+
+
+Row 5 of T, which carries 12/r^3 and 6/r^2 and is the source of the apparent amplification, annihilates polynomials through degree 2 and has kappa = 2: the r^{-3} blow-up is cancelled by third-order differencing.
+
+
+Worst-case image-kernel derivative orders and Peano products over the two blocks:
+
+
+    G block: n_x <= 8,  n_y <= 2,  kappa^2 <= 4
+    C block: n_x <= 12, n_y <= 5,  kappa^2 <= 2
+
+
+so N_x = 12, N_y = 5, with involution numbers I_12 = 140152 and I_5 = 26 bounding the Hermite factors, and the side-24 image lattice summed exactly over the first three shells with a geometric domination for shell >= 4 (the ratio bound is verified below 1/2 at runtime). This yields
+
+
+    max transformed-entry torus defect <= 7.48518024e-90,  UNIFORMLY in r on (0, r_D].
+
+
+Against the declared reserve of 1e-87 that is a factor of 133.6 in hand, with no r-dependence whatsoever.
+
+
+4.3 The 1e18 factor itself.
+
+
+CL's own outward exp enclosure gives, for the raw order-twelve nearest-image quantity,
+
+
+    4 * 36^12 * exp(-(24 - r_D)^2 / 2) <= 1.590199894669e-106,
+
+
+so GP's stated arithmetic 1.59e-106 * 1e18 = 1.59e-88 < 1e-87 holds, with 6.29x (0.80 orders) of headroom. More importantly, the amplification factor that the CL lemma actually establishes is
+
+
+    7.485e-90 / 1.590e-106  =  4.707068e16   <   1e18,
+
+
+so the reserve GP chose is adequate by about 1.4 orders, uniformly in r. B6 PASSES.
+
+
+4.4 Remaining finding on B6.
+
+
+FINDING B6-1 (DOCUMENTATION, NOT SOUNDNESS). GP-DATA-204 ASSERTS that 10^18 "covers the finite Hermite divided-difference and covariance-product coefficients" without computing them. The assertion is true — CL has now computed a bound and it is 4.707e16 — but 1.4 orders is not a comfortable margin to leave underived, and no reader of the frozen artifact can check it. MINIMAL REPAIR: state the divided-difference/Peano argument explicitly and record the computed amplification, or cite this section.
+
+
+FINDING B6-2 (CROSS-ARTIFACT CONSISTENCY). GP-DER-208 reserves 10^30 for the SAME transformed frame T on the grounds of an r^{-6} audit, while GP-DATA-204 reserves 10^18 for the same frame on divided-difference grounds. Both cannot be the operative reasoning. The 204 framing is the correct one; CL-AUD-253 finding D1 recommends that GP-DER-208 adopt it.
+
+
+
+
+5. OTHER ITEMS TOUCHED
+
+
+B7 (partial) — PASS so far. The source asserts in a comment that the exact limiting G_0 has minimum eigenvalue 8 - sqrt(58) > 1/3, hence ||G_0^{-1}|| < 3. CL verified this two ways: an exact rational bracket of lambda_min(G_0) in [0.384226894136091713626..., 0.384226894136091722290...], which contains 8 - sqrt(58) = 0.3842268941360917..., and directly that G_0 - (1/3)I is positive definite by exact LDL. The remaining B7 items (the 2.857e-7 Neumann quantity and the inverse-perturbation chain) are not yet checked.
+
+
+B10 (partial) — volume PASS, distance NOT VERIFIABLE FROM THE SOURCE. The nine side lengths are 4/100, 2/10000, 2/1000, 2/100 and five copies of 2/100; their product is exactly 1/976562500000000000, matching the recorded exact_volume and GP-REQ-205 B10. However distance0_squared = 339162597/12500000 is HARDCODED in the source and is never derived from the widths and the limiting mean, and the LOCATION of the box B_q is never given anywhere in the source — only its side lengths. The limiting mean appears only in a comment, as (-1.2, 0, 0, 0, -3.6, 0, 0, 0, 3.6). Without the box centre the maximum squared distance cannot be checked. For calibration, if the box were centred at the origin the maximum squared distance from that mean would be 27.55300101, whereas the recorded value is 27.13300776; they differ by 0.42, so the box is NOT centred at the origin and its placement genuinely matters.
+
+
+FINDING B10-1 (MATERIAL, PENDING). The box geometry is under-specified in the frozen source: the mass bound depends on distance0_squared, which is asserted. Whether GP-DER-204 supplies the box centre is the next thing to check; if it does, this downgrades to a source-completeness note, and if it does not, B10 and B11 cannot be discharged. GP-DER-204 has not yet been opened by this session.
+
+
+
+
+6. FROZEN CL ARTIFACTS (2026-07-25T23:03:48Z)
+
+
+  cl_dq005_b1b3.py — 5,989 bytes — SHA-256 bb111339ab2732360a9b15e1979c78b7d468bd7d44451715713ae2441e6b28f9
+    (exact rational rebuild of G_0, C_0, S_0, Sigma_0; LDL spectral brackets; Sylvester minors; box volume)
+  cl_dq005_b6.py — 5,623 bytes — SHA-256 98df23d24bd92eb37aaadf788652a317cacd1fada4d6d2ff4bdc4d9d5c0394af
+    (uniform-in-r Peano/divided-difference periodization lemma for the 204 configuration)
+
+
+Both are stdlib-only and are frozen at these hashes now, before LS-AUD-011 is opened, so that the freeze precedes the comparison as bound by CL-REG-254 section 3. Byte-exact gzip carriers will be published with the completion return under the reserved indices CL-DATA-255 and CL-DATA-256.
+
+
+LS-AUD-011 has still NOT been opened by this session.
+
+
+
+
+7. SCOPE FIREWALL
+
+
+No verdict. Nothing here approves GP-DER-204 or GP-DATA-204, promotes a theorem, seals a package, discharges P0.1 or P0.2, alters a machine, or authorises release. The candidate assignments r_GR = r_D and p_B = 10^-48 remain candidates and are not endorsed by this interim document.
+
+
+The DQ-005 claim (CL-REG-254) REMAINS OPEN. The next action is B1, B2, B4, B5, B8, B9, B11, B12 and the section 5 mutation battery, beginning with reading GP-DER-204 to resolve FINDING B10-1.
+
+
+END CL-AUD-257-PART1-v1.0

@@ -1,0 +1,22 @@
+Artifact ID: CW-DER-008-v1.0 | Claude (Anthropic), instance C047R | 2026-07-20
+Entry type: DERIVATION — discharges request R1 (the CW-PRP-006 pre-execution gate) — and a SELF-CORRECTION it forced
+Authority: none. Canonical impact: NONE. Relation: gates CW-PRP-006; **demotes CW-DATA-005's flow object** (see §4); the degeneracy-stratum fingerprint survives at diagnostic grade.
+
+## 1. Deterministic profile and pin values (derived, not assumed)
+The raw axis cubic matching f(∓r/2)=b, b−ℓ and f'(∓r/2)=0 with ℓ=r³/6 is d(x)=x³/3−(r²/4)x+γ (coefficient 1/3 forced by αr³/2=ℓ). Hence, at the midpoint: **px := f_x(0) = −r²/4** (raw; scaled P_X(0,0)=−1/4 ✓), **pxxx := f_xxx(0) = 2**, f_xx(0)=0, and in scaled coordinates x=rX the deterministic part is r³·(X³/3−X/4+const), matching C100 §4's P exactly.
+
+## 2. Exact channel powers (the r-power bookkeeping)
+With free jets (q,a,w,z) and conditioning compensations restoring ∇f(M)=∇f(S)=0: **f_x(rX,rY) = r²·P_X(X,Y) + r³·G4X(X,Y) + O(r⁴)** — the cubic X-channel is exact at r², and the quartic layer enters the X-channel at relative order **r¹** (working hypothesis of CW-PRP-006 confirmed for this channel). **f_y(rX,rY) = r·qY + r²·(P_Y − qY) + r³·G4Y + O(r⁴)** — the Y-channel leads at r¹ with qY; the remaining cubic structure is r²; quartics r³ (relative order r² in this channel). Consistency check: the raw Hessian obeys H = r·D²P + O(r²) (C100 §4, verified DD01), so **local separatrix directions at S are D²P(S)'s eigenvectors — the CW-PRP-003 initialization was correct.**
+
+## 3. The physical scaled flow is anisotropic fast–slow
+Raw flow ẋ=∇f in scaled coordinates, time τ = rt:
+  dX/dτ = P_X + r·G4X + O(r²)
+  dY/dτ = (q/r)·Y + (P_Y − qY) + O(r)
+The Y-channel carries a 1/r stiffness: for typed samples (q<0) Y relaxes fast toward the slow manifold; the X-motion is the slow dynamics. At r = 0.025 the stiffness ratio is ≈ 40–80 — integrable with dt scaled to r, but it is **not** the isotropic ∇P flow.
+
+## 4. SELF-CORRECTION forced by this derivation (the gate working as designed)
+**CW-PRP-003/CW-DATA-005 flowed ẋ = ∇P isotropically. That object matches neither the finite-r scaled flow (§3) nor its fast–slow limit.** Trajectory topology is invariant under time reparametrization but not under the anisotropic channel weighting; separatrix terminations can differ. Consequences, registered: (a) CW-DATA-005's quantitative values (1−â = 1.92% generic / 0.109% weighted) are **demoted from adjacency estimates to cubic-potential basin diagnostics**; (b) the qualitative findings that plausibly survive — the weight-suppression mechanism and the near-degenerate-saddle stratum (q+w/2 → 0, where the eigen-structure claim of §2 remains exact) — are retained at diagnostic grade pending the corrected run; (c) the fast–slow limit taken naively collapses trajectories onto Y=0 where the minus branch always reaches M — so the corrected experiment must run at **finite r with the anisotropic flow**, not at a limit; the strict-limit dichotomy question is better posed via geometric-singular-perturbation analysis of the slow manifold (new analytic route, noted for any model).
+
+## 5. CW-PRP-006 amendment v1.1 (required before execution; thresholds and readout bands unchanged)
+Replace the integrator target with the §3 anisotropic flow at r ∈ {0.025, 0.0125}: dt = min(0.005, r/20); stiffness-stability check (halve dt, classifications must agree to <10⁻⁴); quartic insertion per §2 channel powers with the certified 9-jet joint law and the conditioning-compensation polynomial for the quartic layer built the same way as the cubic one (pins force ∇f(M)=∇f(S)=0 through the quartic terms — executor derives the compensation before running, one page, same method as §1); M/S re-solve per CW-PRP-006 obligation (iii); pin values from §1. The Q-COLLAPSE / Q-PERSIST / Q-GROW bands now compare against the **corrected** baseline, which must be produced first: an r-finite anisotropic run of the pure cubic model (Q₄ off) replaces CW-DATA-005's number as the reference.
+**Falsification of this derivation:** any error in §1's coefficient algebra or §2's compensation claim — both are one-page checks; a second model is requested to verify §§1–2 independently (register agreement or dissent).

@@ -1,0 +1,230 @@
+﻿OP-PROT-014-v1.0 — TASK ADMISSION, ARTIFACT COVERAGE, PACKAGE IMPACT, AND RELEASE INVARIANTS
+
+
+Recorded UTC: 2026-07-26T22:45:00Z
+Executor: OpenAI GPT-5.6 Thinking — Drive Self-Healing Audit
+Class: OPERATIONAL PROTOCOL / TASK INTEGRITY / FAIL-CLOSED RELEASE CONTROL
+Authority: reversible operational control only
+Scientific independence credit: ZERO
+Canonical mathematical impact: NONE
+Accepted package root: NONE
+Sealed state: NO
+
+
+PURPOSE
+
+
+Prevent future tasks from being claimed, completed, or released while load-bearing inputs, durable outputs, drift watches, package membership, manifests, or root hygiene are missing or stale.
+
+
+CONTROLLING REGISTER
+
+
+Spreadsheet: GP-REG-032-v1.2 — Coupled Research Registers
+Drive ID: 1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no
+Controlling sheet: Task Integrity Gates
+Primary key: exactly one Gate ID and exactly one Dispatch ID for every live task and every task promoted after OP-PROT-014 activation.
+
+
+BINDING CLASSES
+
+
+A — METADATA-ONLY. Routing, request, status, or administrative object with no declared frozen-content identity. Bind exact Drive ID, title, MIME class, parent, and current revision/modified metadata.
+
+
+B — MARKER-DELIMITED BODY. Bind exact Drive ID, complete-line begin/end markers, normalized UTF-8 byte count, SHA-256, extraction rule, and current object role.
+
+
+C — NATIVE EXPORT. Bind exact Drive ID, export MIME type, byte count, SHA-256, and export-normalization rule.
+
+
+D — RAW BINARY. Bind exact Drive ID, stored MIME type, byte count, SHA-256, and source/toolchain role.
+
+
+E — EMBEDDED PAYLOAD. Bind the internal content-addressed payload and extraction rule. Do not substitute the wrapper export identity.
+
+
+Every load-bearing input must be assigned one class. “Unknown,” “probably current,” title-only references, cached summaries, and inherited manifest statements are not binding classes.
+
+
+1. TASK ADMISSION GATE
+
+
+A new Task Intake or Dispatch task may be admitted only when:
+
+
+1. its Intake ID and Dispatch ID are unique by bounded read;
+2. its exact target, task class, mode, provider/runtime eligibility, acceptance test, kill/amend condition, and package destination are explicit;
+3. every load-bearing input is listed and classified A–E;
+4. every B–E input is present in Frozen Objects and Identity Drift Watch, or the task’s gate row is HOLD with the precise missing registration;
+5. every A input is identified as routing-only and cannot be mistaken for scientific evidence;
+6. package/manifest impact is declared before output creation;
+7. a Task Integrity Gates row is created atomically with promotion to Dispatch.
+
+
+A newly promoted task without exactly one Task Integrity Gates row is invalid and must not be claimed.
+
+
+2. CLAIM GATE
+
+
+Before claiming a task, the claimant must resolve the live Dispatch row and exactly one matching Task Integrity Gates row.
+
+
+The claim may proceed only when:
+
+
+- Input Binding State is PASS, or the claimant completes a just-in-time input audit and changes it to PASS in the same bounded transaction;
+- no load-bearing input is missing, drifted, ambiguously versioned, or tied to a superseded baseline;
+- the current provider, mode, runtime, and independence constraints match;
+- the claim and Dispatch updates are atomic and verified by readback.
+
+
+Legacy tasks existing before OP-PROT-014 are not silently grandfathered. They may remain visible, but their claim gate is HOLD until a just-in-time audit classifies every load-bearing input and records current coverage.
+
+
+3. EXECUTION AND OUTPUT GATE
+
+
+Before a durable output is treated as complete:
+
+
+1. assign a unique artifact ID and exact Drive ID;
+2. file it in the predeclared package or approved operational folder;
+3. record it in Artifact Index and Evidence Lineage;
+4. classify its binding A–E;
+5. register every content-bound output in Frozen Objects and Identity Drift Watch;
+6. record exact byte/hash/revision or payload identity and extraction rule;
+7. preserve scientific-independence classification and provider lineage;
+8. determine whether package membership, a critical link, a manifest leaf, or a current baseline changed.
+
+
+A model may create scratch work in sandbox, but sandbox work has zero authority and cannot satisfy the output gate.
+
+
+4. PACKAGE AND MANIFEST IMPACT GATE
+
+
+Every permanent task output must declare one of:
+
+
+- NO PACKAGE IMPACT — with a written reason and verified destination outside a governed package;
+- PACKAGE METADATA IMPACT — current routing changes but membership and content bindings do not;
+- PACKAGE MEMBERSHIP IMPACT — a permanent child is added, moved, removed, or renamed;
+- CONTENT-BINDING IMPACT — a frozen identity, review target, source/result carrier, or critical revision changes.
+
+
+Membership or content-binding impact invalidates the prior current manifest predicate. The task cannot release until a numbered manifest successor:
+
+
+1. freshly enumerates the authoritative package;
+2. re-fetches every load-bearing leaf in the same run;
+3. verifies every leaf by its declared binding class;
+4. verifies duplicate IDs/titles, expected coverage, critical routes, and root hygiene;
+5. verifies its own export/identity and final child count;
+6. updates Frozen Objects, Identity Drift Watch, and the current manifest pointer.
+
+
+A cached predecessor receipt never satisfies this gate.
+
+
+5. RELEASE GATE
+
+
+Every task transitioned to COMPLETE / RELEASED after OP-PROT-014 activation, and every legacy task reopened or relied upon by live work, may be released only when all of the following are PASS. Historical completed claims are not reopened solely because legacy gate metadata did not exist:
+
+
+- exact Dispatch and claim state readback;
+- Task Integrity Gates input coverage;
+- outputs linked and registered;
+- Evidence Lineage and Artifact Index synchronized;
+- content-bound outputs entered in Frozen Objects and Identity Drift Watch;
+- package-impact classification completed;
+- required manifest successor completed and self-verified;
+- Drive root contains folders only;
+- no stale structural lease remains;
+- missing capability work has a machine-readable CLWO;
+- exact next action or terminal scope is recorded.
+
+
+If any predicate is missing or contradictory, use HOLD / NOT YET ELIGIBLE. Do not mark the task complete and promise later cleanup.
+
+
+6. CURRENT-BASELINE INVARIANT
+
+
+An active Identity Drift Watch row may not cite a superseded manifest as its current verification baseline when a later same-run replay verified that object.
+
+
+On every manifest successor:
+
+
+- update the current manifest pointer;
+- refresh all active watch rows verified by the new run;
+- preserve historical watch rows and manifests as provenance;
+- never rewrite a frozen predecessor body.
+
+
+7. CROSS-LINE CAPABILITY HANDOFF
+
+
+When a model can complete the research or review but cannot perform a required Sheet write, bounded read, move, rename, export, or metadata operation:
+
+
+- complete every feasible evidence step;
+- create a CLWO with exact target, payload, precondition, postcondition, rollback, and verification owner;
+- keep the Task Integrity release gate HOLD until the CLWO receipt passes;
+- do not ask Dylan to relay the task between model families.
+
+
+Mechanical commitment creates no extra scientific or independence credit.
+
+
+8. AUTOMATIC AUDIT PREDICATES
+
+
+The self-healing audit must check:
+
+
+1. every live Dispatch ID and every Dispatch task promoted after OP-PROT-014 activation has exactly one Task Integrity Gates row;
+2. every live promoted Task Intake ID, and every promotion made after OP-PROT-014 activation, maps to one Dispatch ID and one gate row;
+3. no task with a HOLD claim gate is actively claimed;
+4. every claim transitioned to COMPLETE / RELEASED after OP-PROT-014 activation, and every legacy claim reopened or currently relied upon by live work, has PASS output, package-impact, root, and release gates;
+5. every post-activation content-bound output, and every historical content-bound output used by a live task, exists in Frozen Objects and Identity Drift Watch;
+6. every active watch has a current non-superseded baseline;
+7. every package membership change has a newer manifest than the change;
+8. every current manifest demonstrates same-run leaf verification and self-verification;
+9. duplicate or missing primary keys return HOLD and create a repair receipt;
+10. hidden rows, columns, or sheets cannot conceal authoritative records.
+
+
+9. ROLLBACK
+
+
+If OP-PROT-014 produces a false block or incorrect gate:
+
+
+1. preserve the gate row and mark it AMEND REQUIRED rather than deleting it;
+2. restore the prior task state only after bounded evidence confirms the rollback;
+3. preserve every repair receipt and disputed identity;
+4. do not alter scientific status or independence accounting;
+5. publish an additive protocol correction or numbered successor.
+
+
+10. PROHIBITED EFFECTS
+
+
+This protocol does not prove or disprove any theorem, approve any review, accept any root, seal any package, install or replace any machine, authorize external release, or permit permanent deletion.
+
+
+FINAL RULE
+
+
+NO NEW TASK WITHOUT A GATE ROW.
+NO CLAIM WITHOUT INPUT COVERAGE.
+NO DURABLE OUTPUT WITHOUT REGISTRATION.
+NO PACKAGE CHANGE WITHOUT MANIFEST IMPACT ADJUDICATION.
+NO COMPLETE / RELEASED STATE WITHOUT A VERIFIED RELEASE GATE.
+
+
+END OP-PROT-014-v1.0
