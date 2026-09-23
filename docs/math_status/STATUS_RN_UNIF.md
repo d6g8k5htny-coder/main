@@ -38,3 +38,14 @@ This note does not discharge D3-LEMMA-RN-UNIF or OBL-H5-JETMOD.
 `docs/RN_INNER_WEDGE.md` and `docs/H3_RN_N6.md` are **AUTHOR_SIDE** scoped positive controls only.
 `scientific_status_changed: false`. They **DOES_NOT_TOUCH** ENV-RESCOV → … → FREEZE.
 D3-LEMMA-RN-UNIF stays OPEN. `certified_C_H=false`. `lemma_closed=false`. No certificate PR reopen.
+
+## Inventable ABSENT / EMPTY honesty (instrumentation only)
+
+Receipts under `docs/math_status_probes/` are inventable instrumentation only.
+They are not an RN source of truth. They do not discharge D3-LEMMA-RN-UNIF or OBL-H5-JETMOD.
+
+Inventable `ABSENT` (`inventable_phi_bridge_ABSENT_receipt.json`) and inventable `EMPTY` (`inventable_joint_ry_cancel_EMPTY_receipt.json`) are honesty labels. They do not clear the RN Absent-historical-objects walls (`rnu_env.py`, `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `allcell_fdz_enclosures.json` stay **ABSENT**). They do not invent substitutes.
+
+`PARTIAL` and `REFUSED_NOT_24JET` inventable receipts are honesty labels only: `inventable_first_band_proto_PARTIAL_receipt.json`, `inventable_first_band_smoke_PARTIAL_receipt.json`, `inventable_first_band_multi_gram_PARTIAL_receipt.json` (`PARTIAL`); `inventable_multi_jet_band_REFUSED_NOT_24JET_receipt.json`, `inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json`, `inventable_g12_ext_named_REFUSED_NOT_24JET_receipt.json` (`REFUSED_NOT_24JET`). They are not a 24-jet roster invention. They are not `lemma_closed`. They are not `certified_C_H`. They are not `prizes_solved`. `independence_credit` stays 0.
+
+A green checker and green CI are not discharge. D3-LEMMA-RN-UNIF stays OPEN. OBL-H5-JETMOD stays OPEN.
