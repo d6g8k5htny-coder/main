@@ -32,3 +32,9 @@ This note does not discharge D3-LEMMA-RN-UNIF or OBL-H5-JETMOD.
 `lemma_closed: false`. `prizes_solved` stays false. Independence credit stays 0.
 
 *Lemma remains OPEN.*
+
+## Tip docs hygiene (2026-09-23) — INNER_WEDGE / H3
+
+`docs/RN_INNER_WEDGE.md` and `docs/H3_RN_N6.md` are **AUTHOR_SIDE** scoped positive controls only.
+`scientific_status_changed: false`. They **DOES_NOT_TOUCH** ENV-RESCOV → … → FREEZE.
+D3-LEMMA-RN-UNIF stays OPEN. `certified_C_H=false`. `lemma_closed=false`. No certificate PR reopen.
