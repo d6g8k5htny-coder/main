@@ -119,3 +119,39 @@ These surfaces do not imply `lemma_closed`, do not imply
 `discharges_OBL_H5_JETMOD`, and do not discharge `D3-LEMMA-RN-UNIF`. A green
 checker and a green dashboard do not discharge. Green CI is a run. It is not
 obligation discharge. `OBL-H5-JETMOD` stays OPEN.
+
+## Inventable REFUSED / EMPTY / ABSENT probe receipts
+
+The additional surfaces under [`docs/math_status_probes/`](math_status_probes/README.md)
+are instrumentation STATUS / probe receipts, not a mathematics source of truth:
+`inventable_eval_F_G12box_REFUSED_receipt.json`,
+`inventable_interval_schur_ainv_REFUSED_receipt.json`
+(status token `REFUSED_IA_STRADDLES`),
+`inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json`,
+`inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json`,
+`inventable_joint_ry_cancel_EMPTY_receipt.json`,
+`inventable_phi_bridge_ABSENT_receipt.json`.
+`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT` are not discharge.
+They do not imply `lemma_closed`, do not imply `discharges_OBL_H5_JETMOD`,
+do not imply `certified_C_H`, and do not discharge `D3-LEMMA-RN-UNIF`.
+
+`INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` and
+`INVENTABLE_PROBES_INDEX.json` are instrumentation indexes.
+`HUNT_BANK_JOINT_FMAP_PHI_2026-09-23.md` is a hunt bank. None of the three is
+a mathematics source of truth. `UNREAD` means unnamed in this corpus. An
+`UNREAD` tab is not defective. This section names those surfaces only to
+route a reader. It does not add a consumer, and it does not move any class:
+this document is map machinery and stays outside the scan. Naming the merge
+receipt does not merge draft PR #12.
+
+Repository entry is the root [`README.md`](../README.md), which points on to
+[`docs/RESEARCH_MAP.md`](RESEARCH_MAP.md) and
+[`docs/OPEN_PROBLEMS.md`](OPEN_PROBLEMS.md). The docs index is
+[`docs/README.md`](README.md). The STATUS packet is
+[`docs/math_status/`](math_status/README.md): an OPEN/HOLD display, not a
+second claim log. Probe and instrumentation honesty for these receipts is
+[`docs/math_status_probes/README.md`](math_status_probes/README.md). Exported
+tab roles are listed in [`registers/README.md`](../registers/README.md).
+
+A green checker and a green dashboard do not discharge. Green CI is a run.
+It is not obligation discharge. `OBL-H5-JETMOD` stays OPEN.

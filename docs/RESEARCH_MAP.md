@@ -256,6 +256,23 @@ and `REFUSED_NOT_24JET` are not discharge. A green checker is not discharge.
 `OBL-H5-JETMOD` stays OPEN. The reader route is the inventable section of
 [`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
 
+The additional probe receipts
+`inventable_eval_F_G12box_REFUSED_receipt.json`,
+`inventable_interval_schur_ainv_REFUSED_receipt.json`
+(status token `REFUSED_IA_STRADDLES`),
+`inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json`,
+`inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json`,
+`inventable_joint_ry_cancel_EMPTY_receipt.json`, and
+`inventable_phi_bridge_ABSENT_receipt.json` are instrumentation STATUS.
+`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT` are not discharge.
+They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`,
+or RN-UNIF discharge. `INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` and
+`INVENTABLE_PROBES_INDEX.json` are instrumentation indexes.
+`HUNT_BANK_JOINT_FMAP_PHI_2026-09-23.md` is a hunt bank. None of the three is
+a source of truth. A green checker is not discharge. `OBL-H5-JETMOD` stays
+OPEN. The reader route is the sibling section of
+[`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
+
 ### H3 band floor
 
 For every `r ∈ (0, 0.05]`, `E[G_r] ≥ 2.30659559567154 > c_Z = 1.6154892676435024…`,
