@@ -21,57 +21,31 @@ EXPECTED = {
 }
 
 
-
-def _snapshot_probes():
-    """Every file under PROBES, so a runner's writes can be put back exactly.
-
-    The runner regenerates tracked receipts in place with a fresh
-    ``generated_at_utc``. Left alone that dirties every contributor's tree and,
-    worse, makes a receipt's timestamp a record of who last ran the suite
-    rather than of when the computation happened. The bytes go back.
-    """
-    return {
-        name: open(os.path.join(PROBES, name), "rb").read()
-        for name in os.listdir(PROBES)
-        if os.path.isfile(os.path.join(PROBES, name))
-    }
-
-
-def _restore_probes(snapshot):
-    for name, raw in snapshot.items():
-        path = os.path.join(PROBES, name)
-        if not os.path.isfile(path) or open(path, "rb").read() != raw:
-            open(path, "wb").write(raw)
-
 def test_runner_writes_partial_and_refused_not_24jet_only():
-    _probe_snapshot = _snapshot_probes()
-    try:
-        result = subprocess.run(
-            [sys.executable, RUNNER], cwd=ROOT, capture_output=True, text=True, check=False
-        )
-        assert result.returncode == 0, result.stdout + result.stderr
-        assert "discharges=false" in result.stdout
-        for name, status in EXPECTED.items():
-            path = os.path.join(PROBES, name)
-            obj = json.load(open(path, encoding="utf-8"))
-            assert obj["status"] == status
-            assert obj["inventable_attempt_accepted"] is False
-            assert obj["discharges_OBL_H5_JETMOD"] is False
-            assert obj["lemma_closed"] is False
-            assert obj["certified_C_H"] is False
-            assert obj["prizes_solved"] == 0
-        index = json.load(
-            open(os.path.join(PROBES, "INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json"), encoding="utf-8")
-        )
-        assert index["discharges_OBL_H5_JETMOD"] is False
-        assert index["lemma_closed"] is False
-        assert index["certified_C_H"] is False
-        assert index["prizes_solved"] == 0
-        assert index["OBL_H5_JETMOD"] == "OPEN"
+    result = subprocess.run(
+        [sys.executable, RUNNER], cwd=ROOT, capture_output=True, text=True, check=False
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "discharges=false" in result.stdout
+    for name, status in EXPECTED.items():
+        path = os.path.join(PROBES, name)
+        obj = json.load(open(path, encoding="utf-8"))
+        assert obj["status"] == status
+        assert obj["inventable_attempt_accepted"] is False
+        assert obj["discharges_OBL_H5_JETMOD"] is False
+        assert obj["lemma_closed"] is False
+        assert obj["certified_C_H"] is False
+        assert obj["prizes_solved"] == 0
+    index = json.load(
+        open(os.path.join(PROBES, "INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json"), encoding="utf-8")
+    )
+    assert index["discharges_OBL_H5_JETMOD"] is False
+    assert index["lemma_closed"] is False
+    assert index["certified_C_H"] is False
+    assert index["prizes_solved"] == 0
+    assert index["OBL_H5_JETMOD"] == "OPEN"
 
 
-    finally:
-        _restore_probes(_probe_snapshot)
 def test_math_status_check_validates_instrumentation_status():
     result = subprocess.run(
         [sys.executable, CHECKER], cwd=ROOT, capture_output=True, text=True, check=False
