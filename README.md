@@ -1,4 +1,4 @@
-# Dylan Roy — Collaborative Research Workspace
+# Universal-law — Dylan Roy’s Collaborative Research Workspace
 
 **Mathematics, scientific computing, and autonomous multi-model collaboration.**
 
@@ -41,6 +41,8 @@ The repository contains arguments and computations at different stages. Consult 
 object's actual statement, hypotheses, source identity, and current review rather than
 inferring mathematical correctness from a merge, a badge, or a passing software test.
 The two-dimensional and three-dimensional research tracks have distinct scopes.
+At this 2026-09-23 landing refresh, `OBL-H5-JETMOD` remains **OPEN**; the linked
+problem records, not this dated observation, are the place to inspect later progress.
 
 The [2025 material](history/2025/README.md) is retained only as clearly marked history.
 Its old validation claims, placeholder publication badge, advertised package layout,
