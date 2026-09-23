@@ -112,3 +112,16 @@ not formal proof-assistant validation or external acceptance. This is
 source-exposed, same-provider work with zero organizational independence
 credit. Canonical scientific status is unchanged and
 `original_prize_closed` remains false.
+
+## Honesty banner (2026-09-23) — AUTHOR_SIDE / non-discharge
+
+**Status token:** `AUTHOR_SIDE` (fixed-axis whole-band H3 + local N6 squares).
+`scientific_status_changed: false`. `lemma_closed: false`. `certified_C_H: false`.
+`original_prize_closed: false`. Independence credit: 0.
+
+**DOES_NOT_TOUCH** ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT → Piece-2 → FREEZE.
+
+The whole-band endpoint at r=1/20 (including any 1747/1000-style candidate) is weaker than
+the imported RN floor `0.007759…` and **must not** replace it in INNER_WEDGE or elsewhere.
+Replay / CI success ≠ formal acceptance or D3 discharge. Do not reopen certificate PRs from
+this banner.

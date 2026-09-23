@@ -96,3 +96,17 @@ hidden by optimistic aggregates, pending cells, duplicate Jacobians and
 incorrect area factors. Failed larger probes are preserved in the registered
 delivery. Technical reconstruction and organizational independence are
 recorded separately; same-provider review adds zero independence credit.
+
+## Honesty banner (2026-09-23) — AUTHOR_SIDE / non-discharge
+
+**Status token:** `AUTHOR_SIDE` (scoped fixed-r=1/20 polar-wedge positive control).
+`scientific_status_changed: false`. `lemma_closed: false`. `certified_C_H: false`.
+`original_prize_closed: false`. Independence credit: 0.
+
+**DOES_NOT_TOUCH** the D3-LEMMA-RN-UNIF ordered chain
+ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT → Piece-2 closing → FREEZE.
+
+Bounds remain conditional on the imported fixed-radius H3 floor
+`Z >= 0.0077592917375327855` only. Full annulus / all pin orientations / remote budget /
+weighted-Palm / prize remain open. Orthogonal to OBL-H5-JETMOD (no 24-jet band enclosure
+discharge). Tip green CI ≠ lemma discharge. Do not reopen certificate PRs from this banner.
