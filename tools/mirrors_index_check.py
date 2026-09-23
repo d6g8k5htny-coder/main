@@ -117,7 +117,10 @@ mirror tree.
 **no digest declared** — the inventory declares no `sha256` for the id. Every one of
 these is a native Google Doc, for which no payload digest exists anywhere in the
 corpus. The most this repository can ever hold is a reading copy at `exact: false`:
-a text export, not the object.
+a text export, not the object. That ceiling does not apply inside
+`99_DO_NOT_OPEN — SUPERSEDED_MIRRORS_DEAD_ENDS_AND_TRAP_COPIES`: those native Docs
+are not fetch targets, and a reading copy of one would open the vault. The external
+`00_DO_NOT_OPEN_MANIFEST` is outside that folder. See `quarantine/PATHS.md`.
 **digest-bearing** — the inventory declares a digest, so a copy can be stored and
 proved byte-exact against it. This is the only column that measures work this
 repository could do and has not done.
