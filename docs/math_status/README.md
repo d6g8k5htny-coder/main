@@ -85,6 +85,28 @@ absent, so a local run replaces the 2026-09-22 display with a missing-receipt
 OPEN board. That rewrite is still a display. It still must not flip
 `lemma_closed`.
 
+## Inventable probes are instrumentation receipts
+
+[`docs/math_status_probes/`](../math_status_probes/README.md) holds inventable
+instrumentation STATUS and probe receipts. It is not a mathematics source of
+truth and not a second claim log. Receipt JSON under that directory is
+`inventable_*`, including the merge-PR12 refusal pattern. Naming that refusal
+does not merge draft PR #12.
+
+`REFUSED`, `REFUSED_NOT_24JET`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`,
+`PARTIAL`, and similar receipt tokens are honesty labels. They are not
+discharge. They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`,
+`certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.
+
+A green checker, a green dashboard, and green CI are not obligation discharge.
+`OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays OPEN. Disposition stays
+OPEN / HOLD.
+
+Reader routes:
+[`docs/math_status_probes/README.md`](../math_status_probes/README.md) and the
+inventable section of
+[`docs/REGISTER_CONSUMERS.md`](../REGISTER_CONSUMERS.md#inventable-jetmod-instrumentation).
+
 ## Files
 
 | File | Role |
