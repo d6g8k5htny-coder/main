@@ -1,0 +1,51 @@
+name: Register integration source snapshot
+on:
+  push:
+    branches: [transport/register-integration-20260923]
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: f716991e2c12f592217eced23f412c7c838cf67a
+          persist-credentials: false
+      - name: Capture bounded integration inputs, not mathematical certification
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/register-inputs"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, zipfile
+          root = pathlib.Path.cwd()
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'register-inputs'
+          head = subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip()
+          assert head == 'f716991e2c12f592217eced23f412c7c838cf67a'
+          allowed = ('tools/','tests/','registers/','claims/','engine/','governance/','reviews/','.github/','docs/','research/interval/','research/rn/')
+          singles = {'README.md','CLAUDE.md','AGENTS.md','quarantine/EXCLUSIONS.json','drive/inventory.jsonl'}
+          rows = []
+          with zipfile.ZipFile(out/'inputs.zip','w',compression=zipfile.ZIP_DEFLATED) as z:
+              for line in subprocess.check_output(['git','ls-tree','-rz','HEAD']).split(b'\0'):
+                  if not line: continue
+                  meta, rawpath = line.split(b'\t',1)
+                  mode, kind, blob = meta.decode().split()
+                  path = rawpath.decode()
+                  if kind != 'blob' or mode not in ('100644','100755'): continue
+                  if path not in singles and not path.startswith(allowed): continue
+                  if pathlib.Path(path).suffix.lower() in ('.zip','.pdf','.png','.jpg','.docx'): continue
+                  data = (root/path).read_bytes()
+                  actual = hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+                  assert actual == blob, path
+                  z.writestr(path,data)
+                  rows.append({'path':path,'mode':mode,'git_blob':blob,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+          (out/'manifest.json').write_text(json.dumps({'source_commit':head,'scope':'bounded integration source snapshot; not full repository or scientific acceptance','files':rows},indent=2)+'\n')
+          print(json.dumps({'source_commit':head,'files':len(rows),'archive_bytes':(out/'inputs.zip').stat().st_size,'archive_sha256':hashlib.sha256((out/'inputs.zip').read_bytes()).hexdigest()}))
+          PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: register-integration-inputs-20260923
+          path: ${{ runner.temp }}/register-inputs/
+          retention-days: 1
+          if-no-files-found: error
