@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-RN-SIDE24-DENSITY-20260923",
+  "attested_utc": "2026-09-23T19:07:00Z",
+  "object_id": "docs/RN_SIDE24_DENSITY.md @ 52bdd4430faba314829ab82817f15c7117cb6e18",
+  "object_title": "SIDE24 six-pin density and window replay: fixed-point RN integrand upper bound",
+  "object_bytes": 7714,
+  "object_sha256": "8c947edca26463acd932df5f9600ad1351860a8ca3cadbd7ad2a24819477f4ad",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_side24_density_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {"command": "python3 tools/claims_check.py", "exit_code": 0, "summary": "claims=26 premises=13 firewalls=9 problems=0"},
+    {"command": "python3 tools/quarantine_check.py", "exit_code": 0, "summary": "exclusions=22 archive_members=14 manifest_digests=2965"},
+    {"command": "python3 tools/verify_manifests.py", "exit_code": 0, "summary": "manifests=414 verified=3203 problems=0"},
+    {"command": "python3 tools/consumers_check.py", "exit_code": 0, "summary": "tabs=44 MACHINE=23 PROSE_ONLY=3 UNREAD=18, no drift"},
+    {"command": "python3 tools/lanes_check.py", "exit_code": 0, "summary": "no lane reads stronger than the claim graph"},
+    {"command": "python3 tools/frozen_check.py", "exit_code": 0, "summary": "rows=195 comparable=62 match=62 mismatch=0 unverifiable=0"},
+    {"command": "python3 tools/rn_side24_density_check.py", "exit_code": 0, "summary": "exact six-pin density/window replay; point integrand <= 1888043/500000000000; H3 floor imported; no spatial cover; authority=NONE"}
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the driver reports authority=NONE and the independence-requiring predicate is OPEN.",
+    "The imported H3 premise, the exact floor 0.0077592917375327855 at radius 1/20 and b=6/5, which this object carries in custody rather than deriving.",
+    "A spatial cover, which the driver states this replay does not provide: the bound is at a fixed point, not over a region.",
+    "Extension from the single conditional disintegration to the weighted-Palm and event-identification interfaces, which remain unbuilt.",
+    "All radii and all pin orientations beyond the fixed six-pin configuration replayed here."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "Admission does not establish that the point integrand bound 1888043/500000000000 is valid, that the Gaussian disintegrations are the right conditional laws, or that the enclosed conditional height mean near 1.22864492785 is correctly computed. It verifies no arithmetic and re-derives nothing; a replay driver reproducing a stated quantity records a computation and is not evidence for it. It does not supply the spatial cover the object itself says is absent, does not discharge the imported H3 premise held in custody, and awards no independence. Every obligation this object names as remaining is exactly where it was.",
+  "notes": "The driver's own summary ends authority=NONE; that word is transcribed here, not reinterpreted."
+}
