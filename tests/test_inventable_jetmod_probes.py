@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -28,20 +30,33 @@ SHORTCUTS = {
 }
 
 
-def test_runner_writes_refused_receipts_only():
-    before = {
-        name: open(os.path.join(PROBES, name), "rb").read()
-        for name in EXPECTED
-        if os.path.isfile(os.path.join(PROBES, name))
+def _probe_snapshot():
+    return {
+        p.name: (p.read_bytes(), p.stat().st_mtime_ns)
+        for p in Path(PROBES).glob("*.json")
     }
-    result = subprocess.run(
-        [sys.executable, RUNNER], cwd=ROOT, capture_output=True, text=True, check=False
-    )
+
+
+def test_runner_writes_refused_receipts_only(tmp_path):
+    before = _probe_snapshot()
+    probes = tmp_path / "repo" / "docs" / "math_status_probes"
+    probes.mkdir(parents=True)
+    runner = probes / Path(RUNNER).name
+    shutil.copy2(RUNNER, runner)
+    # No old output is copied: success requires fresh receipts from the runner.
+    assert not list(probes.glob("*.json"))
+    try:
+        result = subprocess.run(
+            [sys.executable, str(runner)], cwd=probes.parent.parent,
+            capture_output=True, text=True, check=False, timeout=60,
+        )
+    finally:
+        assert _probe_snapshot() == before, "probe runner modified source receipts"
     assert result.returncode == 0, result.stdout + result.stderr
     assert "discharges=false" in result.stdout
     for name, status in EXPECTED.items():
-        path = os.path.join(PROBES, name)
-        obj = json.load(open(path, encoding="utf-8"))
+        path = probes / name
+        obj = json.loads(path.read_text(encoding="utf-8"))
         assert obj["status"] == status
         assert obj["inventable_attempt_accepted"] is False
         assert obj["discharges_OBL_H5_JETMOD"] is False
@@ -58,8 +73,7 @@ def test_runner_writes_refused_receipts_only():
             assert obj["roster_invented"] is False
             assert "jet_roster" not in obj
             assert "roster" not in obj
-    # re-run is allowed; flags must stay false
-    index = json.load(open(os.path.join(PROBES, "INVENTABLE_PROBES_INDEX.json"), encoding="utf-8"))
+    index = json.loads((probes / "INVENTABLE_PROBES_INDEX.json").read_text(encoding="utf-8"))
     assert index["discharges_OBL_H5_JETMOD"] is False
     assert index["discharges_lemma"] is False
     assert index["lemma_closed"] is False
@@ -86,13 +100,8 @@ def test_math_status_check_validates_inventable_probes():
 
 
 def test_negative_accepting_inventable_attempt_is_refused(tmp_path):
-    # mutate a receipt to accept inventable attempt → checker must fail
-    import shutil
-
+    # Mutate only a copied receipt; the published source is never rewritten.
     dest = tmp_path / "repo"
-    # minimal: copy probes + docs/math_status + tools checker into temp layout
-    # Use in-place mutation of a copy of probes next to a fake root is hard;
-    # instead mutate real receipt temporarily is bad. Copy whole needed tree.
     shutil.copytree(os.path.join(ROOT, "docs"), dest / "docs")
     shutil.copytree(os.path.join(ROOT, "tools"), dest / "tools")
     path = dest / "docs" / "math_status_probes" / "inventable_phi_bridge_ABSENT_receipt.json"
