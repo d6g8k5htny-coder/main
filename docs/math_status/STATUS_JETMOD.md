@@ -133,3 +133,23 @@ Recorded by name only. This note does not re-derive these walls. Receipts below 
 4. φ(det A)→detgg bridge: still **ABSENT** (prior).
 
 **OBL-H5-JETMOD remains OPEN.** D3-LEMMA-RN-UNIF remains OPEN. No promotions.
+
+---
+
+## Inventable probes (REFUSED receipts only) — 2026-09-23 CT
+
+**As of:** 2026-09-23 ~11:26 CT (America/Chicago)  
+**Runner:** `docs/math_status_probes/inventable_jetmod_probes.py`  
+**Index:** `docs/math_status_probes/INVENTABLE_PROBES_INDEX.json`
+
+Named walls only (sibling sweep CLOSED EMPTY — **no new walls**). Each probe *attempts* an inventable shortcut and writes an honest refusal:
+
+| Named wall | Inventable attempt | Receipt status | File |
+|---|---|---|---|
+| Interval Schur via Ainv | invent φ≡0 / fantasy non-straddle | **REFUSED_IA_STRADDLES** | `inventable_interval_schur_ainv_REFUSED_receipt.json` |
+| eval_F(G12_box) | invent max-norm / Lip·width as F | **REFUSED** | `inventable_eval_F_G12box_REFUSED_receipt.json` |
+| Joint (r,y) cancel rewrite | invent cancel from point-r scales | **EMPTY** | `inventable_joint_ry_cancel_EMPTY_receipt.json` |
+| φ(det A)→detgg bridge | invent φ/r^α | **ABSENT** | `inventable_phi_bridge_ABSENT_receipt.json` |
+
+All four keep `discharges_OBL_H5_JETMOD: false`, `lemma_closed: false`, `inventable_attempt_accepted: false`.  
+**OBL-H5-JETMOD remains OPEN.** These receipts do not discharge OBL-H5-JETMOD. Green ≠ discharge.

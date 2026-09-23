@@ -176,6 +176,11 @@ NOTE_PHRASES = {
         "correlated_C_Ainv_Ct_cancellation_under_joint_r_y",
         "cancelled_detgg_s_t2_under_joint_r_y_for_StationBox_TM",
         "still **ABSENT** (prior)",
+        "Inventable probes (REFUSED receipts only)",
+        "inventable_jetmod_probes.py",
+        "REFUSED_IA_STRADDLES",
+        "inventable_attempt_accepted: false",
+        "These receipts do not discharge OBL-H5-JETMOD",
     ),
     "STATUS_RN_UNIF.md": (
         "D3-LEMMA-RN-UNIF remains OPEN",
@@ -354,6 +359,51 @@ def check_assignment_text(rel: str, text: str, problems: list) -> None:
             problems.append(f"{rel}:{lineno}: controlling flag assigned true or nonzero")
 
 
+def check_inventable_probes(root: str, problems: list) -> None:
+    """Named-wall inventable probes must exist and stay REFUSED/EMPTY/ABSENT."""
+    probes_dir = os.path.join(root, "docs", "math_status_probes")
+    expected = {
+        "inventable_interval_schur_ainv_REFUSED_receipt.json": "REFUSED_IA_STRADDLES",
+        "inventable_eval_F_G12box_REFUSED_receipt.json": "REFUSED",
+        "inventable_joint_ry_cancel_EMPTY_receipt.json": "EMPTY",
+        "inventable_phi_bridge_ABSENT_receipt.json": "ABSENT",
+    }
+    if not os.path.isdir(probes_dir):
+        problems.append("math_status_probes: directory missing")
+        return
+    for name, status in expected.items():
+        path = os.path.join(probes_dir, name)
+        if not os.path.isfile(path):
+            problems.append(f"math_status_probes: missing {name}")
+            continue
+        try:
+            obj = load_json(path)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            problems.append(f"math_status_probes/{name}: {exc}")
+            continue
+        if obj.get("status") != status:
+            problems.append(f"math_status_probes/{name}: status must be {status}")
+        if obj.get("inventable_attempt_accepted") is not False:
+            problems.append(f"math_status_probes/{name}: inventable_attempt_accepted must be false")
+        if obj.get("discharges_OBL_H5_JETMOD") is not False:
+            problems.append(f"math_status_probes/{name}: discharges_OBL_H5_JETMOD must be false")
+        if obj.get("lemma_closed") is not False:
+            problems.append(f"math_status_probes/{name}: lemma_closed must be false")
+    index_path = os.path.join(probes_dir, "INVENTABLE_PROBES_INDEX.json")
+    if os.path.isfile(index_path):
+        try:
+            index = load_json(index_path)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            problems.append(f"INVENTABLE_PROBES_INDEX.json: {exc}")
+        else:
+            if index.get("discharges_OBL_H5_JETMOD") is not False:
+                problems.append("INVENTABLE_PROBES_INDEX.json: discharges_OBL_H5_JETMOD must be false")
+            if index.get("lemma_closed") is not False:
+                problems.append("INVENTABLE_PROBES_INDEX.json: lemma_closed must be false")
+            if index.get("OBL_H5_JETMOD") != "OPEN":
+                problems.append("INVENTABLE_PROBES_INDEX.json: OBL_H5_JETMOD must be OPEN")
+
+
 def check_packet(packet_dir: str) -> list:
     problems: list = []
     if not os.path.isdir(packet_dir):
@@ -446,6 +496,7 @@ def main(argv: list | None = None) -> int:
     args = parser.parse_args(argv)
     packet_dir = args.packet or os.path.join(root, "docs", "math_status")
     problems = check_packet(packet_dir)
+    check_inventable_probes(root, problems)
     for problem in problems:
         print(f"PROBLEM {problem}")
     print(
