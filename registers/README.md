@@ -22,6 +22,40 @@ The Drive's `GP-REG-032-v1.2 — Coupled Research Registers` workbook (Drive id
 * `EXPORT_DIFF_2026-09-17_to_2026-09-18.json` — the mechanical, every-column
   diff between the two exports (see *What moved between the two exports*).
 
+## Verified source selection and successor preflight
+
+Normal import and `--check` now resolve `current_import_source` from
+`source/SOURCES.json` at call time. The selected export must have one provenance
+record, a safe local XLSX basename, matching SHA-256 and byte count, and
+`exact: false` (native Sheet exports are renderings). Missing or ambiguous
+metadata, duplicate JSON keys, symlinks, and identity mismatches are refused
+before output writes. There is no independent normal-import filename pin.
+
+The stored Sept 23 R1 successor is **not activated**. Preview it without changing
+the current selector, source files, or generated registers:
+
+```bash
+python3 tools/registers_preflight.py \
+  --source-name GP-REG-032_v1.2_export_2026-09-23_R1.xlsx > /tmp/register-r1-preview.json
+```
+
+Exit 0 means the named metadata/form interfaces are compatible; exit 1 reports
+blockers; exit 2 means source/read failure. R1 currently returns 1: three source
+status phrases are outside the R17 vocabulary (both register and review
+checkers expose them); nine new frozen-object IDs lack entries in the older
+inventory; two raw-file binding descriptions are uninterpreted. No missing
+custody is called MATCH, no phrase is mapped to PASS, and no exception is added
+to the live allowlist. The report preserves all diagnostics and states
+`canonical_import_completed: false`. The R1 preview compares all 44 tabs and
+checks 88 generated files in temporary directories. It is not full mathematical
+CI, a scientific verdict, or a replacement governing register.
+
+Historical replay stays fixed: `--diff-exports` without `--source` retains the
+Sept 17 markdown and Sept 18 XLSX inputs. Explicit `--source PATH` remains a
+standalone inspection override, not manifest acceptance. Source/consumer
+reconciliation must precede activation; owner permission is already supplied
+by the standing directive.
+
 Regenerate and verify:
 
 ```bash
