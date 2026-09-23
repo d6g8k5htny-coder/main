@@ -3,6 +3,10 @@
 This file points; it does not legislate. Read [CLAUDE.md](CLAUDE.md), which
 binds every agent regardless of provider, and the current governing sources.
 
+Owner authorization: [OP-AUTONOMY-20260923-v1.0](governance/OP-AUTONOMY-20260923-v1.0.md)
+supersedes older owner-permission waits for every model until Dylan changes it.
+Proceed without renewed approval; actual evidence still determines results.
+
 ## Current authority and scope
 
 - **Drive is the governing record.** Research Home:
