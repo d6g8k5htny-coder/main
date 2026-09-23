@@ -1,46 +1,37 @@
-name: Register integration source snapshot
+name: Register preflight candidate build
 on:
   push:
     branches: [transport/register-integration-20260923]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  capture:
+  build-preflight:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: f716991e2c12f592217eced23f412c7c838cf67a
+          path: transport
           persist-credentials: false
-      - name: Capture additional checker and consumer inputs
-        run: |
-          mkdir -p "$RUNNER_TEMP/register-inputs"
-          python3 - <<'PY'
-          import hashlib,json,os,pathlib,subprocess,zipfile
-          root=pathlib.Path.cwd(); out=pathlib.Path(os.environ['RUNNER_TEMP'])/'register-inputs'
-          head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
-          assert head=='f716991e2c12f592217eced23f412c7c838cf67a'
-          roots=('research/','packages/','sandbox/','drive/source_map/')
-          singles={'drive/deltas/2026-09-18/PATH_CHANGES.jsonl','requirements-ci.lock','.gitignore'}
-          extensions={'.py','.md','.json','.jsonl','.csv','.yaml','.yml','.toml','.txt','.lock'}
-          rows=[]
-          with zipfile.ZipFile(out/'supplement.zip','w',compression=zipfile.ZIP_DEFLATED) as z:
-              for line in subprocess.check_output(['git','ls-tree','-rz','HEAD']).split(b'\0'):
-                  if not line: continue
-                  meta,rawpath=line.split(b'\t',1); mode,kind,blob=meta.decode().split(); path=rawpath.decode()
-                  if kind!='blob' or mode not in ('100644','100755'): continue
-                  if path not in singles and not (path.startswith(roots) and pathlib.Path(path).suffix.lower() in extensions): continue
-                  if any(part in ('99_DO_NOT_OPEN','legacy','quarantine') for part in pathlib.Path(path).parts): continue
-                  data=(root/path).read_bytes()
-                  assert hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()==blob
-                  z.writestr(path,data); rows.append({'path':path,'mode':mode,'git_blob':blob,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
-          (out/'manifest.json').write_text(json.dumps({'source_commit':head,'scope':'bounded checker and consumer input supplement; no scientific acceptance','files':rows},indent=2)+'\n')
-          print(json.dumps({'files':len(rows),'sha256':hashlib.sha256((out/'supplement.zip').read_bytes()).hexdigest()}))
-          PY
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          name: register-integration-supplement-20260923
-          path: ${{ runner.temp }}/register-inputs/
-          retention-days: 1
+          ref: 6628463c1341d3c23d14913af9dad9af24822eb1
+          path: research
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11.16'
+      - name: Install repository-pinned test dependencies
+        working-directory: research
+        run: python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock
+      - name: Validate candidate and store only verified blobs and tree
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python transport/build_preflight.py --root "$GITHUB_WORKSPACE/research" --out "$GITHUB_WORKSPACE/build-report"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: register-preflight-candidate-20260923
+          path: build-report/
           if-no-files-found: error
+          retention-days: 2
