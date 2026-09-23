@@ -79,6 +79,20 @@ DECLARED: dict[str, str] = {
     "tests/test_lpw_headline.py":
         "one `parse_decimal(6.239e-44)`, a negative control asserting a float "
         "literal is refused where an exact decimal string is required.",
+    "research/bands/ladder.py":
+        "`AdjacentBand.label` renders the exact endpoints as decimals for a "
+        "human reading a report, and `format_report` prints them; the endpoints "
+        "themselves are exact rationals and `name` prints them as such, so no "
+        "bound passes through either. DECLARED here rather than labelled in the "
+        "file because these bytes are content-pinned: "
+        "`research/parallel/h3/candidate.json` and "
+        "`research/rn/candidates/inner_wedge_20260920_v1.json` on the "
+        "`chatgpt/drive-github-hardening-20260919` lane bind this file by "
+        "SHA-256 (`9ea57670…`, 26286 bytes) as a source identity of their "
+        "certificates. An in-file label changes those bytes and breaks the "
+        "binding, and re-pinning is a judgement about their certificates' "
+        "provenance rather than ours to make. The label therefore lives here, "
+        "where it costs them nothing.",
 }
 
 

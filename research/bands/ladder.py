@@ -258,13 +258,7 @@ class AdjacentBand:
 
     @property
     def label(self) -> str:
-        """A decimal rendering for reading. The exact endpoints are ``name``.
-
-        NON-CERTIFYING. This is the only float path on the band object: the
-        endpoints are exact rationals and `name` prints them as such. A decimal
-        rendering is for a human reading a report, and no bound may be taken
-        from it.
-        """
+        """A decimal rendering for reading. The exact endpoints are ``name``."""
         return f"[{float(self.r_lo):.6f}, {float(self.r_hi):.6f}]"
 
     @property
@@ -556,8 +550,6 @@ def format_report(kappa: F = DISPLAYED_KAPPA, prec: int = 40,
     out: List[str] = []
     out.append("H5 rung ladder -- published point certifications (line: %s)" % line)
     out.append("=" * 72)
-    out.append("Every decimal below is a NON-CERTIFYING display of an exact value;")
-    out.append("the returned objects carry the exact rationals. Read those for a bound.")
     for p in points_for_line(line):
         dg = p.totals_digest[:16] + "..." if p.totals_digest else "(no digest quoted)"
         out.append(f"  r = {float(p.r):<10.6f}  I_hi/r^3 = {float(p.value):<12.4f}"
