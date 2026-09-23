@@ -153,3 +153,34 @@ Named walls only (sibling sweep CLOSED EMPTY — **no new walls**). Each probe *
 
 All four keep `discharges_OBL_H5_JETMOD: false`, `lemma_closed: false`, `inventable_attempt_accepted: false`.  
 **OBL-H5-JETMOD remains OPEN.** These receipts do not discharge OBL-H5-JETMOD. Green ≠ discharge.
+
+---
+
+## Instrumentation STATUS vocab (2026-09-23) — first_band* / multi_jet / g12_ext
+
+Fail-closed tokens only. Green smoke ≠ certification. OBL-H5-JETMOD remains OPEN (display only).
+
+Previously unmarked (`?`) inventory rows for these five prototypes are closed to the tokens below. No 24-jet roster is invented. Order>2 and the unenumerated roster stay the blockers already recorded above.
+
+| Prototype | STATUS | jets | discharges_OBL_H5_JETMOD |
+|---|---|---|---|
+| `jetmod_first_band_proto` | PARTIAL_C2_ONLY / REFUSED_NOT_24JET | 1 | false |
+| `jetmod_first_band_multi_gram_v1` | PARTIAL_GRAM_BLOCKS / REFUSED_NOT_24JET | 3 gram ≠ 24 | false |
+| `jetmod_first_band_interval_r` | PARTIAL_C2_SMOKE / REFUSED_NOT_24JET | 1 | false |
+| `jetmod_multi_jet_band` | PARTIAL_6_MS_DIAG / REFUSED_NOT_24JET | 6 | false |
+| `jetmod_g12_ext_named` | PARTIAL_8_NAMED / REFUSED_NOT_24JET | 8 | false |
+
+Do **not**: invent a 24-roster; treat κ=1/8 display residual as certified modulus; flip `discharges_OBL_H5_JETMOD`.
+Receipts remain under `code_prototypes/` (vendor path as in PR #15) or cited by name only if not vendored.
+
+### Why not discharge
+
+| Prototype | jets_done vs OBL 24 | Why not discharge |
+|---|---|---|
+| `jetmod_first_band_proto` | 1 / 24 | c2 enclosure only; width ≫ display residual & struct κ halfwidth |
+| `jetmod_first_band_multi_gram_v1` | 3 gram blocks ≠ 24 jets | G00, G0S, c2 only; note_on_24jet explicit |
+| `jetmod_first_band_interval_r` (smoke) | 1 / 24 | `certifies_24jet_band=false`; width_exceeds_struct_model |
+| `jetmod_multi_jet_band` | 6 / 24 | MS-diag scaled only; roster unenumerated; widths ≫ modulus |
+| `jetmod_g12_ext_named` | 8 / 24 | +κ_c2,+s_f_fx source-named; stop_reason: further names invent 24-list |
+
+`discharges_OBL_H5_JETMOD` stays **false**. `lemma_closed` stays **false**. `certified_C_H=false`. `inventable_attempt_accepted` stays false. OBL-H5-JETMOD remains OPEN. Green CI ≠ discharge.
