@@ -1,0 +1,47 @@
+name: Register byte transport (isolated; no scientific authority)
+on:
+  push:
+    branches:
+      - transport/register-r1-20260923
+    paths:
+      - .github/workflows/register-byte-transport.yml
+permissions:
+  contents: read
+jobs:
+  capture-existing-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: b02efe21d8d7475ac9b4aa25b3dcc26a5b6f4bf4
+          persist-credentials: false
+          sparse-checkout: registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx
+          sparse-checkout-cone-mode: false
+      - name: Verify and copy only the existing public source workbook
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil, zipfile
+          source = Path('registers/source/GP-REG-032_v1.2_export_2026-09-18.xlsx')
+          data = source.read_bytes()
+          expected = 'c3229ecefc642f3e32f23cb8320fb66236d11affb83f67bd135153d068a3f460'
+          if len(data) != 1919741 or hashlib.sha256(data).hexdigest() != expected:
+              raise SystemExit('Existing-source identity mismatch')
+          with zipfile.ZipFile(source) as archive:
+              if archive.testzip() is not None:
+                  raise SystemExit('ZIP CRC mismatch')
+          out = Path('transport_output')
+          out.mkdir()
+          shutil.copyfile(source, out / source.name)
+          (out / 'identity.json').write_text(json.dumps({'bytes': len(data), 'sha256': expected, 'source_commit': 'b02efe21d8d7475ac9b4aa25b3dcc26a5b6f4bf4', 'scientific_status_changed': False, 'purpose': 'Binary transport of an already-public existing export; not a mathematical computation.'}, indent=2) + '\n')
+          print('Existing public source verified; no repository write.')
+          PY
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: register-existing-source-20260923
+          path: transport_output/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
