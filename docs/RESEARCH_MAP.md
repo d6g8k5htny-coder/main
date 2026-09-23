@@ -246,6 +246,16 @@ certified sampling plus an explicit fit; the certified **band enclosure**
 (interval-`r` lattice sums giving `Î(r)/r³ ≤ F(G12-band)` per band, a finite
 per-band computation, never a fitted exponent) remains `OBL-H5-JETMOD` OPEN.
 
+### Inventable jetmod instrumentation STATUS
+
+[`docs/math_status_probes/`](math_status_probes/README.md)
+(`inventable_jetmod_instrumentation_status.py`, the `inventable_*` PARTIAL /
+REFUSED_NOT_24JET receipts, and that directory's README) is probe and
+instrumentation honesty. It is not a mathematics source of truth. `PARTIAL`
+and `REFUSED_NOT_24JET` are not discharge. A green checker is not discharge.
+`OBL-H5-JETMOD` stays OPEN. The reader route is the inventable section of
+[`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
+
 ### H3 band floor
 
 For every `r ∈ (0, 0.05]`, `E[G_r] ≥ 2.30659559567154 > c_Z = 1.6154892676435024…`,
