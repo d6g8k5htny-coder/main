@@ -122,3 +122,11 @@ inventable section of
 Digests are pinned in `PACKET.json`. `tools/math_status_check.py` refuses a
 byte drift and, separately, refuses a flag that is not false even when the
 digest is refreshed to match the edited bytes.
+
+## Register selector migration (deferred)
+
+Register selector / export-R1 migration is deferred until PR #29
+(`Resolve register binary handoff…`) lands. This note does not migrate
+selectors, does not rewrite register JSON, and does not claim R1 export
+completeness. `OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays OPEN.
+A green checker is not obligation discharge.
