@@ -50,6 +50,7 @@ REQUIRED_COMMANDS = (
     "python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json",
     "python tools/reviews_check.py",
     "python tools/attestations_check.py",
+    "python tools/coordination_check.py",
     "python tools/recovery_check.py",
     "python tools/collision_proposal_check.py",
     "python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json",
