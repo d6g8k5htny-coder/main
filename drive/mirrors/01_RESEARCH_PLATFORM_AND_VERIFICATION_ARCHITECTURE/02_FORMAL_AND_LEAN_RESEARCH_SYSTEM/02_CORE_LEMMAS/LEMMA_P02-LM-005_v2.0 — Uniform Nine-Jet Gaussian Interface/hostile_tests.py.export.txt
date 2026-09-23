@@ -1,5 +1,0 @@
-﻿import numpy as np
-# Fail-closed generic covariance sanity fixture.
-Sigma=np.diag([2,2,2,6,24,6,4,6,24])
-assert np.linalg.eigvalsh(Sigma).min()>0
-print("PASS — positive-definiteness test harness operational; use exact source matrices for certification")
