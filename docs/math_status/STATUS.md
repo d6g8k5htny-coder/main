@@ -96,6 +96,8 @@ Recorded by name only. This note does not re-derive these walls. Receipts below 
 3. Joint (r,y) cancel rewrite corpus hunt: **EMPTY**. Receipt: `jetmod_joint_ry_cancel_rewrite_hunt_receipt.json`. Structural Schur `S1=Grr−C Ainv C^T` documented. No joint cancel formula.
 4. φ(det A)→detgg bridge: still **ABSENT** (prior).
 
+Inventable siblings of these named walls exist under `docs/math_status_probes/` (`inventable_interval_schur_ainv_REFUSED_receipt.json`, `inventable_eval_F_G12box_REFUSED_receipt.json`, `inventable_joint_ry_cancel_EMPTY_receipt.json`, `inventable_phi_bridge_ABSENT_receipt.json`); naming them does not discharge OBL-H5-JETMOD or replace the legacy `jetmod_*` citations above.
+
 **OBL-H5-JETMOD remains OPEN.** D3-LEMMA-RN-UNIF remains OPEN. No promotions.
 
 *Lemma remains OPEN.*

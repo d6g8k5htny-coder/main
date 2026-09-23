@@ -150,9 +150,14 @@ Named walls only (sibling sweep CLOSED EMPTY — **no new walls**). Each probe *
 | eval_F(G12_box) | invent max-norm / Lip·width as F | **REFUSED** | `inventable_eval_F_G12box_REFUSED_receipt.json` |
 | Joint (r,y) cancel rewrite | invent cancel from point-r scales | **EMPTY** | `inventable_joint_ry_cancel_EMPTY_receipt.json` |
 | φ(det A)→detgg bridge | invent φ/r^α | **ABSENT** | `inventable_phi_bridge_ABSENT_receipt.json` |
+| Merge PR #12 / rung discharge | invent merge or rung-discharge from green CI / draft #12 | **REFUSED** | `inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json` |
+| Promote display residual / struct κ | invent κ=1/8 display residual as a certified modulus | **REFUSED** | `inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json` |
 
-All four keep `discharges_OBL_H5_JETMOD: false`, `lemma_closed: false`, `inventable_attempt_accepted: false`.  
-**OBL-H5-JETMOD remains OPEN.** These receipts do not discharge OBL-H5-JETMOD. Green ≠ discharge.
+All six keep `discharges_OBL_H5_JETMOD: false`, `lemma_closed: false`, `inventable_attempt_accepted: false`.  
+`certified_C_H` stays **false**. `prizes_solved` stays false. Those flags are unchanged.  
+Naming `inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json` does **not** merge draft PR #12 and does not discharge any rung.  
+Naming `inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json` does **not** certify κ or the display residual as a modulus.  
+**OBL-H5-JETMOD remains OPEN.** These receipts do not discharge OBL-H5-JETMOD. A green checker and green CI ≠ discharge. REFUSED, EMPTY, and ABSENT are honesty labels, not discharge.
 
 ---
 
