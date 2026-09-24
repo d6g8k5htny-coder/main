@@ -51,6 +51,24 @@ be run, reviewed and verified with ordinary git and CI.
 > a display is not a certified enclosure; a draft is not an operator promotion;
 > registration is not review.
 
+## Navigation
+
+Reading routes on this hardening checkout. The status tables above stay in
+force. These links do not invent a source of truth and do not move a claim flag.
+
+| I want to… | Go here |
+|---|---|
+| See where this branch sits relative to `main`, Drive, and Math- | [Workspace](docs/WORKSPACE.md) |
+| Follow a topic without treating a link as acceptance | [Research index](docs/RESEARCH_INDEX.md) |
+| Replay a check or an external Math- candidate | [Reproduction](docs/REPRODUCE.md) |
+| Stay on the program map and open problems | [Research map](docs/RESEARCH_MAP.md), [open problems](docs/OPEN_PROBLEMS.md) |
+
+`lemma_closed`, `prizes_solved`, `discharges_OBL_H5_JETMOD`, and
+`certified_C_H` stay false. SIDE24 carriers marked ABSENT stay ABSENT.
+Quarantine is not a source of truth. `inventable_attempt_accepted` stays
+false. A navigation check is engineering hygiene, not discharge. This page
+lives on `chatgpt/drive-github-hardening-20260919`, not on `main`.
+
 ## What the research is
 
 Two independent tracks plus a platform.
