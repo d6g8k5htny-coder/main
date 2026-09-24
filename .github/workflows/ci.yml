@@ -77,6 +77,8 @@ jobs:
         run: python tools/mirror_quotes_check.py
       - name: Mirror lane index is generated from the manifests, not typed
         run: python tools/mirrors_index_check.py
+      - name: Certificate source bindings still match the tree, and the index names them
+        run: python tools/pinned_sources_check.py
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Scoped Drive coverage and exact packed-byte reconstruction
