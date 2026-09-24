@@ -71,6 +71,12 @@ A pass of the check, and this file existing, discharges nothing.
 Inventable receipts under `docs/math_status_probes/` are under the same
 bound. A vault id or a quarantine path named from that lane does not become
 an inventable source of truth. A green run of this check or of
-`tools/quarantine_check.py` does not discharge OBL-H5-JETMOD. The reader
-note is the vault-path section of `docs/math_status_probes/README.md`.
+`tools/quarantine_check.py` does not discharge OBL-H5-JETMOD.
+`tools/registers_check.py` prints three KNOWN lines for class
+`EXISTING_CONTAINER` on `Q-R17-LOCAL-TB`, `Q-R17-LOCAL-P01`, and
+`Q-R17-VAULT`. The allowlist phrase "Accepted as-is" in
+`registers/KNOWN_FINDINGS.json` records that source-workbook class.
+`inventable_attempt_accepted` stays false. A green run of that checker leaves
+OBL-H5-JETMOD OPEN. The reader note is the vault-path section of
+`docs/math_status_probes/README.md`.
 Receipt bytes stay as already recorded. This map still adds no exclusion.

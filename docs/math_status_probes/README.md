@@ -56,15 +56,18 @@ A vault id or a quarantine path, named from this lane, stays inactive. It
 does not become an inventable source of truth. Quarantine is not a source
 of truth.
 
-Two checkers divide the engineering hygiene. Neither writes an inventable
-receipt. Neither sets `inventable_attempt_accepted`.
+Two checkers divide the vault-path and exclusion hygiene. A third checker,
+`tools/registers_check.py`, owns the class-table pass on the same export.
+None of the three writes an inventable receipt. None sets
+`inventable_attempt_accepted`.
 
 | Checker | What it owns on this tip | What stays closed for an inventable attempt |
 |---|---|---|
 | `tools/quarantine_check.py` | `quarantine/EXCLUSIONS.json` agrees with `registers/json/quarantine_index.json`. Archive-member digests. Invariant 3 compares records that carry `payload_sha256` (sixteen compared, six `digest_not_compared`, including folder exclusion `Q-R17-VAULT`). Bound-member annotations. `vault_rows` refuses a stored manifest row whose `drive_path` contains `99_DO_NOT_OPEN`. | `Q-R17-VAULT` is uncompared because the exclusion names a folder. That record is not an opening and not acceptance of a vault id. A stored vault id whose `drive_path` omits `99_DO_NOT_OPEN` is outside `vault_rows`. |
 | `tools/vault_hygiene_check.py` | The map in [`quarantine/PATHS.md`](../../quarantine/PATHS.md): `drive/vault_tree.txt` against `drive/inventory.jsonl`; a stored row whose Drive id is a vault id even when `drive_path` omits `99_DO_NOT_OPEN`; a vault or `90_QUARANTINE_AND_TRIAGE` path copied into `engine/`, `research/`, `packages/`, or `claims/`. | That active-lane scan does not read this directory. Silence on an inventable receipt is not activation. |
+| `tools/registers_check.py` | The class column of `registers/json/quarantine_index.json` against the OP-PROT-019 §6 table, among the other structural invariants. Rows 14–16 are `Q-R17-LOCAL-TB`, `Q-R17-LOCAL-P01`, and `Q-R17-VAULT`, class `EXISTING_CONTAINER`. That class is absent from the table, so the run prints three KNOWN lines. The allowlist text in `registers/KNOWN_FINDINGS.json` says "Accepted as-is". | "Accepted as-is" records that source-workbook class. `inventable_attempt_accepted` stays false. A green run (those KNOWN lines included, new problems at zero) leaves the vault id inactive and leaves OBL-H5-JETMOD OPEN. Agreement of `quarantine/EXCLUSIONS.json` with the export stays on `tools/quarantine_check.py`. |
 
-A green run of either checker is engineering hygiene. It leaves
+A green run of any of these three checkers is engineering hygiene. It leaves
 `discharges_OBL_H5_JETMOD` false, `lemma_closed` false, `prizes_solved` at 0,
 `certified_C_H` false, `freeze` false, and `inventable_attempt_accepted` false.
 OBL-H5-JETMOD stays OPEN. Engineering hygiene is not mathematical discharge.

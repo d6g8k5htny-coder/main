@@ -296,7 +296,15 @@ Row counts are the data rows of the 2026-09-18 export (header excluded).
 3. `review_queue` technical statuses are from the R17 set: `READY`,
    `IN_REVIEW`, `PASS_TECHNICAL`, `AMEND`, `FAIL`, `CANNOT_VERIFY`,
    `NEEDS_RECONCILIATION`.
-4. `quarantine_index` classes are from the OP-PROT-019 §6 table.
+4. `quarantine_index` classes are from the OP-PROT-019 §6 table, modulo
+   `KNOWN_FINDINGS.json`. Rows 14–16 (`Q-R17-LOCAL-TB`, `Q-R17-LOCAL-P01`,
+   `Q-R17-VAULT`) use `EXISTING_CONTAINER`, which that table omits. The
+   allowlist text says "Accepted as-is". That phrase records the
+   source-workbook class. `inventable_attempt_accepted` stays false. A green
+   `tools/registers_check.py` leaves OBL-H5-JETMOD OPEN. Quarantine is not a
+   source of truth. Agreement of `quarantine/EXCLUSIONS.json` with the export
+   stays with `tools/quarantine_check.py`. The reader note is the vault-path
+   section of `docs/math_status_probes/README.md`.
 5. Any `frozen_objects` row with a 64-hex SHA-256 has a positive byte count.
 6. **`work_events` is append-only**: rows present in the parent commit must be
    present, unchanged, at the same positions.
