@@ -1,31 +1,33 @@
-# Workspace and tools
+# Workspace and branch guide
 
-## Current working locations
+[Home](../README.md) · [Research guide](RESEARCH_INDEX.md) · [Run the checks](REPRODUCE.md)
 
-The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
-contains the active mathematical software and evidence. The
-[Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp)
-holds additional work and proposed repairs. Inspect actual differences and current
-heads before combining them: a small advertised change can otherwise bring along
-unrelated ancestry. No branch name makes work correct or permanently unmergeable.
+## Choose the correct checkout
 
-Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
-[Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
-execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
-describes the research-side commands; read it in the checkout actually being used.
+| Location | What is actually there |
+|---|---|
+| [main default branch](https://github.com/d6g8k5htny-coder/main) | Research navigation, collaboration entry, integration decisions and landing checks |
+| [Math- default branch](https://github.com/d6g8k5htny-coder/Math-) | New mathematical candidates, calculations and tests, directly readable without ZIP extraction |
+| [main hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919) | The larger legacy research software/evidence tree and its source-specific numerical obligations |
+| [Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp) | Additional migration history and proposed work; compare exact heads before integration |
 
-The [Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8)
-and [coupled research registers](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no)
-provide research memory and Work Events. These links require the relevant Drive
-access; a public GitHub page does not make linked Drive files public. Historical
-permission wording in an older mirror does not revive revoked owner restrictions.
+The name of a branch does not decide mathematical correctness or make it permanently unmergeable. A successful check of the default landing tree does not test the larger hardening stack. Historical `never-main`, date-cutoff and provider-specific 403 notes must be read in their exact scope, not applied as blanket claims about all newer sources or current connections.
 
-## Tools and execution
+## Drive and source identity
 
-All participating models have Dylan's permission to download, install, create, and
-use useful tools. Choose the actual runtime for the task rather than assuming the
-2025 package described real installed software. For example, a clean checkout of
-the current research branch starts with:
+[Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8) and the [research registers / Work Events](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no) preserve source records and collaboration history. These require the relevant Drive access. A GitHub link does not change their sharing.
+
+[google-drive](https://github.com/d6g8k5htny-coder/google-drive) contains selected public replicas only. The [source catalog](https://github.com/d6g8k5htny-coder/meta-framework) and [lookup tool](https://github.com/d6g8k5htny-coder/query-) bind public artifacts to exact paths/commits/hashes, not scientific acceptance. Private experiments stay private.
+
+## Continue useful work
+
+Read the actual source and its latest review, then the relevant claim discussion in [campaign #61](https://github.com/d6g8k5htny-coder/main/issues/61). Use a separate branch, coordinate overlapping paths, inspect the real diff and affected tests, and read back the result. The [owner delegation](../governance/OP-AUTONOMY-20260923-v2.1.md) authorizes ordinary project work without another permission loop.
+
+[Open work](RESEARCH_INDEX.md#open-work) lists specific review and research targets. The existing hourly loop follows the campaign and successors; adding a document does not start another model or create a scheduler.
+
+## Legacy setup
+
+For the larger research tree rather than the landing pages:
 
 ```sh
 git clone --filter=blob:none --single-branch --branch chatgpt/drive-github-hardening-20260919 https://github.com/d6g8k5htny-coder/main.git research-workspace
@@ -33,29 +35,6 @@ cd research-workspace
 git rev-parse HEAD
 ```
 
-Read the checkout's environment files and workflows before installing dependencies.
-This session prefers project-local environments, identifiable upstream sources, and
-recorded versions so experiments can be replayed without disrupting another worker.
-Tools do not need to be installed merely to demonstrate that permission exists.
-Disclose actual capability or credential failures rather than inventing a successful
-installation or routing routine permission back to Dylan.
+Read that checkout's environment files and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) before installing dependencies or running programs. Do not copy assumptions from a different branch, the old 2025 presentation, or another provider's runtime.
 
-## What this main-branch check covers
-
-The landing workflow's `verify` job checks the declared local documentation links,
-exact custody of the two relocated historical files, and its own test cases. It uses
-Python's standard library and requires no project package installation.
-
-```sh
-python3 tools/workspace_landing_check.py
-python3 -m unittest discover -s tests -p test_workspace_landing.py -v
-```
-
-This check does not execute or certify the research on another branch, inspect remote
-link contents, validate Markdown anchor targets, or test every future file. Integrating
-research code into `main` should bring its relevant verification with it; a green
-landing check is not full research CI. Agents may replace or expand this workflow as
-the workspace changes.
-
-[Current authority](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
-[Home](../README.md) · [Historical material](../history/2025/README.md)
+[Historical material](../history/2025/README.md) remains available as history. Its preserved original bytes are still covered by the landing-custody check.
