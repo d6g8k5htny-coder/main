@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0.0",
-  "attestation_id": "ATT-RN-SIDE24-DENSITY-20260923B",
-  "attested_utc": "2026-09-24T00:40:00Z",
-  "object_id": "docs/RN_SIDE24_DENSITY.md @ 7aa43562b8870de3231ca648414b57bc13be634c",
+  "attestation_id": "ATT-RN-SIDE24-DENSITY-20260923C",
+  "attested_utc": "2026-09-24T18:49:12Z",
+  "object_id": "docs/RN_SIDE24_DENSITY.md @ 00e95356cf7b83a9fc9828b6d662f433bfb55de8",
   "object_title": "SIDE24 six-pin density and window replay: fixed-point RN integrand upper bound",
-  "object_bytes": 9454,
-  "object_sha256": "6f7c23d091f8a09bbfb63c99135e4554c980369a3af858e74ba9b482746eb9a5",
+  "object_bytes": 9660,
+  "object_sha256": "9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec",
   "predicate_id": "ARCH-ADMISSION-V1",
   "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
   "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_side24_density_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
@@ -18,7 +18,7 @@
     {
       "command": "python3 tools/quarantine_check.py",
       "exit_code": 0,
-      "summary": "exclusions=22 archive_members=14 manifest_digests=2965 bound_members_named=2 vault_rows_storing_bytes=0 problems=0"
+      "summary": "exclusions=22 digest_comparable=16 digest_not_compared=6 archive_members=14 manifest_digests=2965 bound_members_named=2 vault_rows_storing_bytes=0 problems=0"
     },
     {
       "command": "python3 tools/verify_manifests.py",
@@ -33,7 +33,7 @@
     {
       "command": "python3 tools/lanes_check.py",
       "exit_code": 0,
-      "summary": "OK - 15 lanes, one per section of docs/OPEN_PROBLEMS.md"
+      "summary": "OK — 15 lanes, one per section of docs/OPEN_PROBLEMS.md"
     },
     {
       "command": "python3 tools/frozen_check.py",
@@ -57,7 +57,6 @@
   "claim_grade_after": "UNCHANGED",
   "gate_status_after": "UNCHANGED",
   "independence_credit": 0,
-  "does_not_establish": "Re-attesting establishes that the seven gates exit zero over the object as it now stands, at 9,454 bytes rather than the 7,714 its predecessor described. It does not establish that the text PR #42 appended is accurate, and it is worth being plain that those additions are themselves claims about what this object does not do: attesting bytes says nothing about whether a wall describing an ABSENT or REFUSED result describes it correctly. Nothing about the underlying mathematics is touched. The point integrand bound 1888043/500000000000 is not shown valid, the Gaussian disintegrations are not shown to be the right conditional laws, and the enclosed conditional height mean near 1.22864492785 is not shown correctly computed; this record verifies no arithmetic and re-derives nothing, and a replay driver reproducing a stated quantity records a computation rather than evidencing it. The spatial cover the object says is absent is still absent, the imported H3 premise is still an assumption this object carries rather than one it derives, and independence is still zero. Superseding a stale attestation repairs a bookkeeping fact about bytes and moves nothing else.",
-  "notes": "Numbered successor to ATT-RN-SIDE24-DENSITY-20260923, which attested 7,714 bytes. PR #42 appended ABSENT/REFUSED honesty walls to the object, taking it to 9,454 bytes, so the predecessor no longer described the bytes in the tree and tools/attestations_check.py refused it. The seven gates were re-run against the current bytes for this record rather than copied from the predecessor; the consumers and frozen_check summaries differ from it because both tools' outputs have since changed, which is the point of re-running them. The added text is navigational honesty prose and changes nothing the object establishes; the awaiting list is unchanged because none of those obligations moved. The driver's own summary still ends authority=NONE, transcribed here.",
-  "superseded_by": "ATT-RN-SIDE24-DENSITY-20260923C"
+  "does_not_establish": "Re-attesting the 9,660-byte file records that seven structural gates exited zero over the bytes commit 120050136f5586b9de3c0f054119b978c92f8a49 left behind, after a source-of-truth navigation note was appended to the 9,454-byte text its predecessor described. Hashing that note does not make the note true. The sentences saying SIDE24 has no new source-of-truth carrier after 2026-08-06, that carriers marked ABSENT stay ABSENT, that quarantine is not a source of truth, and that inventable_attempt_accepted stays false, remain prose about an absence. This record does not show the point integrand bound 1888043/500000000000 valid, does not show the Gaussian disintegrations are the right conditional laws, and does not show the enclosed conditional height mean near 1.22864492785 correctly computed. It verifies no arithmetic and re-derives nothing. The spatial cover the object says is absent is still absent. The imported H3 floor is still held in custody. Authority stays NONE. The obligation stays OPEN. Independence credit stays zero. No grade moves and no gate moves. Superseding a stale digest repairs a bookkeeping mismatch about bytes.",
+  "notes": "Numbered successor to ATT-RN-SIDE24-DENSITY-20260923B, which attested 9,454 bytes and sha256 6f7c23d091f8a09bbfb63c99135e4554c980369a3af858e74ba9b482746eb9a5. PR #66 appended a source-of-truth ABSENT navigation note, taking docs/RN_SIDE24_DENSITY.md to 9,660 bytes and sha256 9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec, so B no longer described the bytes in the tree. The seven gates were re-run at 2026-09-24T18:49:12Z on head 00e95356cf7b83a9fc9828b6d662f433bfb55de8 and each exited 0; their count lines are transcribed from that run rather than copied. Quarantine's line now includes digest_comparable=16 and digest_not_compared=6 because the checker prints those counters, which B's summary line did not carry. The awaiting list is unchanged because none of those obligations moved. The density driver summary still ends authority=NONE. ATT-RN-SIDE24-DENSITY-20260923 stays superseded by B and is not revived. This record flips no flag."
 }
