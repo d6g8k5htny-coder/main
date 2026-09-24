@@ -16,7 +16,14 @@ Nothing in scope here is evidence. Classes, from OP-PROT-019 §6:
 `EXISTING_CONTAINER` also appears in the register for three pointers to
 pre-existing package-local quarantine directories. OP-PROT-019 §6 does not
 define it; it is recorded in `registers/KNOWN_FINDINGS.json` with a proposal to
-add `CONTAINER_POINTER` to the protocol table.
+add `CONTAINER_POINTER` to the protocol table. `tools/registers_check.py`
+prints those rows as KNOWN: `quarantine_index: row 14 class 'EXISTING_CONTAINER' not in R17 table`
+through row 16 (`Q-R17-LOCAL-TB`, `Q-R17-LOCAL-P01`, `Q-R17-VAULT`). The
+allowlist text says "Accepted as-is". That sentence records the source-workbook
+class. `inventable_attempt_accepted` stays false. `Q-R17-VAULT` stays inactive.
+A green run leaves OBL-H5-JETMOD OPEN. Engineering hygiene is not mathematical
+discharge. The reader note is the vault-path section of
+`docs/math_status_probes/README.md`.
 
 ## Logical quarantine
 
