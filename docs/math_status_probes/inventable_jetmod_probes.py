@@ -24,6 +24,10 @@ hygiene; a green run is not discharge. A KNOWN line from
 class `EXISTING_CONTAINER` on `Q-R17-VAULT` leaves
 `inventable_attempt_accepted` false. This runner does not read the vault
 and does not edit `quarantine/EXCLUSIONS.json`. See this directory's README.
+
+The local SIDE24 prep commands are not an inventable source of truth. SIDE24
+has no new source-of-truth carrier after 2026-08-06. Objects those notes mark
+ABSENT stay ABSENT. Quarantine is not a source of truth.
 """
 from __future__ import annotations
 

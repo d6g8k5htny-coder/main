@@ -4,6 +4,10 @@
 This author-side candidate bounds a conditional determinant factor at one
 spatial point. It supplies no spatial cover, density/window factor, H3
 normalizer, canonical promotion or organizational independence.
+
+SIDE24 has no new source-of-truth carrier after 2026-08-06. Absent objects
+stay ABSENT. Quarantine is not a source of truth. A green run is engineering
+hygiene: inventable_attempt_accepted stays false, and OBL-H5-JETMOD stays OPEN.
 """
 import argparse
 from fractions import Fraction as F
