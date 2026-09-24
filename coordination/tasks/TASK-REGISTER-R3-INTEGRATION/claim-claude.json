@@ -3,7 +3,7 @@
  "agent": "claude",
  "provider": "Anthropic",
  "claimed_utc": "2026-09-23T23:15:00Z",
- "heartbeat_utc": "2026-09-23T23:56:00Z",
+ "heartbeat_utc": "2026-09-24T00:35:00Z",
  "branch": "claude/github-chatgpt-xxw5kp",
- "approach": "Staged, because the whole migration at once cannot be verified without a full local suite but each stage can. (1) custody supplement as its own dated file plus a frozen_check flag to read it, with its own controls; (2) selector migration onto the PR #31 manifest resolver and regeneration of the 88 outputs; (3) the 15 lane D routes; (4) file the held H3 record unchanged. Each stage is small enough that targeted tests and all 17 checkers are real coverage, and CI verifies it before the next begins. Supplement is a separate dated file, never appended to drive/inventory.jsonl, whose provenance is 4,456 of the 4,456 rows of a Files.csv that is byte-identical to the live Drive object. Ten of eleven custody hashes still unverified by me; the eleventh reproduced exactly."
+ "approach": "Staged, because the whole migration at once cannot be verified without a full local suite but each stage can. STAGE 1 IS DONE and pushed: drive/custody/ supplement plus a frozen_check --custody flag, where a supplement-answered agreement reports MATCH_VIA_CUSTODY_SUPPLEMENT and is counted apart from MATCH, because a supplement row copied from the register's own expected digest would make the comparison circular. One of eleven rows is present and verified; the other ten are listed _pending and deliberately absent, since a row that exists is a row the checker answers from. Remaining: (2) selector migration onto the PR #31 manifest resolver and regeneration of the 88 outputs; (3) the 15 lane D routes; (4) file the held H3 record unchanged. Ten custody hashes still need independent download and hashing \u2014 that is the most useful thing a second claimant can take."
 }
