@@ -1,0 +1,109 @@
+name: Exact research capsules Python 3.11 replay
+'on':
+  push:
+    branches: [chatgpt/research-capsule-311-20260924-1504]
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Download only public hash-pinned capsules and replay actual sources
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import hashlib, io, json, os, pathlib, stat, subprocess, sys, traceback, urllib.request, zipfile
+          root=pathlib.Path('capsule-replay').resolve()
+          root.mkdir()
+          def unique(pairs):
+              d={}
+              for key,value in pairs:
+                  if key in d:
+                      raise ValueError('duplicate JSON key')
+                  d[key]=value
+              return d
+          def check(condition,message):
+              if not condition:
+                  raise ValueError(message)
+          context={'python':sys.version,'commit':os.environ.get('GITHUB_SHA'),'run_id':os.environ.get('GITHUB_RUN_ID'),
+                   'meaning':'execution and identity only; not independent mathematical acceptance'}
+          (root/'RUN_CONTEXT.json').write_text(json.dumps(context,indent=2)+'\n')
+          capsules=[
+              ('cap_palette','1soVnQdYxLU8LHcQzteabic_Bdn6fD_dE',86308,'795115c377b9d37b87f953555f86c7f3f4b514298551e110391f3cba9e03340f','members',113,36,9),
+              ('matrix_lifetime','1xrKSRwzxSVj_AjfMOH8tx70sf0jELnw4',213545,'e50a446770912b01d931e5ef0285dc9de39ff55fec590c62173a06e628ea15c8','payloads',206,35,16),
+          ]
+          results=[]
+          try:
+              check(sys.version_info[:2]==(3,11),'actual Python 3.11 is required')
+              for tag,drive_id,size,digest,key,count,tests,mutations in capsules:
+                  dest=root/tag
+                  dest.mkdir()
+                  url='https://drive.google.com/uc?export=download&id='+drive_id
+                  with urllib.request.urlopen(url,timeout=45) as response:
+                      raw=response.read(2000001)
+                  check(len(raw)==size,'capsule size mismatch: '+tag)
+                  check(hashlib.sha256(raw).hexdigest()==digest,'capsule SHA256 mismatch: '+tag)
+                  (dest/'capsule.zip').write_bytes(raw)
+                  package=dest/'package'
+                  package.mkdir()
+                  with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                      names=archive.namelist()
+                      check(len(names)==len(set(names)),'duplicate ZIP members')
+                      check(sum(i.file_size for i in archive.infolist())<20000000,'uncompressed size limit')
+                      for info in archive.infolist():
+                          p=pathlib.PurePosixPath(info.filename)
+                          check(not p.is_absolute() and '..' not in p.parts and str(p)==info.filename and '\\' not in info.filename and ':' not in info.filename,'unsafe archive path')
+                          check(not info.is_dir() and not stat.S_ISLNK(info.external_attr>>16),'only regular payload files allowed')
+                      manifest=json.loads(archive.read('MANIFEST.json'),object_pairs_hook=unique)
+                      payloads=manifest[key]
+                      check(manifest['manifest_excludes_itself'] is True,'manifest self-exclusion absent')
+                      check(len(payloads)==count,'wrong payload count')
+                      check(set(names)==set(payloads)|{'MANIFEST.json'},'payload membership mismatch')
+                      for rel,identity in payloads.items():
+                          data=archive.read(rel)
+                          check(len(data)==identity['bytes'],'payload size mismatch: '+rel)
+                          check(hashlib.sha256(data).hexdigest()==identity['sha256'],'payload hash mismatch: '+rel)
+                      archive.extractall(package)
+                  if (package/'verify_payloads.py').exists():
+                      verify=subprocess.run([sys.executable,'-B','-S',str(package/'verify_payloads.py')],capture_output=True,timeout=30)
+                      (dest/'verify.stdout').write_bytes(verify.stdout)
+                      (dest/'verify.stderr').write_bytes(verify.stderr)
+                      check(verify.returncode==0,'delivered verifier rejected payloads')
+                  command=[sys.executable,'-B','-S',str(package/'run_validation.py'),'--output',str(dest/'results')]
+                  run=subprocess.run(command,capture_output=True,timeout=240)
+                  (dest/'runner.stdout').write_bytes(run.stdout)
+                  (dest/'runner.stderr').write_bytes(run.stderr)
+                  check(run.returncode==0,'actual capsule runner failed: '+tag)
+                  report=json.loads((dest/'results/REPORT.json').read_text())
+                  check(report.get('passed') is True,'runner report did not pass')
+                  check(report['distinct_unittest_methods']==tests,'test count mismatch')
+                  check(report['distinct_semantic_mutations']==mutations,'mutation count mismatch')
+                  unchanged=report.get('sources_unchanged',report.get('source_unchanged'))
+                  check(unchanged is True,'source changed during execution')
+                  for rel,identity in payloads.items():
+                      data=(package/rel).read_bytes()
+                      check(len(data)==identity['bytes'] and hashlib.sha256(data).hexdigest()==identity['sha256'],'source payload changed after replay: '+rel)
+                  result={'tag':tag,'sha256':digest,'bytes':size,'payloads_verified':count,'distinct_tests':tests,
+                          'distinct_semantic_mutations':mutations,'modes':['normal','optimized'],'passed':True,
+                          'python':sys.version,'all_payloads_unchanged':True}
+                  results.append(result)
+                  (root/'SUMMARY.json').write_text(json.dumps({'context':context,'results':results},indent=2)+'\n')
+                  print('CAPSULE_RESULT='+json.dumps(result,sort_keys=True))
+              print('BOTH_CAPSULES_PASSED')
+          except Exception as exc:
+              (root/'FAILED.json').write_text(json.dumps({'error':str(exc),'traceback':traceback.format_exc(),'completed_results':results},indent=2)+'\n')
+              raise
+          PY
+      - name: Preserve execution evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: exact-capsule-311-${{ github.run_id }}
+          path: capsule-replay
+          if-no-files-found: error
+          retention-days: 30
