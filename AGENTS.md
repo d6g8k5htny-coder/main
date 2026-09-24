@@ -30,6 +30,7 @@ process is agent judgment, and intent still binds.
   historical rules. Preserve exact review targets and use the existing log.
 - Revalidate live records and exact heads at each task boundary. Git merges
   and fast-forwards are not semantic reconciliation or cross-system locks.
+- Certificates bind 34 files by digest; check [PINNED_SOURCES](research/PINNED_SOURCES.md) before editing one.
 
 ## Historical bridge boundary
 

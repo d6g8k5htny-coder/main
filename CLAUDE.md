@@ -35,6 +35,19 @@ met. A computational test establishes what it actually checks. Resolve real
 correctness failures and reconcile obsolete procedural checks rather than
 hiding either. Neither this delegation nor a merge proves a theorem.
 
+## Before editing a file: it may be bound by a certificate
+
+Eight candidate records under `research/` bind repository content by SHA-256 as
+*source identity*, and the replay checkers that consume them refuse the tree
+when a byte moves. [`research/PINNED_SOURCES.md`](research/PINNED_SOURCES.md)
+lists all of it -- 34 files and 6 archive members, generated from the
+certificates and verified in CI by `tools/pinned_sources_check.py`.
+
+Three of the bound files are checkers in `tools/` and one is a document in
+`docs/`, so this is not deducible from where a file lives. The remedy for a
+deliberate change is a re-pin on the lane that owns the certificate. Never edit
+an expected digest to match bytes you changed.
+
 ## Technical navigation
 
 Start with [README.md](README.md), [RESEARCH_MAP](docs/RESEARCH_MAP.md) and
