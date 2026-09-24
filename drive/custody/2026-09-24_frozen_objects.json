@@ -1,0 +1,29 @@
+{
+ "_what_this_is": "Independently collected identities for frozen_objects rows whose Drive ID is absent from drive/inventory.jsonl. Those objects were frozen on 2026-09-19, 09-20 and 09-21, after the 2026-09-17 accessibility publication that inventory.jsonl derives from, so no faithful inventory can contain them until that publication is re-run.",
+ "_not_an_inventory": "This is NOT a Drive inventory and must never be fed to a path-search consumer. It carries no paths, no folder structure and no coverage claim. drive/inventory.jsonl remains exactly what it says it is: 4,456 of the 4,456 rows of drive/source_map/Files.csv, which was byte-identical to the live Drive object 1gJwebwkKnRcb3Ez8atJ0WTk9f7HmP1y3 when checked on 2026-09-23.",
+ "_why_matches_here_are_reported_separately": "frozen_check's whole-file comparison is only worth anything because it compares two INDEPENDENT Drive-side records of the same bytes. A supplement row copied out of the register's own expected digest would make that comparison circular and the resulting MATCH vacuous. Nothing mechanical can tell a genuinely downloaded digest from a copied one, so the checker does not pretend to: a row answered from this file reports MATCH_VIA_CUSTODY_SUPPLEMENT and is counted apart from MATCH. A reader can always see how many agreements rest on the accessibility publication and how many rest on a later spot-check.",
+ "collected_by": "claude",
+ "provider": "Anthropic",
+ "collection_method": "Each object downloaded through the Drive API in this session, hashed locally with hashlib.sha256, and compared against the expected byte count and digest carried by the frozen_objects row of GP-REG-032_v1.2_export_2026-09-23_R3.xlsx. The register value was read out of R3 rather than from any manifest supplied alongside the objects.",
+ "coverage": "1 of the 11 rows. The other ten are listed in _pending and are NOT in this file: an unverified row must not be present at all, because a row that exists is a row the checker will answer from.",
+ "_pending": [
+  "1pWBlanUuRBPVSrrbSd4XDUxIcX0gU8va", "1RXhWblyRQYpadj6X7e3IZTmNO4JXXgo3",
+  "1r5_R5VoKM10-7eofPwGa_yHuxTAS7S2q", "1NmwwIUUfIgVepvWjjSaPtLisJar7dpJu",
+  "1nzc7GJeAR06L03c6y8Kf958VHU4n-mJ_", "1BP6EjmOeezUlH3aLID4N2Qc-wun5RR8C",
+  "13a9tebHQ7URIEE9qtAO499Ju6oLznuyG", "11mOqEy1T7YGgEbW35EhOs5So68I-ZaBR",
+  "15tpKrM1RnYa_2QxKBL-vZt3Zb06pTXUw", "1Ho2Kx_m11gTJ1fRg8gO3kbRlhauZ2oaV"
+ ],
+ "does_not_establish": "Downloading an object and hashing it establishes that those bytes carried that digest when they were fetched. It does not establish that the object is what the register says it is about, that its contents are correct, or that anything it claims mathematically holds. It re-freezes nothing, verifies no body, moves no gate, discharges no premise and earns zero organizational independence credit. RN-INNER-WEDGE's own text states that its result is conditional on the imported fixed-radius H3 floor and that the complete annulus, all radii, all pin orientations and independent acceptance remain open; hashing its bytes changes none of that.",
+ "rows": [
+  {
+   "id": "1UCK6Lz30SmeiBXKgzk6J3y6YS05TtbFE",
+   "title": "RN_INNER_WEDGE_20260921_PROOF.md",
+   "bytes": 3251,
+   "sha256": "f363629f77c8fec80838b15fee4df9972ee3397252f484c5a1602a7c21ed3e57",
+   "frozen_object_id": "RN-INNER-WEDGE-20260920-v1",
+   "verified_utc": "2026-09-23T23:12:00Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. One of the two rows whose Binding Class repair in R3 moved it into the whole-file comparison path, so it was the least-scrutinised of the eleven and was verified first."
+  }
+ ]
+}
