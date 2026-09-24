@@ -356,8 +356,12 @@ own **ABSENT**, **REFUSED**, and **OPEN** walls. `field_certified` stays
 false. `D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN.
 `lemma_closed`, `certified_C_H`, and `prizes_solved` stay false. The checker
 commands in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md) are engineering
-checks; a green run is not discharge. This paragraph is a reader route. It
-adds no source of truth and no mathematical claim.
+checks; a green run is not discharge. SIDE24 has no new source-of-truth
+carrier after 2026-08-06. Later rows in the exported file catalog that
+mention SIDE24 are metadata-only routing, not that carrier. Carriers for
+the objects those notes mark **ABSENT** stay **ABSENT**. Quarantine is not
+a source of truth. `inventable_attempt_accepted` stays false. This paragraph
+is a reader route. It adds no source of truth and no mathematical claim.
 
 `CANNOT_VERIFY` is recorded for the current CL executable and checkpoint
 identity: `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py` and `rnu_spine.py`
