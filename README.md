@@ -7,6 +7,14 @@ software, test arguments, review one another's work, and improve the workspace i
 Its current mathematical program studies persistence and Gaussian random fields,
 including the q0 / SIDE24, H3, RN, and LPW workstreams.
 
+## Current results and navigation
+
+[Research guide](docs/RESEARCH_INDEX.md) · [Reproduce a result](docs/REPRODUCE.md) · [Open work](docs/RESEARCH_INDEX.md#open-work) · [All eight repositories](docs/RESEARCH_INDEX.md#repository-map)
+
+The guide leads to the current Gaussian persistence, RN counting, and P15 proof packages in [Math-](https://github.com/d6g8k5htny-coder/Math-), with their hypotheses, review discussions, and runnable checks. It distinguishes counterexamples from positive results with different hypotheses. These are author-side candidates and exact negative results, not a project-completion claim.
+
+This default-home repair and the navigation on the larger research branch serve different checkouts. Neither merges the underlying research tree into the other. Preserve that distinction when choosing a pull-request base.
+
 ## Start here
 
 | Destination | Purpose |
