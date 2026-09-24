@@ -161,6 +161,7 @@ python3 tools/registers_check.py            # structural invariants, modulo docu
 python3 tools/provenance_check.py           # no reading copy is presented as the object
 python3 tools/claims_check.py               # claim-graph: no claim rests on an open premise
 python3 tools/quarantine_check.py           # no excluded payload appears in any manifest
+python3 tools/vault_hygiene_check.py        # vault listing matches inventory; vault ids stay unstored
 python3 tools/verify_manifests.py           # every SHA-256 / byte count in every manifest
 python3 tools/reviews_check.py              # zero independence credit, no gate moved
 python3 tools/recovery_check.py             # candidates never stored as recoveries

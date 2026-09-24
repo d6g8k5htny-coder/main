@@ -46,6 +46,7 @@ REQUIRED_COMMANDS = (
     "python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json",
     "python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json",
     "python tools/quarantine_check.py",
+    "python tools/vault_hygiene_check.py",
     "python tools/verify_manifests.py",
     "python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json",
     "python tools/reviews_check.py",
