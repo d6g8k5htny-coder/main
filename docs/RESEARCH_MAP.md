@@ -343,6 +343,22 @@ the annulus. Diagnostic polar sums: `≈ 2.34195 r³` corrected versus `≈ 17.6
 wrong-power; the older published `17.6804 r³` used a different mark-cap
 heuristic. **None of these numbers closes Piece 2.**
 
+### Local SIDE24 prep path (navigation only)
+
+The repository notes that prepare the local SIDE24 calculation, in order, are
+[RN_SIDE24.md](RN_SIDE24.md) (one-point determinant factor; the density/window
+factor and the H3 normalizer are absent there),
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md) (fixed-point density/window; the
+H3 floor is imported and not reproved; there is no spatial integral), and
+[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) (one rectangle; no complete annulus
+cover, remote-budget assembly, or all-small-r theorem). Each note labels its
+own **ABSENT**, **REFUSED**, and **OPEN** walls. `field_certified` stays
+false. `D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN.
+`lemma_closed`, `certified_C_H`, and `prizes_solved` stay false. The checker
+commands in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md) are engineering
+checks; a green run is not discharge. This paragraph is a reader route. It
+adds no source of truth and no mathematical claim.
+
 `CANNOT_VERIFY` is recorded for the current CL executable and checkpoint
 identity: `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py` and `rnu_spine.py`
 were not returned by bounded exact-name lookup.

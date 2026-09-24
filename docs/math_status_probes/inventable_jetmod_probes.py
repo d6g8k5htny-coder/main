@@ -27,7 +27,11 @@ from typing import Any
 
 HERE = Path(__file__).resolve().parent
 CT = "America/Chicago"
-# Base this probe set is aligned to. Not a discharge and not a moving claim.
+# Generation-time pin only (historical). Not the current hardening LOCK.
+# Do not rewrite BASE_TIP to a later SHA unless these probes are actually
+# re-run and that re-run is stated. Advancing the tip does not upgrade
+# REFUSED / EMPTY / ABSENT / REFUSED_NOT_24JET into PRESENT or SUCCESS.
+# Honesty note LOCK (not a re-run): b3da6688a55d34681bb27f17ba6c6c5e16ad534c.
 BASE_TIP = "1ea0ae8183fb0459c6678243946295518fded1ba"
 BASE_BRANCH = "chatgpt/drive-github-hardening-20260919"
 
@@ -442,6 +446,10 @@ def main() -> int:
             probe_merge_pr12_or_rung_discharge,
         ),
     ]
+    # Checked-in INVENTABLE_PROBES_INDEX.json carries extra honesty fields
+    # (HISTORICAL_NONCURRENT, hardening_tip_observed_at_edit) that this
+    # generator does not emit. Running main() rewrites receipts; a later tip
+    # is not a reason to bump BASE_TIP without an honest re-run.
     index = {
         "schema": "q0.inventable-jetmod-probes/v1",
         "as_of_note": (
