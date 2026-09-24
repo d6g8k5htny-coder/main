@@ -105,6 +105,13 @@ compared as before. What changed is that the summary no longer reads
 uncompared set by omitting a field. It establishes nothing about the six
 records' contents, and clears no claim that rests on them.
 
+## Path map
+
+Which tip paths are the vault, which `DO_NOT_OPEN` strings are a different
+folder, and which copies must stay inactive is [`PATHS.md`](PATHS.md).
+Quarantine is not a source of truth. `tools/vault_hygiene_check.py` checks the
+vault listing against `drive/inventory.jsonl` and refuses a stored vault id.
+
 ## What is not here
 
 The Drive's `99_DO_NOT_OPEN` vault is **not** mirrored. Only its metadata
