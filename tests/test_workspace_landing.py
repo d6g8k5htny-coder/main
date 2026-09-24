@@ -98,6 +98,25 @@ class LandingChecks(unittest.TestCase):
         (self.root / "old.txt").write_bytes(b"corrupt")
         self.assertEqual(landing.main(["--root", str(self.root)]), 1)
 
+    def test_batch248_workspace_landing_workflow_path_split(self):
+        """Landing checks must not share .github/workflows/ci.yml with hardening CI.
+
+        Evidence (Batch 248): workflow_id for path ci.yml was named
+        workspace-landing on default main, so 12–22m hardening verifies
+        appeared under the workspace-landing Actions filter.
+        """
+        root = Path(__file__).resolve().parents[1]
+        wl = (root / ".github/workflows/workspace-landing.yml").read_text(encoding="utf-8")
+        ci = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+        self.assertIn("name: workspace-landing", wl)
+        self.assertIn("Landing checker tests", wl)
+        self.assertIn("tools/workspace_landing_check.py", wl)
+        self.assertIn("name: ci", ci)
+        self.assertNotIn("Landing checker tests", ci)
+        self.assertNotIn("workspace_landing_check.py", ci)
+        self.assertIn("workflow_dispatch", ci)
+        self.assertIn("path holder", ci.lower().replace("-", " "))
+
 
 if __name__ == "__main__":
     unittest.main()

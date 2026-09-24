@@ -1,0 +1,29 @@
+# Batch 248: landing checks live here so Actions UI no longer folds
+# hardening-branch 12–22m verifies (same former path .github/workflows/ci.yml)
+# into the workflow named "workspace-landing".
+name: workspace-landing
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, resolved 2026-09-23
+        with:
+          persist-credentials: false
+      - name: Runtime
+        run: python3 --version
+      - name: Landing checker tests
+        run: python3 -m unittest discover -s tests -p test_workspace_landing.py -v
+      - name: Local links and relocated history
+        run: python3 tools/workspace_landing_check.py
+      - name: Describe coverage
+        run: echo 'Verified landing links and historical byte identities only. Research branches and mathematical claims were not verified by this job.' >> "$GITHUB_STEP_SUMMARY"
