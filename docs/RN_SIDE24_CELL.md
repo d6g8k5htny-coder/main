@@ -7,6 +7,12 @@ and division by the separately imported H3 floor. It provides no complete
 annulus cover, remote-budget assembly or all-small-r theorem; it changes no
 scientific status and earns zero organizational independence credit.
 
+Prep order is [RN_SIDE24.md](RN_SIDE24.md), then
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md), then this note. The ABSENT /
+REFUSED / OPEN walls for this step are under
+[Prep path and honesty walls](#prep-path-and-honesty-walls).
+`field_certified` stays false.
+
 At the declared square
 
 \[
@@ -236,3 +242,31 @@ kernel, Gaussian projection, integral increment and covariance arguments above
 establish the continuum claim. The producer, replay, point and cell paths share
 certified interval primitives and source conventions; technical cross-checks
 do not manufacture organizational independence or change source status.
+
+## Prep path and honesty walls
+
+This note is step 3. It uses the point law in [RN_SIDE24.md](RN_SIDE24.md) and
+the density/window factor plus the imported H3 floor in
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md). It does not replace either note.
+The lane pointer is [RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The matching
+command is in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
+
+**ABSENT** from this note: a complete annulus cover, a remote-budget assembly,
+an all-small-r theorem, and a positive lower bound on the typed integrand.
+`field_certified` stays false. A local rectangle does not supply those absent
+objects, and this note does not invent a source of truth for them.
+
+**REFUSED**, as already stated above: boxes that contain a fixed pin, a failed
+covariance pivot, and an exhausted arithmetic budget. A failed pivot or an
+exhausted budget cannot produce an accepted upper. The square of half-width
+1/1000 at (1,1) fails the sufficient marginal pivot check, while half-width
+1/4000 succeeds. Those refusals do not disprove the field covariance.
+
+**OPEN:** the declared square is the whole spatial claim of this note. The
+complete annulus cover, remote-budget assembly, and all-small-r theorem stay
+open. Piece 2 of `D3-LEMMA-RN-UNIF` stays OPEN, as
+[RESEARCH_MAP.md](RESEARCH_MAP.md) §3 already records. `D3-LEMMA-RN-UNIF`
+stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
+`certified_C_H`, and `prizes_solved` stay false. A green run of
+`tools/rn_side24_spatial_check.py` is an engineering check. It is not
+discharge. Independence credit stays zero.
