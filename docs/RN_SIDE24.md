@@ -7,6 +7,10 @@ and earns zero organizational independence credit. The density/window factor
 and H3 normalizer are not included. `field_certified` remains false: this is a
 bounded point calculation, not the complete RN field certificate.
 
+Prep order is this note, then [RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md),
+then [RN_SIDE24_CELL.md](RN_SIDE24_CELL.md). The ABSENT / REFUSED / OPEN walls
+for this step are under [Prep path and honesty walls](#prep-path-and-honesty-walls).
+
 ## Precise statement
 
 Use the centered real Gaussian field with covariance
@@ -206,3 +210,31 @@ the planar derivative variance and an omitted normalizer. At 1024 bits it
 detects removing the omitted positive image correction at displacement 12.
 Ordinary 100-decimal-place agreement would not detect the first-shell effect
 on the gradient variance at zero, which is about \(9.65\cdot10^{-123}\).
+
+## Prep path and honesty walls
+
+Read the local SIDE24 notes in this order. Each later note consumes the
+earlier one and does not enlarge its scope. The lane pointer is
+[RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The matching commands are in
+[RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
+
+| Step | Note | What it prepares | What it does not supply |
+| --- | --- | --- | --- |
+| 1 | this note | one-point conditional determinant factor at \(y=(1,1)\) | density/window factor; H3 normalizer; spatial cover |
+| 2 | [RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md) | density/window factor at the same point, divided by an imported H3 floor | spatial integral; H3 reproof; annulus bound |
+| 3 | [RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) | one declared rectangle, using steps 1–2 | complete annulus cover; remote-budget assembly; all-small-r theorem |
+
+**ABSENT** from this point note: the density/window factor, the H3 normalizer,
+any spatial cover, and any all-small-r result. Those objects are not invented
+here. `field_certified` stays false.
+
+**REFUSED**, as already stated above: unsupported derivative orders, overly
+wide intervals, unsupported precision requests, input rationals above 4096
+bits, and colliding or unresolved pins. A failed pivot check stays an
+inconclusive sufficient calculation, not a proved counterexample.
+
+**OPEN:** this note changes no scientific status and no obligation.
+`D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
+`certified_C_H`, and `prizes_solved` stay false. Replaying
+`tools/rn_side24_check.py`, and a green CI run, are engineering checks. They
+are not discharge. Organizational independence credit stays zero.
