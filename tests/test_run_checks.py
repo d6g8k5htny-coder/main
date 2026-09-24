@@ -47,6 +47,15 @@ def repository(tmp_path):
     for command in runner.REQUIRED_COMMANDS:
         if command.startswith("python tools/"):
             (root / command.split()[1]).write_text("print('fixture checker executed')\n")
+    # The navigation unittest is an exact CI command. Keep it out of pytest
+    # collection so the fixture's two test_tiny cases stay the pytest count.
+    if "python -m unittest tests.test_navigation -v" in runner.REQUIRED_COMMANDS:
+        (root / "tests/test_navigation.py").write_text(
+            "import unittest\n"
+            "class NavigationFixture(unittest.TestCase):\n"
+            "    def test_passes(self):\n"
+            "        self.assertTrue(True)\n")
+        (root / "pytest.ini").write_text("[pytest]\npython_files = test_tiny.py\n")
     shutil.copyfile(ROOT / "tools/run_checks.py", root / "tools/run_checks.py")
     (root / "tests/test_tiny.py").write_text(
         "import pathlib, subprocess, sys\n"
