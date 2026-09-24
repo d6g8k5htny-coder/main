@@ -30,6 +30,9 @@ this page.
 |---|---:|---|---|
 | `docs/HERMITE_GAUSSIAN_ENVELOPE.md` | — | `8c0dccdfd177b7ae…` | hermite_gaussian_20260919.json |
 | `drive/inventory.jsonl` | 2807455 | `48766f1807efaba6…` | inner_wedge_20260920_v1.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md` | 9628 | `840c75a7825c67b8…` | candidate.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/checks/interval_repair.py` | 6843 | `b37150f0eb79ff5d…` | candidate.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/lpw_constant.py` | 25380 | `e258322cfbb71dbb…` | candidate.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_NEAR_MOMENT_REPAIR.md` | 13725 | `ac89f60b8206bfe0…` | inner_wedge_20260920_v1.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip` | 140170 | `28c1c385406452a7…` | inner_wedge_20260920_v1.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::closure_round2/rn_field.py` | 16701 | `d9167ae821684f71…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
@@ -38,38 +41,38 @@ this page.
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::round5/near_moments.py` | 8673 | `03c6e35c426eee8e…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::round5/verify_round5.py` | 5074 | `614daf280f503775…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/source_map/Payloads.csv` | 2957503 | `1b1b94a784ebc87c…` | inner_wedge_20260920_v1.json |
-| `engine/operations/__init__.py` | — | `818cb3d139128e78…` | candidate.json, inner_wedge_20260920_v1.json |
-| `engine/operations/rn_applicability.py` | — | `f28a93613d0995b8…` | candidate.json, inner_wedge_20260920_v1.json |
-| `engine/operations/rn_family_applicability.py` | — | `3a55870d2129a3b4…` | candidate.json, inner_wedge_20260920_v1.json |
+| `engine/operations/__init__.py` | 343 | `818cb3d139128e78…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `engine/operations/rn_applicability.py` | 4129 | `f28a93613d0995b8…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `engine/operations/rn_family_applicability.py` | 2241 | `3a55870d2129a3b4…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py` | — | `85d7725fab42eeb0…` | hermite_gaussian_20260919.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/pin_transform.py` | 17623 | `c6988ac7fcfa32dc…` | side24_density_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `quarantine/EXCLUSIONS.json` | 19555 | `8a5a89012dcd0fec…` | inner_wedge_20260920_v1.json |
-| `research/bands/__init__.py` | — | `d9fb9686306523ae…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/falsifier.py` | — | `0d1b4abf48c4f5b5…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/hermite_gaussian.py` | — | `f37e4657aceb95ab…` | candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/bands/ladder.py` | — | `9ea576708e146aa5…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/lattice.py` | — | `ee7144a98a689094…` | candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
+| `research/bands/__init__.py` | 4171 | `d9fb9686306523ae…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/bands/falsifier.py` | 13281 | `0d1b4abf48c4f5b5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/bands/hermite_gaussian.py` | — | `f37e4657aceb95ab…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
+| `research/bands/ladder.py` | 26286 | `9ea576708e146aa5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/bands/lattice.py` | — | `ee7144a98a689094…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
 | `research/campaigns/h3_rn_n6_20260920_v1.zip` | 571735 | `73b9e63800f77c67…` | inner_wedge_20260920_v1.json |
 | `research/campaigns/h3_rn_n6_20260920_v1.zip::rn_n6/side24_taylor.py` | 23681 | `32c4933c2ab543f7…` | inner_wedge_20260920_v1.json |
 | `research/cover/__init__.py` | 4113 | `5f3afc075dc40e51…` | inner_wedge_20260920_v1.json |
 | `research/cover/driver.py` | 21760 | `7daaced91c179a75…` | inner_wedge_20260920_v1.json |
 | `research/cover/ledger.py` | 37974 | `58ebe18fbc3fc44e…` | inner_wedge_20260920_v1.json |
 | `research/cover/regions.py` | 23358 | `bf2d981772f3e35e…` | inner_wedge_20260920_v1.json |
-| `research/interval/__init__.py` | — | `a6a185d24615288d…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/interval/core.py` | — | `3f9e699cdb215957…` | candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/interval/transcendental.py` | — | `7db4b5a6d868a731…` | candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
+| `research/interval/__init__.py` | 2371 | `a6a185d24615288d…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/interval/core.py` | — | `3f9e699cdb215957…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
+| `research/interval/transcendental.py` | — | `7db4b5a6d868a731…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
 | `research/rn/certificate.py` | 16550 | `ddbbb25270c01c13…` | inner_wedge_20260920_v1.json |
 | `research/rn/conditioning.py` | — | `1d3ca89d9bc2b2ea…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/gaussian_families.py` | — | `ecd1958dd9e02f82…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/gaussian_moments.py` | — | `d545e4d31ef87605…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/side24.py` | — | `dd6b5aa73442c8d5…` | candidate.json, inner_wedge_20260920_v1.json |
+| `research/rn/gaussian_families.py` | 5348 | `ecd1958dd9e02f82…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/rn/gaussian_moments.py` | 8133 | `d545e4d31ef87605…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `research/rn/side24.py` | 11239 | `dd6b5aa73442c8d5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
 | `research/rn/side24_cell.py` | 13149 | `38cf5632f4689943…` | inner_wedge_20260920_v1.json |
 | `research/rn/side24_density.py` | 8289 | `3ad0b3b6fc3a5124…` | inner_wedge_20260920_v1.json |
 | `tools/drive_coverage.py` | — | `98b33fe9f97fe7a3…` | candidate.json |
 | `tools/hermite_envelope_report.py` | — | `7a60f412a008e3bc…` | hermite_gaussian_20260919.json |
 | `tools/manifest_integrity_check.py` | — | `8b30cf5768318754…` | candidate.json |
 
-34 files and 6 members sealed inside a ZIP carrier, bound at 106 sites across 8 certificates.
+37 files and 6 members sealed inside a ZIP carrier, bound at 128 sites across 10 certificates.
 
 ## Every container of pins, and what its keys are relative to
 
@@ -84,12 +87,16 @@ flipping between the two fails this index's drift comparison by name.
 |---|---|---:|---|
 | `research/bands/candidates/hermite_gaussian_20260919.json` | `inputs` | 7 | repository |
 | `research/formal/candidates/LEAN_RECOVERY_VERIFICATION_20260920_v1.manifest.json` | `members` | 30 | other |
+| `research/parallel/c2/DEPENDENCIES.json` | `repository_python_imports[]` | 14 | repository |
 | `research/parallel/c2/candidate.json` | `dependencies_sha256` | 4 | repository |
 | `research/parallel/c2/candidate.json` | `source_sha256` | 2 | other |
 | `research/parallel/h3/candidate.json` | `payload/computational_sources` | 17 | repository |
 | `research/parallel/h3/candidate.json` | `payload/source` | 3 | other |
 | `research/parallel/h3/candidate.json` | `payload/source/rn5/member_sha256` | 3 | other |
+| `research/parallel/lpw/candidate.json` | `sources[]` | 6 | repository |
 | `research/rn/candidates/inner_wedge_20260920_v1.json` | `auxiliary/pieces[]/source_binding/member_sha256` | 3 | other |
+| `research/rn/candidates/inner_wedge_20260920_v1.json` | `majorant/source_binding/archives[]` | 2 | repository |
+| `research/rn/candidates/inner_wedge_20260920_v1.json` | `majorant/source_binding/archives[]/members[]` | 9 | other |
 | `research/rn/candidates/inner_wedge_20260920_v1.json` | `majorant/source_binding/authenticated_identities` | 29 | repository |
 | `research/rn/candidates/inner_wedge_20260920_v1.json` | `source_identities` | 29 | repository |
 | `research/rn/candidates/side24_density_20260920_v1.json` | `density_window/source_binding/member_sha256` | 3 | other |

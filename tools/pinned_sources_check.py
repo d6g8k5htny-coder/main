@@ -25,13 +25,14 @@ fails. Every binding is also verified against the content in this tree, so a
 mismatch is reported once -- by file, with the certificate that names it and
 both digests -- instead of as four opaque replay rejections.
 
-## Three shapes, and one genuine ambiguity
+## Four shapes, and one genuine ambiguity
 
 A tool that knows only one shape under-reports the surface:
 
     path   -> {"bytes": 37974, "sha256": "58ebe18f..."}
     path   -> "58ebe18f..."                       a bare digest string
     a::b   -> {...}                               member `b` of ZIP carrier `a`
+    {"path", "bytes", "sha256"}                   siblings in a list, not keys
 
 The ambiguity is not the shape but the *root*. The recovered Lean bundle keys
 its `members` inside the bundle, not from the repository root, and one of them
@@ -97,6 +98,31 @@ def looks_like_a_pin(key: str, value) -> dict | None:
     return None
 
 
+def list_record_pin(node) -> tuple[str, dict] | None:
+    """A `{path, bytes, sha256}` record, or None.
+
+    Map pins name the file in the key. This shape names it in a sibling field
+    of a record, and certificates nest those records in a list. A walker that
+    only looks at keys never sees them: `path`, `bytes` and `sha256` are not
+    themselves pins, so the whole list is skipped. Extra sibling fields
+    (`extraction`, `drive_id`, `module`, `members`) are ignored here and walked
+    separately, which is how an archive record can carry both its own path and
+    a nested member list.
+    """
+    if not isinstance(node, dict):
+        return None
+    path = node.get("path")
+    digest = node.get("sha256")
+    size = node.get("bytes")
+    if not isinstance(path, str) or ("/" not in path and "." not in path):
+        return None
+    if not isinstance(digest, str) or not SHA256.match(digest):
+        return None
+    if isinstance(size, bool) or not isinstance(size, int):
+        return None
+    return path, {"sha256": digest, "bytes": size}
+
+
 def certificate_paths(root: str, search_rel: str) -> list[str]:
     """Every JSON under the searched directory, repository-relative, sorted."""
     found = []
@@ -113,12 +139,23 @@ def pins_in(doc) -> dict[str, dict[str, dict]]:
 
     A container is the JSON path of the dict holding the pin, with list indices
     collapsed to `[]` so the eleven `auxiliary/pieces[i]/source_binding/...`
-    blocks read as one container rather than eleven.
+    blocks read as one container rather than eleven. A `{path, bytes, sha256}`
+    record is pinned under the path of that record, so siblings in one list
+    share a container such as `sources[]`.
     """
     out: dict[str, dict[str, dict]] = {}
 
     def walk(node, path: str) -> None:
         if isinstance(node, dict):
+            record = list_record_pin(node)
+            if record is not None:
+                key, pin = record
+                out.setdefault(path, {})[key] = pin
+                for k, v in node.items():
+                    if k in ("path", "bytes", "sha256"):
+                        continue
+                    walk(v, f"{path}/{k}" if path else k)
+                return
             for k, v in node.items():
                 pin = looks_like_a_pin(k, v)
                 if pin is not None:

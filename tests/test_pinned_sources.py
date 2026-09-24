@@ -142,6 +142,40 @@ def test_the_bare_digest_shape_is_recognised(tmp_path):
     assert "lib/mod.py: pinned at" in out.stdout
 
 
+def test_list_record_siblings_are_not_dropped(tmp_path):
+    """`[{path, bytes, sha256}, ...]` names the file in a sibling field.
+
+    The LPW candidate binds its sources this way, and so does
+    `DEPENDENCIES.json`.  A walker that only understands map keys, bare
+    digests and archive members drops every record in the list.  With no
+    other shape present, that drop reads as a clean run that compared nothing.
+    """
+    root = build(tmp_path,
+                 {"lib/mod.py": BODY, "lib/other.py": OTHER},
+                 {"sources": [
+                     {"path": "lib/mod.py", "bytes": len(BODY), "sha256": sha(BODY),
+                      "extraction": "complete local dependency bytes"},
+                     {"path": "lib/other.py", "bytes": len(OTHER), "sha256": sha(OTHER),
+                      "module": "lib.other"},
+                 ]})
+    written = run(root, "--write")
+    assert written.returncode == 0, written.stdout
+    out = run(root)
+    assert out.returncode == 0, out.stdout
+    assert "pinned_files=2" in out.stdout
+    assert "digest_matches=2" in out.stdout
+    assert "certificates=1" in out.stdout
+    index = (root / INDEX_REL).read_text(encoding="utf-8")
+    assert "`lib/mod.py`" in index
+    assert "`lib/other.py`" in index
+    assert "`sources[]`" in index
+    (root / "lib/mod.py").write_bytes(b"changed\n")
+    out = run(root)
+    assert out.returncode != 0, out.stdout
+    assert "lib/mod.py: pinned at" in out.stdout
+    assert "lib/other.py: pinned at" not in out.stdout
+
+
 # --- resolution: the defect this repository already fixed once ------------
 
 def test_a_bundle_relative_container_is_not_compared_at_the_root(tmp_path):
@@ -273,12 +307,40 @@ def test_the_real_tree_verifies_every_binding():
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
     s = summary(out.stdout)
-    assert s["certificates"] == 8
-    assert s["pinned_files"] == 34
+    assert s["certificates"] == 10
+    assert s["pinned_files"] == 37
     assert s["pinned_archive_members"] == 6
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]
     assert s["unresolved"] == 0
     assert s["problems"] == 0
+
+
+# The three LPW sources that no map-shaped pin names.  The interval modules in
+# the same `sources` list are already bound by other certificates; these drive
+# mirrors are present only as `{path, bytes, sha256}` siblings, and their
+# digests match the bytes in this tree.
+LPW_LIST_RECORD_PATHS = (
+    "drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/"
+    "03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md",
+    "drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/"
+    "checks/interval_repair.py",
+    "drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/"
+    "raw_reports/lpw_constant.py",
+)
+
+
+def test_the_lpw_list_record_paths_are_present_against_this_tree():
+    """Those three paths are listed when the check is run on this tree.
+
+    Dropping list-record siblings removes them from the generated inventory
+    and from the comparison, which is the gap this control exists to close.
+    """
+    out = run(ROOT)
+    assert out.returncode == 0, out.stdout
+    index = open(os.path.join(ROOT, INDEX_REL), encoding="utf-8").read()
+    for path in LPW_LIST_RECORD_PATHS:
+        assert f"`{path}`" in index, path
+        assert f"{path}: pinned at" not in out.stdout
 
 
 def test_the_index_names_the_bindings_nobody_would_guess():
