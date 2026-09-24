@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
   "attestation_id": "ATT-RN-SIDE24-DENSITY-20260923C",
-  "attested_utc": "2026-09-24T18:49:12Z",
-  "object_id": "docs/RN_SIDE24_DENSITY.md @ 00e95356cf7b83a9fc9828b6d662f433bfb55de8",
-  "object_title": "SIDE24 six-pin density and window replay: fixed-point RN integrand upper bound",
+  "attested_utc": "2026-09-24T18:55:00Z",
+  "object_id": "docs/RN_SIDE24_DENSITY.md @ 120050136f5586b9de3c0f054119b978c92f8a49",
+  "object_title": "SIDE24 six-pin density and window replay, after the SoT-ABSENT nav append",
   "object_bytes": 9660,
   "object_sha256": "9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec",
   "predicate_id": "ARCH-ADMISSION-V1",
@@ -33,17 +33,17 @@
     {
       "command": "python3 tools/lanes_check.py",
       "exit_code": 0,
-      "summary": "OK — 15 lanes, one per section of docs/OPEN_PROBLEMS.md"
+      "summary": "lanes_check: OK \u2014 15 lanes, one per section of docs/OPEN_PROBLEMS.md"
     },
     {
       "command": "python3 tools/frozen_check.py",
       "exit_code": 0,
-      "summary": "rows=195 comparable=62 match=62 match_via_supplement=0 mismatch=0 unverifiable=0 body_present=17 not_comparable=116 problems=0"
+      "summary": "frozen_check: rows=195 comparable=62 match=62 mismatch=0 unverifiable=0 body_present=17 not_comparable=116 problems=0"
     },
     {
       "command": "python3 tools/rn_side24_density_check.py",
       "exit_code": 0,
-      "summary": "exact six-pin density/window replay; point integrand <= 1888043/500000000000; H3 floor imported; no spatial cover; authority=NONE"
+      "summary": "RN SIDE24 density: exact six-pin density/window replay; point integrand <= 1888043/500000000000; H3 floor imported; no spatial cover; authority=NONE"
     }
   ],
   "outcome": "ADMITTED",
@@ -57,6 +57,6 @@
   "claim_grade_after": "UNCHANGED",
   "gate_status_after": "UNCHANGED",
   "independence_credit": 0,
-  "does_not_establish": "Re-attesting the 9,660-byte file records that seven structural gates exited zero over the bytes commit 120050136f5586b9de3c0f054119b978c92f8a49 left behind, after a source-of-truth navigation note was appended to the 9,454-byte text its predecessor described. Hashing that note does not make the note true. The sentences saying SIDE24 has no new source-of-truth carrier after 2026-08-06, that carriers marked ABSENT stay ABSENT, that quarantine is not a source of truth, and that inventable_attempt_accepted stays false, remain prose about an absence. This record does not show the point integrand bound 1888043/500000000000 valid, does not show the Gaussian disintegrations are the right conditional laws, and does not show the enclosed conditional height mean near 1.22864492785 correctly computed. It verifies no arithmetic and re-derives nothing. The spatial cover the object says is absent is still absent. The imported H3 floor is still held in custody. Authority stays NONE. The obligation stays OPEN. Independence credit stays zero. No grade moves and no gate moves. Superseding a stale digest repairs a bookkeeping mismatch about bytes.",
-  "notes": "Numbered successor to ATT-RN-SIDE24-DENSITY-20260923B, which attested 9,454 bytes and sha256 6f7c23d091f8a09bbfb63c99135e4554c980369a3af858e74ba9b482746eb9a5. PR #66 appended a source-of-truth ABSENT navigation note, taking docs/RN_SIDE24_DENSITY.md to 9,660 bytes and sha256 9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec, so B no longer described the bytes in the tree. The seven gates were re-run at 2026-09-24T18:49:12Z on head 00e95356cf7b83a9fc9828b6d662f433bfb55de8 and each exited 0; their count lines are transcribed from that run rather than copied. Quarantine's line now includes digest_comparable=16 and digest_not_compared=6 because the checker prints those counters, which B's summary line did not carry. The awaiting list is unchanged because none of those obligations moved. The density driver summary still ends authority=NONE. ATT-RN-SIDE24-DENSITY-20260923 stays superseded by B and is not revived. This record flips no flag."
+  "does_not_establish": "Successor C records that the seven structural gates exited zero over docs/RN_SIDE24_DENSITY.md at commit 120050136f5586b9de3c0f054119b978c92f8a49: 9660 bytes, sha256 9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec. Predecessor ATT-RN-SIDE24-DENSITY-20260923B described 9454 bytes and sha256 6f7c23d091f8a09bbfb63c99135e4554c980369a3af858e74ba9b482746eb9a5, which no longer matches the tree after PR #66. The appended paragraph says SIDE24 has no new source-of-truth carrier after 2026-08-06, that carriers for objects marked ABSENT stay ABSENT, that quarantine is not a source of truth, and that inventable_attempt_accepted stays false. Attesting the new bytes does not establish that paragraph, does not invent a source of truth, and leaves every ABSENT carrier ABSENT. The point integrand bound 1888043/500000000000 is not shown valid. The Gaussian disintegrations are not shown to be the right conditional laws. The enclosed conditional height mean near 1.22864492785 is not shown correctly computed. This record verifies no arithmetic and re-derives nothing. A green replay is engineering hygiene and is not a mathematical result. OBL-H5-JETMOD stays OPEN. lemma_closed, prizes_solved, certified_C_H, and freeze stay false. Independence credit stays 0. Superseding a stale attestation repairs a bookkeeping fact about bytes.",
+  "notes": "Numbered successor to ATT-RN-SIDE24-DENSITY-20260923B. PR #66 appended the SoT-ABSENT navigation paragraph, taking the object from 9454 bytes to 9660, so the predecessor no longer described the bytes in the tree. The seven gates were re-run against commit 120050136f5586b9de3c0f054119b978c92f8a49 rather than copied. quarantine_check now reports digest_comparable=16 and digest_not_compared=6. frozen_check on this tip reports match=62 and does not print match_via_supplement, because that counter is not in this tip's checker. The awaiting list is unchanged because none of those obligations moved. The driver's own summary still ends authority=NONE, transcribed here. inventable_attempt_accepted stays false."
 }
