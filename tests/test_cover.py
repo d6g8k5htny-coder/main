@@ -1521,3 +1521,100 @@ def test_43_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
             continue
         with open(path, encoding="utf-8") as handle:
             assert fragment in handle.read(), f"{rel} no longer quotes {fragment}"
+
+
+def test_44_a_cell_tangent_to_the_inner_circle_is_not_OUTSIDE():
+    """CONTROL 44. Kills `regions.py:412` `hi2 < rlo2` -> `hi2 <= rlo2`.
+
+    The README recorded this site as surviving because "the reference geometry
+    never lands on" the equality. True of the reference runs, and not a reason
+    the mutant is unkillable: a box whose greatest radius is EXACTLY the inner
+    radius separates them, and exact rationals make one easy to build.
+
+    ``[0, 3/50] x [0, 4/50]`` straddles the origin on both axes, so
+    ``_axis_min_max`` gives ``lo = 0`` on each and ``hi2 = (3/50)^2 + (4/50)^2
+    = 9/2500 + 16/2500 = 1/100``, exactly ``r_lo^2``. The cell reaches the
+    inner circle and is therefore NOT provably disjoint from the annulus:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+
+    which matters because ``OUTSIDE`` is the disposition whose rejection reason
+    says *proved disjoint* and whose residual ``total()`` discards outright
+    (control 41). A cell touching the region, rejected as disjoint, is how a
+    cover loses area it should have accounted for.
+    """
+    r = rn5_annulus_bracket()
+    box = Box(F(0), F(3, 50), F(0), F(4, 50))
+    lo2, hi2 = r.radius2_range(box)
+    assert lo2 == 0
+    assert hi2 == r.r_lo ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert r.classify(box) == STRADDLE
+
+
+def test_45_a_cell_tangent_to_the_outer_circle_is_not_OUTSIDE():
+    """CONTROL 45. Kills `regions.py:412` `lo2 > rhi2` -> `lo2 >= rhi2`.
+
+    The mirror of control 44, and a separate control because each box kills
+    exactly one of the two comparisons: the inner-tangent box leaves this
+    mutant alive and vice versa.
+
+    ``[5, 6] x [0, 1]`` does not straddle zero on the u axis, so
+    ``_axis_min_max`` gives ``lo = 5`` there, and ``lo2 = 25 + 0 = 25``,
+    exactly ``r_hi^2``. The cell reaches the outer circle:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+    """
+    r = rn5_annulus_bracket()
+    box = Box(F(5), F(6), F(0), F(1))
+    lo2, hi2 = r.radius2_range(box)
+    assert lo2 == r.r_hi ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert r.classify(box) == STRADDLE
+
+
+def test_46_the_axis_min_max_operand_flips_are_provably_equivalent():
+    """CONTROL 46. `regions.py:399` is NOT killable, and that is the finding.
+
+    The README listed `regions.py:399` beside `:412` under one description --
+    "disjointness tests, differing only at exact tangency" -- and that
+    description is wrong for this site on both counts. Line 399 is not a
+    disjointness test; it is the per-axis min/max helper::
+
+        lo = Fraction(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    and its two operand flips differ NOWHERE on a legal box, not merely at
+    tangency. Proof, one line each:
+
+      * ``a < 0 <= b`` can only diverge when ``a == 0``; the else branch then
+        returns ``min(|0|, |b|) = 0``, which is what the if branch returns.
+      * ``a <= 0 < b`` can only diverge when ``b == 0``; the else branch then
+        returns ``min(|a|, 0) = 0``, likewise.
+
+    So no cover, no cell width and no input separates them. This control
+    therefore cannot kill the mutant -- nothing can -- and asserts the
+    EQUIVALENCE instead, over a grid of legal boxes. If someone later changes
+    ``_axis_min_max`` so that the flips stop agreeing, the README's claim of
+    equivalence becomes false and this fails, which is the only guard an
+    equivalence claim can carry.
+    """
+    def live(a, b):
+        return F(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    def flip_first(a, b):
+        return F(0) if (a < 0 <= b) else min(abs(a), abs(b))
+
+    def flip_second(a, b):
+        return F(0) if (a <= 0 < b) else min(abs(a), abs(b))
+
+    values = [F(n, d) for n in range(-6, 7) for d in (1, 2, 3)]
+    pairs = [(a, b) for a in values for b in values if a <= b]
+    assert len(pairs) > 700, "the grid must be wide enough to be worth quoting"
+    for a, b in pairs:
+        assert live(a, b) == flip_first(a, b) == flip_second(a, b), (a, b)
+
+    # And the live helper is the one the region actually uses, so the proof is
+    # about shipped code rather than a copy that has drifted from it.
+    r = rn5_annulus_bracket()
+    for a, b in ((F(-1), F(2)), (F(0), F(3)), (F(-4), F(0)), (F(2), F(5))):
+        assert r._axis_min_max(a, b) == (live(a, b), max(abs(a), abs(b)))

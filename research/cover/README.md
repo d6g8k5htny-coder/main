@@ -444,14 +444,39 @@ given the caveat below.
 | `ledger.py:667` | `<=` -> `<` | the "(+N more)" threshold in a message, at exactly 8 pending cells. Cosmetic. |
 | `ledger.py:684` | `or` -> `and` | a defensive branch already marked `# pragma: no cover`. |
 | `regions.py:297`, `:299` | `>` -> `>=` | the theta-halving policy, differing only when arc and radial extent are *exactly* equal. |
-| `regions.py:399`, `:412` (x2) | `<=` -> `<`, `<` -> `<=` | disjointness tests, differing only at exact tangency. |
+| `regions.py:412` (x2) | `<` -> `<=`, `>` -> `>=` | **KILLED 2026-09-24**, controls 44 and 45. A genuine disjointness test, and the equality is reachable: a box tangent to the inner circle (`hi2 = r_lo^2` exactly) and one tangent to the outer (`lo2 = r_hi^2`) each classify `STRADDLE` live and `OUTSIDE` mutated. Each box kills one comparison; both are needed. |
+| `regions.py:399` | `<=` -> `<` (x2) | **provably equivalent**, control 46 -- see below. Not a disjointness test and not a tangency case. |
 | `driver.py:217` | `<=` -> `<` | accept-at-budget, differing only when the width is *exactly* the budget. |
 
-Six of the nine are exact-equality boundaries that the reference geometry never
-lands on, and three are message text or a `pragma`-marked branch. That is a
-statement about what was measured, not a claim that they are all provably
-equivalent; a cover whose cell widths happened to hit one of those equalities
-would separate them.
+That last sentence used to read that all six equality boundaries were sites
+"the reference geometry never lands on", under one description covering both
+`regions.py:399` and `:412`. **The description was wrong for `:399` and the
+generalisation was wrong for `:412`,** and the two errors point in opposite
+directions.
+
+`:412` is `if hi2 < rlo2 or lo2 > rhi2: return OUTSIDE`. That is a disjointness
+test, the equality is reachable, and exact rationals make a witness easy:
+`[0, 3/50] x [0, 4/50]` has `hi2 = 9/2500 + 16/2500 = 1/100 = r_lo^2` exactly.
+It is `STRADDLE` live and `OUTSIDE` mutated -- a cell touching the region,
+rejected as *proved disjoint*, whose residual `total()` then discards. Killed
+by controls 44 and 45.
+
+`:399` is not a disjointness test at all. It is the per-axis min/max helper,
+`lo = Fraction(0) if (a <= 0 <= b) else min(abs(a), abs(b))`, and its two
+operand flips differ **nowhere** on a legal box rather than only at tangency:
+`a < 0 <= b` can diverge only when `a == 0`, and the else branch then returns
+`min(|0|, |b|) = 0`, which is what the if branch returns; `a <= 0 < b`
+likewise when `b == 0`. So no cover, no cell width and no input separates them.
+Control 46 asserts the equivalence over 797 legal pairs rather than pretending
+a kill is available, because for an equivalence claim that is the only guard
+there is: if `_axis_min_max` ever changes so the flips disagree, the claim here
+becomes false and the control fails.
+
+The remaining entries above are still the sweep's classification, measured and
+not proved. Two of the nine are now killed and one is proved equivalent; the
+other six have not been re-examined by hand, and the count of "six exact-equality
+boundaries the geometry never lands on" should be read as the sweep's, which
+this correction has now shown to be wrong at least once in each direction.
 
 **A caveat on the harness, stated because it bit.** The sweep identifies a
 mutation site by index and reports the source line of the node it mutated. On

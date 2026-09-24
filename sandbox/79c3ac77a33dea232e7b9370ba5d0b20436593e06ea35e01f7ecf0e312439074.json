@@ -1,0 +1,63 @@
+{
+  "accepted_by_drive_record": null,
+  "actor": {
+    "authenticated_principal_id": "github-app-installation:0 (fixture)",
+    "declared_model": "fixture",
+    "declared_provider": "fixture",
+    "exposure": "fixture: nothing was read",
+    "session_id": "fixture-session"
+  },
+  "body_sha256": "970525c0d90ba2f2099f6d28fed7fc0a7ed40880431f32fd9b6b2565653ddc03",
+  "does_not_establish": "This is a design example, not a receipt. Nothing ran: no commit, no command, no test and no negative control is recorded, and none may be read into it. It was not reviewed, was not delivered to Drive, was not accepted, carries zero independence credit, and changes no mathematical status; the contract it illustrates is PROPOSED / NOT DEPLOYED.",
+  "drive_return": {
+    "acceptance_status": "NOT_ACCEPTED",
+    "delivery_id": null,
+    "expected_old_head": null,
+    "readback_sha256": null,
+    "readback_utc": null,
+    "receipt_file_id": null
+  },
+  "execution": {
+    "commands": [
+      "python3 -m pytest -q tests/test_bridge.py",
+      "python3 tools/bridge_check.py"
+    ],
+    "commit_sha": "0000000000000000000000000000000000000000",
+    "dirty_worktree": false,
+    "end_utc": "2026-09-18T12:05:00.000000Z",
+    "environment_identity": "fixture runner (no real environment)",
+    "exit_codes": [
+      0,
+      0
+    ],
+    "repository_id": 1117225690,
+    "start_utc": "2026-09-18T12:00:00.000000Z",
+    "tree_sha": "1111111111111111111111111111111111111111"
+  },
+  "idempotency_key": "79c3ac77a33dea232e7b9370ba5d0b20436593e06ea35e01f7ecf0e312439074",
+  "outputs": [],
+  "record_kind": "RECORD",
+  "review": {
+    "authorship_exposure": null,
+    "independence_credit": 0,
+    "organizational_independence_record_id": null,
+    "technical_verdict": "NOT_REVIEWED"
+  },
+  "run_id": "FIXTURE-RUN-0",
+  "schema": "q0.bridge.run_receipt/v1",
+  "scientific_status_change": "UNCHANGED",
+  "status": "EXECUTED",
+  "task_id": "FIXTURE-TASK-EXEC",
+  "verification": {
+    "coverage": "tests/test_bridge.py",
+    "excluded_scope": [
+      "all mathematics"
+    ],
+    "negative_controls": [
+      "a receipt with tests_passed null cannot PASS"
+    ],
+    "tests_failed": 0,
+    "tests_passed": 3
+  },
+  "work_order_digest": "e106ad65043a7d938a47d56d7945e1b1680cbb39f443b417b1fffd4e3726b460"
+}
