@@ -23,8 +23,10 @@ does not retarget them.
 [Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8)
 and the [research registers / Work Events](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no)
 remain the governing records. SIDE24 has no new source-of-truth carrier after
-2026-08-06. Objects marked **ABSENT** in [RN_SIDE24.md](RN_SIDE24.md) stay
-**ABSENT**. Quarantine is not a source of truth.
+2026-08-06. Objects marked **ABSENT** in [RN_SIDE24.md](RN_SIDE24.md),
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md), and
+[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) stay **ABSENT**. Quarantine is not a
+source of truth.
 
 [google-drive](https://github.com/d6g8k5htny-coder/google-drive) holds selected
 public replicas, not a complete backup. The
