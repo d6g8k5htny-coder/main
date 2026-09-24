@@ -122,7 +122,9 @@ from research.cover import (  # noqa: E402
     check_exact_partition, radial_gaussian_closed_form, rn5_annulus_bracket,
     rn5_annulus_polar, run, t4_polar_cover,
 )
-from research.cover.regions import INSIDE, OUTSIDE, STRADDLE  # noqa: E402
+from research.cover.regions import (  # noqa: E402
+    INSIDE, OUTSIDE, STRADDLE, two_pi_upper,
+)
 
 
 # --------------------------------------------------------------- helpers
@@ -1291,3 +1293,94 @@ def test_34_NEGATIVE_CONTROL_the_outside_guard_is_load_bearing():
     assert total.certified and total.covers_region and total.caveats == ()
     assert total.certified_enclosure() == Interval.exact(F(1))
     assert led.records["b"].residual == Interval.exact(F(10) ** 6)
+
+
+def test_43_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
+    """CONTROL 43. The cost figure is published in three documents. Pin it.
+
+    ``uniform_cost`` is this package's answer to RN5's "Treat the near-axis
+    refinement cost explicitly", and the README stakes its standing on the
+    distinction: "a count, not an estimate -- exact rationals, no fit, no
+    sampling". Its output is quoted as exact arithmetic in three places:
+    ``docs/OPEN_PROBLEMS.md`` A5 ("98 x 629 = 61,642 polar cells"),
+    ``docs/FINDINGS_2026-09-18.md``, and ``research/cover/README.md``.
+
+    Control 18 checks the types, that ``cells`` is the product, that the
+    anisotropy is 50, and that a finer target costs more. None of that
+    constrains the *contract* the docstring states -- that a grid of ``N_r``
+    radial and ``N_t`` angular steps bounds the cell diameter by
+    ``dr + r_hi * 2*pi * dt <= target``. So the published number was pinned by
+    nothing, and this mutation survived all 48 tests:
+
+        regions.py:323   half = target_diameter / 2   ->   half = target_diameter
+
+    Under it the annulus reports **49 x 315 = 15,435** cells rather than
+    98 x 629 = 61,642, and the grid it describes has diameter bound 0.1997
+    against a target of 0.1 -- it does not cover at the requested resolution,
+    and every document quoting 61,642 becomes false. Nothing failed.
+
+    Three things are asserted here, all in exact rationals and never in float.
+    """
+    a = rn5_annulus_polar()
+
+    # (i) The contract, at several targets.
+    #
+    #     NOTE ON WHAT MINIMALITY MEANS HERE, because the first draft of this
+    #     control asserted the wrong one and failed. `uniform_cost` splits the
+    #     budget EVENLY -- each axis is solved independently against
+    #     `target/2` -- so each count is minimal FOR ITS HALF, and that is what
+    #     is asserted below. The pair is NOT jointly minimal over all
+    #     (n_r, n_t) meeting the combined bound, and this control does not
+    #     claim it is: at target 1/3 the annulus reports 30 x 189 while
+    #     30 x 188 also satisfies `dr + r_hi*2*pi*dt <= 1/3`. Spending less on
+    #     one axis to spend more on the other is a different algorithm from the
+    #     one the docstring describes, and a test may not quietly demand it.
+    for target in (F(1, 10), F(1, 20), F(1, 3)):
+        cost = a.uniform_cost(target)
+        n_r, n_t = cost["radial_steps"], cost["angular_steps"]
+        span = a.r_hi - a.r_lo
+        circ = a.r_hi * two_pi_upper()
+        half = target / 2
+
+        radial_step = span / n_r
+        angular_extent = circ * (F(1) / n_t)
+
+        # The headline contract the docstring states.
+        assert radial_step + angular_extent <= target, (
+            f"target {target}: grid {n_r}x{n_t} has diameter bound "
+            f"{radial_step + angular_extent} > {target}; it does not cover at "
+            f"the resolution it claims")
+        assert isinstance(radial_step + angular_extent, F)
+
+        # The even split, which is how that bound is actually achieved.
+        assert radial_step <= half and angular_extent <= half
+
+        # And each count minimal for its own half -- ceil division, so one
+        # step fewer must overshoot. This is what the mutation breaks.
+        if n_r > 1:
+            assert span / (n_r - 1) > half, (
+                f"target {target}: {n_r - 1} radial steps would also fit the "
+                f"half-budget, so the radial count is not minimal")
+        if n_t > 1:
+            assert circ * (F(1) / (n_t - 1)) > half, (
+                f"target {target}: {n_t - 1} angular steps would also fit the "
+                f"half-budget, so the angular count is not minimal")
+
+    # (ii) The figure three documents quote, pinned to the arithmetic.
+    published = a.uniform_cost(F(1, 10))
+    assert published["radial_steps"] == 98
+    assert published["angular_steps"] == 629
+    assert published["cells"] == 61642
+
+    # (iii) And the documents themselves, so prose and arithmetic cannot drift
+    #       apart in either direction without a failure here.
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for rel, fragment in (
+            (os.path.join("research", "cover", "README.md"), "61,642"),
+            (os.path.join("docs", "OPEN_PROBLEMS.md"), "61,642"),
+            (os.path.join("docs", "FINDINGS_2026-09-18.md"), "61,642")):
+        path = os.path.join(root, rel)
+        if not os.path.isfile(path):          # the doc set differs per branch
+            continue
+        with open(path, encoding="utf-8") as handle:
+            assert fragment in handle.read(), f"{rel} no longer quotes {fragment}"
