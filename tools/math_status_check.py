@@ -588,14 +588,16 @@ def check_packet(packet_dir: str) -> list:
             if not isinstance(spec, dict) or not os.path.isfile(path):
                 problems.append(f"{name}: transcription pin missing")
                 continue
-            data = open(path, "rb").read()
+            with open(path, "rb") as handle:
+                data = handle.read()
             digest = hashlib.sha256(data).hexdigest()
             if spec.get("sha256") != digest or spec.get("bytes") != len(data):
                 problems.append(f"{name}: sha256/bytes drifted from PACKET.json")
 
     jetmod_path = os.path.join(packet_dir, "STATUS_JETMOD.md")
     if os.path.isfile(jetmod_path):
-        jetmod_text = open(jetmod_path, encoding="utf-8").read()
+        with open(jetmod_path, encoding="utf-8") as handle:
+            jetmod_text = handle.read()
         for bad in ("CERTIFIED_24JET", "| READY |", "| DISCHARGED |"):
             if bad in jetmod_text:
                 problems.append(f"STATUS_JETMOD.md: forbidden status token {bad!r}")
@@ -604,7 +606,8 @@ def check_packet(packet_dir: str) -> list:
         path = os.path.join(packet_dir, name)
         if not os.path.isfile(path):
             continue
-        text = open(path, encoding="utf-8").read()
+        with open(path, encoding="utf-8") as handle:
+            text = handle.read()
         flat = re.sub(r"\s+", " ", text)
         for phrase in phrases:
             if phrase not in flat:
@@ -613,21 +616,26 @@ def check_packet(packet_dir: str) -> list:
 
     console_path = os.path.join(packet_dir, "math_console.py")
     if os.path.isfile(console_path):
-        source = open(console_path, encoding="utf-8").read()
+        with open(console_path, encoding="utf-8") as handle:
+            source = handle.read()
         for phrase in CONSOLE_PHRASES:
             if phrase not in source:
                 problems.append(f"math_console.py: missing {phrase!r}")
         check_assignment_text("math_console.py", source, problems)
     if os.path.isfile(snapshot_path):
+        with open(snapshot_path, encoding="utf-8") as handle:
+            snapshot_text = handle.read()
         check_assignment_text(
             "math_console_snapshot.json",
-            open(snapshot_path, encoding="utf-8").read(),
+            snapshot_text,
             problems,
         )
     if os.path.isfile(packet_path):
+        with open(packet_path, encoding="utf-8") as handle:
+            packet_text = handle.read()
         check_assignment_text(
             "PACKET.json",
-            open(packet_path, encoding="utf-8").read(),
+            packet_text,
             problems,
         )
     return problems

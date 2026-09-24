@@ -294,7 +294,8 @@ def test_a5_publishes_the_enclosure_when_the_ledger_certifies_it(monkeypatch):
 
 def test_writer_module_has_no_destructive_call():
     """STRUCTURAL: engine/receipt.py creates files only with mode 'x'."""
-    tree = ast.parse(open(RECEIPT_PY, encoding="utf-8").read())
+    with open(RECEIPT_PY, encoding="utf-8") as handle:
+        tree = ast.parse(handle.read())
     modes = []
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
@@ -364,7 +365,8 @@ def test_checker_detects_edits_and_deletions_against_git_head(tmp_path):
                     root=str(repo), check_git=True)[0] == []
 
     # (a) edit the body and recompute the hash so it is self-consistent.
-    obj = json.load(open(path, encoding="utf-8"))
+    with open(path, encoding="utf-8") as handle:
+        obj = json.load(handle)
     obj["results"][1]["value"] = "1/2"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(rehash(obj), f, indent=2, sort_keys=True)
@@ -592,7 +594,8 @@ def test_run_py_contains_no_write_path_at_all():
     a writer for the lane files or the claim graph, this test fails before any
     receipt is written.
     """
-    tree = ast.parse(open(RUN_PY, encoding="utf-8").read())
+    with open(RUN_PY, encoding="utf-8") as handle:
+        tree = ast.parse(handle.read())
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
                 and node.func.id == "open":
@@ -611,7 +614,8 @@ def test_run_py_contains_no_write_path_at_all():
 
 def test_run_py_imports_exactly_one_writer_and_it_is_the_receipt_writer():
     """STRUCTURAL: no writer for a governed path is imported."""
-    tree = ast.parse(open(RUN_PY, encoding="utf-8").read())
+    with open(RUN_PY, encoding="utf-8") as handle:
+        tree = ast.parse(handle.read())
     imported = {}
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom):
@@ -647,7 +651,8 @@ def test_run_py_names_the_governed_paths_only_as_read_only_inputs():
     """`LANES_DIR` and `CLAIM_GRAPH` exist to be read, and are never written."""
     assert RUN.LANES_DIR.endswith(os.path.join("engine", "lanes"))
     assert RUN.CLAIM_GRAPH.endswith(os.path.join("claims", "graph.json"))
-    src = open(RUN_PY, encoding="utf-8").read()
+    with open(RUN_PY, encoding="utf-8") as handle:
+        src = handle.read()
     assert "write_receipt" in src
     for bad in ("json.dump(", "os.replace(", "os.remove(", "shutil."):
         assert bad not in src, f"engine/run.py contains {bad}"

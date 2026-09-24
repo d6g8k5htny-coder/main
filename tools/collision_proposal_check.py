@@ -591,7 +591,8 @@ def predecessor_chain(doc, paths: Paths, res: Result) -> list[tuple[str, dict]]:
         ppath = paths.rel(prel)
         if not res.check(os.path.exists(ppath), f"successor_of names a missing predecessor: {prel}"):
             return out
-        raw = open(ppath, "rb").read()
+        with open(ppath, "rb") as handle:
+            raw = handle.read()
         digest_ok = res.check(hashlib.sha256(raw).hexdigest() == pred.get("sha256"),
                               f"successor_of.sha256 does not match {prel} on disk "
                               "(the predecessor is frozen; a changed digest means it was edited)")
@@ -677,8 +678,11 @@ def check_successors(doc, paths: Paths, res: Result) -> None:
     if "predecessor_chain" in doc:
         # A document that lists its whole chain must list exactly what the walk found, by
         # path, digest and byte count, nearest predecessor first.
-        walked = [{"path": prel, "sha256": hashlib.sha256(open(paths.rel(prel), "rb").read()).hexdigest(),
-                   "bytes": os.path.getsize(paths.rel(prel))} for prel, _ in chain]
+        walked = []
+        for prel, _ in chain:
+            with open(paths.rel(prel), "rb") as handle:
+                digest = hashlib.sha256(handle.read()).hexdigest()
+            walked.append({"path": prel, "sha256": digest, "bytes": os.path.getsize(paths.rel(prel))})
         listed = doc.get("predecessor_chain")
         stripped = [{k: x.get(k) for k in ("path", "sha256", "bytes")} for x in listed] \
             if isinstance(listed, list) and all(isinstance(x, dict) for x in listed) else None
@@ -720,7 +724,8 @@ def check_verbatim_markdown_lines(doc, paths: Paths, res: Result) -> None:
     if not os.path.exists(export):
         res.check(False, f"source export missing: {export}")
         return
-    raw = open(export, encoding="utf-8").read()
+    with open(export, encoding="utf-8") as handle:
+        raw = handle.read()
     lines = raw.split("\n")
     sha = hashlib.sha256(raw.encode("utf-8")).hexdigest()
     rec = (doc.get("source_of_record") or {}).get("sha256")
@@ -749,7 +754,8 @@ def check_verbatim_xlsx_json_rows(doc, paths: Paths, section: str, res: Result) 
     if not (xlsx_rel and os.path.exists(xlsx)):
         res.check(False, f"source xlsx export missing: {xlsx_rel or '(no xlsx_path recorded)'}")
         return
-    raw = open(xlsx, "rb").read()
+    with open(xlsx, "rb") as handle:
+        raw = handle.read()
     sha = hashlib.sha256(raw).hexdigest()
     res.check(src.get("xlsx_sha256") == sha,
               f"recorded xlsx sha256 {src.get('xlsx_sha256')} != actual {sha}")
@@ -1090,7 +1096,8 @@ def check_markdown(doc, paths: Paths, section: str, res: Result) -> None:
     if not os.path.exists(md_path):
         res.check(False, f"missing companion document: {md_path}")
         return
-    md = open(md_path, encoding="utf-8").read()
+    with open(md_path, encoding="utf-8") as handle:
+        md = handle.read()
     for needle, what in [
         ("requires operator action", "the proposal-requires-operator-action statement"),
         ("export remains faithful", "the export-remains-faithful statement"),

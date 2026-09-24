@@ -50,7 +50,8 @@ def dump(path: str, obj) -> None:
 
 def refresh_pin(packet_dir: str, name: str) -> None:
     path = os.path.join(packet_dir, name)
-    data = open(path, "rb").read()
+    with open(path, "rb") as handle:
+        data = handle.read()
     packet = load(os.path.join(packet_dir, "PACKET.json"))
     packet["transcriptions"][name] = {
         "sha256": hashlib.sha256(data).hexdigest(),
@@ -64,12 +65,16 @@ def test_real_packet_passes_and_writes_nothing():
     for dirpath, _dirs, files in os.walk(PACKET):
         for name in files:
             path = os.path.join(dirpath, name)
-            before[path] = open(path, "rb").read()
+            with open(path, "rb") as handle:
+                before[path] = handle.read()
     result = run(PACKET)
     assert result.returncode == 0, result.stdout + result.stderr
     assert "problems=0" in result.stdout
     assert "does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF" in result.stdout
-    after = {path: open(path, "rb").read() for path in before}
+    after = {}
+    for path in before:
+        with open(path, "rb") as handle:
+            after[path] = handle.read()
     assert after == before
 
 
@@ -152,8 +157,10 @@ def test_negative_mesh_certified_true_is_refused(tmp_path):
 def test_negative_transcription_byte_drift_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "STATUS.md")
-    text = open(path, encoding="utf-8").read().replace("still OPEN", "still OPEN ")
-    open(path, "w", encoding="utf-8").write(text)
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace("still OPEN", "still OPEN ")
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     result = run(packet_dir)
     assert result.returncode != 0
     assert "STATUS.md: sha256/bytes drifted" in result.stdout
@@ -162,11 +169,13 @@ def test_negative_transcription_byte_drift_is_refused(tmp_path):
 def test_negative_readme_without_the_certified_quarantine_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "README.md")
-    text = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
         "STATUS.md uses the word CERTIFIED",
         "STATUS.md mentions a form-level envelope",
-    )
-    open(path, "w", encoding="utf-8").write(text)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     result = run(packet_dir)
     assert result.returncode != 0
     assert "missing required phrase" in result.stdout
@@ -175,11 +184,13 @@ def test_negative_readme_without_the_certified_quarantine_is_refused(tmp_path):
 def test_negative_evening_wall_phrase_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "STATUS_RN_UNIF.md")
-    text = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
         "does not discharge D3-LEMMA-RN-UNIF",
         "records D3-LEMMA-RN-UNIF",
-    )
-    open(path, "w", encoding="utf-8").write(text)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     refresh_pin(packet_dir, "STATUS_RN_UNIF.md")
     result = run(packet_dir)
     assert result.returncode != 0
@@ -190,11 +201,13 @@ def test_negative_evening_wall_phrase_dropped_is_refused_even_with_a_refreshed_d
 def test_negative_chart_factor_phrase_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "STATUS_JETMOD.md")
-    text = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
         "Inventing φ/r^α is refused.",
         "A bridge formula is unnamed.",
-    )
-    open(path, "w", encoding="utf-8").write(text)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     refresh_pin(packet_dir, "STATUS_JETMOD.md")
     result = run(packet_dir)
     assert result.returncode != 0
@@ -205,11 +218,13 @@ def test_negative_chart_factor_phrase_dropped_is_refused_even_with_a_refreshed_d
 def test_negative_sibling_sweep_nondischarge_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "STATUS_JETMOD.md")
-    text = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
         "Sibling sweep CLOSED EMPTY does not discharge OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.",
         "Sibling sweep CLOSED EMPTY is noted beside the walls.",
-    )
-    open(path, "w", encoding="utf-8").write(text)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     refresh_pin(packet_dir, "STATUS_JETMOD.md")
     result = run(packet_dir)
     assert result.returncode != 0
@@ -227,7 +242,8 @@ JETMOD_STATUS_VOCAB = (
 
 
 def test_jetmod_instrumentation_status_vocab_is_partial_or_refused():
-    text = open(os.path.join(PACKET, "STATUS_JETMOD.md"), encoding="utf-8").read()
+    with open(os.path.join(PACKET, "STATUS_JETMOD.md"), encoding="utf-8") as handle:
+        text = handle.read()
     for prototype, token in JETMOD_STATUS_VOCAB:
         assert prototype in text
         assert token in text
@@ -247,11 +263,13 @@ def test_jetmod_instrumentation_status_vocab_is_partial_or_refused():
 def test_negative_jetmod_status_vocab_token_dropped_is_refused_even_with_a_refreshed_digest(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "STATUS_JETMOD.md")
-    text = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
         "PARTIAL_C2_ONLY / REFUSED_NOT_24JET",
         "CERTIFIED_24JET",
-    )
-    open(path, "w", encoding="utf-8").write(text)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
     refresh_pin(packet_dir, "STATUS_JETMOD.md")
     result = run(packet_dir)
     assert result.returncode != 0
@@ -262,7 +280,8 @@ def test_negative_jetmod_status_vocab_token_dropped_is_refused_even_with_a_refre
 
 def test_negative_extra_file_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
-    open(os.path.join(packet_dir, "CLOSED.md"), "w", encoding="utf-8").write("CLOSED\n")
+    with open(os.path.join(packet_dir, "CLOSED.md"), "w", encoding="utf-8") as handle:
+        handle.write("CLOSED\n")
     result = run(packet_dir)
     assert result.returncode != 0
     assert "unexpected files" in result.stdout
@@ -271,11 +290,13 @@ def test_negative_extra_file_is_refused(tmp_path):
 def test_negative_console_source_flag_flip_is_refused(tmp_path):
     packet_dir = copy_packet(tmp_path)
     path = os.path.join(packet_dir, "math_console.py")
-    source = open(path, encoding="utf-8").read().replace(
+    with open(path, encoding="utf-8") as handle:
+        source = handle.read().replace(
         '"lemma_closed": False',
         '"lemma_closed": True',
-    )
-    open(path, "w", encoding="utf-8").write(source)
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(source)
     refresh_pin(packet_dir, "math_console.py")
     result = run(packet_dir)
     assert result.returncode != 0

@@ -105,9 +105,11 @@ def test_negative_accepting_inventable_attempt_is_refused(tmp_path):
     shutil.copytree(os.path.join(ROOT, "docs"), dest / "docs")
     shutil.copytree(os.path.join(ROOT, "tools"), dest / "tools")
     path = dest / "docs" / "math_status_probes" / "inventable_phi_bridge_ABSENT_receipt.json"
-    obj = json.load(open(path, encoding="utf-8"))
+    with open(path, encoding="utf-8") as handle:
+        obj = json.load(handle)
     obj["inventable_attempt_accepted"] = True
-    json.dump(obj, open(path, "w", encoding="utf-8"), indent=2)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(obj, handle, indent=2)
     result = subprocess.run(
         [sys.executable, str(dest / "tools" / "math_status_check.py")],
         cwd=dest,
