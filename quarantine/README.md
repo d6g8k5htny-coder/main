@@ -111,6 +111,11 @@ Which tip paths are the vault, which `DO_NOT_OPEN` strings are a different
 folder, and which copies must stay inactive is [`PATHS.md`](PATHS.md).
 Quarantine is not a source of truth. `tools/vault_hygiene_check.py` checks the
 vault listing against `drive/inventory.jsonl` and refuses a stored vault id.
+An inventable receipt is under the same bound: a vault id or a quarantine
+path does not activate an inventable source of truth. The split between this
+checker and the hygiene check is the vault-path section of
+`docs/math_status_probes/README.md`. Engineering hygiene is not mathematical
+discharge. OBL-H5-JETMOD stays OPEN.
 
 ## What is not here
 

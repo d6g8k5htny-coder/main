@@ -44,6 +44,34 @@ Does not invent a 24-jet roster. Does not promote display/κ. Does not merge PR 
 `discharges_OBL_H5_JETMOD` stays false. `lemma_closed` stays false. `certified_C_H` stays false.
 `prizes_solved` stays 0. OBL-H5-JETMOD stays OPEN. Green ≠ discharge.
 
+## Vault paths and quarantine tooling (non-activating)
+
+Committed inventable receipts in this directory name no vault id and no
+quarantine path. `INVENTABLE_PROBES_INDEX.json` and
+`INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` carry no vault id, no exclusion
+digest, and no current-tip re-run. Receipt bytes and `aligned_to_base_tip`
+stay as already recorded. `quarantine/EXCLUSIONS.json` stays the tip pin.
+
+A vault id or a quarantine path, named from this lane, stays inactive. It
+does not become an inventable source of truth. Quarantine is not a source
+of truth.
+
+Two checkers divide the engineering hygiene. Neither writes an inventable
+receipt. Neither sets `inventable_attempt_accepted`.
+
+| Checker | What it owns on this tip | What stays closed for an inventable attempt |
+|---|---|---|
+| `tools/quarantine_check.py` | `quarantine/EXCLUSIONS.json` agrees with `registers/json/quarantine_index.json`. Archive-member digests. Invariant 3 compares records that carry `payload_sha256` (sixteen compared, six `digest_not_compared`, including folder exclusion `Q-R17-VAULT`). Bound-member annotations. `vault_rows` refuses a stored manifest row whose `drive_path` contains `99_DO_NOT_OPEN`. | `Q-R17-VAULT` is uncompared because the exclusion names a folder. That record is not an opening and not acceptance of a vault id. A stored vault id whose `drive_path` omits `99_DO_NOT_OPEN` is outside `vault_rows`. |
+| `tools/vault_hygiene_check.py` | The map in [`quarantine/PATHS.md`](../../quarantine/PATHS.md): `drive/vault_tree.txt` against `drive/inventory.jsonl`; a stored row whose Drive id is a vault id even when `drive_path` omits `99_DO_NOT_OPEN`; a vault or `90_QUARANTINE_AND_TRIAGE` path copied into `engine/`, `research/`, `packages/`, or `claims/`. | That active-lane scan does not read this directory. Silence on an inventable receipt is not activation. |
+
+A green run of either checker is engineering hygiene. It leaves
+`discharges_OBL_H5_JETMOD` false, `lemma_closed` false, `prizes_solved` at 0,
+`certified_C_H` false, `freeze` false, and `inventable_attempt_accepted` false.
+OBL-H5-JETMOD stays OPEN. Engineering hygiene is not mathematical discharge.
+
+Exclusion classes stay in [`quarantine/README.md`](../../quarantine/README.md).
+The path map stays in [`quarantine/PATHS.md`](../../quarantine/PATHS.md).
+
 ## Honesty labels and tip provenance
 
 `REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`, `PARTIAL`, and `REFUSED_NOT_24JET` are honesty labels. They are not discharge, not a source of truth, and not FREEZE. They are not an RN source of truth. `STATUS_RN_UNIF.md` keeps that lane.
