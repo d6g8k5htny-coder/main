@@ -290,6 +290,7 @@ def test_schema_pins_the_three_invariants():
 
 def test_checker_docstring_states_what_it_does_not_establish():
     import ast
-    doc = ast.get_docstring(ast.parse(open(CHECKER, encoding="utf-8").read())) or ""
+    with open(CHECKER, encoding="utf-8") as handle:
+        doc = ast.get_docstring(ast.parse(handle.read())) or ""
     assert "not establish" in doc.lower()
     assert "not deployed" in doc.lower()

@@ -117,7 +117,8 @@ def check_record(record: dict, schema: dict, stem: str,
     path = record["object_id"].split(" @ ")[0].strip()
     candidate = os.path.join(ROOT, path)
     if os.path.isfile(candidate):
-        raw = open(candidate, "rb").read()
+        with open(candidate, "rb") as handle:
+            raw = handle.read()
         digest = hashlib.sha256(raw).hexdigest()
         if digest != record["object_sha256"] or len(raw) != record["object_bytes"]:
             successor = record.get("superseded_by")
