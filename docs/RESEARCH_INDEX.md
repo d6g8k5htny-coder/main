@@ -29,6 +29,10 @@ Keep the dimension, full determinant normalizer, mark restrictions and finite-ve
 
 Start with the [probability-to-count interface](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md). It supplies exact implications and counterexamples and identifies the three-determinant integral; it does not evaluate that integral. A remote critical point may exist despite correct local pairing.
 
+Next read the [fixed-remote height-window estimate](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/PROOF.md), published in [Math- PR #6](https://github.com/d6g8k5htny-coder/Math-/pull/6), with [review #76](https://github.com/d6g8k5htny-coder/main/issues/76). This bounds the actual three-determinant numerator by O(r^5) and the expected count by O(r^3) for points in the between-pin height window on a region a FIXED positive distance from the coalescing pins. It identifies the positive contact mean kernel and fixed-separation higher-witness counts. It does not cover a spatial exclusion shrinking with r, nearly coincident witnesses, all remote heights, or a numerical 24-jet certificate.
+
+[Run the remote-window checks](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/README.md) from the Math repository; exact catalog key `rn-fixed-remote-window` locates the published source. The proof rederives the needed full-pin count estimates without consuming global elder selection. Its author-side disposition and the intermediate-annulus boundary remain explicit.
+
 The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
 
 ## P15 combinatorics
@@ -52,6 +56,7 @@ The full-range successor removes the probability ceiling, not the demand or real
 | Quantitative Gaussian work | Evaluate usable error constants and lifetime cutoff | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 | Coefficient | Review cone truncation, normalized images and outward arithmetic | [#65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | RN / 24-jet | Bound the actual count-weighted integral on its complete declared region | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
+| RN fixed-remote successor | Review the extra-pin count proof, evaluate its kernel, and control the remaining shrinking-exclusion/collision regions | [#76](https://github.com/d6g8k5htny-coder/main/issues/76) |
 | P15 | Review full-range hazard transfer and sharpness; extend beyond the realized-family hypotheses | [#74](https://github.com/d6g8k5htny-coder/main/issues/74), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
