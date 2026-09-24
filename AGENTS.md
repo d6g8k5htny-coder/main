@@ -19,6 +19,7 @@ process is agent judgment, and intent still binds.
   close, discharge or reclassify scientific claims; a green run is a run.
 - Never open `99_DO_NOT_OPEN` for evidence or authority; metadata only.
   Never edit exports or frozen bodies in place or cite excluded material.
+  [quarantine/PATHS.md](quarantine/PATHS.md): quarantine ≠ SoT; `DO_NOT_OPEN` letters ≠ the vault.
 
 ## Scoped operational addenda
 

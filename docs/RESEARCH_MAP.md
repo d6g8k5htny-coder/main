@@ -82,7 +82,11 @@ permanently: it is metadata only and is never opened. That is now enforced rathe
 than merely kept. `tools/quarantine_check.py` refuses any manifest row that
 stores bytes from that lane, because until 2026-09-20 nothing did: a later pass
 sweeping "every remaining native Doc" would have taken the vault with it and
-passed every checker in the tree.
+passed every checker in the tree. The vault is a path segment that starts with
+`99_DO_NOT_OPEN`. Other strings that contain `DO_NOT_OPEN` are not that folder.
+`tools/vault_hygiene_check.py` also refuses a stored row whose Drive id is a
+vault id when the row's path omits the folder name. The map is
+[`quarantine/PATHS.md`](../quarantine/PATHS.md). Quarantine is not a source of truth.
 
 Both paragraphs were corrected ten times on 2026-09-20, because ten ports landed
 that day. The first gave 700 held and 873 indexed, named those three
