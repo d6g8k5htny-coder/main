@@ -43,3 +43,9 @@ consult current governing records rather than treating that proposal as deployme
 Dylan Roy is the final authority for canonical promotion, external release,
 permanent deletion and machine-root replacement. Same-provider review earns
 zero organizational-independence credit; record technical findings separately.
+
+## Reading routes
+
+[Workspace](docs/WORKSPACE.md), [research index](docs/RESEARCH_INDEX.md), and
+[reproduction](docs/REPRODUCE.md) are navigation only. They do not change
+claim flags, discharge an obligation, or make this branch `main`.

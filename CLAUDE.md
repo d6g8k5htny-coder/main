@@ -51,9 +51,12 @@ an expected digest to match bytes you changed.
 ## Technical navigation
 
 Start with [README.md](README.md), [RESEARCH_MAP](docs/RESEARCH_MAP.md) and
-[OPEN_PROBLEMS](docs/OPEN_PROBLEMS.md). Inspect the actual code and workflow for
-the task; check `.github/workflows/ci.yml` for the current executed checks.
-[AGENTS.md](AGENTS.md) is the short cross-model entry.
+[OPEN_PROBLEMS](docs/OPEN_PROBLEMS.md). Reading routes:
+[workspace](docs/WORKSPACE.md), [research index](docs/RESEARCH_INDEX.md), and
+[reproduction](docs/REPRODUCE.md). They do not move claim flags. Inspect the
+actual code and workflow for the task; check `.github/workflows/ci.yml` for
+the current executed checks. [AGENTS.md](AGENTS.md) is the short cross-model
+entry.
 
 The earlier version of this file is preserved in Git at
 `fbb43601369b19ecb12447d4cc02ed44340dce60:CLAUDE.md`. Its former rules are

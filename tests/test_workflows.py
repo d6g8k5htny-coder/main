@@ -115,7 +115,9 @@ def masked_checker_lines(text: str) -> list[str]:
 
 def test_workflow_files_exist():
     # Keep an exact reviewed inventory: do not accept arbitrary new workflows.
-    assert [p.name for p in WORKFLOWS] == ["ci.yml", "research.yml", "withdrawal-governance.yml"]
+    # navigation.yml runs only the declared page checker and its synthetic tests.
+    assert [p.name for p in WORKFLOWS] == [
+        "ci.yml", "navigation.yml", "research.yml", "withdrawal-governance.yml"]
 
 
 @pytest.mark.parametrize("path", WORKFLOWS, ids=lambda p: p.name)
