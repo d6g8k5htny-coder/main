@@ -12,7 +12,11 @@ This tool checks that:
   2. every archive-member exclusion resolves to a real member of a real carrier
      in `drive/source_map/Archive_Members.csv`, with a matching payload digest;
   3. no excluded payload digest appears in any repository manifest — i.e. no
-     excluded artifact has been silently pulled into the verified content set;
+     excluded artifact has been silently pulled into the verified content set.
+     Only a record carrying a `payload_sha256` can be compared; the summary
+     reports `digest_comparable` and `digest_not_compared` separately, every
+     record in the second group must say why it is there, and a run in which
+     nothing was compared is refused;
   4. every exclusion carries a restoration test;
   5. every member this repository binds byte-exact — a record in
      `engine/rn_engine/BINDING.json` or `engine/carriers/MANIFEST.json` — whose
@@ -49,6 +53,78 @@ BINDING = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
 MANIFEST = os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")
 
 ANNOTATION_FIELD = "quarantine_exclusions"
+
+REASON_FIELD = "payload_digest_not_compared"
+
+# Invariant 3 can only compare a record that carries a `payload_sha256`.  Six of
+# the twenty-two do not, and until this table existed the loop skipped them in
+# silence while the summary printed `exclusions=22` -- a reader auditing
+# quarantine coverage from that line counted twenty-two comparisons where
+# sixteen had been made.
+#
+# The reason belongs with the record, and for a new exclusion that is where it
+# goes: a `payload_digest_not_compared` field in EXCLUSIONS.json satisfies this
+# check too.  These six sit here instead because two certificates pin that
+# file's bytes as source identity --
+# `research/rn/candidates/inner_wedge_20260920_v1.json`, at
+# `/majorant/source_binding/authenticated_identities/quarantine/EXCLUSIONS.json`
+# and `/source_identities/quarantine/EXCLUSIONS.json`, both 19,555 bytes /
+# `8a5a89012dcd0fece1b3ea882ea2551f8952d333d22a847e06bd7935c255d1ed`.  Adding a
+# field there changes those bytes and fails four replay checkers closed.  The
+# label is not worth breaking a pin for, so it lives in the checker.
+#
+# Widening invariant 3 to these six instead would be wrong, not merely
+# inconvenient: see `Q-R17-DUP-001` below.
+DIGEST_NOT_COMPARED = {
+    "Q-R17-DUP-001":
+        "EXACT_DUPLICATE. A digest does exist, in the free-text `identity` "
+        "field, and promoting it into `payload_sha256` would fail this check "
+        "on a correct tree: an exact duplicate shares its bytes with a "
+        "RETAINED KEEPER by definition, so invariant 3 would fire on the "
+        "keeper. Verified 2026-09-24: the excluded surplus copy "
+        "(1Y_3zFonLsFIAHP5KSkUfsJXqHZXIUAL2) is tree-only DO_NOT_PORT in "
+        "drive/mirrors/90_QUARANTINE_AND_TRIAGE/_MANIFEST.jsonl -- stored "
+        "false, sha256 null -- and the one stored row carrying those bytes is "
+        "the keeper, a different Drive object "
+        "(1Hc8dJvdh504xKBBHXswU5Ly-_8uYp_Sv) under the 2026-09-15 KIMI FINAL "
+        "INTAKE lane. Nothing excluded has leaked; "
+        "tests/test_quarantine_digest_coverage.py reads that off the "
+        "manifests rather than asserting it here.",
+    "Q-R17-TEMP-001":
+        "UNVERIFIED. The object is a native Google document transport, whose "
+        "`identity` is a document id rather than a payload digest. The corpus "
+        "declares no payload digest for a native Doc, so there is nothing for "
+        "invariant 3 to compare.",
+    "Q-R17-RN-OLD":
+        "SUPERSEDED. `identity` gives a byte count (7,201) and no digest. The "
+        "verdict is about content -- 'different content, not duplicate' -- and "
+        "is enforced by the record, not by a digest match.",
+    "Q-R17-LOCAL-TB":
+        "EXISTING_CONTAINER. The exclusion names a FOLDER (`identity` is a "
+        "folder id). A folder has no payload, so invariant 3 cannot compare "
+        "one. The children are explicitly not re-reviewed in this operations "
+        "pass, so no per-child digest is asserted here either.",
+    "Q-R17-LOCAL-P01":
+        "EXISTING_CONTAINER. The exclusion names a FOLDER (`identity` is a "
+        "folder id). A folder has no payload, so invariant 3 cannot compare "
+        "one. The children are explicitly not re-reviewed in this operations "
+        "pass, so no per-child digest is asserted here either.",
+    "Q-R17-VAULT":
+        "EXISTING_CONTAINER. The exclusion names a FOLDER -- the 99_DO_NOT_OPEN "
+        "vault, which is metadata only and is never opened. A folder has no "
+        "payload for invariant 3 to compare, and the vault is separately "
+        "guarded by the vault_rows check below, which refuses any manifest row "
+        "storing bytes from it.",
+}
+
+
+def uncompared_reason(e: dict) -> str:
+    """Why invariant 3 cannot compare this record, from the record or the table.
+
+    Empty string when neither says, which is the case the checker refuses.
+    """
+    return (str(e.get(REASON_FIELD) or "").strip()
+            or DIGEST_NOT_COMPARED.get(e.get("key"), "").strip())
 
 
 def manifest_digests(root: str) -> dict[str, str]:
@@ -261,11 +337,60 @@ def main(argv: list[str] | None = None) -> int:
             problems.append(f"{e['key']}: payload digest does not match the archive index")
 
     digests = manifest_digests(args.scan_root)
+    digest_comparable = digest_not_compared = 0
     for e in ex:
         d = (e.get("payload_sha256") or "").lower()
-        if d and d in digests:
+        if not d:
+            # Invariant 3 cannot see this record, and the summary now says so
+            # rather than counting it as a comparison. See DIGEST_NOT_COMPARED.
+            digest_not_compared += 1
+            if not uncompared_reason(e):
+                problems.append(
+                    f"{e['key']}: no `payload_sha256`, so invariant 3 cannot "
+                    f"compare it against any manifest, and no reason is "
+                    f"recorded -- neither a `{REASON_FIELD}` field on the "
+                    f"record nor an entry in DIGEST_NOT_COMPARED in this file. "
+                    f"A record may sit outside the digest comparison, but not "
+                    f"silently: say why, so a new exclusion cannot join the "
+                    f"unchecked set by omission.")
+            continue
+        digest_comparable += 1
+        if d in digests:
             problems.append(
                 f"{e['key']}: excluded payload {d[:16]} is consumed by manifest {digests[d]}")
+
+    # A declared reason must describe a record that is really outside the
+    # comparison. Left unchecked, a stale entry would sit here excusing a record
+    # that later gained a digest, or naming a key no longer in the register.
+    #
+    # The absent-key arm asks only of a list the table is plausibly about: a
+    # `--exclusions` copy built for a control shares none of these keys, and
+    # reporting all six missing there would be noise, not drift. One declared key
+    # present is what makes the rest's absence meaningful.
+    by_key_all = {e["key"]: e for e in ex}
+    any_declared_present = any(k in by_key_all for k in DIGEST_NOT_COMPARED)
+    for key in sorted(DIGEST_NOT_COMPARED):
+        rec = by_key_all.get(key)
+        if rec is None:
+            if any_declared_present:
+                problems.append(
+                    f"DIGEST_NOT_COMPARED names {key!r}, which is not an "
+                    f"exclusion in EXCLUSIONS.json; a reason for a record that "
+                    f"is not there excuses nothing and hides the list's drift")
+        elif (rec.get("payload_sha256") or "").strip():
+            problems.append(
+                f"DIGEST_NOT_COMPARED names {key}, which now carries a "
+                f"`payload_sha256` and is compared; remove the entry rather "
+                f"than leaving a reason that has stopped being true")
+
+    if ex and digest_comparable == 0:
+        # The same vacuity floor `verify_manifests.py` and
+        # `noncertifying_check.py` carry. An invariant that compared nothing is
+        # not an invariant that held.
+        problems.append(
+            f"VACUOUS RUN: {len(ex)} exclusions and not one carried a "
+            f"`payload_sha256`, so invariant 3 compared nothing at all. A pass "
+            f"here would mean only that the loop ran.")
 
     problems += check_bound_member_annotations(ex, args.binding, args.manifest)
     vault = vault_rows(args.scan_root)
@@ -281,11 +406,15 @@ def main(argv: list[str] | None = None) -> int:
                 bound += 1
     except ValueError:
         pass
-    print(f"exclusions={len(ex)} archive_members={archive_members} "
+    print(f"exclusions={len(ex)} digest_comparable={digest_comparable} "
+          f"digest_not_compared={digest_not_compared} "
+          f"archive_members={archive_members} "
           f"manifest_digests={len(digests)} bound_members_named={bound} "
           f"vault_rows_storing_bytes={len(vault)} problems={len(problems)}")
     print("A pass here excludes claims; it certifies none. A bound member named by an exclusion stays "
           "bound as bytes and is logically quarantined at the scope its record names.")
+    print("Invariant 3 compared the digest_comparable records only. `digest_not_compared` records carry no "
+          "payload digest; each states why, on the record or in DIGEST_NOT_COMPARED in this file.")
     return 1 if problems else 0
 
 
