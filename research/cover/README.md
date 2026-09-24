@@ -506,3 +506,54 @@ gap controls written first both had gaps running to the *top* of the domain and
 so were caught by the trailing check instead. Two controls were added for the
 branches nothing reached. A suite that stays green under a mutation is not
 testing that line, which is what negative controls are for.
+
+### Two mutants killed at exact tangency, and two that cannot be killed at all
+
+`AnnulusBracketRegion.classify` calls a cell provably disjoint from the annulus
+when `hi2 < rlo2 or lo2 > rhi2`. Both comparisons are strict and both have a
+mutant — `<=`, `>=` — that differs from the shipped code **only where a cell is
+exactly tangent to a circle**. The reference covers never land on that equality,
+so neither mutant dies by running the reference geometry. That is a fact about
+the reference runs, not a reason to leave them alive: exact rationals make a
+tangent cell easy to build, and the two boxes below do it.
+
+| mutation | witness | live | mutant | caught by |
+|---|---|---|---|---|
+| `hi2 < rlo2` → `hi2 <= rlo2` | `[0, 3/50] × [0, 4/50]`, `hi2 = 1/100 = r_lo²` | `STRADDLE` | `OUTSIDE` | control 30 |
+| `lo2 > rhi2` → `lo2 >= rhi2` | `[5, 6] × [0, 1]`, `lo2 = 25 = r_hi²` | `STRADDLE` | `OUTSIDE` | control 31 |
+
+Each box kills exactly one of the two, verified on scratch copies: the
+inner-tangent box leaves the outer mutant alive and vice versa. `OUTSIDE` is the
+disposition whose rejection reason says *proved disjoint*, so a cell touching the
+region and rejected as disjoint is how a cover loses area it should have
+accounted for.
+
+**The two `_axis_min_max` operand flips are a different case, and recording
+which is the point.** It is tempting to file them beside `classify` as more
+comparisons "differing only at exact tangency". They are not a disjointness test
+at all:
+
+```python
+lo = Fraction(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+```
+
+`a < 0 <= b` can diverge only when `a == 0`, and the else branch then returns
+`min(|0|, |b|) = 0`, which is what the if branch returns; `a <= 0 < b` can
+diverge only when `b == 0`, and the else branch returns `min(|a|, 0) = 0`
+likewise. The flips agree **everywhere on a legal box**, not merely at tangency,
+so no cover, no cell width and no input separates them. Control 32 therefore
+does not try to kill them — nothing can. It asserts the equivalence over a grid
+of more than seven hundred legal `(a, b)` pairs and against the shipped helper,
+which is the only guard an equivalence claim can carry: if `_axis_min_max` is
+later changed so the flips stop agreeing, the claim on this page becomes false
+and control 32 fails.
+
+A surviving mutant that is provably equivalent to the shipped code is not a hole
+in the suite. A surviving mutant that survives because the reference geometry
+happens to miss it is, and two of these were.
+
+**None of this establishes anything about the cover's mathematics.** Controls 30
+and 31 say a tangent cell is classified `STRADDLE` rather than `OUTSIDE`;
+control 32 says two rewrites of a helper compute the same function. Both Pieces
+of `D3-LEMMA-RN-UNIF` remain OPEN, no bound was tightened, and a classification
+is not a certificate.
