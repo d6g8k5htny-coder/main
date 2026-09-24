@@ -1097,3 +1097,107 @@ def test_29_max_cell_width_is_the_coarsest_leaf_and_does_not_track_tolerance():
     assert F(rec["min_cell_width"]) < F(rec["max_cell_width"])
     assert "saturate" in rec["cell_width_note"]
     assert "not monotone in the tolerance" in rec["cell_width_note"]
+
+
+def test_30_a_cell_tangent_to_the_inner_circle_is_not_OUTSIDE():
+    """CONTROL 30. Kills the `hi2 < rlo2` -> `hi2 <= rlo2` flip in `classify`.
+
+    `AnnulusBracketRegion.classify` calls a cell provably disjoint from the
+    annulus when its greatest radius falls short of the inner radius, or its
+    least radius exceeds the outer one. Both comparisons are strict, and both
+    have a mutant that differs from the shipped code only where a cell is
+    EXACTLY tangent to a circle. The reference covers never land on that
+    equality, so neither mutant dies by running the reference geometry -- which
+    is not a reason to leave them alive. Exact rationals make a tangent cell
+    easy to build.
+
+    ``[0, 3/50] x [0, 4/50]`` straddles the origin on both axes, so
+    ``_axis_min_max`` gives ``lo = 0`` on each and
+    ``hi2 = (3/50)^2 + (4/50)^2 = 9/2500 + 16/2500 = 1/100``, exactly
+    ``r_lo^2``. The cell reaches the inner circle and is therefore NOT provably
+    disjoint from the annulus:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+
+    which matters because OUTSIDE is the disposition whose rejection reason says
+    *proved disjoint*, and whose area the total accounts for as carrying no
+    contribution. A cell touching the region, rejected as disjoint, is how a
+    cover loses area it should have accounted for.
+    """
+    region = rn5_annulus_bracket()
+    box = Box(F(0), F(3, 50), F(0), F(4, 50))
+    lo2, hi2 = region.radius2_range(box)
+    assert lo2 == 0
+    assert hi2 == region.r_lo ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert region.classify(box) == STRADDLE
+
+
+def test_31_a_cell_tangent_to_the_outer_circle_is_not_OUTSIDE():
+    """CONTROL 31. Kills the `lo2 > rhi2` -> `lo2 >= rhi2` flip in `classify`.
+
+    The mirror of control 30, and a separate control because each box kills
+    exactly one of the two comparisons: the inner-tangent box leaves this mutant
+    alive and vice versa.
+
+    ``[5, 6] x [0, 1]`` does not straddle zero on the u axis, so
+    ``_axis_min_max`` gives ``lo = 5`` there, and ``lo2 = 25 + 0 = 25``, exactly
+    ``r_hi^2``. The cell reaches the outer circle:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+    """
+    region = rn5_annulus_bracket()
+    box = Box(F(5), F(6), F(0), F(1))
+    lo2, hi2 = region.radius2_range(box)
+    assert lo2 == region.r_hi ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert region.classify(box) == STRADDLE
+
+
+def test_32_the_axis_min_max_operand_flips_are_provably_equivalent():
+    """CONTROL 32. The `_axis_min_max` flips are NOT killable, and that is the
+    finding rather than a gap.
+
+    It is tempting to file this helper beside `classify` as another pair of
+    comparisons "differing only at exact tangency". It is not a disjointness
+    test at all; it is the per-axis min/max helper::
+
+        lo = Fraction(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    and its two operand flips differ NOWHERE on a legal box, not merely at
+    tangency. Proof, one line each:
+
+      * ``a < 0 <= b`` can only diverge from ``a <= 0 <= b`` when ``a == 0``;
+        the else branch then returns ``min(|0|, |b|) = 0``, which is what the if
+        branch returns.
+      * ``a <= 0 < b`` can only diverge when ``b == 0``; the else branch then
+        returns ``min(|a|, 0) = 0``, likewise.
+
+    So no cover, no cell width and no input separates them. This control cannot
+    kill either mutant -- nothing can -- and asserts the EQUIVALENCE instead,
+    over a grid of legal boxes. A surviving mutant that is provably equivalent
+    to the shipped code is not a hole in the suite, and recording which of the
+    two it is is the point: if `_axis_min_max` is later changed so the flips
+    stop agreeing, this fails, which is the only guard an equivalence claim can
+    carry.
+    """
+    def live(a, b):
+        return F(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    def flip_first(a, b):
+        return F(0) if (a < 0 <= b) else min(abs(a), abs(b))
+
+    def flip_second(a, b):
+        return F(0) if (a <= 0 < b) else min(abs(a), abs(b))
+
+    values = [F(n, d) for n in range(-6, 7) for d in (1, 2, 3)]
+    pairs = [(a, b) for a in values for b in values if a <= b]
+    assert len(pairs) > 700, "the grid must be wide enough to be worth quoting"
+    for a, b in pairs:
+        assert live(a, b) == flip_first(a, b) == flip_second(a, b), (a, b)
+
+    # And the live helper is the one the region actually uses, so the proof is
+    # about shipped code rather than a copy that has drifted from it.
+    region = rn5_annulus_bracket()
+    for a, b in ((F(-1), F(2)), (F(0), F(3)), (F(-4), F(0)), (F(2), F(5))):
+        assert region._axis_min_max(a, b) == (live(a, b), max(abs(a), abs(b)))
