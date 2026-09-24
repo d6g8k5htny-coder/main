@@ -145,21 +145,23 @@ def manifest_digests(root: str) -> dict[str, str]:
         for fn in filenames:
             p = os.path.join(dirpath, fn)
             if fn.endswith("_MANIFEST.jsonl") or fn == "MANIFEST.jsonl":
-                for line in open(p, encoding="utf-8", errors="replace"):
-                    line = line.strip()
-                    if not line:
-                        continue
-                    try:
-                        row = json.loads(line)
-                    except json.JSONDecodeError:
-                        continue
-                    if row.get("sha256"):
-                        found[str(row["sha256"]).lower()] = p
+                with open(p, encoding="utf-8", errors="replace") as handle:
+                    for line in handle:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            row = json.loads(line)
+                        except json.JSONDecodeError:
+                            continue
+                        if row.get("sha256"):
+                            found[str(row["sha256"]).lower()] = p
             elif fn.endswith(".sha256") or fn == "MANIFEST.sha256":
-                for line in open(p, encoding="utf-8", errors="replace"):
-                    parts = line.split(None, 1)
-                    if len(parts) == 2 and len(parts[0]) == 64:
-                        found[parts[0].lower()] = p
+                with open(p, encoding="utf-8", errors="replace") as handle:
+                    for line in handle:
+                        parts = line.split(None, 1)
+                        if len(parts) == 2 and len(parts[0]) == 64:
+                            found[parts[0].lower()] = p
     return found
 
 

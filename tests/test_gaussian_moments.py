@@ -59,7 +59,7 @@ def test_correlated_noncentered_against_independent_expansion(case, degree):
             assert evaluate(polynomial, mark) == second_moment_trace(mean, cov)
 
 
-@pytest.mark.parametrize('mu_x,mu_y', product((-1,0,1), repeat=2))
+@pytest.mark.parametrize('mu_x,mu_y', list(product((-1,0,1), repeat=2)))
 @pytest.mark.parametrize('degree', (2,4))
 def test_rn5_old_independent_special_case(mu_x, mu_y, degree):
     v = F(1, 10**6)

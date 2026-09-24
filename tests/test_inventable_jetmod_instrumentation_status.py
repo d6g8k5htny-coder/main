@@ -83,9 +83,11 @@ def test_negative_accepting_instrumentation_attempt_is_refused(tmp_path):
         / "math_status_probes"
         / "inventable_g12_ext_named_REFUSED_NOT_24JET_receipt.json"
     )
-    obj = json.load(open(path, encoding="utf-8"))
+    with open(path, encoding="utf-8") as handle:
+        obj = json.load(handle)
     obj["inventable_attempt_accepted"] = True
-    json.dump(obj, open(path, "w", encoding="utf-8"), indent=2)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(obj, handle, indent=2)
     result = subprocess.run(
         [sys.executable, str(dest / "tools" / "math_status_check.py")],
         cwd=dest,
@@ -107,9 +109,11 @@ def test_negative_24jet_status_promotion_is_refused(tmp_path):
         / "math_status_probes"
         / "inventable_multi_jet_band_REFUSED_NOT_24JET_receipt.json"
     )
-    obj = json.load(open(path, encoding="utf-8"))
+    with open(path, encoding="utf-8") as handle:
+        obj = json.load(handle)
     obj["status"] = "CERTIFIED_24JET"  # inventable promotion
-    json.dump(obj, open(path, "w", encoding="utf-8"), indent=2)
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(obj, handle, indent=2)
     result = subprocess.run(
         [sys.executable, str(dest / "tools" / "math_status_check.py")],
         cwd=dest,
