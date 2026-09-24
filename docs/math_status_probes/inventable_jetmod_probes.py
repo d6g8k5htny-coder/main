@@ -19,7 +19,10 @@ merged or rebased.
 
 Vault ids and quarantine paths do not activate an inventable source of truth.
 `tools/vault_hygiene_check.py` and `tools/quarantine_check.py` are engineering
-hygiene; a green run is not discharge. This runner does not read the vault
+hygiene; a green run is not discharge. A KNOWN line from
+`tools/registers_check.py` whose allowlist text says "Accepted as-is" for
+class `EXISTING_CONTAINER` on `Q-R17-VAULT` leaves
+`inventable_attempt_accepted` false. This runner does not read the vault
 and does not edit `quarantine/EXCLUSIONS.json`. See this directory's README.
 """
 from __future__ import annotations
