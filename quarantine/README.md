@@ -63,13 +63,54 @@ exclusion already named by Drive id, `CR-RNU-DS3-SCALAR-SUPERSEDED`
 2. every archive-member exclusion resolves to a real member of a real carrier
    with a matching payload digest;
 3. **no excluded payload digest appears in any manifest in this repository** —
-   nothing under quarantine has been silently pulled into verified content;
+   nothing under quarantine has been silently pulled into verified content.
+   The comparison can only be made of a record that carries a
+   `payload_sha256`, which sixteen of the twenty-two do; the other six are
+   counted and named below, not skipped in silence;
 4. every exclusion carries a restoration test;
 5. every bound member (`engine/rn_engine/BINDING.json`,
    `engine/carriers/MANIFEST.json`) whose payload digest or Drive id an
    exclusion names carries that exclusion's key, class and a non-empty scope
    under `quarantine_exclusions`; an annotation naming an exclusion that does
    not name the record is refused too.
+
+### What invariant 3 does not compare, and why
+
+Six exclusions carry no `payload_sha256`. The summary line reports them
+separately — `digest_comparable=16 digest_not_compared=6` — and the checker
+refuses any record in the second group that does not say why it is there. It
+also refuses a run in which *every* record landed in the second group: an
+invariant that compared nothing is not an invariant that held.
+
+The reason belongs with the record, and that is where a **new** exclusion puts
+it: a `payload_digest_not_compared` field in `EXCLUSIONS.json` satisfies the
+check. These six are declared in `DIGEST_NOT_COMPARED` in the checker instead,
+because `research/rn/candidates/inner_wedge_20260920_v1.json` pins this file's
+bytes twice as source identity — 19,555 bytes, SHA-256
+`8a5a8901…` — and adding a field here fails four replay checkers closed. A label
+is not worth breaking a pin for. The table is itself checked: an entry naming a
+key that is not an exclusion, or one that has since gained a `payload_sha256`,
+fails the run, so a reason cannot outlive the record it describes.
+
+| Key | Class | Why there is nothing to compare |
+|---|---|---|
+| `Q-R17-LOCAL-TB`, `Q-R17-LOCAL-P01`, `Q-R17-VAULT` | `EXISTING_CONTAINER` | each names a **folder**. A folder has no payload. Their children are explicitly not re-reviewed in this operations pass, so no per-child digest is asserted here either. |
+| `Q-R17-TEMP-001` | `UNVERIFIED` | a native Google document, whose identity is a document id. The corpus declares no payload digest for a native Doc. |
+| `Q-R17-RN-OLD` | `SUPERSEDED` | the register records a byte count (7,201) and no digest. The verdict is about content — "different content, not duplicate" — and rests on the record, not on a digest match. |
+| `Q-R17-DUP-001` | `EXACT_DUPLICATE` | a digest **does** exist, in the free-text `identity` field, and promoting it into `payload_sha256` would break the build on a correct tree: an exact duplicate shares its bytes with a *retained keeper* by definition, so invariant 3 would fire on the keeper. Verified 2026-09-24: the excluded surplus copy is tree-only `DO_NOT_PORT` in `drive/mirrors/90_QUARANTINE_AND_TRIAGE/_MANIFEST.jsonl` (`stored: false`, `sha256: null`), and the one stored row carrying those bytes is a different Drive object under the 2026-09-15 KIMI FINAL INTAKE lane. Nothing excluded has leaked. |
+
+This is an accounting fix, not a stronger check: the same sixteen digests are
+compared as before. What changed is that the summary no longer reads
+`exclusions=22` over sixteen comparisons, and a new exclusion cannot join the
+uncompared set by omitting a field. It establishes nothing about the six
+records' contents, and clears no claim that rests on them.
+
+## Path map
+
+Which tip paths are the vault, which `DO_NOT_OPEN` strings are a different
+folder, and which copies must stay inactive is [`PATHS.md`](PATHS.md).
+Quarantine is not a source of truth. `tools/vault_hygiene_check.py` checks the
+vault listing against `drive/inventory.jsonl` and refuses a stored vault id.
 
 ## What is not here
 
