@@ -80,3 +80,34 @@ python3 -m pytest -q tests/test_attestations.py
 ```
 
 Exit status is non-zero on any violation.
+
+## If you are about to edit one of these files, read this
+
+An attestation says seven structural gates exited zero **over specific bytes**.
+Change the object and the record stops describing it, so `attestations_check`
+refuses the record and CI goes red. That is the check working, not a nuisance —
+a record that silently kept applying to different bytes would be the quiet
+inflation this directory exists to prevent.
+
+Currently attested, and therefore sensitive to any edit:
+
+```bash
+python3 -c "import json,glob;print('\n'.join(sorted(json.load(open(p))['object_id'].split(' @ ')[0] for p in glob.glob('attestations/records/*.json') if not json.load(open(p)).get('superseded_by'))))"
+```
+
+At the time of writing: `docs/LPW_AMPLITUDE.md`, `docs/RN_BERNSTEIN_SHARP.md`,
+`docs/RN_INNER_WEDGE.md`, `docs/RN_SIDE24_DENSITY.md`.
+
+**Editing one is fine — appending an honesty wall to it is usually an
+improvement.** But the same commit needs a numbered successor attestation:
+re-run the seven gates against the new bytes, write `ATT-…-<date>B.json`
+recording the exit codes you actually got, and add `superseded_by` to the
+predecessor. Never edit a predecessor's attested bytes in place. Two of the four
+live records have already been superseded exactly this way, both times because
+another agent appended honesty prose — a good change that simply needs its
+record refreshed alongside it.
+
+Do not copy the predecessor's `does_not_establish`: the anti-boilerplate rule
+refuses a statement transcribed between records, and the successor genuinely has
+something different to disclaim — that attesting bytes says nothing about
+whether the newly added prose is accurate.
