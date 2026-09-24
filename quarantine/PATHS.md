@@ -67,3 +67,10 @@ hygiene check refuses such a path. A stored manifest row whose Drive id is a
 vault id is refused even when `drive_path` omits `99_DO_NOT_OPEN`.
 
 A pass of the check, and this file existing, discharges nothing.
+
+Inventable receipts under `docs/math_status_probes/` are under the same
+bound. A vault id or a quarantine path named from that lane does not become
+an inventable source of truth. A green run of this check or of
+`tools/quarantine_check.py` does not discharge OBL-H5-JETMOD. The reader
+note is the vault-path section of `docs/math_status_probes/README.md`.
+Receipt bytes stay as already recorded. This map still adds no exclusion.

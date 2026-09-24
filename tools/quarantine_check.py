@@ -30,6 +30,16 @@ This tool checks that:
      that does not name the record fails too, so a stale annotation cannot
      stand in for a real one.
 
+For an inventable agent this checker and `tools/vault_hygiene_check.py` are
+engineering hygiene. Quarantine is not a source of truth. `Q-R17-VAULT` is
+`digest_not_compared` because the exclusion names a folder, not because a
+vault id was accepted as inventable authority. `vault_rows` refuses stored
+bytes only when `drive_path` contains `99_DO_NOT_OPEN`. A stored vault id
+under another path string is the hygiene check's refusal. A pass here does
+not discharge OBL-H5-JETMOD and does not set `inventable_attempt_accepted`.
+Neither checker scans `docs/math_status_probes/`. See that directory's README
+and `quarantine/PATHS.md`.
+
 Exit status is non-zero on any violation.
 
 Run:  python3 tools/quarantine_check.py [--exclusions PATH] [--register PATH]
