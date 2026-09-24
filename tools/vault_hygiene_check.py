@@ -11,6 +11,18 @@ This check does not open Drive, does not fetch bytes, and does not decide that
 any carrier is present beyond the inventory and manifests already on the tip.
 It does not add an exclusion, restore a claim, or move a status.
 
+For an inventable agent the same bound holds. A vault id, a quarantine path,
+and a green run of this check do not activate an inventable source of truth
+and do not discharge OBL-H5-JETMOD. `tools/quarantine_check.py` owns the
+exclusion register. Its `vault_rows` refusal sees a stored manifest row only
+when `drive_path` contains `99_DO_NOT_OPEN`. This check also refuses a stored
+row whose Drive id is a vault id when that path string omits the token, and
+refuses a vault or `90_QUARANTINE_AND_TRIAGE` path copied into `engine/`,
+`research/`, `packages/`, or `claims/`. Neither checker scans
+`docs/math_status_probes/`. Silence there is not activation. Quarantine is
+not a source of truth. See `docs/math_status_probes/README.md` and
+`quarantine/PATHS.md`.
+
 The letters `DO_NOT_OPEN` are not the vault. The vault is a path segment that
 starts with `99_DO_NOT_OPEN`. The external `00_DO_NOT_OPEN_MANIFEST` sits
 outside that folder. `DO_NOT_OPEN_BEFORE_HASH_FREEZE` is a different folder.
