@@ -71,6 +71,22 @@ python tools/rn_side24_spatial_check.py
 python tools/parallel_math_check.py
 ```
 
+Those three SIDE24 replays are prep navigation. SIDE24 has no new
+source-of-truth carrier after 2026-08-06. Later rows in the exported file
+catalog that mention SIDE24 are metadata-only routing, not that carrier.
+Objects the prep notes already mark **ABSENT** stay **ABSENT**. The
+**REFUSED** and **OPEN** walls in
+[RN_SIDE24.md](RN_SIDE24.md), [RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md),
+and [RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) stay as written there. This page
+does not invent a source of truth for them. A quarantine path is not a
+source of truth. A green run of `tools/rn_side24_check.py`,
+`tools/rn_side24_density_check.py`, or `tools/rn_side24_spatial_check.py`
+is engineering hygiene. It does not set `inventable_attempt_accepted`. It
+does not discharge `OBL-H5-JETMOD` or `D3-LEMMA-RN-UNIF`. `lemma_closed`,
+`certified_C_H`, `prizes_solved`, and `freeze` stay false. The
+marked-cylinder delivery under `research/campaigns/math_push_20260924/` is
+not that carrier.
+
 The [twelve-project continuation](TWELVE_PROJECT_MATH.md) replays the exact
 frozen candidate archive in a fresh external directory. The portable wrapper
 checks its allowlist, every input identity and the current repository

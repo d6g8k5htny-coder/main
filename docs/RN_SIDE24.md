@@ -237,4 +237,7 @@ inconclusive sufficient calculation, not a proved counterexample.
 `D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
 `certified_C_H`, and `prizes_solved` stay false. Replaying
 `tools/rn_side24_check.py`, and a green CI run, are engineering checks. They
-are not discharge. Organizational independence credit stays zero.
+are not discharge. Organizational independence credit stays zero. SIDE24 has
+no new source-of-truth carrier after 2026-08-06. Carriers for the objects
+marked **ABSENT** above stay **ABSENT**. Quarantine is not a source of truth.
+`inventable_attempt_accepted` stays false.

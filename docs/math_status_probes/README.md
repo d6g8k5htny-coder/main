@@ -75,6 +75,26 @@ OBL-H5-JETMOD stays OPEN. Engineering hygiene is not mathematical discharge.
 Exclusion classes stay in [`quarantine/README.md`](../../quarantine/README.md).
 The path map stays in [`quarantine/PATHS.md`](../../quarantine/PATHS.md).
 
+## SIDE24 prep is not an inventable source of truth
+
+The local SIDE24 prep path is navigation only:
+[RN_SIDE24.md](../RN_SIDE24.md), then
+[RN_SIDE24_DENSITY.md](../RN_SIDE24_DENSITY.md), then
+[RN_SIDE24_CELL.md](../RN_SIDE24_CELL.md). The commands sit in
+[RESEARCH_EXECUTION.md](../RESEARCH_EXECUTION.md). The reader route is
+[RESEARCH_MAP.md](../RESEARCH_MAP.md) §3. Each note already labels
+**ABSENT**, **REFUSED**, and **OPEN**.
+
+SIDE24 has no new source-of-truth carrier after 2026-08-06. Later rows in
+the exported file catalog that mention SIDE24 are metadata-only routing,
+not that carrier. Objects those notes mark **ABSENT** stay **ABSENT**. A
+quarantine path does not activate a carrier. Quarantine is not a source of
+truth. A green run of `tools/rn_side24_check.py`,
+`tools/rn_side24_density_check.py`, or `tools/rn_side24_spatial_check.py`
+is engineering hygiene. It leaves `inventable_attempt_accepted` false and
+leaves OBL-H5-JETMOD OPEN. It is not discharge. The marked-cylinder delivery
+under `research/campaigns/math_push_20260924/` is not that carrier.
+
 ## Honesty labels and tip provenance
 
 `REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`, `PARTIAL`, and `REFUSED_NOT_24JET` are honesty labels. They are not discharge, not a source of truth, and not FREEZE. They are not an RN source of truth. `STATUS_RN_UNIF.md` keeps that lane.
