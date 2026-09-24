@@ -1223,8 +1223,14 @@ def test_33_NEGATIVE_CONTROL_outside_cannot_carry_a_nonzero_residual():
         certified_enclosure   Interval(1, 1)
 
     An enclosure of ``[1, 1]`` while holding a discarded possible contribution
-    of a million. The two statements cannot both be true: OUTSIDE asserts the
-    cell is proved disjoint and contributes exactly zero.
+    of a million. That witness excludes zero, so it does deny OUTSIDE -- but
+    the contract enforced is the wider one, and for the right reason: whatever
+    is stored is DISCARDED, so a residual of non-zero width loses the
+    uncertainty it expresses even when it contains zero. Requiring exact zero
+    makes the discard lossless. A non-singleton enclosure around zero such as
+    ``[-eps, eps]`` is a conservative statement of a zero contribution and not
+    a contradiction; calling it one was an error in the first version of this
+    control, corrected after cross-lane review on PR #38.
 
     This is a live-path control, not a mutation control. Nothing had to be
     broken to produce the number above.

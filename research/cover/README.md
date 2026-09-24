@@ -256,11 +256,19 @@ An enclosure of `[1, 1]` while holding a discarded possible contribution of a
 million. **This was a live path, not a mutation** — nothing had to be broken to
 produce those four lines.
 
-`reject` now refuses a non-zero residual on an `OUTSIDE` cell. The two
-statements cannot both be true: `OUTSIDE` asserts the cell is *proved disjoint*
-and therefore contributes exactly zero, so a non-zero possible contribution
-denies the very rejection the call is recording. Whichever is wrong, the caller
-must say which. `None` and an exact `[0, 0]` are both still accepted, and the
+`reject` now requires an `OUTSIDE` cell's residual to be `None` or exactly
+`[0, 0]`, and the reason is the discard rather than a contradiction. The
+`[10**6, 10**6]` witness above excludes zero, so it genuinely denies OUTSIDE.
+But a non-singleton enclosure that *contains* zero — `[-eps, eps]` — is a
+conservative statement of a zero contribution, not a denial, and an earlier
+version of this section wrongly called it one. The correction is due to a
+cross-lane review on PR #38.
+
+The strict contract stands on the honest ground: whatever is stored here is
+discarded, so a residual of non-zero **width** loses the uncertainty it
+expresses, silently. Requiring exact zero makes the discard lossless. A caller
+who means "zero, conservatively" writes `[0, 0]`; a caller who means "possibly
+non-zero" is describing a cell that is not `OUTSIDE`. `None` and an exact `[0, 0]` are both still accepted, and the
 two kinds whose residuals *are* summed still take a non-zero one — the guard is
 scoped to `OUTSIDE`, so it closes the hole without removing the feature.
 
