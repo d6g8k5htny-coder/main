@@ -14,11 +14,13 @@ In a Math- checkout first record `git rev-parse HEAD` and `python --version`. Th
 python -B -S -m unittest discover -s coefficients/side24_v1 -p 'test_*.py' -v
 python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v
 python -B -S -m unittest discover -s frontiers/price_budget_20260924 -p 'test_*.py' -v
+python -B -S -m unittest discover -s frontiers/full_price_20260924 -p 'test_*.py' -v
 python -B -S coefficients/side24_v1/coefficient.py
 python -B -S frontiers/price_budget_20260924/price_budget.py
+python -B -S frontiers/full_price_20260924/full_price.py
 ```
 
-At the named September 24 sources these groups contain 30, 57 and 26 distinct tests respectively. Record actual results after later source changes. Repeat with `-O` to test optimized Python. Repeated modes do not increase distinct test counts.
+At the named September 24 sources these groups contain 30, 57, 26 and 36 distinct tests respectively, 149 total. Record actual results after later source changes. Repeat with `-O` to test optimized Python. Repeated modes do not increase distinct test counts.
 
 ## Deliberate error controls
 
@@ -27,9 +29,10 @@ Use a new absolute output directory outside the source tree each time:
 ```sh
 python -B -S frontiers/price_budget_20260924/run_validation.py --output /tmp/price-budget-run-001
 python -B -S frontiers/three_fronts_20260924/run_validation.py --output /tmp/three-fronts-run-001
+python -B -S frontiers/full_price_20260924/run_validation.py --output /tmp/full-price-run-001
 ```
 
-The price-budget runner covers 26 tests and five semantic mutations in both modes. The three-front runner keeps its 54-test core and ten mutations; the discovery command above includes its three supplementary price-boundary tests. A deliberately faulty variant must not hide a failed unmodified baseline.
+The price-budget runner covers 26 tests and five semantic mutations in both modes. The three-front runner keeps its 54-test core and ten mutations; the discovery command above includes its three supplementary price-boundary tests. The full-price runner covers 36 tests and seven mutations; `--mode normal` or `--mode optimized` permits separately bounded runs. A deliberately faulty variant must not hide a failed unmodified baseline.
 
 ## Source lookup and cross-repository replay
 
@@ -38,6 +41,7 @@ With sibling Math-, meta-framework, query- and google-drive checkouts, run from 
 ```sh
 python -B -S query-/research_query.py --registry meta-framework/registry.json
 python -B -S query-/research_query.py --registry meta-framework/registry.json --key side24-coefficient
+python -B -S query-/research_query.py --registry meta-framework/registry.json --key p15-full-price
 python -B -S query-/research_query.py --registry meta-framework/registry.json --verify --workspace .
 ```
 
@@ -56,7 +60,7 @@ python -B -S -m unittest discover -s tests -p 'test_*.py' -v
 python -B -O -S -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
-The landing checker verifies declared local links and two historical byte identities. The navigation checker covers declared inline links and ATX/custom heading fragments, not arbitrary Markdown or every repository path. With network access, explicitly request the six named public proof-byte checks:
+The landing checker verifies declared local links and two historical byte identities. The navigation checker covers declared inline links and ATX/custom heading fragments, not arbitrary Markdown or every repository path. With network access, explicitly request the seven named public proof-byte checks:
 
 ```sh
 python -B -S tools/navigation_check.py --verify-public

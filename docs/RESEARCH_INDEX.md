@@ -40,8 +40,9 @@ The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/dri
 | Actual-coordinate family | [Realized covers](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md) | Specified cover threshold 816; whole ground set needs 818 |
 | Failed extension | [Price-boundary counterexample](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md) | Same-palette unrestricted transformed-price extension without extra hypotheses is false |
 | Restricted positive successor | [Transformed-price budget](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/price_budget_20260924/PROOF.md) | Demands at least 2, probabilities at most 1/4; [Math- PR #4](https://github.com/d6g8k5htny-coder/Math-/pull/4) |
+| Full probability-range successor | [Sharp full-price budget](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/full_price_20260924/PROOF.md) | All independent probabilities, demands at least 2, same realized family and palette; [review #74](https://github.com/d6g8k5htny-coder/main/issues/74) |
 
-The positive successor adds hypotheses; it does not retract the counterexample. An inconclusive sufficient-budget test is not an impossibility proof. Newer entries belong in this map only after their actual publication is verified.
+The full-range successor removes the probability ceiling, not the demand or realized-family hypotheses. Its sharp uniform factor is 1/[3-log(3e-2)]<6/7. The earlier 16/27 factor remains better on its smaller domain, and demand-one counterexamples remain valid. An inconclusive sufficient-budget test is not an impossibility proof. Newer entries belong in this map only after their actual publication is verified.
 
 ## Open work
 
@@ -51,7 +52,7 @@ The positive successor adds hypotheses; it does not retract the counterexample. 
 | Quantitative Gaussian work | Evaluate usable error constants and lifetime cutoff | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 | Coefficient | Review cone truncation, normalized images and outward arithmetic | [#65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | RN / 24-jet | Bound the actual count-weighted integral on its complete declared region | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
-| P15 | Review actual supports and budgets, and extend only under proved hypotheses | [Math-](https://github.com/d6g8k5htny-coder/Math-), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
+| P15 | Review full-range hazard transfer and sharpness; extend beyond the realized-family hypotheses | [#74](https://github.com/d6g8k5htny-coder/main/issues/74), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
 
