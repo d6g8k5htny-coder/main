@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from research.cover import Box, DriverConfig, run
+from research.cover.audit import checked_total
 from research.rn.certificate import canonical_bytes
 from research.rn.spatial_cover import RNRectangleRegion, RNSide24Integrand
 from tools import rn_side24_check as point_check
@@ -63,7 +64,7 @@ def build_report(root=None):
     region, integrand = RNRectangleRegion(RECTANGLE), RNSide24Integrand(bits=192)
     ledger = run(region, integrand, DriverConfig(upper_budget=LOCAL_BUDGET,
                  max_depth=1, max_cells=5, prec=88, sig_bits=192))
-    total = ledger.total().certified_enclosure()
+    total = checked_total(ledger).certified_enclosure()
     receipt = ledger.receipt()
     if receipt['pending_count'] or total.lo < 0 or total.hi > LOCAL_BUDGET:
         raise ValueError('complete nonnegative local upper-budget cover required')
