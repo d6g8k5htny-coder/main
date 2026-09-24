@@ -245,8 +245,10 @@ def route_transcription_mismatches(g: dict) -> list[tuple[str, str, object, obje
     cites. Empty when the graph transcribes the register."""
     import json as _json
     import re as _re
-    rq = _json.load(open(os.path.join(ROOT, "registers", "json", "review_queue.json"), encoding="utf-8"))
-    ecq = _json.load(open(os.path.join(ROOT, "registers", "json", "easy_closure_queue.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "review_queue.json"), encoding="utf-8") as handle:
+        rq = _json.load(handle)
+    with open(os.path.join(ROOT, "registers", "json", "easy_closure_queue.json"), encoding="utf-8") as handle:
+        ecq = _json.load(handle)
     rh, eh = rq["header"], ecq["header"]
     rrows = {r[rh.index("Review key")]: r for r in rq["rows"]}
     erows = {r[eh.index("Candidate ID")]: r for r in ecq["rows"]}
@@ -518,7 +520,8 @@ def test_a_retraction_record_without_a_register_status_is_refused():
 def test_theorem_b_register_status_is_the_register_row_verbatim():
     """The graph node transcribes the register; it may not paraphrase it."""
     import json as _json
-    ac = _json.load(open(os.path.join(ROOT, "registers", "json", "automation_config.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "automation_config.json"), encoding="utf-8") as handle:
+        ac = _json.load(handle)
     row = [r for r in ac["rows"] if r[0] == "THEOREM_B_CURRENT_STATUS"][0]
     node = graph()["claims"]["Q0-C104-THEOREM-B"]
     assert node["register_status"] == row[1]
@@ -552,7 +555,8 @@ def _side24_mismatches(g):
     import json as _json
     out = []
     node = g["claims"]["SIDE24-3D-AO48-OPR-045"]
-    od = _json.load(open(os.path.join(ROOT, "registers", "json", "operator_decisions.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "operator_decisions.json"), encoding="utf-8") as handle:
+        od = _json.load(handle)
     row = [r for r in od["rows"] if r[0] == "AO48-OPR-045"][0]
     if node.get("register_status") != row[5]:
         out.append(("register_status", node.get("register_status"), row[5]))
@@ -573,7 +577,8 @@ def _side24_mismatches(g):
     if not os.path.isfile(mp):
         out.append(("mirror_path", node.get("mirror_path"), "missing"))
     else:
-        b = open(mp, "rb").read()
+        with open(mp, "rb") as handle:
+            b = handle.read()
         if _h.sha256(b).hexdigest() != node.get("body_sha256") or len(b) != node.get("body_bytes"):
             out.append(("mirror bytes", _h.sha256(b).hexdigest(), node.get("body_sha256")))
         text = b.decode("utf-8")

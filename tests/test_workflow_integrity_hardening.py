@@ -89,7 +89,7 @@ def governed_command(text):
 
 
 def git(root, *args):
-    result = subprocess.run(["git", "-C", str(root), *args], text=True, capture_output=True, timeout=10)
+    result = subprocess.run(["git", "-C", str(root), *args], text=True, capture_output=True, timeout=60)
     assert result.returncode == 0, result.stderr
     return result.stdout
 

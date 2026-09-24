@@ -124,7 +124,8 @@ def known():
 
 
 def md():
-    return open(MD_PATH, encoding="utf-8").read()
+    with open(MD_PATH, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def expect_fail(root: str, needle: str):
@@ -372,7 +373,8 @@ def sdoc():
 
 
 def smd():
-    return open(SUCC_MD, encoding="utf-8").read()
+    with open(SUCC_MD, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def expect_succ_fail(root: str, needle: str, *extra: str):
@@ -453,7 +455,8 @@ def test_successor_xlsx_digest_matches_sources_json_and_disk():
     rec = [e for e in sources["exports"] if e["file"] == os.path.basename(src["xlsx_path"])]
     assert len(rec) == 1
     assert rec[0]["sha256"] == src["xlsx_sha256"] and rec[0]["bytes"] == src["xlsx_bytes"]
-    raw = open(os.path.join(ROOT, src["xlsx_path"]), "rb").read()
+    with open(os.path.join(ROOT, src["xlsx_path"]), "rb") as handle:
+        raw = handle.read()
     assert hashlib.sha256(raw).hexdigest() == src["xlsx_sha256"] and len(raw) == src["xlsx_bytes"]
 
 
@@ -479,7 +482,8 @@ def test_successor_supersedes_nothing_and_names_its_frozen_predecessor_by_digest
     assert d["supersedes"] is None
     pred = d["successor_of"]
     assert pred["path"] == "registers/collision_proposal.json"
-    raw = open(JSON_PATH, "rb").read()
+    with open(JSON_PATH, "rb") as handle:
+        raw = handle.read()
     assert pred["sha256"] == hashlib.sha256(raw).hexdigest() and pred["bytes"] == len(raw)
 
 
@@ -749,7 +753,8 @@ def test_successor_prose_cell_counts_agree_with_the_machine_counts():
     m = re.search(r"they are not\.\*\* (\w+) of sixteen cells differ", text)
     assert m and NUMBER_WORDS[m.group(1).lower()] == cc["cells_differing"]
     assert f"Cell count: 16 columns compared, {cc['cells_identical']} identical, {cc['cells_differing']} differing" in text
-    findings = open(os.path.join(ROOT, "docs", "FINDINGS_2026-09-18.md"), encoding="utf-8").read()
+    with open(os.path.join(ROOT, "docs", "FINDINGS_2026-09-18.md"), encoding="utf-8") as handle:
+        findings = handle.read()
     m = re.search(r"digest but differ in (\w+) of sixteen cells", findings)
     assert m and NUMBER_WORDS[m.group(1)] == cc["cells_differing"]
     for stale in ("Nine of sixteen", "Seven cells differ", "seven cells differ", "Seven of sixteen"):
@@ -1253,7 +1258,8 @@ def stage_third(sandbox3, doc=None, md=None, known=None, first=None, second=None
         if override is None:
             shutil.copy2(src, dst)
         else:
-            open(dst, "w", encoding="utf-8").write(override)
+            with open(dst, "w", encoding="utf-8") as handle:
+                handle.write(override)
     return str(sandbox3)
 
 
@@ -1262,7 +1268,8 @@ def tdoc():
 
 
 def tmd():
-    return open(THIRD_MD, encoding="utf-8").read()
+    with open(THIRD_MD, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def trec(ident: str) -> int:
@@ -1365,7 +1372,8 @@ def test_third_xlsx_digest_matches_sources_json_and_disk():
     rec = [e for e in sources["exports"] if e["file"] == os.path.basename(src["xlsx_path"])]
     assert len(rec) == 1
     assert rec[0]["sha256"] == src["xlsx_sha256"] and rec[0]["bytes"] == src["xlsx_bytes"]
-    raw = open(os.path.join(ROOT, src["xlsx_path"]), "rb").read()
+    with open(os.path.join(ROOT, src["xlsx_path"]), "rb") as handle:
+        raw = handle.read()
     assert hashlib.sha256(raw).hexdigest() == src["xlsx_sha256"] and len(raw) == src["xlsx_bytes"]
 
 
@@ -1393,9 +1401,11 @@ def test_third_names_its_chain_by_digest_and_supersedes_nothing():
     assert d["supersedes"] is None
     pred = d["successor_of"]
     assert pred["path"] == SUCC_REL
-    raw = open(SUCC_JSON, "rb").read()
+    with open(SUCC_JSON, "rb") as handle:
+        raw = handle.read()
     assert pred["sha256"] == hashlib.sha256(raw).hexdigest() and pred["bytes"] == len(raw)
-    raw0 = open(JSON_PATH, "rb").read()
+    with open(JSON_PATH, "rb") as handle:
+        raw0 = handle.read()
     chain = d["predecessor_chain"]
     assert [c["path"] for c in chain] == [SUCC_REL, "registers/collision_proposal.json"]
     assert chain[1]["sha256"] == hashlib.sha256(raw0).hexdigest() and chain[1]["bytes"] == len(raw0)
@@ -1477,7 +1487,8 @@ def test_third_markdown_quotes_every_finding_key_row_and_statement():
     assert "What this document does NOT establish" in text
     assert "third numbered proposal" in text
     for pdoc_path in (JSON_PATH, SUCC_JSON):
-        assert hashlib.sha256(open(pdoc_path, "rb").read()).hexdigest() in text
+        with open(pdoc_path, "rb") as handle:
+            assert hashlib.sha256(handle.read()).hexdigest() in text
     n = 0
     for p in tdoc()["proposals"]:
         cc = p["cell_comparison"]
@@ -1660,7 +1671,8 @@ def test_negative_third_wrong_workbook_tab_fails(sandbox3):
 def test_negative_third_checker_tab_map_disagreeing_with_the_importer_fails(sandbox3):
     """Rename a sheet in the sandbox importer's SHEETS map: the checker's WORKBOOK_TAB no
     longer matches the importer and must say so, whatever the document claims."""
-    src = open(os.path.join(ROOT, "tools", "registers_import.py"), encoding="utf-8").read()
+    with open(os.path.join(ROOT, "tools", "registers_import.py"), encoding="utf-8") as handle:
+        src = handle.read()
     old = '("Definition Registry", "definitions")'
     assert old in src
     expect_third_fail(stage_third(sandbox3, importer=src.replace(old, '("Definitions", "definitions")')),
@@ -1842,11 +1854,13 @@ def test_negative_third_without_successor_of_fails(sandbox3):
 # ------------------------------------- repository prose against the live cells
 
 def readme_text() -> str:
-    return open(README_PATH, encoding="utf-8").read()
+    with open(README_PATH, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def findings_text() -> str:
-    return open(FINDINGS_PATH, encoding="utf-8").read()
+    with open(FINDINGS_PATH, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def test_third_prose_files_are_present_in_the_sandbox(sandbox3):
