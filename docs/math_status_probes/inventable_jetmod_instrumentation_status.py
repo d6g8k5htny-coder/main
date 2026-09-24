@@ -11,6 +11,11 @@ does not upgrade these tokens to PRESENT or SUCCESS and is not a re-run.
 Does not invent a 24-jet roster, does not promote display/κ, does not claim OBL
 discharge, does not merge PR #12, does not reopen skim-trap PRs #7/#8.
 Green ≠ discharge.
+
+Vault ids and quarantine paths do not activate an inventable source of truth.
+`tools/vault_hygiene_check.py` and `tools/quarantine_check.py` are engineering
+hygiene; a green run is not discharge. This runner does not read the vault
+and does not edit `quarantine/EXCLUSIONS.json`. See this directory's README.
 """
 from __future__ import annotations
 
