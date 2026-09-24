@@ -337,7 +337,8 @@ def test_the_lpw_list_record_paths_are_present_against_this_tree():
     """
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
-    index = open(os.path.join(ROOT, INDEX_REL), encoding="utf-8").read()
+    with open(os.path.join(ROOT, INDEX_REL), encoding="utf-8") as handle:
+        index = handle.read()
     for path in LPW_LIST_RECORD_PATHS:
         assert f"`{path}`" in index, path
         assert f"{path}: pinned at" not in out.stdout
@@ -347,7 +348,8 @@ def test_the_index_names_the_bindings_nobody_would_guess():
     """Three checkers and a document are bound by certificate. That is the fact
     this page exists to publish, so it is asserted rather than left to the
     generator."""
-    index = open(os.path.join(ROOT, INDEX_REL), encoding="utf-8").read()
+    with open(os.path.join(ROOT, INDEX_REL), encoding="utf-8") as handle:
+        index = handle.read()
     for surprising in ("tools/drive_coverage.py",
                        "tools/hermite_envelope_report.py",
                        "tools/manifest_integrity_check.py",
@@ -365,4 +367,5 @@ def test_the_index_is_what_the_certificates_say():
     files, containers, problems, counts = P.survey(ROOT, "research")
     assert problems == []
     want = P.render(files, containers, counts)
-    assert open(os.path.join(ROOT, INDEX_REL), encoding="utf-8").read() == want
+    with open(os.path.join(ROOT, INDEX_REL), encoding="utf-8") as handle:
+        assert handle.read() == want

@@ -30,7 +30,7 @@ def workflow(commands=None):
 
 
 def git(root, *args):
-    result = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=10)
+    result = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, timeout=60)
     assert result.returncode == 0, result.stderr
     return result.stdout
 

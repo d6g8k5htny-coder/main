@@ -28,7 +28,8 @@ def run(*args):
 
 def test_the_2026_09_18_delta_is_238_rows_bound_to_the_export():
     snap = {e["id"]: e for e in DI.load(overlay=False)}
-    rows = [json.loads(l) for l in open(DELTA, encoding="utf-8") if l.strip()]
+    with open(DELTA, encoding="utf-8") as handle:
+        rows = [json.loads(l) for l in handle if l.strip()]
     assert len(rows) == 238
     for r in rows:
         assert r["id"] in snap

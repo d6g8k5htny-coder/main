@@ -198,7 +198,8 @@ def main() -> int:
             if not os.path.isfile(path):
                 problems.append(f"{cid}: blob {blob} does not exist")
                 continue
-            raw = open(path, "rb").read()
+            with open(path, "rb") as handle:
+                raw = handle.read()
             got = hashlib.sha256(raw).hexdigest()
             if got != digest:
                 problems.append(f"{cid}: blob {blob} hashes to {got[:16]}, manifest says {digest[:16]}")
@@ -216,6 +217,10 @@ def main() -> int:
 
     if os.path.isdir(BLOBS):
         for fn in sorted(os.listdir(BLOBS)):
+            # Bytecode caches appear when blobs are imported; they are not carriers.
+            path = os.path.join(BLOBS, fn)
+            if fn == "__pycache__" or fn.endswith(".pyc") or not os.path.isfile(path):
+                continue
             if fn not in referenced:
                 problems.append(f"blobs/{fn}: stored but no manifest record references it")
 
