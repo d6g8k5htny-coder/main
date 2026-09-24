@@ -544,24 +544,36 @@ class Ledger:
         if (kind == RejectKind.OUTSIDE and residual is not None
                 and not (residual.lo == 0 and residual.hi == 0)):
             # ``total()`` skips OUTSIDE cells before it reaches the branch that
-            # sums a residual, so a non-zero one handed over here is stored on
-            # the record and then dropped from every total with no caveat, no
-            # flag and no receipt entry -- the run still reports
-            # ``certified=True``, ``covers_region=True``, ``caveats=()``.
-            # Refusing it at the point of entry is the only place the
-            # contradiction is visible: OUTSIDE asserts the cell is proved
-            # disjoint from the region, so it contributes exactly zero, and a
-            # non-zero possible contribution denies the very rejection this
-            # call is recording. Whichever of the two is wrong, the caller
-            # must say which rather than have the ledger silently keep both.
+            # sums a residual, so anything handed over here is stored on the
+            # record and then DROPPED from every total with no caveat, no flag
+            # and no receipt entry -- the run still reports ``certified=True``,
+            # ``covers_region=True``, ``caveats=()``.
+            #
+            # The contract is therefore exactly ``None`` or exactly ``[0, 0]``,
+            # and the reason is the discard rather than a contradiction. An
+            # earlier version of this comment argued that a non-zero residual
+            # "denies the very rejection this call is recording". That is true
+            # of a witness like ``[10**6, 10**6]``, which excludes zero -- but
+            # it is NOT true of a non-singleton enclosure that CONTAINS zero,
+            # such as ``[-eps, eps]``: that is a conservative statement of a
+            # zero contribution, not a denial of OUTSIDE. The correction is due
+            # to a cross-lane review on PR #38.
+            #
+            # The strict contract still holds, on the honest ground: whatever
+            # is stored here is discarded, so any residual of non-zero WIDTH
+            # loses the uncertainty it was expressing, silently. Requiring
+            # exact zero makes the discard lossless. A caller who means "zero,
+            # conservatively" can say ``[0, 0]``; a caller who means "possibly
+            # non-zero" is describing a cell that is not OUTSIDE.
             raise ValueError(
-                f"cell {cid!r} is rejected OUTSIDE -- proved disjoint from the "
-                f"region, so it contributes exactly zero -- but carries a "
-                f"non-zero residual {residual!r}. An OUTSIDE cell's residual "
-                f"must be None or exactly [0, 0]; total() would discard this "
-                f"number and still report the run certified. If the cell can "
-                f"contribute, it is not OUTSIDE: reject it "
-                f"UNRESOLVED_BOUNDARY or EXCLUDED, whose residuals are summed."
+                f"cell {cid!r} is rejected OUTSIDE, and total() discards an "
+                f"OUTSIDE cell's residual before summing -- so the residual "
+                f"must be None or exactly [0, 0] for that discard to lose "
+                f"nothing. This one is {residual!r}. If it excludes zero the "
+                f"cell can contribute and is not OUTSIDE: reject it "
+                f"UNRESOLVED_BOUNDARY or EXCLUDED, whose residuals are summed. "
+                f"If it merely has non-zero width around zero, say [0, 0] and "
+                f"carry the uncertainty on a cell whose residual survives."
             )
         rec.disposition = REJECTED
         rec.reject_kind = kind
