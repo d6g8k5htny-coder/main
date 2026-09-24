@@ -117,5 +117,9 @@ jobs:
         run: python tools/closure_pipeline.py check-plan
       - name: Math status packet (OPEN/HOLD only; flags stay false)
         run: python tools/math_status_check.py
+      - name: Declared navigation links and anchors
+        run: python tools/navigation_check.py
+      - name: Navigation synthetic controls
+        run: python -m unittest tests.test_navigation -v
       - name: Unit tests and negative controls
         run: python -m pytest -q

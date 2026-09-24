@@ -20,6 +20,7 @@ process is agent judgment, and intent still binds.
 - Never open `99_DO_NOT_OPEN` for evidence or authority; metadata only.
   Never edit exports or frozen bodies in place or cite excluded material.
   [quarantine/PATHS.md](quarantine/PATHS.md): quarantine ≠ SoT; `DO_NOT_OPEN` letters ≠ the vault.
+- Reading routes (nav only; no flag flips): [Workspace](docs/WORKSPACE.md), [research index](docs/RESEARCH_INDEX.md), [reproduction](docs/REPRODUCE.md).
 
 ## Scoped operational addenda
 
@@ -31,7 +32,6 @@ process is agent judgment, and intent still binds.
   historical rules. Preserve exact review targets and use the existing log.
 - Revalidate live records and exact heads at each task boundary. Git merges
   and fast-forwards are not semantic reconciliation or cross-system locks.
-
 ## Historical bridge boundary
 
 The contract under `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/` remains
