@@ -37,6 +37,8 @@ jobs:
         run: python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json
       - name: Logical quarantine is enforced
         run: python tools/quarantine_check.py
+      - name: Vault listing matches inventory; vault ids stay unstored
+        run: python tools/vault_hygiene_check.py
       - name: Content manifests (SHA-256 and byte counts)
         run: python tools/verify_manifests.py
       - name: Strict manifest integrity (pinned coverage, explicit exclusions)
