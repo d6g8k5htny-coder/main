@@ -22,6 +22,15 @@ OP-GDN-002) place on the coupled registers, expressed as machine checks:
 * work_events is append-only: the committed file may only grow (checked by the
   CI diff job, see tests/test_registers.py).
 
+For an inventable agent the three KNOWN lines
+``quarantine_index: row 14 class 'EXISTING_CONTAINER' not in R17 table``,
+``row 15``, and ``row 16`` name ``Q-R17-LOCAL-TB``, ``Q-R17-LOCAL-P01``, and
+``Q-R17-VAULT``. The rationale in ``registers/KNOWN_FINDINGS.json`` says
+"Accepted as-is" for that source-workbook class. ``inventable_attempt_accepted``
+stays false. A green run leaves OBL-H5-JETMOD OPEN. Quarantine is not a source
+of truth. Agreement of ``quarantine/EXCLUSIONS.json`` with this export stays
+with ``tools/quarantine_check.py``. See ``docs/math_status_probes/README.md``.
+
 A problem whose exact string is listed in ``registers/KNOWN_FINDINGS.json`` (in
 any top-level section whose name begins with ``findings``) is printed as KNOWN
 and does not fail the run: that file records defects that exist in the SOURCE
