@@ -643,3 +643,41 @@ def test_the_five_original_firewalls_are_still_declared():
     for added in ("FW-LM011-PRECONDITION", "FW-NO-RECEIPT-PROMOTION",
                   "FW-FLOAT-NOT-CERTIFIED", "FW-RETRACTED-NOT-UNCONDITIONAL"):
         assert added in ids
+
+
+# --------------------------------------------------------------------------
+# 2026-09-25 fail-closed claim-audit controls
+# --------------------------------------------------------------------------
+
+
+def test_d1_rung_preserves_source_label_but_fails_closed_operationally():
+    g = graph()
+    node = g["claims"]["D1-v2.2(1)"]
+    assert node["source_grade_verbatim"] == "CERTIFIED_RUNG"
+    assert node["grade"] == "CONDITIONAL"
+    assert node["audit_disposition"] == "HOLD_WITH_DOMAIN"
+    assert "D3-LEMMA-RN-UNIF" in node["depends_on"]
+    assert g["premises"]["D3-LEMMA-RN-UNIF"]["status_frozen_v2_2"] == "NOT_CLOSED"
+
+
+def test_rejects_certified_rung_while_named_premise_is_open():
+    g = graph()
+    g["claims"]["D1-v2.2(1)"]["grade"] = "CERTIFIED_RUNG"
+    assert run_on(g) == 1
+
+
+def test_q0_core_availability_manifest_matches_checkout():
+    path = os.path.join(ROOT, "claims", "q0_core_availability.json")
+    with open(path, encoding="utf-8") as handle:
+        availability = json.load(handle)
+    for name, entry in availability["objects"].items():
+        if entry["status"] == "PRESENT_EXACT":
+            assert os.path.isfile(os.path.join(ROOT, entry["path"])), name
+    ledger = availability["objects"]["Q0_LEDGER.md"]
+    assert ledger["status"] == "ABSENT_EXACT"
+    assert os.path.isfile(os.path.join(ROOT, ledger["closest_present_path"]))
+    found = []
+    for root, _, files in os.walk(ROOT):
+        if "Q0_LEDGER.md" in files:
+            found.append(os.path.join(root, "Q0_LEDGER.md"))
+    assert found == [], found

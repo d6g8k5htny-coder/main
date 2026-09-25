@@ -180,15 +180,17 @@
   "D1-v2.2(1)": {
    "track": "UPPER2D",
    "statement": "Certified rung bound at r = 0.05: 1 − q(0.05, 6/5) ≤ Ĩ_hi + C_RN(0.05)·√Q_{0.05}(B1.dir) + P_{0.05}(B2) + P_{0.05}(B4), with E_w(0.05) ≤ Ĩ_hi = 8.1272827e-2 = 650.1827·(0.05)³ (chart part = I_hi(v3) − 19.55·(0.05)³ = 628.2548·(0.05)³, where I_hi(v3) = 8.0975589252e-2 = 647.8048·(0.05)³ is the H5 chart total, pin 8d7028e4…; remote part = B_remote·(0.05)³ = 21.9279·(0.05)³) and C_RN(0.05) ≤ 3.46.",
-   "grade": "CERTIFIED_RUNG",
+   "grade": "CONDITIONAL",
    "rung": 0.05,
    "depends_on": [
     "H5-RIM",
     "H5-AXIS",
     "D3-LEMMA-RN-UNIF"
    ],
-   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above.",
-   "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)"
+   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Fail-closed audit 2026-09-25 therefore preserves the source label CERTIFIED_RUNG in source_grade_verbatim but records the current operational grade as CONDITIONAL until that named premise closes. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above.",
+   "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)",
+   "source_grade_verbatim": "CERTIFIED_RUNG",
+   "audit_disposition": "HOLD_WITH_DOMAIN"
   },
   "D1-v2.2(2)": {
    "track": "UPPER2D",
@@ -792,6 +794,11 @@
    "id": "FW-RETRACTED-NOT-UNCONDITIONAL",
    "rule": "A claim carrying a retraction record, or whose transcribed register_status says RETRACTED, cannot carry an unconditional grade (LIVE_ROOT_THEOREM, FROZEN_CERTIFICATE, RATIFIED_3D_ONLY). The historical label is what the audit withdrew.",
    "source": "registers/json/automation_config.json THEOREM_B_CURRENT_STATUS: 'Do not cite Q0_C104 or Q0_MASTER historical PROVEN-HERE labels as current proof'; activity_log GP-AUD-187-v1.0"
+  },
+  {
+   "id": "FW-RUNG-OPEN-PREMISE",
+   "rule": "A claim may not carry grade CERTIFIED_RUNG while any transitive named premise has frozen status OPEN or NOT_CLOSED. Preserve a stricter historical/source label separately rather than allowing it to outrun its dependencies.",
+   "source": "Fail-Closed Claim Audit 2026-09-25; D1_ASSEMBLY_v2_2.md §1 names D3-LEMMA-RN-UNIF(r=0.05) as NOT closed"
   }
  ]
 }
