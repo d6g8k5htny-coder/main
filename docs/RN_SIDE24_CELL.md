@@ -269,6 +269,16 @@ records `near_annulus_covered: false`, `independence_credit: 0` and
 is not re-proved here. SIDE24 source-of-truth carriers for the objects marked
 **ABSENT** below stay **ABSENT**.
 
+**Frozen importer errata.** `docs/OPEN_PROBLEMS.md` §A5 (lines 116-120) still
+credits this note with the rectangle, its four-cell split and the `6e-12`
+budget. That file is byte-frozen by a pinned campaign archive, so the scoped
+reading is recorded beside it, as E1 in
+[OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md](OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md).
+The downstream map is
+[DOWNSTREAM_RN_CROSSWALK_20260925.md](DOWNSTREAM_RN_CROSSWALK_20260925.md).
+These pages are navigation only. The spatial claim of this note stays the
+declared square C.
+
 **ABSENT** from this note: a complete annulus cover, a remote-budget assembly,
 an all-small-r theorem, and a positive lower bound on the typed integrand.
 `field_certified` stays false. A local rectangle does not supply those absent
