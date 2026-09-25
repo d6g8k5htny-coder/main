@@ -46,6 +46,8 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         self.assertGreaterEqual(report["sub_obligation_edges"], 3)
         self.assertFalse(report["promotion_permission"])
         self.assertEqual(report["identity_impacted"], [])
+        self.assertGreater(report["hold_node_count"], 0)
+        self.assertEqual(report["hold_node_count"], len(report["hold_nodes"]))
 
     def test_deleted_depends_on_edge_still_impacts_via_union(self):
         claims = _load_tip_claims()
@@ -338,6 +340,66 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         self.assertFalse(impact["promotion_permission"])
         self.assertFalse(graph.get("promotion_permission", True) is True and False)
         self.assertIs(graph["promotion_permission"], False)
+
+    def test_compare_claims_files_surfaces_unsatisfied_in_hold_proposals(self):
+        """Regression: aggregate must not drop OPEN_ACTIVE / AUTHOR_SIDE holds."""
+        claims = _load_tip_claims()
+        report = CGA.compare_claims_files(claims, claims)
+        # D1-v2.2(2) requires OBL-D1-PROMOTE which maps to OPEN_ACTIVE — not REFUTED.
+        self.assertIn("D1-v2.2(2)", report["hold_proposals"])
+        hold = report["hold_proposals"]["D1-v2.2(2)"]
+        self.assertTrue(hold["unsatisfied_required"])
+        self.assertFalse(hold["refuted_required"])
+        self.assertIn("HOLD", hold["proposals"])
+        self.assertFalse(report["promotion_permission"])
+
+    def test_aggregate_hold_includes_superseded_nonblocking_required(self):
+        claims = _load_tip_claims()
+        graph = CGA.claims_to_gate_graph(claims)
+        graph["nodes"]["prem.superseded"] = {
+            "bucket": "premises",
+            "classification": "SUPERSEDED_NONBLOCKING",
+            "controlling": False,
+            "semantic_digest": "s",
+            "source_snapshot": "s",
+            "fingerprint": "s",
+            "version": claims["as_of"],
+        }
+        graph["nodes"]["synthetic.dependent"] = {
+            "bucket": "claims",
+            "classification": "AUTHOR_SIDE_CANDIDATE",
+            "controlling": False,
+            "semantic_digest": "d",
+            "source_snapshot": "d",
+            "fingerprint": "d",
+            "version": claims["as_of"],
+        }
+        graph["edges"].append(
+            {
+                "from": "synthetic.dependent",
+                "to": "prem.superseded",
+                "required": True,
+                "relation": "depends_on",
+            }
+        )
+        holds = CGA.aggregate_hold_proposals(graph)
+        self.assertIn("synthetic.dependent", holds)
+        self.assertTrue(
+            any(u["id"] == "prem.superseded" for u in holds["synthetic.dependent"]["unsatisfied_required"]),
+            holds["synthetic.dependent"],
+        )
+        self.assertIn("HOLD", holds["synthetic.dependent"]["proposals"])
+
+    def test_audit_tip_reports_hold_inventory(self):
+        report = CGA.audit_tip(ROOT)
+        self.assertIn("hold_node_count", report)
+        self.assertIn("hold_nodes", report)
+        self.assertEqual(report["hold_node_count"], len(report["hold_nodes"]))
+        self.assertIsInstance(report["hold_proposals"], dict)
+        # Tip claims have no PROVED_REVIEWED premises; dependents with required
+        # edges must show up as HOLD (fail-closed inventory visible to CI).
+        self.assertGreater(report["hold_node_count"], 0)
+        self.assertFalse(report["promotion_permission"])
 
 
 if __name__ == "__main__":

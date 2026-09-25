@@ -457,6 +457,30 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
     }
 
 
+def node_has_hold(hold: dict[str, Any]) -> bool:
+    """True when required_holds found unresolved still-required premises.
+
+    Includes unsatisfied_required (AUTHOR_SIDE_CANDIDATE / OPEN_ACTIVE /
+    SUPERSEDED_NONBLOCKING / etc.), not only REFUTED / BLOCKED_ABSENT.
+    Does not treat the default proposals=["HOLD"] padding as a real hold.
+    """
+    return bool(
+        hold.get("refuted_required")
+        or hold.get("blocked_absent")
+        or hold.get("unsatisfied_required")
+    )
+
+
+def aggregate_hold_proposals(graph: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Fail-closed HOLD map over every node with unresolved required premises."""
+    holds: dict[str, dict[str, Any]] = {}
+    for nid in sorted(graph["nodes"]):
+        hold = required_holds(graph, nid)
+        if node_has_hold(hold):
+            holds[nid] = hold
+    return holds
+
+
 def compare_claims_files(
     old_claims: dict[str, Any],
     new_claims: dict[str, Any],
@@ -467,12 +491,7 @@ def compare_claims_files(
     old_g = claims_to_gate_graph(old_claims, crosswalk=crosswalk, authority_map=authority_map)
     new_g = claims_to_gate_graph(new_claims, crosswalk=crosswalk, authority_map=authority_map)
     impact = reverse_impact_between(old_g, new_g)
-    holds = {
-        nid: required_holds(new_g, nid)
-        for nid in sorted(new_g["nodes"])
-        if required_holds(new_g, nid)["refuted_required"]
-        or required_holds(new_g, nid)["blocked_absent"]
-    }
+    holds = aggregate_hold_proposals(new_g)
     return {
         "reverse_impact": impact,
         "hold_proposals": holds,
@@ -492,16 +511,21 @@ def audit_tip(root: Path | None = None) -> dict[str, Any]:
     graph = claims_to_gate_graph(claims, crosswalk=crosswalk, authority_map=authority)
     # Self-compare: identity before/after should yield empty impact.
     impact = reverse_impact_between(graph, copy.deepcopy(graph))
+    holds = aggregate_hold_proposals(graph)
+    hold_nodes = sorted(holds)
     return {
         "nodes": len(graph["nodes"]),
         "edges": len(graph["edges"]),
         "sub_obligation_edges": sum(1 for e in graph["edges"] if e["relation"] == "sub_obligation"),
         "depends_on_edges": sum(1 for e in graph["edges"] if e["relation"] == "depends_on"),
         "identity_impacted": impact["impacted"],
+        "hold_node_count": len(hold_nodes),
+        "hold_nodes": hold_nodes,
+        "hold_proposals": holds,
         "promotion_permission": False,
         "scientific_effect": "NONE",
         "problems": [],
-        "meaning": "tip projection health; not mathematical acceptance",
+        "meaning": "tip projection health + fail-closed HOLD inventory; not mathematical acceptance",
     }
 
 
