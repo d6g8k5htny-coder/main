@@ -83,7 +83,7 @@ ABSENT**. This agrees with
 | Reconstruction `rnu_white.py` (13,344 B, sha256 `859e1963b1b7c84f2c1f14b4b163fb5575ad41c5394d27c51c0d1ceff70d2dc3`) | A separate node. It is not a fill of the historical file. |
 | Whitened log-q orders 2–4 | **REPLACED** by `MATH-20260917-b9c2_RN_WHITENED_JET_THEOREM.md` (Drive `1O4hMhhUhVtmCvvkRNqaqevByyTwnWe3b`) plus RN-FIELD-001 `CLOSE-20260917-b9c2_RN_FIELD_PROOF.md` (Drive `1xwENAPr6OCmn0AcfEEkljUbBSejYiq0B`; kernel [`rn_field.py`](../research/parallel/c2/sources/rn_field.py), sha256 `d9167ae821684f716fdbae11cd39eb13818422f50b6566f677d62c292e4a93c8`). Scope: `5 <= \|y\| <= 17` at `r = 1/20` only. Author-side, independence credit 0. |
 | Complement of that replacement | Near annulus `0.1 <= \|y\| <= 5`; `r != 1/20`; `sqrt(chi^2)` derivatives of order `>= 2`; `kappa_y`; `kappa_cross`; the full composition `C_comp`. All open. |
-| Next successors | **S1:** a proved floor `chi^2 >= delta > 0` on the far annulus (theorem §6 item 3). Then **S2:** `C_comp` (CL-RNU-003 T4 push, "Still required for a freeze" item 1). |
+| Next successors | **S1 (target, not yet proved):** a floor `chi^2 >= delta > 0` on the far annulus (theorem §6 item 3). Then **S2:** `C_comp` (CL-RNU-003 T4 push, "Still required for a freeze" item 1). |
 | STATUS.md "CERTIFIED q=2" (line 14) | Carrier absent. See PR #101. |
 
 ---
