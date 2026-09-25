@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-RN-INNER-WEDGE-20260925",
+  "attested_utc": "2026-09-25T17:35:00Z",
+  "object_id": "docs/RN_INNER_WEDGE.md @ 8b35fc517f8f79e8631a83242443012c1e564b17",
+  "object_title": "SIDE24 inner-axis wedge, after the walk-down scope edit naming the pin-energy premise",
+  "object_bytes": 5990,
+  "object_sha256": "74f28c5d7d1d0c2154ec297027185af7972cdd9998563f94dd393e828bc85a53",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_inner_wedge_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {
+      "command": "python3 tools/claims_check.py",
+      "exit_code": 0,
+      "summary": "claims=27 premises=13 firewalls=9 problems=0"
+    },
+    {
+      "command": "python3 tools/quarantine_check.py",
+      "exit_code": 0,
+      "summary": "logical quarantine enforced; excludes claims, certifies none"
+    },
+    {
+      "command": "python3 tools/verify_manifests.py",
+      "exit_code": 0,
+      "summary": "manifests=414 verified=3203 problems=0"
+    },
+    {
+      "command": "python3 tools/consumers_check.py",
+      "exit_code": 0,
+      "summary": "register-consumer map free of drift"
+    },
+    {
+      "command": "python3 tools/lanes_check.py",
+      "exit_code": 0,
+      "summary": "no lane reads stronger than the claim graph"
+    },
+    {
+      "command": "python3 tools/frozen_check.py",
+      "exit_code": 0,
+      "summary": "register and source-map digests agree, offline"
+    },
+    {
+      "command": "python3 tools/rn_inner_wedge_check.py",
+      "exit_code": 0,
+      "summary": "12 auxiliary strips, zero pending; exact area 21*pi/5120000"
+    }
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the independence-requiring predicate is OPEN and no record in this repository can supply it.",
+    "The rest of the annulus 1/10 <= |y| <= 5 outside the single polar cell W, which the new scope sentence names as open complement.",
+    "All other radii and pin orientations beyond r=1/20 with the original x-axis six pins.",
+    "Identification of the wedge's typed RN integrand with the corrected Hoelder(4,4,2) Piece-2 spine; until then no area of W enters a Piece-2 budget.",
+    "Both imported premises it rests on (the H3 rung floor 0.0077592917... and the six-pin energy allowance below 8), carried from their sources and not re-derived here.",
+    "Canonical acceptance by the operator, which no automated record can stand in for."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "This record covers only the bytes produced by the 2026-09-25 walk-down edit, which rewrote the banner's dependency sentence to list the pin-energy allowance next to the rung floor and added an explicit domain and complement. Structural gates exiting zero over those bytes cannot tell whether that sentence now lists every premise the wedge truly uses, whether the stated complement is exhaustive, or whether the wedge integrand relates to the corrected Piece-2 spine at all. No inequality was re-derived, no reviewer was supplied, and the lemma, its two pieces and every obligation remain exactly as open as before.",
+  "notes": "Successor to ATT-RN-INNER-WEDGE-20260923B, which attested the 5434-byte body at commit 19b1a706. That predecessor is not wrong and has not been edited apart from its superseded_by pointer. The seven commands above were run by Agent 3 in worktree /workspace/wt_rn_walkdown over a local tree holding these exact object bytes together with the same PR's claims/graph.json change (hence claims=27); the object bytes were then pushed through the GitHub connector and first appear on the PR branch at the stated commit 8b35fc51, with the graph change following in the same PR. Exit codes are transcribed, not inferred."
+}
