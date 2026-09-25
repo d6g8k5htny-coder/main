@@ -142,13 +142,124 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         old = CGA.claims_to_gate_graph(claims)
         new = copy.deepcopy(old)
         # Mutate a leaf with no dependents in the projected graph where possible.
-        # H-B3 is depended on by K3-THM-001 only among tip claims.
+        # Self-hold includes the changed node; unrelated claims must stay clean.
+        new["nodes"]["Q0-C101-QUALITATIVE-RATE"]["source_snapshot"] = "unrelated-mutation"
         new["nodes"]["Q0-C101-QUALITATIVE-RATE"]["fingerprint"] = "unrelated-mutation"
         impact = CGA.reverse_impact_between(old, new)
         self.assertIn("Q0-C101-QUALITATIVE-RATE", impact["changed_nodes"])
+        self.assertIn("Q0-C101-QUALITATIVE-RATE", impact["impacted"])  # self-hold
         # LIVE_ROOT with empty depends_on should not drag unrelated claims.
         self.assertNotIn("SIDE24-3D-AO48-OPR-045", impact["impacted"])
         self.assertNotIn("P15-A..D", impact["impacted"])
+
+    def test_edge_only_change_is_impact_seed_without_node_fingerprint_change(self):
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new = copy.deepcopy(old)
+        # Delete one depends_on edge; leave every node fingerprint/snapshot alone.
+        target = ("D1-v2.2(2)", "OBL-D1-PROMOTE", "depends_on", True)
+        new["edges"] = [e for e in new["edges"] if CGA._edge_key(e) != target]
+        self.assertEqual(len(new["edges"]), len(old["edges"]) - 1)
+        # Node snapshots unchanged.
+        for nid in ("D1-v2.2(2)", "OBL-D1-PROMOTE"):
+            self.assertEqual(
+                old["nodes"][nid]["source_snapshot"],
+                new["nodes"][nid]["source_snapshot"],
+            )
+        impact = CGA.reverse_impact_between(old, new)
+        self.assertIn("D1-v2.2(2)", impact["edge_only_seeds"])
+        self.assertIn("OBL-D1-PROMOTE", impact["edge_only_seeds"])
+        self.assertIn("D1-v2.2(2)", impact["impacted"])
+        self.assertFalse(impact["promotion_permission"])
+
+    def test_statement_change_detected_via_canonical_source_snapshot(self):
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new_claims = copy.deepcopy(claims)
+        # Mutate statement only; do not touch a manually curated fingerprint field.
+        record = new_claims["premises"]["OBL-H5-JETMOD"]
+        record["statement"] = (record.get("statement") or "") + " [loss-only statement drift]"
+        new = CGA.claims_to_gate_graph(new_claims)
+        self.assertNotEqual(
+            old["nodes"]["OBL-H5-JETMOD"]["source_snapshot"],
+            new["nodes"]["OBL-H5-JETMOD"]["source_snapshot"],
+        )
+        impact = CGA.reverse_impact_between(old, new)
+        self.assertIn("OBL-H5-JETMOD", impact["changed_nodes"])
+        self.assertIn("OBL-H5-JETMOD", impact["impacted"])  # self-hold
+        self.assertIn("OBL-D1-PROMOTE", impact["impacted"])  # union parent
+
+    def test_changed_controlling_node_included_in_revalidation_proposal(self):
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new = copy.deepcopy(old)
+        new["nodes"]["D1-v2.2(2)"]["source_snapshot"] = "self-hold-mutation"
+        new["nodes"]["D1-v2.2(2)"]["fingerprint"] = "self-hold-mutation"
+        impact = CGA.reverse_impact_between(old, new)
+        self.assertIn("D1-v2.2(2)", impact["impacted"])
+        self.assertTrue(
+            any(
+                p["node"] == "D1-v2.2(2)" and p["proposal"] == "REVALIDATION_REQUIRED"
+                for p in impact["proposals"]
+            ),
+            impact["proposals"],
+        )
+        self.assertFalse(impact["promotion_permission"])
+
+    def test_required_flag_rejects_non_boolean_fail_closed(self):
+        claims = _load_tip_claims()
+        graph = CGA.claims_to_gate_graph(claims)
+        for bad in (0, 1, "true", None):
+            bad_graph = copy.deepcopy(graph)
+            bad_graph["edges"][0]["required"] = bad
+            with self.assertRaises(CGA.AdapterError) as ctx:
+                CGA.validate_graph_fail_closed(bad_graph)
+            self.assertIn("strict boolean", str(ctx.exception))
+
+    def test_required_zero_cannot_silently_skip_premise(self):
+        claims = _load_tip_claims()
+        graph = CGA.claims_to_gate_graph(claims)
+        graph["nodes"]["prem.refuted"] = {
+            "bucket": "premises",
+            "classification": "REFUTED",
+            "controlling": False,
+            "source_snapshot": "r",
+            "fingerprint": "r",
+            "version": claims["as_of"],
+        }
+        graph["nodes"]["synthetic.dependent"] = {
+            "bucket": "claims",
+            "classification": "AUTHOR_SIDE_CANDIDATE",
+            "controlling": False,
+            "source_snapshot": "s",
+            "fingerprint": "s",
+            "version": claims["as_of"],
+        }
+        graph["edges"].append(
+            {
+                "from": "synthetic.dependent",
+                "to": "prem.refuted",
+                "required": 0,  # must not silently skip
+                "relation": "depends_on",
+            }
+        )
+        with self.assertRaises(CGA.AdapterError) as ctx:
+            CGA.required_holds(graph, "synthetic.dependent")
+        self.assertIn("strict boolean", str(ctx.exception))
+
+    def test_duplicate_edge_records_fail_closed(self):
+        claims = _load_tip_claims()
+        graph = CGA.claims_to_gate_graph(claims)
+        dup = {
+            "from": "D1-v2.2(2)",
+            "to": "OBL-D1-PROMOTE",
+            "required": True,
+            "relation": "depends_on",
+        }
+        graph["edges"].append(dup)
+        with self.assertRaises(CGA.AdapterError) as ctx:
+            CGA.validate_graph_fail_closed(graph)
+        self.assertIn("duplicate edge", str(ctx.exception))
 
     def test_unknown_dependency_id_fails_closed(self):
         claims = _load_tip_claims()

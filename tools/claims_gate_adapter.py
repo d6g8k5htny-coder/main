@@ -72,25 +72,42 @@ def map_classification(record: dict[str, Any], *, bucket: str) -> str:
     return "AUTHOR_SIDE_CANDIDATE"
 
 
+def _source_snapshot(record: dict[str, Any]) -> str:
+    """Canonical snapshot of the complete source record.
+
+    Detects statement / domain / source-binding / edge-list changes from the
+    actual claims record rather than a manually curated field subset. Not a
+    mathematical truth hash.
+    """
+    if not isinstance(record, dict):
+        raise AdapterError("source snapshot requires an object record")
+    return json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+
+
 def _fingerprint(record: dict[str, Any]) -> str:
-    """Stable fingerprint over identity-bearing fields (not a truth hash)."""
-    payload = {
-        "grade": record.get("grade"),
-        "status_frozen_v2_2": record.get("status_frozen_v2_2"),
-        "status_register_note": record.get("status_register_note"),
-        "depends_on": record.get("depends_on"),
-        "sub_obligations": record.get("sub_obligations"),
-        "statement": record.get("statement") or record.get("note"),
-        "source": record.get("source") or record.get("canon_source"),
-    }
-    return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    """Alias of `_source_snapshot` (kept for call-site compatibility)."""
+    return _source_snapshot(record)
 
 
-def _edge(frm: str, to: str, relation: str) -> dict[str, Any]:
+def _require_strict_bool(value: Any, *, field: str) -> bool:
+    """Fail closed unless `value` is a Python bool (reject 0/1/str/null)."""
+    if type(value) is not bool:
+        raise AdapterError(
+            f"{field} must be a strict boolean, got {type(value).__name__}: {value!r}"
+        )
+    return value
+
+
+def _edge_key(edge: dict[str, Any]) -> tuple[Any, ...]:
+    return (edge["from"], edge["to"], edge["relation"], edge["required"])
+
+
+def _edge(frm: str, to: str, relation: str, *, required: bool = True) -> dict[str, Any]:
+    _require_strict_bool(required, field="required")
     return {
         "from": frm,
         "to": to,
-        "required": True,
+        "required": required,
         "relation": relation,
     }
 
@@ -146,11 +163,13 @@ def claims_to_gate_graph(
             raise AdapterError(f"malformed record for {nid!r}")
         if nid in nodes:
             raise AdapterError(f"duplicate node id {nid!r}")
+        snapshot = _source_snapshot(record)
         nodes[nid] = {
             "bucket": bucket,
             "classification": map_classification(record, bucket=bucket),
             "controlling": False,
-            "fingerprint": _fingerprint(record),
+            "source_snapshot": snapshot,
+            "fingerprint": snapshot,
             "version": claims.get("as_of"),
         }
 
@@ -192,7 +211,13 @@ def claims_to_gate_graph(
 def required_dependencies(graph: dict[str, Any], node_id: str) -> list[str]:
     if node_id not in graph["nodes"]:
         raise AdapterError(f"unknown node: {node_id}")
-    return [e["to"] for e in graph["edges"] if e["from"] == node_id and e.get("required", True)]
+    deps: list[str] = []
+    for edge in graph["edges"]:
+        if edge["from"] != node_id:
+            continue
+        if _require_strict_bool(edge["required"], field="required"):
+            deps.append(edge["to"])
+    return deps
 
 
 def transitive_required(graph: dict[str, Any], node_id: str) -> list[str]:
@@ -245,11 +270,21 @@ def validate_graph_fail_closed(graph: dict[str, Any]) -> None:
     edges = graph.get("edges")
     if not isinstance(nodes, dict) or not isinstance(edges, list):
         raise AdapterError("malformed graph")
+    seen_edges: set[tuple[Any, ...]] = set()
     for edge in edges:
         if not isinstance(edge, dict) or not {"from", "to", "required", "relation"} <= set(edge):
             raise AdapterError("malformed edge record")
+        _require_strict_bool(edge["required"], field="required")
         if edge["from"] not in nodes or edge["to"] not in nodes:
             raise AdapterError("edge references missing node")
+        # Duplicate identity: same from/to/relation regardless of required flag.
+        identity = (edge["from"], edge["to"], edge["relation"])
+        if identity in seen_edges:
+            raise AdapterError(
+                "duplicate edge record: "
+                f"{edge['from']!r} -> {edge['to']!r} ({edge['relation']})"
+            )
+        seen_edges.add(identity)
     cycle = _required_cycle(graph)
     if cycle:
         raise AdapterError("required dependency cycle: " + " -> ".join(cycle))
@@ -303,8 +338,33 @@ def required_holds(graph: dict[str, Any], node_id: str) -> dict[str, Any]:
     }
 
 
+def _node_identity_changed(old_node: dict[str, Any], new_node: dict[str, Any]) -> bool:
+    """True when canonical source snapshot / classification / version diverge.
+
+    Prefers `source_snapshot` (complete canonical record). Falls back to
+    `fingerprint` only when both sides lack a source_snapshot (legacy fixtures).
+    """
+    old_snap = old_node.get("source_snapshot")
+    new_snap = new_node.get("source_snapshot")
+    if old_snap is not None or new_snap is not None:
+        if old_snap != new_snap:
+            return True
+    elif old_node.get("fingerprint") != new_node.get("fingerprint"):
+        return True
+    return (
+        old_node.get("classification") != new_node.get("classification")
+        or old_node.get("version") != new_node.get("version")
+    )
+
+
 def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any]) -> dict[str, Any]:
     """Reverse impact over UNION(old,new) edges; deleted edges cannot erase impact.
+
+    Seeds include:
+      - nodes whose canonical source snapshot / classification / version change;
+      - endpoints of edge-only changes (add/remove/mutate) even when fingerprints
+        and classifications are unchanged;
+      - the changed controlling node itself (self-hold / self-revalidation).
 
     Marks impacted nodes with REVALIDATION_REQUIRED proposals on a copy of
     new_graph. Never sets controlling=True. Never grants promotion permission.
@@ -318,12 +378,20 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
         if nid not in old_nodes or nid not in new_nodes:
             changed.add(nid)
             continue
-        if (
-            old_nodes[nid].get("fingerprint") != new_nodes[nid].get("fingerprint")
-            or old_nodes[nid].get("classification") != new_nodes[nid].get("classification")
-            or old_nodes[nid].get("version") != new_nodes[nid].get("version")
-        ):
+        if _node_identity_changed(old_nodes[nid], new_nodes[nid]):
             changed.add(nid)
+
+    # Edge-only seeds: compare complete edge records; endpoints are impact seeds
+    # even when node fingerprints/status are unchanged.
+    old_edge_keys = {_edge_key(e) for e in old_graph["edges"]}
+    new_edge_keys = {_edge_key(e) for e in new_graph["edges"]}
+    edge_only_seeds: set[str] = set()
+    for key in old_edge_keys.symmetric_difference(new_edge_keys):
+        frm, to, _relation, _required = key
+        edge_only_seeds.add(frm)
+        edge_only_seeds.add(to)
+        changed.add(frm)
+        changed.add(to)
 
     union_edges = {
         (e["from"], e["to"]) for g in (old_graph, new_graph) for e in g["edges"]
@@ -332,7 +400,8 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
     for child, dep in union_edges:
         reverse.setdefault(dep, set()).add(child)
 
-    impacted: set[str] = set()
+    # Self-hold: the changed node itself is included when present in new_graph.
+    impacted: set[str] = {nid for nid in changed if nid in new_nodes}
     queue = list(changed)
     seen = set(queue)
     while queue:
@@ -360,6 +429,7 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
 
     return {
         "changed_nodes": sorted(changed),
+        "edge_only_seeds": sorted(edge_only_seeds),
         "impacted": sorted(impacted),
         "proposals": proposals,
         "graph": clone,
