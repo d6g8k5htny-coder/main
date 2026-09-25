@@ -66,6 +66,13 @@ a premise promotion, a prize closure, or an independence credit.
   enclosure of D3-LEMMA-RN-UNIF, does not FREEZE the lemma, and does not
   discharge it. The controlling snapshot flag `U_certified` is false, and the
   `|∇κ_pair|` box majorant in that same note stays provisional.
+- That CERTIFIED wording depends on `code_prototypes/rnu_white_box_grad_bound_v1.py`
+  and its receipt, which are not on this tip and appear in no tip Drive register
+  (`registers/csv/file_catalog.csv`, `drive/inventory.jsonl`, `drive/source_map/`).
+  Its box uses `d_min=4.999`, so it reaches |y|=4.999, into the near annulus |y|<5,
+  outside the far zone |y|≥5. The q=2 claim is therefore REQUIRED CARRIER ABSENT and
+  conditional. It is not a certification and not a discharge. Walk-down 9
+  classification M1; `STATUS.md` stays byte-exact and no flag changes.
 - The 2026-09-21 notes transcribed here still say the Piece-2 annulus
   Riemann-sum driver is UNWRITTEN. That sentence is the note's own status
   line, kept byte-exact. It does not reclassify other repository code, and
