@@ -33,7 +33,7 @@ Next read the [fixed-remote height-window estimate](https://github.com/d6g8k5htn
 
 [Run the remote-window checks](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/README.md) from the Math repository; exact catalog key `rn-fixed-remote-window` locates the published source. The proof rederives the needed full-pin count estimates without consuming global elder selection. Its author-side disposition and the intermediate-annulus boundary remain explicit.
 
-The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
+The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates. The [downstream RN crosswalk](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/DOWNSTREAM_RN_CROSSWALK_20260925.md) classifies which of those walls are historical-route blockers only versus live analytic gaps (Piece-2 / shrinking annulus / collisions). It changes no Boolean. The first shrinking-scale reduction draft is [Math- PR #7](https://github.com/d6g8k5htny-coder/Math-/pull/7).
 
 ## P15 combinatorics
 
@@ -57,6 +57,7 @@ The full-range successor removes the probability ceiling, not the demand or real
 | Coefficient | Review cone truncation, normalized images and outward arithmetic | [#65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | RN / 24-jet | Bound the actual count-weighted integral on its complete declared region | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 | RN fixed-remote successor | Review the extra-pin count proof, evaluate its kernel, and control the remaining shrinking-exclusion/collision regions | [#76](https://github.com/d6g8k5htny-coder/main/issues/76) |
+| RN mesoscopic annulus | Attack the scaled divided-difference determinant ledger before treating compactness as a fixed-remote extension | [Math- #7](https://github.com/d6g8k5htny-coder/Math-/pull/7) |
 | P15 | Review full-range hazard transfer and sharpness; extend beyond the realized-family hypotheses | [#74](https://github.com/d6g8k5htny-coder/main/issues/74), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
