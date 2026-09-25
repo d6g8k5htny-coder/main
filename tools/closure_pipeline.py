@@ -42,7 +42,11 @@ LINKS = {
     'python tools/claims_check.py': ['OBL-D1-PROMOTE'],
     'python tools/lanes_check.py': ['A1', 'A5'],
     'python tools/scientific_state_check.py': ['OQ-013'],
-    'python tools/claims_gate_adapter.py': ['OBL-D1-PROMOTE', 'OQ-013'],
+    'python tools/claims_gate_adapter.py tip-health': ['OBL-D1-PROMOTE', 'OQ-013'],
+    'python tools/claims_gate_adapter.py event-compare --write-report artifacts/claims-gate-impact.json': [
+        'OBL-D1-PROMOTE',
+        'OQ-013',
+    ],
 }
 LIMITS = [
     'Dated repository snapshots only; no claim of a complete or current Drive inventory.',

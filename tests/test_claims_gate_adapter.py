@@ -427,6 +427,271 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         # edges must show up as HOLD (fail-closed inventory visible to CI).
         self.assertGreater(report["hold_node_count"], 0)
         self.assertFalse(report["promotion_permission"])
+        self.assertEqual(report["mode"], "tip_health")
+        self.assertIn("NOT evidence", report["meaning"])
+
+    def test_malformed_depends_on_containers_fail_closed(self):
+        claims = _load_tip_claims()
+        for bad in (False, 0, "", {}, None):
+            mutated = copy.deepcopy(claims)
+            mutated["claims"]["D1-v2.2(2)"]["depends_on"] = bad
+            with self.assertRaises(CGA.AdapterError) as ctx:
+                CGA.claims_to_gate_graph(mutated)
+            self.assertIn("must be a list", str(ctx.exception))
+
+    def test_malformed_sub_obligations_containers_fail_closed(self):
+        claims = _load_tip_claims()
+        for bad in (False, 0, "", {}, None):
+            mutated = copy.deepcopy(claims)
+            mutated["premises"]["OBL-D1-PROMOTE"]["sub_obligations"] = bad
+            with self.assertRaises(CGA.AdapterError) as ctx:
+                CGA.claims_to_gate_graph(mutated)
+            self.assertIn("must be a list", str(ctx.exception))
+
+    def test_malformed_as_of_values_fail_closed(self):
+        claims = _load_tip_claims()
+        for bad in (None, "", False, 0):
+            mutated = copy.deepcopy(claims)
+            mutated["as_of"] = bad
+            with self.assertRaises(CGA.AdapterError) as ctx:
+                CGA.claims_to_gate_graph(mutated)
+            self.assertIn("as_of", str(ctx.exception))
+
+    def test_cli_rejects_unknown_arguments(self):
+        import subprocess
+        import sys
+
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "tools" / "claims_gate_adapter.py"), "--before", "x"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_cli_compare_reports_deleted_depends_on_edge(self):
+        """Entry-point sentinel: same compare command path CI uses for file mode."""
+        import subprocess
+        import sys
+        import tempfile
+
+        claims = _load_tip_claims()
+        before = claims
+        after = copy.deepcopy(claims)
+        deps = list(after["claims"]["D1-v2.2(2)"]["depends_on"])
+        deps.remove("OBL-D1-PROMOTE")
+        after["claims"]["D1-v2.2(2)"]["depends_on"] = deps
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            before_path = tmp / "before.json"
+            after_path = tmp / "after.json"
+            report_path = tmp / "report.json"
+            before_path.write_text(json.dumps(before), encoding="utf-8")
+            after_path.write_text(json.dumps(after), encoding="utf-8")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "claims_gate_adapter.py"),
+                    "compare",
+                    "--before",
+                    str(before_path),
+                    "--after",
+                    str(after_path),
+                    "--write-report",
+                    str(report_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            self.assertEqual(report["mode"], "path_compare")
+            self.assertIn("D1-v2.2(2)", report["reverse_impact"]["impacted"])
+            self.assertFalse(report["promotion_permission"])
+            self.assertIn("blob_sha256", report["before_identity"])
+            self.assertIn("blob_sha256", report["after_identity"])
+
+    def test_cli_compare_reports_deleted_sub_obligation_edge(self):
+        import subprocess
+        import sys
+        import tempfile
+
+        claims = _load_tip_claims()
+        after = copy.deepcopy(claims)
+        subs = list(after["premises"]["OBL-D1-PROMOTE"]["sub_obligations"])
+        subs.remove("OBL-H5-JETMOD")
+        after["premises"]["OBL-D1-PROMOTE"]["sub_obligations"] = subs
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            before_path = tmp / "before.json"
+            after_path = tmp / "after.json"
+            before_path.write_text(json.dumps(claims), encoding="utf-8")
+            after_path.write_text(json.dumps(after), encoding="utf-8")
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "claims_gate_adapter.py"),
+                    "compare",
+                    "--before",
+                    str(before_path),
+                    "--after",
+                    str(after_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            report = json.loads(result.stdout)
+            self.assertIn("OBL-D1-PROMOTE", report["reverse_impact"]["impacted"])
+
+    def test_event_compare_fails_closed_on_missing_base(self):
+        with self.assertRaises(CGA.AdapterError) as ctx:
+            CGA.resolve_event_refs(
+                environ={"GITHUB_EVENT_NAME": "push"},
+                event={"before": CGA.ZERO_SHA, "after": "abc" * 10 + "abcdefab"},
+            )
+        self.assertIn("all-zero", str(ctx.exception))
+
+    def test_event_compare_uses_pull_request_base_head(self):
+        before = "a" * 40
+        after = "b" * 40
+        b, a, name = CGA.resolve_event_refs(
+            environ={"GITHUB_EVENT_NAME": "pull_request"},
+            event={
+                "pull_request": {
+                    "base": {"sha": before},
+                    "head": {"sha": after},
+                }
+            },
+        )
+        self.assertEqual((b, a, name), (before, after, "pull_request"))
+
+    def test_cli_compare_refs_with_temporary_commits_reports_edge_delete(self):
+        """Negative control at git-ref entry point (CI event-compare uses refs)."""
+        import subprocess
+        import sys
+        import tempfile
+
+        claims = _load_tip_claims()
+        after_claims = copy.deepcopy(claims)
+        deps = list(after_claims["claims"]["D1-v2.2(2)"]["depends_on"])
+        deps.remove("OBL-D1-PROMOTE")
+        after_claims["claims"]["D1-v2.2(2)"]["depends_on"] = deps
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "test"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            # Minimal tree with claims + architecture files required by compare-refs.
+            (repo / "claims").mkdir()
+            arch = repo / "architecture" / "scientific_state" / "v1"
+            arch.mkdir(parents=True)
+            (repo / "claims" / "graph.json").write_text(
+                json.dumps(claims), encoding="utf-8"
+            )
+            for name in ("ID_CROSSWALK.json", "AUTHORITY_MAP.json"):
+                src = ROOT / "architecture" / "scientific_state" / "v1" / name
+                (arch / name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+            subprocess.run(["git", "add", "-A"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "before"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            before_ref = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            (repo / "claims" / "graph.json").write_text(
+                json.dumps(after_claims), encoding="utf-8"
+            )
+            subprocess.run(["git", "add", "-A"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "after-edge-delete"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            after_ref = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "claims_gate_adapter.py"),
+                    "compare-refs",
+                    "--before-ref",
+                    before_ref,
+                    "--after-ref",
+                    after_ref,
+                    "--repo-root",
+                    str(repo),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            report = json.loads(result.stdout)
+            self.assertIn("D1-v2.2(2)", report["reverse_impact"]["impacted"])
+            self.assertEqual(report["before_ref"], before_ref)
+            self.assertIn("blob_sha256", report["before_identity"])
+            self.assertFalse(report["promotion_permission"])
+
+            result2 = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "claims_gate_adapter.py"),
+                    "event-compare",
+                    "--repo-root",
+                    str(repo),
+                ],
+                capture_output=True,
+                text=True,
+                env={
+                    **{k: v for k, v in __import__("os").environ.items()},
+                    "CLAIMS_GATE_BEFORE_REF": before_ref,
+                    "CLAIMS_GATE_AFTER_REF": after_ref,
+                },
+            )
+            self.assertEqual(result2.returncode, 0, result2.stdout + result2.stderr)
+            report2 = json.loads(result2.stdout)
+            self.assertEqual(report2["mode"], "event_compare")
+            self.assertIn("D1-v2.2(2)", report2["reverse_impact"]["impacted"])
+
+    def test_cli_tip_health_labeled_not_transition_evidence(self):
+        import subprocess
+        import sys
+
+        result = subprocess.run(
+            [sys.executable, str(ROOT / "tools" / "claims_gate_adapter.py"), "tip-health"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        report = json.loads(result.stdout)
+        self.assertEqual(report["mode"], "tip_health")
+        self.assertEqual(report["identity_impacted"], [])
+        self.assertIn("NOT evidence", report["meaning"])
 
 
 if __name__ == "__main__":

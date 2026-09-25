@@ -122,6 +122,35 @@ def _edge(frm: str, to: str, relation: str, *, required: bool = True) -> dict[st
     }
 
 
+def _require_as_of(claims: dict[str, Any]) -> str:
+    """Fail closed unless as_of is a nonempty string (reject null/''/False/0)."""
+    if "as_of" not in claims:
+        raise AdapterError("stale or incomplete claims document: missing as_of")
+    as_of = claims["as_of"]
+    if type(as_of) is not str or not as_of.strip():
+        raise AdapterError(
+            f"as_of must be a nonempty string, got {type(as_of).__name__}: {as_of!r}"
+        )
+    return as_of
+
+
+def _dependency_container(
+    record: dict[str, Any], field: str, *, node_id: str
+) -> list[Any]:
+    """Return depends_on / sub_obligations list; reject False/0/''/{}/null.
+
+    Valid omission of the key → empty list. Genuine empty array → empty list.
+    """
+    if field not in record:
+        return []
+    value = record[field]
+    if type(value) is not list:
+        raise AdapterError(
+            f"{node_id}.{field} must be a list, got {type(value).__name__}: {value!r}"
+        )
+    return value
+
+
 def claims_to_gate_graph(
     claims: dict[str, Any],
     *,
@@ -132,12 +161,11 @@ def claims_to_gate_graph(
 
     Includes depends_on and sub_obligations as required typed edges.
     Fail-closed on unknown IDs, cycles, malformed records, ambiguous owners,
-    and missing as_of / schema identity.
+    and missing/invalid as_of / schema identity.
     """
     if not isinstance(claims, dict):
         raise AdapterError("malformed claims document")
-    if "as_of" not in claims:
-        raise AdapterError("stale or incomplete claims document: missing as_of")
+    as_of = _require_as_of(claims)
     premises = claims.get("premises")
     claim_nodes = claims.get("claims")
     if not isinstance(premises, dict) or not isinstance(claim_nodes, dict):
@@ -173,6 +201,9 @@ def claims_to_gate_graph(
             raise AdapterError(f"malformed record for {nid!r}")
         if nid in nodes:
             raise AdapterError(f"duplicate node id {nid!r}")
+        # Validate dep containers before digest so False/0/''/{}/null fail closed.
+        _dependency_container(record, "depends_on", node_id=nid)
+        _dependency_container(record, "sub_obligations", node_id=nid)
         snapshot = _source_snapshot(record)
         sem, evid = _digests_for(nid, record)
         nodes[nid] = {
@@ -183,7 +214,7 @@ def claims_to_gate_graph(
             "evidence_digest": evid,
             "source_snapshot": snapshot,
             "fingerprint": sem,  # derived digest; never a manual sole detector
-            "version": claims.get("as_of"),
+            "version": as_of,
         }
 
     for nid, record in premises.items():
@@ -192,11 +223,15 @@ def claims_to_gate_graph(
         add_node(nid, "claims", record)
 
     def add_deps(nid: str, record: dict[str, Any]) -> None:
-        for dep in record.get("depends_on") or []:
+        for dep in _dependency_container(record, "depends_on", node_id=nid):
+            if not isinstance(dep, str) or not dep:
+                raise AdapterError(f"malformed depends_on entry on {nid!r}: {dep!r}")
             if dep not in nodes:
                 raise AdapterError(f"unknown dependency id {dep!r} from {nid!r}")
             edges.append(_edge(nid, dep, "depends_on"))
-        for dep in record.get("sub_obligations") or []:
+        for dep in _dependency_container(record, "sub_obligations", node_id=nid):
+            if not isinstance(dep, str) or not dep:
+                raise AdapterError(f"malformed sub_obligation entry on {nid!r}: {dep!r}")
             if dep not in nodes:
                 raise AdapterError(f"unknown sub_obligation id {dep!r} from {nid!r}")
             edges.append(_edge(nid, dep, "sub_obligation"))
@@ -210,7 +245,7 @@ def claims_to_gate_graph(
         "schema_version": 1,
         "object": "CLAIMS-GATE-ADAPTER-20260925-v1",
         "source": "claims/graph.json",
-        "as_of": claims.get("as_of"),
+        "as_of": as_of,
         "nodes": nodes,
         "edges": edges,
         "scientific_effect": "NONE",
@@ -503,7 +538,7 @@ def compare_claims_files(
 
 
 def audit_tip(root: Path | None = None) -> dict[str, Any]:
-    """Project the tip claims graph and summarize HOLD proposals (no mutation)."""
+    """Tip-health only: identity self-compare + HOLD inventory. Not base→head evidence."""
     root = root or ROOT
     claims = load_json(root / "claims" / "graph.json")
     crosswalk = load_json(root / "architecture" / "scientific_state" / "v1" / "ID_CROSSWALK.json")
@@ -514,6 +549,7 @@ def audit_tip(root: Path | None = None) -> dict[str, Any]:
     holds = aggregate_hold_proposals(graph)
     hold_nodes = sorted(holds)
     return {
+        "mode": "tip_health",
         "nodes": len(graph["nodes"]),
         "edges": len(graph["edges"]),
         "sub_obligation_edges": sum(1 for e in graph["edges"] if e["relation"] == "sub_obligation"),
@@ -525,14 +561,297 @@ def audit_tip(root: Path | None = None) -> dict[str, Any]:
         "promotion_permission": False,
         "scientific_effect": "NONE",
         "problems": [],
-        "meaning": "tip projection health + fail-closed HOLD inventory; not mathematical acceptance",
+        "meaning": (
+            "tip-health only (identity self-compare + HOLD inventory); "
+            "NOT evidence that a PR/push base→head transition is clean"
+        ),
     }
 
 
+ZERO_SHA = "0" * 40
+CLAIMS_REL = "claims/graph.json"
+CROSSWALK_REL = "architecture/scientific_state/v1/ID_CROSSWALK.json"
+AUTHORITY_REL = "architecture/scientific_state/v1/AUTHORITY_MAP.json"
+
+
+def _sha256_bytes(data: bytes) -> str:
+    import hashlib
+
+    return hashlib.sha256(data).hexdigest()
+
+
+def _require_usable_ref(ref: str, *, role: str) -> str:
+    if not isinstance(ref, str) or not ref.strip():
+        raise AdapterError(f"{role} ref missing or empty")
+    cleaned = ref.strip()
+    if cleaned == ZERO_SHA or set(cleaned) == {"0"}:
+        raise AdapterError(f"{role} ref unavailable or all-zero: {cleaned!r}")
+    return cleaned
+
+
+def git_show_bytes(root: Path, ref: str, relpath: str) -> bytes:
+    import subprocess
+
+    result = subprocess.run(
+        ["git", "-C", str(root), "show", f"{ref}:{relpath}"],
+        capture_output=True,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        err = result.stderr.decode("utf-8", errors="replace").strip()
+        raise AdapterError(f"git show {ref}:{relpath} failed: {err or 'unknown error'}")
+    return result.stdout
+
+
+def load_claims_at_ref(root: Path, ref: str) -> tuple[dict[str, Any], dict[str, str]]:
+    raw = git_show_bytes(root, ref, CLAIMS_REL)
+    claims = json.loads(raw.decode("utf-8"))
+    identity = {
+        "ref": ref,
+        "path": CLAIMS_REL,
+        "blob_sha256": _sha256_bytes(raw),
+        "bytes": str(len(raw)),
+    }
+    return claims, identity
+
+
+def load_json_at_ref(root: Path, ref: str, relpath: str) -> tuple[Any, dict[str, str]]:
+    raw = git_show_bytes(root, ref, relpath)
+    return json.loads(raw.decode("utf-8")), {
+        "ref": ref,
+        "path": relpath,
+        "blob_sha256": _sha256_bytes(raw),
+        "bytes": str(len(raw)),
+    }
+
+
+def compare_claims_paths(
+    before_path: Path,
+    after_path: Path,
+    *,
+    crosswalk_path: Path | None = None,
+    authority_path: Path | None = None,
+) -> dict[str, Any]:
+    before_raw = before_path.read_bytes()
+    after_raw = after_path.read_bytes()
+    before_claims = json.loads(before_raw.decode("utf-8"))
+    after_claims = json.loads(after_raw.decode("utf-8"))
+    crosswalk = load_json(crosswalk_path) if crosswalk_path else None
+    authority = load_json(authority_path) if authority_path else None
+    report = compare_claims_files(
+        before_claims,
+        after_claims,
+        crosswalk=crosswalk,
+        authority_map=authority,
+    )
+    report["mode"] = "path_compare"
+    report["before_identity"] = {
+        "path": str(before_path),
+        "blob_sha256": _sha256_bytes(before_raw),
+        "bytes": len(before_raw),
+    }
+    report["after_identity"] = {
+        "path": str(after_path),
+        "blob_sha256": _sha256_bytes(after_raw),
+        "bytes": len(after_raw),
+    }
+    return report
+
+
+def compare_claims_refs(
+    before_ref: str,
+    after_ref: str,
+    *,
+    root: Path | None = None,
+) -> dict[str, Any]:
+    root = root or ROOT
+    before_ref = _require_usable_ref(before_ref, role="before")
+    after_ref = _require_usable_ref(after_ref, role="after")
+    before_claims, before_id = load_claims_at_ref(root, before_ref)
+    after_claims, after_id = load_claims_at_ref(root, after_ref)
+    # Authority/crosswalk from after tip (immutable at after_ref).
+    crosswalk, crosswalk_id = load_json_at_ref(root, after_ref, CROSSWALK_REL)
+    authority, authority_id = load_json_at_ref(root, after_ref, AUTHORITY_REL)
+    report = compare_claims_files(
+        before_claims,
+        after_claims,
+        crosswalk=crosswalk,
+        authority_map=authority,
+    )
+    report["mode"] = "ref_compare"
+    report["before_ref"] = before_ref
+    report["after_ref"] = after_ref
+    report["before_identity"] = before_id
+    report["after_identity"] = after_id
+    report["crosswalk_identity"] = crosswalk_id
+    report["authority_identity"] = authority_id
+    report["meaning"] = (
+        "immutable base→head claims compare; impact/HOLD are proposals only; "
+        "never promotion permission; impact≠illegal edit"
+    )
+    return report
+
+
+def resolve_event_refs(
+    *,
+    environ: dict[str, str] | None = None,
+    event: dict[str, Any] | None = None,
+) -> tuple[str, str, str]:
+    """Return (before_ref, after_ref, event_name). Fail closed if unavailable."""
+    import os
+
+    env = environ if environ is not None else os.environ
+    # Explicit overrides for sentinels / local harnesses.
+    override_before = env.get("CLAIMS_GATE_BEFORE_REF")
+    override_after = env.get("CLAIMS_GATE_AFTER_REF")
+    if override_before or override_after:
+        if not override_before or not override_after:
+            raise AdapterError(
+                "CLAIMS_GATE_BEFORE_REF and CLAIMS_GATE_AFTER_REF must both be set"
+            )
+        return (
+            _require_usable_ref(override_before, role="before"),
+            _require_usable_ref(override_after, role="after"),
+            "env_override",
+        )
+
+    event_name = (env.get("GITHUB_EVENT_NAME") or "").strip()
+    if event is None:
+        event_path = env.get("GITHUB_EVENT_PATH")
+        if not event_path:
+            raise AdapterError(
+                "event-compare requires GITHUB_EVENT_PATH or CLAIMS_GATE_BEFORE_REF/"
+                "CLAIMS_GATE_AFTER_REF (no tip self-compare fallback)"
+            )
+        event = json.loads(Path(event_path).read_text(encoding="utf-8"))
+    if not isinstance(event, dict):
+        raise AdapterError("malformed GitHub event payload")
+
+    if event_name == "pull_request" or "pull_request" in event:
+        pr = event.get("pull_request") or {}
+        base = (pr.get("base") or {}).get("sha")
+        head = (pr.get("head") or {}).get("sha")
+        return (
+            _require_usable_ref(str(base or ""), role="before"),
+            _require_usable_ref(str(head or ""), role="after"),
+            "pull_request",
+        )
+    if event_name == "push" or ("before" in event and "after" in event):
+        return (
+            _require_usable_ref(str(event.get("before") or ""), role="before"),
+            _require_usable_ref(str(event.get("after") or ""), role="after"),
+            "push",
+        )
+    raise AdapterError(
+        f"unsupported or missing GitHub event for claims-gate compare: {event_name!r}"
+    )
+
+
+def event_compare(
+    *,
+    root: Path | None = None,
+    environ: dict[str, str] | None = None,
+    event: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    before_ref, after_ref, event_name = resolve_event_refs(environ=environ, event=event)
+    report = compare_claims_refs(before_ref, after_ref, root=root or ROOT)
+    report["mode"] = "event_compare"
+    report["event_name"] = event_name
+    # Impact is expected for corrective edits; only promotion_permission is fatal.
+    report["transition_ok"] = report.get("promotion_permission") is False
+    report["meaning"] = (
+        "event-derived immutable base→head compare; REVALIDATION/HOLD proposals "
+        "do not block corrective edits; never promotion permission"
+    )
+    return report
+
+
 def main(argv: list[str] | None = None) -> int:
-    report = audit_tip()
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="claims_gate_adapter",
+        description=(
+            "Thin #90 claims→gate adapter. tip-health is identity-only; "
+            "compare/event-compare exercise real before/after inputs."
+        ),
+    )
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    sub.add_parser(
+        "tip-health",
+        help="Identity self-compare + HOLD inventory (NOT base→head evidence)",
+    )
+
+    compare_p = sub.add_parser(
+        "compare",
+        help="Compare two claims JSON files (path mode)",
+    )
+    compare_p.add_argument("--before", type=Path, required=True)
+    compare_p.add_argument("--after", type=Path, required=True)
+    compare_p.add_argument("--crosswalk", type=Path, default=None)
+    compare_p.add_argument("--authority", type=Path, default=None)
+    compare_p.add_argument("--write-report", type=Path, default=None)
+
+    refs_p = sub.add_parser(
+        "compare-refs",
+        help="Compare claims at two immutable git refs",
+    )
+    refs_p.add_argument("--before-ref", required=True)
+    refs_p.add_argument("--after-ref", required=True)
+    refs_p.add_argument("--repo-root", type=Path, default=None)
+    refs_p.add_argument("--write-report", type=Path, default=None)
+
+    event_p = sub.add_parser(
+        "event-compare",
+        help="Compare using GitHub event base/head (or CLAIMS_GATE_*_REF overrides)",
+    )
+    event_p.add_argument("--repo-root", type=Path, default=None)
+    event_p.add_argument("--write-report", type=Path, default=None)
+
+    args = parser.parse_args(argv)
+
+    try:
+        if args.command == "tip-health":
+            report = audit_tip()
+        elif args.command == "compare":
+            if not args.before.is_file() or not args.after.is_file():
+                raise AdapterError("compare --before/--after must be existing files")
+            report = compare_claims_paths(
+                args.before,
+                args.after,
+                crosswalk_path=args.crosswalk,
+                authority_path=args.authority,
+            )
+        elif args.command == "compare-refs":
+            report = compare_claims_refs(
+                args.before_ref,
+                args.after_ref,
+                root=args.repo_root or ROOT,
+            )
+        elif args.command == "event-compare":
+            report = event_compare(root=args.repo_root or ROOT)
+        else:
+            raise AdapterError(f"unknown command {args.command!r}")
+    except AdapterError as exc:
+        print(json.dumps({"error": str(exc), "promotion_permission": False,
+                          "scientific_effect": "NONE"}, indent=2, sort_keys=True))
+        return 1
+
+    write_report = getattr(args, "write_report", None)
+    if write_report is not None:
+        write_report.parent.mkdir(parents=True, exist_ok=True)
+        write_report.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+
     print(json.dumps(report, indent=2, sort_keys=True))
-    return 1 if report.get("problems") else 0
+    # Impact/HOLD proposals are not failures. Only promotion or hard errors fail.
+    if report.get("promotion_permission") is True:
+        return 1
+    if report.get("problems"):
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

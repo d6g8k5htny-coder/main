@@ -117,8 +117,10 @@ jobs:
         run: python tools/math_status_check.py
       - name: Scientific-state schema/authority/crosswalk (pointers only; effect NONE)
         run: python tools/scientific_state_check.py
-      - name: Claims→gate #90 adapter tip projection (HOLD/REVALIDATION only; never promotion)
-        run: python tools/claims_gate_adapter.py
+      - name: Claims→gate #90 tip-health (identity only; not base→head evidence)
+        run: python tools/claims_gate_adapter.py tip-health
+      - name: Claims→gate #90 event base→head compare (immutable refs; impact≠illegal)
+        run: python tools/claims_gate_adapter.py event-compare --write-report artifacts/claims-gate-impact.json
       - name: Declared navigation links and anchors
         run: python tools/navigation_check.py
       - name: Navigation synthetic controls

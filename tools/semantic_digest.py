@@ -94,7 +94,18 @@ def validate_source_binding(binding: dict[str, Any]) -> None:
 def _typed_edges_from_record(record: dict[str, Any]) -> list[dict[str, Any]]:
     edges: list[dict[str, Any]] = []
     seen: set[tuple[str, str]] = set()
-    for raw in record.get("depends_on") or []:
+
+    def container(field: str) -> list[Any]:
+        if field not in record:
+            return []
+        value = record[field]
+        if type(value) is not list:
+            raise DigestError(
+                f"{field} must be a list, got {type(value).__name__}: {value!r}"
+            )
+        return value
+
+    for raw in container("depends_on"):
         edge = normalize_typed_edge(raw, default_relation="depends_on")
         validate_typed_edge(edge)
         key = (edge["target_id"], edge["relation"])
@@ -104,7 +115,7 @@ def _typed_edges_from_record(record: dict[str, Any]) -> list[dict[str, Any]]:
             )
         seen.add(key)
         edges.append(edge)
-    for raw in record.get("sub_obligations") or []:
+    for raw in container("sub_obligations"):
         edge = normalize_typed_edge(raw, default_relation="sub_obligation")
         validate_typed_edge(edge)
         key = (edge["target_id"], edge["relation"])
