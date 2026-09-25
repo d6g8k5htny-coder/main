@@ -686,19 +686,94 @@ UNRESOLVED_SOURCE_KINDS = frozenset(
         "external_unresolved",
         "unsupported_cross_repo",
         "path_alias",  # alias alone never monitors bytes
+        "object_hash_mismatch",
+        "freshness_unverified",
+        "freshness_stale",
+        "freshness_absent",
     }
 )
 
+# Roles that never alone establish controlling byte-monitorability.
+NON_SCIENTIFIC_ROLES = frozenset({"informational_carrier", "raw_carrier"})
+
+# Freshness values that refuse controlling use (fail closed).
+REFUSED_FRESHNESS = frozenset({"unverified", "stale", "absent"})
+
+# Freshness that documents Drive sync as outside this gate while allowing
+# GitHub to monitor the in-repo scientific-object bytes after sync.
+OK_FRESHNESS = frozenset({"external_sync_obligation", "verified_at_bind"})
+
+
+def extract_scientific_bytes(raw: bytes, extraction_rule: str | None) -> bytes:
+    """Return the scientific-object bytes for a carrier under an extraction rule.
+
+    Rules:
+      - None / \"whole_file\": entire carrier blob
+      - \"frozen_body\": bytes strictly between BEGIN_FROZEN_BODY / END_FROZEN_BODY,
+        LF-normalized, boundary blanks trimmed, exactly one terminal LF
+    """
+    rule = (extraction_rule or "whole_file").strip()
+    if rule in {"", "whole_file"}:
+        return raw
+    if rule == "frozen_body":
+        text = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+        begin = "BEGIN_FROZEN_BODY"
+        end = "END_FROZEN_BODY"
+        bi = text.find(begin)
+        ei = text.find(end)
+        if bi < 0 or ei < 0 or ei <= bi:
+            raise AdapterError(
+                "frozen_body extraction: BEGIN_FROZEN_BODY / END_FROZEN_BODY markers missing"
+            )
+        start = text.find("\n", bi)
+        if start < 0:
+            raise AdapterError("frozen_body extraction: BEGIN marker has no trailing newline")
+        start += 1
+        inner = text[start:ei].strip("\n") + "\n"
+        return inner.encode("utf-8")
+    raise AdapterError(f"unsupported extraction_rule: {extraction_rule!r}")
+
+
+def _binding_is_scientific_monitorable(binding: dict[str, Any]) -> bool:
+    """True when one binding monitors exact scientific-object bytes for controlling use."""
+    if binding.get("kind") not in {"blob", "tree"}:
+        return False
+    role = binding.get("role") or "scientific_object"
+    if role in NON_SCIENTIFIC_ROLES:
+        return False
+    freshness = binding.get("mirror_freshness")
+    rule = binding.get("extraction_rule")
+    # Precise scientific bindings declare expected digest and/or a non-default
+    # extraction rule; they require explicit freshness + hash match. Legacy
+    # path-only bindings (no expected_sha256, no special extraction) stay
+    # monitorable so existing fixtures keep working.
+    precise = bool(binding.get("expected_sha256")) or (
+        isinstance(rule, str) and rule.strip() not in {"", "whole_file"}
+    )
+    if precise:
+        if freshness is None or freshness == "":
+            return False
+        if freshness in REFUSED_FRESHNESS or freshness not in OK_FRESHNESS:
+            return False
+        if not binding.get("object_hash_ok"):
+            return False
+    elif freshness in REFUSED_FRESHNESS:
+        return False
+    return True
+
 
 def _source_binding_monitorable(bound: dict[str, Any] | None) -> bool:
-    """True when at least one declared binding resolves to repo blob/tree bytes."""
+    """True when at least one binding monitors validated scientific-object bytes."""
     if not isinstance(bound, dict):
         return False
-    if bound.get("kind") in {"blob", "tree", "multi"}:
-        bindings = bound.get("bindings") or []
-        if not bindings:
-            return bound.get("kind") in {"blob", "tree"} and bool(bound.get("sha256"))
-        return any(b.get("kind") in {"blob", "tree"} for b in bindings)
+    if bound.get("kind") in UNRESOLVED_SOURCE_KINDS:
+        return False
+    bindings = bound.get("bindings") or []
+    if bindings:
+        return any(_binding_is_scientific_monitorable(b) for b in bindings)
+    # Backward-compatible single-binding view without a bindings list.
+    if bound.get("kind") in {"blob", "tree"} and bound.get("sha256"):
+        return _binding_is_scientific_monitorable(bound)
     return False
 
 
@@ -795,13 +870,13 @@ def evaluate_transition_enforcement(
         "promotion_permission": False,
         "enforcement_scope": (
             "loss-only source transition over the detected impact graph; "
-            "controlling sources must be byte-monitorable; "
+            "controlling sources must be byte-monitorable scientific objects; "
             "not positive admission or legacy acceptance"
         ),
         "meaning": (
             "transition_ok is false for unsupported new controlling status, "
             "impacted consumers left controlling, or controlling nodes without "
-            "monitorable source bindings; coverage repairs and demotion remain OK"
+            "monitorable scientific-object bindings; coverage repairs and demotion remain OK"
         ),
     }
 
@@ -946,7 +1021,18 @@ def _candidate_source_strings(record: dict[str, Any]) -> list[tuple[str, str, st
 
 
 def _bind_one_path(
-    root: Path, revision: str, reference: str, *, field: str
+    root: Path,
+    revision: str,
+    reference: str,
+    *,
+    field: str,
+    role: str | None = None,
+    extraction_rule: str | None = None,
+    expected_sha256: str | None = None,
+    mirror_freshness: str | None = None,
+    source_drive_id: str | None = None,
+    raw_carrier_sha256: str | None = None,
+    extra_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     try:
         path = relative_repo_path(reference)
@@ -955,6 +1041,7 @@ def _bind_one_path(
             "kind": "unresolved_prose",
             "reference": reference,
             "field": field,
+            "role": role,
         }
     object_spec = f"{revision}:{path.rstrip('/')}"
     kind = _git_bytes(root, "cat-file", "-t", object_spec, missing_ok=True)
@@ -964,19 +1051,141 @@ def _bind_one_path(
             "reference": reference,
             "path": path,
             "field": field,
+            "role": role,
+            "extraction_rule": extraction_rule,
+            "expected_sha256": expected_sha256,
+            "mirror_freshness": mirror_freshness,
+            "source_drive_id": source_drive_id,
+            "raw_carrier_sha256": raw_carrier_sha256,
         }
     kind_s = kind.decode().strip()
     if kind_s not in {"blob", "tree"}:
         raise AdapterError(f"source object must be blob or tree: {object_spec}")
     body = _git_bytes(root, "cat-file", "-p", object_spec)
     assert body is not None
-    return {
-        "kind": kind_s,
+    carrier_sha = _sha256_bytes(body)
+    try:
+        object_bytes = extract_scientific_bytes(body, extraction_rule)
+    except AdapterError as exc:
+        return {
+            "kind": "object_hash_mismatch",
+            "reference": reference,
+            "path": path,
+            "field": field,
+            "role": role or "scientific_object",
+            "extraction_rule": extraction_rule or "whole_file",
+            "expected_sha256": expected_sha256,
+            "mirror_freshness": mirror_freshness,
+            "source_drive_id": source_drive_id,
+            "raw_carrier_sha256": raw_carrier_sha256 or carrier_sha,
+            "carrier_bytes": len(body),
+            "carrier_sha256": carrier_sha,
+            "extraction_error": str(exc),
+            "object_hash_ok": False,
+            **(extra_meta or {}),
+        }
+    object_sha = _sha256_bytes(object_bytes)
+    object_hash_ok = True
+    if isinstance(expected_sha256, str) and expected_sha256.strip():
+        object_hash_ok = object_sha == expected_sha256.strip().lower()
+    result_kind = kind_s
+    if isinstance(expected_sha256, str) and expected_sha256.strip() and not object_hash_ok:
+        result_kind = "object_hash_mismatch"
+    freshness = mirror_freshness
+    if freshness in REFUSED_FRESHNESS:
+        # Preserve carrier identity but mark non-monitorable freshness failure.
+        result_kind = {
+            "unverified": "freshness_unverified",
+            "stale": "freshness_stale",
+            "absent": "freshness_absent",
+        }.get(freshness, "freshness_unverified")
+    out: dict[str, Any] = {
+        "kind": result_kind if result_kind != kind_s else kind_s,
         "reference": reference,
         "path": path,
         "field": field,
         "bytes": len(body),
-        "sha256": _sha256_bytes(body),
+        "sha256": carrier_sha,
+        "carrier_bytes": len(body),
+        "carrier_sha256": carrier_sha,
+        "object_bytes": len(object_bytes),
+        "object_sha256": object_sha,
+        "object_hash_ok": object_hash_ok,
+        "role": role or "scientific_object",
+        "extraction_rule": extraction_rule or "whole_file",
+        "expected_sha256": expected_sha256,
+        "mirror_freshness": freshness,
+        "source_drive_id": source_drive_id,
+        "raw_carrier_sha256": raw_carrier_sha256,
+        "freshness_scope": (
+            "github_monitors_repo_scientific_object_only; "
+            "drive_sync_is_external_provenance_obligation"
+            if freshness == "external_sync_obligation"
+            else None
+        ),
+        **(extra_meta or {}),
+    }
+    # When hash/freshness fails, promote kind so aggregate unresolved detection
+    # does not treat the binding as a clean blob monitor.
+    if not object_hash_ok and isinstance(expected_sha256, str) and expected_sha256.strip():
+        out["kind"] = "object_hash_mismatch"
+    elif freshness in REFUSED_FRESHNESS:
+        out["kind"] = {
+            "unverified": "freshness_unverified",
+            "stale": "freshness_stale",
+            "absent": "freshness_absent",
+        }[freshness]
+    return out
+
+
+def _structured_binding_meta(item: dict[str, Any]) -> dict[str, Any]:
+    """Pull scientific-object identity fields from a source_bindings dict."""
+    expected = item.get("expected_sha256") or item.get("object_sha256")
+    if isinstance(expected, str):
+        expected = expected.strip().lower()
+    else:
+        expected = None
+    rule = item.get("extraction_rule")
+    if not isinstance(rule, str) or not rule.strip():
+        rule = None
+    else:
+        rule = rule.strip()
+    role = item.get("role")
+    if not isinstance(role, str) or not role.strip():
+        role = None
+    else:
+        role = role.strip()
+    freshness = item.get("mirror_freshness") or item.get("freshness")
+    if not isinstance(freshness, str) or not freshness.strip():
+        freshness = None
+    else:
+        freshness = freshness.strip()
+    drive_id = item.get("source_drive_id") or item.get("drive_id")
+    if not isinstance(drive_id, str) or not drive_id.strip():
+        drive_id = None
+    raw_hash = item.get("raw_carrier_sha256") or item.get("carrier_sha256")
+    if isinstance(raw_hash, str):
+        raw_hash = raw_hash.strip().lower()
+    else:
+        raw_hash = None
+    extra: dict[str, Any] = {}
+    for key in (
+        "freshness_meaning",
+        "note",
+        "raw_carrier_note",
+        "register_note_drive_id",
+    ):
+        val = item.get(key)
+        if isinstance(val, str) and val.strip():
+            extra[key] = val.strip()
+    return {
+        "role": role,
+        "extraction_rule": rule,
+        "expected_sha256": expected,
+        "mirror_freshness": freshness,
+        "source_drive_id": drive_id,
+        "raw_carrier_sha256": raw_hash,
+        "extra_meta": extra,
     }
 
 
@@ -986,6 +1195,9 @@ def bind_source_at_revision(
     """Bind ALL declared load-bearing repository sources at a revision.
 
     Does not let mirror_path silently shadow source.path / source_bindings.
+    Structured bindings may declare scientific-object identity via
+    expected_sha256 + extraction_rule and mirror_freshness. Informational
+    carriers are bound for provenance but do not seed coverage impact.
     External refs → external_unresolved (never fetched). Missing → missing.
     Prose-only → unresolved_prose. No invention of absent objects.
     """
@@ -996,15 +1208,26 @@ def bind_source_at_revision(
             "bindings": [],
             "coverage_sha256": _sha256_bytes(b"record_only"),
         }
+
+    # Index structured source_bindings by path for identity metadata.
+    structured_by_path: dict[str, dict[str, Any]] = {}
+    raw_bindings = record.get("source_bindings")
+    if isinstance(raw_bindings, dict):
+        raw_bindings = [raw_bindings]
+    if isinstance(raw_bindings, list):
+        for item in raw_bindings:
+            if not isinstance(item, dict):
+                continue
+            path = item.get("path") or item.get("repo_path") or item.get("file")
+            if isinstance(path, str) and path.strip():
+                structured_by_path[path.strip()] = item
+
     bindings: list[dict[str, Any]] = []
     seen_paths: set[str] = set()
     for kind_hint, reference, field in candidates:
         if kind_hint == "path":
-            # Deduplicate identical path strings but keep distinct field origins
-            # when paths differ (mirror vs source.path).
             key = reference
             if key in seen_paths:
-                # Same path from another field — still record the field alias.
                 bindings.append(
                     {
                         "kind": "path_alias",
@@ -1015,7 +1238,16 @@ def bind_source_at_revision(
                 )
                 continue
             seen_paths.add(key)
-            bindings.append(_bind_one_path(root, revision, reference, field=field))
+            meta = _structured_binding_meta(structured_by_path.get(key, {}))
+            bindings.append(
+                _bind_one_path(
+                    root,
+                    revision,
+                    reference,
+                    field=field,
+                    **meta,
+                )
+            )
         elif kind_hint == "external":
             bindings.append(
                 {
@@ -1050,20 +1282,52 @@ def bind_source_at_revision(
                     "field": field,
                 }
             )
-    # coverage hash over all binding identities so any drift seeds impact.
-    coverage_payload = [
-        {
-            "field": b.get("field"),
-            "kind": b.get("kind"),
-            "path": b.get("path"),
-            "reference": b.get("reference"),
-            "sha256": b.get("sha256"),
-        }
+    # Coverage hash over scientific-object identities only so informational
+    # carriers (e.g. whole Q0 master) do not false-trigger revalidation.
+    coverage_payload = []
+    for b in bindings:
+        role = b.get("role") or "scientific_object"
+        if role in NON_SCIENTIFIC_ROLES:
+            continue
+        if b.get("kind") in {"path_alias"}:
+            continue
+        coverage_payload.append(
+            {
+                "field": b.get("field"),
+                "kind": b.get("kind"),
+                "path": b.get("path"),
+                "reference": b.get("reference"),
+                "role": role,
+                "extraction_rule": b.get("extraction_rule"),
+                "object_sha256": b.get("object_sha256") or b.get("sha256"),
+                "expected_sha256": b.get("expected_sha256"),
+                "mirror_freshness": b.get("mirror_freshness"),
+            }
+        )
+    scientific_bindings = [
+        b
         for b in bindings
+        if b.get("kind") in {"blob", "tree"}
+        and (b.get("role") or "scientific_object") not in NON_SCIENTIFIC_ROLES
     ]
-    blob_bindings = [b for b in bindings if b.get("kind") in {"blob", "tree"}]
-    if blob_bindings:
-        primary_kind = "multi" if len(blob_bindings) > 1 else blob_bindings[0]["kind"]
+    # Prefer classifying by scientific-monitorable outcome for controlling use.
+    if any(_binding_is_scientific_monitorable(b) for b in bindings):
+        monitorable_count = sum(
+            1 for b in bindings if _binding_is_scientific_monitorable(b)
+        )
+        primary_kind = "multi" if monitorable_count > 1 else "blob"
+    elif any(b.get("kind") == "object_hash_mismatch" for b in bindings):
+        primary_kind = "object_hash_mismatch"
+    elif any(b.get("kind") == "freshness_unverified" for b in bindings):
+        primary_kind = "freshness_unverified"
+    elif any(b.get("kind") == "freshness_stale" for b in bindings):
+        primary_kind = "freshness_stale"
+    elif any(b.get("kind") == "freshness_absent" for b in bindings):
+        primary_kind = "freshness_absent"
+    elif scientific_bindings:
+        primary_kind = (
+            "multi" if len(scientific_bindings) > 1 else scientific_bindings[0]["kind"]
+        )
     elif any(b.get("kind") == "unsupported_cross_repo" for b in bindings):
         primary_kind = "unsupported_cross_repo"
     elif any(b.get("kind") == "external_unresolved" for b in bindings):
@@ -1074,20 +1338,28 @@ def bind_source_at_revision(
         primary_kind = "unresolved_prose"
     else:
         primary_kind = "record_only"
+    primary_view = next(
+        (b for b in bindings if _binding_is_scientific_monitorable(b)),
+        scientific_bindings[0] if scientific_bindings else None,
+    )
     return {
         "kind": primary_kind,
         "bindings": bindings,
         "coverage_sha256": _sha256_canonical_payload(coverage_payload),
-        # Backward-compatible single-binding view: first real blob/tree if any.
         **(
             {
-                "reference": blob_bindings[0].get("reference"),
-                "path": blob_bindings[0].get("path"),
-                "bytes": blob_bindings[0].get("bytes"),
-                "sha256": blob_bindings[0].get("sha256"),
-                "field": blob_bindings[0].get("field"),
+                "reference": primary_view.get("reference"),
+                "path": primary_view.get("path"),
+                "bytes": primary_view.get("object_bytes") or primary_view.get("bytes"),
+                "sha256": primary_view.get("object_sha256") or primary_view.get("sha256"),
+                "field": primary_view.get("field"),
+                "object_sha256": primary_view.get("object_sha256"),
+                "extraction_rule": primary_view.get("extraction_rule"),
+                "expected_sha256": primary_view.get("expected_sha256"),
+                "mirror_freshness": primary_view.get("mirror_freshness"),
+                "role": primary_view.get("role"),
             }
-            if blob_bindings
+            if primary_view
             else {}
         ),
     }

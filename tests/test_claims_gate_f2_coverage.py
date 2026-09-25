@@ -218,6 +218,193 @@ class F2CoverageTests(unittest.TestCase):
         )
         self.assertNotIn("sha256", cross)  # no local byte invention
 
+    def test_tip_scientific_object_hashes_match_expected(self):
+        claims = json.loads((ROOT / "claims" / "graph.json").read_text(encoding="utf-8"))
+        q0 = CGA.bind_source_at_revision(
+            ROOT, "HEAD", claims["claims"]["Q0-C101-QUALITATIVE-RATE"]
+        )
+        self.assertTrue(CGA._source_binding_monitorable(q0), q0)
+        sci = [
+            b
+            for b in q0["bindings"]
+            if b.get("role") == "scientific_object" and b.get("kind") == "blob"
+        ]
+        self.assertEqual(len(sci), 1)
+        self.assertEqual(
+            sci[0]["object_sha256"],
+            "8c2ded652973f0e6232e76854e2505d8ed532afef1815e0ebc88966dab0706bc",
+        )
+        self.assertEqual(sci[0]["object_bytes"], 3957)
+        self.assertTrue(sci[0]["object_hash_ok"])
+        info = [b for b in q0["bindings"] if b.get("role") == "informational_carrier"]
+        self.assertEqual(len(info), 1)
+        self.assertFalse(CGA._binding_is_scientific_monitorable(info[0]))
+
+        d1 = CGA.bind_source_at_revision(
+            ROOT, "HEAD", claims["claims"]["D1-v2.2(1)"]
+        )
+        self.assertTrue(CGA._source_binding_monitorable(d1), d1)
+        d1b = d1["bindings"][0]
+        self.assertEqual(d1b["extraction_rule"], "frozen_body")
+        self.assertEqual(
+            d1b["object_sha256"],
+            "490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6",
+        )
+        self.assertEqual(d1b["object_bytes"], 18311)
+        self.assertTrue(d1b["object_hash_ok"])
+        self.assertEqual(
+            d1b["carrier_sha256"],
+            "7ca114f0b38680d8bb987c097de10f3faf884ae3b05c3ca47215af5df081c174",
+        )
+
+    def _d1_wrapper(self, frozen_body: str, wrapper_note: str = "wrapper v1") -> str:
+        return (
+            f"# D1 wrapper\n{wrapper_note}\n"
+            f"BEGIN_FROZEN_BODY\n{frozen_body.rstrip(chr(10))}\nEND_FROZEN_BODY\n"
+            f"trailer {wrapper_note}\n"
+        )
+
+    def test_e_altered_extracted_body_refuses_controlling(self):
+        repo = self._repo()
+        body_v1 = "theorem statement v1\n"
+        body_v2 = "theorem statement CHANGED\n"
+        (repo / "d1.md").write_text(self._d1_wrapper(body_v1), encoding="utf-8")
+        expected = CGA._sha256_bytes(
+            CGA.extract_scientific_bytes(
+                (repo / "d1.md").read_bytes(), "frozen_body"
+            )
+        )
+        g = _fixture()
+        g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            source_bindings=[
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "d1.md",
+                    "role": "scientific_object",
+                    "extraction_rule": "frozen_body",
+                    "expected_sha256": expected,
+                    "mirror_freshness": "external_sync_obligation",
+                }
+            ],
+        )
+        g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, g, "before")
+        (repo / "d1.md").write_text(self._d1_wrapper(body_v2), encoding="utf-8")
+        after = self._commit(repo, copy.deepcopy(g), "body-change")
+        rc, report = self._event(repo, before, after)
+        self.assertNotEqual(rc, 0, report)
+        self.assertIn("T", report["controlling_impacted"])
+        # After state also has object_hash_mismatch vs declared expected.
+        after_bound = report["new_sources"]["T"]
+        self.assertFalse(CGA._source_binding_monitorable(after_bound), after_bound)
+
+    def test_e_wrapper_only_change_does_not_seed_scientific_impact(self):
+        repo = self._repo()
+        body = "stable frozen theorem\n"
+        (repo / "d1.md").write_text(
+            self._d1_wrapper(body, "wrapper v1"), encoding="utf-8"
+        )
+        expected = CGA._sha256_bytes(
+            CGA.extract_scientific_bytes(
+                (repo / "d1.md").read_bytes(), "frozen_body"
+            )
+        )
+        g = _fixture()
+        g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            source_bindings=[
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "d1.md",
+                    "role": "scientific_object",
+                    "extraction_rule": "frozen_body",
+                    "expected_sha256": expected,
+                    "mirror_freshness": "external_sync_obligation",
+                }
+            ],
+        )
+        g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, g, "before")
+        (repo / "d1.md").write_text(
+            self._d1_wrapper(body, "wrapper ONLY changed"), encoding="utf-8"
+        )
+        after = self._commit(repo, copy.deepcopy(g), "wrapper-only")
+        rc, report = self._event(repo, before, after)
+        self.assertEqual(rc, 0, report)
+        self.assertTrue(report["transition_ok"], report)
+        self.assertNotIn("T", report["reverse_impact"].get("source_byte_seeds", []))
+        self.assertEqual(
+            report["old_sources"]["T"]["coverage_sha256"],
+            report["new_sources"]["T"]["coverage_sha256"],
+        )
+
+    def test_e_informational_master_edit_does_not_seed_impact(self):
+        repo = self._repo()
+        (repo / "theorem.md").write_text("exact theorem object\n", encoding="utf-8")
+        (repo / "master.md").write_text("master carrier v1\n", encoding="utf-8")
+        expected = CGA._sha256_bytes(b"exact theorem object\n")
+        g = _fixture()
+        g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            source_bindings=[
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "theorem.md",
+                    "role": "scientific_object",
+                    "extraction_rule": "whole_file",
+                    "expected_sha256": expected,
+                    "mirror_freshness": "external_sync_obligation",
+                },
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "master.md",
+                    "role": "informational_carrier",
+                    "mirror_freshness": "external_sync_obligation",
+                },
+            ],
+        )
+        g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, g, "before")
+        (repo / "master.md").write_text("master carrier UNRELATED edit\n", encoding="utf-8")
+        after = self._commit(repo, copy.deepcopy(g), "master-only")
+        rc, report = self._event(repo, before, after)
+        self.assertEqual(rc, 0, report)
+        self.assertTrue(report["transition_ok"], report)
+        self.assertNotIn("T", report["reverse_impact"].get("source_byte_seeds", []))
+
+    def test_e_stale_or_unverified_freshness_refuses_controlling(self):
+        repo = self._repo()
+        (repo / "theorem.md").write_text("exact theorem object\n", encoding="utf-8")
+        expected = CGA._sha256_bytes(b"exact theorem object\n")
+        for freshness in ("unverified", "stale", "absent"):
+            with self.subTest(freshness=freshness):
+                g = _fixture()
+                g["claims"]["T"].update(
+                    grade="LIVE_ROOT_THEOREM",
+                    controlling=True,
+                    source_bindings=[
+                        {
+                            "repo": CGA.CURRENT_REPO,
+                            "path": "theorem.md",
+                            "role": "scientific_object",
+                            "extraction_rule": "whole_file",
+                            "expected_sha256": expected,
+                            "mirror_freshness": freshness,
+                        }
+                    ],
+                )
+                g["claims"]["T"].pop("source", None)
+                before = self._commit(repo, g, f"before-{freshness}")
+                after = self._commit(repo, copy.deepcopy(g), f"after-{freshness}")
+                rc, report = self._event(repo, before, after)
+                self.assertNotEqual(rc, 0, report)
+                self.assertFalse(report["transition_ok"])
+                self.assertIn("T", report["unresolved_controlling_sources"])
+
 
 if __name__ == "__main__":
     unittest.main()
