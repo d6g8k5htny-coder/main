@@ -126,6 +126,14 @@ class NavigationTests(unittest.TestCase):
         # Closed math_status packet must not absorb this navigation note.
         self.assertFalse((root/'docs/math_status/DOWNSTREAM_CROSSWALK_20260925.md').exists())
         self.assertFalse((root/'docs/math_status/DOWNSTREAM_RN_CROSSWALK_20260925.md').exists())
+        text=(root/page).read_text()
+        # D0 ABSENT carriers must stay named as historical-route blockers.
+        for token in ('rnu_env.py','CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip','allcell_fdz_enclosures.json',
+                      'hist.rnu_env.py','BLOCKED_ABSENT','OPEN_HISTORICAL','OPEN_ACTIVE'):
+            self.assertIn(token,text,token)
+        # Companion executable gate; scientific effect remains none.
+        self.assertIn('Math-/pull/8',text)
+        self.assertIn('scientific effect NONE',text)
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
