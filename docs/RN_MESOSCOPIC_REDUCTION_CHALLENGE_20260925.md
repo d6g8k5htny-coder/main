@@ -91,7 +91,7 @@ this note is a challenge, not a technical pass.
 | Surface | Role |
 |---|---|
 | [Math- #7](https://github.com/d6g8k5htny-coder/Math-/pull/7) | Object under challenge |
-| [Math- #8](https://github.com/d6g8k5htny-coder/Math-/pull/8) | In-development integrity-gate draft; maps this object as `AUTHOR_SIDE_REDUCTION`; own-node eligibility repair still open |
+| [Math- gate](https://github.com/d6g8k5htny-coder/Math-/tree/main/frontiers/downstream_gate_20260925) | Integrity gate; own-node eligibility deployed, required-refutation/union-edge hotfix pending in PR #13 |
 | [main #92](https://github.com/d6g8k5htny-coder/main/pull/92) / [crosswalk](DOWNSTREAM_RN_CROSSWALK_20260925.md) | Human D0/D4/D5 classification companion |
 | [#86](https://github.com/d6g8k5htny-coder/main/issues/86) D5 | Owns shrinking RN geometry; this note does not close D5 |
 
