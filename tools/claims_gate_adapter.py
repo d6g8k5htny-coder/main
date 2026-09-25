@@ -10,10 +10,13 @@ Outputs are HOLD / REVALIDATION proposals only. Scientific effect: NONE.
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import json
+import re
+import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -206,10 +209,21 @@ def claims_to_gate_graph(
         _dependency_container(record, "sub_obligations", node_id=nid)
         snapshot = _source_snapshot(record)
         sem, evid = _digests_for(nid, record)
+        # Surface source grade/status; never invent controlling=True.
+        source_controlling = record.get("controlling")
+        if source_controlling is not None:
+            source_controlling = _require_strict_bool(
+                source_controlling, field=f"{nid}.controlling"
+            )
         nodes[nid] = {
             "bucket": bucket,
             "classification": map_classification(record, bucket=bucket),
-            "controlling": False,
+            "controlling": False,  # projection never grants controlling
+            "source_controlling": source_controlling,
+            "source_grade": record.get("grade"),
+            "source_status": record.get("status_frozen_v2_2")
+            or record.get("status_register_note"),
+            "source_reference": record.get("source") or record.get("canon_source"),
             "semantic_digest": sem,
             "evidence_digest": evid,
             "source_snapshot": snapshot,
@@ -410,23 +424,31 @@ def _node_identity_changed(old_node: dict[str, Any], new_node: dict[str, Any]) -
     )
 
 
-def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any]) -> dict[str, Any]:
+def reverse_impact_between(
+    old_graph: dict[str, Any],
+    new_graph: dict[str, Any],
+    *,
+    old_sources: dict[str, Any] | None = None,
+    new_sources: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Reverse impact over UNION(old,new) edges; deleted edges cannot erase impact.
 
     Seeds include:
       - nodes whose canonical source snapshot / classification / version change;
       - endpoints of edge-only changes (add/remove/mutate) even when fingerprints
         and classifications are unchanged;
-      - the changed controlling node itself (self-hold / self-revalidation).
+      - nodes whose bound repository source-file bytes change (PR15 contract);
+      - the changed node itself (self-hold / self-revalidation).
 
-    Marks impacted nodes with REVALIDATION_REQUIRED proposals on a copy of
-    new_graph. Never sets controlling=True. Never grants promotion permission.
+    Attaches REVALIDATION_REQUIRED proposals without erasing REFUTED.
+    Never sets controlling=True. Never grants promotion permission.
     """
     validate_graph_fail_closed(old_graph)
     validate_graph_fail_closed(new_graph)
     old_nodes, new_nodes = old_graph["nodes"], new_graph["nodes"]
     all_ids = set(old_nodes) | set(new_nodes)
     changed: set[str] = set()
+    source_byte_seeds: set[str] = set()
     for nid in all_ids:
         if nid not in old_nodes or nid not in new_nodes:
             changed.add(nid)
@@ -445,6 +467,20 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
         edge_only_seeds.add(to)
         changed.add(frm)
         changed.add(to)
+
+    # Source FILE byte drift (distinct from claims-record JSON snapshot).
+    if old_sources is not None and new_sources is not None:
+        for nid in set(old_sources) | set(new_sources):
+            old_s = old_sources.get(nid) or {"kind": "absent"}
+            new_s = new_sources.get(nid) or {"kind": "absent"}
+            if old_s.get("sha256") != new_s.get("sha256") or old_s.get("kind") != new_s.get("kind"):
+                # Only seed when at least one side bound real repo bytes, or kind flipped.
+                if old_s.get("kind") in {"blob", "tree"} or new_s.get("kind") in {"blob", "tree"}:
+                    source_byte_seeds.add(nid)
+                    changed.add(nid)
+                elif old_s.get("kind") != new_s.get("kind"):
+                    source_byte_seeds.add(nid)
+                    changed.add(nid)
 
     union_edges = {
         (e["from"], e["to"]) for g in (old_graph, new_graph) for e in g["edges"]
@@ -470,12 +506,19 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
     proposals: list[dict[str, Any]] = []
     for nid in sorted(impacted):
         node = clone["nodes"][nid]
-        node["classification"] = "REVALIDATION_REQUIRED"
+        # Preserve REFUTED (and other terminal dispositions) while attaching proposal.
+        if node.get("classification") not in REFUTED_CLASSIFICATIONS:
+            node["classification"] = "REVALIDATION_REQUIRED"
+        node["revalidation_proposal"] = "REVALIDATION_REQUIRED"
         node["controlling"] = False
         proposals.append(
             {
                 "node": nid,
                 "proposal": "REVALIDATION_REQUIRED",
+                "source_grade": node.get("source_grade"),
+                "source_status": node.get("source_status"),
+                "source_controlling": node.get("source_controlling"),
+                "preserved_classification": node.get("classification"),
                 "promotion_permission": False,
             }
         )
@@ -483,6 +526,7 @@ def reverse_impact_between(old_graph: dict[str, Any], new_graph: dict[str, Any])
     return {
         "changed_nodes": sorted(changed),
         "edge_only_seeds": sorted(edge_only_seeds),
+        "source_byte_seeds": sorted(source_byte_seeds),
         "impacted": sorted(impacted),
         "proposals": proposals,
         "graph": clone,
@@ -573,11 +617,145 @@ CLAIMS_REL = "claims/graph.json"
 CROSSWALK_REL = "architecture/scientific_state/v1/ID_CROSSWALK.json"
 AUTHORITY_REL = "architecture/scientific_state/v1/AUTHORITY_MAP.json"
 
+# Grades/statuses that indicate the *source* record is treated as load-bearing.
+# Projection never sets controlling=True; these only flag report attention.
+SOURCE_CONTROLLING_HINTS = frozenset(
+    {
+        "LIVE_ROOT_THEOREM",
+        "CERTIFIED_RUNG",
+        "CONTROLLING",
+        "PROVED_REVIEWED",
+    }
+)
+
 
 def _sha256_bytes(data: bytes) -> str:
-    import hashlib
-
     return hashlib.sha256(data).hexdigest()
+
+
+def relative_repo_path(value: str) -> str:
+    """PR15 contract: repository-relative path only; reject absolute/.. /URL-ish."""
+    path = PurePosixPath(value)
+    if (
+        not value
+        or path.is_absolute()
+        or ".." in path.parts
+        or ":" in value
+        or "\\" in value
+    ):
+        raise AdapterError(f"repository-relative source path required: {value!r}")
+    return path.as_posix()
+
+
+def _candidate_source_strings(record: dict[str, Any]) -> list[tuple[str, str]]:
+    """Yield (kind_hint, reference) pairs from a claims record.
+
+    kind_hint: 'path' | 'external' | 'prose'
+    """
+    out: list[tuple[str, str]] = []
+    for key in ("mirror_path",):
+        val = record.get(key)
+        if isinstance(val, str) and val.strip():
+            out.append(("path", val.strip()))
+    src = record.get("source")
+    if isinstance(src, dict):
+        path = src.get("path") or src.get("repo_path") or src.get("file")
+        if isinstance(path, str) and path.strip():
+            out.append(("path", path.strip()))
+        url = src.get("url") or src.get("uri")
+        if isinstance(url, str) and url.strip():
+            out.append(("external", url.strip()))
+    elif isinstance(src, str) and src.strip():
+        text = src.strip()
+        if text.startswith(("https://", "http://", "external:")):
+            out.append(("external", text))
+        else:
+            # Prefer first path-like token (strip § section anchors).
+            first = re.split(r"[;]", text, maxsplit=1)[0].strip()
+            first = re.split(r"\s+§", first, maxsplit=1)[0].strip()
+            if (
+                "/" in first
+                or first.endswith((".md", ".json", ".py", ".lean", ".txt"))
+            ) and " " not in first:
+                out.append(("path", first))
+            else:
+                out.append(("prose", text))
+    canon = record.get("canon_source")
+    if isinstance(canon, str) and canon.strip():
+        if canon.startswith(("https://", "http://", "external:")):
+            out.append(("external", canon.strip()))
+        else:
+            out.append(("prose", canon.strip()))
+    return out
+
+
+def bind_source_at_revision(
+    root: Path, revision: str, record: dict[str, Any]
+) -> dict[str, Any]:
+    """Bind repository source object bytes at an immutable revision (PR15 contract).
+
+    External refs → external_unresolved (never fetched). Missing → missing.
+    Prose-only → unresolved_prose. No invention of absent objects.
+    """
+    candidates = _candidate_source_strings(record)
+    if not candidates:
+        return {"kind": "record_only"}
+    # Prefer first path candidate; else first external; else prose.
+    path_refs = [r for k, r in candidates if k == "path"]
+    if path_refs:
+        reference = path_refs[0]
+        try:
+            path = relative_repo_path(reference)
+        except AdapterError:
+            return {"kind": "unresolved_prose", "reference": reference}
+        object_spec = f"{revision}:{path.rstrip('/')}"
+        kind = _git_bytes(root, "cat-file", "-t", object_spec, missing_ok=True)
+        if kind is None:
+            return {"kind": "missing", "reference": reference, "path": path}
+        kind_s = kind.decode().strip()
+        if kind_s not in {"blob", "tree"}:
+            raise AdapterError(f"source object must be blob or tree: {object_spec}")
+        body = _git_bytes(root, "cat-file", "-p", object_spec)
+        assert body is not None
+        return {
+            "kind": kind_s,
+            "reference": reference,
+            "path": path,
+            "bytes": len(body),
+            "sha256": _sha256_bytes(body),
+        }
+    for k, r in candidates:
+        if k == "external":
+            return {"kind": "external_unresolved", "reference": r}
+    return {"kind": "unresolved_prose", "reference": candidates[0][1]}
+
+
+def bind_claims_sources_at_ref(
+    root: Path, revision: str, claims: dict[str, Any]
+) -> dict[str, dict[str, Any]]:
+    sources: dict[str, dict[str, Any]] = {}
+    for bucket in ("premises", "claims"):
+        for nid, record in (claims.get(bucket) or {}).items():
+            if not isinstance(record, dict):
+                raise AdapterError(f"malformed record for {nid!r}")
+            sources[nid] = bind_source_at_revision(root, revision, record)
+    return sources
+
+
+def _git_bytes(
+    root: Path, *args: str, missing_ok: bool = False
+) -> bytes | None:
+    result = subprocess.run(
+        ["git", "-C", str(root), *args],
+        capture_output=True,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        if missing_ok:
+            return None
+        err = result.stderr.decode("utf-8", errors="replace").strip()
+        raise AdapterError(f"git {' '.join(args)} failed: {err or 'unknown error'}")
+    return result.stdout
 
 
 def _require_usable_ref(ref: str, *, role: str) -> str:
@@ -586,21 +764,15 @@ def _require_usable_ref(ref: str, *, role: str) -> str:
     cleaned = ref.strip()
     if cleaned == ZERO_SHA or set(cleaned) == {"0"}:
         raise AdapterError(f"{role} ref unavailable or all-zero: {cleaned!r}")
+    # Prefer full immutable commit IDs (PR15 contract); allow abbreviated only
+    # when Git can resolve them to a commit (validated in git_show).
     return cleaned
 
 
 def git_show_bytes(root: Path, ref: str, relpath: str) -> bytes:
-    import subprocess
-
-    result = subprocess.run(
-        ["git", "-C", str(root), "show", f"{ref}:{relpath}"],
-        capture_output=True,
-        timeout=60,
-    )
-    if result.returncode != 0:
-        err = result.stderr.decode("utf-8", errors="replace").strip()
-        raise AdapterError(f"git show {ref}:{relpath} failed: {err or 'unknown error'}")
-    return result.stdout
+    data = _git_bytes(root, "show", f"{ref}:{relpath}")
+    assert data is not None
+    return data
 
 
 def load_claims_at_ref(root: Path, ref: str) -> tuple[dict[str, Any], dict[str, str]]:
@@ -672,23 +844,63 @@ def compare_claims_refs(
     # Authority/crosswalk from after tip (immutable at after_ref).
     crosswalk, crosswalk_id = load_json_at_ref(root, after_ref, CROSSWALK_REL)
     authority, authority_id = load_json_at_ref(root, after_ref, AUTHORITY_REL)
-    report = compare_claims_files(
-        before_claims,
-        after_claims,
-        crosswalk=crosswalk,
-        authority_map=authority,
+    old_g = claims_to_gate_graph(
+        before_claims, crosswalk=crosswalk, authority_map=authority
     )
-    report["mode"] = "ref_compare"
-    report["before_ref"] = before_ref
-    report["after_ref"] = after_ref
-    report["before_identity"] = before_id
-    report["after_identity"] = after_id
-    report["crosswalk_identity"] = crosswalk_id
-    report["authority_identity"] = authority_id
-    report["meaning"] = (
-        "immutable base→head claims compare; impact/HOLD are proposals only; "
-        "never promotion permission; impact≠illegal edit"
+    new_g = claims_to_gate_graph(
+        after_claims, crosswalk=crosswalk, authority_map=authority
     )
+    old_sources = bind_claims_sources_at_ref(root, before_ref, before_claims)
+    new_sources = bind_claims_sources_at_ref(root, after_ref, after_claims)
+    impact = reverse_impact_between(
+        old_g, new_g, old_sources=old_sources, new_sources=new_sources
+    )
+    holds = aggregate_hold_proposals(new_g)
+    # Attention flags from *source* grades/status — projection controlling stays false.
+    controlling_impacted = []
+    unresolved_controlling = []
+    for nid in impact["impacted"]:
+        node = new_g["nodes"][nid]
+        grade = str(node.get("source_grade") or "")
+        status = str(node.get("source_status") or "")
+        hinted = (
+            node.get("source_controlling") is True
+            or grade in SOURCE_CONTROLLING_HINTS
+            or status in SOURCE_CONTROLLING_HINTS
+        )
+        if hinted:
+            controlling_impacted.append(nid)
+            src = new_sources.get(nid) or {}
+            if src.get("kind") not in {"blob", "tree"}:
+                unresolved_controlling.append(nid)
+    report = {
+        "mode": "ref_compare",
+        "base_commit": before_ref,
+        "head_commit": after_ref,
+        "before_ref": before_ref,
+        "after_ref": after_ref,
+        "before_identity": before_id,
+        "after_identity": after_id,
+        "crosswalk_identity": crosswalk_id,
+        "authority_identity": authority_id,
+        "old_sources": old_sources,
+        "new_sources": new_sources,
+        "reverse_impact": impact,
+        "hold_proposals": holds,
+        "controlling_impacted": controlling_impacted,
+        "unresolved_controlling_sources": unresolved_controlling,
+        "promotion_permission": False,
+        "scientific_effect": "NONE",
+        "semantic_reference": (
+            "Math- PR13 tip baca69c… / PR15 git_transition_audit contract 8c4c946… "
+            "/ main #90 clarification"
+        ),
+        "meaning": (
+            "immutable base→head claims+source-file compare (PR15 contract); "
+            "impact/HOLD are proposals only; never promotion permission; "
+            "impact≠illegal edit; external/absent sources stay unresolved"
+        ),
+    }
     return report
 
 

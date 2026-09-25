@@ -678,6 +678,61 @@ class ClaimsGateAdapterTests(unittest.TestCase):
             self.assertEqual(report2["mode"], "event_compare")
             self.assertIn("D1-v2.2(2)", report2["reverse_impact"]["impacted"])
 
+
+    def test_refuted_classification_preserved_on_revalidation(self):
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new = copy.deepcopy(old)
+        # K3-THM-001 is REFUTED in tip projection.
+        self.assertEqual(new["nodes"]["K3-THM-001"]["classification"], "REFUTED")
+        new["nodes"]["K3-THM-001"]["semantic_digest"] = "mutated-refuted"
+        new["nodes"]["K3-THM-001"]["source_snapshot"] = "mutated-refuted"
+        impact = CGA.reverse_impact_between(old, new)
+        self.assertIn("K3-THM-001", impact["impacted"])
+        preserved = impact["graph"]["nodes"]["K3-THM-001"]["classification"]
+        self.assertEqual(preserved, "REFUTED")
+        self.assertEqual(
+            impact["graph"]["nodes"]["K3-THM-001"]["revalidation_proposal"],
+            "REVALIDATION_REQUIRED",
+        )
+
+    def test_source_file_byte_drift_seeds_impact_without_claims_record_change(self):
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new = copy.deepcopy(old)
+        old_sources = {
+            "D1-v2.2(2)": {
+                "kind": "blob",
+                "reference": "docs/fake.md",
+                "path": "docs/fake.md",
+                "bytes": 3,
+                "sha256": "aaa",
+            }
+        }
+        new_sources = {
+            "D1-v2.2(2)": {
+                "kind": "blob",
+                "reference": "docs/fake.md",
+                "path": "docs/fake.md",
+                "bytes": 4,
+                "sha256": "bbb",
+            }
+        }
+        impact = CGA.reverse_impact_between(
+            old, new, old_sources=old_sources, new_sources=new_sources
+        )
+        self.assertIn("D1-v2.2(2)", impact["source_byte_seeds"])
+        self.assertIn("D1-v2.2(2)", impact["impacted"])
+
+    def test_external_source_marked_unresolved_not_invented(self):
+        bound = CGA.bind_source_at_revision(
+            ROOT,
+            "HEAD",
+            {"source": "https://example.com/theorem.pdf"},
+        )
+        self.assertEqual(bound["kind"], "external_unresolved")
+        self.assertNotIn("sha256", bound)
+
     def test_cli_tip_health_labeled_not_transition_evidence(self):
         import subprocess
         import sys
