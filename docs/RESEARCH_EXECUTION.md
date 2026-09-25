@@ -60,8 +60,13 @@ premise is not reproved and the complete spatial cover remains open.
 python tools/rn_side24_density_check.py
 ```
 
-The [local rectangle extension](RN_SIDE24_CELL.md) replays four spatial-cell
-witness sets and the complete partition/area sum. The [parallel candidates](PARALLEL_MATH.md)
+The [local cell note](RN_SIDE24_CELL.md) claims only its declared square
+`C=[1-1/4000,1+1/4000]^2`, with integrand upper below `559/10^8`, conditional
+on the imported H3 floor. Outside C, the complement is engineering replay only:
+the spatial checker below separately replays four spatial-cell witness sets
+and the complete partition/area sum on the rectangle
+`[1999/2000,2001/2000]^2` minus C, which is not an enlarged claim of the note,
+and the near annulus `0.1 <= |y| <= 5` is not covered. The [parallel candidates](PARALLEL_MATH.md)
 reconstruct the fixed-r H3 floor, full LPW tails with a quadratic covariance
 modulus, and one normalized H5 jet over a named band. Both commands are required
 by CI and the complete closure runner.
