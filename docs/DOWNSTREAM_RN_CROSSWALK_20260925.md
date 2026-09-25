@@ -20,15 +20,11 @@ ABSENT. This crosswalk prevents newer author-side proofs from being mistaken for
 absent carriers or, conversely, old route-specific walls from being silently treated as
 dependencies of every newer theorem.
 
-This page is the human D0 classification companion to the in-development Math-
-[downstream hard gate](https://github.com/d6g8k5htny-coder/Math-/pull/8)
+This page is the human D0 classification companion to the deployed Math-
+[downstream hard gate](https://github.com/d6g8k5htny-coder/Math-/tree/main/frontiers/downstream_gate_20260925)
 (`DOWNSTREAM-HARD-GATE-20260925-v1`, main [#86](https://github.com/d6g8k5htny-coder/main/issues/86) /
 [#90](https://github.com/d6g8k5htny-coder/main/issues/90)). Linking that draft has
-scientific effect NONE. As of Math- head `5887a2f8`, the gate still has a load-bearing
-own-node eligibility hole: dependency terminality alone can allow
-`AUTHOR_SIDE_CANDIDATE` → `controlling`. Do **not** read this crosswalk as evidence
-that Math- #8 already enforces every [#90](https://github.com/d6g8k5htny-coder/main/issues/90)
-semantic.
+scientific effect NONE. The own-node eligibility defect found during review was repaired in merged Math- PR #11. A second fail-closed hotfix for required REFUTED premises and union-edge reverse impact is under review in Math- PR #13; until that hotfix lands, do not cite the gate as complete #90 enforcement.
 
 ## Classification rule
 
@@ -79,10 +75,7 @@ hashes, same-author review, and navigation success are never mathematical discha
 
 None is a replacement carrier for the historical ABSENT files. None flips
 `lemma_closed` away from false. Reading this page does not discharge
-`OBL-H5-JETMOD` or `D3-LEMMA-RN-UNIF`. The Math- hard-gate draft is intended to
-refuse CONTROLLING promotion while required dependencies stay non-terminal, but
-until its own-node eligibility repair lands it must not be cited as a complete
-[#90](https://github.com/d6g8k5htny-coder/main/issues/90) enforcer.
+`OBL-H5-JETMOD` or `D3-LEMMA-RN-UNIF`. The Math- hard gate now refuses author-side own-node promotion after merged PR #11. Required-refutation and old/new union-edge semantics are being fail-closed in PR #13; until that hotfix lands it must not be cited as complete [#90](https://github.com/d6g8k5htny-coder/main/issues/90) enforcement.
 
 ## Downstream consequence
 
@@ -102,7 +95,7 @@ This crosswalk does not perform that governance action.
 - [Research index — RN counting](RESEARCH_INDEX.md)
 - Fixed-remote proof: [Math- remote_window PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/PROOF.md)
 - Mesoscopic draft: [Math- PR #7](https://github.com/d6g8k5htny-coder/Math-/pull/7)
-- In-development D0–D7 hard gate (eligibility repair still open): [Math- PR #8](https://github.com/d6g8k5htny-coder/Math-/pull/8)
+- D0–D7 hard gate: [deployed package](https://github.com/d6g8k5htny-coder/Math-/tree/main/frontiers/downstream_gate_20260925); required-refutation/union-edge hotfix [Math- PR #13](https://github.com/d6g8k5htny-coder/Math-/pull/13)
 - Math- #8 eligibility repair handoff (main cannot push Math-): [MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md](MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md)
 - Mesoscopic reduction challenge (not R17): [RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md](RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md)
 - Owner surfaces: [#86](https://github.com/d6g8k5htny-coder/main/issues/86), [#90](https://github.com/d6g8k5htny-coder/main/issues/90)
