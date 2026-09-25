@@ -143,6 +143,7 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         new = copy.deepcopy(old)
         # Mutate a leaf with no dependents in the projected graph where possible.
         # Self-hold includes the changed node; unrelated claims must stay clean.
+        new["nodes"]["Q0-C101-QUALITATIVE-RATE"]["semantic_digest"] = "unrelated-mutation"
         new["nodes"]["Q0-C101-QUALITATIVE-RATE"]["source_snapshot"] = "unrelated-mutation"
         new["nodes"]["Q0-C101-QUALITATIVE-RATE"]["fingerprint"] = "unrelated-mutation"
         impact = CGA.reverse_impact_between(old, new)
@@ -193,6 +194,7 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         claims = _load_tip_claims()
         old = CGA.claims_to_gate_graph(claims)
         new = copy.deepcopy(old)
+        new["nodes"]["D1-v2.2(2)"]["semantic_digest"] = "self-hold-mutation"
         new["nodes"]["D1-v2.2(2)"]["source_snapshot"] = "self-hold-mutation"
         new["nodes"]["D1-v2.2(2)"]["fingerprint"] = "self-hold-mutation"
         impact = CGA.reverse_impact_between(old, new)

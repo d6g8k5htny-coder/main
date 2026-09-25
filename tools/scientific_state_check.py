@@ -47,6 +47,7 @@ REQUIRED_SCHEMA_KEYS = frozenset(
         "scientific_effect",
         "node_fields",
         "forbidden_owned_fields",
+        "orthogonal_axes",
     }
 )
 
@@ -110,6 +111,21 @@ def check_schema(schema: dict[str, Any], problems: list[str]) -> None:
         problems.append("SCHEMA.json node_fields.claim_id.required must be true")
     if "source_authority" not in (node_fields or {}):
         problems.append("SCHEMA.json node_fields.source_authority is required")
+    for derived in ("semantic_digest", "evidence_digest"):
+        if derived not in (node_fields or {}):
+            problems.append(f"SCHEMA.json node_fields.{derived} is required (v1.1)")
+    axes = schema.get("orthogonal_axes")
+    if not isinstance(axes, dict):
+        problems.append("SCHEMA.json orthogonal_axes must be an object")
+    else:
+        for axis in (
+            "semantic_digest",
+            "evidence_digest",
+            "verification_level",
+            "scientific_status",
+        ):
+            if axis not in axes:
+                problems.append(f"SCHEMA.json orthogonal_axes missing {axis!r}")
     # Refuse using verification_level as an acceptance field in the contract.
     vl = (node_fields or {}).get("verification_level", {})
     role = vl.get("role") if isinstance(vl, dict) else None
@@ -117,6 +133,11 @@ def check_schema(schema: dict[str, Any], problems: list[str]) -> None:
         problems.append(
             "SCHEMA.json verification_level.role must be 'evidence_metadata' "
             "(level is not acceptance)"
+        )
+    sem = (node_fields or {}).get("semantic_digest", {})
+    if isinstance(sem, dict) and sem.get("role") not in {None, "derived_content_address"}:
+        problems.append(
+            "SCHEMA.json semantic_digest.role must be 'derived_content_address'"
         )
 
 

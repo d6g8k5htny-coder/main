@@ -177,8 +177,29 @@ class ScientificStatePilotTests(unittest.TestCase):
         self.assertNotEqual(gate["surface"], "https://github.com/d6g8k5htny-coder/Math-/pull/8")
         this_pkg = auth["this_package"]
         self.assertIn("claims_gate_adapter_projection", this_pkg["owns"])
+        self.assertIn("semantic_digest_derivation", this_pkg["owns"])
         self.assertIn("claims_gate_adapter.py", this_pkg.get("adapter", ""))
         self.assertIn("not a competing status engine", this_pkg["notes"].lower())
+
+    def test_schema_v1_1_declares_orthogonal_axes(self):
+        schema = json.loads(
+            (ROOT / "architecture" / "scientific_state" / "v1" / "SCHEMA.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(str(schema["schema_version"]), "1.1")
+        axes = schema["orthogonal_axes"]
+        for key in (
+            "semantic_digest",
+            "evidence_digest",
+            "verification_level",
+            "scientific_status",
+        ):
+            self.assertIn(key, axes)
+        self.assertIn("semantic_digest", schema["node_fields"])
+        self.assertEqual(
+            schema["node_fields"]["semantic_digest"]["role"], "derived_content_address"
+        )
 
 
 if __name__ == "__main__":

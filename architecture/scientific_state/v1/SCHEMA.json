@@ -1,9 +1,15 @@
 {
   "schema_id": "scientific_state.v1",
-  "schema_version": 1,
-  "object": "SCIENTIFIC-STATE-SCHEMA-20260925-v1",
+  "schema_version": "1.1",
+  "object": "SCIENTIFIC-STATE-SCHEMA-20260925-v1.1",
   "scientific_effect": "NONE",
   "purpose": "Versioned field contract for scientific claim/result nodes. This package holds pointers and metadata only; it is not a status database and does not promote mathematics.",
+  "orthogonal_axes": {
+    "semantic_digest": "H(canonical scientific content + typed deps). Digest match is never mathematical acceptance.",
+    "evidence_digest": "H(evidence identities). Separate from semantic content.",
+    "verification_level": "L0–L5 evidence metadata only; never CONTROLLING / acceptance.",
+    "scientific_status": "Owned exclusively by external authorities (claims firewall, Math- gate, math_status). Never derived from digests."
+  },
   "node_fields": {
     "claim_id": {
       "required": true,
@@ -37,10 +43,35 @@
       "type": "array",
       "items": {
         "target_id": "string",
-        "edge_type": "string"
+        "relation": "string",
+        "required": "boolean (JSON bool exactly; 0/1/string/null fail closed)"
       },
       "role": "pointer",
-      "notes": "Typed dependency edges. Edge presence here does not classify or promote either endpoint."
+      "notes": "Typed dependency edges. Duplicate (target_id, relation) pairs are rejected. Edge presence here does not classify or promote either endpoint."
+    },
+    "sub_obligations": {
+      "required": false,
+      "type": "array",
+      "items": {
+        "target_id": "string",
+        "relation": "string",
+        "required": "boolean"
+      },
+      "role": "pointer"
+    },
+    "source_bindings": {
+      "required": false,
+      "type": "array",
+      "items": {
+        "owner": "string",
+        "repo": "string",
+        "path": "string",
+        "commit": "string",
+        "blob": "string",
+        "hash": "string"
+      },
+      "role": "pointer",
+      "notes": "Canonical source binding should include owner/repo/path plus immutable commit/blob/hash where available. Legacy string sources are crosswalked, not silently rewritten."
     },
     "evidence": {
       "required": false,
@@ -52,6 +83,24 @@
         "hash": "string"
       },
       "role": "pointer"
+    },
+    "semantic_digest": {
+      "required": false,
+      "type": "string",
+      "role": "derived_content_address",
+      "notes": "Derived H(claim_id + statement/version + scope/domain + source bindings + typed edges). Must be recomputed from content; a manually copied fingerprint cannot be the sole change detector. Digest match ≠ acceptance."
+    },
+    "evidence_digest": {
+      "required": false,
+      "type": "string",
+      "role": "derived_evidence_address",
+      "notes": "Derived H(evidence identities). Orthogonal to semantic_digest."
+    },
+    "manual_fingerprint": {
+      "required": false,
+      "type": "string",
+      "role": "provenance_only",
+      "notes": "Optional legacy/manual fingerprint retained as provenance. Never the sole change detector; never scientific acceptance."
     },
     "verification_level": {
       "required": false,
@@ -96,5 +145,6 @@
     "prizes_solved",
     "independence_credit"
   ],
-  "forbidden_owned_fields_reason": "Those fields belong to external authorities (claims firewall, Math- hard gate, math_status registers). Duplicating them here would create a competing status store."
+  "forbidden_owned_fields_reason": "Those fields belong to external authorities (claims firewall, Math- hard gate, math_status registers). Duplicating them here would create a competing status store. Digests and verification_level never substitute for scientific_status.",
+  "change_detection_rule": "Before/after comparison must seed impact from node semantic_digest (or complete source snapshot) OR outgoing-edge record changes, and must include the changed controlling node itself. Manual fingerprint alone is insufficient."
 }

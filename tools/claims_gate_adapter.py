@@ -10,6 +10,7 @@ Outputs are HOLD / REVALIDATION proposals only. Scientific effect: NONE.
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import sys
 from pathlib import Path
@@ -19,6 +20,13 @@ ROOT = Path(__file__).resolve().parents[1]
 CLAIMS_PATH = ROOT / "claims" / "graph.json"
 CROSSWALK_PATH = ROOT / "architecture" / "scientific_state" / "v1" / "ID_CROSSWALK.json"
 AUTHORITY_PATH = ROOT / "architecture" / "scientific_state" / "v1" / "AUTHORITY_MAP.json"
+
+_DIGEST_SPEC = importlib.util.spec_from_file_location(
+    "semantic_digest", ROOT / "tools" / "semantic_digest.py"
+)
+assert _DIGEST_SPEC and _DIGEST_SPEC.loader
+_SD = importlib.util.module_from_spec(_DIGEST_SPEC)
+_DIGEST_SPEC.loader.exec_module(_SD)
 
 # #90 clarified: disposition vocabulary is broader than premise satisfaction.
 REQUIRED_SATISFIED = frozenset({"PROVED_REVIEWED"})
@@ -73,19 +81,21 @@ def map_classification(record: dict[str, Any], *, bucket: str) -> str:
 
 
 def _source_snapshot(record: dict[str, Any]) -> str:
-    """Canonical snapshot of the complete source record.
-
-    Detects statement / domain / source-binding / edge-list changes from the
-    actual claims record rather than a manually curated field subset. Not a
-    mathematical truth hash.
-    """
+    """Complete canonical JSON of the source record (supplementary detector)."""
     if not isinstance(record, dict):
         raise AdapterError("source snapshot requires an object record")
     return json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
 
 
+def _digests_for(nid: str, record: dict[str, Any]) -> tuple[str, str]:
+    try:
+        return _SD.semantic_digest(nid, record), _SD.evidence_digest(record)
+    except _SD.DigestError as exc:
+        raise AdapterError(str(exc)) from exc
+
+
 def _fingerprint(record: dict[str, Any]) -> str:
-    """Alias of `_source_snapshot` (kept for call-site compatibility)."""
+    """Deprecated alias: full-record snapshot (not the sole change detector)."""
     return _source_snapshot(record)
 
 
@@ -164,12 +174,15 @@ def claims_to_gate_graph(
         if nid in nodes:
             raise AdapterError(f"duplicate node id {nid!r}")
         snapshot = _source_snapshot(record)
+        sem, evid = _digests_for(nid, record)
         nodes[nid] = {
             "bucket": bucket,
             "classification": map_classification(record, bucket=bucket),
             "controlling": False,
+            "semantic_digest": sem,
+            "evidence_digest": evid,
             "source_snapshot": snapshot,
-            "fingerprint": snapshot,
+            "fingerprint": sem,  # derived digest; never a manual sole detector
             "version": claims.get("as_of"),
         }
 
@@ -339,17 +352,22 @@ def required_holds(graph: dict[str, Any], node_id: str) -> dict[str, Any]:
 
 
 def _node_identity_changed(old_node: dict[str, Any], new_node: dict[str, Any]) -> bool:
-    """True when canonical source snapshot / classification / version diverge.
+    """True when semantic digest / source snapshot / classification / version diverge.
 
-    Prefers `source_snapshot` (complete canonical record). Falls back to
-    `fingerprint` only when both sides lack a source_snapshot (legacy fixtures).
+    Manual fingerprint alone is never the sole detector when digests exist.
     """
+    old_sem = old_node.get("semantic_digest")
+    new_sem = new_node.get("semantic_digest")
+    if old_sem is not None or new_sem is not None:
+        if old_sem != new_sem:
+            return True
     old_snap = old_node.get("source_snapshot")
     new_snap = new_node.get("source_snapshot")
     if old_snap is not None or new_snap is not None:
         if old_snap != new_snap:
             return True
     elif old_node.get("fingerprint") != new_node.get("fingerprint"):
+        # Legacy fixtures without digests/snapshots — fallback only.
         return True
     return (
         old_node.get("classification") != new_node.get("classification")
