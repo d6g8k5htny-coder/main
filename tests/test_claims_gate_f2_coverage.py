@@ -405,6 +405,51 @@ class F2CoverageTests(unittest.TestCase):
                 self.assertFalse(report["transition_ok"])
                 self.assertIn("T", report["unresolved_controlling_sources"])
 
+    def test_e_same_carrier_precision_upgrade_is_coverage_repair(self):
+        """Legacy path binding → frozen_body+expected on unchanged carrier is OK."""
+        repo = self._repo()
+        body = "stable frozen theorem\n"
+        (repo / "d1.md").write_text(self._d1_wrapper(body), encoding="utf-8")
+        expected = CGA._sha256_bytes(
+            CGA.extract_scientific_bytes(
+                (repo / "d1.md").read_bytes(), "frozen_body"
+            )
+        )
+        before_g = _fixture()
+        before_g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            source_bindings=[
+                {"repo": CGA.CURRENT_REPO, "path": "d1.md", "role": "assembly_mirror"}
+            ],
+        )
+        before_g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, before_g, "legacy-bind")
+        after_g = copy.deepcopy(before_g)
+        after_g["claims"]["T"]["source_bindings"] = [
+            {
+                "repo": CGA.CURRENT_REPO,
+                "path": "d1.md",
+                "role": "scientific_object",
+                "extraction_rule": "frozen_body",
+                "expected_sha256": expected,
+                "mirror_freshness": "external_sync_obligation",
+            }
+        ]
+        after = self._commit(repo, after_g, "precision-upgrade")
+        rc, report = self._event(repo, before, after)
+        self.assertEqual(rc, 0, report)
+        self.assertTrue(report["transition_ok"], report)
+        self.assertIn("T", report.get("coverage_repairs") or [])
+        # Actual body drift after precision still refuses.
+        (repo / "d1.md").write_text(
+            self._d1_wrapper("CHANGED frozen theorem\n"), encoding="utf-8"
+        )
+        after2 = self._commit(repo, copy.deepcopy(after_g), "body-drift")
+        rc2, report2 = self._event(repo, after, after2)
+        self.assertNotEqual(rc2, 0, report2)
+        self.assertIn("T", report2["controlling_impacted"])
+
 
 if __name__ == "__main__":
     unittest.main()

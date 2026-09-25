@@ -762,6 +762,54 @@ def _binding_is_scientific_monitorable(binding: dict[str, Any]) -> bool:
     return True
 
 
+def _is_binding_precision_repair(
+    old_bound: dict[str, Any] | None, new_bound: dict[str, Any] | None
+) -> bool:
+    """True when coverage drift is only identity-precision (E), not object loss.
+
+    Same repo path + unchanged carrier bytes, with new scientific-object
+    validation succeeding, may change coverage_sha256 (role / extraction_rule /
+    expected_sha256 / object digest narrowing) without meaning the load-bearing
+    file content drifted. Exempt that from F1 retained-impact refusal — same
+    class as unresolved→monitorable coverage repair.
+    """
+    if not _source_binding_monitorable(new_bound):
+        return False
+    if old_bound is None:
+        return False
+    new_sci = [
+        b
+        for b in (new_bound.get("bindings") or [])
+        if _binding_is_scientific_monitorable(b)
+    ]
+    if not new_sci:
+        return False
+    old_by_path: dict[str, dict[str, Any]] = {}
+    for b in old_bound.get("bindings") or []:
+        if b.get("kind") not in {"blob", "tree"}:
+            continue
+        path = b.get("path")
+        if isinstance(path, str) and path:
+            old_by_path[path] = b
+    # Legacy single-binding view without bindings list.
+    if not old_by_path and old_bound.get("kind") in {"blob", "tree"}:
+        path = old_bound.get("path")
+        if isinstance(path, str) and path:
+            old_by_path[path] = old_bound
+    for b in new_sci:
+        path = b.get("path")
+        if not isinstance(path, str) or path not in old_by_path:
+            return False
+        old_b = old_by_path[path]
+        old_carrier = old_b.get("carrier_sha256") or old_b.get("sha256")
+        new_carrier = b.get("carrier_sha256") or b.get("sha256")
+        if not old_carrier or old_carrier != new_carrier:
+            return False
+        if b.get("expected_sha256") and not b.get("object_hash_ok"):
+            return False
+    return True
+
+
 def _source_binding_monitorable(bound: dict[str, Any] | None) -> bool:
     """True when at least one binding monitors validated scientific-object bytes."""
     if not isinstance(bound, dict):
@@ -807,9 +855,20 @@ def evaluate_transition_enforcement(
     coverage_repairs: set[str] = set()
     if old_sources is not None and new_sources is not None:
         for nid in list(retained_impacted):
-            if not _source_binding_monitorable(
-                old_sources.get(nid)
-            ) and _source_binding_monitorable(new_sources.get(nid)):
+            old_b = old_sources.get(nid)
+            new_b = new_sources.get(nid)
+            if not _source_binding_monitorable(old_b) and _source_binding_monitorable(
+                new_b
+            ):
+                coverage_repairs.add(nid)
+            elif (
+                (old_b or {}).get("coverage_sha256")
+                != (new_b or {}).get("coverage_sha256")
+                and _is_binding_precision_repair(old_b, new_b)
+            ):
+                # Only when THIS node's coverage digest moved due to binding
+                # precision — not when reverse-impacted via another node's
+                # real byte drift while this node's bindings are unchanged.
                 coverage_repairs.add(nid)
         retained_impacted = retained_impacted - coverage_repairs
     errors: list[dict[str, Any]] = []
@@ -871,7 +930,8 @@ def evaluate_transition_enforcement(
         "enforcement_scope": (
             "loss-only source transition over the detected impact graph; "
             "controlling sources must be byte-monitorable scientific objects; "
-            "not positive admission or legacy acceptance"
+            "coverage repair includes unresolved→monitorable and same-carrier "
+            "identity-precision upgrades; not positive admission or legacy acceptance"
         ),
         "meaning": (
             "transition_ok is false for unsupported new controlling status, "
