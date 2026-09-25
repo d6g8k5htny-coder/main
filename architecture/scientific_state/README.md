@@ -33,11 +33,23 @@ If a row needs a status, it points at the owning file. It does not duplicate it.
 ```sh
 python3 tools/scientific_state_check.py
 python3 -m unittest tests.test_scientific_state -v
+python3 tools/claims_gate_adapter.py
+python3 -m unittest tests.test_claims_gate_adapter -v
 ```
 
-The checker only **refuses** malformed architecture files, missing authorities,
+The schema checker only **refuses** malformed architecture files, missing authorities,
 dangling main IDs, or smuggled status/grade/classification/controlling payloads.
 It does not compute promotions or reverse-impact closures.
+
+## D7 claims→gate adapter (thin)
+
+`tools/claims_gate_adapter.py` projects tip `claims/graph.json` (including
+`depends_on` **and** `sub_obligations`) into a gate-shaped working graph and
+runs before/after reverse-impact over UNION(old,new) edges. Semantic reference:
+Math- [PR #13](https://github.com/d6g8k5htny-coder/Math-/pull/13) / main #90
+clarification. Outputs are **HOLD / REVALIDATION proposals only** — never
+promotion permission. SUPERSEDED_NONBLOCKING does not satisfy a still-required
+premise; required REFUTED forces HOLD. This does not vendor Math- code.
 
 ## Deferred (not this PR)
 
