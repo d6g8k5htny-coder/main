@@ -2,8 +2,7 @@
 
 **Date:** 2026-09-25  
 **Disposition:** same-author technical challenge of an author-side reduction.  
-**Not** an R17 review record. **Not** a gate movement. Organizational independence
-credit is **0**. `lemma_closed` stays false. Scientific effect: NONE.
+**Not** an R17 review record. **Not** a gate movement. Organizational independence credit is **0**. `lemma_closed` stays false. Scientific effect: NONE.
 
 ## Exact object
 
