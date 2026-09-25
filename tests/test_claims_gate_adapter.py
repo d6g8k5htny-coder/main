@@ -175,6 +175,33 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         self.assertIn("D1-v2.2(2)", impact["impacted"])
         self.assertFalse(impact["promotion_permission"])
 
+    def test_required_true_to_false_flip_is_edge_only_impact_seed(self):
+        """Math- PR13 loss-only: required True→False seeds child without FP drift."""
+        claims = _load_tip_claims()
+        old = CGA.claims_to_gate_graph(claims)
+        new = copy.deepcopy(old)
+        flipped = False
+        for edge in new["edges"]:
+            if (
+                edge["from"] == "D1-v2.2(2)"
+                and edge["to"] == "OBL-D1-PROMOTE"
+                and edge["relation"] == "depends_on"
+            ):
+                edge["required"] = False
+                flipped = True
+                break
+        self.assertTrue(flipped)
+        for nid in ("D1-v2.2(2)", "OBL-D1-PROMOTE"):
+            self.assertEqual(
+                old["nodes"][nid]["semantic_digest"],
+                new["nodes"][nid]["semantic_digest"],
+            )
+        impact = CGA.reverse_impact_between(old, new)
+        self.assertIn("D1-v2.2(2)", impact["edge_only_seeds"])
+        self.assertIn("D1-v2.2(2)", impact["changed_nodes"])
+        self.assertIn("D1-v2.2(2)", impact["impacted"])
+        self.assertFalse(impact["promotion_permission"])
+
     def test_statement_change_detected_via_canonical_source_snapshot(self):
         claims = _load_tip_claims()
         old = CGA.claims_to_gate_graph(claims)
