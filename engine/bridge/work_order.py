@@ -178,7 +178,7 @@ REPOSITORY_TOP_LEVEL = (
     ".github", ".gitignore", "requirements-ci.lock", "AGENTS.md", "CITATION.cff", "CLAUDE.md",
     "CONTRIBUTING.md", "LICENSE", "README.md", "architecture", "attestations", "claims", "docs", "drive",
     "engine", "governance", "legacy", "packages", "quarantine", "recovery",
-    "registers", "research", "reviews", "sandbox", "tests", "tools",
+    "artifacts", "registers", "research", "reviews", "sandbox", "tests", "tools",
 )
 
 #: The directory a committed order lives in. An order naming it as its own
