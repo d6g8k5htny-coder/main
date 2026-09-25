@@ -72,9 +72,10 @@ comparison of fourth powers. The wrong-power bound cannot come back silently.
   `N(0,1)` the exact value is `12 + 32/π`, because one of the two equal `16/π`
   cross terms was dropped; that exact value is the counterexample. Derivation:
   [`research/identities/gaussian_moments.py`](../research/identities/gaussian_moments.py)
-  (see [`research/identities/README.md`](../research/identities/README.md)).
-  Owning record: the `LPW_CONSTANT` row of
-  [`registers/json/lpw_fold_dispositions.json`](../registers/json/lpw_fold_dispositions.json).
+  (see [`research/identities/README.md`](../research/identities/README.md)),
+  source-bound at `5306b9dce91352e84effe34f61ff7d9aee605d77`.
+  Owning record: the `LPW_CONSTANT` row, quoted under
+  [What the sources say](../research/lpw/README.md#what-the-sources-say).
   The historical carrier
   [`engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py`](../engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py)
   is frozen and unedited. Complement: `12 + 16/π` remains a valid upper budget
