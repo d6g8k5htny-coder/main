@@ -198,12 +198,25 @@ class F2CoverageTests(unittest.TestCase):
                     {
                         "repo": "other-org/other-repo",
                         "path": "claims/graph.json",
+                        "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                     }
                 ]
             },
         )
         self.assertEqual(bound["kind"], "unsupported_cross_repo")
         self.assertFalse(CGA._source_binding_monitorable(bound))
+        cross = bound["bindings"][0]
+        self.assertEqual(cross["declared_repo"], "other-org/other-repo")
+        self.assertEqual(cross["declared_path"], "claims/graph.json")
+        self.assertEqual(
+            cross["declared_commit"], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        )
+        self.assertEqual(
+            cross["declared_hash"],
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        )
+        self.assertNotIn("sha256", cross)  # no local byte invention
 
 
 if __name__ == "__main__":

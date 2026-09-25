@@ -435,6 +435,7 @@ def reverse_impact_between(
     *,
     old_sources: dict[str, Any] | None = None,
     new_sources: dict[str, Any] | None = None,
+    extra_seeds: list[str] | tuple[str, ...] | set[str] | None = None,
 ) -> dict[str, Any]:
     """Reverse impact over UNION(old,new) edges; deleted edges cannot erase impact.
 
@@ -443,6 +444,7 @@ def reverse_impact_between(
       - endpoints of edge-only changes (add/remove/mutate) even when fingerprints
         and classifications are unchanged;
       - nodes whose bound repository source-file bytes change (PR15 contract);
+      - explicit extra_seeds (e.g. crosswalk authority-owner drift) BEFORE closure;
       - the changed node itself (self-hold / self-revalidation).
 
     Attaches REVALIDATION_REQUIRED proposals without erasing REFUTED.
@@ -454,6 +456,7 @@ def reverse_impact_between(
     all_ids = set(old_nodes) | set(new_nodes)
     changed: set[str] = set()
     source_byte_seeds: set[str] = set()
+    authority_owner_seeds: set[str] = set()
     for nid in all_ids:
         if nid not in old_nodes or nid not in new_nodes:
             changed.add(nid)
@@ -493,6 +496,13 @@ def reverse_impact_between(
                     source_byte_seeds.add(nid)
                     changed.add(nid)
 
+    # Authority-owner / other explicit seeds must enter BEFORE reverse closure
+    # so transitive dependents (e.g. controlling consumers of P) are impacted.
+    for nid in extra_seeds or ():
+        if nid in all_ids:
+            authority_owner_seeds.add(nid)
+            changed.add(nid)
+
     union_edges = {
         (e["from"], e["to"]) for g in (old_graph, new_graph) for e in g["edges"]
     }
@@ -522,21 +532,23 @@ def reverse_impact_between(
             node["classification"] = "REVALIDATION_REQUIRED"
         node["revalidation_proposal"] = "REVALIDATION_REQUIRED"
         node["controlling"] = False
-        proposals.append(
-            {
-                "node": nid,
-                "proposal": "REVALIDATION_REQUIRED",
-                "source_grade": node.get("source_grade"),
-                "source_status": node.get("source_status"),
-                "source_controlling": node.get("source_controlling"),
-                "preserved_classification": node.get("classification"),
-                "promotion_permission": False,
-            }
-        )
+        proposal: dict[str, Any] = {
+            "node": nid,
+            "proposal": "REVALIDATION_REQUIRED",
+            "source_grade": node.get("source_grade"),
+            "source_status": node.get("source_status"),
+            "source_controlling": node.get("source_controlling"),
+            "preserved_classification": node.get("classification"),
+            "promotion_permission": False,
+        }
+        if nid in authority_owner_seeds:
+            proposal["reason"] = "crosswalk_authority_owner_change"
+        proposals.append(proposal)
 
     return {
         "changed_nodes": sorted(changed),
         "edge_only_seeds": sorted(edge_only_seeds),
+        "authority_owner_seeds": sorted(authority_owner_seeds),
         "source_byte_seeds": sorted(source_byte_seeds),
         "impacted": sorted(impacted),
         "proposals": proposals,
@@ -867,10 +879,29 @@ def _candidate_source_strings(record: dict[str, Any]) -> list[tuple[str, str, st
                     repo = f"{item['owner'].strip()}/{repo.strip()}"
                 if isinstance(path, str) and path.strip():
                     if isinstance(repo, str) and repo.strip() and repo.strip() != CURRENT_REPO:
+                        # Keep declared immutable identity; never bind local bytes.
+                        declared = {
+                            "commit": item.get("commit"),
+                            "blob": item.get("blob"),
+                            "hash": item.get("hash"),
+                            "sha256": item.get("sha256"),
+                        }
                         out.append(
                             (
                                 "unsupported_cross_repo",
-                                f"{repo.strip()}:{path.strip()}",
+                                json.dumps(
+                                    {
+                                        "repo": repo.strip(),
+                                        "path": path.strip(),
+                                        **{
+                                            k: v
+                                            for k, v in declared.items()
+                                            if isinstance(v, str) and v
+                                        },
+                                    },
+                                    sort_keys=True,
+                                    separators=(",", ":"),
+                                ),
                                 f"source_bindings[{index}].path",
                             )
                         )
@@ -994,12 +1025,21 @@ def bind_source_at_revision(
                 }
             )
         elif kind_hint == "unsupported_cross_repo":
+            try:
+                declared = json.loads(reference)
+            except json.JSONDecodeError:
+                declared = {"reference": reference}
             bindings.append(
                 {
                     "kind": "unsupported_cross_repo",
                     "reference": reference,
                     "field": field,
                     "expected_repo": CURRENT_REPO,
+                    "declared_repo": declared.get("repo"),
+                    "declared_path": declared.get("path"),
+                    "declared_commit": declared.get("commit"),
+                    "declared_blob": declared.get("blob"),
+                    "declared_hash": declared.get("hash") or declared.get("sha256"),
                 }
             )
         else:
@@ -1147,6 +1187,32 @@ def load_json_at_ref(root: Path, ref: str, relpath: str) -> tuple[Any, dict[str,
     }
 
 
+def load_historical_schema_at_ref(
+    root: Path, ref: str, relpath: str
+) -> tuple[Any, dict[str, Any]]:
+    """Load old-ref schema distinguishing absence from malformation.
+
+    Missing object → migration fallback (empty schema + absent_old_schema).
+    Present but duplicate-key / nonfinite / malformed JSON → AdapterError (fail closed).
+    """
+    object_spec = f"{ref}:{relpath}"
+    kind = _git_bytes(root, "cat-file", "-t", object_spec, missing_ok=True)
+    if kind is None:
+        empty: Any
+        if relpath.endswith("AUTHORITY_MAP.json"):
+            empty = {"authorities": {}}
+        else:
+            empty = {"rows": []}
+        return empty, {
+            "ref": ref,
+            "path": relpath,
+            "blob_sha256": "",
+            "bytes": "0",
+            "absent_old_schema": True,
+        }
+    return load_json_at_ref(root, ref, relpath)
+
+
 def _owner_map(crosswalk: dict[str, Any] | None) -> dict[str, str]:
     """main_id → authority from crosswalk rows (absent schema → empty)."""
     owners: dict[str, str] = {}
@@ -1222,30 +1288,12 @@ def compare_claims_refs(
     after_ref = _require_usable_ref(after_ref, role="after", root=root)
     before_claims, before_id = load_claims_at_ref(root, before_ref)
     after_claims, after_id = load_claims_at_ref(root, after_ref)
-    try:
-        old_crosswalk, old_crosswalk_id = load_json_at_ref(
-            root, before_ref, CROSSWALK_REL
-        )
-    except AdapterError:
-        old_crosswalk, old_crosswalk_id = {"rows": []}, {
-            "ref": before_ref,
-            "path": CROSSWALK_REL,
-            "blob_sha256": "",
-            "bytes": "0",
-            "absent_old_schema": True,
-        }
-    try:
-        old_authority, old_authority_id = load_json_at_ref(
-            root, before_ref, AUTHORITY_REL
-        )
-    except AdapterError:
-        old_authority, old_authority_id = {"authorities": {}}, {
-            "ref": before_ref,
-            "path": AUTHORITY_REL,
-            "blob_sha256": "",
-            "bytes": "0",
-            "absent_old_schema": True,
-        }
+    old_crosswalk, old_crosswalk_id = load_historical_schema_at_ref(
+        root, before_ref, CROSSWALK_REL
+    )
+    old_authority, old_authority_id = load_historical_schema_at_ref(
+        root, before_ref, AUTHORITY_REL
+    )
     crosswalk, crosswalk_id = load_json_at_ref(root, after_ref, CROSSWALK_REL)
     authority, authority_id = load_json_at_ref(root, after_ref, AUTHORITY_REL)
     old_g = claims_to_gate_graph(
@@ -1256,37 +1304,22 @@ def compare_claims_refs(
     )
     old_sources = bind_claims_sources_at_ref(root, before_ref, before_claims)
     new_sources = bind_claims_sources_at_ref(root, after_ref, after_claims)
-    impact = reverse_impact_between(
-        old_g, new_g, old_sources=old_sources, new_sources=new_sources
-    )
     old_owners = _owner_map(old_crosswalk)
     new_owners = _owner_map(crosswalk)
-    authority_seeds: list[str] = []
-    for main_id in set(old_owners) | set(new_owners):
-        if old_owners.get(main_id) != new_owners.get(main_id):
-            authority_seeds.append(main_id)
-            if main_id in new_g["nodes"] and main_id not in impact["impacted"]:
-                impact["impacted"] = sorted(set(impact["impacted"]) | {main_id})
-                impact["changed_nodes"] = sorted(
-                    set(impact["changed_nodes"]) | {main_id}
-                )
-                node = impact["graph"]["nodes"][main_id]
-                if node.get("classification") not in REFUTED_CLASSIFICATIONS:
-                    node["classification"] = "REVALIDATION_REQUIRED"
-                node["revalidation_proposal"] = "REVALIDATION_REQUIRED"
-                node["controlling"] = False
-                impact["proposals"].append(
-                    {
-                        "node": main_id,
-                        "proposal": "REVALIDATION_REQUIRED",
-                        "source_grade": node.get("source_grade"),
-                        "source_status": node.get("source_status"),
-                        "source_controlling": node.get("source_controlling"),
-                        "preserved_classification": node.get("classification"),
-                        "promotion_permission": False,
-                        "reason": "crosswalk_authority_owner_change",
-                    }
-                )
+    authority_seeds = sorted(
+        main_id
+        for main_id in set(old_owners) | set(new_owners)
+        if old_owners.get(main_id) != new_owners.get(main_id)
+    )
+    # Seed owner drift BEFORE reverse closure so dependents (incl. controlling
+    # consumers) enter impacted and feed F1 enforcement.
+    impact = reverse_impact_between(
+        old_g,
+        new_g,
+        old_sources=old_sources,
+        new_sources=new_sources,
+        extra_seeds=authority_seeds,
+    )
     holds = aggregate_hold_proposals(new_g)
     controlling_impacted = []
     for nid in impact["impacted"]:
@@ -1316,7 +1349,7 @@ def compare_claims_refs(
         "old_authority_identity": old_authority_id,
         "old_sources": old_sources,
         "new_sources": new_sources,
-        "authority_owner_seeds": sorted(authority_seeds),
+        "authority_owner_seeds": authority_seeds,
         "reverse_impact": impact,
         "hold_proposals": holds,
         "controlling_impacted": controlling_impacted,
@@ -1325,13 +1358,12 @@ def compare_claims_refs(
         "scientific_effect": "NONE",
         "semantic_reference": (
             "Math- PR13 tip baca69c… / PR15 git_transition_audit contract 8c4c946… "
-            "/ OpenAI trial PR128 F1 / main #90 F2 coverage / clarification"
+            "/ OpenAI trial PR128 F1 / main #90 F2–F5 / clarification"
         ),
         "meaning": (
-            "immutable base→head claims+source-file compare (PR15 + F1 + F2); "
-            "controlling sources must be byte-monitorable; "
-            "unsupported new/retained controlling fails transition_ok; "
-            "never promotion permission"
+            "immutable base→head claims+source-file compare (PR15 + F1–F5); "
+            "owner-seed reverse closure; controlling sources must be byte-monitorable; "
+            "malformed historical schema fails closed; never promotion permission"
         ),
     }
 

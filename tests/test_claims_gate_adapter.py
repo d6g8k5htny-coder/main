@@ -1058,10 +1058,120 @@ class FiveBoundaryEnforcementTests(unittest.TestCase):
             after = self._commit_after(repo, "owner-drift")
             rc, report = self._event_compare(repo, before, after)
             self.assertEqual(rc, 0, report)
-            self.assertIn("P", report["reverse_impact"]["impacted"])
+            # Owner seed on P must reverse-propagate to dependent T.
+            self.assertEqual(set(report["reverse_impact"]["impacted"]), {"P", "T"})
             self.assertIn("P", report["authority_owner_seeds"])
             self.assertIn("old_crosswalk_identity", report)
             self.assertIn("blob_sha256", report["old_crosswalk_identity"])
+
+    def test_owner_drift_with_controlling_consumer_refused(self):
+        """A: controlling T depending on P must fail when owner of P drifts."""
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            g["claims"]["T"].update(grade="LIVE_ROOT_THEOREM", controlling=True)
+            before = self._init_fixture(repo, g)
+            arch = repo / "architecture" / "scientific_state" / "v1"
+            cw = json.loads((arch / "ID_CROSSWALK.json").read_text(encoding="utf-8"))
+            cw["rows"][0]["authority"] = "b"
+            (arch / "ID_CROSSWALK.json").write_text(
+                json.dumps(cw, indent=2) + "\n", encoding="utf-8"
+            )
+            after = self._commit_after(repo, "owner-drift-controlling")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertNotEqual(rc, 0, report)
+            self.assertFalse(report["transition_ok"])
+            self.assertIn("T", report["reverse_impact"]["impacted"])
+            self.assertIn("T", report["controlling_impacted"])
+
+    def test_malformed_old_crosswalk_fails_closed_not_absent_migration(self):
+        """B: present-but-malformed historical schema must not use absent fallback."""
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            before = self._init_fixture(repo, g)
+            arch = repo / "architecture" / "scientific_state" / "v1"
+            # Duplicate key — present object, invalid JSON under strict parse.
+            (arch / "ID_CROSSWALK.json").write_text(
+                '{"rows": [], "rows": [{"main_claim_or_premise_id": "P", "authority": "a"}]}\n',
+                encoding="utf-8",
+            )
+            after = self._commit_after(repo, "malformed-old-crosswalk")
+            # Compare after (good tip claims) as before? We need BEFORE to have
+            # the malformed file. Rebuild: commit good, then malformed as "before"
+            # by comparing malformed→good? Review case is OLD=malformed.
+            # Re-init: first commit malformed, second commit repair.
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            # Write malformed crosswalk before first commit.
+            import subprocess
+
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "test"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            (repo / "claims").mkdir()
+            arch = repo / "architecture" / "scientific_state" / "v1"
+            arch.mkdir(parents=True)
+            (repo / "claims" / "graph.json").write_text(
+                json.dumps(g, indent=2) + "\n", encoding="utf-8"
+            )
+            (arch / "ID_CROSSWALK.json").write_text(
+                '{"rows": [], "rows": [{"main_claim_or_premise_id": "P", "authority": "a"}]}\n',
+                encoding="utf-8",
+            )
+            (arch / "AUTHORITY_MAP.json").write_text(
+                json.dumps({"authorities": {"a": {}, "b": {}}, "this_package": {"id": "adapter"}})
+                + "\n",
+                encoding="utf-8",
+            )
+            for name in ("proof.md", "theorem.md", "unrelated.md", "mirror.md"):
+                (repo / name).write_text(f"Synthetic {name} version 1\n", encoding="utf-8")
+            subprocess.run(["git", "add", "-A"], cwd=repo, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "malformed-before"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            before = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            (arch / "ID_CROSSWALK.json").write_text(
+                json.dumps(
+                    {"rows": [{"main_claim_or_premise_id": "P", "authority": "a"}]},
+                    indent=2,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            after = self._commit_after(repo, "repaired-crosswalk")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertNotEqual(rc, 0, report)
+            self.assertIn("error", report)
+            self.assertIn("duplicate JSON key", report["error"])
+            self.assertNotIn("absent_old_schema", str(report.get("old_crosswalk_identity")))
 
     def test_mutable_refs_resolve_to_full_commit_ids(self):
         import subprocess
