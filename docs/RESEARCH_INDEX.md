@@ -10,7 +10,7 @@ This is a reading map, not a theorem-acceptance register. Read the statement, hy
 |---|---|
 | Read or extend mathematics | The topic sections below and [Math-](https://github.com/d6g8k5htny-coder/Math-) |
 | Run a calculation | [Reproduction guide](REPRODUCE.md) |
-| Review or claim work | [Open work](#open-work) and [campaign #61](https://github.com/d6g8k5htny-coder/main/issues/61) |
+| Review or claim work | [Open work](#open-work) and [downstream-first queue #86](https://github.com/d6g8k5htny-coder/main/issues/86) |
 | Locate exact source bytes | [Catalog](https://github.com/d6g8k5htny-coder/meta-framework/blob/main/registry.json) and [query tool](https://github.com/d6g8k5htny-coder/query-) |
 | Work on the larger numerical tree | [Hardening branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919), not this default-home checkout |
 
@@ -33,7 +33,7 @@ Next read the [fixed-remote height-window estimate](https://github.com/d6g8k5htn
 
 [Run the remote-window checks](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/README.md) from the Math repository; exact catalog key `rn-fixed-remote-window` locates the published source. The proof rederives the needed full-pin count estimates without consuming global elder selection. Its author-side disposition and the intermediate-annulus boundary remain explicit.
 
-The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
+A newer fixed-annulus successor now has a source-bound nonauthor technical review at its exact limited scope: [fixed d=2 scaled-annulus height-window theorem](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md) with [review record](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md). It covers fixed L, a fixed scaled annulus in d=2, compact positive gap marks, all frames, and the between-pin height window. It does **not** close pin neighborhoods, intermediate physical scales, witness collisions, kappa→0, d>=3, global RN/JETMOD, or elder selection.\n\nThe [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
 
 ## P15 combinatorics
 
