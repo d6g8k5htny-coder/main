@@ -45,11 +45,8 @@ inclusion to an arbitrary remote region. Do not invent a 24-jet roster. The
 [downstream RN crosswalk](DOWNSTREAM_RN_CROSSWALK_20260925.md) separates those
 historical-route walls from newer fixed-remote / mesoscopic analytic work without
 retiring the historical route or flipping `lemma_closed`. Its D0 rows map to the
-in-development Math- [hard gate](https://github.com/d6g8k5htny-coder/Math-/pull/8)
-node IDs (`BLOCKED_ABSENT` / `OPEN_HISTORICAL` / `OPEN_ACTIVE`). Linking that draft
-has scientific effect NONE and does not claim the gate already enforces every
-[#90](https://github.com/d6g8k5htny-coder/main/issues/90) semantic (own-node
-eligibility repair still open on Math- #8).
+deployed Math- [hard gate](https://github.com/d6g8k5htny-coder/Math-/tree/main/frontiers/downstream_gate_20260925)
+node IDs (`BLOCKED_ABSENT` / `OPEN_HISTORICAL` / `OPEN_ACTIVE`). Scientific effect remains NONE. Own-node eligibility was repaired in merged PR #11; required-refutation/union-edge semantics remain under fail-closed hotfix in [Math- #13](https://github.com/d6g8k5htny-coder/Math-/pull/13).
 
 ## P15 combinatorics
 
@@ -75,7 +72,7 @@ proof that nothing outside that budget exists.
 | Coefficient audit | Cone truncation, image/normalization comparison, and outward arithmetic | [#65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | RN and 24-jet route | The count-weighted integral on its declared region, and the missing numerical enclosures | [RN status](math_status/STATUS_RN_UNIF.md), [execution](RESEARCH_EXECUTION.md) |
 | Local obligations | `OBL-H5-JETMOD` and `D3-LEMMA-RN-UNIF` stay OPEN | [math status](math_status/STATUS.md), [JETMOD status](math_status/STATUS_JETMOD.md) |
-| Downstream integrity gate | In-development CONTROLLING/fail-closed draft; own-node eligibility repair still open; scientific effect NONE | [Math- #8](https://github.com/d6g8k5htny-coder/Math-/pull/8), [eligibility handoff](MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md), [#90](https://github.com/d6g8k5htny-coder/main/issues/90) |
+| Downstream integrity gate | Own-node eligibility deployed; required-refutation/union-edge hotfix pending; scientific effect NONE | [Math- gate](https://github.com/d6g8k5htny-coder/Math-/tree/main/frontiers/downstream_gate_20260925), [Math- #13](https://github.com/d6g8k5htny-coder/Math-/pull/13), [#90](https://github.com/d6g8k5htny-coder/main/issues/90) |
 | RN mesoscopic reduction | Challenge note isolates missing `J_0` / `det S_r` ledger; not an R17 pass | [challenge](RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md), [Math- #7](https://github.com/d6g8k5htny-coder/Math-/pull/7) |
 | P15 scope | Audit the realized family and the restricted price theorem | [#59](https://github.com/d6g8k5htny-coder/main/issues/59), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
