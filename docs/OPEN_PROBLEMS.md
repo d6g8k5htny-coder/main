@@ -101,14 +101,6 @@ much depth is granted. The original driver examples are labelled references; the
 cell adapter is described below. The frozen engine
 `engine/rn_engine/frozen/` is `mpmath` throughout. Both Pieces remain OPEN.
 
-Historical ABSENT carriers and ordered D3 walls are not automatically prerequisites
-of every newer RN probability note. The
-[downstream RN crosswalk](DOWNSTREAM_RN_CROSSWALK_20260925.md) classifies which
-predicates remain historical-route blockers, which interfaces successors rederive,
-and which live analytic gaps (Piece-2 / shrinking annulus / collisions,
-OBL-H5-JETMOD) stay open. It changes no Boolean and does not discharge either
-obligation.
-
 The new [SIDE24 point-law candidate](RN_SIDE24.md) separately assembles the
 normalized field's derivative covariance at `y=(1,1)`, conditions on the exact
 nine pins using positive interval LDL pivots, and replays the `M4/S4/y2`
