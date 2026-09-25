@@ -85,13 +85,15 @@ absent, so a local run replaces the 2026-09-22 display with a missing-receipt
 OPEN board. That rewrite is still a display. It still must not flip
 `lemma_closed`.
 
-## Inventable probes are instrumentation receipts
+## Inventable probes are honesty labels
 
 [`docs/math_status_probes/`](../math_status_probes/README.md) holds inventable
-instrumentation STATUS and probe receipts. It is not a mathematics source of
-truth and not a second claim log. Receipt JSON under that directory is
-`inventable_*`, including the merge-PR12 refusal pattern. Naming that refusal
-does not merge draft PR #12.
+probe receipts. Instrumentation STATUS is `PARTIAL` / `REFUSED_NOT_24JET`
+only. Sibling and shortcut receipts labeled `REFUSED`, `REFUSED_IA_STRADDLES`,
+`EMPTY`, or `ABSENT` are not instrumentation STATUS. The directory is not a
+mathematics source of truth and not a second claim log. Receipt JSON under
+that directory is `inventable_*`, including the merge-PR12 refusal pattern.
+Naming that refusal does not merge draft PR #12.
 
 `REFUSED`, `REFUSED_NOT_24JET`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`,
 `PARTIAL`, and similar receipt tokens are honesty labels. They are not
@@ -100,10 +102,15 @@ discharge. They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`,
 They are not a source of truth and not FREEZE.
 
 Where `aligned_to_base_tip` is already present, it is generation provenance
-(`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index),
-not a re-run on hardening LOCK `b3da6688a55d34681bb27f17ba6c6c5e16ad534c`
-(short `b3da668`). Advancing the tip does not upgrade those labels into
-`PRESENT` or `SUCCESS`. The source-named jet subset stays 8. Inventing
+(`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
+It is not a re-run on the hardening tip observed at this edit,
+`8e359e5bf879f524e11cbeece9b36bd9996d2587`. Receipts were not re-executed on
+that tip. An earlier observation named hardening tip
+`542e6ec2f462d6202f5bc5b3a044e71ae7a1a96c`; it is not a re-run on that tip
+either. An earlier observation named hardening LOCK
+`b3da6688a55d34681bb27f17ba6c6c5e16ad534c` (short `b3da668`); it is not a
+re-run on that LOCK either. Advancing the tip does not upgrade those labels
+into `PRESENT` or `SUCCESS`. The source-named jet subset stays 8. Inventing
 toward 24 without a Drive/PROMOTE enumeration stays `REFUSED_NOT_24JET`.
 `scientific_status_changed` stays false.
 
