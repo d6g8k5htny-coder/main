@@ -108,6 +108,15 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_rn_side24_prep_triad_pages_are_declared_and_resolve(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        for page in ('docs/RN_SIDE24.md','docs/RN_SIDE24_DENSITY.md','docs/RN_SIDE24_CELL.md'):
+            self.assertIn(page,data['pages'])
+            self.assertTrue((root/page).is_file(),page)
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)
