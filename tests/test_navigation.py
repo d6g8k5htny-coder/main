@@ -134,6 +134,8 @@ class NavigationTests(unittest.TestCase):
         # Companion executable gate; scientific effect remains none.
         self.assertIn('Math-/pull/8',text)
         self.assertIn('scientific effect NONE',text)
+        self.assertIn('own-node eligibility',text)
+        self.assertIn('in-development',text.lower())
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
