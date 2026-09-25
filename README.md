@@ -10,8 +10,15 @@ field kernel and nine-pin interval conditioning to those moment witnesses at
 one exact spatial point, over the complete mark interval.
 The [density/window extension](docs/RN_SIDE24_DENSITY.md) completes the
 pointwise RN integrand bound under an explicitly imported H3 floor.
-The [spatial extension](docs/RN_SIDE24_CELL.md) gives a complete local rectangle
-integral upper below `6e-12`. The [parallel mathematical replays](docs/PARALLEL_MATH.md)
+The [spatial extension](docs/RN_SIDE24_CELL.md) claims a uniform integrand
+upper below `559/10^8` only on its declared square `C=[1-1/4000,1+1/4000]^2`,
+conditional on the imported H3 floor. Outside C, the complement is engineering
+replay only: `tools/rn_side24_spatial_check.py` replays a four-cell split of
+the full rectangle `[1999/2000,2001/2000]^2` (which contains C) with integral
+upper below `6e-12`. On the rectangle minus C this replay is the only coverage
+and not a claim of that note, and the rest of the near annulus
+`0.1 <= |y| <= 5` is not covered. SIDE24 source-of-truth carriers
+stay ABSENT, and OBL-H5-JETMOD stays OPEN. The [parallel mathematical replays](docs/PARALLEL_MATH.md)
 reconstruct that fixed-r H3 floor, improve the LPW covariance modulus and bound
 one H5 jet over an exact radius band. The full near-annulus bound remains open.
 
