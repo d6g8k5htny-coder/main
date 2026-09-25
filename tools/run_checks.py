@@ -85,6 +85,8 @@ REQUIRED_COMMANDS = (
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",
     "python tools/math_status_check.py",
+    "python tools/scientific_state_check.py",
+    "python tools/claims_gate_adapter.py",
     "python tools/navigation_check.py",
     "python -m unittest tests.test_navigation -v",
     "python -m pytest -q",
