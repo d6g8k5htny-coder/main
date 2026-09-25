@@ -733,6 +733,41 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         self.assertEqual(bound["kind"], "external_unresolved")
         self.assertNotIn("sha256", bound)
 
+
+    def test_write_report_refuses_in_repo_path(self):
+        """Regression: in-tree artifacts/ must not pollute REPOSITORY_TOP_LEVEL."""
+        import subprocess
+        import sys
+        import tempfile
+
+        claims = _load_tip_claims()
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            before_path = tmp / "before.json"
+            after_path = tmp / "after.json"
+            before_path.write_text(json.dumps(claims), encoding="utf-8")
+            after_path.write_text(json.dumps(claims), encoding="utf-8")
+            in_repo = ROOT / "artifacts" / "should-not-be-created.json"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "tools" / "claims_gate_adapter.py"),
+                    "compare",
+                    "--before",
+                    str(before_path),
+                    "--after",
+                    str(after_path),
+                    "--write-report",
+                    str(in_repo),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(result.returncode, 0, result.stdout)
+            self.assertIn("outside the repository", result.stdout)
+            self.assertFalse(in_repo.exists())
+            self.assertFalse((ROOT / "artifacts").exists())
+
     def test_cli_tip_health_labeled_not_transition_evidence(self):
         import subprocess
         import sys

@@ -1052,8 +1052,45 @@ def main(argv: list[str] | None = None) -> int:
 
     write_report = getattr(args, "write_report", None)
     if write_report is not None:
-        write_report.parent.mkdir(parents=True, exist_ok=True)
-        write_report.write_text(
+        out = write_report.resolve()
+        repo_root = (getattr(args, "repo_root", None) or ROOT).resolve()
+        # PR15 contract: report must be new and outside the repository checkout.
+        try:
+            out.relative_to(repo_root)
+            inside = True
+        except ValueError:
+            inside = False
+        if inside:
+            print(
+                json.dumps(
+                    {
+                        "error": (
+                            f"write-report must be outside the repository "
+                            f"(refused in-tree path {out})"
+                        ),
+                        "promotion_permission": False,
+                        "scientific_effect": "NONE",
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            return 1
+        if out.exists():
+            print(
+                json.dumps(
+                    {
+                        "error": f"write-report must be a new file: {out}",
+                        "promotion_permission": False,
+                        "scientific_effect": "NONE",
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+            )
+            return 1
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(
             json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
         )
 

@@ -43,7 +43,7 @@ LINKS = {
     'python tools/lanes_check.py': ['A1', 'A5'],
     'python tools/scientific_state_check.py': ['OQ-013'],
     'python tools/claims_gate_adapter.py tip-health': ['OBL-D1-PROMOTE', 'OQ-013'],
-    'python tools/claims_gate_adapter.py event-compare --write-report artifacts/claims-gate-impact.json': [
+    'python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json': [
         'OBL-D1-PROMOTE',
         'OQ-013',
     ],

@@ -87,7 +87,7 @@ REQUIRED_COMMANDS = (
     "python tools/math_status_check.py",
     "python tools/scientific_state_check.py",
     "python tools/claims_gate_adapter.py tip-health",
-    "python tools/claims_gate_adapter.py event-compare --write-report artifacts/claims-gate-impact.json",
+    "python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json",
     "python tools/navigation_check.py",
     "python -m unittest tests.test_navigation -v",
     "python -m pytest -q",
