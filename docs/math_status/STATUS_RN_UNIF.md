@@ -9,7 +9,7 @@ D3-LEMMA-RN-UNIF remains OPEN.
 
 ## Ordered blockers
 
-First to last: ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT.
+First to last: ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT. Walk-down 2026-09-25 (NONAUTHORITATIVE, conditional; ledger Drive `1X7ha4isKl9q73PlSQm8c-n-w4jy5J3lE`): the far Piece 1 (5<=|y|<=17) has a replacement route, RN3 RN-JOINT-001 (I_far < 2.83312 r^3 < 4.24748 r^3), pending RV-RN3 external review; if it is accepted, this chain becomes an optional route for Piece 1 rather than a required base. The old Piece-2 integrand route (`envelope_v`) is refuted (RN5; holds Q-RN5-MOMENT-001..004). The corrected Piece 2′ cover on 1/10<=|y|<=5 is OPEN and is now the first wall. DS3 (CL-RNU-002) is a non-certifying float evaluator (BINDING.json `certifying:false`), not certified numerics. No blocker is cleared and no flag changes.
 
 None of these blockers is cleared by this note.
 
@@ -35,7 +35,7 @@ This note does not discharge D3-LEMMA-RN-UNIF or OBL-H5-JETMOD.
 
 ## Tip docs hygiene (2026-09-23) — INNER_WEDGE / H3
 
-`docs/RN_INNER_WEDGE.md` and `docs/H3_RN_N6.md` are **AUTHOR_SIDE** scoped positive controls only.
+`docs/RN_INNER_WEDGE.md` and `docs/H3_RN_N6.md` are **AUTHOR_SIDE** scoped positive controls only. Domains: INNER_WEDGE is r=1/20, b=6/5, x-axis pins, one polar cell (1/10<=rho<=11/100, |turns|<=1/1024), conditional on the imported H3 rung floor 0.0077592917… and the pin energy <8. H3_RN_N6 is the fixed-axis band 0<r<=1/20 (17/10 <= Z/r^2 <= 349/100) plus four local N6 squares at r=1/20 (not a partition). Complement (all open): the full annulus 1/10<=|y|<=5, all pin orientations, all-small-r RN, remote assembly and event transfer.
 `scientific_status_changed: false`. They **DOES_NOT_TOUCH** ENV-RESCOV → … → FREEZE.
 D3-LEMMA-RN-UNIF stays OPEN. `certified_C_H=false`. `lemma_closed=false`. No certificate PR reopen.
 
