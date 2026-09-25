@@ -14,7 +14,7 @@ Formal-verification levels are evidence metadata, not acceptance.
 | Authority | Owns | Path |
 |---|---|---|
 | Claims firewall | grades, premise openness, composition firewalls | `claims/graph.json` |
-| Math- downstream gate | integrity classifications, CONTROLLING promotion | Math- `GRAPH.json` ([PR #8](https://github.com/d6g8k5htny-coder/Math-/pull/8)) |
+| Math- downstream gate | integrity classifications, CONTROLLING promotion | Math- `GRAPH.json` ([PR #13](https://github.com/d6g8k5htny-coder/Math-/pull/13) tip `baca69c…`; PR8/PR11 lineage) |
 | Human D0 crosswalk | D0/D4/D5 narrative classification | `docs/DOWNSTREAM_RN_CROSSWALK_20260925.md` ([PR #97](https://github.com/d6g8k5htny-coder/main/pull/97), supersedes #92) |
 | Math status packet | `lemma_closed` and related display Booleans | `docs/math_status/` |
 | **This package** | schema contract, ID pointers, L0–L5 vocab | `architecture/scientific_state/v1/` |
@@ -53,7 +53,7 @@ premise; required REFUTED forces HOLD. This does not vendor Math- code.
 
 ## Deferred (not this PR)
 
-- Fail-closed promotion engine — stays in Math- PR #8; do not reimplement here
+- Fail-closed promotion engine — stays in Math- (merged PR13 / `baca69c…`); main hosts only the thin claims→gate projection, not a competing status engine
 - D0 crosswalk / nav / math_status pages — already on tip via #97; do not rewrite here
 - Status-bearing populated pilot graph — later, still as pointers or read-only mirrors
 - Formal L2/L4/L5 pilot lemma — later, small algebraic lemma from the downstream queue

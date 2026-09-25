@@ -390,7 +390,7 @@ def compare_claims_files(
         "hold_proposals": holds,
         "promotion_permission": False,
         "scientific_effect": "NONE",
-        "semantic_reference": "Math- PR13 / main #90 clarification",
+        "semantic_reference": "Math- PR13 tip baca69c394ab42130c61771bee74e808703f1ce7 / main #90 clarification",
         "meaning": "before/after claims adapter report; never promotion permission",
     }
 

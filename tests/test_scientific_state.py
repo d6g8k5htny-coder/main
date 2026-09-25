@@ -158,6 +158,28 @@ class ScientificStatePilotTests(unittest.TestCase):
                 report["problems"],
             )
 
+    def test_math_gate_authority_points_at_merged_pr13_lineage(self):
+        auth = json.loads(
+            (ROOT / "architecture" / "scientific_state" / "v1" / "AUTHORITY_MAP.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        gate = auth["authorities"]["math_downstream_gate"]
+        self.assertIn("/pull/13", gate["surface"])
+        self.assertTrue(
+            str(gate.get("merged_tip", "")).startswith("baca69c394ab"),
+            gate.get("merged_tip"),
+        )
+        notes = gate.get("notes", "").lower()
+        self.assertIn("thin", notes)
+        self.assertIn("not become a competing", notes)
+        # Stale sole-PR8 surface must not be the current surface.
+        self.assertNotEqual(gate["surface"], "https://github.com/d6g8k5htny-coder/Math-/pull/8")
+        this_pkg = auth["this_package"]
+        self.assertIn("claims_gate_adapter_projection", this_pkg["owns"])
+        self.assertIn("claims_gate_adapter.py", this_pkg.get("adapter", ""))
+        self.assertIn("not a competing status engine", this_pkg["notes"].lower())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -15,9 +15,11 @@
       "id": "math_downstream_gate",
       "owns": ["classification", "controlling", "terminality", "reverse_impact_revalidation"],
       "canonical_path": "Math-/frontiers/downstream_gate_20260925/GRAPH.json",
-      "surface": "https://github.com/d6g8k5htny-coder/Math-/pull/8",
+      "surface": "https://github.com/d6g8k5htny-coder/Math-/pull/13",
+      "merged_tip": "baca69c394ab42130c61771bee74e808703f1ce7",
+      "lineage": ["https://github.com/d6g8k5htny-coder/Math-/pull/8", "https://github.com/d6g8k5htny-coder/Math-/pull/11", "https://github.com/d6g8k5htny-coder/Math-/pull/13"],
       "owner_issues": [86, 90],
-      "notes": "Fail-closed CONTROLLING promotion and #90 terminal classifications live in Math-. Do not reimplement on main."
+      "notes": "Fail-closed CONTROLLING promotion and #90 terminal classifications live in the merged Math- downstream_gate package (PR13 tip baca69c…; PR8/PR11 lineage). Main may host only a thin claims→gate projection for before/after inputs; it must not become a competing status/promotion engine."
     },
     "human_d0_crosswalk": {
       "id": "human_d0_crosswalk",
@@ -36,8 +38,9 @@
   },
   "this_package": {
     "id": "scientific_state_architecture",
-    "owns": ["schema_contract", "id_crosswalk_pointers", "verification_level_vocabulary"],
+    "owns": ["schema_contract", "id_crosswalk_pointers", "verification_level_vocabulary", "claims_gate_adapter_projection"],
     "canonical_path": "architecture/scientific_state/v1/",
+    "adapter": "tools/claims_gate_adapter.py",
     "never_writes": [
       "status",
       "grade",
@@ -47,7 +50,7 @@
       "prizes_solved",
       "independence_credit"
     ],
-    "notes": "Pointers and vocabulary only. Hash identity, green CI, and LLM agreement remain non-discharge."
+    "notes": "Pointers, vocabulary, and an allowed thin claims→gate projection (HOLD/REVALIDATION proposals only; promotion_permission always false). Not a competing status engine. Hash identity, green CI, and LLM agreement remain non-discharge."
   },
   "required_authority_ids": [
     "claims_firewall",
