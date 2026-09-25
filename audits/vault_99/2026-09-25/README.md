@@ -1,5 +1,30 @@
 # 99_DO_NOT_OPEN forensic census — 2026-09-25
 
+## CURRENT — continuation v2: INTAKE FROZEN; AUDIT INCOMPLETE
+
+Read [INDEX_v2.json](INDEX_v2.json) first. It records all **80 observed Drive IDs**, the original 39-item baseline, 41 post-hold intake items, and exact hashes/IDs for the full JSON registry, Excel workbook and replay package. Older preliminary labels below are historical, not blanket review clearance. The current tracker clears four archive redundancy dispositions and leaves 76 rows open.
+
+**Post-hold intake was real, not the earlier search omission.** The live external manifest reports 29 START_HERE copies moved at approximately 11:47 CT and 12 lane-index items at approximately 11:50 CT, after issue #91's 16:12:28Z (11:12 CT) freeze. The GitHub-only rule did not stop the Drive hygiene workflow. The owner-directed hold is now prepended, with revision-guarded writes, to the live external manifest and the live Active Research lane index. Original logs are retained. No vault source was moved, renamed, deleted, restored or edited by this continuation. No model was delegated vault access. This is a workflow hold, not a per-model ACL lock.
+
+**Actual checks:** four vaulted ZIPs byte-match three freshly downloaded live KEEP files; all outer ZIP CRC checks pass. Fifteen raw historical sources are fingerprinted. All 6,748 data rows across eight CSVs were structurally parsed, with no inconsistent column counts. These are identity/structure checks, not mathematical proof or full semantic review.
+
+**Research-branch correction:** default-main search was an inadequate absence test. Nine selected interfaces are crosswalked against research-hardening tip `077464ef5e2859ce98cbb9307799d5867a820eaf`. RN/JETMOD nodes, frozen-versus-register layers, preferred RN engine bindings and the scoped RN5 moment hold already exist. Do not replace these with older vault statuses.
+
+**Executable component:** [code/reverse_impact.py](code/reverse_impact.py) computes reverse reachability over the union of old and new edges, including sub-obligations and removed dependencies. Its 22 distinct unittest controls passed in normal and optimized Python. The full tests, actual ledger fixture, logs, workbook and manifest are in the hash-bound replay package. No live research-CI gate deployment or mathematical acceptance is claimed. Issue #90 also clarifies that required REFUTED premises block, and supersession needs a reviewed edge replacement/removal.
+
+Audit outputs are OUTSIDE the vault:
+- Folder: https://drive.google.com/drive/folders/1RypKdFWeuADp7JFsGFSjeXJ035fa1bcL
+- Excel: https://drive.google.com/file/d/19_ifS1viysWtGdN3kryb8vhSbPS1JNpi/view
+- Full JSON registry: https://drive.google.com/file/d/1CzpACKNUKh6yj7kP-ehLVhyOeRooQpmt/view
+- Replay package: https://drive.google.com/file/d/1JBbE6IiMERNC3vb21Sjku8J4LpVHdQFv/view
+- Progress/scope report: https://drive.google.com/file/d/1Xk7b-22CjRj9NNFf-aQoQZoyiVaz7ju6/view
+
+The vault does not reopen from a count, workbook, test pass or merge. Content/successor checks of the remaining records and actual graph-gate integration remain open.
+
+---
+
+## Historical first-pass record (retained verbatim below)
+
 Owner-directed one-time audit. **Do not use this directory as mathematical authority.**
 
 ## Freeze
