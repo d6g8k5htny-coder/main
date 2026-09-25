@@ -1,0 +1,100 @@
+{
+  "schema_id": "scientific_state.v1",
+  "schema_version": 1,
+  "object": "SCIENTIFIC-STATE-SCHEMA-20260925-v1",
+  "scientific_effect": "NONE",
+  "purpose": "Versioned field contract for scientific claim/result nodes. This package holds pointers and metadata only; it is not a status database and does not promote mathematics.",
+  "node_fields": {
+    "claim_id": {
+      "required": true,
+      "type": "string",
+      "role": "stable_id",
+      "notes": "Stable identifier. Prefer existing claims/graph.json or Math- GRAPH.json IDs when bridging."
+    },
+    "statement": {
+      "required": false,
+      "type": "string",
+      "role": "pointer_or_excerpt",
+      "notes": "Statement text or pointer to the authoritative statement carrier. Not acceptance."
+    },
+    "version": {
+      "required": false,
+      "type": "string",
+      "role": "metadata"
+    },
+    "scope": {
+      "required": false,
+      "type": "string",
+      "role": "metadata"
+    },
+    "domain": {
+      "required": false,
+      "type": "string",
+      "role": "metadata"
+    },
+    "depends_on": {
+      "required": false,
+      "type": "array",
+      "items": {
+        "target_id": "string",
+        "edge_type": "string"
+      },
+      "role": "pointer",
+      "notes": "Typed dependency edges. Edge presence here does not classify or promote either endpoint."
+    },
+    "evidence": {
+      "required": false,
+      "type": "array",
+      "items": {
+        "repo": "string",
+        "path": "string",
+        "commit": "string",
+        "hash": "string"
+      },
+      "role": "pointer"
+    },
+    "verification_level": {
+      "required": false,
+      "type": "string",
+      "enum_ref": "VERIFICATION_LEVELS.json",
+      "role": "evidence_metadata",
+      "notes": "L0–L5 evidence metadata only. Level is never scientific acceptance or CONTROLLING promotion."
+    },
+    "supersedes": {
+      "required": false,
+      "type": "array",
+      "role": "pointer"
+    },
+    "superseded_by": {
+      "required": false,
+      "type": "array",
+      "role": "pointer"
+    },
+    "source_authority": {
+      "required": true,
+      "type": "string",
+      "role": "authority_pointer",
+      "notes": "Must name an authority listed in AUTHORITY_MAP.json. This package never owns grades/statuses/classifications."
+    },
+    "timestamps": {
+      "required": false,
+      "type": "object",
+      "role": "provenance"
+    },
+    "provenance": {
+      "required": false,
+      "type": "object",
+      "role": "provenance"
+    }
+  },
+  "forbidden_owned_fields": [
+    "status",
+    "grade",
+    "classification",
+    "controlling",
+    "lemma_closed",
+    "prizes_solved",
+    "independence_credit"
+  ],
+  "forbidden_owned_fields_reason": "Those fields belong to external authorities (claims firewall, Math- hard gate, math_status registers). Duplicating them here would create a competing status store."
+}
