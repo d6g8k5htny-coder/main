@@ -95,11 +95,24 @@ mathematics source of truth and not a second claim log. Receipt JSON under
 that directory is `inventable_*`, including the merge-PR12 refusal pattern.
 Naming that refusal does not merge draft PR #12.
 
-`REFUSED`, `REFUSED_NOT_24JET`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`,
-`PARTIAL`, and similar receipt tokens are honesty labels. They are not
-discharge. They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`,
-`certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.
-They are not a source of truth and not FREEZE.
+Instrumentation STATUS labels are the 2026-09-23 STATUS_JETMOD vocab:
+`PARTIAL_*` paired with `REFUSED_NOT_24JET`. Sibling and shortcut refusal
+and absence receipts are a separate group: `REFUSED` (for example the
+merge-PR12 refusal pattern), `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT`.
+That second group is honesty receipts, not instrumentation STATUS.
+
+Both groups are not discharge. eng ≠ discharge. They do not imply
+`lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, `prizes_solved`,
+`freeze`, or an RN-UNIF discharge. SoT ABSENT. They are not a source of
+truth and not FREEZE. `OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays
+OPEN.
+
+The SIDE24 ABSENT triad (RN_SIDE24, DENSITY, CELL) is navigation only and
+not a source of truth. ABSENT means the Drive SoT carriers are absent.
+Nothing is invented to fill them. Navigation only:
+[`docs/RN_SIDE24.md`](../RN_SIDE24.md),
+[`docs/RN_SIDE24_DENSITY.md`](../RN_SIDE24_DENSITY.md), and
+[`docs/RN_SIDE24_CELL.md`](../RN_SIDE24_CELL.md).
 
 Where `aligned_to_base_tip` is already present, it is generation provenance
 (`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
