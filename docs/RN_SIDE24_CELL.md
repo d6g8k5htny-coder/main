@@ -251,6 +251,24 @@ the density/window factor plus the imported H3 floor in
 The lane pointer is [RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The matching
 command is in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
 
+**Where the rectangle and budget are checked.** The larger rectangle, its
+four-cell split and the local budget are not in this note. They are checked by
+[`tools/rn_side24_spatial_check.py`](../tools/rn_side24_spatial_check.py)
+against the stored candidate
+[`research/rn/candidates/side24_spatial_20260920_v1.json`](../research/rn/candidates/side24_spatial_20260920_v1.json).
+The checker fixes
+`RECTANGLE = Box(F(1999, 2000), F(2001, 2000), F(1999, 2000), F(2001, 2000))`
+and `LOCAL_BUDGET = F(3, 500000000000)`. Its replay expects one retained
+`INCONCLUSIVE` parent and four `BOUNDED` child cells, and a complete local
+cover whose integral upper is at most `3/500000000000`. The spatial claim of
+this note stays the declared square C above. The rectangle, the four-cell
+partition and the budget are the checker's engineering replay. They are not an
+enlarged claim of this note, and they are not discharge. The checker scope
+records `near_annulus_covered: false`, `independence_credit: 0` and
+`h3_floor_status: EXPLICIT_IMPORTED_HYPOTHESIS`: the H3 floor is imported and
+is not re-proved here. SIDE24 source-of-truth carriers for the objects marked
+**ABSENT** below stay **ABSENT**.
+
 **ABSENT** from this note: a complete annulus cover, a remote-budget assembly,
 an all-small-r theorem, and a positive lower bound on the typed integrand.
 `field_certified` stays false. A local rectangle does not supply those absent
