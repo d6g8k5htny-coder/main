@@ -30,7 +30,12 @@ from quietly saying otherwise. It asserts:
   4. **Prose.** The packet README carries the OPEN/HOLD, Drive-source-of-truth,
      bridge, prize, independence, RUNG2/3, and certified-enclosure sentences.
      No file in the packet assigns a controlling flag to true or a nonzero
-     independence credit.
+     independence credit. The inventable-probes section keeps instrumentation
+     STATUS (`PARTIAL_*` paired with `REFUSED_NOT_24JET`, the 2026-09-23
+     STATUS_JETMOD vocab) distinct from sibling and shortcut honesty receipts
+     (`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`), which are not
+     instrumentation STATUS. The SIDE24 ABSENT triad (RN_SIDE24, DENSITY,
+     CELL) is named as navigation only.
 
   5. **Closure of the directory.** The packet holds exactly the expected
      names. An extra file is a problem.
@@ -132,6 +137,14 @@ README_PHRASES = (
     "STATUS_JETMOD.md records the 2026-09-22 evening CT JETMOD walls and does not discharge OBL-H5-JETMOD.",
     "Those labels do not discharge OBL-H5-JETMOD. They do not invent a 24-jet roster.",
     "STATUS_RN_UNIF.md records the 2026-09-22 evening CT RN-UNIF walls and does not discharge D3-LEMMA-RN-UNIF.",
+    "Instrumentation STATUS labels are the 2026-09-23 STATUS_JETMOD vocab: `PARTIAL_*` paired with `REFUSED_NOT_24JET`.",
+    "Sibling and shortcut refusal and absence receipts are a separate group: `REFUSED` (for example the merge-PR12 refusal pattern), `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT`.",
+    "That second group is honesty receipts, not instrumentation STATUS.",
+    "Both groups are not discharge. eng ≠ discharge.",
+    "They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.",
+    "SoT ABSENT.",
+    "The SIDE24 ABSENT triad (RN_SIDE24, DENSITY, CELL) is navigation only and not a source of truth.",
+    "ABSENT means the Drive SoT carriers are absent. Nothing is invented to fill them.",
 )
 
 NOTE_PHRASES = {
