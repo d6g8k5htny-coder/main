@@ -674,10 +674,14 @@ def test_q0_core_availability_manifest_matches_checkout():
         if entry["status"] == "PRESENT_EXACT":
             assert os.path.isfile(os.path.join(ROOT, entry["path"])), name
     ledger = availability["objects"]["Q0_LEDGER.md"]
-    assert ledger["status"] == "ABSENT_EXACT"
-    assert os.path.isfile(os.path.join(ROOT, ledger["closest_present_path"]))
-    found = []
-    for root, _, files in os.walk(ROOT):
-        if "Q0_LEDGER.md" in files:
-            found.append(os.path.join(root, "Q0_LEDGER.md"))
-    assert found == [], found
+    assert ledger["status"] == "PRESENT_EXACT"
+    ledger_path = os.path.join(ROOT, ledger["path"])
+    assert os.path.isfile(ledger_path)
+    import hashlib as _hashlib
+    with open(ledger_path, "rb") as handle:
+        payload = handle.read()
+    assert len(payload) == ledger["bytes"] == 253067
+    assert _hashlib.sha256(payload).hexdigest() == ledger["sha256"] == "d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a"
+    companion = os.path.join(ROOT, "drive", "mirrors", "14_COORDINATION_AUTOMATION_SPINE", "04.2_NAVIGATION_COMPANIONS", "Q0_LEDGER — NAVIGATION COMPANION (headers duplicated, with context).export.txt")
+    assert os.path.isfile(companion)
+    assert os.path.getsize(companion) != len(payload)
