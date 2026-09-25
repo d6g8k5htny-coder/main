@@ -25,7 +25,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECKER = os.path.join(ROOT, "tools", "attestations_check.py")
 SCHEMA = os.path.join(ROOT, "attestations", "attestation.schema.json")
 RECORDS = os.path.join(ROOT, "attestations", "records")
-GOOD = os.path.join(RECORDS, "ATT-RN-INNER-WEDGE-20260923B.json")
+GOOD = os.path.join(RECORDS, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 def run_checker(records_dir):
@@ -40,13 +40,13 @@ def good_record():
         return json.load(handle)
 
 
-def write(tmp_path, record, stem="ATT-RN-INNER-WEDGE-20260923B"):
+def write(tmp_path, record, stem="ATT-RN-INNER-WEDGE-20260925"):
     path = tmp_path / f"{stem}.json"
     path.write_text(json.dumps(record, indent=1), encoding="utf-8")
     return tmp_path
 
 
-def refuse(tmp_path, record, needle, stem="ATT-RN-INNER-WEDGE-20260923B"):
+def refuse(tmp_path, record, needle, stem="ATT-RN-INNER-WEDGE-20260925"):
     result = run_checker(write(tmp_path, record, stem))
     assert result.returncode == 1, result.stdout
     assert needle in result.stdout, result.stdout
@@ -109,7 +109,7 @@ def test_a_genuine_refusal_is_accepted(tmp_path):
 def test_empty_checks_is_refused(tmp_path):
     record = good_record()
     record["checks"] = []
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -140,7 +140,7 @@ def test_nonzero_independence_credit_is_refused(tmp_path, value):
 def test_admitted_with_empty_awaiting_is_refused(tmp_path):
     record = good_record()
     record["awaiting"] = []
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 # --------------------------------------------------------------------------- #
@@ -177,7 +177,7 @@ def test_confidence_voting_is_refused(tmp_path, phrase):
 def test_an_unknown_field_is_refused(tmp_path):
     record = good_record()
     record["approved_by"] = "nobody"
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 def test_id_not_matching_the_filename_is_refused(tmp_path):
@@ -206,13 +206,13 @@ def test_a_copied_does_not_establish_is_refused(tmp_path):
 def test_a_malformed_object_digest_is_refused(tmp_path, digest):
     record = good_record()
     record["object_sha256"] = digest
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 def test_zero_object_bytes_is_refused(tmp_path):
     record = good_record()
     record["object_bytes"] = 0
-    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260923B.json")
+    refuse(tmp_path, record, "ATT-RN-INNER-WEDGE-20260925.json")
 
 
 def test_a_missing_records_directory_is_reported(tmp_path):
