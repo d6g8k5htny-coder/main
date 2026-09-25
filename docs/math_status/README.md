@@ -124,8 +124,12 @@ Nothing is invented to fill them. Navigation only:
 Where `aligned_to_base_tip` is already present, it is generation provenance
 (`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
 It is not a re-run on the hardening tip observed at this edit,
-`848aea2a874cbaa879ea2ece13accd94d1fca20d`. Receipts were not re-executed on
+`fcad72366743f5244eb26a0164e106419de78137`. Receipts were not re-executed on
 that tip. The prior observation chain includes branch tip
+`f244312db901cf6ede88e46af663398d496eb989` after #108; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`848aea2a874cbaa879ea2ece13accd94d1fca20d` after #102; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
 `eeebb28eeab2452edc1103817d02ef7e3abbf5f2` after #99/#100; it is not a re-run on
 that tip either. The prior observation chain includes branch tip
 `388a22caff13c449f0e3264b0aff314d456d6659` after #97; it is not a re-run on
