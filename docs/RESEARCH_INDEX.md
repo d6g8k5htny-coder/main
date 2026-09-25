@@ -58,6 +58,7 @@ The full-range successor removes the probability ceiling, not the demand or real
 | RN / 24-jet | Bound the actual count-weighted integral on its complete declared region | [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 | RN fixed-remote successor | Review the extra-pin count proof, evaluate its kernel, and control the remaining shrinking-exclusion/collision regions | [#76](https://github.com/d6g8k5htny-coder/main/issues/76) |
 | RN mesoscopic annulus | Attack the scaled divided-difference determinant ledger before treating compactness as a fixed-remote extension | [Math- #7](https://github.com/d6g8k5htny-coder/Math-/pull/7) |
+| Downstream integrity gate | Fail-closed CONTROLLING promotion + reverse-impact; scientific effect NONE | [Math- #8](https://github.com/d6g8k5htny-coder/Math-/pull/8), [#90](https://github.com/d6g8k5htny-coder/main/issues/90), [#86](https://github.com/d6g8k5htny-coder/main/issues/86) |
 | P15 | Review full-range hazard transfer and sharpness; extend beyond the realized-family hypotheses | [#74](https://github.com/d6g8k5htny-coder/main/issues/74), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
