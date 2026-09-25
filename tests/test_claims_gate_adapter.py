@@ -784,5 +784,313 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         self.assertIn("NOT evidence", report["meaning"])
 
 
+class FiveBoundaryEnforcementTests(unittest.TestCase):
+    """OpenAI trial PR124 probe families — repaired behavior, not defect replay."""
+
+    def _mini_graph(self):
+        return {
+            "as_of": "2026-09-25",
+            "premises": {
+                "P": {
+                    "status_register_note": "OPEN",
+                    "source": {"path": "proof.md"},
+                }
+            },
+            "claims": {
+                "T": {
+                    "grade": "OPEN",
+                    "controlling": False,
+                    "depends_on": ["P"],
+                    "source": {"path": "theorem.md"},
+                },
+                "U": {"grade": "OPEN", "source": {"path": "unrelated.md"}},
+            },
+        }
+
+    def _init_fixture(self, repo: Path, graph: dict, *, crosswalk=None, authority=None):
+        import subprocess
+
+        subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "config", "user.email", "test@example.com"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "test"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+        )
+        (repo / "claims").mkdir()
+        arch = repo / "architecture" / "scientific_state" / "v1"
+        arch.mkdir(parents=True)
+        (repo / "claims" / "graph.json").write_text(
+            json.dumps(graph, indent=2) + "\n", encoding="utf-8"
+        )
+        cw = crosswalk or {
+            "rows": [{"main_claim_or_premise_id": "P", "authority": "a"}]
+        }
+        au = authority or {
+            "authorities": {"a": {}, "b": {}},
+            "this_package": {"id": "adapter"},
+        }
+        (arch / "ID_CROSSWALK.json").write_text(
+            json.dumps(cw, indent=2) + "\n", encoding="utf-8"
+        )
+        (arch / "AUTHORITY_MAP.json").write_text(
+            json.dumps(au, indent=2) + "\n", encoding="utf-8"
+        )
+        for name in ("proof.md", "theorem.md", "unrelated.md", "mirror.md"):
+            (repo / name).write_text(f"Synthetic {name} version 1\n", encoding="utf-8")
+        subprocess.run(["git", "add", "-A"], cwd=repo, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "commit", "-m", "before"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+        )
+        return subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
+    def _commit_after(self, repo: Path, label: str = "after") -> str:
+        import subprocess
+
+        subprocess.run(["git", "add", "-A"], cwd=repo, check=True, capture_output=True)
+        subprocess.run(
+            ["git", "commit", "-m", label, "--allow-empty"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+        )
+        return subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
+    def _event_compare(self, repo: Path, before: str, after: str):
+        import os
+        import subprocess
+        import sys
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "tools" / "claims_gate_adapter.py"),
+                "event-compare",
+                "--repo-root",
+                str(repo),
+            ],
+            capture_output=True,
+            text=True,
+            env={
+                **os.environ,
+                "CLAIMS_GATE_BEFORE_REF": before,
+                "CLAIMS_GATE_AFTER_REF": after,
+            },
+        )
+        try:
+            report = json.loads(result.stdout)
+        except json.JSONDecodeError:
+            report = None
+        return result.returncode, report
+
+    def test_strict_json_rejects_duplicate_keys_and_nonfinite(self):
+        with self.assertRaises(CGA.AdapterError) as ctx:
+            CGA.load_json_strict(
+                '{"depends_on": ["P"], "depends_on": []}', where="dup"
+            )
+        self.assertIn("duplicate JSON key", str(ctx.exception))
+        with self.assertRaises(CGA.AdapterError) as ctx2:
+            CGA.load_json_strict('{"n": NaN}', where="nan")
+        self.assertIn("nonfinite", str(ctx2.exception))
+
+    def test_bind_all_source_bindings_and_mirror_does_not_shadow(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            g["premises"]["P"].pop("source")
+            g["premises"]["P"]["source_bindings"] = [
+                {"repo": "d6g8k5htny-coder/main", "path": "proof.md"}
+            ]
+            before = self._init_fixture(repo, g)
+            (repo / "proof.md").write_text("Changed canonical source\n", encoding="utf-8")
+            after = self._commit_after(repo, "bindings-edit")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertEqual(rc, 0, report)
+            self.assertTrue(report["transition_ok"])
+            self.assertIn("P", report["reverse_impact"]["impacted"])
+            self.assertIn("T", report["reverse_impact"]["impacted"])
+            self.assertIn(
+                report["new_sources"]["P"]["kind"], {"blob", "tree", "multi"}
+            )
+            fields = {b.get("field") for b in report["new_sources"]["P"]["bindings"]}
+            self.assertTrue(any("source_bindings" in f for f in fields))
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            g["premises"]["P"]["mirror_path"] = "mirror.md"
+            before = self._init_fixture(repo, g)
+            (repo / "proof.md").write_text(
+                "Changed second declared source\n", encoding="utf-8"
+            )
+            after = self._commit_after(repo, "shadow-edit")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertEqual(rc, 0, report)
+            self.assertIn("P", report["reverse_impact"]["impacted"])
+            paths = {
+                b.get("path")
+                for b in report["new_sources"]["P"]["bindings"]
+                if b.get("kind") in {"blob", "tree"}
+            }
+            self.assertIn("proof.md", paths)
+            self.assertIn("mirror.md", paths)
+
+    def test_illegal_controlling_over_refuted_fails_transition(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            g["premises"]["P"]["status_register_note"] = "REFUTED"
+            before = self._init_fixture(repo, g)
+            g2 = json.loads((repo / "claims" / "graph.json").read_text(encoding="utf-8"))
+            g2["claims"]["T"].update(grade="LIVE_ROOT_THEOREM", controlling=True)
+            (repo / "claims" / "graph.json").write_text(
+                json.dumps(g2, indent=2) + "\n", encoding="utf-8"
+            )
+            after = self._commit_after(repo, "illegal-promote")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertNotEqual(rc, 0, report)
+            self.assertIsInstance(report, dict)
+            self.assertFalse(report["transition_ok"])
+            self.assertFalse(report["promotion_permission"])
+            self.assertIn("T", report["controlling_impacted"])
+            self.assertEqual(
+                report["hold_proposals"]["T"]["refuted_required"], ["P"]
+            )
+            self.assertTrue(report["illegal_controlling_transitions"])
+
+    def test_retained_controlling_with_changed_premise_fails(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            g["claims"]["T"].update(grade="LIVE_ROOT_THEOREM", controlling=True)
+            before = self._init_fixture(repo, g)
+            (repo / "proof.md").write_text(
+                "Changed load-bearing lemma\n", encoding="utf-8"
+            )
+            after = self._commit_after(repo, "premise-under-controlling")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertNotEqual(rc, 0, report)
+            self.assertFalse(report["transition_ok"])
+            self.assertIn("T", report["controlling_impacted"])
+            # Safe corrective counterpart: same premise edit under OPEN stays OK.
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            before = self._init_fixture(repo, g)
+            (repo / "proof.md").write_text("Synthetic correction\n", encoding="utf-8")
+            after = self._commit_after(repo, "safe-edit")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertEqual(rc, 0, report)
+            self.assertTrue(report["transition_ok"])
+            self.assertEqual(set(report["reverse_impact"]["impacted"]), {"P", "T"})
+
+    def test_crosswalk_owner_drift_seeds_impact(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            before = self._init_fixture(repo, g)
+            arch = repo / "architecture" / "scientific_state" / "v1"
+            cw = json.loads((arch / "ID_CROSSWALK.json").read_text(encoding="utf-8"))
+            cw["rows"][0]["authority"] = "b"
+            (arch / "ID_CROSSWALK.json").write_text(
+                json.dumps(cw, indent=2) + "\n", encoding="utf-8"
+            )
+            after = self._commit_after(repo, "owner-drift")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertEqual(rc, 0, report)
+            self.assertIn("P", report["reverse_impact"]["impacted"])
+            self.assertIn("P", report["authority_owner_seeds"])
+            self.assertIn("old_crosswalk_identity", report)
+            self.assertIn("blob_sha256", report["old_crosswalk_identity"])
+
+    def test_mutable_refs_resolve_to_full_commit_ids(self):
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            before = self._init_fixture(repo, g)
+            after = self._commit_after(repo, "noop-after")
+            subprocess.run(
+                ["git", "branch", "review-before", before],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "branch", "review-after", after],
+                cwd=repo,
+                check=True,
+                capture_output=True,
+            )
+            rc, report = self._event_compare(
+                repo, "review-before", "review-after"
+            )
+            self.assertEqual(rc, 0, report)
+            self.assertEqual(report["base_commit"], before)
+            self.assertEqual(report["head_commit"], after)
+            self.assertRegex(report["base_commit"], r"^[0-9a-f]{40}$")
+            self.assertRegex(report["head_commit"], r"^[0-9a-f]{40}$")
+
+    def test_duplicate_json_dependency_key_rejected_at_event_boundary(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            repo = Path(raw) / "repo"
+            repo.mkdir()
+            g = self._mini_graph()
+            before = self._init_fixture(repo, g)
+            path = repo / "claims" / "graph.json"
+            text = json.dumps(g)
+            mutated = text.replace(
+                '"depends_on": ["P"]', '"depends_on": ["P"], "depends_on": []'
+            )
+            self.assertNotEqual(mutated, text)
+            path.write_text(mutated + "\n", encoding="utf-8")
+            after = self._commit_after(repo, "dup-key")
+            rc, report = self._event_compare(repo, before, after)
+            self.assertNotEqual(rc, 0, report)
+            self.assertIsInstance(report, dict)
+            self.assertIn("error", report)
+            self.assertIn("duplicate JSON key", report["error"])
+
+
 if __name__ == "__main__":
     unittest.main()
