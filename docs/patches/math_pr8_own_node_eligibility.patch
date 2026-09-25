@@ -1,0 +1,171 @@
+diff --git a/frontiers/downstream_gate_20260925/RESULTS.json b/frontiers/downstream_gate_20260925/RESULTS.json
+index 78a671c..d27c87f 100644
+--- a/frontiers/downstream_gate_20260925/RESULTS.json
++++ b/frontiers/downstream_gate_20260925/RESULTS.json
+@@ -66,6 +66,7 @@
+       "node": "math.rn-fixed-remote-window",
+       "reasons": [
+         "required transitive dependency is not terminally classified",
++        "own-node classification is not CONTROLLING-eligible (need PROVED_REVIEWED; dependency terminality is not enough)",
+         "evidence consists only of non-discharge tokens"
+       ],
+       "refused": true
+@@ -79,7 +80,8 @@
+       "missing_terminal": [],
+       "node": "hist.ENV-RESCOV",
+       "reasons": [
+-        "required BLOCKED_ABSENT dependency forces HOLD"
++        "required BLOCKED_ABSENT dependency forces HOLD",
++        "own-node classification is not CONTROLLING-eligible (need PROVED_REVIEWED; dependency terminality is not enough)"
+       ],
+       "required_dependencies": [
+         "hist.rnu_env.py"
+@@ -98,7 +100,8 @@
+       ],
+       "node": "math.lifetime-remainder",
+       "reasons": [
+-        "required transitive dependency is not terminally classified"
++        "required transitive dependency is not terminally classified",
++        "own-node classification is not CONTROLLING-eligible (need PROVED_REVIEWED; dependency terminality is not enough)"
+       ],
+       "required_dependencies": [
+         "math.uniform-matrix-cap-lifetime"
+@@ -117,7 +120,8 @@
+       ],
+       "node": "eng.main-pr87-crosswalk",
+       "reasons": [
+-        "required transitive dependency is not terminally classified"
++        "required transitive dependency is not terminally classified",
++        "own-node classification is not CONTROLLING-eligible (need PROVED_REVIEWED; dependency terminality is not enough)"
+       ],
+       "required_dependencies": [
+         "eng.d0-packet-allowlist-fix"
+@@ -136,7 +140,8 @@
+       ],
+       "node": "math.side24-coefficient",
+       "reasons": [
+-        "required transitive dependency is not terminally classified"
++        "required transitive dependency is not terminally classified",
++        "own-node classification is not CONTROLLING-eligible (need PROVED_REVIEWED; dependency terminality is not enough)"
+       ],
+       "required_dependencies": [
+         "math.uniform-matrix-cap-lifetime"
+diff --git a/frontiers/downstream_gate_20260925/SOURCE_FILES.json b/frontiers/downstream_gate_20260925/SOURCE_FILES.json
+index a0c005b..785cc36 100644
+--- a/frontiers/downstream_gate_20260925/SOURCE_FILES.json
++++ b/frontiers/downstream_gate_20260925/SOURCE_FILES.json
+@@ -13,8 +13,8 @@
+       "sha256": "57776258bc5ab409fa6f784e2a9a99c6a2d37d40a537ebc0e348b405e026bae9"
+     },
+     "RESULTS.json": {
+-      "bytes": 5308,
+-      "sha256": "814948372dd6fc6690d097b24a363d6075330f4645dadcae282d1a2cdce85742"
++      "bytes": 5928,
++      "sha256": "53e6a73c47e3662b1b4613c6603a3017dbc0ce57ec3bfd5ad0f084205f164069"
+     },
+     "SCOPE.md": {
+       "bytes": 2218,
+@@ -25,16 +25,16 @@
+       "sha256": "53fa0ec88e417882eff2a40e4b575c639d43b7e8787e7fb8917aa22ace79390d"
+     },
+     "hard_gate.py": {
+-      "bytes": 17698,
+-      "sha256": "a5a662badb7d051cff1313810f5660534a13df9573dd87ff61279739d9bcbf94"
++      "bytes": 18185,
++      "sha256": "2f153ccc94245ef26394714fac79992324a649822c8171c7d67c7b2456f02b79"
+     },
+     "run_validation.py": {
+-      "bytes": 5512,
+-      "sha256": "1d35469d156d0e94947e853ffe60c0ef3193a45729d07b3bebf9973cdbc82627"
++      "bytes": 5680,
++      "sha256": "581d29958ff47a0c2b686e27a5f1fbc0d6727aa420c05b5b0e6f6222d7ea0988"
+     },
+     "test_hard_gate.py": {
+-      "bytes": 12466,
+-      "sha256": "2786a4f9ea9c00eaf1cf7ca970989d623512c3d32054c4cee979b6b065dbccb6"
++      "bytes": 13250,
++      "sha256": "0374457a5e698a81d86c49339a02c61a2dd48092d34461a6d9ac80641981a324"
+     }
+   },
+   "meaning": "Exact identity, not theorem correctness",
+diff --git a/frontiers/downstream_gate_20260925/hard_gate.py b/frontiers/downstream_gate_20260925/hard_gate.py
+index d5705e3..673a324 100644
+--- a/frontiers/downstream_gate_20260925/hard_gate.py
++++ b/frontiers/downstream_gate_20260925/hard_gate.py
+@@ -22,6 +22,13 @@ TERMINAL = frozenset({
+     'BLOCKED_ABSENT',
+ })
+ 
++# Own-node eligibility for CONTROLLING (main #90). Dependency terminality is
++# separately necessary; it is not sufficient. Only a positive reviewed
++# disposition may become controlling.
++CONTROLLING_ELIGIBLE = frozenset({
++    'PROVED_REVIEWED',
++})
++
+ # Classifications that may appear on live nodes but are never terminal discharge.
+ NONTERMINAL = frozenset({
+     'OPEN_HISTORICAL',
+@@ -151,6 +158,11 @@ def promotion_allowed(graph: dict[str, Any], node_id: str) -> dict[str, Any]:
+         reasons.append('required transitive dependency is not terminally classified')
+     if node.get('classification') == 'FALSE' and node_id == 'hist.lemma_closed':
+         reasons.append('lemma_closed register must remain FALSE; gate never promotes it')
++    if node.get('classification') not in CONTROLLING_ELIGIBLE:
++        reasons.append(
++            'own-node classification is not CONTROLLING-eligible '
++            '(need PROVED_REVIEWED; dependency terminality is not enough)'
++        )
+ 
+     allowed = not reasons
+     return {
+diff --git a/frontiers/downstream_gate_20260925/run_validation.py b/frontiers/downstream_gate_20260925/run_validation.py
+index ebec8bc..b260ab5 100644
+--- a/frontiers/downstream_gate_20260925/run_validation.py
++++ b/frontiers/downstream_gate_20260925/run_validation.py
+@@ -8,8 +8,12 @@ import subprocess
+ import sys
+ 
+ ROOT = Path(__file__).resolve().parent
+-EXPECTED_TESTS = 27
++EXPECTED_TESTS = 28
+ MUTANTS = {
++    'bypass_own_node_eligibility': (
++        "if node.get('classification') not in CONTROLLING_ELIGIBLE:",
++        "if False:  # bypassed own-node eligibility",
++    ),
+     'allow_green_ci': (
+         "only_non_discharge = bool(tokens) and all(t in non_discharge for t in tokens)",
+         "only_non_discharge = False",
+diff --git a/frontiers/downstream_gate_20260925/test_hard_gate.py b/frontiers/downstream_gate_20260925/test_hard_gate.py
+index fd16513..0c95590 100644
+--- a/frontiers/downstream_gate_20260925/test_hard_gate.py
++++ b/frontiers/downstream_gate_20260925/test_hard_gate.py
+@@ -233,13 +233,25 @@ class HardGateControls(unittest.TestCase):
+         self.assertTrue(payload['d0_ci_unblock']['ready'])
+         self.assertGreaterEqual(payload['selector_region']['open_or_partial_cell_count'], 15)
+ 
+-    def test_promote_after_all_terminal_deps(self):
++    def test_author_side_with_terminal_deps_cannot_become_controlling(self):
+         g = copy.deepcopy(self.graph)
+-        # Synthesize a tiny legal subgraph: make parent terminal reviewed.
++        # Dependency terminality alone must not promote an author-side candidate.
+         g['nodes']['math.p15-price-boundary']['classification'] = 'REFUTED'
+         g['nodes']['math.p15-full-price']['classification'] = 'AUTHOR_SIDE_CANDIDATE'
+         decision = m.promotion_allowed(g, 'math.p15-full-price')
+-        self.assertTrue(decision['allowed'])
++        self.assertFalse(decision['allowed'])
++        self.assertTrue(any('own-node' in r for r in decision['reasons']))
++        applied = m.apply_promotion(g, 'math.p15-full-price')
++        self.assertFalse(applied['decision']['ok'])
++        self.assertFalse(applied['graph']['nodes']['math.p15-full-price']['controlling'])
++
++    def test_proved_reviewed_with_terminal_deps_may_become_controlling(self):
++        g = copy.deepcopy(self.graph)
++        # Positive control: own-node PROVED_REVIEWED + terminal required deps.
++        g['nodes']['math.p15-price-boundary']['classification'] = 'REFUTED'
++        g['nodes']['math.p15-full-price']['classification'] = 'PROVED_REVIEWED'
++        decision = m.promotion_allowed(g, 'math.p15-full-price')
++        self.assertTrue(decision['allowed'], decision)
+         applied = m.apply_promotion(g, 'math.p15-full-price')
+         self.assertTrue(applied['decision']['ok'])
+         self.assertTrue(applied['graph']['nodes']['math.p15-full-price']['controlling'])

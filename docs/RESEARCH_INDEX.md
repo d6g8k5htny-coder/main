@@ -75,7 +75,7 @@ proof that nothing outside that budget exists.
 | Coefficient audit | Cone truncation, image/normalization comparison, and outward arithmetic | [#65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | RN and 24-jet route | The count-weighted integral on its declared region, and the missing numerical enclosures | [RN status](math_status/STATUS_RN_UNIF.md), [execution](RESEARCH_EXECUTION.md) |
 | Local obligations | `OBL-H5-JETMOD` and `D3-LEMMA-RN-UNIF` stay OPEN | [math status](math_status/STATUS.md), [JETMOD status](math_status/STATUS_JETMOD.md) |
-| Downstream integrity gate | In-development CONTROLLING/fail-closed draft; own-node eligibility repair still open; scientific effect NONE | [Math- #8](https://github.com/d6g8k5htny-coder/Math-/pull/8), [#90](https://github.com/d6g8k5htny-coder/main/issues/90) |
+| Downstream integrity gate | In-development CONTROLLING/fail-closed draft; own-node eligibility repair still open; scientific effect NONE | [Math- #8](https://github.com/d6g8k5htny-coder/Math-/pull/8), [eligibility handoff](MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md), [#90](https://github.com/d6g8k5htny-coder/main/issues/90) |
 | RN mesoscopic reduction | Challenge note isolates missing `J_0` / `det S_r` ledger; not an R17 pass | [challenge](RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md), [Math- #7](https://github.com/d6g8k5htny-coder/Math-/pull/7) |
 | P15 scope | Audit the realized family and the restricted price theorem | [#59](https://github.com/d6g8k5htny-coder/main/issues/59), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 

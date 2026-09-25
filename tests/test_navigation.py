@@ -155,6 +155,30 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_math_pr8_eligibility_handoff_is_declared_and_bound(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        page='docs/MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md'
+        patch=root/'docs/patches/math_pr8_own_node_eligibility.patch'
+        self.assertIn(page,data['pages'])
+        self.assertTrue((root/page).is_file(),page)
+        self.assertTrue(patch.is_file(),str(patch))
+        text=(root/page).read_text()
+        lowered=text.lower()
+        self.assertIn('5887a2f8aaf121760362e6e90f9974f1e0078bc5',text)
+        self.assertIn('CONTROLLING_ELIGIBLE',text)
+        self.assertIn('PROVED_REVIEWED',text)
+        self.assertIn('1648237df8525276b17704d12a934cc97c12b1f1184af671ee894b65d60816f1',text)
+        self.assertIn('scientific effect: none',lowered)
+        self.assertIn('403',text)
+        self.assertNotIn('lemma_closed=true',lowered)
+        # Patch must target Math- gate sources, not invent a second gate on main.
+        patch_text=patch.read_text()
+        self.assertIn('frontiers/downstream_gate_20260925/hard_gate.py',patch_text)
+        self.assertIn('CONTROLLING_ELIGIBLE',patch_text)
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)

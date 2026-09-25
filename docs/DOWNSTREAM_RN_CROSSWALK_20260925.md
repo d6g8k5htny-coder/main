@@ -103,5 +103,6 @@ This crosswalk does not perform that governance action.
 - Fixed-remote proof: [Math- remote_window PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/PROOF.md)
 - Mesoscopic draft: [Math- PR #7](https://github.com/d6g8k5htny-coder/Math-/pull/7)
 - In-development D0–D7 hard gate (eligibility repair still open): [Math- PR #8](https://github.com/d6g8k5htny-coder/Math-/pull/8)
+- Math- #8 eligibility repair handoff (main cannot push Math-): [MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md](MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md)
 - Mesoscopic reduction challenge (not R17): [RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md](RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md)
 - Owner surfaces: [#86](https://github.com/d6g8k5htny-coder/main/issues/86), [#90](https://github.com/d6g8k5htny-coder/main/issues/90)
