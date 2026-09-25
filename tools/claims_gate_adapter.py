@@ -218,6 +218,16 @@ def claims_to_gate_graph(
             "source_grade": record.get("grade"),
             "source_status": record.get("status_frozen_v2_2")
             or record.get("status_register_note"),
+            # Keep every source-status channel: `or` must not hide a claim
+            # of controlling use behind another, noncontrolling field.
+            "source_statuses": [
+                record.get(key)
+                for key in (
+                    "status_frozen_v2_2",
+                    "status_register_note",
+                    "scientific_status",
+                )
+            ],
             "source_reference": record.get("source") or record.get("canon_source"),
             "semantic_digest": sem,
             "evidence_digest": evid,
@@ -572,7 +582,11 @@ def compare_claims_files(
     new_g = claims_to_gate_graph(new_claims, crosswalk=crosswalk, authority_map=authority_map)
     impact = reverse_impact_between(old_g, new_g)
     holds = aggregate_hold_proposals(new_g)
+    enforcement = evaluate_transition_enforcement(
+        old_graph=old_g, new_graph=new_g, impact=impact, holds=holds
+    )
     return {
+        **enforcement,
         "reverse_impact": impact,
         "hold_proposals": holds,
         "promotion_permission": False,
@@ -619,7 +633,8 @@ CROSSWALK_REL = "architecture/scientific_state/v1/ID_CROSSWALK.json"
 AUTHORITY_REL = "architecture/scientific_state/v1/AUTHORITY_MAP.json"
 
 # Grades/statuses that indicate the *source* record is treated as load-bearing.
-# Projection never sets controlling=True; these only flag report attention.
+# Projection never sets controlling=True; these only flag report attention /
+# loss-only transition refusal (never positive acceptance).
 SOURCE_CONTROLLING_HINTS = frozenset(
     {
         "LIVE_ROOT_THEOREM",
@@ -629,16 +644,83 @@ SOURCE_CONTROLLING_HINTS = frozenset(
     }
 )
 
-# Narrower set for transition enforcement (#90 boundary): unsupported promotion /
-# retained LIVE_ROOT or source-controlling=true over unresolved required premises.
-# CERTIFIED_RUNG remains an attention hint only — tip graphs may carry it with
-# still-open premises without making every corrective compare illegal.
-SOURCE_ENFORCEMENT_LIVE = frozenset(
-    {
-        "LIVE_ROOT_THEOREM",
-        "CONTROLLING",
+
+def _source_is_controlling(node: dict[str, Any]) -> bool:
+    """Interpret all observed source channels without awarding acceptance.
+
+    Explicit false does not override a simultaneously controlling grade/status.
+    A demotion must consistently remove the source's claims of controlling use.
+    Ported from OpenAI trial PR128 F1 candidate (ACCEPT'd nonauthor review).
+    """
+    if node.get("source_controlling") is True:
+        return True
+    statuses = [node.get("source_grade"), node.get("source_status")]
+    statuses.extend(node.get("source_statuses") or [])
+    return any(
+        isinstance(value, str) and value.strip().upper() in SOURCE_CONTROLLING_HINTS
+        for value in statuses
+    )
+
+
+def evaluate_transition_enforcement(
+    *,
+    old_graph: dict[str, Any],
+    new_graph: dict[str, Any],
+    impact: dict[str, Any],
+    holds: dict[str, Any],
+) -> dict[str, Any]:
+    """Loss-only refusal, not a positive mathematical admission mechanism.
+
+    No newly controlling source, or impacted source still used as controlling,
+    can be admitted here merely by attaching a proposed HOLD. Unchanged legacy
+    statuses remain visible; they are not retroactively accepted. Corrective
+    edits with consistent demotion are allowed. F2–F5 (source bind / crosswalk /
+    refs / strict JSON) remain separate layers.
+    """
+    old_controls = {
+        nid for nid, node in old_graph["nodes"].items() if _source_is_controlling(node)
     }
-)
+    new_controls = {
+        nid for nid, node in new_graph["nodes"].items() if _source_is_controlling(node)
+    }
+    newly_controlling = new_controls - old_controls
+    retained_impacted = new_controls.intersection(impact["impacted"])
+    errors: list[dict[str, Any]] = []
+    for nid in sorted(newly_controlling | retained_impacted):
+        reasons: list[str] = []
+        if nid in newly_controlling:
+            reasons.append("UNSUPPORTED_CONTROLLING_PROMOTION")
+        if nid in retained_impacted:
+            reasons.append("CONTROLLING_SOURCE_REQUIRES_REVALIDATION")
+        if nid in holds:
+            reasons.append("UNSATISFIED_REQUIRED_PREMISE")
+        errors.append(
+            {
+                "node": nid,
+                "reasons": reasons,
+                "required_hold": holds.get(nid),
+                "promotion_permission": False,
+            }
+        )
+    return {
+        "transition_ok": not errors,
+        "transition_errors": errors,
+        # Compat alias for earlier Cursor tip reports / FiveBoundary tests.
+        "illegal_controlling_transitions": errors,
+        "source_controlling_after": sorted(new_controls),
+        "unchanged_controlling_holds": sorted(
+            (new_controls - retained_impacted).intersection(holds)
+        ),
+        "promotion_permission": False,
+        "enforcement_scope": (
+            "loss-only source transition over the detected impact graph; "
+            "not positive admission, complete source coverage, or legacy acceptance"
+        ),
+        "meaning": (
+            "transition_ok is false for unsupported new controlling status or "
+            "impacted consumers left controlling; consistent demotion remains OK"
+        ),
+    }
 
 
 def _sha256_bytes(data: bytes) -> str:
@@ -982,76 +1064,6 @@ def _owner_map(crosswalk: dict[str, Any] | None) -> dict[str, str]:
     return owners
 
 
-def evaluate_transition_enforcement(
-    *,
-    old_graph: dict[str, Any],
-    new_graph: dict[str, Any],
-    holds: dict[str, dict[str, Any]],
-) -> dict[str, Any]:
-    """Distinguish illegal SOURCE promotions from safe corrective edits.
-
-    Illegal when a node is (or becomes) source-controlling=true / LIVE_ROOT_THEOREM
-    while still carrying unresolved required premises (REFUTED, OPEN, etc.).
-    Safe impact-only edits under non-LIVE grades remain OK. CERTIFIED_RUNG is
-    an attention hint only and does not alone make a transition illegal.
-    """
-    illegal: list[dict[str, Any]] = []
-    for nid, node in new_graph["nodes"].items():
-        grade = str(node.get("source_grade") or "")
-        status = str(node.get("source_status") or "")
-        controlling = node.get("source_controlling") is True
-        live = (
-            controlling
-            or grade in SOURCE_ENFORCEMENT_LIVE
-            or status in SOURCE_ENFORCEMENT_LIVE
-        )
-        hold = holds.get(nid) or required_holds(new_graph, nid)
-        if not (live and node_has_hold(hold)):
-            continue
-        refuted = list(hold.get("refuted_required") or [])
-        unsatisfied = list(hold.get("unsatisfied_required") or [])
-        blocked = list(hold.get("blocked_absent") or [])
-        old_node = old_graph["nodes"].get(nid) or {}
-        old_grade = str(old_node.get("source_grade") or "")
-        old_status = str(old_node.get("source_status") or "")
-        old_ctrl = old_node.get("source_controlling") is True
-        old_live = (
-            old_ctrl
-            or old_grade in SOURCE_ENFORCEMENT_LIVE
-            or old_status in SOURCE_ENFORCEMENT_LIVE
-        )
-        promoted = not old_live and live
-        if refuted and promoted:
-            reason = "unsupported_controlling_promotion_over_refuted"
-        elif refuted:
-            reason = "retained_controlling_with_refuted_required"
-        elif promoted:
-            reason = "unsupported_controlling_promotion_with_unresolved_required"
-        else:
-            reason = "retained_controlling_with_unresolved_required"
-        illegal.append(
-            {
-                "node": nid,
-                "reason": reason,
-                "refuted_required": refuted,
-                "unsatisfied_required": unsatisfied,
-                "blocked_absent": blocked,
-                "source_grade": grade,
-                "source_controlling": node.get("source_controlling"),
-                "promoted": promoted,
-            }
-        )
-    return {
-        "illegal_controlling_transitions": illegal,
-        "transition_ok": not illegal,
-        "promotion_permission": False,
-        "meaning": (
-            "transition_ok is false for unsupported LIVE_ROOT/controlling state "
-            "over unresolved required premises; safe corrective impact remains OK"
-        ),
-    }
-
-
 def compare_claims_paths(
     before_path: Path,
     after_path: Path,
@@ -1074,7 +1086,7 @@ def compare_claims_paths(
     impact = reverse_impact_between(old_g, new_g)
     holds = aggregate_hold_proposals(new_g)
     enforcement = evaluate_transition_enforcement(
-        old_graph=old_g, new_graph=new_g, holds=holds
+        old_graph=old_g, new_graph=new_g, impact=impact, holds=holds
     )
     return {
         "mode": "path_compare",
@@ -1090,13 +1102,13 @@ def compare_claims_paths(
         },
         "reverse_impact": impact,
         "hold_proposals": holds,
-        "illegal_controlling_transitions": enforcement["illegal_controlling_transitions"],
-        "transition_ok": enforcement["transition_ok"],
+        **enforcement,
         "promotion_permission": False,
         "scientific_effect": "NONE",
         "semantic_reference": "Math- PR13/PR15 / main #90 clarification",
         "meaning": (
-            "path compare; impact≠illegal; unsupported controlling over REFUTED fails"
+            "path compare; unsupported new/retained controlling fails; "
+            "consistent demotion and noncontrolling impact remain OK"
         ),
     }
 
@@ -1184,20 +1196,13 @@ def compare_claims_refs(
         if nid not in new_g["nodes"]:
             continue
         node = new_g["nodes"][nid]
-        grade = str(node.get("source_grade") or "")
-        status = str(node.get("source_status") or "")
-        hinted = (
-            node.get("source_controlling") is True
-            or grade in SOURCE_CONTROLLING_HINTS
-            or status in SOURCE_CONTROLLING_HINTS
-        )
-        if hinted:
+        if _source_is_controlling(node):
             controlling_impacted.append(nid)
             src = new_sources.get(nid) or {}
             if src.get("kind") not in {"blob", "tree", "multi"}:
                 unresolved_controlling.append(nid)
     enforcement = evaluate_transition_enforcement(
-        old_graph=old_g, new_graph=new_g, holds=holds
+        old_graph=old_g, new_graph=new_g, impact=impact, holds=holds
     )
     return {
         "mode": "ref_compare",
@@ -1218,19 +1223,17 @@ def compare_claims_refs(
         "hold_proposals": holds,
         "controlling_impacted": controlling_impacted,
         "unresolved_controlling_sources": unresolved_controlling,
-        "illegal_controlling_transitions": enforcement["illegal_controlling_transitions"],
-        "transition_ok": enforcement["transition_ok"],
+        **enforcement,
         "promotion_permission": False,
         "scientific_effect": "NONE",
         "semantic_reference": (
             "Math- PR13 tip baca69c… / PR15 git_transition_audit contract 8c4c946… "
-            "/ main #90 clarification"
+            "/ OpenAI trial PR128 F1 / main #90 clarification"
         ),
         "meaning": (
-            "immutable base→head claims+source-file compare (PR15 contract); "
-            "impact/HOLD are proposals only; unsupported controlling over "
-            "REFUTED fails transition_ok; never promotion permission; "
-            "external/absent sources stay unresolved"
+            "immutable base→head claims+source-file compare (PR15 + F1); "
+            "unsupported new/retained controlling fails transition_ok; "
+            "F2–F5 bind/crosswalk/ref/JSON layers retained; never promotion permission"
         ),
     }
 
@@ -1450,11 +1453,11 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     print(json.dumps(report, indent=2, sort_keys=True))
-    # Impact/HOLD proposals are not failures. Unsupported controlling transitions,
-    # promotion_permission, or tip-health problems fail closed.
-    if report.get("promotion_permission") is True:
+    # Diagnostics may propose HOLD without failing. Transition modes must also
+    # refuse unsafe actual source status; missing enforcement fails closed.
+    if args.command != "tip-health" and report.get("transition_ok") is not True:
         return 1
-    if report.get("transition_ok") is False:
+    if report.get("promotion_permission") is True:
         return 1
     if report.get("problems"):
         return 1
