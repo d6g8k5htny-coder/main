@@ -303,6 +303,39 @@ def test_negative_console_source_flag_flip_is_refused(tmp_path):
     assert "controlling flag assigned true" in result.stdout
 
 
+README_UNMIX_PHRASES = (
+    "Instrumentation STATUS labels are the 2026-09-23 STATUS_JETMOD vocab: `PARTIAL_*` paired with `REFUSED_NOT_24JET`.",
+    "That second group is honesty receipts, not instrumentation STATUS.",
+    "Both groups are not discharge. eng ≠ discharge.",
+    "SoT ABSENT.",
+    "The SIDE24 ABSENT triad (RN_SIDE24, DENSITY, CELL) is navigation only and not a source of truth.",
+    "ABSENT means the Drive SoT carriers are absent. Nothing is invented to fill them.",
+)
+
+
+def test_readme_unmix_keeps_status_distinct_from_honesty_receipts():
+    with open(os.path.join(PACKET, "README.md"), encoding="utf-8") as handle:
+        text = " ".join(handle.read().split())
+    for phrase in README_UNMIX_PHRASES:
+        assert phrase in text
+
+
+def test_negative_readme_unmix_phrase_dropped_is_refused(tmp_path):
+    packet_dir = copy_packet(tmp_path)
+    path = os.path.join(packet_dir, "README.md")
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read().replace(
+            "honesty receipts, not instrumentation STATUS",
+            "honesty labels",
+        )
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
+    result = run(packet_dir)
+    assert result.returncode != 0
+    assert "missing required phrase" in result.stdout
+    assert "lemma_closed must be false" not in result.stdout
+
+
 def test_packet_path_is_resolved_per_call(tmp_path):
     good = run(PACKET)
     assert good.returncode == 0
