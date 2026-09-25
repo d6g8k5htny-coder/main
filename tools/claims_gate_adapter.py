@@ -662,20 +662,52 @@ def _source_is_controlling(node: dict[str, Any]) -> bool:
     )
 
 
+# Expected owner/name for in-repo source_bindings. Cross-repo bindings fail closed.
+CURRENT_REPO = "d6g8k5htny-coder/main"
+
+# Binding kinds that do NOT monitor repository object bytes.
+UNRESOLVED_SOURCE_KINDS = frozenset(
+    {
+        "unresolved_prose",
+        "missing",
+        "record_only",
+        "external_unresolved",
+        "unsupported_cross_repo",
+        "path_alias",  # alias alone never monitors bytes
+    }
+)
+
+
+def _source_binding_monitorable(bound: dict[str, Any] | None) -> bool:
+    """True when at least one declared binding resolves to repo blob/tree bytes."""
+    if not isinstance(bound, dict):
+        return False
+    if bound.get("kind") in {"blob", "tree", "multi"}:
+        bindings = bound.get("bindings") or []
+        if not bindings:
+            return bound.get("kind") in {"blob", "tree"} and bool(bound.get("sha256"))
+        return any(b.get("kind") in {"blob", "tree"} for b in bindings)
+    return False
+
+
 def evaluate_transition_enforcement(
     *,
     old_graph: dict[str, Any],
     new_graph: dict[str, Any],
     impact: dict[str, Any],
     holds: dict[str, Any],
+    new_sources: dict[str, dict[str, Any]] | None = None,
+    old_sources: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Loss-only refusal, not a positive mathematical admission mechanism.
 
     No newly controlling source, or impacted source still used as controlling,
     can be admitted here merely by attaching a proposed HOLD. Unchanged legacy
     statuses remain visible; they are not retroactively accepted. Corrective
-    edits with consistent demotion are allowed. F2–F5 (source bind / crosswalk /
-    refs / strict JSON) remain separate layers.
+    edits with consistent demotion are allowed. Controlling nodes whose declared
+    sources are not byte-monitorable fail closed (F2). Migrating a previously
+    unresolved controlling source onto monitorable bindings is a coverage repair,
+    not an illegal retention. F3–F5 remain separate.
     """
     old_controls = {
         nid for nid, node in old_graph["nodes"].items() if _source_is_controlling(node)
@@ -685,6 +717,14 @@ def evaluate_transition_enforcement(
     }
     newly_controlling = new_controls - old_controls
     retained_impacted = new_controls.intersection(impact["impacted"])
+    coverage_repairs: set[str] = set()
+    if old_sources is not None and new_sources is not None:
+        for nid in list(retained_impacted):
+            if not _source_binding_monitorable(
+                old_sources.get(nid)
+            ) and _source_binding_monitorable(new_sources.get(nid)):
+                coverage_repairs.add(nid)
+        retained_impacted = retained_impacted - coverage_repairs
     errors: list[dict[str, Any]] = []
     for nid in sorted(newly_controlling | retained_impacted):
         reasons: list[str] = []
@@ -702,23 +742,54 @@ def evaluate_transition_enforcement(
                 "promotion_permission": False,
             }
         )
+    unresolved_controlling: list[str] = []
+    if new_sources is not None:
+        for nid in sorted(new_controls):
+            bound = new_sources.get(nid)
+            if _source_binding_monitorable(bound):
+                continue
+            unresolved_controlling.append(nid)
+            reasons = ["UNRESOLVED_CONTROLLING_SOURCE"]
+            kind = (bound or {}).get("kind") or "absent"
+            reasons.append(f"binding_kind:{kind}")
+            existing = next((e for e in errors if e.get("node") == nid), None)
+            if existing:
+                for reason in reasons:
+                    if reason not in existing["reasons"]:
+                        existing["reasons"].append(reason)
+                existing["source_binding"] = bound
+            else:
+                errors.append(
+                    {
+                        "node": nid,
+                        "reasons": reasons,
+                        "required_hold": holds.get(nid),
+                        "source_binding": bound,
+                        "promotion_permission": False,
+                    }
+                )
     return {
         "transition_ok": not errors,
         "transition_errors": errors,
-        # Compat alias for earlier Cursor tip reports / FiveBoundary tests.
         "illegal_controlling_transitions": errors,
         "source_controlling_after": sorted(new_controls),
+        "unresolved_controlling_sources": unresolved_controlling,
+        "coverage_repairs": sorted(coverage_repairs),
         "unchanged_controlling_holds": sorted(
-            (new_controls - retained_impacted).intersection(holds)
+            (new_controls - retained_impacted - set(unresolved_controlling)).intersection(
+                holds
+            )
         ),
         "promotion_permission": False,
         "enforcement_scope": (
             "loss-only source transition over the detected impact graph; "
-            "not positive admission, complete source coverage, or legacy acceptance"
+            "controlling sources must be byte-monitorable; "
+            "not positive admission or legacy acceptance"
         ),
         "meaning": (
-            "transition_ok is false for unsupported new controlling status or "
-            "impacted consumers left controlling; consistent demotion remains OK"
+            "transition_ok is false for unsupported new controlling status, "
+            "impacted consumers left controlling, or controlling nodes without "
+            "monitorable source bindings; coverage repairs and demotion remain OK"
         ),
     }
 
@@ -791,11 +862,27 @@ def _candidate_source_strings(record: dict[str, Any]) -> list[tuple[str, str, st
                 out.append(("path", item.strip(), f"source_bindings[{index}]"))
             elif isinstance(item, dict):
                 path = item.get("path") or item.get("repo_path") or item.get("file")
+                repo = item.get("repo")
+                if isinstance(item.get("owner"), str) and isinstance(repo, str):
+                    repo = f"{item['owner'].strip()}/{repo.strip()}"
                 if isinstance(path, str) and path.strip():
-                    out.append(("path", path.strip(), f"source_bindings[{index}].path"))
+                    if isinstance(repo, str) and repo.strip() and repo.strip() != CURRENT_REPO:
+                        out.append(
+                            (
+                                "unsupported_cross_repo",
+                                f"{repo.strip()}:{path.strip()}",
+                                f"source_bindings[{index}].path",
+                            )
+                        )
+                    else:
+                        out.append(
+                            ("path", path.strip(), f"source_bindings[{index}].path")
+                        )
                 url = item.get("url") or item.get("uri")
                 if isinstance(url, str) and url.strip():
-                    out.append(("external", url.strip(), f"source_bindings[{index}].url"))
+                    out.append(
+                        ("external", url.strip(), f"source_bindings[{index}].url")
+                    )
     src = record.get("source")
     if isinstance(src, dict):
         path = src.get("path") or src.get("repo_path") or src.get("file")
@@ -906,6 +993,15 @@ def bind_source_at_revision(
                     "field": field,
                 }
             )
+        elif kind_hint == "unsupported_cross_repo":
+            bindings.append(
+                {
+                    "kind": "unsupported_cross_repo",
+                    "reference": reference,
+                    "field": field,
+                    "expected_repo": CURRENT_REPO,
+                }
+            )
         else:
             bindings.append(
                 {
@@ -928,6 +1024,8 @@ def bind_source_at_revision(
     blob_bindings = [b for b in bindings if b.get("kind") in {"blob", "tree"}]
     if blob_bindings:
         primary_kind = "multi" if len(blob_bindings) > 1 else blob_bindings[0]["kind"]
+    elif any(b.get("kind") == "unsupported_cross_repo" for b in bindings):
+        primary_kind = "unsupported_cross_repo"
     elif any(b.get("kind") == "external_unresolved" for b in bindings):
         primary_kind = "external_unresolved"
     elif any(b.get("kind") == "missing" for b in bindings):
@@ -1191,18 +1289,18 @@ def compare_claims_refs(
                 )
     holds = aggregate_hold_proposals(new_g)
     controlling_impacted = []
-    unresolved_controlling = []
     for nid in impact["impacted"]:
         if nid not in new_g["nodes"]:
             continue
-        node = new_g["nodes"][nid]
-        if _source_is_controlling(node):
+        if _source_is_controlling(new_g["nodes"][nid]):
             controlling_impacted.append(nid)
-            src = new_sources.get(nid) or {}
-            if src.get("kind") not in {"blob", "tree", "multi"}:
-                unresolved_controlling.append(nid)
     enforcement = evaluate_transition_enforcement(
-        old_graph=old_g, new_graph=new_g, impact=impact, holds=holds
+        old_graph=old_g,
+        new_graph=new_g,
+        impact=impact,
+        holds=holds,
+        old_sources=old_sources,
+        new_sources=new_sources,
     )
     return {
         "mode": "ref_compare",
@@ -1222,18 +1320,18 @@ def compare_claims_refs(
         "reverse_impact": impact,
         "hold_proposals": holds,
         "controlling_impacted": controlling_impacted,
-        "unresolved_controlling_sources": unresolved_controlling,
         **enforcement,
         "promotion_permission": False,
         "scientific_effect": "NONE",
         "semantic_reference": (
             "Math- PR13 tip baca69c… / PR15 git_transition_audit contract 8c4c946… "
-            "/ OpenAI trial PR128 F1 / main #90 clarification"
+            "/ OpenAI trial PR128 F1 / main #90 F2 coverage / clarification"
         ),
         "meaning": (
-            "immutable base→head claims+source-file compare (PR15 + F1); "
+            "immutable base→head claims+source-file compare (PR15 + F1 + F2); "
+            "controlling sources must be byte-monitorable; "
             "unsupported new/retained controlling fails transition_ok; "
-            "F2–F5 bind/crosswalk/ref/JSON layers retained; never promotion permission"
+            "never promotion permission"
         ),
     }
 

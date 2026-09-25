@@ -23,6 +23,31 @@ def _load_tip_claims() -> dict:
     return json.loads((ROOT / "claims" / "graph.json").read_text(encoding="utf-8"))
 
 
+def _demote_controlling_hints(claims: dict) -> dict:
+    """Sparse git fixtures omit drive/ mirrors; demote controlling hints so F2
+    unresolved-controlling refusal does not mask edge-impact negative controls.
+    """
+    out = copy.deepcopy(claims)
+    for bucket in ("claims", "premises"):
+        for _nid, rec in (out.get(bucket) or {}).items():
+            if not isinstance(rec, dict):
+                continue
+            grade = str(rec.get("grade") or "")
+            if grade.strip().upper() in CGA.SOURCE_CONTROLLING_HINTS:
+                rec["grade"] = "OPEN"
+            for key in (
+                "status_frozen_v2_2",
+                "status_register_note",
+                "scientific_status",
+            ):
+                val = rec.get(key)
+                if isinstance(val, str) and val.strip().upper() in CGA.SOURCE_CONTROLLING_HINTS:
+                    rec[key] = "OPEN"
+            if rec.get("controlling") is True:
+                rec["controlling"] = False
+    return out
+
+
 def _crosswalk() -> dict:
     return json.loads(
         (ROOT / "architecture" / "scientific_state" / "v1" / "ID_CROSSWALK.json").read_text(
@@ -571,7 +596,7 @@ class ClaimsGateAdapterTests(unittest.TestCase):
         import sys
         import tempfile
 
-        claims = _load_tip_claims()
+        claims = _demote_controlling_hints(_load_tip_claims())
         after_claims = copy.deepcopy(claims)
         deps = list(after_claims["claims"]["D1-v2.2(2)"]["depends_on"])
         deps.remove("OBL-D1-PROMOTE")
