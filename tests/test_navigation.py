@@ -117,6 +117,19 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_rn_crosswalk_docs_pages_are_declared_and_resolve(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        for page in (
+            'docs/DOWNSTREAM_RN_CROSSWALK_20260925.md',
+            'docs/RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md',
+            'docs/MATH_PR8_ELIGIBILITY_HANDOFF_20260925.md',
+        ):
+            self.assertIn(page,data['pages'])
+            self.assertTrue((root/page).is_file(),page)
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)
