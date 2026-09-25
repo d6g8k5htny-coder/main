@@ -187,7 +187,7 @@
     "H5-AXIS",
     "D3-LEMMA-RN-UNIF"
    ],
-   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above.",
+   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above. The remote part B_remote = 21.9279 r^3 carries DEFECTIVE_SCOPE hold Q-RN5-MOMENT-003: it rests on I_ann = 17.6804 r^3, which is not a certified upper bound because envelope_v is refuted by the RN5 counterexample. The far component is independently dominated by RN3-FAR (I_far < 2.83312 r^3), pending RV-RN3 external review. This note changes no grade or flag (walk-down ledger Drive 1X7ha4isKl9q73PlSQm8c-n-w4jy5J3lE, NONAUTHORITATIVE).",
    "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)"
   },
   "D1-v2.2(2)": {
@@ -219,7 +219,7 @@
    "statement": "At r = 1/20, fixed axis: 0.88021 < rho/rho_ref < 1.12058 over all 13,604 quarter-grid boxes meeting 5 <= |y| <= 17 and every mark v in [6/5 - r^3/6, 6/5]; hence 2.22542 r^3 < I_far < 2.83312 r^3.",
    "grade": "AUTHOR_SIDE_CERTIFIED",
    "depends_on": [
-    "H3-BAND-FLOOR"
+    "H3-RUNG-FLOOR"
    ],
    "independence_credit": 0,
    "note": "Fixed r, fixed axis. Near annulus and all-small-r remain open. Uses the correct typed second determinant moment and is outside the RN5 defect scope.",
@@ -249,12 +249,39 @@
    "note": "Discharges the normalizer sub-part of OBL-D1-PROMOTE. Frozen body 281477c3.",
    "source": "ADDENDUM_2026-09-15_H3_BAND_FLOOR.md §2"
   },
+  "H3-RUNG-FLOOR": {
+   "track": "UPPER2D",
+   "statement": "At r = 0.05 only (six-pin law Q_{0.05}, mark 6/5): Z_{0.05} in [7.7592917375327855e-3, 1.1468646473404396e-2]. It is a single-rung enclosure, not a band or uniform-in-r statement.",
+   "grade": "CERTIFIED_RUNG",
+   "rung": 0.05,
+   "depends_on": [],
+   "independence_credit": 0,
+   "note": "Added 2026-09-25 so that RN3-FAR and RN5-NEAR-POINT-CERTS name the floor they actually consume (the rung value 0.0077592917..., which d3_rn_unif.py L74-81 parses and fail-closes on), not H3-BAND-FLOOR (c_Z r^2 uniform on (0, 0.05], a different statement). The rung lower end exceeds c_Z*(0.05)^2 = 4.0387e-3, but the enclosure is computed directly and does not use the band floor. Transcription only; no grade of any other node moves.",
+   "evidence": [
+    {
+     "kind": "frozen_certificate_body",
+     "ref": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md, 7003 bytes, sha256 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa (STAGE E REPAIR R2, 2026-09-13)",
+     "arithmetic": "interval (mpmath iv, 100 dps)",
+     "certifying": true,
+     "note": "Arithmetic transcribed from the object's own declaration ('everything below is interval arithmetic (mpmath iv, 100 dps)'; 'no Monte Carlo in the certificate'). certifying: true records what the object asserts. It is not an independence credit or an external verdict."
+    },
+    {
+     "kind": "carrier_binding",
+     "ref": "engine/rn_engine/BINDING.json carrier RNENG-08",
+     "carrier_id": "RNENG-08",
+     "arithmetic": "not applicable (Markdown artifact)",
+     "certifying": false,
+     "note": "Byte-exact carrier recovery is provenance, not proof."
+    }
+   ],
+   "source": "H3_RUNG_FLOOR.md (H3-closure line, companion to the frozen H3_CLOSURE.md)"
+  },
   "RN5-NEAR-POINT-CERTS": {
    "track": "UPPER2D",
    "statement": "65 point-law certificates on the 13-radius, 5-angle D4 net plus 10 spatial-box certificates for the corrected near-region moment bound, at 384 bits.",
    "grade": "AUTHOR_SIDE_PARTIAL",
    "depends_on": [
-    "H3-BAND-FLOOR"
+    "H3-RUNG-FLOOR"
    ],
    "independence_credit": 0,
    "note": "Ten boxes do NOT cover the annulus. Diagnostic polar sums (2.34195 r^3 corrected, 17.67237 r^3 wrong-power) are not bounds on the spatial integral.",
