@@ -117,6 +117,18 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_downstream_rn_crosswalk_page_is_declared_and_resolve(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        page='docs/DOWNSTREAM_RN_CROSSWALK_20260925.md'
+        self.assertIn(page,data['pages'])
+        self.assertTrue((root/page).is_file(),page)
+        # Closed math_status packet must not absorb this navigation note.
+        self.assertFalse((root/'docs/math_status/DOWNSTREAM_CROSSWALK_20260925.md').exists())
+        self.assertFalse((root/'docs/math_status/DOWNSTREAM_RN_CROSSWALK_20260925.md').exists())
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)

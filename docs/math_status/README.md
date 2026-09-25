@@ -114,6 +114,13 @@ Nothing is invented to fill them. Navigation only:
 [`docs/RN_SIDE24_DENSITY.md`](../RN_SIDE24_DENSITY.md), and
 [`docs/RN_SIDE24_CELL.md`](../RN_SIDE24_CELL.md).
 
+Historical-route ABSENT carriers versus newer analytic successors are classified
+only in
+[`docs/DOWNSTREAM_RN_CROSSWALK_20260925.md`](../DOWNSTREAM_RN_CROSSWALK_20260925.md)
+(outside this closed packet directory). That page does not discharge
+`OBL-H5-JETMOD` or `D3-LEMMA-RN-UNIF`, does not FREEZE either, and does not set
+`lemma_closed`.
+
 Where `aligned_to_base_tip` is already present, it is generation provenance
 (`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
 It is not a re-run on the hardening tip observed at this edit,

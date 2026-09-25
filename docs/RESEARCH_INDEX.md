@@ -41,7 +41,10 @@ discharge [D3-LEMMA-RN-UNIF](math_status/STATUS_RN_UNIF.md).
 On this branch, use [RN status as written](math_status/STATUS_RN_UNIF.md) and
 the [execution guide](RESEARCH_EXECUTION.md). Absent source objects, cell
 coverage, and 24-jet requirements stay open. Do not apply a local support
-inclusion to an arbitrary remote region. Do not invent a 24-jet roster.
+inclusion to an arbitrary remote region. Do not invent a 24-jet roster. The
+[downstream RN crosswalk](DOWNSTREAM_RN_CROSSWALK_20260925.md) separates those
+historical-route walls from newer fixed-remote / mesoscopic analytic work without
+retiring the historical route or flipping `lemma_closed`.
 
 ## P15 combinatorics
 
