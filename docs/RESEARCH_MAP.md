@@ -255,26 +255,33 @@ per-band computation, never a fitted exponent) remains `OBL-H5-JETMOD` OPEN.
 [`docs/math_status_probes/`](math_status_probes/README.md)
 (`inventable_jetmod_instrumentation_status.py`, the `inventable_*` PARTIAL /
 REFUSED_NOT_24JET receipts, and that directory's README) is probe and
-instrumentation honesty. It is not a mathematics source of truth. `PARTIAL`
-and `REFUSED_NOT_24JET` are not discharge. A green checker is not discharge.
+instrumentation honesty. It is not a mathematics source of truth.
+Instrumentation STATUS is `PARTIAL` / `REFUSED_NOT_24JET` only. The shortcut
+receipt `inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json`
+uses that `REFUSED_NOT_24JET` token and is indexed by
+`INVENTABLE_PROBES_INDEX.json`. It is not an instrumentation STATUS inventory
+row. `PARTIAL` and `REFUSED_NOT_24JET` are not discharge. A green checker is not discharge.
 `OBL-H5-JETMOD` stays OPEN. The reader route is the inventable section of
 [`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
 
-The additional probe receipts
+The sibling and shortcut probe receipts
 `inventable_eval_F_G12box_REFUSED_receipt.json`,
 `inventable_interval_schur_ainv_REFUSED_receipt.json`
 (status token `REFUSED_IA_STRADDLES`),
 `inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json`,
 `inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json`,
 `inventable_joint_ry_cancel_EMPTY_receipt.json`, and
-`inventable_phi_bridge_ABSENT_receipt.json` are instrumentation STATUS.
-`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT` are not discharge.
-They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`,
-or RN-UNIF discharge. `INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` and
-`INVENTABLE_PROBES_INDEX.json` are instrumentation indexes.
+`inventable_phi_bridge_ABSENT_receipt.json` are sibling and shortcut
+refusals. Their honesty labels are `REFUSED`, `REFUSED_IA_STRADDLES`,
+`EMPTY`, and `ABSENT`. They are not instrumentation STATUS. `REFUSED` ≠
+discharge. `EMPTY` and `ABSENT` are not discharge. They do not imply
+`lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, or RN-UNIF
+discharge. `INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` is the
+instrumentation STATUS index (`PARTIAL` / `REFUSED_NOT_24JET` only).
+`INVENTABLE_PROBES_INDEX.json` indexes the sibling and shortcut receipts.
 `HUNT_BANK_JOINT_FMAP_PHI_2026-09-23.md` is a hunt bank. None of the three is
 a source of truth. A green checker is not discharge. `OBL-H5-JETMOD` stays
-OPEN. The reader route is the sibling section of
+OPEN. The reader route is the sibling and shortcut section of
 [`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
 
 ### H3 band floor
