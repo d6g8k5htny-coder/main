@@ -1295,8 +1295,8 @@ def test_34_NEGATIVE_CONTROL_the_outside_guard_is_load_bearing():
     assert led.records["b"].residual == Interval.exact(F(10) ** 6)
 
 
-def test_43_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
-    """CONTROL 43. The cost figure is published in three documents. Pin it.
+def test_35_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
+    """CONTROL 35. The cost figure is published in three documents. Pin it.
 
     ``uniform_cost`` is this package's answer to RN5's "Treat the near-axis
     refinement cost explicitly", and the README stakes its standing on the
