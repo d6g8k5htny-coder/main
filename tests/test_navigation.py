@@ -99,6 +99,15 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_research_map_and_execution_pages_are_declared_and_resolve(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        for page in ('docs/RESEARCH_MAP.md','docs/RESEARCH_EXECUTION.md'):
+            self.assertIn(page,data['pages'])
+            self.assertTrue((root/page).is_file(),page)
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)

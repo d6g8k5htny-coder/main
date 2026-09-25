@@ -17,6 +17,16 @@ The research checkers and their boundaries are in
 and the interpreter version with the result. Navigation checks in the last
 section do not stand in for that CI.
 
+Inventable probe honesty and the SIDE24 prep walls are in
+[the probes README](math_status_probes/README.md). `REFUSED` ≠ discharge.
+`EMPTY`, `ABSENT`, `PARTIAL`, and `REFUSED_NOT_24JET` stay honesty labels.
+Instrumentation STATUS is `PARTIAL` / `REFUSED_NOT_24JET` only. Objects
+marked **ABSENT** in [RN_SIDE24.md](RN_SIDE24.md),
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md), and
+[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) stay **ABSENT**. A green probe or
+SIDE24 checker is not a source of truth and does not discharge
+`OBL-H5-JETMOD`.
+
 ## Mathematical sources
 
 Clone [Math-](https://github.com/d6g8k5htny-coder/Math-) and run these commands
