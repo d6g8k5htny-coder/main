@@ -450,6 +450,46 @@ class F2CoverageTests(unittest.TestCase):
         self.assertNotEqual(rc2, 0, report2)
         self.assertIn("T", report2["controlling_impacted"])
 
+    def test_e6_precision_upgrade_with_semantic_change_still_refuses(self):
+        """E6: same-carrier precision upgrade must not mask statement/semantic drift."""
+        repo = self._repo()
+        body = "stable frozen theorem\n"
+        (repo / "d1.md").write_text(self._d1_wrapper(body), encoding="utf-8")
+        expected = CGA._sha256_bytes(
+            CGA.extract_scientific_bytes(
+                (repo / "d1.md").read_bytes(), "frozen_body"
+            )
+        )
+        before_g = _fixture()
+        before_g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            statement="original controlling statement",
+            source_bindings=[
+                {"repo": CGA.CURRENT_REPO, "path": "d1.md", "role": "assembly_mirror"}
+            ],
+        )
+        before_g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, before_g, "legacy-bind")
+        after_g = copy.deepcopy(before_g)
+        after_g["claims"]["T"]["statement"] = "CHANGED controlling statement"
+        after_g["claims"]["T"]["source_bindings"] = [
+            {
+                "repo": CGA.CURRENT_REPO,
+                "path": "d1.md",
+                "role": "scientific_object",
+                "extraction_rule": "frozen_body",
+                "expected_sha256": expected,
+                "mirror_freshness": "external_sync_obligation",
+            }
+        ]
+        after = self._commit(repo, after_g, "precision-plus-statement")
+        rc, report = self._event(repo, before, after)
+        self.assertNotEqual(rc, 0, report)
+        self.assertFalse(report["transition_ok"], report)
+        self.assertIn("T", report["controlling_impacted"])
+        self.assertNotIn("T", report.get("coverage_repairs") or [])
+
 
 if __name__ == "__main__":
     unittest.main()

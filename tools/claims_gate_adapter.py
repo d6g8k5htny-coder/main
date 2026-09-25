@@ -771,7 +771,8 @@ def _is_binding_precision_repair(
     validation succeeding, may change coverage_sha256 (role / extraction_rule /
     expected_sha256 / object digest narrowing) without meaning the load-bearing
     file content drifted. Exempt that from F1 retained-impact refusal — same
-    class as unresolved→monitorable coverage repair.
+    class as unresolved→monitorable coverage repair — only when non-binding
+    semantics are also unchanged (see `_coverage_repair_allowed`).
     """
     if not _source_binding_monitorable(new_bound):
         return False
@@ -807,6 +808,77 @@ def _is_binding_precision_repair(
             return False
         if b.get("expected_sha256") and not b.get("object_hash_ok"):
             return False
+    return True
+
+
+def _non_binding_identity_changed(
+    old_node: dict[str, Any], new_node: dict[str, Any]
+) -> bool:
+    """True when scientific identity changed aside from binding metadata.
+
+    `semantic_digest` already normalizes source_bindings to path-level fields
+    (owner/repo/path/commit/blob/hash) and excludes role / extraction_rule /
+    expected_sha256 / freshness. Full `source_snapshot` is intentionally NOT
+    used here — it always moves when binding precision metadata is added.
+    """
+    return (
+        old_node.get("semantic_digest") != new_node.get("semantic_digest")
+        or old_node.get("classification") != new_node.get("classification")
+        or old_node.get("version") != new_node.get("version")
+        or old_node.get("source_controlling") != new_node.get("source_controlling")
+        or old_node.get("source_grade") != new_node.get("source_grade")
+    )
+
+
+def _reverse_reachable_from_other_seeds(
+    nid: str,
+    impact: dict[str, Any],
+    old_graph: dict[str, Any],
+    new_graph: dict[str, Any],
+) -> bool:
+    """True when another changed seed reverse-reaches nid (independent impact)."""
+    other_seeds = set(impact.get("changed_nodes") or ()) - {nid}
+    if not other_seeds:
+        return False
+    union_edges = {
+        (e["from"], e["to"]) for g in (old_graph, new_graph) for e in g["edges"]
+    }
+    reverse: dict[str, set[str]] = {}
+    for child, dep in union_edges:
+        reverse.setdefault(dep, set()).add(child)
+    queue = list(other_seeds)
+    seen = set(other_seeds)
+    while queue:
+        dep = queue.pop()
+        for child in reverse.get(dep, ()):
+            if child == nid:
+                return True
+            if child not in seen:
+                seen.add(child)
+                queue.append(child)
+    return False
+
+
+def _coverage_repair_allowed(
+    nid: str,
+    *,
+    old_graph: dict[str, Any],
+    new_graph: dict[str, Any],
+    impact: dict[str, Any],
+) -> bool:
+    """E6: coverage repair must not mask independent semantic/edge/authority impact."""
+    old_node = old_graph["nodes"].get(nid)
+    new_node = new_graph["nodes"].get(nid)
+    if not isinstance(old_node, dict) or not isinstance(new_node, dict):
+        return False
+    if _non_binding_identity_changed(old_node, new_node):
+        return False
+    if nid in set(impact.get("edge_only_seeds") or ()):
+        return False
+    if nid in set(impact.get("authority_owner_seeds") or ()):
+        return False
+    if _reverse_reachable_from_other_seeds(nid, impact, old_graph, new_graph):
+        return False
     return True
 
 
@@ -857,18 +929,22 @@ def evaluate_transition_enforcement(
         for nid in list(retained_impacted):
             old_b = old_sources.get(nid)
             new_b = new_sources.get(nid)
+            candidate = False
             if not _source_binding_monitorable(old_b) and _source_binding_monitorable(
                 new_b
             ):
-                coverage_repairs.add(nid)
+                candidate = True
             elif (
                 (old_b or {}).get("coverage_sha256")
                 != (new_b or {}).get("coverage_sha256")
                 and _is_binding_precision_repair(old_b, new_b)
             ):
-                # Only when THIS node's coverage digest moved due to binding
-                # precision — not when reverse-impacted via another node's
-                # real byte drift while this node's bindings are unchanged.
+                # Own coverage digest moved due to binding precision — not when
+                # reverse-impacted via another node's real byte drift alone.
+                candidate = True
+            if candidate and _coverage_repair_allowed(
+                nid, old_graph=old_graph, new_graph=new_graph, impact=impact
+            ):
                 coverage_repairs.add(nid)
         retained_impacted = retained_impacted - coverage_repairs
     errors: list[dict[str, Any]] = []
@@ -931,7 +1007,8 @@ def evaluate_transition_enforcement(
             "loss-only source transition over the detected impact graph; "
             "controlling sources must be byte-monitorable scientific objects; "
             "coverage repair includes unresolved→monitorable and same-carrier "
-            "identity-precision upgrades; not positive admission or legacy acceptance"
+            "identity-precision upgrades only when non-binding semantics / "
+            "edges / authority seeds are unchanged; not positive admission or legacy acceptance"
         ),
         "meaning": (
             "transition_ok is false for unsupported new controlling status, "
