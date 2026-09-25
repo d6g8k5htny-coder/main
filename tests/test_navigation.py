@@ -137,6 +137,22 @@ class NavigationTests(unittest.TestCase):
         result=n.check(root)
         self.assertEqual(result['problems'],[],result)
 
+    def test_mesoscopic_challenge_page_is_declared_and_bound(self):
+        root=Path(__file__).resolve().parents[1]
+        data=n.load(root)
+        page='docs/RN_MESOSCOPIC_REDUCTION_CHALLENGE_20260925.md'
+        self.assertIn(page,data['pages'])
+        text=(root/page).read_text()
+        lowered=text.lower()
+        self.assertIn('b7ef84cd1e5946c766e125e1ccff6bf611214254d35dc2e0778f019b8d48dcb9',text)
+        self.assertIn('r17 review record',lowered)
+        self.assertIn('independence credit is **0**',lowered)
+        self.assertIn('scientific effect: none',lowered)
+        self.assertIn('not a gate movement',lowered)
+        self.assertNotIn('lemma_closed=true',lowered)
+        result=n.check(root)
+        self.assertEqual(result['problems'],[],result)
+
     def test_navigation_pages_do_not_flip_claim_flags(self):
         root=Path(__file__).resolve().parents[1]
         data=n.load(root)
