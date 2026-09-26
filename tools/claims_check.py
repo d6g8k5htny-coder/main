@@ -34,7 +34,12 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GRAPH = os.path.join(ROOT, "claims", "graph.json")
+CLAIMS_README = os.path.join(ROOT, "claims", "README.md")
 MANIFEST = os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")
+# The second carrier index, and the one the graph actually names. Until this
+# existed the override below resolved nothing: the graph names exactly one
+# carrier_id, RNENG-01, which is in BINDING and not in MANIFEST.
+BINDING = os.path.join(ROOT, "engine", "rn_engine", "BINDING.json")
 
 OPEN_STATUSES = {"OPEN", "NOT_CLOSED"}
 UNCONDITIONAL_GRADES = {"LIVE_ROOT_THEOREM", "FROZEN_CERTIFICATE", "RATIFIED_3D_ONLY"}
@@ -42,6 +47,47 @@ UNCONDITIONAL_GRADES = {"LIVE_ROOT_THEOREM", "FROZEN_CERTIFICATE", "RATIFIED_3D_
 # tracks here so that the 2D/3D and prize firewalls cover it too. Grouping only
 # ever adds refusals.
 Q0_TRACKS = {"UPPER2D", "LOWER2D", "P02_ADJACENCY"}
+# Every track a node may carry. Closed, because three firewalls read `track` as a
+# membership test against a literal set -- FW-2D-3D-COMPOSITION,
+# FW-PRIZE-ISOLATION and FW-NO-PRIZE-CLOSURE -- so an unrecognised value matches
+# none of them and drops the node out of all three at once, silently. Nothing
+# validated it: the graph happens to use exactly these five, and a typo or a
+# rename would have been a quiet opt-out from rule 4.
+TRACKS = Q0_TRACKS | {"LIFETIME3D", "NUMBER_THEORY"}
+
+# Premise status vocabulary, closed for the same reason. FW-UNCONDITIONAL used to
+# ask `status_frozen_v2_2 in {"OPEN", "NOT_CLOSED"}`, which is an open-word
+# whitelist over ONE of the two columns, and it let two things through:
+#
+#   * NAMED_HYPOTHESIS read as discharged. A named hypothesis is by definition
+#     not discharged, and two premises carry exactly that word.
+#   * the register-note column was never read at all -- and the two-column shape
+#     exists precisely because the columns disagree about four of five D1
+#     premises. A premise open in its note and something else when frozen was
+#     invisible.
+#
+# So the test is inverted: a premise is treated as discharged only when a column
+# says so in a word listed here, and an unrecognised word is refused rather than
+# assumed harmless. RESTATED and REFINEMENT are deliberately NOT in
+# PREMISE_DISCHARGED: whether a restatement discharges the premise is a status
+# question, and this file transcribes statuses rather than deciding them.
+# The firewalls this file actually enforces. Three lists used to exist -- declared
+# in graph.json, enforced here, documented in claims/README.md -- and nothing
+# reconciled them, so claims/README.md documented eight where nine are enforced
+# and said "24 claims" over a graph of twenty-six. A checker that cannot say
+# which rules it applies cannot be audited, so the list is written down and
+# compared against both the graph and the prose on every run.
+ENFORCED_FIREWALLS = frozenset({
+    "FW-UNCONDITIONAL", "FW-2D-3D-COMPOSITION", "FW-PRIZE-ISOLATION",
+    "FW-NO-PRIZE-CLOSURE", "FW-DECIMAL-KILL", "FW-LM011-PRECONDITION",
+    "FW-NO-RECEIPT-PROMOTION", "FW-FLOAT-NOT-CERTIFIED",
+    "FW-RETRACTED-NOT-UNCONDITIONAL", "FW-RUNG-OPEN-PREMISE",
+})
+
+PREMISE_STATUS_COLUMNS = ("status_frozen_v2_2", "status_register_note")
+PREMISE_DISCHARGED = {"CLOSED", "DISCHARGED", "PROMOTED", "SATISFIED", "CERTIFIED"}
+PREMISE_UNDISCHARGED = {"OPEN", "NOT_CLOSED", "NAMED_HYPOTHESIS", "RESTATED",
+                        "REFINEMENT", "PARTIAL", "REFUTED", "RETRACTED"}
 
 # ---------------------------------------------------------------- FW-LM011 --
 # Technical statuses the registers use for a route that has passed. Transcribed
@@ -81,28 +127,99 @@ GRADE_STRENGTH = {
 }
 CONDITIONAL_STRENGTH = GRADE_STRENGTH["CONDITIONAL"]
 
-# Arithmetic vocabulary. Matching is on substrings so that a carrier manifest's
-# own prose ("mpmath binary floating point at mp.dps = 100") classifies the same
-# way as the graph's token ("mpmath_float").
-FLOAT_ARITHMETIC_TOKENS = ("float", "mpmath", "numpy", "double")
-EXACT_ARITHMETIC_TOKENS = ("fraction", "rational", "interval", "arb", "decimal", "exact")
+# Arithmetic vocabulary. A declaration classifies a record only when it IS one
+# of these, after normalising case, underscores, hyphens and whitespace. The
+# previous rule matched SUBSTRINGS, and substring matching accepts the denial of
+# the very property it looks for: "inexact" contains "exact", "no interval
+# arithmetic" contains "interval", "arbitrary precision" contains "arb". All
+# three classified as EXACT, so a record could claim certification while saying
+# in words that it is not exact. Prose is not a classification.
+#
+# These sets are closed on purpose, in the same spirit as GRADE_STRENGTH: a new
+# declaration must be placed here explicitly rather than slipping in on a
+# coincidence of letters. An unplaced declaration is UNRECOGNISED, which is
+# refused wherever certification is claimed -- the safe direction.
+FLOAT_ARITHMETIC_DECLARATIONS = frozenset({
+    "float", "floats", "floating point", "binary floating point",
+    "binary64", "double", "double precision", "ieee754", "ieee 754",
+    "mpmath", "mpmath float", "numpy", "numpy float",
+})
+EXACT_ARITHMETIC_DECLARATIONS = frozenset({
+    "exact", "exact rational", "rational", "fraction", "fractions",
+    "fractions.fraction", "decimal", "decimal.decimal",
+    "interval", "interval arithmetic", "arb",
+    # The precision-suffixed forms actually used by the committed graph. A new
+    # suffix is UNRECOGNISED until it is added here, which refuses rather than
+    # admits.
+    "interval 384bit", "interval arb 384bit",
+})
+# The third case, and it must be spelled rather than left blank: a review record
+# or a register row performs no arithmetic at all. Nine evidence records say so.
+NOT_APPLICABLE_ARITHMETIC_DECLARATIONS = frozenset({"not applicable", "none", "n/a"})
+
+# Kept ONLY to describe prose in a message. These never grant a classification;
+# see classify_arithmetic. Without that restriction they are the substring rule
+# the strict sets above replaced.
+_FLOAT_PROSE_HINTS = ("float", "mpmath", "numpy", "double")
+_EXACT_PROSE_HINTS = ("fraction", "rational", "interval", "arb", "decimal", "exact")
+
+assert not (FLOAT_ARITHMETIC_DECLARATIONS & EXACT_ARITHMETIC_DECLARATIONS), (
+    "a declaration cannot be both float and exact")
+
+FLOAT, EXACT, NOT_APPLICABLE = "float", "exact", "not_applicable"
+UNRECOGNISED, AMBIGUOUS = "unrecognised", "ambiguous"
+
+
+def normalise_arithmetic(arithmetic: str) -> str:
+    """Lowercase, and treat `_`, `-` and runs of whitespace as one space."""
+    return " ".join(arithmetic.lower().replace("_", " ").replace("-", " ").split())
+
+
+def classify_arithmetic(arithmetic) -> str:
+    """One of FLOAT, EXACT, NOT_APPLICABLE, UNRECOGNISED, AMBIGUOUS.
+
+    This was `is_float_arithmetic`, returning a bool, and the bool was a
+    fail-open: an unlisted word ("IEEE 754", "binary64"), a missing field and a
+    non-string all returned False, which the caller read as "not float" and so
+    as nothing to refuse. The old docstring claimed "an unrecorded arithmetic is
+    never a pass either". It was.
+
+    AMBIGUOUS is the second fix and the less obvious one. The old rule was that
+    an exact token anywhere wins, which a NEGATION defeats.
+    `engine/rn_engine/BINDING.json` records RNENG-01 as
+
+        "mpmath binary floating point at mp.dps = 100 ... no fractions.Fraction,
+         no decimal.Decimal and no interval arithmetic occurs anywhere"
+
+    -- genuinely float code, whose own denial mentions `fraction`, `decimal` and
+    `interval`, so the old rule classified it EXACT. A string carrying tokens
+    from both vocabularies is prose, not a classification, and the checker says
+    so rather than picking one.
+    """
+    if not isinstance(arithmetic, str) or not arithmetic.strip():
+        return UNRECOGNISED
+    n = normalise_arithmetic(arithmetic)
+    if n in EXACT_ARITHMETIC_DECLARATIONS:
+        return EXACT
+    if n in FLOAT_ARITHMETIC_DECLARATIONS:
+        return FLOAT
+    if n in NOT_APPLICABLE_ARITHMETIC_DECLARATIONS:
+        return NOT_APPLICABLE
+    # Not a declaration. It is prose, and prose classifies nothing. The one
+    # shape worth naming separately is prose drawing on both vocabularies,
+    # because that is what the live BINDING sentence does and what the old
+    # substring rule read as EXACT. AMBIGUOUS and UNRECOGNISED are both
+    # non-EXACT, so neither can carry a certification either way.
+    if (any(t in n for t in _FLOAT_PROSE_HINTS)
+            and any(t in n for t in _EXACT_PROSE_HINTS)):
+        return AMBIGUOUS
+    return UNRECOGNISED
 
 
 def is_float_arithmetic(arithmetic) -> bool:
-    """True when the declared arithmetic is binary floating point.
-
-    An exact/interval token anywhere wins: `engine/rn_engine/BINDING.json`
-    records arithmetic as a sentence, and a sentence that mentions intervals or
-    `fractions.Fraction` is not being described as plain float. Unknown or
-    missing arithmetic is NOT reported as float — it is simply unchecked, which
-    is why an unrecorded arithmetic is never a pass either.
-    """
-    if not isinstance(arithmetic, str):
-        return False
-    s = arithmetic.lower()
-    if any(t in s for t in EXACT_ARITHMETIC_TOKENS):
-        return False
-    return any(t in s for t in FLOAT_ARITHMETIC_TOKENS)
+    """Only the float question. Prefer the classifier: this still answers False
+    for UNRECOGNISED and AMBIGUOUS, which is the fail-open it exists to close."""
+    return classify_arithmetic(arithmetic) == FLOAT
 
 
 def load(path: str | None = None) -> dict:
@@ -153,20 +270,63 @@ def load_carrier_manifest(path: str | None = None) -> dict:
     return out
 
 
+def carrier_indexes(manifest_path: str | None = None,
+                    binding_path: str | None = None) -> dict:
+    """{carrier_id: (record, source label)} over BOTH carrier indexes.
+
+    `tools/quarantine_check.py` and `tools/lanes_check.py` already resolve a
+    carrier against both; this one read only `engine/carriers/MANIFEST.json`,
+    and the graph names exactly one carrier_id, which lives in the other file.
+    So the override that says "the carrier's own record is what the run actually
+    used" resolved nothing at all: one lookup, one miss, every run.
+
+    Returns `(index, conflicts)`. MANIFEST wins a duplicate id, and a duplicate
+    whose arithmetic or certifying DISAGREES is returned in `conflicts` for the
+    caller to refuse. An earlier revision of this docstring promised exactly
+    that while the code overwrote unconditionally and no caller reported
+    anything, so a manifest entry could mask a live BINDING declaration
+    silently. The promise is now structural: the conflicts are a return value,
+    not a claim in prose.
+    """
+    out: dict[str, tuple[dict, str]] = {}
+    conflicts: list[str] = []
+    for path, label in ((binding_path or BINDING, "engine/rn_engine/BINDING.json"),
+                        (manifest_path or MANIFEST, "engine/carriers/MANIFEST.json")):
+        for cid, rec in load_carrier_manifest(path).items():
+            prior = out.get(cid)
+            if prior is not None:
+                old_rec, old_label = prior
+                for field in ("arithmetic", "certifying"):
+                    if old_rec.get(field) != rec.get(field):
+                        conflicts.append(
+                            f"carrier {cid} is declared in both indexes with different "
+                            f"{field}: {old_label} says {old_rec.get(field)!r}, {label} says "
+                            f"{rec.get(field)!r}. The second wins silently, so a manifest "
+                            f"entry can mask a live declaration. Reconcile the two indexes; "
+                            f"this checker will not choose between them.")
+            out[cid] = (rec, label)
+    return out, conflicts
+
+
 def evidence_arithmetic(ev: dict, manifest: dict) -> tuple[object, object, str]:
     """(arithmetic, certifying, where) for one evidence record.
 
-    The carrier manifest wins over the graph for any evidence naming a
-    `carrier_id` it lists: the carrier's own record is what the run actually
-    used.
+    A carrier index wins over the graph for any evidence naming a `carrier_id`
+    it lists: the carrier's own record is what the run actually used. `manifest`
+    maps a carrier_id to either a bare record or a (record, label) pair, so a
+    caller that has only one index still works.
     """
     arithmetic, certifying, where = ev.get("arithmetic"), ev.get("certifying"), "graph"
-    carrier = manifest.get(ev.get("carrier_id")) if ev.get("carrier_id") else None
+    found = manifest.get(ev.get("carrier_id")) if ev.get("carrier_id") else None
+    if isinstance(found, tuple):
+        carrier, label = found
+    else:
+        carrier, label = found, "engine/carriers/MANIFEST.json"
     if carrier:
         if carrier.get("arithmetic") is not None:
-            arithmetic, where = carrier["arithmetic"], "engine/carriers/MANIFEST.json"
+            arithmetic, where = carrier["arithmetic"], label
         if carrier.get("certifying") is not None:
-            certifying, where = carrier["certifying"], "engine/carriers/MANIFEST.json"
+            certifying, where = carrier["certifying"], label
     return arithmetic, certifying, where
 
 
@@ -185,7 +345,7 @@ def closure(g: dict, name: str, seen: set[str] | None = None) -> set[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    global GRAPH, MANIFEST
+    global GRAPH, MANIFEST, BINDING, CLAIMS_README
     argv = argv if argv is not None else sys.argv[1:]
     # Parsed by hand and strictly: an unrecognised flag is an error rather than
     # a silent fall-back to the committed graph. A default-argument bug once
@@ -194,23 +354,64 @@ def main(argv: list[str] | None = None) -> int:
     rest = list(argv)
     while rest:
         flag = rest.pop(0)
-        if flag in ("--graph", "--manifest"):
+        if flag in ("--graph", "--manifest", "--binding", "--readme"):
             if not rest:
                 print(f"{flag} needs a path")
                 return 2
             if flag == "--graph":
                 GRAPH = rest.pop(0)
-            else:
+            elif flag == "--manifest":
                 MANIFEST = rest.pop(0)
+            elif flag == "--binding":
+                BINDING = rest.pop(0)
+            else:
+                CLAIMS_README = rest.pop(0)
         else:
             print(f"unknown argument {flag!r}; usage: claims_check.py "
-                  f"[--graph PATH] [--manifest PATH]")
+                  f"[--graph PATH] [--manifest PATH] [--binding PATH] "
+                  f"[--readme PATH]")
             return 2
     g = load()
-    manifest = load_carrier_manifest()
+    manifest, carrier_conflicts = carrier_indexes()
     claims, premises = g["claims"], g["premises"]
     known = set(claims) | set(premises)
     problems: list[str] = []
+    unreadable_arithmetic = 0
+    # A duplicate carrier id whose declaration disagrees between the two indexes
+    # is refused here rather than resolved by whichever file is read second.
+    problems.extend(f"FW-FLOAT-NOT-CERTIFIED: {c}" for c in carrier_conflicts)
+
+    # Declared / enforced / documented, reconciled three ways.
+    declared = {f["id"] if isinstance(f, dict) else f for f in g.get("firewalls", [])}
+    for fid in sorted(declared - ENFORCED_FIREWALLS):
+        problems.append(
+            f"{fid} is declared in claims/graph.json and is not in ENFORCED_FIREWALLS, "
+            f"so nothing in this file applies it")
+    for fid in sorted(ENFORCED_FIREWALLS - declared):
+        problems.append(
+            f"{fid} is enforced here and is not declared in claims/graph.json")
+    # A missing prose document is a refusal, not a skip. `if os.path.isfile(...)`
+    # would have been the next fail-open in this file: delete claims/README.md
+    # and the entire reconciliation below disappears without a word.
+    if not os.path.isfile(CLAIMS_README):
+        problems.append(
+            f"{os.path.relpath(CLAIMS_README, ROOT)} is absent, so the firewalls this "
+            f"file enforces cannot be reconciled against the prose that documents them. "
+            f"A missing document is not a pass.")
+    else:
+        with open(CLAIMS_README, encoding="utf-8") as handle:
+            prose = handle.read()
+        for fid in sorted(ENFORCED_FIREWALLS):
+            if fid not in prose:
+                problems.append(
+                    f"{fid} is enforced and claims/README.md does not name it; a firewall "
+                    f"nobody can read about is not a safeguard a reader can check")
+        for want, what in ((f"{len(claims)} claims", "claim count"),
+                           (f"{len(ENFORCED_FIREWALLS)} firewalls", "firewall count")):
+            if want not in prose:
+                problems.append(
+                    f"claims/README.md does not state {want!r}; its {what} has drifted "
+                    f"from the graph this checker reads")
 
     # 0. referential integrity and acyclicity
     for name, node in list(claims.items()) + list(premises.items()):
@@ -235,16 +436,60 @@ def main(argv: list[str] | None = None) -> int:
             problems.append(f"dependency cycle: {' -> '.join(c)}")
             break
 
+    # Every premise status word must be in the closed vocabulary, on both
+    # columns. An unrecognised word is not evidence of discharge and must not be
+    # read as one.
+    for name, p in premises.items():
+        for col in PREMISE_STATUS_COLUMNS:
+            v = p.get(col)
+            if v is None:
+                # Absence is not a status, and skipping it was a way around the
+                # closed vocabulary: deleting both columns from a premise let an
+                # unconditional or CERTIFIED_RUNG claim rest on it with nothing
+                # refused. All thirteen committed premises carry both columns, so
+                # requiring them costs the committed graph nothing.
+                problems.append(
+                    f"FW-UNCONDITIONAL: {name} carries no {col}. A premise with no status "
+                    f"is not a discharged premise; transcribe the register's word, or "
+                    f"transcribe that the register has none.")
+                continue
+            if v not in PREMISE_DISCHARGED and v not in PREMISE_UNDISCHARGED:
+                problems.append(
+                    f"FW-UNCONDITIONAL: {name} carries {col} {v!r}, which is in neither "
+                    f"PREMISE_DISCHARGED nor PREMISE_UNDISCHARGED. A status word this file "
+                    f"does not know is not a discharge; place it explicitly, transcribing "
+                    f"the register rather than deciding anything.")
+
     # FW-UNCONDITIONAL
     for name, claim in claims.items():
         if claim.get("grade") not in UNCONDITIONAL_GRADES:
             continue
-        for node in closure(g, name) - {name}:
+        for node in sorted(closure(g, name) - {name}):
             p = premises.get(node)
-            if p and p.get("status_frozen_v2_2") in OPEN_STATUSES:
-                problems.append(
-                    f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
-                    f"{node} (frozen status {p['status_frozen_v2_2']})")
+            if not p:
+                continue
+            for col in PREMISE_STATUS_COLUMNS:
+                v = p.get(col)
+                # `is not None and` was the fail-open: a missing column read as
+                # nothing to refuse. Absence is not a discharge.
+                if v not in PREMISE_DISCHARGED:
+                    problems.append(
+                        f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
+                        f"{node}, whose {col} is {v!r} and is not a discharge")
+
+    # A node's `track` is read by three firewalls as a membership test, so an
+    # unrecognised value is an opt-out from all three rather than an error.
+    for name, node in list(claims.items()) + list(premises.items()):
+        t = node.get("track")
+        if t is None:
+            problems.append(
+                f"{name}: carries no `track`, so FW-2D-3D-COMPOSITION, "
+                f"FW-PRIZE-ISOLATION and FW-NO-PRIZE-CLOSURE all skip it")
+        elif t not in TRACKS:
+            problems.append(
+                f"{name}: track {t!r} is not one of {sorted(TRACKS)}. Three firewalls "
+                f"test `track` by membership, so an unrecognised value drops this node "
+                f"out of all three at once rather than failing anything")
 
     # FW-RUNG-OPEN-PREMISE. A source may historically call a rung
     # "CERTIFIED" while simultaneously naming a load-bearing premise as open.
@@ -253,12 +498,22 @@ def main(argv: list[str] | None = None) -> int:
     for name, claim in claims.items():
         if claim.get("grade") != "CERTIFIED_RUNG":
             continue
-        for node in closure(g, name) - {name}:
+        for node in sorted(closure(g, name) - {name}):
             p = premises.get(node)
-            if p and p.get("status_frozen_v2_2") in OPEN_STATUSES:
-                problems.append(
-                    f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests on "
-                    f"{node} (frozen status {p['status_frozen_v2_2']})")
+            if not p:
+                continue
+            # Both columns, and the closed vocabulary, for the same reason as
+            # FW-UNCONDITIONAL: this firewall arrived reading only the frozen
+            # column against the two open words, so NAMED_HYPOTHESIS and a
+            # register note that disagrees both read as discharges. Measured
+            # against the committed graph before the change: it adds zero
+            # refusals, because no claim is graded CERTIFIED_RUNG there at all.
+            for col in PREMISE_STATUS_COLUMNS:
+                v = p.get(col)
+                if v not in PREMISE_DISCHARGED:   # absence included, deliberately
+                    problems.append(
+                        f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests "
+                        f"on {node}, whose {col} is {v!r} and is not a discharge")
 
     # FW-2D-3D-COMPOSITION
     for name, claim in claims.items():
@@ -405,11 +660,39 @@ def main(argv: list[str] | None = None) -> int:
                     f"{name}: evidence[{i}] kind {ev.get('kind')!r} is not in the evidence "
                     f"vocabulary {sorted(EVIDENCE_KINDS)}")
             arithmetic, certifying, where = evidence_arithmetic(ev, manifest)
-            if certifying is True and is_float_arithmetic(arithmetic):
+            kind = classify_arithmetic(arithmetic)
+            if kind in (UNRECOGNISED, AMBIGUOUS):
+                unreadable_arithmetic += 1
+            # The old test was `certifying is True and is_float_arithmetic(...)`,
+            # and it was a fail-open three ways over: `is True` is an identity
+            # test the JSON string "true" walks past; an unlisted word and a
+            # missing field both answered "not float"; and a sentence denying
+            # exact arithmetic classified as exact. So the rule is inverted.
+            # A record that claims certification must SHOW exactness; every
+            # other class is refused, by name. A record that claims none is
+            # free to describe its arithmetic in prose, because nothing rests
+            # on it.
+            if not isinstance(certifying, bool):
+                problems.append(
+                    f"FW-FLOAT-NOT-CERTIFIED: {name} evidence[{i}] declares certifying "
+                    f"{certifying!r} (from {where}), which is not a boolean. The test that "
+                    f'guards this is an identity test, so the string "true" reads as '
+                    f"not-certifying and refuses nothing.")
+            elif certifying is True and kind != EXACT:
+                why = {
+                    FLOAT: "High precision is not certification.",
+                    NOT_APPLICABLE: "A record that performs no arithmetic certifies nothing.",
+                    UNRECOGNISED: ("It is in neither vocabulary, so it is not evidence of "
+                                   "exactness; say which it is."),
+                    AMBIGUOUS: ("It carries tokens from both vocabularies, which is prose "
+                                "rather than a classification -- a sentence saying 'no "
+                                "fractions.Fraction ... no interval arithmetic' describes "
+                                "float code in words that used to classify it exact."),
+                }[kind]
                 problems.append(
                     f"FW-FLOAT-NOT-CERTIFIED: {name} evidence[{i}] declares certifying: true "
-                    f"with arithmetic {arithmetic!r} (from {where}). High precision is not "
-                    f"certification.")
+                    f"with arithmetic {arithmetic!r} (from {where}), which classifies as "
+                    f"{kind}. {why}")
 
         kinds = {ev.get("kind") for ev in evidence}
         if kinds and kinds <= NON_ESTABLISHING_EVIDENCE_KINDS:
@@ -436,17 +719,35 @@ def main(argv: list[str] | None = None) -> int:
 
         if is_claim and node.get("grade") in CERTIFYING_GRADES:
             views = [evidence_arithmetic(ev, manifest) for ev in evidence]
-            if views and all(is_float_arithmetic(a) for a, _c, _w in views):
+            classes = [classify_arithmetic(a) for a, _c, _w in views]
+            # This asked `all(is_float_arithmetic(...))`, and `is_float_arithmetic`
+            # answers False for UNRECOGNISED and AMBIGUOUS. So a carrier index whose
+            # record is prose RESCUED the claim: resolving a float evidence record
+            # against BINDING's mixed-vocabulary sentence turned FLOAT into AMBIGUOUS,
+            # the guard read "not all float", and the refusal vanished. Making this
+            # checker read both carrier indexes is what opened that path, so the fix
+            # belongs here: a certifying grade must SHOW exactness somewhere, and an
+            # unreadable declaration is not a way past the requirement.
+            #
+            # What this still does NOT refuse, said plainly: a certified claim citing
+            # one exact record alongside float ones passes. That is the published
+            # semantics of this firewall and narrowing it is a decision for the
+            # register, not for a checker.
+            if views and EXACT not in classes:
                 problems.append(
-                    f"FW-FLOAT-NOT-CERTIFIED: {name} is graded {node['grade']} but every "
-                    f"evidence record it cites is floating point "
+                    f"FW-FLOAT-NOT-CERTIFIED: {name} is graded {node['grade']} but not one "
+                    f"evidence record it cites declares exact arithmetic. The records "
+                    f"classify as {sorted(set(classes))} "
                     f"({sorted({str(a) for a, _c, _w in views})}). A high-precision float "
-                    f"computation is not a certified bound.")
+                    f"computation is not a certified bound, and an arithmetic declaration "
+                    f"this checker cannot read is not one either.")
 
     for p in problems:
         print(p)
     print(f"claims={len(claims)} premises={len(premises)} "
-          f"firewalls={len(g['firewalls'])} problems={len(problems)}")
+          f"firewalls={len(g['firewalls'])} enforced={len(ENFORCED_FIREWALLS)} "
+          f"evidence_arithmetic_unreadable={unreadable_arithmetic} "
+          f"problems={len(problems)}")
     return 1 if problems else 0
 
 
