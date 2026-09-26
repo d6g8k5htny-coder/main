@@ -242,11 +242,27 @@ def test_the_pinned_moment_envelope_bytes_match_the_archive_member_pin():
     raw = open(os.path.join(ROOT, rel), "rb").read()
     assert len(raw) == rows[rel]["bytes"], (len(raw), rows[rel]["bytes"])
     assert hashlib.sha256(raw).hexdigest() == rows[rel]["sha256"]
-    # and the index that a contributor would consult does NOT list it, which is
-    # the gap this test exists to make visible rather than to paper over
+    # The index a contributor would consult either omits this file -- the gap that
+    # cost a broken pin, recorded rather than papered over -- or names it with the
+    # SAME digest, once the index learns to read archive-member declarations.
+    #
+    # Asserted as an invariant rather than as the transient state on purpose. The
+    # first version asserted `"moment_envelope" not in` the index, which made this
+    # control incompatible with the very fix it argues for: the sibling change that
+    # teaches pinned_sources_check.py to read archive declarations adds this file to
+    # the index, so whichever of the two landed second would have broken the other.
+    # A control that has to be edited when the defect it describes is fixed is a
+    # control that penalises the fix.
     with open(os.path.join(ROOT, "research", "PINNED_SOURCES.md"),
               encoding="utf-8") as f:
-        assert "moment_envelope" not in f.read()
+        index = f.read()
+    if "moment_envelope" in index:
+        row = [l for l in index.splitlines() if "moment_envelope" in l]
+        assert len(row) == 1, row
+        assert rows[rel]["sha256"][:16] in row[0], (
+            "the index names this file with a digest that is not the one the "
+            f"archive member pins: {row[0]}")
+        assert str(rows[rel]["bytes"]) in row[0], row[0]
 
 
 def test_the_rejection_probe_files_are_declared_and_not_labelled():
