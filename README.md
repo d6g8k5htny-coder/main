@@ -10,25 +10,25 @@ This is the **single public front door** for the Universal Law research program.
 
 ## Public research shop
 
-[Open the shop guide](docs/site/README.md) for the status board, pinned SIDE24 coefficient viewer, searchable full-text catalog, and contribution route. The [SIDE24 notebook](docs/notebooks/README.md) is also readable on GitHub and runnable in Colab. [Grab a public task](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Agood-first-task) or [submit an incoming result PR](CONTRIBUTING.md).
+[Open the live research shop](https://d6g8k5htny-coder.github.io/main/site/) for the status board, pinned SIDE24 coefficient viewer, searchable full-text catalog, and contribution route. The [shop guide](docs/site/README.md) explains its sources and limits. The [SIDE24 notebook](docs/notebooks/README.md) is also readable on GitHub and runnable in Colab. [Grab a public task](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Agood-first-task), follow the [Public contributions board](https://github.com/users/d6g8k5htny-coder/projects/1/views/1), or [submit an incoming result PR](CONTRIBUTING.md).
 
-The static app is committed under `docs/site`; Pages activation is a separate [setup step](docs/PUBLIC_SHOP_SETUP.md). All views preserve scoped ACCEPT, AMEND/open, and engineering-only distinctions. They cannot change scientific status.
+The static app is live on main's GitHub Pages, published from `main` / `docs`. See the [deployment and review settings record](docs/PUBLIC_SHOP_SETUP.md). All views preserve scoped ACCEPT, AMEND/open, and engineering-only distinctions. They cannot change scientific status.
 
 ## Public source path
 
 For a stranger who wants the landed mathematics rather than the live agent queue, use this order:
 
-1. **Proof index:** [Math- `PROOF_INDEX.md` at `58f7936d1138b24dd6cc988081d74d07683611d6`](https://github.com/d6g8k5htny-coder/Math-/blob/58f7936d1138b24dd6cc988081d74d07683611d6/PROOF_INDEX.md)
+1. **Proof index:** [Math- `PROOF_INDEX.md` at `d6628da09384728992dcbe6e921cc28ba85aebb0`](https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md)
 2. **Human status map:** [`STATUS.md`](STATUS.md)
 3. **Pinned Math checkout:**
    ```sh
    git clone https://github.com/d6g8k5htny-coder/Math-.git Math-
-   git -C Math- checkout --detach 58f7936d1138b24dd6cc988081d74d07683611d6
+   git -C Math- checkout --detach d6628da09384728992dcbe6e921cc28ba85aebb0
    ```
 4. **Pinned query checkout:**
    ```sh
    git clone https://github.com/d6g8k5htny-coder/query-.git query-
-   git -C query- checkout --detach 89456c5033173c69a304c5fffa781888185675cc
+   git -C query- checkout --detach c88768bb11efd1f7d6bda188f13064bedec54a06
    python -B -S -m unittest discover -s query-/tests -p 'test_*.py' -v
    ```
 
