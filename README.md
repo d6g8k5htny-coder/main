@@ -90,3 +90,7 @@ Start with [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md). New wo
 ## License and citation
 
 Released under the [MIT License](LICENSE). Citation metadata is in [CITATION.cff](CITATION.cff).
+
+## Verification museum
+
+Open the [claim cards and source-bound exhibits](https://d6g8k5htny-coder.github.io/main/site/museum.html) for quoted scopes, proof/review identities, and replay links. The [packet list](https://d6g8k5htny-coder.github.io/main/site/museum.html#packets) shows submissions present in its pinned default-branch snapshot; packets are not STATUS. The museum uses the Math checkout and query checkout pinned above. [Display documentation](docs/site/README.md) explains its snapshots and limits.
