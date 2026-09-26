@@ -38,6 +38,8 @@ For byte identity, use the [public source inventory](docs/public-math/sources.js
 
 **Recovered historical falsifiers:** the [STAGE_E source packet](https://github.com/d6g8k5htny-coder/Math-/blob/a2c3657c3115853a9bd8642b78c3f9ca0bbc59d1/imports/upper2d_stage_e_20260926/README.md) preserves 11 exact files, a reproduced finite H4-JC counterexample, and a source-bound review of numerical defects. Its original certification labels are historical text; the packet does not establish Gaussian continuum or Palm claims. This additive recovery is separate from the frozen inventory above.
 
+The companion [H5 ledger recovery and loader audit](https://github.com/d6g8k5htny-coder/Math-/blob/f6a63031547c2433267b05a676d74fd54fb4412d/imports/upper2d_h5_ledgers_20260926/README.md) supplies 48 unchanged data files previously missing from that packet. It traces overwritten and failed probe records and documents a missing `e-35` exponent in one historical rim-script constant. Custody and input selection are verified; the numerical hunt and mathematical bounds remain unverified.
+
 **Open draft PRs are visible research/review material, but they are not default-branch mathematics.** Do not treat an AMEND draft, review branch, or custody PR as landed proof merely because GitHub can display it.
 
 ## Current status
