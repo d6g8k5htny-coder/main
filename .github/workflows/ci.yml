@@ -67,6 +67,8 @@ jobs:
         run: python tools/slack_check.py
       - name: Receipts (schema, append-only, no receipt claims a status change)
         run: python tools/receipts_check.py
+      - name: Imported custody publications (retained byte for byte; supplements generated, never typed)
+        run: python tools/custody_import.py --check
       - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
         run: python tools/frozen_check.py
       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)

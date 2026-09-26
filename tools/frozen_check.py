@@ -47,7 +47,10 @@ DEFAULT_INVENTORY = os.path.join(ROOT, "drive", "inventory.jsonl")
 DEFAULT_PAYLOADS = os.path.join(ROOT, "drive", "source_map", "Payloads.csv")
 DEFAULT_MEMBERS = os.path.join(ROOT, "drive", "source_map", "Archive_Members.csv")
 DEFAULT_KNOWN = os.path.join(ROOT, "registers", "KNOWN_FINDINGS.json")
-DEFAULT_CUSTODY = os.path.join(ROOT, "drive", "custody", "2026-09-24_frozen_objects.json")
+DEFAULT_CUSTODY = [
+    os.path.join(ROOT, "drive", "custody", "2026-09-24_frozen_objects.json"),
+    os.path.join(ROOT, "drive", "custody", "2026-09-23_frozen_objects_chatgpt.json"),
+]
 
 HEX64 = re.compile(r"\b([0-9a-fA-F]{64})\b")
 
@@ -82,7 +85,7 @@ def load_inventory(path: str) -> Dict[str, dict]:
 
 
 
-def load_custody(path: Optional[str], inventory: Dict[str, dict]) -> Tuple[Dict[str, dict], List[str]]:
+def load_custody(paths, inventory: Dict[str, dict]) -> Tuple[Dict[str, dict], List[str]]:
     """Identities collected after the accessibility publication, kept apart from it.
 
     ``drive/inventory.jsonl`` derives from one dated publication and cannot
@@ -98,45 +101,89 @@ def load_custody(path: Optional[str], inventory: Dict[str, dict]) -> Tuple[Dict[
     one, so this does not pretend to: a row answered here is reported
     MATCH_VIA_CUSTODY_SUPPLEMENT and counted separately, and a supplement may
     never answer for a Drive ID the publication already covers.
+
+    Several supplements may be supplied, because more than one agent collects
+    these objects. Two rules govern what happens when they overlap, and both are
+    fail-closed:
+
+    * **Disagreement is refused, not resolved.** If two supplements give the same
+      Drive ID different bytes or a different digest, the ID is dropped and the
+      conflict is reported. Picking one of two contradictory records is how a
+      checker launders an unknown into an answer; there is no ordering of files
+      that makes it safe.
+    * **Agreement is recorded, never promoted.** Each admitted entry carries the
+      set of *distinct* collectors that reported it, so the summary can say how
+      many rows two parties agree on. That count says something real — two
+      separate downloads of the same bytes is better evidence than one — and it
+      still leaves the status at MATCH_VIA_CUSTODY_SUPPLEMENT. Two supplements
+      naming the same collector are one collector twice and are counted once.
+      None of this is organizational-independence credit, which is a question
+      about review, not about custody of a digest.
     """
     problems: List[str] = []
-    if not path or not os.path.exists(path):
-        return {}, problems
-    try:
-        with open(path, encoding="utf-8") as f:
-            doc = json.load(f)
-    except (OSError, ValueError) as exc:
-        return {}, [f"custody supplement {os.path.basename(path)}: unreadable ({exc})"]
-    if not isinstance(doc, dict):
-        return {}, [f"custody supplement {os.path.basename(path)}: not a JSON object"]
-    for field in ("collected_by", "collection_method", "does_not_establish"):
-        if not str(doc.get(field) or "").strip():
-            problems.append(f"custody supplement {os.path.basename(path)}: no {field}")
+    if isinstance(paths, str) or paths is None:
+        paths = [paths] if paths else []
     out: Dict[str, dict] = {}
-    for row in doc.get("rows", []):
-        rid = str(row.get("id") or "").strip()
-        if not rid:
-            problems.append(f"custody supplement: a row has no Drive id")
+    conflicted: Set[str] = set()
+    for path in paths:
+        if not path or not os.path.exists(path):
             continue
-        if rid in inventory:
-            problems.append(f"custody supplement: {rid} is already in the inventory; a "
-                            f"supplement never overrides the accessibility publication")
+        base = os.path.basename(path)
+        try:
+            with open(path, encoding="utf-8") as f:
+                doc = json.load(f)
+        except (OSError, ValueError) as exc:
+            problems.append(f"custody supplement {base}: unreadable ({exc})")
             continue
-        if not HEX64.fullmatch(str(row.get("sha256") or "")):
-            problems.append(f"custody supplement: {rid} has no 64-hex sha256")
+        if not isinstance(doc, dict):
+            problems.append(f"custody supplement {base}: not a JSON object")
             continue
-        if not isinstance(row.get("bytes"), int):
-            problems.append(f"custody supplement: {rid} has no integer byte count")
-            continue
-        if not str(row.get("verified_by") or "").strip():
-            problems.append(f"custody supplement: {rid} does not say who verified it")
-            continue
-        if rid in out:
-            problems.append(f"custody supplement: {rid} appears twice")
-            continue
-        out[rid] = {"id": rid, "title": row.get("title"), "bytes": row["bytes"],
-                    "sha256": str(row["sha256"]).lower(),
-                    "access_status": "CUSTODY_SUPPLEMENT"}
+        for field in ("collected_by", "collection_method", "does_not_establish"):
+            if not str(doc.get(field) or "").strip():
+                problems.append(f"custody supplement {base}: no {field}")
+        seen: Set[str] = set()
+        for row in doc.get("rows", []):
+            rid = str(row.get("id") or "").strip()
+            if not rid:
+                problems.append(f"custody supplement {base}: a row has no Drive id")
+                continue
+            if rid in inventory:
+                problems.append(f"custody supplement {base}: {rid} is already in the inventory; a "
+                                f"supplement never overrides the accessibility publication")
+                continue
+            if not HEX64.fullmatch(str(row.get("sha256") or "")):
+                problems.append(f"custody supplement {base}: {rid} has no 64-hex sha256")
+                continue
+            if not isinstance(row.get("bytes"), int):
+                problems.append(f"custody supplement {base}: {rid} has no integer byte count")
+                continue
+            collector = str(row.get("verified_by") or "").strip()
+            if not collector:
+                problems.append(f"custody supplement {base}: {rid} does not say who verified it")
+                continue
+            if rid in seen:
+                problems.append(f"custody supplement {base}: {rid} appears twice")
+                continue
+            seen.add(rid)
+            sha = str(row["sha256"]).lower()
+            prior = out.get(rid)
+            if prior is None:
+                out[rid] = {"id": rid, "title": row.get("title"), "bytes": row["bytes"],
+                            "sha256": sha, "access_status": "CUSTODY_SUPPLEMENT",
+                            "collectors": {collector}, "supplements": {base}}
+                continue
+            if prior["sha256"] != sha or prior["bytes"] != row["bytes"]:
+                problems.append(
+                    f"custody supplements disagree about {rid}: "
+                    f"{sorted(prior['supplements'])} say {prior['sha256'][:12]}… "
+                    f"{prior['bytes']} B, {base} says {sha[:12]}… {row['bytes']} B; "
+                    f"neither is used")
+                conflicted.add(rid)
+                continue
+            prior["collectors"].add(collector)
+            prior["supplements"].add(base)
+    for rid in conflicted:
+        out.pop(rid, None)
     return out, problems
 
 
@@ -168,11 +215,11 @@ def column(header: List[str], name: str) -> int:
 
 
 def check(frozen: str, inventory_path: str, payloads: str, members: str,
-          custody_path: Optional[str] = None) -> Tuple[List[dict], List[str]]:
+          custody_paths=None) -> Tuple[List[dict], List[str]]:
     """Return (per-row report, structural problems)."""
     header, rows = load_frozen(frozen)
     inv = load_inventory(inventory_path)
-    custody, custody_problems = load_custody(custody_path, inv)
+    custody, custody_problems = load_custody(custody_paths, inv)
     inv.update(custody)
     idx = digest_index(inv, payloads, members)
     c_obj = column(header, "Object ID")
@@ -231,8 +278,13 @@ def check(frozen: str, inventory_path: str, payloads: str, members: str,
                 if sha_ok and bytes_ok:
                     via_supplement = did in custody
                     entry["status"] = MATCH_VIA_CUSTODY_SUPPLEMENT if via_supplement else MATCH
-                    source = ("a custody supplement collected after the accessibility "
-                              "publication" if via_supplement else "the inventory")
+                    if via_supplement:
+                        collectors = sorted(custody[did]["collectors"])
+                        entry["collectors"] = collectors
+                        source = ("a custody supplement collected after the accessibility "
+                                  f"publication by {', '.join(collectors)}")
+                    else:
+                        source = "the inventory"
                     entry["detail"] = (f"sha256 {inv_sha[:12]}… and {row.get('bytes')} bytes "
                                        f"agree with {source}")
                 else:
@@ -269,14 +321,19 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--payloads", default=DEFAULT_PAYLOADS)
     ap.add_argument("--members", default=DEFAULT_MEMBERS)
     ap.add_argument("--known", default=DEFAULT_KNOWN, help="allowlist of exact problem strings")
-    ap.add_argument("--custody", default=DEFAULT_CUSTODY,
+    ap.add_argument("--custody", action="append", default=None, metavar="PATH",
                     help="identities collected after the accessibility publication; "
-                         "answers are reported apart from inventory-backed ones")
+                         "answers are reported apart from inventory-backed ones. Repeatable: "
+                         "supplements that disagree about a Drive ID are refused, not resolved. "
+                         "Pass --no-custody to read none")
+    ap.add_argument("--no-custody", action="store_true",
+                    help="read no custody supplement at all")
     ap.add_argument("--json", action="store_true", help="print the per-row report as JSON")
     args = ap.parse_args(argv)
 
+    custody_paths = [] if args.no_custody else (args.custody or DEFAULT_CUSTODY)
     report, problems = check(args.frozen, args.inventory, args.payloads, args.members,
-                             args.custody)
+                             custody_paths)
     known = load_known(args.known)
     live = [p for p in problems if p not in known]
     allowed = [p for p in problems if p in known]
@@ -284,6 +341,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.json:
         print(json.dumps({"rows": report, "problems": problems, "allowlisted": allowed}, indent=1))
     counts = Counter(e["status"] for e in report)
+    corroborated = sum(1 for e in report
+                       if e["status"] == MATCH_VIA_CUSTODY_SUPPLEMENT
+                       and len(e.get("collectors") or ()) > 1)
     for p in live:
         print(p)
     for p in allowed:
@@ -291,6 +351,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     print(f"frozen_check: rows={len(report)} "
           f"comparable={counts[MATCH] + counts[MISMATCH] + counts[MATCH_VIA_CUSTODY_SUPPLEMENT]} "
           f"match={counts[MATCH]} match_via_supplement={counts[MATCH_VIA_CUSTODY_SUPPLEMENT]} "
+          f"supplement_collectors_agreeing={corroborated} "
           f"mismatch={counts[MISMATCH]} "
           f"unverifiable={counts[UNVERIFIABLE_NO_INVENTORY_DIGEST]} "
           f"body_present={counts[BODY_PRESENT_AS_PAYLOAD]} not_comparable={counts[NOT_COMPARABLE_OFFLINE]} "
@@ -298,7 +359,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     print("A match here is agreement between two Drive-side records of the same bytes. It re-freezes "
           "nothing, verifies no body this repository does not hold, and moves no status. A "
           "match_via_supplement rests on a later spot-check rather than on the accessibility "
-          "publication, and is counted apart from match for exactly that reason.")
+          "publication, and is counted apart from match for exactly that reason. "
+          "supplement_collectors_agreeing counts the supplement-answered rows that two or more "
+          "DISTINCT collectors reported identically: better evidence about bytes, and still not a "
+          "match, not a verified body and not independence credit.")
     return 1 if live else 0
 
 

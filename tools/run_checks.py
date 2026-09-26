@@ -61,6 +61,7 @@ REQUIRED_COMMANDS = (
     "python tools/lanes_check.py",
     "python tools/slack_check.py",
     "python tools/receipts_check.py",
+    "python tools/custody_import.py --check",
     "python tools/frozen_check.py",
     "python tools/bridge_check.py",
     "python tools/operations_check.py",
