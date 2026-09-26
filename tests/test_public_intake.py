@@ -11,6 +11,7 @@ import struct
 import tempfile
 from unittest import mock
 from pathlib import Path
+import unicodedata
 import unittest
 import zipfile
 import zlib
@@ -25,6 +26,12 @@ BASE = 'b' * 40
 SOURCE = 'c' * 40
 PARENT = 'f' * 40  # an ancestor of the PR head that no branch of the pillar contains
 MATH = 'd6g8k5htny-coder/Math-'
+CATALOG = Path(__file__).resolve().parents[1] / 'docs/public-math'
+# Two rows of the public catalog that the package grammar refuses: the EC-014 witness
+# of #86 comment 5848311773 (em dash) and the catalog's one ASCII refusal (a colon).
+EM_DASH_PATH = ('drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/'
+                '02_CORE_LEMMAS/LEMMA_EC-014_v2.0 \u2014 Six-Pin Pair-Frame Jacobian/proof.md.export.txt')
+COLON_PATH = 'drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/02_TERMINAL_CLOSURE_RECORDS/Observer Relay: EC-21 Approval.export.txt'
 
 
 def sha(raw):
@@ -551,6 +558,169 @@ class IntakeTests(unittest.TestCase):
                                           (b'iCCP', b'sRGB\0\0' + zlib.compress(b'\0' * 32))]))
         self.accept_png(png(4096, 4096))  # exactly MAX_PNG_PIXELS
         self.accept_png(png(), name='plot.PNG')
+
+    def cli(self):
+        """Run main() at the CLI boundary against the offline FakeAPI: (exit code, printed JSON)."""
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        return code, json.loads(output.getvalue())
+
+    def test_overflowing_json_number_refused_at_cli_boundary(self):
+        """Ported from the OpenAI/Codex probe in #86 comment 5848311773 (claim
+        OA-SUPPORT-INTAKE-20260926-1729): {"outer":[{"value":1e400}]} and its -1e400
+        variant parsed to float infinity past parse_constant, which sees only the
+        NaN/Infinity literals, and the full command returned exit 0, lane=incoming,
+        verified_sources=1. The probe recorded that defect; this control inverts it."""
+        for token in ['1e400', '-1e400']:
+            with self.subTest(token=token):
+                self.raw['output.json'] = ('{"outer":[{"value":' + token + '}]}').encode()
+                self.save()
+                self.api.calls.clear()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'nonfinite JSON value'))
+                self.assertNotIn('lane', result)
+                self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_nonfinite_number_tokens_refused_in_any_nesting_and_sign(self):
+        for raw in [b'1e400', b'-1e400', b'[1e400]', b'[-1E400]', b'{"a":{"b":[[1e999]]}}', b'{"a":[{"b":-1e999}]}',
+                    b'[[[[{"deep":-1e309}]]]]', b'{"a":1,"b":[2,3,1.7976931348623157e309]}', b'[0.0, 1.5, 1e999]']:
+            with self.subTest(raw=raw):
+                with self.assertRaisesRegex(ValueError, 'nonfinite JSON value'):
+                    intake.strict_json(raw)
+        # An overflow inside IDENTITY.json is refused the same way as one inside an artifact.
+        self.files['IDENTITY.json'] = b'{"schema":1,"note":[1e400]}'
+        self.install()
+        self.reject('nonfinite JSON value')
+
+    def test_finite_numbers_accepted_and_literal_refusals_kept(self):
+        self.assertEqual(intake.strict_json(b'{"x":1e308,"y":-1e308,"z":1.5}'), {'x': 1e308, 'y': -1e308, 'z': 1.5})
+        self.assertIs(type(intake.strict_json(b'[123456789012345678901234567890]')[0]), int)  # integers are exact and untouched
+        for raw in [b'{"x":1e308}', b'{"x":[-1e308,1.5,2.5e-3,0.0]}', b'{"x":123456789012345678901234567890}']:
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        for raw in [b'{"x":NaN}', b'{"x":Infinity}', b'{"x":-Infinity}', b'{"x":1,"x":2}']:  # the probe's kept refusals
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result']), (1, 'REJECTED'))
+                self.assertRegex(result['reason'], 'nonfinite JSON value|duplicate JSON key')
+
+    def test_float_valued_size_and_schema_still_refused(self):
+        # 1.0 now passes through the finite-float hook as a float; the int-only checks keep refusing it.
+        self.manifest['schema'] = 1.0
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('schema version')
+        self.manifest['schema'] = 1
+        self.manifest['artifacts'][0]['bytes'] = float(self.manifest['artifacts'][0]['bytes'])
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('artifact size')
+
+    def test_catalog_source_paths_are_exact_tree_keys(self):
+        """#86 comment 5848311773 (OpenAI/Codex, claim OA-SUPPORT-INTAKE-20260926-1729):
+        citing the catalog's EC-014 path made the command exit 1 with 'unsafe path' before
+        the source-commit fetch, and the catalog's colon path was the one ASCII refusal.
+        A source path is only a key into the tree the git trees API returns, so the
+        package grammar does not govern it; every tree check that follows is kept."""
+        for path in [EM_DASH_PATH, COLON_PATH]:
+            with self.subTest(path=path):
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+                self.assertIn(f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1', self.api.calls)
+                self.assertFalse(any(path in route or '/contents/' in route for route in self.api.calls))  # a key, never a route
+                self.assertEqual(intake.source_path(path), path.split('/'))
+
+    def test_source_tree_checks_follow_source_path_acceptance(self):
+        composed = unicodedata.normalize('NFC', 'docs/th\u00e9or\u00e8me \u2014 EC-014/proof.md')
+        decomposed = unicodedata.normalize('NFD', composed)
+        self.assertNotEqual(composed, decomposed)
+        self.manifest['sources'][0]['path'] = composed
+        self.save()  # the fixture tree holds the composed key
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        route = f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1'
+        held = self.api.routes[route]['tree'][0]
+        self.manifest['sources'][0]['path'] = decomposed  # same text under normalization, a different tree key
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.api.routes[route]['tree'] = [held]
+        self.reject('regular non-executable public file')
+        self.manifest['sources'][0]['path'] = composed
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        for label, change in [('symlink', dict(mode='120000')), ('executable', dict(mode='100755')), ('directory', dict(type='tree')),
+                              ('oversized', dict(size=intake.MAX_PACKAGE_BYTES + 1))]:
+            with self.subTest(label=label):
+                self.api.routes[route]['tree'] = [dict(held, **change)]
+                self.reject('regular non-executable public file|size limit')
+        self.api.routes[route]['tree'] = []
+        self.reject('regular non-executable public file')
+
+    def test_unsafe_source_paths_refused_before_source_fetch(self):
+        unsafe = ['../x', 'x/../y', '/abs', 'x\\y', 'a\x00b', '', '.', 'x//y', 'x/./y', 'x/', './x', 'a\tb', 'a\nb', 'a\x7fb',
+                  'x' * 1025, None, 5, ['a']]
+        for path in unsafe:
+            with self.subTest(path=repr(path)):
+                with self.assertRaisesRegex(ValueError, 'source path'):
+                    intake.source_path(path)
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.reject('source path')
+                self.assertFalse(any(MATH in route for route in self.api.calls))
+        self.assertEqual(intake.source_path('x' * 1024), ['x' * 1024])
+        self.assertEqual(intake.source_path('.github/workflows/ci.yml'), ['.github', 'workflows', 'ci.yml'])
+
+    def test_package_and_artifact_grammar_still_refuses_source_characters(self):
+        for name in ['note \u2014 dash.txt', 'relay: colon.txt']:
+            with self.subTest(package_file=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unsafe path')
+                self.raw = old
+            with self.subTest(artifact_record=name):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unsafe path')
+            with self.assertRaisesRegex(ValueError, 'unsafe path'):
+                intake.safe_path(name)
+            self.assertEqual(intake.source_path(name), [name])
+
+    def test_public_catalog_census_splits_source_and_package_grammar(self):
+        """Path-only census of docs/public-math, no network, from #86 comment 5848311773.
+        Every catalog row is a candidate source path: an exact key into a pinned commit's
+        tree, never a route and never a checkout, so source_path() must accept all of them.
+        safe_path() governs newly submitted package and artifact names and refuses most of
+        the catalog (1,893 rows for non-ASCII characters, one for a colon). The two
+        validators differ on purpose; this test fails if either drifts toward the other."""
+        index = json.loads((CATALOG / 'sources.json').read_text(encoding='utf-8'))
+        rows = [row for page in index['pages']
+                for row in json.loads((CATALOG / page['path']).read_text(encoding='utf-8'))['sources']]
+        self.assertEqual(len(rows), 2138)
+        self.assertEqual(len(rows), index['source_count'])
+        refused = []
+        for row in rows:
+            self.assertEqual(intake.source_path(row['path']), row['path'].split('/'))
+            try:
+                intake.safe_path(row['path'])
+            except ValueError:
+                refused.append(row['path'])
+        self.assertGreaterEqual(len(refused), 1800)
+        self.assertIn(EM_DASH_PATH, refused)
+        self.assertIn(COLON_PATH, refused)
+        self.assertTrue(all(not path.isascii() or ':' in path for path in refused))
 
 
 if __name__ == '__main__':
