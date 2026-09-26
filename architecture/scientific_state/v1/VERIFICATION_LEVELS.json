@@ -1,0 +1,46 @@
+{
+  "schema_id": "scientific_state.verification_levels.v1",
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "purpose": "Graded formal-verification vocabulary recorded as evidence metadata. Level is never scientific acceptance, CONTROLLING promotion, or lemma closure.",
+  "rule": "verification_level ≠ acceptance. A node at L5 remains non-controlling until the owning Math- / claims authorities independently allow promotion under #90/#86 rules.",
+  "levels": {
+    "L0": {
+      "id": "L0",
+      "label": "prose_or_llm_argument",
+      "description": "Prose or LLM-produced argument without executable checks."
+    },
+    "L1": {
+      "id": "L1",
+      "label": "executable_numerical_or_reproduction",
+      "description": "Executable numerical or reproduction checks."
+    },
+    "L2": {
+      "id": "L2",
+      "label": "exact_arithmetic_or_symbolic_cas",
+      "description": "Exact arithmetic or symbolic CAS checks."
+    },
+    "L3": {
+      "id": "L3",
+      "label": "property_mutation_or_falsification_suite",
+      "description": "Property / mutation / falsification suite."
+    },
+    "L4": {
+      "id": "L4",
+      "label": "smt_or_decision_procedure_certificate",
+      "description": "SMT or decision-procedure certificate where applicable."
+    },
+    "L5": {
+      "id": "L5",
+      "label": "proof_assistant_checked",
+      "description": "Proof-assistant checked theorem (Lean / Isabelle / Coq or selected equivalent)."
+    }
+  },
+  "non_discharge_reminder": [
+    "GREEN_CI",
+    "HASH_MATCH",
+    "SAME_AUTHOR_REVIEW",
+    "NAVIGATION_SUCCESS",
+    "LLM_AGREEMENT"
+  ]
+}
