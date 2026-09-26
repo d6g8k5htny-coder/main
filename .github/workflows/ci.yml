@@ -115,6 +115,12 @@ jobs:
         run: python tools/closure_pipeline.py check-plan
       - name: Math status packet (OPEN/HOLD only; flags stay false)
         run: python tools/math_status_check.py
+      - name: Scientific-state schema/authority/crosswalk (pointers only; effect NONE)
+        run: python tools/scientific_state_check.py
+      - name: Claims→gate #90 tip-health (identity only; not base→head evidence)
+        run: python tools/claims_gate_adapter.py tip-health
+      - name: Claims→gate #90 event base→head compare (immutable refs; impact≠illegal)
+        run: python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json
       - name: Declared navigation links and anchors
         run: python tools/navigation_check.py
       - name: Navigation synthetic controls
