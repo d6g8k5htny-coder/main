@@ -92,6 +92,36 @@ def _digests_for(nid: str, record: dict[str, Any]) -> tuple[str, str]:
         raise AdapterError(str(exc)) from exc
 
 
+def _semantic_digest_binding_order_normalized(
+    nid: str, record: dict[str, Any]
+) -> str:
+    """semantic_digest with source_bindings sorted by (repo, path).
+
+    Used only for coverage-repair eligibility so reshuffling the same path-level
+    bindings is not treated as an independent semantic claim change (E6).
+    """
+    normalized = copy.deepcopy(record)
+    raw = normalized.get("source_bindings")
+    if isinstance(raw, dict):
+        raw = [raw]
+    if isinstance(raw, list):
+
+        def _key(item: Any) -> tuple[Any, ...]:
+            if isinstance(item, dict):
+                return (
+                    0,
+                    item.get("repo") or "",
+                    item.get("path") or item.get("repo_path") or item.get("file") or "",
+                )
+            return (1, str(item))
+
+        normalized["source_bindings"] = sorted(raw, key=_key)
+    try:
+        return _SD.semantic_digest(nid, normalized)
+    except _SD.DigestError as exc:
+        raise AdapterError(str(exc)) from exc
+
+
 def _fingerprint(record: dict[str, Any]) -> str:
     """Deprecated alias: full-record snapshot (not the sole change detector)."""
     return _source_snapshot(record)
@@ -204,6 +234,7 @@ def claims_to_gate_graph(
         _dependency_container(record, "sub_obligations", node_id=nid)
         snapshot = _source_snapshot(record)
         sem, evid = _digests_for(nid, record)
+        sem_norm = _semantic_digest_binding_order_normalized(nid, record)
         # Surface source grade/status; never invent controlling=True.
         source_controlling = record.get("controlling")
         if source_controlling is not None:
@@ -230,6 +261,7 @@ def claims_to_gate_graph(
             ],
             "source_reference": record.get("source") or record.get("canon_source"),
             "semantic_digest": sem,
+            "semantic_digest_normalized": sem_norm,
             "evidence_digest": evid,
             "source_snapshot": snapshot,
             "fingerprint": sem,  # derived digest; never a manual sole detector
@@ -816,13 +848,20 @@ def _non_binding_identity_changed(
 ) -> bool:
     """True when scientific identity changed aside from binding metadata.
 
-    `semantic_digest` already normalizes source_bindings to path-level fields
-    (owner/repo/path/commit/blob/hash) and excludes role / extraction_rule /
-    expected_sha256 / freshness. Full `source_snapshot` is intentionally NOT
-    used here — it always moves when binding precision metadata is added.
+    Prefer `semantic_digest_normalized` when present: same as semantic_digest but
+    with source_bindings ordered by (repo, path) so list reshuffles of the same
+    path-level bindings are not treated as independent claim semantics.
+    Falls back to `semantic_digest`. Full `source_snapshot` is intentionally NOT
+    used — it always moves when binding precision metadata/notes are edited.
     """
+    old_sem = old_node.get("semantic_digest_normalized") or old_node.get(
+        "semantic_digest"
+    )
+    new_sem = new_node.get("semantic_digest_normalized") or new_node.get(
+        "semantic_digest"
+    )
     return (
-        old_node.get("semantic_digest") != new_node.get("semantic_digest")
+        old_sem != new_sem
         or old_node.get("classification") != new_node.get("classification")
         or old_node.get("version") != new_node.get("version")
         or old_node.get("source_controlling") != new_node.get("source_controlling")
@@ -1441,6 +1480,14 @@ def bind_source_at_revision(
                 "mirror_freshness": b.get("mirror_freshness"),
             }
         )
+    coverage_payload.sort(
+        key=lambda item: (
+            item.get("path") or "",
+            item.get("role") or "",
+            item.get("field") or "",
+            item.get("object_sha256") or "",
+        )
+    )
     scientific_bindings = [
         b
         for b in bindings
