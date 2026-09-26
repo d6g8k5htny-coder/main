@@ -127,17 +127,52 @@ GRADE_STRENGTH = {
 }
 CONDITIONAL_STRENGTH = GRADE_STRENGTH["CONDITIONAL"]
 
-# Arithmetic vocabulary. Matching is on substrings so that a carrier manifest's
-# own prose ("mpmath binary floating point at mp.dps = 100") classifies the same
-# way as the graph's token ("mpmath_float").
-FLOAT_ARITHMETIC_TOKENS = ("float", "mpmath", "numpy", "double")
-EXACT_ARITHMETIC_TOKENS = ("fraction", "rational", "interval", "arb", "decimal", "exact")
+# Arithmetic vocabulary. A declaration classifies a record only when it IS one
+# of these, after normalising case, underscores, hyphens and whitespace. The
+# previous rule matched SUBSTRINGS, and substring matching accepts the denial of
+# the very property it looks for: "inexact" contains "exact", "no interval
+# arithmetic" contains "interval", "arbitrary precision" contains "arb". All
+# three classified as EXACT, so a record could claim certification while saying
+# in words that it is not exact. Prose is not a classification.
+#
+# These sets are closed on purpose, in the same spirit as GRADE_STRENGTH: a new
+# declaration must be placed here explicitly rather than slipping in on a
+# coincidence of letters. An unplaced declaration is UNRECOGNISED, which is
+# refused wherever certification is claimed -- the safe direction.
+FLOAT_ARITHMETIC_DECLARATIONS = frozenset({
+    "float", "floats", "floating point", "binary floating point",
+    "binary64", "double", "double precision", "ieee754", "ieee 754",
+    "mpmath", "mpmath float", "numpy", "numpy float",
+})
+EXACT_ARITHMETIC_DECLARATIONS = frozenset({
+    "exact", "exact rational", "rational", "fraction", "fractions",
+    "fractions.fraction", "decimal", "decimal.decimal",
+    "interval", "interval arithmetic", "arb",
+    # The precision-suffixed forms actually used by the committed graph. A new
+    # suffix is UNRECOGNISED until it is added here, which refuses rather than
+    # admits.
+    "interval 384bit", "interval arb 384bit",
+})
 # The third case, and it must be spelled rather than left blank: a review record
 # or a register row performs no arithmetic at all. Nine evidence records say so.
-NOT_APPLICABLE_ARITHMETIC_TOKENS = ("not_applicable", "not applicable")
+NOT_APPLICABLE_ARITHMETIC_DECLARATIONS = frozenset({"not applicable", "none", "n/a"})
+
+# Kept ONLY to describe prose in a message. These never grant a classification;
+# see classify_arithmetic. Without that restriction they are the substring rule
+# the strict sets above replaced.
+_FLOAT_PROSE_HINTS = ("float", "mpmath", "numpy", "double")
+_EXACT_PROSE_HINTS = ("fraction", "rational", "interval", "arb", "decimal", "exact")
+
+assert not (FLOAT_ARITHMETIC_DECLARATIONS & EXACT_ARITHMETIC_DECLARATIONS), (
+    "a declaration cannot be both float and exact")
 
 FLOAT, EXACT, NOT_APPLICABLE = "float", "exact", "not_applicable"
 UNRECOGNISED, AMBIGUOUS = "unrecognised", "ambiguous"
+
+
+def normalise_arithmetic(arithmetic: str) -> str:
+    """Lowercase, and treat `_`, `-` and runs of whitespace as one space."""
+    return " ".join(arithmetic.lower().replace("_", " ").replace("-", " ").split())
 
 
 def classify_arithmetic(arithmetic) -> str:
@@ -163,17 +198,21 @@ def classify_arithmetic(arithmetic) -> str:
     """
     if not isinstance(arithmetic, str) or not arithmetic.strip():
         return UNRECOGNISED
-    s = arithmetic.lower()
-    float_hit = any(t in s for t in FLOAT_ARITHMETIC_TOKENS)
-    exact_hit = any(t in s for t in EXACT_ARITHMETIC_TOKENS)
-    if float_hit and exact_hit:
-        return AMBIGUOUS
-    if float_hit:
-        return FLOAT
-    if exact_hit:
+    n = normalise_arithmetic(arithmetic)
+    if n in EXACT_ARITHMETIC_DECLARATIONS:
         return EXACT
-    if any(t in s for t in NOT_APPLICABLE_ARITHMETIC_TOKENS):
+    if n in FLOAT_ARITHMETIC_DECLARATIONS:
+        return FLOAT
+    if n in NOT_APPLICABLE_ARITHMETIC_DECLARATIONS:
         return NOT_APPLICABLE
+    # Not a declaration. It is prose, and prose classifies nothing. The one
+    # shape worth naming separately is prose drawing on both vocabularies,
+    # because that is what the live BINDING sentence does and what the old
+    # substring rule read as EXACT. AMBIGUOUS and UNRECOGNISED are both
+    # non-EXACT, so neither can carry a certification either way.
+    if (any(t in n for t in _FLOAT_PROSE_HINTS)
+            and any(t in n for t in _EXACT_PROSE_HINTS)):
+        return AMBIGUOUS
     return UNRECOGNISED
 
 
@@ -241,15 +280,32 @@ def carrier_indexes(manifest_path: str | None = None,
     So the override that says "the carrier's own record is what the run actually
     used" resolved nothing at all: one lookup, one miss, every run.
 
-    MANIFEST wins a duplicate id, and a duplicate that disagrees is reported by
-    the caller rather than silently resolved.
+    Returns `(index, conflicts)`. MANIFEST wins a duplicate id, and a duplicate
+    whose arithmetic or certifying DISAGREES is returned in `conflicts` for the
+    caller to refuse. An earlier revision of this docstring promised exactly
+    that while the code overwrote unconditionally and no caller reported
+    anything, so a manifest entry could mask a live BINDING declaration
+    silently. The promise is now structural: the conflicts are a return value,
+    not a claim in prose.
     """
     out: dict[str, tuple[dict, str]] = {}
+    conflicts: list[str] = []
     for path, label in ((binding_path or BINDING, "engine/rn_engine/BINDING.json"),
                         (manifest_path or MANIFEST, "engine/carriers/MANIFEST.json")):
         for cid, rec in load_carrier_manifest(path).items():
+            prior = out.get(cid)
+            if prior is not None:
+                old_rec, old_label = prior
+                for field in ("arithmetic", "certifying"):
+                    if old_rec.get(field) != rec.get(field):
+                        conflicts.append(
+                            f"carrier {cid} is declared in both indexes with different "
+                            f"{field}: {old_label} says {old_rec.get(field)!r}, {label} says "
+                            f"{rec.get(field)!r}. The second wins silently, so a manifest "
+                            f"entry can mask a live declaration. Reconcile the two indexes; "
+                            f"this checker will not choose between them.")
             out[cid] = (rec, label)
-    return out
+    return out, conflicts
 
 
 def evidence_arithmetic(ev: dict, manifest: dict) -> tuple[object, object, str]:
@@ -316,11 +372,14 @@ def main(argv: list[str] | None = None) -> int:
                   f"[--readme PATH]")
             return 2
     g = load()
-    manifest = carrier_indexes()
+    manifest, carrier_conflicts = carrier_indexes()
     claims, premises = g["claims"], g["premises"]
     known = set(claims) | set(premises)
     problems: list[str] = []
     unreadable_arithmetic = 0
+    # A duplicate carrier id whose declaration disagrees between the two indexes
+    # is refused here rather than resolved by whichever file is read second.
+    problems.extend(f"FW-FLOAT-NOT-CERTIFIED: {c}" for c in carrier_conflicts)
 
     # Declared / enforced / documented, reconciled three ways.
     declared = {f["id"] if isinstance(f, dict) else f for f in g.get("firewalls", [])}
@@ -384,6 +443,15 @@ def main(argv: list[str] | None = None) -> int:
         for col in PREMISE_STATUS_COLUMNS:
             v = p.get(col)
             if v is None:
+                # Absence is not a status, and skipping it was a way around the
+                # closed vocabulary: deleting both columns from a premise let an
+                # unconditional or CERTIFIED_RUNG claim rest on it with nothing
+                # refused. All thirteen committed premises carry both columns, so
+                # requiring them costs the committed graph nothing.
+                problems.append(
+                    f"FW-UNCONDITIONAL: {name} carries no {col}. A premise with no status "
+                    f"is not a discharged premise; transcribe the register's word, or "
+                    f"transcribe that the register has none.")
                 continue
             if v not in PREMISE_DISCHARGED and v not in PREMISE_UNDISCHARGED:
                 problems.append(
@@ -402,7 +470,9 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             for col in PREMISE_STATUS_COLUMNS:
                 v = p.get(col)
-                if v is not None and v not in PREMISE_DISCHARGED:
+                # `is not None and` was the fail-open: a missing column read as
+                # nothing to refuse. Absence is not a discharge.
+                if v not in PREMISE_DISCHARGED:
                     problems.append(
                         f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
                         f"{node}, whose {col} is {v!r} and is not a discharge")
@@ -440,7 +510,7 @@ def main(argv: list[str] | None = None) -> int:
             # refusals, because no claim is graded CERTIFIED_RUNG there at all.
             for col in PREMISE_STATUS_COLUMNS:
                 v = p.get(col)
-                if v is not None and v not in PREMISE_DISCHARGED:
+                if v not in PREMISE_DISCHARGED:   # absence included, deliberately
                     problems.append(
                         f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests "
                         f"on {node}, whose {col} is {v!r} and is not a discharge")
@@ -649,12 +719,28 @@ def main(argv: list[str] | None = None) -> int:
 
         if is_claim and node.get("grade") in CERTIFYING_GRADES:
             views = [evidence_arithmetic(ev, manifest) for ev in evidence]
-            if views and all(is_float_arithmetic(a) for a, _c, _w in views):
+            classes = [classify_arithmetic(a) for a, _c, _w in views]
+            # This asked `all(is_float_arithmetic(...))`, and `is_float_arithmetic`
+            # answers False for UNRECOGNISED and AMBIGUOUS. So a carrier index whose
+            # record is prose RESCUED the claim: resolving a float evidence record
+            # against BINDING's mixed-vocabulary sentence turned FLOAT into AMBIGUOUS,
+            # the guard read "not all float", and the refusal vanished. Making this
+            # checker read both carrier indexes is what opened that path, so the fix
+            # belongs here: a certifying grade must SHOW exactness somewhere, and an
+            # unreadable declaration is not a way past the requirement.
+            #
+            # What this still does NOT refuse, said plainly: a certified claim citing
+            # one exact record alongside float ones passes. That is the published
+            # semantics of this firewall and narrowing it is a decision for the
+            # register, not for a checker.
+            if views and EXACT not in classes:
                 problems.append(
-                    f"FW-FLOAT-NOT-CERTIFIED: {name} is graded {node['grade']} but every "
-                    f"evidence record it cites is floating point "
+                    f"FW-FLOAT-NOT-CERTIFIED: {name} is graded {node['grade']} but not one "
+                    f"evidence record it cites declares exact arithmetic. The records "
+                    f"classify as {sorted(set(classes))} "
                     f"({sorted({str(a) for a, _c, _w in views})}). A high-precision float "
-                    f"computation is not a certified bound.")
+                    f"computation is not a certified bound, and an arithmetic declaration "
+                    f"this checker cannot read is not one either.")
 
     for p in problems:
         print(p)

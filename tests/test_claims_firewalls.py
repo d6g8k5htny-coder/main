@@ -129,13 +129,25 @@ def test_the_same_record_passes_with_a_real_boolean():
     assert run(g)[0] == 0
 
 
-def test_rejects_certifying_with_an_unrecognised_arithmetic_word():
-    """"binary64" is float. The old token list did not contain it, and an
+def test_rejects_certifying_with_a_float_word_the_token_list_lacked():
+    """"binary64" is float. The original token list did not contain it, and an
     unlisted word answered "not float", which the caller read as nothing to
-    refuse."""
+    refuse. It is now in FLOAT_ARITHMETIC_DECLARATIONS, so it is refused *as
+    float* rather than merely as unreadable -- a strictly better message for the
+    same refusal."""
     g = graph()
     ev = evidence(g, CERTIFYING_EVIDENCE)
     ev["arithmetic"], ev["certifying"] = "binary64", True
+    code, out = run(g)
+    assert code == 1, out
+    assert "classifies as float" in out, out
+    assert claims_check.classify_arithmetic("binary64") == claims_check.FLOAT
+
+
+def test_rejects_certifying_with_a_word_in_no_vocabulary():
+    g = graph()
+    ev = evidence(g, CERTIFYING_EVIDENCE)
+    ev["arithmetic"], ev["certifying"] = "quaternionic abacus", True
     code, out = run(g)
     assert code == 1, out
     assert "unrecognised" in out, out
@@ -176,11 +188,20 @@ def test_rejects_certifying_with_a_sentence_from_both_vocabularies():
 
 def test_a_non_certifying_record_may_describe_its_arithmetic_in_prose():
     """The other direction has to stay open, or the BINDING sentence itself
-    becomes a failure. Nothing rests on a record that certifies nothing."""
+    becomes a failure. Nothing rests on a record that certifies nothing.
+
+    Deliberately mutated on the PREMISE record that really does carry that
+    sentence, not on RN3-FAR. Putting prose on RN3-FAR's only exact record
+    removes the last exact declaration under a certifying grade, which is now a
+    refusal in its own right -- see
+    test_a_certifying_grade_needs_one_exact_record_not_merely_a_non_float_one.
+    Two separate facts; a fixture that collapses them tests neither."""
     g = graph()
-    ev = evidence(g, CERTIFYING_EVIDENCE)
+    ev = evidence(g, CARRIER_EVIDENCE)
     ev["arithmetic"], ev["certifying"] = BOTH_VOCABULARIES, False
     assert run(g)[0] == 0
+    # And the committed tree, where that sentence is live via the carrier index.
+    assert run()[0] == 0
 
 
 def test_the_classifier_refuses_to_call_the_binding_sentence_exact():
@@ -188,8 +209,11 @@ def test_the_classifier_refuses_to_call_the_binding_sentence_exact():
     assert claims_check.classify_arithmetic("exact_rational") == claims_check.EXACT
     assert claims_check.classify_arithmetic("mpmath_float") == claims_check.FLOAT
     assert claims_check.classify_arithmetic("not_applicable") == claims_check.NOT_APPLICABLE
-    for unreadable in ("binary64", "", "   ", None, 3, True, ["float"]):
+    for unreadable in ("", "   ", None, 3, True, ["float"], "mixed", "unknown"):
         assert claims_check.classify_arithmetic(unreadable) == claims_check.UNRECOGNISED
+    # Normalisation only: underscores, hyphens, case and runs of whitespace.
+    for same in ("exact_rational", "EXACT-RATIONAL", "  exact   rational "):
+        assert claims_check.classify_arithmetic(same) == claims_check.EXACT
 
 
 def test_is_float_arithmetic_still_answers_only_the_float_question():
@@ -197,8 +221,14 @@ def test_is_float_arithmetic_still_answers_only_the_float_question():
     broken. It must not start answering True for the fail-open classes."""
     assert claims_check.is_float_arithmetic("mpmath_float") is True
     assert claims_check.is_float_arithmetic("exact_rational") is False
-    assert claims_check.is_float_arithmetic("binary64") is False
+    # "binary64" now answers True, because it is float and is in the vocabulary.
+    # It answered False while the token list lacked it, and that False was the
+    # fail-open: the caller read it as "not float, nothing to refuse".
+    assert claims_check.is_float_arithmetic("binary64") is True
+    # These two still answer False, so no caller may use this wrapper to decide
+    # that a record is SAFE. That is why the guards ask the classifier instead.
     assert claims_check.is_float_arithmetic(BOTH_VOCABULARIES) is False
+    assert claims_check.is_float_arithmetic("quaternionic abacus") is False
 
 
 # ----------------------------------------------- the second carrier index --
@@ -207,7 +237,8 @@ def test_the_graph_s_only_carrier_id_resolves():
     """It did not. The graph names exactly one carrier_id and the checker read
     only the index that does not contain it, so the override that says "the
     carrier's own record wins" resolved nothing on every run."""
-    idx = claims_check.carrier_indexes()
+    idx, conflicts = claims_check.carrier_indexes()
+    assert conflicts == [], conflicts
     name, i = CARRIER_EVIDENCE
     node = graph()["premises"][name]
     cid = node["evidence"][i]["carrier_id"]
@@ -436,3 +467,142 @@ def test_every_path_flag_needs_a_path():
                            capture_output=True, text=True)
         assert p.returncode == 2, (flag, p.stdout)
         assert "needs a path" in p.stdout, (flag, p.stdout)
+
+
+# --------------------------------------------- four ways it still failed open --
+# All four were found by a nonauthor engineering review of this file's own first
+# revision, reproduced here before being fixed. Three are holes the original
+# change left; the first is a REGRESSION the original change introduced -- making
+# this checker read both carrier indexes let a carrier's prose rescue a claim that
+# the previous revision refused. Each control below fails against that revision.
+
+def test_a_certifying_grade_needs_one_exact_record_not_merely_a_non_float_one():
+    """The regression, in one mutation.
+
+    `all(is_float_arithmetic(...))` asks "is every record float?", and the
+    wrapper answers False for AMBIGUOUS and UNRECOGNISED. So resolving a float
+    evidence record against BINDING's mixed-vocabulary sentence turned FLOAT into
+    AMBIGUOUS, "not all float" became true, and the refusal disappeared. The same
+    graph is refused by the revision before carrier resolution was added, which is
+    what makes this a regression rather than a pre-existing gap."""
+    g = graph()
+    g["claims"]["RN3-FAR"]["evidence"] = [
+        {"kind": "proof_body", "carrier_id": "RNENG-01",
+         "arithmetic": "mpmath_float", "certifying": False}]
+    code, out = run(g)
+    assert code == 1, out
+    assert "not one evidence record it cites declares exact arithmetic" in out, out
+
+
+def test_the_certifying_grade_guard_has_a_positive_control():
+    """RN3-FAR passes on the committed graph, and it passes because it really
+    does cite an exact record -- not because the guard is inert."""
+    assert run()[0] == 0
+    idx, _conflicts = claims_check.carrier_indexes()
+    classes = [claims_check.classify_arithmetic(claims_check.evidence_arithmetic(ev, idx)[0])
+               for ev in graph()["claims"]["RN3-FAR"]["evidence"]]
+    assert claims_check.EXACT in classes, classes
+    assert graph()["claims"]["RN3-FAR"]["grade"] in claims_check.CERTIFYING_GRADES
+
+
+DENIALS_OF_EXACTNESS = ("inexact", "no exact arithmetic",
+                        "binary64; no interval arithmetic", "arbitrary precision")
+
+
+def test_a_declaration_denying_exactness_is_never_classified_exact():
+    """Substring matching accepted the denial of the property it looked for.
+    "inexact" contains "exact"; "no interval arithmetic" contains "interval";
+    "arbitrary precision" contains "arb". Each classified EXACT, so a record could
+    claim certification while saying in words that it is not exact."""
+    for word in DENIALS_OF_EXACTNESS:
+        assert claims_check.classify_arithmetic(word) != claims_check.EXACT, word
+
+
+def test_certifying_with_a_declaration_denying_exactness_is_refused():
+    for word in DENIALS_OF_EXACTNESS:
+        g = graph()
+        ev = evidence(g, CERTIFYING_EVIDENCE)
+        ev["arithmetic"], ev["certifying"] = word, True
+        ev.pop("carrier_id", None)
+        code, out = run(g)
+        assert code == 1, (word, out)
+        assert "FW-FLOAT-NOT-CERTIFIED" in out, (word, out)
+
+
+def test_the_declaration_vocabularies_are_disjoint():
+    assert not (claims_check.FLOAT_ARITHMETIC_DECLARATIONS
+                & claims_check.EXACT_ARITHMETIC_DECLARATIONS)
+    assert not (claims_check.FLOAT_ARITHMETIC_DECLARATIONS
+                & claims_check.NOT_APPLICABLE_ARITHMETIC_DECLARATIONS)
+    assert not (claims_check.EXACT_ARITHMETIC_DECLARATIONS
+                & claims_check.NOT_APPLICABLE_ARITHMETIC_DECLARATIONS)
+
+
+def test_every_arithmetic_declaration_in_the_committed_graph_is_readable():
+    """The closed vocabulary must actually cover the graph it ships with, or the
+    strictness is paid for by a refusal nobody intended."""
+    g = graph()
+    for bucket in ("claims", "premises"):
+        for name, node in g[bucket].items():
+            for i, ev in enumerate(node.get("evidence") or []):
+                if "carrier_id" in ev:
+                    continue   # resolved against an index; prose is expected there
+                kind = claims_check.classify_arithmetic(ev.get("arithmetic"))
+                assert kind != claims_check.UNRECOGNISED, (name, i, ev.get("arithmetic"))
+
+
+def test_a_premise_with_no_status_columns_is_refused():
+    """Absence is not a discharge. Deleting both columns was a way round the
+    closed vocabulary: the loop skipped None, and so did both grade guards."""
+    g = graph()
+    g["claims"][UNCONDITIONAL_CLAIM]["depends_on"] = ["H5-RIM"]
+    for col in claims_check.PREMISE_STATUS_COLUMNS:
+        g["premises"]["H5-RIM"].pop(col, None)
+    code, out = run(g)
+    assert code == 1, out
+    assert "carries no status_frozen_v2_2" in out, out
+    assert "is not a discharge" in out, out
+
+
+def test_a_certified_rung_on_a_premise_with_no_status_columns_is_refused():
+    g = graph()
+    g["claims"]["D1-v2.2(1)"]["grade"] = "CERTIFIED_RUNG"
+    g["claims"]["D1-v2.2(1)"]["depends_on"] = ["H5-RIM"]
+    for col in claims_check.PREMISE_STATUS_COLUMNS:
+        g["premises"]["H5-RIM"].pop(col, None)
+    code, out = run(g)
+    assert code == 1, out
+    assert "FW-RUNG-OPEN-PREMISE" in out, out
+
+
+def test_every_committed_premise_carries_both_status_columns():
+    """So requiring them costs the committed graph nothing, which is why the
+    refusal above can be unconditional."""
+    for name, p in graph()["premises"].items():
+        for col in claims_check.PREMISE_STATUS_COLUMNS:
+            assert p.get(col) is not None, (name, col)
+
+
+def test_a_conflicting_carrier_index_is_refused_not_silently_overwritten():
+    """The docstring promised a disagreeing duplicate would be reported. Nothing
+    reported it, and MANIFEST overwrote BINDING unconditionally, so a manifest
+    entry could mask a live float declaration."""
+    mask = {"carriers": [{"carrier_id": "RNENG-01", "arithmetic": "exact_rational",
+                          "certifying": True}]}
+    code, out = run(manifest=mask)
+    assert code == 1, out
+    assert "declared in both indexes with different arithmetic" in out, out
+    assert "will not choose between them" in out, out
+
+
+def test_an_agreeing_duplicate_is_not_a_conflict():
+    """Or the check would fire on any harmless restatement, and the refusal above
+    would prove nothing about disagreement."""
+    idx, _ = claims_check.carrier_indexes()
+    rec, label = idx["RNENG-01"]
+    assert label == "engine/rn_engine/BINDING.json", label
+    same = {"carriers": [{"carrier_id": "RNENG-01",
+                          "arithmetic": rec["arithmetic"],
+                          "certifying": rec["certifying"]}]}
+    code, out = run(manifest=same)
+    assert code == 0, out

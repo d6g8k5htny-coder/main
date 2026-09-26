@@ -101,7 +101,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | field | vocabulary |
 |---|---|
 | `kind` | `proof_body`, `frozen_certificate_body`, `certificate_set`, `register_row`, `review_record`, `exact_rational_module`, and the four that establish nothing: `receipt`, `test`, `carrier_binding`, `reproduction` |
-| `arithmetic` | `exact_rational`, `interval_*`, `not_applicable`, `float`, `mpmath_float`, … — or, when it comes from a carrier index, that index's own sentence. `classify_arithmetic` sorts it into exactly one of `exact`, `float`, `not_applicable`, `unrecognised` and `ambiguous`; the last two are counted in the summary line so an unreadable record is visible rather than inert |
+| `arithmetic` | a declaration from a **closed** vocabulary — `exact_rational`, `interval_384bit`, `interval_arb_384bit`, `not_applicable`, `float`, `mpmath_float`, `binary64`, … — or, when it comes from a carrier index, that index's own sentence. Matching is on the whole declaration after normalising case, `_`, `-` and whitespace; it is **not** substring matching, which accepted `inexact`, `no exact arithmetic` and `arbitrary precision` as exact. `classify_arithmetic` sorts it into exactly one of `exact`, `float`, `not_applicable`, `unrecognised` and `ambiguous`; the last two are counted in the summary line so an unreadable record is visible rather than inert. A declaration not in the vocabulary is `unrecognised`, which refuses wherever certification is claimed — a new token must be placed here explicitly, as with `GRADE_STRENGTH` |
 | `certifying` | what the artifact's own record says about itself. It must be a real JSON boolean — a string `"true"` is refused, because the guard is an identity test that such a string walks straight past. It is used **only to refuse**; it never grants anything |
 
 ## The ten firewalls
@@ -116,7 +116,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `FW-DECIMAL-KILL` | the qualitative rate must forbid a finite decimal `C_Q0`; Theorem B must forbid a numerical `C*` | `Q0_MASTER.md` Part I; C092 §12.3 |
 | `FW-LM011-PRECONDITION` | the RV-LM011 synthesis route may not be marked satisfiable while any named prerequisite is unsatisfied, and a technical pass at **zero** organizational independence credit does not discharge an independence-requiring gate | `review_queue.json` RV-LM011-MAIN; `easy_closure_queue.json` P02-LM-011; `docs/OPEN_PROBLEMS.md` §D |
 | `FW-NO-RECEIPT-PROMOTION` | a receipt, a green test run, a reproduction or a carrier binding may never raise a grade or move a status, on a claim or on a premise | `engine/README.md`; OP-PROT-012 §4(c); OP-GDN-002 §6 |
-| `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: evidence that declares itself `certifying` must **show** exact arithmetic — float, not-applicable, unrecognised and ambiguous are each refused by name — and no certified/enclosed claim may rest solely on float evidence | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
+| `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: evidence that declares itself `certifying` must **show** exact arithmetic — float, not-applicable, unrecognised and ambiguous are each refused by name — a certified/enclosed claim must cite **at least one** record declaring exact arithmetic, and the two carrier indexes may not disagree about a carrier without being refused. What it still does **not** refuse, said plainly: a certified claim citing one exact record alongside float ones. Narrowing that is a decision for the register, not for a checker | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
 | `FW-RETRACTED-NOT-UNCONDITIONAL` | a claim carrying a retraction record, or whose transcribed `register_status` says RETRACTED, may not carry an unconditional grade | `ERRATA_AND_CLARIFICATIONS_2026-09-13.md`; `CLAIM_REGISTRY_VERIFIED_INTAKE.json` |
 
 Plus referential integrity, acyclicity, "a CONDITIONAL claim must name at least
@@ -183,6 +183,37 @@ vocabularies is prose, not a classification, and the checker says so instead of
 picking a side. A record that claims no certification may describe its arithmetic
 in prose freely, because nothing rests on it.
 
+That first repair was not enough, and a nonauthor engineering review found three
+further holes plus one **regression** it had introduced. All four are recorded
+here because a checker's history of failing open is the most useful thing to know
+about it.
+
+- **The regression.** Reading both carrier indexes let a carrier's prose *rescue*
+  a claim. The claim-level guard asked `all(is_float_arithmetic(...))`, and that
+  wrapper answers `False` for `ambiguous`, so resolving a float evidence record
+  against the `BINDING` sentence turned `float` into `ambiguous`, "not every
+  record is float" became true, and a refusal that the previous revision made
+  disappeared. The guard now asks the opposite question — does **any** record
+  declare exact arithmetic — so an unreadable declaration can no longer stand in
+  for an exact one.
+- **Substring matching admitted denials of exactness.** `inexact` contains
+  `exact`; `no interval arithmetic` contains `interval`; `arbitrary precision`
+  contains `arb`. Each classified as exact, so a record could claim certification
+  while saying in words that it is not exact. Declarations are now matched whole,
+  against closed sets; prose classifies nothing, and the both-vocabularies scan
+  survives only to *name* prose in a message.
+- **Absence was read as a discharge.** A premise with no `status_frozen_v2_2` and
+  no `status_register_note` skipped the closed vocabulary and both grade guards,
+  so deleting two fields let an unconditional or `CERTIFIED_RUNG` claim rest on it
+  with nothing refused. A missing column is now a refusal. All thirteen committed
+  premises carry both, so this costs the committed graph nothing.
+- **A conflicting carrier index was silently overwritten.** `carrier_indexes`
+  promised in its own docstring that a disagreeing duplicate would be reported,
+  and no caller reported anything: `MANIFEST` overwrote `BINDING` unconditionally,
+  so a manifest entry could mask a live float declaration. The conflicts are now a
+  return value rather than a claim in prose, and the checker refuses rather than
+  choosing between the two files.
+
 A node's `track` is read against a closed set for the same reason. Three
 firewalls — `FW-2D-3D-COMPOSITION`, `FW-PRIZE-ISOLATION` and
 `FW-NO-PRIZE-CLOSURE` — test `track` by membership against a literal set, so an
@@ -224,9 +255,12 @@ unrecognised or the both-vocabularies sentence, a premise status word in neither
 vocabulary, a `NAMED_HYPOTHESIS` premise under an unconditional claim, a premise
 open only in its register-note column, an unknown and a missing `track`, a
 firewall declared but not enforced, a firewall enforced but not documented, and a
-drifted count in this file, and a `CERTIFIED_RUNG` grade over a register note
-that is not a discharge. Each is checked through the CLI against a mutated
-**copy**, and each is paired with the assertion that the committed tree passes.
+drifted count in this file, a `CERTIFIED_RUNG` grade over a register note that is
+not a discharge, four declarations that deny the exactness they were read as
+asserting, a premise with no status columns at all, a certifying grade whose only
+readable declaration is prose, and two carrier indexes that disagree. Each is
+checked through the CLI against a mutated **copy**, and each is paired with the
+assertion that the committed tree passes.
 
 ### The mutants these controls kill
 
@@ -234,8 +268,8 @@ A control that passes against the fixed checker has not been shown to test
 anything. Each fix below was reverted in a **copy** of `tools/claims_check.py`
 outside the tree, one at a time, in a subprocess with `PYTHONDONTWRITEBYTECODE=1`
 — an in-process harness once gave a false result here, because same-size mutants
-written in quick succession reused a stale `__pycache__`. Seventeen reverted
-fixes, seventeen killed, none surviving:
+written in quick succession reused a stale `__pycache__`. Twenty-one reverted
+fixes, twenty-one killed, none surviving:
 
 | reverted fix | control that dies |
 |---|---|
@@ -256,8 +290,12 @@ fixes, seventeen killed, none surviving:
 | enforced-not-declared unchecked | `..._enforced_and_not_declared` |
 | prose need not name an enforced firewall | `..._does_not_name_an_enforced_firewall` |
 | the prose counts are not compared | `..._a_drifted_claim_count...`, `..._a_drifted_firewall_count...` |
+| substring matching for the arithmetic vocabulary | `..._a_declaration_denying_exactness_is_never_classified_exact`, `..._certifying_with_a_declaration_denying_exactness_is_refused` |
+| the claim-level guard back to `all(is_float_arithmetic(...))` | `..._a_certifying_grade_needs_one_exact_record_not_merely_a_non_float_one` |
+| a missing premise status column is skipped | `..._a_premise_with_no_status_columns_is_refused`, `..._a_certified_rung_on_a_premise_with_no_status_columns_is_refused` |
+| a conflicting carrier id is overwritten silently | `..._a_conflicting_carrier_index_is_refused_not_silently_overwritten` |
 
-Two of the sixteen exist only because the first harness did not reach them: `if
+Two of the twenty-one exist only because the first harness did not reach them: `if
 False: ... elif t not in TRACKS:` still evaluates the `elif`, so disabling the
 missing-`track` arm left the vocabulary arm live and the matrix looked complete
 when it was not. Both arms now have their own mutant.
