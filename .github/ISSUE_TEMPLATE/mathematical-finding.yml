@@ -1,0 +1,51 @@
+name: Mathematical finding
+description: A gap, error or counterexample in a stated result
+title: "[Math] "
+labels: [mathematics]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A counterexample is a first-class contribution here. Several of this
+        program's settled results are negative.
+  - type: input
+    id: object
+    attributes:
+      label: Exact object
+      description: Path, and byte count with SHA-256 where you have them. A title alone is not an identity.
+      placeholder: "Math-/frontiers/remote_window_20260924/PROOF.md, 14340 B, sha256 b15b43..."
+    validations:
+      required: true
+  - type: textarea
+    id: step
+    attributes:
+      label: The precise step you believe fails
+      description: Quote or cite the equation, lemma or line. Not a section number alone.
+    validations:
+      required: true
+  - type: textarea
+    id: smallest
+    attributes:
+      label: Smallest case that shows it
+      description: Exact values where possible. If the argument is that a bound is vacuous rather than false, say so explicitly.
+    validations:
+      required: true
+  - type: textarea
+    id: notchecked
+    attributes:
+      label: What you did NOT check
+      description: Which dependencies you took on trust, and anything you did not attempt to break.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of finding
+      options:
+        - Counterexample (the statement is false as written)
+        - Gap in the proof (the statement may hold; this step does not support it)
+        - Vacuous or unusable at the stated range
+        - Scope or hypothesis mismatch with a consumer
+        - Question, not yet a finding
+    validations:
+      required: true
