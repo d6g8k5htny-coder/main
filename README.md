@@ -2,7 +2,7 @@
 
 **Gaussian random fields, persistent homology, and reproducible multi-model mathematical research.**
 
-[![CI](https://github.com/d6g8k5htny-coder/main/actions/workflows/ci.yml/badge.svg)](https://github.com/d6g8k5htny-coder/main/actions/workflows/ci.yml)
+[![Landing checks](https://github.com/d6g8k5htny-coder/main/actions/workflows/workspace-landing.yml/badge.svg?branch=main)](https://github.com/d6g8k5htny-coder/main/actions/workflows/workspace-landing.yml)
 [![Navigation](https://github.com/d6g8k5htny-coder/main/actions/workflows/navigation.yml/badge.svg)](https://github.com/d6g8k5htny-coder/main/actions/workflows/navigation.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -13,6 +13,8 @@ This is the **single public front door** for the Universal Law research program.
 [Open the live research shop](https://d6g8k5htny-coder.github.io/main/site/) for the status board, pinned SIDE24 coefficient viewer, searchable full-text catalog, and contribution route. The [shop guide](docs/site/README.md) explains its sources and limits. The [SIDE24 notebook](docs/notebooks/README.md) is also readable on GitHub and runnable in Colab. [Grab a public task](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Agood-first-task), follow the [Public contributions board](https://github.com/users/d6g8k5htny-coder/projects/1/views/1), or [submit an incoming result PR](CONTRIBUTING.md).
 
 The static app is live on main's GitHub Pages, published from `main` / `docs`. See the [deployment and review settings record](docs/PUBLIC_SHOP_SETUP.md). All views preserve scoped ACCEPT, AMEND/open, and engineering-only distinctions. They cannot change scientific status.
+
+**Quick browser demo:** [Open the SIDE24 notebook in Colab](https://colab.research.google.com/github/d6g8k5htny-coder/main/blob/main/docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb), then choose **Runtime → Run all**. Read the verified source identity and exact coefficient endpoints for dimensions 2 and 3; the optional chart is **NON-CERTIFYING**. You need no local checkout or installation. The [notebook guide](docs/notebooks/README.md) also explains local setup and dependencies.
 
 ## Public source path
 
@@ -33,6 +35,8 @@ For a stranger who wants the landed mathematics rather than the live agent queue
    ```
 
 For byte identity, use the [public source inventory](docs/public-math/sources.json): its 2,138 frozen source rows are split across the linked JSON pages, and every row records a GitHub repository, path, 40-character commit, Git blob, byte count, and SHA-256. The inventory excludes sandbox, quarantine, and personal paths and is an availability/custody index, not an acceptance register.
+
+**Recovered historical falsifiers:** the [STAGE_E source packet](https://github.com/d6g8k5htny-coder/Math-/blob/a2c3657c3115853a9bd8642b78c3f9ca0bbc59d1/imports/upper2d_stage_e_20260926/README.md) preserves 11 exact files, a reproduced finite H4-JC counterexample, and a source-bound review of numerical defects. Its original certification labels are historical text; the packet does not establish Gaussian continuum or Palm claims. This additive recovery is separate from the frozen inventory above.
 
 **Open draft PRs are visible research/review material, but they are not default-branch mathematics.** Do not treat an AMEND draft, review branch, or custody PR as landed proof merely because GitHub can display it.
 
