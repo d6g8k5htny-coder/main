@@ -13,7 +13,9 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import struct
 import urllib.request
+import zlib
 
 MAX_FILES = 500  # Below the API's 3000-file ceiling; pagination is mandatory.
 MAX_PACKAGE_FILES = 50
@@ -22,6 +24,9 @@ MAX_PACKAGE_BYTES = 2097152
 MAX_RESPONSE_BYTES = 8388608
 SOURCE_REPOS = {'main', 'Math-', 'query-', 'Universal-Law-Workspace'}
 TEXT_SUFFIXES = {'.md', '.txt', '.json', '.csv'}
+PNG_SIGNATURE = b'\x89PNG\r\n\x1a\n'
+MAX_PNG_SIDE = 16384
+MAX_PNG_PIXELS = 1 << 24
 HEX40 = re.compile(r'[0-9a-f]{40}\Z')
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
@@ -111,6 +116,30 @@ def unpack_blob(data, max_size, expected_sha=None):
     identity = hashlib.sha1(b'blob ' + str(size).encode('ascii') + b'\0' + raw).hexdigest()
     require(data.get('sha') == identity and (expected_sha is None or identity == expected_sha), 'Git blob identity mismatch')
     return raw
+
+
+def png_structure(raw):
+    """Walk the chunk list without decoding pixels: IHDR first, ASCII chunk types,
+    a CRC per chunk, IDAT present, an empty IEND last with nothing after it, and
+    bounded dimensions. Bytes inside a chunk's data field are not inspected."""
+    require(raw.startswith(PNG_SIGNATURE), 'invalid PNG signature')
+    offset, kinds = 8, []
+    while offset < len(raw) and kinds[-1:] != [b'IEND']:
+        require(len(raw) - offset >= 12, 'invalid PNG chunk structure or trailing data')
+        length, kind = struct.unpack('>I4s', raw[offset:offset + 8])
+        require(kind.isalpha() and length <= len(raw) - offset - 12, 'invalid PNG chunk structure or trailing data')
+        data = raw[offset + 8:offset + 8 + length]
+        (crc,) = struct.unpack('>I', raw[offset + 8 + length:offset + 12 + length])
+        require(zlib.crc32(kind + data) == crc, 'invalid PNG chunk CRC')
+        if not kinds:
+            require(kind == b'IHDR' and length == 13, 'invalid PNG chunk structure or trailing data')
+            width, height = struct.unpack('>II', data[:8])
+            require(1 <= width <= MAX_PNG_SIDE and 1 <= height <= MAX_PNG_SIDE and width * height <= MAX_PNG_PIXELS,
+                    'PNG dimensions exceed limit')
+        require(kind != b'IEND' or length == 0, 'invalid PNG chunk structure or trailing data')
+        kinds.append(kind)
+        offset += 12 + length
+    require(offset == len(raw) and kinds[-1:] == [b'IEND'] and b'IDAT' in kinds, 'invalid PNG chunk structure or trailing data')
 
 
 def tree(api, repo, ref):
@@ -232,7 +261,7 @@ def verify_package(api, repo, head, base, rows):
             if suffix == '.json':
                 strict_json(text)
         else:
-            require(raw.startswith(b'\x89PNG\r\n\x1a\n'), 'invalid PNG signature')
+            png_structure(raw)
         payload[name[len(prefix):]] = raw
     require('RESULT.md' in payload and payload['RESULT.md'].strip() and 'IDENTITY.json' in payload, 'RESULT.md and IDENTITY.json required')
     identity = strict_json(payload['IDENTITY.json'])

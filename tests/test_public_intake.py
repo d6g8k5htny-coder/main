@@ -7,10 +7,13 @@ import json
 import contextlib
 import io
 import os
+import struct
 import tempfile
 from unittest import mock
 from pathlib import Path
 import unittest
+import zipfile
+import zlib
 
 spec = importlib.util.spec_from_file_location('intake', Path(__file__).resolve().parents[1] / 'tools/public_intake_check.py')
 intake = importlib.util.module_from_spec(spec)
@@ -30,6 +33,27 @@ def sha(raw):
 
 def blob(raw):
     return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+
+def png_chunk(kind, data):
+    return struct.pack('>I', len(data)) + kind + data + struct.pack('>I', zlib.crc32(kind + data))
+
+
+def png(width=1, height=1, before=(), after=(), idat=True, iend=True):
+    # Structurally valid 8-bit greyscale PNG built from struct and zlib; pixels are never decoded.
+    chunks = list(before) + [(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 0, 0, 0, 0))] + list(after)
+    if idat:
+        chunks.append((b'IDAT', zlib.compress(b''.join(b'\0' + b'\x80' * min(width, 64) for _ in range(min(height, 64))))))
+    if iend:
+        chunks.append((b'IEND', b''))
+    return b'\x89PNG\r\n\x1a\n' + b''.join(png_chunk(kind, data) for kind, data in chunks)
+
+
+def zip_archive():
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, 'w') as archive:
+        archive.writestr('run.py', 'import os\nos.system("id")\n')
+    return buffer.getvalue()
 
 
 def compare(commit, status='behind', ahead_by=0, merge_base=None):
@@ -475,6 +499,58 @@ class IntakeTests(unittest.TestCase):
                          [f'/repos/{MATH}/branches?per_page=100&page={p}' for p in (1, 2, 3)])
         self.assertEqual(len([c for c in self.api.calls if '/compare/' in c]), 300)
         self.assertEqual(len([c for c in self.api.calls if '/compare/main...' in c]), 1)
+
+    def refuse_png(self, raw, message, name='plot.png'):
+        self.raw[name] = raw
+        self.save()
+        self.reject(message)
+        self.raw.pop(name)
+
+    def accept_png(self, raw, name='plot.png'):
+        self.raw[name] = raw
+        self.save()
+        self.assertEqual(self.run_check()['artifact_files'], len(self.raw))
+        self.raw.pop(name)
+
+    def test_png_archive_polyglots_refused(self):
+        with self.subTest('zip behind a PNG signature'):
+            self.refuse_png(b'\x89PNG\r\n\x1a\n' + zip_archive(), 'PNG chunk structure')
+        with self.subTest('valid PNG with an appended zip'):
+            self.refuse_png(png() + zip_archive(), 'PNG chunk structure or trailing data')
+        with self.subTest('zip carried inside a non-empty IEND'):
+            self.refuse_png(png(iend=False) + png_chunk(b'IEND', zip_archive()), 'PNG chunk structure or trailing data')
+
+    def test_png_corrupt_chunk_crc_refused(self):
+        image = bytearray(png())
+        image[-1] ^= 0xFF  # the IEND CRC
+        self.refuse_png(bytes(image), 'PNG chunk CRC')
+        image = bytearray(png())
+        image[16] ^= 0x01  # inside IHDR data; its stored CRC no longer matches
+        self.refuse_png(bytes(image), 'PNG chunk CRC')
+
+    def test_png_dimension_bomb_refused_without_decoding(self):
+        for width, height in [(30000, 30000), (16385, 1), (1, 16385), (4097, 4097), (0, 1), (1, 0)]:
+            with self.subTest(width=width, height=height):
+                self.refuse_png(png(width, height), 'PNG dimensions exceed limit')
+
+    def test_png_chunk_structure_refused(self):
+        phys = (b'pHYs', struct.pack('>IIB', 2835, 2835, 1))
+        cases = [('IHDR not first', png(before=[phys])), ('missing IDAT', png(idat=False)), ('missing IEND', png(iend=False)),
+                 ('signature only', b'\x89PNG\r\n\x1a\n'), ('IHDR length 12', b'\x89PNG\r\n\x1a\n' + png_chunk(b'IHDR', b'\0' * 12)),
+                 ('chunk length past end', png()[:8] + struct.pack('>I', 1 << 20) + png()[12:]),
+                 ('non-ASCII chunk type', png(after=[(b'\x00\x01\x02\x03', b'x')])),
+                 ('data after IEND', png() + b'\0')]
+        for label, raw in cases:
+            with self.subTest(label=label):
+                self.refuse_png(raw, 'PNG chunk structure')
+        self.refuse_png(b'not a png', 'PNG signature')
+
+    def test_valid_png_variants_accepted(self):
+        self.accept_png(png())
+        self.accept_png(png(4, 3, after=[(b'pHYs', struct.pack('>IIB', 2835, 2835, 1)), (b'tEXt', b'Software\0matplotlib'),
+                                          (b'iCCP', b'sRGB\0\0' + zlib.compress(b'\0' * 32))]))
+        self.accept_png(png(4096, 4096))  # exactly MAX_PNG_PIXELS
+        self.accept_png(png(), name='plot.PNG')
 
 
 if __name__ == '__main__':
