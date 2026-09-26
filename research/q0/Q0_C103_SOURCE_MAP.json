@@ -1,19 +1,27 @@
 {
   "object": "Q0_C103_SOURCE_MAP_20260925",
   "scientific_effect": "NONE",
-  "theorem_object": "q_MS(r,b)=P_MS(r,b){D(M)=S}",
+  "theorem_object": "q_MS(r,b)=P_MS(r,b){D(M)=S} under H_branch",
   "controlling_alias_to_historical_q": false,
   "review_required": true,
+  "c1_c2_repair": {
+    "as_of": "2026-09-26",
+    "H_branch": "one ascending branch of S terminates at M (C102 attachment hypothesis)",
+    "B_miss": "neither ascending branch of S terminates at M — unresolved named defect class; no O(r^3) envelope in this tip",
+    "PREMISE_Z_LOWER": "Z_r >= c r^2 on 0 < r <= 0.025 at compact mark scope — named unresolved premise; not proved here"
+  },
   "sources": [
     {
       "id": "C102_DETERMINISTIC_REDUCTION",
       "path": "drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/T1 — Upper Rate (finite C_Q0)/02_CLOSURE_AND_REDUCTION_PACKAGES/C102_DETERMINISTIC_REDUCTION.md",
-      "git_blob": "25917befb388211e3848b00c5ba90670e9b716b0"
+      "git_blob": "25917befb388211e3848b00c5ba90670e9b716b0",
+      "consumed_under": ["H_branch", "Morse", "distinct_critical_values", "Morse-Smale"]
     },
     {
       "id": "C101_GLOBAL_INTERCEPTOR_CLOSURE",
       "path": "drive/mirrors/16_THEMATIC_RESEARCH_TRACKS/T1 — Upper Rate (finite C_Q0)/02_CLOSURE_AND_REDUCTION_PACKAGES/C101_GLOBAL_INTERCEPTOR_CLOSURE.md",
-      "git_blob": "1daec2574e2505ab8162c9a36d8beead34360dd0"
+      "git_blob": "1daec2574e2505ab8162c9a36d8beead34360dd0",
+      "notes": "Typed intensity and singular ledger; Z_r >= c r^2 asserted in source is PREMISE-Z-LOWER here, not discharged."
     },
     {
       "id": "C098_GAMMA_EXTERIOR_TRANSFER",
@@ -51,8 +59,28 @@
       "git_blob": "e968385a3bf4e8318a9ab6cb4f57818828f01b18"
     }
   ],
+  "unresolved_premises": [
+    {
+      "id": "H_branch",
+      "statement": "One ascending branch of S terminates at M (C102 attachment hypothesis).",
+      "role": "conditions the C1 defect inclusion and the cubic theorem object"
+    },
+    {
+      "id": "B_miss",
+      "statement": "Neither ascending branch of S terminates at M.",
+      "role": "named unresolved defect class; no source-bound O(r^3) envelope in this tip"
+    },
+    {
+      "id": "PREMISE-Z-LOWER",
+      "statement": "Z_r >= c r^2 for some c > 0, uniformly on 0 < r <= 0.025 at compact mark b = 6/5 under the six-pin typed law.",
+      "role": "required for every regional estimate that divides by the pair-Palm normalizer; not proved here"
+    }
+  ],
   "gates": {
-    "conditional_typed_pair_cubic_rate": "REVIEW_PENDING",
+    "conditional_typed_pair_cubic_rate": "REVIEW_PENDING_BRANCH_ATTACHED",
+    "H_branch": "EXPLICIT_HYPOTHESIS",
+    "B_miss_cubic_envelope": "UNRESOLVED",
+    "PREMISE_Z_LOWER": "UNRESOLVED",
     "full_gaussian_corollary": "HOLD_WITH_DOMAIN",
     "sard_g_clarification_A": "OPEN_EXECUTION_DETAIL",
     "sard_g_clarification_C": "OPEN_EXECUTION_DETAIL"
