@@ -20,6 +20,8 @@ REPO = 'd6g8k5htny-coder/main'
 HEAD = 'a' * 40
 BASE = 'b' * 40
 SOURCE = 'c' * 40
+PARENT = 'f' * 40  # an ancestor of the PR head that no branch of the pillar contains
+MATH = 'd6g8k5htny-coder/Math-'
 
 
 def sha(raw):
@@ -28,6 +30,11 @@ def sha(raw):
 
 def blob(raw):
     return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+
+def compare(commit, status='behind', ahead_by=0, merge_base=None):
+    return {'status': status, 'ahead_by': ahead_by, 'behind_by': 3,
+            'merge_base_commit': {'sha': commit if merge_base is None else merge_base}}
 
 
 class FakeAPI:
@@ -83,15 +90,26 @@ class IntakeTests(unittest.TestCase):
         self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1'] = {'truncated': False, 'tree': entries}
         self.api.routes[f'/repos/{REPO}/git/trees/{BASE}?recursive=1'] = {'truncated': False, 'tree': []}
         sr = self.manifest['sources'][0]
-        source_repo = sr['repository']
-        self.api.routes[f'/repos/{source_repo}'] = {'private': False, 'full_name': source_repo}
-        self.api.routes[f'/repos/{source_repo}/git/commits/{sr["commit"]}'] = {'sha': sr['commit']}
-        self.api.routes[f'/repos/{source_repo}/git/trees/{sr["commit"]}?recursive=1'] = {'truncated': False, 'tree': [
-            {'path': sr['path'], 'mode': '100644', 'type': 'blob', 'size': len(self.source), 'sha': blob(self.source)}]}
-        self.api.routes[f'/repos/{source_repo}/git/blobs/{blob(self.source)}'] = {
-            'encoding': 'base64', 'size': len(self.source), 'content': base64.b64encode(self.source).decode(), 'sha': blob(self.source)}
-        self.api.routes[f'/repos/{source_repo}/contents/{sr["path"]}?ref={sr["commit"]}'] = {
-            'type': 'file', 'encoding': 'base64', 'size': len(self.source), 'content': base64.b64encode(self.source).decode(), 'sha': blob(self.source)}
+        if sr['commit'] not in (HEAD, BASE):  # a test citing the PR's own commits sets its routes itself
+            self.install_source(sr['repository'], sr['commit'], sr['path'], self.source)
+
+    def install_source(self, source_repo, commit, path, raw, branches=('main',), reachable_from=('main',)):
+        # What GitHub serves for any commit object in the repository network, plus the
+        # compare/branches routes that decide whether a branch of the pillar contains it.
+        self.api.routes[f'/repos/{source_repo}'] = {'private': False, 'full_name': source_repo, 'default_branch': 'main'}
+        self.api.routes[f'/repos/{source_repo}/git/commits/{commit}'] = {'sha': commit}
+        self.api.routes[f'/repos/{source_repo}/git/trees/{commit}?recursive=1'] = {'truncated': False, 'tree': [
+            {'path': path, 'mode': '100644', 'type': 'blob', 'size': len(raw), 'sha': blob(raw)}]}
+        self.api.routes[f'/repos/{source_repo}/git/blobs/{blob(raw)}'] = {
+            'encoding': 'base64', 'size': len(raw), 'content': base64.b64encode(raw).decode(), 'sha': blob(raw)}
+        self.api.routes[f'/repos/{source_repo}/contents/{path}?ref={commit}'] = {
+            'type': 'file', 'encoding': 'base64', 'size': len(raw), 'content': base64.b64encode(raw).decode(), 'sha': blob(raw)}
+        self.api.routes[f'/repos/{source_repo}/branches?per_page=100&page=1'] = [{'name': b, 'commit': {'sha': 'd' * 40}} for b in branches]
+        for b in branches:
+            # Not contained: GitHub reports the object as diverged from the branch
+            # ("this commit does not belong to any branch on this repository").
+            self.api.routes[f'/repos/{source_repo}/compare/{b}...{commit}?per_page=1'] = (
+                compare(commit) if b in reachable_from else compare(commit, 'diverged', 2, BASE))
 
     def run_check(self):
         return intake.check(self.event, self.api, REPO)
@@ -363,6 +381,100 @@ class IntakeTests(unittest.TestCase):
                 self.assertEqual(intake.main(['--event', str(event_file)]), 1)
                 self.assertIn('possible credential in path', output.getvalue())
                 self.assertNotIn(token, output.getvalue())
+
+    def reachability_calls(self):
+        return [c for c in self.api.calls if '/compare/' in c or '/branches?' in c]
+
+    def test_fabricated_source_in_fork_head_ancestor_refused(self):
+        # refs/pull/7/head brings the submitter's own PARENT commit into the pillar's object
+        # store, so /git/commits, /git/trees and /git/blobs resolve it although no branch has it.
+        forged = b'{"enclosure": [0, 0], "note": "bytes chosen by the submitter"}\n'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'coefficients/side24_v1/ENCLOSURE.json',
+                                     'commit': PARENT, 'sha256': sha(forged)}]
+        self.save()
+        self.install_source(REPO, PARENT, 'coefficients/side24_v1/ENCLOSURE.json', forged, reachable_from=())
+        self.reject('not reachable from any branch')
+        self.assertFalse(any(f'/git/trees/{PARENT}' in c or f'/git/blobs/{blob(forged)}' in c for c in self.api.calls))
+
+    def test_self_citation_of_pr_head_refused(self):
+        # HEAD's tree and blobs are served already because the checker reads the package from them.
+        own = self.raw['output.json']
+        self.manifest['sources'] = [{'repository': REPO, 'path': self.package + 'output.json', 'commit': HEAD, 'sha256': sha(own)}]
+        self.save()
+        self.api.routes[f'/repos/{REPO}'] = {'private': False, 'full_name': REPO, 'default_branch': 'main'}
+        self.api.routes[f'/repos/{REPO}/git/commits/{HEAD}'] = {'sha': HEAD}
+        self.api.routes[f'/repos/{REPO}/branches?per_page=100&page=1'] = [{'name': 'main', 'commit': {'sha': BASE}}]
+        self.api.routes[f'/repos/{REPO}/compare/main...{HEAD}?per_page=1'] = compare(HEAD, 'ahead', 1, BASE)
+        self.reject('not reachable from any branch')
+
+    def test_source_reachable_only_from_research_branch_accepted(self):
+        raw = b'public numbers on a research branch\n'
+        branch = 'chatgpt/drive-github-hardening-20260919'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', branch), reachable_from=(branch,))
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
+        self.assertFalse(any('page=2' in c for c in self.api.calls))  # a short page ends the enumeration
+
+    def test_reachable_default_branch_costs_one_compare_call(self):
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertEqual(self.reachability_calls(), [f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'])
+        self.assertEqual(len([c for c in self.api.calls if MATH in c]), 5)
+
+    def test_compare_ahead_diverged_or_nonzero_ahead_by_refused(self):
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for status, ahead_by, merge_base in [('ahead', 1, BASE), ('diverged', 2, BASE), ('behind', 1, SOURCE),
+                                             ('identical', 1, SOURCE), ('ahead', 0, SOURCE), ('unknown', 0, SOURCE)]:
+            with self.subTest(status=status, ahead_by=ahead_by):
+                self.api.routes[route] = compare(SOURCE, status, ahead_by, merge_base)
+                self.reject('not reachable from any branch')
+
+    def test_malformed_compare_response_is_never_reachability(self):
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        good = compare(SOURCE)
+        shapes = [('non-dict', [good]), ('empty', {}), ('missing merge base', {k: v for k, v in good.items() if k != 'merge_base_commit'}),
+                  ('merge base not a dict', dict(good, merge_base_commit=SOURCE)), ('wrong merge base', compare(SOURCE, merge_base=BASE)),
+                  ('bool ahead_by', dict(good, ahead_by=False)), ('string ahead_by', dict(good, ahead_by='0')),
+                  ('missing status', {k: v for k, v in good.items() if k != 'status'})]
+        for label, data in shapes:
+            with self.subTest(label=label):
+                self.api.routes[route] = data
+                self.reject('not reachable from any branch')
+        self.api.routes[route] = good
+        self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = {'name': 'main'}
+        self.api.routes[route] = compare(SOURCE, 'diverged', 2, BASE)
+        self.reject('branch listing unavailable')
+
+    def test_unsafe_default_branch_is_skipped_and_branch_list_consulted(self):
+        main_compare = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for name in ['main..evil', 'ma in', '-flag', 'x\ny', 'tab\t', '.hidden', '/main', 'main?x=1', 'main#1', None, 5, ['main']]:
+            with self.subTest(name=repr(name)):
+                self.api.routes[f'/repos/{MATH}']['default_branch'] = name
+                self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = [{'name': name}, {'name': 'main'}]
+                self.api.calls.clear()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+                self.assertEqual(self.reachability_calls(), [f'/repos/{MATH}/branches?per_page=100&page=1', main_compare])
+                self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = [{'name': name}, 'main', {'commit': {}}]
+                self.api.calls.clear()
+                self.reject('not reachable from any branch')
+                self.assertEqual([c for c in self.api.calls if '/compare/' in c], [])
+
+    def test_branch_enumeration_stops_at_page_bound(self):
+        self.api.routes[f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'] = compare(SOURCE, 'diverged', 2, BASE)
+        names = ['main'] + [f'topic-{i}' for i in range(1, 300)]
+        for page in range(1, 4):
+            self.api.routes[f'/repos/{MATH}/branches?per_page=100&page={page}'] = [{'name': n} for n in names[(page - 1) * 100:page * 100]]
+        for n in names[1:]:
+            self.api.routes[f'/repos/{MATH}/compare/{n}...{SOURCE}?per_page=1'] = compare(SOURCE, 'diverged', 2, BASE)
+        # A fourth page would vouch; FakeAPI raises AssertionError if it is ever requested.
+        self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=4'] = [{'name': 'vouching'}]
+        self.api.routes[f'/repos/{MATH}/compare/vouching...{SOURCE}?per_page=1'] = compare(SOURCE)
+        self.reject('not reachable from any branch')
+        self.assertEqual([c for c in self.api.calls if '/branches?' in c],
+                         [f'/repos/{MATH}/branches?per_page=100&page={p}' for p in (1, 2, 3)])
+        self.assertEqual(len([c for c in self.api.calls if '/compare/' in c]), 300)
+        self.assertEqual(len([c for c in self.api.calls if '/compare/main...' in c]), 1)
 
 
 if __name__ == '__main__':

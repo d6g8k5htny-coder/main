@@ -26,6 +26,8 @@ HEX40 = re.compile(r'[0-9a-f]{40}\Z')
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
 SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
+BRANCH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./-]*\Z')  # a name this route can carry; '..' refused below
+MAX_BRANCH_PAGES = 3
 CREDENTIALS = [
     re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
@@ -120,6 +122,34 @@ def tree(api, repo, ref):
         require(isinstance(row, dict) and isinstance(row.get('path'), str) and row['path'] not in rows, 'invalid tree entries')
         rows[row['path']] = row
     return rows
+
+
+def ancestor_of_branch(api, repo, branch, commit):
+    if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
+        return False  # a name this route cannot carry safely never vouches for a source
+    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
+        return False  # any other shape is not evidence of reachability
+    return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
+            and data['merge_base_commit'].get('sha') == commit)
+
+
+def reachable(api, repo, commit, default_branch):
+    # /git/commits, /git/trees and /git/blobs serve any object in the repository's
+    # store, including refs/pull/N/head of an outsider's PR and fork-network objects.
+    # Only a branch of the pillar, which outsiders cannot create, vouches for a source.
+    if ancestor_of_branch(api, repo, default_branch, commit):
+        return True
+    for page in range(1, MAX_BRANCH_PAGES + 1):
+        batch = api.get(f'/repos/{repo}/branches?per_page=100&page={page}')
+        require(isinstance(batch, list), 'branch listing unavailable')
+        for row in batch:
+            name = row.get('name') if isinstance(row, dict) else None
+            if name != default_branch and ancestor_of_branch(api, repo, name, commit):
+                return True
+        if len(batch) < 100:
+            break
+    return False
 
 
 def snapshot(pr, repo):
@@ -240,6 +270,8 @@ def verify_package(api, repo, head, base, rows):
         require(isinstance(metadata, dict) and metadata.get('private') is False and metadata.get('full_name') == source_repo, 'source is not verified public')
         commit_record = api.get(f'/repos/{source_repo}/git/commits/{commit}')
         require(isinstance(commit_record, dict) and commit_record.get('sha') == commit, 'source is not an exact commit')
+        require(reachable(api, source_repo, commit, metadata.get('default_branch')),
+                'source commit is not reachable from any branch of the public repository')
         # The contents endpoint follows in-repository symlinks. Resolve the
         # exact path from the commit tree instead, then read that exact blob.
         source_tree = tree(api, source_repo, commit)
