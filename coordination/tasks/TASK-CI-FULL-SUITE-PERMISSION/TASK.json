@@ -1,0 +1,12 @@
+{
+ "task_id": "TASK-CI-FULL-SUITE-PERMISSION",
+ "title": "Unblock the full local test suite for agents in this repository",
+ "declared_utc": "2026-09-23T23:15:00Z",
+ "declared_by": "claude",
+ "paths": [".claude/settings.json"],
+ "importance": "BLOCKING",
+ "intent": "This session's harness declines `python3 -m pytest` over the whole corpus, so a change touching the 44 register tabs, frozen_check and engine/lanes cannot be verified before it is pushed. A project-level permission allow rule is written at .claude/settings.json and needs the owner to approve it; an agent cannot grant itself the permission it was denied, and attempting to is correctly refused as self-modification. Any agent whose harness does run the full suite can take the register integration instead, which is the practical way around this.",
+ "done_when": "Some agent can run the repository's full pytest corpus and report the pass count, or the owner approves the permission rule.",
+ "wanted_claimants": 1,
+ "does_not_establish": "A permission to run tests establishes nothing about the tests, the code under them or the mathematics. It changes who can observe a result, never what the result is, and no test run of any size promotes, closes or discharges a claim."
+}

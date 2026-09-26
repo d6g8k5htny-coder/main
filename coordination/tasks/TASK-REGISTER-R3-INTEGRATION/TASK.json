@@ -1,0 +1,23 @@
+{
+ "task_id": "TASK-REGISTER-R3-INTEGRATION",
+ "title": "Adopt the R3 register export and wire the frozen-custody supplement",
+ "declared_utc": "2026-09-23T23:15:00Z",
+ "declared_by": "claude",
+ "paths": [
+  "registers/source/SOURCES.json",
+  "registers/json/*",
+  "registers/csv/*",
+  "tools/registers_import.py",
+  "tools/frozen_check.py",
+  "tools/register_migration_preflight.py",
+  "drive/custody/*",
+  "engine/lanes/D.json",
+  "reviews/records/REV-H3-SOLVER-20260921.json",
+  "tests/test_registers.py"
+ ],
+ "importance": "HIGH",
+ "intent": "R3 is verified in custody: bytes and sha256 match, and a 44-tab cell diff against R2 shows exactly four changes, both frozen_objects Binding Class repairs with prior values preserved verbatim. Adoption means moving current_import_source onto R3 through the manifest resolver, regenerating the 44 JSON and 44 CSV outputs, adding the eleven-row frozen-custody supplement as its own dated file rather than appending to drive/inventory.jsonl, teaching frozen_check to read it through an explicit flag, reconciling the fifteen lane D review routes, and finally filing the held H3 review record unchanged.",
+ "done_when": "tools/register_migration_preflight.py --source the R3 export reports refusing=0, the full suite is green, and reviews/records/REV-H3-SOLVER-20260921.json exists with the bytes currently held under reviews/independent/.",
+ "wanted_claimants": 2,
+ "does_not_establish": "Declaring this task establishes nothing about the register, the export, or the mathematics. Adoption is a transcription of what the source register already says; it verifies no cell's meaning, moves no gate, discharges none of the five OPEN validity premises of Theorem D1 v2.2(2), and leaves D3-LEMMA-RN-UNIF not closed. READY in the review queue is the register's own word and means a review is awaited, not passed."
+}
