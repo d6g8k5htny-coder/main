@@ -66,6 +66,13 @@ a premise promotion, a prize closure, or an independence credit.
   enclosure of D3-LEMMA-RN-UNIF, does not FREEZE the lemma, and does not
   discharge it. The controlling snapshot flag `U_certified` is false, and the
   `|∇κ_pair|` box majorant in that same note stays provisional.
+- That CERTIFIED wording depends on `code_prototypes/rnu_white_box_grad_bound_v1.py`
+  and its receipt, which are not on this tip and appear in no tip Drive register
+  (`registers/csv/file_catalog.csv`, `drive/inventory.jsonl`, `drive/source_map/`).
+  Its box uses `d_min=4.999`, so it reaches |y|=4.999, into the near annulus |y|<5,
+  outside the far zone |y|≥5. The q=2 claim is therefore REQUIRED CARRIER ABSENT and
+  conditional. It is not a certification and not a discharge. Walk-down 9
+  classification M1; `STATUS.md` stays byte-exact and no flag changes.
 - The 2026-09-21 notes transcribed here still say the Piece-2 annulus
   Riemann-sum driver is UNWRITTEN. That sentence is the note's own status
   line, kept byte-exact. It does not reclassify other repository code, and
@@ -117,8 +124,16 @@ Nothing is invented to fill them. Navigation only:
 Where `aligned_to_base_tip` is already present, it is generation provenance
 (`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
 It is not a re-run on the hardening tip observed at this edit,
-`0adeb651d92fb024d7b21994c7fc60375060fe44`. Receipts were not re-executed on
+`848aea2a874cbaa879ea2ece13accd94d1fca20d`. Receipts were not re-executed on
 that tip. The prior observation chain includes branch tip
+`eeebb28eeab2452edc1103817d02ef7e3abbf5f2` after #99/#100; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`388a22caff13c449f0e3264b0aff314d456d6659` after #97; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`077464ef5e2859ce98cbb9307799d5867a820eaf` after #89; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`0adeb651d92fb024d7b21994c7fc60375060fe44` after #85; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
 `02cfbfdf3ddc3120ddde6b67b0ff927115de6c4c` after #84; it is not a re-run on
 that tip either. An earlier observation named hardening tip
 `3a29f526da5108df173edc390a8ca2d1f3d887c9` after #83; it is not a re-run on

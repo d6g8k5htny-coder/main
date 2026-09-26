@@ -214,11 +214,7 @@ Shipped as PKG-01. Intake authority:
 `a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b`
 (2,029 archive members — the single largest carrier in the corpus).
 
-* **Theorem (1)** — certified rung `r = 0.05`: `1 − q(0.05, 6/5) ≤ Ĩ_hi +
-  C_RN(0.05)·√Q(B1.dir) + P(B2) + P(B4)` with `Ĩ_hi = 8.1272827e-2 =
-  650.1827·(0.05)³` and `C_RN(0.05) ≤ 3.46` (v2.2 §1). The H5 chart total it
-  consumes is `I_hi(v3) = 8.0975589252e-2 = 647.8048·r³` (pin `8d7028e4…`);
-  until 2026-09-19 this bullet gave that input as the theorem.
+* **Theorem (1)** — the frozen source labels a `CERTIFIED RUNG` at `r = 0.05`, but the live claim layer is **HOLD-WITH-DOMAIN / CONDITIONAL** because that same §1 explicitly names `D3-LEMMA-RN-UNIF(r=0.05)` as NOT closed. Its displayed inequality remains `1 − q(0.05, 6/5) ≤ Ĩ_hi + C_RN(0.05)·√Q(B1.dir) + P(B2) + P(B4)` with `Ĩ_hi = 8.1272827e-2 = 650.1827·(0.05)³` and `C_RN(0.05) ≤ 3.46`. The H5 chart total it consumes is `I_hi(v3) = 8.0975589252e-2 = 647.8048·r³` (pin `8d7028e4…`). The frozen wording is preserved; `claims/graph.json` now fails closed operationally until D3 closes.
 * **Theorem (2)** — all-small-r, conditional on the five premises in the README.
 
 **Layer discipline (do not collapse):**
@@ -402,7 +398,7 @@ and domain are matched.
 | Object | Statement | Disposition |
 |---|---|---|
 | LPW qualitative | 2D side-24 exact six-pin typed pair-Palm elder pairing; `∃ c, r₀ > 0 : 1 − q ≥ c r³` | ACCEPTED AT REVIEW SCOPE. 37/37 payload hashes match; whole verdict hash matches; body-rule separator amendment needed |
-| QC-RETURN03 fallback | `1 − q ≥ 10^(−1235) r³` for `0 < r ≤ 10^(−28)`, exact rational constants | ACCEPTED at received analytic review scope; preserved as a separate fallback |
+| QC-RETURN03 fallback | `1 − q ≥ 10^(−1235) r³` for `0 < r ≤ 10^(−28)`, exact rational constants | Separate fallback. Exact author carrier is `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — OPERATOR FOLD R04 — 2026-09-12/03_EXPLICIT_CONSTANTS_CANDIDATE.md` (blob `4ccff182…`); numeric verification is `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/QC_REVIEW_REPORT.md` (blob `fa463751…`). The numeric report explicitly leaves the analytic Q1–Q7 chain to the lead verdict, so review status is not substituted for proof. |
 | `LPW_CONSTANT` as delivered | exact fraction `260/(3790446482793·2⁴⁰·10²¹) = 6.23854270293559…e−44`; radius `1/2414592` | **AMEND REQUIRED**: reported headline `6.239e−44` exceeds the exact chain; the `E(|ξ|+|η|)⁴ = 12 + 16/π` identity is false; blanket-rounding explanation incomplete |
 | R05 Rayleigh repair | proposed `1 − q ≥ 6.238e−44 r³` on `0 < r ≤ 1/2414592` using `ρ = √(ξ²+η²)`, `Eρ⁴ = 8` | author-side repair; does **not** inherit the external approve; 39 interval checks pass, oversized headline rejected in both modes |
 | W8 v3 Lambda | limit-object difference ≈ `0.40371620975`, conditional on H-B3 | staged conditional progress; final transcripts END **FAIL-CLOSED**; no finite-`r` closure |
@@ -516,9 +512,7 @@ scripts ("non-blocking"), and the V3.3 Palm normalizer cr² ≤ Z_r ≤ Cr².
 **Reopening conditions:** an exact counterexample to any audited display; failure
 of a V3.3 eigenfloor table; a landed diagnostic script contradicting a
 corroborated claim. **Evidence trail** the record names: `KIMI-AUD-006 → 006b
-APPROVE` (the source calls it "independent third-family review"; the two Kimi
-text carriers, `17c8eba9…` and `2a38f2d4…`, are on the Drive and not mirrored
-here), `AO48-AUD-043` (both flagship displays confirmed from scratch in exact
+APPROVE` (the source calls it "independent third-family review"; the KIMI-AUD-006 and 006b text carriers are now mirrored under `drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/00_REVIEW_PACKAGES_AND_GATE_CLARIFICATIONS/P0.1 — FROZEN HASH 666f582c — SAME-LINE AUDITS AND REPAIRS/P0.1 POST-RATIFICATION RAW — 2026-08-02/07 — SIDE24 POST-RATIFICATION THEOREM PACKAGE/08 — DIRECT KIMI CARRIERS — 2026-08-02/`; their presence supplies custody, not additional review credit), `AO48-AUD-043` (both flagship displays confirmed from scratch in exact
 arithmetic by the AO48 line) and `AO48-AUD-044` (verification ledger, including
 the AO48 line's own boundary: it "did not independently re-read the envelope
 file's full text this session"). Whether a Moonshot-family review earns

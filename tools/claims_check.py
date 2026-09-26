@@ -246,6 +246,20 @@ def main(argv: list[str] | None = None) -> int:
                     f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
                     f"{node} (frozen status {p['status_frozen_v2_2']})")
 
+    # FW-RUNG-OPEN-PREMISE. A source may historically call a rung
+    # "CERTIFIED" while simultaneously naming a load-bearing premise as open.
+    # Preserve that source word separately, but do not let the current claim
+    # graph treat the rung as certified until its dependency closes.
+    for name, claim in claims.items():
+        if claim.get("grade") != "CERTIFIED_RUNG":
+            continue
+        for node in closure(g, name) - {name}:
+            p = premises.get(node)
+            if p and p.get("status_frozen_v2_2") in OPEN_STATUSES:
+                problems.append(
+                    f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests on "
+                    f"{node} (frozen status {p['status_frozen_v2_2']})")
+
     # FW-2D-3D-COMPOSITION
     for name, claim in claims.items():
         tracks = set()

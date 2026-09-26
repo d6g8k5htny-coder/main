@@ -10,8 +10,15 @@ field kernel and nine-pin interval conditioning to those moment witnesses at
 one exact spatial point, over the complete mark interval.
 The [density/window extension](docs/RN_SIDE24_DENSITY.md) completes the
 pointwise RN integrand bound under an explicitly imported H3 floor.
-The [spatial extension](docs/RN_SIDE24_CELL.md) gives a complete local rectangle
-integral upper below `6e-12`. The [parallel mathematical replays](docs/PARALLEL_MATH.md)
+The [spatial extension](docs/RN_SIDE24_CELL.md) claims a uniform integrand
+upper below `559/10^8` only on its declared square `C=[1-1/4000,1+1/4000]^2`,
+conditional on the imported H3 floor. Outside C, the complement is engineering
+replay only: `tools/rn_side24_spatial_check.py` replays a four-cell split of
+the full rectangle `[1999/2000,2001/2000]^2` (which contains C) with integral
+upper below `6e-12`. On the rectangle minus C this replay is the only coverage
+and not a claim of that note, and the rest of the near annulus
+`0.1 <= |y| <= 5` is not covered. SIDE24 source-of-truth carriers
+stay ABSENT, and OBL-H5-JETMOD stays OPEN. The [parallel mathematical replays](docs/PARALLEL_MATH.md)
 reconstruct that fixed-r H3 floor, improve the LPW covariance modulus and bound
 one H5 jet over an exact radius band. The full near-annulus bound remains open.
 
@@ -82,14 +89,12 @@ object is the failure rate `1 − q(r)` and its cubic law.
 |---|---|---|
 | Q0-C101 qualitative rate | `0 ≤ 1 − q(r, 6/5) ≤ C_Q0 · r³` for `0 < r ≤ 0.025` (as the Canon writes it), `q → 1`; no typing division, no decimals | live-root theorem in the frozen Q0 core; "No numerical value of C_Q0 is certified" |
 | Theorem B (Q0-C104) | `ν_B(ℓ) = C*·ℓ^(−1/3)(1 + o(1))`, conditional-MS form | **unconditional `PROVEN-HERE` RETRACTED** (GP-AUD-187, 2026-07-24: "THEOREM NOT KILLED / NO PROMOTION"); candidate; exact Jacobian proved; conditional B0 proved under A1–A5; seven repair gates TB-G1…G7 open; no numerical `C*` |
-| Theorem D1 v2.2(1) | certified rung at `r = 0.05` | certified under named hypotheses H5-RIM / H5-AXIS and D3-LEMMA-RN-UNIF at the rung |
+| Theorem D1 v2.2(1) | source labels a `CERTIFIED RUNG` at `r = 0.05` | **HOLD-WITH-DOMAIN / operationally CONDITIONAL**: the same source names H5-RIM / H5-AXIS and `D3-LEMMA-RN-UNIF(r=0.05)`, and explicitly says D3 is NOT closed; the claim graph preserves the source label separately |
 | Theorem D1 v2.2(2) | all-small-r `1 − q(r, 6/5) ≤ C r³` | **CONDITIONAL** on five named validity premises (see below) |
 | SIDE24 3D (AO48-OPR-045) | for the normalized periodized Bargmann–Fock field on the side-24 three-torus, uniformly on compact (b,κ) subsets: `sup(1 − p_r) ≤ C r³`, and with it `ν₃,₂₄(ℓ) = c₃,₂₄ ℓ^(−1/3)(1 + o(1))` with a closed-form constant | register status **RATIFIED-AT-STATED-SCOPE** (operator_decisions row AO48-OPR-045, 2026-08-02; a record authored by the AO48 line relaying the operator's one-line sign-off, with carried dependencies and reopening conditions stated); 3D track only, never composed with the 2D tracks |
 | LPW qualitative | `∃ c, r₀ > 0 : 1 − q ≥ c r³` (2D six-pin typed pair-Palm) | accepted at review scope; not a two-sided law |
 
-The Canon's four-file core is `Q0_MASTER.md`, `Q0_LEDGER.md`, `q0_machine.json`,
-`q0_verify.py`; canonical promotion enters only through `Q0_LEDGER.md` by the
-owner's decision.
+The Canon names a four-object core, but this checkout does **not** contain all four exact bodies. `Q0_MASTER.md`, `q0_machine.json`, and `q0_verify.py` are present under their mirrored source paths; an exact file named `Q0_LEDGER.md` is absent, and the present `Q0_LEDGER — NAVIGATION COMPANION ...export.txt` is not relabeled as that object. See `claims/q0_core_availability.json`. Any canonical-promotion rule attributed to the ledger therefore remains a source-level statement until the exact ledger body is present.
 
 **Standing firewall:** the 2D upper track and the 3D lifetime track must never be
 composed into a two-sided law. `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws
