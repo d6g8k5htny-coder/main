@@ -1,0 +1,66 @@
+{
+  "kind": "approximate-chart-regeneration",
+  "task": "d6g8k5htny-coder/main#141",
+  "scientific_effect": "NONE",
+  "review_status": "REVIEW_REQUIRED",
+  "scientific_acceptance": false,
+  "source": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "path": "coefficients/side24_v1/ENCLOSURE.json",
+    "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+    "bytes": 1090,
+    "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
+    "git_blob": "57af39a05e14ed0ba8ebc00a9b4aca4dffb067c7"
+  },
+  "object": "SIDE24-COEFFICIENT-D23-20260924-v1",
+  "scope": "coefficient of issue63 Eq15.2; parent theorem unreviewed",
+  "method": "outward rational arithmetic; analytic image and Stirling remainder bounds",
+  "cone_moments": {
+    "2": "4/3",
+    "3": "29/6-sqrt(6)"
+  },
+  "dimensions": {
+    "2": {
+      "lower": "0.07340691930603427103",
+      "upper": "0.07340691930603427104"
+    },
+    "3": {
+      "lower": "0.04177593184059834334",
+      "upper": "0.04177593184059834335"
+    }
+  },
+  "enclosure_width_exact": {
+    "2": "1/100000000000000000000",
+    "3": "1/100000000000000000000"
+  },
+  "chart": {
+    "file": "chart_side24_d2_d3.png",
+    "kind": "approximate",
+    "label": "NON-CERTIFYING",
+    "note": "bar heights are float approximations of the exact endpoints; the enclosure width (~1e-20) is arithmetic uncertainty and is not drawn as a finite-radius error band"
+  },
+  "independent_regeneration": {
+    "command": "python -B -S coefficient.py",
+    "sources": [
+      {
+        "repository": "d6g8k5htny-coder/Math-",
+        "path": "coefficients/side24_v1/coefficient.py",
+        "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+        "bytes": 8073,
+        "sha256": "03ae6d0f15160cb681f9bbb19a84dc861c3a0db3e881291ea621061cc90c86ab",
+        "git_blob": "c2d3ff339f2b9953ec08e676240cdc5edcb17a3e"
+      },
+      {
+        "repository": "d6g8k5htny-coder/Math-",
+        "path": "coefficients/side24_v1/test_coefficient.py",
+        "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+        "bytes": 4762,
+        "sha256": "81689b5394e2e949058929570ec072ccb1d4fe93cd0d36a4b258431547d02dd3",
+        "git_blob": "fa9beaab7d6fcb4f0a0c5a91c6d80b455c98a912"
+      }
+    ],
+    "endpoints_reproduced_byte_for_byte": true,
+    "log": "regeneration/coefficient_run.txt",
+    "tests_log": "regeneration/test_run.txt"
+  }
+}
