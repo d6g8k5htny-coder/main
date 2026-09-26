@@ -552,6 +552,71 @@ class IntakeTests(unittest.TestCase):
         self.accept_png(png(4096, 4096))  # exactly MAX_PNG_PIXELS
         self.accept_png(png(), name='plot.PNG')
 
+    def cli(self):
+        """Run main() at the CLI boundary against the offline FakeAPI: (exit code, printed JSON)."""
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        return code, json.loads(output.getvalue())
+
+    def test_overflowing_json_number_refused_at_cli_boundary(self):
+        """Ported from the OpenAI/Codex probe in #86 comment 5848311773 (claim
+        OA-SUPPORT-INTAKE-20260926-1729): {"outer":[{"value":1e400}]} and its -1e400
+        variant parsed to float infinity past parse_constant, which sees only the
+        NaN/Infinity literals, and the full command returned exit 0, lane=incoming,
+        verified_sources=1. The probe recorded that defect; this control inverts it."""
+        for token in ['1e400', '-1e400']:
+            with self.subTest(token=token):
+                self.raw['output.json'] = ('{"outer":[{"value":' + token + '}]}').encode()
+                self.save()
+                self.api.calls.clear()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'nonfinite JSON value'))
+                self.assertNotIn('lane', result)
+                self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_nonfinite_number_tokens_refused_in_any_nesting_and_sign(self):
+        for raw in [b'1e400', b'-1e400', b'[1e400]', b'[-1E400]', b'{"a":{"b":[[1e999]]}}', b'{"a":[{"b":-1e999}]}',
+                    b'[[[[{"deep":-1e309}]]]]', b'{"a":1,"b":[2,3,1.7976931348623157e309]}', b'[0.0, 1.5, 1e999]']:
+            with self.subTest(raw=raw):
+                with self.assertRaisesRegex(ValueError, 'nonfinite JSON value'):
+                    intake.strict_json(raw)
+        # An overflow inside IDENTITY.json is refused the same way as one inside an artifact.
+        self.files['IDENTITY.json'] = b'{"schema":1,"note":[1e400]}'
+        self.install()
+        self.reject('nonfinite JSON value')
+
+    def test_finite_numbers_accepted_and_literal_refusals_kept(self):
+        self.assertEqual(intake.strict_json(b'{"x":1e308,"y":-1e308,"z":1.5}'), {'x': 1e308, 'y': -1e308, 'z': 1.5})
+        self.assertIs(type(intake.strict_json(b'[123456789012345678901234567890]')[0]), int)  # integers are exact and untouched
+        for raw in [b'{"x":1e308}', b'{"x":[-1e308,1.5,2.5e-3,0.0]}', b'{"x":123456789012345678901234567890}']:
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        for raw in [b'{"x":NaN}', b'{"x":Infinity}', b'{"x":-Infinity}', b'{"x":1,"x":2}']:  # the probe's kept refusals
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result']), (1, 'REJECTED'))
+                self.assertRegex(result['reason'], 'nonfinite JSON value|duplicate JSON key')
+
+    def test_float_valued_size_and_schema_still_refused(self):
+        # 1.0 now passes through the finite-float hook as a float; the int-only checks keep refusing it.
+        self.manifest['schema'] = 1.0
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('schema version')
+        self.manifest['schema'] = 1
+        self.manifest['artifacts'][0]['bytes'] = float(self.manifest['artifacts'][0]['bytes'])
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('artifact size')
+
 
 if __name__ == '__main__':
     unittest.main()

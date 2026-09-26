@@ -10,6 +10,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -59,7 +60,16 @@ def unique(pairs):
 def strict_json(raw):
     def bad_constant(_):
         raise ValueError('nonfinite JSON value')
-    return json.loads(raw, object_pairs_hook=unique, parse_constant=bad_constant)
+
+    def finite_float(token):
+        # parse_constant sees only the NaN/Infinity/-Infinity literals. An ordinary
+        # number token such as 1e400 converts to float infinity without passing
+        # through it, so every non-integer token is checked here. Integer tokens
+        # never reach this hook: Python ints are exact.
+        value = float(token)
+        require(math.isfinite(value), 'nonfinite JSON value')
+        return value
+    return json.loads(raw, object_pairs_hook=unique, parse_constant=bad_constant, parse_float=finite_float)
 
 
 def safe_path(path):
