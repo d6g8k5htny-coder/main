@@ -490,6 +490,91 @@ class F2CoverageTests(unittest.TestCase):
         self.assertIn("T", report["controlling_impacted"])
         self.assertNotIn("T", report.get("coverage_repairs") or [])
 
+    def test_e6_cc6_successor_preserves_q0_binding_order(self):
+        """cc6a578-order Q0 bindings must stay theorem-first; no false Q0 impact.
+
+        OpenAI root-cause on 36202702251: reversing scientific/informational
+        list order changes semantic_digest + coverage_sha256. Tip successors
+        must keep exact predecessor order (theorem extract, then master).
+        """
+        tip = json.loads((ROOT / "claims" / "graph.json").read_text(encoding="utf-8"))
+        q0 = tip["claims"]["Q0-C101-QUALITATIVE-RATE"]
+        bindings = q0["source_bindings"]
+        self.assertGreaterEqual(len(bindings), 2)
+        self.assertEqual(bindings[0].get("role"), "scientific_object")
+        self.assertIn("Q0_C101_QUALITATIVE_RATE_THEOREM.md", bindings[0]["path"])
+        self.assertEqual(bindings[1].get("role"), "informational_carrier")
+        self.assertIn("Q0_MASTER.md", bindings[1]["path"])
+
+        # Digests/coverage stable under identical tip record (no-op successor).
+        g1 = CGA.claims_to_gate_graph(tip)
+        g2 = CGA.claims_to_gate_graph(copy.deepcopy(tip))
+        nid = "Q0-C101-QUALITATIVE-RATE"
+        self.assertEqual(
+            g1["nodes"][nid]["semantic_digest"], g2["nodes"][nid]["semantic_digest"]
+        )
+        b1 = CGA.bind_source_at_revision(ROOT, "HEAD", q0)
+        b2 = CGA.bind_source_at_revision(ROOT, "HEAD", copy.deepcopy(q0))
+        self.assertEqual(b1["coverage_sha256"], b2["coverage_sha256"])
+
+        # Reversing order alone must change semantic_digest (E6 not weakened).
+        reversed_rec = copy.deepcopy(q0)
+        reversed_rec["source_bindings"] = list(reversed(bindings))
+        g_rev = CGA.claims_to_gate_graph(
+            {
+                **{k: v for k, v in tip.items() if k != "claims"},
+                "claims": {**tip["claims"], nid: reversed_rec},
+            }
+        )
+        self.assertNotEqual(
+            g1["nodes"][nid]["semantic_digest"],
+            g_rev["nodes"][nid]["semantic_digest"],
+        )
+
+        # Event: same tip claims twice → no Q0 controlling_impacted.
+        repo = self._repo()
+        # Minimal controlling graph using tip Q0 binding shape (theorem first).
+        (repo / "theorem.md").write_text("exact theorem object\n", encoding="utf-8")
+        (repo / "master.md").write_text("master carrier v1\n", encoding="utf-8")
+        expected = CGA._sha256_bytes(b"exact theorem object\n")
+        g = _fixture()
+        g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            statement="stable statement",
+            source_bindings=[
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "theorem.md",
+                    "role": "scientific_object",
+                    "extraction_rule": "whole_file",
+                    "expected_sha256": expected,
+                    "mirror_freshness": "external_sync_obligation",
+                },
+                {
+                    "repo": CGA.CURRENT_REPO,
+                    "path": "master.md",
+                    "role": "informational_carrier",
+                    "mirror_freshness": "external_sync_obligation",
+                },
+            ],
+        )
+        g["claims"]["T"].pop("source", None)
+        before = self._commit(repo, g, "cc6-order")
+        after = self._commit(repo, copy.deepcopy(g), "successor-same-order")
+        rc, report = self._event(repo, before, after)
+        self.assertEqual(rc, 0, report)
+        self.assertTrue(report["transition_ok"], report)
+        self.assertNotIn("T", report.get("controlling_impacted") or [])
+        self.assertEqual(
+            report["old_sources"]["T"]["coverage_sha256"],
+            report["new_sources"]["T"]["coverage_sha256"],
+        )
+        self.assertEqual(
+            CGA.claims_to_gate_graph(g)["nodes"]["T"]["semantic_digest"],
+            CGA.claims_to_gate_graph(copy.deepcopy(g))["nodes"]["T"]["semantic_digest"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
