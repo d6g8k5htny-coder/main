@@ -18,6 +18,7 @@ from urllib.parse import quote
 from urllib.request import urlopen
 
 MAIN_COMMIT = "71400b94f6cb354a8cf7aba73ffede2138a64efa"
+NEW_PACKET_COMMIT = "a12c178c0f857a130cf434e9efd44233a038195b"
 MATH_COMMIT = "d6628da09384728992dcbe6e921cc28ba85aebb0"
 CANVAS_NOTICE = "This canvas explains the pinned source. It is not a proof and does not change status."
 # Selected source identities audited through the public GitHub connector.
@@ -256,6 +257,23 @@ SOURCES = json.loads(r'''{
     "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
   }
 }''')
+SOURCES.update({
+    "incoming/side24-chart-claude-20260926/RESULT.md": dict(
+        repository="d6g8k5htny-coder/main", commit=NEW_PACKET_COMMIT,
+        path="incoming/side24-chart-claude-20260926/RESULT.md",
+        blob="2162822ec7b8a7f6ab582bf2da2b6507912c7827", bytes=10221,
+        sha256="3be14ca5013164e461a2bc72c317fd3694f94783826d4e5d8524d31133574502"),
+    "incoming/side24-chart-claude-20260926/IDENTITY.json": dict(
+        repository="d6g8k5htny-coder/main", commit=NEW_PACKET_COMMIT,
+        path="incoming/side24-chart-claude-20260926/IDENTITY.json",
+        blob="c472cd7c952221368ce9deb8dee90b94bbe366f8", bytes=1471,
+        sha256="b74bc2e52c065022a616823bd488827911bb4f116fe891b0f6efdd8a8d09147b"),
+    "incoming/side24-chart-claude-20260926/output.json": dict(
+        repository="d6g8k5htny-coder/main", commit=NEW_PACKET_COMMIT,
+        path="incoming/side24-chart-claude-20260926/output.json",
+        blob="bfc8372e866a6a3321615323c7badc62fdb0aa4c", bytes=1724,
+        sha256="478fb7620ea5947855006ab7af448010fdd5cc31581407b1f86d4b87ce5de2eb"),
+})
 SOURCES["README.md"] = {"repository":"d6g8k5htny-coder/Math-","commit":"d6628da09384728992dcbe6e921cc28ba85aebb0","path":"README.md","blob":"abe16871da7740fa28ae4dbb28fb31853a5868bd","bytes":6023,"sha256":"89d4c618ad4560373f8fba3c787522cea8f0191fd8e176f3e0741c6230390730"}
 INDEX = SOURCES["PROOF_INDEX.md"]
 STATUS = SOURCES["STATUS.md"]
@@ -452,12 +470,18 @@ def project(index_raw, status_raw):
 
 
 def packet_descriptors():
-    """Only the packet already present on the pinned main tree is selected."""
+    """Select only the two exact landed main packet snapshots."""
     prefix = "incoming/side24-identity-replay-20260926/"
-    return [dict(id="side24-identity-replay-20260926", issue=None,
+    older = dict(id="side24-identity-replay-20260926", issue=None,
         result=descriptor(prefix + "RESULT.md"), identity=descriptor(prefix + "IDENTITY.json"),
         output=descriptor(prefix + "output.json"),
-        scientific_effect="NONE", review_status="REVIEW_REQUIRED")]
+        scientific_effect="NONE", review_status="REVIEW_REQUIRED")
+    prefix = "incoming/side24-chart-claude-20260926/"
+    chart = dict(id="side24-chart-claude-20260926", issue=141,
+        result=descriptor(prefix + "RESULT.md"), identity=descriptor(prefix + "IDENTITY.json"),
+        output=descriptor(prefix + "output.json"),
+        scientific_effect="NONE", review_status="REVIEW_REQUIRED")
+    return [older, chart]
 
 
 def read_source(identity, main_root, math_root):
@@ -520,6 +544,20 @@ def build(main_root, math_root=None):
     if (identity.get("scientific_effect") != "NONE" or identity.get("review_status") != "REVIEW_REQUIRED"
             or output.get("scientific_acceptance") is not False):
         raise ValueError("landed packet authority fields changed")
+    chart_prefix = "incoming/side24-chart-claude-20260926/"
+    chart_identity = json.loads(raw_files[chart_prefix + "IDENTITY.json"])
+    chart_output = json.loads(raw_files[chart_prefix + "output.json"])
+    artifacts = {entry.get("path"): entry for entry in chart_identity.get("artifacts", [])}
+    if (chart_identity.get("scientific_effect") != "NONE"
+            or chart_identity.get("review_status") != "REVIEW_REQUIRED"
+            or chart_output.get("scientific_effect") != "NONE"
+            or chart_output.get("scientific_acceptance") is not False
+            or chart_output.get("task") != "d6g8k5htny-coder/main#141"
+            or chart_output.get("package") != chart_prefix.rstrip("/")
+            or any(artifacts.get(name) != {"path": name, "bytes": SOURCES[chart_prefix + name]["bytes"],
+                                             "sha256": SOURCES[chart_prefix + name]["sha256"]}
+                   for name in ("RESULT.md", "output.json"))):
+        raise ValueError("new landed packet authority or identity fields changed")
     return dict(schema_version=1, scientific_status_authority=False,
         index_source=descriptor("PROOF_INDEX.md"), status_source=descriptor("STATUS.md"),
         claims=claims, exhibits=exhibits, exhibit_quotes=quotes, packets=packet_descriptors(),
@@ -550,7 +588,7 @@ def main(argv=None):
     else:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(dump(data))
-    print("Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.")
+    print("Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 2 landed packets; scientific effect NONE.")
     return 0
 
 

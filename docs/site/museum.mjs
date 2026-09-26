@@ -6,6 +6,10 @@ const OPEN_IDS=['d1-parent-selection-open','d5-pin-neighborhoods-open','sard-g-a
 const EXHIBITS={ec014:['EC-014 pair frame','EC-014'],remote:['Fixed-remote region','D4 fixed-remote RN'],annulus:['Fixed annulus','D5 all-height fixed annulus'],p15:['P15 discrete palette','D6 P15 full price']};
 const VIEW_LINKS={'d3-side24-coefficient':'index.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
 const D5_OPEN_REVIEW='https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md';
+const PACKET_PINS=[
+  {id:'side24-identity-replay-20260926',commit:'71400b94f6cb354a8cf7aba73ffede2138a64efa',issue:null},
+  {id:'side24-chart-claude-20260926',commit:'a12c178c0f857a130cf434e9efd44233a038195b',issue:141}
+];
 const decoder=new TextDecoder('utf-8',{fatal:true});
 const nonempty=value=>typeof value==='string'&&value.trim().length>0;
 const sameIdentity=(left,right)=>['repository','path','commit','blob','bytes','sha256','url','html_url'].every(key=>left[key]===right[key]);
@@ -99,12 +103,14 @@ export function validateBoundManifest(manifest,indexText,statusText){
   });
   for(const key of [...Object.keys(EXHIBITS),'lifetime'])validateDescriptor(manifest.exhibits?.[key]);
   if(!sameIdentity(manifest.exhibits.lifetime,manifest.claims[0].proof))throw Error('Lifetime source identity differs from D2');
-  if(!Array.isArray(manifest.packets)||manifest.packets.length>1)throw Error('Unexpected packet projection');
-  for(const packet of manifest.packets){
-    if(packet.id!=='side24-identity-replay-20260926'||packet.issue!==null||packet.scientific_effect!=='NONE'||packet.review_status!=='REVIEW_REQUIRED')throw Error('Packet has unexpected identity or scientific effect');
-    validateDescriptor(packet.result);
+  if(!Array.isArray(manifest.packets)||manifest.packets.length>PACKET_PINS.length)throw Error('Unexpected packet projection');
+  for(const [index,packet] of manifest.packets.entries()){
+    const expected=PACKET_PINS[index];
+    if(packet.id!==expected.id||packet.issue!==expected.issue||packet.scientific_effect!=='NONE'||packet.review_status!=='REVIEW_REQUIRED')throw Error('Packet has unexpected identity or scientific effect');
+    for(const key of ['result','identity','output'])validateDescriptor(packet[key]);
     if(packet.result.repository!=='d6g8k5htny-coder/main'||packet.result.path!==`incoming/${packet.id}/RESULT.md`)throw Error('Packet result path differs from its identity');
-    if(packet.result.commit!==manifest.status_source.commit)throw Error('Packet commit differs from the pinned main snapshot');
+    if(packet.result.commit!==expected.commit||(index===0&&packet.result.commit!==manifest.status_source.commit)
+      ||!['identity','output'].every(key=>packet[key].repository==='d6g8k5htny-coder/main'&&packet[key].commit===expected.commit&&packet[key].path===`incoming/${packet.id}/${key==='identity'?'IDENTITY.json':'output.json'}`))throw Error('Packet commit differs from its pinned main snapshot');
   }
   return manifest;
 }
@@ -168,17 +174,21 @@ async function renderLifetime(document,source,fetcher){
 }
 async function renderPacket(document,packet,fetcher){
   const text=decoder.decode(await verifiedBytes(packet.result,fetcher));
-  if(!/Scientific effect:\s*\*\*NONE\*\*/.test(text)||!/Review status:\s*\*\*REVIEW_REQUIRED\*\*/.test(text))throw Error('Packet source declarations differ');
+  if(!/Scientific effect:\s*\*\*NONE\*\*/.test(text)||!/Review status:\s*(?:\*\*REVIEW_REQUIRED\*\*|`REVIEW_REQUIRED`)/.test(text))throw Error('Packet source declarations differ');
   const article=card(document,packet.id,'Packet — not STATUS','engineering-only',packet.result),body=element(document,'div',undefined,'packet-body');
-  body.append(element(document,'p','packet — not STATUS'),element(document,'p',`Packet ID: ${packet.id}`),element(document,'p','Task issue: not stated in the packet'),element(document,'p','scientific_effect: NONE · review_status: REVIEW_REQUIRED'),anchor(document,'Open pinned RESULT.md ↗',packet.result.html_url));
+  body.append(element(document,'p','packet — not STATUS'),element(document,'p',`Packet ID: ${packet.id}`),packet.issue===null?element(document,'p','Task issue: not stated in the packet'):anchor(document,`Task issue: #${packet.issue}`,`https://github.com/d6g8k5htny-coder/main/issues/${packet.issue}`),element(document,'p','scientific_effect: NONE · review_status: REVIEW_REQUIRED'),anchor(document,'Open pinned RESULT.md ↗',packet.result.html_url));
   article.append(body,strip(document,'Landed packet bytes are visible for review. The result is not an accepted claim and is not inserted into STATUS.'));return article;
 }
 export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs')}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   try{
-    const response=await boundedFetch('museum.json',fetcher,256*1024);if(!response.ok)throw Error(`Museum manifest unavailable (${response.status})`);
-    const raw=response.bytes;
+    const configResponse=await boundedFetch('config.json',fetcher,32*1024);if(!configResponse.ok)throw Error(`Museum config unavailable (${configResponse.status})`);
+    const config=JSON.parse(decoder.decode(configResponse.bytes));
+    const pin=config.museum_json;
+    if(pin?.url!=='museum.json'||!hex64.test(pin.sha256)||!Number.isSafeInteger(pin.bytes)||pin.bytes<1||pin.bytes>256*1024)throw Error('Invalid museum manifest descriptor');
+    const localFetch=async url=>{const response=await boundedFetch(url,fetcher,pin.bytes);return {ok:response.ok,status:response.status,arrayBuffer:async()=>response.bytes.buffer};};
+    const raw=await verifiedBytes(pin,localFetch);
     const manifest=JSON.parse(decoder.decode(raw));validateDescriptor(manifest.index_source);validateDescriptor(manifest.status_source);
     const cache=new Map();
     const cachedFetch=url=>{const key=String(url);if(!cache.has(key))cache.set(key,boundedFetch(url,fetcher));return cache.get(key).then(result=>({ok:result.ok,status:result.status,arrayBuffer:async()=>result.bytes.buffer}));};

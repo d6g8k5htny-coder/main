@@ -53,7 +53,7 @@ Claims use claim/scope, source/review, and replay columns. Missing recorded repl
 - D4/D5 diagrams show only their stated fixed regions, with OPEN complements. Diagram dimensions are schematic, not certified constants.
 - P15 illustrates the source's stated finite realized-family example, with no unrestricted prize claim.
 - D2 has a **fixture absent** card: no committed lifetime/barcode samples were found in the audited defaults. No synthetic proof data or live Gaussian sampler is supplied.
-- The packet list contains only the one package in the pinned main snapshot. Later or unmerged PRs are excluded until a reviewed engineering refresh. Every row says **packet — not STATUS**.
+- The packet list contains two landed packages: the identity replay at main `71400b94f6cb354a8cf7aba73ffede2138a64efa` and the SIDE24 chart submitted for task #141 at main `a12c178c0f857a130cf434e9efd44233a038195b`. Each retains **REVIEW_REQUIRED**, scientific effect **NONE**, and **packet — not STATUS**. Unmerged PRs remain excluded.
 
 ```sh
 python3 -B -m unittest discover -s tests -p test_museum_data.py
