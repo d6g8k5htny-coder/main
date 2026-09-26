@@ -148,14 +148,15 @@ The architecture must not become the research program.
 ### 3.1 `main` — research control plane
 
 **Owns**
-- cross-project work queue,
-- machine-readable claim/dependency graph,
-- source-binding authority,
-- reverse-impact/revalidation logic,
+- cross-project work queue and lease surfaces,
+- `claims/graph.json` transcribed grades, premise openness and firewall composition rules,
+- source-binding pointers and the scientific-state architecture schema package,
+- non-promoting HOLD / REVALIDATION proposal generation,
 - work-order routing,
-- scientific-state schemas,
 - control-plane CI,
 - project-wide navigation into current work.
+
+**Authority limit:** terminal classification, `CONTROLLING`, premise satisfaction and reverse-impact blocking remain owned by the Math downstream gate (`Math-/frontiers/downstream_gate_20260925/GRAPH.json`). `main` does not become a competing promotion engine.
 
 **Does not own**
 - canonical mathematical proof bodies,
@@ -195,8 +196,9 @@ Existing `tools/*.py` entry points should become thin CLI wrappers over this pac
 - proof-specific executable checks,
 - coefficient calculations,
 - imported immutable proof mirrors,
-- proof availability index,
 - canonical published mathematical claim manifest.
+
+`PROOF_INDEX.md` is a validated/generated navigation view, not a separate authority.
 
 **Existing reviewed directories remain stable**
 
@@ -377,7 +379,7 @@ The canonical relationship should be:
 
 `Math-/claims/LANDING_CLAIMS.json`
 
-Owns published mathematical object metadata:
+Owns the public landing projection and exact-scope disposition metadata:
 - stable claim ID,
 - statement/proof path,
 - exact source identity,
@@ -386,17 +388,13 @@ Owns published mathematical object metadata:
 - disposition at exact scope,
 - explicitly required scientific dependencies.
 
-### 4.2 Main dependency/revalidation graph
+### 4.2 Main claims firewall and non-promoting adapter
 
-`main/claims/graph.json`
+On the active integrated base, `main/claims/graph.json` owns transcribed grades, premise openness and firewall composition rules, checked by `tools/claims_check.py`.
 
-Owns:
-- dependency edges,
-- controlling/noncontrolling role,
-- operational classification,
-- impact propagation,
-- HOLD / REVALIDATION proposals,
-- source monitoring.
+The Math downstream gate `Math-/frontiers/downstream_gate_20260925/GRAPH.json` owns terminal classification, `CONTROLLING`, premise satisfaction and reverse-impact blocking.
+
+`main/tools/claims_gate_adapter.py` may project claims into gate-shaped inputs and emit HOLD / REVALIDATION proposals only. Its `promotion_permission` remains false. Wherever older sections imply `main` owns terminal status or reverse-impact authority, this section and the authority matrix control.
 
 ### 4.3 Meta-framework routing catalog
 
@@ -514,13 +512,15 @@ This prevents an apparently small package change in one repository from silently
 
 If a future cross-package runtime dependency becomes genuinely useful, it requires a separate architecture decision with cycle analysis and a version-compatibility contract.
 
-### 6.3 No circular repository imports
+### 6.3 No cross-package runtime imports
 
-CI should reject:
-- Math importing main/control internals,
+CI rejects **every** import among `universal_law_math`, `universal_law_control`, and `universal_law_query` across repositories. Shared meaning travels only through the versioned data contracts in `meta-framework`.
+
+Additionally CI rejects:
 - meta-framework importing production implementations,
 - governance importing runtime code,
-- trial becoming a production dependency.
+- trial becoming a production dependency,
+- control code granting `promotion_permission: true`.
 
 ---
 
@@ -575,12 +575,9 @@ CI must enforce:
 - wrapper and package command produce equivalent outputs,
 - old commands remain documented during deprecation.
 
-Each wrapper receives:
-- `introduced_wrapper_at`,
-- `canonical_module`,
-- `deprecation_not_before`.
+Each wrapper is represented only in the compatibility ledger defined in §41, with its legacy path, canonical module, behavior fixture and removal blockers.
 
-No wrapper removal is based solely on elapsed time.
+Wrappers may only reshape `argv`, add the local `src/` directory when running from an uninstalled checkout, and delegate. Parity covers stdout, stderr and exit status, including failures. Removal waits until no current default-branch caller depends on the wrapper; historical tagged snapshots preserve old-path replay.
 
 ---
 
@@ -763,9 +760,9 @@ These are distinct evidence types.
 
 ## 14. Verification ladder integration
 
-Retain the existing ladder but represent it as evidence metadata rather than theorem status.
+Retain the existing ladder from `architecture/scientific_state/v1/VERIFICATION_LEVELS.json` on the active integrated base and represent it as evidence metadata rather than theorem status.
 
-Suggested values:
+Current values:
 
 ```text
 L0 prose/LLM argument
@@ -789,8 +786,8 @@ This becomes a workspace-wide hard invariant:
 ```text
 reviewed_or_closed(object)
     =>
-proof_available_on_default_branch(object)
-AND review_available_on_default_branch(object)
+reviewed_git_blob_and_sha256_resolve_on_owning_default_branch(object)
+AND review_git_blob_and_sha256_resolve_on_owning_default_branch(object)
 AND source_identity_resolves(object)
 ```
 
@@ -822,9 +819,9 @@ A proof referenced as load-bearing may not exist only:
 - in an inaccessible Drive object,
 - or in an unspecified ZIP.
 
-If exact source exists but is not on the owning default branch, migrate exact bytes additively and preserve provenance.
+If exact source exists but is not on the owning default branch, copy the exact bytes additively to a stable default-branch path and record both the reviewed/original identity and the custody-copy identity. Do not rename the reviewed path retroactively.
 
-If source is absent, record `BLOCKED_ABSENT`.
+If source is absent, record `BLOCKED_ABSENT` in the existing Math gate/status vocabulary rather than inventing another status store.
 
 Never reconstruct a missing proof and label it original.
 
@@ -855,6 +852,8 @@ This makes a federation replayable without pretending all repositories share one
 ---
 
 ## 18. Migration phases
+
+**Authoritative implementation order is §45.** The phase list below is retained as historical decomposition where consistent with §45.
 
 ### Phase 0 — inventory and freeze contracts
 
@@ -890,13 +889,15 @@ Add wrappers at old paths.
 
 ### Phase 3 — control-plane extraction
 
-Move:
-- claim graph parsing,
-- source bindings,
-- impact computation,
-- revalidation reporting.
+Historical outline only; authoritative implementation order is §45.
 
-The already-merged #90 gate becomes a high-value migration target because its semantics are well tested.
+Move only non-promoting control helpers:
+- source-reference parsing/validation,
+- claims-firewall graph parsing/validation,
+- source-binding validation,
+- proposal/report rendering.
+
+Do **not** port the Math hard gate or its reverse-impact authority into `universal_law_control`. The #90 implementation remains the merged Math gate plus the thin main adapter.
 
 ### Phase 4 — math utility extraction
 
@@ -960,13 +961,9 @@ Proof files are not rewritten during source extraction.
 
 Wrappers make rollback inexpensive.
 
-No migration PR may simultaneously:
-- move proof bodies,
-- change theorem status,
-- change mathematical logic,
-- and change package architecture.
+A migration PR must not include **any** proof-body move, mathematical disposition change, or mathematical-logic change. Package architecture changes stay separate from scientific content changes.
 
-Those changes must be separable.
+Cross-repository rollback is one revert per affected repository plus the previously pinned workspace snapshot. One-PR rollback is guaranteed only until a later PR depends on the migrated module.
 
 ---
 
@@ -1257,7 +1254,7 @@ The `main` repository currently has a distinction between:
 
 Before Phase 1 for `main`:
 
-1. identify the exact active integrated base;
+1. pin the exact active integrated base commit (currently `2f7a5a9f10c9ed5f5b7792a8f2521318d9208532` at review time; re-read before execution);
 2. compute default-main ↔ active-base divergence;
 3. designate one migration base in a source-bound decision record;
 4. land source architecture on that base;
@@ -1326,7 +1323,9 @@ In particular:
 
 Git tags alone identify commits, but reproducible release **bytes** require a deterministic builder.
 
-Each package release should produce a custom archive with:
+Each package release should produce a custom project archive from the exact include-list in `SOURCE_MANIFEST.json`, never from the whole repository tree. The include-list must exclude public vault-census/audit trees unless they are explicitly part of the package, and a release is blocked if the repository has no already-existing license file included in the package source set.
+
+The archive uses:
 
 - lexicographically sorted paths,
 - normalized path separators,
@@ -1336,8 +1335,8 @@ Each package release should produce a custom archive with:
 - no VCS metadata,
 - no caches/build outputs,
 - embedded `SOURCE_MANIFEST.json`,
-- embedded `BUILD_INFO.json`,
-- SHA256 of the final archive.
+- embedded `BUILD_INFO.json` describing inputs/build command but **not** the final archive hash,
+- SHA256 of the final archive stored in the release record outside the archive.
 
 The release record stores:
 - repository,
@@ -1375,9 +1374,11 @@ The first releases intentionally expose very small APIs.
 ### control
 Initially public:
 - parse/validate source reference,
-- parse/validate dependency graph,
-- compute reverse impact,
-- render a non-promoting impact report.
+- parse/validate the claims-firewall graph,
+- validate source bindings,
+- render non-promoting proposal/report data.
+
+Reverse-impact computation and promotion logic remain outside this public package because authority belongs to the Math downstream gate.
 
 ### math
 Initially public:
@@ -1498,8 +1499,8 @@ The self-review changes the first implementation slice slightly:
 **Slice C — control skeleton**
 1. create `main/src/universal_law_control` on the designated active base;
 2. migrate source-reference parsing first;
-3. then graph parsing;
-4. only later migrate impact/revalidation logic after parity fixtures reproduce #90 behavior.
+3. migrate claims-firewall graph parsing/validation second;
+4. keep Math hard-gate reverse impact and promotion semantics in Math; parity tests ensure the existing main adapter still maps to the Math gate without granting promotion.
 
 **Slice D — Math**
 1. add package skeleton;
@@ -1517,7 +1518,7 @@ Before implementation planning, this design has been checked for:
 - no monorepo assumption;
 - no proof-body relocation requirement;
 - no runtime cross-repo import cycle;
-- no duplicate scientific-status authority;
+- authority ownership matches the existing `AUTHORITY_MAP.json`; no new promotion/status authority is introduced;
 - explicit public/private boundary;
 - explicit current-main branch divergence handling;
 - deterministic source-release identity;
@@ -1551,7 +1552,7 @@ Primary references:
 - https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 - https://packaging.python.org/en/latest/specifications/source-distribution-format/
 
-Design consequence: retain `src/` for importable production modules, while proof bodies, repository tooling, evidence and generated navigation stay outside the import package unless they are true runtime resources.
+Design consequence: retain `src/` for importable production modules, while proof bodies, repository tooling, evidence and generated navigation stay outside the import package unless they are true runtime resources. The project deterministic archive in §38 is the release identity object; a PyPA source distribution is optional and is not what defines that archive.
 
 ### Reproducible release timestamps
 
@@ -1573,3 +1574,75 @@ Primary references:
 Design consequence: source/package publication workflows use SHA-pinned actions, minimal permissions and unprivileged pull-request testing. Privileged release jobs operate only on trusted exact commits.
 
 These standards checks support the design choices; they do not replace repository-specific tests or review.
+
+
+---
+
+## 48. Architecture-review reconciliation — binding amendments
+
+This section records the accepted amendments from the independent architecture reviews on PR #129 and overrides any older sentence that conflicts with it.
+
+### Existing authority map is normative
+
+The existing active-base file `architecture/scientific_state/v1/AUTHORITY_MAP.json` controls scientific-state ownership:
+
+- `claims_firewall`: `claims/graph.json` owns transcribed grades, premise openness and firewall composition rules.
+- `math_downstream_gate`: `Math-/frontiers/downstream_gate_20260925/GRAPH.json` owns terminal classification, `CONTROLLING`, premise satisfaction and reverse-impact blocking.
+- `scientific_state_architecture`: main architecture files own schema/crosswalk/digest/projection mechanics only and never write scientific status/classification.
+- `Math-/claims/LANDING_CLAIMS.json` is the landing projection; `REVIEWED_SCOPED` is not synonymous with the gate class `PROVED_REVIEWED`.
+- main may emit HOLD / REVALIDATION proposals only; `promotion_permission` stays false.
+
+### Role-record authority
+
+The machine repository-role record has one writer: `meta-framework/registry.json`. Governance text is a checked human rendering, not a second machine authority.
+
+### Public replica authority
+
+For a Drive replica, its `SOURCE.json` owns replica byte identity, source ID and recorded visibility observation. Any `mathematical_source` or scope prose inside the replica metadata is a derived pointer and not scientific-status authority.
+
+### Wrapper and control limits
+
+- The §41 compatibility ledger is the only wrapper registry.
+- A current default-branch caller is a wrapper-removal blocker; an old tagged snapshot is not.
+- Future control wrappers preserve the behavior of the existing `tools/claims_gate_adapter.py`; they do not replace the adapter with an empty new semantic layer.
+- `hard_gate.py` and Math gate authority are not ported into `universal_law_control`.
+
+### Generated views
+
+- Generator + canonical inputs are authoritative; a committed generated manifest is a verified cache.
+- Generated banners pin the source object's commit, not arbitrary HEAD.
+- Validators compare projection fields only: stable ID, path, blob, SHA256, disposition and explicit gap.
+- `docs/RESEARCH_INDEX.md` narrative reading order remains handwritten.
+- `meta-framework` CI owns freshness of `generated/SOURCE_MAP.json`; trial rehearses cross-repo behavior.
+
+### Release boundary
+
+- Release stage A means GitHub source publication and is distinct from migration Phase/Slice numbering.
+- The deterministic archive is built from the package paths named by `SOURCE_MANIFEST.json`.
+- `audits/vault_99/` and other non-package public archive/census trees are outside package releases.
+- The release identity is exact tagged commit + source-manifest hash + archive hash in the release record.
+- A source release is blocked until the repository already contains an appropriate license file in the release include-list. The design does not invent a license.
+- Drive source IDs appear in public release metadata only after a recorded public-visibility check.
+
+### Implementation order
+
+Section §45 is authoritative. Earlier phase lists are descriptive history where compatible.
+
+1. inventory/authority contracts,
+2. query read-only package migration,
+3. control parsing/validation only,
+4. Math reusable utilities only after two genuine consumers,
+5. deterministic publication after licensing/include-list gates.
+
+### CI additions
+
+Fail closed if:
+- an authority-map path cannot be resolved at its recorded commit;
+- any of the three production packages imports another production package;
+- a landing disposition violates the explicit landing↔gate projection table for the same ID;
+- meta registry entries contain scientific status/grade/disposition fields;
+- a reviewed **blob identity** is not reachable on the owning default branch;
+- a release include-list escapes the intended public package tree or contains credential material;
+- `python -B -S` wrapper parity fails.
+
+Directory-presence rules activate only after a migration-ledger row requires that directory.
