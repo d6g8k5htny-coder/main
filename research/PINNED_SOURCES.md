@@ -3,21 +3,38 @@
 
 # Repository content a certificate binds by digest
 
-Several candidate records under `research/` name repository content by SHA-256
-as **source identity** — "this result was produced against these exact bytes".
-Editing one of these files makes the replay checkers that consume the
-certificate refuse the tree, by design.
+Candidate records under `research/`, and dependency declarations held **inside**
+the campaign archives, name repository content by SHA-256 as **source identity**
+— "this result was produced against these exact bytes". Editing one of these
+files makes the replay checkers that consume the record refuse the tree, by
+design.
 
 This page exists because nothing else in the repository said which files those
 are. The rejection a replay prints names the dependency and not the certificate,
 so the only way to learn a binding was to break it — and three separate changes
-did, in four days. **Two of the files below are checkers in `tools/` and one is
-a document in `docs/`.**
+did, in four days.
+
+**A fourth did, after this page existed.** Its first version read only the JSON
+files on disk under `research/`, so it never saw the declarations sealed inside a
+campaign `.zip`. Thirteen pinned files were therefore absent from the index whose
+only purpose is to name them, including `research/rn/moment_envelope.py`: a
+NON-CERTIFYING label was added to that file *because this page said it was not
+pinned*, and `tools/rn_bernstein_sharp_check.py` refused the tree on replay. The
+bytes were restored and the archive declarations are now read. A "the only way to
+learn a binding was to break it" page that is itself incomplete is worse than no
+page, because it is trusted.
+
+**Some of the files below are checkers in `tools/`** — two of them are pinned by
+the very campaign they enforce — **and several are documents in `docs/`,
+`governance/` and `drive/`.** Counts are in the summary line after the table;
+they are computed, not typed.
 
 Before editing anything in this table, read
 [`tools/pinned_sources_check.py`](../tools/pinned_sources_check.py). The remedy
 for a deliberate change is a re-pin on the lane that owns the certificate, never
-a quiet edit to the expected digest.
+a quiet edit to the expected digest — and never a NON-CERTIFYING label, a
+docstring fix or a typo correction on the assumption that a small edit is safe.
+The digest does not care how small the edit was.
 
 **What a pin is not.** It is an identity statement and nothing more. It says
 nothing about whether the certificate is correct, whether its mathematics holds,
@@ -29,55 +46,68 @@ this page.
 | file | bytes | SHA-256 | pinned by |
 |---|---:|---|---|
 | `docs/HERMITE_GAUSSIAN_ENVELOPE.md` | — | `8c0dccdfd177b7ae…` | hermite_gaussian_20260919.json |
-| `drive/inventory.jsonl` | 2807455 | `48766f1807efaba6…` | inner_wedge_20260920_v1.json |
-| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md` | 9628 | `840c75a7825c67b8…` | candidate.json |
-| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/checks/interval_repair.py` | 6843 | `b37150f0eb79ff5d…` | candidate.json |
-| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/lpw_constant.py` | 25380 | `e258322cfbb71dbb…` | candidate.json |
-| `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_NEAR_MOMENT_REPAIR.md` | 13725 | `ac89f60b8206bfe0…` | inner_wedge_20260920_v1.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
-| `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip` | 140170 | `28c1c385406452a7…` | inner_wedge_20260920_v1.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
+| `docs/OPEN_PROBLEMS.md` | 28417 | `8f404f87e44d2861…` | tools/twelve_project_check.py (SUPPLEMENTAL_DEPENDENCIES) |
+| `drive/inventory.jsonl` | 2807455 | `48766f1807efaba6…` | inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md` | 9628 | `840c75a7825c67b8…` | candidate.json, q0_twelve_20260920_v1.zip::verification_plan.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/checks/interval_repair.py` | 6843 | `b37150f0eb79ff5d…` | candidate.json, q0_twelve_20260920_v1.zip::verification_plan.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/LPW_CONSTANT_REPORT.md` | 12790 | `289d9f40e725bd51…` | q0_twelve_20260920_v1.zip::verification_plan.json |
+| `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/lpw_constant.py` | 25380 | `e258322cfbb71dbb…` | candidate.json, q0_twelve_20260920_v1.zip::verification_plan.json |
+| `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_NEAR_MOMENT_REPAIR.md` | 13725 | `ac89f60b8206bfe0…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json, tools/twelve_project_check.py (SUPPLEMENTAL_DEPENDENCIES) |
+| `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip` | 140170 | `28c1c385406452a7…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json, side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::closure_round2/rn_field.py` | 16701 | `d9167ae821684f71…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::intake/rn_source/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md` | 7003 | `6347275d86c56842…` | side24_density_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::round5/intake/rn.txt` | 12956 | `0c9446b7cb49e6e1…` | side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::round5/near_moments.py` | 8673 | `03c6e35c426eee8e…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
 | `drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip::round5/verify_round5.py` | 5074 | `614daf280f503775…` | side24_density_20260920_v1.json, side24_point_20260920_v1.json, side24_spatial_20260920_v1.json |
-| `drive/source_map/Payloads.csv` | 2957503 | `1b1b94a784ebc87c…` | inner_wedge_20260920_v1.json |
-| `engine/operations/__init__.py` | 343 | `818cb3d139128e78…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `engine/operations/rn_applicability.py` | 4129 | `f28a93613d0995b8…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `engine/operations/rn_family_applicability.py` | 2241 | `3a55870d2129a3b4…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
+| `drive/search/2026-09-20/deliveries/RECON_RN_REGISTRATION_20260920_v1.json` | 310770 | `540bf83b37b7b4d5…` | q0_twelve_20260920_v1.zip::verification_plan.json |
+| `drive/source_map/Payloads.csv` | 2957503 | `1b1b94a784ebc87c…` | inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `engine/operations/__init__.py` | 343 | `818cb3d139128e78…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `engine/operations/rn_applicability.py` | 4129 | `f28a93613d0995b8…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `engine/operations/rn_family_applicability.py` | 2241 | `3a55870d2129a3b4…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `engine/operations/trial.py` | 47797 | `f3bbd18c30383030…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py` | — | `85d7725fab42eeb0…` | hermite_gaussian_20260919.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/pin_transform.py` | 17623 | `c6988ac7fcfa32dc…` | side24_density_20260920_v1.json, side24_spatial_20260920_v1.json |
-| `quarantine/EXCLUSIONS.json` | 19555 | `8a5a89012dcd0fec…` | inner_wedge_20260920_v1.json |
-| `research/bands/__init__.py` | 4171 | `d9fb9686306523ae…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/falsifier.py` | 13281 | `0d1b4abf48c4f5b5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/hermite_gaussian.py` | — | `f37e4657aceb95ab…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/bands/ladder.py` | 26286 | `9ea576708e146aa5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/bands/lattice.py` | — | `ee7144a98a689094…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/campaigns/h3_rn_n6_20260920_v1.zip` | 571735 | `73b9e63800f77c67…` | inner_wedge_20260920_v1.json |
+| `quarantine/EXCLUSIONS.json` | 19555 | `8a5a89012dcd0fec…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/bands/__init__.py` | 4171 | `d9fb9686306523ae…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/bands/falsifier.py` | 13281 | `0d1b4abf48c4f5b5…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/bands/hermite_gaussian.py` | — | `f37e4657aceb95ab…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/bands/ladder.py` | 26286 | `9ea576708e146aa5…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/bands/lattice.py` | — | `ee7144a98a689094…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/campaigns/h3_rn_n6_20260920_v1.zip` | 571735 | `73b9e63800f77c67…` | inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/campaigns/h3_rn_n6_20260920_v1.zip::rn_n6/side24_taylor.py` | 23681 | `32c4933c2ab543f7…` | inner_wedge_20260920_v1.json |
-| `research/cover/__init__.py` | 4113 | `5f3afc075dc40e51…` | inner_wedge_20260920_v1.json |
-| `research/cover/driver.py` | 21760 | `7daaced91c179a75…` | inner_wedge_20260920_v1.json |
-| `research/cover/ledger.py` | 37974 | `58ebe18fbc3fc44e…` | inner_wedge_20260920_v1.json |
-| `research/cover/regions.py` | 23358 | `bf2d981772f3e35e…` | inner_wedge_20260920_v1.json |
-| `research/interval/__init__.py` | 2371 | `a6a185d24615288d…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/interval/core.py` | — | `3f9e699cdb215957…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/interval/transcendental.py` | — | `7db4b5a6d868a731…` | DEPENDENCIES.json, candidate.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json |
-| `research/rn/certificate.py` | 16550 | `ddbbb25270c01c13…` | inner_wedge_20260920_v1.json |
-| `research/rn/conditioning.py` | — | `1d3ca89d9bc2b2ea…` | candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/gaussian_families.py` | 5348 | `ecd1958dd9e02f82…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/gaussian_moments.py` | 8133 | `d545e4d31ef87605…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/side24.py` | 11239 | `dd6b5aa73442c8d5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
-| `research/rn/side24_cell.py` | 13149 | `38cf5632f4689943…` | inner_wedge_20260920_v1.json |
-| `research/rn/side24_density.py` | 8289 | `3ad0b3b6fc3a5124…` | inner_wedge_20260920_v1.json |
+| `research/cover/__init__.py` | 4113 | `5f3afc075dc40e51…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/cover/driver.py` | 21760 | `7daaced91c179a75…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/cover/ledger.py` | 37974 | `58ebe18fbc3fc44e…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/cover/regions.py` | 23358 | `bf2d981772f3e35e…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/interval/__init__.py` | 2371 | `a6a185d24615288d…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/interval/core.py` | — | `3f9e699cdb215957…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/interval/transcendental.py` | — | `7db4b5a6d868a731…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/parallel/lpw/ARGUMENT.md` | 10526 | `207f401d8810d397…` | q0_twelve_20260920_v1.zip::verification_plan.json |
+| `research/parallel/lpw/lpw_modulus.py` | 11462 | `56030a63838d5d66…` | q0_twelve_20260920_v1.zip::verification_plan.json |
+| `research/rn/certificate.py` | 16550 | `ddbbb25270c01c13…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/conditioning.py` | — | `1d3ca89d9bc2b2ea…` | candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/density_majorant.py` | 11301 | `96e680e47b6484e1…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/gaussian_families.py` | 5348 | `ecd1958dd9e02f82…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/gaussian_moments.py` | 8133 | `d545e4d31ef87605…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/moment_envelope.py` | 6778 | `107c873ffd7565e8…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json |
+| `research/rn/n6_inputs.py` | 4644 | `4eed3bc9a5684da2…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/side24.py` | 11239 | `dd6b5aa73442c8d5…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, q0_twelve_20260920_v1.zip::verification_plan.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/side24_cell.py` | 13149 | `38cf5632f4689943…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/side24_density.py` | 8289 | `3ad0b3b6fc3a5124…` | h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/rn/side24_wedge.py` | 11684 | `70fa2563564a0601…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json |
+| `research/rn/spatial_cover.py` | 4169 | `d20bbebe14020245…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json |
 | `research/side24/source_recovery/SIDE24_GAP_FILL_SUPPLEMENT.md` | 105980 | `05967f14a8b8d6a9…` | SOURCE_RECOVERY.json |
 | `research/side24/source_recovery/SIDE24_THEOREM_PACKAGE_v1.0.md` | 26045 | `703eefd5297afd45…` | SOURCE_RECOVERY.json |
 | `research/side24/source_recovery/custody/SIDE24_V3_4_AUDIT_REPLAY_FULL_ARCHIVE.zip` | 12465983 | `ba2a296b6a9c438e…` | SOURCE_RECOVERY.json |
 | `research/side24/source_recovery/custody/arithmetic_ledgers/40ad76a1973248d9/arithmetic_ledgers.py` | 3915 | `40ad76a1973248d9…` | SOURCE_RECOVERY.json |
 | `research/side24/source_recovery/custody/arithmetic_ledgers/ffbc6ccb48c08f78/arithmetic_ledgers.py` | 4191 | `ffbc6ccb48c08f78…` | SOURCE_RECOVERY.json |
 | `tools/drive_coverage.py` | — | `98b33fe9f97fe7a3…` | candidate.json |
+| `tools/h3_rn_n6_check.py` | 15250 | `4935a003245878a3…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `tools/hermite_envelope_report.py` | — | `7a60f412a008e3bc…` | hermite_gaussian_20260919.json |
 | `tools/manifest_integrity_check.py` | — | `8b30cf5768318754…` | candidate.json |
+| `tools/twelve_project_check.py` | 25462 | `54146780a912bbb6…` | rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 
-42 files and 6 members sealed inside a ZIP carrier, bound at 133 sites across 11 certificates.
+55 files and 6 members sealed inside a ZIP carrier, bound at 133 sites across 11 certificates, plus 113 sites in 4 dependency declarations held INSIDE campaign archives and enforced by the checkers named below.
 
 ## Every container of pins, and what its keys are relative to
 
@@ -113,3 +143,29 @@ flipping between the two fails this index's drift comparison by name.
 | `research/side24/source_recovery/SOURCE_RECOVERY.json` | `arithmetic_ledgers[]` | 2 | repository |
 | `research/side24/source_recovery/SOURCE_RECOVERY.json` | `custody_files[]` | 1 | repository |
 | `research/side24/source_recovery/SOURCE_RECOVERY.json` | `recovered[]` | 2 | repository |
+
+## Dependency declarations held inside a campaign archive
+
+These are not certificates on disk. Each is a JSON member **inside** a
+campaign `.zip` that names repository paths by digest, and each is live
+because a checker in `tools/` passes it to `repository_inputs`, which
+compares it against this tree and refuses. The files they name are in the
+table above, so this section says who will refuse and where the digest
+came from.
+
+A campaign archive also holds many pin-*shaped* members that are **not**
+pins: manifests of the archive's own contents, and blocks named
+`context_only_reads` or `governance_context` recording what an agent had
+open — several name `CLAUDE.md` and `README.md` at byte counts they no
+longer have, because nothing enforces them and nothing should. Those are
+deliberately absent. Listing them as "do not edit" would put a false
+statement in the one document people read before editing, which is worse
+than the omission this section replaced.
+
+| archive | member | key | enforced by | paths |
+|---|---|---|---|---:|
+| `h3_rn_n6_20260920_v1.zip` | `verification_plan.json` | `repository_inputs` | `tools/h3_rn_n6_check.py` | 25 |
+| `rn_bernstein_sharp_variance_20260921_v1.zip` | `bernstein/DEPENDENCIES.json` | `files` | `tools/rn_bernstein_sharp_check.py` | 30 |
+| `rn_bernstein_sharp_variance_20260921_v1.zip` | `sharp_variance/DEPENDENCIES.json` | `files` | `tools/rn_bernstein_sharp_check.py` | 32 |
+| `q0_twelve_20260920_v1.zip` | `verification_plan.json` | `repository_dependencies` | `tools/twelve_project_check.py` | 24 |
+| *(none — held in code)* | — | `SUPPLEMENTAL_DEPENDENCIES` | `tools/twelve_project_check.py` | see that file |

@@ -37,14 +37,19 @@ hiding either. Neither this delegation nor a merge proves a theorem.
 
 ## Before editing a file: it may be bound by a certificate
 
-Eight candidate records under `research/` bind repository content by SHA-256 as
-*source identity*, and the replay checkers that consume them refuse the tree
-when a byte moves. [`research/PINNED_SOURCES.md`](research/PINNED_SOURCES.md)
-lists all of it -- 34 files and 6 archive members, generated from the
-certificates and verified in CI by `tools/pinned_sources_check.py`.
+Candidate records under `research/` bind repository content by SHA-256 as
+*source identity*, and so do dependency declarations sealed **inside** the
+campaign archives. The replay checkers that consume them refuse the tree when a
+byte moves. [`research/PINNED_SOURCES.md`](research/PINNED_SOURCES.md) lists all
+of it, generated and verified in CI by `tools/pinned_sources_check.py`:
 
-Three of the bound files are checkers in `tools/` and one is a document in
-`docs/`, so this is not deducible from where a file lives. The remedy for a
+<!-- counts checked by tests/test_pinned_sources.py against the checker's own
+     summary line; they drifted twice while they were prose nobody compared -->
+certificates=11 archive_declarations=4 pinned_files=55 pinned_archive_members=6
+
+Some of the bound files are checkers in `tools/` -- two of them pinned by the
+very campaign they enforce -- and others are documents in `docs/`, `governance/`
+and `drive/`, so this is not deducible from where a file lives. The remedy for a
 deliberate change is a re-pin on the lane that owns the certificate. Never edit
 an expected digest to match bytes you changed.
 
