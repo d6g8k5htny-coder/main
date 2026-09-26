@@ -13,7 +13,9 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import struct
 import urllib.request
+import zlib
 
 MAX_FILES = 500  # Below the API's 3000-file ceiling; pagination is mandatory.
 MAX_PACKAGE_FILES = 50
@@ -22,10 +24,15 @@ MAX_PACKAGE_BYTES = 2097152
 MAX_RESPONSE_BYTES = 8388608
 SOURCE_REPOS = {'main', 'Math-', 'query-', 'Universal-Law-Workspace'}
 TEXT_SUFFIXES = {'.md', '.txt', '.json', '.csv'}
+PNG_SIGNATURE = b'\x89PNG\r\n\x1a\n'
+MAX_PNG_SIDE = 16384
+MAX_PNG_PIXELS = 1 << 24
 HEX40 = re.compile(r'[0-9a-f]{40}\Z')
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
 SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
+BRANCH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./-]*\Z')  # a name this route can carry; '..' refused below
+MAX_BRANCH_PAGES = 3
 CREDENTIALS = [
     re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
@@ -111,6 +118,30 @@ def unpack_blob(data, max_size, expected_sha=None):
     return raw
 
 
+def png_structure(raw):
+    """Walk the chunk list without decoding pixels: IHDR first, ASCII chunk types,
+    a CRC per chunk, IDAT present, an empty IEND last with nothing after it, and
+    bounded dimensions. Bytes inside a chunk's data field are not inspected."""
+    require(raw.startswith(PNG_SIGNATURE), 'invalid PNG signature')
+    offset, kinds = 8, []
+    while offset < len(raw) and kinds[-1:] != [b'IEND']:
+        require(len(raw) - offset >= 12, 'invalid PNG chunk structure or trailing data')
+        length, kind = struct.unpack('>I4s', raw[offset:offset + 8])
+        require(kind.isalpha() and length <= len(raw) - offset - 12, 'invalid PNG chunk structure or trailing data')
+        data = raw[offset + 8:offset + 8 + length]
+        (crc,) = struct.unpack('>I', raw[offset + 8 + length:offset + 12 + length])
+        require(zlib.crc32(kind + data) == crc, 'invalid PNG chunk CRC')
+        if not kinds:
+            require(kind == b'IHDR' and length == 13, 'invalid PNG chunk structure or trailing data')
+            width, height = struct.unpack('>II', data[:8])
+            require(1 <= width <= MAX_PNG_SIDE and 1 <= height <= MAX_PNG_SIDE and width * height <= MAX_PNG_PIXELS,
+                    'PNG dimensions exceed limit')
+        require(kind != b'IEND' or length == 0, 'invalid PNG chunk structure or trailing data')
+        kinds.append(kind)
+        offset += 12 + length
+    require(offset == len(raw) and kinds[-1:] == [b'IEND'] and b'IDAT' in kinds, 'invalid PNG chunk structure or trailing data')
+
+
 def tree(api, repo, ref):
     data = api.get(f'/repos/{repo}/git/trees/{ref}?recursive=1')
     require(isinstance(data, dict) and data.get('truncated') is False and isinstance(data.get('tree'), list),
@@ -120,6 +151,34 @@ def tree(api, repo, ref):
         require(isinstance(row, dict) and isinstance(row.get('path'), str) and row['path'] not in rows, 'invalid tree entries')
         rows[row['path']] = row
     return rows
+
+
+def ancestor_of_branch(api, repo, branch, commit):
+    if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
+        return False  # a name this route cannot carry safely never vouches for a source
+    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
+        return False  # any other shape is not evidence of reachability
+    return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
+            and data['merge_base_commit'].get('sha') == commit)
+
+
+def reachable(api, repo, commit, default_branch):
+    # /git/commits, /git/trees and /git/blobs serve any object in the repository's
+    # store, including refs/pull/N/head of an outsider's PR and fork-network objects.
+    # Only a branch of the pillar, which outsiders cannot create, vouches for a source.
+    if ancestor_of_branch(api, repo, default_branch, commit):
+        return True
+    for page in range(1, MAX_BRANCH_PAGES + 1):
+        batch = api.get(f'/repos/{repo}/branches?per_page=100&page={page}')
+        require(isinstance(batch, list), 'branch listing unavailable')
+        for row in batch:
+            name = row.get('name') if isinstance(row, dict) else None
+            if name != default_branch and ancestor_of_branch(api, repo, name, commit):
+                return True
+        if len(batch) < 100:
+            break
+    return False
 
 
 def snapshot(pr, repo):
@@ -202,7 +261,7 @@ def verify_package(api, repo, head, base, rows):
             if suffix == '.json':
                 strict_json(text)
         else:
-            require(raw.startswith(b'\x89PNG\r\n\x1a\n'), 'invalid PNG signature')
+            png_structure(raw)
         payload[name[len(prefix):]] = raw
     require('RESULT.md' in payload and payload['RESULT.md'].strip() and 'IDENTITY.json' in payload, 'RESULT.md and IDENTITY.json required')
     identity = strict_json(payload['IDENTITY.json'])
@@ -240,6 +299,8 @@ def verify_package(api, repo, head, base, rows):
         require(isinstance(metadata, dict) and metadata.get('private') is False and metadata.get('full_name') == source_repo, 'source is not verified public')
         commit_record = api.get(f'/repos/{source_repo}/git/commits/{commit}')
         require(isinstance(commit_record, dict) and commit_record.get('sha') == commit, 'source is not an exact commit')
+        require(reachable(api, source_repo, commit, metadata.get('default_branch')),
+                'source commit is not reachable from any branch of the public repository')
         # The contents endpoint follows in-repository symlinks. Resolve the
         # exact path from the commit tree instead, then read that exact blob.
         source_tree = tree(api, source_repo, commit)
