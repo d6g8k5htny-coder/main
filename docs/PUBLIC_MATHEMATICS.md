@@ -1,0 +1,69 @@
+# Public mathematics: full texts and proof sources
+
+[Research home](../README.md) · [Topic guide](RESEARCH_INDEX.md) · [Current Math repository](https://github.com/d6g8k5htny-coder/Math-)
+
+The full mathematical statements, proof texts, partial arguments, counterexamples, and reviews linked here can be read on public GitHub without Drive permission. This catalog records availability, not correctness. Read the hypotheses and source-bound review before using a result. An incomplete argument stays explicitly incomplete.
+
+## Start reading
+
+| Subject | Full public text and review route |
+|---|---|
+| Current proof index | [Math proof availability](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md), including reviewed scopes and missing arguments |
+| Marked-cylinder geometry | [Full proof](https://github.com/d6g8k5htny-coder/Math-/blob/1e1114f5eb8ef8cdbcde591bf74126274c250f88/imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md) |
+| Matrix cap and parent lifetime theorem | [Full proof](https://github.com/d6g8k5htny-coder/Math-/blob/1e1114f5eb8ef8cdbcde591bf74126274c250f88/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md); [current review and reopening](https://github.com/d6g8k5htny-coder/main/issues/63) |
+| SIDE24 coefficients, lifetime remainder, RN regional bounds, and P15 | [Topic guide](RESEARCH_INDEX.md); [all current candidate and review directories](https://github.com/d6g8k5htny-coder/Math-/tree/main) |
+| P15 matroid specialization | [Full public argument and discussion](https://github.com/d6g8k5htny-coder/main/issues/59); its structural hypotheses remain essential |
+| Computations, certificates, and source archives | [Research tree](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/research), [engine](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/engine), and [Math calculations](https://github.com/d6g8k5htny-coder/Math-/tree/1e1114f5eb8ef8cdbcde591bf74126274c250f88); [reproduction guide](REPRODUCE.md) |
+
+## Core lemma reading copies
+
+These eight complete proof exports were previously easy to miss on the research branch. Their adjacent reviews and status records are retained. The historical CLOSED labels have their original scope and are not new reviews or acceptance of a parent theorem. Native `.export.txt` files are text exports, not a claim of raw-original byte identity.
+
+| Lemma and full proof | Adjacent review and status |
+|---|---|
+| [LEMMA_EC-014_v2.0 — Six-Pin Pair-Frame Jacobian](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-014_v2.0%20%E2%80%94%20Six-Pin%20Pair-Frame%20Jacobian/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-014_v2.0%20%E2%80%94%20Six-Pin%20Pair-Frame%20Jacobian) |
+| [LEMMA_EC-015_v2.0 — Degree-Four PRCP Witness Event](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-015_v2.0%20%E2%80%94%20Degree-Four%20PRCP%20Witness%20Event/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-015_v2.0%20%E2%80%94%20Degree-Four%20PRCP%20Witness%20Event) |
+| [LEMMA_EC-021_v2.0 — Uniform Positive Finite-Q4 Palm Mass](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-021_v2.0%20%E2%80%94%20Uniform%20Positive%20Finite-Q4%20Palm%20Mass/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_EC-021_v2.0%20%E2%80%94%20Uniform%20Positive%20Finite-Q4%20Palm%20Mass) |
+| [LEMMA_P02-LM-001_v2.0 — Deterministic Capture Majorant](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-001_v2.0%20%E2%80%94%20Deterministic%20Capture%20Majorant/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-001_v2.0%20%E2%80%94%20Deterministic%20Capture%20Majorant) |
+| [LEMMA_P02-LM-002_v2.0 — Determinant-Weight Second Moment](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-002_v2.0%20%E2%80%94%20Determinant-Weight%20Second%20Moment/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-002_v2.0%20%E2%80%94%20Determinant-Weight%20Second%20Moment) |
+| [LEMMA_P02-LM-005_v2.0 — Uniform Nine-Jet Gaussian Interface](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-005_v2.0%20%E2%80%94%20Uniform%20Nine-Jet%20Gaussian%20Interface/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-005_v2.0%20%E2%80%94%20Uniform%20Nine-Jet%20Gaussian%20Interface) |
+| [LEMMA_P02-LM-007_v2.0 — Conditioned Fifth-Derivative Tail](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-007_v2.0%20%E2%80%94%20Conditioned%20Fifth-Derivative%20Tail/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-007_v2.0%20%E2%80%94%20Conditioned%20Fifth-Derivative%20Tail) |
+| [LEMMA_P02-LM-008_v2.0 — Palm-Tail Transfer](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-008_v2.0%20%E2%80%94%20Palm-Tail%20Transfer/proof.md.export.txt) | [Retained review/status directory](https://github.com/d6g8k5htny-coder/main/tree/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/02_CORE_LEMMAS/LEMMA_P02-LM-008_v2.0%20%E2%80%94%20Palm-Tail%20Transfer) |
+
+The [original P15-B localization proof](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-09-16%20%E2%80%94%20PRIZE%20PROBLEM%20RECONNAISSANCE%20%E2%80%94%20INDEPENDENT%20TRACK/06_TALAGRAND_DISCRETE%20%E2%80%94%20RESTRICTED_PROOF_CANDIDATES/P15-B_PALETTE_SEPARATED_LOCALIZATION.md) is also public, alongside its [review](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/reviews/records/REV-P15-B.md). Its held/external dependency boundary remains part of that record.
+
+## Complete text inventory for the declared snapshots
+
+The catalog contains **2,138 public files**: 54 from Math at `1e1114f5eb8ef8cdbcde591bf74126274c250f88` and 2,084 from the main research branch at `7caac254cbba5f513b2dc0afb56b78a598bc0c93`. Each entry binds a full public file by commit, path, byte count, Git blob, and SHA-256. The same mathematical text may have several retained historical versions; this count is files, not distinct theorems.
+
+Coverage is explicit: all `.md`, `.txt`, `.tex`, `.pdf`, `.ipynb`, and `.lean` files in the declared mathematical source roots, including legacy proof/review reading copies. The [machine-readable inventory](public-math/sources.json) records the exact selection rules. Private, personal, vault, and quarantine material is outside this catalog. Research governance and operational context within the declared public source roots is retained alongside the mathematical texts. Code and binary replay packages remain available through the linked full research trees. This is not an assertion that every Drive item or every historical branch has been recovered.
+
+| Inventory page | Files | First source | Last source |
+|---|---:|---|---|
+| [Sources 01](public-math/sources-01.md) | 160 | README.md | review_packet.pdf |
+| [Sources 02](public-math/sources-02.md) | 160 | statement.md.export.txt | LCR-SRC-056-v1.0 — Primary-Source Map for Parameter-Dependent Unstable Manifolds in LM013.export.txt |
+| [Sources 03](public-math/sources-03.md) | 160 | S2-REQ-004-v1.0 — Optional Full Independent Review of LCR-DER-057-v1.1 Symmetry-Typed Successor.export.txt | GP-DATA-036-v1.0 — Exact six-pin nine-jet execution receipt.export.txt |
+| [Sources 04](public-math/sources-04.md) | 160 | GP-DATA-039-v1.0 — Fresh-seed exact-law local-flow comparison.export.txt | RELATED_WORK_SCREENING.md |
+| [Sources 05](public-math/sources-05.md) | 160 | 00_READ_FIRST.md | GP-AUD-057-v1.0 — Drive Source Capsule Reconstruction Receipt.export.txt |
+| [Sources 06](public-math/sources-06.md) | 160 | GP-AUD-059-v1.0 — Amended Pairing Instrument 21-Control Receipt.export.txt | LS-DATA-009-v1.2 — Explicit Normalizer Upper Certificate — Textual Source Carrier.export.txt |
+| [Sources 07](public-math/sources-07.md) | 160 | LS-DATA-010-v1.0 — Content-Addressed Snapshot of LCR-CAP-016 ∕ P02-LM-005.export.txt | SIDE24 THEOREM PACKAGE v1.0 — Native Review Copy.export.txt |
+| [Sources 08](public-math/sources-08.md) | 160 | SIDE24_DIAGNOSTIC_HANDOFF_2026-08-02_SHA_6aef6bd2.md | 02_EC-006_Planar_Truncated-Normal_Second-Moment_Identity.pdf |
+| [Sources 09](public-math/sources-09.md) | 160 | 03_EC-007_Planar_Coalesced_Six-Pin_Conditional_Jet_Law.pdf | LS-DER-062-v1.0 — Poisson-Dual Reconstruction and Exact Rational Relative Interval Certificate.export.txt |
+| [Sources 10](public-math/sources-10.md) | 160 | LS-DER-063-v1.0 — Anthropic Review Reconciliation and Precision-Corrected Side-24 Evaluation.export.txt | GP-LB-WO-001_WP_RIGIDITY_ZONE_REDERIVATION_v1.0.md |
+| [Sources 11](public-math/sources-11.md) | 160 | GP-LB-WO-002_LOWER_BOUND_CLOSURE_REPAIR_PLAN_v1.0.md | PERC_DECAY.md |
+| [Sources 12](public-math/sources-12.md) | 160 | README.md | CURRENT_STATE_PHASE05.md |
+| [Sources 13](public-math/sources-13.md) | 160 | CURRENT_STATE_PHASE06.md | P13_WEIGHTED_DEVELOPMENT_AND_BOUNDARIES.md |
+| [Sources 14](public-math/sources-14.md) | 58 | P13_WEIGHTED_GATE_RECON_20260917T0452.md | REV-RN3-FARZONE-20260918.md |
+
+## Missing proofs and ongoing work
+
+- `D3-LEMMA-RN-UNIF`: missing historical carriers are identified in the [full RN status](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/docs/math_status/STATUS_RN_UNIF.md). Regional successor proofs do not silently fill the entire historical obligation.
+- `OBL-H5-JETMOD`: the [24-jet status](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/docs/math_status/STATUS_JETMOD.md) remains an explicit source of unresolved obligations.
+- `TRANSVERSE_CONTACT_ASYMPTOTIC.md`: source recovery is [open at Math #56](https://github.com/d6g8k5htny-coder/Math-/issues/56). Nearby transverse/annulus proofs are distinct texts.
+- Parent selection, pin microdisks, intermediate scales, and shrinking witness collisions: follow the [Math proof index](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) and [live work queue](https://github.com/d6g8k5htny-coder/main/issues/86). Partial derivations stay readable while missing arguments remain labeled.
+
+New work appears first on public branches and pull requests: [main proposals](https://github.com/d6g8k5htny-coder/main/pulls) and [Math proposals](https://github.com/d6g8k5htny-coder/Math-/pulls). The frozen inventory does not imply that these newer sources are absent. Future integrations should add full-text links and preserve superseded proofs, errata, and reviews.
+
+## Publication practice
+
+The owner requested public availability of all mathematical work, lemmas, theorems, and proofs on 2026-09-26. For new or recovered research, publish the full eligible source and its exact identity, link the statement to its proof and review, and state any missing proof or unresolved dependency. Do not turn publication, a merge, a test result, or a historical status label into mathematical acceptance.
