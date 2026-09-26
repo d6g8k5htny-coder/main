@@ -1,54 +1,63 @@
-# Cubic-leading slaving in File 3's inner W-block
+# Cubic slaving of the inner W-block (File 3 (6.1), BF)
 
-**Object:** GROK-HEAVY-ND-SLAVING-20260926-v1
-**Scientific effect:** NONE. Does not accept or refute Condition (ND). Does not accept Theorem A.
+Scientific effect: NONE. Does not accept or kill Condition (ND). Does not flip STATUS.
 
-## Nested rows the file actually writes
+## Nested rows, as written in File 3
 
-Layer one, pair block (4.2):
+Layer one (pair, scale r), (4.2):
 
-    V+ = (f(x_s)+f(x_m))/2,     V- = (f(x_s)-f(x_m))/r^3,
-    G_t^- = (f_t(x_s)-f_t(x_m))/r,   G_t^+ sum-normalized by r^2 (ladder hedge in source),
-    H+ = (D²f(x_s)+D²f(x_m))/2,   H- = (D²f(x_s)-D²f(x_m))/r.
+    V+ = (f(x_s)+f(x_m))/2
+    V- = (f(x_s)-f(x_m))/r^3
+    G_i^± as in (4.2b)
+    H+ = (D²f(x_s)+D²f(x_m))/2
+    H- = (D²f(x_s)-D²f(x_m))/r
 
-Layer two, inner point y = x_s + r² z (6.1):
+Layer two (inner, scale r²), (6.1):
 
-    W_0 = [f(y) - Π_pinned f(y)] / r^6,
-    W_i = [f_i(y) - Π_pinned f_i(y)] / r^4,   i = t,s.
+    W_0 = [f(y) − Π_pinned f(y)] / r^6
+    W_i = [∂_i f(y) − Π_pinned ∂_i f(y)] / r^4    i ∈ {t,s}
 
-Pinned 3-jet: t³ and t²s. Free 3-jet: ts² and s³. Hessian of y is not inverted (§3.2).
+Pinned 3-jet (Remark 4.2 + §6.2): t³ and t²s.
+Free 3-jet: ts² and s³.
 
-`det T_inner(r) = c r^{-14}` (6.2). Area element r^4. Appendix A/B stencils are **not** in the 18-page file.
+## Leading inner polynomial
 
-## Euler identity on the free cubic
+Displacement y = x_s + r² z. The free-cubic remainder is
 
-Displacement δ = r² z. After subtracting pinned Taylor through order 2 and the pinned 3-jet,
+    R(z) = (1/2) f_tss z_t z_s² + (1/6) f_sss z_s³.
 
-    R = (1/2) f_{tss} z_t z_s² + (1/6) f_{sss} z_s³.
-
-R is homogeneous of degree 3, so Euler's theorem gives
+Then at this order W_0 = R, W_t = ∂R/∂z_t, W_s = ∂R/∂z_s, hence the Euler identity
 
     3 W_0 = z_t W_t + z_s W_s
 
-identically in (f_{tss}, f_{sss}, z). The three inner coordinates are linearly dependent at the scaling (6.1) uses. Any covariance that treats (W_0, W_t, W_s) as three independent Gaussian coordinates is singular at this order.
+holds identically on the free 3-jet. Any 3×3 Gram of (W_0, W_t, W_s) built from these two coefficients has rank ≤ 2.
 
-Fourth-order raw remainder is O(|δ|^4) = O(r^8). After /r^6 that is O(r²) and vanishes in the r→0 limit of (6.1). It does not restore a third independent direction off the axis. The file's remark that W_0(0) contains fourth-order polynomials is the **axis stratification** (drop W_0, 14-frame), not a 15th independent coordinate on a generic z.
+Computed (C(u)=exp(−|u|²/2)):
 
-## Where the 2-block itself dies
+    Cov(f_tss, f_sss) = diag(3, 15)
+    Var R = z_s⁴ (5 z_s² + 9 z_t²) / 12
+          > 0  ⇔  z_s ≠ 0.
 
-    W_t = (1/2) f_{tss} z_s²,
-    W_s = f_{tss} z_t z_s + (1/2) f_{sss} z_s².
+On the fold axis z_s = 0 the whole cubic W-block vanishes. That is the visible Appendix-B candidate.
 
-Both vanish for all free cubics if and only if z_s = 0. That axis is the candidate exceptional set of Appendix B.
+## Fourth-order cannot rescue the 15th coordinate at this scaling
 
-## Bargmann–Fock check (public kernel C(u)=exp(-|u|²/2))
+Order-4 Taylor content at displacement r² is O(r⁸). After /r⁶ it is O(r²) → 0 in the r→0 limit of (6.1). So the “fourth-order terms in W_0(0)” of Lemma 6.1 are the stratified (axis) 14-frame, not a third independent O(1) direction off-axis.
 
-At a point, Cov(f_{tss}, f_{sss}) = diag(3, 15).
+## What this does and does not say about (ND)
 
-    Var(W_0^{cubic}) = z_s^4 (5 z_s² + 9 z_t²) / 12
+File 3 §7.3 asks det Σ₂(0)(z,θ) > 0 on a 15-frame that includes all three W’s. At the file’s own leading scaling those three coordinates are linearly dependent wherever the cubic-free jet is used. So the 15-count overcounts by 1 at cubic order.
 
-which is positive iff z_s ≠ 0. The 3×3 Gram of (W_0, W_t, W_s) has rank 2 off-axis and rank 0 on-axis. Matches Euler.
+This is **not** a certified kill of the route. File 3 already allows a stratified 14-frame on Appendix B, and Remark 7.2 allows integrable vanishing. The honest next statement is: restate (ND) on the 14-frame (W_t, W_s) off {z_s=0}, plus a separate axis frame. That restatement is not in the public vault.
 
-## What this does not do
+## Public inputs used
 
-It does not compute det Σ_2(0). The pair Hessian block and cross-covariances with Ξ_1 are not included. Appendix A is absent, so the exact 15-row stencil is absent. The finding is only: **at the file's written scaling the inner 3-block is at most 2-dimensional**. Condition (ND) as a 15-independent-coordinate statement is not visible at cubic leading order. A 14-frame restatement (drop W_0 everywhere, not only on Appendix B) is the natural repair to check next. That repair is not executed here.
+- File 3 §§3–7 (attached).
+- Bargmann–Fock C(u)=exp(−|u|²/2), exact 1-point jet Gramian through order 4: rank 15, min eigenvalue ≈ 0.202 (Lemma H at one point, this kernel).
+- Ladgham–Lachièze-Rey, SPA 166 (2023) 104221: method citation for single-scale blow-up only. Not a two-scale 15-frame.
+
+## Still missing
+
+Appendix A Table 4.1 (14 pair rows) and Appendix B exceptional curves, as written. Without those stencils the full Σ₂(0) is not a matrix we can invert.
+
+No STATUS flip. D2/D3 unchanged. File-1 Theorem B still PROVEN-MODULO (ND).
