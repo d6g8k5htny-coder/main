@@ -16,8 +16,8 @@ them `NON-CERTIFYING` would be a FALSE label -- the file's whole content is that
 floats are rejected -- so a checker that a contributor can satisfy by pasting the
 banner is a checker that invites a false statement into the tree. They are
 declared, with the line each one refuses, and the declaration is the deliverable
-rather than the label. Five more are wall-clock (poll intervals, timeouts,
-elapsed seconds) and one is a display path inside a PINNED file, whose label
+rather than the label. Six more are wall-clock (poll intervals, timeouts,
+elapsed seconds, a heartbeat age) and one is a display path inside a PINNED file, whose label
 cannot be written into the bytes at all; that one is declared as an UNMET
 obligation rather than an absent one, because a reader needs to know it exists.
 
@@ -125,6 +125,13 @@ DECLARED: dict[str, str] = {
     "tests/test_run_checks.py":
         "one `assert report[...]['timeout_seconds'] < 0.4`, checking that a "
         "wall-clock budget was recorded. The float is a duration.",
+    "tools/coordination_check.py":
+        "one `(now - parse_utc(hb)).total_seconds() / 3600.0`, the age of an "
+        "agent heartbeat in hours, compared against STALE_AFTER_HOURS. The float "
+        "is a duration: it decides whether a claim on the coordination board has "
+        "gone stale, and no quantity of the mathematics passes through it. "
+        "Labelling this path NON-CERTIFYING would say something false about the "
+        "file, which computes no bound at all.",
 
     # --- REJECTION PROBES ----------------------------------------------------
     # The dominant category in this tree, and the reason this dict is long. A
