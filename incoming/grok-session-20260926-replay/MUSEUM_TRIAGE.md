@@ -1,44 +1,63 @@
-# Museum triage vs the public math ledger
+# Museum triage applied to the public ledger
 
-**Object:** GROK-HEAVY-MUSEUM-TRIAGE-20260926-v1
-**Scientific effect:** NONE. Does not accept Theorem A. Does not import TOE claims.
+Scientific effect: NONE. Does not accept a TOE, helicity-barrier theorem, gauge-complexity theorem, RH corollary, or GitHub Theorem A.
 
-User insight: if anything survives ten years it is three separate exhibits, not `C = R + K + B` in one shot.
+Source of the triage: user-pasted strategy note (three surviving corners; de-prioritize C(n) and RH-as-corollary).
 
-## What is actually on public GitHub now
+## What exists on public GitHub right now
 
-The live front door (`main`, `Math-`) and the profile bio already implement exhibit 3: Gaussian random fields + persistent homology + reproducible checks. Public STATUS scoped ACCEPT is D2 remainder, D3 SIDE24 coefficients, D4 P15 Theorem F, D6 token hygiene. D1 Theorem A and D5 pin stay AMEND.
+Public front door (`main` README) already describes the program as:
 
-That is the program this session has been reviewing.
+    Gaussian random fields, persistent homology, and reproducible research.
 
-## Exhibit 1 — helicity barrier
+That is triage item 3. It is the current building, not a future plan.
 
-Claimed law (2025 README only):
+Landed scoped ACCEPT exhibits (STATUS.md):
 
-    |Δζ4| = 0.1843 - 0.2051 C_B + 0.022 C_B²,  βc ≈ 0.5
+- D2 — unrestricted lifetime remainder, leading c ℓ^{-1/3} with bounded remainder
+- D3 — SIDE24 coefficient arithmetic in d=2,3
+- D4 — fixed-remote RN count
+- D6 — P15 full-price theorem (combinatorial, not GRF)
 
-GitHub search: `filename:helicity_barrier.py` = 0. No ACE / PSP data files on default branches. Formula lives in `main/history/2025/README.original.md` with a ✅ Validated checkmark. That checkmark is **not** a Math- ACCEPT.
+AMEND: D1 parent selection chain, D5 pin/microdisk, SARD-G A1/A6.
 
-External literature is real: McIntyre et al., Phys. Rev. X 15, 031008 (2025) report a helicity-barrier signature in solar-wind turbulence near β ≲ 0.5 and σ_c ≳ 0.4. That paper does not state the quadratic above. The quadratic is a claimed regression, unpublished as a standalone derivation on this account.
+The 2025 unified-framework text lives only under `main/history/2025/` (README.original.md, body.original.txt). It names ACE 1998–, PSP 1–25, helicity barrier β≈0.5, σ_c≳0.4, τ=0.022±0.008, C=R+K+B, three generations, RH support. That is archival copy, not STATUS.
 
-Do not draft a heliophysics paper this session. Do not treat the barrier as a persistence theorem.
+## Census of the three “surviving corners”
 
-## Exhibit 2 — gauge complexity
+### 1. Helicity barrier (claimed fastest publishable)
 
-    K(G) = λ · r(G) · ||f||²,   K(R|G) = μ Σ d(R_i) C_2(R_i)
+Quoted law: |Δζ4| = 0.1843 − 0.2051 C_B + 0.022 C_B², βc≈0.5.
 
-`filename:gauge_theory.py` = 0. No computed `K(SM)` vs `K(SU5)` vs `K(SO10)` on default. Norm `||f||` and first-principles λ, μ are unspecified in the historical README. Absent as a proof object.
+GitHub code search across Math-, main (except history/2025), trial, sandbox, Drive title search: **no helicity_barrier.py, no ACE/PSP analysis notebook on default, no persistence-class definition of the barrier.**
 
-## What the insight correctly de-prioritizes
+What would have to exist before this is an exhibit:
+- Definition of C_B and Δζ4 as field functionals
+- Named ACE/PSP data product + commit-pinned reduction
+- A persistence object whose death is claimed at βc
+- Pre-registered null
+- Explicit non-claim: not File-1 Theorem A, not D2 remainder
 
-- `C(n) = n·K + exp(α(n-3)²)` — minimum at 3 is inserted, not derived from `K(R|G)`.
-- Riemann zeros as a corollary of `δC=0` — not a standalone proof.
-- The whole-museum TOE.
+Until then: historical sentence only.
 
-Those claims are already absent from public STATUS. Keep them out.
+### 2. Gauge representation complexity
 
-## What this does *not* change about D1
+Quoted: K(G)=λ r(G) ||f||², K(R|G)=μ Σ d(R_i) C_2(R_i).
 
-The fold lock `ℓ=(κ/6)r^3`, SIDE24 coefficient enclosure, and P15 Theorem F are the solid exhibits inside program 3. Helicity data cannot close A3 floor, cap implication, Condition (ND), or D5 pin. Different buildings.
+**No gauge_theory.py, no K(SM) vs K(SU5) vs K(SO10) computation on public default.** Keep out of STATUS.
 
-Do not merge main #163 as acceptance.
+### 3. GRF + persistent homology as language
+
+This is the only corner that already has public, reviewed objects: fold lock, D2 remainder, D3 SIDE24, File-1/5 architecture (modulo ND), O1 r^4 retraction, Arm1c C-2 abort.
+
+## De-prioritize (agree)
+
+C(n) engineered min at 3. RH as δC=0 corollary. C=R+K+B one-shot TOE.
+
+## Live math order
+
+1. File-3 Condition (ND) BF interval det
+2. GitHub D1 A2/(3.5) + pairing chart
+3. D5 pin/microdisk
+4. Arm1c detector audit
+5. Helicity/gauge only after standalone definitions + pinned data
