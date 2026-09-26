@@ -70,11 +70,14 @@ this page.
 | `research/rn/side24_density.py` | 8289 | `3ad0b3b6fc3a5124…` | inner_wedge_20260920_v1.json |
 | `research/side24/source_recovery/SIDE24_GAP_FILL_SUPPLEMENT.md` | 105980 | `05967f14a8b8d6a9…` | SOURCE_RECOVERY.json |
 | `research/side24/source_recovery/SIDE24_THEOREM_PACKAGE_v1.0.md` | 26045 | `703eefd5297afd45…` | SOURCE_RECOVERY.json |
+| `research/side24/source_recovery/custody/SIDE24_V3_4_AUDIT_REPLAY_FULL_ARCHIVE.zip` | 12465983 | `ba2a296b6a9c438e…` | SOURCE_RECOVERY.json |
+| `research/side24/source_recovery/custody/arithmetic_ledgers/40ad76a1973248d9/arithmetic_ledgers.py` | 3915 | `40ad76a1973248d9…` | SOURCE_RECOVERY.json |
+| `research/side24/source_recovery/custody/arithmetic_ledgers/ffbc6ccb48c08f78/arithmetic_ledgers.py` | 4191 | `ffbc6ccb48c08f78…` | SOURCE_RECOVERY.json |
 | `tools/drive_coverage.py` | — | `98b33fe9f97fe7a3…` | candidate.json |
 | `tools/hermite_envelope_report.py` | — | `7a60f412a008e3bc…` | hermite_gaussian_20260919.json |
 | `tools/manifest_integrity_check.py` | — | `8b30cf5768318754…` | candidate.json |
 
-39 files and 6 members sealed inside a ZIP carrier, bound at 130 sites across 11 certificates.
+42 files and 6 members sealed inside a ZIP carrier, bound at 133 sites across 11 certificates.
 
 ## Every container of pins, and what its keys are relative to
 
@@ -107,4 +110,6 @@ flipping between the two fails this index's drift comparison by name.
 | `research/rn/candidates/side24_spatial_20260920_v1.json` | `attempts[]/proof/source_binding/member_sha256` | 3 | other |
 | `research/rn/candidates/side24_spatial_20260920_v1.json` | `sources` | 8 | repository |
 | `research/side24/source_recovery/SOURCE_RECOVERY.json` | `/` | 1 | other |
+| `research/side24/source_recovery/SOURCE_RECOVERY.json` | `arithmetic_ledgers[]` | 2 | repository |
+| `research/side24/source_recovery/SOURCE_RECOVERY.json` | `custody_files[]` | 1 | repository |
 | `research/side24/source_recovery/SOURCE_RECOVERY.json` | `recovered[]` | 2 | repository |

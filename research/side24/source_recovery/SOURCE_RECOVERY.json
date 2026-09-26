@@ -36,6 +36,8 @@
   ],
   "archive": {
     "drive_id": "1TSH5V0f-7BwdlHlY6-VarfuDFEQT-TIf",
+    "duplicate_drive_id": "13QS9QQHxSiuLPIPSh9o5plS5HkClwSmz",
+    "path": "research/side24/source_recovery/custody/SIDE24_V3_4_AUDIT_REPLAY_FULL_ARCHIVE.zip",
     "bytes": 12465983,
     "sha256": "ba2a296b6a9c438eaf9f30aeaa40d4162195b256a9b2516259cd30a2468dd480",
     "inspected_locally": true,
@@ -46,8 +48,33 @@
       "No standalone historical V3.3 eigenfloor-table file was found by filename search inside this V3.4 replay archive. Do not relabel G.1 as that historical table object."
     ]
   },
+  "custody_files": [
+    {
+      "path": "research/side24/source_recovery/custody/SIDE24_V3_4_AUDIT_REPLAY_FULL_ARCHIVE.zip",
+      "bytes": 12465983,
+      "sha256": "ba2a296b6a9c438eaf9f30aeaa40d4162195b256a9b2516259cd30a2468dd480"
+    }
+  ],
+  "arithmetic_ledgers": [
+    {
+      "path": "research/side24/source_recovery/custody/arithmetic_ledgers/40ad76a1973248d9/arithmetic_ledgers.py",
+      "bytes": 3915,
+      "sha256": "40ad76a1973248d9d1a48ab093b9a2b6bcebf4a6cd8c36c0a09067ea64109f4c",
+      "archive_members": [
+        "SIDE24_V3_4_RP_C_RP_S_CLOSURE_CHECKPOINT_2026-08-01/evidence/historical_reproduction/arithmetic_ledgers.py",
+        "SIDE24_V3_4_RP_C_RP_S_CLOSURE_CHECKPOINT_2026-08-01/evidence/original_v2/SIDE24_gap_fill/scripts/arithmetic_ledgers.py"
+      ]
+    },
+    {
+      "path": "research/side24/source_recovery/custody/arithmetic_ledgers/ffbc6ccb48c08f78/arithmetic_ledgers.py",
+      "bytes": 4191,
+      "sha256": "ffbc6ccb48c08f78f4ab169aa98fba1c3eb0d96ed36c5fbf451d4a45e1b8bea4",
+      "archive_member": "SIDE24_V3_4_RP_C_RP_S_CLOSURE_CHECKPOINT_2026-08-01/evidence/v5_forward_branch/OKComputer_Project_Gap_Closure_1_119ffbfa.zip!/SIDE24_gap_fill/scripts/arithmetic_ledgers.py"
+    }
+  ],
   "still_unresolved": [
     "Exact standalone historical V3.3 eigenfloor-table carrier/hash. The recovered G.1 proof supplies a qualitative eigenfloor mechanism but is a different object.",
+    "Module I section 3 extraction: 9700 bytes, SHA-256 b958c21d822ada574db14145060d7958be135412e340d1bb29535bf800b2199c. Cited by the 31 July 2026 technical appendix as the LS-DER-072-v1.0 baseline. Not found as those bytes.",
     "Any archive-only object not extracted and content-bound individually remains archive-only."
   ]
 }
