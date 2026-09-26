@@ -1,6 +1,6 @@
 # Public shop deployment and contribution board
 
-Scientific effect: **NONE**. This page records verified public deployment and the remaining review-settings configuration. A live site or installed setting does not promote mathematical status.
+Scientific effect: **NONE**. This page records verified public deployment and review-settings installation. A live site or installed setting does not promote mathematical status.
 
 ## Pages
 
@@ -26,7 +26,7 @@ The first five bounded tasks are [#141](https://github.com/d6g8k5htny-coder/main
 
 **Math- verified active:** [Proof vault: reviewed changes](https://github.com/d6g8k5htny-coder/Math-/rules/24045351) protects its default `main` branch. It requires a pull request, at least one approving review, approval of the most recent reviewable push, dismissal of stale approvals, resolved conversations, and an up-to-date **math-downstream-gates** check from GitHub Actions. Force pushes and deletion are blocked; the bypass list is empty.
 
-**Main intended configuration; the tightened settings still require a separate installation receipt.** In [main branch settings](https://github.com/d6g8k5htny-coder/main/settings/branches), require a pull request, at least one approving review, approval of the most recent reviewable push, and passing **verify**, **public-shop**, and **public-intake** checks. The external results guard is **public-intake**; its tests are a different check. A green replay is not mathematical acceptance. Do not grant outsiders direct write access.
+**Main verified active:** [Verified pull requests](https://github.com/d6g8k5htny-coder/main/rules/23798639) requires a pull request, at least one approving review, approval of the most recent reviewable push, dismissal of stale approvals, resolved conversations, and up-to-date **verify**, **public-shop**, and **public-intake** checks from GitHub Actions. Force pushes and deletion are blocked. The existing repository-admin bypass is restricted to pull requests; it was not expanded. See the [installation receipt](https://github.com/d6g8k5htny-coder/main/pull/149#issuecomment-5848091891), recorded separately from the deployment PR. The external results guard is **public-intake**; its tests are a different check. A green replay is not mathematical acceptance. Do not grant outsiders direct write access.
 
 A check name alone does not authenticate the workflow. Before merging an intake PR, inspect the **trusted public-intake workflow**, its `pull_request_target` event, the precise reviewed PR head, and the pass result. Administrative override must not be treated as a scientific review.
 
