@@ -31,6 +31,26 @@ These are useful infrastructure, but they carry **no theorem-acceptance meaning*
 | **[Universal-Law-Workspace](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace)** | Supporting federation/navigation map with `scientific_status_authority: false` |
 | **main CI/navigation** | Link, structure, and engineering checks; green runs are not mathematical review |
 
+## Where to read — public source custody
+
+The two human maps are this file and the [Math- proof index at the pinned public Math commit](https://github.com/d6g8k5htny-coder/Math-/blob/10e1f191c7d9f2755ca971ddbba87874d2475619/PROOF_INDEX.md). Neither file replaces the underlying proof or review.
+
+For exact source identity, use [`docs/public-math/sources.json`](docs/public-math/sources.json). It indexes **2,138 intended public text artifacts** and points to 14 JSON shards. Each artifact row carries:
+
+`repository + path + 40-char commit + Git blob + bytes + sha256`.
+
+The frozen inventory includes the public `Math-` and `main` mathematics selected for publication and explicitly excludes sandbox, quarantine, and personal paths. It is source visibility/custody only.
+
+The machine catalog at [`meta-framework/registry.json`](https://github.com/d6g8k5htny-coder/meta-framework/blob/main/registry.json) currently contains only public GitHub sources (`Math-` plus one declared public `google-drive` replica). The query portable stubs likewise point only to public `Math-` commits. Candidate query stubs are not silently promoted into the catalog.
+
+### Default-branch boundary
+
+- Pinned Math reading checkout: `10e1f191c7d9f2755ca971ddbba87874d2475619`.
+- Pinned query checkout: `76e1ca09a4838f84f20e28daa51eb024c0781dc1`.
+- [Math- PR #70](https://github.com/d6g8k5htny-coder/Math-/pull/70) proposes default-branch custody copies of nine proof files already public on `main`. Until that PR lands, those copies are **not** default-branch Math; their immutable public source paths remain discoverable in the frozen public-source inventory.
+- The `main#59` issue-body file in PR #70 is explicitly a transcription, not original source bytes, so it is not counted as byte custody.
+- Open draft AMEND/review PRs remain visible but are not represented here as landed mathematics.
+
 ## Reading rule
 
 When a reviewed child result imports a parent that remains AMEND or open, keep those facts separate. “ACCEPT — scoped” never means “everything upstream and downstream is accepted.”
