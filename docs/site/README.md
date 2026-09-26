@@ -65,4 +65,13 @@ Existing intake enforcement remains `.github/workflows/public-intake.yml` and `t
 
 `museum_check.py` reads the pinned public bytes, checks regeneration, and exercises the actual committed manifest through the display code with the declared HTML containers. It also tests refusal of cross-claim proof, scope and replay substitutions. It is an integration harness, not a browser layout or GPU test. `museum_data.py --check` remains available for export-only reproduction.
 
+The museum requests its mutable local `config.json` and `museum.json` with
+`cache: 'no-store'`. Immutable remote source requests keep their existing caching
+behavior. The manifest must still match the config's byte count and SHA-256 before
+any cards render; a mixed deployment reports unavailable. This reduces browser
+cache staleness, but is not an atomic deployment or a guarantee that an intermediary
+cannot return an older coherent pair. A fresh browser read on 2026-09-26 verified
+both landed packet cards after the earlier one-packet cached observation; that
+observation and its correction are recorded on [main #154](https://github.com/d6g8k5htny-coder/main/issues/154).
+
 The [implementation record](IMPLEMENTATION.md) maps W1–W12, coordination exclusions, and validation boundaries.
