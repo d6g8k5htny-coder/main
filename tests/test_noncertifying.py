@@ -11,6 +11,7 @@ path or a pattern bound at import time cannot silently re-check the real tree.
 """
 from __future__ import annotations
 
+import hashlib
 import os
 import subprocess
 import sys
@@ -187,12 +188,60 @@ def test_the_repository_passes_and_actually_found_float_sites():
 
 
 def test_the_known_float_bearing_modules_are_labelled_or_declared():
-    """The eight that were unlabelled when the checker landed."""
-    for rel in ("research/bands/ladder.py", "research/rn/moment_envelope.py",
+    """The eight that were unlabelled when the checker landed.
+
+    ``research/bands/ladder.py`` was labelled in-file until the pin
+    reconciliation below moved it into ``DECLARED``; see that test for why.
+    """
+    for rel in ("research/rn/moment_envelope.py",
                 "tests/test_rn_moment_envelope.py"):
         with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
             assert NCC.LABEL in f.read(), rel
     for rel in ("tools/registers_import.py", "tools/drive_index.py",
                 "tests/test_bridge.py", "tests/test_hermite_envelope.py",
-                "tests/test_lpw_headline.py"):
+                "tests/test_lpw_headline.py", "research/bands/ladder.py"):
         assert rel in NCC.DECLARED, rel
+
+
+#: The bytes two certificates on the ``chatgpt/drive-github-hardening-20260919``
+#: lane bind as a source identity.  Recorded here so an edit to the file fails
+#: loudly in this repository rather than silently in theirs.
+LADDER_PINNED_SHA256 = \
+    "9ea576708e146aa54fdc3c6859274d2c35a81218438bcdb34283afe9f79ac0c5"
+LADDER_PINNED_BYTES = 26286
+
+
+def test_ladder_py_still_matches_the_digest_two_certificates_pin():
+    """A cross-lane byte binding, made visible from inside this repository.
+
+    ``research/parallel/h3/candidate.json`` and
+    ``research/rn/candidates/inner_wedge_20260920_v1.json`` on the hardening
+    lane record this file's SHA-256 as a source identity of their certificates,
+    and ``tools/twelve_project_check.py`` there fails closed on a mismatch.
+    Nothing in *this* repository said so, so commit ``4cc0f7a`` added a
+    NON-CERTIFYING docstring and two ``format_report`` lines, changed the bytes,
+    and broke a binding no checker here could see -- 19 failures in a merged
+    tree, none of them reproducible on either branch alone.
+
+    The label now lives in ``NCC.DECLARED`` instead and the bytes are back.
+    This control is the part that keeps it that way: it is a repository-side
+    record of somebody else's dependency.
+
+    If this fails, the file was edited.  That is not forbidden -- but it
+    invalidates two certificates' provenance, so re-pin both JSON files on the
+    hardening lane in the same change, or revert the edit.  Do not simply
+    update the constant here; the constant is not the authority, their pins are.
+    """
+    path = os.path.join(ROOT, "research", "bands", "ladder.py")
+    raw = open(path, "rb").read()
+    assert len(raw) == LADDER_PINNED_BYTES, (
+        f"{len(raw)} bytes, pinned at {LADDER_PINNED_BYTES}")
+    assert hashlib.sha256(raw).hexdigest() == LADDER_PINNED_SHA256
+
+
+def test_negative_control_a_changed_ladder_is_caught():
+    """Flipping one byte must fail the pin, or the control above is decoration."""
+    raw = open(os.path.join(ROOT, "research", "bands", "ladder.py"), "rb").read()
+    mutated = raw + b"\n"
+    assert hashlib.sha256(mutated).hexdigest() != LADDER_PINNED_SHA256
+    assert len(mutated) != LADDER_PINNED_BYTES
