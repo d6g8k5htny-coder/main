@@ -8,6 +8,28 @@
 
 This is the **single public front door** for the Universal Law research program. The project studies persistence lifetimes and critical-point geometry of Gaussian random fields, together with exact/reproducible computational methods and a fail-closed review workflow. Proofs, code, reviews, and source identities live in several focused repositories, but readers should start here.
 
+## Public source path
+
+For a stranger who wants the landed mathematics rather than the live agent queue, use this order:
+
+1. **Proof index:** [Math- `PROOF_INDEX.md` at `10e1f191c7d9f2755ca971ddbba87874d2475619`](https://github.com/d6g8k5htny-coder/Math-/blob/10e1f191c7d9f2755ca971ddbba87874d2475619/PROOF_INDEX.md)
+2. **Human status map:** [`STATUS.md`](STATUS.md)
+3. **Pinned Math checkout:**
+   ```sh
+   git clone https://github.com/d6g8k5htny-coder/Math-.git Math-
+   git -C Math- checkout --detach 10e1f191c7d9f2755ca971ddbba87874d2475619
+   ```
+4. **Pinned query checkout:**
+   ```sh
+   git clone https://github.com/d6g8k5htny-coder/query-.git query-
+   git -C query- checkout --detach 76e1ca09a4838f84f20e28daa51eb024c0781dc1
+   python -B -S -m unittest discover -s query-/tests -p 'test_*.py' -v
+   ```
+
+For byte identity, use the [public source inventory](docs/public-math/sources.json): its 2,138 frozen source rows are split across the linked JSON pages, and every row records a GitHub repository, path, 40-character commit, Git blob, byte count, and SHA-256. The inventory excludes sandbox, quarantine, and personal paths and is an availability/custody index, not an acceptance register.
+
+**Open draft PRs are visible research/review material, but they are not default-branch mathematics.** Do not treat an AMEND draft, review branch, or custody PR as landed proof merely because GitHub can display it.
+
 ## Current status
 
 | Class | Current objects |
