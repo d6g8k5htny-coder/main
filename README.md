@@ -20,6 +20,7 @@ This default-home repair and the navigation on the larger research branch serve 
 | Destination | Purpose |
 |---|---|
 | [Active research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919) | The current research code, experiments, evidence, and integration work |
+| [Executable research code](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919/engine) | [Dispatcher source](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/engine/next_action.py), [execution entry point](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/engine/run.py), and [checkout commands](docs/REPRODUCE.md#choose-the-checkout) |
 | [Research map](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_MAP.md) | Mathematical objects and how they connect |
 | [Open problems](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/OPEN_PROBLEMS.md) | Statements, unresolved interfaces, and useful next work |
 | [Agent entry](AGENTS.md) | Current delegation and practical collaboration |

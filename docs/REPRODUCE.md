@@ -6,6 +6,25 @@
 
 The default main repository contains the home and navigation. Current mathematical packages live in Math-. The larger numerical research tree remains on its named hardening branch. A check of one is not a check of the others.
 
+Both source repositories are public; these checkouts require no GitHub account. Choose new destination directories:
+
+```sh
+git clone --single-branch --branch main https://github.com/d6g8k5htny-coder/Math-.git Math-
+git clone --single-branch --branch chatgpt/drive-github-hardening-20260919 https://github.com/d6g8k5htny-coder/main.git research
+```
+
+To inspect one work item using the research checkout's existing dispatcher:
+
+```sh
+cd research
+git rev-parse HEAD
+python -B -S engine/next_action.py --lane A5
+```
+
+That command was run successfully against source commit `2f7a5a9f10c9ed5f5b7792a8f2521318d9208532`. It reads the declared work item and prints its scope and unresolved obligations; it does not prove or close the RN uniform lemma. The [dispatcher source](https://github.com/d6g8k5htny-coder/main/blob/2f7a5a9f10c9ed5f5b7792a8f2521318d9208532/engine/next_action.py) and [engine guide](https://github.com/d6g8k5htny-coder/main/blob/2f7a5a9f10c9ed5f5b7792a8f2521318d9208532/engine/README.md) can also be opened directly without cloning.
+
+The historical complexity-framework README advertises a different package layout. The current research engine uses the named branch and paths above; its execution entry point is `engine/run.py`.
+
 ## Mathematics
 
 In a Math- checkout first record `git rev-parse HEAD` and `python --version`. These packages use the Python standard library.
