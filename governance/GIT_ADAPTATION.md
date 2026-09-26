@@ -45,10 +45,43 @@ paragraph called the Board's sentence the only one; the restatements are
 GP/CL-line records of the same decision.) It approves a *private* repository as the formalization,
 source-control, reproducibility and CI-handoff system of record and, in the
 same decision, "NOT APPROVED: blanket terminalization or mathematical promotion
-of any included claim." Dylan subsequently directed that the repository remain
-private until publication is explicitly authorized. The authenticated GitHub
-API confirmed private visibility on 2026-09-20 UTC. Private draft work may
-continue; this does not authorize public publication or mathematical promotion.
+of any included claim." This repository is **public** — checked on 2026-09-26 two ways: the
+GitHub API reports `private=false`, and the account's repository listing reports
+`visibility=public`. The one *sourced* record in this tree about that visibility
+is `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`:
+"The repository was public at inspection. Preserve that visibility: the owner
+asked to restrict who works in it, not to hide the existing public record."
+Whether to keep it so remains the owner's to decide. Private draft work may
+continue; nothing in this paragraph authorizes public publication or mathematical
+promotion.
+
+**Withdrawn on 2026-09-26, and recorded rather than deleted.** Until that date
+this paragraph and `docs/RESEARCH_MAP.md` each asserted an operator directive
+about repository visibility, with no source anywhere in this tree, and the two
+contradicted each other. Quoted verbatim so the withdrawal is checkable — as
+transcription, not as assertion; **no operator directive is asserted here:**
+
+```text
+governance/GIT_ADAPTATION.md
+  "Dylan subsequently directed that the repository remain private until
+   publication is explicitly authorized. The authenticated GitHub API confirmed
+   private visibility on 2026-09-20 UTC."
+
+docs/RESEARCH_MAP.md
+  "Dylan subsequently authorized public visibility on 2026-09-20;
+   unauthenticated access was verified that day."
+```
+
+They cannot both be true, they are dated the same day, and neither cites a Drive
+id, an artifact id, or any record in `registers/` or `drive/`. The status half of
+the first is also false: the repository is public. And the first is not merely
+unsourced but **contradicted by a sourced record already in the tree** — the
+2026-09-18 execution handoff cited above says to preserve public visibility and
+restrict who works in the repository, not to hide it. Which, if either, reflects an
+actual decision is the operator's to say and nobody else's — this note asserts
+only that neither was sourced and that both could not hold.
+`tools/operator_directive_check.py`, added in the same commit, refuses either
+shape from now on.
 
 | Drive construct (protocol) | Repository equivalent | Notes on guarantees |
 |---|---|---|

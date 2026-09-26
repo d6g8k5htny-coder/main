@@ -68,6 +68,7 @@ REQUIRED_COMMANDS = (
     "python tools/mirror_quotes_check.py",
     "python tools/mirrors_index_check.py",
     "python tools/pinned_sources_check.py",
+    "python tools/operator_directive_check.py",
     "python tools/drive_index.py stats",
     "python tools/drive_coverage.py --json",
     "python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json",
