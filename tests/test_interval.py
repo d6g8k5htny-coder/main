@@ -1355,29 +1355,175 @@ def _first_collapsed_x(prec: int, lo: int = 5, hi: int = 40):
     return None
 
 
+# Numerators over a denominator of 1000, kept as plain ints on purpose: a
+# `Fraction(1386, 1000)` normalises to 693/500, so reading `.numerator` off it
+# gives 693 and every inequality below silently changes meaning. That mistake was
+# made once while writing this file.
+TWO_LN2_NUM_LO, TWO_LN2_NUM_HI, TWO_LN2_DEN = 1386, 1387, 1000
+
+
+def _two_ln2_bracket():
+    """``(lo_num, hi_num)`` over ``TWO_LN2_DEN``, with the bracket certified here.
+
+    Typed as a comment in the first revision of this test. Asserting it from
+    ``log`` instead means the bracket cannot silently be wrong: the enclosure is
+    unconditional, so if ``1386/1000 < 2 ln 2 < 1387/1000`` ever failed to hold
+    the test would say so rather than reason from a number nobody checked.
+    """
+    two_ln2 = log(Interval.exact(2), 40) * 2
+    lo = F(TWO_LN2_NUM_LO, TWO_LN2_DEN)
+    hi = F(TWO_LN2_NUM_HI, TWO_LN2_DEN)
+    assert lo < two_ln2.lo and two_ln2.hi < hi, (two_ln2.lo, two_ln2.hi)
+    return TWO_LN2_NUM_LO, TWO_LN2_NUM_HI
+
+
 def test_the_one_minus_Phi_collapse_threshold_moves_with_prec():
     """``Phi``'s docstring, and the README until 2026-09-26, gave "beyond about
     ``x = 26``" as a flat constant. It is not a constant. ``Phi`` finishes with
     ``round_out(4*g + 32)``, ``g = prec + 20``, so it keeps ``4*prec + 112``
     significand bits, and ``1 - Phi(x)`` goes vacuous once the tail mass falls
-    below ``2**-(4*prec + 112)``: ``ceil(sqrt(2 ln2 (4 prec + 112)))``, which is
-    13 at ``prec = 1``, **17 at ``prec = 20``** and 27 at ``prec = 100``.
-    "About 26" is the ``prec = 100`` row, and it is optimistic everywhere below.
+    below ``2**-(4*prec + 112)``.
 
-    Two rows are asserted here rather than all seven: each row costs a scan of
-    ``Phi`` and ``prec = 100`` is the slow one. The full measured table is in
-    ``research/interval/README.md``.
+    The measured threshold is 13 at ``prec = 1``, **17 at ``prec = 20``** and 27
+    at ``prec = 100``. "About 26" is the ``prec = 100`` row, and it is optimistic
+    everywhere below.
+
+    ``ceil(sqrt(2 ln2 (4 prec + 112)))`` is a **fit** to the measured rows, not
+    the threshold; see
+    ``test_the_closed_form_is_a_fit_and_overshoots_at_five_known_precisions``.
     """
     assert _first_collapsed_x(20) == 17
     assert _first_collapsed_x(30) == 18
-    # the closed form predicts both
+    # The closed form reproduces these two rows. Both inequalities are the
+    # SUFFICIENT direction; the first revision of this test had them the other way
+    # round, asserting `(n-1)^2 * 1000 < 1387 * sig` and `n^2 * 1000 > 1386 * sig`,
+    # which are implied by what is needed rather than implying it: 2 ln 2 is
+    # strictly below 1387/1000, so bounding (n-1)^2 by 1.387 sig says nothing
+    # about 2 ln 2 sig. A nonauthor review found that; the rows were right and the
+    # proof of them was not.
+    lo_num, hi_num = _two_ln2_bracket()
     for prec, want in ((20, 17), (30, 18)):
         sig = 4 * prec + 112
-        # ceil(sqrt(2 ln2 sig)) without floats: smallest n with n^2 >= 2 ln2 sig
-        # 2 ln2 > 1386/1000, and < 1387/1000
         n = want
-        assert (n - 1) ** 2 * 1000 < 1387 * sig
-        assert n ** 2 * 1000 > 1386 * sig
+        # (n-1)^2 < (2 ln 2) sig, proved via the LOWER bound on 2 ln 2
+        assert (n - 1) ** 2 * 1000 < lo_num * sig
+        # (2 ln 2) sig <= n^2, proved via the UPPER bound on 2 ln 2
+        assert n ** 2 * 1000 >= hi_num * sig
+
+
+# prec: (measured threshold, what the closed form predicts). Every one overshoots
+# by exactly one, and the seven rows the README tabulates all happen to agree --
+# which is why a seven-row fit must not be called "the threshold".
+CLOSED_FORM_OVERSHOOTS = {3: (13, 14), 8: (14, 15), 13: (15, 16),
+                          19: (16, 17), 25: (17, 18)}
+
+
+def test_the_closed_form_is_a_fit_and_overshoots_at_five_known_precisions():
+    """The README called ``ceil(sqrt(2 ln2 (4 prec + 112)))`` *the* threshold on
+    the strength of seven agreeing rows. It is a continuous approximation to an
+    integer crossing, and it rounds up by one whenever the crossing lands just
+    inside an integer. In ``prec = 1..30`` that happens five times, and the
+    review that found it named ``prec = 3``.
+
+    Direction matters and is asserted separately below: the formula predicts a
+    threshold one step LATER than the truth, so a consumer trusting it at
+    ``prec = 3, x = 13`` expects a usable bound and gets ``[0, ...]``. Sound, and
+    useless -- the same trap the original correction was about, one row further
+    down.
+    """
+    lo_num, hi_num = _two_ln2_bracket()
+    for prec, (measured, predicted) in sorted(CLOSED_FORM_OVERSHOOTS.items()):
+        sig = 4 * prec + 112
+        assert _first_collapsed_x(prec) == measured, prec
+        # `predicted` really is ceil(sqrt(2 ln2 sig)), by the sufficient bounds
+        assert (predicted - 1) ** 2 * 1000 < lo_num * sig, prec
+        assert predicted ** 2 * 1000 >= hi_num * sig, prec
+        assert predicted == measured + 1, (prec, measured, predicted)
+
+
+def _certified_ceiling(sig: int, prec: int = 60) -> int:
+    """``ceil(sqrt(2 ln 2 * sig))``, decided from a certified enclosure.
+
+    Both endpoints of the enclosure must agree on the answer, so the value is
+    never read off one side of a rounding. If they disagree the enclosure is too
+    wide for this ``sig`` and that is raised rather than guessed.
+    """
+    e = log(Interval.exact(2), prec) * 2
+    def smallest(bound):
+        n = 1
+        while n * n < bound * sig:
+            n += 1
+        return n
+    lo_n, hi_n = smallest(e.lo), smallest(e.hi)
+    if lo_n != hi_n:
+        raise AssertionError(f"2 ln 2 enclosure too wide to decide sig={sig}")
+    return lo_n
+
+
+# (prec, a value the necessary-only inequalities also admit). The second entry of
+# each pair is NOT the ceiling. prec=405 is the one that matters: there the old
+# pair admits 49 where the truth is 50, i.e. it would license a claim that the
+# collapse happens EARLIER than it does.
+NECESSARY_ONLY_ADMITS = ((275, 42), (405, 49))
+
+
+def test_the_old_inequalities_do_not_prove_the_ceiling():
+    """The review finding, as a demonstration rather than an assertion about taste.
+
+    The first revision of this test proved ``n = ceil(sqrt(2 ln2 sig))`` from
+    ``(n-1)^2 * 1000 < 1387 * sig`` and ``n^2 * 1000 > 1386 * sig``. Both are
+    NECESSARY and neither is sufficient: 2 ln 2 is strictly inside
+    ``(1386/1000, 1387/1000)``, so bounding ``(n-1)^2`` by ``1.387 sig`` says
+    nothing about ``2 ln 2 * sig``, and bounding ``n^2`` from below by
+    ``1.386 sig`` likewise. On the two rows that test asserted, the pair happens
+    to pin the right ``n`` -- which is exactly why the defect survived review by
+    its author. It does not always.
+    """
+    lo_num, hi_num = _two_ln2_bracket()
+    for prec, wrong in NECESSARY_ONLY_ADMITS:
+        sig = 4 * prec + 112
+        truth = _certified_ceiling(sig)
+        assert wrong != truth, (prec, wrong, truth)
+        # the necessary-only pair accepts a value that is not the ceiling
+        assert (wrong - 1) ** 2 * 1000 < 1387 * sig, (prec, wrong)
+        assert wrong ** 2 * 1000 > 1386 * sig, (prec, wrong)
+        # The sufficient pair never affirms the wrong value. That is the whole
+        # difference: a necessary-only test can say yes to a falsehood, while a
+        # sufficient one can only be silent. At prec=275 the three-digit bracket
+        # is in fact INCONCLUSIVE about the truth too -- 41^2*1000 = 1681000
+        # against 1387*1212 = 1681044, a gap of 44 in 1.68 million -- and being
+        # silent where it cannot decide is the correct behaviour for a bound.
+        # A wider bracket decides it; a necessary-only test never needed to.
+        assert not ((wrong - 1) ** 2 * 1000 < lo_num * sig
+                    and wrong ** 2 * 1000 >= hi_num * sig), (prec, wrong)
+        # and the certified enclosure, which is not limited to three digits, does
+        # decide it -- so the counterexample rests on arithmetic, not on the gap.
+        assert _certified_ceiling(sig, prec=80) == truth, (prec, truth)
+    # and one of the two is in the unsafe direction: it admits a ceiling BELOW
+    # the truth, which would advertise a collapse that has not happened yet.
+    assert any(wrong < _certified_ceiling(4 * prec + 112)
+               for prec, wrong in NECESSARY_ONLY_ADMITS)
+
+
+def test_the_certified_ceiling_agrees_with_the_rational_bracket():
+    """Positive control for the helper above: it must reproduce the rows the
+    README tabulates, or the counterexamples it certifies prove nothing."""
+    for prec, want in ((1, 13), (5, 14), (10, 15), (20, 17), (30, 18), (50, 21), (100, 27)):
+        assert _certified_ceiling(4 * prec + 112) == want, prec
+
+
+def test_the_closed_form_never_predicts_earlier_than_the_truth():
+    """The one safety-relevant half of the fit. Overshooting by one costs a
+    consumer a useless-but-sound bound; UNDERshooting would advertise a
+    collapse that has not happened and is the direction worth pinning."""
+    lo_num, hi_num = _two_ln2_bracket()
+    for prec in (1, 3, 5, 8, 10, 13, 19, 20, 25, 30):
+        sig = 4 * prec + 112
+        n = 1
+        while not (n ** 2 * 1000 >= hi_num * sig):
+            n += 1
+        assert (n - 1) ** 2 * 1000 < lo_num * sig, prec   # n is the ceiling
+        assert _first_collapsed_x(prec) <= n, (prec, n)
 
 
 def test_normal_sf_is_the_usable_tail_bound_where_the_subtraction_is_not():

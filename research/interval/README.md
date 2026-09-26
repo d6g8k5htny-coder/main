@@ -93,8 +93,35 @@ below `2 ** -(4 * prec + 112)`:
 | 50 | 312 | 21 |
 | 100 | 512 | 27 |
 
-Measured, and `ceil(sqrt(2 ln2 (4 prec + 112)))` predicts every row exactly;
-`tests/test_interval.py` asserts two of them. At `prec = 20`, `1 - Phi(20)` is
+Measured. `tests/test_interval.py` asserts two rows directly and the rest through a
+certified ceiling helper.
+
+`ceil(sqrt(2 ln2 (4 prec + 112)))` reproduces **every row above**, and it is a
+**fit, not the threshold**. It is a continuous approximation to an integer
+crossing, and it rounds up by one whenever the crossing lands just inside an
+integer. In `prec = 1..30` that happens five times:
+
+| `prec` | measured | the closed form predicts |
+|---|---|---|
+| 3 | 13 | 14 |
+| 8 | 14 | 15 |
+| 13 | 15 | 16 |
+| 19 | 16 | 17 |
+| 25 | 17 | 18 |
+
+Every one overshoots by exactly one, and the seven tabulated rows all happen to
+agree — which is why a seven-row fit must not be called "the threshold". A
+nonauthor engineering review found this and named `prec = 3`; the other four came
+out of checking the rest of the range.
+
+**Direction, because it decides how much it matters.** The fit predicts a
+threshold one step *later* than the truth, so a consumer trusting it at
+`prec = 3, x = 13` expects a usable bound and gets `[0, …]` — sound, and useless.
+That is the same trap the correction below is about, one row further down, and it
+is not a containment failure. The opposite direction would be worse and is pinned
+by its own control: `test_the_closed_form_never_predicts_earlier_than_the_truth`.
+
+At `prec = 20`, `1 - Phi(20)` is
 `[0, 7.97e-59]` while `normal_sf(20)` is `2.75e-89` — and even at `x = 16`, one
 short of the threshold, the subtraction has already lost the low digits
 (`6.372e-58` against `normal_sf`'s `6.389e-58`).
@@ -213,7 +240,7 @@ tighter or safer than what the code does — and one is a coverage gap.
 | Reported | Status |
 |---|---|
 | `transcendental.py` line 688 asserts "`pi(P)` has width below `10**-P`" as a premise of the `sin`/`cos` reduction sketch. **False at exactly `P = 64` (width `1.051e-64`) and `P = 102` (width `1.084e-102`)**, and true for every other `P` in 1..129. `pi` takes `target = _tol(key)/32` and then `round_out(4*key + 96)`, and the outward significand rounding can push the width back above `10**-P` where the binary and decimal boundaries line up. | Errata recorded here; the file is pinned and the bytes stand. **The sketch's conclusion survives**: the same paragraph states the argument tolerates `pi` being "about `10**13` times more loosely" certified, and the shortfall is a factor of 1.05. Containment never rested on it either — `_sin_cos_reduced` re-tests `mag(s) <= 1` and raises. A test now pins the exceptional set, so a future `pi` that misses the hint at a *third* precision is a test failure rather than a discovery. |
-| `Phi`'s docstring, and the README, gave "beyond about `x = 26`" as a flat constant for where `1 - Phi(x)` collapses to `[0, …]`. The threshold is `ceil(sqrt(2 ln2 (4 prec + 112)))` — 13 at `prec = 1`, **17 at `prec = 20`**, 27 at `prec = 100`. "About 26" is the `prec = 100` row. | README corrected above with the measured table and the closed form; two rows asserted by tests. The docstring's constant is errata: `transcendental.py` is pinned. A consumer at `prec = 20` reading "about 26" would have taken `1 - Phi(20) = [0, 7.97e-59]` for a tail bound, where `normal_sf(20) = 2.75e-89`. |
+| `Phi`'s docstring, and the README, gave "beyond about `x = 26`" as a flat constant for where `1 - Phi(x)` collapses to `[0, …]`. The threshold moves with `prec` — measured 13 at `prec = 1`, **17 at `prec = 20`**, 27 at `prec = 100`. "About 26" is the `prec = 100` row. `ceil(sqrt(2 ln2 (4 prec + 112)))` fits those rows but is **not** the threshold: it overshoots by one at `prec` 3, 8, 13, 19 and 25, and the first revision of this correction called it the threshold anyway. | README corrected above with the measured table and the closed form; two rows asserted by tests. The docstring's constant is errata: `transcendental.py` is pinned. A consumer at `prec = 20` reading "about 26" would have taken `1 - Phi(20) = [0, 7.97e-59]` for a tail bound, where `normal_sf(20) = 2.75e-89`. |
 | Two certificates carried **no control that names them**: the `sin`/`cos` alternating-series remainder in `_sin_cos_reduced`, and the **upper** branch of the Mills bracket (`b = 1 - 3/(2z^2)`, valid for `z >= 1`). The lower branch had one; the upper did not, and the Machin remainder control covers `atan`, not `sin`/`cos`. | Both added (NC13, NC14), each verified by mutating a copy of the library built outside the repository. Stated precisely, because the mutation exercise refined the finding: neither mutant survived the old suite — the `sin` one was already caught *incidentally* by the Pythagorean-identity and addition-formula tests, and the Mills one by twenty tests at once. What was missing was a control that **names the mutation**, so a failure points at the remainder bound instead of at trigonometry in general. |
 
 **The mutants.** Both new controls were verified by mutating a copy of
