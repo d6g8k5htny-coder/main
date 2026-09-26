@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import math
 import sys
+from unittest.mock import patch
 
 TWOPI = 2.0 * math.pi
 # Rational margins used by both predicates on this chart.
@@ -187,8 +188,8 @@ def repaired_accepts(
     if outside:
         return False, "a critical point lies outside the continuation neighborhood"
     margin = grad_min_on_complement(eps, outer, neighborhood)
-    if margin < ETA:
-        return False, f"continuation-complement gradient minimum {margin} is below {ETA}"
+    if margin <= ETA:
+        return False, f"continuation-complement gradient minimum {margin} does not exceed {ETA}"
     return True, f"unique index-one point in the continuation neighborhood, gap {gap:.6f}, complement min |grad| {margin:.6f}"
 
 
@@ -242,6 +243,17 @@ def main() -> int:
         tight_moved,
         f"repaired predicate still accepts that saddle after the perturbation ({tight_moved_detail})",
     )
+
+    # Predicate-logic control only: replace the sampled minimum by exact binary
+    # values below, at, and above ETA. This is not a certified gradient bound for
+    # the torus field; the equality-boundary scaling argument is analytic.
+    for minimum, expected in ((0.5, False), (1.0, False), (1.5, True)):
+        with patch(f"{__name__}.grad_min_on_complement", return_value=minimum):
+            accepted, detail = repaired_accepts(base, 0.0, TIGHT_OUTER, TIGHT_N)
+        require(
+            accepted == expected,
+            f"gradient-margin logic at {minimum}: acceptance is {expected} ({detail})",
+        )
     print("negative control passed")
     return 0
 
