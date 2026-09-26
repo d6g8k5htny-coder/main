@@ -24,8 +24,8 @@ Finite-jet nondegeneracy and the usual Bulinskaya/Kac–Rice argument give a ful
 
 Fix once and for all countable rational data:
 
-- disjoint coordinate boxes B_p,B_q from a rational basis;
-- rational hyperbolicity margins delta>0 and rational boundary-gradient margins;
+- nested disjoint rational coordinate boxes B_p^- compactly inside B_p^+ and B_q^- compactly inside B_q^+;
+- rational hyperbolicity margins delta>0 and rational gradient-exclusion margins on the compact complements closure(B_p^+ minus B_p^-) and closure(B_q^+ minus B_q^-);
 - one of the two local stable/unstable branch labels at each saddle, encoded by which member of a rational local-section pair the branch crosses;
 - a polygonal tube with rational vertices and rational width;
 - a rational transverse line segment Sigma inside the tube;
@@ -33,7 +33,7 @@ Fix once and for all countable rational data:
 
 For a tuple chi of these data, define U_chi subset X to be the set of fields for which:
 
-1. each B_p,B_q contains exactly one index-one critical point, no critical point lies on the box boundary, and the Hessian spectral gap and boundary-gradient margins exceed the declared rational bounds;
+1. each inner box B_p^-,B_q^- contains exactly one index-one critical point; the Hessian spectral gap exceeds the declared rational bound; and |grad f| has the declared positive lower bound on closure(B_p^+ minus B_p^-) and closure(B_q^+ minus B_q^-). Thus no second zero can enter the tracked outer box under a sufficiently small C^1 perturbation;
 2. the declared local branches exist and meet their declared local sections uniquely and transversely;
 3. the forward p-branch and backward q-branch remain inside the declared tube until their unique first crossing of Sigma;
 4. speed, crossing-angle and travel-time margins satisfy the declared strict inequalities.
@@ -44,7 +44,7 @@ All conditions use strict quantitative margins. By the implicit-function theorem
 
 is C^1 on U_chi.
 
-Every genuine nondegenerate saddle–saddle connection belongs to at least one U_chi: choose disjoint endpoint boxes and local sections around its saddles, then a compact regular segment of the connection, a narrow tube and an interior transverse section. The actual positive hyperbolicity, speed, separation and transversality margins admit smaller rational margins, and the geometric data admit rational approximations. Therefore
+Every genuine nondegenerate saddle–saddle connection belongs to at least one U_chi: choose nested endpoint boxes so the saddle is the only critical point in the outer box and |grad f| is positive on the compact outer-minus-inner annulus, then choose local sections, a compact regular segment of the connection, a narrow tube and an interior transverse section. Nondegeneracy and compactness provide positive hyperbolicity, gradient-exclusion, speed, separation and transversality margins; choose smaller rational margins and rational approximations of the geometric data. Therefore
 
     Connection ∩ Omega_gen  subset  union_chi { f in U_chi : D_chi(f)=0 },
 
