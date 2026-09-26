@@ -307,11 +307,57 @@ def check(frozen: str, inventory_path: str, payloads: str, members: str,
 
 
 def load_known(path: Optional[str]) -> Dict[str, str]:
+    """Exact problem strings this run prints as allowlisted instead of failing on.
+
+    Two shapes, because two of them are in use and only one of them was read.
+
+    A top-level key whose value is a **string** is a flat entry: the problem
+    string maps to its rationale. That is the shape this module has always
+    accepted, and ``tests/test_frozen_check.py`` exercises it.
+
+    A top-level key whose value is an **object** is a section. Sections whose
+    name begins with ``findings`` are flattened, the way
+    ``tools/registers_check.py`` reads them; any other section is skipped.
+
+    The second half is the repair. ``registers/KNOWN_FINDINGS.json`` keeps every
+    one of its 37 entries inside ``findings``, ``findings_first_visible_in_2026-09-18_export``
+    and ``findings_first_keyed_2026-09-19``. Reading only flat keys made the
+    loader hand back those three names plus ``observations_cross_register`` and
+    ``superseded_source_export`` — section and metadata names, which no problem
+    string can equal. So the escape hatch this module's docstring advertises
+    worked for a file shape the repository does not use, and against the file it
+    actually names it could match nothing. Not inert in general; unreachable in
+    practice, which is the harder kind to notice.
+
+    ``observations_cross_register`` stays unread. Its entries carry a
+    ``proposed_repair``: they are cross-register observations, not defects
+    anyone agreed to live with, and registers_check excludes it for that reason.
+
+    This makes the file's entries reachable. It does not use them: no problem the
+    committed register produces appears there, and a test pins that, so the
+    repair changes no current verdict.
+    """
     if not path or not os.path.exists(path):
         return {}
     with open(path, encoding="utf-8") as f:
-        d = json.load(f)
-    return {k: v for k, v in d.items() if not k.startswith("_") and k != "source_export"}
+        data = json.load(f)
+    known: Dict[str, str] = {}
+    for key, value in data.items():
+        if isinstance(value, dict):
+            if not key.startswith("findings"):
+                continue
+            if not all(isinstance(k, str) and isinstance(v, str) for k, v in value.items()):
+                raise ValueError(f"{path}: section {key!r} is not a mapping of "
+                                 f"problem string to rationale")
+            known.update(value)
+        elif isinstance(value, str):
+            if key.startswith("_") or key.endswith("source_export"):
+                continue
+            known[key] = value
+        else:
+            raise ValueError(f"{path}: {key!r} is neither a findings section nor a "
+                             f"problem string mapped to a rationale")
+    return known
 
 
 def main(argv: Optional[List[str]] = None) -> int:

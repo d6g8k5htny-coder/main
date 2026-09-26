@@ -491,3 +491,149 @@ def test_the_imported_rows_agree_with_the_retained_register_export():
         assert r["sha256"] in want_sha, r["id"]
         checked += 1
     assert checked == 11, checked
+
+
+# ---------------------------------------------------------------------------
+# The allowlist frozen_check advertises.
+#
+# The module's docstring says a problem whose exact string is allowlisted in
+# registers/KNOWN_FINDINGS.json does not fail the run. That was not true: the
+# loader returned the file's top-level keys, which are SECTION names, so the
+# escape hatch matched nothing a checker could ever emit. These controls pin the
+# repaired behaviour and — more importantly — pin that repairing it did not
+# quietly allowlist anything that is failing today.
+# ---------------------------------------------------------------------------
+
+KNOWN = os.path.join(ROOT, "registers", "KNOWN_FINDINGS.json")
+
+
+def test_the_allowlist_holds_problem_strings_not_section_names():
+    mod = load_module()
+    known = mod.load_known(KNOWN)
+    for name in ("findings", "findings_first_visible_in_2026-09-18_export",
+                 "findings_first_keyed_2026-09-19", "observations_cross_register",
+                 "superseded_source_export", "source_export"):
+        assert name not in known, f"{name!r} is a section name, not a problem string"
+    assert known, "the allowlist must not be empty; the committed file has entries"
+    assert any(k.startswith("artifact_index: duplicate key") for k in known), sorted(known)[:3]
+
+
+def test_the_observations_section_is_not_an_allowlist():
+    """Its entries carry a proposed repair; they are not defects anyone accepted."""
+    mod = load_module()
+    known = mod.load_known(KNOWN)
+    raw = json.load(open(KNOWN, encoding="utf-8"))
+    for k in raw.get("observations_cross_register", {}):
+        assert k not in known, f"{k!r} came from observations_cross_register"
+
+
+def test_the_repair_allowlists_nothing_that_is_failing_today(tmp_path):
+    """The load-bearing one: making the mechanism live must change no verdict.
+
+    A fix that turns an inert allowlist into a working one is also a fix that
+    could silence a live problem in the same commit. It does not: no problem the
+    current register produces appears in the file.
+    """
+    mod = load_module()
+    known = mod.load_known(KNOWN)
+    report, problems = mod.check(mod.DEFAULT_FROZEN, mod.DEFAULT_INVENTORY,
+                                 mod.DEFAULT_PAYLOADS, mod.DEFAULT_MEMBERS,
+                                 mod.DEFAULT_CUSTODY)
+    assert [p for p in problems if p in known] == [], "a live problem is being allowlisted"
+
+
+def test_an_allowlisted_problem_is_reported_and_does_not_fail_the_run(tmp_path):
+    """End to end, against a register whose problem string we allowlist by hand."""
+    frozen = frozen_fixture(tmp_path, "1notARealDriveIdAtAll", "e" * 64, 11)
+    code, out = run("--frozen", frozen, "--no-custody")
+    assert code == 1, out
+    problem = next(l for l in out.splitlines() if "is not in the inventory" in l)
+    allow = tmp_path / "known.json"
+    allow.write_text(json.dumps({
+        "_comment": "fixture",
+        "source_export": "irrelevant",
+        "findings_fixture": {problem: "a fixture, not a real accepted defect"},
+        "observations_cross_register": {"never allowlisted": "carries a proposed repair"},
+    }), encoding="utf-8")
+    code, out = run("--frozen", frozen, "--no-custody", "--known", str(allow))
+    assert code == 0, out
+    assert f"(allowlisted) {problem}" in out, out
+
+
+def test_an_observation_cannot_allowlist_the_same_problem(tmp_path):
+    """Same string, wrong section: still a live problem."""
+    frozen = frozen_fixture(tmp_path, "1notARealDriveIdAtAll", "e" * 64, 11)
+    code, out = run("--frozen", frozen, "--no-custody")
+    problem = next(l for l in out.splitlines() if "is not in the inventory" in l)
+    allow = tmp_path / "known.json"
+    allow.write_text(json.dumps({"observations_cross_register": {problem: "proposed repair"}}),
+                     encoding="utf-8")
+    code, out = run("--frozen", frozen, "--no-custody", "--known", str(allow))
+    assert code == 1, out
+    assert "(allowlisted)" not in out, out
+
+
+@pytest.mark.parametrize("kind", ["prefix", "trailing_space"])
+def test_a_near_miss_is_not_allowlisted(tmp_path, kind):
+    """Matching is on the exact string, as registers_check documents.
+
+    The `prefix` case is the one that matters. An allowlist matched by substring
+    would let a short, generic entry swallow every problem that happens to
+    contain it — one line in a shared file quietly silencing checks nobody
+    reviewed. A trailing-space entry is the harmless direction of near miss.
+    """
+    frozen = frozen_fixture(tmp_path, "1notARealDriveIdAtAll", "e" * 64, 11)
+    code, out = run("--frozen", frozen, "--no-custody")
+    problem = next(l for l in out.splitlines() if "is not in the inventory" in l)
+    near = problem[:28] if kind == "prefix" else problem + " "
+    assert near != problem
+    allow = tmp_path / "known.json"
+    allow.write_text(json.dumps({"findings_fixture": {near: "near miss"}}), encoding="utf-8")
+    code, out = run("--frozen", frozen, "--no-custody", "--known", str(allow))
+    assert code == 1, out
+    assert "(allowlisted)" not in out, out
+
+
+def test_a_malformed_allowlist_section_is_refused(tmp_path):
+    mod = load_module()
+    bad = tmp_path / "known.json"
+    bad.write_text(json.dumps({"findings_fixture": {"a problem": ["not", "a", "string"]}}),
+                   encoding="utf-8")
+    with pytest.raises(ValueError, match="mapping of problem string"):
+        mod.load_known(str(bad))
+    bad.write_text(json.dumps({"findings_fixture": ["not", "a", "mapping"]}), encoding="utf-8")
+    with pytest.raises(ValueError, match="neither a findings section nor"):
+        mod.load_known(str(bad))
+
+
+def test_both_allowlist_shapes_are_read(tmp_path):
+    """A flat top-level entry and a findings section both reach the allowlist.
+
+    The flat shape is what tests/test_frozen_check.py writes and what this module
+    accepted before; the nested shape is what registers/KNOWN_FINDINGS.json
+    actually holds. Reading only one of them is how the escape hatch came to be
+    unreachable against the very file it names.
+    """
+    mod = load_module()
+    path = tmp_path / "known.json"
+    path.write_text(json.dumps({
+        "_comment": "metadata, never a problem string",
+        "source_export": "metadata, never a problem string",
+        "superseded_source_export": "metadata, never a problem string",
+        "a flat problem string": "its rationale",
+        "findings_fixture": {"a nested problem string": "its rationale"},
+        "observations_cross_register": {"an observation": "carries a proposed repair"},
+    }), encoding="utf-8")
+    known = mod.load_known(str(path))
+    assert set(known) == {"a flat problem string", "a nested problem string"}, sorted(known)
+
+
+def test_frozen_check_and_registers_check_read_the_allowlist_the_same_way():
+    """Two loaders over one file is a place for them to drift apart."""
+    import importlib.util
+    mod = load_module()
+    spec = importlib.util.spec_from_file_location(
+        "_registers_under_test", os.path.join(ROOT, "tools", "registers_check.py"))
+    rc = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rc)
+    assert mod.load_known(KNOWN) == rc.load_known(KNOWN)
