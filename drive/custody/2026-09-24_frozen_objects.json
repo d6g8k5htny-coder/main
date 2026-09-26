@@ -5,10 +5,8 @@
  "collected_by": "claude",
  "provider": "Anthropic",
  "collection_method": "Each object downloaded through the Drive API in this session, hashed locally with hashlib.sha256, and compared against the expected byte count and digest carried by the frozen_objects row of GP-REG-032_v1.2_export_2026-09-23_R3.xlsx. The register value was read out of R3 rather than from any manifest supplied alongside the objects.",
- "coverage": "2 of the 11 rows. The other nine are listed in _pending and are NOT in this file: an unverified row must not be present at all, because a row that exists is a row the checker will answer from. Both rows whose Binding Class repair in R3 moved them into the whole-file comparison path are among the verified two, since those were the least-scrutinised of the eleven.",
+ "coverage": "4 of the 11 rows, each downloaded and hashed in this session. The remaining seven are listed in _pending and are NOT in this file: an unverified row must not be present at all, because a row that exists is a row the checker will answer from. Both rows whose Binding Class repair in R3 moved them into the whole-file comparison path are among the verified, since those were the least-scrutinised of the eleven.",
  "_pending": [
-  "1pWBlanUuRBPVSrrbSd4XDUxIcX0gU8va",
-  "1RXhWblyRQYpadj6X7e3IZTmNO4JXXgo3",
   "1r5_R5VoKM10-7eofPwGa_yHuxTAS7S2q",
   "1NmwwIUUfIgVepvWjjSaPtLisJar7dpJu",
   "1nzc7GJeAR06L03c6y8Kf958VHU4n-mJ_",
@@ -38,6 +36,27 @@
    "verified_utc": "2026-09-24T00:52:00Z",
    "verified_by": "claude",
    "note": "Strict UTF-8 decode clean. The second of the two rows whose Binding Class repair in R3 moved it into the whole-file comparison path; both are now verified. Its own text states that full annulus coverage, all radii, all pin orientations, the weighted-Palm and event-identification interfaces, canonical acceptance and independent review remain open, and that organizational independence is zero."
+  },
+  {
+   "id": "1pWBlanUuRBPVSrrbSd4XDUxIcX0gU8va",
+   "title": "HG-GLOBAL-ENVELOPE-20260919-v1.md",
+   "bytes": 3641,
+   "sha256": "8c0dccdfd177b7ae03a0edd62f92b330825469a9e991d33d2226eb62cfd6083e",
+   "frozen_object_id": "HG-GLOBAL-ENVELOPE-20260919-v1",
+   "verified_utc": "2026-09-26T12:45:07Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. Binding Class D in both R2 and R3, so this row's whole-file comparison path did not depend on the R3 label repair. Its own text states CANDIDATE / NOT REVIEWED, independence credit 0, and that it establishes neither the full 24-jet set, the six-pin displacement maps, any required r-band certificate nor OBL-H5-JETMOD."
+  },
+  {
+   "id": "1RXhWblyRQYpadj6X7e3IZTmNO4JXXgo3",
+   "title": "RN-AFFINE-MOMENTS-20260920-v1.md",
+   "bytes": 7394,
+   "sha256": "4c1803f23e5bbb02baf0a5f5dec6bd4c00d5c580fdffce05180619e7d9158520",
+   "frozen_object_id": "RN-AFFINE-MOMENTS-20260920-v1",
+   "verified_utc": "2026-09-26T12:45:07Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. Binding Class D in both R2 and R3. Its own text states that it is an unreviewed algebraic candidate claiming no new Gaussian moment theorem, that no RN field identification, spatial cover, remote normalizer proof or weighted-Palm transfer is supplied, and that the canonical registry's utility remains UNMEASURED."
   }
- ]
+ ],
+ "_expectations_are_checkable_in_this_repository": "The expected byte count and SHA-256 for all eleven rows are carried by registers/source/GP-REG-032_v1.2_export_2026-09-23_R2.xlsx, which is retained here and pinned in registers/source/SOURCES.json, so every comparison in this file is reproducible without R3: python3 tools/registers_import.py --source registers/source/GP-REG-032_v1.2_export_2026-09-23_R2.xlsx --out-json <dir> --out-csv <dir>, then read the frozen_objects tab. What R3 adds for these rows is the Binding Class repair, not a new digest: the eleven digests in the OpenAI/ChatGPT publication of 2026-09-23, which that publication states it checked against R3, are byte-for-byte the eleven expectations R2 carries. R3 itself is Drive 1erJ3Rascitw0pbMu8mz_8fcF8Geavf4T, 1,987,616 bytes, and is not retained in git; a claim about any R3 cell this repository does not hold is that publication's, not this file's."
 }
