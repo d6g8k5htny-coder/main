@@ -10,6 +10,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -33,6 +34,7 @@ REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
 SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
 BRANCH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./-]*\Z')  # a name this route can carry; '..' refused below
 MAX_BRANCH_PAGES = 3
+MAX_SOURCE_PATH = 1024
 CREDENTIALS = [
     re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
@@ -59,7 +61,16 @@ def unique(pairs):
 def strict_json(raw):
     def bad_constant(_):
         raise ValueError('nonfinite JSON value')
-    return json.loads(raw, object_pairs_hook=unique, parse_constant=bad_constant)
+
+    def finite_float(token):
+        # parse_constant sees only the NaN/Infinity/-Infinity literals. An ordinary
+        # number token such as 1e400 converts to float infinity without passing
+        # through it, so every non-integer token is checked here. Integer tokens
+        # never reach this hook: Python ints are exact.
+        value = float(token)
+        require(math.isfinite(value), 'nonfinite JSON value')
+        return value
+    return json.loads(raw, object_pairs_hook=unique, parse_constant=bad_constant, parse_float=finite_float)
 
 
 def safe_path(path):
@@ -67,6 +78,21 @@ def safe_path(path):
     parts = path.split('/')
     require(all(p not in ('', '.', '..') and not p.startswith('.') for p in parts), 'unsafe path')
     require(str(PurePosixPath(path)) == path, 'noncanonical path')
+    return parts
+
+
+def source_path(path):
+    """A source row's path is only ever an exact key into the tree the git trees
+    API returns for a pinned commit: never appended to a route, never checked out.
+    So the ASCII package grammar in safe_path() does not govern it; the public
+    catalog names files with em dashes and a colon. The bytes are compared as
+    given, with no Unicode normalization, against the tree's own path strings."""
+    require(isinstance(path, str) and 0 < len(path) <= MAX_SOURCE_PATH, 'unsafe source path')
+    require(not any(ord(c) < 32 or ord(c) == 127 for c in path) and '\\' not in path and not path.startswith('/'),
+            'unsafe source path')
+    parts = path.split('/')
+    require(all(p not in ('', '.', '..') for p in parts), 'unsafe source path')
+    require(str(PurePosixPath(path)) == path, 'noncanonical source path')
     return parts
 
 
@@ -289,7 +315,7 @@ def verify_package(api, repo, head, base, rows):
         source_repo = row['repository']
         require(isinstance(source_repo, str) and source_repo in {'d6g8k5htny-coder/' + r for r in SOURCE_REPOS}, 'source repository outside public pillars')
         path = row['path']
-        safe_path(path)
+        source_path(path)
         commit = sha40(row['commit'], 'source commit must be a full SHA')
         digest = sha256(row['sha256'], 'invalid source digest')
         key = (source_repo, commit, path)

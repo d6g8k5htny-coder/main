@@ -24,3 +24,29 @@ All lanes forbid proof bodies, `lemma_closed`, prize flags, `LANDING_CLAIMS.json
 - Settings: read back About/topics, wikis off, auto-delete on, private disclosure enabled, and existing secret/push protection. No credentials, sharing changes, new required approval gate, or funding setup.
 
 Final delivery receipts and claim release are appended to the existing issue threads. This dated checkpoint is retained as history, rather than rewritten to imply work had already completed.
+
+## Follow-through checkpoint
+
+The original integration landed through [PR #155](https://github.com/d6g8k5htny-coder/main/pull/155)
+at `2ed91b777217fab50623402a3538fa5478076e6c`. Its PR checks, merged-tree
+public-shop/verify checks and Pages deployment succeeded. The exact receipt is
+[comment 5848632593](https://github.com/d6g8k5htny-coder/main/issues/154#issuecomment-5848632593).
+
+| Lane / claim | Assignee and allowed paths | Current disposition |
+|---|---|---|
+| [Cache follow-through](https://github.com/d6g8k5htny-coder/main/issues/154#issuecomment-5848689223), `codex/museum-cache-followthrough-20260926` | OpenAI root is sole remote writer; local display worker owns `docs/site/museum.mjs` and `tests/test_museum_frontend.mjs`; root owns `docs/site/README.md` and this log | One successor integration: local config/manifest cache policy and regression controls; no config, source pin, intake-checker or scientific edits |
+| [Claude intake #156](https://github.com/d6g8k5htny-coder/main/pull/156) | Existing Claude writer owns checker/tests; OpenAI support is read-only review/comments | Bounded successor for JSON overflow and exact catalog source paths; completion and exact-head review are recorded on the PR, not inferred from this assignment |
+| Trial #142 | Existing open PR retains `AGENTS.md`; no competing writer | Fresh head `4499e2314011808e66b39be045657a52996eab94` still lacks the requested factory note; no reply or delivery observed |
+| Profile banner | Prepared profile README only; no alternate write route | Still UNDELIVERED: profile default `c2c2d91de670d91c0365f515158fe0a72adcd9c0` contains the starter README; connector access remains the concrete missing capability |
+
+Fresh live browser inspection now displays both packet cards with exact RESULT
+identities and REVIEW_REQUIRED labels, correcting the earlier cached one-packet
+observation. This is public-access verification, not scientific acceptance. The
+cache repair prevents reuse through the browser's local cache; it does not promise
+an atomic CDN release. Mixed config/manifest identities remain fail-closed.
+
+Math ruleset 24045351 was read back with zero required approvals, no code-owner
+or latest-push approval, strict `math-downstream-gates`, and an empty bypass list.
+No second account or recurring owner approval is required for eligible merges.
+The retained check, PR, conversation-resolution and force-push protections still
+apply. Provider independence and theorem-specific predicates remain separate.

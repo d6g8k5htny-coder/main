@@ -159,6 +159,40 @@ test('museum manifest must match the config byte count and SHA-256 before source
   }
 });
 
+test('a coherent old browser cache cannot hide the newly pinned packet',{skip:!museum||!process.env.MUSEUM_FIXTURE},async()=>{
+  const current=fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url),'utf8');
+  const latest=JSON.parse(current),old=structuredClone(latest);old.packets.pop();
+  const oldRaw=JSON.stringify(old),oldConfig=JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(oldRaw),sha256:digest(oldRaw)}});
+  const newConfig=fs.readFileSync(new URL('../docs/site/config.json',import.meta.url),'utf8');
+  const fixtures=JSON.parse(fs.readFileSync(process.env.MUSEUM_FIXTURE,'utf8'));
+  const document=documentFromHTML(),calls=[];
+  await museum.startMuseum({document,fetcher:async(url,options)=>{
+    calls.push({url:String(url),cache:options.cache});
+    if(url==='config.json')return new Response(options.cache==='no-store'?newConfig:oldConfig);
+    if(url==='museum.json')return new Response(options.cache==='no-store'?current:oldRaw);
+    assert.ok(Object.hasOwn(fixtures,String(url)),`Unexpected source request: ${url}`);
+    return new Response(Buffer.from(fixtures[String(url)],'base64'));
+  }});
+  assert.equal(document.getElementById('packet-cards').children.length,2);
+  assert.match(document.getElementById('packet-cards').textContent,/side24-chart-claude-20260926/);
+  assert.deepEqual(calls.slice(0,2),[{url:'config.json',cache:'no-store'},{url:'museum.json',cache:'no-store'}]);
+  assert.ok(calls.slice(2).every(call=>call.cache===undefined),'Pinned remote source requests retain their cache policy');
+});
+
+test('a mixed new config and stale museum manifest fails closed',{skip:!museum},async()=>{
+  const current=JSON.parse(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url)));
+  const old=structuredClone(current);old.packets.pop();
+  const document=documentFromHTML(),calls=[];
+  await museum.startMuseum({document,fetcher:async(url,options)=>{
+    calls.push(String(url));
+    return new Response(url==='config.json'?fs.readFileSync(new URL('../docs/site/config.json',import.meta.url)):JSON.stringify(old));
+  }});
+  assert.deepEqual(calls,['config.json','museum.json']);
+  assert.match(document.getElementById('museum-state').textContent,/unavailable.*byte count|unavailable.*SHA-256/i);
+  assert.equal(document.getElementById('packet-cards').children.length,0);
+  assert.equal(document.getElementById('claim-cards').children.length,0);
+});
+
 test('actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions',{skip:!museum||(!process.env.MUSEUM_MATH_ROOT&&!process.env.MUSEUM_FIXTURE)},async()=>{
   const manifest=JSON.parse(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url)));
   const root=new URL('..',import.meta.url).pathname;
