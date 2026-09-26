@@ -1,6 +1,6 @@
 # Research guide
 
-[Home](../README.md) · [Reproduce a result](REPRODUCE.md) · [Workspace and branches](WORKSPACE.md) · [Open work](#open-work)
+[Home](../README.md) · [Full public texts](PUBLIC_MATHEMATICS.md) · [Reproduce a result](REPRODUCE.md) · [Workspace and branches](WORKSPACE.md) · [Open work](#open-work)
 
 This is a reading map, not a theorem-acceptance register. Read the statement, hypotheses, proof, and latest source-bound review before using a result. Merging a candidate or passing its tests is not independent mathematical acceptance.
 
@@ -18,12 +18,12 @@ This is a reading map, not a theorem-acceptance register. Read the statement, hy
 
 | Reading order | Source | Scope and review |
 |---|---|---|
-| 1. Geometry | [Marked-cylinder proof](https://drive.google.com/file/d/1BnPods7Lf-ECdD34noQihZcEfcqpy7R5/view) | Deterministic sufficient criterion; not itself a Gaussian probability estimate |
-| 2. Conditional field and leading law | [Matrix-cap and lifetime proof](https://drive.google.com/file/d/1foDgiDi4XIKOfbrZEE8dWKV_BkZU8LIb/view) | Exact periodized model; [review #63](https://github.com/d6g8k5htny-coder/main/issues/63) |
+| 1. Geometry | [Marked-cylinder proof](https://github.com/d6g8k5htny-coder/Math-/blob/main/imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md) | Deterministic sufficient criterion; not itself a Gaussian probability estimate |
+| 2. Conditional field and leading law | [Matrix-cap and lifetime proof](https://github.com/d6g8k5htny-coder/Math-/blob/main/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md) | Exact periodized model; [review #63](https://github.com/d6g8k5htny-coder/main/issues/63) |
 | 3. Coefficient | [SIDE24 dimensions 2 and 3](https://github.com/d6g8k5htny-coder/Math-/blob/main/coefficients/side24_v1/PROOF.md) | Evaluates the parent formula, without accepting that parent; [review #65](https://github.com/d6g8k5htny-coder/main/issues/65) |
 | 4. Quantitative error | [Bounded unrestricted remainder](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md) | Author-side O(1) remainder; [review #67](https://github.com/d6g8k5htny-coder/main/issues/67) |
 
-Keep the dimension, full determinant normalizer, mark restrictions and finite-versus-essential-bar convention attached to each result. Numerical constants and a useful lifetime range for the remainder are not supplied by a qualitative O(1) statement. Drive sources may require access.
+Keep the dimension, full determinant normalizer, mark restrictions and finite-versus-essential-bar convention attached to each result. Numerical constants and a useful lifetime range for the remainder are not supplied by a qualitative O(1) statement. The linked full proof texts are public on GitHub; original Drive provenance is retained with their imports.
 
 ## RN counting
 
@@ -33,13 +33,15 @@ Next read the [fixed-remote height-window estimate](https://github.com/d6g8k5htn
 
 [Run the remote-window checks](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/README.md) from the Math repository; exact catalog key `rn-fixed-remote-window` locates the published source. The proof rederives the needed full-pin count estimates without consuming global elder selection. Its author-side disposition and the intermediate-annulus boundary remain explicit.
 
-A newer fixed-annulus successor now has a source-bound nonauthor technical review at its exact limited scope: [fixed d=2 scaled-annulus height-window theorem](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md) with [review record](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md). It covers fixed L, a fixed scaled annulus in d=2, compact positive gap marks, all frames, and the between-pin height window. It does **not** close pin neighborhoods, intermediate physical scales, witness collisions, kappa→0, d>=3, global RN/JETMOD, or elder selection.\n\nThe [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
+A newer fixed-annulus successor now has a source-bound nonauthor technical review at its exact limited scope: [fixed d=2 scaled-annulus height-window theorem](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md) with [review record](https://github.com/d6g8k5htny-coder/Math-/blob/760340e921ac4ceda296b8118da936f1133e956e/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md). It covers fixed L, a fixed scaled annulus in d=2, compact positive gap marks, all frames, and the between-pin height window. It does **not** close pin neighborhoods, intermediate physical scales, witness collisions, kappa→0, d>=3, global RN/JETMOD, or elder selection.
+
+The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/math_status/STATUS_RN_UNIF.md) and [execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) describe a separate numerical route. Its missing historical carriers and 24-jet obligations are not discharged by a newer probability proof, and do not erase newer author-side candidates.
 
 ## P15 combinatorics
 
 | Reading order | Source | Distinction |
 |---|---|---|
-| Local-to-global interface | [Original P15-B](https://drive.google.com/file/d/19D-eHQAIXMGGy2ThZUfZ0GGjIKWm5C2j/view) | Actual restrictions, complete crossing witnesses, and compatible local budgets |
+| Local-to-global interface | [Original P15-B](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-09-16%20%E2%80%94%20PRIZE%20PROBLEM%20RECONNAISSANCE%20%E2%80%94%20INDEPENDENT%20TRACK/06_TALAGRAND_DISCRETE%20%E2%80%94%20RESTRICTED_PROOF_CANDIDATES/P15-B_PALETTE_SEPARATED_LOCALIZATION.md) | Actual restrictions, complete crossing witnesses, and compatible local budgets |
 | Palette optimization | [Matroid specialization #59](https://github.com/d6g8k5htny-coder/main/issues/59) | Requires its structural hypotheses |
 | Actual-coordinate family | [Realized covers](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md) | Specified cover threshold 816; whole ground set needs 818 |
 | Failed extension | [Price-boundary counterexample](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md) | Same-palette unrestricted transformed-price extension without extra hypotheses is false |

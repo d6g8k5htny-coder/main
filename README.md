@@ -9,7 +9,7 @@ including the q0 / SIDE24, H3, RN, and LPW workstreams.
 
 ## Current results and navigation
 
-[Research guide](docs/RESEARCH_INDEX.md) · [Reproduce a result](docs/REPRODUCE.md) · [Open work](docs/RESEARCH_INDEX.md#open-work) · [All eight repositories](docs/RESEARCH_INDEX.md#repository-map)
+[Research guide](docs/RESEARCH_INDEX.md) · [Full proofs and source catalog](docs/PUBLIC_MATHEMATICS.md) · [Reproduce a result](docs/REPRODUCE.md) · [Open work](docs/RESEARCH_INDEX.md#open-work) · [All eight repositories](docs/RESEARCH_INDEX.md#repository-map)
 
 The guide leads to the current Gaussian persistence, RN counting, and P15 proof packages in [Math-](https://github.com/d6g8k5htny-coder/Math-), with their hypotheses, review discussions, and runnable checks. It distinguishes counterexamples from positive results with different hypotheses. These are author-side candidates and exact negative results, not a project-completion claim.
 
