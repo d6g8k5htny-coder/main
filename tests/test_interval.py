@@ -1275,3 +1275,238 @@ def test_erf_crossover_regime_is_visible_and_documented():
     # the cliff in achievable width is now small, because the two branches are
     # intersected below the crossover rather than switched between
     assert Phi(above, 20).width() < Phi(below, 20).width() * 100
+
+
+# ===========================================================================
+# Group 7 — THE 2026-09-26 DOCUMENTATION AUDIT
+#
+# A pass over the package's own prose rather than its arithmetic: every numeric
+# assertion in the README and in the library docstrings re-derived or
+# re-measured against the code as it stands. It found no containment violation.
+# It found two false statements, both in the UNSAFE direction (each claims
+# something tighter than the code delivers), and two certificates with no
+# control that NAMES them — both mutants died on the old suite, but at tests
+# that report "trigonometry is inconsistent" rather than "this remainder bound
+# is wrong". The false statements live in a PINNED file, so what lands here is
+# the measurement that makes the true behaviour a test failure to change, and
+# `research/interval/README.md` carries the errata.
+# ===========================================================================
+
+# --- D1: pi(P) misses its own width hint at exactly two precisions ----------
+
+#: The full exceptional set over ``P`` in 1..129, measured. ``pi`` takes
+#: ``target = _tol(key)/32`` and then ``round_out(4*key + 96)``, and that
+#: outward significand rounding can push the width back above ``10**-P`` where
+#: the binary and decimal boundaries line up.
+PI_WIDTH_HINT_MISSED = (64, 102)
+
+
+def test_pi_misses_its_width_hint_at_exactly_two_precisions():
+    """``transcendental.py`` line 688 asserts, as a premise of the ``sin``/``cos``
+    reduction sketch, that "``pi(P)`` has width below ``10**-P``". That is FALSE
+    at ``P = 64`` and ``P = 102`` and true at every other ``P`` in 1..129.
+
+    The sketch's CONCLUSION survives: the same paragraph states the argument
+    tolerates ``pi`` being about ``10**13`` times more loosely certified, and the
+    shortfall here is a factor of 1.05. Containment never rested on it either —
+    ``_sin_cos_reduced`` re-tests ``mag(s) <= 1`` and raises.
+
+    This test pins the exceptional set, so a future ``pi`` that misses the hint
+    at a THIRD precision is a test failure rather than a discovery. It is not a
+    negative control: nothing here is broken, and the file is pinned.
+    """
+    missed = tuple(P for P in range(1, 130)
+                   if pi(P).width() > F(1, 10 ** P))
+    assert missed == PI_WIDTH_HINT_MISSED, missed
+    # and the overshoot is small, which is why the sketch's margin absorbs it
+    for P in PI_WIDTH_HINT_MISSED:
+        over = pi(P).width() * 10 ** P
+        assert 1 < over < F(11, 10), (P, float(over))
+    # Containment, which is the actual contract, holds at both. Asserted the
+    # other way round from the group-2 tests: at these precisions the enclosure
+    # is far NARROWER than the literal's last place, so the enclosure sits
+    # inside the literal's bracket rather than the reverse.
+    for P in PI_WIDTH_HINT_MISSED:
+        assert pi(P) in bracket(PI_LIT)
+        assert pi(P).intersect(pi(25)) is not None
+
+
+def test_the_sin_cos_reduction_margin_absorbs_the_missed_hint():
+    """The premise is false by a factor of 1.05; the sketch says it tolerates
+    ``10**13``. So ``sin``/``cos`` at the two exceptional precisions must still
+    return enclosures containing the true value, and must still satisfy the
+    ``mag(s) <= 1`` guard rather than raising."""
+    for P in PI_WIDTH_HINT_MISSED:
+        s = sin(Interval.exact(F(100000)), P)
+        c = cos(Interval.exact(F(100000)), P)
+        assert -1 <= s.lo <= s.hi <= 1
+        assert -1 <= c.lo <= c.hi <= 1
+        # sin^2 + cos^2 = 1 must be consistent with both enclosures
+        assert (s ** 2 + c ** 2).lo <= 1 <= (s ** 2 + c ** 2).hi
+
+
+# --- D2: where 1 - Phi(x) goes vacuous is a function of prec ----------------
+
+def _first_collapsed_x(prec: int, lo: int = 5, hi: int = 40):
+    """Smallest integer ``x`` at which ``(1 - Phi(x)).lo`` is exactly 0."""
+    for x in range(lo, hi + 1):
+        if (Interval.exact(1) - Phi(Interval.exact(x), prec)).lo == 0:
+            return x
+    return None
+
+
+def test_the_one_minus_Phi_collapse_threshold_moves_with_prec():
+    """``Phi``'s docstring, and the README until 2026-09-26, gave "beyond about
+    ``x = 26``" as a flat constant. It is not a constant. ``Phi`` finishes with
+    ``round_out(4*g + 32)``, ``g = prec + 20``, so it keeps ``4*prec + 112``
+    significand bits, and ``1 - Phi(x)`` goes vacuous once the tail mass falls
+    below ``2**-(4*prec + 112)``: ``ceil(sqrt(2 ln2 (4 prec + 112)))``, which is
+    13 at ``prec = 1``, **17 at ``prec = 20``** and 27 at ``prec = 100``.
+    "About 26" is the ``prec = 100`` row, and it is optimistic everywhere below.
+
+    Two rows are asserted here rather than all seven: each row costs a scan of
+    ``Phi`` and ``prec = 100`` is the slow one. The full measured table is in
+    ``research/interval/README.md``.
+    """
+    assert _first_collapsed_x(20) == 17
+    assert _first_collapsed_x(30) == 18
+    # the closed form predicts both
+    for prec, want in ((20, 17), (30, 18)):
+        sig = 4 * prec + 112
+        # ceil(sqrt(2 ln2 sig)) without floats: smallest n with n^2 >= 2 ln2 sig
+        # 2 ln2 > 1386/1000, and < 1387/1000
+        n = want
+        assert (n - 1) ** 2 * 1000 < 1387 * sig
+        assert n ** 2 * 1000 > 1386 * sig
+
+
+def test_normal_sf_is_the_usable_tail_bound_where_the_subtraction_is_not():
+    """The whole point of the correction. At ``prec = 20`` and ``x = 20`` the
+    subtraction is sound and useless while ``normal_sf`` is sound and tight."""
+    x, prec = Interval.exact(20), 20
+    subtracted = Interval.exact(1) - Phi(x, prec)
+    direct = normal_sf(x, prec)
+    assert subtracted.lo == 0                    # no positive lower bound at all
+    assert direct.lo > 0
+    assert direct.hi < F(1, 10 ** 88)            # ~2.75e-89
+    assert direct.hi <= subtracted.hi            # the direct one is inside
+    # one below the threshold the subtraction still works, but has already lost
+    # the low digits relative to the direct route
+    x16 = Interval.exact(16)
+    sub16 = Interval.exact(1) - Phi(x16, prec)
+    dir16 = normal_sf(x16, prec)
+    assert sub16.lo > 0
+    # 7.97e-59 against 2.9e-61: the subtraction is already two orders coarser
+    # one step below the threshold, which is why "about 26" was the wrong shape
+    # of statement as well as the wrong number.
+    assert sub16.width() > dir16.width() * 100
+
+
+# --- NC13: the sin/cos alternating remainder taken from the wrong index ------
+
+def _broken_sin_reduced_off_by_one(s: Interval, target: F, sig: int) -> Interval:
+    """``_sin_cos_reduced``'s ``sin`` branch with the remainder taken one index
+    LATE: ``[S_k - a_(k+2), S_k + a_(k+2)]`` instead of ``a_(k+1)``.
+
+    For an alternating series with strictly decreasing terms,
+    ``|S - S_k| >= a_(k+1) - a_(k+2)``, and here ``a_(k+2) <= a_(k+1)/6``, so
+    ``|S - S_k| >= (5/6) a_(k+1) > a_(k+2)``: the true value is strictly outside
+    the narrowed bracket. Same shape as the Machin control above, on the other
+    alternating series.
+    """
+    m = s.mag()
+    s2 = s ** 2
+    total = Interval(0)
+    powi = s
+    fact = 1
+    k = 0
+    while True:
+        term = powi * F(1, fact)
+        total = total + term if k % 2 == 0 else total - term
+        nfact = fact * (2 * k + 2) * (2 * k + 3)
+        bound = m ** (2 * k + 3) / nfact
+        if bound <= target:
+            # the mutation: one index later than the first omitted term
+            bound = m ** (2 * k + 5) / (nfact * (2 * k + 4) * (2 * k + 5))
+            break
+        k += 1
+        powi = (powi * s2).round_out(sig)
+        fact = nfact
+    return (total + Interval(-bound, bound)).round_out(sig)
+
+
+def test_negative_control_sin_remainder_off_by_one_loses_containment():
+    """The ``sin``/``cos`` alternating-series remainder had no control that NAMES
+    it: the Machin control covers ``atan``, not ``_sin_cos_reduced``. Stated that
+    way because mutating the library refined the finding — the off-by-one does
+    not survive the old suite either, but what caught it was the Pythagorean
+    identity and the addition formula, which say "trigonometry is inconsistent"
+    rather than "the remainder bound is wrong".
+
+    Fires on: ``bound`` advanced one index in ``_sin_cos_reduced``.
+    """
+    for ss in ("1", "1/2", "-9/10"):
+        s = Interval.exact(F(ss))
+        prec = 25
+        target = F(1, 10 ** prec) / 4
+        sig = 4 * prec + 128
+        broken = _broken_sin_reduced_off_by_one(s, target, sig)
+        loose, _ = T._sin_cos_reduced(s, target, sig)
+        # The reference must be TIGHTER than the mutant, not the same call: the
+        # narrowed bracket is a subinterval of the library's own enclosure, so
+        # intersecting the two proves nothing. `mag(s) <= 1` means the public
+        # `sin` reduces with j = 0, so this is the same series at 25 more digits.
+        tight = sin(s, prec + 25)
+        assert tight.width() < broken.width(), ss
+        assert broken.intersect(tight) is None, ss
+        assert tight.intersect(loose) is not None, ss   # the library is right
+        assert broken.width() < loose.width(), ss       # narrower AND wrong
+
+
+# --- NC14: the Mills UPPER branch with its -3/(2 z^2) correction dropped -----
+
+def test_negative_control_mills_upper_bound_without_the_b_correction():
+    """The Mills bracket takes ``b = 1`` for the LOWER bound and
+    ``b = 1 - 3/(2 z^2)`` for the UPPER one; only the lower branch had a control.
+    Drop the correction and the "upper" bound becomes
+    ``2 z e^(-z^2)/(sqrt(pi)(2 z^2 + 1))`` — which is the proved LOWER bound,
+    strictly BELOW ``erfc(z)``. The test shows it by placing the broken value
+    strictly under the library's certified lower endpoint.
+
+    Only rigorous BELOW ``ERF_CROSSOVER``, and that is stated rather than
+    papered over: above the crossover ``erfc`` *is* this bracket, so the library
+    offers no independent enclosure to contradict. At ``z <= 6`` the series gives
+    one that is 14 to 31 orders tighter, and the broken value falls clean below
+    its lower endpoint. Above the crossover the visible symptom is the second
+    loop: the mutation collapses the claimed relative width from the honest
+    ``~3/(4 z^4)`` to the rounding floor, so it claims 30-digit knowledge of a
+    quantity the bracket pins to four.
+
+    Fires on: ``4*zz*zz + 2*zz - 3`` written as ``4*zz*zz + 2*zz + 1`` (i.e.
+    ``b = 1``) in the upper quotient of ``_erfc_mills``.
+    """
+    def broken_upper(z, g):
+        zz = z * z
+        return ((Interval.exact(2 * z) * exp(Interval.exact(-zz), g))
+                / (sqrt(pi(g), g) * Interval.exact(2 * zz + 1))).hi
+
+    for zs in ("1", "2", "3", "4", "5", "6"):
+        z = F(zs)
+        assert z <= T.ERF_CROSSOVER              # where an independent route exists
+        good = erfc(Interval.exact(z), 30)
+        assert broken_upper(z, 50) < good.lo, zs     # not an upper bound at all
+        assert good.hi > broken_upper(z, 50)
+
+    # Above the crossover: the mutant claims a relative width at the rounding
+    # floor where the honest bracket is about 3/(4 z^4).
+    for zs, honest in (("13/2", F(4, 10 ** 4)), ("8", F(18, 10 ** 5)),
+                       ("12", F(36, 10 ** 6))):
+        z = F(zs)
+        enc = T._erfc_mills(z, 30)
+        assert enc.lo < enc.hi, zs
+        rel = enc.width() / enc.lo
+        assert honest / 2 < rel < honest * 2, (zs, float(rel))
+        lower = ((Interval.exact(2 * z) * exp(Interval.exact(-(z * z)), 50))
+                 / (sqrt(pi(50), 50) * Interval.exact(2 * z * z + 1)))
+        mutant_rel = (broken_upper(z, 50) - lower.lo) / lower.lo
+        assert mutant_rel < rel / 10 ** 20, (zs, float(mutant_rel))
