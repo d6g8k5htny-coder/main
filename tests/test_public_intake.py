@@ -11,6 +11,7 @@ import struct
 import tempfile
 from unittest import mock
 from pathlib import Path
+import unicodedata
 import unittest
 import zipfile
 import zlib
@@ -25,6 +26,12 @@ BASE = 'b' * 40
 SOURCE = 'c' * 40
 PARENT = 'f' * 40  # an ancestor of the PR head that no branch of the pillar contains
 MATH = 'd6g8k5htny-coder/Math-'
+CATALOG = Path(__file__).resolve().parents[1] / 'docs/public-math'
+# Two rows of the public catalog that the package grammar refuses: the EC-014 witness
+# of #86 comment 5848311773 (em dash) and the catalog's one ASCII refusal (a colon).
+EM_DASH_PATH = ('drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/'
+                '02_CORE_LEMMAS/LEMMA_EC-014_v2.0 \u2014 Six-Pin Pair-Frame Jacobian/proof.md.export.txt')
+COLON_PATH = 'drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/02_TERMINAL_CLOSURE_RECORDS/Observer Relay: EC-21 Approval.export.txt'
 
 
 def sha(raw):
@@ -616,6 +623,104 @@ class IntakeTests(unittest.TestCase):
         self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
         self.install()
         self.reject('artifact size')
+
+    def test_catalog_source_paths_are_exact_tree_keys(self):
+        """#86 comment 5848311773 (OpenAI/Codex, claim OA-SUPPORT-INTAKE-20260926-1729):
+        citing the catalog's EC-014 path made the command exit 1 with 'unsafe path' before
+        the source-commit fetch, and the catalog's colon path was the one ASCII refusal.
+        A source path is only a key into the tree the git trees API returns, so the
+        package grammar does not govern it; every tree check that follows is kept."""
+        for path in [EM_DASH_PATH, COLON_PATH]:
+            with self.subTest(path=path):
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+                self.assertIn(f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1', self.api.calls)
+                self.assertFalse(any(path in route or '/contents/' in route for route in self.api.calls))  # a key, never a route
+                self.assertEqual(intake.source_path(path), path.split('/'))
+
+    def test_source_tree_checks_follow_source_path_acceptance(self):
+        composed = unicodedata.normalize('NFC', 'docs/th\u00e9or\u00e8me \u2014 EC-014/proof.md')
+        decomposed = unicodedata.normalize('NFD', composed)
+        self.assertNotEqual(composed, decomposed)
+        self.manifest['sources'][0]['path'] = composed
+        self.save()  # the fixture tree holds the composed key
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        route = f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1'
+        held = self.api.routes[route]['tree'][0]
+        self.manifest['sources'][0]['path'] = decomposed  # same text under normalization, a different tree key
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.api.routes[route]['tree'] = [held]
+        self.reject('regular non-executable public file')
+        self.manifest['sources'][0]['path'] = composed
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        for label, change in [('symlink', dict(mode='120000')), ('executable', dict(mode='100755')), ('directory', dict(type='tree')),
+                              ('oversized', dict(size=intake.MAX_PACKAGE_BYTES + 1))]:
+            with self.subTest(label=label):
+                self.api.routes[route]['tree'] = [dict(held, **change)]
+                self.reject('regular non-executable public file|size limit')
+        self.api.routes[route]['tree'] = []
+        self.reject('regular non-executable public file')
+
+    def test_unsafe_source_paths_refused_before_source_fetch(self):
+        unsafe = ['../x', 'x/../y', '/abs', 'x\\y', 'a\x00b', '', '.', 'x//y', 'x/./y', 'x/', './x', 'a\tb', 'a\nb', 'a\x7fb',
+                  'x' * 1025, None, 5, ['a']]
+        for path in unsafe:
+            with self.subTest(path=repr(path)):
+                with self.assertRaisesRegex(ValueError, 'source path'):
+                    intake.source_path(path)
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.reject('source path')
+                self.assertFalse(any(MATH in route for route in self.api.calls))
+        self.assertEqual(intake.source_path('x' * 1024), ['x' * 1024])
+        self.assertEqual(intake.source_path('.github/workflows/ci.yml'), ['.github', 'workflows', 'ci.yml'])
+
+    def test_package_and_artifact_grammar_still_refuses_source_characters(self):
+        for name in ['note \u2014 dash.txt', 'relay: colon.txt']:
+            with self.subTest(package_file=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unsafe path')
+                self.raw = old
+            with self.subTest(artifact_record=name):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unsafe path')
+            with self.assertRaisesRegex(ValueError, 'unsafe path'):
+                intake.safe_path(name)
+            self.assertEqual(intake.source_path(name), [name])
+
+    def test_public_catalog_census_splits_source_and_package_grammar(self):
+        """Path-only census of docs/public-math, no network, from #86 comment 5848311773.
+        Every catalog row is a candidate source path: an exact key into a pinned commit's
+        tree, never a route and never a checkout, so source_path() must accept all of them.
+        safe_path() governs newly submitted package and artifact names and refuses most of
+        the catalog (1,893 rows for non-ASCII characters, one for a colon). The two
+        validators differ on purpose; this test fails if either drifts toward the other."""
+        index = json.loads((CATALOG / 'sources.json').read_text(encoding='utf-8'))
+        rows = [row for page in index['pages']
+                for row in json.loads((CATALOG / page['path']).read_text(encoding='utf-8'))['sources']]
+        self.assertEqual(len(rows), 2138)
+        self.assertEqual(len(rows), index['source_count'])
+        refused = []
+        for row in rows:
+            self.assertEqual(intake.source_path(row['path']), row['path'].split('/'))
+            try:
+                intake.safe_path(row['path'])
+            except ValueError:
+                refused.append(row['path'])
+        self.assertGreaterEqual(len(refused), 1800)
+        self.assertIn(EM_DASH_PATH, refused)
+        self.assertIn(COLON_PATH, refused)
+        self.assertTrue(all(not path.isascii() or ':' in path for path in refused))
 
 
 if __name__ == '__main__':
