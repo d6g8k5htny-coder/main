@@ -92,6 +92,21 @@ def _digests_for(nid: str, record: dict[str, Any]) -> tuple[str, str]:
         raise AdapterError(str(exc)) from exc
 
 
+def _semantic_digest_core(nid: str, record: dict[str, Any]) -> str:
+    """semantic_digest with explicit source_bindings list removed.
+
+    Scalar source/canon_source remain. Used so unresolved→monitorable binding
+    migration (adding path bindings) is not treated as an independent statement
+    change under E6, while statement/edge/grade drift still refuses.
+    """
+    normalized = copy.deepcopy(record)
+    normalized.pop("source_bindings", None)
+    try:
+        return _SD.semantic_digest(nid, normalized)
+    except _SD.DigestError as exc:
+        raise AdapterError(str(exc)) from exc
+
+
 def _fingerprint(record: dict[str, Any]) -> str:
     """Deprecated alias: full-record snapshot (not the sole change detector)."""
     return _source_snapshot(record)
@@ -204,6 +219,7 @@ def claims_to_gate_graph(
         _dependency_container(record, "sub_obligations", node_id=nid)
         snapshot = _source_snapshot(record)
         sem, evid = _digests_for(nid, record)
+        sem_core = _semantic_digest_core(nid, record)
         # Surface source grade/status; never invent controlling=True.
         source_controlling = record.get("controlling")
         if source_controlling is not None:
@@ -230,6 +246,7 @@ def claims_to_gate_graph(
             ],
             "source_reference": record.get("source") or record.get("canon_source"),
             "semantic_digest": sem,
+            "semantic_digest_core": sem_core,
             "evidence_digest": evid,
             "source_snapshot": snapshot,
             "fingerprint": sem,  # derived digest; never a manual sole detector
@@ -832,6 +849,25 @@ def _non_binding_identity_changed(
     )
 
 
+def _non_binding_core_changed(
+    old_node: dict[str, Any], new_node: dict[str, Any]
+) -> bool:
+    """True when statement/edges/grade changed, ignoring explicit source_bindings.
+
+    Used only for unresolved→monitorable coverage repair so first-time binding
+    attachment is not blocked by the path list appearing in semantic_digest.
+    """
+    old_core = old_node.get("semantic_digest_core") or old_node.get("semantic_digest")
+    new_core = new_node.get("semantic_digest_core") or new_node.get("semantic_digest")
+    return (
+        old_core != new_core
+        or old_node.get("classification") != new_node.get("classification")
+        or old_node.get("version") != new_node.get("version")
+        or old_node.get("source_controlling") != new_node.get("source_controlling")
+        or old_node.get("source_grade") != new_node.get("source_grade")
+    )
+
+
 def _reverse_reachable_from_other_seeds(
     nid: str,
     impact: dict[str, Any],
@@ -867,13 +903,23 @@ def _coverage_repair_allowed(
     old_graph: dict[str, Any],
     new_graph: dict[str, Any],
     impact: dict[str, Any],
+    require_full_semantic: bool = True,
 ) -> bool:
-    """E6: coverage repair must not mask independent semantic/edge/authority impact."""
+    """E6: coverage repair must not mask independent semantic/edge/authority impact.
+
+    When require_full_semantic is True (precision upgrades), binding list order
+    remains part of the identity check. When False (unresolved→monitorable),
+    only semantic_digest_core is consulted so attaching path bindings is allowed
+    if statement/edges/grade are unchanged.
+    """
     old_node = old_graph["nodes"].get(nid)
     new_node = new_graph["nodes"].get(nid)
     if not isinstance(old_node, dict) or not isinstance(new_node, dict):
         return False
-    if _non_binding_identity_changed(old_node, new_node):
+    if require_full_semantic:
+        if _non_binding_identity_changed(old_node, new_node):
+            return False
+    elif _non_binding_core_changed(old_node, new_node):
         return False
     if nid in set(impact.get("edge_only_seeds") or ()):
         return False
@@ -932,10 +978,14 @@ def evaluate_transition_enforcement(
             old_b = old_sources.get(nid)
             new_b = new_sources.get(nid)
             candidate = False
+            require_full_semantic = True
             if not _source_binding_monitorable(old_b) and _source_binding_monitorable(
                 new_b
             ):
                 candidate = True
+                # First-time monitorable binding attachment changes path-level
+                # semantic_digest; gate on core content instead.
+                require_full_semantic = False
             elif (
                 (old_b or {}).get("coverage_sha256")
                 != (new_b or {}).get("coverage_sha256")
@@ -944,8 +994,13 @@ def evaluate_transition_enforcement(
                 # Own coverage digest moved due to binding precision — not when
                 # reverse-impacted via another node's real byte drift alone.
                 candidate = True
+                require_full_semantic = True
             if candidate and _coverage_repair_allowed(
-                nid, old_graph=old_graph, new_graph=new_graph, impact=impact
+                nid,
+                old_graph=old_graph,
+                new_graph=new_graph,
+                impact=impact,
+                require_full_semantic=require_full_semantic,
             ):
                 coverage_repairs.add(nid)
         retained_impacted = retained_impacted - coverage_repairs

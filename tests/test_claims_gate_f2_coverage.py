@@ -575,6 +575,38 @@ class F2CoverageTests(unittest.TestCase):
             CGA.claims_to_gate_graph(copy.deepcopy(g))["nodes"]["T"]["semantic_digest"],
         )
 
+    def test_e6_unresolved_to_monitorable_with_statement_change_refuses(self):
+        """Attaching monitorable bindings must not mask a simultaneous statement edit."""
+        repo = self._repo()
+        (repo / "theorem.md").write_text("exact theorem object\n", encoding="utf-8")
+        expected = CGA._sha256_bytes(b"exact theorem object\n")
+        before_g = _fixture()
+        before_g["claims"]["T"].update(
+            grade="LIVE_ROOT_THEOREM",
+            controlling=True,
+            statement="original statement",
+            source="Prose Only Carrier With Spaces.md",
+        )
+        before = self._commit(repo, before_g, "unresolved")
+        after_g = copy.deepcopy(before_g)
+        after_g["claims"]["T"]["statement"] = "CHANGED statement"
+        after_g["claims"]["T"].pop("source", None)
+        after_g["claims"]["T"]["source_bindings"] = [
+            {
+                "repo": CGA.CURRENT_REPO,
+                "path": "theorem.md",
+                "role": "scientific_object",
+                "extraction_rule": "whole_file",
+                "expected_sha256": expected,
+                "mirror_freshness": "external_sync_obligation",
+            }
+        ]
+        after = self._commit(repo, after_g, "bind-plus-statement")
+        rc, report = self._event(repo, before, after)
+        self.assertNotEqual(rc, 0, report)
+        self.assertIn("T", report["controlling_impacted"])
+        self.assertNotIn("T", report.get("coverage_repairs") or [])
+
 
 if __name__ == "__main__":
     unittest.main()
