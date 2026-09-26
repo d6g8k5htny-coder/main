@@ -3,10 +3,10 @@
 Recovered from Drive as distinct proof/replay objects:
 
 - `EIGENFLOOR_INDEPENDENT_SIDE24_EIGENFLOOR_FROM_KERNEL_INDEPENDENT_2026-08-02.md` — Drive `1_d3IlxTpBtRGhay2BnqOLgC5GwVqaS36`, raw 10,653 B, SHA-256 `4479cd6ba9764260971185eb53118b14847d86e88b699346d1242a3efbd0ccd6`, Git blob `0d108ea3accde093578adcf7ab1cc2d0ce2b8e50`.
-- `EIGENFLOOR_INDEPENDENT_verify_side24_eigenfloors_from_kernel.py` — Drive `1Tmj62Ny7_4ffev5gojO0Rpz9PbSD1vVK`, raw 18,701 B, SHA-256 `17209cb60d74c4caa4bc7988e1f1c0b8615c98835d5c9ee2ddf812e534ce2d4d`, Git blob `2c7fdde766b126e41ba70dc035ae0f87786ec8d5`.
+- `EIGENFLOOR_INDEPENDENT_verify_side24_eigenfloors_from_kernel.py` — raw verifier remains on Drive at `1Tmj62Ny7_4ffev5gojO0Rpz9PbSD1vVK`, 18,701 B, SHA-256 `17209cb60d74c4caa4bc7988e1f1c0b8615c98835d5c9ee2ddf812e534ce2d4d`. It was materialized and replayed locally, but it is **not landed in Git here** because the connector text path did not preserve its bytes exactly.
 - `SIDE24_V3_3_EIGENFLOOR_ARCHIVE_INDEPENDENT_REPLAY_AND_NEGATIVE_PROVENANCE_2026-08-02.md` — Drive `168VZ0zmLExmJ8iBCKaYWc-v5yC5rdtmo`, raw 9,468 B, SHA-256 `8f8106d7fa89cc08d112f8fb5fdbdd0d2902059cd5b17613b325ec57a9127f7e`, Git blob `06ace09ee60af4f58c22ebb023df2e294945ab8b`.
 
-Fresh local replay of the exact recovered verifier under Python completed all **29/29** checks and printed `ALL_ASSERTIONS_PASS`. Among the reproduced objects are the exact contact determinant laws, a positive analytic local side-24 floor, the finite-r convergence table, and generic-grid diagnostic values.
+Fresh local replay of the raw 18,701-byte Drive verifier completed all **29/29** checks and printed `ALL_ASSERTIONS_PASS`. This receipt records the raw Drive identity above; Git source custody is claimed only for the two Markdown proof/replay notes whose blob IDs match the materialized bytes.
 
 ## What this closes
 
