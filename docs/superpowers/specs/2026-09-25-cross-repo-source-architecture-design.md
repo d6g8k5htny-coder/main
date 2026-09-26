@@ -492,24 +492,27 @@ An umbrella package can be considered later only if real users need it.
 
 ### 6.2 Dependency direction
 
-Allowed:
+**Production runtime rule: the three public packages do not import one another across repositories.**
 
 ```text
-query  ---> schemas/data models
-control ---> query schemas where needed
-control ---> math public interfaces only where strictly necessary
-trial ---> all public packages
+universal_law_math       standalone runtime package
+universal_law_control    standalone runtime package
+universal_law_query      standalone runtime package
+trial                    may install/test all three together
 ```
 
-Preferred stricter relationship:
+Cross-repository communication uses versioned **data contracts** rather than Python imports:
 
-```text
-universal_law_math     no dependency on main/control
-universal_law_query    no dependency on math internals
-universal_law_control  may consume machine manifests, not proof implementation details
-```
+- JSON / JSON Schema,
+- stable source-reference records,
+- claim/dependency manifests,
+- release/snapshot manifests.
 
-Cross-repository imports should be minimal.
+The schema authority is held in `meta-framework`; each consuming repository validates the relevant schema version locally. Generated language bindings are permitted only if they are reproducible from the exact schema and carry the schema identity.
+
+This prevents an apparently small package change in one repository from silently changing another repository's runtime semantics.
+
+If a future cross-package runtime dependency becomes genuinely useful, it requires a separate architecture decision with cycle analysis and a version-compatibility contract.
 
 ### 6.3 No circular repository imports
 
@@ -1221,3 +1224,313 @@ This establishes the pattern before touching the claims gate or mathematical uti
 **Recommended architecture:** federated canonical-source migration with compatibility wrappers, immutable proof paths, separate package distributions, generated/validated views, explicit source-reference contracts, and GitHub source releases.
 
 This supersedes the simpler “add src directories” concept by making the source architecture enforceable and migration-safe without collapsing repository roles or rewriting scientific history.
+
+
+---
+
+## 34. Authority matrix — strengthened self-review decision
+
+The phrase “one canonical owner per kind of state” must be enforceable, not aspirational.
+
+| Object | Canonical authority | Derived consumers |
+|---|---|---|
+| Mathematical statement/proof/review/disposition at exact scope | `Math-` claim manifest + proof/review bytes | main graph, meta catalog, READMEs |
+| Operational dependency state: OPEN/HOLD/REVALIDATION_REQUIRED, reverse impact | `main` claims graph | dashboards, work queues |
+| Public artifact lookup identity | `meta-framework` registry | query client |
+| Repository role | `meta-framework` registry + governance human contract | generated repo docs |
+| Public replica custody | `google-drive` SOURCE metadata | registry/query |
+| Experiment outcome | owning experiment repo (`trial` or `sandbox`) | promoted successor only after explicit graduation |
+
+A main-graph classification must never silently override a Math scientific disposition. Conversely, a Math review does not automatically clear operational HOLDs in main. Reconciliation requires an explicit dependency transition.
+
+During legacy migration, fields that duplicate another authority are labeled `legacy_mirror` or `derived` until removed.
+
+---
+
+## 35. Active-branch convergence precondition
+
+The `main` repository currently has a distinction between:
+- default branch `main`, and
+- the active integrated research/hardening line `chatgpt/drive-github-hardening-20260919` (or its successor).
+
+**No control-plane `src/` migration is published from two independent bases.**
+
+Before Phase 1 for `main`:
+
+1. identify the exact active integrated base;
+2. compute default-main ↔ active-base divergence;
+3. designate one migration base in a source-bound decision record;
+4. land source architecture on that base;
+5. before the first public control-package release, converge the intended public/default branch or explicitly designate the release branch and document why.
+
+A green package built from stale default-main must never be presented as the current control plane.
+
+`Math-` and `query-` use their current default branches unless a similar divergence is documented.
+
+---
+
+## 36. Data-contract architecture
+
+Because production packages are runtime-independent, shared meaning travels through schemas.
+
+Required schema families:
+
+```text
+meta-framework/schemas/
+  source_ref.schema.json
+  mathematical_object.schema.json
+  dependency_edge.schema.json
+  review_ref.schema.json
+  repository_role.schema.json
+  source_manifest.schema.json
+  workspace_snapshot.schema.json
+```
+
+Rules:
+
+- schema versions are explicit;
+- unknown major schema versions fail closed;
+- producers declare the schema version;
+- consumers preserve unknown noncritical extension fields but reject unknown controlling semantics;
+- migrations are pure transformations with fixtures;
+- schema changes receive mutation tests;
+- schemas describe data shape, not theorem truth.
+
+This gives the federation a stable protocol without a shared runtime library.
+
+---
+
+## 37. Artifact-class separation
+
+Every file belongs conceptually to one of these classes:
+
+1. **scientific source** — proof, theorem, counterexample, review;
+2. **software source** — reusable executable implementation;
+3. **proof-local executable** — script/check coupled to one scientific object;
+4. **evidence** — logs, solver transcripts, enclosures, receipts;
+5. **generated navigation** — indexes, dashboards, source maps;
+6. **historical provenance** — frozen/superseded/negative records;
+7. **private experiment** — sandbox-only.
+
+The migration must not blur these classes.
+
+In particular:
+- evidence does not move into `src/`;
+- proof bodies do not move into `src/`;
+- generated navigation is never imported as runtime source;
+- historical artifacts are never “cleaned up” by rewriting them into current source.
+
+---
+
+## 38. Deterministic source publication
+
+Git tags alone identify commits, but reproducible release **bytes** require a deterministic builder.
+
+Each package release should produce a custom archive with:
+
+- lexicographically sorted paths,
+- normalized path separators,
+- normalized file mode policy,
+- owner/group numeric IDs set to 0 where the archive format permits,
+- fixed mtime equal to `SOURCE_DATE_EPOCH` derived from the release commit,
+- no VCS metadata,
+- no caches/build outputs,
+- embedded `SOURCE_MANIFEST.json`,
+- embedded `BUILD_INFO.json`,
+- SHA256 of the final archive.
+
+The release record stores:
+- repository,
+- exact commit,
+- archive SHA256,
+- manifest SHA256,
+- build command,
+- builder version.
+
+GitHub's automatically generated source ZIP/tar may remain available, but the **project deterministic archive** is the reproducibility object.
+
+---
+
+## 39. Build and package decision
+
+Initial Python packaging choice:
+
+- build backend: `setuptools.build_meta`;
+- Python: >=3.11;
+- runtime dependencies: **zero by default** for the first package skeletons;
+- optional solver/scientific dependencies remain extras or proof-local until justified;
+- package versions begin below 1.0;
+- no implicit version from Git tags unless the version derivation itself is tested and source-bound.
+
+Reason: maximize portability and minimize new supply-chain surface while the APIs stabilize.
+
+This is a design default, not a prohibition on future justified dependencies.
+
+---
+
+## 40. Public API budget
+
+The first releases intentionally expose very small APIs.
+
+### control
+Initially public:
+- parse/validate source reference,
+- parse/validate dependency graph,
+- compute reverse impact,
+- render a non-promoting impact report.
+
+### math
+Initially public:
+- exact arithmetic/polynomial primitives only after two real consumers exist.
+
+Gaussian/Kac-Rice utilities remain internal until their contracts survive reuse across multiple proofs.
+
+### query
+Initially public:
+- list keys,
+- lookup exact object,
+- verify local object bytes,
+- render source reference.
+
+Everything else is private/internal.
+
+This prevents “publishing src” from accidentally freezing the entire research implementation as a public API.
+
+---
+
+## 41. Compatibility matrix and migration ledger
+
+Every migrated executable receives one row in a machine-readable compatibility ledger:
+
+```json
+{
+  "legacy_path": "tools/example.py",
+  "canonical_module": "universal_law_control.example",
+  "introduced_at": "<commit>",
+  "wrapper_status": "ACTIVE",
+  "behavioral_fixture": "tests/compat/example.json",
+  "removal_blockers": [
+    "historical replay references legacy path"
+  ]
+}
+```
+
+The compatibility test compares:
+- exit status,
+- stdout/stderr contract where stable,
+- generated file identities where relevant,
+- failure behavior on invalid inputs.
+
+Behavioral parity is stronger than “both commands run.”
+
+---
+
+## 42. Supply-chain hardening
+
+Package/publication workflows must:
+
+- pin GitHub Actions by immutable commit SHA;
+- use minimal workflow permissions;
+- avoid `pull_request_target` for untrusted code execution;
+- never expose credentials to fork/untrusted PR code;
+- build releases from a verified exact commit;
+- verify the working tree is clean;
+- verify generated manifest freshness before release;
+- fail if private/sandbox paths occur in the release manifest;
+- produce a release provenance record.
+
+A later phase may add SLSA-style provenance/signatures if useful; it is not required to start the migration.
+
+---
+
+## 43. Architecture conformance checker
+
+Before moving business logic, create a small checker that answers:
+
+- Does this repository contain forbidden cross-repo runtime imports?
+- Are canonical source directories where the role contract says they are?
+- Do compatibility wrappers point at resolvable canonical modules?
+- Are reviewed proof paths reachable on the owning default/release branch?
+- Do generated files declare their authority source?
+- Does any public manifest mention private `sandbox` paths?
+- Are source references immutable and well formed?
+
+This checker has **no scientific promotion authority**.
+
+Its purpose is structural integrity.
+
+---
+
+## 44. Migration stop conditions
+
+Pause source migration if any of these occur:
+
+- a proof/review path would change identity unexpectedly;
+- compatibility tests reveal semantic drift;
+- active research agents are editing the same implementation being extracted;
+- release packaging exposes a private path/object;
+- CI runtime materially worsens without a compensating reliability gain;
+- package separation forces circular dependencies;
+- the migration requires changing a theorem to fit the software architecture.
+
+When paused, research continues on the existing interfaces.
+
+---
+
+## 45. Improved implementation ordering
+
+The self-review changes the first implementation slice slightly:
+
+**Slice A — contracts only**
+1. repository/source inventory;
+2. schema files in meta-framework;
+3. architecture conformance checker in trial;
+4. no production logic movement.
+
+**Slice B — query first**
+1. add `query-/pyproject.toml`;
+2. create `src/universal_law_query`;
+3. migrate read-only lookup code;
+4. legacy wrappers;
+5. clean-install + parity tests;
+6. deterministic source archive dry run.
+
+**Slice C — control skeleton**
+1. create `main/src/universal_law_control` on the designated active base;
+2. migrate source-reference parsing first;
+3. then graph parsing;
+4. only later migrate impact/revalidation logic after parity fixtures reproduce #90 behavior.
+
+**Slice D — Math**
+1. add package skeleton;
+2. migrate exact generic utilities only;
+3. do not touch proof-local computation until reuse justifies it.
+
+This ordering reduces risk because `query-` is read-only and already has a clear executable contract.
+
+---
+
+## 46. Spec self-review checklist
+
+Before implementation planning, this design has been checked for:
+
+- no monorepo assumption;
+- no proof-body relocation requirement;
+- no runtime cross-repo import cycle;
+- no duplicate scientific-status authority;
+- explicit public/private boundary;
+- explicit current-main branch divergence handling;
+- deterministic source-release identity;
+- rollback path;
+- compatibility-wrapper strategy;
+- generated-view authority;
+- no package-registry publication;
+- no theorem promotion from architecture;
+- bounded first migration slice.
+
+Remaining decisions intentionally deferred to implementation planning:
+- exact filenames for package-internal modules after inventory;
+- exact first query function extraction;
+- release version numbers;
+- eventual wrapper retirement dates;
+- whether signatures/SBOM become worthwhile after the first source release.
