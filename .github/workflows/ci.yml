@@ -49,6 +49,8 @@ jobs:
         run: python tools/reviews_check.py
       - name: Architectural admission attestations (fail-closed, no grade changed)
         run: python tools/attestations_check.py
+      - name: Coordination board (no two agents over the same paths, no status moved)
+        run: python tools/coordination_check.py
       - name: Recovered exceptions (candidates never stored as recoveries)
         run: python tools/recovery_check.py
       - name: Collision proposal (additive only, exported registers untouched)
@@ -67,6 +69,8 @@ jobs:
         run: python tools/slack_check.py
       - name: Receipts (schema, append-only, no receipt claims a status change)
         run: python tools/receipts_check.py
+      - name: Imported custody publications (retained byte for byte; supplements generated, never typed)
+        run: python tools/custody_import.py --check
       - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
         run: python tools/frozen_check.py
       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)
