@@ -156,7 +156,8 @@ file can contain its own digest. Digests of the files that do not depend on this
 
 The identity of the whole package is its git tree hash,
 `git rev-parse <commit>:incoming/side24-chart-claude-20260926`. The first commit of this
-package had tree hash **(filled in by the second commit; see below)**. Because recording that
-value changes this file, and therefore `IDENTITY.json` and `identity_detail.json`, the value
-is written here in a second commit rather than by amending; the tree hash of the final commit
-is the one printed by the command above on the PR head.
+package, `4aa316f34cf0f48125e5287c0ac435de0c9007f2`, had package tree hash
+**`adea4d2d7d0313176b42117caea47bbbd23944bc`**. Because recording that value changes this
+file, and therefore `IDENTITY.json` and `identity_detail.json`, it is written here in a second
+commit rather than by amending; only `RESULT.md` and the two identity files differ between the
+two commits, and the tree hash of the PR head is the one printed by the command above on it.
