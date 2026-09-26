@@ -307,8 +307,9 @@ def test_the_real_tree_verifies_every_binding():
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
     s = summary(out.stdout)
-    assert s["certificates"] == 10
-    assert s["pinned_files"] == 37
+    # SOURCE_RECOVERY.json adds one certificate and two exact SIDE24 proof bodies.
+    assert s["certificates"] == 11
+    assert s["pinned_files"] == 39
     assert s["pinned_archive_members"] == 6
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]
     assert s["unresolved"] == 0

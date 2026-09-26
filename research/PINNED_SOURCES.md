@@ -68,11 +68,13 @@ this page.
 | `research/rn/side24.py` | 11239 | `dd6b5aa73442c8d5…` | DEPENDENCIES.json, candidate.json, inner_wedge_20260920_v1.json |
 | `research/rn/side24_cell.py` | 13149 | `38cf5632f4689943…` | inner_wedge_20260920_v1.json |
 | `research/rn/side24_density.py` | 8289 | `3ad0b3b6fc3a5124…` | inner_wedge_20260920_v1.json |
+| `research/side24/source_recovery/SIDE24_GAP_FILL_SUPPLEMENT.md` | 105980 | `05967f14a8b8d6a9…` | SOURCE_RECOVERY.json |
+| `research/side24/source_recovery/SIDE24_THEOREM_PACKAGE_v1.0.md` | 26045 | `703eefd5297afd45…` | SOURCE_RECOVERY.json |
 | `tools/drive_coverage.py` | — | `98b33fe9f97fe7a3…` | candidate.json |
 | `tools/hermite_envelope_report.py` | — | `7a60f412a008e3bc…` | hermite_gaussian_20260919.json |
 | `tools/manifest_integrity_check.py` | — | `8b30cf5768318754…` | candidate.json |
 
-37 files and 6 members sealed inside a ZIP carrier, bound at 128 sites across 10 certificates.
+39 files and 6 members sealed inside a ZIP carrier, bound at 130 sites across 11 certificates.
 
 ## Every container of pins, and what its keys are relative to
 
@@ -104,3 +106,5 @@ flipping between the two fails this index's drift comparison by name.
 | `research/rn/candidates/side24_point_20260920_v1.json` | `sources` | 5 | repository |
 | `research/rn/candidates/side24_spatial_20260920_v1.json` | `attempts[]/proof/source_binding/member_sha256` | 3 | other |
 | `research/rn/candidates/side24_spatial_20260920_v1.json` | `sources` | 8 | repository |
+| `research/side24/source_recovery/SOURCE_RECOVERY.json` | `/` | 1 | other |
+| `research/side24/source_recovery/SOURCE_RECOVERY.json` | `recovered[]` | 2 | repository |

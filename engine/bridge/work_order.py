@@ -176,8 +176,8 @@ PROTECTED_SURFACES = (
 #: ``tests/test_bridge.py`` asserts this list matches the checkout.
 REPOSITORY_TOP_LEVEL = (
     ".claude", ".github", ".gitignore", "requirements-ci.lock", "AGENTS.md", "CITATION.cff",
-    "CLAUDE.md", "CONTRIBUTING.md", "LICENSE", "README.md", "attestations", "claims",
-    "coordination", "docs", "drive",
+    "CLAUDE.md", "CONTRIBUTING.md", "LICENSE", "README.md", "architecture", "attestations",
+    "claims", "coordination", "docs", "drive",
     "engine", "governance", "legacy", "packages", "quarantine", "recovery",
     "registers", "research", "reviews", "sandbox", "tests", "tools",
 )

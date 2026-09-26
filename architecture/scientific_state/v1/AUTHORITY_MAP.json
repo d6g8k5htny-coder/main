@@ -1,0 +1,68 @@
+{
+  "schema_id": "scientific_state.authority_map.v1",
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "purpose": "Explicit ownership of scientific-state fields. This architecture package never writes the owned fields below.",
+  "authorities": {
+    "claims_firewall": {
+      "id": "claims_firewall",
+      "owns": ["grade", "firewall_status_columns", "premise_openness", "track_composition_rules"],
+      "canonical_path": "claims/graph.json",
+      "checker": "tools/claims_check.py",
+      "notes": "Machine-checkable claim/premise dependency graph and firewalls. Authoritative for transcribed grades and forbidden compositions."
+    },
+    "math_downstream_gate": {
+      "id": "math_downstream_gate",
+      "owns": ["classification", "controlling", "terminality", "reverse_impact_revalidation"],
+      "canonical_path": "Math-/frontiers/downstream_gate_20260925/GRAPH.json",
+      "surface": "https://github.com/d6g8k5htny-coder/Math-/pull/13",
+      "merged_tip": "baca69c394ab42130c61771bee74e808703f1ce7",
+      "lineage": ["https://github.com/d6g8k5htny-coder/Math-/pull/8", "https://github.com/d6g8k5htny-coder/Math-/pull/11", "https://github.com/d6g8k5htny-coder/Math-/pull/13"],
+      "owner_issues": [86, 90],
+      "notes": "Fail-closed CONTROLLING promotion and #90 terminal classifications live in the merged Math- downstream_gate package (PR13 tip baca69c…; PR8/PR11 lineage). Main may host only a thin claims→gate projection for before/after inputs; it must not become a competing status/promotion engine."
+    },
+    "human_d0_crosswalk": {
+      "id": "human_d0_crosswalk",
+      "owns": ["d0_classification_narrative"],
+      "canonical_path": "docs/DOWNSTREAM_RN_CROSSWALK_20260925.md",
+      "surface": "https://github.com/d6g8k5htny-coder/main/pull/97",
+      "notes": "Human D0/D4/D5 companion narrative only (landed via #97 on hardening tip; #92 superseded). Not a status register; scientific effect NONE."
+    },
+    "math_status_packet": {
+      "id": "math_status_packet",
+      "owns": ["lemma_closed", "certified_C_H", "OBL-H5-JETMOD_display", "D3-LEMMA-RN-UNIF_display"],
+      "canonical_path": "docs/math_status/",
+      "checker": "tools/math_status_check.py",
+      "notes": "Closed packet directory with EXPECTED_NAMES. Architecture package must not add files there or flip packet Booleans."
+    }
+  },
+  "this_package": {
+    "id": "scientific_state_architecture",
+    "owns": [
+      "schema_contract",
+      "id_crosswalk_pointers",
+      "verification_level_vocabulary",
+      "claims_gate_adapter_projection",
+      "semantic_digest_derivation"
+    ],
+    "canonical_path": "architecture/scientific_state/v1/",
+    "adapter": "tools/claims_gate_adapter.py",
+    "never_writes": [
+      "status",
+      "grade",
+      "classification",
+      "controlling",
+      "lemma_closed",
+      "prizes_solved",
+      "independence_credit"
+    ],
+    "notes": "Pointers, vocabulary, and an allowed thin claims→gate projection (HOLD/REVALIDATION proposals only; promotion_permission always false). Not a competing status engine. Hash identity, green CI, and LLM agreement remain non-discharge."
+  },
+  "required_authority_ids": [
+    "claims_firewall",
+    "math_downstream_gate",
+    "human_d0_crosswalk",
+    "math_status_packet",
+    "scientific_state_architecture"
+  ]
+}
