@@ -1,65 +1,57 @@
 # Account inventory — 2026-09-26 round 6
 
-**Scientific effect:** NONE. This is a map, not a promotion.
+Scientific effect: NONE. Not a STATUS edit.
 
-## STATUS.md scoped ACCEPT (already on the front door)
+## STATUS ACCEPT (scoped) — do not re-open here
 
-| ID | Object | What we did this session |
-|---|---|---|
-| D2 | Theorem R existential remainder | Replayed R3.2 algebra; did **not** re-review the full remainder theorem |
-| D3 | SIDE24 coefficient | Replayed 30/30 tests + cone identities; persistence reading still HOLD_WITH_DOMAIN |
-| D4 | Fixed-remote RN (`rho`,`eta` fixed) | **Not independently replayed this session** |
-| D6 | P15 Theorem F | Replayed 36/36 tests + demand-one kill; ASCII `3e-2` still needs a source disambiguation |
+- D2 Theorem R, existential O(1) remainder, no numerical C or cutoff
+- D3 SIDE24 coefficient in d=2,3; persistence reading still conditional on D1
+- D4 fixed-remote RN at fixed rho, eta, height window
+- D6 P15 Theorem F on realized d_i>=2 family; demand-one remains dead
 
-## STATUS.md AMEND
+## STATUS AMEND
 
-| ID | Object | Session state |
-|---|---|---|
-| D1 | Theorem A §2–7 | Erratum merged on Math- default. Floor STRUCTURE accepted. Theorem A still AMEND. |
-| D5 | Pin / microdisk | Axial cubic closed. PR82 vanishing-det claim is false on the written matrix. Microdisk still AMEND. |
-| SARD-G | A1/A6 | **Untouched this session.** Still AMEND on main#122. |
+- D1 Theorem A §§2–7. Erratum now on Math- default (`d8f5505`). A3 floor STRUCTURE recorded. A7 and cap pairing still open.
+- D5 pin/microdisk/intermediate/shrinking collision. STATUS row collapses several *accepted regional* D5 slices listed in PROOF_INDEX.
+- SARD-G A1/A6. A1 AMEND: relative-interior first hit missing. A6 slicing OK if charts are open.
 
-## PROOF_INDEX objects this session did not replay
+## PROOF_INDEX objects this session under-counted
 
-Scoped ACCEPT already in the vault, not re-opened here:
+Accepted regional D5, not a global pin theorem:
+- annulus bridge (fixed d=2, fixed L, compact marks, 1<A<B<∞)
+- fixed-annulus height-window fallback
+- two-scale S6–S21 addendum
+- inner-belt gradient density on |z|<=W r^2
+- fixed-transverse chart
+- cumulative transfer correction only
 
-- D5 annulus bridge (fixed `d=2`, fixed annulus `1<A<B<∞`)
-- D5 fixed-annulus height-window fallback
-- D5 two-scale S6–S21 addendum
-- D5 inner-belt gradient density on `|z|≤ W r^2`
-- D5 fixed-transverse chart
-- D2 cumulative transfer correction
+Open with complete text:
+- D1 §9 Borel elder-mark repair (author-side)
+- D5 thin-tube candidate
+- D5 contact-kernel tail note
+- D6 restricted price theorem / realized covers
 
-Open with complete candidate text:
+ABSENT / recovery:
+- TRANSVERSE_CONTACT_ASYMPTOTIC.md — Math #56 SOURCE NOT FOUND
+- D0 carriers rnu_env.py, CL_ANTHROPIC_BUNDLE, allcell_fdz_enclosures.json
 
-- D1 §9 Borel elder-mark repair — author-side, needs nonauthor re-review
-- D5 thin-tube candidate — independent review open
-- D6 restricted price theorem (`frontiers/price_budget_20260924`)
-- Contact-kernel notes that cite `TRANSVERSE_CONTACT_ASYMPTOTIC.md` — **SOURCE NOT FOUND** (Math-#56)
+## Objects STATUS does not row
 
-Open without a complete proof:
+- main #160 LB-RATE / KIMI-THM-023 HOLD. Printed 0.9144 is mixed-tier, not a proved uniform constant. 2D pair-Palm on T^2_24, not 3D SIDE24.
+- main #116 Q0-C101 qualitative *upper* cubic rate (sibling of #160).
+- P15 source ASCII `3-log(3e-2)` still unambiguous only if read as 3*e-2. STATUS reprints the same token.
 
-- D5 inner microdisk + collar (Math-#58)
-- D5 intermediate scale `r ≪ |x| ≪ rho`
-- D5 shrinking-collision factorial moments
-- D0 historical CH-LIFT / 24-jet / `rnu_env` / Anthropic bundle — ABSENT carriers
+## Stale pointers after this session
 
-Draft PRs not in STATUS:
+- PROOF_INDEX still says the congruence erratum lives on PR64 / `d573b99`. It is merged at `d8f5505` and present on Math- default.
+- STATUS pins Math reading checkout `58f7936d`, which predates the erratum merge.
+- main #144 says keep Math #64 unmerged; that instruction is obsolete as custody.
 
-- Math-#80 contact-kernel *substitute* (not the missing TRANSVERSE filename)
-- Math-#81 Drive-hole ledger
-- Math-#82 microdisk frame (author already says no `O(r^3)` lemma)
-- main#163 this packet (documentation only)
+## Cap rationals checked this round (pairing import, not Theorem A)
 
-## Custody defects found this round
+- face 9/32 minus gap 1/6 = excess 11/96
+- F'' adverse 2554128/1771561; remainder 2184415/7086244 > 1/4
+- |w(x)| bound coefficient 15/8 at |x|=2r
+- scaling f/(6k) converts (4) into cap (1) exactly: 8/(6k)=4/(3k) and 6k/20=3k/10
 
-1. `Math-/PROOF_INDEX.md` still says the congruence erratum is on unmerged PR64 at SHA `d573b99`. It is now on Math- default at merge `d8f5505`. Index is stale.
-2. Profile README repo `d6g8k5htny-coder/d6g8k5htny-coder` is still the default GitHub template.
-3. P15 source still writes `3-log(3e-2)` without `3*e-2`.
-
-## Highest-leverage next math (source-present)
-
-1. Cap file deterministic pairing: `MARKED_CYLINDER_CAP_PROOF.md` (this packet `CAP_DETERMINISTIC.md`).
-2. Parent §7 `r^5` numerator.
-3. P15 ASCII one-line disambiguation.
-4. SARD-G A1 predicate (untouched; do not pretend it was reviewed).
+Pairing still needs embedded 2r chart and Morse/distinct values.
