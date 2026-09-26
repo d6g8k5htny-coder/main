@@ -1,0 +1,52 @@
+name: Public contribution task
+description: A bounded replay, chart, review comment, catalog note or documentation task
+title: "[Task] "
+labels: [eng-only]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Claim one open task at a time by commenting `/claim`. A maintainer records
+        the claimant and assigns the issue when GitHub permits. `/claim` is a
+        coordination convention, not an automatic bot command or a permission grant.
+        Submit results through a fork PR under `incoming/<new-id>/`.
+        Publication and passing checks do not accept mathematics.
+  - type: dropdown
+    id: type
+    attributes:
+      label: Task type
+      options: [replay, chart, review-comment, catalog-stub, docs]
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Exact public source
+      description: Give the existing inventory key or import ID, repository, path, full 40-character commit, and SHA-256. Link the public bytes. No Drive-only source.
+    validations:
+      required: true
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Bounded deliverable and verification
+      description: Say what can be completed, how it is checked, and where uncertainty remains. Use the existing docs/public-math inventory; do not make a second catalog.
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: Claim and release rule
+      value: "Comment /claim before starting; keep one open claim per person. Link the results PR, or comment /release if you stop. A maintainer updates the assignment and task state."
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Contribution boundary
+      options:
+        - label: This task does not edit ACCEPT/AMEND rows, STATUS.md, PROOF_INDEX, LANDING_CLAIMS, claims, prizes, or lemma_closed.
+          required: true
+        - label: This task does not merge AMEND mathematics or copy sandbox work into Math-; its results require review.
+          required: true
+        - label: The task uses pinned public bytes and labels numerical output or illustrations without claiming theorem acceptance.
+          required: true

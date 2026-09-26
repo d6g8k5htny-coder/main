@@ -1,0 +1,25 @@
+# Kept separate so pull_request events cannot emit a skipped/successful
+# public-intake check with the same name as the trusted guard.
+name: Public intake checker controls
+on:
+  pull_request:
+    branches: [main]
+    paths: ['tools/public_intake_check.py', 'tests/test_public_intake.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
+  push:
+    branches: [main]
+    paths: ['tools/public_intake_check.py', 'tests/test_public_intake.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
+permissions:
+  contents: read
+jobs:
+  intake-controls:
+    name: intake-controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Run positive and refusal controls without network
+        run: |
+          python3 -B -S -m unittest discover -s tests -p test_public_intake.py -v
+          python3 -B -O -S -m unittest discover -s tests -p test_public_intake.py -v

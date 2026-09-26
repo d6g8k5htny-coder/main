@@ -1,0 +1,28 @@
+name: Public results intake
+on:
+  # Read trusted default-branch workflow and checker only. Never checkout a
+  # submitted branch or execute submitted code in this workflow.
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited, labeled, unlabeled, ready_for_review]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  public-intake:
+    name: public-intake
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read trusted default-branch checker
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          # github.sha is the trusted default-branch commit for this event.
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          sparse-checkout: tools/public_intake_check.py
+          sparse-checkout-cone-mode: false
+      - name: Verify intake from API bytes without checking out the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -B -I tools/public_intake_check.py
