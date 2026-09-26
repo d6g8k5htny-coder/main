@@ -33,7 +33,7 @@ These are useful infrastructure, but they carry **no theorem-acceptance meaning*
 
 ## Where to read — public source custody
 
-The two human maps are this file and the [Math- proof index at the pinned public Math commit](https://github.com/d6g8k5htny-coder/Math-/blob/10e1f191c7d9f2755ca971ddbba87874d2475619/PROOF_INDEX.md). Neither file replaces the underlying proof or review.
+The two human maps are this file and the [Math- proof index at the pinned public Math commit](https://github.com/d6g8k5htny-coder/Math-/blob/58f7936d1138b24dd6cc988081d74d07683611d6/PROOF_INDEX.md). Neither file replaces the underlying proof or review.
 
 For exact source identity, use [`docs/public-math/sources.json`](docs/public-math/sources.json). It indexes **2,138 intended public text artifacts** and points to 14 JSON shards. Each artifact row carries:
 
@@ -45,9 +45,9 @@ The machine catalog at [`meta-framework/registry.json`](https://github.com/d6g8k
 
 ### Default-branch boundary
 
-- Pinned Math reading checkout: `10e1f191c7d9f2755ca971ddbba87874d2475619`.
-- Pinned query checkout: `76e1ca09a4838f84f20e28daa51eb024c0781dc1`.
-- [Math- PR #70](https://github.com/d6g8k5htny-coder/Math-/pull/70) proposes default-branch custody copies of nine proof files already public on `main`. Until that PR lands, those copies are **not** default-branch Math; their immutable public source paths remain discoverable in the frozen public-source inventory.
+- Pinned Math reading checkout: `58f7936d1138b24dd6cc988081d74d07683611d6`.
+- Pinned query checkout: `89456c5033173c69a304c5fffa781888185675cc`.
+- [Math- PR #70](https://github.com/d6g8k5htny-coder/Math-/pull/70) landed nine byte-custody copies at `9d7b6802424fb4715b31999066aafca8ee2f3cca`; [PR #75](https://github.com/d6g8k5htny-coder/Math-/pull/75) added their proof-index pointer. These are public default-branch imports, **not newly accepted mathematics**. Source self-labels were not adopted.
 - The `main#59` issue-body file in PR #70 is explicitly a transcription, not original source bytes, so it is not counted as byte custody.
 - Open draft AMEND/review PRs remain visible but are not represented here as landed mathematics.
 

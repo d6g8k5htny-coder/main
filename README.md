@@ -8,21 +8,27 @@
 
 This is the **single public front door** for the Universal Law research program. The project studies persistence lifetimes and critical-point geometry of Gaussian random fields, together with exact/reproducible computational methods and a fail-closed review workflow. Proofs, code, reviews, and source identities live in several focused repositories, but readers should start here.
 
+## Public research shop
+
+[Open the shop guide](docs/site/README.md) for the status board, pinned SIDE24 coefficient viewer, searchable full-text catalog, and contribution route. The [SIDE24 notebook](docs/notebooks/README.md) is also readable on GitHub and runnable in Colab. [Grab a public task](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Agood-first-task) or [submit an incoming result PR](CONTRIBUTING.md).
+
+The static app is committed under `docs/site`; Pages activation is a separate [setup step](docs/PUBLIC_SHOP_SETUP.md). All views preserve scoped ACCEPT, AMEND/open, and engineering-only distinctions. They cannot change scientific status.
+
 ## Public source path
 
 For a stranger who wants the landed mathematics rather than the live agent queue, use this order:
 
-1. **Proof index:** [Math- `PROOF_INDEX.md` at `10e1f191c7d9f2755ca971ddbba87874d2475619`](https://github.com/d6g8k5htny-coder/Math-/blob/10e1f191c7d9f2755ca971ddbba87874d2475619/PROOF_INDEX.md)
+1. **Proof index:** [Math- `PROOF_INDEX.md` at `58f7936d1138b24dd6cc988081d74d07683611d6`](https://github.com/d6g8k5htny-coder/Math-/blob/58f7936d1138b24dd6cc988081d74d07683611d6/PROOF_INDEX.md)
 2. **Human status map:** [`STATUS.md`](STATUS.md)
 3. **Pinned Math checkout:**
    ```sh
    git clone https://github.com/d6g8k5htny-coder/Math-.git Math-
-   git -C Math- checkout --detach 10e1f191c7d9f2755ca971ddbba87874d2475619
+   git -C Math- checkout --detach 58f7936d1138b24dd6cc988081d74d07683611d6
    ```
 4. **Pinned query checkout:**
    ```sh
    git clone https://github.com/d6g8k5htny-coder/query-.git query-
-   git -C query- checkout --detach 76e1ca09a4838f84f20e28daa51eb024c0781dc1
+   git -C query- checkout --detach 89456c5033173c69a304c5fffa781888185675cc
    python -B -S -m unittest discover -s query-/tests -p 'test_*.py' -v
    ```
 

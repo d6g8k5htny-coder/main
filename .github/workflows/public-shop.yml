@@ -1,0 +1,24 @@
+name: public-shop
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-shop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Status-export negative controls
+        run: python3 -B -m unittest discover -s tests -p test_public_shop_data.py
+      - name: Browser data-validation controls
+        run: node --test tests/test_public_shop_frontend.mjs
+      - name: Pinned public source readback and interaction harness
+        run: python3 -B tools/public_shop_check.py
