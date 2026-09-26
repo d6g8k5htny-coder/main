@@ -112,11 +112,22 @@ class MuseumDataTests(unittest.TestCase):
     def test_historical_snapshot_ignores_unrelated_working_tree_append(self):
         with tempfile.TemporaryDirectory() as tmp:
             checkout = Path(tmp) / "checkout"
-            subprocess.run(["git", "clone", "--shared", "--no-checkout", "--quiet",
-                            str(ROOT), str(checkout)], check=True, capture_output=True)
+            subprocess.run(["git", "init", "--quiet", str(checkout)],
+                           check=True, capture_output=True)
+            (checkout / "STATUS.md").write_bytes(self.status)
+            subprocess.run(["git", "add", "STATUS.md"], cwd=checkout,
+                           check=True, capture_output=True)
+            subprocess.run(["git", "-c", "user.name=Museum Test Fixture",
+                            "-c", "user.email=museum-fixture@example.invalid",
+                            "-c", "core.hooksPath=/dev/null", "commit", "--quiet",
+                            "--no-gpg-sign", "-m", "Pin historical status fixture"],
+                           cwd=checkout, check=True, capture_output=True)
+            fixture_commit = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=checkout).decode("ascii").strip()
+            source = dict(museum.STATUS, commit=fixture_commit)
             changed = self.status + b"\nUnrelated later status note.\n"
             (checkout / "STATUS.md").write_bytes(changed)
-            raw = museum.read_source(museum.STATUS, checkout, None)
+            raw = museum.read_source(source, checkout, None)
             self.assertEqual(raw, self.status)
             self.assertEqual(museum.project(INDEX_BYTES, raw),
                              museum.project(INDEX_BYTES, self.status))
