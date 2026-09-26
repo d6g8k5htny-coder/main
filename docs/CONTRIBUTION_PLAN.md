@@ -57,17 +57,30 @@ formulas rather than copying RN5's numbers — and reproducing them:
 `tests/test_rn_moment_envelope.py` asserts the separation by exact rational
 comparison of fourth powers. The wrong-power bound cannot come back silently.
 
-**Next, same treatment for:**
+**Same treatment, status:**
 
 * the **H5 totals contamination** — a rung-unscoped merge of `r = 0.025` patches
   into `r = 0.05` corrupted `I_lo` in v2. A test that fails when a totals merge
   crosses rung scope would have caught it at the merge, not at the errata.
-* the **LPW headline mutation** — the delivered `6.239e−44` exceeds its own exact
-  fraction `260/(3790446482793·2⁴⁰·10²¹)`. An end-to-end headline test comparing
-  the printed decimal against the exact chain is a few lines and is exactly what
-  the R05 disposition asks for.
-* the **false identity** `E(|ξ|+|η|)⁴ = 12 + 16/π`, which a single numeric
-  assertion refutes.
+* the **LPW headline mutation** — done, pinned by
+  [`research/lpw/headline.py`](../research/lpw/headline.py). The delivered
+  `6.239e−44` is admissible as an upper bound and the proposed `6.238e−44` is
+  not; under an equality headline nothing rounded is admissible because the
+  expansion never terminates. This is a regression test only. It does not
+  discharge the R05 review and does not freeze the headline.
+* the **false identity** `E(|ξ|+|η|)⁴ = 12 + 16/π` — done, **REFUTED**. For iid
+  `N(0,1)` the exact value is `12 + 32/π`, because one of the two equal `16/π`
+  cross terms was dropped; that exact value is the counterexample. Derivation:
+  [`research/identities/gaussian_moments.py`](../research/identities/gaussian_moments.py)
+  (see [`research/identities/README.md`](../research/identities/README.md)),
+  source-bound at `5306b9dce91352e84effe34f61ff7d9aee605d77`.
+  Owning record: the `LPW_CONSTANT` row, quoted under
+  [What the sources say](../research/lpw/README.md#what-the-sources-say).
+  The historical carrier
+  [`engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py`](../engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py)
+  is frozen and unedited. Complement: `12 + 16/π` remains a valid upper budget
+  only for the different variable `ρ = √(ξ²+η²)`, where `E ρ⁴ = 8`
+  ([`docs/LPW_AMPLITUDE.md`](LPW_AMPLITUDE.md)).
 
 ## 3. Close `OBL-H5-JETMOD` — the named blocking proof step
 

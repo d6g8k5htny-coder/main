@@ -3,6 +3,10 @@
 
 The small declared rectangle is not the entire near annulus. No scientific
 promotion, far-budget assembly, all-small-r theorem or independence follows.
+
+SIDE24 has no new source-of-truth carrier after 2026-08-06. Absent objects
+stay ABSENT. Quarantine is not a source of truth. A green run is engineering
+hygiene: inventable_attempt_accepted stays false, and OBL-H5-JETMOD stays OPEN.
 """
 import argparse
 from fractions import Fraction as F

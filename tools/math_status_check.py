@@ -30,7 +30,12 @@ from quietly saying otherwise. It asserts:
   4. **Prose.** The packet README carries the OPEN/HOLD, Drive-source-of-truth,
      bridge, prize, independence, RUNG2/3, and certified-enclosure sentences.
      No file in the packet assigns a controlling flag to true or a nonzero
-     independence credit.
+     independence credit. The inventable-probes section keeps instrumentation
+     STATUS (`PARTIAL_*` paired with `REFUSED_NOT_24JET`, the 2026-09-23
+     STATUS_JETMOD vocab) distinct from sibling and shortcut honesty receipts
+     (`REFUSED`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`), which are not
+     instrumentation STATUS. The SIDE24 ABSENT triad (RN_SIDE24, DENSITY,
+     CELL) is named as navigation only.
 
   5. **Closure of the directory.** The packet holds exactly the expected
      names. An extra file is a problem.
@@ -132,6 +137,14 @@ README_PHRASES = (
     "STATUS_JETMOD.md records the 2026-09-22 evening CT JETMOD walls and does not discharge OBL-H5-JETMOD.",
     "Those labels do not discharge OBL-H5-JETMOD. They do not invent a 24-jet roster.",
     "STATUS_RN_UNIF.md records the 2026-09-22 evening CT RN-UNIF walls and does not discharge D3-LEMMA-RN-UNIF.",
+    "Instrumentation STATUS labels are the 2026-09-23 STATUS_JETMOD vocab: `PARTIAL_*` paired with `REFUSED_NOT_24JET`.",
+    "Sibling and shortcut refusal and absence receipts are a separate group: `REFUSED` (for example the merge-PR12 refusal pattern), `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT`.",
+    "That second group is honesty receipts, not instrumentation STATUS.",
+    "Both groups are not discharge. eng ≠ discharge.",
+    "They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.",
+    "SoT ABSENT.",
+    "The SIDE24 ABSENT triad (RN_SIDE24, DENSITY, CELL) is navigation only and not a source of truth.",
+    "ABSENT means the Drive SoT carriers are absent. Nothing is invented to fill them.",
 )
 
 NOTE_PHRASES = {
@@ -588,14 +601,16 @@ def check_packet(packet_dir: str) -> list:
             if not isinstance(spec, dict) or not os.path.isfile(path):
                 problems.append(f"{name}: transcription pin missing")
                 continue
-            data = open(path, "rb").read()
+            with open(path, "rb") as handle:
+                data = handle.read()
             digest = hashlib.sha256(data).hexdigest()
             if spec.get("sha256") != digest or spec.get("bytes") != len(data):
                 problems.append(f"{name}: sha256/bytes drifted from PACKET.json")
 
     jetmod_path = os.path.join(packet_dir, "STATUS_JETMOD.md")
     if os.path.isfile(jetmod_path):
-        jetmod_text = open(jetmod_path, encoding="utf-8").read()
+        with open(jetmod_path, encoding="utf-8") as handle:
+            jetmod_text = handle.read()
         for bad in ("CERTIFIED_24JET", "| READY |", "| DISCHARGED |"):
             if bad in jetmod_text:
                 problems.append(f"STATUS_JETMOD.md: forbidden status token {bad!r}")
@@ -604,7 +619,8 @@ def check_packet(packet_dir: str) -> list:
         path = os.path.join(packet_dir, name)
         if not os.path.isfile(path):
             continue
-        text = open(path, encoding="utf-8").read()
+        with open(path, encoding="utf-8") as handle:
+            text = handle.read()
         flat = re.sub(r"\s+", " ", text)
         for phrase in phrases:
             if phrase not in flat:
@@ -613,21 +629,26 @@ def check_packet(packet_dir: str) -> list:
 
     console_path = os.path.join(packet_dir, "math_console.py")
     if os.path.isfile(console_path):
-        source = open(console_path, encoding="utf-8").read()
+        with open(console_path, encoding="utf-8") as handle:
+            source = handle.read()
         for phrase in CONSOLE_PHRASES:
             if phrase not in source:
                 problems.append(f"math_console.py: missing {phrase!r}")
         check_assignment_text("math_console.py", source, problems)
     if os.path.isfile(snapshot_path):
+        with open(snapshot_path, encoding="utf-8") as handle:
+            snapshot_text = handle.read()
         check_assignment_text(
             "math_console_snapshot.json",
-            open(snapshot_path, encoding="utf-8").read(),
+            snapshot_text,
             problems,
         )
     if os.path.isfile(packet_path):
+        with open(packet_path, encoding="utf-8") as handle:
+            packet_text = handle.read()
         check_assignment_text(
             "PACKET.json",
-            open(packet_path, encoding="utf-8").read(),
+            packet_text,
             problems,
         )
     return problems

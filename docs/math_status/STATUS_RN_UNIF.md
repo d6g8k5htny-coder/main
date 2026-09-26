@@ -13,6 +13,8 @@ First to last: ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH
 
 None of these blockers is cleared by this note.
 
+ENV-RESCOV node (2026-09-25 CT, `docs/math_status_nodes/NODE_ENV_RESCOV_20260925.md`): conditional reduction only. On the b9c2 whitened-jet route (`frozen_objects.csv` MATH-20260917-b9c2-RN-WHITENED-JET-THEOREM), ENV-RESCOV is implied by the input-jet node (§6 item 1 of that theorem, a separate node that still has no carrying file) plus D>0 and S_pair>0 on each cell. Reading CH-LIFT through that route also needs a χ² floor δ>0 on each cell. No SIDE24 cell bound holds. ENV-RESCOV is **not** cleared. The FORM/√λ envelope is a different node.
+
 ## Absent historical objects
 
 Recorded wall: the Drive and local hunt for historical `rnu_env.py`, `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, and `allcell_fdz_enclosures.json` is empty. Those three objects are **ABSENT**. A filename search of this workspace tree on 2026-09-22 finds none of the three names.

@@ -47,7 +47,8 @@ class Inputs:
             json.dump(d, f, ensure_ascii=False)
 
     def edit_inventory(self, drive_id, **fields):
-        rows = [json.loads(l) for l in open(self.inventory, encoding="utf-8") if l.strip()]
+        with open(self.inventory, encoding="utf-8") as handle:
+            rows = [json.loads(l) for l in handle if l.strip()]
         hit = False
         out = []
         for r in rows:
@@ -129,7 +130,8 @@ def test_every_row_gets_exactly_one_status_and_the_register_drift_status_is_carr
     assert problems == []
     assert len(report) == 195
     assert all(e["status"] for e in report)
-    d = json.load(open(FROZEN, encoding="utf-8"))
+    with open(FROZEN, encoding="utf-8") as handle:
+        d = json.load(handle)
     c_drift = d["header"].index("Drift Status")
     for e, r in zip(report, d["rows"]):
         assert e["register_drift_status"] == (r[c_drift].strip() if c_drift < len(r) else "")
@@ -238,9 +240,16 @@ def test_allowlist_matches_exact_strings_only(inputs):
 
 
 def test_the_checker_never_writes_its_inputs():
-    before = {p: hashlib.sha256(open(p, "rb").read()).hexdigest() for p in (FROZEN, INVENTORY)}
+    before = {}
+    for p in (FROZEN, INVENTORY):
+        with open(p, "rb") as handle:
+            before[p] = hashlib.sha256(handle.read()).hexdigest()
     subprocess.run([sys.executable, CHECKER, "--json"], capture_output=True, text=True, check=True)
-    after = {p: hashlib.sha256(open(p, "rb").read()).hexdigest() for p in (FROZEN, INVENTORY)}
+    after = {}
+    for p in (FROZEN, INVENTORY):
+        with open(p, "rb") as handle:
+            after[p] = hashlib.sha256(handle.read()).hexdigest()
     assert before == after
-    src = open(CHECKER, encoding="utf-8").read()
+    with open(CHECKER, encoding="utf-8") as handle:
+        src = handle.read()
     assert 'open(' in src and '"w"' not in src and "'w'" not in src

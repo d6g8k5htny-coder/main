@@ -66,6 +66,13 @@ a premise promotion, a prize closure, or an independence credit.
   enclosure of D3-LEMMA-RN-UNIF, does not FREEZE the lemma, and does not
   discharge it. The controlling snapshot flag `U_certified` is false, and the
   `|∇κ_pair|` box majorant in that same note stays provisional.
+- That CERTIFIED wording depends on `code_prototypes/rnu_white_box_grad_bound_v1.py`
+  and its receipt, which are not on this tip and appear in no tip Drive register
+  (`registers/csv/file_catalog.csv`, `drive/inventory.jsonl`, `drive/source_map/`).
+  Its box uses `d_min=4.999`, so it reaches |y|=4.999, into the near annulus |y|<5,
+  outside the far zone |y|≥5. The q=2 claim is therefore REQUIRED CARRIER ABSENT and
+  conditional. It is not a certification and not a discharge. Walk-down 9
+  classification M1; `STATUS.md` stays byte-exact and no flag changes.
 - The 2026-09-21 notes transcribed here still say the Piece-2 annulus
   Riemann-sum driver is UNWRITTEN. That sentence is the note's own status
   line, kept byte-exact. It does not reclassify other repository code, and
@@ -85,25 +92,61 @@ absent, so a local run replaces the 2026-09-22 display with a missing-receipt
 OPEN board. That rewrite is still a display. It still must not flip
 `lemma_closed`.
 
-## Inventable probes are instrumentation receipts
+## Inventable probes are honesty labels
 
 [`docs/math_status_probes/`](../math_status_probes/README.md) holds inventable
-instrumentation STATUS and probe receipts. It is not a mathematics source of
-truth and not a second claim log. Receipt JSON under that directory is
-`inventable_*`, including the merge-PR12 refusal pattern. Naming that refusal
-does not merge draft PR #12.
+probe receipts. Instrumentation STATUS is `PARTIAL` / `REFUSED_NOT_24JET`
+only. Sibling and shortcut receipts labeled `REFUSED`, `REFUSED_IA_STRADDLES`,
+`EMPTY`, or `ABSENT` are not instrumentation STATUS. The directory is not a
+mathematics source of truth and not a second claim log. Receipt JSON under
+that directory is `inventable_*`, including the merge-PR12 refusal pattern.
+Naming that refusal does not merge draft PR #12.
 
-`REFUSED`, `REFUSED_NOT_24JET`, `REFUSED_IA_STRADDLES`, `EMPTY`, `ABSENT`,
-`PARTIAL`, and similar receipt tokens are honesty labels. They are not
-discharge. They do not imply `lemma_closed`, `discharges_OBL_H5_JETMOD`,
-`certified_C_H`, `prizes_solved`, `freeze`, or an RN-UNIF discharge.
-They are not a source of truth and not FREEZE.
+Instrumentation STATUS labels are the 2026-09-23 STATUS_JETMOD vocab:
+`PARTIAL_*` paired with `REFUSED_NOT_24JET`. Sibling and shortcut refusal
+and absence receipts are a separate group: `REFUSED` (for example the
+merge-PR12 refusal pattern), `REFUSED_IA_STRADDLES`, `EMPTY`, and `ABSENT`.
+That second group is honesty receipts, not instrumentation STATUS.
+
+Both groups are not discharge. eng ≠ discharge. They do not imply
+`lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, `prizes_solved`,
+`freeze`, or an RN-UNIF discharge. SoT ABSENT. They are not a source of
+truth and not FREEZE. `OBL-H5-JETMOD` stays OPEN. `D3-LEMMA-RN-UNIF` stays
+OPEN.
+
+The SIDE24 ABSENT triad (RN_SIDE24, DENSITY, CELL) is navigation only and
+not a source of truth. ABSENT means the Drive SoT carriers are absent.
+Nothing is invented to fill them. Navigation only:
+[`docs/RN_SIDE24.md`](../RN_SIDE24.md),
+[`docs/RN_SIDE24_DENSITY.md`](../RN_SIDE24_DENSITY.md), and
+[`docs/RN_SIDE24_CELL.md`](../RN_SIDE24_CELL.md).
 
 Where `aligned_to_base_tip` is already present, it is generation provenance
-(`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index),
-not a re-run on hardening LOCK `b3da6688a55d34681bb27f17ba6c6c5e16ad534c`
-(short `b3da668`). Advancing the tip does not upgrade those labels into
-`PRESENT` or `SUCCESS`. The source-named jet subset stays 8. Inventing
+(`1ea0ae8183fb0459c6678243946295518fded1ba` on the inventable probe index).
+It is not a re-run on the hardening tip observed at this edit,
+`848aea2a874cbaa879ea2ece13accd94d1fca20d`. Receipts were not re-executed on
+that tip. The prior observation chain includes branch tip
+`eeebb28eeab2452edc1103817d02ef7e3abbf5f2` after #99/#100; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`388a22caff13c449f0e3264b0aff314d456d6659` after #97; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`077464ef5e2859ce98cbb9307799d5867a820eaf` after #89; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`0adeb651d92fb024d7b21994c7fc60375060fe44` after #85; it is not a re-run on
+that tip either. The prior observation chain includes branch tip
+`02cfbfdf3ddc3120ddde6b67b0ff927115de6c4c` after #84; it is not a re-run on
+that tip either. An earlier observation named hardening tip
+`3a29f526da5108df173edc390a8ca2d1f3d887c9` after #83; it is not a re-run on
+that tip either. An earlier observation named hardening tip
+`3b3860da7336528a9517ae198f09c83f68fa137a`; it is not a re-run on that tip
+either. An earlier observation named hardening tip
+`8e359e5bf879f524e11cbeece9b36bd9996d2587`; it is not a re-run on that tip
+either. An earlier observation named hardening tip
+`542e6ec2f462d6202f5bc5b3a044e71ae7a1a96c`; it is not a re-run on that tip
+either. An earlier observation named hardening LOCK
+`b3da6688a55d34681bb27f17ba6c6c5e16ad534c` (short `b3da668`); it is not a
+re-run on that LOCK either. Advancing the tip does not upgrade those labels
+into `PRESENT` or `SUCCESS`. The source-named jet subset stays 8. Inventing
 toward 24 without a Drive/PROMOTE enumeration stays `REFUSED_NOT_24JET`.
 `scientific_status_changed` stays false.
 

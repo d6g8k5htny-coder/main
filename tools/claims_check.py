@@ -81,7 +81,7 @@ ENFORCED_FIREWALLS = frozenset({
     "FW-UNCONDITIONAL", "FW-2D-3D-COMPOSITION", "FW-PRIZE-ISOLATION",
     "FW-NO-PRIZE-CLOSURE", "FW-DECIMAL-KILL", "FW-LM011-PRECONDITION",
     "FW-NO-RECEIPT-PROMOTION", "FW-FLOAT-NOT-CERTIFIED",
-    "FW-RETRACTED-NOT-UNCONDITIONAL",
+    "FW-RETRACTED-NOT-UNCONDITIONAL", "FW-RUNG-OPEN-PREMISE",
 })
 
 PREMISE_STATUS_COLUMNS = ("status_frozen_v2_2", "status_register_note")
@@ -420,6 +420,30 @@ def main(argv: list[str] | None = None) -> int:
                 f"{name}: track {t!r} is not one of {sorted(TRACKS)}. Three firewalls "
                 f"test `track` by membership, so an unrecognised value drops this node "
                 f"out of all three at once rather than failing anything")
+
+    # FW-RUNG-OPEN-PREMISE. A source may historically call a rung
+    # "CERTIFIED" while simultaneously naming a load-bearing premise as open.
+    # Preserve that source word separately, but do not let the current claim
+    # graph treat the rung as certified until its dependency closes.
+    for name, claim in claims.items():
+        if claim.get("grade") != "CERTIFIED_RUNG":
+            continue
+        for node in sorted(closure(g, name) - {name}):
+            p = premises.get(node)
+            if not p:
+                continue
+            # Both columns, and the closed vocabulary, for the same reason as
+            # FW-UNCONDITIONAL: this firewall arrived reading only the frozen
+            # column against the two open words, so NAMED_HYPOTHESIS and a
+            # register note that disagrees both read as discharges. Measured
+            # against the committed graph before the change: it adds zero
+            # refusals, because no claim is graded CERTIFIED_RUNG there at all.
+            for col in PREMISE_STATUS_COLUMNS:
+                v = p.get(col)
+                if v is not None and v not in PREMISE_DISCHARGED:
+                    problems.append(
+                        f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests "
+                        f"on {node}, whose {col} is {v!r} and is not a discharge")
 
     # FW-2D-3D-COMPOSITION
     for name, claim in claims.items():

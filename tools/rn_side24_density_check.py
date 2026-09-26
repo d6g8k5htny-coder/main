@@ -3,6 +3,10 @@
 
 Exact interval arithmetic supplies the density/window numerator. The H3 floor
 is a pinned hypothesis, not reproved here. No spatial or canonical closure.
+
+SIDE24 has no new source-of-truth carrier after 2026-08-06. Absent objects
+stay ABSENT. Quarantine is not a source of truth. A green run is engineering
+hygiene: inventable_attempt_accepted stays false, and OBL-H5-JETMOD stays OPEN.
 """
 import argparse
 from fractions import Fraction as F

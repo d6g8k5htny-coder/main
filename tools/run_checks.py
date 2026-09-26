@@ -50,6 +50,7 @@ REQUIRED_COMMANDS = (
     "python tools/verify_manifests.py",
     "python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json",
     "python tools/reviews_check.py",
+    "python tools/attestations_check.py",
     "python tools/recovery_check.py",
     "python tools/collision_proposal_check.py",
     "python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json",
@@ -64,6 +65,7 @@ REQUIRED_COMMANDS = (
     "python tools/operations_check.py",
     "python tools/mirror_quotes_check.py",
     "python tools/mirrors_index_check.py",
+    "python tools/pinned_sources_check.py",
     "python tools/drive_index.py stats",
     "python tools/drive_coverage.py --json",
     "python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json",
@@ -83,6 +85,11 @@ REQUIRED_COMMANDS = (
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",
     "python tools/math_status_check.py",
+    "python tools/scientific_state_check.py",
+    "python tools/claims_gate_adapter.py tip-health",
+    "python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json",
+    "python tools/navigation_check.py",
+    "python -m unittest tests.test_navigation -v",
     "python -m pytest -q",
 )
 CI_PREFIX = '''name: ci

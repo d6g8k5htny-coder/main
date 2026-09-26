@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """math_console.py — one-command fail-closed math board for Dylan.
 
-Reads local JETMOD / RN-UNIF receipts under code_prototypes/, prints an honest
+Reads local JETMOD / RN-UNIF receipts under docs/math_status/ (prototypes are not mirrored here); prints an honest
 OPEN/blocked status board, recommends mesh size from the whitened envelope,
 and names the single next action. Never flips lemma_closed / never discharges
 OBL-H5-JETMOD or D3-LEMMA-RN-UNIF.
 
 Usage:
-  python3 code_prototypes/math_console.py
-  python3 code_prototypes/math_console.py --json
-  python3 code_prototypes/math_console.py --budget 0.68 --margin 2e-4
+  python3 docs/math_status/math_console.py
+  python3 docs/math_status/math_console.py --json
+  python3 docs/math_status/math_console.py --budget 0.68 --margin 2e-4
 """
 from __future__ import annotations
 
@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]  # repository root
 PROTO = Path(__file__).resolve().parent
 OUT = PROTO / "math_console_snapshot.json"
 
@@ -216,7 +216,7 @@ def build(budget: float, margin: float) -> dict:
     next_action = {
         "id": "rnu_tighten_CH",
         "why": "Whitening killed 1e17 slack; C_H still provisional (~20 vs measured ratio ~0.012). Tight certified Lip-of-Hess is the RN bottleneck.",
-        "command": "python3 code_prototypes/rnu_white_hess_calibrate_v1.py",
+        "command": "python3 docs/math_status/math_console.py --json  # hess calibrator not mirrored; stay fail-closed",
         "do_not": "Do not flip lemma_closed; do not invent a 24-jet roster; do not treat CI green as discharge.",
     }
     if piece2.upper().startswith("UNWRITTEN") and plan.hw_max_toy and plan.hw_max_toy < 0.2:
@@ -229,7 +229,7 @@ def build(budget: float, margin: float) -> dict:
         next_action = {
             "id": "rnu_white_box",
             "why": "No whitened box / envelope receipt found.",
-            "command": "python3 code_prototypes/rnu_white_box_grad_bound_v1.py",
+            "command": "python3 docs/math_status/math_console.py --json  # prototype receipts not mirrored; stay fail-closed",
             "do_not": "Do not use crude chi2_grad_bound as if whitened.",
         }
 

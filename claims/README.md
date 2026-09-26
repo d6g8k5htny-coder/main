@@ -1,7 +1,7 @@
 # Claim / premise dependency graph
 
 `graph.json` is the program's claim structure as data: 26 claims, 13 named
-premises, 9 firewalls. `tools/claims_check.py` turns the firewalls into
+premises, 10 firewalls. `tools/claims_check.py` turns the firewalls into
 assertions; `tests/test_claims.py` and `tests/test_claims_firewalls.py` prove the
 checker actually rejects each violation it is supposed to reject.
 
@@ -18,7 +18,10 @@ too, not a skip: guarding the reconciliation with "if the file exists" would hav
 made deleting this file the way to switch it off.
 
 This encodes what the Drive sources state in prose. It asserts no mathematics of
-its own, and it never changes a status.
+its own. When a source status word conflicts with an explicitly open load-bearing
+dependency, the graph may carry a weaker fail-closed operational `grade` while
+preserving the source word in `source_grade_verbatim`; this is a claim-layer
+hold, not a rewrite of the frozen source.
 
 ## Why this exists
 
@@ -40,9 +43,17 @@ disagreement is *correct*: the note's deltas take effect only at the next
 issuance. Collapsing them would promote the v2.3 draft by accident. The
 firewalls read **both columns separately**, and neither column may be moved:
 `FW-NO-RECEIPT-PROMOTION` because a receipt may not move either one, and
-`FW-UNCONDITIONAL` because a premise open in its register note is open. Reading
-only the frozen column, which is what this checker used to do, made a
-disagreement in the direction that matters invisible.
+`FW-UNCONDITIONAL` and `FW-RUNG-OPEN-PREMISE` because a premise open in its
+register note is open. Reading only the frozen column, which is what this checker
+used to do, made a disagreement in the direction that matters invisible.
+
+`FW-RUNG-OPEN-PREMISE` currently refuses nothing, and that is worth saying out
+loud: the fail-closed audit of 2026-09-25 moved the only `CERTIFIED_RUNG` claim
+in the graph to `CONDITIONAL` and kept the source word in
+`source_grade_verbatim`, so there is no rung left for this firewall to reach.
+Extending it to both columns therefore adds zero refusals today. Its control in
+`tests/test_claims.py` grades `D1-v2.2(1)` back to `CERTIFIED_RUNG` and asserts
+the refusal, which is the only way an inert firewall can be shown to work.
 
 Both columns are also read against a **closed** vocabulary. A premise counts as
 discharged only when a column says so in a word listed in `PREMISE_DISCHARGED`
@@ -61,7 +72,9 @@ schema uniformity, not a layer disagreement.
 
 **Claim** — `track`, `statement`, `grade`, `depends_on`, optional
 `forbidden_extrapolations`, `independence_credit`, `external_review`,
-`historical_novelty`, `original_prize_closed`, `evidence`, `note`, `source`.
+`historical_novelty`, `original_prize_closed`, `evidence`, `note`, `source`, and
+optional `source_grade_verbatim` / `audit_disposition` when a frozen source word
+is preserved but the live claim layer must fail closed.
 
 Grades in use: `LIVE_ROOT_THEOREM`, `FROZEN_CERTIFICATE`, `CERTIFIED_RUNG`,
 `CONDITIONAL`, `PROPOSED`, `AUTHOR_SIDE_CERTIFIED`, `AUTHOR_SIDE_PARTIAL`,
@@ -88,11 +101,12 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `arithmetic` | `exact_rational`, `interval_*`, `not_applicable`, `float`, `mpmath_float`, … — or, when it comes from a carrier index, that index's own sentence. `classify_arithmetic` sorts it into exactly one of `exact`, `float`, `not_applicable`, `unrecognised` and `ambiguous`; the last two are counted in the summary line so an unreadable record is visible rather than inert |
 | `certifying` | what the artifact's own record says about itself. It must be a real JSON boolean — a string `"true"` is refused, because the guard is an identity test that such a string walks straight past. It is used **only to refuse**; it never grants anything |
 
-## The nine firewalls
+## The ten firewalls
 
 | ID | Rule | Source |
 |---|---|---|
 | `FW-UNCONDITIONAL` | a claim graded `LIVE_ROOT_THEOREM`, `FROZEN_CERTIFICATE` or `RATIFIED_3D_ONLY` may not rest, transitively, on a premise **either** of whose status columns is anything other than a word in the closed discharged vocabulary | `HOLD_OPEN_VALIDITY_PREMISES.md`; OP-GDN-002 §6 |
+| `FW-RUNG-OPEN-PREMISE` | a claim cannot remain `CERTIFIED_RUNG` while **either** status column of a transitive named premise holds anything other than a word in the closed discharged vocabulary; preserve the source label separately and hold the live claim | fail-closed claim audit 2026-09-25; D1 v2.2 §1 |
 | `FW-2D-3D-COMPOSITION` | no claim may depend on both the 2D tracks and the 3D lifetime track | `ERRATA_AND_CLARIFICATIONS_2026-09-13.md` §1 |
 | `FW-PRIZE-ISOLATION` | the prize track and the q0/3D tracks may not depend on each other | `LANE_MATH_MAP.md` firewall |
 | `FW-NO-PRIZE-CLOSURE` | every prize claim must carry `original_prize_closed: false` | `CLAIM_REGISTRY_VERIFIED_INTAKE.json` |
@@ -207,7 +221,8 @@ unrecognised or the both-vocabularies sentence, a premise status word in neither
 vocabulary, a `NAMED_HYPOTHESIS` premise under an unconditional claim, a premise
 open only in its register-note column, an unknown and a missing `track`, a
 firewall declared but not enforced, a firewall enforced but not documented, and a
-drifted count in this file. Each is checked through the CLI against a mutated
+drifted count in this file, and a `CERTIFIED_RUNG` grade over a register note
+that is not a discharge. Each is checked through the CLI against a mutated
 **copy**, and each is paired with the assertion that the committed tree passes.
 
 ### The mutants these controls kill
@@ -216,8 +231,8 @@ A control that passes against the fixed checker has not been shown to test
 anything. Each fix below was reverted in a **copy** of `tools/claims_check.py`
 outside the tree, one at a time, in a subprocess with `PYTHONDONTWRITEBYTECODE=1`
 — an in-process harness once gave a false result here, because same-size mutants
-written in quick succession reused a stale `__pycache__`. Sixteen reverted fixes,
-sixteen killed, none surviving:
+written in quick succession reused a stale `__pycache__`. Seventeen reverted
+fixes, seventeen killed, none surviving:
 
 | reverted fix | control that dies |
 |---|---|
@@ -228,6 +243,7 @@ sixteen killed, none surviving:
 | `not_applicable` may certify | `..._not_applicable_arithmetic` |
 | one carrier index instead of two | `..._the_graph_s_only_carrier_id_resolves`, `..._overrides_the_graph_and_names_its_source` |
 | one status column instead of two | `..._open_only_in_its_register_note_column` |
+| `FW-RUNG-OPEN-PREMISE` back to one column | `..._a_certified_rung_over_a_register_note_...` |
 | the old `OPEN`/`NOT_CLOSED` whitelist | `..._a_named_hypothesis_premise_...`, `..._restated_and_refinement_are_not_discharges` |
 | no closed status vocabulary | `..._a_premise_status_word_in_neither_vocabulary` |
 | no `track` presence check | `..._a_missing_track` |

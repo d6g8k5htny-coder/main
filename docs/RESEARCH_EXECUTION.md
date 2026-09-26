@@ -60,8 +60,14 @@ premise is not reproved and the complete spatial cover remains open.
 python tools/rn_side24_density_check.py
 ```
 
-The [local rectangle extension](RN_SIDE24_CELL.md) replays four spatial-cell
-witness sets and the complete partition/area sum. The [parallel candidates](PARALLEL_MATH.md)
+The [local cell note](RN_SIDE24_CELL.md) claims only its declared square
+`C=[1-1/4000,1+1/4000]^2`, with integrand upper below `559/10^8`, conditional
+on the imported H3 floor. Outside C, the complement is engineering replay only:
+the spatial checker below separately replays four spatial-cell witness sets
+and the complete partition/area sum for a four-cell split of the full
+rectangle `[1999/2000,2001/2000]^2` (which contains C). On the rectangle
+minus C this replay is the only coverage and not a claim of the note, and
+the rest of the near annulus `0.1 <= |y| <= 5` is not covered. The [parallel candidates](PARALLEL_MATH.md)
 reconstruct the fixed-r H3 floor, full LPW tails with a quadratic covariance
 modulus, and one normalized H5 jet over a named band. Both commands are required
 by CI and the complete closure runner.
@@ -70,6 +76,22 @@ by CI and the complete closure runner.
 python tools/rn_side24_spatial_check.py
 python tools/parallel_math_check.py
 ```
+
+Those three SIDE24 replays are prep navigation. SIDE24 has no new
+source-of-truth carrier after 2026-08-06. Later rows in the exported file
+catalog that mention SIDE24 are metadata-only routing, not that carrier.
+Objects the prep notes already mark **ABSENT** stay **ABSENT**. The
+**REFUSED** and **OPEN** walls in
+[RN_SIDE24.md](RN_SIDE24.md), [RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md),
+and [RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) stay as written there. This page
+does not invent a source of truth for them. A quarantine path is not a
+source of truth. A green run of `tools/rn_side24_check.py`,
+`tools/rn_side24_density_check.py`, or `tools/rn_side24_spatial_check.py`
+is engineering hygiene. It does not set `inventable_attempt_accepted`. It
+does not discharge `OBL-H5-JETMOD` or `D3-LEMMA-RN-UNIF`. `lemma_closed`,
+`certified_C_H`, `prizes_solved`, and `freeze` stay false. The
+marked-cylinder delivery under `research/campaigns/math_push_20260924/` is
+not that carrier.
 
 The [twelve-project continuation](TWELVE_PROJECT_MATH.md) replays the exact
 frozen candidate archive in a fresh external directory. The portable wrapper

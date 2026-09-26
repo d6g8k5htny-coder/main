@@ -106,7 +106,7 @@ def test_the_summary_reports_enforced_and_unreadable_counts():
     """A count that is not printed cannot be noticed drifting."""
     code, out = run()
     assert code == 0, out
-    assert "enforced=9" in out, out
+    assert "enforced=10" in out, out
     # One record's arithmetic is the BINDING sentence, which is ambiguous by
     # construction. Reporting it is the point: it is unreadable, not inert.
     assert "evidence_arithmetic_unreadable=1" in out, out
@@ -299,6 +299,29 @@ def test_restated_and_refinement_are_not_discharges():
     assert "FW-UNCONDITIONAL" in out, out
 
 
+def test_rejects_a_certified_rung_over_a_register_note_that_is_not_a_discharge():
+    """FW-RUNG-OPEN-PREMISE arrived reading only the frozen column against the
+    two open words, which is the shape the rest of this file is about. No claim
+    is graded CERTIFIED_RUNG in the committed graph -- the 2026-09-25 audit moved
+    the only one to CONDITIONAL and kept the source word in
+    `source_grade_verbatim` -- so the mutation has to put a rung back."""
+    g = graph()
+    g["premises"]["H5-RIM"]["status_frozen_v2_2"] = "CLOSED"
+    g["premises"]["H5-RIM"]["status_register_note"] = "OPEN"
+    g["claims"]["D1-v2.2(1)"]["grade"] = "CERTIFIED_RUNG"
+    g["claims"]["D1-v2.2(1)"]["depends_on"] = ["H5-RIM"]
+    code, out = run(g)
+    assert code == 1, out
+    assert "FW-RUNG-OPEN-PREMISE" in out and "status_register_note" in out, out
+
+
+def test_no_claim_is_graded_certified_rung_in_the_committed_graph():
+    """So FW-RUNG-OPEN-PREMISE refuses nothing today. An inert firewall is not a
+    broken one, but it is one whose only evidence of working is its control."""
+    g = graph()
+    assert not [n for n, c in g["claims"].items() if c.get("grade") == "CERTIFIED_RUNG"]
+
+
 def test_the_two_status_vocabularies_do_not_overlap():
     assert not (claims_check.PREMISE_DISCHARGED & claims_check.PREMISE_UNDISCHARGED)
 
@@ -370,7 +393,7 @@ def test_rejects_a_drifted_claim_count_in_the_prose():
 
 
 def test_rejects_a_drifted_firewall_count_in_the_prose():
-    code, out = run(readme=prose().replace("9 firewalls", "8 firewalls"))
+    code, out = run(readme=prose().replace("10 firewalls", "9 firewalls"))
     assert code == 1, out
     assert "firewall count has drifted" in out, out
 

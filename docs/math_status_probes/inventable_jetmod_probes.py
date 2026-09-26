@@ -16,6 +16,18 @@ Each probe *attempts* an inventable shortcut and refuses it. Never flips
 discharges_OBL_H5_JETMOD / discharges_lemma / lemma_closed / certified_C_H /
 FREEZE / inventable_attempt_accepted. Green ≠ discharge. Draft PR #12 is not
 merged or rebased.
+
+Vault ids and quarantine paths do not activate an inventable source of truth.
+`tools/vault_hygiene_check.py` and `tools/quarantine_check.py` are engineering
+hygiene; a green run is not discharge. A KNOWN line from
+`tools/registers_check.py` whose allowlist text says "Accepted as-is" for
+class `EXISTING_CONTAINER` on `Q-R17-VAULT` leaves
+`inventable_attempt_accepted` false. This runner does not read the vault
+and does not edit `quarantine/EXCLUSIONS.json`. See this directory's README.
+
+The local SIDE24 prep commands are not an inventable source of truth. SIDE24
+has no new source-of-truth carrier after 2026-08-06. Objects those notes mark
+ABSENT stay ABSENT. Quarantine is not a source of truth.
 """
 from __future__ import annotations
 

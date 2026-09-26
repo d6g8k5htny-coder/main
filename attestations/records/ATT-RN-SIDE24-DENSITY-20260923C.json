@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-RN-SIDE24-DENSITY-20260923C",
+  "attested_utc": "2026-09-24T18:55:00Z",
+  "object_id": "docs/RN_SIDE24_DENSITY.md @ 120050136f5586b9de3c0f054119b978c92f8a49",
+  "object_title": "SIDE24 six-pin density and window replay, after the SoT-ABSENT nav append",
+  "object_bytes": 9660,
+  "object_sha256": "9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_side24_density_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {
+      "command": "python3 tools/claims_check.py",
+      "exit_code": 0,
+      "summary": "claims=26 premises=13 firewalls=9 problems=0"
+    },
+    {
+      "command": "python3 tools/quarantine_check.py",
+      "exit_code": 0,
+      "summary": "exclusions=22 digest_comparable=16 digest_not_compared=6 archive_members=14 manifest_digests=2965 bound_members_named=2 vault_rows_storing_bytes=0 problems=0"
+    },
+    {
+      "command": "python3 tools/verify_manifests.py",
+      "exit_code": 0,
+      "summary": "manifests=414 verified=3203 problems=0"
+    },
+    {
+      "command": "python3 tools/consumers_check.py",
+      "exit_code": 0,
+      "summary": "tabs=44 generic_files=4 MACHINE=26 PROSE_ONLY=3 UNREAD=15 problems=0"
+    },
+    {
+      "command": "python3 tools/lanes_check.py",
+      "exit_code": 0,
+      "summary": "lanes_check: OK \u2014 15 lanes, one per section of docs/OPEN_PROBLEMS.md"
+    },
+    {
+      "command": "python3 tools/frozen_check.py",
+      "exit_code": 0,
+      "summary": "frozen_check: rows=195 comparable=62 match=62 mismatch=0 unverifiable=0 body_present=17 not_comparable=116 problems=0"
+    },
+    {
+      "command": "python3 tools/rn_side24_density_check.py",
+      "exit_code": 0,
+      "summary": "RN SIDE24 density: exact six-pin density/window replay; point integrand <= 1888043/500000000000; H3 floor imported; no spatial cover; authority=NONE"
+    }
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the driver reports authority=NONE and the independence-requiring predicate is OPEN.",
+    "The imported H3 premise, the exact floor 0.0077592917375327855 at radius 1/20 and b=6/5, which this object carries in custody rather than deriving.",
+    "A spatial cover, which the driver states this replay does not provide: the bound is at a fixed point, not over a region.",
+    "Extension from the single conditional disintegration to the weighted-Palm and event-identification interfaces, which remain unbuilt.",
+    "All radii and all pin orientations beyond the fixed six-pin configuration replayed here."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "Successor C records that the seven structural gates exited zero over docs/RN_SIDE24_DENSITY.md at commit 120050136f5586b9de3c0f054119b978c92f8a49: 9660 bytes, sha256 9595aa83dec6c9bdfafe20f47ae8f6d78c4966766a13ac98538eea8701ff05ec. Predecessor ATT-RN-SIDE24-DENSITY-20260923B described 9454 bytes and sha256 6f7c23d091f8a09bbfb63c99135e4554c980369a3af858e74ba9b482746eb9a5, which no longer matches the tree after PR #66. The appended paragraph says SIDE24 has no new source-of-truth carrier after 2026-08-06, that carriers for objects marked ABSENT stay ABSENT, that quarantine is not a source of truth, and that inventable_attempt_accepted stays false. Attesting the new bytes does not establish that paragraph, does not invent a source of truth, and leaves every ABSENT carrier ABSENT. The point integrand bound 1888043/500000000000 is not shown valid. The Gaussian disintegrations are not shown to be the right conditional laws. The enclosed conditional height mean near 1.22864492785 is not shown correctly computed. This record verifies no arithmetic and re-derives nothing. A green replay is engineering hygiene and is not a mathematical result. OBL-H5-JETMOD stays OPEN. lemma_closed, prizes_solved, certified_C_H, and freeze stay false. Independence credit stays 0. Superseding a stale attestation repairs a bookkeeping fact about bytes.",
+  "notes": "Numbered successor to ATT-RN-SIDE24-DENSITY-20260923B. PR #66 appended the SoT-ABSENT navigation paragraph, taking the object from 9454 bytes to 9660, so the predecessor no longer described the bytes in the tree. The seven gates were re-run against commit 120050136f5586b9de3c0f054119b978c92f8a49 rather than copied. quarantine_check now reports digest_comparable=16 and digest_not_compared=6. frozen_check on this tip reports match=62 and does not print match_via_supplement, because that counter is not in this tip's checker. The awaiting list is unchanged because none of those obligations moved. The driver's own summary still ends authority=NONE, transcribed here. inventable_attempt_accepted stays false."
+}

@@ -251,6 +251,34 @@ the density/window factor plus the imported H3 floor in
 The lane pointer is [RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The matching
 command is in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
 
+**Where the rectangle and budget are checked.** The larger rectangle, its
+four-cell split and the local budget are not in this note. They are checked by
+[`tools/rn_side24_spatial_check.py`](../tools/rn_side24_spatial_check.py)
+against the stored candidate
+[`research/rn/candidates/side24_spatial_20260920_v1.json`](../research/rn/candidates/side24_spatial_20260920_v1.json).
+The checker fixes
+`RECTANGLE = Box(F(1999, 2000), F(2001, 2000), F(1999, 2000), F(2001, 2000))`
+and `LOCAL_BUDGET = F(3, 500000000000)`. Its replay expects one retained
+`INCONCLUSIVE` parent and four `BOUNDED` child cells, and a complete local
+cover whose integral upper is at most `3/500000000000`. The spatial claim of
+this note stays the declared square C above. The rectangle, the four-cell
+partition and the budget are the checker's engineering replay. They are not an
+enlarged claim of this note, and they are not discharge. The checker scope
+records `near_annulus_covered: false`, `independence_credit: 0` and
+`h3_floor_status: EXPLICIT_IMPORTED_HYPOTHESIS`: the H3 floor is imported and
+is not re-proved here. SIDE24 source-of-truth carriers for the objects marked
+**ABSENT** below stay **ABSENT**.
+
+**Frozen importer errata.** `docs/OPEN_PROBLEMS.md` §A5 (lines 116-120) still
+credits this note with the rectangle, its four-cell split and the `6e-12`
+budget. That file is byte-frozen by a pinned campaign archive, so the scoped
+reading is recorded beside it, as E1 in
+[OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md](OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md).
+The downstream map is
+[DOWNSTREAM_RN_CROSSWALK_20260925.md](DOWNSTREAM_RN_CROSSWALK_20260925.md).
+These pages are navigation only. The spatial claim of this note stays the
+declared square C.
+
 **ABSENT** from this note: a complete annulus cover, a remote-budget assembly,
 an all-small-r theorem, and a positive lower bound on the typed integrand.
 `field_certified` stays false. A local rectangle does not supply those absent
@@ -269,4 +297,7 @@ open. Piece 2 of `D3-LEMMA-RN-UNIF` stays OPEN, as
 stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
 `certified_C_H`, and `prizes_solved` stay false. A green run of
 `tools/rn_side24_spatial_check.py` is an engineering check. It is not
-discharge. Independence credit stays zero.
+discharge. Independence credit stays zero. SIDE24 has no new source-of-truth
+carrier after 2026-08-06. Carriers for the objects marked **ABSENT** above
+stay **ABSENT**. Quarantine is not a source of truth.
+`inventable_attempt_accepted` stays false.
