@@ -3,6 +3,7 @@ const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const error=(id,e)=>{el(id).textContent=`Unavailable: ${e.message}. No result inferred.`;el(id).className='error';};
 const link=(text,url)=>{const a=node('a',text);a.href=url;return a;};
+const disclaimer='This canvas explains the pinned source. It is not a proof and does not change status.';
 // Small safe renderer: links to this public GitHub owner; no HTML execution.
 function cell(target,text,base) {
   const re=/\[([^\]]+)\]\(([^)]+)\)/g;let start=0;
@@ -16,10 +17,17 @@ function cell(target,text,base) {
   target.append(document.createTextNode(text.slice(start).replace(/\*\*|`/g,'')));
 }
 function identity(target,pin) {
-  for(const [label,value] of [['Commit',pin.commit],['Path',pin.path],['SHA-256',pin.sha256],['Bytes',pin.bytes]]) {
+  for(const [label,value] of [['Repository',pin.repository],['Path',pin.path],['Commit',pin.commit],['SHA-256',pin.sha256],['Bytes',pin.bytes]]) {
     const p=node('p');p.append(node('strong',label+': '),node('code',String(value)));target.append(p);
   }
   const url=pin.url||pin.raw_url;if(url)target.append(link('Read the pinned public bytes ↗',url));
+}
+function sourceHeader(target,object,classification,pin) {
+  const header=node('div',undefined,'source-header');
+  for(const [label,value] of [['Object ID',object],['Class',classification]]) {
+    const p=node('p');p.append(node('strong',label+': '),node('span',value));header.append(p);
+  }
+  identity(header,pin);header.append(node('p',disclaimer,'canvas-disclaimer'));target.append(header);
 }
 async function board(config) {
   const s=validateStatus(await verifiedJSON(config.status_json));
@@ -27,11 +35,15 @@ async function board(config) {
   const base=`https://github.com/d6g8k5htny-coder/main/blob/${s.source.commit}/`;
   el('status-note').textContent=`Snapshot ${s.snapshot_date}. Counts cover the selected rows below, not every theorem or artifact. ${s.meaning}`;
   const labels={accept:'ACCEPT — scoped',amend:'AMEND / open',engineering:'Engineering only'};
+  const classes={accept:'ACCEPT-scoped',amend:'AMEND/open',engineering:'engineering-only'};
   for(const section of s.sections) {
-    const card=node('article',undefined,section.key);card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),node('p','Selected source rows; read the scope below.'));el('counts').append(card);
+    const card=node('article',undefined,section.key);card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),node('p','Selected source rows; read the scope below.'));
+    sourceHeader(card,'status-count-'+section.key,'engineering-only',s.source);el('counts').append(card);
     const details=node('details',undefined,'status-group');details.append(node('summary',`${labels[section.key]} · ${section.count}`));
     for(const row of section.rows) {
       const article=node('article',undefined,'status-object');const title=node('h4');cell(title,row[0],base);article.append(title);
+      const object=row[0].replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/\*\*|`/g,'');
+      article.setAttribute('data-class',classes[section.key]);sourceHeader(article,object,classes[section.key],s.source);
       row.slice(1).forEach((c,i)=>{const p=node('p');p.append(node('strong',section.headers[i+1]+': '));cell(p,c,base);article.append(p);});details.append(article);
     }el('status-rows').append(details);
   }
@@ -51,6 +63,7 @@ function drawCoefficient(data,dimension) {
 }
 async function coefficients(config) {
   const data=validateCoefficient(await verifiedJSON(config.coefficient));
+  sourceHeader(el('coefficient-source'),'D3 SIDE24 · '+data.object,'engineering-only',config.coefficient);
   el('coefficient-state').textContent='SHA-256 and byte count verified. Exact endpoints shown verbatim.';
   el('proof-link').href=`https://github.com/d6g8k5htny-coder/Math-/blob/${config.proof.commit}/${config.proof.path}`;
   identity(el('coefficient-identity'),config.coefficient);el('coefficient-identity').append(node('p',data.method),node('p',`Original source scope: ${data.scope}`));
@@ -67,10 +80,14 @@ async function inventory(config) {
   }));
   const rows=chunks.flat();if(rows.length!==index.source_count)throw new Error('Catalog total mismatch');
   let limit=50;
-  const render=()=>{const query=el('search').value.trim().toLowerCase();const matches=rows.filter(row=>[row.repository,row.path,row.commit,row.sha256].some(s=>s.toLowerCase().includes(query)));el('catalog').replaceChildren();
+  const render=()=>{const query=el('search').value.trim().toLowerCase(),repository=el('repository-filter').value,path=el('path-filter').value.trim().toLowerCase();
+    const matches=rows.filter(row=>(!repository||row.repository===repository)&&row.path.toLowerCase().includes(path)&&[row.repository,row.path,row.commit,row.sha256].some(s=>s.toLowerCase().includes(query)));el('catalog').replaceChildren();
     matches.slice(0,limit).forEach(row=>{const tr=node('tr'),name=node('td'),commit=node('td'),hash=node('td');name.append(node('small',row.repository),link(row.path,safeSourceURL(row)));commit.append(node('code',row.commit));hash.append(node('code',row.sha256));tr.append(name,commit,hash);el('catalog').append(tr);});
     el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;el('more').hidden=matches.length<=limit;};
-  el('search').disabled=false;el('search').addEventListener('input',()=>{limit=50;render();});el('more').addEventListener('click',()=>{limit+=50;render();});render();
+  for(const [id,event] of [['search','input'],['repository-filter','change'],['path-filter','input']]) {
+    el(id).disabled=false;el(id).addEventListener(event,()=>{limit=50;render();});
+  }
+  el('more').addEventListener('click',()=>{limit+=50;render();});render();
 }
 async function custody(config) {
   const manifest=await verifiedJSON(config.imports);
@@ -78,11 +95,11 @@ async function custody(config) {
   const observed=config.observations;
   el('custody-note').textContent=`${config.imports.count} byte-copy imports landed at Math ${config.imports.commit}; source labels were not adopted. ${observed.open_math_prs} Math PRs were open when observed ${observed.observed_at}. An open PR is not landed math.`;
   el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url));
-  const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');el('query-note').textContent=`Query checkout ${q.commit}; recorded Math commit ${q.math_pin}. --check-math-tip checks seven file identities, not commit equality. The button below checks commit currency only.`;
+  const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');
   if(!hex40.test(q.math_pin)||!hex40.test(q.commit))throw new Error('Query pin unavailable');
-  el('check-tip').disabled=false;el('check-tip').addEventListener('click',async()=>{el('check-tip').disabled=true;el('tip-result').textContent='Reading current public Math ref…';
-    try{const r=await fetch('https://api.github.com/repos/d6g8k5htny-coder/Math-/git/ref/heads/main',{credentials:'omit',redirect:'error'});if(!r.ok)throw new Error(`GitHub API ${r.status}`);const ref=await r.json(),tip=ref.object?.sha;if(!hex40.test(tip)||ref.ref!=='refs/heads/main')throw new Error('Unexpected ref response');const same=tip===q.math_pin;el('tip-result').className=same?'good':'error';el('tip-result').textContent=`${same?'Commit pin current':'Commit pin differs'} at ${new Date().toISOString()}: Math ${tip}. Gate-byte equality was not tested by this browser check.`;
-    }catch(e){error('tip-result',e);}finally{el('check-tip').disabled=false;}});
+  identity(el('query-identity'),q);el('query-identity').append(node('p','Recorded Math commit: '+q.math_pin));
+  el('query-note').textContent='To compare the seven pinned gate-file identities with current public Math bytes, run this command locally from the pinned query checkout: ';
+  el('query-note').append(node('code','python -B -S verify_portable_stubs.py --check-math-tip'),node('span','. The command checks file bytes, not commit equality. This page reads only the pinned bundle and performs no live tip check.'));
 }
 try {
   const response=await fetch('config.json',{credentials:'omit'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
