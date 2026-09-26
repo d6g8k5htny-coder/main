@@ -32,4 +32,48 @@ The first five bounded tasks are [#141](https://github.com/d6g8k5htny-coder/main
 
 A check name alone does not authenticate the workflow. Before merging an intake PR, inspect the **trusted public-intake workflow**, its `pull_request_target` event, the precise reviewed PR head, and the pass result. Administrative override must not be treated as a scientific review.
 
-Do not merge Math #60/#64/#69 or main #122/#128 to populate this shop. Landed custody copies, results intake, and notebook figures never adopt source status labels or promote a theorem.
+Do not merge Math #60/#64/#69/#71–#74 or main #122/#128 to populate this shop. Landed custody copies, results intake, and notebook figures never adopt source status labels or promote a theorem.
+
+## Public account and repository baseline
+
+Installed and read back on **2026-09-26**, under the owner's release-architecture directive:
+
+| Surface | Recorded state |
+|---|---|
+| Four profile pins | `main`, `Math-`, `query-`, `Universal-Law-Workspace`, in that order; trial and sandbox excluded |
+| Profile bio and website | Gaussian random fields, persistent homology, reproducible research; links to the live shop |
+| Four repositories' About panels | Plain-language front door / vault / lookup / federation descriptions and shop links |
+| Topics on all four | `mathematics`, `random-fields`, `persistent-homology`, `research`, `reproducible-research` |
+| Wikis | Off on all four; documentation stays in versioned files |
+| Automatic head-branch deletion | On on all four; this does not delete open branches or research history |
+| main Issues | On; public task form offers replay, chart, review-comment, catalog-stub, docs |
+| main and Math- private vulnerability reporting | Enabled; see each repository's `SECURITY.md` for its private disclosure URL |
+| main and Math- secret scanning / push protection | Already enabled; verified and retained |
+| main and Math- CODEOWNERS | Owner routing, including STATUS, PROOF_INDEX, claims, and shop config; **no required code-owner approval** |
+| main and Math- Dependabot | GitHub Actions only, weekly grouped updates, one open update PR maximum |
+
+[Math- #78](https://github.com/d6g8k5htny-coder/Math-/pull/78) landed these three operational files at `66e39d1894d5c11bb5930b76692b5d0c71939efd`. Its comparison with `d6628da09384728992dcbe6e921cc28ba85aebb0` changes only `SECURITY.md`, `.github/CODEOWNERS`, and `.github/dependabot.yml`. Source pins stay immutable; a documentation-only tip move is not a reason to rewrite proof identities. Before changing any query pin, run its exact payload compatibility check, `python -B -S verify_portable_stubs.py --check-math-tip`, from the pinned query checkout. A passing check is engineering evidence only.
+
+The unchanged query `check_math_tip_drift` function was executed from `c88768bb11efd1f7d6bda188f13064bedec54a06` using seven downloaded, Git-blob-verified payloads at Math `66e39d1894d5c11bb5930b76692b5d0c71939efd`: all seven checked, `drifted: []`. This was a captured-byte compatibility execution, not a full network CLI or unrelated package-suite replay. No query issue, PR, or pin churn was needed.
+
+No new CodeQL workflow or required check was added: none existed on the four audited pillars. No package dependencies, npm lockfile, funding configuration, theorem release, or new license terms were introduced. Main's existing LICENSE and CITATION.cff remain. Query has no LICENSE and remains release-ineligible. Social-preview artwork and Codespaces configuration are optional follow-ups, not claimed installed controls; the existing pinned notebook/Colab route remains.
+
+## Profile banner and remaining owner-only steps
+
+The explicitly requested [profile README repository](https://github.com/d6g8k5htny-coder/d6g8k5htny-coder) was created publicly. This special repository places a banner on the account page; all exhibits still live in `main/docs/site`. Its generated starter README is **not yet the prepared research banner**. The connected GitHub integration returned `403 Resource not accessible by integration` for writes to this newly created repository. The banner remains UNDELIVERED; no alternate write route or permission change was used.
+
+To enable the authorized banner delivery, the owner can open [GitHub installed applications](https://github.com/settings/installations), choose **Configure** for the connected GitHub app, and include `d6g8k5htny-coder/d6g8k5htny-coder` in its repository access. The agent can then submit the prepared README through a normal PR. Do not grant broader permissions than needed. This account-level access step is not a new recurring approval requirement for ordinary research or engineering work.
+
+For account security, open [Password and authentication](https://github.com/settings/security), review **Two-factor authentication**, and enable it if absent. Follow GitHub's device/authenticator prompts and store recovery codes privately. Review passkeys/security keys and recovery methods there. Account 2FA state was **not inspected or changed** in this release; no credentials or recovery material were collected.
+
+For later repository audits: **Settings → Advanced Security** shows private vulnerability reporting, Secret Protection, and Push protection. **Settings → General → Features** controls Wikis; **Pull Requests → Automatically delete head branches** controls post-merge cleanup. Existing rule settings are described above. These paths are an operations checklist, not a second proof or status register.
+
+## Intake and factory boundaries
+
+[PR #153](https://github.com/d6g8k5htny-coder/main/pull/153) delivered the reviewed source-reachability and PNG structural checks. Its 51 tests passed in normal and optimized Python during nonauthor review. Out-of-tree, renamed-outside, second-page, and guard-edit negative controls passed. The trusted `public-intake` workflow continues to read default-branch code and treats submitted files as data; do not execute packet code. This is a tested boundary, not a claim that every malicious input is detectable. JSON overflow and broader catalog-path grammar concerns were left explicitly for the author's bounded successor.
+
+[PR #150](https://github.com/d6g8k5htny-coder/main/pull/150) landed at `a12c178c0f857a130cf434e9efd44233a038195b` after its fresh-base check. It remains an illustrative `REVIEW_REQUIRED` packet with `scientific_acceptance: false`. The chart generator is not in that packet; the release reviewer verified its bytes and source correspondence, not independent chart regeneration. The museum's separately pinned packet index is display only.
+
+Public shop work belongs in `main/docs/site`; submissions belong in `main/incoming/<id>/`. Trial is an internal load-test/workbench lane. Do not launch a new Batch NNN or trial PR to implement this shop, and do not bump meta-framework v55 for it. An additive trial `AGENTS.md` note was [requested from the existing #142 writer](https://github.com/d6g8k5htny-coder/trial/pull/142#issuecomment-5848446686); no competing edit was made, and requested is not delivered. Sandbox remains a workbench and is not featured on the profile.
+
+See the [release dispatch log](RELEASE_DISPATCH_20260926.md) for exact lane ownership, write scopes, reviews, and outstanding actions. Integration and publication receipts belong on [main #154](https://github.com/d6g8k5htny-coder/main/issues/154).

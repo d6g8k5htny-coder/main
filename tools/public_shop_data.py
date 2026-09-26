@@ -356,6 +356,13 @@ def main(argv=None):
             if not all(re.fullmatch("[0-9a-f]{40}", query.get(k, "")) for k in ("commit", "math_pin")):
                 raise ValueError("invalid query identity block")
             config["query"] = query
+    museum_path = output / "museum.json"
+    if museum_path.exists():
+        museum_bytes = museum_path.read_bytes()
+        if not museum_bytes or len(museum_bytes) > 256 * 1024:
+            raise ValueError("museum manifest exceeds the local display bound")
+        config["museum_json"] = dict(url="museum.json", bytes=len(museum_bytes),
+            sha256=hashlib.sha256(museum_bytes).hexdigest())
     for name, data in (("status.json", status), ("config.json", config)):
         destination = output / name
         raw = dump(data)

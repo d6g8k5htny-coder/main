@@ -14,6 +14,15 @@ const SOURCE_PATHS = Object.freeze({
 });
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const ink = '#162f36', teal = '#07596c', amber = '#986323', pale = '#e0ece8';
+let hatchSequence = 0;
+function openHatch(svg) {
+  const id = `museum-open-hatch-${++hatchSequence}`;
+  const pattern = shape('pattern', { id, width: 9, height: 9, patternUnits: 'userSpaceOnUse' });
+  pattern.append(shape('rect', { width: 9, height: 9, fill: '#f8f3e8' }),
+    shape('path', { d: 'M-2 2L2 -2M0 9L9 0M7 11L11 7', stroke: '#c7a774', 'stroke-width': 1.5 }));
+  const defs = shape('defs'); defs.append(pattern); svg.append(defs);
+  return `url(#${id})`;
+}
 
 function positive(value, name) {
   if (!Number.isFinite(value) || value <= 0) throw new Error(`${name} must be finite and positive`);
@@ -132,7 +141,9 @@ function addRows(host) {
 
 function drawRemote(host) {
   const { figure, svg } = visual('Fixed remote region and between-pin height window', 'Schematic on the torus: the fixed exterior Dρ is paired only with the shrinking open height window. Diagram distances and heights are not numerical estimates.');
+  const hatch = openHatch(svg);
   svg.append(shape('path', { d: 'M24 45H434V315H24Z M229 85A95 95 0 1 0 229 275A95 95 0 1 0 229 85Z', 'fill-rule': 'evenodd', fill: pale }));
+  svg.append(shape('circle', { cx: 229, cy: 180, r: 95, fill: hatch }));
   svg.append(shape('rect', { x: 24, y: 45, width: 410, height: 270, fill: 'none', stroke: '#b1c7bd', 'stroke-width': 2 }));
   svg.append(shape('circle', { cx: 229, cy: 180, r: 95, fill: 'none', stroke: teal, 'stroke-width': 2 }));
   label(svg, 42, 75, 'Dρ: dist_X(x, 0) ≥ ρ', { 'font-size': 18, 'font-weight': 700 });
@@ -157,13 +168,16 @@ function drawRemote(host) {
 
 function drawAnnulus(host) {
   const { figure, svg } = visual('Fixed scaled annulus and open omitted regions', 'Dimension 2; physical points belong to rE for E ⊆ K_AB and fixed 1 < A < B < ∞. The shaded annulus permits all heights. Dashed regions remain OPEN; radii are symbolic.', '0 0 720 400');
+  const hatch = openHatch(svg);
+  svg.append(shape('path', { d: 'M0 0H460V400H0Z M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z', 'fill-rule': 'evenodd', fill: hatch }));
   svg.append(shape('path', { d: 'M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z M260 114A88 88 0 1 0 260 290A88 88 0 1 0 260 114Z', 'fill-rule': 'evenodd', fill: pale }));
+  svg.append(shape('circle', { cx: 260, cy: 202, r: 88, fill: hatch }));
   for (const radius of [88, 140]) svg.append(shape('circle', { cx: 260, cy: 202, r: radius, fill: 'none', stroke: teal, 'stroke-width': 2 }));
   svg.append(shape('circle', { cx: 260, cy: 202, r: 177, fill: 'none', stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '7 6' }));
   line(svg, 260, 202, 323, 141, { stroke: '#68857a' }); label(svg, 289, 181, 'Ar', { 'font-size': 16 });
   line(svg, 260, 202, 369, 289, { stroke: '#68857a' }); label(svg, 334, 250, 'Br', { 'font-size': 16 });
   for (const [x, name, color] of [[231, 'M', teal], [289, 'S', amber]]) {
-    svg.append(shape('circle', { cx: x, cy: 202, r: 20, fill: 'none', stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '5 4' }));
+    svg.append(shape('circle', { cx: x, cy: 202, r: 20, fill: hatch, stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '5 4' }));
     svg.append(shape('circle', { cx: x, cy: 202, r: 5, fill: color }));
     label(svg, x, 234, name, { 'text-anchor': 'middle', 'font-size': 15 });
   }
@@ -172,8 +186,8 @@ function drawAnnulus(host) {
   label(svg, 490, 99, 'Pin neighborhoods', { 'font-size': 16 });
   label(svg, 490, 129, 'Intermediate scales', { 'font-size': 16 });
   label(svg, 490, 152, 'r ≪ distance ≪ ρ', { 'font-size': 15 });
-  svg.append(shape('rect', { x: 480, y: 177, width: 220, height: 147, rx: 8, fill: 'none', stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '7 6' }));
-  for (const x of [574, 604]) svg.append(shape('circle', { cx: x, cy: 219, r: 24, fill: 'none', stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '4 4' }));
+  svg.append(shape('rect', { x: 480, y: 177, width: 220, height: 147, rx: 8, fill: hatch, stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '7 6' }));
+  for (const x of [574, 604]) svg.append(shape('circle', { cx: x, cy: 219, r: 24, fill: hatch, stroke: amber, 'stroke-width': 2, 'stroke-dasharray': '4 4' }));
   label(svg, 590, 269, 'Witness–witness', { 'text-anchor': 'middle', 'font-size': 16 });
   label(svg, 590, 293, 'shrinking separation', { 'text-anchor': 'middle', 'font-size': 15 });
   host.append(figure);

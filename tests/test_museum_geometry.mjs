@@ -104,6 +104,25 @@ test('all static exhibits render with no WebGL or CDN dependency and preserve ex
   assert.equal(scripts.length, 0);
 });
 
+test('remote exclusion and annulus open complements are filled by defined SVG hatches', async () => {
+  for (const kind of ['remote', 'annulus']) {
+    const host = new Element('div');
+    await mountGeometry(host, kind, source(kind));
+    const svg = host.querySelectorAll('svg')[0];
+    const patterns = svg.querySelectorAll('pattern');
+    assert.equal(patterns.length, 1);
+    assert.ok(patterns[0].querySelectorAll('path').some(path => path.attributes.stroke));
+    const fill = `url(#${patterns[0].attributes.id})`;
+    const hatched = [...svg.querySelectorAll('circle'), ...svg.querySelectorAll('rect'), ...svg.querySelectorAll('path')]
+      .filter(shape => shape.attributes.fill === fill);
+    assert.ok(hatched.some(shape => shape.tagName === 'circle'), `${kind} excluded disk has a hatch fill`);
+    if (kind === 'annulus') {
+      assert.ok(hatched.some(shape => shape.tagName === 'path' && shape.attributes['fill-rule'] === 'evenodd'), 'outer region excludes the annulus');
+      assert.ok(hatched.some(shape => shape.tagName === 'rect' && shape.attributes['stroke-dasharray']), 'collision inset has a hatch fill');
+    }
+  }
+});
+
 test('P15 vertex toggles change the actual decomposition result', async () => {
   const host = new Element('div');
   await mountGeometry(host, 'p15', source('p15'));

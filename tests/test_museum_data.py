@@ -84,11 +84,15 @@ class MuseumDataTests(unittest.TestCase):
 
     def test_packet_selection_excludes_unknown_fork_packet(self):
         packets = museum.packet_descriptors()
-        self.assertEqual([p["id"] for p in packets], ["side24-identity-replay-20260926"])
+        self.assertEqual([p["id"] for p in packets], ["side24-identity-replay-20260926", "side24-chart-claude-20260926"])
         self.assertIsNone(packets[0]["issue"])
         self.assertEqual(packets[0]["scientific_effect"], "NONE")
         self.assertEqual(packets[0]["review_status"], "REVIEW_REQUIRED")
         self.assertEqual(packets[0]["result"]["commit"], "71400b94f6cb354a8cf7aba73ffede2138a64efa")
+        self.assertEqual(packets[1]["issue"], 141)
+        self.assertEqual(packets[1]["result"]["commit"], "a12c178c0f857a130cf434e9efd44233a038195b")
+        self.assertEqual(museum.STATUS["commit"], "71400b94f6cb354a8cf7aba73ffede2138a64efa")
+        self.assertTrue(all(p["scientific_effect"] == "NONE" and p["review_status"] == "REVIEW_REQUIRED" for p in packets))
         # Only the frozen landed packet is selected; filesystem discovery must not add a fork.
         self.assertNotIn("showcase", json.dumps(packets).lower())
 

@@ -1,7 +1,10 @@
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location('public_shop_data', ROOT / 'tools/public_shop_data.py')
@@ -84,6 +87,25 @@ class PublicShopDataTests(unittest.TestCase):
         for source in (shop.STATUS, shop.COEFFICIENT, shop.PROOF, shop.INVENTORY, shop.IMPORTS):
             self.assertIn('/' + source['commit'] + '/', shop.with_url(source)['url'])
             self.assertEqual(len(source['commit']), 40)
+
+    def test_config_export_roundtrips_museum_bytes_and_refuses_changed_manifest(self):
+        museum = (ROOT / 'docs/site/museum.json').read_bytes()
+        existing = json.loads((ROOT / 'docs/site/config.json').read_bytes())
+        query = existing['query']
+        status, generated = {'sections': []}, {'schema_version': 1}
+        expected = dict(generated, query=query, museum_json={
+            'url': 'museum.json', 'bytes': len(museum),
+            'sha256': hashlib.sha256(museum).hexdigest()})
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / 'museum.json').write_bytes(museum)
+            (output / 'config.json').write_bytes(shop.dump(expected))
+            (output / 'status.json').write_bytes(shop.dump(status))
+            with patch.object(shop, 'build', return_value=(status, generated)):
+                self.assertEqual(shop.main(['--output', str(output), '--check']), 0)
+                (output / 'museum.json').write_bytes(museum + b' ')
+                with self.assertRaisesRegex(ValueError, 'generated export differs'):
+                    shop.main(['--output', str(output), '--check'])
 
 
 if __name__ == '__main__':
