@@ -12,7 +12,7 @@ export async function verifiedBytes(pin, fetcher = fetch) {
   if (!pin || !hex64.test(pin.sha256) || !Number.isSafeInteger(pin.bytes) || pin.bytes < 0)
     throw new Error('Missing source digest or byte count');
   const target = pin.url || pin.raw_url;
-  if (typeof target !== 'string' || (!/^https:\/\/raw\.githubusercontent\.com\/d6g8k5htny-coder\/(main|Math-|query-)\/[0-9a-f]{40}\//.test(target) && !/^(?:\.\.\/public-math\/sources(?:-\d{2})?\.json|status\.json|observations\.json)$/.test(target)))
+  if (typeof target !== 'string' || (!/^https:\/\/raw\.githubusercontent\.com\/d6g8k5htny-coder\/(main|Math-|query-)\/[0-9a-f]{40}\//.test(target) && !/^(?:\.\.\/public-math\/sources(?:-\d{2})?\.json|status\.json|observations\.json|museum\.json)$/.test(target)))
     throw new Error('Source must be a pinned public URL or a declared local data file');
   if (target.startsWith('https:')) {
     if (!/^d6g8k5htny-coder\/(main|Math-|query-)$/.test(pin.repository) || !hex40.test(pin.commit) || typeof pin.path !== 'string' || pin.path.split('/').some(p=>!p||p==='.'||p==='..')) throw new Error('Invalid displayed source identity');

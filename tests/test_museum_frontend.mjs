@@ -52,7 +52,7 @@ test('lifetime source identity must match D2 and packets must use the pinned mai
   const f=fixture();f.manifest.exhibits.lifetime=pin('other.md','Different source.');
   assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/lifetime|D2/i);
   const g=fixture(),result=pin('incoming/side24-identity-replay-20260926/RESULT.md','Packet');result.repository='d6g8k5htny-coder/main';result.commit='c'.repeat(40);result.url=`https://raw.githubusercontent.com/${result.repository}/${result.commit}/${result.path}`;result.html_url=`https://github.com/${result.repository}/blob/${result.commit}/${result.path}`;
-  g.manifest.packets=[{id:'side24-identity-replay-20260926',issue:null,result,scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}];
+  g.manifest.packets=[{id:'side24-identity-replay-20260926',issue:null,result,identity:{...result,path:'incoming/side24-identity-replay-20260926/IDENTITY.json',url:result.url.replace('RESULT.md','IDENTITY.json'),html_url:result.html_url.replace('RESULT.md','IDENTITY.json')},output:{...result,path:'incoming/side24-identity-replay-20260926/output.json',url:result.url.replace('RESULT.md','output.json'),html_url:result.html_url.replace('RESULT.md','output.json')},scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}];
   assert.throws(()=>museum.validateBoundManifest(g.manifest,g.index,g.status),/Packet.*snapshot|Packet.*commit/i);
 });
 test('malformed, mutable and falsely displayed source identities are refused before fetch',available,()=>{
@@ -94,9 +94,31 @@ test('AMEND pointers bind their declared STATUS row or the specific open-obligat
 test('packet index refuses a foreign packet, changed scientific effect and mismatched result path',available,()=>{
   const f=fixture(),result={...pin('incoming/side24-identity-replay-20260926/RESULT.md','scientific_effect: NONE\nreview_status: REVIEW_REQUIRED'),repository:'d6g8k5htny-coder/main'};
   result.url=result.url.replace('/Math-/','/main/');result.html_url=result.html_url.replace('/Math-/','/main/');
-  const packet={id:'side24-identity-replay-20260926',issue:null,result,scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'};
+  const oldCommit='71400b94f6cb354a8cf7aba73ffede2138a64efa';
+  for(const source of [result,f.manifest.status_source]){source.url=source.url.replace('a'.repeat(40),oldCommit);source.html_url=source.html_url.replace('a'.repeat(40),oldCommit);source.commit=oldCommit;}
+  const packet={id:'side24-identity-replay-20260926',issue:null,result,identity:{...result,path:'incoming/side24-identity-replay-20260926/IDENTITY.json',url:result.url.replace('RESULT.md','IDENTITY.json'),html_url:result.html_url.replace('RESULT.md','IDENTITY.json')},output:{...result,path:'incoming/side24-identity-replay-20260926/output.json',url:result.url.replace('RESULT.md','output.json'),html_url:result.html_url.replace('RESULT.md','output.json')},scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'};
   f.manifest.packets=[packet];assert.equal(museum.validateBoundManifest(f.manifest,f.index,f.status).packets.length,1);
   for(const change of [{id:'unlanded-draft'},{scientific_effect:'ACCEPT'},{result:{...result,path:'incoming/elsewhere/RESULT.md'}}]){const changed=structuredClone(f.manifest);Object.assign(changed.packets[0],change);assert.throws(()=>museum.validateBoundManifest(changed,f.index,f.status),/Packet|source URL/i);}
+});
+
+test('new landed chart packet requires its exact separate main commit and remains engineering-only',available,()=>{
+  const f=fixture(),root='incoming/side24-chart-claude-20260926/',commit='a12c178c0f857a130cf434e9efd44233a038195b';
+  const source=(name)=>({...pin(root+name,'Packet bytes'),repository:'d6g8k5htny-coder/main',commit,
+    url:`https://raw.githubusercontent.com/d6g8k5htny-coder/main/${commit}/${root+name}`,
+    html_url:`https://github.com/d6g8k5htny-coder/main/blob/${commit}/${root+name}`});
+  const oldRoot='incoming/side24-identity-replay-20260926/',oldCommit='71400b94f6cb354a8cf7aba73ffede2138a64efa';
+  const old=(name)=>({...source(name),path:oldRoot+name,commit:oldCommit,
+    url:`https://raw.githubusercontent.com/d6g8k5htny-coder/main/${oldCommit}/${oldRoot+name}`,
+    html_url:`https://github.com/d6g8k5htny-coder/main/blob/${oldCommit}/${oldRoot+name}`});
+  f.manifest.status_source={...f.manifest.status_source,commit:oldCommit,url:f.manifest.status_source.url.replace('a'.repeat(40),oldCommit),html_url:f.manifest.status_source.html_url.replace('a'.repeat(40),oldCommit)};
+  f.manifest.claims[13].proof=f.manifest.status_source;
+  f.manifest.packets=[{id:'side24-identity-replay-20260926',issue:null,result:old('RESULT.md'),identity:old('IDENTITY.json'),output:old('output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'},
+    {id:'side24-chart-claude-20260926',issue:141,result:source('RESULT.md'),identity:source('IDENTITY.json'),output:source('output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}];
+  assert.equal(museum.validateBoundManifest(f.manifest,f.index,f.status).packets.length,2);
+  const changed=structuredClone(f.manifest);changed.packets[1].result={...changed.packets[1].result,commit:oldCommit,url:old('RESULT.md').url,html_url:old('RESULT.md').html_url};
+  assert.throws(()=>museum.validateBoundManifest(changed,f.index,f.status),/Packet commit|source URL/i);
+  const promoted=structuredClone(f.manifest);promoted.packets[1].scientific_effect='ACCEPT';
+  assert.throws(()=>museum.validateBoundManifest(promoted,f.index,f.status),/scientific effect/i);
 });
 
 class Element {
@@ -112,7 +134,8 @@ function documentFromHTML(){
 }
 test('rendered claims use declared HTML containers, complete identities and literal disclaimer',available,async()=>{
   const f=fixture(),document=documentFromHTML();
-  const mapping=new Map([['museum.json',JSON.stringify(f.manifest)],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.']]);
+  const raw=JSON.stringify(f.manifest),config=JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}});
+  const mapping=new Map([['config.json',config],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.']]);
   await museum.startMuseum({document,search:'',fetcher:async url=>{assert.ok(mapping.has(String(url)),`Unexpected URL ${url}`);return new Response(mapping.get(String(url)));}});
   const text=document.getElementById('claim-cards').textContent;
   assert.match(text,/Object 0/);assert.match(text,/Claim and scope/);assert.match(text,/Source and review/);assert.match(text,/Replay/);assert.match(text,/Engineering — not acceptance/);
@@ -124,6 +147,18 @@ test('rendered claims use declared HTML containers, complete identities and lite
   await assert.rejects(()=>museum.startMuseum({document,search:'',fetcher:async()=>new Response(JSON.stringify(f.manifest))}),/Missing museum container/);
 });
 
+test('museum manifest must match the config byte count and SHA-256 before source projection',available,async()=>{
+  const f=fixture(),raw=JSON.stringify(f.manifest),pin={url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)};
+  for(const altered of [raw+' ',raw.replace('"schema_version":1','"schema_version":2')]){
+    const requested=[];
+    const document=documentFromHTML();
+    await museum.startMuseum({document,fetcher:async url=>{requested.push(String(url));return new Response(url==='config.json'?JSON.stringify({museum_json:pin}):altered);}});
+    assert.deepEqual(requested,['config.json','museum.json']);
+    assert.match(document.getElementById('museum-state').textContent,/unavailable/i);
+    assert.equal(document.getElementById('claim-cards').children.length,0);
+  }
+});
+
 test('actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions',{skip:!museum||(!process.env.MUSEUM_MATH_ROOT&&!process.env.MUSEUM_FIXTURE)},async()=>{
   const manifest=JSON.parse(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url)));
   const root=new URL('..',import.meta.url).pathname;
@@ -131,7 +166,8 @@ test('actual pinned museum renders all cards and rejects cross-claim source, sco
   const read=source=>{if(fixtures){assert.ok(Object.hasOwn(fixtures,source.url),`Missing pinned source fixture: ${source.url}`);return Buffer.from(fixtures[source.url],'base64');}return execFileSync('git',['-C',source.repository.endsWith('/Math-')?process.env.MUSEUM_MATH_ROOT:root,'show',`${source.commit}:${source.path}`],{maxBuffer:3*1024*1024});};
   const index=read(manifest.index_source).toString('utf8'),status=read(manifest.status_source).toString('utf8');
   const fetcher=async url=>{
-    if(url==='museum.json')return new Response(JSON.stringify(manifest));
+    if(url==='config.json')return new Response(fs.readFileSync(new URL('../docs/site/config.json',import.meta.url)));
+    if(url==='museum.json')return new Response(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url)));
     if(fixtures){assert.ok(Object.hasOwn(fixtures,String(url)),`Unexpected request: ${url}`);return new Response(Buffer.from(fixtures[String(url)],'base64'));}
     const match=String(url).match(/^https:\/\/raw\.githubusercontent\.com\/(d6g8k5htny-coder\/(?:Math-|main))\/([0-9a-f]{40})\/(.+)$/);
     assert.ok(match,`Unexpected request: ${url}`);
@@ -139,7 +175,7 @@ test('actual pinned museum renders all cards and rejects cross-claim source, sco
   };
   const document=documentFromHTML();
   await museum.startMuseum({document,fetcher,search:'',geometryLoader:()=>{throw Error('Home must not load a graphics context');}});
-  assert.match(document.getElementById('museum-state').textContent,/displayed source bytes verified/);
+  assert.match(document.getElementById('museum-state').textContent,/displayed source bytes verified/,document.getElementById('packet-cards').textContent);
   assert.equal(document.getElementById('claim-cards').children.length,14);
   assert.match(document.getElementById('packet-cards').textContent,/packet — not STATUS/);
   const proof=structuredClone(manifest);proof.claims[3].proof=proof.claims[10].proof;
