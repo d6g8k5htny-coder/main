@@ -37,16 +37,57 @@ hiding either. Neither this delegation nor a merge proves a theorem.
 
 ## Before editing a file: it may be bound by a certificate
 
-Eight candidate records under `research/` bind repository content by SHA-256 as
+Eleven candidate records under `research/` bind repository content by SHA-256 as
 *source identity*, and the replay checkers that consume them refuse the tree
 when a byte moves. [`research/PINNED_SOURCES.md`](research/PINNED_SOURCES.md)
-lists all of it -- 34 files and 6 archive members, generated from the
-certificates and verified in CI by `tools/pinned_sources_check.py`.
+lists all of it -- 42 files and 6 archive members across 23 containers,
+generated from the certificates and verified in CI by
+`tools/pinned_sources_check.py`, which prints the counts on every run. (They
+were eight records and 34 files when this section was written; the SIDE24
+source-recovery lane has since added to them. Read the generated index, not this
+paragraph, for the current set.)
 
 Three of the bound files are checkers in `tools/` and one is a document in
 `docs/`, so this is not deducible from where a file lives. The remedy for a
 deliberate change is a re-pin on the lane that owns the certificate. Never edit
 an expected digest to match bytes you changed.
+
+**The index is not yet complete, and this is how you get caught by the part it
+misses.** Some lanes declare their pins inside an ARCHIVE MEMBER rather than in a
+candidate record on disk -- for example
+`research/campaigns/rn_bernstein_sharp_variance_20260921_v1.zip`, whose members
+`bernstein/DEPENDENCIES.json` and `sharp_variance/DEPENDENCIES.json` bind 30 and
+32 repository paths by digest, enforced by `tools/rn_bernstein_sharp_check.py`.
+`tools/pinned_sources_check.py` does not read that shape, so
+`research/PINNED_SOURCES.md` omits those files and will tell you a pinned file is
+free to edit. It did exactly that for `research/rn/moment_envelope.py`, and the
+campaign replay rejected the tree with `repository dependency mismatch`. Until the
+index covers them, grep the campaign archives before editing anything under
+`research/`, `engine/` or `tools/`.
+
+## If you compute in floats, say so
+
+`tools/noncertifying_check.py` runs in CI. Every repository-authored Python file
+holding a float literal or a `float(` call must either contain the canonical
+label `NON-CERTIFYING` or be named in the checker's `DECLARED` with the reason it
+needs none. Exact rational arithmetic (`fractions.Fraction`) is the default
+wherever a bound is claimed; a float that reaches a printed or compared number is
+a display, and it must say so in the code *and in the output*.
+
+**A float is not always a float path**, and this matters more here than the rule
+itself. Most float sites in this tree are **rejection probes**: the float is the
+input a checker must REFUSE, and the test asserts the refusal. Pasting
+`NON-CERTIFYING` onto such a file would state the opposite of what the file
+demonstrates, so those are declared with the line they refuse, never labelled.
+Wall-clock values (poll intervals, timeouts, elapsed seconds) are declared too. A
+declaration is a claim a reviewer can check; silence is not, and a label that is
+false is worse than either.
+
+Two cases are recorded as **unmet** obligations rather than absent ones:
+`research/bands/ladder.py` and `research/rn/moment_envelope.py` both print float
+conversions and both are pinned, so the label cannot be written into their bytes.
+The declarations say so, with the pin that binds each, because a reader needs to
+know the obligation exists.
 
 ## Technical navigation
 

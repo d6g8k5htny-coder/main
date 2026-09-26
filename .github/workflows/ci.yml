@@ -35,6 +35,8 @@ jobs:
         run: python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json
       - name: Governance rollout shadow controls (no live admission)
         run: python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json
+      - name: Every float path is labelled NON-CERTIFYING, or declared with a reason
+        run: python tools/noncertifying_check.py
       - name: Logical quarantine is enforced
         run: python tools/quarantine_check.py
       - name: Vault listing matches inventory; vault ids stay unstored
