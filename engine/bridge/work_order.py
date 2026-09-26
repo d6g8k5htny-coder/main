@@ -175,8 +175,9 @@ PROTECTED_SURFACES = (
 #: repository path, and a repository path is never an owner-side record.
 #: ``tests/test_bridge.py`` asserts this list matches the checkout.
 REPOSITORY_TOP_LEVEL = (
-    ".github", ".gitignore", "requirements-ci.lock", "AGENTS.md", "CITATION.cff", "CLAUDE.md",
-    "CONTRIBUTING.md", "LICENSE", "README.md", "architecture", "attestations", "claims", "docs", "drive",
+    ".claude", ".github", ".gitignore", "requirements-ci.lock", "AGENTS.md", "CITATION.cff",
+    "CLAUDE.md", "CONTRIBUTING.md", "LICENSE", "README.md", "architecture", "attestations",
+    "claims", "coordination", "docs", "drive",
     "engine", "governance", "legacy", "packages", "quarantine", "recovery",
     "registers", "research", "reviews", "sandbox", "tests", "tools",
 )

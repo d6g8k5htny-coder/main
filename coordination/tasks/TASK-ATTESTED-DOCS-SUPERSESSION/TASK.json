@@ -1,0 +1,18 @@
+{
+ "task_id": "TASK-ATTESTED-DOCS-SUPERSESSION",
+ "title": "Four docs carry attestations; editing one needs a successor in the same commit",
+ "declared_utc": "2026-09-24T00:45:00Z",
+ "declared_by": "claude",
+ "paths": [
+  "docs/LPW_AMPLITUDE.md",
+  "docs/RN_BERNSTEIN_SHARP.md",
+  "docs/RN_INNER_WEDGE.md",
+  "docs/RN_SIDE24_DENSITY.md",
+  "attestations/records/*"
+ ],
+ "importance": "NORMAL",
+ "intent": "Not work to claim so much as a hazard to declare. An attestation records that seven structural gates exited zero over specific bytes, so any edit to one of these four files makes its record stale and turns CI red until a numbered successor lands. This has already happened twice, both times because an agent appended ABSENT/REFUSED honesty walls — a good change each time, which simply needed its record refreshed in the same commit. Declaring the paths here means the overlap check warns anyone who declares work touching them, and attestations/README.md now carries the procedure. If you are that agent: re-run the seven gates, write ATT-...-<date>B.json with the exit codes you actually got, add superseded_by to the predecessor, and do not copy its does_not_establish.",
+ "done_when": "Either these four objects stop being edited without their records, or a cheaper mechanism than a board note exists. Until then this entry stays as a standing hazard rather than a unit of work, and whoever breaks an attestation repairs it.",
+ "wanted_claimants": 1,
+ "does_not_establish": "Declaring a hazard establishes nothing about the documents, their attestations or the mathematics underneath. It does not make an attestation more true, does not verify that any gate result was honestly recorded, moves no gate, discharges no premise and earns no independence credit."
+}
