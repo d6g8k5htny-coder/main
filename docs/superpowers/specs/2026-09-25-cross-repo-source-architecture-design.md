@@ -1534,3 +1534,42 @@ Remaining decisions intentionally deferred to implementation planning:
 - release version numbers;
 - eventual wrapper retirement dates;
 - whether signatures/SBOM become worthwhile after the first source release.
+
+
+---
+
+## 47. External standards check
+
+This design was compared against current primary guidance before implementation planning.
+
+### Python packaging
+
+The Python Packaging User Guide documents the `src/` layout as a standard separation between importable packages and repository-root tooling/configuration. Setuptools supports `pyproject.toml` and package discovery from `src`.
+
+Primary references:
+- https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/
+- https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+- https://packaging.python.org/en/latest/specifications/source-distribution-format/
+
+Design consequence: retain `src/` for importable production modules, while proof bodies, repository tooling, evidence and generated navigation stay outside the import package unless they are true runtime resources.
+
+### Reproducible release timestamps
+
+The reproducible-builds project defines `SOURCE_DATE_EPOCH` as the standard environment variable for reproducible build timestamps and documents deriving it from Git history.
+
+Primary reference:
+- https://reproducible-builds.org/docs/source-date-epoch/
+
+Design consequence: deterministic source archives use `SOURCE_DATE_EPOCH` from the exact release commit rather than wall-clock build time.
+
+### GitHub Actions security
+
+GitHub's secure-use guidance recommends pinning actions to full-length commit SHAs for immutable action identity. GitHub also warns against executing untrusted pull-request code with privileged `pull_request_target` workflows.
+
+Primary references:
+- https://docs.github.com/en/actions/reference/security/secure-use
+- https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target
+
+Design consequence: source/package publication workflows use SHA-pinned actions, minimal permissions and unprivileged pull-request testing. Privileged release jobs operate only on trusted exact commits.
+
+These standards checks support the design choices; they do not replace repository-specific tests or review.
