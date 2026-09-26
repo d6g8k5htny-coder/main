@@ -10,8 +10,11 @@ three lists that had no reason to agree and did not: the firewalls **declared**
 in `graph.json`, the firewalls it **enforces** (`ENFORCED_FIREWALLS`), and the
 firewalls named in this file. A run where any of the three disagrees is refused,
 and so is a run where this file's claim count or firewall count has drifted from
-the graph. All three had drifted: this file documented eight firewalls over nine
-enforced, and twenty-four claims over a graph of twenty-six. An undocumented
+the graph. All three had drifted when the reconciliation was written: this file
+documented eight firewalls where nine were enforced — `FW-RUNG-OPEN-PREMISE`
+brought it to ten while that work was in flight, which is exactly the drift the
+check now catches — and twenty-four claims over a graph of twenty-six. An
+undocumented
 firewall is not a safeguard a reader can check, and a stale count is how a reader
 learns to stop trusting the rest. A **missing** `claims/README.md` is a refusal
 too, not a skip: guarding the reconciliation with "if the file exists" would have
