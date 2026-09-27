@@ -11,11 +11,13 @@ repository of this account and in the shared Google Drive, and it does not expir
 ## Operational meaning
 
 1. **Personal information never enters a place others can see.** That covers
-   dates of birth, family members' names and other private individuals, legal
-   names beyond the public "Dylan Roy", licence, ID, account or policy numbers,
-   personal email addresses, phone numbers, street addresses and precise locations,
-   social media handles and profiles, health, finances, employment history and
-   private correspondence. Places others can see include every GitHub repository,
+   dates of birth, family members' names and other private individuals, licence,
+   ID, account or policy numbers and ID-document details, personal email addresses
+   other than the owner's Gmail address, phone numbers, street addresses and
+   precise locations, social media handles and profiles, health, finances,
+   employment history and private correspondence. The owner's name in any form
+   and the owner's Gmail address are not personal information under this rule
+   (see the clarification below). Places others can see include every GitHub repository,
    branch, pull request, issue and comment, and the shared Drive folders that
    models read. Share links that carry access keys (for example Dropbox `rlkey=`
    or Google `resourcekey=`) are treated the same way.
@@ -38,6 +40,29 @@ repository of this account and in the shared Google Drive, and it does not expir
 5. **Check before publishing.** Before any import from Drive, Dropbox or another
    private source, screen for the items above. Any doubt means the item is held
    privately; holding is always recoverable.
+
+## Owner clarification, 2026-09-27
+
+Given the same day, after models had begun removing the owner's name and Gmail
+address from repository files:
+
+> The Gmail and my name are fine. After all that’s normally in most GitHub’s
+> You don’t need to delete my name or Gmail. After all I’m fine with those in the GitHub
+
+Operational meaning:
+
+- Do not redact, purge or rewrite history for the owner's name in any form (with
+  or without a middle initial or middle name) or for the owner's Gmail address.
+  Neither is a reason to hold a file back from publication.
+- Everything else in item 1 still applies, including other email addresses of
+  the owner, and so do items 2 to 5.
+- A file held back only for the owner's name or Gmail address may be published
+  once it passes the screen in item 5.
+
+A further clarification the same day: the owner's Google Drive and Dropbox are
+private to the owner, and only GitHub is seen by others. This rule applies to
+GitHub only. Do not search, edit, trash or move Drive or Dropbox files for
+privacy reasons, and keep privacy checks proportionate.
 
 This rule narrows what may be published. It does not reduce the autonomy granted in
 [OP-AUTONOMY-20260923-v2.1](OP-AUTONOMY-20260923-v2.1.md) for project work.
