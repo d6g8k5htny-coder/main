@@ -677,11 +677,15 @@ below is quoted from those bytes.
   promotion." The Board's OPERATOR PACKAGE DECISION of 2026-07-24 is the one
   operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
   private Git repository creation and exact-history push are approved when
-  platform access becomes available." (Dylan subsequently authorized public
-  visibility on 2026-09-20; unauthenticated access was verified that day.
-  Public visitors have no write access. This later visibility decision does
-  not change the quoted historical routing, Drive sharing, or scientific
-  gates — see `governance/GIT_ADAPTATION.md`.)
+  platform access becomes available." (This repository is public, checked
+  2026-09-26; the visibility decision is the owner's, and the only sourced record
+  in this tree about it is the 2026-09-18 execution handoff
+  `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`,
+  which records the owner asking to restrict who works in the repository, not
+  to hide it — see `governance/GIT_ADAPTATION.md`, which withdraws an unsourced
+  directive that this passage previously asserted in the opposite direction. The
+  quoted historical routing, Drive sharing and scientific gates are unchanged by
+  visibility either way.)
 * `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers
   (`04.1_LIVE_REGISTERS`: the GP-REG-032-v1.2 workbook, its leaf card, the
   deletion log), the automation lineage (GP-AUTO-034: **R0.4 current

@@ -71,8 +71,24 @@ def test_published_rational_margins():
 
 
 def test_published_decimal_values():
+    """The published decimals, checked against the module's own display path.
+
+    NON-CERTIFYING. The first assertion is exact -- an equality between
+    `Fraction`s. The two that follow are NOT: they take a float fourth root of an
+    exact rational and compare it to a float literal within a float tolerance,
+    which is the same arithmetic `research/rn/moment_envelope.py`'s labelled
+    display block performs. That is deliberate and it is the point of this test:
+    it pins the DIGITS the module prints, so a change in what a reader sees is a
+    test failure. It establishes nothing about the envelope.
+
+    The envelope inequality itself is asserted exactly and without floats, in
+    `test_published_rational_margins` above (`defective_pow4 < F(63, 1000) ** 4`)
+    and in `test_defective_expression_is_not_an_upper_bound`. Nothing here may be
+    cited for it.
+    """
     c = counterexample()
     assert c["typed_expectation_lower"] == F(207675035568, 10**12)
+    # NON-CERTIFYING: float fourth roots, float tolerance, display digits only.
     assert abs(float(c["defective_pow4"]) ** 0.25 - 0.0625040624) < 1e-9
     assert abs(float(c["correct_pow4"]) ** 0.25 - 0.2500046250) < 1e-9
 
