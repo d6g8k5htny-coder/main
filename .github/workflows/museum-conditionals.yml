@@ -1,0 +1,29 @@
+name: Museum conditional source route
+on:
+  pull_request:
+    paths:
+      - 'docs/site/**'
+      - 'tools/museum_conditionals.mjs'
+      - 'tests/test_museum*.mjs'
+      - 'tests/fixtures/cumulative_transfer_source.txt'
+      - '.github/workflows/museum-conditionals.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  conditional-projection:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Record runner Node version
+        run: node --version
+      - name: Museum frontend and conditional-route controls
+        run: node --test tests/test_museum*.mjs tests/test_public_shop_frontend.mjs
+      - name: Replay the actual committed museum source selection
+        run: |
+          node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt > /tmp/conditional-route.json
+          node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt --check /tmp/conditional-route.json > /tmp/conditional-route-replay.json
+          cmp /tmp/conditional-route.json /tmp/conditional-route-replay.json
