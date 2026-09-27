@@ -97,6 +97,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation', choices=['receipt', 'aggregate'])
     args = parser.parse_args()
+    if args.operation == 'receipt':
+        print('DELIBERATE_TEST_ONLY_FORMAL_DEPENDENCY_FAILURE', file=sys.stderr)
+        return 17
     try:
         env = dict(os.environ)
         if args.operation == 'receipt':
