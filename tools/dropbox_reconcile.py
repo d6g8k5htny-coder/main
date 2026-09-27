@@ -16,6 +16,9 @@ Stages (each is a subcommand):
   classify    Match a Dropbox inventory (list_folder entries, optionally
               augmented with content_hash values) against both indexes.
   fetch       Download single-use Dropbox URLs into a content-addressed store.
+  harvest-fetch  Without downloads: collect connector `fetch` text from
+              transcripts; a text whose bytes reproduce the known content_hash
+              is restored as the exact original, anything else stays text-only.
   extract     Per-type text/metadata extraction for fetched files.
   stage       Build a GitHub review packet (text only, intake-lane limits) and
               a Drive upload list for originals, for files classified MISSING.
@@ -322,6 +325,102 @@ def cmd_harvest_links(args):
     print(json.dumps({'fetchable_links': len(urls), 'content_hashes': len(hashes)}))
 
 
+def _fetch_payloads(obj):
+    """Yield Dropbox fetch results ({id, text, ...}) found anywhere in a JSON value."""
+    if isinstance(obj, dict):
+        if isinstance(obj.get('id'), str) and isinstance(obj.get('text'), str) and 'title' in obj:
+            yield obj
+        for v in obj.values():
+            yield from _fetch_payloads(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _fetch_payloads(v)
+    elif isinstance(obj, str) and '"text"' in obj and obj.lstrip().startswith('{'):
+        try:
+            yield from _fetch_payloads(json.loads(obj))
+        except ValueError:
+            pass
+
+
+def recover_original(text: str, content_hash: str):
+    """Bytes whose Dropbox content_hash matches, from connector-extracted text, or None.
+
+    The connector returns text files with one extra trailing newline; a CRLF
+    original comes back with LF endings. Each candidate is accepted only on an
+    exact content_hash match, so a wrong guess can never pass as an original.
+    """
+    if not content_hash:
+        return None
+    seen = set()
+    for t in (text, text[:-1] if text.endswith('\n') else None):
+        if t is None:
+            continue
+        for cand in (t, t.replace('\n', '\r\n')):
+            for enc in ('utf-8', 'utf-8-sig', 'cp1252', 'latin-1'):
+                try:
+                    b = cand.encode(enc)
+                except UnicodeEncodeError:
+                    continue
+                if b not in seen:
+                    seen.add(b)
+                    if dbx_hash_bytes(b) == content_hash:
+                        return b
+    return None
+
+
+def cmd_harvest_fetch(args):
+    """Collect Dropbox `fetch` results from transcripts and saved tool results.
+
+    Writes a catalog in the shape `stage` reads. Exact originals (content_hash
+    match) go to the content-addressed store; every text goes to --text-out.
+    """
+    want = {r['id']: r for r in json.loads(Path(args.classified).read_text())}
+    store, text_dir = Path(args.store), Path(args.text_out)
+    store.mkdir(parents=True, exist_ok=True)
+    text_dir.mkdir(parents=True, exist_ok=True)
+    found = {}
+    files = []
+    for root in args.roots:
+        rp = Path(root)
+        files += [rp] if rp.is_file() else sorted(p for p in rp.rglob('*') if p.suffix in ('.jsonl', '.txt', '.json'))
+    for f in files:
+        with open(f, encoding='utf-8', errors='replace') as fh:
+            chunks = fh if f.suffix == '.jsonl' else [fh.read()]
+            for line in chunks:
+                if '"text' not in line and '\\"text' not in line:
+                    continue
+                try:
+                    obj = json.loads(line)
+                except ValueError:
+                    continue
+                for p in _fetch_payloads(obj):
+                    if p['id'] in want and len(p['text']) >= len(found.get(p['id'], {}).get('text', '')):
+                        found[p['id']] = p
+    catalog = []
+    for fid, p in sorted(found.items(), key=lambda kv: want[kv[0]]['path']):
+        row = want[fid]
+        text = p['text']
+        tb = text.encode('utf-8')
+        tsha = hashlib.sha256(tb).hexdigest()
+        (text_dir / (tsha + '.txt')).write_bytes(tb)
+        rec = {'id': fid, 'path': row['path'], 'dbx': row.get('dbx'), 'extractor': 'dropbox-fetch',
+               'chars': len(text), 'text_sha256': tsha, 'text_path': str(text_dir / (tsha + '.txt')),
+               'pii_flags': [q.pattern for q in PII if q.search(text)], 'members': []}
+        orig = recover_original(text, row.get('dbx'))
+        if orig is not None:
+            sha = hashlib.sha256(orig).hexdigest()
+            (store / sha).write_bytes(orig)
+            rec.update(sha256=sha, bytes=len(orig), exact_original=True)
+        else:
+            rec.update(exact_original=False, original_bytes=row.get('size'))
+        catalog.append(rec)
+    Path(args.out).write_text(json.dumps(catalog, indent=1))
+    print(json.dumps({'scanned_files': len(files), 'fetched': len(catalog),
+                      'exact_originals': sum(c['exact_original'] for c in catalog),
+                      'text_only': sum(not c['exact_original'] for c in catalog),
+                      'pii_flagged': sum(bool(c['pii_flags']) for c in catalog)}))
+
+
 def cmd_batches(args):
     """Emit file-id batches (25 each, the download_link maximum) for a given status."""
     rows = [r for r in json.loads(Path(args.classified).read_text()) if r['status'] in set(args.status)]
@@ -460,33 +559,37 @@ def cmd_stage(args):
     drive.mkdir(parents=True, exist_ok=True)
     artifacts, uploads = [], []
     rows = [r for r in json.loads(Path(args.classified).read_text())
-            if r['status'] == 'MISSING' and 'sha256' in catalog.get(r['id'], {})]
+            if r['status'] == 'MISSING' and ({'sha256', 'text_path'} & set(catalog.get(r['id'], {})))]
     # A loose file whose bytes are a member of a zip that is itself uploaded
     # travels inside that zip; uploading it again would only cost tokens.
     in_zip = {m['dbx']: row['path'] for row in rows for m in catalog[row['id']].get('members', [])}
     for row in rows:
         c = catalog[row['id']]
-        up = {'dropbox_path': row['path'], 'sha256': c['sha256'], 'bytes': c['bytes'],
-              'source': str(store / c['sha256'])}
-        if c.get('dbx') in in_zip and in_zip[c['dbx']] != row['path']:
-            up['covered_by_zip'] = in_zip[c['dbx']]
-        if personal_name(row['path']):
-            up['personal_name'] = True
-        uploads.append(up)
-        if c.get('pii_flags') or up.get('personal_name') or (allow is not None and row['path'] not in allow):
+        up = None
+        if 'sha256' in c:  # original bytes are available (fetched, or recovered exactly)
+            up = {'dropbox_path': row['path'], 'sha256': c['sha256'], 'bytes': c['bytes'],
+                  'source': str(store / c['sha256'])}
+            if c.get('dbx') in in_zip and in_zip[c['dbx']] != row['path']:
+                up['covered_by_zip'] = in_zip[c['dbx']]
+            if personal_name(row['path']):
+                up['personal_name'] = True
+            uploads.append(up)
+        if c.get('pii_flags') or personal_name(row['path']) or (allow is not None and row['path'] not in allow):
             continue  # never auto-publish flagged, personal-looking or unapproved material
-        tpath = text_dir / (c['sha256'] + '.txt')
+        tpath = Path(c['text_path']) if c.get('text_path') else text_dir / (c['sha256'] + '.txt')
         if not tpath.exists():
             continue
         body = tpath.read_bytes()
         if len(body) > INTAKE_MAX_FILE:
             continue
+        key = c.get('sha256') or c['text_sha256']
         stem = re.sub(r'[^A-Za-z0-9_.-]+', '_', PurePosixPath(row['path']).stem)[:80]
-        out = gh / f'{stem}.{c["sha256"][:8]}.txt'
+        out = gh / f'{stem}.{key[:8]}.txt'
         out.write_bytes(body)
         artifacts.append({'path': out.name, 'bytes': len(body), 'sha256': hashlib.sha256(body).hexdigest(),
-                          'from_dropbox': row['path'], 'original_sha256': c['sha256'],
-                          'original_bytes': c['bytes'], 'extractor': c['extractor']})
+                          'from_dropbox': row['path'], 'original_sha256': c.get('sha256'),
+                          'original_bytes': c.get('bytes', c.get('original_bytes')),
+                          'exact_original': c.get('exact_original', 'sha256' in c), 'extractor': c['extractor']})
     Path(drive / 'UPLOADS.json').write_text(json.dumps(uploads, indent=1))
     Path(gh / 'PACKET_ARTIFACTS.json').write_text(json.dumps(artifacts, indent=1))
     over = max(0, len(artifacts) - INTAKE_MAX_FILES)
@@ -644,6 +747,7 @@ def main(argv=None):
     s = sub.add_parser('index-drive'); s.add_argument('--catalog', nargs='*'); s.add_argument('--drive-csv', nargs='*'); s.add_argument('--out', required=True); s.set_defaults(f=cmd_index_drive)
     s = sub.add_parser('classify'); s.add_argument('--inventory', required=True); s.add_argument('--git-index', required=True); s.add_argument('--drive-index'); s.add_argument('--dbx-hashes'); s.add_argument('--out', required=True); s.set_defaults(f=cmd_classify)
     s = sub.add_parser('harvest-links'); s.add_argument('--transcript', required=True); s.add_argument('--since', default=''); s.add_argument('--urls-out', required=True); s.add_argument('--hashes-out', required=True); s.set_defaults(f=cmd_harvest_links)
+    s = sub.add_parser('harvest-fetch'); s.add_argument('roots', nargs='+', help='transcript files or directories'); s.add_argument('--classified', required=True); s.add_argument('--store', required=True); s.add_argument('--text-out', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_harvest_fetch)
     s = sub.add_parser('batches'); s.add_argument('--classified', required=True); s.add_argument('--status', nargs='+', default=['MISSING']); s.add_argument('--out', required=True); s.set_defaults(f=cmd_batches)
     s = sub.add_parser('fetch'); s.add_argument('--urls', required=True); s.add_argument('--store', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_fetch)
     s = sub.add_parser('extract'); s.add_argument('--fetched', required=True); s.add_argument('--store', required=True); s.add_argument('--text-out', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_extract)

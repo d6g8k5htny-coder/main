@@ -116,6 +116,45 @@ class Harvest(unittest.TestCase):
             self.assertEqual(json.loads((p / 'u.json').read_text()), [])  # expired: issued before --since
 
 
+class HarvestFetch(unittest.TestCase):
+    def test_recover_original_needs_an_exact_hash(self):
+        self.assertEqual(dr.recover_original(README.decode() + '\n', README_DBX), README)  # connector adds '\n'
+        self.assertIsNone(dr.recover_original(README.decode().replace('Release', 'release') + '\n', README_DBX))
+        self.assertIsNone(dr.recover_original(README.decode() + '\n', None))
+        crlf = b'a\r\nb\r\n'
+        self.assertEqual(dr.recover_original('a\nb\n\n', dr.dbx_hash_bytes(crlf)), crlf)
+
+    def test_harvest_then_stage(self):
+        pdf_text = 'Theorem 1. Extracted from a PDF.'
+        payloads = [{'id': 'id:A', 'metadata': {}, 'text': README.decode() + '\n', 'title': 'README.md', 'url': ''},
+                    {'id': 'id:B', 'metadata': {}, 'text': pdf_text, 'title': 'paper.pdf', 'url': ''},
+                    {'id': 'id:X', 'metadata': {}, 'text': 'not in the classification', 'title': 'x', 'url': ''}]
+        line = json.dumps({'message': {'content': [{'type': 'tool_result', 'content': [
+            {'type': 'text', 'text': json.dumps(p)}]} for p in payloads]}})
+        rows = [{'id': 'id:A', 'path': 'x/README.md', 'size': 185, 'dbx': README_DBX, 'status': 'MISSING'},
+                {'id': 'id:B', 'path': 'x/paper.pdf', 'size': 9000, 'dbx': 'f' * 64, 'status': 'MISSING'}]
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            (p / 'sub').mkdir()
+            (p / 'sub' / 'agent.jsonl').write_text(line + '\n')
+            (p / 'cls.json').write_text(json.dumps(rows))
+            res = quiet(['harvest-fetch', str(p / 'sub'), '--classified', str(p / 'cls.json'), '--store',
+                         str(p / 'store'), '--text-out', str(p / 'text'), '--out', str(p / 'cat.json')])
+            self.assertEqual((res['fetched'], res['exact_originals'], res['text_only']), (2, 1, 1))
+            cat = {c['id']: c for c in json.loads((p / 'cat.json').read_text())}
+            self.assertEqual((p / 'store' / cat['id:A']['sha256']).read_bytes(), README)
+            self.assertNotIn('sha256', cat['id:B'])
+            quiet(['stage', '--classified', str(p / 'cls.json'), '--catalog', str(p / 'cat.json'), '--store',
+                   str(p / 'store'), '--text-dir', str(p / 'text'), '--github-out', str(p / 'gh'),
+                   '--drive-out', str(p / 'drive')])
+            ups = json.loads((p / 'drive' / 'UPLOADS.json').read_text())
+            arts = {a['from_dropbox']: a for a in json.loads((p / 'gh' / 'PACKET_ARTIFACTS.json').read_text())}
+            self.assertEqual([u['dropbox_path'] for u in ups], ['x/README.md'])  # no original bytes for the PDF
+            self.assertEqual(set(arts), {'x/README.md', 'x/paper.pdf'})
+            self.assertFalse(arts['x/paper.pdf']['exact_original'])
+            self.assertTrue(arts['x/README.md']['exact_original'])
+
+
 class Extract(unittest.TestCase):
     def test_docx_and_zip_members(self):
         doc = io.BytesIO()
