@@ -308,12 +308,15 @@ def test_the_real_tree_verifies_every_binding():
     assert out.returncode == 0, out.stdout
     s = summary(out.stdout)
     # SOURCE_RECOVERY.json binds two proof bodies, one archive, and two scripts.
-    assert s["certificates"] == 11
+    # The P15 foundation-first packet (research/campaigns/p15_foundation_first_20260921_v1)
+    # adds ten pin containers and binds two campaign archives that were previously
+    # containers only (q0_twelve, rn_bernstein_sharp_variance).
+    assert s["certificates"] == 21
     # 42 before the campaign archives' own dependency declarations were read. The
     # thirteen paths that jump adds are pinned by a checker and were absent from the
     # index that exists to name them -- see
     # test_the_index_names_what_only_a_campaign_archive_pins.
-    assert s["pinned_files"] == 55
+    assert s["pinned_files"] == 57
     assert s["pinned_archive_members"] == 6
     assert s["archive_declarations"] == 4
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]
