@@ -108,8 +108,10 @@ def test_the_summary_reports_enforced_and_unreadable_counts():
     assert code == 0, out
     assert "enforced=10" in out, out
     # One record's arithmetic is the BINDING sentence, which is ambiguous by
-    # construction. Reporting it is the point: it is unreadable, not inert.
-    assert "evidence_arithmetic_unreadable=1" in out, out
+    # construction; a second (H3-RUNG-FLOOR's carrier record, added by #111) is
+    # the BINDING prose "not applicable (Markdown artifact)". Reporting them is
+    # the point: they are unreadable, not inert.
+    assert "evidence_arithmetic_unreadable=2" in out, out
     assert "certifying_without_evidence=1" in out, out
 
 
@@ -409,11 +411,16 @@ def test_rejects_a_certified_rung_over_a_register_note_that_is_not_a_discharge()
     assert "FW-RUNG-OPEN-PREMISE" in out and "status_register_note" in out, out
 
 
-def test_no_claim_is_graded_certified_rung_in_the_committed_graph():
-    """So FW-RUNG-OPEN-PREMISE refuses nothing today. An inert firewall is not a
-    broken one, but it is one whose only evidence of working is its control."""
+def test_the_only_certified_rung_in_the_committed_graph_has_no_premise():
+    """Until #111 no claim was graded CERTIFIED_RUNG and FW-RUNG-OPEN-PREMISE
+    refused nothing. H3-RUNG-FLOOR (single-rung enclosure at r = 0.05) now
+    carries the grade with an empty `depends_on`, so the firewall is live and
+    has no open premise to refuse; this pins that state rather than the old
+    inert one."""
     g = graph()
-    assert not [n for n, c in g["claims"].items() if c.get("grade") == "CERTIFIED_RUNG"]
+    rungs = {n: c for n, c in g["claims"].items() if c.get("grade") == "CERTIFIED_RUNG"}
+    assert sorted(rungs) == ["H3-RUNG-FLOOR"], sorted(rungs)
+    assert rungs["H3-RUNG-FLOOR"]["depends_on"] == []
 
 
 def test_the_two_status_vocabularies_do_not_overlap():
@@ -481,7 +488,8 @@ def test_rejects_prose_that_does_not_name_an_enforced_firewall():
 
 
 def test_rejects_a_drifted_claim_count_in_the_prose():
-    code, out = run(readme=prose().replace("26 claims", "24 claims"))
+    n = len(graph()["claims"])
+    code, out = run(readme=prose().replace(f"{n} claims", f"{n - 2} claims"))
     assert code == 1, out
     assert "claim count has drifted" in out, out
 
