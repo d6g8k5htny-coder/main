@@ -13,6 +13,14 @@ same field on the same outer box.
 
 This is a predicate control. It does not sample the Bargmann-Fock measure and it
 does not move any corollary.
+
+NON-CERTIFYING. The gradient minima printed below are values of |grad f| on a
+700 x 700 grid, not certified lower bounds over the compact set; the true compact
+minima lie on the box edges (2 pi sin(2 pi 0.18) = 5.685196 for the old annulus,
+2 pi sin(2 pi 0.06) = 2.312995 for the tight complement) and are slightly below
+the sampled values. Nothing here depends on the difference at eta = 1. The
+equality-boundary and geometric-boundary controls in Section 10 of the repair
+document are analytic and are not exercised by this script.
 """
 
 from __future__ import annotations
@@ -164,7 +172,7 @@ def old_accepts(points: list[dict[str, float | str]], eps: float) -> tuple[bool,
     annulus = grad_min_on_complement(eps, OLD_OUTER, OLD_INNER)
     if annulus < ETA:
         return False, f"annulus gradient minimum {annulus} is below {ETA}"
-    return True, f"one index-one point, gap {gap:.6f}, annulus min |grad| {annulus:.6f}"
+    return True, f"one index-one point, gap {gap:.6f}, sampled annulus min |grad| {annulus:.6f} (NON-CERTIFYING grid value)"
 
 
 def repaired_accepts(
@@ -190,7 +198,7 @@ def repaired_accepts(
     margin = grad_min_on_complement(eps, outer, neighborhood)
     if margin <= ETA:
         return False, f"continuation-complement gradient minimum {margin} does not exceed {ETA}"
-    return True, f"unique index-one point in the continuation neighborhood, gap {gap:.6f}, complement min |grad| {margin:.6f}"
+    return True, f"unique index-one point in the continuation neighborhood, gap {gap:.6f}, sampled complement min |grad| {margin:.6f} (NON-CERTIFYING grid value)"
 
 
 def require(condition: bool, message: str) -> None:
