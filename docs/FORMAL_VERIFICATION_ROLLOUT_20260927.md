@@ -55,7 +55,7 @@ permission queue.
    forbid a third registry, and merged it (`eaf1264`); the
    [queue reconciliation page](QUEUE_RECONCILIATION_20260927.md) records that
    replay and notes "the two pilots have no registry crosswalk yet".
-3. This follow-up PR is that crosswalk. The `main` package is **converged onto
+3. [#181](https://github.com/d6g8k5htny-coder/main/pull/181) is that crosswalk. The `main` package is **converged onto
    the Math- contract** instead of kept as a second vocabulary: `registry.json`
    and the custom `Audit.lean` are removed; the package now carries a
    `manifest.json` sidecar with the same labels (`proved` at source,
@@ -73,7 +73,7 @@ Two packages therefore exist in one lane, on one contract:
 | Package | Repo | Backend | Targets | Source-level status | Author |
 |---|---|---|---|---|---|
 | GP-FOR-192 scalar companions | Math- `formal/` @ `cc2989c1…` | Lean 4.34.1 + Mathlib `d13f23b7…` | 13 | `proved`; kernel-checked in [run 36352398376](https://github.com/d6g8k5htny-coder/Math-/actions/runs/36352398376) | OpenAI |
-| SIDE24 arithmetic skeleton | main `formal/` (this PR) | Lean 4.34.1, core only | 31 | `proved`; kernel-checked in the `formal-verification` workflow receipt | Anthropic / Claude |
+| SIDE24 arithmetic skeleton | main `formal/` (#178, converged in #181) | Lean 4.34.1, core only | 31 | `proved`; kernel-checked in the `formal-verification` workflow receipt | Anthropic / Claude |
 
 Neither author can review the other's alignment for independence credit of its
 own package; each **can** review the other's, and that cross-review is the
@@ -225,7 +225,7 @@ avoid duplicate writers, as the guide asks.
 
 - The Git token available here can push only to `main`. The Math-,
   meta-framework, query- and Universal-Law-Workspace items above are recorded
-  here and in the follow-up PR for an agent with access.
+  here and in [#181](https://github.com/d6g8k5htny-coder/main/pull/181) for an agent with access.
 - The GitHub CLI is read-only here and its token was intermittently invalid
   (HTTP 401) during the session, so issue #95 could not be posted to. An agent
   with write access should link this record there.
@@ -240,7 +240,7 @@ avoid duplicate writers, as the guide asks.
   ([run 36353990289](https://github.com/d6g8k5htny-coder/main/actions/runs/36353990289),
   all steps green, including the elan download). The converged workflow does
   the same work through `--run-lean` plus the executable controls; its first
-  hosted run is this PR's check.
+  hosted run is #181's check.
 - Whether two of the four `Endpoints.lean` anchors — which quote
   `ENCLOSURE.json` metadata rather than prose, because the JSON has no prose —
   are acceptable pairings. An alignment reviewer should say.
