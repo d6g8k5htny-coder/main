@@ -1,64 +1,89 @@
-# Formalization review lane (statement alignment)
+# Independent statement-alignment review (this package)
 
-The Lean kernel checks that a proof is valid. It cannot check that the theorem
-proved is the theorem the informal text claims. That check is a human or model
+The Lean kernel checks that a proof establishes its statement. It cannot check
+that the statement is the one the informal text makes. That is an independent
 review task with its own lane, distinct from Layer 0 analytic review and from
-the author-side act of writing the Lean text.
+the author-side act of writing the Lean text. The contract is the lane's
+([formal-verification guide](../docs/FORMAL_VERIFICATION.md), "Gate and trust
+boundary") and is restated for this package in
+[SCOPE.md § Review contract](SCOPE.md#review-contract).
+
+## Who may review
+
+Anyone whose provider, family **and** agent all differ from the author's
+(`Anthropic` / `Claude` / Cursor cloud agent, 2026-09-27). The validator refuses
+a record where any of the three coincides, case-insensitively. Same-provider
+reviewers earn zero organizational-independence credit whatever they write;
+this is the repository's existing rule and it applies to Lean text as to prose.
 
 ## What the reviewer does
 
-For each Lean declaration under review:
+Read the exact current head first; a changed source, scope, toolchain or
+manifest stales any earlier record. Then, for each of the 31 targets in
+`manifest.json`:
 
-1. Read the `informal_anchor` in `registry.json` and locate it in the pinned
-   local source copy (`formal/sources/...`); confirm the surrounding context.
-2. Read the Lean statement (not the proof). Decide whether the Lean statement is
-   the informal statement at the stated scope — the same constants, the same
-   quantifiers, the same direction of inequality, the same units or scaling
-   (many pilot statements are cross-multiplied integer forms of rational
-   identities; the docstring states the rational form — check that the
-   cross-multiplication is right).
-3. Read the `does_not_claim` field. Confirm the Lean statement does not
-   silently claim more than the anchor, and that what it omits is named.
-4. Record the verdict per declaration: `ALIGNED`, `ALIGNED AT NARROWER SCOPE`
-   (say what is narrower), or `MISALIGNED` (say exactly how). Do **not** grade
-   the proof; the kernel already did. Do not grade the Layer 0 mathematics;
-   that is a different lane.
+1. Locate the `informal_anchor` in the pinned local source copy under
+   `sources/side24_v1/` and read its context.
+2. Read the Lean **statement** (not the proof) and its docstring. Decide
+   whether it is the informal statement at the scope stated in `SCOPE.md`:
+   same constants, same quantifiers, same direction of inequality, same
+   scaling. Most targets are cross-multiplied integer forms of rational
+   identities; check the cross-multiplication.
+3. Read `does_not_claim` and the "Not established" column of `SCOPE.md`.
+   Confirm the Lean statement does not silently claim more than the anchor and
+   that what it omits is named.
+4. Record a per-target verdict: `ALIGNED`, `ALIGNED AT NARROWER SCOPE` (say
+   what is narrower) or `MISALIGNED` (say exactly how). Do not grade the proof
+   (the kernel did) and do not grade the Layer 0 mathematics (different lane).
 
-The reviewer does not need to run Lean to review alignment, but should confirm
-the gate is green at the reviewed commit and quote that run.
+The reviewer need not run Lean, but should quote the gate output at the
+reviewed commit (`SOURCE_IDENTITY_PASS … <manifest digest>` and, if available,
+the workflow run that produced the receipt).
 
 ## What the reviewer records
 
-Copy [`reviews/TEMPLATE.md`](reviews/TEMPLATE.md) to
-`reviews/<date>_<scope>_<reviewer-slug>.md`. Record:
+Two files under `reviews/`, named `<date>_<reviewer-slug>.md` and `.json`:
 
-- Reviewer identity and provider. **Same-provider reviewers earn zero
-  organizational-independence credit** whatever the verdict (this repository's
-  existing rule; it applies to Lean text exactly as to prose).
-- Source exposure: whether the reviewer read the author's Lean proof text or
-  docstrings before forming a view of the statement. Reading the proof first is
-  the weakest form of review and must be stated.
-- The exact registry commit, Lean file SHA-256 values, and the gate output.
-- One row per declaration with the verdict.
+- **Markdown**: reviewer identity and provider; **source exposure** (whether the
+  Lean proof text or docstrings were read before forming a view of each
+  statement — reading the proof first is the weakest form and must be stated);
+  the reviewed commit, manifest digest and scope digest; one row per target
+  with the verdict.
+- **JSON**: copy [`reviews/TEMPLATE_alignment_review.json`](reviews/TEMPLATE_alignment_review.json)
+  and fill it in. `disposition` is `ACCEPTED` only if **every** target is
+  `ALIGNED` or `ALIGNED AT NARROWER SCOPE` with the narrowing recorded;
+  otherwise leave the record unaccepted — the validator refuses it, which is
+  the intended outcome. `manifest_sha256` is the SHA-256 of
+  `formal/manifest.json` at the reviewed commit; `scope_sha256` is the hash of
+  `formal/SCOPE.md` recorded in the manifest's `files`. `targets` is exactly
+  the 31 manifest target names. `evidence` points to the committed Markdown
+  record by repository, 40-character commit, path and SHA-256.
 
-Then, in `registry.json`, set that claim's `alignment_review` to
-`{"status": "reviewed", "author": ..., "reviewer": ..., "record": "formal/reviews/<file>.md"}`.
-The gate refuses `reviewed` without a reviewer and an existing record file.
-A `MISALIGNED` verdict leaves the status `open` and is corrected at the source:
-fix the Lean statement (a new hash, a re-run kernel check) or fix the anchor.
+Validate: `python3 tools/formal_gate_check.py --alignment formal/reviews/<file>.json`.
+The validator checks structure, digests, coverage and lineage independence. It
+does not authenticate that the review happened; a controller has to retrieve
+the referenced evidence at the referenced commit.
+
+A `MISALIGNED` verdict is corrected at the source: fix the Lean statement (new
+hash, new `--run-lean` receipt) or fix the anchor, then re-review.
 
 ## What this lane cannot do
 
-- It cannot promote a Layer 0 status. `STATUS.md` and `PROOF_INDEX.md` move only
-  through their own source-bound review.
-- It cannot make an author-side proof independent by relabelling; independence
-  is recorded from the reviewer's actual identity.
-- It cannot substitute for formalising the analytic content. An aligned
-  arithmetic lemma remains an arithmetic lemma.
+- Promote a Layer 0 status. `STATUS.md` and `PROOF_INDEX.md` move only through
+  their own source-bound review.
+- Make an author-side proof independent by relabelling; independence is
+  recorded from the reviewer's actual identity and lineage.
+- Substitute for formalising the analytic content. An aligned arithmetic lemma
+  remains an arithmetic lemma.
+- Flip `alignment_status` in `manifest.json`. That field stays
+  `PENDING_INDEPENDENT_REVIEW`; the accepted record is the evidence, and a
+  controller consumes it.
 
 ## Current state
 
-All 31 pilot declarations are `open`: authored by Anthropic / Claude via a
-Cursor cloud agent on 2026-09-27, kernel-checked, not yet alignment-reviewed by
-anyone else. A reviewer from OpenAI, Google, xAI or a human would earn
-organizational-independence credit; another Anthropic model would not.
+All 31 targets: authored by Anthropic / Claude via a Cursor cloud agent on
+2026-09-27; `proved` at source; `kernel-checked` only in the receipt of a
+trusted run; alignment `PENDING_INDEPENDENT_REVIEW`. No record other than the
+template exists. Record actual pickup in
+[work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) so two
+reviewers do not duplicate the work.

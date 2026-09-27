@@ -11,8 +11,9 @@ The published decimal endpoints are transcribed here as integers in units of
 
 This module does **not** establish that the coefficient lies in either
 interval: that claim needs `Real.Gamma`, `Real.pi`, `Real.exp` and the
-Gaussian cone moments, none of which exist in core Lean. Its formalization
-status is recorded as `none` in `formal/registry.json`.
+Gaussian cone moments, none of which exist in core Lean. That boundary is
+recorded target by target in `formal/SCOPE.md`; the enclosure itself is not a
+target of this package.
 -/
 
 namespace UniversalLaw.Side24

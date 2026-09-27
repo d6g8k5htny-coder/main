@@ -59,19 +59,22 @@ the workspace changes.
 
 ## Formal layer check
 
-The `formal-verification` workflow builds the Lean 4 library in [`formal/`](../formal/README.md),
-audits axioms, and runs the fail-closed formalization gate. Locally, after installing
-elan (see the formal README):
+The `formal-verification` workflow runs `tools/formal_gate_check.py --run-lean` on the
+Lean 4 package in [`formal/`](../formal/README.md): fresh build, `leanchecker`, transitive
+axiom audit, executable negative controls, receipt. Locally, after installing elan (see
+the formal README):
 
 ```sh
-python3 tools/formal_gate_check.py --run-lean
+python3 tools/formal_gate_check.py               # source-only identity check, no Lean
+python3 tools/formal_gate_check.py --run-lean    # kernel evidence + receipt
 python3 -B -S -m unittest tests.test_formal_gate -v
 ```
 
-A green run means the registered declarations are kernel-checked with allowed axioms
-only and the registry, hashes and informal anchors agree. It is formalization status,
-not mathematical acceptance; the [rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md)
-explains the boundary.
+A green run means the manifest's targets built with allowed axioms only at the receipt's
+`checked_commit`, every control failed as it must, and the hashes, inventory and informal
+anchors agree. That is formal evidence for exactly those targets, not mathematical
+acceptance; the [guide](FORMAL_VERIFICATION.md) and the
+[rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md) explain the boundary.
 
 [Current authority](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
 [Home](../README.md) · [Historical material](../history/2025/README.md)
