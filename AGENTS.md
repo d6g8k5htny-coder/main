@@ -30,3 +30,15 @@ not a reason to ask for permission already granted.
 Drive record, and collaboration surfaces. This `main` initially contains the renewed
 landing, not the complete research stack. Bring improvements into it coherently;
 there is no permanent landing-only restriction.
+
+## Formal-verification extension — 27 September 2026
+
+Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) and coordinate
+through [the existing work item #95](https://github.com/d6g8k5htny-coder/main/issues/95).
+Lean kernel evidence, exact source identity, independent statement alignment and
+scientific acceptance are separate requirements. A build, Blueprint link, hash,
+solver result or merge does not satisfy them all. Reuse the source-pinned Math-
+pilot rather than opening a competing registry. Preserve original proof carriers;
+compiler changes are explicit successors. Review the exact current head and record
+actual author/reviewer lineage. Do not credit an unobserved reviewer or assume that
+a prior source-bound review remains valid after its source or scope changes.
