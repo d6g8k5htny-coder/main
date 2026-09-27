@@ -309,8 +309,13 @@ def test_the_real_tree_verifies_every_binding():
     s = summary(out.stdout)
     # SOURCE_RECOVERY.json binds two proof bodies, one archive, and two scripts.
     assert s["certificates"] == 11
-    assert s["pinned_files"] == 42
+    # 42 before the campaign archives' own dependency declarations were read. The
+    # thirteen paths that jump adds are pinned by a checker and were absent from the
+    # index that exists to name them -- see
+    # test_the_index_names_what_only_a_campaign_archive_pins.
+    assert s["pinned_files"] == 55
     assert s["pinned_archive_members"] == 6
+    assert s["archive_declarations"] == 4
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]
     assert s["unresolved"] == 0
     assert s["problems"] == 0
@@ -365,8 +370,177 @@ def test_the_index_is_what_the_certificates_say():
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import pinned_sources_check as P
 
-    files, containers, problems, counts = P.survey(ROOT, "research")
+    # full_survey, not survey: the index includes the pins declared inside campaign
+    # archives, and calling survey() here compared the index against a render that
+    # had never seen one. Two paths for one document is how a kind of pin goes
+    # unchecked.
+    files, containers, problems, counts = P.full_survey(ROOT, "research")
     assert problems == []
     want = P.render(files, containers, counts)
     with open(os.path.join(ROOT, INDEX_REL), encoding="utf-8") as handle:
         assert handle.read() == want
+
+
+# ------------------- pins declared INSIDE a campaign archive -----------------
+# The defect these close: the first version of this tool read only the JSON files
+# on disk under `research/`, so the dependency declarations sealed inside a
+# campaign `.zip` were invisible. Thirteen pinned repository paths were absent
+# from the index whose only purpose is to name them, and one of them --
+# `research/rn/moment_envelope.py` -- was then edited BECAUSE the index said it
+# was not pinned, which made `tools/rn_bernstein_sharp_check.py` refuse the tree.
+
+ARCHIVE_ONLY_PINS = (
+    "research/rn/moment_envelope.py",       # the one that was broken
+    "research/rn/density_majorant.py",
+    "research/rn/n6_inputs.py",
+    "research/rn/side24_wedge.py",
+    "research/rn/spatial_cover.py",
+    "engine/operations/trial.py",
+    "research/parallel/lpw/lpw_modulus.py",
+    "research/parallel/lpw/ARGUMENT.md",
+    "docs/OPEN_PROBLEMS.md",
+    "tools/h3_rn_n6_check.py",              # a checker pinned by the campaign it enforces
+    "tools/twelve_project_check.py",        # and the other one
+)
+
+
+def test_the_index_names_what_only_a_campaign_archive_pins():
+    """Every one of these is pinned by an archive declaration and by nothing on
+    disk, so each is absent from the index unless the archives are read."""
+    with open(os.path.join(ROOT, INDEX_REL), encoding="utf-8") as handle:
+        index = handle.read()
+    for path in ARCHIVE_ONLY_PINS:
+        assert f"| `{path}` |" in index, path
+
+
+def test_the_real_tree_reads_its_archive_declarations():
+    """The scope guard must never silently apply to this repository.
+
+    `archive_declared` skips a root with no `research/campaigns`, so the controls
+    above can use synthetic roots of three files. If that skip ever applied here,
+    every archive-declared pin would vanish from the index and the run would still
+    be green -- so the real tree asserts it is reading them."""
+    out = run(ROOT)
+    assert out.returncode == 0, out.stdout
+    assert "archive_scope='read'" in out.stdout, out.stdout
+    assert summary(out.stdout)["archive_declarations"] == 4
+
+
+def test_every_enforcing_checker_is_named_by_the_table():
+    """The anti-drift guard. A new campaign checker that enforces a pin set against
+    the tree must appear in ARCHIVE_DEPENDENCY_SOURCES or CHECKER_HELD_DEPENDENCIES,
+    or whatever it pins is invisible here -- the original defect, recurring."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    named = ({row[3] for row in P.ARCHIVE_DEPENDENCY_SOURCES}
+             | {row[0] for row in P.CHECKER_HELD_DEPENDENCIES})
+    found = P.enforcing_checkers(ROOT)
+    assert found, "no enforcing checker found at all; the scan has stopped working"
+    assert found <= named, sorted(found - named)
+    # And the scan really does see the attribute-call form, which is how two of the
+    # three call it. A lookbehind excluding `.` found only one and would have
+    # declared the table complete with two checkers unlisted.
+    assert "tools/h3_rn_n6_check.py" in found
+    assert "tools/rn_bernstein_sharp_check.py" in found
+    assert "tools/twelve_project_check.py" in found
+
+
+def test_a_declared_count_that_no_longer_matches_is_refused(tmp_path):
+    """If a declaration grows or shrinks, this index must refuse rather than list a
+    subset: understating what may not be edited is the failure mode."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    original = P.ARCHIVE_DEPENDENCY_SOURCES
+    try:
+        arc, member, key, checker, declared = original[1]
+        P.ARCHIVE_DEPENDENCY_SOURCES = ((arc, member, key, checker, declared + 1),)
+        _files, problems, _counts = P.archive_declared(ROOT)
+        assert any("must read exactly what the checker reads" in p for p in problems), problems
+    finally:
+        P.ARCHIVE_DEPENDENCY_SOURCES = original
+
+
+def test_a_missing_declaration_key_is_refused():
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    original = P.ARCHIVE_DEPENDENCY_SOURCES
+    try:
+        arc, member, _key, checker, declared = original[0]
+        P.ARCHIVE_DEPENDENCY_SOURCES = ((arc, member, "no_such_key", checker, declared),)
+        _files, problems, _counts = P.archive_declared(ROOT)
+        assert any("no 'no_such_key' key" in p for p in problems), problems
+    finally:
+        P.ARCHIVE_DEPENDENCY_SOURCES = original
+
+
+def test_an_absent_declared_archive_is_refused(tmp_path):
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    (tmp_path / "research" / "campaigns").mkdir(parents=True)
+    (tmp_path / "tools").mkdir()
+    _files, problems, _counts = P.archive_declared(str(tmp_path))
+    assert any("declared as an archive pin source and absent" in p for p in problems), problems
+
+
+def test_dependency_rows_reads_both_declaration_shapes():
+    """`bernstein/DEPENDENCIES.json` keys its records by path; `sharp_variance`'s
+    carries a list of rows. Reading only one shape silently drops 30 or 32 pins."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    as_dict = {"a.py": {"bytes": 1, "sha256": "a" * 64}}
+    as_list = [{"path": "b.py", "bytes": 2, "sha256": "b" * 64}]
+    assert P.dependency_rows(as_dict) == {"a.py": {"bytes": 1, "sha256": "a" * 64}}
+    assert P.dependency_rows(as_list) == {"b.py": {"bytes": 2, "sha256": "b" * 64}}
+    assert P.dependency_rows({"schema": "not-a-record"}) == {}
+    assert P.dependency_rows([{"no": "path"}]) == {}
+
+
+def test_the_source_label_does_not_collide_between_archives():
+    """A bare basename put `DEPENDENCIES.json` in the "pinned by" column, which names
+    neither of the two archives that hold a member of that name."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pinned_sources_check as P
+
+    a = P.source_label("research/campaigns/one.zip::bernstein/DEPENDENCIES.json")
+    b = P.source_label("research/campaigns/two.zip::bernstein/DEPENDENCIES.json")
+    assert a != b and a == "one.zip::bernstein/DEPENDENCIES.json"
+    assert P.source_label("tools/twelve_project_check.py (SUPPLEMENTAL_DEPENDENCIES)").startswith("tools/")
+
+
+CLAUDE_MD = os.path.join(ROOT, "CLAUDE.md")
+COUNT_KEYS = ("certificates", "archive_declarations", "pinned_files",
+              "pinned_archive_members")
+
+
+def test_claude_md_counts_match_the_checker():
+    """CLAUDE.md told readers how much is pinned, in prose nobody compared, and the
+    numbers drifted twice: it said eight records and 34 files where the checker
+    found eleven and 55. A count in the file people read BEFORE editing is
+    load-bearing, so it is compared rather than trusted."""
+    out = run(ROOT)
+    assert out.returncode == 0, out.stdout
+    computed = summary(out.stdout)
+    with open(CLAUDE_MD, encoding="utf-8") as handle:
+        text = handle.read()
+    stated = dict(re.findall(r"(\w+)=(\d+)", text))
+    for key in COUNT_KEYS:
+        assert key in stated, f"CLAUDE.md states no {key}"
+        assert int(stated[key]) == computed[key], (key, stated[key], computed[key])
+
+
+def test_the_count_control_would_notice_a_drifted_number(tmp_path):
+    """Without this, the control above could be comparing nothing."""
+    out = run(ROOT)
+    computed = summary(out.stdout)
+    with open(CLAUDE_MD, encoding="utf-8") as handle:
+        text = handle.read()
+    drifted = text.replace(f"pinned_files={computed['pinned_files']}",
+                           f"pinned_files={computed['pinned_files'] + 1}")
+    assert drifted != text, "the control cannot find the number it claims to check"
+    stated = dict(re.findall(r"(\w+)=(\d+)", drifted))
+    assert int(stated["pinned_files"]) != computed["pinned_files"]
