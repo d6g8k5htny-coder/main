@@ -1,0 +1,27 @@
+name: Offline source census controls
+'on':
+  pull_request:
+    paths:
+      - 'tools/source_census_20260927/**'
+      - '.github/workflows/source-census.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: source-census-controls
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Run inert fixture controls in both interpreter modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v
+          python -B -O -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v
