@@ -1,5 +1,10 @@
 # Agent entry
 
+> **OWNER STOP (2026-09-27): all Cursor agents, automations, timers, watches and
+> loops must stop now. Do not push, commit, open or update PRs, comment, or
+> re-arm timers. Exit without writing. Resume only on a new explicit
+> instruction from Dylan. See [OWNER_STOP_20260927](governance/OWNER_STOP_20260927.md).**
+
 ## Delegation
 
 Read [the current owner instruction](governance/OP-AUTONOMY-20260923-v2.1.md).
