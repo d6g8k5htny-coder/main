@@ -265,7 +265,9 @@ def test_the_pinned_moment_envelope_bytes_match_the_archive_member_pin():
               encoding="utf-8") as f:
         index = f.read()
     if "moment_envelope" in index:
-        row = [l for l in index.splitlines() if "moment_envelope" in l]
+        # table rows only: the index preamble may also name the file in prose
+        row = [l for l in index.splitlines()
+               if l.startswith("| `") and rel in l]
         assert len(row) == 1, row
         assert rows[rel]["sha256"][:16] in row[0], (
             "the index names this file with a digest that is not the one the "
