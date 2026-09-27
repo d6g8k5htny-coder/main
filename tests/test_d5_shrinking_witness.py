@@ -32,15 +32,15 @@ def jacobian_matrix(dim, delta):
     return matrix
 
 
-def axial_from_higher(delta, mu, nu, rho):
+def axial_from_higher(delta, mu, nu, omega):
     """Impose h(0)=h(delta)=0 on a degree-four axial derivative and return jets."""
-    alpha = -mu * delta / 2 - nu * delta ** 2 / 6 - rho * delta ** 3 / 24
-    alpha_far = alpha + mu * delta + nu * delta ** 2 / 2 + rho * delta ** 3 / 6
+    alpha = -mu * delta / 2 - nu * delta ** 2 / 6 - omega * delta ** 3 / 24
+    alpha_far = alpha + mu * delta + nu * delta ** 2 / 2 + omega * delta ** 3 / 6
     gap = (
         alpha * delta ** 2 / 2
         + mu * delta ** 3 / 6
         + nu * delta ** 4 / 24
-        + rho * delta ** 5 / 120
+        + omega * delta ** 5 / 120
     )
     return alpha, alpha_far, gap
 
@@ -64,19 +64,19 @@ class ShrinkingWitnessIdentities(unittest.TestCase):
             self.assertLessEqual(determinant ** 2, hu2 * frobenius2)
 
     def test_axial_expansion_and_height_gap(self):
-        delta, mu, nu, rho = Fraction(2, 7), Fraction(3), Fraction(-5), Fraction(11)
-        alpha, alpha_far, gap = axial_from_higher(delta, mu, nu, rho)
+        delta, mu, nu, omega = Fraction(2, 7), Fraction(3), Fraction(-5), Fraction(11)
+        alpha, alpha_far, gap = axial_from_higher(delta, mu, nu, omega)
         self.assertEqual(
             alpha,
-            -(delta / 2) * mu - (delta ** 2 / 6) * nu - (delta ** 3 / 24) * rho,
+            -(delta / 2) * mu - (delta ** 2 / 6) * nu - (delta ** 3 / 24) * omega,
         )
         self.assertEqual(
             alpha_far,
-            (delta / 2) * mu + (delta ** 2 / 3) * nu + (delta ** 3 / 8) * rho,
+            (delta / 2) * mu + (delta ** 2 / 3) * nu + (delta ** 3 / 8) * omega,
         )
         self.assertEqual(
             gap,
-            -(mu * delta ** 3) / 12 - (nu * delta ** 4) / 24 - (rho * delta ** 5) / 80,
+            -(mu * delta ** 3) / 12 - (nu * delta ** 4) / 24 - (omega * delta ** 5) / 80,
         )
 
     def test_leading_axial_signs_and_fourth_derivative_window(self):
@@ -105,8 +105,8 @@ class ShrinkingWitnessIdentities(unittest.TestCase):
         # Var(∂xxx f)=15 and Cov(∂x f, ∂xxx f)=-3 at a point of exp(-|z|^2/2).
         # Hu is uncorrelated with the third derivative, so conditioning on it
         # does not change this residual variance.
-        variance = 15 - ((-3) ** 2) / 1
-        self.assertEqual(variance, 6)
+        variance = Fraction(15) - Fraction((-3) ** 2, 1)
+        self.assertEqual(variance, Fraction(6))
 
     def test_note_cites_the_reviewed_outer_boundary(self):
         note = Path(__file__).resolve().parents[1] / "docs" / "rn_d5_shrinking_witness_20260926.md"

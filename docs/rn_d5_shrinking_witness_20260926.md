@@ -3,6 +3,8 @@
 **Object:** RN-SHRINKING-WITNESS-M2-20260926.
 **Disposition:** additive reconnaissance for the closed fixed-η interface. It does not edit `frontiers/remote_window_20260924/PROOF.md`, does not change the seven fixed-ρ / fixed-η acceptances, and does not accept a sharp collision kernel, a pin-neighborhood estimate, an intermediate-annulus bridge, elder pairing, or a global RN / 24-jet theorem.
 
+**Amendment note (2026-09-27).** Review comment [5850462018](https://github.com/d6g8k5htny-coder/main/pull/125#issuecomment-5850462018) on head `00c9d08a` returned AMEND with four items. This revision displays the uniform moment input as Lemma 1 with its complete compact parameter set (item 1), rewords the two sentences that overstated what is shown about the shrinking-pair order (item 2), restores the `#76` route row in `docs/RESEARCH_INDEX.md` and adds a separate row (item 3), renames the fifth axial derivative to `ω`, makes the Bargmann–Fock check rational, fixes the `δ_*` wording, and states the scope of the lock tests (item 4). The §3 bound and its proof are otherwise unchanged. Scientific effect of the amendment: NONE.
+
 Reviewed outer boundary: Math- `frontiers/remote_window_20260924/PROOF.md` at `191ea7d541a486736ba7bbddfd4eac25a6c4567b`, 18355 bytes, SHA256 `a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7`. The accepted pair statement is (15)–(16) there: for each fixed `m≥2` and fixed `η>0`, one endpoint weight and one endpoint normalizer give
 
 ```text
@@ -14,7 +16,7 @@ For `m=2` the fixed-gap probability is `O(r^6)`. This note starts exactly where 
 
 ## 1. Divided-difference frame
 
-Fix `0<δ_*≤ρ/4` and `0<r_*≤ρ`. For `r≤r_*` every point of `D_ρ` is at least `ρ/2` from both pins. On the pair region
+Choose `δ_*∈(0,ρ/4]` and `r_*∈(0,ρ]` small enough for Lemma 1 below, then keep them fixed for the rest of the note; separations in `[δ_*,ρ/4]` are covered by the accepted formula (15) with `η=δ_*`. For `r≤r_*` every point of `D_ρ` is at least `ρ/2` from both pins. On the pair region
 
 ```text
 0 < |x-y| ≤ δ_*,    x,y ∈ D_ρ,
@@ -32,9 +34,28 @@ The linear map `(G_0,G_1) ↦ (∇f(x), ∇f(y)) = (G_0, G_0+δ G_1)` has Jacobi
 p_{∇f(x),∇f(y)}(0,0) = δ^{-d} p_{G_0,G_1}(0,0).
 ```
 
-The contact limit is `(∇f(x), H_x u)`. Those `2d` functionals are linearly independent: the gradient functionals have order one, and `H ↦ H u` is a surjective family of order-two functionals. Together with the pin jet `U_0` at a site at least `ρ/2` away, the reviewed Fourier argument applies. The covariance is continuous on the compact set `D_ρ × S^{d-1}`, so its smallest eigenvalue has a positive lower bound `c_*`.
+The contact limit is `(∇f(x), H_x u)`. Those `2d` functionals are linearly independent: the gradient functionals have order one, and `H ↦ H u` is a surjective family of order-two functionals. Together with the pin jet `U_0` at a site at least `ρ/2` away, the reviewed Fourier argument applies.
 
-The Taylor remainder of the smooth field gives `G_1 - H_x u = O(δ)` in every fixed `L^p`, uniformly for `x∈D_ρ` and `|u|=1`. For `δ_*` small and `r≤r_*`, the conditional covariance of `(G_0,G_1)` given the endpoint pins `U_r=v_r` stays bounded below by `c_*/2`. The conditional density of `(G_0,G_1)` at the origin is consequently bounded by a constant that depends on `d,L,ρ,δ_*,B,K` and not on `δ` or on `η`. Hence
+**Lemma 1 (uniform conditional moments).** Fix an integer `q≥4`, an exponent `p<∞`, and a compact height set `T` containing a neighborhood of the birth interval. Let
+
+```text
+Θ = { θ=(r,x,u,δ,t) : 0<r≤r_*, x∈D_ρ, |u|=1, 0<δ≤δ_*, x+δu∈D_ρ, t∈T },
+```
+
+and let `O_θ=(U_r, G_0, G_1, f(x))` be the observation vector, with `y=x+δu`. Then, after `δ_*` and `r_*` are taken small enough,
+
+1. the covariance `Σ_obs(θ)` of `O_θ` satisfies `λ_min(Σ_obs(θ)) ≥ c_*/2` for every `θ∈Θ`, with `c_*>0` depending on `d,L,ρ,B,K` only, and
+2. for the field conditioned on `O_θ=(v_r,0,0,t)` with `v_r` in the fixed compact endpoint target set,
+
+```text
+sup_{θ∈Θ} E[ (1+||f||_{C^q(D_ρ)})^p | O_θ=(v_r,0,0,t) ] ≤ C(d,L,ρ,δ_*,q,p,B,K) < ∞.
+```
+
+*Proof.* Every entry of `Σ_obs(θ)`, and every cross-covariance `Cov(D^a f(z), O_θ)` for `|a|≤q` and `z∈D_ρ`, is a smooth function of the sites because the kernel is smooth; the divided difference has the continuous extension `Cov(D^a f(z), G_1) = δ^{-1}(Cov(D^a f(z),∇f(y)) - Cov(D^a f(z),∇f(x))) → Cov(D^a f(z), H_x u)` as `δ→0`, and `U_r→U_0` as `r→0`. So `Σ_obs` and the cross-covariances extend continuously to the compact closure `\bar Θ` (where `δ=0` means `G_1=H_x u` and `r=0` means `U_r=U_0`). On `\bar Θ` the extended observation consists of the pin jet `U_0` at sites at least `ρ/2` away together with `(∇f(x), H_x u, f(x))`, which are `2d+1` linearly independent functionals at `x`; by the reviewed Fourier positivity argument (PROOF.md, the nondegeneracy step for (5)), its covariance is positive definite at every point of `\bar Θ`, hence bounded below by some `c_*>0` on `\bar Θ` by compactness and continuity. Shrinking `δ_*` and `r_*` makes the finite-parameter covariance at least `c_*/2`, which is item 1.
+
+For item 2, the conditional law is Gaussian with mean `m_θ(z) = Cov(f(z),O_θ) Σ_obs(θ)^{-1} (v_r,0,0,t)` and covariance `K_θ(z,w) = K(z,w) - Cov(f(z),O_θ) Σ_obs(θ)^{-1} Cov(O_θ,f(w))`. Since `||Σ_obs(θ)^{-1}|| ≤ 2/c_*`, the target is bounded, and the cross-covariances are bounded in `C^q` uniformly on `\bar Θ`, the conditional mean is bounded in `C^q(D_ρ)` uniformly over `Θ`. The conditional covariance operator is dominated by the unconditional one, so for every fixed derivative `Var(D^a f(z) | O_θ) ≤ Var(D^a f(z))`, and the centered conditional field is a smooth Gaussian process on `D_ρ` whose canonical metric is dominated by the unconditional metric. Sobolev embedding on the smooth compact region `D_ρ` gives `||g||_{C^q} ≤ C ||g||_{W^{q+d,2}}`, the second moment of that Sobolev norm is a finite sum of pointwise variances integrated over `D_ρ`, each at most its unconditional value, and Fernique's theorem (equivalently Borell–TIS for the supremum of each derivative) turns the uniform second-moment bound into a uniform `p`-th moment bound. Adding the bounded mean gives the display. ∎
+
+Lemma 1 is the whole uniform input used below; the reviewed estimates (8)–(10) are transferred to the enlarged conditioning only through it. In particular the conditional density of `(G_0,G_1)` at the origin, given `U_r=v_r`, is bounded by a constant that depends on `d,L,ρ,δ_*,B,K` and not on `δ` or on `η`. Hence
 
 ```text
 p_{∇f(x),∇f(y) | U_r}(0,0) ≤ C δ^{-d}.
@@ -56,13 +77,13 @@ On the conditional field with `G_1=0`,
 H_x u = -(δ/2) ∇_u(H_x) u + O(δ^2),
 ```
 
-and the same expansion at `y` in the direction `-u` gives `||H_y u||`. The third- and fourth-derivative factors have conditional `L^p` norms bounded uniformly in the pair location, the direction, and the height target in the compact mark set. Gaussian regression supplies those bounds: the observation covariance is uniformly positive definite, the targets `(v_r,0,0,t)` stay bounded, and conditioning does not increase variances of fixed jets. Therefore
+and the same expansion at `y` in the direction `-u` gives `||H_y u||`. The third- and fourth-derivative factors have conditional `L^p` norms bounded uniformly over the parameter set `Θ` of Lemma 1: pair location, direction, separation `δ`, pin distance `r`, and height target in `T`. Lemma 1(2) with `q=4` is exactly that statement. Therefore
 
 ```text
 E[ |det H_x|^p |det H_y|^p | U_r, ∇f(x)=∇f(y)=0, f(x)=t ]^{1/p} ≤ C_p δ^2.
 ```
 
-The endpoint weight uses the reviewed axial identities, which are consequences of the pins alone: `α_M=-6k+O(r M_4)` and `α_S=6k+O(r M_4)`. The fourth-derivative moments remain uniform under the extra divided-difference and height conditioning by the same regression bound. The filtered-determinant comparison of the reviewed note, (8)–(10) there, then yields
+The endpoint weight uses the reviewed axial identities, which are consequences of the pins alone: `α_M=-6k+O(r M_4)` and `α_S=6k+O(r M_4)`. The fourth-derivative moments remain uniform under the extra divided-difference and height conditioning by Lemma 1(2). The filtered-determinant comparison of the reviewed note, (8)–(10) there, then yields
 
 ```text
 E[(W_r/r^2)^p | U_r, ∇f(x)=∇f(y)=0, f(x)=t] ≤ C_p.
@@ -132,10 +153,10 @@ P(an unordered pair of index j in the window, separation at least η)
 The unnormalized numerator, before division by `Z_r`, is `O(k r^5)`. That is the same power as the one-point numerator (14), with one endpoint product `W_r` and one height window. A second independent window factor `(k r^3)` is available only while `η` stays fixed, because only then is `f(y)-f(x)` of order one under the critical-point conditioning. Along a segment with both axial derivatives zero, the exact degree-four expansion gives
 
 ```text
-f(y)-f(x) = -μ δ^3/12 - ν δ^4/24 - ρ δ^5/80
+f(y)-f(x) = -μ δ^3/12 - ν δ^4/24 - ω δ^5/80
 ```
 
-when the axial derivative at the first point is chosen so that it also vanishes at distance `δ`. The conditional height gap is therefore of order `δ^3`. Once `δ^3` is smaller than the window `k r^3`, the second height is fixed by the first and does not produce another factor `r^3`.
+when the axial derivative at the first point is chosen so that it also vanishes at distance `δ`; here `μ,ν,ω` are the third, fourth and fifth axial derivatives at `x` (`ω` is not the remote radius `ρ`). The conditional height gap is therefore of order `δ^3`. Once `δ^3` is smaller than the window `k r^3`, the second height indicator is no longer an independent factor `k r^3`. This note discards that indicator rather than evaluating it, so the `r^3` above is an artifact of the discarded window and is not the true order of the shrinking-pair count.
 
 ## 4. The fixed-η kernel does not extend by sending η to zero
 
@@ -159,7 +180,7 @@ A sharp asymptotic kernel, with a nonzero leading coefficient, needs one more no
 
 On the unpinned field with covariance `exp(-|z|^2/2)` in dimension two, direct sampling of the conditional 2-jet is consistent with the scaling above and is stricter for the same-index product. As `δ` ran through `1/2, 1/4, ..., 1/32`, the product `p(∇f(x),∇f(y)=0) δ^2` stayed near `1.5×10^{-2}`, and `E[|det H_x det H_y|]/δ^2` increased toward about `4`. The same-index truncated moment `E[|det H_x det H_y| 1_{equal index}]/δ^5` increased from about `1.2` at `δ=0.4` to about `2.6` at `δ=1/80`, with the index-`1` contribution dominant over indices `0` and `2`. A pure `δ^5` limit is not identified. The conditional standard deviation of `f(y)-f(x)` tracked `0.204 δ^3`.
 
-These figures are diagnostics for that model field. They are not values of `Λ_{j,2}` for the periodized pinned law, and the bound in Section 3 does not use them. They do show why an attempt to keep the fixed-η order `O(r^6)` fails once `η(r)→0`: after the two close critical points share one height window, the separation integral converges to a positive constant rather than to another factor `r^3`.
+These figures are diagnostics for that model field. They are not values of `Λ_{j,2}` for the periodized pinned law, and the bound in Section 3 does not use them. They illustrate why the method of this note does not reproduce the fixed-η order `O(r^6)` once `η(r)→0`: after the second height indicator is dropped, the separation integral converges to a positive constant rather than to another factor `r^3`. The true order for shrinking pairs is not established here. Retaining the second indicator with the scaled gap `δ^{-3}(f(y)-f(x))` is the route to a sharper order; that computation is not carried out in this note.
 
 ## 6. Complement
 
@@ -175,8 +196,8 @@ Still open, and untouched by this note:
 - a matching lower bound, a numerical constant, and a Poisson or factorial-moment limit for separations tending to zero;
 - elder selection and any global RN closure.
 
-The fixed-η statement (15)–(16) remains the outer boundary for separations bounded below by a positive constant independent of `r`. Its `O(r^6)` pair probability is not claimed, and is not true on the strength of this note, once that constant is allowed to shrink.
+The fixed-η statement (15)–(16) remains the outer boundary for separations bounded below by a positive constant independent of `r`. Once that constant is allowed to shrink, the order of the pair probability is not established here: this note proves an upper bound `O(k r^3)` only, by dropping `1_{f(y)∈I}` and using `F_j ≤ |det|`, and says nothing about whether the true order is `r^3`, `r^6`, or in between.
 
 ## 7. Checks
 
-`tests/test_d5_shrinking_witness.py` locks the rational identities used above: the Jacobian `δ^d`, the singular-value determinant comparison, the axial expansions and the height-gap coefficients `-1/12`, `-1/24`, and `-1/80`, the same-sign fourth-derivative window, the radial integral `(δ_*^2-η^2)/2`, and the Bargmann–Fock conditional variance `6`. It does not sample the periodized field and does not evaluate the pinned contact kernel.
+`tests/test_d5_shrinking_witness.py` locks the rational identities used above: the Jacobian `δ^d`, the singular-value determinant comparison, the axial expansions and the height-gap coefficients `-1/12`, `-1/24`, and `-1/80`, the same-sign fourth-derivative window, the radial integral `(δ_*^2-η^2)/2`, and the Bargmann–Fock conditional variance `6`. These are locks on algebra that the tests themselves restate; they guard against transcription drift and cannot fail if the analytic argument of Sections 1–3 is wrong. The file does not sample the periodized field and does not evaluate the pinned contact kernel.
