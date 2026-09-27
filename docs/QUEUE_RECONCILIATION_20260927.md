@@ -22,6 +22,8 @@ does not continue as vetoes; each one is named where it applied.
 | [#125](https://github.com/d6g8k5htny-coder/main/pull/125) | Amended, merged | Shrinking witness-pair note: uniform moment lemma added, `r^3` stated as an upper bound only, original index row restored; 127 tests, navigation check clean |
 | [#170](https://github.com/d6g8k5htny-coder/main/pull/170) | Merged | Grok-uploads review Part 1 and summary; the sympy check `checks/pr82_quartic_det_check.py` reproduces its recorded output exactly |
 | [#128](https://github.com/d6g8k5htny-coder/main/pull/128), [#103](https://github.com/d6g8k5htny-coder/main/pull/103) | Closed, AMEND-parked | Technical verdict AMEND with no author amendment; branches preserved; disposition comment on each |
+| [#173](https://github.com/d6g8k5htny-coder/main/pull/173) | Reviewed, merged (aad07fd) | Offline source census tool and 39 reconciled R2 rows. Archive handling probed beyond the fixtures (header-lying ZIP, gzip and member budgets, ustar/GNU/pax tars): all refused or bounded as documented; 20 tool tests and 127 repository tests OK in both interpreter modes. Dropbox/Drive counts stand on the linked Drive evidence, not on anything checked here |
+| [#172](https://github.com/d6g8k5htny-coder/main/pull/172) | Reviewed, amended, left open (draft, author active) | Dropbox reconciliation tool. `stage` treated a missing `--allow` as allow-everything, contrary to the PR body; fixed on the branch to fail closed (34807df) with two tests, one of which fails against the previous code. Not merged while the author was still pushing |
 
 ## 2. Pull requests targeting `chatgpt/drive-github-hardening-20260919`
 
@@ -46,7 +48,12 @@ amendment was recorded in a PR comment before landing.
 | [#7](https://github.com/d6g8k5htny-coder/main/pull/7) | Amended, merged | P15 foundation-first packet: docs page now cites REV-P15-A..D (C and D are AMEND), routes substitution through P10-A so P14-E is not a dependency, corrects the PR #5 reference, records that the `source_guard` whole-file pins coincide with existing certificates; packet members untouched; index regenerated on the combined tree (`certificates=26 pinned_files=57`) |
 | [#169](https://github.com/d6g8k5htny-coder/main/pull/169), [#171](https://github.com/d6g8k5htny-coder/main/pull/171) | Opened and merged by this pass (cad99e2, d4ad3bb) | Repairs in §3; #171 was merged only after its hosted PR `verify` run passed |
 
-## 3. A defect introduced by this pass, and its repair
+## 3. Defects introduced by this pass, and their repair
+
+Two. The second is small: the #166 amendment commit f9ae228 added
+`tests/__pycache__` and `tools/__pycache__` bytecode to `main`. The pull
+request carrying this page removes those ten files from the index and adds a
+`.gitignore` for `__pycache__/` and `*.pyc`. The first is below.
 
 #111 was merged at 8e2eda4 while its `ci / verify` run was still in progress;
 that run then failed at `claims_gate_adapter.py event-compare`. The new node
