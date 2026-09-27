@@ -31,12 +31,28 @@ Drive record, and collaboration surfaces. This `main` initially contains the ren
 landing, not the complete research stack. Bring improvements into it coherently;
 there is no permanent landing-only restriction.
 
-## Verification stack
+## Formal verification — two pilots, one vocabulary (27 September 2026)
 
-Layer 0 is the existing provenance, scope and source-bound review system. Layer 1 is
-the Lean 4 formal layer in [`formal/`](formal/README.md): kernel-checked statements
-bound by hash to Layer 0 bytes, one formalization status per claim in
-[`formal/registry.json`](formal/registry.json), a glossary, and a statement-alignment
-review lane. Read the [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md)
-before touching either layer: it says what changed, why, what each repository is asked
-to do, and that no formalization status ever moves a Layer 0 status.
+Layer 0 is the existing provenance, scope and source-bound review system. Layer 1
+is Lean kernel evidence, and two pilots exist because two agents answered the same
+owner instruction on the same day:
+
+- the `Math-` pilot ([PR92](https://github.com/d6g8k5htny-coder/Math-/pull/92),
+  Mathlib, 13 GP-FOR-192 scalar companions) described in the
+  [formal-verification guide](docs/FORMAL_VERIFICATION.md);
+- the `main` pilot in [`formal/`](formal/README.md) (core Lean only, the SIDE24
+  arithmetic skeleton) with one formalization status per claim in
+  [`formal/registry.json`](formal/registry.json) and the
+  [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md).
+
+They cover different mathematics and neither is a scientific-status database. Read
+both records before touching either layer, coordinate through
+[the existing work item #95](https://github.com/d6g8k5htny-coder/main/issues/95),
+and do not open a third registry. Lean kernel evidence, exact source identity,
+independent statement alignment and scientific acceptance are separate requirements:
+a build, Blueprint link, hash, solver result or merge does not satisfy them all, and
+no formalization status ever moves a Layer 0 status. Preserve original proof
+carriers; compiler changes are explicit successors. Review the exact current head
+and record actual author/reviewer lineage. Do not credit an unobserved reviewer or
+assume that a prior source-bound review remains valid after its source or scope
+changes.
