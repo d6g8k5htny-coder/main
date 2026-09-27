@@ -71,6 +71,8 @@ The [discovery / priority ledger](DISCOVERY_PRIORITY_LEDGER_20260925.md) and its
 
 The [queue reconciliation of 2026-09-27](QUEUE_RECONCILIATION_20260927.md) records how the open pull requests and issues were dispositioned under the current owner instruction, what ran, and what stays uncertain. A landing recorded there is not mathematical acceptance.
 
+The [Dropbox import of 2026-09-27](../audits/dropbox_import/2026-09-27/README.md) is a provenance record: 107 project files that existed only in the owner's Dropbox, 93 byte-identical to their originals and 14 as extracted text, with a hash manifest and the list of project files that could not be imported. Files keep the claims their authors made at the time; the import moves no status, and eleven rows are only flagged as candidates for Math- review.
+
 ## Repository map
 
 | Repository | Responsibility |

@@ -1,0 +1,14 @@
+# MPV3 — START HERE
+## Release 4.0.0 — governed by the CONSTITUTIO OPERIS
+
+**Reading order:** MPV3_MASTER.md (the constitution: findings, fifteen articles, working method, agenda, deletion ledger) -> MPV3_KERNEL.md (invariants) -> MPV3_LEDGER.md + MPV3_OBLIGATIONS.md (the actual state of the research) -> domain files as needed.
+
+**Authority tiers (per the manifest):**
+- GOVERNING CORE — MASTER, KERNEL. Binding.
+- STATE CARRIERS — LEDGER, OBLIGATIONS, DOMAIN_Q0, DOMAIN_COSMO, DOMAIN_SPECULATIVE, FAILURES, RATIO_LEDGER. The record itself; prose yields to these.
+- REFERENCE STANDARD — LINGUA (full machine language: frozen artifacts, capsules, exports only), SCHEMA, SESSION, TORSIO_PROPOSAL (the discovery doctrine behind Articles 9-10). Consulted, not mandatory daily.
+- archive/ — bytes retained, authority none (Article 6: nothing deleted).
+
+**The working language, daily:** twelve words — NESCIO, fictura, theatrosis, testimen, stirps, intactum, caesum, pactum, vestigium, onus, OBICIO, PERMEA — and six marks: `~ + # NON{} SI{} $...$`. Everything else is reference.
+
+**The one-line orientation:** the mathematics is on top; meta is rationed; correlated agreement is one witness; receipts or it didn't happen; kills are filed with pride; and the first act under this release is an object session, not a document.
