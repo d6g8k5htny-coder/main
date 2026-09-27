@@ -1,6 +1,6 @@
 # Claim / premise dependency graph
 
-`graph.json` is the program's claim structure as data: 26 claims, 13 named
+`graph.json` is the program's claim structure as data: 27 claims, 13 named
 premises, 10 firewalls. `tools/claims_check.py` turns the firewalls into
 assertions; `tests/test_claims.py` and `tests/test_claims_firewalls.py` prove the
 checker actually rejects each violation it is supposed to reject.

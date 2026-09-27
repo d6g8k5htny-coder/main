@@ -152,6 +152,11 @@ EXACT_ARITHMETIC_DECLARATIONS = frozenset({
     # suffix is UNRECOGNISED until it is added here, which refuses rather than
     # admits.
     "interval 384bit", "interval arb 384bit",
+    # H3-RUNG-FLOOR transcribes its certificate's own declaration verbatim.
+    # mpmath's `iv` context is directed-rounding interval arithmetic, a
+    # different thing from the `mp` float context that FLOAT lists as "mpmath";
+    # the word "mpmath" inside this fixed string is therefore not a float hint.
+    "interval (mpmath iv, 100 dps)",
 })
 # The third case, and it must be spelled rather than left blank: a review record
 # or a register row performs no arithmetic at all. Nine evidence records say so.
