@@ -1220,7 +1220,7 @@ def test_33_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
     constrains the *contract* the docstring states -- that a grid of ``N_r``
     radial and ``N_t`` angular steps bounds the cell diameter by
     ``dr + r_hi * 2*pi * dt <= target``. So the published number was pinned by
-    nothing, and this mutation survived all 48 tests:
+    nothing, and this mutation survived all 40 tests this file then held:
 
         regions.py:323   half = target_diameter / 2   ->   half = target_diameter
 
@@ -1283,14 +1283,18 @@ def test_33_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
     assert published["cells"] == 61642
 
     # (iii) And the documents themselves, so prose and arithmetic cannot drift
-    #       apart in either direction without a failure here.
+    #       apart in either direction without a failure here. The two docs/
+    #       files live on this branch and must exist: a deleted document would
+    #       otherwise pass this check silently. Only the cover README, whose
+    #       presence differs per branch, may be absent.
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    for rel, fragment in (
-            (os.path.join("research", "cover", "README.md"), "61,642"),
-            (os.path.join("docs", "OPEN_PROBLEMS.md"), "61,642"),
-            (os.path.join("docs", "FINDINGS_2026-09-18.md"), "61,642")):
+    for rel, fragment, required in (
+            (os.path.join("research", "cover", "README.md"), "61,642", False),
+            (os.path.join("docs", "OPEN_PROBLEMS.md"), "61,642", True),
+            (os.path.join("docs", "FINDINGS_2026-09-18.md"), "61,642", True)):
         path = os.path.join(root, rel)
-        if not os.path.isfile(path):          # the doc set differs per branch
+        if not os.path.isfile(path):
+            assert not required, f"{rel} is missing; the published count is quoted there"
             continue
         with open(path, encoding="utf-8") as handle:
             assert fragment in handle.read(), f"{rel} no longer quotes {fragment}"
