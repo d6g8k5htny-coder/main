@@ -19,6 +19,7 @@ Stages (each is a subcommand):
   extract     Per-type text/metadata extraction for fetched files.
   stage       Build a GitHub review packet (text only, intake-lane limits) and
               a Drive upload list for originals, for files classified MISSING.
+              GitHub copies require --allow; without it none are staged.
   pack        Deflate the Drive upload list into a few size-capped zips that
               keep Dropbox paths, so each upload is one call, not one per file.
   report      Private Markdown summary of a classification: tiers, missing
@@ -454,7 +455,9 @@ def cmd_extract(args):
 def cmd_stage(args):
     """Stage MISSING files: text copies for a GitHub review packet, originals for Drive."""
     catalog = {c['id']: c for c in json.loads(Path(args.catalog).read_text())}
-    allow = set(json.loads(Path(args.allow).read_text())) if args.allow else None
+    # Fail closed: without an explicit allow-list nothing is staged for GitHub.
+    # The Drive upload list is still written, since originals go to Drive regardless.
+    allow = set(json.loads(Path(args.allow).read_text())) if args.allow else set()
     store, text_dir, gh, drive = Path(args.store), Path(args.text_dir), Path(args.github_out), Path(args.drive_out)
     gh.mkdir(parents=True, exist_ok=True)
     drive.mkdir(parents=True, exist_ok=True)
@@ -473,7 +476,7 @@ def cmd_stage(args):
         if personal_name(row['path']):
             up['personal_name'] = True
         uploads.append(up)
-        if c.get('pii_flags') or up.get('personal_name') or (allow is not None and row['path'] not in allow):
+        if c.get('pii_flags') or up.get('personal_name') or row['path'] not in allow:
             continue  # never auto-publish flagged, personal-looking or unapproved material
         tpath = text_dir / (c['sha256'] + '.txt')
         if not tpath.exists():
@@ -493,7 +496,8 @@ def cmd_stage(args):
     print(json.dumps({'github_text_copies': len(artifacts), 'drive_uploads': len(uploads),
                       'covered_by_zip': sum('covered_by_zip' in u for u in uploads),
                       'personal_name': sum('personal_name' in u for u in uploads),
-                      'packets_needed': -(-len(artifacts) // INTAKE_MAX_FILES), 'over_single_packet': over}))
+                      'packets_needed': -(-len(artifacts) // INTAKE_MAX_FILES), 'over_single_packet': over,
+                      'allow_list': 'present' if args.allow else 'absent: nothing staged for GitHub'}))
 
 
 # --------------------------------------------------------------------- pack

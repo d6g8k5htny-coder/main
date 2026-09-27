@@ -188,9 +188,12 @@ class StageAndPack(unittest.TestCase):
         rows.append({'id': 'id:g', 'path': 'in_git.md', 'size': 3, 'status': 'GIT_EXACT'})
         (p / 'cls.json').write_text(json.dumps(rows))
         (p / 'cat.json').write_text(json.dumps(catalog))
+        # The allow-list names every MISSING path; stage must still hold back the
+        # personal-looking one. Without --allow nothing is staged (see Stage tests).
+        (p / 'allow.json').write_text(json.dumps([r['path'] for r in rows]))
         self.stage = quiet(['stage', '--classified', str(p / 'cls.json'), '--catalog', str(p / 'cat.json'),
                             '--store', str(store), '--text-dir', str(text), '--github-out', str(p / 'gh'),
-                            '--drive-out', str(p / 'drive')])
+                            '--drive-out', str(p / 'drive'), '--allow', str(p / 'allow.json')])
         self.uploads = {u['dropbox_path']: u for u in json.loads((p / 'drive' / 'UPLOADS.json').read_text())}
 
     def tearDown(self):
@@ -235,6 +238,49 @@ class StageAndPack(unittest.TestCase):
         self.assertEqual(res['personal_name'], 1)
         self.assertIn('| GIT_EXACT | 1 |', body)
         self.assertIn('`resume_2025.txt`', body)
+
+
+class Stage(unittest.TestCase):
+    def run_stage(self, allow):
+        body = b'# note\n'
+        sha = hashlib.sha256(body).hexdigest()
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            for sub in ('store', 'text'):
+                (p / sub).mkdir()
+            (p / 'store' / sha).write_bytes(body)
+            (p / 'text' / (sha + '.txt')).write_bytes(body)
+            (p / 'cls.json').write_text(json.dumps([
+                {'id': 'id:1', 'path': 'a/note.md', 'size': 7, 'status': 'MISSING'},
+                {'id': 'id:2', 'path': 'a/flagged.md', 'size': 7, 'status': 'MISSING'}]))
+            (p / 'cat.json').write_text(json.dumps([
+                {'id': 'id:1', 'path': 'a/note.md', 'sha256': sha, 'bytes': 7, 'extractor': 'text', 'chars': 7},
+                {'id': 'id:2', 'path': 'a/flagged.md', 'sha256': sha, 'bytes': 7, 'extractor': 'text',
+                 'chars': 7, 'pii_flags': ['x']}]))
+            argv = ['stage', '--classified', str(p / 'cls.json'), '--catalog', str(p / 'cat.json'),
+                    '--store', str(p / 'store'), '--text-dir', str(p / 'text'),
+                    '--github-out', str(p / 'gh'), '--drive-out', str(p / 'dr')]
+            if allow is not None:
+                (p / 'allow.json').write_text(json.dumps(allow))
+                argv += ['--allow', str(p / 'allow.json')]
+            old, sys.stdout = sys.stdout, io.StringIO()
+            try:
+                dr.main(argv)
+            finally:
+                sys.stdout = old
+            staged = sorted(f.name for f in (p / 'gh').iterdir() if f.suffix == '.txt')
+            uploads = json.loads((p / 'dr' / 'UPLOADS.json').read_text())
+            return staged, uploads
+
+    def test_no_allow_list_stages_nothing_for_github(self):
+        staged, uploads = self.run_stage(None)
+        self.assertEqual(staged, [])
+        self.assertEqual(len(uploads), 2)  # originals still go on the Drive list
+
+    def test_allow_list_admits_only_named_unflagged_paths(self):
+        staged, _ = self.run_stage(['a/note.md', 'a/flagged.md'])
+        self.assertEqual(len(staged), 1)
+        self.assertTrue(staged[0].startswith('note.'))
 
 
 if __name__ == '__main__':
