@@ -258,6 +258,65 @@ def cmd_classify(args):
     print(json.dumps({k: {'files': v[0], 'bytes': v[1]} for k, v in sorted(summary.items())}, indent=1))
 
 
+# ------------------------------------------------------------ harvest-links
+
+def _json_strings(obj):
+    if isinstance(obj, str):
+        yield obj
+    elif isinstance(obj, dict):
+        for v in obj.values():
+            yield from _json_strings(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _json_strings(v)
+
+
+def cmd_harvest_links(args):
+    """Collect Dropbox download_link results from a session transcript (JSONL).
+
+    The links are single-use and short-lived, so only records newer than
+    --since are emitted as fetchable; every content_hash is kept for classify.
+    """
+    urls, hashes = {}, {}
+    with open(args.transcript, encoding='utf-8') as fh:
+        for line in fh:
+            if '"download_url' not in line and 'download_url\\"' not in line:
+                continue
+            try:
+                rec = json.loads(line)
+            except ValueError:
+                continue
+            stamp = rec.get('timestamp', '')
+            for s in _json_strings(rec):
+                if 'download_url' not in s or not s.lstrip().startswith('{'):
+                    continue
+                try:
+                    payload = json.loads(s)
+                except ValueError:
+                    continue
+                for e in payload.get('entries', []) if isinstance(payload, dict) else []:
+                    if not isinstance(e, dict) or 'download_url' not in e:
+                        continue
+                    if e.get('content_hash'):
+                        hashes[e['id']] = e['content_hash']
+                    if stamp >= (args.since or ''):
+                        urls[e['id']] = {'id': e['id'], 'path': e.get('path_display') or e.get('path'),
+                                         'download_url': e['download_url'], 'content_hash': e.get('content_hash'),
+                                         'size': e.get('size'), 'issued': stamp}
+    Path(args.urls_out).write_text(json.dumps(list(urls.values()), indent=1))
+    Path(args.hashes_out).write_text(json.dumps(hashes, indent=1))
+    print(json.dumps({'fetchable_links': len(urls), 'content_hashes': len(hashes)}))
+
+
+def cmd_batches(args):
+    """Emit file-id batches (25 each, the download_link maximum) for a given status."""
+    rows = [r for r in json.loads(Path(args.classified).read_text()) if r['status'] in set(args.status)]
+    rows.sort(key=lambda r: r['path'])
+    batches = [[r['id'] for r in rows[i:i + 25]] for i in range(0, len(rows), 25)]
+    Path(args.out).write_text(json.dumps(batches))
+    print(json.dumps({'files': len(rows), 'batches': len(batches), 'bytes': sum(r['size'] for r in rows)}))
+
+
 # -------------------------------------------------------------------- fetch
 
 def cmd_fetch(args):
@@ -469,6 +528,8 @@ def main(argv=None):
     s = sub.add_parser('xlsx-csv'); s.add_argument('xlsx'); s.add_argument('--out-dir', required=True); s.set_defaults(f=cmd_xlsx_csv)
     s = sub.add_parser('index-drive'); s.add_argument('--catalog', nargs='*'); s.add_argument('--drive-csv', nargs='*'); s.add_argument('--out', required=True); s.set_defaults(f=cmd_index_drive)
     s = sub.add_parser('classify'); s.add_argument('--inventory', required=True); s.add_argument('--git-index', required=True); s.add_argument('--drive-index'); s.add_argument('--dbx-hashes'); s.add_argument('--out', required=True); s.set_defaults(f=cmd_classify)
+    s = sub.add_parser('harvest-links'); s.add_argument('--transcript', required=True); s.add_argument('--since', default=''); s.add_argument('--urls-out', required=True); s.add_argument('--hashes-out', required=True); s.set_defaults(f=cmd_harvest_links)
+    s = sub.add_parser('batches'); s.add_argument('--classified', required=True); s.add_argument('--status', nargs='+', default=['MISSING']); s.add_argument('--out', required=True); s.set_defaults(f=cmd_batches)
     s = sub.add_parser('fetch'); s.add_argument('--urls', required=True); s.add_argument('--store', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_fetch)
     s = sub.add_parser('extract'); s.add_argument('--fetched', required=True); s.add_argument('--store', required=True); s.add_argument('--text-out', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_extract)
     s = sub.add_parser('stage'); s.add_argument('--classified', required=True); s.add_argument('--catalog', required=True); s.add_argument('--store', required=True); s.add_argument('--text-dir', required=True); s.add_argument('--github-out', required=True); s.add_argument('--drive-out', required=True); s.add_argument('--allow'); s.set_defaults(f=cmd_stage)

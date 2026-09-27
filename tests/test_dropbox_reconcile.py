@@ -95,6 +95,27 @@ class Classify(unittest.TestCase):
         self.assertEqual(got['a.txt'], 'MISSING')
 
 
+class Harvest(unittest.TestCase):
+    def test_links_and_hashes_from_transcript(self):
+        payload = {'entries': [{'id': 'id:A', 'path_display': '/x.md', 'download_url': 'https://h/1',
+                                'content_hash': README_DBX, 'size': 185}]}
+        lines = [json.dumps({'timestamp': '2026-01-01T00:00:00Z',
+                             'message': {'content': [{'type': 'tool_result',
+                                                      'content': [{'type': 'text', 'text': json.dumps(payload)}]}]}}),
+                 json.dumps({'timestamp': '2026-01-02T00:00:00Z', 'message': {'content': 'unrelated'}})]
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            (p / 't.jsonl').write_text('\n'.join(lines))
+            old, sys.stdout = sys.stdout, io.StringIO()
+            try:
+                dr.main(['harvest-links', '--transcript', str(p / 't.jsonl'), '--since', '2026-01-01T12:00:00Z',
+                         '--urls-out', str(p / 'u.json'), '--hashes-out', str(p / 'h.json')])
+            finally:
+                sys.stdout = old
+            self.assertEqual(json.loads((p / 'h.json').read_text()), {'id:A': README_DBX})
+            self.assertEqual(json.loads((p / 'u.json').read_text()), [])  # expired: issued before --since
+
+
 class Extract(unittest.TestCase):
     def test_docx_and_zip_members(self):
         doc = io.BytesIO()
