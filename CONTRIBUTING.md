@@ -144,37 +144,45 @@ back regardless of how good the result looks.
 
 ## Formal verification (Lean 4, Layer 1)
 
-The [`formal/`](formal/README.md) directory holds Lean 4 statements and proofs
-bound by hash to the exact Layer 0 bytes they formalise, and
-[`formal/registry.json`](formal/registry.json) records one **formalization
-status** per claim: `none`, `specified`, `proved`, or `kernel-checked`. Rules:
+Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) first and
+claim work in [#95](https://github.com/d6g8k5htny-coder/main/issues/95). The
+lane has one contract and two packages: the
+[Math- pilot](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal)
+(Lean + Mathlib) and the main-side [`formal/`](formal/README.md) package (core
+Lean). Do not open a third vocabulary or a second register. Rules for `formal/`:
 
-- **Register every Lean file and every declaration you want counted.** The gate
-  (`tools/formal_gate_check.py`) refuses unregistered `.lean` files, hash
-  mismatches, `sorry`, `native_decide`, and any `axiom` not listed in
-  `project_axioms` with a scope note. After editing Lean text run
-  `--refresh-hashes`, then `--write-alignment`, then the gate with the kernel lane
-  (`--run-lean` or `--axioms-output`), never only `--static-only`.
-- **`kernel-checked` means allowed axioms only.** `propext`, `Classical.choice`,
-  `Quot.sound` or none. A proof that leans on a project axiom (an unformalised
-  parent theorem stated explicitly with a scope note) is `proved`, not
-  `kernel-checked`, until the parent is formalised.
-- **Every Lean statement carries a verbatim `informal_anchor`** from a
-  byte-pinned local source copy under `formal/sources/`, and a `does_not_claim`.
-  Core Lean has no rationals: state rational identities as cross-multiplied
-  integers and give the rational form in the docstring.
+- **The manifest is an evidence sidecar.** `formal/manifest.json` binds every
+  Lean, source, scope, control and doc file by SHA-256 and lists every target
+  with a verbatim `informal_anchor` from a byte-pinned copy under
+  `formal/sources/` and a `does_not_claim`. It says `proved` and
+  `PENDING_INDEPENDENT_REVIEW`; the gate refuses a manifest that self-awards
+  `kernel-checked` or `ACCEPTED`.
+- **Register everything.** The gate (`tools/formal_gate_check.py`) refuses an
+  unregistered `.lean` file, an unbound file inside `formal/`, a target
+  inventory that differs from the declared theorem names, `sorry`,
+  `native_decide`, any `axiom` declaration, a root module importing anything
+  unregistered, toolchain or lock drift. After editing bound files run
+  `--refresh-hashes`, then `--write-alignment`, then the gate; before citing a
+  result run `--run-lean` and quote the receipt's `checked_commit`.
+- **`kernel-checked` is a receipt label.** It is written only by a trusted
+  `--run-lean` execution after build, `leanchecker`, a transitive axiom audit
+  (`propext`, `Classical.choice`, `Quot.sound` or none) and every negative
+  control actually failing. Parent dependencies that are not formalised are
+  stated as explicit hypotheses of the target, never as axioms.
+- **Core Lean has no rationals.** State rational identities as cross-multiplied
+  integers, give the rational form in the docstring, and put the exact "not
+  established" boundary in `formal/SCOPE.md`. Real-number statements go to the
+  Mathlib package in Math-, not to a second dependency tree here.
 - **Statement alignment is its own review.** AI- or human-authored Lean text is
-  author-side until a distinct reviewer records, under `formal/reviews/`, that
-  the Lean statement says what the anchor says. Follow
-  [`formal/REVIEW_LANE.md`](formal/REVIEW_LANE.md). Same-provider reviewers earn
-  zero independence credit, as everywhere else in this repository.
-- **Formalization status never moves Layer 0 status.** A `kernel-checked` lemma
-  does not edit `STATUS.md`, `PROOF_INDEX.md` or any ACCEPT/AMEND row, and does
-  not make the surrounding analytic argument verified. Use the vocabulary in
-  [`formal/GLOSSARY.md`](formal/GLOSSARY.md) when writing for external readers.
-- **Mathlib is a separate step.** The pilot is dependency-free on purpose. A
-  Mathlib lane (needed for `ℝ`, `Real.Gamma`, `Real.log`, Gaussian measures)
-  changes CI cost and is proposed in its own PR.
+  author-side until a reviewer with a different provider, family and agent
+  records an alignment (Markdown + JSON under `formal/reviews/`, validated with
+  `--alignment`). Follow [`formal/REVIEW_LANE.md`](formal/REVIEW_LANE.md).
+  Same-provider reviewers earn zero independence credit, as everywhere here.
+- **Formal evidence never moves Layer 0 status.** A kernel-checked target does
+  not edit `STATUS.md`, `PROOF_INDEX.md` or any ACCEPT/AMEND row and does not
+  make the surrounding analytic argument verified. Use
+  [`formal/GLOSSARY.md`](formal/GLOSSARY.md) descriptively; its mappings are
+  proposed, not adopted.
 
 ## Claims and status
 
