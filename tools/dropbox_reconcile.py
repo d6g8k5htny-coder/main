@@ -19,6 +19,10 @@ Stages (each is a subcommand):
   extract     Per-type text/metadata extraction for fetched files.
   stage       Build a GitHub review packet (text only, intake-lane limits) and
               a Drive upload list for originals, for files classified MISSING.
+  pack        Deflate the Drive upload list into a few size-capped zips that
+              keep Dropbox paths, so each upload is one call, not one per file.
+  report      Private Markdown summary of a classification: tiers, missing
+              files by folder, largest files and personal-looking names.
 
 Match tiers, strongest first:
   GIT_EXACT / DRIVE_EXACT   byte-identical (Dropbox content_hash or sha256)
@@ -45,6 +49,7 @@ import subprocess
 import sys
 import urllib.request
 import zipfile
+import zlib
 from collections import defaultdict
 from pathlib import Path, PurePosixPath
 
@@ -70,6 +75,15 @@ PII = [re.compile(p) for p in (
     r'\bgh[pousr]_[A-Za-z0-9]{36,}\b',
     r'\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}\b',
 )]
+# File names that suggest personal paperwork; such files are never staged for GitHub.
+PERSONAL_NAME = re.compile(
+    r'(?i)r[eé]sum[eé]|curriculum.?vitae|(?<![a-z])cv(?![a-z])|(?<![a-z])tax(?:es)?(?![a-z])|'
+    r'(?<![a-z0-9])(?:w-?2|1099)(?![a-z0-9])|bank|pay.?(?:stub|slip)|passport|driv\w*.?licen[cs]e|'
+    r'invoice|medical|insurance|(?<![a-z])lease(?![a-z])|(?<![a-z])ssn(?![a-z])')
+
+
+def personal_name(path: str) -> bool:
+    return bool(PERSONAL_NAME.search(PurePosixPath(path).name))
 
 
 def dbx_hash_bytes(data: bytes) -> str:
@@ -445,14 +459,22 @@ def cmd_stage(args):
     gh.mkdir(parents=True, exist_ok=True)
     drive.mkdir(parents=True, exist_ok=True)
     artifacts, uploads = [], []
-    for row in json.loads(Path(args.classified).read_text()):
-        c = catalog.get(row['id'])
-        if row['status'] != 'MISSING' or not c or 'sha256' not in c:
-            continue
-        uploads.append({'dropbox_path': row['path'], 'sha256': c['sha256'], 'bytes': c['bytes'],
-                        'source': str(store / c['sha256'])})
-        if c.get('pii_flags') or (allow is not None and row['path'] not in allow):
-            continue  # never auto-publish flagged or unapproved material
+    rows = [r for r in json.loads(Path(args.classified).read_text())
+            if r['status'] == 'MISSING' and 'sha256' in catalog.get(r['id'], {})]
+    # A loose file whose bytes are a member of a zip that is itself uploaded
+    # travels inside that zip; uploading it again would only cost tokens.
+    in_zip = {m['dbx']: row['path'] for row in rows for m in catalog[row['id']].get('members', [])}
+    for row in rows:
+        c = catalog[row['id']]
+        up = {'dropbox_path': row['path'], 'sha256': c['sha256'], 'bytes': c['bytes'],
+              'source': str(store / c['sha256'])}
+        if c.get('dbx') in in_zip and in_zip[c['dbx']] != row['path']:
+            up['covered_by_zip'] = in_zip[c['dbx']]
+        if personal_name(row['path']):
+            up['personal_name'] = True
+        uploads.append(up)
+        if c.get('pii_flags') or up.get('personal_name') or (allow is not None and row['path'] not in allow):
+            continue  # never auto-publish flagged, personal-looking or unapproved material
         tpath = text_dir / (c['sha256'] + '.txt')
         if not tpath.exists():
             continue
@@ -469,7 +491,100 @@ def cmd_stage(args):
     Path(gh / 'PACKET_ARTIFACTS.json').write_text(json.dumps(artifacts, indent=1))
     over = max(0, len(artifacts) - INTAKE_MAX_FILES)
     print(json.dumps({'github_text_copies': len(artifacts), 'drive_uploads': len(uploads),
+                      'covered_by_zip': sum('covered_by_zip' in u for u in uploads),
+                      'personal_name': sum('personal_name' in u for u in uploads),
                       'packets_needed': -(-len(artifacts) // INTAKE_MAX_FILES), 'over_single_packet': over}))
+
+
+# --------------------------------------------------------------------- pack
+
+def cmd_pack(args):
+    """Deflate UPLOADS.json entries into zips of at most --part-bytes compressed.
+
+    Every upload to Drive through a chat connector passes the bytes through the
+    model as base64, so the cost is proportional to compressed size. Entries
+    covered by an uploaded zip, personal-looking names (unless
+    --include-personal) and single files over --max-file-bytes are left out
+    and listed, never silently dropped.
+    """
+    uploads = json.loads(Path(args.uploads).read_text())
+    out = Path(args.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    held, parts, members = [], [], []
+    todo = []
+    for u in sorted(uploads, key=lambda u: u['dropbox_path']):
+        why = ('covered_by_zip' if u.get('covered_by_zip') else
+               'personal_name' if u.get('personal_name') and not args.include_personal else
+               'over_max_file_bytes' if u['bytes'] > args.max_file_bytes else None)
+        if why:
+            held.append({'dropbox_path': u['dropbox_path'], 'bytes': u['bytes'], 'reason': why})
+        else:
+            todo.append(u)
+    z, zpath, n = None, None, 0
+
+    def close():
+        if z:
+            z.close()
+            parts.append({'part': zpath.name, 'bytes': zpath.stat().st_size, 'sha256': sha256_file(zpath)})
+
+    for u in todo:
+        data = Path(u['source']).read_bytes()
+        est = len(zlib.compress(data, 9))
+        if z is None or (zpath.stat().st_size + est > args.part_bytes and n):
+            close()
+            zpath = out / f'{args.prefix}_part{len(parts) + 1:02d}.zip'
+            z, n = zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED, compresslevel=9), 0
+        z.writestr(u['dropbox_path'], data)
+        z.fp.flush()
+        n += 1
+        members.append({'part': zpath.name, 'dropbox_path': u['dropbox_path'], 'sha256': u['sha256'],
+                        'bytes': u['bytes']})
+    close()
+    manifest = {'parts': parts, 'members': members, 'held': held}
+    (out / f'{args.prefix}_MANIFEST.json').write_text(json.dumps(manifest, indent=1))
+    packed = sum(p['bytes'] for p in parts)
+    print(json.dumps({'parts': len(parts), 'members': len(members), 'packed_bytes': packed,
+                      'base64_chars': 4 * -(-packed // 3), 'held': len(held),
+                      'held_bytes': sum(h['bytes'] for h in held)}))
+
+
+# ------------------------------------------------------------------- report
+
+def cmd_report(args):
+    """Private Markdown summary of a classify output. Never commit its output."""
+    rows = json.loads(Path(args.classified).read_text())
+    tiers = defaultdict(lambda: [0, 0])
+    for r in rows:
+        tiers[r['status']][0] += 1
+        tiers[r['status']][1] += r['size']
+    miss = [r for r in rows if r['status'] == 'MISSING']
+    folders = defaultdict(lambda: [0, 0])
+    for r in miss:
+        parent = str(PurePosixPath(r['path']).parent)
+        key = '/'.join(parent.split('/')[:args.depth]) if parent != '.' else '(root)'
+        folders[key][0] += 1
+        folders[key][1] += r['size']
+    kind = defaultdict(lambda: [0, 0])
+    for r in miss:
+        k = 'text' if PurePosixPath(r['path']).suffix.lower() in TEXT_SUFFIXES else \
+            (PurePosixPath(r['path']).suffix.lower() or '(none)')
+        kind[k][0] += 1
+        kind[k][1] += r['size']
+    mb = lambda b: f'{b / 1e6:.2f} MB'
+    lines = ['# Dropbox reconciliation (private)', '', '| status | files | size |', '|---|---:|---:|']
+    lines += [f'| {k} | {v[0]} | {mb(v[1])} |' for k, v in sorted(tiers.items())]
+    lines += ['', f'## Missing by folder (depth {args.depth})', '', '| folder | files | size |', '|---|---:|---:|']
+    lines += [f'| {k} | {v[0]} | {mb(v[1])} |' for k, v in sorted(folders.items(), key=lambda kv: -kv[1][1])]
+    lines += ['', '## Missing by kind', '', '| kind | files | size |', '|---|---:|---:|']
+    lines += [f'| {k} | {v[0]} | {mb(v[1])} |' for k, v in sorted(kind.items(), key=lambda kv: -kv[1][1])]
+    lines += ['', f'## Largest {args.top} missing files', '']
+    lines += [f'- {mb(r["size"])} `{r["path"]}`' for r in sorted(miss, key=lambda r: -r['size'])[:args.top]]
+    flagged = [r for r in miss if personal_name(r['path'])]
+    lines += ['', '## Personal-looking names (never staged for GitHub)', '']
+    lines += [f'- `{r["path"]}`' for r in flagged] or ['- none']
+    Path(args.out).write_text('\n'.join(lines) + '\n')
+    print(json.dumps({'missing': len(miss), 'missing_bytes': sum(r['size'] for r in miss),
+                      'personal_name': len(flagged), 'out': args.out}))
 
 
 def _col(ref: str) -> int:
@@ -533,6 +648,8 @@ def main(argv=None):
     s = sub.add_parser('fetch'); s.add_argument('--urls', required=True); s.add_argument('--store', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_fetch)
     s = sub.add_parser('extract'); s.add_argument('--fetched', required=True); s.add_argument('--store', required=True); s.add_argument('--text-out', required=True); s.add_argument('--out', required=True); s.set_defaults(f=cmd_extract)
     s = sub.add_parser('stage'); s.add_argument('--classified', required=True); s.add_argument('--catalog', required=True); s.add_argument('--store', required=True); s.add_argument('--text-dir', required=True); s.add_argument('--github-out', required=True); s.add_argument('--drive-out', required=True); s.add_argument('--allow'); s.set_defaults(f=cmd_stage)
+    s = sub.add_parser('pack'); s.add_argument('--uploads', required=True); s.add_argument('--out-dir', required=True); s.add_argument('--prefix', default='dropbox_import'); s.add_argument('--part-bytes', type=int, default=1_000_000); s.add_argument('--max-file-bytes', type=int, default=4_000_000); s.add_argument('--include-personal', action='store_true'); s.set_defaults(f=cmd_pack)
+    s = sub.add_parser('report'); s.add_argument('--classified', required=True); s.add_argument('--out', required=True); s.add_argument('--depth', type=int, default=2); s.add_argument('--top', type=int, default=25); s.set_defaults(f=cmd_report)
     a = ap.parse_args(argv)
     return a.f(a) or 0
 

@@ -143,6 +143,99 @@ class Extract(unittest.TestCase):
         self.assertTrue(any(p.search('api_key = abc') for p in dr.PII))
         self.assertFalse(any(p.search('Theorem R at scope') for p in dr.PII))
 
+    def test_personal_names(self):
+        for name in ('x/my_resume.docx', 'Résumé 2025.pdf', 'tax_return.pdf', 'W2_2025.pdf',
+                     'bank statement.pdf', 'drivers license.jpg'):
+            self.assertTrue(dr.personal_name(name), name)
+        for name in ('LICENSE', 'syntax.md', 'arm1c v2 instr.py', 'cvx_check.py', 'C104_E_LEDGER.md',
+                     'RECEIPT.json'):
+            self.assertFalse(dr.personal_name(name), name)
+
+
+def quiet(argv):
+    old, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        dr.main(argv)
+        return json.loads(sys.stdout.getvalue())
+    finally:
+        sys.stdout = old
+
+
+class StageAndPack(unittest.TestCase):
+    def setUp(self):
+        self.d = tempfile.TemporaryDirectory()
+        p = self.p = Path(self.d.name)
+        store, text = p / 'store', p / 'text'
+        store.mkdir()
+        text.mkdir()
+        loose = b'# note\nsame bytes as the zip member\n'
+        zbuf = io.BytesIO()
+        with zipfile.ZipFile(zbuf, 'w') as z:
+            z.writestr('pack/note.md', loose)
+        blobs = {'id:z': ('pack.zip', zbuf.getvalue()), 'id:n': ('pack/note.md', loose),
+                 'id:r': ('resume_2025.txt', b'name, phone\n'), 'id:t': ('theorem.md', b'# Theorem\n'),
+                 'id:big': ('big.txt', os.urandom(5000))}
+        rows, catalog = [], []
+        for fid, (path, data) in blobs.items():
+            sha = hashlib.sha256(data).hexdigest()
+            (store / sha).write_bytes(data)
+            ex, tx, members = dr.extract_bytes(path, data)
+            if tx:
+                (text / (sha + '.txt')).write_text(tx)
+            rows.append({'id': fid, 'path': path, 'size': len(data), 'status': 'MISSING'})
+            catalog.append({'id': fid, 'path': path, 'sha256': sha, 'dbx': dr.dbx_hash_bytes(data),
+                            'bytes': len(data), 'extractor': ex, 'chars': len(tx), 'members': members})
+        rows.append({'id': 'id:g', 'path': 'in_git.md', 'size': 3, 'status': 'GIT_EXACT'})
+        (p / 'cls.json').write_text(json.dumps(rows))
+        (p / 'cat.json').write_text(json.dumps(catalog))
+        self.stage = quiet(['stage', '--classified', str(p / 'cls.json'), '--catalog', str(p / 'cat.json'),
+                            '--store', str(store), '--text-dir', str(text), '--github-out', str(p / 'gh'),
+                            '--drive-out', str(p / 'drive')])
+        self.uploads = {u['dropbox_path']: u for u in json.loads((p / 'drive' / 'UPLOADS.json').read_text())}
+
+    def tearDown(self):
+        self.d.cleanup()
+
+    def test_stage_flags_zip_members_and_personal_names(self):
+        self.assertEqual(set(self.uploads), {'pack.zip', 'pack/note.md', 'resume_2025.txt', 'theorem.md',
+                                             'big.txt'})  # GIT_EXACT is never uploaded
+        self.assertEqual(self.uploads['pack/note.md'].get('covered_by_zip'), 'pack.zip')
+        self.assertNotIn('covered_by_zip', self.uploads['theorem.md'])
+        self.assertTrue(self.uploads['resume_2025.txt'].get('personal_name'))
+        staged = {a['from_dropbox'] for a in json.loads((self.p / 'gh' / 'PACKET_ARTIFACTS.json').read_text())}
+        self.assertIn('theorem.md', staged)
+        self.assertNotIn('resume_2025.txt', staged)
+
+    def test_pack_holds_and_round_trips(self):
+        res = quiet(['pack', '--uploads', str(self.p / 'drive' / 'UPLOADS.json'), '--out-dir', str(self.p / 'packs'),
+                     '--part-bytes', '1000', '--max-file-bytes', '4096'])
+        man = json.loads((self.p / 'packs' / 'dropbox_import_MANIFEST.json').read_text())
+        held = {h['dropbox_path']: h['reason'] for h in man['held']}
+        self.assertEqual(held, {'pack/note.md': 'covered_by_zip', 'resume_2025.txt': 'personal_name',
+                                'big.txt': 'over_max_file_bytes'})
+        self.assertEqual(res['members'], 2)
+        for m in man['members']:
+            with zipfile.ZipFile(self.p / 'packs' / m['part']) as z:
+                self.assertEqual(hashlib.sha256(z.read(m['dropbox_path'])).hexdigest(), m['sha256'])
+
+    def test_pack_splits_parts_at_the_cap(self):
+        ups = [{'dropbox_path': f'f{i}.bin', 'sha256': '', 'bytes': 3000, 'source': str(self.p / f'f{i}.bin')}
+               for i in range(3)]
+        for u in ups:
+            Path(u['source']).write_bytes(os.urandom(3000))  # incompressible
+        (self.p / 'u.json').write_text(json.dumps(ups))
+        res = quiet(['pack', '--uploads', str(self.p / 'u.json'), '--out-dir', str(self.p / 'p2'),
+                     '--part-bytes', '4000'])
+        self.assertEqual(res['parts'], 3)
+
+    def test_report(self):
+        res = quiet(['report', '--classified', str(self.p / 'cls.json'), '--out', str(self.p / 'r.md')])
+        body = (self.p / 'r.md').read_text()
+        self.assertEqual(res['missing'], 5)
+        self.assertEqual(res['personal_name'], 1)
+        self.assertIn('| GIT_EXACT | 1 |', body)
+        self.assertIn('`resume_2025.txt`', body)
+
 
 if __name__ == '__main__':
     unittest.main()
