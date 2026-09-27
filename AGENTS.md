@@ -41,14 +41,16 @@ owner instruction on the same day:
   Mathlib, 13 GP-FOR-192 scalar companions) described in the
   [formal-verification guide](docs/FORMAL_VERIFICATION.md);
 - the `main` pilot in [`formal/`](formal/README.md) (core Lean only, the SIDE24
-  arithmetic skeleton) with one formalization status per claim in
-  [`formal/registry.json`](formal/registry.json) and the
+  arithmetic skeleton) with the same `manifest.json` evidence-sidecar contract as
+  the `Math-` pilot — `proved` at source, `kernel-checked` only in a trusted run
+  receipt, alignment a separate pending dimension — and the
   [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md).
 
-They cover different mathematics and neither is a scientific-status database. Read
-both records before touching either layer, coordinate through
+They cover different mathematics, share one status vocabulary and one alignment
+record contract, and neither is a scientific-status database. Read both records
+before touching either layer, coordinate through
 [the existing work item #95](https://github.com/d6g8k5htny-coder/main/issues/95),
-and do not open a third registry. Lean kernel evidence, exact source identity,
+and do not open a third package vocabulary or any register. Lean kernel evidence, exact source identity,
 independent statement alignment and scientific acceptance are separate requirements:
 a build, Blueprint link, hash, solver result or merge does not satisfy them all, and
 no formalization status ever moves a Layer 0 status. Preserve original proof

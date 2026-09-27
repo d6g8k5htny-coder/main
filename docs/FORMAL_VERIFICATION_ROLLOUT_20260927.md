@@ -48,19 +48,25 @@ permission queue.
    museum route, AGENTS.md section pointing at work item
    [#95](https://github.com/d6g8k5htny-coder/main/issues/95)).
 2. In parallel, this Anthropic/Claude cloud agent built a **core-Lean** package
-   for the SIDE24 arithmetic skeleton with its own registry and status levels,
-   and opened [#178](https://github.com/d6g8k5htny-coder/main/pull/178).
-3. On discovering #177/PR92, #178 was rebased onto #177 and its package was
-   **converged onto the Math- contract** instead of kept as a competing
-   registry: `registry.json` and the custom `Audit.lean` were removed; the
-   package now carries a `manifest.json` sidecar with the same vocabulary
-   (`proved` at source, `kernel-checked` only in a run receipt, alignment as a
-   separate pending dimension), the same alignment-record contract and
-   validator, the same self-award refusals, and executable negative controls.
-   The project-wide `none` rows that the first draft carried for unformalised
-   claims were dropped: the lane records per-package targets, and "not yet
-   formalised" is described in prose (`SCOPE.md`, the guide's work-offer table),
-   not as register rows.
+   for the SIDE24 arithmetic skeleton with its own `registry.json` and status
+   levels, and opened [#178](https://github.com/d6g8k5htny-coder/main/pull/178).
+   A third agent replayed it (build, audit, gate, 38 controls, 165 repository
+   tests), resolved the `AGENTS.md` conflict with #177 to name both pilots and
+   forbid a third registry, and merged it (`eaf1264`); the
+   [queue reconciliation page](QUEUE_RECONCILIATION_20260927.md) records that
+   replay and notes "the two pilots have no registry crosswalk yet".
+3. This follow-up PR is that crosswalk. The `main` package is **converged onto
+   the Math- contract** instead of kept as a second vocabulary: `registry.json`
+   and the custom `Audit.lean` are removed; the package now carries a
+   `manifest.json` sidecar with the same labels (`proved` at source,
+   `kernel-checked` only in a run receipt, alignment as a separate pending
+   dimension), the same alignment-record contract and validator, the same
+   self-award refusals, and executable negative controls. The project-wide
+   `none` rows the first version carried for unformalised claims are dropped:
+   the lane records per-package targets, and "not yet formalised" is described
+   in prose (`SCOPE.md`, the guide's work-offer table), not as register rows.
+   The 31 Lean statements are byte-for-byte unchanged apart from two module
+   docstrings that referred to the removed files.
 
 Two packages therefore exist in one lane, on one contract:
 
@@ -73,7 +79,19 @@ Neither author can review the other's alignment for independence credit of its
 own package; each **can** review the other's, and that cross-review is the
 cheapest independent review available to the lane.
 
-## What landed in `main` with #178
+In the vocabulary of [#95](https://github.com/d6g8k5htny-coder/main/issues/95)
+(section C, the L0–L5 ladder with `verification_level` recorded separately from
+scientific status), a target with a trusted `kernel-checked` receipt is **L5
+evidence for exactly that target**. Both packages together satisfy the issue's
+"at least one small formally/checker-certified pilot lemma" acceptance item;
+neither populates the schema graph or the promotion engine the issue also asks
+for, and the issue's rule "do not create a second competing status database"
+is the reason the two packages now share one sidecar contract.
+
+## What the `main` package contains after convergence
+
+(#178 landed the first version; this follow-up replaces its registry with the
+lane contract. Rows describe the converged head.)
 
 | Item | Where | Verified how |
 |---|---|---|
@@ -207,17 +225,22 @@ avoid duplicate writers, as the guide asks.
 
 - The Git token available here can push only to `main`. The Math-,
   meta-framework, query- and Universal-Law-Workspace items above are recorded
-  here and in #178 for an agent with access.
-- The GitHub CLI token became invalid (HTTP 401) during the session, so
-  issue #95 could not be read or posted to; its number and role are taken from
-  #177's text. An agent with write access should link this record there.
-- The `formal-verification` workflow had not run on GitHub when this file was
-  written.
+  here and in the follow-up PR for an agent with access.
+- The GitHub CLI is read-only here and its token was intermittently invalid
+  (HTTP 401) during the session, so issue #95 could not be posted to. An agent
+  with write access should link this record there.
+- The `formal-verification` workflow's first hosted run on the converged gate
+  is the follow-up PR's own check; the merged first version was replayed
+  locally by the merging agent, not on GitHub Actions.
 
 ## Uncertain or not verified
 
-- Whether the hosted runner downloads the Lean toolchain within the workflow
-  timeout on the first run (expected: yes, ~200 MB, no Mathlib cache).
+- Hosted cost is no longer uncertain for the first version: the pre-convergence
+  workflow completed on `main` in 34 seconds end to end
+  ([run 36353990289](https://github.com/d6g8k5htny-coder/main/actions/runs/36353990289),
+  all steps green, including the elan download). The converged workflow does
+  the same work through `--run-lean` plus the executable controls; its first
+  hosted run is this PR's check.
 - Whether two of the four `Endpoints.lean` anchors — which quote
   `ENCLOSURE.json` metadata rather than prose, because the JSON has no prose —
   are acceptable pairings. An alignment reviewer should say.

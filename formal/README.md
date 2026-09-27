@@ -53,6 +53,10 @@ enclosure pipeline are not supplied.
   Anthropic / Claude via a Cursor cloud agent (2026-09-27); an alignment record
   from the same provider, family or agent is refused by the validator. The
   manifest cannot say `ACCEPTED`.
+- In the ladder of [#95](https://github.com/d6g8k5htny-coder/main/issues/95)
+  (L0 prose … L5 proof-assistant-checked, `verification_level` separate from
+  scientific status) a target with a trusted `kernel-checked` receipt is L5
+  evidence for exactly that target.
 - None of these labels is a Layer 0 ACCEPT/AMEND verdict or moves one.
 
 ## Run it
