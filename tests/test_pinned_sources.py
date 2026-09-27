@@ -308,7 +308,12 @@ def test_the_real_tree_verifies_every_binding():
     assert out.returncode == 0, out.stdout
     s = summary(out.stdout)
     # SOURCE_RECOVERY.json binds two proof bodies, one archive, and two scripts.
-    assert s["certificates"] == 11
+    # The RN full-mark sector packet (research/campaigns/rn_fullmark_sector_20260921_v1)
+    # adds five pin containers: DEPENDENCIES, MANIFEST, VALIDATION, the prior wedge
+    # result and results/normal/result.json. Its repository pins are files the
+    # bernstein/sharp_variance archive declarations already bound, so pinned_files
+    # does not move.
+    assert s["certificates"] == 16
     # 42 before the campaign archives' own dependency declarations were read. The
     # thirteen paths that jump adds are pinned by a checker and were absent from the
     # index that exists to name them -- see
