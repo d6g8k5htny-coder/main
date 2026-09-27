@@ -57,5 +57,21 @@ research code into `main` should bring its relevant verification with it; a gree
 landing check is not full research CI. Agents may replace or expand this workflow as
 the workspace changes.
 
+## Formal layer check
+
+The `formal-verification` workflow builds the Lean 4 library in [`formal/`](../formal/README.md),
+audits axioms, and runs the fail-closed formalization gate. Locally, after installing
+elan (see the formal README):
+
+```sh
+python3 tools/formal_gate_check.py --run-lean
+python3 -B -S -m unittest tests.test_formal_gate -v
+```
+
+A green run means the registered declarations are kernel-checked with allowed axioms
+only and the registry, hashes and informal anchors agree. It is formalization status,
+not mathematical acceptance; the [rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md)
+explains the boundary.
+
 [Current authority](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
 [Home](../README.md) · [Historical material](../history/2025/README.md)

@@ -142,6 +142,40 @@ back regardless of how good the result looks.
 - **Python 3.11, standard library only.** `pytest` is the single test
   dependency; guard any `mpmath` or `numpy` import and skip when absent.
 
+## Formal verification (Lean 4, Layer 1)
+
+The [`formal/`](formal/README.md) directory holds Lean 4 statements and proofs
+bound by hash to the exact Layer 0 bytes they formalise, and
+[`formal/registry.json`](formal/registry.json) records one **formalization
+status** per claim: `none`, `specified`, `proved`, or `kernel-checked`. Rules:
+
+- **Register every Lean file and every declaration you want counted.** The gate
+  (`tools/formal_gate_check.py`) refuses unregistered `.lean` files, hash
+  mismatches, `sorry`, `native_decide`, and any `axiom` not listed in
+  `project_axioms` with a scope note. After editing Lean text run
+  `--refresh-hashes`, then `--write-alignment`, then the gate with the kernel lane
+  (`--run-lean` or `--axioms-output`), never only `--static-only`.
+- **`kernel-checked` means allowed axioms only.** `propext`, `Classical.choice`,
+  `Quot.sound` or none. A proof that leans on a project axiom (an unformalised
+  parent theorem stated explicitly with a scope note) is `proved`, not
+  `kernel-checked`, until the parent is formalised.
+- **Every Lean statement carries a verbatim `informal_anchor`** from a
+  byte-pinned local source copy under `formal/sources/`, and a `does_not_claim`.
+  Core Lean has no rationals: state rational identities as cross-multiplied
+  integers and give the rational form in the docstring.
+- **Statement alignment is its own review.** AI- or human-authored Lean text is
+  author-side until a distinct reviewer records, under `formal/reviews/`, that
+  the Lean statement says what the anchor says. Follow
+  [`formal/REVIEW_LANE.md`](formal/REVIEW_LANE.md). Same-provider reviewers earn
+  zero independence credit, as everywhere else in this repository.
+- **Formalization status never moves Layer 0 status.** A `kernel-checked` lemma
+  does not edit `STATUS.md`, `PROOF_INDEX.md` or any ACCEPT/AMEND row, and does
+  not make the surrounding analytic argument verified. Use the vocabulary in
+  [`formal/GLOSSARY.md`](formal/GLOSSARY.md) when writing for external readers.
+- **Mathlib is a separate step.** The pilot is dependency-free on purpose. A
+  Mathlib lane (needed for `ℝ`, `Real.Gamma`, `Real.log`, Gaussian measures)
+  changes CI cost and is proposed in its own PR.
+
 ## Claims and status
 
 - **No status moves by merge.** Commits, tests, receipts and reviews cannot

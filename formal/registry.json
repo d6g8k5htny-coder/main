@@ -1,0 +1,828 @@
+{
+  "schema": 1,
+  "scope": "FORMALIZATION_STATUS_ONLY",
+  "scientific_status_authority": false,
+  "meaning": "Per-claim formalization status for the Lean 4 layer. A status here records what the Lean kernel checked and nothing else: it cannot promote, close, or reclassify a Layer 0 (source-bound review) status in STATUS.md or PROOF_INDEX.md, and a kernel-checked arithmetic lemma does not make its surrounding analytic argument verified.",
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "project_root": "formal",
+  "audit_module": "formal/UniversalLaw/Audit.lean",
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "forbidden_axioms": [
+    "sorryAx",
+    "Lean.ofReduceBool",
+    "Lean.ofReduceNat"
+  ],
+  "status_levels": {
+    "none": "No Lean object. The claim lives only in Layer 0 prose.",
+    "specified": "A Lean statement (a `def ... : Prop`) compiles; no proof is offered. Its hypotheses are the exact claimed scope.",
+    "proved": "A Lean proof compiles but depends on project-declared axioms (for example an unformalized parent theorem taken as an explicit axiom with a scope note) or on axioms outside the allow-list other than the forbidden ones.",
+    "kernel-checked": "A Lean proof compiles and `#print axioms` reports only allowed axioms. No sorry, no native_decide, no project axioms."
+  },
+  "alignment_review_levels": {
+    "open": "Author-side only. Nobody other than the author has checked that the Lean statement says what the informal anchor says.",
+    "reviewed": "A distinct reviewer has recorded, in formal/reviews/, that the Lean statement matches the informal anchor at the stated scope. Same-provider reviewers earn zero organizational-independence credit.",
+    "not-applicable": "No Lean statement exists."
+  },
+  "lean_files": [
+    {
+      "path": "formal/lean-toolchain",
+      "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+    },
+    {
+      "path": "formal/lakefile.toml",
+      "sha256": "58f0fa6864cc03e9bcbef2d8c0404e9f3385a30a6124000454319367906cbe4a"
+    },
+    {
+      "path": "formal/UniversalLaw.lean",
+      "sha256": "985368dd6009921e6487597e622ff0e37225a4b21d4ee9724c76c193eb718d4d"
+    },
+    {
+      "path": "formal/UniversalLaw/Audit.lean",
+      "sha256": "bdccd68c108fd1d1ed48f4f27690cae3c0d6ea679e8026b10e402dc49067973a"
+    },
+    {
+      "path": "formal/UniversalLaw/Side24/Ledger.lean",
+      "sha256": "7e321cef49195b7c920960f965cbddb8fe17ad6a31e09371fa860a204f3721d1"
+    },
+    {
+      "path": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "sha256": "2bcd4a83683188856bce010c3dcdec6904e45a6d73b50b9f3891e632ff58985c"
+    },
+    {
+      "path": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "sha256": "3e285bd81b906b1b15f9e14a2552ea800380b14c862ae85148abfe1ef6a27f8a"
+    }
+  ],
+  "sources": [
+    {
+      "id": "side24-proof",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+      "path": "coefficients/side24_v1/PROOF.md",
+      "bytes": 10272,
+      "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+      "local_copy": "formal/sources/side24_v1/PROOF.md"
+    },
+    {
+      "id": "side24-enclosure",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+      "path": "coefficients/side24_v1/ENCLOSURE.json",
+      "bytes": 1090,
+      "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
+      "local_copy": "formal/sources/side24_v1/ENCLOSURE.json"
+    }
+  ],
+  "cross_checks": [],
+  "cross_check_schema": {
+    "prover": "name and version",
+    "date": "YYYY-MM-DD",
+    "declaration": "Lean name",
+    "outcome": "kernel-checked | failed | not-attempted",
+    "record": "path under formal/reviews/",
+    "note": "An AI-prover success is an additional lane, recorded here; it is still checked by the same kernel and does not replace the alignment review."
+  },
+  "claims": [
+    {
+      "id": "side24-pairing-sum-six",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Product-rule pairing count at q=6 equals 76",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.pairing_sum_six",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "The coefficient sum for q=6 is\n1+15+45+15=76",
+      "does_not_claim": "the derivative bound 76|x|^6 e^(-|x|^2/2) itself",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-pairing-sum-lower-orders",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Pairing counts for q<=6 are at most 76",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.pairing_sum_le_six",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "it bounds the smaller orders as well",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-pairing-terms",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Individual pairing terms 1, 15, 45, 15",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.pairing_terms_six",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "1+15+45+15=76",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-sixth-moment",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Double factorial 5!! = 15",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.sixth_moment_double_factorial",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "At zero, every such\ncontraction has absolute value at most15.",
+      "does_not_claim": "that Gaussian derivative contractions at zero are bounded by 15",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-lattice-shell",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Shell constants 27·27 = 729 and 729·2 = 1458",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.lattice_shell_constant",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "<=729 sum_{j>=1} j^9 e^(-288j^2)\n      <=1458 e^(-288).",
+      "does_not_claim": "the lattice-point count or the geometric tail sum",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-geometric-ratio",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Ratio constants 2^9 = 512 and 288·3 = 864",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.geometric_ratio_constants",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "successive terms have ratio at most512e^(-864)<1/2",
+      "does_not_claim": "that the ratio is below 1/2",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-period-exponent",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Period-24 exponent 24^2/2 = 288",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.period_exponent",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "sum_{n!=0} |n|^6 e^(-288|n|^2)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-image-constant",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Image constant 1458·(76·24^6+15) = 21175738586478",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.image_constant_value",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "E := 1458*(76*24^6+15)*10^(-125)\n        = 21175738586478 *10^(-125).",
+      "does_not_claim": "the inequality |D^q K_24(0)-D^q K_infty(0)| < E",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-exp-taylor",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Degree-20 Taylor partial sum of exp(288/125) exceeds 10",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.exp_taylor_partial_sum_gt_ten",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "The code proves e^(288/125)>10 using the positive rational Taylor sum through20",
+      "does_not_claim": "that the partial sum is below exp(288/125) (positivity of the omitted terms is analysis)",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-covariance-bound",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "60E < 10^(-108) as the integer inequality 60·21175738586478 < 10^17",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.covariance_relative_bound",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "epsilon=10^(-108),   since60E<epsilon.",
+      "does_not_claim": "the spectral-norm bound 20E or C_ref >= I/3",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-odd-block-eigen",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Odd block trace 16 and determinant 6 = 8^2 - 58",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.odd_block_eigenvalues",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "[[1,-3],[-3,15]], whose eigenvalues are8 +/- sqrt(58)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-odd-block-shift",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Shifted odd block minors 2/3 and 7/9 (scaled by 3: 2 and 7)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.odd_block_shifted_minors",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "subtract I/3 and use first principal minor2/3 and determinant7/9",
+      "does_not_claim": "Sylvester's criterion",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-eigen-third",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "8 - sqrt(58) > 1/3 via 23^2 > 58·9",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.smaller_eigenvalue_exceeds_third",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "Its smaller eigenvalue exceeds\n1/3",
+      "does_not_claim": "monotonicity of the square root",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-exponent-bounds",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Exponent inequalities a+2b<14 and 2a+b<13 for d=2,3 (in sixths)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.exponent_bounds",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "For d=2,3, a+2b<14 and2a+b<13.",
+      "does_not_claim": "the log/exp estimates that follow",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-exponent-values",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Exact a, b values for d=2,3",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.exponent_values",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "a=m+2/3+n/2,  b=d+n/2.",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-ratio-constants",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "13 <= 32 and 28 <= 32",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.ratio_constant_ordering",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "ratio between1-13epsilon and\n1+28epsilon, hence safely between1-32epsilon and1+32epsilon",
+      "does_not_claim": "the elementary log/exp bounds",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-density-comparison",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "32·10^(-108) < 10^(-106)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.density_comparison_below_reported",
+      "lean_file": "formal/UniversalLaw/Side24/Ledger.lean",
+      "source": "side24-proof",
+      "informal_anchor": "|c_d,24/c_d,ref -1| < 10^(-106), d=2,3.",
+      "does_not_claim": "the multiplicative density comparison",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-tau-squared",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Conditional variance tau^2 = 15 - 9 = 6",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.conditional_third_derivative_variance",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "Var(t)=15,  Cov(t,G)=(-3,0,...,0)",
+      "does_not_claim": "the Gaussian conditioning formula or the covariance derivatives",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-transverse-covariance",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Transverse covariance entries 8/3, 1, 2/3 from the delta formula",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.transverse_covariance_entries_thirds",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "Cov(A_ij,A_kl | V=0)\n      = (2/3)delta_ij delta_kl + delta_ik delta_jl + delta_il delta_jk.",
+      "does_not_claim": "the delta formula itself",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-cone-m1",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "D_1 = 4/3 is half of 8/3",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.cone_moment_m1_thirds",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "D_1=E[A^2 1{A<0}]=4/3.",
+      "does_not_claim": "centred Gaussian symmetry",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-trace-variance",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Var(s) = 5/3, Var(x) = Var(y) = 1, Cov(s,x) = 0 from the 2x2 covariance entries",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.trace_and_traceless_variances",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "Var(s)=5/3 and Var(x)=Var(y)=1.",
+      "does_not_claim": "independence beyond zero covariance, which is Gaussian",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-fourth-moment",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "E s^4 = 3·(5/3)^2 = 25/3",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.fourth_moment_of_trace",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "E s^2=5/3, E s^4=25/3",
+      "does_not_claim": "the Gaussian fourth-moment identity",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-exp-moment",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "1 + 5/3 = 8/3 behind E exp(-s^2/2) = sqrt(3/8)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.exponential_moment_of_trace",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "E exp(-s^2/2)=sqrt(3/8)",
+      "does_not_claim": "the Gaussian exponential-moment identity",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-cone-m2",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "D_2 algebra: rational part 29/6 and 4·sqrt(3/8) = sqrt(6)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.cone_moment_m2_algebra",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]\n        = 29/6-sqrt(6).",
+      "does_not_claim": "the integral identity or the Rayleigh cone integration",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-cube-root",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "6^2·2 = 3·24 behind 6^(2/3)/24^(1/3) = (3/2)^(1/3)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.cube_root_simplification",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "simplifying 6^(2/3)/24^(1/3)=(3/2)^(1/3)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-pin-dimension",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "det diag(3,1,..,1) = 3 and joint dimensions 6, 10",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.pin_determinant_and_joint_dimension",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "Its dimension is at most10.",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-hessian-eigen",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Hessian block eigenvalues 4, 5, 2 exceed 1/3",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.hessian_block_eigenvalues",
+      "lean_file": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "source": "side24-proof",
+      "informal_anchor": "The reference Hessian block has eigenvalues d+2 on trace and2 on traceless matrices",
+      "does_not_claim": "the spectral decomposition",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-d2-endpoints",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Published d=2 endpoints are adjacent 20-digit decimals",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.d2_endpoints_adjacent",
+      "lean_file": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"2\": {\n      \"lower\": \"0.07340691930603427103\",\n      \"upper\": \"0.07340691930603427104\"",
+      "does_not_claim": "that c_2,24 lies between them",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-d3-endpoints",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Published d=3 endpoints are adjacent 20-digit decimals",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.d3_endpoints_adjacent",
+      "lean_file": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"3\": {\n      \"lower\": \"0.04177593184059834334\",\n      \"upper\": \"0.04177593184059834335\"",
+      "does_not_claim": "that c_3,24 lies between them",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-d3-below-d2",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Published d=3 interval lies below the d=2 interval",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.d3_below_d2",
+      "lean_file": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"scientific_acceptance\": false",
+      "does_not_claim": "anything about the true coefficients",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "side24-endpoints-range",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "Published endpoints lie in (0, 1/10)",
+      "status": "kernel-checked",
+      "lean_declaration": "UniversalLaw.Side24.endpoints_in_unit_tenth",
+      "lean_file": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"relative_periodization_bound\": \"1e-106\"",
+      "does_not_claim": "anything about the true coefficients",
+      "alignment_review": {
+        "status": "open",
+        "author": "Anthropic / Claude (Cursor cloud agent), 2026-09-27; author-side, AI-generated",
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d3-side24-coefficient-bound",
+      "layer0_object": "D3 — SIDE24 coefficient calculation",
+      "title": "0.07340691930603427103 < c_2,24 < 0.07340691930603427104 and the d=3 analogue",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "Real.Gamma and its Stirling remainder",
+        "Real.pi enclosure",
+        "Real.exp / Real.log enclosures",
+        "Gaussian cone moments D_1, D_2",
+        "positive-semidefinite covariance comparison",
+        "Mathlib dependency"
+      ],
+      "glossary_terms": [
+        "SIDE24",
+        "cone moment",
+        "reference coefficient",
+        "image ledger"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md",
+      "layer0_status_note": "ACCEPT — scoped at Layer 0 (STATUS.md); the arithmetic skeleton above is kernel-checked, the analytic content is not",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d2-lifetime-remainder",
+      "layer0_object": "D2 — unrestricted lifetime remainder",
+      "title": "Theorem R: bounded O(1) remainder for candidate and elder densities",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "Gaussian random fields on the torus",
+        "marked Kac–Rice formula",
+        "Gaussian regression",
+        "Mathlib probability"
+      ],
+      "glossary_terms": [
+        "candidate density",
+        "elder density",
+        "lifetime",
+        "pin",
+        "full normalizer"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+      "layer0_status_note": "ACCEPT — scoped at Layer 0; no formal object yet",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d4-fixed-remote-rn-count",
+      "layer0_object": "D4 — fixed-remote RN count theorem",
+      "title": "Expected count O(r^3) in the between-pin height window at fixed rho, eta",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "Kac–Rice counting formula",
+        "conditioned Gaussian covariance",
+        "determinant factor bounds",
+        "Mathlib"
+      ],
+      "glossary_terms": [
+        "RN count",
+        "remote critical point",
+        "pin",
+        "contact kernel",
+        "height window"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/remote_window_20260924/PROOF.md",
+      "layer0_status_note": "ACCEPT — scoped at Layer 0; no formal object yet",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d6-p15-full-price",
+      "layer0_object": "D6 — P15 full-price theorem",
+      "title": "Theorem F: sharp uniform factor rho* = 1/(3 - log(3e-2)) on the realized family",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "finite hypergraph / clutter definitions",
+        "independent product measure",
+        "Real.log",
+        "Mathlib"
+      ],
+      "glossary_terms": [
+        "realized family",
+        "palette",
+        "capacity",
+        "clutter",
+        "price"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/full_price_20260924/PROOF.md",
+      "layer0_status_note": "ACCEPT — scoped at Layer 0; finite combinatorics makes this the most tractable next formalization target",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d1-parent-selection-chain",
+      "layer0_object": "D1 — parent quantitative Theorem-A selection chain",
+      "title": "Sections 2–7 quantitative selection chain of UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "Layer 0 review is itself reopened (AMEND)",
+        "all of the above"
+      ],
+      "glossary_terms": [
+        "elder selection",
+        "matrix cap",
+        "marked cylinder"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/blob/main/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "layer0_status_note": "AMEND / open at Layer 0; formalization would begin by stating the hypotheses as explicit axioms with scope notes",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "d5-pin-neighborhoods",
+      "layer0_object": "D5 — pin neighborhoods / microdisk",
+      "title": "Summed pin-neighborhood bound including the inner microdisk",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "no complete informal proof yet"
+      ],
+      "glossary_terms": [
+        "pin neighborhood",
+        "microdisk",
+        "collar",
+        "annulus"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/Math-/issues/58",
+      "layer0_status_note": "AMEND / open at Layer 0; nothing to formalize until a complete candidate exists",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    },
+    {
+      "id": "sard-g-a1-a6",
+      "layer0_object": "SARD-G A1/A6",
+      "title": "A1 and A6 of the SARD-G successor",
+      "status": "none",
+      "lean_declaration": null,
+      "lean_file": null,
+      "source": null,
+      "informal_anchor": null,
+      "blocked_on": [
+        "open-chart premise not yet repaired at Layer 0"
+      ],
+      "glossary_terms": [
+        "SARD-G"
+      ],
+      "layer0_source": "https://github.com/d6g8k5htny-coder/main/blob/main/reviews/sard_g_successor_a1_a6_20260926/REVIEW.md",
+      "layer0_status_note": "AMEND / open at Layer 0",
+      "does_not_claim": "any formal verification; Layer 0 review status is unchanged",
+      "alignment_review": {
+        "status": "not-applicable",
+        "author": null,
+        "reviewer": null,
+        "record": null
+      }
+    }
+  ]
+}
