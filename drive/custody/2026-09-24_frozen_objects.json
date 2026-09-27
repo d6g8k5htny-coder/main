@@ -1,0 +1,63 @@
+{
+ "_what_this_is": "Independently collected identities for frozen_objects rows whose Drive ID is absent from drive/inventory.jsonl. Those objects were frozen on 2026-09-19, 09-20 and 09-21, after the 2026-09-17 accessibility publication that inventory.jsonl derives from, so no faithful inventory can contain them until that publication is re-run.",
+ "_not_an_inventory": "This is NOT a Drive inventory and must never be fed to a path-search consumer. It carries no paths, no folder structure and no coverage claim. drive/inventory.jsonl remains exactly what it says it is: 4,456 of the 4,456 rows of drive/source_map/Files.csv, which was byte-identical to the live Drive object 1gJwebwkKnRcb3Ez8atJ0WTk9f7HmP1y3 when checked on 2026-09-23.",
+ "_why_matches_here_are_reported_separately": "frozen_check's whole-file comparison is only worth anything because it compares two INDEPENDENT Drive-side records of the same bytes. A supplement row copied out of the register's own expected digest would make that comparison circular and the resulting MATCH vacuous. Nothing mechanical can tell a genuinely downloaded digest from a copied one, so the checker does not pretend to: a row answered from this file reports MATCH_VIA_CUSTODY_SUPPLEMENT and is counted apart from MATCH. A reader can always see how many agreements rest on the accessibility publication and how many rest on a later spot-check.",
+ "collected_by": "claude",
+ "provider": "Anthropic",
+ "collection_method": "Each object was fetched through the Drive integration, which returns the file's bytes base64-encoded; the payload was then decoded and hashed locally with hashlib.sha256, and the result compared against the expected byte count and digest the frozen_objects row carries. The register value was read out of the export rather than from any manifest supplied alongside the objects.",
+ "coverage": "4 of the 11 rows, each downloaded and hashed in this session. The remaining seven are listed in _pending and are NOT in this file: an unverified row must not be present at all, because a row that exists is a row the checker will answer from. Both rows whose Binding Class repair in R3 moved them into the whole-file comparison path are among the verified, since those were the least-scrutinised of the eleven.",
+ "_pending": [
+  "1r5_R5VoKM10-7eofPwGa_yHuxTAS7S2q",
+  "1NmwwIUUfIgVepvWjjSaPtLisJar7dpJu",
+  "1nzc7GJeAR06L03c6y8Kf958VHU4n-mJ_",
+  "1BP6EjmOeezUlH3aLID4N2Qc-wun5RR8C",
+  "13a9tebHQ7URIEE9qtAO499Ju6oLznuyG",
+  "11mOqEy1T7YGgEbW35EhOs5So68I-ZaBR",
+  "15tpKrM1RnYa_2QxKBL-vZt3Zb06pTXUw"
+ ],
+ "does_not_establish": "Downloading an object and hashing it establishes that those bytes carried that digest when they were fetched. It does not establish that the object is what the register says it is about, that its contents are correct, or that anything it claims mathematically holds. It re-freezes nothing, verifies no body, moves no gate, discharges no premise and earns zero organizational independence credit. RN-INNER-WEDGE's own text states that its result is conditional on the imported fixed-radius H3 floor and that the complete annulus, all radii, all pin orientations and independent acceptance remain open; hashing its bytes changes none of that.",
+ "rows": [
+  {
+   "id": "1UCK6Lz30SmeiBXKgzk6J3y6YS05TtbFE",
+   "title": "RN_INNER_WEDGE_20260921_PROOF.md",
+   "bytes": 3251,
+   "sha256": "f363629f77c8fec80838b15fee4df9972ee3397252f484c5a1602a7c21ed3e57",
+   "frozen_object_id": "RN-INNER-WEDGE-20260920-v1",
+   "verified_utc": "2026-09-23T23:12:00Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. One of the two rows whose Binding Class repair in R3 moved it into the whole-file comparison path, so it was the least-scrutinised of the eleven and was verified first."
+  },
+  {
+   "id": "1Ho2Kx_m11gTJ1fRg8gO3kbRlhauZ2oaV",
+   "title": "RN_H3_REFINEMENT_20260922_C11_SUMMARY.md",
+   "bytes": 4014,
+   "sha256": "41b554b3c1d0797c3b64a8fad8197ea9b8981f3f093dc219dfce62e9d1190356",
+   "frozen_object_id": "RN-SHARP-H3-ADMISSION-NOTE-20260921-v1",
+   "verified_utc": "2026-09-24T00:52:00Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. The second of the two rows whose Binding Class repair in R3 moved it into the whole-file comparison path; both are now verified. Its own text states that full annulus coverage, all radii, all pin orientations, the weighted-Palm and event-identification interfaces, canonical acceptance and independent review remain open, and that organizational independence is zero."
+  },
+  {
+   "id": "1pWBlanUuRBPVSrrbSd4XDUxIcX0gU8va",
+   "title": "HG-GLOBAL-ENVELOPE-20260919-v1.md",
+   "bytes": 3641,
+   "sha256": "8c0dccdfd177b7ae03a0edd62f92b330825469a9e991d33d2226eb62cfd6083e",
+   "frozen_object_id": "HG-GLOBAL-ENVELOPE-20260919-v1",
+   "verified_utc": "2026-09-26T12:45:07Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. Binding Class D in both R2 and R3, so this row's whole-file comparison path did not depend on the R3 label repair. Its own text states CANDIDATE / NOT REVIEWED, independence credit 0, and that it establishes neither the full 24-jet set, the six-pin displacement maps, any required r-band certificate nor OBL-H5-JETMOD."
+  },
+  {
+   "id": "1RXhWblyRQYpadj6X7e3IZTmNO4JXXgo3",
+   "title": "RN-AFFINE-MOMENTS-20260920-v1.md",
+   "bytes": 7394,
+   "sha256": "4c1803f23e5bbb02baf0a5f5dec6bd4c00d5c580fdffce05180619e7d9158520",
+   "frozen_object_id": "RN-AFFINE-MOMENTS-20260920-v1",
+   "verified_utc": "2026-09-26T12:45:07Z",
+   "verified_by": "claude",
+   "note": "Strict UTF-8 decode clean. Binding Class D in both R2 and R3. Its own text states that it is an unreviewed algebraic candidate claiming no new Gaussian moment theorem, that no RN field identification, spatial cover, remote normalizer proof or weighted-Palm transfer is supplied, and that the canonical registry's utility remains UNMEASURED."
+  }
+ ],
+ "_expectations_are_checkable_in_this_repository": "The expected byte count and SHA-256 for all eleven rows are carried by registers/source/GP-REG-032_v1.2_export_2026-09-23_R2.xlsx, which is retained here and pinned in registers/source/SOURCES.json, so every comparison in this file is reproducible without R3: python3 tools/registers_import.py --source registers/source/GP-REG-032_v1.2_export_2026-09-23_R2.xlsx --out-json <dir> --out-csv <dir>, then read the frozen_objects tab. What R3 adds for these rows is the Binding Class repair, not a new digest: the eleven digests in the OpenAI/ChatGPT publication of 2026-09-23, which that publication states it checked against R3, are byte-for-byte the eleven expectations R2 carries. R3 itself is Drive 1erJ3Rascitw0pbMu8mz_8fcF8Geavf4T, 1,987,616 bytes, and is not retained in git; a claim about any R3 cell this repository does not hold is that publication's, not this file's.",
+ "_what_a_mismatch_from_this_collector_would_and_would_not_mean": "The fetch path here is not byte-transparent: the payload passes through this session before it is written, and on 2026-09-26 a fifth attempt (H3-RN-N6-20260920-v1, Drive 15tpKrM1RnYa_2QxKBL-vZt3Zb06pTXUw, expected 9,233 bytes) reconstructed as 9,234 bytes with a different digest because the payload was corrupted in transfer, not because the object had drifted. That row is therefore absent from this file and still listed in _pending. The consequence for a reader: a digest AGREEMENT from this collector is meaningful, because a corrupted transfer cannot produce the register's digest by accident, but a DISAGREEMENT from this collector is not evidence that a frozen object drifted -- it is indistinguishable from a transfer fault and must be re-collected before anyone treats it as a finding. A collector with direct API access and no transcription step does not carry this caveat, which is one reason the OpenAI/ChatGPT publication imported alongside this file is the better record for the rows it covers, and why agreement between the two collectors is worth counting."
+}

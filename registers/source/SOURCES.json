@@ -24,13 +24,34 @@
    "status": "SUPERSEDED as the import source on 2026-09-18; retained byte for byte and never edited",
    "defect": "TRUNCATED_RENDERING: the connector's markdown rendering returned only a prefix of seven large tabs. The prefix rows it did return agree cell for cell with the xlsx export apart from markdown escaping (\\<, \\`, \\~, &lt;), the '[merged] ' repetition of merged cells, date serials rounded to five decimals, one mangled emoji and in-cell newlines flattened to spaces. Every derived file in this repository built before 2026-09-18 saw only these prefixes.",
    "truncated_tabs": {
-    "file_catalog": {"prefix_rows": 310, "total_rows": 2952},
-    "activity_log": {"prefix_rows": 241, "total_rows": 518},
-    "artifact_index": {"prefix_rows": 206, "total_rows": 761},
-    "transition_log": {"prefix_rows": 67, "total_rows": 82},
-    "review_ledger": {"prefix_rows": 101, "total_rows": 138},
-    "evidence_lineage": {"prefix_rows": 137, "total_rows": 485},
-    "relations": {"prefix_rows": 164, "total_rows": 367}
+    "file_catalog": {
+     "prefix_rows": 310,
+     "total_rows": 2952
+    },
+    "activity_log": {
+     "prefix_rows": 241,
+     "total_rows": 518
+    },
+    "artifact_index": {
+     "prefix_rows": 206,
+     "total_rows": 761
+    },
+    "transition_log": {
+     "prefix_rows": 67,
+     "total_rows": 82
+    },
+    "review_ledger": {
+     "prefix_rows": 101,
+     "total_rows": 138
+    },
+    "evidence_lineage": {
+     "prefix_rows": 137,
+     "total_rows": 485
+    },
+    "relations": {
+     "prefix_rows": 164,
+     "total_rows": 367
+    }
    },
    "truncation_evidence": "Row counts compared against the 2026-09-18 xlsx export by tools/registers_import.py; the markdown rendering of the same live workbook taken minutes before the xlsx export (2026-09-18) showed the identical cut, so the cut is a property of the rendering, not of an edit to the Sheet."
   },
@@ -70,7 +91,28 @@
    "status": "VERIFIED SUCCESSOR STORED / NOT YET SELECTED AS CANONICAL IMPORT SOURCE",
    "completeness": "Unchanged importer generated 44 JSON and 44 CSV files twice, byte-identically, in Python 3.11.16. Review Queue has 40 data rows and exactly one occurrence of each H3-solver, withdrawal and rollout-R2 review key. Later Work Events are outside this snapshot.",
    "transport_run": "https://github.com/d6g8k5htny-coder/main/actions/runs/35918474959",
-   "next_step": "Select this successor and regenerate canonical JSON/CSV in a separate coherent change; retain the historical Sept17-to-Sept18 diff on its original sources. Do not hand-edit generated registers."
+   "next_step": "Select this successor and regenerate canonical JSON/CSV in a separate coherent change; retain the historical Sept17-to-Sept18 diff on its original sources. Do not hand-edit generated registers.",
+   "truncation_evidence": "None in this export. An earlier automatic mount of the same Drive object was truncated at 1,048,576 bytes and failed ZIP integrity; that copy was rejected and is not this file. Recorded because a rejected artifact leaves no other trace.",
+   "measured_refusals": "python3 tools/register_migration_preflight.py --source registers/source/GP-REG-032_v1.2_export_2026-09-23_R1.xlsx reports four checkers refusing this export as it stands: registers_check and reviews_check on three review_queue rows whose Technical status is prose outside the R17 section 4 set; lanes_check on 15 review routes absent from engine/lanes/D.json; frozen_check on 11 frozen_objects rows (9 Drive IDs absent from drive/inventory.jsonl, 2 carrying a description where Binding Class expects a class). quarantine_check accepts it. Adoption changes 8 tabs and so 16 generated files. These are the checks working; the review_queue and Binding Class cells are source defects and repair belongs at source under CLAUDE.md rule 7, not here.",
+   "inventory_note": "The 9 frozen_check misses are not repairable in git. drive/inventory.jsonl derives from drive/source_map/Files.csv, which on 2026-09-23 was byte-identical to the live Drive object 1gJwebwkKnRcb3Ez8atJ0WTk9f7HmP1y3 (2,503,504 bytes, sha256 4bad6b97c96a86382e200d31e50ac06932fdbbc8ad26a568559664441769c48e). The accessibility publication has not been re-run since 2026-09-17 and those objects were frozen after it, so no faithful inventory can contain them until that run is repeated."
+  },
+  {
+   "file": "GP-REG-032_v1.2_export_2026-09-23_R2.xlsx",
+   "export_date": "2026-09-23",
+   "modified_time_at_export": "2026-09-23T21:28:45.875Z",
+   "export_method": "Delivered by the ChatGPT session that repaired the source cells, as immutable Drive object 1mVGU5BZD0lR4OwzAjlhbeSbrajRUAtow. This session downloaded that object independently and confirmed the byte count and SHA-256 below, zipfile.testzip() clean, 153 ZIP members and 44 worksheet parts.",
+   "export_mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet (a rendering; the native object is application/vnd.google-apps.spreadsheet)",
+   "bytes": 1985161,
+   "sha256": "97940217312f5fbce108d7ec56356ad89473859ade0becd1d3e3de1aa4bef9db",
+   "immutable_export_drive_id": "1mVGU5BZD0lR4OwzAjlhbeSbrajRUAtow",
+   "exact": false,
+   "exact_note": "Not byte-exact against the native Sheet. Byte-exact against the independently downloaded immutable R2 export.",
+   "worksheets": 44,
+   "supersedes": "GP-REG-032_v1.2_export_2026-09-23_R1.xlsx",
+   "difference_from_r1": "Independently diffed cell by cell through tools/registers_import.py, not taken on report. Exactly six cell values differ, all in review_queue rows 34-36: Technical status on each goes from prose to the R17 section 4 word READY, and each original phrase is appended verbatim to that row's Next action with a note that READY means awaiting the required review, not a PASS. No header changed and no row was removed. work_events grows 166 to 174 rows by append, the first 166 unchanged; the delivering session's summary said 'no added/deleted rows', which holds for every tab but that append-only log.",
+   "status": "RECEIVED AND VERIFIED, NOT YET THE IMPORT SOURCE. Retained byte for byte so the transfer never has to be repeated.",
+   "measured_refusals": "python3 tools/register_migration_preflight.py --source registers/source/GP-REG-032_v1.2_export_2026-09-23_R2.xlsx reports two checkers still refusing, down from four for R1. registers_check now reports new=0 and reviews_check 0 problems: the source repair cleared exactly what it was meant to clear. lanes_check refuses 15 review routes absent from engine/lanes/D.json, which is this repository's work and is coupled to adoption because that check is symmetric -- a route added to the lane before the register carries it is refused just as loudly. frozen_check refuses 11 rows: 9 Drive IDs absent from drive/inventory.jsonl and 2 carrying a description where Binding Class expects a class. Activation is blocked on those 11 and on nothing else.",
+   "does_not_establish": "Downloading an export and diffing it against its predecessor establishes what changed between two files. It does not establish that either is a faithful rendering of the native Sheet, does not verify a register cell's meaning, and moves no status. READY is the register's own word, transcribed here and nowhere decided."
   }
  ],
  "does_not_establish": "An export records what the Sheet held at one moment. It certifies nothing, promotes nothing and closes nothing: every status word in registers/json is the register's own word, transcribed, and a register row is not a verdict."
