@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Every float path in repository-authored code is labelled, or declared.
 
-`CLAUDE.md` rule 3 says, of float arithmetic: "Where you compute in floats,
-label the path NON-CERTIFYING in the code and in any output." Until this
-checker existed nothing enforced it -- no tool in `tools/` contained the string
-at all -- so the rule was honoured by discipline, and a float could reach a
-printed number with nothing saying so. Forty-one repository-authored files hold
+The Engineering-conventions bullet of `CLAUDE.md` says, of float arithmetic:
+"Where a path does compute in floats -- mpmath, Monte Carlo, a fitted exponent,
+a sampling -- label it NON-CERTIFYING in the code and in its output." Until this
+checker existed nothing enforced that across the tree. Two tools did handle the
+string at single sites -- `tools/math_status_check.py` requires one status field
+to equal it and `tools/rn_bernstein_sharp_check.py` emits it in its own output --
+but no tool asked whether a file with a float site carried the label, so the
+rule was honoured by discipline, and a float could reach a printed number with
+nothing saying so. Forty-one repository-authored files hold
 a float literal or a `float(` call; on this line, twenty-four of them carried no
 label.
 
@@ -28,7 +32,7 @@ float literal inside a float tolerance.
 
 The other could not, and finding that out cost a broken pin.
 `research/rn/moment_envelope.py`'s `__main__` block prints float fourth roots of
-exact rationals, so rule 3 plainly applies -- and the file is pinned by an
+exact rationals, so the rule plainly applies -- and the file is pinned by an
 ARCHIVE MEMBER, `research/campaigns/rn_bernstein_sharp_variance_20260921_v1.zip::
 bernstein/DEPENDENCIES.json`, which lists 30 Python files by digest.
 `research/PINNED_SOURCES.md` does not cover pins of that shape, so the index
@@ -58,6 +62,9 @@ Ported Drive source under `engine/carriers/blobs/` and frozen bodies under
 never edited, so a labelling rule cannot apply to them. `mpmath` and `numpy`
 are floats too, and a file using them without a Python float literal is not
 caught here -- that is a real limit of a syntactic check and is not hidden.
+PRINTED OUTPUT IS NOT CHECKED: the rule's "and in its output" half is not
+enforced by this tool, which reads source only and never runs a display path;
+a labelled file whose stdout omits the banner passes here.
 The SIDE24 custody tree under `research/side24/source_recovery/custody/` is
 excluded on the same ground as the carrier blobs: recovered Drive source, held
 byte-exact and pinned, so adding a banner is the one edit that would break it.
@@ -190,7 +197,7 @@ DECLARED: dict[str, str] = {
 
     # --- display paths in PINNED files, which cannot carry the label ---------
     # The two entries that record an UNMET obligation rather than an absent one.
-    # Rule 3 says to label the path in the code and in any output; every float
+    # The rule says to label the path in the code and in its output; every float
     # site in both files is a display conversion, so the rule applies -- and both
     # are pinned, so the label cannot be written into the bytes without breaking
     # the certificates that bind them. Declared rather than silently excluded,
@@ -246,8 +253,22 @@ SPELLING_DECLARED: dict[str, str] = {
 
 
 def is_excluded(rel: str) -> bool:
-    rel = rel.replace("\\", "/")
-    return any(part in rel for part in EXCLUDED)
+    """Match EXCLUDED entries as whole path components or path prefixes.
+
+    A substring test silently dropped `tools/quarantine_check.py` and
+    `tests/test_quarantine_digest_coverage.py` because their file names contain
+    an excluded directory name. Only a directory component equal to an entry, or
+    a path that starts with a multi-component entry, is excluded.
+    """
+    rel = rel.replace("\\", "/").strip("/")
+    parts = rel.split("/")
+    for entry in EXCLUDED:
+        if "/" in entry:
+            if rel == entry or rel.startswith(entry + "/"):
+                return True
+        elif entry in parts:
+            return True
+    return False
 
 
 def python_files(root: str) -> list[str]:
@@ -257,7 +278,8 @@ def python_files(root: str) -> list[str]:
         if not os.path.isdir(base):
             continue
         for dirpath, dirnames, filenames in os.walk(base):
-            dirnames[:] = [d for d in dirnames if not is_excluded(d)]
+            dirnames[:] = [d for d in dirnames
+                           if not is_excluded(os.path.relpath(os.path.join(dirpath, d), root))]
             for fn in sorted(filenames):
                 if not fn.endswith(".py"):
                     continue

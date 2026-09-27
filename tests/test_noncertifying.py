@@ -1,8 +1,11 @@
 """Negative controls for ``tools/noncertifying_check.py``.
 
-The checker exists because `CLAUDE.md` rule 3 -- "Where you compute in floats,
-label the path NON-CERTIFYING in the code and in any output" -- was enforced by
-discipline only. No tool in `tools/` contained the string. On this line
+The checker exists because the `CLAUDE.md` Engineering-conventions bullet --
+"Where a path does compute in floats ... label it NON-CERTIFYING in the code and
+in its output" -- was enforced by discipline only: two tools handled the string
+at single sites (`math_status_check.py` requires a field to equal it,
+`rn_bernstein_sharp_check.py` emits it) but none asked whether a file with a
+float site carried the label. Printed output is still not checked. On this line
 forty-one repository-authored files hold a float literal or a `float(` call and
 twenty-four carried no label; six spellings of the word were in use.
 
@@ -180,7 +183,12 @@ def test_the_scanner_is_not_vacuous():
     files = NCC.python_files(ROOT)
     assert len(files) > 60
     assert "tools/noncertifying_check.py" in files
+    # A substring exclusion once dropped these two because their NAMES contain
+    # an excluded directory word; they are repository-authored and must be scanned.
+    assert "tools/quarantine_check.py" in files
+    assert "tests/test_quarantine_digest_coverage.py" in files
     assert not any("blobs" in f for f in files)
+    assert not any(f.startswith(("sandbox/", "legacy/", "quarantine/")) for f in files)
 
 
 def test_the_repository_passes_and_actually_found_float_sites():
@@ -205,7 +213,7 @@ def test_the_one_file_that_could_be_labelled_carries_the_label():
 
 def test_both_pinned_display_paths_are_declared_as_unmet_obligations():
     """The honest cases, and the ones a silent exclusion would have hidden: each
-    owes the label under rule 3 and cannot carry it."""
+    owes the label under the float-labelling rule and cannot carry it."""
     for rel in ("research/bands/ladder.py", "research/rn/moment_envelope.py"):
         reason = NCC.DECLARED[rel]
         assert "PINNED" in reason, rel
