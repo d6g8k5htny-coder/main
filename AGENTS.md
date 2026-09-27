@@ -58,3 +58,17 @@ carriers; compiler changes are explicit successors. Review the exact current hea
 and record actual author/reviewer lineage. Do not credit an unobserved reviewer or
 assume that a prior source-bound review remains valid after its source or scope
 changes.
+
+## Release operations and concurrent integration
+
+Read [release operations](docs/RELEASE_OPERATIONS.md) before downloading source,
+provisioning tools or merging. Its snapshots are as-of exact-commit custody, not
+full Git history, LFS or submodule hydration, and a hosted tool receipt is not a
+laptop installation. Keep source and execution repository identities separate.
+
+Re-read the latest source-bound review comments immediately before a merge. A
+known unresolved engineering failure is not discharged by a same-provider review,
+old passing checks, another agent's merge, or a source change outside its review
+scope. Record the actual disposition in the existing PR and main #95. A repair
+claim needs the original failing probe to reject and the amended exact head to
+pass; do not bypass a known failure to make the queue appear empty.

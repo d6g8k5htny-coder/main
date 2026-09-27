@@ -11,6 +11,7 @@ on:
       - 'formal/**'
       - 'tools/formal_gate_check.py'
       - 'tests/test_formal_gate.py'
+      - 'tests/test_formal_workflow_shell.py'
       - '.github/workflows/formal-verification.yml'
   push:
     branches: [main]
@@ -18,10 +19,14 @@ on:
       - 'formal/**'
       - 'tools/formal_gate_check.py'
       - 'tests/test_formal_gate.py'
+      - 'tests/test_formal_workflow_shell.py'
       - '.github/workflows/formal-verification.yml'
   workflow_dispatch:
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash
 jobs:
   kernel-check:
     name: kernel-check
@@ -34,6 +39,19 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.11'
+      - name: Verify actual shell rejects a failing producer
+        run: |
+          set +e
+          python -c 'raise SystemExit(17)' | tee "$RUNNER_TEMP/formal-shell-negative.log"
+          status=$?
+          set -e
+          if [ "$status" -ne 17 ]; then
+            echo "PIPELINE_FAILURE_PROPAGATION_FAIL: expected 17, got $status"
+            exit 1
+          fi
+          echo 'PIPELINE_FAILURE_PROPAGATION_PASS'
+      - name: Shell regression controls
+        run: python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v
       - name: Source-only identity gate (no Lean yet; fails closed before any download)
         run: python -B -S tools/formal_gate_check.py
       - name: Install elan (pinned release script, digest checked) and the pinned toolchain
@@ -64,7 +82,11 @@ jobs:
       - name: Describe coverage
         if: always()
         run: |
-          echo 'Kernel evidence for exactly the targets in formal/manifest.json at the checked commit: build, leanchecker, transitive axiom audit (propext / Classical.choice / Quot.sound only), executable negative controls, receipt. Formal evidence only: no Layer 0 review outcome, STATUS row, theorem acceptance, or manifest status was established or changed.' >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ job.status }}" = "success" ] && [ -s formal/.lake/formal-evidence/receipt.json ]; then
+            echo 'Kernel evidence for exactly the targets in formal/manifest.json at the checked commit: build, leanchecker, transitive axiom audit, executable negative controls, receipt. Formal evidence only: no Layer 0 status or scientific acceptance changed.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'No successful kernel-verification claim is made for this run. Inspect preserved failures and the actual receipt/logs; neither an artifact nor this summary establishes acceptance.' >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Preserve actual results including failures
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
