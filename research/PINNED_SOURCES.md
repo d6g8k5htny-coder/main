@@ -24,10 +24,12 @@ bytes were restored and the archive declarations are now read. A "the only way t
 learn a binding was to break it" page that is itself incomplete is worse than no
 page, because it is trusted.
 
-**Some of the files below are checkers in `tools/`** — two of them are pinned by
-the very campaign they enforce — **and several are documents in `docs/`,
-`governance/` and `drive/`.** Counts are in the summary line after the table;
-they are computed, not typed.
+**Some of the files below are checkers in `tools/`** — `tools/h3_rn_n6_check.py`
+and `tools/twelve_project_check.py` are pinned by the downstream
+`rn_bernstein_sharp_variance` campaign whose replay depends on them, not by the
+campaigns they themselves enforce — **and several are documents in `docs/` and
+`drive/`.** Counts are in the summary line after the table; they are computed,
+not typed.
 
 Before editing anything in this table, read
 [`tools/pinned_sources_check.py`](../tools/pinned_sources_check.py). The remedy

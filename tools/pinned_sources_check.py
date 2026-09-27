@@ -194,6 +194,14 @@ def dependency_rows(node) -> dict[str, dict]:
 def enforcing_checkers(root: str) -> set[str]:
     """tools/ modules that call `repository_inputs(`, i.e. enforce a pin set.
 
+    Scope: top-level `tools/*.py` only. A module elsewhere (for example
+    `research/rn/n6_inputs.py`, which today re-reads the h3 plan that
+    `tools/h3_rn_n6_check.py` already enforces) is not scanned, so a NEW pin set
+    enforced only from outside `tools/` would not trip this guard. The guard is
+    also per checker: it notices a checker missing from ARCHIVE_DEPENDENCY_SOURCES,
+    not a single missing row for a checker that is still named there — the
+    index-equality control covers that case.
+
     A literal scan on purpose. The point is to notice a NEW enforcing checker
     that ARCHIVE_DEPENDENCY_SOURCES does not mention, and a scan that reads the
     source sees one the moment it lands. `repository_inputs` is also the name of
@@ -535,10 +543,12 @@ bytes were restored and the archive declarations are now read. A "the only way t
 learn a binding was to break it" page that is itself incomplete is worse than no
 page, because it is trusted.
 
-**Some of the files below are checkers in `tools/`** — two of them are pinned by
-the very campaign they enforce — **and several are documents in `docs/`,
-`governance/` and `drive/`.** Counts are in the summary line after the table;
-they are computed, not typed.
+**Some of the files below are checkers in `tools/`** — `tools/h3_rn_n6_check.py`
+and `tools/twelve_project_check.py` are pinned by the downstream
+`rn_bernstein_sharp_variance` campaign whose replay depends on them, not by the
+campaigns they themselves enforce — **and several are documents in `docs/` and
+`drive/`.** Counts are in the summary line after the table; they are computed,
+not typed.
 
 Before editing anything in this table, read
 [`tools/pinned_sources_check.py`](../tools/pinned_sources_check.py). The remedy

@@ -47,9 +47,11 @@ of it, generated and verified in CI by `tools/pinned_sources_check.py`:
      summary line; they drifted twice while they were prose nobody compared -->
 certificates=11 archive_declarations=4 pinned_files=55 pinned_archive_members=6
 
-Some of the bound files are checkers in `tools/` -- two of them pinned by the
-very campaign they enforce -- and others are documents in `docs/`, `governance/`
-and `drive/`, so this is not deducible from where a file lives. The remedy for a
+Some of the bound files are checkers in `tools/` -- `h3_rn_n6_check.py` and
+`twelve_project_check.py` are pinned by the downstream `rn_bernstein_sharp_variance`
+campaign whose replay depends on them, not by the campaigns they enforce -- and
+others are documents in `docs/` and `drive/`, so this is not deducible from where
+a file lives. The remedy for a
 deliberate change is a re-pin on the lane that owns the certificate. Never edit
 an expected digest to match bytes you changed.
 
