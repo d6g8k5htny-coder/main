@@ -1,7 +1,9 @@
 # LB-RATE / KIMI-THM-023 landing review
 
 Review date: 2026-09-26.
-Reviewer: xAI / Grok 4.6 (source-exposed to the 2026-08-04 addendum packet, the 2026-09-26 Drive landing, GP-LB-REC-001, and AO48-AUD-064). Same-provider technical pass. **Zero organizational-independence credit.**
+Reviewer: xAI / Grok 4.6 (source-exposed to the 2026-08-04 addendum packet, the 2026-09-26 Drive landing, GP-LB-REC-001, and AO48-AUD-064). Packet author: Kimi / AO48 campaign. Technical pass on one shared operator account. **Zero organizational-independence credit** — the ground is source exposure and single-operator authorship, not provider identity.
+
+Amended 2026-09-27 at queue reconciliation, answering the review in [PR #161 comment 5850569939](https://github.com/d6g8k5htny-coder/main/pull/161#issuecomment-5850569939): F2 intensity figure, §1 C031 identities, two §3 constants, and the grading of the 0.0334 far term. The HOLD disposition is unchanged.
 
 **Disposition: HOLD — CONDITIONAL ASSEMBLY DRAFT. Do not accept `c = 0.9144` as a proved uniform theorem constant.**
 
@@ -23,7 +25,7 @@ Normalized 2026-08-04 addendum carriers (hashes match GP-LB-REC-001):
 Identity split (do not collapse):
 
 - THM-023 cites AUD-023 as `61f2b702…`. That is AUD-023 **v1.0** body. The landed file above is the normalized carrier of the same campaign. AUD-023 v1.1 body is `a7decb6f4b8b3a896d7e0aadddcd698853e57a9a253ef787173bb3c702136a32`.
-- C031 is dual-hashed: `e7998ef0d17d951bc89978f9fe32e510019059dd0650c8f0e0ae33273f40f32e` (THM/AUD-023 cite) vs `e165821b…` (LB-1 / Drive `C031_LBRATE_Integration.md`).
+- C031 is two documents, not one file with two hashes: `C031_LBRATE_Integration.md` (13,690 bytes, blob `ec2087e6`) is `e7998ef0d17d951bc89978f9fe32e510019059dd0650c8f0e0ae33273f40f32e` (the THM/AUD-023 cite), and `C031_Freeze.md` (1,739 bytes, blob `f61db50c`) is `e165821b…`, which is what LB-1 line 193 cites. Both are on the hardening mirror at `7caac254`. The Drive copy of the Integration file was not re-hashed this session.
 
 Drive landing of these exact bytes: 2026-09-26T19:30Z, owner Dylan Roy, Drive root. Operator card `README925.txt` is a landing label, not a status upgrade.
 
@@ -61,9 +63,9 @@ Domain firewall: this object is **not** the 3-dimensional Side-24 first-moment d
 - $0.9666\times 0.946=0.9144036$. Printed $0.9144$ is a 4-decimal truncation, not a round-up.
 - WP component sum at $r=0.025$: $1.95\times 10^{-6}+1.37\times 10^{-6}=3.32\times 10^{-6}=0.21248\,r^3$, consistent with printed $0.213\,r^3$ within rounding.
 - R2 printed line with denominator $(9-6.25)$ evaluates to $5.18\cdot(\ell/2)$, not the printed $2.1\cdot(\ell/2)$.
-- Corrected reading $(9-2.25)$: $0.76\times(18.75/6.75)=2.1\overline{1}\cdot(\ell/2)=0.1759\overline{16}\,r^3$.
+- Corrected reading $(9-2.25)$: $0.76\times(18.75/6.75)=19/9=2.\overline{1}$ on $(\ell/2)$; with $\ell=r^3/6$ this is $(19/9)\cdot(r^3/12)=\tfrac{19}{108}\,r^3=0.175925\ldots\,r^3$.
 - Finite-rung measured $\Lambda$-window: $C^*(0.025)=0.946$.
-- C031 derived-on-grid limit (Drive C031 file): $C^*_\infty=0.9091\pm 0.038$ (quad) $\pm 0.009$ (shell). Then $0.9666\times 0.9091=0.87853686$, not $0.9144$. The printed intercept mixes a theorem-grade far term with a finite-rung measured $\Lambda$ constant.
+- C031 derived-on-grid limit (Drive C031 file): $C^*_\infty=0.9091\pm 0.038$ (quad) $\pm 0.009$ (shell). Then $0.9666\times 0.9091=0.87873606$, not $0.9144$. The printed intercept multiplies a theorem-grade reduction (DER-009) whose far constant $0.0334=\bar p(0.05)$ is *measured* (THM-023 line 122, $\nu_T$ instrument, C025; GP-LB-REC-001 line 77 lists both $0.0334$ and $0.946$ as measured inputs) by a finite-rung measured $\Lambda$ constant.
 
 ---
 
@@ -79,7 +81,7 @@ Kind: gap in the printed derivation, not a counterexample to an $O(r^3)$ class.
 
 Two independent defects.
 
-**Intensity (LB-1 §9).** At $r=0.025$, rigidity-zone integral $\approx 1.30\times 10^{-5}$ (hot spot near $(-0.05,-0.575)$ / $(-0.04,-0.58)$, about $1.33\times 10^{-4}$ per unit area). Printed rigidity figure $\sim 3\times 10^{-15}$. The certified subregion is about $3.9$ times the printed *total* WP budget $0.213\,r^3=3.328\times 10^{-6}$, or about $0.830\,r^3$ at that rung.
+**Intensity (LB-1 §9, as corrected by AO48-AUD-064).** LB-1 §9 (lines 204–210) prints a rigidity-zone integral $I_{cs}(0.025)\approx 1.30399\times 10^{-5}$ with a hot spot near $(-0.05,-0.575)$ / $(-0.04,-0.58)$, about $1.313\times 10^{-4}$ per unit area, against a printed rigidity figure $\sim 3\times 10^{-15}$. AO48-AUD-064 (lines 138–142 and §7.5, lines 207–222) **decertifies** those two figures as bounds: the $-y$ argmax is a phantom (true intensity there $\lesssim 10^{-21}$). The figure that survives is the derived-on-grid $I_{\text{true}}=4.7602\times 10^{-6}$ at $(0,\,0.5875)$ (KIMI-DER-025 / AUD-064 §6), which is about $1.43$ times the printed *total* WP budget $0.213\,r^3=3.328125\times 10^{-6}$ at $r=0.025$, not $3.9$ times. The gap stands either way; the record carries the surviving number.
 
 **Cauchy–Schwarz (AO48-AUD-064, DEF-WP-CS-01; not re-derived this session).** The implemented envelope used a factor $\min(\mathrm{Cantelli},P_W)$ where the displayed CS bound on the indicator requires $\sqrt{\min(\mathrm{Cantelli},P_W)}$. The printed computation is therefore not a proved upper bound. Quantitative WP ub **DECERTIFIED**. Remainder order is not proved $O(r^3)$.
 
@@ -89,7 +91,7 @@ AUD-023 item 4 “VERIFIED at ledger arithmetic” is true of the component sum 
 
 Even ignoring F2 and the unquantified outer remainder, the displayed finite-$r$ coefficient is $(0.9666-0.3889\,r^3)\times 0.946$. It equals $\approx 0.91440$ at $r=0.025$ and $\approx 0.91436$ at $r=0.05$, both below $0.9144$. Reaching $0.9144$ requires $r<0.02139\ldots$. LB-2 is certified only at the frozen rungs $0.025$ and $0.05$. Measured $c_\Lambda=0.946$ is not a rigorous $r\to 0$ limit; C031’s own on-grid limit is $\approx 0.909$.
 
-Kind: scope / hypothesis mismatch with the consumer banner “proved floor $0.9144$”.
+Kind: scope / hypothesis mismatch with the consumer banner “proved floor $0.9144$”. The far term $0.0334$ is itself a measured constant inside a theorem-grade reduction, which is a further reason for HOLD.
 
 ---
 
