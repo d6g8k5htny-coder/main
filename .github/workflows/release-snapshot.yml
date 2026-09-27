@@ -3,7 +3,9 @@ on:
   pull_request:
     paths:
       - tools/release_snapshot.py
+      - tools/formal_execution_context.py
       - tests/test_release_snapshot.py
+      - tests/test_formal_execution_context.py
       - .github/workflows/release-snapshot.yml
       - docs/RELEASE_OPERATIONS.md
   workflow_dispatch:
@@ -24,6 +26,8 @@ jobs:
         run: |
           python3 -B -S -m unittest discover -s tests -p test_release_snapshot.py -v
           python3 -B -O -S -m unittest discover -s tests -p test_release_snapshot.py -v
+          python3 -B -S -m unittest discover -s tests -p test_formal_execution_context.py -v
+          python3 -B -O -S -m unittest discover -s tests -p test_formal_execution_context.py -v
       - name: Capture all allowlisted defaults and open PR source heads
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -40,13 +44,22 @@ jobs:
   primary-toolchain-replay:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: primary
     env:
       LEAN_NUM_THREADS: '2'
     steps:
+      - name: Read source-execution binding tools
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          path: operations
+          persist-credentials: false
       - name: Read the exact merged primary formal project
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: d6g8k5htny-coder/Math-
+          path: primary
           ref: 867d9e34b60186ff46ab5b3ecf8ad5ba6a5cc8b4
           persist-credentials: false
       - name: Check source and regression controls before installing tools
@@ -56,7 +69,7 @@ jobs:
           python3 -B -S formal/gate.py
       - uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596
         with:
-          lake-package-directory: formal
+          lake-package-directory: primary/formal
           auto-config: 'false'
           build: 'false'
           test: 'false'
@@ -65,6 +78,9 @@ jobs:
           use-github-cache: 'false'
       - name: Rebuild, replay kernel, audit axioms and run false-proof controls
         run: python3 -B -S formal/gate.py --execute
+      - name: Bind source and execution identities without rewriting the raw receipt
+        run: |
+          python3 -B -S ../operations/tools/formal_execution_context.py --source . --operations ../operations --expected-commit 867d9e34b60186ff46ab5b3ecf8ad5ba6a5cc8b4 --run-id "$GITHUB_RUN_ID"
       - name: Record installed runtime versions and executable hashes
         if: always()
         shell: bash
@@ -90,7 +106,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: primary-toolchain-evidence-${{ github.run_id }}
-          path: formal/.lake/formal-evidence/
+          path: primary/formal/.lake/formal-evidence/
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 90

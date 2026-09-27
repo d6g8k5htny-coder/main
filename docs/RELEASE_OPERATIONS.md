@@ -36,6 +36,15 @@ and false-proof controls. Runtime versions and executable hashes are captured.
 A workflow definition is not an installation receipt: only an observed successful
 run licenses a statement that these tools were installed and executed there.
 
+**Cross-repository receipts:** the unchanged primary gate's `repository` field
+records the Actions execution host (`main`), while `checked_commit` belongs to the
+checked-out source (`Math-`). Do not pair those fields into a false source URL.
+`execution-context.json` separately binds source repository/commit/remote,
+execution repository/commit/run and the exact original receipt SHA-256. The binder
+checks the live checkout identity and every recorded log hash. Original receipts
+are preserved, not rewritten to conceal this distinction. Read the companion
+context whenever replay is hosted in a different repository.
+
 ## Review and merge
 
 Read the exact diff, full reviews and unresolved threads, current tests and source
