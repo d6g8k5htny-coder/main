@@ -99,7 +99,7 @@ about which protocol governs.
 **Scope note on OP-PROT-012.** The Drive object this reading copy comes from
 (`1hBQR7Pa10DpVeOxTCLv1qIozLT-bU_hgZKo6ksODCuo`) carries the title *"HISTORICAL
 OP-PROT-012 — APPROVAL ROUTING SUPERSEDED BY R17"* (retitled 2026-09-17). The
-register says what R17 retired: `autonomy_control` AUTONOMOUS_DECISION_BUDGET =
+register `registers/json/autonomy_control.json` says what R17 retired: AUTONOMOUS_DECISION_BUDGET =
 "RETIRED — R17 evidence predicates" ("Current owner-authorized operations have
 no 50-decision counter gate"), and CONTROL_PLANE_VERSION = "R17 supersedes R16
 operational entry/budget/provider locks. Scientific predicates and exact frozen
