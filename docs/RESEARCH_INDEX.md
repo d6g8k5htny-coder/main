@@ -63,6 +63,8 @@ The full-range successor removes the probability ceiling, not the demand or real
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
 
+The [discovery / priority ledger](DISCOVERY_PRIORITY_LEDGER_20260925.md) and its [reconnaissance memo](RECON_NOVELTY_20260925.md) record candidate contributions, nearest prior art and source bindings. They are novelty bookkeeping, not status; "apparently novel" is not "accepted".
+
 ## Repository map
 
 | Repository | Responsibility |
