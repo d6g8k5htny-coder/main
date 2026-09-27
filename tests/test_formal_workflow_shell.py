@@ -28,7 +28,12 @@ class FormalWorkflowShellTests(unittest.TestCase):
         self.assertEqual(re.findall(r'^\s+shell:\s*(.+)$', self.text, re.MULTILINE), ['bash'])
 
     def test_workflow_triggers_and_executes_regression(self):
-        self.assertEqual(self.text.count("      - 'tests/test_formal_workflow_shell.py'"), 2)
+        parent=(WORKFLOW.parent/'workspace-landing.yml').read_text()
+        self.assertIn('  workflow_call:', self.text)
+        self.assertIn('uses: ./.github/workflows/formal-verification.yml', parent)
+        self.assertIn('  pull_request:', parent)
+        self.assertIn('  push:', parent)
+        self.assertNotIn('paths:', parent)
         self.assertIn('python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v', self.text)
 
     def run_probe(self, pipefail):
