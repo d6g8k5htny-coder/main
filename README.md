@@ -89,14 +89,12 @@ object is the failure rate `1 − q(r)` and its cubic law.
 |---|---|---|
 | Q0-C101 qualitative rate | `0 ≤ 1 − q(r, 6/5) ≤ C_Q0 · r³` for `0 < r ≤ 0.025` (as the Canon writes it), `q → 1`; no typing division, no decimals | live-root theorem in the frozen Q0 core; "No numerical value of C_Q0 is certified" |
 | Theorem B (Q0-C104) | `ν_B(ℓ) = C*·ℓ^(−1/3)(1 + o(1))`, conditional-MS form | **unconditional `PROVEN-HERE` RETRACTED** (GP-AUD-187, 2026-07-24: "THEOREM NOT KILLED / NO PROMOTION"); candidate; exact Jacobian proved; conditional B0 proved under A1–A5; seven repair gates TB-G1…G7 open; no numerical `C*` |
-| Theorem D1 v2.2(1) | certified rung at `r = 0.05` | certified under named hypotheses H5-RIM / H5-AXIS and D3-LEMMA-RN-UNIF at the rung |
+| Theorem D1 v2.2(1) | source labels a `CERTIFIED RUNG` at `r = 0.05` | **HOLD-WITH-DOMAIN / operationally CONDITIONAL**: the same source names H5-RIM / H5-AXIS and `D3-LEMMA-RN-UNIF(r=0.05)`, and explicitly says D3 is NOT closed; the claim graph preserves the source label separately |
 | Theorem D1 v2.2(2) | all-small-r `1 − q(r, 6/5) ≤ C r³` | **CONDITIONAL** on five named validity premises (see below) |
 | SIDE24 3D (AO48-OPR-045) | for the normalized periodized Bargmann–Fock field on the side-24 three-torus, uniformly on compact (b,κ) subsets: `sup(1 − p_r) ≤ C r³`, and with it `ν₃,₂₄(ℓ) = c₃,₂₄ ℓ^(−1/3)(1 + o(1))` with a closed-form constant | register status **RATIFIED-AT-STATED-SCOPE** (operator_decisions row AO48-OPR-045, 2026-08-02; a record authored by the AO48 line relaying the operator's one-line sign-off, with carried dependencies and reopening conditions stated); 3D track only, never composed with the 2D tracks |
 | LPW qualitative | `∃ c, r₀ > 0 : 1 − q ≥ c r³` (2D six-pin typed pair-Palm) | accepted at review scope; not a two-sided law |
 
-The Canon's four-file core is `Q0_MASTER.md`, `Q0_LEDGER.md`, `q0_machine.json`,
-`q0_verify.py`; canonical promotion enters only through `Q0_LEDGER.md` by the
-owner's decision.
+The Canon's four-object core is now byte-present in this checkout. Exact `Q0_MASTER.md`, `Q0_LEDGER.md`, `q0_machine.json`, and `q0_verify.py` bodies are all retained. The ledger was fetched from Drive ID `17gpxTn4MPsrWLf4yhDJsuBE4v3UqQXa3` and stored at `drive/mirrors/14_COORDINATION_AUTOMATION_SPINE/04.3_CROSS_MODEL_LEDGERS/01_CURRENT_LEDGER_AND_REGISTRIES/Q0_LEDGER.md`: 253,067 bytes, SHA-256 `d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a`, matching the pre-existing inventory identity. The 4,425-byte `Q0_LEDGER — NAVIGATION COMPANION ...export.txt` remains a different object. Byte custody is not mathematical endorsement or canonical promotion; see `claims/q0_core_availability.json`.
 
 **Standing firewall:** the 2D upper track and the 3D lifetime track must never be
 composed into a two-sided law. `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws

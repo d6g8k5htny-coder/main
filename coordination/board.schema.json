@@ -1,0 +1,145 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "coordination/board.schema.json",
+ "title": "Coordination board: task declarations and per-agent claims",
+ "_validator_note": "Every constraint is inlined. tools/reviews_check.validate_instance, which tools/coordination_check.py reuses, does not resolve $ref: a constraint written as a reference is silently not enforced, which is how a schema comes to look strict and check nothing. tests/test_coordination.py refuses a $ref anywhere under task or claim.",
+ "$defs": {
+  "task": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "task_id",
+    "title",
+    "declared_utc",
+    "declared_by",
+    "paths",
+    "importance",
+    "intent",
+    "done_when",
+    "does_not_establish"
+   ],
+   "properties": {
+    "task_id": {
+     "type": "string",
+     "pattern": "^TASK-[A-Z0-9][A-Z0-9-]{2,60}$"
+    },
+    "title": {
+     "type": "string",
+     "minLength": 12,
+     "maxLength": 160
+    },
+    "declared_utc": {
+     "type": "string",
+     "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "declared_by": {
+     "type": "string",
+     "pattern": "^[a-z0-9][a-z0-9._-]{1,40}$"
+    },
+    "paths": {
+     "type": "array",
+     "minItems": 1,
+     "maxItems": 64,
+     "items": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+     },
+     "description": "Repository paths or globs this task expects to write. The overlap check reads only this."
+    },
+    "importance": {
+     "type": "string",
+     "enum": [
+      "LOW",
+      "NORMAL",
+      "HIGH",
+      "BLOCKING"
+     ]
+    },
+    "intent": {
+     "type": "string",
+     "minLength": 40,
+     "maxLength": 2000
+    },
+    "done_when": {
+     "type": "string",
+     "minLength": 20,
+     "maxLength": 600,
+     "description": "The observable condition that ends this task. Not a status word."
+    },
+    "wanted_claimants": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 8
+    },
+    "depends_on": {
+     "type": "array",
+     "maxItems": 16,
+     "items": {
+      "type": "string",
+      "pattern": "^TASK-[A-Z0-9][A-Z0-9-]{2,60}$"
+     }
+    },
+    "does_not_establish": {
+     "type": "string",
+     "minLength": 60,
+     "maxLength": 2000
+    }
+   }
+  },
+  "claim": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "task_id",
+    "agent",
+    "provider",
+    "claimed_utc",
+    "heartbeat_utc",
+    "approach"
+   ],
+   "properties": {
+    "task_id": {
+     "type": "string",
+     "pattern": "^TASK-[A-Z0-9][A-Z0-9-]{2,60}$"
+    },
+    "agent": {
+     "type": "string",
+     "pattern": "^[a-z0-9][a-z0-9._-]{1,40}$"
+    },
+    "provider": {
+     "type": "string",
+     "minLength": 2,
+     "maxLength": 60
+    },
+    "claimed_utc": {
+     "type": "string",
+     "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "heartbeat_utc": {
+     "type": "string",
+     "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "approach": {
+     "type": "string",
+     "minLength": 40,
+     "maxLength": 2000,
+     "description": "How this agent intends to do it, so a second claimant can pick a different angle rather than duplicate."
+    },
+    "branch": {
+     "type": "string",
+     "maxLength": 200
+    },
+    "released_utc": {
+     "type": "string",
+     "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "released_because": {
+     "type": "string",
+     "minLength": 12,
+     "maxLength": 600
+    }
+   }
+  }
+ }
+}

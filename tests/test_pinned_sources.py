@@ -307,8 +307,9 @@ def test_the_real_tree_verifies_every_binding():
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
     s = summary(out.stdout)
-    assert s["certificates"] == 10
-    assert s["pinned_files"] == 37
+    # SOURCE_RECOVERY.json binds two proof bodies, one archive, and two scripts.
+    assert s["certificates"] == 11
+    assert s["pinned_files"] == 42
     assert s["pinned_archive_members"] == 6
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]
     assert s["unresolved"] == 0
