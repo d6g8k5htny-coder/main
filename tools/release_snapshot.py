@@ -33,6 +33,7 @@ def repo_url(name: str) -> str:
 
 def checked_path(value: str) -> str:
     if (not isinstance(value, str) or not value or '\\' in value or '\x00' in value
+            or any(ord(c) < 32 or ord(c) == 127 for c in value)
             or value.startswith('/') or any(p in ('', '.', '..') for p in value.split('/'))):
         raise ValueError('unsafe repository path')
     if PurePosixPath(value).is_absolute():
@@ -48,17 +49,27 @@ def fresh_output(path: Path) -> None:
 
 def pages(get, path: str, key: str | None = None) -> list:
     rows = []
+    expected_total = None
     for page in range(1, 101):
         sep = '&' if '?' in path else '?'
         data = get(f'{path}{sep}page={page}&per_page=100')
         if key is not None:
             if not isinstance(data, dict) or key not in data:
                 raise ValueError('missing pagination collection: '+key)
+            if 'total_count' in data:
+                count = data['total_count']
+                if type(count) is not int or count < 0:
+                    raise ValueError('invalid pagination total_count')
+                if expected_total is not None and expected_total != count:
+                    raise ValueError('pagination total_count changed; snapshot is incomplete')
+                expected_total = count
             data = data[key]
         if not isinstance(data, list):
             raise ValueError('expected a list page')
         rows.extend(data)
         if len(data) < 100:
+            if expected_total is not None and len(rows) != expected_total:
+                raise ValueError('incomplete pagination collection: total_count mismatch')
             return rows
     raise ValueError('pagination safety cap reached; result is incomplete')
 
@@ -84,27 +95,31 @@ def snapshot_local(repo: Path, sha: str, archive: Path) -> dict:
         raise ValueError('resolved commit mismatch')
     tree = git(repo, 'ls-tree', '-r', '-z', '--full-tree', sha)
     members, gitlinks = [], []
-    with zipfile.ZipFile(archive, 'x', compression=zipfile.ZIP_DEFLATED) as z:
-        for row in tree.split(b'\0'):
-            if not row:
-                continue
-            meta, raw_path = row.split(b'\t', 1)
-            mode, typ, oid = meta.decode().split()
-            path = checked_path(raw_path.decode('utf-8'))
-            if typ == 'commit' and mode == '160000':
-                gitlinks.append({'path': path, 'commit': checked_sha(oid)})
-                continue
-            if typ != 'blob' or mode not in ('100644', '100755', '120000'):
-                raise ValueError('unsupported Git tree entry')
-            data = git(repo, 'cat-file', 'blob', oid)
-            digest = blob_digest(oid, data)
-            info = zipfile.ZipInfo(path, date_time=(1980, 1, 1, 0, 0, 0))
-            info.create_system = 3
-            info.external_attr = int(mode, 8) << 16
-            info.compress_type = zipfile.ZIP_DEFLATED
-            z.writestr(info, data)
-            members.append({'path': path, 'git_mode': mode, 'git_blob': oid,
-                            'bytes': len(data), 'sha256': digest})
+    with tempfile.TemporaryDirectory(prefix='.snapshot-', dir=archive.parent) as tmp:
+        temporary_archive = Path(tmp)/'source.zip'
+        with zipfile.ZipFile(temporary_archive, 'x', compression=zipfile.ZIP_DEFLATED) as z:
+            for row in tree.split(b'\0'):
+                if not row:
+                    continue
+                meta, raw_path = row.split(b'\t', 1)
+                mode, typ, oid = meta.decode().split()
+                path = checked_path(raw_path.decode('utf-8'))
+                if typ == 'commit' and mode == '160000':
+                    gitlinks.append({'path': path, 'commit': checked_sha(oid)})
+                    continue
+                if typ != 'blob' or mode not in ('100644', '100755', '120000'):
+                    raise ValueError('unsupported Git tree entry')
+                data = git(repo, 'cat-file', 'blob', oid)
+                digest = blob_digest(oid, data)
+                info = zipfile.ZipInfo(path, date_time=(1980, 1, 1, 0, 0, 0))
+                info.create_system = 3
+                info.external_attr = int(mode, 8) << 16
+                info.compress_type = zipfile.ZIP_DEFLATED
+                z.writestr(info, data)
+                members.append({'path': path, 'git_mode': mode, 'git_blob': oid,
+                                'bytes': len(data), 'sha256': digest})
+        # Publish only after every member validates; link refuses to overwrite.
+        os.link(temporary_archive, archive)
     with archive.open('rb') as f:
         archive_digest = hashlib.file_digest(f, 'sha256').hexdigest()
     return {'commit': sha, 'archive': archive.name,

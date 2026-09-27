@@ -6,6 +6,7 @@ import subprocess
 import tempfile
 import unittest
 import zipfile
+from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('release_snapshot', ROOT / 'tools/release_snapshot.py')
@@ -103,5 +104,50 @@ class SnapshotTests(unittest.TestCase):
             result=m.snapshot_local(repo,sha,out)
             self.assertEqual(result['unmaterialized_gitlinks'],[{'path':'dependency','commit':parent}])
             with zipfile.ZipFile(out) as z: self.assertNotIn('dependency',z.namelist())
+
+    def test_keyed_short_page_cannot_hide_total(self):
+        with self.assertRaisesRegex(ValueError, 'incomplete'):
+            m.pages(lambda _: {'total_count':250, 'check_runs':[{'id':1}]},
+                    'repos/x/check-runs', 'check_runs')
+
+    def test_keyed_total_count_success(self):
+        self.assertEqual(m.pages(lambda _: {'total_count':1, 'check_runs':[{'id':1}]},
+                         'repos/x/check-runs', 'check_runs'), [{'id':1}])
+
+    def test_keyed_bad_total_count(self):
+        for count in (True, -1, '1', 0.5):
+            with self.subTest(count=count), self.assertRaises(ValueError):
+                m.pages(lambda _: {'total_count':count, 'check_runs':[]},
+                        'repos/x/check-runs', 'check_runs')
+
+    def test_keyed_total_drift_fails_closed(self):
+        def get(path):
+            return {'total_count':101, 'check_runs':list(range(100))} if 'page=1&' in path else {'total_count':102,'check_runs':[100,101]}
+        with self.assertRaisesRegex(ValueError, 'changed'):
+            m.pages(get, 'repos/x/check-runs', 'check_runs')
+
+    def test_control_character_paths_rejected(self):
+        for value in ('line\nbreak', 'carriage\rreturn', 'tab\tfile', 'del\x7fete'):
+            with self.subTest(value=value), self.assertRaises(ValueError): m.checked_path(value)
+
+    def test_no_published_zip_after_late_identity_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=pathlib.Path(d); repo=root/'repo';repo.mkdir()
+            def git(*args):
+                return subprocess.check_output(['git','-C',str(repo),*args],stderr=subprocess.DEVNULL).decode().strip()
+            git('init','-q');git('config','user.email','test@example.invalid');git('config','user.name','test')
+            (repo/'a.txt').write_text('a');(repo/'b.txt').write_text('b')
+            git('add','.');git('commit','-qm','two files');sha=git('rev-parse','HEAD')
+            out=root/'source.zip'; original=m.blob_digest; seen=[]
+            def corrupt_second(oid,data):
+                seen.append(oid)
+                if len(seen)==2: raise ValueError('injected identity mismatch')
+                return original(oid,data)
+            with mock.patch.object(m, 'blob_digest', side_effect=corrupt_second):
+                with self.assertRaisesRegex(ValueError, 'identity mismatch'):
+                    m.snapshot_local(repo,sha,out)
+            self.assertEqual(len(seen),2)
+            self.assertFalse(out.exists(), 'failed snapshot must not publish a readable partial zip')
+            self.assertFalse(list(root.glob('.snapshot-*')), 'temporary snapshot was not cleaned')
 
 if __name__ == '__main__': unittest.main()
