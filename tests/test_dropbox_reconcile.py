@@ -174,6 +174,34 @@ class Extract(unittest.TestCase):
         self.assertEqual(next(m for m in members if m['member'] == 'inner/a.md')['dbx'],
                          dr.dbx_hash_bytes(b'# A'))
 
+    def test_corrupt_inputs_are_recorded_not_fatal(self):
+        good = io.BytesIO()
+        with zipfile.ZipFile(good, 'w') as z:
+            z.writestr('a.md', '# A' * 50)
+            z.writestr('b.docx', b'not a zip')
+        raw = bytearray(good.getvalue())
+        i = raw.index(b'# A# A')
+        raw[i] ^= 0xFF  # corrupt a.md's stored bytes: its CRC no longer matches
+        ex, _, members = dr.extract_bytes('pack.zip', bytes(raw))
+        self.assertEqual(ex, 'zip')
+        kinds = {m['member']: m['extractor'] for m in members}
+        self.assertEqual(kinds['a.md'], 'error:BadZipFile')
+        self.assertEqual(kinds['b.docx'], 'error:BadZipFile')
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            (p / 'store').mkdir()
+            bad, ok = b'PK\x03\x04 truncated', b'# fine\n'
+            recs = []
+            for name, data in (('bad.zip', bad), ('ok.md', ok)):
+                sha = hashlib.sha256(data).hexdigest()
+                (p / 'store' / sha).write_bytes(data)
+                recs.append({'id': name, 'path': name, 'sha256': sha, 'bytes': len(data)})
+            (p / 'fetched.json').write_text(json.dumps(recs))
+            quiet(['extract', '--fetched', str(p / 'fetched.json'), '--store', str(p / 'store'),
+                   '--text-out', str(p / 'text'), '--out', str(p / 'cat.json')])
+            cat = {c['id']: c['extractor'] for c in json.loads((p / 'cat.json').read_text())}
+            self.assertEqual(cat, {'bad.zip': 'error:BadZipFile', 'ok.md': 'text'})
+
     def test_url_and_json(self):
         self.assertEqual(dr.extract_bytes('x.url', b'[InternetShortcut]\r\nURL=https://example.org/a\r\n')[1],
                          'https://example.org/a')

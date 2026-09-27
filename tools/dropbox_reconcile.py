@@ -518,8 +518,15 @@ def extract_bytes(name: str, data: bytes, depth=0):
         for info in z.infolist():
             if info.is_dir() or info.file_size > 64 * 1024 * 1024:
                 continue
-            b = z.read(info)
-            ex, tx, _ = extract_bytes(info.filename, b, depth + 1)
+            try:
+                b = z.read(info)
+            except Exception as exc:  # bad CRC or truncated member: record it, keep going
+                members.append({'member': info.filename, 'extractor': 'error:' + type(exc).__name__})
+                continue
+            try:
+                ex, tx, _ = extract_bytes(info.filename, b, depth + 1)
+            except Exception as exc:
+                ex, tx = 'error:' + type(exc).__name__, ''
             members.append({'member': info.filename, 'bytes': len(b), 'sha256': hashlib.sha256(b).hexdigest(),
                             'dbx': dbx_hash_bytes(b), 'extractor': ex, 'chars': len(tx)})
         return 'zip', '', members
@@ -536,7 +543,10 @@ def cmd_extract(args):
         if 'sha256' not in rec:
             continue
         data = (store / rec['sha256']).read_bytes()
-        ex, text, members = extract_bytes(rec['path'], data)
+        try:
+            ex, text, members = extract_bytes(rec['path'], data)
+        except Exception as exc:  # one corrupt archive or document must not abort the run
+            ex, text, members = 'error:' + type(exc).__name__, '', []
         row = dict(rec, extractor=ex, chars=len(text), members=members)
         if text:
             tb = text.encode('utf-8')
