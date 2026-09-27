@@ -142,6 +142,48 @@ back regardless of how good the result looks.
 - **Python 3.11, standard library only.** `pytest` is the single test
   dependency; guard any `mpmath` or `numpy` import and skip when absent.
 
+## Formal verification (Lean 4, Layer 1)
+
+Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) first and
+claim work in [#95](https://github.com/d6g8k5htny-coder/main/issues/95). The
+lane has one contract and two packages: the
+[Math- pilot](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal)
+(Lean + Mathlib) and the main-side [`formal/`](formal/README.md) package (core
+Lean). Do not open a third vocabulary or a second register. Rules for `formal/`:
+
+- **The manifest is an evidence sidecar.** `formal/manifest.json` binds every
+  Lean, source, scope, control and doc file by SHA-256 and lists every target
+  with a verbatim `informal_anchor` from a byte-pinned copy under
+  `formal/sources/` and a `does_not_claim`. It says `proved` and
+  `PENDING_INDEPENDENT_REVIEW`; the gate refuses a manifest that self-awards
+  `kernel-checked` or `ACCEPTED`.
+- **Register everything.** The gate (`tools/formal_gate_check.py`) refuses an
+  unregistered `.lean` file, an unbound file inside `formal/`, a target
+  inventory that differs from the declared theorem names, `sorry`,
+  `native_decide`, any `axiom` declaration, a root module importing anything
+  unregistered, toolchain or lock drift. After editing bound files run
+  `--refresh-hashes`, then `--write-alignment`, then the gate; before citing a
+  result run `--run-lean` and quote the receipt's `checked_commit`.
+- **`kernel-checked` is a receipt label.** It is written only by a trusted
+  `--run-lean` execution after build, `leanchecker`, a transitive axiom audit
+  (`propext`, `Classical.choice`, `Quot.sound` or none) and every negative
+  control actually failing. Parent dependencies that are not formalised are
+  stated as explicit hypotheses of the target, never as axioms.
+- **Core Lean has no rationals.** State rational identities as cross-multiplied
+  integers, give the rational form in the docstring, and put the exact "not
+  established" boundary in `formal/SCOPE.md`. Real-number statements go to the
+  Mathlib package in Math-, not to a second dependency tree here.
+- **Statement alignment is its own review.** AI- or human-authored Lean text is
+  author-side until a reviewer with a different provider, family and agent
+  records an alignment (Markdown + JSON under `formal/reviews/`, validated with
+  `--alignment`). Follow [`formal/REVIEW_LANE.md`](formal/REVIEW_LANE.md).
+  Same-provider reviewers earn zero independence credit, as everywhere here.
+- **Formal evidence never moves Layer 0 status.** A kernel-checked target does
+  not edit `STATUS.md`, `PROOF_INDEX.md` or any ACCEPT/AMEND row and does not
+  make the surrounding analytic argument verified. Use
+  [`formal/GLOSSARY.md`](formal/GLOSSARY.md) descriptively; its mappings are
+  proposed, not adopted.
+
 ## Claims and status
 
 - **No status moves by merge.** Commits, tests, receipts and reviews cannot

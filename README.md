@@ -84,6 +84,22 @@ For full proof texts, use **[Public mathematics](docs/PUBLIC_MATHEMATICS.md)**. 
 - Numerical or floating-point work is labeled non-certifying when it is not a proof.
 - Independent review is recorded separately from same-author checks.
 - A merge, green CI run, hash match, publication, or model agreement does not promote mathematical status.
+- A kernel-checked Lean lemma verifies exactly its own statement; it does not verify the analytic argument around it or promote a Layer 0 status.
+
+## Verification stack
+
+| Layer | What it checks | Where |
+|---|---|---|
+| **Layer 0 — provenance, scope, review** | Exact bytes (SHA-256, Git blobs), declared scope and "does not claim" statements, source-bound nonauthor review, fail-closed intake and landing gates | [`STATUS.md`](STATUS.md), [Math- proof index](https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md), [public inventory](docs/public-math/sources.json), [museum](https://d6g8k5htny-coder.github.io/main/site/museum.html) |
+| **Layer 1 — formal (Lean 4)** | Statements and proofs checked by the Lean kernel, bound by hash to exact Layer 0 bytes, with per-package manifests (`proved` at source, `kernel-checked` only in a trusted run receipt) and an independent statement-alignment review | [Guide](docs/FORMAL_VERIFICATION.md), [Math- pilot](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal), [`formal/README.md`](formal/README.md), [glossary](formal/GLOSSARY.md), [review lane](formal/REVIEW_LANE.md) |
+
+Two packages share one contract: the Math- pilot (13 GP-FOR-192 scalar companions, Lean + Mathlib) and the main-side package in `formal/` (31 exact integer/rational facts from the SIDE24 coefficient note, core Lean, zero axioms). The coefficient bound itself and every analytic step are outside both packages and remain Layer 0 prose; see [`formal/SCOPE.md`](formal/SCOPE.md) and the [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md) for what changed, why, and what each repository is asked to do next.
+
+```sh
+python3 tools/formal_gate_check.py                 # source-only: hashes, inventory, anchors
+python3 tools/formal_gate_check.py --run-lean      # build, leanchecker, axiom audit, controls, receipt (needs elan)
+python3 -B -S -m unittest tests.test_formal_gate -v
+```
 
 ## Research still in progress
 

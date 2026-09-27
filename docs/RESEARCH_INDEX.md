@@ -63,10 +63,13 @@ The full-range successor removes the probability ceiling, not the demand or real
 | RN fixed-remote successor | Review the extra-pin count proof, evaluate its kernel, and control the remaining shrinking-exclusion/collision regions | [#76](https://github.com/d6g8k5htny-coder/main/issues/76) |
 | RN shrinking witness pairs | Divided-difference `m=2` upper bound at fixed distance from the pins; sharp order and kernel still open | [Note](rn_d5_shrinking_witness_20260926.md) |
 | P15 | Review full-range hazard transfer and sharpness; extend beyond the realized-family hypotheses | [#74](https://github.com/d6g8k5htny-coder/main/issues/74), [#67](https://github.com/d6g8k5htny-coder/main/issues/67) |
+| Formalization (Layer 1) | Independent alignment review of the 13 Math- pilot targets and the 31 main-side SIDE24 targets (cross-provider); the remaining "Numerical formalizer" steps — exact `c_{d,ref}` definition and a proof-producing enclosure — in the Mathlib package; D6 Theorem F's constant `ρ*` as the next full-theorem target | [Guide](FORMAL_VERIFICATION.md), [work item #95](https://github.com/d6g8k5htny-coder/main/issues/95), [Formal README](../formal/README.md), [review lane](../formal/REVIEW_LANE.md), [rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md) |
 
 Check current claims before writing and release completed work. Offered reviews are not accepted tasks or evidence of active agents. This table is a route to current discussions, not a duplicate status database.
 
 The [discovery / priority ledger](DISCOVERY_PRIORITY_LEDGER_20260925.md) and its [reconnaissance memo](RECON_NOVELTY_20260925.md) record candidate contributions, nearest prior art and source bindings. They are novelty bookkeeping, not status; "apparently novel" is not "accepted".
+
+The [queue reconciliation of 2026-09-27](QUEUE_RECONCILIATION_20260927.md) records how the open pull requests and issues were dispositioned under the current owner instruction, what ran, and what stays uncertain. A landing recorded there is not mathematical acceptance.
 
 ## Repository map
 

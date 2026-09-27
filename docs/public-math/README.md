@@ -6,4 +6,12 @@ The [public mathematics guide](../PUBLIC_MATHEMATICS.md) explains the source and
 
 [27 September 2026 — Dropbox / Drive / GitHub reconciliation](recovery-20260927/README.md) resolves 143 previously unmatched R2 rows by fresh byte identity and explains the remaining recovery queue. It also links the separately tested C026 finite-polynomial reciprocal successor.
 
+[27 September 2026 — systematic file-type census](recovery-20260927/SYSTEMATIC_PASS.md) records the next 39 reconciled rows, a reusable non-executing scanner, historical source variants and the explicit unreviewed-format queue. It is a bounded acquired-corpus audit, not an account-wide completeness claim.
+
+[27 September 2026 — embedded q0 extraction and raw-source recovery](../../tools/source_census_20260927/EMBEDDED_RECOVERY.md) accounts for another 249 R2 rows from consolidated carriers and loose originals, leaving eleven expected hashes unmatched in that ledger. Full-digest extraction, metadata-only locators and nonmatching image variants are kept distinct; no historical source claim becomes a new theorem.
+
+[27 September 2026 — exact-version follow-up](recovery-20260927/EXACT_VERSION_FOLLOWUP.md) recovers two of those eleven identities from retained Library originals and archives, leaving nine. It records the addendum's filename alias, preserves nonmatching image versions, and links the observed engineering review of the unchanged unpacker. The private audit PDF remains in Drive, not in this public repository.
+
+[27 September 2026 — Library source publication and original-intake audit](recovery-20260927/LIBRARY_PUBLICATION_AND_ORIGIN_AUDIT.md) links the now-recovered transverse exposition, geometry and collision-transfer companions at immutable Math commits. It also supplies original expected byte sizes and full names for the nine still-unmatched targets, including the `PNG` alias, without treating metadata or variants as recovered originals.
+
 A miss in this catalog's selected extensions is not proof that a Python, JSON, CSV, archive member, or other reproducibility input is absent. Check the declared coverage and exact source identities. Availability, publication, a merge, or green CI does not constitute mathematical acceptance.
