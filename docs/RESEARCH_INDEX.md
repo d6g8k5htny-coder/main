@@ -68,6 +68,8 @@ Check current claims before writing and release completed work. Offered reviews 
 
 The [discovery / priority ledger](DISCOVERY_PRIORITY_LEDGER_20260925.md) and its [reconnaissance memo](RECON_NOVELTY_20260925.md) record candidate contributions, nearest prior art and source bindings. They are novelty bookkeeping, not status; "apparently novel" is not "accepted".
 
+The [queue reconciliation of 2026-09-27](QUEUE_RECONCILIATION_20260927.md) records how the open pull requests and issues were dispositioned under the current owner instruction, what ran, and what stays uncertain. A landing recorded there is not mathematical acceptance.
+
 ## Repository map
 
 | Repository | Responsibility |
