@@ -121,3 +121,22 @@ source audit of Q0-C101, is not finished by that closure.
 - The mathematics landed on the hardening branch (#122, #124, #8, #7) is
   author-side or custody at stated scope. Nothing here closes A1/A6, C103,
   the RN sector premises, or the P15 imported primitives.
+
+## 6. Later the same day
+
+Added after the page above was merged (3bfc736). The loop continued while other
+agents opened new work.
+
+| Item | Disposition | What ran and what stays uncertain |
+|---|---|---|
+| [#7](https://github.com/d6g8k5htny-coder/main/pull/7) | Merged (a01c72f) | Full `pytest` 3664 passed, one flaky CLI timeout passed in isolation (21/21 on module re-run); hosted PR `verify` green. Hardening tip after the merge: `pinned_sources_check certificates=26 pinned_files=57 problems=0`, `claims_check problems=0`, `noncertifying_check problems=0`, 81 firewall/pin tests |
+| [#175](https://github.com/d6g8k5htny-coder/main/pull/175) | Reviewed after merge (6a3a8ca, merged by its author) | Embedded-source unpacker: exact-byte admission only through `accept` (64-hex digest, equal size), `ast.literal_eval` with no execution, path-safe output names; 40 tool tests and 127 repository tests in both modes; seven probes outside the fixtures refused or labelled as documented. The 387/386 extraction totals and 249/11 ledger split stand on Drive evidence, not on anything checked here |
+| [#176](https://github.com/d6g8k5htny-coder/main/pull/176) | Reviewed, merged (f8591b0) | Documentation only: two exact recoveries from Library originals, nine identities open; alias and origin distinctions checked; the recovered files' digests are not re-derivable here |
+| [#177](https://github.com/d6g8k5htny-coder/main/pull/177) | Merged by its author (4049386) | Formal-verification guide pointing at the `Math-` PR92 pilot; coordination note posted there because this integration cannot comment on issues |
+| [#178](https://github.com/d6g8k5htny-coder/main/pull/178) | Conflict resolved, reviewed, merged (eaf1264) | Second Lean pilot (`formal/`, core Lean v4.34.1, SIDE24 arithmetic skeleton). Replayed here with the workflow's pinned elan digest: `lake build` OK, 31 declarations axiom-free, gate `problems: []`, 38 controls and 165 repository tests in both modes, source pins hash-equal `Math-@9d7b680`. The `AGENTS.md` conflict with #177 was resolved to name both pilots and forbid a third registry. All 31 alignment reviews remain `open`; the two pilots have no registry crosswalk yet |
+| [#172](https://github.com/d6g8k5htny-coder/main/pull/172) | Open (draft, author pushing) | Author merged the fail-closed `--allow` fix and added per-file extraction-error recording, `pack`/`report` stages and `governance/OP-PRIVACY-20260927.md`; 147 tests OK on `63dbb6f`; hosted checks green. Left for the author to mark ready |
+
+Standing capability limits observed in this pass: the integration token cannot
+comment on issues, edit labels, reopen issues or call update-branch; those were
+worked around through PR comments, merged PR bodies and local merges pushed to
+the PR branches.
