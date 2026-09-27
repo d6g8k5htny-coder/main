@@ -411,16 +411,16 @@ def test_rejects_a_certified_rung_over_a_register_note_that_is_not_a_discharge()
     assert "FW-RUNG-OPEN-PREMISE" in out and "status_register_note" in out, out
 
 
-def test_the_only_certified_rung_in_the_committed_graph_has_no_premise():
-    """Until #111 no claim was graded CERTIFIED_RUNG and FW-RUNG-OPEN-PREMISE
-    refused nothing. H3-RUNG-FLOOR (single-rung enclosure at r = 0.05) now
-    carries the grade with an empty `depends_on`, so the firewall is live and
-    has no open premise to refuse; this pins that state rather than the old
-    inert one."""
+def test_no_claim_is_graded_certified_rung_in_the_committed_graph():
+    """So FW-RUNG-OPEN-PREMISE refuses nothing today. An inert firewall is not a
+    broken one, but it is one whose only evidence of working is its control.
+    H3-RUNG-FLOOR carries the label CERTIFIED_RUNG in source_grade_verbatim
+    only: claims_gate_adapter treats that grade as controlling and a merge is
+    not a positive admission, so its operational grade is AUTHOR_SIDE_CERTIFIED."""
     g = graph()
-    rungs = {n: c for n, c in g["claims"].items() if c.get("grade") == "CERTIFIED_RUNG"}
-    assert sorted(rungs) == ["H3-RUNG-FLOOR"], sorted(rungs)
-    assert rungs["H3-RUNG-FLOOR"]["depends_on"] == []
+    assert not [n for n, c in g["claims"].items() if c.get("grade") == "CERTIFIED_RUNG"]
+    assert g["claims"]["H3-RUNG-FLOOR"]["source_grade_verbatim"] == "CERTIFIED_RUNG"
+    assert g["claims"]["H3-RUNG-FLOOR"]["grade"] == "AUTHOR_SIDE_CERTIFIED"
 
 
 def test_the_two_status_vocabularies_do_not_overlap():

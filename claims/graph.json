@@ -292,11 +292,13 @@
   "H3-RUNG-FLOOR": {
    "track": "UPPER2D",
    "statement": "At r = 0.05 only (six-pin law Q_{0.05}, mark 6/5): Z_{0.05} in [7.7592917375327855e-3, 1.1468646473404396e-2]. It is a single-rung enclosure, not a band or uniform-in-r statement.",
-   "grade": "CERTIFIED_RUNG",
+   "grade": "AUTHOR_SIDE_CERTIFIED",
+   "source_grade_verbatim": "CERTIFIED_RUNG",
+   "audit_disposition": "LABEL_PRESERVED_NOT_CONTROLLING",
    "rung": 0.05,
    "depends_on": [],
    "independence_credit": 0,
-   "note": "Added 2026-09-25 so that RN3-FAR and RN5-NEAR-POINT-CERTS name the floor they actually consume (the rung value 0.0077592917..., which d3_rn_unif.py L74-81 parses and fail-closes on), not H3-BAND-FLOOR (c_Z r^2 uniform on (0, 0.05], a different statement). The rung lower end exceeds c_Z*(0.05)^2 = 4.0387e-3, but the enclosure is computed directly and does not use the band floor. Transcription only; no grade of any other node moves.",
+   "note": "Added 2026-09-25 so that RN3-FAR and RN5-NEAR-POINT-CERTS name the floor they actually consume (the rung value 0.0077592917..., which d3_rn_unif.py L74-81 parses and fail-closes on), not H3-BAND-FLOOR (c_Z r^2 uniform on (0, 0.05], a different statement). The rung lower end exceeds c_Z*(0.05)^2 = 4.0387e-3, but the enclosure is computed directly and does not use the band floor. Transcription only; no grade of any other node moves. Gate reconciliation 2026-09-27: the object's own label CERTIFIED_RUNG is kept in source_grade_verbatim; the operational grade is AUTHOR_SIDE_CERTIFIED (same strength, zero independence credit) because claims_gate_adapter treats CERTIFIED_RUNG as a controlling status and refuses a new controlling node introduced by merge (UNSUPPORTED_CONTROLLING_PROMOTION). A merge is not a positive admission; a nonauthor review filed against this node is the route to the verbatim label.",
    "evidence": [
     {
      "kind": "frozen_certificate_body",
@@ -314,7 +316,19 @@
      "note": "Byte-exact carrier recovery is provenance, not proof."
     }
    ],
-   "source": "H3_RUNG_FLOOR.md (H3-closure line, companion to the frozen H3_CLOSURE.md)"
+   "source": "H3_RUNG_FLOOR.md (H3-closure line, companion to the frozen H3_CLOSURE.md)",
+   "source_bindings": [
+    {
+     "repo": "d6g8k5htny-coder/main",
+     "path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+     "role": "scientific_object",
+     "extraction_rule": "whole_file",
+     "expected_sha256": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+     "mirror_freshness": "external_sync_obligation",
+     "freshness_meaning": "GitHub monitors the frozen H3_RUNG_FLOOR.md bytes in this repository (7,003 B, recovered byte-exact as carrier RNENG-08 in engine/rn_engine/BINDING.json). Drive sync/readback is an external provenance obligation; GitHub does not watch Drive live.",
+     "note": "Binding added 2026-09-27 so that this controlling node names monitorable repository bytes; the prose `source` field was unresolved and the claims gate refused every transition. Transcription only; no grade moves."
+    }
+   ]
   },
   "RN5-NEAR-POINT-CERTS": {
    "track": "UPPER2D",
