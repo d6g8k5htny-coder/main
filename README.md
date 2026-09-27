@@ -84,6 +84,21 @@ For full proof texts, use **[Public mathematics](docs/PUBLIC_MATHEMATICS.md)**. 
 - Numerical or floating-point work is labeled non-certifying when it is not a proof.
 - Independent review is recorded separately from same-author checks.
 - A merge, green CI run, hash match, publication, or model agreement does not promote mathematical status.
+- A kernel-checked Lean lemma verifies exactly its own statement; it does not verify the analytic argument around it or promote a Layer 0 status.
+
+## Verification stack
+
+| Layer | What it checks | Where |
+|---|---|---|
+| **Layer 0 — provenance, scope, review** | Exact bytes (SHA-256, Git blobs), declared scope and "does not claim" statements, source-bound nonauthor review, fail-closed intake and landing gates | [`STATUS.md`](STATUS.md), [Math- proof index](https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md), [public inventory](docs/public-math/sources.json), [museum](https://d6g8k5htny-coder.github.io/main/site/museum.html) |
+| **Layer 1 — formal (Lean 4)** | Statements and proofs checked by the Lean kernel, bound by hash to Layer 0 bytes, with a per-claim formalization status (`none` / `specified` / `proved` / `kernel-checked`) and a statement-alignment review lane | [`formal/README.md`](formal/README.md), [`formal/registry.json`](formal/registry.json), [glossary](formal/GLOSSARY.md), [review lane](formal/REVIEW_LANE.md) |
+
+The pilot formalises the arithmetic skeleton of the SIDE24 coefficient note: 31 kernel-checked, axiom-free theorems. The coefficient bound itself and every analytic step remain Layer 0 prose with formalization status `none`. See the [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md) for what changed, why, and what each repository is asked to do next.
+
+```sh
+python3 tools/formal_gate_check.py --run-lean      # needs elan/lake; see formal/README.md
+python3 -B -S -m unittest tests.test_formal_gate -v
+```
 
 ## Research still in progress
 

@@ -30,3 +30,13 @@ not a reason to ask for permission already granted.
 Drive record, and collaboration surfaces. This `main` initially contains the renewed
 landing, not the complete research stack. Bring improvements into it coherently;
 there is no permanent landing-only restriction.
+
+## Verification stack
+
+Layer 0 is the existing provenance, scope and source-bound review system. Layer 1 is
+the Lean 4 formal layer in [`formal/`](formal/README.md): kernel-checked statements
+bound by hash to Layer 0 bytes, one formalization status per claim in
+[`formal/registry.json`](formal/registry.json), a glossary, and a statement-alignment
+review lane. Read the [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md)
+before touching either layer: it says what changed, why, what each repository is asked
+to do, and that no formalization status ever moves a Layer 0 status.
