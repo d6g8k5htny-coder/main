@@ -55,6 +55,30 @@ a file lives. The remedy for a
 deliberate change is a re-pin on the lane that owns the certificate. Never edit
 an expected digest to match bytes you changed.
 
+## If you compute in floats, say so
+
+`tools/noncertifying_check.py` runs in CI. Every repository-authored Python file
+holding a float literal or a `float(` call must either contain the canonical
+label `NON-CERTIFYING` or be named in the checker's `DECLARED` with the reason it
+needs none. Exact rational arithmetic (`fractions.Fraction`) is the default
+wherever a bound is claimed; a float that reaches a printed or compared number is
+a display, and it must say so in the code *and in the output*.
+
+**A float is not always a float path**, and this matters more here than the rule
+itself. Most float sites in this tree are **rejection probes**: the float is the
+input a checker must REFUSE, and the test asserts the refusal. Pasting
+`NON-CERTIFYING` onto such a file would state the opposite of what the file
+demonstrates, so those are declared with the line they refuse, never labelled.
+Wall-clock values (poll intervals, timeouts, elapsed seconds) are declared too. A
+declaration is a claim a reviewer can check; silence is not, and a label that is
+false is worse than either.
+
+Two cases are recorded as **unmet** obligations rather than absent ones:
+`research/bands/ladder.py` and `research/rn/moment_envelope.py` both print float
+conversions and both are pinned, so the label cannot be written into their bytes.
+The declarations say so, with the pin that binds each, because a reader needs to
+know the obligation exists.
+
 ## Technical navigation
 
 Start with [README.md](README.md), [RESEARCH_MAP](docs/RESEARCH_MAP.md) and
