@@ -1,5 +1,23 @@
 # Session replay ledger — 2026-09-26 (xAI / Grok lane)
 
+> **Supersession note (added 2026-09-27 at intake packaging; scientific effect NONE).**
+> Files in this packet were written across several rounds on 2026-09-26. Rounds that
+> predate 21:46:22Z say Math- PR64 is an unmerged draft whose erratum "404s on Math-
+> default": `ERRATUM_CONGRUENCE.md` (header), `D1_INTERFACE_TABLE.md` (item 2),
+> `A3_TYPE_CONVERGENCE.md` (requirement 1) and the "still open" D1 row below. Those
+> statements were true when written and are now superseded by the record: Math- PR64
+> was squash-merged at `d8f55054270532f2f95ae7cc7f5c613643d47e13` on
+> 2026-09-26T21:46:22Z, and `imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md`
+> (1782 B, SHA-256 `bad7ef60…2028`) is on Math- default; `PROOF_INDEX.md` at
+> `5ed3b455` already cites `d8f5505`, so `INVENTORY.md` line 46's "PROOF_INDEX still
+> says … d573b99" is also stale. The later-round files (`INVENTORY.md`,
+> `STATUS_PIN_NOTE.md`, `A3_UI_MAJORANT.md`, `A_M_TO_A0.md`) are the ones to read
+> for custody. Intake is immutable after landing, so the earlier files are left as
+> written rather than rewritten. Separately, `A3_UI_MAJORANT.md`'s "ACCEPT the
+> structure" rests on parent §4 (A4), which `D1_INTERFACE_TABLE.md` rates as
+> scaffolding, not closed; read it as conditional on A4. This note does not merge,
+> accept, or promote anything.
+
 **Scientific effect:** NONE.
 **scientific_acceptance:** false (unchanged).
 **lemma_closed:** false (unchanged).
@@ -71,7 +89,7 @@ rho_* = 1 / h_*
 
 `PROOF.md` writes `3 - log(3e-2)`. That identity is **true** if `3e-2` is read as `3*e - 2`. It is **false** if `3e-2` is read as `3 e^{-2}` (that reading produces `h ~ 3.901`, `rho ~ 0.256`, which is not the displayed window).
 
-Action: disambiguate the ASCII in the P15 source (`3e-2` → `3e-2` written as `3*e-2` or `3e-2`). Do **not** change the numerical window and do **not** flip Theorem F.
+Action: disambiguate the ASCII in the P15 source (write `3e-2` as `3*e - 2`, the intended reading). Do **not** change the numerical window and do **not** flip Theorem F.
 
 ## Still open — do not invent closures
 
