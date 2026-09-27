@@ -1592,6 +1592,40 @@ def _git_bytes(
     return result.stdout
 
 
+def _try_fetch_commit(root: Path, sha: str) -> bool:
+    """Best-effort fetch of a missing commit from origin (force-push before SHA).
+
+    Returns True if the commit is locally resolvable after the attempt. Never
+    treats all-zero / empty refs. Uses GITHUB_TOKEN when present because CI
+    checkout sets ``persist-credentials: false``.
+    """
+    import base64
+    import os
+
+    if not re.fullmatch(r"[0-9a-f]{7,40}", sha):
+        return False
+    if (
+        _git_bytes(root, "rev-parse", "--verify", f"{sha}^{{commit}}", missing_ok=True)
+        is not None
+    ):
+        return True
+    token = (os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or "").strip()
+    fetch_cmd = ["git", "-C", str(root)]
+    if token:
+        auth = base64.b64encode(f"x-access-token:{token}".encode("ascii")).decode(
+            "ascii"
+        )
+        fetch_cmd.extend(["-c", f"http.extraheader=AUTHORIZATION: basic {auth}"])
+    fetch_cmd.extend(["fetch", "--no-tags", "--depth=1", "origin", sha])
+    result = subprocess.run(fetch_cmd, capture_output=True, timeout=120)
+    if result.returncode != 0:
+        return False
+    return (
+        _git_bytes(root, "rev-parse", "--verify", f"{sha}^{{commit}}", missing_ok=True)
+        is not None
+    )
+
+
 def _require_usable_ref(
     ref: str,
     *,
@@ -1615,7 +1649,14 @@ def _require_usable_ref(
         root, "rev-parse", "--verify", f"{cleaned}^{{commit}}", missing_ok=True
     )
     if resolved is None:
-        raise AdapterError(f"{role} ref is not a resolvable commit: {cleaned!r}")
+        # Force-push: github.event.before may be hosted on origin but outside tip ancestry.
+        if not _try_fetch_commit(root, cleaned):
+            raise AdapterError(f"{role} ref is not a resolvable commit: {cleaned!r}")
+        resolved = _git_bytes(
+            root, "rev-parse", "--verify", f"{cleaned}^{{commit}}", missing_ok=True
+        )
+        if resolved is None:
+            raise AdapterError(f"{role} ref is not a resolvable commit: {cleaned!r}")
     full = resolved.decode().strip()
     if not re.fullmatch(r"[0-9a-f]{40}", full):
         raise AdapterError(f"{role} ref did not resolve to a 40-hex commit id: {full!r}")
