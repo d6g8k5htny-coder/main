@@ -77,3 +77,13 @@ old passing checks, another agent's merge, or a source change outside its review
 scope. Record the actual disposition in the existing PR and main #95. A repair
 claim needs the original failing probe to reject and the amended exact head to
 pass; do not bypass a known failure to make the queue appear empty.
+
+## Required formal checks and delegated enforcement
+
+Read [the required-check contract](docs/FORMAL_REQUIRED_CHECKS.md). Dylan has
+authorized direct agent coordination and GitHub enforcement. Required check
+success now requires current-commit formal execution plus the existing checks;
+never substitute skipped jobs, old receipts or a different repository's result.
+Review and settings changes require actual authenticated evidence and readback.
+Do not bypass a failed aggregate, race another agent's claimed workflow repair,
+or describe this engineering interlock as independent mathematical acceptance.

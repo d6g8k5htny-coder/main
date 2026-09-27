@@ -6,21 +6,23 @@
 # flip any manifest status; see docs/FORMAL_VERIFICATION.md and formal/README.md.
 name: formal-verification
 on:
-  pull_request:
-    paths:
-      - 'formal/**'
-      - 'tools/formal_gate_check.py'
-      - 'tests/test_formal_gate.py'
-      - 'tests/test_formal_workflow_shell.py'
-      - '.github/workflows/formal-verification.yml'
-  push:
-    branches: [main]
-    paths:
-      - 'formal/**'
-      - 'tools/formal_gate_check.py'
-      - 'tests/test_formal_gate.py'
-      - 'tests/test_formal_workflow_shell.py'
-      - '.github/workflows/formal-verification.yml'
+  workflow_call:
+    outputs:
+      checked_commit:
+        description: Exact tested commit
+        value: ${{ jobs.formal-evidence.outputs.checked_commit }}
+      repository:
+        description: Checked source repository
+        value: ${{ jobs.formal-evidence.outputs.repository }}
+      run_id:
+        description: Producing workflow run
+        value: ${{ jobs.formal-evidence.outputs.run_id }}
+      run_attempt:
+        description: Producing workflow attempt
+        value: ${{ jobs.formal-evidence.outputs.run_attempt }}
+      receipt_sha256:
+        description: Original executed receipt SHA256
+        value: ${{ jobs.formal-evidence.outputs.receipt_sha256 }}
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,8 +30,13 @@ defaults:
   run:
     shell: bash
 jobs:
-  kernel-check:
-    name: kernel-check
+  formal-evidence:
+    outputs:
+      checked_commit: ${{ steps.required-binding.outputs.checked_commit }}
+      repository: ${{ steps.required-binding.outputs.repository }}
+      run_id: ${{ steps.required-binding.outputs.run_id }}
+      run_attempt: ${{ steps.required-binding.outputs.run_attempt }}
+      receipt_sha256: ${{ steps.required-binding.outputs.receipt_sha256 }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -71,6 +78,9 @@ jobs:
         run: |
           python -B -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-normal.log
           python -B -O -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-optimized.log
+      - name: Bind current-run receipt to required check
+        id: required-binding
+        run: python3 -B -S tools/required_formal_check.py receipt
       - name: Collect evidence
         if: always()
         run: |
