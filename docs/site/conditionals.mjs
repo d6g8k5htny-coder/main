@@ -1,5 +1,6 @@
 // One dependency transcription of an already-indexed proof. No status engine.
 const CLAIM_ID='cumulative-transfer-correction';
+const SOURCE_COMMIT='d6628da09384728992dcbe6e921cc28ba85aebb0';
 const SOURCE_PATH='reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md';
 const SOURCE_SHA256='83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6';
 const SOURCE_BLOB='044ac5fdaf403a38e33983e31f0ad69f8e76d6d5';
@@ -8,7 +9,7 @@ const hex40=v=>typeof v==='string'&&/^[0-9a-f]{40}$/.test(v);
 const hex64=v=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v);
 
 function validateSource(source){
-  if(!source||source.repository!=='d6g8k5htny-coder/Math-'||!hex40(source.commit)
+  if(!source||source.repository!=='d6g8k5htny-coder/Math-'||!hex40(source.commit)||source.commit!==SOURCE_COMMIT
     ||source.path!==SOURCE_PATH||source.sha256!==SOURCE_SHA256||source.blob!==SOURCE_BLOB
     ||source.bytes!==3272)throw Error('Conditional source identity mismatch');
   const suffix=`${source.repository}/${source.commit}/${SOURCE_PATH}`;
@@ -52,7 +53,8 @@ export async function projectVerified(raw,source,crypto=globalThis.crypto){
   const header=encoder.encode(`blob ${raw.byteLength}\0`),blob=new Uint8Array(header.length+raw.length);
   blob.set(header);blob.set(raw,header.length);
   if(await digest('SHA-1',blob,crypto)!==source.blob)throw Error('Conditional Git blob identity mismatch');
-  return projectText(decoder.decode(raw));
+  const identity=Object.fromEntries(['repository','path','commit','blob','bytes','sha256','url','html_url'].map(key=>[key,source[key]]));
+  return {...projectText(decoder.decode(raw)),source:identity};
 }
 function stable(value){
   if(value===null||typeof value==='string'||typeof value==='boolean')return JSON.stringify(value);

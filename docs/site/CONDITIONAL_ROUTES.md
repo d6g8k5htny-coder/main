@@ -12,7 +12,10 @@ STATUS snapshot, config and manifest retain their existing identities and meanin
 `reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md` in Math-,
 Git blob `044ac5fdaf403a38e33983e31f0ad69f8e76d6d5`, 3272 bytes,
 SHA256 `83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6`.
-The existing manifest supplies the full commit and matching immutable URLs.
+The audited commit is `d6628da09384728992dcbe6e921cc28ba85aebb0`.
+Both interfaces require that exact commit and matching immutable URLs.
+A different 40-character string is not evidence that these bytes belong to it.
+The exported projection retains the complete source descriptor as well as its digest.
 The checked source fixture under `tests/fixtures/` is an exact reading copy of
 those public bytes, not a new proof body or an authoritative source.
 
@@ -48,7 +51,7 @@ changes, extra nodes, cycles or status fields are refused rather than adopted.
 Run from the main repository root:
 
 ```sh
-node --test tests/test_museum_conditionals.mjs tests/test_museum_conditionals_cli.mjs
+node --test tests/test_museum_conditionals.mjs tests/test_museum_conditionals_cli.mjs tests/test_museum_identity.mjs
 node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt > /tmp/conditional-route.json
 node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt --check /tmp/conditional-route.json
 ```
@@ -68,10 +71,11 @@ proof routes need their own exact statements and source-bound interfaces;
 induction must state its base case and a well-founded decreasing parameter.
 A larger graph cannot turn circular support into proof.
 
-The separate Math- scalar certificate in PR89 is an author derivation awaiting
-review. It is deliberately not added to the museum's accepted result cards.
-A scalar Gaussian conditional variance is not a matrix eigenvalue floor or a
-determinant-weighted Palm estimate. query- remains a read-only identity lookup.
+The separate Math- scalar and one-endpoint Hessian certificates in PR89 are
+author derivations awaiting review. They are deliberately not added to the
+museum's accepted result cards. Neither supplies the additional-witness
+covariance or determinant-weighted Palm estimate. query- remains a read-only
+identity lookup.
 
 Local verification covers the new module, CLI, source integrity, HTML wiring and
 a lightweight DOM refusal harness. It is not a real-browser, layout, GPU or live
@@ -95,3 +99,19 @@ not evidence that these bounds or the partition hold for D5. Every collar,
 axis, remainder and law-identification interface must be supplied. A first
 moment does not by itself establish the separate elder-event inclusion.
 No cumulant hierarchy or new PDE/gravitational interpretation is installed.
+
+## Identity follow-through
+
+The initial offline implementation checked commit syntax, digest and URL
+consistency, but could accept correct bytes attributed to a different,
+syntactically valid commit if the fixture manifest and URLs were changed
+coherently. Three test-first controls exposed that gap (24 old tests passed,
+3 new tests failed). The source selector now requires the audited commit; the
+exported route also carries the complete repository/path/commit/blob/bytes/hash
+and URL descriptor. Changing source revision requires a reviewed projection
+update, not relabeling a local proof. This is an author correction, not a
+nonauthor review or a change to mathematical status.
+
+A Chromium smoke-test attempt in this continuation was blocked at localhost
+navigation with ERR_BLOCKED_BY_ADMINISTRATOR, before any module assertion.
+No browser protection was changed; this is a recorded verification gap, not a pass.
