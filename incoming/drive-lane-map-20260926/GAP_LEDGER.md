@@ -4,7 +4,9 @@
 **Authority: navigation / absence record only.**
 **Does not accept theorems, flip STATUS rows, import vaulted bytes, or substitute similar documents.**
 
-Owner pre-approved an autonomous hunt for Drive sources named by public GitHub holes.
+The hunt for Drive sources named by public GitHub holes was requested in
+[Math- #56](https://github.com/d6g8k5htny-coder/Math-/issues/56) (item 1) and is
+covered by the standing agent-decided workflow (`governance/OP-AUTONOMY-20260923-v2.1.md`).
 This file records the hunt result. Vault `99_DO_NOT_OPEN`, personal lane 03, quarantine 90, and legacy Q0 were not browsed.
 
 ## Method
@@ -24,14 +26,19 @@ Absence-scan documents that *mention* the missing name are not carriers.
 | `rnu_env.py` | RN×3 SoT; cited by CL-RNU-001 receipts | empty | RN SoT present-scans titled ABSENT×3; walkdown `1uWTMEgtaJzAX7-IxPKKnRw7--FqLc9SO` |
 | `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip` | RN×3 SoT; Piece-1/Piece-2 receipts | empty | CL-RNU-003 importer Doc `1aCa-QG9CSrNUB9SUFKISifghSf-41fRy` (STILL_CONDITIONAL; not the zip) |
 | `allcell_fdz_enclosures.json` | RN×3 SoT; ALLCELL-FDZ-Q4 attachment point | empty | hunt-coined name; AGENT13 says title never had a source identity |
-| `ERRATUM_CONGRUENCE.md` | D1 A3 additive erratum | empty | Already on GitHub only: [Math- #64](https://github.com/d6g8k5htny-coder/Math-/pull/64) at `d573b99d8792f3d5146c952737a4ba446a549e6f`. Not a Drive recovery. |
+| `ERRATUM_CONGRUENCE.md` | D1 A3 additive erratum | empty | Git-native only, and no longer a hole: [Math- #64](https://github.com/d6g8k5htny-coder/Math-/pull/64) merged 2026-09-26T21:46:22Z as `d8f55054270532f2f95ae7cc7f5c613643d47e13`; the file is on Math- default at `imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md` (1782 B, SHA-256 `bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028`). Not a Drive recovery. (Row corrected 2026-09-27 at intake packaging; the original cited the pre-merge draft SHA `d573b99d`.) |
 
 ## Already classified stop-replay (do not keep scanning hourly)
 
 Drive lane index `1OMe4YG--Nz2lqAs2OLi8b7tozAkjnkLLGlBJQww7jS8` (2026-09-25): required SoT carriers JETMOD×3 and RN×3 **ABSENT**, outcome 4 of the 2026-09-25 directive: carrier absent, stop replaying.
 
 AGENT13 note `1iIB4tI2FSSBl066hDIlrTidM2NeuT2za` lists the same six nodes as `CARRIER_ABSENT_STOP_REPLAY`.
-This session independently confirmed the exact titles are still empty on connected Drive.
+This session re-ran the exact-title search on connected Drive and found the same result. For
+`TRANSVERSE_CONTACT_ASYMPTOTIC.md` this restates what
+[Math- #56 comment 5841875191](https://github.com/d6g8k5htny-coder/Math-/issues/56#issuecomment-5841875191),
+[comment 5842401492](https://github.com/d6g8k5htny-coder/Math-/issues/56#issuecomment-5842401492)
+and draft [Math- #59](https://github.com/d6g8k5htny-coder/Math-/pull/59) already record; it is a
+repeat observation on the same connected Drive, not an independent confirmation.
 
 ## Present on Drive but not missing-GitHub-hole carriers
 

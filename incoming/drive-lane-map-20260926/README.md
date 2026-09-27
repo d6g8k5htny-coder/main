@@ -41,16 +41,15 @@ Lane index standing note, quoted as navigation only: required SoT carriers (JETM
 |---|---|---|
 | Missing `TRANSVERSE_CONTACT_ASYMPTOTIC` | [Math- #56](https://github.com/d6g8k5htny-coder/Math-/issues/56) | Title search on Drive returned **no exact file**. Recovery still OPEN. |
 | D5 pin / microdisk | [Math- #58](https://github.com/d6g8k5htny-coder/Math-/issues/58) | No complete Drive source identified in title search. Unmerged GitHub reconnaissance already exists (Math- PR53). Do not re-import. |
-| D1 parent §§2–7 / congruence erratum | [main #63](https://github.com/d6g8k5htny-coder/main/issues/63) | Not pulled this session. Next packet if owner wants source-first erratum bytes mirrored. |
+| D1 parent §§2–7 / congruence erratum | [main #63](https://github.com/d6g8k5htny-coder/main/issues/63) | Not pulled this session. The erratum is now on Math- default (`imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md`, merged as `d8f5505`), so no Drive mirror is needed. |
 | JETMOD / RN SoT carriers | Lane index 2026-09-25 | **Stop replaying absent carriers.** Do not mint substitutes. |
-| SIDE24 live copies | Drive campaign `14sSZqX-lbSv92pkePXjC-cnlfONIO9ts` | Public GitHub already has scoped ACCEPT arithmetic in `Math-/coefficients/side24_v1`. Replica already in `google-drive/replicas/side24-coefficient-v1`. |
+| SIDE24 live copies | Drive campaign `14sSZqX-lbSv92pkePXjC-cnlfONIO9ts` | Public GitHub already has scoped ACCEPT arithmetic in `Math-/coefficients/side24_v1` (indexed in `Math-/PROOF_INDEX.md`). No repository-path replica is cited here; the Drive campaign folder ID above is the only pointer this session verified. |
 
 ## Next packets (ordered)
 
 1. Keep searching Drive for the exact missing kernel filename and close or disposition Math- #56.
 2. If found, land **byte custody only** under `incoming/` with `SOURCE.json` (Drive id, size, sha256). No STATUS edit.
-3. Only after that, consider a D1 erratum mirror if those bytes are not already in `Math-/imports/lifetime_parent_20260925/`.
-4. Do not flatten `01_ACTIVE_RESEARCH_PACKAGES` onto GitHub. Dated campaign folders stay on Drive until a specific hole needs one file.
+3. Do not flatten `01_ACTIVE_RESEARCH_PACKAGES` onto GitHub. Dated campaign folders stay on Drive until a specific hole needs one file.
 
 ## Non-claims
 
