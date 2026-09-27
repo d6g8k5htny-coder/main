@@ -9,10 +9,14 @@ Stages (each is a subcommand):
 
   index-git   Every blob reachable from any ref of each given repository,
               with size, sha256, Dropbox content_hash and every path it
-              appeared under.
-  index-drive Drive-side identities from the public source catalog
-              (docs/public-math/sources*.json) and, optionally, a CSV export
-              of the Drive source map (columns name,size,sha256[,id,path]).
+              appeared under. If git cannot read a repository, the command
+              exits nonzero and does not write an index.
+  index-drive Drive-side identities from a catalog JSON file — a top-level
+              list, or an object with exactly one of `artifacts`, `rows` or
+              `sources` (docs/public-math/sources-NN.json) — and, optionally,
+              a CSV export of the Drive source map
+              (columns name,size,sha256[,id,path]). Malformed JSON exits
+              nonzero and does not write an index.
   classify    Match a Dropbox inventory (list_folder entries, optionally
               augmented with content_hash values) against both indexes.
   fetch       Download single-use Dropbox URLs into a content-addressed store.
@@ -124,91 +128,235 @@ def rel_of(entry):
 
 # ---------------------------------------------------------------- index-git
 
+class IndexFailure(Exception):
+    """A source index could not be read completely. Callers must not write --out."""
+
+
+def _git_stderr(data: bytes):
+    if data:
+        sys.stderr.write(data.decode('utf-8', 'replace'))
+
+
 def git_blobs(repo: Path):
-    """Yield (blob_sha1, size, path) for every blob reachable from any ref."""
+    """Return (blob_sha1, size, path) for every blob reachable from any ref.
+
+    A nonzero git status is an index failure. An empty stdout with a failed
+    process is not an empty repository.
+    """
     rev = subprocess.Popen(['git', '-C', str(repo), 'rev-list', '--objects', '--all'],
-                           stdout=subprocess.PIPE)
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     check = subprocess.Popen(['git', '-C', str(repo), 'cat-file',
                               '--batch-check=%(objectname) %(objecttype) %(objectsize) %(rest)'],
-                             stdin=rev.stdout, stdout=subprocess.PIPE)
+                             stdin=rev.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     rev.stdout.close()
-    for line in check.stdout:
-        parts = line.decode('utf-8', 'surrogateescape').rstrip('\n').split(' ', 3)
-        if len(parts) >= 3 and parts[1] == 'blob':
-            yield parts[0], int(parts[2]), (parts[3] if len(parts) == 4 else '')
-    check.wait()
+    blobs = []
+    try:
+        for line in check.stdout:
+            parts = line.decode('utf-8', 'surrogateescape').rstrip('\n').split(' ', 3)
+            if len(parts) >= 3 and parts[1] == 'blob':
+                blobs.append((parts[0], int(parts[2]), parts[3] if len(parts) == 4 else ''))
+    except Exception:
+        check.kill()
+        rev.kill()
+        raise
+    finally:
+        check_err = check.stderr.read() if check.stderr else b''
+        rev_err = rev.stderr.read() if rev.stderr else b''
+        check_rc = check.wait()
+        rev_rc = rev.wait()
+    _git_stderr(rev_err)
+    _git_stderr(check_err)
+    if rev_rc != 0:
+        raise IndexFailure(f'{repo}: git rev-list exited {rev_rc}')
+    if check_rc != 0:
+        raise IndexFailure(f'{repo}: git cat-file --batch-check exited {check_rc}')
+    return blobs
+
+
+def git_cat_blobs(repo: Path, seen: dict):
+    """Return blob sha1 -> bytes. A failed cat-file is an index failure."""
+    cat = subprocess.Popen(['git', '-C', str(repo), 'cat-file', '--batch'],
+                           stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    data_by_sha = {}
+    try:
+        for sha1 in seen:
+            cat.stdin.write((sha1 + '\n').encode())
+            cat.stdin.flush()
+            header = cat.stdout.readline().split()
+            if len(header) < 3 or header[1] != b'blob':
+                raise IndexFailure(f'{repo}: git cat-file returned no blob for {sha1}')
+            try:
+                n = int(header[2])
+            except ValueError as exc:
+                raise IndexFailure(f'{repo}: git cat-file returned a non-integer size for {sha1}') from exc
+            data = cat.stdout.read(n)
+            if len(data) != n or cat.stdout.read(1) != b'\n':
+                raise IndexFailure(f'{repo}: git cat-file truncated blob {sha1}')
+            data_by_sha[sha1] = data
+    except Exception:
+        cat.kill()
+        raise
+    finally:
+        try:
+            cat.stdin.close()
+        except (BrokenPipeError, OSError):
+            pass
+        err = cat.stderr.read() if cat.stderr else b''
+        rc = cat.wait()
+        _git_stderr(err)
+    if rc != 0:
+        raise IndexFailure(f'{repo}: git cat-file --batch exited {rc}')
+    return data_by_sha
 
 
 def cmd_index_git(args):
     index = {}
-    for spec in args.repos:
-        name, _, path = spec.partition('=')
-        repo = Path(path or name)
-        name = name if path else repo.name
-        seen = {}
-        for sha1, size, p in git_blobs(repo):
-            rec = seen.get(sha1)
-            if rec is None:
-                rec = seen[sha1] = {'size': size, 'paths': set()}
-            if p:
-                rec['paths'].add(p)
-        cat = subprocess.Popen(['git', '-C', str(repo), 'cat-file', '--batch'],
-                               stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        for sha1, rec in seen.items():
-            cat.stdin.write((sha1 + '\n').encode())
-            cat.stdin.flush()
-            header = cat.stdout.readline().split()
-            data = cat.stdout.read(int(header[2]))
-            cat.stdout.read(1)
-            key = f'{name}:{sha1}'
-            index[key] = {'repo': name, 'blob': sha1, 'size': rec['size'],
-                          'sha256': hashlib.sha256(data).hexdigest(),
-                          'dbx': dbx_hash_bytes(data),
-                          'paths': sorted(rec['paths'])[:20]}
-        cat.stdin.close()
-        cat.wait()
-        print(f'{name}: {len(seen)} blobs', file=sys.stderr)
-    Path(args.out).write_text(json.dumps(index, separators=(',', ':')))
-    print(json.dumps({'blobs': len(index), 'out': args.out}))
+    try:
+        for spec in args.repos:
+            name, _, path = spec.partition('=')
+            repo = Path(path or name)
+            name = name if path else repo.name
+            seen = {}
+            for sha1, size, p in git_blobs(repo):
+                rec = seen.get(sha1)
+                if rec is None:
+                    rec = seen[sha1] = {'size': size, 'paths': set()}
+                if p:
+                    rec['paths'].add(p)
+            for sha1, data in git_cat_blobs(repo, seen).items():
+                rec = seen[sha1]
+                index[f'{name}:{sha1}'] = {'repo': name, 'blob': sha1, 'size': rec['size'],
+                                           'sha256': hashlib.sha256(data).hexdigest(),
+                                           'dbx': dbx_hash_bytes(data),
+                                           'paths': sorted(rec['paths'])[:20]}
+            print(f'{name}: {len(seen)} blobs', file=sys.stderr)
+        # Written only after every repository has been read. A failure above
+        # leaves any previous --out untouched and does not publish {} or a
+        # partial repository set.
+        Path(args.out).write_text(json.dumps(index, separators=(',', ':')))
+        print(json.dumps({'blobs': len(index), 'out': args.out}))
+    except IndexFailure as exc:
+        print(json.dumps({'error': str(exc)}), file=sys.stderr)
+        return 1
 
 
 # -------------------------------------------------------------- index-drive
 
+_CATALOG_KEYS = ('artifacts', 'rows', 'sources')
+
+
+def _nonnegative_int(value, src: str, index: int):
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise IndexFailure(f'{src}: item {index} size is not a non-negative integer')
+    return value
+
+
+def catalog_rows(data, src: str):
+    """Rows from a catalog document.
+
+    Accepted shapes: a top-level list, or an object with exactly one of
+    `artifacts`, `rows` or `sources`. The conditional-expression form
+    `a.get('artifacts') or a.get('rows') or a if isinstance(a, list) else ...`
+    is intentionally not used: `or` binds tighter than `if`, so a list raises
+    AttributeError and a `rows` object is discarded.
+    """
+    if isinstance(data, list):
+        items = data
+    elif isinstance(data, dict):
+        found = [k for k in _CATALOG_KEYS if k in data]
+        if len(found) != 1:
+            raise IndexFailure(
+                f'{src}: catalog object must contain exactly one of {", ".join(_CATALOG_KEYS)}')
+        items = data[found[0]]
+        if not isinstance(items, list):
+            raise IndexFailure(f'{src}: {found[0]} is not a list')
+    else:
+        raise IndexFailure(f'{src}: catalog JSON must be a list or an object')
+    rows = []
+    for i, a in enumerate(items):
+        if not isinstance(a, dict):
+            raise IndexFailure(f'{src}: item {i} is not an object')
+        path = a.get('path', '')
+        if path is None:
+            path = ''
+        if not isinstance(path, str):
+            raise IndexFailure(f'{src}: item {i} path is not a string')
+        if path:
+            name = PurePosixPath(path).name
+        elif 'name' in a:
+            name = a['name']
+            if not isinstance(name, str):
+                raise IndexFailure(f'{src}: item {i} name is not a string')
+        else:
+            name = ''
+        if 'bytes' in a and a['bytes'] is not None:
+            size = _nonnegative_int(a['bytes'], src, i)
+        elif 'size' in a and a['size'] is not None:
+            size = _nonnegative_int(a['size'], src, i)
+        else:
+            size = None
+        raw = a.get('sha256')
+        if raw is None or raw == '':
+            sha = None
+        elif isinstance(raw, str) and re.fullmatch(r'[0-9a-fA-F]{64}', raw):
+            sha = raw.lower()
+        else:
+            raise IndexFailure(f'{src}: item {i} sha256 is not 64 hex characters')
+        repo = a.get('repository') or ''
+        if not isinstance(repo, str):
+            raise IndexFailure(f'{src}: item {i} repository is not a string')
+        rows.append({'name': name, 'size': size, 'sha256': sha,
+                     'where': f'{repo}:{path}', 'origin': 'catalog'})
+    return rows
+
+
 def cmd_index_drive(args):
     rows = []
-    for src in args.catalog or []:
-        data = json.loads(Path(src).read_text())
-        items = data.get('artifacts') or data.get('rows') or data if isinstance(data, list) else data.get('artifacts', [])
-        for a in items if isinstance(items, list) else []:
-            if not isinstance(a, dict):
-                continue
-            rows.append({'name': PurePosixPath(a.get('path', '')).name, 'size': a.get('bytes'),
-                         'sha256': a.get('sha256'), 'where': f"{a.get('repository', '')}:{a.get('path', '')}",
-                         'origin': 'catalog'})
-    for src in args.drive_csv or []:
-        with open(src, newline='', encoding='utf-8') as fh:
-            for r in csv.DictReader(fh):
-                low = {k.strip().lower(): (v or '').strip() for k, v in r.items() if k}
-                size = low.get('size') or low.get('bytes') or ''
-                path = low.get('original path') or low.get('member path') or low.get('path') or ''
-                sha = next((low[k] for k in ('source sha-256', 'payload sha-256', 'sha-256', 'sha256')
-                            if re.fullmatch(r'[0-9a-f]{64}', low.get(k, '').lower())), '')
-                carrier = low.get('carrier title')
-                rows.append({'name': PurePosixPath(path).name if path else (low.get('title') or low.get('name') or ''),
-                             'size': int(float(size)) if re.fullmatch(r'\d+(\.0+)?', size) else None,
-                             'sha256': sha.lower() or None,
-                             'where': (f'drive-archive:{carrier}!{path}' if carrier else
-                                       f"drive:{low.get('drive id') or low.get('id') or ''}:{path}"),
-                             'origin': PurePosixPath(src).stem})
-    for r in rows:
-        # A file of at most one 4 MiB block has content_hash = sha256(sha256(bytes)),
-        # so Drive's SHA-256 gives an exact Dropbox match without any download.
-        if r.get('sha256') and r.get('size') is not None and 0 < r['size'] <= BLOCK:
-            r['dbx'] = hashlib.sha256(bytes.fromhex(r['sha256'])).hexdigest()
-        elif r.get('size') == 0:
-            r['dbx'] = hashlib.sha256(b'').hexdigest()
-    Path(args.out).write_text(json.dumps(rows, separators=(',', ':')))
-    print(json.dumps({'drive_rows': len(rows), 'with_dbx': sum('dbx' in r for r in rows), 'out': args.out}))
+    try:
+        for src in args.catalog or []:
+            try:
+                text = Path(src).read_text()
+            except OSError as exc:
+                raise IndexFailure(f'{src}: cannot read catalog ({exc.strerror or exc})') from exc
+            try:
+                data = json.loads(text)
+            except json.JSONDecodeError as exc:
+                raise IndexFailure(
+                    f'{src}: malformed JSON ({exc.msg} at line {exc.lineno})') from exc
+            rows.extend(catalog_rows(data, src))
+        for src in args.drive_csv or []:
+            try:
+                fh = open(src, newline='', encoding='utf-8')
+            except OSError as exc:
+                raise IndexFailure(f'{src}: cannot read drive csv ({exc.strerror or exc})') from exc
+            with fh:
+                for r in csv.DictReader(fh):
+                    low = {k.strip().lower(): (v or '').strip() for k, v in r.items() if k}
+                    size = low.get('size') or low.get('bytes') or ''
+                    path = low.get('original path') or low.get('member path') or low.get('path') or ''
+                    sha = next((low[k] for k in ('source sha-256', 'payload sha-256', 'sha-256', 'sha256')
+                                if re.fullmatch(r'[0-9a-f]{64}', low.get(k, '').lower())), '')
+                    carrier = low.get('carrier title')
+                    rows.append({'name': PurePosixPath(path).name if path else (low.get('title') or low.get('name') or ''),
+                                 'size': int(float(size)) if re.fullmatch(r'\d+(\.0+)?', size) else None,
+                                 'sha256': sha.lower() or None,
+                                 'where': (f'drive-archive:{carrier}!{path}' if carrier else
+                                           f"drive:{low.get('drive id') or low.get('id') or ''}:{path}"),
+                                 'origin': PurePosixPath(src).stem})
+        for r in rows:
+            # A file of at most one 4 MiB block has content_hash = sha256(sha256(bytes)),
+            # so Drive's SHA-256 gives an exact Dropbox match without any download.
+            if r.get('sha256') and r.get('size') is not None and 0 < r['size'] <= BLOCK:
+                r['dbx'] = hashlib.sha256(bytes.fromhex(r['sha256'])).hexdigest()
+            elif r.get('size') == 0:
+                r['dbx'] = hashlib.sha256(b'').hexdigest()
+        # Written only after every catalog and CSV has been read. A failure
+        # above does not publish [] or a partial row set.
+        Path(args.out).write_text(json.dumps(rows, separators=(',', ':')))
+        print(json.dumps({'drive_rows': len(rows), 'with_dbx': sum('dbx' in r for r in rows), 'out': args.out}))
+    except IndexFailure as exc:
+        print(json.dumps({'error': str(exc)}), file=sys.stderr)
+        return 1
 
 
 # ----------------------------------------------------------------- classify

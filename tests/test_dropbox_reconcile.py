@@ -3,6 +3,7 @@ import hashlib
 import io
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -349,6 +350,177 @@ class Stage(unittest.TestCase):
         staged, _ = self.run_stage(['a/note.md', 'a/flagged.md'])
         self.assertEqual(len(staged), 1)
         self.assertTrue(staged[0].startswith('note.'))
+
+
+SHA_A = 'a' * 64
+
+
+def run_tool(argv):
+    out, err = io.StringIO(), io.StringIO()
+    old_out, old_err = sys.stdout, sys.stderr
+    sys.stdout, sys.stderr = out, err
+    try:
+        rc = dr.main(argv)
+    finally:
+        sys.stdout, sys.stderr = old_out, old_err
+    return rc, out.getvalue(), err.getvalue()
+
+
+class IndexDrive(unittest.TestCase):
+    """Catalog shapes must be indexed, and a bad catalog must not look empty."""
+
+    def index(self, payload, extra_catalogs=()):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            paths = []
+            if payload is not None:
+                text = payload if isinstance(payload, str) else json.dumps(payload)
+                (p / 'cat.json').write_text(text)
+                paths.append(str(p / 'cat.json'))
+            for i, extra in enumerate(extra_catalogs):
+                (p / f'extra{i}.json').write_text(extra if isinstance(extra, str) else json.dumps(extra))
+                paths.append(str(p / f'extra{i}.json'))
+            out = p / 'out.json'
+            rc, stdout, stderr = run_tool(['index-drive', '--catalog', *paths, '--out', str(out)])
+            written = json.loads(out.read_text()) if out.exists() else None
+            return rc, stdout, stderr, written
+
+    def assert_one_row(self, payload, name, size, sha=SHA_A):
+        rc, stdout, stderr, rows = self.index(payload)
+        self.assertEqual(rc, 0, stderr)
+        summary = json.loads(stdout)
+        self.assertEqual(summary['drive_rows'], 1)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['name'], name)
+        self.assertEqual(rows[0]['size'], size)
+        self.assertEqual(rows[0]['sha256'], sha)
+        self.assertEqual(rows[0]['dbx'], hashlib.sha256(bytes.fromhex(sha)).hexdigest())
+        return rows[0]
+
+    def test_top_level_list(self):
+        row = self.assert_one_row(
+            [{'path': 'notes/proof.md', 'bytes': 12, 'sha256': SHA_A, 'repository': 'Math-'}],
+            'proof.md', 12)
+        self.assertEqual(row['where'], 'Math-:notes/proof.md')
+
+    def test_artifacts_object(self):
+        self.assert_one_row(
+            {'artifacts': [{'path': 'proof.md', 'bytes': 12, 'sha256': SHA_A, 'repository': 'main'}]},
+            'proof.md', 12)
+
+    def test_rows_object(self):
+        # The reported probe: a dict `rows` list was discarded and an empty
+        # index was written with exit 0. `or` binds tighter than `if/else`.
+        row = self.assert_one_row(
+            {'rows': [{'name': 'proof.md', 'size': 12, 'sha256': SHA_A}]},
+            'proof.md', 12)
+        self.assertEqual(row['where'], ':')
+
+    def test_sources_object_matches_public_catalog_pages(self):
+        self.assert_one_row(
+            {'sources': [{'path': 'README.md', 'bytes': 4, 'sha256': SHA_A, 'repository': 'main'}]},
+            'README.md', 4)
+        page = Path(__file__).resolve().parents[1] / 'docs/public-math/sources-01.json'
+        data = json.loads(page.read_text())
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / 'out.json'
+            rc, stdout, stderr = run_tool(['index-drive', '--catalog', str(page), '--out', str(out)])
+            self.assertEqual(rc, 0, stderr)
+            self.assertEqual(json.loads(stdout)['drive_rows'], len(data['sources']))
+            rows = json.loads(out.read_text())
+        self.assertEqual(rows[0]['name'], data['sources'][0]['path'])
+        self.assertEqual(rows[0]['size'], data['sources'][0]['bytes'])
+        self.assertEqual(rows[0]['sha256'], data['sources'][0]['sha256'])
+
+    def test_explicit_empty_list_is_a_real_empty_index(self):
+        rc, stdout, stderr, rows = self.index({'artifacts': []})
+        self.assertEqual(rc, 0, stderr)
+        self.assertEqual(json.loads(stdout)['drive_rows'], 0)
+        self.assertEqual(rows, [])
+
+    def test_malformed_json_shape_is_not_an_empty_inventory(self):
+        cases = {
+            'string': '"proof.md"',
+            'number': '12',
+            'empty-object': '{}',
+            'rows-not-a-list': '{"rows": {"name": "proof.md"}}',
+            'artifacts-not-a-list': '{"artifacts": "proof.md"}',
+            'sources-item-not-object': '{"sources": ["proof.md"]}',
+            'ambiguous-keys': json.dumps({'artifacts': [], 'rows': [{'name': 'proof.md', 'size': 12, 'sha256': SHA_A}]}),
+            'broken-json': '{',
+        }
+        for label, payload in cases.items():
+            with self.subTest(label):
+                rc, stdout, stderr, rows = self.index(payload)
+                self.assertNotEqual(rc, 0)
+                self.assertIsNone(rows)
+                self.assertEqual(stdout.strip(), '')
+                self.assertIn('error', stderr)
+
+    def test_second_catalog_failure_does_not_publish_partial_rows(self):
+        rc, stdout, stderr, rows = self.index(
+            [{'name': 'proof.md', 'size': 12, 'sha256': SHA_A}],
+            extra_catalogs=['{'])
+        self.assertNotEqual(rc, 0, stderr)
+        self.assertIsNone(rows)
+        self.assertEqual(stdout.strip(), '')
+        self.assertIn('error', stderr)
+
+
+def git_repo(path: Path, body=b'hello\n'):
+    path.mkdir()
+    subprocess.run(['git', 'init', '-q', '-b', 'main'], cwd=path, check=True)
+    subprocess.run(['git', '-C', str(path), 'config', 'user.email', 'index-test@example.com'], check=True)
+    subprocess.run(['git', '-C', str(path), 'config', 'user.name', 'Index Test'], check=True)
+    (path / 'proof.md').write_bytes(body)
+    subprocess.run(['git', '-C', str(path), 'add', 'proof.md'], check=True)
+    subprocess.run(['git', '-C', str(path), 'commit', '-q', '-m', 'add'], check=True)
+
+
+class IndexGit(unittest.TestCase):
+    def test_repository_blob_is_indexed(self):
+        body = b'hello\n'
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            git_repo(p / 'repo', body)
+            out = p / 'result.json'
+            rc, stdout, stderr = run_tool(['index-git', f'demo={p / "repo"}', '--out', str(out)])
+            self.assertEqual(rc, 0, stderr)
+            self.assertEqual(json.loads(stdout)['blobs'], 1)
+            rec = next(iter(json.loads(out.read_text()).values()))
+            self.assertEqual(rec['repo'], 'demo')
+            self.assertEqual(rec['paths'], ['proof.md'])
+            self.assertEqual(rec['size'], len(body))
+            self.assertEqual(rec['sha256'], hashlib.sha256(body).hexdigest())
+            self.assertEqual(rec['dbx'], dr.dbx_hash_bytes(body))
+
+    def test_unreadable_repository_is_not_an_empty_inventory(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            missing = p / 'not-a-repository'
+            missing.mkdir()
+            out = p / 'result.json'
+            rc, stdout, stderr = run_tool(['index-git', str(missing), '--out', str(out)])
+            self.assertNotEqual(rc, 0)
+            self.assertFalse(out.exists())
+            self.assertEqual(stdout.strip(), '')
+            self.assertIn('error', stderr)
+            self.assertIn('rev-list', stderr)
+            self.assertIn('fatal:', stderr)
+
+    def test_later_repository_failure_does_not_publish_partial_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d)
+            git_repo(p / 'ok')
+            bad = p / 'not-a-repository'
+            bad.mkdir()
+            out = p / 'result.json'
+            rc, stdout, stderr = run_tool(
+                ['index-git', f'ok={p / "ok"}', f'bad={bad}', '--out', str(out)])
+            self.assertNotEqual(rc, 0)
+            self.assertFalse(out.exists())
+            self.assertEqual(stdout.strip(), '')
+            self.assertIn('error', stderr)
 
 
 if __name__ == '__main__':
