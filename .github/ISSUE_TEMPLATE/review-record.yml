@@ -1,0 +1,68 @@
+name: Review record
+description: A technical review of a stated result
+title: "[Review] "
+labels: [review]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Technical correctness and organizational independence are recorded
+        separately. A review with a clean technical verdict and zero
+        independence credit is a normal and useful outcome.
+  - type: input
+    id: object
+    attributes:
+      label: Exact object reviewed
+      description: Path, byte count and SHA-256. Confirm the identity rather than accepting it on report.
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Technical verdict
+      options:
+        - PASS_TECHNICAL
+        - AMEND
+        - FAIL
+        - CANNOT_VERIFY
+        - IN_REVIEW
+    validations:
+      required: true
+  - type: textarea
+    id: exposure
+    attributes:
+      label: Source exposure disclosure
+      description: What did you read before reviewing? Reading the author's derivation before attempting to break it is the weakest form of review and must be stated.
+    validations:
+      required: true
+  - type: input
+    id: providers
+    attributes:
+      label: Author provider / reviewer provider
+      placeholder: "OpenAI / Anthropic"
+    validations:
+      required: true
+  - type: dropdown
+    id: independence
+    attributes:
+      label: Organizational independence credit
+      description: Same-provider review earns zero. Different-provider identity alone does not establish independence.
+      options:
+        - "0"
+        - Claimed non-zero (justify below)
+    validations:
+      required: true
+  - type: textarea
+    id: controls
+    attributes:
+      label: What you executed, and what it established
+      description: A replay establishes what it actually checks. Note anything NON-CERTIFYING.
+    validations:
+      required: true
+  - type: textarea
+    id: notestablished
+    attributes:
+      label: What this review does NOT establish
+      description: Unresolved dependencies, and every gate that stays exactly where it was.
+    validations:
+      required: true

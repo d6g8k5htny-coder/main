@@ -1,0 +1,29 @@
+name: public-shop
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-shop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Status-export negative controls
+        run: python3 -B -m unittest discover -s tests -p test_public_shop_data.py
+      - name: Browser data-validation controls
+        run: node --test tests/test_public_shop_frontend.mjs
+      - name: Museum source projection and refusal controls
+        run: |
+          python3 -B -m unittest discover -s tests -p test_museum_data.py
+          python3 -B tools/museum_check.py
+          node --test tests/test_museum_geometry.mjs
+      - name: Pinned public source readback and interaction harness
+        run: python3 -B tools/public_shop_check.py
