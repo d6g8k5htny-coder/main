@@ -1,0 +1,11 @@
+name = "UniversalLaw"
+defaultTargets = ["UniversalLaw"]
+
+# Layer 1 (formal) pilot. Deliberately dependency-free: every theorem in this
+# library is checked by the Lean 4 kernel from core Lean alone, so `lake build`
+# needs no Mathlib cache, no network after the toolchain download, and finishes
+# in seconds. Adding Mathlib is the documented next step for statements that
+# need real analysis (see README.md, "Expansion path").
+
+[[lean_lib]]
+name = "UniversalLaw"
