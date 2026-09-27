@@ -6,7 +6,6 @@ const SOURCE_SHA256='83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3
 const SOURCE_BLOB='044ac5fdaf403a38e33983e31f0ad69f8e76d6d5';
 const encoder=new TextEncoder(),decoder=new TextDecoder('utf-8',{fatal:true});
 const hex40=v=>typeof v==='string'&&/^[0-9a-f]{40}$/.test(v);
-const hex64=v=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v);
 
 function validateSource(source){
   if(!source||source.repository!=='d6g8k5htny-coder/Math-'||!hex40(source.commit)||source.commit!==SOURCE_COMMIT
@@ -94,34 +93,20 @@ export function renderProjection(document,host,data,source){
     el(document,'p','Generated from verified source bytes. This graph is not formal verification, a proof review, or a scientific-status register.'));
   host.replaceChildren(article);
 }
-async function services(){
-  const [museum,core]=await Promise.all([import('./museum.mjs'),import('./core.mjs')]);
-  return {...museum,verifiedBytes:core.verifiedBytes};
-}
+const services=()=>import('./museum.mjs');
+// The museum module already verifies config → manifest → index/status once per
+// page fetch and caches every pinned byte request. This route consumes that same
+// verified startup, so it adds only the audited-descriptor check and projection.
 export async function startConditionals({document=globalThis.document,fetcher=globalThis.fetch,loadServices=services}={}){
   const host=document?.getElementById('conditional-route');if(!host)return false;
   host.replaceChildren(el(document,'p','Verifying the conditional route source…'));
   try{
     const s=await loadServices();
-    const fresh=(url,options)=>fetcher(url,{...options,cache:'no-store'});
-    const response=await s.boundedFetch('config.json',fresh,32*1024);
-    if(!response.ok)throw Error('Museum config unavailable');
-    const config=JSON.parse(decoder.decode(response.bytes)),pin=config.museum_json;
-    if(pin?.url!=='museum.json'||!hex64(pin.sha256)||!Number.isSafeInteger(pin.bytes)||pin.bytes<1||pin.bytes>256*1024)
-      throw Error('Invalid museum manifest identity');
-    const cache=new Map();
-    const checkedFetch=url=>{
-      if(!cache.has(url))cache.set(url,s.boundedFetch(url,url==='museum.json'?fresh:fetcher,url==='museum.json'?pin.bytes:2*1024*1024));
-      return cache.get(url).then(r=>({ok:r.ok,status:r.status,arrayBuffer:async()=>r.bytes.buffer}));
-    };
-    const manifest=JSON.parse(decoder.decode(await s.verifiedBytes(pin,checkedFetch)));
-    s.validateDescriptor(manifest.index_source);s.validateDescriptor(manifest.status_source);
-    const [index,status]=await Promise.all([s.verifiedBytes(manifest.index_source,checkedFetch),s.verifiedBytes(manifest.status_source,checkedFetch)]);
-    s.validateBoundManifest(manifest,decoder.decode(index),decoder.decode(status));
+    const {manifest,cachedFetch}=await s.verifiedMuseum({fetcher});
     const selected=manifest.claims.filter(c=>c.id===CLAIM_ID);
     if(selected.length!==1)throw Error('Conditional source claim is missing or duplicated');
     const claim=selected[0];validateSource(claim.proof);
-    const {proofText}=await s.verifyClaim(claim,checkedFetch);
+    const {proofText}=await s.verifyClaim(claim,cachedFetch);
     const data=await projectVerified(encoder.encode(proofText),claim.proof);
     renderProjection(document,host,data,claim.proof);return true;
   }catch(error){host.replaceChildren(el(document,'p',`Unavailable: ${error.message}. No conditional result inferred.`));return false;}

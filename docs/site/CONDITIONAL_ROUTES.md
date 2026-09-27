@@ -33,11 +33,16 @@ No independence credit, lemma closure or promotion is computed here.
 
 ## One projection, two interfaces
 
-The browser verifies the existing config-to-manifest digest, central source
-projection and linked proof/review bytes through the existing museum functions.
+The browser reuses the museum module's single verified startup
+(`verifiedMuseum`): config-to-manifest digest, central source projection and the
+per-page byte cache are fetched and verified once per page fetch and shared by
+`museum.mjs` and `conditionals.mjs`, so the route repeats no central request and
+reads the cumulative proof bytes from the same cache the claim card verified.
 It then checks the audited proof descriptor and its complete byte and Git-blob
-identities before parsing any hypotheses. A failed load clears the conditional
-view and reports unavailable. Source text is rendered with textContent, not HTML.
+identities before parsing any hypotheses. A rejected startup is not retained; a
+later caller re-verifies instead of inheriting a stale refusal. A failed load
+clears the conditional view and reports unavailable. Source text is rendered
+with textContent, not HTML.
 The new HTML section is an accessible text dependency view, not a new 3D exhibit.
 
 The read-only CLI uses the same projection function. It checks the existing
@@ -51,7 +56,7 @@ changes, extra nodes, cycles or status fields are refused rather than adopted.
 Run from the main repository root:
 
 ```sh
-node --test tests/test_museum_conditionals.mjs tests/test_museum_conditionals_cli.mjs tests/test_museum_identity.mjs
+node --test tests/test_museum_conditionals.mjs tests/test_museum_conditionals_startup.mjs tests/test_museum_conditionals_cli.mjs tests/test_museum_identity.mjs
 node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt > /tmp/conditional-route.json
 node tools/museum_conditionals.mjs --source tests/fixtures/cumulative_transfer_source.txt --check /tmp/conditional-route.json
 ```
@@ -77,8 +82,12 @@ museum's accepted result cards. Neither supplies the additional-witness
 covariance or determinant-weighted Palm estimate. query- remains a read-only
 identity lookup.
 
-Local verification covers the new module, CLI, source integrity, HTML wiring and
-a lightweight DOM refusal harness. It is not a real-browser, layout, GPU or live
+Local verification covers the new module, CLI, source integrity, HTML wiring,
+a lightweight DOM refusal harness, and a mocked successful browser startup
+(`tests/test_museum_conditionals_startup.mjs`): shared config/manifest reuse
+with `startMuseum`, claim selection, proof loading, host replacement, and the
+fail-closed paths for altered proof bytes, a non-audited descriptor and a stale
+manifest. It is not a real-browser, layout, GPU or live
 network test, nor a replay of every unrelated repository test. The hosted workflow
 records its own results. A draft PR is not a deployed change to the public site.
 
