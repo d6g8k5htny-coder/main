@@ -134,9 +134,27 @@ agents opened new work.
 | [#176](https://github.com/d6g8k5htny-coder/main/pull/176) | Reviewed, merged (f8591b0) | Documentation only: two exact recoveries from Library originals, nine identities open; alias and origin distinctions checked; the recovered files' digests are not re-derivable here |
 | [#177](https://github.com/d6g8k5htny-coder/main/pull/177) | Merged by its author (4049386) | Formal-verification guide pointing at the `Math-` PR92 pilot; coordination note posted there because this integration cannot comment on issues |
 | [#178](https://github.com/d6g8k5htny-coder/main/pull/178) | Conflict resolved, reviewed, merged (eaf1264) | Second Lean pilot (`formal/`, core Lean v4.34.1, SIDE24 arithmetic skeleton). Replayed here with the workflow's pinned elan digest: `lake build` OK, 31 declarations axiom-free, gate `problems: []`, 38 controls and 165 repository tests in both modes, source pins hash-equal `Math-@9d7b680`. The `AGENTS.md` conflict with #177 was resolved to name both pilots and forbid a third registry. All 31 alignment reviews remain `open`; the two pilots have no registry crosswalk yet |
-| [#172](https://github.com/d6g8k5htny-coder/main/pull/172) | Open (draft, author pushing) | Author merged the fail-closed `--allow` fix and added per-file extraction-error recording, `pack`/`report` stages and `governance/OP-PRIVACY-20260927.md`; 147 tests OK on `63dbb6f`; hosted checks green. Left for the author to mark ready |
+| [#172](https://github.com/d6g8k5htny-coder/main/pull/172) | Open at the time of this section; see §7 | Author merged the fail-closed `--allow` fix and added per-file extraction-error recording, `pack`/`report` stages and `governance/OP-PRIVACY-20260927.md`; 147 tests OK on `63dbb6f`; hosted checks green. Left for the author to mark ready |
 
 Standing capability limits observed in this pass: the integration token cannot
 comment on issues, edit labels, reopen issues or call update-branch; those were
 worked around through PR comments, merged PR bodies and local merges pushed to
 the PR branches.
+
+## 7. Evening: formal lane repairs and the #172 split
+
+Added after §6 was merged (4b709de).
+
+| Item | Disposition | What ran and what stays uncertain |
+|---|---|---|
+| [#180](https://github.com/d6g8k5htny-coder/main/pull/180) | Merged by its author (4c5bc12) | Release custody: `tools/release_snapshot.py` snapshots ten repositories and replays the pinned Lean toolchain. Not re-executed here beyond the repository test suite |
+| [#181](https://github.com/d6g8k5htny-coder/main/pull/181) | `main` merged into the branch locally, then merged (447a77f) | `formal/` converged onto the `Math-` lane contract: manifest sidecar, receipt-only `kernel-checked`, alignment validator. Gate replay recorded in `gate181.log`; a fail-open shell in the workflow was reported by its reviewer after the merge and repaired in #183 |
+| [#182](https://github.com/d6g8k5htny-coder/main/pull/182) | Merged by its author (da70f3c); reviewed after merge | Public entry points for the recovered-source routes and the enriched nine-target table. The recovered digests stand on `Math-` PR94/PR95 evidence |
+| [#183](https://github.com/d6g8k5htny-coder/main/pull/183) | Reviewed, merged (d0c0512) | Workflow `defaults.run.shell: bash`, an actual-shell probe that must propagate a producer exit 17, conditional summary, five shell tests. Reproduced: `bash -e` returns 0 for the failing pipe, `bash -eo pipefail` returns 17. Hosted `kernel-check` 36356253061 on the exact head: probe PASS, `build`/`leanchecker`/`axioms` exit 0, receipt uploaded. Note left on the PR: the reject-control test passes vacuously where `python` is absent from `PATH` |
+| [#172](https://github.com/d6g8k5htny-coder/main/pull/172) | Closed as superseded; branch and discussion preserved | Its reviewer asked for scope isolation at head 668711f (114 files). Split into three successors, each byte-identical to that head for its files and merged serially on an up-to-date `main` with hosted checks green: #185 governance directive (cdf8722), #184 tool and tests (648b024), #186 Dropbox intake (aa422b1). Custody check on the intake: 107/107 archive SHA-256 and 93/93 Dropbox `content_hash` matches. Privacy screen over all published bytes: ten regex hits, all false positives; no personal information; nothing purged. Not established: that agents read every imported file in full, and the Math- fitness of the eleven `Math-imports-candidate` rows |
+
+[OP-PRIVACY-20260927](../governance/OP-PRIVACY-20260927.md) is now on `main`
+and applies to every later import. The `dropbox_reconcile.py` real run (5,105
+files classified, 373 `MISSING`) remains the author's private-scratch report;
+only its published outcome was checked here. Open issues (#63, #67, #86, #94,
+#95, #113, #117, #141–#144, #146) keep the reasons recorded in §4.
