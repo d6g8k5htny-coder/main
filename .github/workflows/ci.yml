@@ -11,18 +11,18 @@ defaults:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, reviewed 2026-09-22
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, reviewed 2026-09-22
         with:
-          python-version: "3.11"
+          python-version: "3.11.16"
       - name: Install test dependencies
-        run: python -m pip install --upgrade pip pytest
+        run: "python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock"
       - name: Registers round-trip from the source export
         run: python tools/registers_import.py --check
       - name: Register structural invariants (modulo documented findings)
@@ -31,14 +31,26 @@ jobs:
         run: python tools/provenance_check.py
       - name: Claim-graph firewalls
         run: python tools/claims_check.py
+      - name: Synthetic loss-only withdrawal (pilot, no scientific migration)
+        run: python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json
+      - name: Governance rollout shadow controls (no live admission)
+        run: python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json
+      - name: Every float path is labelled NON-CERTIFYING, or declared with a reason
+        run: python tools/noncertifying_check.py
       - name: Logical quarantine is enforced
         run: python tools/quarantine_check.py
+      - name: Vault listing matches inventory; vault ids stay unstored
+        run: python tools/vault_hygiene_check.py
       - name: Content manifests (SHA-256 and byte counts)
         run: python tools/verify_manifests.py
       - name: Strict manifest integrity (pinned coverage, explicit exclusions)
         run: python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json
       - name: Review records (zero independence credit, no gate moved)
         run: python tools/reviews_check.py
+      - name: Architectural admission attestations (fail-closed, no grade changed)
+        run: python tools/attestations_check.py
+      - name: Coordination board (no two agents over the same paths, no status moved)
+        run: python tools/coordination_check.py
       - name: Recovered exceptions (candidates never stored as recoveries)
         run: python tools/recovery_check.py
       - name: Collision proposal (additive only, exported registers untouched)
@@ -57,6 +69,8 @@ jobs:
         run: python tools/slack_check.py
       - name: Receipts (schema, append-only, no receipt claims a status change)
         run: python tools/receipts_check.py
+      - name: Imported custody publications (retained byte for byte; supplements generated, never typed)
+        run: python tools/custody_import.py --check
       - name: Frozen objects (register vs source-map digests, offline; body classes not comparable)
         run: python tools/frozen_check.py
       - name: Execution bridge records (orders, receipts, examples; schema and freeze only, no enforcement)
@@ -67,6 +81,10 @@ jobs:
         run: python tools/mirror_quotes_check.py
       - name: Mirror lane index is generated from the manifests, not typed
         run: python tools/mirrors_index_check.py
+      - name: Certificate source bindings still match the tree, and the index names them
+        run: python tools/pinned_sources_check.py
+      - name: An asserted operator directive cites its source (presence of sourcing, not truth)
+        run: python tools/operator_directive_check.py
       - name: Drive source map is queryable
         run: python tools/drive_index.py stats
       - name: Scoped Drive coverage and exact packed-byte reconstruction
@@ -103,5 +121,17 @@ jobs:
         run: python tools/lpw_amplitude_check.py
       - name: Validate the scoped automated closure plan
         run: python tools/closure_pipeline.py check-plan
+      - name: Math status packet (OPEN/HOLD only; flags stay false)
+        run: python tools/math_status_check.py
+      - name: Scientific-state schema/authority/crosswalk (pointers only; effect NONE)
+        run: python tools/scientific_state_check.py
+      - name: Claims→gate #90 tip-health (identity only; not base→head evidence)
+        run: python tools/claims_gate_adapter.py tip-health
+      - name: Claims→gate #90 event base→head compare (immutable refs; impact≠illegal)
+        run: python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json
+      - name: Declared navigation links and anchors
+        run: python tools/navigation_check.py
+      - name: Navigation synthetic controls
+        run: python -m unittest tests.test_navigation -v
       - name: Unit tests and negative controls
         run: python -m pytest -q

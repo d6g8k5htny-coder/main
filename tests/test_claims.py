@@ -245,8 +245,10 @@ def route_transcription_mismatches(g: dict) -> list[tuple[str, str, object, obje
     cites. Empty when the graph transcribes the register."""
     import json as _json
     import re as _re
-    rq = _json.load(open(os.path.join(ROOT, "registers", "json", "review_queue.json"), encoding="utf-8"))
-    ecq = _json.load(open(os.path.join(ROOT, "registers", "json", "easy_closure_queue.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "review_queue.json"), encoding="utf-8") as handle:
+        rq = _json.load(handle)
+    with open(os.path.join(ROOT, "registers", "json", "easy_closure_queue.json"), encoding="utf-8") as handle:
+        ecq = _json.load(handle)
     rh, eh = rq["header"], ecq["header"]
     rrows = {r[rh.index("Review key")]: r for r in rq["rows"]}
     erows = {r[eh.index("Candidate ID")]: r for r in ecq["rows"]}
@@ -518,7 +520,8 @@ def test_a_retraction_record_without_a_register_status_is_refused():
 def test_theorem_b_register_status_is_the_register_row_verbatim():
     """The graph node transcribes the register; it may not paraphrase it."""
     import json as _json
-    ac = _json.load(open(os.path.join(ROOT, "registers", "json", "automation_config.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "automation_config.json"), encoding="utf-8") as handle:
+        ac = _json.load(handle)
     row = [r for r in ac["rows"] if r[0] == "THEOREM_B_CURRENT_STATUS"][0]
     node = graph()["claims"]["Q0-C104-THEOREM-B"]
     assert node["register_status"] == row[1]
@@ -552,7 +555,8 @@ def _side24_mismatches(g):
     import json as _json
     out = []
     node = g["claims"]["SIDE24-3D-AO48-OPR-045"]
-    od = _json.load(open(os.path.join(ROOT, "registers", "json", "operator_decisions.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "registers", "json", "operator_decisions.json"), encoding="utf-8") as handle:
+        od = _json.load(handle)
     row = [r for r in od["rows"] if r[0] == "AO48-OPR-045"][0]
     if node.get("register_status") != row[5]:
         out.append(("register_status", node.get("register_status"), row[5]))
@@ -573,7 +577,8 @@ def _side24_mismatches(g):
     if not os.path.isfile(mp):
         out.append(("mirror_path", node.get("mirror_path"), "missing"))
     else:
-        b = open(mp, "rb").read()
+        with open(mp, "rb") as handle:
+            b = handle.read()
         if _h.sha256(b).hexdigest() != node.get("body_sha256") or len(b) != node.get("body_bytes"):
             out.append(("mirror bytes", _h.sha256(b).hexdigest(), node.get("body_sha256")))
         text = b.decode("utf-8")
@@ -638,3 +643,45 @@ def test_the_five_original_firewalls_are_still_declared():
     for added in ("FW-LM011-PRECONDITION", "FW-NO-RECEIPT-PROMOTION",
                   "FW-FLOAT-NOT-CERTIFIED", "FW-RETRACTED-NOT-UNCONDITIONAL"):
         assert added in ids
+
+
+# --------------------------------------------------------------------------
+# 2026-09-25 fail-closed claim-audit controls
+# --------------------------------------------------------------------------
+
+
+def test_d1_rung_preserves_source_label_but_fails_closed_operationally():
+    g = graph()
+    node = g["claims"]["D1-v2.2(1)"]
+    assert node["source_grade_verbatim"] == "CERTIFIED_RUNG"
+    assert node["grade"] == "CONDITIONAL"
+    assert node["audit_disposition"] == "HOLD_WITH_DOMAIN"
+    assert "D3-LEMMA-RN-UNIF" in node["depends_on"]
+    assert g["premises"]["D3-LEMMA-RN-UNIF"]["status_frozen_v2_2"] == "NOT_CLOSED"
+
+
+def test_rejects_certified_rung_while_named_premise_is_open():
+    g = graph()
+    g["claims"]["D1-v2.2(1)"]["grade"] = "CERTIFIED_RUNG"
+    assert run_on(g) == 1
+
+
+def test_q0_core_availability_manifest_matches_checkout():
+    path = os.path.join(ROOT, "claims", "q0_core_availability.json")
+    with open(path, encoding="utf-8") as handle:
+        availability = json.load(handle)
+    for name, entry in availability["objects"].items():
+        if entry["status"] == "PRESENT_EXACT":
+            assert os.path.isfile(os.path.join(ROOT, entry["path"])), name
+    ledger = availability["objects"]["Q0_LEDGER.md"]
+    assert ledger["status"] == "PRESENT_EXACT"
+    ledger_path = os.path.join(ROOT, ledger["path"])
+    assert os.path.isfile(ledger_path)
+    import hashlib as _hashlib
+    with open(ledger_path, "rb") as handle:
+        payload = handle.read()
+    assert len(payload) == ledger["bytes"] == 253067
+    assert _hashlib.sha256(payload).hexdigest() == ledger["sha256"] == "d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a"
+    companion = os.path.join(ROOT, "drive", "mirrors", "14_COORDINATION_AUTOMATION_SPINE", "04.2_NAVIGATION_COMPANIONS", "Q0_LEDGER — NAVIGATION COMPANION (headers duplicated, with context).export.txt")
+    assert os.path.isfile(companion)
+    assert os.path.getsize(companion) != len(payload)

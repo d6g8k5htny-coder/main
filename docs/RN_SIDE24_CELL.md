@@ -7,6 +7,12 @@ and division by the separately imported H3 floor. It provides no complete
 annulus cover, remote-budget assembly or all-small-r theorem; it changes no
 scientific status and earns zero organizational independence credit.
 
+Prep order is [RN_SIDE24.md](RN_SIDE24.md), then
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md), then this note. The ABSENT /
+REFUSED / OPEN walls for this step are under
+[Prep path and honesty walls](#prep-path-and-honesty-walls).
+`field_certified` stays false.
+
 At the declared square
 
 \[
@@ -236,3 +242,62 @@ kernel, Gaussian projection, integral increment and covariance arguments above
 establish the continuum claim. The producer, replay, point and cell paths share
 certified interval primitives and source conventions; technical cross-checks
 do not manufacture organizational independence or change source status.
+
+## Prep path and honesty walls
+
+This note is step 3. It uses the point law in [RN_SIDE24.md](RN_SIDE24.md) and
+the density/window factor plus the imported H3 floor in
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md). It does not replace either note.
+The lane pointer is [RESEARCH_MAP.md](RESEARCH_MAP.md) §3. The matching
+command is in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md).
+
+**Where the rectangle and budget are checked.** The larger rectangle, its
+four-cell split and the local budget are not in this note. They are checked by
+[`tools/rn_side24_spatial_check.py`](../tools/rn_side24_spatial_check.py)
+against the stored candidate
+[`research/rn/candidates/side24_spatial_20260920_v1.json`](../research/rn/candidates/side24_spatial_20260920_v1.json).
+The checker fixes
+`RECTANGLE = Box(F(1999, 2000), F(2001, 2000), F(1999, 2000), F(2001, 2000))`
+and `LOCAL_BUDGET = F(3, 500000000000)`. Its replay expects one retained
+`INCONCLUSIVE` parent and four `BOUNDED` child cells, and a complete local
+cover whose integral upper is at most `3/500000000000`. The spatial claim of
+this note stays the declared square C above. The rectangle, the four-cell
+partition and the budget are the checker's engineering replay. They are not an
+enlarged claim of this note, and they are not discharge. The checker scope
+records `near_annulus_covered: false`, `independence_credit: 0` and
+`h3_floor_status: EXPLICIT_IMPORTED_HYPOTHESIS`: the H3 floor is imported and
+is not re-proved here. SIDE24 source-of-truth carriers for the objects marked
+**ABSENT** below stay **ABSENT**.
+
+**Frozen importer errata.** `docs/OPEN_PROBLEMS.md` §A5 (lines 116-120) still
+credits this note with the rectangle, its four-cell split and the `6e-12`
+budget. That file is byte-frozen by a pinned campaign archive, so the scoped
+reading is recorded beside it, as E1 in
+[OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md](OPEN_PROBLEMS_FROZEN_ERRATA_20260925.md).
+The downstream map is
+[DOWNSTREAM_RN_CROSSWALK_20260925.md](DOWNSTREAM_RN_CROSSWALK_20260925.md).
+These pages are navigation only. The spatial claim of this note stays the
+declared square C.
+
+**ABSENT** from this note: a complete annulus cover, a remote-budget assembly,
+an all-small-r theorem, and a positive lower bound on the typed integrand.
+`field_certified` stays false. A local rectangle does not supply those absent
+objects, and this note does not invent a source of truth for them.
+
+**REFUSED**, as already stated above: boxes that contain a fixed pin, a failed
+covariance pivot, and an exhausted arithmetic budget. A failed pivot or an
+exhausted budget cannot produce an accepted upper. The square of half-width
+1/1000 at (1,1) fails the sufficient marginal pivot check, while half-width
+1/4000 succeeds. Those refusals do not disprove the field covariance.
+
+**OPEN:** the declared square is the whole spatial claim of this note. The
+complete annulus cover, remote-budget assembly, and all-small-r theorem stay
+open. Piece 2 of `D3-LEMMA-RN-UNIF` stays OPEN, as
+[RESEARCH_MAP.md](RESEARCH_MAP.md) §3 already records. `D3-LEMMA-RN-UNIF`
+stays OPEN. `OBL-H5-JETMOD` stays OPEN. `lemma_closed`,
+`certified_C_H`, and `prizes_solved` stay false. A green run of
+`tools/rn_side24_spatial_check.py` is an engineering check. It is not
+discharge. Independence credit stays zero. SIDE24 has no new source-of-truth
+carrier after 2026-08-06. Carriers for the objects marked **ABSENT** above
+stay **ABSENT**. Quarantine is not a source of truth.
+`inventable_attempt_accepted` stays false.

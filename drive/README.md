@@ -65,7 +65,10 @@ It **is not** proof of anything mathematical, and it does not override a
 register status. Catalog presence or omission never establishes a claim. The
 `99_DO_NOT_OPEN` vault appears in the inventory as metadata only; its contents
 are deliberately not mirrored, per the standing order that models must not open
-it for authority.
+it for authority. `drive/vault_tree.txt` is that listing and is not a fetch list;
+`tools/vault_hygiene_check.py` recomputes it from this inventory. A path that
+merely contains the letters `DO_NOT_OPEN` is not the vault. The map is
+[`quarantine/PATHS.md`](../quarantine/PATHS.md). Quarantine is not a source of truth.
 
 New or changed sources require a scoped refresh. Check the original source ID
 and SHA-256 before reusing anything derived from this snapshot.

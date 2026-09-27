@@ -43,10 +43,16 @@ REQUIRED_COMMANDS = (
     "python tools/registers_check.py",
     "python tools/provenance_check.py",
     "python tools/claims_check.py",
+    "python tools/withdrawal_check.py check --before governance/withdrawal/examples/before.json --after governance/withdrawal/examples/after.json --ticket governance/withdrawal/examples/ticket.json",
+    "python tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json",
+    "python tools/noncertifying_check.py",
     "python tools/quarantine_check.py",
+    "python tools/vault_hygiene_check.py",
     "python tools/verify_manifests.py",
     "python tools/manifest_integrity_check.py --coverage .github/manifest-coverage.json",
     "python tools/reviews_check.py",
+    "python tools/attestations_check.py",
+    "python tools/coordination_check.py",
     "python tools/recovery_check.py",
     "python tools/collision_proposal_check.py",
     "python tools/collision_proposal_check.py --proposal registers/collision_proposal_2026-09-19.json",
@@ -56,11 +62,14 @@ REQUIRED_COMMANDS = (
     "python tools/lanes_check.py",
     "python tools/slack_check.py",
     "python tools/receipts_check.py",
+    "python tools/custody_import.py --check",
     "python tools/frozen_check.py",
     "python tools/bridge_check.py",
     "python tools/operations_check.py",
     "python tools/mirror_quotes_check.py",
     "python tools/mirrors_index_check.py",
+    "python tools/pinned_sources_check.py",
+    "python tools/operator_directive_check.py",
     "python tools/drive_index.py stats",
     "python tools/drive_coverage.py --json",
     "python tools/hermite_envelope_report.py --check research/bands/candidates/hermite_gaussian_20260919.json",
@@ -79,6 +88,12 @@ REQUIRED_COMMANDS = (
     "python tools/research_frontier.py self-check",
     "python tools/lpw_amplitude_check.py",
     "python tools/closure_pipeline.py check-plan",
+    "python tools/math_status_check.py",
+    "python tools/scientific_state_check.py",
+    "python tools/claims_gate_adapter.py tip-health",
+    "python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json",
+    "python tools/navigation_check.py",
+    "python -m unittest tests.test_navigation -v",
     "python -m pytest -q",
 )
 CI_PREFIX = '''name: ci
@@ -94,18 +109,18 @@ defaults:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, reviewed 2026-09-22
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, reviewed 2026-09-22
         with:
-          python-version: "3.11"
+          python-version: "3.11.16"
       - name: Install test dependencies
-        run: python -m pip install --upgrade pip pytest'''
+        run: "python -m pip install --require-hashes --only-binary=:all: -r requirements-ci.lock"'''
 
 
 def utc_now() -> str:

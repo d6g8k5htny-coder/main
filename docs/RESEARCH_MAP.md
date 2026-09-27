@@ -82,7 +82,11 @@ permanently: it is metadata only and is never opened. That is now enforced rathe
 than merely kept. `tools/quarantine_check.py` refuses any manifest row that
 stores bytes from that lane, because until 2026-09-20 nothing did: a later pass
 sweeping "every remaining native Doc" would have taken the vault with it and
-passed every checker in the tree.
+passed every checker in the tree. The vault is a path segment that starts with
+`99_DO_NOT_OPEN`. Other strings that contain `DO_NOT_OPEN` are not that folder.
+`tools/vault_hygiene_check.py` also refuses a stored row whose Drive id is a
+vault id when the row's path omits the folder name. The map is
+[`quarantine/PATHS.md`](../quarantine/PATHS.md). Quarantine is not a source of truth.
 
 Both paragraphs were corrected ten times on 2026-09-20, because ten ports landed
 that day. The first gave 700 held and 873 indexed, named those three
@@ -210,11 +214,7 @@ Shipped as PKG-01. Intake authority:
 `a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b`
 (2,029 archive members — the single largest carrier in the corpus).
 
-* **Theorem (1)** — certified rung `r = 0.05`: `1 − q(0.05, 6/5) ≤ Ĩ_hi +
-  C_RN(0.05)·√Q(B1.dir) + P(B2) + P(B4)` with `Ĩ_hi = 8.1272827e-2 =
-  650.1827·(0.05)³` and `C_RN(0.05) ≤ 3.46` (v2.2 §1). The H5 chart total it
-  consumes is `I_hi(v3) = 8.0975589252e-2 = 647.8048·r³` (pin `8d7028e4…`);
-  until 2026-09-19 this bullet gave that input as the theorem.
+* **Theorem (1)** — the frozen source labels a `CERTIFIED RUNG` at `r = 0.05`, but the live claim layer is **HOLD-WITH-DOMAIN / CONDITIONAL** because that same §1 explicitly names `D3-LEMMA-RN-UNIF(r=0.05)` as NOT closed. Its displayed inequality remains `1 − q(0.05, 6/5) ≤ Ĩ_hi + C_RN(0.05)·√Q(B1.dir) + P(B2) + P(B4)` with `Ĩ_hi = 8.1272827e-2 = 650.1827·(0.05)³` and `C_RN(0.05) ≤ 3.46`. The H5 chart total it consumes is `I_hi(v3) = 8.0975589252e-2 = 647.8048·r³` (pin `8d7028e4…`). The frozen wording is preserved; `claims/graph.json` now fails closed operationally until D3 closes.
 * **Theorem (2)** — all-small-r, conditional on the five premises in the README.
 
 **Layer discipline (do not collapse):**
@@ -245,6 +245,40 @@ RUNG2/RUNG3 certify those rungs only. They do **not** discharge `OBL-D1-PROMOTE`
 certified sampling plus an explicit fit; the certified **band enclosure**
 (interval-`r` lattice sums giving `Î(r)/r³ ≤ F(G12-band)` per band, a finite
 per-band computation, never a fitted exponent) remains `OBL-H5-JETMOD` OPEN.
+
+### Inventable jetmod instrumentation STATUS
+
+[`docs/math_status_probes/`](math_status_probes/README.md)
+(`inventable_jetmod_instrumentation_status.py`, the `inventable_*` PARTIAL /
+REFUSED_NOT_24JET receipts, and that directory's README) is probe and
+instrumentation honesty. It is not a mathematics source of truth.
+Instrumentation STATUS is `PARTIAL` / `REFUSED_NOT_24JET` only. The shortcut
+receipt `inventable_24jet_roster_without_Drive_list_REFUSED_NOT_24JET_receipt.json`
+uses that `REFUSED_NOT_24JET` token and is indexed by
+`INVENTABLE_PROBES_INDEX.json`. It is not an instrumentation STATUS inventory
+row. `PARTIAL` and `REFUSED_NOT_24JET` are not discharge. A green checker is not discharge.
+`OBL-H5-JETMOD` stays OPEN. The reader route is the inventable section of
+[`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
+
+The sibling and shortcut probe receipts
+`inventable_eval_F_G12box_REFUSED_receipt.json`,
+`inventable_interval_schur_ainv_REFUSED_receipt.json`
+(status token `REFUSED_IA_STRADDLES`),
+`inventable_merge_PR12_or_rung_discharge_REFUSED_receipt.json`,
+`inventable_promote_display_residual_struct_kappa_REFUSED_receipt.json`,
+`inventable_joint_ry_cancel_EMPTY_receipt.json`, and
+`inventable_phi_bridge_ABSENT_receipt.json` are sibling and shortcut
+refusals. Their honesty labels are `REFUSED`, `REFUSED_IA_STRADDLES`,
+`EMPTY`, and `ABSENT`. They are not instrumentation STATUS. `REFUSED` ≠
+discharge. `EMPTY` and `ABSENT` are not discharge. They do not imply
+`lemma_closed`, `discharges_OBL_H5_JETMOD`, `certified_C_H`, or RN-UNIF
+discharge. `INVENTABLE_INSTRUMENTATION_STATUS_INDEX.json` is the
+instrumentation STATUS index (`PARTIAL` / `REFUSED_NOT_24JET` only).
+`INVENTABLE_PROBES_INDEX.json` indexes the sibling and shortcut receipts.
+`HUNT_BANK_JOINT_FMAP_PHI_2026-09-23.md` is a hunt bank. None of the three is
+a source of truth. A green checker is not discharge. `OBL-H5-JETMOD` stays
+OPEN. The reader route is the sibling and shortcut section of
+[`docs/REGISTER_CONSUMERS.md`](REGISTER_CONSUMERS.md).
 
 ### H3 band floor
 
@@ -312,6 +346,26 @@ the annulus. Diagnostic polar sums: `≈ 2.34195 r³` corrected versus `≈ 17.6
 wrong-power; the older published `17.6804 r³` used a different mark-cap
 heuristic. **None of these numbers closes Piece 2.**
 
+### Local SIDE24 prep path (navigation only)
+
+The repository notes that prepare the local SIDE24 calculation, in order, are
+[RN_SIDE24.md](RN_SIDE24.md) (one-point determinant factor; the density/window
+factor and the H3 normalizer are absent there),
+[RN_SIDE24_DENSITY.md](RN_SIDE24_DENSITY.md) (fixed-point density/window; the
+H3 floor is imported and not reproved; there is no spatial integral), and
+[RN_SIDE24_CELL.md](RN_SIDE24_CELL.md) (one rectangle; no complete annulus
+cover, remote-budget assembly, or all-small-r theorem). Each note labels its
+own **ABSENT**, **REFUSED**, and **OPEN** walls. `field_certified` stays
+false. `D3-LEMMA-RN-UNIF` stays OPEN. `OBL-H5-JETMOD` stays OPEN.
+`lemma_closed`, `certified_C_H`, and `prizes_solved` stay false. The checker
+commands in [RESEARCH_EXECUTION.md](RESEARCH_EXECUTION.md) are engineering
+checks; a green run is not discharge. SIDE24 has no new source-of-truth
+carrier after 2026-08-06. Later rows in the exported file catalog that
+mention SIDE24 are metadata-only routing, not that carrier. Carriers for
+the objects those notes mark **ABSENT** stay **ABSENT**. Quarantine is not
+a source of truth. `inventable_attempt_accepted` stays false. This paragraph
+is a reader route. It adds no source of truth and no mathematical claim.
+
 `CANNOT_VERIFY` is recorded for the current CL executable and checkpoint
 identity: `CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip`, `rnu_t4.py` and `rnu_spine.py`
 were not returned by bounded exact-name lookup.
@@ -344,7 +398,7 @@ and domain are matched.
 | Object | Statement | Disposition |
 |---|---|---|
 | LPW qualitative | 2D side-24 exact six-pin typed pair-Palm elder pairing; `∃ c, r₀ > 0 : 1 − q ≥ c r³` | ACCEPTED AT REVIEW SCOPE. 37/37 payload hashes match; whole verdict hash matches; body-rule separator amendment needed |
-| QC-RETURN03 fallback | `1 − q ≥ 10^(−1235) r³` for `0 < r ≤ 10^(−28)`, exact rational constants | ACCEPTED at received analytic review scope; preserved as a separate fallback |
+| QC-RETURN03 fallback | `1 − q ≥ 10^(−1235) r³` for `0 < r ≤ 10^(−28)`, exact rational constants | Separate fallback. Exact author carrier is `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — OPERATOR FOLD R04 — 2026-09-12/03_EXPLICIT_CONSTANTS_CANDIDATE.md` (blob `4ccff182…`); numeric verification is `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/QC_REVIEW_REPORT.md` (blob `fa463751…`). The numeric report explicitly leaves the analytic Q1–Q7 chain to the lead verdict, so review status is not substituted for proof. |
 | `LPW_CONSTANT` as delivered | exact fraction `260/(3790446482793·2⁴⁰·10²¹) = 6.23854270293559…e−44`; radius `1/2414592` | **AMEND REQUIRED**: reported headline `6.239e−44` exceeds the exact chain; the `E(|ξ|+|η|)⁴ = 12 + 16/π` identity is false; blanket-rounding explanation incomplete |
 | R05 Rayleigh repair | proposed `1 − q ≥ 6.238e−44 r³` on `0 < r ≤ 1/2414592` using `ρ = √(ξ²+η²)`, `Eρ⁴ = 8` | author-side repair; does **not** inherit the external approve; 39 interval checks pass, oversized headline rejected in both modes |
 | W8 v3 Lambda | limit-object difference ≈ `0.40371620975`, conditional on H-B3 | staged conditional progress; final transcripts END **FAIL-CLOSED**; no finite-`r` closure |
@@ -458,9 +512,7 @@ scripts ("non-blocking"), and the V3.3 Palm normalizer cr² ≤ Z_r ≤ Cr².
 **Reopening conditions:** an exact counterexample to any audited display; failure
 of a V3.3 eigenfloor table; a landed diagnostic script contradicting a
 corroborated claim. **Evidence trail** the record names: `KIMI-AUD-006 → 006b
-APPROVE` (the source calls it "independent third-family review"; the two Kimi
-text carriers, `17c8eba9…` and `2a38f2d4…`, are on the Drive and not mirrored
-here), `AO48-AUD-043` (both flagship displays confirmed from scratch in exact
+APPROVE` (the source calls it "independent third-family review"; the KIMI-AUD-006 and 006b text carriers are now mirrored under `drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/00_REVIEW_PACKAGES_AND_GATE_CLARIFICATIONS/P0.1 — FROZEN HASH 666f582c — SAME-LINE AUDITS AND REPAIRS/P0.1 POST-RATIFICATION RAW — 2026-08-02/07 — SIDE24 POST-RATIFICATION THEOREM PACKAGE/08 — DIRECT KIMI CARRIERS — 2026-08-02/`; their presence supplies custody, not additional review credit), `AO48-AUD-043` (both flagship displays confirmed from scratch in exact
 arithmetic by the AO48 line) and `AO48-AUD-044` (verification ledger, including
 the AO48 line's own boundary: it "did not independently re-read the envelope
 file's full text this session"). Whether a Moonshot-family review earns
@@ -625,11 +677,15 @@ below is quoted from those bytes.
   promotion." The Board's OPERATOR PACKAGE DECISION of 2026-07-24 is the one
   operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
   private Git repository creation and exact-history push are approved when
-  platform access becomes available." (Dylan subsequently authorized public
-  visibility on 2026-09-20; unauthenticated access was verified that day.
-  Public visitors have no write access. This later visibility decision does
-  not change the quoted historical routing, Drive sharing, or scientific
-  gates — see `governance/GIT_ADAPTATION.md`.)
+  platform access becomes available." (This repository is public, checked
+  2026-09-26; the visibility decision is the owner's, and the only sourced record
+  in this tree about it is the 2026-09-18 execution handoff
+  `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`,
+  which records the owner asking to restrict who works in the repository, not
+  to hide it — see `governance/GIT_ADAPTATION.md`, which withdraws an unsourced
+  directive that this passage previously asserted in the opposite direction. The
+  quoted historical routing, Drive sharing and scientific gates are unchanged by
+  visibility either way.)
 * `14_COORDINATION_AUTOMATION_SPINE` (170) — the live registers
   (`04.1_LIVE_REGISTERS`: the GP-REG-032-v1.2 workbook, its leaf card, the
   deletion log), the automation lineage (GP-AUTO-034: **R0.4 current

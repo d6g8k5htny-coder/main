@@ -419,6 +419,7 @@ def test_order_naming_its_own_directory_as_authority_is_refused(field, ref):
     "orders/FIXTURE-TASK-001.json",                     # a file name
     "engine/bridge/examples/work_order.example.json",   # another repository path
     "tests/test_bridge.py",
+    "requirements-ci.lock",
     "see CLAUDE.md",
     "drive/deltas/2026-09-18/x",
     "this pull request (the PR that adds this order)",
@@ -620,6 +621,7 @@ def test_disclosure_paths_without_approval_are_refused():
     "engine/bridge/", "engine/bridge/work_order.py", "engine/", "tools/bridge_check.py",
     "tools/claims_check.py", "tools/", "tests/test_bridge.py", "tests/", "engine/lanes/",
     "engine/lanes/D.json", "engine/receipts/", "CLAUDE.md", "AGENTS.md", "quarantine/",
+    "requirements-ci.lock",
     "drive/", "drive/inventory.jsonl", "Engine/Bridge/Orders/", "claude.md", ".",
 ])
 def test_scope_reaching_a_protected_surface_is_refused_even_with_both_references(path):
@@ -1387,7 +1389,8 @@ def test_store_destination_predicate_accepts_the_receipts_root_and_outside(tmp_p
 
 
 def _open_modes(path):
-    tree = ast.parse(open(path, encoding="utf-8").read())
+    with open(path, encoding="utf-8") as handle:
+        tree = ast.parse(handle.read())
     modes, attrs, imports = [], set(), set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "open":
@@ -1540,7 +1543,8 @@ def test_strict_loader_refuses_nan(tmp_path):
     p.write_text('{"a": NaN}', encoding="utf-8")
     with pytest.raises(ValueError):
         C.load_json_strict(str(p))
-    assert json.load(open(p)) is not None       # the lenient parser would have taken it
+    with open(p) as handle:
+        assert json.load(handle) is not None       # the lenient parser would have taken it
 
 
 @pytest.mark.parametrize("variant", ["indent4", "unsorted", "no_newline", "compact", "crlf"])
@@ -1784,24 +1788,29 @@ def test_checker_summary_line_is_last_and_one_line(tmp_path):
     CHECKER, __file__,
 ])
 def test_every_module_docstring_says_what_it_does_not_establish(path):
-    doc = ast.get_docstring(ast.parse(open(path, encoding="utf-8").read())) or ""
+    with open(path, encoding="utf-8") as handle:
+        doc = ast.get_docstring(ast.parse(handle.read())) or ""
     assert "not establish" in doc.lower() or "does not mean" in doc.lower(), path
     assert "not deployed" in doc.lower(), path
 
 
 def test_agents_md_points_and_does_not_legislate():
-    text = open(os.path.join(ROOT, "AGENTS.md"), encoding="utf-8").read()
+    with open(os.path.join(ROOT, "AGENTS.md"), encoding="utf-8") as handle:
+        text = handle.read()
     lines = text.strip().splitlines()
     assert len(lines) <= 45, len(lines)
     for needle in ("CLAUDE.md", "180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8",
                    "1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc", "DG-EXEC-20260918-49291487",
                    "NOT DEPLOYED", "engine/bridge/", "99_DO_NOT_OPEN", "No status moves",
-                   "enforcement"):
+                   "enforcement", "governance/withdrawal/PROTOCOL.md",
+                   "governance/rollout/OP-ROLLOUT-AUDIT-20260921-v1.1.md",
+                   "NOT_MIGRATED"):
         assert needle in text, needle
 
 
 def _text(path):
-    return open(path, encoding="utf-8").read()
+    with open(path, encoding="utf-8") as handle:
+        return handle.read()
 
 
 def test_no_text_claims_a_verification_this_repository_cannot_do():

@@ -36,25 +36,26 @@ def check_sha256sum(manifest: str) -> tuple[int, int, list[str]]:
     base = os.path.dirname(manifest)
     ok = bad = 0
     problems = []
-    for line in open(manifest, encoding="utf-8", errors="replace"):
-        line = line.rstrip("\n")
-        if not line.strip() or line.startswith("#"):
-            continue
-        parts = line.split(None, 1)
-        if len(parts) != 2 or len(parts[0]) != 64:
-            continue
-        digest, rel = parts
-        rel = rel.lstrip("*")
-        path = os.path.normpath(os.path.join(base, rel))
-        if not os.path.exists(path):
-            bad += 1
-            problems.append(f"MISSING {path}")
-            continue
-        if sha256(path) != digest.lower():
-            bad += 1
-            problems.append(f"SHA MISMATCH {path}")
-        else:
-            ok += 1
+    with open(manifest, encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            line = line.rstrip("\n")
+            if not line.strip() or line.startswith("#"):
+                continue
+            parts = line.split(None, 1)
+            if len(parts) != 2 or len(parts[0]) != 64:
+                continue
+            digest, rel = parts
+            rel = rel.lstrip("*")
+            path = os.path.normpath(os.path.join(base, rel))
+            if not os.path.exists(path):
+                bad += 1
+                problems.append(f"MISSING {path}")
+                continue
+            if sha256(path) != digest.lower():
+                bad += 1
+                problems.append(f"SHA MISMATCH {path}")
+            else:
+                ok += 1
     return ok, bad, problems
 
 
@@ -125,68 +126,69 @@ def check_jsonl(manifest: str) -> tuple[int, int, list[str]]:
     base = os.path.dirname(manifest)
     ok = bad = 0
     problems = []
-    for line in open(manifest, encoding="utf-8", errors="replace"):
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            row = json.loads(line)
-        except json.JSONDecodeError:
-            bad += 1
-            problems.append(f"BAD JSON LINE in {manifest}: {line[:80]}")
-            continue
-        note = str(row.get("note", ""))
-        if note.startswith(NOT_STORED_MARKERS):
-            continue
-        dest = row.get("dest")
-        if row.get("stored") is False:
-            # A row that stores nothing must SAY so in the form the rest of the
-            # tree uses.  1,012 such rows open with one of NOT_STORED_MARKERS;
-            # this checker skips exactly those, so a row that declares itself
-            # not stored in any other words is invisible to it -- it fell
-            # through the `not dest` branch below and was never examined.  One
-            # did, added 2026-09-20, and a third party's checker found it
-            # before this one could.  The structured `not_stored_reason` field
-            # is not enough on its own: nothing reads it here.
-            bad += 1
-            problems.append(
-                f"UNMARKED NOT-STORED ROW {manifest}: id {row.get('id')} has "
-                f"stored=false but its note does not begin with one of "
-                f"{'/'.join(NOT_STORED_MARKERS)}")
-            continue
-        if not dest:
-            continue
-        path = dest if os.path.isabs(dest) else os.path.normpath(os.path.join(base, dest))
-        if not os.path.exists(path):
-            # mirrors may have been relocated into the repo: try by basename under base
-            alt = os.path.join(base, os.path.basename(dest))
-            if os.path.exists(alt):
-                path = alt
-            else:
-                bad += 1
-                problems.append(f"MISSING {path}")
+    with open(manifest, encoding="utf-8", errors="replace") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
                 continue
-        if "sha256" in row and sha256(path) != str(row["sha256"]).lower():
-            bad += 1
-            problems.append(f"SHA MISMATCH {path}")
-            continue
-        if "bytes" in row and os.path.getsize(path) != int(row["bytes"]):
-            bad += 1
-            problems.append(f"SIZE MISMATCH {path}")
-            continue
-        if row.get("exact") is False and row.get("stored") and is_blank(path):
-            # A reading copy is a rendering of a document, so a blank one is
-            # either a real property of the source or a failed fetch stored as
-            # though it were a rendering.  The two are told apart from outside
-            # the manifest: the inventory marks eight objects EMPTY_NATIVE_BODY,
-            # and a blank export of one of those is the export the inventory
-            # predicts.  A blank export of anything else is not corroborated by
-            # anything and must not be carried as a stored reading copy.
-            if row.get("id") not in empty_native_body_ids(base):
+            try:
+                row = json.loads(line)
+            except json.JSONDecodeError:
                 bad += 1
-                problems.append(f"UNCORROBORATED BLANK READING COPY {path}")
+                problems.append(f"BAD JSON LINE in {manifest}: {line[:80]}")
                 continue
-        ok += 1
+            note = str(row.get("note", ""))
+            if note.startswith(NOT_STORED_MARKERS):
+                continue
+            dest = row.get("dest")
+            if row.get("stored") is False:
+                # A row that stores nothing must SAY so in the form the rest of the
+                # tree uses.  1,012 such rows open with one of NOT_STORED_MARKERS;
+                # this checker skips exactly those, so a row that declares itself
+                # not stored in any other words is invisible to it -- it fell
+                # through the `not dest` branch below and was never examined.  One
+                # did, added 2026-09-20, and a third party's checker found it
+                # before this one could.  The structured `not_stored_reason` field
+                # is not enough on its own: nothing reads it here.
+                bad += 1
+                problems.append(
+                    f"UNMARKED NOT-STORED ROW {manifest}: id {row.get('id')} has "
+                    f"stored=false but its note does not begin with one of "
+                    f"{'/'.join(NOT_STORED_MARKERS)}")
+                continue
+            if not dest:
+                continue
+            path = dest if os.path.isabs(dest) else os.path.normpath(os.path.join(base, dest))
+            if not os.path.exists(path):
+                # mirrors may have been relocated into the repo: try by basename under base
+                alt = os.path.join(base, os.path.basename(dest))
+                if os.path.exists(alt):
+                    path = alt
+                else:
+                    bad += 1
+                    problems.append(f"MISSING {path}")
+                    continue
+            if "sha256" in row and sha256(path) != str(row["sha256"]).lower():
+                bad += 1
+                problems.append(f"SHA MISMATCH {path}")
+                continue
+            if "bytes" in row and os.path.getsize(path) != int(row["bytes"]):
+                bad += 1
+                problems.append(f"SIZE MISMATCH {path}")
+                continue
+            if row.get("exact") is False and row.get("stored") and is_blank(path):
+                # A reading copy is a rendering of a document, so a blank one is
+                # either a real property of the source or a failed fetch stored as
+                # though it were a rendering.  The two are told apart from outside
+                # the manifest: the inventory marks eight objects EMPTY_NATIVE_BODY,
+                # and a blank export of one of those is the export the inventory
+                # predicts.  A blank export of anything else is not corroborated by
+                # anything and must not be carried as a stored reading copy.
+                if row.get("id") not in empty_native_body_ids(base):
+                    bad += 1
+                    problems.append(f"UNCORROBORATED BLANK READING COPY {path}")
+                    continue
+            ok += 1
     return ok, bad, problems
 
 

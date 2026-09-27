@@ -96,3 +96,23 @@ hidden by optimistic aggregates, pending cells, duplicate Jacobians and
 incorrect area factors. Failed larger probes are preserved in the registered
 delivery. Technical reconstruction and organizational independence are
 recorded separately; same-provider review adds zero independence credit.
+
+## Honesty banner (2026-09-23) — AUTHOR_SIDE / non-discharge
+
+**Status token:** `AUTHOR_SIDE` (scoped fixed-r=1/20 polar-wedge positive control).
+`scientific_status_changed: false`. `lemma_closed: false`. `certified_C_H: false`.
+`original_prize_closed: false`. Independence credit: 0.
+
+**DOES_NOT_TOUCH** the D3-LEMMA-RN-UNIF ordered chain
+ENV-RESCOV → ALLCELL-FDZ-Q4 → LOGQ-TAIL → SYM-Fw-jet → CH-LIFT → Piece-2 closing → FREEZE.
+
+Bounds remain conditional on two imported premises: the fixed-radius H3 floor
+`Z >= 0.0077592917375327855` (`H3_RUNG_FLOOR.md`, sha256 `6347275d…`) and the six-pin
+energy allowance `< 8` (`research/campaigns/h3_rn_n6_20260920_v1.zip`, `pin_energy/PROOF_v2.md`).
+Scope: r=1/20, b=6/5, x-axis pins, the single polar cell W, full height window [b-1/48000,b].
+Complement (open): the rest of the annulus 1/10<=|y|<=5, all other radii, remote budget, event
+interfaces. W lies inside the Piece-2 annulus of D3-LEMMA-RN-UNIF, but its typed RN integrand is
+not identified with the corrected (Hölder 4,4,2) Piece-2 spine; no area of W enters any Piece-2
+budget. Full annulus / all pin orientations / remote budget /
+weighted-Palm / prize remain open. Orthogonal to OBL-H5-JETMOD (no 24-jet band enclosure
+discharge). Tip green CI ≠ lemma discharge. Do not reopen certificate PRs from this banner.
