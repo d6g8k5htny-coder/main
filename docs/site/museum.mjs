@@ -179,22 +179,36 @@ async function renderPacket(document,packet,fetcher){
   body.append(element(document,'p','packet — not STATUS'),element(document,'p',`Packet ID: ${packet.id}`),packet.issue===null?element(document,'p','Task issue: not stated in the packet'):anchor(document,`Task issue: #${packet.issue}`,`https://github.com/d6g8k5htny-coder/main/issues/${packet.issue}`),element(document,'p','scientific_effect: NONE · review_status: REVIEW_REQUIRED'),anchor(document,'Open pinned RESULT.md ↗',packet.result.html_url));
   article.append(body,strip(document,'Landed packet bytes are visible for review. The result is not an accepted claim and is not inserted into STATUS.'));return article;
 }
+async function verifyStartup(fetcher){
+  const freshLocal=(url,options)=>fetcher(url,{...options,cache:'no-store'});
+  const configResponse=await boundedFetch('config.json',freshLocal,32*1024);if(!configResponse.ok)throw Error(`Museum config unavailable (${configResponse.status})`);
+  const config=JSON.parse(decoder.decode(configResponse.bytes));
+  const pin=config.museum_json;
+  if(pin?.url!=='museum.json'||!hex64.test(pin.sha256)||!Number.isSafeInteger(pin.bytes)||pin.bytes<1||pin.bytes>256*1024)throw Error('Invalid museum manifest descriptor');
+  const localFetch=async url=>{const response=await boundedFetch(url,freshLocal,pin.bytes);return {ok:response.ok,status:response.status,arrayBuffer:async()=>response.bytes.buffer};};
+  const raw=await verifiedBytes(pin,localFetch);
+  const manifest=JSON.parse(decoder.decode(raw));validateDescriptor(manifest.index_source);validateDescriptor(manifest.status_source);
+  const cache=new Map();
+  const cachedFetch=url=>{const key=String(url);if(!cache.has(key))cache.set(key,boundedFetch(url,fetcher));return cache.get(key).then(result=>({ok:result.ok,status:result.status,arrayBuffer:async()=>result.bytes.buffer}));};
+  const [index,status]=await Promise.all([verifiedBytes(manifest.index_source,cachedFetch),verifiedBytes(manifest.status_source,cachedFetch)]);
+  validateBoundManifest(manifest,decoder.decode(index),decoder.decode(status));
+  return {manifest,cachedFetch};
+}
+// One verified config→manifest→index/status startup per fetcher. Every page module
+// that shares the browser fetch reuses the same verified manifest and byte cache
+// instead of repeating the central fetches. Failures are not retained, so a later
+// caller re-verifies rather than inheriting a stale refusal.
+const startups=new WeakMap();
+export function verifiedMuseum({fetcher=globalThis.fetch}={}){
+  if(typeof fetcher!=='function')throw Error('Museum fetch is unavailable');
+  if(!startups.has(fetcher))startups.set(fetcher,verifyStartup(fetcher).catch(error=>{startups.delete(fetcher);throw error;}));
+  return startups.get(fetcher);
+}
 export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs')}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   try{
-    const freshLocal=(url,options)=>fetcher(url,{...options,cache:'no-store'});
-    const configResponse=await boundedFetch('config.json',freshLocal,32*1024);if(!configResponse.ok)throw Error(`Museum config unavailable (${configResponse.status})`);
-    const config=JSON.parse(decoder.decode(configResponse.bytes));
-    const pin=config.museum_json;
-    if(pin?.url!=='museum.json'||!hex64.test(pin.sha256)||!Number.isSafeInteger(pin.bytes)||pin.bytes<1||pin.bytes>256*1024)throw Error('Invalid museum manifest descriptor');
-    const localFetch=async url=>{const response=await boundedFetch(url,freshLocal,pin.bytes);return {ok:response.ok,status:response.status,arrayBuffer:async()=>response.bytes.buffer};};
-    const raw=await verifiedBytes(pin,localFetch);
-    const manifest=JSON.parse(decoder.decode(raw));validateDescriptor(manifest.index_source);validateDescriptor(manifest.status_source);
-    const cache=new Map();
-    const cachedFetch=url=>{const key=String(url);if(!cache.has(key))cache.set(key,boundedFetch(url,fetcher));return cache.get(key).then(result=>({ok:result.ok,status:result.status,arrayBuffer:async()=>result.bytes.buffer}));};
-    const [index,status]=await Promise.all([verifiedBytes(manifest.index_source,cachedFetch),verifiedBytes(manifest.status_source,cachedFetch)]);
-    validateBoundManifest(manifest,decoder.decode(index),decoder.decode(status));
+    const {manifest,cachedFetch}=await verifiedMuseum({fetcher});
     containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries and 3 separate AMEND rows. Verifying each linked source before display…';
     const placeholders=manifest.claims.map(claim=>{const host=element(document,'div');host.append(element(document,'p',`Verifying ${claim.title}…`));containers['claim-cards'].append(host);return host;});
     const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim));}catch(error){placeholders[i].replaceChildren(refusal(document,claim.title,error));return false;}return true;});
