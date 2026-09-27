@@ -1,0 +1,97 @@
+{
+  "schema_id": "scientific_state.id_crosswalk.v1",
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "purpose": "Pilot ID bridge between main claims/graph.json keys and Math- downstream-gate node IDs. No statuses, grades, classifications, or controlling flags are stored here.",
+  "against_math_gate_head": "5887a2f8aaf121760362e6e90f9974f1e0078bc5",
+  "rows": [
+    {
+      "row_id": "xwalk.obl-h5-jetmod",
+      "main_claim_or_premise_id": "OBL-H5-JETMOD",
+      "main_bucket": "premises",
+      "math_gate_id": "hist.OBL-H5-JETMOD",
+      "authority": "claims_firewall",
+      "notes": "Premise openness lives in claims/graph.json; Math- gate carries historical-route classification separately."
+    },
+    {
+      "row_id": "xwalk.d3-lemma-rn-unif",
+      "main_claim_or_premise_id": "D3-LEMMA-RN-UNIF",
+      "main_bucket": "premises",
+      "math_gate_id": "hist.lemma_closed",
+      "authority": "claims_firewall",
+      "notes": "Premise identity on main; lemma_closed Boolean remains false in math_status / Math- hist.lemma_closed. Bridge only."
+    },
+    {
+      "row_id": "xwalk.side24-coefficient",
+      "main_claim_or_premise_id": "SIDE24-3D-AO48-OPR-045",
+      "main_bucket": "claims",
+      "math_gate_id": "math.side24-coefficient",
+      "authority": "claims_firewall",
+      "notes": "3D SIDE24 ratification claim ↔ Math- coefficient candidate node."
+    },
+    {
+      "row_id": "xwalk.uniform-matrix-cap-lifetime",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "math.uniform-matrix-cap-lifetime",
+      "authority": "math_downstream_gate",
+      "notes": "Active 2026-09-24 lifetime interface; no exact claims/graph.json twin yet. Pointer reserved."
+    },
+    {
+      "row_id": "xwalk.lifetime-remainder",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "math.lifetime-remainder",
+      "authority": "math_downstream_gate",
+      "notes": "Bounded remainder candidate; Math- gate owns integrity classification."
+    },
+    {
+      "row_id": "xwalk.rn-fixed-remote-window",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "math.rn-fixed-remote-window",
+      "authority": "math_downstream_gate",
+      "notes": "Fixed-remote RN count candidate; no claims/graph.json twin."
+    },
+    {
+      "row_id": "xwalk.rn-mesoscopic-reduction",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "math.rn-mesoscopic-reduction",
+      "authority": "math_downstream_gate",
+      "notes": "Math- PR #7 draft reduction; challenge note (landed via #97) refuses R17 credit."
+    },
+    {
+      "row_id": "xwalk.p15-full-price",
+      "main_claim_or_premise_id": "P15-A..D",
+      "main_bucket": "claims",
+      "math_gate_id": "math.p15-full-price",
+      "authority": "claims_firewall",
+      "notes": "Author-side P15 family ↔ Math- full-price candidate node."
+    },
+    {
+      "row_id": "xwalk.p15-price-boundary",
+      "main_claim_or_premise_id": "P15-A..D",
+      "main_bucket": "claims",
+      "math_gate_id": "math.p15-price-boundary",
+      "authority": "claims_firewall",
+      "notes": "Same P15 family also bridges the price-boundary gate node."
+    },
+    {
+      "row_id": "xwalk.hist-rnu-env",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "hist.rnu_env.py",
+      "authority": "human_d0_crosswalk",
+      "notes": "ABSENT historical carrier; classified in D0 crosswalk / Math- gate, not inventable on main."
+    },
+    {
+      "row_id": "xwalk.eng-hard-gate",
+      "main_claim_or_premise_id": null,
+      "main_bucket": null,
+      "math_gate_id": "eng.hard-gate",
+      "authority": "math_downstream_gate",
+      "notes": "Integrity-control engineering node for the hard gate itself."
+    }
+  ]
+}

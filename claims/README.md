@@ -1,12 +1,15 @@
 # Claim / premise dependency graph
 
 `graph.json` is the program's claim structure as data: 24 claims, 13 named
-premises, 8 firewalls. `tools/claims_check.py` turns the firewalls into
+premises, 9 firewalls. `tools/claims_check.py` turns the firewalls into
 assertions; `tests/test_claims.py` proves the checker actually rejects each
 violation it is supposed to reject.
 
 This encodes what the Drive sources state in prose. It asserts no mathematics of
-its own, and it never changes a status.
+its own. When a source status word conflicts with an explicitly open load-bearing
+dependency, the graph may carry a weaker fail-closed operational `grade` while
+preserving the source word in `source_grade_verbatim`; this is a claim-layer
+hold, not a rewrite of the frozen source.
 
 ## Why this exists
 
@@ -35,7 +38,9 @@ schema uniformity, not a layer disagreement.
 
 **Claim** — `track`, `statement`, `grade`, `depends_on`, optional
 `forbidden_extrapolations`, `independence_credit`, `external_review`,
-`historical_novelty`, `original_prize_closed`, `evidence`, `note`, `source`.
+`historical_novelty`, `original_prize_closed`, `evidence`, `note`, `source`, and
+optional `source_grade_verbatim` / `audit_disposition` when a frozen source word
+is preserved but the live claim layer must fail closed.
 
 Grades in use: `LIVE_ROOT_THEOREM`, `FROZEN_CERTIFICATE`, `CERTIFIED_RUNG`,
 `CONDITIONAL`, `PROPOSED`, `AUTHOR_SIDE_CERTIFIED`, `AUTHOR_SIDE_PARTIAL`,
@@ -67,6 +72,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | ID | Rule | Source |
 |---|---|---|
 | `FW-UNCONDITIONAL` | a claim graded `LIVE_ROOT_THEOREM`, `FROZEN_CERTIFICATE` or `RATIFIED_3D_ONLY` may not rest, transitively, on a premise whose **frozen** status is OPEN or NOT_CLOSED | `HOLD_OPEN_VALIDITY_PREMISES.md`; OP-GDN-002 §6 |
+| `FW-RUNG-OPEN-PREMISE` | a claim cannot remain `CERTIFIED_RUNG` while a transitive named premise is `OPEN` or `NOT_CLOSED`; preserve the source label separately and hold the live claim | fail-closed claim audit 2026-09-25; D1 v2.2 §1 |
 | `FW-2D-3D-COMPOSITION` | no claim may depend on both the 2D tracks and the 3D lifetime track | `ERRATA_AND_CLARIFICATIONS_2026-09-13.md` §1 |
 | `FW-PRIZE-ISOLATION` | the prize track and the q0/3D tracks may not depend on each other | `LANE_MATH_MAP.md` firewall |
 | `FW-NO-PRIZE-CLOSURE` | every prize claim must carry `original_prize_closed: false` | `CLAIM_REGISTRY_VERIFIED_INTAKE.json` |
