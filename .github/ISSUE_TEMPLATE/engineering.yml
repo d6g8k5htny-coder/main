@@ -1,0 +1,38 @@
+name: Engineering issue
+description: Tooling, CI, checkers, registers or repository structure
+title: "[Eng] "
+labels: [engineering]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: Include the failing command and its output where there is one.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen instead
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Checker or negative control
+        - CI workflow
+        - Registers or generated exports
+        - Navigation or documentation links
+        - Coordination between agents
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: discipline
+    attributes:
+      label: Before proposing a fix
+      options:
+        - label: A defect in a generated file is repaired at its source, not in the output
+        - label: A check that fails for a real reason is not silenced to go green
