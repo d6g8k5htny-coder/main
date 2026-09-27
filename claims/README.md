@@ -116,7 +116,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `FW-DECIMAL-KILL` | the qualitative rate must forbid a finite decimal `C_Q0`; Theorem B must forbid a numerical `C*` | `Q0_MASTER.md` Part I; C092 §12.3 |
 | `FW-LM011-PRECONDITION` | the RV-LM011 synthesis route may not be marked satisfiable while any named prerequisite is unsatisfied, and a technical pass at **zero** organizational independence credit does not discharge an independence-requiring gate | `review_queue.json` RV-LM011-MAIN; `easy_closure_queue.json` P02-LM-011; `docs/OPEN_PROBLEMS.md` §D |
 | `FW-NO-RECEIPT-PROMOTION` | a receipt, a green test run, a reproduction or a carrier binding may never raise a grade or move a status, on a claim or on a premise | `engine/README.md`; OP-PROT-012 §4(c); OP-GDN-002 §6 |
-| `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: evidence that declares itself `certifying` must **show** exact arithmetic — float, not-applicable, unrecognised and ambiguous are each refused by name — a certified/enclosed claim must cite **at least one** record declaring exact arithmetic, and the two carrier indexes may not disagree about a carrier without being refused. What it still does **not** refuse, said plainly: a certified claim citing one exact record alongside float ones. Narrowing that is a decision for the register, not for a checker | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
+| `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: evidence that declares itself `certifying` must **show** exact arithmetic — float, not-applicable, unrecognised and ambiguous are each refused by name — a certified/enclosed claim **that cites evidence** must cite at least one record declaring exact arithmetic; an evidence record naming a `carrier_id` must resolve in one of the two carrier indexes, an index that exists but does not parse is refused, and the two indexes may not disagree about a carrier. What it still does **not** refuse, said plainly: a certified claim citing one exact record alongside float ones, and a certifying-grade claim citing **no** evidence at all — that case is not examined, only counted (`certifying_without_evidence=` in the summary line; `H3-BAND-FLOOR` is one today). Narrowing either is a decision for the register, not for a checker | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
 | `FW-RETRACTED-NOT-UNCONDITIONAL` | a claim carrying a retraction record, or whose transcribed `register_status` says RETRACTED, may not carry an unconditional grade | `ERRATA_AND_CLARIFICATIONS_2026-09-13.md`; `CLAIM_REGISTRY_VERIFIED_INTAKE.json` |
 
 Plus referential integrity, acyclicity, "a CONDITIONAL claim must name at least
@@ -168,10 +168,15 @@ Reading only the first meant the override resolved nothing: one lookup, one miss
 every run. For evidence naming a `carrier_id` either index lists, that carrier's
 own `arithmetic` and `certifying` fields win over the graph's copy, because the
 carrier's record is what the run actually used, and the refusal names which file
-it came from. When both indexes are absent, unreadable, or do not list the
-carrier, the graph's own evidence record is used and the lookup is skipped
-cleanly. Skipping can only lose a refusal that the graph's own record would have
-to state anyway; it cannot manufacture a pass.
+it came from. Because the index **overrides** the graph's copy, a lookup that
+fails is not harmless: a record whose graph copy said `exact_rational` /
+`certifying: true` while the live `BINDING.json` said `mpmath_float` was refused
+with the index present and passed with the index pointed at a nonexistent path.
+An earlier version of this paragraph said skipping "can only lose a refusal that
+the graph's own record would have to state anyway"; that was false. Now an index
+file that exists but does not parse is refused, and an evidence record whose
+`carrier_id` resolves in neither index is refused. An index file that is simply
+absent is tolerated only because the other index may hold the carrier.
 
 Activating that override naively would have *weakened* the firewall, which is
 worth recording. `BINDING.json` describes RNENG-01 in a sentence that reads "no

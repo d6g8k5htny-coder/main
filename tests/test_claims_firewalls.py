@@ -110,6 +110,7 @@ def test_the_summary_reports_enforced_and_unreadable_counts():
     # One record's arithmetic is the BINDING sentence, which is ambiguous by
     # construction. Reporting it is the point: it is unreadable, not inert.
     assert "evidence_arithmetic_unreadable=1" in out, out
+    assert "certifying_without_evidence=1" in out, out
 
 
 # ------------------------------- FW-FLOAT-NOT-CERTIFIED, the certifying field --
@@ -261,12 +262,74 @@ def test_a_carrier_index_overrides_the_graph_and_names_its_source():
     assert "FW-FLOAT-NOT-CERTIFIED" in out and "BINDING.json" in out, out
 
 
-def test_both_carrier_indexes_absent_is_skipped_cleanly():
-    """Skipping can only lose a refusal the graph's own record would have to
-    state anyway. It must not crash and must not manufacture one."""
+def test_a_carrier_id_that_resolves_in_neither_index_is_refused():
+    """The old control here asserted the opposite: both indexes absent, exit 0,
+    "skipping can only lose a refusal". It could lose exactly the refusal that
+    matters. A carrier index OVERRIDES the graph's copy, so a record whose graph
+    copy says exact/certifying while the live BINDING says mpmath_float was
+    refused with the index present and passed with `--binding /nonexistent`."""
     missing = "/nonexistent/carrier-index.json"
     code, out = run(binding=missing, manifest=missing)
+    assert code == 1, out
+    assert "FW-FLOAT-NOT-CERTIFIED" in out and "RNENG-01" in out, out
+    assert "neither engine/rn_engine/BINDING.json nor engine/carriers/MANIFEST.json" in out
+    # The probe from the review: graph copy upgraded to exact/certifying, index gone.
+    g = graph()
+    name, i = CARRIER_EVIDENCE
+    ev = g["premises"][name]["evidence"][i]
+    ev["arithmetic"], ev["certifying"] = "exact_rational", True
+    code, out = run(g, binding=missing, manifest=missing)
+    assert code == 1, out
+    assert "resolves nowhere" in out or "neither" in out, out
+
+
+def test_an_index_that_exists_but_does_not_parse_is_refused():
+    """Present-and-unparsable is not absent. Returning {} for it handed every
+    lookup back to the graph's own copy, which the index exists to override."""
+    code, out = run(binding="{not json")
+    assert code == 1, out
+    assert "cannot be read as JSON" in out, out
+    # A well-formed index that omits the carrier is the same hole by another door.
+    code, out = run(binding={"carriers": []})
+    assert code == 1, out
+    assert "neither" in out and "RNENG-01" in out, out
+
+
+def test_a_carrier_absent_from_the_graph_needs_no_index():
+    """Evidence that names no carrier_id is judged on the graph's own fields;
+    the carrier requirement attaches to records that name one."""
+    g = graph()
+    for node in list(g["claims"].values()) + list(g["premises"].values()):
+        for ev in node.get("evidence") or []:
+            ev.pop("carrier_id", None)
+    missing = "/nonexistent/carrier-index.json"
+    code, out = run(g, binding=missing, manifest=missing)
     assert code == 0, out
+
+
+def test_a_list_valued_status_column_is_refused_by_name():
+    """This raised TypeError (`list not in set`), fail-closed by traceback."""
+    g = graph()
+    g["premises"]["H5-RIM"]["status_frozen_v2_2"] = ["CLOSED"]
+    code, out = run(g)
+    assert code == 1, out
+    assert "FW-UNCONDITIONAL" in out and "not a string" in out, out
+    assert "Traceback" not in out
+
+
+def test_certifying_claims_with_no_evidence_are_counted_not_refused():
+    """The README once said a certified claim "must cite at least one" exact
+    record; the guard runs only over claims that cite evidence. H3-BAND-FLOOR is
+    FROZEN_CERTIFICATE with evidence: [] in the committed graph, so refusing it
+    is a register decision. The gap is printed instead of hidden."""
+    code, out = run()
+    assert code == 0, out
+    assert "certifying_without_evidence=1" in out, out
+    g = graph()
+    g["claims"]["RN3-FAR"]["evidence"] = []
+    code, out = run(g)
+    assert code == 0, out
+    assert "certifying_without_evidence=2" in out, out
 
 
 # ---------------------------------------- FW-UNCONDITIONAL, both columns --

@@ -229,16 +229,25 @@ def load(path: str | None = None) -> dict:
         return json.load(f)
 
 
-def load_carrier_manifest(path: str | None = None) -> dict:
-    """{carrier_id: record} from `engine/carriers/MANIFEST.json`, or {}.
+class CarrierIndexUnreadable(ValueError):
+    """An index file that exists but cannot be read or parsed."""
 
-    That manifest is owned by another part of this repository and may not exist.
-    When it is absent, unreadable or shaped in a way this function does not
-    recognise, the FW-FLOAT-NOT-CERTIFIED check falls back to the graph's own
-    evidence records and skips the manifest cleanly. Skipping it can only lose a
-    refusal that the graph's own record would have to state anyway; it can never
-    manufacture a pass, because an evidence record that declares float
-    arithmetic is refused on the graph's own fields.
+
+def load_carrier_manifest(path: str | None = None) -> dict:
+    """{carrier_id: record} from one carrier index, or {} when the file is absent.
+
+    An index owned by another part of this repository may legitimately not exist.
+    An index that EXISTS and does not parse is a different thing: the earlier
+    version of this function returned {} for both and its docstring said skipping
+    "can only lose a refusal that the graph's own record would have to state
+    anyway". That was false. A carrier index OVERRIDES the graph's copy of
+    `arithmetic`/`certifying`, so an evidence record whose graph copy says
+    `exact_rational`/`certifying: true` while the live BINDING says
+    `mpmath_float` was refused with the index present and passed with it
+    unparsable. An unreadable index is therefore refused (CarrierIndexUnreadable),
+    and an evidence record naming a `carrier_id` that resolves in NEITHER index is
+    refused by the caller. Absence of a file is tolerated only because the other
+    index may hold the carrier; absence of the carrier is not.
     """
     p = path or MANIFEST
     if not os.path.exists(p):
@@ -246,8 +255,11 @@ def load_carrier_manifest(path: str | None = None) -> dict:
     try:
         with open(p, encoding="utf-8") as f:
             man = json.load(f)
-    except (OSError, ValueError):
-        return {}
+    except (OSError, ValueError) as exc:
+        raise CarrierIndexUnreadable(
+            f"carrier index {p} exists but cannot be read as JSON ({exc}). An index that "
+            f"is present and unparsable would silently hand every carrier lookup back to "
+            f"the graph's own copy, which the index exists to override.") from exc
     entries = man
     if isinstance(man, dict):
         for field in ("carriers", "entries", "members", "items"):
@@ -292,7 +304,12 @@ def carrier_indexes(manifest_path: str | None = None,
     conflicts: list[str] = []
     for path, label in ((binding_path or BINDING, "engine/rn_engine/BINDING.json"),
                         (manifest_path or MANIFEST, "engine/carriers/MANIFEST.json")):
-        for cid, rec in load_carrier_manifest(path).items():
+        try:
+            loaded = load_carrier_manifest(path)
+        except CarrierIndexUnreadable as exc:
+            conflicts.append(f"FW-FLOAT-NOT-CERTIFIED: {exc}")
+            continue
+        for cid, rec in loaded.items():
             prior = out.get(cid)
             if prior is not None:
                 old_rec, old_label = prior
@@ -377,6 +394,11 @@ def main(argv: list[str] | None = None) -> int:
     known = set(claims) | set(premises)
     problems: list[str] = []
     unreadable_arithmetic = 0
+    # Certifying-grade claims that cite NO evidence are not examined by the
+    # exact-arithmetic guard below. Refusing them would refuse the committed
+    # graph (H3-BAND-FLOOR is FROZEN_CERTIFICATE with evidence: []), which is a
+    # register decision; counting them keeps the gap visible in the summary line.
+    certifying_without_evidence = 0
     # A duplicate carrier id whose declaration disagrees between the two indexes
     # is refused here rather than resolved by whichever file is read second.
     problems.extend(f"FW-FLOAT-NOT-CERTIFIED: {c}" for c in carrier_conflicts)
@@ -442,6 +464,14 @@ def main(argv: list[str] | None = None) -> int:
     for name, p in premises.items():
         for col in PREMISE_STATUS_COLUMNS:
             v = p.get(col)
+            if v is not None and not isinstance(v, str):
+                # A list or object here raised TypeError on the set test below --
+                # fail-closed by accident, and with a traceback instead of a
+                # firewall name. Refuse it by name.
+                problems.append(
+                    f"FW-UNCONDITIONAL: {name} carries {col} {v!r}, which is not a string. "
+                    f"A status column holds one register word, not a structure.")
+                continue
             if v is None:
                 # Absence is not a status, and skipping it was a way around the
                 # closed vocabulary: deleting both columns from a premise let an
@@ -472,7 +502,7 @@ def main(argv: list[str] | None = None) -> int:
                 v = p.get(col)
                 # `is not None and` was the fail-open: a missing column read as
                 # nothing to refuse. Absence is not a discharge.
-                if v not in PREMISE_DISCHARGED:
+                if not isinstance(v, str) or v not in PREMISE_DISCHARGED:
                     problems.append(
                         f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
                         f"{node}, whose {col} is {v!r} and is not a discharge")
@@ -510,7 +540,7 @@ def main(argv: list[str] | None = None) -> int:
             # refusals, because no claim is graded CERTIFIED_RUNG there at all.
             for col in PREMISE_STATUS_COLUMNS:
                 v = p.get(col)
-                if v not in PREMISE_DISCHARGED:   # absence included, deliberately
+                if not isinstance(v, str) or v not in PREMISE_DISCHARGED:   # absence included, deliberately
                     problems.append(
                         f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests "
                         f"on {node}, whose {col} is {v!r} and is not a discharge")
@@ -652,6 +682,8 @@ def main(argv: list[str] | None = None) -> int:
     for name, node in list(claims.items()) + list(premises.items()):
         evidence = node.get("evidence")
         if not evidence:
+            if name in claims and node.get("grade") in CERTIFYING_GRADES:
+                certifying_without_evidence += 1
             continue
         is_claim = name in claims
         for i, ev in enumerate(evidence):
@@ -659,6 +691,15 @@ def main(argv: list[str] | None = None) -> int:
                 problems.append(
                     f"{name}: evidence[{i}] kind {ev.get('kind')!r} is not in the evidence "
                     f"vocabulary {sorted(EVIDENCE_KINDS)}")
+            cid = ev.get("carrier_id")
+            if cid is not None and cid not in manifest:
+                problems.append(
+                    f"FW-FLOAT-NOT-CERTIFIED: {name} evidence[{i}] names carrier_id {cid!r}, "
+                    f"which neither engine/rn_engine/BINDING.json nor "
+                    f"engine/carriers/MANIFEST.json lists. A carrier record is what the run "
+                    f"actually used and overrides the graph's copy; a carrier that resolves "
+                    f"nowhere leaves the graph's copy unchecked, which is the fail-open this "
+                    f"firewall exists to close.")
             arithmetic, certifying, where = evidence_arithmetic(ev, manifest)
             kind = classify_arithmetic(arithmetic)
             if kind in (UNRECOGNISED, AMBIGUOUS):
@@ -747,6 +788,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"claims={len(claims)} premises={len(premises)} "
           f"firewalls={len(g['firewalls'])} enforced={len(ENFORCED_FIREWALLS)} "
           f"evidence_arithmetic_unreadable={unreadable_arithmetic} "
+          f"certifying_without_evidence={certifying_without_evidence} "
           f"problems={len(problems)}")
     return 1 if problems else 0
 
