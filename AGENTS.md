@@ -9,6 +9,10 @@ in this workspace. This includes replacing `main` and adding pages. Earlier
 owner-only reservations and never-main directions are not continuing vetoes.
 Do useful work without asking Dylan to authorize it again.
 
+**Standing rule:** [OP-PRIVACY-20260927](governance/OP-PRIVACY-20260927.md). Never
+publish Dylan's personal information or material unrelated to the project. If you
+find either, purge it from GitHub and from the shared Drive.
+
 ## Working choices
 
 Choose scope and tooling that advance the research. Read the actual current files
