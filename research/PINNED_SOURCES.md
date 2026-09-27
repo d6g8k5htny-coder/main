@@ -49,7 +49,7 @@ this page.
 |---|---:|---|---|
 | `docs/HERMITE_GAUSSIAN_ENVELOPE.md` | — | `8c0dccdfd177b7ae…` | hermite_gaussian_20260919.json |
 | `docs/OPEN_PROBLEMS.md` | 28417 | `8f404f87e44d2861…` | tools/twelve_project_check.py (SUPPLEMENTAL_DEPENDENCIES) |
-| `drive/inventory.jsonl` | 2807455 | `48766f1807efaba6…` | DEPENDENCIES.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `drive/inventory.jsonl` | 2807455 | `48766f1807efaba6…` | DEPENDENCIES.json, SOURCES.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/03_RAYLEIGH_REPAIR_AND_INTERVAL_CERTIFICATE.md` | 9628 | `840c75a7825c67b8…` | candidate.json, q0_twelve_20260920_v1.zip::verification_plan.json |
 | `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/checks/interval_repair.py` | 6843 | `b37150f0eb79ff5d…` | candidate.json, q0_twelve_20260920_v1.zip::verification_plan.json |
 | `drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/LPW_CONSTANT_REPORT.md` | 12790 | `289d9f40e725bd51…` | q0_twelve_20260920_v1.zip::verification_plan.json |
@@ -69,14 +69,16 @@ this page.
 | `engine/operations/trial.py` | 47797 | `f3bbd18c30383030…` | DEPENDENCIES.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py` | — | `85d7725fab42eeb0…` | hermite_gaussian_20260919.json |
 | `engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/pin_transform.py` | 17623 | `c6988ac7fcfa32dc…` | side24_density_20260920_v1.json, side24_spatial_20260920_v1.json |
-| `quarantine/EXCLUSIONS.json` | 19555 | `8a5a89012dcd0fec…` | DEPENDENCIES.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `quarantine/EXCLUSIONS.json` | 19555 | `8a5a89012dcd0fec…` | DEPENDENCIES.json, SOURCES.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/bands/__init__.py` | 4171 | `d9fb9686306523ae…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/bands/falsifier.py` | 13281 | `0d1b4abf48c4f5b5…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/bands/hermite_gaussian.py` | — | `f37e4657aceb95ab…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/bands/ladder.py` | 26286 | `9ea576708e146aa5…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/bands/lattice.py` | — | `ee7144a98a689094…` | DEPENDENCIES.json, candidate.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, hermite_gaussian_20260919.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, q0_twelve_20260920_v1.zip::verification_plan.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
-| `research/campaigns/h3_rn_n6_20260920_v1.zip` | 571735 | `73b9e63800f77c67…` | DEPENDENCIES.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
+| `research/campaigns/h3_rn_n6_20260920_v1.zip` | 571735 | `73b9e63800f77c67…` | DEPENDENCIES.json, SOURCE_COVERAGE_REVIEW.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/campaigns/h3_rn_n6_20260920_v1.zip::rn_n6/side24_taylor.py` | 23681 | `32c4933c2ab543f7…` | inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json |
+| `research/campaigns/q0_twelve_20260920_v1.zip` | 1109839 | `7a36b7dbaa45b80d…` | SOURCE_COVERAGE_REVIEW.json |
+| `research/campaigns/rn_bernstein_sharp_variance_20260921_v1.zip` | 157355 | `868682c92d41015f…` | SOURCE_COVERAGE_REVIEW.json |
 | `research/cover/__init__.py` | 4113 | `5f3afc075dc40e51…` | DEPENDENCIES.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/cover/driver.py` | 21760 | `7daaced91c179a75…` | DEPENDENCIES.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 | `research/cover/ledger.py` | 37974 | `58ebe18fbc3fc44e…` | DEPENDENCIES.json, h3_rn_n6_20260920_v1.zip::verification_plan.json, inner_wedge_20260920_v1.json, prior-wedge-result.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
@@ -109,7 +111,7 @@ this page.
 | `tools/manifest_integrity_check.py` | — | `8b30cf5768318754…` | candidate.json |
 | `tools/twelve_project_check.py` | 25462 | `54146780a912bbb6…` | DEPENDENCIES.json, result.json, rn_bernstein_sharp_variance_20260921_v1.zip::bernstein/DEPENDENCIES.json, rn_bernstein_sharp_variance_20260921_v1.zip::sharp_variance/DEPENDENCIES.json |
 
-55 files and 6 members sealed inside a ZIP carrier, bound at 296 sites across 16 certificates, plus 113 sites in 4 dependency declarations held INSIDE campaign archives and enforced by the checkers named below.
+57 files and 6 members sealed inside a ZIP carrier, bound at 301 sites across 26 certificates, plus 113 sites in 4 dependency declarations held INSIDE campaign archives and enforced by the checkers named below.
 
 ## Every container of pins, and what its keys are relative to
 
@@ -123,6 +125,24 @@ flipping between the two fails this index's drift comparison by name.
 | certificate | container | keys | keys are |
 |---|---|---:|---|
 | `research/bands/candidates/hermite_gaussian_20260919.json` | `inputs` | 7 | repository |
+| `research/campaigns/p15_foundation_first_20260921_v1/DELIVERY_MANIFEST.json` | `members[]` | 44 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/SOURCE_COVERAGE_REVIEW.json` | `authored_campaign_archives[]` | 3 | repository |
+| `research/campaigns/p15_foundation_first_20260921_v1/SOURCE_COVERAGE_REVIEW.json` | `input_pins[]` | 8 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/SOURCE_COVERAGE_REVIEW.json` | `source_routes[]` | 2935 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `/` | 1 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `candidate_files` | 22 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `commands/normal_replay` | 1 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `commands/normal_tests` | 1 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `commands/optimized_replay` | 1 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/VALIDATION.json` | `commands/optimized_tests` | 1 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/MANIFEST.json` | `files[]` | 21 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/SOURCES.json` | `current_admission_metadata[]` | 2 | repository |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/VALIDATION.json` | `exact_replay/receipts[]` | 2 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/VALIDATION.json` | `foundations` | 2 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/outputs/normal.json` | `inputs` | 4 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/p15_hypergraph/outputs/optimized.json` | `inputs` | 4 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/validation_logs/normal.json` | `inputs` | 4 | other |
+| `research/campaigns/p15_foundation_first_20260921_v1/validation_logs/optimized.json` | `inputs` | 4 | other |
 | `research/campaigns/rn_fullmark_sector_20260921_v1/DEPENDENCIES.json` | `files` | 36 | repository |
 | `research/campaigns/rn_fullmark_sector_20260921_v1/MANIFEST.json` | `files` | 47 | other |
 | `research/campaigns/rn_fullmark_sector_20260921_v1/VALIDATION.json` | `numerical_runs/normal` | 1 | other |

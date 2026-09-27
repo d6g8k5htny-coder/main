@@ -311,14 +311,16 @@ def test_the_real_tree_verifies_every_binding():
     # The RN full-mark sector packet (research/campaigns/rn_fullmark_sector_20260921_v1)
     # adds five pin containers: DEPENDENCIES, MANIFEST, VALIDATION, the prior wedge
     # result and results/normal/result.json. Its repository pins are files the
-    # bernstein/sharp_variance archive declarations already bound, so pinned_files
-    # does not move.
-    assert s["certificates"] == 16
+    # bernstein/sharp_variance archive declarations already bound.
+    # The P15 foundation-first packet (research/campaigns/p15_foundation_first_20260921_v1)
+    # adds ten pin containers and binds two campaign archives that were previously
+    # containers only (q0_twelve, rn_bernstein_sharp_variance).
+    assert s["certificates"] == 26
     # 42 before the campaign archives' own dependency declarations were read. The
     # thirteen paths that jump adds are pinned by a checker and were absent from the
     # index that exists to name them -- see
     # test_the_index_names_what_only_a_campaign_archive_pins.
-    assert s["pinned_files"] == 55
+    assert s["pinned_files"] == 57
     assert s["pinned_archive_members"] == 6
     assert s["archive_declarations"] == 4
     assert s["digest_matches"] == s["pinned_files"] + s["pinned_archive_members"]

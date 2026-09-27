@@ -45,7 +45,7 @@ of it, generated and verified in CI by `tools/pinned_sources_check.py`:
 
 <!-- counts checked by tests/test_pinned_sources.py against the checker's own
      summary line; they drifted twice while they were prose nobody compared -->
-certificates=16 archive_declarations=4 pinned_files=55 pinned_archive_members=6
+certificates=26 archive_declarations=4 pinned_files=57 pinned_archive_members=6
 
 Some of the bound files are checkers in `tools/` -- `h3_rn_n6_check.py` and
 `twelve_project_check.py` are pinned by the downstream `rn_bernstein_sharp_variance`
