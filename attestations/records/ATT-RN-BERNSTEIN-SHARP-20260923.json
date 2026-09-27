@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-RN-BERNSTEIN-SHARP-20260923",
+  "attested_utc": "2026-09-23T19:05:00Z",
+  "object_id": "docs/RN_BERNSTEIN_SHARP.md @ 52bdd4430faba314829ab82817f15c7117cb6e18",
+  "object_title": "RN Bernstein/sharp refinement of the local inner-wedge integrand bound",
+  "object_bytes": 4416,
+  "object_sha256": "7e8557cfb45f9a6d89d4f63f8f63c53b225c27d371e71bd44583276e9845f271",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities under both normal and optimized Python. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/rn_bernstein_sharp_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {"command": "python3 tools/claims_check.py", "exit_code": 0, "summary": "claims=26 premises=13 firewalls=9 problems=0"},
+    {"command": "python3 tools/quarantine_check.py", "exit_code": 0, "summary": "exclusions=22 archive_members=14 manifest_digests=2965"},
+    {"command": "python3 tools/verify_manifests.py", "exit_code": 0, "summary": "manifests=414 verified=3203 problems=0"},
+    {"command": "python3 tools/consumers_check.py", "exit_code": 0, "summary": "tabs=44 MACHINE=23 PROSE_ONLY=3 UNREAD=18, no drift"},
+    {"command": "python3 tools/lanes_check.py", "exit_code": 0, "summary": "no lane reads stronger than the claim graph"},
+    {"command": "python3 tools/frozen_check.py", "exit_code": 0, "summary": "rows=195 comparable=62 match=62 mismatch=0 unverifiable=0"},
+    {"command": "python3 tools/rn_bernstein_sharp_check.py", "exit_code": 0, "summary": "PASS: RN Bernstein/sharp; normal/-O; 6 byte-identical reports; same local wedge; independence=0; no promotion"}
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the independence-requiring predicate is OPEN and the driver reports independence=0 itself.",
+    "The imported fixed-radius H3 floor 0.0077592917375327855 and the six-pin energy allowance below 8, which this packet explicitly does not reprove.",
+    "Certification of the full annulus, which the object states it does not cover.",
+    "All radii and all pin orientations beyond the single local wedge whose domain this refinement does not enlarge.",
+    "The original inner-wedge result it sharpens, which it does not replace and which remains byte-for-byte alongside it."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "Admission does not establish that the sharpened Bernstein coefficient is correct, that the tenfold improvement over the previous integrand cap is sound, or that the exact preconditioner and Taylor remainders behave as the packet describes. It re-derives no inequality and reproves none of the imported premises the object names as imports. Byte-identical replay across normal and optimized Python is a record of reproducibility, not of truth: a mistaken bound reproduces just as faithfully as a correct one. It supplies no reviewer and no independence, leaves the full annulus and every other radius untouched, and moves no claim, premise or obligation.",
+  "notes": "The driver reports independence=0 and no promotion in its own summary; this record transcribes that rather than softening it."
+}

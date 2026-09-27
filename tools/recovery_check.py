@@ -79,7 +79,8 @@ def quarantined_digests(root: str) -> set[str]:
     path = os.path.join(root, EXCLUSIONS)
     if not os.path.exists(path):
         return set()
-    raw = open(path, encoding="utf-8").read()
+    with open(path, encoding="utf-8") as handle:
+        raw = handle.read()
     return {d.lower() for d in re.findall(r"\b[0-9a-f]{64}\b", raw)}
 
 
@@ -89,7 +90,8 @@ def check(root: str) -> list[str]:
     if not os.path.exists(ledger_path):
         return [f"{LEDGER}: missing"]
     try:
-        ledger = json.load(open(ledger_path, encoding="utf-8"))
+        with open(ledger_path, encoding="utf-8") as handle:
+            ledger = json.load(handle)
     except Exception as exc:  # noqa: BLE001 - report, do not raise
         return [f"{LEDGER}: not valid JSON: {exc}"]
 
@@ -282,7 +284,8 @@ def main(argv: list[str] | None = None) -> int:
         for f in failures:
             print("  FAIL", f)
         return 1
-    ledger = json.load(open(os.path.join(args.root, LEDGER), encoding="utf-8"))
+    with open(os.path.join(args.root, LEDGER), encoding="utf-8") as handle:
+        ledger = json.load(handle)
     counts = ledger.get("counts", {}).get("by_outcome", {})
     print(
         "recovery_check: OK — {} records ({}), {} stored blobs, independence credit 0".format(

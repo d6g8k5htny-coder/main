@@ -27,7 +27,8 @@ execution-contract enforcement mechanism, or a security sandbox.
 The parser accepts only the current CI header/setup and pairs of literal
 `name:`/`run:` lines. Its explicit required-command policy includes all 24
 original checker invocations, the RN certificate replay, the derived-frontier
-self-check, the LPW amplitude diagnostic, the static closure-plan check, and
+self-check, the LPW amplitude diagnostic, the static closure-plan check, the
+declared navigation-link check, the navigation synthetic unittest, and
 pytest. Commands are matched exactly and must each occur once;
 pytest must run last. Omitted checks, empty coverage, duplicate commands,
 conditional steps, environment additions, multiline shell, dynamic expressions,

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "attestation_id": "ATT-LPW-AMPLITUDE-20260923",
+  "attested_utc": "2026-09-23T19:09:00Z",
+  "object_id": "docs/LPW_AMPLITUDE.md @ 52bdd4430faba314829ab82817f15c7117cb6e18",
+  "object_title": "LPW amplitude: exact parent-law moments and the radius/phase budget",
+  "object_bytes": 7368,
+  "object_sha256": "b4b44a6a3e55526d38e7ce4c1ba79e24960a0a788f4e5ea267d75e2b8a5fb7c1",
+  "predicate_id": "ARCH-ADMISSION-V1",
+  "predicate_statement": "Every structural gate this repository runs over the object's lineage exited zero at the stated commit: the claim-graph firewalls accept it, logical quarantine is enforced, every content manifest matches its recorded SHA-256 and byte count, the register-consumer map is free of drift, no lane reads stronger than the claim graph, frozen Drive-side digests agree, and the object's own replay driver reproduces its stated quantities and matches its declared source hashes. Passing means the object is structurally admissible here. It does not mean the mathematics is correct.",
+  "predicate_source": "tools/claims_check.py, tools/quarantine_check.py, tools/verify_manifests.py, tools/consumers_check.py, tools/lanes_check.py, tools/frozen_check.py, tools/lpw_amplitude_check.py; shape enforced by attestations/attestation.schema.json and tools/attestations_check.py",
+  "checks": [
+    {"command": "python3 tools/claims_check.py", "exit_code": 0, "summary": "claims=26 premises=13 firewalls=9 problems=0"},
+    {"command": "python3 tools/quarantine_check.py", "exit_code": 0, "summary": "exclusions=22 archive_members=14 manifest_digests=2965"},
+    {"command": "python3 tools/verify_manifests.py", "exit_code": 0, "summary": "manifests=414 verified=3203 problems=0"},
+    {"command": "python3 tools/consumers_check.py", "exit_code": 0, "summary": "tabs=44 MACHINE=23 PROSE_ONLY=3 UNREAD=18, no drift"},
+    {"command": "python3 tools/lanes_check.py", "exit_code": 0, "summary": "no lane reads stronger than the claim graph"},
+    {"command": "python3 tools/frozen_check.py", "exit_code": 0, "summary": "rows=195 comparable=62 match=62 mismatch=0 unverifiable=0"},
+    {"command": "python3 tools/lpw_amplitude_check.py", "exit_code": 0, "summary": "exact parent moments rho^4=8, L1^4=12+32/pi; norm/phase/radius checks and 2 source hashes match; analytic imports retained; authority=NONE"}
+  ],
+  "outcome": "ADMITTED",
+  "awaiting": [
+    "An organizationally distinct reviewer; the driver reports authority=NONE and custody alone does not verify the source's analytic claims.",
+    "The infinite-sum Tonelli and Minkowski justification, which the object states remains an analytic import rather than something it derives.",
+    "The passage from finite sums to the full field, which the object says still requires that imported analytic argument.",
+    "The separate regression treatment R05 uses for conditional norm estimates, since the moments recorded here are unconditional parent-law moments and conditioning generally changes the law.",
+    "The 39 checks in the cited source, whose authority this object explicitly does not rerun, replace, extend or count as its own."
+  ],
+  "claim_grade_after": "UNCHANGED",
+  "gate_status_after": "UNCHANGED",
+  "independence_credit": 0,
+  "does_not_establish": "Admission does not establish that the parent-law moments rho^4=8 and L1^4=12+32/pi are correctly derived, nor that the amplitude budget is a valid bound for the Rayleigh quantity it is applied to. Matching two declared source hashes proves custody of bytes, not soundness of what those bytes assert. The unconditional moments recorded here are not conditional estimates, and nothing in this record bridges that gap. It leaves the Tonelli and Minkowski justification and the finite-sum-to-full-field passage as the analytic imports the object declares them to be, supplies no reviewer, awards no independence, and shifts no obligation.",
+  "notes": "Custody of source hashes is recorded as custody. The object is explicit that custody alone does not verify the source's analytic claims, and this record does not claim otherwise."
+}

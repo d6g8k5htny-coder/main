@@ -1,0 +1,37 @@
+name: withdrawal-governance-pilot
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  loss-only-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, reviewed 2026-09-22
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5, reviewed 2026-09-22
+        with:
+          python-version: "3.11.16"
+      - name: Synthetic negative controls (normal and optimized)
+        run: |
+          python3 -m unittest discover -s tests -p test_withdrawal.py -v
+          python3 -O -m unittest discover -s tests -p test_withdrawal.py -v
+      - name: Synthetic loss-only transition
+        run: >-
+          python3 tools/withdrawal_check.py check
+          --before governance/withdrawal/examples/before.json
+          --after governance/withdrawal/examples/after.json
+          --ticket governance/withdrawal/examples/ticket.json
+      - name: Read-only research enrolment inventory (not migration)
+        run: python3 tools/withdrawal_check.py inventory --legacy-graph claims/graph.json
+      - name: Rollout shadow controls (normal and optimized; no live admission)
+        run: |
+          python3 -m unittest discover -s tests -p test_rollout_guard.py -v
+          python3 -O -m unittest discover -s tests -p test_rollout_guard.py -v
+          python3 tools/rollout_guard.py governance/rollout/SYNTHETIC_metadata_plan.json

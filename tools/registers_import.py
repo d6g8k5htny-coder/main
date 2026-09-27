@@ -4,6 +4,14 @@ and CSV registers.
 
 Source
 ------
+Normal import and --check read current_import_source from SOURCES.json and verify
+its unique provenance, byte count and SHA-256 before parsing. --source is an
+explicit inspection override, not a claim of manifest acceptance. The retained
+SOURCE constant and default --diff-exports still mean the frozen Sept 18 input;
+a future refresh does not rewrite the Sept 17-to-Sept 18 historical comparison.
+This mechanism verifies source identity and transcription, not mathematical truth.
+
+Historical baseline:
 The source is an ``.xlsx`` export of the live Google Sheet
 ``GP-REG-032-v1.2 — Coupled Research Registers`` (Drive id
 ``1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no``), taken 2026-09-18 and kept
@@ -105,6 +113,7 @@ from __future__ import annotations
 import argparse
 import csv
 import filecmp
+import hashlib
 import json
 import os
 import re
@@ -117,7 +126,11 @@ from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Historical comparison input, retained for standalone replay compatibility.
+# Normal imports resolve SOURCES.json at call time; never infer "latest" from names.
 SOURCE = os.path.join(ROOT, "registers", "source", "GP-REG-032_v1.2_export_2026-09-18.xlsx")
+SOURCE_MANIFEST = os.path.join(ROOT, "registers", "source", "SOURCES.json")
+DRIVE_OBJECT_ID = "1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no"
 OUT_JSON = os.path.join(ROOT, "registers", "json")
 OUT_CSV = os.path.join(ROOT, "registers", "csv")
 MARKDOWN_SOURCE = os.path.join(ROOT, "registers", "source", "GP-REG-032_v1.2_export_2026-09-17.md")
@@ -187,6 +200,79 @@ CELL_REF = re.compile(r"^([A-Z]+)([0-9]+)$")
 
 class SourceError(Exception):
     """The source does not match what this importer is built for (exit 2)."""
+
+
+def _unique_object(pairs: list[tuple[str, object]]) -> dict:
+    """Reject ambiguous manifests rather than accepting JSON's last-key-wins rule."""
+    result: dict = {}
+    for key, value in pairs:
+        if key in result:
+            raise SourceError(f"duplicate manifest key: {key!r}")
+        result[key] = value
+    return result
+
+
+def resolve_declared_source(manifest_path: str | None = None,
+                            export_name: str | None = None) -> str:
+    """Resolve and verify one declared export; this verifies custody, not science.
+
+    Missing/ambiguous declarations, unsafe paths, symlinks, identity mismatches,
+    and claims that a native Sheet export is exact all fail before output writes.
+    Explicit --source remains a standalone inspection/replay override.
+    """
+    manifest_path = SOURCE_MANIFEST if manifest_path is None else manifest_path
+    try:
+        with open(manifest_path, encoding="utf-8") as f:
+            manifest = json.load(f, object_pairs_hook=_unique_object)
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise SourceError(f"cannot read source manifest: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise SourceError("source manifest must be an object")
+    source_object = manifest.get("drive_object")
+    if not isinstance(source_object, dict) or source_object.get("id") != DRIVE_OBJECT_ID:
+        raise SourceError("source manifest names the wrong native Drive object")
+    name = manifest.get("current_import_source") if export_name is None else export_name
+    if (not isinstance(name, str) or not name.endswith(".xlsx")
+            or name in (".xlsx", "..xlsx") or "/" in name or "\\" in name
+            or ":" in name or "\0" in name):
+        raise SourceError("current_import_source must be a local .xlsx basename")
+    exports = manifest.get("exports")
+    if not isinstance(exports, list) or not all(isinstance(e, dict) for e in exports):
+        raise SourceError("source manifest exports must be a list of objects")
+    matches = [e for e in exports if e.get("file") == name]
+    if len(matches) != 1:
+        raise SourceError("current_import_source must have exactly one provenance record")
+    record = matches[0]
+    digest, size = record.get("sha256"), record.get("bytes")
+    if not isinstance(digest, str) or re.fullmatch(r"[0-9a-f]{64}", digest) is None:
+        raise SourceError("selected export must have a lowercase SHA-256 digest")
+    if type(size) is not int or size <= 0:
+        raise SourceError("selected export must have a positive integer byte count")
+    if record.get("exact") is not False:
+        raise SourceError("a native Sheet export must declare exact=false")
+    directory = os.path.realpath(os.path.dirname(os.path.abspath(manifest_path)))
+    candidate = os.path.join(directory, name)
+    if os.path.islink(candidate) or os.path.realpath(candidate) != candidate:
+        raise SourceError("selected export must not be a symlink")
+    if not os.path.isfile(candidate):
+        raise SourceError(f"selected export is missing: {name}")
+    try:
+        actual_size = 0
+        actual_digest = hashlib.sha256()
+        with open(candidate, "rb") as f:
+            for block in iter(lambda: f.read(1024 * 1024), b""):
+                actual_size += len(block)
+                actual_digest.update(block)
+    except OSError as exc:
+        raise SourceError(f"cannot read selected export: {exc}") from exc
+    if actual_size != size or actual_digest.hexdigest() != digest:
+        raise SourceError(f"selected export identity mismatch: {name}")
+    return candidate
+
+
+def resolve_current_source(manifest_path: str | None = None) -> str:
+    """Verify the current selector; an explicit successor preview never changes it."""
+    return resolve_declared_source(manifest_path)
 
 
 def column_index(ref: str) -> int | None:
@@ -636,7 +722,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--check", action="store_true",
                     help="regenerate to a temp dir and fail if the committed outputs differ")
-    ap.add_argument("--source", default=SOURCE, help="the .xlsx workbook export to read")
+    ap.add_argument("--source", default=None, help="explicit .xlsx inspection/replay source; default: verified SOURCES.json selector")
     ap.add_argument("--out-json", default=OUT_JSON)
     ap.add_argument("--out-csv", default=OUT_CSV)
     ap.add_argument("--diff-exports", nargs="?", const=EXPORT_DIFF, default=None, metavar="PATH",
@@ -646,6 +732,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="the 2026-09-17 markdown export, the old side of --diff-exports")
     args = ap.parse_args(argv)
     try:
+        # The dated markdown-to-XLSX diff is immutable history, not a live view.
+        # An explicit --source is required to compare that markdown with a successor.
+        if args.source is None:
+            args.source = SOURCE if args.diff_exports else resolve_current_source()
         tabs = parse(args.source)
     except SourceError as exc:
         print(f"registers_import: refusing the source: {exc}", file=sys.stderr)

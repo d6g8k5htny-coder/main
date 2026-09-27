@@ -83,7 +83,8 @@ def test_every_stored_blob_rehashes_to_its_content_address():
         if not rec["blob_stored"]:
             continue
         path = os.path.join(ROOT, rec["blob_path"])
-        raw = open(path, "rb").read()
+        with open(path, "rb") as handle:
+            raw = handle.read()
         digest = hashlib.sha256(raw).hexdigest()
         assert digest == rec["sha256"], rec["carrier_id"]
         assert len(raw) == rec["bytes"], rec["carrier_id"]
@@ -312,3 +313,15 @@ def test_negative_control_legacy_archive_binding_is_caught(sandbox):
     proc = run_verifier(sandbox)
     assert proc.returncode != 0
     assert "02_LEGACY_Q0_ARCHIVE" in proc.stdout
+
+
+def test_pycache_in_blobs_is_ignored(sandbox):
+    """Importing a stored blob must not make carriers_verify fail on __pycache__."""
+    cache = sandbox / "engine" / "carriers" / "blobs" / "__pycache__"
+    cache.mkdir(exist_ok=True)
+    (cache / "ghost.cpython-311.pyc").write_bytes(b"not a carrier")
+    (sandbox / "engine" / "carriers" / "blobs" / "orphan.pyc").write_bytes(b"nope")
+    proc = run_verifier(sandbox)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "blobs/__pycache__" not in proc.stdout
+    assert "orphan.pyc" not in proc.stdout

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "SYNTHETIC-AFTER",
+  "coverage": {
+    "scope_id": "SYNTHETIC-ONLY",
+    "status": "COMPLETE",
+    "review_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "nodes": {
+    "A": {
+      "kind": "CLAIM",
+      "contract_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidential_status": "UNASSESSED",
+      "admissibility": "ELIGIBLE",
+      "scheduling": "ACTIVE"
+    },
+    "B": {
+      "kind": "CLAIM",
+      "contract_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidential_status": "UNASSESSED",
+      "admissibility": "ELIGIBLE",
+      "scheduling": "ACTIVE"
+    },
+    "C": {
+      "kind": "CLAIM",
+      "contract_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidential_status": "UNASSESSED",
+      "admissibility": "ELIGIBLE",
+      "scheduling": "ACTIVE"
+    },
+    "D": {
+      "kind": "CLAIM",
+      "contract_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidential_status": "UNASSESSED",
+      "admissibility": "ELIGIBLE",
+      "scheduling": "ACTIVE"
+    }
+  },
+  "grounds": {
+    "GA": {
+      "conclusion": "A",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "admissibility": "SUSPENDED"
+    },
+    "GB": {
+      "conclusion": "B",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "admissibility": "ELIGIBLE"
+    },
+    "GD": {
+      "conclusion": "D",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "admissibility": "ELIGIBLE"
+    }
+  },
+  "routes": {
+    "ABC": {
+      "conclusion": "C",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "admissibility": "ELIGIBLE",
+      "requires": [
+        "A",
+        "B"
+      ]
+    },
+    "DC": {
+      "conclusion": "C",
+      "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "admissibility": "ELIGIBLE",
+      "requires": [
+        "D"
+      ]
+    }
+  },
+  "dashboard_population": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ]
+}

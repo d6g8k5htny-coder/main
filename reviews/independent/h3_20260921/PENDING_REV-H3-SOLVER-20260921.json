@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "review_id": "REV-H3-SOLVER-20260921",
+  "route_key": "RV-H3-SOLVER-20260921-01",
+  "review_utc": "2026-09-22T00:05:00Z",
+  "object_id": "engine/solver_pilots/h3_20260921/PROOF.md @ 2371f660d90963e558a0d08921c634a36b3be016",
+  "object_title": "H3 scalar optimization: a whole-band lower coefficient of 1747/1000",
+  "object_bytes": 8469,
+  "object_sha256": "0d5fc5ece05df2f5717e0c8fc61c041b8663997933e8ec92c58c8cdf4b4f192d",
+  "extraction_rule": "git blob read at commit 2371f660d90963e558a0d08921c634a36b3be016 via `git show <commit>:<path>`, no re-encoding, no normalization; byte count and SHA-256 taken on the extracted bytes. The Drive copy of the sibling module h3_scalar_arithmetic.py (file id 1Df7rISYgD9ja3zatyj9vlMwMrrfJehhM) was downloaded and hashed separately to confirm the Drive and git bodies are the same bytes.",
+  "obtained": true,
+  "obtained_how": "Cloned repository checkout at the candidate commit; PROOF.md, h3_scalar_arithmetic.py and h3_scalar_certificate.py read in full from the working tree, and the corresponding Drive object downloaded through the Drive integration for an independent byte comparison.",
+  "reviewer_family": "anthropic",
+  "reviewer_session": "claude-code session_01Fij9F1cYrAUDW7PhWQze1G, branch claude/github-chatgpt-xxw5kp",
+  "author_family": "openai",
+  "author_family_determination": "Branch namespace chatgpt/h3-solver-pilot-20260921 and the authorship of PR #5 and its handoff comments; the object's own header describes it as an author-side proved candidate produced by that lineage.",
+  "exposure_disclosure": "Before beginning I had read the PR #5 body, both handoff comments on PR #3, the PR #5 delivery comment, CLAUDE.md, reviews/README.md and reviews/SCHEMA.md, and then the complete text of PROOF.md, h3_scalar_arithmetic.py and h3_scalar_certificate.py at the candidate commit. I had not seen the Drive delivery report, the machine report, the 31-entry portable package, or the frozen source proof b48d8baa39b80be9a15af9833234d9339ea0afa4cdff2e1c60ae9ef79f5cb4fa, and I did not verify the source archive hash 73b9e63800f77c677c504f3097fe0bb2459ff6c94cdee5772b56062320aefc21; the declared source identity is taken on trust and is listed below as an unresolved dependency. The specific bias risk I carry is that I read the author's certificate implementation before writing my own reconstruction, which makes convergent structure less informative than it would otherwise be. I compensated by adding a check aimed at the quantity rather than the arithmetic: direct sampling of the conditional law, whose construction depends on the geometry description and not on the author's code path.",
+  "hypotheses": [
+    "The field is the centered stationary Gaussian field with covariance K(x,y)=k(x)k(y) for the normalized periodized SIDE24 kernel k.",
+    "The two points are the fixed x-axis pair M=(-r/2,0) and S=(r/2,0), with no rotation and no all-angle quantifier.",
+    "Conditioning is the canonical six-pin Gaussian law: f(M)=6/5, f(S)=6/5-r^3/6, and both gradients zero.",
+    "Z(r) is the conditional expectation of |det H_M det H_S| times the indicator that M is a maximum and S is a saddle.",
+    "The radius band is 0<r<=1/20, and the claim is uniform over that band rather than over a finite radius sample.",
+    "The event parameters are the exact rationals epsilon=103/500 and d=9/100, which are event cutoffs and not changes to the field, pins or conditioning measure."
+  ],
+  "reconstruction": "Section 1 bounds the pin-energy uniformly. Because c^T G(r) c is the L2 norm of c dotted into the pin vector V(r), the reverse triangle inequality together with the shifted-Gram eigenfloor G(0) > (3/80)I and the transport budget gives sqrt(c^T G(r) c) >= sqrt(c^T G(0) c) (1 - delta) with delta = (31/20)R/(193/1000). That is a multiplicative Loewner statement, G(r) >= (1-delta)^2 G(0) as quadratic forms, so G(r)^-1 <= G(0)^-1/(1-delta)^2 and Q(r) <= Q(0)/(1-delta)^2 = Q*. I recomputed each ingredient from independently derived moments: the six-term transport budget is 2.40063476562 against (31/20)^2 = 2.4025; Q(0) = 36 m4/[25(m4-m2^2)] + 4 m2/(m2 m6 - m4^2) = 2.82666666667 against 17/6, which is the correct two-block quadratic form for v = (6/5,0,0,0,0,-1/6); (193/1000)^2 < 3/80; and Q* = 1266466/160083 = 7.91130850871 < 8. Section 2 uses the separability and parity of the kernel to split the line processes X, Y and E = f_yy + m2 f, which are mutually independent; the pins fix X and Y and leave E alone, and since f(M) and f(S) are pinned the transverse entries q_M and q_S are pure E-sector quantities. Peano kernels of mass 1/12 bound each axial residual variance by r^2 m8/144, and the regression bound on the conditional mean gives the stated two-tail floor for P(A). Section 3 splits the transverse pair into midpoint and difference, which are uncorrelated hence independent Gaussians, and interval-evaluates the positive-part moments of T = (-Qbar - d)_+ across the whole parameter box. Section 4 bounds the typed integrand pointwise below by 1_A 1_D a T (a T - r B_M^2)_+, drops the positive part using x_+ >= x, and factorizes using the sector independence, giving Z(r)/r^2 >= P(A) P(D) [a^2 M_2 - a r beta M_1]. Taking M_2 low, M_1 high and r = R in the negative term is conservative in the correct direction, and the implementation checks the bracket is positive before the probability lower bounds multiply it.",
+  "negative_controls_executed": [
+    {
+      "control": "Reimplemented the entire section 1 to 4 chain in mpmath at 120 dps from the prose alone, importing nothing from engine/solver_pilots, and compared the endpoint against the author-side rational enclosure.",
+      "would_have_caught": "A transcription error, a dropped factor, or a step present in the certificate code but absent from or contradicted by the written argument.",
+      "fired": false,
+      "detail": "Independent value 1.7472485483566 lies inside the stated enclosure [1.747106129274, 1.747994749902] and above 1747/1000."
+    },
+    {
+      "control": "Sampled the conditional law directly through the sector decomposition, forming conditional moments in mpmath and drawing 8e6 samples, to estimate the true Z(r)/r^2 at r=1/20 rather than to re-derive the bound.",
+      "would_have_caught": "A misread of the geometry or conditioning, or a claimed inequality that is simply false for the quantity it names, neither of which reproducing the author's arithmetic could detect.",
+      "fired": false,
+      "detail": "Estimate 3.224 +/- 0.005 at three sigma, typed-event rate 0.7938; no counterexample at this radius, and the roughly 1.85x gap matches the event and truncation losses the argument takes."
+    },
+    {
+      "control": "Compared the sampled conditional second moments against each majorant the proof relies on.",
+      "would_have_caught": "A majorant stated on the wrong side, which would invalidate the bound while leaving the arithmetic self-consistent.",
+      "fired": false,
+      "detail": "Conditional sd(A_M)=0.0204 <= s(R)=0.0427; |E[R_M|pins]|=0.0146 <= sqrt(Q*)s(R)=0.120; Var(B_M)=0.4998 <= beta=3/4; Var(Qbar)=1.99875 at the low end of [1.99875, 2]."
+    },
+    {
+      "control": "Audited h3_scalar_arithmetic.py for enclosure soundness: outward 2^-256 rounding, isqrt-bracketed roots, alternating-series remainders and the monotonicity domain they require, monotone CDF endpoints, the even-power branch of pdf on a straddling interval, and the refusal domains.",
+      "would_have_caught": "An unsound rounding direction or a series remainder claimed outside the range where its monotonicity argument holds, either of which would void every enclosure built on it.",
+      "fired": false
+    },
+    {
+      "control": "Recomputed the periodization tail argument and the normalized moments from the kernel definition, independently of the author's Hermite envelope code.",
+      "would_have_caught": "An understated image tail or a moment perturbation larger than claimed.",
+      "fired": false,
+      "detail": "Deviations from (1,3,15,105) are below 1e-114, consistent with the stated 1e-100 budget."
+    },
+    {
+      "control": "Downloaded the Drive copy of the sibling module and compared bytes against the git blob.",
+      "would_have_caught": "A reviewed object that differs from the delivered object, or a title match standing in for an identity match.",
+      "fired": false,
+      "detail": "Both 5312 bytes, sha256 c0dc51bb27a8de1dbc7c6102d36cf4f685c202e6317b62dce82c291be4ecb8b2."
+    }
+  ],
+  "execution_performed": "Ran the object's own suite at the candidate commit: 57 tests pass in normal mode and 57 under python3 -O, no skips, about 20.4s each. Ran the full repository suite at this head and at each other head in the stack. Executed both reviewer cross-check scripts in reviews/independent/h3_20260921/.",
+  "findings": [
+    {
+      "criterion": "exact object correctness",
+      "severity": "INFO",
+      "statement": "The section 1 to 4 chain reproduces independently and the stated enclosure contains the independently computed endpoint; no soundness defect was found in the rational interval module.",
+      "evidence": "reviews/independent/h3_20260921/reconstruct_bound.py"
+    },
+    {
+      "criterion": "margin",
+      "severity": "MINOR",
+      "statement": "The certified margin is thin: the enclosure's lower endpoint exceeds 1747/1000 by 1.06e-4 while the enclosure itself is 8.9e-4 wide, so the headline coefficient sits near the edge of what this parameter choice certifies under this interval implementation.",
+      "evidence": "Independent point value 1.74724855 leaves 2.49e-4."
+    },
+    {
+      "criterion": "transport budget",
+      "severity": "MINOR",
+      "statement": "The six-term transport budget clears its 31/20 rounding by about 0.08 percent, so a future change to any coefficient would break section 1 before anything downstream registered it.",
+      "evidence": "2.400634766 against 2.4025."
+    },
+    {
+      "criterion": "scope discipline",
+      "severity": "INFO",
+      "statement": "The declared limits match what the arithmetic supports, and the load-bearing statement that the interval encloses the sufficient-bound formula rather than the true value of Z(r)/r^2 is made in both the prose and the implementation's limits list.",
+      "evidence": "PROOF.md section 4 and the limits list in prove()."
+    }
+  ],
+  "unresolved_dependencies": [
+    "Frozen source proof b48d8baa39b80be9a15af9833234d9339ea0afa4cdff2e1c60ae9ef79f5cb4fa, not read by this reviewer.",
+    "Source archive 73b9e63800f77c677c504f3097fe0bb2459ff6c94cdee5772b56062320aefc21, not verified by this reviewer.",
+    "The imported fixed-axis H3 argument that this work extends, which is taken as given.",
+    "A second rigorous implementation, and an Arb run, neither of which has been performed.",
+    "The organizationally distinct reviewer that the independence-requiring predicate calls for, which remains OPEN.",
+    "All-angle, 3D, full-annulus, elder-selection, q0 and prize obligations, none of which this object addresses."
+  ],
+  "technical_verdict": "PASS_TECHNICAL",
+  "scope_dependency_verdict": "The statement's declared scope (fixed x-axis, b=6/5, gap r^3/6, canonical six-pin law, 0<r<=1/20, 2D normalized SIDE24) matches what the arithmetic actually covers, and the whole-band reduction is uniform in r rather than a radius sample, because every r dependence is bounded before the scalar evaluation. Its declared dependencies on the frozen source proof and source archive are stated correctly but are unverified by this reviewer and remain listed as unresolved. The sharper fixed-radius RN floor 0.0077592917375327855 is retained rather than replaced, and the weaker band endpoint is not substituted into the RN budget.",
+  "independence_credit": 0,
+  "independence_reason": "This reviewing session is Anthropic-family, which under R17 section 4 is zero organizational independence regardless of the object's OpenAI-family author lineage. Different provider alone does not establish independence where both sessions operate under the same principal on the same corpus from the same prose, so the OP-PROT-012 section 5 predicate is not met and the independence-requiring gate remains OPEN.",
+  "gate_status_after": "UNCHANGED",
+  "does_not_establish": "This record does not establish organizational independence, and the independence-requiring predicates for this object remain OPEN exactly as before it was written. It does not verify the Drive delivery report, the machine report, the 31-entry portable package, the 16 Drive file identities, the source archive hash chain, or the frozen source proof; only git blobs at 2371f660 and one Drive module were read. It makes no statement about the all-angle case, three dimensions, the full annulus, elder selection, q0, the original upper bound, or any prize problem, and none of those obligations is affected. It does not show that 1747/1000 is near-optimal for this method, and it does not replace the sharper fixed-radius RN floor. The mpmath and Monte Carlo cross-checks behind it are NON-CERTIFYING under CLAUDE.md rule 3 and bound nothing.",
+  "reproducible_output": [
+    "python3 reviews/independent/h3_20260921/reconstruct_bound.py",
+    "python3 reviews/independent/h3_20260921/sample_true_value.py",
+    "python3 -m unittest discover -s tests -p test_h3_solver_pilot.py",
+    "python3 -O -m unittest discover -s tests -p test_h3_solver_pilot.py",
+    "git show 2371f660d90963e558a0d08921c634a36b3be016:engine/solver_pilots/h3_20260921/PROOF.md | sha256sum",
+    "https://github.com/d6g8k5htny-coder/main/pull/5#issuecomment-5769351514"
+  ],
+  "notes": "HELD, NOT FILED. This record is complete and is deliberately parked outside reviews/records/ because tools/reviews_check.py requires route_key to appear verbatim in registers/json/review_queue.json, and RV-H3-SOLVER-20260921-01 exists only in the live Drive register (sheet 1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no, modified 2026-09-22T00:18:28Z) and not in the 2026-09-18 export the repository carries. Filing it now would fail CI. Once the register export is refreshed from its source, this file moves to reviews/records/REV-H3-SOLVER-20260921.json unchanged, with its companion markdown."
+}

@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from research.cover.ledger import Box, Cell, Ledger, check_exact_partition
+from research.cover.audit import checked_total
 from research.interval import Interval as I, pi
 from research.rn.certificate import canonical_bytes
 from research.rn.density_majorant import density_moment_majorant
@@ -83,7 +84,7 @@ def assemble_cover(bounds, majorant):
                     note='Exactly this wedge only. The auxiliary Cartesian rectangle is not the integration region.')
     ledger.add(Cell('wedge', DOMAIN, 0))
     ledger.accept('wedge', area, value_range, contribution)
-    total = ledger.total().certified_enclosure()
+    total = checked_total(ledger).certified_enclosure()
     if total.lo != 0 or total.hi >= INTEGRAL_UPPER or INTEGRAL_UPPER != INTEGRAND_UPPER*exact_factor*F(22, 7):
         raise ValueError('exact wedge area-weighted budget failed')
     return ledger.receipt()

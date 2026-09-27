@@ -122,7 +122,9 @@ from research.cover import (  # noqa: E402
     check_exact_partition, radial_gaussian_closed_form, rn5_annulus_bracket,
     rn5_annulus_polar, run, t4_polar_cover,
 )
-from research.cover.regions import INSIDE, OUTSIDE, STRADDLE  # noqa: E402
+from research.cover.regions import (  # noqa: E402
+    INSIDE, OUTSIDE, STRADDLE, two_pi_upper,
+)
 
 
 # --------------------------------------------------------------- helpers
@@ -1097,3 +1099,202 @@ def test_29_max_cell_width_is_the_coarsest_leaf_and_does_not_track_tolerance():
     assert F(rec["min_cell_width"]) < F(rec["max_cell_width"])
     assert "saturate" in rec["cell_width_note"]
     assert "not monotone in the tolerance" in rec["cell_width_note"]
+
+
+def test_30_a_cell_tangent_to_the_inner_circle_is_not_OUTSIDE():
+    """CONTROL 30. Kills the `hi2 < rlo2` -> `hi2 <= rlo2` flip in `classify`.
+
+    `AnnulusBracketRegion.classify` calls a cell provably disjoint from the
+    annulus when its greatest radius falls short of the inner radius, or its
+    least radius exceeds the outer one. Both comparisons are strict, and both
+    have a mutant that differs from the shipped code only where a cell is
+    EXACTLY tangent to a circle. The reference covers never land on that
+    equality, so neither mutant dies by running the reference geometry -- which
+    is not a reason to leave them alive. Exact rationals make a tangent cell
+    easy to build.
+
+    ``[0, 3/50] x [0, 4/50]`` straddles the origin on both axes, so
+    ``_axis_min_max`` gives ``lo = 0`` on each and
+    ``hi2 = (3/50)^2 + (4/50)^2 = 9/2500 + 16/2500 = 1/100``, exactly
+    ``r_lo^2``. The cell reaches the inner circle and is therefore NOT provably
+    disjoint from the annulus:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+
+    which matters because OUTSIDE is the disposition whose rejection reason says
+    *proved disjoint*, and whose area the total accounts for as carrying no
+    contribution. A cell touching the region, rejected as disjoint, is how a
+    cover loses area it should have accounted for.
+    """
+    region = rn5_annulus_bracket()
+    box = Box(F(0), F(3, 50), F(0), F(4, 50))
+    lo2, hi2 = region.radius2_range(box)
+    assert lo2 == 0
+    assert hi2 == region.r_lo ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert region.classify(box) == STRADDLE
+
+
+def test_31_a_cell_tangent_to_the_outer_circle_is_not_OUTSIDE():
+    """CONTROL 31. Kills the `lo2 > rhi2` -> `lo2 >= rhi2` flip in `classify`.
+
+    The mirror of control 30, and a separate control because each box kills
+    exactly one of the two comparisons: the inner-tangent box leaves this mutant
+    alive and vice versa.
+
+    ``[5, 6] x [0, 1]`` does not straddle zero on the u axis, so
+    ``_axis_min_max`` gives ``lo = 5`` there, and ``lo2 = 25 + 0 = 25``, exactly
+    ``r_hi^2``. The cell reaches the outer circle:
+
+        live    classify -> STRADDLE
+        mutant  classify -> OUTSIDE
+    """
+    region = rn5_annulus_bracket()
+    box = Box(F(5), F(6), F(0), F(1))
+    lo2, hi2 = region.radius2_range(box)
+    assert lo2 == region.r_hi ** 2, "the box must be exactly tangent, or this proves nothing"
+    assert region.classify(box) == STRADDLE
+
+
+def test_32_the_axis_min_max_operand_flips_are_provably_equivalent():
+    """CONTROL 32. The `_axis_min_max` flips are NOT killable, and that is the
+    finding rather than a gap.
+
+    It is tempting to file this helper beside `classify` as another pair of
+    comparisons "differing only at exact tangency". It is not a disjointness
+    test at all; it is the per-axis min/max helper::
+
+        lo = Fraction(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    and its two operand flips differ NOWHERE on a legal box, not merely at
+    tangency. Proof, one line each:
+
+      * ``a < 0 <= b`` can only diverge from ``a <= 0 <= b`` when ``a == 0``;
+        the else branch then returns ``min(|0|, |b|) = 0``, which is what the if
+        branch returns.
+      * ``a <= 0 < b`` can only diverge when ``b == 0``; the else branch then
+        returns ``min(|a|, 0) = 0``, likewise.
+
+    So no cover, no cell width and no input separates them. This control cannot
+    kill either mutant -- nothing can -- and asserts the EQUIVALENCE instead,
+    over a grid of legal boxes. A surviving mutant that is provably equivalent
+    to the shipped code is not a hole in the suite, and recording which of the
+    two it is is the point: if `_axis_min_max` is later changed so the flips
+    stop agreeing, this fails, which is the only guard an equivalence claim can
+    carry.
+    """
+    def live(a, b):
+        return F(0) if (a <= 0 <= b) else min(abs(a), abs(b))
+
+    def flip_first(a, b):
+        return F(0) if (a < 0 <= b) else min(abs(a), abs(b))
+
+    def flip_second(a, b):
+        return F(0) if (a <= 0 < b) else min(abs(a), abs(b))
+
+    values = [F(n, d) for n in range(-6, 7) for d in (1, 2, 3)]
+    pairs = [(a, b) for a in values for b in values if a <= b]
+    assert len(pairs) > 700, "the grid must be wide enough to be worth quoting"
+    for a, b in pairs:
+        assert live(a, b) == flip_first(a, b) == flip_second(a, b), (a, b)
+
+    # And the live helper is the one the region actually uses, so the proof is
+    # about shipped code rather than a copy that has drifted from it.
+    region = rn5_annulus_bracket()
+    for a, b in ((F(-1), F(2)), (F(0), F(3)), (F(-4), F(0)), (F(2), F(5))):
+        assert region._axis_min_max(a, b) == (live(a, b), max(abs(a), abs(b)))
+
+
+def test_33_uniform_cost_meets_its_target_and_the_published_count_is_pinned():
+    """CONTROL 33. The cost figure is published in three documents. Pin it.
+
+    ``uniform_cost`` is this package's answer to RN5's "Treat the near-axis
+    refinement cost explicitly", and the README stakes its standing on the
+    distinction: "a count, not an estimate -- exact rationals, no fit, no
+    sampling". Its output is quoted as exact arithmetic in three places:
+    ``docs/OPEN_PROBLEMS.md`` A5 ("98 x 629 = 61,642 polar cells"),
+    ``docs/FINDINGS_2026-09-18.md``, and ``research/cover/README.md``.
+
+    Control 18 checks the types, that ``cells`` is the product, that the
+    anisotropy is 50, and that a finer target costs more. None of that
+    constrains the *contract* the docstring states -- that a grid of ``N_r``
+    radial and ``N_t`` angular steps bounds the cell diameter by
+    ``dr + r_hi * 2*pi * dt <= target``. So the published number was pinned by
+    nothing, and this mutation survived all 40 tests this file then held:
+
+        regions.py:323   half = target_diameter / 2   ->   half = target_diameter
+
+    Under it the annulus reports **49 x 315 = 15,435** cells rather than
+    98 x 629 = 61,642, and the grid it describes has diameter bound 0.1997
+    against a target of 0.1 -- it does not cover at the requested resolution,
+    and every document quoting 61,642 becomes false. Nothing failed.
+
+    Three things are asserted here, all in exact rationals and never in float.
+    """
+    a = rn5_annulus_polar()
+
+    # (i) The contract, at several targets.
+    #
+    #     NOTE ON WHAT MINIMALITY MEANS HERE, because the first draft of this
+    #     control asserted the wrong one and failed. `uniform_cost` splits the
+    #     budget EVENLY -- each axis is solved independently against
+    #     `target/2` -- so each count is minimal FOR ITS HALF, and that is what
+    #     is asserted below. The pair is NOT jointly minimal over all
+    #     (n_r, n_t) meeting the combined bound, and this control does not
+    #     claim it is: at target 1/3 the annulus reports 30 x 189 while
+    #     30 x 188 also satisfies `dr + r_hi*2*pi*dt <= 1/3`. Spending less on
+    #     one axis to spend more on the other is a different algorithm from the
+    #     one the docstring describes, and a test may not quietly demand it.
+    for target in (F(1, 10), F(1, 20), F(1, 3)):
+        cost = a.uniform_cost(target)
+        n_r, n_t = cost["radial_steps"], cost["angular_steps"]
+        span = a.r_hi - a.r_lo
+        circ = a.r_hi * two_pi_upper()
+        half = target / 2
+
+        radial_step = span / n_r
+        angular_extent = circ * (F(1) / n_t)
+
+        # The headline contract the docstring states.
+        assert radial_step + angular_extent <= target, (
+            f"target {target}: grid {n_r}x{n_t} has diameter bound "
+            f"{radial_step + angular_extent} > {target}; it does not cover at "
+            f"the resolution it claims")
+        assert isinstance(radial_step + angular_extent, F)
+
+        # The even split, which is how that bound is actually achieved.
+        assert radial_step <= half and angular_extent <= half
+
+        # And each count minimal for its own half -- ceil division, so one
+        # step fewer must overshoot. This is what the mutation breaks.
+        if n_r > 1:
+            assert span / (n_r - 1) > half, (
+                f"target {target}: {n_r - 1} radial steps would also fit the "
+                f"half-budget, so the radial count is not minimal")
+        if n_t > 1:
+            assert circ * (F(1) / (n_t - 1)) > half, (
+                f"target {target}: {n_t - 1} angular steps would also fit the "
+                f"half-budget, so the angular count is not minimal")
+
+    # (ii) The figure three documents quote, pinned to the arithmetic.
+    published = a.uniform_cost(F(1, 10))
+    assert published["radial_steps"] == 98
+    assert published["angular_steps"] == 629
+    assert published["cells"] == 61642
+
+    # (iii) And the documents themselves, so prose and arithmetic cannot drift
+    #       apart in either direction without a failure here. The two docs/
+    #       files live on this branch and must exist: a deleted document would
+    #       otherwise pass this check silently. Only the cover README, whose
+    #       presence differs per branch, may be absent.
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    for rel, fragment, required in (
+            (os.path.join("research", "cover", "README.md"), "61,642", False),
+            (os.path.join("docs", "OPEN_PROBLEMS.md"), "61,642", True),
+            (os.path.join("docs", "FINDINGS_2026-09-18.md"), "61,642", True)):
+        path = os.path.join(root, rel)
+        if not os.path.isfile(path):
+            assert not required, f"{rel} is missing; the published count is quoted there"
+            continue
+        with open(path, encoding="utf-8") as handle:
+            assert fragment in handle.read(), f"{rel} no longer quotes {fragment}"

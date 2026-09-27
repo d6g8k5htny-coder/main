@@ -55,13 +55,16 @@ def make_store(tmp_path):
 
     rec_rel = f"recovery/recovered/good.json.{GOOD_SHA}.bin"
     cand_rel = f"recovery/candidates/maybe.txt.{CAND_SHA}.bin"
-    open(os.path.join(root, rec_rel), "wb").write(GOOD)
-    open(os.path.join(root, cand_rel), "wb").write(CAND)
+    with open(os.path.join(root, rec_rel), "wb") as handle:
+        handle.write(GOOD)
+    with open(os.path.join(root, cand_rel), "wb") as handle:
+        handle.write(CAND)
 
-    json.dump(
-        {"as_of": "2026-09-17", "exclusions": [{"key": "Q-FIXTURE", "payload_sha256": "f" * 64}]},
-        open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w"),
-    )
+    with open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w") as handle:
+        json.dump(
+            {"as_of": "2026-09-17", "exclusions": [{"key": "Q-FIXTURE", "payload_sha256": "f" * 64}]},
+            handle,
+        )
 
     ledger = {
         "schema": "q0-recovery-ledger/1.0",
@@ -80,12 +83,14 @@ def make_store(tmp_path):
             _record("R-3", "UNRECOVERABLE", None, corroborated=False, missing="the whole 4,096-byte payload"),
         ],
     }
-    json.dump(ledger, open(os.path.join(root, "recovery", "LEDGER.json"), "w"), indent=1)
+    with open(os.path.join(root, "recovery", "LEDGER.json"), "w") as handle:
+        json.dump(ledger, handle, indent=1)
     return root, ledger, rec_rel, cand_rel
 
 
 def write_ledger(root, ledger):
-    json.dump(ledger, open(os.path.join(root, "recovery", "LEDGER.json"), "w"), indent=1)
+    with open(os.path.join(root, "recovery", "LEDGER.json"), "w") as handle:
+        json.dump(ledger, handle, indent=1)
 
 
 def failures_mentioning(root, needle):
@@ -179,11 +184,12 @@ def test_recovered_marked_uncorroborated_in_index_is_caught(tmp_path):
 
 def test_quarantined_digest_is_refused(tmp_path):
     root, _, _, _ = make_store(tmp_path)
-    json.dump(
-        {"as_of": "2026-09-17",
-         "exclusions": [{"key": "Q-R17-FIXTURE", "class": "DEFECTIVE_SCOPE", "payload_sha256": GOOD_SHA}]},
-        open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w"),
-    )
+    with open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w") as handle:
+        json.dump(
+            {"as_of": "2026-09-17",
+             "exclusions": [{"key": "Q-R17-FIXTURE", "class": "DEFECTIVE_SCOPE", "payload_sha256": GOOD_SHA}]},
+            handle,
+        )
     fails = failures_mentioning(root, "appears in quarantine/EXCLUSIONS.json")
     assert fails, "a payload under logical quarantine must not be restored into the recovery store"
 
@@ -191,11 +197,12 @@ def test_quarantined_digest_is_refused(tmp_path):
 def test_quarantined_digest_found_in_free_text_identity_is_refused(tmp_path):
     """Exclusion rows name digests in an 'identity' string too; those count."""
     root, _, _, _ = make_store(tmp_path)
-    json.dump(
-        {"as_of": "2026-09-17",
-         "exclusions": [{"key": "Q-R17-FIXTURE", "identity": f"{GOOD_SHA}; 13 bytes"}]},
-        open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w"),
-    )
+    with open(os.path.join(root, "quarantine", "EXCLUSIONS.json"), "w") as handle:
+        json.dump(
+            {"as_of": "2026-09-17",
+             "exclusions": [{"key": "Q-R17-FIXTURE", "identity": f"{GOOD_SHA}; 13 bytes"}]},
+            handle,
+        )
     assert failures_mentioning(root, "appears in quarantine/EXCLUSIONS.json")
 
 
@@ -269,7 +276,8 @@ def test_unindexed_blob_is_caught(tmp_path):
     root, _, _, _ = make_store(tmp_path)
     stray = b"stray\n"
     p = f"recovery/recovered/stray.{hashlib.sha256(stray).hexdigest()}.bin"
-    open(os.path.join(root, p), "wb").write(stray)
+    with open(os.path.join(root, p), "wb") as handle:
+        handle.write(stray)
     assert failures_mentioning(root, "not listed in the ledger's artifacts index")
 
 
@@ -286,7 +294,8 @@ def test_indexed_but_absent_blob_is_caught(tmp_path):
 
 @pytest.fixture(scope="module")
 def real_ledger():
-    return json.load(open(os.path.join(ROOT, "recovery", "LEDGER.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "recovery", "LEDGER.json"), encoding="utf-8") as handle:
+        return json.load(handle)
 
 
 def test_every_named_exception_class_is_covered(real_ledger):
@@ -306,11 +315,13 @@ def test_ledger_counts_match_the_exceptions_csv():
     """The ledger's enumeration must be the CSV's, not a remembered number."""
     import csv
 
-    rows = list(csv.DictReader(open(os.path.join(ROOT, "drive", "source_map", "Exceptions.csv"), encoding="utf-8")))
+    with open(os.path.join(ROOT, "drive", "source_map", "Exceptions.csv"), encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
     seen = {}
     for r in rows:
         seen[r["Type"]] = seen.get(r["Type"], 0) + 1
-    ledger = json.load(open(os.path.join(ROOT, "recovery", "LEDGER.json"), encoding="utf-8"))
+    with open(os.path.join(ROOT, "recovery", "LEDGER.json"), encoding="utf-8") as handle:
+        ledger = json.load(handle)
     declared = ledger["counts"]["enumerated_from_exceptions_csv"]
     assert declared["total_rows"] == len(rows)
     for cls in ("EMPTY_NATIVE_BODY", "READ_FAILED", "ARCHIVE_READ_FAILURE", "ENCODED_BLOCK_FAILURE"):
@@ -452,9 +463,11 @@ def test_the_two_markdown_recoveries_follow_from_the_candidate_bytes(real_ledger
     """Recompute the recovery from the 2026-09-18 candidate, not from memory."""
     by_id = {r["record_id"]: r for r in real_ledger["records"]}
     for rid in ("RDF-01", "RDF-02"):
-        cand = open(os.path.join(ROOT, by_id[rid]["stored_path"]), "rb").read()
+        with open(os.path.join(ROOT, by_id[rid]["stored_path"]), "rb") as handle:
+            cand = handle.read()
         succ = by_id[rid + "-S1"]
-        recovered = open(os.path.join(ROOT, succ["stored_path"]), "rb").read()
+        with open(os.path.join(ROOT, succ["stored_path"]), "rb") as handle:
+            recovered = handle.read()
         expected = by_id[rid]["digest_corroboration"]["expected_sha256"]
         assert _halve_blank_lines(cand) == recovered
         assert hashlib.sha256(recovered).hexdigest() == expected
@@ -464,12 +477,14 @@ def test_the_two_markdown_recoveries_follow_from_the_candidate_bytes(real_ledger
     # payloads of the same class were already exact on 2026-09-18
     for rid in ("RDF-03", "RDF-04", "RDF-05"):
         rec = by_id[rid]
-        stored = open(os.path.join(ROOT, rec["stored_path"]), "rb").read()
+        with open(os.path.join(ROOT, rec["stored_path"]), "rb") as handle:
+            stored = handle.read()
         assert rec["outcome"] == "RECOVERED" and b"\n\n" not in stored
         assert _halve_blank_lines(stored) == stored
     # a candidate with a different failure mode is not "fixed" by the rule
     arf = by_id["ARF-03"]
-    cand = open(os.path.join(ROOT, arf["stored_path"]), "rb").read()
+    with open(os.path.join(ROOT, arf["stored_path"]), "rb") as handle:
+        cand = handle.read()
     assert hashlib.sha256(_halve_blank_lines(cand)).hexdigest() != arf["digest_corroboration"]["expected_sha256"]
     assert arf["outcome"] == "CANDIDATE"
 
@@ -503,7 +518,8 @@ def test_the_ls_data_013_members_come_from_the_mirrored_carrier_and_match_the_so
             data = z.read(member)
             assert hashlib.sha256(data).hexdigest() == row["Payload SHA-256"]
             assert len(data) == int(row["Bytes"])
-            stored = open(os.path.join(ROOT, members[os.path.basename(member)]), "rb").read()
+            with open(os.path.join(ROOT, members[os.path.basename(member)]), "rb") as handle:
+                stored = handle.read()
             assert stored == data
 
 
@@ -517,6 +533,7 @@ def test_no_recovered_python_is_wired_into_the_engine():
     for path in glob.glob(os.path.join(ROOT, "engine", "**", "*.py"), recursive=True) + glob.glob(
         os.path.join(ROOT, ".github", "workflows", "*.yml")
     ):
-        hay += open(path, encoding="utf-8", errors="replace").read()
+        with open(path, encoding="utf-8", errors="replace") as handle:
+            hay += handle.read()
     for b in blobs:
         assert os.path.basename(b) not in hay

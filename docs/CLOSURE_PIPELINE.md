@@ -23,7 +23,9 @@ that all listed rows are open. Terminal rows remain terminal in the projection.
 Each supported command becomes an executable machine-verification task. Explicit
 relevance links connect RN checks to A5, Hermite checks to A1, and the LPW amplitude
 check to its constant repair. These links identify useful evidence; they are not
-theorem-discharge rules. The runner never executes arbitrary carrier IDs or
+theorem-discharge rules. The declared navigation-link check and its synthetic
+unittest are on the same allowlist and have no relevance links, so they do not
+attach to an obligation. The runner never executes arbitrary carrier IDs or
 commands found in register cells. In particular, a superseded carrier being
 listed among historical A5 inputs does not make it eligible for execution.
 
