@@ -50,7 +50,8 @@ GitHub API reports `private=false`, and the account's repository listing reports
 `visibility=public`. The one *sourced* record in this tree about that visibility
 is `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`:
 "The repository was public at inspection. Preserve that visibility: the owner
-asked to restrict who works in it, not to hide the existing public record."
+asked to restrict who works in it, not to hide the existing public record"
+(that file, line 17, cited path `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`).
 Whether to keep it so remains the owner's to decide. Private draft work may
 continue; nothing in this paragraph authorizes public publication or mathematical
 promotion.

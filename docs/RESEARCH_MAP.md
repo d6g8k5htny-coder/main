@@ -678,8 +678,11 @@ below is quoted from those bytes.
   operator sentence in the corpus about a Git repository: "REPOSITORY ROUTING:
   private Git repository creation and exact-history push are approved when
   platform access becomes available." (This repository is public, checked
-  2026-09-26; the visibility decision is the owner's and is not recorded in this
-  tree — see `governance/GIT_ADAPTATION.md`, which withdraws an unsourced
+  2026-09-26; the visibility decision is the owner's, and the only sourced record
+  in this tree about it is the 2026-09-18 execution handoff
+  `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/DRIVE_GITHUB_EXECUTION_HANDOFF.md`,
+  which records the owner asking to restrict who works in the repository, not
+  to hide it — see `governance/GIT_ADAPTATION.md`, which withdraws an unsourced
   directive that this passage previously asserted in the opposite direction. The
   quoted historical routing, Drive sharing and scientific gates are unchanged by
   visibility either way.)

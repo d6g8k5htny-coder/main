@@ -92,6 +92,8 @@ def test_a_citation_in_the_following_sentence_is_accepted(tmp_path):
 
 def test_a_cross_reference_to_a_governed_file_is_accepted(tmp_path):
     """docs/RESEARCH_MAP.md cites by pointing at the file holding the id."""
+    (tmp_path / "governance").mkdir()
+    (tmp_path / "governance" / "GIT_ADAPTATION.md").write_text("# id here\n", encoding="utf-8")
     root, name = write(tmp_path, "GOVERNED.md",
                        "The Board's decision of 2026-07-24 is the one operator "
                        "sentence about a Git repository. (The visibility "
@@ -99,6 +101,42 @@ def test_a_cross_reference_to_a_governed_file_is_accepted(tmp_path):
                        "`governance/GIT_ADAPTATION.md`.)\n")
     out = run(root, name)
     assert out.returncode == 0, out.stdout
+
+
+def test_a_cross_reference_to_a_missing_file_is_refused(tmp_path):
+    """`docs/NOTHING_HERE.md` has the shape of a citation and cites nothing."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The operator approved the routing; see "
+                       "`docs/NOTHING_HERE.md` for the decision.\n")
+    out = run(root, name)
+    assert out.returncode == 1, out.stdout
+    assert "does not exist under the checked root" in out.stdout
+    assert "docs/NOTHING_HERE.md" in out.stdout
+
+
+def test_a_commit_sha_is_not_a_drive_id(tmp_path):
+    """A 40-hex sha beginning 0 or 1 has a Drive id's shape and opens nothing."""
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The operator approved it in "
+                       "0123456789abcdef0123456789abcdef01234567.\n")
+    out = run(root, name)
+    assert out.returncode == 1, out.stdout
+    assert "no source" in out.stdout
+
+
+def test_the_owner_asked_phrasing_is_a_directive(tmp_path):
+    """The handoff record's own wording, restated without its source."""
+    for body in ("The owner asked that the repository be made private.\n",
+                 "The owner directed that the mirror be removed.\n",
+                 "Dylan requested a private repository.\n"):
+        root, name = write(tmp_path, "GOVERNED.md", body)
+        out = run(root, name)
+        assert out.returncode == 1, body + out.stdout
+        assert "no source" in out.stdout
+    root, name = write(tmp_path, "GOVERNED.md",
+                       "The owner asked to restrict who works in it "
+                       "(OP-PROT-012).\n")
+    assert run(root, name).returncode == 0
 
 
 def test_the_explicit_disclaimer_opts_a_paragraph_out(tmp_path):
@@ -190,10 +228,20 @@ def test_line_numbers_survive_the_stripping(tmp_path):
 
 
 def test_the_real_readme_block_no_longer_counts():
-    """The live tree: three directives, all in prose, none from a code block."""
+    """The live tree passes with every counted directive in prose, none from a
+    code block. The exact count is not pinned: it moves whenever a governed
+    document is edited, and a control that fails on an edit without a defect
+    teaches readers to ignore it."""
     out = run(ROOT)
     assert out.returncode == 0, out.stdout
-    assert "directives=3" in out.stdout
+    directives = int(out.stdout.split("directives=")[1].split()[0])
+    assert directives >= 1
+    fenced_only = os.path.join(ROOT, "README.md")
+    with open(fenced_only, encoding="utf-8") as handle:
+        stripped = ODC.strip_code_fences(handle.read())
+    assert "operator_directive_check.py" not in stripped or \
+        not any(ODC.DIRECTIVE.search(s) for _, s in ODC.sentences(stripped)
+                if "operator_directive_check.py" in s)
 
 
 # ---------------------------------------------------------------------------
@@ -215,11 +263,19 @@ def test_an_empty_root_is_refused(tmp_path):
 def test_one_missing_governed_document_is_refused(tmp_path):
     """Copy the real governed set, drop one, and the checker must object."""
     import shutil
+    # Cited repository paths must resolve under the checked root, so the
+    # records the governed set cites travel with it as empty stand-ins.
     for rel in ODC.GOVERNED_DOCS:
         src = os.path.join(ROOT, rel)
         dst = os.path.join(str(tmp_path), rel)
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copyfile(src, dst)
+        with open(src, encoding="utf-8", errors="replace") as handle:
+            for cited in ODC.CITED_PATH.findall(ODC.strip_code_fences(handle.read())):
+                target = os.path.join(str(tmp_path), cited.rstrip("/"))
+                if os.path.exists(os.path.join(ROOT, cited.rstrip("/"))) and not os.path.exists(target):
+                    os.makedirs(os.path.dirname(target), exist_ok=True)
+                    open(target, "w", encoding="utf-8").close()
     out = run(str(tmp_path))
     assert out.returncode == 0, out.stdout
     assert "docs=6" in out.stdout

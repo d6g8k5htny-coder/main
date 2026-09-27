@@ -9,11 +9,13 @@ every operator decision is quoted with its source: a Drive id, an artifact id
 (``OP-PROT-012``, ``GP-AUD-187``), or a path under ``registers/`` or
 ``drive/``.
 
-Nothing enforced that.  On 2026-09-21 a third-party branch rewrote the
+Nothing enforced that.  Commit c7219af (author-dated 2026-09-19, subject "Add
+exact SIDE24 density-window bound and bounded research automation") rewrote the
 repository-visibility paragraph of ``governance/GIT_ADAPTATION.md`` to read
 "Dylan subsequently directed that the repository remain private until
-publication is explicitly authorized", deleting a sourced sentence that said
-the opposite.  No source for the directive existed anywhere in the tree, and
+publication is explicitly authorized", replacing a sourced sentence that said
+the opposite ("the 2026-09-18 execution-contract draft records the owner asking
+to restrict who works in it, not to hide it").  No source for the directive existed anywhere in the tree, and
 the accompanying present-tense status claim was false: the repository is
 public.  Every checker passed, because none of them was looking at governance
 prose for invented authority.
@@ -62,18 +64,27 @@ GOVERNED_DOCS = (
     "README.md",
 )
 
-#: "the operator did X" -- the subject and the verb in one sentence.
+#: "the operator did X" -- the subject and the verb in one sentence.  "Owner"
+#: is a subject because the sourced handoff record itself says "the owner asked
+#: to restrict who works in it", and "asked / requested" are verbs because that
+#: is the phrasing an unsourced restatement of such a record would use.
+#: Hyphenated compounds ("OPERATOR-APPROVED", "owner-authorized operations")
+#: still count: a quoted status field asserts the same thing, and the sentence
+#: quoting it must say which register or record it comes from.
 DIRECTIVE = re.compile(
-    r"\b(?:Dylan(?:\s+Roy)?(?:'s)?|the\s+operator(?:'s)?|operator(?:'s)?)\b"
+    r"\b(?:Dylan(?:\s+Roy)?(?:'s)?|the\s+operator(?:'s)?|operator(?:'s)?"
+    r"|the\s+owner(?:'s)?|owner(?:'s)?)\b"
     r"[^.!?]{0,140}?"
     r"\b(?:directed|instructed|decided|authorised|authorized|approved|ordered|ruled"
-    r"|instruction|directive|direction)\b",
+    r"|asked|requested|instruction|directive|direction|request)\b",
     re.IGNORECASE)
 
 #: What counts as a source someone else can go and read.  Deliberately NOT a
 #: date: a date is when a thing was observed, not a record of it.
 CITATION = re.compile(
-    r"\b[01][A-Za-z0-9_-]{25,}\b"                     # a Drive file id
+    # A Drive file id. A 40-hex commit sha beginning 0 or 1 has the same shape
+    # and is not a record anyone can open, so pure-hex strings are excluded.
+    r"\b(?![0-9a-f]{40}\b)[01][A-Za-z0-9_-]{25,}\b"
     r"|\b(?:OP-PROT|OP-GDN|OP-CNS|OD-OP)-\d"          # operator protocol / decision
     r"|\b(?:GP|CL|LS|S2|AO48|TRC|EC|PKG|DQ)-[A-Z]{2,4}-\d"   # artifact id
     r"|registers/|drive/mirrors/|drive/deltas/|claims/"
@@ -83,6 +94,13 @@ CITATION = re.compile(
     # sourcing, not hand-waving. Requiring the id inline everywhere would
     # push noise into prose to satisfy a regex.
     r"|governance/[A-Za-z0-9_.-]+\.md|docs/[A-Za-z0-9_.-]+\.md")
+
+#: A cited repository path must exist under the root being checked.  A path
+#: that resolves to nothing is the citation shape without the citation, and the
+#: first version of this checker accepted `docs/NOTHING_HERE.md` as a source.
+CITED_PATH = re.compile(
+    r"\b((?:registers|drive/mirrors|drive/deltas|claims|governance|docs)/"
+    r"[A-Za-z0-9_./-]*[A-Za-z0-9_-])")
 
 #: A paragraph may opt out by saying, in the same paragraph, that it is NOT
 #: reporting a directive.  The phrase is fixed so the exemption is greppable.
@@ -184,14 +202,23 @@ def audit(root: str, docs=None):
             if DISCLAIMER in " ".join(window.lower().split()):
                 continue
             directives += 1
+            hit = DIRECTIVE.search(sentence)
+            lo = max(0, hit.start() - 30)
+            excerpt = ("..." if lo else "") + sentence[lo:hit.end() + 90]
             if not CITATION.search(window):
-                hit = DIRECTIVE.search(sentence)
-                lo = max(0, hit.start() - 30)
-                excerpt = ("..." if lo else "") + sentence[lo:hit.end() + 90]
                 problems.append(
                     f"{rel}:{start}: asserts an operator directive with no source in the "
                     f"sentence or the one after it. Quote it with its Drive id or artifact "
                     f"id, or say {DISCLAIMER!r}: {excerpt}")
+                continue
+            missing = sorted({cited for cited in CITED_PATH.findall(window)
+                              if not os.path.exists(os.path.join(root, cited.rstrip("/")))})
+            if missing:
+                problems.append(
+                    f"{rel}:{start}: asserts an operator directive and cites a repository "
+                    f"path that does not exist under the checked root: "
+                    f"{', '.join(missing)}. A path that resolves to nothing is not a "
+                    f"source: {excerpt}")
     return scanned, directives, problems
 
 
