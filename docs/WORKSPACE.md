@@ -77,4 +77,5 @@ acceptance; the [guide](FORMAL_VERIFICATION.md) and the
 [rollout record](FORMAL_VERIFICATION_ROLLOUT_20260927.md) explain the boundary.
 
 [Current authority](../governance/OP-AUTONOMY-20260923-v2.1.md) ·
+[Privacy rule](../governance/OP-PRIVACY-20260927.md) ·
 [Home](../README.md) · [Historical material](../history/2025/README.md)
