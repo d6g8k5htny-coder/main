@@ -1,12 +1,22 @@
 # Formal glossary — project terms → standard mathematics → Lean
 
-Every non-standard term used in the project's proofs must map to a standard
-mathematical object before it can be formalised. If a term cannot be mapped, it
-is either ill-defined or genuinely novel, and novelty has to be justified by
-comparison with the literature (see the
-[reconnaissance memo](../docs/RECON_NOVELTY_20260925.md)). This table is the
-mapping. It is descriptive — it reports how the pinned sources use each term —
-and it does not accept or reject any result.
+A project term has to be given a formal translation before a statement using
+it can be written in Lean. This table records, descriptively, how the pinned
+sources use each term and which standard object the formaliser would have to
+define or import. These are **proposed correspondences, not adopted
+equivalences**: per the lane's
+[reconnaissance memo](../docs/reconnaissance/2026-09-27-formal-verification.md),
+elder selection needs its own point-process, pairing and conditioning
+definitions, a lifetime asymptotic coefficient is not automatically a
+Hermite-expansion coefficient, and **a missing formal translation is an
+obligation to resolve, not evidence of novelty or ill-definition**. Novelty
+claims are a separate matter for the
+[novelty reconnaissance](../docs/RECON_NOVELTY_20260925.md). Nothing here
+accepts or rejects any result.
+
+The Math- pilot ships its own source-grounded glossary for the GP-FOR-192
+companions; this file covers the SIDE24, RN-counting and P15 vocabulary that
+the pilot does not. Merge rather than duplicate if the two overlap later.
 
 Sources read for these entries: the SIDE24 note
 ([`sources/side24_v1/PROOF.md`](sources/side24_v1/PROOF.md)), the D2 remainder
@@ -74,6 +84,8 @@ needed to state it.
 | **Layer 1** | This Lean layer: statements and proofs checked by the Lean kernel and bound to Layer 0 bytes |
 | **Author-side** | Produced by the author (human or model) and not yet checked by a distinct reviewer; applies equally to AI-generated Lean text |
 | **Alignment review** | A distinct reviewer's check that a Lean statement says what the informal statement says at the stated scope; it does not re-prove the theorem (the kernel did) |
-| **Informal anchor** | A verbatim quote from the pinned source bytes that a Lean declaration is attached to; verified as a substring by the gate |
-| **Kernel-checked** | Compiles with only `propext`, `Classical.choice`, `Quot.sound` (or no axioms); see `registry.json` `status_levels` |
-| **Cross-check lane** | An independent AI prover producing a proof of the same Lean statement; extra evidence, same kernel, still author-side |
+| **Informal anchor** | A verbatim quote from the pinned source bytes that a Lean target is attached to; verified as a substring by the gate |
+| **`proved`** | Manifest-level label: proof text supplied and bound by hash. The strongest label a committed manifest may carry |
+| **`kernel-checked`** | Receipt-level label only: a trusted `--run-lean` execution built the package, `leanchecker` passed, and every target's transitive axioms are within `propext`, `Classical.choice`, `Quot.sound` (here: none). Not a scientific status |
+| **Alignment record** | JSON record validated by `--alignment`: accepted disposition, exact manifest and scope digests, all targets, distinct author/reviewer provider–family–agent, immutable evidence reference. Validation is structural; authenticating that the review happened is a controller's job |
+| **Cross-check lane** | An independent AI prover producing a proof of the same Lean statement; extra evidence, same kernel, still author-side; requires actual availability, pinned identity and recorded execution |

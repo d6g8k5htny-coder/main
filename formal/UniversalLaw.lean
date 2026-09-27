@@ -3,11 +3,11 @@ import UniversalLaw.Side24.ConeMoments
 import UniversalLaw.Side24.Endpoints
 
 /-!
-# Universal Law — formal layer (Layer 1)
+# Universal Law — main-side formal package (SIDE24 arithmetic skeleton)
 
-Root module of the dependency-free Lean 4 library. Each imported module is
-kernel-checked by `lake build`; `UniversalLaw/Audit.lean` prints the axioms
-each registered declaration depends on, and `tools/formal_gate_check.py`
-refuses any declaration that is registered as `kernel-checked` but uses an
-axiom outside the allow-list, `sorryAx`, or `Lean.ofReduceBool`.
+Root module. `tools/formal_gate_check.py` requires this file to import exactly
+the modules registered in `formal/manifest.json`, derives the target inventory
+from their `theorem` declarations, and in `--run-lean` mode builds the package,
+runs `leanchecker`, audits `#print axioms` for every target (only `propext`,
+`Classical.choice`, `Quot.sound` are allowed) and executes negative controls.
 -/

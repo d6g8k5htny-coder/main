@@ -8,7 +8,8 @@ sections 2–4, and the `image_ledger()` function of `coefficient.py`.
 
 What this module establishes: every *exact integer or rational* identity and
 inequality that sections 2–4 of the note rely on is checked by the Lean kernel.
-No `sorry`, no `native_decide`, no axioms (see `UniversalLaw/Audit.lean`).
+No `sorry`, no `native_decide`, no axioms (the `--run-lean` receipt records the
+transitive `#print axioms` result for every target).
 
 What this module does **not** establish: the analytic facts the arithmetic is
 attached to — the Gaussian derivative bound `76|x|^6 e^{-|x|^2/2}` for `|x| ≥ 1`,
