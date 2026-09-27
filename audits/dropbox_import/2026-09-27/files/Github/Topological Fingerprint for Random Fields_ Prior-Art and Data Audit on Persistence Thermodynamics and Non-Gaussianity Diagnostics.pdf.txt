@@ -1,0 +1,467 @@
+
+Topological fingerprint for random fields: a prior-art
+
+and data audit
+
+The proposed framework — using Pielou’s J asymmetry (ΔJ) as a non-Gaussianity
+
+diagnostic and a canonical thermodynamic formalism on persistence lifetimes — is
+
+largely novel. No published work constructs a partition function Z(β) = Ʃ exp(β·ℓᵢ) on
+persistence lifetimes or tracks superlevel-vs-sublevel persistence entropy across redshifts.
+
+However, many of the ingredients exist in scattered form: the Feldbrugge et al. Betti
+
+symmetry theorem provides the Gaussian null hypothesis, arxiv  Perimeterinstitute  Pranav
+
+(2021) confirms persistence diagram symmetry, arXiv  arXiv  Wilding et al. (2021) tracks
+
+superlevel persistence across cosmic epochs, arXiv  ResearchGate  and Abedi et al. (2024)
+
+computes superlevel Betti curves on Quijote at five redshifts. arXiv  arXiv  The gap —
+
+nobody has assembled these ingredients into a unified diagnostic — is real and well-
+
+positioned for exploitation.
+
+1. The “topological second law” has supporting ingredients but
+
+no direct test
+
+The prediction that ΔJ = J_peaks − J_troughs becomes increasingly negative with cosmic
+
+time rests on the asymmetry gravitational collapse imprints on the density field. Several
+
+studies confirm the physical picture without testing the specific entropy diagnostic.
+
+Wilding et al. (2021, MNRAS 507) is the single most relevant paper. They tracked Betti
+
+curves and persistence diagrams of ΛCDM N-body simulations across multiple cosmic
+
+epochs Oxford Academic  using superlevel set filtrations of DTFE density fields. arXiv +2
+
+Their persistence diagrams show clear evolution from nearly Gaussian topology at high
+
+redshift toward strongly hierarchical, non-Gaussian topology at late times. Oxford Academic
+
+They noted “self-similar character” in the diagram apex evolution tied to hierarchical
+
+structure formation. Scite  ResearchGate  Critically, they computed only superlevel
+
+persistence — no sublevel counterpart.
+
+Abedi, Jalali Kanafi & Movahed (2024, arXiv:2410.01751) provide the closest available
+
+dataset. They computed superlevel Betti curves and persistent entropy on Quijote matter
+
+density fields at z = 0, 0.5, 1, 2, 3 across Gaussian smoothing scales R = 5–30 Mpc/h.
+
+arXiv  They found Betti curve amplitudes are surprisingly insensitive to redshift for z ∈ [0,
+
+3] at fixed smoothing, but persistent entropy varies with both smoothing and redshift-space
+
+
+
+distortions. arXiv  Again, sublevel filtration was not computed.
+
+The classical genus curve asymmetry between overdense clusters and underdense voids
+
+(James et al. 2009, 2dFGRS) confirms the underlying physics: gravitational collapse creates
+
+sharp, concentrated peaks while voids expand and become diffuse. No paper has
+
+quantified this asymmetry using persistence entropy or any persistence-diagram
+
+summary at multiple redshifts. The concept of ΔJ as a monotonic tracker of gravitational
+
+evolution is untested. The field has overwhelmingly used superlevel filtrations only, making
+
+the superlevel-vs-sublevel comparison a genuine gap.
+
+2. No prior art exists for a canonical ensemble on persistence
+
+lifetimes
+
+Extensive searching confirms that the thermodynamic formalism — defining Z(β) = Ʃᵢ
+exp(β·ℓᵢ) on persistence lifetimes and deriving free energy, entropy, and heat capacity
+— has no precedent in the TDA literature.
+
+The closest related work falls into three categories:
+
+Persistence entropy (Chintakunta et al. 2015; Rucco et al. 2016; Atienza et al. 2020)
+
+computes Shannon entropy H = −Ʃ pᵢ log pᵢ from normalized lifetimes pᵢ = ℓᵢ/L. ScienceDirect
+This is purely information-theoretic: it has no temperature parameter β, no partition
+
+function, and no one-parameter family of distributions. The proposed thermodynamic
+
+formalism would subsume persistence entropy as a β → 0 or microcanonical limit, making it
+
+a strict generalization.
+
+Persistence-weighted kernels use lifetime-dependent weights but none employ the
+
+exponential form exp(β·ℓ). Kusano, Fukumizu & Hiraoka (2016/2017) use w(x) = arctan(C ·
+pers(x)^p) — bounded, not exponential. Reininghaus et al. (2015) use a heat kernel in the
+
+(birth, death) plane for smoothing, not a Boltzmann weight on lifetimes. Unc  Adams et al.
+
+(2017) persistence images use piecewise-linear weights. JMLR +3  None define partition
+
+functions, compute heat capacities, or offer thermodynamic interpretations.
+
+Large deviation principles for persistence diagrams (Hirsch & Owada 2023+) use
+
+moment generating functions and Fenchel-Legendre transforms that are structurally
+
+analogous to statistical mechanics. Springer  However, these describe the statistics of
+
+random persistence diagrams (from random filtrations), not a canonical ensemble defined
+on lifetimes within a single diagram. The thermodynamic analogy is implicit in the LDP
+
+mathematics but never made explicit.
+
+Multiple papers apply TDA to physical phase transitions (e.g., detecting BKT transitions in
+
+
+
+the XY model), American Physical Society  but the direction is reversed — they use topology to
+
+study physics, not physics to study topology. The canonical ensemble formalism on
+
+persistence diagrams appears genuinely novel.
+
+3. Feldbrugge symmetry confirms ΔJ = 0 for Gaussian fields,
+
+but the non-Gaussianity test is new
+
+The Feldbrugge et al. (2019, JCAP 09:052) symmetry β_k(ν) = β_{D−1−k}(−ν) for Gaussian
+
+fields is well-established arxiv +2  and has been verified and extended in subsequent work.
+
+The symmetry extends to persistence diagrams. Pranav (2021, arXiv:2109.08721)
+
+explicitly confirms: “Diagrams for all dimensions are triangular in shape, and exhibit a
+
+symmetry. Diagram for islands is symmetric to the diagram for voids.” arXiv  arXiv  Under f
+
+→ −f (which preserves Gaussian field distributions), a birth-death pair (b, d) for H_k in
+
+superlevel filtration maps to (−d, −b) for H_{D−1−k}. This is stronger than Betti number
+
+symmetry — the full persistence diagram structure is mirrored.
+
+The symmetry implies J_peaks = J_troughs for Gaussian fields, since lifetimes ℓ = b − d
+are preserved under the (b, d) → (−d, −b) transformation. The distribution of lifetimes for
+
+H_k superlevel persistence equals that of H_{D−1−k} sublevel persistence. Since Pielou’s J
+
+depends only on the lifetime distribution, ΔJ = 0 exactly in expectation for Gaussian
+
+fields. This implication, while mathematically straightforward, has never been explicitly
+
+stated in the literature.
+
+No paper formalizes a non-Gaussianity test based on symmetry violation. Feldbrugge
+
+et al. (2019) showed Betti numbers and persistence diagrams are sensitive to local f_NL,
+
+HAL +3  and Cole & Shiu (2018) constrained f_NL from CMB persistence diagrams
+
+(Δf_NL̂ loc = 35.8 at 68% CL). arXiv +2  Biagetti, Cole & Shiu (2021) detected f_NL = 10 at
+
+97.5% confidence. arXiv +3  But none frame their tests explicitly as measuring violation of
+
+β_k(ν) = β_{D−1−k}(−ν). The idea of constructing a scalar diagnostic — ΔJ — from the
+
+symmetry violation is novel as a formalized test statistic, though the underlying sensitivity of
+
+topological statistics to non-Gaussianity is well-documented.
+
+About 15–20 papers cite arXiv:1908.01619, primarily within the Pranav/van de
+
+Weygaert/Biagetti/Cole/Shiu network. None construct an explicit symmetry-violation test.
+
+4. Quijote persistence data: growing but fragmented, no pre-
+
+computed diagrams available
+
+
+
+The Quijote simulation suite has become a major platform for TDA-based cosmological
+
+inference, with at least 7 papers using persistent homology on Quijote or its companion
+
+suites. However, pre-computed persistence diagrams are not available for download from
+
+the Quijote data portal.
+
+The most relevant papers and their configurations:
+
+Yip, Biagetti, Cole, Viswanathan & Shiu (2024, JCAP 09:034) is the flagship Quijote PH
+
+paper. They used fiducial, derivative, and Quijote-PNG halo catalogs arXiv +2  at z = 0.5
+
+with α-DTM-ℓ filtration (distance-based, not density superlevel/sublevel). arXiv  Their
+Fisher forecasts showed PH constraints are 13–50% tighter than joint power spectrum +
+
+bispectrum for 8/10 cosmological parameters. arXiv +2  Code lives at
+
+gitlab.com/mbiagetti/persistent_homology_lss. OpenReview
+
+Abedi et al. (2024, arXiv:2410.01751) is the only multi-redshift TDA study on Quijote.
+
+They computed Betti curves and persistent entropy on Quijote matter density fields (100
+
+realizations, gridded) at z = 0, 0.5, 1, 2, 3 using superlevel filtration with Gaussian
+
+smoothing at R = 5–30 Mpc/h. arXiv  This is the dataset most amenable to extending with
+
+sublevel filtration for ΔJ computation. Their code/data does not appear to be publicly
+
+released.
+
+Calles, Contardo, Noreña, Yip, Biagetti & Shiu (2025, arXiv:2512.09852) introduced the
+
+PNG-pmwd suite ResearchGate  (22,410 halo catalogs, publicly available at png-pmwd-
+
+suite.readthedocs.io) arXiv  with a comprehensive battery of persistence summaries: PD-
+
+histograms, Betti curves, persistent Betti curves, persistence statistics (including entropy),
+
+persistence landscapes, and persistence silhouettes arXiv  at z = 0.5.
+
+Ouellette & Holder (2025, arXiv:2502.09709) computed Betti curves from alpha
+
+complexes on Quijote halos at z = 0, arXiv  finding most information in β₀ and β₁ with
+
+minimal contribution from β₂. arXiv
+
+No study has computed both superlevel and sublevel filtrations on Quijote density fields.
+
+No pre-computed persistence diagrams are available for download — each group computes
+
+their own from raw snapshots.
+
+5. Exponential lifetime weightings exist but never as a partition
+
+function
+
+The persistence kernel literature uses various weighting schemes on lifetimes for machine
+
+learning, but none employ the specific exponential form exp(β·ℓᵢ) as a Boltzmann
+weight or derive thermodynamic quantities from it.
+
+
+
+Kusano et al. (2016, JMLR 18) NSF PAGES  use arctan weights w_arc(x) = arctan(C ·
+
+pers(x)^p) JMLR  — bounded and sub-exponential. Reininghaus et al. (2015, CVPR) use
+
+Gaussian kernels in the full (birth, death) plane with a scale parameter σ controlling
+
+smoothing, not temperature. Unc  The heat equation connection in their persistence scale
+
+space kernel is suggestive but mathematically distinct from a canonical ensemble: σ
+
+controls spatial smoothing in the diagram plane, not inverse temperature weighting lifetimes
+
+as energies. Adams et al. (2017) persistence images use piecewise-linear weights growing
+
+linearly from the diagonal. JMLR +2
+
+Divol & Polonik (2019, J. Appl. Comput. Topology) systematically studied weight functions w
+
+for linear representations, Springer  analyzing polynomial weights w(x) = pers(x)^α
+
+Springer  but not exponential weights. The exponential weight exp(β·ℓ) would be
+unbounded and require separate convergence analysis.
+
+The key conceptual distinction: existing kernel methods treat weights as fixed
+
+preprocessing (choosing one weight function to upweight persistent features), while the
+
+canonical ensemble treats β as a continuous parameter generating a one-parameter family
+
+of probability distributions, enabling derivatives (entropy, heat capacity) that probe the
+
+lifetime distribution’s structure.
+
+6. Smoothing-scale “RG flow” is partially observed but never
+
+formalized
+
+Several papers track topological statistics across smoothing scales, but no paper frames
+
+this as renormalization group flow or identifies fixed points.
+
+Pranav et al. (2022, A&A) performed the most systematic multiscale analysis, computing
+
+Betti numbers of Planck CMB maps at eight FWHM scales from 5′ to 640′. They found
+
+approximate consistency with Gaussian simulations at most scales, with anomalous
+
+deviations peaking near ~80′ (~3.66°). This identifies a specific crossover scale where non-
+
+Gaussian deviations are maximally detectable, though without RG interpretation.
+
+Abedi et al. (2024) compared Betti curves across six Gaussian smoothing scales (R = 5–30
+
+Mpc/h) on Quijote density fields. arXiv  They observed convergence/stabilization of Betti
+
+number variations and persistent entropy at R ≳ 30 Mpc/h, arXiv  consistent with
+
+Gaussianization of the smoothed field. This is implicit fixed-point behavior — the central
+
+limit theorem guarantees that sufficient smoothing drives any field toward Gaussianity — but
+
+is never identified as such.
+
+Pranav et al. (2019, MNRAS 485) established the Gaussian random field Betti curves as a
+
+function of spectral index, finding they are sensitive to the power spectrum shape HAL
+
+
+
+(unlike the Euler characteristic). ADS  Jfeldbrugge  The white-noise case (n = 0) stands out
+
+as a divide between positive and negative spectral index models, potentially marking a
+
+critical point in spectral parameter space. The formal analogy to RG flow — with the
+
+Gaussian field topology as an IR fixed point, crossover scales depending on the non-
+
+Gaussian field’s properties, and β-functions describing the approach — appears to be
+
+entirely novel.
+
+7. Prat et al. DES Y3 uses Betti numbers only; ΔJ would require
+
+pipeline extension
+
+The Prat et al. (2026, MNRAS 545) paper analyzes DES Y3 weak lensing convergence maps
+
+using superlevel set filtration via the TopoS2 tool (developed by Pranav). Oxford Academic
+
+arXiv  Their summary statistics are Betti numbers β₀(ν) and β₁(ν) and persistent Betti
+
+numbers, combined with second moments σ_κ. arXiv  They achieve constraints 70%
+
+tighter than two-point statistics in the Ω_m–S₈ plane, with S₈ = 0.821 ± 0.018. arXiv
+
+They do not compute persistence entropy, persistence images, persistence landscapes,
+
+Pielou’s J, or any entropy-based diagnostic. They use only superlevel filtration — no
+
+sublevel counterpart.
+
+ΔJ could be computed from their data with modest effort. The DES Y3 convergence
+
+maps (Jeffrey et al. 2021) are publicly available. Sublevel filtration is obtained by negating
+
+the map (κ → −κ) and rerunning the superlevel computation. Persistence entropy can be
+
+derived from any persistence diagram. The main barrier is access to TopoS2 (not publicly
+
+released), though standard TDA libraries (GUDHI, Ripser) could substitute Wikipedia  for
+
+flat-sky patches. Oxford Academic  Their neural-network-compressed data vector would
+
+need to be replaced with raw persistence diagrams, but the underlying mass maps are
+
+accessible.
+
+Predecessor work by Heydenreich et al. (2022, A&A 667) applied PH to DES Y1 aperture
+
+mass maps using persistent Betti numbers in flat-sky analysis, Astronomy & Astrophysics
+
+ResearchGate  achieving S₈ = 0.747 +0.025/−0.031. ADS  arXiv  Neither paper uses
+
+entropy-based diagnostics.
+
+8. Information geometry of persistence: the Fisher-heat
+
+capacity connection is novel
+
+No paper defines a Fisher information metric on a parametric family of persistence
+
+
+
+diagram distributions in the sense needed for the heat capacity identification.
+
+The closest work is the Persistence Fisher kernel (Le & Yamada, NeurIPS 2018), which
+
+represents each persistence diagram as a Gaussian mixture Google Sites  ρ_D(x) = (1/|D|) Ʃ
+
+N(x; p, σ²I) and computes the Fisher information distance between two such mixture
+
+representations. This uses Fisher geometry to compare individual persistence diagrams
+(treated as distributions on ℝ²), not to define a Fisher metric on a parametric family P_θ of
+persistence diagram distributions. Frontiers  The distinction is fundamental: Le & Yamada
+
+measure distance between two data points, while the proposed framework defines
+
+curvature of a model manifold.
+
+Edelsbrunner, Virk & Wagner (2019, arXiv:1903.08510) compute persistent homology
+
+using information-theoretic distances (Fisher metric, KL divergence) as the ambient metric
+
+arXiv  — the reverse direction. Turner, Mukherjee & Boyer (2014) noted that exponential
+
+family models can be defined on the Euler Characteristic Transform but called the
+
+analogous construction for persistence diagrams “problematic.” arXiv  A 2025 preprint
+
+(arXiv:2511.11996) models persistence bar events using exponential distributions in a
+
+Bayesian latent-position model arXiv  — the closest to “exponential family on persistence
+
+lifetimes” — but does not compute Fisher information or connect to thermodynamics.
+
+The specific identification g(β) = Var_π(ℓ) = β⁻² C(β), connecting the Fisher metric on
+the canonical ensemble to the heat capacity of the persistence diagram, appears
+
+completely novel. For an exponential family p(ℓ|β) ∝ exp(β·ℓ), the Fisher information is
+Var(ℓ), which equals β⁻²∂²log Z/∂β² = β⁻² C(β). The ingredients — exponential families, Fisher
+information, variance — are elementary, but their assembly into a thermodynamic-
+
+information-geometric interpretation of TDA has no precedent.
+
+Conclusion: a well-positioned gap with strong existing
+
+scaffolding
+
+Across all eight verification targets, the pattern is consistent: the individual ingredients
+
+are established, but the specific synthesis is novel. The Feldbrugge symmetry provides a
+
+Gaussian null Perimeterinstitute  arXiv  (ΔJ = 0). Perimeterinstitute  arXiv  Persistence
+
+entropy exists but lacks a temperature parameter. ScienceDirect  Topological evolution
+
+across redshifts has been tracked but only in superlevel filtration. arXiv  ResearchGate
+
+Kernel methods weight lifetimes but never exponentially. JMLR  Information geometry
+
+touches TDA but never through canonical ensembles.
+
+The three strongest novelty claims are: (1) ΔJ as a scalar non-Gaussianity diagnostic
+
+derived from the Feldbrugge symmetry, (2) the canonical partition function Z(β) on
+
+
+
+persistence lifetimes with derived heat capacity, and (3) the smoothing-scale RG-flow
+
+analogy. The most immediate computational opportunity is the Abedi et al. (2024) Quijote
+
+pipeline at z = 0, 0.5, 1, 2, 3 with superlevel filtration arXiv  — extending it to sublevel
+
+filtration would directly test the topological second law. The Prat et al. DES Y3 convergence
+
+maps offer a path to observational validation, arXiv  requiring only map negation and
+
+persistence entropy computation on publicly available data.
+
+

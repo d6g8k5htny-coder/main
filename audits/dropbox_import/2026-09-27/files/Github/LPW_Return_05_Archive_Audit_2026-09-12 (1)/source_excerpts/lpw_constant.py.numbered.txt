@@ -1,0 +1,556 @@
+0001 | # LPW_CONSTANT certifier — converts the endorsed LPW-CAND-20260912 existential
+0002 | # constant expression into a CERTIFIED EXPLICIT lower bound, per the acceptance
+0003 | # contract 03_CONSTANT_CERTIFICATE_CONTRACT.md (LPW_Review_Reconciliation_2026-09-12).
+0004 | #
+0005 | # Exact object: normalized periodized side-24 2D Bargmann-Fock field.
+0006 | #   Spectral form: frequencies k in (pi/12) Z^2, weight w(k) = exp(-|k|^2/2),
+0007 | #   Z-normalized; Cov(f(z1),f(z2)) = (1/Z) sum_k w(k) cos(k.(z1-z2)).
+0008 | #   This equals the candidate's real-space K_24 by Poisson summation (checked).
+0009 | # Conditioning: six-pin continuous Gaussian regression version, Hermite-normalized
+0010 | #   U_r -> U_0 = (f, f_x, f_y, f_xx/2, f_xy, f_xxx/6),
+0011 | #   J = (f_yy, f_xxy/2, f_xyy/2, f_yyy/6).  b = 6/5.
+0012 | #
+0013 | # Method (contract): exact finite-torus moments a2,a4,a6,... (never planar
+0014 | # rationals); endpoint eigenfloor of record 31/250 (02_ENDPOINT_SUPPLEMENT.md,
+0015 | # author-side PROVED, lead-verified) used at r=0; explicit radius R certified by
+0016 | # an INTERVAL modulus ||Gamma_r - Gamma_0||_F <= L1 * R from analytic profile
+0017 | # derivative bounds (no sampled rungs); density floor by the contract's boxed
+0018 | # formula on an explicitly tightened compact set; B3/B4 by contract section 4.
+0019 | #
+0020 | # Fail-closed: any violated check prints FAIL and exits nonzero (no bare asserts).
+0021 | # Deterministic: no randomness, no wall clock, no environment-dependent output.
+0022 | # Mutation hooks (LPW_MUTATE env var) exist ONLY so falsify.py can demonstrate
+0023 | # that specific defects are rejected with nonzero exit.
+0024 | 
+0025 | import os
+0026 | import sys
+0027 | from mpmath import mp, mpf, pi, exp, sqrt, cos, sin, matrix, fabs, nstr, eigsy
+0028 | 
+0029 | MUTATE = os.environ.get("LPW_MUTATE", "")
+0030 | 
+0031 | mp.dps = 60
+0032 | 
+0033 | NFAIL = [0]
+0034 | def ck(cond, msg):
+0035 |     if not cond:
+0036 |         NFAIL[0] += 1
+0037 |         print("FAIL:", msg)
+0038 |         print("CERTIFICATE REJECTED")
+0039 |         raise SystemExit(1)
+0040 | 
+0041 | def note(msg):
+0042 |     print(msg)
+0043 | 
+0044 | # ---------------------------------------------------------------- parameters
+0045 | h  = pi/12                      # spectral lattice spacing (exact object)
+0046 | a  = h*h/2                      # weight exp(-a |n|^2) per coordinate
+0047 | NB = 70                         # 1D spectral truncation |n| <= NB; tails from NB+1
+0048 | bb = mpf(6)/5                   # b = 6/5
+0049 | delta = mpf(1)/1024             # contract delta
+0050 | R  = mpf(1)/100000              # chosen certified radius R = 1e-5 (see report)
+0051 | LAM_END = mpf(31)/250           # endpoint eigenfloor of record (supplement sec.3)
+0052 | ROUND = mpf('1e-45')            # blanket per-quantity rounding allowance at 60 dps
+0053 |                                 # (all quantities <= ~1e6, <= ~1e5 elementary ops;
+0054 |                                 #  mpf eps = 2^-199 ~ 1.2e-60; 1e-45 is generous)
+0055 | 
+0056 | note("LPW_CONSTANT certifier (contract 03, reconciliation 2026-09-12)")
+0057 | note("candidate pinned: 02_LOCAL_PATH_LOWER_BOUND_CANDIDATE.md full-file sha256 "
+0058 |      "cf58f72eb0399c626160c143b50f674ff3bd5c449225211edd6fd378a374e1a5")
+0059 | note("addenda pinned: 02_ENDPOINT_SUPPLEMENT.md, 03_CONSTANT_CERTIFICATE_CONTRACT.md "
+0060 |      "(hashes in RECEIPT.json)")
+0061 | note(f"parameters: NB={NB}, dps={mp.dps}, R={nstr(R,4)}, delta=1/1024, b=6/5, "
+0062 |      f"lambda_endpoint=31/250, ROUND={nstr(ROUND,3)}")
+0063 | 
+0064 | # -------------------------------------------------- 1D lattice engine + tails
+0065 | ns  = list(range(-NB, NB+1))
+0066 | w1  = [exp(-a*n*n) for n in ns]
+0067 | k1s = [h*n for n in ns]
+0068 | Z1  = sum(w1)
+0069 | Z   = Z1*Z1
+0070 | 
+0071 | # 1D moment tail: sum_{|n| >= NB+1} e^{-a n^2} (h|n|)^p
+0072 | # terms decrease for n >= NB+1 when 2 a (NB+1) > p/(NB+1)*... checked below;
+0073 | # ratio_{n} <= e^{-a(2n+1)} (1+1/n)^p, bounded by rho = e^{-a(2N0+1)} (1+1/N0)^p.
+0074 | def tail1d(p):
+0075 |     N0 = NB+1
+0076 |     ck(2*a*N0*N0 > p, f"tail decrease condition fails for p={p}")
+0077 |     rho = exp(-a*(2*N0+1)) * (1 + mpf(1)/N0)**p
+0078 |     ck(rho < mpf('0.5'), f"tail ratio not < 1/2 for p={p}: {nstr(rho,4)}")
+0079 |     first = 2 * exp(-a*N0*N0) * (h*N0)**p
+0080 |     return first/(1-rho)
+0081 | 
+0082 | TMOM = {p: tail1d(p) for p in range(0, 13)}
+0083 | note("certified 1D spectral tails sum_{|n|>=%d} e^{-a n^2}(h|n|)^p:" % (NB+1))
+0084 | note("  " + "  ".join(f"p={p}: <= {nstr(TMOM[p],3)}" for p in (0,2,4,6,8,10,12)))
+0085 | 
+0086 | # exact 1D even moments ME[2m] = (1/Z1) sum w1 (h n)^{2m}, with certified error
+0087 | ME, ME_ERR = [], []
+0088 | for m in range(7):
+0089 |     p = 2*m
+0090 |     val = sum(w*(k**p) for w, k in zip(w1, k1s))/Z1
+0091 |     err = (TMOM[p] + TMOM[0]*val)/Z1 + ROUND     # numerator tail + Z1 tail + rounding
+0092 |     ME.append(val); ME_ERR.append(err)
+0093 | note("exact finite-torus even moments a_{2m} = ME[2m] (with certified +-err):")
+0094 | note("  " + "  ".join(f"a{2*m}={nstr(ME[m],12)}(+/-{nstr(ME_ERR[m],2)})"
+0095 |                       for m in range(1, 5)))
+0096 | 
+0097 | # Poisson / normalization cross-checks (exact object identities)
+0098 | errZ = fabs(Z - 288/pi)
+0099 | ck(errZ < 2*TMOM[0] + ROUND, f"Poisson identity fails: |Z - 288/pi| = {nstr(errZ,3)}")
+0100 | note(f"Poisson check: |Z - 288/pi| = {nstr(errZ,3)} <= {nstr(2*TMOM[0]+ROUND,3)} OK")
+0101 | 
+0102 | # a2 deviation from planar 1 (exact finite-torus correction), at 150 dps
+0103 | with mp.workdps(150):
+0104 |     hh = pi/12; aa = hh*hh/2
+0105 |     NB2 = 200
+0106 |     Z1b = sum(exp(-aa*n*n) for n in range(-NB2, NB2+1))
+0107 |     a2b = sum(exp(-aa*n*n)*(hh*n)**2 for n in range(-NB2, NB2+1))/Z1b
+0108 |     dev_spec = 1 - a2b
+0109 |     # supplement formula: 1 - a2 = 576 sum n^2 e^{-288 n^2} / sum e^{-288 n^2}
+0110 |     S0 = sum(exp(-288*mpf(n)*n) for n in range(-50, 51))
+0111 |     dev_real = 576*sum(n*n*exp(-288*mpf(n)*n) for n in range(-50, 51))/S0
+0112 |     dd = fabs(dev_spec - dev_real)
+0113 |     note(f"a2 deviation (150 dps): 1-a2 = {nstr(dev_spec,12)} ; "
+0114 |          f"576-sum form = {nstr(dev_real,12)} ; |diff| = {nstr(dd,3)}")
+0115 |     if MUTATE == "planar_moments":
+0116 |         dev_spec = mpf(0)   # planar substitution: deviation forced to zero
+0117 |     ck(dev_spec > 0, "planar-moment substitution detected: 1-a2 is not positive "
+0118 |                      "(exact finite-torus moments required)")
+0119 |     ck(dev_spec < mpf('1e-100'), f"a2 deviation larger than expected: {nstr(dev_spec,4)}")
+0120 |     ck(dd < mpf('1e-130'), f"a2 spectral/real-space identity mismatch: {nstr(dd,3)}")
+0121 |     note("a2 = 1 - (positive correction ~1e-122) < 1 certified; "
+0122 |          "spectral/real-space forms agree")
+0123 | 
+0124 | a2, a4, a6, a8 = ME[1], ME[2], ME[3], ME[4]
+0125 | 
+0126 | # ------------------------------------------------ Hermite profiles (exact r-dependence)
+0127 | # The Hermite combinations U_r act on each spectral mode e^{ik.z} by
+0128 | #   i^{e_i} k1^{A_i} k2^{B_i} g_i(theta),  theta = k1 r/2,
+0129 | # so every covariance entry of Gamma_r = Cov((U_r, J)) is the exact 1D sum
+0130 | #   Cov_ij(r) = [e_i==e_j] ME[B_i+B_j] (1/Z1) sum_n w1 k1^{A_i+A_j} g_i g_j,
+0131 | # smooth down to r = 0 (no 1/r singularities; cross-validated against the
+0132 | # displayed T_r matrix route to <= 6e-51 at four rungs, see falsify.py).
+0133 | APOW = [(0,0),(1,0),(0,1),(2,0),(1,1),(3,0),(0,2),(2,1),(1,2),(0,3)]
+0134 | EPAR = [0,1,1,0,0,1,0,1,1,1]
+0135 | 
+0136 | def gfun(i, th):
+0137 |     if i == 0: return cos(th) + (th/2)*sin(th)
+0138 |     if i == 1:
+0139 |         if th == 0: return mpf(1)
+0140 |         return 3*sin(th)/(2*th) - cos(th)/2
+0141 |     if i == 2: return cos(th)
+0142 |     if i == 3:
+0143 |         if th == 0: return mpf(-1)/2
+0144 |         return -sin(th)/(2*th)
+0145 |     if i == 4:
+0146 |         if th == 0: return mpf(-1)
+0147 |         return -sin(th)/th
+0148 |     if i == 5:
+0149 |         if th == 0: return mpf(-1)/6
+0150 |         return cos(th)/(2*th*th) - sin(th)/(2*th*th*th)
+0151 |     if i == 6: return mpf(-1)
+0152 |     if i == 7: return mpf(-1)/2
+0153 |     if i == 8: return mpf(-1)/2
+0154 |     if i == 9: return mpf(-1)/6
+0155 |     raise SystemExit("bad profile index")
+0156 | 
+0157 | def cov_ij(i, j, r):
+0158 |     if EPAR[i] != EPAR[j]: return mpf(0)
+0159 |     A = APOW[i][0] + APOW[j][0]
+0160 |     B = APOW[i][1] + APOW[j][1]
+0161 |     if B % 2 == 1: return mpf(0)
+0162 |     hr2 = h*r/2
+0163 |     s = mpf(0)
+0164 |     for n, w, k in zip(ns, w1, k1s):
+0165 |         th = hr2*n
+0166 |         s += w*(k**A)*gfun(i, th)*gfun(j, th)
+0167 |     return ME[B//2]*s/Z1
+0168 | 
+0169 | def build_Gamma(r):
+0170 |     G = matrix(10, 10)
+0171 |     for i in range(10):
+0172 |         for j in range(i, 10):
+0173 |             G[i, j] = cov_ij(i, j, r)
+0174 |             G[j, i] = G[i, j]
+0175 |     return G
+0176 | 
+0177 | # entry error for Cov_ij(r): numerator tail bound
+0178 | #   |(1/Z1) sum_{|n|>NB} w1 k1^A g_i g_j| with |g_i| <= pb_i(|k1|),
+0179 | # plus Z1 tail and rounding.  pb bounds are below (theta <= |k1| R / 2).
+0180 | # For r=0 endpoint values use the r<=1 profile bounds (theta <= |k1|/2).
+0181 | def pb(i, x, thcap):   # |g_i(theta)| <= pb_i(|k1|=x) for |theta| <= x*thcap
+0182 |     if i == 0: return 1 + x*thcap/2
+0183 |     if i == 1: return mpf(2)
+0184 |     if i == 2: return mpf(1)
+0185 |     if i == 3: return mpf(1)/2
+0186 |     if i == 4: return mpf(1)
+0187 |     if i == 5: return mpf(1)/4
+0188 |     if i == 6: return mpf(1)
+0189 |     if i == 7: return mpf(1)/2
+0190 |     if i == 8: return mpf(1)/2
+0191 |     if i == 9: return mpf(1)/6
+0192 |     raise SystemExit("bad profile index")
+0193 | 
+0194 | def pb1(i, x, thcap):  # |g_i'(theta)| <= pb1
+0195 |     if i == 0: return mpf(1)/2 + x*thcap/2
+0196 |     if i == 1: return mpf(5)/4
+0197 |     if i == 2: return mpf(1)
+0198 |     if i == 3: return mpf(1)/4
+0199 |     if i == 4: return mpf(1)/2
+0200 |     if i == 5: return mpf(5)/4
+0201 |     return mpf(0)
+0202 | 
+0203 | def tailabs(q):
+0204 |     # sum_{|n|>NB} w1 |k1|^q, upward (CS for odd q)
+0205 |     if q % 2 == 0:
+0206 |         return TMOM[q]
+0207 |     return sqrt(TMOM[q-1]*TMOM[q+1])
+0208 | 
+0209 | def pb_full_poly(i, j, thcap):
+0210 |     # polynomial in x = |k1| bounding |g_i(theta) g_j(theta)|, |theta| <= x thcap
+0211 |     p0 = {0: pb(i, 0, thcap)} if i != 0 else {0: mpf(1), 1: thcap/2}
+0212 |     p1 = {0: pb(j, 0, thcap)} if j != 0 else {0: mpf(1), 1: thcap/2}
+0213 |     return polymul(p0, p1)
+0214 | 
+0215 | def polymul(p, q):
+0216 |     out = {}
+0217 |     for a_, ca in p.items():
+0218 |         for b_, cb in q.items():
+0219 |             out[a_+b_] = out.get(a_+b_, mpf(0)) + ca*cb
+0220 |     return out
+0221 | 
+0222 | def polyadd(p, q):
+0223 |     out = dict(p)
+0224 |     for b_, cb in q.items():
+0225 |         out[b_] = out.get(b_, mpf(0)) + cb
+0226 |     return out
+0227 | 
+0228 | def absmom(q):
+0229 |     # (1/Z1) sum w1 |k1|^q, upward bound with certified error
+0230 |     if q % 2 == 0:
+0231 |         v, e = ME[q//2], ME_ERR[q//2]
+0232 |     else:
+0233 |         v = sqrt(ME[(q-1)//2]*ME[(q+1)//2])       # Cauchy-Schwarz
+0234 |         e = v*(ME_ERR[(q-1)//2]/ME[(q-1)//2] + ME_ERR[(q+1)//2]/ME[(q+1)//2]) + ROUND
+0235 |     return v + e   # returned already rounded UPWARD
+0236 | 
+0237 | def entry_tail(i, j, thcap):
+0238 |     # certified tail+round error for the Cov_ij lattice sum:
+0239 |     # (ME[B]/Z1) * sum_{|n|>NB} w1 |k1|^A |g_i g_j|  +  Z1-tail share + rounding
+0240 |     A = APOW[i][0] + APOW[j][0]
+0241 |     B = APOW[i][1] + APOW[j][1]
+0242 |     if EPAR[i] != EPAR[j] or B % 2 == 1: return mpf(0)
+0243 |     poly = pb_full_poly(i, j, thcap)
+0244 |     tv = mpf(0)
+0245 |     full = mpf(0)
+0246 |     for pw, cf in poly.items():
+0247 |         tv += cf*tailabs(A+pw)
+0248 |         full += cf*absmom(A+pw)
+0249 |     return (ME[B//2]+ME_ERR[B//2])*(tv + full*(TMOM[0]/Z1))/Z1 + ROUND
+0250 | 
+0251 | # ------------------------------------------------ endpoint r = 0 (exact)
+0252 | G0 = build_Gamma(mpf(0))
+0253 | E0, Q0 = eigsy(G0)
+0254 | Lam0 = matrix(10, 10)
+0255 | for i in range(10): Lam0[i, i] = E0[i]
+0256 | Res0 = G0 - Q0*Lam0*Q0.T
+0257 | fro0 = sqrt(sum(Res0[i, j]**2 for i in range(10) for j in range(10)))
+0258 | e_tail0 = sqrt(mpf(100)*sum(entry_tail(i, j, mpf('0.5'))**2
+0259 |                              for i in range(10) for j in range(10)))
+0260 | lam0_num = min(E0)
+0261 | lam0_lo = lam0_num - fro0 - e_tail0 - ROUND
+0262 | note(f"endpoint: lambda_min(Gamma_0) = {nstr(lam0_num,15)}")
+0263 | note(f"  eig Frobenius residual = {nstr(fro0,3)}, spectral+entry tail = {nstr(e_tail0,3)}")
+0264 | note(f"  independently certified endpoint floor: {nstr(lam0_lo,15)}")
+0265 | 
+0266 | if MUTATE == "eigenfloor_up":
+0267 |     lam_used = lam0_num + mpf('1.5e-10')   # upward-rounded floor (defect)
+0268 | else:
+0269 |     lam_used = LAM_END
+0270 | ck(lam_used <= lam0_lo, f"endpoint eigenfloor of record {nstr(lam_used,15)} is NOT "
+0271 |    f"certified (independent floor {nstr(lam0_lo,15)}); upward rounding rejected")
+0272 | ck(LAM_END <= lam0_lo, "supplement eigenfloor 31/250 inconsistent with this engine")
+0273 | note(f"  endpoint floor USED in chain: {nstr(lam_used,15)} "
+0274 |      f"(record 31/250 = {nstr(LAM_END,6)}; mutation hook: {MUTATE or 'off'})")
+0275 | 
+0276 | # endpoint Schur/mean identities in the exact moments (supplement sec.1)
+0277 | GU0 = G0[:6, :6]; GX0 = G0[:6, 6:]; CJ0 = G0[6:, 6:]
+0278 | S0 = CJ0 - GX0.T*(GU0**-1)*GX0
+0279 | u0 = matrix([bb, 0, 0, 0, 0, mpf(1)/3])
+0280 | mu0 = GX0.T*(GU0**-1)*u0
+0281 | S0_formula = [a4 - a2*a2, a2*(a4-a2*a2)/4, a2*(a4-a2*a2)/4,
+0282 |               (a6 - a4*a4/a2)/36]
+0283 | dS = max(fabs(S0[i, i] - S0_formula[i]) for i in range(4))
+0284 | dSo = max(fabs(S0[i, j]) for i in range(4) for j in range(4) if i != j)
+0285 | dm = max(fabs(mu0[0] + a2*bb), fabs(mu0[1]), fabs(mu0[2]), fabs(mu0[3]))
+0286 | ck(dS < mpf('1e-50'), f"endpoint Schur diagonal identity fails: {nstr(dS,3)}")
+0287 | ck(dSo < mpf('1e-50'), f"endpoint Schur off-diagonal vanishing fails: {nstr(dSo,3)}")
+0288 | ck(dm < mpf('1e-50'), f"endpoint conditional-mean identity fails: {nstr(dm,3)}")
+0289 | note(f"endpoint identities (exact moments): S0 vs diag(a4-a2^2, a2(a4-a2^2)/4,"
+0290 |      f" ..., (a6-a4^2/a2)/36): max dev {nstr(dS,3)}; off-diag {nstr(dSo,3)};")
+0291 | note(f"  E[J|U_0=u_0] vs (-a2 b,0,0,0): max dev {nstr(dm,3)}  "
+0292 |      f"(mu0[0]={nstr(mu0[0],12)})")
+0293 | 
+0294 | # -------------------------------- interval modulus: ||Gamma_r - Gamma_0||_F <= L1 R
+0295 | # Certified uniform bounds on |d/dr Cov_ij(r)| for r in [0,R] via analytic
+0296 | # profile derivative bounds (theta-cap |theta| <= |k1| R/2).  These are global
+0297 | # interval/modulus certificates, NOT sampled rungs.
+0298 | def pbpoly(i, thcap):   # polynomial bound for |g_i| in x = |k1|
+0299 |     if i == 0: return {0: mpf(1), 1: thcap/2}
+0300 |     return {0: pb(i, 0, thcap)}
+0301 | 
+0302 | def pb1poly(i, thcap):  # polynomial bound for |g_i'|
+0303 |     if i == 0: return {0: mpf(1)/2, 1: thcap/2}
+0304 |     return {0: pb1(i, 0, thcap)}
+0305 | 
+0306 | THC = R/2
+0307 | C1 = {}
+0308 | for i in range(10):
+0309 |     for j in range(10):
+0310 |         if EPAR[i] != EPAR[j]:
+0311 |             C1[(i, j)] = mpf(0); continue
+0312 |         A = APOW[i][0] + APOW[j][0]
+0313 |         B = APOW[i][1] + APOW[j][1]
+0314 |         if B % 2 == 1:
+0315 |             C1[(i, j)] = mpf(0); continue
+0316 |         poly = polyadd(polymul(pb1poly(i, THC), pbpoly(j, THC)),
+0317 |                        polymul(pbpoly(i, THC), pb1poly(j, THC)))
+0318 |         s = mpf(0); sd = mpf(0)
+0319 |         for pw, cf in poly.items():
+0320 |             s += cf*absmom(A+1+pw)
+0321 |             sd += cf*tailabs(A+1+pw)
+0322 |         C1[(i, j)] = (ME[B//2]+ME_ERR[B//2])*(s + (sd + s*(TMOM[0]/Z1))/Z1)/2 + ROUND
+0323 | 
+0324 | L1  = sqrt(sum(C1[(i, j)]**2 for i in range(10) for j in range(10))) + ROUND
+0325 | LGU = sqrt(sum(C1[(i, j)]**2 for i in range(6) for j in range(6))) + ROUND
+0326 | LGX = sqrt(sum(C1[(i, j)]**2 for i in range(6) for j in range(6, 10))) + ROUND
+0327 | note(f"interval modulus (r in [0,R]): ||dGamma/dr||_F <= L1 = {nstr(L1,8)}")
+0328 | note(f"  block moduli: L_GU = {nstr(LGU,8)}, L_GX = {nstr(LGX,8)}")
+0329 | note(f"  => ||Gamma_r - Gamma_0||_F <= L1*R = {nstr(L1*R,6)} for r in [0,{nstr(R,4)}]")
+0330 | 
+0331 | lam = lam_used - L1*R - ROUND
+0332 | ck(lam > 0, "certified covariance floor lam = lam_endpoint - L1*R is not positive; "
+0333 |             "shrink R")
+0334 | note(f"CERTIFIED: lambda_min(Gamma_r) >= lam = {nstr(lam,12)} for all r in [0,R]")
+0335 | note(f"  (endpoint {nstr(lam_used,12)} minus modulus {nstr(L1*R,4)}; "
+0336 |      f"Schur/6-pin blocks inherit the same floor by S^-1 = (Gamma^-1)_JJ "
+0337 |      f"and Cauchy interlacing)")
+0338 | 
+0339 | # diagonal / trace / norm sups over [0,R] (interval bounds, no sampling)
+0340 | diag_sup = [fabs(G0[j, j]) + C1[(j, j)]*R + ROUND for j in range(10)]
+0341 | tr10_sup = sum(diag_sup) + ROUND
+0342 | tr6_sup  = sum(diag_sup[:6]) + ROUND
+0343 | GUfro2_sup = sum((fabs(G0[i, j]) + C1[(i, j)]*R + ROUND)**2
+0344 |                  for i in range(6) for j in range(6))
+0345 | GX0F = sqrt(sum(G0[i, j]**2 for i in range(6) for j in range(6, 10))) + ROUND
+0346 | note(f"sup diag Gamma_jj: max = {nstr(max(diag_sup),8)}; "
+0347 |      f"tr6_sup = {nstr(tr6_sup,8)}, tr10_sup = {nstr(tr10_sup,8)}")
+0348 | note(f"||GX_0||_F = {nstr(GX0F,8)}; sup ||GU_r||_F^2 = {nstr(GUfro2_sup,8)}")
+0349 | 
+0350 | # sup over [0,R] of |u_r| (exact): |u_r|^2 <= b^2 + 1/16 + 1/9 = 5809/3600
+0351 | u_sup = sqrt(mpf(5809)/3600)
+0352 | ck(fabs(u_sup*u_sup - (bb*bb + mpf(1)/16 + mpf(1)/9)) < mpf('1e-40'),
+0353 |    "u_sup rational identity fails")
+0354 | du_sup = R*R*sqrt(mpf(1)/16 + R*R/144)          # |u_r - u_0| <= du_sup
+0355 | # sup over [0,R] of |mu_r|, mu_r = E[J | U_r = u_r] (conditional mean):
+0356 | M_mean = (a2+ME_ERR[1])*bb \
+0357 |     + (LGX*R/lam + GX0F*LGU*R/(lam_used*lam))*u_sup \
+0358 |     + (GX0F/lam_used)*du_sup + 10*ROUND
+0359 | note(f"sup |mu_r| over [0,R]: M = {nstr(M_mean,10)} "
+0360 |      f"(|mu_0| = a2*b = {nstr((a2+ME_ERR[1])*bb,8)}, interval correction displayed)")
+0361 | 
+0362 | # -------------------------------- tightened compact set (contract item 1)
+0363 | # E_r: |q/(2r)+5|<=delta, |A-2|<=delta, |B|<=delta, |D3|<=delta.
+0364 | # For 0 < r <= R the union of the thin boxes is contained in
+0365 | #   JBOX(R) = [-(10+2 delta) R, 0] x [2-delta, 2+delta] x [-delta, delta]^2.
+0366 | # This set is stated explicitly; ALL dependent bounds (density floor, B4,
+0367 | # conditional means) are redone on it.  Containment check (exact rationals):
+0368 | from fractions import Fraction as Fr
+0369 | dF = Fr(1, 1024); RF = Fr(1, 100000)
+0370 | q_lo_needed = -(10+2*dF)*RF          # box lower endpoint
+0371 | q_lo_actual = -10*RF - 2*RF*dF       # worst thin-box endpoint at r = R
+0372 | ck(q_lo_actual >= q_lo_needed, "thin-box containment fails at r=R (lower)")
+0373 | ck(-10*RF + 2*RF*dF < 0, "thin-box containment fails (sign of q)")
+0374 | note("compact set (CHANGED from candidate's K_J, stated explicitly):")
+0375 | note(f"  JBOX(R) = [-(10+2d)R, 0] x [2-d, 2+d] x [-d, d]^2, d=1/1024, R=1e-5;")
+0376 | note(f"  contains every thin box E_r for 0<r<=R (exact rational containment OK)")
+0377 | RJ2 = ((10+2*delta)*R)**2 + (2+delta)**2 + 2*delta*delta
+0378 | RJ = sqrt(RJ2) + ROUND
+0379 | note(f"  R_J = sup_(j in JBOX) |j| = {nstr(RJ,10)} (R_J^2 = {nstr(RJ2,10)})")
+0380 | 
+0381 | # -------------------------------- density floor (contract boxed formula)
+0382 | # m = (2pi)^-2 Lambda^-2 exp(-(R_J+M)^2/(2 lambda)),
+0383 | #   lambda I <= Sigma_r <= Lambda I, |mu_r| <= M, |j| <= R_J.
+0384 | # Lambda: Gershgorin upper bound for lambda_max(Cov(J)) >= lambda_max(S_r)
+0385 | # (Schur complement is Loewner-below the J covariance, which is r-independent).
+0386 | grow = [a4+ME_ERR[2],
+0387 |         (a2+ME_ERR[1])*(a4+ME_ERR[2])/4 + (a2+ME_ERR[1])*(a4+ME_ERR[2])/12,
+0388 |         (a2+ME_ERR[1])*(a4+ME_ERR[2])/4,
+0389 |         (a6+ME_ERR[3])/36 + (a2+ME_ERR[1])*(a4+ME_ERR[2])/12]
+0390 | LAMBDA = max(grow) + ROUND
+0391 | ck(grow[0] >= max(grow[1:]), "Gershgorin row 0 is not maximal; Lambda logic fails")
+0392 | note(f"Lambda (Gershgorin upper, lambda_max(Cov J)) = {nstr(LAMBDA,10)}")
+0393 | 
+0394 | QEXP = (RJ + M_mean)**2/(2*lam) + ROUND     # upper enclosure of exponent
+0395 | m_est = (2*pi)**-2 * LAMBDA**-2 * exp(-QEXP)
+0396 | # outward enclosures: (2pi)^-2 > 1/40 exactly (since (2pi)^2 < 40)
+0397 | ck((2*pi)**2 < 40, "(2 pi)^2 < 40 fails; rational enclosure invalid")
+0398 | # power-of-ten certified floor:  log10(m) >= -(L10), L10 upward-enclosed
+0399 | from mpmath import log10 as mlog10
+0400 | L10 = 2*mlog10(2*pi) + 2*mlog10(LAMBDA) + QEXP*mlog10(exp(1)) + mpf('1e-30')
+0401 | import math as _math
+0402 | Nm = int(_math.floor(L10)) + 1
+0403 | ck(mpf(Nm) > L10, "power-of-ten floor for m misaligned")
+0404 | m_floor = mpf(10)**(-Nm)
+0405 | ck(m_floor < m_est, "10^-N floor exceeds the estimate; enclosure error")
+0406 | note(f"density exponent (R_J+M)^2/(2 lam) <= {nstr(QEXP,10)}")
+0407 | note(f"CERTIFIED density floor on JBOX(R), all r in [0,R]:")
+0408 | note(f"  m ~= {nstr(m_est,6)}  with certified rational floor  m >= 10^(-{Nm})")
+0409 | 
+0410 | # cross-check against review evidence (RB thin-box center diagnostic)
+0411 | RB_DIAG = mpf('1.2832e-3')
+0412 | ck(m_est < RB_DIAG, "m must not exceed the review's center diagnostic 1.2832e-3")
+0413 | note(f"  cross-check: m <= 1.2832e-3 (review center diagnostic) OK; "
+0414 |      f"m > 0 certified")
+0415 | 
+0416 | # thin-box volume ledger (exact rationals) and mutation hook
+0417 | if MUTATE == "box_width":
+0418 |     volF = (2*dF)**4                 # DEFECT: omits the shrinking width 4 d r
+0419 | else:
+0420 |     volF = (4*dF*RF)*(2*dF)**3
+0421 | ck(volF == 32*dF**4*RF, "thin-box volume is not 32 delta^4 r (rare-box width error)")
+0422 | note("thin-box volume ledger: vol(E_r) = (4 d r)(2 d)^3 = 32 d^4 r  "
+0423 |      "(coefficient 32 verified exactly)")
+0424 | 
+0425 | # -------------------------------- global field C^k moments (full Fourier tail)
+0426 | # ||f||_{C^p} <= Y_p = sum_k sqrt(w_k/Z) (1+|k|)^p zeta_k,
+0427 | #   zeta_k = |xi_k| + |eta_k|, E zeta = 2 sqrt(2/pi), E zeta^4 = 12 + 16/pi.
+0428 | def tail2d(p):
+0429 |     N0 = NB+1
+0430 |     # sum over shells max|n_i| = s >= N0: 8s e^{-a s^2/2} (1 + h sqrt2 s)^p
+0431 |     ck(a*N0*N0 > p, f"2D tail decrease condition fails p={p}")
+0432 |     def term(s):
+0433 |         return 8*s*exp(-a*s*s/2)*(1 + h*sqrt(2)*s)**p
+0434 |     t0v = term(N0)
+0435 |     # ratio of consecutive shell terms
+0436 |     rho = term(N0+1)/t0v
+0437 |     ck(rho < mpf('0.9'), f"2D tail ratio not < 0.9 for p={p}: {nstr(rho,4)}")
+0438 |     return t0v/(1-rho)
+0439 | 
+0440 | S = {}
+0441 | for p in (3, 4):
+0442 |     acc = mpf(0)
+0443 |     for n1 in ns:
+0444 |         w1n = w1[n1+NB]; k1 = k1s[n1+NB]
+0445 |         for n2 in ns:
+0446 |             w = w1n*w1[n2+NB]
+0447 |             rk = sqrt(k1*k1 + k1s[n2+NB]**2)
+0448 |             acc += sqrt(w)*(1+rk)**p
+0449 |     S[p] = acc/sqrt(Z)
+0450 |     S_err = tail2d(p)/sqrt(Z) + S[p]*(TMOM[0]/Z1) + ROUND
+0451 |     note(f"S_{p} = sum sqrt(w/Z) (1+|k|)^{p} = {nstr(S[p],10)} "
+0452 |          f"(+/- tail {nstr(S_err,3)})")
+0453 |     S[p] += S_err   # round UPWARD (used in upper bounds)
+0454 | 
+0455 | mu1 = 2*sqrt(2/pi) + ROUND
+0456 | mu4 = 12 + 16/pi + ROUND
+0457 | EfC3_4 = mu4*S[3]**4          # E||f||_{C^3}^4 <= mu4 S_3^4
+0458 | EfC4   = mu1*S[4]             # E||f||_{C^4}   <= mu1 S_4
+0459 | note(f"E||f||_C3^4 <= mu4 S_3^4 = {nstr(EfC3_4,8)}  (mu4 = 12+16/pi = {nstr(mu4,8)})")
+0460 | note(f"E||f||_C4   <= mu1 S_4   = {nstr(EfC4,8)}  (mu1 = 2 sqrt(2/pi) = {nstr(mu1,8)})")
+0461 | 
+0462 | # -------------------------------- B3 and B4 (contract section 4)
+0463 | # A_k = sup_{r,x,|alpha|<=k} ||d^alpha C_r(x)||_2 * sup_r ||Gamma_r^{-1}||_2
+0464 | #      <= sqrt(M_{2k} * tr_sup) / lam,
+0465 | # M_{2k} = max_{|alpha|<=k} E|d^alpha f|^2 = max ME[a1] ME[a2] (exact moments).
+0466 | def Mmax(k):
+0467 |     best = mpf(0)
+0468 |     for a1 in range(k+1):
+0469 |         for a2_ in range(k+1-a1):
+0470 |             v = (ME[a1]+ME_ERR[a1])*(ME[a2_]+ME_ERR[a2_])
+0471 |             if v > best: best = v
+0472 |     return best + ROUND
+0473 | M3B, M4B = Mmax(3), Mmax(4)
+0474 | note(f"M_6 = max_(|a|<=3) E|d^a f|^2 = {nstr(M3B,8)}; "
+0475 |      f"M_8 = max_(|a|<=4) = {nstr(M4B,8)} (exact finite-torus moments)")
+0476 | 
+0477 | A3 = sqrt(M3B*tr6_sup)/lam + ROUND
+0478 | A4 = sqrt(M4B*tr10_sup)/lam + ROUND
+0479 | note(f"A_3 = {nstr(A3,8)} (6-pin),  A_4 = {nstr(A4,8)} (10-jet)")
+0480 | 
+0481 | EU4 = tr6_sup**2 + 2*GUfro2_sup            # E||U_r||^4 = (tr GU)^2 + 2||GU||_F^2
+0482 | EU4q = EU4**mpf('0.25')
+0483 | EV10 = sqrt(tr10_sup)                       # E||V10_r|| <= sqrt(tr Gamma)
+0484 | v_sup = sqrt(u_sup**2 + RJ2) + ROUND        # sup ||(u_r, j)|| over [0,R] x JBOX
+0485 | note(f"(E||U||^4)^(1/4) <= {nstr(EU4q,8)};  E||V10|| <= {nstr(EV10,8)}; "
+0486 |      f"sup||(u_r,j)|| <= {nstr(v_sup,8)}")
+0487 | 
+0488 | B3 = (1 + EfC3_4**mpf('0.25') + A3*(EU4q + u_sup))**4
+0489 | B4 = EfC4 + A4*(EV10 + v_sup)
+0490 | note(f"B_3 = [1 + (E||f||_C3^4)^(1/4) + A_3((E||U||^4)^(1/4)+sup|u_r|)]^4")
+0491 | note(f"    <= {nstr(B3,10)}")
+0492 | note(f"B_4 = E||f||_C4 + A_4(E||V10|| + sup||(u_r,j)||) <= {nstr(B4,10)}")
+0493 | ck(B3 > 0 and B3 < mpf('1e300'), "B3 not finite positive")
+0494 | ck(B4 > 0 and B4 < mpf('1e300'), "B4 not finite positive")
+0495 | 
+0496 | # integer outward enclosures (exact rational arithmetic from here on)
+0497 | B3_rat = int(_math.ceil(B3))
+0498 | K = max(mpf(1), 2*B4)
+0499 | ck(2*B4 > 1, "K = max(1, 2 B4) branch check")
+0500 | K_rat = int(_math.ceil(2*B4))
+0501 | CZ_rat = 4*B3_rat
+0502 | r0 = Fr(1, 256*K_rat)                       # rounded DOWNWARD (K_rat >= K)
+0503 | ck(Fr(1, 256*K_rat) <= 1/Fr(256)/Fr(int(_math.floor(K))),
+0504 |    "r0 downward rounding invalid")
+0505 | ck(r0 <= RF and r0 <= 1, "r0 must be <= min(R,1); raise R or check K")
+0506 | note(f"K = max(1, 2 B_4) <= K_rat = {K_rat}")
+0507 | note(f"C_Z = 4 B_3 <= {CZ_rat}")
+0508 | note(f"CERTIFIED radius: r_0 = 1/(256 K_rat) = 1/{256*K_rat} "
+0509 |      f"~= {nstr(mpf(r0.numerator)/r0.denominator,6)}  (> 0, exact rational)")
+0510 | 
+0511 | # -------------------------------- power/weight ledger (exact rationals)
+0512 | if MUTATE == "hessian_power":
+0513 |     HESS_POW = 3                            # DEFECT: wrong Hessian scaling power
+0514 | else:
+0515 |     HESS_POW = 4
+0516 | ck(HESS_POW == 4, "Hessian pair-weight scaling is r^4 (r^2 per determinant)")
+0517 | ck(Fr(81, 16)*Fr(1673, 128) >= 65, "event weight base 65 not verified")
+0518 | ck(65*16 == 1040 and 1040 == 4*260, "weight/Markov ledger 65*16=1040=4*260 fails")
+0519 | ck(1 + HESS_POW - 2 == 3, "final exponent ledger 1+4-2=3 fails")
+0520 | ck(4 + 4 + 2 + 6 == 16, "jet-box basis-norm sum 16 fails")
+0521 | ck(Fr(2089, 384) < 8, "Taylor lift total 2089/384 < 8 fails")
+0522 | ck(Fr(1, 6) - Fr(99, 1280) - Fr(1, 16) == Fr(103, 3840) > 0,
+0523 |    "path clearance 103/3840 > 0 fails")
+0524 | hard = 16*dF + 8*K_rat*r0
+0525 | ck(hard <= Fr(3, 64) and Fr(3, 64) < Fr(1, 16),
+0526 |    f"hard geometric check 16 d + 8 K r0 <= 3/64 < 1/16 fails: {hard}")
+0527 | note("ledger (exact rationals): W >= 65 r^4 on event; vol 32 d^4 r; "
+0528 |      "Z_r <= C_Z r^2; exponent 1+4-2 = 3; 16d + 8 K r0 = "
+0529 |      f"{hard} <= 3/64 < 1/16; clearance 103/3840 > 0")
+0530 | 
+0531 | # -------------------------------- final constant c
+0532 | # c = 1040 m delta^4 / C_Z = 260 m delta^4 / B_3, delta^4 = 2^-40 exactly.
+0533 | ck(dF**4 == Fr(1, 2**40), "delta^4 = 2^-40 fails")
+0534 | c_est = 260*m_est*delta**4/B3
+0535 | c_lo = Fr(260, 1) / (Fr(B3_rat, 1) * (2**40) * (10**Nm))
+0536 | # certified power-of-ten floor for c:
+0537 | c_est_lo = 260*m_floor*delta**4/B3_rat
+0538 | log_c = mlog10(c_est_lo)
+0539 | Nc = int(_math.floor(log_c))
+0540 | ck(mpf(Nc) < log_c, "power-of-ten floor for c misaligned")
+0541 | ck(Fr(10)**Nc < c_lo, "certified c floor exceeds c_lo")
+0542 | note(f"CERTIFIED CONSTANT: c = 260 m delta^4 / B_3")
+0543 | note(f"  estimate c ~= {nstr(c_est,6)}")
+0544 | note(f"  certified: c >= 260/(B3_rat 2^40) * 10^(-{Nm}) >= 10^({Nc})  with")
+0545 | note(f"  B3_rat = {B3_rat};  in particular c > 0.")
+0546 | ck(c_lo > 0, "c is not positive")
+0547 | 
+0548 | note("")
+0549 | note("=================== CERTIFIED SUMMARY ===================")
+0550 | note(f"1 - q(r, 6/5) >= c r^3  for all 0 < r <= r_0, with")
+0551 | note(f"  c  >= 10^({Nc})   (estimate {nstr(c_est,4)}; rational form above)")
+0552 | note(f"  r_0 = 1/{256*K_rat} ~= {nstr(mpf(r0.numerator)/r0.denominator,6)}")
+0553 | note(f"  m  >= 10^(-{Nm})  (density floor on JBOX(R), estimate {nstr(m_est,4)})")
+0554 | note(f"  lam = {nstr(lam,10)} (uniform covariance floor on [0,R])")
+0555 | note(f"  B_3 <= {B3_rat},  B_4 <= {nstr(B4,6)} (K_rat = {K_rat}),  R = 1e-5")
+0556 | note("ALL_CHECKS_PASSED")

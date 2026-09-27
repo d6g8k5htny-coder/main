@@ -1,0 +1,1145 @@
+
+Pre-peer-review dossier: short-lifetime H0 
+persistence for the side-24 periodized 
+Bargmann–Fock field
+
+Dylan Roy
+Frozen review snapshot: 31 July 2026
+
+Status and purpose
+This dossier accompanies a candidate theorem about short-lifetime connected-component 
+persistence for a smooth three-dimensional Gaussian field. It is written for a professor who may 
+know Gaussian random fields, statistical physics, stochastic geometry, topology, or asymptotic 
+analysis but may not specialize in persistent homology.
+
+The requested decision is not “approve this paper.” It is:
+
+Does the fixed-scope result appear mathematically sound and worth advancing toward a 
+preprint, and if not, what is the earliest fatal or major gap?
+
+The current state should be described as follows:
+
+A serious fixed-scope theorem candidate with a coherent local Kac–Rice scaling 
+mechanism, an explicit coefficient claim, and extensive AI-assisted internal criticism, but 
+without independent human validation and with several proof interfaces that should be 
+made fully explicit before formal submission.
+
+AI systems were used extensively during derivation, checking, criticism, and editing. Internal terms 
+such as “closed,” “terminal,” “passed,” or “external audit” refer to the project’s own claim-
+management process. They are not independent academic review. Dylan Roy retains responsibility 
+for every claim.
+
+1. One-page result summary
+
+1.1 The random field
+Let
+
+T 24
+3 = (ℝ / 24ℤ )3
+
+and let f 24 be the centered stationary Gaussian field with covariance
+
+K 24 ( z )=Z24
+−1 ∑
+
+n∈ℤ3
+exp(−|z+24 n )
+
+2
+
+2 ) , Z24= ∑n∈ℤ3 e−288|n )
+2
+
+.
+
+
+
+This is the variance-one periodization of the Euclidean Bargmann–Fock covariance e−|z )
+2 / 2 to the 
+
+side-24 cubic torus.
+
+1.2 The filtration and the quantity measured
+Consider the superlevel sets
+
+X a= {x∈T 24
+3 : f 24 ( x )≥a }.
+
+As the threshold a decreases, a local maximum creates a connected component. When two 
+components merge at an index-two critical point, the elder rule retains the component born at the 
+higher maximum and kills the other. A finite nonessential H 0 bar is therefore associated with a 
+creating maximum M  and a death saddle S, with lifetime
+
+ℓ= f 24 (M )− f 24 (S )>0 .
+
+The object ν3 ,24 (ℓ ) is the density of the expected number of such finite lifetimes per unit ordinary 
+torus volume. It is a first-moment intensity density. It is not a probability density for a randomly 
+sampled bar unless a further normalization and sampling convention are imposed.
+
+1.3 Candidate theorem
+The central claim is
+
+ν3 ,24 (ℓ )=c3 ,24 ℓ
+−1 / 3 (1+o (1 ) ) , ℓ ↓0 ,
+
+where 0<c3 ,24<∞ is an explicit finite-dimensional Gaussian-cone integral. The current manuscript 
+gives
+
+c3 ,24=B3∫
+S2
+
+(σ t2 )
+2 / 3
+
+Dt
+√det Σg ( t )det Σh ( t )
+
+d σ 2 ( t ) , B3=
+3 Γ (7 / 6 )
+24 / 3 π7 / 2
+
+.
+
+All derivative variables in (1.5) are evaluated at one fixed point, which may be chosen as the origin 
+by stationarity. The measure d σ 2 is standard surface measure. Transverse frames are local: no 
+global continuous orthonormal frame exists on S2, so the construction is interpreted through a finite 
+frame atlas and frame-invariance of the integrand.
+
+The claimed Euclidean, nonperiodized three-dimensional coefficient is
+
+c3 ,∞=2
+−23 / 63−8 / 3 (29√6−36 )Γ (1 / 6 ) π−5 / 2 .
+
+The manuscript currently calls this the “planar” value. In a three-dimensional paper, 
+“Euclidean/nonperiodized Bargmann–Fock coefficient” would be less ambiguous.
+
+The side-24 correction is claimed to be
+
+c3 ,24
+c3 ,∞
+
+−1=− 620813376
+35
+
+e−288+ ε24 ,|ε24 )<10−180 .
+
+
+
+1.4 Where the exponent comes from
+For a nearby ordered maximum–saddle pair at distance r, with directed displacement t∈S2, the 
+exact power ledger is:
+
+Contribution Factor
+
+Displacement polar measure r2d r
+
+Value-gap change h=b−κ r3 / 6 r3 / 6
+
+Corrected six-pin density r−6
+
+Two soft endpoint determinant factors r2
+
+Combined radial factor (1 / 6 ) r d r
+
+Cubic lifetime relation ℓ=κ r3 / 6
+
+Lifetime pushforward r d r= (62 / 3 / 3 )κ−2 / 3 ℓ−1 / 3d ℓ
+
+Thus a generic cubic contact gives ℓ−1 / 3. The principal nonlocal issue is whether a typed local 
+maximum–saddle contact is actually the elder persistence pair. The proof claims that the 
+determinant-weighted Palm probability of selection satisfies
+
+1− pr ( t , b ,κ )=O (r
+3 ) ,
+
+so selection changes only the lower-order term.
+
+2. Physics-oriented orientation
+
+2.1 Bargmann–Fock geometry
+The Euclidean Bargmann–Fock field is a canonical smooth stationary isotropic Gaussian field. Its 
+covariance is Gaussian in separation, so all field derivatives exist and the local jet has particularly 
+explicit covariance. Periodization replaces the infinite domain by a compact torus while retaining 
+stationarity. Side 24 is so large relative to the unit correlation length that the first image correction 
+is proportional to e−24
+
+2 / 2=e−288.
+
+The normalization by Z24 is important: it makes K 24 (0 )=1. Any Fourier representation must use the 
+corresponding Poisson prefactor consistently. The main manuscript includes that prefactor; one 
+display in the archival technical appendix omits it. Positivity arguments survive the omission, but an 
+exact equality must be corrected in a journal version.
+
+
+
+2.2 Why short bars come from a local fold
+A very short H 0 bar has a creating maximum and a death saddle at nearly equal heights. The local 
+mechanism is a fold in the direction joining them. If r is their separation, the height gap is 
+generically cubic in r:
+
+f (M )−f (S )= κ r
+3
+
+6
+.
+
+The two endpoint Hessians each have one soft eigenvalue of order r, while their transverse blocks 
+remain nondegenerate. Kac–Rice weights each critical point by an absolute Hessian determinant. 
+The pair therefore contributes two powers of r from the endpoint determinants.
+
+The value and gradient constraints become singular as the endpoints collide. A corrected divided-
+difference coordinate system isolates this singularity. In dimension three its linear Jacobian 
+contributes r−6. The remarkable cancellation in the table above leaves a universal r d r radial 
+measure before lifetime pushforward.
+
+2.3 Why topology is not automatic
+Kac–Rice can count all nearby typed maximum–index-two-saddle pairs. Persistence counts only 
+pairs selected by the global elder rule. A local pair might fail to be selected because of another 
+critical point, because the outward branch returns to the same component, or because the two 
+upper sectors already belong to the same component.
+
+The proof therefore requires more than a local Gaussian calculation. It needs a topological and 
+dynamical selection theorem showing that failure is rare under the determinant-weighted contact 
+Palm law. That is the most delicate part of the project and the part most in need of independent 
+review.
+
+3. Precise definitions and conventions
+
+3.1 Genericity
+The manuscript argues that the field has entire periodic sample paths, is Morse almost surely, and 
+has pairwise distinct critical values. Strict positivity of all Fourier weights gives nondegeneracy for 
+finite families of derivative-evaluation distributions. Compactness supplies uniform covariance 
+bounds away from the spatial diagonal.
+
+The genericity proof cites Adler–Taylor for the Morse property and uses a dimension-counting 
+argument for distinct critical values. A reviewer should verify that the exact hypotheses of the cited 
+results are satisfied and that the claimed derivative-distribution independence is correctly 
+formulated.
+
+3.2 Expected lifetime measure
+Let M * be the global maximum and D f (M ) the elder-rule death saddle of a non-global maximum. 
+Define
+
+
+
+Λ3 ,24 ( A )=24
+−3E ∑
+
+M≠M *
+
+1{f 24 (M )−f 24 (D f (M ) )∈ A }.
+
+The prefactor 24−3 converts the expected total torus count to ordinary volume-specific intensity. In 
+a stationary midpoint integral,
+
+24−3∫
+T 24
+
+3
+
+d x=1 .
+
+The manuscript proves absolute continuity by applying marked two-point Kac–Rice away from the 
+diagonal and taking a countable increasing union. It then calls the pointwise Kac–Rice 
+representative ν3 ,24. A final paper should say explicitly that the Radon–Nikodym derivative is 
+defined almost everywhere and that the Kac–Rice formula selects the pointwise representative to 
+which the asymptotic applies.
+
+3.3 Typed ordered pairs and multiplicity
+For 0< r<12, write
+
+M = x− r
+2
+t , S= x+ r
+
+2
+t , t∈S2 .
+
+The midpoint/displacement map has determinant one, so
+
+d M d S=d x r2d r d σ 2 ( t ) .
+
+The antipode −t  exchanges M  and S. Because the domain is the typed ordered space 
+M a x×S ad2, it is not a duplicate of the same atom. No factor 1 / 2 is inserted.
+
+An index-two superlevel merge lowers β0 by one and kills exactly one younger component. The 
+pair process counts the critical-point pair, not unstable half-branches. Even if two branches exhibit 
+a relation to the same maximum, no factor two is introduced.
+
+4. Exact local Kac–Rice mechanism
+
+4.1 Corrected pins
+Impose
+
+f (M )=b , f (S )=b− κ r
+3
+
+6
+,∇ f (M )=∇ f (S )=0 , κ>0 .
+
+The corrected divided-difference coordinates are
+
+V += f
+(S )+ f (M )
+
+2
+,
+
+V c o r r
+− =
+
+f (S )−f (M )− r
+2 (∂t f (S )+∂t f (M ) )
+
+r3
+,
+
+
+
+and, for e∈{t , n1 , n2},
+
+Ge
++=
+
+∂e f (S )+∂e f (M )
+2
+
+,Ge
+−=
+
+∂e f (S )−∂e f (M )
+r
+
+.
+
+The raw-to-corrected linear determinant is r−6. The tangential-gradient correction in (4.3) is off the 
+determinant diagonal and should not create another factor.
+
+4.2 Endpoint determinants
+Conditionally on the pins, one axial eigenvalue at each endpoint is soft. The determinant 
+factorization has the form
+
+det HM= r DM , det H S= r DS ,
+
+with bounded conditional Gaussian moments on the good contact region. The product contributes 
+r2.
+
+4.3 Exact radial ledger
+Multiplying the gap Jacobian, pin density, endpoint weights, and pair measure gives
+
+r3
+
+6
+r−6 r2r2d r= 1
+
+6
+r d r .
+
+At fixed κ, the relation ℓ=κ r3 / 6 gives
+
+r d r= 6
+2 / 3
+
+3
+κ−2 / 3 ℓ−1 / 3d ℓ .
+
+The combined Kac–Rice/lifetime scalar before the limiting Gaussian integrals is therefore 62 / 3 / 18.
+
+5. Exact near-density pushforward that should be inserted
+This section is a reviewer-oriented proposed repair. Its ingredients are present in the current chain, 
+but the assembled formula is not yet a named proved statement in the manuscript.
+
+Fix 0< ρ<12. Let
+
+Π r , x , t= ( f (M ) , f (S ) ,∇ f (M ) ,∇ f (S ) )
+
+and
+
+zr (b ,κ )=(b ,b− κ r36 ,0 ,0) .
+Define
+
+W r=|det HM )|det H S )1{HM≺0 }1{ind (H S )=2}.
+
+
+
+Let e ( f ;M , S ) be the elder-pair indicator defined in Section 6. The selected typed Kac–Rice factor 
+is
+
+K r
+s e l ( t , b ,κ )= pΠ r , x , t ( zr (b ,κ ) )E [W r e ( f ;M , S )∣Π r , x , t= zr (b ,κ ) ) .
+
+For every nonnegative test function φ, marked Kac–Rice and the exact changes of variables 
+should give
+
+∫
+0
+
+∞
+
+φ (ℓ ) ν ρ
+ne a r (ℓ )d ℓ= ∫
+
+S2
+∫
+ℝ
+∫
+0
+
+ρ
+
+∫
+0
+
+∞
+
+φ( κ r36 )
+¿ ¿
+
+Set
+
+r ℓ (κ )=( 6 ℓκ )
+1 / 3
+
+.
+
+Then the exact density representative is
+
+ν ρ
+ne a r (ℓ )=∫
+
+S2
+∫
+ℝ
+∫
+
+6 ℓ / ρ3
+
+∞
+2 ℓ
+κ2
+
+K r ℓ (κ )
+s e l ( t , b ,κ )d κ d bd σ2 ( t ) .
+
+In dimension three define the rescaled contact integrand
+
+Gr
+s e l= r4K r
+
+s e l .
+
+Equation (5.7) becomes
+
+ν ρ
+ne a r (ℓ )= 6
+
+2 / 3
+
+18
+ℓ−1 / 3∫
+
+S2
+∫
+ℝ
+∫
+
+6 ℓ / ρ3
+
+∞
+
+κ−2 / 3
+
+¿ ¿
+
+To turn (5.9) into the asserted asymptotic, the final proof must expose:
+
+1. convergence of Gr
+s e l to the limiting contact integrand;
+
+2. one integrable majorant after multiplication by κ−2 / 3, including κ ↓0;
+
+3. equality of the selected and all-typed limiting integrands; and
+
+4. a separate bound for elder pairs whose own separation is at least ρ.
+
+6. Exact Palm law and elder mark that should be inserted
+This section is also a proposed repair and not an assertion that the measurability interface is 
+already closed.
+
+Let
+
+Er , t ,b ,κ
+0 [⋅ )=E [⋅∣Π r , x , t= zr (b ,κ ) )
+
+
+
+denote the regular conditional Gaussian law given the affine value and gradient pins. Put
+
+Z r ( t , b ,κ )=Er , t ,b ,κ
+0 [W r ) .
+
+The all-typed determinant-weighted Palm law should be defined by
+
+Er , t ,b ,κ
+M S [F )=
+
+Er , t ,b ,κ
+0 [W r F )
+Z r ( t , b ,κ )
+
+.
+
+Neither adjacency nor persistence selection is part of this base law.
+
+For a Morse function with distinct critical values, let h= f (S ). Immediately above h, the two upper 
+local sectors adjacent to the index-two saddle lie in superlevel components C1 (S ) and C2 (S ). If the 
+components coincide, the handle does not kill an H 0 class. If they differ, each has a unique birth 
+maximum, and the elder rule kills the component with the lower birth maximum.
+
+Define e ( f ;M , S )=1 precisely when:
+
+1. C1 (S )≠C2 (S );
+
+2. M  is the birth maximum of one of the two components; and
+
+3. the birth value at M  is the smaller of the two birth values.
+
+Otherwise set e ( f ;M , S )=0. The intended selection probability is
+
+pr ( t , b ,κ )=Er , t ,b ,κ
+M S [e ( f ;M , S ) ) .
+
+Thus
+
+K r
+s e l= pr K r
+
+a l l .
+
+A complete marked Kac–Rice proof also needs the Borel measurability of ( f ,M , S )↦ e ( f ;M , S ) on 
+the Morse, distinct-critical-value locus. The current manuscript describes the mark but does not 
+supply a three-dimensional measurable construction or cite a theorem tailored to this mark. This is 
+a concrete repair item.
+
+7. Separate near/far pair contribution
+
+7.1 The distinction
+The technical appendix’s object N f a r counts a remote third-critical-point witness conditional on an 
+already specified near maximum–saddle contact. It helps bound failure of local elder selection. It 
+does not bound the contribution of actual elder-paired maximum–saddle pairs whose own 
+separation is bounded away from zero.
+
+The full density should be decomposed as
+
+ν3 ,24 (ℓ )= ν ρ
+ne ar (ℓ )+ ν ρ
+
+f a r (ℓ ) .
+
+
+
+7.2 Proposed off-diagonal lemma
+For fixed 0< ρ<12, define
+
+D ρ= {( x , y )∈ (T 243 )
+2
+:d ( x , y )≥ ρ }.
+
+The needed statement is:
+
+For each finite ℓ0, the off-diagonal elder-pair lifetime density satisfies sup0< ℓ ≤ ℓ0 ν ρ
+f a r (ℓ )<∞. 
+
+Hence ν ρ
+f a r (ℓ )=o (ℓ−1 / 3 ).
+
+A proposed proof uses marked two-point Kac–Rice with
+
+Ξ x , y= ( f ( x ) , f ( y ) ,∇ f ( x ) ,∇ f ( y ) ) .
+
+Complete positive Fourier support makes Ξ x , y nondegenerate for x ≠ y, and compactness of D ρ 
+gives uniform covariance bounds. Conditional Hessian means are affine in (b ,b−ℓ ), conditional 
+covariances are uniformly bounded, and the elder mark is at most one. A Gaussian regression 
+bound of the form
+
+C ρ (1+|b )+ ℓ0 )
+N e−c ρb
+
+2
+
+is integrable in b, while Dρ has finite volume. This should yield a uniform O (1 ) bound.
+
+The argument appears standard but is not yet an isolated, checked lemma in the controlling 
+manuscript. Its use of a nonlocal mark depends on Section 6’s measurability repair.
+
+8. Elder selection and deterministic dynamics
+
+8.1 Claimed probabilistic structure
+The proof divides selection failures into local collar witnesses, singular-near witnesses, fixed-
+distance witnesses, or same-maximum self-attachment. The stated covariance factorizations are
+
+det C c o l= ρ
+6 (X 2+ ρ2 ) Ac o l , Ac o l>0 ,
+
+and
+
+det C s i n g= ρ
+10 (3 c2+ ρ2 ) A s i n g , A s i n g>0 .
+
+Together with an anisotropic triple-determinant envelope
+
+[r (r+ s2 ) )2 (r2+ s3 ) ,
+these are used to show O (r3 ) Palm witness expectations.
+
+
+
+8.2 Main unresolved presentation issue
+The raw appendix invokes a “universal two-dimensional elimination” for the triple-Hessian factors 
+without reproducing that elimination. The older source containing the development also contains a 
+later false loop reduction and is not safe to forward as operative proof. A clean submission needs a 
+new, isolated derivation of exactly the eliminations used in (8.1)–(8.3).
+
+Likewise, the elder-selection trichotomy is compressed into a case-split paragraph. It should 
+become a formal lemma defining the adjacency event, the elder event, the witness counts, and the 
+same-maximum event, followed by an explicit inclusion showing that every failure falls into one of 
+the controlled cases.
+
+8.3 Energy-adapted capture and escape
+The current correction scales the transverse matrix as
+
+T r=−
+Q⊥
+κ r
+
+.
+
+The outward trajectory is controlled using T r-energy-adapted cones and strips. The intended 
+advantage is that all margins depend on a lower coercivity bound and do not require a hidden 
+upper bound on λmax (T r ).
+
+The exact margin ledger bundled with this packet verifies rational inequalities, including
+
+E N E RGY _CON E _ A DV E R S E< 1
+3
+, E N E RGY _ ST R I P _ A DV E R S E< 9
+
+10
+,
+
+and a positive level reserve. These computations verify arithmetic conditional on the encoded 
+inequalities. They do not replace the missing continuous derivation of the inward-tube flux and 
+convergence bounds. The current Module J also refers to “previously reviewed Euclidean 
+estimates” and to material from a superseded predecessor. The final mathematical supplement 
+should consolidate all retained inequalities into one current proof rather than asking a reviewer to 
+inspect an older version.
+
+9. Coefficient reduction
+
+9.1 Jet variables
+For t∈S2 and a local orthonormal transverse frame (n1 , n2 ), define
+
+ut=−
+∂t
+3 f 24
+12
+
+, gt= (∂t f 24 , ∂n1 f 24 , ∂n2 f 24 ) ,
+
+ht= (∂t t f 24 , ∂t n1 f 24 , ∂t n2 f 24 ) ,
+
+and let qt encode the symmetric 2×2 transverse Hessian Qt (qt ). Put
+
+Σg ( t )=Cov (gt ) , Σh ( t )=Cov (ht ) ,
+
+
+
+σ t
+2=Var (ut )−Cov (ut , gt )Σg ( t )
+
+−1Cov (gt ,ut ) ,
+
+and
+
+Dt=E [ (det Qt (qt ) )21{Qt (qt )≺0 }∣ht=0 ) .
+Here Q≺0 means negative definite.
+
+9.2 Height and gap integrations
+Evenness of the covariance separates odd and even derivative blocks. Integration over the birth 
+
+height removes the field-value coordinate, and the normalized gap integral produces Γ (7 / 6 ) (σ t2 )
+2 / 3
+
+. 
+
+Combining it with the radial scalar yields (1.5).
+
+9.3 Euclidean constant
+At the Euclidean nonperiodized jet, the manuscript states
+
+Σg= I 3 , Σh=diag (3 ,1 ,1 ) , σ t
+2= 1
+
+24
+,
+
+and
+
+Q∣ht=0=
+d
+
+G2+√ 23 Z I 2 , Dt= 296 −√6 .
+The normalization of G2 should be stated explicitly. The archival appendix states the cone 
+expectation but does not provide the full calculation. The reproducibility annex includes symbolic 
+recombination, but a final proof supplement should reproduce the actual GOE-plus-scalar cone 
+integration.
+
+10. Side-24 correction
+Let J 0 be the Euclidean even covariance jet through order six and J 24 the periodized jet. The 
+normalized coefficient functional is
+
+F (J )= Φ
+(J )
+
+Φ (J 0 )
+.
+
+The proof asserts derivative bounds on a small jet ball,
+
+sup∥DF∥<1016 ,sup∥D2F∥<1042 ,
+
+and a nearest-image decomposition
+
+J 24−J 0= J ne a r
+(1 ) +R j e t ,
+
+with
+
+∥ J 24−J 0∥max<10
+−113 ,∥R j e t∥max<10
+
+−230 .
+
+
+
+Rotational projection of the six nearest images is stated to give
+
+DF (J 0 ) [J ne a r(1 ) )=P3 (24 ) e−288 ,
+where
+
+P3 (L )=−
+L2 (10 L4−147 L2+315 )
+
+105
+, P3 (24 )=−
+
+620813376
+35
+
+.
+
+The exact remainder ledger is bundled. A reviewer should distinguish what the script proves from 
+what is assumed in the bounds that the script encodes. The full first-variation algebra and the 
+differentiability estimate are high-value independent checks.
+
+11. Proof dependency map
+The current exact appendix is organized into twelve modules:
+
+Module Mathematical function Review priority
+
+A Corrected pins, dimension 
+cancellation, lifetime pushforward
+
+High
+
+B Collar and singular-near contact 
+charts
+
+Very high
+
+C Fixed-side coefficient reduction High
+
+D Coefficient-map derivative bounds High
+
+E Structural transfer to side 24 Very high
+
+F Fourier-support nondegeneracy Medium
+
+G Nearest-image jet remainder High
+
+H Corrections, first variation, interface 
+ledger
+
+High
+
+I Palm witness counts and selection 
+recombination
+
+Very high
+
+J Energy-adapted matrix 
+capture/escape
+
+Very high
+
+K Absolute Kac–Rice normalization Very high
+
+L Ordered-pair coordinates and unit 
+
+H 0 multiplicity
+High
+
+The source equation numbers are local to each module and collide. The exact appendix is 
+therefore an archival audit source, not a submission-ready technical supplement. A journal version 
+should prefix or globally renumber every equation and replace source IDs with conventional lemma 
+names.
+
+
+
+12. Current proof-gap and correction register
+The following items must remain visible to the professor.
+
+Priority Item Current state Required action
+
+1 Off-diagonal elder pairs Not isolated Prove ν ρ
+f a r=O (1 )
+
+2 Exact near pushforward Power count present, 
+global formula implicit
+
+Insert and verify Section 5
+
+3 Palm law and elder mark Intended meaning spread 
+across modules
+
+Insert (6.1)–(6.5) and 
+prove Borel measurability
+
+4 Elder-selection trichotomy Compressed paragraph State a formal exhaustive 
+lemma
+
+5 Capture/escape proof Current energy repair 
+refers to retained 
+predecessor estimates
+
+Consolidate one current 
+proof without superseded 
+dependencies
+
+6 Triple-contact elimination Result stated, algebra 
+omitted
+
+Supply exact symbolic 
+elimination and angular 
+control
+
+7 Cone and first-variation 
+constants
+
+Final formulas stated, full 
+derivations absent from 
+main packet
+
+Reproduce complete 
+calculations
+
+8 Fourier display in Module F Positive factor omitted in 
+one archival equality
+
+Correct exact prefactor
+
+9 Module E hypotheses Begins after omitted 
+assumptions; derivative 
+envelope not derived in 
+extract
+
+Restore hypotheses and 
+quantitative bounds
+
+10 General notation in Module 
+K
+
+Several generic symbols 
+underdefined
+
+Define or remove generic 
+subsection
+
+11 Density convention Present but easy to 
+misread
+
+Emphasize per-volume 
+first-moment intensity
+
+12 Literature novelty Targeted search only Conduct 
+MathSciNet/zbMATH/citati
+on-network review
+
+This register does not say the theorem is false. It says the current archival chain should not yet be 
+described to an outside professor as a fully self-contained proof.
+
+13. Hostile-review questions
+For each item, the reviewer is invited to mark verified, correctable gap, major gap, or outside 
+expertise, and to cite the exact file/page/equation.
+
+
+
+1. Does the corrected divided-difference pin frame converge nondegenerately, and is its 
+determinant exactly r−6?
+
+2. Are the endpoint soft determinant factors exactly one power of r each under the 
+conditioned law?
+
+3. Is the common majorant uniform enough as κ ↓0 to exclude quartic or higher-contact 
+double scaling?
+
+4. Are the collar and singular-near covariance factorizations exact after the side-24 
+perturbation?
+
+5. Are the triple-Hessian envelopes rigorously derived with every angular singularity 
+controlled?
+
+6. Is the elder-selection trichotomy exhaustive, including same-component attachment and 
+selected-but-nonadjacent cases?
+
+7. Is the nonlocal elder mark Borel measurable under exactly the genericity proved in the 
+manuscript?
+
+8. Does the energy-adapted capture/escape argument avoid every hidden upper bound on 
+λmax (T r )?
+
+9. Is the shallow-eigenvalue Palm bound uniform in all mark variables?
+
+10. Is the off-diagonal elder-pair density uniformly O (1 ) as ℓ ↓0?
+
+11. Recompute every scalar: gap 1 / 6, polar r2, pin r−6, endpoints r2, lifetime 62 / 3 / 3, directed 
+S2, no 1 / 2, unit merge multiplicity, and per-volume normalization.
+
+12. Independently recompute Dt=29 / 6−√6, c3 ,∞, P3 (24 ), and the remainder enclosure.
+
+13. Does any existing paper already prove the same selected near-diagonal asymptotic?
+
+14. Reproducibility status
+The bundled scripts are small exact arithmetic or symbolic ledgers. They test:
+
+• the finite-(L) scalar recombination;
+
+• coefficient-map integer bounds;
+
+• the image-tail rational remainder;
+
+• energy-adapted rational margins;
+
+• absolute normalization;
+
+• the ordered-pair Jacobian and radial power.
+
+
+
+Scripts using only Python’s standard library were executed in this build environment. The SymPy 
+scripts are bundled with a requirements file and historical expected output but were not executed 
+here because SymPy was not installed in the artifact-build runtime.
+
+One source/result inconsistency is disclosed: the coefficient-bound source prints 
+TAYLOR_REMAINDER_AT_1e-113 < 5e-187, while the associated Drive result records < 5e-185 and 
+adds a relative Hessian line not printed by the source. The manuscript uses the weaker 5 ⋅10−185-
+scale conclusion. This does not by itself refute the inequality, but it means the historical result is 
+not a byte-for-byte execution transcript of the bundled source. It should be repaired before 
+submission.
+
+The exact scripts verify arithmetic conditional on their encoded premises. They do not certify 
+Gaussian regression assumptions, topological exhaustiveness, smooth dependence of the cone 
+functional, or the analytic derivation of the bounds.
+
+15. Literature position
+The closest located literature falls into three broad groups:
+
+1. persistent homology of random or Gaussian fields and complexes;
+
+2. existence and estimation of expected persistence-diagram densities; and
+
+3. Kac–Rice and correlation asymptotics for Gaussian critical points.
+
+The targeted search through 30 July 2026 did not locate a theorem giving the fixed-side three-
+dimensional periodized Bargmann–Fock selected near-diagonal H 0 law (1.4), coefficient (1.5), or 
+correction (1.7). This is evidence of possible novelty, not a definitive novelty determination. A 
+formal submission should add MathSciNet, zbMATH, backward-citation, and forward-citation 
+searches.
+
+16. Exact scope and exclusions
+The candidate theorem concerns only:
+
+• ambient dimension 3;
+
+• torus side 24;
+
+• the normalized periodized Bargmann–Fock covariance (1.1);
+
+• superlevel-set filtration;
+
+• finite nonessential H 0 bars;
+
+• first-moment lifetime density per unit ordinary volume;
+
+• the fixed-side limit ℓ ↓0;
+
+• the ordered maximum–index-two-saddle and directed-sphere conventions stated here.
+
+
+
+It does not claim:
+
+• any other side length;
+
+• an arbitrary stationary or isotropic Gaussian field;
+
+• arbitrary dimension;
+
+• H k for k >0;
+
+• a probability law for an individual randomly selected lifetime;
+
+• a central limit theorem or concentration theorem;
+
+• an infinite-volume persistence process;
+
+• interchange of L→∞ and ℓ ↓0;
+
+• a machine-certified nonlinear quadrature;
+
+• publication readiness or community acceptance.
+
+17. Recommended reviewer output
+The most useful report has four layers:
+
+1. Global assessment: no fatal defect found within the portions checked; promising but major 
+steps unverified; a specific fatal defect found; too incomplete to assess; or outside 
+expertise.
+
+2. Component assessment: local exponent; all-typed intensity; elder-selected intensity; 
+absolute coefficient; side-24 correction; novelty.
+
+3. Issue records: severity, exact location, challenged statement, reason, minimal repair, and 
+downstream claims affected.
+
+4. Next-review recommendation: whether the work is suitable for an arXiv draft after repairs 
+and which specialist should inspect topology, probability, or dynamics.
+
+The separate response form in this package implements this structure.
+
+18. Recommended next mathematical work before submission
+1. Prove and insert the off-diagonal O (1 ) lemma.
+
+2. Insert the exact near-density pushforward and make the dominated-convergence 
+hypotheses explicit.
+
+3. Define the determinant-weighted Palm law and elder mark in one place and prove 
+measurability.
+
+4. Replace the compressed elder-selection paragraph with a formal trichotomy lemma.
+
+
+
+5. Consolidate the capture/escape argument into a single current proof with no predecessor 
+references.
+
+6. Supply the missing triple-contact eliminations.
+
+7. Write out the GOE-plus-scalar cone calculation and the full first-variation algebra.
+
+8. Correct the Fourier prefactor display and all underdefined generic symbols.
+
+9. Reconcile the coefficient-bound source/result transcript.
+
+10. Globally renumber the technical supplement and convert internal source labels to 
+conventional mathematics.
+
+11. Obtain at least one independent review of the Kac–Rice/probability part and one of the 
+Morse/persistence/dynamical part.
+
+12. Complete the systematic literature search.
+
+19. File provenance
+The operative manuscript source is 03_SIDE24_MANUSCRIPT_SOURCE.md, corresponding to Google 
+Drive file ID 1WQbfdg83ODwtRBfKwXXGoj_OxyvdCLsh. The operative exact appendix source is 
+04_TECHNICAL_APPENDIX_SOURCE.md, corresponding to Drive ID 
+161RrIl-5esy_NzDqeXF0ur_gwfyQ3t9R. Their source identities and package hashes appear in 
+09_PACKAGE_MANIFEST.csv and 10_SHA256SUMS.txt.
+
+The dossier is a new reviewer-facing synthesis. Where it labels a passage “proposed repair,” the 
+passage is not part of the controlling proof and must be independently checked before 
+incorporation.
+
+References
+1. R. J. Adler and J. E. Taylor, Random Fields and Geometry, Springer, 2007.
+
+2. R. J. Adler, O. Bobrowski, M. S. Borman, E. Subag, and S. Weinberger, “Persistent 
+homology for random fields and complexes,” IMS Collections 6 (2010), 124–143.
+
+3. F. Chazal and V. Divol, “The density of expected persistence diagrams and its kernel based 
+estimation,” Journal of Computational Geometry 10(2) (2019), 127–153.
+
+4. A. Klein and O. Agam, “Critical point correlations in random Gaussian fields,” Journal of 
+Physics A 45 (2012), 025001.
+
+5. P. Pranav, “Topology and geometry of Gaussian random fields II: on critical points, 
+excursion sets, and persistent homology,” arXiv:2109.08721.
+
+6. C. Hirsch and R. Lachièze-Rey, “Functional central limit theorem for topological functionals 
+of Gaussian critical points,” arXiv:2411.11429.
+
+
+
+7. M. Ancona, L. Gass, T. Letendre, and M. Stecconi, “Zeros and critical points of Gaussian 
+fields: cumulants asymptotics and limit theorems,” arXiv:2501.10226.
+
+
+	Status and purpose
+	1. One-page result summary
+	1.1 The random field
+	1.2 The filtration and the quantity measured
+	1.3 Candidate theorem
+	1.4 Where the exponent comes from
+
+	2. Physics-oriented orientation
+	2.1 Bargmann–Fock geometry
+	2.2 Why short bars come from a local fold
+	2.3 Why topology is not automatic
+
+	3. Precise definitions and conventions
+	3.1 Genericity
+	3.2 Expected lifetime measure
+	3.3 Typed ordered pairs and multiplicity
+
+	4. Exact local Kac–Rice mechanism
+	4.1 Corrected pins
+	4.2 Endpoint determinants
+	4.3 Exact radial ledger
+
+	5. Exact near-density pushforward that should be inserted
+	6. Exact Palm law and elder mark that should be inserted
+	7. Separate near/far pair contribution
+	7.1 The distinction
+	7.2 Proposed off-diagonal lemma
+
+	8. Elder selection and deterministic dynamics
+	8.1 Claimed probabilistic structure
+	8.2 Main unresolved presentation issue
+	8.3 Energy-adapted capture and escape
+
+	9. Coefficient reduction
+	9.1 Jet variables
+	9.2 Height and gap integrations
+	9.3 Euclidean constant
+
+	10. Side-24 correction
+	11. Proof dependency map
+	12. Current proof-gap and correction register
+	13. Hostile-review questions
+	14. Reproducibility status
+	15. Literature position
+	16. Exact scope and exclusions
+	17. Recommended reviewer output
+	18. Recommended next mathematical work before submission
+	19. File provenance
+	References
+
