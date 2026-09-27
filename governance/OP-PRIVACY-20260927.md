@@ -59,5 +59,10 @@ Operational meaning:
 - A file held back only for the owner's name or Gmail address may be published
   once it passes the screen in item 5.
 
+A further clarification the same day: the owner's Google Drive and Dropbox are
+private to the owner, and only GitHub is seen by others. This rule applies to
+GitHub only. Do not search, edit, trash or move Drive or Dropbox files for
+privacy reasons, and keep privacy checks proportionate.
+
 This rule narrows what may be published. It does not reduce the autonomy granted in
 [OP-AUTONOMY-20260923-v2.1](OP-AUTONOMY-20260923-v2.1.md) for project work.

@@ -11,7 +11,7 @@ Do useful work without asking Dylan to authorize it again.
 
 **Standing rule:** [OP-PRIVACY-20260927](governance/OP-PRIVACY-20260927.md). Never
 publish Dylan's personal information or material unrelated to the project. If you
-find either, purge it from GitHub and from the shared Drive. Dylan's name, in any
+find either, remove it from GitHub; Drive and Dropbox are private to Dylan. Dylan's name, in any
 form, and Gmail address are not restricted; do not remove them.
 
 ## Working choices
