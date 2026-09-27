@@ -576,6 +576,87 @@ class ClaimsGateAdapterTests(unittest.TestCase):
             )
         self.assertIn("all-zero", str(ctx.exception))
 
+    def test_require_usable_ref_fetches_orphaned_before_from_origin(self):
+        """Force-push leaves before outside tip ancestry; fetch from origin once."""
+        import subprocess
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as raw:
+            upstream = Path(raw) / "upstream"
+            shallow = Path(raw) / "shallow"
+            upstream.mkdir()
+            subprocess.run(["git", "init"], cwd=upstream, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "config", "user.email", "test@example.com"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "test"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+            )
+            (upstream / "a.txt").write_text("before\n", encoding="utf-8")
+            subprocess.run(["git", "add", "a.txt"], cwd=upstream, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "before"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+            )
+            before = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            (upstream / "a.txt").write_text("after\n", encoding="utf-8")
+            subprocess.run(["git", "add", "a.txt"], cwd=upstream, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-m", "after"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+            )
+            after = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=upstream,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            # --no-local avoids object alternates; --depth=1 keeps only tip ancestry.
+            subprocess.run(
+                [
+                    "git",
+                    "clone",
+                    "--no-local",
+                    "--depth",
+                    "1",
+                    str(upstream),
+                    str(shallow),
+                ],
+                check=True,
+                capture_output=True,
+            )
+            missing = subprocess.run(
+                ["git", "rev-parse", "--verify", f"{before}^{{commit}}"],
+                cwd=shallow,
+                capture_output=True,
+            )
+            self.assertNotEqual(missing.returncode, 0, "before must be absent pre-fetch")
+            resolved = CGA._require_usable_ref(
+                before, role="before", root=shallow, resolve=True
+            )
+            self.assertEqual(resolved, before)
+            self.assertEqual(
+                CGA._require_usable_ref(after, role="after", root=shallow, resolve=True),
+                after,
+            )
+
     def test_event_compare_uses_pull_request_base_head(self):
         before = "a" * 40
         after = "b" * 40

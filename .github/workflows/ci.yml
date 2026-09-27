@@ -123,34 +123,6 @@ jobs:
         run: python tools/scientific_state_check.py
       - name: Claims→gate #90 tip-health (identity only; not base→head evidence)
         run: python tools/claims_gate_adapter.py tip-health
-      # checkout fetch-depth:0 only walks the tip ancestry. Force-push rewrites leave
-      # github.event.before as an orphaned-but-still-hosted SHA that is not in that
-      # ancestry; fetch it explicitly so event-compare can resolve immutable refs.
-      # All-zero before (first push of a new branch) is left for the adapter fail-closed path.
-      - name: Fetch push before/after refs for claims-gate (force-push safe)
-        if: github.event_name == 'push'
-        env:
-          BEFORE: ${{ github.event.before }}
-          AFTER: ${{ github.event.after }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          zero=0000000000000000000000000000000000000000
-          auth_header="$(printf 'AUTHORIZATION: basic %s' "$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)")"
-          fetch_sha() {
-            local sha="$1"
-            if [[ -z "$sha" || "$sha" == "$zero" ]]; then
-              return 0
-            fi
-            if git rev-parse --verify "${sha}^{commit}" >/dev/null 2>&1; then
-              return 0
-            fi
-            echo "Fetching missing event ref ${sha}"
-            git -c "http.extraheader=${auth_header}" fetch --no-tags --depth=1 origin "$sha"
-            git rev-parse --verify "${sha}^{commit}" >/dev/null
-          }
-          fetch_sha "$BEFORE"
-          fetch_sha "$AFTER"
       - name: Claims→gate #90 event base→head compare (immutable refs; impact≠illegal)
         run: python tools/claims_gate_adapter.py event-compare --write-report /tmp/claims-gate-impact.json
       - name: Declared navigation links and anchors
