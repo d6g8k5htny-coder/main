@@ -1,3 +1,5 @@
+[![Universal Law — mathematics, evidence and verification](docs/site/brand/banner.svg)](https://d6g8k5htny-coder.github.io/main/site/)
+
 # Universal Law
 
 **Gaussian random fields, persistent homology, and reproducible multi-model mathematical research.**
