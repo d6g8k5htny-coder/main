@@ -28,8 +28,9 @@ runs do not substitute for PR checks. This is not merge-queue configuration.
 
 ## Current and future agents
 
-Coordinate in https://github.com/d6g8k5htny-coder/main/issues/95 and the current
-source-bound PR. Before merging, reread its latest reviews, complete diff and
+Coordinate in the current source-bound PR. The earlier discussion is in
+https://github.com/d6g8k5htny-coder/main/issues/95, which is closed for issue-list
+cleanup; its history is kept and its open obligations are not discharged. Before merging, reread its latest reviews, complete diff and
 checks at the exact current head. Do not erase an unresolved AMEND with a peer
 merge, a self-review, an unrelated green job or a stale receipt. Respect the
 currently posted writer claim and send bounded review findings rather than
@@ -62,6 +63,14 @@ Do not create an identity deadlock or forge reviews to fill it.
 The verified deployment record for main #188 and Math- #96, with the landed
 runs, receipts and original workflow artifacts, is preserved in
 [audits/formal_enforcement/2026-09-27/](../audits/formal_enforcement/2026-09-27/README.md).
+In short:
+
+- Landed push runs 36358139870 (main `3592abb`) and 36359933550 (Math- `22e79e8`)
+  passed.
+- The never-merge probes main #190 and Math- #97 made the required aggregate fail,
+  and both are closed unmerged.
+- The temporary Math- default-merge coordination hold is released
+  ([Math-#96 comment 5860985432](https://github.com/d6g8k5htny-coder/Math-/pull/96#issuecomment-5860985432)).
 
 ## Validation
 
