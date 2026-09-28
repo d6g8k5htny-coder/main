@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+"""D3 PERC-DECAY engine -- the far-excursion decay certificate for the far
+lanes (B1.dir-far / FarRoute(d_max), B2-far, B4.rem), Theorem (2) v2.2
+validity premise.
+
+HONEST OPENING VERDICT (stated at the outset per the lane's mandate):
+the o(r^3)-ORDER reading of the far lanes is NOT reachable with the lane's
+machinery, and the registered percolation-decay input would not deliver it
+either.  Each far lane is a window-priced event whose ORDER is Theta(r^3)
+(the window ell = r^3/6); the distance decay of every factor (RN reversion,
+crude-spine cap density, kernel-scale connectivity) controls the CONSTANT,
+not the order.  At the handoff d_max = 4r--5r = 0.20--0.25 (SUB-KERNEL),
+the conditioned level-s geometry is already reverted only partially and the
+corridor is ALIVE IN THE MEAN at level s out to kernel scale (certified
+display PD3 below): the connectivity factor at the handoff is Theta(1), so
+no percolation input of the registered kind can make the classes o(r^3).
+What IS delivered:
+  PD1  certified Theta(r^3) upper bounds with explicit constants and the
+       exact event inclusions, per class (theorem-usable today);
+  PD2  the exact-kernel certified reversion/decay profile (Var, excursion
+       z-score, kappa_cross) along the away-axial and transverse rays;
+  PD3  the certified corridor-alive display (the decisive structural
+       evidence for the verdict);
+  PD4  the certified window-count D-tail and the far-lane count bound at
+       the crude-spine cap grade with the R2 floor;
+  PD5  the named-gap register with the exact uncontrolled region per class
+       and the deliverable-grade statement of the named input PD-CONN;
+  PD6  the mutation suite (register tamper, grade-label tamper, floor-pin
+       tamper, count-window tamper -- all must fire fail-closed).
+Grades are stated per display; no evidence display is presented as
+certified (the grade ledger is ck'd).
+
+House conventions: fail-closed ck() -> SystemExit(1); no bare asserts;
+deterministic; both modes byte-identical; receipts separate; this engine is
+Monte-Carlo-free (every denominator is the R2-certified floor).
+"""
+import hashlib
+import re
+import sys
+
+import mpmath
+from mpmath import mp, mpf
+
+mp.dps = 100
+
+_OUT = []
+
+
+def emit(line):
+    _OUT.append(str(line))
+    print(line)
+
+
+def ck(cond, msg):
+    if not cond:
+        print("D3-PERC-DECAY FAIL: %s" % msg)
+        raise SystemExit(1)
+
+
+def _sha256(path):
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+
+
+_EXPECT = {
+    'd3_perc.py': '5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4',
+    '../H2_foundations/cov_exact.py':
+        'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783',
+    '../H2_foundations/pin_transform.py':
+        'c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41',
+    '../H3_closure/H3_RUNG_FLOOR.md':
+        '6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa',
+    '../BRANCH_dir/BRANCH_DIR.md':
+        '8821c8fa________________BRANCH_DIR_BODY________________________',
+}
+for _p, _h in list(_EXPECT.items()):
+    if '____' in _h:
+        del _EXPECT[_p]          # BRANCH_dir body hash filled at freeze
+for _p, _h in _EXPECT.items():
+    _got = _sha256(_p)
+    ck(_got == _h, "hash pin mismatch on %s" % _p)
+
+_floor_txt = open('../H3_closure/H3_RUNG_FLOOR.md').read()
+_m = re.search(r'Z_\{0\.05\} ∈ \[\s*([\d.e+-]+)\s*,\s*([\d.e+-]+)\s*\]',
+               _floor_txt)
+ck(_m, "R2 floor interval line not found in the pinned artifact")
+Z_LO = mpf(_m.group(1))
+ck(Z_LO == mpf('7.7592917375327855e-3'), "R2 floor drifted")
+
+sys.path.insert(0, '.')
+import d3_perc as E          # noqa: E402  (hash-pinned above)
+
+nstr = mpmath.nstr
+TAXONOMY = ('B1.dir-far', 'B2-far', 'B4.rem')
+
+
+# ---------------------------------------------------------------------------
+# PD2/PD3: exact-kernel reversion profile along rays
+# ---------------------------------------------------------------------------
+def profile(kit, ray, label, v):
+    emit("  [%s] d_rel-to-S | y | Var(f|6pins) | (mu-s)/sigma | kappa_cross"
+         % label)
+    rows = []
+    for d in ray:
+        y = (kit.r / 2 + d * mpmath.cos(ray_angle), d * mpmath.sin(ray_angle))
+        mu6, Sc6 = kit.ylaw(y)
+        varf = Sc6[0, 0]
+        z_exc = (mu6[0] - kit.s) / mpmath.sqrt(varf)
+        st = E.station(kit, y)
+        kc = E.kappa_cross(st, kit, v) / E.m_sad_cf(v) / Z_LO
+        rows.append((d, varf, z_exc, kc))
+        emit("   d=%-6s y=(%s,%s) Var=%s z=%s kc=%s"
+             % (nstr(d, 6), nstr(y[0], 6), nstr(y[1], 6), nstr(varf, 6),
+                nstr(z_exc, 6), nstr(kc, 6)))
+    return rows
+
+
+if __name__ == '__main__':
+    emit("D3 PERC-DECAY engine -- far-lane decay certificate (MC-free;"
+         " every denominator the R2 floor Z_lo = %s)" % nstr(Z_LO, 14))
+    kit = E.PinKit(mpf('0.05'))
+    v = kit.b - kit.ell / 2
+    J = E.J_window(kit.ell)
+    Ifar0 = (576 - 25 * mp.pi) * J / kit.r**3
+    emit("rung r = 0.05; window mid v = %s; J(ell) exact; (576-25pi)J/r^3"
+         " = %s (frozen far count, kappa=0)" % (nstr(v, 10), nstr(Ifar0, 8)))
+
+    # --- PD1: the certified Theta(r^3) bounds and exact inclusions --------
+    emit("")
+    emit("PD1 certified Theta(r^3) bounds (exact inclusions; constants from"
+         " the frozen v2 bracket 6796deea...)")
+    B_remote = mpf('21.9279')
+    I_hole = mpf('1.284')
+    emit("  B1.dir-far = FarRoute(d_max): the away lobe's merge into C_M is a"
+         " saddle of height in (s,b) (C_M is born at b, the away lobe at s),"
+         " i.e. a WINDOW SADDLE:  FarRoute subset {N_w >= 1}.")
+    emit("    certified: P(FarRoute) <= E_{P_r}[N_w]; the D3-certified part"
+         " (outside the C1 chart) <= B_remote + I_hole <= %s + %s = %s r^3"
+         % (nstr(B_remote, 8), nstr(I_hole, 6),
+            nstr(B_remote + I_hole, 8)))
+    emit("  B2-far: C2's exact separation (B2 subset {N_beta^* >= 1},"
+         " witnesses are window saddles): P(B2-far) <= E_{P_r}[N_w(d >="
+         " d_max)] -- bounded in PD4 at the crude-spine cap grade.")
+    emit("  B4.rem: NOT subset of the window count (the non-local separator"
+         " can close through ABOVE-window saddles, e.g. the away lobe"
+         " joining an elder component at height > b): the certified content"
+         " is the local dam line (re-verified PD2c); the remote part is"
+         " NAMED-GAP (register PD5).")
+
+    # --- PD2: reversion profile ------------------------------------------
+    emit("")
+    emit("PD2 exact-kernel reversion profile (CERTIFIED per station)")
+    ray_angle = mpf(0)
+    away = profile(kit, [mpf('0.05'), mpf('0.1'), mpf('0.2'), mpf('0.25'),
+                         mpf('0.3'), mpf('0.5'), mpf('1'), mpf('2'),
+                         mpf('4'), mpf('8')], "away-axial ray (+x from S)",
+                   v)
+    emit("  reversion read: Var -> 1, kappa_cross -> 0 along the ray;"
+         " at the handoff d_max = 0.20-0.25 the RN factor is NOT yet small"
+         " (displayed) -- the far lanes start INSIDE the conditioned zone.")
+    ray_angle = mp.pi / 2
+    tran = profile(kit, [mpf('0.2'), mpf('0.5'), mpf('1'), mpf('2')],
+                   "transverse ray (+y from S)", v)
+
+    # --- PD2c: the local dam line re-verified (B4.loc, per-section) ------
+    emit("")
+    emit("PD2c B4.loc dam re-verified (per-section, exact-kernel CERTIFIED"
+         " under the plain six-pin law; the assembled dam = dam line,"
+         " uniformity the promotion scope)")
+    emit("  (clearance = the cubic Hermite profile ell*(3 xi^2 - 2 xi^3);"
+         " residual sd = Theta(r^4) -- both displayed exactly)")
+    for xi in [mpf('0.25'), mpf('0.5'), mpf('0.75')]:
+        x = kit.r / 2 - xi * kit.r
+        mu6, Sc6 = kit.ylaw((x, mpf(0)))
+        sdf = mpmath.sqrt(Sc6[0, 0])
+        clear = mu6[0] - kit.s
+        kap = clear / sdf
+        hermite = kit.ell * (3 * xi * xi - 2 * xi ** 3)
+        emit("   channel section xi=%s (x=%s): clearance mu-s = %s (Hermite"
+             " profile predicts %s), sd = %s (= %s r^4), kappa_dam = %s"
+             % (nstr(xi, 4), nstr(x, 8), nstr(clear, 6), nstr(hermite, 6),
+                nstr(sdf, 5), nstr(sdf / kit.r**4, 5), nstr(kap, 6)))
+        ck(kap > 10, "dam section kappa below the certified ladder: %s"
+           % nstr(kap, 6))
+    emit("  per-section bound P(sup_section f <= s) <= Phi(-kappa_dam):"
+         " polarity-safe (the axis point lies in the section); kappa ="
+         " Theta(1/r) (clearance Theta(r^3) / sd Theta(r^4)), matching"
+         " C2's ladder display log10 Phi(-kappa_*) = -126 at this rung"
+         " (C2 2aba099d..., grade: per-section CERTIFIED; the uniform dam"
+         " over the cut net is the dam line, promotion-scope).")
+
+    # --- PD3: corridor-alive display --------------------------------------
+    emit("")
+    emit("PD3 corridor-alive display (means/sd CERTIFIED exact-kernel,"
+         " plain six-pin law; the structural CONCLUSION is evidence-grade):")
+    emit("  axial conditional mean mu(x) from M through S toward the ghost"
+         " elder (1.052, 0), level s = %s" % nstr(kit.s, 10))
+    alive_to = None
+    min_z = None
+    for xx in ['-0.024', '-0.01', '0', '0.0125', '0.024', '0.03', '0.05',
+               '0.075', '0.1', '0.15', '0.2', '0.3', '0.4', '0.5', '0.7',
+               '1.0']:
+        x = mpf(xx)
+        mu6, Sc6 = kit.ylaw((x, mpf(0)))
+        sdf = mpmath.sqrt(Sc6[0, 0])
+        zc = (mu6[0] - kit.s) / sdf
+        emit("   x=%-7s mu(x)-s = %s  sd = %s  z = (mu-s)/sd = %s"
+             % (xx, nstr(mu6[0] - kit.s, 7), nstr(sdf, 5), nstr(zc, 6)))
+        if mu6[0] - kit.s > 0 and x > kit.r / 2:
+            alive_to = x
+            min_z = zc if min_z is None else min(min_z, zc)
+    ck(alive_to is not None and alive_to >= mpf('0.5'),
+       "corridor display drifted: alive_to = %s" % nstr(alive_to, 6))
+    emit("  the away-axial mean stays ABOVE s from S out to x = %s (kernel"
+         " scale >> d_max = 0.20--0.25), with the bottleneck z-score %s ="
+         " Theta(1): the level-s connection from the pair region along the"
+         " away axis toward the ghost-elder territory exists with Theta(1)"
+         " probability (per-point displays; the path price needs the"
+         " connectivity input). CONCLUSION (evidence-grade): the"
+         " connectivity factor in every far-lane price is Theta(1) at the"
+         " handoff and does NOT vanish as r -> 0 -- the classes are"
+         " Theta(r^3), not o(r^3)." % (nstr(alive_to, 6), nstr(min_z, 5)))
+
+    # --- PD4: window-count D-tail + far-lane count bound ------------------
+    emit("")
+    emit("PD4 window-count D-tail (exact, kappa=0 kernel part; RN factor"
+         " separately) and the far-lane count bound")
+    for D in ['0.2', '0.5', '1', '2', '4', '8']:
+        Dm = mpf(D)
+        cnt = (576 - mp.pi * Dm * Dm) * J / kit.r**3
+        emit("   E_{Q}[N_w(d >= %s)]/r^3 = (576 - pi D^2) J/r^3 = %s"
+             % (D, nstr(cnt, 8)))
+    emit("  read: the raw count is Theta(r^3) at every D < 12 -- the D-tail"
+         " decay of a CLASS price lives entirely in the connectivity factor"
+         " (the named input PD-CONN), not in the count.")
+    # far-lane count bound at the crude-spine cap grade, d >= d_max = 0.2:
+    # recompute the frozen annulus numerator restricted to radii >= 0.2
+    radii = [mpf(x) for x in ['0.2', '0.3', '0.4', '0.5', '0.75', '1', '1.5',
+                              '2', '3', '4', '5']]
+    angles = [0, 45, 90, 135, 180]
+    gridn = []
+    for th in angles:
+        row = []
+        for dd in radii:
+            y = (dd * mpmath.cos(mpmath.radians(th)),
+                 dd * mpmath.sin(mpmath.radians(th)))
+            st = E.station(kit, y)
+            Icap, _dl = E.window_cap_env(kit, st)
+            row.append(st['pgrad'] * Icap)
+        gridn.append(row)
+
+    def trapz_x(vals, xs):
+        tot = mpf(0)
+        for i in range(len(xs) - 1):
+            tot += (vals[i] + vals[i + 1]) / 2 * (xs[i + 1] - xs[i])
+        return tot
+
+    thrad = [mpf(th) * mp.pi / 180 for th in angles]
+    rad_int = []
+    for j, dd in enumerate(radii):
+        col = [gridn[i][j] for i in range(len(angles))]
+        rad_int.append(trapz_x(col, thrad) * 2 * dd)
+    Num_far_lane = trapz_x(rad_int, radii)
+    cnt_far_lane = Num_far_lane / Z_LO / kit.r**3
+    emit("  far-lane count bound (crude-spine cap grade, d >= d_max = 0.2,"
+         " R2 floor): E_{P_r}[N_w(d >= 0.2)] <= Num/Z_lo = %s r^3"
+         % nstr(cnt_far_lane, 8))
+    ck(cnt_far_lane < mpf('23'), "far-lane count bound sanity: %s"
+       % nstr(cnt_far_lane, 6))
+    emit("  (this caps P(B2-far) via C2's exact separation; the annulus"
+         " cap density profile itself decays: displayed in the frozen D4:"
+         " rho_cap 7.8093e-7 @0.1 -> 1.3715e-9 @5, exact-kernel certified)")
+
+    # --- PD5: the named-gap register + PD-CONN ----------------------------
+    emit("")
+    emit("PD5 NAMED-GAP REGISTER (each entry: certified bound | missing"
+         " input | exact uncontrolled region)")
+    register = [
+        {'class': 'B1.dir-far',
+         'certified': 'P <= E_{P_r}[N_w]; D3-part <= 23.2119 r^3 (v2'
+                      ' bracket + C1 hole)',
+         'missing': 'PD-CONN',
+         'region': 'the level-s connectivity between the away lobe (mean'
+                   ' extent ~0.4, PD3) and C_M through the far field,'
+                   ' d in [d_max, O(1)] -- the bridge annulus; transverse'
+                   ' part over (0,d_max] certified by BRANCH_dir',
+         'grade': 'COUNT-CERTIFIED / CONNECTIVITY-NAMED'},
+        {'class': 'B2-far',
+         'certified': 'P <= E_{P_r}[N_w(d>=0.2)] <= %s r^3 (cap grade,'
+                      ' R2 floor)' % nstr(cnt_far_lane, 8),
+         'missing': 'PD-CONN',
+         'region': 'the far younger component touching S\'s sector lobes'
+                   ' at level s, d in [d_max, O(1)] -- the same bridge'
+                   ' annulus',
+         'grade': 'COUNT-CERTIFIED / CONNECTIVITY-NAMED'},
+        {'class': 'B4.rem',
+         'certified': 'local dam per-section CERTIFIED (PD2c, kappa ='
+                      ' Theta(1/r)); assembled dam = dam line (uniformity'
+                      ' promotion-scope)',
+         'missing': 'PD-CONN + the above-window merge count',
+         'region': 'the non-local separator: the M-ward channel beyond the'
+                   ' local cut net (d > r), the above-window merges'
+                   ' (heights > b, NOT covered by the window count), and'
+                   ' the torus wrap circuit (d ~ 12)',
+         'grade': 'LOCAL-CERTIFIED / REMOTE-NAMED'},
+    ]
+    ck(tuple(g['class'] for g in register) == TAXONOMY,
+       "register taxonomy drift: %s" % [g['class'] for g in register])
+    for g in register:
+        ck('NAMED' in g['grade'] and 'CERTIFIED' in g['grade'],
+           "grade ledger breach: %s must carry both a certified part and a"
+           " named part" % g['class'])
+        ck(g['missing'].startswith('PD-CONN'), "missing-input id drift")
+        ck(len(g['region']) > 40, "uncontrolled region not precise")
+        emit("  [%s] certified: %s" % (g['class'], g['certified']))
+        emit("     missing: %s | uncontrolled region: %s | grade: %s"
+             % (g['missing'], g['region'], g['grade']))
+    emit("")
+    emit("  PD-CONN (the named input, deliverable-grade statement):")
+    emit("  Let Q_r be the six-pin law at rung r <= 0.05, s = b - r^3/6, and"
+         " A_r(K,D) the event that {f > s} has a connected component"
+         " meeting both K and the complement of B(K,D). REQUIRED: explicit"
+         " C0, c0 > 0, D0 >= 1 (r-independent) with P_{Q_r}(A_r(B(pair,2r),D))"
+         " <= C0 e^{-c0 D} for all D >= D0, r <= 0.05. CONSUMPTION: each"
+         " far lane's D-tail <= (certified count density) C0 e^{-c0 D}"
+         " (1 + kappa certified); class totals absorb at Theta(r^3) with"
+         " certified constants; B4.rem's wrap <= C0 e^{-12 c0} (area"
+         " factors). MISSING PIECES to certify PD-CONN: (i) explicit-constant"
+         " arm bound for planar Bargmann-Fock at positive level (literature"
+         " gives sharpness WITHOUT explicit constants -- an explicit RSW"
+         " constant is the missing theorem); (ii) the conditioned-to-"
+         "unconditioned FIELD-LEVEL patch on {d >= D0} (finite-dimensional"
+         " reversion certified here; the field-level version needs"
+         " continuity-modulus/entropy control -- Kolmogorov machinery, not"
+         " built); (iii) torus-to-planar comparison (T1/C.6: <= 1e-120,"
+         " available). NOTE (the verdict): PD-CONN certifies CONSTANTS,"
+         " not order -- at sub-kernel D the connectivity factor is"
+         " Theta(1) (PD3), so the classes remain Theta(r^3); the o(r^3)"
+         " reading is not reachable by any input of this kind.")
+    emit("")
+    emit("VERDICT (evidence-grade structural assessment on certified"
+         " displays): the far lanes are Theta(r^3)-order; PERC-DECAY should"
+         " be RESTATED as 'the far lanes absorb at Theta(r^3) with the"
+         " certified constants + PD-CONN D-tails' -- a premise this lane"
+         " underwrites -- not 'o(r^3)'.")
+
+    # --- PD6: mutation suite (all must fire fail-closed) ------------------
+    emit("")
+    emit("PD6 mutation suite")
+    import subprocess as _sp
+    _src = open('d3_perc_decay.py').read()
+
+    def _run_mutated(tag, old, new, expect):
+        ck(old in _src, "%s setup: literal not found" % tag)
+        mpth = '_mut_perc_decay.py'
+        with open(mpth, 'w') as fh:
+            fh.write(_src.replace(old, new, 1))
+        try:
+            prc = _sp.run([sys.executable, mpth], capture_output=True)
+            ck(prc.returncode != 0, "%s fail: mutation did not fire" % tag)
+            ck(expect in prc.stdout,
+               "%s fail: unexpected failure mode: %s"
+               % (tag, prc.stdout.decode('utf-8', 'replace')[-300:]))
+        finally:
+            import os as _os
+            _os.unlink(mpth)
+        emit("  %s: mutation -> SystemExit with the expected failure" % tag)
+
+    _run_mutated("MUT-PD-1 register-taxonomy tamper",
+                 "'class': 'B4.rem'", "'class': 'B4.rex'",
+                 b'register taxonomy drift')
+    _run_mutated("MUT-PD-2 grade-label tamper (evidence as certified)",
+                 "'grade': 'COUNT-CERTIFIED / CONNECTIVITY-NAMED'}",
+                 "'grade': 'COUNT-CERTIFIED'}",
+                 b'grade ledger breach')
+    _run_mutated("MUT-PD-3 R2 floor-pin tamper",
+                 "mpf('7.7592917375327855e-3')", "mpf('8.061180539e-3')",
+                 b'R2 floor drifted')
+    _run_mutated("MUT-PD-4 count-window tamper",
+                 "cnt_far_lane < mpf('23')", "cnt_far_lane < mpf('17')",
+                 b'far-lane count bound sanity')
+    _run_mutated("MUT-PD-5 corridor-display tamper",
+                 "alive_to >= mpf('0.5')", "alive_to >= mpf('2.5')",
+                 b'corridor display drifted')
+
+    body = '\n'.join(_OUT) + '\n'
+    emit("D3-PERC-DECAY PASS digest=%s" % hashlib.sha256(body.encode()).hexdigest())
+    raise SystemExit(0)

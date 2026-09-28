@@ -1,0 +1,27 @@
+B4 dam-line certificate driver (artifact B4LOC-R1-20260914-v1.0)
+D0 library: cov_exact hash-pinned; K1(0)=1.0; two-impl spot check:
+  k1(2,0.37) spectral vs image agree to 0.0
+rung r=0.05:
+  r=0.05: pin inversion residual 6.2e-96; Lp^2 = p^T A^-1 p = 2.82666 (the pin-likelihood statistic)
+  Z1 curvature zone (0,0.25]: h_min=0.024593 (~0.4919*r), sd_bar=0.002201 (~0.8803*r^2), L1=0.0129, D1=0.00406, kap1=9.3312 -> Q1<=exp(-43.536)
+  Z2 value corridor [0.25,1]: u_*=2.9342e-6 (~0.1408*ell), sd_bar=1.668e-7 (~0.008007*ell), L2=5.14e-7, D2=4.83e-7, kap2=14.692 -> Q2<=exp(-107.93)
+  assembly: Q1+Q2 = 1.24e-19;  P_r(B4) <= C_RN*sqrt(Q1+Q2) = 1.22e-9   vs r^3 = 0.000125   (ratio 9.77e-6)
+rung r=0.025:
+  r=0.025: pin inversion residual 3.3e-94; Lp^2 = p^T A^-1 p = 2.82667 (the pin-likelihood statistic)
+  Z1 curvature zone (0,0.25]: h_min=0.012267 (~0.4907*r), sd_bar=0.0005504 (~0.8806*r^2), L1=0.00325, D1=0.00102, kap1=20.439 -> Q1<=exp(-208.88)
+  Z2 value corridor [0.25,1]: u_*=3.5104e-7 (~0.1348*ell), sd_bar=1.043e-8 (~0.004005*ell), L2=3.21e-8, D2=3.02e-8, kap2=30.762 -> Q2<=exp(-473.16)
+  assembly: Q1+Q2 = 1.92e-91;  P_r(B4) <= C_RN*sqrt(Q1+Q2) = 1.52e-45   vs r^3 = 1.56e-5   (ratio 9.73e-41)
+rung r=0.0125:
+  r=0.0125: pin inversion residual 3.1e-92; Lp^2 = p^T A^-1 p = 2.82667 (the pin-likelihood statistic)
+  Z1 curvature zone (0,0.25]: h_min=0.0061265 (~0.4901*r), sd_bar=0.0001376 (~0.8807*r^2), L1=0.00082, D1=0.000257, kap1=42.653 -> Q1<=exp(-909.65)
+  Z2 value corridor [0.25,1]: u_*=3.9562e-8 (~0.1215*ell), sd_bar=6.519e-10 (~0.002003*ell), L2=2.01e-9, D2=1.89e-9, kap2=57.793 -> Q2<=exp(-1670.0)
+  assembly: Q1+Q2 = 8.82e-396;  P_r(B4) <= C_RN*sqrt(Q1+Q2) = 1.03e-197   vs r^3 = 1.95e-6   (ratio 5.28e-192)
+kappa ladders (scale-invariance display, certified moments):
+  kap1: ['9.3312', '20.439', '42.653']  | successive halving ratios ['0.4565', '0.4792'] (doubling per halving = Theta(1/r))
+  kap2: ['14.692', '30.762', '57.793']  | successive halving ratios ['0.4776', '0.5323'] (doubling per halving = Theta(1/r))
+  kap1*r = ['0.4666', '0.511', '0.5332']; kap2*r = ['0.7346', '0.7691', '0.7224'] (r-independent = the certified margin exponent coefficient)
+  effective exponents c_eff = -r^2 ln P_bound = ['0.05131', '0.0645', '0.07087']
+D6 discrete mirror of the event inclusion (B1's frozen PL model):
+  D6 discrete mirror (event inclusion): 3 B4 pairs audited (0 ensemble + 3 synthetic), every B4 corridor CUT (0 violations); 387 pairs with a clear corridor (categories {'A': 154, 'B1': 1, 'B2': 66, 'success': 163}), none B4; 0 pairs with no greedy hex path
+B4LOC-DRIVER DIGEST 43ff9c1ebfa9cf8f27c06e27e844030e8378e439e89bdd374949166a1a490a1b
+B4LOC-DRIVER: ALL CHECKS PASS (fail-closed, deterministic)

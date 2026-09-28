@@ -1,0 +1,103 @@
+{
+  "band_ceil": {
+    "discharges": "LPW_CONSTANT v4 Palm denominator on (0, 0.0025] (r0 = 1/2278031360 in cell 1)",
+    "method": "exact p-windows on {q_M<0} (two-sided) + pbar type-fail pieces ({D_M<=0},{D_S>=0} half-space covers; Chernoff alpha pieces); nesting ck vs band floor; consumption cap U<=4 not widened",
+    "mutations_caught": [
+      "planar_moments (CB1a)",
+      "wrong_window (CB3)",
+      "cap_raised (CC6 consumption cap)"
+    ],
+    "record": "H3-BAND-CEIL-2026-09-15",
+    "result": "CERTIFIED UNIFORM UPPER: E[G_r] <= 3.74767948915996 for ALL r in (0, 0.05]; on the v4 domain (0, 0.0025]: E[G_r] <= 3.66282864761194 (v4 lever discharged)",
+    "subintervals": {
+      "(0,0.0025]": "3.66282864761194",
+      "(0.0025,0.005]": "3.66435028046302",
+      "(0.005,0.01]": "3.67360595202419",
+      "(0.01,0.02]": "3.69805856644731",
+      "(0.02,0.03]": "3.71138266685765",
+      "(0.03,0.04]": "3.72414748332433",
+      "(0.04,0.05]": "3.74767948915996"
+    },
+    "two_mode_byte_identical": true
+  },
+  "band_floor": {
+    "discharges": "normalizer side of OBL-D1-PROMOTE on the rung band (0, 0.05]",
+    "method": "no-whitening Wick bound + exact Taylor-series (J=60) conditional law; pole-cancelled series + Neumann/Cauchy certified corrections; certified Phi (series|Mills); Gaussian-tail Chernoff rare pieces; MC diagnostic only",
+    "mutations_caught": [
+      "planar_moments (CB1a)",
+      "wrong_window (CB3 window identity)"
+    ],
+    "record": "H3-BAND-FLOOR-2026-09-15",
+    "result": "CERTIFIED UNIFORM: E[G_r] >= 2.30659559567154 > c_Z = 1.615489267643502474048123284509081575382 for ALL r in (0, 0.05]; Z_r >= c_Z r^2, worst margin +42.78% (cell (0.04,0.05])",
+    "subintervals": {
+      "(0,0.0025]": "2.58288222715895 (+59.88%)",
+      "(0.0025,0.005]": "2.58174158877406 (+59.81%)",
+      "(0.005,0.01]": "2.54243388604045 (+57.38%)",
+      "(0.01,0.02]": "2.45593199230367 (+52.02%)",
+      "(0.02,0.03]": "2.44022641168325 (+51.05%)",
+      "(0.03,0.04]": "2.41792545239159 (+49.67%)",
+      "(0.04,0.05]": "2.30659559567154 (+42.78%)"
+    },
+    "two_mode_byte_identical": true
+  },
+  "c0_certified_lower": "3.23097853528700494809624656901816315076485801055871099847056563983657866727484113533199277175345604743007",
+  "c0_certified_upper": "3.23097853528700494809624656901816315076485801055871099847056563983657866727484113533199277175345608823472",
+  "c_Z": "c_0/2 >= 1.615489267643502474048123284509081575382 (r <= r_0, r_0>0 existential)",
+  "mutations_caught": [
+    "planar_moments (CK2)",
+    "wrong_window (CK6)"
+  ],
+  "record": "H3-CLOSURE-U2D-UPPER-2026-09-13",
+  "result": "CLOSED theorem-grade with one named amendment (2D typing; literal ind_S=2 transcription gives c_0=0) and existential r_0",
+  "rung_floor": {
+    "mutations_caught": [
+      "planar_moments (CR1a)",
+      "wrong_window (CR5e)"
+    ],
+    "record": "H3-RUNG-FLOOR-R2-2026-09-13",
+    "result": "CERTIFIED: Z_0.05 in [7.7592917375327855e-3, 1.1468646473404396e-2], lo > c_Z r^2 = 4.0387231691087558e-3, margin +92.12%",
+    "stretch_rungs": {
+      "11/200": "lo 9.3860471051561076e-3",
+      "9/200": "lo 6.2865611483300006e-3"
+    },
+    "two_mode_byte_identical": true
+  },
+  "sha256": {
+    "H3_BAND_CEIL.md(body-excl-hash-line)": "cfe8a3a49e3281dfdc4ef5d925ae622b4f7aeea3d0462baae61b87dae699ede2",
+    "H3_BAND_FLOOR.md(body-excl-hash-line)": "281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7",
+    "H3_CLOSURE.md": "387e4bae4881a036486f17f317ae5e26b7d94bd5e1e829cc76946d090fb81637",
+    "H3_RUNG_FLOOR.md": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+    "band_O.txt": "dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d",
+    "band_mut_planar.txt": "4fc8105d1050dc2a284750ada417f959725711b8e19865ced682192da59e4774",
+    "band_mut_window.txt": "ff1765d4ace7fb5c61402e227c5896017bd1995cad0e2f8475761a3850a01c51",
+    "band_normal.txt": "dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d",
+    "band_out.txt": "617b2d07fcaef23313427e68020182d0b27cad78032b399336a1b925db489f54",
+    "ceil_O.txt": "26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00",
+    "ceil_mut_cap.txt": "7116a7d124389b1d23fd1e48d33d4a4e182a66b1f04fe408db5e1f14201bb897",
+    "ceil_mut_planar.txt": "96d4cc4220e540223321150598a84e358c6794c1ae3d502efa779692de317bcb",
+    "ceil_mut_window.txt": "ff6ce33ce53b45e55dc257e3dc8cbea5ce33ee6032df77eb2323c554819522b3",
+    "ceil_normal.txt": "26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00",
+    "ceil_out.txt": "1642236cf8e0a8346c17d00b345a9690733e64b941af741354aa9316c59eda5a",
+    "cert_O.txt": "a27178a871b54e4aee516c980b3941c086e0636e7a8854ae446a45898e87ec78",
+    "cert_normal.txt": "a27178a871b54e4aee516c980b3941c086e0636e7a8854ae446a45898e87ec78",
+    "fals_O.txt": "5be02ea219198b744096d235e250c48bab4be1f5e24600d458fc813ab500d65f",
+    "fals_normal.txt": "5be02ea219198b744096d235e250c48bab4be1f5e24600d458fc813ab500d65f",
+    "h3_band_ceil.py": "b97c5428a20e5dd33f3e53653d20447f1e27515dcc7dc7a7c2004ebe30029452",
+    "h3_band_floor.py": "a907eeedd767b0b97461df8e237cdca130a607b5dede50ad5ba4b05c957d22a5",
+    "h3_c0_certificate.py": "56076fa852e3787e683921496adc796b04132ea817be924ed84ef68d68abc84c",
+    "h3_falsifier.py": "645b6d9d24721674b419e8d026183722a90a1a27ee4e7b0053c53faced73cd47",
+    "h3_rung_floor.py": "094d382451ff37e8d3123e7203c743f359cb0af1c2c12cf336adf74fc0b25d8f",
+    "mut_planar.txt": "a5d661d89abe05c62d95c6be48f6c2264b7f782f97f90b0c5dd4ae47525c2843",
+    "mut_window.txt": "68e302276df9a84e6be3f11309deaf1910e70747ade4d4f560742c8225a95a8e",
+    "rung_045.txt": "427aeae3242cfabb2bc598e29b9f46a6d1b290b393fb35a8f263007bd8e5ae7b",
+    "rung_055.txt": "d439d37ff53c505ce220f673e8bfe55126f74832795167e5e4abb351e0064119",
+    "rung_O.txt": "ad09ec8fe5b0feb95b3c2d89fba28c6dac7e6d1bd4f2539d47f30a323f13e013",
+    "rung_mut_planar.txt": "2b17c664be8c927aa516c8987acb3f7fdf86eebfd597c14fe0176850ff170c90",
+    "rung_mut_window.txt": "f0fee83e36affc06c004855fee67d6f7320b4279f4bdeb68ad883abd3f343dde",
+    "rung_normal.txt": "ad09ec8fe5b0feb95b3c2d89fba28c6dac7e6d1bd4f2539d47f30a323f13e013"
+  },
+  "two_mode_byte_identical": {
+    "certificate": true,
+    "falsifier": true
+  }
+}
