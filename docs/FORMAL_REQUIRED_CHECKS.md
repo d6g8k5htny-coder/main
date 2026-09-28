@@ -57,6 +57,12 @@ or changing rules. Increasing required GitHub approvals needs a real eligible
 nonauthor reviewer identity; models sharing one login are not multiple approvals.
 Do not create an identity deadlock or forge reviews to fill it.
 
+## Deployment evidence
+
+The verified deployment record for main #188 and Math- #96, with the landed
+runs, receipts and original workflow artifacts, is preserved in
+[audits/formal_enforcement/2026-09-27/](../audits/formal_enforcement/2026-09-27/README.md).
+
 ## Validation
 
 Run python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v

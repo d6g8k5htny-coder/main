@@ -1,0 +1,143 @@
+{
+  "artifact_id": "OP-FORMAL-ENFORCEMENT-20260927-v1.0",
+  "scientific_effect": "NONE",
+  "main": {
+    "pr": 188,
+    "source_head": "211999277ab8a363dd51320f970e8928b1e0f1e0",
+    "merge_commit": "3592abbd5df433cb1816b69204e740a7cf00ca07",
+    "required_check": "verify",
+    "post_merge_run": 36358139870,
+    "post_merge_result": "success",
+    "readback": {
+      "artifact": "Main188_landed_formal_36358139870.zip",
+      "artifact_sha256": "4fc0ac1e58a6340802620deab0cc20587b278b0c4e7aa47958a5da3440216aa7",
+      "receipt_sha256": "a2dae00841d1fb2deb911a532a5b05bb3f291f788ce8150db9d0418662bf060f",
+      "binding": {
+        "checked_commit": "3592abbd5df433cb1816b69204e740a7cf00ca07",
+        "repository": "d6g8k5htny-coder/main",
+        "run_id": "36358139870",
+        "run_attempt": "1",
+        "receipt_sha256": "a2dae00841d1fb2deb911a532a5b05bb3f291f788ce8150db9d0418662bf060f"
+      },
+      "manifest_sha256": "5020ca8620b5a4c79abe3287b5801a273413a625e00765d49ac0ce3c3e3bf87d",
+      "verified_log_hashes": 15,
+      "targets": 31,
+      "negative_controls": {
+        "custom_imported": "REJECTED_BY_AXIOM_GATE",
+        "false_covariance_bound": "REJECTED_BY_LEAN",
+        "false_eigenvalue_third": "REJECTED_BY_LEAN",
+        "false_endpoint_adjacency": "REJECTED_BY_LEAN",
+        "false_exp_partial_sum": "REJECTED_BY_LEAN",
+        "false_exponent_bound_d3": "REJECTED_BY_LEAN",
+        "false_trace_variance": "REJECTED_BY_LEAN",
+        "native": "REJECTED_BY_AXIOM_GATE",
+        "sorry": "REJECTED_BY_AXIOM_GATE",
+        "wrong_image_constant": "REJECTED_BY_LEAN"
+      },
+      "meaning": "Downloaded identity and hosted execution readback; no new local Lean execution."
+    }
+  },
+  "Math-": {
+    "pr": 96,
+    "source_head": "ac9cf41252feca47d29ad3c4b5215082702db28a",
+    "merge_commit": "22e79e84917e6bf5bec606c21ce713159d12dddf",
+    "required_check": "math-downstream-gates",
+    "post_merge_run": 36359933550,
+    "post_merge_result": "success",
+    "formal_readback": {
+      "archive": "Math96_landed_formal_36359933550.zip",
+      "archive_sha256": "bc0342134ba8c05d7d45d827961a721b468b8d7bc315bf4a138809b9262e0f4a",
+      "bytes": 7396,
+      "run": "36359933550",
+      "tested_commit": "22e79e84917e6bf5bec606c21ce713159d12dddf",
+      "binding": {
+        "checked_commit": "22e79e84917e6bf5bec606c21ce713159d12dddf",
+        "repository": "d6g8k5htny-coder/Math-",
+        "run_id": "36359933550",
+        "run_attempt": "1",
+        "receipt_sha256": "48871e21c518a7393ee6aad3b72621bc28d2e9f2901d64f5df79be1470fbba24"
+      },
+      "manifest_sha256": "8a479e7c453ed6171fdbe5e61c315ef6b30ea45b45e5510bfba5cc156976eb3f",
+      "checked_logs": 10,
+      "checked_targets": 13,
+      "dependencies": 9,
+      "negative_controls": {
+        "custom_imported": "REJECTED_BY_AXIOM_GATE",
+        "false_fold": "REJECTED_BY_LEAN",
+        "false_power": "REJECTED_BY_LEAN",
+        "native": "REJECTED_BY_AXIOM_GATE",
+        "sorry": "REJECTED_BY_AXIOM_GATE"
+      },
+      "meaning": "Receipt and artifact identity verification; hosted proof execution, no new local Lean execution."
+    },
+    "downstream_context": {
+      "run": "36359933550",
+      "tested_commit": "22e79e84917e6bf5bec606c21ce713159d12dddf",
+      "base_commit": "8c00f1952d8ce1b82ad469e4ffa8cffbfc0aa264",
+      "event": "push",
+      "python": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+      "gate_distinct_tests": 67,
+      "regression_distinct_tests": 177,
+      "total_distinct_tests": 244,
+      "semantic_mutations": 24,
+      "source_files_verified": 12,
+      "lemma_closed": false,
+      "scientific_effect": "NONE",
+      "meaning": "same-author software verification; no independent theorem acceptance"
+    },
+    "transition_check_passed": true,
+    "changed_nodes": [],
+    "impacted": [],
+    "promotion_permission": false
+  },
+  "negative_dependency_probes": [
+    {
+      "repository": "d6g8k5htny-coder/main",
+      "pr": 190,
+      "run": 36357843019,
+      "ordinary_checks": "success",
+      "formal": "failure",
+      "required_aggregate": "failure",
+      "merged": false,
+      "meaning": "Deliberately failed dependency; no negative-probe merge attempted."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "pr": 97,
+      "run": 36358390847,
+      "ordinary_checks": "success",
+      "formal": "failure",
+      "required_aggregate": "failure",
+      "merged": false,
+      "meaning": "Deliberately failed dependency; no negative-probe merge attempted."
+    }
+  ],
+  "review": {
+    "provider": "xAI",
+    "model": "Grok 4.7",
+    "platform": "Cursor",
+    "session": "bc-36791e0e-af26-4bab-b190-4615b345834b",
+    "math_final_review_comment": 5860939592,
+    "scope": "nonauthor source-bound engineering continuation; not independent mathematical alignment",
+    "native_github_approve_count_claimed": 0,
+    "organizational_independence_credit_claimed": false
+  },
+  "administration": {
+    "ruleset_write_performed": false,
+    "protection_bypass_used": false,
+    "main_ruleset": 23798639,
+    "math_ruleset": 24045351,
+    "required_native_approving_reviews": 0,
+    "main_preexisting_bypass": "RepositoryRole 5, pull_request",
+    "math_bypass_actors": [],
+    "limitation": "This connection exposes no ruleset administration write. Workflow authors and administrators remain trust roots."
+  },
+  "boundaries": [
+    "Formal evidence is scoped to registered targets, not full research theorem acceptance.",
+    "Independent informal/formal statement alignment remains pending.",
+    "Tools executed on hosted runners; no laptop or screen-control installation is claimed.",
+    "No new recurring automation or scientific-status database was installed.",
+    "Issue-list cleanup is not mathematical closure.",
+    "Raw workflow artifacts are preserved; local verification checks identity and receipts, not a new local Lean execution."
+  ]
+}
