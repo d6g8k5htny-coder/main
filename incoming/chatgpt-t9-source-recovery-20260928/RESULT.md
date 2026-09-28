@@ -11,7 +11,7 @@ Read t9/README.md for the original handoff scope, then t9/core/LS-DER-030_native
 ## Identity and origin
 
 Recovered archive: KIMI_T9_SOURCE_HANDOFF_2026-08-02.zip, 131069 bytes.
-Archive SHA-256: 399f223ae0277470206b730ff261271e1ad43d98d8e06a4571725f7d2e6a6b6ac.
+The previously recorded Dropbox-derived archive SHA-256 was malformed (65 hexadecimal characters) and is withdrawn rather than silently repaired. An independent reviewer retrieved a second 131069-byte copy from Drive (file ID 1QkMZxwACT7QbwTUZF6ecPOe5nR1CkP8), verified that all 23 members are byte-identical to this packet with no extra or missing members, and reported that Drive archive's SHA-256 as 8cdcc61a9a3761e648a983d6d730da38fc50025dfbd5883cdd39327b4995ac4d. This packet therefore relies on the 23 per-member byte identities for custody; it does not assert an unreproduced whole-archive digest for the Dropbox-derived copy.
 The original archive was acquired from the owner's connected Dropbox during the recovery continuation. It is preserved in the owner-delivered Universal_Law_Recovery_Continuation_20260928.zip, SHA-256 5b7ae29472d30dff695f174afa584fd9d2cc790fa6eb4c9c2a6745398e917080. No access-bearing source links or unrelated private inventory is published here.
 
 All 23 payloads retain their exact recovered bytes, totaling 352515 bytes. SOURCE_MAP.csv maps public paths to the original handoff member names. Only the Python file and SHA256SUMS have an added .txt suffix for non-executable public intake. Restore those names only in an isolated working copy when reproducing the historical manifest checks; the published carriers remain immutable.
@@ -26,4 +26,4 @@ The GP-DATA-214 coefficient table was already a deterministic materialization in
 
 ## Coordination and requested review
 
-The active Claude recovery in main PR #199 is separate: its RN-UNIF/JETMOD branch and files were not modified. A coordination note was posted there before preparing this packet. Review this packet's exact head for byte identity, name mapping, provenance qualifiers and non-promotion. A posted request is not an acknowledgment or independent mathematical approval. Do not infer a review verdict from the owner-account identity used by multiple models.
+The Claude recovery formerly in main PR #199 is separate: its RN-UNIF/JETMOD files were not modified by this packet. Review this packet's exact head for byte identity, name mapping, provenance qualifiers and non-promotion. A posted request is not an acknowledgment or independent mathematical approval. Do not infer a review verdict from the owner-account identity used by multiple models.
