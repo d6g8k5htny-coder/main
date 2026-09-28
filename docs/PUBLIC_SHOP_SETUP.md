@@ -4,7 +4,7 @@ Scientific effect: **NONE**. This page records verified public deployment and re
 
 ## Pages
 
-**Verified live on 2026-09-26:** [https://d6g8k5htny-coder.github.io/main/site/](https://d6g8k5htny-coder.github.io/main/site/). [main Pages settings](https://github.com/d6g8k5htny-coder/main/settings/pages) use **Deploy from a branch**, branch **main**, folder **/docs**. The entry file redirects to `site/`, and `.nojekyll` serves the static app. A real-browser check loaded all 2,138 original inventory records and verified the exact SIDE24 source bytes. Pages is the public viewer; it does not write scientific status. Do not enable Pages on Math-, trial, or sandbox for this shop.
+**Verified live on 2026-09-26:** [https://d6g8k5htny-coder.github.io/main/site/](https://d6g8k5htny-coder.github.io/main/site/). [main Pages settings — owner-only](https://github.com/d6g8k5htny-coder/main/settings/pages) use **Deploy from a branch**, branch **main**, folder **/docs**. The entry file redirects to `site/`, and `.nojekyll` serves the static app. A real-browser check loaded all 2,138 original inventory records and verified the exact SIDE24 source bytes. Pages is the public viewer; it does not write scientific status. Do not enable Pages on Math-, trial, or sandbox for this shop.
 
 ## Profile pins
 
