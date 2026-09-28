@@ -2,6 +2,13 @@
 
 **Gaussian random fields, persistent homology, and reproducible multi-model mathematical research.**
 
+
+[RESEARCH HOME](https://github.com/d6g8k5htny-coder/main)
+· [PROOF VAULT](https://github.com/d6g8k5htny-coder/Math-)
+· [EXACT-SOURCE SEARCH](https://github.com/d6g8k5htny-coder/query-)
+· [FEDERATION MAP](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace)
+· [VERIFICATION MUSEUM](https://d6g8k5htny-coder.github.io/main/site/museum.html)
+
 [![Landing checks](https://github.com/d6g8k5htny-coder/main/actions/workflows/workspace-landing.yml/badge.svg?branch=main)](https://github.com/d6g8k5htny-coder/main/actions/workflows/workspace-landing.yml)
 [![Navigation](https://github.com/d6g8k5htny-coder/main/actions/workflows/navigation.yml/badge.svg)](https://github.com/d6g8k5htny-coder/main/actions/workflows/navigation.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
