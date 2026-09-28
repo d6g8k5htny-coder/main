@@ -1,0 +1,347 @@
+#!/usr/bin/env python3
+"""Execute the RN-UNIF remaining build steps that can run without Kimi.
+
+Does NOT claim D3-LEMMA-RN-UNIF closed.
+Does:
+  A. DS3 arithmetic selftest
+  B. patched mean_grad FD check at (5,0)
+  C. whitened chi2 identity + exact gradient vs engine chi2
+  D. third-jet of kap_far at (5,0) by central FD of the exact Hessian
+  E. cell-close arithmetic at cap 0.68 and 0.69 with a conservative T4
+  F. fast landscape samples on the delicate patch
+  G. write receipts
+
+Route-D remainder: T4 is a measured-scale envelope, not a termwise env_form
+bound. Cells reported CLOSE under that envelope are INTERNAL / route-D
+probes, not a freeze.
+"""
+from __future__ import annotations
+import json, os, sys, time, hashlib
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+os.chdir(HERE)
+sys.path.insert(0, ".")
+sys.path.insert(0, "../H2_foundations")
+
+t_import = time.time()
+import d3_rn_unif as R  # noqa: E402
+from mpmath import mp, mpf  # noqa: E402
+import mpmath  # noqa: E402
+from rnu_ds3 import DS3, ds3_selftest  # noqa: E402
+
+IMPORT_S = time.time() - t_import
+E = R.E
+kit = R.kit
+ns = lambda x, n=8: mpmath.nstr(x, n)
+
+
+def mean_grad_fixed(fs, y, v):
+    TSET9, CSET6, YJET, PTS = R.TSET9, R.CSET6, R.YJET, R.PTS
+    _GI, G6inv, _W6, kc, kdcov_d = R._GI, R.G6inv, R._W6, R.kc, R.kdcov_d
+    TC = mp.zeros(9, 6)
+    for i, (pi, di) in enumerate(TSET9):
+        p1 = y if pi == "Y" else PTS[pi]
+        for j, (pj, dj) in enumerate(CSET6):
+            TC[i, j] = kc(di, dj, p1, PTS[pj])
+    YC = mp.zeros(3, 6)
+    for i, (pi, di) in enumerate(YJET):
+        for j, (pj, dj) in enumerate(CSET6):
+            YC[i, j] = kc(di, dj, y, PTS[pj])
+    YY6 = fs["YY6"]
+    YY6inv = YY6 ** -1
+    TY6 = fs["TY6"]
+    rv = mp.matrix([v, 0, 0]) - YC * _W6
+    out = []
+    for e in (0, 1):
+        dTC = mp.zeros(9, 6)
+        dTY = mp.zeros(9, 3)
+        dYC = mp.zeros(3, 6)
+        for i, (pi, di) in enumerate(TSET9):
+            if pi == "Y":
+                for j, (pj, dj) in enumerate(CSET6):
+                    dTC[i, j] = kdcov_d(_GI[di], _GI[dj], y[0] - PTS[pj][0], y[1] - PTS[pj][1], e)
+            else:
+                for j, (pj, dj) in enumerate(YJET):
+                    dTY[i, j] = -kdcov_d(_GI[di], _GI[dj], PTS[pi][0] - y[0], PTS[pi][1] - y[1], e)
+        for i, (pi, di) in enumerate(YJET):
+            for j, (pj, dj) in enumerate(CSET6):
+                dYC[i, j] = kdcov_d(_GI[di], _GI[dj], y[0] - PTS[pj][0], y[1] - PTS[pj][1], e)
+        dTY6 = dTY - dTC * G6inv * YC.T - TC * G6inv * dYC.T
+        dYY6 = -(dYC * G6inv * YC.T + YC * G6inv * dYC.T)
+        dYY6inv = -YY6inv * dYY6 * YY6inv
+        drv = -dYC * _W6
+        out.append(dTC * _W6 + dTY6 * (YY6inv * rv) + TY6 * (dYY6inv * rv) + TY6 * (YY6inv * drv))
+    return out
+
+
+def chi2_white_exact(y):
+    W = mp.zeros(6, 6)
+    for k in range(6):
+        for j in range(6):
+            W[k, j] = R.V0[j, k] / mpmath.sqrt(R.LAM0[k])
+    mu6 = kit.Hmean
+    fs = R.station_fast_full(y)
+    v = kit.b - kit.ell / 2
+    muv = fs["mean_v"](v)
+    cov = fs["cov9"]
+    Sp = E.submat(cov, range(6), range(6))
+    mu9p = mp.matrix([muv[i] for i in range(6)])
+    dmu = mean_grad_fixed(fs, y, v)
+    dcov = R.cov9_grad_exact(fs, y)
+    Sw = W * Sp * W.T
+    m = W * (mu9p - mu6)
+    Swi = Sw ** -1
+    Mw = Swi - mp.eye(6) * mpf("0.5")
+    Mwi = Mw ** -1
+    c = Swi * m
+
+    def tr(A):
+        return mpmath.fsum(A[i, i] for i in range(A.rows))
+
+    logq = (
+        -3 * mpmath.log(2)
+        - mpmath.log(mp.det(Sw))
+        - mpmath.log(mp.det(Mw)) / 2
+        + (c.T * Mwi * c)[0]
+        - (m.T * Swi * m)[0]
+    )
+    chi2 = mpmath.exp(logq) - 1
+    grads = []
+    for e in (0, 1):
+        dSp = E.submat(dcov[e], range(6), range(6))
+        dSw = W * dSp * W.T
+        dm = W * mp.matrix([dmu[e][i] for i in range(6)])
+        dSwi = -Swi * dSw * Swi
+        dMw = dSwi
+        dc = dSwi * m + Swi * dm
+        dlogq = (
+            -tr(Swi * dSw)
+            - tr(Mwi * dMw) / 2
+            + 2 * (dc.T * Mwi * c)[0]
+            - (c.T * Mwi * dMw * Mwi * c)[0]
+            - 2 * (dm.T * Swi * m)[0]
+            - (m.T * dSwi * m)[0]
+        )
+        grads.append((1 + chi2) * dlogq)
+    A = mp.eye(6) - Sw
+    nA = mpmath.sqrt(mpmath.fsum(A[i, j] ** 2 for i in range(6) for j in range(6)))
+    nm = mpmath.sqrt(mpmath.fsum(m[i] ** 2 for i in range(6)))
+    return chi2, grads, nA, nm, fs
+
+
+def cell_sup(kap, g, h, t, t4, hw):
+    return (
+        kap
+        + g * hw
+        + (h * hw ** 2) / 2
+        + (t * hw ** 3) / 6
+        + (t4 * hw ** 4) / 24
+    )
+
+
+def main():
+    out = {
+        "status": "PROPOSED",
+        "lemma_closed": False,
+        "import_seconds": IMPORT_S,
+        "dps": int(mp.dps),
+        "steps": {},
+    }
+    print(f"[import] {IMPORT_S:.2f}s  dps={mp.dps}")
+
+    # A. DS3
+    mx, errs = ds3_selftest()
+    print(f"[A] DS3 selftest max|err|={ns(mx, 4)}")
+    out["steps"]["A_ds3"] = {"max_abs_err": ns(mx, 8), "pass": float(mx) < 1e-20}
+
+    # B. mean_grad_fixed at (5,0)
+    y0 = (mpf(5), mpf(0))
+    v = kit.b - kit.ell / 2
+    t0 = time.time()
+    fs0 = R.station_fast_full(y0)
+    dmu = mean_grad_fixed(fs0, y0, v)
+    dmu_old = R.mean_grad_exact(fs0, y0, v)
+    hfd = mpf("1e-16")
+    worst_new = mpf(0)
+    worst_old = mpf(0)
+    scale = mpf(0)
+    for e in (0, 1):
+        yp = (y0[0] + (hfd if e == 0 else 0), y0[1] + (hfd if e == 1 else 0))
+        ym = (y0[0] - (hfd if e == 0 else 0), y0[1] - (hfd if e == 1 else 0))
+        mup = R.station_fast_full(yp)["mean_v"](v)
+        mum = R.station_fast_full(ym)["mean_v"](v)
+        for i in range(9):
+            fd = (mup[i] - mum[i]) / (2 * hfd)
+            worst_new = max(worst_new, abs(fd - dmu[e][i]))
+            worst_old = max(worst_old, abs(fd - dmu_old[e][i]))
+            scale = max(scale, abs(fd))
+    print(
+        f"[B] mean_grad FIXED max|FD-exact|={ns(worst_new,3)}  "
+        f"OLD={ns(worst_old,3)}  scale={ns(scale,3)}  ({time.time()-t0:.2f}s)"
+    )
+    out["steps"]["B_mean_grad"] = {
+        "fixed_max_fd_err": ns(worst_new, 6),
+        "old_max_fd_err": ns(worst_old, 6),
+        "scale": ns(scale, 6),
+        "pass_fixed": float(worst_new) < 1e-20,
+    }
+
+    # C. whitened chi2
+    t0 = time.time()
+    chi2, gchi, nA, nm, fs0 = chi2_white_exact(y0)
+    kp = R.kappa_pieces_fast(fs0, v)
+    gn = mpmath.sqrt(gchi[0] ** 2 + gchi[1] ** 2)
+    ident = abs(chi2 - kp["chi2"]) / max(kp["chi2"], mpf("1e-30"))
+    gkp_exact = kp["kap_pair"] * gn / (2 * kp["chi2"]) if kp["chi2"] > 0 else mpf(0)
+    gkp_old = R.chi2_grad_bound(fs0, kp, y0, mpf(5)) * kp["kap_pair"] / (2 * kp["chi2"])
+    print(
+        f"[C] whitened chi2={ns(chi2,10)} engine={ns(kp['chi2'],10)} rel={ns(ident,3)} "
+        f"|grad chi2|={ns(gn,8)} |A|={ns(nA,3)} |m|={ns(nm,3)}"
+    )
+    print(f"    |grad kap_pair| exact={ns(gkp_exact,6)}  old bound={ns(gkp_old,3)}")
+    out["steps"]["C_whitened_chi2"] = {
+        "chi2": ns(chi2, 14),
+        "engine_chi2": ns(kp["chi2"], 14),
+        "rel_identity": ns(ident, 6),
+        "grad_chi2_norm": ns(gn, 12),
+        "grad_kap_pair_exact": ns(gkp_exact, 10),
+        "old_chi2_grad_bound_kap": ns(gkp_old, 6),
+        "norm_A": ns(nA, 6),
+        "norm_m": ns(nm, 6),
+        "identity_pass": float(ident) < 1e-20,
+        "seconds": time.time() - t0,
+    }
+
+    # D. third jet of kap_far by FD of exact Hessian
+    t0 = time.time()
+    kd = R._kd  # already computed at import at (5,0)
+    h3 = mpf("1e-8")
+    kd_px = R.kappa_far_ds((y0[0] + h3, y0[1]), v)
+    kd_mx = R.kappa_far_ds((y0[0] - h3, y0[1]), v)
+    kd_py = R.kappa_far_ds((y0[0], y0[1] + h3), v)
+    kd_my = R.kappa_far_ds((y0[0], y0[1] - h3), v)
+    txxx = (kd_px.hxx - kd_mx.hxx) / (2 * h3)
+    txxy = (kd_px.hxy - kd_mx.hxy) / (2 * h3)
+    txyy = (kd_px.hyy - kd_mx.hyy) / (2 * h3)
+    # cross-check tyyy and txyy from y-shifts
+    tyyy = (kd_py.hyy - kd_my.hyy) / (2 * h3)
+    txyy_y = (kd_py.hxy - kd_my.hxy) / (2 * h3)
+    txxy_y = (kd_py.hxx - kd_my.hxx) / (2 * h3)
+    tnorm = mpmath.sqrt(txxx ** 2 + tyyy ** 2 + 3 * txxy ** 2 + 3 * txyy ** 2)
+    print(
+        f"[D] kap_far DS at (5,0): v={ns(kd.v,12)} |g|={ns(kd.gnorm(),6)} |H|={ns(kd.hnorm(),6)}"
+    )
+    print(
+        f"    T3 FD: txxx={ns(txxx,5)} txxy={ns(txxy,5)} txyy={ns(txyy,5)} tyyy={ns(tyyy,5)} "
+        f"|T|={ns(tnorm,5)}  x/y consist txxy {ns(abs(txxy-txxy_y),3)} txyy {ns(abs(txyy-txyy_y),3)}"
+    )
+    out["steps"]["D_third_jet"] = {
+        "kap": ns(kd.v, 16),
+        "gnorm": ns(kd.gnorm(), 12),
+        "hnorm": ns(kd.hnorm(), 12),
+        "txxx": ns(txxx, 10),
+        "txxy": ns(txxy, 10),
+        "txyy": ns(txyy, 10),
+        "tyyy": ns(tyyy, 10),
+        "tnorm": ns(tnorm, 10),
+        "txxy_consist": ns(abs(txxy - txxy_y), 6),
+        "txyy_consist": ns(abs(txyy - txyy_y), 6),
+        "seconds": time.time() - t0,
+    }
+
+    # E. cell-close arithmetic. T4 envelope: measured T3 * (2d+10) * SAFE
+    # This is a SCALE envelope, not env_form. Marked INTERNAL.
+    s = 2 * 5 + 10
+    t4_scale = abs(tnorm) * s * 50  # 50x safety on measured third * crude length
+    print(f"[E] T4 scale envelope (INTERNAL) = |T3|*s*50 = {ns(t4_scale, 4)}")
+    rows = []
+    for cap in (mpf("0.68"), mpf("0.69")):
+        for hw in (mpf("7e-4"), mpf("1e-3"), mpf("1.8e-3"), mpf("5e-3"), mpf("1e-2")):
+            sup = cell_sup(kd.v, kd.gnorm(), kd.hnorm(), tnorm, t4_scale, hw)
+            margin = cap - mpf("0.0002") - kd.v
+            close = sup <= cap - mpf("0.0002")
+            rows.append(
+                {
+                    "cap": ns(cap, 4),
+                    "hw": ns(hw, 4),
+                    "sup": ns(sup, 10),
+                    "margin_at_center": ns(margin, 6),
+                    "close_internal": bool(close),
+                }
+            )
+            print(
+                f"    cap={ns(cap,4)} hw={ns(hw,4)} sup={ns(sup,8)} "
+                f"{'CLOSE' if close else 'OPEN '}  (center slack {ns(margin,4)})"
+            )
+    out["steps"]["E_cells"] = {
+        "T4_kind": "measured-T3 * (2d+10) * 50  INTERNAL-NOT-ENV_FORM",
+        "T4": ns(t4_scale, 8),
+        "rows": rows,
+    }
+
+    # F. fast landscape (no DS)
+    t0 = time.time()
+    land = []
+    samples = [
+        (mpf(5), mpf(0)),
+        (mpf("5.05"), mpf(0)),
+        (mpf("5.10"), mpf(0)),
+        (mpf("5.20"), mpf(0)),
+        (mpf(5), mpf("0.35")),  # ~4 deg
+        (mpf("5.05"), mpf("0.35")),
+        (mpf("6"), mpf(0)),
+        (mpf("5"), mpf("-0.3")),
+    ]
+    for y in samples:
+        fs = R.station_fast_full(y)
+        kap = R.kappa_pieces_fast(fs, v)["kap_far"]
+        d = mpmath.sqrt(y[0] ** 2 + y[1] ** 2)
+        land.append({"y": [ns(y[0], 4), ns(y[1], 4)], "d": ns(d, 5), "kap_far": ns(kap, 10)})
+        print(f"[F] y=({ns(y[0],4)},{ns(y[1],4)}) kap_far={ns(kap,10)}")
+    out["steps"]["F_landscape"] = {"samples": land, "seconds": time.time() - t0}
+
+    # frozen reproduction
+    out["frozen_v2"] = {
+        "kap_far_fast": ns(R._kp0["kap_far"], 16),
+        "kap_far_ds": ns(R._kd.v, 16),
+        "target": "0.677284905",
+    }
+    out["next_required_for_freeze"] = [
+        "whitened env_form bounds on residual covariances at orders 2-4",
+        "DS3 wired through kappa_far (not only FD of Hessian)",
+        "valid T4 from env_form, not measured-scale",
+        "full polar cover d in [5,17] with theta-halving",
+        "both-mode transcript + MUT-RN-1..5 + FREEZE rule-id",
+    ]
+
+    receipt = HERE / "RNU_EXECUTE_RECEIPT.json"
+    receipt.write_text(json.dumps(out, indent=2))
+    md = HERE / "RNU_EXECUTE_RECEIPT.md"
+    md.write_text(
+        "\n".join(
+            [
+                "# RNU_EXECUTE_RECEIPT — 2026-09-16 — Grok family",
+                "",
+                "STATUS: PROPOSED. D3-LEMMA-RN-UNIF is NOT closed.",
+                f"Engine import {IMPORT_S:.2f}s; frozen v2 kap_far DS = {ns(R._kd.v, 12)}.",
+                "",
+                f"- DS3 selftest max err {ns(mx,4)}",
+                f"- mean_grad_fixed FD err {ns(worst_new,3)} (old {ns(worst_old,3)})",
+                f"- whitened chi2 identity rel {ns(ident,3)}; |grad chi2| {ns(gn,8)}",
+                f"- |T3| at (5,0) via FD-of-Hessian {ns(tnorm,5)}",
+                f"- T4 used here is INTERNAL scale envelope {ns(t4_scale,4)}, not env_form.",
+                "",
+                "A freeze requires the items in RNU_EXECUTE_RECEIPT.json next_required_for_freeze.",
+                "",
+            ]
+        )
+    )
+    print(f"[write] {receipt}")
+    print(f"[write] {md}")
+    print("LEMMA_CLOSED=NO")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
