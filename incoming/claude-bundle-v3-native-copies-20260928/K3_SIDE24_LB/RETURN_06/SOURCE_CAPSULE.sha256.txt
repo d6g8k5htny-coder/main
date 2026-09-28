@@ -1,0 +1,279 @@
+# SOURCE_CAPSULE.sha256 — RETURN_06 machine-verifiable carrier manifest
+# Campaign: K3_SIDE24_LB (2D UPPER theorem + LPW lower lane). Frozen tree root: /mnt/agents/output/K3_SIDE24_LB/
+# Assembled: 2026-09-15T00:05:36Z (build agent, RETURN_06). Method: every hash below recomputed FROM BYTES at assembly time
+# and matched against the carrier register (full match where the register gives 64 hex; prefix match where it
+# gives a prefix). Extraction rules: 'whole' = sha256 of the entire file; 'sepbody' = sha256 of all bytes before
+# the first separator "\n---\n\n"; marker-lines rules = sha256 of the LF-joined lines strictly between the
+# unique exact lines BEGIN_FROZEN_BODY / END_FROZEN_BODY with the stated trimming and exactly one terminal LF.
+# NOTE: the register's generic rule 'body = everything before \n---\n\n' applies verbatim ONLY to the H5
+# carriers; the marker-carried files (D1/B1/C2/D2/D3/H4/H4JC) use their own FREEZE-recorded marker rules, each
+# confirmed against the file's own FREEZE.txt / receipts. Every entry below MATCHED. Result: 22/22 document
+# carriers verified, 0 mismatches; scripts/gates cross-checked where the register records a value (Section B).
+
+## A. Document carriers (theorem bodies) — path | extraction rule | recomputed sha256 | register | verdict | status
+UPPER2D/D1_assembly/D1_ASSEMBLY_v2_2.md
+  rule: marker-lines (LF, blank-trimmed both ends, one terminal LF)
+  recomputed: 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6
+  register:   490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6
+  bytes: 20078 | verdict: MATCH | status: FINAL
+UPPER2D/D1_assembly/D1_ASSEMBLY_v2_1.md
+  rule: marker-lines (LF, blank-trimmed, one terminal LF)
+  recomputed: bcc177fea4ee06f9d25c56f207ed4b6e7577eff96bfc030202928813c0688189
+  register:   bcc177fea4ee06f9d25c56f207ed4b6e7577eff96bfc030202928813c0688189
+  bytes: 22052 | verdict: MATCH | status: historical, superseded by v2.2
+UPPER2D/D1_assembly/D1_ASSEMBLY_v2_0.md
+  rule: marker-lines (LF, blank-trimmed, one terminal LF)
+  recomputed: 86882dca5d5258e9f1bab43e52c4382d30ec9609f89cd64486b3441f5ffd62d0
+  register:   86882dca (register prefix; recomputed full hash at left)
+  bytes: 19386 | verdict: MATCH | status: historical, superseded
+UPPER2D/D1_assembly/D1_ASSEMBLY_v1_2_ADDENDUM.md
+  rule: marker-lines (LF, blank-trimmed, one terminal LF)
+  recomputed: a7e1958c0d37d4eb63929823edd3190f83216fb4b127a4e85ad7e2e4da86ba67
+  register:   a7e1958c (register prefix; recomputed full hash at left)
+  bytes: 14249 | verdict: MATCH | status: historical, superseded
+UPPER2D/D1_assembly/D1_ASSEMBLY_v1_1_ADDENDUM.md
+  rule: marker-lines (LF, blank-trimmed, one terminal LF)
+  recomputed: 634338b43a000502dfdda62a9019895434db7b50607a9989caaa1fd5873167e2
+  register:   634338b4 (register prefix; recomputed full hash at left)
+  bytes: 8526 | verdict: MATCH | status: historical, superseded
+UPPER2D/D1_assembly/D1_ASSEMBLY.md
+  rule: marker-lines (LF, blank-trimmed, one terminal LF)
+  recomputed: 006b8a7d011443a0a98401f30335fbcfe44ef5996b4fc41dd9735640d958de40
+  register:   006b8a7d (register prefix; recomputed full hash at left)
+  bytes: 36000 | verdict: MATCH | status: historical v1.0, superseded
+UPPER2D/B1_taxonomy/B1_TAXONOMY.md
+  rule: marker-lines (LF, trailing-blank-trim / rstrip-LF, one terminal LF)
+  recomputed: 7d7ddbec6e63b4c2a2c745b20e33a3d92cfdf5cb97588312a8d54fbd1ea68930
+  register:   7d7ddbec6e63b4c2a2c745b20e33a3d92cfdf5cb97588312a8d54fbd1ea68930
+  bytes: 31599 | verdict: MATCH | status: CURRENT
+UPPER2D/C1_alpha_intensity/C1_ALPHA_INTENSITY.md
+  rule: whole file
+  recomputed: ca2c02b81a05e4cbc955b1aeab1f4120e9b8d4fda328aa191da08a49db72853f
+  register:   ca2c02b8 (register prefix; recomputed full hash at left)
+  bytes: 27794 | verdict: MATCH | status: CURRENT
+UPPER2D/C2_B_classes/C2_B_CLASSES.md
+  rule: marker-lines (LF, raw, one terminal LF)
+  recomputed: 2aba099d630dc7593b1c26bdd2ad3336c1c521e438ba5845edb0b98f2dadf3d2
+  register:   2aba099d (register prefix; recomputed full hash at left)
+  bytes: 26326 | verdict: MATCH | status: CURRENT
+UPPER2D/D2_branch_control/D2_BRANCH_CONTROL.md
+  rule: marker-lines (LF, one terminal LF)
+  recomputed: 9e95648acbe5307d7f61f7e7ccc102577b80974b38d03fc760f7ce7766a0b8fa
+  register:   9e95648a (register prefix; recomputed full hash at left)
+  bytes: 29448 | verdict: MATCH | status: CURRENT
+UPPER2D/D3_percolation/D3_PERCOLATION.md
+  rule: marker-lines (LF, raw, one terminal LF)
+  recomputed: 8e7fef6b4fb989404624bf50083c9d8624fa486eeda62e4784447f8edb3eac47
+  register:   8e7fef6b (register prefix; recomputed full hash at left)
+  bytes: 18808 | verdict: MATCH | status: CURRENT (base; bracket superseded by v2 amendment)
+UPPER2D/D3_percolation/D3_REMOTE_AMENDMENT.md
+  rule: marker-lines (LF, raw, one terminal LF)
+  recomputed: 63d91cdd6364725597504067a8ffa2378da0e89fe0e87afc81828dd78b8fec24
+  register:   63d91cdd6364725597504067a8ffa2378da0e89fe0e87afc81828dd78b8fec24
+  bytes: 8019 | verdict: MATCH | status: historical, superseded by v2
+UPPER2D/D3_percolation/D3_REMOTE_AMENDMENT_v2.md
+  rule: marker-lines (LF, raw, one terminal LF)
+  recomputed: 6796deea4bfd5e3df19fd561e6bc34efe2531263db9db8d015d0553c3a3d1302
+  register:   6796deea4bfd5e3df19fd561e6bc34efe2531263db9db8d015d0553c3a3d1302
+  bytes: 5701 | verdict: MATCH | status: CURRENT
+UPPER2D/H3_closure/H3_CLOSURE.md
+  rule: whole file
+  recomputed: 387e4bae4881a036486f17f317ae5e26b7d94bd5e1e829cc76946d090fb81637
+  register:   387e4bae (register prefix; recomputed full hash at left)
+  bytes: 16857 | verdict: MATCH | status: CURRENT
+UPPER2D/H3_closure/H3_RUNG_FLOOR.md
+  rule: whole file
+  recomputed: 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa
+  register:   6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa
+  bytes: 7003 | verdict: MATCH | status: CURRENT (R2)
+UPPER2D/H4_closure/H4_CLOSURE.md
+  rule: marker-lines (LF, trailing-blank-trim, one terminal LF)
+  recomputed: a67d50b9a24c82f970c60c5881eaa41cdf7d4b81cb1cf15904a3fc1b92b6b1d3
+  register:   a67d50b9 (register prefix; recomputed full hash at left)
+  bytes: 18527 | verdict: MATCH | status: CURRENT except retracted H4-JC §2.3 (preserved historical)
+UPPER2D/H4_JC_repair/H4_JC_EVENT_LEVEL.md
+  rule: marker-lines (LF, raw, one terminal LF)
+  recomputed: 42ee88da984b82921d68cf3fcf6bc76ede9dd59b7ab5b1f947e24a29b08bf74c
+  register:   42ee88da984b82921d68cf3fcf6bc76ede9dd59b7ab5b1f947e24a29b08bf74c
+  bytes: 16888 | verdict: MATCH | status: CURRENT (H4JC-R1)
+UPPER2D/H5_closure/H5_CLOSURE.md
+  rule: body = bytes before separator "\n---\n\n" (separator at byte 15162)
+  recomputed: 465c97c0553ecc0a8f461a86c9315ce1c078a326f07b81498d7a74da8603d301
+  register:   465c97c0553ecc0a8f461a86c9315ce1c078a326f07b81498d7a74da8603d301
+  bytes: 15246 | verdict: MATCH | status: CURRENT (v1 interval)
+UPPER2D/H5_closure/H5_CLOSURE_TIGHTENING_2026-09-15.md
+  rule: body = bytes before separator "\n---\n\n"
+  recomputed: 7fefa17b74836092c0dd5912e028e3b09c1bf4f68c02e35390b552d4479f0561
+  register:   7fefa17b74836092c0dd5912e028e3b09c1bf4f68c02e35390b552d4479f0561
+  bytes: 7540 | verdict: MATCH | status: CURRENT (H5-AXIS v3; I_lo line superseded by errata)
+UPPER2D/H5_closure/h5_totals_v3.json
+  rule: whole file
+  recomputed: 8d7028e4d0d49d54d3a7c4589a898289ec29eee6c2de9c774e99df0da46596bb
+  register:   8d7028e4d0d49d54d3a7c4589a898289ec29eee6c2de9c774e99df0da46596bb
+  bytes: 2364 | verdict: MATCH | status: CURRENT (version-pinned v3 totals)
+UPPER2D/BRANCH_dir/BRANCH_DIR.md
+  rule: whole file
+  recomputed: 8821c8facc7e36635c4b84967ba55037ff5a33fff09359f817032eecaab24286
+  register:   8821c8facc7e36635c4b84967ba55037ff5a33fff09359f817032eecaab24286
+  bytes: 6069 | verdict: MATCH | status: CURRENT (§4 receipts paragraph corrected by errata)
+UPPER2D/BRANCH_dir/BRANCH_DIR_RECEIPTS_ERRATA_2026-09-15.md
+  rule: body (recomputed: whole file = body; no separator present)
+  recomputed: 7547e76a813d1a0c582139e2d31d9ec6a6480e1eaf670d3eed05173bffead3df
+  register:   7547e76a813d1a0c582139e2d31d9ec6a6480e1eaf670d3eed05173bffead3df
+  bytes: 6063 | verdict: MATCH | status: CURRENT (errata)
+## B. Gates / falsifiers / engines / libraries — whole-file sha256 recomputed from bytes
+# Register cross-checks: values recorded in the lane FREEZE/receipts; MATCH = recomputed equals recorded.
+LPW_CONSTANT/falsify.py  sha256=435b40ce1630c0b90ee660efffc5f313d86c07490178a02d21f7825a3173d1fb  bytes=14789  (no register value recorded; custody hash only)
+LPW_CONSTANT/lpw_constant.py  sha256=e258322cfbb71dbb8665c2d0c0517399dca5ca5913e9ddf70eb7247ba74d3035  bytes=25380  (no register value recorded; custody hash only)
+LPW_CONSTANT/v2/lpw_constant_v2.py  sha256=ca654e39ab817a8c85d609cb0775fb0f27ef0e8b54255d65cce6bed1c130e125  bytes=8322  (no register value recorded; custody hash only)
+UPPER2D/B1_taxonomy/b1_falsifier.py  sha256=818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185  bytes=14734  register=818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185  MATCH
+UPPER2D/B2a_outside_cover/b2a_attacks.py  sha256=95ccfdc8846ae855259676982000069e614cb5539d55a883693ac173ca09e8c7  bytes=17043  (no register value recorded; custody hash only)
+UPPER2D/B2b_boundary/b2b_boundary_probe.py  sha256=12a4f585ce3f51547cde7799ad974c3fa00e7cb43e4890176a1f65f86f11818e  bytes=13333  (no register value recorded; custody hash only)
+UPPER2D/B2c_ties/b2c_ties.py  sha256=9b636443ae57b6ee58236801843135a0ac034fa371f1b53c66d1b72f9e828430  bytes=24567  (no register value recorded; custody hash only)
+UPPER2D/B2d_torus/b2d_torus_attack.py  sha256=acd5043d7419c5af1e4f5230a3d8ac932548dbd1bf67451e3458f369c5ecc9df  bytes=38121  (no register value recorded; custody hash only)
+UPPER2D/BRANCH_dir/br_certificate.py  sha256=0b7d2a7dbf4a3a03e7fc4e9509d69f7fbfe8a57d8a9b6653198caf4e8594beee  bytes=9846  (no register value recorded; custody hash only)
+UPPER2D/BRANCH_dir/br_falsifier.py  sha256=326d10a8bd752ded24ba2ac045b9129420a45b4704925ae13c81b3d704c8f32d  bytes=4660  (no register value recorded; custody hash only)
+UPPER2D/BRANCH_dir/br_mc.py  sha256=45650983a6603242967902e43e7270ada8ab43ba5234181d0592562c1b6f3af6  bytes=12404  (no register value recorded; custody hash only)
+UPPER2D/BRANCH_dir/br_probes.py  sha256=d97e7ac40f8beb7ee6d09040eeaf6c8991e497394f9ecc68df371b85c2e0feec  bytes=6227  (no register value recorded; custody hash only)
+UPPER2D/C1_alpha_intensity/c1_grid.py  sha256=2ebe6eb47ee3554b3257342b726d9990009793a66994c9e53fffdc13f70705e0  bytes=11624  (no register value recorded; custody hash only)
+UPPER2D/C1_alpha_intensity/c1_intensity.py  sha256=f9bb98636b95ad85e835940dc93c301e4f8ea0f458ef5cfdcd2cdcca5820ed04  bytes=36814  (no register value recorded; custody hash only)
+UPPER2D/C1_alpha_intensity/falsify.py  sha256=5da7ee93e4e821fb4e9073524fdd00b0bed94ed41dddef689544447fa2aba012  bytes=4470  (no register value recorded; custody hash only)
+UPPER2D/C2_B_classes/c2_falsifier.py  sha256=2441b630170f51d17d0795dd7983ac37ff0609e594aa843dab45a3351d480452  bytes=15293  register=2441b630170f51d17d0795dd7983ac37ff0609e594aa843dab45a3351d480452  MATCH
+UPPER2D/C2_B_classes/c2_probes.py  sha256=ae7d2e5cc81fa155f159e2190cf1ac3362c59c88dd1d40857994dc77d78134d9  bytes=38709  register=ae7d2e5cc81fa155f159e2190cf1ac3362c59c88dd1d40857994dc77d78134d9  MATCH
+UPPER2D/D1_assembly/d1_falsify.py  sha256=1ebd2c6ade067bcfa2732b89ef83266fdaecd24260c05cf6d810b0bd2db044b7  bytes=6928  (no register value recorded; custody hash only)
+UPPER2D/D1_assembly/d1_falsify_v2.py  sha256=7c41dde8ed48068e5c81b17bbc645523f715ba88cde0d746736b8c4e2ce925ba  bytes=9444  (no register value recorded; custody hash only)
+UPPER2D/D1_assembly/d1_falsify_v3.py  sha256=5805e53d69541f00229e5e49e14d655afd1f471a2584a2117fedf0bb5298ddb0  bytes=11552  (no register value recorded; custody hash only)
+UPPER2D/D1_assembly/v3_t_normal.txt  sha256=f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98  bytes=3041  (no register value recorded; custody hash only)
+UPPER2D/D1_assembly/v3_t_opt.txt  sha256=f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98  bytes=3041  (no register value recorded; custody hash only)
+UPPER2D/D2_branch_control/d2_falsifier.py  sha256=824284be876ce685f63e600a642ee84ad601e6fb2424a852dafe8c21178122d8  bytes=14348  (no register value recorded; custody hash only)
+UPPER2D/D2_branch_control/d2_probes.py  sha256=62e15f5a3b9ee39b14c5abd5a9cfea7f1cf8b0e65b3306c862fad54c6258453f  bytes=38643  (no register value recorded; custody hash only)
+UPPER2D/D3_percolation/d3_amend.py  sha256=12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6  bytes=21619  register=12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6  MATCH
+UPPER2D/D3_percolation/d3_amend_v2.py  sha256=6399a0e31b089a94c4dfec7960682ef400f7f0f99a788e3668557d0a75cf7528  bytes=14846  register=6399a0e31b089a94c4dfec7960682ef400f7f0f99a788e3668557d0a75cf7528  MATCH
+UPPER2D/D3_percolation/d3_falsifier.py  sha256=c9e7458b8ec6da9eba8121d8de4bbe354cf8389409363170f2c17d7841ac526e  bytes=29034  register=c9e7458b8ec6da9eba8121d8de4bbe354cf8389409363170f2c17d7841ac526e  MATCH
+UPPER2D/D3_percolation/d3_perc.py  sha256=5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4  bytes=40337  register=5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4  MATCH
+UPPER2D/H2_foundations/README.md  sha256=cc2d012c7eb0b3f67e3dba64e578cd3f6f71f570e6d67667734e1847111d831f  bytes=15197  (no register value recorded; custody hash only)
+UPPER2D/H2_foundations/make_receipts.py  sha256=cb6c0f2fb4350f2e5707ebf730b4ab74f7c5d733208a74649bc3cb7aab6ac27e  bytes=6050  (no register value recorded; custody hash only)
+UPPER2D/H2_foundations/selftest_cov_exact.py  sha256=e1b331dec6e0f82e6a084a30d9df9d8f402f42057861e6875504b04ea4a32068  bytes=17967  (no register value recorded; custody hash only)
+UPPER2D/H2_foundations/selftest_pin_transform.py  sha256=90e88ff8f5248332219902caf6ea4df5bb5b89ffa72b95b519fd4472860403a6  bytes=14492  (no register value recorded; custody hash only)
+UPPER2D/H2_foundations/selftest_reg_lemmas.py  sha256=27505d0196e39a0c47989c443f402aa2ad23bdf235771ea1bbdee1030efad65b  bytes=15350  (no register value recorded; custody hash only)
+UPPER2D/H3_closure/h3_band_floor.py  sha256=9eb0f4266c2f3623a210f7678d8375bd31735ec1e5ce3ae2a587b7685823433e  bytes=36181  (no register value recorded; custody hash only)
+UPPER2D/H3_closure/h3_c0_certificate.py  sha256=56076fa852e3787e683921496adc796b04132ea817be924ed84ef68d68abc84c  bytes=14052  (no register value recorded; custody hash only)
+UPPER2D/H3_closure/h3_falsifier.py  sha256=645b6d9d24721674b419e8d026183722a90a1a27ee4e7b0053c53faced73cd47  bytes=10584  (no register value recorded; custody hash only)
+UPPER2D/H3_closure/h3_rung_floor.py  sha256=094d382451ff37e8d3123e7203c743f359cb0af1c2c12cf336adf74fc0b25d8f  bytes=16960  (no register value recorded; custody hash only)
+UPPER2D/H4_JC_repair/h4jc_falsifier.py  sha256=298fd31ee9b33a117e0f60f1ddf4dcece72ff5bd189510552aff84307c7851f0  bytes=2535  (no register value recorded; custody hash only)
+UPPER2D/H4_JC_repair/h4jc_mirror.py  sha256=e593735a333b43061c3e440fadeed473bc991b5669915b1874bf65deb4f67a60  bytes=18112  (no register value recorded; custody hash only)
+UPPER2D/H4_closure/h4_certificate.py  sha256=ddf6e9636c9d8f4858996f350f0f402f96c2c492a361e5aa6118291c708c9f92  bytes=17474  (no register value recorded; custody hash only)
+UPPER2D/H4_closure/h4_falsifier.py  sha256=9f268595806fba2b2008e668c470b2c5f64e007f353277a676c0707dd144b1f3  bytes=16467  (no register value recorded; custody hash only)
+UPPER2D/H4_closure/h4_probes.py  sha256=d02d5887d9e897cd3f7c296729af78c80870b466855c86de21a4c818d82036fd  bytes=53168  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/falsify.py  sha256=5bc9dbccb384fc49366a32c9c19d431a68dea1ccae74233d1fbc458e5bfeee0c  bytes=3262  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_kernel.py  sha256=b2e6014c2fd6eb9e72b2104cc828a764e280f76b8396a02edd37654b6ad83ad7  bytes=66310  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_merge.py  sha256=0e71de27eeb9c9a2e695b2c72052f8ef4f67b5c4f621e4eecd541595b06ede7a  bytes=13400  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_promote.py  sha256=2dd471dca0e4c7e18a925ebd60d034a99dae96ad6afceccb2c5f8d5feca571fd  bytes=9253  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_run.py  sha256=cd4b3d4a6145338be388307c8a019169d7e6c7bcffccd2e29d4264295342c652  bytes=24976  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_run_r0p025.py  sha256=38f88f732da19a7292ff7acc9b71f8e9f48d30d9db4eaed7d048d2038e9ebcc5  bytes=27068  (no register value recorded; custody hash only)
+UPPER2D/H5_closure/h5_run_r0p035355.py  sha256=dba090d422fc1593b949b4e3294255e868dccdfe4ae3166ce0a31e5766f29ab3  bytes=27093  (no register value recorded; custody hash only)
+
+# d3_falsifier.py succession (all legitimate, each recorded in its freeze record): v1 freeze e54c388f... ->
+# amendment freeze d876df2c... -> CURRENT c9e7458b... (FREEZE_AMENDMENT_v2.txt line 22) — MATCH to current.
+# d1_falsify_v3.py is the OPERATIVE D1 gate (92 fail-closed cks); d1_falsify.py / d1_falsify_v2.py frozen historical.
+# LPW_CONSTANT/v2/lpw_constant_v2.py register (H1_V2_HARDENING_REPORT.md header): ca654e39ab817a8c85d609cb0775fb0f27ef0e8b54255d65cce6bed1c130e125
+# recomputed: ca654e39ab817a8c85d609cb0775fb0f27ef0e8b54255d65cce6bed1c130e125  MATCH
+# Transcript pair UPPER2D/D1_assembly/v3_t_normal.txt == v3_t_opt.txt byte-identical (both sha256 f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98).
+
+## C. Live gate re-execution evidence (run by this build agent at assembly time)
+# Command: python3 d1_falsify_v3.py (cwd UPPER2D/D1_assembly)
+# Result: exit 0; 92 fail-closed cks PASS; printed
+#   D1-V2_2-GATE PASS digest=d800849ed5966b4d583a10cf72525e89350d9a53780b45a807a21ccbadf91085
+# matching D1_V2_2_RECEIPTS.txt verbatim. This re-verifies the whole consumed carrier chain fail-closed.
+# (The 'd800849e...' register value is the gate's self-computed PASS digest over its expected-hash tables,
+# not a file hash; reproduced live above.)
+
+## D. Register notes / discrepancies resolved at assembly (none blocking; no mismatches)
+# 1. H4_JC_EVENT_LEVEL.md lives at UPPER2D/H4_JC_repair/ (not under H4_closure/); hash MATCHES the register.
+# 2. BRANCH_DIR_RECEIPTS_ERRATA_2026-09-15.md: register says 'body'; the file contains no "\n---\n\n"
+#    separator, so body == whole file = 7547e76a... MATCH.
+# 3. STAGE_E review corpus: the frozen tree carries FIVE review files (REVIEW_proof/numerics/provenance/
+#    scope/topology.md); the round-2 re-review dispositions (H4JC-R1 counterexample instance; numerics v2.1;
+#    scope v2.1) exist as consumption records inside D1 v2.2 §0/§4 (hash-verified above), not as standalone
+#    files. Standalone counterexample/kacrice review files: NOT PRESENT in the tree (CANNOT-VERIFY as files;
+#    their dispositions verified via D1 v2.2 and REVIEW_proof.md §3, which contains the counterexample).
+
+# ADDENDUM 2026-09-15
+# H3 BAND FLOOR frozen (record H3-BAND-FLOOR-2026-09-15): the normalizer sub-part of OBL-D1-PROMOTE is
+# DISCHARGED with uniform modulus (certified Z_r >= c_Z*r^2 for EVERY r in (0, 0.05]); the chart side of the
+# promotion remains OPEN. See RETURN_06/ADDENDUM_2026-09-15_H3_BAND_FLOOR.md. All hashes below recomputed
+# FROM BYTES by the addendum agent and matched against the lane register (H3_closure/MANIFEST.sha256 and
+# RECEIPT_h3.json ff788042c6bce3bb89bccee17ee88478b81b72426b5b474929a009b0fe8ee209).
+# EXTRACTION-RULE NOTE: the generic 'sepbody' rule (bytes before the first "\n---\n\n") does NOT apply to
+# H3_BAND_FLOOR.md (the document carries a header-block separator; sepbody recomputes to
+# 94089e9f696e520cd660b37f53d5e472b217134adfafe4c1c06939217107d19d, not the register value). The
+# FREEZE-recorded rule is 'body-excl-hash-line' (whole file minus the final 'Body hash of this document: ...'
+# line), annotated verbatim in the lane MANIFEST; under that rule the recomputed body MATCHES 281477c3....
+
+## A+ (addendum). Document carrier — path | extraction rule | recomputed sha256 | register | verdict | status
+UPPER2D/H3_closure/H3_BAND_FLOOR.md
+  rule: body-excl-hash-line (whole file minus the final 'Body hash of this document: ...' line; LF)
+  recomputed: 281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7
+  register:   281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7 (lane MANIFEST + RECEIPT_h3.json)
+  bytes: 11133 (body 11029) | verdict: MATCH | status: CURRENT (R-band; normalizer sub-part of OBL-D1-PROMOTE DISCHARGED)
+
+## B+ (addendum). Script / transcripts / receipt — whole-file sha256 recomputed from bytes
+UPPER2D/H3_closure/h3_band_floor.py  sha256=a907eeedd767b0b97461df8e237cdca130a607b5dede50ad5ba4b05c957d22a5  bytes=37315  register=a907eeedd767b0b97461df8e237cdca130a607b5dede50ad5ba4b05c957d22a5  MATCH
+# (supersedes for custody the Section-B pre-freeze line sha256=9eb0f426... bytes=36181 — the lane was declared
+#  volatile in that section and in TREE_MANIFEST.sha256; the frozen value above is the register's.)
+UPPER2D/H3_closure/band_normal.txt  sha256=dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d  bytes=2835  register=dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d  MATCH
+UPPER2D/H3_closure/band_O.txt  sha256=dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d  bytes=2835  register=dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d  MATCH (byte-identical to band_normal.txt; both interpreter modes)
+UPPER2D/H3_closure/band_out.txt  sha256=617b2d07fcaef23313427e68020182d0b27cad78032b399336a1b925db489f54  bytes=2743  register=617b2d07fcaef23313427e68020182d0b27cad78032b399336a1b925db489f54  MATCH (equals the in-transcript self-hash line)
+UPPER2D/H3_closure/band_mut_planar.txt  sha256=4fc8105d1050dc2a284750ada417f959725711b8e19865ced682192da59e4774  bytes=305  register=4fc8105d1050dc2a284750ada417f959725711b8e19865ced682192da59e4774  MATCH (MUTATION=planar_moments -> CK_FAIL at CB1a, exit 1 as designed)
+UPPER2D/H3_closure/band_mut_window.txt  sha256=ff1765d4ace7fb5c61402e227c5896017bd1995cad0e2f8475761a3850a01c51  bytes=833  register=ff1765d4ace7fb5c61402e227c5896017bd1995cad0e2f8475761a3850a01c51  MATCH (MUTATION=wrong_window -> CK_FAIL at CB3 window identity, exit 1 as designed)
+UPPER2D/H3_closure/RECEIPT_h3.json  sha256=ff788042c6bce3bb89bccee17ee88478b81b72426b5b474929a009b0fe8ee209  bytes=4482  register=ff788042c6bce3bb89bccee17ee88478b81b72426b5b474929a009b0fe8ee209  MATCH
+
+## D+ (addendum). Package self-reference
+# RETURN_06/ADDENDUM_2026-09-15_H3_BAND_FLOOR.md  sha256=1cb23846199cd82d0d6c64449af6dba08b6d0efc1ceecbf0f0975bf38ef05ec2  bytes=9400
+# (package-internal addendum file; custody hash only. 00_MANIFEST_v2_2026-09-15.sha256 covers the whole
+#  package including this appended capsule; 00_MANIFEST.sha256 remains the unmodified v1 historical record.)
+
+# ADDENDUM-2 2026-09-15
+# TWO NEW VALIDITY-PREMISE CARRIERS frozen: (1) B4LOC dam line CLOSED at super-algebraic grade, whole-B4
+# claim (record B4LOC-R1-20260914-v1.0, D2 lane); (2) PERC-DECAY RESTATED -- the far lanes absorb at
+# Theta(r^3) with certified constants + named input PD-CONN (record D3-PERC-DECAY-20260915-v1.0, D3 lane).
+# See RETURN_06/ADDENDUM_2026-09-15_B4LOC_PERC_DECAY.md. All hashes below recomputed FROM BYTES by the
+# addendum-2 agent and matched against the lane freeze records (B4LOC_damline/FREEZE.txt and
+# D3_percolation/FREEZE_PERC_DECAY.txt). EXTRACTION-RULE NOTE: the generic 'sepbody' rule (bytes before the
+# first "\n---\n\n") does NOT apply to B4LOC_DAMLINE.md -- the document contains no '---' separator at all
+# (grep-verified); the FREEZE-recorded rule is the marker-lines rule stated below, under which the recomputed
+# body (13503 bytes) MATCHES 0d5c1b32.... (Same pattern as the H3 band-floor note in the ADDENDUM 2026-09-15
+# section above.) PERC_DECAY.md uses its FREEZE-recorded marker-lines rule as stated.
+
+## A2 (addendum-2). Document carriers -- path | extraction rule | recomputed sha256 | register | verdict | status
+UPPER2D/B4LOC_damline/B4LOC_DAMLINE.md
+  rule: marker-lines (LF-joined lines strictly between the unique exact lines BEGIN_FROZEN_BODY / END_FROZEN_BODY; exactly one terminal LF; last content line directly preceding END marker)
+  recomputed: 0d5c1b3284374f3a2f7630b7f603a71c77f5ec9417fe4579aaac03becd33c05e
+  register:   0d5c1b3284374f3a2f7630b7f603a71c77f5ec9417fe4579aaac03becd33c05e (FREEZE.txt)
+  bytes: 15164 (body 13503) | whole-file sha256 ae4c9c82784aecfbd85056c316f792a331bccb774d952887fc5fe8ea7da615b4 | verdict: MATCH | status: FROZEN (B4.loc dam-line premise CLOSED, super-algebraic, whole-B4 claim; wrap/remote reconciliation OPEN under D1)
+UPPER2D/D3_percolation/PERC_DECAY.md
+  rule: marker-lines (LF-joined lines strictly between the unique exact lines BEGIN_FROZEN_BODY / END_FROZEN_BODY; normalize line endings to LF; exactly one terminal LF)
+  recomputed: 5137a811e6be72ed27e0458c75537bdcfabb8d8e7148b211d8c7b9a1584df400
+  register:   5137a811e6be72ed27e0458c75537bdcfabb8d8e7148b211d8c7b9a1584df400 (FREEZE_PERC_DECAY.txt)
+  bytes: 8041 (body 7409) | whole-file sha256 f971b81a54dd2b78924c77e412e0c19b798e5356795057fcdadec3235e960745 | verdict: MATCH | status: FROZEN (PERC-DECAY RESTATED: Theta(r^3) absorption with certified constants + named PD-CONN; old o(r^3) phrasing REFUTED at evidence grade)
+
+## B2 (addendum-2). Scripts / transcripts / freeze records -- whole-file sha256 recomputed from bytes
+UPPER2D/B4LOC_damline/b4loc_driver.py  sha256=bf3b022580a7eea1b4797658fe77a74a92850d59478212f39bca2bb231f20f02  bytes=26271  register=bf3b022580a7eea1b4797658fe77a74a92850d59478212f39bca2bb231f20f02  MATCH
+UPPER2D/B4LOC_damline/b4loc_falsifier.py  sha256=d59ad79088dbf152b6e196bbd48ee0a79ef304d60611148eabaa575e7fd8b10f  bytes=3360  register=d59ad79088dbf152b6e196bbd48ee0a79ef304d60611148eabaa575e7fd8b10f  MATCH
+UPPER2D/B4LOC_damline/t_normal.txt  sha256=11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  bytes=2735  register=11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  MATCH (byte-identical to t_opt.txt; both interpreter modes)
+UPPER2D/B4LOC_damline/t_opt.txt  sha256=11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  bytes=2735  register=11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  MATCH
+UPPER2D/B4LOC_damline/tf_normal.txt  sha256=1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  bytes=885  register=1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  MATCH (byte-identical to tf_opt.txt; falsifier transcripts, both modes)
+UPPER2D/B4LOC_damline/tf_opt.txt  sha256=1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  bytes=885  register=1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  MATCH
+UPPER2D/B4LOC_damline/FREEZE.txt  sha256=5235f98a59e5119444b8fda2ea16d2dd3333e0d46f0b52af6362a2b2a0ecd163  bytes=1213  MATCH (custody; records B4LOC-DRIVER DIGEST 43ff9c1ebfa9cf8f27c06e27e844030e8378e439e89bdd374949166a1a490a1b, B4LOC-FALSIFIER DIGEST f939eeab4805b9c5b35fb40f0f173b4a4ad8237fdcd15ad53084569c6fbffe55)
+UPPER2D/D3_percolation/d3_perc_decay.py  sha256=ee68ac7510241947c64445cc6aa17f91ccc4f2e5f0dacc2b0de801ef72d8ab64  bytes=19063  register=ee68ac7510241947c64445cc6aa17f91ccc4f2e5f0dacc2b0de801ef72d8ab64  MATCH (engine digest 58df7e312099d3acd93fe83f728b4b139274063c98386b9963bbc1a6270e2b9b)
+UPPER2D/D3_percolation/pd_normal.txt  sha256=7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7  bytes=9762  register=7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7  MATCH (byte-identical to pd_opt.txt; both interpreter modes; MC-free)
+UPPER2D/D3_percolation/pd_opt.txt  sha256=7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7  bytes=9762  register=7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7  MATCH
+UPPER2D/D3_percolation/d3_falsifier.py  sha256=abbb40d279606660a0c16af253d9bc15038f7221702fb7aaa6f74b4b893df032  bytes=32264  register=abbb40d279606660a0c16af253d9bc15038f7221702fb7aaa6f74b4b893df032  MATCH (falsifier F1--F7 incl. the PERC-DECAY re-run gate)
+UPPER2D/D3_percolation/tf_normal.txt  sha256=b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049  bytes=1833  register=b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049  MATCH (byte-identical to tf_opt.txt, cmp verified; D3-FALSIFIER PASS exit 0)
+UPPER2D/D3_percolation/tf_opt.txt  sha256=b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049  bytes=1833  register=b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049  MATCH (falsifier digest fcb37708468875723bbfac838ab7b5ab374edb4ae60566f1ef2b7b5e44958e9f)
+UPPER2D/D3_percolation/FREEZE_PERC_DECAY.txt  sha256=6bbe6e27a91c777b7245294fc5740462af06e7f20b0f92ff4eae15cd2f05edef  bytes=3966  MATCH (custody; complete freeze incl. the falsifier F1--F7 line -- F7 landed 11:26 during addendum-2 assembly; all landed hashes re-verified from bytes; nothing pending)
+
+## D2 (addendum-2). Package self-reference
+# RETURN_06/ADDENDUM_2026-09-15_B4LOC_PERC_DECAY.md  (package-internal addendum file; custody hash recorded
+# in 00_MANIFEST_v3_2026-09-15.sha256, which covers the whole package including this appended capsule;
+# 00_MANIFEST.sha256 (v1) and 00_MANIFEST_v2_2026-09-15.sha256 remain unmodified historical records.)

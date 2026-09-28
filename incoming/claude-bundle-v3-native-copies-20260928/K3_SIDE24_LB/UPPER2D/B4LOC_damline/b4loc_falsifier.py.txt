@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+"""B4LOC dam-line falsifier (artifact B4LOC-R1-20260914-v1.0).
+
+Re-runs the certificate driver fresh, pins its digest, and drives the
+mutation suite.  Every check fails closed (SystemExit(1)) and no bare
+asserts are used (python -O safe).
+
+Checks:
+  F1: driver normal run: ALL CHECKS PASS + digest == the frozen expectation.
+  F2: mutation suite (single rung r = 0.05):
+        M1 weaken-margin (margins x 1/2)      -> must fire the o(r^3) gate
+        M2 widen-tube    (sd, entropy x 2)    -> must fire the o(r^3) gate
+        M3 rn            (C_RN x 2)           -> must fire the RN-drift gate
+      each with exit code 1 and its registered firing string.
+  F3: mutation outputs carry the [MUTATION: ...] tag (no silent normal run).
+"""
+import hashlib
+import os
+import subprocess
+import sys
+
+D = os.path.dirname(os.path.abspath(__file__))
+EXPECT_DIGEST = '43ff9c1ebfa9cf8f27c06e27e844030e8378e439e89bdd374949166a1a490a1b'
+DRIVER_SHA256 = 'bf3b022580a7eea1b4797658fe77a74a92850d59478212f39bca2bb231f20f02'
+MUTS = {
+    'weaken-margin': 'certificate bound fails the o(r^3) gate',
+    'widen-tube': 'certificate bound fails the o(r^3) gate',
+    'rn': 'consumed RN factor drifted above H4-RN',
+}
+LOG = []
+
+
+def ck(c, m):
+    if not c:
+        print("B4LOC-FALSIFIER FAIL-CLOSED FIRING: " + m, flush=True)
+        raise SystemExit(1)
+
+
+def emit(m):
+    print(m, flush=True)
+    LOG.append(m)
+
+
+def run_driver(args):
+    env = dict(os.environ)
+    p = subprocess.run([sys.executable, '-u',
+                        os.path.join(D, 'b4loc_driver.py')] + args,
+                       capture_output=True, text=True, cwd=D, env=env)
+    return p.returncode, (p.stdout or '') + (p.stderr or '')
+
+
+def main():
+    emit("B4LOC dam-line falsifier (artifact B4LOC-R1-20260914-v1.0)")
+    dsha = hashlib.sha256(open(os.path.join(D, 'b4loc_driver.py'),
+                                 'rb').read()).hexdigest()
+    ck(dsha == DRIVER_SHA256,
+       "b4loc_driver.py drift (freeze-before-consume): %s" % dsha)
+    emit("F0 driver file hash-pinned: %s" % dsha)
+    rc, out = run_driver([])
+    ck(rc == 0, "driver normal run exit %d" % rc)
+    ck('ALL CHECKS PASS' in out, "driver normal run did not pass")
+    dig = None
+    for line in out.splitlines():
+        if line.startswith('B4LOC-DRIVER DIGEST '):
+            dig = line.split()[-1]
+    ck(dig is not None, "driver digest missing")
+    ck(dig == EXPECT_DIGEST,
+       "driver digest drift: %s != frozen %s" % (dig, EXPECT_DIGEST))
+    emit("F1 driver rerun: ALL CHECKS PASS, digest %s == frozen expectation"
+         % dig)
+    for m in sorted(MUTS):
+        rc, out = run_driver(['--rungs', '0.05', '--mut', m])
+        ck(rc == 1, "mutation %s: exit %d (must fail closed)" % (m, rc))
+        ck(MUTS[m] in out, "mutation %s: expected firing string missing"
+           % m)
+        ck('[MUTATION: %s]' % m in out,
+           "mutation %s: tag missing (silent normal run?)" % m)
+        emit("F2 mutation %-14s fires closed: %s"
+             % (m, [l for l in out.splitlines() if 'FAIL-CLOSED' in l][-1]))
+    emit("F3 mutation tags verified (no silent normal runs)")
+    digest = hashlib.sha256("\n".join(LOG).encode()).hexdigest()
+    emit("B4LOC-FALSIFIER DIGEST " + digest)
+    emit("B4LOC-FALSIFIER: ALL CHECKS PASS (fail-closed, deterministic)")
+
+
+if __name__ == '__main__':
+    main()

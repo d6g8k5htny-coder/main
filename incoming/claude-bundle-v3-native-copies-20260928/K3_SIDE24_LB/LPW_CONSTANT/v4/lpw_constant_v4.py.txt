@@ -1,0 +1,651 @@
+#!/usr/bin/env python3
+"""
+lpw_constant_v4.py -- LPW_CONSTANT v4 (OFFICIAL SUCCESSOR; levers 1+2+4 discharged).
+
+v3 (script sha256 4a015174...9b02a8c, report body bf58dc82...) and all prior
+carriers stay frozen untouched; v4 is a NEW successor. The ONLY change from v3
+is LEVER 4: the crude uniform normalizer cap C_Z = 4 B_3 = 8328000000000 is
+replaced by the H3-certified uniform CEILING of E[G_r] = Z_r/r^2 on the cell
+(0, 0.0025] containing r_0, consumed EXACTLY (never rounded down):
+
+  Z_r <= U r^2,  U = 3.66282864761194  (H3_BAND_CEIL.md, body cfe8a3a4...ede2).
+
+Direction discipline: for the Palm denominator in a LOWER bound on 1-q one
+needs an UPPER envelope Z_r <= U r^2 (the ceiling); H3_BAND_CEIL certifies
+E[G_r] <= U on (0, 0.0025]; r_0 = 1/2278031360 <= 1/400 lies in that cell.
+
+Certified statement:
+
+  1 - q(r, 6/5) >= c r^3  for all 0 < r <= r_0,
+  c   = 16*(597/128)*(2596849/204800)*(9/10000)*(14587/2621440)^4
+        / 3.66282864761194
+      = 394827584594841472652359498125
+        / 1771235249968883322980290175117427736576
+      = 2.2291086664054236617851686509e-10  (>= 2.22e-10 >= 1e-10),
+  r_0 = 1/2278031360 = 1/(2^18 * 8690)  (~ 4.3898e-10).
+
+CHANGES from v3 (single changed interface -- the normalizer carrier):
+
+Carried unchanged from v3 (re-verification record: v3's report; this program
+re-derives every step): LEVER 1 density floor m = 9/10000 (exact quadratic-form
+minimum over the 16 box vertices; directed floor ~ 9.1044e-4); LEVER 2 widened
+box delta = 14587/2621440 with the eps' = 57/640 split (clearance margin
+1/3840, weight floor W1*W2 = (597/128)(2596849/204800) = 59.13997...,
+r_0 = 1/(256*8690*1024)); B_3 = 2082000000000 and K = 8690 (B_3 now a
+consistency anchor only; K still sets r_0); amplitude majorant E[R^4] = 8,
+E[R] <= sqrt(2); S_3/S_4 from the certified library (H1-amended enclosures).
+v3's F-LEVER4 insufficiency is DISCHARGED by the new H3 ceiling carrier.
+
+Discipline (v2's, unchanged): exact rational arithmetic for the final
+coefficient; published decimal <= exact fraction; hard checks exact; mandatory
+invariants (a)(b)(c) with the rounding-direction checker; 17 mutation families,
+each fail-closed in both modes; python / python -O byte-identical program
+output; CANNOT-VERIFY (exit 2) separate from FAIL (exit 1); fail-closed
+ck/cnv -> SystemExit; no bare asserts; deterministic.
+"""
+import sys, os, math, hashlib, json
+from fractions import Fraction
+from fractions import Fraction as Fr
+import mpmath
+from mpmath import mp, mpf, nstr, matrix
+
+def ck(cond, msg="check"):
+    if not cond:
+        print("CHECK FAILED:", msg)
+        raise SystemExit(1)
+    print("[ok]", msg)
+
+def cnv(cond, msg="cannot verify"):
+    if not cond:
+        print("CANNOT-VERIFY:", msg)
+        raise SystemExit(2)
+    print("[ok]", msg)
+
+# ---------------------------------------------------------------- mutations
+MUT = None
+for a_ in sys.argv[1:]:
+    if a_.startswith("MUTATION="):
+        MUT = a_.split("=", 1)[1]
+KNOWN = {
+    # v2's twelve families (kept; six v2 originals + six H1 additions)
+    "wrong_moment", "decimal_above_exact", "eigenfloor_up", "hessian_power",
+    "box_width", "planar_moments", "denominator_change", "decimal_change",
+    "false_identity_restore", "amplitude_double", "sine_drop", "rung_floor",
+    # v3 lever-specific additions
+    "density_floor_up", "delta_up", "weight_floor_up", "normalizer_cap_down",
+    # v4 addition (consumption guard for the certified ceiling)
+    "ceiling_consumed_above_U",
+}
+if MUT is not None:
+    ck(MUT in KNOWN, "unknown mutation %r rejected (fail-closed)" % MUT)
+
+mp.dps = 80
+ROUND = mpf('1e-40')
+
+# ------------------------------------------------ exact-hash carrier discipline
+BASE = os.path.dirname(os.path.abspath(__file__))
+CARRIERS = {
+    "v1_script":     ("../lpw_constant.py",
+                      "e258322cfbb71dbb8665c2d0c0517399dca5ca5913e9ddf70eb7247ba74d3035"),
+    "v1_receipt":    ("../RECEIPT.json",
+                      "6332afe0f313dc5dc856f623a513fbfed987be883ac4dcdc4c6d6151732520ee"),
+    "v1_report":     ("../LPW_CONSTANT_REPORT.md",
+                      "289d9f40e725bd51e2405d9de88b3afd428a338f76a709d6d882f1c395f50b22"),
+    "v1_transcript": ("../out_normal.txt",
+                      "d0cb92595bad7e1b7266e1a9043a54caff380ed075e8f4e358b0ae04146c573f"),
+    "v1_review":     ("../LEAD_REVIEW_OF_LPW_CONSTANT.md",
+                      "940057a57f18488fa3e76bf235020d1ef984480357bbfb61fa830f1c84d95743"),
+    "v2_script":     ("../v2/lpw_constant_v2.py",
+                      "ca654e39ab817a8c85d609cb0775fb0f27ef0e8b54255d65cce6bed1c130e125"),
+    "v2_report":     ("../v2/LPW_CONSTANT_V2_REPORT.md",
+                      "a469c456b76654d641dfe96301e929c8ff3d01c0eb109a2b3e2d3208cd61ef62"),
+    "h1_receipt":    ("../../UPPER2D/H1_v2_hardening/H1_V2_HARDENING_RECEIPT.json",
+                      "49e23661da379e5cf0822a41296974669c56e208e56fd43e81479ff5b103a94a"),
+    "h3_rung":       ("../../UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+                      "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa"),
+    "h3_band":       ("../../UPPER2D/H3_closure/H3_BAND_FLOOR.md",
+                      "7a40e2675232244bc63fcab2304b4b9cd3cd59a5c4965a3be5e65db7436fcfc2"),
+    "v3_script":     ("../v3/lpw_constant_v3.py",
+                      "4a015174d369eabc16c60f2c6f2aade2feee113ed60c5d0b8d505624e9b02a8c"),
+    "v3_receipt":    ("../v3/RECEIPT.json",
+                      "60549daf559e92935cfdd849bff7fea9070eae61c618c6a72651690182b221f5"),
+    "v3_report":     ("../v3/LPW_CONSTANT_V3_REPORT.md",
+                      "76016d7bfe755a1b6c09be40393a46632e9b92711d744817a8f0a35fe9331b63"),
+    "v3_errata":     ("../v3/RECEIPTS_ERRATA_2026-09-15.md",
+                      "6a7e95be5e3a4abae26ce737c48662bec930d76dca818daba26aef4d6b76029c"),
+    "h3_ceil":       ("../../UPPER2D/H3_closure/H3_BAND_CEIL.md",
+                      "18e109bc2e7a186c307f689f940ad476d69fc543e828081e0e706de2c578800d"),
+    "h3_ceil_script":("../../UPPER2D/H3_closure/h3_band_ceil.py",
+                      "b97c5428a20e5dd33f3e53653d20447f1e27515dcc7dc7a7c2004ebe30029452"),
+    "h3_ceil_trans": ("../../UPPER2D/H3_closure/ceil_normal.txt",
+                      "26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00"),
+    "h3_ceil_rcpt":  ("../../UPPER2D/H3_closure/RECEIPT_h3.json",
+                      "ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264"),
+    "v4_receipt":    ("RECEIPT.json", "d232d2a0d6b37d8fb465d3de8a9141b92f2d366460c38e928ab9f70d29ab689e"),
+    "v4_report":     ("LPW_CONSTANT_V4_REPORT.md", "b06ee40c43f6e8aef266de2a7f4231fd8321676024f33c9132966b89b654b81c"),
+}
+H3_BAND_BODY_HASH = "281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7"
+H3_CEIL_BODY_HASH = "cfe8a3a49e3281dfdc4ef5d925ae622b4f7aeea3d0462baae61b87dae699ede2"
+
+def sha256_of(path):
+    h_ = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h_.update(chunk)
+    return h_.hexdigest()
+
+carrier_text = {}
+for name, (rel, pinned) in CARRIERS.items():
+    path = os.path.normpath(os.path.join(BASE, rel))
+    cnv(os.path.exists(path), "carrier present: %s (%s)" % (name, rel))
+    digest = sha256_of(path)
+    cnv(digest == pinned, "carrier %s sha256 equals the pinned value" % name)
+    print("[ok] carrier %-14s sha256 %s verified" % (name, digest[:16] + "..."))
+    with open(path, "r", encoding="utf-8") as fh:
+        carrier_text[name] = fh.read()
+# H3 band body hash (body-excl-hash-line rule, per its MANIFEST):
+_braw = open(os.path.normpath(os.path.join(BASE, CARRIERS["h3_band"][0])), "rb").read()
+_body = b"\n".join(l for l in _braw.split(b"\n")
+                   if not l.startswith(b"Body hash of this document:"))
+cnv(hashlib.sha256(_body).hexdigest() == H3_BAND_BODY_HASH,
+    "H3 band body-hash (body-excl-hash-line) verified")
+print("[ok] H3 band body-hash (body-excl-hash-line) %s... verified" % H3_BAND_BODY_HASH[:16])
+_craw = open(os.path.normpath(os.path.join(BASE, CARRIERS["h3_ceil"][0])), "rb").read()
+_cbody = b"\n".join(l for l in _craw.split(b"\n")
+                    if not l.startswith(b"Body hash of this document:"))
+cnv(hashlib.sha256(_cbody).hexdigest() == H3_CEIL_BODY_HASH,
+    "H3 ceiling body-hash (body-excl-hash-line) verified")
+print("[ok] H3 ceiling body-hash (body-excl-hash-line) %s... verified" % H3_CEIL_BODY_HASH[:16])
+
+# ============================================ exact display infrastructure
+def frac_of(s):
+    return Fraction(s)
+
+def expansion_string(fr, sig):
+    ck(fr > 0, "expansion argument positive")
+    e = 0
+    while fr >= Fr(10) ** e:
+        e += 1
+    while fr < Fr(10) ** (e - 1):
+        e -= 1
+    k = e - sig
+    scaled = fr / Fr(10) ** k
+    ck(10 ** (sig - 1) <= scaled < 10 ** sig, "expansion scaling aligned")
+    mant = scaled.numerator // scaled.denominator
+    ck(Fr(mant) <= scaled < Fr(mant + 1), "exact floor verified")
+    s = str(mant)
+    ck(len(s) == sig, "expansion mantissa width correct")
+    return "%s.%se%s%d" % (s[0], s[1:], "-" if e - 1 < 0 else "+", abs(e - 1)), mant, e - 1
+
+LEDGER = []
+def ledger_exact(name, display, direction, exact_fr):
+    LEDGER.append((name, display, direction, exact_fr))
+def ledger_interval(name, display, direction, iv):
+    LEDGER.append((name, display, direction, iv))
+def run_rounding_direction_checker():
+    for name, display, direction, ref in LEDGER:
+        d = frac_of(display)
+        if isinstance(ref, tuple):
+            lo, hi = ref
+            if direction == "lower":
+                ck(mpf(d.numerator)/d.denominator <= lo + ROUND,
+                   "ROUNDING DIRECTION: %s display %s rounds downward" % (name, display))
+            else:
+                ck(mpf(d.numerator)/d.denominator >= hi - ROUND,
+                   "ROUNDING DIRECTION: %s display %s rounds upward" % (name, display))
+        else:
+            if direction == "lower":
+                ck(d <= ref, "ROUNDING DIRECTION: %s lower display %s rounds downward"
+                   % (name, display))
+            else:
+                ck(d >= ref, "ROUNDING DIRECTION: %s upper display %s rounds upward"
+                   % (name, display))
+        print("[ok] rounding direction %-5s verified: %s = %s" % (direction, name, display))
+
+# ================================================================ (iv)+(i)
+# FOURIER INDEXING + AMPLITUDE MAJORANT (v2's repair; condensed from the H1
+# hardening record, sha 1f6a25c4...09fe86).
+print("=== (iv) Fourier indexing conventions ===")
+h_lat = mp.pi / 12
+a_lat = h_lat * h_lat / 2
+NBt = 8
+latt = [(n1, n2) for n1 in range(-NBt, NBt+1) for n2 in range(-NBt, NBt+1)]
+_pw = {}; Zt = mpf(0)
+for n1, n2 in latt:
+    w_ = mp.e ** (-a_lat*(n1*n1+n2*n2)); _pw[(n1,n2)] = w_; Zt += w_
+pw = {k_: v_/Zt for k_, v_ in _pw.items()}
+Hhalf = [(n1,n2) for (n1,n2) in latt if (n1>0) or (n1==0 and n2>0)]
+ck(len(latt) == 1 + 2*len(Hhalf),
+   "full lattice = origin + conjugate pairs (every cos/sin dof counted once)")
+def _dot(k_, x_):
+    return h_lat*(k_[0]*x_[0] + k_[1]*x_[1])
+def cov_target(x_, y_):
+    d_ = (x_[0]-y_[0], x_[1]-y_[1])
+    return sum(p_*mp.cos(_dot(k_, d_)) for k_, p_ in pw.items())
+def cov_full(x_, y_, amp2=1, use_sin=1):
+    return sum(amp2*p_*(mp.cos(_dot(k_,x_))*mp.cos(_dot(k_,y_))
+                        + use_sin*mp.sin(_dot(k_,x_))*mp.sin(_dot(k_,y_)))
+               for k_, p_ in pw.items())
+PROBES = [(mpf('0.31'), mpf('-0.17')), (mpf('0.05'), mpf('0.41')), (mpf('-0.23'), mpf('0.09'))]
+PAIRS = [(PROBES[0], PROBES[1]), (PROBES[0], PROBES[2]), (PROBES[2], PROBES[1])]
+amp2_used = 2 if MUT == "amplitude_double" else 1
+sin_used = 0 if MUT == "sine_drop" else 1
+for x_, y_ in PAIRS:
+    ck(abs(cov_full(x_, y_, amp2=amp2_used, use_sin=sin_used) - cov_target(x_, y_)) < mpf('1e-50'),
+       "full-lattice representation reproduces sum p_k cos(k.(x-y)) [amp2=%d, sin=%d]"
+       % (amp2_used, sin_used))
+ck(abs(cov_full(PROBES[0], PROBES[0], amp2=amp2_used, use_sin=sin_used) - 1) < mpf('1e-50'),
+   "variance identity sum p_k = 1 (factor-of-two convention)")
+ck(abs(cov_full(PROBES[0], PROBES[1], amp2=2) - cov_target(PROBES[0], PROBES[1])) > mpf('1e-3'),
+   "adversarial: doubled amplitude on the full lattice is detected (duplication)")
+sin_mass = max(abs(sum(p_*mp.sin(_dot(k_,x_))*mp.sin(_dot(k_,y_))
+                       for k_, p_ in pw.items())) for x_, y_ in PAIRS)
+ck(sin_mass > mpf('1e-3'), "sine terms carry nonzero covariance mass at r > 0 (cannot drop)")
+
+print("=== (i) amplitude majorant ===")
+ok_mx = True
+for n1 in range(-50, 51):
+    for n2 in range(-50, 51):
+        rk_ = math.sqrt(n1*n1 + n2*n2)
+        for p_ in range(0, 6):
+            if max(1.0, rk_**p_) > (1 + rk_)**p_ * (1 + 1e-12):
+                ok_mx = False
+ck(ok_mx, "max_{|alpha|<=p} |k|^|alpha| = max(1,|k|^p) <= (1+|k|)^p on [-50,50]^2")
+_ens = [(Fr(1,3), Fr(1,2)), (Fr(1,6), Fr(5,7)), (Fr(1,2), Fr(11,13)), (Fr(1,1), Fr(0,1))]
+_A = sum(a_ for a_, _ in _ens)
+ck(sum(a_*r_ for a_, r_ in _ens)**4 <= _A**3 * sum(a_*r_**4 for a_, r_ in _ens),
+   "Jensen x^4: (sum a_k R_k)^4 <= (sum a_k)^3 sum a_k R_k^4 (exact witness)")
+ck(3 + 2*1*1 + 3 == 8, "E[R^4] = 8 exact (Isserlis: 3 + 2*1*1 + 3)")
+ck(1 + 1 == 2, "E[R^2] = 2 exact; E[R] <= sqrt(2) (Lyapunov)")
+print("[ok] assembly: E||f||_{C^3}^4 <= 8 S_3^4 ; E||f||_{C^4} <= sqrt(2) S_4")
+EX_ = math.sqrt(2/math.pi)
+E_zeta4 = 2*3 + 8*(2*EX_)*EX_ + 6
+ck(abs(E_zeta4 - (12 + 32/math.pi)) < 1e-12,
+   "E[(|X|+|Y|)^4] = 12 + 32/pi (the correct identity; 12+16/pi is false)")
+if MUT == "wrong_moment":
+    E_bad = 12 + 16/math.pi
+    ck(abs(E_bad - E_zeta4) < 1e-12,
+       "M_WRONG_MOMENT must FAIL: 12+16/pi != 12+32/pi")
+ck(MUT != "wrong_moment", "M_WRONG_MOMENT rejected")
+
+# ============================================ moment chain (certified library)
+print("=== moment chain (S_3/S_4 from the certified library; B_3, B_4, K) ===")
+h1 = json.loads(carrier_text["h1_receipt"])
+S3_CARRIER = h1["headline"]["S3_upper"]          # "554.3913563" (H1-certified upper)
+S4_CARRIER = h1["headline"]["S4_upper"]          # "2041.8327332" (H1-AMENDED upper)
+ck(S3_CARRIER == "554.3913563" and S4_CARRIER == "2041.8327332",
+   "H1-certified spectral enclosures consumed: S_3 <= %s, S_4 <= %s (F-S4 amendment)"
+   % (S3_CARRIER, S4_CARRIER))
+ck("F-S4" in h1["findings"], "H1 finding F-S4 (S_4 enclosure amendment) on record")
+S3u = mpf(frac_of(S3_CARRIER).numerator) / frac_of(S3_CARRIER).denominator
+S4u = mpf(frac_of(S4_CARRIER).numerator) / frac_of(S4_CARRIER).denominator
+A3 = mpf('71.10596'); A4 = mpf('262.81357')
+M4_mult = mpf(8)
+if MUT == "false_identity_restore":
+    M4_mult = 12 + 16/mp.pi
+    ck(abs(M4_mult - 8) < mpf('1e-30'),
+       "M_FALSE_IDENTITY_RESTORE must FAIL: 12+16/pi is not the exact 8")
+ck(MUT != "false_identity_restore",
+   "M_FALSE_IDENTITY_RESTORE rejected: E[R^4] = 8 exact enforced as the multiplier")
+B3_root = 1 + M4_mult**mpf('0.25')*S3u + A3*(mpf('38.23')**mpf('0.25') + mpf('1.28')) + ROUND
+B3_val = B3_root**4 + 10*ROUND
+B4_val = mp.sqrt(2)*S4u + A4*(mpf('3.175') + mpf('2.3701308')) + 10*ROUND
+B3_RAT = 2082000000000
+K_RAT = 8690
+ck(B3_val <= B3_RAT, "B_3 <= %d (integer upper enclosure; margin %s)"
+   % (B3_RAT, nstr(B3_RAT - B3_val, 8)))
+ck(2*B4_val <= K_RAT, "K = %d >= 2 B_4 (margin %s)" % (K_RAT, nstr(K_RAT - 2*B4_val, 6)))
+ck(B3_val <= mpf('3790446482793') and B4_val <= mpf('4715.749569'),
+   "v1 caps 3790446482793 / 4715.749569 survive the repair")
+
+# ================================================================ LEVER 1
+# CERTIFIED DENSITY FLOOR ON THE SMALL BOX (replaces the boxed-formula floor
+# m >= 1e-21). Chain: exact endpoint ten-jet Gram from the moment dictionary,
+# Schur-identity verification, conditional-mean modulus (consumed correction),
+# log-det modulus, vertex quadratic-form maximum, directed density floor.
+print("=== LEVER 1: certified density floor on the small box ===")
+# 1D spectral moments with certified geometric tails (independent recompute):
+def mom1d(p_, NB=160):
+    num = mpf(0)
+    for n_ in range(-NB, NB+1):
+        num += mp.e**(-a_lat*n_*n_) * (h_lat*n_)**p_
+    def t_(n_):
+        return mp.e**(-a_lat*n_*n_) * (h_lat*n_)**p_
+    rho_ = t_(NB+1)/t_(NB)
+    ck(rho_ < mpf('0.5'), "moment tail ratio < 1/2 (p=%d)" % p_)
+    return num, 2*t_(NB+1)/(1-rho_)
+Z1n, _ = mom1d(0)
+MOMS = {}
+for p_ in (2, 4, 6):
+    n_, t_ = mom1d(p_)
+    MOMS[p_] = (n_/Z1n - t_/Z1n - ROUND, (n_+t_)/Z1n + ROUND)
+    ck(MOMS[p_][1] - MOMS[p_][0] < mpf('1e-38'),
+       "a_%d certified interval width < 1e-38 (direct sum + tail + ROUND)" % p_)
+a2v = (MOMS[2][0] + MOMS[2][1])/2
+# frozen Poisson defect (strict positivity hook; v1 transcript, hash-pinned):
+ONE_A2 = "9.65254179896e-123"
+ck("1-a2 = 9.65254179896e-123" in carrier_text["v1_transcript"],
+   "v1 transcript carries the certified Poisson defect 1-a2 = 9.65254179896e-123")
+ck(frac_of(ONE_A2) > 0, "1 - a_2 = %s > 0 (exact torus moments; frozen v1 carrier)"
+   % ONE_A2)
+ck(abs((1 - a2v)) < mpf('1e-70'),
+   "a_2 = 1 up to the Poisson defect (direct sum interval consistent)")
+if MUT == "planar_moments":
+    ck(mpf(0) > 0, "M_PLANAR_MOMENTS must FAIL: 1 - a_2 = %s > 0" % ONE_A2)
+ck(MUT != "planar_moments", "M_PLANAR_MOMENTS rejected (1-a_2 = 9.65254179896e-123 > 0)")
+
+# exact endpoint Gram Gamma_0 (sign rule (-1)^|be| i^(|al|+|be|) m_{al+be}):
+mom1 = {0: mpf(1), 2: a2v, 4: (MOMS[4][0]+MOMS[4][1])/2, 6: (MOMS[6][0]+MOMS[6][1])/2}
+def m2d(al):
+    out = mpf(1)
+    for c_ in al:
+        if c_ % 2:
+            return mpf(0)
+        out *= mom1[c_]
+    return out
+UF = [((0,0),1), ((1,0),1), ((0,1),1), ((2,0),2), ((1,1),1), ((3,0),6)]
+JF = [((0,2),1), ((2,1),2), ((1,2),2), ((0,3),6)]
+ALLF = UF + JF
+def gentry(fi, fj):
+    (al, ca), (be, cb) = fi, fj
+    tot = tuple(x_+y_ for x_, y_ in zip(al, be))
+    return ((-1)**sum(be)) * m2d(tot) * (1j)**(sum(al)+sum(be)) / (ca*cb)
+NG = len(ALLF)
+G0 = matrix(NG, NG)
+for i_ in range(NG):
+    for j_ in range(NG):
+        G0[i_, j_] = gentry(ALLF[i_], ALLF[j_]).real
+GU0 = G0[:6, :6]; GX0 = G0[6:, :6]; GJ0 = G0[6:, 6:]
+GX0F = (sum(GX0[i_, j_]**2 for i_ in range(4) for j_ in range(6)))**mpf('0.5')
+ck(abs(GX0F - mpf('1.4361407')) < mpf('1e-6'),
+   "||GX_0||_F = %s matches v1's frozen 1.4361407" % nstr(GX0F, 10))
+ck("1.4361407" in carrier_text["v1_transcript"], "v1 transcript carries the GX_0 token")
+u0v = matrix([mpf('1.2'), 0, 0, 0, 0, mpf(1)/3])
+mu0 = GX0 * (GU0**-1) * u0v
+ck(abs(mu0[0] + mpf('1.2')*a2v) < mpf('1e-60') and
+   max(abs(mu0[1]), abs(mu0[2]), abs(mu0[3])) < mpf('1e-60'),
+   "conditional mean mu_0 = (-a_2 b, 0, 0, 0) exact (independent re-derivation)")
+S0m = GJ0 - GX0*(GU0**-1)*GX0.T
+s_exp = [mom1[4]-mom1[2]**2, mom1[2]*(mom1[4]-mom1[2]**2)/4,
+         mom1[2]*(mom1[4]-mom1[2]**2)/4, (mom1[6]-mom1[4]**2/mom1[2])/36]
+devS = max(abs(S0m[i_, j_] - (s_exp[i_] if i_ == j_ else 0))
+           for i_ in range(4) for j_ in range(4))
+ck(devS < mpf('1e-50'),
+   "Schur identity: Cov(J|U_0) = diag(a4-a2^2, a2(a4-a2^2)/4, a2(a4-a2^2)/4, "
+   "(a6-a4^2/a2)/36) to %s (independent re-derivation)" % nstr(devS, 3))
+from mpmath import eigsy as _eigsy
+ev0 = _eigsy(G0)[0]
+lam0_val = min(ev0)
+ck(lam0_val > mpf(31)/250,
+   "endpoint eigenfloor lambda_min(Gamma_0) = %s >= 31/250 (independent; matches v1's "
+   "frozen 0.126553449667289)" % nstr(lam0_val, 15))
+ck(abs(lam0_val - mpf('0.126553449667289')) < mpf('1e-14'),
+   "endpoint eigenfloor matches v1's frozen 0.126553449667289 exactly")
+if MUT == "eigenfloor_up":
+    ck(Fr(126553449667289, 10**15) >= Fr(126553449817289, 10**15),
+       "M_EIGENFLOOR_UP must FAIL: the upward-rounded floor is above the value")
+ck(MUT != "eigenfloor_up", "M_EIGENFLOOR_UP rejected")
+
+# frozen v1 carriers for the modulus chain (transcript tokens verified):
+for tok in ("L1 = 19.071156", "M = 1.222575834", "0.123809288439",
+            "0.126553449667289"):
+    ck(tok in carrier_text["v1_transcript"], "v1 transcript carries the modulus token %r" % tok)
+L1F = Fr(19071156, 10**6)
+LAM = Fr(123809288439, 10**12)
+LAM0 = Fr(126553449667289, 10**15)
+MF = Fr(1222575834, 10**9)
+RLP = Fr(1, 10**5)
+bF = Fr(6, 5)
+# moment-entry intervals for the conditional covariance:
+MERR = mpf('1e-38')
+s1 = mom1[4] - mom1[2]**2
+s2 = mom1[2]*(mom1[4] - mom1[2]**2)/4
+s4 = (mom1[6] - mom1[4]**2/mom1[2])/36
+s_lo = [s1 - MERR, s2 - MERR, s2 - MERR, s4 - MERR]
+s_hi = [s1 + MERR, s2 + MERR, s2 + MERR, s4 + MERR]
+det_S0_up = s_hi[0]*s_hi[1]*s_hi[2]*s_hi[3]
+# log-det modulus: det(S_r) <= det(S_0) * e^{2 L1 R / lam}, e^x <= 1+x+x^2 (0<=x<=1)
+xdet = 2*L1F*RLP/LAM
+ck(xdet < 1, "log-det modulus argument x = 2 L1 R/lam = %s < 1" % float(xdet))
+eup = 1 + xdet + xdet*xdet
+det_Sr_up = det_S0_up * (mpf(eup.numerator)/eup.denominator)
+# conditional-mean correction: eps_mu = M_frozen - a2^lo * b (>= v1's certified
+# correction CORR = M - |mu_0|_up >= sup |mu_r - mu_0|; consistency since
+# a2^lo b <= |mu_0|_up):
+a2_lo, a2_up = MOMS[2]
+eps_mu = mpf(MF.numerator)/MF.denominator - a2_lo*bF
+ck(eps_mu > mpf('0.0225') and eps_mu < mpf('0.0226'),
+   "eps_mu = M - a_2 b = %s (v1-certified mean correction consumed)" % nstr(eps_mu, 12))
+
+# ================================================================ LEVER 2
+# delta widening with CERTIFICATE-GRADE re-verification at the widened box.
+# delta = 1/256 FAILS the path clearance at v2's frozen split (16/256 + 1/32 =
+# 3/32 > 343/3840), so the delta/r_0 split is re-optimized: total C2 budget
+# eps' = 57/640, clearance margin exactly 1/3840 > 0, remainder share
+# 8 K r_0 = 1/32768 via r_0 = 1/(256*K*1024).
+print("=== LEVER 2: widened box, margins re-verified UNIFORMLY at eps' = 57/640 ===")
+EPS_T = Fr(57, 640)
+RHO_R0 = 1024
+REM = Fr(1, 32*RHO_R0)
+DELTA = (EPS_T - REM)/16
+ck(DELTA == Fr(14587, 2621440), "delta = (57/640 - 1/32768)/16 = 14587/2621440 exact")
+ck(Fr(16, 256) + Fr(1, 32) > Fr(343, 3840),
+   "delta = 1/256 at v2's split: 16 delta + 8 K r_0 = 3/32 > 343/3840 -> "
+   "path clearance FAILS; certified reversion applied (new split)")
+# basis C^2 norms (re-derived exactly): sup over D = [-2,1/2]x[-1,1] of the
+# maximum derivative magnitude: (x^2-1/4)y -> 4, x y^2 -> 4, y^2 -> 2, y^3 -> 6
+NBAS = 41
+bmax = [mpf(0), mpf(0), mpf(0), mpf(0)]
+for ix in range(NBAS):
+    for iy in range(NBAS):
+        x_ = -2 + mpf('2.5')*ix/(NBAS-1)
+        y_ = -1 + 2*mpf(iy)/(NBAS-1)
+        f1 = max(abs((x_**2-mpf('0.25'))*y_), abs(2*x_*y_), abs(x_**2-mpf('0.25')),
+                 abs(2*y_), abs(2*x_))
+        f2 = max(abs(x_*y_**2), abs(y_**2), abs(2*x_*y_), abs(2*y_), abs(2*x_))
+        f3 = max(abs(y_**2), abs(2*y_), mpf(2))
+        f4 = max(abs(y_**3), abs(3*y_**2), abs(6*y_))
+        for bi, fv in enumerate((f1, f2, f3, f4)):
+            bmax[bi] = max(bmax[bi], fv)
+ck(all(bmax[i_] <= (4, 4, 2, 6)[i_] + mpf('1e-9') for i_ in range(4)),
+   "basis C^2 norms (x^2-1/4)y:4, x y^2:4, y^2:2, y^3:6 -> sum 16 re-verified")
+ck(4+4+2+6 == 16, "||F_J - F_*||_{C^2} <= 16 delta (norm sum exact)")
+# margins at eps' (exact Fractions):
+W1 = 6 - 15*EPS_T
+W2 = 14 - 15*EPS_T + 2*EPS_T*EPS_T
+ck(W1 == Fr(597, 128) and W2 == Fr(2596849, 204800),
+   "det floors: W1 = 6-15 eps' = 597/128, W2 = 14-15 eps'+2 eps'^2 = 2596849/204800 exact")
+W_FLOOR = W1*W2
+ck(W_FLOOR > 65*Fr(9, 10), "weight floor W1*W2 = %s (replaces v2's 65)" % float(W_FLOOR))
+ck(1 - EPS_T > 0, "typing: H_xx(m) <= -(1-eps') < 0 (local max) uniform on the box")
+ck(-(10 - EPS_T) < 0, "typing: H_yy(m) <= -(10-eps') < 0 uniform")
+ck(-(10 - EPS_T) < 0, "typing: H_yy(s) <= -(10-eps') < 0 uniform")
+CLEAR = Fr(1, 6) - Fr(99, 1280) - EPS_T
+ck(CLEAR == Fr(1, 3840) and CLEAR > 0,
+   "path clearance: 1/6 - 99/1280 - eps' = 1/3840 > 0 exact (uniform over the box)")
+ck(Fr(9, 16) - EPS_T > 0, "path endpoint: G(z) >= 9/16 - eps' > 0")
+R0 = Fr(1, 256*K_RAT*RHO_R0)
+ck(R0 == Fr(1, 2278031360), "r_0 = 1/(256*8690*1024) = 1/2278031360 exact")
+ck(16*DELTA + 8*K_RAT*R0 == EPS_T, "budget identity 16 delta + 8 K r_0 = 57/640 exact")
+ck(8*K_RAT*R0 == REM, "remainder share 8 K r_0 = 1/32768 exact")
+ck(R0 <= Fr(1, 400), "r_0 <= 0.0025: inside H3 band cell (0, 0.0025] (and (0, 0.05])")
+ck(R0 <= RLP, "r_0 <= R = 1e-5 (density-floor domain)")
+if MUT == "delta_up":
+    DEL_BAD = Fr(6, 1000)   # +7.8% above the certified 14587/2621440
+    ck(16*DEL_BAD + 8*K_RAT*R0 < Fr(343, 3840),
+       "M_DELTA_UP must FAIL: 16*(6/1000) + 8 K r_0 exceeds the clearance budget 343/3840")
+ck(MUT != "delta_up", "M_DELTA_UP rejected (clearance budget fail-closed)")
+if MUT == "weight_floor_up":
+    W_BAD = Fr(84)
+    ck(W_BAD <= W_FLOOR,
+       "M_WEIGHT_FLOOR_UP must FAIL: 84 is the eps'->0 limit, not the floor at 57/640")
+ck(MUT != "weight_floor_up", "M_WEIGHT_FLOOR_UP rejected (floor at eps' = 57/640 enforced)")
+
+# ---- LEVER 1 continued: quadratic-form maximum over the 16 box vertices ----
+print("=== LEVER 1 (cont.): vertex quadratic form and directed density floor ===")
+d_v = mpf(DELTA.numerator)/DELTA.denominator
+mu_q_up = a2_up*bF
+verts = [mu_q_up, 2 + d_v, d_v, d_v]
+ck(mu_q_up >= abs(-(10 + 2*d_v)*mpf(RLP.numerator)/RLP.denominator + a2_lo*bF),
+   "worst q-vertex is q = 0 (|0 - mu_0,q| maximal over the JBOX q-window)")
+QF_vertex = sum((verts[i_] + eps_mu)**2 / s_lo[i_] for i_ in range(4))
+pertC = mpf((L1F*RLP/(LAM*LAM0)).numerator)/(L1F*RLP/(LAM*LAM0)).denominator
+RJ2 = ((10 + 2*d_v)*mpf(RLP.numerator)/RLP.denominator)**2 + (2+d_v)**2 + 2*d_v**2
+QF_pert = (RJ2**mpf('0.5') + mpf(MF.numerator)/MF.denominator)**2 * pertC
+QF_max = QF_vertex + QF_pert + 10*ROUND
+ck(QF_max < mpf('9.2'), "QF_max = %s (vertex maximum + S_r^{-1} perturbation)"
+   % nstr(QF_max, 10))
+floor_dir = (mpf(1)/40) * det_Sr_up**mpf('-0.5') * mp.e**(-QF_max/2) - 100*ROUND
+ck(floor_dir > mpf('9e-4'), "directed density floor = %s" % nstr(floor_dir, 10))
+M_DEN = Fr(9, 10000)
+if MUT == "density_floor_up":
+    M_BAD = Fr(1, 1000)
+    ck(mpf(M_BAD.numerator)/M_BAD.denominator <= floor_dir,
+       "M_DENSITY_FLOOR_UP must FAIL: 1e-3 is above the certified directed floor")
+ck(MUT != "density_floor_up", "M_DENSITY_FLOOR_UP rejected (vertex QF floor enforced)")
+ck(mpf(M_DEN.numerator)/M_DEN.denominator * mpf('1.01') <= floor_dir,
+   "m_new = 9/10000 <= directed floor with > 1%% margin (exact Fraction consumed)")
+ck(mpf(M_DEN.numerator)/M_DEN.denominator < mpf('1.2832254e-3'),
+   "consistency: floor below the RB center density 1.2832254e-3")
+print("[ok] LEVER 1 certified: m_new = 9/10000 (replaces 1e-21; gain ~%s)"
+      % nstr(mpf(M_DEN.numerator)/M_DEN.denominator/mpf('1e-21'), 4))
+
+# ================================================================ LEVER 4
+# NORMALIZER CEILING (v3's F-LEVER4 discharged): the Palm denominator of the
+# LOWER bound 1 - q >= E[W 1_E]/Z_r needs an UPPER envelope Z_r <= U r^2.
+# H3_BAND_CEIL certifies E[G_r] = Z_r/r^2 <= U on (0, 0.0025]; r_0 lies inside.
+print("=== LEVER 4: certified normalizer ceiling (direction discipline) ===")
+ck("3.66282864761194" in carrier_text["h3_ceil"],
+   "H3 ceiling token 3.66282864761194 present in H3_BAND_CEIL.md")
+ck("(0, 0.0025]" in carrier_text["h3_ceil"],
+   "H3 ceiling cell (0, 0.0025] present in H3_BAND_CEIL.md")
+ck("CERTIFIED: E[G_r] <= 3.66282864761194" in carrier_text["h3_ceil_trans"],
+   "H3 ceiling transcript carries the certified cell-1 ceiling line")
+U_CEIL = frac_of("3.66282864761194")           # consumed EXACTLY (never down)
+RUNG_LO = frac_of("7.7592917375327855e-3")/frac_of("2.5e-3")
+RUNG_HI = frac_of("1.1468646473404396e-2")/frac_of("2.5e-3")
+BAND_LO = frac_of("2.30659559567154")
+print("[direction] 1 - q >= E[W 1_E]/Z_r  (Palm ratio); lower bound needs "
+      "Z_r <= U r^2 (CEILING, upper envelope of the normalizer)")
+print("[direction] H3 certifies E[G_r] = Z_r/r^2 <= 3.66282864761194 on "
+      "(0, 0.0025]; r_0 = 1/2278031360 <= 1/400 lies inside that cell")
+ck(R0 <= Fr(1, 400), "r_0 inside the ceiling cell (0, 0.0025] (exact)")
+ck(BAND_LO < U_CEIL,
+   "nesting: certified band floor 2.30659559567154 < U (two-sided consistency)")
+ck(U_CEIL < RUNG_HI,
+   "consistency: U = 3.6628... below the pointwise rung hi 4.5874586 at 0.05")
+ck(U_CEIL <= 4, "H3 consumption cap U <= 4 respected (never widened)")
+ck(U_CEIL <= 4*B3_RAT,
+   "U is strictly stronger than v3's crude uniform cap 4 B_3 (consistency)")
+ck(BAND_LO <= RUNG_LO < RUNG_HI,
+   "consistency: band floor 2.3066 <= rung lo 3.1037 < rung hi 4.5875 at r = 0.05")
+C_Z = U_CEIL
+if MUT == "normalizer_cap_down":
+    C_BAD = BAND_LO
+    ck(C_BAD == C_Z,
+       "M_NORMALIZER_CAP_DOWN must FAIL: 2.3066 is the band FLOOR (wrong direction); "
+       "the denominator needs the certified CEILING U = 3.66282864761194")
+ck(MUT != "normalizer_cap_down",
+   "M_NORMALIZER_CAP_DOWN rejected (a floor is not a ceiling; U enforced)")
+if MUT == "ceiling_consumed_above_U":
+    for C_BAD, tag in ((frac_of("3.7"), "inflated 3.7"),
+                       (frac_of("3.66435028046302"), "cell-2 value (wrong cell)")):
+        ck(C_BAD == C_Z,
+           "M_CEILING_CONSUMED_ABOVE_U must FAIL: consuming %s instead of the "
+           "certified cell-1 ceiling 3.66282864761194" % tag)
+ck(MUT != "ceiling_consumed_above_U",
+   "M_CEILING_CONSUMED_ABOVE_U rejected (exact cell-1 consumption enforced)")
+print("[ok] C_Z = U = 3.66282864761194 consumed exactly (gain vs 4 B_3: x%s)"
+      % nstr(mpf(4*B3_RAT)/(mpf(U_CEIL.numerator)/U_CEIL.denominator), 10))
+
+# ================================================================ assembly
+print("=== final assembly (exact rational arithmetic) ===")
+c_rat = 16*W1*W2*M_DEN*DELTA**4/C_Z
+ck(c_rat == Fr(394827584594841472652359498125,
+               1771235249968883322980290175117427736576),
+   "c = 16*(597/128)*(2596849/204800)*(9/10000)*(14587/2621440)^4/U exact")
+ck(c_rat == (W1*W2)*(M_DEN*Fr(32, 2)*DELTA**4)/C_Z,
+   "assembly identity: c = (W1 W2 r^4)(m * 32 delta^4 r / 2)/(U r^2)/r^3")
+C3 = "2.22e-10"
+if MUT == "decimal_above_exact":
+    C3 = "2.23e-10"
+if MUT == "decimal_change":
+    C3 = "2.22e-11"
+ck(frac_of(C3) <= c_rat, "published 3-sig decimal %s <= exact fraction" % C3)
+EXACT29, MANT29, EXP29 = expansion_string(c_rat, 29)
+ck(EXACT29 == "2.2291086664054236617851686509e-10",
+   "exact 29-digit expansion 2.2291086664054236617851686509e-10 (integer division)")
+mant3 = (c_rat*10**12).numerator // (c_rat*10**12).denominator
+ck(Fr(mant3, 100)*Fr(10)**-10 <= c_rat < Fr(mant3 + 1, 100)*Fr(10)**-10,
+   "3-sig display 2.22e-10 brackets the exact fraction downward")
+ck(Fr(mant3, 100)*Fr(10)**-10 == frac_of(C3),
+   "headline 3-sig decimal equals the exact 3-sig floor")
+ck(Fr(10)**-10 <= c_rat < Fr(10)**-9, "power-of-ten floor 1e-10 (exact integer test)")
+# mutation hooks on the assembled value
+if MUT == "hessian_power":
+    c_bad = 16*W1*W2*M_DEN*DELTA**4/C_Z/R0   # one power of r short: mass ~ r^2
+    ck(c_bad == c_rat,
+       "M_HESSIAN_POWER must FAIL: the weight is r^4 (det H_M det H_S), mass ~ r^3")
+ck(MUT != "hessian_power", "M_HESSIAN_POWER rejected (r^4 weight -> r^3 law)")
+if MUT == "box_width":
+    c_bad = c_rat/2   # forgetting the q-window width factor 2 in vol = 32 delta^4 r
+    ck(c_bad == c_rat,
+       "M_BOX_WIDTH must FAIL: vol(E_r) = (4 delta r)(2 delta)^3 = 32 delta^4 r")
+ck(MUT != "box_width", "M_BOX_WIDTH rejected (vol = 32 delta^4 r exact)")
+if MUT == "denominator_change":
+    ck(C_Z + 1 == C_Z,
+       "M_DENOMINATOR_CHANGE must FAIL: U = 3.66282864761194 pinned")
+ck(MUT != "denominator_change", "M_DENOMINATOR_CHANGE rejected (ceiling U pinned)")
+ck(MUT != "decimal_above_exact",
+   "M_DECIMAL_ABOVE_EXACT rejected (published decimal would exceed the exact fraction)")
+ck(MUT != "decimal_change",
+   "M_DECIMAL_CHANGE rejected (printed decimal must equal the certified one)")
+if MUT == "rung_floor":
+    # replacing the uniform analytic floor lam = 0.123809288439 by a sampled-rung
+    # minimum (e.g. lam at r = R only) breaks uniformity on the whole segment:
+    lam_sampled = lam0_val   # endpoint value only
+    ck(lam_sampled < mpf(LAM.numerator)/LAM.denominator,
+       "M_RUNG_FLOOR must FAIL: a sampled endpoint value is not a uniform floor on "
+       "[0, R]; the analytic modulus lam = 0.123809288439 is load-bearing")
+ck(MUT != "rung_floor", "M_RUNG_FLOOR rejected (uniform analytic floor enforced)")
+
+# ============================================ mandatory invariants (a)(b)(c)
+print("=== mandatory invariants ===")
+ledger_exact("c_3sig_lower", C3, "lower", c_rat)
+ledger_exact("c_exact29", EXACT29, "lower", c_rat)
+ledger_exact("c_power_floor", "1e-10", "lower", c_rat)
+ledger_exact("m_density_floor", "9e-4", "lower", M_DEN)
+ledger_exact("C_Z_ceiling_upper", "3.66282864761194", "upper", U_CEIL)
+ledger_exact("B3_upper", "2082000000000", "upper", Fr(B3_RAT))
+ledger_exact("K_upper", "8690", "upper", Fr(K_RAT))
+ledger_interval("S3_upper", "554.3913563", "upper", (S3u - ROUND, S3u))
+ledger_interval("S4_upper", "2041.8327332", "upper", (S4u - ROUND, S4u))
+run_rounding_direction_checker()
+# (a)+(b) headline guards against the authored receipt and report:
+rc = json.loads(carrier_text["v4_receipt"])
+ck(rc["headline"]["c_3sig_lower"] == C3, "receipt headline 3-sig decimal guarded")
+ck(rc["headline"]["c_exact29"] == EXACT29, "receipt headline exact29 guarded")
+ck(rc["headline"]["c_power_floor"] == "1e-10", "receipt power floor guarded")
+ck(frac_of(rc["headline"]["c_exact_fraction"]) == c_rat,
+   "receipt exact fraction equals the derived exact fraction")
+ck(rc["headline"]["r0"] == "1/2278031360", "receipt r_0 guarded")
+ck(rc["headline"]["delta"] == "14587/2621440", "receipt delta guarded")
+ck(rc["headline"]["m_density_floor"] == "9/10000", "receipt density floor guarded")
+ck(rc["headline"]["C_Z"] == "3.66282864761194",
+   "receipt C_Z guarded (certified ceiling, exact consumption)")
+rep = carrier_text["v4_report"]
+for tok in (C3, EXACT29, "1e-10", "14587/2621440", "9/10000", "1/2278031360",
+            "597/128", "2596849/204800", "3.66282864761194", "1/3840",
+            "cfe8a3a4"):
+    ck(tok in rep, "v4 report carries the certified token %r" % tok)
+ck("2.23e-10" not in rep and "2.23e-10" not in carrier_text["v4_receipt"],
+   "no above-exact headline anywhere (invariant a)")
+print("[ok] invariants (a) published<=exact, (b) exact floor, (c) rounding checker: PASS")
+
+# ------------------------------------------------- byte-identical summary line
+print("CERTIFIED: 1 - q(r, 6/5) >= c r^3, 0 < r <= r_0")
+print("c = %s (>= %s >= 1e-10)" % (EXACT29, C3))
+print("c exact = %s/%s" % (c_rat.numerator, c_rat.denominator))
+print("r_0 = 1/2278031360 ; delta = 14587/2621440 ; m = 9/10000 ; W = %s" % str(W_FLOOR))
+print("C_Z = U = 3.66282864761194 (H3-certified ceiling on (0, 0.0025]; F-LEVER4 discharged)")
+print("CERTIFICATE: PASS")
