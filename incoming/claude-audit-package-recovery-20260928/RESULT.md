@@ -15,14 +15,17 @@ package that surrounds the RN-UNIF and JETMOD carriers the Math- downstream gate
 as `BLOCKED_ABSENT` / `OPEN_HISTORICAL`. The bytes stayed in `main`'s history but
 were not on any current branch of the ten account repositories as of 2026-09-28.
 
-This packet restores the 36 files that bear on those holes, byte for byte from
-`b040bf0c`. It is a targeted recovery, not a re-landing of the whole mirror:
+This packet restores 37 files that bear on those holes, byte for byte from
+`b040bf0c`. It also adds two originals that were only ever on Drive, downloaded on
+2026-09-28, each matching its recorded inventory digest and size. It is a targeted
+recovery, not a re-landing of the whole mirror:
 
-| Folder here | Original folder at `b040bf0c` | Files |
+| Folder here | Original location | Files |
 |---|---|---|
-| `05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/` | `drive/mirrors/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/` | 30 |
+| `05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/` | `b040bf0c:drive/mirrors/2026-09-15 — KIMI FINAL INTAKE — UPPER2D STAGE E + H5 + ASSEMBLY/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/`, plus `D1_v2_3_DRAFT/d1_falsify_v4.py.txt` from Drive | 30 + 1 |
 | `06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES/` | `…/06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES/` | 3 |
-| `HOLD_NOT_FOR_SUBMISSION_2026-09-16/` | `drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/` (three JETMOD files) | 3 |
+| `HOLD_NOT_FOR_SUBMISSION_2026-09-16/` | `b040bf0c:drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/` (three JETMOD files) | 3 |
+| `QUARANTINED_Q-RN5-MOMENT-004/` | CL-RNU-003 progress report from Drive; its successor `RN5_NEAR_MOMENT_REPAIR.md` from `b040bf0c`; `QUARANTINE_NOTE.md` | 1 + 1 + 1 |
 
 `SOURCE_MAP.json` gives every file's original path and Git blob id. Two kinds of
 rename were made so the intake lane accepts the files, and neither changes a byte:
@@ -54,10 +57,18 @@ The `_MANIFEST.jsonl.txt` files record the Google Drive file id of each original
    `rnu_dcheck.py`, and their transcripts. The sibling scripts that did reach Drive are
    restored here: `rnu_ds3`, `rnu_ds3_scalar_SUPERSEDED`, `rnu_meanfix`,
    `rnu_chi2_white_v2`, `rnu_t4_push` and `rnu_execute`.
-3. **Two Drive originals were never mirrored to Git.** Only their Drive ids are known:
-   - `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md`, Drive id
-     `1aCa-QG9CSrNUB9SUFKISifghSf-41fRy`;
-   - `d1_falsify_v4.py`, Drive id `1uTcWaYLtJUszT7iBEWzI1Xa6J7_nw9E6`.
+3. **Two Drive originals that were never mirrored to Git are now included.** Both were
+   downloaded from Drive on 2026-09-28 and match the `inventory_sha256` and
+   `inventory_bytes` recorded in the mirror's `_MANIFEST.jsonl` rows:
+   - `d1_falsify_v4.py` (Drive id `1uTcWaYLtJUszT7iBEWzI1Xa6J7_nw9E6`; 20,558 bytes;
+     SHA-256 `1bfb5dbc88b842893b5b0365680ccaa9b4893b6c028a950c194d2c1c739e62a6`, the digest
+     `D1_V2_3_RECEIPTS.txt` line 3 gives for the D1 v2.3 gate). The mirror left it out only
+     as out of scope for that lane. Nothing is executed here.
+   - `CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md` (Drive id
+     `1aCa-QG9CSrNUB9SUFKISifghSf-41fRy`; 7,407 bytes; SHA-256 `59b8f002…6d53`). It is
+     **quarantined** under exclusion `Q-RN5-MOMENT-004` (`DEFECTIVE_SCOPE`: its Section 3
+     near-integrand certification claim). It sits in its own folder, next to its successor
+     and `QUARANTINE_NOTE.md`. The exclusion stays in force.
 4. **`CHART_SIDE_JETMOD_PLAN.md` exists.** It is in `main`'s object history as blob
    `9446daa2471b21f9eba68d2ebd2fd3b88c553cd2` (11,663 bytes) and is restored here. It is
    a plan, not the certified 24-jet band enclosure, so OBL-H5-JETMOD stays open.
@@ -71,7 +82,9 @@ Privacy, per `governance/OP-PRIVACY-20260927.md`:
 - no e-mail addresses, phone numbers, street addresses, share-link access keys, local
   user paths or credentials were found;
 - every Drive path is in lane `01_ACTIVE_RESEARCH_PACKAGES`;
-- the bytes were already public in `main`'s history.
+- the Git-sourced bytes were already public in `main`'s history;
+- the two Drive originals came from anonymous public download links, and the only URLs
+  they contain are to public academic references.
 
 Intake rules checked locally before pushing: safe paths, allowed suffixes, per-file
 and total size, UTF-8 text, strict JSON.
