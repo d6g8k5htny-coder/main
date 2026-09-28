@@ -32,3 +32,6 @@ test('correct bytes cannot be attributed to a different path',async()=>{
  const full={...pin,repository:'d6g8k5htny-coder/main',commit:'a'.repeat(40),path:'STATUS.md',url:'https://raw.githubusercontent.com/d6g8k5htny-coder/main/'+ 'a'.repeat(40)+'/README.md'};
  await assert.rejects(()=>verifiedBytes(full,fetcher),/Displayed identity/);
 });
+
+// Presentation contract runs in the existing public-shop check.
+import './test_brand_identity.mjs';
