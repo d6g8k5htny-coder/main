@@ -1,0 +1,62 @@
+D3-PERC-DECAY-20260915-v1.0 freeze record (Theorem (2) v2.2 validity premise)
+=============================================================================
+
+Agent D3, U2D-UPPER. PERC-DECAY: the far-excursion decay certificate for the
+far lanes (B1.dir-far / FarRoute(d_max), B2-far, B4.rem). Frozen carriers
+(D3_PERCOLATION.md, D3_REMOTE_AMENDMENT.md, D3_REMOTE_AMENDMENT_v2.md)
+untouched.
+
+Extraction rule: lines strictly between the unique exact lines BEGIN_FROZEN_BODY and
+END_FROZEN_BODY of PERC_DECAY.md; normalize line endings to LF; exactly one
+terminal LF.
+
+frozen body bytes : 7409
+frozen body SHA-256: 5137a811e6be72ed27e0458c75537bdcfabb8d8e7148b211d8c7b9a1584df400
+whole-file SHA-256: f971b81a54dd2b78924c77e412e0c19b798e5356795057fcdadec3235e960745
+
+companions:
+sha256(d3_perc_decay.py) = ee68ac7510241947c64445cc6aa17f91ccc4f2e5f0dacc2b0de801ef72d8ab64
+sha256(pd_normal.txt)    = 7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7
+sha256(pd_opt.txt)       = 7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7
+(PERC-DECAY engine, normal and python3 -O byte-identical; D3-PERC-DECAY PASS,
+exit 0; Monte-Carlo-free -- every denominator the R2-certified floor)
+engine digest = 58df7e312099d3acd93fe83f728b4b139274063c98386b9963bbc1a6270e2b9b
+sha256(d3_falsifier.py)  = abbb40d279606660a0c16af253d9bc15038f7221702fb7aaa6f74b4b893df032
+sha256(tf_normal.txt)    = b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049
+sha256(tf_opt.txt)       = b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049
+(falsifier F1--F7 incl. the PERC-DECAY re-run gate, normal and python3 -O
+byte-identical; D3-FALSIFIER PASS, exit 0)
+falsifier digest = fcb37708468875723bbfac838ab7b5ab374edb4ae60566f1ef2b7b5e44958e9f
+
+consumed (read-only, hash-pinned at consume time, fail-closed):
+sha256(d3_perc.py)       = 5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4
+sha256(H2_foundations/cov_exact.py) = f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783
+sha256(H2_foundations/pin_transform.py) = c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41
+sha256(H3_closure/H3_RUNG_FLOOR.md) = 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa
+  (R2 floor Z_lo = 7.7592917375327855e-3, parsed fail-closed with a drift ck)
+BRANCH_dir/BRANCH_DIR.md body 8821c8facc7e36635c4b84967ba55037ff5a33fff09359f817032eecaab24286
+  (barrier boundary consumed; pin enforced via the freeze record -- the
+   engine's _EXPECT slot is filled by the freeze, see note in source)
+
+HEADLINE (body secs. 0-1):
+  VERDICT: the far lanes are Theta(r^3)-order, NOT o(r^3) -- the window
+  ell = r^3/6 fixes the order; the corridor is alive in the mean at level s
+  from S to the ghost-elder territory (certified axial mean display,
+  bottleneck z = 0.68 = Theta(1)), so the connectivity factor at the
+  sub-kernel handoff d_max = 4r-5r does not vanish as r -> 0. Recommended
+  restatement: PERC-DECAY := the far lanes absorb at Theta(r^3) with the
+  certified constants + PD-CONN D-tails.
+  CERTIFIED BOUNDS: B1.dir-far subset {N_w >= 1} (merge is a window saddle),
+  D3-part <= 23.2119 r^3 (v2 bracket); B2-far <= E[N_w(d>=0.2)] <=
+  17.6802 r^3 (cap grade, R2 floor); B4.rem local dam per-section CERTIFIED
+  (kappa_dam = 71.8/129.9/391.2 at xi = 0.25/0.5/0.75, clearance the cubic
+  Hermite profile, sd = Theta(r^4)), remote NAMED (above-window merges +
+  wrap).
+  NAMED INPUT PD-CONN: level-s arm bound P_{Q_r}(A_r(B(pair,2r),D)) <=
+  C0 e^{-c0 D} with explicit r-uniform constants; missing pieces: explicit-
+  constant planar-BF arm bound (literature has sharpness without explicit
+  constants), field-level conditioned patch (Kolmogorov entropy), torus
+  comparison (available). PD-CONN certifies CONSTANTS, not order.
+  MACHINERY: fail-closed, both modes byte-identical, MC-free; mutation
+  suite MUT-PD-1..5 (register taxonomy, grade-label tamper, floor pin,
+  count window, corridor display) all fire.

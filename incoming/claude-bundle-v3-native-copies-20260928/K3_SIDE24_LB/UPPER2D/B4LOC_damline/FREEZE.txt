@@ -1,0 +1,19 @@
+B4LOC dam-line freeze record (artifact B4LOC-R1-20260914-v1.0)
+
+frozen body: B4LOC_DAMLINE.md, lines strictly between BEGIN/END_FROZEN_BODY,
+  exactly one terminal LF, last content line directly preceding END marker
+body bytes: 13503
+body sha256: 0d5c1b3284374f3a2f7630b7f603a71c77f5ec9417fe4579aaac03becd33c05e
+
+sha256 ae4c9c82784aecfbd85056c316f792a331bccb774d952887fc5fe8ea7da615b4  B4LOC_DAMLINE.md
+sha256 bf3b022580a7eea1b4797658fe77a74a92850d59478212f39bca2bb231f20f02  b4loc_driver.py
+sha256 d59ad79088dbf152b6e196bbd48ee0a79ef304d60611148eabaa575e7fd8b10f  b4loc_falsifier.py
+sha256 11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  t_normal.txt
+sha256 11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53  t_opt.txt
+sha256 1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  tf_normal.txt
+sha256 1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c  tf_opt.txt
+
+cmp t_normal.txt t_opt.txt  -> byte-identical (verified)
+cmp tf_normal.txt tf_opt.txt -> byte-identical (verified)
+B4LOC-DRIVER DIGEST 43ff9c1ebfa9cf8f27c06e27e844030e8378e439e89bdd374949166a1a490a1b
+B4LOC-FALSIFIER DIGEST f939eeab4805b9c5b35fb40f0f173b4a4ad8237fdcd15ad53084569c6fbffe55
