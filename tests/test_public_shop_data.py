@@ -14,7 +14,8 @@ SPEC.loader.exec_module(shop)
 
 class PublicShopDataTests(unittest.TestCase):
     def setUp(self):
-        self.status = (ROOT / 'STATUS.md').read_bytes()
+        # This projection consumes the immutable f2e432e snapshot, not live STATUS.
+        self.status = (ROOT / 'tests/fixtures/status_f2e432e.md').read_bytes()
 
     def test_pinned_status_counts_and_verbatim_scope(self):
         result = shop.parse_status(self.status)
