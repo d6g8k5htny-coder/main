@@ -113,7 +113,7 @@ class MuseumDataTests(unittest.TestCase):
         self.assertEqual(packets[0]["result"]["commit"], "71400b94f6cb354a8cf7aba73ffede2138a64efa")
         self.assertEqual(packets[1]["issue"], 141)
         self.assertEqual(packets[1]["result"]["commit"], "a12c178c0f857a130cf434e9efd44233a038195b")
-        self.assertEqual(museum.STATUS["commit"], "510efe6a25ac29176b5643a84d900597aa8fd721")
+        self.assertEqual(museum.STATUS["commit"], "f2e432ea5c86742e480c66624775bc9103343314")
         self.assertTrue(all(p["scientific_effect"] == "NONE" and p["review_status"] == "REVIEW_REQUIRED" for p in packets))
         # Only the frozen landed packet is selected; filesystem discovery must not add a fork.
         self.assertNotIn("showcase", json.dumps(packets).lower())

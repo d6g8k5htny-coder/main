@@ -17,7 +17,7 @@ import subprocess
 from urllib.parse import quote
 from urllib.request import urlopen
 
-MAIN_COMMIT = "510efe6a25ac29176b5643a84d900597aa8fd721"
+MAIN_COMMIT = "f2e432ea5c86742e480c66624775bc9103343314"
 MATH_COMMIT = "9d7b6802424fb4715b31999066aafca8ee2f3cca"
 OWNER = "d6g8k5htny-coder"
 
@@ -27,9 +27,9 @@ def source(repo, commit, path, size, blob, digest):
                 bytes=size, blob=blob, sha256=digest)
 
 
-STATUS = source("main", MAIN_COMMIT, "STATUS.md", 7449,
-    "3fab66648a53916befb976092159d42501605ef0",
-    "adaf413811d4ba5fcc00d169418741953471d124ccdc351eeb21efb6b3b990f1")
+STATUS = source("main", MAIN_COMMIT, "STATUS.md", 7655,
+    "3aeb0412f7a9d4357b91977179bf2d608826412c",
+    "039d4fea921a5e9602340ab8580404ef709588ca72f45c52f865f4644da51da3")
 COEFFICIENT = source("Math-", MATH_COMMIT, "coefficients/side24_v1/ENCLOSURE.json", 1090,
     "57af39a05e14ed0ba8ebc00a9b4aca4dffb067c7",
     "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811")
