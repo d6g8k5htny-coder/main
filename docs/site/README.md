@@ -43,7 +43,7 @@ See the [deployment and review settings record](../PUBLIC_SHOP_SETUP.md). Pages,
 
 ## Claim cards and exhibits
 
-Open [the verification museum](museum.html). Its small `museum.json` display projection is reproduced by `tools/museum_data.py`; it is not a replacement for the 2,138-row public inventory. The generator preserves all eleven bullets in Math-'s “Reviewed scoped results” and the three STATUS AMEND rows verbatim. An EXACT_COUNTEREXAMPLE retains that label; publication of a source does not make its claim accepted. Where a review is a GitHub comment, the displayed digest identifies the pinned index pointer, not mutable comment bytes.
+Open [the verification museum](museum.html). Its small `museum.json` display projection is reproduced by `tools/museum_data.py`; it is not a replacement for the 2,138-row public inventory. The generator preserves all eleven bullets in Math-'s “Reviewed scoped results”, the reconciled D1 row of STATUS's ACCEPT table, and the two remaining STATUS AMEND rows verbatim. An EXACT_COUNTEREXAMPLE retains that label; publication of a source does not make its claim accepted. Where a review is a GitHub comment, the displayed digest identifies the pinned index pointer, not mutable comment bytes.
 
 The museum binds Math sources to `d6628da09384728992dcbe6e921cc28ba85aebb0` and main source/packet membership to `71400b94f6cb354a8cf7aba73ffede2138a64efa`. The existing board/inventory pin `a26f744be7597e3f0c0543c34ead23049bbac657` and SIDE24 import pin `9d7b6802424fb4715b31999066aafca8ee2f3cca` remain explicit historical identities. Neither changes the README's Math checkout or query checkout. No source fetch selects an AMEND branch.
 

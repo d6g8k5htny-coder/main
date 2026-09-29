@@ -12,9 +12,9 @@ test('byte count mismatch refuses data',async()=>assert.rejects(()=>verifiedByte
 test('mutable branch URL refused before request',async()=>assert.rejects(()=>verifiedBytes({...pin,url:'https://raw.githubusercontent.com/d6g8k5htny-coder/main/main/STATUS.md'},()=>{throw Error('must not fetch');}),/pinned public/));
 test('HTTP failure gives no data',async()=>assert.rejects(()=>verifiedBytes(pin,async()=>new Response('',{status:404})),/unavailable/));
 const status=JSON.parse(fs.readFileSync(new URL('../docs/site/status.json',import.meta.url)));
-test('status snapshot counts are selected rows',()=>assert.deepEqual(validateStatus(status).counts,{accept:4,amend:3,engineering:3}));
+test('status snapshot counts are selected rows',()=>assert.deepEqual(validateStatus(status).counts,{accept:5,amend:2,engineering:3}));
 test('unknown category refused',()=>{const s=structuredClone(status);s.sections[0].key='proved';assert.throws(()=>validateStatus(s),/Unrecognized/);});
-test('changed count refused',()=>{const s=structuredClone(status);s.counts.accept=5;assert.throws(()=>validateStatus(s),/count/);});
+test('changed count refused',()=>{const s=structuredClone(status);s.counts.accept=6;assert.throws(()=>validateStatus(s),/count/);});
 test('promotion authority refused',()=>assert.throws(()=>validateStatus({...status,scientific_status_authority:true}),/Invalid/));
 const coefficient={object:'SIDE24-COEFFICIENT-D23-20260924-v1',scientific_acceptance:false,dimensions:{'2':{lower:'0.07340691930603427103',upper:'0.07340691930603427104'},'3':{lower:'0.04177593184059834334',upper:'0.04177593184059834335'}}};
 test('coefficient endpoints remain distinct exactly',()=>{const d=validateCoefficient(coefficient).dimensions['2'];assert.notEqual(d.lower,d.upper);assert.equal(Number(d.lower),Number(d.upper));});

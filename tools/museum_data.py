@@ -202,11 +202,11 @@ SOURCES = json.loads(r'''{
   },
   "STATUS.md": {
     "repository": "d6g8k5htny-coder/main",
-    "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+    "commit": "f2e432ea5c86742e480c66624775bc9103343314",
     "path": "STATUS.md",
-    "blob": "52688102260e916dec1a38143186198b089a0261",
-    "bytes": 6881,
-    "sha256": "9c3e21144423591a3dbff926858048c0363b9a32d6fe258a1de5088d38096141"
+    "blob": "3aeb0412f7a9d4357b91977179bf2d608826412c",
+    "bytes": 7655,
+    "sha256": "039d4fea921a5e9602340ab8580404ef709588ca72f45c52f865f4644da51da3"
   },
   "reviews/sard_g_successor_a1_a6_20260926/REVIEW.md": {
     "repository": "d6g8k5htny-coder/main",
@@ -274,6 +274,12 @@ SOURCES.update({
         blob="bfc8372e866a6a3321615323c7badc62fdb0aa4c", bytes=1724,
         sha256="478fb7620ea5947855006ab7af448010fdd5cc31581407b1f86d4b87ce5de2eb"),
 })
+# The D1 row of the pinned STATUS links this reconciliation record (Math- #126 merge commit).
+SOURCES["reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md"] = dict(
+    repository="d6g8k5htny-coder/Math-", commit="82247833b5dd58e04291d55353b52938d73ec614",
+    path="reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+    blob="75da2597971510f843f8d90c743950cb8c177342", bytes=23312,
+    sha256="451b9d7ffee072a73fc904cab891b6693e3f233808b89df10cce1b57036b65da")
 SOURCES["README.md"] = {"repository":"d6g8k5htny-coder/Math-","commit":"d6628da09384728992dcbe6e921cc28ba85aebb0","path":"README.md","blob":"abe16871da7740fa28ae4dbb28fb31853a5868bd","bytes":6023,"sha256":"89d4c618ad4560373f8fba3c787522cea8f0191fd8e176f3e0741c6230390730"}
 INDEX = SOURCES["PROOF_INDEX.md"]
 STATUS = SOURCES["STATUS.md"]
@@ -404,8 +410,12 @@ def status_rows(text, heading):
             for line in rows[2:]]
 
 
+D1_PARENT = "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+D1_RECONCILIATION = "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md"
+
+
 def project(index_raw, status_raw):
-    """Return the exact eleven reviewed bullets and three open table rows."""
+    """Return the exact eleven reviewed bullets, the reconciled D1 STATUS row and two open table rows."""
     index = verify_bytes(index_raw, INDEX).decode("utf-8")
     status = verify_bytes(status_raw, STATUS).decode("utf-8")
     bullets = [line for line in section(index, "Reviewed scoped results").splitlines()
@@ -442,12 +452,25 @@ def project(index_raw, status_raw):
             source_label="EXACT_COUNTEREXAMPLE" if counterexample else "ACCEPT",
             **{"class": "engineering-only" if counterexample else "ACCEPT-scoped"},
             proof=descriptor(proof_path), review=review, replay=replay, status_quote=status_quote))
+    # D1 is accepted in STATUS, not in the pinned index's reviewed bullets. Its row must link the immutable
+    # parent (same bytes as the index-pinned mirror) and the byte-bound reconciliation record.
+    d1_rows = [(line, cells) for line, cells in accepted_rows if cells[0].startswith("**D1 —")]
+    if len(d1_rows) != 1:
+        raise ValueError("STATUS must have exactly one accepted D1 row")
+    d1_row, d1_cells = d1_rows[0]
+    for path in (D1_PARENT, D1_RECONCILIATION):
+        if "/" + path + ")" not in d1_row:
+            raise ValueError("D1 row does not link its pinned proof and review: " + path)
+    claims.append(dict(id="d1-parent-lifetime", title=d1_cells[0].replace("**", ""), scope_quote=d1_row,
+        source_label="ACCEPT", **{"class": "ACCEPT-scoped"},
+        proof=descriptor(D1_PARENT), review=descriptor(D1_RECONCILIATION),
+        replay={"command": None, "url": None,
+                "notice": "No replay command is recorded in the pinned proof/review."},
+        status_quote=d1_cells[1]))
     open_rows = status_rows(status, "AMEND / open")
-    if len(open_rows) != 3:
-        raise ValueError("open projection must have three rows")
+    if len(open_rows) != 2:
+        raise ValueError("open projection must have two rows")
     open_specs = [
-        ("d1-parent-selection-open", "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
-         "https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5841830743"),
         ("d5-pin-neighborhoods-open", "PROOF_INDEX.md",
          "https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md"),
         ("sard-g-a1-a6-open", "STATUS.md", "reviews/sard_g_successor_a1_a6_20260926/REVIEW.md")
@@ -459,7 +482,7 @@ def project(index_raw, status_raw):
         elif claim_id == "sard-g-a1-a6-open":
             proof.update(availability="OPEN / NOT LANDED",
                          proof_url="https://github.com/d6g8k5htny-coder/main/pull/122")
-        review = (pointer("STATUS.md" if claim_id.startswith("d1-") else "PROOF_INDEX.md", review_target)
+        review = (pointer("PROOF_INDEX.md", review_target)
                   if review_target.startswith("https://") else descriptor(review_target))
         claims.append(dict(id=claim_id, title=cells[0].replace("**", ""), scope_quote=row,
             source_label="AMEND / open", **{"class": "AMEND/open"},
@@ -588,7 +611,7 @@ def main(argv=None):
     else:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(dump(data))
-    print("Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 2 landed packets; scientific effect NONE.")
+    print("Museum projection verified: 11 reviewed bullets, 1 reconciled D1 row, 2 AMEND rows, 2 landed packets; scientific effect NONE.")
     return 0
 
 

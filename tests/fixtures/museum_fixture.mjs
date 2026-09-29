@@ -11,12 +11,16 @@ export function fixture({commit='a'.repeat(40),proofs={}}={}) {
   const proof = pin('proof.md','Pinned proof.',commit);
   const claims = ids.map((id,i) => {const p=proofs[id]??proof;return {id,title:`Object ${i}`,scope_quote:`- Object ${i}: [proof](${p.path}). Scope ${i}.`,source_label:i===9?'EXACT_COUNTEREXAMPLE':'ACCEPT',class:i===9?'engineering-only':'ACCEPT-scoped',proof:p,review:null,replay:{command:null,url:null,notice:'No executable replay fixture is supplied.'},status_quote:null};});
   for(const i of [0,1,2,10])claims[i].status_quote=`Accepted scope ${i}.`;
-  const open = ['d1-parent-selection-open','d5-pin-neighborhoods-open','sard-g-a1-a6-open'].map((id,i)=>({id,title:`Open ${i}`,scope_quote:`| **Open ${i}** | Still open ${i}. | [Proof](proof.md) |`,source_label:'AMEND / open',class:'AMEND/open',proof,review:null,replay:{command:null,url:null,notice:'No executable replay fixture is supplied.'},status_quote:`Still open ${i}.`}));
+  // The reconciled D1 row is accepted in STATUS; its proof is the index-pinned parent and its review a byte-bound record.
+  const review=pin('review.md','Pinned reconciliation.',commit);
+  const d1Row='| **D1 — parent scope** | Accepted D1 scope. | [Proof](proof.md) · [Reconciliation](review.md) | Limits |';
+  const d1={id:'d1-parent-lifetime',title:'D1 — parent scope',scope_quote:d1Row,source_label:'ACCEPT',class:'ACCEPT-scoped',proof,review,replay:{command:null,url:null,notice:'No executable replay fixture is supplied.'},status_quote:'Accepted D1 scope.'};
+  const open = ['d5-pin-neighborhoods-open','sard-g-a1-a6-open'].map((id,i)=>({id,title:`Open ${i}`,scope_quote:`| **Open ${i}** | Still open ${i}. | [Proof](proof.md) |`,source_label:'AMEND / open',class:'AMEND/open',proof,review:null,replay:{command:null,url:null,notice:'No executable replay fixture is supplied.'},status_quote:`Still open ${i}.`}));
   const index = `# Index\n\n## Reviewed scoped results\n\n${claims.map(c=>c.scope_quote).join('\n')}\n\n## Open or conditional results with complete proof text in GitHub\n- D1 parent lifetime theorem: full proof [proof](proof.md).\n`;
-  const acceptedRows=[[0,'D2'],[1,'D3'],[2,'D4'],[10,'D6']].map(([i,id])=>`| **${id} — scope** | Accepted scope ${i}. | Review | Limits |`).join('\n');
+  const acceptedRows=[d1Row,...[[0,'D2'],[1,'D3'],[2,'D4'],[10,'D6']].map(([i,id])=>`| **${id} — scope** | Accepted scope ${i}. | Review | Limits |`)].join('\n');
   const status = `# Status\n\n## ACCEPT — scoped\n\n| Object | Accepted scope | Source and review | Explicit limits |\n|---|---|---|---|\n${acceptedRows}\n\n## AMEND / open\n\n| Object | Current reason | Source |\n|---|---|---|\n${open.map(c=>c.scope_quote).join('\n')}\n\n## Engineering only\n`;
-  const indexSource=pin('PROOF_INDEX.md',index,commit),statusSource=pin('STATUS.md',status,commit);open[1].proof=indexSource;open[2].proof=statusSource;
-  return {index,status,manifest:{schema_version:1,scientific_status_authority:false,index_source:indexSource,status_source:statusSource,claims:[...claims,...open],exhibits:{ec014:proof,remote:proof,annulus:proof,p15:proof,lifetime:proof},packets:[]}};
+  const indexSource=pin('PROOF_INDEX.md',index,commit),statusSource=pin('STATUS.md',status,commit);open[0].proof=indexSource;open[1].proof=statusSource;
+  return {index,status,manifest:{schema_version:1,scientific_status_authority:false,index_source:indexSource,status_source:statusSource,claims:[...claims,d1,...open],exhibits:{ec014:proof,remote:proof,annulus:proof,p15:proof,lifetime:proof},packets:[]}};
 }
 
 export class Element {

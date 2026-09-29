@@ -47,7 +47,7 @@ needed to state it.
 | **Cone moment** `D_m` | `E[det(A)² · 1{A ≺ 0}]` for a specified Gaussian symmetric `m×m` matrix `A`; a moment of the squared determinant over the negative-definite cone. `D_1 = 4/3`, `D_2 = 29/6 − √6` | Arithmetic parts: core (`cone_moment_m1_thirds`, `cone_moment_m2_algebra`); the integrals: Mathlib |
 | **Image ledger**, **omitted periodic image** | Deterministic bound on the difference between derivatives of the periodised and unperiodised kernels at `0`, i.e. on the Poisson-summation image terms `n ≠ 0` | Arithmetic parts: core (`image_constant_value`, `covariance_relative_bound`, `exp_taylor_partial_sum_gt_ten`) |
 | **Outward arithmetic** | Rational interval arithmetic with outward rounding to a fixed grid (`10^-80`), containment unconditional | — (would be Mathlib `Set.Icc` over `ℚ`) |
-| **Matrix cap**, **marked cylinder**, **elder selection** (D1) | Read the parent source (`imports/lifetime_parent_20260925/`); the D1 selection chain is itself AMEND at Layer 0 and has no agreed standard mapping yet | — |
+| **Matrix cap**, **marked cylinder**, **elder selection** (D1) | Read the parent source (`imports/lifetime_parent_20260925/`) with its reading rule; the D1 chain is ACCEPT — scoped at Layer 0 (reconciled in Math- #126, see `STATUS.md`) and has no agreed standard mapping yet | — |
 | **RN / JETMOD / 24-jet obligations** | Historical downstream proof obligations tracked in `frontiers/downstream_gate_20260925/GRAPH.json`; not a single mathematical object | — |
 
 ## RN counting (D4, D5)

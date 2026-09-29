@@ -17,7 +17,7 @@ import subprocess
 from urllib.parse import quote
 from urllib.request import urlopen
 
-MAIN_COMMIT = "a26f744be7597e3f0c0543c34ead23049bbac657"
+MAIN_COMMIT = "f2e432ea5c86742e480c66624775bc9103343314"
 MATH_COMMIT = "9d7b6802424fb4715b31999066aafca8ee2f3cca"
 OWNER = "d6g8k5htny-coder"
 
@@ -27,9 +27,9 @@ def source(repo, commit, path, size, blob, digest):
                 bytes=size, blob=blob, sha256=digest)
 
 
-STATUS = source("main", MAIN_COMMIT, "STATUS.md", 6881,
-    "52688102260e916dec1a38143186198b089a0261",
-    "9c3e21144423591a3dbff926858048c0363b9a32d6fe258a1de5088d38096141")
+STATUS = source("main", MAIN_COMMIT, "STATUS.md", 7655,
+    "3aeb0412f7a9d4357b91977179bf2d608826412c",
+    "039d4fea921a5e9602340ab8580404ef709588ca72f45c52f865f4644da51da3")
 COEFFICIENT = source("Math-", MATH_COMMIT, "coefficients/side24_v1/ENCLOSURE.json", 1090,
     "57af39a05e14ed0ba8ebc00a9b4aca4dffb067c7",
     "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811")
@@ -150,7 +150,7 @@ TABLES = {
     "Engineering only": ("engineering", ["Surface", "What it provides"]),
 }
 OTHER_HEADINGS = {"Where to read — public source custody", "Reading rule"}
-EXPECTED_COUNTS = {"accept": 4, "amend": 3, "engineering": 3}
+EXPECTED_COUNTS = {"accept": 5, "amend": 2, "engineering": 3}
 IMPORT_IDS = ["EC-014", "EC-015", "EC-021", "P02-LM-001", "P02-LM-002",
               "P02-LM-005", "P02-LM-007", "P02-LM-008", "P15-B"]
 
