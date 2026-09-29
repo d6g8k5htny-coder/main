@@ -55,13 +55,13 @@ The companion [H5 ledger recovery and loader audit](https://github.com/d6g8k5htn
 
 | Class | Current objects |
 |---|---|
-| **ACCEPT — scoped** | D2 lifetime remainder; D3 SIDE24 coefficient calculation; D4 fixed-remote RN count theorem; D6/P15 full-price theorem at its stated realized-family scope |
-| **AMEND / open** | D1 parent quantitative Theorem-A chain; D5 pin-neighborhood / microdisk bound; SARD-G A1/A6 |
+| **ACCEPT — scoped** | D1 parent lifetime chain at its recorded source scope; D2 lifetime remainder; D3 SIDE24 coefficient calculation; D4 fixed-remote RN count theorem; D5 planar regional and global-window first moments, excluding conditioned pins; D6/P15 full-price theorem at its stated realized-family scope; the distinct qualitative fixed-law SARD-G successor; C6 Fourier count-tail and planar factorial upper bounds |
+| **AMEND / open** | D5 numerical RN partition, all-radius and RN/24-jet obligations; higher-dimensional count and sharp C6/Palm obligations outside this summary's source cut; SARD-G A1/A6 in their original formulation |
 | **Engineering only** | `query-` package, Universal-Law-Workspace federation map, CI/reproducibility infrastructure |
 
 **ACCEPT — scoped** means a source-bound technical review accepted the stated object at its declared hypotheses. It does **not** silently accept imported parents, broaden scope, close prize problems, or turn CI into mathematical evidence.
 
-Read the exact scope, sources, and review links in **[STATUS.md](STATUS.md)**.
+This compact table follows the explicit source cuts in **[STATUS.md](STATUS.md)**. Read that page for the exact hypotheses, bounds, exclusions, sources and review links; later source results need a separate reconciliation.
 
 ## Run one thing
 
