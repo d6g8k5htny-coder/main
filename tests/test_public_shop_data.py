@@ -18,8 +18,9 @@ class PublicShopDataTests(unittest.TestCase):
 
     def test_pinned_status_counts_and_verbatim_scope(self):
         result = shop.parse_status(self.status)
-        self.assertEqual(result['counts'], {'accept': 4, 'amend': 3, 'engineering': 3})
-        self.assertIn('No numerical remainder constant or numerical lifetime cutoff', result['sections'][0]['rows'][0][3])
+        self.assertEqual(result['counts'], {'accept': 5, 'amend': 2, 'engineering': 3})
+        self.assertIn('No numerical `C`, `r_*`, `z_*` or coefficient', result['sections'][0]['rows'][0][3])
+        self.assertIn('No numerical remainder constant or numerical lifetime cutoff', result['sections'][0]['rows'][1][3])
         self.assertEqual(result['source']['sha256'], shop.STATUS['sha256'])
         self.assertFalse(result['scientific_status_authority'])
 

@@ -23,8 +23,8 @@ class MuseumDataTests(unittest.TestCase):
     def test_exact_fourteen_projections_and_distinct_d5_scopes(self):
         claims = museum.project(INDEX_BYTES, self.status)
         self.assertEqual(len(claims), 14)
-        self.assertEqual([c["class"] for c in claims].count("ACCEPT-scoped"), 10)
-        self.assertEqual([c["class"] for c in claims].count("AMEND/open"), 3)
+        self.assertEqual([c["class"] for c in claims].count("ACCEPT-scoped"), 11)
+        self.assertEqual([c["class"] for c in claims].count("AMEND/open"), 2)
         self.assertEqual(claims[3]["title"], "D5 all-height fixed annulus")
         self.assertEqual(claims[3]["class"], "ACCEPT-scoped")
         self.assertIsNone(claims[3]["status_quote"])
@@ -35,6 +35,28 @@ class MuseumDataTests(unittest.TestCase):
         exact = INDEX_BYTES.decode().split("## Reviewed scoped results\n", 1)[1].split("\n## ", 1)[0]
         self.assertEqual([c["scope_quote"] for c in claims[:11]],
                          [line for line in exact.splitlines() if line.startswith("- ")])
+
+    def test_reconciled_d1_row_is_projected_from_status(self):
+        claims = museum.project(INDEX_BYTES, self.status)
+        d1 = claims[11]
+        self.assertEqual((d1["id"], d1["class"], d1["source_label"]), ("d1-parent-lifetime", "ACCEPT-scoped", "ACCEPT"))
+        self.assertTrue(d1["scope_quote"].startswith("| **D1 — parent lifetime theorem"))
+        self.assertIn("positive length", d1["status_quote"])
+        self.assertEqual(d1["proof"]["path"], museum.D1_PARENT)
+        self.assertEqual(d1["proof"]["commit"], museum.MATH_COMMIT)
+        self.assertEqual(d1["review"]["path"], museum.D1_RECONCILIATION)
+        self.assertEqual(d1["review"]["commit"], "82247833b5dd58e04291d55353b52938d73ec614")
+        self.assertNotIn("pointer_only", d1["review"])
+        self.assertEqual([c["id"] for c in claims[12:]], ["d5-pin-neighborhoods-open", "sard-g-a1-a6-open"])
+
+    def test_d1_row_without_its_review_record_refused(self):
+        changed = self.status.replace(b"/reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md)", b"/elsewhere.md)", 1)
+        self.assertNotEqual(changed, self.status)
+        blob = __import__("hashlib").sha1(b"blob " + str(len(changed)).encode() + b"\0" + changed).hexdigest()
+        identity = dict(museum.STATUS, blob=blob, bytes=len(changed),
+                        sha256=__import__("hashlib").sha256(changed).hexdigest())
+        with patch.object(museum, "STATUS", identity), self.assertRaisesRegex(ValueError, "D1 row"):
+            museum.project(INDEX_BYTES, changed)
 
     def test_changed_quote_refused_before_projection(self):
         for raw in (INDEX_BYTES.replace(b"only.", b"globally.", 1), INDEX_BYTES + b" "):
@@ -91,7 +113,7 @@ class MuseumDataTests(unittest.TestCase):
         self.assertEqual(packets[0]["result"]["commit"], "71400b94f6cb354a8cf7aba73ffede2138a64efa")
         self.assertEqual(packets[1]["issue"], 141)
         self.assertEqual(packets[1]["result"]["commit"], "a12c178c0f857a130cf434e9efd44233a038195b")
-        self.assertEqual(museum.STATUS["commit"], "71400b94f6cb354a8cf7aba73ffede2138a64efa")
+        self.assertEqual(museum.STATUS["commit"], "510efe6a25ac29176b5643a84d900597aa8fd721")
         self.assertTrue(all(p["scientific_effect"] == "NONE" and p["review_status"] == "REVIEW_REQUIRED" for p in packets))
         # Only the frozen landed packet is selected; filesystem discovery must not add a fork.
         self.assertNotIn("showcase", json.dumps(packets).lower())

@@ -10,7 +10,7 @@ test('museum exposes source-bound rendering rather than silently omitting the pa
 });
 const museum = fs.existsSync(moduleURL) ? await import(moduleURL) : null;
 const available = {skip: !museum};
-test('full reviewed bullets and all three AMEND rows retain their classes and source wording',available,()=>{
+test('full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording',available,()=>{
   const {manifest,index,status}=fixture();
   assert.equal(museum.validateBoundManifest(manifest,index,status).claims.length,14);
   const changed=structuredClone(manifest);changed.claims[0].scope_quote+=' Broader conclusion.';
@@ -19,7 +19,8 @@ test('full reviewed bullets and all three AMEND rows retain their classes and so
   assert.throws(()=>museum.validateBoundManifest(omitted,index,status),/projection|count|order/i);
 });
 test('source display cannot promote a counterexample or an AMEND row',available,()=>{
-  for(const index of [9,11]) {const f=fixture();f.manifest.claims[index].class='ACCEPT-scoped';assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/class|promotion/i);}
+  for(const index of [9,12,13]) {const f=fixture();f.manifest.claims[index].class='ACCEPT-scoped';assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/class|promotion/i);}
+  {const f=fixture();f.manifest.claims[11].class='AMEND/open';assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/class|promotion/i);}
   const f=fixture();f.manifest.scientific_status_authority=true;assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/authority/i);
 });
 test('a genuine source elsewhere in the index cannot replace this claim proof or scope',available,()=>{
@@ -67,14 +68,18 @@ test('review comment pointers cannot masquerade as byte-frozen comment content',
   const f=fixture();f.manifest.claims[0].review={...f.manifest.index_source,pointer_only:true,review_url:'https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-123',review_notice:'Pointer only.'};
   assert.throws(()=>museum.validateBoundManifest(f.manifest,f.index,f.status),/review pointer/i);
 });
-test('AMEND pointers bind their declared STATUS row or the specific open-obligation index entry',available,()=>{
-  const f=fixture(),claim=f.manifest.claims[11],url='https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-123';
-  const row=claim.scope_quote.replace('[Proof](proof.md)',`[Review](${url})`);
-  f.status=f.status.replace(claim.scope_quote,row);claim.scope_quote=row;f.manifest.status_source=pin('STATUS.md',f.status);f.manifest.claims[13].proof=f.manifest.status_source;
-  claim.review={...f.manifest.status_source,pointer_only:true,review_url:url,review_notice:'Pointer only; linked comment is not byte-frozen.'};
-  assert.equal(museum.validateBoundManifest(f.manifest,f.index,f.status).claims[11].class,'AMEND/open');
-  const wrong=structuredClone(f.manifest);wrong.claims[11].review={...wrong.index_source,pointer_only:true,review_url:url,review_notice:'Pointer only.'};
-  assert.throws(()=>museum.validateBoundManifest(wrong,f.index,f.status),/review pointer/i);
+test('the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review',available,()=>{
+  const f=fixture();
+  const d1=museum.validateBoundManifest(f.manifest,f.index,f.status).claims[11];
+  assert.equal(d1.id,'d1-parent-lifetime');assert.equal(d1.class,'ACCEPT-scoped');
+  const pointer=fixture();pointer.manifest.claims[11].review={...pointer.manifest.status_source,pointer_only:true,review_url:'https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-123',review_notice:'Pointer only.'};
+  assert.throws(()=>museum.validateBoundManifest(pointer.manifest,pointer.index,pointer.status),/byte-bound|review pointer/i);
+  const other=fixture();other.manifest.claims[11].review=pin('other.md','Different record.');
+  assert.throws(()=>museum.validateBoundManifest(other.manifest,other.index,other.status),/review file/i);
+  const scope=fixture();scope.manifest.claims[11].status_quote='Broader D1 scope.';
+  assert.throws(()=>museum.validateBoundManifest(scope.manifest,scope.index,scope.status),/STATUS.*scope/i);
+  const proof=fixture();proof.manifest.claims[11].proof=pin('other.md','A genuine different proof.');
+  assert.throws(()=>museum.validateBoundManifest(proof.manifest,proof.index,proof.status),/D1 proof/i);
 });
 test('packet index refuses a foreign packet, changed scientific effect and mismatched result path',available,()=>{
   const f=fixture(),result={...pin('incoming/side24-identity-replay-20260926/RESULT.md','scientific_effect: NONE\nreview_status: REVIEW_REQUIRED'),repository:'d6g8k5htny-coder/main'};

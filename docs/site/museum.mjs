@@ -2,7 +2,8 @@ import {verifiedBytes, hex40, hex64} from './core.mjs';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
-const OPEN_IDS=['d1-parent-selection-open','d5-pin-neighborhoods-open','sard-g-a1-a6-open'];
+const D1_ID='d1-parent-lifetime';
+const OPEN_IDS=['d5-pin-neighborhoods-open','sard-g-a1-a6-open'];
 const EXHIBITS={ec014:['EC-014 pair frame','EC-014'],remote:['Fixed-remote region','D4 fixed-remote RN'],annulus:['Fixed annulus','D5 all-height fixed annulus'],p15:['P15 discrete palette','D6 P15 full price']};
 const VIEW_LINKS={'d3-side24-coefficient':'index.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
 const D5_OPEN_REVIEW='https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md';
@@ -62,35 +63,40 @@ export function validateBoundManifest(manifest,indexText,statusText){
   if(!Array.isArray(manifest.claims)||manifest.claims.length!==14)throw Error('Claim projection count mismatch');
   const reviewed=section(indexText,'Reviewed scoped results').split('\n').filter(line=>line.startsWith('- '));
   const open=section(statusText,'AMEND / open').split('\n').filter(line=>line.startsWith('|')).slice(2);
-  if(reviewed.length!==11||open.length!==3)throw Error('Pinned source projection count mismatch');
+  if(reviewed.length!==11||open.length!==2)throw Error('Pinned source projection count mismatch');
   const acceptedRows=section(statusText,'ACCEPT — scoped').split('\n').filter(line=>line.startsWith('|')).slice(2);
-  const expectedIds=[...REVIEWED_IDS,...OPEN_IDS];
+  const d1Rows=acceptedRows.filter(row=>plainTitle(statusCells(row)[0]).startsWith('D1 —'));
+  if(d1Rows.length!==1)throw Error('Pinned STATUS must have exactly one accepted D1 row');
+  const expectedIds=[...REVIEWED_IDS,D1_ID,...OPEN_IDS];
   manifest.claims.forEach((claim,i)=>{
     if(claim.id!==expectedIds[i])throw Error('Claim projection order or object identity mismatch');
-    const isOpen=i>=11,quote=isOpen?open[i-11]:reviewed[i];
+    const isD1=i===11,isOpen=i>=12,quote=isOpen?open[i-12]:isD1?d1Rows[0]:reviewed[i];
     if(claim.scope_quote!==quote)throw Error('Claim quote differs from exact source projection');
-    const title=isOpen?plainTitle(statusCells(quote)[0]):quote.slice(2).split(':')[0];
+    const title=isOpen||isD1?plainTitle(statusCells(quote)[0]):quote.slice(2).split(':')[0];
     if(claim.title!==title)throw Error('Claim title differs from source projection');
     const expectedClass=isOpen?'AMEND/open':i===9?'engineering-only':'ACCEPT-scoped';
     const expectedLabel=isOpen?'AMEND / open':i===9?'EXACT_COUNTEREXAMPLE':'ACCEPT';
     if(claim.class!==expectedClass||claim.source_label!==expectedLabel)throw Error('Claim class promotion or source label mismatch');
     validateDescriptor(claim.proof);
-    if(!isOpen){
-      if(!firstSourceMatches(quote,claim.proof)||claim.proof.repository!==manifest.index_source.repository||claim.proof.commit!==manifest.index_source.commit)throw Error('Claim proof is not bound by its own pinned source quote');
-    }else if(claim.id==='d1-parent-selection-open'){
+    if(isD1){
+      // The accepted D1 row links the immutable parent; its descriptor is the index-pinned mirror of the same bytes.
       const parent=section(indexText,'Open or conditional results with complete proof text in GitHub').split('\n').find(line=>line.startsWith('- D1 parent lifetime theorem:'))||'';
-      if(!firstSourceMatches(parent,claim.proof)||claim.proof.repository!==manifest.index_source.repository||claim.proof.commit!==manifest.index_source.commit)throw Error('Open D1 proof differs from its exact index pointer');
+      if(!firstSourceMatches(parent,claim.proof)||!sourceContainsPath(quote,claim.proof)||claim.proof.repository!==manifest.index_source.repository||claim.proof.commit!==manifest.index_source.commit)throw Error('D1 proof differs from its exact index pointer and STATUS row');
+      if(!claim.review||claim.review.pointer_only)throw Error('D1 review pointer must be a byte-bound record');
+    }else if(!isOpen){
+      if(!firstSourceMatches(quote,claim.proof)||claim.proof.repository!==manifest.index_source.repository||claim.proof.commit!==manifest.index_source.commit)throw Error('Claim proof is not bound by its own pinned source quote');
     }else if(!sameIdentity(claim.proof,claim.id==='d5-pin-neighborhoods-open'?manifest.index_source:manifest.status_source))throw Error('Open claim source pointer identity differs');
     if(claim.review!==null){
       validateDescriptor(claim.review);
       if(claim.review.pointer_only){
-        const pointerSource=claim.id==='d1-parent-selection-open'?manifest.status_source:manifest.index_source;
+        const pointerSource=manifest.index_source;
         const pointerText=claim.id==='d5-pin-neighborhoods-open'?section(indexText,'Open obligations without a complete proof yet').split('\n').find(line=>line.startsWith('- D5 pin neighborhoods:'))||'':quote;
         if(!pointerText.includes(claim.review.review_url)||claim.review.sha256!==pointerSource.sha256||claim.review.url!==pointerSource.url||(claim.id==='d5-pin-neighborhoods-open'&&claim.review.review_url!==D5_OPEN_REVIEW))throw Error('Review pointer is not bound by its pinned source quote');
       }else if(!sourceContainsPath(quote,claim.review))throw Error('Review file differs from the source quote');
     }
     if(isOpen&&claim.status_quote!==statusCells(quote)[1])throw Error('AMEND reason differs from source quote');
-    if(!isOpen){
+    if(isD1&&claim.status_quote!==statusCells(quote)[1])throw Error('STATUS scope quote does not match this claim');
+    if(!isOpen&&!isD1){
       const statusID={0:'D2',1:'D3',2:'D4',10:'D6'}[i];
       const matching=statusID?acceptedRows.filter(row=>plainTitle(statusCells(row)[0]).startsWith(`${statusID} —`)):[];
       const expected=statusID&&matching.length===1?statusCells(matching[0])[1]:null;
@@ -109,7 +115,7 @@ export function validateBoundManifest(manifest,indexText,statusText){
     if(packet.id!==expected.id||packet.issue!==expected.issue||packet.scientific_effect!=='NONE'||packet.review_status!=='REVIEW_REQUIRED')throw Error('Packet has unexpected identity or scientific effect');
     for(const key of ['result','identity','output'])validateDescriptor(packet[key]);
     if(packet.result.repository!=='d6g8k5htny-coder/main'||packet.result.path!==`incoming/${packet.id}/RESULT.md`)throw Error('Packet result path differs from its identity');
-    if(packet.result.commit!==expected.commit||(index===0&&packet.result.commit!==manifest.status_source.commit)
+    if(packet.result.commit!==expected.commit
       ||!['identity','output'].every(key=>packet[key].repository==='d6g8k5htny-coder/main'&&packet[key].commit===expected.commit&&packet[key].path===`incoming/${packet.id}/${key==='identity'?'IDENTITY.json':'output.json'}`))throw Error('Packet commit differs from its pinned main snapshot');
   }
   return manifest;
