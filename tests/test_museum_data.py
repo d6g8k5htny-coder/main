@@ -18,7 +18,8 @@ INDEX_BYTES = "# Proof availability index\n\nThis file links full proof text, ex
 
 class MuseumDataTests(unittest.TestCase):
     def setUp(self):
-        self.status = (ROOT / "STATUS.md").read_bytes()
+        # This projection consumes the immutable f2e432e snapshot, not live STATUS.
+        self.status = (ROOT / "tests/fixtures/status_f2e432e.md").read_bytes()
 
     def test_exact_fourteen_projections_and_distinct_d5_scopes(self):
         claims = museum.project(INDEX_BYTES, self.status)

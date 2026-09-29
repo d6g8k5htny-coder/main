@@ -28,7 +28,8 @@ assert.ok(qfixture,'Set SHOP_QUERY_FIXTURE to exact query fixture directory');
 const config=JSON.parse(fs.readFileSync(path.join(root,'docs/site/config.json')));
 const mapping=new Map([
  ['config.json',path.join(root,'docs/site/config.json')],['status.json',path.join(root,'docs/site/status.json')],
- [config.status.url,path.join(root,'STATUS.md')],
+ // Return the historical bytes named by config.status.url, not live STATUS.
+ [config.status.url,path.join(root,'tests/fixtures/status_f2e432e.md')],
  [config.coefficient.url,path.join(fixture,config.coefficient.path)],
  [config.imports.url,path.join(fixture,config.imports.path)],
  [config.query.url,path.join(qfixture,config.query.path)],
