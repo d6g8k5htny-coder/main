@@ -6,12 +6,22 @@ or persistence implementation. Its input coefficients define the finite object.
 import argparse
 import hashlib
 import json
+import re
+from datetime import datetime, timezone
 from fractions import Fraction as Q
 from math import isqrt
 from pathlib import Path
 
 BITS = 128
 MODEL = 'exact_dyadic_rounded_coefficients'
+SOURCE_FILES = {'core': 'finite_certificate.py', 'extractor': 'run_certificate.py',
+                'generator': 'experiment.py', 'configuration': 'refinement_config.json',
+                'dependencies': 'requirements.txt'}
+RECEIPT_TEXT = {
+    'extraction': 'Actual field_grid coefficient array captured at the ifft2 input for n=64, cutoff24, default model factors. FFT replaced by a zero return only during capture; no numerical field evaluation claimed.',
+    'historical_link': 'Same source configuration and seed labels as refinement8, deterministically reconstructed now. Historical executions did not archive their coefficient arrays; this is not a retroactive coefficient receipt.',
+    'seed_meaning': 'Reconstruction labels, not a certificate of Gaussian distribution or independence.',
+    'scientific_effect': 'Finite rounded-polynomial derivative certificate only; no lifetime-law acceptance.'}
 
 
 def require(condition, message):
@@ -156,17 +166,49 @@ def verify(data, certificate):
     return True
 
 
+def validate_receipt(receipt):
+    expected = {'schema_version', 'utc', 'python', 'numpy', 'platform', 'sources', 'outputs'} | set(RECEIPT_TEXT)
+    require(type(receipt) is dict and set(receipt) == expected, 'Unexpected receipt schema or fields')
+    require(type(receipt['schema_version']) is int and receipt['schema_version'] == 1, 'Unknown receipt schema version')
+    for key, value in RECEIPT_TEXT.items():
+        require(receipt[key] == value, 'Unexpected receipt scope: ' + key)
+    value = receipt['utc']
+    require(type(value) is str and re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}\+00:00', value) is not None, 'Noncanonical receipt UTC')
+    try:
+        when = datetime.fromisoformat(value)
+    except ValueError as exc:
+        raise ValueError('Invalid receipt UTC') from exc
+    require(when.tzinfo == timezone.utc and when.isoformat(timespec='microseconds') == value, 'Invalid receipt UTC')
+    python = receipt['python']; numpy = receipt['numpy']; platform = receipt['platform']
+    require(type(python) is str and 0 < len(python) <= 4096 and '\x00' not in python
+            and re.fullmatch(r'\d+\.\d+\.\d+[a-zA-Z0-9.+-]*(?:[ \n].*)?', python, re.DOTALL) is not None, 'Invalid observed Python environment')
+    require(type(numpy) is str and len(numpy) <= 128 and re.fullmatch(r'\d+\.\d+\.\d+[a-zA-Z0-9.+-]*', numpy) is not None, 'Invalid observed NumPy environment')
+    require(type(platform) is str and 0 < len(platform) <= 4096 and re.fullmatch(r'[A-Za-z0-9_.()+-]+', platform) is not None, 'Invalid observed platform environment')
+    sources, outputs = receipt['sources'], receipt['outputs']
+    require(type(sources) is dict and set(sources) == set(SOURCE_FILES), 'Unexpected source roles')
+    require(type(outputs) is dict and set(outputs) == {'COEFFICIENTS.json', 'CERTIFICATE.json'}, 'Unexpected output roles')
+    for role, item in sources.items():
+        require(type(item) is dict and set(item) == {'filename', 'bytes', 'sha256'} and item['filename'] == SOURCE_FILES[role], 'Unexpected source metadata: ' + role)
+    for role, item in outputs.items():
+        require(type(item) is dict and set(item) == {'bytes', 'sha256'}, 'Unexpected output metadata: ' + role)
+    for item in [*sources.values(), *outputs.values()]:
+        require(type(item['bytes']) is int and item['bytes'] > 0, 'Invalid receipt byte count')
+        require(type(item['sha256']) is str and re.fullmatch(r'[0-9a-f]{64}', item['sha256']) is not None, 'Invalid receipt SHA-256')
+    return True
+
+
 def render_report(certificate):
+    finest = max(g['grid'] for g in certificate['records'][0]['grids'])
     lines = ['# Exact finite-polynomial derivative bounds', '',
              'These numbers enclose the derivative majorants of explicitly stored',
              'rounded finite Fourier polynomials. They do **not** certify historical FFT',
              'samples, the ideal Gaussian sampling law, the infinite field, or bar counts.',
              'Every displayed upper bound is rounded upward to 15 decimal places.', '',
-             '| Seed | Hessian operator majorant H | Component interpolation budget B at 1024² |',
+             f'| Seed | Hessian operator majorant H | Component interpolation budget B at {finest}² |',
              '|---|---:|---:|']
     worst = Q(0)
     for row in certificate['records']:
-        grid = next(g for g in row['grids'] if g['grid'] == 1024)
+        grid = next(g for g in row['grids'] if g['grid'] == finest)
         worst = max(worst, Q(grid['spatial_bound']))
         lines.append(f"| {row['seed']} | {row['bounds_decimal_up']['H']} | {grid['spatial_bound_decimal_up']} |")
     lines += ['', 'The componentwise interpolation bound is no larger than the operator bound',
@@ -175,7 +217,7 @@ def render_report(certificate):
               'the diagram-error field is also null. Setting either value to zero would',
               'change the claim and fails the exact replay.', '',
               'With *hypothetical exact nodal samples*, the largest certified spatial',
-              f'budget at 1024² is at most {decimal_up(worst)}. The clean bin upper',
+              f'budget at {finest}² is at most {decimal_up(worst)}. The clean bin upper',
               'bound would then require `a > 2 B`. This conditional observation does not',
               'certify any historical bin or select an asymptotic confirmation window.', '',
               '[Derivation and limitations](../../FINITE_CERTIFICATE.md) ·',
@@ -193,16 +235,17 @@ def verify_directory(directory):
     data = load_json(directory/'COEFFICIENTS.json')
     certificate = load_json(directory/'CERTIFICATE.json')
     receipt = load_json(directory/'RUN.json')
+    validate_receipt(receipt)
+    binding = directory/'RUN.sha256'
+    require(binding.is_file(), 'Missing receipt byte binding')
+    expected_binding = (hashlib.sha256((directory/'RUN.json').read_bytes()).hexdigest()+'\n').encode('ascii')
+    require(binding.read_bytes() == expected_binding, 'Complete receipt byte identity mismatch')
     verify(data, certificate)
     for filename in ('COEFFICIENTS.json', 'CERTIFICATE.json'):
         content = (directory/filename).read_bytes()
         require(receipt['outputs'][filename] == {'bytes': len(content), 'sha256': hashlib.sha256(content).hexdigest()}, 'Output byte identity mismatch')
     base = Path(__file__).resolve().parent
-    expected_sources = {'core': 'finite_certificate.py', 'extractor': 'run_certificate.py',
-                        'generator': 'experiment.py', 'configuration': 'refinement_config.json',
-                        'dependencies': 'requirements.txt'}
-    require(set(receipt['sources']) == set(expected_sources), 'Unexpected source roles')
-    for role, filename in expected_sources.items():
+    for role, filename in SOURCE_FILES.items():
         content = (base/filename).read_bytes()
         require(receipt['sources'][role] == {'filename': filename, 'bytes': len(content), 'sha256': hashlib.sha256(content).hexdigest()}, 'Source byte identity mismatch: ' + role)
     config = load_json(base/'refinement_config.json')

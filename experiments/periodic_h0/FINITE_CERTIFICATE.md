@@ -56,6 +56,14 @@ This is **coefficient extraction, not a field evaluation**. No FFT output from
 the interception is used as a sample or persistence input. The actual generator,
 extractor, exact arithmetic module, dependency file and existing refinement
 configuration are bound by filename, byte count and SHA-256 in `RUN.json`.
+The receipt uses a complete fixed schema: exact execution and scope descriptions,
+a canonical UTC observation time, typed environment observations, and no extra
+top-level, source or output fields. `RUN.sha256` binds every receipt byte,
+including those observations, under the published source and delivery identity.
+Its hash is an integrity check, not an authentication service. Replacing both a
+receipt and its sidecar produces a different bundle; a self-consistent replacement
+cannot prove that an execution occurred or establish its historical environment.
+The immutable commit and delivery inventory are the external identity to compare.
 
 The prior refinement did not archive its coefficient arrays. This delivery
 reconstructs them from the same bound source, configuration and seed labels; it
@@ -152,6 +160,9 @@ Fourier triangle majorants the component expression is no larger, because
 `2|k_x k_y| <= k_x²+k_y²`. It improves the prior operator-only diagnostic.
 The report rounds each nonnegative bound **upward** to 15 decimal places.
 Exact rational values remain in `CERTIFICATE.json`.
+The report selects the finest grid actually present in the certificate. It also
+supports other valid nonempty grid lists; it does not assume that 1024 is present.
+Generated report bytes use UTF-8 and LF explicitly on every operating system.
 
 ## What is established, and what still needs an input
 
@@ -190,7 +201,8 @@ python -B experiments/periodic_h0/run_certificate.py --output /tmp/new-finite-ce
 
 The directory verifier recomputes the entire rational certificate, checks its
 binding to the coefficient object, checks exact output and source bytes,
-reconciles the current configuration, and regenerates the readable report.
+checks the complete receipt contract and its full-byte sidecar, reconciles the
+current configuration, and regenerates the readable report.
 These identity checks do not authenticate an external party or retroactively
 prove that an unobserved historical calculation occurred.
 
@@ -198,5 +210,7 @@ Tests cover hundreds of nonsquare and exact-square enclosures; a single-mode
 field with explicit derivative constants; actual generator input capture;
 malformed and duplicated modes; noncanonical rationals; duplicate JSON keys;
 altered source/output hashes; rebound but inconsistent certificates; report
-drift; and the attempted promotion of `eta` from unknown to zero. Both ordinary
+drift; provenance/scope edits even after rebinding a receipt sidecar; unbound
+environment edits; simulated Windows newline translation; grid lists without
+1024; and the attempted promotion of `eta` from unknown to zero. Both ordinary
 and optimized Python execution retain the validation checks.

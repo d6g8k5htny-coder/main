@@ -60,9 +60,7 @@ def main():
     certificate = fc.certify(data)
     fc.verify(data, certificate)
     sources = {}
-    for role, filename in {'core': 'finite_certificate.py', 'extractor': 'run_certificate.py',
-                           'generator': 'experiment.py', 'configuration': 'refinement_config.json',
-                           'dependencies': 'requirements.txt'}.items():
+    for role, filename in fc.SOURCE_FILES.items():
         raw = (base/filename).read_bytes()
         sources[role] = {'filename': filename, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
     args.output.mkdir(parents=True)
@@ -72,15 +70,13 @@ def main():
         (args.output/filename).write_bytes(raw)
         outputs[filename] = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
     import numpy as np
-    receipt = {'schema_version': 1, 'utc': datetime.now(timezone.utc).isoformat(),
+    receipt = {'schema_version': 1, 'utc': datetime.now(timezone.utc).isoformat(timespec='microseconds'),
                'python': sys.version, 'numpy': np.__version__, 'platform': platform.platform(),
-               'sources': sources, 'outputs': outputs,
-               'extraction': 'Actual field_grid coefficient array captured at the ifft2 input for n=64, cutoff24, default model factors. FFT replaced by a zero return only during capture; no numerical field evaluation claimed.',
-               'historical_link': 'Same source configuration and seed labels as refinement8, deterministically reconstructed now. Historical executions did not archive their coefficient arrays; this is not a retroactive coefficient receipt.',
-               'seed_meaning': 'Reconstruction labels, not a certificate of Gaussian distribution or independence.',
-               'scientific_effect': 'Finite rounded-polynomial derivative certificate only; no lifetime-law acceptance.'}
-    (args.output/'RUN.json').write_bytes(fc.canonical_bytes(receipt))
-    (args.output/'RESULTS.md').write_text(fc.render_report(certificate))
+               'sources': sources, 'outputs': outputs, **fc.RECEIPT_TEXT}
+    receipt_bytes = fc.canonical_bytes(receipt)
+    (args.output/'RUN.json').write_bytes(receipt_bytes)
+    (args.output/'RUN.sha256').write_bytes((hashlib.sha256(receipt_bytes).hexdigest()+'\n').encode('ascii'))
+    (args.output/'RESULTS.md').write_bytes(fc.render_report(certificate).encode('utf-8'))
     fc.verify_directory(args.output)
     print(json.dumps({'records': len(data['records']), 'mode_pairs': sum(len(r['modes']) for r in data['records']), 'outputs': outputs}))
 

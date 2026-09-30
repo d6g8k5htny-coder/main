@@ -1,6 +1,8 @@
 """Exact arithmetic and scope controls for rounded finite Fourier polynomials."""
 import copy
+import contextlib
 import importlib.util
+import io
 import unittest
 import hashlib
 import json
@@ -9,6 +11,7 @@ import sys
 import tempfile
 from fractions import Fraction as Q
 from pathlib import Path
+from unittest.mock import patch
 
 if importlib.util.find_spec('finite_certificate'):
     import finite_certificate as fc
@@ -161,7 +164,8 @@ class CertificateTests(unittest.TestCase):
         cert = fc.certify(data)
         raw = {'COEFFICIENTS.json': fc.canonical_bytes(data), 'CERTIFICATE.json': fc.canonical_bytes(cert),
                'RESULTS.md': fc.render_report(cert).encode()}
-        receipt = {'schema_version': 1, 'outputs': {}, 'sources': {}}
+        receipt = json.loads((base/'results/certificate8/RUN.json').read_text())
+        receipt['outputs'] = {}; receipt['sources'] = {}
         for name in ('COEFFICIENTS.json', 'CERTIFICATE.json'):
             receipt['outputs'][name] = {'bytes': len(raw[name]), 'sha256': hashlib.sha256(raw[name]).hexdigest()}
         for role, name in {'core':'finite_certificate.py', 'extractor':'run_certificate.py', 'generator':'experiment.py',
@@ -169,6 +173,7 @@ class CertificateTests(unittest.TestCase):
             body = (base/name).read_bytes()
             receipt['sources'][role] = {'filename':name, 'bytes':len(body), 'sha256':hashlib.sha256(body).hexdigest()}
         raw['RUN.json'] = fc.canonical_bytes(receipt)
+        raw['RUN.sha256'] = (hashlib.sha256(raw['RUN.json']).hexdigest()+'\n').encode()
         with tempfile.TemporaryDirectory() as root:
             directory = Path(root)
             def reset():
@@ -195,6 +200,87 @@ class CertificateTests(unittest.TestCase):
             self.assertNotEqual(subprocess.run(command, capture_output=True).returncode, 0)
             reset(); (directory/'RESULTS.md').write_text('All FFT samples certified.\n')
             with self.assertRaises(ValueError): fc.verify_directory(directory)
+
+    def test_receipt_contract_rejects_rebound_scope_and_unbound_environment_edits(self):
+        base = Path(__file__).resolve().parent
+        raw = {name:(base/'results/certificate8'/name).read_bytes()
+               for name in ('COEFFICIENTS.json', 'CERTIFICATE.json', 'RESULTS.md', 'RUN.json')}
+        # Fixture rebinding supplies current source hashes; it is not an execution claim.
+        receipt = json.loads(raw['RUN.json'])
+        for item in receipt['sources'].values():
+            source = (base/item['filename']).read_bytes()
+            item['bytes'] = len(source); item['sha256'] = hashlib.sha256(source).hexdigest()
+        raw['RUN.json'] = fc.canonical_bytes(receipt)
+        raw['RUN.sha256'] = (hashlib.sha256(raw['RUN.json']).hexdigest()+'\n').encode()
+        mutations = []
+        for key, value in [('schema_version', True), ('schema_version', 1.0),
+                           ('schema_version', 999), ('extraction', 'Historical FFT certified.'),
+                           ('historical_link', 'Historical execution independently authenticated.'),
+                           ('seed_meaning', 'Exactly Gaussian and independent.'),
+                           ('scientific_effect', 'Full persistence coefficient scientifically confirmed.'),
+                           ('utc', '2026-02-30T00:00:00.000000+00:00'),
+                           ('utc', '2026-09-30T00:00:00.000000+01:00'),
+                           ('python', {'version':'3.12.14', 'extra':'claim'}),
+                           ('numpy', True), ('numpy', ''), ('platform', 42),
+                           ('platform', 'Linux\nHidden provenance claim'),
+                           ('environment', {'unexpected':'entry'}), ('extra_claim', 'Human approved')]:
+            item = copy.deepcopy(receipt); item[key] = value
+            mutations.append((key, item, True))
+        item = copy.deepcopy(receipt); item['outputs']['phantom.txt'] = {'bytes':0, 'sha256':'0'*64}
+        mutations.append(('extra output', item, True))
+        item = copy.deepcopy(receipt); item['sources']['unexpected'] = copy.deepcopy(item['sources']['core'])
+        mutations.append(('extra source', item, True))
+        item = copy.deepcopy(receipt); item['sources']['core']['extra'] = 'claim'
+        mutations.append(('extra source metadata', item, True))
+        item = copy.deepcopy(receipt); item['outputs']['CERTIFICATE.json']['extra'] = 'claim'
+        mutations.append(('extra output metadata', item, True))
+        item = copy.deepcopy(receipt); item['sources']['generator']['sha256'] = '0'*64
+        mutations.append(('rebound source hash', item, True))
+        item = copy.deepcopy(receipt); item['outputs']['COEFFICIENTS.json']['sha256'] = '0'*64
+        mutations.append(('rebound output hash', item, True))
+        item = copy.deepcopy(receipt); item['sources']['core']['bytes'] = True
+        mutations.append(('boolean source byte count', item, True))
+        item = copy.deepcopy(receipt); del item['historical_link']
+        mutations.append(('missing historical link', item, True))
+        item = copy.deepcopy(receipt); item['platform'] = 'Linux-7.0-x86_64-with-glibc2.99'
+        mutations.append(('plausible environment without rebound', item, False))
+        with tempfile.TemporaryDirectory() as root:
+            directory = Path(root)
+            def reset():
+                for name, value in raw.items(): (directory/name).write_bytes(value)
+            reset(); self.assertTrue(fc.verify_directory(directory))
+            for label, item, rebound in mutations:
+                with self.subTest(label=label):
+                    reset(); content = fc.canonical_bytes(item)
+                    (directory/'RUN.json').write_bytes(content)
+                    if rebound:
+                        (directory/'RUN.sha256').write_bytes((hashlib.sha256(content).hexdigest()+'\n').encode())
+                    with self.assertRaises(ValueError): fc.verify_directory(directory)
+            reset(); (directory/'RUN.sha256').unlink()
+            with self.assertRaises(ValueError): fc.verify_directory(directory)
+            reset(); (directory/'RUN.sha256').write_text('0'*64+'\n')
+            with self.assertRaises(ValueError): fc.verify_directory(directory)
+
+    def test_report_uses_the_finest_grid_present(self):
+        report = fc.render_report(fc.certify(sample()))
+        self.assertIn('budget B at 8²', report)
+        self.assertIn('budget at 8²', report)
+        self.assertNotIn('1024', report)
+
+    @unittest.skipUnless(importlib.util.find_spec('numpy'), 'Generation needs the pinned numerical environment')
+    def test_regeneration_writes_fixed_lf_under_windows_text_translation(self):
+        import run_certificate as runner
+        original = Path.write_text
+        def windows_text(path, text, *args, **kwargs):
+            kwargs['newline'] = '\r\n'
+            return original(path, text, *args, **kwargs)
+        with tempfile.TemporaryDirectory() as root:
+            output = Path(root)/'generated'
+            with patch.object(Path, 'write_text', windows_text), patch.object(sys, 'argv', ['run_certificate.py', '--output', str(output)]), contextlib.redirect_stdout(io.StringIO()):
+                runner.main()
+            content = (output/'RESULTS.md').read_bytes()
+            self.assertNotIn(b'\r', content)
+            self.assertTrue(fc.verify_directory(output))
 
 
 if __name__ == '__main__':

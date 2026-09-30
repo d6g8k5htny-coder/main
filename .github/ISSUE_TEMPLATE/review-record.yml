@@ -31,11 +31,13 @@ body:
     id: personal_reading
     attributes:
       label: Dylan's personal reading
-      description: Optional for ordinary reviews. Use PENDING for delegated work until Dylan supplies a scoped response; link that response below if read. This is not an approval queue.
+      description: Choose Not an owner-delegated record for an ordinary review. Use PENDING for delegated work until Dylan supplies a scoped response; link that response below if read. This is not an approval queue.
       options:
         - Not an owner-delegated record
         - PENDING — no personal reading recorded
         - READ — scoped response linked below
+    validations:
+      required: true
   - type: input
     id: object
     attributes:
