@@ -142,8 +142,19 @@ A self-consistent replacement of both receipt and sidecar is a different object,
 not proof of an earlier execution. Compare immutable commit and delivery hashes
 for external identity. Environment strings are observations, not authentication.
 
-Tests and the nonauthor technical review cover sign and normalization, both axes,
-conjugation, nonrepresentable coefficients, irrational roots, every sample
-including the final node, malformed values/layouts, altered sources or scope,
-and understated error bounds. These are scoped verification checks, not a
-formalization of persistence or evidence of organizational independence.
+Tests cover sign and normalization, both axes, conjugation, nonrepresentable
+coefficients, irrational roots, every sample including the final node, malformed
+values/layouts, altered sources or scope, and understated error bounds.
+
+The completed [source-bound nonauthor review](https://github.com/d6g8k5htny-coder/main/pull/217#pullrequestreview-5369308598)
+records **Dylan Roy — delegated AI review**, with actual performer **OpenAI / Codex,
+agent `/root/c37_nonauthor_review`**. It reviews candidate
+`17a3722a09249d16a3b841b8554d6ea482cc4600`, including the unchanged numerical
+implementation, sample bytes and exact certificate, and reports PASS_TECHNICAL
+with zero blocking findings and one minor metadata-type advisory. Its inventory
+SHA-256 is `ed7e47a2bbe1f4929214619346daeaeec17dd9e23fe5c91ae82ac6d793e4d332`.
+That review completed after the candidate was frozen; this paragraph adds the
+retrospective record and does not claim the candidate had already been reviewed
+when it was authored. Same-provider review supplies zero organizational
+independence; Dylan's personal reading remains pending. These are scoped
+verification checks, not a formalization of persistence or human review.
