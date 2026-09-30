@@ -14,7 +14,7 @@ ACCEPT-scoped retains a solid green/teal boundary; AMEND/open retains a dashed a
 
 ## Accessibility and display
 
-Core text/link/state colors are tested at 4.5:1 against all three principal surfaces in both color schemes. Control boundaries and focus rings are tested at 3:1. Keyboard skip links, explicit focus outlines, fluid grids, mobile navigation, reduced-motion, forced-color and print rules are included. These are bounded checks, not a claim of full WCAG certification. No content is hidden merely to make mobile screenshots fit.
+Core text/link/state colors are tested at 4.5:1 against all three principal surfaces in both color schemes. Control boundaries and focus rings are tested at 3:1. Keyboard skip links, explicit focus outlines, fluid grids, mobile navigation, reduced-motion, forced-color and print rules are included. These are bounded checks, not a claim of full WCAG certification. Technical identities may use accessible disclosures; scope labels and failure states remain visible. Do not remove evidence merely to make mobile screenshots fit.
 
 GitHub's own navigation chrome and light/dark mode belong to each visitor's appearance preferences. Repository files cannot enforce this site's CSS across github.com. README images use self-contained SVG artwork on a stable navy background and meaningful alt text; do not inject CSS or tracking widgets into Markdown.
 

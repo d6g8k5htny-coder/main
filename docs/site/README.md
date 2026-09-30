@@ -1,15 +1,25 @@
-# Public research shop
+# Public reading experience and research workspace
 
-This static viewer makes the existing public work easier to read. It does not own scientific status.
+**Live:** [Universal Law](https://d6g8k5htny-coder.github.io/main/site/).
 
-**Live:** [Open the public research shop](https://d6g8k5htny-coder.github.io/main/site/). Coordinate a bounded contribution on the [Public contributions board](https://github.com/users/d6g8k5htny-coder/projects/1/views/1).
+The public home introduces the mathematics before its implementation. All pages share Home, Explore, Research and Library navigation. Contribution options remain available in the footer and technical workspace.
 
-- **Board:** a mechanically exported, byte-bound `STATUS.md` snapshot. Counts refer to the selected rows, with full scope and limits. Historical observations are dated separately; Pages does not fetch a mutable ref.
-- **SIDE24 explorer:** exact decimal endpoints from pinned public JSON; approximate bar lengths are NON-CERTIFYING. No lifetime curve, random field simulation, or new bound is generated.
-- **Inventory browser:** reads the existing `docs/public-math/sources.json` and its fourteen hash-verified shards. No second inventory is created.
-- **Contributions:** GitHub issues and incoming-only result PRs. The viewer has no upload endpoint, credentials, write token, or backend.
+- **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
+- **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
+- **Research (`research.html`):** a curated reading path from the question to the precise proof and recorded review, with conditions and limits stated alongside the result.
+- **Library and workspace (`workspace.html`):** the existing exact coefficient viewer, dated status snapshot, hash-verified source inventory and contributor instructions. Old `index.html#board`, `#coefficient`, `#inventory` and `#contribute` bookmarks route here; without JavaScript the home still offers the workspace link.
+- **Source records (`museum.html`):** the preserved historical source-bound exhibits, review cards and conditional routes. It names its separate snapshot; later proof-index results are not silently imported into old cards.
 
-The original enclosure's `scientific_acceptance: false` is preserved. Later scoped review is quoted separately from the status snapshot; neither is silently substituted for the other. AMEND mathematics remains AMEND.
+The front and technical layers use the same existing evidence. No second scientific register or server backend is added. Source identities are available in expandable disclosures, while object/class labels and unavailable states remain visible. The original coefficient artifact’s `scientific_acceptance: false` is retained; later scoped review remains separate.
+
+## Verify the reader experience
+
+```sh
+node --test tests/test_explore_models.mjs tests/test_reader_navigation.mjs
+python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
+```
+
+Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
 ## Run locally
 
@@ -75,3 +85,16 @@ both landed packet cards after the earlier one-packet cached observation; that
 observation and its correction are recorded on [main #154](https://github.com/d6g8k5htny-coder/main/issues/154).
 
 The [implementation record](IMPLEMENTATION.md) maps W1–W12, coordination exclusions, and validation boundaries.
+
+## Reproduce this source snapshot
+
+The museum and exact lookup use these immutable checkouts. These commands
+belong to the technical guide; the public home has no setup requirement.
+
+```sh
+git -C Math- checkout --detach d6628da09384728992dcbe6e921cc28ba85aebb0
+git -C query- checkout --detach c88768bb11efd1f7d6bda188f13064bedec54a06
+```
+
+The source-identity gate checks these commands against `museum.json` and
+`config.json`. Updating the reading interface does not update either source pin.

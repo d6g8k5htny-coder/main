@@ -27,7 +27,7 @@ function sourceHeader(target,object,classification,pin) {
   for(const [label,value] of [['Object ID',object],['Class',classification]]) {
     const p=node('p');p.append(node('strong',label+': '),node('span',value));header.append(p);
   }
-  identity(header,pin);header.append(node('p',disclaimer,'canvas-disclaimer'));target.append(header);
+  const details=node('details');details.append(node('summary','Source and verification'));identity(details,pin);details.append(node('p',disclaimer,'canvas-disclaimer'));header.append(details);target.append(header);
 }
 async function board(config) {
   const s=validateStatus(await verifiedJSON(config.status_json));

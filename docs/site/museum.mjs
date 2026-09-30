@@ -5,7 +5,7 @@ const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-re
 const D1_ID='d1-parent-lifetime';
 const OPEN_IDS=['d5-pin-neighborhoods-open','sard-g-a1-a6-open'];
 const EXHIBITS={ec014:['EC-014 pair frame','EC-014'],remote:['Fixed-remote region','D4 fixed-remote RN'],annulus:['Fixed annulus','D5 all-height fixed annulus'],p15:['P15 discrete palette','D6 P15 full price']};
-const VIEW_LINKS={'d3-side24-coefficient':'index.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
+const VIEW_LINKS={'d3-side24-coefficient':'workspace.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
 const D5_OPEN_REVIEW='https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md';
 const PACKET_PINS=[
   {id:'side24-identity-replay-20260926',commit:'71400b94f6cb354a8cf7aba73ffede2138a64efa',issue:null},
@@ -143,7 +143,8 @@ function card(document,id,title,className,source){
   article.setAttribute('data-object-id',id);article.setAttribute('data-object-class',className);
   const header=element(document,'div',undefined,'museum-card-header');
   const label=element(document,'p',id,'object-label');label.append(element(document,'span',className,'object-class'));
-  header.append(label,element(document,'h3',title),identity(document,source),element(document,'p',DISCLAIMER,'canvas-disclaimer'));
+  const details=element(document,'details');details.append(element(document,'summary','Source identity and verification'),identity(document,source),element(document,'p',DISCLAIMER,'canvas-disclaimer'));
+  header.append(label,element(document,'h3',title),details);
   article.append(header);return article;
 }
 function strip(document,text){const bar=element(document,'aside',undefined,'engineering-strip');bar.append(element(document,'strong','Engineering — not acceptance'),element(document,'p',text));return bar;}
@@ -210,14 +211,23 @@ export function verifiedMuseum({fetcher=globalThis.fetch}={}){
   if(!startups.has(fetcher))startups.set(fetcher,verifyStartup(fetcher).catch(error=>{startups.delete(fetcher);throw error;}));
   return startups.get(fetcher);
 }
-export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs')}={}){
+// The fragment may arrive before source-bound cards have been verified and mounted.
+export function revealClaimFragment(document,hash,allowedIds){
+  let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return false;}
+  if(!allowedIds.includes(id))return false;
+  const target=document.getElementById(id);
+  if(!target?.scrollIntoView)return false;
+  target.tabIndex=-1;target.scrollIntoView({block:'start'});
+  target.focus?.({preventScroll:true});return true;
+}
+export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   try{
     const {manifest,cachedFetch}=await verifiedMuseum({fetcher});
-    containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries and 3 separate AMEND rows. Verifying each linked source before display…';
+    containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries, the separately reconciled D1 row and 2 AMEND rows. Verifying each linked source before display…';
     const placeholders=manifest.claims.map(claim=>{const host=element(document,'div');host.append(element(document,'p',`Verifying ${claim.title}…`));containers['claim-cards'].append(host);return host;});
-    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim));}catch(error){placeholders[i].replaceChildren(refusal(document,claim.title,error));return false;}return true;});
+    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
     jobs.push((async()=>{try{containers['lifetime-fixture'].replaceChildren(await renderLifetime(document,manifest.exhibits.lifetime,cachedFetch));return true;}catch(error){containers['lifetime-fixture'].replaceChildren(refusal(document,'D2 lifetime fixture',error));return false;}})());
     if(!manifest.packets.length)containers['packet-cards'].append(element(document,'p','No packet appears in this pinned projection.'));
     for(const packet of manifest.packets)jobs.push((async()=>{try{containers['packet-cards'].append(await renderPacket(document,packet,cachedFetch));return true;}catch(error){containers['packet-cards'].append(refusal(document,'Packet source',error));return false;}})());
@@ -236,6 +246,7 @@ export async function startMuseum({document=globalThis.document,fetcher=globalTh
     }
     const outcomes=await Promise.all(jobs),failed=outcomes.filter(value=>!value).length;
     containers['museum-state'].textContent=failed?`Pinned source projections verified. ${failed} source view(s) unavailable; no result inferred for those views.`:'Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.';
+    revealClaimFragment(document,currentHash(),manifest.claims.map(claim=>claim.id));
   }catch(error){
     containers['museum-state'].textContent=`Unavailable: ${error.message}. No result inferred.`;containers['museum-state'].className='error';
     for(const id of ids.slice(1))containers[id].replaceChildren();

@@ -1,8 +1,8 @@
 # Claude entry
 
 Use [AGENTS.md](AGENTS.md) and the
-[current owner instruction](governance/OP-AUTONOMY-20260923-v2.1.md).
-The same delegation applies to Claude and every other participating model.
-Choose and carry out useful work; no separate Claude approval or owner permission
-queue is introduced here. See [Workspace and tools](docs/WORKSPACE.md) for the
-actual research branch and execution paths.
+[current workflow](governance/OP-WORKFLOW-20260930.md).
+The same owner delegation and scope coordination apply to every participating
+model; there is no separate Claude permission queue. Use
+[Workspace and tools](docs/WORKSPACE.md) for execution paths and the
+[public home](docs/site/index.html) for the reader experience.
