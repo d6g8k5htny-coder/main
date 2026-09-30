@@ -48,6 +48,24 @@ The assembly target is the parent's leading law and D2's bounded remainder, with
 
 Write the short exposition first, then attach full proofs or precise appendices. A page count is an editorial target, not a substitute for a complete argument. Keep a paragraph-by-paragraph statement crosswalk during assembly: source statement, exact version, hypotheses, repairs, review scope and unresolved alignment question. The successor [draft](MANUSCRIPT.md) and [crosswalk](CROSSWALK.md) now implement this assembly step; complete proof appendices and theorem-level literature comparison remain.
 
+## Why the cap needs an interior-height bound
+
+A separate [smooth counterexample](cap-assumption-ablation/PROOF.md) isolates
+one deterministic assumption in the elder-pairing argument. A perturbation can
+preserve **every pin derivative**, the entire old cap boundary and the old path,
+and have arbitrarily small uniform size, while introducing an older maximum
+inside the cap and changing the actual elder saddle. The construction is on a
+fixed compact torus with distinct Morse critical values; it proves the new death
+value by an explicit smaller cap and path.
+
+This does not contradict the sufficient cap theorem. It shows why the condition
+that the whole cap lies below the birth height cannot be replaced by endpoint
+or boundary data. The [exact controls](cap-assumption-ablation/probe.py),
+[recorded bounds](cap-assumption-ablation/RESULTS.json) and
+[source/exposure record](cap-assumption-ablation/SOURCE_BINDINGS.json) accompany
+this narrow result. It supplies no Gaussian probability or numerical lifetime
+remainder and does not alter the manuscript's frozen parent chain.
+
 ## Next mathematical work, after accounting for existing results
 
 1. **Make the existential error usable.** Seek explicit constants and a justified lifetime window for the exact finite-torus observable. The evaluated SIDE24 coefficient alone does not make a finite sample or finite lifetime lie in the asymptotic regime. A negative result establishing an impractically small sufficient window is still useful.
