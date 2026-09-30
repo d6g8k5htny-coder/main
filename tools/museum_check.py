@@ -26,13 +26,13 @@ def check_local_identity():
                        "sha256": hashlib.sha256(raw).hexdigest()}):
         raise ValueError("Museum manifest descriptor differs from local bytes")
     manifest = json.loads(raw)
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    readme = (ROOT / "docs/site/README.md").read_text(encoding="utf-8")
     math_pin = manifest["index_source"]["commit"]
     query_pin = config["query"]["commit"]
     if (config["query"]["math_pin"] != math_pin or
             f"git -C Math- checkout --detach {math_pin}" not in readme or
             f"git -C query- checkout --detach {query_pin}" not in readme):
-        raise ValueError("README Math/query checkouts differ from museum/config pins")
+        raise ValueError("Site reproduction guide Math/query checkouts differ from museum/config pins")
 
 
 def main():

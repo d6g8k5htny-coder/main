@@ -29,7 +29,7 @@ test('palette tokens are actually applied, not decorative metadata',()=>{
  assert.ok(css().includes('background: var(--ul-background)'));
 });
 test('all public pages load local branding after legacy styles with no CSP relaxation',()=>{
- for(const name of ['index','museum','formal']){
+ for(const name of ['index','explore','research','workspace','museum','formal']){
  const h=read(`docs/site/${name}.html`);
  assert.match(h,/<link rel="stylesheet" href="brand\.css">/);
  assert.ok(h.indexOf('brand.css')>h.indexOf('style.css'));

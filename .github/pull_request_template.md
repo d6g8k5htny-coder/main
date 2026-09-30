@@ -1,37 +1,28 @@
-## What this changes
+## Change and purpose
 
-<!-- What is different after this, and why. Link the issue or discussion it comes from. -->
+<!-- What a reader or contributor can do after this change. Link the existing
+     work discussion. Name the affected scope: presentation, engineering,
+     mathematics, or a combination. -->
 
-## Type of change
+## Current disposition
 
-- [ ] Research content (a new or amended mathematical object)
-- [ ] Review verdict
-- [ ] Register update
-- [ ] Governance / protocol
-- [ ] Tooling, tests or CI
-- [ ] Documentation only
+<!-- Keep this block current on material changes; link detailed records.
+     Head and integration owner:
+     Claim / handoff, if applicable:
+     Completed review scopes and source identities:
+     Unresolved finding IDs and next action:
+     Use "none" where accurate; an offer is not an observed pickup or review. -->
 
 ## Verification
 
-<!-- What you actually ran, and what it actually showed. Paste the summary lines. -->
+<!-- Commands actually run, their results and the tested source. Include relevant
+     visual/keyboard checks for UI, failure controls for engineering repairs,
+     and exact hypotheses/dependencies for mathematical changes. Required hosted
+     checks must pass at the current tested commit; link their actual results. -->
 
-## What this does NOT establish
+## Evidence and limits
 
-<!-- As important as the section above. What did you not check? What would a reader be
-     wrong to conclude from this? Which dependencies are taken on trust? -->
-
-## Status discipline
-
-- [ ] No claim status was promoted without the exact predicate that licenses it
-- [ ] Frozen bodies were not edited in place; successors are numbered
-- [ ] Exported or generated files were regenerated, not hand-edited
-- [ ] Any bound is computed in exact rational arithmetic, or its output is labelled `NON-CERTIFYING`
-- [ ] Every new checker or claimed bound has a negative control that fails when the check is weakened
-- [ ] Nothing composes the 2D track with the 3D lifetime track
-- [ ] Nothing moves the prize track into the q0 dependency graph
-
-## Independence
-
-<!-- If this is or contains a review: name the author's provider and yours, disclose what you
-     read before reviewing, and state the independence credit. Same-provider review earns zero
-     organizational-independence credit whatever the technical verdict. -->
+<!-- State material remaining uncertainty and link the canonical evidence record.
+     For reviews, disclose actual authorship/exposure and independence credit.
+     For scientific changes, preserve exact source/review scope and the applicable
+     acceptance predicates. Omit unrelated boilerplate; a merge is not a theorem. -->

@@ -1,11 +1,10 @@
 # Release operations and source custody
 
-Owner authorization: Dylan Roy, 27 September 2026. Scientific effect: **NONE**.
-
-The existing [formal-verification guide](FORMAL_VERIFICATION.md), Math- formal
-project, and [coordination issue #95](https://github.com/d6g8k5htny-coder/main/issues/95)
-remain the integration entry points. This is not another scientific registry,
-promotion engine, automatic merger, or scheduled agent loop.
+Use the [current workflow](../governance/OP-WORKFLOW-20260930.md) for task
+ownership, proportionate verification and delivery. This page supplies the
+details for source downloads and integration; read only the relevant section.
+The [formal-verification guide](FORMAL_VERIFICATION.md) and
+[required-check contract](FORMAL_REQUIRED_CHECKS.md) retain their evidence gates.
 
 ## Download and reproduce
 
@@ -47,10 +46,17 @@ context whenever replay is hosted in a different repository.
 
 ## Review and merge
 
+The active integration claim covers branch refresh, readiness changes and merge.
+Use the relevant PR's current disposition for ownership and outstanding findings;
+follow the handoff and conflict rules in the current workflow.
+
 Read the exact diff, full reviews and unresolved threads, current tests and source
 bindings. A successful static check is not a fresh Lean execution. An absent check
 is not a passing check. Re-fetch the PR immediately before a merge and use
-`expected_head_sha`. A changed source or scope stales the corresponding review.
+`expected_head_sha`. A changed reviewed source, hypothesis or consumed dependency
+stales its affected review scope. Unchanged scopes may retain their source-bound
+reviews after an explicit dependency comparison; fresh integration checks still
+bind the actual tested commit.
 Do not bypass branch protection or simulate another account's approval. The owner
 may delegate engineering integration, but delegation does not create independent
 review or satisfy a mathematical premise. Record your actual provider/session and
@@ -65,8 +71,10 @@ landing competing registries. Do not race an active writer's branch.
 
 ## All current and future agents
 
-Coordinate in main #95 and the relevant existing PR, not a parallel dispatch
-system. Math- #92 and main #177 established the first merged formal foundation.
+Coordinate in the relevant existing PR. Closed
+[main #95](https://github.com/d6g8k5htny-coder/main/issues/95) records the formal
+rollout and its historical obligations; it is not a mandatory second reporting
+destination. Math- #92 and main #177 established the first merged formal foundation.
 Math- #93, main #178, sandbox #3 and trial #160 were separately observed proposals.
 Main #178 subsequently merged at `eaf12644bdcbf6176a9e216ffb4ab9304f17de12`
 during this audit. Preserve that work and reconcile interfaces rather than
@@ -79,3 +87,16 @@ pickup/result. Publishing this file does not prove every agent has read it.
 Optional Blueprint publishing, external prover weights, additional proof-assistant
 backends and an independent checker require their own explicit run receipts; they
 are not prerequisites to call an isolated scalar Lean proof kernel-checked.
+
+## Compact research deliveries
+
+`python3 -B -S tools/research_delivery.py build --root <payload-directory>
+--spec <spec.json> --output <new.zip>` builds a deterministic archive. Use
+`verify <archive.zip>` to check it again, including after upload/download. It
+accepts explicit file paths, byte counts and SHA-256 identities, not an automatic
+workspace crawl. Its canonical handoff has a separate payload digest.
+
+Run `python3 -B -S tools/research_delivery.py --help` for the specification and
+bounds. Verification checks archive custody; it does not execute evidence or
+certify its scientific claims. Link original execution receipts and unchanged
+predecessor deliveries rather than duplicating their complete payloads by default.

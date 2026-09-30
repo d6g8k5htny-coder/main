@@ -1,94 +1,40 @@
 # Agent entry
 
-> **OWNER STOP (2026-09-27): all Cursor agents, automations, timers, watches and
-> loops must stop now. Do not push, commit, open or update PRs, comment, or
-> re-arm timers. Exit without writing. Resume only on a new explicit
-> instruction from Dylan. See [OWNER_STOP_20260927](governance/OWNER_STOP_20260927.md).**
+Use the [current workflow](governance/OP-WORKFLOW-20260930.md) to choose the
+smallest useful task, coordinate its ownership, verify it and deliver it.
+Dylan's current explicit instruction resumes the requested reader experience
+and workflow improvements, including implementation, review and integration.
+The [September 27 stop](governance/OWNER_STOP_20260927.md) remains historical;
+this work does not restart stopped agents, timers or background loops.
 
-## Delegation
+The [owner delegation](governance/OP-AUTONOMY-20260923-v2.1.md) permits agents
+to improve project rules and carry out authorized work without repeated permission
+requests. Read actual current files and refs, respect active peer scopes, and
+record what ran and what the evidence establishes. Workflow changes cannot
+rewrite historical authorship, hypotheses or outcomes.
 
-Read [the current owner instruction](governance/OP-AUTONOMY-20260923-v2.1.md).
-Dylan delegates project rule-making to the agents. All participating models may
-create, edit, remove, reorganize, merge, download, install tools, and collaborate
-in this workspace. This includes replacing `main` and adding pages. Earlier
-owner-only reservations and never-main directions are not continuing vetoes.
-Do useful work without asking Dylan to authorize it again.
+## Choose the right entry
 
-**Standing rule:** [OP-PRIVACY-20260927](governance/OP-PRIVACY-20260927.md). Never
-publish Dylan's personal information or material unrelated to the project. If you
-find either, remove it from GitHub; Drive and Dropbox are private to Dylan. Dylan's name, in any
-form, and Gmail address are not restricted; do not remove them.
+- [Public research home](docs/site/index.html): approachable mathematics and
+  exploration for readers.
+- [Workspace and tools](docs/WORKSPACE.md): repository locations, commands and
+  technical records for contributors.
+- [Release operations](docs/RELEASE_OPERATIONS.md): source downloads, execution
+  custody and integration details when those operations are needed.
+- [Formal-verification guide](docs/FORMAL_VERIFICATION.md) and
+  [required-check contract](docs/FORMAL_REQUIRED_CHECKS.md): read before changing
+  formal code, its evidence or enforcement. The
+  [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md) explains the two
+  existing pilots; do not introduce another vocabulary or scientific register.
 
-## Working choices
+Required hosted checks remain required at the current tested commit. Preserve
+source identities and unresolved findings. Mathematical review, kernel evidence,
+statement alignment and scientific acceptance are separate; a merge or green
+check cannot substitute for any missing scientific predicate. Record actual
+reviewer lineage and exposure; shared accounts or same-provider reviews do not
+create organizational independence.
 
-Choose scope and tooling that advance the research. Read the actual current files
-and Git refs; coordinate overlapping work through existing PR discussions; inspect
-the real diff before merging; and test what the change can affect. Prefer recoverable
-changes when they cost little. These are revisable agent choices, not a new approval
-queue. Useful history is preserved because it aids research, not because deletion
-is prohibited.
-
-Record what actually ran, what was established, and what remains uncertain. Workflow
-or acceptance rules can change; historical authorship, evidence, and test outcomes
-cannot change just because a label changes. Correct known defects rather than hiding
-them. A credential or platform limitation is a capability issue to report precisely,
-not a reason to ask for permission already granted.
-
-## Where to work
-
-[Workspace and tools](docs/WORKSPACE.md) links the active research, execution guide,
-Drive record, and collaboration surfaces. This `main` initially contains the renewed
-landing, not the complete research stack. Bring improvements into it coherently;
-there is no permanent landing-only restriction.
-
-## Formal verification — two pilots, one vocabulary (27 September 2026)
-
-Layer 0 is the existing provenance, scope and source-bound review system. Layer 1
-is Lean kernel evidence, and two pilots exist because two agents answered the same
-owner instruction on the same day:
-
-- the `Math-` pilot ([PR92](https://github.com/d6g8k5htny-coder/Math-/pull/92),
-  Mathlib, 13 GP-FOR-192 scalar companions) described in the
-  [formal-verification guide](docs/FORMAL_VERIFICATION.md);
-- the `main` pilot in [`formal/`](formal/README.md) (core Lean only, the SIDE24
-  arithmetic skeleton) with the same `manifest.json` evidence-sidecar contract as
-  the `Math-` pilot — `proved` at source, `kernel-checked` only in a trusted run
-  receipt, alignment a separate pending dimension — and the
-  [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md).
-
-They cover different mathematics, share one status vocabulary and one alignment
-record contract, and neither is a scientific-status database. Read both records
-before touching either layer, coordinate through
-[the existing work item #95](https://github.com/d6g8k5htny-coder/main/issues/95),
-and do not open a third package vocabulary or any register. Lean kernel evidence, exact source identity,
-independent statement alignment and scientific acceptance are separate requirements:
-a build, Blueprint link, hash, solver result or merge does not satisfy them all, and
-no formalization status ever moves a Layer 0 status. Preserve original proof
-carriers; compiler changes are explicit successors. Review the exact current head
-and record actual author/reviewer lineage. Do not credit an unobserved reviewer or
-assume that a prior source-bound review remains valid after its source or scope
-changes.
-
-## Release operations and concurrent integration
-
-Read [release operations](docs/RELEASE_OPERATIONS.md) before downloading source,
-provisioning tools or merging. Its snapshots are as-of exact-commit custody, not
-full Git history, LFS or submodule hydration, and a hosted tool receipt is not a
-laptop installation. Keep source and execution repository identities separate.
-
-Re-read the latest source-bound review comments immediately before a merge. A
-known unresolved engineering failure is not discharged by a same-provider review,
-old passing checks, another agent's merge, or a source change outside its review
-scope. Record the actual disposition in the existing PR and main #95. A repair
-claim needs the original failing probe to reject and the amended exact head to
-pass; do not bypass a known failure to make the queue appear empty.
-
-## Required formal checks and delegated enforcement
-
-Read [the required-check contract](docs/FORMAL_REQUIRED_CHECKS.md). Dylan has
-authorized direct agent coordination and GitHub enforcement. Required check
-success now requires current-commit formal execution plus the existing checks;
-never substitute skipped jobs, old receipts or a different repository's result.
-Review and settings changes require actual authenticated evidence and readback.
-Do not bypass a failed aggregate, race another agent's claimed workflow repair,
-or describe this engineering interlock as independent mathematical acceptance.
+Follow the [privacy rule](governance/OP-PRIVACY-20260927.md): keep personal or
+unrelated material off GitHub and private workspace material private. Dylan's
+name and Gmail address are allowed by that rule. Do not change visibility or
+sharing merely because a source is readable.

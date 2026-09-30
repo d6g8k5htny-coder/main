@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Explore the mathematics · Universal Law</title>
+  <meta name="description" content="Three hands-on explanations of curvature, shrinking scales, and finite obstructions, with a path to the underlying research.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="explore.css">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg">
+  <script type="module" src="explore.mjs"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header>
+  <a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a>
+  <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html" aria-current="page">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav>
+</header>
+<main id="main-content" tabindex="-1">
+  <section class="explore-intro">
+    <p class="eyebrow">LEARN BY CHANGING ONE THING</p>
+    <h1>A few small experiments.<br>A way into the mathematics.</h1>
+    <p class="intro">Move a slider. Remove an object. See what changes—and why. These three ideas connect simple pictures to the questions in our research.</p>
+    <p class="teaching-label">Interactive teaching examples</p>
+    <nav class="lesson-links" aria-label="Examples"><a href="#peaks"><span>01</span> Peaks and saddles</a><a href="#distance"><span>02</span> Approaching points</a><a href="#groups"><span>03</span> An impossible fit</a></nav>
+    <noscript><p class="boundary">JavaScript is off. The explanations and source links remain readable. Enable JavaScript to use the local interactive diagrams.</p></noscript>
+  </section>
+
+  <section id="peaks" class="lesson">
+    <div class="lesson-heading"><p class="eyebrow">01 / THE SHAPE NEAR A POINT</p><h2>When is a hill really a peak?</h2><p>At a stationary point, the slope is zero. What matters next is how the surface bends. If it bends downward in <em>every</em> direction, the point is a local peak. A saddle bends upward in one direction and downward in another.</p></div>
+    <div class="experiment">
+      <div class="experiment-controls">
+        <p class="try-this">Try this: move the center curvature upward through −1, then through +1.</p>
+        <label for="curvature-center">Center curvature <span class="math-symbol">s</span><output id="curvature-center-value" for="curvature-center">−2.0</output></label>
+        <input id="curvature-center" type="range" min="-3" max="3" step="0.1" value="-2" aria-describedby="curvature-center-help" disabled>
+        <p id="curvature-center-help" class="control-help">Moves both principal curvatures together.</p>
+        <label for="curvature-spread">Curvature spread <span class="math-symbol">R</span><output id="curvature-spread-value" for="curvature-spread">1.0</output></label>
+        <input id="curvature-spread" type="range" min="0" max="2" step="0.1" value="1" aria-describedby="curvature-spread-help" disabled>
+        <p id="curvature-spread-help" class="control-help">Separates the two curvatures: s − R and s + R.</p>
+        <button id="curvature-reset" class="reset-button" type="button" disabled>Reset curvatures</button>
+        <p class="keyboard-hint">Sliders work with the arrow keys.</p>
+      </div>
+      <div class="experiment-result">
+        <div class="result-heading"><p class="result-kicker">LOCAL SHAPE</p><h3 id="curvature-kind">Downward in both directions</h3></div>
+        <figure><svg id="curvature-diagram" viewBox="0 0 600 330" role="img" aria-labelledby="curvature-diagram-title curvature-diagram-description"><title id="curvature-diagram-title">Curvature regions</title><desc id="curvature-diagram-description">The peak region has s below minus R. Between minus R and R is the saddle region. Above R is the bowl region.</desc></svg><figcaption>Each position is a pair of curvatures. The marker follows your controls.</figcaption></figure>
+        <div class="readout-grid"><p>First curvature<strong id="eigenvalue-first">−3.0</strong></p><p>Second curvature<strong id="eigenvalue-second">−1.0</strong></p></div>
+        <p id="curvature-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">Both curvatures are negative: this quadratic model bends downward in every direction.</p>
+      </div>
+    </div>
+    <div class="lesson-takeaway"><h3>Why this idea appears in the research</h3><p>A Hessian is a matrix that records curvature. The coefficient calculation sorts matrices by their curvature signs, then averages a weighted contribution over the peak-shaped ones. The picture lets you inspect that selection rule.</p></div>
+    <details class="lesson-source"><summary>See the mathematics, source and limits</summary><p>The source writes the two-by-two transverse Hessian as <code>A = [[s + x, y], [y, s − x]]</code>, with <code>R = √(x² + y²)</code>. Its eigenvalues are <code>s − R</code> and <code>s + R</code>. Negative definiteness is exactly <code>s &lt; −R</code>. At a zero eigenvalue, the second-order test is inconclusive; higher-order terms can matter.</p><p>This deterministic diagram is a slice through those parameters. It does not sample the source’s Gaussian matrix law or compute its average. Numeric rendering uses floating point and is non-certifying.</p><p><a href="https://github.com/d6g8k5htny-coder/Math-/blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments">Read the pinned SIDE24 derivation, §1 ↗</a> · <a href="workspace.html#coefficient">Inspect the exact coefficient endpoints</a></p></details>
+  </section>
+
+  <section id="distance" class="lesson">
+    <div class="lesson-heading"><p class="eyebrow">02 / TWO DIFFERENT KINDS OF SMALL</p><h2>Closer together. Much closer in height.</h2><p>Call the distance between two pinned critical points <em>r</em>. In the research model, their height gap is proportional to <em>r³</em>. Halving the distance divides that gap by eight. Meanwhile, different regions of space can shrink—or stay fixed.</p></div>
+    <div class="experiment">
+      <div class="experiment-controls">
+        <p class="try-this">Try this: compare r = 0.50 with r = 0.25. Then switch the highlighted region.</p>
+        <label for="pin-distance">Point separation <span class="math-symbol">r</span><output id="pin-distance-value" for="pin-distance">0.50</output></label>
+        <input id="pin-distance" type="range" min="0.05" max="0.6" step="0.01" value="0.5" aria-describedby="pin-distance-help" disabled>
+        <p id="pin-distance-help" class="control-help">Illustrative units; height gap = r³ in this example.</p>
+        <fieldset class="region-choice" disabled><legend>Highlight a region</legend><label><input type="radio" name="region" value="annulus" checked> A ring that shrinks with r</label><label><input type="radio" name="region" value="remote"> A fixed remote region</label></fieldset>
+        <div class="control-actions"><button id="pin-half" class="reset-button" type="button" disabled>Compare half distance</button><button id="pin-reset" class="reset-button" type="button" disabled>Reset distance</button></div>
+        <p class="keyboard-hint">The comparison button switches between 0.50 and 0.25.</p>
+      </div>
+      <div class="experiment-result">
+        <div class="result-heading"><p class="result-kicker">SPACE AND HEIGHT</p><h3 id="pin-region-title">The ring follows the points inward</h3></div>
+        <figure><svg id="pin-diagram" viewBox="0 0 600 350" role="img" aria-labelledby="pin-diagram-title pin-diagram-description"><title id="pin-diagram-title">Spatial scales and height gap</title><desc id="pin-diagram-description">The pins lie at minus r over two and plus r over two. The ring spans distances two r to four r. The remote boundary stays at distance three.</desc></svg><figcaption>A local spatial diagram and a separate height scale. No random field is simulated.</figcaption></figure>
+        <div class="readout-grid three-readouts"><p>Point separation<strong id="pin-separation">0.50</strong></p><p>Height gap r³<strong id="pin-gap">0.125000</strong></p><p>Fixed radius ρ<strong>3.00</strong></p></div>
+        <p id="pin-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">The ring spans radii 1.00 to 2.00. The remote boundary stays at 3.00.</p>
+      </div>
+    </div>
+    <div class="lesson-takeaway"><h3>A small distinction with a big effect</h3><p>The fixed-annulus argument concerns a shrinking ring and allows all heights. The fixed-remote argument keeps a spatial exclusion fixed and counts within the shrinking height window. Their conditions answer different questions.</p></div>
+    <details class="lesson-source"><summary>See the mathematics, sources and limits</summary><p>The diagram fixes <code>A = 2</code>, <code>B = 4</code>, <code>ρ = 3</code>, <code>L = 24</code>, <code>b = 1</code> and <code>k = 1</code> to illustrate the definitions. Pins are <code>M = (−r/2, 0)</code> and <code>S = (r/2, 0)</code>. The annulus is <code>Ar ≤ |x| ≤ Br</code>; the remote region satisfies <code>dist(x, 0) ≥ ρ</code>; the remote height window is <code>b − kr³ &lt; f(x) &lt; b</code>.</p><p>These selected dimensions are teaching choices, not certified theorem constants or an admissible radius bound. The viewport is a local schematic, not the whole torus. This example displays scaling only; it estimates no critical-point count, probability or lifetime. Numeric rendering is non-certifying. The linked sources retain their own hypotheses and review histories.</p><p><a href="https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/remote_window_20260924/PROOF.md">Pinned fixed-remote source ↗</a> · <a href="https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/rn_annulus_bridge_20260925/PROOF.md">Pinned fixed-annulus source ↗</a> · <a href="museum.html?view=annulus#active-exhibit">Read the source-bound exhibit</a></p></details>
+  </section>
+
+  <section id="groups" class="lesson">
+    <div class="lesson-heading"><p class="eyebrow">03 / UNDERSTANDING AN OBSTRUCTION</p><h2>Three objects. Two places. One impossible fit.</h2><p>Suppose you have two groups, and each group can hold at most one object. Can all three objects be assigned? What if you remove any one of them?</p></div>
+    <div class="experiment">
+      <div class="experiment-controls">
+        <p class="try-this">Try this: remove any one object. Put it back, then remove a different one.</p>
+        <fieldset class="object-choices" disabled><legend>Choose the objects to include</legend><label><input id="object-one" type="checkbox" value="0" checked> Object 1</label><label><input id="object-two" type="checkbox" value="1" checked> Object 2</label><label><input id="object-three" type="checkbox" value="2" checked> Object 3</label></fieldset>
+        <p class="control-help">The rule stays the same: one object per group.</p>
+        <button id="palette-reset" class="reset-button" type="button" disabled>Restore all three</button>
+        <p class="keyboard-hint">Use Tab to reach an object and Space to select it.</p>
+      </div>
+      <div class="experiment-result">
+        <div class="result-heading"><p class="result-kicker">CAPACITY ONE · TWO GROUPS</p><h3 id="palette-kind">One object has no place</h3></div>
+        <figure><svg id="palette-diagram" viewBox="0 0 600 300" role="img" aria-labelledby="palette-diagram-title palette-diagram-description"><title id="palette-diagram-title">Three objects and two capacity-one groups</title><desc id="palette-diagram-description">All three objects cannot fit into two groups of capacity one. Every selection of zero, one or two objects can fit.</desc></svg><figcaption>Every included object must appear in exactly one group.</figcaption></figure>
+        <p id="palette-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">Three included objects need three places, but only two are available. Removing any one object makes a valid assignment possible.</p>
+      </div>
+    </div>
+    <div class="lesson-takeaway"><h3>The whole set can fail while every smaller set works</h3><p>That makes the triple a <em>minimal obstruction</em>: it fails the rule, but removing anything repairs it. This tiny example is a starting point for the project’s finite-family work on covers and their cost.</p></div>
+    <details class="lesson-source"><summary>See the mathematics, source and limits</summary><p>This reuses the museum’s finite P15 model: one original block, capacity <code>a = 1</code>, demand <code>d = 2</code>, <code>n = 3</code> coordinates, <code>K = 2</code> palette classes and no macro edges. A valid group is a member of the capacity family; a valid assignment partitions the selected objects into at most two such groups.</p><p>The full triple is not two-decomposable, and every proper subset is. This exact finite example illustrates one realized family. It does not establish the full price theorem, extend to arbitrary families, or close a prize problem.</p><p><a href="https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/full_price_20260924/PROOF.md">Read the pinned full-price proof, §5 ↗</a> · <a href="museum.html?view=p15#active-exhibit">Inspect its source-bound exhibit</a></p></details>
+  </section>
+
+  <section class="explore-next"><p class="eyebrow">KEEP GOING</p><h2>Take the picture into the proof.</h2><p>The research pages connect each mathematical statement with its exact scope, sources and review record.</p><div class="actions"><a class="button" href="research.html">Explore the research</a><a class="button secondary" href="workspace.html#inventory">Find a full text</a></div><p class="muted">These teaching examples explain definitions. They do not change the status of any research claim.</p></section>
+</main>
+<footer><p><a href="index.html">Universal Law</a> · <a href="research.html">Research</a> · <a href="workspace.html#inventory">Library</a> · <a href="workspace.html">Research workspace</a></p></footer>
+</body>
+</html>

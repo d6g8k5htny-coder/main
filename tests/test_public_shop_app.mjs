@@ -11,7 +11,7 @@ class Element {
   setAttribute(k,v){this.attributes[k]=v;}addEventListener(k,f){this.listeners[k]=f;}
 }
 const root=path.resolve(import.meta.dirname,'..');
-const html=fs.readFileSync(path.join(root,'docs/site/index.html'),'utf8');
+const html=fs.readFileSync(path.join(root,'docs/site/workspace.html'),'utf8');
 const nodes=new Map();
 for(const match of html.matchAll(/<([a-z][a-z0-9-]*)\b[^>]*\bid="([^"]+)"[^>]*>/gi)) {
  assert.ok(!nodes.has(match[2]),`Duplicate HTML ID ${match[2]}`);
