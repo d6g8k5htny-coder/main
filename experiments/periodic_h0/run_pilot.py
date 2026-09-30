@@ -147,6 +147,17 @@ def execute(config):
             'spectral_diagnostics':{str(c):ex.spectral_diagnostics(c) for c in cutoffs},
             'interpretation':'Exploratory discrete-model output. No slope fit, confirmation window, continuum certificate or theorem verdict.'}
 
+def source_receipt(config_path,config_bytes):
+    """Stable role keys preserve identity even when filenames coincide."""
+    paths={'runner':Path(__file__),'model':Path(ex.__file__),
+           'controls':Path(__file__).with_name('controls.py'),'config':config_path,
+           'dependencies':Path(__file__).with_name('requirements.txt')}
+    result={}
+    for role,path in paths.items():
+        raw=config_bytes if role=='config' else path.read_bytes()
+        result[role]={'filename':path.name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
+    return result
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config',type=Path,default=Path(__file__).with_name('pilot_config.json'))
@@ -158,18 +169,16 @@ def main():
         verify_observations(json.loads(args.verify.read_text()))
         print(json.dumps({'verified':str(args.verify),'scope':'Internal observation/report consistency only'}));return
     if args.output.exists():parser.error('Output must be a new directory; preserve previous runs')
-    config=json.loads(args.config.read_text());start=time.perf_counter()
+    config_bytes=args.config.read_bytes();config=json.loads(config_bytes)
+    sources=source_receipt(args.config,config_bytes);start=time.perf_counter()
     data=execute(config)
     verify_observations(data)
     args.output.mkdir(parents=True)
     save(args.output/'observations.json',data)
-    sources={}
-    for p in [Path(__file__),Path(ex.__file__),Path(__file__).with_name('controls.py'),args.config,Path(__file__).with_name('requirements.txt')]:
-        raw=p.read_bytes();sources[p.name]={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
     save(args.output/'RUN.json',{'utc':datetime.now(timezone.utc).isoformat(),'elapsed_seconds':time.perf_counter()-start,
         'python':sys.version,'numpy':np.__version__,'gudhi':gudhi.__version__,'platform':platform.platform(),
         'float':'IEEE754 float64 / complex128','rng':'NumPy PCG64; seed per independent realization; shared bank across grids/cutoffs',
-        'sources':sources,'observations_sha256':hashlib.sha256((args.output/'observations.json').read_bytes()).hexdigest(),
+        'source_receipt_schema':2,'sources':sources,'observations_sha256':hashlib.sha256((args.output/'observations.json').read_bytes()).hexdigest(),
         'scientific_effect':'NONE','reproducibility':'Exact replay expected in the tested environment; cross-platform floating-point ties may differ'})
     print(json.dumps({'records':len(data['records']),'elapsed_seconds':time.perf_counter()-start,'output':str(args.output)}))
 
