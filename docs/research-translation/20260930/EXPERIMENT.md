@@ -2,7 +2,7 @@
 
 [Research plan](README.md) · [Exact mathematical sources](SOURCES.json)
 
-**Proposed experiment; no simulation result or continuum certificate is asserted.** This protocol measures the unrestricted finite-bar observable. A compact birth/gap or pair-Palm experiment is a different design and must use its own normalizer and coefficient. Begin in d=2; d=3 needs separate resource and source-alignment checks.
+**Protocol retained from the original proposal.** A successor [implementation and fixed pilot](../../../experiments/periodic_h0/README.md) now supplies actual observations, controls and a figure. The pilot is inconclusive at the tested resolutions. This protocol itself is not a simulation result or continuum certificate. This protocol measures the unrestricted finite-bar observable. A compact birth/gap or pair-Palm experiment is a different design and must use its own normalizer and coefficient. Begin in d=2; d=3 needs separate resource and source-alignment checks.
 
 ## 1. Freeze the observable before generating data
 
@@ -54,7 +54,7 @@ Use h=L/n_grid with no duplicated endpoint at L. Choose a grid that resolves the
 
 The [GUDHI PeriodicCubicalComplex reference](https://gudhi.inria.fr/python/latest/periodic_cubical_complex_ref.html) documents constructors from vertices or top-dimensional cells and distinguishes their pairing accessors. Pin the tested package version and use **one declared convention**, initially vertices with values -f and periodicity true on every axis. Keep array ordering and periodic gluing in the run metadata. Do not call a coface-pair accessor on a vertex-built complex or interchange the two discretizations while reporting them as the same experiment.
 
-Before any random-field fit, compare finite H₀ intervals against an independently written descending union-find oracle on small periodic grids with known merge trees. On activation, the component with the higher original maximum survives; record the younger maximum's death at the merge level. Handle equal values by a declared deterministic batch/tie convention and compare positive-length intervals. The oracle and the library must agree on the same grid filtration, not merely on total Betti numbers. This is a future implementation requirement, not an already completed check.
+Before any random-field fit, compare finite H₀ intervals against an independently written descending union-find oracle on small periodic grids with known merge trees. On activation, the component with the higher original maximum survives; record the younger maximum's death at the merge level. Handle equal values by a declared deterministic batch/tie convention and compare positive-length intervals. The oracle and the library must agree on the same grid filtration, not merely on total Betti numbers. The successor implementation executes this requirement; see its tests and retained pilot results.
 
 Separate controls should expose:
 
@@ -84,4 +84,4 @@ A stable mismatch first triggers checks of sign, volume, amplitude, covariance, 
 
 A discrepancy between a typed contact count and actual elder bars requires a separately defined contact estimator. Candidate contacts, two additional saddle witnesses and finite elder bars must never be pooled into one count. Testing the refined planar failure law would require sampling the original determinant-weighted pinned law and its actual global selector; an unconditional grid histogram is not that experiment.
 
-The reproducibility package should contain source commit, dependency lock, seeds and generator definition, dimensions/side/cutoffs/grids, per-realization counts, essential/zero-bar diagnostics, exact bin edges, all controls, resource usage, and a script regenerating the figure and table. Keep raw data in a versioned artifact with hashes and provenance; keep the small generator, estimator and fixtures in source control. No actual data, fit, usable cutoff or simulation acceptance is delivered by this specification.
+The reproducibility package should contain source commit, dependency lock, seeds and generator definition, dimensions/side/cutoffs/grids, per-realization counts, essential/zero-bar diagnostics, exact bin edges, all controls, resource usage, and a script regenerating the figure and table. Keep raw data in a versioned artifact with hashes and provenance; keep the small generator, estimator and fixtures in source control. This specification supplies no usable cutoff or simulation acceptance. Actual pilot data are linked above, with their own execution receipt and limitations.
