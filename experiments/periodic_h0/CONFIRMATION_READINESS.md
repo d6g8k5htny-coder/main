@@ -12,6 +12,7 @@ paired differences, finite-sample error, and the last refinement remain relevant
 | Spatial approximation theorem | Quadratic interpolation, stability and exact bin sandwich in [APPROXIMATION.md](APPROXIMATION.md) | Deterministic argument supplied |
 | Certified finite-polynomial derivative input | [Exact rational certificate](FINITE_CERTIFICATE.md) for the stored rounded coefficients of eight fields | Derivative majorants and spatial interpolation budget evaluated; this defines a finite polynomial, not an ideal Gaussian realization |
 | Certified numeric nodal input | [New seed34000 / 128² snapshot](NODAL_CERTIFICATE.md), every node independently enclosed | Nodal error and abstract finite-field diagram bound supplied for this snapshot only; historical samples and computed barcode endpoints remain uncertified |
+| Sharper finite-field spatial bound | [Hessian/grid certificate](HESSIAN_GRID.md), with a 256² derivative grid and a separate 1024² dyadic sample grid | Exact abstract-filtration error evaluated for deterministic new samples; no transfer of historical histogram counts |
 | Infinite-field truncation | Variance diagnostics through mode64 in pilot32 | No uniform realized or probabilistic tail enclosure |
 | Lifetime range | Larger bins exhibit numerical stability; shortest bins still drift | No certified finite-lifetime range for the leading law |
 | Remainder | Source-bound qualitative O(1) theorem with its hypotheses | No applicable numerical remainder constant or cutoff supplied here |
@@ -32,6 +33,13 @@ continuum certificate or a usable asymptotic window. The separate new
 polynomial and abstract supplied-sample filtrations; the coarse-grid spatial
 term still prevents use in the short-lifetime window.
 
+The [Hessian/grid result](results/hessian1/RESULTS.md) improves the derivative
+bound and supplies a much smaller abstract-filtration budget on a new 1024²
+dyadic grid. The result table checks the strict endpoint conditions for the
+existing expanded/contracted-bin inequalities. It supplies neither bar counts
+nor an asymptotic window. The new samples are defined by exact integer replay,
+so this bound cannot be attached to historical NumPy histogram counts.
+
 A later held-out design should be frozen **after** these analytic inputs are
 available and **before** its fields are observed. Its specification must record:
 
@@ -48,8 +56,8 @@ available and **before** its fields are observed. Its specification must record:
 
 No held-out seeds have been consumed by this delivery. Assigning a sample size
 or a pass threshold now would conceal missing analytic inputs. The next useful
-calculation extends the new nodal certificate to useful finer sample snapshots
-and independently checks the barcode computation, followed by a justified model,
+calculation independently checks the barcode computation on the now-certified
+fine dyadic grid, followed by a justified model,
 tail and remainder budget.
 The finite-polynomial derivative input is now available. The source-bound manuscript
 and literature work can advance in parallel without waiting for that budget.

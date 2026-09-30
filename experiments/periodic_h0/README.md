@@ -12,6 +12,13 @@ every numerical sample of one retained field on a 128² grid and combines that
 error with its spatial budget. Historical samples, computed barcode endpoints
 and the infinite-field tail retain their separate open obligations.
 
+A [sharper Hessian/grid certificate](HESSIAN_GRID.md) recovers cancellation
+between Fourier modes and evaluates a smaller spatial budget on a 1024² grid.
+Its [compact result](results/hessian1/RESULTS.md) defines new exact dyadic
+samples by deterministic replay, avoiding a million-value data file. These
+samples are distinct from the historical NumPy arrays; computed barcode
+endpoints and lifetime-law confirmation remain open.
+
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
 ## Reproduce the pilot
@@ -89,8 +96,9 @@ Package conventions were checked against the [GUDHI periodic cubical documentati
 
 The deterministic spatial interpolation/filtration bound and exact derivative
 majorants for the specified rounded finite polynomials are supplied. One new
-128² sample snapshot has a certified nodal bound; extending that evidence to
-finer sampled fields and computed barcode endpoints, the relation to ideal Gaussian
+128² NumPy sample snapshot and a separate deterministic 1024² dyadic sample
+grid have certified nodal bounds. The latter has a sharper spatial bound;
+computed barcode endpoints, the relation to ideal Gaussian
 coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
 asymptotic window and numerical remainder constants remain open. Marginal
 one-standard-error bars do not include these errors. The coefficient is a float64
