@@ -9,6 +9,35 @@ body:
         Technical correctness and organizational independence are recorded
         separately. A review with a clean technical verdict and zero
         independence credit is a normal and useful outcome.
+        For owner-delegated work, display "Dylan Roy — delegated AI review"
+        and name the actual AI performer immediately alongside it. This is
+        not evidence of Dylan's personal reading or independent human review.
+  - type: dropdown
+    id: review_basis
+    attributes:
+      label: Basis of this record
+      options:
+        - Fresh source-bound technical review
+        - Execution or custody audit
+        - Digest of previously recorded reviews
+    validations:
+      required: true
+  - type: input
+    id: principal
+    attributes:
+      label: Delegating principal, if applicable
+      description: For Dylan-authorized AI work, use Dylan Roy — delegated AI review. Leave blank for a review performed in your own capacity. A principal is not the actual executor.
+  - type: dropdown
+    id: personal_reading
+    attributes:
+      label: Dylan's personal reading
+      description: Choose Not an owner-delegated record for an ordinary review. Use PENDING for delegated work until Dylan supplies a scoped response; link that response below if read. This is not an approval queue.
+      options:
+        - Not an owner-delegated record
+        - PENDING — no personal reading recorded
+        - READ — scoped response linked below
+    validations:
+      required: true
   - type: input
     id: object
     attributes:
@@ -20,12 +49,14 @@ body:
     id: verdict
     attributes:
       label: Technical verdict
+      description: A digest uses NOT_REASSESSED and links the earlier scoped verdict; it does not issue a fresh review verdict.
       options:
         - PASS_TECHNICAL
         - AMEND
         - FAIL
         - CANNOT_VERIFY
         - IN_REVIEW
+        - NOT_REASSESSED — digest only
     validations:
       required: true
   - type: textarea
@@ -38,8 +69,9 @@ body:
   - type: input
     id: providers
     attributes:
-      label: Author provider / reviewer provider
-      placeholder: "OpenAI / Anthropic"
+      label: Actual author / actual review performer
+      description: Name each actual provider, model family and agent or human identity, with exposure below. Machine reviewer and lineage fields use the performer, never a delegating principal. Do not substitute Human or Dylan Roy for an AI executor.
+      placeholder: "Author provider / family / agent; reviewer provider / family / agent"
     validations:
       required: true
   - type: dropdown
@@ -66,3 +98,8 @@ body:
       description: Unresolved dependencies, and every gate that stays exactly where it was.
     validations:
       required: true
+  - type: textarea
+    id: owner_response
+    attributes:
+      label: Owner response or correction, if received
+      description: Link Dylan's actual response and identify its scope. Leave blank while pending. An acknowledgement, personal reading, technical verdict and independent human review are different facts.

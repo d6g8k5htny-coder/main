@@ -35,6 +35,8 @@ jobs:
           python -B -O -m unittest discover -s experiments/periodic_h0 -p 'test_*.py' -v
       - name: Audit the stored refinement observations
         run: python -B experiments/periodic_h0/run_refinement.py --verify experiments/periodic_h0/results/refinement8/observations.json
+      - name: Replay exact finite-polynomial derivative bounds
+        run: python -B -S experiments/periodic_h0/finite_certificate.py --verify experiments/periodic_h0/results/certificate8
       - name: Execute the complete fixed pilot
         run: |
           python -B experiments/periodic_h0/run_pilot.py --output "$RUNNER_TEMP/periodic-h0-replay"

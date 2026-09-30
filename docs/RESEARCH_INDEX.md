@@ -27,6 +27,11 @@ Start with the [short-lifetime manuscript draft](research-translation/20260930/M
 
 Keep the dimension, full determinant normalizer, mark restrictions and finite-versus-essential-bar convention attached to each result. Numerical constants and a useful lifetime range for the remainder are not supplied by a qualitative O(1) statement. The linked full proof texts are public on GitHub; original Drive provenance is retained with their imports.
 
+For the numerical study, an [exact finite-polynomial derivative certificate](../experiments/periodic_h0/FINITE_CERTIFICATE.md)
+now evaluates a spatial interpolation budget for eight recorded Fourier fields.
+FFT nodal error, the infinite-field relation and the asymptotic remainder remain
+separate requirements before interpreting the study as coefficient confirmation.
+
 ## RN counting
 
 Start with the [probability-to-count interface](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md). It supplies exact implications and counterexamples and identifies the three-determinant integral; it does not evaluate that integral. A remote critical point may exist despite correct local pairing.
