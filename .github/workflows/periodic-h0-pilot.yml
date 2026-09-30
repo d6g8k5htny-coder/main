@@ -39,6 +39,8 @@ jobs:
         run: python -B -S experiments/periodic_h0/finite_certificate.py --verify experiments/periodic_h0/results/certificate8
       - name: Replay the new finite-field nodal snapshot
         run: python -B -S experiments/periodic_h0/nodal_certificate.py --verify experiments/periodic_h0/results/nodal1
+      - name: Replay the sharper finite-field Hessian and fine-grid bound
+        run: python -B -S experiments/periodic_h0/hessian_grid_certificate.py --verify experiments/periodic_h0/results/hessian1
       - name: Execute the complete fixed pilot
         run: |
           python -B experiments/periodic_h0/run_pilot.py --output "$RUNNER_TEMP/periodic-h0-replay"

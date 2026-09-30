@@ -31,7 +31,9 @@ For the numerical study, an [exact finite-polynomial derivative certificate](../
 now evaluates a spatial interpolation budget for eight recorded Fourier fields.
 A [new one-field nodal certificate](../experiments/periodic_h0/NODAL_CERTIFICATE.md)
 supplies an error bound for every newly recorded node and the associated abstract
-filtration. Historical FFT samples, computed barcodes, the infinite-field relation
+filtration. A [sharper Hessian/grid bound](../experiments/periodic_h0/HESSIAN_GRID.md)
+now covers a separate 1024² grid of deterministically regenerated dyadic samples.
+Historical FFT samples, computed barcodes, the infinite-field relation
 and the asymptotic remainder remain
 separate requirements before interpreting the study as coefficient confirmation.
 
