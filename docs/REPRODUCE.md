@@ -2,6 +2,13 @@
 
 [Home](../README.md) · [Research guide](RESEARCH_INDEX.md) · [Workspace](WORKSPACE.md)
 
+## Start with one exact calculation
+
+The [reader example](site/reproduce.html) runs the SIDE24 coefficient calculation
+from one pinned Math- checkout with Python’s standard library. It provides the
+commands, expected enclosures and their precise scope. No second repository is
+needed for that example. The choices below are the deeper contributor routes.
+
 ## Choose the checkout
 
 The default main repository contains the home and navigation. Current mathematical packages live in Math-. The larger numerical research tree remains on its named hardening branch. A check of one is not a check of the others.
