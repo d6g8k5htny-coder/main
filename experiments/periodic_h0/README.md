@@ -98,8 +98,9 @@ The deterministic spatial interpolation/filtration bound and exact derivative
 majorants for the specified rounded finite polynomials are supplied. One new
 128² NumPy sample snapshot and a separate deterministic 1024² dyadic sample
 grid have certified nodal bounds. The latter has a sharper spatial bound;
-computed barcode endpoints, the relation to ideal Gaussian
-coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
+its [exact barcode and finite-field bin bounds](results/exact_h0_1/RESULTS.md)
+are now supplied by an integer sweep and independent connectivity verification.
+The relation to ideal Gaussian coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
 asymptotic window and numerical remainder constants remain open. Marginal
 one-standard-error bars do not include these errors. The coefficient is a float64
 comparison value from a separate exact enclosure. This experiment does not

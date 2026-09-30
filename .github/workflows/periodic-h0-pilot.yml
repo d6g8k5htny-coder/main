@@ -41,9 +41,11 @@ jobs:
         run: python -B -S experiments/periodic_h0/nodal_certificate.py --verify experiments/periodic_h0/results/nodal1
       - name: Replay the sharper finite-field Hessian and fine-grid bound
         run: python -B -S experiments/periodic_h0/hessian_grid_certificate.py --verify experiments/periodic_h0/results/hessian1
+      - name: Replay exact integer H0 and independent connectivity witnesses
+        run: python -B -S experiments/periodic_h0/exact_barcode_certificate.py --verify experiments/periodic_h0/results/exact_h0_1
       - name: Execute the complete fixed pilot
         run: |
           python -B experiments/periodic_h0/run_pilot.py --output "$RUNNER_TEMP/periodic-h0-replay"
           python -B experiments/periodic_h0/run_pilot.py --verify "$RUNNER_TEMP/periodic-h0-replay/observations.json"
       - name: State scientific scope
-        run: echo 'Tests and a fresh discrete periodic H0 pilot passed. This is not a continuum error certificate, coefficient confirmation, or scientific acceptance.' >> "$GITHUB_STEP_SUMMARY"
+        run: echo 'Tests, exact finite-field barcode bounds and a fresh discrete periodic H0 pilot passed. Ideal Gaussian/infinite-field error control, coefficient confirmation and scientific acceptance remain separate.' >> "$GITHUB_STEP_SUMMARY"

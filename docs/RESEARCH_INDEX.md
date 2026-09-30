@@ -33,9 +33,11 @@ A [new one-field nodal certificate](../experiments/periodic_h0/NODAL_CERTIFICATE
 supplies an error bound for every newly recorded node and the associated abstract
 filtration. A [sharper Hessian/grid bound](../experiments/periodic_h0/HESSIAN_GRID.md)
 now covers a separate 1024² grid of deterministically regenerated dyadic samples.
-Historical FFT samples, computed barcodes, the infinite-field relation
-and the asymptotic remainder remain
-separate requirements before interpreting the study as coefficient confirmation.
+An [exact integer H0 computation](../experiments/periodic_h0/EXACT_H0.md) now supplies
+barcode endpoints and deterministic bin-count bounds for that one frozen finite field,
+checked by a separate connectivity method. Historical FFT samples, the infinite-field
+relation and the asymptotic remainder remain separate requirements before
+interpreting the study as coefficient confirmation.
 
 ## RN counting
 
