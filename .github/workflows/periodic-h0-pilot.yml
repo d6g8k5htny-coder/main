@@ -1,0 +1,41 @@
+name: periodic-h0-pilot
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/periodic_h0/**'
+      - '.github/workflows/periodic-h0-pilot.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/periodic_h0/**'
+      - '.github/workflows/periodic-h0-pilot.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: periodic-h0-pilot-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Install pinned experiment dependencies
+        run: python -m pip install -r experiments/periodic_h0/requirements.txt
+      - name: Controls and stored observation audit in both modes
+        run: |
+          python -B -m unittest discover -s experiments/periodic_h0 -p 'test_*.py' -v
+          python -B -O -m unittest discover -s experiments/periodic_h0 -p 'test_*.py' -v
+      - name: Execute the complete fixed pilot
+        run: |
+          python -B experiments/periodic_h0/run_pilot.py --output "$RUNNER_TEMP/periodic-h0-replay"
+          python -B experiments/periodic_h0/run_pilot.py --verify "$RUNNER_TEMP/periodic-h0-replay/observations.json"
+      - name: State scientific scope
+        run: echo 'Tests and a fresh discrete periodic H0 pilot passed. This is not a continuum error certificate, coefficient confirmation, or scientific acceptance.' >> "$GITHUB_STEP_SUMMARY"

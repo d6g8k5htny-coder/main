@@ -1,8 +1,10 @@
 # From the current results to a paper and a reproducible experiment
 
-[Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
+[Manuscript draft](MANUSCRIPT.md) · [Statement crosswalk](CROSSWALK.md) · [Pilot results](../../../experiments/periodic_h0/results/pilot32/RESULTS.md) · [Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
 
 **Research plan, 30 September 2026.** This is an editorial synthesis of specified sources and a proposal for the next scientific outputs. It does not supply a new proof, change a scientific register, or certify a publication-ready theorem. The source cut is Math- `fa2e9909d8cca40d38b7dc2eadda6766bd0788e1` and main `98a014f556116f39bf449fea859f5329ac322fc3`. Later developments require a successor assessment.
+
+**Implementation update, 30 September 2026:** the [exposition draft](MANUSCRIPT.md) and [paragraph crosswalk](CROSSWALK.md) are now written, and the [fixed planar pilot](../../../experiments/periodic_h0/README.md) has run. Its coefficient comparison is **inconclusive at the tested resolutions** because the smallest bins drift under grid refinement. This advances the original plan without declaring a complete paper, new theorem, certified numerical window or human review. The source cut above remains the mathematical basis.
 
 The next useful external object is a readable account of short-lifetime **finite superlevel H₀ bars** for one precisely defined Gaussian field, accompanied by an experiment that measures the same quantity. Readers should be able to identify the model, theorem, evidence and limitations without reconstructing the federation. The detailed proofs and review history remain accessible behind that account.
 
@@ -44,7 +46,7 @@ The assembly target is the parent's leading law and D2's bounded remainder, with
 | Numerical comparison | The separate [protocol](EXPERIMENT.md) | Does the experiment use the same model, measure, units and essential-bar exclusion? |
 | Limits and extensions | Scoped D5/C6/elder sources | Which stronger rate, uniformity, dimension or numerical certificate is still a separate obligation? |
 
-Write the short exposition first, then attach full proofs or precise appendices. A page count is an editorial target, not a substitute for a complete argument. Keep a paragraph-by-paragraph statement crosswalk during assembly: source statement, exact version, hypotheses, repairs, review scope and unresolved alignment question. This plan is not that completed crosswalk or manuscript.
+Write the short exposition first, then attach full proofs or precise appendices. A page count is an editorial target, not a substitute for a complete argument. Keep a paragraph-by-paragraph statement crosswalk during assembly: source statement, exact version, hypotheses, repairs, review scope and unresolved alignment question. The successor [draft](MANUSCRIPT.md) and [crosswalk](CROSSWALK.md) now implement this assembly step; complete proof appendices and theorem-level literature comparison remain.
 
 ## Next mathematical work, after accounting for existing results
 
@@ -71,10 +73,10 @@ A human referee packet should contain the short manuscript, source/review crossw
 
 | Output | Completion means | Current disposition |
 |---|---|---|
-| Manuscript assembly | A specialist can follow every theorem to its complete source chain; missing alignments remain explicit | Planned; this document supplies the assembly outline |
-| Planar experiment | Pinned generator and persistence code, deterministic controls, independent realization replicates and resolution/truncation comparisons | Specified in EXPERIMENT.md; no run or fit claimed |
+| Manuscript assembly | A specialist can follow every theorem to its complete source chain; missing alignments remain explicit | Exposition draft and paragraph crosswalk supplied; full paper and proof appendices remain |
+| Planar experiment | Pinned generator and persistence code, deterministic controls, independent realization replicates and resolution/truncation comparisons | Executed fixed pilot with complete retained observations; grid-sensitive and inconclusive; no fit or certified comparison |
 | Literature comparison | Checked theorem-level comparison, bibliography and carefully limited novelty language | Primary-source starting set supplied; full comparison remains |
 | External assessment | Actual human reader, documented questions and responses, revisions attributed | Not arranged or completed |
 | Extensions | Exact statement, author, source dependencies, falsifiers and scoped review | Follow existing peer PRs before opening duplicate work |
 
-The source guide and experiment specification can be reviewed now. The full manuscript and experiment remain work to do; this plan records their acceptance tests rather than marking them complete.
+Read the draft and pilot through the links above. Their technical review does not complete the remaining publication, continuum-error or human-review obligations.

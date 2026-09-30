@@ -16,7 +16,7 @@ This is a reading map, not a theorem-acceptance register. Read the statement, hy
 
 ## Gaussian persistence
 
-For a dated synthesis of current results, see the [paper and experiment plan](research-translation/20260930/README.md). It corrects stale gap descriptions, links exact sources and specifies a proposed numerical comparison without changing scientific status.
+Start with the [short-lifetime manuscript draft](research-translation/20260930/MANUSCRIPT.md), its [statement-to-source crosswalk](research-translation/20260930/CROSSWALK.md), or the [first numerical result and figure](../experiments/periodic_h0/results/pilot32/RESULTS.md). The pilot reports strong short-bin grid sensitivity and an inconclusive coefficient comparison. The [dated research synthesis](research-translation/20260930/README.md) corrects stale gap descriptions without changing scientific status. Older topic entries below describe their individual packets; the dated synthesis distinguishes later scoped successors from those historical boundaries.
 
 | Reading order | Source | Scope and review |
 |---|---|---|
