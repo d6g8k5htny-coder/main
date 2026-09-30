@@ -9,20 +9,25 @@ paired differences, finite-sample error, and the last refinement remain relevant
 | Required input | Present evidence | Disposition |
 |---|---|---|
 | Declared ensemble and observable | Fixed finite Fourier bank, periodic superlevel ordinary H₀, all finite bars | Implemented for the discrete study |
-| Spatial approximation theorem | Quadratic interpolation, stability and exact bin sandwich in [APPROXIMATION.md](APPROXIMATION.md) | Deterministic argument supplied; evaluated bounds still needed |
-| Certified numeric input | Float64 FFT, coefficients and derivative diagnostics | No outward nodal-error enclosure yet |
+| Spatial approximation theorem | Quadratic interpolation, stability and exact bin sandwich in [APPROXIMATION.md](APPROXIMATION.md) | Deterministic argument supplied |
+| Certified finite-polynomial derivative input | [Exact rational certificate](FINITE_CERTIFICATE.md) for the stored rounded coefficients of eight fields | Derivative majorants and spatial interpolation budget evaluated; this defines a finite polynomial, not an ideal Gaussian realization |
+| Certified numeric nodal input | Float64 FFT samples | No outward nodal-error enclosure yet; total diagram error is unassigned |
 | Infinite-field truncation | Variance diagnostics through mode64 in pilot32 | No uniform realized or probabilistic tail enclosure |
 | Lifetime range | Larger bins exhibit numerical stability; shortest bins still drift | No certified finite-lifetime range for the leading law |
 | Remainder | Source-bound qualitative O(1) theorem with its hypotheses | No applicable numerical remainder constant or cutoff supplied here |
 | Sampling precision | Eight coupled fields, with per-field counts and paired differences | Descriptive precision only; no simultaneous confidence claim |
 | Independent scientific review | Source-bound nonauthor model review of this delivery | Human review and retained organizational-independence requirements remain separate |
 
-The finite-field diagnostic at the finest grid gives `epsilon` between about
+The earlier C35 finite-field diagnostic at the finest grid gave `epsilon` between about
 0.00882 and 0.00972 from the simple Fourier Hessian majorant. Even if these
 floating calculations were rigorously enclosed, the clean bin-count upper bound
 would require `a > 2 epsilon`, and its lower bound may be zero when the contracted
 bin is empty. Agreement of rounded bin counts cannot replace that requirement.
-Sharper certified derivative bounds may help, but must be calculated and reviewed.
+The new finite-polynomial certificate encloses the derivative inputs and uses
+the componentwise alternative to reduce the spatial budget. Its
+[eight-field results](results/certificate8/RESULTS.md) retain a null nodal error
+and a null total diagram error. They cannot turn numerical agreement into a
+continuum certificate or a usable asymptotic window.
 
 A later held-out design should be frozen **after** these analytic inputs are
 available and **before** its fields are observed. Its specification must record:
@@ -40,6 +45,7 @@ available and **before** its fields are observed. Its specification must record:
 
 No held-out seeds have been consumed by this delivery. Assigning a sample size
 or a pass threshold now would conceal missing analytic inputs. The next useful
-calculation is a certified finite-realization derivative/nodal-error enclosure,
-followed by a justified tail and remainder budget. The source-bound manuscript
+calculation is a certified nodal-error enclosure for samples of the specified
+finite polynomial, followed by a justified model, tail and remainder budget.
+The finite-polynomial derivative input is now available. The source-bound manuscript
 and literature work can advance in parallel without waiting for that budget.

@@ -34,6 +34,17 @@ These links require the relevant Drive
 access; a public GitHub page does not make linked Drive files public. Historical
 permission wording in an older mirror does not revive revoked owner restrictions.
 
+## Dylan's review desk
+
+The [delegated review digest](../reviews/owner_review_20260930/README.md) puts the
+recent pilot, refinement, proof-appendix and audit decisions in one short reading
+path, with exact sources and the discrepancies worth checking. It is attributed
+to **Dylan Roy — delegated AI review**, with OpenAI / Codex named as the actual
+performer. Dylan's personal reading is pending. This is a retrospective reading
+aid, not another approval queue or scientific-status register. The
+[delegation rule](../governance/OP-WORKFLOW-20260930.md#delegated-owner-review)
+explains how later owner responses and corrections are recorded.
+
 ## Tools and execution
 
 All participating models have Dylan's permission to download, install, create, and

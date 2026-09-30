@@ -76,6 +76,38 @@ but earns zero organizational-independence credit. An author replay is not a
 nonauthor review. Required analytic review, formal alignment and scientific
 acceptance remain distinct from engineering checks and each other.
 
+## Delegated owner review
+
+On 30 September 2026, Dylan Roy explicitly authorized Codex to review on his
+behalf, asked that the work be identifiable under his name for later inspection,
+and reaffirmed autonomous execution with his retrospective direction. This
+records that instruction; it does not claim he personally performed a review.
+
+Use **Dylan Roy — delegated AI review** as the owner-facing attribution, followed
+immediately by the actual performer, provider, agent and reviewed scope. The
+review principal is Dylan Roy; an AI executor remains an AI executor. In any
+machine-consumed review, `reviewer` and lineage fields identify the actual
+performer. A separate principal annotation must never replace the executor with
+`Human` or Dylan's name to satisfy an independence check. Authorization,
+account ownership and the displayed name do not supply human-review evidence.
+
+Record whether the entry is a fresh source review, an execution audit or a digest
+of earlier reviews. A digest links the exact earlier sources and verdicts without
+claiming they were rerun or expanding their scope. Historical authorship and
+review records are not renamed. Same-provider or author exposure remains visible;
+delegation itself earns zero organizational-independence credit and cannot fill
+an independent-human-review or formal-alignment requirement.
+
+Mark Dylan's personal reading **PENDING** until he supplies a response about the
+identified material. This is an optional retrospective reading aid, not another
+permission queue: authorized work and integration proceed when their applicable
+evidence is ready. Later acknowledgements, corrections and scoped decisions link
+his actual response; an acknowledgement alone is not proof acceptance. The
+[review form](../.github/ISSUE_TEMPLATE/review-record.yml) records these distinctions.
+Keep short digests beside the relevant reviews, with a pointer from the
+[workspace guide](../docs/WORKSPACE.md); do not create another status register or
+infer that an unread digest has been approved.
+
 ## Integrate once the evidence is ready
 
 Immediately before merging, reread the current head/base, complete diff, latest

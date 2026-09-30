@@ -4,6 +4,12 @@
 
 The **[first pilot and figure](results/pilot32/RESULTS.md)** remain available. The first experiment is inconclusive at these resolutions: its shortest bins change substantially under grid refinement. All fields, bins and configurations are retained. There is no fitted exponent or selected confirmation window.
 
+The [finite-polynomial certificate](FINITE_CERTIFICATE.md) now evaluates exact
+derivative bounds for the rounded Fourier coefficients of the eight refinement
+fields. Its [results](results/certificate8/RESULTS.md) provide a certified spatial
+interpolation budget. Nodal FFT error and the infinite-field tail remain open, so
+this is one input to a diagram-error certificate, not a completed one.
+
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
 ## Reproduce the pilot
@@ -79,4 +85,13 @@ Package conventions were checked against the [GUDHI periodic cubical documentati
 
 ## What remains unresolved
 
-The deterministic spatial interpolation/filtration bound is now proved in the linked note, but an evaluated certified nodal/derivative bound, an enclosed spectral tail beyond mode64, a justified finite-lifetime asymptotic window and numerical remainder constants are not supplied. Marginal one-standard-error bars do not include these errors. The coefficient is a float64 comparison value from a separate exact enclosure. This experiment does not estimate typed contacts, weighted-Palm events or candidate-minus-elder defects, and it supplies no d=3 or higher-homology result. Human review and a complete paper remain separate work.
+The deterministic spatial interpolation/filtration bound and exact derivative
+majorants for the specified rounded finite polynomials are supplied. An evaluated
+certified nodal error for the FFT samples, the relation to ideal Gaussian
+coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
+asymptotic window and numerical remainder constants remain open. Marginal
+one-standard-error bars do not include these errors. The coefficient is a float64
+comparison value from a separate exact enclosure. This experiment does not
+estimate typed contacts, weighted-Palm events or candidate-minus-elder defects,
+and it supplies no d=3 or higher-homology result. Delegated AI review, personal
+owner reading and independent human review retain their separate meanings.
