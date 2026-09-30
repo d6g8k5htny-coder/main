@@ -16,6 +16,8 @@ This is a reading map, not a theorem-acceptance register. Read the statement, hy
 
 ## Gaussian persistence
 
+For a dated synthesis of current results, see the [paper and experiment plan](research-translation/20260930/README.md). It corrects stale gap descriptions, links exact sources and specifies a proposed numerical comparison without changing scientific status.
+
 | Reading order | Source | Scope and review |
 |---|---|---|
 | 1. Geometry | [Marked-cylinder proof](https://github.com/d6g8k5htny-coder/Math-/blob/main/imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md) | Deterministic sufficient criterion; not itself a Gaussian probability estimate |
