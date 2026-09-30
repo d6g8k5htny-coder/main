@@ -1,6 +1,8 @@
-# A first numerical look at short persistence bars
+# Following short bars through finer grids
 
-**[Read the result and figure](results/pilot32/RESULTS.md).** The first experiment is inconclusive at these resolutions: its shortest bins change substantially under grid refinement. All fields, bins and configurations are retained. There is no fitted exponent or selected confirmation window.
+**[Read the refinement result and figure](results/refinement8/RESULTS.md).** Eight original fields are now followed through 1024², with two triangulated-filtration controls. The shortest bins still change; some larger bins stabilize numerically. The [deterministic approximation note](APPROXIMATION.md) supplies a quadratic bound conditional on certified inputs, and [confirmation readiness](CONFIRMATION_READINESS.md) identifies the remaining gates.
+
+The **[first pilot and figure](results/pilot32/RESULTS.md)** remain available. The first experiment is inconclusive at these resolutions: its shortest bins change substantially under grid refinement. All fields, bins and configurations are retained. There is no fitted exponent or selected confirmation window.
 
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
@@ -35,6 +37,29 @@ To regenerate the fixed pilot's figure and prose report:
 
 The renderer accepts only the frozen pilot32 configuration and exact observation hash because its interpretation is specific to those outcomes. A changed result needs a fresh interpretation. Larger follow-up datasets should live in versioned, hashed artifacts; do not accumulate production runs in git.
 
+## Reproduce the resolution comparison
+
+The [frozen design](REFINEMENT_PROTOCOL.md) uses eight existing fields, four
+nested grids through 1024², and three filtrations (96 coupled evaluations).
+It took about 80 seconds on the recorded CPU host. It is exploratory; all
+fields and all bins are retained, with no slope fit or selected test window.
+
+```sh
+/tmp/periodic-h0-env/bin/python -B experiments/periodic_h0/run_refinement.py --output /tmp/periodic-h0-refinement
+/tmp/periodic-h0-env/bin/python -B experiments/periodic_h0/run_refinement.py --verify /tmp/periodic-h0-refinement/observations.json
+/tmp/periodic-h0-env/bin/python -B experiments/periodic_h0/render_refinement.py /tmp/periodic-h0-refinement
+```
+
+The renderer requires the exact published observation hash; the verifier
+reconstructs derived summaries, matching distances and diagnostics, allowing
+only tiny roundoff in derived floats. It does not prove field authenticity or
+provide a continuum error enclosure. The small [complete fixture](results/refinement8/observations.json)
+is retained for audit; larger future runs belong in hashed artifacts.
+
+New execution receipts use stable role keys, so a custom JSON configuration
+named `run_pilot.py` or `requirements.txt` cannot hide another source. Historical
+pilot32 receipts remain unchanged and refer to their original source versions.
+
 ## What is implemented
 
 | Part | Meaning |
@@ -54,4 +79,4 @@ Package conventions were checked against the [GUDHI periodic cubical documentati
 
 ## What remains unresolved
 
-Spatial interpolation/filtration error, an enclosed spectral tail beyond mode64, a justified finite-lifetime asymptotic window and numerical remainder constants are not supplied. Marginal one-standard-error bars do not include these errors. The coefficient is a float64 comparison value from a separate exact enclosure. This experiment does not estimate typed contacts, weighted-Palm events or candidate-minus-elder defects, and it supplies no d=3 or higher-homology result. Human review and a complete paper remain separate work.
+The deterministic spatial interpolation/filtration bound is now proved in the linked note, but an evaluated certified nodal/derivative bound, an enclosed spectral tail beyond mode64, a justified finite-lifetime asymptotic window and numerical remainder constants are not supplied. Marginal one-standard-error bars do not include these errors. The coefficient is a float64 comparison value from a separate exact enclosure. This experiment does not estimate typed contacts, weighted-Palm events or candidate-minus-elder defects, and it supplies no d=3 or higher-homology result. Human review and a complete paper remain separate work.

@@ -70,3 +70,13 @@ A read-only recent-PR query on 30 September 2026 found the following relevant op
 | [Math #178](https://github.com/d6g8k5htny-coder/Math-/pull/178), [#190](https://github.com/d6g8k5htny-coder/Math-/pull/190) | `48407d43d2603b8f04f8ba3824b53fac903ed0be`, `30de5e327a61228479238679896ef4701024e67f` | Existing microscopic radius-tail numerical work and proposed certified enclosures; different estimands from the unrestricted lifetime histogram or S24 coefficient. |
 
 The recent-PR endpoint returned no open main-repository PRs in this bounded query. That does not establish absence of peer work in closed PRs, comments, Drive or private manuscripts. No Drive crawl, peer-branch change or scientific-register mutation was performed for this audit.
+
+## Ordered follow-up
+
+[APPENDICES.md](APPENDICES.md) expands the source-bound derivations behind M6–M14,
+with exact project and literature identities in [APPENDIX_SOURCES.json](APPENDIX_SOURCES.json).
+It does not replace the full CAP proof or the SIDE24 interval implementation.
+[LITERATURE.md](LITERATURE.md) compares specific theorem statements and observables;
+its coverage is explicitly bounded. M15 now links the 8-field refinement and the
+new deterministic spatial approximation note. These additions leave the planar
+parent source cut, repaired consumption contract and acceptance predicates intact.
