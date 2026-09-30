@@ -12,6 +12,8 @@ Imagine lowering a waterline over a landscape. Peaks emerge, islands grow, and c
 |---|---|
 | [Interactive examples](https://d6g8k5htny-coder.github.io/main/site/explore.html) | Change a peak, bring two points closer, or test a tiny partition problem. No setup required. |
 | [A research reading path](https://d6g8k5htny-coder.github.io/main/site/research.html) | The questions, selected arguments, and their conditions in plain language. |
+| [Reproduce one calculation](https://d6g8k5htny-coder.github.io/main/site/reproduce.html) | A pinned exact coefficient example, standard-library commands and expected output. |
+| [Cite a source](https://d6g8k5htny-coder.github.io/main/site/cite.html) | Citation metadata and an offline tool for immutable source references. |
 | [The technical library](https://d6g8k5htny-coder.github.io/main/site/workspace.html#inventory) | Searchable full texts, exact source identities, and reproducibility records. |
 
 The interactive models teach defined examples. Results retain the hypotheses and review scope of their sources. This is research in progress; an illustration or passing computation is not a theorem.

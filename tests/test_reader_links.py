@@ -47,12 +47,14 @@ class PublicRoutes(unittest.TestCase):
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
         expected=['index.html','explore.html','research.html','workspace.html#inventory']
-        for name in ('index','explore','research','museum','formal','workspace'):
+        for name in ('index','explore','research','museum','formal','workspace','reproduce','cite'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
             # Workspace's local inventory anchor is the same destination.
             nav=['workspace.html#inventory' if x=='#inventory' else x for x in page.nav]
             self.assertEqual(nav,expected,name)
             self.assertIn('main-content',page.ids)
+            self.assertIn('href="reproduce.html"',text)
+            self.assertIn('href="cite.html"',text)
             self.assertIn('href="#main-content"',text)
             self.assertNotIn("'unsafe-inline'",text)
             self.assertNotIn("'unsafe-eval'",text)
