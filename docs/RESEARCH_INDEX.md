@@ -29,7 +29,10 @@ Keep the dimension, full determinant normalizer, mark restrictions and finite-ve
 
 For the numerical study, an [exact finite-polynomial derivative certificate](../experiments/periodic_h0/FINITE_CERTIFICATE.md)
 now evaluates a spatial interpolation budget for eight recorded Fourier fields.
-FFT nodal error, the infinite-field relation and the asymptotic remainder remain
+A [new one-field nodal certificate](../experiments/periodic_h0/NODAL_CERTIFICATE.md)
+supplies an error bound for every newly recorded node and the associated abstract
+filtration. Historical FFT samples, computed barcodes, the infinite-field relation
+and the asymptotic remainder remain
 separate requirements before interpreting the study as coefficient confirmation.
 
 ## RN counting

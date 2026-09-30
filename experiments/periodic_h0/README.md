@@ -7,8 +7,10 @@ The **[first pilot and figure](results/pilot32/RESULTS.md)** remain available. T
 The [finite-polynomial certificate](FINITE_CERTIFICATE.md) now evaluates exact
 derivative bounds for the rounded Fourier coefficients of the eight refinement
 fields. Its [results](results/certificate8/RESULTS.md) provide a certified spatial
-interpolation budget. Nodal FFT error and the infinite-field tail remain open, so
-this is one input to a diagram-error certificate, not a completed one.
+interpolation budget. A [new nodal certificate](NODAL_CERTIFICATE.md) now bounds
+every numerical sample of one retained field on a 128² grid and combines that
+error with its spatial budget. Historical samples, computed barcode endpoints
+and the infinite-field tail retain their separate open obligations.
 
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
@@ -86,8 +88,9 @@ Package conventions were checked against the [GUDHI periodic cubical documentati
 ## What remains unresolved
 
 The deterministic spatial interpolation/filtration bound and exact derivative
-majorants for the specified rounded finite polynomials are supplied. An evaluated
-certified nodal error for the FFT samples, the relation to ideal Gaussian
+majorants for the specified rounded finite polynomials are supplied. One new
+128² sample snapshot has a certified nodal bound; extending that evidence to
+finer sampled fields and computed barcode endpoints, the relation to ideal Gaussian
 coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
 asymptotic window and numerical remainder constants remain open. Marginal
 one-standard-error bars do not include these errors. The coefficient is a float64
