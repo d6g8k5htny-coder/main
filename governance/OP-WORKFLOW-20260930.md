@@ -127,6 +127,11 @@ reconcile it. Do not bypass protection or simulate another account's approval.
 
 ## Deliver one useful record
 
+For occasional coordinated audits after substantial progress, use the
+[milestone-audit protocol](OP-MILESTONE-AUDITS-20261001.md). It adds agreed
+snapshots, recorded coverage and dependency-aware delta/full audit choices;
+it does not trigger a freeze, full replay or scheduler after every pass.
+
 Use one canonical delivery inventory, one immutable handoff per checkpoint and
 one completion receipt. Derived summaries link these identities. Reference
 predecessor deliveries by immutable ID/hash; copy their payloads only when needed
