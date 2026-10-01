@@ -15,6 +15,65 @@ if spec and spec.loader and (ROOT/'tools/release_snapshot.py').exists():
     spec.loader.exec_module(m)
 
 class SnapshotTests(unittest.TestCase):
+    def test_malformed_api_targets_preserve_partial_receipt_and_later_repository(self):
+        # Regression: target-schema validation must not abort the collector.
+        cases = ('metadata', 'branch', 'commit', 'empty-commit', 'pr-number',
+                 'pr-head', 'pr-base', 'pr-author')
+        for fault in cases:
+            with self.subTest(fault=fault), tempfile.TemporaryDirectory() as d:
+                root = pathlib.Path(d)
+                fixture = root / 'fixture'; fixture.mkdir()
+                def git(*args):
+                    return subprocess.check_output(['git', '-C', str(fixture), *args],
+                                                   stderr=subprocess.DEVNULL).decode().strip()
+                git('init', '-q'); git('config', 'user.email', 'test@example.invalid')
+                git('config', 'user.name', 'test')
+                (fixture / 'proof.txt').write_bytes(b'unchanged source\n')
+                git('add', '.'); git('commit', '-qm', 'fixture')
+                sha = git('rev-parse', 'HEAD')
+                class API:
+                    def get(self, path):
+                        name = path.split('/')[2]
+                        resource = '/'.join(path.split('/')[3:]).split('?')[0]
+                        broken = name == 'main'
+                        if not resource:
+                            if broken and fault == 'metadata': return ['not metadata']
+                            return {'private': False, 'full_name': f'{m.OWNER}/{name}',
+                                    'default_branch': None if broken and fault == 'branch' else 'main'}
+                        if resource == 'commits/main':
+                            if broken and fault == 'empty-commit': return {}
+                            return {'sha': 'invalid' if broken and fault == 'commit' else sha}
+                        if resource == 'pulls':
+                            if broken and fault == 'pr-number': return [{'number': '../outside'}]
+                            return [{'number': 7}] if broken and fault.startswith('pr-') else []
+                        if resource == 'pulls/7':
+                            return {'number': 7, 'head': {'sha': 'invalid' if fault == 'pr-head' else sha,
+                                                         'repo': {'full_name': f'{m.OWNER}/main'}},
+                                    'base': {'sha': 'invalid' if fault == 'pr-base' else sha},
+                                    'user': {} if fault == 'pr-author' else {'login': 'fixture-author'}}
+                        if resource.endswith('check-runs'): return {'check_runs': [], 'total_count': 0}
+                        if resource == 'actions/runs': return {'workflow_runs': [], 'total_count': 0}
+                        if resource.endswith('/status'): return {'state': 'success'}
+                        return []
+                out = root / 'out'
+                with mock.patch.object(m, 'REPOS', ('main', 'Math-')), \
+                     mock.patch.object(m, 'Client', API), \
+                     mock.patch.object(m, 'repo_url', return_value=str(fixture)):
+                    result = m.collect(out)
+                self.assertFalse(result['complete'])
+                self.assertTrue(any(e['repository'] == 'main' for e in result['errors']))
+                self.assertEqual([r['repository'] for r in result['repositories']],
+                                 [f'{m.OWNER}/main', f'{m.OWNER}/Math-'])
+                self.assertEqual(result['repositories'][1]['default_commit'], sha)
+                self.assertEqual(len(result['repositories'][1]['snapshots']), 1)
+                self.assertEqual(json.loads((out / 'SUMMARY.json').read_text()), result)
+                sums = {}
+                for line in (out / 'SHA256SUMS').read_text().splitlines():
+                    digest, path = line.split('  ', 1); sums[path] = digest
+                self.assertIn('SUMMARY.json', sums)
+                for path, digest in sums.items():
+                    self.assertEqual(hashlib.sha256((out / path).read_bytes()).hexdigest(), digest)
+
     def test_implementation_exists(self):
         self.assertTrue(hasattr(m, 'snapshot_local'), 'read-only collector is not implemented')
 
