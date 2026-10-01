@@ -26,6 +26,13 @@ at most 0.00130835 with failure probability below 1.27×10⁻¹². Applying that
 result to our stored polynomial still requires a certified coefficient
 coupling; the [proof](GAUSSIAN_TAIL.md) states the missing premise explicitly.
 
+A [constructive finite-word sampler](results/gaussian_coupling1/RESULTS.md)
+now supplies a coefficient-coupling budget for a new ensemble, under an
+explicit independent uniform-input model. Its low-mode error is below1.47×10⁻¹⁸
+at cutoffs24 and32. The [construction](GAUSSIAN_COUPLING.md) preserves the
+historical sample's separate status; a newly sampled and certified barcode
+is still needed to use this new path in an experiment.
+
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
 ## Reproduce the pilot
