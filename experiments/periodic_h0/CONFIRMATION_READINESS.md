@@ -14,6 +14,7 @@ paired differences, finite-sample error, and the last refinement remain relevant
 | Certified numeric nodal input | [New seed34000 / 128² snapshot](NODAL_CERTIFICATE.md), every node independently enclosed | Nodal error and abstract finite-field diagram bound supplied for this snapshot only; historical samples and computed barcode endpoints remain uncertified |
 | Sharper finite-field spatial bound | [Hessian/grid certificate](HESSIAN_GRID.md), with a 256² derivative grid and a separate 1024² dyadic sample grid | Exact abstract-filtration error evaluated for deterministic new samples; no transfer of historical histogram counts |
 | Exact fine-grid H0 endpoints | [Integer barcode and independent connectivity verification](EXACT_H0.md) | One C38 grid and its frozen finite polynomial only; exact endpoints and deterministic bin-count sandwich |
+| New sampler → exact polynomial barcode | [Explicit-word bridge](WORD_POLYNOMIAL.md) and [complete deterministic example](results/word_polynomial1/RESULTS.md) | Exact finite-polynomial bin counts at cutoff 1; no random input law or full-field diagram claim |
 | Ideal infinite-field truncation | [Exact Gaussian shell/theta bound](GAUSSIAN_TAIL.md), including all modes beyond64 and the normalization correction | Uniform probabilistic tail supplied for the explicitly defined ideal field |
 | Coupling the stored coefficients to the ideal field | Explicit low-mode sup-norm/coefficient contract in the same proof | rho remains unknown; no full-field probability or count bound for the frozen polynomial |
 | Lifetime range | Larger bins exhibit numerical stability; shortest bins still drift | No certified finite-lifetime range for the leading law |
@@ -63,8 +64,9 @@ or a pass threshold now would conceal missing analytic inputs. The barcode
 computation on the certified fine dyadic grid now has exact integer
 endpoints and separate connectivity checks. A quantified ideal-field tail is
 now available. A [constructive low-mode coupling](GAUSSIAN_COUPLING.md) also
-exists for a new sampler under explicit independent uniform inputs. The next
-experiment must construct and certify that sampler's polynomial and barcode;
+exists for a new sampler under explicit independent uniform inputs. A [new deterministic example](results/word_polynomial1/RESULTS.md) now connects
+that sampler to certified polynomial and barcode calculations. A declared
+ensemble at the matching cutoff is still needed for a statistical experiment;
 the old seed-labelled coefficients do not acquire this coupling. A numerical
 remainder budget and exceptional-count moments remain separate inputs.
 The finite-polynomial derivative input is now available. The source-bound manuscript

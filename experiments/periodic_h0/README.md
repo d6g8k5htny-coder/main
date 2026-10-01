@@ -33,6 +33,14 @@ at cutoffs24 and32. The [construction](GAUSSIAN_COUPLING.md) preserves the
 historical sample's separate status; a newly sampled and certified barcode
 is still needed to use this new path in an experiment.
 
+A [new word-to-polynomial example](results/word_polynomial1/RESULTS.md) now
+connects that construction to exact grid evaluation and barcode bounds. For
+one explicitly specified deterministic polynomial, it certifies exactly one
+smooth-field bar in the lifetime range [0.008, 0.016). The
+[derivation](WORD_POLYNOMIAL.md) transports every coefficient and error bound
+without rounding. This example is a deterministic check; a declared random
+ensemble and the remaining statistical inputs are still needed.
+
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
 ## Reproduce the pilot
