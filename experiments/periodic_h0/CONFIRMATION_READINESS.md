@@ -62,8 +62,10 @@ No held-out seeds have been consumed by this delivery. Assigning a sample size
 or a pass threshold now would conceal missing analytic inputs. The barcode
 computation on the certified fine dyadic grid now has exact integer
 endpoints and separate connectivity checks. A quantified ideal-field tail is
-now available. The next scientific inputs are a certified low-mode coupling
-and a numerical remainder budget; neither is supplied by a historical seed
-label or an ideal-tail probability alone.
+now available. A [constructive low-mode coupling](GAUSSIAN_COUPLING.md) also
+exists for a new sampler under explicit independent uniform inputs. The next
+experiment must construct and certify that sampler's polynomial and barcode;
+the old seed-labelled coefficients do not acquire this coupling. A numerical
+remainder budget and exceptional-count moments remain separate inputs.
 The finite-polynomial derivative input is now available. The source-bound manuscript
 and literature work can advance in parallel without waiting for that budget.
