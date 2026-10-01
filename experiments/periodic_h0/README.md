@@ -51,6 +51,12 @@ infinite-field count-moment and sampling-error inputs remain open.
 
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
+The [fixed-sample confidence result](results/count_confidence1/RESULTS.md) now
+quantifies prospective sampling error for that finite-cutoff comparison. Its
+[proof](COUNT_CONFIDENCE.md) permits adaptive grid refinement while retaining
+failed computations in every average. The exact planning table shows the cost
+of the conservative cap; it supplies no observed ensemble confidence interval.
+
 ## Reproduce the pilot
 
 From the repository root, with Python 3.12 and a CPU:
