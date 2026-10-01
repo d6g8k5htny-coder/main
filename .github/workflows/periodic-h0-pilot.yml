@@ -49,6 +49,8 @@ jobs:
         run: python -B -S experiments/periodic_h0/gaussian_coupling_certificate.py --verify experiments/periodic_h0/results/gaussian_coupling1
       - name: Replay explicit words through the finite-polynomial barcode bridge
         run: python -B -S experiments/periodic_h0/word_polynomial_certificate.py --verify experiments/periodic_h0/results/word_polynomial1
+      - name: Replay finite-cutoff count caps and exact expected clipping losses
+        run: python -B -S experiments/periodic_h0/finite_count_loss_certificate.py --verify experiments/periodic_h0/results/finite_count_loss1
       - name: Execute the complete fixed pilot
         run: |
           python -B experiments/periodic_h0/run_pilot.py --output "$RUNNER_TEMP/periodic-h0-replay"
