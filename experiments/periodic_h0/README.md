@@ -41,6 +41,14 @@ smooth-field bar in the lifetime range [0.008, 0.016). The
 without rounding. This example is a deterministic check; a declared random
 ensemble and the remaining statistical inputs are still needed.
 
+A [uniform count bound and clipping-loss calculation](results/finite_count_loss1/RESULTS.md)
+now bounds the expected-count effect of rare clipping events in that new
+finite-cutoff ensemble. The [proof](FINITE_COUNT_LOSS.md) gives at most 16 K²
+positive finite bars for every polynomial at cutoff K, including degenerate
+coefficient choices. At cutoff24 the expected-count correction is below
+2.8×10⁻⁸ per field. This evaluates an error term, not a bin expectation; the
+infinite-field count-moment and sampling-error inputs remain open.
+
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
 ## Reproduce the pilot
