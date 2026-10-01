@@ -17,6 +17,7 @@ paired differences, finite-sample error, and the last refinement remain relevant
 | New sampler → exact polynomial barcode | [Explicit-word bridge](WORD_POLYNOMIAL.md) and [complete deterministic example](results/word_polynomial1/RESULTS.md) | Exact finite-polynomial bin counts at cutoff 1; no random input law or full-field diagram claim |
 | Finite-cutoff exceptional-count control | [Uniform 16 K² bar-count bound and exact clipping-loss budgets](FINITE_COUNT_LOSS.md) | Supplied for F64,K under the declared IID uniform-input model; no bin means, infinite-field moment or sampling confidence claim |
 | Prospective sampling error | [Fixed-sample simultaneous confidence](COUNT_CONFIDENCE.md) and [exact planning costs](results/count_confidence1/RESULTS.md) | Conditional finite-cutoff theorem supplied; actual IID input law, fixed plan and all certified rows still required; no observed confidence interval |
+| Rare-count sampling precision | [Mean-adaptive Chernoff confidence](MEAN_ADAPTIVE_CONFIDENCE.md), with exact rational endpoint enclosures | Uses all retained lower/upper rows and fixed sample/bin choices; improves sparse-count bounds conditionally, without supplying a measured ensemble or infinite-field transfer |
 | Ideal infinite-field truncation | [Exact Gaussian shell/theta bound](GAUSSIAN_TAIL.md), including all modes beyond64 and the normalization correction | Uniform probabilistic tail supplied for the explicitly defined ideal field |
 | Coupling the stored coefficients to the ideal field | Explicit low-mode sup-norm/coefficient contract in the same proof | rho remains unknown; no full-field probability or count bound for the frozen polynomial |
 | Lifetime range | Larger bins exhibit numerical stability; shortest bins still drift | No certified finite-lifetime range for the leading law |
@@ -77,5 +78,12 @@ means still need evaluation. The [fixed-sample confidence theorem](COUNT_CONFIDE
 now supplies a conditional sampling-error procedure; its [planning examples](results/count_confidence1/RESULTS.md)
 show the substantial cost of the worst-case count cap. No sample has been consumed
 and the historical eight-field study has no new confidence claim.
+The [mean-adaptive alternative](MEAN_ADAPTIVE_CONFIDENCE.md) can substantially
+reduce that cost when the certified upper counts are small. Its empty-upper-row
+case has upper endpoint at most `16 K² beta / n`, before clipping correction,
+with simultaneous risk at most `2 m exp(−beta)` for m fixed bins. That favorable
+outcome cannot be assumed when choosing an experimental sample size. Actual
+row generation, sufficiently sharp spatial certificates and the infinite-field
+moment/remainder inputs remain necessary.
 The finite-polynomial derivative input is now available. The source-bound manuscript
 and literature work can advance in parallel without waiting for that budget.
