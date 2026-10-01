@@ -20,6 +20,15 @@ read scope, including the separate count-definition correction. The original
 manuscript source cut and scientific statuses remain unchanged; the companion
 has disclosed same-provider coauthor exposure, not a nonauthor final review.
 
+The [axial first-moment companion](AXIAL_FIRST_MOMENT.md) supplies a second,
+precisely conditional route to the compact selector-loss bound. An explicit
+path reaches an older point; if the proposed saddle is rejected, the actual
+killing saddle lies in the open height window, except on a controlled derivative
+event. This permits a first-moment comparison with the existing window count.
+It does not require two additional witnesses and does not close their separate
+shrinking collision problem. The [source record](AXIAL_SOURCES.json) identifies
+the imported Gaussian moment and regional count estimates.
+
 **Research plan, 30 September 2026.** This is an editorial synthesis of specified sources and a proposal for the next scientific outputs. It does not supply a new proof, change a scientific register, or certify a publication-ready theorem. The source cut is Math- `fa2e9909d8cca40d38b7dc2eadda6766bd0788e1` and main `98a014f556116f39bf449fea859f5329ac322fc3`. Later developments require a successor assessment.
 
 **Implementation update, 30 September 2026:** the [exposition draft](MANUSCRIPT.md) and [paragraph crosswalk](CROSSWALK.md) are now written, and the [fixed planar pilot](../../../experiments/periodic_h0/README.md) has run. Its coefficient comparison is **inconclusive at the tested resolutions** because the smallest bins drift under grid refinement. This advances the original plan without declaring a complete paper, new theorem, certified numerical window or human review. The source cut above remains the mathematical basis. The next iteration adds a [deterministic approximation argument](../../../experiments/periodic_h0/APPROXIMATION.md), [coupled refinement through 1024²](../../../experiments/periodic_h0/results/refinement8/RESULTS.md), [proof appendices](APPENDICES.md) and a [primary-source literature comparison](LITERATURE.md). [Confirmation readiness](../../../experiments/periodic_h0/CONFIRMATION_READINESS.md) keeps the evaluated-error and remainder gates visible.
