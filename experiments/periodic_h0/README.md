@@ -47,7 +47,7 @@ finite-cutoff ensemble. The [proof](FINITE_COUNT_LOSS.md) gives at most 16 K²
 positive finite bars for every polynomial at cutoff K, including degenerate
 coefficient choices. At cutoff24 the expected-count correction is below
 2.8×10⁻⁸ per field. This evaluates an error term, not a bin expectation; the
-infinite-field count-moment and sampling-error inputs remain open.
+infinite-field count-moment and actual sampled-ensemble inputs remain open.
 
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
@@ -56,6 +56,16 @@ quantifies prospective sampling error for that finite-cutoff comparison. Its
 [proof](COUNT_CONFIDENCE.md) permits adaptive grid refinement while retaining
 failed computations in every average. The exact planning table shows the cost
 of the conservative cap; it supplies no observed ensemble confidence interval.
+
+For rare counts, the [mean-adaptive confidence method](MEAN_ADAPTIVE_CONFIDENCE.md)
+uses the same certified per-field intervals and the same count cap, with exact
+rational Chernoff bounds. Its upper endpoint shrinks faster when certified upper
+counts are small. For example, at cutoff 32, with eight predeclared bins and
+`beta=8`, 131,072 fields whose upper counts are all zero give an upper bound at
+most one bar per field before the clipping correction. This is a conditional
+planning example, not a promise that a sample will be empty or an observed
+confidence interval. Failed certificates still contribute their full retained
+interval; the sample size and bins must be fixed before observation.
 
 ## Reproduce the pilot
 
