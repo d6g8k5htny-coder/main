@@ -159,6 +159,40 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=True)+'\n')
 
 
+def validate_metadata(value, name):
+    if (not isinstance(value, dict) or value.get('private') is not False
+            or value.get('full_name') != f'{OWNER}/{name}'):
+        raise ValueError('public identity not established')
+    if not isinstance(value.get('default_branch'), str) or not value['default_branch']:
+        raise ValueError('missing default branch')
+
+
+def validate_commit(value):
+    if not isinstance(value, dict):
+        raise ValueError('expected commit object')
+    checked_sha(value.get('sha'))
+
+
+def pr_number(value):
+    if not isinstance(value, dict) or type(value.get('number')) is not int or value['number'] <= 0:
+        raise ValueError('expected positive integer PR number')
+    return value['number']
+
+
+def validate_pr(value, number):
+    if pr_number(value) != number:
+        raise ValueError('PR identity mismatch')
+    for key in ('head', 'base'):
+        validate_commit(value.get(key))
+    user = value.get('user')
+    if not isinstance(user, dict) or not isinstance(user.get('login'), str) or not user['login']:
+        raise ValueError('missing PR author')
+    repo = value['head'].get('repo')
+    if repo is not None and (not isinstance(repo, dict)
+                            or not isinstance(repo.get('full_name'), str) or not repo['full_name']):
+        raise ValueError('invalid PR head repository')
+
+
 def collect(out: Path, include_pr_sources: bool = True) -> dict:
     fresh_output(out)
     client = Client()
@@ -170,30 +204,40 @@ def collect(out: Path, include_pr_sources: bool = True) -> dict:
         summary['repositories'].append(row)
         dest = out/name; dest.mkdir()
         path = f'repos/{OWNER}/{name}'
-        def read(suffix, filename, key=None, paginated=False):
+        def read(suffix, filename, key=None, paginated=False, validate=None):
             try:
                 value = pages(client.get, path+suffix, key) if paginated else client.get(path+suffix)
                 write_json(dest/filename, value)
+                # Retain raw evidence even when its target schema is unusable.
+                if validate is not None:
+                    validate(value)
                 return value
             except Exception as exc:
                 summary['errors'].append({'repository': name, 'resource': suffix,
                                           'error': type(exc).__name__+': '+str(exc)})
                 return None
-        meta = read('', 'repository.json')
-        if not meta or meta.get('private') is not False or meta.get('full_name') != f'{OWNER}/{name}':
-            summary['errors'].append({'repository': name, 'error': 'public identity not established'})
+        meta = read('', 'repository.json', validate=lambda value: validate_metadata(value, name))
+        if meta is None:
             continue
         branch = meta['default_branch']
-        commit = read('/commits/'+urllib.parse.quote(branch,safe=''), 'default-commit.json')
+        commit = read('/commits/'+urllib.parse.quote(branch,safe=''), 'default-commit.json',
+                      validate=validate_commit)
         prs = read('/pulls?state=open', 'open-prs.json', paginated=True)
         targets = {}
-        if commit:
+        if commit is not None:
             sha = checked_sha(commit['sha']); row['default_commit'] = sha; targets[sha] = ['default']
         if prs is not None:
             row['open_pr_count'] = len(prs)
             for pr in prs:
-                n = pr['number']; prefix = f'pr-{n}/'
-                detail = read(f'/pulls/{n}', prefix+'detail.json')
+                try:
+                    n = pr_number(pr)
+                except ValueError as exc:
+                    summary['errors'].append({'repository': name, 'resource': '/pulls?state=open',
+                                              'error': 'ValueError: '+str(exc)})
+                    continue
+                prefix = f'pr-{n}/'
+                detail = read(f'/pulls/{n}', prefix+'detail.json',
+                              validate=lambda value: validate_pr(value, n))
                 if detail is None:
                     continue
                 sha = checked_sha(detail['head']['sha'])
@@ -208,7 +252,7 @@ def collect(out: Path, include_pr_sources: bool = True) -> dict:
                 read(f'/commits/{sha}/status', prefix+'combined-status.json')
                 read(f'/actions/runs?head_sha={sha}', prefix+'runs.json', key='workflow_runs', paginated=True)
                 if include_pr_sources:
-                    if detail['head']['repo'] and detail['head']['repo']['full_name'] == f'{OWNER}/{name}':
+                    if detail['head'].get('repo') and detail['head']['repo']['full_name'] == f'{OWNER}/{name}':
                         targets.setdefault(sha,[]).append(f'PR{n}')
                     else:
                         item['source_snapshot'] = 'not captured: fork outside same-repository scope'
