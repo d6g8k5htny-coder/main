@@ -1,6 +1,6 @@
 # From the current results to a paper and a reproducible experiment
 
-[Manuscript draft](MANUSCRIPT.md) · [Statement crosswalk](CROSSWALK.md) · [Completion audit](COMPLETION_AUDIT.md) · [Refinement results](../../../experiments/periodic_h0/results/refinement8/RESULTS.md) · [Proof appendices](APPENDICES.md) · [Literature](LITERATURE.md) · [Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
+[Manuscript draft](MANUSCRIPT.md) · [Statement crosswalk](CROSSWALK.md) · [Completion audit](COMPLETION_AUDIT.md) · [Refinement results](../../../experiments/periodic_h0/results/refinement8/RESULTS.md) · [Proof appendices](APPENDICES.md) · [Persistence bridge](PERSISTENCE_BRIDGE.md) · [Literature](LITERATURE.md) · [Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
 
 The [1 October completion audit](COMPLETION_AUDIT.md) fixes the planar target,
 maps its actual proof dependencies, and supplies the weighted error conversion
@@ -8,6 +8,17 @@ and selected-pair measure argument. It also states the exact conditional
 factorial estimate a shrinking-witness route would need. The separate regional
 collision problem stays open; it is not silently added as a premise of this
 manuscript or marked solved by a global count bound.
+
+The [persistence bridge](PERSISTENCE_BRIDGE.md) writes out the full planar cap
+construction, pinned genericity, Borel global elder selector and repaired marked
+pair identity. Read it alongside manuscript §§3–4, before the weighted failure
+integral and lifetime pushforward in appendices C–F. Its measure bridge ends
+at the exact weighted loss inequality; its separate count correction adds a
+fixed-law support argument. Neither adds theorem acceptance or an asymptotic rate.
+[BRIDGE_SOURCES.json](BRIDGE_SOURCES.json) binds its source versions and actual
+read scope, including the separate count-definition correction. The original
+manuscript source cut and scientific statuses remain unchanged; the companion
+has disclosed same-provider coauthor exposure, not a nonauthor final review.
 
 **Research plan, 30 September 2026.** This is an editorial synthesis of specified sources and a proposal for the next scientific outputs. It does not supply a new proof, change a scientific register, or certify a publication-ready theorem. The source cut is Math- `fa2e9909d8cca40d38b7dc2eadda6766bd0788e1` and main `98a014f556116f39bf449fea859f5329ac322fc3`. Later developments require a successor assessment.
 
@@ -53,7 +64,7 @@ The assembly target is the parent's leading law and D2's bounded remainder, with
 | Numerical comparison | The separate [protocol](EXPERIMENT.md) | Does the experiment use the same model, measure, units and essential-bar exclusion? |
 | Limits and extensions | Scoped D5/C6/elder sources | Which stronger rate, uniformity, dimension or numerical certificate is still a separate obligation? |
 
-Write the short exposition first, then attach full proofs or precise appendices. A page count is an editorial target, not a substitute for a complete argument. Keep a paragraph-by-paragraph statement crosswalk during assembly: source statement, exact version, hypotheses, repairs, review scope and unresolved alignment question. The successor [draft](MANUSCRIPT.md) and [crosswalk](CROSSWALK.md) now implement this assembly step; complete proof appendices and theorem-level literature comparison remain.
+Write the short exposition first, then attach full proofs or precise appendices. A page count is an editorial target, not a substitute for a complete argument. Keep a paragraph-by-paragraph statement crosswalk during assembly: source statement, exact version, hypotheses, repairs, review scope and unresolved alignment question. The [draft](MANUSCRIPT.md), [crosswalk](CROSSWALK.md), [appendices](APPENDICES.md) and [cap/selector bridge](PERSISTENCE_BRIDGE.md) now implement successive parts of this assembly. The interval implementation and remaining complete supplementary proofs are still source imports; the [theorem-level literature comparison](LITERATURE.md) remains a bounded read.
 
 ## Why the cap needs an interior-height bound
 
@@ -98,7 +109,7 @@ A human referee packet should contain the short manuscript, source/review crossw
 
 | Output | Completion means | Current disposition |
 |---|---|---|
-| Manuscript assembly | A specialist can follow every theorem to its complete source chain; missing alignments remain explicit | Exposition draft and paragraph crosswalk supplied; full paper and proof appendices remain |
+| Manuscript assembly | A specialist can follow every theorem to its complete source chain; missing alignments remain explicit | Draft, crosswalk, proof appendices and cap/selector bridge supplied; full paper and remaining supplementary proofs/implementation remain |
 | Planar experiment | Pinned generator and persistence code, deterministic controls, independent realization replicates and resolution/truncation comparisons | Executed fixed pilot with complete retained observations; grid-sensitive and inconclusive; no fit or certified comparison |
 | Literature comparison | Checked theorem-level comparison, bibliography and carefully limited novelty language | Primary-source starting set supplied; full comparison remains |
 | External assessment | Actual human reader, documented questions and responses, revisions attributed | Not arranged or completed |
