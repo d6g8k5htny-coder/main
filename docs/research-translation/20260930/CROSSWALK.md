@@ -52,6 +52,13 @@ The two supplemental identities not listed in SOURCES.json were verified directl
 
 ## Specific remaining assembly questions
 
+The successor [completion-directive audit](COMPLETION_AUDIT.md) checks the
+principal sources against Math- `124c37d9218120245098df453cf88d3e54b8c9ca`
+without changing this manuscript's source cut. It separates dependencies of
+the fixed planar target from other open research objects, with explicit
+measure and error-conversion arguments. It does not close the assembly
+questions below or promote the historical RN/24-jet lane.
+
 1. **Complete appendices.** The exposition's cap, weighted failure integral and Borel Kac–Rice passages are outlines. A submission must include complete arguments or stable appendices with the repaired text assembled in reading order. The present source links support inspection but do not make this draft a self-contained proof. No contradictory composition was found in the bounded read of D1/R/S24; that is not a new full-depth review of every proof interface.
 2. **Primary-source theorem comparison.** E2 identifies Armentano–Azaïs–León v3 Theorems 2.2 and 7.1 and supplies its own Borel extension. This assembly read E2 and the source reviews; it did not newly inspect the entire external article or conduct a theorem-level novelty comparison with the literature in README. That remains a bibliographic/assumption audit, not a missing blanket elder-pairing premise.
 3. **Older manuscript alignment.** Live Math- #187/#188 descriptions refer to a V3 manuscript, a referee map and an older Proposition A.3.2 `O(ℓ)` claim for far elder density, identified as unsupported in finding F-02. Their full manuscript text was not inspected. This draft consumes only the reviewed P (14.1) `O(1)` far bound and must not be represented as repairing those unseen files. If the V3 text is reused, compare its exact version paragraph by paragraph before importing its stronger claims.

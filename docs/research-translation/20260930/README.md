@@ -1,6 +1,13 @@
 # From the current results to a paper and a reproducible experiment
 
-[Manuscript draft](MANUSCRIPT.md) · [Statement crosswalk](CROSSWALK.md) · [Refinement results](../../../experiments/periodic_h0/results/refinement8/RESULTS.md) · [Proof appendices](APPENDICES.md) · [Literature](LITERATURE.md) · [Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
+[Manuscript draft](MANUSCRIPT.md) · [Statement crosswalk](CROSSWALK.md) · [Completion audit](COMPLETION_AUDIT.md) · [Refinement results](../../../experiments/periodic_h0/results/refinement8/RESULTS.md) · [Proof appendices](APPENDICES.md) · [Literature](LITERATURE.md) · [Research guide](../../RESEARCH_INDEX.md) · [Experiment protocol](EXPERIMENT.md) · [Exact sources](SOURCES.json)
+
+The [1 October completion audit](COMPLETION_AUDIT.md) fixes the planar target,
+maps its actual proof dependencies, and supplies the weighted error conversion
+and selected-pair measure argument. It also states the exact conditional
+factorial estimate a shrinking-witness route would need. The separate regional
+collision problem stays open; it is not silently added as a premise of this
+manuscript or marked solved by a global count bound.
 
 **Research plan, 30 September 2026.** This is an editorial synthesis of specified sources and a proposal for the next scientific outputs. It does not supply a new proof, change a scientific register, or certify a publication-ready theorem. The source cut is Math- `fa2e9909d8cca40d38b7dc2eadda6766bd0788e1` and main `98a014f556116f39bf449fea859f5329ac322fc3`. Later developments require a successor assessment.
 
