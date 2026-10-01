@@ -1,17 +1,35 @@
 # Bargmann-Fock short-bar histogram
 
-Scientific effect: NONE. A figure is a check, not a proof.
+Scientific effect: NONE. A figure is a check, not a proof. This file does not replace docs/research-translation/20260930/EXPERIMENT.md. If they disagree, the experiment note is the authority.
 
-1. Generate the variance-one periodized Bargmann-Fock field on the flat torus of side 24, dimension 2.
-2. Build cubical superlevel sets.
-3. Record finite nonessential H0 bars only: birth at a non-global maximum, death at the merge. Do not mix in H1.
-4. Histogram lifetimes in a window small against the correlation length and large against the grid.
-5. Fit log nu against -1/3 log ell. Compare the prefactor to the SIDE24 arithmetic enclosure. Label the enclosure arithmetic.
+## Generator
 
-Falsifies the candidate law if the slope is stable and incompatible with -1/3 after a grid-refinement check.
+Variance-one periodized Bargmann-Fock on the flat torus of side 24, dimension 2. Covariance is the normalized image sum
 
-Falsifies Hypothesis P, not the candidate law, if the slope is -1/3 but the prefactor is stable and far from the arithmetic enclosure. That is a result. Write it down.
+K_24(z) = sum_n exp(-|z+24n|^2/2) / sum_n exp(-|24n|^2/2).
 
-Does not test the theorem if the window is set by the grid, if essential bars are included, or if the field is white noise.
+A different width, a minimum-image kernel, or a differently normalized truncation is a different field. The SIDE24 enclosure does not apply to it.
 
-A grid cannot see bars below the mesh, and elder selection on a grid is not the continuum elder rule. Report both.
+## Filtration
+
+Cubical superlevel sets on a periodic cubical complex: opposite faces are glued. An ordinary square with boundary is not the torus. Record strictly positive finite nonessential H0 bars only. Count zero-length and tied pairs separately. Do not put them in the logarithm.
+
+## What is being estimated
+
+Let mu(A) = 24^{-2} E[number of those bars with lifetime in A]. The candidate law is about the density dmu/dell ~ c ell^{-1/3}. The count of bars shorter than ell is the cumulative mu((0, ell]), which is order ell^{2/3} if the density law holds.
+
+Normalize a bin (a, b) by the number of fields, the area 24^2, and the bin width. Or compare the bin count with the integrated prediction (3c/2)(b^{2/3} - a^{2/3}). Raw counts are not comparable to c.
+
+## Fit
+
+Fit log(density) against log(ell). The candidate slope is -1/3. Do not fit against (-1/3) log(ell) and then expect slope -1/3; that transformed predictor has slope 1 if the law holds.
+
+A lifetime is a field value. Grid spacing is a length. Convert the mesh to a filtration error before comparing it with a bin. A window that is large against the grid and small against the correlation length is not, by itself, a resolved window.
+
+## What a mismatch means
+
+A stable slope or prefactor discrepancy is a diagnostic. Check sign, volume and amplitude normalization, the exact covariance, essential and zero bars, spectral cutoff, spatial approximation, and bin integration. Report sampling uncertainty across fields separately from spatial and spectral error. If those errors cannot be controlled, write inconclusive at the tested resolutions. A histogram mismatch does not by itself isolate failure of elder pairing or of the continuum asymptotic.
+
+## Reading path
+
+This file does not remove P15 from docs/PUBLIC_MATHEMATICS.md. That page still has to be edited before the split is real for a reader.
