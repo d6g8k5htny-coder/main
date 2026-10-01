@@ -9,15 +9,22 @@ derivative bounds for the rounded Fourier coefficients of the eight refinement
 fields. Its [results](results/certificate8/RESULTS.md) provide a certified spatial
 interpolation budget. A [new nodal certificate](NODAL_CERTIFICATE.md) now bounds
 every numerical sample of one retained field on a 128² grid and combines that
-error with its spatial budget. Historical samples, computed barcode endpoints
-and the infinite-field tail retain their separate open obligations.
+error with its spatial budget. Historical samples retain their separate
+uncertified status.
 
 A [sharper Hessian/grid certificate](HESSIAN_GRID.md) recovers cancellation
 between Fourier modes and evaluates a smaller spatial budget on a 1024² grid.
 Its [compact result](results/hessian1/RESULTS.md) defines new exact dyadic
 samples by deterministic replay, avoiding a million-value data file. These
-samples are distinct from the historical NumPy arrays; computed barcode
-endpoints and lifetime-law confirmation remain open.
+samples are distinct from the historical NumPy arrays. Their
+[exact integer barcode](results/exact_h0_1/RESULTS.md) now supplies deterministic
+bin bounds for the frozen finite polynomial.
+
+A new [Gaussian tail calculation](results/gaussian_tail1/RESULTS.md) bounds
+the omitted modes of the ideal full field. At cutoff24, its uniform error is
+at most 0.00130835 with failure probability below 1.27×10⁻¹². Applying that
+result to our stored polynomial still requires a certified coefficient
+coupling; the [proof](GAUSSIAN_TAIL.md) states the missing premise explicitly.
 
 This small experiment samples a truncated version of the periodized Gaussian field on a side-24 square torus and measures finite ordinary superlevel H₀ bars using GUDHI. It accompanies the [manuscript draft](../../docs/research-translation/20260930/MANUSCRIPT.md), [statement crosswalk](../../docs/research-translation/20260930/CROSSWALK.md) and [original protocol](../../docs/research-translation/20260930/EXPERIMENT.md). It is numerical evidence about the declared discretized ensemble, not a continuum certificate or a new mathematical acceptance.
 
@@ -100,8 +107,10 @@ majorants for the specified rounded finite polynomials are supplied. One new
 grid have certified nodal bounds. The latter has a sharper spatial bound;
 its [exact barcode and finite-field bin bounds](results/exact_h0_1/RESULTS.md)
 are now supplied by an integer sweep and independent connectivity verification.
-The relation to ideal Gaussian coefficients, an enclosed infinite-field spectral tail, a justified finite-lifetime
-asymptotic window and numerical remainder constants remain open. Marginal
+The [ideal Gaussian spectral tail](GAUSSIAN_TAIL.md) is now enclosed with an
+explicit probability budget. The relation of the stored coefficients to that
+ideal ensemble, a justified finite-lifetime asymptotic window and numerical
+remainder constants remain open. Marginal
 one-standard-error bars do not include these errors. The coefficient is a float64
 comparison value from a separate exact enclosure. This experiment does not
 estimate typed contacts, weighted-Palm events or candidate-minus-elder defects,

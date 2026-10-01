@@ -14,7 +14,8 @@ paired differences, finite-sample error, and the last refinement remain relevant
 | Certified numeric nodal input | [New seed34000 / 128² snapshot](NODAL_CERTIFICATE.md), every node independently enclosed | Nodal error and abstract finite-field diagram bound supplied for this snapshot only; historical samples and computed barcode endpoints remain uncertified |
 | Sharper finite-field spatial bound | [Hessian/grid certificate](HESSIAN_GRID.md), with a 256² derivative grid and a separate 1024² dyadic sample grid | Exact abstract-filtration error evaluated for deterministic new samples; no transfer of historical histogram counts |
 | Exact fine-grid H0 endpoints | [Integer barcode and independent connectivity verification](EXACT_H0.md) | One C38 grid and its frozen finite polynomial only; exact endpoints and deterministic bin-count sandwich |
-| Infinite-field truncation | Variance diagnostics through mode64 in pilot32 | No uniform realized or probabilistic tail enclosure |
+| Ideal infinite-field truncation | [Exact Gaussian shell/theta bound](GAUSSIAN_TAIL.md), including all modes beyond64 and the normalization correction | Uniform probabilistic tail supplied for the explicitly defined ideal field |
+| Coupling the stored coefficients to the ideal field | Explicit low-mode sup-norm/coefficient contract in the same proof | rho remains unknown; no full-field probability or count bound for the frozen polynomial |
 | Lifetime range | Larger bins exhibit numerical stability; shortest bins still drift | No certified finite-lifetime range for the leading law |
 | Remainder | Source-bound qualitative O(1) theorem with its hypotheses | No applicable numerical remainder constant or cutoff supplied here |
 | Sampling precision | Eight coupled fields, with per-field counts and paired differences | Descriptive precision only; no simultaneous confidence claim |
@@ -60,7 +61,9 @@ available and **before** its fields are observed. Its specification must record:
 No held-out seeds have been consumed by this delivery. Assigning a sample size
 or a pass threshold now would conceal missing analytic inputs. The barcode
 computation on the certified fine dyadic grid now has exact integer
-endpoints and separate connectivity checks. The next scientific inputs are a
-justified model, tail and remainder budget.
+endpoints and separate connectivity checks. A quantified ideal-field tail is
+now available. The next scientific inputs are a certified low-mode coupling
+and a numerical remainder budget; neither is supplied by a historical seed
+label or an ideal-tail probability alone.
 The finite-polynomial derivative input is now available. The source-bound manuscript
 and literature work can advance in parallel without waiting for that budget.
