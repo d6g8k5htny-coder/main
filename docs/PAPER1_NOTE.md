@@ -1,48 +1,40 @@
-# Paper 1 note — short-lifetime asymptotics
+# Short-lifetime asymptotics for H0 persistence of smooth Gaussian fields
 
-**Scientific effect: NONE.** This file is a reading note for a future paper. It does not update STATUS.md, claims/LANDING_CLAIMS.json, or any acceptance register. A merge of this note is not mathematical acceptance.
+Scientific effect: NONE. This note does not close a claim, does not accept a theorem, and does not change STATUS.
 
-**Title:** Short-lifetime asymptotics for H0 persistence of smooth Gaussian fields.
+## Observable
 
-Not "Universal Law."
+`nu_{2,24}(ell)` is the per-unit-volume intensity of finite nonessential H0 bars of lifetime less than `ell`, divided by `24^2`. It is not the raw expected count on the torus. A comparison that omits the volume divisor is off by `24^2`.
 
-## Conditional statement
+The persistence statement below is for dimension 2 only. The arithmetic enclosure of `c_{3,24}` is not a three-dimensional persistence theorem. A d=3 statement needs its own analytic chain and is not given here.
 
-Let f be the variance-one periodized Bargmann-Fock field on the flat torus of side 24, in dimension d in {2,3}. Under the compact-birth and compact positive-gap hypotheses of D1, and under Hypothesis P below, the first-moment density of finite nonessential superlevel H0 bars is proposed as
+## Theorem (conditional, d=2)
 
-nu_{d,24}(ell) = c_{d,24} ell^{-1/3} (1+o(1)) as ell -> 0+.
+Let f be the variance-one periodized Bargmann-Fock field on the flat torus of side 24 in dimension 2. Two populations must not be mixed.
 
-The coefficient c_{d,24} is the Kac-Rice / cone integral in Math-/coefficients/side24_v1. Copy the enclosure from ENCLOSURE.json or PROOF.md at the commit cited when the paper is written. Do not retype a decimal from memory. SIDE24 acceptance is arithmetic. It is not acceptance of the parent lifetime theorem and not acceptance of pairing.
+- Compact birth and compact positive-gap hypotheses use the compact coefficient `c_(B,K)`, not the unrestricted `c_{2,24}`.
+- The unrestricted coefficient `c_{2,24}` is the Kac-Rice / cone integral in `Math-/coefficients/side24_v1`, pinned by `docs/research-translation/20260930/SOURCES.json`. That enclosure is arithmetic. It is not, by itself, a persistence theorem, and it is not automatically the coefficient of the compact-restricted population.
 
-The o(1) is the D2 remainder relative to the leading term, at existential scope. No numerical remainder cutoff is claimed. No 24-jet certificate is claimed. No other covariance, and no H_k for k>0, is claimed.
+Under the population actually proved, and under the shrinking-witness gap below,
 
-## Hypothesis P — not proved
+nu = c * ell^{-1/3} (1+o(1)) as ell -> 0+,
 
-> P (not proved). For this model and these marks, the intensity of typed max-saddle contacts of fold-gap less than ell and the intensity of elder-paired finite nonessential H0 bars of lifetime less than ell share the same leading coefficient. Equivalently, after ell ~ r^3, the integrated probability that a typed contact is not the elder pair is o(1) relative to the leading intensity.
+where c is the coefficient of that same population. The o(1) is the D2 remainder relative to the leading term, at the scope STATUS already gives. Other constants in D1 are existential. This is not a numerical remainder, not a 24-jet certificate, not a claim for other covariances, and not a claim for H_k with k > 0.
 
-D1 Theorem A is a pointwise bound 0 <= 1-p_r <= C r^3 on compact marks. It is not this integrated statement.
+## What stays open
 
-The shrinking witness-collision node remains OPEN_ACTIVE. Local D4/D5 estimates do not close global pairing.
+D1 Theorem C, at the scope STATUS accepts, is an existential candidate/elder statement. D2 is a bounded remainder. Neither is a discharge of the shrinking witness-collision node. Hypothesis P, if it is still the right name, means only this narrower gap: after ell ~ r^3, the probability that a typed contact is not the elder pair is o(1) uniformly in the shrinking window. Do not treat this note as reopening a discharged obligation, and do not treat D1 C as closing that window.
 
-frontiers/local_elder_geometry_20260930/PROOF.md is author-side / HOLD. It may be cited as a candidate. It is not a lemma of this note.
+## Scope box
 
-## Scope box (not enlarged)
+Inputs: D1 A/B/C at the scope STATUS already records, D2 Theorem R, D3 arithmetic only, SARD-G as genericity for a fixed planar law, C6 planar factorials as tools.
 
-Inputs that may be used, at their existing scopes: D1 A/B/C existential, D2 Theorem R, D3 arithmetic only, SARD-G as genericity for a fixed planar law, C6 planar factorials as tools.
+Not claimed: a numerical C, an R^d limit, H1/H2, a cosmology detection, Lean of Kac-Rice, a d=3 persistence theorem, or attachment of `c_{2,24}` to a compact-restricted population.
 
-Not claimed: global pairing, a numerical constant C, an R^d limit, H1/H2, a cosmology detection, Lean of Kac-Rice.
+## Literature, qualified
 
-## Section map
+Chazal-Divol is a density result for other filtrations (fixed-size point samples; Brownian sublevel sets). It is not the existence input for this superlevel filtration. Feldbrugge et al. (Feldbrugge, van Engelen, van de Weygaert, Pranav, and Vegter) is a numerical fit, not a theorem. Bobrowski-Borman is the Euler integral of persistence, not the near-diagonal H0 intensity.
 
-1. The hole. The Gaussian kinematic formula gives Euler characteristics. Bobrowski-Borman gives the Euler integral of persistence. Chazal-Divol gives existence of a density. Feldbrugge-van de Weygaert-Pranav gives numerical fits. Missing: a near-diagonal H0 intensity with pairing.
-2. Model. Periodized Bargmann-Fock, Morse input from the SARD-G successor, elder rule as the topological convention (Curry, arXiv:1706.06059).
-3. Local fold. ell ~ r^3, Jacobian ledger. Source: D1 parent packet.
-4. Hypothesis P, and what D4 / D5 / C6 already give at the two ends.
-5. Intensity. D1 B/C plus D2, conditional on P.
-6. Coefficient. SIDE24, labeled arithmetic.
-7. Numerics. Not yet. A histogram that disagrees is a result.
-8. Open. Witness-collision, higher d, cluster law, infinite-volume interchange.
+## What this note is for
 
-## Outreach draft — do not send from this repository
-
-A later human email may ask whether the note is (i) a persistence statement, (ii) a candidate-contact statement, or (iii) not yet either. No email is sent by this file.
+A paper can be written from the d=2 box above. It cannot be cited as a theorem, and it cannot quote `c_{2,24}` for a population the enclosure was not computed for.
