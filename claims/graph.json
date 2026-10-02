@@ -844,7 +844,7 @@
   },
   {
    "id": "FW-RUNG-OPEN-PREMISE",
-   "rule": "A claim operationally graded CERTIFIED_RUNG must have a discharged word (CLOSED, DISCHARGED, PROMOTED, SATISFIED, CERTIFIED) in both status_frozen_v2_2 and status_register_note for every transitive premise. Missing, unknown, malformed and empty status records are refused. Historical source labels may be preserved in source_grade_verbatim; this checker never discharges a premise.",
+   "rule": "A claim operationally graded FROZEN_CERTIFICATE, CERTIFIED_RUNG or AUTHOR_SIDE_CERTIFIED must have a discharged word (CLOSED, DISCHARGED, PROMOTED, SATISFIED, CERTIFIED) in both status_frozen_v2_2 and status_register_note for every transitive premise. Missing, unknown, malformed and empty status records are refused. The repaired D1-v2.2(1) operational grade must be a known string from the existing strength vocabulary; this is not global validation of unrelated historical labels. Historical source labels may be preserved in source_grade_verbatim; this checker never discharges a premise.",
    "source": "Fail-Closed Claim Audit 2026-09-25; D1_ASSEMBLY_v2_2.md §1 names D3-LEMMA-RN-UNIF(r=0.05) as NOT closed"
   },
   {

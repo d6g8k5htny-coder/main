@@ -291,6 +291,18 @@ def main(argv: list[str] | None = None) -> int:
     known = set(claims) | set(premises)
     problems: list[str] = []
 
+    # The repaired D1 mapping cannot evade its grade-family check with an
+    # unknown spelling or an unhashable value. This is deliberately scoped:
+    # unrelated historical labels are not a new global vocabulary migration.
+    if "D1-v2.2(1)" in claims:
+        grade = claims["D1-v2.2(1)"].get("grade")
+        if not isinstance(grade, str) or grade not in GRADE_STRENGTH:
+            print(f"FW-RUNG-OPEN-PREMISE: D1-v2.2(1) has unknown or malformed "
+                  f"operational grade {grade!r}; a reviewed mapping is required")
+            print(f"claims={len(claims)} premises={len(premises)} "
+                  f"firewalls={len(g['firewalls'])} problems=1")
+            return 1
+
     # 0. referential integrity and acyclicity
     for name, node in list(claims.items()) + list(premises.items()):
         for dep in (node.get("depends_on") or []) + (node.get("sub_obligations") or []):
@@ -318,7 +330,10 @@ def main(argv: list[str] | None = None) -> int:
 
     # FW-UNCONDITIONAL
     for name, claim in claims.items():
-        if claim.get("grade") not in UNCONDITIONAL_GRADES:
+        # The overlapping certifying family is handled by the stronger,
+        # type-safe, both-column contract below (including FROZEN_CERTIFICATE).
+        if (claim.get("grade") not in UNCONDITIONAL_GRADES or
+                claim.get("grade") in CERTIFYING_GRADES):
             continue
         for node in closure(g, name) - {name}:
             p = premises.get(node)
@@ -330,9 +345,11 @@ def main(argv: list[str] | None = None) -> int:
     # FW-RUNG-OPEN-PREMISE. A source may historically call a rung
     # "CERTIFIED" while simultaneously naming a load-bearing premise as open.
     # Preserve that source word separately, but do not let the current claim
-    # graph treat the rung as certified until its dependency closes.
+    # graph treat the rung as certified until its dependency closes. All of
+    # the already declared certifying grades share this contract; changing
+    # CERTIFIED_RUNG to AUTHOR_SIDE_CERTIFIED cannot bypass it.
     for name, claim in claims.items():
-        if claim.get("grade") != "CERTIFIED_RUNG":
+        if claim.get("grade") not in CERTIFYING_GRADES:
             continue
         for node in sorted(closure(g, name) - {name}):
             if node not in premises:
@@ -348,7 +365,7 @@ def main(argv: list[str] | None = None) -> int:
                 v = p.get(col)
                 if not isinstance(v, str) or v not in PREMISE_DISCHARGED:   # absence included, deliberately
                     problems.append(
-                        f"FW-RUNG-OPEN-PREMISE: {name} is graded CERTIFIED_RUNG but rests "
+                        f"FW-RUNG-OPEN-PREMISE: {name} is graded {claim['grade']} but rests "
                         f"on {node}, whose {col} is {v!r} and is not a discharge")
 
     # FW-2D-3D-COMPOSITION

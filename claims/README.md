@@ -76,7 +76,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: no evidence may be `certifying` while its arithmetic is float, and no certified/enclosed claim may rest solely on float evidence | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
 | `FW-RETRACTED-NOT-UNCONDITIONAL` | a transcribed retraction cannot carry an unconditional grade | the graph's retraction record and register source |
 | `FW-PROPOSED-LAYER-NOT-A-STATUS` | a proposed transition cannot become a current status by copying its words | the graph's proposed-layer source |
-| `FW-RUNG-OPEN-PREMISE` | `CERTIFIED_RUNG` requires a discharged word in **both** status columns of every transitive premise; absent, unknown and malformed values are refused | D1 frozen body and the existing hardening correction |
+| `FW-RUNG-OPEN-PREMISE` | each existing certifying grade (`FROZEN_CERTIFICATE`, `CERTIFIED_RUNG`, `AUTHOR_SIDE_CERTIFIED`) requires a discharged word in **both** columns of every transitive premise; absent, unknown and malformed statuses refuse. The repaired D1 operational grade must also be a known string | D1 frozen body, existing certifying-grade vocabulary, and the [reviewed convergence contract](../docs/CLAIM_CONVERGENCE_PROPOSAL_20261002.md) |
 | `FW-RN-FLOOR-DEPENDENCY` | RN3-FAR and RN5-NEAR-POINT-CERTS name H3-RUNG-FLOOR, not the distinct H3 band input | frozen runner `_PINS` and `Z_LO` parser |
 | `FW-RN-FLOOR-SOURCE` | refuse missing, changed, misattributed or symlinked rung-source bytes and report reverse consumers | frozen runner pin; [bounded source contract](../docs/CLAIM_CONVERGENCE_PROPOSAL_20261002.md) |
 

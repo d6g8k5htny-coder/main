@@ -34,13 +34,54 @@ operational `CONDITIONAL`, original `source_grade_verbatim: CERTIFIED_RUNG`, and
 unchanged. The reference note preserves Q-RN5-MOMENT-003's annulus-number defect
 and RN3's AMEND review with zero credit; neither number is newly certified.
 
-`FW-RUNG-OPEN-PREMISE` is the hardening rule: every transitive premise must have
-one of CLOSED, DISCHARGED, PROMOTED, SATISFIED, CERTIFIED in **both** status
-columns. Missing, unknown and malformed values refuse. An empty known premise
+`FW-RUNG-OPEN-PREMISE` retains the hardening discharge contract: every transitive
+premise of a certifying claim must have one of CLOSED, DISCHARGED, PROMOTED,
+SATISFIED, CERTIFIED in **both** status columns. Missing, unknown and malformed values refuse. An empty known premise
 record is checked rather than skipped by truthiness; the reference profile
 rejects it through broader validation, which this bounded port does not import. This rule never writes
 those words or determines scientific discharge. Other migration firewalls are
 preserved; this is not a complete backport of unrelated hardening behavior.
+
+### Readiness-review successor: close the equivalent-grade bypass
+
+The first published candidate `34e946cb5009fea769e416e5905ebe4cbb850189`
+copied the hardening loop's exact `CERTIFIED_RUNG` selector. Automated review
+[4168807065](https://github.com/d6g8k5htny-coder/main/pull/237#discussion_r4168807065)
+found that changing D1's operational grade to `AUTHOR_SIDE_CERTIFIED` still
+passed with RN-UNIF open. Author and nonauthor normal/optimized CLI reproductions
+confirmed it. Earlier successful checks and review records remain evidence for
+that older candidate, not a claim that this bypass was absent.
+
+The successor applies the same both-column, transitive premise test to the
+already declared `CERTIFYING_GRADES`: FROZEN_CERTIFICATE, CERTIFIED_RUNG and
+AUTHOR_SIDE_CERTIFIED. This deliberately strengthens the hardening rung-only
+selector, rather than treating that older loop as complete firewall authority.
+No grade strength, vocabulary entry, status or claim mapping is changed. A
+certified leaf with no premise is not assigned an invented obligation; existing
+RN3/H3 author-side scope remains valid under this repository refusal. The
+source-verbatim label alone never triggers the guard.
+
+The repaired D1 mapping additionally rejects an unknown, absent or non-string
+operational grade before grade-set lookups, with a controlled diagnostic. This
+prevents replacing a recognized certifying word with an unrecognized spelling
+or malformed value to evade the same boundary. The check uses the existing
+strength vocabulary only for D1; unrelated historical labels, including
+P14-A..E's AUTHOR_SIDE_COMPLETE, are preserved. Known noncertifying D1 labels
+retain their existing behavior. This is not complete graph-schema validation.
+A legitimate new D1 operational label requires an explicitly reviewed successor
+mapping and corresponding vocabulary/guard tests; it must not be added merely
+to silence this refusal. Passing this structural test licenses no status move.
+
+The authority concern in
+[4168807052](https://github.com/d6g8k5htny-coder/main/pull/237#discussion_r4168807052)
+is addressed by the precise boundary in the
+[migration-only disposition](https://github.com/d6g8k5htny-coder/main/pull/237#issuecomment-5958959846):
+Dylan's explicit repair request authorizes loss-only repository presentation,
+refusal and source routing. The historical AGENTS/CLAUDE no-reclassification
+rule remains controlling for authoritative scientific verdicts. The original
+CERTIFIED_RUNG source word, proof body, premise records and conditional truth
+remain unchanged; the existing hardening correction supplies the operational
+mapping. This is not an operator promotion or a rewrite of source truth.
 
 ## SI02: identify the actual consumed source
 

@@ -12,6 +12,7 @@ CHECKER = ROOT / 'tools/claims_check.py'
 D1 = 'D1-v2.2(1)'
 FLOOR = 'H3-RUNG-FLOOR'
 CONSUMERS = ('RN3-FAR', 'RN5-NEAR-POINT-CERTS')
+CERTIFYING_GRADES = ('CERTIFIED_RUNG', 'AUTHOR_SIDE_CERTIFIED', 'FROZEN_CERTIFICATE')
 FLOOR_PATH = ('engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/'
               'H3_closure/H3_RUNG_FLOOR.md')
 FLOOR_SHA256 = '6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa'
@@ -29,9 +30,9 @@ def check(g, tmp_path, optimized, checker=CHECKER):
                           capture_output=True, text=True)
 
 
-def rung_graph():
+def rung_graph(grade='CERTIFIED_RUNG'):
     g = graph()
-    g['claims'][D1]['grade'] = 'CERTIFIED_RUNG'
+    g['claims'][D1]['grade'] = grade
     g['claims'][D1]['depends_on'] = ['H5-RIM']
     # This premise has no receipt-only evidence: positive controls isolate the
     # rung rule rather than failing an unrelated receipt-promotion firewall.
@@ -45,9 +46,12 @@ def rung_graph():
     ('UNKNOWN', 'CLOSED'), ('CLOSED', 'UNKNOWN'),
     (None, 'CLOSED'), ('CLOSED', None), (False, 'CLOSED'),
     ('CLOSED', []), ('CLOSED', {'status': 'CLOSED'}),
+    ([], 'CLOSED'), ({'status': 'CLOSED'}, 'CLOSED'),
+    ('', 'CLOSED'), ('CLOSED', ''),
 ])
-def test_certified_rung_refuses_each_undischarged_status(tmp_path, optimized, frozen, note):
-    g = rung_graph()
+@pytest.mark.parametrize('grade', CERTIFYING_GRADES)
+def test_certified_rung_refuses_each_undischarged_status(grade, tmp_path, optimized, frozen, note):
+    g = rung_graph(grade)
     p = g['premises']['H5-RIM']
     for key, value in [('status_frozen_v2_2', frozen), ('status_register_note', note)]:
         if value is None:
@@ -62,8 +66,9 @@ def test_certified_rung_refuses_each_undischarged_status(tmp_path, optimized, fr
 
 
 @pytest.mark.parametrize('optimized', [False, True])
-def test_certified_rung_accepts_discharged_synthetic_premise(tmp_path, optimized):
-    g = rung_graph()
+@pytest.mark.parametrize('grade', CERTIFYING_GRADES)
+def test_certified_rung_accepts_discharged_synthetic_premise(grade, tmp_path, optimized):
+    g = rung_graph(grade)
     for col in ('status_frozen_v2_2', 'status_register_note'):
         g['premises']['H5-RIM'][col] = 'CLOSED'
     r = check(g, tmp_path, optimized)
@@ -71,8 +76,9 @@ def test_certified_rung_accepts_discharged_synthetic_premise(tmp_path, optimized
 
 
 @pytest.mark.parametrize('optimized', [False, True])
-def test_certified_rung_refuses_transitive_open_premise(tmp_path, optimized):
-    g = rung_graph()
+@pytest.mark.parametrize('grade', CERTIFYING_GRADES)
+def test_certified_rung_refuses_transitive_open_premise(grade, tmp_path, optimized):
+    g = rung_graph(grade)
     g['claims']['SYNTHETIC-INTERMEDIATE'] = {
         'track': 'UPPER2D', 'grade': 'CONDITIONAL', 'depends_on': ['H5-RIM']}
     g['claims'][D1]['depends_on'] = ['SYNTHETIC-INTERMEDIATE']
@@ -255,9 +261,61 @@ def test_unrelated_document_change_does_not_invalidate_floor(tmp_path, optimized
 
 
 @pytest.mark.parametrize('optimized', [False, True])
-def test_certified_rung_refuses_empty_premise_record(tmp_path, optimized):
-    g = rung_graph()
+@pytest.mark.parametrize('grade', CERTIFYING_GRADES)
+def test_certified_rung_refuses_empty_premise_record(grade, tmp_path, optimized):
+    g = rung_graph(grade)
     g['premises']['H5-RIM'] = {}
     r = check(g, tmp_path, optimized)
     assert r.returncode == 1, r.stdout + r.stderr
     assert 'FW-RUNG-OPEN-PREMISE:' in r.stdout and 'H5-RIM' in r.stdout
+
+
+@pytest.mark.parametrize('optimized', [False, True])
+@pytest.mark.parametrize('grade', CERTIFYING_GRADES)
+def test_d1_certifying_alias_refuses_actual_open_rn(tmp_path, optimized, grade):
+    g = graph()
+    g['claims'][D1]['grade'] = grade
+    r = check(g, tmp_path, optimized)
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert 'FW-RUNG-OPEN-PREMISE:' in r.stdout
+    assert D1 in r.stdout and 'D3-LEMMA-RN-UNIF' in r.stdout
+    assert f'is graded {grade}' in r.stdout
+
+
+@pytest.mark.parametrize('optimized', [False, True])
+@pytest.mark.parametrize('grade', ['MISSING', None, 'FUTURE_CERTIFIED', True, [], {}])
+def test_d1_unknown_or_malformed_grade_is_not_a_bypass(tmp_path, optimized, grade):
+    g = graph()
+    if grade == 'MISSING':
+        g['claims'][D1].pop('grade')
+    else:
+        g['claims'][D1]['grade'] = grade
+    r = check(g, tmp_path, optimized)
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert 'FW-RUNG-OPEN-PREMISE:' in r.stdout and D1 in r.stdout
+    assert 'unknown or malformed operational grade' in r.stdout
+    assert 'Traceback' not in r.stderr
+
+
+@pytest.mark.parametrize('optimized', [False, True])
+def test_source_labels_and_existing_author_side_scope_remain_compatible(tmp_path, optimized):
+    g = graph()
+    assert g['claims'][D1]['grade'] == 'CONDITIONAL'
+    assert g['claims'][D1]['source_grade_verbatim'] == 'CERTIFIED_RUNG'
+    assert g['claims']['RN3-FAR']['grade'] == 'AUTHOR_SIDE_CERTIFIED'
+    assert g['claims'][FLOOR]['grade'] == 'AUTHOR_SIDE_CERTIFIED'
+    assert g['claims']['P14-A..E']['grade'] == 'AUTHOR_SIDE_COMPLETE'
+    r = check(g, tmp_path, optimized)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+@pytest.mark.parametrize('optimized', [False, True])
+@pytest.mark.parametrize('grade', ['CONDITIONAL', 'AUTHOR_SIDE_PROOF_PRESENT', 'AMEND'])
+@pytest.mark.parametrize('source_grade', CERTIFYING_GRADES + ('FUTURE_SOURCE_LABEL',))
+def test_known_noncertifying_d1_grade_is_not_source_label_promotion(
+        tmp_path, optimized, grade, source_grade):
+    g = graph()
+    g['claims'][D1]['grade'] = grade
+    g['claims'][D1]['source_grade_verbatim'] = source_grade
+    r = check(g, tmp_path, optimized)
+    assert r.returncode == 0, r.stdout + r.stderr
