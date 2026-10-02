@@ -6,7 +6,7 @@ The public home introduces the mathematics before its implementation. All pages 
 
 - **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
 - **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
-- **Research (`research.html`):** a dated Latest public work reading cut, followed by the established question-to-proof paths. Pinned source citations, open formal candidates and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
+- **Research (`research.html`):** a dated Latest public work reading cut, followed by the established question-to-proof paths. Pinned source citations, scoped formal packets and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
 - **Library and workspace (`workspace.html`):** the existing exact coefficient viewer, dated status snapshot, hash-verified source inventory and contributor instructions. Old `index.html#board`, `#coefficient`, `#inventory` and `#contribute` bookmarks route here; without JavaScript the home still offers the workspace link.
 - **Reproduce (`reproduce.html`):** a single pinned coefficient replay, prerequisites, actual expected output and the boundary of the check.
 - **Cite (`cite.html`):** object-specific citation guidance and a local immutable-reference builder. It checks input syntax, not source existence or scientific status.
@@ -28,7 +28,7 @@ Check real desktop/mobile layouts, keyboard operation, light/dark appearance and
 
 `research.html#latest-work` is static editorial navigation checked at its displayed
 UTC time. It links the landed soft-model chain at Math `07320089`, the separately
-unmerged cap formalization at `2fd7274`, exact public C81–C84 issue-comment proofs and
+landed cap formalization at `0fda855b`, exact public C81–C84 issue-comment proofs and
 reviews (model and source-bound actual/contact scopes kept distinct), the finite numerical work at main `1e1c9a1c`, and the existing catalog and
 query sources. The named boundaries are part of each reading path. This is a
 curated selection plus full upstream navigation, not a complete artifact catalog,

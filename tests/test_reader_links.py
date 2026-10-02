@@ -89,7 +89,7 @@ class LatestPublicWork(unittest.TestCase):
             self.assertIn('href="research.html#latest-work"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
-        self.assertIn('datetime="2026-10-02T21:12:40Z"',section)
+        self.assertIn('datetime="2026-10-02T21:18:12Z"',section)
         self.assertIn('curated reading cut',section)
         self.assertIn('not an exhaustive artifact or status catalog',section)
         self.assertIn('does not update automatically',section)
@@ -102,11 +102,11 @@ class LatestPublicWork(unittest.TestCase):
         for limit in ('Conjecture 7 remains open','uncertified','scientific acceptance'):
             self.assertIn(limit,section)
 
-    def test_open_formal_candidate_and_issue_proofs_remain_distinct(self):
+    def test_landed_formal_packet_and_issue_proofs_remain_distinct(self):
         section=self.section()
         for source in ('pull/246','pullrequestreview-5396110365','issuecomment-5957815904','issuecomment-5957885844','issuecomment-5959920397','issuecomment-5959988102'):
             self.assertIn(source,section)
-        for limit in ('Unmerged at this cut','I1–I4','persistence-module bookkeeping','Source-bound issue proofs','finite-r','same-provider'):
+        for limit in ('Landed at this cut','I1–I4','persistence-module bookkeeping','Source-bound issue proofs','finite-r','same-provider'):
             self.assertIn(limit,section)
 
     def test_issue_refresh_preserves_actual_field_and_model_distinctions(self):
@@ -155,7 +155,7 @@ class PinnedReadingLinks(HTMLParser):
 
 def validate_reading_pins(text):
     expected={
-        'Math-':{'07320089a9c690c154d2fa70e4ebc12f36f2422c','2fd72745896402fe50c54ebaeb132ead17f19ff8'},
+        'Math-':{'07320089a9c690c154d2fa70e4ebc12f36f2422c','0fda855b8ee0c26d597bb033e0b4cdfb6d07e5e6'},
         'main':{'1e1c9a1cdafd4b2c1a71639516e2233b168d9e05'},
         'meta-framework':{'f063d9dcab51302aaaef6666245cac9cf2307548'},
         'query-':{'aeffebc0ab984ff218b6f07d6f2a999ef4c6ca96'},

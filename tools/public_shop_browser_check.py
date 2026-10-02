@@ -128,10 +128,10 @@ def check_latest_work_flow(page, origin, expect, result, output):
         entry.focus();page.keyboard.press("Enter")
         expect(page.locator("#latest-heading")).to_have_text("Latest public work")
         expect(page.locator("#latest-work")).to_be_focused()
-        expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-02T21:12:40Z")
+        expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-02T21:18:12Z")
         expect(page.locator(".latest-chain > li")).to_have_count(3)
         expect(page.locator(".latest-boundary")).to_contain_text("Conjecture 7 remains open")
-        expect(page.locator(".latest-card").first).to_contain_text("Unmerged at this cut")
+        expect(page.locator(".latest-card").first).to_contain_text("Landed at this cut")
         expect(page.locator(".latest-card").first).to_contain_text("I1–I4")
         issue_card=page.locator(".latest-card").nth(1)
         expect(issue_card).to_contain_text("C81–C82 concern the soft model")
@@ -162,7 +162,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
         require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
         result["latest-source-requests"]=remote_requests
-        result["steps"].extend(["Home keyboard route reaches dated latest-work anchor with focus", "landed, unmerged and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+        result["steps"].extend(["Home keyboard route reaches dated latest-work anchor with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
     finally:
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
