@@ -44,7 +44,10 @@ link still work; if source verification fails, controls stay unavailable.
 The existing `public-shop` workflow also runs a separate read-only `browser-smoke`
 job. Its optional [pinned Playwright dependencies](../../tests/browser-requirements.txt)
 use the [official Python package](https://pypi.org/project/playwright/1.62.0/)
-and its matching Chromium build. The runner serves only `docs` on an ephemeral
+with the Ubuntu 24.04 runner’s packaged stable Chrome and its enabled sandbox.
+The browser version/executable hash and runner-image identity are recorded; the
+browser is runner-bound rather than a fixed Playwright download. The runner serves
+only `docs` on an ephemeral
 loopback port. It does not publish a preview or use account credentials.
 
 The `public-shop-browser-<run-id>` artifact contains a JSON report and screenshots

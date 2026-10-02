@@ -16,6 +16,8 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('if: always()',block)
         self.assertIn('path: browser-evidence',block)
         self.assertIn('timeout-minutes: 10',block)
+        self.assertNotIn('playwright install',block, 'Use the runner’s supported packaged browser sandbox')
+        self.assertIn('runs-on: ubuntu-24.04',block)
         self.assertNotIn('secrets.',block)
         self.assertNotIn('deploy',block)
 
@@ -27,6 +29,8 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertNotIn('0.0.0.0',source)
         for item in ['1200','900','390','844','"light"','"dark"','go_back','go_forward','to_be_focused','scrollWidth','screenshot','checked_commit','browser.version']:
             self.assertIn(item,source)
+        self.assertIn('channel="chrome",chromium_sandbox=True',source)
+        self.assertIn('browser_executable_sha256',source)
         self.assertNotIn('assert ',source, 'CLI checks must not disappear under Python -O')
         self.assertIn('Access-Control-Allow-Origin',source)
         self.assertIn('Source unavailable (503)',source)

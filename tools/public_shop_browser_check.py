@@ -1,11 +1,11 @@
 """Run scoped headless Chromium Library checks against docs served on loopback.
 
-Requires tests/browser-requirements.txt and its matching Chromium installation.
+Requires tests/browser-requirements.txt and the runner’s packaged Google Chrome.
 Screenshots are evidence for inspection, not automatic visual certification.
 """
 from contextlib import contextmanager
 from functools import partial
-from hashlib import sha256
+from hashlib import sha256, file_digest
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import argparse
 import importlib.metadata
@@ -124,7 +124,15 @@ def main():
         report["playwright"]=importlib.metadata.version("playwright")
         from playwright.sync_api import sync_playwright, expect
         with local_docs() as origin, sync_playwright() as playwright:
-            browser=playwright.chromium.launch(chromium_sandbox=True)
+            executable=Path("/opt/google/chrome/chrome")
+            require(executable.is_file(),"The runner’s packaged Chrome binary is missing")
+            report["browser_channel"]="chrome"
+            report["browser_executable"]=str(executable)
+            with executable.open("rb") as binary:
+                report["browser_executable_sha256"]=file_digest(binary,"sha256").hexdigest()
+            report["runner_image_os"]=os.environ.get("ImageOS")
+            report["runner_image_version"]=os.environ.get("ImageVersion")
+            browser=playwright.chromium.launch(channel="chrome",chromium_sandbox=True)
             try:
                 report["browser_run_started"]=True;report["browser"]=browser.version
                 for size in [{"width":1200,"height":900},{"width":390,"height":844}]:
