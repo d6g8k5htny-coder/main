@@ -48,8 +48,10 @@ coordinator, actual active writers/integrators or custodians for each area, and
 reviewers. Refresh live claims and handoffs; old rows and silence do not release
 an active owner. Record the milestone condition, repositories/branches/paths and
 source collections, exclusions, depth/budget, remaining work to finish or park,
-and start/release/abort conditions. Open research can be parked with a finding
-and fixed identity; an audit need not wait for every theorem to close.
+and start/release/abort conditions. Before freezing, agree a maximum freeze/review
+window, a named recovery custodian and bounded unavailable-owner or lease-expiry
+conditions for the abort/resume procedure below. Open research can be parked with
+a finding and fixed identity; an audit need not wait for every theorem to close.
 
 Each affected owner must actually acknowledge the final scope, controlled refs,
 bounded handoff and merge pause. Link each reply and identify the actual performer,
@@ -133,11 +135,18 @@ areas. Otherwise publish a **partial or blocked audit**, separating usable from
 unusable conclusions. It can seed delta work only for evidenced coverage; gaps
 and unresolved findings carry forward.
 
-Record affected owners' release/abort acknowledgment before resuming paused
-integration. Expiry is not implicit clean release: publish the partial state and
-explicit abort/resume disposition under the agreed conditions. Name the next
-baseline identity, inherited gaps and next milestone/risk for reconsideration.
-Queued changes belong to subsequent work, not the frozen conclusion.
+Normally record affected owners' release/abort acknowledgment before resuming
+paused integration. If an owner cannot acknowledge, the coordinator or named
+recovery custodian may use only the pre-agreed abort/resume conditions: document
+the confirmed unavailability or lease-expiry trigger, refresh live ownership and
+source identities, and record a successor custodian's actual scoped pickup.
+Reconcile competing claims without overwriting active peer work. Preserve the
+missing acknowledgment and frozen evidence; publish a partial or blocked audit
+with an explicit abort/resume disposition naming the refs released from the pause.
+Silence or timeout alone is neither agreement nor clean release, and this recovery
+does not satisfy missing clean-release evidence. Name the next baseline identity,
+inherited gaps and next milestone/risk for reconsideration. Queued changes belong
+to subsequent work, not the frozen conclusion.
 
 ## One discoverable record per audit
 
