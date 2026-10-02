@@ -458,13 +458,38 @@ def test_dispatcher_ranks_a_falsifiable_lane_above_one_that_is_not():
             assert rows["A1"]["rank"] < other["rank"]
 
 
-def test_dispatcher_reports_unbound_inputs_when_the_manifest_is_absent():
-    data = json.loads(dispatcher("--json"))
-    if os.path.exists(os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")):
-        pytest.skip("carrier manifest now exists; binding is checked by lanes_check")
-    for row in data["lanes"]:
-        assert row["inputs"] == []
+def test_dispatcher_reports_unbound_inputs_when_the_manifest_is_absent(tmp_path):
+    """The dispatcher reports missing-index diagnostics, not lane validity.
+
+    Empty inputs preserve the manifest-free input contract. Declared inputs
+    without a manifest are checker-invalid, but must remain visible and unbound
+    even when the archive-member index lists them. No real index is changed.
+    """
+    inputs_by_lane = {"EMPTY": [], "DECLARED": ["RNENG-TEST-99"]}
+    lanes = tmp_path / "lanes"
+    lanes.mkdir()
+    for key, inputs in inputs_by_lane.items():
+        (lanes / f"{key}.json").write_text(
+            json.dumps({"key": key, "inputs": inputs}), encoding="utf-8")
+    graph = tmp_path / "graph.json"
+    graph.write_text(json.dumps({"claims": {}, "premises": {}}), encoding="utf-8")
+    binding = tmp_path / "BINDING.json"
+    binding.write_text(
+        json.dumps({"carriers": [{"carrier_id": "RNENG-TEST-99"}]}),
+        encoding="utf-8")
+    manifest = tmp_path / "MANIFEST.json"
+    assert not manifest.exists()
+
+    data = json.loads(dispatcher(
+        "--lanes", str(lanes), "--graph", str(graph),
+        "--manifest", str(manifest), "--binding", str(binding), "--json"))
+    rows = {row["key"]: row for row in data["lanes"]}
+    assert rows.keys() == inputs_by_lane.keys()
+    for key, row in rows.items():
+        assert row["inputs"] == inputs_by_lane[key]
         assert row["inputs_bound_here"] is False
+        assert row["inputs_note"] == (
+            "engine/carriers/MANIFEST.json absent; no carrier input is bound here")
 
 
 def test_unknown_lane_is_an_error():
