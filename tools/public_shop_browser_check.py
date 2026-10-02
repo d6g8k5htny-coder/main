@@ -51,6 +51,7 @@ def check_flow(page, origin, expect, result):
     expect(page.locator("#repository-filter")).to_have_value("Math-")
     expect(page.locator("#path-filter")).to_have_value("coefficients/side24_v1/")
     expect(page.locator("#catalog tr")).to_have_count(1)
+    expect(page.locator("#more")).to_be_hidden()
     expect(page.locator("#catalog a")).to_contain_text("coefficients/side24_v1/PROOF.md")
     link=page.locator("#catalog-link").get_attribute("href")
     require(set(parse_qs(urlsplit(link).query))=={"q","repository","path"},"Search link has unexpected parameters")
@@ -59,6 +60,7 @@ def check_flow(page, origin, expect, result):
 
     page.locator("#search").fill("nothing-matches-this-example")
     expect(page.locator("#catalog tr")).to_have_count(0)
+    expect(page.locator("#more")).to_be_hidden()
     expect(page.locator("#inventory-state")).to_contain_text("clear filters")
     page.locator("#search").press("Tab")
     expect(page.locator("#catalog-clear")).to_be_focused()
@@ -68,6 +70,9 @@ def check_flow(page, origin, expect, result):
     page.keyboard.press("Enter")
     expect(page.locator("#search")).to_be_focused()
     expect(page.locator("#catalog tr")).to_have_count(50)
+    expect(page.locator("#more")).to_be_visible()
+    page.locator("#more").click()
+    expect(page.locator("#catalog tr")).to_have_count(100)
     expect(page.locator("#repository-filter")).to_have_value("")
     expect(page.locator("#path-filter")).to_have_value("")
     result["steps"].append("zero-result recovery, Tab order and keyboard Clear focus")
@@ -99,6 +104,7 @@ def check_flow(page, origin, expect, result):
     page.locator("#path-filter").fill("coefficients/side24_v1/")
     page.locator("#search").fill("PROOF.md")
     expect(page.locator("#catalog tr")).to_have_count(1)
+    expect(page.locator("#more")).to_be_hidden()
     page.locator("#inventory").scroll_into_view_if_needed()
     result["layout"]=page.evaluate("""() => ({viewport: innerWidth,
       documentWidth: document.documentElement.scrollWidth,
@@ -175,6 +181,7 @@ def main():
                         expect(page.locator(selector)).to_be_disabled()
                     require(page.locator("#catalog-link").get_attribute("href") is None,"Unavailable catalog has an active search link")
                     expect(page.locator("#catalog tr")).to_have_count(0)
+                    expect(page.locator("#more")).to_be_hidden()
                     require(not refusal_errors,f"Refusal page errors: {refusal_errors}")
                     result["steps"].append("pinned inventory 503 keeps filters/link unavailable and no rows")
                     result["passed"]=True
