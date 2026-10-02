@@ -1,6 +1,6 @@
 # Bargmann-Fock short-bar histogram
 
-Scientific effect: NONE. A figure is a check, not a proof. This file does not replace docs/research-translation/20260930/EXPERIMENT.md. If they disagree, the experiment note is the authority.
+Scientific effect: NONE. A figure is a check, not a proof. This summary does not replace the [experiment note](research-translation/20260930/EXPERIMENT.md). If they disagree, the experiment note is the authority.
 
 ## Generator
 
@@ -32,4 +32,4 @@ A stable slope or prefactor discrepancy is a diagnostic. Check sign, volume and 
 
 ## Reading path
 
-This file does not remove P15 from docs/PUBLIC_MATHEMATICS.md. That page still has to be edited before the split is real for a reader.
+Return to the [public mathematics catalog](PUBLIC_MATHEMATICS.md) for the Gaussian-field proof sources and their stated scopes. The [P15 combinatorics note](P15_SPLIT.md) has a separate reading route.

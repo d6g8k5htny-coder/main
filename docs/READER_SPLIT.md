@@ -2,8 +2,8 @@
 
 Scientific effect: NONE.
 
-P15 is not part of the SIDE24 / Gaussian-field row. The combinatorics note is docs/P15_SPLIT.md.
+Start with the [public mathematics catalog](PUBLIC_MATHEMATICS.md). It provides separate routes to Gaussian-field research and the [P15 combinatorics note](P15_SPLIT.md).
 
-The histogram check is docs/SIMULATION_PROTOCOL.md. If it disagrees with docs/research-translation/20260930/EXPERIMENT.md, the experiment note is the authority.
+The [short-bar histogram protocol](SIMULATION_PROTOCOL.md) summarizes the proposed numerical check. The [experiment note](research-translation/20260930/EXPERIMENT.md) is the authority if the two disagree.
 
-This file is the reader-path edit. It does not accept a theorem and does not close pairing.
+This page is a navigation aid. It does not accept a theorem and does not close pairing.
