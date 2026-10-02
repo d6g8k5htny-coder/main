@@ -1,4 +1,5 @@
 import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs';
+import {connectCatalogQuery} from './catalog-query.mjs';
 import {prepareWorkspaceFragment} from './workspace-fragment.mjs';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
@@ -85,9 +86,12 @@ async function inventory(config) {
   const render=()=>{const query=el('search').value.trim().toLowerCase(),repository=el('repository-filter').value,path=el('path-filter').value.trim().toLowerCase();
     const matches=rows.filter(row=>(!repository||row.repository===repository)&&row.path.toLowerCase().includes(path)&&[row.repository,row.path,row.commit,row.sha256].some(s=>s.toLowerCase().includes(query)));el('catalog').replaceChildren();
     matches.slice(0,limit).forEach(row=>{const tr=node('tr'),name=node('td'),commit=node('td'),hash=node('td');name.append(node('small',row.repository),link(row.path,safeSourceURL(row)));commit.append(node('code',row.commit));hash.append(node('code',row.sha256));tr.append(name,commit,hash);el('catalog').append(tr);});
-    el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;el('more').hidden=matches.length<=limit;};
+    el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;if(!matches.length)el('inventory-state').append(' Try a broader search or clear filters.');el('more').hidden=matches.length<=limit;};
+  const syncQuery=connectCatalogQuery(typeof window==='undefined'?null:window,{search:el('search'),repository:el('repository-filter'),path:el('path-filter'),link:el('catalog-link'),note:el('catalog-query-note')},()=>{limit=50;render();});
+  el('catalog-clear').disabled=false;
+  el('catalog-clear').addEventListener('click',()=>{for(const id of ['search','repository-filter','path-filter'])el(id).value='';limit=50;render();syncQuery();el('search').focus();});
   for(const [id,event] of [['search','input'],['repository-filter','change'],['path-filter','input']]) {
-    el(id).disabled=false;el(id).addEventListener(event,()=>{limit=50;render();});
+    el(id).disabled=false;el(id).addEventListener(event,()=>{limit=50;render();syncQuery();});
   }
   el('more').addEventListener('click',()=>{limit+=50;render();});render();
 }

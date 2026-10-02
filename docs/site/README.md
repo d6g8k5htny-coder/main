@@ -23,6 +23,45 @@ python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
+## Keep or share a Library search
+
+The Library's search, repository and path filters are saved in the current URL
+without adding a browser-history entry for every keystroke. Refreshing or
+returning with Back/Forward restores the filters. **Link to this search** gives a
+bookmarkable link directly to the catalog; **Clear filters** restores its initial
+50-row view. Filtering never changes source identities or recorded review scope.
+
+Search links use `q`, `repository` (`main` or `Math-`) and `path`. Empty values are
+omitted; the first repeated value is used, and an unknown repository is treated
+as all repositories. Unrelated parameters and section bookmarks are preserved in
+the current address but omitted from the explicit search link. Filters are visible
+in URLs and browser history. Links use the catalog’s pinned source records, not a
+live proof index; the search URL does not freeze future catalog updates. If history updates are unavailable, filtering and the explicit
+link still work; if source verification fails, controls stay unavailable.
+
+## Browser evidence in CI
+
+The existing `public-shop` workflow also runs a separate read-only `browser-smoke`
+job. Its optional [pinned Playwright dependencies](../../tests/browser-requirements.txt)
+use the [official Python package](https://pypi.org/project/playwright/1.62.0/)
+with the Ubuntu 24.04 runner’s packaged stable Chrome and its enabled sandbox.
+The browser version/executable hash and runner-image identity are recorded; the
+browser is runner-bound rather than a fixed Playwright download. The runner serves
+only `docs` on an ephemeral
+loopback port. It does not publish a preview or use account credentials.
+
+The `public-shop-browser-<run-id>` artifact contains a JSON report and screenshots
+for 1200×900 and 390×844 in light and dark mode, plus an explicitly refused
+inventory request. It tests URL round-trips, actual Back/Forward navigation,
+keyboard reset/focus and document overflow against the real app and pinned public
+sources. The report binds the actual tested checkout separately from the PR head.
+A setup artifact without a successful report is not a completed browser run.
+
+Inspect the screenshots before accepting visual quality. This is headless Chromium
+with mobile-sized viewports, not physical touch-device, all-browser, full
+accessibility or deployed-Pages certification. The original source validation and
+required hosted checks remain separate and unchanged.
+
 ## Run locally
 
 From the repository root:
