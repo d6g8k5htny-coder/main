@@ -115,7 +115,55 @@ def check_flow(page, origin, expect, result):
 
 
 
+def check_latest_work_flow(page, origin, expect, result, output):
+    # Static navigation must remain usable if remote source fetching is unavailable.
+    remote_requests=[]
+    def refuse_remote(route):
+        remote_requests.append(route.request.url)
+        route.abort()
+    page.route("https://raw.githubusercontent.com/**",refuse_remote)
+    try:
+        page.goto(origin+"index.html")
+        entry=page.get_by_role("link",name="Read the latest public work →",exact=True)
+        entry.focus();page.keyboard.press("Enter")
+        expect(page.locator("#latest-heading")).to_have_text("Latest public work")
+        expect(page.locator("#latest-work")).to_be_focused()
+        expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-02T19:50:57Z")
+        expect(page.locator(".latest-chain > li")).to_have_count(3)
+        expect(page.locator(".latest-boundary")).to_contain_text("Conjecture 7 remains open")
+        expect(page.locator(".latest-card").first).to_contain_text("Unmerged at this cut")
+        expect(page.locator(".latest-card").first).to_contain_text("I1–I4")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Latest work entry overflow")
+        shot=output/f'{result["case"]}-latest-entry.png'
+        page.screenshot(path=str(shot))
+        result["latest_entry_screenshot"]={"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()}
+        full=output/f'{result["case"]}-latest-full.png'
+        page.locator("#latest-work").screenshot(path=str(full))
+        result["latest_full_screenshot"]={"path":full.name,"sha256":sha256(full.read_bytes()).hexdigest()}
+        summary=page.locator(".latest-identities summary")
+        summary.focus();page.keyboard.press("Enter")
+        expect(page.locator(".latest-identities")).to_have_attribute("open","")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Expanded source identities overflow")
+        page.keyboard.press("Enter");page.keyboard.press("Enter");page.keyboard.press("Enter")
+        expect(summary).to_be_focused()
+        require(page.locator(".latest-identities").get_attribute("open") is None,"Identity disclosure did not close")
+        newer=page.get_by_role("link",name="upstream routes below",exact=True)
+        newer.focus();page.keyboard.press("Enter")
+        expect(page.locator("#newer-work")).to_be_focused()
+        expect(page.locator("#newer-work")).to_contain_text("Mutable upstream navigation")
+        page.go_back()
+        require(urlsplit(page.url).fragment=="latest-work","Back lost latest-work anchor")
+        page.go_forward()
+        require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
+        require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
+        result["latest-source-requests"]=remote_requests
+        result["steps"].extend(["Home keyboard route reaches dated latest-work anchor with focus", "landed, unmerged and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+    finally:
+        page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
+
+
 def check_source_card_flow(page, origin, expect, result, output):
+    check_latest_work_flow(page,origin,expect,result,output)
     result["reader_entry_screenshots"]=[]
     for entry in ["index","explore","cite","reproduce","formal"]:
         page.goto(origin+entry+".html")

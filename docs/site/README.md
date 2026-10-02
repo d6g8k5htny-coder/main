@@ -6,7 +6,7 @@ The public home introduces the mathematics before its implementation. All pages 
 
 - **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
 - **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
-- **Research (`research.html`):** a curated reading path from the question to the precise proof and recorded review, with conditions and limits stated alongside the result.
+- **Research (`research.html`):** a dated Latest public work reading cut, followed by the established question-to-proof paths. Pinned source citations, open formal candidates and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
 - **Library and workspace (`workspace.html`):** the existing exact coefficient viewer, dated status snapshot, hash-verified source inventory and contributor instructions. Old `index.html#board`, `#coefficient`, `#inventory` and `#contribute` bookmarks route here; without JavaScript the home still offers the workspace link.
 - **Reproduce (`reproduce.html`):** a single pinned coefficient replay, prerequisites, actual expected output and the boundary of the check.
 - **Cite (`cite.html`):** object-specific citation guidance and a local immutable-reference builder. It checks input syntax, not source existence or scientific status.
@@ -22,6 +22,31 @@ python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 ```
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
+
+
+## Latest public work is a reading cut
+
+`research.html#latest-work` is static editorial navigation checked at its displayed
+UTC time. It links the landed soft-model chain at Math `07320089`, the separately
+unmerged cap formalization at `2fd7274`, exact public issue-comment proofs and
+reviews, the finite numerical work at main `1e1c9a1c`, and the existing catalog and
+query sources. The named boundaries are part of each reading path. This is a
+curated selection plus full upstream navigation, not a complete artifact catalog,
+scientific-status register or automatic synchronization service.
+
+Exact-commit citations preserve the reading cut. The **Check newer work** section
+intentionally follows mutable upstream branches and discussions. Comment links
+identify the public record but comments remain editable; their reviews record the
+reviewed identity. A missing source is unavailable evidence. No browser fetch or
+execution of those sources is claimed. The Library, status and museum snapshots
+retain all their original pins and are not refreshed by this section.
+
+The existing four light/dark desktop/mobile source-card browser cases now also
+exercise the Home → Latest public work route, native keyboard fragment focus,
+repeated source-identity disclosure, Back/Forward navigation, no document overflow
+and the static route with remote source requests refused. Each case retains a
+latest-entry screenshot. Actual source identity readback is a separate engineering
+check, not something established by a screenshot or link.
 
 ## Keep or share a Library search
 
