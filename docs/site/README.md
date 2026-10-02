@@ -23,6 +23,22 @@ python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
+## Keep or share a Library search
+
+The Library's search, repository and path filters are saved in the current URL
+without adding a browser-history entry for every keystroke. Refreshing or
+returning with Back/Forward restores the filters. **Link to this search** gives a
+bookmarkable link directly to the catalog; **Clear filters** restores its initial
+50-row view. Filtering never changes source identities or recorded review scope.
+
+Search links use `q`, `repository` (`main` or `Math-`) and `path`. Empty values are
+omitted; the first repeated value is used, and an unknown repository is treated
+as all repositories. Unrelated parameters and section bookmarks are preserved in
+the current address but omitted from the explicit search link. Filters are visible
+in URLs and browser history. Links use the catalog’s pinned source records, not a
+live proof index; the search URL does not freeze future catalog updates. If history updates are unavailable, filtering and the explicit
+link still work; if source verification fails, controls stay unavailable.
+
 ## Run locally
 
 From the repository root:
