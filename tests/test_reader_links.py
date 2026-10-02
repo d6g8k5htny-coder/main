@@ -89,7 +89,7 @@ class LatestPublicWork(unittest.TestCase):
             self.assertIn('href="research.html#latest-work"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
-        self.assertIn('datetime="2026-10-02T19:50:57Z"',section)
+        self.assertIn('datetime="2026-10-02T21:12:40Z"',section)
         self.assertIn('curated reading cut',section)
         self.assertIn('not an exhaustive artifact or status catalog',section)
         self.assertIn('does not update automatically',section)
@@ -106,8 +106,15 @@ class LatestPublicWork(unittest.TestCase):
         section=self.section()
         for source in ('pull/246','pullrequestreview-5396110365','issuecomment-5957815904','issuecomment-5957885844','issuecomment-5959920397','issuecomment-5959988102'):
             self.assertIn(source,section)
-        for limit in ('Unmerged at this cut','I1–I4','persistence-module bookkeeping','Issue-only model notes','finite-r','same-provider'):
+        for limit in ('Unmerged at this cut','I1–I4','persistence-module bookkeeping','Source-bound issue proofs','finite-r','same-provider'):
             self.assertIn(limit,section)
+
+    def test_issue_refresh_preserves_actual_field_and_model_distinctions(self):
+        section=self.section()
+        for source in ('issuecomment-5960195345','issuecomment-5960343316','issuecomment-5960630207','issuecomment-5960777483'):
+            self.assertIn(source,section)
+        for boundary in ('C81–C82 concern the soft model','C83–C84 control actual/contact field quantities','same weighted observable','unequal elder marks','EH','Region A/B'):
+            self.assertIn(boundary,section)
 
     def test_historical_library_and_deliberately_mutable_navigation_are_labeled(self):
         section=self.section()

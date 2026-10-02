@@ -28,8 +28,8 @@ Check real desktop/mobile layouts, keyboard operation, light/dark appearance and
 
 `research.html#latest-work` is static editorial navigation checked at its displayed
 UTC time. It links the landed soft-model chain at Math `07320089`, the separately
-unmerged cap formalization at `2fd7274`, exact public issue-comment proofs and
-reviews, the finite numerical work at main `1e1c9a1c`, and the existing catalog and
+unmerged cap formalization at `2fd7274`, exact public C81–C84 issue-comment proofs and
+reviews (model and source-bound actual/contact scopes kept distinct), the finite numerical work at main `1e1c9a1c`, and the existing catalog and
 query sources. The named boundaries are part of each reading path. This is a
 curated selection plus full upstream navigation, not a complete artifact catalog,
 scientific-status register or automatic synchronization service.
