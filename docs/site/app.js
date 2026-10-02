@@ -1,4 +1,6 @@
 import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs';
+const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const error=(id,e)=>{el(id).textContent=`Unavailable: ${e.message}. No result inferred.`;el(id).className='error';};
@@ -104,5 +106,6 @@ async function custody(config) {
 try {
   const response=await fetch('config.json',{credentials:'omit'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
   const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)]];
-  await Promise.all(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
+  await Promise.allSettled(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
 } catch(e) {['status-note','coefficient-state','inventory-state','custody-note'].forEach(id=>error(id,e));}
+finally {finishFragment();}

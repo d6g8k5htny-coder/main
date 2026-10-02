@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {legacyDestination} from '../docs/site/home.mjs';
+import './test_workspace_navigation.mjs';
 const site = new URL('../docs/site/', import.meta.url);
 test('every former landing section routes to its preserved workspace section', () => {
   const workspace=fs.readFileSync(new URL('workspace.html',site),'utf8');
