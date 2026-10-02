@@ -1,3 +1,4 @@
+import {renderSourceQuote} from './source-quote.mjs';
 import {verifiedBytes, hex40, hex64} from './core.mjs';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
@@ -149,11 +150,11 @@ function card(document,id,title,className,source){
 }
 function strip(document,text){const bar=element(document,'aside',undefined,'engineering-strip');bar.append(element(document,'strong','Engineering — not acceptance'),element(document,'p',text));return bar;}
 function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');article.append(element(document,'h3',title),element(document,'p',`Unavailable: ${error.message}. No result inferred.`));return article;}
-function renderClaim(document,claim){
+function renderClaim(document,claim,quoteSource){
   const article=card(document,claim.id,claim.title,claim.class,claim.proof);
   if(claim.id==='d3-side24-coefficient'){const alias=element(document,'span');alias.id='d3-side24';article.append(alias);}
   const columns=element(document,'div',undefined,'claim-columns');
-  const scope=element(document,'div',undefined,'claim-column');scope.append(element(document,'h4','Claim and scope'),element(document,'p',`Source label: ${claim.source_label}`),element(document,'blockquote',claim.scope_quote,'source-quote'));
+  const scope=element(document,'div',undefined,'claim-column');scope.append(element(document,'h4','Claim and scope'),element(document,'p',`Source label: ${claim.source_label}`),...renderSourceQuote(document,claim.scope_quote,quoteSource));
   if(claim.class==='AMEND/open')scope.append(element(document,'p','OPEN / NOT LANDED — the claimed closure remains open.'));
   if(claim.status_quote!==null){const detail=element(document,'details');detail.append(element(document,'summary','Separate STATUS scope / reason'),element(document,'blockquote',claim.status_quote,'source-quote'));scope.append(detail);}
   const source=element(document,'div',undefined,'claim-column');source.append(element(document,'h4','Source and review'),anchor(document,claim.proof.availability?'Open pinned source contract ↗':'Open pinned full proof ↗',claim.proof.html_url),element(document,'p'));
@@ -227,7 +228,7 @@ export async function startMuseum({document=globalThis.document,fetcher=globalTh
     const {manifest,cachedFetch}=await verifiedMuseum({fetcher});
     containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries, the separately reconciled D1 row and 2 AMEND rows. Verifying each linked source before display…';
     const placeholders=manifest.claims.map(claim=>{const host=element(document,'div');host.append(element(document,'p',`Verifying ${claim.title}…`));containers['claim-cards'].append(host);return host;});
-    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
+    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim,REVIEWED_IDS.includes(claim.id)?manifest.index_source:manifest.status_source));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
     jobs.push((async()=>{try{containers['lifetime-fixture'].replaceChildren(await renderLifetime(document,manifest.exhibits.lifetime,cachedFetch));return true;}catch(error){containers['lifetime-fixture'].replaceChildren(refusal(document,'D2 lifetime fixture',error));return false;}})());
     if(!manifest.packets.length)containers['packet-cards'].append(element(document,'p','No packet appears in this pinned projection.'));
     for(const packet of manifest.packets)jobs.push((async()=>{try{containers['packet-cards'].append(await renderPacket(document,packet,cachedFetch));return true;}catch(error){containers['packet-cards'].append(refusal(document,'Packet source',error));return false;}})());

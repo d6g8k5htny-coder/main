@@ -46,4 +46,10 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertTrue(all('==' in line and '://' not in line for line in requirements))
         self.assertIn('playwright==1.62.0',requirements)
 
+class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==9']:
+            self.assertIn(token,source)
+
 if __name__=='__main__':unittest.main()

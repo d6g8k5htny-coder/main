@@ -1,4 +1,4 @@
-"""Run scoped headless Chromium Library checks against docs served on loopback.
+"""Run scoped headless Chromium Library and reader source-card checks against docs served on loopback.
 
 Requires tests/browser-requirements.txt and the runner’s packaged Google Chrome.
 Screenshots are evidence for inspection, not automatic visual certification.
@@ -114,6 +114,48 @@ def check_flow(page, origin, expect, result):
     result["steps"].append("no document overflow; source table measured separately")
 
 
+
+def check_source_card_flow(page, origin, expect, result, output):
+    result["reader_entry_screenshots"]=[]
+    for entry in ["index","explore","cite","reproduce","formal"]:
+        page.goto(origin+entry+".html")
+        expect(page.locator("h1")).to_have_count(1)
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),f"Reader entry overflow: {entry}")
+        shot=output/f'{result["case"]}-{entry}.png'
+        page.screenshot(path=str(shot))
+        result["reader_entry_screenshots"].append({"page":entry,"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()})
+    result["steps"].append("Home, Explore, Cite, Reproduce and Formal entries have one main heading and no document overflow")
+    # Enter through the public reading path, not a fabricated application state.
+    page.goto(origin+"research.html")
+    page.get_by_role("link",name="Inspect its review and exact scope",exact=True).click()
+    card=page.locator("#d2-lifetime-remainder")
+    expect(card).to_be_visible(timeout=45000)
+    expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
+    expect(card).to_be_focused()
+    readable=card.locator(".source-quote-readable")
+    expect(readable.get_by_role("link",name="R1–R4 review",exact=True)).to_have_attribute("href","https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841270276")
+    expect(readable.get_by_role("link",name="R5/R6 delta review",exact=True)).to_have_attribute("href","https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206")
+    expect(readable.locator("code")).to_have_text("O(1)")
+    expect(readable).to_contain_text("Numerical constants/radii, a second coefficient, and RN/24-jet closure are outside this verdict.")
+    original=card.locator(".source-quote-original")
+    expect(original).to_be_hidden()
+    # Every quoted character remains available through a native keyboard control.
+    summary=card.locator("summary").filter(has_text="Exact source quote")
+    summary.focus();page.keyboard.press("Enter")
+    expect(summary).to_be_focused();expect(original).to_be_visible()
+    manifest=json.loads((ROOT/"docs/site/museum.json").read_text())
+    require(original.text_content()==manifest["claims"][0]["scope_quote"],"Original quoted source changed")
+    page.keyboard.press("Enter");expect(original).to_be_hidden()
+    page.keyboard.press("Enter");expect(original).to_be_visible()
+    page.keyboard.press("Enter");expect(original).to_be_hidden()
+    expect(card.locator(".object-class")).to_have_text("ACCEPT-scoped")
+    expect(card).to_contain_text("Hashes, browser controls and replay output do not change status.")
+    card.scroll_into_view_if_needed()
+    result["layout"]=page.evaluate("""() => ({viewport: innerWidth, documentWidth: document.documentElement.scrollWidth})""")
+    require(result["layout"]["documentWidth"]<=result["layout"]["viewport"],f"Source card overflow: {result['layout']}")
+    result["steps"].extend(["Research route reaches verified D2 card with focus", "both exact review comments are interactive and qualifiers preserved", "keyboard disclosure repeated open/close preserves exact original quote", "source class and acceptance limits retained; no document overflow"])
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output",type=Path,required=True)
@@ -164,6 +206,28 @@ def main():
                             except Exception:
                                 result["screenshot_error"]=traceback.format_exc();result["passed"]=False
                             context.close()
+                for size in [{"width":1200,"height":900},{"width":390,"height":844}]:
+                    for scheme in ["light","dark"]:
+                        label=f'source-{size["width"]}-{scheme}'
+                        result={"case":label,"viewport":size,"color_scheme":scheme,"steps":[],"passed":False}
+                        report["cases"].append(result)
+                        context=browser.new_context(viewport=size,color_scheme=scheme,reduced_motion="reduce")
+                        page=context.new_page();page.set_default_timeout(15000);errors=[]
+                        page.on("pageerror",lambda error:errors.append(str(error)))
+                        try:
+                            check_source_card_flow(page,origin,expect,result,output)
+                            require(not errors,f"Source page errors: {errors}")
+                            result["passed"]=True
+                        except Exception:
+                            result["error"]=traceback.format_exc()
+                        finally:
+                            result["page_errors"]=errors;shot=output/f"{label}.png"
+                            try:
+                                page.locator("#d2-lifetime-remainder").screenshot(path=str(shot),timeout=10000)
+                                result["screenshot"]={"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()}
+                            except Exception:
+                                result["screenshot_error"]=traceback.format_exc();result["passed"]=False
+                            context.close()
                 result={"case":"inventory-refusal","steps":[],"passed":False};report["cases"].append(result)
                 context=browser.new_context(viewport={"width":390,"height":844},color_scheme="dark")
                 page=context.new_page();refusal_errors=[];route_hits=[]
@@ -198,7 +262,7 @@ def main():
                     context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==5 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==9 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:
