@@ -54,7 +54,12 @@ The `public-shop-browser-<run-id>` artifact contains a JSON report and screensho
 for 1200×900 and 390×844 in light and dark mode, plus an explicitly refused
 inventory request. It tests URL round-trips, actual Back/Forward navigation,
 keyboard reset/focus and document overflow against the real app and pinned public
-sources. The report binds the actual tested checkout separately from the PR head.
+sources. Four additional source-card cases follow the Research reading path,
+check exact review-comment links and retained qualifiers, and repeatedly open
+and close the original-quote disclosure with the keyboard. They also capture
+the Home, Explore, Cite, Reproduce and Formal entry viewports and check for
+document overflow. The report binds the actual tested checkout separately from
+the PR head.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
@@ -98,7 +103,7 @@ Open [the verification museum](museum.html). Its small `museum.json` display pro
 
 The museum binds Math sources to `d6628da09384728992dcbe6e921cc28ba85aebb0` and main source/packet membership to `71400b94f6cb354a8cf7aba73ffede2138a64efa`. The existing board/inventory pin `a26f744be7597e3f0c0543c34ead23049bbac657` and SIDE24 import pin `9d7b6802424fb4715b31999066aafca8ee2f3cca` remain explicit historical identities. Neither changes the README's Math checkout or query checkout. No source fetch selects an AMEND branch.
 
-Claims use claim/scope, source/review, and replay columns. Missing recorded replay commands are disclosed. The separate engineering strip and CI links do not attest to mathematical acceptance. D5's reviewed fixed-annulus region and its open pin-neighborhood/microdisk work remain separate objects.
+Claims use claim/scope, source/review, and replay columns. Verified scope quotes have a small readable presentation for inline links, code and bold text. The complete original Markdown remains in **Exact source quote**. Relative links use the quoting index or STATUS file’s pinned repository and commit; quoted mutable links remain mutable. Only recognized research GitHub destinations become links, and unsupported syntax stays literal. These display links do not byte-verify their targets. Missing recorded replay commands are disclosed. The separate engineering strip and CI links do not attest to mathematical acceptance. D5's reviewed fixed-annulus region and its open pin-neighborhood/microdisk work remain separate objects.
 
 - EC-014 illustrates the two-pin frame and six data coordinates. Camera motion is presentation, not a replay of its Jacobian argument. Imported self-labels are not adopted.
 - D4/D5 diagrams show only their stated fixed regions, with OPEN complements. Diagram dimensions are schematic, not certified constants.
