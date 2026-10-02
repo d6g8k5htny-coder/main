@@ -1,0 +1,114 @@
+{
+  "disposition": "PARTIAL",
+  "scientific_effect": "NONE",
+  "findings": [
+    {
+      "id": "A-CUST-01",
+      "category": "original-execution-custody",
+      "severity": "medium",
+      "source": [
+        "https://github.com/d6g8k5htny-coder/Math-/pull/229#pullrequestreview-5381412814",
+        "https://github.com/d6g8k5htny-coder/Math-/pull/218#pullrequestreview-5378754007"
+      ],
+      "affected_consumers": [
+        "full original-per-execution archive claim for this audit",
+        "later delta work that would otherwise rely on complete archived raw reviewer outputs"
+      ],
+      "disposition": "Carry as uncovered raw-custody work. Reuse available job-level logs and exact source-bound review assertions only at their actual evidence level. No replay was performed and no new output was called original.",
+      "blocking_for": "A claim of complete original per-execution archival custody",
+      "not_blocking_for": "The authenticated object/edge identities, original review-body custody, original hosted job-level result, and five formal receipt archives",
+      "repair_verification_needed": "If exact original captures are located, bind their unchanged bytes, source identities, commands, outputs and historical provenance in successor evidence. Otherwise retain the limitation.",
+      "evidence": "No separate #218/#229 raw replay capture locator in supplied evidence; coordinator and parent confirmed no known locator. Four target-run artifact inventories are empty. Source-bound public reviews and original successful CI job logs exist. #229 explicitly reports normal/-O checker replay and mutant rejection; #218 C reports an exact-rational ledger without a separately archived execution payload. Absence here is not proof that a receipt never existed."
+    },
+    {
+      "id": "A-CUST-02",
+      "category": "execution-host-provenance",
+      "severity": "low",
+      "source": [
+        "https://github.com/d6g8k5htny-coder/Math-/pull/207#pullrequestreview-5378895166",
+        "https://github.com/d6g8k5htny-coder/Math-/pull/220#pullrequestreview-5380878588",
+        "https://github.com/d6g8k5htny-coder/Math-/pull/220#issuecomment-5934713905"
+      ],
+      "affected_consumers": [
+        "claims identifying the exact immutable host checkout for historical local reviewer execution"
+      ],
+      "disposition": "Keep verified source identity separate from unknown execution-host commit; do not invent or retrospectively rebind host provenance. Hosted CI source/tested/landed bindings are separately complete.",
+      "blocking_for": "Full immutable execution-host provenance claim for the local receipts",
+      "not_blocking_for": "Their source-content binding and recorded command/output/exit evidence",
+      "repair_verification_needed": "An existing original environment provenance record, if available; otherwise retain this historical limit.",
+      "evidence": "Seven retained local receipt sets preserve source-associated commands, outputs, exits and runtime evidence, but do not state an immutable execution-host Git commit. Twelve captured source/checker/RESULTS payloads match historical Git objects; 144 execution records and 124 expected rejection outcomes are authenticated at the available level."
+    },
+    {
+      "id": "RB-F01",
+      "category": "source/custody and missing coverage",
+      "severity": "blocks clean claim of complete external transitive source coverage; no mathematical counterexample found",
+      "source": [
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "6f74f7a77bae15d6aa07506bab38977e34dcc449",
+          "path": "frontiers/cusp_second_order_20261001/PROOF.md",
+          "section": "section5 CW",
+          "git_blob": "f6df5a7356a54771b0052e42a864a140709903ad",
+          "bytes": 52605,
+          "sha256": "cffc1b83ac364da58bd650c3c301ea1babd38e19af54f74010bdc120edce38a8",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/cusp_second_order_20261001/PROOF.md"
+        },
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "6f74f7a77bae15d6aa07506bab38977e34dcc449",
+          "path": "frontiers/candidate_third_order_20261001/PROOF.md",
+          "section": "section1 Weyl and Anderson;section3 Haynsworth",
+          "git_blob": "70ca57ef05199e75417d7d57928c1e1c93bf944e",
+          "bytes": 37220,
+          "sha256": "6c1279164499d4fe2fbeee244b40dafa2159758d20f04826cd67d7602ea97fe4",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/candidate_third_order_20261001/PROOF.md"
+        },
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "6f74f7a77bae15d6aa07506bab38977e34dcc449",
+          "path": "frontiers/elder_third_order_20261001/PROOF.md",
+          "section": "section3 H(b) Anderson/Jensen",
+          "git_blob": "c8767ddecf1041d234f685e95af582073a7be393",
+          "bytes": 70544,
+          "sha256": "74b5f031ba5be6f50b5e543636136df1d9b5fad0fcd2c8210320cfef02f80e37",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/elder_third_order_20261001/PROOF.md"
+        }
+      ],
+      "affected_consumers": [
+        "207 elder and typing interfaces",
+        "218 D/(1.2)/C",
+        "220 CE/H/S-prime through218",
+        "229 weighted-layer/typing interfaces",
+        "coefficient and later consumers only as mapped"
+      ],
+      "disposition": "DEFERRED_WITH_CONSEQUENCES",
+      "consequence": "Reuse only the explicitly conditional interface baseline; do not claim fully authenticated transitive external coverage or fresh theorem-wide acceptance.",
+      "repair_verification": "No repair or source edit attempted; follow-up requires exact source/theorem/domain binding or a separately authorized source-contained replacement, plus affected-edge reconciliation.",
+      "finding": "v1 has bibliography/named classical interfaces without immutable theorem/extraction identity for Weyl integration, Haynsworth inertia additivity and Anderson Gaussian norm comparison. Root/reused review hypotheses were inspected, but original external theorem source custody for these three remains unauthenticated in this pass. CW is matched at an authenticated author-copy Theorem8; AAL v3 matching is reused from exact original C1/E2 review, with no fresh external payload capture."
+    },
+    {
+      "id": "RB-F02",
+      "category": "graph/source coverage limitation",
+      "severity": "limitation on automated/global coverage claims; bounded crosswalk supplied",
+      "source": [
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "6f74f7a77bae15d6aa07506bab38977e34dcc449",
+          "path": "frontiers/downstream_gate_20260925/GRAPH.json",
+          "section": "",
+          "git_blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af",
+          "bytes": 38753,
+          "sha256": "8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/downstream_gate_20260925/GRAPH.json"
+        }
+      ],
+      "affected_consumers": [
+        "all four roots and future deltas"
+      ],
+      "disposition": "DEFERRED_WITH_CONSEQUENCES",
+      "consequence": "Use EDGE_COVERAGE/INTERFACE_COVERAGE as bounded audit evidence and inherit discovery limits; no whole-program graph completeness claim. Other repositories remain excluded unless a concrete consumed edge is found.",
+      "repair_verification": "No graph/register edit authorized or performed.",
+      "finding": "The older hard-gate graph contains none of the four root packet paths. Its parent reading-rule edges remain useful, but its passing state cannot establish their conditional coverage. Fixed-cut source-map plus prose-locator scan finds the three known coefficient consumers; aliases and cross-repository consumers are not exhaustively excluded."
+    }
+  ]
+}
