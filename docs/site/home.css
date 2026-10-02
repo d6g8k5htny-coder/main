@@ -93,3 +93,6 @@ nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 
 }
 @media (forced-colors: active) { .latest-feature, .latest-card, .latest-upstream { border-color: CanvasText; } }
 @media print { .latest-card, .latest-chain li { break-inside: avoid; } }
+
+.latest-work:focus-visible, .latest-upstream:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+@media (forced-colors: active) { .latest-work:focus-visible, .latest-upstream:focus-visible { outline-color: Highlight; } }

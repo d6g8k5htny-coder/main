@@ -128,6 +128,12 @@ def check_latest_work_flow(page, origin, expect, result, output):
         entry.focus();page.keyboard.press("Enter")
         expect(page.locator("#latest-heading")).to_have_text("Latest public work")
         expect(page.locator("#latest-work")).to_be_focused()
+        def fragment_focus_indicator(selector):
+            style=page.locator(selector).evaluate("el => { const s=getComputedStyle(el); return {width:s.outlineWidth, style:s.outlineStyle, color:s.outlineColor, offset:s.outlineOffset, visible:el.matches(':focus-visible')}; }")
+            expected_color="rgb(16, 85, 141)" if result["color_scheme"]=="light" else "rgb(233, 198, 117)"
+            require(style=={"width":"3px","style":"solid","color":expected_color,"offset":"4px","visible":True},f"Missing authored fragment focus: {selector}: {style}")
+            return style
+        result["latest_focus_indicator"]=fragment_focus_indicator("#latest-work")
         expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-02T21:18:12Z")
         expect(page.locator(".latest-chain > li")).to_have_count(3)
         expect(page.locator(".latest-boundary")).to_contain_text("Conjecture 7 remains open")
@@ -155,6 +161,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         newer=page.get_by_role("link",name="upstream routes below",exact=True)
         newer.focus();page.keyboard.press("Enter")
         expect(page.locator("#newer-work")).to_be_focused()
+        result["upstream_focus_indicator"]=fragment_focus_indicator("#newer-work")
         expect(page.locator("#newer-work")).to_contain_text("Mutable upstream navigation")
         page.go_back()
         require(urlsplit(page.url).fragment=="latest-work","Back lost latest-work anchor")
