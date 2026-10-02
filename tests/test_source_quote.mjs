@@ -36,3 +36,11 @@ test('every committed quote retains all wording and its original source independ
     assert.equal(walk(readable,'A').length,[...claim.scope_quote.matchAll(/\[([^\]\n]+)\]\(([^)\n]+)\)/g)].length,claim.id);
   }
 });
+test('unsupported parenthesized destinations and Markdown link titles stay wholly literal',()=>{
+  for(const quote of ['[proof](proof(v1).md)','[proof](proof.md "title")','[proof](proof.md \'title\')','[proof](<proof.md>)']) {
+    const [readable,disclosure]=renderSourceQuote(documentFromHTML(),quote,source);
+    assert.equal(readable.textContent,quote,quote);
+    assert.equal(walk(readable,'A').length,0,quote);
+    assert.equal(disclosure.children[1].textContent,quote);
+  }
+});

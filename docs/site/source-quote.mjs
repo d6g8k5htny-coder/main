@@ -6,7 +6,7 @@ const repositories = new Set(['main', 'Math-', 'query-', 'Universal-Law-Workspac
 const controls = /[\\\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/u;
 const safeParts = path => path.split('/').every(part => part && part !== '.' && part !== '..');
 export function quotedSourceLink(target, source) {
-  if (typeof target !== 'string' || controls.test(target) || target.includes('%')) return null;
+  if (typeof target !== 'string' || controls.test(target) || /[%()"'<>]/.test(target)) return null;
   if (target.startsWith('https://')) {
     // Preserve quoted branch links as branch links; do not imply byte verification.
     if (/\s/u.test(target)) return null;
@@ -29,7 +29,7 @@ export function quotedSourceLink(target, source) {
 export function renderSourceQuote(document, quote, source) {
   const projection=document.createElement('blockquote');
   projection.className='source-quote source-quote-readable';
-  const syntax=/`([^`\n]+)`|\*\*([^*\n]+)\*\*|\[([^\]\n]+)\]\(([^)\n]+)\)/g;
+  const syntax=/`([^`\n]+)`|\*\*([^*\n]+)\*\*|\[([^\]\n]+)\]\(([^()\n]+)\)/g;
   let offset=0;
   for (const token of quote.matchAll(syntax)) {
     projection.append(document.createTextNode(quote.slice(offset,token.index)));
