@@ -28,16 +28,22 @@ Exit status is non-zero when any firewall is violated.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
 import sys
+from pathlib import Path
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GRAPH = os.path.join(ROOT, "claims", "graph.json")
 MANIFEST = os.path.join(ROOT, "engine", "carriers", "MANIFEST.json")
 
 OPEN_STATUSES = {"OPEN", "NOT_CLOSED"}
+# Closed discharge vocabulary for FW-RUNG-OPEN-PREMISE, matching the corrected
+# hardening profile. A missing, unknown, or malformed status is not a discharge.
+PREMISE_STATUS_COLUMNS = ("status_frozen_v2_2", "status_register_note")
+PREMISE_DISCHARGED = {"CLOSED", "DISCHARGED", "PROMOTED", "SATISFIED", "CERTIFIED"}
 UNCONDITIONAL_GRADES = {"LIVE_ROOT_THEOREM", "FROZEN_CERTIFICATE", "RATIFIED_3D_ONLY"}
 # P0.2 is a distinct lane from the q0 pair-Palm law; it is grouped with the 2D
 # tracks here so that the 2D/3D and prize firewalls cover it too. Grouping only
@@ -185,6 +191,78 @@ def closure(g: dict, name: str, seen: set[str] | None = None) -> set[str]:
     return seen
 
 
+# Fixed source contract selected for the SI02 convergence proposal. The frozen
+# d3_rn_unif.py _PINS entry and Z_LO parser consume exactly this recovered file.
+# This is a refusal boundary, not a transition adapter or scientific admission.
+# A successor source needs an explicitly reviewed contract change, not a graph-
+# only re-pin that turns altered bytes into their own evidence.
+RN_FLOOR_NODE = "H3-RUNG-FLOOR"
+RN_FLOOR_CONSUMERS = ("RN3-FAR", "RN5-NEAR-POINT-CERTS")
+RN_FLOOR_BINDING = {
+    "repo": "d6g8k5htny-coder/main",
+    "path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+    "extraction_rule": "whole_file",
+    "expected_bytes": 7003,
+    "expected_sha256": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+}
+
+
+def source_binding_problems(g: dict, repo_root: Path) -> list[str]:
+    """Refuse stale/misattributed rung input; never write any claim status.
+
+    Only the two known frozen-runner consumers and their floor are in scope.
+    The reverse closure is diagnostic, not a claim of deployed invalidation.
+    """
+    problems = []
+    claims = g["claims"]
+    for consumer in RN_FLOOR_CONSUMERS:
+        deps = claims.get(consumer, {}).get("depends_on", [])
+        if not isinstance(deps, list) or RN_FLOOR_NODE not in deps or "H3-BAND-FLOOR" in deps:
+            problems.append(
+                f"FW-RN-FLOOR-DEPENDENCY: {consumer} must name {RN_FLOOR_NODE}, "
+                "the frozen runner's actual input, not H3-BAND-FLOOR")
+    affected = set(RN_FLOOR_CONSUMERS)
+    affected.update(name for name in claims if RN_FLOOR_NODE in closure(g, name) - {name})
+    context = f"{RN_FLOOR_NODE}; affected consumers {', '.join(sorted(affected))}"
+
+    def refuse(reason):
+        problems.append(f"FW-RN-FLOOR-SOURCE: {context}: {reason}")
+
+    node = claims.get(RN_FLOOR_NODE, {})
+    bindings = node.get("source_bindings")
+    if not isinstance(bindings, list) or len(bindings) != 1 or not isinstance(bindings[0], dict):
+        refuse("exactly one whole-file source binding is required")
+        return problems
+    binding = bindings[0]
+    # Exact typed identity also rejects absolute/traversal/noncanonical paths,
+    # unsupported repositories/extractions, malformed digests and bool lengths.
+    for field, expected in RN_FLOOR_BINDING.items():
+        actual = binding.get(field)
+        if type(actual) is not type(expected) or actual != expected:
+            refuse(f"{field} differs from the frozen runner's source contract")
+    if any(p.startswith("FW-RN-FLOOR-SOURCE:") for p in problems):
+        return problems
+    source = repo_root
+    for component in Path(binding["path"]).parts:
+        source = source / component
+        if source.is_symlink():
+            refuse("source path contains a symlink")
+            return problems
+    try:
+        if not source.is_file():
+            refuse("source is absent or is not a regular file")
+            return problems
+        payload = source.read_bytes()
+    except OSError as exc:
+        refuse(f"source cannot be read ({type(exc).__name__})")
+        return problems
+    if len(payload) != binding["expected_bytes"]:
+        refuse("source byte length mismatch")
+    if hashlib.sha256(payload).hexdigest() != binding["expected_sha256"]:
+        refuse("source SHA-256 mismatch")
+    return problems
+
+
 def main(argv: list[str] | None = None) -> int:
     global GRAPH, MANIFEST
     argv = argv if argv is not None else sys.argv[1:]
@@ -213,6 +291,18 @@ def main(argv: list[str] | None = None) -> int:
     known = set(claims) | set(premises)
     problems: list[str] = []
 
+    # The repaired D1 mapping cannot evade its grade-family check with an
+    # unknown spelling or an unhashable value. This is deliberately scoped:
+    # unrelated historical labels are not a new global vocabulary migration.
+    if "D1-v2.2(1)" in claims:
+        grade = claims["D1-v2.2(1)"].get("grade")
+        if not isinstance(grade, str) or grade not in GRADE_STRENGTH:
+            print(f"FW-RUNG-OPEN-PREMISE: D1-v2.2(1) has unknown or malformed "
+                  f"operational grade {grade!r}; a reviewed mapping is required")
+            print(f"claims={len(claims)} premises={len(premises)} "
+                  f"firewalls={len(g['firewalls'])} problems=1")
+            return 1
+
     # 0. referential integrity and acyclicity
     for name, node in list(claims.items()) + list(premises.items()):
         for dep in (node.get("depends_on") or []) + (node.get("sub_obligations") or []):
@@ -236,9 +326,14 @@ def main(argv: list[str] | None = None) -> int:
             problems.append(f"dependency cycle: {' -> '.join(c)}")
             break
 
+    problems.extend(source_binding_problems(g, Path(ROOT)))
+
     # FW-UNCONDITIONAL
     for name, claim in claims.items():
-        if claim.get("grade") not in UNCONDITIONAL_GRADES:
+        # The overlapping certifying family is handled by the stronger,
+        # type-safe, both-column contract below (including FROZEN_CERTIFICATE).
+        if (claim.get("grade") not in UNCONDITIONAL_GRADES or
+                claim.get("grade") in CERTIFYING_GRADES):
             continue
         for node in closure(g, name) - {name}:
             p = premises.get(node)
@@ -246,6 +341,32 @@ def main(argv: list[str] | None = None) -> int:
                 problems.append(
                     f"FW-UNCONDITIONAL: {name} is graded {claim['grade']} but rests on "
                     f"{node} (frozen status {p['status_frozen_v2_2']})")
+
+    # FW-RUNG-OPEN-PREMISE. A source may historically call a rung
+    # "CERTIFIED" while simultaneously naming a load-bearing premise as open.
+    # Preserve that source word separately, but do not let the current claim
+    # graph treat the rung as certified until its dependency closes. All of
+    # the already declared certifying grades share this contract; changing
+    # CERTIFIED_RUNG to AUTHOR_SIDE_CERTIFIED cannot bypass it.
+    for name, claim in claims.items():
+        if claim.get("grade") not in CERTIFYING_GRADES:
+            continue
+        for node in sorted(closure(g, name) - {name}):
+            if node not in premises:
+                continue
+            p = premises[node]
+            # Both columns, and the closed vocabulary, for the same reason as
+            # FW-UNCONDITIONAL: this firewall arrived reading only the frozen
+            # column against the two open words, so NAMED_HYPOTHESIS and a
+            # register note that disagrees both read as discharges. The migration
+            # base did carry D1 as CERTIFIED_RUNG; this proposal separately maps
+            # it to CONDITIONAL while preserving that original source label.
+            for col in PREMISE_STATUS_COLUMNS:
+                v = p.get(col)
+                if not isinstance(v, str) or v not in PREMISE_DISCHARGED:   # absence included, deliberately
+                    problems.append(
+                        f"FW-RUNG-OPEN-PREMISE: {name} is graded {claim['grade']} but rests "
+                        f"on {node}, whose {col} is {v!r} and is not a discharge")
 
     # FW-2D-3D-COMPOSITION
     for name, claim in claims.items():

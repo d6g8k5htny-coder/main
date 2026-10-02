@@ -180,15 +180,17 @@
   "D1-v2.2(1)": {
    "track": "UPPER2D",
    "statement": "Certified rung bound at r = 0.05: 1 − q(0.05, 6/5) ≤ Ĩ_hi + C_RN(0.05)·√Q_{0.05}(B1.dir) + P_{0.05}(B2) + P_{0.05}(B4), with E_w(0.05) ≤ Ĩ_hi = 8.1272827e-2 = 650.1827·(0.05)³ (chart part = I_hi(v3) − 19.55·(0.05)³ = 628.2548·(0.05)³, where I_hi(v3) = 8.0975589252e-2 = 647.8048·(0.05)³ is the H5 chart total, pin 8d7028e4…; remote part = B_remote·(0.05)³ = 21.9279·(0.05)³) and C_RN(0.05) ≤ 3.46.",
-   "grade": "CERTIFIED_RUNG",
+   "grade": "CONDITIONAL",
    "rung": 0.05,
    "depends_on": [
     "H5-RIM",
     "H5-AXIS",
     "D3-LEMMA-RN-UNIF"
    ],
-   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above.",
-   "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)"
+   "note": "D3-LEMMA-RN-UNIF is used at the rung only and is precisely stated, NOT closed. Fail-closed audit 2026-09-25 therefore preserves the source label CERTIFIED_RUNG in source_grade_verbatim but records the current operational grade as CONDITIONAL until that named premise closes. Until 2026-09-19 the statement gave the H5 chart total I_hi(v3) = 647.8048·r³ as the theorem's content; the theorem's own display (D1_ASSEMBLY_v2_2.md §1, mirrored byte-exact) is the bound above. The remote part B_remote = 21.9279 r^3 carries DEFECTIVE_SCOPE hold Q-RN5-MOMENT-003: it rests on I_ann = 17.6804 r^3, which is not a certified upper bound because envelope_v is refuted by the RN5 counterexample. The far component is independently dominated by RN3-FAR (I_far < 2.83312 r^3); that route's review record reviews/records/REV-RN3-FARZONE-20260918.json is technical_verdict AMEND (zero credit), so the domination is conditional on those findings, not pending a missing reviewer. This note changes no grade or flag (walk-down ledger Drive 1X7ha4isKl9q73PlSQm8c-n-w4jy5J3lE, NONAUTHORITATIVE).",
+   "source": "D1_ASSEMBLY_v2_2.md (frozen body sha 490ad6b2f14176fe8cf5af363fb94dc73a8bc5523f608e5ab2a42ff749b235f6)",
+   "source_grade_verbatim": "CERTIFIED_RUNG",
+   "audit_disposition": "HOLD_WITH_DOMAIN"
   },
   "D1-v2.2(2)": {
    "track": "UPPER2D",
@@ -219,7 +221,7 @@
    "statement": "At r = 1/20, fixed axis: 0.88021 < rho/rho_ref < 1.12058 over all 13,604 quarter-grid boxes meeting 5 <= |y| <= 17 and every mark v in [6/5 - r^3/6, 6/5]; hence 2.22542 r^3 < I_far < 2.83312 r^3.",
    "grade": "AUTHOR_SIDE_CERTIFIED",
    "depends_on": [
-    "H3-BAND-FLOOR"
+    "H3-RUNG-FLOOR"
    ],
    "independence_credit": 0,
    "note": "Fixed r, fixed axis. Near annulus and all-small-r remain open. Uses the correct typed second determinant moment and is outside the RN5 defect scope.",
@@ -254,7 +256,7 @@
    "statement": "65 point-law certificates on the 13-radius, 5-angle D4 net plus 10 spatial-box certificates for the corrected near-region moment bound, at 384 bits.",
    "grade": "AUTHOR_SIDE_PARTIAL",
    "depends_on": [
-    "H3-BAND-FLOOR"
+    "H3-RUNG-FLOOR"
    ],
    "independence_credit": 0,
    "note": "Ten boxes do NOT cover the annulus. Diagnostic polar sums (2.34195 r^3 corrected, 17.67237 r^3 wrong-power) are not bounds on the spatial integral.",
@@ -745,6 +747,48 @@
    "next_action_verbatim": "Execute R1–R10 in bundle; reconstruct Holder, L2 Taylor remainders and marginal whitening; then extend complete near cover",
    "note": "Transcribed 2026-09-19 from the 2026-09-18 xlsx export's review_queue row (the route was created 2026-09-17, after the markdown export). READY is the register's word for a route ready for review; it grades nothing, and independence_credit is 0. The easy_closure_queue tab carries no row for this route, which the field easy_closure_queue_row records explicitly. The RN5 candidate 'No annulus cover, no all-small-r extension, no external acceptance' (Scope / dependencies); D3-LEMMA-RN-UNIF stays not closed and the five validity premises stay OPEN. Nothing here composes with the 3D track.",
    "source": "registers/json/review_queue.json row RV-RN5-MOMENT-REPAIR (2026-09-18 xlsx export); no easy_closure_queue row exists for this route; packet https://drive.google.com/file/d/1LtnvNd0vAW-y3pzbyHLjgtF7Uw5sTph5/view"
+  },
+  "H3-RUNG-FLOOR": {
+   "track": "UPPER2D",
+   "statement": "At r = 0.05 only (six-pin law Q_{0.05}, mark 6/5): Z_{0.05} in [7.7592917375327855e-3, 1.1468646473404396e-2]. It is a single-rung enclosure, not a band or uniform-in-r statement.",
+   "grade": "AUTHOR_SIDE_CERTIFIED",
+   "source_grade_verbatim": "CERTIFIED_RUNG",
+   "audit_disposition": "LABEL_PRESERVED_NOT_CONTROLLING",
+   "rung": 0.05,
+   "depends_on": [],
+   "independence_credit": 0,
+   "note": "Hardening-profile history, transcribed from a01c72f1937875b94bfd78e183a6dbbdb2b04da4: Added 2026-09-25 so that RN3-FAR and RN5-NEAR-POINT-CERTS name the floor they actually consume (the rung value 0.0077592917..., which d3_rn_unif.py L74-81 parses and fail-closes on), not H3-BAND-FLOOR (c_Z r^2 uniform on (0, 0.05], a different statement). The rung lower end exceeds c_Z*(0.05)^2 = 4.0387e-3, but the enclosure is computed directly and does not use the band floor. Transcription only; no grade of any other node moves. Gate reconciliation 2026-09-27: the object's own label CERTIFIED_RUNG is kept in source_grade_verbatim; the operational grade is AUTHOR_SIDE_CERTIFIED (same strength, zero independence credit) because claims_gate_adapter treats CERTIFIED_RUNG as a controlling status and refuses a new controlling node introduced by merge (UNSUPPORTED_CONTROLLING_PROMOTION). A merge is not a positive admission; a nonauthor review filed against this node is the route to the verbatim label. This migration proposal preserves that mapping but does not install claims_gate_adapter or its transition machinery; its source contract is a read-only refusal only.",
+   "evidence": [
+    {
+     "kind": "frozen_certificate_body",
+     "ref": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md, 7003 bytes, sha256 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa (STAGE E REPAIR R2, 2026-09-13)",
+     "arithmetic": "interval (mpmath iv, 100 dps)",
+     "certifying": true,
+     "note": "Arithmetic transcribed from the object's own declaration ('everything below is interval arithmetic (mpmath iv, 100 dps)'; 'no Monte Carlo in the certificate'). certifying: true records what the object asserts. It is not an independence credit or an external verdict."
+    },
+    {
+     "kind": "carrier_binding",
+     "ref": "engine/rn_engine/BINDING.json carrier RNENG-08",
+     "carrier_id": "RNENG-08",
+     "arithmetic": "not applicable (Markdown artifact)",
+     "certifying": false,
+     "note": "Byte-exact carrier recovery is provenance, not proof."
+    }
+   ],
+   "source": "H3_RUNG_FLOOR.md (H3-closure line, companion to the frozen H3_CLOSURE.md)",
+   "source_bindings": [
+    {
+     "repo": "d6g8k5htny-coder/main",
+     "path": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+     "role": "scientific_object",
+     "extraction_rule": "whole_file",
+     "expected_sha256": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+     "mirror_freshness": "external_sync_obligation",
+     "freshness_meaning": "GitHub monitors the frozen H3_RUNG_FLOOR.md bytes in this repository (7,003 B, recovered byte-exact as carrier RNENG-08 in engine/rn_engine/BINDING.json). Drive sync/readback is an external provenance obligation; GitHub does not watch Drive live.",
+     "note": "Binding added 2026-09-27 so that this controlling node names monitorable repository bytes; the prose `source` field was unresolved and the claims gate refused every transition. Transcription only; no grade moves.",
+     "expected_bytes": 7003
+    }
+   ]
   }
  },
  "firewalls": [
@@ -797,6 +841,21 @@
    "id": "FW-PROPOSED-LAYER-NOT-A-STATUS",
    "rule": "A PROPOSED-tier promotion transcribed verbatim in this graph is a record of what a source proposed, never a status. An entry carrying proposed_layer_verbatim must name its proposed_layer_source, that source must record the tier and the authority the proposal carries, the value the transition PROPOSES must appear in no status or grade field of that entry, and every status field must still carry the pre-promotion value. No status or grade field anywhere may hold a transition: a status is a value, not an arrow. Only the operator applies the licensing predicate.",
    "source": "claims/graph.json premises.OBL-H5-ZBAND.proposed_layer_source, transcribing H5_ZBAND_CONSUMPTION_2026-09-15.md (Drive 18R0wwSFHa--ZMdLRV3ElMO0T5u5YD3lk, mirrored byte-exact): 'STATUS: PROPOSED · AUTHORITY: none'. Added 2026-09-22 after the pull request's owner flagged the skim-trap in d6g8k5htny-coder/main#2 (comment 5785276754): the verbatim 'OPEN → DISCHARGED (consumption grade)' string was contained by field naming and prose only, and tools/claims_check.py did not know the field existed. 'Green CI ≠ discharge.'"
+  },
+  {
+   "id": "FW-RUNG-OPEN-PREMISE",
+   "rule": "A claim operationally graded FROZEN_CERTIFICATE, CERTIFIED_RUNG or AUTHOR_SIDE_CERTIFIED must have a discharged word (CLOSED, DISCHARGED, PROMOTED, SATISFIED, CERTIFIED) in both status_frozen_v2_2 and status_register_note for every transitive premise. Missing, unknown, malformed and empty status records are refused. The repaired D1-v2.2(1) operational grade must be a known string from the existing strength vocabulary; this is not global validation of unrelated historical labels. Historical source labels may be preserved in source_grade_verbatim; this checker never discharges a premise.",
+   "source": "Fail-Closed Claim Audit 2026-09-25; D1_ASSEMBLY_v2_2.md §1 names D3-LEMMA-RN-UNIF(r=0.05) as NOT closed"
+  },
+  {
+   "id": "FW-RN-FLOOR-DEPENDENCY",
+   "rule": "RN3-FAR and RN5-NEAR-POINT-CERTS must name H3-RUNG-FLOOR, the frozen runner input, rather than the distinct H3-BAND-FLOOR. No premise is discharged.",
+   "source": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py, _PINS and Z_LO parser; SI02 source comparison"
+  },
+  {
+   "id": "FW-RN-FLOOR-SOURCE",
+   "rule": "The H3-RUNG-FLOOR input must retain its exact repository, canonical path, whole-file extraction, 7003-byte length and SHA-256 from the frozen runner. Missing, altered, misattributed or symlinked input is refused; reverse consumers are diagnostic only.",
+   "source": "engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py _PINS; engine/rn_engine/BINDING.json carrier RNENG-08; docs/CLAIM_CONVERGENCE_PROPOSAL_20261002.md"
   }
  ]
 }
