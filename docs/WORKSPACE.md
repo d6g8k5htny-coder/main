@@ -45,6 +45,16 @@ aid, not another approval queue or scientific-status register. The
 [delegation rule](../governance/OP-WORKFLOW-20260930.md#delegated-owner-review)
 explains how later owner responses and corrections are recorded.
 
+## Milestone audit records
+
+The [milestone-audit protocol](../governance/OP-MILESTONE-AUDITS-20261001.md)
+explains coordinated stopping points, exact-source coverage, delta audits and
+occasional full audits. Each audit links its scoped report and immutable evidence
+from the relevant work discussion and this guide. The
+[first stopping-point proposal](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5942391227)
+requires affected work owners' acknowledgments before any freeze; it is not
+a completed audit or declared freeze.
+
 ## Tools and execution
 
 All participating models have Dylan's permission to download, install, create, and
