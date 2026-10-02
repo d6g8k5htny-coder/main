@@ -1,7 +1,7 @@
 # Claim / premise dependency graph
 
-`graph.json` is the program's claim structure as data: 24 claims, 13 named
-premises, 8 firewalls. `tools/claims_check.py` turns the firewalls into
+`graph.json` is the program's claim structure as data: 27 claims, 13 named
+premises, 13 firewalls. `tools/claims_check.py` turns the firewalls into
 assertions; `tests/test_claims.py` proves the checker actually rejects each
 violation it is supposed to reject.
 
@@ -62,7 +62,7 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `arithmetic` | `exact_rational`, `interval_*`, `not_applicable`, `float`, `mpmath_float`, … — or, when it comes from a carrier manifest, that manifest's own sentence |
 | `certifying` | what the artifact's own record says about itself. It is used **only to refuse**; it never grants anything |
 
-## The eight firewalls
+## The thirteen firewalls
 
 | ID | Rule | Source |
 |---|---|---|
@@ -74,6 +74,11 @@ the registers' own technical statuses `NEEDS_RECONCILIATION` and
 | `FW-LM011-PRECONDITION` | the RV-LM011 synthesis route may not be marked satisfiable while any named prerequisite is unsatisfied, and a technical pass at **zero** organizational independence credit does not discharge an independence-requiring gate | `review_queue.json` RV-LM011-MAIN; `easy_closure_queue.json` P02-LM-011; `docs/OPEN_PROBLEMS.md` §D |
 | `FW-NO-RECEIPT-PROMOTION` | a receipt, a green test run, a reproduction or a carrier binding may never raise a grade or move a status, on a claim or on a premise | `engine/README.md`; OP-PROT-012 §4(c); OP-GDN-002 §6 |
 | `FW-FLOAT-NOT-CERTIFIED` | high precision is not certification: no evidence may be `certifying` while its arithmetic is float, and no certified/enclosed claim may rest solely on float evidence | `engine/README.md`; `engine/rn_engine/BINDING.json`; `README.md` status discipline |
+| `FW-RETRACTED-NOT-UNCONDITIONAL` | a transcribed retraction cannot carry an unconditional grade | the graph's retraction record and register source |
+| `FW-PROPOSED-LAYER-NOT-A-STATUS` | a proposed transition cannot become a current status by copying its words | the graph's proposed-layer source |
+| `FW-RUNG-OPEN-PREMISE` | `CERTIFIED_RUNG` requires a discharged word in **both** status columns of every transitive premise; absent, unknown and malformed values are refused | D1 frozen body and the existing hardening correction |
+| `FW-RN-FLOOR-DEPENDENCY` | RN3-FAR and RN5-NEAR-POINT-CERTS name H3-RUNG-FLOOR, not the distinct H3 band input | frozen runner `_PINS` and `Z_LO` parser |
+| `FW-RN-FLOOR-SOURCE` | refuse missing, changed, misattributed or symlinked rung-source bytes and report reverse consumers | frozen runner pin; [bounded source contract](../docs/CLAIM_CONVERGENCE_PROPOSAL_20261002.md) |
 
 Plus referential integrity, acyclicity, "a CONDITIONAL claim must name at least
 one premise", "`technical_status` and `grade` may not drift apart", and "an
@@ -140,7 +145,7 @@ python3 -m pytest tests/test_claims.py -q        # firewalls + negative controls
 ```
 
 `tests/test_claims.py` runs the checker on the committed graph and then breaks a
-**copy** of it in twenty-two ways — promoting a conditional theorem, composing
+**copy** of it in multiple ways — promoting a conditional theorem, composing
 2D with 3D, leaking the prize track, dropping the decimal kill, unwiring a
 RV-LM011 prerequisite, spending a zero-independence pass on an independence
 gate, letting a receipt discharge a premise, calling a float certifying — and
@@ -149,6 +154,20 @@ field changed back, to prove the refusal came from the mutated field and not
 from something incidental. Every mutation is passed to the checker with an
 explicit `--graph`: a default-argument bug once made these tests silently
 re-check the good graph and pass regardless.
+
+## Audit convergence proposal
+
+D1-v2.2(1) preserves the frozen `CERTIFIED_RUNG` source word but is operationally
+`CONDITIONAL` / `HOLD_WITH_DOMAIN`, matching the corrected hardening profile.
+The RN premise and H5 hypotheses remain unresolved. The source statement and
+its numerical terms are historical transcription, not newly certified bounds;
+the annulus-number defect and RN3 AMEND review remain explicit in its note.
+
+H3-RUNG-FLOOR is a distinct author-side single-rung object with zero independence
+credit. The rung-source check reads repository bytes only, fails without changing
+any status, and reports reverse consumers. It is **not** the hardening transition
+adapter, a live Drive watcher, or a mathematical re-review. See the
+[repair scope and update procedure](../docs/CLAIM_CONVERGENCE_PROPOSAL_20261002.md).
 
 ## Updating it
 
