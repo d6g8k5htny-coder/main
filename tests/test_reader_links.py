@@ -76,4 +76,163 @@ class ReproductionGuide(unittest.TestCase):
                         module.check_local_identity()
         finally: sys.path.pop(0)
 
+
+class LatestPublicWork(unittest.TestCase):
+    MATH_CUT = '07320089a9c690c154d2fa70e4ebc12f36f2422c'
+    def section(self):
+        text=(SITE/'research.html').read_text()
+        self.assertIn('id="latest-work"',text)
+        return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
+
+    def test_latest_work_is_reachable_without_javascript(self):
+        for name in ('index','workspace'):
+            self.assertIn('href="research.html#latest-work"',(SITE/f'{name}.html').read_text())
+        section=self.section()
+        self.assertIn('Latest public work',section)
+        self.assertIn('datetime="2026-10-02T21:18:12Z"',section)
+        self.assertIn('curated reading cut',section)
+        self.assertIn('not an exhaustive artifact or status catalog',section)
+        self.assertIn('does not update automatically',section)
+
+    def test_landed_chain_has_pinned_proofs_and_separate_review_routes(self):
+        section=self.section()
+        for number,name in ((242,'soft_rejected_pairs'),(243,'soft_fold_limit'),(244,'soft_closed_form')):
+            self.assertIn(f'https://github.com/d6g8k5htny-coder/Math-/blob/{self.MATH_CUT}/frontiers/{name}_20261002/PROOF.md',section)
+            self.assertIn(f'https://github.com/d6g8k5htny-coder/Math-/pull/{number}',section)
+        for limit in ('Conjecture 7 remains open','uncertified','scientific acceptance'):
+            self.assertIn(limit,section)
+
+    def test_landed_formal_packet_and_issue_proofs_remain_distinct(self):
+        section=self.section()
+        for source in ('pull/246','pullrequestreview-5396110365','issuecomment-5957815904','issuecomment-5957885844','issuecomment-5959920397','issuecomment-5959988102'):
+            self.assertIn(source,section)
+        for limit in ('Landed at this cut','I1–I4','persistence-module bookkeeping','Source-bound issue proofs','finite-r','same-provider'):
+            self.assertIn(limit,section)
+
+    def test_issue_refresh_preserves_actual_field_and_model_distinctions(self):
+        section=self.section()
+        for source in ('issuecomment-5960195345','issuecomment-5960343316','issuecomment-5960630207','issuecomment-5960777483'):
+            self.assertIn(source,section)
+        for boundary in ('C81–C82 concern the soft model','C83–C84 control actual/contact field quantities','same weighted observable','unequal elder marks','EH','Region A/B'):
+            self.assertIn(boundary,section)
+
+    def test_historical_library_and_deliberately_mutable_navigation_are_labeled(self):
+        section=self.section()
+        self.assertIn('Check newer work',section)
+        self.assertIn('Mutable upstream navigation',section)
+        self.assertIn('2026-09-26',section)
+        self.assertIn('2,138',section)
+        self.assertIn('/Math-/tree/main/frontiers',section)
+        self.assertIn('/meta-framework/blob/main/registry.json',section)
+        self.assertIn('/query-',section)
+        self.assertNotIn('docs.google.com',section)
+        self.assertNotIn('drive.google.com',section)
+        self.assertNotIn('dropbox',section.lower())
+
+    def test_latest_reading_sources_allow_only_observed_public_hosts(self):
+        section=self.section()
+        for link in Page('<section '+section).links:
+            parsed=urlsplit(link)
+            if parsed.scheme:
+                self.assertEqual(parsed.scheme,'https')
+                self.assertEqual(parsed.netloc,'github.com')
+                self.assertTrue(parsed.path.startswith('/d6g8k5htny-coder/'))
+
+    def test_latest_work_browser_route_has_keyboard_and_no_fetch_checks(self):
+        harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in ('check_latest_work_flow','Latest public work','latest-identities','latest-source-requests','latest-entry'):
+            self.assertIn(token,harness)
+
+
+
+class PinnedReadingLinks(HTMLParser):
+    def __init__(self, text):
+        super().__init__();self.links=[];self.hash_bindings=[];self.items=[];self.in_code=False;self.feed(text)
+    def handle_starttag(self, tag, attrs):
+        values=dict(attrs)
+        if tag=='li': self.items.append({'links':[],'code':[]})
+        if tag=='code': self.in_code=True
+        if tag=='a' and values.get('data-source-kind')=='pinned':
+            self.links.append(values['href'])
+            if self.items: self.items[-1]['links'].append(values['href'])
+    def handle_data(self, data):
+        if self.in_code and self.items: self.items[-1]['code'].append(data)
+    def handle_endtag(self, tag):
+        if tag=='code': self.in_code=False
+        if tag=='li':
+            item=self.items.pop()
+            if item['code']:
+                self.hash_bindings.extend((url,''.join(item['code'])) for url in item['links'])
+
+SOURCE_ROOT='https://github.com/d6g8k5htny-coder/'
+MATH_PREFIX=SOURCE_ROOT+'Math-/'
+MATH_REF='07320089a9c690c154d2fa70e4ebc12f36f2422c'
+MAIN_PREFIX=SOURCE_ROOT+'main/'
+MAIN_REF='1e1c9a1cdafd4b2c1a71639516e2233b168d9e05'
+PROOF_IDENTITIES={
+    'soft_rejected_pairs':'ee2930c1434bb765d11da0690a2abf3ab330d544ce7ede1ae076a4c29e206c75',
+    'soft_fold_limit':'f972f46d6b7348a4ff5d2eea022694364895a5273265818533dd01204b4c06a0',
+    'soft_closed_form':'dd9b436a58d5d58f706ca59ddcf3eb31519866ea9e0a854e168036a8c21e1eaf',
+}
+EXPECTED_READING_URLS=[
+    *(MATH_PREFIX+'blob/'+MATH_REF+'/frontiers/'+name+'_20261002/PROOF.md' for name in PROOF_IDENTITIES),
+    *(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002' for name in PROOF_IDENTITIES),
+    MATH_PREFIX+'blob/0fda855b8ee0c26d597bb033e0b4cdfb6d07e5e6/frontiers/cap_first_exit_lean_20261002/ALIGNMENT.md',
+    MAIN_PREFIX+'blob/'+MAIN_REF+'/experiments/periodic_h0/README.md',
+    MAIN_PREFIX+'tree/'+MAIN_REF+'/experiments/periodic_h0',
+    MAIN_PREFIX+'blob/'+MAIN_REF+'/docs/RESEARCH_INDEX.md',
+    SOURCE_ROOT+'meta-framework/blob/f063d9dcab51302aaaef6666245cac9cf2307548/registry.json',
+    SOURCE_ROOT+'query-/tree/aeffebc0ab984ff218b6f07d6f2a999ef4c6ca96',
+]
+EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
+
+def validate_reading_pins(text):
+    parsed=PinnedReadingLinks(text)
+    if len(parsed.links)!=len(EXPECTED_READING_URLS): raise ValueError('reading source count changed')
+    for link in parsed.links:
+        u=urlsplit(link)
+        if u.scheme!='https' or u.netloc!='github.com' or not u.path.startswith('/d6g8k5htny-coder/'):
+            raise ValueError('unapproved public source')
+    # Full URL includes repository, kind, immutable ref, exact path and no added
+    # query/fragment. Sorting retains multiplicity, so duplication cannot omit a pin.
+    if sorted(parsed.links)!=sorted(EXPECTED_READING_URLS):
+        raise ValueError('reading source identity drift')
+    # Displayed proof hashes bind to their own reproduction directory, rather than
+    # merely appearing elsewhere on the page or alongside another source.
+    if sorted(parsed.hash_bindings)!=sorted(EXPECTED_HASH_BINDINGS):
+        raise ValueError('proof SHA-256 association drift')
+    return parsed.links
+
+class LatestSourceControls(unittest.TestCase):
+    def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),12)
+    def test_mutable_private_or_stale_pinned_source_substitutions_fail_closed(self):
+        original=(SITE/'research.html').read_text()
+        for replacement in ('main','0'*40):
+            with self.assertRaisesRegex(ValueError,'identity drift'):
+                validate_reading_pins(original.replace(LatestPublicWork.MATH_CUT,replacement))
+        with self.assertRaisesRegex(ValueError,'unapproved public source'):
+            validate_reading_pins(original.replace('https://github.com/d6g8k5htny-coder/Math-/blob/'+LatestPublicWork.MATH_CUT,'https://drive.google.com/file/d/private-source'))
+        with self.assertRaisesRegex(ValueError,'SHA-256.*drift'):
+            validate_reading_pins(original.replace('ee2930c1434bb765d11da0690a2abf3ab330d544ce7ede1ae076a4c29e206c75','0'*64))
+
+
+
+class LatestReviewRegressionControls(unittest.TestCase):
+    def test_changed_path_and_misattributed_hash_do_not_pass_exact_pin_check(self):
+        original=(SITE/'research.html').read_text()
+        wrong=original.replace('frontiers/soft_rejected_pairs_20261002">Soft rejected-pair code','frontiers/does-not-exist">Soft rejected-pair code')
+        with self.assertRaises(ValueError): validate_reading_pins(wrong)
+        left='ee2930c1434bb765d11da0690a2abf3ab330d544ce7ede1ae076a4c29e206c75'
+        right='f972f46d6b7348a4ff5d2eea022694364895a5273265818533dd01204b4c06a0'
+        swapped=original.replace(left,'TEMP_HASH').replace(right,left).replace('TEMP_HASH',right)
+        with self.assertRaises(ValueError): validate_reading_pins(swapped)
+
+    def test_fragment_landmarks_have_authored_visible_focus(self):
+        css=(SITE/'home.css').read_text()
+        self.assertIn('.latest-work:focus-visible, .latest-upstream:focus-visible',css)
+        self.assertIn('outline: 3px solid var(--ul-focus)',css)
+        harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        self.assertIn('fragment_focus_indicator',harness)
+
 if __name__=='__main__': unittest.main()
