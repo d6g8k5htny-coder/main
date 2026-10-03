@@ -349,6 +349,25 @@ def check_source_card_flow(page, origin, expect, result, output):
                 static.close()
             result["steps"].append("Cite keyboard copies exact text/JSON with supplied digest; edit invalidation, share/reload, Back/Forward, invalid links, clipboard refusal and JavaScript-off fallback checked")
         if entry == "reproduce":
+            recorded=[]
+            for row in page.locator('#coefficient-enclosures tbody tr').all():
+                recorded.append({'dimension':row.locator('th').inner_text(),'lower':row.locator('code').nth(0).inner_text(),'upper':row.locator('code').nth(1).inner_text()})
+            page.context.grant_permissions(["clipboard-read","clipboard-write"],origin=origin.rstrip("/"))
+            for format in ['text','json','latex']:
+                button=page.locator('#copy-coefficients-'+format)
+                button.focus();page.keyboard.press('Enter')
+                expect(page.locator('#copy-coefficients-status')).to_contain_text('Copied')
+                copied=page.evaluate('navigator.clipboard.readText()')
+                require(copied==page.locator('#coefficient-export-'+format).text_content(),'Coefficient clipboard differs from recorded export')
+                for row in recorded:
+                    require(row['lower'] in copied and row['upper'] in copied,'Decimal enclosure lost precision')
+                if format=='json':
+                    record=json.loads(copied)
+                    require(record['intervals']==recorded and record['execution']=='not_performed' and record['source_state']=='historical_pinned','Coefficient export lost identity or scope')
+            page.get_by_text('Inspect or manually copy interval exports',exact=True).click()
+            expect(page.locator('#coefficient-export-json')).to_be_visible()
+            require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Expanded interval export overflow')
+            result['steps'].append('Exact historical coefficient endpoints copied as text/JSON/LaTeX with pinned source and no execution claim')
             commands=page.locator("#reproduction-commands").inner_text()
             page.context.grant_permissions(["clipboard-read","clipboard-write"],origin=origin.rstrip("/"))
             copy=page.get_by_role("button",name="Copy all commands",exact=True)
