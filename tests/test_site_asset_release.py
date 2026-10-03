@@ -68,6 +68,19 @@ class AssetRelease(unittest.TestCase):
             third = self.run_tool(site); self.assertEqual(third.returncode, 0, third.stderr)
             self.assertNotEqual(second.stdout, third.stdout)
 
+    def test_quoted_css_import_is_versioned_and_missing_import_is_refused(self):
+        with TemporaryDirectory() as tmp:
+            site = self.fixture(Path(tmp))
+            (site/'style.css').write_text('@import "theme.css" screen;\nbody{color:navy}')
+            (site/'theme.css').write_text('h1{color:gold}')
+            result = self.run_tool(site)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn('theme.css?site-release='+result.stdout.strip(), (site/'style.css').read_text())
+            (site/'theme.css').unlink()
+            missing = self.run_tool(site, '--check')
+            self.assertNotEqual(missing.returncode, 0)
+            self.assertIn('missing/outside local asset', missing.stderr)
+
     def test_generation_is_idempotent_and_check_does_not_repair(self):
         with TemporaryDirectory() as tmp:
             site = self.fixture(Path(tmp)); first = self.run_tool(site)

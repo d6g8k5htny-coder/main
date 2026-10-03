@@ -17,6 +17,7 @@ TOKEN = re.compile(r'[?&]site-release=[0-9a-f]{64}')
 HTML = re.compile(r'(<(?:script|link)\b[^>]*?\b(?:src|href)\s*=\s*)([\"\'])([^\"\']+)(\2)', re.I)
 IMPORT = re.compile(r'(\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)([\"\'])([^\"\']+)(\2)')
 CSS = re.compile(r'(url\(\s*)([\"\']?)([^\"\'\s)]+)(\2\s*\))')
+CSS_IMPORT = re.compile(r'(@import\s+)([\"\'])([^\"\']+)(\2)', re.I)
 EDITABLE = {'.html', '.js', '.mjs', '.css'}
 ASSETS = {'.js', '.mjs', '.css', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.ico', '.woff', '.woff2'}
 
@@ -50,8 +51,10 @@ def version(value, path, site, token):
 def updates(site, token):
     for path in sorted(p for p in site.rglob('*') if p.is_file() and p.suffix in EDITABLE):
         text = path.read_text(encoding='utf-8')
-        pattern = HTML if path.suffix == '.html' else CSS if path.suffix == '.css' else IMPORT
-        amended = pattern.sub(lambda m: m[1]+m[2]+version(m[3], path, site, token)+m[4], text)
+        patterns = [HTML] if path.suffix == '.html' else [CSS, CSS_IMPORT] if path.suffix == '.css' else [IMPORT]
+        amended = text
+        for pattern in patterns:
+            amended = pattern.sub(lambda m: m[1]+m[2]+version(m[3], path, site, token)+m[4], amended)
         if amended != text: yield path, amended
 
 def main():
