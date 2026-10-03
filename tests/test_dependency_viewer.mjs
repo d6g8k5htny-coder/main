@@ -73,14 +73,14 @@ test('saved filters restore exact state and visibly reject unknown classificatio
   assert.match(bad.error,/Unknown classification/);
 });
 
-for (const digestDelay of [0, 150]) test(`broad dependency searches expose every matching node after ${digestDelay} ms digest delay`, async () => {
+for (const fragment of ['', '#object-evidence', '#object-audit']) for (const digestDelay of [0, 150]) test(`dependency startup preserves complete source metadata and ${fragment || 'search'} after ${digestDelay} ms digest delay`, async () => {
   class Element extends EventTarget {
     constructor(){super();this.children=[];this.value='';this._text='';}
     set textContent(value){this._text=String(value);this.children=[];}
     get textContent(){return this._text+this.children.map(child=>child.textContent||'').join('');}
     append(...children){this.children.push(...children);}
-    focus(){}
-    scrollIntoView(){}
+    focus(){this.focused=true;}
+    scrollIntoView(){this.scrolled=true;}
     replaceChildren(...children){this.children=children;this._text='';}
   }
   const html=await readFile(pageURL,'utf8');
@@ -90,7 +90,8 @@ for (const digestDelay of [0, 150]) test(`broad dependency searches expose every
     await new Promise(resolve=>setTimeout(resolve,digestDelay));
     return webcrypto.subtle.digest(...args);
   }}}});
-  const window=new EventTarget();window.location=new URL('https://example.test/dependencies.html');
+  const window=new EventTarget();window.location=new URL('https://example.test/dependencies.html'+(fragment?'?node=math.rn-fixed-annulus-window'+fragment:''));
+  window.requestAnimationFrame=callback=>callback();
   window.history={replaceState(state,title,url){window.location=new URL(url);}};
   globalThis.window=window;
   globalThis.document={getElementById:id=>nodes.get(id),createElement:()=>new Element(),createDocumentFragment:()=>new Element(),createTextNode:text=>({textContent:text})};
@@ -100,15 +101,16 @@ for (const digestDelay of [0, 150]) test(`broad dependency searches expose every
   };
   let initialization;
   try {
-    ({initialization}=await import(`../docs/site/dependencies.mjs?visitor-search-${digestDelay}`));
+    ({initialization}=await import(`../docs/site/dependencies.mjs?visitor-search-${digestDelay}-${encodeURIComponent(fragment)}`));
     // Await the actual startup lifecycle, including byte validation and rendering.
     await initialization;
     assert.match(nodes.get('load-status').textContent,/^Pinned Math/);
+    if(fragment){assert.equal(nodes.get(fragment.slice(1)).focused,true);assert.equal(nodes.get(fragment.slice(1)).scrolled,true);}
     const search=nodes.get('dependency-search');search.value='math';search.dispatchEvent(new Event('input'));
     assert.equal(nodes.get('search-results').children.length,39);
     assert.match(nodes.get('search-results').textContent,/math.side24-coefficient/);
     assert.match(nodes.get('search-results').textContent,/math.uniform-matrix-cap-lifetime/);
-    assert.equal(window.location.search,'?q=math');
+    assert.equal(new URLSearchParams(window.location.search).get('q'),'math');
     const filter=nodes.get('classification-filter');
     filter.value='PROVED_REVIEWED';filter.dispatchEvent(new Event('change'));
     assert.ok(nodes.get('search-results').children.length<39);
@@ -120,6 +122,8 @@ for (const digestDelay of [0, 150]) test(`broad dependency searches expose every
     assert.match(nodes.get('evidence-body').textContent,/Record linked/);
     assert.match(nodes.get('evidence-body').textContent,/Not recorded/);
     assert.match(nodes.get('node-metadata').textContent,/xAI\/Grok/);
+    assert.ok(nodes.has('node-record'),'complete source node is available');
+    assert.deepEqual(JSON.parse(nodes.get('node-record').textContent),(await fixture()).nodes['math.rn-fixed-annulus-window']);
     window.location=new URL('https://example.test/dependencies.html?q=bad&classification=NO_SUCH_CLASS');
     window.dispatchEvent(new Event('popstate'));
     assert.equal(nodes.get('search-results').children.length,0);
@@ -325,7 +329,6 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(app, /popstate[\s\S]*writeURL:\s*false,\s*focus:\s*false/);
   assert.match(app, /prepareInitialSelectionRestore/);
   assert.match(app, /\['wheel',[\s\S]*'pagehide'\]/);
-  assert.match(app, /event\.type === 'focusin'[\s\S]*node-detail/);
   assert.match(app, /requestAnimationFrame/);
   assert.match(app, /scrollIntoView\(\{\s*block:\s*'start',\s*behavior:\s*'instant'\s*\}\)/);
   assert.match(app, /dependencyPaths/);

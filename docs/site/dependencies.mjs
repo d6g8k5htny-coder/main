@@ -10,7 +10,7 @@ import {
   normalizeSelection,
   parsePinnedGraph,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7';
+} from './dependency-model.mjs?site-release=99e6a33de734525f28b18c3c89b3fe85717576e2b0a5d58989cb2b189ac40bda';
 
 const byId = id => document.getElementById(id);
 
@@ -19,8 +19,10 @@ const byId = id => document.getElementById(id);
 // permanently to any reader interaction or subsequent browser navigation.
 function prepareInitialSelectionRestore({ windowObject = window, documentObject = document } = {}) {
   const hash = windowObject.location.hash;
+  const sectionIds = ['node-detail','object-scope-panel','object-evidence','object-audit','object-context'];
+  const targetId = hash.slice(1);
   const node = new URLSearchParams(windowObject.location.search).get('node');
-  if (hash !== '#node-detail' || !node || !windowObject.addEventListener)
+  if (!sectionIds.includes(targetId) || !node || !windowObject.addEventListener)
     return { finish: () => false, cancel: () => {} };
   const events = ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown', 'pointermove', 'focusin', 'hashchange', 'popstate', 'pagehide'];
   const options = { capture: true, passive: true };
@@ -29,7 +31,7 @@ function prepareInitialSelectionRestore({ windowObject = window, documentObject 
   const cleanup = () => events.forEach(event => windowObject.removeEventListener(event, cancel, options));
   const cancel = event => {
     if (event.type === 'pointermove' && !event.buttons) return;
-    if (event.type === 'focusin' && event.target === documentObject.getElementById('node-detail')) return;
+    if (event.type === 'focusin' && event.target === documentObject.getElementById(targetId)) return;
     cancelled = true;
     cleanup();
   };
@@ -43,7 +45,7 @@ function prepareInitialSelectionRestore({ windowObject = window, documentObject 
         cleanup();
         const currentNode = new URLSearchParams(windowObject.location.search).get('node');
         if (cancelled || windowObject.location.hash !== hash || currentNode !== node) return;
-        const target = documentObject.getElementById('node-detail');
+        const target = documentObject.getElementById(targetId);
         if (!target?.scrollIntoView) return;
         target.focus?.({ preventScroll: true });
         target.scrollIntoView({ block: 'start', behavior: 'instant' });
@@ -200,6 +202,7 @@ function run({ index, provenance }) {
       return tr;
     }));
     byId('node-metadata').replaceChildren(metadata(selected));
+    byId('node-record').textContent=JSON.stringify(index.graph.nodes[selected.id],null,2);
     byId('dependency-list').replaceChildren(...(
       selected.dependencies.length
         ? selected.dependencies.map(edge => relationItem(edge, choose))
