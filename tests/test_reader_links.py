@@ -96,10 +96,18 @@ class LatestPublicWork(unittest.TestCase):
             self.assertIn('href="research.html#latest-work"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
-        self.assertIn('datetime="2026-10-02T21:18:12Z"',section)
+        self.assertIn('datetime="2026-10-03T18:00:00Z"',section)
+        self.assertIn('2026-10-02T21:18:12Z',section)
         self.assertIn('curated reading cut',section)
         self.assertIn('not an exhaustive artifact or status catalog',section)
         self.assertIn('does not update automatically',section)
+
+    def test_actual_bar_additions_retain_conditional_population_and_open_consumer(self):
+        section=self.section()
+        for term in ('Count each actual bar once', 'Two candidates can describe one bar', 'P, CAP, E1, E2, REC, CUB and ELDER', 'ordinary finite', 'essential', 'global elder partner', 'positive-width', 'h^5', 'C_U(1) &lt; C_R', 'not uniform over collapsing bands', 'Math #234', 'integration in progress at this cut'):
+            self.assertIn(term,section)
+        for review in ('pullrequestreview-5382933608','pullrequestreview-5401559344'):
+            self.assertIn(review,section)
 
     def test_landed_chain_has_pinned_proofs_and_separate_review_routes(self):
         section=self.section()
@@ -191,6 +199,12 @@ EXPECTED_READING_URLS=[
     SOURCE_ROOT+'meta-framework/blob/f063d9dcab51302aaaef6666245cac9cf2307548/registry.json',
     SOURCE_ROOT+'query-/tree/aeffebc0ab984ff218b6f07d6f2a999ef4c6ca96',
 ]
+ACTUAL_BAR_PINS=[
+    MATH_PREFIX+'blob/e9ff8c6165ef0276e1c84d03ee4fb2273bc8278b/frontiers/unique_replacement_bar_intensity_20261001/'+name for name in ('PROOF.md','ROOTS.md','SOURCES.json')
+]+[
+    MATH_PREFIX+'blob/e05b8303aa7648cf321d16a4c626d522b9dda3db/frontiers/strict_unique_replacement_coefficient_20261003/'+name for name in ('PROOF.md','SOURCE_FILES.json')
+]
+EXPECTED_READING_URLS += ACTUAL_BAR_PINS
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
 
 def validate_reading_pins(text):
@@ -212,7 +226,7 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),12)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),17)
     def test_mutable_private_or_stale_pinned_source_substitutions_fail_closed(self):
         original=(SITE/'research.html').read_text()
         for replacement in ('main','0'*40):
