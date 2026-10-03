@@ -1,7 +1,7 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -39,7 +39,7 @@ let figureReady = false;
 const citation = createCitationController({
   writeText: typeof navigator.clipboard?.writeText === 'function' ? text => navigator.clipboard.writeText(text) : undefined,
   onChange(state) {
-    if (state.text) citationText.value = state.text;
+    citationText.value = state.text;
     copyCitationButton.disabled = !figureReady || !state.canCopy;
     exportStatus.textContent = state.status;
     if (state.manualFallback) citationDetails.open = true;
@@ -72,7 +72,7 @@ exportButton.addEventListener('click', () => {
     exportStatus.textContent = 'Curvature SVG download started. It is an illustrative teaching figure.';
   } catch {
     figureReady = false; exportButton.disabled = true; citation.clear();
-    exportStatus.textContent = 'SVG download could not complete: the displayed diagram is unavailable or contains unsupported content. Copy the figure citation manually below.';
+    exportStatus.textContent = 'SVG download could not complete: the displayed diagram is unavailable or contains unsupported content.';
     citationDetails.open = true;
   } finally {
     link?.remove();

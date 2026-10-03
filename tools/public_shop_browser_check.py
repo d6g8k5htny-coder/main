@@ -312,6 +312,29 @@ def check_curvature_export_flow(page, origin, expect, result, output):
     shot=output/f'{result["case"]}-curvature-export-controls.png'
     page.locator('#peaks').screenshot(path=str(shot))
     result['curvature_controls_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+    center=page.locator('#curvature-center');spread=page.locator('#curvature-spread')
+    center.press('Home');center.press('ArrowRight')
+    spread.press('Home');spread.press('ArrowRight');spread.press('ArrowRight')
+    expect(center).to_have_value('-2.9');expect(spread).to_have_value('0.2')
+    with page.expect_download() as pending:
+        download.press('Enter')
+    decimal=output/f'{result["case"]}-curvature-decimal.svg'
+    pending.value.save_as(str(decimal))
+    decimal_data=decimal.read_bytes()
+    decimal_metadata=json.loads(ElementTree.fromstring(decimal_data).find('s:metadata',ns).text)
+    require(decimal_metadata['params']=={'s':-2.9,'R':0.2} and decimal_metadata['eigenvalues']==[-3.1,-2.7],'Decimal export differs from the slider grid')
+    require('-2.6999999999999997' not in decimal_data.decode() and '-2.6999999999999997' not in page.locator('#curvature-citation-text').input_value(),'Floating-point noise leaked into the figure citation or SVG')
+    result['curvature_decimal_svg']={'path':decimal.name,'sha256':sha256(decimal_data).hexdigest(),'metadata':decimal_metadata}
+    require(bool(page.locator('#curvature-citation-text').input_value()),'Valid current citation missing before capture refusal')
+    page.locator('#curvature-diagram circle').evaluate("node=>node.setAttribute('class','unsupported-test-class')")
+    download.press('Enter')
+    expect(download).to_be_disabled();expect(copy).to_be_disabled()
+    expect(page.locator('#curvature-citation-text')).to_have_value('')
+    expect(page.locator('#curvature-export-status')).to_contain_text('unavailable')
+    center.press('ArrowRight')
+    expect(download).to_be_enabled();expect(copy).to_be_enabled()
+    require('s = -2.8' in page.locator('#curvature-citation-text').input_value(),'Native redraw did not recover the current citation')
+    result['steps'].append('Decimal grid export agrees with the page; refused capture clears manual citation and disables actions; native slider redraw recovers current output')
     result['steps'].append('Actual keyboard SVG download parsed/reopened with exact displayed geometry, concrete presentation and teaching/source metadata; real citation clipboard, denial/absence and pending settings change checked')
 
 

@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readExploreState } from '../docs/site/explore-state.mjs';
-import { coneModel } from '../docs/site/explore-models.mjs';
 
 let feature = {};
 try { feature = await import('../docs/site/curvature-export.mjs'); } catch {}
@@ -60,6 +59,28 @@ test('export records bounded current parameters, eigenvalues and zero boundary m
   assert.match(record.limits, /second-order.*inconclusive/i);
 });
 
+test('negative decimal grid eigenvalues stay canonical across figure model, metadata, citation and footer', () => {
+  const cases = [
+    [{s:-2.9,R:0.2},[-3.1,-2.7],'peak'],
+    [{s:-1.7,R:0.4},[-2.1,-1.3],'peak'],
+    [{s:-0.1,R:0.2},[-0.3,0.1],'saddle'],
+    [{s:-0.3,R:0.3},[-0.6,0],'flat']
+  ];
+  for (const [params,eigenvalues,kind] of cases) {
+    const exported = api('buildFigureMetadata')(params,timestamp);
+    assert.deepEqual(exported.eigenvalues,eigenvalues);
+    assert.equal(exported.classification,kind);
+    const model = api('curvatureFigureModel')(params);
+    assert.deepEqual(model,{s:params.s,radius:params.R,eigenvalues,kind});
+    const citation = api('buildFigureCitation')(params);
+    assert.ok(citation.includes(`s − R = ${eigenvalues[0]}, s + R = ${eigenvalues[1]}`));
+    const svg = api('serializeCurvatureSVG')(diagram(params.s,params.R),params,timestamp);
+    assert.ok(svg.includes(`s − R = ${eigenvalues[0]}, s + R = ${eigenvalues[1]}; ${kind}`));
+    assert.deepEqual(metadata(svg).eigenvalues,eigenvalues);
+    assert.doesNotMatch(citation + svg, /-2\.6999999999999997/);
+  }
+});
+
 test('accepted floating-point step tolerance normalizes before classifying and replaying the figure', () => {
   const cases = [
     [{s:0.1000000001,R:0.1},{s:0.1,R:0.1},'flat'],
@@ -74,7 +95,7 @@ test('accepted floating-point step tolerance normalizes before classifying and r
     assert.equal(exported.classification,classification);
     const restored = readExploreState(new URL(exported.permalink).search);
     assert.deepEqual(restored.invalid,[]);
-    const replay = coneModel(restored.state.s,restored.state.R);
+    const replay = api('curvatureFigureModel')({s:restored.state.s,R:restored.state.R});
     assert.deepEqual(exported.eigenvalues,replay.eigenvalues);
     assert.equal(exported.classification,replay.kind);
     assert.equal(api('buildFigureCitation')(input),api('buildFigureCitation')(want));
@@ -227,6 +248,40 @@ test('pending clipboard writes are serialized and cannot report stale settings a
   assert.match(controller.state().status, /changed.*copy again/i);
   assert.equal(controller.state().canCopy, true);
   assert.ok(controller.state().text.includes('?s=2&R=1#peaks'));
+});
+
+test('capture refusal clears the current citation text and blocks a later copy', async () => {
+  let displayedText = '';
+  const controller = api('createCitationController')({writeText:async () => {},onChange:state => {displayedText=state.text;}});
+  controller.setFigure({s:-2,R:1});
+  assert.ok(displayedText.includes(canonical));
+  controller.clear();
+  assert.equal(controller.state().text,'');
+  assert.equal(displayedText,'');
+  assert.equal(controller.state().canCopy,false);
+  assert.equal(await controller.copy(),false);
+  assert.match(controller.state().status,/unavailable/i);
+  assert.doesNotMatch(controller.state().status,/copy.*(?:manually|below)/i);
+});
+
+test('capture refusal during a pending copy clears text and cannot claim stale success or fallback', async () => {
+  for (const succeeds of [true,false]) {
+    let finish;
+    const controller = api('createCitationController')({writeText:() => new Promise((resolve,reject) => {finish=succeeds ? resolve : () => reject(new Error('denied'));})});
+    controller.setFigure({s:-2,R:1});
+    const pending = controller.copy();
+    assert.equal(controller.state().pending,true);
+    controller.clear();
+    assert.equal(controller.state().text,'');
+    assert.equal(controller.state().canCopy,false);
+    finish();
+    assert.equal(await pending,false);
+    assert.equal(controller.state().pending,false);
+    assert.equal(controller.state().text,'');
+    assert.equal(controller.state().canCopy,false);
+    assert.match(controller.state().status,/unavailable/i);
+    assert.doesNotMatch(controller.state().status,/copied figure citation|copy.*(?:manually|below)/i);
+  }
 });
 
 test('a successful current write reports success, while unavailable figures block later writes', async () => {

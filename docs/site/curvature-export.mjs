@@ -1,6 +1,6 @@
 // Bounded, local export of the Peaks and saddles teaching diagram. No source fetch
 // or proof verification occurs here; the identity below is recorded provenance.
-import { coneModel } from './explore-models.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
+import { coneModel } from './explore-models.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';
@@ -23,6 +23,13 @@ function parameters({s, R} = {}) {
   // Match Explore URL restoration before deriving signs or a permalink.
   return {s: Math.round(s * 10) / 10 || 0, R: Math.round(R * 10) / 10 || 0};
 }
+export function curvatureFigureModel(params) {
+  const {s, R} = parameters(params);
+  // Compute on the slider's integer ticks so decimal labels agree everywhere.
+  // These returned JavaScript numbers remain non-certifying teaching data.
+  const ticks = coneModel(Math.round(s * 10), Math.round(R * 10));
+  return {s, radius:R, eigenvalues:ticks.eigenvalues.map(value => value / 10), kind:ticks.kind};
+}
 function permalink(params) {
   return `${PUBLIC_EXPLORE}?s=${params.s}&R=${params.R}#peaks`;
 }
@@ -30,7 +37,7 @@ export function buildFigureMetadata(params, generatedAt = new Date().toISOString
   const current = parameters(params);
   if (typeof generatedAt !== 'string' || !Number.isFinite(Date.parse(generatedAt)) || new Date(generatedAt).toISOString() !== generatedAt)
     throw new RangeError('Generation time must be a valid ISO timestamp');
-  const model = coneModel(current.s, current.R);
+  const model = curvatureFigureModel(current);
   return {
     schema: 'universal-law/curvature-teaching-figure/v1', mode: 'teaching_model',
     params: current, eigenvalues: model.eigenvalues, classification: model.kind,
@@ -40,7 +47,7 @@ export function buildFigureMetadata(params, generatedAt = new Date().toISOString
 }
 export function buildFigureCitation(params) {
   const current = parameters(params);
-  const model = coneModel(current.s, current.R);
+  const model = curvatureFigureModel(current);
   return `Universal Law, “Peaks and saddles” teaching figure. s = ${current.s}, R = ${current.R}; eigenvalues s − R = ${model.eigenvalues[0]}, s + R = ${model.eigenvalues[1]}; classification: ${model.kind}. ${permalink(current)}\nTeaching source: SIDE24 derivation, §1 (Hessian, eigenvalue and negative-cone identities), ${SOURCE.url}\n${LIMITS}`;
 }
 
@@ -224,7 +231,7 @@ export function createCitationController({writeText, onChange = () => {}} = {}) 
       notify();
     },
     clear() {
-      ready = false; revision++;
+      text = ''; ready = false; revision++;
       status = 'Figure export is unavailable because the displayed diagram could not be captured.';
       notify();
     },
