@@ -46,7 +46,18 @@ test('coefficient exports preserve exact narrow decimal enclosures and pinned id
  assert.deepEqual(data.intervals,intervals);assert.equal(data.source,coefficientSource);
  assert.equal(data.execution,'not_performed');assert.equal(data.source_state,'historical_pinned');
  for(const row of intervals){assert.ok(out.text.includes(row.lower));assert.ok(out.text.includes(row.upper));assert.ok(out.latex.includes(row.lower));assert.ok(out.latex.includes(row.upper));}
- assert.ok(out.latex.includes('\\le'));assert.ok(out.text.includes('Historical'));
+ assert.ok(out.text.includes('Historical'));
+});
+test('coefficient exports retain strict SIDE24 bounds and paste-ready display math',()=>{
+ const out=copyModule.buildCoefficientExports(intervals,coefficientSource);
+ for(const row of intervals){
+  assert.ok(out.text.includes(`${row.lower} < c_${row.dimension},24 < ${row.upper}`));
+  assert.ok(out.latex.includes(`\\[${row.lower} < c_{${row.dimension},24} < ${row.upper}\\]`));
+ }
+ assert.equal(JSON.parse(out.json).bounds,'strict');
+ assert.equal(JSON.parse(out.json).coefficient,'c_{d,24}');
+ assert.doesNotMatch(out.latex,/\\le/);assert.doesNotMatch(out.text,/<=/);
+ assert.throws(()=>copyModule.buildCoefficientExports([{dimension:'2',lower:'0.1',upper:'0.10'}],coefficientSource));
 });
 test('coefficient exports refuse rounded numbers, reversed enclosures and mutable sources',()=>{
  assert.equal(typeof copyModule.buildCoefficientExports,'function');

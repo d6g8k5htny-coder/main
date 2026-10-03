@@ -361,9 +361,14 @@ def check_source_card_flow(page, origin, expect, result, output):
                 require(copied==page.locator('#coefficient-export-'+format).text_content(),'Coefficient clipboard differs from recorded export')
                 for row in recorded:
                     require(row['lower'] in copied and row['upper'] in copied,'Decimal enclosure lost precision')
+                    if format=='text':
+                        require(f"{row['lower']} < c_{row['dimension']},24 < {row['upper']}" in copied,'Text export weakened the strict SIDE24 statement')
+                    if format=='latex':
+                        require('\\['+row['lower']+' < c_{'+row['dimension']+',24} < '+row['upper']+'\\]' in copied,'LaTeX export lacks strict display math')
                 if format=='json':
                     record=json.loads(copied)
                     require(record['intervals']==recorded and record['execution']=='not_performed' and record['source_state']=='historical_pinned','Coefficient export lost identity or scope')
+                    require(record['bounds']=='strict' and record['coefficient']=='c_{d,24}','JSON export lost strict SIDE24 identity')
             page.get_by_text('Inspect or manually copy interval exports',exact=True).click()
             expect(page.locator('#coefficient-export-json')).to_be_visible()
             require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Expanded interval export overflow')

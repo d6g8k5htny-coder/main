@@ -30,14 +30,14 @@ export function buildCoefficientExports(intervals, source) {
     for (const endpoint of [lower, upper]) if (typeof endpoint !== 'string' || !/^0\.[0-9]{1,100}$/.test(endpoint)) throw new Error('Endpoints must be exact decimal strings.');
     const scale = Math.max(lower.length, upper.length) - 2;
     const integer = value => BigInt(value.slice(2).padEnd(scale, '0'));
-    if (integer(lower) > integer(upper)) throw new Error('Reversed enclosure.');
+    if (integer(lower) >= integer(upper)) throw new Error('Empty or reversed strict enclosure.');
     return {dimension, lower, upper};
   });
   const boundary = 'Historical pinned coefficient enclosures. No calculation has run here; this export does not establish the parent lifetime theorem or elder pairing.';
   return {
-    text: `${boundary}\n${records.map(r => `Dimension ${r.dimension}: ${r.lower} <= c_${r.dimension} <= ${r.upper}`).join('\n')}\nSource: ${source}`,
-    json: JSON.stringify({schema:'universal-law/coefficient-enclosures/v1', source, source_state:'historical_pinned', execution:'not_performed', scope:boundary, intervals:records}, null, 2),
-    latex: `% ${boundary}\n% Source: ${source}\n${records.map(r => `${r.lower} \\le c_{${r.dimension}} \\le ${r.upper}`).join('\n')}`
+    text: `${boundary}\n${records.map(r => `Dimension ${r.dimension}: ${r.lower} < c_${r.dimension},24 < ${r.upper}`).join('\n')}\nSource: ${source}`,
+    json: JSON.stringify({schema:'universal-law/coefficient-enclosures/v1', source, source_state:'historical_pinned', execution:'not_performed', scope:boundary, coefficient:'c_{d,24}', bounds:'strict', intervals:records}, null, 2),
+    latex: `% ${boundary}\n% Source: ${source}\n${records.map(r => `\\[${r.lower} < c_{${r.dimension},24} < ${r.upper}\\]`).join('\n')}`
   };
 }
 
