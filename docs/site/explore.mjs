@@ -1,4 +1,4 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);

@@ -1,6 +1,6 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs';
-import {connectCatalogQuery} from './catalog-query.mjs';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -110,7 +110,7 @@ async function queryIdentity(config) {
   el('query-note').append(node('code','python -B -S verify_portable_stubs.py --check-math-tip'),node('span','. The command checks file bytes, not commit equality. This page reads only the pinned bundle and performs no live tip check.'));
 }
 try {
-  const response=await fetch('config.json',{credentials:'omit'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
+  const response=await fetch('config.json',{credentials:'omit',cache:'no-store'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
   const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)],['query-note',()=>queryIdentity(config)]];
   await Promise.allSettled(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
 } catch(e) {['status-note','coefficient-state','inventory-state','custody-note','query-note'].forEach(id=>error(id,e));}

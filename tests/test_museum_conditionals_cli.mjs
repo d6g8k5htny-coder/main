@@ -33,7 +33,8 @@ test('museum HTML has the route host, navigation and module without replacing ex
   const htmlURL=new URL('../docs/site/museum.html',import.meta.url);
   assert.ok(fs.existsSync(htmlURL),'updated museum HTML is absent');
   const html=fs.readFileSync(htmlURL,'utf8');
-  for(const text of ['id="conditional-route"','href="#conditionals"','src="conditionals.mjs"','src="museum.mjs"','id="claim-cards"','id="packet-cards"'])assert.ok(html.includes(text),text);
+  for(const text of ['id="conditional-route"','href="#conditionals"','id="claim-cards"','id="packet-cards"'])assert.ok(html.includes(text),text);
+  for(const module of ['conditionals','museum'])assert.match(html,new RegExp(`src="${module}\\.mjs\\?site-release=[0-9a-f]{64}"`));
   assert.equal((html.match(/id="conditional-route"/g)||[]).length,1);
 });
 test('CLI projects the exact source and produces deterministic JSON',()=>{
