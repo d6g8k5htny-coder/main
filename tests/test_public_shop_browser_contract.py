@@ -49,6 +49,21 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('playwright==1.62.0',requirements)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_bibtex_disabled_checks_keep_the_hidden_button_addressable(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        flow=next(node for node in module.body if isinstance(node,ast.FunctionDef)
+                  and node.name=='check_source_card_flow')
+        bindings=[node for node in ast.walk(flow) if isinstance(node,ast.Assign)
+                  and any(isinstance(target,ast.Name) and target.id=='bib'
+                          for target in node.targets)]
+        self.assertEqual(len(bindings),1)
+        call=bindings[0].value
+        self.assertIsInstance(call,ast.Call)
+        self.assertEqual(call.func.attr,'locator',
+                         'Role locators omit the hidden actions after an edit or invalid URL')
+        self.assertEqual(call.args[0].value,'#reference-copy-bibtex')
+
     def test_new_reader_controls_are_reached_by_the_existing_browser_flows(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
         module=ast.parse(source)

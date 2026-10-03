@@ -654,7 +654,9 @@ def check_source_card_flow(page, origin, expect, result, output):
             expect(page.locator("#reference-status")).to_contain_text("Copied JSON")
             record=json.loads(page.evaluate("navigator.clipboard.readText()"))
             require(record["commit"]==commit and record["sha256"]==digest and record["verification"]=="not_performed","JSON reference lost source or verification boundary")
-            bib=page.get_by_role('button',name='Copy BibTeX',exact=True)
+            # Edits and invalid source URLs hide the whole action group. Keep
+            # this locator addressable when asserting its disabled DOM state.
+            bib=page.locator('#reference-copy-bibtex')
             bib.focus();page.keyboard.press('Enter')
             expect(page.locator('#reference-status')).to_contain_text('Copied BibTeX')
             summary=page.get_by_text('Inspect source-reference template (BibTeX)',exact=True)
