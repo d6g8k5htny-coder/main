@@ -29,6 +29,23 @@ class Page(HTMLParser):
         if tag == 'nav': self.primary = False
 
 class PublicRoutes(unittest.TestCase):
+    def test_curvature_exports_start_disabled_and_keep_the_pinned_teaching_scope(self):
+        text=(SITE/'explore.html').read_text()
+        class Controls(HTMLParser):
+            def __init__(self):
+                super().__init__();self.buttons={}
+            def handle_starttag(self,tag,attrs):
+                a=dict(attrs)
+                if tag=='button':self.buttons[a.get('id')]=a
+        page=Controls();page.feed(text)
+        for identity in ('curvature-export-svg','curvature-copy-citation'):
+            self.assertIn(identity,page.buttons,'No-JavaScript export control missing')
+            self.assertIn('disabled',page.buttons[identity],'Blank SVG or unsupported clipboard must not be enabled by static HTML')
+            self.assertEqual(page.buttons[identity]['type'],'button')
+        self.assertIn('curvature-figure-citation',Page(text).ids)
+        self.assertIn('curvature-export-status',Page(text).ids)
+        self.assertIn('9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments',text)
+
     def test_all_local_html_links_assets_and_fragments_resolve(self):
         pages={path:Page(path.read_text()) for path in SITE.glob('*.html')}
         # These exact claim IDs are rendered only after museum source verification.
