@@ -228,7 +228,8 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#measure-density")).to_have_text("0.153846")
     source=page.locator("#measure-source a")
     source_href=source.get_attribute("href")
-    require(source_href is not None and "/blob/e60629edde151c27541847b61672e38965752b77/" in source_href,"Measurement source cut drifted")
+    expected_source="https://github.com/d6g8k5htny-coder/main/blob/e60629edde151c27541847b61672e38965752b77/docs/research-translation/20260930/EXPERIMENT.md#1-freeze-the-observable-before-generating-data"
+    require(source_href==expected_source,"Measurement source identity drifted")
     page.locator("#measure-count").fill("1152")
     expect(page.locator("#measure-mass")).to_have_text("1")
     expect(page.locator("#measure-density")).to_have_text("0.307692")
@@ -242,7 +243,10 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     result["screenshots"].append({"page":"measure","path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()})
     result["steps"].append("Research route opens the synthetic measurement guide; normalization, invalid edge and exact source cut checked")
 
-    page.goto(origin+"dependencies.html")
+    page.goto(origin+"research.html")
+    dependencies=page.get_by_role("link",name="dated claim-dependency snapshot",exact=True)
+    expect(dependencies).to_have_attribute("href","dependencies.html")
+    dependencies.click()
     expect(page.locator("#load-status")).to_contain_text("Pinned Math commit 7858329974e2",timeout=45000)
     expect(page.locator("#node-count")).to_have_text("49")
     expect(page.locator("#edge-count")).to_have_text("55")
@@ -251,8 +255,12 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.get_by_role("link",name="Provenance record",exact=True)).to_have_attribute("href","dependency-source/PROVENANCE.json")
     page.locator("#dependency-search").fill("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
     expect(page.locator("#search-results > li")).to_have_count(1)
-    page.locator("#search-results button").click()
+    result_button=page.locator("#search-results button")
+    page.keyboard.press("Tab")
+    expect(result_button).to_be_focused()
+    page.keyboard.press("Enter")
     expect(page.locator("#detail-heading")).to_have_text("math.rn-fixed-annulus-window")
+    expect(page.locator("#node-detail")).to_be_focused()
     expect(page.locator("#node-metadata")).to_contain_text("Review source")
     expect(page.locator("#node-metadata")).to_contain_text("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
     require(parse_qs(urlsplit(page.url).query)=={"node":["math.rn-fixed-annulus-window"]},"Saved dependency selection missing")
@@ -341,22 +349,23 @@ def main():
                             except Exception:
                                 result["screenshot_error"]=traceback.format_exc();result["passed"]=False
                             context.close()
-                for size,scheme in [({"width":1200,"height":900},"light"),({"width":390,"height":844},"dark")]:
-                    label=f'reader-tools-{size["width"]}-{scheme}'
-                    result={"case":label,"viewport":size,"color_scheme":scheme,"steps":[],"passed":False}
-                    report["cases"].append(result)
-                    context=browser.new_context(viewport=size,color_scheme=scheme,reduced_motion="reduce")
-                    page=context.new_page();page.set_default_timeout(15000);errors=[]
-                    page.on("pageerror",lambda error:errors.append(str(error)))
-                    try:
-                        check_reader_tools_flow(page,origin,expect,result,output)
-                        require(not errors,f"Reader tool page errors: {errors}")
-                        result["passed"]=True
-                    except Exception:
-                        result["error"]=traceback.format_exc()
-                    finally:
-                        result["page_errors"]=errors
-                        context.close()
+                for size in [{"width":1200,"height":900},{"width":390,"height":844}]:
+                    for scheme in ["light","dark"]:
+                        label=f'reader-tools-{size["width"]}-{scheme}'
+                        result={"case":label,"viewport":size,"color_scheme":scheme,"steps":[],"passed":False}
+                        report["cases"].append(result)
+                        context=browser.new_context(viewport=size,color_scheme=scheme,reduced_motion="reduce")
+                        page=context.new_page();page.set_default_timeout(15000);errors=[]
+                        page.on("pageerror",lambda error:errors.append(str(error)))
+                        try:
+                            check_reader_tools_flow(page,origin,expect,result,output)
+                            require(not errors,f"Reader tool page errors: {errors}")
+                            result["passed"]=True
+                        except Exception:
+                            result["error"]=traceback.format_exc()
+                        finally:
+                            result["page_errors"]=errors
+                            context.close()
                 result={"case":"inventory-refusal","steps":[],"passed":False};report["cases"].append(result)
                 context=browser.new_context(viewport={"width":390,"height":844},color_scheme="dark")
                 page=context.new_page();refusal_errors=[];route_hits=[]
@@ -391,7 +400,7 @@ def main():
                     context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==11 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==13 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:
