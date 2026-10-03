@@ -253,6 +253,11 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#unresolved-count")).to_have_text("15")
     expect(page.locator(".boundary")).to_contain_text("Dated read-only snapshot")
     expect(page.get_by_role("link",name="Provenance record",exact=True)).to_have_attribute("href","dependency-source/PROVENANCE.json")
+    page.locator("#dependency-search").fill("math")
+    expect(page.locator("#search-results > li")).to_have_count(39)
+    expect(page.locator("#search-results")).to_contain_text("math.side24-coefficient")
+    expect(page.locator("#search-results")).to_contain_text("math.uniform-matrix-cap-lifetime")
+    result["steps"].append("broad dependency search exposes all 39 matching nodes")
     page.locator("#dependency-search").fill("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
     expect(page.locator("#search-results > li")).to_have_count(1)
     result_button=page.locator("#search-results button")
@@ -290,6 +295,38 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#selection-error")).to_contain_text("does not match this source snapshot")
     require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency refusal overflow")
     result["steps"].append("Pinned 49/55/15 graph, review-source search, post-layout saved-link focus, invalid-ID refusal and narrow overflow checked")
+
+
+def check_visitor_recovery(page, origin, expect, result):
+    if result["case"] == "query-refusal":
+        config=json.loads((ROOT/"docs/site/config.json").read_text())
+        hits=[]
+        def refuse_query(route):
+            hits.append(route.request.url)
+            route.fulfill(status=503,headers={"Access-Control-Allow-Origin":"*"},body="")
+        page.route(config["query"]["url"],refuse_query)
+        page.goto(origin+"workspace.html#board")
+        expect(page.locator("#query-note")).to_contain_text("Source unavailable (503). No result inferred.",timeout=45000)
+        expect(page.locator("#custody-note")).to_contain_text("9 byte-copy imports landed",timeout=45000)
+        expect(page.locator("#query-identity")).to_be_empty()
+        require(len(hits)==1,"Expected exactly one refused query request")
+        result["steps"].append("query 503 ends loading without erasing verified import information")
+    else:
+        manifest=json.loads((ROOT/"docs/site/museum.json").read_text())
+        held=[]
+        page.route(manifest["claims"][0]["proof"]["url"],lambda route:held.append(route))
+        page.goto(origin+"museum.html#d3-side24-coefficient",wait_until="domcontentloaded")
+        expect(page.locator("#claim-cards")).to_contain_text("Verifying",timeout=45000)
+        page.get_by_role("link",name="Reproduce",exact=True).first.focus()
+        page.keyboard.press("Tab")
+        focused=page.get_by_role("link",name="Cite",exact=True).first
+        expect(focused).to_be_focused()
+        require(len(held)==1,"The delayed source was not intercepted")
+        held[0].fulfill(response=held[0].fetch())
+        expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
+        expect(focused).to_be_focused()
+        require(page.evaluate("Math.abs(document.querySelector('#d3-side24-coefficient').getBoundingClientRect().top)>100"),"Delayed claim completion pulled the reader back")
+        result["steps"].append("keyboard navigation during museum verification keeps focus and reading position")
 
 
 def main():
@@ -381,6 +418,25 @@ def main():
                         finally:
                             result["page_errors"]=errors
                             context.close()
+                for label in ["query-refusal","museum-reader-intent"]:
+                    result={"case":label,"steps":[],"passed":False};report["cases"].append(result)
+                    context=browser.new_context(viewport={"width":390,"height":844},color_scheme="light",reduced_motion="reduce")
+                    page=context.new_page();page.set_default_timeout(15000);errors=[]
+                    page.on("pageerror",lambda error:errors.append(str(error)))
+                    try:
+                        check_visitor_recovery(page,origin,expect,result)
+                        require(not errors,f"Visitor recovery page errors: {errors}")
+                        result["passed"]=True
+                    except Exception:
+                        result["error"]=traceback.format_exc()
+                    finally:
+                        result["page_errors"]=errors;shot=output/f"{label}.png"
+                        try:
+                            page.screenshot(path=str(shot))
+                            result["screenshot"]={"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()}
+                        except Exception:
+                            result["screenshot_error"]=traceback.format_exc();result["passed"]=False
+                        context.close()
                 result={"case":"inventory-refusal","steps":[],"passed":False};report["cases"].append(result)
                 context=browser.new_context(viewport={"width":390,"height":844},color_scheme="dark")
                 page=context.new_page();refusal_errors=[];route_hits=[]
@@ -415,7 +471,7 @@ def main():
                     context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==13 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==15 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:

@@ -51,7 +51,7 @@ class BrowserCheckContract(unittest.TestCase):
 class ReaderSourceBrowserContract(unittest.TestCase):
     def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
-        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==13']:
+        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==15']:
             self.assertIn(token,source)
 
     def test_reader_tools_have_desktop_and_mobile_browser_evidence(self):
@@ -69,7 +69,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
             'dated claim-dependency snapshot', 'page.keyboard.press("Tab")',
             'page.keyboard.press("Enter")',
             'documentElement.scrollWidth',
-            'len(report["cases"])==13',
+            'len(report["cases"])==15',
         ]:
             self.assertIn(token,source)
 

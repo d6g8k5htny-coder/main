@@ -220,7 +220,7 @@ function run({ index, provenance }) {
   function renderSearch() {
     const query = search.value.trim();
     const results = searchNodes(index, query);
-    searchResults.replaceChildren(...results.slice(0, 30).map(node => {
+    searchResults.replaceChildren(...results.map(node => {
       const item = element('li');
       item.append(buttonFor(node, choose));
       return item;
@@ -228,7 +228,7 @@ function run({ index, provenance }) {
     searchSummary.textContent = !query
       ? 'Enter a claim ID, source, status, note, or relation.'
       : results.length
-        ? `${results.length} result${results.length === 1 ? '' : 's'}${results.length > 30 ? '; showing the first 30' : ''}.`
+        ? `${results.length} result${results.length === 1 ? '' : 's'}.`
         : 'No node in this snapshot matches that search.';
   }
   search.disabled = false;

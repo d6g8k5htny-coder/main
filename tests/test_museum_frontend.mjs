@@ -10,6 +10,42 @@ test('museum exposes source-bound rendering rather than silently omitting the pa
 });
 const museum = fs.existsSync(moduleURL) ? await import(moduleURL) : null;
 const available = {skip: !museum};
+
+async function delayedClaimPage(interaction) {
+  const f=fixture(),document=documentFromHTML(),window=new EventTarget(),events=[];
+  window.location={hash:'#d3-side24-coefficient'};
+  const frames=[];window.requestAnimationFrame=callback=>frames.push(callback);
+  const create=document.createElement;
+  document.createElement=tag=>{
+    const node=create(tag);
+    node.focus=()=>{document.activeElement=node;events.push('focus:'+node.id);};
+    node.scrollIntoView=()=>events.push('scroll:'+node.id);
+    return node;
+  };
+  const find=(node,id)=>node.id===id?node:node.children?.map(child=>find(child,id)).find(Boolean);
+  document.getElementById=id=>document.nodes.get(id)||[...document.nodes.values()].map(node=>find(node,id)).find(Boolean);
+  const raw=JSON.stringify(f.manifest),config=JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}});
+  const mapping=new Map([['config.json',config],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.']]);
+  let release,started;const gate=new Promise(resolve=>release=resolve),requested=new Promise(resolve=>started=resolve);
+  const loading=museum.startMuseum({document,window,search:'',currentHash:()=>window.location.hash,fetcher:async url=>{
+    if(url===f.manifest.claims[0].proof.url){started();await gate;}
+    assert.ok(mapping.has(url),'Unexpected museum source '+url);return new Response(mapping.get(url));
+  }});
+  await requested;
+  if(interaction)window.dispatchEvent(new Event(interaction));
+  release();await loading;
+  for(const frame of frames)frame();
+  return {events,document};
+}
+test('a delayed initial museum bookmark still reaches its verified claim when untouched',async()=>{
+  const page=await delayedClaimPage();
+  assert.deepEqual(page.events,['scroll:d3-side24-coefficient','focus:d3-side24-coefficient']);
+});
+for(const interaction of ['wheel','keydown','pointerdown','focusin','hashchange','popstate','pagehide']) {
+  test(`museum ${interaction} while verifying sources cancels delayed focus and scroll`,async()=>{
+    const page=await delayedClaimPage(interaction);assert.deepEqual(page.events,[]);
+  });
+}
 test('full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording',available,()=>{
   const {manifest,index,status}=fixture();
   assert.equal(museum.validateBoundManifest(manifest,index,status).claims.length,14);
