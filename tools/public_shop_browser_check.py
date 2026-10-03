@@ -395,6 +395,149 @@ def check_curvature_export_flow(page, origin, expect, result, output):
     result['steps'].append('Actual keyboard SVG download parsed/reopened with exact displayed geometry, concrete presentation and teaching/source metadata; real citation clipboard, denial/absence and pending settings change checked')
 
 
+def check_curvature_preset_flow(page, origin, expect, result, output):
+    page.goto(origin+'explore.html?s=0.5&R=2&r=0.25&region=remote&objects=1,3&from=reader#peaks')
+    center=page.locator('#curvature-center');spread=page.locator('#curvature-spread')
+    expect(spread).to_have_value('2')
+    spread.focus();page.keyboard.press('Tab')
+    ns={'s':'http://www.w3.org/2000/svg'}
+    rows=[
+        ('maximum',-2,[-3,-1],'peak','Downward in both directions',245),
+        ('saddle',0,[-1,1],'saddle','Down one way. Up the other.',165),
+        ('singular-boundary',-1,[-2,0],'flat','At least one direction is flat',205),
+        ('minimum',2,[1,3],'bowl','Upward in both directions',85),
+    ]
+    display=lambda value:f'{value:.1f}'.replace('-','−')
+    for index,(name,s,eigenvalues,kind,label,cy) in enumerate(rows):
+        button=page.locator(f'[data-curvature-preset="{name}"]')
+        expect(button).to_be_focused();page.keyboard.press('Enter')
+        expect(button).to_be_focused()
+        expect(center).to_have_value(str(s));expect(spread).to_have_value('1')
+        expect(page.locator('#curvature-center-value')).to_have_text(display(s))
+        expect(page.locator('#curvature-spread-value')).to_have_text('1.0')
+        for selector,value in zip(('#eigenvalue-first','#eigenvalue-second'),eigenvalues):
+            expect(page.locator(selector)).to_have_text(display(value))
+        expect(page.locator('#curvature-kind')).to_have_text(label)
+        expect(page.locator('#curvature-diagram-description')).to_contain_text(label)
+        point=page.locator('#curvature-diagram circle.diagram-point')
+        expect(point).to_have_attribute('cx','241');expect(point).to_have_attribute('cy',str(cy))
+        if kind=='flat':
+            expect(page.locator('#curvature-summary')).to_contain_text('second-order test alone cannot classify')
+        expected={'s':[str(s)],'R':['1'],'r':['0.25'],'region':['remote'],'objects':['1,3'],'from':['reader']}
+        shared=page.locator('#explore-state-link').get_attribute('href')
+        require(parse_qs(urlsplit(page.url).query)==expected,'Preset URL differs from controls')
+        require(parse_qs(urlsplit(shared).query)==expected and urlsplit(shared).fragment=='peaks','Preset share link lost state or section')
+        require(urlsplit(page.url).fragment=='peaks','Preset lost current section')
+        citation=page.locator('#curvature-citation-text').input_value()
+        require(f's = {s}, R = 1;' in citation and f'classification: {kind}.' in citation,'Preset citation is stale')
+        with page.expect_download() as pending:
+            page.locator('#curvature-export-svg').press('Enter')
+        path=output/f'{result["case"]}-preset-{name}.svg';pending.value.save_as(str(path))
+        root=ElementTree.fromstring(path.read_bytes());metadata=json.loads(root.find('s:metadata',ns).text)
+        require(metadata['params']=={'s':s,'R':1} and metadata['eigenvalues']==eigenvalues and metadata['classification']==kind,'Preset export is stale')
+        require(parse_qs(urlsplit(metadata['permalink']).query)=={'s':[str(s)],'R':['1']} and urlsplit(metadata['permalink']).fragment=='peaks','Preset figure permalink lost identity')
+        exported=[node for node in root.findall('.//s:circle',ns) if float(node.get('r','0'))==9]
+        require(len(exported)==1 and float(exported[0].get('cx'))==241 and float(exported[0].get('cy'))==cy,'Preset export marker differs from displayed marker')
+        result.setdefault('curvature_preset_svgs',[]).append({'path':path.name,'sha256':sha256(path.read_bytes()).hexdigest(),'metadata':metadata})
+        button.focus()
+        if index<3: page.keyboard.press('Tab')
+    page.go_back();expect(center).to_have_value('-1')
+    expect(page.locator('#curvature-kind')).to_have_text('At least one direction is flat')
+    page.go_forward();expect(center).to_have_value('2')
+    expect(page.locator('#curvature-kind')).to_have_text('Upward in both directions')
+    page.goto(shared);page.reload();expect(center).to_have_value('2')
+    expect(page.locator('#curvature-diagram circle.diagram-point')).to_have_attribute('cy','85')
+    require(parse_qs(urlsplit(page.url).query)==expected,'Reload lost preset state')
+    require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Preset controls overflow document')
+    result['steps'].append('All four preset buttons activated by Tab/Enter; visible readouts, diagram, share/history/reload and downloaded preset identity agree')
+    return shared
+
+def check_recorded_context_flow(page, origin, expect, result, output):
+    parent='math.uniform-matrix-cap-lifetime'
+    component='math.d1-component.marked-cylinder-cap'
+    region='math.rn-region.fixed-remote';candidate='math.rn-fixed-remote-window'
+    reading_rule=[
+        'math.d1-component.congruence-erratum',
+        'math.d1-component.section9-replacement-v1_1',
+        component,'math.d1-component.reconciliation-record',
+    ]
+    labels={'reading_rule':'Reading rule','component_of':'Component of',
+            'component_role':'Component role','coverage_source':'Coverage source'}
+    def row(field):
+        return page.locator('#recorded-context > div').filter(
+            has=page.get_by_text(f'{labels[field]} ({field})',exact=True))
+    def absent(field):
+        expect(row(field).locator('dd')).to_have_text('Not recorded')
+        expect(row(field).locator('button')).to_have_count(0)
+    def context_anchor():
+        link=page.get_by_role('link',name='Recorded reading context',exact=True)
+        expect(link).to_have_attribute('href','#object-reading-context')
+        link.focus();page.keyboard.press('Enter')
+        expect(page.locator('#object-reading-context')).to_be_focused()
+        require(urlsplit(page.url).fragment=='object-reading-context','Native context anchor lost its section')
+        require(page.locator('#object-reading-context').evaluate(
+            'el=>parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),
+            'Keyboard context target lacks authored focus outline')
+    page.goto(origin+f'dependencies.html?q={parent}&node={parent}&from=reader#node-detail')
+    expect(page.locator('#detail-heading')).to_have_text(parent,timeout=45000)
+    expect(page.locator('#node-detail')).to_be_focused()
+    expect(page.locator('#recorded-context > div > dt')).to_have_text(
+        [f'{label} ({field})' for field,label in labels.items()])
+    context_anchor()
+    expect(row('reading_rule').locator('dd > ol > li > button')).to_have_text(reading_rule)
+    for field in ('component_of','component_role','coverage_source'): absent(field)
+    target=row('reading_rule').get_by_role('button',name=component,exact=True)
+    expect(target).to_have_attribute('type','button')
+    target.focus();page.keyboard.press('Enter')
+    expect(page.locator('#detail-heading')).to_have_text(component)
+    expect(page.locator('#node-detail')).to_be_focused()
+    expected={'q':[parent],'node':[component],'from':['reader']}
+    require(parse_qs(urlsplit(page.url).query)==expected and urlsplit(page.url).fragment=='node-detail','Context reference did not preserve query/navigation state')
+    expect(row('component_of').get_by_role('button',name=parent,exact=True)).to_be_visible()
+    expect(row('component_role').locator('dd > p')).to_have_text('deterministic_support')
+    expect(row('component_role').locator('button,a')).to_have_count(0)
+    absent('reading_rule');absent('coverage_source')
+    page.go_back();expect(page.locator('#detail-heading')).to_have_text(parent)
+    expect(row('reading_rule').locator('ol > li > button')).to_have_text(reading_rule)
+    require(parse_qs(urlsplit(page.url).query)=={'q':[parent],'node':[parent],'from':['reader']} and urlsplit(page.url).fragment=='node-detail','Back did not restore the prior native history entry')
+    page.go_forward();expect(page.locator('#detail-heading')).to_have_text(component)
+    expect(row('component_role').locator('dd > p')).to_have_text('deterministic_support')
+    require(parse_qs(urlsplit(page.url).query)==expected,'Forward did not restore the component entry')
+    context_anchor();bookmark=page.url
+    page.reload()
+    expect(page.locator('#detail-heading')).to_have_text(component,timeout=45000)
+    expect(page.locator('#object-reading-context')).to_be_focused()
+    require(page.url==bookmark,'Reload changed the context-section bookmark')
+    expect(row('component_role').locator('dd > p')).to_have_text('deterministic_support')
+    require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Recorded-context panel overflow')
+    shot=output/f'{result["case"]}-recorded-context.png'
+    page.locator('#object-reading-context').screenshot(path=str(shot))
+    result['screenshots'].append({'page':'dependency-reading-context','path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()})
+    backlink=row('component_of').get_by_role('button',name=parent,exact=True)
+    backlink.focus();page.keyboard.press('Enter')
+    expect(page.locator('#detail-heading')).to_have_text(parent)
+    expect(page.locator('#node-detail')).to_be_focused()
+    expect(row('reading_rule').locator('ol > li > button')).to_have_text(reading_rule)
+    page.locator('#dependency-search').fill(region)
+    result_button=page.locator(f'#search-results button:has(strong:text-is("{region}"))')
+    expect(result_button).to_have_count(1)
+    result_button.focus();page.keyboard.press('Enter')
+    expect(page.locator('#detail-heading')).to_have_text(region)
+    context_anchor()
+    for field in ('reading_rule','component_of','component_role'): absent(field)
+    coverage=row('coverage_source').get_by_role('button',name=candidate,exact=True)
+    coverage.focus();page.keyboard.press('Enter')
+    expect(page.locator('#detail-heading')).to_have_text(candidate)
+    expect(page.locator('#node-detail')).to_be_focused()
+    require(parse_qs(urlsplit(page.url).query)=={'q':[region],'node':[candidate],'from':['reader']} and urlsplit(page.url).fragment=='node-detail','Coverage reference lost navigation state')
+    for field in labels: absent(field)
+    expect(page.locator('#recorded-context button, #recorded-context a, #recorded-context ol')).to_have_count(0)
+    # This candidate has actual dependency edges, but none of the four context fields.
+    expect(page.locator('#dependency-list').get_by_role('button',name='math.rn-count-interface',exact=True)).to_be_visible()
+    require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Absent-context view overflow')
+    result['steps'].append('Native keyboard context navigation, recorded reading order/component/coverage references, real Back/Forward and context-section reload restore source data; absent fields remain explicit with no stale buttons')
+
+
 def check_source_card_flow(page, origin, expect, result, output):
     check_latest_work_flow(page,origin,expect,result,output)
     check_reading_addendum_flow(page,origin,expect,result,output)
@@ -472,16 +615,21 @@ def check_source_card_flow(page, origin, expect, result, output):
             expect(page.locator("#curvature-spread")).to_have_value("2")
             expect(page.locator("#pin-distance")).to_have_value("0.5")
             expect(page.locator("#palette-kind")).to_have_text("One object has no place")
+            preset_shared=check_curvature_preset_flow(page,origin,expect,result,output)
             # Static readers get an explicit boundary instead of a false restored state.
-            static=page.context.browser.new_context(java_script_enabled=False)
+            static=page.context.browser.new_context(viewport=result['viewport'],color_scheme=result['color_scheme'],java_script_enabled=False)
             try:
                 fallback=static.new_page()
-                fallback.goto(shared)
+                fallback.goto(preset_shared)
                 expect(fallback.locator("#curvature-center")).to_be_disabled()
                 expect(fallback.locator("#explore-state-link")).to_be_hidden()
                 expect(fallback.locator("#explore-state-status")).to_contain_text("starting examples")
                 expect(fallback.locator('#curvature-export-svg')).to_be_disabled()
                 expect(fallback.locator('#curvature-copy-citation')).to_be_disabled()
+                for name in ('maximum','saddle','singular-boundary','minimum'):
+                    expect(fallback.locator(f'[data-curvature-preset="{name}"]')).to_be_disabled()
+                expect(fallback.locator('#curvature-center-value')).to_have_text('−2.0')
+                expect(fallback.locator('#curvature-kind')).to_have_text('Downward in both directions')
             finally:
                 static.close()
             page.goto(origin+"explore.html?s=-1&R=1&r=0.25&region=remote&objects=1,3#peaks")
@@ -506,45 +654,98 @@ def check_source_card_flow(page, origin, expect, result, output):
             expect(page.locator("#reference-status")).to_contain_text("Copied JSON")
             record=json.loads(page.evaluate("navigator.clipboard.readText()"))
             require(record["commit"]==commit and record["sha256"]==digest and record["verification"]=="not_performed","JSON reference lost source or verification boundary")
+            bib=page.get_by_role('button',name='Copy BibTeX',exact=True)
+            bib.focus();page.keyboard.press('Enter')
+            expect(page.locator('#reference-status')).to_contain_text('Copied BibTeX')
+            summary=page.get_by_text('Inspect source-reference template (BibTeX)',exact=True)
+            summary.focus();page.keyboard.press('Enter')
+            expect(page.locator('#reference-bibtex')).to_be_visible()
+            bibtex_with_digest=page.locator('#reference-bibtex').text_content()
+            require(page.evaluate('navigator.clipboard.readText()')==bibtex_with_digest,'BibTeX clipboard differs from visible template')
+            require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'BibTeX disclosure overflow')
             shared=page.locator("#reference-share").get_attribute("href")
             page.locator("#reference-path").fill("README.md")
             expect(page.locator("#reference-actions")).to_be_hidden()
             expect(page.locator("#reference-output")).to_be_empty()
+            expect(page.locator("#reference-bibtex")).to_be_empty()
+            expect(bib).to_be_disabled()
             page.locator("#reference-sha256").fill("")
             page.get_by_role("button",name="Build reference",exact=True).click()
             page.go_back();expect(page.locator("#reference-path")).to_have_value("CITATION.cff")
             expect(page.locator("#reference-sha256")).to_have_value(digest)
+            expect(page.locator("#reference-bibtex")).to_have_text(bibtex_with_digest)
             page.go_forward();expect(page.locator("#reference-path")).to_have_value("README.md")
             expect(page.locator("#reference-sha256")).to_have_value("")
+            expect(page.locator("#reference-bibtex")).to_contain_text("File path: README.md")
+            expect(page.locator("#reference-bibtex")).not_to_contain_text(digest)
             page.goto(shared);expect(page.locator("#reference-path")).to_have_value("CITATION.cff")
+            expect(page.locator("#reference-bibtex")).to_have_text(bibtex_with_digest)
             expect(page.locator("#reference-output")).to_contain_text(digest)
             page.goto(origin+"cite.html?repo=main&commit=main#reference-builder")
             expect(page.locator("#reference-status")).to_contain_text("Shared reference unavailable")
             expect(page.locator("#reference-output")).to_be_empty()
+            expect(page.locator("#reference-bibtex")).to_be_empty()
+            expect(bib).to_be_disabled()
             expect(page.locator("#reference-actions")).to_be_hidden()
             page.goto(origin+f"cite.html?repo=main&commit={commit}&path=%FF#reference-builder")
             expect(page.locator("#reference-status")).to_contain_text("malformed URL encoding")
             expect(page.locator("#reference-output")).to_be_empty()
+            expect(page.locator("#reference-bibtex")).to_be_empty()
+            expect(bib).to_be_disabled()
             page.add_init_script("const mode=sessionStorage.getItem('reference-clipboard-test');if(mode)Object.defineProperty(navigator,'clipboard',{configurable:true,value:mode==='deny'?{writeText:async()=>{throw new Error('denied')}}:mode==='defer'?{writeText:text=>new Promise(resolve=>{window.referencePending={text,resolve}})}:undefined})")
             page.evaluate("sessionStorage.setItem('reference-clipboard-test','defer')")
-            page.goto(shared);copy.click()
-            expect(copy).to_be_disabled()
+            page.goto(shared);bib.press('Enter')
+            for selector in ('#reference-copy','#reference-copy-json','#reference-copy-bibtex'):
+                expect(page.locator(selector)).to_be_disabled()
+            require(page.evaluate('window.referencePending.text')==bibtex_with_digest,'Pending BibTeX copy differs from visible template')
             page.locator("#reference-path").fill("README.md")
             page.locator("#reference-sha256").fill("")
             page.get_by_role("button",name="Build reference",exact=True).click()
-            expect(page.get_by_role("button",name="Copy JSON",exact=True)).to_be_disabled()
+            for selector in ('#reference-copy','#reference-copy-json','#reference-copy-bibtex'):
+                expect(page.locator(selector)).to_be_disabled()
+            expect(page.locator('#reference-bibtex')).to_contain_text('File path: README.md')
+            require(page.evaluate('window.referencePending.text')==bibtex_with_digest,'Pending BibTeX copy changed after edit')
             page.evaluate("window.referencePending.resolve()")
             expect(copy).to_be_enabled()
             expect(page.locator("#reference-status")).to_contain_text("Previous copy finished")
+            expect(page.locator("#reference-status")).not_to_contain_text("Copied BibTeX")
+            for selector in ("#reference-copy","#reference-copy-json","#reference-copy-bibtex"):
+                expect(page.locator(selector)).to_be_enabled()
+            copy.press('Enter')  # Existing Copy source reference button; current README.md reference.
+            for selector in ('#reference-copy','#reference-copy-json','#reference-copy-bibtex'):
+                expect(page.locator(selector)).to_be_disabled()
+            require(page.evaluate('window.referencePending.text')==page.locator('#reference-output').text_content(),'Pending source copy differs from current text')
+            page.evaluate('window.referencePending.resolve()')
+            expect(bib).to_be_enabled()
+            expect(page.locator('#reference-status')).to_contain_text('Copied source reference')
             page.evaluate("sessionStorage.setItem('reference-clipboard-test','deny')")
             page.goto(shared);copy.click()
             expect(page.locator("#reference-status")).to_contain_text("copy it manually")
             expect(copy).to_be_enabled()
+            bib.press('Enter')
+            expect(page.locator('#reference-status')).to_contain_text('BibTeX')
+            expect(page.locator('#reference-status')).to_contain_text('copy it manually')
+            expect(page.locator('#reference-status')).not_to_contain_text('Copied')
+            expect(bib).to_be_enabled()
+            page.get_by_text('Inspect source-reference template (BibTeX)',exact=True).press('Enter')
+            expect(page.locator('#reference-bibtex')).to_be_visible()
+            expect(page.locator('#reference-bibtex')).to_have_text(bibtex_with_digest)
             page.evaluate("sessionStorage.setItem('reference-clipboard-test','unsupported')")
             page.reload();expect(copy).to_be_disabled()
+            expect(bib).to_be_disabled()
+            expect(page.locator('#reference-bibtex')).to_have_text(bibtex_with_digest)
+            page.get_by_text('Inspect source-reference template (BibTeX)',exact=True).press('Enter')
+            expect(page.locator('#reference-bibtex')).to_be_visible()
             expect(page.locator("#reference-output")).to_contain_text(digest)
             page.evaluate("sessionStorage.removeItem('reference-clipboard-test')")
             page.reload();expect(copy).to_be_enabled()
+            expect(bib).to_be_enabled()
+            expect(page.locator('#reference-bibtex')).to_have_text(bibtex_with_digest)
+            page.get_by_text('Inspect source-reference template (BibTeX)',exact=True).press('Enter')
+            expect(page.locator('#reference-bibtex')).to_be_visible()
+            shot=output/f'{result["case"]}-bibtex.png'
+            page.locator('#reference-builder').screenshot(path=str(shot))
+            result['bibtex_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
             page.get_by_text("Inspect structured source identity (JSON)",exact=True).click()
             expect(page.locator("#reference-json")).to_be_visible()
             page.locator("#reference-actions").scroll_into_view_if_needed()
@@ -555,7 +756,7 @@ def check_source_card_flow(page, origin, expect, result, output):
                 expect(fallback.get_by_role("heading",name="Build a source link without JavaScript")).to_be_visible()
             finally:
                 static.close()
-            result["steps"].append("Cite keyboard copies exact text/JSON with supplied digest; edit invalidation, share/reload, Back/Forward, invalid links, clipboard refusal and JavaScript-off fallback checked")
+            result["steps"].append("Cite keyboard copies exact text/JSON/BibTeX with supplied digest; edit invalidation, share/reload, Back/Forward, invalid links, clipboard refusal and JavaScript-off fallback checked")
         if entry == "reproduce":
             recorded=[]
             for row in page.locator('#coefficient-enclosures tbody tr').all():
@@ -727,6 +928,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator(f'#node-metadata a[href="{expected_remainder_source}"]')).to_have_count(1)
     expect(page.locator(f'#node-metadata a[href="{expected_remainder_review}"]')).to_have_count(1)
     result["steps"].append("required dependency path and actionable source/review metadata checked")
+    check_recorded_context_flow(page,origin,expect,result,output)
     page.goto(origin+"dependencies.html?node=math.rn-fixed-annulus-window#node-detail")
     require(parse_qs(urlsplit(page.url).query)=={"node":["math.rn-fixed-annulus-window"]},"Saved dependency selection missing")
     page.reload()
@@ -746,6 +948,8 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     page.goto(origin+"dependencies.html?node=missing.node#node-detail")
     expect(page.locator("#detail-heading")).to_have_text("Saved selection unavailable",timeout=45000)
     expect(page.locator("#selection-error")).to_contain_text("does not match this source snapshot")
+    expect(page.locator("#recorded-context")).to_be_empty()
+    expect(page.locator("#object-reading-context")).to_be_hidden()
     require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency refusal overflow")
     result["steps"].append("Pinned 49/55/15 graph, review-source search, post-layout saved-link focus, invalid-ID refusal and narrow overflow checked")
     page.goto(origin+"dependencies.html?classification=ACCEPT_ALL")

@@ -49,6 +49,32 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('playwright==1.62.0',requirements)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_new_reader_controls_are_reached_by_the_existing_browser_flows(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        functions={node.name:node for node in module.body if isinstance(node,ast.FunctionDef)}
+        for parent,helper in [('check_source_card_flow','check_curvature_preset_flow'),
+                              ('check_reader_tools_flow','check_recorded_context_flow')]:
+            with self.subTest(helper=helper):
+                self.assertIn(helper,functions,'A source review is not actual hosted control coverage')
+                calls=[node for node in ast.walk(functions[parent]) if isinstance(node,ast.Call)
+                       and isinstance(node.func,ast.Name) and node.func.id==helper]
+                self.assertEqual(len(calls),1,'The helper must be reached by the existing four-case flow')
+        self.assertIn('len(report["cases"])==16',source)
+
+    def test_bibtex_browser_checks_compare_real_clipboard_and_keep_failure_paths(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        flow=next(node for node in module.body if isinstance(node,ast.FunctionDef)
+                  and node.name=='check_source_card_flow')
+        flow_source=ast.get_source_segment(source,flow)
+        for token in ['BibTeX clipboard differs from visible template',
+                      '#reference-copy-bibtex','Previous copy finished',
+                      'Pending BibTeX copy differs from visible template',
+                      'copy it manually','referencePending.resolve()',
+                      'bibtex_with_digest']:
+            self.assertIn(token,flow_source)
+
     def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
         for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==16']:
