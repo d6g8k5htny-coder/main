@@ -181,8 +181,12 @@ def check_latest_work_flow(page, origin, expect, result, output):
             require(style=={"width":"3px","style":"solid","color":expected_color,"offset":"4px","visible":True},f"Missing authored fragment focus: {selector}: {style}")
             return style
         result["latest_focus_indicator"]=fragment_focus_indicator("#latest-work")
-        expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-02T21:18:12Z")
+        expect(page.locator("#latest-work time")).to_have_attribute("datetime","2026-10-03T18:00:00Z")
         expect(page.locator(".latest-chain > li")).to_have_count(3)
+        expect(page.locator("#actual-bars")).to_contain_text("P, CAP, E1, E2, REC, CUB and ELDER")
+        expect(page.locator("#strict-bar-coefficient")).to_contain_text("integration in progress at this cut")
+        expect(page.locator("#actual-bars a[data-source-kind=pinned]")).to_have_count(3)
+        expect(page.locator("#strict-bar-coefficient a[data-source-kind=pinned]")).to_have_count(2)
         expect(page.locator(".latest-boundary")).to_contain_text("Conjecture 7 remains open")
         expect(page.locator(".latest-card").first).to_contain_text("Landed at this cut")
         expect(page.locator(".latest-card").first).to_contain_text("I1–I4")
