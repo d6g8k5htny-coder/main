@@ -1,5 +1,5 @@
-import {renderSourceQuote} from './source-quote.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003';
-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003';
+import {renderSourceQuote} from './source-quote.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -247,7 +247,7 @@ function prepareClaimFragment(document,window,currentHash) {
     return true;
   };
 }
-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003'),currentHash=()=>globalThis.location?.hash||''}={}){
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   const finishFragment=prepareClaimFragment(document,window,currentHash);

@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readExploreState } from '../docs/site/explore-state.mjs';
+import { coneModel } from '../docs/site/explore-models.mjs';
 
 let feature = {};
 try { feature = await import('../docs/site/curvature-export.mjs'); } catch {}
@@ -14,7 +16,8 @@ const sourceURL = 'https://github.com/d6g8k5htny-coder/Math-/blob/9d7b6802424fb4
 function diagram(s = -2, R = 1) {
   const textStyle = {fill: 'rgb(239, 245, 253)', 'font-family': 'system-ui, sans-serif', 'font-size': '21px', 'font-weight': '400', 'font-style': 'normal', 'text-anchor': 'start'};
   const edge = {stroke: 'rgb(115, 144, 175)', 'stroke-width': '1.5px', fill: 'none'};
-  const node = (tag, attributes = {}, text, style = {}) => ({tag, attributes, ...(text !== undefined ? {text} : {}), style});
+  // write() always emits class, including the empty default on plain labels.
+  const node = (tag, attributes = {}, text, style = {}) => ({tag, attributes: tag === 'text' ? {class:'', ...attributes} : attributes, ...(text !== undefined ? {text} : {}), style});
   return {
     attributes: {id: 'curvature-diagram', viewBox: '0 0 600 330', role: 'img', 'aria-labelledby': 'curvature-diagram-title curvature-diagram-description'},
     background: 'rgb(7, 17, 31)',
@@ -57,6 +60,30 @@ test('export records bounded current parameters, eigenvalues and zero boundary m
   assert.match(record.limits, /second-order.*inconclusive/i);
 });
 
+test('accepted floating-point step tolerance normalizes before classifying and replaying the figure', () => {
+  const cases = [
+    [{s:0.1000000001,R:0.1},{s:0.1,R:0.1},'flat'],
+    [{s:-0.1000000001,R:0.1},{s:-0.1,R:0.1},'flat'],
+    [{s:0.1,R:0.1000000001},{s:0.1,R:0.1},'flat'],
+    [{s:1e-10,R:1e-10},{s:0,R:0},'flat'],
+    [{s:-2.3000000001,R:1.7000000001},{s:-2.3,R:1.7},'peak']
+  ];
+  for (const [input,want,classification] of cases) {
+    const exported = api('buildFigureMetadata')(input,timestamp);
+    assert.deepEqual(exported.params,want);
+    assert.equal(exported.classification,classification);
+    const restored = readExploreState(new URL(exported.permalink).search);
+    assert.deepEqual(restored.invalid,[]);
+    const replay = coneModel(restored.state.s,restored.state.R);
+    assert.deepEqual(exported.eigenvalues,replay.eigenvalues);
+    assert.equal(exported.classification,replay.kind);
+    assert.equal(api('buildFigureCitation')(input),api('buildFigureCitation')(want));
+    const svgRecord = metadata(api('serializeCurvatureSVG')(diagram(want.s,want.R),input,timestamp));
+    assert.deepEqual(svgRecord.params,want);
+    assert.equal(svgRecord.classification,replay.kind);
+  }
+});
+
 test('invalid, out-of-range or off-step parameters and false timestamps are refused', () => {
   const build = api('buildFigureMetadata');
   for (const params of [{s: NaN,R:1},{s:Infinity,R:1},{s:-3.1,R:1},{s:3.1,R:1},{s:0,R:-0.1},{s:0,R:2.1},{s:0.15,R:1},{s:0,R:0.15},{s:'-2',R:1}]) assert.throws(() => build(params, timestamp));
@@ -95,6 +122,21 @@ test('SVG retains actual geometry, concrete theme, aria names and visible teachi
   assert.deepEqual(record.source, {repository:'d6g8k5htny-coder/Math-',commit:'9d7b6802424fb4715b31999066aafca8ee2f3cca',path:'coefficients/side24_v1/PROOF.md',blob:'44b66f04f89fcd87383b3603fa69f1feb64cdddd',bytes:10272,sha256:'c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769',url:sourceURL});
 });
 
+test('DOM capture accepts actual plain labels with empty class and omits exported classes', () => {
+  const record = diagram();
+  const defaults = {'fill':'rgb(0, 0, 0)','stroke':'none','fill-opacity':'1','stroke-opacity':'1','opacity':'1','stroke-width':'1px','stroke-dasharray':'none','stroke-linecap':'butt','stroke-linejoin':'miter','font-family':'system-ui, sans-serif','font-size':'16px','font-weight':'400','font-style':'normal','text-anchor':'start','display':'inline','visibility':'visible'};
+  const attrs = values => Object.entries(values).map(([name,value]) => ({name,value}));
+  const children = record.nodes.map(node => ({nodeType:1, localName:node.tag, namespaceURI:'http://www.w3.org/2000/svg', attributes:attrs(node.attributes), childNodes:node.text === undefined ? [] : [{nodeType:3,textContent:node.text}], textContent:node.text || '', styles:{...defaults,...node.style}}));
+  const dom = {localName:'svg',namespaceURI:'http://www.w3.org/2000/svg',attributes:attrs(record.attributes),children,childNodes:children,styles:{'background-color':record.background}};
+  const captured = api('captureCurvatureDiagram')(dom, node => ({getPropertyValue:name => node.styles[name] || 'none'}));
+  const svg = api('serializeCurvatureSVG')(captured,{s:-2,R:1},timestamp);
+  assert.match(svg, /<text[^>]*x="47"[^>]*>s<\/text>/);
+  assert.match(svg, /<text[^>]*x="225"[^>]*>Bowl<\/text>/);
+  assert.doesNotMatch(svg, /\sclass=/);
+  captured.nodes.find(node => node.tag === 'text').attributes.class = 'arbitrary-class';
+  assert.throws(() => api('serializeCurvatureSVG')(captured,{s:-2,R:1},timestamp), /class/);
+});
+
 test('light theme colors are exported from the captured record', () => {
   const record = diagram(); record.background = 'rgb(246, 248, 252)';
   record.nodes.at(-1).style.fill = 'rgb(120, 87, 11)';
@@ -119,6 +161,19 @@ test('all diagram text and attribute values are XML escaped', () => {
   assert.match(svg, /Curvature &lt;test&gt; &amp; &quot;quoted&quot;/);
   assert.match(svg, /&lt;script&gt;alert\(&quot;x&quot;\)&lt;\/script&gt; &amp; apostrophe&apos;/);
   assert.doesNotMatch(svg, /<script>/);
+});
+
+test('XML-forbidden BMP noncharacters are refused in every displayed text kind', () => {
+  const serialize = api('serializeCurvatureSVG');
+  for (const character of ['\uFFFE','\uFFFF']) {
+    for (const tag of ['title','desc','text']) {
+      const record = diagram();
+      record.nodes.find(node => node.tag === tag).text = `Invalid ${character} text`;
+      assert.throws(() => serialize(record,{s:-2,R:1},timestamp), /unsupported text/);
+    }
+  }
+  const record = diagram(); record.nodes[0].text = 'Valid α λ 😀';
+  assert.match(serialize(record,{s:-2,R:1},timestamp), /Valid α λ 😀/);
 });
 
 test('blank, stale or unsupported diagram content is refused instead of exported', () => {

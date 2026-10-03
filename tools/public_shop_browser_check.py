@@ -269,6 +269,8 @@ def check_curvature_export_flow(page, origin, expect, result, output):
         standalone.goto(exported.resolve().as_uri())
         expect(standalone.locator('svg')).to_be_visible()
         require(standalone.locator('circle').count()==len(markers),'Standalone SVG lost marker')
+        clipped=standalone.locator('svg text').evaluate_all("nodes=>nodes.map(node=>({text:node.textContent,box:node.getBBox()})).filter(({box})=>box.x < 0 || box.y < 0 || box.x+box.width > 600 || box.y+box.height > 535).map(({text})=>text)")
+        require(not clipped,f'Standalone SVG clips visible labels or provenance: {clipped}')
         shot=output/f'{result["case"]}-curvature-export.png'
         standalone.screenshot(path=str(shot))
         result['curvature_export_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}

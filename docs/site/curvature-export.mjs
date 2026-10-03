@@ -1,6 +1,6 @@
 // Bounded, local export of the Peaks and saddles teaching diagram. No source fetch
 // or proof verification occurs here; the identity below is recorded provenance.
-import { coneModel } from './explore-models.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003';
+import { coneModel } from './explore-models.mjs?site-release=4e39bdde733273640ad8021662430da2af7d75b259cd0bf489405023953e9df8';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';
@@ -20,7 +20,8 @@ function parameters({s, R} = {}) {
     if (!Number.isFinite(value) || value < min || value > max || Math.abs(value * 10 - Math.round(value * 10)) > 1e-8)
       throw new RangeError(`${name} must be within the teaching slider range on a 0.1 step`);
   }
-  return {s: s === 0 ? 0 : s, R: R === 0 ? 0 : R};
+  // Match Explore URL restoration before deriving signs or a permalink.
+  return {s: Math.round(s * 10) / 10 || 0, R: Math.round(R * 10) / 10 || 0};
 }
 function permalink(params) {
   return `${PUBLIC_EXPLORE}?s=${params.s}&R=${params.R}#peaks`;
@@ -46,7 +47,7 @@ export function buildFigureCitation(params) {
 function refuse(message) { throw new TypeError(`Curvature SVG refused: ${message}`); }
 function plain(value) { return value && typeof value === 'object' && !Array.isArray(value); }
 function xml(value) {
-  if (typeof value !== 'string' || value.length > 12000 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\ud800-\udfff]/u.test(value))
+  if (typeof value !== 'string' || value.length > 12000 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\ud800-\udfff\ufffe\uffff]/u.test(value))
     refuse('unsupported text');
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
 }
@@ -103,7 +104,7 @@ const allowedAttributes = {
   line: ['x1', 'y1', 'x2', 'y2', 'class'],
   text: ['x', 'y', 'class', 'text-anchor'], circle: ['cx', 'cy', 'r', 'class']
 };
-const classes = new Set(['diagram-fill', 'diagram-warm', 'diagram-grid', 'diagram-small', 'diagram-axis', 'diagram-boundary', 'diagram-point']);
+const classes = new Set(['', 'diagram-fill', 'diagram-warm', 'diagram-grid', 'diagram-small', 'diagram-axis', 'diagram-boundary', 'diagram-point']);
 function nodeAttributes(node) {
   if (!plain(node) || !Object.hasOwn(allowedAttributes, node.tag) || !plain(node.attributes)) refuse('unsupported element');
   if (Object.keys(node).some(key => !['tag', 'attributes', 'text', 'style'].includes(key))) refuse('unsupported node content');
