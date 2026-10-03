@@ -59,6 +59,13 @@ class PublicRoutes(unittest.TestCase):
             self.assertNotIn("'unsafe-inline'",text)
             self.assertNotIn("'unsafe-eval'",text)
 
+    def test_research_page_routes_to_bounded_reader_tools(self):
+        text=(SITE/'research.html').read_text()
+        self.assertIn('href="measure.html"',text)
+        self.assertIn('href="dependencies.html"',text)
+        self.assertIn('synthetic counts-to-density',text.lower())
+        self.assertIn('dated claim-dependency snapshot',text.lower())
+
 class ReproductionGuide(unittest.TestCase):
     def test_technical_guide_keeps_exact_pins_and_rejects_substitution(self):
         sys.path.insert(0,str(ROOT/'tools'))

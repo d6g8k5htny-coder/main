@@ -20,6 +20,8 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('runs-on: ubuntu-24.04',block)
         self.assertNotIn('secrets.',block)
         self.assertNotIn('deploy',block)
+        for test in ('tests/test_measurement_model.mjs','tests/test_dependency_viewer.mjs'):
+            self.assertIn(test,workflow)
 
     def test_runner_is_loopback_only_with_a_four_case_matrix(self):
         path=ROOT/'tools/public_shop_browser_check.py'
@@ -49,7 +51,21 @@ class BrowserCheckContract(unittest.TestCase):
 class ReaderSourceBrowserContract(unittest.TestCase):
     def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
-        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==9']:
+        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==13']:
+            self.assertIn(token,source)
+
+    def test_reader_tools_have_desktop_and_mobile_browser_evidence(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in [
+            'check_reader_tools_flow', 'measure.html', 'dependencies.html',
+            'Pinned Math commit 7858329974e2', 'math.rn-fixed-annulus-window',
+            'Saved selection unavailable', 'to_be_focused', 'post-layout saved-link focus',
+            'https://github.com/d6g8k5htny-coder/main/blob/e60629edde151c27541847b61672e38965752b77/docs/research-translation/20260930/EXPERIMENT.md#1-freeze-the-observable-before-generating-data',
+            'dated claim-dependency snapshot', 'page.keyboard.press("Tab")',
+            'page.keyboard.press("Enter")',
+            'documentElement.scrollWidth',
+            'len(report["cases"])==13',
+        ]:
             self.assertIn(token,source)
 
 if __name__=='__main__':unittest.main()
