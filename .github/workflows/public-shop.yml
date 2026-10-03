@@ -19,7 +19,7 @@ jobs:
       - name: Status-export negative controls
         run: python3 -B -m unittest discover -s tests -p test_public_shop_data.py
       - name: Browser data-validation controls
-        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs
+        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs
       - name: Reader navigation and local asset routes
         run: python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
       - name: Museum source projection and refusal controls

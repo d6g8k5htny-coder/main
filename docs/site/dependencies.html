@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Inspect a source-bound snapshot of the research claim dependency graph, unresolved targets, and dependency paths.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Claim dependency viewer · Universal Law</title>
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="brand.css">
+  <link rel="stylesheet" href="dependencies.css">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg">
+  <script type="module" src="dependencies.mjs"></script>
+</head>
+<body class="dependency-page">
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header>
+  <a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a>
+  <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav>
+</header>
+<nav class="reader-tools" aria-label="Research tools"><a href="reproduce.html">Reproduce</a><a href="cite.html">Cite</a></nav>
+<main id="main-content" tabindex="-1">
+  <section class="dependency-intro">
+    <p class="eyebrow">SOURCE-BOUND RESEARCH NAVIGATION</p>
+    <h1>Claim dependency viewer</h1>
+    <p class="intro">Trace what a recorded claim consumes, what consumes it, and which unresolved targets appear downstream in the pinned graph.</p>
+    <p class="boundary"><strong>Dated read-only snapshot.</strong> This page derives navigation, ranking, and paths from frozen source bytes. It does not update current claim status, accept a proof, or replace the live proof index. Scientific effect: NONE.</p>
+    <noscript><p class="boundary">JavaScript is off. The exact graph and provenance remain available from the source links below, but interactive search and paths require JavaScript.</p></noscript>
+    <div class="source-links" aria-label="Exact viewer sources">
+      <a href="dependency-source/GRAPH.json">Pinned graph JSON</a>
+      <a href="dependency-source/hard_gate.py">Pinned generator</a>
+      <a href="dependency-source/PROVENANCE.json">Provenance record</a>
+      <a href="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/downstream_gate_20260925/GRAPH.json">GitHub source at exact commit</a>
+    </div>
+  </section>
+
+  <section aria-labelledby="snapshot-heading">
+    <div class="section-heading"><div><p class="eyebrow">PINNED SOURCE</p><h2 id="snapshot-heading">What is in this graph?</h2></div><p id="load-status" class="muted" role="status" aria-live="polite">Loading the local source snapshot…</p></div>
+    <div class="dependency-stats" aria-label="Graph summary">
+      <article><span id="node-count" class="count">—</span><h3>Recorded nodes</h3></article>
+      <article><span id="edge-count" class="count">—</span><h3>Source edges</h3></article>
+      <article><span id="unresolved-count" class="count">—</span><h3>Unresolved research targets</h3></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="search-heading">
+    <div class="section-heading"><div><p class="eyebrow">FIND A CLAIM</p><h2 id="search-heading">Search exact identifiers and relations</h2></div><p class="section-intro">Search includes node IDs, classifications, notes, source paths, and edge relations.</p></div>
+    <label for="dependency-search">Claim, source, status, or relation</label>
+    <input id="dependency-search" type="search" autocomplete="off" placeholder="Try shrinking charts or OPEN_ACTIVE" disabled>
+    <p id="search-summary" class="muted" aria-live="polite">Enter a search after the graph loads.</p>
+    <ul id="search-results" class="node-list" aria-label="Search results"></ul>
+  </section>
+
+  <section aria-labelledby="targets-heading">
+    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by recorded downstream impact</h2></div><p class="section-intro">Impact counts transitive dependents in this snapshot. Open leaves remain listed even when their recorded impact is zero.</p></div>
+    <ol id="unresolved-targets" class="target-list"></ol>
+  </section>
+
+  <section id="node-detail" class="node-detail" aria-labelledby="detail-heading" tabindex="-1">
+    <div class="section-heading"><div><p class="eyebrow">SELECTED NODE</p><h2 id="detail-heading">Choose a claim to inspect</h2></div><a id="clear-selection" href="dependencies.html" hidden>Clear selection</a></div>
+    <p id="selection-error" class="error" role="alert" hidden></p>
+    <div id="detail-empty" class="empty-state"><p>Select an unresolved target or a search result. A saved URL may use <code>?node=exact.id#node-detail</code>.</p></div>
+    <div id="detail-content" hidden>
+      <dl id="node-metadata" class="metadata-grid"></dl>
+      <div class="relation-grid">
+        <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list"></ul></article>
+        <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list"></ul></article>
+      </div>
+      <div class="path-panel"><h3>Paths to unresolved dependencies</h3><p class="muted">Shortest source-edge paths found below the selected node. A missing path is not evidence that no dependency exists outside this snapshot.</p><ol id="dependency-paths" class="path-list"></ol></div>
+    </div>
+  </section>
+
+  <section class="source-boundary" aria-labelledby="boundary-heading">
+    <p class="eyebrow">HOW TO READ THIS PAGE</p>
+    <h2 id="boundary-heading">Paths explain the snapshot. They do not promote claims.</h2>
+    <p>The graph records dependency direction as <strong>dependent → dependency</strong>. Rankings are derived solely from those edges. Consult the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md">live proof index</a> and current source-bound reviews before acting on any displayed classification.</p>
+  </section>
+</main>
+<footer><p><a href="index.html">Universal Law</a> · <a href="research.html">Research</a> · <a href="workspace.html">Research workspace</a> · <a href="dependency-source/PROVENANCE.json">Viewer provenance</a></p></footer>
+</body>
+</html>

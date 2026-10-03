@@ -84,7 +84,10 @@ check exact review-comment links and retained qualifiers, and repeatedly open
 and close the original-quote disclosure with the keyboard. They also capture
 the Home, Explore, Cite, Reproduce and Formal entry viewports and check for
 document overflow. The report binds the actual tested checkout separately from
-the PR head.
+the PR head. Two reader-tool cases follow the shared Research links at desktop
+and narrow viewports, exercise the synthetic normalization/error boundary, and
+verify the dependency viewer's pinned counts, review-source search, saved link,
+invalid-link refusal and source-snapshot label.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium

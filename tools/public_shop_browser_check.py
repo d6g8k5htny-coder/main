@@ -216,6 +216,58 @@ def check_source_card_flow(page, origin, expect, result, output):
     result["steps"].extend(["Research route reaches verified D2 card with focus", "both exact review comments are interactive and qualifiers preserved", "keyboard disclosure repeated open/close preserves exact original quote", "source class and acceptance limits retained; no document overflow"])
 
 
+def check_reader_tools_flow(page, origin, expect, result, output):
+    result["screenshots"]=[]
+    page.goto(origin+"research.html")
+    measure=page.get_by_role("link",name="synthetic counts-to-density guide",exact=True)
+    expect(measure).to_have_attribute("href","measure.html")
+    measure.click()
+    expect(page.locator("h1")).to_have_text("From counts to density.")
+    expect(page.locator("#measure-controls")).to_be_enabled()
+    expect(page.locator("#measure-mass")).to_have_text("0.5")
+    expect(page.locator("#measure-density")).to_have_text("0.153846")
+    source=page.locator("#measure-source a")
+    source_href=source.get_attribute("href")
+    require(source_href is not None and "/blob/e60629edde151c27541847b61672e38965752b77/" in source_href,"Measurement source cut drifted")
+    page.locator("#measure-count").fill("1152")
+    expect(page.locator("#measure-mass")).to_have_text("1")
+    expect(page.locator("#measure-density")).to_have_text("0.307692")
+    page.locator("#measure-lower").fill("0")
+    expect(page.locator("#measure-error")).to_contain_text("greater than zero")
+    expect(page.locator("#measure-lower")).to_have_attribute("aria-invalid","true")
+    page.locator("#measure-reset").click()
+    expect(page.locator("#measure-mass")).to_have_text("0.5")
+    require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Measurement guide overflow")
+    shot=output/f'{result["case"]}-measure.png';page.screenshot(path=str(shot),full_page=True)
+    result["screenshots"].append({"page":"measure","path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()})
+    result["steps"].append("Research route opens the synthetic measurement guide; normalization, invalid edge and exact source cut checked")
+
+    page.goto(origin+"dependencies.html")
+    expect(page.locator("#load-status")).to_contain_text("Pinned Math commit 7858329974e2",timeout=45000)
+    expect(page.locator("#node-count")).to_have_text("49")
+    expect(page.locator("#edge-count")).to_have_text("55")
+    expect(page.locator("#unresolved-count")).to_have_text("15")
+    expect(page.locator(".boundary")).to_contain_text("Dated read-only snapshot")
+    expect(page.get_by_role("link",name="Provenance record",exact=True)).to_have_attribute("href","dependency-source/PROVENANCE.json")
+    page.locator("#dependency-search").fill("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
+    expect(page.locator("#search-results > li")).to_have_count(1)
+    page.locator("#search-results button").click()
+    expect(page.locator("#detail-heading")).to_have_text("math.rn-fixed-annulus-window")
+    expect(page.locator("#node-metadata")).to_contain_text("Review source")
+    expect(page.locator("#node-metadata")).to_contain_text("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
+    require(parse_qs(urlsplit(page.url).query)=={"node":["math.rn-fixed-annulus-window"]},"Saved dependency selection missing")
+    page.reload()
+    expect(page.locator("#detail-heading")).to_have_text("math.rn-fixed-annulus-window",timeout=45000)
+    require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency viewer overflow")
+    shot=output/f'{result["case"]}-dependencies.png';page.screenshot(path=str(shot),full_page=True)
+    result["screenshots"].append({"page":"dependencies","path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()})
+    page.goto(origin+"dependencies.html?node=missing.node#node-detail")
+    expect(page.locator("#detail-heading")).to_have_text("Saved selection unavailable",timeout=45000)
+    expect(page.locator("#selection-error")).to_contain_text("does not match this source snapshot")
+    require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency refusal overflow")
+    result["steps"].append("Pinned 49/55/15 graph, review-source search, saved selection, invalid-ID refusal and narrow overflow checked")
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output",type=Path,required=True)
@@ -288,6 +340,22 @@ def main():
                             except Exception:
                                 result["screenshot_error"]=traceback.format_exc();result["passed"]=False
                             context.close()
+                for size,scheme in [({"width":1200,"height":900},"light"),({"width":390,"height":844},"dark")]:
+                    label=f'reader-tools-{size["width"]}-{scheme}'
+                    result={"case":label,"viewport":size,"color_scheme":scheme,"steps":[],"passed":False}
+                    report["cases"].append(result)
+                    context=browser.new_context(viewport=size,color_scheme=scheme,reduced_motion="reduce")
+                    page=context.new_page();page.set_default_timeout(15000);errors=[]
+                    page.on("pageerror",lambda error:errors.append(str(error)))
+                    try:
+                        check_reader_tools_flow(page,origin,expect,result,output)
+                        require(not errors,f"Reader tool page errors: {errors}")
+                        result["passed"]=True
+                    except Exception:
+                        result["error"]=traceback.format_exc()
+                    finally:
+                        result["page_errors"]=errors
+                        context.close()
                 result={"case":"inventory-refusal","steps":[],"passed":False};report["cases"].append(result)
                 context=browser.new_context(viewport={"width":390,"height":844},color_scheme="dark")
                 page=context.new_page();refusal_errors=[];route_hits=[]
@@ -322,7 +390,7 @@ def main():
                     context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==9 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==11 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:
