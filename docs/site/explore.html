@@ -7,11 +7,11 @@
   <title>Explore the mathematics · Universal Law</title>
   <meta name="description" content="Three hands-on explanations of curvature, shrinking scales, and finite obstructions, with a path to the underlying research.">
   <meta name="theme-color" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
-  <link rel="stylesheet" href="brand.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
-  <link rel="stylesheet" href="explore.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
-  <script type="module" src="explore.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77"></script>
+  <link rel="stylesheet" href="style.css?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1">
+  <link rel="stylesheet" href="brand.css?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1">
+  <link rel="stylesheet" href="explore.css?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1">
+  <script type="module" src="explore.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -86,6 +86,13 @@ Illustrative, non-certifying floating-point quadratic model. At λ = 0, the seco
         <figure><svg id="pin-diagram" viewBox="0 0 600 350" role="img" aria-labelledby="pin-diagram-title pin-diagram-description"><title id="pin-diagram-title">Spatial scales and height gap</title><desc id="pin-diagram-description">The pins lie at minus r over two and plus r over two. The ring spans distances two r to four r. The remote boundary stays at distance three.</desc></svg><figcaption>A local spatial diagram and a separate height scale. No random field is simulated.</figcaption></figure>
         <div class="readout-grid three-readouts"><p>Point separation<strong id="pin-separation">0.50</strong></p><p>Height gap r³<strong id="pin-gap">0.125000</strong></p><p>Fixed radius ρ<strong>3.00</strong></p></div>
         <p id="pin-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">The ring spans radii 1.00 to 2.00. The remote boundary stays at 3.00.</p>
+        <div class="control-actions"><button id="pin-export-svg" class="reset-button" type="button" disabled>Download approaching-points SVG</button><button id="pin-copy-citation" class="reset-button" type="button" disabled>Copy approaching-points citation</button></div>
+        <p id="pin-export-status" class="control-help" role="status" aria-live="polite" aria-atomic="true">Enable JavaScript to download the displayed figure or copy its citation.</p>
+        <details id="pin-figure-citation" class="lesson-source figure-citation"><summary>Approaching-points citation and export limits</summary><label for="pin-citation-text">Select this text to copy the figure citation manually</label><textarea id="pin-citation-text" readonly rows="8" spellcheck="false">Universal Law, “Approaching points” teaching figure. Starting settings: r = 0.5; highlighted region: annulus; height gap r³ = 0.125. https://d6g8k5htny-coder.github.io/main/site/explore.html?r=0.5&amp;region=annulus#distance
+Teaching sources: fixed-remote and fixed-annulus definitions at Math- commit d6628da09384728992dcbe6e921cc28ba85aebb0:
+https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/remote_window_20260924/PROOF.md
+https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/rn_annulus_bridge_20260925/PROOF.md
+The selected scales are teaching choices, not theorem constants. Non-certifying floating-point schematic; no field, count, probability, lifetime or theorem computation. Source identity is recorded provenance; source verification is not performed by this export.</textarea><p>The SVG retains the current spatial diagram and separate height scale, accessible description, display colors, generation time and recorded source identities. The small height window remains on the fixed scale. Its link restores only separation and region. Local font shapes can vary between viewers.</p></details>
       </div>
     </div>
     <div class="lesson-takeaway"><h3>A small distinction with a big effect</h3><p>The fixed-annulus argument concerns a shrinking ring and allows all heights. The fixed-remote argument keeps a spatial exclusion fixed and counts within the shrinking height window. Their conditions answer different questions.</p></div>
@@ -106,6 +113,11 @@ Illustrative, non-certifying floating-point quadratic model. At λ = 0, the seco
         <div class="result-heading"><p class="result-kicker">CAPACITY ONE · TWO GROUPS</p><h3 id="palette-kind">One object has no place</h3></div>
         <figure><svg id="palette-diagram" viewBox="0 0 600 300" role="img" aria-labelledby="palette-diagram-title palette-diagram-description"><title id="palette-diagram-title">Three objects and two capacity-one groups</title><desc id="palette-diagram-description">All three objects cannot fit into two groups of capacity one. Every selection of zero, one or two objects can fit.</desc></svg><figcaption>Every included object must appear in exactly one group.</figcaption></figure>
         <p id="palette-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">Three included objects need three places, but only two are available. Removing any one object makes a valid assignment possible.</p>
+        <div class="control-actions"><button id="palette-export-svg" class="reset-button" type="button" disabled>Download finite-obstruction SVG</button><button id="palette-copy-citation" class="reset-button" type="button" disabled>Copy finite-obstruction citation</button></div>
+        <p id="palette-export-status" class="control-help" role="status" aria-live="polite" aria-atomic="true">Enable JavaScript to download the displayed figure or copy its citation.</p>
+        <details id="palette-figure-citation" class="lesson-source figure-citation"><summary>Finite-obstruction citation and export limits</summary><label for="palette-citation-text">Select this text to copy the figure citation manually</label><textarea id="palette-citation-text" readonly rows="8" spellcheck="false">Universal Law, “An impossible fit” teaching figure. Starting selection: objects 1, 2, 3; two capacity-one groups. The triple cannot fit; the attempted placement is not a valid assignment. https://d6g8k5htny-coder.github.io/main/site/explore.html?objects=1,2,3#groups
+Teaching source: full-price proof, §5, https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/full_price_20260924/PROOF.md
+One finite teaching example; no full price theorem, arbitrary-family extension or prize-problem closure is established. Source identity is recorded provenance; source verification is not performed by this export.</textarea><p>The SVG records the included objects, the displayed assignment or failed attempt, accessible description, display colors, generation time and pinned source identity. Its link restores only the object selection. Local font shapes can vary between viewers.</p></details>
       </div>
     </div>
     <div class="lesson-takeaway"><h3>The whole set can fail while every smaller set works</h3><p>That makes the triple a <em>minimal obstruction</em>: it fails the rule, but removing anything repairs it. This tiny example is a starting point for the project’s finite-family work on covers and their cost.</p></div>

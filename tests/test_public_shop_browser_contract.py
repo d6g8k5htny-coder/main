@@ -49,6 +49,64 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('playwright==1.62.0',requirements)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_clipboard_denial_fixture_reinitializes_after_same_document_history(self):
+        module=ast.parse((ROOT/'tools/public_shop_browser_check.py').read_text())
+        exports=next(node for node in module.body if isinstance(node,ast.FunctionDef)
+                     and node.name=='check_other_teaching_exports')
+        flow=next(node for node in exports.body if isinstance(node,ast.For)
+                  and isinstance(node.target,ast.Tuple))
+        index=next(i for i,node in enumerate(flow.body) if isinstance(node,ast.Expr)
+                   and isinstance(node.value,ast.Call) and node.value.args
+                   and isinstance(node.value.args[0],ast.Constant)
+                   and "setItem('teaching-clipboard-test','deny')" in str(node.value.args[0].value))
+        class DocumentFixture:
+            url='same-state'; stored_mode='defer'; installed_mode='defer'
+            def evaluate(self,script):
+                self.stored_mode='deny'
+            def goto(self,url):
+                # Returning to the same fragment does not install init scripts.
+                if url!=self.url:
+                    self.url=url; self.installed_mode=self.stored_mode
+            def reload(self):
+                self.installed_mode=self.stored_mode
+        page=DocumentFixture()
+        exec(compile(ast.Module(body=flow.body[index:index+2],type_ignores=[]),'<clipboard-fixture>','exec'),
+             {'page':page,'start':page.url})
+        self.assertEqual(page.installed_mode,'deny','The denial case retained the deferred clipboard from Back navigation')
+
+    def test_pin_source_enumeration_preserves_the_downloaded_artifact_path(self):
+        # Execute the actual metadata-enumeration loop: it must not clobber
+        # the Path later used to reopen and record the downloaded SVG.
+        module=ast.parse((ROOT/'tools/public_shop_browser_check.py').read_text())
+        exports=next(node for node in module.body if isinstance(node,ast.FunctionDef)
+                     and node.name=='check_other_teaching_exports')
+        read_svg=next(node for node in exports.body if isinstance(node,ast.FunctionDef)
+                      and node.name=='read_svg')
+        reopen=next(node for node in ast.walk(read_svg) if isinstance(node,ast.Call)
+                    and isinstance(node.func,ast.Attribute) and node.func.attr=='resolve')
+        path_name=reopen.func.value.id
+        source_loop=next(node for node in ast.walk(read_svg) if isinstance(node,ast.For)
+                         and isinstance(node.target,ast.Tuple)
+                         and [item.id for item in node.target.elts[1:]]==['blob','size','digest'])
+        artifact=Path('/tmp/downloaded-teaching-figure.svg')
+        scope={path_name:artifact,'expected_sources':[]}
+        exec(compile(ast.Module(body=[source_loop],type_ignores=[]),'<source-enumeration>','exec'),scope)
+        self.assertEqual(scope[path_name],artifact,'Source identity loop overwrote the downloaded SVG path')
+        self.assertEqual(len(scope['expected_sources']),2)
+
+    def test_other_teaching_exports_are_reached_in_the_four_source_cases(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        functions={node.name:node for node in module.body if isinstance(node,ast.FunctionDef)}
+        self.assertIn('check_other_teaching_exports',functions)
+        calls=[node for node in ast.walk(functions['check_source_card_flow'])
+               if isinstance(node,ast.Call) and isinstance(node.func,ast.Name)
+               and node.func.id=='check_other_teaching_exports']
+        self.assertEqual(len(calls),1,'The real four-viewport flow must reach export checks')
+        workflow=(ROOT/'.github/workflows/public-shop.yml').read_text()
+        for name in ('teaching_export','pin_export','palette_export'):
+            self.assertIn(f'tests/test_{name}.mjs',workflow)
+
     def test_bibtex_disabled_checks_keep_the_hidden_button_addressable(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
         module=ast.parse(source)

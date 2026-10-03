@@ -1,7 +1,10 @@
-import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77';
+import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77';
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -36,6 +39,54 @@ const citationText = byId('curvature-citation-text');
 const downloadSupported = typeof Blob === 'function' && typeof URL.createObjectURL === 'function'
   && typeof URL.revokeObjectURL === 'function' && 'download' in document.createElement('a');
 let figureReady = false;
+const exportControls = new Set([exportButton, copyCitationButton]);
+function teachingFigureTools(prefix, currentParameters, serialize, buildCitation) {
+  const download = byId(`${prefix}-export-svg`), copy = byId(`${prefix}-copy-citation`);
+  const status = byId(`${prefix}-export-status`), details = byId(`${prefix}-figure-citation`);
+  const text = byId(`${prefix}-citation-text`), svg = byId(`${prefix}-diagram`);
+  exportControls.add(download); exportControls.add(copy);
+  let ready = false;
+  const controller = createFigureCitationController({buildCitation,
+    writeText: typeof navigator.clipboard?.writeText === 'function' ? value => navigator.clipboard.writeText(value) : undefined,
+    onChange(state) {
+      text.value = state.text; copy.disabled = !ready || !state.canCopy;
+      status.textContent = state.status;
+      if (state.manualFallback) details.open = true;
+    }
+  });
+  function capture() { return serialize(captureTeachingDiagram(svg), currentParameters()); }
+  function refuse() {
+    ready = false; download.disabled = true; controller.clear();
+  }
+  download.addEventListener('click', () => {
+    if (!ready || !downloadSupported) return;
+    let objectURL, link;
+    try {
+      const data = capture();
+      objectURL = URL.createObjectURL(new Blob([data], {type:'image/svg+xml;charset=utf-8'}));
+      link = document.createElement('a'); link.href = objectURL;
+      link.download = `${prefix}-teaching-figure.svg`;
+      document.body.append(link); link.click();
+      status.textContent = 'SVG download started. This is a teaching figure.';
+    } catch { refuse(); details.open = true; }
+    finally {
+      link?.remove();
+      if (objectURL) setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
+    }
+  });
+  copy.addEventListener('click', () => {
+    if (!ready) return;
+    try { capture(); void controller.copy(); } catch { refuse(); }
+  });
+  return {refresh() {
+    ready = false; download.disabled = true;
+    try {
+      capture(); ready = true; controller.setFigure(currentParameters());
+      download.disabled = !downloadSupported;
+      if (!downloadSupported) status.textContent = 'SVG download is unavailable in this browser. The figure citation remains readable below.';
+    } catch { refuse(); }
+  }};
+}
 const citation = createCitationController({
   writeText: typeof navigator.clipboard?.writeText === 'function' ? text => navigator.clipboard.writeText(text) : undefined,
   onChange(state) {
@@ -129,6 +180,7 @@ function drawCone() {
 
 const distance = byId('pin-distance');
 const regions = [...document.querySelectorAll('input[name="region"]')];
+const pinTools = teachingFigureTools('pin', () => ({r:Number(distance.value),region:regions.find(input => input.checked).value}), serializePinSVG, pinFigureCitation);
 function drawPins() {
   const model = pinModel({ r: Number(distance.value) });
   const remote = regions.find(input => input.checked).value === 'remote';
@@ -169,9 +221,11 @@ function drawPins() {
   write(svg, 503, 62, 'b = 1', 'diagram-small', { 'text-anchor': 'middle' });
   write(svg, 503, Math.max(124, bottom + 30), 'b − r³', 'diagram-small', { 'text-anchor': 'middle' });
   write(svg, 503, 330, 'Fixed height scale', 'diagram-small', { 'text-anchor': 'middle' });
+  pinTools.refresh();
 }
 
 const objects = [...document.querySelectorAll('.object-choices input')];
+const paletteTools = teachingFigureTools('palette', () => ({objects:objects.filter(input => input.checked).map(input => Number(input.value) + 1)}), serializePaletteSVG, paletteFigureCitation);
 function drawPalette() {
   const model = paletteModel(objects.filter(input => input.checked).map(input => Number(input.value)));
   const names = model.selected.map(value => value + 1);
@@ -210,6 +264,7 @@ function drawPalette() {
     write(svg, 510, 210, '3', 'diagram-on-accent', { 'text-anchor': 'middle' });
     write(svg, 510, 279, 'no place', 'diagram-small', { 'text-anchor': 'middle' });
   }
+  paletteTools.refresh();
 }
 
 const shareLink = byId('explore-state-link');
@@ -261,5 +316,5 @@ window.addEventListener('hashchange', updateLink);
 restoreState();
 shareLink.hidden = false;
 document.querySelectorAll('input[disabled], button[disabled], fieldset[disabled]').forEach(control => {
-  if (control !== exportButton && control !== copyCitationButton) control.disabled = false;
+  if (!exportControls.has(control)) control.disabled = false;
 });

@@ -29,6 +29,29 @@ class Page(HTMLParser):
         if tag == 'nav': self.primary = False
 
 class PublicRoutes(unittest.TestCase):
+    def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
+        text=(SITE/'explore.html').read_text()
+        class ExportControls(HTMLParser):
+            def __init__(self):
+                super().__init__();self.buttons={};self.textareas={}
+            def handle_starttag(self,tag,attrs):
+                a=dict(attrs)
+                if tag=='button':self.buttons[a.get('id')]=a
+                if tag=='textarea':self.textareas[a.get('id')]=a
+        page=ExportControls();page.feed(text)
+        for prefix in ('pin','palette'):
+            for suffix in ('export-svg','copy-citation'):
+                identity=f'{prefix}-{suffix}'
+                self.assertIn(identity,page.buttons,'Each teaching figure needs an explicit export control')
+                self.assertIn('disabled',page.buttons[identity],'No-JavaScript export must not download a blank diagram')
+                self.assertEqual(page.buttons[identity]['type'],'button')
+            self.assertIn(f'{prefix}-figure-citation',Page(text).ids)
+            self.assertIn(f'{prefix}-export-status',Page(text).ids)
+            self.assertIn('readonly',page.textareas[f'{prefix}-citation-text'])
+        self.assertIn('selected scales are teaching choices',text)
+        self.assertIn('not a valid assignment',text)
+        self.assertIn('source verification is not performed by this export',text)
+
     def test_curvature_exports_start_disabled_and_keep_the_pinned_teaching_scope(self):
         text=(SITE/'explore.html').read_text()
         class Controls(HTMLParser):
