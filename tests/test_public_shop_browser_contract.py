@@ -49,6 +49,19 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('playwright==1.62.0',requirements)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_other_teaching_exports_are_reached_in_the_four_source_cases(self):
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        functions={node.name:node for node in module.body if isinstance(node,ast.FunctionDef)}
+        self.assertIn('check_other_teaching_exports',functions)
+        calls=[node for node in ast.walk(functions['check_source_card_flow'])
+               if isinstance(node,ast.Call) and isinstance(node.func,ast.Name)
+               and node.func.id=='check_other_teaching_exports']
+        self.assertEqual(len(calls),1,'The real four-viewport flow must reach export checks')
+        workflow=(ROOT/'.github/workflows/public-shop.yml').read_text()
+        for name in ('teaching_export','pin_export','palette_export'):
+            self.assertIn(f'tests/test_{name}.mjs',workflow)
+
     def test_bibtex_disabled_checks_keep_the_hidden_button_addressable(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
         module=ast.parse(source)

@@ -395,6 +395,320 @@ def check_curvature_export_flow(page, origin, expect, result, output):
     result['steps'].append('Actual keyboard SVG download parsed/reopened with exact displayed geometry, concrete presentation and teaching/source metadata; real citation clipboard, denial/absence and pending settings change checked')
 
 
+def check_other_teaching_exports(page, origin, expect, result, output):
+    ns = {'s': 'http://www.w3.org/2000/svg'}
+    geometry = {'x', 'y', 'cx', 'cy', 'r', 'rx', 'ry', 'width', 'height',
+                'x1', 'y1', 'x2', 'y2', 'points', 'd', 'fill-rule'}
+    allowed = {'svg', 'title', 'desc', 'metadata', 'rect', 'polygon', 'line',
+               'text', 'circle', 'g'}
+    result['other_teaching_svgs'] = []
+    result['other_teaching_screenshots'] = []
+
+    def native_button(button):
+        # Tab/Shift+Tab makes keyboard focus observable even after an earlier click.
+        button.focus(); page.keyboard.press('Tab'); page.keyboard.press('Shift+Tab')
+        expect(button).to_be_focused()
+        require(button.evaluate("el=>parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=='none'"),
+                'Teaching export button lacks visible keyboard focus')
+        page.keyboard.press('Enter')
+
+    def signature(tag, attrs, text):
+        return tag, {key: attrs[key] for key in geometry if key in attrs}, text
+
+    def read_svg(kind, params, fragment, label):
+        button = page.locator(f'#{kind}-export-svg')
+        expect(button).to_be_enabled()
+        displayed = page.locator(f'#{kind}-diagram').evaluate("""svg=>({background:getComputedStyle(svg).backgroundColor,
+            nodes:Array.from(svg.children).map(n=>({tag:n.localName,
+            attrs:Object.fromEntries(Array.from(n.attributes,a=>[a.name,a.value])),
+            style:['title','desc'].includes(n.localName)?{}:Object.fromEntries(
+                ['fill','stroke','stroke-width','font-family','font-size','text-anchor'].map(k=>[k,getComputedStyle(n).getPropertyValue(k)])),
+            text:n.localName==='text'||n.localName==='title'||n.localName==='desc'?n.textContent:null}))})""")
+        inline = displayed['nodes']
+        started = datetime.now(timezone.utc)
+        with page.expect_download() as pending:
+            native_button(button)
+        path = output / f'{result["case"]}-{kind}-{label}.svg'
+        pending.value.save_as(str(path)); data = path.read_bytes()
+        require(b'<!DOCTYPE' not in data and b'<!ENTITY' not in data and b'<?xml-stylesheet' not in data,
+                'Teaching SVG has external/entity content')
+        root = ElementTree.fromstring(data)
+        require(root.tag == '{http://www.w3.org/2000/svg}svg', 'Wrong SVG namespace')
+        require(root.find('s:title', ns) is not None and root.find('s:desc', ns) is not None
+                and root.get('aria-labelledby'), 'Teaching SVG lost accessible title/description')
+        for identity in root.get('aria-labelledby').split():
+            require(any(node.get('id') == identity for node in root), 'SVG accessibility reference has no target')
+        require(any(node.get('x') == '0' and node.get('y') == '0' and node.get('width') == '600'
+                    and node.get('height') == root.get('height') and node.get('fill') == displayed['background']
+                    for node in root.findall('s:rect', ns)), 'Export background differs from the current theme')
+        for node in root.iter():
+            require(node.tag.startswith('{http://www.w3.org/2000/svg}')
+                    and node.tag.rsplit('}', 1)[-1] in (allowed | ({'path'} if kind == 'pin' else set())), 'Unsupported teaching SVG node')
+            for key, value in node.attrib.items():
+                require(not key.lower().startswith('on')
+                        and key.rsplit('}', 1)[-1] not in ('href', 'style', 'class')
+                        and not re.search(r'(?:url|var)\s*\(', value, re.I),
+                        'Teaching SVG carries executable, external or unresolved presentation')
+        metadata_nodes = root.findall('s:metadata', ns)
+        require(len(metadata_nodes) == 1, 'Teaching SVG does not have exactly one metadata record')
+        metadata = json.loads(metadata_nodes[0].text)
+        require(metadata['schema'] == f'universal-law/{kind}-teaching-figure/v1'
+                and metadata['mode'] == 'teaching_model'
+                and metadata['verification'] == 'not_performed', 'Wrong teaching/verification boundary')
+        require(metadata['params'] == params, 'Exported parameters differ from current native controls')
+        permalink = urlsplit(metadata['permalink'])
+        require(permalink.scheme == 'https' and permalink.netloc == 'd6g8k5htny-coder.github.io'
+                and permalink.path == '/main/site/explore.html' and permalink.fragment == fragment
+                and parse_qs(permalink.query, keep_blank_values=True) == {
+                    key: [','.join(map(str, value)) if isinstance(value, list) else str(value)]
+                    for key, value in params.items()}, 'Teaching permalink leaks host or other figure settings')
+        generated = datetime.fromisoformat(metadata['generated_at'].replace('Z', '+00:00'))
+        require(started.timestamp() - 2 <= generated.timestamp() <= datetime.now(timezone.utc).timestamp() + 2,
+                'Teaching generation timestamp is stale')
+        text = ' '.join(root.itertext())
+        require('teaching' in text.lower() and 'non-certifying' in text
+                and 'not mathematical result acceptance' in text, 'Standalone teaching limits are missing')
+        require('unrelated' not in metadata['permalink'] and 'unrelated' not in page.locator(f'#{kind}-citation-text').input_value(),
+                'Teaching citation leaked unrelated fields')
+        # Each displayed node must survive with exactly the actual geometry and text.
+        # Export-only metadata/background/footer may occur between those nodes.
+        exported_nodes = list(root.iter())
+        candidates = [signature(node.tag.rsplit('}', 1)[-1], node.attrib,
+                      node.text if node.tag.rsplit('}', 1)[-1] in ('title', 'desc', 'text') else None)
+                      for node in exported_nodes]
+        cursor = 0
+        for item in inline:
+            target = signature(item['tag'], item['attrs'], item['text'])
+            while cursor < len(candidates) and candidates[cursor] != target:
+                cursor += 1
+            require(cursor < len(candidates), f'Export lost displayed {kind} geometry/label: {target}')
+            node = exported_nodes[cursor]
+            if item['style']:
+                require(node.get('fill') == item['style']['fill'] and node.get('stroke') == item['style']['stroke'],
+                        'Export colors differ from the current native theme')
+                require(float(node.get('stroke-width')) == float(item['style']['stroke-width'].removesuffix('px')),
+                        'Export stroke width differs from the displayed primitive')
+                if item['tag'] == 'text':
+                    require(node.get('font-family') == item['style']['font-family']
+                            and float(node.get('font-size')) == float(item['style']['font-size'].removesuffix('px'))
+                            and node.get('text-anchor') == item['style']['text-anchor'],
+                            'Export omitted concrete current text presentation')
+            cursor += 1
+        if kind == 'palette':
+            objects = params['objects']; valid = len(objects) <= 2
+            require(metadata['capacity'] == 1 and metadata['groups'] == 2
+                    and metadata['decomposable'] is valid, 'Palette capacity/classification differs')
+            expected_parts = [[objects[0]] if objects else [], [objects[1]] if len(objects) == 2 else []] if valid else None
+            require(metadata['assignments'] == expected_parts, 'Palette exported a wrong valid partition')
+            require(metadata['attempted_placement'] == (None if valid else {
+                    'groups': [[1], [2]], 'unplaced': [3], 'valid_partition': False}),
+                    'Palette failed triple falsely claims a partition')
+            diagram_text = root.findall('.//s:text', ns)
+            labels = {(float(n.get('x')), float(n.get('y'))): n.text for n in diagram_text
+                      if float(n.get('y', '0')) <= 300}
+            group_labels = tuple(labels.get((x, 209)) for x in (125, 333))
+            require(group_labels == (('1', '2') if not valid else ('1', '3') if objects else ('empty', 'empty')),
+                    'Palette diagram group labels differ from the chosen assignment')
+            extra = [(float(n.get('cx')), float(n.get('cy')), float(n.get('r')))
+                     for n in root.findall('.//s:circle', ns) if float(n.get('r', '0')) == 26]
+            require(extra == ([] if valid else [(510, 203, 26)])
+                    and (labels.get((510, 279)) == 'no place') is (not valid),
+                    'Palette diagram lost the failed triple or marked a valid pair as failed')
+            source = metadata['source']
+            require(source == {
+                'repository': 'd6g8k5htny-coder/Math-', 'commit': 'd6628da09384728992dcbe6e921cc28ba85aebb0',
+                'path': 'frontiers/full_price_20260924/PROOF.md', 'blob': '582180e41dca0ad815ad0f18574df42040912149',
+                'bytes': 11352, 'sha256': '87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9',
+                'url': 'https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/full_price_20260924/PROOF.md#5-sharpness-and-the-exact-demand-boundary'},
+                'Palette changed recorded pinned source')
+        else:
+            r = params['r']
+            require(metadata['teaching_constants'] == {'A': 2, 'B': 4, 'rho': 3, 'L': 24, 'b': 1, 'k': 1}
+                    and metadata['pins'] == [[-r / 2, 0], [r / 2, 0]]
+                    and metadata['height_gap'] == r ** 3 and metadata['height_window'] == [1 - r ** 3, 1]
+                    and metadata['annulus'] == [2 * r, 4 * r], 'Pin recorded scales differ from current teaching choices')
+            expected_sources = []
+            for path, blob, size, digest in [
+                    ('frontiers/remote_window_20260924/PROOF.md', 'b383bfcc88ec4ad497dff01fb6640e429ba24a84', 18355, 'a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7'),
+                    ('frontiers/rn_annulus_bridge_20260925/PROOF.md', '6f317515b3d417661f86e2fed09bc7d950899c2b', 16948, 'd55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05')]:
+                expected_sources.append({'repository': 'd6g8k5htny-coder/Math-',
+                    'commit': 'd6628da09384728992dcbe6e921cc28ba85aebb0', 'path': path, 'blob': blob,
+                    'bytes': size, 'sha256': digest,
+                    'url': 'https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/' + path})
+            require(metadata['sources'] == expected_sources, 'Pin changed recorded pinned sources or their order')
+        standalone = page.context.new_page()
+        try:
+            standalone.set_viewport_size({'width': 750, 'height': 700})
+            standalone.goto(path.resolve().as_uri())
+            expect(standalone.locator('svg')).to_be_visible()
+            clipped = standalone.locator('svg text').evaluate_all("""nodes=>nodes.filter(n=>{
+                const b=n.getBBox(),v=n.ownerSVGElement.viewBox.baseVal;
+                return b.x<v.x-1||b.y<v.y-1||b.x+b.width>v.x+v.width+1||b.y+b.height>v.y+v.height+1;
+                }).map(n=>n.textContent)""")
+            require(not clipped, f'Standalone teaching SVG clips labels/provenance: {clipped}')
+            if label in ('0.5-annulus', 'triple'):
+                shot = output / f'{result["case"]}-{kind}-export.png'; standalone.screenshot(path=str(shot))
+                result['other_teaching_screenshots'].append({'path': shot.name, 'sha256': sha256(shot.read_bytes()).hexdigest()})
+        finally:
+            standalone.close()
+        result['other_teaching_svgs'].append({'path': path.name, 'sha256': sha256(data).hexdigest(), 'metadata': metadata})
+        return root, metadata
+
+    page.context.grant_permissions(['clipboard-read', 'clipboard-write'], origin=origin.rstrip('/'))
+    page.add_init_script("""const mode=sessionStorage.getItem('teaching-clipboard-test');if(mode)
+        Object.defineProperty(navigator,'clipboard',{configurable:true,value:mode==='deny'?{
+            writeText:async()=>{throw new Error('denied')}}:mode==='defer'?{
+            writeText:text=>new Promise(resolve=>{window.teachingPending={text,resolve}})}:undefined});""")
+
+    for kind, fragment in [('pin', 'distance'), ('palette', 'groups')]:
+        start = origin + 'explore.html?s=-1&R=1&r=0.5&region=annulus&objects=1,2,3&unrelated=do-not-cite#' + fragment
+        page.goto(start)
+        export = page.locator(f'#{kind}-export-svg'); copy = page.locator(f'#{kind}-copy-citation')
+        status = page.locator(f'#{kind}-export-status'); citation = page.locator(f'#{kind}-citation-text')
+        details = page.locator(f'#{kind}-figure-citation')
+        expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        native_button(copy)
+        expect(status).to_contain_text('Copied figure citation')
+        require(page.evaluate('navigator.clipboard.readText()') == citation.input_value(), 'Teaching clipboard differs from visible citation')
+        if kind == 'pin':
+            for r, region in [(0.5, 'annulus'), (0.25, 'annulus'), (0.25, 'remote'), (0.5, 'remote')]:
+                if page.locator('#pin-distance').input_value() != str(r):
+                    native_button(page.locator('#pin-half'))
+                if not page.locator(f'input[name="region"][value="{region}"]').is_checked():
+                    page.locator('input[name="region"]:checked').focus(); page.keyboard.press('ArrowRight')
+                expect(page.locator('#pin-distance')).to_have_value(str(r))
+                expect(page.locator(f'input[name="region"][value="{region}"]')).to_be_checked()
+                expect(page.locator('#pin-gap')).to_have_text('0.125000' if r == 0.5 else '0.015625')
+                root, metadata = read_svg(kind, {'r': r, 'region': region}, fragment, f'{r}-{region}')
+                points = [(float(n.get('cx')), float(n.get('cy')), float(n.get('r')))
+                          for n in root.findall('.//s:circle', ns) if float(n.get('r', '0')) == 5]
+                require(points == [(202 - r * 19.5, 172, 5), (202 + r * 19.5, 172, 5)], 'Pin markers differ from current scales')
+                require(any(n.get('cx') == '202' and n.get('cy') == '172' and n.get('r') == '117'
+                            for n in root.findall('.//s:circle', ns)), 'Fixed remote radius moved')
+                require(any(float(n.get('x', '-1')) == 448 and float(n.get('y', '-1')) == 78
+                            and float(n.get('width', '-1')) == 113 and float(n.get('height', '-1')) == r ** 3 * 860
+                            for n in root.findall('.//s:rect', ns)), 'Height rectangle lost the cubic scale')
+                paths = root.findall('.//s:path', ns)
+                require(len(paths) == (1 if region == 'remote' else 0), 'Wrong region shading geometry')
+                if region == 'remote':
+                    require(paths[0].get('fill-rule') == 'evenodd' and paths[0].get('d') ==
+                            'M24 40H380V302H24Z M202 55a117 117 0 1 0 0 234a117 117 0 1 0 0 -234Z',
+                            'Fixed remote shading changed with r')
+                else:
+                    rings = sorted(float(n.get('r')) for n in root.findall('.//s:circle', ns)
+                                   if n.get('cx') == '202' and n.get('cy') == '172' and n.get('r') != '117')
+                    require(rings == [r * 78, r * 117, r * 156], 'Annulus radii do not shrink with r')
+        else:
+            read_svg(kind, {'objects': [1, 2, 3]}, fragment, 'triple')
+            page.locator('#object-two').focus(); page.keyboard.press('Space')
+            expect(page.locator('#palette-kind')).to_have_text('Everything has a place')
+            read_svg(kind, {'objects': [1, 3]}, fragment, 'one-three')
+            for selector in ['#object-one', '#object-three']:
+                page.locator(selector).focus(); page.keyboard.press('Space')
+            expect(page.locator('#palette-kind')).to_have_text('Empty groups satisfy the rule too')
+            read_svg(kind, {'objects': []}, fragment, 'empty')
+
+        # History and reload must restore current projection, independently of other figures.
+        last_citation = citation.input_value(); page.go_back()
+        require(citation.input_value() and citation.input_value() != last_citation, 'Back retained stale teaching citation')
+        page.go_forward(); expect(citation).to_have_value(last_citation)
+        page.reload(); expect(citation).to_have_value(last_citation)
+        native_button(copy); expect(status).to_contain_text('Copied figure citation')
+        require(page.evaluate('navigator.clipboard.readText()') == last_citation, 'Reloaded teaching clipboard differs')
+
+        # An old async copy cannot announce success after native change and Back.
+        page.evaluate("sessionStorage.setItem('teaching-clipboard-test','defer')"); page.goto(start)
+        initial = citation.input_value(); native_button(copy); expect(copy).to_be_disabled()
+        if kind == 'pin': native_button(page.locator('#pin-half'))
+        else: page.locator('#object-two').focus(); page.keyboard.press('Space')
+        require(citation.input_value() != initial, 'Native edit retained pending citation')
+        expect(copy).to_be_disabled(); page.go_back(); expect(citation).to_have_value(initial)
+        page.evaluate('window.teachingPending.resolve()'); expect(copy).to_be_enabled()
+        require('Copied figure citation' not in status.text_content(), 'Pending copy claimed success after history restoration')
+
+        page.evaluate("sessionStorage.setItem('teaching-clipboard-test','deny')"); page.goto(start)
+        native_button(copy); expect(status).to_contain_text('manually')
+        expect(details).to_have_attribute('open', ''); expect(citation).to_be_visible()
+        require(bool(citation.input_value()), 'Clipboard refusal lost manual citation')
+        page.evaluate("sessionStorage.setItem('teaching-clipboard-test','absent')"); page.reload()
+        require(page.evaluate('typeof navigator.clipboard') == 'undefined', 'Clipboard absence simulation did not run before module')
+        expect(copy).to_be_disabled(); expect(export).to_be_enabled()
+        require(bool(citation.input_value()), 'Absent API lost manual citation')
+        page.evaluate("sessionStorage.removeItem('teaching-clipboard-test')"); page.reload()
+
+        # CSS geometry must not silently override the attribute-based diagram.
+        css_point = page.locator('#pin-diagram circle.diagram-point').first if kind == 'pin' else page.locator('#palette-diagram circle[cx="125"][cy="202"]')
+        original_x = css_point.get_attribute('cx')
+        css_point.evaluate("n=>n.style.cx='190px'")
+        require(css_point.get_attribute('cx') == original_x and css_point.evaluate("n=>getComputedStyle(n).getPropertyValue('cx')") == '190px',
+                'CSS geometry negative fixture did not override the displayed primitive')
+        native_button(export)
+        expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+        if kind == 'pin': native_button(page.locator('#pin-half'))
+        else: page.locator('#object-two').focus(); page.keyboard.press('Space')
+        expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        if kind == 'pin':
+            page.locator('input[name="region"][value="remote"]').check()
+            path = page.locator('#pin-diagram path')
+            path.evaluate("n=>n.style.d='none'")
+            require(path.evaluate("n=>getComputedStyle(n).getPropertyValue('d')") == 'none',
+                    'CSS path negative fixture did not hide the displayed path')
+            native_button(export)
+            expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+            native_button(page.locator('#pin-half')); expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        page.goto(start)
+
+        # Semantic stale geometry is rejected; a native redraw recovers both actions.
+        # These intended fixtures need the child serializers' semantic validators.
+        if kind == 'pin':
+            page.locator('#pin-diagram circle.diagram-point').first.evaluate("n=>n.setAttribute('cx','197.125')")
+        else:
+            page.locator('#palette-diagram text[x="333"][y="209"]').evaluate("n=>n.textContent='3'")
+        native_button(export)
+        expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+        expect(status).to_contain_text('unavailable')
+        if kind == 'pin': native_button(page.locator('#pin-half'))
+        else: page.locator('#object-two').focus(); page.keyboard.press('Space')
+        expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        require(bool(citation.input_value()), 'Native redraw did not recover teaching citation')
+        if details.get_attribute('open') is None:
+            native_button(details.locator('summary'))
+        expect(citation).to_be_visible()
+        require(page.evaluate('document.documentElement.scrollWidth<=innerWidth'), 'Teaching controls overflow document')
+        shot = output / f'{result["case"]}-{kind}-export-controls.png'
+        page.locator('#' + fragment).screenshot(path=str(shot))
+        result['other_teaching_screenshots'].append({'path': shot.name, 'sha256': sha256(shot.read_bytes()).hexdigest()})
+
+    # Fresh Explore page, never the previous Formal page. Static output describes
+    # its true starting values even when the URL asks for a different example.
+    static = page.context.browser.new_context(viewport=result['viewport'], color_scheme=result['color_scheme'], java_script_enabled=False)
+    try:
+        fallback = static.new_page()
+        fallback.goto(origin + 'explore.html?r=0.25&region=remote&objects=#groups')
+        expect(fallback.locator('#pin-distance')).to_have_value('0.5')
+        expect(fallback.locator('#pin-distance')).to_be_disabled()
+        expect(fallback.locator('input[name="region"][value="annulus"]')).to_be_checked()
+        expect(fallback.locator('#palette-kind')).to_have_text('One object has no place')
+        for selector in ['#object-one', '#object-two', '#object-three']:
+            expect(fallback.locator(selector)).to_be_checked(); expect(fallback.locator(selector)).to_be_disabled()
+        expect(fallback.locator('#explore-state-status')).to_contain_text('starting examples')
+        for kind in ['pin', 'palette']:
+            expect(fallback.locator(f'#{kind}-export-svg')).to_be_disabled()
+            expect(fallback.locator(f'#{kind}-copy-citation')).to_be_disabled()
+            fallback.locator(f'#{kind}-figure-citation summary').press('Enter')
+            expect(fallback.locator(f'#{kind}-citation-text')).to_be_visible()
+            require(bool(fallback.locator(f'#{kind}-citation-text').input_value()), 'No-JS starting citation is missing')
+        require('r = 0.5;' in fallback.locator('#pin-citation-text').input_value()
+                and '?r=0.5&region=annulus#distance' in fallback.locator('#pin-citation-text').input_value(),
+                'No-JS pin citation falsely claims restored URL parameters')
+        require('Starting selection: objects 1, 2, 3' in fallback.locator('#palette-citation-text').input_value()
+                and '?objects=1,2,3#groups' in fallback.locator('#palette-citation-text').input_value(),
+                'No-JS palette citation falsely claims the URL empty selection')
+    finally:
+        static.close()
+    result['steps'].append('Pin (.5/.25, annulus/remote) and finite obstruction (triple/pair/empty) keyboard SVGs parsed/reopened; exact displayed geometry, current metadata, projected citations, real clipboard, refusal/absence, pending copy after native change/Back, history/reload, stale capture recovery and fresh Explore no-JS fallback checked')
+
+
 def check_curvature_preset_flow(page, origin, expect, result, output):
     page.goto(origin+'explore.html?s=0.5&R=2&r=0.25&region=remote&objects=1,3&from=reader#peaks')
     center=page.locator('#curvature-center');spread=page.locator('#curvature-spread')
@@ -637,6 +951,7 @@ def check_source_card_flow(page, origin, expect, result, output):
             page.locator("#explore-state-link").scroll_into_view_if_needed()
             result["steps"].append("Explore URLs restore all controls and derived explanations; keyboard edits, reset, reload, Back/Forward, malformed fields and JavaScript-off fallback checked")
             check_curvature_export_flow(page,origin,expect,result,output)
+            check_other_teaching_exports(page,origin,expect,result,output)
         if entry == "cite":
             commit="a414e77d6278a5d9ce6aa6e2bdca6146b048f27a"
             digest=sha256((ROOT/"CITATION.cff").read_bytes()).hexdigest()
