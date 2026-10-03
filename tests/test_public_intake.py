@@ -722,6 +722,219 @@ class IntakeTests(unittest.TestCase):
         self.assertIn(COLON_PATH, refused)
         self.assertTrue(all(not path.isascii() or ':' in path for path in refused))
 
+    # --- PT-1 of main #86 comment 5851057735 (adversarial panel; MINOR, 3/3 unrefuted):
+    # safe_path bounded no component length and no component grammar beyond '..',
+    # dotfiles and canonical form, so a tree GitHub stores but no fresh clone can
+    # check out passed the checker. The probes below reproduce the finding; the
+    # controls invert it. Source rows are exact tree keys and are not governed.
+
+    INCOMING = Path(__file__).resolve().parents[1] / 'incoming'
+
+    def accept_name(self, name):
+        self.raw[name] = b'payload'
+        self.save()
+        self.assertEqual(self.run_check()['artifact_files'], len(self.raw))
+        self.raw.pop(name)
+
+    def test_unportable_package_components_refused(self):
+        """A 300-byte component (git: 'File name too long' on ext4/APFS/NTFS), components
+        beginning with space or '-' or ending in space or dot, and Windows reserved device
+        names in any case, as a package file and as a manifest artifact record."""
+        names = ['a' * 300 + '.md', 'sub /x.md', 'sub/ /x.md', 'sub/ x.md', 'x /y.md', 'dir./x.md', 'sub/-rf.md', 'sub/-x.md',
+                 'CON.md', 'con.md', 'con', 'nul.txt', 'Nul.json', 'com1.csv', 'COM9.csv', 'Aux.json', 'lpt1.md', 'lpt9.md', 'PRN.md',
+                 'CON.tar.md', 'nested/' + 'b' * 256,
+                 # PR #240 review 5966056876 F1: Windows drops end-of-stem spaces, so these are device names too.
+                 'CON .md', 'nul .txt', 'COM1 .dir/result.md', 'con  .md', 'Aux .json', 'lpt9 .md', 'PRN ']
+        for name in names:
+            with self.subTest(package_file=name[:40]):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unportable path component')
+                self.raw = old
+            with self.subTest(artifact_record=name[:40]):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unportable path component')
+            with self.assertRaisesRegex(ValueError, 'unportable path component'):
+                intake.safe_path('incoming/example/' + name)
+
+    def test_unportable_component_refused_at_cli_boundary_without_echo(self):
+        name = 'a' * 300 + '.md'
+        self.raw[name] = b'payload'
+        self.save()
+        self.api.calls.clear()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+        self.assertNotIn('aaaa', json.dumps(result))
+        self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_device_name_with_end_of_stem_space_refused_at_cli_boundary(self):
+        # PR #240 review 5966056876 F1. 'CON .md' passed the full CLI at 50c4697 with exit 0.
+        for name in ['CON .md', 'nul .txt', 'COM1 .dir/result.md']:
+            with self.subTest(name=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+                self.raw = old
+
+    def test_portable_package_components_accepted(self):
+        for name in ['a' * 252 + '.md', 'notes-2026.md', 'regeneration/run 1.txt', 'a.b.c.md', 'a b.md', 'CONTENTS.md', 'console.md',
+                     'nul-report.md', 'COM10.md', 'x-y/z.md', 'v3/lpw_constant_v3.py.txt', 'sub/x-.md', 'sub/x.-y.md',
+                     'CON report.md', 'COM10 .md', 'sub/run 1.md', 'CONTENTS .md']:
+            with self.subTest(name=name[:40]):
+                self.accept_name(name)
+        self.assertEqual(len('a' * 252 + '.md'), intake.NAME_MAX)
+
+    def test_package_path_length_bounded_like_source_paths(self):
+        prefix = 'incoming/example/'
+        name = '/'.join(['a' * 200] * 4 + ['b' * 200 + '.md'])
+        self.assertEqual(len(prefix + name), 1024)
+        self.assertEqual(intake.MAX_PACKAGE_PATH, intake.MAX_SOURCE_PATH)
+        self.accept_name(name)
+        self.raw[name + 'b'] = b'payload'
+        self.save()
+        self.reject('path too long')
+        self.raw.pop(name + 'b')
+        with self.assertRaisesRegex(ValueError, 'path too long'):
+            intake.safe_path(prefix + name + 'b')
+
+    def test_source_rows_keep_the_tree_key_grammar(self):
+        # The component grammar governs package and manifest paths only. A pinned
+        # source is an exact key into the tree the git trees API returns.
+        path = 'drive/mirrors/' + 'a' * 300 + '/ CON./-x.md'
+        self.assertEqual(intake.source_path(path), path.split('/'))
+        self.manifest['sources'][0]['path'] = path
+        self.save()
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+
+    def test_landed_packets_keep_passing_the_component_grammar(self):
+        """Census over the landed packets in this checkout: every artifact row of every
+        incoming/*/IDENTITY.json still passes safe_path, as a manifest path and as the
+        package file path. Path-only; no network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            package = manifest.parent.name
+            for row in intake.strict_json(manifest.read_bytes())['artifacts']:
+                with self.subTest(package=package, path=row['path']):
+                    self.assertEqual(intake.safe_path(row['path']), row['path'].split('/'))
+                    self.assertEqual(intake.safe_path(f'incoming/{package}/' + row['path'])[:2], ['incoming', package])
+                    checked += 1
+        self.assertGreater(checked, 0)
+
+    # --- CR-F6 of main #86 comment 5851057735 (adversarial panel; MINOR, 2/3 unrefuted):
+    # the CREDENTIALS scan missed encrypted and PGP private-key armor, Google AIza
+    # keys, npm and Hugging Face tokens, Stripe live keys, three-part JWTs and
+    # Slack webhook URLs, while sk-ant-/sk-proj- and plain PEM were refused. The
+    # scan is still not a guarantee (module docstring; CONTRIBUTING), so no stated
+    # promise was broken; the dissenting refuter graded it INFO on that ground.
+
+    NEW_CREDENTIAL_FORMATS = {
+        'encrypted PEM': '-----BEGIN ENCRYPTED PRIVATE KEY-----\nMIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQI',
+        'PGP private key block': '-----BEGIN PGP PRIVATE KEY BLOCK-----\n\nlQOYBGQAAAABCADK',
+        'Google API key': 'AIza' + 'SyA1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q',  # 4 + 35 characters
+        'npm token': 'npm_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8',
+        'Hugging Face token': 'hf_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7',
+        'Stripe live key': 'sk_live_' + '4eC39HqLyjWDarjtT1zdp7dc',
+        'JWT': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        # Assembled at run time: the literal URL shape trips GitHub push protection on the test file itself.
+        'Slack webhook': 'https://hooks.slack.com/' + '/'.join(['services', 'T0123ABCD', 'B0123ABCD', 'a1B2c3D4e5F6g7H8i9J0k1L2']),
+    }
+    OLD_CREDENTIAL_FORMATS = {
+        'plain PEM': '-----BEGIN PRIVATE KEY-----', 'RSA PEM': '-----BEGIN RSA PRIVATE KEY-----', 'OpenSSH PEM': '-----BEGIN OPENSSH PRIVATE KEY-----',
+        'GitHub classic': 'ghp_' + 'X' * 36, 'GitHub fine-grained': 'github_pat_' + 'X' * 60, 'AWS': 'AKIA' + 'A' * 16,
+        'Slack bot': 'xoxb-' + '1' * 12, 'OpenAI project': 'sk-proj-' + 'A' * 48, 'Anthropic': 'sk-ant-api03-' + 'A' * 95,
+    }
+
+    def plant(self, value, where):
+        # Both text files start clean so each planting is judged on its own.
+        self.raw['RESULT.md'] = b'# Result\nIllustration only; scientific effect NONE.\n'
+        self.raw['output.json'] = b'{"illustration":true}\n'
+        if where == 'output.json':
+            self.raw['output.json'] = json.dumps({'token': value}).encode()
+        else:
+            self.raw['RESULT.md'] = self.raw['RESULT.md'] + ('\n' + value + '\n').encode()
+        self.save()
+
+    def test_common_credential_formats_refused_without_echo(self):
+        for label, value in {**self.NEW_CREDENTIAL_FORMATS, **self.OLD_CREDENTIAL_FORMATS}.items():
+            for where in ('output.json', 'RESULT.md'):
+                with self.subTest(format=label, where=where):
+                    self.plant(value, where)
+                    code, result = self.cli()
+                    self.assertEqual((code, result['result'], result['reason']),
+                                     (1, 'REJECTED', 'possible credential detected; values are not logged'))
+                    self.assertNotIn(value.split('\n')[0][-16:], json.dumps(result))
+        for label, value in self.NEW_CREDENTIAL_FORMATS.items():
+            with self.subTest(pattern=label):
+                self.assertTrue(any(pattern.search(value.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_google_key_boundaries_follow_its_alphabet(self):
+        """PR #240 review 5966056876 F2: the pattern admitted '-' in its body but closed
+        with a word boundary, so a 39-character value ending in '-' passed inside text
+        and as a filename, while a 40-character look-alike was refused by its prefix.
+        Boundaries are now the token's own alphabet; all values are synthetic."""
+        hyphen_tail = 'AIza' + 'A' * 34 + '-'
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(hyphen_tail, where)
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']),
+                                 (1, 'REJECTED', 'possible credential detected; values are not logged'))
+        for text in [hyphen_tail, '"' + hyphen_tail + '"', hyphen_tail + '\n', '(' + hyphen_tail + ').', 'x ' + hyphen_tail + ' y']:
+            with self.subTest(text=text[-6:]):
+                self.assertTrue(any(pattern.search(text.encode()) for pattern in intake.CREDENTIALS))
+        self.plant('', 'RESULT.md')
+        self.raw[hyphen_tail + '.md'] = b'payload'
+        self.save()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'possible credential in path; values are not logged'))
+        self.assertNotIn('AIza', json.dumps(result))
+        self.raw.pop(hyphen_tail + '.md')
+        for lookalike in ['AIza' + 'A' * 35 + '-', 'AIza' + 'A' * 36, '_AIza' + 'A' * 35, '-AIza' + 'A' * 35, 'xAIza' + 'A' * 35]:
+            with self.subTest(lookalike=lookalike[:6] + '...' + lookalike[-2:]):
+                self.assertFalse(any(pattern.search(lookalike.encode()) for pattern in intake.CREDENTIALS))
+                self.plant(lookalike, 'RESULT.md')
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+
+    def test_credential_lookalikes_in_prose_accepted(self):
+        """False-positive guards: identifiers that share a prefix, a one-dot pair,
+        hooks.slack.com in prose, public PEM armor, SHA digests, base64, URLs."""
+        prose = ' '.join([
+            'npm_package.json', 'hf_model-card', 'sk_live_test', 'AIza' + 'A' * 10, 'AIza' + 'A' * 36,
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0', 'see https://hooks.slack.com/ for the format',
+            '-----BEGIN PUBLIC KEY-----', '-----BEGIN CERTIFICATE-----', '-----BEGIN PGP PUBLIC KEY BLOCK-----', '-----BEGIN PGP SIGNATURE-----',
+            'a' * 64, '0123456789abcdef' * 4, 'd' * 40, 'QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=' * 3,
+            'https://github.com/d6g8k5htny-coder/main/blob/main/docs/x.md', '[a.b.c](https://example.org/a.b.c?x=1)',
+            'version 1.2.3', 'eyJ.eyJ.eyJ', 'hf_', 'npm_', 'sk_live_'])
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(prose, where)
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertFalse(any(pattern.search(prose.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_landed_packets_keep_passing_the_credential_scan(self):
+        """Census over the landed packets in this checkout: every artifact file and
+        IDENTITY.json still passes the CREDENTIALS scan byte-for-byte. No network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            rows = intake.strict_json(manifest.read_bytes())['artifacts']
+            for name in ['IDENTITY.json'] + [row['path'] for row in rows]:
+                with self.subTest(package=manifest.parent.name, path=name):
+                    raw = (manifest.parent / name).read_bytes()
+                    self.assertFalse(any(pattern.search(raw) for pattern in intake.CREDENTIALS))
+                    checked += 1
+        self.assertGreater(checked, 0)
+
+
 
 if __name__ == '__main__':
     unittest.main()

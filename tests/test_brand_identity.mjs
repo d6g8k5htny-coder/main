@@ -31,9 +31,9 @@ test('palette tokens are actually applied, not decorative metadata',()=>{
 test('all public pages load local branding after legacy styles with no CSP relaxation',()=>{
  for(const name of ['index','explore','research','workspace','museum','formal']){
  const h=read(`docs/site/${name}.html`);
- assert.match(h,/<link rel="stylesheet" href="brand\.css">/);
+ assert.match(h,/<link rel="stylesheet" href="brand\.css\?site-release=[0-9a-f]{64}">/);
  assert.ok(h.indexOf('brand.css')>h.indexOf('style.css'));
- assert.match(h,/href="brand\/mark\.svg"/);
+ assert.match(h,/href="brand\/mark\.svg\?site-release=[0-9a-f]{64}"/);
  assert.match(h,/class="skip-link" href="#main-content"/);
  assert.match(h,/<main id="main-content"/);
  assert.ok(!h.includes("'unsafe-inline'")&&!h.includes("'unsafe-eval'"));

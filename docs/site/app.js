@@ -1,4 +1,7 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const error=(id,e)=>{el(id).textContent=`Unavailable: ${e.message}. No result inferred.`;el(id).className='error';};
@@ -83,9 +86,12 @@ async function inventory(config) {
   const render=()=>{const query=el('search').value.trim().toLowerCase(),repository=el('repository-filter').value,path=el('path-filter').value.trim().toLowerCase();
     const matches=rows.filter(row=>(!repository||row.repository===repository)&&row.path.toLowerCase().includes(path)&&[row.repository,row.path,row.commit,row.sha256].some(s=>s.toLowerCase().includes(query)));el('catalog').replaceChildren();
     matches.slice(0,limit).forEach(row=>{const tr=node('tr'),name=node('td'),commit=node('td'),hash=node('td');name.append(node('small',row.repository),link(row.path,safeSourceURL(row)));commit.append(node('code',row.commit));hash.append(node('code',row.sha256));tr.append(name,commit,hash);el('catalog').append(tr);});
-    el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;el('more').hidden=matches.length<=limit;};
+    el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;if(!matches.length)el('inventory-state').append(' Try a broader search or clear filters.');el('more').hidden=matches.length<=limit;};
+  const syncQuery=connectCatalogQuery(typeof window==='undefined'?null:window,{search:el('search'),repository:el('repository-filter'),path:el('path-filter'),link:el('catalog-link'),note:el('catalog-query-note')},()=>{limit=50;render();});
+  el('catalog-clear').disabled=false;
+  el('catalog-clear').addEventListener('click',()=>{for(const id of ['search','repository-filter','path-filter'])el(id).value='';limit=50;render();syncQuery();el('search').focus();});
   for(const [id,event] of [['search','input'],['repository-filter','change'],['path-filter','input']]) {
-    el(id).disabled=false;el(id).addEventListener(event,()=>{limit=50;render();});
+    el(id).disabled=false;el(id).addEventListener(event,()=>{limit=50;render();syncQuery();});
   }
   el('more').addEventListener('click',()=>{limit+=50;render();});render();
 }
@@ -95,6 +101,8 @@ async function custody(config) {
   const observed=config.observations;
   el('custody-note').textContent=`${config.imports.count} byte-copy imports landed at Math ${config.imports.commit}; source labels were not adopted. ${observed.open_math_prs} Math PRs were open when observed ${observed.observed_at}. An open PR is not landed math.`;
   el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url));
+}
+async function queryIdentity(config) {
   const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');
   if(!hex40.test(q.math_pin)||!hex40.test(q.commit))throw new Error('Query pin unavailable');
   identity(el('query-identity'),q);el('query-identity').append(node('p','Recorded Math commit: '+q.math_pin));
@@ -102,7 +110,8 @@ async function custody(config) {
   el('query-note').append(node('code','python -B -S verify_portable_stubs.py --check-math-tip'),node('span','. The command checks file bytes, not commit equality. This page reads only the pinned bundle and performs no live tip check.'));
 }
 try {
-  const response=await fetch('config.json',{credentials:'omit'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
-  const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)]];
-  await Promise.all(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
-} catch(e) {['status-note','coefficient-state','inventory-state','custody-note'].forEach(id=>error(id,e));}
+  const response=await fetch('config.json',{credentials:'omit',cache:'no-store'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
+  const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)],['query-note',()=>queryIdentity(config)]];
+  await Promise.allSettled(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
+} catch(e) {['status-note','coefficient-state','inventory-state','custody-note','query-note'].forEach(id=>error(id,e));}
+finally {finishFragment();}

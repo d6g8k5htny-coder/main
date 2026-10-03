@@ -1,4 +1,5 @@
-import {verifiedBytes, hex40, hex64} from './core.mjs';
+import {renderSourceQuote} from './source-quote.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -149,11 +150,11 @@ function card(document,id,title,className,source){
 }
 function strip(document,text){const bar=element(document,'aside',undefined,'engineering-strip');bar.append(element(document,'strong','Engineering — not acceptance'),element(document,'p',text));return bar;}
 function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');article.append(element(document,'h3',title),element(document,'p',`Unavailable: ${error.message}. No result inferred.`));return article;}
-function renderClaim(document,claim){
+function renderClaim(document,claim,quoteSource){
   const article=card(document,claim.id,claim.title,claim.class,claim.proof);
   if(claim.id==='d3-side24-coefficient'){const alias=element(document,'span');alias.id='d3-side24';article.append(alias);}
   const columns=element(document,'div',undefined,'claim-columns');
-  const scope=element(document,'div',undefined,'claim-column');scope.append(element(document,'h4','Claim and scope'),element(document,'p',`Source label: ${claim.source_label}`),element(document,'blockquote',claim.scope_quote,'source-quote'));
+  const scope=element(document,'div',undefined,'claim-column');scope.append(element(document,'h4','Claim and scope'),element(document,'p',`Source label: ${claim.source_label}`),...renderSourceQuote(document,claim.scope_quote,quoteSource));
   if(claim.class==='AMEND/open')scope.append(element(document,'p','OPEN / NOT LANDED — the claimed closure remains open.'));
   if(claim.status_quote!==null){const detail=element(document,'details');detail.append(element(document,'summary','Separate STATUS scope / reason'),element(document,'blockquote',claim.status_quote,'source-quote'));scope.append(detail);}
   const source=element(document,'div',undefined,'claim-column');source.append(element(document,'h4','Source and review'),anchor(document,claim.proof.availability?'Open pinned source contract ↗':'Open pinned full proof ↗',claim.proof.html_url),element(document,'p'));
@@ -220,14 +221,42 @@ export function revealClaimFragment(document,hash,allowedIds){
   target.tabIndex=-1;target.scrollIntoView({block:'start'});
   target.focus?.({preventScroll:true});return true;
 }
-export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs'),currentHash=()=>globalThis.location?.hash||''}={}){
+function prepareClaimFragment(document,window,currentHash) {
+  const hash=currentHash();
+  let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return ()=>false;}
+  if(![...REVIEWED_IDS,D1_ID,...OPEN_IDS].includes(id))return ()=>false;
+  if(!window?.addEventListener)return allowedIds=>revealClaimFragment(document,hash,allowedIds);
+  const events=['wheel','touchstart','touchmove','keydown','pointerdown','pointermove','focusin','hashchange','popstate','pagehide'];
+  const options={capture:true,passive:true};
+  let cancelled=false,finished=false;
+  const cleanup=()=>events.forEach(event=>window.removeEventListener(event,cancel,options));
+  const cancel=event=>{
+    if(event.type==='pointermove'&&!event.buttons)return;
+    // Native fragment focus on the requested card is not a new reader action.
+    if(event.type==='focusin'&&event.target?.id===id)return;
+    cancelled=true;cleanup();
+  };
+  events.forEach(event=>window.addEventListener(event,cancel,options));
+  return allowedIds=>{
+    if(finished)return false;
+    finished=true;
+    window.requestAnimationFrame(()=>{
+      cleanup();
+      if(!cancelled&&currentHash()===hash)revealClaimFragment(document,hash,allowedIds);
+    });
+    return true;
+  };
+}
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
+  const finishFragment=prepareClaimFragment(document,window,currentHash);
+  let claimIds=[];
   try{
     const {manifest,cachedFetch}=await verifiedMuseum({fetcher});
     containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries, the separately reconciled D1 row and 2 AMEND rows. Verifying each linked source before display…';
     const placeholders=manifest.claims.map(claim=>{const host=element(document,'div');host.append(element(document,'p',`Verifying ${claim.title}…`));containers['claim-cards'].append(host);return host;});
-    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
+    const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim,REVIEWED_IDS.includes(claim.id)?manifest.index_source:manifest.status_source));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
     jobs.push((async()=>{try{containers['lifetime-fixture'].replaceChildren(await renderLifetime(document,manifest.exhibits.lifetime,cachedFetch));return true;}catch(error){containers['lifetime-fixture'].replaceChildren(refusal(document,'D2 lifetime fixture',error));return false;}})());
     if(!manifest.packets.length)containers['packet-cards'].append(element(document,'p','No packet appears in this pinned projection.'));
     for(const packet of manifest.packets)jobs.push((async()=>{try{containers['packet-cards'].append(await renderPacket(document,packet,cachedFetch));return true;}catch(error){containers['packet-cards'].append(refusal(document,'Packet source',error));return false;}})());
@@ -246,10 +275,10 @@ export async function startMuseum({document=globalThis.document,fetcher=globalTh
     }
     const outcomes=await Promise.all(jobs),failed=outcomes.filter(value=>!value).length;
     containers['museum-state'].textContent=failed?`Pinned source projections verified. ${failed} source view(s) unavailable; no result inferred for those views.`:'Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.';
-    revealClaimFragment(document,currentHash(),manifest.claims.map(claim=>claim.id));
+    claimIds=manifest.claims.map(claim=>claim.id);
   }catch(error){
     containers['museum-state'].textContent=`Unavailable: ${error.message}. No result inferred.`;containers['museum-state'].className='error';
     for(const id of ids.slice(1))containers[id].replaceChildren();
-  }
+  }finally{finishFragment(claimIds);}
 }
 if(typeof document!=='undefined')await startMuseum();

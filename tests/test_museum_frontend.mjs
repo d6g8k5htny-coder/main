@@ -10,6 +10,42 @@ test('museum exposes source-bound rendering rather than silently omitting the pa
 });
 const museum = fs.existsSync(moduleURL) ? await import(moduleURL) : null;
 const available = {skip: !museum};
+
+async function delayedClaimPage(interaction) {
+  const f=fixture(),document=documentFromHTML(),window=new EventTarget(),events=[];
+  window.location={hash:'#d3-side24-coefficient'};
+  const frames=[];window.requestAnimationFrame=callback=>frames.push(callback);
+  const create=document.createElement;
+  document.createElement=tag=>{
+    const node=create(tag);
+    node.focus=()=>{document.activeElement=node;events.push('focus:'+node.id);};
+    node.scrollIntoView=()=>events.push('scroll:'+node.id);
+    return node;
+  };
+  const find=(node,id)=>node.id===id?node:node.children?.map(child=>find(child,id)).find(Boolean);
+  document.getElementById=id=>document.nodes.get(id)||[...document.nodes.values()].map(node=>find(node,id)).find(Boolean);
+  const raw=JSON.stringify(f.manifest),config=JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}});
+  const mapping=new Map([['config.json',config],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.']]);
+  let release,started;const gate=new Promise(resolve=>release=resolve),requested=new Promise(resolve=>started=resolve);
+  const loading=museum.startMuseum({document,window,search:'',currentHash:()=>window.location.hash,fetcher:async url=>{
+    if(url===f.manifest.claims[0].proof.url){started();await gate;}
+    assert.ok(mapping.has(url),'Unexpected museum source '+url);return new Response(mapping.get(url));
+  }});
+  await requested;
+  if(interaction)window.dispatchEvent(new Event(interaction));
+  release();await loading;
+  for(const frame of frames)frame();
+  return {events,document};
+}
+test('a delayed initial museum bookmark still reaches its verified claim when untouched',async()=>{
+  const page=await delayedClaimPage();
+  assert.deepEqual(page.events,['scroll:d3-side24-coefficient','focus:d3-side24-coefficient']);
+});
+for(const interaction of ['wheel','keydown','pointerdown','focusin','hashchange','popstate','pagehide']) {
+  test(`museum ${interaction} while verifying sources cancels delayed focus and scroll`,async()=>{
+    const page=await delayedClaimPage(interaction);assert.deepEqual(page.events,[]);
+  });
+}
 test('full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording',available,()=>{
   const {manifest,index,status}=fixture();
   assert.equal(museum.validateBoundManifest(manifest,index,status).claims.length,14);
@@ -198,3 +234,45 @@ test('actual pinned museum renders all cards and rejects cross-claim source, sco
   const replay=structuredClone(manifest.claims[0]);replay.replay.command='python invented-solver.py';
   await assert.rejects(()=>museum.verifyClaim(replay,fetcher),/Replay command.*recorded exactly/);
 });
+
+function descendants(node, predicate) {
+  return (node.children??[]).flatMap(child => typeof child === 'object'
+    ? [...(predicate(child) ? [child] : []), ...descendants(child, predicate)] : []);
+}
+async function renderQuotationFixture() {
+  const f=fixture();
+  const previous=f.manifest.claims[0].scope_quote;
+  const quote='- Object 0: [proof](proof.md); [first review](https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-123) records **ACCEPT** only for `O(1)`. No numerical constant.';
+  f.manifest.claims[0].scope_quote=quote;
+  f.index=f.index.replace(previous,quote);f.manifest.index_source=pin('PROOF_INDEX.md',f.index);
+  f.manifest.claims[12].proof=f.manifest.index_source;
+  const document=documentFromHTML(),raw=JSON.stringify(f.manifest);
+  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.']]);
+  await museum.startMuseum({document,search:'',fetcher:async url=>new Response(mapping.get(String(url))??'',{status:mapping.has(String(url))?200:404})});
+  const cards=descendants(document.getElementById('claim-cards'),n=>n.tagName==='ARTICLE');
+  return {f,quote,cards};
+}
+test('verified claim quotes expose readable source and exact review citations',available,async()=>{
+  const {cards}=await renderQuotationFixture();
+  const readable=descendants(cards[0],n=>n.className==='source-quote source-quote-readable')[0];
+  assert.ok(readable,'The claim must have a readable quote projection');
+  assert.equal(readable.textContent,'- Object 0: proof; first review records ACCEPT only for O(1). No numerical constant.');
+  const links=descendants(readable,n=>n.tagName==='A');
+  assert.deepEqual(links.map(n=>[n.textContent,n.href]),[
+    ['proof',`https://github.com/d6g8k5htny-coder/Math-/blob/${'a'.repeat(40)}/proof.md`],
+    ['first review','https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-123']]);
+  assert.equal(descendants(readable,n=>n.tagName==='CODE')[0].textContent,'O(1)');
+  assert.equal(descendants(readable,n=>n.tagName==='STRONG')[0].textContent,'ACCEPT');
+});
+test('readable presentation retains the exact original source quote in a disclosure',available,async()=>{
+  const {quote,cards}=await renderQuotationFixture();
+  const originals=descendants(cards[0],n=>n.className==='source-quote source-quote-original');
+  assert.equal(originals.length,1,'The original quote must remain available once');
+  assert.equal(originals[0].textContent,quote);
+  const details=descendants(cards[0],n=>n.tagName==='DETAILS'&&n.children.some(c=>c.textContent==='Exact source quote'));
+  assert.equal(details.length,1,'The literal source quote has a named native disclosure');
+  assert.ok(details[0].children.includes(originals[0]));
+});
+
+// The museum CI integration suite includes source-quote projection controls.
+import "./test_source_quote.mjs";

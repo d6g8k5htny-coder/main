@@ -5,8 +5,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {digest,pin,fixture,documentFromHTML} from './fixtures/museum_fixture.mjs';
 
-const museum=await import(new URL('../docs/site/museum.mjs',import.meta.url));
-const conditionals=await import(new URL('../docs/site/conditionals.mjs',import.meta.url));
+// Load the same entry URLs as the browser; a bare test import would create a
+// second module instance beside the release-qualified transitive import.
+const htmlURL=new URL('../docs/site/museum.html',import.meta.url);
+const html=fs.readFileSync(htmlURL,'utf8');
+const entry=name=>{
+  const src=[...html.matchAll(/<script\b[^>]*src="([^"]+)"/g)].map(m=>m[1]).find(src=>new URL(src,htmlURL).pathname.endsWith('/'+name));
+  assert.ok(src,`Missing entry ${name}`);return new URL(src,htmlURL);
+};
+const museum=await import(entry('museum.mjs'));
+const conditionals=await import(entry('conditionals.mjs'));
 const raw=new Uint8Array(fs.readFileSync(new URL('./fixtures/cumulative_transfer_source.txt',import.meta.url)));
 const repo='d6g8k5htny-coder/Math-',commit='d6628da09384728992dcbe6e921cc28ba85aebb0';
 const path='reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md';

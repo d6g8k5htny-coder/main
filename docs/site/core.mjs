@@ -19,7 +19,7 @@ export async function verifiedBytes(pin, fetcher = fetch) {
     const expected = `https://raw.githubusercontent.com/${pin.repository}/${pin.commit}/${pin.path.split('/').map(encodeURIComponent).join('/')}`;
     if (target !== expected) throw new Error('Displayed identity does not match source URL');
   }
-  const response = await fetcher(target, {credentials:'omit', redirect:'error'});
+  const response = await fetcher(target, {credentials:'omit', redirect:'error', ...(target.startsWith('https:')?{}:{cache:'no-store'})});
   if (!response.ok) throw new Error(`Source unavailable (${response.status})`);
   const data = new Uint8Array(await response.arrayBuffer());
   if (data.byteLength !== pin.bytes) throw new Error('Source byte count mismatch');

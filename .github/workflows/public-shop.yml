@@ -18,8 +18,12 @@ jobs:
           fetch-depth: 0
       - name: Status-export negative controls
         run: python3 -B -m unittest discover -s tests -p test_public_shop_data.py
+      - name: Reproducible entry and transitive asset release
+        run: |
+          python3 -B tools/site_asset_release.py --check
+          python3 -B -m unittest tests.test_site_asset_release
       - name: Browser data-validation controls
-        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs
+        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
       - name: Reader navigation and local asset routes
         run: python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
       - name: Museum source projection and refusal controls
@@ -29,3 +33,33 @@ jobs:
           node --test tests/test_museum_geometry.mjs
       - name: Pinned public source readback and interaction harness
         run: python3 -B tools/public_shop_check.py
+  browser-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Record setup identity
+        run: |
+          mkdir -p browser-evidence
+          git rev-parse HEAD > browser-evidence/commit.txt
+          echo 'Setup record only; report.json establishes whether a browser ran.' > browser-evidence/setup.txt
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Install pinned optional browser tooling
+        run: |
+          python -m pip install -r tests/browser-requirements.txt
+      - name: Check Library in headless Chromium
+        env:
+          BROWSER_PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: python -B tools/public_shop_browser_check.py --output browser-evidence
+      - name: Preserve browser results including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: public-shop-browser-${{ github.run_id }}
+          path: browser-evidence
+          if-no-files-found: error
+          retention-days: 30

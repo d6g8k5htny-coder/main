@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>From counts to density · Universal Law</title>
+  <meta name="description" content="An interactive synthetic example showing how counts, realizations, area and bin width determine bin mass and density.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="stylesheet" href="style.css?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287">
+  <link rel="stylesheet" href="explore.css?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287">
+  <link rel="stylesheet" href="brand.css?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287">
+  <script type="module" src="measure.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header>
+  <a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a>
+  <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav>
+</header>
+<nav class="reader-tools" aria-label="Research tools"><a href="reproduce.html">Reproduce</a><a href="cite.html">Cite</a></nav>
+<main id="main-content" tabindex="-1">
+  <section class="explore-intro">
+    <p class="eyebrow"><a href="explore.html">EXPLORE</a> / MAKING A MEASUREMENT</p>
+    <h1>From counts to density.</h1>
+    <p class="intro">A count tells you how many lifetimes fall in a bin. To compare measurements, account for how much area you sampled—and how wide the bin is.</p>
+    <p class="teaching-label">Synthetic teaching example</p>
+    <div class="experiment">
+      <form id="measure-form" class="experiment-controls" novalidate>
+        <p id="measure-error" class="error" role="alert" hidden></p>
+        <fieldset id="measure-controls" disabled>
+          <legend>Change the example</legend>
+          <label for="measure-count">Aggregate count N</label>
+          <input id="measure-count" name="count" type="text" inputmode="numeric" maxlength="80" value="576" aria-describedby="count-help measure-error">
+          <p id="count-help" class="control-help">Total positive finite lifetimes in this bin, added across all realizations. Zero is allowed.</p>
+          <label for="measure-realizations">Number of realizations m</label>
+          <input id="measure-realizations" name="realizations" type="text" inputmode="numeric" maxlength="80" value="2" aria-describedby="realizations-help measure-error">
+          <p id="realizations-help" class="control-help">Include every realization, even those with zero counts. Each torus has area 24² = 576.</p>
+          <label for="measure-lower">Lower bin edge a</label>
+          <input id="measure-lower" name="lower" type="text" inputmode="decimal" maxlength="80" value="0.125" aria-describedby="edges-help measure-error">
+          <label for="measure-upper">Upper bin edge b</label>
+          <input id="measure-upper" name="upper" type="text" inputmode="decimal" maxlength="80" value="3.375" aria-describedby="edges-help measure-error">
+          <p id="edges-help" class="control-help">Use 0 &lt; a &lt; b. The bin [a, b) includes a and excludes b. Enter decimal values.</p>
+          <div class="control-actions"><button id="measure-update" type="submit">Calculate</button><button id="measure-reset" class="reset-button" type="button">Reset example</button><button id="measure-wider" class="reset-button" type="button">Double bin width</button></div>
+          <p class="keyboard-hint">Tab moves between controls. Enter activates a focused button.</p>
+        </fieldset>
+        <p id="measure-loading" class="control-help">The default example is shown. Interactive controls become available when the local script loads.</p>
+        <noscript><p class="boundary">JavaScript is off. The worked example and source below remain readable.</p></noscript>
+      </form>
+      <div class="experiment-result">
+        <div class="result-heading"><p class="result-kicker">COUNT → BIN MASS → DENSITY</p><h2>Two divisions. Different meanings.</h2></div>
+        <div id="measure-results">
+          <div class="readout-grid">
+            <p>Bin mass per unit area<strong id="measure-mass">0.5</strong></p>
+            <p>Density per unit area and lifetime<strong id="measure-density">0.153846</strong></p>
+          </div>
+          <dl><dt>Bin width b − a</dt><dd id="measure-width">3.25</dd><dt>Total sampled area 576 × m</dt><dd id="measure-exposure">1152</dd></dl>
+          <p><code id="measure-formula">576 ÷ 1152 = 0.5; 0.5 ÷ 3.25 ≈ 0.153846</code></p>
+          <p class="control-help">Density is the average height of a histogram bar: density × bin width = bin mass. Displayed calculations use approximate browser arithmetic.</p>
+        </div>
+        <p id="measure-status" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">576 synthetic counts across 2 realizations give a bin mass of 0.5 per unit area. Dividing by the width gives a density of approximately 0.153846.</p>
+        <p class="boundary">Try a wider bin with the same synthetic count: mass stays the same and density falls. This holds N and m fixed to explain the arithmetic. Rebinning real data can change N.</p>
+        <p class="control-help">These inputs are invented. This example generates no random field, fits no coefficient and validates no theorem.</p>
+      </div>
+    </div>
+    <div id="worked-example" class="lesson-takeaway"><h3>The exact worked example</h3><p>Start with N = 576 and m = 2 in the bin [1/8, 27/8). Its width is 13/4. The bin mass is 576/(576 × 2) = <strong>1/2</strong>, and the density is (1/2)/(13/4) = <strong>2/13</strong>. These fractions describe the default example, whatever values you try above.</p></div>
+    <details id="measure-source" class="lesson-source">
+      <summary>Read the measurement protocol and its limits</summary>
+      <p><a href="https://github.com/d6g8k5htny-coder/main/blob/e60629edde151c27541847b61672e38965752b77/docs/research-translation/20260930/EXPERIMENT.md#1-freeze-the-observable-before-generating-data">Measuring finite H₀ lifetimes on the SIDE24 torus, §1 ↗</a></p>
+      <p>The protocol counts strictly positive finite lifetimes in an ordinary superlevel filtration. Essential intervals and zero-lifetime ties are separate diagnostics. For m independent realizations, N is the sum of their bin counts. In two dimensions, divide by m × 24² to obtain bin mass per unit area, then by b − a to obtain a density estimate.</p>
+      <p>Dividing by the total number of bars instead would produce a different, normalized distribution. Dropping zero-count realizations would also change the measurement. An aggregate count alone does not supply uncertainty: bars within one field are dependent, so sampling intervals need independent realizations as replicates.</p>
+      <p>This calculator illustrates that reporting rule with synthetic inputs. It supplies no data, confidence interval, lifetime cutoff, fitted asymptotic or continuum certificate. A compact birth/gap or pair-Palm experiment uses a different design and normalizer.</p>
+    </details>
+  </section>
+</main>
+<footer><p><a href="explore.html">More interactive examples</a> · <a href="research.html">Research</a> · <a href="workspace.html#inventory">Library</a> · <a href="workspace.html">Research workspace</a></p></footer>
+</body>
+</html>

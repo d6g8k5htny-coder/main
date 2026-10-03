@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
@@ -139,6 +139,7 @@ footer { padding-top: 32px; }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: 6px; color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+#formal-coverage:focus, #formal-coverage .table-wrap:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 950px) { body > header { align-items: flex-start; } .cards { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
   body > header { padding: 20px; gap: 20px; }
@@ -163,6 +164,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   a, .button.secondary { color: LinkText; }
   .button, button { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline-color: Highlight; }
+  #formal-coverage:focus, #formal-coverage .table-wrap:focus-visible { outline-color: Highlight; }
   .brand::before { display: none; } .brand { padding-left: 0; }
 }
 @media print {

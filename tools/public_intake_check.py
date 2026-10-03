@@ -32,16 +32,26 @@ HEX40 = re.compile(r'[0-9a-f]{40}\Z')
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
 SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
+NAME_MAX = 255  # ext4/APFS/NTFS component limit; SAFE_PATH is ASCII-only, so len() counts bytes
+MAX_PACKAGE_PATH = 1024  # the same bound as MAX_SOURCE_PATH; a checkout prefix still fits under PATH_MAX
+WINDOWS_RESERVED = {'CON', 'PRN', 'AUX', 'NUL'} | {p + d for p in ('COM', 'LPT') for d in '123456789'}
 BRANCH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./-]*\Z')  # a name this route can carry; '..' refused below
 MAX_BRANCH_PAGES = 3
 MAX_SOURCE_PATH = 1024
 CREDENTIALS = [
-    re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
+    # Any PEM private-key armor: unencrypted, ENCRYPTED, RSA/EC/OPENSSH/DSA, and PGP's '... PRIVATE KEY BLOCK'.
+    re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY(?: BLOCK)?-----'),
     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
     re.compile(rb'\bgithub_pat_[A-Za-z0-9_]{60,}\b'),
     re.compile(rb'\b(?:AKIA|ASIA)[A-Z0-9]{16}\b'),
     re.compile(rb'\bxox[baprs]-[A-Za-z0-9-]{10,}\b'),
     re.compile(rb'\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}\b'),
+    re.compile(rb'(?<![0-9A-Za-z_-])AIza[0-9A-Za-z_-]{35}(?![0-9A-Za-z_-])'),  # Google API key: fixed 39 characters; boundaries in its own alphabet
+    re.compile(rb'\bnpm_[A-Za-z0-9]{36}\b'),  # npm access token
+    re.compile(rb'\bhf_[A-Za-z0-9]{30,}\b'),  # Hugging Face token
+    re.compile(rb'\bsk_live_[0-9A-Za-z]{20,}\b'),  # Stripe live secret key
+    re.compile(rb'(?<![A-Za-z0-9_-])eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}(?![A-Za-z0-9_-])'),  # three-part JWT ('{"' in base64url)
+    re.compile(rb'hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+'),  # Slack incoming webhook
 ]
 
 
@@ -75,8 +85,18 @@ def strict_json(raw):
 
 def safe_path(path):
     require(isinstance(path, str) and SAFE_PATH.fullmatch(path), 'unsafe path')
+    require(len(path) <= MAX_PACKAGE_PATH, 'path too long')
     parts = path.split('/')
     require(all(p not in ('', '.', '..') and not p.startswith('.') for p in parts), 'unsafe path')
+    # A merged tree should be one an ordinary fresh clone can check out. git
+    # refuses a component over 255 bytes on ext4/APFS/NTFS; Windows refuses its
+    # reserved device names (matched on the stem with end-of-stem spaces
+    # removed, so 'CON .md' is 'CON') and names ending in space or dot; a
+    # component beginning with space or '-' reads as an option. Not a guarantee
+    # for every platform or checkout prefix. Package and manifest paths only;
+    # source rows are exact tree keys and keep source_path() below.
+    require(all(len(p) <= NAME_MAX and p[0] not in ' -' and p[-1] not in ' .'
+                and p.split('.')[0].rstrip(' ').upper() not in WINDOWS_RESERVED for p in parts), 'unportable path component')
     require(str(PurePosixPath(path)) == path, 'noncanonical path')
     return parts
 

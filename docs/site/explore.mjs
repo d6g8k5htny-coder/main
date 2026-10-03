@@ -1,4 +1,7 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -25,6 +28,65 @@ function clear(svg, title, description) {
 
 const center = byId('curvature-center');
 const spread = byId('curvature-spread');
+const exportButton = byId('curvature-export-svg');
+const copyCitationButton = byId('curvature-copy-citation');
+const exportStatus = byId('curvature-export-status');
+const citationDetails = byId('curvature-figure-citation');
+const citationText = byId('curvature-citation-text');
+const downloadSupported = typeof Blob === 'function' && typeof URL.createObjectURL === 'function'
+  && typeof URL.revokeObjectURL === 'function' && 'download' in document.createElement('a');
+let figureReady = false;
+const citation = createCitationController({
+  writeText: typeof navigator.clipboard?.writeText === 'function' ? text => navigator.clipboard.writeText(text) : undefined,
+  onChange(state) {
+    citationText.value = state.text;
+    copyCitationButton.disabled = !figureReady || !state.canCopy;
+    exportStatus.textContent = state.status;
+    if (state.manualFallback) citationDetails.open = true;
+  }
+});
+function currentFigureParameters() { return {s:Number(center.value), R:Number(spread.value)}; }
+function updateFigureTools() {
+  figureReady = false; exportButton.disabled = true;
+  try {
+    // Validate actual displayed content before enabling either action. Export
+    // recaptures it at the click, including the current light/dark theme.
+    serializeCurvatureSVG(captureCurvatureDiagram(byId('curvature-diagram')), currentFigureParameters());
+    figureReady = true;
+    citation.setFigure(currentFigureParameters());
+    exportButton.disabled = !downloadSupported;
+    if (!downloadSupported) exportStatus.textContent = 'SVG download is unavailable in this browser. The figure citation can be copied manually below.';
+  } catch { citation.clear(); }
+}
+exportButton.addEventListener('click', () => {
+  if (!figureReady || !downloadSupported) return;
+  let objectURL, link;
+  try {
+    const params = currentFigureParameters();
+    const svg = serializeCurvatureSVG(captureCurvatureDiagram(byId('curvature-diagram')), params);
+    objectURL = URL.createObjectURL(new Blob([svg], {type:'image/svg+xml;charset=utf-8'}));
+    link = document.createElement('a');
+    link.href = objectURL;
+    link.download = `curvature-s${params.s}-R${params.R}.svg`;
+    document.body.append(link); link.click();
+    exportStatus.textContent = 'Curvature SVG download started. It is an illustrative teaching figure.';
+  } catch {
+    figureReady = false; exportButton.disabled = true; citation.clear();
+    exportStatus.textContent = 'SVG download could not complete: the displayed diagram is unavailable or contains unsupported content.';
+    citationDetails.open = true;
+  } finally {
+    link?.remove();
+    // Allow the browser to consume the user-triggered download before release.
+    if (objectURL) setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
+  }
+});
+copyCitationButton.addEventListener('click', () => {
+  if (!figureReady) return;
+  try {
+    serializeCurvatureSVG(captureCurvatureDiagram(byId('curvature-diagram')), currentFigureParameters());
+    void citation.copy();
+  } catch { figureReady = false; exportButton.disabled = true; citation.clear(); }
+});
 function drawCone() {
   const model = coneModel(Number(center.value), Number(spread.value));
   const labels = {
@@ -40,7 +102,7 @@ function drawCone() {
   byId('curvature-kind').textContent = labels[model.kind][0];
   byId('curvature-summary').textContent = `${labels[model.kind][1]} The two values are ${number(model.eigenvalues[0], 1)} and ${number(model.eigenvalues[1], 1)}.`;
   const svg = byId('curvature-diagram');
-  clear(svg, 'Where the two curvatures change sign', `Center ${number(model.s, 1)}, spread ${number(model.radius, 1)}. ${labels[model.kind][0]}. Eigenvalues ${model.eigenvalues.join(' and ')}.`);
+  clear(svg, 'Where the two curvatures change sign', `Center ${number(model.s, 1)}, spread ${number(model.radius, 1)}. ${labels[model.kind][0]}. Eigenvalues ${model.eigenvalues.map(value => number(value, 1)).join(' and ')}.`);
   const x = r => 86 + r * 155;
   const y = s => 165 - s * 40;
   svg.append(shape('polygon', { points: '86,165 474,265 474,294 86,294', class: 'diagram-fill' }));
@@ -62,6 +124,7 @@ function drawCone() {
   write(svg, 483, 70, 's = R', 'diagram-small');
   write(svg, 483, 265, 's = −R', 'diagram-small');
   svg.append(shape('circle', { cx: x(model.radius), cy: y(model.s), r: 9, class: 'diagram-point' }));
+  updateFigureTools();
 }
 
 const distance = byId('pin-distance');
@@ -149,15 +212,50 @@ function drawPalette() {
   }
 }
 
-center.addEventListener('input', drawCone);
-spread.addEventListener('input', drawCone);
-byId('curvature-reset').addEventListener('click', () => { center.value = '-2'; spread.value = '1'; drawCone(); });
-distance.addEventListener('input', drawPins);
-regions.forEach(input => input.addEventListener('change', drawPins));
-byId('pin-half').addEventListener('click', () => { distance.value = Number(distance.value) === 0.25 ? '0.5' : '0.25'; drawPins(); });
-byId('pin-reset').addEventListener('click', () => { distance.value = '0.5'; regions[0].checked = true; drawPins(); });
-objects.forEach(input => input.addEventListener('change', drawPalette));
-byId('palette-reset').addEventListener('click', () => { objects.forEach(input => { input.checked = true; }); drawPalette(); });
+const shareLink = byId('explore-state-link');
+const stateStatus = byId('explore-state-status');
+function currentState() {
+  return { s: Number(center.value), R: Number(spread.value), r: Number(distance.value),
+    region: regions.find(input => input.checked).value,
+    objects: objects.filter(input => input.checked).map(input => Number(input.value) + 1) };
+}
+function updateLink() {
+  shareLink.href = exploreStateURL(location.href, currentState());
+}
+function commitState() {
+  updateLink();
+  try {
+    if (shareLink.href !== location.href) history.pushState(null, '', shareLink.href);
+    stateStatus.textContent = 'These settings are in the page address. Share the link to reopen this teaching example.';
+  } catch {
+    stateStatus.textContent = 'The page address could not be updated. Use “Link to these settings” to share this teaching example.';
+  }
+}
+function restoreState() {
+  const { state, invalid } = readExploreState(location.search);
+  center.value = state.s; spread.value = state.R; distance.value = state.r;
+  regions.forEach(input => { input.checked = input.value === state.region; });
+  objects.forEach(input => { input.checked = state.objects.includes(Number(input.value) + 1); });
+  drawCone(); drawPins(); drawPalette(); updateLink();
+  stateStatus.textContent = invalid.length
+    ? `Some link settings were invalid (${invalid.join(', ')}). Those controls use their starting values; the link below shares the settings shown.`
+    : 'Share the link below to reopen these teaching settings. Changes are saved in the page address.';
+}
+for (const [control, draw] of [[center, drawCone], [spread, drawCone], [distance, drawPins]]) {
+  control.addEventListener('input', () => { draw(); updateLink(); });
+  control.addEventListener('change', commitState);
+}
+byId('curvature-reset').addEventListener('click', () => { center.value = '-2'; spread.value = '1'; drawCone(); commitState(); });
+regions.forEach(input => input.addEventListener('change', () => { drawPins(); commitState(); }));
+byId('pin-half').addEventListener('click', () => { distance.value = Number(distance.value) === 0.25 ? '0.5' : '0.25'; drawPins(); commitState(); });
+byId('pin-reset').addEventListener('click', () => { distance.value = '0.5'; regions[0].checked = true; drawPins(); commitState(); });
+objects.forEach(input => input.addEventListener('change', () => { drawPalette(); commitState(); }));
+byId('palette-reset').addEventListener('click', () => { objects.forEach(input => { input.checked = true; }); drawPalette(); commitState(); });
+window.addEventListener('popstate', restoreState);
+window.addEventListener('hashchange', updateLink);
 
-drawCone(); drawPins(); drawPalette();
-document.querySelectorAll('input[disabled], button[disabled], fieldset[disabled]').forEach(control => { control.disabled = false; });
+restoreState();
+shareLink.hidden = false;
+document.querySelectorAll('input[disabled], button[disabled], fieldset[disabled]').forEach(control => {
+  if (control !== exportButton && control !== copyCitationButton) control.disabled = false;
+});
