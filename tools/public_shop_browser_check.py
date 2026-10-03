@@ -643,7 +643,9 @@ def check_other_teaching_exports(page, origin, expect, result, output):
         page.evaluate('window.teachingPending.resolve()'); expect(copy).to_be_enabled()
         require('Copied figure citation' not in status.text_content(), 'Pending copy claimed success after history restoration')
 
-        page.evaluate("sessionStorage.setItem('teaching-clipboard-test','deny')"); page.goto(start)
+        # Back restored this same URL within the deferred fixture's document.
+        # Reload installs the denial fixture; goto(start) may only change a hash.
+        page.evaluate("sessionStorage.setItem('teaching-clipboard-test','deny')"); page.reload()
         native_button(copy); expect(status).to_contain_text('manually')
         expect(details).to_have_attribute('open', ''); expect(citation).to_be_visible()
         require(bool(citation.input_value()), 'Clipboard refusal lost manual citation')
