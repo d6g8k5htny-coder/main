@@ -64,6 +64,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
             'https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md',
             'https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206',
             '#dependency-paths > li',
+            'strong:text-is("math.lifetime-remainder")',
             'required dependency path and actionable source/review metadata',
             'dated claim-dependency snapshot', 'page.keyboard.press("Tab")',
             'page.keyboard.press("Enter")',

@@ -267,7 +267,9 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#dependency-paths > li")).to_contain_text("math.rn-count-interface")
     expect(page.locator("#dependency-paths")).not_to_contain_text("hist.CH-LIFT")
     page.locator("#dependency-search").fill("math.lifetime-remainder")
-    remainder_result=page.get_by_role("button",name="math.lifetime-remainder",exact=True)
+    remainder_result=page.locator(
+        '#search-results button:has(strong:text-is("math.lifetime-remainder"))'
+    )
     expect(remainder_result).to_have_count(1)
     remainder_result.click()
     expected_remainder_source="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"
