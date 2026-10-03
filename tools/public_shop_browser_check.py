@@ -403,6 +403,7 @@ def check_other_teaching_exports(page, origin, expect, result, output):
                'text', 'circle', 'g'}
     result['other_teaching_svgs'] = []
     result['other_teaching_screenshots'] = []
+    result['teaching_css_geometry_observations'] = []
 
     def css_fixture(rule):
         # Exercise stylesheet overrides through an already allowed same-origin
@@ -672,9 +673,16 @@ def check_other_teaching_exports(page, origin, expect, result, output):
         for axis in ['width', 'height']:
             original_dimension = css_box.get_attribute(axis)
             fixture = css_fixture(f'#{kind}-diagram rect{{{axis}:auto}}')
-            require(css_box.get_attribute('style') is None and css_box.get_attribute(axis) == original_dimension
-                    and css_box.evaluate(f"n=>getComputedStyle(n).getPropertyValue('{axis}')") == 'auto',
-                    'CSS auto fixture did not override the rectangle without changing attributes')
+            observation = css_box.evaluate("""(n,axis)=>{
+                const box=n.getBBox();
+                return {axis,inlineStyle:n.getAttribute('style'),attribute:n.getAttribute(axis),
+                    resolved:getComputedStyle(n).getPropertyValue(axis),
+                    bbox:{width:box.width,height:box.height}};
+            }""", axis)
+            result['teaching_css_geometry_observations'].append({'kind':kind,**observation})
+            require(observation['inlineStyle'] is None and observation['attribute'] == original_dimension
+                    and observation['bbox'][axis] == 0,
+                    f'CSS auto fixture did not suppress effective geometry with attributes unchanged: {observation}')
             native_button(export)
             expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
             remove_css_fixture(fixture)
