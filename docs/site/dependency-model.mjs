@@ -15,6 +15,7 @@ const NON_RESEARCH_KINDS = new Set([
 export const PINNED_GRAPH_SOURCE = Object.freeze({
   repository: 'd6g8k5htny-coder/Math-',
   commit: '7858329974e28be79f29b22644370084ff43da4f',
+  capturedAt: '2026-10-03T15:07:03Z',
   path: 'frontiers/downstream_gate_20260925/GRAPH.json',
   bytes: 38753,
   sha256: '8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09',
@@ -36,6 +37,7 @@ export async function parsePinnedGraph(sourceBytes, provenance, cryptoAPI = glob
   const recorded = provenance?.files?.['GRAPH.json'];
   const provenanceMatches = provenance?.repository === PINNED_GRAPH_SOURCE.repository &&
     provenance?.commit === PINNED_GRAPH_SOURCE.commit &&
+    provenance?.captured_at === PINNED_GRAPH_SOURCE.capturedAt &&
     recorded?.path === PINNED_GRAPH_SOURCE.path &&
     recorded?.bytes === PINNED_GRAPH_SOURCE.bytes &&
     recorded?.sha256 === PINNED_GRAPH_SOURCE.sha256;
@@ -53,7 +55,7 @@ export async function parsePinnedGraph(sourceBytes, provenance, cryptoAPI = glob
 }
 
 export function classificationClass(classification) {
-  return `classification-${String(classification || 'unknown').toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  return `classification-${String(classification || 'unknown').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 }
 
 function displayValue(value) {
@@ -81,6 +83,8 @@ export function metadataEntries(node) {
     ['review_providers', 'Review providers'],
     ['review_source', 'Review source'],
     ['review_url', 'Review URL'],
+    ['review_issue', 'Review issue'],
+    ['review_disposition', 'Review disposition'],
     ['review_basis', 'Review basis'],
   ];
   for (const [field, label] of fields) {
@@ -189,10 +193,12 @@ export function buildGraphIndex(graph) {
       node.review_providers,
       node.review_source,
       node.review_url,
+      node.review_issue,
+      node.review_disposition,
       node.review_basis,
       node.dependencies.map(edge => [edge.id, edge.relation]),
       node.dependents.map(edge => [edge.id, edge.relation]),
-    ]).toLocaleLowerCase();
+    ]).toLowerCase();
   }
   return {
     graph,
@@ -214,7 +220,7 @@ export function unresolvedTargets(index) {
 }
 
 export function searchNodes(index, query) {
-  const needle = String(query || '').trim().toLocaleLowerCase();
+  const needle = String(query || '').trim().toLowerCase();
   if (!needle) return [];
   return [...index.nodes.values()]
     .filter(node => node.searchable.includes(needle))
@@ -225,16 +231,21 @@ export function dependencyPaths(index, startId) {
   if (!index.nodes.has(startId)) return [];
   const paths = [];
   const queue = [{ ids: [startId], edges: [] }];
+  const shortestDepth = new Map([[startId, 0]]);
+  const recordedTargets = new Set();
   while (queue.length) {
     const path = queue.shift();
     const currentId = path.ids.at(-1);
     const current = index.nodes.get(currentId);
-    if (path.ids.length > 1 && isUnresolvedResearchTarget(current)) {
+    if (path.ids.length > 1 && isUnresolvedResearchTarget(current) && !recordedTargets.has(currentId)) {
       paths.push(path);
-      continue;
+      recordedTargets.add(currentId);
     }
     for (const edge of current.dependencies) {
       if (path.ids.includes(edge.id)) continue;
+      const nextDepth = path.ids.length;
+      if (shortestDepth.has(edge.id) && shortestDepth.get(edge.id) <= nextDepth) continue;
+      shortestDepth.set(edge.id, nextDepth);
       queue.push({
         ids: [...path.ids, edge.id],
         edges: [...path.edges, edge],

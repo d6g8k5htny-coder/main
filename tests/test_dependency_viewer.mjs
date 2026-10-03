@@ -68,6 +68,10 @@ test('search covers ids, notes, source paths, classifications and edge relations
     .some(node => node.id === 'math.rn-fixed-annulus-window'));
   assert.ok(searchNodes(index, 'xAI/Grok via Cursor')
     .some(node => node.id === 'math.rn-fixed-annulus-window'));
+  assert.ok(searchNodes(index, '74')
+    .some(node => node.id === 'math.p15-full-price'));
+  assert.ok(searchNodes(index, 'ACCEPT_AT_STATED_SCOPE')
+    .some(node => node.id === 'math.rn-region.mesoscopic-scaled-annulus'));
   assert.equal(searchNodes(index, 'definitely-no-such-node').length, 0);
 });
 
@@ -83,6 +87,7 @@ test('the app verifies graph bytes against a compiled source identity before par
   changed[100] ^= 1;
   await assert.rejects(parsePinnedGraph(changed, provenance), /digest mismatch/i);
   await assert.rejects(parsePinnedGraph(bytes, { ...provenance, commit: '0'.repeat(40) }), /provenance mismatch/i);
+  await assert.rejects(parsePinnedGraph(bytes, { ...provenance, captured_at: '2099-01-01T00:00:00Z' }), /provenance mismatch/i);
 });
 
 test('classification styling and metadata preserve source review lineage', async () => {
@@ -93,6 +98,22 @@ test('classification styling and metadata preserve source review lineage', async
   assert.equal(classificationClass('OPEN_ACTIVE'), 'classification-open-active');
   assert.equal(entries.get('Review source'), 'reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md');
   assert.equal(entries.get('Review provider'), 'xAI/Grok via Cursor');
+  const issueEntries = new Map(metadataEntries(index.nodes.get('math.p15-full-price')));
+  assert.equal(issueEntries.get('Review issue'), '74');
+  assert.equal(issueEntries.get('Review disposition'), undefined);
+  const dispositionEntries = new Map(metadataEntries(index.nodes.get('math.rn-region.mesoscopic-scaled-annulus')));
+  assert.equal(dispositionEntries.get('Review disposition'), 'ACCEPT_AT_STATED_SCOPE');
+});
+
+test('classification CSS identifiers use locale-neutral ASCII case folding', () => {
+  const original = String.prototype.toLocaleLowerCase;
+  String.prototype.toLocaleLowerCase = () => 'classification-broken-by-locale';
+  try {
+    assert.equal(classificationClass('ENGINEERING_CONTROL'), 'classification-engineering-control');
+    assert.equal(classificationClass('AUTHOR_SIDE_CANDIDATE'), 'classification-author-side-candidate');
+  } finally {
+    String.prototype.toLocaleLowerCase = original;
+  }
 });
 
 test('dependency paths are source-edge paths and retain relation metadata', async () => {
@@ -103,6 +124,9 @@ test('dependency paths are source-edge paths and retain relation metadata', asyn
   assert.equal(target.ids[0], 'math.rn-mesoscopic-reduction');
   assert.equal(target.edges.length, target.ids.length - 1);
   assert.ok(target.edges.every(edge => typeof edge.relation === 'string' && edge.relation.length));
+  const nested = paths.find(path => path.ids.at(-1) === 'math.rn-count-interface');
+  assert.ok(nested);
+  assert.ok(nested.ids.includes('math.rn-fixed-remote-window'));
 });
 
 test('saved node links fail visibly instead of selecting an unrelated node', async () => {
