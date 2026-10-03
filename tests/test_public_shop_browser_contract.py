@@ -49,6 +49,26 @@ class BrowserCheckContract(unittest.TestCase):
         self.assertIn('playwright==1.62.0',requirements)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
+    def test_pin_source_enumeration_preserves_the_downloaded_artifact_path(self):
+        # Execute the actual metadata-enumeration loop: it must not clobber
+        # the Path later used to reopen and record the downloaded SVG.
+        module=ast.parse((ROOT/'tools/public_shop_browser_check.py').read_text())
+        exports=next(node for node in module.body if isinstance(node,ast.FunctionDef)
+                     and node.name=='check_other_teaching_exports')
+        read_svg=next(node for node in exports.body if isinstance(node,ast.FunctionDef)
+                      and node.name=='read_svg')
+        reopen=next(node for node in ast.walk(read_svg) if isinstance(node,ast.Call)
+                    and isinstance(node.func,ast.Attribute) and node.func.attr=='resolve')
+        path_name=reopen.func.value.id
+        source_loop=next(node for node in ast.walk(read_svg) if isinstance(node,ast.For)
+                         and isinstance(node.target,ast.Tuple)
+                         and [item.id for item in node.target.elts[1:]]==['blob','size','digest'])
+        artifact=Path('/tmp/downloaded-teaching-figure.svg')
+        scope={path_name:artifact,'expected_sources':[]}
+        exec(compile(ast.Module(body=[source_loop],type_ignores=[]),'<source-enumeration>','exec'),scope)
+        self.assertEqual(scope[path_name],artifact,'Source identity loop overwrote the downloaded SVG path')
+        self.assertEqual(len(scope['expected_sources']),2)
+
     def test_other_teaching_exports_are_reached_in_the_four_source_cases(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
         module=ast.parse(source)

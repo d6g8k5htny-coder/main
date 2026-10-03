@@ -545,13 +545,13 @@ def check_other_teaching_exports(page, origin, expect, result, output):
                     and metadata['height_gap'] == r ** 3 and metadata['height_window'] == [1 - r ** 3, 1]
                     and metadata['annulus'] == [2 * r, 4 * r], 'Pin recorded scales differ from current teaching choices')
             expected_sources = []
-            for path, blob, size, digest in [
+            for source_path, blob, size, digest in [
                     ('frontiers/remote_window_20260924/PROOF.md', 'b383bfcc88ec4ad497dff01fb6640e429ba24a84', 18355, 'a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7'),
                     ('frontiers/rn_annulus_bridge_20260925/PROOF.md', '6f317515b3d417661f86e2fed09bc7d950899c2b', 16948, 'd55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05')]:
                 expected_sources.append({'repository': 'd6g8k5htny-coder/Math-',
-                    'commit': 'd6628da09384728992dcbe6e921cc28ba85aebb0', 'path': path, 'blob': blob,
+                    'commit': 'd6628da09384728992dcbe6e921cc28ba85aebb0', 'path': source_path, 'blob': blob,
                     'bytes': size, 'sha256': digest,
-                    'url': 'https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/' + path})
+                    'url': 'https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/' + source_path})
             require(metadata['sources'] == expected_sources, 'Pin changed recorded pinned sources or their order')
         standalone = page.context.new_page()
         try:
