@@ -722,6 +722,99 @@ class IntakeTests(unittest.TestCase):
         self.assertIn(COLON_PATH, refused)
         self.assertTrue(all(not path.isascii() or ':' in path for path in refused))
 
+    # --- PT-1 of main #86 comment 5851057735 (adversarial panel; MINOR, 3/3 unrefuted):
+    # safe_path bounded no component length and no component grammar beyond '..',
+    # dotfiles and canonical form, so a tree GitHub stores but no fresh clone can
+    # check out passed the checker. The probes below reproduce the finding; the
+    # controls invert it. Source rows are exact tree keys and are not governed.
+
+    INCOMING = Path(__file__).resolve().parents[1] / 'incoming'
+
+    def accept_name(self, name):
+        self.raw[name] = b'payload'
+        self.save()
+        self.assertEqual(self.run_check()['artifact_files'], len(self.raw))
+        self.raw.pop(name)
+
+    def test_unportable_package_components_refused(self):
+        """A 300-byte component (git: 'File name too long' on ext4/APFS/NTFS), components
+        beginning with space or '-' or ending in space or dot, and Windows reserved device
+        names in any case, as a package file and as a manifest artifact record."""
+        names = ['a' * 300 + '.md', 'sub /x.md', 'sub/ /x.md', 'sub/ x.md', 'x /y.md', 'dir./x.md', 'sub/-rf.md', 'sub/-x.md',
+                 'CON.md', 'con.md', 'con', 'nul.txt', 'Nul.json', 'com1.csv', 'COM9.csv', 'Aux.json', 'lpt1.md', 'lpt9.md', 'PRN.md',
+                 'CON.tar.md', 'nested/' + 'b' * 256]
+        for name in names:
+            with self.subTest(package_file=name[:40]):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unportable path component')
+                self.raw = old
+            with self.subTest(artifact_record=name[:40]):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unportable path component')
+            with self.assertRaisesRegex(ValueError, 'unportable path component'):
+                intake.safe_path('incoming/example/' + name)
+
+    def test_unportable_component_refused_at_cli_boundary_without_echo(self):
+        name = 'a' * 300 + '.md'
+        self.raw[name] = b'payload'
+        self.save()
+        self.api.calls.clear()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+        self.assertNotIn('aaaa', json.dumps(result))
+        self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_portable_package_components_accepted(self):
+        for name in ['a' * 252 + '.md', 'notes-2026.md', 'regeneration/run 1.txt', 'a.b.c.md', 'a b.md', 'CONTENTS.md', 'console.md',
+                     'nul-report.md', 'COM10.md', 'x-y/z.md', 'v3/lpw_constant_v3.py.txt', 'sub/x-.md', 'sub/x.-y.md']:
+            with self.subTest(name=name[:40]):
+                self.accept_name(name)
+        self.assertEqual(len('a' * 252 + '.md'), intake.NAME_MAX)
+
+    def test_package_path_length_bounded_like_source_paths(self):
+        prefix = 'incoming/example/'
+        name = '/'.join(['a' * 200] * 4 + ['b' * 200 + '.md'])
+        self.assertEqual(len(prefix + name), 1024)
+        self.assertEqual(intake.MAX_PACKAGE_PATH, intake.MAX_SOURCE_PATH)
+        self.accept_name(name)
+        self.raw[name + 'b'] = b'payload'
+        self.save()
+        self.reject('path too long')
+        self.raw.pop(name + 'b')
+        with self.assertRaisesRegex(ValueError, 'path too long'):
+            intake.safe_path(prefix + name + 'b')
+
+    def test_source_rows_keep_the_tree_key_grammar(self):
+        # The component grammar governs package and manifest paths only. A pinned
+        # source is an exact key into the tree the git trees API returns.
+        path = 'drive/mirrors/' + 'a' * 300 + '/ CON./-x.md'
+        self.assertEqual(intake.source_path(path), path.split('/'))
+        self.manifest['sources'][0]['path'] = path
+        self.save()
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+
+    def test_landed_packets_keep_passing_the_component_grammar(self):
+        """Census over the landed packets in this checkout: every artifact row of every
+        incoming/*/IDENTITY.json still passes safe_path, as a manifest path and as the
+        package file path. Path-only; no network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            package = manifest.parent.name
+            for row in intake.strict_json(manifest.read_bytes())['artifacts']:
+                with self.subTest(package=package, path=row['path']):
+                    self.assertEqual(intake.safe_path(row['path']), row['path'].split('/'))
+                    self.assertEqual(intake.safe_path(f'incoming/{package}/' + row['path'])[:2], ['incoming', package])
+                    checked += 1
+        self.assertGreater(checked, 0)
+
+
 
 if __name__ == '__main__':
     unittest.main()
