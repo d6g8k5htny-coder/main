@@ -1,4 +1,4 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
+import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
 import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
 
 import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
@@ -245,6 +245,10 @@ for (const [control, draw] of [[center, drawCone], [spread, drawCone], [distance
   control.addEventListener('input', () => { draw(); updateLink(); });
   control.addEventListener('change', commitState);
 }
+document.querySelectorAll('[data-curvature-preset]').forEach(button => {
+  button.addEventListener('click', () => applyCurvaturePreset(button.dataset.curvaturePreset,
+    {center, spread, draw: drawCone, commit: commitState}));
+});
 byId('curvature-reset').addEventListener('click', () => { center.value = '-2'; spread.value = '1'; drawCone(); commitState(); });
 regions.forEach(input => input.addEventListener('change', () => { drawPins(); commitState(); }));
 byId('pin-half').addEventListener('click', () => { distance.value = Number(distance.value) === 0.25 ? '0.5' : '0.25'; drawPins(); commitState(); });

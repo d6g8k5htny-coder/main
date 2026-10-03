@@ -137,7 +137,7 @@ test('malformed shared references are refused without partial source identity',(
 });
 function referenceControls(clipboard) {
   const node=(value='')=>({value,textContent:'',hidden:true,disabled:true,listeners:{},addEventListener(k,v){this.listeners[k]=v;},removeAttribute(k){delete this[k];}});
-  const c={form:node(),repository:node('main'),commit:node(sha),path:node('README.md'),sha256:node(digest),output:node(),json:node(),link:node(),status:node(),actions:node(),copyText:node(),copyJSON:node(),share:node(),clipboard,
+  const c={form:node(),repository:node('main'),commit:node(sha),path:node('README.md'),sha256:node(digest),output:node(),json:node(),bibtex:node(),link:node(),status:node(),actions:node(),copyText:node(),copyJSON:node(),copyBibTeX:node(),share:node(),clipboard,
     location:{href:'https://example.test/cite.html#reference-builder',search:''},history:{pushState(_a,_b,url){c.location.href=url;c.location.search=new URL(url).search;}},events:node()};
   c.submit=()=>c.form.listeners.submit({preventDefault(){}});return c;
 }
@@ -184,4 +184,94 @@ test('a pending clipboard operation prevents a newer reference from overtaking i
   assert.doesNotMatch(c.status.textContent,/Copied JSON/);
   await c.copyJSON.listeners.click();assert.equal(writes.length,2);
   assert.equal(JSON.parse(writes[1]).path,'B.md');assert.match(c.status.textContent,/Copied JSON/);
+});
+
+// Missing or unescaped source fields must fail these template contracts.
+test('BibTeX is an honest source template with exact immutable identity and optional supplied digest',()=>{
+ const ref=buildReference('Math-',sha,'proofs/α #1.md',digest);
+ assert.match(ref.bibtex,/^@misc\{source_reference_template,/);
+ assert.match(ref.bibtex,/title = \{Repository source reference\}/);
+ assert.ok(ref.bibtex.includes(`Git commit ${sha}`));
+ assert.ok(ref.bibtex.includes(`Supplied SHA-256 (not checked): ${digest.toLowerCase()}`));
+ assert.ok(ref.bibtex.includes(`url = {https://github.com/d6g8k5htny-coder/Math-/blob/${sha}/proofs/%CE%B1%20%231.md}`));
+ assert.match(ref.bibtex,/not verified/i);
+ assert.doesNotMatch(ref.bibtex,/\b(author|year|doi|journal|publisher)\s*=/i);
+ const snapshot=buildReference('main',sha).bibtex;
+ assert.ok(snapshot.includes('d6g8k5htny-coder/main'));
+ assert.doesNotMatch(snapshot,/File path:|SHA-256/);
+});
+test('BibTeX escapes accepted path specials as literal text without changing Unicode or JSON identity',()=>{
+ const path='proofs/α_#${x}&~^.md';
+ const ref=buildReference('main',sha,path);
+ assert.ok(ref.bibtex.includes(String.raw`File path: proofs/α\_\#\$\textbraceleft{}x\textbraceright{}\&\textasciitilde{}\textasciicircum{}.md`));
+ assert.equal(JSON.parse(ref.json).path,path);
+ assert.equal(ref.url,`https://github.com/d6g8k5htny-coder/main/blob/${sha}/proofs/%CE%B1_%23%24%7Bx%7D%26~%5E.md`);
+ assert.ok(ref.bibtex.includes(`url = {${ref.url}}`));
+ for(const bad of ['proofs/\\input{evil}.md','proofs/%5cinput.md','proofs/\n@book{x}.md','proofs/\ud800.md']) assert.throws(()=>buildReference('main',sha,bad));
+});
+// Omitted BibTeX render/clear/copy handling or a format-specific lock breaks these workflows.
+test('BibTeX renders, copies, clears on edits and restores with Back/Forward source identity',async()=>{
+ let copied;const c=referenceControls({async writeText(value){copied=value;}});
+ wireReferenceForm(c);c.submit();
+ assert.match(c.bibtex.textContent,/^@misc/);assert.equal(c.copyBibTeX.disabled,false);
+ await c.copyBibTeX.listeners.click();assert.equal(copied,c.bibtex.textContent);assert.match(c.status.textContent,/Copied BibTeX/);
+ const oldSearch=c.location.search;c.path.value='next_α.md';c.form.listeners.input();
+ assert.equal(c.bibtex.textContent,'');assert.equal(c.copyBibTeX.disabled,true);
+ c.submit();const nextSearch=c.location.search;
+ c.location.search=oldSearch;c.events.listeners.popstate();assert.match(c.bibtex.textContent,/File path: README.md/);
+ c.location.search=nextSearch;c.events.listeners.popstate();assert.ok(c.bibtex.textContent.includes(String.raw`next\_α.md`));
+ c.location.search='?repo=main&commit=main';c.events.listeners.popstate();
+ assert.equal(c.bibtex.textContent,'');assert.equal(c.copyBibTeX.disabled,true);
+});
+test('BibTeX shares the copy lock with every format and stale completion cannot announce success',async()=>{
+ const writes=[];let finish;const c=referenceControls({writeText(value){writes.push(value);return new Promise(r=>finish=r);}});
+ wireReferenceForm(c);c.submit();const pending=c.copyBibTeX.listeners.click();
+ assert.ok([c.copyText,c.copyJSON,c.copyBibTeX].every(b=>b.disabled));
+ await c.copyText.listeners.click();await c.copyJSON.listeners.click();assert.equal(writes.length,1);
+ c.path.value='later.md';c.form.listeners.input();c.submit();
+ await c.copyBibTeX.listeners.click();assert.equal(writes.length,1);
+ finish();await pending;assert.doesNotMatch(c.status.textContent,/Copied/);
+ assert.ok(c.bibtex.textContent.includes('later.md'));assert.ok([c.copyText,c.copyJSON,c.copyBibTeX].every(b=>!b.disabled));
+ const textPending=c.copyText.listeners.click();await c.copyBibTeX.listeners.click();assert.equal(writes.length,2);
+ c.form.listeners.change();finish();await textPending;
+ assert.equal(c.bibtex.textContent,'');assert.equal(c.copyBibTeX.disabled,true);assert.doesNotMatch(c.status.textContent,/Copied/);
+});
+test('denied and unavailable clipboard preserve selectable BibTeX and explain manual fallback',async()=>{
+ for(const clipboard of [undefined,{async writeText(){throw Error('denied');}}]){
+  const c=referenceControls(clipboard);wireReferenceForm(c);c.submit();
+  if(clipboard) await c.copyBibTeX.listeners.click();else assert.equal(c.copyBibTeX.disabled,true);
+  assert.match(c.bibtex.textContent,/^@misc/);assert.match(c.status.textContent,/BibTeX.*manually/i);assert.doesNotMatch(c.status.textContent,/Copied/);
+ }
+});
+
+// Escaping braces with a backslash still changes BibTeX's database brace depth.
+test('legal unmatched and nested path braces produce parser-safe literal text',async t=>{
+ const {spawnSync}=await import('node:child_process');
+ const {mkdtemp,writeFile,rm}=await import('node:fs/promises');
+ const {tmpdir}=await import('node:os');
+ const {join}=await import('node:path');
+ const cases=[
+  ['proofs/{.md',String.raw`proofs/\textbraceleft{}.md`,'proofs/%7B.md'],
+  ['proofs/}.md',String.raw`proofs/\textbraceright{}.md`,'proofs/%7D.md'],
+  ['proofs/{{α}}.md',String.raw`proofs/\textbraceleft{}\textbraceleft{}α\textbraceright{}\textbraceright{}.md`,'proofs/%7B%7B%CE%B1%7D%7D.md'],
+  ['proofs/}#$_&~^.md',String.raw`proofs/\textbraceright{}\#\$\_\&\textasciitilde{}\textasciicircum{}.md`,'proofs/%7D%23%24_%26~%5E.md']
+ ];
+ const probe=spawnSync('bibtex',['--version'],{encoding:'utf8'});
+ const directory=await mkdtemp(join(tmpdir(),'source-bibtex-'));
+ try {
+  for(const [path,literal,encoded] of cases){
+   const ref=buildReference('main',sha,path);
+   assert.equal(JSON.parse(ref.json).path,path);
+   assert.equal(ref.url,`https://github.com/d6g8k5htny-coder/main/blob/${sha}/${encoded}`);
+   assert.ok(ref.bibtex.includes(`url = {${ref.url}}`));
+   if(probe.error?.code==='ENOENT'){assert.ok(ref.bibtex.includes(`File path: ${literal}.`));continue;}
+   await writeFile(join(directory,'reference.bib'),ref.bibtex);
+   await writeFile(join(directory,'reference.aux'),'\\relax\n\\citation{source_reference_template}\n\\bibstyle{plain}\n\\bibdata{reference}\n');
+   const parsed=spawnSync('bibtex',['reference'],{cwd:directory,encoding:'utf8'});
+   assert.equal(parsed.status,0,`${path}: ${parsed.stdout}\n${parsed.stderr}`);
+   const bbl=await readFile(join(directory,'reference.bbl'),'utf8');
+   assert.ok(bbl.includes(literal),`${path}: parser changed literal source path`);
+  }
+  if(probe.error?.code==='ENOENT') t.diagnostic('BibTeX binary unavailable; literal/identity assertions ran, real-parser integration omitted.');
+ } finally {await rm(directory,{recursive:true,force:true});}
 });

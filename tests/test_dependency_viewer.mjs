@@ -73,9 +73,106 @@ test('saved filters restore exact state and visibly reject unknown classificatio
   assert.match(bad.error,/Unknown classification/);
 });
 
-for (const fragment of ['', '#object-evidence', '#object-audit']) for (const digestDelay of [0, 150]) test(`dependency startup preserves complete source metadata and ${fragment || 'search'} after ${digestDelay} ms digest delay`, async () => {
+test('recorded context keeps reading-rule order and resolves only recorded same-graph references', async () => {
+  assert.equal(typeof evidenceModel.recordedContextRows, 'function');
+  const index = buildGraphIndex(await fixture());
+  const rows = evidenceModel.recordedContextRows(index, index.nodes.get('math.uniform-matrix-cap-lifetime'));
+  assert.deepEqual(rows[0], {
+    field: 'reading_rule', label: 'Reading rule', state: 'Recorded', ordered: true,
+    values: [
+      { text: 'math.d1-component.congruence-erratum', id: 'math.d1-component.congruence-erratum' },
+      { text: 'math.d1-component.section9-replacement-v1_1', id: 'math.d1-component.section9-replacement-v1_1' },
+      { text: 'math.d1-component.marked-cylinder-cap', id: 'math.d1-component.marked-cylinder-cap' },
+      { text: 'math.d1-component.reconciliation-record', id: 'math.d1-component.reconciliation-record' },
+    ],
+  });
+  const component = evidenceModel.recordedContextRows(index, index.nodes.get('math.d5-component.punctured-pin-continuum-check'));
+  assert.deepEqual(component[1].values, [{ text: 'math.d5-pin-neighborhood-first-moment', id: 'math.d5-pin-neighborhood-first-moment' }]);
+  assert.deepEqual(component[2].values, [{ text: 'review_checker' }]);
+  const coverage = evidenceModel.recordedContextRows(index, index.nodes.get('math.rn-region.fixed-remote'));
+  assert.deepEqual(coverage[3].values, [{ text: 'math.rn-fixed-remote-window', id: 'math.rn-fixed-remote-window' }]);
+});
+
+test('absent context is visibly not recorded and is never inferred from dependencies', async () => {
+  assert.equal(typeof evidenceModel.recordedContextRows, 'function');
+  const index = buildGraphIndex(await fixture());
+  const parent = index.nodes.get('math.d5-pin-neighborhood-first-moment');
+  assert.ok(parent.dependencies.length > 0);
+  assert.deepEqual(evidenceModel.recordedContextRows(index, parent).map(row => [row.field, row.state, row.values]), [
+    ['reading_rule', 'Not recorded', []], ['component_of', 'Not recorded', []],
+    ['component_role', 'Not recorded', []], ['coverage_source', 'Not recorded', []],
+  ]);
+  const empty = evidenceModel.recordedContextRows(index, { reading_rule: [] })[0];
+  assert.equal(empty.state, 'Recorded');
+  assert.deepEqual(empty.values, []);
+});
+
+test('unresolved and unsafe context references stay literal without executable destinations', async () => {
+  assert.equal(typeof evidenceModel.recordedContextRows, 'function');
+  const graph = await fixture();
+  graph.nodes['javascript:alert(1)'] = {classification:'OPEN_ACTIVE',layer:'test',kind:'candidate'};
+  const index = buildGraphIndex(graph);
+  const rows = evidenceModel.recordedContextRows(index, {
+    reading_rule: ['missing.node', 'javascript:alert(1)', '<img src=x onerror=alert(1)>'],
+    component_of: '../private', coverage_source: 'https://example.test/proof',
+    component_role: '<img src=x onerror=alert(1)>',
+  });
+  assert.deepEqual(rows[0].values, [
+    { text:'missing.node', note:'not found in this snapshot' },
+    { text:'javascript:alert(1)', note:'not found in this snapshot' },
+    { text:'<img src=x onerror=alert(1)>', note:'not found in this snapshot' },
+  ]);
+  assert.deepEqual(rows[1].values, [{ text:'../private', note:'not found in this snapshot' }]);
+  assert.deepEqual(rows[3].values, [{ text:'https://example.test/proof', note:'not found in this snapshot' }]);
+  assert.deepEqual(rows[2].values, [{ text:'<img src=x onerror=alert(1)>' }]);
+  assert.ok(rows.every(row => row.values.every(value => !('href' in value) && !('id' in value))));
+});
+
+test('malformed context preserves complete recorded values instead of inventing references', async () => {
+  assert.equal(typeof evidenceModel.recordedContextRows, 'function');
+  const index = buildGraphIndex(await fixture());
+  const rows = evidenceModel.recordedContextRows(index, {
+    reading_rule: ['hist.CH-LIFT', { id:'hist.LOGQ-TAIL', extra:['keep', null] }, null, 42, ['hist.CH-LIFT']],
+    component_of: { id:'hist.CH-LIFT' }, component_role: ['proof', { detail:'keep' }], coverage_source: null,
+  });
+  assert.deepEqual(rows[0].values, [
+    { text:'hist.CH-LIFT', id:'hist.CH-LIFT' },
+    { text:'{"id":"hist.LOGQ-TAIL","extra":["keep",null]}', note:'Invalid recorded value' },
+    { text:'null', note:'Invalid recorded value' },
+    { text:'42', note:'Invalid recorded value' },
+    { text:'["hist.CH-LIFT"]', note:'Invalid recorded value' },
+  ]);
+  assert.equal(rows[1].state, 'Invalid recorded value');
+  assert.deepEqual(rows[1].values, [{ text:'{"id":"hist.CH-LIFT"}' }]);
+  assert.equal(rows[2].state, 'Invalid recorded value');
+  assert.deepEqual(rows[2].values, [{ text:'["proof",{"detail":"keep"}]' }]);
+  assert.equal(rows[3].state, 'Invalid recorded value');
+  assert.deepEqual(rows[3].values, [{ text:'null' }]);
+  for (const value of ['hist.CH-LIFT', {id:'hist.CH-LIFT'}, null, 0]) {
+    const row = evidenceModel.recordedContextRows(index, {reading_rule:value})[0];
+    assert.equal(row.state, 'Invalid recorded value');
+    assert.deepEqual(row.values, [{text:typeof value === 'string' ? value : JSON.stringify(value)}]);
+  }
+});
+
+test('context presentation does not change graph edges, impact ranking, classifications or existing search', async () => {
+  assert.equal(typeof evidenceModel.recordedContextRows, 'function');
+  const graph = await fixture();
+  const index = buildGraphIndex(graph);
+  const before = JSON.stringify(graph);
+  const ranked = unresolvedTargets(index).map(node => [node.id, node.impact, node.classification]);
+  const search = searchNodes(index, 'reading_rule_record').map(node => node.id);
+  for (const node of index.nodes.values()) evidenceModel.recordedContextRows(index, node);
+  assert.equal(JSON.stringify(graph), before);
+  assert.deepEqual(index.counts, {nodes:49, edges:55});
+  assert.deepEqual(unresolvedTargets(index).map(node => [node.id, node.impact, node.classification]), ranked);
+  assert.deepEqual(searchNodes(index, 'reading_rule_record').map(node => node.id), search);
+  assert.deepEqual(index.nodes.get('math.rn-region.fixed-remote').dependencies, []);
+});
+
+for (const fragment of ['', '#object-evidence', '#object-audit', '#object-reading-context']) for (const digestDelay of [0, 150]) test(`dependency startup preserves complete source metadata and ${fragment || 'search'} after ${digestDelay} ms digest delay`, async () => {
   class Element extends EventTarget {
-    constructor(){super();this.children=[];this.value='';this._text='';}
+    constructor(tagName=''){super();this.tagName=tagName;this.children=[];this.value='';this._text='';}
     set textContent(value){this._text=String(value);this.children=[];}
     get textContent(){return this._text+this.children.map(child=>child.textContent||'').join('');}
     append(...children){this.children.push(...children);}
@@ -94,7 +191,7 @@ for (const fragment of ['', '#object-evidence', '#object-audit']) for (const dig
   window.requestAnimationFrame=callback=>callback();
   window.history={replaceState(state,title,url){window.location=new URL(url);}};
   globalThis.window=window;
-  globalThis.document={getElementById:id=>nodes.get(id),createElement:()=>new Element(),createDocumentFragment:()=>new Element(),createTextNode:text=>({textContent:text})};
+  globalThis.document={getElementById:id=>nodes.get(id),createElement:tag=>new Element(tag),createDocumentFragment:()=>new Element(),createTextNode:text=>({textContent:text})};
   globalThis.fetch=async url=>{
     assert.ok(['./dependency-source/GRAPH.json','./dependency-source/PROVENANCE.json'].includes(url));
     return new Response(await readFile(new URL('docs/site/'+url,root)));
@@ -105,7 +202,10 @@ for (const fragment of ['', '#object-evidence', '#object-audit']) for (const dig
     // Await the actual startup lifecycle, including byte validation and rendering.
     await initialization;
     assert.match(nodes.get('load-status').textContent,/^Pinned Math/);
-    if(fragment){assert.equal(nodes.get(fragment.slice(1)).focused,true);assert.equal(nodes.get(fragment.slice(1)).scrolled,true);}
+    if(fragment){
+      assert.ok(nodes.has(fragment.slice(1)), 'saved selected-object section exists');
+      assert.equal(nodes.get(fragment.slice(1)).focused,true);assert.equal(nodes.get(fragment.slice(1)).scrolled,true);
+    }
     const search=nodes.get('dependency-search');search.value='math';search.dispatchEvent(new Event('input'));
     assert.equal(nodes.get('search-results').children.length,39);
     assert.match(nodes.get('search-results').textContent,/math.side24-coefficient/);
@@ -124,8 +224,52 @@ for (const fragment of ['', '#object-evidence', '#object-audit']) for (const dig
     assert.match(nodes.get('node-metadata').textContent,/xAI\/Grok/);
     assert.ok(nodes.has('node-record'),'complete source node is available');
     assert.deepEqual(JSON.parse(nodes.get('node-record').textContent),(await fixture()).nodes['math.rn-fixed-annulus-window']);
+    const context=nodes.get('recorded-context');
+    assert.ok(context,'recorded context is available beside scope and evidence');
+    assert.equal(context.textContent.match(/Not recorded/g)?.length,4);
+    const descendants=node=>[node,...(node.children||[]).flatMap(descendants)];
+    const buttons=()=>descendants(context).filter(node=>node.tagName==='button');
+    function select(id){
+      search.value=id;search.dispatchEvent(new Event('input'));
+      const result=nodes.get('search-results').children.find(item=>item.children[0].children[0].textContent===id);
+      assert.ok(result,`existing search selects ${id}`);
+      result.children[0].dispatchEvent(new Event('click'));
+    }
+    const rankBefore=nodes.get('unresolved-targets').textContent;
+    select('math.uniform-matrix-cap-lifetime');
+    assert.deepEqual(buttons().map(button=>button.textContent),[
+      'math.d1-component.congruence-erratum','math.d1-component.section9-replacement-v1_1',
+      'math.d1-component.marked-cylinder-cap','math.d1-component.reconciliation-record']);
+    assert.equal(descendants(context).filter(node=>node.tagName==='ol').length,1);
+    assert.ok(buttons().every(button=>button.type==='button' && !button.href));
+    buttons()[2].dispatchEvent(new Event('click'));
+    assert.equal(nodes.get('detail-heading').textContent,'math.d1-component.marked-cylinder-cap');
+    assert.equal(new URLSearchParams(window.location.search).get('node'),'math.d1-component.marked-cylinder-cap');
+    assert.equal(new URLSearchParams(window.location.search).get('q'),'math.uniform-matrix-cap-lifetime');
+    assert.equal(window.location.hash,'#node-detail');
+    assert.equal(nodes.get('node-detail').focused,true);
+    assert.equal(nodes.get('node-detail').scrolled,true);
+    assert.match(nodes.get('object-scope').textContent,/sections 1-5.*sections 6-8 are not consumed/);
+    assert.match(nodes.get('evidence-body').textContent,/Record linked/);
+    assert.match(context.textContent,/deterministic_support/);
+    assert.deepEqual(buttons().map(button=>button.textContent),['math.uniform-matrix-cap-lifetime']);
+    buttons()[0].dispatchEvent(new Event('click'));
+    assert.equal(nodes.get('detail-heading').textContent,'math.uniform-matrix-cap-lifetime');
+    select('math.rn-region.fixed-remote');
+    assert.deepEqual(buttons().map(button=>button.textContent),['math.rn-fixed-remote-window']);
+    assert.match(nodes.get('object-classification').textContent,/COVERED_BY_CANDIDATE/);
+    assert.match(nodes.get('dependency-list').textContent,/No direct dependencies/);
+    buttons()[0].dispatchEvent(new Event('click'));
+    assert.equal(new URLSearchParams(window.location.search).get('node'),'math.rn-fixed-remote-window');
+    assert.match(nodes.get('object-classification').textContent,/AUTHOR_SIDE_CANDIDATE/);
+    assert.equal(context.textContent.match(/Not recorded/g)?.length,4);
+    assert.equal(buttons().length,0,'previous context links are cleared for the next object');
+    assert.equal(nodes.get('node-count').textContent,'49');
+    assert.equal(nodes.get('edge-count').textContent,'55');
+    assert.equal(nodes.get('unresolved-targets').textContent,rankBefore);
     window.location=new URL('https://example.test/dependencies.html?q=bad&classification=NO_SUCH_CLASS');
     window.dispatchEvent(new Event('popstate'));
+    assert.equal(context.textContent,'','no selection clears stale context');
     assert.equal(nodes.get('search-results').children.length,0);
     assert.match(nodes.get('filter-error').textContent,/Unknown classification/);
     nodes.get('clear-filters').dispatchEvent(new Event('click'));

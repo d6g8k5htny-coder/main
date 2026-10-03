@@ -270,6 +270,35 @@ export function evidenceRows(node) {
   ];
 }
 
+// These contextual fields are recorded node metadata, not source-edge
+// dependencies or a basis for inferring applicability, acceptance or evidence.
+export function recordedContextRows(index, node) {
+  const fields = [
+    ['reading_rule', 'Reading rule'],
+    ['component_of', 'Component of'],
+    ['component_role', 'Component role'],
+    ['coverage_source', 'Coverage source'],
+  ];
+  const literal = value => typeof value === 'string' ? value : JSON.stringify(value) ?? String(value);
+  const reference = value => {
+    if (typeof value !== 'string')
+      return { text: literal(value), note: 'Invalid recorded value' };
+    if (/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(value) && index.nodes.has(value))
+      return { text: value, id: value };
+    return { text: value, note: 'not found in this snapshot' };
+  };
+  return fields.map(([field, label]) => {
+    if (!Object.hasOwn(node, field))
+      return { field, label, state: 'Not recorded', ordered: false, values: [] };
+    const value = node[field];
+    const ordered = field === 'reading_rule' && Array.isArray(value);
+    if (field === 'reading_rule' ? !ordered : typeof value !== 'string')
+      return { field, label, state: 'Invalid recorded value', ordered: false, values: [{ text: literal(value) }] };
+    return { field, label, state: 'Recorded', ordered,
+      values: ordered ? value.map(reference) : [field === 'component_role' ? { text: value } : reference(value)] };
+  });
+}
+
 export function classificationOptions(index) {
   return [...new Set([...index.nodes.values()].map(node=>node.classification))].sort();
 }

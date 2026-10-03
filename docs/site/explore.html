@@ -43,6 +43,13 @@
         <label for="curvature-spread">Curvature spread <span class="math-symbol">R</span><output id="curvature-spread-value" for="curvature-spread">1.0</output></label>
         <input id="curvature-spread" type="range" min="0" max="2" step="0.1" value="1" aria-describedby="curvature-spread-help" disabled>
         <p id="curvature-spread-help" class="control-help">Separates the two curvatures: s − R and s + R.</p>
+        <div class="control-actions" role="group" aria-label="Curvature examples">
+          <button class="reset-button" type="button" data-curvature-preset="maximum" disabled>Maximum</button>
+          <button class="reset-button" type="button" data-curvature-preset="saddle" disabled>Saddle</button>
+          <button class="reset-button" type="button" data-curvature-preset="singular-boundary" disabled>Singular boundary</button>
+          <button class="reset-button" type="button" data-curvature-preset="minimum" disabled>Minimum</button>
+        </div>
+        <p class="control-help">Choose a quadratic example, or adjust the sliders. At the singular boundary, the second-order test is inconclusive.</p>
         <button id="curvature-reset" class="reset-button" type="button" disabled>Reset curvatures</button>
         <p class="keyboard-hint">Sliders work with the arrow keys.</p>
       </div>

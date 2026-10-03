@@ -9,6 +9,7 @@ import {
   metadataEntries,
   normalizeSelection,
   parsePinnedGraph,
+  recordedContextRows,
   unresolvedTargets,
 } from './dependency-model.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
 
@@ -19,7 +20,7 @@ const byId = id => document.getElementById(id);
 // permanently to any reader interaction or subsequent browser navigation.
 function prepareInitialSelectionRestore({ windowObject = window, documentObject = document } = {}) {
   const hash = windowObject.location.hash;
-  const sectionIds = ['node-detail','object-scope-panel','object-evidence','object-audit','object-context'];
+  const sectionIds = ['node-detail','object-scope-panel','object-evidence','object-reading-context','object-audit','object-context'];
   const targetId = hash.slice(1);
   const node = new URLSearchParams(windowObject.location.search).get('node');
   if (!sectionIds.includes(targetId) || !node || !windowObject.addEventListener)
@@ -107,6 +108,36 @@ function metadata(node) {
   return fragment;
 }
 
+function recordedContext(index, node, choose) {
+  return recordedContextRows(index, node).map(row => {
+    const wrapper = element('div');
+    const label = element('dt', { text: `${row.label} (${row.field})` });
+    const description = element('dd');
+    if (row.state !== 'Recorded')
+      description.append(element('p', { className: 'muted', text: row.state }));
+    if (row.state === 'Recorded' && !row.values.length)
+      description.append(element('p', { text: 'Recorded empty list.' }));
+    const list = row.ordered ? element('ol', { className: 'relation-list' }) : description;
+    for (const value of row.values) {
+      const item = element(row.ordered ? 'li' : 'p');
+      if (value.id) {
+        const button = element('button', { text: value.text });
+        button.type = 'button';
+        button.addEventListener('click', () => choose(value.id));
+        item.append(button);
+      } else {
+        item.textContent = value.text;
+      }
+      if (value.note)
+        item.append(element('span', { className: 'muted', text: ` — ${value.note}` }));
+      list.append(item);
+    }
+    if (row.ordered) description.append(list);
+    wrapper.append(label, description);
+    return wrapper;
+  });
+}
+
 function renderPath(path) {
   const item = element('li');
   path.ids.forEach((id, index) => {
@@ -176,6 +207,7 @@ function run({ index, provenance }) {
     selectionError.hidden = !selection.error;
     selectionError.textContent = selection.error || '';
     if (!selection.id) {
+      byId('recorded-context').replaceChildren();
       detailHeading.textContent = selection.error ? 'Saved selection unavailable' : 'Choose a claim to inspect';
       detailContent.hidden = true;
       detailEmpty.hidden = Boolean(selection.error);
@@ -201,6 +233,7 @@ function run({ index, provenance }) {
       tr.append(lane,element('td',{text:row.state}),detail);
       return tr;
     }));
+    byId('recorded-context').replaceChildren(...recordedContext(index, selected, choose));
     byId('node-metadata').replaceChildren(metadata(selected));
     byId('node-record').textContent=JSON.stringify(index.graph.nodes[selected.id],null,2);
     byId('dependency-list').replaceChildren(...(

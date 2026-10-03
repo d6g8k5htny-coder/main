@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import * as exploreModels from '../docs/site/explore-models.mjs';
+import { buildFigureMetadata, buildFigureCitation } from '../docs/site/curvature-export.mjs';
 import { coneModel, pinModel, paletteModel } from '../docs/site/explore-models.mjs';
 
 test('the cone classifies signs, retaining both zero-eigenvalue boundaries', () => {
@@ -130,4 +132,57 @@ test('sharing serializes current controls and preserves section and unrelated qu
   assert.equal(url.searchParams.get('from'), 'reader');
   assert.deepEqual(url.searchParams.getAll('s'), ['-1']);
   assert.deepEqual(readState(url.search), {state: {s:-1,R:1,r:0.25,region:'remote',objects:[]}, invalid:[]});
+});
+
+// Catch wrong preset values, omitted control writes/draw/commit, stale exports,
+// or accepting an unknown name: expectations are hand-derived sign cases.
+test('curvature presets draw and commit the selected controls with matching share and export state', () => {
+  assert.equal(typeof exploreModels.applyCurvaturePreset, 'function');
+  for (const [name, s, eigenvalues, kind] of [
+    ['maximum', -2, [-3, -1], 'peak'], ['saddle', 0, [-1, 1], 'saddle'],
+    ['singular-boundary', -1, [-2, 0], 'flat'], ['minimum', 2, [1, 3], 'bowl']
+  ]) {
+    const center = {value: '0.5'}, spread = {value: '2'};
+    let drawn, shared, exported, citation;
+    const events = [];
+    const current = () => ({s: Number(center.value), R: Number(spread.value)});
+    const applied = exploreModels.applyCurvaturePreset(name, {center, spread,
+      draw() {
+        events.push('draw');
+        drawn = coneModel(Number(center.value), Number(spread.value));
+        exported = buildFigureMetadata(current(), '2026-10-03T00:00:00.000Z');
+        citation = buildFigureCitation(current());
+      },
+      commit() {
+        events.push('commit');
+        shared = stateModule.exploreStateURL('https://example.test/explore.html#peaks',
+          {...current(), r: 0.25, region: 'remote', objects: []});
+      }
+    });
+    assert.equal(applied, true);
+    assert.deepEqual(events, ['draw', 'commit']);
+    assert.deepEqual(current(), {s, R: 1});
+    assert.deepEqual(drawn.eigenvalues, eigenvalues);
+    assert.equal(drawn.kind, kind);
+    assert.deepEqual(exported.params, {s, R: 1});
+    assert.deepEqual(exported.eigenvalues, eigenvalues);
+    assert.equal(exported.classification, kind);
+    assert.ok(citation.includes(`s = ${s}, R = 1;`));
+    assert.ok(citation.includes(`classification: ${kind}.`));
+    assert.deepEqual(readState(new URL(shared).search).state,
+      {s, R: 1, r: 0.25, region: 'remote', objects: []});
+  }
+});
+
+test('unknown curvature presets leave controls and current figure untouched', () => {
+  assert.equal(typeof exploreModels.applyCurvaturePreset, 'function');
+  for (const name of ['unknown', '__proto__', 'toString', '', null]) {
+    const center = {value: '0.5'}, spread = {value: '2'};
+    const callbacks = {center, spread,
+      draw() { assert.fail('unknown preset must not redraw'); },
+      commit() { assert.fail('unknown preset must not commit'); }};
+    assert.equal(exploreModels.applyCurvaturePreset(name, callbacks), false);
+    assert.equal(center.value, '0.5');
+    assert.equal(spread.value, '2');
+  }
 });
