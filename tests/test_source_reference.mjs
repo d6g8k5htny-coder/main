@@ -33,3 +33,35 @@ test('real form wiring clears stale output and announces a corrected reference',
   e.commit.value=sha;listeners.submit({preventDefault(){}});assert.equal(e.link.hidden,false);
   assert.match(e.status.textContent,/not checked/i);
 });
+
+import {readFile} from 'node:fs/promises';
+
+const copyModule = await import('../docs/site/reproduce-copy.mjs').catch(()=>({}));
+const copyCommands = 'git checkout --detach f430fdecbb1d8802d8af40419b701f12af87c039\npython3 -B -S coefficients/side24_v1/coefficient.py';
+function copyControls() {
+  let click;
+  return {block:{textContent:copyCommands},status:{textContent:''},button:{disabled:true,addEventListener(name,handler){assert.equal(name,'click');click=handler;}},click:()=>click()};
+}
+test('copy sends exactly the displayed pinned commands and never executes them',async()=>{
+  assert.equal(typeof copyModule.wireCommandCopy,'function');
+  const c=copyControls();let copied;
+  copyModule.wireCommandCopy({...c,clipboard:{async writeText(text){copied=text;}}});
+  assert.equal(c.button.disabled,false);await c.click();assert.equal(copied,copyCommands);
+  assert.match(c.status.textContent,/Copied/);assert.match(c.status.textContent,/not run/);
+});
+test('clipboard refusal provides manual fallback without success',async()=>{
+  assert.equal(typeof copyModule.wireCommandCopy,'function');
+  const c=copyControls();copyModule.wireCommandCopy({...c,clipboard:{async writeText(){throw Error('denied');}}});
+  await c.click();assert.match(c.status.textContent,/Select/);assert.doesNotMatch(c.status.textContent,/Copied/);assert.equal(c.button.disabled,false);
+});
+test('unsupported clipboard leaves the command block readable and gives fallback',()=>{
+  assert.equal(typeof copyModule.wireCommandCopy,'function');
+  const c=copyControls();copyModule.wireCommandCopy({...c,clipboard:undefined});
+  assert.equal(c.button.disabled,true);assert.equal(c.block.textContent,copyCommands);assert.match(c.status.textContent,/Select/);
+});
+test('reproduction controls have static fallback and an explicit live announcement',async()=>{
+ const html=await readFile(new URL('../docs/site/reproduce.html',import.meta.url),'utf8');
+ assert.match(html,/id="reproduction-commands"/);assert.match(html,/id="copy-commands"[^>]*disabled/);
+ assert.match(html,/id="copy-commands-status"[^>]*role="status"/);
+ assert.match(html,/script-src 'self'/);assert.match(html,/src="reproduce-copy.mjs/);
+});

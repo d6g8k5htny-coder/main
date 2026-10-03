@@ -1,4 +1,5 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=6c905b8133e26b3a9feb1ec74bbcc429c3146ea712b475f8f4b119376e22ec8b';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=afac1358a71a41317dc244b90babf1c60be46544a66c800c47b1111e4f3dce37';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=afac1358a71a41317dc244b90babf1c60be46544a66c800c47b1111e4f3dce37';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -149,15 +150,48 @@ function drawPalette() {
   }
 }
 
-center.addEventListener('input', drawCone);
-spread.addEventListener('input', drawCone);
-byId('curvature-reset').addEventListener('click', () => { center.value = '-2'; spread.value = '1'; drawCone(); });
-distance.addEventListener('input', drawPins);
-regions.forEach(input => input.addEventListener('change', drawPins));
-byId('pin-half').addEventListener('click', () => { distance.value = Number(distance.value) === 0.25 ? '0.5' : '0.25'; drawPins(); });
-byId('pin-reset').addEventListener('click', () => { distance.value = '0.5'; regions[0].checked = true; drawPins(); });
-objects.forEach(input => input.addEventListener('change', drawPalette));
-byId('palette-reset').addEventListener('click', () => { objects.forEach(input => { input.checked = true; }); drawPalette(); });
+const shareLink = byId('explore-state-link');
+const stateStatus = byId('explore-state-status');
+function currentState() {
+  return { s: Number(center.value), R: Number(spread.value), r: Number(distance.value),
+    region: regions.find(input => input.checked).value,
+    objects: objects.filter(input => input.checked).map(input => Number(input.value) + 1) };
+}
+function updateLink() {
+  shareLink.href = exploreStateURL(location.href, currentState());
+}
+function commitState() {
+  updateLink();
+  try {
+    if (shareLink.href !== location.href) history.pushState(null, '', shareLink.href);
+    stateStatus.textContent = 'These settings are in the page address. Share the link to reopen this teaching example.';
+  } catch {
+    stateStatus.textContent = 'The page address could not be updated. Use “Link to these settings” to share this teaching example.';
+  }
+}
+function restoreState() {
+  const { state, invalid } = readExploreState(location.search);
+  center.value = state.s; spread.value = state.R; distance.value = state.r;
+  regions.forEach(input => { input.checked = input.value === state.region; });
+  objects.forEach(input => { input.checked = state.objects.includes(Number(input.value) + 1); });
+  drawCone(); drawPins(); drawPalette(); updateLink();
+  stateStatus.textContent = invalid.length
+    ? `Some link settings were invalid (${invalid.join(', ')}). Those controls use their starting values; the link below shares the settings shown.`
+    : 'Share the link below to reopen these teaching settings. Changes are saved in the page address.';
+}
+for (const [control, draw] of [[center, drawCone], [spread, drawCone], [distance, drawPins]]) {
+  control.addEventListener('input', () => { draw(); updateLink(); });
+  control.addEventListener('change', commitState);
+}
+byId('curvature-reset').addEventListener('click', () => { center.value = '-2'; spread.value = '1'; drawCone(); commitState(); });
+regions.forEach(input => input.addEventListener('change', () => { drawPins(); commitState(); }));
+byId('pin-half').addEventListener('click', () => { distance.value = Number(distance.value) === 0.25 ? '0.5' : '0.25'; drawPins(); commitState(); });
+byId('pin-reset').addEventListener('click', () => { distance.value = '0.5'; regions[0].checked = true; drawPins(); commitState(); });
+objects.forEach(input => input.addEventListener('change', () => { drawPalette(); commitState(); }));
+byId('palette-reset').addEventListener('click', () => { objects.forEach(input => { input.checked = true; }); drawPalette(); commitState(); });
+window.addEventListener('popstate', restoreState);
+window.addEventListener('hashchange', updateLink);
 
-drawCone(); drawPins(); drawPalette();
+restoreState();
+shareLink.hidden = false;
 document.querySelectorAll('input[disabled], button[disabled], fieldset[disabled]').forEach(control => { control.disabled = false; });
