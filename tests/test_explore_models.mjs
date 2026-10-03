@@ -72,3 +72,62 @@ test('models reject invalid or unrepresentable teaching parameters', () => {
   for (const selected of [[0, 0], [3], [-1], [0.5], '012', null])
     assert.throws(() => paletteModel(selected));
 });
+
+let stateModule = {};
+try { stateModule = await import('../docs/site/explore-state.mjs'); } catch {}
+const readState = query => {
+  assert.equal(typeof stateModule.readExploreState, 'function', 'Explore URL reader is available');
+  return stateModule.readExploreState(query);
+};
+
+test('shared parameters restore all three experiments, including empty selection', () => {
+  assert.deepEqual(readState('?s=-1&R=1&r=0.25&region=remote&objects='), {
+    state: {s: -1, R: 1, r: 0.25, region: 'remote', objects: []}, invalid: []
+  });
+  assert.deepEqual(readState('').state, {s: -2, R: 1, r: 0.5, region: 'annulus', objects: [1,2,3]});
+  assert.equal(coneModel(readState('?s=-1&R=1').state.s, 1).kind, 'flat');
+  assert.equal(pinModel({r: readState('?r=0.25').state.r}).gap, 0.015625);
+  for (const selected of [[], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]]) {
+    const parsed = readState('?objects='+selected.join(',')).state.objects;
+    assert.deepEqual(parsed, selected);
+    assert.equal(paletteModel(parsed.map(x => x-1)).decomposable, selected.length <= 2);
+  }
+});
+
+test('invalid numeric links are reported and defaulted without clamping or partial coercion', () => {
+  for (const query of ['s=', 's=Infinity', 's=NaN', 's=0x2', 's=3.1', 's=-3.1', 's=0.15', 's=1junk', 's=1&s=2', 's=%3Cscript%3E']) {
+    const result = readState('?'+query+'&r=0.25');
+    assert.equal(result.state.s, -2, query);
+    assert.equal(result.state.r, 0.25, 'valid fields survive');
+    assert.deepEqual(result.invalid, ['s'], query);
+  }
+  for (const [query, key, fallback] of [['R=-0.1','R',1], ['R=2.1','R',1], ['r=0','r',0.5], ['r=0.61','r',0.5], ['r=0.055','r',0.5]]) {
+    const result = readState('?'+query);
+    assert.equal(result.state[key], fallback);
+    assert.deepEqual(result.invalid, [key]);
+  }
+  assert.deepEqual(readState('?s=-3&R=0&r=0.05').invalid, []);
+  assert.deepEqual(readState('?s=3&R=2&r=0.6').invalid, []);
+});
+
+test('invalid choices cannot invent regions or objects', () => {
+  for (const q of ['objects=1,1','objects=0','objects=4','objects=1,,2','objects=1&objects=2']) {
+    assert.deepEqual(readState('?'+q).state.objects, [1,2,3]);
+    assert.deepEqual(readState('?'+q).invalid, ['objects']);
+  }
+  assert.deepEqual(readState('?objects=3,1').state.objects, [1,3]);
+  assert.equal(readState('?region=elsewhere').state.region, 'annulus');
+  assert.deepEqual(readState('?region=elsewhere').invalid, ['region']);
+});
+
+test('sharing serializes current controls and preserves section and unrelated query fields', () => {
+  assert.equal(typeof stateModule.exploreStateURL, 'function');
+  const url = new URL(stateModule.exploreStateURL('https://example.test/explore.html?from=reader&s=1&s=2#groups',
+    {s: -1, R: 1, r: 0.25, region: 'remote', objects: []}));
+  assert.equal(url.origin, 'https://example.test');
+  assert.equal(url.pathname, '/explore.html');
+  assert.equal(url.hash, '#groups');
+  assert.equal(url.searchParams.get('from'), 'reader');
+  assert.deepEqual(url.searchParams.getAll('s'), ['-1']);
+  assert.deepEqual(readState(url.search), {state: {s:-1,R:1,r:0.25,region:'remote',objects:[]}, invalid:[]});
+});
