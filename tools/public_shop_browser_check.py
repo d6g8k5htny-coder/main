@@ -258,6 +258,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     require(parse_qs(urlsplit(page.url).query)=={"node":["math.rn-fixed-annulus-window"]},"Saved dependency selection missing")
     page.reload()
     expect(page.locator("#detail-heading")).to_have_text("math.rn-fixed-annulus-window",timeout=45000)
+    expect(page.locator("#node-detail")).to_be_focused()
     require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency viewer overflow")
     shot=output/f'{result["case"]}-dependencies.png';page.screenshot(path=str(shot),full_page=True)
     result["screenshots"].append({"page":"dependencies","path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()})
@@ -265,7 +266,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#detail-heading")).to_have_text("Saved selection unavailable",timeout=45000)
     expect(page.locator("#selection-error")).to_contain_text("does not match this source snapshot")
     require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Dependency refusal overflow")
-    result["steps"].append("Pinned 49/55/15 graph, review-source search, saved selection, invalid-ID refusal and narrow overflow checked")
+    result["steps"].append("Pinned 49/55/15 graph, review-source search, post-layout saved-link focus, invalid-ID refusal and narrow overflow checked")
 
 
 def main():

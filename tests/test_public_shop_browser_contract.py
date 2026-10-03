@@ -59,7 +59,8 @@ class ReaderSourceBrowserContract(unittest.TestCase):
         for token in [
             'check_reader_tools_flow', 'measure.html', 'dependencies.html',
             'Pinned Math commit 7858329974e2', 'math.rn-fixed-annulus-window',
-            'Saved selection unavailable', 'documentElement.scrollWidth',
+            'Saved selection unavailable', 'to_be_focused', 'post-layout saved-link focus',
+            'documentElement.scrollWidth',
             'len(report["cases"])==11',
         ]:
             self.assertIn(token,source)
