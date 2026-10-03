@@ -10,11 +10,21 @@
 .node-list, .relation-list, .path-list { padding: 0; list-style: none; }
 .node-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .node-button { width: 100%; text-align: left; background: var(--ul-surface); color: var(--ul-text); border: 1px solid var(--ul-border); padding: 14px 16px; }
+.node-button.classification-open-active,
+.node-button.classification-open-historical,
+.node-button.classification-author-side-candidate,
+.node-button.classification-author-side-reduction { border-style: dashed; }
+.node-button.classification-proved-reviewed { border-style: double; border-width: 3px; }
+.node-button.classification-engineering-control { border-width: 2px; }
 .node-button:hover { border-color: var(--ul-link); filter: none; }
 .node-button strong, .node-button span { display: block; overflow-wrap: anywhere; }
 .node-button span { color: var(--ul-muted); font-size: 12px; margin-top: 3px; }
 .target-list { counter-reset: target; list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--ul-border); }
 .target-list li { counter-increment: target; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 16px; align-items: start; padding: 18px 0; border-bottom: 1px solid var(--ul-border); }
+.target-list li.classification-open-active,
+.target-list li.classification-open-historical,
+.target-list li.classification-author-side-candidate,
+.target-list li.classification-author-side-reduction { border-left: 3px dashed var(--ul-border); padding-left: 12px; }
 .target-list li::before { content: counter(target, decimal-leading-zero); color: var(--ul-gold); font: 700 12px/1.7 system-ui, sans-serif; letter-spacing: .1em; }
 .target-list button { text-align: left; min-height: 0; padding: 0; background: transparent; border: 0; color: var(--ul-link); overflow-wrap: anywhere; }
 .target-list button:hover { text-decoration: underline; filter: none; }
@@ -33,7 +43,7 @@
 .relation-list li:first-child { border-top: 0; }
 .relation-list button { border: 0; background: transparent; color: var(--ul-link); min-height: 0; padding: 0; text-align: left; overflow-wrap: anywhere; }
 .relation-list button:hover { text-decoration: underline; filter: none; }
-.edge-note { display: block; color: var(--ul-muted); font-size: 12px; }
+.edge-note { display: block; color: var(--ul-muted); font-size: 12px; overflow-wrap: anywhere; }
 .edge-kind { color: var(--ul-text); font-weight: 650; }
 .path-panel { margin-top: 18px; }
 .path-list { counter-reset: path; }
@@ -41,7 +51,7 @@
 .path-list > li:first-child { border-top: 0; }
 .path-list > li::before { content: "Path " counter(path); display: block; color: var(--ul-gold); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
 .path-step { display: inline; overflow-wrap: anywhere; }
-.path-arrow { color: var(--ul-muted); margin: 0 7px; }
+.path-arrow { color: var(--ul-muted); margin: 0 7px; overflow-wrap: anywhere; }
 .source-boundary { border-bottom: 0; }
 .dependency-page button:focus-visible, .dependency-page input:focus-visible, .dependency-page a:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 760px) {

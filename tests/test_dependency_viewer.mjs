@@ -4,8 +4,11 @@ import { readFile } from 'node:fs/promises';
 
 import {
   buildGraphIndex,
+  classificationClass,
   dependencyPaths,
+  metadataEntries,
   normalizeSelection,
+  parsePinnedGraph,
   searchNodes,
   unresolvedTargets,
   validateGraph,
@@ -61,7 +64,35 @@ test('search covers ids, notes, source paths, classifications and edge relations
   assert.ok(searchNodes(index, 'UNIFORM_MATRIX_CAP').some(node => node.id === 'math.uniform-matrix-cap-lifetime'));
   assert.ok(searchNodes(index, 'OPEN_ACTIVE').some(node => node.id === 'hist.Piece-2-annulus'));
   assert.ok(searchNodes(index, 'reads_with_congruence_erratum').some(node => node.id === 'math.uniform-matrix-cap-lifetime'));
+  assert.ok(searchNodes(index, 'reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md')
+    .some(node => node.id === 'math.rn-fixed-annulus-window'));
+  assert.ok(searchNodes(index, 'xAI/Grok via Cursor')
+    .some(node => node.id === 'math.rn-fixed-annulus-window'));
   assert.equal(searchNodes(index, 'definitely-no-such-node').length, 0);
+});
+
+test('the app verifies graph bytes against a compiled source identity before parsing', async () => {
+  const [bytes, provenance] = await Promise.all([
+    readFile(graphURL),
+    readFile(provenanceURL, 'utf8').then(JSON.parse),
+  ]);
+  const graph = await parsePinnedGraph(bytes, provenance);
+  assert.equal(Object.keys(graph.nodes).length, 49);
+
+  const changed = Buffer.from(bytes);
+  changed[100] ^= 1;
+  await assert.rejects(parsePinnedGraph(changed, provenance), /digest mismatch/i);
+  await assert.rejects(parsePinnedGraph(bytes, { ...provenance, commit: '0'.repeat(40) }), /provenance mismatch/i);
+});
+
+test('classification styling and metadata preserve source review lineage', async () => {
+  const index = buildGraphIndex(await fixture());
+  const reviewed = index.nodes.get('math.rn-fixed-annulus-window');
+  const entries = new Map(metadataEntries(reviewed));
+  assert.equal(classificationClass('PROVED_REVIEWED'), 'classification-proved-reviewed');
+  assert.equal(classificationClass('OPEN_ACTIVE'), 'classification-open-active');
+  assert.equal(entries.get('Review source'), 'reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md');
+  assert.equal(entries.get('Review provider'), 'xAI/Grok via Cursor');
 });
 
 test('dependency paths are source-edge paths and retain relation metadata', async () => {
@@ -118,6 +149,9 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(app, /URLSearchParams/);
   assert.match(app, /replaceState/);
   assert.match(app, /dependencyPaths/);
+  assert.match(app, /prefers-reduced-motion:\s*reduce/);
   assert.match(style, /@media\s*\(max-width:\s*760px\)/);
   assert.match(style, /:focus-visible/);
+  assert.match(style, /\.path-arrow[^}]*overflow-wrap:\s*anywhere/s);
+  assert.match(style, /classification-proved-reviewed/);
 });

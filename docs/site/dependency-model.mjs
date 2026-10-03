@@ -12,11 +12,82 @@ const NON_RESEARCH_KINDS = new Set([
   'register',
 ]);
 
+export const PINNED_GRAPH_SOURCE = Object.freeze({
+  repository: 'd6g8k5htny-coder/Math-',
+  commit: '7858329974e28be79f29b22644370084ff43da4f',
+  path: 'frontiers/downstream_gate_20260925/GRAPH.json',
+  bytes: 38753,
+  sha256: '8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09',
+});
+
 function text(value) {
   if (value === null || value === undefined) return '';
   if (Array.isArray(value)) return value.map(text).join(' ');
   if (typeof value === 'object') return Object.values(value).map(text).join(' ');
   return String(value);
+}
+
+function hex(bytes) {
+  return [...bytes].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+export async function parsePinnedGraph(sourceBytes, provenance, cryptoAPI = globalThis.crypto) {
+  const bytes = sourceBytes instanceof Uint8Array ? sourceBytes : new Uint8Array(sourceBytes);
+  const recorded = provenance?.files?.['GRAPH.json'];
+  const provenanceMatches = provenance?.repository === PINNED_GRAPH_SOURCE.repository &&
+    provenance?.commit === PINNED_GRAPH_SOURCE.commit &&
+    recorded?.path === PINNED_GRAPH_SOURCE.path &&
+    recorded?.bytes === PINNED_GRAPH_SOURCE.bytes &&
+    recorded?.sha256 === PINNED_GRAPH_SOURCE.sha256;
+  if (!provenanceMatches) throw new Error('Pinned graph provenance mismatch.');
+  if (bytes.byteLength !== PINNED_GRAPH_SOURCE.bytes)
+    throw new Error(`Pinned graph byte-count mismatch: expected ${PINNED_GRAPH_SOURCE.bytes}, received ${bytes.byteLength}.`);
+  if (!cryptoAPI?.subtle) throw new Error('SHA-256 verification is unavailable in this browser.');
+  const digest = hex(new Uint8Array(await cryptoAPI.subtle.digest('SHA-256', bytes)));
+  if (digest !== PINNED_GRAPH_SOURCE.sha256) throw new Error('Pinned graph digest mismatch.');
+  try {
+    return JSON.parse(new TextDecoder().decode(bytes));
+  } catch {
+    throw new Error('Pinned graph is not valid JSON.');
+  }
+}
+
+export function classificationClass(classification) {
+  return `classification-${String(classification || 'unknown').toLocaleLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+}
+
+function displayValue(value) {
+  if (Array.isArray(value)) return value.map(displayValue).join('; ');
+  if (value && typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+}
+
+export function metadataEntries(node) {
+  const values = [
+    ['Identifier', node.id],
+    ['Classification', node.classification],
+    ['Layer', node.layer],
+    ['Kind', node.kind],
+    ['Controlling', node.controlling === true ? 'yes' : node.controlling === false ? 'no' : 'not recorded'],
+    ['Recorded impact', `${node.impact} transitive dependent${node.impact === 1 ? '' : 's'}`],
+  ];
+  const fields = [
+    ['source', 'Source'],
+    ['fingerprint', 'Fingerprint'],
+    ['scope', 'Scope'],
+    ['notes', 'Notes'],
+    ['author_provider', 'Author provider'],
+    ['review_provider', 'Review provider'],
+    ['review_providers', 'Review providers'],
+    ['review_source', 'Review source'],
+    ['review_url', 'Review URL'],
+    ['review_basis', 'Review basis'],
+  ];
+  for (const [field, label] of fields) {
+    if (node[field] !== undefined && displayValue(node[field]).length)
+      values.push([label, displayValue(node[field])]);
+  }
+  return values;
 }
 
 export function validateGraph(graph) {
@@ -113,6 +184,12 @@ export function buildGraphIndex(graph) {
       node.source,
       node.notes,
       node.scope,
+      node.author_provider,
+      node.review_provider,
+      node.review_providers,
+      node.review_source,
+      node.review_url,
+      node.review_basis,
       node.dependencies.map(edge => [edge.id, edge.relation]),
       node.dependents.map(edge => [edge.id, edge.relation]),
     ]).toLocaleLowerCase();
@@ -177,4 +254,3 @@ export function normalizeSelection(index, candidate) {
     error: `Unknown node “${id}”. The saved link does not match this source snapshot.`,
   };
 }
-

@@ -1,7 +1,10 @@
 import {
   buildGraphIndex,
+  classificationClass,
   dependencyPaths,
+  metadataEntries,
   normalizeSelection,
+  parsePinnedGraph,
   searchNodes,
   unresolvedTargets,
 } from './dependency-model.mjs';
@@ -16,7 +19,7 @@ function element(tag, options = {}) {
 }
 
 function buttonFor(node, choose) {
-  const button = element('button', { className: 'node-button' });
+  const button = element('button', { className: `node-button ${classificationClass(node.classification)}` });
   button.type = 'button';
   const id = element('strong', { text: node.id });
   const context = element('span', { text: `${node.classification} · ${node.layer} · ${node.kind}` });
@@ -43,20 +46,8 @@ function emptyItem(message) {
 }
 
 function metadata(node) {
-  const values = [
-    ['Identifier', node.id],
-    ['Classification', node.classification],
-    ['Layer', node.layer],
-    ['Kind', node.kind],
-    ['Controlling', node.controlling === true ? 'yes' : node.controlling === false ? 'no' : 'not recorded'],
-    ['Recorded impact', `${node.impact} transitive dependent${node.impact === 1 ? '' : 's'}`],
-  ];
-  for (const field of ['source', 'fingerprint', 'scope', 'notes']) {
-    if (node[field] !== undefined && String(node[field]).length)
-      values.push([field[0].toUpperCase() + field.slice(1), String(node[field])]);
-  }
   const fragment = document.createDocumentFragment();
-  for (const [label, value] of values) {
+  for (const [label, value] of metadataEntries(node)) {
     const wrapper = element('div');
     wrapper.append(element('dt', { text: label }), element('dd', { text: value }));
     fragment.append(wrapper);
@@ -87,7 +78,11 @@ async function load() {
   ]);
   if (!graphResponse.ok || !provenanceResponse.ok)
     throw new Error('A pinned source file could not be loaded.');
-  const [graph, provenance] = await Promise.all([graphResponse.json(), provenanceResponse.json()]);
+  const [graphBytes, provenance] = await Promise.all([
+    graphResponse.arrayBuffer(),
+    provenanceResponse.json(),
+  ]);
+  const graph = await parsePinnedGraph(graphBytes, provenance);
   return { index: buildGraphIndex(graph), provenance };
 }
 
@@ -159,11 +154,12 @@ function run({ index, provenance }) {
 
   function choose(id) {
     renderSelection(id);
-    byId('node-detail').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    byId('node-detail').scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
   for (const target of targetList) {
-    const item = element('li');
+    const item = element('li', { className: classificationClass(target.classification) });
     const content = element('div');
     const button = element('button', { text: target.id });
     button.type = 'button';
