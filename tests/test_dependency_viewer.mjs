@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { webcrypto } from 'node:crypto';
 
 import {
   buildGraphIndex,
@@ -21,7 +22,7 @@ const pageURL = new URL('docs/site/dependencies.html', root);
 const appURL = new URL('docs/site/dependencies.mjs', root);
 const styleURL = new URL('docs/site/dependencies.css', root);
 
-test('broad dependency searches expose every matching node including later coefficient sources', async () => {
+for (const digestDelay of [0, 150]) test(`broad dependency searches expose every matching node after ${digestDelay} ms digest delay`, async () => {
   class Element extends EventTarget {
     constructor(){super();this.children=[];this.value='';this._text='';}
     set textContent(value){this._text=String(value);this.children=[];}
@@ -31,7 +32,11 @@ test('broad dependency searches expose every matching node including later coeff
   }
   const html=await readFile(pageURL,'utf8');
   const nodes=new Map([...html.matchAll(/\bid="([^"]+)"/g)].map(match=>[match[1],new Element()]));
-  const saved=new Map(['window','document','fetch'].map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
+  const saved=new Map(['window','document','fetch','crypto'].map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
+  if (digestDelay) Object.defineProperty(globalThis,'crypto',{configurable:true,value:{subtle:{async digest(...args){
+    await new Promise(resolve=>setTimeout(resolve,digestDelay));
+    return webcrypto.subtle.digest(...args);
+  }}}});
   const window=new EventTarget();window.location={hash:'',search:'',href:'https://example.test/dependencies.html'};
   globalThis.window=window;
   globalThis.document={getElementById:id=>nodes.get(id),createElement:()=>new Element(),createTextNode:text=>({textContent:text})};
@@ -39,15 +44,19 @@ test('broad dependency searches expose every matching node including later coeff
     assert.ok(['./dependency-source/GRAPH.json','./dependency-source/PROVENANCE.json'].includes(url));
     return new Response(await readFile(new URL('docs/site/'+url,root)));
   };
+  let initialization;
   try {
-    await import('../docs/site/dependencies.mjs?visitor-search');
-    // Wait for asynchronous byte validation and real DOM initialization.
-    for(let turn=0;turn<20&&!nodes.get('load-status').textContent.startsWith('Pinned Math');turn++)await new Promise(resolve=>setTimeout(resolve,5));
+    ({initialization}=await import(`../docs/site/dependencies.mjs?visitor-search-${digestDelay}`));
+    // Await the actual startup lifecycle, including byte validation and rendering.
+    await initialization;
+    assert.match(nodes.get('load-status').textContent,/^Pinned Math/);
     const search=nodes.get('dependency-search');search.value='math';search.dispatchEvent(new Event('input'));
     assert.equal(nodes.get('search-results').children.length,39);
     assert.match(nodes.get('search-results').textContent,/math.side24-coefficient/);
     assert.match(nodes.get('search-results').textContent,/math.uniform-matrix-cap-lifetime/);
   } finally {
+    // Keep the DOM/network globals alive until all startup work has settled.
+    await initialization;
     for(const [name,descriptor] of saved)if(descriptor)Object.defineProperty(globalThis,name,descriptor);else delete globalThis[name];
   }
 });

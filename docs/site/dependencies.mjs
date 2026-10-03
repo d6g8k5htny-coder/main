@@ -246,7 +246,7 @@ function run({ index, provenance }) {
 }
 
 const initialSelectionRestore = prepareInitialSelectionRestore();
-load().then(data => {
+export const initialization = load().then(data => {
   run(data);
   initialSelectionRestore.finish();
 }).catch(error => {

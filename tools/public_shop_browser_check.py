@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import subprocess
 import threading
+import time
 import traceback
 from urllib.parse import parse_qs, urlsplit
 
@@ -317,13 +318,17 @@ def check_visitor_recovery(page, origin, expect, result):
         page.route(manifest["claims"][0]["proof"]["url"],lambda route:held.append(route))
         page.goto(origin+"museum.html#d3-side24-coefficient",wait_until="domcontentloaded")
         expect(page.locator("#claim-cards")).to_contain_text("Verifying",timeout=45000)
+        deadline=time.monotonic()+45
+        while not held and time.monotonic()<deadline:
+            page.wait_for_timeout(10)  # Pump Playwright events until the route callback ran.
+        require(len(held)==1,"The delayed source was not intercepted before reader interaction")
         page.get_by_role("link",name="Reproduce",exact=True).first.focus()
         page.keyboard.press("Tab")
         focused=page.get_by_role("link",name="Cite",exact=True).first
         expect(focused).to_be_focused()
-        require(len(held)==1,"The delayed source was not intercepted")
         held[0].fulfill(response=held[0].fetch())
         expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
+        page.evaluate("() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
         expect(focused).to_be_focused()
         require(page.evaluate("Math.abs(document.querySelector('#d3-side24-coefficient').getBoundingClientRect().top)>100"),"Delayed claim completion pulled the reader back")
         result["steps"].append("keyboard navigation during museum verification keeps focus and reading position")
