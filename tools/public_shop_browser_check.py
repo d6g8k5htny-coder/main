@@ -258,7 +258,8 @@ def check_source_card_flow(page, origin, expect, result, output):
             static=page.context.browser.new_context(java_script_enabled=False)
             try:
                 fallback=static.new_page();fallback.goto(origin+'formal.html#formal-coverage')
-                fallback.locator('#formal-coverage-details summary').click()
+                fallback.locator('#formal-coverage-details summary').press('Enter')
+                expect(fallback.locator('#formal-coverage-details')).to_have_attribute('open','')
                 expect(fallback.locator('#formal-coverage-table tbody tr')).to_have_count(9)
                 expect(fallback.locator('#formal-coverage-table')).to_be_visible()
             finally:
