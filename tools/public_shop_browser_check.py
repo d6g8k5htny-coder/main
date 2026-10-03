@@ -263,6 +263,21 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#node-detail")).to_be_focused()
     expect(page.locator("#node-metadata")).to_contain_text("Review source")
     expect(page.locator("#node-metadata")).to_contain_text("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
+    expect(page.locator("#dependency-paths > li")).to_have_count(1)
+    expect(page.locator("#dependency-paths > li")).to_contain_text("math.rn-count-interface")
+    expect(page.locator("#dependency-paths")).not_to_contain_text("hist.CH-LIFT")
+    page.locator("#dependency-search").fill("math.lifetime-remainder")
+    remainder_result=page.locator(
+        '#search-results button:has(strong:text-is("math.lifetime-remainder"))'
+    )
+    expect(remainder_result).to_have_count(1)
+    remainder_result.click()
+    expected_remainder_source="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"
+    expected_remainder_review="https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206"
+    expect(page.locator(f'#node-metadata a[href="{expected_remainder_source}"]')).to_have_count(1)
+    expect(page.locator(f'#node-metadata a[href="{expected_remainder_review}"]')).to_have_count(1)
+    result["steps"].append("required dependency path and actionable source/review metadata checked")
+    page.goto(origin+"dependencies.html?node=math.rn-fixed-annulus-window#node-detail")
     require(parse_qs(urlsplit(page.url).query)=={"node":["math.rn-fixed-annulus-window"]},"Saved dependency selection missing")
     page.reload()
     expect(page.locator("#detail-heading")).to_have_text("math.rn-fixed-annulus-window",timeout=45000)
