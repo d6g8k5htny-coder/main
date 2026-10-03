@@ -64,6 +64,26 @@ function displayValue(value) {
   return String(value);
 }
 
+function metadataHref(field, value) {
+  if (!['source', 'review_source', 'review_url'].includes(field) || typeof value !== 'string')
+    return undefined;
+  try {
+    const url = new URL(value);
+    if (url.protocol === 'https:' && url.hostname === 'github.com' &&
+        !url.username && !url.password && !url.port)
+      return value;
+    return undefined;
+  } catch {
+    const segments = value.split('/');
+    if (!value || value.startsWith('/') || value.includes('\\') ||
+        segments.some(segment => !segment || segment === '.' || segment === '..') ||
+        !segments.every(segment => /^[A-Za-z0-9._-]+$/.test(segment)))
+      return undefined;
+    const path = segments.map(encodeURIComponent).join('/');
+    return `https://github.com/${PINNED_GRAPH_SOURCE.repository}/blob/${PINNED_GRAPH_SOURCE.commit}/${path}`;
+  }
+}
+
 export function metadataEntries(node) {
   const values = [
     ['Identifier', node.id],
@@ -78,6 +98,7 @@ export function metadataEntries(node) {
     ['fingerprint', 'Fingerprint'],
     ['scope', 'Scope'],
     ['notes', 'Notes'],
+    ['component_role', 'Component role'],
     ['author_provider', 'Author provider'],
     ['review_provider', 'Review provider'],
     ['review_providers', 'Review providers'],
@@ -90,7 +111,7 @@ export function metadataEntries(node) {
   ];
   for (const [field, label] of fields) {
     if (node[field] !== undefined && displayValue(node[field]).length)
-      values.push([label, displayValue(node[field])]);
+      values.push([label, displayValue(node[field]), metadataHref(field, node[field])]);
   }
   return values;
 }
@@ -189,6 +210,7 @@ export function buildGraphIndex(graph) {
       node.source,
       node.notes,
       node.scope,
+      node.component_role,
       node.author_provider,
       node.review_provider,
       node.review_providers,
@@ -244,6 +266,7 @@ export function dependencyPaths(index, startId) {
       recordedTargets.add(currentId);
     }
     for (const edge of current.dependencies) {
+      if (!edge.required) continue;
       if (path.ids.includes(edge.id)) continue;
       const nextDepth = path.ids.length;
       if (shortestDepth.has(edge.id) && shortestDepth.get(edge.id) <= nextDepth) continue;

@@ -26,6 +26,7 @@ function prepareInitialSelectionRestore({ windowObject = window, documentObject 
   const cleanup = () => events.forEach(event => windowObject.removeEventListener(event, cancel, options));
   const cancel = event => {
     if (event.type === 'pointermove' && !event.buttons) return;
+    if (event.type === 'focusin' && event.target === documentObject.getElementById('node-detail')) return;
     cancelled = true;
     cleanup();
   };
@@ -85,9 +86,17 @@ function emptyItem(message) {
 
 function metadata(node) {
   const fragment = document.createDocumentFragment();
-  for (const [label, value] of metadataEntries(node)) {
+  for (const [label, value, href] of metadataEntries(node)) {
     const wrapper = element('div');
-    wrapper.append(element('dt', { text: label }), element('dd', { text: value }));
+    const description = element('dd');
+    if (href) {
+      const link = element('a', { text: value });
+      link.href = href;
+      description.append(link);
+    } else {
+      description.textContent = value;
+    }
+    wrapper.append(element('dt', { text: label }), description);
     fragment.append(wrapper);
   }
   return fragment;
@@ -184,7 +193,7 @@ function run({ index, provenance }) {
     ));
     const paths = dependencyPaths(index, selected.id);
     byId('dependency-paths').replaceChildren(...(
-      paths.length ? paths.map(renderPath) : [emptyItem('No path to another unresolved target is recorded below this node.')]
+      paths.length ? paths.map(renderPath) : [emptyItem('No required path to another unresolved target is recorded below this node.')]
     ));
     if (writeURL) updateURL(selected.id);
     if (focus) byId('node-detail').focus({ preventScroll: true });

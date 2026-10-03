@@ -111,6 +111,27 @@ test('classification styling and metadata preserve source review lineage', async
   );
   assert.ok(searchNodes(index, 'never discharge')
     .some(node => node.id === 'math.d1-component.reconciliation-record'));
+  const component = index.nodes.get('math.d5-component.punctured-pin-continuum-check');
+  const componentEntries = new Map(metadataEntries(component));
+  assert.equal(componentEntries.get('Component role'), 'review_checker');
+  assert.ok(searchNodes(index, 'review_checker')
+    .some(node => node.id === component.id));
+
+  const remainderEntries = metadataEntries(index.nodes.get('math.lifetime-remainder'));
+  const source = remainderEntries.find(([label]) => label === 'Source');
+  const reviewSource = remainderEntries.find(([label]) => label === 'Review source');
+  assert.equal(source[2],
+    'https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md');
+  assert.equal(reviewSource[2],
+    'https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206');
+  const externalSource = metadataEntries(index.nodes.get('math.rn-mesoscopic-reduction'))
+    .find(([label]) => label === 'Source');
+  assert.equal(externalSource[2], undefined);
+  assert.equal(metadataEntries({
+    id: 'synthetic', classification: 'OPEN_ACTIVE', layer: 'test', kind: 'candidate',
+    controlling: false, impact: 0, source: '../private.txt',
+    review_source: 'https://example.com/review',
+  }).filter(([, , href]) => href !== undefined).length, 0);
 });
 
 test('classification CSS identifiers use locale-neutral ASCII case folding', () => {
@@ -124,17 +145,22 @@ test('classification CSS identifiers use locale-neutral ASCII case folding', () 
   }
 });
 
-test('dependency paths are source-edge paths and retain relation metadata', async () => {
+test('dependency paths use required source edges and retain relation metadata', async () => {
   const index = buildGraphIndex(await fixture());
   const paths = dependencyPaths(index, 'math.rn-mesoscopic-reduction');
   const target = paths.find(path => path.ids.at(-1) === 'hist.Piece-2-annulus');
-  assert.ok(target);
-  assert.equal(target.ids[0], 'math.rn-mesoscopic-reduction');
-  assert.equal(target.edges.length, target.ids.length - 1);
-  assert.ok(target.edges.every(edge => typeof edge.relation === 'string' && edge.relation.length));
+  assert.equal(target, undefined);
   const nested = paths.find(path => path.ids.at(-1) === 'math.rn-count-interface');
   assert.ok(nested);
   assert.ok(nested.ids.includes('math.rn-fixed-remote-window'));
+  assert.equal(nested.ids[0], 'math.rn-mesoscopic-reduction');
+  assert.equal(nested.edges.length, nested.ids.length - 1);
+  assert.ok(nested.edges.every(edge => edge.required && edge.relation.length));
+
+  const annulusPaths = dependencyPaths(index, 'math.rn-fixed-annulus-window');
+  assert.deepEqual(annulusPaths.map(path => path.ids.at(-1)), ['math.rn-count-interface']);
+  assert.ok(!annulusPaths.some(path => path.ids.includes('regional.fixed-annulus.high-jet-route')));
+  assert.ok(!annulusPaths.some(path => path.ids.includes('hist.CH-LIFT')));
 });
 
 test('saved node links fail visibly instead of selecting an unrelated node', async () => {
@@ -185,6 +211,7 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(app, /popstate[\s\S]*writeURL:\s*false,\s*focus:\s*false/);
   assert.match(app, /prepareInitialSelectionRestore/);
   assert.match(app, /\['wheel',[\s\S]*'pagehide'\]/);
+  assert.match(app, /event\.type === 'focusin'[\s\S]*node-detail/);
   assert.match(app, /requestAnimationFrame/);
   assert.match(app, /scrollIntoView\(\{\s*block:\s*'start',\s*behavior:\s*'instant'\s*\}\)/);
   assert.match(app, /dependencyPaths/);
