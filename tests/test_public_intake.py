@@ -814,6 +814,84 @@ class IntakeTests(unittest.TestCase):
                     checked += 1
         self.assertGreater(checked, 0)
 
+    # --- CR-F6 of main #86 comment 5851057735 (adversarial panel; MINOR, 2/3 unrefuted):
+    # the CREDENTIALS scan missed encrypted and PGP private-key armor, Google AIza
+    # keys, npm and Hugging Face tokens, Stripe live keys, three-part JWTs and
+    # Slack webhook URLs, while sk-ant-/sk-proj- and plain PEM were refused. The
+    # scan is still not a guarantee (module docstring; CONTRIBUTING), so no stated
+    # promise was broken; the dissenting refuter graded it INFO on that ground.
+
+    NEW_CREDENTIAL_FORMATS = {
+        'encrypted PEM': '-----BEGIN ENCRYPTED PRIVATE KEY-----\nMIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQI',
+        'PGP private key block': '-----BEGIN PGP PRIVATE KEY BLOCK-----\n\nlQOYBGQAAAABCADK',
+        'Google API key': 'AIza' + 'SyA1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q',  # 4 + 35 characters
+        'npm token': 'npm_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8',
+        'Hugging Face token': 'hf_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7',
+        'Stripe live key': 'sk_live_' + '4eC39HqLyjWDarjtT1zdp7dc',
+        'JWT': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        # Assembled at run time: the literal URL shape trips GitHub push protection on the test file itself.
+        'Slack webhook': 'https://hooks.slack.com/' + '/'.join(['services', 'T0123ABCD', 'B0123ABCD', 'a1B2c3D4e5F6g7H8i9J0k1L2']),
+    }
+    OLD_CREDENTIAL_FORMATS = {
+        'plain PEM': '-----BEGIN PRIVATE KEY-----', 'RSA PEM': '-----BEGIN RSA PRIVATE KEY-----', 'OpenSSH PEM': '-----BEGIN OPENSSH PRIVATE KEY-----',
+        'GitHub classic': 'ghp_' + 'X' * 36, 'GitHub fine-grained': 'github_pat_' + 'X' * 60, 'AWS': 'AKIA' + 'A' * 16,
+        'Slack bot': 'xoxb-' + '1' * 12, 'OpenAI project': 'sk-proj-' + 'A' * 48, 'Anthropic': 'sk-ant-api03-' + 'A' * 95,
+    }
+
+    def plant(self, value, where):
+        # Both text files start clean so each planting is judged on its own.
+        self.raw['RESULT.md'] = b'# Result\nIllustration only; scientific effect NONE.\n'
+        self.raw['output.json'] = b'{"illustration":true}\n'
+        if where == 'output.json':
+            self.raw['output.json'] = json.dumps({'token': value}).encode()
+        else:
+            self.raw['RESULT.md'] = self.raw['RESULT.md'] + ('\n' + value + '\n').encode()
+        self.save()
+
+    def test_common_credential_formats_refused_without_echo(self):
+        for label, value in {**self.NEW_CREDENTIAL_FORMATS, **self.OLD_CREDENTIAL_FORMATS}.items():
+            for where in ('output.json', 'RESULT.md'):
+                with self.subTest(format=label, where=where):
+                    self.plant(value, where)
+                    code, result = self.cli()
+                    self.assertEqual((code, result['result'], result['reason']),
+                                     (1, 'REJECTED', 'possible credential detected; values are not logged'))
+                    self.assertNotIn(value.split('\n')[0][-16:], json.dumps(result))
+        for label, value in self.NEW_CREDENTIAL_FORMATS.items():
+            with self.subTest(pattern=label):
+                self.assertTrue(any(pattern.search(value.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_credential_lookalikes_in_prose_accepted(self):
+        """False-positive guards: identifiers that share a prefix, a one-dot pair,
+        hooks.slack.com in prose, public PEM armor, SHA digests, base64, URLs."""
+        prose = ' '.join([
+            'npm_package.json', 'hf_model-card', 'sk_live_test', 'AIza' + 'A' * 10, 'AIza' + 'A' * 36,
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0', 'see https://hooks.slack.com/ for the format',
+            '-----BEGIN PUBLIC KEY-----', '-----BEGIN CERTIFICATE-----', '-----BEGIN PGP PUBLIC KEY BLOCK-----', '-----BEGIN PGP SIGNATURE-----',
+            'a' * 64, '0123456789abcdef' * 4, 'd' * 40, 'QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=' * 3,
+            'https://github.com/d6g8k5htny-coder/main/blob/main/docs/x.md', '[a.b.c](https://example.org/a.b.c?x=1)',
+            'version 1.2.3', 'eyJ.eyJ.eyJ', 'hf_', 'npm_', 'sk_live_'])
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(prose, where)
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertFalse(any(pattern.search(prose.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_landed_packets_keep_passing_the_credential_scan(self):
+        """Census over the landed packets in this checkout: every artifact file and
+        IDENTITY.json still passes the CREDENTIALS scan byte-for-byte. No network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            rows = intake.strict_json(manifest.read_bytes())['artifacts']
+            for name in ['IDENTITY.json'] + [row['path'] for row in rows]:
+                with self.subTest(package=manifest.parent.name, path=name):
+                    raw = (manifest.parent / name).read_bytes()
+                    self.assertFalse(any(pattern.search(raw) for pattern in intake.CREDENTIALS))
+                    checked += 1
+        self.assertGreater(checked, 0)
+
 
 
 if __name__ == '__main__':

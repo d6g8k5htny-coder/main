@@ -39,12 +39,19 @@ BRANCH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_./-]*\Z')  # a name this route can 
 MAX_BRANCH_PAGES = 3
 MAX_SOURCE_PATH = 1024
 CREDENTIALS = [
-    re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
+    # Any PEM private-key armor: unencrypted, ENCRYPTED, RSA/EC/OPENSSH/DSA, and PGP's '... PRIVATE KEY BLOCK'.
+    re.compile(rb'-----BEGIN [A-Z ]*PRIVATE KEY(?: BLOCK)?-----'),
     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
     re.compile(rb'\bgithub_pat_[A-Za-z0-9_]{60,}\b'),
     re.compile(rb'\b(?:AKIA|ASIA)[A-Z0-9]{16}\b'),
     re.compile(rb'\bxox[baprs]-[A-Za-z0-9-]{10,}\b'),
     re.compile(rb'\bsk-(?:proj-)?[A-Za-z0-9_-]{32,}\b'),
+    re.compile(rb'\bAIza[0-9A-Za-z_-]{35}\b'),  # Google API key: fixed 39 characters
+    re.compile(rb'\bnpm_[A-Za-z0-9]{36}\b'),  # npm access token
+    re.compile(rb'\bhf_[A-Za-z0-9]{30,}\b'),  # Hugging Face token
+    re.compile(rb'\bsk_live_[0-9A-Za-z]{20,}\b'),  # Stripe live secret key
+    re.compile(rb'\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b'),  # three-part JWT ('{"' in base64url)
+    re.compile(rb'hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+'),  # Slack incoming webhook
 ]
 
 
