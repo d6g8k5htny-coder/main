@@ -124,6 +124,9 @@ export function captureTeachingDiagram(svg,computedStyle=globalThis.getComputedS
       const value=styles.getPropertyValue(property);if(value && value!=='none')refuse('unsupported displayed resource or effect');
     }
     if(!['title','desc'].includes(node.localName) && (styles.getPropertyValue('display')==='none' || styles.getPropertyValue('visibility')!=='visible' || Number(styles.getPropertyValue('opacity'))===0))refuse('hidden displayed diagram');
+    // Root opacity affects every primitive but is not represented by the
+    // opaque standalone background. Refuse it rather than change the figure.
+    if(root && Number(boundedNumber(styles.getPropertyValue('opacity'),0,1))!==1)refuse('unsupported root opacity');
     if(root && typeof node.getClientRects==='function' && !node.getClientRects().length)refuse('hidden displayed diagram');
     return styles;
   }
@@ -133,13 +136,33 @@ export function captureTeachingDiagram(svg,computedStyle=globalThis.getComputedS
     if(node.namespaceURI!==SVG_NS || !Object.hasOwn(allowedAttributes,node.localName) || [...node.childNodes].some(child=>child.nodeType!==3))refuse('unsupported nested diagram content');
     if(!['title','desc','text'].includes(node.localName) && node.textContent.trim())refuse('unsupported primitive text');
     const styles=inspectStyles(node),currentAttributes=attributes(node);
-    const geometryKeys={circle:['cx','cy','r'],rect:['x','y','width','height','rx','ry']}[node.localName]||[];
+    const geometryKeys={circle:['cx','cy','r'],rect:['x','y','width','height']}[node.localName]||[];
     for(const key of geometryKeys) {
       const displayed=styles.getPropertyValue(key);
-      if(!displayed || ['auto','none'].includes(displayed))continue;
-      const actual=Number(boundedNumber(displayed,0,key==='r'?300:['rx','ry'].includes(key)?80:600,true));
+      if(!displayed || displayed==='none')continue;
+      // SVG2 rect width/height:auto has used value zero, not the native
+      // attribute value. auto is unsupported for the other keys here.
+      if(displayed==='auto')refuse('auto CSS geometry suppresses or changes current attributes');
+      const actual=Number(boundedNumber(displayed,0,key==='r'?300:600,true));
       const expected=Object.hasOwn(currentAttributes,key)?Number(boundedNumber(currentAttributes[key])):0;
       if(Math.abs(actual-expected)>1e-6)refuse('CSS geometry differs from current attributes');
+    }
+    if(node.localName==='rect') {
+      const width=Number(boundedNumber(currentAttributes.width)),height=Number(boundedNumber(currentAttributes.height));
+      const native=key=>Object.hasOwn(currentAttributes,key)?Number(boundedNumber(currentAttributes[key],0,80)):null;
+      const computed=key=>{
+        const value=styles.getPropertyValue(key);
+        return !value || value==='none'?native(key):value==='auto'?null:Number(boundedNumber(value,0,80,true));
+      };
+      // One auto radius copies the other; two auto radii give square corners.
+      // Compare effective clamped radii, so Chrome's native rx:12px/ry:auto
+      // and the attribute-only export both keep the same rounded rectangle.
+      const used=(rx,ry)=>{
+        const x=rx??ry??0,y=ry??rx??0;
+        return x===0 || y===0?[0,0]:[Math.min(x,width/2),Math.min(y,height/2)];
+      };
+      const expected=used(native('rx'),native('ry')),actual=used(computed('rx'),computed('ry'));
+      if(actual.some((value,index)=>Math.abs(value-expected[index])>1e-6))refuse('CSS corner geometry differs from current attributes');
     }
     if(node.localName==='path') {
       const displayed=styles.getPropertyValue('d');

@@ -404,6 +404,23 @@ def check_other_teaching_exports(page, origin, expect, result, output):
     result['other_teaching_svgs'] = []
     result['other_teaching_screenshots'] = []
 
+    def css_fixture(rule):
+        # Exercise stylesheet overrides through an already allowed same-origin
+        # sheet. Inline <style> fixtures would be blocked by the real page CSP.
+        return page.evaluate("""rule=>{
+            const sheet=Array.from(document.styleSheets).find(s=>s.href && new URL(s.href).pathname.endsWith('/explore.css'));
+            if(!sheet)throw new Error('Allowed Explore stylesheet unavailable');
+            const index=sheet.insertRule(rule,sheet.cssRules.length);
+            return {href:sheet.href,index};
+        }""", rule)
+
+    def remove_css_fixture(fixture):
+        page.evaluate("""({href,index})=>{
+            const sheet=Array.from(document.styleSheets).find(s=>s.href===href);
+            if(!sheet)throw new Error('Explore fixture stylesheet unavailable');
+            sheet.deleteRule(index);
+        }""", fixture)
+
     def native_button(button):
         # Tab/Shift+Tab makes keyboard focus observable even after an earlier click.
         button.focus(); page.keyboard.press('Tab'); page.keyboard.press('Shift+Tab')
@@ -644,6 +661,41 @@ def check_other_teaching_exports(page, origin, expect, result, output):
                 'CSS geometry negative fixture did not override the displayed primitive')
         native_button(export)
         expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+        if kind == 'pin': native_button(page.locator('#pin-half'))
+        else: page.locator('#object-two').focus(); page.keyboard.press('Space')
+        expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        # Stylesheet-only SVG2 auto geometry must not be mistaken for the
+        # attribute geometry. No inline style attribute triggers these refusals.
+        css_box = page.locator(f'#{kind}-diagram rect').first
+        for axis in ['width', 'height']:
+            original_dimension = css_box.get_attribute(axis)
+            fixture = css_fixture(f'#{kind}-diagram rect{{{axis}:auto}}')
+            require(css_box.get_attribute('style') is None and css_box.get_attribute(axis) == original_dimension
+                    and css_box.evaluate(f"n=>getComputedStyle(n).getPropertyValue('{axis}')") == 'auto',
+                    'CSS auto fixture did not override the rectangle without changing attributes')
+            native_button(export)
+            expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+            remove_css_fixture(fixture)
+            if kind == 'pin': native_button(page.locator('#pin-half'))
+            else: page.locator('#object-two').focus(); page.keyboard.press('Space')
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        if kind == 'palette':
+            require(css_box.get_attribute('rx') == '12', 'Palette fixture requires the native rounded rectangle')
+            fixture = css_fixture('#palette-diagram rect{rx:auto;ry:auto}')
+            require(css_box.get_attribute('style') is None
+                    and css_box.evaluate("n=>['rx','ry'].map(k=>getComputedStyle(n).getPropertyValue(k))") == ['auto', 'auto'],
+                    'CSS auto radii fixture did not remove the displayed native rounding')
+            native_button(export)
+            expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+            remove_css_fixture(fixture)
+            page.locator('#object-two').focus(); page.keyboard.press('Space')
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+        fixture = css_fixture(f'#{kind}-diagram{{opacity:.5}}')
+        require(page.locator(f'#{kind}-diagram').evaluate("n=>getComputedStyle(n).opacity") == '0.5',
+                'Root opacity fixture did not alter displayed group compositing')
+        native_button(export)
+        expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+        remove_css_fixture(fixture)
         if kind == 'pin': native_button(page.locator('#pin-half'))
         else: page.locator('#object-two').focus(); page.keyboard.press('Space')
         expect(export).to_be_enabled(); expect(copy).to_be_enabled()

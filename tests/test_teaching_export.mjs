@@ -80,6 +80,44 @@ test('capture refuses CSS numeric geometry that overrides current circle and rec
   }
 });
 
+function rectSVG(attributes,geometry) {
+  const svg=fakeSVG(),rect=svg.children[2];
+  rect.localName='rect';rect.attributes=Object.entries(attributes).map(([name,value])=>({name,value}));
+  Object.assign(rect.style,geometry);return svg;
+}
+
+test('capture refuses auto rectangle dimensions that suppress otherwise current native geometry',()=>{
+  const capture=api('captureTeachingDiagram');
+  const attributes={x:'36',y:'157',width:'178',height:'90',rx:'12',class:'diagram-box'};
+  for(const property of ['width','height']) {
+    const svg=rectSVG(attributes,{x:'36px',y:'157px',width:'178px',height:'90px',rx:'12px',ry:'auto',[property]:'auto'});
+    assert.throws(()=>capture(svg,computedStyle),/geometry|refused/i);
+  }
+});
+
+test('capture compares effective auto corner radii and preserves native rounded and square rectangles',()=>{
+  const capture=api('captureTeachingDiagram');
+  const rounded={x:'36',y:'157',width:'178',height:'90',rx:'12',class:'diagram-box'};
+  const native={x:'36px',y:'157px',width:'178px',height:'90px',rx:'12px',ry:'auto'};
+  assert.equal(capture(rectSVG(rounded,native),computedStyle).nodes[2].attributes.rx,'12');
+  assert.throws(()=>capture(rectSVG(rounded,{...native,rx:'auto',ry:'auto'}),computedStyle),/geometry|refused/i);
+  // One auto radius uses the other numeric radius; both native and CSS forms
+  // have hand-checked effective radii (12, 12) in this rectangle.
+  assert.equal(capture(rectSVG(rounded,{...native,rx:'auto',ry:'12px'}),computedStyle).nodes[2].attributes.rx,'12');
+  const square={x:'448',y:'78',width:'113',height:'13.4375',class:'diagram-fill'};
+  const actual=capture(rectSVG(square,{x:'448px',y:'78px',width:'113px',height:'13.4375px',rx:'auto',ry:'auto'}),computedStyle);
+  assert.deepEqual(actual.nodes[2].attributes,square);
+});
+
+test('capture refuses root opacity that would be lost from the opaque standalone export',()=>{
+  const capture=api('captureTeachingDiagram');
+  for(const opacity of ['0.5','0.999','0']) {
+    const svg=fakeSVG();svg.style.opacity=opacity;
+    assert.throws(()=>capture(svg,computedStyle),/opacity|hidden|refused/i);
+  }
+  assert.equal(capture(fakeSVG(),computedStyle).background,'rgb(7, 17, 31)');
+});
+
 test('capture token-compares computed path geometry and refuses hidden or overridden paths',()=>{
   const capture=api('captureTeachingDiagram');
   const d='M24 40H380V302H24Z M202 55a117 117 0 1 0 0 234a117 117 0 1 0 0 -234Z';
