@@ -101,6 +101,8 @@ async function custody(config) {
   const observed=config.observations;
   el('custody-note').textContent=`${config.imports.count} byte-copy imports landed at Math ${config.imports.commit}; source labels were not adopted. ${observed.open_math_prs} Math PRs were open when observed ${observed.observed_at}. An open PR is not landed math.`;
   el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url));
+}
+async function queryIdentity(config) {
   const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');
   if(!hex40.test(q.math_pin)||!hex40.test(q.commit))throw new Error('Query pin unavailable');
   identity(el('query-identity'),q);el('query-identity').append(node('p','Recorded Math commit: '+q.math_pin));
@@ -109,7 +111,7 @@ async function custody(config) {
 }
 try {
   const response=await fetch('config.json',{credentials:'omit'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
-  const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)]];
+  const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)],['query-note',()=>queryIdentity(config)]];
   await Promise.allSettled(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
-} catch(e) {['status-note','coefficient-state','inventory-state','custody-note'].forEach(id=>error(id,e));}
+} catch(e) {['status-note','coefficient-state','inventory-state','custody-note','query-note'].forEach(id=>error(id,e));}
 finally {finishFragment();}

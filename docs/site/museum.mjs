@@ -221,9 +221,37 @@ export function revealClaimFragment(document,hash,allowedIds){
   target.tabIndex=-1;target.scrollIntoView({block:'start'});
   target.focus?.({preventScroll:true});return true;
 }
-export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs'),currentHash=()=>globalThis.location?.hash||''}={}){
+function prepareClaimFragment(document,window,currentHash) {
+  const hash=currentHash();
+  let id;try{id=decodeURIComponent(hash.replace(/^#/,''));}catch{return ()=>false;}
+  if(![...REVIEWED_IDS,D1_ID,...OPEN_IDS].includes(id))return ()=>false;
+  if(!window?.addEventListener)return allowedIds=>revealClaimFragment(document,hash,allowedIds);
+  const events=['wheel','touchstart','touchmove','keydown','pointerdown','pointermove','focusin','hashchange','popstate','pagehide'];
+  const options={capture:true,passive:true};
+  let cancelled=false,finished=false;
+  const cleanup=()=>events.forEach(event=>window.removeEventListener(event,cancel,options));
+  const cancel=event=>{
+    if(event.type==='pointermove'&&!event.buttons)return;
+    // Native fragment focus on the requested card is not a new reader action.
+    if(event.type==='focusin'&&event.target?.id===id)return;
+    cancelled=true;cleanup();
+  };
+  events.forEach(event=>window.addEventListener(event,cancel,options));
+  return allowedIds=>{
+    if(finished)return false;
+    finished=true;
+    window.requestAnimationFrame(()=>{
+      cleanup();
+      if(!cancelled&&currentHash()===hash)revealClaimFragment(document,hash,allowedIds);
+    });
+    return true;
+  };
+}
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
+  const finishFragment=prepareClaimFragment(document,window,currentHash);
+  let claimIds=[];
   try{
     const {manifest,cachedFetch}=await verifiedMuseum({fetcher});
     containers['museum-state'].textContent='Pinned source projections verified: 11 reviewed index entries, the separately reconciled D1 row and 2 AMEND rows. Verifying each linked source before display…';
@@ -247,10 +275,10 @@ export async function startMuseum({document=globalThis.document,fetcher=globalTh
     }
     const outcomes=await Promise.all(jobs),failed=outcomes.filter(value=>!value).length;
     containers['museum-state'].textContent=failed?`Pinned source projections verified. ${failed} source view(s) unavailable; no result inferred for those views.`:'Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.';
-    revealClaimFragment(document,currentHash(),manifest.claims.map(claim=>claim.id));
+    claimIds=manifest.claims.map(claim=>claim.id);
   }catch(error){
     containers['museum-state'].textContent=`Unavailable: ${error.message}. No result inferred.`;containers['museum-state'].className='error';
     for(const id of ids.slice(1))containers[id].replaceChildren();
-  }
+  }finally{finishFragment(claimIds);}
 }
 if(typeof document!=='undefined')await startMuseum();

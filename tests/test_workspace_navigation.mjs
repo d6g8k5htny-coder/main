@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createHash} from 'node:crypto';
 
 // Exercise actual app startup and source validation. Only the browser and
 // network boundaries are replaced; this is not a browser layout test.
 const root=new URL('../',import.meta.url);
 const html=fs.readFileSync(new URL('docs/site/workspace.html',root),'utf8');
-const config=JSON.parse(fs.readFileSync(new URL('docs/site/config.json',root)));
+const originalConfig=JSON.parse(fs.readFileSync(new URL('docs/site/config.json',root)));
 const deferred=()=>{let resolve;const promise=new Promise(r=>{resolve=r;});return {promise,resolve};};
 let run=0;
 
@@ -19,7 +20,13 @@ class Element extends EventTarget {
   setAttribute(name,value){this.attributes[name]=String(value);}
 }
 
-function page(hash='#inventory',{configFailure=false}={}) {
+function page(hash='#inventory',{configFailure=false,importSuccess=false,querySuccess=false}={}) {
+  const config=structuredClone(originalConfig);
+  const importBytes=JSON.stringify({scientific_effect:'NONE',byte_copies:Array.from({length:config.imports.count},()=>({kind:'BYTE_COPY',source_label_adopted:false}))});
+  const queryBytes=JSON.stringify({math_tip:config.query.math_pin,scientific_status_authority:false});
+  for(const [key,bytes] of [['imports',importBytes],['query',queryBytes]]){
+    config[key].bytes=Buffer.byteLength(bytes);config[key].sha256=createHash('sha256').update(bytes).digest('hex');
+  }
   const events=[],nodes=new Map(),window=new EventTarget(),listeners=new Set(),frames=[];
   window.location={hash};
   window.requestAnimationFrame=callback=>{frames.push(callback);return frames.length;};
@@ -49,8 +56,9 @@ function page(hash='#inventory',{configFailure=false}={}) {
   globalThis.fetch=async url=>{
     if(url==='config.json'){requested.resolve();await configuration.promise;return configFailure?new Response('',{status:503}):new Response(JSON.stringify(config));}
     if(url===config.status.url){statusRequested.resolve();await status.promise;}
-    if(url===config.imports.url){custodyRequested.resolve();await custody.promise;return new Response('',{status:503});}
+    if(url===config.imports.url){custodyRequested.resolve();await custody.promise;return importSuccess?new Response(importBytes):new Response('',{status:503});}
     if(url===config.coefficient.url)return new Response('',{status:503});
+    if(url===config.query.url)return querySuccess?new Response(queryBytes):new Response('',{status:503});
     assert.ok(mapping.has(url),`Unexpected fetch ${url}`);
     return new Response(fs.readFileSync(new URL(mapping.get(url),root)));
   };
@@ -154,4 +162,29 @@ test('reader movement between source settlement and final rendering prevents cor
   p.configuration.resolve();p.status.resolve();p.custody.resolve();await p.loading;
   p.window.dispatchEvent(new Event('wheel'));p.flushFrames();
   assert.deepEqual(p.events,[]);assert.equal(p.listeners.size,0);
+});
+
+test('an import refusal does not leave the separate query source loading forever',async()=>{
+  const p=page();await complete(p);
+  assert.match(p.nodes.get('query-note').textContent,/Unavailable:.*503.*No result inferred/);
+  assert.doesNotMatch(p.nodes.get('query-note').textContent,/Loading/);
+  assert.equal(p.nodes.get('query-identity').children.length,0);
+});
+
+test('a config refusal settles every pending source note',async()=>{
+  const p=page('',{configFailure:true});await complete(p);
+  assert.match(p.nodes.get('query-note').textContent,/Unavailable: Shop config unavailable/);
+});
+
+test('a query refusal preserves verified import custody information',async()=>{
+  const p=page('',{importSuccess:true});await complete(p);
+  assert.match(p.nodes.get('custody-note').textContent,/9 byte-copy imports landed/);
+  assert.match(p.nodes.get('query-note').textContent,/Unavailable:.*503/);
+});
+
+test('a successful query remains usable when the unrelated import source fails',async()=>{
+  const p=page('',{querySuccess:true});await complete(p);
+  assert.match(p.nodes.get('custody-note').textContent,/Unavailable:.*503/);
+  assert.match(p.nodes.get('query-note').textContent,/performs no live tip check/);
+  assert.match(p.nodes.get('query-identity').textContent,/c88768bb11efd1f7d6bda188f13064bedec54a06/);
 });
