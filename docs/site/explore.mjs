@@ -1,7 +1,7 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=fd455ab79541be5b46f2a045e4120ae0fa3c429b3b6df1dbf73cdaff65924e58';
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=43da842bd06ec0ef0ebf4cd44232b64a0f8d6ad9ccda34fbc47dbb298945e287';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -102,7 +102,7 @@ function drawCone() {
   byId('curvature-kind').textContent = labels[model.kind][0];
   byId('curvature-summary').textContent = `${labels[model.kind][1]} The two values are ${number(model.eigenvalues[0], 1)} and ${number(model.eigenvalues[1], 1)}.`;
   const svg = byId('curvature-diagram');
-  clear(svg, 'Where the two curvatures change sign', `Center ${number(model.s, 1)}, spread ${number(model.radius, 1)}. ${labels[model.kind][0]}. Eigenvalues ${model.eigenvalues.join(' and ')}.`);
+  clear(svg, 'Where the two curvatures change sign', `Center ${number(model.s, 1)}, spread ${number(model.radius, 1)}. ${labels[model.kind][0]}. Eigenvalues ${model.eigenvalues.map(value => number(value, 1)).join(' and ')}.`);
   const x = r => 86 + r * 155;
   const y = s => 165 - s * 40;
   svg.append(shape('polygon', { points: '86,165 474,265 474,294 86,294', class: 'diagram-fill' }));
