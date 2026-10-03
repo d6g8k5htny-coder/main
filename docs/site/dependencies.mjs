@@ -10,7 +10,7 @@ import {
   normalizeSelection,
   parsePinnedGraph,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e';
+} from './dependency-model.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003';
 
 const byId = id => document.getElementById(id);
 

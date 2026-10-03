@@ -4,6 +4,7 @@ Requires tests/browser-requirements.txt and the runner’s packaged Google Chrom
 Screenshots are evidence for inspection, not automatic visual certification.
 """
 from contextlib import contextmanager
+from datetime import datetime, timezone
 from functools import partial
 from hashlib import sha256, file_digest
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -19,6 +20,7 @@ import threading
 import time
 import traceback
 from urllib.parse import parse_qs, urlsplit
+from xml.etree import ElementTree
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -225,6 +227,91 @@ def check_latest_work_flow(page, origin, expect, result, output):
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
 
+def check_curvature_export_flow(page, origin, expect, result, output):
+    page.goto(origin+'explore.html?s=-1&R=1&unrelated=do-not-cite#peaks')
+    download=page.get_by_role('button',name='Download curvature SVG',exact=True)
+    expect(download).to_be_enabled()
+    started=datetime.now(timezone.utc)
+    download.focus()
+    with page.expect_download() as pending:
+        page.keyboard.press('Enter')
+    exported=output/f'{result["case"]}-curvature.svg'
+    pending.value.save_as(str(exported))
+    data=exported.read_bytes()
+    require(b'<!DOCTYPE' not in data and b'<!ENTITY' not in data,'SVG includes an external/entity declaration')
+    root=ElementTree.fromstring(data)
+    ns={'s':'http://www.w3.org/2000/svg'}
+    metadata=json.loads(root.find('s:metadata',ns).text)
+    require(metadata['schema']=='universal-law/curvature-teaching-figure/v1','Wrong figure metadata schema')
+    require(metadata['params']=={'s':-1,'R':1} and metadata['eigenvalues']==[-2,0] and metadata['classification']=='flat','SVG metadata differs from displayed boundary state')
+    require(metadata['mode']=='teaching_model' and metadata['verification']=='not_performed','Figure implies research verification')
+    source=metadata['source']
+    require(source['repository']=='d6g8k5htny-coder/Math-' and source['commit']=='9d7b6802424fb4715b31999066aafca8ee2f3cca' and source['path']=='coefficients/side24_v1/PROOF.md','Figure lost pinned source identity')
+    require(source['blob']=='44b66f04f89fcd87383b3603fa69f1feb64cdddd' and source['bytes']==10272 and source['sha256']=='c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769','Figure changed recorded source bytes')
+    require(source['url'].startswith('https://github.com/d6g8k5htny-coder/Math-/blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#'),'Figure source URL is mutable or omitted section')
+    permalink=urlsplit(metadata['permalink'])
+    require(permalink.scheme=='https' and permalink.netloc=='d6g8k5htny-coder.github.io' and permalink.path=='/main/site/explore.html' and parse_qs(permalink.query)=={'s':['-1'],'R':['1']} and permalink.fragment=='peaks','Figure citation copied host or unrelated URL fields')
+    generated=datetime.fromisoformat(metadata['generated_at'].replace('Z','+00:00'))
+    require(started.timestamp()-2 <= generated.timestamp() <= datetime.now(timezone.utc).timestamp()+2,'Figure generation time is stale or invalid')
+    allowed={'svg','title','desc','metadata','rect','polygon','line','text','circle','g'}
+    for node in root.iter():
+        require(node.tag.startswith('{http://www.w3.org/2000/svg}') and node.tag.rsplit('}',1)[-1] in allowed,'SVG includes unsupported content')
+        for key,value in node.attrib.items():
+            require(not key.lower().startswith('on') and key.rsplit('}',1)[-1] not in ('href','style','class') and not re.search(r'(?:url|var)\s*\(',value,re.I),'SVG carries executable, external or unresolved presentation')
+    markers=[node for node in root.findall('.//s:circle',ns) if float(node.get('r','0'))==9]
+    require(len(markers)==1 and float(markers[0].get('cx'))==241 and float(markers[0].get('cy'))==205,'Exported marker differs from the actual boundary geometry')
+    require(root.find('s:title',ns) is not None and root.find('s:desc',ns) is not None and root.get('aria-labelledby'),'SVG lost accessible title/description')
+    text=' '.join(root.itertext())
+    require('teaching' in text.lower() and 'non-certifying' in text and 'Gaussian' in text,'Standalone figure omits teaching limits')
+    standalone=page.context.new_page()
+    try:
+        standalone.set_viewport_size({'width':750,'height':650})
+        standalone.goto(exported.resolve().as_uri())
+        expect(standalone.locator('svg')).to_be_visible()
+        require(standalone.locator('circle').count()==len(markers),'Standalone SVG lost marker')
+        shot=output/f'{result["case"]}-curvature-export.png'
+        standalone.screenshot(path=str(shot))
+        result['curvature_export_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+    finally: standalone.close()
+    result['curvature_svg']={'path':exported.name,'sha256':sha256(data).hexdigest(),'metadata':metadata}
+    page.context.grant_permissions(['clipboard-read','clipboard-write'],origin=origin.rstrip('/'))
+    copy=page.get_by_role('button',name='Copy figure citation',exact=True)
+    copy.focus();page.keyboard.press('Enter')
+    expect(page.locator('#curvature-export-status')).to_contain_text('Copied figure citation')
+    require(page.evaluate('navigator.clipboard.readText()')==page.locator('#curvature-citation-text').input_value(),'Figure citation clipboard differs from displayed text')
+    require('unrelated' not in page.locator('#curvature-citation-text').input_value(),'Citation leaked unrelated URL fields')
+    page.add_init_script("const mode=sessionStorage.getItem('curvature-clipboard-test');if(mode)Object.defineProperty(navigator,'clipboard',{configurable:true,value:mode==='deny'?{writeText:async()=>{throw new Error('denied')}}:mode==='defer'?{writeText:text=>new Promise(resolve=>{window.curvaturePending={text,resolve}})}:undefined})")
+    page.evaluate("sessionStorage.setItem('curvature-clipboard-test','defer')")
+    page.goto(origin+'explore.html?s=-1&R=1#peaks')
+    copy.click();expect(copy).to_be_disabled()
+    center=page.locator('#curvature-center');center.focus();page.keyboard.press('Home')
+    expect(center).to_have_value('-3')
+    expect(copy).to_be_disabled()
+    page.evaluate('window.curvaturePending.resolve()')
+    expect(copy).to_be_enabled()
+    require('Copied figure citation' not in page.locator('#curvature-export-status').text_content(),'Old copy claimed success for newly displayed settings')
+    page.evaluate("sessionStorage.setItem('curvature-clipboard-test','deny')")
+    page.goto(origin+'explore.html?s=-1&R=1#peaks');copy.click()
+    expect(page.locator('#curvature-export-status')).to_contain_text('manually')
+    manual=page.locator('#curvature-figure-citation summary')
+    if page.locator('#curvature-figure-citation').get_attribute('open') is None:
+        manual.press('Enter')
+    expect(page.locator('#curvature-citation-text')).to_be_visible()
+    page.evaluate("sessionStorage.setItem('curvature-clipboard-test','absent')")
+    page.goto(origin+'explore.html?s=-1&R=1#peaks')
+    expect(copy).to_be_disabled();expect(download).to_be_enabled()
+    require(bool(page.locator('#curvature-citation-text').input_value()),'Manual citation missing without clipboard API')
+    page.evaluate("sessionStorage.removeItem('curvature-clipboard-test')")
+    page.goto(origin+'explore.html?s=-1&R=1#peaks')
+    require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Figure actions overflowed document')
+    page.locator('#curvature-figure-citation summary').press('Enter')
+    expect(page.locator('#curvature-citation-text')).to_be_visible()
+    shot=output/f'{result["case"]}-curvature-export-controls.png'
+    page.locator('#peaks').screenshot(path=str(shot))
+    result['curvature_controls_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+    result['steps'].append('Actual keyboard SVG download parsed/reopened with exact displayed geometry, concrete presentation and teaching/source metadata; real citation clipboard, denial/absence and pending settings change checked')
+
+
 def check_source_card_flow(page, origin, expect, result, output):
     check_latest_work_flow(page,origin,expect,result,output)
     result["reader_entry_screenshots"]=[]
@@ -309,12 +396,15 @@ def check_source_card_flow(page, origin, expect, result, output):
                 expect(fallback.locator("#curvature-center")).to_be_disabled()
                 expect(fallback.locator("#explore-state-link")).to_be_hidden()
                 expect(fallback.locator("#explore-state-status")).to_contain_text("starting examples")
+                expect(fallback.locator('#curvature-export-svg')).to_be_disabled()
+                expect(fallback.locator('#curvature-copy-citation')).to_be_disabled()
             finally:
                 static.close()
             page.goto(origin+"explore.html?s=-1&R=1&r=0.25&region=remote&objects=1,3#peaks")
             expect(page.locator("#curvature-kind")).to_contain_text("flat")
             page.locator("#explore-state-link").scroll_into_view_if_needed()
             result["steps"].append("Explore URLs restore all controls and derived explanations; keyboard edits, reset, reload, Back/Forward, malformed fields and JavaScript-off fallback checked")
+            check_curvature_export_flow(page,origin,expect,result,output)
         if entry == "cite":
             commit="a414e77d6278a5d9ce6aa6e2bdca6146b048f27a"
             digest=sha256((ROOT/"CITATION.cff").read_bytes()).hexdigest()

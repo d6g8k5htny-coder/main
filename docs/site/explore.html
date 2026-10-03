@@ -7,11 +7,11 @@
   <title>Explore the mathematics · Universal Law</title>
   <meta name="description" content="Three hands-on explanations of curvature, shrinking scales, and finite obstructions, with a path to the underlying research.">
   <meta name="theme-color" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e">
-  <link rel="stylesheet" href="brand.css?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e">
-  <link rel="stylesheet" href="explore.css?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e">
-  <script type="module" src="explore.mjs?site-release=b308d748b0db6346d512b5a5eaeadbc70a2436121186c76fd10f8daa6405a91e"></script>
+  <link rel="stylesheet" href="style.css?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003">
+  <link rel="stylesheet" href="brand.css?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003">
+  <link rel="stylesheet" href="explore.css?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003">
+  <script type="module" src="explore.mjs?site-release=1a7ad5b2eb26e1ad46eb5625800efa7416379297de083c0cbc3e9b81bd262003"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -51,6 +51,11 @@
         <figure><svg id="curvature-diagram" viewBox="0 0 600 330" role="img" aria-labelledby="curvature-diagram-title curvature-diagram-description"><title id="curvature-diagram-title">Curvature regions</title><desc id="curvature-diagram-description">The peak region has s below minus R. Between minus R and R is the saddle region. Above R is the bowl region.</desc></svg><figcaption>Each position is a pair of curvatures. The marker follows your controls.</figcaption></figure>
         <div class="readout-grid"><p>First curvature<strong id="eigenvalue-first">−3.0</strong></p><p>Second curvature<strong id="eigenvalue-second">−1.0</strong></p></div>
         <p id="curvature-summary" class="live-explanation" role="status" aria-live="polite" aria-atomic="true">Both curvatures are negative: this quadratic model bends downward in every direction.</p>
+        <div class="control-actions curvature-export-actions"><button id="curvature-export-svg" class="reset-button" type="button" disabled>Download curvature SVG</button><button id="curvature-copy-citation" class="reset-button" type="button" disabled>Copy figure citation</button></div>
+        <p id="curvature-export-status" class="control-help" role="status" aria-live="polite" aria-atomic="true">Enable JavaScript to download the displayed figure or copy its citation.</p>
+        <details id="curvature-figure-citation" class="lesson-source figure-citation"><summary>Figure citation and export limits</summary><label for="curvature-citation-text">Select this text to copy the figure citation manually</label><textarea id="curvature-citation-text" readonly rows="8" spellcheck="false">Universal Law, “Peaks and saddles” teaching figure. Starting settings: s = -2, R = 1; eigenvalues s − R = -3, s + R = -1; classification: peak. https://d6g8k5htny-coder.github.io/main/site/explore.html?s=-2&amp;R=1#peaks
+Teaching source: SIDE24 derivation, §1 (Hessian, eigenvalue and negative-cone identities), https://github.com/d6g8k5htny-coder/Math-/blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments
+Illustrative, non-certifying floating-point quadratic model. At λ = 0, the second-order test is inconclusive. No Gaussian sampling, coefficient, persistence or theorem computation. This teaching figure is not mathematical result acceptance. Source identity is recorded provenance; fetched-source and hash verification are not performed by this export.</textarea><p>The SVG contains the current diagram, concrete display colors, labels, a generation timestamp and recorded source identity. It uses local fonts; glyph shapes can vary between viewers. Its permalink includes only the two curvature settings.</p></details>
       </div>
     </div>
     <div class="lesson-takeaway"><h3>Why this idea appears in the research</h3><p>A Hessian is a matrix that records curvature. The coefficient calculation sorts matrices by their curvature signs, then averages a weighted contribution over the peak-shaped ones. The picture lets you inspect that selection rule.</p></div>
