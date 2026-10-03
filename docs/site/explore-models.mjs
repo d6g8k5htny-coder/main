@@ -1,6 +1,6 @@
 // NON-CERTIFYING educational arithmetic. These functions illustrate source
 // definitions; they do not simulate a field or estimate a theorem's constants.
-import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74';
+import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77';
 
 function finite(value, name) {
   if (!Number.isFinite(value)) throw new RangeError(`${name} must be finite`);
@@ -37,3 +37,19 @@ export function pinModel({ r = 0.5, k = 1, b = 1, A = 2, B = 4, rho = 3, L = 24 
 }
 
 export function paletteModel(selection) { return p15Model(selection); }
+
+// Ordinary preset buttons use the same displayed controls, draw and URL commit
+// as manual slider changes. Refuse unknown names before touching any state.
+export function applyCurvaturePreset(name, {center, spread, draw, commit}) {
+  const presets = new Map([
+    ['maximum', [-2, 1]], ['saddle', [0, 1]],
+    ['singular-boundary', [-1, 1]], ['minimum', [2, 1]]
+  ]);
+  const values = presets.get(name);
+  if (!values) return false;
+  center.value = String(values[0]);
+  spread.value = String(values[1]);
+  draw();
+  commit();
+  return true;
+}

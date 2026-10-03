@@ -7,11 +7,11 @@
   <title>Explore the mathematics · Universal Law</title>
   <meta name="description" content="Three hands-on explanations of curvature, shrinking scales, and finite obstructions, with a path to the underlying research.">
   <meta name="theme-color" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74">
-  <link rel="stylesheet" href="brand.css?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74">
-  <link rel="stylesheet" href="explore.css?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74">
-  <script type="module" src="explore.mjs?site-release=c73d1c05dd418c5d9dedd4aa28b82bda409bcc9bab549f0dedda0fe47b4a6b74"></script>
+  <link rel="stylesheet" href="style.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
+  <link rel="stylesheet" href="brand.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
+  <link rel="stylesheet" href="explore.css?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77">
+  <script type="module" src="explore.mjs?site-release=5188bea57cdf6b30653b76b010ce522067cb2292c8886fac42ca9de8eedb0d77"></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -43,6 +43,13 @@
         <label for="curvature-spread">Curvature spread <span class="math-symbol">R</span><output id="curvature-spread-value" for="curvature-spread">1.0</output></label>
         <input id="curvature-spread" type="range" min="0" max="2" step="0.1" value="1" aria-describedby="curvature-spread-help" disabled>
         <p id="curvature-spread-help" class="control-help">Separates the two curvatures: s − R and s + R.</p>
+        <div class="control-actions" role="group" aria-label="Curvature examples">
+          <button class="reset-button" type="button" data-curvature-preset="maximum" disabled>Maximum</button>
+          <button class="reset-button" type="button" data-curvature-preset="saddle" disabled>Saddle</button>
+          <button class="reset-button" type="button" data-curvature-preset="singular-boundary" disabled>Singular boundary</button>
+          <button class="reset-button" type="button" data-curvature-preset="minimum" disabled>Minimum</button>
+        </div>
+        <p class="control-help">Choose a quadratic example, or adjust the sliders. At the singular boundary, the second-order test is inconclusive.</p>
         <button id="curvature-reset" class="reset-button" type="button" disabled>Reset curvatures</button>
         <p class="keyboard-hint">Sliders work with the arrow keys.</p>
       </div>

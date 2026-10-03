@@ -1,5 +1,12 @@
 /** Build syntax-checked source references locally. No source existence or review claim. */
 const REPOSITORIES = new Set(['main', 'Math-', 'query-', 'Universal-Law-Workspace']);
+// Source validation forbids backslashes and percent escapes; accepted TeX specials
+// are rendered literally, without interpreting source paths as TeX commands.
+// BibTeX counts even escaped braces, so literal brace macros keep database depth balanced.
+const bibtexLiteral = value => value.replace(/[#$&{}_~^]/gu, character => ({
+  '#': '\\#', '$': '\\$', '&': '\\&', '{': '\\textbraceleft{}', '}': '\\textbraceright{}', '_': '\\_',
+  '~': '\\textasciitilde{}', '^': '\\textasciicircum{}'
+})[character]);
 export function buildReference(repository, commit, path = '', sha256 = '') {
   if (!REPOSITORIES.has(repository)) throw new Error('Choose a listed research repository.');
   if (typeof commit !== 'string' || !/^[a-f0-9]{40}$/i.test(commit)) throw new Error('Enter the full 40-character Git commit, not a branch or short SHA.');
@@ -17,7 +24,9 @@ export function buildReference(repository, commit, path = '', sha256 = '') {
   const url = `https://github.com/${project}/${path ? 'blob' : 'tree'}/${sha}${path ? '/' + encoded : ''}`;
   const digest = sha256.toLowerCase();
   const data = {schema: 'universal-law/source-reference/v1', repository: project, commit: sha, path: path || null, sha256: digest || null, url, verification: 'not_performed'};
-  return {url, text: `${project}${path ? ' — ' + path : ''}. Git commit ${sha}.${digest ? ' Supplied SHA-256 (not checked): ' + digest + '.' : ''} ${url}`, json: JSON.stringify(data, null, 2)};
+  const note = `Git commit ${sha}.${path ? ' File path: ' + path + '.' : ''}${digest ? ' Supplied SHA-256 (not checked): ' + digest + '.' : ''} Source existence, authorship and review status are not verified.`;
+  const bibtex = `@misc{source_reference_template,\n  title = {Repository source reference},\n  howpublished = {${bibtexLiteral(project)}},\n  note = {${bibtexLiteral(note)}},\n  url = {${url}}\n}`;
+  return {url, bibtex, text: `${project}${path ? ' — ' + path : ''}. Git commit ${sha}.${digest ? ' Supplied SHA-256 (not checked): ' + digest + '.' : ''} ${url}`, json: JSON.stringify(data, null, 2)};
 }
 const STATE_KEYS = ['repo', 'commit', 'path', 'sha256'];
 export function readReferenceState(search) {
@@ -41,14 +50,14 @@ export function referenceStateURL(href, state) {
   if (state.sha256) url.searchParams.set('sha256', state.sha256.toLowerCase());
   return url.href;
 }
-export function wireReferenceForm({form, repository, commit, path, sha256, output, json, link, status, actions, copyText, copyJSON, share, clipboard, location, history, events}) {
+export function wireReferenceForm({form, repository, commit, path, sha256, output, json, bibtex, link, status, actions, copyText, copyJSON, copyBibTeX, share, clipboard, location, history, events}) {
   let current = null, revision = 0, copying = false;
-  const copyButtons = [copyText, copyJSON].filter(Boolean);
+  const copyButtons = [copyText, copyJSON, copyBibTeX].filter(Boolean);
   const canCopy = typeof clipboard?.writeText === 'function';
   const setCopy = enabled => copyButtons.forEach(button => { button.disabled = !enabled; });
   const clear = () => {
     revision++; current = null;
-    output.textContent = ''; if (json) json.textContent = '';
+    output.textContent = ''; if (json) json.textContent = ''; if (bibtex) bibtex.textContent = '';
     link.hidden = true; link.removeAttribute('href');
     if (actions) actions.hidden = true;
     if (share) { share.hidden = true; share.removeAttribute('href'); }
@@ -58,12 +67,12 @@ export function wireReferenceForm({form, repository, commit, path, sha256, outpu
   const values = () => ({repository: repository.value, commit: commit.value, path: path.value, sha256: sha256?.value || ''});
   const render = state => {
     current = buildReference(state.repository, state.commit, state.path, state.sha256);
-    output.textContent = current.text; if (json) json.textContent = current.json;
+    output.textContent = current.text; if (json) json.textContent = current.json; if (bibtex) bibtex.textContent = current.bibtex;
     link.href = current.url; link.textContent = 'Open this exact source on GitHub ↗'; link.hidden = false;
     if (actions) actions.hidden = false;
     if (share && location) { share.href = referenceStateURL(location.href, state); share.hidden = false; }
     setCopy(canCopy && !copying);
-    status.textContent = 'Reference built locally. Source existence, supplied hash, authorship and review status are not checked.' + (canCopy ? '' : ' Select the text or JSON and copy it manually.');
+    status.textContent = 'Reference built locally. Source existence, supplied hash, authorship and review status are not checked.' + (canCopy ? '' : ' Select the text, JSON or BibTeX and copy it manually.');
     if (copying) status.textContent += ' A previous copy is still finishing; copying is temporarily disabled.';
   };
   form.addEventListener('input', clear);
@@ -78,15 +87,15 @@ export function wireReferenceForm({form, repository, commit, path, sha256, outpu
       }
     } catch (error) { status.textContent = error.message; }
   });
-  for (const [button, key] of [[copyText, 'text'], [copyJSON, 'json']]) button?.addEventListener('click', async () => {
+  for (const [button, key] of [[copyText, 'text'], [copyJSON, 'json'], [copyBibTeX, 'bibtex']]) button?.addEventListener('click', async () => {
     if (!current || !canCopy || copying || button.disabled) return;
     const started = revision, text = current[key];
     copying = true; setCopy(false); status.textContent = 'Copying source reference…';
     try {
       await clipboard.writeText(text);
-      if (started === revision) status.textContent = `Copied ${key === 'json' ? 'JSON' : 'source reference'}. The source and supplied hash are not verified.`;
+      if (started === revision) status.textContent = `Copied ${key === 'json' ? 'JSON' : key === 'bibtex' ? 'BibTeX' : 'source reference'}. The source and supplied hash are not verified.`;
     } catch {
-      if (started === revision) status.textContent = 'Clipboard unavailable. Select the text or JSON and copy it manually. The source is not verified.';
+      if (started === revision) status.textContent = 'Clipboard unavailable. Select the text, JSON or BibTeX and copy it manually. The source is not verified.';
     } finally {
       copying = false; setCopy(Boolean(current) && canCopy);
       if (started !== revision && current) status.textContent = 'Previous copy finished. Copy the current reference when ready. The source and supplied hash are not verified.';
