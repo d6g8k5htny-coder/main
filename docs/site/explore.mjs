@@ -1,4 +1,4 @@
-import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=6c905b8133e26b3a9feb1ec74bbcc429c3146ea712b475f8f4b119376e22ec8b';
+import { coneModel, pinModel, paletteModel } from './explore-models.mjs?site-release=8b15350e744dac57c6fab662a1ce7e5bb6ea730f009649479e49a4786b240b10';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
