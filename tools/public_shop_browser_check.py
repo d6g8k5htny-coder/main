@@ -231,6 +231,39 @@ def check_source_card_flow(page, origin, expect, result, output):
     for entry in ["index","explore","cite","reproduce","formal"]:
         page.goto(origin+entry+".html")
         expect(page.locator("h1")).to_have_count(1)
+        if entry == "formal":
+            jump=page.get_by_role('link',name='Inspect the exact coverage and its limits ↓',exact=True)
+            jump.focus();page.keyboard.press('Enter')
+            expect(page.locator('#formal-coverage')).to_be_focused()
+            require(page.locator('#formal-coverage').evaluate('(el)=>parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),'Formal coverage jump lacks authored focus outline')
+            summary=page.locator('#formal-coverage-details summary')
+            summary.focus();page.keyboard.press('Enter')
+            expect(page.locator('#formal-coverage-details')).to_have_attribute('open','')
+            expect(page.locator('#formal-coverage-table tbody tr')).to_have_count(9)
+            expect(page.locator('#formal-coverage-table tbody code')).to_have_count(13)
+            expect(page.locator('#formal-coverage')).to_contain_text('not a current formalization inventory')
+            expect(page.locator('.boundary')).to_contain_text('PENDING')
+            region=page.get_by_role('region',name='Exact scalar companion scope table',exact=True)
+            region.focus();page.keyboard.press('ArrowRight')
+            require(region.evaluate('(el)=>parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),'Formal table region lacks authored focus outline')
+            page.wait_for_function("()=>{const el=document.querySelector('#formal-coverage .table-wrap');return el.scrollWidth<=el.clientWidth||el.scrollLeft>0}")
+            require(region.evaluate('(el)=>el.scrollWidth <= el.clientWidth || el.scrollLeft > 0'),'Overflowing scope table did not keyboard-scroll')
+            require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Formal scope overflowed document')
+            shot=output/f'{result["case"]}-formal-coverage.png'
+            page.locator('#formal-coverage').screenshot(path=str(shot))
+            result['formal_coverage_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+            summary.focus();page.keyboard.press('Enter')
+            require(page.locator('#formal-coverage-details').get_attribute('open') is None,'Formal scope did not close')
+            expect(summary).to_be_focused()
+            static=page.context.browser.new_context(java_script_enabled=False)
+            try:
+                fallback=static.new_page();fallback.goto(origin+'formal.html#formal-coverage')
+                fallback.locator('#formal-coverage-details summary').click()
+                expect(fallback.locator('#formal-coverage-table tbody tr')).to_have_count(9)
+                expect(fallback.locator('#formal-coverage-table')).to_be_visible()
+            finally:
+                static.close()
+            result['steps'].append('Formal snapshot exposes nine verbatim scope rows/13 declarations; keyboard disclosure, table scroll, close focus, no document overflow and JavaScript-off access checked')
         if entry == "explore":
             page.goto(origin+"explore.html?s=-1&R=1&r=0.25&region=remote&objects=#peaks")
             center=page.locator("#curvature-center")
