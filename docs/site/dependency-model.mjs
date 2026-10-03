@@ -251,6 +251,45 @@ export function searchNodes(index, query) {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+// Presentation of explicit fields only. A class label, provider name or green
+// check elsewhere cannot fill a missing evidence lane in this source record.
+export function evidenceRows(node) {
+  const entries = new Map(metadataEntries(node).map(([label,value,href])=>[label,{value,href}]));
+  const source = entries.get('Source');
+  const review = entries.get('Review source') || entries.get('Review URL');
+  const reviewMetadata = ['Review provider','Review providers','Review issue','Review disposition','Review basis']
+    .map(label=>entries.has(label) ? `${label}: ${entries.get(label).value}` : '').filter(Boolean);
+  return [
+    {label:'Source',state:source?.href?'Record linked':source?'Metadata only':'Not recorded',
+      detail:source?.value || 'No source reference in this node.',href:source?.href},
+    {label:'Review',state:review?.href?'Record linked':review || reviewMetadata.length?'Metadata only':'Not recorded',
+      detail:[review?.value,...reviewMetadata].filter(Boolean).join(' · ') || 'No review interface in this node.',href:review?.href},
+    {label:'Reproduction',state:'Not recorded',detail:'This graph does not provide a typed execution receipt for this node.'},
+    {label:'Formal proof',state:'Not recorded',detail:'This graph does not provide a typed formal-proof interface for this node.'},
+    {label:'Alignment',state:'Not recorded',detail:'No informal/formal alignment assessment is inferred from this graph.'},
+  ];
+}
+
+export function classificationOptions(index) {
+  return [...new Set([...index.nodes.values()].map(node=>node.classification))].sort();
+}
+
+export function filterNodes(index, query, classification='') {
+  const needle = String(query || '').trim().toLowerCase();
+  return [...index.nodes.values()]
+    .filter(node=>(!needle || node.searchable.includes(needle)) &&
+      (!classification || node.classification===classification))
+    .sort((a,b)=>a.id.localeCompare(b.id));
+}
+
+export function readFilters(index, search) {
+  const params=new URLSearchParams(search);
+  const query=params.get('q') || '';
+  const classification=params.get('classification') || '';
+  return {query,classification,error:classification && !classificationOptions(index).includes(classification)
+    ? `Unknown classification “${classification}”. The saved filter does not match this source snapshot.` : null};
+}
+
 export function dependencyPaths(index, startId) {
   if (!index.nodes.has(startId)) return [];
   const paths = [];

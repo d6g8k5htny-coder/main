@@ -2,12 +2,15 @@ import {
   buildGraphIndex,
   classificationClass,
   dependencyPaths,
+  evidenceRows,
+  classificationOptions,
+  filterNodes,
+  readFilters,
   metadataEntries,
   normalizeSelection,
   parsePinnedGraph,
-  searchNodes,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
+} from './dependency-model.mjs?site-release=99e6a33de734525f28b18c3c89b3fe85717576e2b0a5d58989cb2b189ac40bda';
 
 const byId = id => document.getElementById(id);
 
@@ -16,8 +19,10 @@ const byId = id => document.getElementById(id);
 // permanently to any reader interaction or subsequent browser navigation.
 function prepareInitialSelectionRestore({ windowObject = window, documentObject = document } = {}) {
   const hash = windowObject.location.hash;
+  const sectionIds = ['node-detail','object-scope-panel','object-evidence','object-audit','object-context'];
+  const targetId = hash.slice(1);
   const node = new URLSearchParams(windowObject.location.search).get('node');
-  if (hash !== '#node-detail' || !node || !windowObject.addEventListener)
+  if (!sectionIds.includes(targetId) || !node || !windowObject.addEventListener)
     return { finish: () => false, cancel: () => {} };
   const events = ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown', 'pointermove', 'focusin', 'hashchange', 'popstate', 'pagehide'];
   const options = { capture: true, passive: true };
@@ -26,7 +31,7 @@ function prepareInitialSelectionRestore({ windowObject = window, documentObject 
   const cleanup = () => events.forEach(event => windowObject.removeEventListener(event, cancel, options));
   const cancel = event => {
     if (event.type === 'pointermove' && !event.buttons) return;
-    if (event.type === 'focusin' && event.target === documentObject.getElementById('node-detail')) return;
+    if (event.type === 'focusin' && event.target === documentObject.getElementById(targetId)) return;
     cancelled = true;
     cleanup();
   };
@@ -40,7 +45,7 @@ function prepareInitialSelectionRestore({ windowObject = window, documentObject 
         cleanup();
         const currentNode = new URLSearchParams(windowObject.location.search).get('node');
         if (cancelled || windowObject.location.hash !== hash || currentNode !== node) return;
-        const target = documentObject.getElementById('node-detail');
+        const target = documentObject.getElementById(targetId);
         if (!target?.scrollIntoView) return;
         target.focus?.({ preventScroll: true });
         target.scrollIntoView({ block: 'start', behavior: 'instant' });
@@ -141,6 +146,10 @@ function run({ index, provenance }) {
   byId('load-status').textContent = `Pinned Math commit ${provenance.commit.slice(0, 12)} · captured ${provenance.captured_at}`;
 
   const search = byId('dependency-search');
+  const classification = byId('classification-filter');
+  const clearFilters = byId('clear-filters');
+  const filterError = byId('filter-error');
+  let savedFilterError = null;
   const searchResults = byId('search-results');
   const searchSummary = byId('search-summary');
   const targetRoot = byId('unresolved-targets');
@@ -180,7 +189,20 @@ function run({ index, provenance }) {
     detailEmpty.hidden = true;
     detailContent.hidden = false;
     clearSelection.hidden = false;
+    byId('object-classification').textContent = `Recorded classification: ${selected.classification}`;
+    byId('object-scope').textContent = selected.scope === undefined ? 'Scope not recorded in this node.' : `Scope: ${typeof selected.scope === 'string' ? selected.scope : JSON.stringify(selected.scope)}`;
+    byId('object-notes').textContent = selected.notes === undefined ? 'Notes not recorded in this node.' : `Notes: ${typeof selected.notes === 'string' ? selected.notes : JSON.stringify(selected.notes)}`;
+    byId('evidence-body').replaceChildren(...evidenceRows(selected).map(row=>{
+      const tr=element('tr');
+      const lane=element('th',{text:row.label});lane.scope='row';
+      const detail=element('td');
+      if(row.href){const link=element('a',{text:row.detail});link.href=row.href;detail.append(link);}
+      else detail.textContent=row.detail;
+      tr.append(lane,element('td',{text:row.state}),detail);
+      return tr;
+    }));
     byId('node-metadata').replaceChildren(metadata(selected));
+    byId('node-record').textContent=JSON.stringify(index.graph.nodes[selected.id],null,2);
     byId('dependency-list').replaceChildren(...(
       selected.dependencies.length
         ? selected.dependencies.map(edge => relationItem(edge, choose))
@@ -217,29 +239,49 @@ function run({ index, provenance }) {
     targetRoot.append(item);
   }
 
-  function renderSearch() {
+  function renderSearch({writeURL=false}={}) {
     const query = search.value.trim();
-    const results = searchNodes(index, query);
+    const results = savedFilterError ? [] : filterNodes(index, query, classification.value);
+    filterError.hidden=!savedFilterError;
+    filterError.textContent=savedFilterError || '';
     searchResults.replaceChildren(...results.map(node => {
       const item = element('li');
       item.append(buttonFor(node, choose));
       return item;
     }));
-    searchSummary.textContent = !query
-      ? 'Enter a claim ID, source, status, note, or relation.'
-      : results.length
+    searchSummary.textContent = savedFilterError ? 'Saved filter unavailable. Clear filters to recover.' : results.length
         ? `${results.length} result${results.length === 1 ? '' : 's'}.`
         : 'No node in this snapshot matches that search.';
+    if(writeURL){
+      const url=new URL(window.location.href);
+      if(query)url.searchParams.set('q',query);else url.searchParams.delete('q');
+      if(classification.value)url.searchParams.set('classification',classification.value);else url.searchParams.delete('classification');
+      window.history.replaceState(null,'',url);
+    }
+  }
+  for(const value of classificationOptions(index)){
+    const option=element('option',{text:value});option.value=value;classification.append(option);
+  }
+  function restoreFilters(){
+    const filters=readFilters(index,window.location.search);
+    search.value=filters.query;
+    classification.value=filters.error?'':filters.classification;
+    savedFilterError=filters.error;
+    renderSearch();
   }
   search.disabled = false;
-  search.addEventListener('input', renderSearch);
-  renderSearch();
+  classification.disabled=false;clearFilters.disabled=false;
+  search.addEventListener('input',()=>renderSearch({writeURL:!savedFilterError}));
+  classification.addEventListener('change',()=>{savedFilterError=null;renderSearch({writeURL:true});});
+  clearFilters.addEventListener('click',()=>{search.value='';classification.value='';savedFilterError=null;renderSearch({writeURL:true});});
+  restoreFilters();
 
   clearSelection.addEventListener('click', event => {
     event.preventDefault();
     renderSelection(null);
   });
   window.addEventListener('popstate', () => {
+    restoreFilters();
     renderSelection(new URLSearchParams(window.location.search).get('node'), { writeURL: false, focus: false });
   });
   renderSelection(new URLSearchParams(window.location.search).get('node'), { writeURL: false, focus: false });

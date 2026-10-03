@@ -1,4 +1,4 @@
-import { measurementModel, parseMeasurementInputs } from './measurement-model.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
+import { measurementModel, parseMeasurementInputs } from './measurement-model.mjs?site-release=99e6a33de734525f28b18c3c89b3fe85717576e2b0a5d58989cb2b189ac40bda';
 
 const byId = id => document.getElementById(id);
 const fields = Object.fromEntries(['count', 'realizations', 'lower', 'upper'].map(name => [name, byId(`measure-${name}`)]));
