@@ -37,6 +37,42 @@ test('real form wiring clears stale output and announces a corrected reference',
 import {readFile} from 'node:fs/promises';
 
 const copyModule = await import('../docs/site/reproduce-copy.mjs').catch(()=>({}));
+const intervals=[{dimension:'2',lower:'0.07340691930603427103',upper:'0.07340691930603427104'},{dimension:'3',lower:'0.04177593184059834334',upper:'0.04177593184059834335'}];
+const coefficientSource='https://github.com/d6g8k5htny-coder/Math-/blob/f430fdecbb1d8802d8af40419b701f12af87c039/coefficients/side24_v1/coefficient.py';
+test('coefficient exports preserve exact narrow decimal enclosures and pinned identity',()=>{
+ assert.equal(typeof copyModule.buildCoefficientExports,'function');
+ const out=copyModule.buildCoefficientExports(intervals,coefficientSource);
+ const data=JSON.parse(out.json);
+ assert.deepEqual(data.intervals,intervals);assert.equal(data.source,coefficientSource);
+ assert.equal(data.execution,'not_performed');assert.equal(data.source_state,'historical_pinned');
+ for(const row of intervals){assert.ok(out.text.includes(row.lower));assert.ok(out.text.includes(row.upper));assert.ok(out.latex.includes(row.lower));assert.ok(out.latex.includes(row.upper));}
+ assert.ok(out.text.includes('Historical'));
+});
+test('coefficient exports retain strict SIDE24 bounds and paste-ready display math',()=>{
+ const out=copyModule.buildCoefficientExports(intervals,coefficientSource);
+ for(const row of intervals){
+  assert.ok(out.text.includes(`${row.lower} < c_${row.dimension},24 < ${row.upper}`));
+  assert.ok(out.latex.includes(`\\[${row.lower} < c_{${row.dimension},24} < ${row.upper}\\]`));
+ }
+ assert.equal(JSON.parse(out.json).bounds,'strict');
+ assert.equal(JSON.parse(out.json).coefficient,'c_{d,24}');
+ assert.doesNotMatch(out.latex,/\\le/);assert.doesNotMatch(out.text,/<=/);
+ assert.throws(()=>copyModule.buildCoefficientExports([{dimension:'2',lower:'0.1',upper:'0.10'}],coefficientSource));
+});
+test('coefficient exports refuse rounded numbers, reversed enclosures and mutable sources',()=>{
+ assert.equal(typeof copyModule.buildCoefficientExports,'function');
+ for(const rows of [[{...intervals[0],lower:Number(intervals[0].lower)}],[{...intervals[0],lower:intervals[0].upper,upper:intervals[0].lower}],[{...intervals[0],dimension:'2.5'}],[]])assert.throws(()=>copyModule.buildCoefficientExports(rows,coefficientSource));
+ assert.throws(()=>copyModule.buildCoefficientExports(intervals,coefficientSource.replace('f430fdecbb1d8802d8af40419b701f12af87c039','main')));
+});
+test('interval copying locks all formats until the actual write finishes and handles denial',async()=>{
+ assert.equal(typeof copyModule.wireCoefficientCopy,'function');
+ const handlers={},buttons={};for(const format of ['text','json','latex'])buttons[format]={disabled:true,addEventListener(_,fn){handlers[format]=fn;}};
+ const status={textContent:''};let resolve,writes=[];
+ copyModule.wireCoefficientCopy({buttons,status,exports:copyModule.buildCoefficientExports(intervals,coefficientSource),clipboard:{writeText(text){writes.push(text);return new Promise(r=>resolve=r);}}});
+ const first=handlers.text();assert.ok(Object.values(buttons).every(b=>b.disabled));await handlers.json();assert.equal(writes.length,1);resolve();await first;
+ assert.ok(Object.values(buttons).every(b=>!b.disabled));assert.match(status.textContent,/historical|Historical/);
+ copyModule.wireCoefficientCopy({buttons,status,exports:copyModule.buildCoefficientExports(intervals,coefficientSource),clipboard:{async writeText(){throw Error('denied');}}});await handlers.json();assert.match(status.textContent,/manually/);assert.doesNotMatch(status.textContent,/Copied/);
+});
 const copyCommands = 'git checkout --detach f430fdecbb1d8802d8af40419b701f12af87c039\npython3 -B -S coefficients/side24_v1/coefficient.py';
 function copyControls() {
   let click;

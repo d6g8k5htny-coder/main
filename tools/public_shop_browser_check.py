@@ -349,6 +349,33 @@ def check_source_card_flow(page, origin, expect, result, output):
                 static.close()
             result["steps"].append("Cite keyboard copies exact text/JSON with supplied digest; edit invalidation, share/reload, Back/Forward, invalid links, clipboard refusal and JavaScript-off fallback checked")
         if entry == "reproduce":
+            recorded=[]
+            for row in page.locator('#coefficient-enclosures tbody tr').all():
+                recorded.append({'dimension':row.locator('th').inner_text(),'lower':row.locator('code').nth(0).inner_text(),'upper':row.locator('code').nth(1).inner_text()})
+            page.context.grant_permissions(["clipboard-read","clipboard-write"],origin=origin.rstrip("/"))
+            for format in ['text','json','latex']:
+                button=page.locator('#copy-coefficients-'+format)
+                button.focus();page.keyboard.press('Enter')
+                expect(page.locator('#copy-coefficients-status')).to_contain_text('Copied')
+                copied=page.evaluate('navigator.clipboard.readText()')
+                require(copied==page.locator('#coefficient-export-'+format).text_content(),'Coefficient clipboard differs from recorded export')
+                for row in recorded:
+                    require(row['lower'] in copied and row['upper'] in copied,'Decimal enclosure lost precision')
+                    if format=='text':
+                        require(f"{row['lower']} < c_{row['dimension']},24 < {row['upper']}" in copied,'Text export weakened the strict SIDE24 statement')
+                    if format=='latex':
+                        require('\\['+row['lower']+' < c_{'+row['dimension']+',24} < '+row['upper']+'\\]' in copied,'LaTeX export lacks strict display math')
+                if format=='json':
+                    record=json.loads(copied)
+                    require(record['intervals']==recorded and record['execution']=='not_performed' and record['source_state']=='historical_pinned','Coefficient export lost identity or scope')
+                    require(record['bounds']=='strict' and record['coefficient']=='c_{d,24}','JSON export lost strict SIDE24 identity')
+            page.get_by_text('Inspect or manually copy interval exports',exact=True).click()
+            expect(page.locator('#coefficient-export-json')).to_be_visible()
+            require(page.evaluate('document.documentElement.scrollWidth <= innerWidth'),'Expanded interval export overflow')
+            shot=output/f'{result["case"]}-coefficient-exports.png'
+            page.locator('#coefficient-exports').screenshot(path=str(shot))
+            result['coefficient_export_screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+            result['steps'].append('Exact historical coefficient endpoints copied as text/JSON/LaTeX with pinned source and no execution claim')
             commands=page.locator("#reproduction-commands").inner_text()
             page.context.grant_permissions(["clipboard-read","clipboard-write"],origin=origin.rstrip("/"))
             copy=page.get_by_role("button",name="Copy all commands",exact=True)
@@ -361,10 +388,16 @@ def check_source_card_flow(page, origin, expect, result, output):
             page.reload();copy.click()
             expect(page.locator("#copy-commands-status")).to_contain_text("Select the command block")
             expect(copy).to_be_enabled()
+            page.locator('#copy-coefficients-json').click()
+            expect(page.locator('#copy-coefficients-status')).to_contain_text('manually')
+            expect(page.locator('#copy-coefficients-json')).to_be_enabled()
+            expect(page.locator('#coefficient-export-json')).to_have_text(json.dumps(record,indent=2))
             page.evaluate("sessionStorage.setItem('clipboard-test','unsupported')")
             page.reload();expect(copy).to_be_disabled()
             expect(page.locator("#reproduction-commands")).to_have_text(commands)
             expect(page.locator("#copy-commands-status")).to_contain_text("Select the command block")
+            expect(page.locator('#copy-coefficients-json')).to_be_disabled()
+            expect(page.locator('#copy-coefficients-status')).to_contain_text('manually')
             page.evaluate("sessionStorage.removeItem('clipboard-test')")
             result["steps"].append("Reproduction keyboard copy matches exact visible commands; clipboard refusal and unsupported API preserve manual fallback without execution")
         require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),f"Reader entry overflow: {entry}")
