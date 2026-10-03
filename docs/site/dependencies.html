@@ -7,11 +7,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Claim dependency viewer · Universal Law</title>
   <meta name="theme-color" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3">
-  <link rel="stylesheet" href="brand.css?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3">
-  <link rel="stylesheet" href="dependencies.css?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3">
-  <script type="module" src="dependencies.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3"></script>
+  <link rel="stylesheet" href="style.css?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7">
+  <link rel="stylesheet" href="brand.css?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7">
+  <link rel="stylesheet" href="dependencies.css?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7">
+  <script type="module" src="dependencies.mjs?site-release=653895fa4a65723a5495fafad9a91b12ddeb3f656b46d57a81272f46901e70c7"></script>
 </head>
 <body class="dependency-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -24,7 +24,7 @@
   <section class="dependency-intro">
     <p class="eyebrow">SOURCE-BOUND RESEARCH NAVIGATION</p>
     <h1>Claim dependency viewer</h1>
-    <p class="intro">Trace what a recorded claim consumes, what consumes it, and which unresolved targets appear downstream in the pinned graph.</p>
+    <p class="intro">Find a recorded object, inspect its scope and evidence references, and trace the dependencies that give it context.</p>
     <p class="boundary"><strong>Dated read-only snapshot.</strong> This page derives navigation, ranking, and paths from frozen source bytes. It does not update current claim status, accept a proof, or replace the live proof index. Scientific effect: NONE.</p>
     <noscript><p class="boundary">JavaScript is off. The exact graph and provenance remain available from the source links below, but interactive search and paths require JavaScript.</p></noscript>
     <div class="source-links" aria-label="Exact viewer sources">
@@ -48,6 +48,12 @@
     <div class="section-heading"><div><p class="eyebrow">FIND A CLAIM</p><h2 id="search-heading">Search exact identifiers and relations</h2></div><p class="section-intro">Search includes node IDs, classifications, notes, source paths, and edge relations.</p></div>
     <label for="dependency-search">Claim, source, status, or relation</label>
     <input id="dependency-search" type="search" autocomplete="off" placeholder="Try shrinking charts or OPEN_ACTIVE" disabled>
+    <div class="filter-controls">
+      <div><label for="classification-filter">Recorded classification</label><select id="classification-filter" disabled><option value="">All recorded classifications</option></select></div>
+      <button id="clear-filters" type="button" disabled>Clear filters</button>
+    </div>
+    <p id="filter-error" class="error" role="alert" hidden></p>
+    <p class="muted">Filters describe this dated graph, not current scientific acceptance. The URL retains your filters and selected object.</p>
     <p id="search-summary" class="muted" aria-live="polite">Enter a search after the graph loads.</p>
     <ul id="search-results" class="node-list" aria-label="Search results"></ul>
   </section>
@@ -62,8 +68,11 @@
     <p id="selection-error" class="error" role="alert" hidden></p>
     <div id="detail-empty" class="empty-state"><p>Select an unresolved target or a search result. A saved URL may use <code>?node=exact.id#node-detail</code>.</p></div>
     <div id="detail-content" hidden>
-      <dl id="node-metadata" class="metadata-grid"></dl>
-      <div class="relation-grid">
+      <nav class="object-actions" aria-label="Selected object sections"><a href="#object-scope-panel">Recorded scope</a><a href="#object-evidence">Evidence references</a><a href="#object-audit">Exact record</a><a href="#object-context">Dependencies</a></nav>
+      <article id="object-scope-panel" class="object-panel"><h3>Recorded scope and limits</h3><p id="object-classification"></p><p id="object-scope"></p><p id="object-notes"></p><p class="muted">These are the source's recorded fields, not a new summary of its theorem. Scope and exclusions not stated here must be read in the linked proof and review.</p></article>
+      <article id="object-evidence" class="object-panel"><h3>Evidence references</h3><p>Each lane reports what this graph records. A link is not a byte check, proof validation, independent review or scientific acceptance. “Not recorded” means this graph supplies no typed interface; it does not mean the evidence does not exist elsewhere.</p><div class="evidence-scroll"><table class="evidence-table"><caption>Recorded evidence for the selected object</caption><thead><tr><th scope="col">Lane</th><th scope="col">Record state</th><th scope="col">Source detail</th></tr></thead><tbody id="evidence-body"></tbody></table></div></article>
+      <details id="object-audit" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl></details>
+      <div id="object-context" class="relation-grid">
         <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list"></ul></article>
         <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list"></ul></article>
       </div>
