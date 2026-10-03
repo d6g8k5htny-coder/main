@@ -86,6 +86,7 @@ export function metadataEntries(node) {
     ['review_issue', 'Review issue'],
     ['review_disposition', 'Review disposition'],
     ['review_basis', 'Review basis'],
+    ['technical_checks_non_discharge', 'Technical checks (non-discharge)'],
   ];
   for (const [field, label] of fields) {
     if (node[field] !== undefined && displayValue(node[field]).length)
@@ -196,6 +197,7 @@ export function buildGraphIndex(graph) {
       node.review_issue,
       node.review_disposition,
       node.review_basis,
+      node.technical_checks_non_discharge,
       node.dependencies.map(edge => [edge.id, edge.relation]),
       node.dependents.map(edge => [edge.id, edge.relation]),
     ]).toLowerCase();

@@ -11,6 +11,44 @@ import {
 
 const byId = id => document.getElementById(id);
 
+// Native fragment navigation happens before the verified graph changes the
+// page height. Correct that initial position only after rendering, and yield
+// permanently to any reader interaction or subsequent browser navigation.
+function prepareInitialSelectionRestore({ windowObject = window, documentObject = document } = {}) {
+  const hash = windowObject.location.hash;
+  const node = new URLSearchParams(windowObject.location.search).get('node');
+  if (hash !== '#node-detail' || !node || !windowObject.addEventListener)
+    return { finish: () => false, cancel: () => {} };
+  const events = ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown', 'pointermove', 'focusin', 'hashchange', 'popstate', 'pagehide'];
+  const options = { capture: true, passive: true };
+  let cancelled = false;
+  let finished = false;
+  const cleanup = () => events.forEach(event => windowObject.removeEventListener(event, cancel, options));
+  const cancel = event => {
+    if (event.type === 'pointermove' && !event.buttons) return;
+    cancelled = true;
+    cleanup();
+  };
+  events.forEach(event => windowObject.addEventListener(event, cancel, options));
+  return {
+    cancel,
+    finish() {
+      if (finished) return false;
+      finished = true;
+      windowObject.requestAnimationFrame(() => {
+        cleanup();
+        const currentNode = new URLSearchParams(windowObject.location.search).get('node');
+        if (cancelled || windowObject.location.hash !== hash || currentNode !== node) return;
+        const target = documentObject.getElementById('node-detail');
+        if (!target?.scrollIntoView) return;
+        target.focus?.({ preventScroll: true });
+        target.scrollIntoView({ block: 'start', behavior: 'instant' });
+      });
+      return true;
+    },
+  };
+}
+
 function element(tag, options = {}) {
   const node = document.createElement(tag);
   if (options.className) node.className = options.className;
@@ -193,12 +231,17 @@ function run({ index, provenance }) {
     renderSelection(null);
   });
   window.addEventListener('popstate', () => {
-    renderSelection(new URLSearchParams(window.location.search).get('node'), { writeURL: false });
+    renderSelection(new URLSearchParams(window.location.search).get('node'), { writeURL: false, focus: false });
   });
   renderSelection(new URLSearchParams(window.location.search).get('node'), { writeURL: false, focus: false });
 }
 
-load().then(run).catch(error => {
+const initialSelectionRestore = prepareInitialSelectionRestore();
+load().then(data => {
+  run(data);
+  initialSelectionRestore.finish();
+}).catch(error => {
+  initialSelectionRestore.cancel({ type: 'load-error' });
   byId('load-status').textContent = 'The local graph could not be loaded.';
   const notice = byId('selection-error');
   notice.hidden = false;

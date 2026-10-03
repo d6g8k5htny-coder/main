@@ -103,6 +103,14 @@ test('classification styling and metadata preserve source review lineage', async
   assert.equal(issueEntries.get('Review disposition'), undefined);
   const dispositionEntries = new Map(metadataEntries(index.nodes.get('math.rn-region.mesoscopic-scaled-annulus')));
   assert.equal(dispositionEntries.get('Review disposition'), 'ACCEPT_AT_STATED_SCOPE');
+  const nonDischarge = index.nodes.get('math.d1-component.reconciliation-record');
+  const nonDischargeEntries = new Map(metadataEntries(nonDischarge));
+  assert.equal(
+    nonDischargeEntries.get('Technical checks (non-discharge)'),
+    JSON.stringify(nonDischarge.technical_checks_non_discharge[0]),
+  );
+  assert.ok(searchNodes(index, 'never discharge')
+    .some(node => node.id === 'math.d1-component.reconciliation-record'));
 });
 
 test('classification CSS identifiers use locale-neutral ASCII case folding', () => {
@@ -168,10 +176,17 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(page, /scientific effect:\s*NONE/i);
   assert.match(page, /dependency-source\/GRAPH\.json/);
   assert.match(page, /dependency-source\/PROVENANCE\.json/);
+  assert.match(page, />Pinned gate implementation</);
+  assert.doesNotMatch(page, />Pinned generator</);
   assert.doesNotMatch(page, /<script(?![^>]*src=)/i);
   assert.doesNotMatch(page, /\son(?:click|change|input|submit)=/i);
   assert.match(app, /URLSearchParams/);
   assert.match(app, /replaceState/);
+  assert.match(app, /popstate[\s\S]*writeURL:\s*false,\s*focus:\s*false/);
+  assert.match(app, /prepareInitialSelectionRestore/);
+  assert.match(app, /\['wheel',[\s\S]*'pagehide'\]/);
+  assert.match(app, /requestAnimationFrame/);
+  assert.match(app, /scrollIntoView\(\{\s*block:\s*'start',\s*behavior:\s*'instant'\s*\}\)/);
   assert.match(app, /dependencyPaths/);
   assert.match(app, /prefers-reduced-motion:\s*reduce/);
   assert.match(style, /@media\s*\(max-width:\s*760px\)/);
