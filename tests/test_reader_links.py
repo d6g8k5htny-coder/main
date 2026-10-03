@@ -157,8 +157,8 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name in ('index','workspace'):
-            self.assertIn('href="research.html#latest-work"',(SITE/f'{name}.html').read_text())
+        for name,fragment in (('index','reading-addendum'),('workspace','latest-work')):
+            self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
         self.assertIn('datetime="2026-10-03T18:00:00Z"',section)
@@ -270,6 +270,12 @@ ACTUAL_BAR_PINS=[
     MATH_PREFIX+'blob/e05b8303aa7648cf321d16a4c626d522b9dda3db/frontiers/strict_unique_replacement_coefficient_20261003/'+name for name in ('PROOF.md','SOURCE_FILES.json')
 ]
 EXPECTED_READING_URLS += ACTUAL_BAR_PINS
+READING_ADDENDUM_PINS = [
+    MATH_PREFIX+'blob/c2836c2ae5df1dfdf72549fd9480b83b4621113e/frontiers/replacement_bar_occurrence_20261001/PROOF.md',
+    *(MATH_PREFIX+'blob/e0bed3ed394f1e208fc5ff28a694e22f25c751f2/frontiers/planar_soft_layer_chain_20261003/'+name
+      for name in ('C99/PROOF.md','C99/REVIEW.md','C103/PROOF.md','C103/REVIEW.md')),
+]
+EXPECTED_READING_URLS += READING_ADDENDUM_PINS
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
 
 def validate_reading_pins(text):
@@ -291,7 +297,19 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),17)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),22)
+
+    def test_addendum_cannot_replace_a_pinned_proof_with_a_branch_or_different_object(self):
+        original=(SITE/'research.html').read_text()
+        for link in READING_ADDENDUM_PINS:
+            ref=urlsplit(link).path.split('/')[4]
+            for replacement in (link.replace(ref,'main'), link.replace(ref,'0'*40),
+                                link.rsplit('/',1)[0]+'/MISSING.md'):
+                with self.subTest(link=link,replacement=replacement),self.assertRaisesRegex(ValueError,'identity drift'):
+                    validate_reading_pins(original.replace(link,replacement))
+        # Five valid-looking links cannot hide one missing source by duplication.
+        with self.assertRaisesRegex(ValueError,'identity drift'):
+            validate_reading_pins(original.replace(READING_ADDENDUM_PINS[0],READING_ADDENDUM_PINS[1]))
     def test_mutable_private_or_stale_pinned_source_substitutions_fail_closed(self):
         original=(SITE/'research.html').read_text()
         for replacement in ('main','0'*40):
