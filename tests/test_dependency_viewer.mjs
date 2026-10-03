@@ -1,0 +1,123 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+
+import {
+  buildGraphIndex,
+  dependencyPaths,
+  normalizeSelection,
+  searchNodes,
+  unresolvedTargets,
+  validateGraph,
+} from '../docs/site/dependency-model.mjs';
+
+const root = new URL('../', import.meta.url);
+const graphURL = new URL('docs/site/dependency-source/GRAPH.json', root);
+const provenanceURL = new URL('docs/site/dependency-source/PROVENANCE.json', root);
+const pageURL = new URL('docs/site/dependencies.html', root);
+const appURL = new URL('docs/site/dependencies.mjs', root);
+const styleURL = new URL('docs/site/dependencies.css', root);
+
+async function fixture() {
+  return JSON.parse(await readFile(graphURL, 'utf8'));
+}
+
+test('the pinned graph is complete and structurally valid', async () => {
+  const graph = await fixture();
+  assert.deepEqual(validateGraph(graph), []);
+  assert.equal(Object.keys(graph.nodes).length, 49);
+  assert.equal(graph.edges.length, 55);
+});
+
+test('unresolved targets include open leaves with no recorded dependents', async () => {
+  const graph = await fixture();
+  const index = buildGraphIndex(graph);
+  const targets = unresolvedTargets(index);
+  const ids = targets.map(target => target.id);
+  assert.ok(ids.includes('hist.LOGQ-TAIL'));
+  assert.ok(ids.includes('math.rn-region.witness-collision'));
+  assert.equal(index.nodes.get('hist.LOGQ-TAIL').dependents.length, 0);
+  assert.equal(index.nodes.get('math.rn-region.witness-collision').dependents.length, 0);
+  assert.ok(!ids.includes('hist.lemma_closed'));
+  assert.ok(!ids.includes('eng.hard-gate'));
+});
+
+test('unresolved targets rank by transitive impact without hiding zero-impact leaves', async () => {
+  const targets = unresolvedTargets(buildGraphIndex(await fixture()));
+  assert.equal(targets.length, 15);
+  assert.ok(targets[0].impact >= targets.at(-1).impact);
+  assert.ok(targets.some(target => target.impact === 0));
+  for (let i = 1; i < targets.length; i += 1) {
+    const previous = targets[i - 1];
+    const current = targets[i];
+    assert.ok(previous.impact > current.impact ||
+      (previous.impact === current.impact && previous.id.localeCompare(current.id) <= 0));
+  }
+});
+
+test('search covers ids, notes, source paths, classifications and edge relations', async () => {
+  const index = buildGraphIndex(await fixture());
+  assert.ok(searchNodes(index, 'shrinking charts').some(node => node.id === 'hist.CH-LIFT'));
+  assert.ok(searchNodes(index, 'UNIFORM_MATRIX_CAP').some(node => node.id === 'math.uniform-matrix-cap-lifetime'));
+  assert.ok(searchNodes(index, 'OPEN_ACTIVE').some(node => node.id === 'hist.Piece-2-annulus'));
+  assert.ok(searchNodes(index, 'reads_with_congruence_erratum').some(node => node.id === 'math.uniform-matrix-cap-lifetime'));
+  assert.equal(searchNodes(index, 'definitely-no-such-node').length, 0);
+});
+
+test('dependency paths are source-edge paths and retain relation metadata', async () => {
+  const index = buildGraphIndex(await fixture());
+  const paths = dependencyPaths(index, 'math.rn-mesoscopic-reduction');
+  const target = paths.find(path => path.ids.at(-1) === 'hist.Piece-2-annulus');
+  assert.ok(target);
+  assert.equal(target.ids[0], 'math.rn-mesoscopic-reduction');
+  assert.equal(target.edges.length, target.ids.length - 1);
+  assert.ok(target.edges.every(edge => typeof edge.relation === 'string' && edge.relation.length));
+});
+
+test('saved node links fail visibly instead of selecting an unrelated node', async () => {
+  const index = buildGraphIndex(await fixture());
+  assert.deepEqual(normalizeSelection(index, 'hist.CH-LIFT'), {
+    id: 'hist.CH-LIFT', error: null,
+  });
+  assert.deepEqual(normalizeSelection(index, 'missing.node'), {
+    id: null, error: 'Unknown node “missing.node”. The saved link does not match this source snapshot.',
+  });
+  assert.deepEqual(normalizeSelection(index, ''), { id: null, error: null });
+});
+
+test('provenance pins the exact Math source bytes and labels the snapshot boundary', async () => {
+  const provenance = JSON.parse(await readFile(provenanceURL, 'utf8'));
+  assert.equal(provenance.repository, 'd6g8k5htny-coder/Math-');
+  assert.equal(provenance.commit, '7858329974e28be79f29b22644370084ff43da4f');
+  assert.equal(provenance.files['GRAPH.json'].bytes, 38753);
+  assert.equal(provenance.files['GRAPH.json'].sha256, '8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09');
+  assert.equal(provenance.files['hard_gate.py'].bytes, 26735);
+  assert.equal(provenance.files['hard_gate.py'].sha256, 'a78f3e25f3b0cfe113e618a4c31a7a25d7f22af638c46dec1ecba221fa333ac8');
+  assert.match(provenance.scope, /dated read-only snapshot/i);
+  assert.equal(provenance.scientific_effect, 'NONE');
+});
+
+test('the viewer page exposes its source boundary and accessible interaction contract', async () => {
+  const [page, app, style] = await Promise.all([
+    readFile(pageURL, 'utf8'),
+    readFile(appURL, 'utf8'),
+    readFile(styleURL, 'utf8'),
+  ]);
+  assert.match(page, /Content-Security-Policy/);
+  assert.match(page, /script type="module" src="dependencies\.mjs"/);
+  assert.match(page, /id="dependency-search"/);
+  assert.match(page, /id="unresolved-targets"/);
+  assert.match(page, /id="node-detail"/);
+  assert.match(page, /id="selection-error"[^>]*role="alert"/);
+  assert.match(page, /dated read-only snapshot/i);
+  assert.match(page, /scientific effect:\s*NONE/i);
+  assert.match(page, /dependency-source\/GRAPH\.json/);
+  assert.match(page, /dependency-source\/PROVENANCE\.json/);
+  assert.doesNotMatch(page, /<script(?![^>]*src=)/i);
+  assert.doesNotMatch(page, /\son(?:click|change|input|submit)=/i);
+  assert.match(app, /URLSearchParams/);
+  assert.match(app, /replaceState/);
+  assert.match(app, /dependencyPaths/);
+  assert.match(style, /@media\s*\(max-width:\s*760px\)/);
+  assert.match(style, /:focus-visible/);
+});
