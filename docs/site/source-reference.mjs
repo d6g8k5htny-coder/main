@@ -23,6 +23,9 @@ const STATE_KEYS = ['repo', 'commit', 'path', 'sha256'];
 export function readReferenceState(search) {
   const params = new URLSearchParams(search);
   if (!STATE_KEYS.some(key => params.has(key))) return null;
+  // URLSearchParams replaces invalid UTF-8. Exact source paths must not be repaired silently.
+  try { decodeURIComponent(search); }
+  catch { throw new Error('The shared link has malformed URL encoding. Enter the source identity again.'); }
   for (const key of STATE_KEYS) if (params.getAll(key).length > 1) throw new Error('The shared link has duplicate source fields. Enter the identity again.');
   const state = {repository: params.get('repo'), commit: params.get('commit'), path: params.get('path') || '', sha256: params.get('sha256') || ''};
   buildReference(state.repository, state.commit, state.path, state.sha256);
@@ -39,7 +42,7 @@ export function referenceStateURL(href, state) {
   return url.href;
 }
 export function wireReferenceForm({form, repository, commit, path, sha256, output, json, link, status, actions, copyText, copyJSON, share, clipboard, location, history, events}) {
-  let current = null, revision = 0;
+  let current = null, revision = 0, copying = false;
   const copyButtons = [copyText, copyJSON].filter(Boolean);
   const canCopy = typeof clipboard?.writeText === 'function';
   const setCopy = enabled => copyButtons.forEach(button => { button.disabled = !enabled; });
@@ -59,8 +62,9 @@ export function wireReferenceForm({form, repository, commit, path, sha256, outpu
     link.href = current.url; link.textContent = 'Open this exact source on GitHub ↗'; link.hidden = false;
     if (actions) actions.hidden = false;
     if (share && location) { share.href = referenceStateURL(location.href, state); share.hidden = false; }
-    setCopy(canCopy);
+    setCopy(canCopy && !copying);
     status.textContent = 'Reference built locally. Source existence, supplied hash, authorship and review status are not checked.' + (canCopy ? '' : ' Select the text or JSON and copy it manually.');
+    if (copying) status.textContent += ' A previous copy is still finishing; copying is temporarily disabled.';
   };
   form.addEventListener('input', clear);
   form.addEventListener('change', clear);
@@ -75,15 +79,18 @@ export function wireReferenceForm({form, repository, commit, path, sha256, outpu
     } catch (error) { status.textContent = error.message; }
   });
   for (const [button, key] of [[copyText, 'text'], [copyJSON, 'json']]) button?.addEventListener('click', async () => {
-    if (!current || !canCopy || button.disabled) return;
+    if (!current || !canCopy || copying || button.disabled) return;
     const started = revision, text = current[key];
-    setCopy(false); status.textContent = 'Copying source reference…';
+    copying = true; setCopy(false); status.textContent = 'Copying source reference…';
     try {
       await clipboard.writeText(text);
       if (started === revision) status.textContent = `Copied ${key === 'json' ? 'JSON' : 'source reference'}. The source and supplied hash are not verified.`;
     } catch {
       if (started === revision) status.textContent = 'Clipboard unavailable. Select the text or JSON and copy it manually. The source is not verified.';
-    } finally { if (started === revision) setCopy(canCopy); }
+    } finally {
+      copying = false; setCopy(Boolean(current) && canCopy);
+      if (started !== revision && current) status.textContent = 'Previous copy finished. Copy the current reference when ready. The source and supplied hash are not verified.';
+    }
   });
   const restore = () => {
     clear(); repository.value = 'main'; commit.value = ''; path.value = ''; if (sha256) sha256.value = '';

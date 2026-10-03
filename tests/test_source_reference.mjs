@@ -131,3 +131,21 @@ test('clipboard rejection and delayed completion do not claim a stale copy succe
   d.path.value='new.md';d.form.listeners.input();finish();await pending;
   assert.equal(d.actions.hidden,true);assert.equal(d.copyJSON.disabled,true);assert.doesNotMatch(d.status.textContent,/Copied/);
 });
+
+test('rejects malformed percent and UTF-8 links rather than substituting source path bytes',()=>{
+  for(const path of ['%FF','%C0%AF','%ED%A0%80','bad%','bad%2','%GG']) {
+    assert.throws(()=>refs.readReferenceState(`?repo=main&commit=${sha}&path=${path}`),path);
+  }
+});
+test('a pending clipboard operation prevents a newer reference from overtaking it',async()=>{
+  const writes=[];let resolveA;
+  const c=referenceControls({writeText(text){writes.push(text);return writes.length===1?new Promise(r=>{resolveA=r;}):Promise.resolve();}});
+  wireReferenceForm(c);c.submit();const a=c.copyText.listeners.click();
+  c.path.value='B.md';c.form.listeners.input();c.submit();
+  assert.equal(c.copyJSON.disabled,true);
+  await c.copyJSON.listeners.click();assert.equal(writes.length,1);
+  resolveA();await a;assert.equal(c.copyJSON.disabled,false);
+  assert.doesNotMatch(c.status.textContent,/Copied JSON/);
+  await c.copyJSON.listeners.click();assert.equal(writes.length,2);
+  assert.equal(JSON.parse(writes[1]).path,'B.md');assert.match(c.status.textContent,/Copied JSON/);
+});
