@@ -53,7 +53,9 @@ function page(hash='#inventory',{configFailure=false,importSuccess=false,querySu
   ]);
   const saved=new Map(['window','document','fetch'].map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
   globalThis.window=window;globalThis.document=document;
-  globalThis.fetch=async url=>{
+  const requests=[];
+  globalThis.fetch=async (url,options)=>{
+    requests.push({url,options});
     if(url==='config.json'){requested.resolve();await configuration.promise;return configFailure?new Response('',{status:503}):new Response(JSON.stringify(config));}
     if(url===config.status.url){statusRequested.resolve();await status.promise;}
     if(url===config.imports.url){custodyRequested.resolve();await custody.promise;return importSuccess?new Response(importBytes):new Response('',{status:503});}
@@ -65,7 +67,7 @@ function page(hash='#inventory',{configFailure=false,importSuccess=false,querySu
   const loading=import(`../docs/site/app.js?workspace-navigation-test=${++run}`).finally(()=>{
     for(const [name,descriptor] of saved)if(descriptor)Object.defineProperty(globalThis,name,descriptor);else delete globalThis[name];
   });
-  return {window,document,nodes,events,listeners,frames,flushFrames,loading,requested,configuration,statusRequested,status,statusRendered,custodyRequested,custody};
+  return {window,document,nodes,events,listeners,frames,flushFrames,loading,requested,configuration,statusRequested,status,statusRendered,custodyRequested,custody,requests};
 }
 
 async function complete(page) {
@@ -73,6 +75,12 @@ async function complete(page) {
   await page.loading;
   page.flushFrames();
 }
+
+test('workspace refreshes configuration before validating current source pins',async()=>{
+  const p=page();await complete(p);
+  assert.equal(p.requests.find(row=>row.url==='config.json').options.cache,'no-store');
+  assert.match(p.nodes.get('inventory-state').textContent,/2,138 matches/);
+});
 
 test('initial Library navigation is restored only after delayed layout and failed sources settle',async()=>{
   const p=page();

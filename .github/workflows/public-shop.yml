@@ -18,6 +18,10 @@ jobs:
           fetch-depth: 0
       - name: Status-export negative controls
         run: python3 -B -m unittest discover -s tests -p test_public_shop_data.py
+      - name: Reproducible entry and transitive asset release
+        run: |
+          python3 -B tools/site_asset_release.py --check
+          python3 -B -m unittest tests.test_site_asset_release
       - name: Browser data-validation controls
         run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
       - name: Reader navigation and local asset routes

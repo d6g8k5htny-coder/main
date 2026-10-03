@@ -7,6 +7,11 @@ const bytes=new TextEncoder().encode('{"value":"0.04177593184059834334"}');
 const pin={url:'status.json',bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')};
 const fetcher=async()=>new Response(bytes);
 test('valid source preserves exact strings',async()=>assert.equal((await verifiedJSON(pin,fetcher)).value,'0.04177593184059834334'));
+test('local pinned data bypasses an older response while still verifying current bytes',async()=>{
+ const old=new TextEncoder().encode('{"value":"older"}');
+ const cached=async(url,options)=>new Response(options.cache==='no-store'?bytes:old);
+ assert.equal((await verifiedJSON(pin,cached)).value,'0.04177593184059834334');
+});
 test('digest mismatch refuses data',async()=>assert.rejects(()=>verifiedBytes({...pin,sha256:'0'.repeat(64)},fetcher),/SHA-256/));
 test('byte count mismatch refuses data',async()=>assert.rejects(()=>verifiedBytes({...pin,bytes:pin.bytes+1},fetcher),/byte count/));
 test('mutable branch URL refused before request',async()=>assert.rejects(()=>verifiedBytes({...pin,url:'https://raw.githubusercontent.com/d6g8k5htny-coder/main/main/STATUS.md'},()=>{throw Error('must not fetch');}),/pinned public/));

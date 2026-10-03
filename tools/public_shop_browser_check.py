@@ -11,7 +11,9 @@ import argparse
 import importlib.metadata
 import json
 import os
+import mimetypes
 from pathlib import Path
+import re
 import subprocess
 import threading
 import time
@@ -21,15 +23,36 @@ from urllib.parse import parse_qs, urlsplit
 ROOT=Path(__file__).resolve().parents[1]
 
 @contextmanager
-def local_docs():
+def local_docs(warm_release=False):
+    requests=[]
     class Handler(SimpleHTTPRequestHandler):
         def log_message(self, *_args):
             pass
+        def do_GET(self):
+            requests.append(self.path)
+            url=urlsplit(self.path)
+            path=Path(self.translate_path(url.path))
+            if warm_release and url.path == '/site/predecessor.html':
+                data=re.sub(r'[?&]site-release=[0-9a-f]{64}', '', (ROOT/'docs/site/dependencies.html').read_text()).encode()
+                self.send_response(200);self.send_header('Content-Type','text/html');self.send_header('Cache-Control','no-store')
+                self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data);return
+            if warm_release and not url.query and path.suffix in ('.mjs','.js','.css') and path.is_file():
+                # Controlled predecessor reproduces the actual former 30-result cap.
+                # No routing interception: Chromium's HTTP cache remains enabled.
+                text=re.sub(r'[?&]site-release=[0-9a-f]{64}', '', path.read_text())
+                if path.name == 'dependencies.mjs':
+                    text=text.replace('searchResults.replaceChildren(...results.map(', 'searchResults.replaceChildren(...results.slice(0,30).map(')
+                data=text.encode();self.send_response(200)
+                self.send_header('Content-Type',mimetypes.guess_type(path.name)[0] or 'application/javascript')
+                self.send_header('Cache-Control','public, max-age=31536000, immutable')
+                self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data);return
+            super().do_GET()
     server=ThreadingHTTPServer(("127.0.0.1", 0), partial(Handler,directory=str(ROOT/"docs")))
     thread=threading.Thread(target=server.serve_forever,daemon=True)
     thread.start()
     try:
-        yield f"http://127.0.0.1:{server.server_port}/site/"
+        origin=f"http://127.0.0.1:{server.server_port}/site/"
+        yield (origin,requests) if warm_release else origin
     finally:
         server.shutdown();server.server_close();thread.join()
 
@@ -37,6 +60,29 @@ def local_docs():
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+def check_warm_asset_release(browser, expect, result, output):
+    with local_docs(warm_release=True) as (origin, requests):
+        context=browser.new_context(viewport={"width":1200,"height":900},color_scheme="light")
+        page=context.new_page();page.set_default_timeout(45000);errors=[]
+        page.on('pageerror', lambda error:errors.append(str(error)))
+        try:
+            for _ in range(2):
+                page.goto(origin+'predecessor.html')
+                page.locator('#dependency-search').fill('math')
+                expect(page.locator('#search-results > li')).to_have_count(30)
+            require(requests.count('/site/dependencies.mjs')==1,'Predecessor was not reused from Chromium HTTP cache')
+            page.goto(origin+'dependencies.html')
+            page.locator('#dependency-search').fill('math')
+            expect(page.locator('#search-results > li')).to_have_count(39)
+            for name in ('dependencies.mjs','dependency-model.mjs','dependencies.css','brand.css'):
+                require(any(urlsplit(url).path=='/site/'+name and re.fullmatch('[0-9a-f]{64}',parse_qs(urlsplit(url).query).get('site-release',[''])[0]) for url in requests), 'Missing versioned request: '+name)
+            require(not errors, 'Warm-release page errors: '+str(errors))
+            result['page_errors']=errors
+            result['steps'].extend(['controlled predecessor shows 30 entries with HTTP cache enabled', 'second predecessor visit reuses cached module', 'new entry, transitive module and styles select release URLs', 'same browser then renders all 39 entries'])
+            shot=output/'warm-asset-release.png';page.screenshot(path=str(shot))
+            result['screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()}
+        finally: context.close()
 
 
 def check_flow(page, origin, expect, result):
@@ -361,6 +407,10 @@ def main():
             browser=playwright.chromium.launch(channel="chrome",chromium_sandbox=True)
             try:
                 report["browser_run_started"]=True;report["browser"]=browser.version
+                warm={"case":"warm-asset-release","steps":[],"passed":False};report["cases"].append(warm)
+                try:
+                    check_warm_asset_release(browser,expect,warm,output);warm["passed"]=True
+                except Exception: warm["error"]=traceback.format_exc()
                 for size in [{"width":1200,"height":900},{"width":390,"height":844}]:
                     for scheme in ["light","dark"]:
                         label=f'{size["width"]}-{scheme}'
@@ -476,7 +526,7 @@ def main():
                     context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==15 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==16 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:

@@ -233,7 +233,7 @@ test('the viewer page exposes its source boundary and accessible interaction con
     readFile(styleURL, 'utf8'),
   ]);
   assert.match(page, /Content-Security-Policy/);
-  assert.match(page, /script type="module" src="dependencies\.mjs"/);
+  assert.match(page, /script type="module" src="dependencies\.mjs\?site-release=[0-9a-f]{64}"/);
   assert.match(page, /id="dependency-search"/);
   assert.match(page, /id="unresolved-targets"/);
   assert.match(page, /id="node-detail"/);

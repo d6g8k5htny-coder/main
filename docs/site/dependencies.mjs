@@ -7,7 +7,7 @@ import {
   parsePinnedGraph,
   searchNodes,
   unresolvedTargets,
-} from './dependency-model.mjs';
+} from './dependency-model.mjs?site-release=dc3b8a3d50e06b183520769b998318b774231b7fc56eda438e4a4878b963d1a3';
 
 const byId = id => document.getElementById(id);
 
@@ -120,8 +120,8 @@ function renderPath(path) {
 
 async function load() {
   const [graphResponse, provenanceResponse] = await Promise.all([
-    fetch('./dependency-source/GRAPH.json'),
-    fetch('./dependency-source/PROVENANCE.json'),
+    fetch('./dependency-source/GRAPH.json',{cache:'no-store'}),
+    fetch('./dependency-source/PROVENANCE.json',{cache:'no-store'}),
   ]);
   if (!graphResponse.ok || !provenanceResponse.ok)
     throw new Error('A pinned source file could not be loaded.');
