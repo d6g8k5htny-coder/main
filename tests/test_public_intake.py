@@ -742,7 +742,9 @@ class IntakeTests(unittest.TestCase):
         names in any case, as a package file and as a manifest artifact record."""
         names = ['a' * 300 + '.md', 'sub /x.md', 'sub/ /x.md', 'sub/ x.md', 'x /y.md', 'dir./x.md', 'sub/-rf.md', 'sub/-x.md',
                  'CON.md', 'con.md', 'con', 'nul.txt', 'Nul.json', 'com1.csv', 'COM9.csv', 'Aux.json', 'lpt1.md', 'lpt9.md', 'PRN.md',
-                 'CON.tar.md', 'nested/' + 'b' * 256]
+                 'CON.tar.md', 'nested/' + 'b' * 256,
+                 # PR #240 review 5966056876 F1: Windows drops end-of-stem spaces, so these are device names too.
+                 'CON .md', 'nul .txt', 'COM1 .dir/result.md', 'con  .md', 'Aux .json', 'lpt9 .md', 'PRN ']
         for name in names:
             with self.subTest(package_file=name[:40]):
                 old = self.raw.copy()
@@ -769,9 +771,21 @@ class IntakeTests(unittest.TestCase):
         self.assertNotIn('aaaa', json.dumps(result))
         self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
 
+    def test_device_name_with_end_of_stem_space_refused_at_cli_boundary(self):
+        # PR #240 review 5966056876 F1. 'CON .md' passed the full CLI at 50c4697 with exit 0.
+        for name in ['CON .md', 'nul .txt', 'COM1 .dir/result.md']:
+            with self.subTest(name=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+                self.raw = old
+
     def test_portable_package_components_accepted(self):
         for name in ['a' * 252 + '.md', 'notes-2026.md', 'regeneration/run 1.txt', 'a.b.c.md', 'a b.md', 'CONTENTS.md', 'console.md',
-                     'nul-report.md', 'COM10.md', 'x-y/z.md', 'v3/lpw_constant_v3.py.txt', 'sub/x-.md', 'sub/x.-y.md']:
+                     'nul-report.md', 'COM10.md', 'x-y/z.md', 'v3/lpw_constant_v3.py.txt', 'sub/x-.md', 'sub/x.-y.md',
+                     'CON report.md', 'COM10 .md', 'sub/run 1.md', 'CONTENTS .md']:
             with self.subTest(name=name[:40]):
                 self.accept_name(name)
         self.assertEqual(len('a' * 252 + '.md'), intake.NAME_MAX)
@@ -860,6 +874,34 @@ class IntakeTests(unittest.TestCase):
         for label, value in self.NEW_CREDENTIAL_FORMATS.items():
             with self.subTest(pattern=label):
                 self.assertTrue(any(pattern.search(value.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_google_key_boundaries_follow_its_alphabet(self):
+        """PR #240 review 5966056876 F2: the pattern admitted '-' in its body but closed
+        with a word boundary, so a 39-character value ending in '-' passed inside text
+        and as a filename, while a 40-character look-alike was refused by its prefix.
+        Boundaries are now the token's own alphabet; all values are synthetic."""
+        hyphen_tail = 'AIza' + 'A' * 34 + '-'
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(hyphen_tail, where)
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']),
+                                 (1, 'REJECTED', 'possible credential detected; values are not logged'))
+        for text in [hyphen_tail, '"' + hyphen_tail + '"', hyphen_tail + '\n', '(' + hyphen_tail + ').', 'x ' + hyphen_tail + ' y']:
+            with self.subTest(text=text[-6:]):
+                self.assertTrue(any(pattern.search(text.encode()) for pattern in intake.CREDENTIALS))
+        self.plant('', 'RESULT.md')
+        self.raw[hyphen_tail + '.md'] = b'payload'
+        self.save()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'possible credential in path; values are not logged'))
+        self.assertNotIn('AIza', json.dumps(result))
+        self.raw.pop(hyphen_tail + '.md')
+        for lookalike in ['AIza' + 'A' * 35 + '-', 'AIza' + 'A' * 36, '_AIza' + 'A' * 35, '-AIza' + 'A' * 35, 'xAIza' + 'A' * 35]:
+            with self.subTest(lookalike=lookalike[:6] + '...' + lookalike[-2:]):
+                self.assertFalse(any(pattern.search(lookalike.encode()) for pattern in intake.CREDENTIALS))
+                self.plant(lookalike, 'RESULT.md')
+                self.assertEqual(self.run_check()['verified_sources'], 1)
 
     def test_credential_lookalikes_in_prose_accepted(self):
         """False-positive guards: identifiers that share a prefix, a one-dot pair,
