@@ -18,3 +18,13 @@ The owner supplied a 182-point research-interface critique on 3 October 2026. Th
 ## Chosen implementation
 
 The design and plan in docs/superpowers describe the first source-derived viewer increment. Larger proposals remain explicit work items, not silently omitted or falsely marked done. Github remains authoritative for sources; the pasted critique supplies all needed input for this increment, so no private Drive/Dropbox export or academic-paper lookup is required.
+
+## Source-bound increments
+
+- The [dependency reader](site/dependencies.html) separates recorded scope, evidence references and complete source metadata. Missing typed evidence is labeled “not recorded”; it is not inferred false. Its dated graph is a navigation source, not a new scientific register (PR247).
+- The [Research reading cut](site/research.html#latest-work) retains its explicit 3 October 2026, 18:00 UTC selection and conditional actual-bar scopes. Later upstream work does not silently refresh it (PR248).
+- [Reproduce](site/reproduce.html) can copy the visible pinned commands without running them (PR250), and [Explore](site/explore.html) can share and restore the selected teaching parameters (PR251).
+- [Cite](site/cite.html#reference-builder) can copy or share a supplied immutable source identity as text/JSON. Syntax checking does not verify bytes or acceptance (PR253).
+- [Formal coverage](site/formal.html#formal-coverage) exposes the nine verbatim SCOPE rows for the original 13 scalar declarations, with explicit exclusions, exact source identity and keyboard/no-JavaScript access. It remains a historical source reading view, not a current package inventory or an alignment decision. Its fixture is the exact public SCOPE.md, not a synthesized target map.
+
+The exact interval export increment is separately tracked in PR254. These bounded reader improvements do not finish the larger roadmap. Temporal comparison still needs multiple exact manifests; research-object comparisons need canonical hypothesis/conclusion mappings; and broader formal coverage needs package-specific source, receipt and alignment bindings. The existing Library/equation inventory owner retains that scope. No generic “verified” badge, progress percentage, simulated execution receipt or inferred theorem applicability is introduced.

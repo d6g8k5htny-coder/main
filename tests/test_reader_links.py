@@ -9,6 +9,7 @@ import sys
 from unittest.mock import patch
 from tempfile import TemporaryDirectory
 import shutil
+from hashlib import sha256
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'docs' / 'site'
@@ -65,6 +66,53 @@ class PublicRoutes(unittest.TestCase):
         self.assertIn('href="dependencies.html"',text)
         self.assertIn('synthetic counts-to-density',text.lower())
         self.assertIn('dated claim-dependency snapshot',text.lower())
+
+
+class FormalCoverage(unittest.TestCase):
+    """The public scope view must agree with the pinned source, not a summary."""
+    CUT = 'cc2989c1280f4f227d0c6aa30c8841d6ba01e46e'
+    DIGEST = '350732d7a501fd37d15632b13bd2ac30b8a6d87259b9a3b0931639041a1cfb84'
+
+    class Table(HTMLParser):
+        def __init__(self, text):
+            super().__init__(); self.inside = False; self.cell = None; self.rows = []; self.row = []
+            self.feed(text)
+        def handle_starttag(self, tag, attrs):
+            if tag == 'table': self.inside = dict(attrs).get('id') == 'formal-coverage-table'
+            if self.inside and tag == 'tr': self.row = []
+            if self.inside and tag in ('td', 'th'): self.cell = []
+        def handle_data(self, data):
+            if self.cell is not None: self.cell.append(data)
+        def handle_endtag(self, tag):
+            if self.inside and tag in ('td', 'th') and self.cell is not None:
+                self.row.append(' '.join(''.join(self.cell).split())); self.cell = None
+            if self.inside and tag == 'tr': self.rows.append(self.row)
+            if tag == 'table': self.inside = False
+
+    def test_coverage_and_exclusions_match_all_pinned_source_rows(self):
+        source = (ROOT/'tests/fixtures/formal_scope_cc2989.md').read_bytes()
+        self.assertEqual(len(source),3832)
+        self.assertEqual(sha256(source).hexdigest(),self.DIGEST)
+        expected = [[cell.strip() for cell in row.strip('|').split('|')]
+                    for row in source.decode().splitlines() if row.startswith('|') and not row.startswith('|---')]
+        actual = self.Table((SITE/'formal.html').read_text()).rows
+        self.assertEqual(actual,expected)
+        self.assertEqual(len(actual)-1,9)
+        self.assertEqual(sum(len(row[0].split(', ')) for row in actual[1:]),13)
+
+    def test_static_disclosure_retains_historical_source_and_alignment_boundary(self):
+        text = (SITE/'formal.html').read_text()
+        page = Page(text)
+        self.assertIn('formal-coverage',page.ids)
+        self.assertIn('href="#formal-coverage"',text)
+        self.assertIn('<summary>Inspect all 13 scalar declarations and their limits</summary>',text)
+        self.assertIn('tabindex="0" role="region" aria-label="Exact scalar companion scope table"',text)
+        self.assertIn(f'/Math-/blob/{self.CUT}/formal/SCOPE.md',text)
+        self.assertIn(self.DIGEST,text)
+        self.assertIn('not a current formalization inventory',text)
+        self.assertIn('Independent statement-alignment review at this source snapshot: PENDING',text)
+        self.assertIn('Scientific effect: NONE',text)
+        self.assertNotIn('<script',text)
 
 class ReproductionGuide(unittest.TestCase):
     def test_technical_guide_keeps_exact_pins_and_rejects_substitution(self):
