@@ -11,6 +11,9 @@ permissions:
 jobs:
   public-intake:
     name: public-intake
+    # Skip metadata edits only for terminal merged PRs. Reopenable PRs must
+    # still pass the live checker, including closure and head-drift checks.
+    if: ${{ !(github.event.pull_request.state == 'closed' && toJSON(github.event.pull_request.merged) == 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
