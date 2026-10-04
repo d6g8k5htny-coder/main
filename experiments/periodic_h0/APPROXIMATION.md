@@ -237,6 +237,12 @@ Together with the direct step bound, a permissible cubical endpoint-error
 bound is `min{E_step, eta+B_h}`. The argument is deterministic and supplies
 no claim that a particular pilot grid already resolves its shortest bins.
 
+The separate [exact-sample shrinking-bin lemma](EXACT_SAMPLE_SHRINKING_BIN.md)
+combines this bound with the inherited M4–M5 Gaussian lifetime-density interface.
+For exact samples and a deterministic shrinking schedule satisfying
+`h² sqrt(log(1/h)) = o(τ_h)`, it gives vanishing relative ensemble count error.
+It does not evaluate a finite-grid threshold or certify the numerical pilot.
+
 ## Derivative majorants from the retained Fourier coefficients
 
 Write a specified real finite Fourier field as
