@@ -1,4 +1,5 @@
 """Offline publication fidelity, not validation of the mathematical argument."""
+import hashlib
 import importlib.util
 from pathlib import Path, PurePosixPath
 import unittest
@@ -8,7 +9,6 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 RECORD = "experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md"
 INCOMING = {
-    "experiments/periodic_h0/APPROXIMATION.md": "EXACT_SAMPLE_SHRINKING_BIN.md",
     "experiments/periodic_h0/README.md": "EXACT_SAMPLE_SHRINKING_BIN.md",
     "docs/research-translation/20260930/MANUSCRIPT.md":
         "../../../experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md",
@@ -65,6 +65,11 @@ def publication_problems(texts):
         if not any(url in row and all(f"`{value}`" in row for value in (blob, size, digest))
                    for row in rows):
             problems.append("missing pinned input: " + path)
+    # This local input is also frozen into existing certificate receipts.
+    _, _, path, _, size, digest = PINNED_INPUTS[0]
+    raw = (ROOT / path).read_bytes()
+    if len(raw) != int(size) or hashlib.sha256(raw).hexdigest() != digest:
+        problems.append("changed frozen certificate input: " + path)
     for label, terms in HYPOTHESES.items():
         scope_rows = [row for row in rows if row.startswith(f"| {label} |")]
         if len(scope_rows) != 1 or any(term not in scope_rows[0] for term in terms):
@@ -127,7 +132,7 @@ class ShrinkingBinPublicationTests(unittest.TestCase):
 
     def test_lost_incoming_route_is_rejected(self):
         changed = dict(self.texts)
-        page = "experiments/periodic_h0/APPROXIMATION.md"
+        page = "experiments/periodic_h0/README.md"
         changed[page] = changed[page].replace(INCOMING[page], "README.md")
         self.assertIn("missing reading route: " + page, publication_problems(changed))
 
