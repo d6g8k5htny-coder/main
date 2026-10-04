@@ -60,8 +60,13 @@ These are dated identities, not assertions that branches will remain unchanged.
 Refresh the selected object's current head and ownership before resuming it.
 
 Use the project's existing `none`, `specified`, `proved` and `kernel-checked`
-formal-progress vocabulary. Record alignment separately as pending, accepted
-within scope, stale, or not assessed. A source being present, an endpoint being
+formal-progress vocabulary. Record alignment separately using the established
+pending/accepted/stale dimension. Preserve the recorded manifest status verbatim,
+including `PENDING_INDEPENDENT_REVIEW`; do not create new machine status values.
+For the existing scalar-pilot review contract, use per-target `ALIGNED`,
+`ALIGNED AT NARROWER SCOPE` or `MISALIGNED`, and the exact JSON disposition
+`ACCEPTED` only when that contract is satisfied. A missing review remains pending;
+an accepted scoped review and its limits remain separate evidence. A source being present, an endpoint being
 ordered, a theorem being compiled and a scientific claim being accepted are
 different statements. “Conditional/imported premise” below means the formal
 conclusion uses the premise; Lean has not thereby proved that premise.
