@@ -175,6 +175,9 @@ def check_latest_work_flow(page, origin, expect, result, output):
         page.goto(origin+"index.html")
         entry=page.get_by_role("link",name="Read the latest public work →",exact=True)
         entry.focus();page.keyboard.press("Enter")
+        expect(page.locator("#shrinking-bin-sampling")).to_be_focused()
+        previous=page.get_by_role("link",name="00:18 UTC designated-pair reading cut below",exact=True)
+        previous.focus();page.keyboard.press("Enter")
         expect(page.locator("#pair-endpoint-rate")).to_be_focused()
         earlier=page.get_by_role("link",name="20:01 UTC occurrence, density and pair-failure cut below",exact=True)
         earlier.focus();page.keyboard.press("Enter")
@@ -195,7 +198,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         expect(page.locator("#strict-bar-coefficient")).to_contain_text("integration in progress at this cut")
         expect(page.locator("#actual-bars a[data-source-kind=pinned]")).to_have_count(3)
         expect(page.locator("#strict-bar-coefficient a[data-source-kind=pinned]")).to_have_count(2)
-        expect(page.locator(".latest-boundary")).to_contain_text("Conjecture 7 remains open")
+        expect(page.locator("#latest-work .latest-boundary")).to_contain_text("Conjecture 7 remains open")
         expect(page.locator("#latest-work .latest-card").first).to_contain_text("Landed at this cut")
         expect(page.locator("#latest-work .latest-card").first).to_contain_text("I1–I4")
         issue_card=page.locator("#latest-work .latest-card").nth(1)
@@ -228,7 +231,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
         require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
         result["latest-source-requests"]=remote_requests
-        result["steps"].extend(["Home keyboard route reaches C124, then both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+        result["steps"].extend(["Home keyboard route reaches C131/C132, then C124 and both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
     finally:
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
@@ -243,6 +246,48 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         page.goto(origin+"research.html")
         jump=page.get_by_role("link",name="Latest public work",exact=True)
         jump.focus();page.keyboard.press("Enter")
+        sampling=page.locator("#shrinking-bin-sampling")
+        expect(sampling).to_be_focused()
+        require(sampling.evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"Sampling fragment lacks visible focus")
+        expect(sampling.locator("time")).to_have_attribute("datetime","2026-10-04T06:20:32Z")
+        expect(sampling.locator(".latest-card")).to_have_count(2)
+        expect(sampling).to_contain_text("C131 · EXACT VERTEX SAMPLES")
+        expect(sampling).to_contain_text("C132 · CONDITIONAL SPECTRAL EXTENSION")
+        expect(sampling).to_contain_text("h²√log(1/h) = o(τ_h)")
+        expect(sampling).to_contain_text("small failure probability alone is insufficient")
+        expect(sampling).to_contain_text("not a certificate for the current numerical sampler")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Collapsed sampling reading overflow")
+        shot=output/f'{result["case"]}-sampling.png'
+        sampling.screenshot(path=str(shot))
+        result["sampling_screenshot"]={"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()}
+        sampling_details=page.locator("#sampling-details");sampling_summary=sampling_details.locator("summary")
+        require(sampling_details.get_attribute("open") is None,"Sampling detail must start collapsed")
+        sampling_summary.focus();page.keyboard.press("Enter")
+        expect(sampling_details).to_have_attribute("open","")
+        sampling_sources=[
+            ("https://github.com/d6g8k5htny-coder/main/blob/5a7a41daac2e04ea513b97d5fae10a7334f422da/experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md","3d938d2223d99f7a8dbaa005b9eb3769813a6f8099a7780200ef048049637c82"),
+            ("https://github.com/d6g8k5htny-coder/main/blob/ad7ea9156138911f44b91bcc0e9497a4ba53f181/experiments/periodic_h0/spectral_shrinking_bins/PROOF.md","fa6d443fd5eeeb21c0d311de4d11eb5b406758f3c5ff09a222d02ba54bd0752c"),
+            ("https://github.com/d6g8k5htny-coder/main/blob/ad7ea9156138911f44b91bcc0e9497a4ba53f181/experiments/periodic_h0/spectral_shrinking_bins/SOURCES.json","783319599514159bd8e4ca6a4dd02021063d6c547e2c80cb3a8ae1ec1212ccb3"),
+        ]
+        sampling_pins=sampling_details.locator("a[data-source-kind=pinned]")
+        expect(sampling_pins).to_have_count(3)
+        for index,(source_url,digest) in enumerate(sampling_sources):
+            expect(sampling_pins.nth(index)).to_have_attribute("href",source_url)
+            expect(sampling_pins.nth(index)).to_be_visible()
+            expect(sampling_pins.nth(index).locator("..")).to_contain_text(digest)
+        expect(sampling_details).to_contain_text("d_n = o(τ_n)")
+        expect(sampling_details).to_contain_text("n²b_n + √b_n = o(τ_n^(2/3))")
+        expect(sampling_details).to_contain_text("C131 does not consume C6")
+        expect(sampling_details).to_contain_text("Organizational-independence credit is zero")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Expanded sampling reading overflow")
+        expanded=output/f'{result["case"]}-sampling-sources.png'
+        sampling_details.screenshot(path=str(expanded))
+        result["sampling_sources_screenshot"]={"path":expanded.name,"sha256":sha256(expanded.read_bytes()).hexdigest()}
+        sampling_summary.focus();page.keyboard.press("Enter")
+        require(sampling_details.get_attribute("open") is None,"Sampling detail did not close")
+        expect(sampling_summary).to_be_focused()
+        previous=page.get_by_role("link",name="00:18 UTC designated-pair reading cut below",exact=True)
+        previous.focus();page.keyboard.press("Enter")
         endpoint=page.locator("#pair-endpoint-rate")
         expect(endpoint).to_be_focused()
         require(endpoint.evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"C124 fragment lacks visible focus")
@@ -313,7 +358,17 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         result["addendum_source_requests"]=remote_requests
         static=page.context.browser.new_context(viewport=result["viewport"],color_scheme=result["color_scheme"],java_script_enabled=False)
         try:
-            fallback=static.new_page();fallback.goto(origin+"research.html#pair-endpoint-rate")
+            fallback=static.new_page();fallback.goto(origin+"research.html#shrinking-bin-sampling")
+            fallback_sampling=fallback.locator("#sampling-details")
+            fallback_sampling.locator("summary").press("Enter")
+            expect(fallback_sampling).to_have_attribute("open","")
+            fallback_pins=fallback_sampling.locator("a[data-source-kind=pinned]")
+            expect(fallback_pins).to_have_count(3)
+            for index,(source_url,digest) in enumerate(sampling_sources):
+                expect(fallback_pins.nth(index)).to_have_attribute("href",source_url)
+                expect(fallback_pins.nth(index)).to_be_visible()
+                expect(fallback_pins.nth(index).locator("..")).to_contain_text(digest)
+            expect(fallback_sampling).to_contain_text("n²b_n + √b_n = o(τ_n^(2/3))")
             endpoint_details=fallback.locator("#pair-endpoint-details")
             endpoint_details.locator("summary").press("Enter")
             expect(endpoint_details).to_have_attribute("open","")
@@ -327,7 +382,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
             require(fallback.evaluate("document.documentElement.scrollWidth <= innerWidth"),"JavaScript-off addendum overflow")
         finally:
             static.close()
-        result["steps"].append("C124 fixed-k=1 formula, precise limits, keyboard disclosure, five exact sources/four bound hashes, both historical cuts, no overflow and JavaScript-off access checked")
+        result["steps"].append("C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
     finally:
         page.unroute("https://**/*",refuse_remote)
 

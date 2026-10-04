@@ -10,6 +10,7 @@ from unittest.mock import patch
 from tempfile import TemporaryDirectory
 import shutil
 from hashlib import sha256
+import ast
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'docs' / 'site'
@@ -180,7 +181,7 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name,fragment in (('index','pair-endpoint-rate'),('workspace','latest-work')):
+        for name,fragment in (('index','shrinking-bin-sampling'),('workspace','latest-work')):
             self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
@@ -308,8 +309,18 @@ C124_SOURCE_IDENTITIES = {
 }
 C124_PINS = [C124_PREFIX+path for path in C124_SOURCE_IDENTITIES]+[C124_PREFIX+'SOURCES.json']
 EXPECTED_READING_URLS += C124_PINS
+SHRINKING_BIN_PINS = {
+    MAIN_PREFIX+'blob/5a7a41daac2e04ea513b97d5fae10a7334f422da/experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md':
+        '3d938d2223d99f7a8dbaa005b9eb3769813a6f8099a7780200ef048049637c82',
+    MAIN_PREFIX+'blob/ad7ea9156138911f44b91bcc0e9497a4ba53f181/experiments/periodic_h0/spectral_shrinking_bins/PROOF.md':
+        'fa6d443fd5eeeb21c0d311de4d11eb5b406758f3c5ff09a222d02ba54bd0752c',
+    MAIN_PREFIX+'blob/ad7ea9156138911f44b91bcc0e9497a4ba53f181/experiments/periodic_h0/spectral_shrinking_bins/SOURCES.json':
+        '783319599514159bd8e4ca6a4dd02021063d6c547e2c80cb3a8ae1ec1212ccb3',
+}
+EXPECTED_READING_URLS += list(SHRINKING_BIN_PINS)
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
 EXPECTED_HASH_BINDINGS += [(C124_PREFIX+path,digest) for path,digest in C124_SOURCE_IDENTITIES.items()]
+EXPECTED_HASH_BINDINGS += list(SHRINKING_BIN_PINS.items())
 
 def validate_reading_pins(text):
     parsed=PinnedReadingLinks(text)
@@ -330,7 +341,20 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),27)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),30)
+
+    def test_sampling_sources_reject_mutable_paths_duplicates_and_unbound_hashes(self):
+        original=(SITE/'research.html').read_text()
+        for link,digest in SHRINKING_BIN_PINS.items():
+            ref=urlsplit(link).path.split('/')[4]
+            for replacement in (link.replace(ref,'main'),link.rsplit('/',1)[0]+'/MISSING.md'):
+                with self.subTest(link=link,replacement=replacement),self.assertRaisesRegex(ValueError,'identity drift'):
+                    validate_reading_pins(original.replace(link,replacement))
+            with self.subTest(digest=digest),self.assertRaisesRegex(ValueError,'SHA-256.*drift'):
+                validate_reading_pins(original.replace(digest,'0'*64))
+        left,right=list(SHRINKING_BIN_PINS)[:2]
+        with self.assertRaisesRegex(ValueError,'identity drift'):
+            validate_reading_pins(original.replace(left,right))
 
     def test_endpoint_addendum_rejects_wrong_sources_or_swapped_review_hashes(self):
         original=(SITE/'research.html').read_text()
@@ -383,5 +407,96 @@ class LatestReviewRegressionControls(unittest.TestCase):
         self.assertIn('outline: 3px solid var(--ul-focus)',css)
         harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
         self.assertIn('fragment_focus_indicator',harness)
+
+
+class ShrinkingBinReading(unittest.TestCase):
+    def section(self):
+        text=(SITE/'research.html').read_text()
+        self.assertIn('id="shrinking-bin-sampling"',text)
+        return text.split('<section id="shrinking-bin-sampling"',1)[1].split('<section id="pair-endpoint-rate"',1)[0]
+
+    def test_static_entry_and_disclosure_keep_exact_sample_and_spectral_scopes_separate(self):
+        text=(SITE/'research.html').read_text();section=self.section()
+        self.assertIn('href="#shrinking-bin-sampling">Latest public work',text)
+        self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
+        self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
+        self.assertIn('<details class="latest-identities" id="sampling-details">',section)
+        self.assertNotIn('<script',text)
+        for term in ('C131 · EXACT VERTEX SAMPLES','C132 · CONDITIONAL SPECTRAL EXTENSION',
+                     'fixed side-24 planar torus','unconditioned normalized Gaussian field',
+                     'finite ordinary superlevel H0 bars','multiplicity','essential class is excluded',
+                     'no longest finite bar is discarded','[λτ, μτ)','0 &lt; λ &lt; μ',
+                     'deterministic','h²√log(1/h) = o(τ_h)',
+                     'expected absolute count discrepancy','expectation ratio tends to one',
+                     'M4–M5','same Gaussian coordinates','matching seed labels',
+                     'd_n = o(τ_n)','n²b_n + √b_n = o(τ_n^(2/3))',
+                     'small failure probability alone is insufficient',
+                     'unconditioned total-critical-count second moment','C131 does not consume C6',
+                     'retains that source’s author-side disposition','determinant-tilted Palm window count'):
+            with self.subTest(term=term):self.assertIn(term,section)
+
+    def test_limits_and_full_sources_remain_available_without_status_promotion(self):
+        section=self.section()
+        for term in ('not a certificate for the current numerical sampler','FFT','roundoff',
+                     'persistence-library','finite-grid','confidence intervals','post hoc',
+                     'zero-endpoint cumulative bins','evaluated constants','Lean',
+                     'global theorem','scientific status','PASS_TECHNICAL_SCOPED',
+                     'Organizational-independence credit is zero',
+                     'does not fetch, execute or verify',
+                     'issuecomment-5976299711','issuecomment-5976527971',
+                     'pullrequestreview-5404446570'):
+            with self.subTest(term=term):self.assertIn(term,section)
+        parsed=PinnedReadingLinks('<section '+section)
+        self.assertEqual(parsed.links,list(SHRINKING_BIN_PINS))
+        self.assertEqual(parsed.hash_bindings,list(SHRINKING_BIN_PINS.items()))
+
+    def test_preceding_reading_cuts_remain_byte_identical(self):
+        text=(SITE/'research.html').read_text()
+        historical=text[text.index('<section id="pair-endpoint-rate"'):]
+        self.assertEqual(sha256(historical.encode()).hexdigest(),
+                         '1837279899209d6e120e8632e67371e728bba60dbb0d284785b79164f0ed617c')
+
+    def test_existing_browser_cases_cover_new_route_and_javascript_off_access(self):
+        harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in ('#shrinking-bin-sampling','#sampling-details','sampling-sources',
+                      '00:18 UTC designated-pair reading cut below',
+                      'C131/C132 sampling scope','java_script_enabled=False'):
+            self.assertIn(token,harness)
+
+    def test_historical_scope_assertion_resolves_one_actual_boundary(self):
+        class Boundaries(HTMLParser):
+            def __init__(self,text):
+                super().__init__();self.sections=[];self.current=None;self.rows=[];self.feed(text)
+            def handle_starttag(self,tag,attrs):
+                values=dict(attrs)
+                if tag=='section':self.sections.append(values.get('id'))
+                if tag=='p' and 'latest-boundary' in values.get('class','').split():
+                    self.current=[self.sections[-1],[]]
+            def handle_data(self,data):
+                if self.current:self.current[1].append(data)
+            def handle_endtag(self,tag):
+                if tag=='p' and self.current:
+                    self.rows.append((self.current[0],''.join(self.current[1])));self.current=None
+                if tag=='section':self.sections.pop()
+        rows=Boundaries((SITE/'research.html').read_text()).rows
+        self.assertEqual(len(rows),2,'Both the new sampling scope and original boundary must remain visible')
+        class ActualBoundaryPage:
+            def locator(self,selector):
+                region=selector.split(' ',1)[0][1:] if selector.startswith('#') else None
+                return [text for identity,text in rows if region is None or identity==region]
+        class StrictSingleExpectation:
+            def __init__(self,matches):self.matches=matches
+            def to_contain_text(self,expected):
+                if len(self.matches)!=1:raise AssertionError(f'Historical boundary assertion matches {len(self.matches)} elements')
+                if expected not in self.matches[0]:raise AssertionError('Wrong scientific scope was selected')
+        module=ast.parse((ROOT/'tools/public_shop_browser_check.py').read_text())
+        flow=next(node for node in module.body if isinstance(node,ast.FunctionDef) and node.name=='check_latest_work_flow')
+        statement=next(node for node in ast.walk(flow) if isinstance(node,ast.Expr)
+                       and isinstance(node.value,ast.Call) and isinstance(node.value.func,ast.Attribute)
+                       and node.value.func.attr=='to_contain_text' and node.value.args
+                       and isinstance(node.value.args[0],ast.Constant)
+                       and node.value.args[0].value=='Conjecture 7 remains open')
+        exec(compile(ast.Module(body=[statement],type_ignores=[]),'<historical-boundary>','exec'),
+             {'page':ActualBoundaryPage(),'expect':StrictSingleExpectation})
 
 if __name__=='__main__': unittest.main()
