@@ -190,6 +190,17 @@ Using this integrated prediction avoids assigning the singular curve a represent
 
 A finite spectral truncation changes the field and a finite grid changes the filtration. Agreement across resolutions is evidence about those computed approximations; this draft supplies no bound transferring the small-lifetime density of those approximations to the exact continuum density. Nor does the coefficient enclosure locate a lifetime range in which the unknown remainder is small. A visible discrepancy or a stable histogram can motivate further work without confirming or refuting an asymptotic statement outside a certified regime.
 
+**Later exact-sample reading route (4 October 2026).** The
+[shrinking-bin lemma](../../../experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md)
+uses the M4–M5 density interface above and the deterministic cubical bound to
+obtain vanishing relative ensemble count error for exact samples of the full
+side-24 field, fixed `0 < λ < μ`, and deterministic `τ_h ↓ 0` with
+`h² sqrt(log(1/h)) = o(τ_h)`. Its linked full proof and nonauthor review retain
+the parent source hypotheses. This is a separate asymptotic implication, not
+a spectral-truncation transfer, evaluated finite-grid threshold, confidence
+interval, or certificate for the historical pilot. The original manuscript
+source cut and its scientific status are retained.
+
 ## 8. Scope and remaining work
 
 **[M16]** The main statement assembles D1, D2 and SIDE24 at their reviewed consumption scopes. The planar refined-selector packet is a separate result: it identifies the actual local partner in a rare cubic sector and a compact rejected-candidate coefficient. Counting two additional saddle witnesses does not supply a persistence-pair measure, and a rejected candidate is not a replacement bar. The unrestricted rejected population has a positive far-separation lower bound in the separate Theorem U record; this is compatible with D2's bounded upper bound and rules out exporting the compact `O(ℓ^(2/3))` difference to all pairs.

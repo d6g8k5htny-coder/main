@@ -2,6 +2,12 @@
 
 **[Read the refinement result and figure](results/refinement8/RESULTS.md).** Eight original fields are now followed through 1024², with two triangulated-filtration controls. The shortest bins still change; some larger bins stabilize numerically. The [deterministic approximation note](APPROXIMATION.md) supplies a quadratic bound conditional on certified inputs, and [confirmation readiness](CONFIRMATION_READINESS.md) identifies the remaining gates.
 
+The [exact-sample shrinking-bin lemma](EXACT_SAMPLE_SHRINKING_BIN.md) gives a
+separate asymptotic ensemble bridge: exact periodic samples recover the
+continuum bin count in relative expectation when the bin scale dominates
+`h² sqrt(log(1/h))`. It retains the M4–M5 density hypotheses and links the full
+proof and scoped review; it does not certify the retained FFT pilot.
+
 The **[first pilot and figure](results/pilot32/RESULTS.md)** remain available. The first experiment is inconclusive at these resolutions: its shortest bins change substantially under grid refinement. All fields, bins and configurations are retained. There is no fitted exponent or selected confirmation window.
 
 The [finite-polynomial certificate](FINITE_CERTIFICATE.md) now evaluates exact
