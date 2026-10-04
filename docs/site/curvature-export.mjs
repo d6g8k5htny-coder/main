@@ -1,6 +1,6 @@
 // Bounded, local export of the Peaks and saddles teaching diagram. No source fetch
 // or proof verification occurs here; the identity below is recorded provenance.
-import { coneModel } from './explore-models.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { coneModel } from './explore-models.mjs?site-release=a97ea7769616e49989910375581c6213995d8fde07a5b7500dd0ff7943d2c649';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';

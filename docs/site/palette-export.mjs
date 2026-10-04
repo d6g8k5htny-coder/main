@@ -1,7 +1,7 @@
 // Bounded teaching export of Explore's current finite P15 diagram. Source
 // custody is provenance; this module performs no mathematical verification.
-import { paletteModel } from './explore-models.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
-import { serializeTeachingSVG } from './teaching-export.mjs?site-release=50ed9b8b78963496311df27443331b3ac84cae6d34dd5c207fa8e7377fab3bd1';
+import { paletteModel } from './explore-models.mjs?site-release=a97ea7769616e49989910375581c6213995d8fde07a5b7500dd0ff7943d2c649';
+import { serializeTeachingSVG } from './teaching-export.mjs?site-release=a97ea7769616e49989910375581c6213995d8fde07a5b7500dd0ff7943d2c649';
 
 const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';
 const SOURCE = Object.freeze({
