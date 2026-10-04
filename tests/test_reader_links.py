@@ -180,7 +180,7 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name,fragment in (('index','reading-addendum'),('workspace','latest-work')):
+        for name,fragment in (('index','pair-endpoint-rate'),('workspace','latest-work')):
             self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
@@ -299,7 +299,17 @@ READING_ADDENDUM_PINS = [
       for name in ('C99/PROOF.md','C99/REVIEW.md','C103/PROOF.md','C103/REVIEW.md')),
 ]
 EXPECTED_READING_URLS += READING_ADDENDUM_PINS
+C124_PREFIX = MATH_PREFIX+'blob/bbe85e270f2c8b747f2d5d9477c86e86e323fe15/frontiers/planar_soft_layer_chain_20261003/'
+C124_SOURCE_IDENTITIES = {
+    'C124/PROOF.md': '90148657397dcce31e8039afa9015c022f74b2ed0d41e75f2f2339074a8a520f',
+    'C124/REVIEW.md': '19c405c68a93c3f5506629f0ebf1ffa78d5c25ad92f17fc4fd04ef0066deb6cf',
+    'C124/REVIEW_CLAUDE.md': '1ebe3e0faa30d1e2f81a4a6f292bf953811ca9ea8efa4b12f2a9ac6f4a2d5f2b',
+    'C124/SOURCE_IDENTITIES.json': 'a0371bd1985358820250e0d75936d6ec5112f165824df7a9f6e29e25e3f46f6d',
+}
+C124_PINS = [C124_PREFIX+path for path in C124_SOURCE_IDENTITIES]+[C124_PREFIX+'SOURCES.json']
+EXPECTED_READING_URLS += C124_PINS
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
+EXPECTED_HASH_BINDINGS += [(C124_PREFIX+path,digest) for path,digest in C124_SOURCE_IDENTITIES.items()]
 
 def validate_reading_pins(text):
     parsed=PinnedReadingLinks(text)
@@ -320,7 +330,19 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),22)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),27)
+
+    def test_endpoint_addendum_rejects_wrong_sources_or_swapped_review_hashes(self):
+        original=(SITE/'research.html').read_text()
+        for link in C124_PINS:
+            for replacement in (link.replace('bbe85e270f2c8b747f2d5d9477c86e86e323fe15','main'),
+                                link.rsplit('/',1)[0]+'/MISSING.md'):
+                with self.subTest(link=link,replacement=replacement),self.assertRaisesRegex(ValueError,'identity drift'):
+                    validate_reading_pins(original.replace(link,replacement))
+        left=C124_SOURCE_IDENTITIES['C124/REVIEW.md']
+        right=C124_SOURCE_IDENTITIES['C124/REVIEW_CLAUDE.md']
+        with self.assertRaisesRegex(ValueError,'SHA-256.*drift'):
+            validate_reading_pins(original.replace(left,'TEMP_HASH').replace(right,left).replace('TEMP_HASH',right))
 
     def test_addendum_cannot_replace_a_pinned_proof_with_a_branch_or_different_object(self):
         original=(SITE/'research.html').read_text()

@@ -175,6 +175,9 @@ def check_latest_work_flow(page, origin, expect, result, output):
         page.goto(origin+"index.html")
         entry=page.get_by_role("link",name="Read the latest public work →",exact=True)
         entry.focus();page.keyboard.press("Enter")
+        expect(page.locator("#pair-endpoint-rate")).to_be_focused()
+        earlier=page.get_by_role("link",name="20:01 UTC occurrence, density and pair-failure cut below",exact=True)
+        earlier.focus();page.keyboard.press("Enter")
         expect(page.locator("#reading-addendum")).to_be_focused()
         historical=page.get_by_role("link",name="18:00 UTC reading cut below",exact=True)
         historical.focus();page.keyboard.press("Enter")
@@ -225,7 +228,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
         require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
         result["latest-source-requests"]=remote_requests
-        result["steps"].extend(["Home keyboard route reaches new addendum, then dated historical latest-work anchor with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+        result["steps"].extend(["Home keyboard route reaches C124, then both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
     finally:
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
@@ -240,6 +243,46 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         page.goto(origin+"research.html")
         jump=page.get_by_role("link",name="Latest public work",exact=True)
         jump.focus();page.keyboard.press("Enter")
+        endpoint=page.locator("#pair-endpoint-rate")
+        expect(endpoint).to_be_focused()
+        require(endpoint.evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"C124 fragment lacks visible focus")
+        expect(endpoint.locator("time")).to_have_attribute("datetime","2026-10-04T00:18:14Z")
+        expect(endpoint).to_contain_text("physical k = 1")
+        expect(endpoint).to_contain_text("1 − p_r = r³(α₁ + α₂) + O(r^(11/3) log(1/r)^(8/3))")
+        expect(endpoint).to_contain_text("does not establish a once-counted replacement-bar measure or a lifetime-density rate")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Collapsed C124 reading overflow")
+        shot=output/f'{result["case"]}-pair-endpoint.png'
+        endpoint.screenshot(path=str(shot))
+        result["pair_endpoint_screenshot"]={"path":shot.name,"sha256":sha256(shot.read_bytes()).hexdigest()}
+        details=page.locator("#pair-endpoint-details");summary=details.locator("summary")
+        require(details.get_attribute("open") is None,"C124 detail must start collapsed")
+        summary.focus();page.keyboard.press("Enter")
+        expect(details).to_have_attribute("open","")
+        pinned=details.locator("a[data-source-kind=pinned]")
+        expect(pinned).to_have_count(5)
+        prefix="https://github.com/d6g8k5htny-coder/Math-/blob/bbe85e270f2c8b747f2d5d9477c86e86e323fe15/frontiers/planar_soft_layer_chain_20261003/"
+        identities=[
+            ("C124/PROOF.md","90148657397dcce31e8039afa9015c022f74b2ed0d41e75f2f2339074a8a520f"),
+            ("C124/REVIEW.md","19c405c68a93c3f5506629f0ebf1ffa78d5c25ad92f17fc4fd04ef0066deb6cf"),
+            ("C124/REVIEW_CLAUDE.md","1ebe3e0faa30d1e2f81a4a6f292bf953811ca9ea8efa4b12f2a9ac6f4a2d5f2b"),
+            ("C124/SOURCE_IDENTITIES.json","a0371bd1985358820250e0d75936d6ec5112f165824df7a9f6e29e25e3f46f6d"),
+            ("SOURCES.json",None),
+        ]
+        for index,(path,digest) in enumerate(identities):
+            expect(pinned.nth(index)).to_have_attribute("href",prefix+path)
+            expect(pinned.nth(index)).to_be_visible()
+            if digest: expect(pinned.nth(index).locator("..")).to_contain_text(digest)
+        expect(details).to_contain_text("not total variation of transported real height/location marks")
+        expect(details).to_contain_text("Organizational-independence credit is zero")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Expanded C124 reading overflow")
+        expanded=output/f'{result["case"]}-pair-endpoint-sources.png'
+        details.screenshot(path=str(expanded))
+        result["pair_endpoint_sources_screenshot"]={"path":expanded.name,"sha256":sha256(expanded.read_bytes()).hexdigest()}
+        summary.focus();page.keyboard.press("Enter")
+        require(details.get_attribute("open") is None,"C124 detail did not close")
+        expect(summary).to_be_focused()
+        earlier=page.get_by_role("link",name="20:01 UTC occurrence, density and pair-failure cut below",exact=True)
+        earlier.focus();page.keyboard.press("Enter")
         expect(page.locator("#reading-addendum")).to_be_focused()
         require(page.locator("#reading-addendum").evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"Addendum fragment lacks visible focus")
         expect(page.locator("#reading-addendum time")).to_have_attribute("datetime","2026-10-03T20:01:00Z")
@@ -270,7 +313,12 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         result["addendum_source_requests"]=remote_requests
         static=page.context.browser.new_context(viewport=result["viewport"],color_scheme=result["color_scheme"],java_script_enabled=False)
         try:
-            fallback=static.new_page();fallback.goto(origin+"research.html#reading-addendum")
+            fallback=static.new_page();fallback.goto(origin+"research.html#pair-endpoint-rate")
+            endpoint_details=fallback.locator("#pair-endpoint-details")
+            endpoint_details.locator("summary").press("Enter")
+            expect(endpoint_details).to_have_attribute("open","")
+            expect(endpoint_details.locator("a[data-source-kind=pinned]")).to_have_count(5)
+            expect(endpoint_details.locator("a[data-source-kind=pinned]").first).to_be_visible()
             for identity in ("bar-occurrence-density-details","designated-pair-failure-details"):
                 details=fallback.locator("#"+identity)
                 details.locator("summary").press("Enter")
@@ -279,7 +327,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
             require(fallback.evaluate("document.documentElement.scrollWidth <= innerWidth"),"JavaScript-off addendum overflow")
         finally:
             static.close()
-        result["steps"].append("Dated addendum keyboard route, two disclosures, five pinned sources, preserved historical cut, no overflow and JavaScript-off access checked")
+        result["steps"].append("C124 fixed-k=1 formula, precise limits, keyboard disclosure, five exact sources/four bound hashes, both historical cuts, no overflow and JavaScript-off access checked")
     finally:
         page.unroute("https://**/*",refuse_remote)
 
