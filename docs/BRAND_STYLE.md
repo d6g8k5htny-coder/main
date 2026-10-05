@@ -25,7 +25,7 @@ GitHub's own navigation chrome and light/dark mode belong to each visitor's appe
 - Never recolor preserved historical evidence, raster plot sources, negative-control artifacts or proof PDFs as a branding operation.
 - Never add branding that claims independent review, completed theorem closure, broad physical laws or live agent counts.
 - Keep repository names, permissions and required workflows unchanged in a branding pass.
-- The existing OWNER STOP for Cursor agents/timers remains intact; this guide does not restart any agent.
+- The September 27 stop is no longer in effect ([owner decision](../governance/OWNER_DECISION_20261005_CURSOR.md)); this guide does not itself start any agent.
 
 ## Checks
 

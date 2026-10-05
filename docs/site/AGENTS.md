@@ -16,4 +16,5 @@ regenerate historical proof evidence as a cosmetic operation.
 Run `node --test tests/test_public_shop_frontend.mjs` from the repository root (includes the brand controls). Check mobile/desktop light/dark layouts and keyboard focus separately. A local screenshot is not a live deployed-source replay or a full accessibility certification.
 
 The owner's current request authorizes these presentation and workflow changes.
-Keep the historical stop record; do not restart stopped agents or timers.
+Keep the historical stop record unchanged; the stop itself is no longer in effect
+([owner decision](../../governance/OWNER_DECISION_20261005_CURSOR.md)).

@@ -4,8 +4,9 @@ Use the [current workflow](governance/OP-WORKFLOW-20260930.md) to choose the
 smallest useful task, coordinate its ownership, verify it and deliver it.
 Dylan's current explicit instruction resumes the requested reader experience
 and workflow improvements, including implementation, review and integration.
-The [September 27 stop](governance/OWNER_STOP_20260927.md) remains historical;
-this work does not restart stopped agents, timers or background loops.
+The [September 27 stop](governance/OWNER_STOP_20260927.md) is no longer in effect
+([owner decision, 5 October](governance/OWNER_DECISION_20261005_CURSOR.md));
+Cursor agents work on request and arm no permanent windows, timers or loops.
 
 The [owner delegation](governance/OP-AUTONOMY-20260923-v2.1.md) permits agents
 to improve project rules and carry out authorized work without repeated permission

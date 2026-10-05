@@ -5,8 +5,9 @@ Effective 30 September 2026 under the
 to improve the reader experience and remove workflow bottlenecks. This guide
 replaces conflicting operational routing and repeated permission requirements.
 Historical evidence and scientific acceptance conditions keep their meaning.
-The [earlier stop](OWNER_STOP_20260927.md) is retained; this request resumes its
-specified work, not stopped schedulers or other agents' background loops.
+The [earlier stop](OWNER_STOP_20260927.md) is no longer in effect by the
+[owner decision of 5 October](OWNER_DECISION_20261005_CURSOR.md); its record stays
+unchanged, and Cursor agents work on request.
 
 ## Start with the task
 
