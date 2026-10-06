@@ -2,6 +2,9 @@
 import hashlib
 import importlib.util
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 import tempfile
 import unittest
@@ -116,6 +119,73 @@ class LandingChecks(unittest.TestCase):
         self.assertNotIn("workspace_landing_check.py", ci)
         self.assertIn("workflow_dispatch", ci)
         self.assertIn("path holder", ci.lower().replace("-", " "))
+
+
+class DeliveryWorkflowTests(unittest.TestCase):
+    """Pin this small workflow block and execute its actual shell, not mock exits."""
+
+    def delivery_block(self):
+        root = Path(__file__).resolve().parents[1]
+        text = (root / ".github/workflows/workspace-landing.yml").read_text(encoding="utf-8")
+        self.assertEqual(text.count("  checks:\n"), 1)
+        checks = text.split("  checks:\n", 1)[1].split("  formal:\n", 1)[0]
+        marker = "      - name: Delivery archive controls in both Python modes\n"
+        self.assertEqual(checks.count(marker), 1, "delivery suite is not in the required checks job")
+        start = checks.index(marker)
+        end = checks.find("\n      - ", start + len(marker))
+        self.assertNotEqual(end, -1, "delivery tests must precede later identity binding")
+        block = checks[start:end] + "\n"
+        self.assertEqual(block, marker + "        run: |\n"
+                         "          python3 -B -S tests/test_research_delivery.py\n"
+                         "          python3 -B -O -S tests/test_research_delivery.py\n")
+        return text, checks, block
+
+    def test_delivery_suite_is_required_before_identity_binding(self):
+        text, checks, _ = self.delivery_block()
+        self.assertNotIn("\n    if:", checks)
+        self.assertNotIn("continue-on-error:", checks)
+        self.assertLess(checks.index("Delivery archive controls in both Python modes"),
+                        checks.index("id: checks-identity"))
+        self.assertIn("    needs: [checks, formal]\n", text)
+        self.assertIn("    shell: bash\n", text)
+        self.assertNotIn("\n        shell:", checks)
+
+    @unittest.skipUnless(os.name == "posix", "actual Bash contract requires POSIX")
+    def test_delivery_shell_propagates_both_mode_failures(self):
+        _, _, block = self.delivery_block()
+        shell = "\n".join(line[10:] for line in block.splitlines()[2:]) + "\n"
+        script = ("import os,sys,unittest\n"
+                  "from pathlib import Path\n"
+                  "class Probe(unittest.TestCase):\n"
+                  " def test_mode(self):\n"
+                  "  mode='optimized' if sys.flags.optimize else 'normal'\n"
+                  "  with open(os.environ['DELIVERY_TRACE'],'a') as f:f.write(mode+'\\n')\n"
+                  "  self.assertNotEqual(os.environ['DELIVERY_FAIL_MODE'],mode)\n"
+                  "if __name__=='__main__':unittest.main()\n")
+        for fail, expected_exit, expected_events in (
+                ("", 0, ["normal", "optimized"]),
+                ("normal", 1, ["normal"]),
+                ("optimized", 1, ["normal", "optimized"]),
+                ("missing", 2, [])):
+            with self.subTest(fail_mode=fail), tempfile.TemporaryDirectory() as td:
+                root = Path(td)
+                (root / "tests").mkdir()
+                if fail != "missing":
+                    (root / "tests/test_research_delivery.py").write_text(script)
+                binary = root / "bin"
+                binary.mkdir()
+                (binary / "python3").symlink_to(sys.executable)
+                trace = root / "trace"
+                env = os.environ.copy()
+                env.update(PATH=str(binary) + os.pathsep + env.get("PATH", ""),
+                           DELIVERY_TRACE=str(trace), DELIVERY_FAIL_MODE=fail)
+                result = subprocess.run(
+                    ["bash", "--noprofile", "--norc", "-e", "-o", "pipefail", "-c", shell],
+                    cwd=root, env=env, capture_output=True, timeout=20)
+                self.assertEqual(result.returncode, expected_exit, result.stderr)
+                self.assertEqual(result.stdout, b"")
+                events = trace.read_text().splitlines() if trace.exists() else []
+                self.assertEqual(events, expected_events)
 
 
 if __name__ == "__main__":
