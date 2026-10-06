@@ -47,9 +47,11 @@ effect NONE. Nothing here changes a status, flag, premise, prize or register.
 ## Decision
 
 1. **Keep all three repositories public.** Making them private would break the
-   public links listed in fact 2 and the Drive-identity provenance, and would
-   remove no secret. Privacy concerns are handled by OP-PRIVACY, not by hiding research
-   replicas.
+   public links listed in fact 2 and the Drive-identity provenance. No
+   established exposure is resolved by privatizing these selected research
+   replicas (fact 2 records that no credential exposure has been established,
+   not that every history is proved secret-free); any discovered personal or
+   unrelated material remains subject to OP-PRIVACY.
 2. **Archive `trial` and `sandbox`** (read-only, still public). Archiving ends
    every workflow in `trial`, including the hourly watch the 27 September stop
    should already have ended, and freezes `sandbox` without hiding it.
@@ -57,9 +59,10 @@ effect NONE. Nothing here changes a status, flag, premise, prize or register.
    becomes: "Selective, source-bound public replicas of 12 research outputs; not
    a Google Drive backup. See README." The README gains a dated qualification of
    its former Drive-primary and routing sentences (pull request in that
-   repository) and the repository is archived once that lands. No further
-   replica is planned: since 27 September, Drive and Dropbox are not sources for
-   new GitHub material (OP-PRIVACY).
+   repository) and the repository is archived once that lands. No new replicas
+   are planned in this auxiliary repository under this disposition. Future
+   project-related Drive or Dropbox material may still be published, after the
+   OP-PRIVACY screen and with provenance, in the appropriate active repository.
 4. The repository map in `docs/RESEARCH_INDEX.md` keeps the three links and
    points at this decision, naming each outstanding click; the archived
    description applies once the three `archived` flags are observed (this pull
