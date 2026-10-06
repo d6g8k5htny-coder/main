@@ -205,14 +205,19 @@ class AssetRelease(unittest.TestCase):
                 'obj?.if(ok) / scale / import("./lazy.mjs"); '
                 'obj.return / scale / import("./lazy.mjs");')
             (site/'style.css').write_text(
-                'a{madeup:éurl(ghost.svg);background:url(mark.svg)}')
+                'a{madeup:éurl(ghost.svg);other:💠url(mark.svg);'
+                'combining:́url(mark.svg);background:url(mark.svg)}')
             result = self.run_tool(site)
             self.assertEqual(result.returncode, 0, result.stderr)
             text = (site/'app.mjs').read_text()
             self.assertIn('αimport("./core.mjs")', text)
             self.assertNotIn('αimport("./core.mjs?site-release=', text)
             self.assertEqual(text.count('./lazy.mjs?site-release='+result.stdout.strip()), 3)
-            self.assertIn('éurl(ghost.svg)', (site/'style.css').read_text())
+            css = (site/'style.css').read_text()
+            self.assertIn('éurl(ghost.svg)', css)
+            self.assertIn('💠url(mark.svg)', css)
+            self.assertIn('́url(mark.svg)', css)
+            self.assertEqual(css.count('mark.svg?site-release='), 1)
             self.assertIn('mark.svg?site-release='+result.stdout.strip(),
                           (site/'style.css').read_text())
 

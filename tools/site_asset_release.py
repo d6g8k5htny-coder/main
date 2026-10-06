@@ -142,7 +142,7 @@ def main():
 from html.parser import HTMLParser
 
 _NAME = re.compile(r'(?:[^\W\d]|[$_])[\w$]*')
-_CSS_NAME = re.compile(r'(?:[^\W\d]|[-_])[-\w]*')
+_CSS_NAME = re.compile(r'(?:[-_A-Za-z]|[^\x00-\x7f])(?:[-_A-Za-z0-9]|[^\x00-\x7f])*')
 _PUNCT = re.compile(
     r'===|!==|\*\*=|=>|\?\.|\?\?|&&|\|\||'
     r'==|!=|<=|>=|\+\+|--|\*\*|'
