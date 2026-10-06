@@ -27,7 +27,14 @@ effect NONE. Nothing here changes a status, flag, premise, prize or register.
    under Math- `imports/hardening_ebedb780/P15-B/` (blob `deab15eb`), and the
    demanded-palette optimum in meta-framework `replicas/consecutive-palette-v1/`
    (blob `1aa9db5b`). The public surfaces link to the three repositories in
-   eleven places (this file's companion edit lists them in the pull request).
+   ten URLs, enumerated in
+   [main#227 comment 6007892354](https://github.com/d6g8k5htny-coder/main/issues/227#issuecomment-6007892354):
+   main `docs/RESEARCH_INDEX.md` (three), `docs/REPRODUCE.md`,
+   `docs/RELEASE_DISPATCH_20260926.md`, `docs/PUBLIC_SHOP_SETUP.md`; Math-
+   `README.md` (two) and `AGENTS.md` (two); plus one prose mention in
+   `reviews/grok_uploads_20260926/`. Further inbound `trial` URLs exist in
+   meta-framework, governance-, google-drive, sandbox and
+   Universal-Law-Workspace, so this set is not an organization-wide census.
 3. `trial` is the historical integration lab. Eleven workflows are still enabled
    there, and `watch-main-alignment.yml` was still running on its hourly schedule
    on 5 October (last run 22:59Z) despite the
@@ -40,8 +47,8 @@ effect NONE. Nothing here changes a status, flag, premise, prize or register.
 ## Decision
 
 1. **Keep all three repositories public.** Making them private would break the
-   eleven public links and the Drive-identity provenance, and would remove no
-   secret. Privacy concerns are handled by OP-PRIVACY, not by hiding research
+   public links listed in fact 2 and the Drive-identity provenance, and would
+   remove no secret. Privacy concerns are handled by OP-PRIVACY, not by hiding research
    replicas.
 2. **Archive `trial` and `sandbox`** (read-only, still public). Archiving ends
    every workflow in `trial`, including the hourly watch the 27 September stop
@@ -53,8 +60,9 @@ effect NONE. Nothing here changes a status, flag, premise, prize or register.
    repository) and the repository is archived once that lands. No further
    replica is planned: since 27 September, Drive and Dropbox are not sources for
    new GitHub material (OP-PRIVACY).
-4. The repository map in `docs/RESEARCH_INDEX.md` describes the three as
-   archived, read-only auxiliary repositories and keeps their links (this pull
+4. The repository map in `docs/RESEARCH_INDEX.md` keeps the three links and
+   points at this decision, naming each outstanding click; the archived
+   description applies once the three `archived` flags are observed (this pull
    request).
 5. Everything here is reversible with one click (unarchive); no history is
    rewritten and no byte is removed.

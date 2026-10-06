@@ -95,10 +95,10 @@ The [Dropbox import of 2026-09-27](../audits/dropbox_import/2026-09-27/README.md
 | [Math-](https://github.com/d6g8k5htny-coder/Math-) | Proofs, calculations, outputs and mathematical tests |
 | [meta-framework](https://github.com/d6g8k5htny-coder/meta-framework) | Curated exact-source identities and routing |
 | [query-](https://github.com/d6g8k5htny-coder/query-) | Read-only lookup and local byte verification |
-| [google-drive](https://github.com/d6g8k5htny-coder/google-drive) | Twelve selected public replicas with exact source identities, not a Drive backup; read-only archive under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md) |
-| [trial](https://github.com/d6g8k5htny-coder/trial) | Historical integration lab, read-only archive under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md); its federation replay stays linked from [REPRODUCE.md](REPRODUCE.md) |
+| [google-drive](https://github.com/d6g8k5htny-coder/google-drive) | Twelve selected public replicas with exact source identities, not a Drive backup. Public under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md); About-text correction, then archive, both still outstanding |
+| [trial](https://github.com/d6g8k5htny-coder/trial) | Historical integration lab. Public under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md); archive click still outstanding. Its federation replay stays linked from [REPRODUCE.md](REPRODUCE.md) |
 | [governance-](https://github.com/d6g8k5htny-coder/governance-) | Working practices, not theorem acceptance |
-| [sandbox](https://github.com/d6g8k5htny-coder/sandbox) | Bounded exploratory experiments, never exported automatically; read-only archive under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md) |
+| [sandbox](https://github.com/d6g8k5htny-coder/sandbox) | Bounded exploratory experiments, never exported automatically. Public under the [6 October surface decision](../governance/OWNER_DECISION_20261006_SURFACES.md); archive click still outstanding |
 
 ## Branch placement
 
