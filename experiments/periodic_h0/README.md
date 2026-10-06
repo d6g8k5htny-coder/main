@@ -8,6 +8,14 @@ continuum bin count in relative expectation when the bin scale dominates
 `h² sqrt(log(1/h))`. It retains the M4–M5 density hypotheses and links the full
 proof and scoped review; it does not certify the retained FFT pilot.
 
+The [conditional spectral shrinking-bin extension](spectral_shrinking_bins/README.md)
+adds spectral tails, normalization and certified nodal errors, with explicit
+control of expected counts on certificate-failure events. Its sufficient schedule
+requires a normalization cutoff at least as large as the spectral cutoff (or
+the exact full denominator), together with the stated accuracy and failure
+rates. The full proof, exact sources and technical reviews are linked there;
+it supplies no certification of the stored PCG64/NumPy pilot.
+
 The **[first pilot and figure](results/pilot32/RESULTS.md)** remain available. The first experiment is inconclusive at these resolutions: its shortest bins change substantially under grid refinement. All fields, bins and configurations are retained. There is no fitted exponent or selected confirmation window.
 
 The [finite-polynomial certificate](FINITE_CERTIFICATE.md) now evaluates exact
