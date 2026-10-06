@@ -141,8 +141,8 @@ def main():
 
 from html.parser import HTMLParser
 
-_NAME = re.compile(r'[A-Za-z_$][A-Za-z0-9_$]*')
-_CSS_NAME = re.compile(r'[-_A-Za-z][-_A-Za-z0-9]*')
+_NAME = re.compile(r'(?:[^\W\d]|[$_])[\w$]*')
+_CSS_NAME = re.compile(r'(?:[^\W\d]|[-_])[-\w]*')
 _PUNCT = re.compile(
     r'===|!==|\*\*=|=>|\?\.|\?\?|&&|\|\||'
     r'==|!=|<=|>=|\+\+|--|\*\*|'
@@ -261,8 +261,11 @@ def _js_tokens(text, start=0, template_expression=False):
             token = ('template', text[begin:pos], begin, pos)
         elif char == '/':
             end = _regex_end(text, pos)
+            property_word = (previous is not None and previous[0] == 'word'
+                             and len(tokens) >= 2
+                             and tokens[-2][1] in ('.', '?.'))
             prefix = (previous is None or previous[0] == 'control-close'
-                      or previous[1] in _REGEX_PREFIX)
+                      or (previous[1] in _REGEX_PREFIX and not property_word))
             ambiguous = previous is not None and previous[1] in (')', '}')
             if prefix:
                 if end is None:
@@ -288,6 +291,8 @@ def _js_tokens(text, start=0, template_expression=False):
                 pos = match.end()
                 token = ('word', match[0], begin, pos)
             else:
+                if char == '\\' or ord(char) > 127:
+                    raise ValueError('Unsupported JavaScript identifier syntax')
                 match = _PUNCT.match(text, pos)
                 pos = match.end()
                 token = ('punct', match[0], begin, pos)
@@ -295,7 +300,8 @@ def _js_tokens(text, start=0, template_expression=False):
         if token[1] == '(':
             parens.append(previous is not None
                           and previous[0] == 'word'
-                          and previous[1] in _CONTROL)
+                          and previous[1] in _CONTROL
+                          and (len(tokens) < 2 or tokens[-2][1] not in ('.', '?.')))
         elif token[1] == ')':
             control = parens.pop() if parens else False
             if control:
@@ -389,6 +395,8 @@ def _css_spans(text):
         if text[pos] in '"\'':
             pos = _quoted_end(text, pos)
             continue
+        if text[pos] == '\\':
+            raise ValueError('Escaped CSS identifier syntax is unsupported')
         if text[pos] == '@':
             match = _CSS_NAME.match(text, pos + 1)
             if match:

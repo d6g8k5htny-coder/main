@@ -197,11 +197,33 @@ class AssetRelease(unittest.TestCase):
             self.assertIn('import("./dir/" + name)', text)
             self.assertIn('obj.import("ghost.js")', text)
 
+    def test_unicode_and_property_keywords_do_not_become_imports_or_regex(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            (site/'app.mjs').write_text(
+                'αimport("./core.mjs"); obj.if(ok) / scale / import("./lazy.mjs"); '
+                'obj?.if(ok) / scale / import("./lazy.mjs"); '
+                'obj.return / scale / import("./lazy.mjs");')
+            (site/'style.css').write_text(
+                'a{madeup:éurl(ghost.svg);background:url(mark.svg)}')
+            result = self.run_tool(site)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            text = (site/'app.mjs').read_text()
+            self.assertIn('αimport("./core.mjs")', text)
+            self.assertNotIn('αimport("./core.mjs?site-release=', text)
+            self.assertEqual(text.count('./lazy.mjs?site-release='+result.stdout.strip()), 3)
+            self.assertIn('éurl(ghost.svg)', (site/'style.css').read_text())
+            self.assertIn('mark.svg?site-release='+result.stdout.strip(),
+                          (site/'style.css').read_text())
+
     def test_unsupported_contexts_fail_before_any_writes(self):
         examples = [
-            'const t = '+chr(96)+'[object Promise]'+chr(96)+';',
+            'const t = '+chr(96)+chr(36)+'{import("./lazy.mjs")}'+chr(96)+';',
             'function f() {} /import("ghost.js")/.test(s);',
             'import("./core\\u002emjs");',
+            'obj.if() / import(".\\/core.mjs") / 2;',
+            'obj?.if() / import(".\\/core.mjs") / 2;',
+
         ]
         for example in examples:
             with self.subTest(example=example), TemporaryDirectory() as tmp:
