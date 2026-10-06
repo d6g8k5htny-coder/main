@@ -410,6 +410,118 @@ class DeliveryTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.delivery.verify(self.archive)
 
+    def prefix_archive(self, additions):
+        """Construct exact STORED headers and consistent identities, not bad hashes."""
+        payloads = dict(self.raws)
+        payloads.update(additions)
+        document = {'version': 1, 'handoff': 'HANDOFF.json', 'files': [
+            {'filename': name, 'size': len(raw), 'sha256': digest(raw)}
+            for name, raw in sorted(payloads.items())]}
+        members = dict(payloads)
+        members[MANIFEST] = encoded(document)
+        with zipfile.ZipFile(self.archive, 'w', compression=zipfile.ZIP_STORED) as archive:
+            for name, raw in sorted(members.items()):
+                info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+                info.create_system = 3
+                info.external_attr = (stat.S_IFREG | 0o644) << 16
+                archive.writestr(info, raw)
+        return self.archive.read_bytes()
+
+    def test_generated_manifest_is_not_a_payload_directory(self):
+        name = MANIFEST + '/source.txt'
+        path = self.root / name
+        path.parent.mkdir()
+        path.write_bytes(b'source\n')
+        spec = copy.deepcopy(self.spec)
+        spec['files'].append({'path': name, 'bytes': 7, 'sha256': digest(b'source\n')})
+        with self.assertRaisesRegex(ValueError, 'file/directory member conflict'):
+            self.build(spec)
+        self.assertFalse(self.archive.exists())
+        self.assertEqual(path.read_bytes(), b'source\n')
+
+    def test_prefix_invariant_checks_all_rows_in_both_identity_schemas(self):
+        cases = [
+            ['a', 'a/source.txt'],
+            ['a/b', 'a/b/c'],
+            ['a', 'a/b/c'],
+            ['a', 'a-bridge', 'a/source.txt'],
+            ['HANDOFF.json/note.txt'],
+            [MANIFEST + '/nested/source.txt'],
+            ['\u00e9tude', '\u00e9tude/\u03bb.txt'],
+        ]
+        for names in cases:
+            for reverse in (False, True):
+                for manifest in (False, True):
+                    with self.subTest(names=names, reverse=reverse, manifest=manifest):
+                        rows = [('HANDOFF.json', self.raws['HANDOFF.json'])]
+                        rows.extend((name, b'x') for name in names)
+                        if reverse:
+                            rows.reverse()
+                        pk, sk = ('filename', 'size') if manifest else ('path', 'bytes')
+                        document = {'version': 1, 'handoff': 'HANDOFF.json', 'files': [
+                            {pk: name, sk: len(raw), 'sha256': digest(raw)}
+                            for name, raw in rows]}
+                        with self.assertRaisesRegex(ValueError, 'file/directory member conflict'):
+                            self.delivery.identity_rows(document, manifest=manifest)
+
+    def test_valid_hashes_do_not_excuse_conflicting_archive_paths(self):
+        cases = [
+            {'nested': b'parent file'},
+            {'HANDOFF.json/note.txt': b'x'},
+            {MANIFEST + '/source.txt': b'x'},
+            {'a': b'x', 'a-bridge': b'y', 'a/source.txt': b'z'},
+        ]
+        for additions in cases:
+            with self.subTest(additions=additions):
+                original = self.prefix_archive(additions)
+                # Separate the namespace defect from framing, CRC, identity or handoff failure.
+                members = self.delivery.stored_members(original)
+                manifest = json.loads(members[MANIFEST])
+                for row in manifest['files']:
+                    raw = members[row['filename']]
+                    self.assertEqual((len(raw), digest(raw)), (row['size'], row['sha256']))
+                self.delivery.handoff_payload(members['HANDOFF.json'])
+                with self.assertRaisesRegex(ValueError, 'file/directory member conflict'):
+                    self.delivery.verify(self.archive)
+                self.assertEqual(self.archive.read_bytes(), original)
+
+    def test_prefix_conflict_cli_is_a_clean_nonzero_result(self):
+        original = self.prefix_archive({'nested': b'parent file'})
+        flags = ['-B', '-O', '-S'] if sys.flags.optimize else ['-B', '-S']
+        result = subprocess.run([sys.executable, *flags, str(TOOL), 'verify',
+                                 str(self.archive)], capture_output=True, timeout=15)
+        self.assertEqual(result.returncode, 1, result.stdout)
+        self.assertEqual(result.stderr, b'')
+        response = json.loads(result.stdout)
+        self.assertEqual(response, {'ok': False,
+                                   'error': 'file/directory member conflict: nested/proof.bin'})
+        self.assertEqual(self.archive.read_bytes(), original)
+
+    def test_component_neighbors_and_shared_directories_still_round_trip(self):
+        additions = {
+            'a': b'plain file', 'a-bridge': b'neighbor', 'ab/source.txt': b'child',
+            'sources/a.txt': b'one', 'sources/deeper/b.txt': b'two',
+            'sources/\u03bb.txt': b'unicode', 'HANDOFF.json.notes': b'not a child',
+            MANIFEST + '.notes/source.txt': b'not the manifest directory',
+        }
+        spec = copy.deepcopy(self.spec)
+        for name, raw in additions.items():
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+            spec['files'].append({'path': name, 'bytes': len(raw), 'sha256': digest(raw)})
+        built = self.build(spec)
+        self.assertEqual(self.delivery.verify(self.archive), built)
+        reverse_path = self.root / 'reordered.zip'
+        spec['files'].reverse()
+        self.build(spec, reverse_path)
+        self.assertEqual(self.archive.read_bytes(), reverse_path.read_bytes())
+        destination = self.root / 'extracted'
+        with zipfile.ZipFile(self.archive) as archive:
+            archive.extractall(destination)
+        for name, raw in {**self.raws, **additions}.items():
+            self.assertEqual((destination / name).read_bytes(), raw)
+
     def test_cli_returns_compact_results_and_nonzero_on_bad_archive(self):
         self.spec_path.write_bytes(encoded(self.spec))
         built = subprocess.run([sys.executable, '-B', str(TOOL), 'build', '--root', str(self.root),
