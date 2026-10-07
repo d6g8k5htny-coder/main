@@ -112,6 +112,14 @@ def identity_rows(document, manifest=False):
         require(isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest),
                 'invalid SHA-256 identity')
         identities[name] = (size, digest)
+    # Every member is a regular file, including the generated manifest. No file
+    # can simultaneously be a directory prefix, regardless of identity-row order.
+    files = set(identities) | {MANIFEST}
+    for name in identities:
+        parts = name.split('/')
+        require(all('/'.join(parts[:end]) not in files
+                    for end in range(1, len(parts))),
+                'file/directory member conflict: ' + name)
     require(document['handoff'] in identities, 'handoff is not explicitly listed')
     require(sum(size for size, _ in identities.values()) <= MAX_TOTAL_BYTES,
             'payload exceeds total size limit')
