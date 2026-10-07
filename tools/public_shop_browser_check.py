@@ -854,10 +854,19 @@ def check_other_teaching_exports(page, origin, expect, result, output):
         rect = page.locator('#pin-diagram rect')
 
         def height_observation(label):
-            observation = rect.evaluate("""n=>({attribute:n.getAttribute('height'),
-                computed:getComputedStyle(n).getPropertyValue('height'),
-                reflected:n.height.baseVal.value,used:n.getBBox().height,
-                float32:Math.fround(Number(n.getAttribute('height')))})""")
+            observation = rect.evaluate("""async n=>{
+                const entry=new URL(document.querySelector('script[src]').src);
+                const module=new URL('teaching-export.mjs'+entry.search,entry);
+                const {captureTeachingDiagram}=await import(module.href);
+                let captureError=null;
+                try{captureTeachingDiagram(n.ownerSVGElement);}catch(error){captureError=String(error);}
+                return {attribute:n.getAttribute('height'),
+                    computed:getComputedStyle(n).getPropertyValue('height'),
+                    reflected:n.height.baseVal.value,used:n.getBBox().height,
+                    float32:Math.fround(Number(n.getAttribute('height'))),
+                    typed:n.computedStyleMap?.().get('height')?.value,
+                    captureError};
+            }""")
             result['pin_height_geometry'].append({'region':region,'case':label,**observation})
             return observation
 
@@ -865,8 +874,8 @@ def check_other_teaching_exports(page, origin, expect, result, output):
             if key:
                 distance.focus(); page.keyboard.press(key)
             expect(distance).to_have_value('0.24' if key == 'ArrowLeft' else '0.25')
-            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
             observation = height_observation(label)
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
             require(0 < observation['used'] <= 600
                     and observation['used'] == observation['reflected'] == observation['float32'],
                     'Native used-height witness does not match the reflected Float32 attribute')
