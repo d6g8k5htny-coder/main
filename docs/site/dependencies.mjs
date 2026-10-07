@@ -11,7 +11,7 @@ import {
   parsePinnedGraph,
   recordedContextRows,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
+} from './dependency-model.mjs?site-release=9b5e19b6b102ab45748c8495d6532fc50568f300c10df2c50da8ea4d2ef355ad';
 
 const byId = id => document.getElementById(id);
 
