@@ -31,6 +31,13 @@ class Page(HTMLParser):
         if tag == 'nav': self.primary = False
 
 class PublicRoutes(unittest.TestCase):
+    def test_status_currency_pointer_matches_pinned_snapshot(self):
+        page=(SITE/'workspace.html').read_text(); status=json.loads((SITE/'status.json').read_text())
+        pointer=page.split('id="status-currency"',1)[1].split('</p>',1)[0]
+        self.assertIn(f'<code>{status["source"]["commit"][:7]}</code>',pointer)
+        self.assertIn('href="https://github.com/d6g8k5htny-coder/main/blob/main/STATUS.md"',pointer)
+        self.assertIn('side branch <code>chatgpt/drive-github-hardening-20260919</code>, not into main',pointer)
+
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
         class ExportControls(HTMLParser):
