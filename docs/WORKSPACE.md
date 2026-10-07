@@ -125,7 +125,10 @@ The landing checker covers its declared pages and historical bytes. The navigati
 checker additionally checks declared Markdown anchors; neither command above
 crawls remote links or executes another branch's research. Read actual workflow
 definitions for the checks applicable to a change. A local navigation pass does
-not replace required hosted CI or substantive review.
+not replace required hosted CI or substantive review. Changes under `docs/site` or
+`docs/public-math` also need `python3 -B tools/site_asset_release.py` followed by
+`--check`, and the required `public-shop` steps listed in
+[the site guide](site/README.md#verify-the-reader-experience).
 
 ## Formal layer check
 
