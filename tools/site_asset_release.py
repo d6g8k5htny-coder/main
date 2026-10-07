@@ -265,6 +265,14 @@ def _js_tokens(text, start=0, template_expression=False):
             else:
                 raise ValueError('Unterminated template literal')
             token = ('template', text[begin:pos], begin, pos)
+        elif char == '#':
+            # PrivateIdentifier is one token, even when its name is a keyword.
+            # Escaped names and hashbangs remain outside this bounded grammar.
+            match = _NAME.match(text, pos + 1)
+            if match is None:
+                raise ValueError('Unsupported JavaScript identifier syntax')
+            pos = match.end()
+            token = ('private-name', text[begin:pos], begin, pos)
         elif char == '/':
             end = _regex_end(text, pos)
             property_word = (previous is not None and previous[0] == 'word'
@@ -311,7 +319,7 @@ def _js_tokens(text, start=0, template_expression=False):
             property_name = previous is not None and previous[1] in ('.', '?.')
             previous_property = len(tokens) >= 2 and tokens[-2][1] in ('.', '?.')
             target_end = previous is not None and (
-                previous[1] in (')', ']', '}')
+                previous[0] == 'private-name' or previous[1] in (')', ']', '}')
                 or (previous[0] == 'word' and (
                     previous_property or (previous[1] not in _REGEX_PREFIX
                                           and previous[1] not in ('const', 'let', 'var', 'using')))))
