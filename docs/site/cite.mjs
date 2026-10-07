@@ -1,4 +1,4 @@
-import {wireReferenceForm} from './source-reference.mjs?site-release=ce4cc9c4ecb150312c85c9125729a04d05b118679807deb631951a311dbd86c6';
+import {wireReferenceForm} from './source-reference.mjs?site-release=497c3af31a6411ebab7c8646041f0872ae2ce2cca979bc20e47e74a6f6fd342b';
 const byId = id => document.getElementById(id);
 wireReferenceForm({form:byId('reference-form'), repository:byId('reference-repository'), commit:byId('reference-commit'), path:byId('reference-path'), sha256:byId('reference-sha256'), output:byId('reference-output'), json:byId('reference-json'), bibtex:byId('reference-bibtex'), link:byId('reference-link'), status:byId('reference-status'), actions:byId('reference-actions'), copyText:byId('reference-copy'), copyJSON:byId('reference-copy-json'), copyBibTeX:byId('reference-copy-bibtex'), share:byId('reference-share'), clipboard:globalThis.navigator?.clipboard, location:globalThis.location, history:globalThis.history, events:globalThis.window});
 byId('reference-builder').hidden = false;

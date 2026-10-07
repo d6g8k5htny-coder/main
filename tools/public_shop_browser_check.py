@@ -844,6 +844,87 @@ def check_other_teaching_exports(page, origin, expect, result, output):
         page.locator('#' + fragment).screenshot(path=str(shot))
         result['other_teaching_screenshots'].append({'path': shot.name, 'sha256': sha256(shot.read_bytes()).hexdigest()})
 
+    # BQ-26: real layout evidence, separate from mocked native-witness unit tests.
+    result['pin_height_geometry'] = []
+    for region in ['annulus', 'remote']:
+        page.goto(origin + f'explore.html?r=0.25&region={region}#distance')
+        distance = page.locator('#pin-distance')
+        export = page.locator('#pin-export-svg'); copy = page.locator('#pin-copy-citation')
+        citation = page.locator('#pin-citation-text')
+        rect = page.locator('#pin-diagram rect')
+
+        def height_observation(label):
+            observation = rect.evaluate("""n=>({attribute:n.getAttribute('height'),
+                computed:getComputedStyle(n).getPropertyValue('height'),
+                reflected:n.height.baseVal.value,used:n.getBBox().height,
+                float32:Math.fround(Number(n.getAttribute('height')))})""")
+            result['pin_height_geometry'].append({'region':region,'case':label,**observation})
+            return observation
+
+        for label, key in [('0.25-before', None), ('0.24-rounded', 'ArrowLeft'), ('0.25-after', 'ArrowRight')]:
+            if key:
+                distance.focus(); page.keyboard.press(key)
+            expect(distance).to_have_value('0.24' if key == 'ArrowLeft' else '0.25')
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+            observation = height_observation(label)
+            require(0 < observation['used'] <= 600
+                    and observation['used'] == observation['reflected'] == observation['float32'],
+                    'Native used-height witness does not match the reflected Float32 attribute')
+            if key == 'ArrowLeft':
+                require(observation['attribute'] == '11.888639999999995'
+                        and observation['computed'] == '11.8886px'
+                        and abs(float(observation['computed'][:-2]) - float(observation['attribute'])) > 1e-6,
+                        'Native rounding regression did not exercise the original refusal')
+                with page.expect_download() as pending:
+                    native_button(export)
+                path = output / f'{result["case"]}-pin-0.24-{region}.svg'
+                pending.value.save_as(str(path)); data = path.read_bytes()
+                root = ElementTree.fromstring(data)
+                metadata = json.loads(root.find('s:metadata', ns).text)
+                require(metadata['params'] == {'r':0.24,'region':region}
+                        and metadata['height_gap'] == 0.013824
+                        and metadata['height_window'] == [0.986176,1]
+                        and metadata['verification'] == 'not_performed',
+                        'Rounded-height export changed canonical teaching metadata')
+                require(any(n.get('height') == observation['attribute'] and n.get('width') == '113'
+                            for n in root.findall('s:rect', ns)),
+                        'Rounded-height export rewrote source geometry')
+                require('non-certifying' in data.decode() and 'No field, count, probability, lifetime or theorem computation.' in data.decode(),
+                        'Rounded-height export lost teaching/non-certification labels')
+                result['other_teaching_svgs'].append({'path':path.name,'sha256':sha256(data).hexdigest(),'metadata':metadata})
+
+        distance.focus(); page.keyboard.press('ArrowLeft')
+        expect(distance).to_have_value('0.24')
+        native = height_observation('native-before-overrides')
+        for css_height in ['11.88861px', '11.889px', '0px', 'auto']:
+            fixture = css_fixture(f'#pin-diagram rect{{height:{css_height}}}')
+            try:
+                changed = height_observation('CSS-height-' + css_height)
+                require(changed['attribute'] == native['attribute'] and changed['reflected'] == native['reflected']
+                        and changed['used'] != native['used'], 'CSS fixture did not change only the used height')
+                if css_height == '11.88861px':
+                    require(changed['computed'] == native['computed'],
+                            'Nearby CSS override did not share the native rounded string')
+                native_button(copy)
+                expect(export).to_be_disabled(); expect(copy).to_be_disabled(); expect(citation).to_have_value('')
+            finally:
+                remove_css_fixture(fixture)
+            distance.focus(); page.keyboard.press('ArrowRight'); page.keyboard.press('ArrowLeft')
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+
+        # Full supported hundredth-tick range, using actual native input/layout.
+        # This is headless Chromium, not emulated computed styles or native zoom.
+        distance.focus(); page.keyboard.press('Home')
+        for tick in range(5, 61):
+            if tick > 5:
+                page.keyboard.press('ArrowRight')
+            expect(distance).to_have_value(str(tick / 100))
+            expect(export).to_be_enabled(); expect(copy).to_be_enabled()
+            observed = height_observation(f'tick-{tick}')
+            require(0 < observed['used'] <= 600 and observed['used'] == observed['reflected'] == observed['float32'],
+                    'Supported slider tick lost native geometry identity')
+    result['steps'].append('BQ-26 native .25/.24/.25 recovery and SVG metadata, same-rounded-string real CSS override refusal, zero/auto refusal, and all 56 ticks in both highlights checked')
+
     # Fresh Explore page, never the previous Formal page. Static output describes
     # its true starting values even when the URL asks for a different example.
     static = page.context.browser.new_context(viewport=result['viewport'], color_scheme=result['color_scheme'], java_script_enabled=False)

@@ -86,6 +86,73 @@ function rectSVG(attributes,geometry) {
   Object.assign(rect.style,geometry);return svg;
 }
 
+// A controlled native-geometry witness exercises the guard, not browser layout.
+// The hosted browser harness separately records real SVGLength/getBBox values.
+function heightSVG(height='11.888639999999995',displayed='11.8886px') {
+  const svg=rectSVG({x:'448',y:'78',width:'113',height,class:'diagram-fill'},
+    {x:'448px',y:'78px',width:'113px',height:displayed,rx:'auto',ry:'auto'});
+  const rect=svg.children[2],native=Math.fround(Number(height));
+  rect.height={baseVal:{value:native}};
+  rect.getBBox=()=>({x:448,y:78,width:113,height:native});
+  return svg;
+}
+
+test('rounded rectangle height requires a matching native used-height witness',()=>{
+  const capture=api('captureTeachingDiagram');
+  const svg=heightSVG();
+  assert.equal(svg.children[2].height.baseVal.value,11.888640403747559);
+  assert.equal(capture(svg,computedStyle).nodes[2].attributes.height,'11.888639999999995');
+  // The original comparison still suffices without any native witness.
+  const exact=heightSVG('13.4375','13.4375px');delete exact.children[2].getBBox;
+  assert.equal(capture(exact,computedStyle).nodes[2].attributes.height,'13.4375');
+});
+
+test('native height equality cannot admit real CSS overrides sharing a rounded string',()=>{
+  const capture=api('captureTeachingDiagram');
+  for(const actual of [11.88861,11.88862,11.88865,12,0]) {
+    const svg=heightSVG();svg.children[2].getBBox=()=>({height:Math.fround(actual)});
+    assert.throws(()=>capture(svg,computedStyle),/geometry|refused/i);
+  }
+  // Equal reflected/used values cannot disguise a changed source attribute.
+  const wrong=heightSVG();wrong.children[2].height.baseVal.value=Math.fround(11.88861);
+  wrong.children[2].getBBox=()=>({height:Math.fround(11.88861)});
+  assert.throws(()=>capture(wrong,computedStyle),/geometry|refused/i);
+});
+
+test('rectangle height witness is finite, bounded and fail-closed',()=>{
+  const capture=api('captureTeachingDiagram');
+  for(const change of [
+    r=>delete r.getBBox,r=>r.getBBox=()=>{throw Error('unavailable');},
+    r=>r.getBBox=()=>null,r=>r.getBBox=()=>({}),r=>delete r.height,
+    r=>r.height={baseVal:null},r=>Object.defineProperty(r,'height',{get(){throw Error('unavailable');}}),
+    ...[NaN,Infinity,-Infinity,-1,0,601,'11.888640403747559'].flatMap(value=>[
+      r=>r.getBBox=()=>({height:value}),r=>r.height.baseVal.value=value
+    ])
+  ]) {
+    const svg=heightSVG();change(svg.children[2]);
+    assert.throws(()=>capture(svg,computedStyle),/geometry|refused/i);
+  }
+});
+
+test('native representation check is bounded to positive rectangle height roundoff',()=>{
+  const capture=api('captureTeachingDiagram');
+  for(const [height,displayed] of [['40.12416','40.1242px'],['143.08250000000004','143.083px'],['599.99999','600px']]) {
+    assert.equal(capture(heightSVG(height,displayed),computedStyle).nodes[2].attributes.height,height);
+  }
+  // No broad epsilon increase, arbitrary computed string, or other-axis fallback.
+  for(const displayed of ['11.888638px','11.889px','12px','0px','-1px','NaN','Infinity','auto'])
+    assert.throws(()=>capture(heightSVG(undefined,displayed),computedStyle),/geometry|refused/i);
+  for(const height of ['0','-1','601','NaN','Infinity'])
+    assert.throws(()=>capture(heightSVG(height,'11.8886px'),computedStyle),/geometry|refused/i);
+  const nonnative=heightSVG();nonnative.children[2].height.baseVal.value=11.888639999999995;
+  nonnative.children[2].getBBox=()=>({height:11.888639999999995});
+  assert.throws(()=>capture(nonnative,computedStyle),/geometry|refused/i);
+  const otherAxis=heightSVG();otherAxis.children[2].style.width='112.999px';
+  assert.throws(()=>capture(otherAxis,computedStyle),/geometry|refused/i);
+  assert.equal(capture(heightSVG('0','0px'),computedStyle).nodes[2].attributes.height,'0');
+  assert.equal(capture(heightSVG('600','600px'),computedStyle).nodes[2].attributes.height,'600');
+});
+
 test('capture refuses auto rectangle dimensions that suppress otherwise current native geometry',()=>{
   const capture=api('captureTeachingDiagram');
   const attributes={x:'36',y:'157',width:'178',height:'90',rx:'12',class:'diagram-box'};
