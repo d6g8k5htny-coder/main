@@ -20,9 +20,9 @@ The interactive models teach defined examples. Results retain the hypotheses and
 
 ## Read more deeply
 
-- [Current research status](STATUS.md) — precise claims, open questions, and recorded reviews.
+- [Research status snapshot](STATUS.md) (29 September 2026) — precise claims, open questions, and recorded reviews.
 - [Full mathematics](docs/PUBLIC_MATHEMATICS.md) and [research guide](docs/RESEARCH_INDEX.md) — topic-by-topic reading.
-- [Proof index in Math-](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) — current published proof texts and scoped reviews.
+- [Proof index in Math-](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) — a selected, dated index of published proof texts and scoped reviews; later work is in [merged Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls?q=is%3Apr+is%3Amerged).
 - [Source records and historical exhibits](https://d6g8k5htny-coder.github.io/main/site/museum.html) — fixed snapshots with traceable evidence.
 - [Formal verification](docs/FORMAL_VERIFICATION.md) — what the Lean checks establish and what remains outside them.
 
