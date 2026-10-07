@@ -10,6 +10,7 @@ from unittest.mock import patch
 from tempfile import TemporaryDirectory
 import shutil
 from hashlib import sha256
+import re
 import ast
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -181,7 +182,7 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name,fragment in (('index','shrinking-bin-sampling'),('workspace','latest-work')):
+        for name,fragment in (('index','reading-cut-20261007'),('workspace','reading-cut-20261007')):
             self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
@@ -318,9 +319,25 @@ SHRINKING_BIN_PINS = {
         '783319599514159bd8e4ca6a4dd02021063d6c547e2c80cb3a8ae1ec1212ccb3',
 }
 EXPECTED_READING_URLS += list(SHRINKING_BIN_PINS)
+LIFETIME_PREFIX = MATH_PREFIX+'blob/7d2f62500ad6effba2bbdf6f3b89b0826408dc4a/frontiers/lifetime_two_thirds_chain_20261007/'
+CAP_PREFIX = MATH_PREFIX+'blob/54ebcedee137e40d22dbc14a25ba51623c073a25/frontiers/cap_first_exit_lean_20261002/'
+OCT7_PINS = {
+    LIFETIME_PREFIX+'README.md': '0377126475c0bfc77782b1c747581698f93f5223fb7c6a9f3f7fbefd993e70ca',
+    LIFETIME_PREFIX+'C3/PROOF.md': '0764d004f2f36d2fda79f7bea3b161fb1876c918b6a2dfc72110bcb89f623968',
+    LIFETIME_PREFIX+'LU/PROOF.md': '373710a50e981e41472e51f49be4d50bcf5da70c01b518f833cb49b1e0680dac',
+    LIFETIME_PREFIX+'LU/AUTHOR_SUCCESSOR_TEXT_AND_READBACK_SUMMONS.md': '5c9d403e0b38bc6acc738760ffdbd8cba3c0722641c90be0a69088a39fc03a73',
+    LIFETIME_PREFIX+'SOURCES.json': '31f97e51d60402ab4303de974947df8c59917f531f762133ad0fe0f67408afe9',
+    CAP_PREFIX+'ALIGNMENT.md': '91b086c04d083d2220821c8b6900e2bd070ad11f4be03bf2255bdbd83d677f21',
+    CAP_PREFIX+'README.md': '826c0d67f25119f242575f65c29e70c2621266980b96527a428bbba6aa04a2ab',
+    MAIN_PREFIX+'blob/7c4cef8c6a2ca4b6f984e5e45108037c2caec4e1/governance/OP-CLOSURE-EVIDENCE-20261006.md': '3fd6c95d1585c1226038237db3e81e68daed943b1a10d7d5737231218b0603bc',
+    MATH_PREFIX+'blob/0793dc26bc3979e3381c6b59d378876080c48563/tools/evidence_profile.py': '941ab165fe5e8f3f4b8b8e326afde279ee8a1311dc51a9c0eac065d9de644a02',
+    MATH_PREFIX+'blob/34618d0d032f4361c1ec163f3b4cfd6ad01ab814/reviews/retrofit_20261006/CONTRACT.md': '7a1d03fcc1f87342e848126c02c674f78e4342bd827e974203195078ee248cba',
+}
+EXPECTED_READING_URLS += list(OCT7_PINS)
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
 EXPECTED_HASH_BINDINGS += [(C124_PREFIX+path,digest) for path,digest in C124_SOURCE_IDENTITIES.items()]
 EXPECTED_HASH_BINDINGS += list(SHRINKING_BIN_PINS.items())
+EXPECTED_HASH_BINDINGS += list(OCT7_PINS.items())
 
 def validate_reading_pins(text):
     parsed=PinnedReadingLinks(text)
@@ -341,7 +358,7 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),30)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),40)
 
     def test_sampling_sources_reject_mutable_paths_duplicates_and_unbound_hashes(self):
         original=(SITE/'research.html').read_text()
@@ -417,7 +434,8 @@ class ShrinkingBinReading(unittest.TestCase):
 
     def test_static_entry_and_disclosure_keep_exact_sample_and_spectral_scopes_separate(self):
         text=(SITE/'research.html').read_text();section=self.section()
-        self.assertIn('href="#shrinking-bin-sampling">Latest public work',text)
+        self.assertIn('href="#reading-cut-20261007">Latest public work',text)
+        self.assertIn('href="#shrinking-bin-sampling">06:20 UTC grid-sampling reading cut below',text)
         self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
         self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
         self.assertIn('<details class="latest-identities" id="sampling-details">',section)
@@ -452,9 +470,27 @@ class ShrinkingBinReading(unittest.TestCase):
 
     def test_preceding_reading_cuts_remain_byte_identical(self):
         text=(SITE/'research.html').read_text()
+        sampling=text[text.index('<section id="shrinking-bin-sampling"'):text.index('<section id="pair-endpoint-rate"')]
+        self.assertEqual(sha256(sampling.encode()).hexdigest(),
+                         '6787bf96f0bbb12c5d465d05e4829bf3dbc628629cedd0d3dcb82fdd37ea47c0')
         historical=text[text.index('<section id="pair-endpoint-rate"'):]
-        self.assertEqual(sha256(historical.encode()).hexdigest(),
+        # Only the two labeled U1 lineage notes are additive; every original byte stays pinned.
+        notes=LINEAGE_NOTE.findall(historical)
+        self.assertEqual(len(notes),2)
+        self.assertEqual(sha256(LINEAGE_NOTE.sub('',historical).encode()).hexdigest(),
                          '1837279899209d6e120e8632e67371e728bba60dbb0d284785b79164f0ed617c')
+
+    def test_lineage_notes_sit_beside_their_reviews_without_new_sources(self):
+        text=(SITE/'research.html').read_text()
+        for card,review in (('actual-bars','pullrequestreview-5382933608'),('strict-bar-coefficient','pullrequestreview-5401559344')):
+            body=text.split(f'id="{card}"',1)[1].split('</article>',1)[0]
+            notes=LINEAGE_NOTE.findall(body)
+            self.assertEqual(len(notes),1,card)
+            note=notes[0]
+            self.assertLess(body.index(review),body.index(note))
+            for term in ('added after this cut','OpenAI/Codex','same provider','zero organizational-independence credit','does not mean independent'):
+                self.assertIn(term,note)
+            self.assertNotIn('<a ',note)
 
     def test_existing_browser_cases_cover_new_route_and_javascript_off_access(self):
         harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
@@ -479,7 +515,7 @@ class ShrinkingBinReading(unittest.TestCase):
                     self.rows.append((self.current[0],''.join(self.current[1])));self.current=None
                 if tag=='section':self.sections.pop()
         rows=Boundaries((SITE/'research.html').read_text()).rows
-        self.assertEqual(len(rows),2,'Both the new sampling scope and original boundary must remain visible')
+        self.assertEqual(len(rows),3,'The 7 October scope, the sampling scope and the original boundary must remain visible')
         class ActualBoundaryPage:
             def locator(self,selector):
                 region=selector.split(' ',1)[0][1:] if selector.startswith('#') else None
@@ -498,5 +534,44 @@ class ShrinkingBinReading(unittest.TestCase):
                        and node.value.args[0].value=='Conjecture 7 remains open')
         exec(compile(ast.Module(body=[statement],type_ignores=[]),'<historical-boundary>','exec'),
              {'page':ActualBoundaryPage(),'expect':StrictSingleExpectation})
+
+LINEAGE_NOTE = re.compile(r'<p class="lineage-note">.*?</p>', re.S)
+
+
+class October7Reading(unittest.TestCase):
+    def section(self):
+        text=(SITE/'research.html').read_text()
+        self.assertIn('id="reading-cut-20261007"',text)
+        return text.split('<section id="reading-cut-20261007"',1)[1].split('<section id="shrinking-bin-sampling"',1)[0]
+
+    def test_new_cut_is_dated_first_and_links_back_and_forward(self):
+        section=self.section()
+        self.assertIn('tabindex="-1" aria-labelledby="oct7-heading"',section)
+        self.assertIn('datetime="2026-10-07T18:37:14Z"',section)
+        self.assertIn('href="#shrinking-bin-sampling"',section)
+        self.assertIn('href="#newer-work"',section)
+        self.assertIn('href="#latest-work"',section)
+
+    def test_landed_and_candidate_work_stay_distinct(self):
+        section=self.section()
+        for term in ('Math #390','scientific effect is NONE','its sign at <code>L = 24</code> is not proved','Conjecture 7 remains open',
+                     'No rate or certified number','xAI Grok 4.7','zero','none is an owner reading',
+                     'open proposals at this cut','does not present them as landed',
+                     'pull/388','pull/387','pull/384','pull/392','pull/393',
+                     'v2.6','152','(I1)','(I2)','(I4)','A kernel build or merge is not an alignment review',
+                     'Math #193','does not read that closure as a completed proof',
+                     'main #276','“not recorded”, never a pass','change no scientific status','not a status record',
+                     'not scientific acceptance','3 October supplement','27 September'):
+            with self.subTest(term=term):self.assertIn(term,section)
+        parsed=PinnedReadingLinks('<section '+section)
+        self.assertEqual(parsed.links,list(OCT7_PINS))
+        self.assertEqual(parsed.hash_bindings,list(OCT7_PINS.items()))
+
+    def test_open_proposals_are_never_called_landed(self):
+        section=self.section()
+        for number in (384,387,388,392,393):
+            card=section.split(f'pull/{number}"',1)[0].rsplit('<p>',1)[1]
+            self.assertIn('Still candidates',card)
+
 
 if __name__=='__main__': unittest.main()

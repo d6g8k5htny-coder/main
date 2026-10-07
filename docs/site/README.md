@@ -6,7 +6,7 @@ The public home introduces the mathematics before its implementation. All pages 
 
 - **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
 - **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
-- **Research (`research.html`):** a dated Latest public work reading cut, followed by the established question-to-proof paths. Pinned source citations, scoped formal packets and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
+- **Research (`research.html`):** dated public reading cuts, newest first (Home and the Research hero link the newest), followed by the established question-to-proof paths. Pinned source citations, scoped formal packets and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
 - **Library and workspace (`workspace.html`):** the existing exact coefficient viewer, dated status snapshot, hash-verified source inventory and contributor instructions. Old `index.html#board`, `#coefficient`, `#inventory` and `#contribute` bookmarks route here; without JavaScript the home still offers the workspace link.
 - **Reproduce (`reproduce.html`):** a single pinned coefficient replay, prerequisites, actual expected output and the boundary of the check.
 - **Cite (`cite.html`):** object-specific citation guidance and a local immutable-reference builder. It checks input syntax, not source existence or scientific status.
@@ -33,6 +33,17 @@ reviews (model and source-bound actual/contact scopes kept distinct), the finite
 query sources. The named boundaries are part of each reading path. This is a
 curated selection plus full upstream navigation, not a complete artifact catalog,
 scientific-status register or automatic synchronization service.
+
+The 18:00 UTC refresh ([PR248](https://github.com/d6g8k5htny-coder/main/pull/248))
+added the conditional actual-bar cards `#actual-bars` and `#strict-bar-coefficient`
+to this cut. Later dated cuts were added above it: `#reading-addendum` (3 October 2026,
+20:01 UTC), `#pair-endpoint-rate` (4 October, 00:18 UTC), `#shrinking-bin-sampling`
+(4 October, 06:20 UTC, [PR266](https://github.com/d6g8k5htny-coder/main/pull/266)) and
+`#reading-cut-20261007` (7 October, 18:37 UTC). Home, the Research hero and the Library
+link the newest cut. `#latest-work` keeps its 18:00 UTC heading, wording and pins; its
+later additions are a forward pointer to the 20:01 addendum and two labeled
+reviewer-lineage notes beside its 3 October review links, which the 7 October cut
+discloses.
 
 Exact-commit citations preserve the reading cut. The **Check newer work** section
 intentionally follows mutable upstream branches and discussions. Comment links
