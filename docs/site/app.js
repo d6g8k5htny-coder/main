@@ -1,6 +1,6 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
-import {connectCatalogQuery} from './catalog-query.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -36,7 +36,8 @@ async function board(config) {
   const s=validateStatus(await verifiedJSON(config.status_json));
   await verifiedBytes(s.source);
   const base=`https://github.com/d6g8k5htny-coder/main/blob/${s.source.commit}/`;
-  el('status-note').textContent=`Snapshot ${s.snapshot_date}. Counts cover the selected rows below, not every theorem or artifact. ${s.meaning}`;
+  const notice=typeof s.snapshot_context?.notice==='string'?` ${s.snapshot_context.notice}`:'';
+  el('status-note').textContent=`Snapshot ${s.snapshot_date}: STATUS.md at main ${s.source.commit.slice(0,7)}.${notice} Counts cover the selected rows below, not every theorem or artifact. ${s.meaning}`;
   const labels={accept:'ACCEPT — scoped',amend:'AMEND / open',engineering:'Engineering only'};
   const classes={accept:'ACCEPT-scoped',amend:'AMEND/open',engineering:'engineering-only'};
   for(const section of s.sections) {
@@ -100,7 +101,7 @@ async function custody(config) {
   if(manifest.scientific_effect!=='NONE'||manifest.byte_copies.length!==config.imports.count||manifest.byte_copies.some(row=>row.kind!=='BYTE_COPY'||row.source_label_adopted!==false))throw new Error('Import custody mismatch');
   const observed=config.observations;
   el('custody-note').textContent=`${config.imports.count} byte-copy imports landed at Math ${config.imports.commit}; source labels were not adopted. ${observed.open_math_prs} Math PRs were open when observed ${observed.observed_at}. An open PR is not landed math.`;
-  el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url));
+  el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url),' · ',link('Current open Math PRs (live list) ↗','https://github.com/d6g8k5htny-coder/Math-/pulls'));
 }
 async function queryIdentity(config) {
   const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');

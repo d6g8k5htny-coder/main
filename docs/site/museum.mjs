@@ -1,5 +1,5 @@
-import {renderSourceQuote} from './source-quote.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
+import {renderSourceQuote} from './source-quote.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -8,6 +8,7 @@ const OPEN_IDS=['d5-pin-neighborhoods-open','sard-g-a1-a6-open'];
 const EXHIBITS={ec014:['EC-014 pair frame','EC-014'],remote:['Fixed-remote region','D4 fixed-remote RN'],annulus:['Fixed annulus','D5 all-height fixed annulus'],p15:['P15 discrete palette','D6 P15 full price']};
 const VIEW_LINKS={'d3-side24-coefficient':'workspace.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
 const D5_OPEN_REVIEW='https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md';
+const CURRENT_STATUS_URL='https://github.com/d6g8k5htny-coder/main/blob/main/STATUS.md';
 const PACKET_PINS=[
   {id:'side24-identity-replay-20260926',commit:'71400b94f6cb354a8cf7aba73ffede2138a64efa',issue:null},
   {id:'side24-chart-claude-20260926',commit:'a12c178c0f857a130cf434e9efd44233a038195b',issue:141}
@@ -155,16 +156,16 @@ function renderClaim(document,claim,quoteSource){
   if(claim.id==='d3-side24-coefficient'){const alias=element(document,'span');alias.id='d3-side24';article.append(alias);}
   const columns=element(document,'div',undefined,'claim-columns');
   const scope=element(document,'div',undefined,'claim-column');scope.append(element(document,'h4','Claim and scope'),element(document,'p',`Source label: ${claim.source_label}`),...renderSourceQuote(document,claim.scope_quote,quoteSource));
-  if(claim.class==='AMEND/open')scope.append(element(document,'p','OPEN / NOT LANDED — the claimed closure remains open.'));
+  if(claim.class==='AMEND/open'){const later=element(document,'p','STATUS.md was revised after this snapshot. ');later.append(anchor(document,'Read the current STATUS.md ↗',CURRENT_STATUS_URL));scope.append(element(document,'p','AMEND / open at the pinned STATUS snapshot (main f2e432e, 29 September 2026): the claimed closure was not accepted there.'),later);}
   if(claim.status_quote!==null){const detail=element(document,'details');detail.append(element(document,'summary','Separate STATUS scope / reason'),element(document,'blockquote',claim.status_quote,'source-quote'));scope.append(detail);}
   const source=element(document,'div',undefined,'claim-column');source.append(element(document,'h4','Source and review'),anchor(document,claim.proof.availability?'Open pinned source contract ↗':'Open pinned full proof ↗',claim.proof.html_url),element(document,'p'));
   source.append(anchor(document,'Open raw source ↗',claim.proof.url));
-  if(claim.proof.availability)source.append(element(document,'p',claim.proof.availability),element(document,'p','No landed proof is supplied for this open obligation.'));
+  if(claim.proof.availability)source.append(element(document,'p',claim.proof.availability),element(document,'p','No landed proof was supplied for this obligation in the pinned source.'));
   if(VIEW_LINKS[claim.id])source.append(element(document,'p'),anchor(document,'Open source illustration ↗',VIEW_LINKS[claim.id]));
   if(claim.review){
     source.append(element(document,'p',claim.review.pointer_only?'Review pointer in the verified index':'Byte-verified review'),anchor(document,'Open review ↗',claim.review.review_url||claim.review.html_url));
     if(claim.review.pointer_only)source.append(element(document,'p',claim.review.review_notice));
-    if(claim.id==='d5-pin-neighborhoods-open')source.append(element(document,'p','Unmerged review pointer only. Its target is not fetched or adopted by this viewer.'));
+    if(claim.id==='d5-pin-neighborhoods-open')source.append(element(document,'p','Review pointer only. At the pinned Math snapshot it targeted an unmerged pull-request head (Math-#55). Math-#55 merged on 27 September 2026, and Math- main carries the same review file (Git blob 11a6b8d). Its target is not fetched or adopted by this viewer.'));
     const details=element(document,'details');details.append(element(document,'summary',claim.review.pointer_only?'Identity of the pointer source':'Review source identity'),identity(document,claim.review));source.append(details);
   }else source.append(element(document,'p','No separate byte-frozen review descriptor is supplied. Read the review links in the exact source quote.'));
   const replay=element(document,'div',undefined,'claim-column');replay.append(element(document,'h4','Replay'),element(document,'p',claim.replay.notice));
@@ -247,7 +248,7 @@ function prepareClaimFragment(document,window,currentHash) {
     return true;
   };
 }
-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36'),currentHash=()=>globalThis.location?.hash||''}={}){
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   const finishFragment=prepareClaimFragment(document,window,currentHash);

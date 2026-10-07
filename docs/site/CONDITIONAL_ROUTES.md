@@ -78,7 +78,9 @@ A larger graph cannot turn circular support into proof.
 
 The separate Math- scalar and one-endpoint Hessian certificates in PR89 are
 author derivations awaiting review. They are deliberately not added to the
-museum's accepted result cards. Neither supplies the additional-witness
+museum's accepted result cards. (Later note, 7 October 2026: Math-#89 merged on
+27 September 2026. A merge is not a mathematical review; this pilot note does
+not track any later review.) Neither supplies the additional-witness
 covariance or determinant-weighted Palm estimate. query- remains a read-only
 identity lookup.
 
