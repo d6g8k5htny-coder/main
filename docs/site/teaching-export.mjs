@@ -27,6 +27,22 @@ function boundedNumber(value, min=0, max=600, units=false) {
   if(!/^-?(?:\d+(?:\.\d*)?|\.\d+)$/.test(numberText) || !Number.isFinite(number) || number<min || number>max) refuse('unbounded numeric primitive or style');
   return String(number===0?0:number);
 }
+function nativeRectHeightMatches(node,source,displayed) {
+  try {
+    // CSSOM can serialize this height with six significant digits. Matching
+    // that string alone cannot distinguish a genuine nearby CSS override.
+    // Parse the bounded exact attribute string through the same native parser:
+    // SVGLength parsing need not equal JavaScript Number-to-Float32 conversion.
+    // The reference stays detached; getBBox independently observes used geometry.
+    const reference=node.ownerDocument.createElementNS(SVG_NS,'rect');
+    reference.setAttribute('height',source);
+    const parsed=reference.height.baseVal.value;
+    const native=node.height?.baseVal?.value,used=node.getBBox().height;
+    return Number.isFinite(parsed) && parsed>0 && parsed<=600 && parsed===Math.fround(parsed)
+      && native===parsed && Number.isFinite(used) && used===parsed
+      && displayed===Number(parsed.toPrecision(6));
+  } catch { return false; }
+}
 function color(value, opaque=false) {
   if(typeof value !== 'string' || value.length>64) refuse('unsupported color');
   if(!opaque && value==='none')return value;
@@ -145,7 +161,8 @@ export function captureTeachingDiagram(svg,computedStyle=globalThis.getComputedS
       if(displayed==='auto')refuse('auto CSS geometry suppresses or changes current attributes');
       const actual=Number(boundedNumber(displayed,0,key==='r'?300:600,true));
       const expected=Object.hasOwn(currentAttributes,key)?Number(boundedNumber(currentAttributes[key])):0;
-      if(Math.abs(actual-expected)>1e-6)refuse('CSS geometry differs from current attributes');
+      if(Math.abs(actual-expected)>1e-6 && !(node.localName==='rect' && key==='height'
+        && nativeRectHeightMatches(node,currentAttributes[key],actual)))refuse('CSS geometry differs from current attributes');
     }
     if(node.localName==='rect') {
       const width=Number(boundedNumber(currentAttributes.width)),height=Number(boundedNumber(currentAttributes.height));
