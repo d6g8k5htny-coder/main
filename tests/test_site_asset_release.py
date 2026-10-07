@@ -364,6 +364,155 @@ class AssetRelease(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(before, {p.name:p.read_bytes() for p in site.iterdir()})
 
+    def test_iteration_header_regex_has_no_module_spans(self):
+        pattern = '/import("ghost.mjs?site-release=keep")/'
+        examples = [
+            f'for (const x of {pattern}) {{}}',
+            f'for (let x of {pattern}) {{}}',
+            f'for (var x of {pattern}) {{}}',
+            f'for (x of {pattern}) {{}}',
+            f'for (of of {pattern}) {{}}',
+            f'for (const of of {pattern}) {{}}',
+            f'for (const [x, {{y}}] of {pattern}) {{}}',
+            f'for ({{x}} of {pattern}) {{}}',
+            f'for (obj.of of {pattern}) {{}}',
+            f'for (obj.in of {pattern}) {{}}',
+            f'for (obj.for of {pattern}) {{}}',
+            f'for (obj.return of {pattern}) {{}}',
+            f'for (obj.let of {pattern}) {{}}',
+            f'for (obj[key] of {pattern}) {{}}',
+            f'for ((x) of {pattern}) {{}}',
+            f'for /*a*/ (const x /*b*/ of //c\n {pattern}) {{}}',
+            f'for await (const x of {pattern}) {{}}',
+            f'for /*a*/ await /*b*/ (const x of /*c*/ {pattern}) {{}}',
+            f'for (const x of xs) for (const y of {pattern}) {{}}',
+            f'for (let x = (() => {{ for (const y of {pattern}) {{}} }})();; ) {{}}',
+            f'for (const x of ({pattern})) {{}}',
+            'for (const x of /[(){}]import("ghost.mjs")/g) {}',
+        ]
+        for source in examples:
+            with self.subTest(source=source):
+                self.assertEqual(asset_release.source_spans(source, '.mjs'), [])
+                self.assertEqual(asset_release.transform(
+                    source, '.mjs', asset_release.without_release), source)
+
+    def test_iteration_regex_cli_preserves_tracked_and_missing_pattern_targets(self):
+        for header in ('for', 'for await'):
+            for tracked in (False, True):
+                with self.subTest(header=header, tracked=tracked), TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    subprocess.run(['git', 'init', '-q', str(root)], check=True,
+                                   capture_output=True)
+                    site = root/'site'; site.mkdir()
+                    source = f'{header} (const x of /import("core.mjs")/) {{}}\n'
+                    (site/'app.mjs').write_text(source)
+                    if tracked: (site/'core.mjs').write_text('export const x = 1;\n')
+                    self.stage(root)
+                    before = self.snapshot(root)
+                    token = None
+                    for args in [('--check',), (), ('--check',), ()]:
+                        result = self.run_tool(site, *args)
+                        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                        self.assertEqual(result.stderr, '')
+                        self.assertRegex(result.stdout, r'^[0-9a-f]{64}\n$')
+                        if token is None: token = result.stdout
+                        self.assertEqual(result.stdout, token)
+                        self.assertEqual(self.snapshot(root), before)
+
+    def test_identifier_of_division_still_discovers_real_imports(self):
+        live = 'import("./core.mjs")'
+        examples = [
+            f'const of = 2; of / {live} / 2;',
+            f'obj.of / {live} / 2; obj?.of / {live} / 2;',
+            f'for (of / {live} / 2; ; ) {{}}',
+            f'for (let x = of / {live} / 2; ; ) {{}}',
+            f'for (let of = 2; of / {live} / 2; of / {live} / 2) {{}}',
+            f'for (x in of / {live} / 2) {{}}',
+            f'for (x of of / {live} / 2) {{}}',
+            f'for await (x of of / {live} / 2) {{}}',
+            f'for (x of obj.of / {live} / 2) {{}}',
+            f'for (x of obj.in / {live} / 2) {{}}',
+            f'for (x of obj?.of / {live} / 2) {{}}',
+            f'for (x of obj[of / {live} / 2]) {{}}',
+            f'for (let x = {{of: of / {live} / 2}}; ; ) {{}}',
+            f'for (let x = (of / {live} / 2); ; ) {{}}',
+            f'for (let x = [of / {live} / 2]; ; ) {{}}',
+            f'for (let x = of; x; x += of / {live} / 2) {{}}',
+            f'for (let x = typeof of / {live} / 2; ; ) {{}}',
+            f'obj.for(of / {live} / 2); obj?.for(of / {live} / 2);',
+            f'obj.for(ok) / scale / {live}; obj?.for(ok) / scale / {live};',
+            f'for (x of xs) {{}} of / {live} / 2;',
+            f'for (obj[of / {live} / 2] of values) {{}}',
+            f'for (const [x = of / {live} / 2] of values) {{}}',
+        ]
+        for source in examples:
+            with self.subTest(source=source):
+                spans = asset_release.source_spans(source, '.mjs')
+                self.assertEqual([source[a:b] for a, b in spans],
+                                 ['./core.mjs'] * source.count(live))
+                self.assertEqual(asset_release.transform(
+                    source, '.mjs', lambda value: value + '?site-release=new'),
+                    source.replace('./core.mjs', './core.mjs?site-release=new'))
+
+    def test_iteration_regex_and_real_imports_have_distinct_cli_behavior(self):
+        pattern = '/import("ghost.mjs?site-release=keep")/'
+        source = (f'for (const x of {pattern}) {{ import("./core.mjs"); }}\n'
+                  'for (x of of / import("./core.mjs") / 2) {}\n')
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            (site/'app.mjs').write_text(source)
+            first = self.run_tool(site)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            expected = source.replace('./core.mjs', './core.mjs?site-release=' + first.stdout.strip())
+            self.assertEqual((site/'app.mjs').read_text(), expected)
+            before = self.snapshot(root)
+            for args in [('--check',), ()]:
+                result = self.run_tool(site, *args)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(result.stdout, first.stdout)
+                self.assertEqual(self.snapshot(root), before)
+
+    def test_missing_iteration_division_import_refuses_before_writes(self):
+        source = ('for (const x of /import("core.mjs")/) {}\n'
+                  'for (x of of / import("./missing.mjs") / 2) {}\n')
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            (site/'app.mjs').write_text(source)
+            before = self.snapshot(root)
+            for args in [('--check',), ()]:
+                result = self.run_tool(site, *args)
+                self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                self.assertEqual(result.stdout, '')
+                self.assertIn('missing/outside local asset ./missing.mjs', result.stderr)
+                self.assertEqual(self.snapshot(root), before)
+
+    def test_iteration_regex_refusals_preserve_all_files_and_index(self):
+        examples = [
+            ('for (const x of /import("core.mjs")\n) {}',
+             'Unsupported or unterminated regex'),
+            ('for await (const x of /import("core.mjs")\n) {}',
+             'Unsupported or unterminated regex'),
+            ('for (const \\u0078 of /import("core.mjs")/) {}',
+             'Unsupported JavaScript identifier syntax'),
+            ('for (const x of xs) {} /import("core.mjs")/.test(s);',
+             'Ambiguous regex/division containing module syntax'),
+            ('for (obj[of / import("./core.mjs") / 2] of /import("ghost.mjs")/) {}',
+             'Ambiguous regex/division containing module syntax'),
+            ('for (const [x = of / import("./core.mjs") / 2] of /import("ghost.mjs")/) {}',
+             'Ambiguous regex/division containing module syntax'),
+        ]
+        for source, message in examples:
+            with self.subTest(source=source), TemporaryDirectory() as tmp:
+                root = Path(tmp); site = self.fixture(root)
+                (site/'app.mjs').write_text('import "./core.mjs";\n' + source)
+                before = self.snapshot(root)
+                for args in [('--check',), ()]:
+                    result = self.run_tool(site, *args)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout, '')
+                    self.assertIn(message, result.stderr)
+                    self.assertEqual(self.snapshot(root), before)
+
     def test_untracked_dependency_and_non_git_site_are_refused(self):
         with TemporaryDirectory() as tmp:
             root = Path(tmp); site = self.fixture(root)

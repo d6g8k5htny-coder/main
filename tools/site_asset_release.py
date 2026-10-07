@@ -230,6 +230,7 @@ def _js_tokens(text, start=0, template_expression=False):
     tokens = []
     pos = start
     braces = 0
+    brackets = 0
     parens = []
     previous = None
     while pos < len(text):
@@ -269,7 +270,7 @@ def _js_tokens(text, start=0, template_expression=False):
             property_word = (previous is not None and previous[0] == 'word'
                              and len(tokens) >= 2
                              and tokens[-2][1] in ('.', '?.'))
-            prefix = (previous is None or previous[0] == 'control-close'
+            prefix = (previous is None or previous[0] in ('control-close', 'for-of')
                       or (previous[1] in _REGEX_PREFIX and not property_word))
             ambiguous = previous is not None and previous[1] in (')', '}')
             if prefix:
@@ -302,19 +303,47 @@ def _js_tokens(text, start=0, template_expression=False):
                 pos = match.end()
                 token = ('punct', match[0], begin, pos)
 
+        # `of` is a separator only in the binding part of this for header.
+        # In particular, an identifier named `of` can precede real division
+        # in a classic for clause, a nested expression, or the iterable RHS.
+        if (parens and parens[-1]['for-binding']
+                and (braces, brackets) == parens[-1]['depth']):
+            property_name = previous is not None and previous[1] in ('.', '?.')
+            previous_property = len(tokens) >= 2 and tokens[-2][1] in ('.', '?.')
+            target_end = previous is not None and (
+                previous[1] in (')', ']', '}')
+                or (previous[0] == 'word' and (
+                    previous_property or (previous[1] not in _REGEX_PREFIX
+                                          and previous[1] not in ('const', 'let', 'var', 'using')))))
+            if token[1] == ';' or (token[1] == 'in' and not property_name):
+                parens[-1]['for-binding'] = False
+            elif token[1] == 'of' and not property_name and target_end:
+                token = ('for-of', 'of', begin, pos)
+                parens[-1]['for-binding'] = False
+
         if token[1] == '(':
-            parens.append(previous is not None
-                          and previous[0] == 'word'
-                          and previous[1] in _CONTROL
-                          and (len(tokens) < 2 or tokens[-2][1] not in ('.', '?.')))
+            head = len(tokens) - 1
+            if (head >= 1 and tokens[head][1] == 'await'
+                    and tokens[head - 1][1] == 'for'):
+                head -= 1
+            control = (head >= 0 and tokens[head][0] == 'word'
+                       and tokens[head][1] in _CONTROL
+                       and (head == 0 or tokens[head - 1][1] not in ('.', '?.')))
+            parens.append({'control': control,
+                           'for-binding': control and tokens[head][1] == 'for',
+                           'depth': (braces, brackets)})
         elif token[1] == ')':
-            control = parens.pop() if parens else False
+            control = parens.pop()['control'] if parens else False
             if control:
                 token = ('control-close', ')', begin, pos)
         elif token[1] == '{':
             braces += 1
         elif token[1] == '}':
             braces -= 1
+        elif token[1] == '[':
+            brackets += 1
+        elif token[1] == ']':
+            brackets -= 1
         tokens.append(token)
         previous = token
     if template_expression:
