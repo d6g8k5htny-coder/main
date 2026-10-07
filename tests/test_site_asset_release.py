@@ -29,7 +29,8 @@ class AssetRelease(unittest.TestCase):
                        capture_output=True)
 
     def run_tool(self, site, *args):
-        return subprocess.run([sys.executable, str(TOOL), '--site', str(site), *args], text=True, capture_output=True)
+        flags = ['-B', '-S'] + (['-O'] if sys.flags.optimize else [])
+        return subprocess.run([sys.executable, *flags, str(TOOL), '--site', str(site), *args], text=True, capture_output=True)
 
     def fixture(self, root):
         subprocess.run(['git', 'init', '-q', str(root)], check=True, capture_output=True)
@@ -155,6 +156,130 @@ class AssetRelease(unittest.TestCase):
             wanted = sorted([p for p in names if p.startswith('site/')])
             wanted += ['public-math/catalog.json']
             self.assertEqual(names, wanted)
+
+    def catalog_fixture(self, root):
+        site = self.fixture(root)
+        catalog = root/'public-math'; catalog.mkdir()
+        (catalog/'catalog.json').write_bytes(b'{"catalog":"tracked"}\n')
+        self.stage(root)
+        return site, catalog
+
+    def snapshot(self, root):
+        files = {p.relative_to(root).as_posix(): p.read_bytes()
+                 for p in root.rglob('*')
+                 if '.git' not in p.relative_to(root).parts and p.is_file()}
+        index = subprocess.run(
+            ['git', '-C', str(root), 'ls-files', '--stage', '-z'],
+            check=True, capture_output=True).stdout
+        return files, index
+
+    def test_inventory_refuses_missing_indexed_catalog_root(self):
+        for replacement in (False, True):
+            with self.subTest(replacement=replacement), TemporaryDirectory() as tmp:
+                root = Path(tmp); site, catalog = self.catalog_fixture(root)
+                (catalog/'catalog.json').unlink(); catalog.rmdir()
+                if replacement: catalog.write_text('not a catalog directory')
+                with self.assertRaisesRegex(ValueError, 'missing/outside local asset'):
+                    asset_release.inventory(site)
+
+    def test_missing_indexed_catalog_root_refuses_cli_before_writes(self):
+        for replacement in (False, True):
+            with self.subTest(replacement=replacement), TemporaryDirectory() as tmp:
+                root = Path(tmp); site, catalog = self.catalog_fixture(root)
+                baseline = self.run_tool(site)
+                self.assertEqual(baseline.returncode, 0, baseline.stderr)
+                (catalog/'catalog.json').unlink(); catalog.rmdir()
+                if replacement: catalog.write_text('not a catalog directory')
+                before = self.snapshot(root)
+                for args in [('--check',), (), ('--check',)]:
+                    with self.subTest(args=args):
+                        result = self.run_tool(site, *args)
+                        self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                        self.assertEqual(result.stdout, '')
+                        self.assertIn('missing/outside local asset in tracked inventory',
+                                      result.stderr)
+                        self.assertEqual(self.snapshot(root), before)
+
+    def test_staged_catalog_removal_is_valid_and_changes_release(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site, catalog = self.catalog_fixture(root)
+            first = self.run_tool(site)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            self.assertIn(catalog/'catalog.json', asset_release.inventory(site))
+            self.stage(root)
+            subprocess.run(
+                ['git', '-C', str(root), '-c', 'user.name=Asset release fixture',
+                 '-c', 'user.email=fixture@example.invalid', 'commit', '--no-gpg-sign',
+                 '-qm', 'Intact catalog baseline'], check=True, capture_output=True)
+            (catalog/'catalog.json').unlink(); catalog.rmdir(); self.stage(root)
+            before = self.snapshot(root)
+            stale = self.run_tool(site, '--check')
+            self.assertEqual(stale.returncode, 1, stale.stderr)
+            self.assertEqual(stale.stderr, '')
+            self.assertEqual(self.snapshot(root), before)
+            second = self.run_tool(site)
+            self.assertEqual(second.returncode, 0, second.stderr)
+            self.assertNotEqual(second.stdout, first.stdout)
+            self.assertTrue(all(p.is_relative_to(site) for p in asset_release.inventory(site)))
+            self.assertEqual(self.run_tool(site, '--check').returncode, 0)
+
+    def test_optional_catalog_siblings_preserve_inventory_and_release(self):
+        for kind in ('absent', 'empty', 'untracked-file', 'tracked-file', 'broken-symlink'):
+            with self.subTest(kind=kind), TemporaryDirectory() as tmp:
+                root = Path(tmp); site = self.fixture(root)
+                first = self.run_tool(site)
+                self.assertEqual(first.returncode, 0, first.stderr)
+                files = asset_release.inventory(site)
+                catalog = root/'public-math'
+                if kind == 'empty': catalog.mkdir()
+                if kind in ('untracked-file', 'tracked-file'): catalog.write_text('ordinary sibling')
+                if kind == 'broken-symlink': catalog.symlink_to(root/'missing', target_is_directory=True)
+                if kind in ('tracked-file', 'broken-symlink'): self.stage(root)
+                self.assertEqual(asset_release.inventory(site), files)
+                before = self.snapshot(root)
+                for args in [(), ('--check',)]:
+                    result = self.run_tool(site, *args)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(result.stdout, first.stdout)
+                    self.assertEqual(self.snapshot(root), before)
+
+    def test_git_root_site_preserves_outside_catalog_boundary(self):
+        for kind in ('absent', 'file', 'directory'):
+            with self.subTest(kind=kind), TemporaryDirectory() as tmp:
+                outer = Path(tmp); repo = outer/'repo'; repo.mkdir()
+                site = self.fixture(repo)
+                for path in site.iterdir(): path.rename(repo/path.name)
+                site.rmdir(); self.stage(repo)
+                catalog = outer/'public-math'
+                if kind == 'file': catalog.write_text('ordinary sibling')
+                if kind == 'directory': catalog.mkdir()
+                before = self.snapshot(repo)
+                result = self.run_tool(repo)
+                if kind == 'directory':
+                    self.assertEqual(result.returncode, 2)
+                    self.assertIn('site/catalog must remain inside', result.stderr)
+                    self.assertEqual(self.snapshot(repo), before)
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual(self.run_tool(repo, '--check').returncode, 0)
+
+    def test_catalog_existing_missing_file_and_directory_symlink_refusals(self):
+        for kind in ('missing-file', 'inside-symlink', 'outside-symlink'):
+            with self.subTest(kind=kind), TemporaryDirectory() as tmp:
+                outer = Path(tmp); root = outer/'repo'; root.mkdir()
+                site, catalog = self.catalog_fixture(root)
+                if kind == 'missing-file':
+                    (catalog/'catalog.json').unlink()
+                else:
+                    target = (root if kind == 'inside-symlink' else outer)/'target'
+                    catalog.rename(target); catalog.symlink_to(target, target_is_directory=True)
+                    self.stage(root)
+                before = self.snapshot(root)
+                for args in [('--check',), ()]:
+                    result = self.run_tool(site, *args)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertIn('missing/outside local asset', result.stderr)
+                    self.assertEqual(self.snapshot(root), before)
 
     def test_inactive_examples_do_not_resolve_missing_assets(self):
         with TemporaryDirectory() as tmp:

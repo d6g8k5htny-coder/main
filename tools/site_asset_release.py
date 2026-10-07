@@ -29,7 +29,8 @@ def inventory(site):
     repo = Path(result.stdout.decode('utf-8').strip()).resolve()
     roots = [site]
     catalog = site.parent / 'public-math'
-    if catalog.is_dir():
+    # Index membership survives an absent catalog directory.
+    if catalog.is_dir() or catalog.is_relative_to(repo):
         roots.append(catalog)
     files = []
     for root in roots:
@@ -48,6 +49,10 @@ def inventory(site):
                 continue
             path = repo / entry.decode('utf-8')
             if not path.is_relative_to(root):
+                continue
+            # An optional same-name file is not a catalog, but its indexed
+            # descendants must still pass the missing/outside check below.
+            if path == catalog and not catalog.is_dir():
                 continue
             if path.is_symlink() or not path.is_file() or not path.resolve().is_relative_to(root):
                 raise ValueError(f'missing/outside local asset in tracked inventory: {path}')
