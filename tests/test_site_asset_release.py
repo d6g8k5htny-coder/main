@@ -34,6 +34,24 @@ class AssetRelease(unittest.TestCase):
         'package', 'private', 'protected', 'public', 'as', 'from', 'of',
         'using', 'async', 'get', 'set', 'x', 'α', '$x', '_x',
     )
+    LEXICAL_SLASH_CASES = (
+        ('commonjs', 'var await = 1; await / import("core.mjs") / 2;'),
+        ('commonjs', 'var yield = 1; yield / import("core.mjs") / 2;'),
+        ('commonjs', 'for (var await = 1; await / import("core.mjs") / 2; ) {}'),
+        ('commonjs', 'for (var yield = 1; yield / import("core.mjs") / 2; ) {}'),
+        ('commonjs', 'function f() { var await = 1; await / import("core.mjs") / 2; }'),
+        ('commonjs', 'function f() { var yield = 1; yield / import("core.mjs") / 2; }'),
+        ('commonjs', 'var await = 1; await /= import("core.mjs");'),
+        ('commonjs', 'var yield = 1; yield /= import("core.mjs");'),
+        ('module', 'async function f() { return await /import("core.mjs")/; }'),
+        ('module', 'function* f() { yield /import("core.mjs")/; }'),
+        ('module', 'async function f() { return await /*gap*/ /import("core.mjs")/; }'),
+        ('module', 'function* f() { yield /*gap*/ /import("core.mjs")/; }'),
+        ('module', 'async function f() { return await //gap\n /import("core.mjs")/; }'),
+        ('module', 'function* f() { yield //gap\n /import("core.mjs")/.test("x"); }'),
+        ('module', 'async function f() { return `${await /import("core.mjs")/}`; }'),
+        ('module', 'function* f() { return `${yield /import("core.mjs")/}`; }'),
+    )
 
     def stage(self, root):
         subprocess.run(['git', '-C', str(root), 'add', '-A'], check=True,
@@ -658,6 +676,197 @@ class AssetRelease(unittest.TestCase):
                     self.assertIn('Unsupported JavaScript identifier syntax', result.stderr)
                     self.assertEqual(self.snapshot(root), before)
                     self.assertEqual((root/'.git/index').read_bytes(), index)
+
+    def test_declaration_position_preserves_contextual_binding_regex(self):
+        pattern = '/import("ghost.mjs?site-release=keep")/.source'
+        module_bindings = [f'{decl} {name}' for decl in ('var', 'let', 'const')
+                           for name in ('using', 'of', 'x', 'async')]
+        module_bindings += ['using using', 'using x', 'await using using',
+                            'await using of', 'await using x', 'using']
+        cases = [('.mjs', f'{header} ({binding} of {pattern}) {{}}')
+                 for header in ('for', 'for /*a*/ await /*b*/')
+                 for binding in module_bindings]
+        cases += [('.js', f'for ({decl} {name} of {pattern}) {{}}')
+                  for decl in ('var', 'let', 'const') for name in ('await', 'yield')]
+        cases += [('.js', f'for (var let of {pattern}) {{}}'),
+                  ('.js', f'for ((await) of {pattern}) {{}}'),
+                  ('.js', f'for ((yield) of {pattern}) {{}}'),
+                  ('.mjs', f'for (const /*c*/ using /*d*/ of {pattern}) {{}}'),
+                  ('.mjs', f'for (const\nusing of\n{pattern}) {{}}'),
+                  ('.mjs', f'for (const x of xs) for (const using of {pattern}) {{}}'),
+                  ('.mjs', f'for (const [using] of {pattern}) {{}}'),
+                  ('.mjs', f'for (const {{using}} of {pattern}) {{}}')]
+        for suffix, source in cases:
+            with self.subTest(suffix=suffix, source=source):
+                self.assertEqual(asset_release.source_spans(source, suffix), [])
+                self.assertEqual(asset_release.transform(
+                    source, suffix, asset_release.without_release), source)
+
+    def test_declaration_prefix_does_not_hide_genuine_division_imports(self):
+        live = 'import("core.mjs")'
+        cases = [
+            ('.mjs', f'for (const using = 1; using / {live} / 2; ) {{}}'),
+            ('.mjs', f'for (let using = of / {live} / 2; false; ) {{}}'),
+            ('.mjs', f'for (let x = using, of = 2; of / {live} / 2; ) {{}}'),
+            ('.mjs', f'for (let x = (of / {live} / 2); false; ) {{}}'),
+            ('.mjs', f'for (let x = {{using: of / {live} / 2}}; false; ) {{}}'),
+            ('.mjs', f'for (using / {live} / 2; false; ) {{}}'),
+            ('.mjs', f'for (using of of / {live} / 2) {{}}'),
+            ('.mjs', f'for (using using of of / {live} / 2) {{}}'),
+            ('.mjs', f'for (await using of of of / {live} / 2) {{}}'),
+            ('.mjs', f'for (const using of {live}) {{}}'),
+            ('.mjs', f'for (await using of of {live}) {{}}'),
+            ('.mjs', f'async function f() {{ for (let x = await of / {live} / 2; false; ) {{}} }}'),
+            ('.mjs', f'function* f() {{ for (let x = yield of / {live} / 2; false; ) {{}} }}'),
+            ('.mjs', f'async function f() {{ for (let x = await using / {live} / 2; false; ) {{}} }}'),
+            ('.js', f'for (var await = of / {live} / 2; false; ) {{}}'),
+            ('.js', f'for (var yield = of / {live} / 2; false; ) {{}}'),
+        ]
+        for suffix, source in cases:
+            with self.subTest(suffix=suffix, source=source):
+                spans = asset_release.source_spans(source, suffix)
+                self.assertEqual([source[a:b] for a, b in spans], ['core.mjs'])
+                self.assertEqual(asset_release.transform(
+                    source, suffix, lambda value: value + '?site-release=new'),
+                    source.replace('core.mjs', 'core.mjs?site-release=new'))
+
+    def test_bare_await_yield_headers_refuse_both_valid_interpretations(self):
+        cases = [
+            ('.js', 'for (await of /import("core.mjs")/) {}'),
+            ('.js', 'for (yield of /import("core.mjs")/) {}'),
+            ('.js', 'for (await of values) {}'),
+            ('.js', 'for (yield of values) {}'),
+            ('.mjs', 'async function f() { for (await of / import("core.mjs") / 2; false; ) {} }'),
+            ('.mjs', 'function* f() { for (yield of / import("core.mjs") / 2; false; ) {} }'),
+        ]
+        for suffix, source in cases:
+            with self.subTest(suffix=suffix, source=source):
+                with self.assertRaisesRegex(ValueError, 'Ambiguous await/yield for header'):
+                    asset_release.source_spans(source, suffix)
+
+    def test_binding_position_cli_preserves_tracked_and_missing_regex_targets(self):
+        cases = [
+            ('.mjs', 'for (const using of /import("core.mjs")/) {}\n'),
+            ('.mjs', 'for await (let using of /import("core.mjs")/) {}\n'),
+            ('.mjs', 'for (using of /import("core.mjs")/) {}\n'),
+            ('.mjs', 'for (await using of of /import("core.mjs")/) {}\n'),
+            ('.js', 'for (var await of /import("core.mjs")/) {}\n'),
+        ]
+        for suffix, source in cases:
+            for tracked in (False, True):
+                with self.subTest(source=source, tracked=tracked), TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    subprocess.run(['git', 'init', '-q', str(root)], check=True,
+                                   capture_output=True)
+                    site = root/'site'; site.mkdir()
+                    (site/('app' + suffix)).write_text(source)
+                    if tracked: (site/'core.mjs').write_text('export const x = 1;\n')
+                    self.stage(root)
+                    before = self.snapshot(root); index = (root/'.git/index').read_bytes()
+                    token = None
+                    for args in [('--check',), (), ('--check',), ()]:
+                        result = self.run_tool(site, *args)
+                        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                        self.assertEqual(result.stderr, '')
+                        self.assertRegex(result.stdout, r'^[0-9a-f]{64}\n$')
+                        if token is None: token = result.stdout
+                        self.assertEqual(result.stdout, token)
+                        self.assertEqual(self.snapshot(root), before)
+                        self.assertEqual((root/'.git/index').read_bytes(), index)
+
+    def test_ambiguous_binding_cli_refuses_before_all_file_and_index_writes(self):
+        cases = [
+            ('.js', 'for (await of /import("core.mjs")/) {}'),
+            ('.js', 'for (yield of /import("missing.mjs")/) {}'),
+            ('.mjs', 'async function f() { for (await of / import("core.mjs") / 2; false; ) {} }'),
+            ('.mjs', 'function* f() { for (yield of / import("core.mjs") / 2; false; ) {} }'),
+        ]
+        for suffix, source in cases:
+            with self.subTest(source=source), TemporaryDirectory() as tmp:
+                root = Path(tmp); site = self.fixture(root)
+                # Earlier files have genuine pending updates when the final file refuses.
+                (site/('z-ambiguous' + suffix)).write_text(source)
+                self.stage(root)
+                before = self.snapshot(root); index = (root/'.git/index').read_bytes()
+                for args in [('--check',), ()]:
+                    result = self.run_tool(site, *args)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout, '')
+                    self.assertIn('Ambiguous await/yield for header', result.stderr)
+                    self.assertEqual(self.snapshot(root), before)
+                    self.assertEqual((root/'.git/index').read_bytes(), index)
+
+    def test_declared_binding_regex_and_real_import_cli_remain_distinct(self):
+        for missing in (False, True):
+            with self.subTest(missing=missing), TemporaryDirectory() as tmp:
+                root = Path(tmp); site = self.fixture(root)
+                target = 'missing.mjs' if missing else 'core.mjs'
+                source = ('for (const using of /import("ghost.mjs")/.source) { '
+                          f'import("{target}"); }}\n')
+                (site/'app.mjs').write_text(source)
+                before = self.snapshot(root); index = (root/'.git/index').read_bytes()
+                result = self.run_tool(site)
+                if missing:
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout, '')
+                    self.assertIn('missing/outside local asset missing.mjs', result.stderr)
+                    self.assertEqual(self.snapshot(root), before)
+                else:
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertEqual((site/'app.mjs').read_text(), source.replace(
+                        'core.mjs', 'core.mjs?site-release=' + result.stdout.strip()))
+                    after = self.snapshot(root)
+                    for args in [('--check',), ()]:
+                        again = self.run_tool(site, *args)
+                        self.assertEqual(again.returncode, 0, again.stderr)
+                        self.assertEqual(again.stdout, result.stdout)
+                        self.assertEqual(self.snapshot(root), after)
+                self.assertEqual((root/'.git/index').read_bytes(), index)
+
+    def test_unqualified_await_yield_slash_refuses_without_mode_inference(self):
+        for mode, source in self.LEXICAL_SLASH_CASES:
+            # The checked fixture mode is evidence, not an input to the scanner.
+            for suffix in ('.js', '.mjs'):
+                with self.subTest(mode=mode, suffix=suffix, source=source):
+                    with self.assertRaisesRegex(ValueError, 'Ambiguous await/yield regex/division'):
+                        asset_release.source_spans(source, suffix)
+
+    def test_lexical_goal_refusal_preserves_pending_files_and_raw_index(self):
+        for mode, source in self.LEXICAL_SLASH_CASES:
+            with self.subTest(mode=mode, source=source), TemporaryDirectory() as tmp:
+                root = Path(tmp); site = self.fixture(root)
+                suffix = '.js' if mode == 'commonjs' else '.mjs'
+                (site/('z-ambiguous' + suffix)).write_text(source)
+                self.stage(root)
+                before = self.snapshot(root); index = (root/'.git/index').read_bytes()
+                for args in [('--check',), ()]:
+                    result = self.run_tool(site, *args)
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertEqual(result.stdout, '')
+                    self.assertIn('Ambiguous await/yield regex/division', result.stderr)
+                    self.assertEqual(self.snapshot(root), before)
+                    self.assertEqual((root/'.git/index').read_bytes(), index)
+
+    def test_unambiguous_await_yield_and_opaque_words_keep_module_spans(self):
+        cases = [
+            ('async function f() { return await import("core.mjs"); }', ['core.mjs']),
+            ('function* f() { yield import("core.mjs"); }', ['core.mjs']),
+            ('async function f() { return await (/import("ghost.mjs")/); }', []),
+            ('function* f() { yield (/import("ghost.mjs")/); yield* /import("ghost.mjs")/.source; }', []),
+            ('async function f() { return `${await (/import("ghost.mjs")/)}`; }', []),
+            ('obj.await / import("core.mjs") / 2;\nobj?.yield / import("core.mjs") / 2;',
+             ['core.mjs', 'core.mjs']),
+            ('class C { #await; #yield; f() {\nthis.#await / import("core.mjs") / 2;\n'
+             'this?.#yield / import("core.mjs") / 2;\n} }', ['core.mjs', 'core.mjs']),
+            ('// await / import("ghost.mjs") /\n/* yield / import("ghost.mjs") / */\n'
+             'const a = \'await / import("ghost.mjs") /\';\n'
+             'const b = `yield / import("ghost.mjs") /`;\n'
+             'const c = /await[/]import("ghost.mjs")/; import("core.mjs");', ['core.mjs']),
+        ]
+        for source, expected in cases:
+            with self.subTest(source=source):
+                spans = asset_release.source_spans(source, '.mjs')
+                self.assertEqual([source[a:b] for a, b in spans], expected)
 
     def test_untracked_dependency_and_non_git_site_are_refused(self):
         with TemporaryDirectory() as tmp:

@@ -6,6 +6,8 @@ tracked membership and current working-tree bytes, with explicit POSIX ordering.
 Only recognized live URL spans are normalized/rewritten. This bounded stdlib
 scanner refuses unsupported escaped URLs and ambiguous JavaScript contexts
 before any writes; it is not a complete JavaScript parser.
+Unqualified await/yield slash and bare for-of heads are refused: a filename
+suffix does not establish the JavaScript loader mode or lexical goal.
 """
 import argparse
 import hashlib
@@ -225,6 +227,27 @@ def _regex_end(text, start):
     return None
 
 
+def _for_binding_prefix(tokens, start):
+    """Recognize only the complete short scalar-binding prefix before `of`."""
+    if len(tokens) - start > 3:
+        return None
+    head = tokens[start:]
+    if any(token[0] != 'word' for token in head):
+        return None
+    words = tuple(token[1] for token in head)
+    if words in (('await',), ('yield',)):
+        return 'ambiguous'
+    if words in (('var',), ('let',), ('const',), ('await', 'using')):
+        return 'name-needed'
+    # `using of` is the bare using target; `await using of of` instead
+    # names its binding `of` before the second, separating `of`.
+    if (words == ('using',)
+            or (len(words) == 2 and words[0] in ('var', 'let', 'const', 'using'))
+            or (len(words) == 3 and words[:2] == ('await', 'using'))):
+        return 'complete'
+    return None
+
+
 def _js_tokens(text, start=0, template_expression=False):
     # Tokens are (kind, spelling, start, end).
     tokens = []
@@ -274,10 +297,14 @@ def _js_tokens(text, start=0, template_expression=False):
             pos = match.end()
             token = ('private-name', text[begin:pos], begin, pos)
         elif char == '/':
-            end = _regex_end(text, pos)
             property_word = (previous is not None and previous[0] == 'word'
                              and len(tokens) >= 2
                              and tokens[-2][1] in ('.', '?.'))
+            if (previous is not None and previous[0] == 'word'
+                    and previous[1] in ('await', 'yield') and not property_word):
+                raise ValueError('Ambiguous await/yield regex/division requires '
+                                 'a full JavaScript parser')
+            end = _regex_end(text, pos)
             prefix = (previous is None or previous[0] in ('control-close', 'for-of')
                       or (previous[1] in _REGEX_PREFIX and not property_word))
             ambiguous = previous is not None and previous[1] in (')', '}')
@@ -325,9 +352,14 @@ def _js_tokens(text, start=0, template_expression=False):
                                           and previous[1] not in ('const', 'let', 'var', 'using')))))
             if token[1] == ';' or (token[1] == 'in' and not property_name):
                 parens[-1]['for-binding'] = False
-            elif token[1] == 'of' and not property_name and target_end:
-                token = ('for-of', 'of', begin, pos)
-                parens[-1]['for-binding'] = False
+            elif token[1] == 'of' and not property_name:
+                binding = _for_binding_prefix(tokens, parens[-1]['start'])
+                if binding == 'ambiguous':
+                    raise ValueError('Ambiguous await/yield for header requires '
+                                     'a full JavaScript parser')
+                if binding == 'complete' or (binding != 'name-needed' and target_end):
+                    token = ('for-of', 'of', begin, pos)
+                    parens[-1]['for-binding'] = False
 
         if token[1] == '(':
             head = len(tokens) - 1
@@ -339,6 +371,7 @@ def _js_tokens(text, start=0, template_expression=False):
                        and (head == 0 or tokens[head - 1][1] not in ('.', '?.')))
             parens.append({'control': control,
                            'for-binding': control and tokens[head][1] == 'for',
+                           'start': len(tokens) + 1,
                            'depth': (braces, brackets)})
         elif token[1] == ')':
             control = parens.pop()['control'] if parens else False
