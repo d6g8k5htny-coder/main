@@ -11,15 +11,27 @@ The public home introduces the mathematics before its implementation. All pages 
 - **Reproduce (`reproduce.html`):** a single pinned coefficient replay, prerequisites, actual expected output and the boundary of the check.
 - **Cite (`cite.html`):** object-specific citation guidance and a local immutable-reference builder. It checks input syntax, not source existence or scientific status.
 - **Source records (`museum.html`):** the preserved historical source-bound exhibits, review cards and conditional routes. It names its separate snapshot; later proof-index results are not silently imported into old cards.
+- **Formal (`formal.html`):** what the original 27 September 2026 Lean lane's 13 scalar companions establish and what stays outside them; an explanation at that source snapshot, not a current formalization inventory or live acceptance register. Its dated "Since this snapshot" section points to later formal packages.
+- **Dependencies (`dependencies.html`):** a dated, read-only claim-dependency snapshot derived from frozen source bytes; it does not update claim status or replace the live proof index.
+- **Measure (`measure.html`):** a synthetic counts-to-density teaching example with invented inputs; it generates no random field and validates no theorem.
 
 The front and technical layers use the same existing evidence. No second scientific register or server backend is added. Source identities are available in expandable disclosures, while object/class labels and unavailable states remain visible. The original coefficient artifact’s `scientific_acceptance: false` is retained; later scoped review remains separate.
 
 ## Verify the reader experience
 
 ```sh
-node --test tests/test_explore_models.mjs tests/test_reader_navigation.mjs
+# Stage any new or deleted file under docs/site or docs/public-math first (git add <path> / git rm <path>).
+python3 -B tools/site_asset_release.py          # rewrites ?site-release= keys after ANY change under docs/site or docs/public-math
+python3 -B tools/site_asset_release.py --check  # must print the token and exit 0; commit every rewritten file
+python3 -B -m unittest discover -s tests -p test_public_shop_data.py
+python3 -B -m unittest tests.test_site_asset_release
+node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
+python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
+python3 -B tools/public_shop_check.py
 ```
+
+These are the local steps of the required `public-shop` job. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
@@ -59,6 +71,16 @@ and the static route with remote source requests refused. Each case retains a
 latest-entry screenshot. Actual source identity readback is a separate engineering
 check, not something established by a screenshot or link.
 
+### Adding a dated reading cut
+
+Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelledby="…">` with its own `<time datetime="…Z">` immediately before the current newest cut. Never edit an earlier cut's text. In the same change:
+
+1. Point Home's "Read the latest public work →", Research's hero "Latest public work" and the Library's latest-work links at the new id. Give the new cut one uniquely named link to the cut below it; exact link names must stay unique.
+2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (every `<code>` in an `<li>` binds to each pinned link in that `<li>`), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest.
+3. In `tools/public_shop_browser_check.py`, update `check_latest_work_flow` and `check_reading_addendum_flow`: entry focus, datetime, card and pinned-link counts.
+4. Keep `research.html` script-free, its IDs unique and every local fragment resolvable.
+5. Rerun the release tool and the public-shop steps above.
+
 ## Keep or share a Library search
 
 The Library's search, repository and path filters are saved in the current URL
@@ -86,6 +108,8 @@ browser is runner-bound rather than a fixed Playwright download. The runner serv
 only `docs` on an ephemeral
 loopback port. It does not publish a preview or use account credentials.
 
+`browser-smoke` is not a required status check: as read on 7 October 2026, ruleset 23798639 requires only `verify`, `public-intake` and `public-shop`. Inspect its current-run report before integrating a site change.
+
 The `public-shop-browser-<run-id>` artifact contains a JSON report and screenshots
 for 1200×900 and 390×844 in light and dark mode, plus an explicitly refused
 inventory request. It tests URL round-trips, actual Back/Forward navigation,
@@ -105,6 +129,8 @@ Inspect the screenshots before accepting visual quality. This is headless Chromi
 with mobile-sized viewports, not physical touch-device, all-browser, full
 accessibility or deployed-Pages certification. The original source validation and
 required hosted checks remain separate and unchanged.
+
+Without the runner's `/opt/google/chrome/chrome`, a local pre-check can install `tests/browser-requirements.txt` in a scratch environment. In a disposable worktree, edit `tools/public_shop_browser_check.py` so that both its `executable` path and its launch use a local Playwright Chromium binary (`executable_path=…`, with `chromium_sandbox=False` only if the host requires it). Never commit that edit. Such a run is local evidence only: it is not the CI browser record and does not meet the contract's packaged-Chrome and sandbox conditions.
 
 ## Run locally
 
