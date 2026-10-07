@@ -79,7 +79,8 @@ Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelle
 2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest.
 3. In `tools/public_shop_browser_check.py`, update `check_latest_work_flow` and `check_reading_addendum_flow`: entry focus, datetime, card and pinned-link counts.
 4. Keep `research.html` script-free, its IDs unique and every local fragment resolvable.
-5. Rerun the release tool and the public-shop steps above.
+5. Append the new cut, with its date and UTC time, to the list of later dated cuts earlier in this section, so this guide does not stop at an older cut.
+6. Rerun the release tool and the public-shop steps above.
 
 ## Keep or share a Library search
 
@@ -130,7 +131,7 @@ with mobile-sized viewports, not physical touch-device, all-browser, full
 accessibility or deployed-Pages certification. The original source validation and
 required hosted checks remain separate and unchanged.
 
-Without the runner's `/opt/google/chrome/chrome`, a local pre-check can install `tests/browser-requirements.txt` in a scratch environment. In a disposable worktree, edit `tools/public_shop_browser_check.py` so that both its `executable` path and its launch use a local Playwright Chromium binary (`executable_path=…`, with `chromium_sandbox=False` only if the host requires it). Never commit that edit. Such a run is local evidence only: it is not the CI browser record and does not meet the contract's packaged-Chrome and sandbox conditions. Its `report.json` records `checked_commit` and `tree` from the checkout, not from the modified harness, so when you cite such a run say that the harness was modified and do not present the report as the tool's own output.
+Without the runner's `/opt/google/chrome/chrome`, a local pre-check can install `tests/browser-requirements.txt` in a scratch environment. That installs only the Python packages: if the environment has no Chromium, download one with `python -m playwright install chromium`, which places it under Playwright's browser cache (`~/.cache/ms-playwright` on Linux, or `PLAYWRIGHT_BROWSERS_PATH` when that is set). In a disposable worktree, edit `tools/public_shop_browser_check.py` so that both its `executable` path and its launch use a local Playwright Chromium binary (`executable_path=…`, with `chromium_sandbox=False` only if the host requires it). Never commit that edit. Such a run is local evidence only: it is not the CI browser record and does not meet the contract's packaged-Chrome and sandbox conditions. Its `report.json` records `checked_commit` and `tree` from the checkout, not from the modified harness, so when you cite such a run say that the harness was modified and do not present the report as the tool's own output.
 
 ## Run locally
 
