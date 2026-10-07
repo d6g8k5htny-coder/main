@@ -567,6 +567,18 @@ class October7Reading(unittest.TestCase):
         self.assertEqual(parsed.links,list(OCT7_PINS))
         self.assertEqual(parsed.hash_bindings,list(OCT7_PINS.items()))
 
+    def test_cap_card_keeps_the_elder_death_hypotheses(self):
+        # PRES284-01: torus_elder_death_level_blocks also assumes L > 0 and f continuous
+        # (Math 54ebcede ALIGNMENT.md row 114); the cap clause must not claim it.
+        card=self.section().split('id="cap-on-torus"',1)[1].split('</article>',1)[0]
+        paragraphs=[p for p in card.split('<p>') if 'elder death level' in p]
+        self.assertEqual(len(paragraphs),1)
+        paragraph=paragraphs[0]
+        self.assertNotIn('elder death level',paragraph.split('four continuous derivatives',1)[0])
+        clause=paragraph.split('elder death level',1)[0].rsplit('. ',1)[-1]
+        for term in ('positive side <code>L</code>','continuous on the whole torus'):
+            with self.subTest(term=term):self.assertIn(term,clause)
+
     def test_open_proposals_are_never_called_landed(self):
         section=self.section()
         for number in (384,387,388,392,393):
