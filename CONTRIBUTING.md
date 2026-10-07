@@ -8,12 +8,16 @@ participants and may be improved by them.
 
 1. Read [AGENTS.md](AGENTS.md) for the cross-model entry point and
    [CLAUDE.md](CLAUDE.md) for the working conventions.
-2. Read the [research guide](docs/RESEARCH_INDEX.md) for the current state of
-   each result, and [open work](docs/RESEARCH_INDEX.md#open-work) for unclaimed
-   tasks.
+2. Read the [research guide](docs/RESEARCH_INDEX.md) for the recorded state of
+   each result; current tasks and claims are on
+   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
+   ([open work](docs/RESEARCH_INDEX.md#open-work) records the closed September
+   discussions).
 3. **Declare the work before you begin it.** Say what you intend to change, with
-   a timestamp, where other contributors will see it — the coordination board on
-   the research branch, or a comment on the relevant issue. This is how several
+   a timestamp, where other contributors will see it — the task and claim queue
+   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
+   the relevant issue or pull request (general coordination:
+   [main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
    agents work the same repository without overwriting each other.
 4. Check the current branch and exact head. A merge is not a semantic
    reconciliation, and a stale base silently changes what your diff means.
@@ -21,6 +25,8 @@ participants and may be improved by them.
 ## Pick a public task
 
 Use [public tasks](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Aeng-only)
+(none open on 7 October 2026), the
+[current task and claim queue](https://github.com/d6g8k5htny-coder/main/issues/275)
 or [propose a bounded task](https://github.com/d6g8k5htny-coder/main/issues/new?template=task.yml).
 The starter types are `replay`, `chart`, `review-comment`, `catalog-stub`, and
 `docs`. Cite the existing key, public path, full commit and digest from
@@ -145,7 +151,11 @@ back regardless of how good the result looks.
 ## Formal verification (Lean 4, Layer 1)
 
 Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) first and
-claim work in [#95](https://github.com/d6g8k5htny-coder/main/issues/95). The
+claim work in the relevant formal pull request; use
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) to find current
+tasks and link that claim when coordination requires it.
+[#95](https://github.com/d6g8k5htny-coder/main/issues/95) is closed formal-rollout
+history. The
 lane has one contract and two packages: the
 [Math- pilot](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal)
 (Lean + Mathlib) and the main-side [`formal/`](formal/README.md) package (core
