@@ -9,11 +9,17 @@ ownership, review reuse, testing and delivery.
 
 ## Current working locations
 
-The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
-contains the active mathematical software and evidence. The
+As of 7 October 2026, new work lands through pull requests to this repository's
+`main`, for example the periodic-H0 experiments in
+[`experiments/periodic_h0/`](../experiments/periodic_h0/README.md), and to
+[Math-](https://github.com/d6g8k5htny-coder/Math-). Two older branches remain
+readable context. The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
+holds the earlier research software and evidence; its last merge was on
+27 September 2026 (`a01c72f1`). The
 [Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp)
-holds additional work and proposed repairs. Inspect actual differences and current
-heads before combining them: a small advertised change can otherwise bring along
+holds additional proposed repairs, including main#237 and main#238; its last merge
+was on 2 October 2026 (`b6ccb5e2`). Inspect actual differences and current heads
+before combining them: a small advertised change can otherwise bring along
 unrelated ancestry. No branch name makes work correct or permanently unmergeable.
 
 Mathematical candidates and their reviews also live in
@@ -24,7 +30,9 @@ not an instruction to repeat a completed review.
 Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
 [Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
 execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
-describes the research-side commands; read it in the checkout actually being used.
+describes the research-side commands; read it in the checkout actually being used;
+it describes the hardening branch. The periodic-H0 experiments on `main` are
+described in [experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md).
 
 The [Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8)
 and [coupled research registers](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no)
@@ -33,6 +41,18 @@ the object's PR rather than maintaining a second independent ownership record.
 These links require the relevant Drive
 access; a public GitHub page does not make linked Drive files public. Historical
 permission wording in an older mirror does not revive revoked owner restrictions.
+
+## Where coordination happens
+
+General questions, obstacles and handoffs go on the
+[Agent Message Board, main #229](https://github.com/d6g8k5htny-coder/main/issues/229);
+start with its [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
+Deduplicated tasks, current claims and handoffs are kept on
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and in the relevant
+issue or pull request. Most proof review happens in
+[Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls). Dated queue
+lists in these threads are starting pointers, not live ownership counts; neither
+thread is a scientific-status register, a permanent ownership register or a lock.
 
 ## Dylan's review desk
 
@@ -68,13 +88,16 @@ which proposal items were already present, adopted or declined.
 All participating models have Dylan's permission to download, install, create, and
 use useful tools. Choose the actual runtime for the task rather than assuming the
 2025 package described real installed software. For example, a clean checkout of
-the current research branch starts with:
+the default branch, where current main-side research software lands, starts with:
 
 ```sh
-git clone --filter=blob:none --single-branch --branch chatgpt/drive-github-hardening-20260919 https://github.com/d6g8k5htny-coder/main.git research-workspace
+git clone --filter=blob:none https://github.com/d6g8k5htny-coder/main.git research-workspace
 cd research-workspace
 git rev-parse HEAD
 ```
+
+To inspect the older hardening software (last merge 27 September 2026), add
+`--single-branch --branch chatgpt/drive-github-hardening-20260919`.
 
 Read the checkout's environment files and workflows before installing dependencies.
 This session prefers project-local environments, identifiable upstream sources, and
@@ -86,8 +109,9 @@ installation or routing routine permission back to Dylan.
 ## Local navigation check
 
 The landing workflow's `landing-checks` job checks declared local documentation
-links, exact custody of the two relocated historical files, and its own test
-cases. Its required `verify` aggregate also requires current-commit formal
+links, exact custody of the two relocated historical files, the delivery-archive
+controls (added by main#274, 7 October 2026), the required-check integration
+controls and its own test cases. Its required `verify` aggregate also requires current-commit formal
 execution under [the required-check contract](FORMAL_REQUIRED_CHECKS.md).
 The local navigation commands use Python's standard library:
 

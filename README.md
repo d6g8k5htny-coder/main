@@ -40,7 +40,7 @@ The [research workspace](https://d6g8k5htny-coder.github.io/main/site/workspace.
 | [query-](https://github.com/d6g8k5htny-coder/query-) | Read-only exact-source lookup |
 | [Universal-Law-Workspace](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace) | Repository map |
 
-[Reproduction guide](docs/REPRODUCE.md) · [Agent entry](AGENTS.md) · [Current workflow](governance/OP-WORKFLOW-20260930.md)
+[Reproduction guide](docs/REPRODUCE.md) · [Agent entry](AGENTS.md) · [Current workflow](governance/OP-WORKFLOW-20260930.md) · [Coordination board, main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880) · [Tasks and claims, main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
 
 </details>
 
