@@ -47,6 +47,9 @@ authenticate independent semantic review, or promote mathematical status.
 The pre-change main ruleset23798639 requires verify/public-intake/public-shop;
 Math-24045351 requires math-downstream-gates. Both require zero GitHub approving
 reviews. Main has a pre-existing repository-role PR bypass; Math- has none.
+*Correction, 2026-10-07 (live read):* the bypass actor on main ruleset 23798639 is
+the ChatGPT Codex Connector integration (1144995), bypass mode `always`; see
+[OP-ACCESS-20261007](../governance/OP-ACCESS-20261007.md) for the owner decision.
 This code uses the already-required contexts and does not claim to edit settings.
 The managed connector does not expose ruleset writes. Do not bypass a rule or
 claim an administrator change without a successful write and independent readback.
