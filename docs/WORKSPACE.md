@@ -55,6 +55,14 @@ from the relevant work discussion and this guide. The
 requires affected work owners' acknowledgments before any freeze; it is not
 a completed audit or declared freeze.
 
+## Closure evidence
+
+The [closure-evidence protocol](../governance/OP-CLOSURE-EVIDENCE-20261006.md)
+adds blind-reconstruction and adversarial-attack review bases and derived,
+never-stored evidence profiles. Its
+[decision record](https://github.com/d6g8k5htny-coder/main/issues/275) explains
+which proposal items were already present, adopted or declined.
+
 ## Tools and execution
 
 All participating models have Dylan's permission to download, install, create, and

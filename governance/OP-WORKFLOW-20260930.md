@@ -71,6 +71,9 @@ argument. Changed reviewed bytes, dependencies or scope invalidate the affected
 review and require a successor disposition. Regenerating an inventory cannot
 transfer an old review to new proof bytes.
 
+Blind reconstruction, adversarial attack and derived evidence profiles follow
+the [closure-evidence protocol](OP-CLOSURE-EVIDENCE-20261006.md).
+
 Record actual author/reviewer exposure and separate technical verdict from
 organizational independence. Same-provider review can be useful technical work
 but earns zero organizational-independence credit. An author replay is not a

@@ -179,6 +179,41 @@ def pr_number(value):
     return value['number']
 
 
+# Endpoint identity policies for paginated collections. Keys are collection-local.
+PR_IDENTITY = 'pull request number'
+FILENAME_IDENTITY = 'changed-file filename'
+ID_IDENTITY = 'positive integer id'
+
+
+def check_identity(rows, policy) -> None:
+    """Refuse a repeated identity in one collection. Rows are never deduplicated or reordered."""
+    if policy not in (PR_IDENTITY, FILENAME_IDENTITY, ID_IDENTITY):
+        raise ValueError('paginated collection has no explicit identity policy')
+    if not isinstance(rows, list):
+        raise ValueError('expected a list collection')
+    seen = {}
+    for position, row in enumerate(rows):
+        if policy == PR_IDENTITY:
+            try:
+                key = pr_number(row)
+            except ValueError:
+                continue  # Malformed PR rows keep the per-row error path in collect().
+        elif policy == FILENAME_IDENTITY:
+            if not isinstance(row, dict) or type(row.get('filename')) is not str or not row['filename']:
+                raise ValueError(f'expected nonempty string filename at row {position}')
+            key = row['filename']
+        else:
+            if not isinstance(row, dict) or type(row.get('id')) is not int or row['id'] <= 0:
+                raise ValueError(f'expected positive integer id at row {position}')
+            key = row['id']
+        if key in seen:
+            message = f'duplicate {policy} {key!r} at rows {seen[key]} and {position}'
+            if policy == PR_IDENTITY:
+                message += '; open pull requests not processed'
+            raise ValueError(message)
+        seen[key] = position
+
+
 def validate_pr(value, number):
     if pr_number(value) != number:
         raise ValueError('PR identity mismatch')
@@ -204,11 +239,13 @@ def collect(out: Path, include_pr_sources: bool = True) -> dict:
         summary['repositories'].append(row)
         dest = out/name; dest.mkdir()
         path = f'repos/{OWNER}/{name}'
-        def read(suffix, filename, key=None, paginated=False, validate=None):
+        def read(suffix, filename, key=None, paginated=False, validate=None, identity=None):
             try:
                 value = pages(client.get, path+suffix, key) if paginated else client.get(path+suffix)
                 write_json(dest/filename, value)
                 # Retain raw evidence even when its target schema is unusable.
+                if paginated:
+                    check_identity(value, identity)
                 if validate is not None:
                     validate(value)
                 return value
@@ -222,7 +259,7 @@ def collect(out: Path, include_pr_sources: bool = True) -> dict:
         branch = meta['default_branch']
         commit = read('/commits/'+urllib.parse.quote(branch,safe=''), 'default-commit.json',
                       validate=validate_commit)
-        prs = read('/pulls?state=open', 'open-prs.json', paginated=True)
+        prs = read('/pulls?state=open', 'open-prs.json', paginated=True, identity=PR_IDENTITY)
         targets = {}
         if commit is not None:
             sha = checked_sha(commit['sha']); row['default_commit'] = sha; targets[sha] = ['default']
@@ -244,19 +281,24 @@ def collect(out: Path, include_pr_sources: bool = True) -> dict:
                 item = {k:detail.get(k) for k in ('number','title','html_url','draft','mergeable','mergeable_state','state')}
                 item.update(head=sha, base=detail['base']['sha'], author=detail['user']['login'])
                 row['pull_requests'].append(item)
-                read(f'/pulls/{n}/files', prefix+'files.json', paginated=True)
-                read(f'/pulls/{n}/reviews', prefix+'reviews.json', paginated=True)
-                read(f'/issues/{n}/comments', prefix+'comments.json', paginated=True)
-                read(f'/pulls/{n}/comments', prefix+'inline-comments.json', paginated=True)
-                read(f'/commits/{sha}/check-runs', prefix+'checks.json', key='check_runs', paginated=True)
+                read(f'/pulls/{n}/files', prefix+'files.json', paginated=True,
+                     identity=FILENAME_IDENTITY)
+                read(f'/pulls/{n}/reviews', prefix+'reviews.json', paginated=True, identity=ID_IDENTITY)
+                read(f'/issues/{n}/comments', prefix+'comments.json', paginated=True,
+                     identity=ID_IDENTITY)
+                read(f'/pulls/{n}/comments', prefix+'inline-comments.json', paginated=True,
+                     identity=ID_IDENTITY)
+                read(f'/commits/{sha}/check-runs', prefix+'checks.json', key='check_runs', paginated=True,
+                     identity=ID_IDENTITY)
                 read(f'/commits/{sha}/status', prefix+'combined-status.json')
-                read(f'/actions/runs?head_sha={sha}', prefix+'runs.json', key='workflow_runs', paginated=True)
+                read(f'/actions/runs?head_sha={sha}', prefix+'runs.json', key='workflow_runs',
+                     paginated=True, identity=ID_IDENTITY)
                 if include_pr_sources:
                     if detail['head'].get('repo') and detail['head']['repo']['full_name'] == f'{OWNER}/{name}':
                         targets.setdefault(sha,[]).append(f'PR{n}')
                     else:
                         item['source_snapshot'] = 'not captured: fork outside same-repository scope'
-        read('/rulesets', 'rulesets.json', paginated=True)
+        read('/rulesets', 'rulesets.json', paginated=True, identity=ID_IDENTITY)
         with tempfile.TemporaryDirectory(prefix='release-git-') as tmp:
             repo = Path(tmp)
             subprocess.run(['git','init','--bare','-q',str(repo)],check=True,timeout=30)
