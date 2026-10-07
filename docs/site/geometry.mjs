@@ -167,7 +167,7 @@ function drawRemote(host) {
 }
 
 function drawAnnulus(host) {
-  const { figure, svg } = visual('Fixed scaled annulus and open omitted regions', 'Dimension 2; physical points belong to rE for E ⊆ K_AB and fixed 1 < A < B < ∞. The shaded annulus permits all heights. Dashed regions remain OPEN; radii are symbolic.', '0 0 720 400');
+  const { figure, svg } = visual('Fixed scaled annulus and open omitted regions', 'Dimension 2; physical points belong to rE for E ⊆ K_AB and fixed 1 < A < B < ∞. The shaded annulus permits all heights. Dashed regions are outside this source and were OPEN at the pinned snapshot (Math d6628da, 26 September 2026); radii are symbolic.', '0 0 720 400');
   const hatch = openHatch(svg);
   svg.append(shape('path', { d: 'M0 0H460V400H0Z M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z', 'fill-rule': 'evenodd', fill: hatch }));
   svg.append(shape('path', { d: 'M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z M260 114A88 88 0 1 0 260 290A88 88 0 1 0 260 114Z', 'fill-rule': 'evenodd', fill: pale }));
@@ -191,7 +191,7 @@ function drawAnnulus(host) {
   label(svg, 590, 269, 'Witness–witness', { 'text-anchor': 'middle', 'font-size': 16 });
   label(svg, 590, 293, 'shrinking separation', { 'text-anchor': 'middle', 'font-size': 15 });
   host.append(figure);
-  boundary(host, 'FIXED ANNULUS CANDIDATE — d = 2, fixed 1 < A < B < ∞, physical rE, all heights. Dashed pin neighborhoods, intermediate scales and witness–witness collisions remain OPEN. This is not a solved full plane or all-scales RN statement.');
+  boundary(host, 'FIXED ANNULUS CANDIDATE — d = 2, fixed 1 < A < B < ∞, physical rE, all heights. Dashed pin neighborhoods, intermediate scales and witness–witness collisions are outside this source and were OPEN at the pinned snapshot (Math d6628da, 26 September 2026). Later scoped planar first-moment results (all heights for pin disks and collars; the between-pin height window only for intermediate shells) are recorded in the current STATUS.md, not in this exhibit. This is not a solved full plane or all-scales RN statement.');
 }
 
 function drawP15(host) {
