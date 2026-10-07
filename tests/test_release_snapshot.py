@@ -209,4 +209,181 @@ class SnapshotTests(unittest.TestCase):
             self.assertFalse(out.exists(), 'failed snapshot must not publish a readable partial zip')
             self.assertFalse(list(root.glob('.snapshot-*')), 'temporary snapshot was not cleaned')
 
+
+def _identity_fixture(root):
+    fixture = root / 'fixture'; fixture.mkdir()
+    def git(*args):
+        return subprocess.check_output(['git', '-C', str(fixture), *args],
+                                       stderr=subprocess.DEVNULL).decode().strip()
+    git('init', '-q'); git('config', 'user.email', 'test@example.invalid')
+    git('config', 'user.name', 'test')
+    (fixture / 'proof.txt').write_bytes(b'unchanged source\n')
+    git('add', '.'); git('commit', '-qm', 'fixture')
+    return fixture, git('rev-parse', 'HEAD')
+
+
+def _identity_collect(root, overrides):
+    """Mocked collect(); `overrides` maps (repository, resource) to raw rows."""
+    fixture, sha = _identity_fixture(root)
+    calls = []
+    class API:
+        def get(self, path):
+            name = path.split('/')[2]
+            resource = '/'.join(path.split('/')[3:]).split('?')[0]
+            page = 2 if 'page=2&' in path else 1
+            calls.append((name, resource))
+            for (repo, wanted), value in overrides.items():
+                if repo == name and (resource == wanted or
+                                     (wanted.startswith('*') and resource.endswith(wanted[1:]))):
+                    return value(page) if callable(value) else value
+            if not resource:
+                return {'private': False, 'full_name': f'{m.OWNER}/{name}', 'default_branch': 'main'}
+            if resource == 'commits/main':
+                return {'sha': sha}
+            if resource == 'pulls':
+                return [{'number': 7}] if name == 'main' else []
+            if resource == 'pulls/7':
+                return {'number': 7, 'head': {'sha': sha, 'repo': {'full_name': f'{m.OWNER}/main'}},
+                        'base': {'sha': sha}, 'user': {'login': 'fixture-author'}}
+            if resource.endswith('check-runs'): return {'check_runs': [], 'total_count': 0}
+            if resource == 'actions/runs': return {'workflow_runs': [], 'total_count': 0}
+            if resource.endswith('/status'): return {'state': 'success'}
+            return []
+    out = root / 'out'
+    with mock.patch.object(m, 'REPOS', ('main', 'Math-')), \
+         mock.patch.object(m, 'Client', API), \
+         mock.patch.object(m, 'repo_url', return_value=str(fixture)):
+        result = m.collect(out)
+    return result, out, sha, calls
+
+
+class IdentityPolicyTests(unittest.TestCase):
+    # (resource label in the error record, fake-API resource, raw output path, raw rows)
+    ROUTES = (
+        ('/pulls/7/files', 'pulls/7/files', 'pr-7/files.json',
+         [{'filename': 'a.txt', 'sha': 'b1'}, {'filename': 'a.txt', 'sha': 'b2'}]),
+        ('/pulls/7/reviews', 'pulls/7/reviews', 'pr-7/reviews.json',
+         [{'id': 11, 'state': 'COMMENTED'}, {'id': 11, 'state': 'COMMENTED'}]),
+        ('/issues/7/comments', 'issues/7/comments', 'pr-7/comments.json',
+         [{'id': 12, 'body': 'x'}, {'id': 12, 'body': 'y'}]),
+        ('/pulls/7/comments', 'pulls/7/comments', 'pr-7/inline-comments.json', [{'id': 13}, {'id': 13}]),
+        ('/check-runs', '*/check-runs', 'pr-7/checks.json', [{'id': 14}, {'id': 14}]),
+        ('/actions/runs', 'actions/runs', 'pr-7/runs.json', [{'id': 15}, {'id': 15}]),
+        ('/rulesets', 'rulesets', 'rulesets.json', [{'id': 16}, {'id': 16}]),
+    )
+    WRAPPED = {'/check-runs': 'check_runs', '/actions/runs': 'workflow_runs'}
+
+    def test_duplicate_identity_is_refused_on_every_route_with_raw_rows_kept(self):
+        for label, resource, raw_path, rows in self.ROUTES:
+            with self.subTest(route=label), tempfile.TemporaryDirectory() as d:
+                value = rows
+                if label in self.WRAPPED:
+                    value = {'total_count': len(rows), self.WRAPPED[label]: rows}
+                result, out, sha, _ = _identity_collect(pathlib.Path(d), {('main', resource): value})
+                errors = [e for e in result['errors'] if e['repository'] == 'main']
+                self.assertFalse(result['complete'])
+                self.assertEqual(len(errors), 1, errors)
+                self.assertIn(label, errors[0]['resource'])
+                self.assertIn('duplicate', errors[0]['error'])
+                self.assertEqual(json.loads((out / 'main' / raw_path).read_text()), rows)
+                later = result['repositories'][1]
+                self.assertEqual(later['default_commit'], sha)
+                self.assertEqual(len(later['snapshots']), 1)
+
+    def test_duplicate_valid_pr_numbers_refuse_the_open_pr_collection(self):
+        with tempfile.TemporaryDirectory() as d:
+            rows = [{'number': 7, 'v': 'first'}, {'number': 7, 'v': 'second'}]
+            result, out, sha, calls = _identity_collect(pathlib.Path(d), {('main', 'pulls'): rows})
+            errors = [e for e in result['errors'] if e['repository'] == 'main']
+            self.assertEqual([e['resource'] for e in errors], ['/pulls?state=open'])
+            self.assertIn('duplicate', errors[0]['error'])
+            self.assertIn('not processed', errors[0]['error'])
+            self.assertEqual(json.loads((out / 'main' / 'open-prs.json').read_text()), rows)
+            main = result['repositories'][0]
+            self.assertNotIn('open_pr_count', main)
+            self.assertEqual(main['pull_requests'], [])
+            self.assertNotIn(('main', 'pulls/7'), calls)
+            self.assertFalse((out / 'main' / 'pr-7').exists())
+            self.assertEqual(len(result['repositories'][1]['snapshots']), 1)
+
+    def test_invalid_then_valid_pr_keeps_partial_progress(self):
+        with tempfile.TemporaryDirectory() as d:
+            rows = [{'number': '../outside'}, {'number': 7}]
+            result, out, sha, calls = _identity_collect(pathlib.Path(d), {('main', 'pulls'): rows})
+            errors = [e for e in result['errors'] if e['repository'] == 'main']
+            self.assertEqual(len(errors), 1)
+            self.assertIn('positive integer PR number', errors[0]['error'])
+            main = result['repositories'][0]
+            self.assertEqual(main['open_pr_count'], 2)
+            self.assertEqual([p['number'] for p in main['pull_requests']], [7])
+            self.assertTrue((out / 'main' / 'pr-7' / 'detail.json').exists())
+
+    def test_same_blob_at_different_filenames_is_accepted(self):
+        with tempfile.TemporaryDirectory() as d:
+            rows = [{'filename': 'a.txt', 'sha': 'same'}, {'filename': 'b.txt', 'sha': 'same'},
+                    {'filename': 'A.txt', 'sha': 'same'}, {'filename': 'a.txt ', 'sha': 'same'}]
+            result, out, sha, calls = _identity_collect(pathlib.Path(d), {('main', 'pulls/7/files'): rows})
+            self.assertTrue(result['complete'], result['errors'])
+            self.assertEqual(json.loads((out / 'main' / 'pr-7' / 'files.json').read_text()), rows)
+
+    def test_repeated_id_across_pages_with_matching_total_is_refused(self):
+        def runs(page):
+            if page == 1:
+                return {'total_count': 101, 'workflow_runs': [{'id': i} for i in range(1, 101)]}
+            return {'total_count': 101, 'workflow_runs': [{'id': 100}]}
+        with tempfile.TemporaryDirectory() as d:
+            result, out, sha, calls = _identity_collect(pathlib.Path(d), {('main', 'actions/runs'): runs})
+            errors = [e for e in result['errors'] if e['repository'] == 'main']
+            self.assertEqual(len(errors), 1)
+            self.assertIn('duplicate', errors[0]['error'])
+            self.assertEqual(len(json.loads((out / 'main' / 'pr-7' / 'runs.json').read_text())), 101)
+
+    def test_identity_values(self):
+        check = m.check_identity
+        check([{'id': 1}, {'id': 2}], m.ID_IDENTITY)
+        check([], m.ID_IDENTITY)
+        for rows in ([{'id': 1}, {'id': 1}], [{'id': 3, 'x': 1}, {'id': 3, 'x': 2}],
+                     [{'id': True}], [{'id': '1'}], [{'id': 1.0}], [{'id': 0}], [{'id': -1}],
+                     [{}], ['1'], [None]):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                check(rows, m.ID_IDENTITY)
+        check([{'filename': 'a'}, {'filename': 'A'}, {'filename': 'a '}], m.FILENAME_IDENTITY)
+        for rows in ([{'filename': 'a', 'sha': 'x'}, {'filename': 'a', 'sha': 'y'}],
+                     [{'filename': ''}], [{'filename': 1}], [{'sha': 'x'}], ['a']):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                check(rows, m.FILENAME_IDENTITY)
+        # Malformed PR rows are left to the per-row path; only valid numbers must be unique.
+        check([{'number': 'x'}, {'number': 'x'}, {'number': 7}, None], m.PR_IDENTITY)
+        with self.assertRaises(ValueError):
+            check([{'number': 7}, {'number': 'x'}, {'number': 7}], m.PR_IDENTITY)
+
+    def test_missing_identity_policy_fails_closed(self):
+        for policy in (None, 'id', object()):
+            with self.subTest(policy=policy), self.assertRaises(ValueError):
+                m.check_identity([{'id': 1}], policy)
+
+    def test_every_paginated_read_names_its_identity_policy(self):
+        import ast
+        tree = ast.parse((ROOT / 'tools/release_snapshot.py').read_text())
+        expected = {'/pulls?state=open': 'PR_IDENTITY', "f'/pulls/{n}/files'": 'FILENAME_IDENTITY',
+                    "f'/pulls/{n}/reviews'": 'ID_IDENTITY', "f'/issues/{n}/comments'": 'ID_IDENTITY',
+                    "f'/pulls/{n}/comments'": 'ID_IDENTITY', "f'/commits/{sha}/check-runs'": 'ID_IDENTITY',
+                    "f'/actions/runs?head_sha={sha}'": 'ID_IDENTITY', '/rulesets': 'ID_IDENTITY'}
+        seen = {}
+        for node in ast.walk(tree):
+            if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == 'read'):
+                continue
+            kw = {k.arg: k.value for k in node.keywords}
+            if not (isinstance(kw.get('paginated'), ast.Constant) and kw['paginated'].value is True):
+                self.assertNotIn('identity', kw)
+                continue
+            first = node.args[0]
+            label = first.value if isinstance(first, ast.Constant) else ast.get_source_segment(
+                (ROOT / 'tools/release_snapshot.py').read_text(), first)
+            self.assertIn('identity', kw, label)
+            self.assertIsInstance(kw['identity'], ast.Name, label)
+            seen[label] = kw['identity'].id
+        self.assertEqual(seen, expected)
+
+
 if __name__ == '__main__': unittest.main()
