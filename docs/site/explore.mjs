@@ -1,10 +1,10 @@
-import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
+import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
-import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
-import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
-import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=5f6898d632931bfbd8c9cd6c94304a107fae161dea32d62dddd46e30259aa5b6';
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
+import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
+import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
+import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=3b0b4e92b82cae22543996b4252fe6769673362b319a3824200f6c2f84b98d67';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);

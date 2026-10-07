@@ -189,7 +189,7 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name,fragment in (('index','reading-cut-20261007'),('workspace','reading-cut-20261007')):
+        for name,fragment in (('index','reading-cut-20261007'),('workspace','reading-cut-20261007'),('formal','cap-on-torus')):
             self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
         section=self.section()
         self.assertIn('Latest public work',section)
