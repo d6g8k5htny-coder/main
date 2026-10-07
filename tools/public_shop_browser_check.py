@@ -860,9 +860,12 @@ def check_other_teaching_exports(page, origin, expect, result, output):
                 const {captureTeachingDiagram}=await import(module.href);
                 let captureError=null;
                 try{captureTeachingDiagram(n.ownerSVGElement);}catch(error){captureError=String(error);}
+                const reference=document.createElementNS(n.namespaceURI,'rect');
+                reference.setAttribute('height',n.getAttribute('height'));
                 return {attribute:n.getAttribute('height'),
                     computed:getComputedStyle(n).getPropertyValue('height'),
                     reflected:n.height.baseVal.value,used:n.getBBox().height,
+                    parsed:reference.height.baseVal.value,
                     float32:Math.fround(Number(n.getAttribute('height'))),
                     typed:n.computedStyleMap?.().get('height')?.value,
                     captureError};
@@ -877,8 +880,8 @@ def check_other_teaching_exports(page, origin, expect, result, output):
             observation = height_observation(label)
             expect(export).to_be_enabled(); expect(copy).to_be_enabled()
             require(0 < observation['used'] <= 600
-                    and observation['used'] == observation['reflected'] == observation['float32'],
-                    'Native used-height witness does not match the reflected Float32 attribute')
+                    and observation['used'] == observation['reflected'] == observation['parsed'],
+                    'Native used-height witness does not match the independently parsed attribute')
             if key == 'ArrowLeft':
                 require(observation['attribute'] == '11.888639999999995'
                         and observation['computed'] == '11.8886px'
@@ -905,13 +908,13 @@ def check_other_teaching_exports(page, origin, expect, result, output):
         distance.focus(); page.keyboard.press('ArrowLeft')
         expect(distance).to_have_value('0.24')
         native = height_observation('native-before-overrides')
-        for css_height in ['11.88861px', '11.889px', '0px', 'auto']:
+        for css_height in ['11.88861px', '11.88864px', '11.889px', '0px', 'auto']:
             fixture = css_fixture(f'#pin-diagram rect{{height:{css_height}}}')
             try:
                 changed = height_observation('CSS-height-' + css_height)
                 require(changed['attribute'] == native['attribute'] and changed['reflected'] == native['reflected']
                         and changed['used'] != native['used'], 'CSS fixture did not change only the used height')
-                if css_height == '11.88861px':
+                if css_height in ['11.88861px', '11.88864px']:
                     require(changed['computed'] == native['computed'],
                             'Nearby CSS override did not share the native rounded string')
                 native_button(copy)
@@ -930,7 +933,7 @@ def check_other_teaching_exports(page, origin, expect, result, output):
             expect(distance).to_have_value(str(tick / 100))
             expect(export).to_be_enabled(); expect(copy).to_be_enabled()
             observed = height_observation(f'tick-{tick}')
-            require(0 < observed['used'] <= 600 and observed['used'] == observed['reflected'] == observed['float32'],
+            require(0 < observed['used'] <= 600 and observed['used'] == observed['reflected'] == observed['parsed'],
                     'Supported slider tick lost native geometry identity')
     result['steps'].append('BQ-26 native .25/.24/.25 recovery and SVG metadata, same-rounded-string real CSS override refusal, zero/auto refusal, and all 56 ticks in both highlights checked')
 

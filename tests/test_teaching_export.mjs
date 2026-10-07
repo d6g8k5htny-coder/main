@@ -91,25 +91,38 @@ function rectSVG(attributes,geometry) {
 function heightSVG(height='11.888639999999995',displayed='11.8886px') {
   const svg=rectSVG({x:'448',y:'78',width:'113',height,class:'diagram-fill'},
     {x:'448px',y:'78px',width:'113px',height:displayed,rx:'auto',ry:'auto'});
-  const rect=svg.children[2],native=Math.fround(Number(height));
+  // The first tuple is measured Chromium parsing, which differs from JS fround.
+  // Other fixture values remain explicitly simulated, not browser evidence.
+  const parse=value=>value==='11.888639999999995'?11.888639450073242:Math.fround(Number(value));
+  const rect=svg.children[2],native=parse(height);
   rect.height={baseVal:{value:native}};
   rect.getBBox=()=>({x:448,y:78,width:113,height:native});
+  rect.ownerDocument={createElementNS(namespace,tag){
+    assert.equal(namespace,ns);assert.equal(tag,'rect');
+    return {height:{baseVal:{value:0}},setAttribute(key,value){assert.equal(key,'height');this.height.baseVal.value=parse(value);}};
+  }};
   return svg;
 }
 
 test('rounded rectangle height requires a matching native used-height witness',()=>{
   const capture=api('captureTeachingDiagram');
   const svg=heightSVG();
-  assert.equal(svg.children[2].height.baseVal.value,11.888640403747559);
+  assert.equal(svg.children[2].height.baseVal.value,11.888639450073242);
   assert.equal(capture(svg,computedStyle).nodes[2].attributes.height,'11.888639999999995');
   // The original comparison still suffices without any native witness.
   const exact=heightSVG('13.4375','13.4375px');delete exact.children[2].getBBox;
   assert.equal(capture(exact,computedStyle).nodes[2].attributes.height,'13.4375');
 });
 
+test('captured Chromium attribute parsing need not equal JavaScript Float32 conversion',()=>{
+  const svg=heightSVG(),rect=svg.children[2];
+  assert.notEqual(rect.height.baseVal.value,Math.fround(Number(rect.attributes.find(a=>a.name==='height').value)));
+  assert.equal(api('captureTeachingDiagram')(svg,computedStyle).nodes[2].attributes.height,'11.888639999999995');
+});
+
 test('native height equality cannot admit real CSS overrides sharing a rounded string',()=>{
   const capture=api('captureTeachingDiagram');
-  for(const actual of [11.88861,11.88862,11.88865,12,0]) {
+  for(const actual of [11.88861,11.88862,11.88864,11.88865,12,0]) {
     const svg=heightSVG();svg.children[2].getBBox=()=>({height:Math.fround(actual)});
     assert.throws(()=>capture(svg,computedStyle),/geometry|refused/i);
   }
@@ -125,8 +138,16 @@ test('rectangle height witness is finite, bounded and fail-closed',()=>{
     r=>delete r.getBBox,r=>r.getBBox=()=>{throw Error('unavailable');},
     r=>r.getBBox=()=>null,r=>r.getBBox=()=>({}),r=>delete r.height,
     r=>r.height={baseVal:null},r=>Object.defineProperty(r,'height',{get(){throw Error('unavailable');}}),
-    ...[NaN,Infinity,-Infinity,-1,0,601,'11.888640403747559'].flatMap(value=>[
-      r=>r.getBBox=()=>({height:value}),r=>r.height.baseVal.value=value
+    r=>delete r.ownerDocument,r=>r.ownerDocument.createElementNS=()=>{throw Error('unavailable');},
+    r=>delete r.ownerDocument.createElementNS,
+    r=>r.ownerDocument.createElementNS=()=>null,
+    r=>r.ownerDocument.createElementNS=()=>({setAttribute(){throw Error('unavailable');}}),
+    r=>r.ownerDocument.createElementNS=()=>({setAttribute(){}}),
+    r=>r.ownerDocument.createElementNS=()=>({setAttribute(){},get height(){throw Error('unavailable');}}),
+    r=>r.ownerDocument.createElementNS=()=>({setAttribute(){},height:{baseVal:{value:11.88861}}}),
+    ...[NaN,Infinity,-Infinity,-1,0,601,'11.888640403747559',11.888639999999995].flatMap(value=>[
+      r=>r.getBBox=()=>({height:value}),r=>r.height.baseVal.value=value,
+      r=>r.ownerDocument.createElementNS=()=>({setAttribute(){},height:{baseVal:{value}}})
     ])
   ]) {
     const svg=heightSVG();change(svg.children[2]);
@@ -136,7 +157,7 @@ test('rectangle height witness is finite, bounded and fail-closed',()=>{
 
 test('native representation check is bounded to positive rectangle height roundoff',()=>{
   const capture=api('captureTeachingDiagram');
-  for(const [height,displayed] of [['40.12416','40.1242px'],['143.08250000000004','143.083px'],['599.99999','600px']]) {
+  for(const [height,displayed] of [['15.99999','16px'],['16.00001','16px'],['40.12416','40.1242px'],['143.08250000000004','143.083px'],['599.99999','600px']]) {
     assert.equal(capture(heightSVG(height,displayed),computedStyle).nodes[2].attributes.height,height);
   }
   // No broad epsilon increase, arbitrary computed string, or other-axis fallback.
