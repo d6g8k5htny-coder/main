@@ -130,7 +130,7 @@ with mobile-sized viewports, not physical touch-device, all-browser, full
 accessibility or deployed-Pages certification. The original source validation and
 required hosted checks remain separate and unchanged.
 
-Without the runner's `/opt/google/chrome/chrome`, a local pre-check can install `tests/browser-requirements.txt` in a scratch environment. In a disposable worktree, edit `tools/public_shop_browser_check.py` so that both its `executable` path and its launch use a local Playwright Chromium binary (`executable_path=…`, with `chromium_sandbox=False` only if the host requires it). Never commit that edit. Such a run is local evidence only: it is not the CI browser record and does not meet the contract's packaged-Chrome and sandbox conditions.
+Without the runner's `/opt/google/chrome/chrome`, a local pre-check can install `tests/browser-requirements.txt` in a scratch environment. In a disposable worktree, edit `tools/public_shop_browser_check.py` so that both its `executable` path and its launch use a local Playwright Chromium binary (`executable_path=…`, with `chromium_sandbox=False` only if the host requires it). Never commit that edit. Such a run is local evidence only: it is not the CI browser record and does not meet the contract's packaged-Chrome and sandbox conditions. Its `report.json` records `checked_commit` and `tree` from the checkout, not from the modified harness, so when you cite such a run say that the harness was modified and do not present the report as the tool's own output.
 
 ## Run locally
 
