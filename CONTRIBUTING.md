@@ -151,8 +151,9 @@ back regardless of how good the result looks.
 ## Formal verification (Lean 4, Layer 1)
 
 Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) first and
-claim work in the relevant formal pull request and on
-[main #275](https://github.com/d6g8k5htny-coder/main/issues/275);
+claim work in the relevant formal pull request; use
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) to find current
+tasks and link that claim when coordination requires it.
 [#95](https://github.com/d6g8k5htny-coder/main/issues/95) is closed formal-rollout
 history. The
 lane has one contract and two packages: the
