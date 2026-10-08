@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=df7567a6f92c0fbf279dbab93c239f98f12b41fd54a9871147fa37aaab409c55") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=564d949ae88eccee63fee29acedba9df2655018856458aae38f55d575271fd1a") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
@@ -82,6 +82,7 @@ h3, h4 { color: var(--ul-text); }
 }
 .button:hover, button:hover { filter: brightness(1.06); text-decoration: none; }
 .button.secondary { background: transparent; border-color: var(--ul-edge); color: var(--ul-link); }
+.button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; pointer-events: none; }
 button:disabled { filter: none; }
 .boundary { color: var(--ul-text); background: var(--ul-raised); border-left: 3px solid var(--ul-amend); border-radius: 0 6px 6px 0; padding: 13px 18px; line-height: 1.65; }
 .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -102,6 +103,7 @@ input::placeholder { color: var(--ul-muted); opacity: 1; }
 code, pre, dd, .hash, .source-identity { overflow-wrap: anywhere; }
 code { color: inherit; }
 th { color: var(--ul-muted); background: var(--ul-raised); }
+caption { text-align: left; color: var(--ul-muted); font-size: 13px; padding: 8px 12px; }
 td { border-color: var(--ul-border); }
 .table-wrap { border: 1px solid var(--ul-border); border-radius: 6px; }
 .error { color: var(--ul-error); }
@@ -109,6 +111,8 @@ td { border-color: var(--ul-border); }
 footer { padding-top: 32px; }
 /* Existing plots retain a light drawing surface; their data/geometry code is untouched. */
 #coefficient-chart, .geometry-host canvas, .geometry-host svg { background: #ffffff; border-radius: 6px; }
+#coefficient-chart { border: 1px solid var(--ul-border); }
+#coefficient-chart:empty { background: transparent; }
 #coefficient-chart text { fill: #34475c; }
 #coefficient-chart line { stroke: #6a7e96; }
 #coefficient-chart rect[fill="#2b7565"] { fill: #216ca8; }
@@ -139,7 +143,7 @@ footer { padding-top: 32px; }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: 6px; color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
-#formal-coverage:focus, #formal-coverage .table-wrap:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+#formal-coverage:focus, .table-wrap:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 950px) { body > header { align-items: flex-start; } .cards { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
   body > header { padding: 20px; gap: 20px; }
@@ -157,14 +161,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .cards article { padding: 20px; }
   h1 { font-size: 39px; }
   .claim-column + .claim-column { border-color: var(--ul-border); }
+  #inventory table { min-width: 560px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
 @media (forced-colors: active) {
   body, .cards article, .museum-card, .source-header, .boundary, .custody, .explorer { background: Canvas; color: CanvasText; }
   a, .button.secondary { color: LinkText; }
   .button, button { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
+  .button[aria-disabled="true"] { color: GrayText; border-color: GrayText; }
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline-color: Highlight; }
-  #formal-coverage:focus, #formal-coverage .table-wrap:focus-visible { outline-color: Highlight; }
+  #formal-coverage:focus, .table-wrap:focus-visible { outline-color: Highlight; }
   .brand::before { display: none; } .brand { padding-left: 0; }
 }
 @media print {

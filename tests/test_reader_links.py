@@ -38,6 +38,20 @@ class PublicRoutes(unittest.TestCase):
         self.assertIn('href="https://github.com/d6g8k5htny-coder/main/blob/main/STATUS.md"',pointer)
         self.assertIn('side branch <code>chatgpt/drive-github-hardening-20260919</code>, not into main',pointer)
 
+    def test_status_rendered_from_line_matches_payload_bytes(self):
+        page=(SITE/'workspace.html').read_text(); config=json.loads((SITE/'config.json').read_text())
+        line=page.split('id="status-rendered-from"',1)[1].split('</p>',1)[0]
+        payload=(SITE/'status.json').read_bytes(); digest=sha256(payload).hexdigest()
+        self.assertEqual(digest,config['status_json']['sha256']); self.assertEqual(len(payload),config['status_json']['bytes'])
+        for value in (digest,f"{config['status_json']['bytes']:,} bytes",config['status']['commit'],config['status']['sha256'],f"{config['status']['bytes']:,} bytes"):
+            self.assertIn(value,line)
+        # the static proof link names the pinned proof that the script also assigns
+        href=page.split('<a id="proof-link" href="',1)[1].split('"',1)[0]
+        self.assertEqual(href,f"https://github.com/{config['proof']['repository']}/blob/{config['proof']['commit']}/{config['proof']['path']}")
+        for pinned in ('blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md','blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/ENCLOSURE.json','tree/f2e432ea5c86742e480c66624775bc9103343314/docs/public-math'):
+            self.assertIn(pinned,page.split('<noscript>',1)[1] if pinned.startswith('blob/f2e') else page)
+        self.assertEqual(page.count('<noscript>'),3)
+
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
         class ExportControls(HTMLParser):
