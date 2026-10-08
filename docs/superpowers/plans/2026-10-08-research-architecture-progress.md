@@ -1,0 +1,23 @@
+# Research architecture execution evidence
+
+Plan: `2026-10-08-research-architecture-plan.md`. Actual implementer: OpenAI/Codex task `01a11d37`. Scientific effect NONE. The eight requested outcomes remain active; this file records engineering progress without promoting science.
+
+## Task 1
+
+- Tests written: 18 graph exporter test methods, including negative subtests, and five sandbox runtime controls. Exporter implementation was absent during the actual RED run.
+- Draft delivery: [main PR318](https://github.com/d6g8k5htny-coder/main/pull/318), based on main `303a7d6a6ead74d9e1830797be6a910e08c56389`. Remote candidate publication uses supported Git database operations with expected-head guards; a local Git push failed before authentication and was not retried.
+- Initial remote candidate `ebc837f0c7d3b2ee97f4e733926177107f26db1d`: [run37841512108](https://github.com/d6g8k5htny-coder/main/actions/runs/37841512108), job113531761762 failed during preparation. The unprivileged runner could not chmod the root-owned mounted output filesystem. No product tests ran. Preserve this failure as preparation evidence, not RED test evidence.
+- Corrected candidate `711093ea1f8d1adb9ce8767249d2962ca54dbe15`: [run37841652787](https://github.com/d6g8k5htny-coder/main/actions/runs/37841652787), job113532231761 successfully prepared the container, ran controls, disposed it, staged regular files and uploaded original evidence. Each Python mode ran 23 test methods. All five sandbox controls passed; 18 exporter methods failed with 21 assertions including subtests because `tools/proof_graph_export.py` was absent. This is the observed RED.
+- Runtime controls exercised nonroot UID, no-new-privileges and dropped capabilities; source read-only and no publishing secrets; no external network interface/route; CPU/memory/PID cgroup limits; output filesystem quota and cleanup recovery.
+- Source review found unbounded output and uploader symlink hazards before publication. The current workflow uses a bounded 64MiB output filesystem, a separate trusted host publication directory, disposal before collection, fail-closed special-file detection and a fixed output allowlist. Host identities are not container-writable. Fresh review of these corrections is in progress.
+- Fresh review of corrected candidate711093e found that suppressed Docker removal errors could leave a live output writer. The next candidate requires successful Docker daemon queries proving absence of the exact named container both after disposal and immediately before collection; query/removal failures refuse staging. This correction awaits hosted verification.
+- The corrected RED artifact is11577802022, `research-architecture-37841652787-1`, GitHub-reported archive digest `sha256:0ece79d014bb8343e72a2e4ac65a4633cf14c311ec2e06f52d63121a63a0de0c`. Original failure logs remain in that artifact and workflow logs.
+- Further source review found attached Docker console output outside the filesystem quota and CLI child interpreters not inheriting the optimized harness mode. The next candidate disables the Docker log driver, captures the attached console in a trusted directory on the same bounded filesystem, and explicitly propagates/checks child optimization mode. The observed RED second run is optimized harness evidence; it did not exercise an implemented exporter or optimized gate.
+- Exporter implementation is now present: descriptor-anchored no-symlink regular source reads, raw provenance and independent gate pins, byte/hash/blob verification, strict JSON, exact verified-byte gate compilation, unchanged source validator, deterministic conservative dimensions and atomic regular-file output. Hosted GREEN and exact-candidate review are pending.
+- The existing navigation workflow discovers the new exporter tests and also fails at this RED candidate. It will be rechecked at the implemented exact candidate; no existing check is bypassed.
+
+## Integration boundary
+
+The new workflow is an execution lane, not yet a required protection context. Graph export alone does not validate Lean declaration existence or activate any absent kernel/computation/alignment receipt. Required aggregate integration and all later tasks remain unimplemented. No project product code or tests have been executed on the laptop for this work.
+
+Local commits and Git database remote commits have different authorship/timestamps and therefore distinct identities. Remote candidate SHAs above are the hosted evidence authority; local paths are the editable implementation source. Historical dirty checkouts and concurrent owner-directive guidance edits remain preserved.

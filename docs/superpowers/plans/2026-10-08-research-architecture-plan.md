@@ -33,8 +33,8 @@ Files: new tests/test_architecture_graph_export.py, tools/proof_graph_export.py,
 
 Interface: `proof_graph_export.py --source-dir PATH --output DIR [--expected-provenance-sha256 DIGEST]` produces deterministic graph.json with source commit/capture/graph/gate hashes, unchanged keyed nodes/edges, conservative evidence dimensions and scientific_effect NONE. The default expected provenance SHA256 is independently pinned in code; an explicit alternate digest is a trusted caller input. No provenance input can authorize a different executable gate from the independently reviewed gate digest. Nonzero on identity/shape/cycle failure; failed runs do not replace prior valid output.
 
-- [ ] Write stdlib unittest controls against CLI (real pinned snapshot, missing dependency, required/context cycles, source tamper, duplicate keys, symlink, deterministic bytes, absent dimensions, retained prior output).
-- [ ] Run tests before implementation in hosted nonroot/no-network/read-only container; retain expected RED logs.
+- [x] Write stdlib unittest controls against CLI (real pinned snapshot, missing dependency, required/context cycles, source tamper, duplicate keys, symlink, deterministic bytes, absent dimensions, retained prior output).
+- [x] Run tests before implementation in hosted nonroot/no-network/read-only container; retain expected RED logs (run37841652787; see progress record).
 - [ ] Implement byte verification, trusted gate-pin check, strict parse, source gate invocation and atomic output promotion.
 - [ ] Rerun normal and optimized Python controls; export and retain graph artifact from the same container run.
 - [ ] Obtain fresh source/security review, reconcile findings and preserve existing required checks at exact candidate.

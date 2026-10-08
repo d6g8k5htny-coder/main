@@ -54,7 +54,7 @@ def observe(frame, event, arg):
         return
     if Path(frame.f_code.co_filename).resolve() == gate:
         with marker.open('a', encoding='utf-8') as stream:
-            stream.write(json.dumps({'function': frame.f_code.co_name, 'file': str(gate)}) + '\n')
+            stream.write(json.dumps({'function': frame.f_code.co_name, 'file': str(gate), 'optimize': sys.flags.optimize}) + '\n')
 
 sys.setprofile(observe)
 runpy.run_path(tool, run_name='__main__')
@@ -122,11 +122,14 @@ class ArchitectureGraphExportContract(unittest.TestCase):
         arguments = [str(EXPORTER), "--source-dir", str(source), "--output", str(output)]
         if pin_test_source and self.test_provenance_digest is not None:
             arguments.extend(["--expected-provenance-sha256", self.test_provenance_digest])
+        python_flags = ["-B", "-S"]
+        if sys.flags.optimize:
+            python_flags.append("-" + "O" * sys.flags.optimize)
         if trace:
-            command = [sys.executable, "-B", "-c", TRACE_CLI, str(self.marker),
+            command = [sys.executable, *python_flags, "-c", TRACE_CLI, str(self.marker),
                        str(source / "hard_gate.py"), *arguments]
         else:
-            command = [sys.executable, "-B", *arguments]
+            command = [sys.executable, *python_flags, *arguments]
         env = os.environ.copy()
         env.update({
             "PATH": "", "PYTHONDONTWRITEBYTECODE": "1",
@@ -195,6 +198,7 @@ class ArchitectureGraphExportContract(unittest.TestCase):
         validator_calls = [event for event in events if event["function"] == "validate_graph_fail_closed"]
         self.assertTrue(validator_calls, "export must reuse the pinned validate_graph_fail_closed")
         self.assertEqual({event["file"] for event in events}, {str((self.source / "hard_gate.py").resolve())})
+        self.assertEqual({event["optimize"] for event in events}, {sys.flags.optimize})
 
     def test_dimensions_describe_only_explicit_recorded_metadata(self):
         original = self.graph()
