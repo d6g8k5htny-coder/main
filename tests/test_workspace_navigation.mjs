@@ -209,3 +209,11 @@ test('a refused pinned source names the pinned GitHub route beside the refusal',
   const anchor=note.children.find(child=>typeof child!=='string');
   assert.equal(anchor.href,`https://github.com/${originalConfig.imports.repository}/blob/${originalConfig.imports.commit}/${originalConfig.imports.path}`);
 });
+
+test('a fetch that throws is reported as an unreachable pinned source, and other errors pass through',async()=>{
+  const {verifiedBytes}=await import('../docs/site/core.mjs');
+  const pin={...originalConfig.status};
+  await assert.rejects(verifiedBytes(pin,async()=>{throw new TypeError('Failed to fetch');}),error=>error instanceof Error&&error.message==='the pinned source on raw.githubusercontent.com could not be reached (offline, blocked, or the host is unavailable)'&&error.cause instanceof TypeError);
+  await assert.rejects(verifiedBytes(pin,async()=>{throw new RangeError('unrelated');}),error=>error instanceof RangeError&&error.message==='unrelated');
+});
+

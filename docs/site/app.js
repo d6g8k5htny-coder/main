@@ -1,6 +1,6 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=564d949ae88eccee63fee29acedba9df2655018856458aae38f55d575271fd1a';
-import {connectCatalogQuery} from './catalog-query.mjs?site-release=564d949ae88eccee63fee29acedba9df2655018856458aae38f55d575271fd1a';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=564d949ae88eccee63fee29acedba9df2655018856458aae38f55d575271fd1a';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -43,8 +43,11 @@ async function board(config) {
   const labels={accept:'ACCEPT — scoped',amend:'AMEND / open',engineering:'Engineering only'};
   const classes={accept:'ACCEPT-scoped',amend:'AMEND/open',engineering:'engineering-only'};
   for(const section of s.sections) {
-    const card=node('article',undefined,section.key);card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),node('p','Selected source rows; read the scope below.'));
-    sourceHeader(card,'status-count-'+section.key,'engineering-only',s.source);el('counts').append(card);
+    const anchors={accept:'accept--scoped',amend:'amend--open',engineering:'engineering-only'};
+    const card=node('article',undefined,section.key);const scope=node('p',`Selected rows of STATUS.md at main ${s.source.commit.slice(0,7)} (snapshot ${s.snapshot_date}); later revisions are not shown. `);
+    scope.append(link('Read the rows and their scope at that commit ↗',`${base}STATUS.md#${anchors[section.key]}`));
+    card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),scope);
+    sourceHeader(card,'status-count-'+section.key,'engineering-only (this count display, not the rows it counts)',s.source);el('counts').append(card);
     const details=node('details',undefined,'status-group');details.append(node('summary',`${labels[section.key]} · ${section.count}`));
     for(const row of section.rows) {
       const article=node('article',undefined,'status-object');const title=node('h4');cell(title,row[0],base);article.append(title);
