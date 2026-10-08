@@ -822,6 +822,104 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         self.accepted(packet)
         self.assertFalse(canary.exists())
 
+    def test_main_alignment_author_binds_retained_manifest_lineage_without_relabeling(self):
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        author = document(formal["manifest"])["author"]
+        self.update_alignment(formal, lambda review: review.update({
+            "author": {field: " \t" + value.swapcase() + "\t " for field, value in author.items()}}))
+        report, _ = self.accepted(packet)
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+        mutations = ("mismatched_provider", "mismatched_family", "mismatched_agent",
+                     "relabeled_author_real_reviewer", "missing_manifest_author", "invalid_manifest_author",
+                     "missing_manifest_provider", "missing_manifest_family", "missing_manifest_agent",
+                     "invalid_manifest_provider", "invalid_manifest_family", "invalid_manifest_agent")
+        for mutation in mutations:
+            with self.subTest(mutation=mutation):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                original_author = copy.deepcopy(manifest["author"])
+                if mutation.startswith("mismatched_"):
+                    field = mutation.removeprefix("mismatched_")
+                    self.update_alignment(formal, lambda review: review["author"].update(
+                        {field: "TEST-relabeled-" + field}))
+                elif mutation == "relabeled_author_real_reviewer":
+                    self.update_alignment(formal, lambda review: review.update({
+                        "author": {field: "TEST-relabeled-" + field for field in original_author},
+                        "reviewer": original_author}))
+                else:
+                    if mutation == "missing_manifest_author":
+                        del manifest["author"]
+                    elif mutation == "invalid_manifest_author":
+                        manifest["author"] = True
+                    elif mutation.startswith("missing_manifest_"):
+                        del manifest["author"][mutation.removeprefix("missing_manifest_")]
+                    else:
+                        manifest["author"][mutation.removeprefix("invalid_manifest_")] = 0
+                    formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+                    manifest_hash = formal["manifest"]["ref"]["sha256"]
+                    self.update_receipt(formal, lambda receipt: receipt.update({"manifest_sha256": manifest_hash}))
+                    self.update_alignment(formal, lambda review: review.update({"manifest_sha256": manifest_hash}))
+                # Every native/source/log binding stays consistent; only declared authorship is unresolved.
+                report, _ = self.accepted(packet)
+                alignment = report["dimensions"]["TEST.A"]["alignment"]
+                self.assertEqual(alignment["record_state"], "recorded")
+                self.assertIn(alignment["applicability"], {"stale", "unknown"})
+                self.assertTrue(alignment["reasons"], "authorship inconsistency had no derived reason")
+                self.assertEqual(alignment["custody"], "unknown")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
+
+    def test_math_optional_proposer_scopes_preserve_historical_schema_and_every_lineage(self):
+        proposers = [
+            {"provider": "TEST-unscoped-one", "family": "TEST-unscoped-family-one", "agent": "TEST-unscoped-agent-one"},
+            {"provider": "TEST-unscoped-two", "family": "TEST-unscoped-family-two", "agent": "TEST-unscoped-agent-two"},
+        ]
+        for schema in ("historical_single_author", "unscoped_proposers"):
+            with self.subTest(schema=schema):
+                packet = copy.deepcopy(self.packet)
+                formal = self.math_formal(packet)
+                packet["formal_records"] = [formal]
+                if schema == "unscoped_proposers":
+                    self.update_alignment(formal, lambda review: review.update({"proposal_authors": proposers}))
+                report, _ = self.accepted(packet)
+                retained = report["formal_summary"][0]
+                self.assertNotIn("author", retained["retained_manifest"])
+                if schema == "historical_single_author":
+                    self.assertNotIn("proposal_authors", retained["retained_alignment"])
+                else:
+                    self.assertEqual(retained["retained_alignment"]["proposal_authors"], proposers)
+                    for proposer in retained["retained_alignment"]["proposal_authors"]:
+                        self.assertNotIn("targets", proposer)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+        for mutation in ("unscoped_proposer_reviewer_conflict", "nonfirst_normalized_conflict"):
+            with self.subTest(mutation=mutation):
+                packet = copy.deepcopy(self.packet)
+                formal = self.math_formal(packet)
+                packet["formal_records"] = [formal]
+                def alter(review):
+                    review["proposal_authors"] = copy.deepcopy(proposers)
+                    if mutation == "unscoped_proposer_reviewer_conflict":
+                        review["proposal_authors"][0]["agent"] = review["reviewer"]["agent"]
+                    else:
+                        review["reviewer"]["family"] = "TEST Reviewer Family"
+                        review["proposal_authors"][1]["family"] = "  test   reviewer\tFAMILY  "
+                self.update_alignment(formal, alter)
+                report, _ = self.accepted(packet)
+                alignment = report["dimensions"]["TEST.A"]["alignment"]
+                self.assertEqual(alignment["record_state"], "recorded")
+                self.assertIn(alignment["applicability"], {"stale", "unknown"})
+                self.assertIn("lineage_not_distinct", alignment["reasons"])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
+
 
 if __name__ == "__main__":
     unittest.main()
