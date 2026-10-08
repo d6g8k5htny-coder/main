@@ -1694,30 +1694,44 @@ WORD_SPLITS_JS=r"""([selector, ordinary]) => {
   }
   return {words,kinds,splits,spills,details};
 }"""
-# Document width, and every rendered text line box (checkVisibility: not hidden, not inside a closed disclosure) that is cut: past the
-# viewport's left or right edge, or past the padding box of an ancestor that clips without letting the reader scroll (overflow hidden or
-# clip on that axis; paint containment, content-visibility:auto or a clip-path on both axes). Only an overflow auto or scroll ancestor
-# is a reachable region: text inside it is checked up to that ancestor on that axis and no further.
+# Document width, and every rendered text line box (checkVisibility: not hidden, not inside a closed disclosure) that is cut. Walking
+# outward from the line, the subject that must stay visible starts as the line box. An ancestor that clips content (overflow hidden or
+# clip on an axis; paint containment or content-visibility:auto on both) must hold the subject inside its padding box. An ancestor that
+# scrolls on an axis (overflow auto or scroll) makes the text reachable there, so on that axis the subject becomes that ancestor's
+# scrollport, which every ancestor further out, and the viewport, must still hold. An ancestor's clip-path inset() must hold the subject
+# inside the inset rectangle of its border box (rounded corners are not measured); any other clip-path is reported as unmeasured.
 DOCUMENT_WIDTH_JS=r"""() => {
   const root=document.documentElement,width=root.clientWidth,wide=[],cut=[],clips=new Map();
   const name=e=>e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+[...e.classList].map(c=>'.'+c).join('');
   const scrolls=e=>{for(let a=e;a&&a!==root;a=a.parentElement)if(getComputedStyle(a).overflowX!=='visible')return true;return false;};
-  const clipping=a=>{if(!clips.has(a)){const c=getComputedStyle(a),contained=/paint|strict|content/.test(c.contain)||c.contentVisibility==='auto'||c.clipPath!=='none';
-    const axis=o=>o==='auto'||o==='scroll'?'scroll':o==='hidden'||o==='clip'||contained?'clip':null;clips.set(a,{x:axis(c.overflowX),y:axis(c.overflowY),c});}return clips.get(a);};
+  const inset=(c,r)=>{const m=/^inset\((.*?)(?:\s+round\s.*)?\)(?:\s+border-box)?$/.exec(c.clipPath.trim());if(!m)return null;
+    const v=m[1].trim().split(/\s+/),[t,ri,b,l]=[v[0],v[1]??v[0],v[2]??v[0],v[3]??v[1]??v[0]];
+    const len=(x,ref)=>/^-?[\d.]+px$/.test(x)?parseFloat(x):/^-?[\d.]+%$/.test(x)?parseFloat(x)/100*ref:/^0$/.test(x)?0:NaN;
+    const box={left:r.left+len(l,r.width),right:r.right-len(ri,r.width),top:r.top+len(t,r.height),bottom:r.bottom-len(b,r.height)};
+    return Object.values(box).some(Number.isNaN)?null:box;};
+  const clipping=a=>{if(!clips.has(a)){const c=getComputedStyle(a),contained=/paint|strict|content/.test(c.contain)||c.contentVisibility==='auto';
+    const axis=o=>o==='auto'||o==='scroll'?'scroll':o==='hidden'||o==='clip'||contained?'clip':null;
+    clips.set(a,{x:axis(c.overflowX),y:axis(c.overflowY),path:c.clipPath!=='none',c});}return clips.get(a);};
   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let runs=0;
   for(let t=walker.nextNode();t;t=walker.nextNode()){
     if(!t.data.trim()||!t.parentElement||!t.parentElement.checkVisibility({visibilityProperty:true}))continue;
     const range=document.createRange();range.selectNodeContents(t);
     for(const q of range.getClientRects()){
-      if(q.width<=0)continue;runs++;let reachX=false,reachY=false,why=null;
+      if(q.width<=0)continue;runs++;const s={left:q.left,right:q.right,top:q.top,bottom:q.bottom};let why=null;
+      const outX=b=>s.left<b.left-0.5||s.right>b.right+0.5,outY=b=>s.top<b.top-0.5||s.bottom>b.bottom+0.5;
       for(let a=t.parentElement;a&&a!==root&&!why;a=a.parentElement){
-        const k=clipping(a);if(!k.x&&!k.y)continue;
+        const k=clipping(a);if(!k.x&&!k.y&&!k.path)continue;
         const r=a.getBoundingClientRect(),c=k.c,pad={left:r.left+parseFloat(c.borderLeftWidth),right:r.right-parseFloat(c.borderRightWidth),top:r.top+parseFloat(c.borderTopWidth),bottom:r.bottom-parseFloat(c.borderBottomWidth)};
-        if(!reachX&&k.x==='clip'&&(q.left<pad.left-0.5||q.right>pad.right+0.5))why=`clipped by ${name(a)} [${pad.left.toFixed(1)}, ${pad.right.toFixed(1)}]`;
-        if(!why&&!reachY&&k.y==='clip'&&(q.top<pad.top-0.5||q.bottom>pad.bottom+0.5))why=`clipped by ${name(a)} [${pad.top.toFixed(1)}, ${pad.bottom.toFixed(1)}] vertically`;
-        if(k.x==='scroll')reachX=true;if(k.y==='scroll')reachY=true;if(reachX&&reachY)break;
+        if(k.x==='clip'&&outX(pad))why=`clipped by ${name(a)} [${pad.left.toFixed(1)}, ${pad.right.toFixed(1)}]`;
+        else if(k.y==='clip'&&outY(pad))why=`clipped by ${name(a)} [${pad.top.toFixed(1)}, ${pad.bottom.toFixed(1)}] vertically`;
+        if(why)break;
+        if(k.x==='scroll'){s.left=pad.left;s.right=pad.right;}
+        if(k.y==='scroll'){s.top=pad.top;s.bottom=pad.bottom;}
+        if(k.path){const box=inset(c,r);
+          if(!box)why=`under ${name(a)}, whose clip-path ${c.clipPath} is not measured`;
+          else if(outX(box)||outY(box))why=`clipped by the clip-path of ${name(a)} [${box.left.toFixed(1)}, ${box.right.toFixed(1)}] x [${box.top.toFixed(1)}, ${box.bottom.toFixed(1)}]`;}
       }
-      if(!why&&!reachX&&(q.left<-0.5||q.right>width+0.5))why=`past the ${width}px viewport`;
+      if(!why&&(s.left<-0.5||s.right>width+0.5))why=`past the ${width}px viewport`;
       if(why){cut.push(`${name(t.parentElement)} "${t.data.trim().slice(0,48)}" [${q.left.toFixed(1)}, ${q.right.toFixed(1)}] ${why}`);break;}
     }
   }
@@ -1731,7 +1745,7 @@ EVIDENCE_REGION_JS="""() => {const region=document.querySelector('#object-eviden
           tabindex:region.tabIndex,overflowX:getComputedStyle(region).overflowX};}"""
 # The evidence region's focus state and scroll range, its scrollLeft once unchanged over three animation frames, and how far the table's
 # right edge passes the region's inner right edge.
-REGION_FOCUS_JS="""e => {const s=getComputedStyle(e);return {focused:e===document.activeElement,visible:e.matches(':focus-visible'),outline:s.outlineStyle,
+REGION_FOCUS_JS="""e => {const s=getComputedStyle(e);return {focused:e===document.activeElement,focus_visible:e.matches(':focus-visible'),outline:s.outlineStyle,
   width:parseFloat(s.outlineWidth),max:e.scrollWidth-e.clientWidth,left:e.scrollLeft};}"""
 SCROLL_SETTLED_JS="e => new Promise(done => {let last=NaN,same=0,n=0;const step=()=>{const x=e.scrollLeft;same=x===last?same+1:0;last=x;if(same>=3||++n>120)done(x);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
 TABLE_EDGE_JS="e => {const t=e.querySelector('.evidence-table').getBoundingClientRect(),r=e.getBoundingClientRect();return Math.round((t.right-(r.left+e.clientLeft+e.clientWidth))*10)/10;}"
@@ -1745,6 +1759,51 @@ STATUS_HEIGHTS_JS="""() => {const seen=window.__statusHeights={};
   return Object.fromEntries(Object.entries(seen).map(([id,list])=>[id,list[0]]));}"""
 # WCAG 1.4.12 text-spacing override, served same-origin so the pages' style-src 'self' policy admits it.
 TEXT_SPACING_CSS="*,*::before,*::after{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}"
+
+# Focuses the element and checks its ring: computed (focused with :focus-visible; solid 3px at a 4px offset; non-zero alpha and 3:1
+# against the surface behind it; no clipping ancestor cutting it; with a scope, no other text inside the ring box) and painted (focused
+# against blurred screenshots: changed pixels along at least 97% of every side of the ring band and in every outer corner). Leaves the
+# element blurred.
+def check_ring(page, locator, where, scope=None):
+    def settle():
+        locator.evaluate("e => e.scrollIntoView({block:'center',inline:'nearest'})")
+        require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after scrolling into view")
+        locator.focus()
+        return locator.evaluate(FOCUS_RING_JS,scope)
+    state=settle();label=f'{where}: {state["element"]}'
+    require(state["focused"] and state["visible"],f"{label} is not keyboard-focused with :focus-visible: {state}")
+    require((state["style"],state["width"],state["offset"])==("solid","3px","4px"),f'{label} ring is {state["style"]} {state["width"]} at offset {state["offset"]}, not solid 3px at 4px')
+    offset,width=float(state["offset"][:-2]),float(state["width"][:-2]);grow=offset+width+2
+    view=restore=page.viewport_size
+    need=max(q["bottom"] for q in state["rects"])-min(q["top"] for q in state["rects"])+2*grow+16
+    if need>view["height"]:
+        # A target taller than the viewport is screenshotted whole: the viewport grows in height only, for these screenshots, and the
+        # ring box is centred in it (scrollIntoView honours scroll margins, which can push a tall box's ring past the bottom edge).
+        page.set_viewport_size({"width":view["width"],"height":int(need)+48});view=page.viewport_size;state=settle()
+        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
+        if top<0 or bottom>view["height"]:
+            page.evaluate("d => window.scrollBy(0,d)",top-(view["height"]-(bottom-top))/2)
+            require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after centring its ring box");state=locator.evaluate(FOCUS_RING_JS,scope)
+    try:
+        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
+        require(top>=0 and bottom<=view["height"] or need<=restore["height"],f'{label}: its ring box [{top:.1f}, {bottom:.1f}] does not fit the {view["height"]}px viewport')
+        require(state["alpha"]>0 and state["contrast"]>=3,f'{label} ring colour {state["color"]} has {state["contrast"]}:1 against the surface rgb{tuple(state["surface"])} behind it, not 3:1')
+        require(not state["cuts"],f'{label} ring is clipped: {"; ".join(state["cuts"])}')
+        require(not state["hits"],f'{label} ring box crosses other text: {"; ".join(state["hits"][:3])}')
+        left=max(0,int(min(q["left"] for q in state["rects"])-grow));top=max(0,int(min(q["top"] for q in state["rects"])-grow))
+        right=min(view["width"],int(max(q["right"] for q in state["rects"])+grow)+1);bottom=min(view["height"],int(max(q["bottom"] for q in state["rects"])+grow)+1)
+        clip={"x":left,"y":top,"width":right-left,"height":bottom-top}
+        focused=page.screenshot(clip=clip,animations="disabled")
+        locator.evaluate("e => e.blur()")
+        blurred=page.screenshot(clip=clip,animations="disabled")
+    finally:
+        if view!=restore:page.set_viewport_size(restore)
+    painted=page.evaluate(RING_PIXELS_JS,[base64.b64encode(focused).decode(),base64.b64encode(blurred).decode(),[left,top],state["rects"],offset,int(width)])
+    short=[f'{x["side"]} side {x["share"]:.1%}'+(f' (line {x["fragment"]+1})' if len(state["rects"])>1 else '') for x in painted["sides"] if x["share"]<0.97]
+    short+=[f'{x["corner"]} corner {x["changed"]}/{x["of"]} px' for x in painted["corners"] if x["changed"]<x["of"]]
+    require(painted["sides"] and not short,f'{label} ring is not painted whole (changed pixels, focused against blurred): {"; ".join(short) or "no ring band in view"}')
+    state["least_side"]=min(x["share"] for x in painted["sides"])
+    return state
 
 def check_rendered_focus_rings(page, origin, expect, result, output):
     result["rings"]=[]
@@ -1770,31 +1829,7 @@ def check_rendered_focus_rings(page, origin, expect, result, output):
         moved=[f'{x["height"]:.1f}px for "{x["text"][:48]}"' for x in heights[line] if abs(x["height"]-start["height"])>0.5]
         require(not moved,f'museum.html at 1280: #{line} is {start["height"]:.1f}px for its first text and {"; ".join(moved)}')
         result["status_lines"].append({"line":line,"width":1280,"texts":len(heights[line]),"height":round(start["height"],1)})
-    def ring(locator, where, scope=None):
-        locator.evaluate("e => e.scrollIntoView({block:'center',inline:'nearest'})")
-        require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after scrolling into view")
-        locator.focus()
-        state=locator.evaluate(FOCUS_RING_JS,scope)
-        label=f'{where}: {state["element"]}'
-        require(state["focused"] and state["visible"],f"{label} is not keyboard-focused with :focus-visible: {state}")
-        require((state["style"],state["width"],state["offset"])==("solid","3px","4px"),f'{label} ring is {state["style"]} {state["width"]} at offset {state["offset"]}, not solid 3px at 4px')
-        require(state["alpha"]>0 and state["contrast"]>=3,f'{label} ring colour {state["color"]} has {state["contrast"]}:1 against the surface rgb{tuple(state["surface"])} behind it, not 3:1')
-        require(not state["cuts"],f'{label} ring is clipped: {"; ".join(state["cuts"])}')
-        require(not state["hits"],f'{label} ring box crosses other text: {"; ".join(state["hits"][:3])}')
-        offset,width=float(state["offset"][:-2]),float(state["width"][:-2]);grow=offset+width+2
-        view=page.viewport_size
-        left=max(0,int(min(q["left"] for q in state["rects"])-grow));top=max(0,int(min(q["top"] for q in state["rects"])-grow))
-        right=min(view["width"],int(max(q["right"] for q in state["rects"])+grow)+1);bottom=min(view["height"],int(max(q["bottom"] for q in state["rects"])+grow)+1)
-        clip={"x":left,"y":top,"width":right-left,"height":bottom-top}
-        focused=page.screenshot(clip=clip,animations="disabled")
-        locator.evaluate("e => e.blur()")
-        blurred=page.screenshot(clip=clip,animations="disabled")
-        painted=page.evaluate(RING_PIXELS_JS,[base64.b64encode(focused).decode(),base64.b64encode(blurred).decode(),[left,top],state["rects"],offset,int(width)])
-        short=[f'{x["side"]} side {x["share"]:.1%}'+(f' (line {x["fragment"]+1})' if len(state["rects"])>1 else '') for x in painted["sides"] if x["share"]<0.97]
-        short+=[f'{x["corner"]} corner {x["changed"]}/{x["of"]} px' for x in painted["corners"] if x["changed"]<x["of"]]
-        require(painted["sides"] and not short,f'{label} ring is not painted whole (changed pixels, focused against blurred): {"; ".join(short) or "no ring band in view"}')
-        state["least_side"]=min(x["share"] for x in painted["sides"])
-        return state
+    ring=lambda locator,where,scope=None:check_ring(page,locator,where,scope)
     route=page.locator("#conditional-route")
     expect(route.locator("summary")).to_have_count(6,timeout=45000)
     # Rings are checked in both colour schemes: the card surface, the ring colour and any scheme-scoped rule differ between them.
@@ -1864,15 +1899,18 @@ def check_rendered_text_layout(page, origin, expect, result, output):
         require(width["runs"]>0 and not width["cut"],f'{where}: {width["cuts"]} text line(s) cut where the reader cannot scroll to them: {width["cut"]}')
         return width
     def keyboard_scroll(where):
-        # A wider table is allowed only if a keyboard reader can use its region: Tab reaches it from the previous stop with a visible
-        # ring, arrow keys scroll it to the table's far edge and back without moving focus, and Tab moves on (WCAG 2.1.1, 2.1.2, 2.4.7).
+        # A wider table is allowed only if a keyboard reader can use its region: Tab reaches it from the previous stop, its ring is drawn
+        # (check_ring), arrow keys scroll it to the table's far edge and back without moving focus, and Tab moves on (WCAG 2.1.1, 2.1.2,
+        # 2.4.7).
         region=page.locator("#object-evidence .evidence-scroll")
         region.focus();page.keyboard.press("Shift+Tab")
         require(not region.evaluate("e => e===document.activeElement"),f"{where}: Shift+Tab does not move focus off the .evidence-scroll region")
         page.keyboard.press("Tab")
         state=region.evaluate(REGION_FOCUS_JS)
-        require(state["focused"] and state["visible"] and state["outline"]!="none" and state["width"]>0,
-                f"{where}: Tab from the previous stop does not give the .evidence-scroll region a visible focus ring: {state}")
+        require(state["focused"] and state["focus_visible"],f"{where}: Tab from the previous stop does not focus the .evidence-scroll region with :focus-visible: {state}")
+        # Its ring must be seen, not only matched: the same computed and painted checks as every other ring.
+        drawn=check_ring(page,region,f"{where}, .evidence-scroll region")
+        region.focus()
         def press_until(key,done):
             for presses in range(21):
                 if done(region.evaluate(SCROLL_SETTLED_JS)):return presses
@@ -1886,7 +1924,7 @@ def check_rendered_text_layout(page, origin, expect, result, output):
         require(region.evaluate("e => e===document.activeElement"),f"{where}: arrow keys moved focus off the .evidence-scroll region")
         page.keyboard.press("Tab")
         require(not region.evaluate("e => e===document.activeElement"),f"{where}: Tab does not move focus on from the .evidence-scroll region")
-        return {"range":state["max"],"right_presses":right,"left_presses":left}
+        return {"range":state["max"],"right_presses":right,"left_presses":left,"ring_contrast":drawn["contrast"],"ring_least_painted_side":drawn["least_side"]}
     nodes=["hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip","hist.allcell_fdz_enclosures.json","math.side24-coefficient",
            "math.d5-component.punctured-pin-proof","hist.CH-LIFT"]
     for width in [320,390]:
@@ -1903,8 +1941,10 @@ def check_rendered_text_layout(page, origin, expect, result, output):
                 require(not words["spills"],f'{where}: Lane/Record state words outside their cells: {words["spills"]}')
                 region=page.evaluate(EVIDENCE_REGION_JS)
                 fits=region["table"]<=region["client"]+0.5 and region["scroll"]<=region["client"]
-                # WCAG 1.4.10 exempts data tables from reflow. Under the override the table may outgrow its region only if the region
-                # scrolls sideways to the table's full width and takes keyboard focus; at default spacing it must fit.
+                # WCAG 1.4.10 lets a data table's two-dimensional layout scroll, but not the text of its cells or the content around it, and
+                # 1.4.12 still requires no loss of content or function: the cut-text, whole-word and page-width checks above still hold. Under
+                # the override the table may outgrow its region only if the region scrolls to the table's full width and a keyboard reader
+                # can use it (keyboard_scroll); at default spacing it must fit.
                 scrolls=region["tabindex"]==0 and region["overflowX"] in ("auto","scroll") and region["scroll"]>=region["table"]-0.5
                 require(fits or (spacing=="text-spacing override" and scrolls),
                         f'{where}: the evidence table is {region["table"]}px wide (content {region["scroll"]}px) in its {region["client"]}px .evidence-scroll region '

@@ -136,34 +136,42 @@ Two rendered-layout cases read what Chromium drew rather than the stylesheets.
 Focus rings are checked by painted pixels; everything else by computed styles
 and laid-out boxes. On the museum page, `#museum-state` and
 `#conditional-route-status` each keep one height at 1280 px from their first
-text (verification held at the manifest request) to their last. At 1280, 390
-and 320 px, in the light and the dark scheme, each conditional-route summary
-and link, and the exhibit figure of each of the four views, is focused and
-screenshotted, then blurred and screenshotted again: in the ring band, 4 to 7
-px outside the element (outside each line of a link that wraps), changed pixels
-must run along at least 97% of every side and fill every outer corner. Its
-computed ring must also be solid 3px at a 4px offset, in a colour with non-zero
-alpha and at least 3:1 against the background composited behind it, with no
-ancestor whose overflow is not visible cutting the ring box. No summary's ring
-box may cross any other text line in the card, above or below it, and at 390 px
-an opened quote has no inline margin. The optional Three.js request is refused,
-so every runner checks EC-014's 2D figure; the 3D canvas's own ring is not
-checked. On Dependencies, five nodes with long ids, paths or file names, at 320
-and 390 px with and without a WCAG 1.4.12 text-spacing override, keep the page
-within the viewport. No text line may pass the viewport or the padding box of an
-ancestor that clips without letting the reader scroll (overflow hidden or clip,
-paint containment, content-visibility auto, clip-path); only an overflow auto or
-scroll region counts as reachable. Every Lane and Record state word stays on one
-line inside its cell, and the evidence table fits its scroll region. Under the
-override the table may be wider only if that region scrolls to its full width
-and a keyboard reader can use it: Tab reaches it from the previous stop with a
-visible ring, arrow keys scroll it to the table's far edge and back, and Tab
-moves on. WCAG 1.4.10 exempts data tables from reflow. At 390 px with default
-spacing, on those nodes whose Source detail has no unlinked JSON metadata, no
-ordinary Source detail word (not a JSON fragment, path, id or hash, outside
-links and code) is split, except right after the word's own hyphen or slash:
-where that break falls depends on the font. The index stays within 320 px under
-the override. A failure names the element, the side or the word.
+text (verification held at the manifest request) to their last. At 1280, 390 and
+320 px, in the light and the dark scheme, each conditional-route summary and
+link, and the exhibit figure of each of the four views, is focused and
+screenshotted, then blurred and screenshotted again: in the ring band, 4 to 7 px
+outside the element (outside each line of a link that wraps), changed pixels
+must run along at least 97% of every side and fill every outer corner (for a
+target taller than the viewport, the viewport grows in height for these
+screenshots). Its computed ring must also be solid 3px at a 4px offset, in a
+colour with non-zero alpha and at least 3:1 against the background composited
+behind it, with no ancestor whose overflow is not visible cutting the ring box.
+No summary's ring box may cross any other text line in the card, above or below
+it, and at 390 px an opened quote has no inline margin. The optional Three.js
+request is refused, so every runner checks EC-014's 2D figure; the 3D canvas's
+own ring is not checked. On Dependencies, five nodes with long ids, paths or
+file names, at 320 and 390 px with and without a WCAG 1.4.12 text-spacing
+override, keep the page within the viewport. No text line may be cut. Walking
+outward from it, an ancestor that clips (overflow hidden or clip, paint
+containment, content-visibility auto) must hold it inside its padding box, and
+an ancestor's clip-path inset() inside that inset rectangle; any other clip-path
+is reported as unmeasured. An overflow auto or scroll region makes its text
+reachable on that axis, and from there the region's own scrollport must be held
+by every ancestor further out and by the viewport. Every Lane and Record state
+word stays on one line inside its cell, and the evidence table fits its scroll
+region. Under the override the table may be wider only if that region scrolls to
+its full width and a keyboard reader can use it: Tab reaches it from the
+previous stop, its ring passes the same painted, contrast and clipping checks as
+the others, arrow keys scroll it to the table's far edge and back, and Tab moves
+on. WCAG 1.4.10 lets a data table's two-dimensional layout scroll; it does not
+exempt the text of its cells or the content around it, and 1.4.12 still requires
+no loss of content or function, so every other check here still applies to the
+table. At 390 px with default spacing, on those nodes whose Source detail has no
+unlinked JSON metadata, no ordinary Source detail word (not a JSON fragment,
+path, id or hash, outside links and code) is split, except right after the
+word's own hyphen or slash: where that break falls depends on the font. The
+index stays within 320 px under the override. A failure names the element, the
+side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
