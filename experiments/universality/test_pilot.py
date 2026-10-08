@@ -389,6 +389,63 @@ class PilotTests(unittest.TestCase):
                     self.assertEqual(self.pilot.main(['--verify', str(observations)]), 2)
                 self.assertEqual(observations.read_bytes(), original)
 
+    def test_environment_fields_reject_non_scalar_empty_or_noncanonical_strings(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        invalid = [None, {}, {'claims': 'CONFIRMED'}, True, False, 0, 1, 1.0,
+                   [], ['Linux'], '', ' ', ' Linux', 'Linux ', '\n',
+                   'Lin\nux', 'Lin\tux', 'Lin\x00ux', 'Lin\x7fux',
+                   'Lin\u0085ux', 'Lin\u200bux']
+        for field in ('python', 'implementation', 'machine', 'system'):
+            for value in invalid:
+                with self.subTest(field=field, value=value):
+                    changed = copy.deepcopy(document)
+                    changed['environment'][field] = value
+                    with self.assertRaises(ValueError):
+                        self.pilot.verify_observations(changed)
+
+    def test_python_environment_version_requires_portable_canonical_format(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        malformed = ['3', '3.12', '3.12.1.0', '3.12.x', 'v3.12.1', '03.12.1',
+                     '3.012.1', '3.12.01', '3.13.0RC1', '3.13.0rc', '3.13.0rc01',
+                     '3.13.0++', '3.13.0+local', '3.13.0.dev1', '3.13.0-final',
+                     '\u0663.12.1']
+        for version in malformed:
+            with self.subTest(version=version):
+                changed = copy.deepcopy(document)
+                changed['environment']['python'] = version
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+
+    def test_environment_accepts_actual_runtime_and_portable_release_declarations(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        self.assertTrue(self.pilot.verify_observations(document))
+        declarations = [('2.7.18', 'Jython', 'i686', 'Java'),
+                        ('3.9.6', 'CPython', 'x86_64', 'Darwin'),
+                        ('3.12.10', 'PyPy', 'aarch64', 'Linux'),
+                        ('3.13.0a0', 'CPython', 'AMD64', 'Windows'),
+                        ('3.13.0b1', 'CPython', 'arm64', 'Darwin'),
+                        ('3.13.0rc2', 'CPython', 'ppc64le', 'FreeBSD'),
+                        ('3.14.0a7+', 'CPython', 'Power Macintosh', 'Darwin'),
+                        ('3.13.1+', 'IronPython', 'AMD64', 'Windows CE')]
+        for values in declarations:
+            with self.subTest(environment=values):
+                changed = copy.deepcopy(document)
+                changed['environment'].update(zip(('python', 'implementation', 'machine', 'system'), values))
+                self.assertTrue(self.pilot.verify_observations(changed))
+
+    def test_cli_rejects_malformed_environment_without_modifying_retained_bytes(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        document['environment']['system'] = {'claims': 'CONFIRMED'}
+        with tempfile.TemporaryDirectory() as scratch:
+            observations = Path(scratch)/'observations.json'
+            original = json.dumps(document).encode('utf-8')
+            observations.write_bytes(original)
+            with contextlib.redirect_stdout(io.StringIO()) as stdout, \
+                    contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(self.pilot.main(['--verify', str(observations)]), 2)
+            self.assertNotIn('VERIFICATION_PASS', stdout.getvalue())
+            self.assertEqual(observations.read_bytes(), original)
+
     def test_cli_retains_invalid_returned_barcode_before_final_audit_rejection(self):
         with tempfile.TemporaryDirectory() as scratch:
             output = Path(scratch)/'invalid-returned-barcode'

@@ -13,6 +13,7 @@ import json
 import math
 from pathlib import Path
 import platform
+import re
 import sys
 
 if __package__ in (None, ''):
@@ -204,6 +205,23 @@ def _require_keys(record, keys, scope):
                    'Unexpected retained '+scope+' schema')
 
 
+def _validate_environment_declarations(environment):
+    """Validate portable declaration formats without authenticating the host.
+
+    Python's major.minor.micro token may include a lowercase a/b/rc prerelease
+    and a trailing '+' development marker. Other platform names remain open.
+    """
+    for field in ('python', 'implementation', 'machine', 'system'):
+        value = environment[field]
+        models.require(type(value) is str and bool(value)
+                       and value == value.strip() and value.isprintable(),
+                       'Environment '+field+' requires a canonical nonempty scalar string')
+    number = r'(?:0|[1-9][0-9]*)'
+    version = number+r'\.'+number+r'\.'+number+r'(?:(?:a|b|rc)'+number+r')?\+?'
+    models.require(re.fullmatch(version, environment['python']) is not None,
+                   'Environment python requires a canonical major.minor.micro version')
+
+
 def _replay_float_samples(row, n):
     encoded = row['float_samples_hex']
     models.require(type(encoded) is list and len(encoded) == n*n
@@ -273,6 +291,7 @@ def verify_observations(output):
     environment = output['environment']
     _require_keys(environment, {'python', 'implementation', 'machine', 'system',
                                 'sampler_mode', 'sampler'}, 'environment')
+    _validate_environment_declarations(environment)
     sampler_mode = environment.get('sampler_mode')
     models.require(sampler_mode in SAMPLER_DESCRIPTIONS
                    and environment.get('sampler') == SAMPLER_DESCRIPTIONS[sampler_mode],

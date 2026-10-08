@@ -48,6 +48,8 @@ def verify_published_artifact(directory):
         _require_keys(row, {'model_id', 'model_sha256', 'replicate', 'seed', 'float_samples_hex',
                             'quantized_samples', 'barcode', 'counts', 'connectivity_verified',
                             'failure'}, 'field row')
+    models.require(observations['environment']['sampler_mode'] == 'declared_float_sampler',
+                   'Injected arithmetic/test sampler records cannot pass the publication gate')
     failed = sum(row['failure'] is not None for row in observations['rows'])
     models.require(failed == 0, 'Retained field failures prevent a successful published artifact check')
     validation = _read_record((directory/'validation.json').read_bytes())

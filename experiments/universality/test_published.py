@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from experiments.universality import run_pilot
 
@@ -79,11 +80,25 @@ class PublishedTests(unittest.TestCase):
     def test_consistent_retained_field_failures_cannot_pass_publication_check(self):
         def fail(*args, **kwargs):
             raise ArithmeticError('deliberate failure')
-        record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1, sampler=fail)
+        # Deliberately fault the default path so this tests failure refusal
+        # separately from the injected-sampler publication prohibition.
+        with patch.object(run_pilot.models, 'sample_grid', side_effect=fail):
+            record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
         self.assertTrue(run_pilot.verify_observations(record))
         validation = self.save(record)
         validation['exit_code'] = 0
         self.save_validation(validation)
+        with self.assertRaises(ValueError):
+            self.verifier.verify_published_artifact(self.directory)
+
+    def test_successful_injected_arithmetic_sampler_cannot_pass_publication_check(self):
+        def constant(model, seed, *, n, **kwargs):
+            return [0.0]*(n*n)
+        record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1, sampler=constant)
+        self.assertTrue(run_pilot.verify_observations(record))
+        self.assertTrue(all(row['failure'] is None for row in record['rows']))
+        self.assertEqual(record['environment']['sampler_mode'], 'injected_uncertified_sampler')
+        self.save(record)
         with self.assertRaises(ValueError):
             self.verifier.verify_published_artifact(self.directory)
 

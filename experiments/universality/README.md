@@ -47,6 +47,11 @@ quantization and barcodes replay, while a failed connectivity attempt remains
 unverified. A later bin-count failure requires the already completed independent
 connectivity check. Corrupt raw failures remain saved with final FAIL/exit2.
 The audit does not authenticate recorded exceptions or their causal history.
+Publication requires the declared sampler mode and refuses even successful
+records labelled as injected arithmetic/test inputs. Execution-environment
+declarations require nonempty canonical printable strings and a canonical Python
+version format. These validate declarations; they do not authenticate the host,
+runtime, sampler implementation or supplied grids.
 
 The rational mechanism controls are ready independently:
 

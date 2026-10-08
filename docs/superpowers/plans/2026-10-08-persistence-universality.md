@@ -98,5 +98,10 @@ intermediates. Complete strict catalog metadata and stage-specific replay now
 close those gaps, together with raw observation schemas and canonical floats.
 58 tests passed normal/O; the default was regenerated twice with equal bytes
 and unchanged field/law data. Successor review and actual-head CI precede merge.
+The next automatic review found injected-input publication and malformed runtime
+declarations. Publication now requires declared sampler mode and raw provenance
+requires canonical text/version formats, with authenticity still unproved.
+63 controls passed normal/O under system3.9 and bundled3.12; the default replay
+is byte-identical with unchanged field/law data. Latest review/CI precede merge.
 The latest published-head review and hosted checks still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.
