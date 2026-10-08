@@ -68,7 +68,7 @@ The full-range successor removes the probability ceiling, not the demand or real
 
 ## Open work
 
-> **As of 7 October 2026:** the discussions linked in this table (#63, #65, #67, #74, #76), the downstream-first queue #86 and formal work item #95 are closed. Closing a discussion does not resolve its obligation; the rows below keep the September task descriptions. Current tasks and claims are on [main #275](https://github.com/d6g8k5htny-coder/main/issues/275); general coordination is on [main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
+> **As of 7 October 2026:** the discussions linked in this table (#63, #65, #67, #74, #76), the downstream-first queue #86 and formal work item #95 are closed. Closing a discussion does not resolve its obligation; the rows below keep the September task descriptions. Current tasks and claims are on [main #275](https://github.com/d6g8k5htny-coder/main/issues/275); new general coordination goes to the [active board #307](https://github.com/d6g8k5htny-coder/main/issues/307), with the [historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880) retained.
 
 | Front | Concrete task | Discussion |
 |---|---|---|
