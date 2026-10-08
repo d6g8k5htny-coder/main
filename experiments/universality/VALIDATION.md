@@ -38,7 +38,7 @@ python3 -B -S experiments/universality/verify_published.py experiments/universal
 
 ## Tests and repository boundary
 
-The current suite passed47 tests in normal and optimized Python. The initial
+The current suite passed48 tests in normal and optimized Python. The initial
 proposal passed26 at head887c9b82 before its automatic review found two further
 defects; those earlier passes are not silently rebound to the repair. The
 existing exact-H0 suite passed 9 tests. Test-first missing-feature failures and
@@ -146,6 +146,15 @@ record/source/custody consistency, not generator authenticity. All47 tests passe
 in normal and optimized Python. Root regenerated the frozen default twice with
 identical bytes and unchanged100 field rows/50 definitions. The spectrum repair
 owner also freshly reran the429-test existing repository suite, with one skip.
+
+The fresh nonauthor successor then identified unsupported scientific-status
+labels surviving the new publication checker in otherwise valid observations.
+The receipt and scope still denied scientific authority, but the unknown metadata
+was accepted. Four red cases reproduced that gap. The checker now requires exact
+key sets for the observation, environment, configuration and each field-row
+mapping. All48 tests passed in normal and optimized Python, and the actual
+committed artifact passed the amended checker. Generator and artifact digests
+are unchanged; this change affects only publication validation and its tests.
 
 All eight distinct hosted checks passed at initial head887c9b82. The pilot,
 verification and upload steps succeeded in [run37826590507](https://github.com/d6g8k5htny-coder/main/actions/runs/37826590507).

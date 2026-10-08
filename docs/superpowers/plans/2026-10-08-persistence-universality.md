@@ -90,5 +90,8 @@ and failed-row CLI promotion defects. Their repairs enforce full spectrum
 definitions, verify the committed observation/validation pair in CI and return
 nonzero for retained failures.47 tests passed in both modes; the frozen default
 was regenerated twice with identical bytes and unchanged field/law data.
+The fresh successor found unsupported observation labels accepted by the new
+publication check; strict record mapping schemas repaired four red cases and
+48 tests passed in both modes, with unchanged generator/artifact identities.
 The latest published-head review and hosted checks still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.

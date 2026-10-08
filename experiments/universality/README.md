@@ -37,6 +37,8 @@ computation failures and returns a failing status if any planned field failed.
 CI also checks the committed observation bytes against their sibling validation
 receipt and current source, using `verify_published.py`. This refuses stale source
 hashes, digest mismatches, false validation records and retained field failures.
+Undeclared fields in the observation/environment/configuration/row mappings
+are refused, including unsupported scientific-status labels.
 It does not authenticate supplied grids as generator outputs.
 
 The rational mechanism controls are ready independently:

@@ -94,6 +94,17 @@ class PublishedTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.verifier.verify_published_artifact(self.directory)
 
+    def test_undeclared_authority_metadata_refused_at_each_open_record_mapping(self):
+        for location in ('top', 'environment', 'config', 'row'):
+            with self.subTest(location=location):
+                record = copy.deepcopy(self.record)
+                target = record if location == 'top' else (record['rows'][0] if location == 'row'
+                                                          else record[location])
+                target['scientific_status'] = 'CONFIRMED'
+                self.save(record)
+                with self.assertRaises(ValueError):
+                    self.verifier.verify_published_artifact(self.directory)
+
 
 if __name__ == '__main__':
     unittest.main()

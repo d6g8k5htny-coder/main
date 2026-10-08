@@ -25,12 +25,29 @@ def _read_record(payload):
                       parse_constant=_reject_constant)
 
 
+def _require_keys(record, keys, scope):
+    models.require(type(record) is dict and set(record) == keys,
+                   'Unexpected published '+scope+' schema')
+
+
 def verify_published_artifact(directory):
     directory = Path(directory)
     payload = (directory/'observations.json').read_bytes()
     observations = _read_record(payload)
+    _require_keys(observations, {'schema_version', 'purpose', 'scientific_status_authority',
+                                'source_sha256', 'catalog_sha256', 'environment', 'config',
+                                'model_definitions', 'rows', 'summaries', 'scopes'}, 'observation')
     models.require(run_pilot.verify_observations(observations) is True,
                    'Retained record verification did not return True')
+    _require_keys(observations['environment'], {'python', 'implementation', 'machine', 'system',
+                                               'sampler_mode', 'sampler'}, 'environment')
+    _require_keys(observations['config'], {'dimension', 'side', 'grid', 'cutoff', 'fields_per_model',
+                                          'quantization_scale', 'seed_namespace', 'bin_edges',
+                                          'bin_convention', 'quantization'}, 'configuration')
+    for row in observations['rows']:
+        _require_keys(row, {'model_id', 'model_sha256', 'replicate', 'seed', 'float_samples_hex',
+                            'quantized_samples', 'barcode', 'counts', 'connectivity_verified',
+                            'failure'}, 'field row')
     failed = sum(row['failure'] is not None for row in observations['rows'])
     models.require(failed == 0, 'Retained field failures prevent a successful published artifact check')
     validation = _read_record((directory/'validation.json').read_bytes())
