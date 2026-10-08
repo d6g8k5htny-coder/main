@@ -123,13 +123,31 @@ class PublicRoutes(unittest.TestCase):
             self.assertNotIn("'unsafe-inline'",text)
             self.assertNotIn("'unsafe-eval'",text)
 
-    def test_custom_not_found_page_is_static_and_routes_into_the_site(self):
-        # GitHub Pages serves docs/404.html for any missing path under /main/; it must stay script-free, keep the CSP and reach only real pages.
-        text=(ROOT/'docs/404.html').read_text(); page=Page(text)
-        self.assertIn('<meta http-equiv="Content-Security-Policy"',text)
-        self.assertNotIn('<script',text)
-        pages={path.name:Page(path.read_text()) for path in SITE.glob('*.html')}
-        prefixed=0
+    # The site's own policy for pages that fetch nothing remote, copied verbatim into docs/404.html.
+    NOT_FOUND_CSP=("default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; "
+                   "img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'")
+
+    def assert_static_not_found_page(self, text):
+        """docs/404.html stays script-free under exactly the site's CSP and reaches every site page.
+
+        Elements and attributes are parsed, not substring-matched: HTMLParser lowercases tag and attribute names,
+        so <SCRIPT> or <ScRiPt> is a script element here, as it is in a browser."""
+        class Static(HTMLParser):
+            def __init__(self):
+                super().__init__(); self.tags=[]; self.policies=[]; self.handlers=[]; self.urls=[]
+            def handle_starttag(self, tag, attrs):
+                a={name:(value or '') for name,value in attrs}
+                self.tags.append(tag)
+                if tag=='meta' and a.get('http-equiv','').lower()=='content-security-policy': self.policies.append(a.get('content',''))
+                self.handlers+=[name for name in a if name.startswith('on')]
+                self.urls+=[a[name] for name in ('href','src','action','formaction') if name in a]
+        static=Static(); static.feed(text); static.close()
+        self.assertNotIn('script',static.tags)
+        self.assertEqual(static.handlers,[])
+        self.assertEqual([u for u in static.urls if u.strip().lower().startswith('javascript:')],[])
+        self.assertEqual(static.policies,[self.NOT_FOUND_CSP])  # exactly one policy: never removed, emptied, weakened or doubled
+        page=Page(text); pages={path.name:Page(path.read_text()) for path in SITE.glob('*.html')}
+        reached=set()
         for link in page.links:
             u=urlsplit(link)
             self.assertNotIn('site-release',u.query,link)  # the release key belongs only to docs/site files
@@ -138,9 +156,39 @@ class PublicRoutes(unittest.TestCase):
                 self.assertIn(u.fragment,page.ids,link); continue
             self.assertTrue(u.path.startswith('/main/site/'),link)
             target=SITE/u.path[len('/main/site/'):]
-            self.assertTrue(target.is_file(),link); prefixed+=1
+            self.assertTrue(target.is_file(),link)
             if u.fragment: self.assertIn(u.fragment,pages[target.name].ids,link)
-        self.assertGreaterEqual(prefixed,16)
+            if target.suffix=='.html': reached.add(target.name)
+        self.assertEqual(reached,set(pages))  # every page of the site is a destination, not just some links that resolve
+
+    def test_custom_not_found_page_is_static_and_routes_into_the_site(self):
+        # GitHub Pages serves docs/404.html for any missing path under /main/; it must stay script-free, keep the CSP and reach every real page.
+        self.assertIn(f'content="{self.NOT_FOUND_CSP}"',(SITE/'index.html').read_text())  # the 404 copies the site's own policy
+        self.assert_static_not_found_page((ROOT/'docs/404.html').read_text())
+
+    def test_custom_not_found_guard_rejects_weakened_copies(self):
+        # Negative controls: each copy breaks exactly one promise of the 404 page and must be refused.
+        text=(ROOT/'docs/404.html').read_text()
+        meta=f'<meta http-equiv="Content-Security-Policy" content="{self.NOT_FOUND_CSP}">'
+        mutants={
+            'CSP content emptied': (meta,'<meta http-equiv="Content-Security-Policy" content="">'),
+            'CSP weakened': ("script-src 'self';","script-src 'self' 'unsafe-inline';"),
+            'CSP removed': (meta,''),
+            'CSP doubled': (meta,meta+'<meta http-equiv="content-security-policy" content="default-src *">'),
+            'uppercase script element': ('</main>','<SCRIPT SRC="/main/site/app.js"></SCRIPT></main>'),
+            'lowercase script element': ('</main>','<script src="/main/site/app.js"></script></main>'),
+            'mixed-case inline script': ('</main>','<ScRiPt>document.title="x"</ScRiPt></main>'),
+            'inline event handler': ('<body>','<body onload="document.title=1">'),
+            'javascript: URL': ('</main>','<a href="javascript:void(0)">x</a></main>'),
+            'one page dropped': (' · <a href="/main/site/measure.html">From counts to density</a>',''),
+            'missing page': ('/main/site/measure.html','/main/site/no-such-page.html'),
+            'missing fragment': ('#coefficient"','#no-such-fragment"'),
+            'release key added': ('/main/site/brand.css"','/main/site/brand.css?site-release=0"'),
+        }
+        for name,(old,new) in mutants.items():
+            with self.subTest(name):
+                self.assertEqual(text.count(old),1,name)
+                with self.assertRaises(AssertionError): self.assert_static_not_found_page(text.replace(old,new))
 
     def test_research_page_routes_to_bounded_reader_tools(self):
         text=(SITE/'research.html').read_text()
