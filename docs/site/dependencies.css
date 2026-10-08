@@ -67,7 +67,7 @@
 .evidence-table th:nth-child(1) { width:20%; }
 .evidence-table th:nth-child(2) { width:22%; }
 .dependency-page select:focus-visible, .object-panel summary:focus-visible { outline:3px solid var(--ul-focus);outline-offset:4px; }
-@media print { .object-actions, .filter-controls, #dependency-search { display: none; } .node-button, .target-list button, .relation-list button, .metadata-grid button { display: inline-block; } } /* brand.css hides buttons and search fields in print, but #dependency-search sets display by id; the node and relation names on buttons here are the evidence */
+@media print { .object-actions, .filter-controls, #dependency-search:placeholder-shown { display: none; } .node-button, .target-list button, .relation-list button, .metadata-grid button { display: inline-block; } } /* brand.css hides buttons and empty search fields in print, but #dependency-search sets display by id; a filled search prints its query above the results it produced; the node and relation names on buttons here are the evidence */
 .dependency-page button:focus-visible, .dependency-page input:focus-visible, .dependency-page a:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 760px) {
   .dependency-stats, .node-list, .metadata-grid, .relation-grid { grid-template-columns: 1fr; }

@@ -26,6 +26,7 @@ input[type="range"]:disabled { opacity: .45; }
 .result-kicker { margin: 0; color: var(--ul-muted); letter-spacing: .16em; font-weight: 700; } /* size, case and tracking: the shared label scale in brand.css */
 .experiment figure { margin: 0 0 21px; }
 .experiment svg { display: block; background: var(--ul-background); border-radius: var(--ul-radius-m); width: 100%; }
+.experiment svg { overflow: visible; } /* a label lengthened by reader text spacing (WCAG 1.4.12) draws into the result padding instead of being cut at the viewBox edge; no diagram geometry lies outside its viewBox */
 .experiment svg text { font-family: system-ui, sans-serif; font-size: 21px; fill: var(--ul-text); }
 .experiment svg .diagram-small { font-size: 18px; fill: var(--ul-muted); }
 .experiment svg .diagram-axis { stroke: var(--ul-edge); stroke-width: 1.5; }

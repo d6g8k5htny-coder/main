@@ -1,6 +1,6 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=d718e4473b278753d6d4f535dda4544a21eade43c1eb665772ac8c135bc1f3a7';
-import {connectCatalogQuery} from './catalog-query.mjs?site-release=d718e4473b278753d6d4f535dda4544a21eade43c1eb665772ac8c135bc1f3a7';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=d718e4473b278753d6d4f535dda4544a21eade43c1eb665772ac8c135bc1f3a7';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=3a5deebc2ea83a9ccb4a171e3f445831e7f77be037d21e5d80197e415eabd52e';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=3a5deebc2ea83a9ccb4a171e3f445831e7f77be037d21e5d80197e415eabd52e';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=3a5deebc2ea83a9ccb4a171e3f445831e7f77be037d21e5d80197e415eabd52e';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
