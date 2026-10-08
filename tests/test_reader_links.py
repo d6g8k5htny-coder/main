@@ -123,6 +123,25 @@ class PublicRoutes(unittest.TestCase):
             self.assertNotIn("'unsafe-inline'",text)
             self.assertNotIn("'unsafe-eval'",text)
 
+    def test_custom_not_found_page_is_static_and_routes_into_the_site(self):
+        # GitHub Pages serves docs/404.html for any missing path under /main/; it must stay script-free, keep the CSP and reach only real pages.
+        text=(ROOT/'docs/404.html').read_text(); page=Page(text)
+        self.assertIn('<meta http-equiv="Content-Security-Policy"',text)
+        self.assertNotIn('<script',text)
+        pages={path.name:Page(path.read_text()) for path in SITE.glob('*.html')}
+        prefixed=0
+        for link in page.links:
+            u=urlsplit(link)
+            self.assertNotIn('site-release',u.query,link)  # the release key belongs only to docs/site files
+            if u.scheme or u.netloc: continue
+            if not u.path:
+                self.assertIn(u.fragment,page.ids,link); continue
+            self.assertTrue(u.path.startswith('/main/site/'),link)
+            target=SITE/u.path[len('/main/site/'):]
+            self.assertTrue(target.is_file(),link); prefixed+=1
+            if u.fragment: self.assertIn(u.fragment,pages[target.name].ids,link)
+        self.assertGreaterEqual(prefixed,16)
+
     def test_research_page_routes_to_bounded_reader_tools(self):
         text=(SITE/'research.html').read_text()
         self.assertIn('href="measure.html"',text)

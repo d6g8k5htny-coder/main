@@ -50,7 +50,7 @@ body {
 a { color: var(--ul-link); text-decoration-thickness: 1px; text-underline-offset: .22em; }
 a:hover { text-decoration-thickness: 2px; }
 body > header {
-  max-width: 1440px; margin: auto; padding: 24px 4vw;
+  max-width: 1360px; margin: auto; padding: 28px 4vw;
   border-bottom: 1px solid var(--ul-border); border-top: 3px solid var(--ul-gold);
   gap: 24px; flex-wrap: wrap;
 }
@@ -58,12 +58,13 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
-nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
+nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
 nav a:hover { color: var(--ul-link); text-decoration: underline; }
-main { max-width: 1200px; padding: 0 36px; }
+nav a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
+main { max-width: 1220px; padding: 0 36px; }
 section { padding: 64px 0; border-bottom-color: var(--ul-border); }
 .hero, .museum-intro { padding-top: 76px; }
 .hero h1, .museum-intro h1 { max-width: 940px; }
@@ -108,7 +109,11 @@ td { border-color: var(--ul-border); }
 .table-wrap { border: 1px solid var(--ul-border); border-radius: 6px; }
 .error { color: var(--ul-error); }
 .good { color: var(--ul-accept); }
-footer { padding-top: 32px; }
+footer { max-width: 1220px; margin: auto; padding: 32px 36px 56px; border-top: 1px solid var(--ul-border); font-size: 14px; color: var(--ul-muted); }
+footer p { margin: 8px 0; }
+footer a { color: var(--ul-text); }
+footer p a, .site-map a { display: inline-block; padding: 10px 2px; margin: -10px 0; }
+main > section:last-child { border-bottom: 0; }
 /* Existing plots retain a light drawing surface; their data/geometry code is untouched. */
 #coefficient-chart, .geometry-host canvas, .geometry-host svg { background: #ffffff; border-radius: 6px; }
 #coefficient-chart { border: 1px solid var(--ul-border); }
@@ -148,6 +153,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (max-width: 640px) {
   body > header { padding: 20px; gap: 20px; }
   main { padding: 0 20px; }
+  footer { padding: 28px 20px 40px; }
   nav { gap: 4px 18px; }
   .hero, .museum-intro { padding-top: 42px; }
   section { padding: 44px 0; }
@@ -184,16 +190,30 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   #inventory table, #formal-coverage-table { min-width: 0; }
 }
 
-/* Secondary reader routes leave the four primary destinations unchanged. */
-.reader-tools { display: flex; justify-content: flex-end; gap: 24px; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; padding: 12px 28px; box-sizing: border-box; border-bottom: 1px solid var(--ul-border); }
-.reader-tools a { min-height: 32px; display: inline-flex; align-items: center; }
+/* Secondary reader routes leave the four primary destinations unchanged; the kicker names the row and the links are 44px tap targets. */
+.reader-tools { display: flex; align-items: center; justify-content: flex-end; gap: 12px 24px; flex-wrap: wrap; max-width: 1360px; margin: 0 auto; padding: 4px 4vw; box-sizing: border-box; border-bottom: 1px solid var(--ul-border); }
+.reader-tools-label { margin-right: auto; color: var(--ul-muted); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+.reader-tools a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 6px; margin: 0 -6px; text-decoration: none; color: var(--ul-text); font-size: 13px; }
+.reader-tools a:hover { text-decoration: underline; }
+@media (max-width: 640px) { .reader-tools { padding: 4px 20px; } }
+/* Breadcrumb on the four deep pages (one real level; never on a primary page); uppercase via CSS on sentence-case text. */
+.breadcrumb { display: block; font-weight: 400; margin: 0 0 22px; } /* 22px keeps the 3px focus ring at its 4px offset clear of the eyebrow below (14px overlapped it by 5px). */
+.breadcrumb ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 10px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ul-muted); }
+.breadcrumb li + li::before { content: "/" / ""; margin-right: 10px; } /* alternative text "" keeps the separator decorative for assistive technology */
+.breadcrumb li[aria-current="page"] { color: var(--ul-text); }
+.breadcrumb a { color: var(--ul-link); font-size: inherit; display: inline-block; padding: 12px 0; margin: -12px 0; }
+/* Shared footer site map: every route from every page without script; undoes style.css nav{display:flex;font-weight:650}. */
+.site-map { display: block; font-weight: 400; font-size: 13px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--ul-border); }
+.site-map ul { list-style: none; margin: 0; padding: 0; }
+.site-map li { margin: 6px 0; }
+.site-map strong { color: var(--ul-text); margin-right: 6px; }
 
 /* Lesson/reading-path links, shared by Explore, Measure and the Research hero (moved from explore.css: measure.html loads explore.css before brand.css). */
 .lesson-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 25px; gap: 16px; }
 .lesson-links a { background: var(--ul-surface); padding: 16px 20px; border: 1px solid var(--ul-border); border-radius: 8px; font-size: 15px; text-decoration: none; }
 .lesson-links a:hover { border-color: var(--ul-edge); }
 .lesson-links span { color: var(--ul-gold); font: 17px Georgia, serif; margin-right: 14px; }
-.lesson-links a { display: flex; align-items: center; min-height: 44px; }
+.lesson-links a { display: flex; align-items: center; min-height: 44px; margin: 0; }
 .lesson-links.four-up { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 950px) { .lesson-links.four-up { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) {
