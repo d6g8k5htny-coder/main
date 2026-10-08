@@ -127,35 +127,67 @@ class PublicRoutes(unittest.TestCase):
     NOT_FOUND_CSP=("default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; "
                    "img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'")
 
-    def assert_static_not_found_page(self, text):
-        """docs/404.html stays script-free under exactly the site's CSP and reaches every site page.
+    # Allowlists for the static 404 page: anything else is refused rather than interpreted.
+    NOT_FOUND_HEAD_TAGS=frozenset({'meta','title','link'})
+    NOT_FOUND_BODY_TAGS=frozenset({'a','span','nav','header','main','section','h1','p','ul','li','strong','footer'})
+    NOT_FOUND_ATTRIBUTES=frozenset({'lang','charset','name','content','http-equiv','rel','type','media','href','class','id','aria-label','tabindex'})
+    NOT_FOUND_SITE_URL=re.compile(r'/main/site/(?:[a-z0-9-]+/)?[a-z0-9-]+\.(?:html|css|svg)(?:#[a-z0-9-]+)?')
+    NOT_FOUND_EXTERNAL_URL=re.compile(r'https://github\.com/[A-Za-z0-9-]+(?:/[A-Za-z0-9._-]+)*')
 
-        Elements and attributes are parsed, not substring-matched: HTMLParser lowercases tag and attribute names,
-        so <SCRIPT> or <ScRiPt> is a script element here, as it is in a browser."""
+    def assert_static_not_found_page(self, text):
+        """docs/404.html stays a static page under exactly the site's CSP and reaches every site page.
+
+        The page is checked against allowlists, not denylists: only the tags, attributes and URL shapes the page
+        actually uses are accepted, in their places (head tags in head, body tags in body, text only in the title
+        and the body). Elements and attributes are parsed: HTMLParser lowercases tag and attribute names, so a
+        <SCRIPT> is a script element here as in a browser. Where this parser and a browser could read the same bytes
+        differently, the page is refused rather than interpreted: duplicate attributes (browsers keep the first, a
+        dict the last), text or a non-head element in head (a browser closes head there, moving a later CSP meta out
+        of head), and any URL that is not one of three exact shapes (a fragment, a /main/site/ file, a github.com
+        page), which rules out other schemes, control characters, dot segments, authority tricks and queries."""
+        self.assertTrue(text.startswith('<!doctype html>\n'))
+        self.assertEqual([c for c in text if (ord(c)<0x20 and c not in '\t\n\r') or ord(c)==0x7f],[])
+        head_tags,body_tags,attributes=self.NOT_FOUND_HEAD_TAGS,self.NOT_FOUND_BODY_TAGS,self.NOT_FOUND_ATTRIBUTES
         class Static(HTMLParser):
             def __init__(self):
-                super().__init__(); self.tags=[]; self.policies=[]; self.handlers=[]; self.urls=[]
+                super().__init__(); self.problems=[]; self.part='start'; self.in_title=False; self.seen=[]; self.policies=[]; self.urls=[]
             def handle_starttag(self, tag, attrs):
+                names=[name for name,_ in attrs]
+                self.problems+=[('duplicate attribute',tag,name) for name in sorted(set(names)) if names.count(name)>1]
+                self.problems+=[('attribute',tag,name) for name in names if name not in attributes]
                 a={name:(value or '') for name,value in attrs}
-                self.tags.append(tag)
-                if tag=='meta' and a.get('http-equiv','').lower()=='content-security-policy': self.policies.append(a.get('content',''))
-                self.handlers+=[name for name in a if name.startswith('on')]
-                self.urls+=[a[name] for name in ('href','src','action','formaction') if name in a]
+                if tag=='html' and self.part=='start': pass
+                elif tag=='head' and self.part=='start': self.part='head'
+                elif tag=='body' and self.part=='between': self.part='body'
+                elif not ((self.part=='head' and tag in head_tags) or (self.part=='body' and tag in body_tags)):
+                    self.problems.append(('element',self.part,tag))
+                if tag=='title': self.in_title=True
+                if tag=='link' and a.get('rel') not in ('stylesheet','icon'): self.problems.append(('link rel',a.get('rel')))
+                if tag=='meta' and 'http-equiv' in a:
+                    if a['http-equiv'].lower()!='content-security-policy': self.problems.append(('pragma',a['http-equiv']))
+                    else:
+                        # Effective only in head and before anything that loads: a meta CSP governs only later fetches.
+                        self.policies.append((self.part=='head' and set(self.seen)<={'html','head','meta'},a.get('content','')))
+                self.seen.append(tag)
+                self.urls+=[a[name] for name in ('href','src') if name in a]
+            def handle_endtag(self, tag):
+                if tag=='title': self.in_title=False
+                if tag=='head' and self.part=='head': self.part='between'
+            def handle_data(self, data):
+                if data.strip('\t\n\f\r ') and not self.in_title and self.part!='body':
+                    self.problems.append(('text outside body',self.part,data.strip()[:30]))
         static=Static(); static.feed(text); static.close()
-        self.assertNotIn('script',static.tags)
-        self.assertEqual(static.handlers,[])
-        self.assertEqual([u for u in static.urls if u.strip().lower().startswith('javascript:')],[])
-        self.assertEqual(static.policies,[self.NOT_FOUND_CSP])  # exactly one policy: never removed, emptied, weakened or doubled
+        self.assertEqual(static.problems,[])
+        self.assertEqual(static.policies,[(True,self.NOT_FOUND_CSP)])  # exactly one effective policy: never moved, removed, emptied, weakened or doubled
         page=Page(text); pages={path.name:Page(path.read_text()) for path in SITE.glob('*.html')}
         reached=set()
-        for link in page.links:
-            u=urlsplit(link)
-            self.assertNotIn('site-release',u.query,link)  # the release key belongs only to docs/site files
-            if u.scheme or u.netloc: continue
-            if not u.path:
-                self.assertIn(u.fragment,page.ids,link); continue
-            self.assertTrue(u.path.startswith('/main/site/'),link)
-            target=SITE/u.path[len('/main/site/'):]
+        for link in static.urls:
+            if link.startswith('#'):
+                self.assertRegex(link,r'\A#[a-z0-9-]+\Z'); self.assertIn(link[1:],page.ids,link); continue
+            if self.NOT_FOUND_EXTERNAL_URL.fullmatch(link):
+                self.assertEqual(urlsplit(link).netloc,'github.com',link); continue
+            self.assertIsNotNone(self.NOT_FOUND_SITE_URL.fullmatch(link),link)  # no query, so no release key: that key belongs only to docs/site files
+            u=urlsplit(link); target=SITE/u.path[len('/main/site/'):]
             self.assertTrue(target.is_file(),link)
             if u.fragment: self.assertIn(u.fragment,pages[target.name].ids,link)
             if target.suffix=='.html': reached.add(target.name)
@@ -167,7 +199,7 @@ class PublicRoutes(unittest.TestCase):
         self.assert_static_not_found_page((ROOT/'docs/404.html').read_text())
 
     def test_custom_not_found_guard_rejects_weakened_copies(self):
-        # Negative controls: each copy breaks exactly one promise of the 404 page and must be refused.
+        # Negative controls: each copy breaks exactly one promise of the 404 page, or reads differently in a browser than in this parser, and must be refused.
         text=(ROOT/'docs/404.html').read_text()
         meta=f'<meta http-equiv="Content-Security-Policy" content="{self.NOT_FOUND_CSP}">'
         mutants={
@@ -180,6 +212,39 @@ class PublicRoutes(unittest.TestCase):
             'mixed-case inline script': ('</main>','<ScRiPt>document.title="x"</ScRiPt></main>'),
             'inline event handler': ('<body>','<body onload="document.title=1">'),
             'javascript: URL': ('</main>','<a href="javascript:void(0)">x</a></main>'),
+            'tab inside the scheme': ('</main>','<a href="java&#9;script:void(0)">x</a></main>'),
+            'newline inside the scheme': ('</main>','<a href="java&#10;script:void(0)">x</a></main>'),
+            'data: URL': ('</main>','<a href="data:text/html,x">x</a></main>'),
+            'CSP content duplicated, empty first': (meta,f'<meta http-equiv="Content-Security-Policy" content="" content="{self.NOT_FOUND_CSP}">'),
+            'CSP http-equiv duplicated, refresh first': (meta,f'<meta http-equiv="refresh" http-equiv="Content-Security-Policy" content="{self.NOT_FOUND_CSP}">'),
+            'CSP moved out of head': (meta,''),  # re-inserted into main below
+            'duplicate href': ('<a href="/main/site/cite.html">','<a href="/main/site/cite.html" href="/main/site/no-such-page.html">'),
+            'base element': ('</head>','<base href="https://example.com/"></head>'),
+            'refresh pragma': ('</head>','<meta http-equiv="refresh" content="0; url=https://example.com/"></head>'),
+            'iframe': ('</main>','<iframe srcdoc="x"></iframe></main>'),
+            # Placement: a meta CSP governs only later fetches, and text or a non-head element in head closes head early.
+            'non-breaking space in head before the CSP': (meta,'&nbsp;'+meta),
+            'CSP wrapped in noscript': (meta,'<noscript>'+meta+'</noscript>'),
+            'CSP wrapped in template': (meta,'<template>'+meta+'</template>'),
+            'CSP inside the title': (meta,''),  # re-inserted into the title below
+            'external stylesheet before the CSP': (meta,'<link rel="stylesheet" href="https://github.com/x.css">'+meta),
+            'prefetch link': ('</head>','<link rel="prefetch" href="/main/site/index.html"></head>'),
+            # URL shapes a browser resolves somewhere other than the file the test would check.
+            'dot segments': ('/main/site/measure.html','/main/site/../../docs/site/measure.html'),
+            'percent-encoded dot segments': ('/main/site/measure.html','/main/site/%2e%2e/site/measure.html'),
+            'backslash': ('/main/site/measure.html','/main/site/brand\\..\\measure.html'),
+            'trailing slash': ('/main/site/measure.html','/main/site/measure.html/'),
+            'protocol-relative host': ('<a class="brand" href="/main/site/index.html">','<a class="brand" href="//example.com/main/site/index.html">'),
+            'userinfo before the host': ('href="https://github.com/d6g8k5htny-coder/main">d6g8k5htny-coder','href="https://github.com@example.com/d6g8k5htny-coder/main">d6g8k5htny-coder'),
+            'https without authority': ('<a class="brand" href="/main/site/index.html">','<a class="brand" href="https:/main/site/no-such-page.html">'),
+            'uppercase scheme': ('</main>','<a href="JAVASCRIPT:void(0)">x</a></main>'),
+            'query before a fragment': ('href="#main-content"','href="?#main-content"'),
+            # Content a browser hides, disables or treats as links without an href attribute.
+            'SVG link': ('</main>','<svg><a xlink:href="data:text/html,x"><text>x</text></a></svg></main>'),
+            'site map in a template': ('<nav class="site-map" aria-label="All pages">','<template><nav class="site-map" aria-label="All pages">'),
+            'inert site map': ('<nav class="site-map" aria-label="All pages">','<nav class="site-map" aria-label="All pages" inert>'),
+            'download instead of navigation': ('<a href="/main/site/measure.html">','<a href="/main/site/measure.html" download>'),
+            'ping attribute': ('<a href="/main/site/cite.html">','<a href="/main/site/cite.html" ping="https://github.com/">'),
             'one page dropped': (' · <a href="/main/site/measure.html">From counts to density</a>',''),
             'missing page': ('/main/site/measure.html','/main/site/no-such-page.html'),
             'missing fragment': ('#coefficient"','#no-such-fragment"'),
@@ -188,7 +253,14 @@ class PublicRoutes(unittest.TestCase):
         for name,(old,new) in mutants.items():
             with self.subTest(name):
                 self.assertEqual(text.count(old),1,name)
-                with self.assertRaises(AssertionError): self.assert_static_not_found_page(text.replace(old,new))
+                copy=text.replace(old,new)
+                if name=='CSP moved out of head':
+                    anchor='<main id="main-content" tabindex="-1">'; self.assertEqual(copy.count(anchor),1); copy=copy.replace(anchor,anchor+meta)
+                if name=='CSP inside the title':
+                    anchor='<title>'; self.assertEqual(copy.count(anchor),1); copy=copy.replace(anchor,anchor+meta)
+                with self.assertRaises(AssertionError): self.assert_static_not_found_page(copy)
+        # Positive control: a comment before the CSP leaves head open, and a browser enforces the policy.
+        self.assert_static_not_found_page(text.replace(meta,'<!-- policy -->'+meta))
 
     def test_research_page_routes_to_bounded_reader_tools(self):
         text=(SITE/'research.html').read_text()
