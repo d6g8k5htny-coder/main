@@ -9,6 +9,12 @@
 .table-scroll:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 caption { text-align: left; color: var(--ul-muted); margin-bottom: 12px; }
 [hidden] { display: none !important; }
-.table-scroll td code { white-space: nowrap; }
-/* Phone legibility (W5 #2, W6d): the global td:nth-child(2) 150px cap must not clip exact endpoints; the row scrolls inside its labelled region instead. */
-.table-scroll td { max-width: none; }
+/* Phone legibility (W5 #2, W6d): exact endpoints stay unbroken and uncapped (style.css td:nth-child(2) 150px); the table grows to its content and the labelled region pans sideways. */
+.table-scroll table { width: max-content; min-width: 100%; }
+.table-scroll th, .table-scroll td { max-width: none; }
+.table-scroll td code { white-space: nowrap; overflow-wrap: normal; }
+.table-scroll tbody th { font: inherit; letter-spacing: 0; text-transform: none; background: transparent; color: var(--ul-text); font-weight: 650; border-bottom: 1px solid var(--ul-border); }
+#coefficient-exports .actions button { background: transparent; border-color: var(--ul-edge); color: var(--ul-link); }
+.reference-fields input, .reference-fields select { font-weight: 400; }
+#reference-commit, #reference-sha256 { font-family: ui-monospace, monospace; }
+@media print { .table-scroll table { width: 100%; } .table-scroll td code { white-space: normal; overflow-wrap: anywhere; } }

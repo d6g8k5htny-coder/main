@@ -2,6 +2,7 @@
 .explore-intro { padding-top: 68px; }
 .explore-intro h1 { max-width: 970px; }
 .explore-intro .intro { max-width: 750px; }
+.explore-intro #explore-state-status, .explore-intro #explore-state-status + p { font-size: 13px; color: var(--ul-muted); margin: 18px 0 0; }
 .teaching-label { display: inline-block; border: 1px dotted var(--ul-edge); border-radius: 30px; color: var(--ul-muted); padding: 5px 13px; font-size: 13px; }
 nav a[aria-current="page"] { color: var(--ul-gold); text-decoration: underline; text-underline-offset: 8px; }
 .lesson-heading { max-width: 790px; margin-bottom: 30px; }
@@ -55,6 +56,7 @@ input[type="range"]:disabled { opacity: .45; }
 .lesson-takeaway { display: grid; grid-template-columns: .8fr 1.6fr; gap: 40px; margin: 30px 0 24px; }
 .lesson-takeaway h3 { margin: 0; max-width: 240px; font-size: 21px; font-weight: 500; }
 .lesson-takeaway p { margin: 0; color: var(--ul-muted); }
+.lesson-takeaway p + p { margin-top: 10px; }
 .lesson-source { border: 1px solid var(--ul-border); border-radius: 8px; padding: 10px 20px; }
 .lesson-source summary { display: list-item; padding: 8px 0; font-size: 14px; color: var(--ul-link); }
 .lesson-source p { max-width: 850px; color: var(--ul-muted); }
@@ -88,6 +90,7 @@ legend { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
   .lesson-heading > p:last-child { font-size: 17px; }
   .lesson-source { padding: 8px 14px; }
   .lesson-source summary { font-size: 13px; }
+  .figure-citation textarea { font-size: 16px; }
 }
 @media (forced-colors: active) {
   .experiment svg .diagram-fill, .experiment svg .diagram-warm { fill: Canvas; stroke: CanvasText; fill-opacity: 1; }
