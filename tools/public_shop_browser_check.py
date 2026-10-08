@@ -1560,6 +1560,142 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     result["steps"].append("Saved exact-classification filters, all-records recovery, scope/evidence boundaries and native audit disclosure checked")
 
 
+# Rendered outcomes, not stylesheet parsing: whatever selector, sheet or !important produces the layout, these read what Chromium drew.
+# A focused element's ring box is its border box grown by outline offset + width on every side; an ancestor whose overflow is not
+# visible clips at its padding box on that axis, so any part of the ring past that edge is not drawn.
+FOCUS_RING_JS="""el => {
+  const name=e=>e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+[...e.classList].map(c=>'.'+c).join('');
+  const s=getComputedStyle(el), grow=s.outlineStyle==='none'?0:parseFloat(s.outlineWidth)+parseFloat(s.outlineOffset), b=el.getBoundingClientRect();
+  const ring={left:b.left-grow,top:b.top-grow,right:b.right+grow,bottom:b.bottom+grow}, cuts=[];let room=Infinity;
+  for(let a=el.parentElement;a;a=a.parentElement){
+    const c=getComputedStyle(a), r=a.getBoundingClientRect();
+    const clip={left:r.left+parseFloat(c.borderLeftWidth),top:r.top+parseFloat(c.borderTopWidth),right:r.right-parseFloat(c.borderRightWidth),bottom:r.bottom-parseFloat(c.borderBottomWidth)};
+    const sides=[];
+    if(c.overflowX!=='visible')sides.push(['left',clip.left-ring.left],['right',ring.right-clip.right]);
+    if(c.overflowY!=='visible')sides.push(['top',clip.top-ring.top],['bottom',ring.bottom-clip.bottom]);
+    for(const [side,cut] of sides){room=Math.min(room,-cut);if(cut>0.5)cuts.push(`${side} side cut ${cut.toFixed(1)}px by ${name(a)}`);}
+  }
+  return {element:name(el)+' "'+(el.textContent||'').trim().replace(/\\s+/g,' ').slice(0,48)+'"',focused:document.activeElement===el,visible:el.matches(':focus-visible'),
+    style:s.outlineStyle,width:s.outlineWidth,offset:s.outlineOffset,bottom:ring.bottom+scrollY,room:Number.isFinite(room)?Math.round(room*10)/10+0:null,cuts};
+}"""
+SUMMARY_LINES_JS="""() => [...document.querySelectorAll('#conditional-route summary')].map(summary => {
+  const range=document.createRange();range.selectNodeContents(summary);
+  const tops=[...range.getClientRects()].filter(q=>q.width>0).map(q=>q.top);
+  return {text:summary.textContent.trim().slice(0,48),firstLineTop:tops.length?Math.min(...tops)+scrollY:null};
+})"""
+# Every whitespace-separated word in the matched cells whose characters fall on more than one line box; with ordinary=true, text
+# inside a link or code element is skipped (those may break anywhere).
+WORD_SPLITS_JS="""([selector, ordinary]) => {
+  const splits=[];let words=0;
+  for(const cell of document.querySelectorAll(selector)){
+    const walker=document.createTreeWalker(cell,NodeFilter.SHOW_TEXT);
+    for(let text=walker.nextNode();text;text=walker.nextNode()){
+      if(ordinary&&text.parentElement.closest('a, code'))continue;
+      for(const match of text.data.matchAll(/\\S+/g)){
+        words++;const range=document.createRange();range.setStart(text,match.index);range.setEnd(text,match.index+match[0].length);
+        const lines=[];
+        for(const q of range.getClientRects()){if(!q.width&&!q.height)continue;const mid=(q.top+q.bottom)/2;if(!lines.some(y=>Math.abs(y-mid)<2))lines.push(mid);}
+        if(lines.length>1)splits.push(`"${match[0].slice(0,60)}" on ${lines.length} lines in ${cell.tagName.toLowerCase()} of row "${cell.parentElement.firstElementChild.textContent.trim()}"`);
+      }
+    }
+  }
+  return {words,splits};
+}"""
+DOCUMENT_WIDTH_JS="""() => {
+  const root=document.documentElement,width=root.clientWidth,wide=[],text=[];
+  const name=e=>e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+[...e.classList].map(c=>'.'+c).join('');
+  const scrolls=e=>{for(let a=e;a&&a!==root;a=a.parentElement)if(getComputedStyle(a).overflowX!=='visible')return true;return false;};
+  if(root.scrollWidth>width){
+    // Boxes and text runs that reach past the viewport outside any sideways-scrolling region (a long word can overflow a box that fits).
+    for(const e of document.body.querySelectorAll('*')){const r=e.getBoundingClientRect();if(r.width>0&&r.right>width+0.5&&!scrolls(e.parentElement))wide.push(name(e)+' to '+r.right.toFixed(1)+'px');}
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    for(let t=walker.nextNode();t&&text.length<4;t=walker.nextNode()){if(!t.data.trim()||scrolls(t.parentElement))continue;const range=document.createRange();range.selectNodeContents(t);
+      for(const q of range.getClientRects())if(q.width>0&&q.right>width+0.5){text.push(name(t.parentElement)+' "'+t.data.trim().slice(0,48)+'" to '+q.right.toFixed(1)+'px');break;}}
+  }
+  const p=getComputedStyle(document.querySelector('main p'));
+  return {scrollWidth:root.scrollWidth,clientWidth:width,wide:wide.slice(-4),text,spacing:[p.letterSpacing,p.wordSpacing]};
+}"""
+# WCAG 1.4.12 text-spacing override, served same-origin so the pages' style-src 'self' policy admits it.
+TEXT_SPACING_CSS="*,*::before,*::after{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}"
+
+def check_rendered_focus_rings(page, origin, expect, result, output):
+    result["rings"]=[]
+    def ring(locator, where):
+        locator.focus()
+        state=locator.evaluate(FOCUS_RING_JS)
+        label=f'{where}: {state["element"]}'
+        require(state["focused"] and state["visible"],f"{label} is not keyboard-focused with :focus-visible: {state}")
+        require((state["style"],state["width"],state["offset"])==("solid","3px","4px"),f'{label} ring is {state["style"]} {state["width"]} at offset {state["offset"]}, not solid 3px at 4px')
+        require(not state["cuts"],f'{label} ring is clipped: {"; ".join(state["cuts"])}')
+        return state
+    page.goto(origin+"museum.html")
+    route=page.locator("#conditional-route")
+    expect(route.locator("summary")).to_have_count(6,timeout=45000)
+    page.keyboard.press("Shift")
+    for size in [{"width":1280,"height":900},{"width":390,"height":844}]:
+        page.set_viewport_size(size);where=f'museum.html at {size["width"]}'
+        stops=route.locator("summary, a[href]")
+        require(stops.count()==8,f"{where}: expected 6 summaries and 2 links in #conditional-route, found {stops.count()}")
+        states=[ring(stops.nth(i),where) for i in range(stops.count())]
+        lines=page.evaluate(SUMMARY_LINES_JS);gaps=[]
+        for state,next_line in zip(states[:5],lines[1:]):
+            require(next_line["firstLineTop"] is not None and state["bottom"]<=next_line["firstLineTop"],
+                    f'{where}: ring of {state["element"]} ends {state["bottom"]-(next_line["firstLineTop"] or 0):.1f}px below the top of the first text line of "{next_line["text"]}"')
+            gaps.append(round(next_line["firstLineTop"]-state["bottom"],1))
+        if size["width"]==390:
+            first=route.locator("summary").first
+            first.focus();page.keyboard.press("Enter")
+            quote=route.locator("details").first.locator("blockquote")
+            expect(quote).to_be_visible()
+            margins=quote.evaluate("q => [getComputedStyle(q).marginLeft, getComputedStyle(q).marginRight]")
+            require(margins==["0px","0px"],f"{where}: opened quote has inline margins {margins}, not 0")
+            page.keyboard.press("Enter");expect(quote).to_be_hidden()
+        result["rings"].append({"page":"museum.html","width":size["width"],"stops":len(states),"least_clip_room":min(x["room"] for x in states),"least_gap_to_next_summary_text":min(gaps)})
+    for view in ["ec014","remote","annulus","p15"]:
+        page.goto(origin+f"museum.html?view={view}#active-exhibit")
+        figure=page.locator("#active-exhibit figure.museum-visual")
+        expect(figure).to_be_visible(timeout=45000)
+        for size in [{"width":1280,"height":900},{"width":390,"height":844}]:
+            page.set_viewport_size(size)
+            state=ring(figure,f'museum.html?view={view} at {size["width"]}')
+            result["rings"].append({"page":f"museum.html?view={view}","width":size["width"],"stops":1,"least_clip_room":state["room"]})
+    result["steps"].extend(["each conditional-route summary and link keeps a whole 3px ring at 4px outside every clipping ancestor at 1280 and 390",
+                            "each summary ring ends above the next summary's first text line; an opened quote at 390 has no inline margin",
+                            "the exhibit figure of each of the four views keeps a whole 3px ring at 4px at 1280 and 390"])
+
+def check_rendered_text_layout(page, origin, expect, result, output):
+    result["layouts"]=[]
+    override=origin+"text-spacing-override.css"
+    page.route(override,lambda route:route.fulfill(status=200,content_type="text/css",body=TEXT_SPACING_CSS))
+    def spaced():
+        page.add_style_tag(url=override)
+        spacing=page.evaluate(DOCUMENT_WIDTH_JS)["spacing"]
+        require(spacing[1]!="0px","Text-spacing override was not applied: "+str(spacing))
+    def no_overflow(where):
+        width=page.evaluate(DOCUMENT_WIDTH_JS)
+        require(width["scrollWidth"]<=width["clientWidth"],f'{where}: document is {width["scrollWidth"]}px wide in a {width["clientWidth"]}px viewport; past the viewport: boxes {width["wide"]}, text {width["text"]}')
+    nodes=["hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip","hist.allcell_fdz_enclosures.json","math.side24-coefficient",
+           "math.d5-component.punctured-pin-proof","hist.CH-LIFT"]
+    for width in [320,390]:
+        page.set_viewport_size({"width":width,"height":844 if width==390 else 800})
+        for node in nodes:
+            page.goto(origin+f"dependencies.html?node={node}#node-detail")
+            expect(page.locator("#evidence-body tr")).to_have_count(5,timeout=45000)
+            for spacing in ["default spacing","text-spacing override"]:
+                if spacing=="text-spacing override":spaced()
+                where=f"{node} at {width} with {spacing}"
+                no_overflow(where)
+                words=page.evaluate(WORD_SPLITS_JS,[".evidence-table th, .evidence-table td:nth-child(2)",False])
+                require(words["words"]>0 and not words["splits"],f'{where}: Lane/Record state words split across lines: {words["splits"]}')
+                result["layouts"].append({"page":node,"width":width,"spacing":spacing,"lane_and_state_words":words["words"]})
+    page.goto(origin+"dependencies.html")
+    expect(page.locator("#classification-filter")).to_be_enabled(timeout=45000)
+    spaced();no_overflow("dependencies.html at 390 with text-spacing override")
+    page.set_viewport_size({"width":320,"height":800});no_overflow("dependencies.html at 320 with text-spacing override")
+    result["steps"].extend(["five long-token nodes at 320 and 390, with and without WCAG 1.4.12 text spacing: no document overflow and no split Lane or Record state word",
+                            "the Dependencies index at 320 with text spacing: no document overflow"])
+
+
 def check_visitor_recovery(page, origin, expect, result):
     if result["case"] == "query-refusal":
         config=json.loads((ROOT/"docs/site/config.json").read_text())
@@ -1740,9 +1876,23 @@ def main():
                     except Exception:
                         result["screenshot_error"]=traceback.format_exc();result["passed"]=False
                     context.close()
+                for label,flow in [("rendered-focus-rings",check_rendered_focus_rings),("rendered-text-layout",check_rendered_text_layout)]:
+                    result={"case":label,"color_scheme":"light","steps":[],"passed":False};report["cases"].append(result)
+                    context=browser.new_context(viewport={"width":1280,"height":900},color_scheme="light",reduced_motion="reduce")
+                    page=context.new_page();page.set_default_timeout(15000);errors=[];started=time.monotonic()
+                    page.on("pageerror",lambda error:errors.append(str(error)))
+                    try:
+                        flow(page,origin,expect,result,output)
+                        require(not errors,f"Rendered layout page errors: {errors}")
+                        result["passed"]=True
+                    except Exception:
+                        result["error"]=traceback.format_exc()
+                    finally:
+                        result["page_errors"]=errors;result["seconds"]=round(time.monotonic()-started,1)
+                        context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==16 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==18 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:

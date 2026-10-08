@@ -132,6 +132,16 @@ the PR head. Two reader-tool cases follow the shared Research links at desktop
 and narrow viewports, exercise the synthetic normalization/error boundary, and
 verify the dependency viewer's pinned counts, review-source search, saved link,
 invalid-link refusal and source-snapshot label.
+Two rendered-layout cases read what Chromium drew rather than the stylesheets.
+On the museum page at 1280 and 390 px, each conditional-route summary and link,
+and the exhibit figure of each of the four views, takes a 3px focus ring at a
+4px offset that no clipping ancestor cuts on any side; each summary's ring ends
+above the next summary's first text line, and at 390 px an opened quote has no
+inline margin. On Dependencies, five nodes with long ids, paths or file names,
+at 320 and 390 px with and without a WCAG 1.4.12 text-spacing override, keep the
+page within the viewport and every Lane and Record state word on one line; the
+index stays within 320 px under the override. A failure names the element, the
+side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
