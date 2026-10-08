@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=58b1a5cee5726a9342717d62531acacb2c13b76545e98dd60fa1b959e839e2ab") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=51158fbb1313d0d1ed42251d044950ea82ec7a5827f89bef4b0aea6b0bbb90b3") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
@@ -179,3 +179,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Secondary reader routes leave the four primary destinations unchanged. */
 .reader-tools { display: flex; justify-content: flex-end; gap: 24px; flex-wrap: wrap; max-width: 1280px; margin: 0 auto; padding: 12px 28px; box-sizing: border-box; border-bottom: 1px solid var(--ul-border); }
 .reader-tools a { min-height: 32px; display: inline-flex; align-items: center; }
+
+/* Lesson/reading-path links, shared by Explore, Measure and the Research hero (moved from explore.css: measure.html loads explore.css before brand.css). */
+.lesson-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 25px; gap: 16px; }
+.lesson-links a { background: var(--ul-surface); padding: 16px 20px; border: 1px solid var(--ul-border); border-radius: 8px; font-size: 15px; text-decoration: none; }
+.lesson-links a:hover { border-color: var(--ul-edge); }
+.lesson-links span { color: var(--ul-gold); font: 17px Georgia, serif; margin-right: 14px; }
+.lesson-links a { display: flex; align-items: center; min-height: 44px; }
+.lesson-links.four-up { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 950px) { .lesson-links.four-up { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .lesson-links { grid-template-columns: 1fr; gap: 8px; }
+  .lesson-links.four-up { grid-template-columns: 1fr; }
+  .lesson-links a { padding: 12px 16px; }
+}
+/* Dated list navigation (research hero, Library landing); undoes style.css nav{display:flex;font-weight:650}. */
+.cut-list { display: block; font-weight: 400; font-size: 15px; margin-top: 30px; max-width: 78ch; }
+.cut-list > p { margin: 0 0 6px; color: var(--ul-muted); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.cut-list ol, .cut-list ul { margin: 0; padding-left: 22px; line-height: 1.7; }
+.cut-list li { margin: 6px 0; }
