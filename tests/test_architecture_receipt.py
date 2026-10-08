@@ -264,6 +264,19 @@ class ArchitectureReceiptContract(unittest.TestCase):
             self.write_log(mode, test_ids)
         self.assert_accepted(self.run_receipt(), test_ids=test_ids)
 
+    def test_nonunderscore_unittest_names_are_accepted_as_additional_controls(self):
+        # unittest's default discovery prefix is "test", so both a camel-case
+        # continuation and a digit are valid method names. Rejecting these
+        # complete passing results cannot be the fix for malformed result lines.
+        test_ids = (
+            *REQUIRED_IDS,
+            "test_architecture_receipt.TESTAdditionalControl.testExtra",
+            "test_architecture_receipt.TESTAdditionalControl.test1",
+        )
+        for mode in ("normal", "optimized"):
+            self.write_log(mode, test_ids)
+        self.assert_accepted(self.run_receipt(), test_ids=test_ids)
+
     def test_malformed_foreign_or_shortname_mismatched_test_identities_are_refused(self):
         for identity in (
             "foreign_test_module.TESTAdditionalControl.test_extra",
@@ -328,6 +341,30 @@ class ArchitectureReceiptContract(unittest.TestCase):
                 # All 53 valid results stay untouched, the reported count stays
                 # 53, and both logs have the identical malformed extra line.
                 # Ignoring that line must not turn the staged log into success.
+                contents = valid.replace(footer, "\n" + malformed + footer, 1)
+                for mode in ("normal", "optimized"):
+                    self.path("tests-" + mode + ".log").write_text(contents, encoding="utf-8")
+                self.assert_refused()
+
+    def test_nonunderscore_unittest_prefix_malformed_results_are_not_diagnostics(self):
+        footer = "\n\n" + "-" * 70 + "\n"
+        valid = synthetic_log()
+        self.assertEqual(len(REQUIRED_IDS), 53)
+        self.assertIn(footer, valid)
+        self.assertIn("Ran 53 tests in 0.001s\n\nOK\n", valid)
+        for malformed in (
+            "testExtra ...FAIL",
+            "test1 ...FAIL",
+            "testExtra ...ERROR",
+            "test1 ...ERROR",
+            "testExtra ...skipped 'TEST optional'",
+            "test1 ...skipped 'TEST optional'",
+        ):
+            with self.subTest(malformed=malformed):
+                # Keep all 53 valid results and their footer untouched. Both
+                # modes contain the same additional damaged result, without a
+                # qualified identity or a space after the ellipsis. A classifier
+                # limited to "test_" must not silently discard this failed line.
                 contents = valid.replace(footer, "\n" + malformed + footer, 1)
                 for mode in ("normal", "optimized"):
                     self.path("tests-" + mode + ".log").write_text(contents, encoding="utf-8")
