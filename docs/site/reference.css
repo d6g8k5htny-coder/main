@@ -10,3 +10,5 @@
 caption { text-align: left; color: var(--ul-muted); margin-bottom: 12px; }
 [hidden] { display: none !important; }
 .table-scroll td code { white-space: nowrap; }
+/* Phone legibility (W5 #2, W6d): the global td:nth-child(2) 150px cap must not clip exact endpoints; the row scrolls inside its labelled region instead. */
+.table-scroll td { max-width: none; }
