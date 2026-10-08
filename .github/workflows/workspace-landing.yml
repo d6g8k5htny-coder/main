@@ -40,6 +40,13 @@ jobs:
         run: python3 tools/workspace_landing_check.py
       - name: Describe coverage
         run: echo 'Verified landing links, historical byte identities and delivery archive controls only. Research branches and mathematical claims were not verified by this job.' >> "$GITHUB_STEP_SUMMARY"
+      - name: W8b formal and intake controls in both Python modes
+        run: |
+          set -e
+          python3 -B -E -S tests/test_required_formal_binding_control.py -v
+          python3 -B -E -O -S tests/test_required_formal_binding_control.py -v
+          python3 -B -E -S tests/test_public_intake_artifact_identity_control.py -v
+          python3 -B -E -O -S tests/test_public_intake_artifact_identity_control.py -v
       - name: Bind existing checks to tested commit
         id: checks-identity
         run: |
