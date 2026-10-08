@@ -432,7 +432,7 @@ def _lineage(party: Any, *, normalized: bool) -> dict[str, str] | None:
 
 
 def _alignment_reasons(document: dict[str, Any] | None, manifest: Capture, scope: Capture,
-                       targets: list[str], *, main: bool) -> list[str]:
+                       targets: list[str], *, main: bool, source_author: Any = None) -> list[str]:
     if document is None:
         return ["alignment_not_recorded"]
     reasons = []
@@ -451,7 +451,16 @@ def _alignment_reasons(document: dict[str, Any] | None, manifest: Capture, scope
         reasons.append("alignment_not_accepted")
     reviewer = _lineage(document.get("reviewer"), normalized=not main)
     authors = [_lineage(document.get("author"), normalized=not main)]
-    if not main:
+    if main:
+        retained_author = _lineage(source_author, normalized=False)
+        if retained_author is None:
+            reasons.append("manifest_author_unresolved")
+        else:
+            if authors[0] != retained_author:
+                reasons.append("author_binding_changed")
+            # A review cannot gain distinct lineage by relabeling its author.
+            authors.append(retained_author)
+    else:
         proposers = document.get("proposal_authors", [])
         if type(proposers) is not list:
             reasons.append("lineage_not_distinct")
@@ -625,7 +634,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             complete = complete and set(phases) <= set(controls)
     alignment_capture = None if value["alignment"] is None else captures.git(value["alignment"], "formal alignment")
     alignment = None if alignment_capture is None else alignment_capture.document("formal alignment")
-    alignment_reasons = _alignment_reasons(alignment, manifest_capture, scope, targets, main=main)
+    alignment_reasons = _alignment_reasons(alignment, manifest_capture, scope, targets,
+                                           main=main, source_author=manifest.get("author"))
     return {
         "id": identity, "main": main, "native": native, "context_current": _same_context(native, expected),
         "manifest_capture": manifest_capture, "scope": scope, "manifest": manifest,
