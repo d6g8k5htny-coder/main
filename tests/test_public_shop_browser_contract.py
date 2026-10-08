@@ -133,7 +133,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
                 calls=[node for node in ast.walk(functions[parent]) if isinstance(node,ast.Call)
                        and isinstance(node.func,ast.Name) and node.func.id==helper]
                 self.assertEqual(len(calls),1,'The helper must be reached by the existing four-case flow')
-        self.assertIn('len(report["cases"])==16',source)
+        self.assertIn('len(report["cases"])==18',source)
 
     def test_bibtex_browser_checks_compare_real_clipboard_and_keep_failure_paths(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
@@ -150,7 +150,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
 
     def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
-        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==16']:
+        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==18']:
             self.assertIn(token,source)
 
     def test_reader_tools_have_desktop_and_mobile_browser_evidence(self):
@@ -168,8 +168,24 @@ class ReaderSourceBrowserContract(unittest.TestCase):
             'dated claim-dependency snapshot', 'page.keyboard.press("Tab")',
             'page.keyboard.press("Enter")',
             'documentElement.scrollWidth',
-            'len(report["cases"])==16',
+            'len(report["cases"])==18',
         ]:
             self.assertIn(token,source)
+
+    def test_rendered_layout_cases_read_what_the_browser_drew(self):
+        # Stylesheet parsing misses compound selectors, nesting, !important and longhands; these cases read computed and rendered outcomes.
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        functions={node.name:node for node in module.body if isinstance(node,ast.FunctionDef)}
+        main=ast.get_source_segment(source,functions['main'])
+        for name in ('check_rendered_focus_rings','check_rendered_text_layout'):
+            self.assertIn(name,functions)
+            self.assertIn(name,main)
+        for token in [":focus-visible","getBoundingClientRect","getClientRects","overflowX","overflowY","#conditional-route","figure.museum-visual",
+                      "ec014","remote","annulus","p15","blockquote","text-spacing-override.css","line-height:1.5","letter-spacing:.12em",
+                      "word-spacing:.16em","margin-bottom:2em",".evidence-table th, .evidence-table td:nth-child(2)","hist.CH-LIFT",
+                      "math.d5-component.punctured-pin-proof","scrollWidth","clientWidth"]:
+            self.assertIn(token,source)
+        self.assertIn('len(report["cases"])==18',source)
 
 if __name__=='__main__':unittest.main()

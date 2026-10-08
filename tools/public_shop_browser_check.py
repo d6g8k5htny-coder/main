@@ -9,6 +9,7 @@ from functools import partial
 from hashlib import sha256, file_digest
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import argparse
+import base64
 import importlib.metadata
 import json
 import os
@@ -1560,6 +1561,422 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     result["steps"].append("Saved exact-classification filters, all-records recovery, scope/evidence boundaries and native audit disclosure checked")
 
 
+# Rendered outcomes, not stylesheet parsing: whatever selector, sheet or !important produces the layout, these read what Chromium drew.
+# A focused element's ring box is its border box grown by outline offset + width on every side; an ancestor whose overflow is not
+# visible clips at its padding box on that axis, so any part of the ring past that edge is not drawn. The ring colour is composited
+# over the nearest ancestor backgrounds (white when none is opaque) and its contrast taken by WCAG relative luminance. With a text
+# scope, every rendered text line box inside it (not inside a closed disclosure) that is not the element's own text must stay outside the ring box.
+FOCUS_RING_JS=r"""(el, scope) => {
+  const name=e=>e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+[...e.classList].map(c=>'.'+c).join('');
+  const s=getComputedStyle(el), grow=s.outlineStyle==='none'?0:parseFloat(s.outlineWidth)+parseFloat(s.outlineOffset), b=el.getBoundingClientRect();
+  const ring={left:b.left-grow,top:b.top-grow,right:b.right+grow,bottom:b.bottom+grow}, cuts=[];let room=Infinity;
+  for(let a=el.parentElement;a;a=a.parentElement){
+    const c=getComputedStyle(a), r=a.getBoundingClientRect();
+    const clip={left:r.left+parseFloat(c.borderLeftWidth),top:r.top+parseFloat(c.borderTopWidth),right:r.right-parseFloat(c.borderRightWidth),bottom:r.bottom-parseFloat(c.borderBottomWidth)};
+    const sides=[];
+    if(c.overflowX!=='visible')sides.push(['left',clip.left-ring.left],['right',ring.right-clip.right]);
+    if(c.overflowY!=='visible')sides.push(['top',clip.top-ring.top],['bottom',ring.bottom-clip.bottom]);
+    for(const [side,cut] of sides){room=Math.min(room,-cut);if(cut>0.5)cuts.push(`${side} side cut ${cut.toFixed(1)}px by ${name(a)}`);}
+  }
+  const paint=document.createElement('canvas').getContext('2d',{willReadFrequently:true});
+  const rgba=css=>{paint.clearRect(0,0,1,1);paint.fillStyle='rgba(0,0,0,0)';paint.fillStyle=css;paint.fillRect(0,0,1,1);const d=paint.getImageData(0,0,1,1).data;return [d[0],d[1],d[2],d[3]/255];};
+  const layers=[];
+  for(let a=el.parentElement;a;a=a.parentElement){const c=rgba(getComputedStyle(a).backgroundColor);if(c[3]>0)layers.unshift(c);if(c[3]>=1)break;}
+  let surface=[255,255,255];for(const c of layers)surface=surface.map((v,i)=>c[i]*c[3]+v*(1-c[3]));
+  const outline=rgba(s.outlineColor), drawn=surface.map((v,i)=>outline[i]*outline[3]+v*(1-outline[3]));
+  const lum=c=>c.map(v=>{v/=255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4;}).reduce((t,v,i)=>t+v*[0.2126,0.7152,0.0722][i],0);
+  const [hi,lo]=[lum(drawn),lum(surface)].sort((x,y)=>y-x), contrast=(hi+0.05)/(lo+0.05);
+  const hits=[];let gap=Infinity;
+  if(scope)for(const host of document.querySelectorAll(scope)){
+    const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);
+    for(let t=walker.nextNode();t;t=walker.nextNode()){
+      if(!t.data.trim()||el.contains(t)||!t.parentElement.checkVisibility({visibilityProperty:true}))continue;const range=document.createRange();range.selectNodeContents(t);
+      for(const q of range.getClientRects()){
+        if(q.width<=0||q.height<=0||Math.min(q.right,ring.right)-Math.max(q.left,ring.left)<=0.5)continue;
+        const apart=Math.max(q.top-ring.bottom,ring.top-q.bottom);gap=Math.min(gap,apart);
+        if(apart<-0.5)hits.push(`"${t.data.trim().replace(/\s+/g,' ').slice(0,40)}" (${q.top.toFixed(1)}-${q.bottom.toFixed(1)}px) inside the ring box (${ring.top.toFixed(1)}-${ring.bottom.toFixed(1)}px)`);
+      }
+    }
+  }
+  return {element:name(el)+' "'+(el.textContent||'').trim().replace(/\s+/g,' ').slice(0,48)+'"',focused:document.activeElement===el,visible:el.matches(':focus-visible'),
+    style:s.outlineStyle,width:s.outlineWidth,offset:s.outlineOffset,color:s.outlineColor,alpha:outline[3],surface:surface.map(Math.round),contrast:Math.round(contrast*100)/100,
+    rects:[...el.getClientRects()].filter(q=>q.width>0&&q.height>0).map(q=>({left:q.left,top:q.top,right:q.right,bottom:q.bottom})),
+    room:Number.isFinite(room)?Math.round(room*10)/10+0:null,cuts,hits,gap:Number.isFinite(gap)?Math.round(gap*10)/10+0:null};
+}"""
+# Painted ring: two screenshots of the same clip, focused and blurred, decoded in the page itself (a second page would put this one in
+# the background and slow every screenshot to a throttled frame). A pixel changed when a colour channel moved by more than 30. For each
+# fragment rect (a link that wraps has one per line) and each side, every position along the side whose ring band (offset..offset+width
+# outside the rect, one pixel of slack each way) belongs to the outline of the fragments' union is tested for a changed pixel across the
+# band; this returns each side's share of such positions, and check_rendered_focus_rings requires at least 97%. Each outer corner
+# square (width x width) of that outline must have changed throughout.
+RING_PIXELS_JS=r"""async ([focused, blurred, at, rects, offset, width]) => {
+  const decode=async data=>{const bytes=Uint8Array.from(atob(data),c=>c.charCodeAt(0));
+    const bitmap=await createImageBitmap(new Blob([bytes],{type:'image/png'}),{colorSpaceConversion:'none',premultiplyAlpha:'none'});
+    const canvas=new OffscreenCanvas(bitmap.width,bitmap.height),context=canvas.getContext('2d',{willReadFrequently:true});context.drawImage(bitmap,0,0);
+    return context.getImageData(0,0,bitmap.width,bitmap.height);};
+  const [a,b]=await Promise.all([decode(focused),decode(blurred)]);
+  const changed=(x,y)=>{x-=at[0];y-=at[1];if(x<0||y<0||x>=Math.min(a.width,b.width)||y>=Math.min(a.height,b.height))return false;
+    const i=(y*a.width+x)*4,j=(y*b.width+x)*4;return Math.max(Math.abs(a.data[i]-b.data[j]),Math.abs(a.data[i+1]-b.data[j+1]),Math.abs(a.data[i+2]-b.data[j+2]))>30;};
+  const grown=d=>rects.map(q=>({left:q.left-d,top:q.top-d,right:q.right+d,bottom:q.bottom+d}));
+  const outer=grown(offset+width), inner=grown(offset), within=(q,x,y)=>x>q.left&&x<q.right&&y>q.top&&y<q.bottom;
+  const band=(x,y)=>outer.some(q=>within(q,x,y))&&!inner.some(q=>within(q,x,y));
+  const g=offset+width, mid=offset+width/2, sides=[], corners=[];
+  rects.forEach((q,n)=>{
+    const runs={top:[q.left,q.right,p=>[p+0.5,q.top-mid],Math.floor(q.top-g-1),Math.ceil(q.top-offset+1),true],
+                bottom:[q.left,q.right,p=>[p+0.5,q.bottom+mid],Math.floor(q.bottom+offset-1),Math.ceil(q.bottom+g+1),true],
+                left:[q.top,q.bottom,p=>[q.left-mid,p+0.5],Math.floor(q.left-g-1),Math.ceil(q.left-offset+1),false],
+                right:[q.top,q.bottom,p=>[q.right+mid,p+0.5],Math.floor(q.right+offset-1),Math.ceil(q.right+g+1),false]};
+    for(const [side,[from,to,point,lo,hi,across]] of Object.entries(runs)){
+      let total=0,hit=0;
+      for(let p=Math.ceil(from);p<Math.floor(to);p++){
+        if(!band(...point(p)))continue;total++;
+        for(let c=lo;c<hi;c++)if(across?changed(p,c):changed(c,p)){hit++;break;}
+      }
+      if(total)sides.push({fragment:n,side,positions:total,share:Math.round(hit/total*1000)/1000});
+    }
+    for(const [corner,x0,y0] of [['top-left',q.left-g,q.top-g],['top-right',q.right+offset,q.top-g],['bottom-left',q.left-g,q.bottom+offset],['bottom-right',q.right+offset,q.bottom+offset]]){
+      const cx=Math.round(x0),cy=Math.round(y0);if(!band(cx+width/2,cy+width/2))continue;
+      let count=0;for(let y=cy;y<cy+width;y++)for(let x=cx;x<cx+width;x++)if(changed(x,y))count++;
+      corners.push({fragment:n,corner,changed:count,of:width*width});
+    }
+  });
+  return {sides,corners};
+}"""
+# A whitespace-separated token is 'json' if it holds a brace, or a straight double quote next to a colon or comma. Otherwise, with leading
+# ( " ' “ ‘ [ and trailing ) " ' ” ’ ] , . ; : … stripped, it is a 'path' for a URL scheme, a leading /, ./ or ../, two or more slashes, a
+# trailing slash, or a slash followed by a name with an extension; a 'hash' for seven or more hex digits mixing digits and letters; an
+# 'id' for any digit, _ # @ = or backslash, a . or : between two letters or digits, or a lower-case letter followed by a capital; and
+# otherwise a 'word' (so informal/formal, one slash and no extension, is a word).
+TOKEN_KIND_JS=r"""token => {
+  if(/[{}]|"[:,]|[:,]"/.test(token))return 'json';
+  const core=token.replace(/^[("'“‘\[]+/u,'').replace(/[)"'”’\],.;:…]+$/u,'');
+  if(/^[a-z][a-z0-9+.-]*:\/\//i.test(core)||/^\.{0,2}\//.test(core)||(core.match(/\//g)||[]).length>1||/\/$/.test(core)||/\/[^/]*\.[A-Za-z0-9]+$/.test(core))return 'path';
+  if(/^[0-9a-f]{7,}$/i.test(core)&&/[0-9]/.test(core)&&/[a-f]/i.test(core))return 'hash';
+  if(/[0-9_#@=\\]|[A-Za-z0-9][.:][A-Za-z0-9]|[a-z][A-Z]/.test(core))return 'id';
+  return 'word';
+}"""
+# Every whitespace-separated word in the matched cells whose characters fall on more than one line box, and every word with a line box
+# outside its cell's border box (by more than 0.5px). With ordinary=true, text inside a link or code element is skipped (those may break
+# anywhere) and so is every token TOKEN_KIND_JS does not call a word; `kinds` counts the kinds of the tokens read. A split is `inside`
+# unless each of its line changes comes right after a hyphen (U+002D or U+2010) or a slash in the word.
+WORD_SPLITS_JS=r"""([selector, ordinary]) => {
+  const kind=(""" + TOKEN_KIND_JS + r"""), kinds={}, splits=[], spills=[], details=[];let words=0;
+  for(const cell of document.querySelectorAll(selector)){
+    const box=cell.getBoundingClientRect(), row=cell.parentElement.firstElementChild.textContent.trim(), where=`${cell.tagName.toLowerCase()} of row "${row}"`;
+    const walker=document.createTreeWalker(cell,NodeFilter.SHOW_TEXT);
+    for(let text=walker.nextNode();text;text=walker.nextNode()){
+      const linked=!!text.parentElement.closest('a, code');
+      if(ordinary&&linked)continue;
+      for(const match of text.data.matchAll(/\S+/g)){
+        const word=match[0], k=kind(word);kinds[k]=(kinds[k]||0)+1;
+        if(ordinary&&k!=='word')continue;
+        words++;const range=document.createRange();range.setStart(text,match.index);range.setEnd(text,match.index+word.length);
+        const lines=[];let out=null;
+        for(const q of range.getClientRects()){
+          if(!q.width&&!q.height)continue;const mid=(q.top+q.bottom)/2;if(!lines.some(y=>Math.abs(y-mid)<2))lines.push(mid);
+          const past=Math.max(box.left-q.left,q.right-box.right,box.top-q.top,q.bottom-box.bottom);if(past>0.5)out=Math.max(out||0,past);
+        }
+        if(out!==null)spills.push(`"${word.slice(0,60)}" reaches ${out.toFixed(1)}px outside its ${where}`);
+        if(lines.length>1){
+          let inside=false,prev=null;
+          for(let i=0;i<word.length&&!inside;i++){
+            const one=document.createRange();one.setStart(text,match.index+i);one.setEnd(text,match.index+i+1);
+            const qs=[...one.getClientRects()].filter(q=>q.width||q.height);if(!qs.length)continue;
+            const y=(qs[qs.length-1].top+qs[qs.length-1].bottom)/2;
+            if(prev&&Math.abs(y-prev.y)>2&&!/[-\/\u2010]/.test(word[prev.i]))inside=true;
+            prev={i,y};
+          }
+          splits.push(`"${word.slice(0,60)}" on ${lines.length} lines in ${where}`);
+          details.push({word:word.slice(0,120),kind:k,linked,inside,row,lines:lines.length});
+        }
+      }
+    }
+  }
+  return {words,kinds,splits,spills,details};
+}"""
+# Document width, and every rendered text line box (checkVisibility: not hidden, not inside a closed disclosure) that is cut. Walking
+# outward from the line, the subject that must stay visible starts as the line box. An ancestor that clips content (overflow hidden or
+# clip on an axis; paint containment or content-visibility:auto on both) must hold the subject inside its padding box. An ancestor that
+# scrolls on an axis (overflow auto or scroll) makes the text reachable there, so on that axis the subject becomes that ancestor's
+# scrollport, which every ancestor further out, and the viewport, must still hold. An ancestor's clip-path inset() must hold the subject
+# inside the inset rectangle of its border box (rounded corners are not measured); any other clip-path is reported as unmeasured.
+DOCUMENT_WIDTH_JS=r"""() => {
+  const root=document.documentElement,width=root.clientWidth,wide=[],cut=[],clips=new Map();
+  const name=e=>e.tagName.toLowerCase()+(e.id?'#'+e.id:'')+[...e.classList].map(c=>'.'+c).join('');
+  const scrolls=e=>{for(let a=e;a&&a!==root;a=a.parentElement)if(getComputedStyle(a).overflowX!=='visible')return true;return false;};
+  const inset=(c,r)=>{const m=/^inset\((.*?)(?:\s+round\s.*)?\)(?:\s+border-box)?$/.exec(c.clipPath.trim());if(!m)return null;
+    const v=m[1].trim().split(/\s+/),[t,ri,b,l]=[v[0],v[1]??v[0],v[2]??v[0],v[3]??v[1]??v[0]];
+    const len=(x,ref)=>/^-?[\d.]+px$/.test(x)?parseFloat(x):/^-?[\d.]+%$/.test(x)?parseFloat(x)/100*ref:/^0$/.test(x)?0:NaN;
+    const box={left:r.left+len(l,r.width),right:r.right-len(ri,r.width),top:r.top+len(t,r.height),bottom:r.bottom-len(b,r.height)};
+    return Object.values(box).some(Number.isNaN)?null:box;};
+  const clipping=a=>{if(!clips.has(a)){const c=getComputedStyle(a),contained=/paint|strict|content/.test(c.contain)||c.contentVisibility==='auto';
+    const axis=o=>o==='auto'||o==='scroll'?'scroll':o==='hidden'||o==='clip'||contained?'clip':null;
+    clips.set(a,{x:axis(c.overflowX),y:axis(c.overflowY),path:c.clipPath!=='none',c});}return clips.get(a);};
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let runs=0;
+  for(let t=walker.nextNode();t;t=walker.nextNode()){
+    if(!t.data.trim()||!t.parentElement||!t.parentElement.checkVisibility({visibilityProperty:true}))continue;
+    const range=document.createRange();range.selectNodeContents(t);
+    for(const q of range.getClientRects()){
+      if(q.width<=0)continue;runs++;const s={left:q.left,right:q.right,top:q.top,bottom:q.bottom};let why=null;
+      const outX=b=>s.left<b.left-0.5||s.right>b.right+0.5,outY=b=>s.top<b.top-0.5||s.bottom>b.bottom+0.5;
+      for(let a=t.parentElement;a&&a!==root&&!why;a=a.parentElement){
+        const k=clipping(a);if(!k.x&&!k.y&&!k.path)continue;
+        const r=a.getBoundingClientRect(),c=k.c,pad={left:r.left+parseFloat(c.borderLeftWidth),right:r.right-parseFloat(c.borderRightWidth),top:r.top+parseFloat(c.borderTopWidth),bottom:r.bottom-parseFloat(c.borderBottomWidth)};
+        if(k.x==='clip'&&outX(pad))why=`clipped by ${name(a)} [${pad.left.toFixed(1)}, ${pad.right.toFixed(1)}]`;
+        else if(k.y==='clip'&&outY(pad))why=`clipped by ${name(a)} [${pad.top.toFixed(1)}, ${pad.bottom.toFixed(1)}] vertically`;
+        if(why)break;
+        if(k.x==='scroll'){s.left=pad.left;s.right=pad.right;}
+        if(k.y==='scroll'){s.top=pad.top;s.bottom=pad.bottom;}
+        if(k.path){const box=inset(c,r);
+          if(!box)why=`under ${name(a)}, whose clip-path ${c.clipPath} is not measured`;
+          else if(outX(box)||outY(box))why=`clipped by the clip-path of ${name(a)} [${box.left.toFixed(1)}, ${box.right.toFixed(1)}] x [${box.top.toFixed(1)}, ${box.bottom.toFixed(1)}]`;}
+      }
+      if(!why&&(s.left<-0.5||s.right>width+0.5))why=`past the ${width}px viewport`;
+      if(why){cut.push(`${name(t.parentElement)} "${t.data.trim().slice(0,48)}" [${q.left.toFixed(1)}, ${q.right.toFixed(1)}] ${why}`);break;}
+    }
+  }
+  if(root.scrollWidth>width)
+    for(const e of document.body.querySelectorAll('*')){const r=e.getBoundingClientRect();if(r.width>0&&r.right>width+0.5&&!scrolls(e.parentElement))wide.push(name(e)+' to '+r.right.toFixed(1)+'px');}
+  const p=getComputedStyle(document.querySelector('main p'));
+  return {scrollWidth:root.scrollWidth,clientWidth:width,wide:wide.slice(-4),runs,cut:cut.slice(0,4),cuts:cut.length,spacing:[p.letterSpacing,p.wordSpacing]};
+}"""
+EVIDENCE_REGION_JS="""() => {const region=document.querySelector('#object-evidence .evidence-scroll'),table=region.querySelector('.evidence-table');
+  return {table:Math.round(table.getBoundingClientRect().width*10)/10,client:region.clientWidth,scroll:region.scrollWidth,
+          tabindex:region.tabIndex,overflowX:getComputedStyle(region).overflowX};}"""
+# The evidence region's focus state and scroll range, its scrollLeft once unchanged over three animation frames, and how far the table's
+# right edge passes the region's inner right edge.
+REGION_FOCUS_JS="""e => {const s=getComputedStyle(e);return {focused:e===document.activeElement,focus_visible:e.matches(':focus-visible'),outline:s.outlineStyle,
+  width:parseFloat(s.outlineWidth),max:e.scrollWidth-e.clientWidth,left:e.scrollLeft};}"""
+SCROLL_SETTLED_JS="e => new Promise(done => {let last=NaN,same=0,n=0;const step=()=>{const x=e.scrollLeft;same=x===last?same+1:0;last=x;if(same>=3||++n>120)done(x);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
+TABLE_EDGE_JS="e => {const t=e.querySelector('.evidence-table').getBoundingClientRect(),r=e.getBoundingClientRect();return Math.round((t.right-(r.left+e.clientLeft+e.clientWidth))*10)/10;}"
+# Resolves true once the element's box is the same over three animation frames (an exhibit redraws after a viewport change), false after 60.
+SETTLED_JS="el => new Promise(done => {let last='',same=0,frames=0;const step=()=>{const r=el.getBoundingClientRect(),key=[r.left,r.top,r.width,r.height].join();same=key===last?same+1:0;last=key;if(same>=2||++frames>60)done(same>=2);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
+# The museum's two status lines: every height each takes from its first text (verification held at the manifest) to its last.
+STATUS_HEIGHTS_JS="""() => {const seen=window.__statusHeights={};
+  for(const id of ['museum-state','conditional-route-status']){const line=document.getElementById(id),list=seen[id]=[];
+    const note=()=>{const text=line.textContent;if(!list.length||list[list.length-1].text!==text)list.push({text,height:line.getBoundingClientRect().height});};
+    note();new MutationObserver(note).observe(line,{childList:true,characterData:true,subtree:true});}
+  return Object.fromEntries(Object.entries(seen).map(([id,list])=>[id,list[0]]));}"""
+# WCAG 1.4.12 text-spacing override, served same-origin so the pages' style-src 'self' policy admits it.
+TEXT_SPACING_CSS="*,*::before,*::after{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}p{margin-bottom:2em!important}"
+
+# Focuses the element and checks its ring: computed (focused with :focus-visible; solid 3px at a 4px offset; non-zero alpha and 3:1
+# against the surface behind it; no clipping ancestor cutting it; with a scope, no other text inside the ring box) and painted (focused
+# against blurred screenshots: changed pixels along at least 97% of every side of the ring band and in every outer corner). Leaves the
+# element blurred.
+def check_ring(page, locator, where, scope=None):
+    def settle():
+        locator.evaluate("e => e.scrollIntoView({block:'center',inline:'nearest'})")
+        require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after scrolling into view")
+        locator.focus()
+        return locator.evaluate(FOCUS_RING_JS,scope)
+    state=settle();label=f'{where}: {state["element"]}'
+    require(state["focused"] and state["visible"],f"{label} is not keyboard-focused with :focus-visible: {state}")
+    require((state["style"],state["width"],state["offset"])==("solid","3px","4px"),f'{label} ring is {state["style"]} {state["width"]} at offset {state["offset"]}, not solid 3px at 4px')
+    offset,width=float(state["offset"][:-2]),float(state["width"][:-2]);grow=offset+width+2
+    view=restore=page.viewport_size
+    need=max(q["bottom"] for q in state["rects"])-min(q["top"] for q in state["rects"])+2*grow+16
+    if need>view["height"]:
+        # A target taller than the viewport is screenshotted whole: the viewport grows in height only, for these screenshots, and the
+        # ring box is centred in it (scrollIntoView honours scroll margins, which can push a tall box's ring past the bottom edge).
+        page.set_viewport_size({"width":view["width"],"height":int(need)+48});view=page.viewport_size;state=settle()
+        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
+        if top<0 or bottom>view["height"]:
+            page.evaluate("d => window.scrollBy(0,d)",top-(view["height"]-(bottom-top))/2)
+            require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after centring its ring box");state=locator.evaluate(FOCUS_RING_JS,scope)
+    try:
+        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
+        require(top>=0 and bottom<=view["height"] or need<=restore["height"],f'{label}: its ring box [{top:.1f}, {bottom:.1f}] does not fit the {view["height"]}px viewport')
+        require(state["alpha"]>0 and state["contrast"]>=3,f'{label} ring colour {state["color"]} has {state["contrast"]}:1 against the surface rgb{tuple(state["surface"])} behind it, not 3:1')
+        require(not state["cuts"],f'{label} ring is clipped: {"; ".join(state["cuts"])}')
+        require(not state["hits"],f'{label} ring box crosses other text: {"; ".join(state["hits"][:3])}')
+        left=max(0,int(min(q["left"] for q in state["rects"])-grow));top=max(0,int(min(q["top"] for q in state["rects"])-grow))
+        right=min(view["width"],int(max(q["right"] for q in state["rects"])+grow)+1);bottom=min(view["height"],int(max(q["bottom"] for q in state["rects"])+grow)+1)
+        clip={"x":left,"y":top,"width":right-left,"height":bottom-top}
+        focused=page.screenshot(clip=clip,animations="disabled")
+        locator.evaluate("e => e.blur()")
+        blurred=page.screenshot(clip=clip,animations="disabled")
+    finally:
+        if view!=restore:page.set_viewport_size(restore)
+    painted=page.evaluate(RING_PIXELS_JS,[base64.b64encode(focused).decode(),base64.b64encode(blurred).decode(),[left,top],state["rects"],offset,int(width)])
+    short=[f'{x["side"]} side {x["share"]:.1%}'+(f' (line {x["fragment"]+1})' if len(state["rects"])>1 else '') for x in painted["sides"] if x["share"]<0.97]
+    short+=[f'{x["corner"]} corner {x["changed"]}/{x["of"]} px' for x in painted["corners"] if x["changed"]<x["of"]]
+    require(painted["sides"] and not short,f'{label} ring is not painted whole (changed pixels, focused against blurred): {"; ".join(short) or "no ring band in view"}')
+    state["least_side"]=min(x["share"] for x in painted["sides"])
+    return state
+
+def check_rendered_focus_rings(page, origin, expect, result, output):
+    result["rings"]=[]
+    # Verification rewrites #museum-state and #conditional-route-status; at 1280 each keeps the height of its first text through its
+    # last, so the page below it stays put.
+    held=[]
+    manifest=lambda url:urlsplit(url).path.endswith("/museum.json")
+    page.route(manifest,lambda route:held.append(route))
+    page.goto(origin+"museum.html")
+    deadline=time.monotonic()+45
+    while not held and time.monotonic()<deadline:
+        page.wait_for_timeout(10)  # Pump Playwright events until the manifest request is held.
+    require(len(held)==1,"The museum manifest request was not held before verification")
+    first=page.evaluate(STATUS_HEIGHTS_JS)
+    for line,start in first.items():
+        require(start["text"].startswith("Verifying"),f'#{line} first text is not the verifying line: {start["text"]!r}')
+    held[0].continue_();page.unroute(manifest)
+    expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
+    expect(page.locator("#conditional-route-status")).to_contain_text("source bytes verified",timeout=45000)
+    heights=page.evaluate("() => window.__statusHeights")
+    result["status_lines"]=[]
+    for line,start in first.items():
+        moved=[f'{x["height"]:.1f}px for "{x["text"][:48]}"' for x in heights[line] if abs(x["height"]-start["height"])>0.5]
+        require(not moved,f'museum.html at 1280: #{line} is {start["height"]:.1f}px for its first text and {"; ".join(moved)}')
+        result["status_lines"].append({"line":line,"width":1280,"texts":len(heights[line]),"height":round(start["height"],1)})
+    ring=lambda locator,where,scope=None:check_ring(page,locator,where,scope)
+    route=page.locator("#conditional-route")
+    expect(route.locator("summary")).to_have_count(6,timeout=45000)
+    # Rings are checked in both colour schemes: the card surface, the ring colour and any scheme-scoped rule differ between them.
+    for scheme in ["light","dark"]:
+        page.emulate_media(color_scheme=scheme)
+        page.keyboard.press("Shift")
+        for size in [{"width":1280,"height":900},{"width":390,"height":844},{"width":320,"height":800}]:
+            page.set_viewport_size(size);where=f'museum.html at {size["width"]} ({scheme})'
+            stops=route.locator("summary, a[href]")
+            require(stops.count()==8,f"{where}: expected 6 summaries and 2 links in #conditional-route, found {stops.count()}")
+            states=[ring(stops.nth(i),where,"#conditional-route" if i<6 else None) for i in range(stops.count())]
+            require(all(x["element"].startswith("summary") for x in states[:6]),f"{where}: the first six stops are not the six summaries")
+            if size["width"]==390:
+                first=route.locator("summary").first
+                first.focus();page.keyboard.press("Enter")
+                quote=route.locator("details").first.locator("blockquote")
+                expect(quote).to_be_visible()
+                margins=quote.evaluate("q => [getComputedStyle(q).marginLeft, getComputedStyle(q).marginRight]")
+                require(margins==["0px","0px"],f"{where}: opened quote has inline margins {margins}, not 0")
+                page.keyboard.press("Enter");expect(quote).to_be_hidden()
+            result["rings"].append({"page":"museum.html","scheme":scheme,"width":size["width"],"stops":len(states),
+                                    "least_clip_room":min((x["room"] for x in states if x["room"] is not None),default=None),
+                                    "least_gap_to_other_text":min((x["gap"] for x in states[:6] if x["gap"] is not None),default=None),
+                                    "least_painted_side":min(x["least_side"] for x in states),"least_contrast":min(x["contrast"] for x in states)})
+    # When the optional Three.js library (geometry.mjs THREE_CDN) and WebGL both load, as they can on a hosted runner, EC-014's 3D view
+    # replaces its 2D figure. Refusing the library makes every run check the same 2D figure, the one a reader without it sees. The route
+    # is held only for EC-014's load (routing turns off the HTTP cache); geometry.mjs keeps the refused load and does not ask again.
+    refused=result["refused_requests"]=[]
+    def refuse_cdn(route):
+        refused.append(route.request.url);route.abort()
+    for view in ["ec014","remote","annulus","p15"]:
+        page.emulate_media(color_scheme="light")
+        if view=="ec014":page.route("https://cdn.jsdelivr.net/**",refuse_cdn)
+        page.goto(origin+f"museum.html?view={view}#active-exhibit")
+        figure=page.locator("#active-exhibit figure.museum-visual")
+        expect(figure).to_be_visible(timeout=45000)
+        if view=="ec014":
+            expect(page.locator("#active-exhibit")).to_contain_text("2D fallback:",timeout=45000)
+            require(any("/three@" in url for url in refused),f"museum.html?view=ec014: the Three.js request was not refused; requests refused: {refused}")
+            page.unroute("https://cdn.jsdelivr.net/**",refuse_cdn)
+            expect(figure).to_be_visible()
+        for scheme in ["light","dark"]:
+            page.emulate_media(color_scheme=scheme)
+            page.keyboard.press("Shift")
+            for size in [{"width":1280,"height":900},{"width":390,"height":844},{"width":320,"height":800}]:
+                page.set_viewport_size(size)
+                state=ring(figure,f'museum.html?view={view} at {size["width"]} ({scheme})')
+                result["rings"].append({"page":f"museum.html?view={view}","scheme":scheme,"width":size["width"],"stops":1,"least_clip_room":state["room"],
+                                        "least_painted_side":state["least_side"],"least_contrast":state["contrast"]})
+    result["steps"].extend(["#museum-state and #conditional-route-status each keep one height from their first to their last text at 1280",
+                            "each conditional-route summary and link, and the exhibit figure of each of the four views (EC-014's 2D figure, with the Three.js request refused), "
+                            "at 1280, 390 and 320 in light and dark: a solid 3px ring at 4px "
+                            "in a colour with 3:1 against the surface behind it, outside every clipping ancestor, and painted (focused against blurred) along every side and corner",
+                            "no summary's ring box crosses any other text line in the card; an opened quote at 390 has no inline margin"])
+
+def check_rendered_text_layout(page, origin, expect, result, output):
+    result["layouts"]=[]
+    override=origin+"text-spacing-override.css"
+    page.route(override,lambda route:route.fulfill(status=200,content_type="text/css",body=TEXT_SPACING_CSS))
+    def spaced():
+        page.add_style_tag(url=override)
+        spacing=page.evaluate(DOCUMENT_WIDTH_JS)["spacing"]
+        require(spacing[1]!="0px","Text-spacing override was not applied: "+str(spacing))
+    def no_overflow(where):
+        width=page.evaluate(DOCUMENT_WIDTH_JS)
+        require(width["scrollWidth"]<=width["clientWidth"],f'{where}: document is {width["scrollWidth"]}px wide in a {width["clientWidth"]}px viewport; past the viewport: boxes {width["wide"]}, text {width["cut"]}')
+        require(width["runs"]>0 and not width["cut"],f'{where}: {width["cuts"]} text line(s) cut where the reader cannot scroll to them: {width["cut"]}')
+        return width
+    def keyboard_scroll(where):
+        # A wider table is allowed only if a keyboard reader can use its region: Tab reaches it from the previous stop, its ring is drawn
+        # (check_ring), arrow keys scroll it to the table's far edge and back without moving focus, and Tab moves on (WCAG 2.1.1, 2.1.2,
+        # 2.4.7).
+        region=page.locator("#object-evidence .evidence-scroll")
+        region.focus();page.keyboard.press("Shift+Tab")
+        require(not region.evaluate("e => e===document.activeElement"),f"{where}: Shift+Tab does not move focus off the .evidence-scroll region")
+        page.keyboard.press("Tab")
+        state=region.evaluate(REGION_FOCUS_JS)
+        require(state["focused"] and state["focus_visible"],f"{where}: Tab from the previous stop does not focus the .evidence-scroll region with :focus-visible: {state}")
+        # Its ring must be seen, not only matched: the same computed and painted checks as every other ring.
+        drawn=check_ring(page,region,f"{where}, .evidence-scroll region")
+        region.focus()
+        def press_until(key,done):
+            for presses in range(21):
+                if done(region.evaluate(SCROLL_SETTLED_JS)):return presses
+                page.keyboard.press(key)
+            return None
+        right=press_until("ArrowRight",lambda x:x>=state["max"]-0.5);edge=region.evaluate(TABLE_EDGE_JS)
+        require(right is not None and edge<=0.5,f'{where}: arrow keys do not scroll the .evidence-scroll region to the table\'s far edge '
+                f'({right} presses for a {state["max"]}px range; the table ends {edge}px past the region)')
+        left=press_until("ArrowLeft",lambda x:x<=0)
+        require(left is not None,f"{where}: arrow keys do not scroll the .evidence-scroll region back to its start")
+        require(region.evaluate("e => e===document.activeElement"),f"{where}: arrow keys moved focus off the .evidence-scroll region")
+        page.keyboard.press("Tab")
+        require(not region.evaluate("e => e===document.activeElement"),f"{where}: Tab does not move focus on from the .evidence-scroll region")
+        return {"range":state["max"],"right_presses":right,"left_presses":left,"ring_contrast":drawn["contrast"],"ring_least_painted_side":drawn["least_side"]}
+    nodes=["hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip","hist.allcell_fdz_enclosures.json","math.side24-coefficient",
+           "math.d5-component.punctured-pin-proof","hist.CH-LIFT"]
+    for width in [320,390]:
+        page.set_viewport_size({"width":width,"height":844 if width==390 else 800})
+        for node in nodes:
+            page.goto(origin+f"dependencies.html?node={node}#node-detail")
+            expect(page.locator("#evidence-body tr")).to_have_count(5,timeout=45000)
+            for spacing in ["default spacing","text-spacing override"]:
+                if spacing=="text-spacing override":spaced()
+                where=f"{node} at {width} with {spacing}"
+                runs=no_overflow(where)["runs"]
+                words=page.evaluate(WORD_SPLITS_JS,[".evidence-table th, .evidence-table td:nth-child(2)",False])
+                require(words["words"]>0 and not words["splits"],f'{where}: Lane/Record state words split across lines: {words["splits"]}')
+                require(not words["spills"],f'{where}: Lane/Record state words outside their cells: {words["spills"]}')
+                region=page.evaluate(EVIDENCE_REGION_JS)
+                fits=region["table"]<=region["client"]+0.5 and region["scroll"]<=region["client"]
+                # WCAG 1.4.10 lets a data table's two-dimensional layout scroll, but not the text of its cells or the content around it, and
+                # 1.4.12 still requires no loss of content or function: the cut-text, whole-word and page-width checks above still hold. Under
+                # the override the table may outgrow its region only if the region scrolls to the table's full width and a keyboard reader
+                # can use it (keyboard_scroll); at default spacing it must fit.
+                scrolls=region["tabindex"]==0 and region["overflowX"] in ("auto","scroll") and region["scroll"]>=region["table"]-0.5
+                require(fits or (spacing=="text-spacing override" and scrolls),
+                        f'{where}: the evidence table is {region["table"]}px wide (content {region["scroll"]}px) in its {region["client"]}px .evidence-scroll region '
+                        f'(tabindex {region["tabindex"]}, overflow-x {region["overflowX"]})')
+                entry={"page":node,"width":width,"spacing":spacing,"lane_and_state_words":words["words"],"text_runs":runs,"table_width":region["table"],"region_width":region["client"],
+                       "table_scrolls_in_region":not fits}
+                if not fits:entry["keyboard_scroll"]=keyboard_scroll(where)
+                if width==390 and spacing=="default spacing":
+                    detail=page.evaluate(WORD_SPLITS_JS,[".evidence-table td:nth-child(3)",True])
+                    entry["source_detail_unlinked_json"]=detail["kinds"].get("json",0)
+                    if not entry["source_detail_unlinked_json"]:
+                        # A break right after a word's own hyphen or slash depends on the font's widths and is ordinary line breaking; any
+                        # other line change inside a word is a split.
+                        inside=[f'"{x["word"][:60]}" on {x["lines"]} lines in td of row "{x["row"]}"' for x in detail["details"] if x["inside"]]
+                        require(detail["words"]>0 and not inside,f'{where}: ordinary Source detail words split other than right after a hyphen or slash: {inside}')
+                        require(not detail["spills"],f'{where}: ordinary Source detail words outside their cells: {detail["spills"]}')
+                        entry["source_detail_words"]=detail["words"];entry["source_detail_breaks_at_hyphen_or_slash"]=len(detail["details"])-len(inside)
+                result["layouts"].append(entry)
+    require(sum(1 for x in result["layouts"] if "source_detail_words" in x)>=1,"No case node without unlinked JSON metadata had its Source detail words checked at 390")
+    page.goto(origin+"dependencies.html")
+    expect(page.locator("#classification-filter")).to_be_enabled(timeout=45000)
+    spaced();no_overflow("dependencies.html at 390 with text-spacing override")
+    page.set_viewport_size({"width":320,"height":800});no_overflow("dependencies.html at 320 with text-spacing override")
+    result["steps"].extend(["five long-token nodes at 320 and 390, with and without WCAG 1.4.12 text spacing: no document overflow, no text line cut where the reader "
+                            "cannot scroll, every Lane and Record state word on one line inside its cell, and the evidence table within its scroll region (under the override, "
+                            "wider only if that region scrolls to the table's full width and a keyboard reader can use it: Tab reaches it with a visible ring, arrow "
+                            "keys scroll it to the table's far edge and back, and Tab moves on)",
+                            "at 390 with default spacing, on each of those nodes without unlinked JSON metadata, no ordinary Source detail word split except right after "
+                            "its own hyphen or slash, and each inside its cell",
+                            "the Dependencies index at 390 and 320 with text spacing: no document overflow and no cut text line"])
+
+
 def check_visitor_recovery(page, origin, expect, result):
     if result["case"] == "query-refusal":
         config=json.loads((ROOT/"docs/site/config.json").read_text())
@@ -1740,9 +2157,23 @@ def main():
                     except Exception:
                         result["screenshot_error"]=traceback.format_exc();result["passed"]=False
                     context.close()
+                for label,flow in [("rendered-focus-rings",check_rendered_focus_rings),("rendered-text-layout",check_rendered_text_layout)]:
+                    result={"case":label,"color_scheme":"light","steps":[],"passed":False};report["cases"].append(result)
+                    context=browser.new_context(viewport={"width":1280,"height":900},color_scheme="light",reduced_motion="reduce")
+                    page=context.new_page();page.set_default_timeout(15000);errors=[];started=time.monotonic()
+                    page.on("pageerror",lambda error:errors.append(str(error)))
+                    try:
+                        flow(page,origin,expect,result,output)
+                        require(not errors,f"Rendered layout page errors: {errors}")
+                        result["passed"]=True
+                    except Exception:
+                        result["error"]=traceback.format_exc()
+                    finally:
+                        result["page_errors"]=errors;result["seconds"]=round(time.monotonic()-started,1)
+                        context.close()
             finally:
                 browser.close()
-        report["passed"]=len(report["cases"])==16 and all(case["passed"] for case in report["cases"])
+        report["passed"]=len(report["cases"])==18 and all(case["passed"] for case in report["cases"])
     except Exception:
         report["passed"]=False;report["error"]=traceback.format_exc()
     finally:
