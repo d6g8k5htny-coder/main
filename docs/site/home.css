@@ -5,7 +5,6 @@
 .home-hero .intro { font-size: 19px; line-height: 1.75; max-width: 535px; }
 .home-hero .actions { align-items: center; margin-top: 22px; gap: 14px; }
 .home-hero .button { padding: 13px 24px; }
-.text-link { font-size: 14px; padding: 10px 0; }
 .hero-note { color: var(--ul-muted); font-size: 15px; line-height: 1.7; max-width: 500px; margin: 18px 0 0; }
 .cut-note { font-size: 13px; }
 .home-hero .hero-cut { margin: 24px 0 0; font-size: 15px; }
@@ -17,16 +16,10 @@
 .art-label { fill: var(--ul-text); font: 12px system-ui, sans-serif; paint-order: stroke; stroke: var(--ul-background); stroke-width: 4px; stroke-linejoin: round; }
 .reader-home .section-heading { align-items: end; gap: 28px; }
 .reader-home h2 { font-size: clamp(31px, 4vw, 46px); }
-.section-intro { max-width: 260px; color: var(--ul-muted); font-size: 15px; }
-.idea-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 38px; margin-top: 36px; }
-.step-number { color: var(--ul-gold); font: 14px ui-monospace, monospace; }
-.idea-grid h3 { font-size: 18px; line-height: 1.5; margin-top: 20px; }
-.idea-grid p { color: var(--ul-muted); font-size: 15px; }
 .launch-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 34px; }
-.launch-card { display: flex; flex-direction: column; align-items: flex-start; padding: 30px; color: var(--ul-text); background: var(--ul-surface); border: 1px solid var(--ul-border); border-radius: 20px; text-decoration: none; }
+.launch-card { display: flex; flex-direction: column; align-items: flex-start; padding: 30px; color: var(--ul-text); background: var(--ul-surface); border: 1px solid var(--ul-border); border-radius: var(--ul-radius-l); text-decoration: none; }
 .launch-card:hover { border-color: var(--ul-edge); background: var(--ul-raised); text-decoration: none; }
-.app-symbol { display: grid; place-items: center; width: 55px; height: 55px; border: 1px solid var(--ul-edge); border-radius: 15px; background: var(--ul-raised); color: var(--ul-link); font: 30px Georgia, serif; margin-bottom: 30px; }
-.card-kicker { color: var(--ul-muted); letter-spacing: .13em; font-size: 10px; }
+.app-symbol { display: grid; place-items: center; width: 55px; height: 55px; border: 1px solid var(--ul-edge); border-radius: var(--ul-radius-m); background: var(--ul-raised); color: var(--ul-link); font: 30px Georgia, serif; margin-bottom: 30px; }
 .launch-card h3 { font: 26px/1.3 Georgia, serif; margin: 12px 0 8px; }
 .launch-card p { color: var(--ul-muted); font-size: 15px; line-height: 1.75; margin-bottom: 28px; }
 .card-action { margin-top: auto; color: var(--ul-link); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
@@ -49,9 +42,7 @@
 @media (max-width: 800px) {
   .reader-home .home-hero { grid-template-columns: 1fr; gap: 15px; padding-top: 48px; }
   .landscape-art { max-width: 430px; margin: 0 auto; }
-  .idea-grid, .launch-grid { grid-template-columns: 1fr; gap: 24px; }
-  .idea-grid article { border-bottom: 1px solid var(--ul-border); padding-bottom: 12px; }
-  .idea-grid article:last-child { border-bottom: 0; }
+  .launch-grid { grid-template-columns: 1fr; gap: 24px; }
   .art-label { font-size: 15px; }
   .launch-card { padding: 26px; }
   .app-symbol { margin-bottom: 20px; }
@@ -71,21 +62,27 @@
 @media print { .reader-home .home-hero { grid-template-columns: 1fr; } .landscape-art { max-width: 350px; } .launch-card { break-inside: avoid; } }
 /* Dated reading navigation, separate from scientific exhibit classes. */
 .latest-work { scroll-margin-top: 24px; }
-.latest-feature, .latest-card, .latest-upstream { background: var(--ul-surface); border: 1px solid var(--ul-border); border-radius: 18px; padding: 28px; min-width: 0; }
+.latest-feature, .latest-card, .latest-upstream { background: var(--ul-surface); border: 1px solid var(--ul-border); border-radius: var(--ul-radius-l); padding: 28px; min-width: 0; }
 .latest-feature { margin-top: 30px; }
-.latest-feature > h3, .latest-card h3, .latest-upstream h3 { font: 27px/1.35 Georgia, serif; margin: 10px 0 16px; }
+.latest-feature > h3, .latest-card h3, .latest-upstream h3 { font: 26px/1.35 Georgia, serif; margin: 10px 0 16px; }
 .latest-feature p, .latest-card p, .latest-upstream p { max-width: 78ch; }
 .latest-chain { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 30px 0; }
 .latest-chain li { border-top: 2px solid var(--ul-edge); padding-top: 20px; min-width: 0; }
 .latest-chain h4 { font-size: 18px; margin: 12px 0; }
 .latest-chain p, .latest-card p, .latest-card li { font-size: 15px; line-height: 1.75; }
+/* After the .latest-card p rule: card kickers keep the shared 12px label scale (brand.css). */
+.latest-card .card-kicker, .latest-feature .card-kicker { font-size: 12px; letter-spacing: .16em; line-height: 1.6; margin: 0 0 6px; }
+.latest-card p code, .latest-chain p code { font-size: 14px; color: var(--ul-text); }
+/* Future display equations are authored as <p class="display-formula"><code>…</code></p> (README); pinned cuts are not retrofitted. */
+p.display-formula code { display: block; font-size: 15px; line-height: 1.6; padding: 10px 14px; background: var(--ul-raised); border-left: 3px solid var(--ul-border); overflow-x: auto; color: var(--ul-text); } /* p.: equal to .latest-card p code and later, so 15px and text colour hold in every card type */
 .latest-chain p, .latest-card > p, .latest-upstream p { color: var(--ul-muted); }
-.latest-boundary { border-left: 3px dashed var(--ul-edge); padding-left: 18px; }
+.latest-boundary { background: var(--ul-raised); border-left: 3px solid var(--ul-edge); padding: 13px 18px; border-radius: 0 var(--ul-radius-s) var(--ul-radius-s) 0; }
 .latest-identities { border-top: 1px solid var(--ul-border); padding-top: 12px; }
 .latest-identities summary { color: var(--ul-link); cursor: pointer; padding: 10px 0; }
 .latest-identities code, .latest-card code { overflow-wrap: anywhere; }
 .latest-identities li { margin-bottom: 14px; overflow-wrap: anywhere; }
 .latest-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.latest-grid > .latest-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .latest-card ul, .latest-upstream ul { padding-left: 22px; }
 .latest-card li, .latest-upstream li { margin: 12px 0; }
 .latest-upstream { margin-top: 20px; background: var(--ul-raised); }
