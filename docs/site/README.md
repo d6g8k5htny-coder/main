@@ -2,7 +2,7 @@
 
 **Live:** [Universal Law](https://d6g8k5htny-coder.github.io/main/site/).
 
-The public home introduces the mathematics before its implementation. All pages share Home, Explore, Research and Library navigation. Contribution options remain available in the footer and technical workspace.
+The public home introduces the mathematics before its implementation. All pages share Home, Explore, Research and Library navigation. Contribution options remain available from Home's About section and footer, from the Research, Reproduce and Cite footers, from the Source records packets section, and from the workspace's Join the work section.
 
 - **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
 - **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
