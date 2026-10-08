@@ -72,8 +72,8 @@ function el(document,tag,text){const n=document.createElement(tag);if(text!==und
 export function renderProjection(document,host,data,source){
   const article=el(document,'article');article.className='museum-card engineering-only';
   article.setAttribute('data-object-class','engineering-only');
-  article.append(el(document,'h3','Conditional route: cumulative transfer'),
-    el(document,'p','ALL six inputs are required. These are hypotheses and definitions, not newly discharged obligations.'),
+  const summary=el(document,'p','ALL six inputs are required. These are hypotheses and definitions, not newly discharged obligations.');summary.setAttribute('role','status');
+  article.append(el(document,'h3','Conditional route: cumulative transfer'),summary,
     el(document,'p','Application evaluation: NOT_EVALUATED. A proved implication is not proof that its hypotheses hold for a particular field.'));
   const identity=el(document,'dl');identity.className='source-identity';
   for(const key of ['repository','path','commit','sha256'])identity.append(el(document,'dt',key),el(document,'dd',source[key]));
@@ -93,7 +93,7 @@ export function renderProjection(document,host,data,source){
     el(document,'p','Generated from verified source bytes. This graph is not formal verification, a proof review, or a scientific-status register.'));
   host.replaceChildren(article);
 }
-const services=()=>import('./museum.mjs?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d');
+const services=()=>import('./museum.mjs?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69');
 // The museum module already verifies config → manifest → index/status once per
 // page fetch and caches every pinned byte request. This route consumes that same
 // verified startup, so it adds only the audited-descriptor check and projection.
@@ -109,6 +109,6 @@ export async function startConditionals({document=globalThis.document,fetcher=gl
     const {proofText}=await s.verifyClaim(claim,cachedFetch);
     const data=await projectVerified(encoder.encode(proofText),claim.proof);
     renderProjection(document,host,data,claim.proof);return true;
-  }catch(error){host.replaceChildren(el(document,'p',`Unavailable: ${error.message}. No conditional result inferred.`));return false;}
+  }catch(error){const refusal=el(document,'p',`Unavailable: ${error.message}. No conditional result inferred.`);refusal.className='conditional-route-refusal error';refusal.setAttribute('role','status');host.replaceChildren(refusal);return false;}
 }
 if(typeof document!=='undefined')void startConditionals();

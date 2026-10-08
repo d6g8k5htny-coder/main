@@ -1,5 +1,5 @@
-import {renderSourceQuote} from './source-quote.mjs?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d';
-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d';
+import {renderSourceQuote} from './source-quote.mjs?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -7,6 +7,14 @@ const D1_ID='d1-parent-lifetime';
 const OPEN_IDS=['d5-pin-neighborhoods-open','sard-g-a1-a6-open'];
 const EXHIBITS={ec014:['EC-014 pair frame','EC-014'],remote:['Fixed-remote region','D4 fixed-remote RN'],annulus:['Fixed annulus','D5 all-height fixed annulus'],p15:['P15 discrete palette','D6 P15 full price']};
 const VIEW_LINKS={'d3-side24-coefficient':'workspace.html#coefficient','d4-fixed-remote-rn':'museum.html?view=remote#active-exhibit','d5-all-height-annulus':'museum.html?view=annulus#active-exhibit','d5-height-window-annulus':'museum.html?view=annulus#active-exhibit','d6-p15-full-price':'museum.html?view=p15#active-exhibit'};
+// Card → dependency-graph node, joined by exact bytes: each node's source equals the card's
+// proof path and its fingerprint equals the proof SHA-256 in the pinned GRAPH.json snapshot
+// (Math 7858329); tests/test_museum_frontend.mjs pins the map to both payloads. The two
+// path-only pairs (d5-height-window-annulus, d6-p15-full-price) are deliberately absent.
+export const DEPENDENCY_RECORDS={'d2-lifetime-remainder':['math.lifetime-remainder'],'d3-side24-coefficient':['math.side24-coefficient'],'d4-fixed-remote-rn':['math.rn-fixed-remote-window','math.d5-component.remote-window-proof'],'d5-all-height-annulus':['math.d5-component.annulus-proof'],'p15-demand-one-counterexample':['math.p15-price-boundary'],'d1-parent-lifetime':['math.uniform-matrix-cap-lifetime']};
+const DEPENDENCY_SNAPSHOT='Math 7858329';
+const INDEX_PIN_URL='https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md';
+const STATUS_PIN_URL='https://github.com/d6g8k5htny-coder/main/blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md';
 const D5_OPEN_REVIEW='https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md';
 const CURRENT_STATUS_URL='https://github.com/d6g8k5htny-coder/main/blob/main/STATUS.md';
 const PACKET_PINS=[
@@ -150,7 +158,14 @@ function card(document,id,title,className,source){
   article.append(header);return article;
 }
 function strip(document,text){const bar=element(document,'aside',undefined,'engineering-strip');bar.append(element(document,'strong','Engineering — not acceptance'),element(document,'p',text));return bar;}
-function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');article.append(element(document,'h3',title),element(document,'p',`Unavailable: ${error.message}. No result inferred.`));return article;}
+function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');const note=element(document,'p',`Unavailable: ${error.message}. No result inferred.`,'error');note.setAttribute('role','status');article.append(element(document,'h3',title),note);return article;}
+// Absence is a sentence with a route: when the local projection cannot be verified, each
+// card container says so and points at the two pinned sources instead of staying blank.
+function notShown(document){
+  const note=element(document,'p',undefined,'boundary');
+  note.append(document.createTextNode('Not shown: the pinned source projection could not be verified (see the status above). No result inferred. Read the pinned '),anchor(document,'Math proof index at d6628da',INDEX_PIN_URL),document.createTextNode(' and the '),anchor(document,'STATUS snapshot at f2e432e',STATUS_PIN_URL),document.createTextNode(' directly.'));
+  return note;
+}
 function renderClaim(document,claim,quoteSource){
   const article=card(document,claim.id,claim.title,claim.class,claim.proof);
   if(claim.id==='d3-side24-coefficient'){const alias=element(document,'span');alias.id='d3-side24';article.append(alias);}
@@ -168,6 +183,7 @@ function renderClaim(document,claim,quoteSource){
     if(claim.id==='d5-pin-neighborhoods-open')source.append(element(document,'p','Review pointer only. At the pinned Math snapshot it targeted an unmerged pull-request head (Math-#55). Math-#55 merged on 27 September 2026, and Math- main carries the same review file (Git blob 11a6b8d). Its target is not fetched or adopted by this viewer.'));
     const details=element(document,'details');details.append(element(document,'summary',claim.review.pointer_only?'Identity of the pointer source':'Review source identity'),identity(document,claim.review));source.append(details);
   }else source.append(element(document,'p','No separate byte-frozen review descriptor is supplied. Read the review links in the exact source quote.'));
+  for(const id of Object.hasOwn(DEPENDENCY_RECORDS,claim.id)?DEPENDENCY_RECORDS[claim.id]:[])source.append(anchor(document,`Dependency record for these exact bytes (${DEPENDENCY_SNAPSHOT}): ${id}`,`dependencies.html?node=${encodeURIComponent(id)}#node-detail`),element(document,'p',"Same path and SHA-256 as this card's proof. The graph's classification is the gate's own register, not this card's label."));
   const replay=element(document,'div',undefined,'claim-column');replay.append(element(document,'h4','Replay'),element(document,'p',claim.replay.notice));
   if(claim.replay.command){const pre=element(document,'pre');pre.append(element(document,'code',claim.replay.command));replay.append(pre);}
   if(claim.replay.url)replay.append(anchor(document,'Open pinned replay source ↗',claim.replay.url));
@@ -248,7 +264,7 @@ function prepareClaimFragment(document,window,currentHash) {
     return true;
   };
 }
-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d'),currentHash=()=>globalThis.location?.hash||''}={}){
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   const finishFragment=prepareClaimFragment(document,window,currentHash);
@@ -279,7 +295,8 @@ export async function startMuseum({document=globalThis.document,window=globalThi
     claimIds=manifest.claims.map(claim=>claim.id);
   }catch(error){
     containers['museum-state'].textContent=`Unavailable: ${error.message}. No result inferred.`;containers['museum-state'].className='error';
-    for(const id of ids.slice(1))containers[id].replaceChildren();
+    const routed=['claim-cards','lifetime-fixture','packet-cards'];if(new URLSearchParams(search).has('view'))routed.push('active-exhibit');
+    for(const id of ids.slice(1))containers[id].replaceChildren(...(routed.includes(id)?[notShown(document)]:[]));
   }finally{finishFragment(claimIds);}
 }
 if(typeof document!=='undefined')await startMuseum();

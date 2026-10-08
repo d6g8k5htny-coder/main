@@ -157,6 +157,12 @@ test('rendered claims use declared HTML containers, complete identities and lite
   for(const field of ['d2-lifetime-remainder','ACCEPT-scoped','d6g8k5htny-coder/Math-','proof.md','a'.repeat(40),digest('Pinned proof.')]) assert.ok(text.includes(field),field);
   assert.ok(text.includes('This canvas explains the pinned source. It is not a proof and does not change status.'));
   assert.match(document.getElementById('lifetime-fixture').textContent,/fixture absent/i);
+  if(f.manifest.claims.some(claim=>claim.id==='d2-lifetime-remainder')){
+    const link=descendants(document.getElementById('claim-cards'),n=>n.tagName==='A'&&n.textContent==='Dependency record for these exact bytes (Math 7858329): math.lifetime-remainder')[0];
+    assert.ok(link,'The d2 card links its dependency-graph record');
+    assert.equal(link.href,'dependencies.html?node=math.lifetime-remainder#node-detail');
+    assert.match(text,/Same path and SHA-256 as this card's proof\. The graph's classification is the gate's own register, not this card's label\./);
+  }
   assert.equal(document.getElementById('undeclared-id'),null);
   document.nodes.delete('claim-cards');
   await assert.rejects(()=>museum.startMuseum({document,search:'',fetcher:async()=>new Response(JSON.stringify(f.manifest))}),/Missing museum container/);
@@ -170,7 +176,37 @@ test('museum manifest must match the config byte count and SHA-256 before source
     await museum.startMuseum({document,fetcher:async url=>{requested.push(String(url));return new Response(url==='config.json'?JSON.stringify({museum_json:pin}):altered);}});
     assert.deepEqual(requested,['config.json','museum.json']);
     assert.match(document.getElementById('museum-state').textContent,/unavailable/i);
-    assert.equal(document.getElementById('claim-cards').children.length,0);
+    assert.equal(document.getElementById('museum-state').className,'error');
+    for(const id of ['claim-cards','packet-cards','lifetime-fixture']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/^Not shown: .*No result inferred\. Read the pinned Math proof index at d6628da and the STATUS snapshot at f2e432e directly\.$/);}
+    assert.equal(document.getElementById('active-exhibit').children.length,0,'no exhibit was requested');
+  }
+  const exhibit=documentFromHTML();
+  await museum.startMuseum({document:exhibit,search:'?view=ec014',fetcher:async url=>new Response(url==='config.json'?JSON.stringify({museum_json:pin}):raw+' ')});
+  const hosts=['claim-cards','packet-cards','lifetime-fixture','active-exhibit'].map(id=>exhibit.getElementById(id).children);
+  assert.ok(hosts.every(children=>children.length===1&&/Not shown/.test(children[0].textContent)),'a requested exhibit host carries the same sentence');
+  const links=descendants(hosts[0][0],n=>n.tagName==='A').map(n=>[n.textContent,n.href]);
+  assert.deepEqual(links,[['Math proof index at d6628da','https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md'],['STATUS snapshot at f2e432e','https://github.com/d6g8k5htny-coder/main/blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md']]);
+});
+
+test('the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title',available,()=>{
+  const manifest=JSON.parse(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url),'utf8'));
+  const graph=JSON.parse(fs.readFileSync(new URL('../docs/site/dependency-source/GRAPH.json',import.meta.url),'utf8'));
+  const claims=new Map(manifest.claims.map(claim=>[claim.id,claim]));
+  const entries=Object.entries(museum.DEPENDENCY_RECORDS);
+  assert.equal(entries.length,6);assert.equal(entries.flatMap(([,ids])=>ids).length,7);
+  for(const [claimId,ids] of entries){
+    const claim=claims.get(claimId);assert.ok(claim,`unknown card ${claimId}`);
+    for(const id of ids){
+      const node=graph.nodes[id];assert.ok(node,`unknown node ${id}`);
+      assert.equal(node.source,claim.proof.path,id);
+      assert.equal(node.fingerprint,claim.proof.sha256,id);
+    }
+  }
+  // Path-only coincidences stay out of the map: the graph node's fingerprint is not this card's proof bytes.
+  for(const absent of ['d5-height-window-annulus','d6-p15-full-price']){
+    assert.ok(!Object.hasOwn(museum.DEPENDENCY_RECORDS,absent),absent);
+    const samePath=Object.values(graph.nodes).filter(node=>node.source===claims.get(absent).proof.path);
+    assert.ok(samePath.length>0&&samePath.every(node=>node.fingerprint!==claims.get(absent).proof.sha256),absent);
   }
 });
 
@@ -204,8 +240,7 @@ test('a mixed new config and stale museum manifest fails closed',{skip:!museum},
   }});
   assert.deepEqual(calls,['config.json','museum.json']);
   assert.match(document.getElementById('museum-state').textContent,/unavailable.*byte count|unavailable.*SHA-256/i);
-  assert.equal(document.getElementById('packet-cards').children.length,0);
-  assert.equal(document.getElementById('claim-cards').children.length,0);
+  for(const id of ['packet-cards','claim-cards']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/Not shown/);assert.ok(!/Claim and scope|packet — not STATUS/.test(children[0].textContent),'no card content is drawn from unverified bytes');}
 });
 
 test('actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions',{skip:!museum||(!process.env.MUSEUM_MATH_ROOT&&!process.env.MUSEUM_FIXTURE)},async()=>{
