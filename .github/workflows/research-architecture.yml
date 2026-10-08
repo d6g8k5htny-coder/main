@@ -29,21 +29,25 @@ jobs:
           truncate -s 64M "$RUNNER_TEMP/architecture-output.img"
           mkfs.ext4 -F "$RUNNER_TEMP/architecture-output.img"
           sudo mount -o loop,nodev,nosuid,noexec "$RUNNER_TEMP/architecture-output.img" "$RUNNER_TEMP/architecture-evidence"
-          chmod 0777 "$RUNNER_TEMP/architecture-evidence"
+          sudo mkdir "$RUNNER_TEMP/architecture-evidence/container"
+          sudo chmod 0777 "$RUNNER_TEMP/architecture-evidence/container"
           docker image inspect "$IMAGE" > "$RUNNER_TEMP/architecture-publish/runtime-image.json"
           git rev-parse HEAD > "$RUNNER_TEMP/architecture-publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/architecture-publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/architecture-publish/run-attempt.txt"
       - name: Run controls and export in ephemeral restricted container
         env:
           IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
         run: |
           set -euo pipefail
+          set +e
           timeout --signal=TERM --kill-after=10s 300s docker run --rm --name architecture-controls \
             --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
             --cap-drop ALL --security-opt no-new-privileges \
             --env ARCHITECTURE_SANDBOX=1 \
             --tmpfs /tmp:rw,noexec,nosuid,size=64m \
             --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
-            --mount type=bind,source="$RUNNER_TEMP/architecture-evidence",target=/output \
+            --mount type=bind,source="$RUNNER_TEMP/architecture-evidence/container",target=/output \
             --workdir /source "$IMAGE" sh -c '
               python -B -S -m unittest discover -s tests -p "test_architecture_*.py" -v > /output/tests-normal.log 2>&1
               normal=$?
@@ -53,8 +57,11 @@ jobs:
                 cat /output/tests-normal.log /output/tests-optimized.log
                 exit 1
               fi
-              python -B -S tools/proof_graph_export.py --source-dir docs/site/dependency-source --output /output/generated
+              python -B -S tools/proof_graph_export.py --source-dir docs/site/dependency-source --output /output/generated > /output/exporter.stdout 2> /output/exporter.stderr
             '
+          status=$?
+          printf '%s\n' "$status" > "$RUNNER_TEMP/architecture-publish/container-exit-status.txt"
+          exit "$status"
       - name: Dispose container even after timeout
         if: always()
         run: docker rm --force architecture-controls 2>/dev/null || true
@@ -62,13 +69,14 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          source="$RUNNER_TEMP/architecture-evidence"
+          source="$RUNNER_TEMP/architecture-evidence/container"
           destination="$RUNNER_TEMP/architecture-publish"
-          if [ -n "$(find "$source" -mindepth 1 \( ! -type f -a ! -type d \) -print -quit)" ]; then
+          unsafe="$(find "$source" -mindepth 1 \( ! -type f -a ! -type d \) -print -quit)"
+          if [ -n "$unsafe" ]; then
             echo 'Refusing symlink or special-file container output'
             exit 1
           fi
-          for name in tests-normal.log tests-optimized.log; do
+          for name in tests-normal.log tests-optimized.log exporter.stdout exporter.stderr; do
             if [ -f "$source/$name" ]; then
               cp -- "$source/$name" "$destination/$name"
             fi
@@ -77,6 +85,10 @@ jobs:
             mkdir -p "$destination/generated"
             cp -- "$source/generated/graph.json" "$destination/generated/graph.json"
           fi
+          cd "$destination"
+          for name in runtime-image.json checked-commit.txt run-id.txt run-attempt.txt container-exit-status.txt tests-normal.log tests-optimized.log exporter.stdout exporter.stderr generated/graph.json; do
+            if [ -f "$name" ]; then sha256sum "$name"; fi
+          done > ARTIFACT_SHA256SUMS
       - name: Retain original controls, identities and generated graph
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
