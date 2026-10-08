@@ -10,9 +10,9 @@ This is a reading map, not a theorem-acceptance register. Read the statement, hy
 |---|---|
 | Read or extend mathematics | The topic sections below and [Math-](https://github.com/d6g8k5htny-coder/Math-) |
 | Run a calculation | [Reproduction guide](REPRODUCE.md) |
-| Review or claim work | [Open work](#open-work) and [downstream-first queue #86](https://github.com/d6g8k5htny-coder/main/issues/86) |
+| Review or claim work | [Current tasks and claims, main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and the relevant issue or PR; [Open work](#open-work) records the closed September discussions |
 | Locate exact source bytes | [Catalog](https://github.com/d6g8k5htny-coder/meta-framework/blob/main/registry.json) and [query tool](https://github.com/d6g8k5htny-coder/query-) |
-| Work on the larger numerical tree | [Hardening branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919), not this default-home checkout |
+| Work on the larger numerical tree | [Hardening branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919) (last merge 27 September 2026), not this default-home checkout; current main-side numerical experiments are in [`experiments/periodic_h0/`](../experiments/periodic_h0/README.md) |
 
 ## Gaussian persistence
 
@@ -67,6 +67,8 @@ The [legacy RN status](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/dri
 The full-range successor removes the probability ceiling, not the demand or realized-family hypotheses. Its sharp uniform factor is 1/[3-log(3e-2)]<6/7. The earlier 16/27 factor remains better on its smaller domain, and demand-one counterexamples remain valid. An inconclusive sufficient-budget test is not an impossibility proof. Newer entries belong in this map only after their actual publication is verified.
 
 ## Open work
+
+> **As of 7 October 2026:** the discussions linked in this table (#63, #65, #67, #74, #76), the downstream-first queue #86 and formal work item #95 are closed. Closing a discussion does not resolve its obligation; the rows below keep the September task descriptions. Current tasks and claims are on [main #275](https://github.com/d6g8k5htny-coder/main/issues/275); general coordination is on [main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
 
 | Front | Concrete task | Discussion |
 |---|---|---|
