@@ -264,6 +264,47 @@ class ArchitectureReceiptContract(unittest.TestCase):
             self.write_log(mode, test_ids)
         self.assert_accepted(self.run_receipt(), test_ids=test_ids)
 
+    def test_malformed_foreign_or_shortname_mismatched_test_identities_are_refused(self):
+        for identity in (
+            "foreign_test_module.TESTAdditionalControl.test_extra",
+            "test_required_formal_check.TESTAdditionalControl.test_extra",
+            "test_architecture_receipt.test_extra",
+            "test_architecture_receipt..test_extra",
+            "test_architecture_receipt.TESTAdditionalControl.test_extra.extra",
+            "test_architecture_receipt/other.TESTAdditionalControl.test_extra",
+            "test_architecture_receipt.3InvalidClass.test_extra",
+            "test_architecture_receipt.TESTAdditionalControl.test-extra",
+        ):
+            with self.subTest(identity=identity):
+                # Keep both logs' identities and counts equal: malformed-name
+                # refusal cannot accidentally pass because the suites differ.
+                for mode in ("normal", "optimized"):
+                    self.write_log(mode, (*REQUIRED_IDS, identity))
+                self.assert_refused()
+        extra = "test_architecture_receipt.TESTAdditionalControl.test_extra"
+        for changed_mode in ("normal", "optimized"):
+            with self.subTest(shortname_mismatch=changed_mode):
+                for mode in ("normal", "optimized"):
+                    self.write_log(mode, (*REQUIRED_IDS, extra))
+                path = self.path("tests-" + changed_mode + ".log")
+                valid = path.read_text(encoding="utf-8")
+                self.assertIn("test_extra (" + extra + ") ... ok", valid)
+                path.write_text(valid.replace("test_extra (" + extra + ") ... ok",
+                                              "test_other_name (" + extra + ") ... ok", 1),
+                                encoding="utf-8")
+                self.assert_refused()
+
+    def test_normal_and_optimized_must_discover_the_same_additional_passing_tests(self):
+        first = "test_architecture_receipt.TESTAdditionalControl.test_extra_first"
+        second = "test_architecture_receipt.TESTAdditionalControl.test_extra_second"
+        for normal_extra, optimized_extra in ((first, second), (second, first)):
+            with self.subTest(normal=normal_extra, optimized=optimized_extra):
+                # Each log independently has all 53 required controls plus a
+                # valid unique passing control, and both report 54 tests.
+                self.write_log("normal", (*REQUIRED_IDS, normal_extra))
+                self.write_log("optimized", (*REQUIRED_IDS, optimized_extra))
+                self.assert_refused()
+
     def test_attempt_ten_and_other_native_repository_are_preserved(self):
         self.path("run-attempt.txt").write_text("10\n", encoding="utf-8")
         expected = {**self.expected, "repository": "fixture-owner/research", "run-attempt": "10"}
@@ -451,6 +492,20 @@ class ArchitectureReceiptContract(unittest.TestCase):
         graph["edges"] = graph["edges"][:-1]
         self.write_json("generated/graph.json", graph)
         self.assert_refused()
+
+    def test_nested_record_types_cannot_change_even_when_python_values_compare_equal(self):
+        self.assertIs(self.graph["nodes"]["hist.rnu_env.py"]["controlling"], False)
+        self.assertIs(type(self.graph["nodes"]["math.side24-coefficient"]["review_issue"]), int)
+        self.assertEqual(self.graph["nodes"]["math.side24-coefficient"]["review_issue"], 65)
+        for node, field, replacement in (
+            ("hist.rnu_env.py", "controlling", 0),
+            ("math.side24-coefficient", "review_issue", 65.0),
+        ):
+            with self.subTest(node=node, field=field):
+                graph = copy.deepcopy(self.graph)
+                graph["nodes"][node][field] = replacement
+                self.write_json("generated/graph.json", graph)
+                self.assert_refused()
 
     def test_missing_extra_or_forged_dimension_cannot_manufacture_scientific_evidence(self):
         node = "hist.rnu_env.py"
