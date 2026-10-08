@@ -39,30 +39,54 @@ def _require(condition: bool, message: str) -> None:
 
 
 def _absolute(path: str | Path) -> Path:
-    # Do not resolve symlinks: they must be refused when opening each component.
-    return Path(os.path.abspath(os.fspath(path)))
+    # Preserve '..': lexical normalization could erase an earlier symlink
+    # component before its descriptor-anchored O_NOFOLLOW check.
+    supplied = Path(path)
+    return supplied if supplied.is_absolute() else Path.cwd() / supplied
 
 
 @contextmanager
-def _directory(path: Path, *, create: bool = False) -> Iterator[int]:
+def _directory(
+    path: Path, *, create: bool = False,
+    protected: tuple[int, int] | None = None,
+) -> Iterator[int]:
     """Anchor every component without following directory symlinks."""
     flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
     descriptor = os.open(path.anchor, flags)
     try:
+        def outside_source() -> None:
+            info = os.fstat(descriptor)
+            _require(
+                (info.st_dev, info.st_ino) != protected,
+                "output directory must be outside the immutable source directory",
+            )
+
+        outside_source()
         for component in path.parts[1:]:
-            if create:
+            outside_source()
+            try:
+                following = os.open(component, flags, dir_fd=descriptor)
+            except FileNotFoundError:
+                if not create:
+                    raise ValueError(f"unavailable directory component in path {path}: {component}")
+                # The currently anchored parent has been checked before mkdir.
                 try:
                     os.mkdir(component, mode=0o755, dir_fd=descriptor)
                 except FileExistsError:
                     pass
-            try:
-                following = os.open(component, flags, dir_fd=descriptor)
+                try:
+                    following = os.open(component, flags, dir_fd=descriptor)
+                except OSError as exc:
+                    raise ValueError(
+                        f"symlink or invalid directory component in path {path}: {component}"
+                    ) from exc
             except OSError as exc:
                 raise ValueError(
                     f"symlink or invalid directory component in path {path}: {component}"
                 ) from exc
             os.close(descriptor)
             descriptor = following
+            outside_source()
         yield descriptor
     finally:
         os.close(descriptor)
@@ -185,9 +209,9 @@ def _dimensions(nodes: dict[str, dict[str, Any]]) -> dict[str, dict[str, str]]:
     }
 
 
-def _atomic_output(directory: Path, raw: bytes) -> Path:
+def _atomic_output(directory: Path, raw: bytes, protected: tuple[int, int]) -> Path:
     """Promote one completed regular output; failures retain earlier graph bytes."""
-    with _directory(directory, create=True) as descriptor:
+    with _directory(directory, create=True, protected=protected) as descriptor:
         try:
             existing = os.stat("graph.json", dir_fd=descriptor, follow_symlinks=False)
         except FileNotFoundError:
@@ -230,32 +254,36 @@ def export_graph(
         "output directory must be outside the immutable source directory",
     )
     with _directory(source) as descriptor:
+        source_info = os.fstat(descriptor)
+        protected = (source_info.st_dev, source_info.st_ino)
         provenance_raw = _read_regular(descriptor, "PROVENANCE.json", MAX_PROVENANCE_BYTES)
         graph_raw = _read_regular(descriptor, "GRAPH.json", MAX_SOURCE_BYTES)
         gate_raw = _read_regular(descriptor, "hard_gate.py", MAX_SOURCE_BYTES)
-    provenance = _provenance(provenance_raw, expected_provenance_sha256)
-    graph_digest = _verify_source("GRAPH.json", graph_raw, provenance)
-    gate_digest = _verify_source("hard_gate.py", gate_raw, provenance)
-    _require(gate_digest == TRUSTED_GATE_SHA256, "hard_gate.py trusted gate SHA256 pin mismatch")
-    graph = _strict_json(graph_raw, "GRAPH.json")
-    gate = _verified_gate(gate_raw, source / "hard_gate.py")
-    gate.validate_graph_fail_closed(graph)
-    payload = {
-        "schema_version": 1,
-        "source": {
-            "repository": provenance["repository"],
-            "commit": provenance["commit"],
-            "captured_at": provenance["captured_at"],
-            "graph_sha256": graph_digest,
-            "gate_sha256": gate_digest,
-        },
-        "nodes": graph["nodes"],
-        "edges": graph["edges"],
-        "dimensions": _dimensions(graph["nodes"]),
-        "scientific_effect": "NONE",
-        "scientific_status_authority": False,
-    }
-    raw = (json.dumps(
-        payload, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False
-    ) + "\n").encode("utf-8")
-    return _atomic_output(output, raw)
+        # Keep the source descriptor alive through promotion, preventing inode
+        # reuse and protecting its actual identity despite alternate spellings.
+        provenance = _provenance(provenance_raw, expected_provenance_sha256)
+        graph_digest = _verify_source("GRAPH.json", graph_raw, provenance)
+        gate_digest = _verify_source("hard_gate.py", gate_raw, provenance)
+        _require(gate_digest == TRUSTED_GATE_SHA256, "hard_gate.py trusted gate SHA256 pin mismatch")
+        graph = _strict_json(graph_raw, "GRAPH.json")
+        gate = _verified_gate(gate_raw, source / "hard_gate.py")
+        gate.validate_graph_fail_closed(graph)
+        payload = {
+            "schema_version": 1,
+            "source": {
+                "repository": provenance["repository"],
+                "commit": provenance["commit"],
+                "captured_at": provenance["captured_at"],
+                "graph_sha256": graph_digest,
+                "gate_sha256": gate_digest,
+            },
+            "nodes": graph["nodes"],
+            "edges": graph["edges"],
+            "dimensions": _dimensions(graph["nodes"]),
+            "scientific_effect": "NONE",
+            "scientific_status_authority": False,
+        }
+        raw = (json.dumps(
+            payload, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False
+        ) + "\n").encode("utf-8")
+        return _atomic_output(output, raw, protected)
