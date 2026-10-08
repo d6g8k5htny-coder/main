@@ -46,6 +46,75 @@ class ModelTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.models.validate_catalog(other)
 
+    def test_catalog_metadata_cannot_relabel_the_exploratory_candidates(self):
+        replacements = [
+            (('purpose',), 'blinded_scientific_confirmation'),
+            (('domain', 'space'), 'Euclidean plane'),
+            (('domain', 'side'), 48),
+            (('normalization',), 'No variance normalization'),
+            (('scope',), ['All fifty candidates are scientifically confirmed']),
+        ]
+        replacements.extend((('default_parameters', key), value+1)
+                            for key, value in self.catalog['default_parameters'].items())
+        for path, wrong in replacements:
+            other = copy.deepcopy(self.catalog)
+            parent = other if len(path) == 1 else other[path[0]]
+            parent[path[-1]] = wrong
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+
+    def test_catalog_metadata_requires_the_complete_supported_schema(self):
+        for key in self.catalog:
+            other = copy.deepcopy(self.catalog)
+            del other[key]
+            with self.subTest(missing=key), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+        for section in (None, 'domain', 'default_parameters'):
+            other = copy.deepcopy(self.catalog)
+            parent = other if section is None else other[section]
+            parent['scientific_status'] = 'CONFIRMED'
+            with self.subTest(extra=section), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+        for section in ('domain', 'default_parameters'):
+            for key in self.catalog[section]:
+                other = copy.deepcopy(self.catalog)
+                del other[section][key]
+                with self.subTest(section=section, missing=key), self.assertRaises(ValueError):
+                    self.models.validate_catalog(other)
+        for key in ('purpose', 'domain', 'default_parameters', 'normalization', 'scope'):
+            other = copy.deepcopy(self.catalog)
+            other[key] = None
+            with self.subTest(wrong_type=key), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+
+    def test_catalog_metadata_rejects_equal_numeric_type_impostors(self):
+        paths = [('schema_version',), ('scientific_status_authority',),
+                 ('domain', 'dimension'), ('domain', 'side')]
+        paths.extend(('default_parameters', key) for key in self.catalog['default_parameters'])
+        for path in paths:
+            other = copy.deepcopy(self.catalog)
+            parent = other if len(path) == 1 else other[path[0]]
+            parent[path[-1]] = float(parent[path[-1]])
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+
+    def test_alternate_catalog_and_injected_definition_reject_catalog_claims(self):
+        for mutation in ('added_status', 'changed_scope', 'changed_space'):
+            other = copy.deepcopy(self.catalog)
+            if mutation == 'added_status':
+                other['scientific_status'] = 'CONFIRMED'
+            elif mutation == 'changed_scope':
+                other['scope'] = ['These fields certify continuum universality']
+            else:
+                other['domain']['space'] = 'Euclidean plane'
+            with tempfile.TemporaryDirectory() as scratch:
+                path = Path(scratch)/'misdescribed-catalog.json'
+                path.write_text(json.dumps(other), encoding='utf-8')
+                with self.subTest(mutation=mutation, entry='file'), self.assertRaises(ValueError):
+                    self.models.load_catalog(path)
+            with self.subTest(mutation=mutation, entry='definition'), self.assertRaises(ValueError):
+                self.models.definition(other['models'][0], catalog=other)
+
     def test_law_moments_and_input_contract_cannot_misdescribe_the_sampler(self):
         for law_id in self.catalog['coefficient_laws']:
             for key, wrong in [('component_fourth_moment', '0'),

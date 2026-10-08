@@ -21,6 +21,8 @@ symmetry, fourth moment and prospective ideal-input contract. Alternate catalogs
 and directly supplied definition catalogs undergo the same validation.
 Accepted spectrum metadata must also match its entire implemented formula and
 mechanism mapping; false mechanisms and extra status labels are refused.
+The catalog's root/domain/default/normalization/scope declaration also requires
+its complete supported schema, values and strict types.
 `run_pilot.py` generates explicitly exploratory fields, quantizes their nodes,
 computes exact ordinary H0 on that integer grid and independently checks
 connectivity. The field evaluation and sampling law remain floating-point/PRNG
@@ -40,6 +42,11 @@ hashes, digest mismatches, false validation records and retained field failures.
 Undeclared fields in the observation/environment/configuration/row mappings
 are refused, including unsupported scientific-status labels.
 It does not authenticate supplied grids as generator outputs.
+Failed rows are checked against the atomic stage they reached: completed floats,
+quantization and barcodes replay, while a failed connectivity attempt remains
+unverified. A later bin-count failure requires the already completed independent
+connectivity check. Corrupt raw failures remain saved with final FAIL/exit2.
+The audit does not authenticate recorded exceptions or their causal history.
 
 The rational mechanism controls are ready independently:
 

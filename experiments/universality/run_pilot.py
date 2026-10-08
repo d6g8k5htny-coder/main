@@ -199,13 +199,70 @@ def _generate_observations(*, n=16, cutoff=3, fields_per_model=2, scale=65536,
     return output
 
 
+def _require_keys(record, keys, scope):
+    models.require(type(record) is dict and set(record) == keys,
+                   'Unexpected retained '+scope+' schema')
+
+
+def _replay_float_samples(row, n):
+    encoded = row['float_samples_hex']
+    models.require(type(encoded) is list and len(encoded) == n*n
+                   and all(type(x) is str for x in encoded), 'Incomplete floating samples')
+    floats = [float.fromhex(x) for x in encoded]
+    models.require(all(math.isfinite(x) and text == x.hex() for text, x in zip(encoded, floats)),
+                   'Floating samples require canonical finite hex serialization')
+    return floats
+
+
+def _replay_quantization(row, n, scale, floats):
+    samples = row['quantized_samples']
+    models.require(type(samples) is list and len(samples) == n*n
+                   and all(type(x) is int for x in samples)
+                   and samples == [round(x*scale) for x in floats], 'Quantization replay mismatch')
+
+
+def _replay_failed_intermediates(row, n, scale):
+    """Check the completed state implied by a failed atomic pipeline stage.
+
+    This binds retained intermediates, not exception authenticity or causal
+    history. At a connectivity failure, source replay checks the returned
+    barcode without claiming that the attempted independent check succeeded.
+    A bin-count failure must also replay the already completed independent check.
+    """
+    stage = row['failure']['stage']
+    if stage == 'sampling':
+        models.require(all(row[key] is None for key in
+                           ('float_samples_hex', 'quantized_samples', 'barcode')),
+                       'Sampling failure has unexpected completed intermediates')
+        return
+    floats = _replay_float_samples(row, n)
+    if stage == 'quantization':
+        models.require(row['quantized_samples'] is None and row['barcode'] is None,
+                       'Quantization failure has unexpected completed intermediates')
+        return
+    _replay_quantization(row, n, scale, floats)
+    if stage == 'barcode':
+        models.require(row['barcode'] is None, 'Barcode failure has a returned barcode')
+        return
+    exact_h0._result(row['barcode'])
+    models.require(row['barcode'] == exact_h0.compute(row['quantized_samples'], n),
+                   'Completed barcode source replay mismatch')
+    if stage == 'bin_counts':
+        exact_h0.verify_by_connectivity(row['quantized_samples'], n, row['barcode'])
+
+
 def verify_observations(output):
     """Replay identity, completeness, exact grids and derived reports.
 
     Supplied arrays are not authenticated as generator outputs by this check.
     Compare a freshly generated run separately to test execution replay.
+    Failed rows replay only their completed intermediates; recorded exception
+    authenticity and the claimed causal history are not established.
     """
-    models.require(type(output) is dict and type(output.get('schema_version')) is int
+    _require_keys(output, {'schema_version', 'purpose', 'scientific_status_authority',
+                          'source_sha256', 'catalog_sha256', 'environment', 'config',
+                          'model_definitions', 'rows', 'summaries', 'scopes'}, 'observation')
+    models.require(type(output.get('schema_version')) is int
                    and output.get('schema_version') == 1
                    and output.get('purpose') == 'exploratory_software_pilot'
                    and output.get('scientific_status_authority') is False, 'Wrong observation scope')
@@ -214,11 +271,16 @@ def verify_observations(output):
                    'Catalog identity mismatch')
     models.require(output.get('scopes') == SCOPES, 'Changed observation scope')
     environment = output['environment']
+    _require_keys(environment, {'python', 'implementation', 'machine', 'system',
+                                'sampler_mode', 'sampler'}, 'environment')
     sampler_mode = environment.get('sampler_mode')
     models.require(sampler_mode in SAMPLER_DESCRIPTIONS
                    and environment.get('sampler') == SAMPLER_DESCRIPTIONS[sampler_mode],
                    'Sampler provenance declaration mismatch')
     config = output['config']
+    _require_keys(config, {'dimension', 'side', 'grid', 'cutoff', 'fields_per_model',
+                          'quantization_scale', 'seed_namespace', 'bin_edges',
+                          'bin_convention', 'quantization'}, 'configuration')
     n, cutoff, count, scale, side = (config[k] for k in ('grid', 'cutoff', 'fields_per_model', 'quantization_scale', 'side'))
     models.require(type(config['dimension']) is int and config['dimension'] == 2
                    and config['seed_namespace'] == EXPLORATORY_NAMESPACE,
@@ -234,6 +296,10 @@ def verify_observations(output):
     hashes = {x['model']['id']: models.digest(x) for x in expected}
     rows = output['rows']
     models.require(type(rows) is list and len(rows) == 50*count, 'Missing planned field rows')
+    for row in rows:
+        _require_keys(row, {'model_id', 'model_sha256', 'replicate', 'seed', 'float_samples_hex',
+                           'quantized_samples', 'barcode', 'counts', 'connectivity_verified',
+                           'failure'}, 'field row')
     planned = [(model['id'], replicate) for model in catalog['models'] for replicate in range(count)]
     models.require([(r['model_id'], r['replicate']) for r in rows] == planned,
                    'Missing, duplicate or reordered field identity')
@@ -248,14 +314,10 @@ def verify_observations(output):
                            and failure['stage'] in ('sampling', 'quantization', 'barcode', 'connectivity', 'bin_counts')
                            and row['counts'] is None and row['connectivity_verified'] is False,
                            'Invalid retained failure')
+            _replay_failed_intermediates(row, n, scale)
             continue
-        encoded = row['float_samples_hex']
-        models.require(type(encoded) is list and len(encoded) == n*n
-                       and all(type(x) is str for x in encoded), 'Incomplete floating samples')
-        floats = [float.fromhex(x) for x in encoded]
-        models.require(all(math.isfinite(x) for x in floats)
-                       and row['quantized_samples'] == [round(x*scale) for x in floats],
-                       'Quantization replay mismatch')
+        floats = _replay_float_samples(row, n)
+        _replay_quantization(row, n, scale, floats)
         exact_h0.verify_by_connectivity(row['quantized_samples'], n, row['barcode'])
         models.require(row['connectivity_verified'] is True
                        and row['counts'] == bin_counts(row['barcode']['intervals'], scale, edges),

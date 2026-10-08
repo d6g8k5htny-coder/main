@@ -12,6 +12,22 @@ import random
 
 
 CATALOG_PATH = Path(__file__).with_name('models.json')
+CATALOG_METADATA = {
+    'schema_version': 1,
+    'purpose': 'prospective_law_candidates_and_exploratory_software_pilot',
+    'scientific_status_authority': False,
+    'domain': {'dimension': 2, 'space': 'square flat torus', 'side': 24},
+    'default_parameters': {'cutoff': 3, 'grid': 16, 'fields_per_model': 2,
+                           'quantization_scale': 65536},
+    'normalization': 's=kx*kx+ky*ky; q(k)=w(k)/sum_{|kx|,|ky|<=K}w(k); retain k=0 and all symmetric modes',
+    'scope': [
+        'Fifty finite-cutoff laws: ten spectrum mechanisms times five circular coefficient distributions; no seeds, rotations or global amplitude rescalings counted as models',
+        'Gaussian candidates do not inherit M4 admissibility or the SIDE24 coefficient',
+        'Non-Gaussian models are stress candidates outside the existing Gaussian theorem',
+        'No infinite-field interpretation, truncation transfer, jet nondegeneracy, continuum asymptotic window or sampler coupling is established',
+        'Ideal stationarity follows the stated circular-vector contract; exact stationarity of the finite-word floating implementation is unverified',
+    ],
+}
 SPECTRUM_FORMULAS = {
     'gaussian': 'exp(-s)',
     'super_gaussian': 'exp(-s*s)',
@@ -81,15 +97,26 @@ def load_catalog(path=CATALOG_PATH):
     return catalog
 
 
+def _matches_declared_metadata(actual, expected):
+    """Match the supported metadata, including strict scalar/container types."""
+    if type(actual) is not type(expected):
+        return False
+    if type(expected) is dict:
+        return set(actual) == set(expected) and all(
+            _matches_declared_metadata(actual[key], value) for key, value in expected.items())
+    if type(expected) is list:
+        return len(actual) == len(expected) and all(
+            _matches_declared_metadata(a, b) for a, b in zip(actual, expected))
+    return actual == expected
+
+
 def validate_catalog(catalog):
-    require(type(catalog) is dict and type(catalog.get('schema_version')) is int
-            and catalog.get('schema_version') == 1,
-            'Unknown catalog schema')
-    require(catalog.get('scientific_status_authority') is False,
-            'Catalog cannot award scientific status')
-    domain = catalog.get('domain')
-    require(type(domain) is dict and type(domain.get('dimension')) is int
-            and domain['dimension'] == 2, 'Only the declared planar catalog is implemented')
+    require(type(catalog) is dict
+            and set(catalog) == set(CATALOG_METADATA) | {'spectra', 'coefficient_laws', 'models'},
+            'Unsupported catalog schema or fields')
+    for key, expected in CATALOG_METADATA.items():
+        require(_matches_declared_metadata(catalog[key], expected),
+                'Unsupported catalog metadata: '+key)
     spectra, laws, items = (catalog.get(k) for k in ('spectra', 'coefficient_laws', 'models'))
     require(type(spectra) is dict and set(spectra) == set(SPECTRUM_FORMULAS),
             'Expected the ten implemented spectral mechanisms')

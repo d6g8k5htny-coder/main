@@ -266,6 +266,155 @@ class PilotTests(unittest.TestCase):
                     self.assertEqual(rejected.returncode, 2)
                     self.assertNotIn('VERIFICATION_PASS', rejected.stdout)
 
+    def _stage_failure(self, stage):
+        def sampler(model, seed, **kwargs):
+            if stage == 'sampling':
+                raise ArithmeticError('deliberate sampling failure')
+            if stage == 'quantization':
+                # A complete finite float grid whose multiplication overflows.
+                return [float.fromhex('0x1.fffffffffffffp+1023')]*64
+            return [float((x*7+y*3) % 17) for x in range(8) for y in range(8)]
+
+        original_bins = self.pilot.bin_counts
+
+        def reject_completed_bins(intervals, scale, edges):
+            if intervals:
+                raise ArithmeticError('deliberate bin-count failure')
+            return original_bins(intervals, scale, edges)
+
+        with contextlib.ExitStack() as stack:
+            if stage == 'barcode':
+                stack.enter_context(patch.object(self.pilot.exact_h0, 'compute',
+                                                 side_effect=ArithmeticError('deliberate barcode failure')))
+            elif stage == 'connectivity':
+                stack.enter_context(patch.object(self.pilot.exact_h0, 'verify_by_connectivity',
+                                                 side_effect=ArithmeticError('deliberate connectivity failure')))
+            elif stage == 'bin_counts':
+                stack.enter_context(patch.object(self.pilot, 'bin_counts', side_effect=reject_completed_bins))
+            return self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1, sampler=sampler)
+
+    def test_legitimate_stage_failures_retain_only_completed_intermediates(self):
+        expected = [('sampling', False, False, False),
+                    ('quantization', True, False, False),
+                    ('barcode', True, True, False),
+                    ('connectivity', True, True, True),
+                    ('bin_counts', True, True, True)]
+        for stage, floats, quantized, barcode in expected:
+            with self.subTest(stage=stage):
+                document = self._stage_failure(stage)
+                self.assertEqual(len(document['rows']), 50)
+                for row in document['rows']:
+                    self.assertEqual(row['failure']['stage'], stage)
+                    self.assertEqual(row['float_samples_hex'] is not None, floats)
+                    self.assertEqual(row['quantized_samples'] is not None, quantized)
+                    self.assertEqual(row['barcode'] is not None, barcode)
+                    self.assertIsNone(row['counts'])
+                    self.assertIs(row['connectivity_verified'], False)
+                self.assertTrue(self.pilot.verify_observations(document))
+
+    def test_failed_stage_rejects_malformed_or_incompatible_intermediates(self):
+        documents = {stage: self._stage_failure(stage) for stage in
+                     ('sampling', 'quantization', 'barcode', 'connectivity', 'bin_counts')}
+        variants = []
+
+        def mutated(stage, field, value):
+            document = copy.deepcopy(documents[stage])
+            document['rows'][0][field] = value
+            variants.append((stage+'/'+field, document))
+
+        for field in ('float_samples_hex', 'quantized_samples', 'barcode'):
+            mutated('sampling', field, [])
+        for stage in ('quantization', 'barcode', 'connectivity', 'bin_counts'):
+            for value in (None, ['0x1.0p+0'], ['inf']*64, [1]*64,
+                          [text.upper() for text in documents[stage]['rows'][0]['float_samples_hex']]):
+                mutated(stage, 'float_samples_hex', value)
+        mutated('quantization', 'quantized_samples', [])
+        mutated('quantization', 'barcode', {})
+        for stage in ('barcode', 'connectivity', 'bin_counts'):
+            values = documents[stage]['rows'][0]['quantized_samples']
+            for value in (None, values[:-1], [True]+values[1:], [values[0]+1]+values[1:]):
+                mutated(stage, 'quantized_samples', value)
+        mutated('barcode', 'barcode', {})
+        for stage in ('connectivity', 'bin_counts'):
+            original = documents[stage]['rows'][0]['barcode']
+            malformed = copy.deepcopy(original); malformed['zero_count'] += 1
+            mutated(stage, 'barcode', malformed)
+            malformed = copy.deepcopy(original); malformed['essential'][0] += 1
+            mutated(stage, 'barcode', malformed)
+            malformed = copy.deepcopy(original); malformed['extra'] = 'not emitted'
+            mutated(stage, 'barcode', malformed)
+            malformed = copy.deepcopy(original); malformed['zero_count'] = True
+            mutated(stage, 'barcode', malformed)
+            mutated(stage, 'barcode', None)
+        for original, relabelled in [('sampling', 'quantization'), ('quantization', 'barcode'),
+                                      ('barcode', 'connectivity'), ('connectivity', 'barcode'),
+                                      ('bin_counts', 'sampling')]:
+            failure = dict(documents[original]['rows'][0]['failure'], stage=relabelled)
+            mutated(original, 'failure', failure)
+        for label, document in variants:
+            with self.subTest(mutation=label), self.assertRaises(ValueError):
+                self.pilot.verify_observations(document)
+
+    def test_connectivity_failure_replays_source_without_claiming_independent_check(self):
+        document = self._stage_failure('connectivity')
+        with patch.object(self.pilot.exact_h0, 'verify_by_connectivity',
+                          side_effect=ArithmeticError('independent verifier still unavailable')):
+            self.assertTrue(self.pilot.verify_observations(document))
+            relabelled = copy.deepcopy(document)
+            relabelled['rows'][0]['failure']['stage'] = 'bin_counts'
+            with self.assertRaisesRegex(ArithmeticError, 'independent verifier still unavailable'):
+                self.pilot.verify_observations(relabelled)
+
+    def test_successful_float_serialization_requires_canonical_hex(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1,
+                                                sampler=lambda model, seed, **kwargs: [1.0]*64)
+        document['rows'][0]['float_samples_hex'][0] = '1.0'
+        with self.assertRaises(ValueError):
+            self.pilot.verify_observations(document)
+
+    def test_structural_verifier_rejects_extra_metadata_at_each_declared_boundary(self):
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        for location in ('observation', 'environment', 'config', 'row'):
+            with self.subTest(location=location), tempfile.TemporaryDirectory() as scratch:
+                changed = copy.deepcopy(document)
+                target = {'observation': changed, 'environment': changed['environment'],
+                          'config': changed['config'], 'row': changed['rows'][0]}[location]
+                target['scientific_status'] = 'CONFIRMED'
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+                observations = Path(scratch)/'observations.json'
+                original = json.dumps(changed).encode('utf-8')
+                observations.write_bytes(original)
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.assertEqual(self.pilot.main(['--verify', str(observations)]), 2)
+                self.assertEqual(observations.read_bytes(), original)
+
+    def test_cli_retains_invalid_returned_barcode_before_final_audit_rejection(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            output = Path(scratch)/'invalid-returned-barcode'
+            with patch.object(self.pilot.exact_h0, 'compute', return_value={}), \
+                    contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                result = self.pilot.main(['--output', str(output), '--grid', '8',
+                                          '--cutoff', '2', '--fields-per-model', '1'])
+            self.assertEqual(result, 2)
+            observations = output/'observations.json'
+            original = observations.read_bytes()
+            document = json.loads(original)
+            self.assertEqual(len(document['rows']), 50)
+            self.assertTrue(all(row['failure']['stage'] == 'connectivity'
+                                and row['barcode'] == {} and row['counts'] is None
+                                and row['connectivity_verified'] is False for row in document['rows']))
+            validation = json.loads((output/'validation.json').read_text())
+            self.assertEqual(validation['final_record_verification'], 'FAIL')
+            self.assertEqual(validation['exit_code'], 2)
+            self.assertEqual(validation['observations_sha256'], hashlib.sha256(original).hexdigest())
+            self.assertEqual(validation['error']['type'], 'ValueError')
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(self.pilot.main(['--verify', str(observations)]), 2)
+            with self.assertRaises(FileExistsError):
+                self.pilot.main(['--output', str(output)])
+            self.assertEqual(observations.read_bytes(), original)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -93,5 +93,10 @@ was regenerated twice with identical bytes and unchanged field/law data.
 The fresh successor found unsupported observation labels accepted by the new
 publication check; strict record mapping schemas repaired four red cases and
 48 tests passed in both modes, with unchanged generator/artifact identities.
+The next automatic review found incomplete catalog headers and skipped failed-row
+intermediates. Complete strict catalog metadata and stage-specific replay now
+close those gaps, together with raw observation schemas and canonical floats.
+58 tests passed normal/O; the default was regenerated twice with equal bytes
+and unchanged field/law data. Successor review and actual-head CI precede merge.
 The latest published-head review and hosted checks still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.
