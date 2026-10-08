@@ -270,18 +270,28 @@ export function evidenceRows(node) {
   ];
 }
 
-// The recorded review disposition and provider(s) of a node, as plain text
-// beside its classification. It quotes the proof index's register; it is not
-// the gate's classification, a badge or an acceptance signal. An absent field
-// is reported as not recorded, never collapsed to none.
+// The recorded review of a node, as plain text beside its classification. A
+// top-level disposition or provider is quoted from the proof index's register.
+// Without one, the text says which review fields the node does record and
+// points to its Review lane; it never derives a verdict from review_basis
+// entries, which can carry mixed or scoped outcomes. Only a node with none of
+// the review fields reads "not recorded". It is not the gate's classification,
+// a badge or an acceptance signal.
 export function recordedReviewText(node) {
+  const has = field => node[field] !== undefined && node[field] !== null && displayValue(node[field]).length > 0;
   const providers = [node.review_provider, ...(Array.isArray(node.review_providers) ? node.review_providers : [node.review_providers])]
     .filter(value => value !== undefined && value !== null && displayValue(value).length)
     .map(displayValue);
   const hasDisposition = node.review_disposition !== undefined && node.review_disposition !== null;
-  if (!hasDisposition && !providers.length) return 'review: not recorded';
-  const disposition = hasDisposition ? displayValue(node.review_disposition) : 'disposition not recorded';
-  return `recorded review: ${disposition}${providers.length ? ` (${providers.join('; ')})` : ''}`;
+  if (hasDisposition || providers.length) {
+    const disposition = hasDisposition ? displayValue(node.review_disposition) : 'disposition not recorded';
+    return `recorded review: ${disposition}${providers.length ? ` (${providers.join('; ')})` : ''}`;
+  }
+  const see = ' (see Evidence references)';
+  if (has('review_basis')) return `review: entries recorded, no summary disposition${see}`;
+  if (has('review_source') || has('review_url')) return `review: record referenced, no summary disposition${see}`;
+  if (has('review_issue')) return `review: issue reference recorded, no disposition${see}`;
+  return 'review: not recorded';
 }
 
 // These contextual fields are recorded node metadata, not source-edge

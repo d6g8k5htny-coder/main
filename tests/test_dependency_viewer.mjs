@@ -515,7 +515,7 @@ test('the three schema-absent evidence lanes read identically for different node
   assert.deepEqual(fixedLanes({}), reviewed);
 });
 
-test('recorded review text quotes the disposition and provider(s) and reports absence as not recorded', async () => {
+test('recorded review text quotes the disposition and provider(s), names review fields recorded without one, and reports absence only when no review field exists', async () => {
   const { recordedReviewText } = evidenceModel;
   assert.equal(typeof recordedReviewText, 'function');
   assert.equal(recordedReviewText({ review_disposition: 'ACCEPT', review_provider: 'xAI/Grok via Cursor' }),
@@ -525,7 +525,13 @@ test('recorded review text quotes the disposition and provider(s) and reports ab
   assert.equal(recordedReviewText({ review_disposition: 'OPEN' }), 'recorded review: OPEN');
   assert.equal(recordedReviewText({ review_provider: 'someone' }), 'recorded review: disposition not recorded (someone)');
   assert.equal(recordedReviewText({ classification: 'OPEN_ACTIVE' }), 'review: not recorded');
-  assert.equal(recordedReviewText({ review_source: 'reviews/r/REVIEW.md' }), 'review: not recorded');
+  // Review fields without a top-level disposition are named, never called absent and never turned into a verdict.
+  const see = ' (see Evidence references)';
+  assert.equal(recordedReviewText({ review_source: 'reviews/r/REVIEW.md' }), `review: record referenced, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_url: 'https://example.org/r' }), `review: record referenced, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_basis: [{ verdict: 'ACCEPT algebra; continuum HOLD' }] }), `review: entries recorded, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_issue: 67 }), `review: issue reference recorded, no disposition${see}`);
+  assert.equal(recordedReviewText({ review_basis: [], review_issue: null }), 'review: not recorded');
   const index = await fixtureIndex();
   assert.equal(recordedReviewText(index.nodes.get('math.lifetime-remainder')), 'recorded review: ACCEPT (xAI/Grok via Cursor)');
   const multiProvider = index.nodes.get('math.uniform-matrix-cap-lifetime');
@@ -533,11 +539,34 @@ test('recorded review text quotes the disposition and provider(s) and reports ab
   assert.equal(recordedReviewText(multiProvider),
     `recorded review: ${multiProvider.review_disposition} (${multiProvider.review_providers.join('; ')})`);
   assert.equal(recordedReviewText(index.nodes.get('hist.CH-LIFT')), 'review: not recorded');
+  // Real pinned controls (C198-311-01): basis entries with mixed scope, a linked ledger with basis entries,
+  // an issue reference only, and a node with no review field at all.
+  const pinPunctured = index.nodes.get('math.d5-component.punctured-pin-proof');
+  assert.ok(pinPunctured.review_basis.length && pinPunctured.review_disposition === undefined);
+  assert.match(JSON.stringify(pinPunctured.review_basis), /continuum HOLD/);
+  assert.equal(recordedReviewText(pinPunctured), `review: entries recorded, no summary disposition${see}`);
+  const erratum = index.nodes.get('math.d1-component.congruence-erratum');
+  assert.ok(erratum.review_source && erratum.review_basis.length);
+  assert.equal(recordedReviewText(erratum), `review: entries recorded, no summary disposition${see}`);
+  const issueOnly = index.nodes.get('math.rn-count-interface');
+  assert.ok(issueOnly.review_issue !== undefined && issueOnly.review_basis === undefined && issueOnly.review_source === undefined);
+  assert.equal(recordedReviewText(issueOnly), `review: issue reference recorded, no disposition${see}`);
+  const reviewFields = ['review_disposition', 'review_provider', 'review_providers', 'review_source', 'review_url', 'review_issue', 'review_basis'];
+  const recorded = value => value !== undefined && value !== null && !(Array.isArray(value) && !value.length) && String(value).length > 0;
+  let absent = 0, named = 0;
   for (const node of index.nodes.values()) {
     const text = recordedReviewText(node);
-    assert.ok(text === 'review: not recorded' || text.startsWith('recorded review: '), node.id);
+    const anyReviewField = reviewFields.some(field => recorded(node[field]));
+    assert.equal(text === 'review: not recorded', !anyReviewField, node.id);  // the absence label means no review field at all
+    assert.ok(text.startsWith('recorded review: ') || text.startsWith('review: '), node.id);
+    if (node.review_disposition === undefined && node.review_provider === undefined && node.review_providers === undefined) {
+      assert.doesNotMatch(text, /ACCEPT|HOLD|REJECT|AMEND|OPEN/, node.id);  // no verdict is derived from basis entries
+      if (anyReviewField) named += 1;
+    }
+    if (!anyReviewField) absent += 1;
     assert.doesNotMatch(text, /\bnone\b|independent|verified/i, node.id);
   }
+  assert.deepEqual([named, absent], [12, 28]);  // the pinned graph: 12 nodes with review fields but no summary, 28 with none
 });
 
 const optionValues = html => [...html.matchAll(/<option value="([^"]*)"/g)].map(match => match[1]);
