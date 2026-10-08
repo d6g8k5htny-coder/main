@@ -31,6 +31,11 @@ jobs:
           python3 -B -m unittest discover -s tests -p test_museum_data.py
           python3 -B tools/museum_check.py
           node --test tests/test_museum_geometry.mjs
+      - name: W8b public source identity controls in both Python modes
+        run: |
+          set -e
+          python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
+          python3 -B -E -O -S tests/test_public_shop_check_identity_control.py -v
       - name: Pinned public source readback and interaction harness
         run: python3 -B tools/public_shop_check.py
   browser-smoke:
