@@ -1,5 +1,6 @@
 """Published observation/validation binding and refusal controls."""
 import copy
+from fractions import Fraction
 import hashlib
 import importlib
 import json
@@ -14,7 +15,7 @@ from experiments.universality import run_pilot
 class PublishedTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        cls.record = run_pilot.build_observations()
 
     def setUp(self):
         self.verifier = importlib.import_module('experiments.universality.verify_published')
@@ -42,6 +43,30 @@ class PublishedTests(unittest.TestCase):
     def test_source_bound_successful_record_and_validation_pass(self):
         self.save()
         self.assertTrue(self.verifier.verify_published_artifact(self.directory))
+
+    def test_valid_nondefault_plans_remain_inspectable_but_refuse_publication(self):
+        plans = [
+            {'n': 8, 'cutoff': 2, 'fields_per_model': 1},
+            {'n': 8}, {'cutoff': 2}, {'fields_per_model': 1},
+            {'scale': 32768}, {'side': 12}, {'side': 24.0},
+            {'edges': [edge/2 for edge in run_pilot.DEFAULT_EDGES]},
+        ]
+        for plan in plans:
+            with self.subTest(plan=plan):
+                record = run_pilot.build_observations(**plan)
+                self.assertTrue(run_pilot.verify_observations(record))
+                self.save(record)
+                with self.assertRaisesRegex(ValueError, 'frozen default plan'):
+                    self.verifier.verify_published_artifact(self.directory)
+
+    def test_equivalent_noncanonical_bin_text_refuses_publication(self):
+        record = copy.deepcopy(self.record)
+        record['config']['bin_edges'][0] = '2/128'
+        self.assertEqual(Fraction(record['config']['bin_edges'][0]), run_pilot.DEFAULT_EDGES[0])
+        self.assertTrue(run_pilot.verify_observations(record))
+        self.save(record)
+        with self.assertRaisesRegex(ValueError, 'frozen default plan'):
+            self.verifier.verify_published_artifact(self.directory)
 
     def test_changed_observation_bytes_refuse_stale_validation_digest(self):
         self.save()
@@ -83,23 +108,23 @@ class PublishedTests(unittest.TestCase):
         # Deliberately fault the default path so this tests failure refusal
         # separately from the injected-sampler publication prohibition.
         with patch.object(run_pilot.models, 'sample_grid', side_effect=fail):
-            record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+            record = run_pilot.build_observations()
         self.assertTrue(run_pilot.verify_observations(record))
         validation = self.save(record)
         validation['exit_code'] = 0
         self.save_validation(validation)
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, 'Retained field failures'):
             self.verifier.verify_published_artifact(self.directory)
 
     def test_successful_injected_arithmetic_sampler_cannot_pass_publication_check(self):
         def constant(model, seed, *, n, **kwargs):
             return [0.0]*(n*n)
-        record = run_pilot.build_observations(n=8, cutoff=2, fields_per_model=1, sampler=constant)
+        record = run_pilot.build_observations(sampler=constant)
         self.assertTrue(run_pilot.verify_observations(record))
         self.assertTrue(all(row['failure'] is None for row in record['rows']))
         self.assertEqual(record['environment']['sampler_mode'], 'injected_uncertified_sampler')
         self.save(record)
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, 'Injected arithmetic/test'):
             self.verifier.verify_published_artifact(self.directory)
 
     def test_duplicate_validation_key_refused(self):

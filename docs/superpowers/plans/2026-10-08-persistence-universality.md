@@ -103,5 +103,12 @@ declarations. Publication now requires declared sampler mode and raw provenance
 requires canonical text/version formats, with authenticity still unproved.
 63 controls passed normal/O under system3.9 and bundled3.12; the default replay
 is byte-identical with unchanged field/law data. Latest review/CI precede merge.
+The next automatic review found equal-valued definition types and a publication
+check accepting nondefault plans. Strict recursive definition/summary comparison
+and full default-plan publication binding repaired32 runner and9 publication
+red cases.71 controls passed normal/O under system3.9 and bundled3.12; default
+replay is identical with unchanged field/law data. New main5b1e609a changes only
+a disjoint coordination link, consumed in the combined repair/refresh. The
+prepared docs-only022c5322 refresh was never published.
 The latest published-head review and hosted checks still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.

@@ -1,4 +1,4 @@
-"""Audit a retained successful pilot and its separate validation receipt.
+"""Audit the frozen default successful pilot and its validation receipt.
 
 This checks current source identity, exact retained grids, the observation-byte
 digest, and successful computation custody. It does not authenticate generator
@@ -44,6 +44,15 @@ def verify_published_artifact(directory):
     _require_keys(observations['config'], {'dimension', 'side', 'grid', 'cutoff', 'fields_per_model',
                                           'quantization_scale', 'seed_namespace', 'bin_edges',
                                           'bin_convention', 'quantization'}, 'configuration')
+    catalog = models.load_catalog()
+    expected_config = {
+        'dimension': catalog['domain']['dimension'], 'side': catalog['domain']['side'],
+        **catalog['default_parameters'], 'seed_namespace': run_pilot.EXPLORATORY_NAMESPACE,
+        'bin_edges': [str(edge) for edge in run_pilot.DEFAULT_EDGES],
+        'bin_convention': run_pilot.BIN_CONVENTION, 'quantization': run_pilot.QUANTIZATION,
+    }
+    models.require(models._matches_declared_metadata(observations['config'], expected_config),
+                   'Published configuration must match the frozen default plan')
     for row in observations['rows']:
         _require_keys(row, {'model_id', 'model_sha256', 'replicate', 'seed', 'float_samples_hex',
                             'quantized_samples', 'barcode', 'counts', 'connectivity_verified',

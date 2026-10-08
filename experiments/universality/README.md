@@ -39,6 +39,9 @@ computation failures and returns a failing status if any planned field failed.
 CI also checks the committed observation bytes against their sibling validation
 receipt and current source, using `verify_published.py`. This refuses stale source
 hashes, digest mismatches, false validation records and retained field failures.
+Publication also requires the complete frozen default configuration: side24,
+grid16, cutoff3, two fields per law, scale65536 and the canonical fixed bin plan.
+Other supported plans remain available to the raw retained-record verifier.
 Undeclared fields in the observation/environment/configuration/row mappings
 are refused, including unsupported scientific-status labels.
 It does not authenticate supplied grids as generator outputs.
@@ -52,6 +55,9 @@ records labelled as injected arithmetic/test inputs. Execution-environment
 declarations require nonempty canonical printable strings and a canonical Python
 version format. These validate declarations; they do not authenticate the host,
 runtime, sampler implementation or supplied grids.
+Retained law definitions and derived summaries require recursively exact scalar
+and container types, so equal-valued Booleans or floats cannot impersonate the
+integer declarations and counts.
 
 The rational mechanism controls are ready independently:
 

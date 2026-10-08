@@ -311,7 +311,8 @@ def verify_observations(output):
     catalog = models.load_catalog()
     expected = [models.definition(model, cutoff=cutoff, side=side, catalog=catalog)
                 for model in catalog['models']]
-    models.require(output['model_definitions'] == expected, 'Model definition or normalization mismatch')
+    models.require(models._matches_declared_metadata(output['model_definitions'], expected),
+                   'Model definition or normalization mismatch')
     hashes = {x['model']['id']: models.digest(x) for x in expected}
     rows = output['rows']
     models.require(type(rows) is list and len(rows) == 50*count, 'Missing planned field rows')
@@ -344,7 +345,8 @@ def verify_observations(output):
     summaries = {model['id']: summarize_rows([r for r in rows if r['model_id'] == model['id']],
                                              len(edges)-1, side=side, vertex_count=n*n)
                  for model in catalog['models']}
-    models.require(output['summaries'] == summaries, 'Planned denominator or mass normalization mismatch')
+    models.require(models._matches_declared_metadata(output['summaries'], summaries),
+                   'Planned denominator or mass normalization mismatch')
     return True
 
 

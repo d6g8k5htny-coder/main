@@ -403,6 +403,138 @@ class PilotTests(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         self.pilot.verify_observations(changed)
 
+    def test_retained_definitions_reject_equal_numeric_type_substitutions(self):
+        document = self.pilot.build_observations(n=8, cutoff=2)
+        probes = [(('dimension',), 2.0), (('torus_side',), 24.0),
+                  (('square_cutoff',), 2.0),
+                  (('normalized_float_spectrum', 2, 'mode', 1), False),
+                  (('normalized_float_spectrum', 2, 'mode', 1), 0.0),
+                  (('normalized_float_spectrum', 3, 'mode', 1), True),
+                  (('normalized_float_spectrum', 3, 'mode', 1), 1.0),
+                  (('normalized_float_spectrum', 0, 'mode', 0), -2.0)]
+        for path, value in probes:
+            with self.subTest(path=path, value=value):
+                changed = copy.deepcopy(document)
+                parent = changed['model_definitions'][0]
+                for key in path[:-1]:
+                    parent = parent[key]
+                parent[path[-1]] = value
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+
+    def test_retained_definitions_require_exact_nested_container_and_string_types(self):
+        class OtherDict(dict):
+            pass
+
+        class OtherList(list):
+            pass
+
+        class OtherString(str):
+            pass
+
+        document = self.pilot.build_observations(n=8, cutoff=2)
+        probes = [((), OtherList), ((0,), OtherDict), ((0, 'model'), OtherDict),
+                  ((0, 'spectrum'), OtherDict), ((0, 'coefficient_law'), OtherDict),
+                  ((0, 'normalized_float_spectrum'), OtherList),
+                  ((0, 'normalized_float_spectrum', 0), OtherDict),
+                  ((0, 'normalized_float_spectrum', 0, 'mode'), OtherList),
+                  ((0, 'normalized_float_spectrum', 0, 'q_float_hex'), OtherString),
+                  ((0, 'model', 'class'), OtherString)]
+        for path, replacement in probes:
+            with self.subTest(path=path):
+                changed = copy.deepcopy(document)
+                parent, key = changed, 'model_definitions'
+                for next_key in path:
+                    parent, key = parent[key], next_key
+                parent[key] = replacement(parent[key])
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+
+    def test_retained_summaries_reject_equal_numeric_type_substitutions(self):
+        document = self.pilot.build_observations(n=8, cutoff=2)
+        probes = [(('planned_fields',), 2.0), (('successful_fields',), 2.0),
+                  (('failed_fields',), False), (('failed_fields',), 0.0)]
+        first_total = document['summaries']['gaussian__gaussian']['successful_bin_totals'][0]
+        probes.append((('successful_bin_totals', 0), float(first_total)))
+        for path, value in probes:
+            with self.subTest(path=path, value=value):
+                changed = copy.deepcopy(document)
+                parent = changed['summaries']['gaussian__gaussian']
+                for key in path[:-1]:
+                    parent = parent[key]
+                parent[path[-1]] = value
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+
+    def test_retained_summaries_require_exact_nested_container_types(self):
+        class OtherDict(dict):
+            pass
+
+        class OtherList(list):
+            pass
+
+        class OtherString(str):
+            pass
+
+        document = self.pilot.build_observations(n=8, cutoff=2)
+        probes = [((), OtherDict), (('gaussian__gaussian',), OtherDict),
+                  (('gaussian__gaussian', 'successful_bin_totals'), OtherList),
+                  (('gaussian__gaussian', 'mean_mass_bounds'), OtherList),
+                  (('gaussian__gaussian', 'mean_mass_bounds', 0), OtherList),
+                  (('gaussian__gaussian', 'meaning'), OtherString)]
+        for path, replacement in probes:
+            with self.subTest(path=path):
+                changed = copy.deepcopy(document)
+                parent, key = changed, 'summaries'
+                for next_key in path:
+                    parent, key = parent[key], next_key
+                parent[key] = replacement(parent[key])
+                with self.assertRaises(ValueError):
+                    self.pilot.verify_observations(changed)
+
+    def test_serialized_false_mode_is_rejected_with_fresh_validation_receipt(self):
+        from experiments.universality import verify_published
+
+        document = self.pilot.build_observations()
+        profile = document['model_definitions'][0]['normalized_float_spectrum']
+        mode = next(item['mode'] for item in profile if item['mode'] == [-2, 0])
+        mode[1] = False
+        with tempfile.TemporaryDirectory() as scratch:
+            directory = Path(scratch)
+            original = json.dumps(document, sort_keys=True).encode('utf-8')
+            observations = directory/'observations.json'
+            observations.write_bytes(original)
+            validation = {'schema_version': 1, 'scientific_status_authority': False,
+                          'observations_file': 'observations.json',
+                          'observations_sha256': hashlib.sha256(original).hexdigest(),
+                          'final_record_verification': 'PASS', 'planned_fields': 100,
+                          'failed_fields': 0, 'error': None, 'exit_code': 0,
+                          'scope': 'Retained-record consistency only; no generator-authenticity or continuum claim'}
+            (directory/'validation.json').write_text(json.dumps(validation))
+            for boundary in ('structural', 'cli', 'publication'):
+                with self.subTest(boundary=boundary):
+                    if boundary == 'structural':
+                        with self.assertRaises(ValueError):
+                            self.pilot.verify_observations(document)
+                    elif boundary == 'cli':
+                        with contextlib.redirect_stdout(io.StringIO()) as stdout, \
+                                contextlib.redirect_stderr(io.StringIO()):
+                            self.assertEqual(self.pilot.main(['--verify', str(observations)]), 2)
+                        self.assertNotIn('VERIFICATION_PASS', stdout.getvalue())
+                    else:
+                        with self.assertRaises(ValueError):
+                            verify_published.verify_published_artifact(directory)
+            self.assertEqual(observations.read_bytes(), original)
+
+    def test_strict_definition_audit_preserves_all_models_and_supported_float_side(self):
+        for side in (24, 24.0):
+            with self.subTest(side_type=type(side).__name__):
+                document = self.pilot.build_observations(n=8, cutoff=2, side=side)
+                self.assertEqual(len(document['model_definitions']), 50)
+                self.assertEqual(len(document['rows']), 100)
+                self.assertTrue(all(row['failure'] is None for row in document['rows']))
+                self.assertTrue(self.pilot.verify_observations(document))
+
     def test_python_environment_version_requires_portable_canonical_format(self):
         document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
         malformed = ['3', '3.12', '3.12.1.0', '3.12.x', 'v3.12.1', '03.12.1',
