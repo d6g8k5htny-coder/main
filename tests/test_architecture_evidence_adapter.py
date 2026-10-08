@@ -128,22 +128,28 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         else:
             binding["statement_slice"] = binding["proof_slice"] = None
 
-    def formal(self, packet=None):
+    def formal(self, packet=None, *, source_snapshot="new"):
         packet = self.packet if packet is None else packet
-        source = copy.deepcopy(packet["new"]["bindings"][0]["source"])
+        source = copy.deepcopy(packet[source_snapshot]["bindings"][0]["source"])
+        local_copy = git_capture(raw_bytes(source), "TEST/formal/sources/source.md")
         scope = git_capture(b"TEST scope: two declared True targets; no elaboration or scientific claim\n", "TEST/formal/SCOPE.md")
         module = git_capture(b"namespace TEST.Formal\ntheorem alpha : True := by trivial\ntheorem beta : True := by trivial\n", "TEST/formal/Demo.lean")
-        files = [source, scope, module]
+        files = [local_copy, scope, module]
         source_ref = source["ref"]
         manifest = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
             "package": "TEST-synthetic-package", "package_root": "TEST/formal", "root_module": "TEST.Formal",
             "formalization_status": "proved", "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+            "meaning": "TEST synthetic source metadata; no executed or authenticated evidence",
+            "coordination": {"guide": "TEST/guide.md", "work_item": "TEST fixture only"},
+            "author": {"provider": "TEST-author", "family": "TEST-author-family", "agent": "TEST-author-agent"},
             "lean_toolchain": "leanprover/lean4:v4.34.1", "dependency_revisions": {}, "allowed_axioms": [],
+            "unbound_files": ["TEST/formal/manifest.json", "TEST/formal/ALIGNMENT.md"],
+            "negative_controls": {"TEST_false_claim": {"module": "Demo.lean", "replace": "True", "with": "False"}},
             "source_modules": ["Demo.lean"], "files": {item["ref"]["path"]: item["ref"]["sha256"] for item in files},
             "sources": [{"id": "TEST-source", "repository": source_ref["repository"], "commit": source_ref["commit"],
                          "path": source_ref["path"], "bytes": source_ref["bytes"], "sha256": source_ref["sha256"],
-                         "local_copy": source_ref["path"]}],
+                         "local_copy": local_copy["ref"]["path"]}],
             "targets": [{"name": target, "module": "Demo.lean", "title": "TEST declared target",
                          "source": "TEST-source", "informal_anchor": anchor.decode("utf-8"),
                          "does_not_claim": "actual Lean declaration existence or scientific acceptance"}
@@ -188,6 +194,27 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         packet = copy.deepcopy(self.packet)
         packet["formal_records"] = [self.formal(packet)]
         return packet
+
+    def math_formal(self, packet):
+        formal = self.formal(packet)
+        formal["format"] = "math-formal-gate/v1"
+        manifest = document(formal["manifest"])
+        manifest["targets"] = TARGETS
+        # Math native file keys are formal-root-relative; Git refs remain repo-relative.
+        prefix = formal["manifest"]["ref"]["path"].rsplit("/", 1)[0] + "/"
+        manifest["files"] = {path[len(prefix):]: digest for path, digest in manifest["files"].items()}
+        for field in ("package", "package_root", "root_module", "scientific_status_authority",
+                      "sources", "allowed_axioms", "lean_toolchain", "meaning", "coordination",
+                      "author", "unbound_files", "negative_controls"):
+            del manifest[field]
+        declared_archive = b"TEST archive metadata only; no retained archive or custody claim"
+        manifest["source_archive"] = {"name": "TEST-declared-only.zip", "sha256": sha(declared_archive),
+                                      "size_bytes": len(declared_archive)}
+        formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+        self.update_receipt(formal, lambda receipt: (receipt.pop("package"), receipt.pop("scientific_status_authority"),
+                            receipt.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]})))
+        self.update_alignment(formal, lambda review: review.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+        return formal
 
     def update_receipt(self, formal, change):
         receipt = document(formal["receipt"])
@@ -304,28 +331,47 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         self.assertNotIn("kernel_verified", report)
 
     def test_math_native_receipt_does_not_acquire_main_only_native_fields(self):
-        packet = self.with_formal()
-        formal = packet["formal_records"][0]
-        formal["format"] = "math-formal-gate/v1"
-        manifest = document(formal["manifest"])
-        manifest["targets"] = TARGETS
-        for field in ("package", "package_root", "root_module", "scientific_status_authority",
-                      "sources", "allowed_axioms", "lean_toolchain"):
-            del manifest[field]
-        declared_archive = b"TEST archive metadata only; no retained archive or custody claim"
-        manifest["source_archive"] = {"name": "TEST-declared-only.zip", "sha256": sha(declared_archive),
-                                      "size_bytes": len(declared_archive)}
-        formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
-        self.update_receipt(formal, lambda receipt: (receipt.pop("package"), receipt.pop("scientific_status_authority"),
-                            receipt.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]})))
-        self.update_alignment(formal, lambda review: review.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+        packet = copy.deepcopy(self.packet)
+        formal = self.math_formal(packet)
         formal["node_targets"] = []
+        packet["formal_records"] = [formal]
         report, _ = self.accepted(packet)
         retained = report["formal_summary"][0]["retained_receipt"]
         self.assertNotIn("package", retained)
         self.assertNotIn("scientific_status_authority", retained)
+        self.assertIn("SCOPE.md", report["formal_summary"][0]["retained_manifest"]["files"])
+        self.assertIn("TEST/formal/SCOPE.md", {capture["ref"]["path"] for capture in formal["source_files"]})
         self.assertEqual(report["formal_summary"][0]["manifest_targets"], TARGETS)
         self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_math_alignment_checks_every_proposer_normalized_lineage_and_target_scope(self):
+        packet = copy.deepcopy(self.packet)
+        formal = self.math_formal(packet)
+        packet["formal_records"] = [formal]
+        proposers = [
+            {"provider": "TEST-proposer-one", "family": "TEST-family-one", "agent": "TEST-agent-one", "targets": [TARGETS[0]]},
+            {"provider": "TEST-proposer-two", "family": "TEST-family-two", "agent": "TEST-agent-two", "targets": [TARGETS[1]]},
+        ]
+        self.update_alignment(formal, lambda review: review.update({"proposal_authors": proposers}))
+        report, _ = self.accepted(packet)
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+        for mutation in ("nonfirst_provider", "normalized_family", "placeholder_agent", "foreign_scope"):
+            with self.subTest(mutation=mutation):
+                changed = copy.deepcopy(packet)
+                def alter(review):
+                    if mutation == "nonfirst_provider":
+                        review["proposal_authors"][1]["provider"] = review["reviewer"]["provider"]
+                    elif mutation == "normalized_family":
+                        review["reviewer"]["family"] = "TEST Reviewer Family"
+                        review["proposal_authors"][1]["family"] = "  test   reviewer\tFAMILY  "
+                    elif mutation == "placeholder_agent":
+                        review["proposal_authors"][1]["agent"] = "  NOT\tKNOWN  "
+                    else:
+                        review["proposal_authors"][1]["targets"] = ["TEST.Formal.absent"]
+                self.update_alignment(changed["formal_records"][0], alter)
+                report, _ = self.accepted(changed)
+                self.assertNotEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
 
     def test_failed_or_skipped_incomplete_run_and_expected_failure_never_become_positive_kernel(self):
         for conclusion, purpose in (("failure", "check"), ("skipped", "check"), ("cancelled", "check"),
@@ -395,6 +441,27 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 report, _ = self.accepted(packet)
                 self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
 
+    def test_main_origin_source_is_distinct_from_its_bound_local_copy(self):
+        packet = copy.deepcopy(self.packet)
+        for label in ("old", "new"):
+            packet[label]["bindings"][0]["source"] = git_capture(
+                SOURCE, "TEST/origin-source.md", "c" * 40, "d6g8k5htny-coder/Math-")
+        formal = self.formal(packet)
+        packet["formal_records"] = [formal]
+        report, _ = self.accepted(packet)
+        origin = report["formal_summary"][0]["retained_manifest"]["sources"][0]
+        self.assertEqual((origin["repository"], origin["commit"], origin["path"]),
+                         ("d6g8k5htny-coder/Math-", "c" * 40, "TEST/origin-source.md"))
+        self.assertEqual(origin["local_copy"], "TEST/formal/sources/source.md")
+        local = formal["source_files"][0]
+        self.assertEqual((local["ref"]["repository"], local["ref"]["commit"], local["ref"]["path"]),
+                         (REPO, HEAD, origin["local_copy"]))
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        mismatch = copy.deepcopy(packet)
+        mismatch["new"]["bindings"][0]["source"]["ref"]["commit"] = "e" * 40
+        report, _ = self.accepted(mismatch)
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
     def test_unknown_or_duplicate_explicit_node_target_binding_is_a_contradiction(self):
         for binding in ([{"node": "TEST.A", "target": "TEST.Formal.absent"}],
                         [{"node": "TEST.absent", "target": TARGETS[0]}],
@@ -405,7 +472,9 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 self.refused(packet)
 
     def test_statement_change_uses_removed_and_context_edges_and_names_exact_review(self):
-        packet = self.with_formal()
+        packet = copy.deepcopy(self.packet)
+        # Retain the historical source at BASE; changed bytes belong to HEAD.
+        packet["formal_records"] = [self.formal(packet, source_snapshot="old")]
         raw = SOURCE.replace(b"alpha", b"ALPHA", 1)
         self.change_source(packet, "new", raw)
         self.change_graph(packet, "new", lambda graph: graph.update({"edges": graph["edges"][1:]}))
@@ -570,6 +639,25 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         packet = copy.deepcopy(self.packet)
         packet["new"]["bindings"][0]["source"]["raw_base64"] = "not base64!!"
         self.refused(packet)
+
+    def test_conflicting_bytes_for_one_immutable_git_identity_anywhere_are_refused(self):
+        for location in ("snapshots", "bindings", "graph_and_source", "formal_and_binding"):
+            with self.subTest(location=location):
+                packet = self.with_formal() if location == "formal_and_binding" else copy.deepcopy(self.packet)
+                if location == "snapshots":
+                    packet["old"]["bindings"][0]["source"]["ref"]["commit"] = HEAD
+                    self.change_source(packet, "new", SOURCE.replace(b"proof old", b"proof new"))
+                else:
+                    if location == "bindings":
+                        ref = packet["new"]["bindings"][0]["source"]["ref"]
+                    elif location == "graph_and_source":
+                        ref = packet["new"]["graph"]["ref"]
+                    else:
+                        ref = packet["formal_records"][0]["scope"]["ref"]
+                    conflicting = git_capture(b"TEST conflicting bytes", ref["path"], ref["commit"], ref["repository"])
+                    packet["new"]["bindings"].append({"node": "TEST.B", "source": conflicting,
+                                                     "statement_slice": None, "proof_slice": None})
+                self.refused(packet)
 
     def test_run_artifact_is_not_a_git_file_and_raw_hashes_and_native_bindings_must_match(self):
         for mutation in ("raw_hash", "git_field", "attempt_contradiction"):
