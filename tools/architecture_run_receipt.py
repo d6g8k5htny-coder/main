@@ -115,10 +115,11 @@ TEST_ID = re.compile(
 )
 TEST_RESULT = re.compile(r"(\S+) \(([^()]*)\) \.\.\. (.+)")
 # A damaged result must not become an ignored diagnostic. Match test-like
-# prefixes, parenthesized qualified test names, and result ellipses; runs of
-# dots used as diagnostic padding have neither a test marker nor a ')'.
+# prefixes, parenthesized qualified test names, and result ellipses. The default
+# unittest loader accepts every method beginning with 'test', including test1
+# and testExtra. Runs of diagnostic dots have neither a test marker nor a ')'.
 TEST_RESULT_LIKE = re.compile(
-    r"^\s*test(?:[_-]|\b)|\([^()\n]*\.test[^()\n]*\)|\)\s*\.\.\."
+    r"^\s*test|\([^()\n]*\.test[^()\n]*\)|\)\s*\.\.\."
 )
 TEST_SUMMARY = re.compile(r"Ran ([1-9][0-9]*) tests in [0-9]+(?:\.[0-9]+)?s")
 
