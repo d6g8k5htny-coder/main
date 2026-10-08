@@ -513,6 +513,53 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "stale")
             self.assertEqual(report["regression"]["affected_alignment_records"], [packet["formal_records"][0]["alignment"]["ref"]])
 
+    def test_native_SCOPE_file_cannot_be_substituted_by_another_manifest_bound_file(self):
+        for native_format in ("main-formal-gate/v1", "math-formal-gate/v1"):
+            with self.subTest(native_format=native_format):
+                packet = copy.deepcopy(self.packet)
+                formal = self.formal(packet) if native_format == "main-formal-gate/v1" else self.math_formal(packet)
+                packet["formal_records"] = [formal]
+                module = next(capture for capture in formal["source_files"]
+                              if capture["ref"]["path"] == "TEST/formal/Demo.lean")
+                formal["scope"] = copy.deepcopy(module)
+                self.update_alignment(formal, lambda review: review.update({"scope_sha256": module["ref"]["sha256"]}))
+                # The real SCOPE.md, complete file inventory, receipt and logs remain intact.
+                result = self.run_adapter(packet)
+                self.assertNotEqual(result.returncode, 0, "a module replaced the source-native SCOPE.md identity")
+                self.assertEqual(result.stdout, "", "scope substitution emitted a JSON report")
+
+    def test_native_negative_control_outcomes_cannot_swap_Lean_and_axiom_gate_rejections(self):
+        for name, wrong_outcome in (("TEST_false_claim", "REJECTED_BY_AXIOM_GATE"),
+                                    ("sorry", "REJECTED_BY_LEAN"),
+                                    ("custom_imported", "REJECTED_BY_LEAN"),
+                                    ("native", "REJECTED_BY_LEAN")):
+            with self.subTest(name=name):
+                packet = self.with_formal()
+                self.update_receipt(packet["formal_records"][0],
+                                    lambda receipt: receipt["negative_controls"].update({name: wrong_outcome}))
+                # Only this original receipt outcome and its capture byte hashes change.
+                result = self.run_adapter(packet)
+                self.assertNotEqual(result.returncode, 0, "native rejection mechanism was substituted for " + name)
+                self.assertEqual(result.stdout, "", "contradictory native rejection emitted a JSON report")
+
+    def test_main_native_producer_requires_its_fixed_toolchain_and_Lean_version(self):
+        for mutation in ("receipt_version_only", "manifest_and_receipt_version"):
+            with self.subTest(mutation=mutation):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                if mutation == "manifest_and_receipt_version":
+                    manifest = document(formal["manifest"])
+                    manifest["lean_toolchain"] = "leanprover/lean4:v5.0.0"
+                    formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+                    self.update_alignment(formal, lambda review: review.update(
+                        {"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+                self.update_receipt(formal, lambda receipt: receipt.update(
+                    {"lean_version": "Lean (version 5.0.0, TEST fixture only)",
+                     "manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+                result = self.run_adapter(packet)
+                self.assertNotEqual(result.returncode, 0, "unsupported native producer toolchain/version was accepted")
+                self.assertEqual(result.stdout, "", "unsupported native producer version emitted a JSON report")
+
     def test_affected_alignment_references_deduplicate_full_original_identity(self):
         packet = self.with_formal()
         second = copy.deepcopy(packet["formal_records"][0])
