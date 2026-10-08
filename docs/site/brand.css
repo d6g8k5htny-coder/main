@@ -18,6 +18,8 @@
   --ul-focus: #e9c675;
   --ul-button: #e9c675;
   --ul-buttonText: #102039;
+  /* Radius family: layout variables, not colours (brand/tokens.json records colours only). */
+  --ul-radius-s: 6px; --ul-radius-m: 8px; --ul-radius-l: 18px; --ul-radius-pill: 999px;
 }
 @media (prefers-color-scheme: light) {
   :root {
@@ -58,8 +60,8 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09") center/contain no-repeat; }
-.brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=d718e4473b278753d6d4f535dda4544a21eade43c1eb665772ac8c135bc1f3a7") center/contain no-repeat; }
+.brand span { color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
 nav a:hover { color: var(--ul-link); text-decoration: underline; }
@@ -72,7 +74,11 @@ h1, h2 { color: var(--ul-text); font-family: Georgia, "Times New Roman", serif; 
 h1 { font-size: clamp(38px, 5.6vw, 68px); line-height: 1.09; }
 h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.2; }
 h3, h4 { color: var(--ul-text); }
-.eyebrow { color: var(--ul-gold); font-size: 11px; letter-spacing: .18em; line-height: 1.6; }
+h3 { font-size: 21px; line-height: 1.35; font-weight: 600; }
+h4 { font-size: 16px; line-height: 1.4; }
+/* Reading measure for running prose. */
+main > section > p:not(.eyebrow):not(.intro), .latest-work > p, .about-section > div > p { max-width: 78ch; }
+.eyebrow { color: var(--ul-gold); font-size: 12px; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; }
 .intro, .museum-intro #museum-state, .muted, figcaption, footer { color: var(--ul-muted); }
 #museum-state.error, .conditional-route-refusal, .museum-card.refused p { color: var(--ul-error); }
 #conditional-route-status { font-size: 14px; }
@@ -81,35 +87,44 @@ h3, h4 { color: var(--ul-text); }
 .actions { gap: 12px; flex-wrap: wrap; }
 .button, button {
   border: 1px solid var(--ul-button); background: var(--ul-button); color: var(--ul-buttonText);
-  border-radius: 6px; padding: 11px 19px; min-height: 44px; font: 650 14px/1.5 system-ui, sans-serif;
+  border-radius: var(--ul-radius-s); padding: 11px 19px; min-height: 44px; font: 650 14px/1.5 system-ui, sans-serif;
   box-shadow: none;
 }
 .button:hover, button:hover { filter: brightness(1.06); text-decoration: none; }
 .button.secondary { background: transparent; border-color: var(--ul-edge); color: var(--ul-link); }
 .button[aria-disabled="true"] { opacity: .55; cursor: not-allowed; pointer-events: none; }
 button:disabled { filter: none; }
-.boundary { color: var(--ul-text); background: var(--ul-raised); border-left: 3px solid var(--ul-amend); border-radius: 0 6px 6px 0; padding: 13px 18px; line-height: 1.65; }
+button:disabled, input:disabled, select:disabled { cursor: not-allowed; }
+/* Scope note: a neutral edge on a raised block. Amber stays reserved for .cards article.amend, .status-object[data-class="AMEND/open"], .legend-open, .museum-card.amend-open and .fixture-absent. */
+.boundary { color: var(--ul-text); background: var(--ul-raised); border-left: 3px solid var(--ul-edge); border-radius: 0 var(--ul-radius-s) var(--ul-radius-s) 0; padding: 13px 18px; line-height: 1.65; }
 .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.cards article { min-width: 0; background: var(--ul-surface); border: 1px solid var(--ul-border); border-top: 3px solid var(--ul-edge); border-radius: 8px; padding: 25px; }
+.cards article { min-width: 0; background: var(--ul-surface); border: 1px solid var(--ul-border); border-top: 3px solid var(--ul-edge); border-radius: var(--ul-radius-m); padding: 25px; }
 .cards article.accept { border-top-color: var(--ul-accept); }
 .cards article.amend { border-top-color: var(--ul-amend); border-top-style: dashed; }
 .cards article.engineering { border-top: 3px double var(--ul-engineering); }
 .cards p, td small, dt { color: var(--ul-muted); }
 .count { color: var(--ul-text); font-size: 44px; }
 .status-group summary, .status-object { border-color: var(--ul-border); }
-summary { min-height: 40px; }
+summary { color: var(--ul-link); cursor: pointer; font-weight: 600; min-height: 40px; }
 .status-object[data-class="AMEND/open"] { border-left-color: var(--ul-amend); }
-.custody, .source-header { background: var(--ul-raised); border: 1px solid var(--ul-border); border-radius: 6px; }
+.custody, .source-header { background: var(--ul-raised); border: 1px solid var(--ul-border); border-radius: var(--ul-radius-s); }
 .source-header .canvas-disclaimer, .cards .source-header .canvas-disclaimer { border-color: var(--ul-border); color: var(--ul-muted); }
-.explorer { background: var(--ul-surface); border-color: var(--ul-border); border-radius: 8px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
-select, input { color: var(--ul-text); background: var(--ul-surface); border: 1px solid var(--ul-edge); min-height: 44px; max-width: 100%; border-radius: 6px; }
+.explorer { background: var(--ul-surface); border-color: var(--ul-border); border-radius: var(--ul-radius-m); grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+select, input { color: var(--ul-text); background: var(--ul-surface); border: 1px solid var(--ul-edge); min-height: 44px; max-width: 100%; border-radius: var(--ul-radius-s); }
 input::placeholder { color: var(--ul-muted); opacity: 1; }
 code, pre, dd, .hash, .source-identity { overflow-wrap: anywhere; }
 code { color: inherit; }
+/* Legibility floors; sizes only go up. Inline code is .9em of its context but never below the 13px that code, hashes and exact decimals share (style.css set 12px everywhere);
+   a code block is never below 13px nor below the text around it (the 16px exact outputs on Reproduce and Cite stay 16px) and its code takes the block's size; .hash 13px; quoted source identities 12px (brand.css loads after museum.css). */
+code { font-size: max(.9em, 13px); }
+pre { font-size: max(13px, 1em); }
+pre code { font-size: inherit; }
+.hash { font-size: 13px; }
+.source-identity dt, .source-identity dd, .claim-column pre, .claim-column details, .class-legend span, .object-class { font-size: 12px; }
 th { color: var(--ul-muted); background: var(--ul-raised); }
 caption { text-align: left; color: var(--ul-muted); font-size: 13px; padding: 8px 12px; }
 td { border-color: var(--ul-border); }
-.table-wrap { border: 1px solid var(--ul-border); border-radius: 6px; }
+.table-wrap { border: 1px solid var(--ul-border); border-radius: var(--ul-radius-s); }
 .error { color: var(--ul-error); }
 .good { color: var(--ul-accept); }
 footer { max-width: 1220px; margin: auto; padding: 32px 36px 56px; border-top: 1px solid var(--ul-border); font-size: 14px; color: var(--ul-muted); }
@@ -118,7 +133,7 @@ footer a { color: var(--ul-text); }
 footer p a, .site-map a { display: inline-block; padding: 10px 2px; margin: -10px 0; }
 main > section:last-child { border-bottom: 0; }
 /* Existing plots retain a light drawing surface; their data/geometry code is untouched. */
-#coefficient-chart, .geometry-host canvas, .geometry-host svg { background: #ffffff; border-radius: 6px; }
+#coefficient-chart, .geometry-host canvas, .geometry-host svg { background: #ffffff; border-radius: var(--ul-radius-s); }
 #coefficient-chart { border: 1px solid var(--ul-border); }
 #coefficient-chart:empty { background: transparent; }
 #coefficient-chart text { fill: #34475c; }
@@ -126,7 +141,7 @@ main > section:last-child { border-bottom: 0; }
 #coefficient-chart rect[fill="#2b7565"] { fill: #216ca8; }
 #coefficient-chart rect[fill="#adc6ba"] { fill: #a5bed5; }
 /* Museum classifications use words AND distinct patterns, never brand color alone. */
-.exhibit-links a { background: var(--ul-surface); border-color: var(--ul-edge); border-radius: 8px; }
+.exhibit-links a { background: var(--ul-surface); border-color: var(--ul-edge); border-radius: var(--ul-radius-m); }
 .exhibit-links a:hover { background: var(--ul-raised); }
 .exhibit-links span { color: var(--ul-muted); }
 .class-legend span { background: var(--ul-surface); color: var(--ul-text); }
@@ -134,7 +149,7 @@ main > section:last-child { border-bottom: 0; }
 .legend-open { border-color: var(--ul-amend); border-style: dashed; }
 .legend-engineering { border-color: var(--ul-engineering); border-style: double; }
 .legend-illustration { border-color: var(--ul-edge); border-style: dotted; }
-.museum-card { background: var(--ul-surface); border-color: var(--ul-accept); border-radius: 8px; }
+.museum-card { background: var(--ul-surface); border-color: var(--ul-accept); border-radius: var(--ul-radius-m); }
 .museum-card.amend-open { border-color: var(--ul-amend); border-style: dashed; }
 .museum-card.engineering-only { border-color: var(--ul-engineering); border-style: double; }
 .museum-card.illustration { border-color: var(--ul-edge); border-style: dotted; }
@@ -153,9 +168,9 @@ main > section:last-child { border-bottom: 0; }
 .geometry-host > .museum-visual:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 /* Room for that ring outside the figure, where it sits on the card surface in both schemes (inside, it would cross the white SVG): .geometry-host{overflow:hidden} (museum.css) clips at its padding edge, so the host gains 7px (offset 4px + ring 3px) and gives the sides back with -7px margins inside .museum-visual's 18-24px padding; the figure's width, left edge and sideways scroll are unchanged. */
 .geometry-host { padding: 7px; margin: 0 -7px; max-width: none; }
-.skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: 6px; color: var(--ul-text); }
+.skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: var(--ul-radius-s); color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 #formal-coverage:focus, .table-wrap:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 950px) { body > header { align-items: flex-start; } .cards { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
@@ -184,25 +199,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   a, .button.secondary { color: LinkText; }
   .button, button { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
   .button[aria-disabled="true"] { color: GrayText; border-color: GrayText; }
-  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline-color: Highlight; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline-color: Highlight; }
   #formal-coverage:focus, .table-wrap:focus-visible { outline-color: Highlight; }
   .geometry-host > .museum-visual:focus-visible { outline-color: Highlight; }
-  .museum-card.refused, .legend-refused { border-color: CanvasText; }
+  .site-map, .breadcrumb ol, .lesson-links a, .legend-refused, .museum-card.refused { border-color: CanvasText; }
   .brand::before { display: none; } .brand { padding-left: 0; }
-}
-@media print {
-  :root { color-scheme: light; --ul-background: #ffffff; --ul-surface: #ffffff; --ul-raised: #f4f4f4; --ul-text: #111111; --ul-muted: #333333; --ul-link: #17314f; --ul-gold: #61480d; --ul-border: #999999; }
-  body { background: #ffffff; color: #111111; }
-  .actions, .skip-link, body > header nav { display: none; }
-  section { padding: 24px 0; }
-  a { color: #17314f; text-decoration: underline; }
-  .museum-card, .cards article { break-inside: avoid; }
-  #inventory table, #formal-coverage-table { min-width: 0; }
 }
 
 /* Secondary reader routes leave the four primary destinations unchanged; the kicker names the row and the links are 44px tap targets. */
 .reader-tools { display: flex; align-items: center; justify-content: flex-end; gap: 12px 24px; flex-wrap: wrap; max-width: 1360px; margin: 0 auto; padding: 4px 4vw; box-sizing: border-box; border-bottom: 1px solid var(--ul-border); }
-.reader-tools-label { margin-right: auto; color: var(--ul-muted); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+.reader-tools-label { margin-right: auto; color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 .reader-tools a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 6px; margin: 0 -6px; text-decoration: none; color: var(--ul-text); font-size: 13px; }
 .reader-tools a:hover { text-decoration: underline; }
 @media (max-width: 640px) { .reader-tools { padding: 4px 20px; } }
@@ -223,7 +229,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Lesson/reading-path links, shared by Explore, Measure and the Research hero (moved from explore.css: measure.html loads explore.css before brand.css). */
 .lesson-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 25px; gap: 16px; }
-.lesson-links a { background: var(--ul-surface); padding: 16px 20px; border: 1px solid var(--ul-border); border-radius: 8px; font-size: 15px; text-decoration: none; }
+.lesson-links a { background: var(--ul-surface); padding: 16px 20px; border: 1px solid var(--ul-border); border-radius: var(--ul-radius-m); font-size: 15px; text-decoration: none; }
 .lesson-links a:hover { border-color: var(--ul-edge); }
 .lesson-links span { color: var(--ul-gold); font: 17px Georgia, serif; margin-right: 14px; }
 .lesson-links a { display: flex; align-items: center; min-height: 44px; margin: 0; }
@@ -236,8 +242,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 /* Dated list navigation (research hero, Library landing); undoes style.css nav{display:flex;font-weight:650}. */
 .cut-list { display: block; font-weight: 400; font-size: 15px; margin-top: 30px; max-width: 78ch; }
-.cut-list > p { margin: 0 0 6px; color: var(--ul-muted); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.cut-list > p { margin: 0 0 6px; color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 .cut-list ol, .cut-list ul { margin: 0; padding-left: 22px; line-height: 1.7; }
 .cut-list li { margin: 6px 0; }
 /* Phone legibility (W5 #4, W5b L4): page headings survive the WCAG 1.4.12 text-spacing override at 375px and 320px (Home and Library measured). */
 h1 { overflow-wrap: anywhere; }
+
+/* Shared reader components (moved from home.css, so a page without home.css renders them alike: dependencies.html's two p.section-intro are the same muted aside). */
+.text-link { font-size: 14px; padding: 10px 0; }
+.section-intro { max-width: 260px; color: var(--ul-muted); font-size: 15px; }
+.idea-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 38px; margin-top: 36px; }
+.step-number { color: var(--ul-gold); font: 14px ui-monospace, monospace; }
+.idea-grid h3 { font-size: 18px; line-height: 1.5; margin-top: 20px; }
+.idea-grid p { color: var(--ul-muted); font-size: 15px; }
+/* One label scale: card and result kickers share the eyebrow's 12px/.16em, uppercased by CSS so source text may be sentence case. */
+.card-kicker, .result-kicker { color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; }
+@media (max-width: 950px) {
+  .idea-grid { grid-template-columns: 1fr; gap: 24px; }
+  .idea-grid article { border-bottom: 1px solid var(--ul-border); padding-bottom: 12px; }
+  .idea-grid article:last-child { border-bottom: 0; }
+}
+
+/* Print keeps the evidence: every token takes its light value in both colour schemes; navigation, tools, buttons and search are hidden; tables, code, hashes and source links stay; a collapsed disclosure says so.
+   Kept last in this file: .reader-tools and .page-outline set display earlier at equal specificity. button.button: a <button class="button"> outranks the element selector (style.css .button sets display). */
+@media print {
+  :root { color-scheme: light; --ul-background: #ffffff; --ul-surface: #ffffff; --ul-raised: #f4f4f4; --ul-text: #111111; --ul-muted: #333333; --ul-link: #17314f; --ul-gold: #61480d; --ul-border: #999999; --ul-accept: #14634d; --ul-amend: #874608; --ul-error: #9c2c3a; --ul-engineering: #526179; --ul-edge: #6a7e96; --ul-focus: #10558d; --ul-button: #17314f; --ul-buttonText: #ffffff; }
+  body { background: #ffffff; color: #111111; }
+  .actions, .skip-link, body > header nav, .reader-tools, button, button.button, #more, input[type="search"], .page-outline { display: none; }
+  section { padding: 24px 0; }
+  a { color: #17314f; text-decoration: underline; }
+  .museum-card, .cards article, .lesson-links, .cut-list li, .site-map li { break-inside: avoid; }
+  details:not([open]) > summary::after { content: " — collapsed; contents not printed"; font-style: italic; }
+  #inventory table, #formal-coverage-table { min-width: 0; }
+}

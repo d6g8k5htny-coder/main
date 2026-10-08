@@ -3,10 +3,10 @@
 .explore-intro h1 { max-width: 970px; }
 .explore-intro .intro { max-width: 750px; }
 .explore-intro #explore-state-status, .explore-intro #explore-state-status + p { font-size: 13px; color: var(--ul-muted); margin: 18px 0 0; }
-.teaching-label { display: inline-block; border: 1px dotted var(--ul-edge); border-radius: 30px; color: var(--ul-muted); padding: 5px 13px; font-size: 13px; }
+.teaching-label { display: inline-block; border: 1px dotted var(--ul-edge); border-radius: var(--ul-radius-pill); color: var(--ul-muted); padding: 5px 13px; font-size: 13px; }
 .lesson-heading { max-width: 790px; margin-bottom: 30px; }
 .lesson-heading > p:last-child { color: var(--ul-muted); font-size: 18px; }
-.experiment { display: grid; grid-template-columns: minmax(240px, .78fr) minmax(0, 1.6fr); border: 1px dotted var(--ul-edge); border-radius: 14px; overflow: hidden; background: var(--ul-surface); }
+.experiment { display: grid; grid-template-columns: minmax(240px, .78fr) minmax(0, 1.6fr); border: 1px dotted var(--ul-edge); border-radius: var(--ul-radius-l); overflow: hidden; background: var(--ul-surface); }
 .experiment-controls { background: var(--ul-raised); padding: 28px; }
 .try-this { margin: 0 0 30px; font-size: 15px; }
 .experiment-controls label { font-size: 14px; }
@@ -17,14 +17,15 @@ input[type="range"]:disabled { opacity: .45; }
 .control-help, .keyboard-hint { color: var(--ul-muted); font-size: 13px; line-height: 1.55; }
 .control-help { margin: 0 0 24px; }
 .keyboard-hint { margin-top: 16px; }
-.reset-button { background: transparent; border-color: var(--ul-edge); color: var(--ul-text); padding: 9px 13px; font-size: 13px; }
+.reset-button { background: transparent; border-color: var(--ul-edge); color: var(--ul-link); padding: 9px 15px; font-size: 14px; }
 .control-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .experiment-result { min-width: 0; padding: 25px 28px 27px; }
 .result-heading { min-height: 84px; }
 .result-heading h3 { margin: 3px 0 15px; font-size: 23px; font-weight: 550; }
-.result-kicker { margin: 0; color: var(--ul-muted); font-size: 10px; letter-spacing: .16em; font-weight: 700; }
+.result-heading h2 { font: 550 23px/1.3 system-ui, sans-serif; letter-spacing: 0; margin: 3px 0 15px; } /* measure.html uses an h2 here */
+.result-kicker { margin: 0; color: var(--ul-muted); letter-spacing: .16em; font-weight: 700; } /* size, case and tracking: the shared label scale in brand.css */
 .experiment figure { margin: 0 0 21px; }
-.experiment svg { display: block; background: var(--ul-background); border-radius: 10px; width: 100%; }
+.experiment svg { display: block; background: var(--ul-background); border-radius: var(--ul-radius-m); width: 100%; }
 .experiment svg text { font-family: system-ui, sans-serif; font-size: 21px; fill: var(--ul-text); }
 .experiment svg .diagram-small { font-size: 18px; fill: var(--ul-muted); }
 .experiment svg .diagram-axis { stroke: var(--ul-edge); stroke-width: 1.5; }
@@ -41,6 +42,7 @@ input[type="range"]:disabled { opacity: .45; }
 .experiment figcaption { margin-top: 10px; font-size: 12px; line-height: 1.55; }
 .readout-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--ul-border); border-bottom: 1px solid var(--ul-border); padding: 14px 0; gap: 16px; }
 .readout-grid p { margin: 0; font-size: 12px; color: var(--ul-muted); }
+.readout-grid p { display: flex; flex-direction: column; justify-content: flex-end; } /* values share a baseline row when one label wraps */
 .readout-grid strong { display: block; color: var(--ul-text); font-size: 23px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .three-readouts { grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .three-readouts strong { font-size: 20px; }
@@ -49,20 +51,20 @@ input[type="range"]:disabled { opacity: .45; }
 #curvature-export-status { margin: 10px 0 16px; }
 .figure-citation { padding: 8px 14px; }
 .figure-citation label { display: block; font-size: 13px; color: var(--ul-muted); margin: 10px 0; }
-.figure-citation textarea { display: block; width: 100%; min-height: 180px; resize: vertical; border: 1px solid var(--ul-edge); border-radius: 6px; padding: 10px; background: var(--ul-background); color: var(--ul-text); font: 13px/1.55 system-ui, sans-serif; overflow-wrap: anywhere; }
+.figure-citation textarea { display: block; width: 100%; min-height: 180px; resize: vertical; border: 1px solid var(--ul-edge); border-radius: var(--ul-radius-s); padding: 10px; background: var(--ul-background); color: var(--ul-text); font: 13px/1.55 system-ui, sans-serif; overflow-wrap: anywhere; }
 .figure-citation p { font-size: 13px; }
-.curvature-export-actions button:disabled { opacity: .5; cursor: default; }
+.curvature-export-actions button:disabled { opacity: .5; }
 .lesson-takeaway { display: grid; grid-template-columns: .8fr 1.6fr; gap: 40px; margin: 30px 0 24px; }
 .lesson-takeaway h3 { margin: 0; max-width: 240px; font-size: 21px; font-weight: 500; }
 .lesson-takeaway p { margin: 0; color: var(--ul-muted); }
 .lesson-takeaway p + p { margin-top: 10px; }
-.lesson-source { border: 1px solid var(--ul-border); border-radius: 8px; padding: 10px 20px; }
+.lesson-source { border: 1px solid var(--ul-border); border-radius: var(--ul-radius-m); padding: 10px 20px; }
 .lesson-source summary { display: list-item; padding: 8px 0; font-size: 14px; color: var(--ul-link); }
 .lesson-source p { max-width: 850px; color: var(--ul-muted); }
 .lesson-source code { font-size: 13px; color: var(--ul-text); }
 fieldset { border: 0; padding: 0; margin: 0 0 24px; min-width: 0; }
 legend { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
-.region-choice label, .object-choices label { display: flex; align-items: center; gap: 11px; min-height: 48px; margin: 6px 0; border: 1px solid var(--ul-border); border-radius: 6px; padding: 8px 11px; cursor: pointer; }
+.region-choice label, .object-choices label { display: flex; align-items: center; gap: 11px; min-height: 48px; margin: 6px 0; border: 1px solid var(--ul-border); border-radius: var(--ul-radius-s); padding: 8px 11px; cursor: pointer; }
 .region-choice label:has(input:checked), .object-choices label:has(input:checked) { border-color: var(--ul-edge); background: var(--ul-surface); }
 .region-choice input, .object-choices input { width: 18px; min-width: 18px; height: 18px; min-height: 18px; margin: 0; accent-color: var(--ul-link); }
 .object-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -83,13 +85,16 @@ legend { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
   .explore-intro { padding-top: 40px; }
   .experiment-controls, .experiment-result { padding: 20px 16px; }
   .experiment svg { width: 100%; }
-  .result-heading h3 { font-size: 21px; }
+  .result-heading h3, .result-heading h2 { font-size: 21px; }
   .readout-grid { gap: 8px; }
   .three-readouts strong { font-size: 16px; }
   .lesson-heading > p:last-child { font-size: 17px; }
   .lesson-source { padding: 8px 14px; }
   .lesson-source summary { font-size: 13px; }
   .figure-citation textarea { font-size: 16px; }
+  /* Phone legibility: the diagrams scale down with their 600-unit viewBox, so labels rise in user units. Exports capture computed style, so a phone-width export records these sizes. */
+  .experiment svg text { font-size: 25px; }
+  .experiment svg .diagram-small { font-size: 21px; }
 }
 @media (forced-colors: active) {
   .experiment svg .diagram-fill, .experiment svg .diagram-warm { fill: Canvas; stroke: CanvasText; fill-opacity: 1; }
