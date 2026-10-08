@@ -55,6 +55,7 @@ PUBLIC_REPOS = {"d6g8k5htny-coder/main", "d6g8k5htny-coder/Math-", "d6g8k5htny-c
 THEOREM = re.compile(r"^(?:theorem|lemma)\s+(" + NAME + r")", re.M)
 NAMESPACE = re.compile(r"^namespace\s+(\S+)", re.M)
 TOOLCHAIN = "leanprover/lean4:v4.34.1"
+LEAN_COMMIT = "5045d0056413266e57c625dcd7c365b10e377c52"
 BUILD_DIR = ".lake"
 
 
@@ -225,7 +226,9 @@ def check_lean_version(text: str) -> str:
     pin = re.fullmatch(r"leanprover/lean4:v(\d+\.\d+\.\d+)", TOOLCHAIN)
     require(pin is not None, "unsupported pinned Lean toolchain")
     version = text.strip()
-    require(re.match(r"Lean \(version " + re.escape(pin.group(1)) + r",", version) is not None,
+    record = (r"Lean \(version " + re.escape(pin.group(1))
+              + r", [A-Za-z0-9_.+-]+, commit " + LEAN_COMMIT + r", Release\)")
+    require(re.fullmatch(record, version) is not None,
             "unexpected running Lean version")
     return version
 

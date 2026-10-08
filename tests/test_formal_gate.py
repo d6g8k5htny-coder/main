@@ -329,7 +329,11 @@ class SyntheticControls(unittest.TestCase):
     # https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6066278094
     # Only subprocess outputs and Git identity are synthetic. The real execute,
     # run/log writer, axiom parser and temporary-package source checker run here.
-    RUNTIME_RELEASE = "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit abc, Release)\n"
+    LEAN_COMMIT = "5045d0056413266e57c625dcd7c365b10e377c52"
+    RUNTIME_RELEASE = (
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Release)\n"
+    )
     WRONG_RUNTIMES = (
         "Lean (version 4.34.10, x86_64, Release)",
         "Lean (version 4.34.100, x86_64, Release)",
@@ -339,6 +343,13 @@ class SyntheticControls(unittest.TestCase):
         "Lean (version 4.34.2, x86_64, Release)",
         "Lean (version 4.35.1, x86_64, Release)",
         "Lean (version 4.34.0, x86_64, Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5, Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit " + "a" * 40 + ", Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Debug)",
+        "Lean (version 4.34.1,",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Release)\ntrailing diagnostic",
         "",
     )
 
@@ -409,7 +420,10 @@ class SyntheticControls(unittest.TestCase):
                 self.assertEqual((self.runtime_state["out"] / "preflight-version.log").read_text(), version)
 
     def test_valid_runtime_preserves_both_version_observations_and_logs(self):
-        final_version = "Lean (version 4.34.1, aarch64-unknown-linux-gnu, commit def, Release)\n"
+        final_version = (
+            "Lean (version 4.34.1, aarch64-unknown-linux-gnu, commit "
+            + self.LEAN_COMMIT + ", Release)\n"
+        )
         receipt = self.runtime_probe([self.RUNTIME_RELEASE, final_version])
         self.assertEqual(self.runtime_state["events"], [
             "version", "build", "leanchecker", "Audit.lean", "Types.lean", "tight.lean",
