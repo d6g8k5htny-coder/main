@@ -182,6 +182,9 @@ for (const fragment of ['', '#object-evidence', '#object-audit', '#object-readin
   }
   const html=await readFile(pageURL,'utf8');
   const nodes=new Map([...html.matchAll(/\bid="([^"]+)"/g)].map(match=>[match[1],new Element()]));
+  // The page ships static options; seed a duplicate and an unknown one so the module must reconcile, not append.
+  const seededOptions=[{value:''},{value:'PROVED_REVIEWED'},{value:'PROVED_REVIEWED'},{value:'NOT_IN_GRAPH'}];
+  nodes.get('classification-filter').children=[...seededOptions];
   const saved=new Map(['window','document','fetch','crypto'].map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
   if (digestDelay) Object.defineProperty(globalThis,'crypto',{configurable:true,value:{subtle:{async digest(...args){
     await new Promise(resolve=>setTimeout(resolve,digestDelay));
@@ -209,6 +212,16 @@ for (const fragment of ['', '#object-evidence', '#object-audit', '#object-readin
     const search=nodes.get('dependency-search');search.value='math';search.dispatchEvent(new Event('input'));
     assert.equal(nodes.get('search-results').children.length,39);
     assert.match(nodes.get('search-results').textContent,/math.side24-coefficient/);
+    assert.match(nodes.get('search-results').textContent,/math\.side24-coefficient[^]*?recorded review: ACCEPT \(xAI\/Grok via Cursor\)/);
+    const multiProvider=(await fixture()).nodes['math.uniform-matrix-cap-lifetime'];
+    assert.ok(nodes.get('search-results').textContent.includes(`recorded review: ${multiProvider.review_disposition} (${multiProvider.review_providers.join('; ')})`),'array providers are joined beside the node');
+    assert.match(nodes.get('search-results').textContent,/review: not recorded/);
+    assert.doesNotMatch(nodes.get('search-results').textContent,/review: none/);
+    assert.match(nodes.get('unresolved-targets').textContent,/hist\.CH-LIFT[^]*?review: not recorded/);
+    const optionValues=nodes.get('classification-filter').children.map(option=>option.value);
+    assert.deepEqual(optionValues,['',...evidenceModel.classificationOptions(await fixtureIndex())]);
+    assert.equal(nodes.get('classification-filter').children.find(option=>option.value==='PROVED_REVIEWED'),seededOptions[1],'the first existing option is reused');
+    assert.ok(!nodes.get('classification-filter').children.includes(seededOptions[2]),'the duplicate option is dropped');
     assert.match(nodes.get('search-results').textContent,/math.uniform-matrix-cap-lifetime/);
     assert.equal(new URLSearchParams(window.location.search).get('q'),'math');
     const filter=nodes.get('classification-filter');
@@ -285,6 +298,10 @@ for (const fragment of ['', '#object-evidence', '#object-audit', '#object-readin
 
 async function fixture() {
   return JSON.parse(await readFile(graphURL, 'utf8'));
+}
+
+async function fixtureIndex() {
+  return buildGraphIndex(await fixture());
 }
 
 test('the pinned graph is complete and structurally valid', async () => {
@@ -481,4 +498,128 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(style, /:focus-visible/);
   assert.match(style, /\.path-arrow[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(style, /classification-proved-reviewed/);
+});
+
+test('the three schema-absent evidence lanes read identically for different nodes and never claim a failure', async () => {
+  const index = await fixtureIndex();
+  const expected = [
+    ['Reproduction', 'This snapshot records no execution-receipt field for any node.'],
+    ['Formal proof', 'This snapshot records no formal-proof field for any node.'],
+    ['Alignment', 'This snapshot records no informal/formal alignment field for any node.'],
+  ];
+  const fixedLanes = node => evidenceModel.evidenceRows(node).slice(2).map(row => [row.label, row.state, row.detail, row.href]);
+  const reviewed = fixedLanes(index.nodes.get('math.rn-fixed-annulus-window'));
+  const open = fixedLanes(index.nodes.get('hist.CH-LIFT'));
+  assert.deepEqual(reviewed, open);
+  assert.deepEqual(reviewed, expected.map(([label, detail]) => [label, 'Not recorded', detail, undefined]));
+  assert.deepEqual(fixedLanes({}), reviewed);
+});
+
+test('recorded review text quotes the disposition and provider(s), names review fields recorded without one, and reports absence only when no review field exists', async () => {
+  const { recordedReviewText } = evidenceModel;
+  assert.equal(typeof recordedReviewText, 'function');
+  assert.equal(recordedReviewText({ review_disposition: 'ACCEPT', review_provider: 'xAI/Grok via Cursor' }),
+    'recorded review: ACCEPT (xAI/Grok via Cursor)');
+  assert.equal(recordedReviewText({ review_disposition: 'ACCEPT_AT_EXISTENTIAL_SCOPE', review_providers: ['one', 'two'] }),
+    'recorded review: ACCEPT_AT_EXISTENTIAL_SCOPE (one; two)');
+  assert.equal(recordedReviewText({ review_disposition: 'OPEN' }), 'recorded review: OPEN');
+  assert.equal(recordedReviewText({ review_provider: 'someone' }), 'recorded review: disposition not recorded (someone)');
+  assert.equal(recordedReviewText({ classification: 'OPEN_ACTIVE' }), 'review: not recorded');
+  // Review fields without a top-level disposition are named, never called absent and never turned into a verdict.
+  const see = ' (see Evidence references)';
+  assert.equal(recordedReviewText({ review_source: 'reviews/r/REVIEW.md' }), `review: record referenced, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_url: 'https://example.org/r' }), `review: record referenced, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_basis: [{ verdict: 'ACCEPT algebra; continuum HOLD' }] }), `review: entries recorded, no summary disposition${see}`);
+  assert.equal(recordedReviewText({ review_issue: 67 }), `review: issue reference recorded, no disposition${see}`);
+  assert.equal(recordedReviewText({ review_basis: [], review_issue: null }), 'review: not recorded');
+  const index = await fixtureIndex();
+  assert.equal(recordedReviewText(index.nodes.get('math.lifetime-remainder')), 'recorded review: ACCEPT (xAI/Grok via Cursor)');
+  const multiProvider = index.nodes.get('math.uniform-matrix-cap-lifetime');
+  assert.equal(multiProvider.review_providers.length, 2);
+  assert.equal(recordedReviewText(multiProvider),
+    `recorded review: ${multiProvider.review_disposition} (${multiProvider.review_providers.join('; ')})`);
+  assert.equal(recordedReviewText(index.nodes.get('hist.CH-LIFT')), 'review: not recorded');
+  // Real pinned controls (C198-311-01): basis entries with mixed scope, a linked ledger with basis entries,
+  // an issue reference only, and a node with no review field at all.
+  const pinPunctured = index.nodes.get('math.d5-component.punctured-pin-proof');
+  assert.ok(pinPunctured.review_basis.length && pinPunctured.review_disposition === undefined);
+  assert.match(JSON.stringify(pinPunctured.review_basis), /continuum HOLD/);
+  assert.equal(recordedReviewText(pinPunctured), `review: entries recorded, no summary disposition${see}`);
+  const erratum = index.nodes.get('math.d1-component.congruence-erratum');
+  assert.ok(erratum.review_source && erratum.review_basis.length);
+  assert.equal(recordedReviewText(erratum), `review: entries recorded, no summary disposition${see}`);
+  const issueOnly = index.nodes.get('math.rn-count-interface');
+  assert.ok(issueOnly.review_issue !== undefined && issueOnly.review_basis === undefined && issueOnly.review_source === undefined);
+  assert.equal(recordedReviewText(issueOnly), `review: issue reference recorded, no disposition${see}`);
+  const reviewFields = ['review_disposition', 'review_provider', 'review_providers', 'review_source', 'review_url', 'review_issue', 'review_basis'];
+  const recorded = value => value !== undefined && value !== null && !(Array.isArray(value) && !value.length) && String(value).length > 0;
+  let absent = 0, named = 0;
+  for (const node of index.nodes.values()) {
+    const text = recordedReviewText(node);
+    const anyReviewField = reviewFields.some(field => recorded(node[field]));
+    assert.equal(text === 'review: not recorded', !anyReviewField, node.id);  // the absence label means no review field at all
+    assert.ok(text.startsWith('recorded review: ') || text.startsWith('review: '), node.id);
+    if (node.review_disposition === undefined && node.review_provider === undefined && node.review_providers === undefined) {
+      assert.doesNotMatch(text, /ACCEPT|HOLD|REJECT|AMEND|OPEN/, node.id);  // no verdict is derived from basis entries
+      if (anyReviewField) named += 1;
+    }
+    if (!anyReviewField) absent += 1;
+    assert.doesNotMatch(text, /\bnone\b|independent|verified/i, node.id);
+  }
+  assert.deepEqual([named, absent], [12, 28]);  // the pinned graph: 12 nodes with review fields but no summary, 28 with none
+});
+
+const optionValues = html => [...html.matchAll(/<option value="([^"]*)"/g)].map(match => match[1]);
+
+test('the static classification options and token list equal the pinned graph and stay disabled until verified', async () => {
+  const [page, index] = await Promise.all([readFile(pageURL, 'utf8'), fixtureIndex()]);
+  const select = page.match(/<select id="classification-filter" disabled>([^]*?)<\/select>/);
+  assert.ok(select, 'the classification filter ships disabled with static options');
+  assert.deepEqual(optionValues(select[1]), ['', ...evidenceModel.classificationOptions(index)]);
+  assert.match(select[1], /<option value="">All recorded classifications<\/option>/);
+  assert.match(page, /<input id="dependency-search"[^>]*list="dependency-tokens"[^>]*disabled>/);
+  const datalist = page.match(/<datalist id="dependency-tokens">([^]*?)<\/datalist>/);
+  assert.ok(datalist, 'the search input offers the snapshot tokens');
+  assert.deepEqual(optionValues(datalist[1]), evidenceModel.classificationOptions(index));
+});
+
+test('the static vocabulary quotes exactly the classifications, layers, kinds and non-discharge tokens of the pinned graph', async () => {
+  const [page, graph] = await Promise.all([readFile(pageURL, 'utf8'), fixture()]);
+  assert.match(page, /id="classification-vocabulary"/);
+  const vocabulary = page.match(/<details id="classification-vocabulary">([^]*?)<\/details>/)[1].replace(/<[^>]+>/g, '');
+  const list = (label, stop) => vocabulary.match(new RegExp(`${label}: ([^;.]+)${stop}`))[1].split(',').map(token => token.trim());
+  const nodes = Object.values(graph.nodes);
+  const sorted = values => [...new Set(values)].sort();
+  assert.deepEqual(list('classifications', ';'), sorted(nodes.map(node => node.classification)));
+  assert.deepEqual(list('kinds', '\\.'), sorted(nodes.map(node => node.kind)));
+  assert.deepEqual(list('never discharge an obligation', '\\.'), graph.non_discharge_tokens);
+  const layers = sorted(nodes.map(node => node.layer));
+  const range = vocabulary.match(/layers (D\d+)–(D\d+)/);
+  assert.ok(range, 'layers are quoted as the source range');
+  assert.deepEqual(layers, Array.from({ length: layers.length }, (_, i) => `D${i + Number(range[1].slice(1))}`));
+  assert.equal(range[2], layers.at(-1));
+  assert.match(vocabulary, /Only PROVED_REVIEWED satisfies a still-required positive premise\. Required REFUTED, BLOCKED_ABSENT, author-side\/open, and SUPERSEDED_NONBLOCKING nodes block promotion\./);
+  assert.match(page, /href="https:\/\/github\.com\/d6g8k5htny-coder\/Math-\/blob\/7858329974e28be79f29b22644370084ff43da4f\/frontiers\/downstream_gate_20260925\/README\.md"/);
+  assert.doesNotMatch(vocabulary, /\bmeans\b|\bdefined as\b/i, 'tokens are quoted, not defined');
+});
+
+test('the unresolved-target sentence names exactly the viewer list rule', async () => {
+  const page = await readFile(pageURL, 'utf8');
+  const sentence = page.match(/Unresolved here means a node whose recorded classification is ([^<]*?) and whose kind is not ([^<]*?) \(the viewer's list rule in dependency-model\.mjs, not a source verdict\)\./);
+  assert.ok(sentence, 'the list rule is stated beside the ranking');
+  const tokens = text => text.replace(' or ', ', ').split(',').map(token => token.trim());
+  assert.deepEqual(tokens(sentence[1]), [...evidenceModel.OPEN_CLASSIFICATIONS]);
+  assert.deepEqual(tokens(sentence[2]), [...evidenceModel.NON_RESEARCH_KINDS]);
+});
+
+test('the page states the rendered bytes as PROVENANCE pins them and dates its currency read', async () => {
+  const [page, provenance] = await Promise.all([readFile(pageURL, 'utf8'), readFile(provenanceURL, 'utf8').then(JSON.parse)]);
+  const graph = provenance.files['GRAPH.json'];
+  assert.match(page, new RegExp(`SHA-256 <code>${graph.sha256}</code>, ${graph.bytes.toLocaleString('en-US')} bytes, Git blob <code>${graph.git_blob}</code>`));
+  assert.match(page, /the page refuses to render if the bytes differ/);
+  assert.match(page, /As read on \d{1,2} \w+ 2026 \(Math- <code>[0-9a-f]{7,40}<\/code>\), the live <code>GRAPH\.json<\/code> had not changed since the pinned commit/);
+  assert.match(page, /href="https:\/\/github\.com\/d6g8k5htny-coder\/Math-\/blob\/main\/frontiers\/downstream_gate_20260925\/GRAPH\.json">current GRAPH\.json \(mutable branch link\)<\/a>/);
+  for (const id of ['search-results', 'unresolved-targets', 'dependency-list', 'dependent-list', 'dependency-paths'])
+    assert.match(page, new RegExp(`id="${id}"[^>]*role="list"`), id);
+  assert.match(page, /<nav class="source-links" aria-label="Exact viewer sources">/);
 });

@@ -1479,7 +1479,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     expect(page.locator("#node-count")).to_have_text("49")
     expect(page.locator("#edge-count")).to_have_text("55")
     expect(page.locator("#unresolved-count")).to_have_text("15")
-    expect(page.locator(".boundary")).to_contain_text("Dated read-only snapshot")
+    expect(page.locator(".boundary").first).to_contain_text("Dated read-only snapshot")
     expect(page.get_by_role("link",name="Provenance record",exact=True)).to_have_attribute("href","dependency-source/PROVENANCE.json")
     page.locator("#dependency-search").fill("math")
     expect(page.locator("#search-results > li")).to_have_count(39)

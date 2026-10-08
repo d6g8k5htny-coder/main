@@ -1,11 +1,11 @@
-const OPEN_CLASSIFICATIONS = new Set([
+export const OPEN_CLASSIFICATIONS = new Set([
   'OPEN_ACTIVE',
   'OPEN_HISTORICAL',
   'AUTHOR_SIDE_CANDIDATE',
   'AUTHOR_SIDE_REDUCTION',
 ]);
 
-const NON_RESEARCH_KINDS = new Set([
+export const NON_RESEARCH_KINDS = new Set([
   'engineering',
   'integrity_control',
   'inventory',
@@ -264,10 +264,34 @@ export function evidenceRows(node) {
       detail:source?.value || 'No source reference in this node.',href:source?.href},
     {label:'Review',state:review?.href?'Record linked':review || reviewMetadata.length?'Metadata only':'Not recorded',
       detail:[review?.value,...reviewMetadata].filter(Boolean).join(' · ') || 'No review interface in this node.',href:review?.href},
-    {label:'Reproduction',state:'Not recorded',detail:'This graph does not provide a typed execution receipt for this node.'},
-    {label:'Formal proof',state:'Not recorded',detail:'This graph does not provide a typed formal-proof interface for this node.'},
-    {label:'Alignment',state:'Not recorded',detail:'No informal/formal alignment assessment is inferred from this graph.'},
+    {label:'Reproduction',state:'Not recorded',detail:'This snapshot records no execution-receipt field for any node.'},
+    {label:'Formal proof',state:'Not recorded',detail:'This snapshot records no formal-proof field for any node.'},
+    {label:'Alignment',state:'Not recorded',detail:'This snapshot records no informal/formal alignment field for any node.'},
   ];
+}
+
+// The recorded review of a node, as plain text beside its classification. A
+// top-level disposition or provider is quoted from the proof index's register.
+// Without one, the text says which review fields the node does record and
+// points to its Review lane; it never derives a verdict from review_basis
+// entries, which can carry mixed or scoped outcomes. Only a node with none of
+// the review fields reads "not recorded". It is not the gate's classification,
+// a badge or an acceptance signal.
+export function recordedReviewText(node) {
+  const has = field => node[field] !== undefined && node[field] !== null && displayValue(node[field]).length > 0;
+  const providers = [node.review_provider, ...(Array.isArray(node.review_providers) ? node.review_providers : [node.review_providers])]
+    .filter(value => value !== undefined && value !== null && displayValue(value).length)
+    .map(displayValue);
+  const hasDisposition = node.review_disposition !== undefined && node.review_disposition !== null;
+  if (hasDisposition || providers.length) {
+    const disposition = hasDisposition ? displayValue(node.review_disposition) : 'disposition not recorded';
+    return `recorded review: ${disposition}${providers.length ? ` (${providers.join('; ')})` : ''}`;
+  }
+  const see = ' (see Evidence references)';
+  if (has('review_basis')) return `review: entries recorded, no summary disposition${see}`;
+  if (has('review_source') || has('review_url')) return `review: record referenced, no summary disposition${see}`;
+  if (has('review_issue')) return `review: issue reference recorded, no disposition${see}`;
+  return 'review: not recorded';
 }
 
 // These contextual fields are recorded node metadata, not source-edge

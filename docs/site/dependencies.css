@@ -67,7 +67,7 @@
 .evidence-table th:nth-child(1) { width:20%; }
 .evidence-table th:nth-child(2) { width:22%; }
 .dependency-page select:focus-visible, .object-panel summary:focus-visible { outline:3px solid var(--ul-focus);outline-offset:4px; }
-@media print { #object-audit > * { display:block; } .object-actions, .filter-controls { display:none; } }
+@media print { .object-actions, .filter-controls { display: none; } }
 .dependency-page button:focus-visible, .dependency-page input:focus-visible, .dependency-page a:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 760px) {
   .dependency-stats, .node-list, .metadata-grid, .relation-grid { grid-template-columns: 1fr; }
@@ -78,3 +78,12 @@
 
 #node-record { white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%; }
 .object-panel:focus-visible, #object-context:focus-visible { outline:3px solid var(--ul-focus);outline-offset:4px; }
+/* Source links are a labelled nav landmark; keep their link colour and weight (brand.css nav a sets text colour, style.css nav sets 650). */
+.source-links { font-weight: 400; }
+.source-links a { color: var(--ul-link); }
+.target-list small { overflow-wrap: anywhere; }
+.target-list button, .relation-list button { padding: 6px 0; margin: -6px 0; }
+.node-detail:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+.node-button span { font-weight: 400; letter-spacing: .02em; }
+.node-button strong { font-size: 15px; }
+@media (forced-colors: active) { .node-detail:focus-visible { outline-color: Highlight; } }

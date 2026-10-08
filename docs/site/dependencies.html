@@ -7,11 +7,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Claim dependencies · Universal Law</title>
   <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68">
-  <link rel="stylesheet" href="brand.css?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68">
-  <link rel="stylesheet" href="dependencies.css?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68">
-  <script type="module" src="dependencies.mjs?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68"></script>
+  <link rel="stylesheet" href="style.css?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d">
+  <link rel="stylesheet" href="brand.css?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d">
+  <link rel="stylesheet" href="dependencies.css?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d">
+  <script type="module" src="dependencies.mjs?site-release=30da9ded377fcbda181c7113fc8b1d511b7d8c418889776b4361b26ca5c59f7d"></script>
 </head>
 <body class="dependency-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -27,13 +27,14 @@
     <h1>Claim dependency viewer</h1>
     <p class="intro">Find a recorded object, inspect its scope and evidence references, and trace the dependencies that give it context.</p>
     <p class="boundary"><strong>Dated read-only snapshot</strong> of Math <code>7858329</code>, captured 3 October 2026. This page derives navigation, ranking, and paths from frozen source bytes. It does not update current claim status, accept a proof, or replace the live proof index. Scientific effect: NONE.</p>
+    <p class="boundary">As read on 8 October 2026 (Math- <code>2ca3bf26</code>), the live <code>GRAPH.json</code> had not changed since the pinned commit (its last change is <code>42db0ef</code>, 29 September 2026). Later changes are not imported here; compare against the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/downstream_gate_20260925/GRAPH.json">current GRAPH.json (mutable branch link)</a>.</p>
     <noscript><p class="boundary">JavaScript is off. The exact graph and provenance remain available from the source links below, but interactive search and paths require JavaScript.</p></noscript>
-    <div class="source-links" role="group" aria-label="Exact viewer sources">
+    <nav class="source-links" aria-label="Exact viewer sources">
       <a href="dependency-source/GRAPH.json">Pinned graph JSON</a>
       <a href="dependency-source/hard_gate.py">Pinned gate implementation</a>
       <a href="dependency-source/PROVENANCE.json">Provenance record</a>
       <a href="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/downstream_gate_20260925/GRAPH.json">GitHub source at exact commit</a>
-    </div>
+    </nav>
   </section>
 
   <section aria-labelledby="snapshot-heading">
@@ -43,25 +44,28 @@
       <article><span id="edge-count" class="count">—</span><h3>Source edges</h3></article>
       <article><span id="unresolved-count" class="count">—</span><h3>Unresolved research targets</h3></article>
     </div>
+    <p class="muted">Rendered from <a href="dependency-source/GRAPH.json">dependency-source/GRAPH.json</a> (SHA-256 <code>8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09</code>, 38,753 bytes, Git blob <code>220b56867f24c5ef6f55a3cce70490e9777cf3af</code>) as pinned by <a href="dependency-source/PROVENANCE.json">PROVENANCE.json</a>; the page refuses to render if the bytes differ.</p>
+    <details id="classification-vocabulary"><summary>How this graph's classifications relate to review verdicts</summary><p>“Classification” is the downstream gate's promotion state at Math <code>7858329</code>, quoted from its <a href="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/downstream_gate_20260925/README.md">pinned README</a>: “Only <code>PROVED_REVIEWED</code> satisfies a still-required positive premise. Required <code>REFUTED</code>, <code>BLOCKED_ABSENT</code>, author-side/open, and <code>SUPERSEDED_NONBLOCKING</code> nodes block promotion.” A node classified <code>AUTHOR_SIDE_CANDIDATE</code> may still record a review disposition such as <code>ACCEPT</code>; that recorded disposition is shown beside the node and in its evidence table, and is the proof index's register, not the gate's.</p><p>Tokens recorded in this snapshot, quoted and not defined by this viewer — classifications: AUTHOR_SIDE_CANDIDATE, AUTHOR_SIDE_REDUCTION, BLOCKED_ABSENT, COVERED_BY_CANDIDATE, ENGINEERING_CONTROL, FALSE, HOLD, OPEN_ACTIVE, OPEN_HISTORICAL, PROVED_REVIEWED, REFUTED, SUPERSEDED_NONBLOCKING; layers D0–D7 as the source groups them; kinds: candidate, carrier, engineering, integrity_control, inventory, predicate, reading_rule_component, region, regional_supersession, register. The source also names tokens that never discharge an obligation: GREEN_CI, HASH_MATCH, ARCHITECTURAL_ADMISSION, NUMERICAL_EXPERIMENT, SAME_AUTHOR_REVIEW, NAVIGATION_SUCCESS, AUTHOR_SELF_CHECK.</p></details>
   </section>
 
   <section aria-labelledby="search-heading">
     <div class="section-heading"><div><p class="eyebrow">FIND A CLAIM</p><h2 id="search-heading">Search exact identifiers and relations</h2></div><p class="section-intro">Search includes node IDs, classifications, notes, source paths, and edge relations.</p></div>
     <label for="dependency-search">Claim, source, status, or relation</label>
-    <input id="dependency-search" type="search" autocomplete="off" placeholder="Try shrinking charts or OPEN_ACTIVE" disabled>
+    <input id="dependency-search" type="search" autocomplete="off" list="dependency-tokens" placeholder="Try shrinking charts or OPEN_ACTIVE" disabled>
+    <datalist id="dependency-tokens"><option value="AUTHOR_SIDE_CANDIDATE"></option><option value="AUTHOR_SIDE_REDUCTION"></option><option value="BLOCKED_ABSENT"></option><option value="COVERED_BY_CANDIDATE"></option><option value="ENGINEERING_CONTROL"></option><option value="FALSE"></option><option value="HOLD"></option><option value="OPEN_ACTIVE"></option><option value="OPEN_HISTORICAL"></option><option value="PROVED_REVIEWED"></option><option value="REFUTED"></option><option value="SUPERSEDED_NONBLOCKING"></option></datalist>
     <div class="filter-controls">
-      <div><label for="classification-filter">Recorded classification</label><select id="classification-filter" disabled><option value="">All recorded classifications</option></select></div>
+      <div><label for="classification-filter">Recorded classification</label><select id="classification-filter" disabled><option value="">All recorded classifications</option><option value="AUTHOR_SIDE_CANDIDATE">AUTHOR_SIDE_CANDIDATE</option><option value="AUTHOR_SIDE_REDUCTION">AUTHOR_SIDE_REDUCTION</option><option value="BLOCKED_ABSENT">BLOCKED_ABSENT</option><option value="COVERED_BY_CANDIDATE">COVERED_BY_CANDIDATE</option><option value="ENGINEERING_CONTROL">ENGINEERING_CONTROL</option><option value="FALSE">FALSE</option><option value="HOLD">HOLD</option><option value="OPEN_ACTIVE">OPEN_ACTIVE</option><option value="OPEN_HISTORICAL">OPEN_HISTORICAL</option><option value="PROVED_REVIEWED">PROVED_REVIEWED</option><option value="REFUTED">REFUTED</option><option value="SUPERSEDED_NONBLOCKING">SUPERSEDED_NONBLOCKING</option></select></div>
       <button id="clear-filters" type="button" disabled>Clear filters</button>
     </div>
     <p id="filter-error" class="error" role="alert" hidden></p>
     <p class="muted">Filters describe this dated graph, not current scientific acceptance. The URL retains your filters and selected object.</p>
     <p id="search-summary" class="muted" aria-live="polite">Enter a search after the graph loads.</p>
-    <ul id="search-results" class="node-list" aria-label="Search results"></ul>
+    <ul id="search-results" class="node-list" role="list" aria-label="Search results"></ul>
   </section>
 
   <section aria-labelledby="targets-heading">
-    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by recorded downstream impact</h2></div><p class="section-intro">Impact counts transitive dependents in this snapshot. Open leaves remain listed even when their recorded impact is zero.</p></div>
-    <ol id="unresolved-targets" class="target-list"></ol>
+    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by recorded downstream impact</h2></div><p class="section-intro">Unresolved here means a node whose recorded classification is OPEN_ACTIVE, OPEN_HISTORICAL, AUTHOR_SIDE_CANDIDATE or AUTHOR_SIDE_REDUCTION and whose kind is not engineering, integrity_control, inventory or register (the viewer's list rule in dependency-model.mjs, not a source verdict). Impact counts transitive dependents in this snapshot. Open leaves remain listed even when their recorded impact is zero.</p></div>
+    <ol id="unresolved-targets" class="target-list" role="list"></ol>
   </section>
 
   <section id="node-detail" class="node-detail" aria-labelledby="detail-heading" tabindex="-1">
@@ -75,10 +79,10 @@
       <article id="object-reading-context" tabindex="-1" class="object-panel" aria-labelledby="reading-context-heading"><h3 id="reading-context-heading">Recorded reading context</h3><p>These are the graph's contextual record fields, distinct from required source-edge dependencies. They do not infer theorem applicability, scientific acceptance or new evidence. Reading-rule order is shown as recorded; reference buttons select nodes in this pinned snapshot. “Not recorded” means the field is absent here, without inference from other fields or edges.</p><dl id="recorded-context" class="metadata-grid"></dl></article>
       <details id="object-audit" tabindex="-1" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl><h4>Complete source node (formatted JSON)</h4><p class="muted">All recorded node fields are retained below. Formatting is for reading; use the pinned graph for exact file bytes.</p><pre id="node-record"></pre></details>
       <div id="object-context" tabindex="-1" class="relation-grid">
-        <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list"></ul></article>
-        <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list"></ul></article>
+        <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list" role="list"></ul></article>
+        <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list" role="list"></ul></article>
       </div>
-      <div class="path-panel"><h3>Paths to unresolved dependencies</h3><p class="muted">Shortest required source-edge paths found below the selected node. Contextual edges remain visible in the direct-dependency list but are not counted as consumed dependency paths. A missing path is not evidence that no dependency exists outside this snapshot.</p><ol id="dependency-paths" class="path-list"></ol></div>
+      <div class="path-panel"><h3>Paths to unresolved dependencies</h3><p class="muted">Shortest required source-edge paths found below the selected node. Contextual edges remain visible in the direct-dependency list but are not counted as consumed dependency paths. A missing path is not evidence that no dependency exists outside this snapshot.</p><ol id="dependency-paths" class="path-list" role="list"></ol></div>
     </div>
   </section>
 
