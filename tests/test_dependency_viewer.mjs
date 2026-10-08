@@ -500,6 +500,20 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(style, /classification-proved-reviewed/);
 });
 
+test('the evidence table keeps automatic layout and breaks words only in Source detail', async () => {
+  // table-layout:fixed with overflow-wrap:anywhere on every cell split ordinary Lane and Record state words on phones.
+  const style = (await readFile(styleURL, 'utf8')).replace(/\/\*[\s\S]*?\*\//g, '');
+  const rules = [...style.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .map(([, selectors, body]) => ({ selectors: selectors.split(',').map(s => s.trim().replace(/\s+/g, ' ')), body }))
+    .filter(rule => rule.selectors.some(s => s.startsWith('.evidence-table')));
+  for (const rule of rules) assert.doesNotMatch(rule.body, /table-layout\s*:\s*fixed/, rule.selectors.join(', '));
+  const cells = rules.find(rule => ['.evidence-table th', '.evidence-table td'].every(s => rule.selectors.includes(s)) && /overflow-wrap\s*:/.test(rule.body));
+  assert.ok(cells, 'evidence table th/td overflow-wrap rule');
+  assert.match(cells.body, /overflow-wrap\s*:\s*normal\s*(?:;|$)/);
+  const breaking = rules.filter(rule => /overflow-wrap\s*:\s*(?:anywhere|break-word)|word-break\s*:\s*break-(?:all|word)/.test(rule.body));
+  assert.deepEqual(breaking.map(rule => rule.selectors.join(', ')), ['.evidence-table td:nth-child(3)']);
+});
+
 test('the three schema-absent evidence lanes read identically for different nodes and never claim a failure', async () => {
   const index = await fixtureIndex();
   const expected = [

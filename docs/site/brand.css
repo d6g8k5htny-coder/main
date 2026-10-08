@@ -60,7 +60,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=3a5deebc2ea83a9ccb4a171e3f445831e7f77be037d21e5d80197e415eabd52e") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=4a6a6606a6aa08269640628bb29825418ef074395c68a0e4e0b5d4fd7398f199") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
@@ -112,14 +112,14 @@ summary { color: var(--ul-link); cursor: pointer; font-weight: 600; min-height: 
 .explorer { background: var(--ul-surface); border-color: var(--ul-border); border-radius: var(--ul-radius-m); grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
 select, input { color: var(--ul-text); background: var(--ul-surface); border: 1px solid var(--ul-edge); min-height: 44px; max-width: 100%; border-radius: var(--ul-radius-s); }
 input::placeholder { color: var(--ul-muted); opacity: 1; }
-code, pre, dd, .hash, .source-identity { overflow-wrap: anywhere; }
+code, pre, dd, .source-identity { overflow-wrap: anywhere; }
 code { color: inherit; }
 /* Legibility floors; sizes only go up. Inline code is .9em of its context but never below the 13px that code, hashes and exact decimals share (style.css set 12px everywhere);
-   a code block is never below 13px nor below the text around it (the 16px exact outputs on Reproduce and Cite stay 16px) and its code takes the block's size; .hash 13px; quoted source identities 12px (brand.css loads after museum.css). */
+   a code block is never below 13px nor below the text around it (the 16px exact outputs on Reproduce and Cite stay 16px) and its code takes the block's size,
+   except the museum claim-column blocks (.claim-column pre), which are 12px; quoted source identities (.source-identity dd) are 12px (brand.css loads after museum.css). */
 code { font-size: max(.9em, 13px); }
 pre { font-size: max(13px, 1em); }
 pre code { font-size: inherit; }
-.hash { font-size: 13px; }
 .source-identity dt, .source-identity dd, .claim-column pre, .claim-column details, .class-legend span, .object-class { font-size: 12px; }
 th { color: var(--ul-muted); background: var(--ul-raised); }
 caption { text-align: left; color: var(--ul-muted); font-size: 13px; padding: 8px 12px; }
@@ -168,6 +168,14 @@ main > section:last-child { border-bottom: 0; }
 .geometry-host > .museum-visual:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 /* Room for that ring outside the figure, where it sits on the card surface in both schemes (inside, it would cross the white SVG): .geometry-host{overflow:hidden} (museum.css) clips at its padding edge, so the host gains 7px (offset 4px + ring 3px) and gives the sides back with -7px margins inside .museum-visual's 18-24px padding; the figure's width, left edge and sideways scroll are unchanged. */
 .geometry-host { padding: 7px; margin: 0 -7px; max-width: none; }
+/* The conditional-route card (conditionals.mjs) has no padding, and its overflow:hidden (museum.css) clips at the padding edge. Its two links are direct children of .museum-card and its six
+   summaries sit in ol > li > details with no inline-end padding, so the card cut one side of their 3px ring at its 4px offset (left of the links, right of the summaries). The card takes the
+   inline inset of the other cards' rows (24px; 18px at museum.css's 600px phone step), more than the 7px the ring needs. */
+#conditional-route > .museum-card { padding-inline: 24px; }
+@media (max-width: 600px) { #conditional-route > .museum-card { padding-inline: 18px; } }
+/* 8px between the summaries' list items, so a summary's ring (7px below it) clears the next summary's text; on phones an open quote drops the 40px blockquote indents and uses the card's width. */
+#conditional-route ol > li + li { margin-top: 8px; }
+@media (max-width: 600px) { #conditional-route blockquote { margin-inline: 0; } }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: var(--ul-radius-s); color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
@@ -202,7 +210,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline-color: Highlight; }
   #formal-coverage:focus, .table-wrap:focus-visible { outline-color: Highlight; }
   .geometry-host > .museum-visual:focus-visible { outline-color: Highlight; }
-  .site-map, .breadcrumb ol, .lesson-links a, .legend-refused, .museum-card.refused { border-color: CanvasText; }
+  .site-map, .lesson-links a, .legend-refused, .museum-card.refused { border-color: CanvasText; }
   .brand::before { display: none; } .brand { padding-left: 0; }
 }
 
@@ -263,7 +271,10 @@ h1 { overflow-wrap: anywhere; }
   .idea-grid article:last-child { border-bottom: 0; }
 }
 
-/* Print keeps the evidence in both colour schemes: every state and control colour takes its light value, and text, links and borders take darker print values; navigation, tools, buttons and empty search fields (with their labels) are hidden, while a filled search field prints its query beside the result count it produced; tables, code, hashes and source links stay; a collapsed disclosure says so.
+/* Print keeps the evidence in both colour schemes: every state and control colour takes its light value, and text, links and borders take darker print values on white or near-white (#f4f4f4) surfaces.
+   Hidden here: the skip link, the header navigation, the research tools, the page outline, action-button rows, other buttons and empty search fields (with their labels); dependencies.css hides its filter controls
+   and selected-node section links, explore.css the Explore and Measure experiment controls. Breadcrumbs, the site map and footer links print; Dependencies keeps its node and relation-name buttons, whose
+   text is the evidence (dependencies.css); a filled search field prints its query beside the result count it produced; tables, code, hashes and source links stay; a collapsed disclosure says so.
    Kept last in this file: .reader-tools and .page-outline set display earlier at equal specificity. button.button: a <button class="button"> outranks the element selector (style.css .button sets display). */
 @media print {
   :root { color-scheme: light; --ul-background: #ffffff; --ul-surface: #ffffff; --ul-raised: #f4f4f4; --ul-text: #111111; --ul-muted: #333333; --ul-link: #17314f; --ul-gold: #61480d; --ul-border: #999999; --ul-accept: #14634d; --ul-amend: #874608; --ul-error: #9c2c3a; --ul-engineering: #526179; --ul-edge: #6a7e96; --ul-focus: #10558d; --ul-button: #17314f; --ul-buttonText: #ffffff; }
