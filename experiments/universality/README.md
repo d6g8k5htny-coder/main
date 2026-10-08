@@ -21,9 +21,28 @@ bound and gives a local jet coefficient functional. Its finite-r Hessian bridge
 and deterministic degeneracy falsifier identify a physical-chart hypothesis
 that exact pins alone cannot supply. These are conventional analytic inputs;
 the [review record](finite_gaussian_contact/REVIEW.md) preserves their exact scope.
-Marked counting, actual bar selection, further residual ranks, critical formal
-alignment and numerical coupling remain admission obligations. The sampler and
-catalogue admissibility labels retain their original meaning.
+The [candidate lifetime theorem](finite_candidate_lifetime/PROOF.md) composes
+these inputs with a coefficient-space Sard and all-Borel area-formula argument.
+For each fixed positive full-grid ideal Gaussian law at integer cutoff at least
+2, it proves a finite continuous density for ordered positive-gap maximum–saddle
+candidates, with leading law `C_loc * ell^(-1/3)` and cumulative law
+`(3/2) * C_loc * t^(2/3)`. The coefficient is the stated local jet functional;
+it is positive and field-dependent. This covers the twenty fixed Gaussian
+profile/cutoff cases, without counting them as independent experiments.
+The [candidate review](finite_candidate_lifetime/REVIEW.md) binds its argument,
+classical imports and exact scope. Candidate pairs need not be persistence pairs.
+
+The [rescaled fold-chart proof](finite_fold_chart/PROOF.md) supplies explicit
+normalizers, a common chart radius, inverse and derivative bounds, and transport
+to the same physical field under stated deterministic derivative and transverse
+windows. The [chart review](finite_fold_chart/REVIEW.md) preserves the source
+interface limits. Physical radii still shrink at contact; window probabilities,
+window removal and literal C210/Lean source alignment remain open.
+
+Actual bar selection, counting with that selection, global once-counting and
+complement control, further residual ranks, critical formal alignment and
+numerical coupling remain admission obligations. The sampler and catalogue
+admissibility labels retain their original meaning.
 
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
 cutoffs 2 and 3 are supported: at cutoff 1, Gaussian and separable spectra
