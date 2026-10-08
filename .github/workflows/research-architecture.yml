@@ -166,6 +166,8 @@ jobs:
           path: ${{ runner.temp }}/architecture-publish/
           if-no-files-found: error
           retention-days: 90
+      - name: DIAGNOSTIC NEVER MERGE fail after valid receipt and native upload
+        run: exit 17
       - name: Release bounded output filesystem
         if: always()
         run: sudo umount "$RUNNER_TEMP/architecture-evidence"
