@@ -122,6 +122,11 @@ reviewed tree, compare its actual parents and affected source identities and
 adopt it rather than publishing a duplicate refresh. Current integration checks
 still bind to their actual tested commit.
 
+Marking a pull request ready can start an automatic review. Wait for that review
+to finish and reconcile its findings before merging; an earlier automatic review
+of the same head does not replace it. If it cannot finish, say so on the pull
+request and settle the next step there instead of merging past it.
+
 Follow [the required formal checks](../docs/FORMAL_REQUIRED_CHECKS.md) and
 [release operations](../docs/RELEASE_OPERATIONS.md). A base change can change
 the tested merge; old CI is not rebound to it. Missing, skipped or failed checks
