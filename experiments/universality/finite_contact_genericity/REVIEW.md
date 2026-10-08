@@ -75,7 +75,7 @@ Its new full-source verdict is **PASS**, with no must-fix mathematical finding.
 It rechecked the residual directions and support, both K2 classifications and
 forced means, affine incidence and contact isolation/stability, finiteness,
 critical-value branches/countability and fixed-law boundaries. It freshly
-confirmed the consumed contact/fold and recorded model source identities.
+confirmed the consumed contact proof and recorded model source identities.
 This verdict binds the incorporated bytes and is distinct from its full
 preparation read.
 
