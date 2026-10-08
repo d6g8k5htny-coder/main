@@ -115,8 +115,8 @@ def _weight(spectrum_id, x, y):
 
 def normalized_spectrum(spectrum_id, cutoff):
     require(spectrum_id in SPECTRUM_FORMULAS, 'Unknown spectral mechanism')
-    require(type(cutoff) is int and 1 <= cutoff <= 3,
-            'This float pilot supports cutoffs 1 through 3; larger profiles need underflow handling')
+    require(type(cutoff) is int and 2 <= cutoff <= 3,
+            'This fifty-law float pilot supports cutoffs 2 and 3; cutoff 1 merges spectra and larger profiles need underflow handling')
     weights = {(x, y): _weight(spectrum_id, x, y)
                for x in range(-cutoff, cutoff+1) for y in range(-cutoff, cutoff+1)}
     require(all(math.isfinite(v) and v > 0 for v in weights.values()),

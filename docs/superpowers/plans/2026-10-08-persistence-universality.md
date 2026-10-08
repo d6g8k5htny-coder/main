@@ -61,7 +61,9 @@ Publish a scoped proposal with a fresh technical review.
   obligations, critical formal interfaces and five paper exit criteria.
 - [x] Obtain fresh technical review, repair substantive findings and run
   applicable repository checks.
-- [ ] Publish the draft and inspect current hosted CI.
+- [x] Publish the draft and inspect hosted CI at the initial proposal head.
+- [ ] Reconcile readiness-triggered review findings and inspect the repaired
+  revision's hosted CI before integration.
 
 ## Progress and execution record
 
@@ -71,7 +73,11 @@ Full baseline suite is recorded outside the checkout in `baseline-tests.log`;
 any environment or existing failures must be reported, not silently omitted.
 Consultation and scope claim: main#307 comment6066368071.
 
-Completed increment evidence: `experiments/universality/VALIDATION.md`;26 new
+Initial increment evidence: `experiments/universality/VALIDATION.md`;26 new
 tests in both modes, complete50-law/100-field exploratory pilot,429 configured
-repository tests/1skip, fresh technical review and repaired hosted custody.
+repository tests/1skip, fresh technical review and initial hosted checks.
+Readiness review then found two P2 defects. Their repairs reject cutoff1 and
+preserve completed rows through final verifier rejection;30 tests passed in
+both modes and the source-bound default artifact was regenerated twice with
+identical bytes. Successor review/hosted checks remain separate evidence.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.

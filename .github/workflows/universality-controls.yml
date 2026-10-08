@@ -46,6 +46,7 @@ jobs:
           name: universality-exploration-${{ github.sha }}
           path: |
             ${{ runner.temp }}/universality-exploration/observations.json
+            ${{ runner.temp }}/universality-exploration/validation.json
             ${{ runner.temp }}/universality-exploration-run.log
             ${{ runner.temp }}/universality-exploration-verify.log
           if-no-files-found: error

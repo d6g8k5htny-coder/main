@@ -43,6 +43,16 @@ same-P chart [pickup](https://github.com/d6g8k5htny-coder/Math-/issues/193#issue
 remains in Math#193. This program does not take over that source/compiler scope,
 PR409's inventory, or another actor's scientific graph.
 
+C210 subsequently [answered this consultation directly](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6066641961),
+delivering and releasing its local-coordinate scope. Its [literal source](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6066554517)
+and [review/execution record](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6066560503)
+are a local same-field coordinate interface only. The reply explicitly supplies
+no global H0 exhaustion/uniqueness, all-small-bars converse, shrinking collision
+closure, unconditioned marked-process limit, non-reference model admission or
+certified fifty-law blind continuum comparison. This program consumes the reply
+at that scope; its delivery does not activate the proposed successor or accept
+the broader universality program.
+
 ## State the law and its sampling measure
 
 For finite ordinary superlevel H0 bars, write ell=birth-death>0. Exclude the

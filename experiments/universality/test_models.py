@@ -73,6 +73,21 @@ class ModelTests(unittest.TestCase):
         self.assertTrue(all(x['ideal_component_variance'] == '1' for x in laws.values()))
         self.assertTrue(all(x['ideal_vector_symmetry'] == 'circular' for x in laws.values()))
 
+    def test_cutoff_one_is_refused_because_two_spectra_coincide(self):
+        # On {-1, 0, 1}, x*x+y*y equals abs(x)+abs(y), so these
+        # mechanisms cannot describe distinct covariance laws at cutoff one.
+        for x in (-1, 0, 1):
+            for y in (-1, 0, 1):
+                self.assertEqual(x*x+y*y, abs(x)+abs(y))
+        for spectrum_id in self.catalog['spectra']:
+            with self.subTest(spectrum_id=spectrum_id), self.assertRaises(ValueError):
+                self.models.normalized_spectrum(spectrum_id, 1)
+        model = self.catalog['models'][0]
+        with self.assertRaises(ValueError):
+            self.models.definition(model, cutoff=1)
+        with self.assertRaises(ValueError):
+            self.models.sample_grid(model, 123, n=8, cutoff=1)
+
     def test_real_grid_replays_for_each_coefficient_law(self):
         for law_id in self.catalog['coefficient_laws']:
             model = next(x for x in self.catalog['models'] if x['coefficient_law_id'] == law_id)
