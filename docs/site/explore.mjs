@@ -1,10 +1,10 @@
-import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
+import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
-import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
-import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
-import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=ac4e693162704df79f021365303aaa944a7ea4511ef18d4a882b21ed7c80fda5';
+import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
+import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
+import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
+import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=2035537d4760e05af56236334113e02f5b7962198154c28a0dcf21ecf27de91b';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -294,7 +294,7 @@ function restoreState() {
   drawCone(); drawPins(); drawPalette(); updateLink();
   stateStatus.textContent = invalid.length
     ? `Some link settings were invalid (${invalid.join(', ')}). Those controls use their starting values; the link below shares the settings shown.`
-    : 'Share the link below to reopen these teaching settings. Changes are saved in the page address.';
+    : 'Settings you change below are saved in the page address; use “Link to these settings” to share them.';
 }
 for (const [control, draw] of [[center, drawCone], [spread, drawCone], [distance, drawPins]]) {
   control.addEventListener('input', () => { draw(); updateLink(); });
