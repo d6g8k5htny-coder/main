@@ -34,6 +34,8 @@ AXIOM_LINE = re.compile(
     r"(?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)"
 )
 ALLOWED_AXIOMS = frozenset({"propext", "Classical.choice", "Quot.sound"})
+MAIN_TOOLCHAIN = "leanprover/lean4:v4.34.1"
+MAIN_VERSION = re.compile(r"\bversion 4\.34\.1(?=[,\s)])")
 STATES = frozenset({"recorded", "not_recorded", "unknown", "not_applicable"})
 AXES = ("source", "review", "kernel", "computation", "alignment")
 PLACEHOLDERS = frozenset({
@@ -494,6 +496,9 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
     require(manifest.get("formalization_status") == "proved"
             and manifest.get("alignment_status") == "PENDING_INDEPENDENT_REVIEW",
             "native source metadata cannot award execution or review")
+    if main:
+        require(manifest.get("lean_toolchain") == MAIN_TOOLCHAIN,
+                "unsupported main native Lean toolchain")
     targets, target_rows, source_rows = _target_inventory(manifest, main)
     target_set = set(targets)
     require(type(value["source_files"]) is list, "formal source_files must be array")
@@ -509,6 +514,9 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
     files = manifest.get("files")
     require(type(files) is dict and bool(files), "missing native file hashes")
     parent = str(PurePosixPath(manifest_capture.ref["path"]).parent)
+    package_root = relative_path(manifest.get("package_root"), "main package root") if main else None
+    scope_path = package_root + "/SCOPE.md" if main else "SCOPE.md" if parent == "." else parent + "/SCOPE.md"
+    require(scope.ref["path"] == scope_path, "native scope must identify the original SCOPE.md")
     paths = {}
     for name, expected_hash in files.items():
         relative_path(name, "native file key")
@@ -530,7 +538,6 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         modules = manifest.get("source_modules")
         require(type(modules) is list and bool(modules) and all(type(item) is str for item in modules)
                 and len(modules) == len(set(modules)), "invalid main source module inventory")
-        package_root = relative_path(manifest.get("package_root"), "main package root")
         for module in modules:
             relative_path(module, "main source module")
             require(package_root + "/" + module in paths, "unbound main source module")
@@ -584,7 +591,10 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
                 "native dependency receipt contradiction")
         for revision in manifest["dependency_revisions"].values():
             digest(revision, HEX40, "native dependency revision")
-        text(receipt.get("lean_version"), "native Lean version record")
+        lean_version = text(receipt.get("lean_version"), "native Lean version record")
+        if main:
+            require(MAIN_VERSION.search(lean_version) is not None,
+                    "unsupported main native Lean version")
         recorded_logs = receipt.get("logs")
         require(type(recorded_logs) is dict, "missing native receipt log inventory")
         for name, expected_hash in recorded_logs.items():
@@ -607,7 +617,12 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         if main:
             registered = manifest.get("negative_controls")
             require(type(registered) is dict, "missing main negative-control declarations")
-            complete = complete and (set(registered) | {"sorry", "custom_imported", "native"}) <= set(controls)
+            phases = dict.fromkeys(registered, "REJECTED_BY_LEAN")
+            # The native producer installs these axiom controls after mutations.
+            phases.update(dict.fromkeys(("sorry", "custom_imported", "native"), "REJECTED_BY_AXIOM_GATE"))
+            require(all(name not in controls or controls[name] == phase for name, phase in phases.items()),
+                    "main native negative-control rejection mechanism contradiction")
+            complete = complete and set(phases) <= set(controls)
     alignment_capture = None if value["alignment"] is None else captures.git(value["alignment"], "formal alignment")
     alignment = None if alignment_capture is None else alignment_capture.document("formal alignment")
     alignment_reasons = _alignment_reasons(alignment, manifest_capture, scope, targets, main=main)
