@@ -36,11 +36,29 @@ The [rescaled fold-chart proof](finite_fold_chart/PROOF.md) supplies explicit
 normalizers, a common chart radius, inverse and derivative bounds, and transport
 to the same physical field under stated deterministic derivative and transverse
 windows. The [chart review](finite_fold_chart/REVIEW.md) preserves the source
-interface limits. Physical radii still shrink at contact; window probabilities,
-window removal and literal C210/Lean source alignment remain open.
+interface limits. Physical radii still shrink at contact; literal C210/Lean
+source alignment remains open. The
+[weighted fold-window theorem](finite_weighted_fold_window/PROOF.md) now removes
+the deterministic windows with probability at least `1-epsilon` under the actual
+typed determinant-weighted pin regression, uniformly over compact birth/gap
+marks, locations and frames at sufficiently small separation for its fixed ideal
+Gaussian law. Its [review](finite_weighted_fold_window/REVIEW.md) preserves the
+original full review, physical-coordinate correction and incorporated source
+identity. This is a uniform marginal family bound; it constructs no common
+sample event or joint contact-parameter regularity.
+
+The [contact-conditioned genericity proof](finite_contact_genericity/PROOF.md)
+shows that, under each fixed six-pin contact regression for a positive full-grid
+ideal Gaussian law at cutoff at least 2, the forced contact is isolated, all
+other critical points are Morse and finite in number, and their values are
+mutually distinct and differ from contact. It proves the conditional residual
+ranks directly. The genuine K2 defects remain with nonzero forced derivative
+or gap, and do not support an unrestricted covariance floor. Its
+[review](finite_contact_genericity/REVIEW.md) records the exact argument and
+classical Sard import. Finite-r additional conditioning is a separate contract.
 
 Actual bar selection, counting with that selection, global once-counting and
-complement control, further residual ranks, critical formal alignment and
+complement control, further conditional ranks, critical formal alignment and
 numerical coupling remain admission obligations. The sampler and catalogue
 admissibility labels retain their original meaning.
 
