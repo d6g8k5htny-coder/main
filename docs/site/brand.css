@@ -60,7 +60,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=ddce61104c5b934a9ebca5bb9674938c779511f039f99a02bb3c419ec12c64a9") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=22b115251aae9bfb1cad9f82f7c0ac162b8964b2298b84091125487631a4620b") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
@@ -76,8 +76,8 @@ h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.2; }
 h3, h4 { color: var(--ul-text); }
 h3 { font-size: 21px; line-height: 1.35; font-weight: 600; }
 h4 { font-size: 16px; line-height: 1.4; }
-/* Reading measure for running prose. */
-main > section > p:not(.eyebrow):not(.intro), .latest-work > p, .about-section > div > p { max-width: 78ch; }
+/* Reading measure for running prose. The museum's two status lines keep the full width: verification rewrites them, and under the measure each verified text took a second line at 1280px and moved the page below it by 23.8px. */
+main > section > p:not(.eyebrow):not(.intro):not(#museum-state):not(#conditional-route-status), .latest-work > p, .about-section > div > p { max-width: 78ch; }
 .eyebrow { color: var(--ul-gold); font-size: 12px; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; }
 .intro, .museum-intro #museum-state, .muted, figcaption, footer { color: var(--ul-muted); }
 #museum-state.error, .conditional-route-refusal, .museum-card.refused p { color: var(--ul-error); }

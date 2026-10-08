@@ -133,15 +133,31 @@ and narrow viewports, exercise the synthetic normalization/error boundary, and
 verify the dependency viewer's pinned counts, review-source search, saved link,
 invalid-link refusal and source-snapshot label.
 Two rendered-layout cases read what Chromium drew rather than the stylesheets.
-On the museum page at 1280 and 390 px, each conditional-route summary and link,
-and the exhibit figure of each of the four views, takes a 3px focus ring at a
-4px offset that no clipping ancestor cuts on any side; each summary's ring ends
-above the next summary's first text line, and at 390 px an opened quote has no
-inline margin. On Dependencies, five nodes with long ids, paths or file names,
-at 320 and 390 px with and without a WCAG 1.4.12 text-spacing override, keep the
-page within the viewport and every Lane and Record state word on one line; the
-index stays within 320 px under the override. A failure names the element, the
-side or the word.
+Focus rings are checked by painted pixels; everything else by computed styles
+and laid-out boxes. On the museum page, `#museum-state` and
+`#conditional-route-status` each keep one height at 1280 px from their first
+text (verification held at the manifest request) to their last. At 1280, 390
+and 320 px, in the light and the dark scheme, each conditional-route summary
+and link, and the exhibit figure of each of the four views, is focused and
+screenshotted, then blurred and screenshotted again: in the ring band, 4 to 7
+px outside the element (outside each line of a link that wraps), changed pixels
+must run along at least 97% of every side and fill every outer corner. Its
+computed ring must also be solid 3px at a 4px offset, in a colour with non-zero
+alpha and at least 3:1 against the background composited behind it, with no
+ancestor whose overflow is not visible cutting the ring box. No summary's ring
+box may cross any other text line in the card, above or below it, and at 390 px
+an opened quote has no inline margin. On Dependencies, five nodes with long
+ids, paths or file names, at 320 and 390 px with and without a WCAG 1.4.12
+text-spacing override, keep the page within the viewport. No text line may pass
+the viewport or the padding box of an ancestor that clips without letting the
+reader scroll (overflow hidden or clip, paint containment, content-visibility
+auto, clip-path); only an overflow auto or scroll region counts as reachable.
+Every Lane and Record state word stays on one line inside its cell, and the
+evidence table fits its scroll region. At 390 px with default spacing, on those
+nodes whose Source detail has no unlinked JSON metadata, no ordinary Source
+detail word (not a JSON fragment, path, id or hash, outside links and code) is
+split. The index stays within 320 px under the override. A failure names the
+element, the side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
