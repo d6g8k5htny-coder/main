@@ -93,7 +93,7 @@ export function renderProjection(document,host,data,source){
     el(document,'p','Generated from verified source bytes. This graph is not formal verification, a proof review, or a scientific-status register.'));
   host.replaceChildren(article);
 }
-const services=()=>import('./museum.mjs?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69');
+const services=()=>import('./museum.mjs?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf');
 // The museum module already verifies config → manifest → index/status once per
 // page fetch and caches every pinned byte request. This route consumes that same
 // verified startup, so it adds only the audited-descriptor check and projection.

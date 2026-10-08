@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=e4be6f0add344bc5b2fe108a98a40ff20be9136d9eb72f92c1d978f441177d69") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
@@ -148,7 +148,9 @@ main > section:last-child { border-bottom: 0; }
 .engineering-strip { background: var(--ul-raised); border-color: var(--ul-border); color: var(--ul-muted); }
 .fixture-absent { background: var(--ul-raised); border-color: var(--ul-amend); }
 .geometry-host:focus { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
-.geometry-host > .museum-visual:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: -4px; } /* inset: .geometry-host{overflow:hidden} (museum.css) clips a ring drawn outside the figure */
+.geometry-host > .museum-visual:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+/* Room for that ring outside the figure, where it sits on the card surface in both schemes (inside, it would cross the white SVG): .geometry-host{overflow:hidden} (museum.css) clips at its padding edge, so the host gains 7px (offset 4px + ring 3px) and gives the sides back with -7px margins inside .museum-visual's 18-24px padding; the figure's width, left edge and sideways scroll are unchanged. */
+.geometry-host { padding: 7px; margin: 0 -7px; max-width: none; }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: 6px; color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
