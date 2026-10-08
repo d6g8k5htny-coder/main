@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=51158fbb1313d0d1ed42251d044950ea82ec7a5827f89bef4b0aea6b0bbb90b3") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=df7567a6f92c0fbf279dbab93c239f98f12b41fd54a9871147fa37aaab409c55") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
@@ -198,3 +198,5 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .cut-list > p { margin: 0 0 6px; color: var(--ul-muted); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
 .cut-list ol, .cut-list ul { margin: 0; padding-left: 22px; line-height: 1.7; }
 .cut-list li { margin: 6px 0; }
+/* Phone legibility (W5 #4, W5b L4): page headings survive the WCAG 1.4.12 text-spacing override at 375px and 320px (Home and Library measured). */
+h1 { overflow-wrap: anywhere; }
