@@ -1,0 +1,156 @@
+name: Architecture source isolation casefold controls
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - architecture/graph_export.py
+      - tools/proof_graph_export.py
+      - tests/test_source_isolation_casefold.py
+      - .github/workflows/architecture-casefold-probe.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: architecture-casefold-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  source-isolation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Parse workflow source on disposable controller
+        run: ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases:false)' .github/workflows/architecture-casefold-probe.yml
+      - name: Prepare bounded disposable casefold filesystem and fixed runtime
+        env:
+          IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+        run: |
+          set -euo pipefail
+          docker pull "$IMAGE"
+          mkdir -p "$RUNNER_TEMP/casefold-mount" "$RUNNER_TEMP/casefold-publish"
+          chmod 0700 "$RUNNER_TEMP/casefold-publish"
+          truncate -s 64M "$RUNNER_TEMP/casefold-output.img"
+          mkfs.ext4 -F -O casefold -E encoding=utf8 "$RUNNER_TEMP/casefold-output.img"
+          sudo mount -o loop,nodev,nosuid,noexec "$RUNNER_TEMP/casefold-output.img" "$RUNNER_TEMP/casefold-mount"
+          sudo mkdir "$RUNNER_TEMP/casefold-mount/dummy" "$RUNNER_TEMP/casefold-mount/output" "$RUNNER_TEMP/casefold-mount/host"
+          sudo chattr +F "$RUNNER_TEMP/casefold-mount/dummy"
+          sudo chmod 0777 "$RUNNER_TEMP/casefold-mount/dummy" "$RUNNER_TEMP/casefold-mount/output"
+          sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/casefold-mount/host"
+          chmod 0700 "$RUNNER_TEMP/casefold-mount/host"
+          lsattr -d "$RUNNER_TEMP/casefold-mount/dummy" > "$RUNNER_TEMP/casefold-publish/casefold-attributes.txt"
+          docker image inspect "$IMAGE" > "$RUNNER_TEMP/casefold-publish/runtime-image.json"
+          git rev-parse HEAD > "$RUNNER_TEMP/casefold-publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/casefold-publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/casefold-publish/run-attempt.txt"
+      - name: Run original exporter controls only inside restricted ephemeral container
+        env:
+          IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/casefold-runner.sh" <<'SH'
+          run_mode() {
+            python "$@" - <<'PY'
+          import json
+          import unittest
+          suite = unittest.defaultTestLoader.discover("tests", pattern="test_source_isolation_casefold.py")
+          def identities(item):
+              if isinstance(item, unittest.TestSuite):
+                  return [identity for child in item for identity in identities(child)]
+              return [item.id()]
+          actual = sorted(identities(suite))
+          expected = [
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_case_alias_existing_child_is_refused_before_temporary_output_or_promotion",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_case_alias_new_child_is_refused_before_any_directory_creation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_case_alias_same_source_output_is_refused_without_source_mutation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_distinct_casefold_sibling_exports_pinned_records_and_preserves_source",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_earlier_source_symlink_then_parent_component_is_refused_without_source_mutation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_exact_source_output_is_refused_without_source_mutation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_literal_existing_child_is_refused_without_source_mutation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_literal_new_child_is_refused_before_any_directory_creation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_output_directory_symlink_is_refused_without_source_mutation",
+              "test_source_isolation_casefold.SourceIsolationCasefoldContract.test_source_directory_symlink_is_refused_without_source_mutation"
+          ]
+          if actual != expected:
+              raise SystemExit("SOURCE_ISOLATION_REFUSED: discovered controls differ from frozen inventory")
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          if result.testsRun != len(expected) or not result.wasSuccessful() or result.skipped or result.expectedFailures or result.unexpectedSuccesses:
+              raise SystemExit("SOURCE_ISOLATION_REFUSED: a mandatory control did not pass")
+          print("SOURCE_ISOLATION_INVENTORY=" + json.dumps(actual, separators=(",", ":")))
+          PY
+          }
+          run_mode -B -S > /output/tests-normal.log 2>&1
+          normal=$?
+          run_mode -B -O -S > /output/tests-optimized.log 2>&1
+          optimized=$?
+          if [ "$normal" -ne 0 ] || [ "$optimized" -ne 0 ]; then
+            cat /output/tests-normal.log /output/tests-optimized.log
+            exit 1
+          fi
+          SH
+          cp -- "$RUNNER_TEMP/casefold-runner.sh" "$RUNNER_TEMP/casefold-publish/runner.sh"
+          set +e
+          timeout --signal=TERM --kill-after=10s 180s docker run --rm --log-driver none --name architecture-casefold-controls \
+            --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --env SOURCE_ISOLATION_CASEFOLD_ROOT=/casefold \
+            --tmpfs /tmp:rw,noexec,nosuid,size=64m \
+            --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/casefold-runner.sh",target=/probe-runner.sh,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/casefold-mount/dummy",target=/casefold \
+            --mount type=bind,source="$RUNNER_TEMP/casefold-mount/output",target=/output \
+            --workdir /source "$IMAGE" sh /probe-runner.sh > "$RUNNER_TEMP/casefold-mount/host/console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$RUNNER_TEMP/casefold-publish/container-exit-status.txt"
+          exit "$status"
+      - name: Dispose exact container before reading any output
+        if: always()
+        run: |
+          set -euo pipefail
+          present="$(docker ps -aq --filter 'name=^/architecture-casefold-controls$')"
+          if [ -n "$present" ]; then docker rm --force architecture-casefold-controls; fi
+          remaining="$(docker ps -aq --filter 'name=^/architecture-casefold-controls$')"
+          if [ -n "$remaining" ]; then exit 1; fi
+      - name: Preserve bounded regular logs and original host identities
+        if: always()
+        run: |
+          set -euo pipefail
+          remaining="$(docker ps -aq --filter 'name=^/architecture-casefold-controls$')"
+          if [ -n "$remaining" ]; then exit 1; fi
+          destination="$RUNNER_TEMP/casefold-publish"
+          if [ -f "$RUNNER_TEMP/casefold-mount/host/console.log" ]; then
+            cp -- "$RUNNER_TEMP/casefold-mount/host/console.log" "$destination/console.log"
+          fi
+          unsafe="$(find "$RUNNER_TEMP/casefold-mount/output" -mindepth 1 \( ! -type f -a ! -type d \) -print -quit)"
+          if [ -n "$unsafe" ]; then exit 1; fi
+          for name in tests-normal.log tests-optimized.log; do
+            if [ -f "$RUNNER_TEMP/casefold-mount/output/$name" ]; then
+              cp -- "$RUNNER_TEMP/casefold-mount/output/$name" "$destination/$name"
+            fi
+          done
+          cd "$destination"
+          for name in checked-commit.txt run-id.txt run-attempt.txt runtime-image.json casefold-attributes.txt runner.sh container-exit-status.txt console.log tests-normal.log tests-optimized.log; do
+            if [ -f "$name" ]; then sha256sum "$name"; fi
+          done > ARTIFACT_SHA256SUMS
+          marker="$(cat /proc/sys/kernel/random/uuid)"
+          printf '::stop-commands::%s\n' "$marker"
+          for name in tests-normal.log tests-optimized.log; do
+            if [ -f "$name" ]; then tail -n 3 "$name"; fi
+          done
+          printf '::%s::\n' "$marker"
+      - name: Retain actual results including failures
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: architecture-casefold-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/casefold-publish/
+          if-no-files-found: error
+          retention-days: 90
+          overwrite: false
+      - name: Release disposable casefold filesystem
+        if: always()
+        run: sudo umount "$RUNNER_TEMP/casefold-mount"
