@@ -55,7 +55,11 @@ to this cut. Later dated cuts were added above it: `#reading-addendum` (3 Octobe
 link the newest cut. `#latest-work` keeps its 18:00 UTC heading, wording and pins; its
 later additions are a forward pointer to the 20:01 addendum and two labeled
 reviewer-lineage notes beside its 3 October review links, which the 7 October cut
-discloses.
+discloses. Two further labeled source-identity notes close the 20:01 and 00:18 cuts
+with the SHA-256 identities their pinned links lacked, and one dated
+`<p class="cut-pointer">` inside the 7 October cap card records that Math #193 was
+reopened eight minutes after that cut. The next dated cut restates all five, so none
+is the only record.
 
 Exact-commit citations preserve the reading cut. The **Check newer work** section
 intentionally follows mutable upstream branches and discussions. Comment links
@@ -75,7 +79,7 @@ check, not something established by a screenshot or link.
 
 Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelledby="…">` with its own `<time datetime="…Z">` immediately before the current newest cut. Never edit an earlier cut's text. In the same change:
 
-1. Point Home's "Read the latest public work →", Research's hero "Latest public work" and the Library's latest-work links at the new id. Give the new cut one uniquely named link to the cut below it; exact link names must stay unique.
+1. Point Home's "Read the latest public work →", Research's hero "Latest public work" and the Library's latest-work links at the new id. Give the new cut one uniquely named link to the cut below it; exact link names must stay unique. Update the `<time datetime>` and visible date beside the Home and Library entry links to the new cut’s timestamp (`tests/test_reader_links.py` pins them).
 2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest.
 3. In `tools/public_shop_browser_check.py`, update `check_latest_work_flow` and `check_reading_addendum_flow`: entry focus, datetime, card and pinned-link counts.
 4. Keep `research.html` script-free, its IDs unique and every local fragment resolvable.

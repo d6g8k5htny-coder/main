@@ -190,7 +190,11 @@ class LatestPublicWork(unittest.TestCase):
 
     def test_latest_work_is_reachable_without_javascript(self):
         for name,fragment in (('index','reading-cut-20261007'),('workspace','reading-cut-20261007'),('formal','cap-on-torus')):
-            self.assertIn(f'href="research.html#{fragment}"',(SITE/f'{name}.html').read_text())
+            page=(SITE/f'{name}.html').read_text()
+            self.assertIn(f'href="research.html#{fragment}"',page)
+            if name in ('index','workspace'):
+                # the dated sibling beside the entry link must name the newest cut's timestamp
+                self.assertIn('datetime="2026-10-07T18:37:14Z"',page)
         section=self.section()
         self.assertIn('Latest public work',section)
         self.assertIn('datetime="2026-10-03T18:00:00Z"',section)
@@ -481,9 +485,9 @@ class ShrinkingBinReading(unittest.TestCase):
         self.assertEqual(sha256(sampling.encode()).hexdigest(),
                          '6787bf96f0bbb12c5d465d05e4829bf3dbc628629cedd0d3dcb82fdd37ea47c0')
         historical=text[text.index('<section id="pair-endpoint-rate"'):]
-        # Only the two labeled U1 lineage notes are additive; every original byte stays pinned.
+        # Only the labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive; every original byte stays pinned.
         notes=LINEAGE_NOTE.findall(historical)
-        self.assertEqual(len(notes),2)
+        self.assertEqual(len(notes),4)
         self.assertEqual(sha256(LINEAGE_NOTE.sub('',historical).encode()).hexdigest(),
                          '1837279899209d6e120e8632e67371e728bba60dbb0d284785b79164f0ed617c')
 
