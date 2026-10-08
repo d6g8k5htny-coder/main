@@ -1658,9 +1658,9 @@ TOKEN_KIND_JS=r"""token => {
 # Every whitespace-separated word in the matched cells whose characters fall on more than one line box, and every word with a line box
 # outside its cell's border box (by more than 0.5px). With ordinary=true, text inside a link or code element is skipped (those may break
 # anywhere) and so is every token TOKEN_KIND_JS does not call a word; `kinds` counts the kinds of the tokens read. A split is `inside`
-# when its line change falls between two letters or digits (a break after a hyphen or slash is not).
+# unless each of its line changes comes right after a hyphen (U+002D or U+2010) or a slash in the word.
 WORD_SPLITS_JS=r"""([selector, ordinary]) => {
-  const kind=(""" + TOKEN_KIND_JS + r"""), letter=/[\p{L}\p{N}]/u, kinds={}, splits=[], spills=[], details=[];let words=0;
+  const kind=(""" + TOKEN_KIND_JS + r"""), kinds={}, splits=[], spills=[], details=[];let words=0;
   for(const cell of document.querySelectorAll(selector)){
     const box=cell.getBoundingClientRect(), row=cell.parentElement.firstElementChild.textContent.trim(), where=`${cell.tagName.toLowerCase()} of row "${row}"`;
     const walker=document.createTreeWalker(cell,NodeFilter.SHOW_TEXT);
@@ -1683,7 +1683,7 @@ WORD_SPLITS_JS=r"""([selector, ordinary]) => {
             const one=document.createRange();one.setStart(text,match.index+i);one.setEnd(text,match.index+i+1);
             const qs=[...one.getClientRects()].filter(q=>q.width||q.height);if(!qs.length)continue;
             const y=(qs[qs.length-1].top+qs[qs.length-1].bottom)/2;
-            if(prev&&Math.abs(y-prev.y)>2&&letter.test(word[prev.i])&&letter.test(word[i]))inside=true;
+            if(prev&&Math.abs(y-prev.y)>2&&!/[-\/\u2010]/.test(word[prev.i]))inside=true;
             prev={i,y};
           }
           splits.push(`"${word.slice(0,60)}" on ${lines.length} lines in ${where}`);
@@ -1727,7 +1727,8 @@ DOCUMENT_WIDTH_JS=r"""() => {
   return {scrollWidth:root.scrollWidth,clientWidth:width,wide:wide.slice(-4),runs,cut:cut.slice(0,4),cuts:cut.length,spacing:[p.letterSpacing,p.wordSpacing]};
 }"""
 EVIDENCE_REGION_JS="""() => {const region=document.querySelector('#object-evidence .evidence-scroll'),table=region.querySelector('.evidence-table');
-  return {table:Math.round(table.getBoundingClientRect().width*10)/10,client:region.clientWidth,scroll:region.scrollWidth};}"""
+  return {table:Math.round(table.getBoundingClientRect().width*10)/10,client:region.clientWidth,scroll:region.scrollWidth,
+          tabindex:region.tabIndex,overflowX:getComputedStyle(region).overflowX};}"""
 # Resolves true once the element's box is the same over three animation frames (an exhibit redraws after a viewport change), false after 60.
 SETTLED_JS="el => new Promise(done => {let last='',same=0,frames=0;const step=()=>{const r=el.getBoundingClientRect(),key=[r.left,r.top,r.width,r.height].join();same=key===last?same+1:0;last=key;if(same>=2||++frames>60)done(same>=2);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
 # The museum's two status lines: every height each takes from its first text (verification held at the manifest) to its last.
@@ -1812,11 +1813,23 @@ def check_rendered_focus_rings(page, origin, expect, result, output):
                                     "least_clip_room":min((x["room"] for x in states if x["room"] is not None),default=None),
                                     "least_gap_to_other_text":min((x["gap"] for x in states[:6] if x["gap"] is not None),default=None),
                                     "least_painted_side":min(x["least_side"] for x in states),"least_contrast":min(x["contrast"] for x in states)})
+    # When the optional Three.js library (geometry.mjs THREE_CDN) and WebGL both load, as they can on a hosted runner, EC-014's 3D view
+    # replaces its 2D figure. Refusing the library makes every run check the same 2D figure, the one a reader without it sees. The route
+    # is held only for EC-014's load (routing turns off the HTTP cache); geometry.mjs keeps the refused load and does not ask again.
+    refused=result["refused_requests"]=[]
+    def refuse_cdn(route):
+        refused.append(route.request.url);route.abort()
     for view in ["ec014","remote","annulus","p15"]:
         page.emulate_media(color_scheme="light")
+        if view=="ec014":page.route("https://cdn.jsdelivr.net/**",refuse_cdn)
         page.goto(origin+f"museum.html?view={view}#active-exhibit")
         figure=page.locator("#active-exhibit figure.museum-visual")
         expect(figure).to_be_visible(timeout=45000)
+        if view=="ec014":
+            expect(page.locator("#active-exhibit")).to_contain_text("2D fallback:",timeout=45000)
+            require(any("/three@" in url for url in refused),f"museum.html?view=ec014: the Three.js request was not refused; requests refused: {refused}")
+            page.unroute("https://cdn.jsdelivr.net/**",refuse_cdn)
+            expect(figure).to_be_visible()
         for scheme in ["light","dark"]:
             page.emulate_media(color_scheme=scheme)
             page.keyboard.press("Shift")
@@ -1826,7 +1839,8 @@ def check_rendered_focus_rings(page, origin, expect, result, output):
                 result["rings"].append({"page":f"museum.html?view={view}","scheme":scheme,"width":size["width"],"stops":1,"least_clip_room":state["room"],
                                         "least_painted_side":state["least_side"],"least_contrast":state["contrast"]})
     result["steps"].extend(["#museum-state and #conditional-route-status each keep one height from their first to their last text at 1280",
-                            "each conditional-route summary and link, and the exhibit figure of each of the four views, at 1280, 390 and 320 in light and dark: a solid 3px ring at 4px "
+                            "each conditional-route summary and link, and the exhibit figure of each of the four views (EC-014's 2D figure, with the Three.js request refused), "
+                            "at 1280, 390 and 320 in light and dark: a solid 3px ring at 4px "
                             "in a colour with 3:1 against the surface behind it, outside every clipping ancestor, and painted (focused against blurred) along every side and corner",
                             "no summary's ring box crosses any other text line in the card; an opened quote at 390 has no inline margin"])
 
@@ -1858,16 +1872,25 @@ def check_rendered_text_layout(page, origin, expect, result, output):
                 require(words["words"]>0 and not words["splits"],f'{where}: Lane/Record state words split across lines: {words["splits"]}')
                 require(not words["spills"],f'{where}: Lane/Record state words outside their cells: {words["spills"]}')
                 region=page.evaluate(EVIDENCE_REGION_JS)
-                require(region["table"]<=region["client"]+0.5 and region["scroll"]<=region["client"],
-                        f'{where}: the evidence table is {region["table"]}px wide (content {region["scroll"]}px) in its {region["client"]}px .evidence-scroll region')
-                entry={"page":node,"width":width,"spacing":spacing,"lane_and_state_words":words["words"],"text_runs":runs,"table_width":region["table"],"region_width":region["client"]}
+                fits=region["table"]<=region["client"]+0.5 and region["scroll"]<=region["client"]
+                # WCAG 1.4.10 exempts data tables from reflow. Under the override the table may outgrow its region only if the region
+                # scrolls sideways to the table's full width and takes keyboard focus; at default spacing it must fit.
+                scrolls=region["tabindex"]==0 and region["overflowX"] in ("auto","scroll") and region["scroll"]>=region["table"]-0.5
+                require(fits or (spacing=="text-spacing override" and scrolls),
+                        f'{where}: the evidence table is {region["table"]}px wide (content {region["scroll"]}px) in its {region["client"]}px .evidence-scroll region '
+                        f'(tabindex {region["tabindex"]}, overflow-x {region["overflowX"]})')
+                entry={"page":node,"width":width,"spacing":spacing,"lane_and_state_words":words["words"],"text_runs":runs,"table_width":region["table"],"region_width":region["client"],
+                       "table_scrolls_in_region":not fits}
                 if width==390 and spacing=="default spacing":
                     detail=page.evaluate(WORD_SPLITS_JS,[".evidence-table td:nth-child(3)",True])
                     entry["source_detail_unlinked_json"]=detail["kinds"].get("json",0)
                     if not entry["source_detail_unlinked_json"]:
-                        require(detail["words"]>0 and not detail["splits"],f'{where}: ordinary Source detail words split across lines: {detail["splits"]}')
+                        # A break right after a word's own hyphen or slash depends on the font's widths and is ordinary line breaking; any
+                        # other line change inside a word is a split.
+                        inside=[f'"{x["word"][:60]}" on {x["lines"]} lines in td of row "{x["row"]}"' for x in detail["details"] if x["inside"]]
+                        require(detail["words"]>0 and not inside,f'{where}: ordinary Source detail words split other than right after a hyphen or slash: {inside}')
                         require(not detail["spills"],f'{where}: ordinary Source detail words outside their cells: {detail["spills"]}')
-                        entry["source_detail_words"]=detail["words"]
+                        entry["source_detail_words"]=detail["words"];entry["source_detail_breaks_at_hyphen_or_slash"]=len(detail["details"])-len(inside)
                 result["layouts"].append(entry)
     require(sum(1 for x in result["layouts"] if "source_detail_words" in x)>=1,"No case node without unlinked JSON metadata had its Source detail words checked at 390")
     page.goto(origin+"dependencies.html")
@@ -1875,8 +1898,10 @@ def check_rendered_text_layout(page, origin, expect, result, output):
     spaced();no_overflow("dependencies.html at 390 with text-spacing override")
     page.set_viewport_size({"width":320,"height":800});no_overflow("dependencies.html at 320 with text-spacing override")
     result["steps"].extend(["five long-token nodes at 320 and 390, with and without WCAG 1.4.12 text spacing: no document overflow, no text line cut where the reader "
-                            "cannot scroll, every Lane and Record state word on one line inside its cell, and the evidence table within its scroll region",
-                            "at 390 with default spacing, on each of those nodes without unlinked JSON metadata, every ordinary Source detail word on one line inside its cell",
+                            "cannot scroll, every Lane and Record state word on one line inside its cell, and the evidence table within its scroll region (under the override, "
+                            "wider only if that region scrolls sideways to the table's full width and takes keyboard focus)",
+                            "at 390 with default spacing, on each of those nodes without unlinked JSON metadata, no ordinary Source detail word split except right after "
+                            "its own hyphen or slash, and each inside its cell",
                             "the Dependencies index at 390 and 320 with text spacing: no document overflow and no cut text line"])
 
 

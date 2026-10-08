@@ -146,18 +146,22 @@ computed ring must also be solid 3px at a 4px offset, in a colour with non-zero
 alpha and at least 3:1 against the background composited behind it, with no
 ancestor whose overflow is not visible cutting the ring box. No summary's ring
 box may cross any other text line in the card, above or below it, and at 390 px
-an opened quote has no inline margin. On Dependencies, five nodes with long
-ids, paths or file names, at 320 and 390 px with and without a WCAG 1.4.12
-text-spacing override, keep the page within the viewport. No text line may pass
-the viewport or the padding box of an ancestor that clips without letting the
-reader scroll (overflow hidden or clip, paint containment, content-visibility
-auto, clip-path); only an overflow auto or scroll region counts as reachable.
-Every Lane and Record state word stays on one line inside its cell, and the
-evidence table fits its scroll region. At 390 px with default spacing, on those
-nodes whose Source detail has no unlinked JSON metadata, no ordinary Source
-detail word (not a JSON fragment, path, id or hash, outside links and code) is
-split. The index stays within 320 px under the override. A failure names the
-element, the side or the word.
+an opened quote has no inline margin. The optional Three.js request is refused,
+so every runner checks EC-014's 2D figure; the 3D canvas's own ring is not
+checked. On Dependencies, five nodes with long ids, paths or file names, at 320
+and 390 px with and without a WCAG 1.4.12 text-spacing override, keep the page
+within the viewport. No text line may pass the viewport or the padding box of an
+ancestor that clips without letting the reader scroll (overflow hidden or clip,
+paint containment, content-visibility auto, clip-path); only an overflow auto or
+scroll region counts as reachable. Every Lane and Record state word stays on one
+line inside its cell, and the evidence table fits its scroll region. Under the
+override the table may be wider only if that region scrolls sideways to its full
+width and takes keyboard focus; WCAG 1.4.10 exempts data tables from reflow. At
+390 px with default spacing, on those nodes whose Source detail has no unlinked
+JSON metadata, no ordinary Source detail word (not a JSON fragment, path, id or
+hash, outside links and code) is split, except right after the word's own hyphen
+or slash: where that break falls depends on the font. The index stays within
+320 px under the override. A failure names the element, the side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
