@@ -19,7 +19,8 @@ participants and may be improved by them.
    a timestamp, where other contributors will see it — the task and claim queue
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
    the relevant issue or pull request (general coordination:
-   [main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
+   [active coordination board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307); see the
+   [historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
    agents work the same repository without overwriting each other.
 4. Check the current branch and exact head. A merge is not a semantic
    reconciliation, and a stale base silently changes what your diff means.
