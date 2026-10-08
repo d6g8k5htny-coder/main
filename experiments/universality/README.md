@@ -13,6 +13,18 @@ models. Gaussian and non-Gaussian coefficient laws can share covariance while
 having different higher distributions. Every model is a candidate; running it
 does not establish the contact/Palm/regularity/global-pairing theorem inputs.
 
+The [finite Gaussian contact proof](finite_gaussian_contact/PROOF.md) now supplies
+the named contact covariance, small-separation regression, compact-mark
+normalizer and unnormalized all-mark envelope for the ten ideal Gaussian
+profiles at cutoffs 2 and 3. It also proves the original two-site pin covariance
+bound and gives a local jet coefficient functional. Its finite-r Hessian bridge
+and deterministic degeneracy falsifier identify a physical-chart hypothesis
+that exact pins alone cannot supply. These are conventional analytic inputs;
+the [review record](finite_gaussian_contact/REVIEW.md) preserves their exact scope.
+Marked counting, actual bar selection, further residual ranks, critical formal
+alignment and numerical coupling remain admission obligations. The sampler and
+catalogue admissibility labels retain their original meaning.
+
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
 cutoffs 2 and 3 are supported: at cutoff 1, Gaussian and separable spectra
 coincide, reducing the fifty declared pairs to forty-five distinct laws.
