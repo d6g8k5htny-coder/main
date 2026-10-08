@@ -54,7 +54,7 @@ class RequiredFormalBindingControl(unittest.TestCase):
 
     def cli(self, needs):
         env = {**os.environ, **self.env, 'REQUIRED_FORMAL_NEEDS': json.dumps(needs)}
-        return subprocess.run([sys.executable, '-B', '-S', str(SCRIPT), 'aggregate'],
+        return subprocess.run([sys.executable, '-B', *(['-O'] if sys.flags.optimize else []), '-S', str(SCRIPT), 'aggregate'],
                               env=env, capture_output=True, text=True, timeout=30)
 
     # --- positive -----------------------------------------------------------------
