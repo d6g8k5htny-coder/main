@@ -221,6 +221,15 @@ def lake_binary() -> str | None:
     return str(candidate) if candidate.is_file() else None
 
 
+def check_lean_version(text: str) -> str:
+    pin = re.fullmatch(r"leanprover/lean4:v(\d+\.\d+\.\d+)", TOOLCHAIN)
+    require(pin is not None, "unsupported pinned Lean toolchain")
+    version = text.strip()
+    require(re.match(r"Lean \(version " + re.escape(pin.group(1)) + r",", version) is not None,
+            "unexpected running Lean version")
+    return version
+
+
 def run(command, label, out: Path, cwd: Path, env, expect_success=True):
     result = subprocess.run(command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900, env=env)
     (out / (label + ".log")).write_text(result.stdout, encoding="utf-8")
@@ -251,6 +260,7 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
     out = pkg / BUILD_DIR / "formal-evidence"
     out.mkdir(parents=True, exist_ok=True)
     require(not (pkg / BUILD_DIR).is_symlink() and not (pkg / BUILD_DIR / "build").is_symlink(), "symlink build directory")
+    check_lean_version(run([lake, "env", "lean", "--version"], "preflight-version", out, pkg, env))
     if (pkg / BUILD_DIR / "build").exists():
         shutil.rmtree(pkg / BUILD_DIR / "build")
     targets = [t["name"] for t in m["targets"]]
@@ -281,8 +291,7 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
             outcomes[label] = "REJECTED_BY_LEAN"
     _, after, _ = source_check(root)
     require(after == digest, "manifest changed during execution")
-    version = run([lake, "env", "lean", "--version"], "version", out, pkg, env).strip()
-    require("version 4.34.1" in version, "unexpected running Lean version")
+    version = check_lean_version(run([lake, "env", "lean", "--version"], "version", out, pkg, env))
     head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, text=True, capture_output=True).stdout.strip()
     require(HEX40.fullmatch(head or ""), "missing exact checked commit")
     receipt = dict(schema_version=1, scientific_effect="NONE", scientific_status_authority=False,
