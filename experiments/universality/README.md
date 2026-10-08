@@ -57,10 +57,34 @@ or gap, and do not support an unrestricted covariance floor. Its
 [review](finite_contact_genericity/REVIEW.md) records the exact argument and
 classical Sard import. Finite-r additional conditioning is a separate contract.
 
-Actual bar selection, counting with that selection, global once-counting and
-complement control, further conditional ranks, critical formal alignment and
-numerical coupling remain admission obligations. The sampler and catalogue
-admissibility labels retain their original meaning.
+The [elder-transfer proof](finite_elder_transfer/PROOF.md) now supplies the
+local-to-global topological step for the actual pinned field. Under its isolated
+cubic contact limit, the nearby maximum component is enclosed above the saddle
+and the saddle connects it to an older component. Compactness and the global
+critical-point gaps exclude a bypass. Canonical Gaussian coupling and polynomial
+domination make this the actual elder pair with determinant-weighted probability
+tending to one, uniformly over compact birth/gap marks for the fixed law. Its
+[review](finite_elder_transfer/REVIEW.md) records the bounded classical imports,
+exact source chain and review exposure.
+
+The [finite H0 lifetime theorem](finite_h0_lifetime/PROOF.md) constructs a Borel
+selector and counts every actual finite superlevel H0 bar exactly once. For each
+fixed positive full-square ideal Gaussian law at cutoff at least 2, it proves a
+finite nonnegative Borel density with leading law `C_loc * ell^(-1/3)` for its
+specified canonical representative, and the intrinsic cumulative law
+`(3/2) * C_loc * t^(2/3)`. The coefficient equals the candidate local jet
+functional. The essential global-maximum class is excluded. The selected density
+is not asserted continuous; missed near pairs contribute only `o(ell^(-1/3))`,
+while the far contribution is bounded. Its
+[review](finite_h0_lifetime/REVIEW.md) binds the measurable once-counting argument,
+all-mark limit and precise finite Gaussian scope.
+
+These conventional analytic results discharge selected-bar counting and the
+leading near/far intensity composition for those ideal Gaussian laws. Further
+conditional ranks, literal critical formal alignment, certified sampler and
+numerical/count coupling, genuinely blind law-by-law admission, higher homology
+and marked point-process convergence remain separate obligations. The sampler
+and catalogue admissibility labels retain their original meaning.
 
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
 cutoffs 2 and 3 are supported: at cutoff 1, Gaussian and separable spectra
