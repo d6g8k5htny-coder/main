@@ -35,9 +35,9 @@ Interface: `proof_graph_export.py --source-dir PATH --output DIR [--expected-pro
 
 - [x] Write stdlib unittest controls against CLI (real pinned snapshot, missing dependency, required/context cycles, source tamper, duplicate keys, symlink, deterministic bytes, absent dimensions, retained prior output).
 - [x] Run tests before implementation in hosted nonroot/no-network/read-only container; retain expected RED logs (run37841652787; see progress record).
-- [ ] Implement byte verification, trusted gate-pin check, strict parse, source gate invocation and atomic output promotion.
-- [ ] Rerun normal and optimized Python controls; export and retain graph artifact from the same container run.
-- [ ] Obtain fresh source/security review, reconcile findings and preserve existing required checks at exact candidate.
+- [x] Implement byte verification, trusted gate-pin check, strict parse, source gate invocation and atomic output promotion (candidatef0a0c18).
+- [x] Rerun normal and optimized Python controls; export and retain graph artifact from the same container run (run37842412305, artifact11577958009).
+- [x] Obtain fresh source/security review, reconcile findings and preserve existing required checks at exact candidate (review5462723442; see execution record for readiness-review correction).
 
 ## Task 2: Evidence adapter and regression join
 
