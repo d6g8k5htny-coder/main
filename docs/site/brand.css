@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=bebf38a405bdfef40e4baec8d7a50dcf34ca0218717724e54f09331c61f55803") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=febd14b5681487be03f6168f4d69b3c82bcddab69ff3265cae50509ddd6cee22") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
@@ -162,6 +162,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   h1 { font-size: 39px; }
   .claim-column + .claim-column { border-color: var(--ul-border); }
   #inventory table { min-width: 560px; }
+  #formal-coverage-table { min-width: 520px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
 @media (forced-colors: active) {
@@ -180,6 +181,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   section { padding: 24px 0; }
   a { color: #17314f; text-decoration: underline; }
   .museum-card, .cards article { break-inside: avoid; }
+  #inventory table, #formal-coverage-table { min-width: 0; }
 }
 
 /* Secondary reader routes leave the four primary destinations unchanged. */
