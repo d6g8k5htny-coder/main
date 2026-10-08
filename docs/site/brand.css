@@ -60,7 +60,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=b085199057bb329c71b63b4945b3b7c1f67813059541fd64d6669e3f7b8fa994") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=ddce61104c5b934a9ebca5bb9674938c779511f039f99a02bb3c419ec12c64a9") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
@@ -173,7 +173,7 @@ main > section:last-child { border-bottom: 0; }
    inline inset of the other cards' rows (24px; 18px at museum.css's 600px phone step), more than the 7px the ring needs. */
 #conditional-route > .museum-card { padding-inline: 24px; }
 @media (max-width: 600px) { #conditional-route > .museum-card { padding-inline: 18px; } }
-/* 8px between the summaries' list items, so a summary's ring (7px below it) clears the next summary's text; on phones an open quote drops the 40px blockquote indents and uses the card's width. */
+/* 8px between the summaries' list items, so a summary's ring (7px below it) ends above the next summary's text. On phones an open quote drops its 40px blockquote margins and takes its list item's width; the list keeps its 40px indent. */
 #conditional-route ol > li + li { margin-top: 8px; }
 @media (max-width: 600px) { #conditional-route blockquote { margin-inline: 0; } }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: var(--ul-radius-s); color: var(--ul-text); }

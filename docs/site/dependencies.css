@@ -55,7 +55,7 @@
 .filter-controls, .object-actions { display:flex;flex-wrap:wrap;gap:16px;align-items:end; }
 .filter-controls select { display:block;max-width:100%;margin-top:8px;padding:10px;min-height:44px; }
 .filter-controls button { min-height:44px; }
-/* Under reader text spacing (WCAG 1.4.12) the classification select, sized by its longest option, made its flex item wider than a 320px page; items may now shrink to the row. */
+/* Under reader text spacing (WCAG 1.4.12) at 320px the classification item, sized by its select's longest option, was 315px wide in its 280px filter row and pushed the page to 335px; items may now shrink to the row. */
 .filter-controls > * { min-width: 0; max-width: 100%; }
 .object-actions { margin:20px 0; }
 .object-panel { border-top:1px solid var(--ul-border);padding:22px 0;scroll-margin-top:20px; }
@@ -63,8 +63,9 @@
 .object-panel summary { cursor:pointer;font-weight:650;padding:10px 0; }
 .evidence-scroll { overflow-x:auto; }
 .evidence-scroll:focus-visible { outline:3px solid var(--ul-focus);outline-offset:4px; }
-/* Automatic table layout: Lane and Record state keep their 20%/22% widths but never shrink below their longest word, so ordinary words never break mid-word;
-   only Source detail breaks anywhere (long URLs and hashes), and phones get 8px side padding so it keeps room. Native table semantics are unchanged. */
+/* Automatic table layout: Lane and Record state keep their 20%/22% widths but never shrink below their longest word, so their words never break mid-word.
+   Source detail breaks anywhere, so long URLs, paths and unlinked JSON metadata stay inside the table; on phones some of its ordinary words split too. Breaking only its links and code
+   kept those words whole but made all 49 tables wider than their scroll region at 320px (by 18-612px; 57-797px with reader text spacing). Phones get 8px side padding. Native table semantics are unchanged. */
 .evidence-table { width:100%;border-collapse:collapse; }
 .evidence-table caption { text-align:left;color:var(--ul-muted);padding:12px 0; }
 .evidence-table th, .evidence-table td { text-align:left;vertical-align:top;border-bottom:1px solid var(--ul-border);padding:12px;overflow-wrap:normal; }
