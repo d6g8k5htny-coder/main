@@ -921,5 +921,116 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 self.assertEqual(report["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
 
 
+    def test_main_placeholder_lineage_cannot_be_current_even_with_coherent_author_bindings(self):
+        placeholders = ("unknown", "unverified", "not known", "not available", "not provided",
+                        "unavailable", "unspecified", "pending", "tbd", "todo", "none", "null",
+                        "n/a", "na", "?", "-")
+        for party in ("reviewer", "bound_author"):
+            for token in placeholders:
+                for field in ("all", "provider", "family", "agent") if token == "unknown" else ("all",):
+                    with self.subTest(party=party, token=token, field=field):
+                        packet = self.with_formal()
+                        formal = packet["formal_records"][0]
+                        value = " \t" + " \t ".join(token.upper().split()) + "\t "
+                        fields = ("provider", "family", "agent") if field == "all" else (field,)
+                        replacement = {name: value for name in fields}
+                        if party == "reviewer":
+                            self.update_alignment(formal, lambda review: review["reviewer"].update(replacement))
+                        else:
+                            manifest = document(formal["manifest"])
+                            manifest["author"].update(replacement)
+                            formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+                            manifest_hash = formal["manifest"]["ref"]["sha256"]
+                            self.update_receipt(formal, lambda receipt: receipt.update({"manifest_sha256": manifest_hash}))
+                            def alter(review):
+                                review["author"].update(replacement)
+                                review["manifest_sha256"] = manifest_hash
+                            self.update_alignment(formal, alter)
+                        report, _ = self.accepted(packet)
+                        alignment = report["dimensions"]["TEST.A"]["alignment"]
+                        self.assertEqual(alignment["record_state"], "recorded")
+                        self.assertIn(alignment["applicability"], {"stale", "unknown"})
+                        self.assertIn("lineage_not_distinct", alignment["reasons"])
+                        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+                        self.assertEqual(report["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
+
+    def test_dependency_regression_stales_shared_whole_alignment_without_erasing_kernel(self):
+        statement = b"TEST upstream statement old\n"
+        proof = b"TEST upstream proof old\n"
+        upstream = statement + proof
+        base = copy.deepcopy(self.packet)
+        for label, commit in (("old", BASE), ("new", HEAD)):
+            binding = base[label]["bindings"][0]
+            binding["node"] = "TEST.B"
+            binding["statement_slice"] = slice_of(SOURCE, len(ALPHA) + len(PROOF), len(SOURCE))
+            binding["proof_slice"] = None
+            for node in ("TEST.D", "TEST.E"):
+                self.change_graph(base, label, lambda graph, node=node: graph["nodes"].update({
+                    node: {"classification": "PROVED_REVIEWED", "controlling": False}}))
+                extra = copy.deepcopy(binding)
+                extra["node"] = node
+                extra["statement_slice"] = slice_of(SOURCE, 0, len(ALPHA))
+                base[label]["bindings"].append(extra)
+            base[label]["bindings"].append({
+                "node": "TEST.A", "source": git_capture(upstream, "TEST/upstream.md", commit),
+                "statement_slice": slice_of(upstream, 0, len(statement)),
+                "proof_slice": slice_of(upstream, len(statement), len(upstream))})
+        formal = self.formal(base)
+        formal["node_targets"] = [{"node": "TEST.B", "target": TARGETS[1]}, {"node": "TEST.D", "target": TARGETS[0]}]
+        separate = copy.deepcopy(formal)
+        separate["id"] = "TEST-unaffected-formal"
+        separate["node_targets"] = [{"node": "TEST.E", "target": TARGETS[0]}]
+        separate["alignment"] = git_capture(raw_bytes(separate["alignment"]), "TEST/separate-alignment.json")
+        base["formal_records"] = [formal, separate]
+        unchanged, _ = self.accepted(base)
+        for node in ("TEST.B", "TEST.D", "TEST.E"):
+            self.assertEqual(unchanged["dimensions"][node]["alignment"]["applicability"], "current")
+            self.assertEqual(unchanged["dimensions"][node]["kernel"]["applicability"], "current")
+        self.assertEqual(unchanged["regression"]["affected_alignment_records"], [])
+        for mutation in ("statement", "proof", "source_loss", "upstream_record",
+                         "removed_dependency", "dependency_relation", "graph_context"):
+            with self.subTest(mutation=mutation):
+                packet = copy.deepcopy(base)
+                if mutation in ("statement", "proof"):
+                    raw = upstream.replace((mutation + " old").encode("ascii"), (mutation + " new").encode("ascii"))
+                    binding = packet["new"]["bindings"][-1]
+                    binding["source"] = replace_git(binding["source"], raw)
+                    binding["statement_slice"] = slice_of(raw, 0, len(statement))
+                    binding["proof_slice"] = slice_of(raw, len(statement), len(raw))
+                elif mutation == "source_loss":
+                    binding = packet["new"]["bindings"][-1]
+                    binding["source"] = binding["statement_slice"] = binding["proof_slice"] = None
+                elif mutation == "upstream_record":
+                    self.change_graph(packet, "new", lambda graph: graph["nodes"]["TEST.A"].update({"notes": "TEST changed"}))
+                elif mutation == "removed_dependency":
+                    self.change_graph(packet, "new", lambda graph: graph.update({"edges": graph["edges"][1:]}))
+                elif mutation == "dependency_relation":
+                    self.change_graph(packet, "new", lambda graph: graph["edges"][0].update({"relation": "TEST changed"}))
+                else:
+                    self.change_graph(packet, "new", lambda graph: graph.update({"object": "TEST changed context"}))
+                report, _ = self.accepted(packet)
+                regression = report["regression"]
+                self.assertIn("TEST.B", regression["impacted_nodes"])
+                self.assertIn("TEST.C", regression["impacted_nodes"])
+                self.assertIn(formal["alignment"]["ref"], regression["affected_alignment_records"])
+                for node in ("TEST.B", "TEST.D"):
+                    alignment = report["dimensions"][node]["alignment"]
+                    self.assertEqual(alignment["record_state"], "recorded")
+                    self.assertEqual(alignment["applicability"], "stale")
+                    self.assertTrue(alignment["reasons"])
+                    self.assertEqual(report["dimensions"][node]["kernel"]["applicability"], "current")
+                if mutation != "graph_context":
+                    self.assertNotIn("TEST.D", regression["impacted_nodes"])
+                    self.assertNotIn("TEST.E", regression["impacted_nodes"])
+                    self.assertEqual(regression["affected_alignment_records"], [formal["alignment"]["ref"]])
+                    self.assertEqual(report["dimensions"]["TEST.E"]["alignment"]["applicability"], "current")
+                else:
+                    self.assertIn("TEST.E", regression["impacted_nodes"])
+                    self.assertEqual(report["dimensions"]["TEST.E"]["alignment"]["applicability"], "stale")
+                    self.assertIn(separate["alignment"]["ref"], regression["affected_alignment_records"])
+                self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["record_state"], "unknown")
+                self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["applicability"], "unknown")
+
+
 if __name__ == "__main__":
     unittest.main()
