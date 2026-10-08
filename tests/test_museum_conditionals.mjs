@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {webcrypto} from 'node:crypto';
+import {isLive} from './fixtures/museum_fixture.mjs';
 
 const moduleURL=new URL('../docs/site/conditionals.mjs',import.meta.url);
 const raw=new Uint8Array(fs.readFileSync(new URL('./fixtures/cumulative_transfer_source.txt',import.meta.url)));
@@ -24,7 +25,9 @@ class Node {
   replaceChildren(...v){this.text='';this.children=[...v];}
   setAttribute(k,v){this.attributes[k]=v;}
 }
-const documentFor=host=>({createElement:tag=>new Node(tag),getElementById:id=>id==='conditional-route'?host:null});
+const documentFor=(host,status=null)=>({createElement:tag=>new Node(tag),getElementById:id=>id==='conditional-route'?host:id==='conditional-route-status'?status:null});
+const statusNode=()=>{const status=new Node('p');status.setAttribute('role','status');status.textContent='Verifying the conditional route source…';return status;};
+const walk=node=>[node,...node.children.flatMap(walk)];
 
 test('six complete inputs feed exactly one conditional conclusion',async()=>{
   const p=await project();assert.equal(p.nodes.length,7);
@@ -81,11 +84,20 @@ test('rendering exposes hypotheses, exact identity, and application boundary',as
   const m=await load(),host=new Node('div');m.renderProjection(documentFor(host),host,await project(),pin);
   for(const text of ['H1','H2','H3','H4','ALL','NOT_EVALUATED',pin.commit,pin.sha256])assert.ok(host.textContent.includes(text),text);
   assert.ok(!host.textContent.includes('all hypotheses discharged'));
+  assert.deepEqual(walk(host).filter(n=>'role' in n.attributes||isLive(n)).map(n=>n.textContent),[],'nothing in the rendered route has a role or is a live region');
 });
-test('a failed load clears any earlier ready view',async()=>{
+test('a failed load clears any earlier ready view and says so in the status line',async()=>{
+  const m=await load(),host=new Node('div'),status=statusNode();host.textContent='old ready result';
+  const ok=await m.startConditionals({document:documentFor(host,status),loadServices:async()=>{throw Error('source unavailable');}});
+  assert.equal(ok,false);assert.equal(status.textContent,'Unavailable: source unavailable. No conditional result inferred.');
+  assert.equal(status.className,'conditional-route-refusal error');assert.equal(status.attributes.role,'status');
+  assert.deepEqual(host.children,[]);assert.equal(host.textContent,'');
+});
+test('a page without the status line still shows the refusal in the host, without a role',async()=>{
   const m=await load(),host=new Node('div');host.textContent='old ready result';
   const ok=await m.startConditionals({document:documentFor(host),loadServices:async()=>{throw Error('source unavailable');}});
   assert.equal(ok,false);assert.match(host.textContent,/Unavailable/);assert.ok(!host.textContent.includes('old ready'));
+  assert.equal(host.children.length,1);assert.deepEqual(host.children[0].attributes,{});
 });
 test('the source fixture is complete and immutable',async()=>{
   await project();assert.equal(raw.length,3272);assert.match(new TextDecoder().decode(raw),/## Proof/);

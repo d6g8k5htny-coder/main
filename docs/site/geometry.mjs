@@ -97,7 +97,7 @@ function line(svg, x1, y1, x2, y2, attrs = {}) {
   svg.append(shape('line', { x1, y1, x2, y2, stroke: ink, 'stroke-width': 2, ...attrs }));
 }
 function visual(title, description, viewBox = '0 0 720 360') {
-  const figure = element('figure', undefined, { class: 'museum-visual illustration' });
+  const figure = element('figure', undefined, { class: 'museum-visual illustration', tabindex: '0', role: 'region', 'aria-label': `${title} diagram; scrolls sideways on narrow screens` });
   const svg = shape('svg', { viewBox, role: 'img', 'aria-label': `${title}. ${description}` });
   svg.append(shape('title', {}, title), shape('desc', {}, description));
   figure.append(svg, element('figcaption', description));
