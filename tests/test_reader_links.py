@@ -130,68 +130,151 @@ class PublicRoutes(unittest.TestCase):
     # Allowlists for the static 404 page: anything else is refused rather than interpreted.
     NOT_FOUND_HEAD_TAGS=frozenset({'meta','title','link'})
     NOT_FOUND_BODY_TAGS=frozenset({'a','span','nav','header','main','section','h1','p','ul','li','strong','footer'})
-    NOT_FOUND_ATTRIBUTES=frozenset({'lang','charset','name','content','http-equiv','rel','type','media','href','class','id','aria-label','tabindex'})
+    NOT_FOUND_ATTRIBUTES={'html':{'lang'},'meta':{'charset','name','content','http-equiv','media'},'link':{'rel','type','href'},
+                          'a':{'href','class'},'nav':{'aria-label','class'},'main':{'id','tabindex'},'section':{'class'}}
+    NOT_FOUND_CLASSES={'a':{'skip-link','brand'},'section':{'hero'},'nav':{'site-map'}}
+    NOT_FOUND_ASSET_SUFFIX={'stylesheet':'.css','icon':'.svg'}
+    # Start tags before which a browser closes an open p (an implied end tag), so they never appear inside a p here.
+    NOT_FOUND_CLOSES_P=frozenset({'nav','header','main','section','h1','p','ul','li','footer'})
+    # The bytes after the doctype must split into these tokens only: comments that end at their first '-->', end tags without
+    # attributes, start tags with lowercase names and double-quoted values free of '"', '<', '>' and '&', and text without '<'
+    # or '&'. Browsers and every HTMLParser version split such bytes at the same places, and no character reference is decoded.
+    # Other bytes can split or decode differently: CPython 3.11 and 3.12 read '<!-->' as opening a comment, and every version
+    # reads '<![CDATA[' as hiding everything up to ']]>', while a browser ends both at the first '>' and runs the script after
+    # it; and html.unescape turns '&#11;' and other control or noncharacter references into nothing, while a browser keeps the
+    # character, which closes head when it comes before the CSP.
+    NOT_FOUND_TOKEN=re.compile(r'<!--(?!-?>)(?:(?!--)[^<>])*-->|</[a-z][a-z0-9]*>|<[a-z][a-z0-9]*(?:[\t\n\f\r ]+[a-z][a-z-]*="[^"<>&]*")*>|[^<&]+')
+    # Head, pinned element by element with every attribute; only the title text and the description's content (None) are free.
+    # It opens with the one encoding declaration, so a browser decodes the bytes as this test does; it links exactly the site's two
+    # stylesheets and its icon (without an icon link a browser fetches /favicon.ico; with another type it skips a stylesheet); and
+    # it keeps the viewport, so a phone does not zoom every link out of sight.
+    NOT_FOUND_HEAD=[('meta',[('charset','utf-8')]),
+                    ('meta',[('content','width=device-width, initial-scale=1'),('name','viewport')]),
+                    ('meta',[('content',None),('name','description')]),
+                    ('meta',[('content',NOT_FOUND_CSP),('http-equiv','Content-Security-Policy')]),
+                    ('title',[]),
+                    ('link',[('href','/main/site/style.css'),('rel','stylesheet')]),
+                    ('link',[('href','/main/site/brand.css'),('rel','stylesheet')]),
+                    ('link',[('href','/main/site/brand/mark.svg'),('rel','icon'),('type','image/svg+xml')]),
+                    ('meta',[('content','dark light'),('name','color-scheme')]),
+                    ('meta',[('content','#f6f8fc'),('media','(prefers-color-scheme: light)'),('name','theme-color')]),
+                    ('meta',[('content','#07111f'),('media','(prefers-color-scheme: dark)'),('name','theme-color')])]
     NOT_FOUND_SITE_URL=re.compile(r'/main/site/(?:[a-z0-9-]+/)?[a-z0-9-]+\.(?:html|css|svg)(?:#[a-z0-9-]+)?')
     NOT_FOUND_EXTERNAL_URL=re.compile(r'https://github\.com/[A-Za-z0-9-]+(?:/[A-Za-z0-9._-]+)*')
 
     def assert_static_not_found_page(self, text):
         """docs/404.html stays a static page under exactly the site's CSP and reaches every site page.
 
-        The page is checked against allowlists, not denylists: only the tags, attributes and URL shapes the page
-        actually uses are accepted, in their places (head tags in head, body tags in body, text only in the title
-        and the body). Elements and attributes are parsed: HTMLParser lowercases tag and attribute names, so a
-        <SCRIPT> is a script element here as in a browser. Where this parser and a browser could read the same bytes
-        differently, the page is refused rather than interpreted: duplicate attributes (browsers keep the first, a
-        dict the last), text or a non-head element in head (a browser closes head there, moving a later CSP meta out
-        of head), and any URL that is not one of three exact shapes (a fragment, a /main/site/ file, a github.com
-        page), which rules out other schemes, control characters, dot segments, authority tricks and queries."""
+        The page is checked against allowlists, not denylists, in three layers, and anything outside them is refused rather
+        than interpreted. Tokens: the bytes must split into the strict tokens of NOT_FOUND_TOKEN, so this parser and a browser
+        cut them at the same places. Structure: one document shape only, html, then head with its meta, title and link
+        elements, then body; every body element is closed explicitly, innermost first, and never by an implied end tag; then
+        </body></html>. So the browser's tree is this parser's tree; any other end tag is refused because in head a browser
+        reads </body>, </html> and </br> as closing head, which moves a later CSP meta into body. Elements: each tag carries
+        only its own attributes and classes, with no duplicate (browsers keep the first, a dict the last); text appears only in
+        the title and the body; head is pinned element by element (NOT_FOUND_HEAD); the CSP is the one http-equiv, in head
+        before anything that loads; the skip link opens body with exactly its own words, and the brand link opens the one
+        header. URLs keep their element: an href is allowed only on a and link; the link elements are the pinned stylesheets
+        and icon; a elements carry a
+        fragment, a top-level /main/site/ page or a github.com page, show an ASCII letter or digit, and only plain a elements
+        without a class count as destinations, which must be every site page."""
         self.assertTrue(text.startswith('<!doctype html>\n'))
-        self.assertEqual([c for c in text if (ord(c)<0x20 and c not in '\t\n\r') or ord(c)==0x7f],[])
-        head_tags,body_tags,attributes=self.NOT_FOUND_HEAD_TAGS,self.NOT_FOUND_BODY_TAGS,self.NOT_FOUND_ATTRIBUTES
+        self.assertEqual([c for c in text if (ord(c)<0x20 and c not in '\t\n') or ord(c)==0x7f],[])  # no CR either: a browser turns it into LF, this parser keeps it
+        position=len('<!doctype html>\n')
+        while position<len(text):
+            token=self.NOT_FOUND_TOKEN.match(text,position)
+            self.assertIsNotNone(token,('token',text[position:position+40]))
+            position=token.end()
+        head_tags,body_tags,closes_p=self.NOT_FOUND_HEAD_TAGS,self.NOT_FOUND_BODY_TAGS,self.NOT_FOUND_CLOSES_P
+        allowed,classes=self.NOT_FOUND_ATTRIBUTES,self.NOT_FOUND_CLASSES
         class Static(HTMLParser):
             def __init__(self):
-                super().__init__(); self.problems=[]; self.part='start'; self.in_title=False; self.seen=[]; self.policies=[]; self.urls=[]
+                super().__init__(); self.problems=[]; self.part='start'; self.open=[]; self.in_title=False; self.seen=[]
+                self.policies=[]; self.head=[]; self.assets=[]; self.anchors=[]; self.anchor=None; self.landmarks=[]
+            def handle_startendtag(self, tag, attrs):  # unreachable after the token check; a browser ignores the slash and keeps the element open
+                self.problems.append(('self-closing',tag)); self.handle_starttag(tag,attrs)
             def handle_starttag(self, tag, attrs):
                 names=[name for name,_ in attrs]
                 self.problems+=[('duplicate attribute',tag,name) for name in sorted(set(names)) if names.count(name)>1]
-                self.problems+=[('attribute',tag,name) for name in names if name not in attributes]
+                self.problems+=[('attribute',tag,name) for name in names if name not in allowed.get(tag,())]
                 a={name:(value or '') for name,value in attrs}
-                if tag=='html' and self.part=='start': pass
-                elif tag=='head' and self.part=='start': self.part='head'
+                if 'class' in a and a['class'] not in classes.get(tag,()): self.problems.append(('class',tag,a['class']))
+                if self.in_title: self.problems.append(('element in title',tag))  # CPython 3.11-3.13 read title as text (RCDATA), as browsers do; this and the end-tag twin guard older parsers
+                if tag=='html' and self.part=='start' and not self.seen: pass
+                elif tag=='head' and self.part=='start' and self.seen==['html']: self.part='head'
                 elif tag=='body' and self.part=='between': self.part='body'
-                elif not ((self.part=='head' and tag in head_tags) or (self.part=='body' and tag in body_tags)):
-                    self.problems.append(('element',self.part,tag))
+                elif self.part=='head' and tag in head_tags:
+                    self.head.append((tag,sorted((name,None if (tag,name,a.get('name'))==('meta','content','description') else value) for name,value in attrs)))
+                elif self.part=='body' and tag in body_tags:
+                    # Landmarks are children of body, once each. The skip link is body's first element and the brand link is the
+                    # header's first: a second .brand's absolutely positioned mark could otherwise paint over a plain link.
+                    if tag in ('header','main','footer'):
+                        if self.open or tag in self.landmarks: self.problems.append(('landmark',self.open[-1:],tag))
+                        self.landmarks.append(tag)
+                    if a.get('class')=='skip-link' and (self.seen[-1]!='body' or a.get('href')!='#main-content'): self.problems.append(('skip link',self.seen[-1]))
+                    if a.get('class')=='brand' and (self.seen[-1]!='header' or self.open!=['header']): self.problems.append(('brand link',self.seen[-1],self.open))
+                    # A browser first closes an open p before a block or heading, an a before an a, an h1 before an h1, and an li
+                    # before an li; refused, so that each element keeps the content this parser gives it.
+                    if ('p' in self.open and tag in closes_p) or (tag in ('a','h1') and tag in self.open) or (tag=='li' and self.open[-1:]!=['ul']):
+                        self.problems.append(('implied end tag',self.open[-1:],tag))
+                    self.open.append(tag)
+                    # The page nests 6 deep in body; a browser stops nesting at 512 open elements and puts deeper ones beside them.
+                    if len(self.open)>16: self.problems.append(('depth',tag))
+                else: self.problems.append(('element',self.part,tag))
                 if tag=='title': self.in_title=True
-                if tag=='link' and a.get('rel') not in ('stylesheet','icon'): self.problems.append(('link rel',a.get('rel')))
+                if tag=='link':
+                    if a.get('rel') not in ('stylesheet','icon'): self.problems.append(('link rel',a.get('rel')))
+                    else: self.assets.append((a['rel'],a.get('href','')))
+                if 'a' in self.open[:-1]: self.anchors[-1][3].append(tag)  # an element inside a link
+                if tag=='a': self.anchor=[]; self.anchors.append((a.get('href'),a.get('class'),self.anchor,[]))
                 if tag=='meta' and 'http-equiv' in a:
                     if a['http-equiv'].lower()!='content-security-policy': self.problems.append(('pragma',a['http-equiv']))
                     else:
                         # Effective only in head and before anything that loads: a meta CSP governs only later fetches.
                         self.policies.append((self.part=='head' and set(self.seen)<={'html','head','meta'},a.get('content','')))
                 self.seen.append(tag)
-                self.urls+=[a[name] for name in ('href','src') if name in a]
             def handle_endtag(self, tag):
-                if tag=='title': self.in_title=False
-                if tag=='head' and self.part=='head': self.part='between'
+                if self.in_title and tag=='title': self.in_title=False
+                elif self.in_title: self.problems.append(('end tag in title',tag))
+                elif tag=='head' and self.part=='head': self.part='between'
+                elif self.part=='body' and self.open[-1:]==[tag]:
+                    self.open.pop()
+                    if tag=='a': self.anchor=None
+                elif tag=='body' and self.part=='body' and not self.open: self.part='after body'
+                elif tag=='html' and self.part=='after body': self.part='end'
+                else: self.problems.append(('end tag',self.part,tag))
             def handle_data(self, data):
+                if self.anchor is not None: self.anchor.append(data)
                 if data.strip('\t\n\f\r ') and not self.in_title and self.part!='body':
                     self.problems.append(('text outside body',self.part,data.strip()[:30]))
         static=Static(); static.feed(text); static.close()
         self.assertEqual(static.problems,[])
+        self.assertEqual((static.part,static.open,static.in_title),('end',[],False))  # the document ends with </body></html>, every element closed
         self.assertEqual(static.policies,[(True,self.NOT_FOUND_CSP)])  # exactly one effective policy: never moved, removed, emptied, weakened or doubled
+        self.assertEqual(static.head,self.NOT_FOUND_HEAD)
         page=Page(text); pages={path.name:Page(path.read_text()) for path in SITE.glob('*.html')}
+        for rel,link in static.assets:  # stylesheets and the icon: existing /main/site/ files of the matching type, never pages
+            self.assertIsNotNone(self.NOT_FOUND_SITE_URL.fullmatch(link),link)  # already pinned by NOT_FOUND_HEAD; kept so a renamed asset fails here too
+            target=SITE/link[len('/main/site/'):]
+            self.assertEqual(('#' in link,target.suffix),(False,self.NOT_FOUND_ASSET_SUFFIX[rel]),link)
+            self.assertTrue(target.is_file(),link)
         reached=set()
-        for link in static.urls:
+        for link,css_class,words,children in static.anchors:  # only a elements navigate; an href on any other element was refused above
+            self.assertIsNotNone(link)
+            if css_class=='skip-link':  # positioned above the page with an opaque background: any larger content would cover the links
+                self.assertEqual((''.join(words),children),('Skip to content',[]))
+            self.assertRegex(''.join(words),r'[A-Za-z0-9]',link)  # every link shows an ASCII letter or digit: not only spaces or a filler such as U+3164
             if link.startswith('#'):
                 self.assertRegex(link,r'\A#[a-z0-9-]+\Z'); self.assertIn(link[1:],page.ids,link); continue
             if self.NOT_FOUND_EXTERNAL_URL.fullmatch(link):
                 self.assertEqual(urlsplit(link).netloc,'github.com',link); continue
-            self.assertIsNotNone(self.NOT_FOUND_SITE_URL.fullmatch(link),link)  # no query, so no release key: that key belongs only to docs/site files
+            self.assertIsNotNone(self.NOT_FOUND_SITE_URL.fullmatch(link),link)
             u=urlsplit(link); target=SITE/u.path[len('/main/site/'):]
+            self.assertEqual((target.parent,target.suffix),(SITE,'.html'),link)  # a destination is a site page, never a stylesheet, an image or a file in a subfolder
             self.assertTrue(target.is_file(),link)
             if u.fragment: self.assertIn(u.fragment,pages[target.name].ids,link)
-            if target.suffix=='.html': reached.add(target.name)
-        self.assertEqual(reached,set(pages))  # every page of the site is a destination, not just some links that resolve
+            if css_class is None: reached.add(target.name)  # the skip link sits offscreen until focused, and the brand repeats Home
+        self.assertEqual(reached,set(pages))  # every page of the site is a destination of a plain, visible link
 
     def test_custom_not_found_page_is_static_and_routes_into_the_site(self):
         # GitHub Pages serves docs/404.html for any missing path under /main/; it must stay script-free, keep the CSP and reach every real page.
@@ -199,9 +282,13 @@ class PublicRoutes(unittest.TestCase):
         self.assert_static_not_found_page((ROOT/'docs/404.html').read_text())
 
     def test_custom_not_found_guard_rejects_weakened_copies(self):
-        # Negative controls: each copy breaks exactly one promise of the 404 page, or reads differently in a browser than in this parser, and must be refused.
+        # Negative controls: each copy breaks one promise of the 404 page, or reads differently in a browser than in this parser, and must
+        # be refused by the rule its name states. A control is one (old, new) replacement or a list of them, each applied to exactly one place.
         text=(ROOT/'docs/404.html').read_text()
         meta=f'<meta http-equiv="Content-Security-Policy" content="{self.NOT_FOUND_CSP}">'
+        measure='<a href="/main/site/measure.html">From counts to density</a>'
+        site_map='<nav class="site-map" aria-label="All pages">'
+        icon='<link rel="icon" type="image/svg+xml" href="/main/site/brand/mark.svg">'
         mutants={
             'CSP content emptied': (meta,'<meta http-equiv="Content-Security-Policy" content="">'),
             'CSP weakened': ("script-src 'self';","script-src 'self' 'unsafe-inline';"),
@@ -212,23 +299,32 @@ class PublicRoutes(unittest.TestCase):
             'mixed-case inline script': ('</main>','<ScRiPt>document.title="x"</ScRiPt></main>'),
             'inline event handler': ('<body>','<body onload="document.title=1">'),
             'javascript: URL': ('</main>','<a href="javascript:void(0)">x</a></main>'),
-            'tab inside the scheme': ('</main>','<a href="java&#9;script:void(0)">x</a></main>'),
-            'newline inside the scheme': ('</main>','<a href="java&#10;script:void(0)">x</a></main>'),
+            'tab inside the scheme': ('</main>','<a href="java\tscript:void(0)">x</a></main>'),
+            'newline inside the scheme': ('</main>','<a href="java\nscript:void(0)">x</a></main>'),
+            'character reference in an attribute value': ('</main>','<a href="java&#9;script:void(0)">x</a></main>'),
             'data: URL': ('</main>','<a href="data:text/html,x">x</a></main>'),
             'CSP content duplicated, empty first': (meta,f'<meta http-equiv="Content-Security-Policy" content="" content="{self.NOT_FOUND_CSP}">'),
             'CSP http-equiv duplicated, refresh first': (meta,f'<meta http-equiv="refresh" http-equiv="Content-Security-Policy" content="{self.NOT_FOUND_CSP}">'),
-            'CSP moved out of head': (meta,''),  # re-inserted into main below
+            'CSP moved out of head': [(meta,''),('<main id="main-content" tabindex="-1">','<main id="main-content" tabindex="-1">'+meta)],
             'duplicate href': ('<a href="/main/site/cite.html">','<a href="/main/site/cite.html" href="/main/site/no-such-page.html">'),
             'base element': ('</head>','<base href="https://example.com/"></head>'),
             'refresh pragma': ('</head>','<meta http-equiv="refresh" content="0; url=https://example.com/"></head>'),
             'iframe': ('</main>','<iframe srcdoc="x"></iframe></main>'),
-            # Placement: a meta CSP governs only later fetches, and text or a non-head element in head closes head early.
-            'non-breaking space in head before the CSP': (meta,'&nbsp;'+meta),
+            # Placement and head: a meta CSP governs only later fetches, text or a non-head element in head closes head early, and the
+            # rest of head is pinned.
+            'non-breaking space in head before the CSP': (meta,' '+meta),
+            'control-character reference in head before the CSP': (meta,'&#11;'+meta),
+            'doctype replaced by a character reference': ('<!doctype html>\n','&#11;<!--    -->'),
+            'CSP after the stylesheets and the icon': [(meta,''),(icon,icon+meta)],
             'CSP wrapped in noscript': (meta,'<noscript>'+meta+'</noscript>'),
             'CSP wrapped in template': (meta,'<template>'+meta+'</template>'),
-            'CSP inside the title': (meta,''),  # re-inserted into the title below
+            'CSP inside the title': [(meta,''),('<title>','<title>'+meta)],
             'external stylesheet before the CSP': (meta,'<link rel="stylesheet" href="https://github.com/x.css">'+meta),
             'prefetch link': ('</head>','<link rel="prefetch" href="/main/site/index.html"></head>'),
+            'replacement-encoding charset': ('<meta charset="utf-8">','<meta charset="iso-2022-kr">'),
+            'icon link removed': (icon,''),
+            'stylesheet with a type a browser does not load': ('<link rel="stylesheet" href="/main/site/style.css">','<link rel="stylesheet" type="text/plain" href="/main/site/style.css">'),
+            'viewport zoomed out on phones': ('content="width=device-width, initial-scale=1"','content="width=4000, initial-scale=0.1, minimum-scale=0.1, maximum-scale=0.1, user-scalable=no"'),
             # URL shapes a browser resolves somewhere other than the file the test would check.
             'dot segments': ('/main/site/measure.html','/main/site/../../docs/site/measure.html'),
             'percent-encoded dot segments': ('/main/site/measure.html','/main/site/%2e%2e/site/measure.html'),
@@ -238,26 +334,64 @@ class PublicRoutes(unittest.TestCase):
             'userinfo before the host': ('href="https://github.com/d6g8k5htny-coder/main">d6g8k5htny-coder','href="https://github.com@example.com/d6g8k5htny-coder/main">d6g8k5htny-coder'),
             'https without authority': ('<a class="brand" href="/main/site/index.html">','<a class="brand" href="https:/main/site/no-such-page.html">'),
             'uppercase scheme': ('</main>','<a href="JAVASCRIPT:void(0)">x</a></main>'),
-            'query before a fragment': ('href="#main-content"','href="?#main-content"'),
-            # Content a browser hides, disables or treats as links without an href attribute.
-            'SVG link': ('</main>','<svg><a xlink:href="data:text/html,x"><text>x</text></a></svg></main>'),
-            'site map in a template': ('<nav class="site-map" aria-label="All pages">','<template><nav class="site-map" aria-label="All pages">'),
-            'inert site map': ('<nav class="site-map" aria-label="All pages">','<nav class="site-map" aria-label="All pages" inert>'),
-            'download instead of navigation': ('<a href="/main/site/measure.html">','<a href="/main/site/measure.html" download>'),
-            'ping attribute': ('<a href="/main/site/cite.html">','<a href="/main/site/cite.html" ping="https://github.com/">'),
-            'one page dropped': (' · <a href="/main/site/measure.html">From counts to density</a>',''),
+            'query before a fragment': ('href="/main/site/workspace.html#board"','href="/main/site/workspace.html?#board"'),
+            'link to a stylesheet': ('<a href="/main/site/cite.html">Cite</a>','<a href="/main/site/cite.html">Cite</a> · <a href="/main/site/brand.css">Style</a>'),
+            'link without an href': ('<a href="/main/site/cite.html">Cite</a>','<a href="/main/site/cite.html">Cite</a> · <a>Cite</a>'),
+            'one page dropped': (' · '+measure,''),
             'missing page': ('/main/site/measure.html','/main/site/no-such-page.html'),
             'missing fragment': ('#coefficient"','#no-such-fragment"'),
             'release key added': ('/main/site/brand.css"','/main/site/brand.css?site-release=0"'),
+            # Content a browser hides, disables or treats as links without an href attribute.
+            'SVG link with xlink:href': ('</main>','<svg><a xlink:href="data:text/html,x"><text>x</text></a></svg></main>'),
+            'SVG link with href': ('</main>','<svg><a href="data:text/html,x"><text>x</text></a></svg></main>'),
+            'site map in a template': (site_map,'<template>'+site_map),
+            'inert site map': (site_map,'<nav class="site-map" aria-label="All pages" inert="">'),
+            'site map given the button class': (site_map,'<nav class="button" aria-label="All pages">'),
+            'download instead of navigation': ('<a href="/main/site/measure.html">','<a href="/main/site/measure.html" download="">'),
+            'attribute without a value': ('<a href="/main/site/measure.html">','<a href="/main/site/measure.html" download>'),
+            'ping attribute': ('<a href="/main/site/cite.html">','<a href="/main/site/cite.html" ping="https://github.com/">'),
+            # Structure (C188-310-01): in head a browser reads these end tags as closing head, and the CSP after them lands in body.
+            'end tag of body before the CSP': (meta,'</body>'+meta),
+            'end tag of html before the CSP': (meta,'</html>'+meta),
+            'end tag of br before the CSP': (meta,'</br>'+meta),
+            'page not closed': ('</body></html>',''),
+            # Structure: start tags a browser answers by first closing an open element, and nesting past the browser's depth limit.
+            'nested link empties the Measure link': (measure,'<a href="/main/site/measure.html"><a href="/main/site/explore.html">From counts to density</a></a>'),
+            'site map inside an open paragraph': [('</p>\n'+site_map,'\n'+site_map),('</ul></nav>\n</section>','</ul></nav></p>\n</section>')],
+            'heading inside a heading': ('<h1>Page not found</h1>','<h1>Page <h1>not</h1> found</h1>'),
+            'list item inside a list item': ('<li><strong>Research</strong>','<li>x<li>y</li></li><li><strong>Research</strong>'),
+            'Measure link nested past the browser depth limit': (measure,'<span>'*505+'<a href="/main/site/measure.html"><span>From counts to density</span></a>'+'</span>'*505),
+            'control character in the heading': ('<h1>Page not found</h1>','<h1>Page\x0bnot found</h1>'),
+            # Tokens this parser and a browser split differently: the browser ends each at the first '>' and runs the script.
+            'comment opened and closed by <!-->': ('</main>','<!--><script src="/main/site/cite.mjs"></script><!-- --></main>'),
+            'comment opened and closed by <!--->': ('</main>','<!---><script src="/main/site/cite.mjs"></script><!-- --></main>'),
+            'CDATA section around a script': ('</main>','<![CDATA[ > <script src="/main/site/cite.mjs"></script> ]]></main>'),
+            # Element identity (C188-310-02): only a visible, plain a element is a destination.
+            'Measure link as a span': (measure,'<span href="/main/site/measure.html">From counts to density</span>'),
+            'icon link pointed at the Measure page': [(' · '+measure,''),('href="/main/site/brand/mark.svg"','href="/main/site/measure.html"')],
+            'Measure reached only through the brand link': [(' · '+measure,''),('<a class="brand" href="/main/site/index.html">','<a class="brand" href="/main/site/measure.html">')],
+            'empty Measure link': (measure,'<a href="/main/site/measure.html"></a>From counts to density'),
+            'Measure link out of the tab order': ('<a href="/main/site/measure.html">','<a href="/main/site/measure.html" tabindex="-1">'),
+            'Measure link text only a non-breaking space': ('>From counts to density</a>','> </a>From counts to density'),
+            'Measure link text only a Hangul filler': ('>From counts to density</a>','>ㅤ</a>From counts to density'),
+            # Classed links have fixed places and content: the skip link sits above the page with an opaque background, and the brand
+            # link's mark is positioned over its own padding.
+            'skip-link class on the Measure link, offscreen until focused': ('<a href="/main/site/measure.html">','<a class="skip-link" href="/main/site/measure.html">'),
+            'second skip link before the site map': (site_map,'<a class="skip-link" href="#main-content">Skip</a>'+site_map),
+            'skip link text grown over the page': ('href="#main-content">Skip to content</a>','href="#main-content">'+'Skip to content '*250+'</a>'),
+            'skip link with block content over the page': ('href="#main-content">Skip to content</a>','href="#main-content"><h1>Skip to content</h1>'+'<section></section>'*6+'</a>'),
+            'second brand mark over the Measure link': [(' · '+measure,''),(site_map,'<ul><li><a class="brand" href="/main/site/index.html">U</a></li>'
+                                                        '<li>   <a href="/main/site/measure.html">M</a></li></ul>'+site_map)],
+            'second header around the site map': [(site_map,'<header>'+site_map),('</ul></nav>\n</section>','</ul></nav></header>\n</section>')],
+            # Over-strict by design: a browser still keeps the CSP in head here, but the guard accepts one document structure only.
+            'early end tag of head before the CSP': (meta,'</head>'+meta),
+            'ignored end tag of p in head before the CSP': (meta,'</p>'+meta),
         }
-        for name,(old,new) in mutants.items():
+        for name,edits in mutants.items():
             with self.subTest(name):
-                self.assertEqual(text.count(old),1,name)
-                copy=text.replace(old,new)
-                if name=='CSP moved out of head':
-                    anchor='<main id="main-content" tabindex="-1">'; self.assertEqual(copy.count(anchor),1); copy=copy.replace(anchor,anchor+meta)
-                if name=='CSP inside the title':
-                    anchor='<title>'; self.assertEqual(copy.count(anchor),1); copy=copy.replace(anchor,anchor+meta)
+                copy=text
+                for old,new in (edits if isinstance(edits,list) else [edits]):
+                    self.assertEqual(copy.count(old),1,(name,old)); copy=copy.replace(old,new)
                 with self.assertRaises(AssertionError): self.assert_static_not_found_page(copy)
         # Positive control: a comment before the CSP leaves head open, and a browser enforces the policy.
         self.assert_static_not_found_page(text.replace(meta,'<!-- policy -->'+meta))
