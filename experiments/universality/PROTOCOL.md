@@ -17,8 +17,9 @@ field are coupled observations.
 The proposed leading bin law is (3/2)c_m(b^(2/3)-a^(2/3)). Density exponent -1/3
 and cumulative exponent 2/3 are distinct. c_m must be derived for model m with
 its volume, amplitude, covariance, marks and geometry. Reference SIDE24 digits
-are not predictions for the other forty-nine laws. For Hk and other filtrations,
-freeze a different observable and theory contract.
+are not predictions for any of these fifty finite-cutoff candidate laws. Each
+needs its own admission, coefficient and approximation inputs. For Hk and other
+filtrations, freeze a different observable and theory contract.
 
 ## Inputs required before consuming confirmation samples
 
