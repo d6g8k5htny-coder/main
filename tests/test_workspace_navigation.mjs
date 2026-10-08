@@ -196,3 +196,16 @@ test('a successful query remains usable when the unrelated import source fails',
   assert.match(p.nodes.get('query-note').textContent,/performs no live tip check/);
   assert.match(p.nodes.get('query-identity').textContent,/c88768bb11efd1f7d6bda188f13064bedec54a06/);
 });
+
+test('the static proof link names the pinned proof that the script also assigns',()=>{
+  const href=html.match(/<a id="proof-link" href="([^"]+)"/)[1];
+  assert.equal(href,`https://github.com/${originalConfig.proof.repository}/blob/${originalConfig.proof.commit}/${originalConfig.proof.path}`);
+});
+
+test('a refused pinned source names the pinned GitHub route beside the refusal',async()=>{
+  const p=page('',{});await complete(p);
+  const note=p.nodes.get('custody-note');
+  assert.match(note.textContent,/^Unavailable: .*No result inferred\. Read the pinned source on GitHub/);
+  const anchor=note.children.find(child=>typeof child!=='string');
+  assert.equal(anchor.href,`https://github.com/${originalConfig.imports.repository}/blob/${originalConfig.imports.commit}/${originalConfig.imports.path}`);
+});
