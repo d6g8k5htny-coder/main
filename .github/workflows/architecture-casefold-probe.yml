@@ -6,7 +6,7 @@ on:
     paths:
       - architecture/graph_export.py
       - tools/proof_graph_export.py
-      - tests/test_source_isolation_casefold.py
+      - tests/casefold/test_source_isolation_casefold.py
       - .github/workflows/architecture-casefold-probe.yml
 
 permissions:
@@ -57,7 +57,7 @@ jobs:
             python "$@" - <<'PY'
           import json
           import unittest
-          suite = unittest.defaultTestLoader.discover("tests", pattern="test_source_isolation_casefold.py")
+          suite = unittest.defaultTestLoader.discover("tests/casefold", pattern="test_source_isolation_casefold.py")
           def identities(item):
               if isinstance(item, unittest.TestSuite):
                   return [identity for child in item for identity in identities(child)]

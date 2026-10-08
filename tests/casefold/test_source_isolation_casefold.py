@@ -21,7 +21,7 @@ import tempfile
 import unittest
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 EXPORTER = ROOT / "tools/proof_graph_export.py"
 PINNED_SOURCE = ROOT / "docs/site/dependency-source"
 CASEFOLD_ENV = "SOURCE_ISOLATION_CASEFOLD_ROOT"

@@ -14,10 +14,22 @@ The inline container runner compares the discovered inventory against ten frozen
 
 - [x] Write ten external CLI controls without changing the original implementation.
 - [x] Add bounded hosted casefold preparation and exact-discovery acceptance.
-- [ ] Complete fresh source/security review of final test/runner bytes.
-- [ ] Observe original-implementation hosted RED and retain original identities/logs/archive bytes.
-- [ ] Implement physical directory identity and no-follow traversal correction.
+- [x] Complete fresh source/security review of final test/runner bytes (source-only architecture_design_review ACCEPT_SCOPED).
+- [x] Observe original-implementation hosted RED and retain original identities/logs/archive bytes (run37850323987; details below).
+- [x] Implement physical directory identity and no-follow traversal correction (hosted GREEN pending).
 - [ ] Verify all ten controls in normal and optimized modes and existing exporter controls at the exact candidate.
 - [ ] Complete independent source/runtime review, reconcile actual current main without overwriting peer scopes, and integrate the checked repair.
 
 This increment alone does not complete the eight requested outcomes, enforce a private lease boundary, establish mathematical predicates, or migrate every existing execution entrypoint.
+
+## Observed original-exporter RED and corrected candidate
+
+Draft [PR324](https://github.com/d6g8k5htny-coder/main/pull/324), tests-only head `997fc6d40306eb8414b8c1dd5a9fc410895463ee`, tree `2899cc9cf24b2d44a427eb8946f8b06355748c18`, preserved the original exporter. [Run37850323987](https://github.com/d6g8k5htny-coder/main/actions/runs/37850323987), job113561335658, checked merge `f75c4d3136afe7478e2638df391ecc311257a7c5`. Hosted Psych parse, actual ext4 casefold preparation and mandatory alias preconditions succeeded. Both modes ran exactly ten controls; six methods passed and four failed14 assertions including subtests.
+
+The original CLI accepted all three aliased output paths. Original assertion/audit evidence records replacement of TEST GRAPH.json with changed raw bytes/file inode, output creation under the existing TEST child and creation of a new TEST descendant. The earlier source-symlink/parent-component path also returned success and created output. Distinct sibling export and live audit observation, exact-source/descendant guards and ordinary source/output symlink refusals passed. The real checkout was read-only and remained separate from these writable disposable copies.
+
+Original artifact11581482917 was independently downloaded. Raw ZIP SHA256 `b04ec5abed77ccced15e9a764c8f1a26537a64d6837fffaf1958f7754cda9401` matched native metadata. Original normal failure assertions and optimized failure disposition were inspected. Disposal, special-file-safe staging, original retention and strict unmount all succeeded after the expected test failure. This is genuine product RED rather than an unsupported-filesystem or read-only-fixture refusal.
+
+The generic navigation job at this tests-only candidate separately failed because its broad unprepared discovery found the mandatory casefold tests without their dedicated environment. That failure is preserved. The unchanged ten controls move to `tests/casefold/test_source_isolation_casefold.py`, without a package initializer; the dedicated workflow explicitly discovers that directory and retains the same complete ten IDs. Only the test root's parent index changes. No generic navigation workflow or skip policy is weakened.
+
+The correction retains the live anchored source descriptor through atomic promotion, rejects its actual device/inode at every anchored output component before creating missing descendants, opens existing components before any mkdir, and preserves parent components for no-follow traversal. Source pins, original graph/gate bytes, validator semantics and generated payload stay unchanged. Fresh correction review and actual normal/optimized GREEN are pending.
