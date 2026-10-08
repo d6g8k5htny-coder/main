@@ -10,8 +10,9 @@ import {
   normalizeSelection,
   parsePinnedGraph,
   recordedContextRows,
+  recordedReviewText,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=e31f26c1e8be684349d946b393eda18617d6bc7aa0a9eaf4205f452b5fefcb68';
+} from './dependency-model.mjs?site-release=46313aace05b0013e062674552df07d04c6ae4b8ba70265bf9ff5632d0e3d566';
 
 const byId = id => document.getElementById(id);
 
@@ -67,7 +68,7 @@ function buttonFor(node, choose) {
   const button = element('button', { className: `node-button ${classificationClass(node.classification)}` });
   button.type = 'button';
   const id = element('strong', { text: node.id });
-  const context = element('span', { text: `${node.classification} · ${node.layer} · ${node.kind}` });
+  const context = element('span', { text: `${node.classification} · ${node.layer} · ${node.kind} · ${recordedReviewText(node)}` });
   button.append(id, context);
   button.addEventListener('click', () => choose(node.id));
   return button;
@@ -266,7 +267,7 @@ function run({ index, provenance }) {
     const button = element('button', { text: target.id });
     button.type = 'button';
     button.addEventListener('click', () => choose(target.id));
-    content.append(button, element('small', { text: `${target.classification} · ${target.layer} · ${target.kind}` }));
+    content.append(button, element('small', { text: `${target.classification} · ${target.layer} · ${target.kind} · ${recordedReviewText(target)}` }));
     const impact = element('span', { className: 'impact', text: `${target.impact} downstream` });
     item.append(content, impact);
     targetRoot.append(item);
@@ -292,9 +293,12 @@ function run({ index, provenance }) {
       window.history.replaceState(null,'',url);
     }
   }
-  for(const value of classificationOptions(index)){
-    const option=element('option',{text:value});option.value=value;classification.append(option);
-  }
+  // The page ships the pinned snapshot's classifications as static options so
+  // the control reads without script; reconcile them against the verified graph
+  // (add missing, drop unknown, never duplicate) instead of appending.
+  const existingOptions=[...classification.children];
+  const optionFor=value=>existingOptions.find(option=>option.value===value) || Object.assign(element('option',{text:value || 'All recorded classifications'}),{value});
+  classification.replaceChildren(...['',...classificationOptions(index)].map(optionFor));
   function restoreFilters(){
     const filters=readFilters(index,window.location.search);
     search.value=filters.query;
