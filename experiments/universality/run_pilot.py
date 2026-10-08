@@ -270,7 +270,8 @@ def verify_observations(output):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, help='New output directory; existing paths are refused')
-    parser.add_argument('--verify', type=Path, help='Check retained observations, not generator authenticity')
+    parser.add_argument('--verify', type=Path,
+                        help='Check retained consistency; failed field rows return nonzero')
     parser.add_argument('--grid', type=int, default=16)
     parser.add_argument('--cutoff', type=int, choices=(2, 3), default=3,
                         help='Supported distinct-spectrum square Fourier cutoffs: 2 or 3')
@@ -278,8 +279,18 @@ def main(argv=None):
     args = parser.parse_args(argv)
     models.require((args.output is None) != (args.verify is None), 'Choose exactly one of --output or --verify')
     if args.verify is not None:
-        output = json.loads(args.verify.read_text(encoding='utf-8'), object_pairs_hook=models._unique_object)
-        verify_observations(output)
+        try:
+            output = json.loads(args.verify.read_text(encoding='utf-8'), object_pairs_hook=models._unique_object)
+            models.require(verify_observations(output) is True,
+                           'Retained observation verification did not return True')
+        except Exception as error:
+            print('Retained record verification failed: '+str(error), file=sys.stderr)
+            return 2
+        failures = sum(row['failure'] is not None for row in output['rows'])
+        if failures:
+            print(f'RETAINED_RECORD_CONSISTENT_WITH_FAILURES; retained failed fields: {failures}; '
+                  'no generator-authenticity or continuum claim')
+            return 1
         print('RETAINED_QUANTIZED_GRID_VERIFICATION_PASS; no generator-authenticity or continuum claim')
         return 0
     # Reject an invalid plan before reserving execution custody. A generation

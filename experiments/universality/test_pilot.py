@@ -218,6 +218,54 @@ class PilotTests(unittest.TestCase):
                                      '--fields-per-model', '1'])
             self.assertTrue(output.is_dir())
 
+    def test_cli_verify_reports_retained_all_and_mixed_failures_as_non_success(self):
+        def fail_all(model, seed, **kwargs):
+            raise ArithmeticError('deliberate all-field failure')
+
+        def fail_one(model, seed, **kwargs):
+            if model['id'] == 'gaussian__gaussian':
+                raise ArithmeticError('deliberate mixed-field failure')
+            return self.pilot.models.sample_grid(model, seed, **kwargs)
+
+        script = Path(self.pilot.__file__)
+        for sampler, expected_failures in [(fail_all, 50), (fail_one, 1)]:
+            with self.subTest(failures=expected_failures), tempfile.TemporaryDirectory() as scratch:
+                document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1,
+                                                        sampler=sampler)
+                self.assertTrue(self.pilot.verify_observations(document))
+                observations = Path(scratch)/'observations.json'
+                original = json.dumps(document, sort_keys=True).encode('utf-8')
+                observations.write_bytes(original)
+                result = subprocess.run([sys.executable, '-B', str(script), '--verify', str(observations)],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 1, result.stdout+result.stderr)
+                self.assertIn(f'retained failed fields: {expected_failures}', result.stdout)
+                self.assertNotIn('VERIFICATION_PASS', result.stdout)
+                self.assertEqual(observations.read_bytes(), original)
+
+    def test_cli_verify_success_zero_and_malformed_two(self):
+        script = Path(self.pilot.__file__)
+        document = self.pilot.build_observations(n=8, cutoff=2, fields_per_model=1)
+        with tempfile.TemporaryDirectory() as scratch:
+            observations = Path(scratch)/'observations.json'
+            observations.write_text(json.dumps(document))
+            success = subprocess.run([sys.executable, '-B', str(script), '--verify', str(observations)],
+                                     capture_output=True, text=True)
+            self.assertEqual(success.returncode, 0, success.stderr)
+            self.assertIn('VERIFICATION_PASS', success.stdout)
+            missing_config = copy.deepcopy(document)
+            del missing_config['config']
+            invalid_environment = copy.deepcopy(document)
+            invalid_environment['environment'] = []
+            malformed = Path(scratch)/'malformed.json'
+            for contents in ('{}', '[]', json.dumps(missing_config), json.dumps(invalid_environment)):
+                with self.subTest(contents=contents[:40]):
+                    malformed.write_text(contents)
+                    rejected = subprocess.run([sys.executable, '-B', str(script), '--verify', str(malformed)],
+                                              capture_output=True, text=True)
+                    self.assertEqual(rejected.returncode, 2)
+                    self.assertNotIn('VERIFICATION_PASS', rejected.stdout)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -19,6 +19,8 @@ coincide, reducing the fifty declared pairs to forty-five distinct laws.
 Accepted coefficient metadata must match the implemented construction, variance,
 symmetry, fourth moment and prospective ideal-input contract. Alternate catalogs
 and directly supplied definition catalogs undergo the same validation.
+Accepted spectrum metadata must also match its entire implemented formula and
+mechanism mapping; false mechanisms and extra status labels are refused.
 `run_pilot.py` generates explicitly exploratory fields, quantizes their nodes,
 computes exact ordinary H0 on that integer grid and independently checks
 connectivity. The field evaluation and sampling law remain floating-point/PRNG
@@ -30,6 +32,12 @@ writes `validation.json` with the observation digest and PASS or FAIL. A saved
 observation file alone is not a verification pass. A final verifier failure
 preserves the generated rows and original error with a failing exit status.
 Invalid execution plans are rejected before reserving the output directory.
+The verification CLI reports structural consistency separately from retained
+computation failures and returns a failing status if any planned field failed.
+CI also checks the committed observation bytes against their sibling validation
+receipt and current source, using `verify_published.py`. This refuses stale source
+hashes, digest mismatches, false validation records and retained field failures.
+It does not authenticate supplied grids as generator outputs.
 
 The rational mechanism controls are ready independently:
 
@@ -48,6 +56,7 @@ For the exploratory runner's fixed defaults and output options, use:
 
 ```sh
 python3 -B -S experiments/universality/run_pilot.py --help
+python3 -B -S experiments/universality/verify_published.py experiments/universality/results/exploratory50
 ```
 
 No held-out seeds have been consumed by this suite. Before a blind experiment,

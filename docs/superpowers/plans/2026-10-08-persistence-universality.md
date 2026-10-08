@@ -85,4 +85,10 @@ defects. Their red-to-green repairs validate plans before custody and bind
 all coefficient metadata to its implemented construction;35 tests passed in
 both modes. The source-bound default was replayed twice with equal bytes and
 unchanged field rows. Current-head automatic review/CI still precede integration.
+A third automatic review found spectrum-metadata, committed-artifact CI binding
+and failed-row CLI promotion defects. Their repairs enforce full spectrum
+definitions, verify the committed observation/validation pair in CI and return
+nonzero for retained failures.47 tests passed in both modes; the frozen default
+was regenerated twice with identical bytes and unchanged field/law data.
+The latest published-head review and hosted checks still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.

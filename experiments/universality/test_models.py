@@ -90,6 +90,41 @@ class ModelTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.models.validate_catalog(other)
 
+    def test_spectrum_metadata_cannot_misdescribe_the_implemented_weights(self):
+        for spectrum_id in self.catalog['spectra']:
+            for key, wrong in [('mechanism', 'Certified continuum Gaussian law'),
+                               ('formula', '1')]:
+                other = copy.deepcopy(self.catalog)
+                other['spectra'][spectrum_id][key] = wrong
+                with self.subTest(spectrum_id=spectrum_id, key=key), self.assertRaises(ValueError):
+                    self.models.validate_catalog(other)
+
+    def test_spectrum_metadata_requires_the_complete_supported_schema(self):
+        for mutation in ('missing_mechanism', 'missing_formula', 'extra', 'not_mapping'):
+            other = copy.deepcopy(self.catalog)
+            spectrum = other['spectra']['gaussian']
+            if mutation.startswith('missing_'):
+                del spectrum[mutation.removeprefix('missing_')]
+            elif mutation == 'extra':
+                spectrum['scientific_status'] = 'confirmed'
+            else:
+                other['spectra']['gaussian'] = []
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+
+    def test_alternate_catalog_and_injected_definition_reject_false_spectrum_metadata(self):
+        for spectrum_id in self.catalog['spectra']:
+            other = copy.deepcopy(self.catalog)
+            other['spectra'][spectrum_id]['mechanism'] = 'Certified continuum Gaussian law'
+            model = next(x for x in other['models'] if x['spectrum_id'] == spectrum_id)
+            with tempfile.TemporaryDirectory() as scratch:
+                path = Path(scratch)/'misdescribed-spectrum.json'
+                path.write_text(json.dumps(other), encoding='utf-8')
+                with self.subTest(spectrum_id=spectrum_id, entry='file'), self.assertRaises(ValueError):
+                    self.models.load_catalog(path)
+            with self.subTest(spectrum_id=spectrum_id, entry='definition'), self.assertRaises(ValueError):
+                self.models.definition(model, catalog=other)
+
     def test_normalized_spectra_are_positive_symmetric_and_covariance_distinct(self):
         for cutoff in (2, 3):
             profiles = []

@@ -24,6 +24,18 @@ SPECTRUM_FORMULAS = {
     'separable': 'exp(-abs(kx)-abs(ky))',
     'axial': 'exp(-s)*(1+3/(1+kx*kx)+3/(1+ky*ky))',
 }
+SPECTRUM_MECHANISMS = {
+    'gaussian': 'Gaussian radial spectrum',
+    'super_gaussian': 'Super-Gaussian radial spectrum',
+    'polynomial4': 'Polynomial spectral tail',
+    'rational_quartic': 'Rational quartic spectrum',
+    'two_scale': 'Two spectral scales',
+    'annulus': 'Annular spectral concentration',
+    'notch': 'Suppressed intermediate shell',
+    'angular': 'Fourfold angular modulation',
+    'separable': 'Separable absolute-frequency spectrum',
+    'axial': 'Axial ridge mixture',
+}
 LAW_CONSTRUCTIONS = {
     'gaussian': '(Z1,Z2), independent standard normals',
     'fixed_radius': 'sqrt(2)*(cos(T),sin(T)), T uniform on [0,2*pi)',
@@ -84,7 +96,9 @@ def validate_catalog(catalog):
     require(type(laws) is dict and set(laws) == set(LAW_CONSTRUCTIONS),
             'Expected the five implemented circular laws')
     for key, formula in SPECTRUM_FORMULAS.items():
-        require(spectra[key].get('formula') == formula, 'Unimplemented spectral definition: '+key)
+        expected_spectrum = {'formula': formula, 'mechanism': SPECTRUM_MECHANISMS[key]}
+        require(type(spectra[key]) is dict and spectra[key] == expected_spectrum,
+                'Unimplemented spectral definition: '+key)
     for key, construction in LAW_CONSTRUCTIONS.items():
         expected_law = {'construction': construction,
                         'component_fourth_moment': LAW_FOURTH_MOMENTS[key],

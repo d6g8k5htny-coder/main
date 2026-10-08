@@ -39,6 +39,10 @@ jobs:
           set -euo pipefail
           python3 -B -E -S experiments/universality/run_pilot.py --output "$RUNNER_TEMP/universality-exploration" 2>&1 | tee "$RUNNER_TEMP/universality-exploration-run.log"
           python3 -B -E -S experiments/universality/run_pilot.py --verify "$RUNNER_TEMP/universality-exploration/observations.json" 2>&1 | tee "$RUNNER_TEMP/universality-exploration-verify.log"
+      - name: Verify committed observation bytes and their validation receipt
+        run: |
+          set -euo pipefail
+          python3 -B -E -S experiments/universality/verify_published.py experiments/universality/results/exploratory50 2>&1 | tee "$RUNNER_TEMP/universality-published-verify.log"
       - name: Retain exploratory rows and execution errors even on failure
         if: ${{ always() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -49,6 +53,7 @@ jobs:
             ${{ runner.temp }}/universality-exploration/validation.json
             ${{ runner.temp }}/universality-exploration-run.log
             ${{ runner.temp }}/universality-exploration-verify.log
+            ${{ runner.temp }}/universality-published-verify.log
           if-no-files-found: error
           retention-days: 90
       - name: State the evidence boundary
