@@ -3,6 +3,9 @@ import copy
 import importlib
 import importlib.util
 import math
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -42,6 +45,43 @@ class ModelTests(unittest.TestCase):
         other['schema_version'] = True
         with self.assertRaises(ValueError):
             self.models.validate_catalog(other)
+
+    def test_law_moments_and_input_contract_cannot_misdescribe_the_sampler(self):
+        for law_id in self.catalog['coefficient_laws']:
+            for key, wrong in [('component_fourth_moment', '0'),
+                               ('input_contract', 'Certified IID Gaussian sampler')]:
+                other = copy.deepcopy(self.catalog)
+                other['coefficient_laws'][law_id][key] = wrong
+                with self.subTest(law_id=law_id, key=key), self.assertRaises(ValueError):
+                    self.models.validate_catalog(other)
+        student = copy.deepcopy(self.catalog)
+        student['coefficient_laws']['student5']['component_fourth_moment'] = '3'
+        with self.assertRaises(ValueError):
+            self.models.validate_catalog(student)
+
+    def test_law_metadata_requires_the_complete_supported_schema(self):
+        for mutation in ('missing', 'extra', 'not_mapping'):
+            other = copy.deepcopy(self.catalog)
+            law = other['coefficient_laws']['gaussian']
+            if mutation == 'missing':
+                del law['component_fourth_moment']
+            elif mutation == 'extra':
+                law['scientific_status'] = 'confirmed'
+            else:
+                other['coefficient_laws']['gaussian'] = []
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                self.models.validate_catalog(other)
+
+    def test_alternate_catalog_and_injected_definition_cannot_bypass_law_validation(self):
+        other = copy.deepcopy(self.catalog)
+        other['coefficient_laws']['student5']['component_fourth_moment'] = '3'
+        with tempfile.TemporaryDirectory() as scratch:
+            path = Path(scratch)/'misdescribed.json'
+            path.write_text(json.dumps(other), encoding='utf-8')
+            with self.assertRaises(ValueError):
+                self.models.load_catalog(path)
+        with self.assertRaises(ValueError):
+            self.models.definition(other['models'][0], catalog=other)
 
     def test_invalid_declared_dimension_does_not_describe_a_planar_sampler(self):
         for dimension in (True, 3, 2.0):

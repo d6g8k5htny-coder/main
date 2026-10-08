@@ -110,6 +110,21 @@ def _source_hashes():
     return {path: hashlib.sha256((root/path).read_bytes()).hexdigest() for path in paths}
 
 
+def _validate_plan(*, n=16, cutoff=3, fields_per_model=2, scale=65536,
+                   side=24, edges=None):
+    """Validate the actual plan before generation or CLI custody reservation."""
+    _strict_positive(fields_per_model, 'Fields per model')
+    _strict_positive(scale, 'Quantization scale')
+    models.require(type(n) is int and n >= 3 and type(cutoff) is int and n > 2*cutoff,
+                   'Grid must satisfy n > 2K')
+    models.normalized_spectrum('gaussian', cutoff)
+    models.require(type(side) in (int, float) and math.isfinite(side) and side > 0,
+                   'Positive finite torus side required')
+    frozen_edges = list(DEFAULT_EDGES) if edges is None else list(edges)
+    bin_counts([], scale, frozen_edges)
+    return frozen_edges
+
+
 def build_observations(*, n=16, cutoff=3, fields_per_model=2, scale=65536,
                        side=24, edges=None, sampler=None):
     """Generate retained rows and validate the record; propagate final errors.
@@ -130,13 +145,8 @@ def _generate_observations(*, n=16, cutoff=3, fields_per_model=2, scale=65536,
     Ordinary per-field exceptions stay in their rows. The completed record is
     returned for CLI custody; interrupted or partial generation is not saved.
     """
-    _strict_positive(fields_per_model, 'Fields per model')
-    _strict_positive(scale, 'Quantization scale')
-    models.require(type(n) is int and n >= 3 and type(cutoff) is int and n > 2*cutoff,
-                   'Grid must satisfy n > 2K')
-    models.normalized_spectrum('gaussian', cutoff)
-    edges = list(DEFAULT_EDGES) if edges is None else list(edges)
-    bin_counts([], scale, edges)
+    edges = _validate_plan(n=n, cutoff=cutoff, fields_per_model=fields_per_model,
+                           scale=scale, side=side, edges=edges)
     catalog = models.load_catalog()
     sampler_mode = 'declared_float_sampler' if sampler is None else 'injected_uncertified_sampler'
     sampler = models.sample_grid if sampler is None else sampler
@@ -210,16 +220,13 @@ def verify_observations(output):
                    'Sampler provenance declaration mismatch')
     config = output['config']
     n, cutoff, count, scale, side = (config[k] for k in ('grid', 'cutoff', 'fields_per_model', 'quantization_scale', 'side'))
-    _strict_positive(count, 'Fields per model'); _strict_positive(scale, 'Scale')
-    models.require(type(n) is int and n >= 3 and type(cutoff) is int and n > 2*cutoff,
-                   'Invalid grid/cutoff')
     models.require(type(config['dimension']) is int and config['dimension'] == 2
                    and config['seed_namespace'] == EXPLORATORY_NAMESPACE,
                    'Only the declared exploratory planar namespace is supported')
     models.require(config['bin_convention'] == BIN_CONVENTION and config['quantization'] == QUANTIZATION,
                    'Endpoint or quantization convention mismatch')
-    edges = [Q(x) for x in config['bin_edges']]
-    bin_counts([], scale, edges)
+    edges = _validate_plan(n=n, cutoff=cutoff, fields_per_model=count, scale=scale,
+                           side=side, edges=[Q(x) for x in config['bin_edges']])
     catalog = models.load_catalog()
     expected = [models.definition(model, cutoff=cutoff, side=side, catalog=catalog)
                 for model in catalog['models']]
@@ -275,7 +282,9 @@ def main(argv=None):
         verify_observations(output)
         print('RETAINED_QUANTIZED_GRID_VERIFICATION_PASS; no generator-authenticity or continuum claim')
         return 0
-    # Reserve custody before execution; a failed run keeps its directory.
+    # Reject an invalid plan before reserving execution custody. A generation
+    # or runtime failure after this valid-plan reservation keeps its directory.
+    _validate_plan(n=args.grid, cutoff=args.cutoff, fields_per_model=args.fields_per_model)
     args.output.mkdir(parents=True, exist_ok=False)
     output = _generate_observations(n=args.grid, cutoff=args.cutoff,
                                     fields_per_model=args.fields_per_model)

@@ -188,6 +188,36 @@ class PilotTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse(output.exists(), 'An invalid cutoff must not reserve execution custody')
 
+    def test_cli_invalid_plan_leaves_destination_available_for_corrected_retry(self):
+        script = Path(self.pilot.__file__)
+        invalid_plans = [('--grid', '2'), ('--grid', '4', '--cutoff', '2'),
+                         ('--grid', '6', '--cutoff', '3'),
+                         ('--fields-per-model', '0'), ('--fields-per-model', '-1')]
+        for plan in invalid_plans:
+            with self.subTest(plan=plan), tempfile.TemporaryDirectory() as scratch:
+                output = Path(scratch)/'same-destination'
+                refused = subprocess.run([sys.executable, '-B', str(script), '--output', str(output), *plan],
+                                          capture_output=True, text=True)
+                self.assertNotEqual(refused.returncode, 0)
+                self.assertFalse(output.exists(), 'An invalid plan must not reserve the destination')
+                corrected = subprocess.run([sys.executable, '-B', str(script), '--output', str(output),
+                                            '--grid', '8', '--cutoff', '2', '--fields-per-model', '1'],
+                                           capture_output=True, text=True)
+                self.assertEqual(corrected.returncode, 0, corrected.stderr)
+                validation = json.loads((output/'validation.json').read_text())
+                self.assertEqual(validation['exit_code'], 0)
+                self.assertEqual(validation['planned_fields'], 50)
+
+    def test_generation_failure_after_valid_plan_keeps_reserved_custody(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            output = Path(scratch)/'generation-failed'
+            with patch.object(self.pilot, '_generate_observations',
+                              side_effect=RuntimeError('deliberate generation runtime failure')):
+                with self.assertRaisesRegex(RuntimeError, 'deliberate generation runtime failure'):
+                    self.pilot.main(['--output', str(output), '--grid', '8', '--cutoff', '2',
+                                     '--fields-per-model', '1'])
+            self.assertTrue(output.is_dir())
+
 
 if __name__ == '__main__':
     unittest.main()

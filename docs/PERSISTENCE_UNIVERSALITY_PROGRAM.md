@@ -53,6 +53,15 @@ certified fifty-law blind continuum comparison. This program consumes the reply
 at that scope; its delivery does not activate the proposed successor or accept
 the broader universality program.
 
+The numerical lane also [answered the consultation](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6066824181)
+with the existing [shrinking-bin continuum-transfer interface](../experiments/periodic_h0/spectral_shrinking_bins/PROOF.md).
+Root checked its source SHA256fa6d443fd5eeeb21c0d311de4d11eb5b406758f3c5ff09a222d02ba54bd0752c.
+Its fixed L24/d2 reference-field bounds import density D, continuum critical-count
+C and deterministic matching A. Same PRNG seeds do not supply same-field coupling;
+exceptional expected counts, whole-field independence and evaluated remainder/window
+inputs remain required. The reply supplies no non-reference admission or certified
+fifty-law comparison and does not endorse this program.
+
 ## State the law and its sampling measure
 
 For finite ordinary superlevel H0 bars, write ell=birth-death>0. Exclude the

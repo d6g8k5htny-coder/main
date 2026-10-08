@@ -80,4 +80,9 @@ Readiness review then found two P2 defects. Their repairs reject cutoff1 and
 preserve completed rows through final verifier rejection;30 tests passed in
 both modes and the source-bound default artifact was regenerated twice with
 identical bytes. Successor review/hosted checks remain separate evidence.
+A second automatic review found plan-reservation and coefficient-metadata
+defects. Their red-to-green repairs validate plans before custody and bind
+all coefficient metadata to its implemented construction;35 tests passed in
+both modes. The source-bound default was replayed twice with equal bytes and
+unchanged field rows. Current-head automatic review/CI still precede integration.
 No full-goal completion, blind confirmation or theorem acceptance is claimed.

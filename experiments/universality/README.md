@@ -16,6 +16,9 @@ does not establish the contact/Palm/regularity/global-pairing theorem inputs.
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
 cutoffs 2 and 3 are supported: at cutoff 1, Gaussian and separable spectra
 coincide, reducing the fifty declared pairs to forty-five distinct laws.
+Accepted coefficient metadata must match the implemented construction, variance,
+symmetry, fourth moment and prospective ideal-input contract. Alternate catalogs
+and directly supplied definition catalogs undergo the same validation.
 `run_pilot.py` generates explicitly exploratory fields, quantizes their nodes,
 computes exact ordinary H0 on that integer grid and independently checks
 connectivity. The field evaluation and sampling law remain floating-point/PRNG
@@ -26,6 +29,7 @@ The CLI writes `observations.json` before its final record self-check, then
 writes `validation.json` with the observation digest and PASS or FAIL. A saved
 observation file alone is not a verification pass. A final verifier failure
 preserves the generated rows and original error with a failing exit status.
+Invalid execution plans are rejected before reserving the output directory.
 
 The rational mechanism controls are ready independently:
 

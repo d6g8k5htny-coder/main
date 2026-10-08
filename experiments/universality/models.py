@@ -31,6 +31,14 @@ LAW_CONSTRUCTIONS = {
     'exponential_scale': 'sqrt(V)*(Z1,Z2), V exponential mean 1, independent standard normals',
     'student5': 'sqrt(3/S)*(Z1,Z2), S chi-square(5), independent standard normals',
 }
+# The circular radius laws give E[X^4]=(3/8)E[R^4]. Normal scale
+# mixtures give 3E[V^2]; Student-5 gives 27E[S^-2]=27/3=9.
+LAW_FOURTH_MOMENTS = {
+    'gaussian': '3', 'fixed_radius': '3/2', 'uniform_disk': '2',
+    'exponential_scale': '6', 'student5': '9',
+}
+LAW_INPUT_CONTRACT = ('Independent ideal continuous uniforms; floating pseudorandom '
+                      'implementation is not a certified realization of this law')
 
 
 def require(condition, message):
@@ -78,9 +86,12 @@ def validate_catalog(catalog):
     for key, formula in SPECTRUM_FORMULAS.items():
         require(spectra[key].get('formula') == formula, 'Unimplemented spectral definition: '+key)
     for key, construction in LAW_CONSTRUCTIONS.items():
-        require(laws[key].get('construction') == construction
-                and laws[key].get('ideal_vector_symmetry') == 'circular'
-                and laws[key].get('ideal_component_variance') == '1',
+        expected_law = {'construction': construction,
+                        'component_fourth_moment': LAW_FOURTH_MOMENTS[key],
+                        'ideal_vector_symmetry': 'circular',
+                        'ideal_component_variance': '1',
+                        'input_contract': LAW_INPUT_CONTRACT}
+        require(type(laws[key]) is dict and laws[key] == expected_law,
                 'Unimplemented coefficient law: '+key)
     require(type(items) is list and len(items) == 50, 'Exactly fifty distinct laws required')
     pairs, identities = set(), set()
@@ -133,6 +144,7 @@ def covariance(weights, angular_lag):
 
 def definition(model, *, cutoff=3, side=24, catalog=None):
     catalog = load_catalog() if catalog is None else catalog
+    validate_catalog(catalog)
     require(model in catalog['models'], 'Model is not in the validated catalog')
     require(type(side) in (int, float) and math.isfinite(side) and side > 0,
             'Positive finite torus side required')
