@@ -40,6 +40,37 @@ jobs:
           printf '%s\n' "$GITHUB_REPOSITORY" > "$RUNNER_TEMP/interface-preparation-publish/repository.txt"
           printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/interface-preparation-publish/run-id.txt"
           printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/interface-preparation-publish/run-attempt.txt"
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, stat
+          expected = "b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce"
+          directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+          workspace = os.open(os.environ["GITHUB_WORKSPACE"], directory_flags)
+          try:
+              interface = os.open("interface", directory_flags, dir_fd=workspace)
+              try:
+                  descriptor = os.open("package-lock.json", os.O_RDONLY | os.O_NOFOLLOW, dir_fd=interface)
+                  with os.fdopen(descriptor, "rb") as stream:
+                      info = os.fstat(stream.fileno())
+                      if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or not 0 < info.st_size <= 16777216:
+                          raise ValueError("unsafe or oversized checked lock source")
+                      raw = stream.read(16777217)
+              finally:
+                  os.close(interface)
+          finally:
+              os.close(workspace)
+          if not 0 < len(raw) <= 16777216:
+              raise ValueError("checked lock source byte limit")
+          actual = hashlib.sha256(raw).hexdigest()
+          publish = pathlib.Path(os.environ["RUNNER_TEMP"]) / "interface-preparation-publish"
+          with (publish / "checked-package-lock.json").open("xb") as stream:
+              stream.write(raw)
+          identity = {"schema_version": 1, "path": "interface/package-lock.json",
+                      "expected_sha256": expected, "actual_sha256": actual, "bytes": len(raw)}
+          with (publish / "checked-lock-source.json").open("x") as stream:
+              stream.write(json.dumps(identity, sort_keys=True, indent=2) + "\n")
+          if actual != expected:
+              raise ValueError("checked committed lock pin mismatch")
+          PY
       - name: Download fixed primary inputs without executing packages
         run: |
           set -euo pipefail
@@ -174,6 +205,11 @@ jobs:
           assert.equal(process.arch, 'x64');
           assert.equal(execFileSync(node, [npm, '--version'], { encoding: 'utf8' }).trim(), '11.19.0');
           const original = fs.readFileSync('/source/package.json');
+          const lockSha256 = 'b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce';
+          const hash = raw => crypto.createHash('sha256').update(raw).digest('hex');
+          const raw = fs.readFileSync('/source/package-lock.json');
+          assert.ok(raw.length > 0 && raw.length <= 16777216, 'lockfile byte limit');
+          assert.equal(hash(raw), lockSha256, 'checked committed lock pin mismatch');
           const expected = { name: 'research-interface', version: '0.0.0', private: true, type: 'module',
             packageManager: 'npm@11.19.0', engines: { node: '24.21.0', npm: '11.19.0' },
             scripts: { build: 'astro build' }, dependencies: { astro: '7.3.8' } };
@@ -181,12 +217,15 @@ jobs:
           fs.mkdirSync('/work/provision');
           fs.mkdirSync('/work/evidence');
           fs.writeFileSync('/work/provision/package.json', original);
+          fs.writeFileSync('/work/provision/package-lock.json', raw);
+          // Retain exact checked source bytes before validation or networked installation can fail.
+          fs.writeFileSync('/work/evidence/package.json', original);
+          fs.writeFileSync('/work/evidence/package-lock.json', raw);
+          fs.writeFileSync('/work/evidence/package-source.sha256', hash(original) + '\n');
+          fs.writeFileSync('/work/evidence/lock-source.sha256', lockSha256 + '\n');
           const run = args => execFileSync(node, [npm, ...args, '--ignore-scripts', '--engine-strict', '--audit=false', '--fund=false',
             '--registry=https://registry.npmjs.org', '--cache=/work/cache', '--loglevel=warn'],
             { cwd: '/work/provision', stdio: 'inherit', timeout: 180000 });
-          run(['install', '--package-lock-only']);
-          const raw = fs.readFileSync('/work/provision/package-lock.json');
-          assert.ok(raw.length <= 16777216, 'lockfile byte limit');
           const lock = JSON.parse(raw);
           assert.equal(lock.lockfileVersion, 3);
           assert.deepEqual(lock.packages[''].dependencies, expected.dependencies);
@@ -205,19 +244,17 @@ jobs:
           assert.equal(lock.packages['node_modules/astro'].version, '7.3.8');
           assert.equal(lock.packages['node_modules/astro'].integrity,
             'sha512-LHzDHSaV+YzZiR3EFndDYTLLeNeuMtP1qX1FLcCNUUHOCqTTIWPczy2UV3zpA5VqvJe5cWZolqM9Z8JFqR2i9w==');
-          // Preserve the validated candidate before the networked installation can fail or time out.
-          fs.writeFileSync('/work/evidence/package.json', original);
-          fs.copyFileSync('/work/provision/package-lock.json', '/work/evidence/package-lock.json');
           const inventory = { schema_version: 1, scientific_effect: 'NONE', scientific_status_authority: false,
             kind: 'declared-lock-license-inventory', legal_approval: 'NOT_ASSESSED',
+            lock_source: { path: 'interface/package-lock.json', sha256: lockSha256, bytes: raw.length },
             runtime_inputs: JSON.parse(fs.readFileSync('/control/primary-inputs.json', 'utf8')),
             packages: packages.map(([path, item]) => ({ path, version: item.version, resolved: item.resolved,
               integrity: item.integrity, declared_license: item.license ?? 'UNKNOWN',
               optional: item.optional === true, platform_installed: 'NOT_ASSERTED' })) };
           fs.writeFileSync('/work/evidence/license-inventory.json', JSON.stringify(inventory, null, 2) + '\n');
-          fs.writeFileSync('/work/evidence/package-source.sha256', crypto.createHash('sha256').update(original).digest('hex') + '\n');
-          // The first resolution is provisional; only this frozen lock is used by both offline installs.
+          // Provision only this committed frozen closure; no package-lock-only resolution occurs.
           run(['ci']);
+          assert.equal(hash(fs.readFileSync('/work/provision/package-lock.json')), lockSha256, 'npm ci changed the frozen lock');
           fs.rmSync('/work/provision/node_modules', { recursive: true });
           JS
           cat > "$control/offline.mjs" <<'JS'
@@ -234,16 +271,23 @@ jobs:
           assert.equal(process.arch, 'x64');
           assert.equal(execFileSync(node, [npm, '--version'], { encoding: 'utf8' }).trim(), '11.19.0');
           assert.equal(hash(fs.readFileSync('/source/package.json')), fs.readFileSync('/work/evidence/package-source.sha256', 'utf8').trim());
+          const lockSha256 = 'b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce';
+          const lockRaw = fs.readFileSync('/source/package-lock.json');
+          assert.ok(lockRaw.length > 0 && lockRaw.length <= 16777216, 'lockfile byte limit');
+          assert.equal(hash(lockRaw), lockSha256, 'offline checked committed lock pin mismatch');
+          assert.deepEqual(fs.readFileSync('/work/evidence/package-lock.json'), lockRaw, 'retained lock differs from checked source');
+          assert.equal(fs.readFileSync('/work/evidence/lock-source.sha256', 'utf8'), lockSha256 + '\n');
           const manifests = [];
           for (const label of ['one', 'two']) {
             const directory = '/work/build-' + label;
             fs.cpSync('/control/fixture', directory, { recursive: true });
             fs.copyFileSync('/source/package.json', directory + '/package.json');
-            fs.copyFileSync('/work/evidence/package-lock.json', directory + '/package-lock.json');
+            fs.writeFileSync(directory + '/package-lock.json', lockRaw);
             const log = fs.openSync('/work/evidence/build-' + label + '.log', 'wx');
             try {
               execFileSync(node, [npm, 'ci', '--offline', '--ignore-scripts', '--engine-strict', '--audit=false', '--fund=false',
                 '--cache=/work/cache', '--loglevel=warn'], { cwd: directory, stdio: ['ignore', log, log], timeout: 120000 });
+              assert.equal(hash(fs.readFileSync(directory + '/package-lock.json')), lockSha256, 'offline npm ci changed the frozen lock');
               assert.equal(JSON.parse(fs.readFileSync(directory + '/node_modules/astro/package.json', 'utf8')).version, '7.3.8');
               execFileSync(node, [npm, 'run', 'build', '--offline'], { cwd: directory,
                 stdio: ['ignore', log, log], timeout: 120000 });
@@ -288,6 +332,7 @@ jobs:
             schema_version: 1, scientific_effect: 'NONE', scientific_status_authority: false,
             scope: 'two-clean-synthetic-Astro-builds', actual_reader_inputs: false, builds: ['one', 'two'],
             identical_output_bytes: true, external_stylesheets: true, configured_base: '/main/reader',
+            lock_sha256: lockSha256,
             node: process.versions.node, npm: '11.19.0', astro: '7.3.8',
             platform: process.platform, architecture: process.arch,
             glibc: process.report.getReport().header.glibcVersionRuntime ?? 'UNKNOWN'
@@ -305,6 +350,7 @@ jobs:
             --env PATH=/runtime/node/bin:/usr/local/bin:/usr/bin:/bin \
             --env NPM_CONFIG_USERCONFIG=/dev/null --env ASTRO_TELEMETRY_DISABLED=1 \
             --mount type=bind,source="$GITHUB_WORKSPACE/interface/package.json",target=/source/package.json,readonly \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package-lock.json",target=/source/package-lock.json,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/runtime",target=/runtime,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/control",target=/control,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/work",target=/work \
@@ -323,6 +369,7 @@ jobs:
             --env PATH=/runtime/node/bin:/usr/local/bin:/usr/bin:/bin \
             --env NPM_CONFIG_USERCONFIG=/dev/null --env ASTRO_TELEMETRY_DISABLED=1 \
             --mount type=bind,source="$GITHUB_WORKSPACE/interface/package.json",target=/source/package.json,readonly \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package-lock.json",target=/source/package-lock.json,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/runtime",target=/runtime,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/control",target=/control,readonly \
             --mount type=bind,source="$RUNNER_TEMP/interface-runtime/work",target=/work \
@@ -430,7 +477,7 @@ jobs:
               ("control/fixture/astro.config.mjs", "controls/astro.config.mjs", 65536),
               ("control/fixture/src/pages/index.astro", "controls/index.astro", 65536),
           ]
-          for name in ("package.json", "package-lock.json", "license-inventory.json", "package-source.sha256",
+          for name in ("package.json", "package-lock.json", "license-inventory.json", "package-source.sha256", "lock-source.sha256",
                        "build-one.log", "build-two.log", "build-one-manifest.json", "build-two-manifest.json", "offline-result.json"):
               expected.append(("work/evidence/" + name, name, 16777216 if name == "package-lock.json" else 4194304))
           missing, refusals = [], []
@@ -507,6 +554,20 @@ jobs:
           require((root / "package-source.sha256").read_text() == hashlib.sha256(source.read_bytes()).hexdigest() + "\n",
                   "actual checked package source mismatch")
           require((root / "package.json").read_bytes() == source.read_bytes(), "retained checked package bytes mismatch")
+          lock_source = pathlib.Path(os.environ["GITHUB_WORKSPACE"]) / "interface/package-lock.json"
+          lock_raw = lock_source.read_bytes()
+          lock_hash = "b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce"
+          require(0 < len(lock_raw) <= 16777216 and hashlib.sha256(lock_raw).hexdigest() == lock_hash,
+                  "actual checked committed lock pin mismatch")
+          require((root / "package-lock.json").read_bytes() == lock_raw
+                  and (root / "checked-package-lock.json").read_bytes() == lock_raw
+                  and (root / "lock-source.sha256").read_text() == lock_hash + "\n", "retained checked lock bytes mismatch")
+          checked_lock = {"schema_version": 1, "path": "interface/package-lock.json",
+                          "expected_sha256": lock_hash, "actual_sha256": lock_hash, "bytes": len(lock_raw)}
+          require(json.loads((root / "checked-lock-source.json").read_bytes()) == checked_lock, "trusted checked lock identity mismatch")
+          declared = json.loads((root / "license-inventory.json").read_bytes())
+          require(declared["lock_source"] == {"path": "interface/package-lock.json", "sha256": lock_hash, "bytes": len(lock_raw)}
+                  and result["lock_sha256"] == lock_hash, "provisioned or offline lock identity mismatch")
           inventory = []
           for path in sorted(root.rglob("*")):
               if path.is_file():
@@ -518,6 +579,7 @@ jobs:
               "repository": os.environ["GITHUB_REPOSITORY"], "checked_commit": os.environ["GITHUB_SHA"],
               "run_id": os.environ["GITHUB_RUN_ID"], "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
               "actual_reader_inputs": False, "feature_red_green": "NOT_RUN",
+              "committed_lock": {"path": "interface/package-lock.json", "sha256": lock_hash, "bytes": len(lock_raw)},
               "final_disposition": "REQUIRES_NATIVE_JOB_SUCCESS_AND_ORIGINAL_ARCHIVE_READBACK",
               "members": inventory}
           (root / "preparation-receipt.json").write_text(json.dumps(receipt, sort_keys=True, indent=2) + "\n")
@@ -528,7 +590,7 @@ jobs:
           set -euo pipefail
           cd "$RUNNER_TEMP/interface-preparation-publish"
           find . -type f ! -name ARTIFACT_SHA256SUMS -print0 | sort -z | xargs -0 -r sha256sum > ARTIFACT_SHA256SUMS
-      - name: Retain original runtime bytes, generated lock and failure evidence
+      - name: Retain original runtime bytes, frozen lock and failure evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
