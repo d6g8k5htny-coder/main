@@ -305,6 +305,34 @@ class ArchitectureReceiptContract(unittest.TestCase):
                 self.write_log("optimized", (*REQUIRED_IDS, optimized_extra))
                 self.assert_refused()
 
+    def test_malformed_extra_result_lines_cannot_be_ignored_before_the_success_footer(self):
+        extra = "test_architecture_receipt.X.test_extra"
+        foreign = "foreign_module.X.test_extra"
+        footer = "\n\n" + "-" * 70 + "\n"
+        valid = synthetic_log()
+        self.assertIn(footer, valid)
+        self.assertIn("Ran 53 tests in 0.001s\n\nOK\n", valid)
+        for malformed in (
+            "test_extra (" + extra + ") ...ok",
+            "test_extra (" + extra + ")... ok",
+            "test_extra (" + extra + ") ok",
+            " test_extra (" + extra + ") ... ok",
+            "\ttest_extra (" + extra + ") ...ok",
+            "test-extra (" + extra + ") ...ok",
+            "test_other_name (" + extra + ") ...ok",
+            "test_extra (" + foreign + ") ...ok",
+            "test_extra (" + foreign + ")... ok",
+            "test_extra (" + foreign + ") ok",
+        ):
+            with self.subTest(malformed=malformed):
+                # All 53 valid results stay untouched, the reported count stays
+                # 53, and both logs have the identical malformed extra line.
+                # Ignoring that line must not turn the staged log into success.
+                contents = valid.replace(footer, "\n" + malformed + footer, 1)
+                for mode in ("normal", "optimized"):
+                    self.path("tests-" + mode + ".log").write_text(contents, encoding="utf-8")
+                self.assert_refused()
+
     def test_attempt_ten_and_other_native_repository_are_preserved(self):
         self.path("run-attempt.txt").write_text("10\n", encoding="utf-8")
         expected = {**self.expected, "repository": "fixture-owner/research", "run-attempt": "10"}
