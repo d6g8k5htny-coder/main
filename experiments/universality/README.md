@@ -79,11 +79,46 @@ while the far contribution is bounded. Its
 [review](finite_h0_lifetime/REVIEW.md) binds the measurable once-counting argument,
 all-mark limit and precise finite Gaussian scope.
 
+The [regular-fold structural theorem](fold_structural_universality/PROOF.md)
+shows why the lifetime exponent is independent of dimension when five actual
+counting, contact, selection, domination and far-complement interfaces hold.
+The observation Jacobian, spatial volume, height change and determinant weight
+combine to give r dr; the cubic gap then gives the density exponent -1/3.
+Its covariance-preserving atomic and small-amplitude counterexamples show why
+covariance and a cubic gap alone do not admit a field. Its
+[review](fold_structural_universality/REVIEW.md) preserves the corrected moment,
+conditional scope and exact source identities.
+
+The [exact periodized Gaussian H0 adapter](periodized_gaussian_h0/PROOF.md)
+now derives all five interfaces for the actual normalized infinite image-sum
+law at each fixed d>=2 and L>0. A finite coefficient block conditioned on the
+remaining smooth Gaussian field supplies the named ranks and all-Borel counting;
+the full-field regression and contact-conditioned global genericity supply
+actual elder selection and the all-mark limit. Its coefficient uses the actual
+periodized covariance. The finite catalogue Gaussian law and the unperiodized
+reference moments are separate laws. The
+[review](periodized_gaussian_h0/REVIEW.md) binds the complete proof and its
+classical imports. This gives no historical numerical interval or near O(1)
+remainder admission, cutoff/grid coupling or formal implementation.
+
+The [marked short-bar process theorem](iid_short_bar_process/PROOF.md)
+proves a Poisson limit for n independent whole copies of that fixed torus
+Gaussian law when n*t^(2/3) tends to a positive constant. Its extra physical
+step is weighted cluster avoidance: two or more short bars contribute
+only o(t^(2/3)) to the first-weighted count. The limiting marks retain
+birth/gap/direction correlations; the whole-volume lifetime intensity is
+lambda*L^d*c_(d,L)*a^(-1/3) da. A single fixed field instead has an empty
+small-lifetime limit. The [review](iid_short_bar_process/REVIEW.md) preserves
+the exact source and the remaining coalescing-contact factorial scope.
+Independent copies do not establish a same-field spatial expanding-domain
+process or retire the existing regional additional-witness lane.
+
 These conventional analytic results discharge selected-bar counting and the
-leading near/far intensity composition for those ideal Gaussian laws. Further
+leading near/far intensity composition for the stated ideal finite laws and the
+specific exact periodized Gaussian law. Further
 conditional ranks, literal critical formal alignment, certified sampler and
 numerical/count coupling, genuinely blind law-by-law admission, higher homology
-and marked point-process convergence remain separate obligations. The sampler
+and spatial expanding-domain process convergence remain separate obligations. The sampler
 and catalogue admissibility labels retain their original meaning.
 
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
@@ -155,6 +190,6 @@ python3 -B -S experiments/universality/verify_published.py experiments/universal
 No held-out seeds have been consumed by this suite. Before a blind experiment,
 supply each model's actual law admission, coefficient/remainder/window,
 implementation coupling, numerical/count transfer, field-level precision and
-independent holdout custody described in the protocol. Higher dimensions,
-higher homology and geometry changes are subsequent adapters, with their own
-proof and computational contracts.
+independent holdout custody described in the protocol. Further field laws,
+higher homology and geometry changes need their own actual analytic adapters
+and computational contracts; spatial expanding-domain process limits remain separate.
