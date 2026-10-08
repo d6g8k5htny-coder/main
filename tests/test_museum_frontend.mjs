@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {digest,pin,fixture,documentFromHTML} from './fixtures/museum_fixture.mjs';
+import {digest,pin,fixture,documentFromHTML,isLive} from './fixtures/museum_fixture.mjs';
 
 const moduleURL = new URL('../docs/site/museum.mjs', import.meta.url);
 test('museum exposes source-bound rendering rather than silently omitting the page', () => {
@@ -177,7 +177,7 @@ test('museum manifest must match the config byte count and SHA-256 before source
     assert.deepEqual(requested,['config.json','museum.json']);
     assert.match(document.getElementById('museum-state').textContent,/unavailable/i);
     assert.equal(document.getElementById('museum-state').className,'error');
-    for(const id of ['claim-cards','packet-cards','lifetime-fixture']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/^Not shown: .*No result inferred\. Read the pinned Math proof index at d6628da and the STATUS snapshot at f2e432e directly\.$/);}
+    for(const id of ['claim-cards','packet-cards','lifetime-fixture']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/^Not shown: .*No result inferred\. Read the pinned Math proof index at d6628da and the STATUS snapshot at f2e432e directly\.$/);assert.deepEqual([isLive(document.getElementById(id)),isLive(children[0])],[false,false],`${id} and its Not shown note are not live`);}
     assert.equal(document.getElementById('active-exhibit').children.length,0,'no exhibit was requested');
   }
   const exhibit=documentFromHTML();
@@ -186,6 +186,71 @@ test('museum manifest must match the config byte count and SHA-256 before source
   assert.ok(hosts.every(children=>children.length===1&&/Not shown/.test(children[0].textContent)),'a requested exhibit host carries the same sentence');
   const links=descendants(hosts[0][0],n=>n.tagName==='A').map(n=>[n.textContent,n.href]);
   assert.deepEqual(links,[['Math proof index at d6628da','https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md'],['STATUS snapshot at f2e432e','https://github.com/d6g8k5htny-coder/main/blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md']]);
+});
+
+// #museum-state is the page's one static role="status" line for cards. A refused card is not a
+// second live region; each refused view is counted in that line's final text instead. The only
+// other static live region is the conditional route's status line; neither is hidden.
+test('museum.html declares exactly two live regions, #museum-state and #conditional-route-status, neither hidden',()=>{
+  const html=fs.readFileSync(new URL('../docs/site/museum.html',import.meta.url),'utf8');
+  const live=[...html.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
+  assert.deepEqual(live,['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
+  const state=documentFromHTML().getElementById('museum-state');
+  assert.deepEqual([state.getAttribute('role'),state.getAttribute('aria-live')],['status',null]);
+});
+// The route's status line stays visible, and only a line that has not refused is recoloured, so a
+// refusal keeps the error colour.
+test('brand.css keeps the route status line visible and in the error colour when it refuses',()=>{
+  const css=fs.readFileSync(new URL('../docs/site/brand.css',import.meta.url),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+  const rules=[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([,selector,body])=>[selector.trim(),body]);
+  const route=rules.filter(([selector])=>selector.includes('conditional-route-status'));
+  assert.ok(route.length>0,'the route status line is styled');
+  for(const [selector,body] of route){
+    assert.doesNotMatch(body,/display\s*:\s*none|visibility\s*:\s*(hidden|collapse)|\bclip\b|opacity\s*:\s*0(?![.\d]*[1-9])/,selector);
+    if(/(^|;)\s*color\s*:/.test(body))assert.equal(selector,'#conditional-route-status:not(.error)','only a line that has not refused is recoloured');
+  }
+  assert.ok(rules.some(([selector,body])=>selector.split(',').map(s=>s.trim()).includes('.conditional-route-refusal')&&/(^|;)\s*color\s*:\s*var\(--ul-error\)/.test(body)),'a refused line takes the error colour');
+});
+async function renderRefusals(search,{proofText='Pinned proof.',geometryLoader,packet=false}={}){
+  const f=fixture(),document=documentFromHTML();
+  if(packet){// A landed packet whose pinned result cannot be fetched.
+    const id='side24-identity-replay-20260926',commit='71400b94f6cb354a8cf7aba73ffede2138a64efa',at=`d6g8k5htny-coder/main/${commit}/incoming/${id}/`;
+    const source=name=>({...pin(`incoming/${id}/${name}`,'Unfetched packet bytes.',commit),repository:'d6g8k5htny-coder/main',url:`https://raw.githubusercontent.com/${at}${name}`,html_url:`https://github.com/${at.replace('/main/','/main/blob/')}${name}`});
+    f.manifest.packets=[{id,issue:null,result:source('RESULT.md'),identity:source('IDENTITY.json'),output:source('output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}];
+  }
+  const raw=JSON.stringify(f.manifest);
+  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,proofText],[f.manifest.claims[11].review.url,'Pinned reconciliation.']]);
+  await museum.startMuseum({document,search,...(geometryLoader?{geometryLoader}:{}),fetcher:async url=>new Response(mapping.get(String(url))??'',{status:mapping.has(String(url))?200:404})});
+  const views=['claim-cards','lifetime-fixture','packet-cards','active-exhibit'].map(id=>document.getElementById(id));
+  const refused=views.flatMap(view=>descendants(view,n=>n.className==='museum-card refused'));
+  const flagged=n=>isLive(n)||(typeof n.getAttribute==='function'&&n.getAttribute('role')!==null);
+  const roled=views.flatMap(view=>[...(flagged(view)?[view]:[]),...descendants(view,flagged)]);
+  const line=document.getElementById('museum-state');
+  return {state:line.textContent,stateLive:[line.getAttribute('role'),line.getAttribute('aria-live')],refused,roled};
+}
+const countedViews=n=>`Pinned source projections verified. ${n} source view(s) unavailable; no result inferred for those views.`;
+test('refused cards carry no role and are not live; the museum status line counts every one of them',available,async()=>{
+  const page=await renderRefusals('',{proofText:'Changed proof.',packet:true});
+  assert.ok(page.refused.length>2,'claim cards, the D2 fixture and the packet are refused');
+  assert.equal(page.refused.filter(n=>n.children[0].textContent==='Packet source').length,1,'the packet whose source fails is refused');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'refused cards and their notes are not live regions');
+  for(const card of page.refused)assert.ok(card.children.some(n=>n.tagName==='P'&&n.className==='error'&&/^Unavailable: .+\. No result inferred\.$/.test(n.textContent)));
+  assert.equal(page.state,countedViews(page.refused.length));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+});
+test('an unknown exhibit is counted in the museum status line like any other unavailable view',available,async()=>{
+  const page=await renderRefusals('?view=unknown');
+  assert.deepEqual(page.refused.map(n=>n.children[0].textContent),['Unknown exhibit']);
+  assert.equal(page.state,countedViews(1));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'the refusal note is not a live region');
+});
+test('a declared exhibit that cannot be shown is counted in the museum status line',available,async()=>{
+  const page=await renderRefusals('?view=remote',{geometryLoader:()=>{throw Error('Graphics unavailable');}});
+  assert.deepEqual(page.refused.map(n=>n.children[0].textContent),['Source illustration']);
+  assert.equal(page.state,countedViews(1));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'the refusal note is not a live region');
 });
 
 test('the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title',available,()=>{

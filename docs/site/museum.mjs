@@ -1,5 +1,5 @@
-import {renderSourceQuote} from './source-quote.mjs?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf';
-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf';
+import {renderSourceQuote} from './source-quote.mjs?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -158,7 +158,7 @@ function card(document,id,title,className,source){
   article.append(header);return article;
 }
 function strip(document,text){const bar=element(document,'aside',undefined,'engineering-strip');bar.append(element(document,'strong','Engineering — not acceptance'),element(document,'p',text));return bar;}
-function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');const note=element(document,'p',`Unavailable: ${error.message}. No result inferred.`,'error');note.setAttribute('role','status');article.append(element(document,'h3',title),note);return article;}
+function refusal(document,title,error){const article=element(document,'article',undefined,'museum-card refused');const note=element(document,'p',`Unavailable: ${error.message}. No result inferred.`,'error');article.append(element(document,'h3',title),note);return article;}
 // Absence is a sentence with a route: when the local projection cannot be verified, each
 // card container says so and points at the two pinned sources instead of staying blank.
 function notShown(document){
@@ -264,7 +264,7 @@ function prepareClaimFragment(document,window,currentHash) {
     return true;
   };
 }
-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf'),currentHash=()=>globalThis.location?.hash||''}={}){
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   const finishFragment=prepareClaimFragment(document,window,currentHash);
@@ -279,7 +279,7 @@ export async function startMuseum({document=globalThis.document,window=globalThi
     for(const packet of manifest.packets)jobs.push((async()=>{try{containers['packet-cards'].append(await renderPacket(document,packet,cachedFetch));return true;}catch(error){containers['packet-cards'].append(refusal(document,'Packet source',error));return false;}})());
     const kind=new URLSearchParams(search).get('view');
     if(kind){
-      if(!Object.hasOwn(EXHIBITS,kind))containers['active-exhibit'].append(refusal(document,'Unknown exhibit',Error('Select one of the four declared source illustrations')));
+      if(!Object.hasOwn(EXHIBITS,kind)){containers['active-exhibit'].append(refusal(document,'Unknown exhibit',Error('Select one of the four declared source illustrations')));jobs.push(false);}
       else jobs.push((async()=>{try{
         const source=manifest.exhibits[kind],sourceText=decoder.decode(await verifiedBytes(source,cachedFetch));
         const quote=manifest.exhibit_quotes?.[kind];

@@ -58,7 +58,7 @@ body > header {
   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
 }
-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=f07bb4294ea069315949c5831734ba9760f4d78e5ba7e4eacf7ecc1f798967bf") center/contain no-repeat; }
+.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09") center/contain no-repeat; }
 .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
 nav { gap: 12px 24px; flex-wrap: wrap; }
 nav a { color: var(--ul-text); min-height: 44px; display: inline-flex; align-items: center; font-size: 13px; padding: 0 6px; margin: 0 -6px; }
@@ -75,6 +75,8 @@ h3, h4 { color: var(--ul-text); }
 .eyebrow { color: var(--ul-gold); font-size: 11px; letter-spacing: .18em; line-height: 1.6; }
 .intro, .museum-intro #museum-state, .muted, figcaption, footer { color: var(--ul-muted); }
 #museum-state.error, .conditional-route-refusal, .museum-card.refused p { color: var(--ul-error); }
+#conditional-route-status { font-size: 14px; }
+#conditional-route-status:not(.error) { color: var(--ul-muted); }
 .intro { max-width: 770px; font-size: 18px; }
 .actions { gap: 12px; flex-wrap: wrap; }
 .button, button {

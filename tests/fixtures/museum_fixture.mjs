@@ -23,14 +23,37 @@ export function fixture({commit='a'.repeat(40),proofs={}}={}) {
   return {index,status,manifest:{schema_version:1,scientific_status_authority:false,index_source:indexSource,status_source:statusSource,claims:[...claims,d1,...open],exhibits:{ec014:proof,remote:proof,annulus:proof,p15:proof,lifetime:proof},packets:[]}};
 }
 
+// A node is a live region if it has a live role or any aria-live attribute, whatever its value.
+// Every "not a live region" assertion in the museum tests uses this one definition.
+export const LIVE_ROLES=['status','alert','log','marquee','timer'];
+const attributeOf=(node,name,property)=>(typeof node?.getAttribute==='function'?node.getAttribute(name):node?.attributes?.[name])??node?.[property]??null;
+export const isLive=node=>LIVE_ROLES.includes(attributeOf(node,'role','role'))||attributeOf(node,'aria-live','ariaLive')!==null;
+
+// Connection is modelled as in the DOM: inserting a node moves it out of its old parent, and a
+// node is connected only while its parent chain reaches the page root.
+const detach=node=>{const parent=node?.parentNode;if(parent){parent.children=parent.children.filter(child=>child!==node);node.parentNode=null;}};
+const adopt=(parent,nodes)=>{for(const node of nodes)if(node&&typeof node==='object'){detach(node);node.parentNode=parent;}};
 export class Element {
-  constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.attributes={};this.listeners={};this.hidden=false;this._text='';}
-  set textContent(value){this._text=String(value);this.children=[];} get textContent(){return this._text+this.children.map(c=>c.textContent??String(c)).join('');}
-  append(...children){this.children.push(...children);} replaceChildren(...children){this._text='';this.children=children;}
-  setAttribute(k,v){this.attributes[k]=String(v);} addEventListener(k,f){this.listeners[k]=f;}
+  constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.attributes={};this.listeners={};this.hidden=false;this._text='';this.className='';this.parentNode=null;}
+  get isConnected(){return Boolean(this.parentNode?.isConnected);}
+  set textContent(value){for(const child of this.children)if(child?.parentNode===this)child.parentNode=null;this._text=String(value);this.children=[];} get textContent(){return this._text+this.children.map(c=>c.textContent??String(c)).join('');}
+  append(...children){adopt(this,children);this.children.push(...children);}
+  replaceChildren(...children){for(const child of this.children)if(child?.parentNode===this)child.parentNode=null;adopt(this,children);this._text='';this.children=children;}
+  insertBefore(node,reference){if(reference==null){this.append(node);return node;}if(!this.children.includes(reference))throw Error('NotFoundError: the reference node is not a child');adopt(this,[node]);this.children.splice(this.children.indexOf(reference),0,node);return node;}
+  before(...nodes){const parent=this.parentNode;if(parent)for(const node of nodes)parent.insertBefore(node,this);}
+  after(...nodes){const parent=this.parentNode;if(!parent)return;let previous=this;for(const node of nodes){adopt(parent,[node]);parent.children.splice(parent.children.indexOf(previous)+1,0,node);previous=node;}}
+  remove(){detach(this);} replaceWith(...nodes){if(this.parentNode){this.after(...nodes.filter(node=>node!==this));if(!nodes.includes(this))this.remove();}}
+  setAttribute(k,v){this.attributes[k]=String(v);} getAttribute(k){return Object.hasOwn(this.attributes,k)?this.attributes[k]:null;} addEventListener(k,f){this.listeners[k]=f;}
 }
 export function documentFromHTML(){
   const html=fs.readFileSync(new URL('../../docs/site/museum.html',import.meta.url),'utf8');
-  const nodes=new Map([...html.matchAll(/<([a-z][a-z0-9]*)\b[^>]*\bid="([^"]+)"/gi)].map(m=>[m[2],new Element(m[1])]));
-  return {nodes,createElement:tag=>new Element(tag),createTextNode:value=>({textContent:value}),getElementById:id=>nodes.get(id)??null};
+  // Each id'd element keeps its static attributes (for example role="status", or a valueless hidden) and plain static
+  // text from the page, and starts connected as a child of one page root in document order
+  // (nesting is not modelled). getElementById finds a node only while it is connected.
+  const body=new Element('body');Object.defineProperty(body,'isConnected',{value:true});
+  const nodes=new Map([...html.matchAll(/<([a-z][a-z0-9]*)\b([^>]*\bid="([^"]+)"[^>]*)>/gi)].map(m=>{
+    const node=new Element(m[1]);for(const [,k,v] of m[2].matchAll(/\s([a-z][a-z-]*)(?:="([^"]*)")?/gi))if(k!=='id')node.attributes[k]=v??'';
+    const text=html.slice(m.index+m[0].length).match(new RegExp(`^([^<&]*)</${m[1]}>`))?.[1];if(text)node._text=text;
+    body.append(node);return [m[3],node];}));
+  return {nodes,body,createElement:tag=>new Element(tag),createTextNode:value=>({textContent:value}),getElementById:id=>{const node=nodes.get(id);return node?.isConnected?node:null;}};
 }
