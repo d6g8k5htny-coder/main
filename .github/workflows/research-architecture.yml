@@ -1,23 +1,59 @@
 name: Research architecture sandbox and generated graph
 'on':
-  pull_request:
-  push:
-    branches: [main, codex/architecture-enhancements-20261008]
+  workflow_call:
+    outputs:
+      checked_commit:
+        description: Actual checked commit accepted by the host receipt
+        value: ${{ jobs.graph.outputs.checked_commit }}
+      repository:
+        description: Native executing repository
+        value: ${{ jobs.graph.outputs.repository }}
+      run_id:
+        description: Native workflow run
+        value: ${{ jobs.graph.outputs.run_id }}
+      run_attempt:
+        description: Native workflow attempt
+        value: ${{ jobs.graph.outputs.run_attempt }}
+      receipt_sha256:
+        description: SHA256 of the original host acceptance receipt
+        value: ${{ jobs.graph.outputs.receipt_sha256 }}
+      artifact_id:
+        description: Native immutable archive ID from the pinned uploader
+        value: ${{ jobs.graph.outputs.artifact_id }}
+      artifact_sha256:
+        description: Native archive digest from the pinned uploader
+        value: ${{ jobs.graph.outputs.artifact_sha256 }}
+      artifact_name:
+        description: Archive name bound to the current run and attempt
+        value: ${{ jobs.graph.outputs.artifact_name }}
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: research-architecture-${{ github.event.pull_request.number || github.ref }}
+  group: research-architecture-${{ github.run_id }}-${{ github.run_attempt }}
   cancel-in-progress: false
 jobs:
   graph:
     name: research-architecture
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    outputs:
+      checked_commit: ${{ steps.accepted.outputs.checked_commit }}
+      repository: ${{ steps.accepted.outputs.repository }}
+      run_id: ${{ steps.accepted.outputs.run_id }}
+      run_attempt: ${{ steps.accepted.outputs.run_attempt }}
+      receipt_sha256: ${{ steps.accepted.outputs.receipt_sha256 }}
+      artifact_id: ${{ steps.accepted.outputs.artifact_id }}
+      artifact_sha256: ${{ steps.accepted.outputs.artifact_sha256 }}
+      artifact_name: ${{ steps.accepted.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+      - name: Parse both workflow sources with the hosted YAML parser
+        run: |
+          set -euo pipefail
+          ruby -rpsych -e 'ARGV.each { |path| Psych.safe_load(File.read(path), aliases: false); puts "Parsed #{path}" }' .github/workflows/research-architecture.yml .github/workflows/workspace-landing.yml
       - name: Prepare fixed runtime and separate output
         env:
           IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
@@ -87,13 +123,13 @@ jobs:
           fi
           source="$RUNNER_TEMP/architecture-evidence/container"
           destination="$RUNNER_TEMP/architecture-publish"
+          if [ -f "$RUNNER_TEMP/architecture-evidence/host/console.log" ]; then
+            cp -- "$RUNNER_TEMP/architecture-evidence/host/console.log" "$destination/console.log"
+          fi
           unsafe="$(find "$source" -mindepth 1 \( ! -type f -a ! -type d \) -print -quit)"
           if [ -n "$unsafe" ]; then
             echo 'Refusing symlink or special-file container output'
             exit 1
-          fi
-          if [ -f "$RUNNER_TEMP/architecture-evidence/host/console.log" ]; then
-            cp -- "$RUNNER_TEMP/architecture-evidence/host/console.log" "$destination/console.log"
           fi
           for name in tests-normal.log tests-optimized.log exporter.stdout exporter.stderr; do
             if [ -f "$source/$name" ]; then
@@ -108,10 +144,21 @@ jobs:
           for name in runtime-image.json checked-commit.txt run-id.txt run-attempt.txt container-exit-status.txt console.log tests-normal.log tests-optimized.log exporter.stdout exporter.stderr generated/graph.json; do
             if [ -f "$name" ]; then sha256sum "$name"; fi
           done > ARTIFACT_SHA256SUMS
+          marker="$(cat /proc/sys/kernel/random/uuid)"
+          printf '::stop-commands::%s\n' "$marker"
           for name in tests-normal.log tests-optimized.log; do
             if [ -f "$name" ]; then tail -n 3 "$name"; fi
           done
+          printf '::%s::\n' "$marker"
+      - name: Accept current-run controls and exact staged graph before upload
+        run: |
+          set -euo pipefail
+          destination="$RUNNER_TEMP/architecture-publish"
+          python3 -B -S tools/architecture_run_receipt.py --evidence-dir "$destination" --expected-commit "$GITHUB_SHA" --expected-repository "$GITHUB_REPOSITORY" --expected-run-id "$GITHUB_RUN_ID" --expected-run-attempt "$GITHUB_RUN_ATTEMPT" > "$destination/architecture-run-receipt.json"
+          cd "$destination"
+          sha256sum architecture-run-receipt.json >> ARTIFACT_SHA256SUMS
       - name: Retain original controls, identities and generated graph
+        id: retained
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
@@ -121,4 +168,16 @@ jobs:
           retention-days: 90
       - name: Release bounded output filesystem
         if: always()
-        run: sudo umount "$RUNNER_TEMP/architecture-evidence" 2>/dev/null || true
+        run: sudo umount "$RUNNER_TEMP/architecture-evidence"
+      - name: Emit accepted identities only after upload and cleanup succeed
+        id: accepted
+        env:
+          NATIVE_ARTIFACT_ID: ${{ steps.retained.outputs.artifact-id }}
+          NATIVE_ARTIFACT_SHA256: ${{ steps.retained.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          export RECEIPT_SHA256="$(sha256sum "$RUNNER_TEMP/architecture-publish/architecture-run-receipt.json" | cut -d ' ' -f 1)"
+          export NATIVE_ARTIFACT_NAME="research-architecture-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -B -S -c 'import json,os; mapping={"checked_commit":"GITHUB_SHA","repository":"GITHUB_REPOSITORY","run_id":"GITHUB_RUN_ID","run_attempt":"GITHUB_RUN_ATTEMPT","receipt_sha256":"RECEIPT_SHA256","artifact_id":"NATIVE_ARTIFACT_ID","artifact_sha256":"NATIVE_ARTIFACT_SHA256","artifact_name":"NATIVE_ARTIFACT_NAME"}; print(json.dumps({"result":"success","outputs":{key:os.environ[value] for key,value in mapping.items()}}))' > "$RUNNER_TEMP/architecture-producer-input.json"
+          python3 -B -S tools/architecture_check_binding.py --expected-commit "$GITHUB_SHA" --expected-repository "$GITHUB_REPOSITORY" --expected-run-id "$GITHUB_RUN_ID" --expected-run-attempt "$GITHUB_RUN_ATTEMPT" < "$RUNNER_TEMP/architecture-producer-input.json" > "$RUNNER_TEMP/architecture-producer-binding.json"
+          python3 -B -S -c 'import json,os,sys; binding=json.load(open(sys.argv[1],encoding="utf-8"))["binding"]; output=open(os.environ["GITHUB_OUTPUT"],"a",encoding="utf-8"); output.writelines(key+"="+value+"\n" for key,value in binding.items()); output.close()' "$RUNNER_TEMP/architecture-producer-binding.json"
