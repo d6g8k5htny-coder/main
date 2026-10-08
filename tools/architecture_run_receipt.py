@@ -114,6 +114,12 @@ TEST_ID = re.compile(
     r"test_architecture_[A-Za-z0-9_]+\.[A-Za-z_][A-Za-z0-9_]*\.test[A-Za-z0-9_]*"
 )
 TEST_RESULT = re.compile(r"(\S+) \(([^()]*)\) \.\.\. (.+)")
+# A damaged result must not become an ignored diagnostic. Match test-like
+# prefixes, parenthesized qualified test names, and result ellipses; runs of
+# dots used as diagnostic padding have neither a test marker nor a ')'.
+TEST_RESULT_LIKE = re.compile(
+    r"^\s*test(?:[_-]|\b)|\([^()\n]*\.test[^()\n]*\)|\)\s*\.\.\."
+)
 TEST_SUMMARY = re.compile(r"Ran ([1-9][0-9]*) tests in [0-9]+(?:\.[0-9]+)?s")
 
 
@@ -269,7 +275,7 @@ def test_log(raw: bytes, mode: str) -> dict[str, object]:
             require(summary is not None and footer_index is None, f"{mode} log has invalid or duplicate run footer")
             reported_count = int(summary.group(1))
             footer_index = index
-        elif " ... " in line:
+        elif " ... " in line or TEST_RESULT_LIKE.search(line):
             result = TEST_RESULT.fullmatch(line)
             require(result is not None, f"{mode} log has malformed unittest result")
             short_name, identity, disposition = result.groups()
