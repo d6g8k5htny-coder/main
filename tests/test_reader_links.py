@@ -97,7 +97,7 @@ class PublicRoutes(unittest.TestCase):
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
         expected=['index.html','explore.html','research.html','workspace.html#inventory']
-        for name in ('index','explore','research','museum','formal','workspace','reproduce','cite'):
+        for name in ('index','explore','research','museum','formal','workspace','reproduce','cite','measure','dependencies'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
             # Workspace's local inventory anchor is the same destination.
             nav=['workspace.html#inventory' if x=='#inventory' else x for x in page.nav]
@@ -484,12 +484,17 @@ class ShrinkingBinReading(unittest.TestCase):
         sampling=text[text.index('<section id="shrinking-bin-sampling"'):text.index('<section id="pair-endpoint-rate"')]
         self.assertEqual(sha256(sampling.encode()).hexdigest(),
                          '6787bf96f0bbb12c5d465d05e4829bf3dbc628629cedd0d3dcb82fdd37ea47c0')
-        historical=text[text.index('<section id="pair-endpoint-rate"'):]
-        # Only the labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive; every original byte stays pinned.
-        notes=LINEAGE_NOTE.findall(historical)
+        cuts=text[text.index('<section id="pair-endpoint-rate"'):text.index('<section id="lifetimes"')]
+        # Only labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive inside the dated cuts; every original byte stays pinned.
+        notes=LINEAGE_NOTE.findall(cuts)
         self.assertEqual(len(notes),4)
-        self.assertEqual(sha256(LINEAGE_NOTE.sub('',historical).encode()).hexdigest(),
-                         '1837279899209d6e120e8632e67371e728bba60dbb0d284785b79164f0ed617c')
+        self.assertEqual(sha256(LINEAGE_NOTE.sub('',cuts).encode()).hexdigest(),
+                         'ab38d6b603d5ae22009cc13e1975aad61eabb36d29c63511091547afd8b67af2')
+        # The reading paths carry no lineage notes and are pinned whole; only the Further-reading landmark and the footer (navigation chrome) are outside both pins.
+        paths=text[text.index('<section id="lifetimes"'):text.index('<section id="further-reading"')]
+        self.assertEqual(LINEAGE_NOTE.findall(paths),[])
+        self.assertEqual(sha256(paths.encode()).hexdigest(),
+                         '13bbdcb553f13316c3cf0ef9bea7cfb1a021668463319322b1850df0977c9db7')
 
     def test_lineage_notes_sit_beside_their_reviews_without_new_sources(self):
         text=(SITE/'research.html').read_text()
