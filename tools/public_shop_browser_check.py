@@ -1729,6 +1729,12 @@ DOCUMENT_WIDTH_JS=r"""() => {
 EVIDENCE_REGION_JS="""() => {const region=document.querySelector('#object-evidence .evidence-scroll'),table=region.querySelector('.evidence-table');
   return {table:Math.round(table.getBoundingClientRect().width*10)/10,client:region.clientWidth,scroll:region.scrollWidth,
           tabindex:region.tabIndex,overflowX:getComputedStyle(region).overflowX};}"""
+# The evidence region's focus state and scroll range, its scrollLeft once unchanged over three animation frames, and how far the table's
+# right edge passes the region's inner right edge.
+REGION_FOCUS_JS="""e => {const s=getComputedStyle(e);return {focused:e===document.activeElement,visible:e.matches(':focus-visible'),outline:s.outlineStyle,
+  width:parseFloat(s.outlineWidth),max:e.scrollWidth-e.clientWidth,left:e.scrollLeft};}"""
+SCROLL_SETTLED_JS="e => new Promise(done => {let last=NaN,same=0,n=0;const step=()=>{const x=e.scrollLeft;same=x===last?same+1:0;last=x;if(same>=3||++n>120)done(x);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
+TABLE_EDGE_JS="e => {const t=e.querySelector('.evidence-table').getBoundingClientRect(),r=e.getBoundingClientRect();return Math.round((t.right-(r.left+e.clientLeft+e.clientWidth))*10)/10;}"
 # Resolves true once the element's box is the same over three animation frames (an exhibit redraws after a viewport change), false after 60.
 SETTLED_JS="el => new Promise(done => {let last='',same=0,frames=0;const step=()=>{const r=el.getBoundingClientRect(),key=[r.left,r.top,r.width,r.height].join();same=key===last?same+1:0;last=key;if(same>=2||++frames>60)done(same>=2);else requestAnimationFrame(step);};requestAnimationFrame(step);})"
 # The museum's two status lines: every height each takes from its first text (verification held at the manifest) to its last.
@@ -1857,6 +1863,30 @@ def check_rendered_text_layout(page, origin, expect, result, output):
         require(width["scrollWidth"]<=width["clientWidth"],f'{where}: document is {width["scrollWidth"]}px wide in a {width["clientWidth"]}px viewport; past the viewport: boxes {width["wide"]}, text {width["cut"]}')
         require(width["runs"]>0 and not width["cut"],f'{where}: {width["cuts"]} text line(s) cut where the reader cannot scroll to them: {width["cut"]}')
         return width
+    def keyboard_scroll(where):
+        # A wider table is allowed only if a keyboard reader can use its region: Tab reaches it from the previous stop with a visible
+        # ring, arrow keys scroll it to the table's far edge and back without moving focus, and Tab moves on (WCAG 2.1.1, 2.1.2, 2.4.7).
+        region=page.locator("#object-evidence .evidence-scroll")
+        region.focus();page.keyboard.press("Shift+Tab")
+        require(not region.evaluate("e => e===document.activeElement"),f"{where}: Shift+Tab does not move focus off the .evidence-scroll region")
+        page.keyboard.press("Tab")
+        state=region.evaluate(REGION_FOCUS_JS)
+        require(state["focused"] and state["visible"] and state["outline"]!="none" and state["width"]>0,
+                f"{where}: Tab from the previous stop does not give the .evidence-scroll region a visible focus ring: {state}")
+        def press_until(key,done):
+            for presses in range(21):
+                if done(region.evaluate(SCROLL_SETTLED_JS)):return presses
+                page.keyboard.press(key)
+            return None
+        right=press_until("ArrowRight",lambda x:x>=state["max"]-0.5);edge=region.evaluate(TABLE_EDGE_JS)
+        require(right is not None and edge<=0.5,f'{where}: arrow keys do not scroll the .evidence-scroll region to the table\'s far edge '
+                f'({right} presses for a {state["max"]}px range; the table ends {edge}px past the region)')
+        left=press_until("ArrowLeft",lambda x:x<=0)
+        require(left is not None,f"{where}: arrow keys do not scroll the .evidence-scroll region back to its start")
+        require(region.evaluate("e => e===document.activeElement"),f"{where}: arrow keys moved focus off the .evidence-scroll region")
+        page.keyboard.press("Tab")
+        require(not region.evaluate("e => e===document.activeElement"),f"{where}: Tab does not move focus on from the .evidence-scroll region")
+        return {"range":state["max"],"right_presses":right,"left_presses":left}
     nodes=["hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip","hist.allcell_fdz_enclosures.json","math.side24-coefficient",
            "math.d5-component.punctured-pin-proof","hist.CH-LIFT"]
     for width in [320,390]:
@@ -1881,6 +1911,7 @@ def check_rendered_text_layout(page, origin, expect, result, output):
                         f'(tabindex {region["tabindex"]}, overflow-x {region["overflowX"]})')
                 entry={"page":node,"width":width,"spacing":spacing,"lane_and_state_words":words["words"],"text_runs":runs,"table_width":region["table"],"region_width":region["client"],
                        "table_scrolls_in_region":not fits}
+                if not fits:entry["keyboard_scroll"]=keyboard_scroll(where)
                 if width==390 and spacing=="default spacing":
                     detail=page.evaluate(WORD_SPLITS_JS,[".evidence-table td:nth-child(3)",True])
                     entry["source_detail_unlinked_json"]=detail["kinds"].get("json",0)
@@ -1899,7 +1930,8 @@ def check_rendered_text_layout(page, origin, expect, result, output):
     page.set_viewport_size({"width":320,"height":800});no_overflow("dependencies.html at 320 with text-spacing override")
     result["steps"].extend(["five long-token nodes at 320 and 390, with and without WCAG 1.4.12 text spacing: no document overflow, no text line cut where the reader "
                             "cannot scroll, every Lane and Record state word on one line inside its cell, and the evidence table within its scroll region (under the override, "
-                            "wider only if that region scrolls sideways to the table's full width and takes keyboard focus)",
+                            "wider only if that region scrolls to the table's full width and a keyboard reader can use it: Tab reaches it with a visible ring, arrow "
+                            "keys scroll it to the table's far edge and back, and Tab moves on)",
                             "at 390 with default spacing, on each of those nodes without unlinked JSON metadata, no ordinary Source detail word split except right after "
                             "its own hyphen or slash, and each inside its cell",
                             "the Dependencies index at 390 and 320 with text spacing: no document overflow and no cut text line"])

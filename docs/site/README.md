@@ -155,13 +155,15 @@ ancestor that clips without letting the reader scroll (overflow hidden or clip,
 paint containment, content-visibility auto, clip-path); only an overflow auto or
 scroll region counts as reachable. Every Lane and Record state word stays on one
 line inside its cell, and the evidence table fits its scroll region. Under the
-override the table may be wider only if that region scrolls sideways to its full
-width and takes keyboard focus; WCAG 1.4.10 exempts data tables from reflow. At
-390 px with default spacing, on those nodes whose Source detail has no unlinked
-JSON metadata, no ordinary Source detail word (not a JSON fragment, path, id or
-hash, outside links and code) is split, except right after the word's own hyphen
-or slash: where that break falls depends on the font. The index stays within
-320 px under the override. A failure names the element, the side or the word.
+override the table may be wider only if that region scrolls to its full width
+and a keyboard reader can use it: Tab reaches it from the previous stop with a
+visible ring, arrow keys scroll it to the table's far edge and back, and Tab
+moves on. WCAG 1.4.10 exempts data tables from reflow. At 390 px with default
+spacing, on those nodes whose Source detail has no unlinked JSON metadata, no
+ordinary Source detail word (not a JSON fragment, path, id or hash, outside
+links and code) is split, except right after the word's own hyphen or slash:
+where that break falls depends on the font. The index stays within 320 px under
+the override. A failure names the element, the side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
 Inspect the screenshots before accepting visual quality. This is headless Chromium
