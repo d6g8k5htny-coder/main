@@ -424,9 +424,10 @@ def _lineage(party: Any, *, normalized: bool) -> dict[str, str] | None:
         value = party.get(field)
         if type(value) is not str or not value.strip():
             return None
-        compared = " ".join(value.split()).casefold() if normalized else value.strip().casefold()
-        if normalized and compared in PLACEHOLDERS:
+        normalized_value = " ".join(value.split()).casefold()
+        if normalized_value in PLACEHOLDERS:
             return None
+        compared = normalized_value if normalized else value.strip().casefold()
         result[field] = compared
     return result
 
@@ -908,6 +909,17 @@ def _retrofit_projection(record: dict[str, Any], binding: dict[str, Any] | None)
 
 def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: list[dict[str, Any]],
                 regression: dict[str, Any]) -> dict[str, Any]:
+    regression_reasons = {proposal["node"]: proposal["reasons"]
+                          for proposal in regression["revalidation_required"]}
+    alignment_holds: dict[str, set[str]] = {}
+    for formal in formals:
+        capture = formal["alignment_capture"]
+        if capture is None:
+            continue
+        held_reasons = {code for mapping in formal["mappings"]
+                        for code in regression_reasons.get(mapping["node"], [])}
+        if held_reasons:
+            alignment_holds.setdefault(canonical(capture.ref), set()).update(held_reasons)
     projected = {node: {axis: [] for axis in AXES} for node in new["graph"]["nodes"]}
     for node, original in new["graph"]["nodes"].items():
         binding = new["bindings"].get(node)
@@ -933,11 +945,17 @@ def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: l
             # No independent native review ID is supplied by graph review text.
             projected[node]["review"].append(_axis("recorded", application, reasons=review_reasons))
     for formal in formals:
+        capture = formal["alignment_capture"]
+        held_reasons = set() if capture is None else alignment_holds.get(canonical(capture.ref), set())
         for mapping in formal["mappings"]:
             node, target = mapping["node"], mapping["target"]
             joined, join_reasons = _main_join(formal, node, target, new["bindings"])
             projected[node]["kernel"].append(_kernel(formal, joined, join_reasons))
             reasons = list(formal["alignment_reasons"])
+            if held_reasons:
+                # The hold covers every explicit mapping of this original whole record.
+                reasons.extend(sorted(held_reasons))
+                reasons.append("alignment_record_revalidation_required")
             if not formal["context_current"]:
                 reasons.append("native_context_changed")
             unresolved_join = formal["main"] and not joined
@@ -946,7 +964,8 @@ def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: l
             if formal["alignment"] is None:
                 alignment = _axis(reasons=reasons, evidence=[formal["id"]])
             else:
-                contract_stale = bool(formal["alignment_reasons"]) or not formal["context_current"]
+                contract_stale = (bool(formal["alignment_reasons"]) or not formal["context_current"]
+                                  or bool(held_reasons))
                 application = "stale" if contract_stale else "unknown" if unresolved_join else "current"
                 alignment = _axis("recorded", application,
                                   reasons=reasons, evidence=[formal["id"]])
