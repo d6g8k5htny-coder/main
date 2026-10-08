@@ -5,17 +5,18 @@
 .reader-home .home-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; align-items: center; padding-top: 74px; padding-bottom: 88px; }
 .home-hero h1 { font-size: clamp(54px, 7.5vw, 94px); line-height: 1.02; margin: 22px 0; }
 .home-hero .intro { font-size: 19px; line-height: 1.75; max-width: 535px; }
-.home-hero .actions { align-items: center; margin-top: 30px; gap: 23px; }
-.home-hero .button { border-radius: 28px; padding: 13px 24px; }
+.home-hero .actions { align-items: center; margin-top: 22px; gap: 14px; }
+.home-hero .button { padding: 13px 24px; }
 .text-link { font-size: 14px; padding: 10px 0; }
-.hero-note { color: var(--ul-muted); font-size: 12px; line-height: 1.7; max-width: 410px; margin-top: 28px; }
+.hero-note { color: var(--ul-muted); font-size: 15px; line-height: 1.7; max-width: 500px; margin: 18px 0 0; }
 .cut-note { font-size: 13px; }
+.home-hero .hero-cut { margin: 24px 0 0; font-size: 15px; }
 .landscape-art { margin: 0; min-width: 0; }
 .landscape-art svg { width: 100%; height: auto; display: block; }
 .landscape-art figcaption { text-align: center; font-size: 11px; letter-spacing: .05em; }
 .art-axis { color: var(--ul-border); }
 .art-point { fill: var(--ul-gold); }
-.art-label { fill: var(--ul-text); font: 12px system-ui, sans-serif; }
+.art-label { fill: var(--ul-text); font: 12px system-ui, sans-serif; paint-order: stroke; stroke: var(--ul-background); stroke-width: 4px; stroke-linejoin: round; }
 .reader-home .section-heading { align-items: end; gap: 28px; }
 .reader-home h2 { font-size: clamp(31px, 4vw, 46px); }
 .section-intro { max-width: 260px; color: var(--ul-muted); font-size: 15px; }
@@ -33,6 +34,7 @@
 .card-action { margin-top: auto; color: var(--ul-link); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
 .question-list { margin-top: 32px; }
 .question-list > a { display: grid; grid-template-columns: 35px 1fr 25px; gap: 22px; align-items: center; border-bottom: 1px solid var(--ul-border); padding: 22px 0; color: var(--ul-text); text-decoration: none; }
+.question-list > a:last-child { border-bottom: 0; }
 .question-list > a:hover h3 { color: var(--ul-link); text-decoration: underline; }
 .question-list > a > span { color: var(--ul-link); font-size: 14px; }
 .question-list h3 { font-weight: 500; font-size: 20px; margin: 0; }
@@ -51,6 +53,8 @@ nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 
   .landscape-art { max-width: 430px; margin: 0 auto; }
   .idea-grid, .launch-grid { grid-template-columns: 1fr; gap: 24px; }
   .idea-grid article { border-bottom: 1px solid var(--ul-border); padding-bottom: 12px; }
+  .idea-grid article:last-child { border-bottom: 0; }
+  .art-label { font-size: 15px; }
   .launch-card { padding: 26px; }
   .app-symbol { margin-bottom: 20px; }
   .reader-home .about-section { grid-template-columns: 1fr; gap: 15px; }
