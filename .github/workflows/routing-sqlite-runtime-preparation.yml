@@ -182,19 +182,37 @@ jobs:
 
           def contender(path, token, start, pipe):
               connection = None
+              stage, begins, updates, commits = 'connect', 0, 0, 0
               try:
                   connection, settings = connect(path)
                   schema(connection)
                   pipe.send({"phase": "ready", "settings": settings, "uid": os.getuid(), "pid": os.getpid()})
                   require(start.wait(20), "CAS start deadline")
-                  connection.execute("BEGIN IMMEDIATE")
+                  stage, begins = 'begin_immediate', 1
+                  begin_time = time.monotonic()
+                  try:
+                      connection.execute("BEGIN IMMEDIATE")
+                  except sqlite3.OperationalError as error:
+                      code = getattr(error, 'sqlite_errorcode', None)
+                      require(type(code) is int and (code & 255) == sqlite3.SQLITE_BUSY,
+                              'non-busy BEGIN refusal')
+                      require(not connection.in_transaction, 'BEGIN refusal entered a transaction')
+                      pipe.send({'phase': 'result', 'outcome': 'begin_busy_refused', 'changed_rows': None,
+                                 'token': token, 'settings': settings, 'begin_immediate_calls': begins,
+                                 'conditional_update_calls': updates, 'commit_calls': commits,
+                                 'sqlite_errorcode': code, 'in_transaction': False, 'retries': 0,
+                                 'elapsed_seconds': time.monotonic() - begin_time, 'pid': os.getpid()})
+                      return
+                  stage, updates = 'conditional_update', 1
                   changed = connection.execute(CAS_SQL, (token,)).rowcount
                   require(changed in (0, 1), "invalid conditional update count")
+                  stage, commits = 'commit', 1
                   connection.commit()
                   require(not connection.in_transaction, "CAS commit incomplete")
                   pipe.send({"phase": "result", "outcome": "winner" if changed == 1 else "loser",
                              "changed_rows": changed, "token": token, "settings": settings,
-                             "begin_immediate_calls": 1, "conditional_update_calls": 1, "pid": os.getpid()})
+                             "begin_immediate_calls": begins, "conditional_update_calls": updates,
+                             "commit_calls": commits, "retries": 0, "pid": os.getpid()})
               except BaseException as error:
                   value = error_value(error)
                   if connection is not None and connection.in_transaction:
@@ -202,7 +220,9 @@ jobs:
                           connection.rollback()
                       except BaseException as rollback_error:
                           value["rollback_error"] = error_value(rollback_error)
-                  pipe.send({"phase": "failure", "error": value})
+                  pipe.send({"phase": "failure", "error": value, 'stage': stage,
+                             'begin_immediate_calls': begins, 'conditional_update_calls': updates,
+                             'commit_calls': commits, 'token': token, 'pid': os.getpid()})
               finally:
                   if connection is not None:
                       connection.close()
@@ -286,13 +306,20 @@ jobs:
                       process.join(max(0, deadline - time.monotonic()))
                   require(all(process.exitcode == 0 for process in processes), "CAS child failure")
                   require(all(value.get("phase") == "result" and value.get("settings") == SETTINGS and
-                              value.get("begin_immediate_calls") == 1 and value.get("conditional_update_calls") == 1
+                              value.get("begin_immediate_calls") == 1 and value.get('retries') == 0
                               for value in results), "one-shot CAS operation refused")
                   require(all(value.get("pid") == ready[index]["pid"] and value.get("token") == "TEST-%02d-%02d" % (round_number, index)
                               for index, value in enumerate(results)), "CAS process/token identity")
                   winners = [value for value in results if value["outcome"] == "winner" and value["changed_rows"] == 1]
                   losers = [value for value in results if value["outcome"] == "loser" and value["changed_rows"] == 0]
-                  require(len(winners) == 1 and len(losers) == 15, "single winner invariant failed")
+                  busy_refusals = [value for value in results if value['outcome'] == 'begin_busy_refused'
+                                   and value['changed_rows'] is None and value['conditional_update_calls'] == 0
+                                   and value['commit_calls'] == 0 and value['in_transaction'] is False
+                                   and type(value['sqlite_errorcode']) is int and (value['sqlite_errorcode'] & 255) == 5
+                                   and type(value['elapsed_seconds']) in (int, float) and 0 <= value['elapsed_seconds'] < 20]
+                  require(all(value['conditional_update_calls'] == value['commit_calls'] == 1 for value in winners + losers),
+                          'successful CAS operation counts differ')
+                  require(len(winners) == 1 and len(losers) + len(busy_refusals) == 15, "single winner invariant failed")
                   connection, settings = connect(path)
                   try:
                       schema(connection)
@@ -302,7 +329,8 @@ jobs:
                   finally:
                       connection.close()
                   require(not os.path.lexists(path + "-journal"), "DELETE journal survived successful commit")
-                  record.update({"success": True, "winners": 1, "losers": 15, "reopened_row": list(row[0]),
+                  record.update({"success": True, "winners": 1, "losers": len(losers), 'begin_busy_refusals': len(busy_refusals),
+                                 "reopened_row": list(row[0]),
                                  "settings_on_reopen": settings, "integrity_check": "ok", "journal_after_commit": False})
               finally:
                   finish(processes, pipes)
@@ -810,17 +838,25 @@ jobs:
                       len(result["rounds"]) == 8, "runtime settings/round count")
               for number, round_result in enumerate(result["rounds"], 1):
                   require(round_result["round"] == number and round_result["success"] is True and round_result["contenders"] == 16 and round_result["winners"] == 1 and
-                          round_result["losers"] == 15 and round_result["settings_on_reopen"] == settings and round_result["integrity_check"] == "ok" and
+                          round_result["losers"] + round_result['begin_busy_refusals'] == 15
+                          and round_result["settings_on_reopen"] == settings and round_result["integrity_check"] == "ok" and
                           round_result["journal_after_commit"] is False and len(round_result["operations"]) == 16, "CAS round result")
                   operations = round_result["operations"]
                   require(all(value["phase"] == "result" and value["settings"] == settings and value["begin_immediate_calls"] == 1 and
-                              value["conditional_update_calls"] == 1 for value in operations), "CAS operation identity")
+                              value['retries'] == 0 for value in operations), "CAS operation identity")
                   require(all(type(value["pid"]) is int and value["pid"] > 0 and value["token"] == "TEST-%02d-%02d" % (number, index)
                               for index, value in enumerate(operations)) and len({value["pid"] for value in operations}) == 16,
                           "CAS independent process/token inventory")
                   winners = [value for value in operations if value["outcome"] == "winner" and value["changed_rows"] == 1]
                   losers = [value for value in operations if value["outcome"] == "loser" and value["changed_rows"] == 0]
-                  require(len(winners) == 1 and len(losers) == 15 and
+                  busy_refusals = [value for value in operations if value['outcome'] == 'begin_busy_refused'
+                                   and value['changed_rows'] is None and value['conditional_update_calls'] == 0
+                                   and value['commit_calls'] == 0 and value['in_transaction'] is False
+                                   and type(value['sqlite_errorcode']) is int and (value['sqlite_errorcode'] & 255) == 5
+                                   and type(value['elapsed_seconds']) in (int, float) and 0 <= value['elapsed_seconds'] < 20]
+                  require(all(value['conditional_update_calls'] == value['commit_calls'] == 1 for value in winners + losers)
+                          and len(winners) == 1 and len(losers) + len(busy_refusals) == 15
+                          and len(losers) == round_result['losers'] and len(busy_refusals) == round_result['begin_busy_refusals'] and
                           round_result["reopened_row"] == [1, "claimed", winners[0]["token"]], "CAS winner/loser/reopen mismatch")
               busy = result["busy_refusal"]
               require(busy["phase"] == "result" and busy["outcome"] == "SQLITE_BUSY" and type(busy["sqlite_errorcode"]) is int and
@@ -840,7 +876,10 @@ jobs:
                      "source_snapshot": snapshot, "executed_script": script_identity, "runtime": results[0]["runtime"],
                      "observed_environment": results[0]["environment"], "original_inputs": retained_inputs,
                      "results": [{"mode": result["mode"], "cas_rounds": 8, "contenders_per_round": 16,
-                                  "winners_per_round": 1, "losers_per_round": 15, "commit_reopen_verified": True,
+                                  "winners_per_round": 1, "nonwinners_per_round": 15,
+                                  'committed_cas_losers_per_round': [row['losers'] for row in result['rounds']],
+                                  'begin_busy_refusals_per_round': [row['begin_busy_refusals'] for row in result['rounds']],
+                                  "commit_reopen_verified": True,
                                   "busy_refusal": result["busy_refusal"]} for result in results],
                      "writer_disposed": True, "fixture_unmounted": True, "broker_implementation": "NOT_RUN",
                      "lease_enforcement": "NOT_RUN", "budget_enforcement": "NOT_RUN", "power_loss": "NOT_RUN",
