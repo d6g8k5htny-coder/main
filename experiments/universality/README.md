@@ -163,6 +163,21 @@ AMEND, corrected preparation reviews and completed incorporated-source review.
 This exact declared mixture admits no arbitrary non-Gaussian law, numerical
 sampler, blind experiment or same-field spatial process.
 
+The [stationary quartic field construction](quartic_cusp_field/PROOF.md)
+gives a second actual singularity mechanism. A smooth global torus family
+has exactly one finite H0 bar, proved by a complete critical list and
+superlevel enclosure, with exact lifetime C*lambda^2. Haar translation
+makes its full field law stationary. A parameter density proportional to
+lambda^(gamma-1) gives exact lifetime density power gamma/2-1 on its
+specified finite interval, and an independent-whole-copy marked Poisson
+limit. Flat parameter density realizes -1/2, while gamma=4/3 realizes
+-1/3 at the same quartic germ. Contact sampling weight therefore belongs
+in the exponent taxonomy. Its [review](quartic_cusp_field/REVIEW.md)
+preserves the exact field/topology/probability proof and input exposure.
+This restricted parameter path is C1 but not C2 at zero and its two-site
+observation law is singular; it supplies no generic two-parameter cusp,
+Gaussian jet-law admission, numerical coupling or spatial process.
+
 These conventional analytic results discharge selected-bar counting and the
 leading near/far intensity composition for the stated ideal finite laws and
 admitted stationary Gaussian spectral/carrier laws. Further
