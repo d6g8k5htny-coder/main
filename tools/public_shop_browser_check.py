@@ -2052,6 +2052,26 @@ def check_visitor_recovery(page, origin, expect, result):
         expect(focused).to_be_focused()
         require(page.evaluate("Math.abs(document.querySelector('#d3-side24-coefficient').getBoundingClientRect().top)>100"),"Delayed claim completion pulled the reader back")
         result["steps"].append("keyboard navigation during museum verification keeps focus and reading position")
+        # Packet cards keep manifest order: hold the first declared packet's RESULT.md until the second packet's
+        # card (the article, not its "Verifying …" placeholder text) has rendered, then release it.
+        page.unroute(manifest["claims"][0]["proof"]["url"])
+        packets=[packet["id"] for packet in manifest["packets"]];held=[]
+        require(len(packets)>=2,"The packet-order guard needs at least two declared packets")
+        page.route(manifest["packets"][0]["result"]["url"],lambda route:held.append(route))
+        page.goto(origin+"museum.html",wait_until="domcontentloaded")
+        deadline=time.monotonic()+45
+        while not held and time.monotonic()<deadline:
+            page.wait_for_timeout(10)  # Pump Playwright events until the route callback ran.
+        require(len(held)==1,"The first packet's RESULT.md was not intercepted")
+        expect(page.locator(f"#packet-cards article#{packets[1]}")).to_be_attached(timeout=45000)
+        during=page.eval_on_selector_all("#packet-cards article","nodes=>nodes.map(node=>node.id)")
+        require(during==[packets[1]],f"Only the second packet should have rendered while the first is held: {during}")
+        held[0].fulfill(response=held[0].fetch());page.unroute(manifest["packets"][0]["result"]["url"])
+        expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
+        order=page.eval_on_selector_all("#packet-cards article","nodes=>nodes.map(node=>node.id)")
+        result["packet_order"]={"held":packets[0],"while_held":during,"rendered":order,"declared":packets}
+        require(order==packets,f"Packet cards render out of manifest order: {order} != {packets}")
+        result["steps"].append("packet cards keep manifest order when the first declared packet's bytes arrive last")
 
 
 def main():
