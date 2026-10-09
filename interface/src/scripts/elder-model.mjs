@@ -1,10 +1,11 @@
-// Exact finite periodic H0: faithful first predecessor-computation port.
+// Exact finite periodic H0 with an explanatory insertion-order trace.
 // Source: d6g8k5htny-coder/main@032267c259162728229e3ddd14d08fe1c3f9a392,
 // experiments/periodic_h0/exact_h0.py, compute; source SHA-256:
 // 48ee16f2316cb1a233594ed10466340aa321d553c2b888198fe86b4bd9052970.
 // The JavaScript wrapper supplies strict BigInt samples, a positive BigInt
 // scale and the frozen teaching cap. These admission choices are new here.
-// The predecessor exposes a five-key barcode, with no events or levels stream.
+// The five-key barcode preserves the predecessor computation. The event and
+// complete-level schemas are new teaching definitions from the frozen contract.
 // Integer endpoints stay in numerator units; this engine never divides them.
 // Finite computation alone has no continuum or scientific acceptance effect.
 
@@ -38,7 +39,7 @@ function compareInteger(a, b) {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-function computeBarcode(values, n) {
+function computeTrace(values, n) {
   const count = values.length;
   const parent = new Int32Array(count).fill(-1);
   const sizes = new Uint32Array(count);
@@ -47,7 +48,11 @@ function computeBarcode(values, n) {
   const order = Array.from({length: count}, (_, vertex) => vertex)
     .sort((a, b) => compareInteger(values[b], values[a]) || a - b);
   const records = [];
+  const events = [];
+  const levels = [];
   let zero = 0;
+  let activeCount = 0;
+  let componentCount = 0;
 
   function root(vertex) {
     while (parent[vertex] !== vertex) {
@@ -57,10 +62,14 @@ function computeBarcode(values, n) {
     return vertex;
   }
 
-  for (const vertex of order) {
+  for (let index = 0; index < order.length; index++) {
+    const vertex = order[index], level = values[vertex];
     parent[vertex] = vertex;
     sizes[vertex] = 1;
     eldest[vertex] = vertex;
+    activeCount++;
+    componentCount++;
+    events.push({kind: 'activate', vertex, level});
     const x = Math.floor(vertex / n), y = vertex % n;
     // Adding n before subtraction preserves Python's nonnegative modulo.
     const neighbors = [((x + n - 1) % n) * n + y, ((x + 1) % n) * n + y,
@@ -68,13 +77,18 @@ function computeBarcode(values, n) {
     for (const neighbor of neighbors) {
       if (parent[neighbor] < 0) continue;
       let u = root(vertex), v = root(neighbor);
-      if (u === v) continue;
+      if (u === v) {
+        events.push({kind: 'neutral', edge: [vertex, neighbor], level, elder: eldest[u]});
+        continue;
+      }
       let survivor = eldest[u], dying = eldest[v];
       if (values[survivor] < values[dying]
           || (values[survivor] === values[dying] && survivor > dying)) {
         [survivor, dying] = [dying, survivor];
       }
-      const birth = values[dying], death = values[vertex];
+      const birth = values[dying], death = level;
+      events.push({kind: 'merge', edge: [vertex, neighbor], level,
+        survivor, dying, birth, death, zero: birth === death});
       if (birth > death) records.push([birth, death, dying]);
       else zero++;
       // Storage balancing is independent of the mathematical elder priority.
@@ -82,22 +96,30 @@ function computeBarcode(values, n) {
       parent[v] = u;
       sizes[u] += sizes[v];
       eldest[u] = survivor;
+      componentCount--;
+    }
+    // Only the state after every vertex and edge of an equal-value block is
+    // a complete superlevel set. No full-grid snapshots are stored per event.
+    if (index + 1 === order.length || values[order[index + 1]] !== level) {
+      levels.push({level, eventEnd: events.length, activeCount, componentCount,
+        positiveCount: records.length, zeroCount: zero});
     }
   }
   records.sort((a, b) => compareInteger(a[0], b[0])
     || compareInteger(a[1], b[1]) || a[2] - b[2]);
   const essential = eldest[root(0)];
-  return {
+  const barcode = {
     intervals: records.map(([birth, death]) => [birth, death]),
     birth_vertices: records.map(([, , vertex]) => vertex),
     essential: [values[essential]],
     essential_vertices: [essential],
     zero_count: zero,
   };
+  return {events, levels, barcode};
 }
 
 export function finiteElderTrace(input) {
   const {values, n, scale} = admittedInput(input);
-  const barcode = computeBarcode(values, n);
-  return {n, scale, values, barcode};
+  const {events, levels, barcode} = computeTrace(values, n);
+  return {n, scale, values, events, levels, barcode};
 }

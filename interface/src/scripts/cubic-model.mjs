@@ -1,23 +1,40 @@
-// NON-CERTIFYING educational arithmetic: faithful first predecessor port.
+// NON-CERTIFYING cubic arithmetic with explicit affine teaching coordinates.
 // Source: d6g8k5htny-coder/main@032267c259162728229e3ddd14d08fe1c3f9a392,
 // docs/site/explore-models.mjs, pinModel; source SHA-256:
 // fdbf01dd7235f0b35e1f7dad30fbd70f07d30a690b83ff9a87b3506390a7159b.
-// The source defaults and finite-value error classification are retained.
 // Unrelated annulus/remote geometry is excluded from this pure cubic module.
-// Exposed rCubed and affine normalization are absent from this predecessor.
+// Strict admission and nominal normalization are new teaching definitions from
+// docs/plans/2026-10-09-canvas-model-contract.md, not a continuum sampling law.
 
-function finite(value, name) {
-  if (!Number.isFinite(value)) throw new RangeError(`${name} must be finite`);
-  return value;
-}
-
-export function cubicModel({r = 0.5, k = 1, b = 1} = {}) {
-  for (const [name, value] of Object.entries({r, k, b})) finite(value, name);
+export function cubicModel(input) {
+  if (input === null || typeof input !== 'object' || Array.isArray(input)) {
+    throw new TypeError('A cubic-parameter record is required');
+  }
+  for (const name of ['r', 'k', 'b']) {
+    if (!Object.hasOwn(input, name)) throw new TypeError(`Own ${name} is required`);
+  }
+  const {r, k, b} = input;
+  for (const [name, value] of Object.entries({r, k, b})) {
+    if (typeof value !== 'number') throw new TypeError(`${name} must be a primitive Number`);
+    if (!Number.isFinite(value)) throw new RangeError(`${name} must be finite`);
+  }
   if (r <= 0 || k <= 0) throw new RangeError('r and k must be positive');
-  const gap = k * r ** 3;
+  const rCubed = r ** 3;
+  const gap = k * rCubed;
+  const pins = [-r / 2, r / 2];
   const lower = b - gap;
-  if (!Number.isFinite(gap) || gap <= 0 || !Number.isFinite(lower) || lower >= b) {
+  if (!Number.isFinite(rCubed) || rCubed <= 0 || !Number.isFinite(gap) || gap <= 0
+      || !pins.every(Number.isFinite) || pins[0] === pins[1]
+      || !Number.isFinite(lower) || lower >= b) {
     throw new RangeError('The derived scales must remain representable');
   }
-  return {r, k, b, pins: [-r / 2, r / 2], gap, heightWindow: [lower, b]};
+  return {
+    r, k, b, rCubed, pins, gap, heightWindow: [lower, b],
+    // These nominal coordinates express X=x/r and Y=(y-b)/gap. They do not
+    // assert exact recovery by dividing already-rounded Number endpoints.
+    normalized: {
+      xDivisor: r, yOrigin: b, yDivisor: gap,
+      pins: [-0.5, 0.5], heightWindow: [-1, 0],
+    },
+  };
 }
