@@ -274,7 +274,12 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         newest_summary.focus();page.keyboard.press("Enter")
         require(newest_details.get_attribute("open") is None,"9 October detail did not close")
         status_fonts=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => getComputedStyle(el).fontFamily)")
+        card_text_font=page.locator("#finite-h0-lifetimes > p:not(.card-kicker)").first.evaluate("el => getComputedStyle(el).fontFamily")
         require(len(status_fonts)==3 and not any("monospace" in font for font in status_fonts),f"Card-status rows must not be monospace: {status_fonts}")
+        require(all(font==card_text_font for font in status_fonts),f"Card-status rows must use the card text face {card_text_font!r}: {status_fonts}")
+        status_widths=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => el.getBoundingClientRect().width)")
+        text_width=page.locator("#finite-h0-lifetimes > p:not(.card-kicker)").first.evaluate("el => el.getBoundingClientRect().width")
+        require(all(width<=text_width+1 for width in status_widths),f"Card-status rows exceed the card text measure {text_width}: {status_widths}")
         result["card_status_font_family"]=status_fonts
         october_entry=page.get_by_role("link",name="7 October 18:37 UTC reading cut below",exact=True)
         october_entry.focus();page.keyboard.press("Enter")

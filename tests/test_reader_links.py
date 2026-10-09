@@ -1049,7 +1049,10 @@ class FiniteH0LifetimeReading(unittest.TestCase):
     def test_forbidden_words_and_later_source_details_are_absent(self):
         section=self.section()
         for word in self.FORBIDDEN:
-            with self.subTest(word=word):self.assertNotIn(word,section)
+            with self.subTest(word=word):
+                self.assertNotIn(word,section)
+                # lower-case phrases are also refused at a sentence start or in any other case
+                if word==word.lower():self.assertNotIn(word,section.lower())
         self.assertEqual(section.count('periodized'),1)
         self.assertEqual(section.count('exact periodized Gaussian H0 adapter'),1)
         for phrase in ('not a universality theorem.','not a universality theorem for a wider class of fields'):
@@ -1060,8 +1063,8 @@ class FiniteH0LifetimeReading(unittest.TestCase):
         lead=section.split('</div>',1)[1].split('<div class="latest-grid">',1)[0]
         self.assertEqual(section.count('#324'),1);self.assertIn('#324',lead)
         card=self.card()
-        # The card names main #329 only as a count in its Landed? row, never its sources.
-        self.assertEqual(card.count('#329'),1);self.assertIn('; main #329 added three more afterwards.</dd>',card)
+        # The card, its status rows included, does not name main #329 or its sources; the lead and the disclosure do.
+        self.assertEqual(card.count('#329'),0)
         for token in ('#324','regular-fold','short-bar process','periodized','structural theorem','adapter'):
             with self.subTest(card=token):self.assertNotIn(token,card)
         eyebrow=section.split('<p class="eyebrow">',1)[1].split('</p>',1)[0]
@@ -1073,7 +1076,7 @@ class FiniteH0LifetimeReading(unittest.TestCase):
     def test_two_estimands_keep_their_exponents_and_no_coefficient_value(self):
         section=self.section();card=self.card()
         self.assertIn('The first is for a specified density <code>ν_bar</code> of the expected bar-lifetime measure per unit area.',card)
-        self.assertIn('The second is for the expected number <code>N_bar</code> of finite bars with lifetime at most <code>t</code>, per unit area',card)
+        self.assertIn('The second is for the expected number <code>E N_bar((0, t])</code> of finite bars with lifetime at most <code>t</code>, per unit area',card)
         formulas=re.findall(r'<p class="display-formula"><code>(.*?)</code></p>',section)
         self.assertEqual(formulas,['ν_bar(ℓ) ~ C_loc ℓ^(−1/3), as ℓ decreases to zero',
                                    'E N_bar((0, t]) / V ~ (3/2) C_loc t^(2/3), as t decreases to zero'])
@@ -1083,6 +1086,14 @@ class FiniteH0LifetimeReading(unittest.TestCase):
         self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',plain),'no coefficient digits on the card')
         self.assertIsNone(re.search(r'C_loc\s*(?:[=≈≃<>]|\(?\d)',plain))
         self.assertIn('this page gives no value',card)
+        # the promise is page-wide: no decimal anywhere in the cut's prose, and no digit in any sentence naming C_loc
+        prose=re.sub(r'<[^>]+>','',re.sub(r'<p class="display-formula">.*?</p>','',section))
+        self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',prose))
+        for sentence in re.split(r'(?<=[.;:])\s+',prose):
+            if 'C_loc' in sentence:
+                with self.subTest(sentence=sentence[:60]):self.assertNotRegex(sentence,r'\d')
+        self.assertIn('the same local coefficient as in this line’s candidate-lifetime theorem.',card)
+        self.assertNotIn('candidate-pair',section)
 
     def test_one_card_one_face_pin_three_status_rows_and_neutral_classes(self):
         section=self.section();tree=self.Tree(section)
@@ -1160,6 +1171,7 @@ class FiniteH0LifetimeReading(unittest.TestCase):
         self.assertEqual(terms[5],'NOT READY')
         self.assertIn('linked in the 9 October 2026 cut (“Fresh full exact-file nonauthor reviews of the incorporated proof: PASS.”)',words)
         self.assertIn('It is that record’s own word, not PASS_TECHNICAL.',words)
+        self.assertIn('In that record “nonauthor” does not mean independent: organizational-independence credit is zero.',words)
         self.assertIn('Its review record calls it “a conventional analytic theorem with explicit imports”.',words)
         self.assertIn(self.OTHER_PAGES_ROW,words)
         for section in re.findall(r'<section id="[^"]+" class="latest-work".*?</section>',text,re.S):
