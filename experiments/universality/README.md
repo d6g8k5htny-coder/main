@@ -140,6 +140,29 @@ cluster estimate yields a degree-marked iid-copy Poisson limit. Its
 classical imports and source exposure. This does not admit a numerical
 Hp algorithm, arbitrary coefficient laws/geometries or spatial process.
 
+The [exact amplitude crossover theorem](spectral_amplitude_crossover/PROOF.md)
+considers F=A H for an admitted Gaussian field H and an independent bounded
+positive amplitude A=aR, where R has density alpha*r^(alpha-1) on 0<r<1 and
+normalization E[A^2]=1. This gives an actual covariance-matched non-Gaussian
+field with the same realization-wise critical points and persistence pairings.
+Its lifetime density and cumulative count have three leading small-lifetime
+asymptotics: alpha<2/3 changes the power to alpha through a global barcode
+Mellin moment; alpha=2/3 gives the power 2/3 with a logarithmic count factor;
+alpha>2/3 retains that power with a negative-amplitude-moment coefficient.
+Density powers are one less than the corresponding cumulative powers.
+For independent whole copies with t tending to zero, the subcritical limit
+is a Poisson process of whole-barcode clusters. For a full positive K5 base
+law its void rates differ strictly from a Poisson random measure for the
+full H0/all-degree population.
+The critical limit is an ordinary projected Poisson random measure under
+n*t^(2/3)*log(1/t) scaling; the supercritical limit uses n*t^(2/3) scaling.
+Physical birth/gap marks collapse in the critical regime and have the stated
+amplitude tilt in the supercritical regime. The
+[review record](spectral_amplitude_crossover/REVIEW.md) preserves the original
+AMEND, corrected preparation reviews and completed incorporated-source review.
+This exact declared mixture admits no arbitrary non-Gaussian law, numerical
+sampler, blind experiment or same-field spatial process.
+
 These conventional analytic results discharge selected-bar counting and the
 leading near/far intensity composition for the stated ideal finite laws and
 admitted stationary Gaussian spectral/carrier laws. Further
