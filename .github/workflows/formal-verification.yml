@@ -59,6 +59,10 @@ jobs:
           echo 'PIPELINE_FAILURE_PROPAGATION_PASS'
       - name: Shell regression controls
         run: python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v
+      - name: Phase custody regression controls in both interpreter modes
+        run: |
+          python -B -S -m unittest discover -s tests -p test_formal_evidence_retention.py -v
+          python -B -O -S -m unittest discover -s tests -p test_formal_evidence_retention.py -v
       - name: Source-only identity gate (no Lean yet; fails closed before any download)
         run: python -B -S tools/formal_gate_check.py
       - name: Install elan (pinned release script, digest checked) and the pinned toolchain
