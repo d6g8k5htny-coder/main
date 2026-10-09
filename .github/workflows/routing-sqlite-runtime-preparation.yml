@@ -1,0 +1,929 @@
+name: Routing SQLite runtime preparation
+'on':
+  pull_request:
+    paths:
+      - .github/workflows/routing-sqlite-runtime-preparation.yml
+      - docs/plans/2026-10-08-routing-sqlite-runtime-preparation.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: routing-sqlite-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  preparation:
+    name: routing-sqlite-runtime-preparation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Parse this workflow with the hosted YAML parser
+        run: |
+          set -euo pipefail
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false); puts "Parsed routing SQLite preparation workflow"' .github/workflows/routing-sqlite-runtime-preparation.yml
+      - name: Capture checked source and prepare the bounded fixture namespace
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/routing-sqlite-runtime/fs" "$RUNNER_TEMP/routing-sqlite-publish/source"
+          chmod 0700 "$RUNNER_TEMP/routing-sqlite-runtime" "$RUNNER_TEMP/routing-sqlite-publish"
+          git rev-parse HEAD > "$RUNNER_TEMP/routing-sqlite-publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$RUNNER_TEMP/routing-sqlite-publish/repository.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/routing-sqlite-publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/routing-sqlite-publish/run-attempt.txt"
+          docker pull --platform linux/amd64 "$IMAGE"
+          docker image inspect "$IMAGE" > "$RUNNER_TEMP/routing-sqlite-publish/runtime-image.json"
+          truncate -s 64M "$RUNNER_TEMP/routing-sqlite-runtime/fixture.img"
+          mkfs.ext4 -F "$RUNNER_TEMP/routing-sqlite-runtime/fixture.img"
+          sudo mount -o loop,nodev,nosuid,noexec "$RUNNER_TEMP/routing-sqlite-runtime/fixture.img" "$RUNNER_TEMP/routing-sqlite-runtime/fs"
+          sudo mkdir "$RUNNER_TEMP/routing-sqlite-runtime/fs/control" "$RUNNER_TEMP/routing-sqlite-runtime/fs/work"
+          sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/routing-sqlite-runtime/fs/control"
+          chmod 0755 "$RUNNER_TEMP/routing-sqlite-runtime/fs/control"
+          sudo chmod 0700 "$RUNNER_TEMP/routing-sqlite-runtime/fs/work"
+          sudo chown 65532:65532 "$RUNNER_TEMP/routing-sqlite-runtime/fs/work"
+          findmnt -J -T "$RUNNER_TEMP/routing-sqlite-runtime/fs/work" > "$RUNNER_TEMP/routing-sqlite-publish/fixture-mount.json"
+          python3 -I -B -S - "$GITHUB_WORKSPACE" "$RUNNER_TEMP/routing-sqlite-publish" "$RUNNER_TEMP/routing-sqlite-runtime/fs/control" <<'PY'
+          import hashlib, json, os, re, stat, sys
+          source, destination, control = sys.argv[1:]
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          def regular(root, relative, limit):
+              fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split("/")
+                  require(all(part not in ("", ".", "..") for part in parts), "invalid source path")
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=fd)
+                      os.close(fd)
+                      fd = child
+                  leaf = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+                  try:
+                      before = os.fstat(leaf)
+                      require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit, "source is not bounded single-link regular bytes")
+                      raw = b""
+                      while True:
+                          chunk = os.read(leaf, min(65536, limit + 1 - len(raw)))
+                          if not chunk:
+                              break
+                          raw += chunk
+                          require(len(raw) <= limit, "source exceeds its bound")
+                      after = os.fstat(leaf)
+                      require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1, "source is no longer single-link regular bytes")
+                      require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                              (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "source changed during capture")
+                      return raw
+                  finally:
+                      os.close(leaf)
+              finally:
+                  os.close(fd)
+          def write(path, value):
+              raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode() + b"\n"
+              with open(path, "xb") as output:
+                  output.write(raw)
+          native = {}
+          for key, name in (("checked_commit", "checked-commit.txt"), ("repository", "repository.txt"),
+                            ("run_id", "run-id.txt"), ("run_attempt", "run-attempt.txt")):
+              raw = regular(destination, name, 512)
+              require(raw.endswith(b"\n") and raw.count(b"\n") == 1, "invalid native context line")
+              native[key] = raw[:-1].decode("ascii")
+          require(re.fullmatch("[0-9a-f]{40}", native["checked_commit"]) is not None, "invalid checked commit")
+          require(re.fullmatch("[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", native["repository"]) is not None, "invalid repository")
+          require(all(re.fullmatch("[1-9][0-9]*", native[key]) for key in ("run_id", "run_attempt")), "invalid native run")
+          sources = []
+          for path, name, limit in (
+              (".github/workflows/routing-sqlite-runtime-preparation.yml", "workflow.yml", 131072),
+              ("docs/plans/2026-10-08-routing-sqlite-runtime-preparation.md", "plan.md", 65536),
+          ):
+              raw = regular(source, path, limit)
+              with open(os.path.join(destination, "source", name), "xb") as output:
+                  output.write(raw)
+              sources.append({"path": path, "retained_path": "source/" + name, "bytes": len(raw),
+                              "sha256": hashlib.sha256(raw).hexdigest()})
+          write(os.path.join(control, "native-context.json"), native)
+          write(os.path.join(control, "source-snapshot.json"), {"schema_version": 1, "native_context": native, "sources": sources})
+          PY
+          control="$RUNNER_TEMP/routing-sqlite-runtime/fs/control"
+          cat > "$control/sqlite_preparation.py" <<'PY'
+          import _sqlite3
+          import hashlib
+          import json
+          import multiprocessing
+          import os
+          import platform
+          import sqlite3
+          import stat
+          import sys
+          import time
+
+          SETTINGS = {"journal_mode": "delete", "synchronous": 3, "foreign_keys": 1,
+                      "trusted_schema": 0, "read_uncommitted": 0, "busy_timeout": 1000}
+          CAS_SQL = "UPDATE synthetic_cas SET state = 'claimed', winner = ? WHERE id = 1 AND state = 'reserved'"
+          EXPECTED_SCHEMA = [
+              ("table", "synthetic_cas", "synthetic_cas",
+               "CREATE TABLE synthetic_cas (id INTEGER PRIMARY KEY CHECK (id = 1), state TEXT NOT NULL CHECK (state IN ('reserved', 'claimed')), winner TEXT)"),
+          ]
+
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+
+          def dump(path, value):
+              raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode() + b"\n"
+              require(len(raw) <= 1048576, "result byte bound")
+              with open(path, "xb") as output:
+                  output.write(raw)
+                  output.flush()
+                  os.fsync(output.fileno())
+
+          def connect(path):
+              connection = sqlite3.connect(path, timeout=1.0, isolation_level=None)
+              try:
+                  connection.execute("PRAGMA busy_timeout = 1000")
+                  connection.execute("PRAGMA journal_mode = DELETE").fetchone()
+                  connection.execute("PRAGMA synchronous = EXTRA")
+                  connection.execute("PRAGMA foreign_keys = ON")
+                  connection.execute("PRAGMA trusted_schema = OFF")
+                  connection.execute("PRAGMA read_uncommitted = OFF")
+                  observed = {}
+                  for key in SETTINGS:
+                      row = connection.execute("PRAGMA " + key).fetchone()
+                      require(row is not None and len(row) == 1, "unavailable SQLite feature")
+                      observed[key] = row[0]
+                  require(observed == SETTINGS, "connection settings differ")
+                  return connection, observed
+              except BaseException:
+                  connection.close()
+                  raise
+
+          def schema(connection):
+              observed = list(connection.execute("SELECT type, name, tbl_name, sql FROM sqlite_master ORDER BY type, name"))
+              require(observed == EXPECTED_SCHEMA, "synthetic schema changed")
+
+          def create(path):
+              require(not os.path.lexists(path), "fixture already exists")
+              connection, settings = connect(path)
+              try:
+                  connection.execute(EXPECTED_SCHEMA[0][3])
+                  connection.execute("BEGIN IMMEDIATE")
+                  connection.execute("INSERT INTO synthetic_cas (id, state, winner) VALUES (1, 'reserved', NULL)")
+                  connection.commit()
+                  require(not connection.in_transaction, "initial commit incomplete")
+                  schema(connection)
+              finally:
+                  connection.close()
+              return settings
+
+          def error_value(error):
+              return {"type": type(error).__name__, "sqlite_errorcode": getattr(error, "sqlite_errorcode", None)}
+
+          def contender(path, token, start, pipe):
+              connection = None
+              try:
+                  connection, settings = connect(path)
+                  schema(connection)
+                  pipe.send({"phase": "ready", "settings": settings, "uid": os.getuid(), "pid": os.getpid()})
+                  require(start.wait(20), "CAS start deadline")
+                  connection.execute("BEGIN IMMEDIATE")
+                  changed = connection.execute(CAS_SQL, (token,)).rowcount
+                  require(changed in (0, 1), "invalid conditional update count")
+                  connection.commit()
+                  require(not connection.in_transaction, "CAS commit incomplete")
+                  pipe.send({"phase": "result", "outcome": "winner" if changed == 1 else "loser",
+                             "changed_rows": changed, "token": token, "settings": settings,
+                             "begin_immediate_calls": 1, "conditional_update_calls": 1, "pid": os.getpid()})
+              except BaseException as error:
+                  value = error_value(error)
+                  if connection is not None and connection.in_transaction:
+                      try:
+                          connection.rollback()
+                      except BaseException as rollback_error:
+                          value["rollback_error"] = error_value(rollback_error)
+                  pipe.send({"phase": "failure", "error": value})
+              finally:
+                  if connection is not None:
+                      connection.close()
+                  pipe.close()
+
+          def busy_contender(path, start, pipe):
+              connection = None
+              try:
+                  connection, settings = connect(path)
+                  schema(connection)
+                  pipe.send({"phase": "ready", "settings": settings, "uid": os.getuid(), "pid": os.getpid()})
+                  require(start.wait(20), "busy start deadline")
+                  begin = time.monotonic()
+                  try:
+                      connection.execute("BEGIN IMMEDIATE")
+                  except sqlite3.OperationalError as error:
+                      elapsed = time.monotonic() - begin
+                      code = getattr(error, "sqlite_errorcode", None)
+                      require(type(code) is int and (code & 255) == sqlite3.SQLITE_BUSY, "non-busy refusal")
+                      require(not connection.in_transaction, "busy refusal entered a transaction")
+                      require(0.8 <= elapsed <= 2.0, "busy wait observation outside scheduling allowance")
+                      pipe.send({"phase": "result", "outcome": "SQLITE_BUSY", "sqlite_errorcode": code,
+                                 "elapsed_seconds": elapsed, "settings": settings, "begin_immediate_calls": 1,
+                                 "configured_busy_timeout_ms": 1000, "retries": 0, "in_transaction": False, "pid": os.getpid()})
+                  else:
+                      raise ValueError("held write lock unexpectedly admitted a transaction")
+              except BaseException as error:
+                  pipe.send({"phase": "failure", "error": error_value(error)})
+              finally:
+                  if connection is not None:
+                      if connection.in_transaction:
+                          connection.rollback()
+                      connection.close()
+                  pipe.close()
+
+          def receive(pipe, deadline):
+              remaining = deadline - time.monotonic()
+              require(remaining > 0 and pipe.poll(remaining), "child result deadline")
+              return pipe.recv()
+
+          def finish(processes, pipes):
+              for process in processes:
+                  if process.is_alive():
+                      process.terminate()
+                  process.join(2)
+                  if process.is_alive():
+                      process.kill()
+                      process.join(2)
+                  require(not process.is_alive(), "synthetic child disposal failed")
+              for pipe in pipes:
+                  pipe.close()
+
+          def race(context, directory, round_number, records):
+              record = {"round": round_number, "contenders": 16, "success": False, "readiness": [], "operations": []}
+              records.append(record)
+              path = os.path.join(directory, "cas-%02d.sqlite3" % round_number)
+              create(path)
+              start = context.Event()
+              processes, pipes, results = [], [], []
+              try:
+                  for index in range(16):
+                      read_pipe, write_pipe = context.Pipe(duplex=False)
+                      process = context.Process(target=contender, args=(path, "TEST-%02d-%02d" % (round_number, index), start, write_pipe))
+                      process.start()
+                      write_pipe.close()
+                      processes.append(process)
+                      pipes.append(read_pipe)
+                  deadline = time.monotonic() + 20
+                  ready = record["readiness"]
+                  for pipe in pipes:
+                      ready.append(receive(pipe, deadline))
+                  require(all(value.get("phase") == "ready" and value.get("settings") == SETTINGS and value.get("uid") == 65532 and
+                              type(value.get("pid")) is int and value["pid"] > 0 and value["pid"] != os.getpid() for value in ready) and
+                          len({value["pid"] for value in ready}) == 16, "CAS readiness refused")
+                  start.set()
+                  deadline = time.monotonic() + 20
+                  results = record["operations"]
+                  for pipe in pipes:
+                      results.append(receive(pipe, deadline))
+                  for process in processes:
+                      process.join(max(0, deadline - time.monotonic()))
+                  require(all(process.exitcode == 0 for process in processes), "CAS child failure")
+                  require(all(value.get("phase") == "result" and value.get("settings") == SETTINGS and
+                              value.get("begin_immediate_calls") == 1 and value.get("conditional_update_calls") == 1
+                              for value in results), "one-shot CAS operation refused")
+                  require(all(value.get("pid") == ready[index]["pid"] and value.get("token") == "TEST-%02d-%02d" % (round_number, index)
+                              for index, value in enumerate(results)), "CAS process/token identity")
+                  winners = [value for value in results if value["outcome"] == "winner" and value["changed_rows"] == 1]
+                  losers = [value for value in results if value["outcome"] == "loser" and value["changed_rows"] == 0]
+                  require(len(winners) == 1 and len(losers) == 15, "single winner invariant failed")
+                  connection, settings = connect(path)
+                  try:
+                      schema(connection)
+                      row = connection.execute("SELECT id, state, winner FROM synthetic_cas").fetchall()
+                      require(row == [(1, "claimed", winners[0]["token"])], "committed winner did not survive reopen")
+                      require(connection.execute("PRAGMA integrity_check").fetchall() == [("ok",)], "fixture integrity failure")
+                  finally:
+                      connection.close()
+                  require(not os.path.lexists(path + "-journal"), "DELETE journal survived successful commit")
+                  record.update({"success": True, "winners": 1, "losers": 15, "reopened_row": list(row[0]),
+                                 "settings_on_reopen": settings, "integrity_check": "ok", "journal_after_commit": False})
+              finally:
+                  finish(processes, pipes)
+
+          def busy(context, directory, result):
+              result["busy_refusal"] = {"phase": "starting"}
+              path = os.path.join(directory, "busy.sqlite3")
+              create(path)
+              start = context.Event()
+              read_pipe, write_pipe = context.Pipe(duplex=False)
+              process = context.Process(target=busy_contender, args=(path, start, write_pipe))
+              connection = None
+              try:
+                  process.start()
+                  write_pipe.close()
+                  ready = receive(read_pipe, time.monotonic() + 20)
+                  result["busy_refusal"] = {"phase": "ready", "readiness": ready}
+                  require(ready.get("phase") == "ready" and ready.get("settings") == SETTINGS and ready.get("uid") == 65532 and
+                          type(ready.get("pid")) is int and ready["pid"] > 0 and ready["pid"] != os.getpid(), "busy readiness refused")
+                  connection, settings = connect(path)
+                  connection.execute("BEGIN IMMEDIATE")
+                  start.set()
+                  value = receive(read_pipe, time.monotonic() + 5)
+                  result["busy_refusal"] = value
+                  process.join(2)
+                  require(process.exitcode == 0 and value.get("phase") == "result" and
+                          value.get("outcome") == "SQLITE_BUSY" and value.get("settings") == SETTINGS and
+                          value.get("pid") == ready["pid"], "busy control failed")
+                  connection.rollback()
+                  require(not connection.in_transaction, "fixture holder rollback incomplete")
+                  connection.close()
+                  connection = None
+                  reopened, observed = connect(path)
+                  try:
+                      schema(reopened)
+                      require(reopened.execute("SELECT id, state, winner FROM synthetic_cas").fetchall() == [(1, "reserved", None)],
+                              "busy refusal changed fixture")
+                  finally:
+                      reopened.close()
+                  require(not os.path.lexists(path + "-journal"), "busy fixture retained a journal after disposal")
+                  value.update({"settings_on_reopen": observed, "row_after_reopen": [1, "reserved", None], "holder_pid": os.getpid()})
+                  return value
+              finally:
+                  try:
+                      if connection is not None:
+                          try:
+                              if connection.in_transaction:
+                                  connection.rollback()
+                          finally:
+                              connection.close()
+                  finally:
+                      finish([process] if process.pid is not None else [], [read_pipe])
+                      write_pipe.close()
+
+          def identity(path):
+              actual = os.path.realpath(path)
+              fd = os.open(actual, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  info = os.fstat(fd)
+                  require(stat.S_ISREG(info.st_mode) and 0 < info.st_size <= 33554432, "runtime library byte bound")
+                  digest, count = hashlib.sha256(), 0
+                  while True:
+                      chunk = os.read(fd, 65536)
+                      if not chunk:
+                          break
+                      count += len(chunk)
+                      require(count <= 33554432, "runtime library grew")
+                      digest.update(chunk)
+                  after = os.fstat(fd)
+                  require((info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns) ==
+                          (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "runtime library changed")
+                  return {"path": actual, "bytes": count, "sha256": digest.hexdigest()}
+              finally:
+                  os.close(fd)
+
+          def environment():
+              require(os.getuid() == 65532 and os.getgid() == 65532, "nonroot runtime identity")
+              require(sys.platform == "linux" and platform.machine() == "x86_64", "runtime platform")
+              status = {}
+              with open("/proc/self/status", encoding="ascii") as source:
+                  for line in source:
+                      if line.startswith(("CapEff:", "NoNewPrivs:")):
+                          key, value = line.split(":", 1)
+                          status[key] = value.strip()
+              require(status == {"CapEff": "0000000000000000", "NoNewPrivs": "1"}, "runtime privilege restriction")
+              cgroup = {}
+              for name in ("memory.max", "pids.max", "cpu.max"):
+                  with open("/sys/fs/cgroup/" + name, encoding="ascii") as source:
+                      cgroup[name] = source.read(256).strip()
+              quota, period = map(int, cgroup["cpu.max"].split())
+              require(cgroup["memory.max"] == "1073741824" and cgroup["pids.max"] == "128" and
+                      quota == 2 * period and period > 0, "runtime cgroup restriction")
+              mounts = {}
+              with open("/proc/self/mountinfo", encoding="ascii") as source:
+                  for line in source:
+                      left, right = line.rstrip("\n").split(" - ", 1)
+                      fields, backing = left.split(), right.split()
+                      if fields[4] in ("/", "/source", "/control", "/work", "/tmp"):
+                          mounts[fields[4]] = {"options": fields[5].split(","), "filesystem": backing[0],
+                                               "source": backing[1], "super_options": backing[2].split(",")}
+              require(all(path in mounts for path in ("/", "/source", "/control", "/work", "/tmp")), "runtime mount inventory")
+              require(all("ro" in mounts[path]["options"] for path in ("/", "/source", "/control")), "read-only mounts")
+              require("rw" in mounts["/work"]["options"] and
+                      all(flag in mounts["/work"]["options"] for flag in ("nodev", "nosuid", "noexec")), "fixture mount restriction")
+              require(mounts["/tmp"]["filesystem"] == "tmpfs" and
+                      all(flag in mounts["/tmp"]["options"] for flag in ("rw", "nodev", "nosuid", "noexec")), "temporary mount restriction")
+              sizes = {}
+              for path in ("/work", "/tmp"):
+                  value = os.statvfs(path)
+                  sizes[path] = value.f_blocks * value.f_frsize
+                  require(0 < sizes[path] <= 67108864, "fixture filesystem exceeds 64 MiB")
+              require(sorted(os.listdir("/sys/class/net")) == ["lo"], "runtime network interfaces")
+              with open("/proc/net/route", encoding="ascii") as source:
+                  require(len(source.read(65536).splitlines()) == 1, "runtime network routes")
+              require(not any(key.startswith(("GITHUB_", "GH_", "AWS_", "AZURE_", "OPENAI_", "ANTHROPIC_")) for key in os.environ),
+                      "unexpected service environment")
+              return {"uid": os.getuid(), "gid": os.getgid(), "platform": sys.platform, "machine": platform.machine(),
+                      "proc_status": status, "cgroup": cgroup, "mounts": mounts, "filesystem_bytes": sizes,
+                      "network_interfaces": ["lo"], "network_routes": 0}
+
+          def runtime(path):
+              require(tuple(sys.version_info[:3]) == (3, 11, 14), "Python image version differs")
+              libraries = set()
+              with open("/proc/self/maps", encoding="utf-8") as source:
+                  for line in source:
+                      fields = line.rstrip("\n").split(None, 5)
+                      if len(fields) == 6 and fields[5].startswith("/") and "/libsqlite3.so" in fields[5]:
+                          libraries.add(fields[5])
+              require(len(libraries) == 1, "actual loaded SQLite library identity unavailable")
+              require(not os.path.lexists(path), "runtime probe already exists")
+              connection, settings = connect(path)
+              try:
+                  options = sorted(row[0] for row in connection.execute("PRAGMA compile_options"))
+                  require(0 < len(options) <= 512 and len(options) == len(set(options)) and
+                          all(type(value) is str and len(value) <= 512 for value in options), "compile options inventory")
+                  require(connection.execute("SELECT sqlite_version()").fetchone() == (sqlite3.sqlite_version,), "SQLite library version mismatch")
+              finally:
+                  connection.close()
+              return {"python": sys.version, "python_version": list(sys.version_info[:3]),
+                      "sqlite_module_version": sqlite3.version, "sqlite_library_version": sqlite3.sqlite_version,
+                      "sqlite_library_version_info": list(sqlite3.sqlite_version_info), "compile_options": options,
+                      "python_executable": identity(sys.executable), "sqlite_python_module": identity(sqlite3.__file__),
+                      "sqlite_extension": identity(_sqlite3.__file__), "loaded_sqlite_library": identity(next(iter(libraries))),
+                      "connection_settings": settings}
+
+          def main():
+              require(len(sys.argv) == 2 and sys.argv[1] in ("normal", "optimized"), "mode argument")
+              mode = sys.argv[1]
+              require(sys.flags.optimize == (0 if mode == "normal" else 1), "caller optimization mode")
+              require(sys.dont_write_bytecode and sys.flags.isolated and sys.flags.no_site, "isolated caller flags")
+              result = {"schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
+                        "custody": "unknown", "scope": "PUBLIC_SYNTHETIC_SQLITE_RUNTIME_PREPARATION",
+                        "broker_implementation": "NOT_RUN", "provider_calls": 0, "mode": mode,
+                        "caller": {"optimize": sys.flags.optimize, "isolated": sys.flags.isolated,
+                                   "no_site": sys.flags.no_site, "dont_write_bytecode": sys.dont_write_bytecode},
+                        "success": False, "rounds": []}
+              os.mkdir("/work/evidence", 0o700) if not os.path.exists("/work/evidence") else None
+              try:
+                  result["environment"] = environment()
+                  with open("/control/native-context.json", encoding="ascii") as source:
+                      result["native_context"] = json.load(source)
+                  with open("/control/source-snapshot.json", encoding="ascii") as source:
+                      result["source_snapshot"] = json.load(source)
+                  result["executed_script"] = identity(__file__)
+                  os.mkdir("/work/fixtures", 0o700) if not os.path.exists("/work/fixtures") else None
+                  directory = "/work/fixtures/" + mode
+                  os.mkdir(directory, 0o700)
+                  info = os.lstat(directory)
+                  require(stat.S_ISDIR(info.st_mode) and info.st_uid == 65532 and stat.S_IMODE(info.st_mode) == 0o700,
+                          "private synthetic fixture directory")
+                  result["runtime"] = runtime(os.path.join(directory, "runtime.sqlite3"))
+                  context = multiprocessing.get_context("spawn")
+                  for number in range(1, 9):
+                      race(context, directory, number, result["rounds"])
+                  result["busy_refusal"] = busy(context, directory, result)
+                  result["success"] = True
+              except BaseException as error:
+                  result["failure"] = error_value(error)
+                  raise
+              finally:
+                  dump("/work/evidence/result-" + mode + ".json", result)
+              print("PASS public synthetic SQLite preparation " + mode, flush=True)
+
+          if __name__ == "__main__":
+              main()
+          PY
+          chmod -R a-w "$control"
+      - name: Run normal and optimized callers in one restricted container
+        run: |
+          set -euo pipefail
+          docker create --name routing-sqlite-preparation --log-driver none --platform linux/amd64 \
+            --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
+            --ulimit fsize=16777216:16777216 --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m --env PYTHONDONTWRITEBYTECODE=1 \
+            --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/routing-sqlite-runtime/fs/control",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/routing-sqlite-runtime/fs/work",target=/work \
+            --workdir /work --entrypoint /bin/sh "$IMAGE" -c '
+              python -I -B -S /control/sqlite_preparation.py normal
+              normal=$?
+              python -I -B -O -S /control/sqlite_preparation.py optimized
+              optimized=$?
+              printf "{\"normal\":%s,\"optimized\":%s}\n" "$normal" "$optimized" > /work/evidence/modes-exit-status.json
+              test "$normal" -eq 0 && test "$optimized" -eq 0
+            ' > "$RUNNER_TEMP/routing-sqlite-publish/container-id.txt"
+          docker inspect routing-sqlite-preparation > "$RUNNER_TEMP/routing-sqlite-publish/container-before.json"
+          set +e
+          (ulimit -f 4096; timeout --signal=TERM --kill-after=10s 300s docker start --attach routing-sqlite-preparation) \
+            > "$RUNNER_TEMP/routing-sqlite-publish/container-console.log" 2>&1
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$RUNNER_TEMP/routing-sqlite-publish/container-exit-status.txt"
+          docker inspect routing-sqlite-preparation > "$RUNNER_TEMP/routing-sqlite-publish/container-after.json"
+          exit "$status"
+      - name: Dispose the container before any fixture collection
+        if: always()
+        run: |
+          set -euo pipefail
+          present="$(docker ps -aq --filter 'name=^/routing-sqlite-preparation$')"
+          if [ -n "$present" ]; then docker rm --force routing-sqlite-preparation; fi
+          remaining="$(docker ps -aq --filter 'name=^/routing-sqlite-preparation$')"
+          test -z "$remaining"
+          printf '%s\n' '{"schema_version":1,"container_name":"routing-sqlite-preparation","verified_absent":true}' \
+            > "$RUNNER_TEMP/routing-sqlite-publish/disposal.json"
+      - name: Collect bounded regular original fixture files after disposal
+        if: always()
+        run: |
+          set -euo pipefail
+          remaining="$(docker ps -aq --filter 'name=^/routing-sqlite-preparation$')"
+          test -z "$remaining"
+          sudo python3 -I -B -S - "$RUNNER_TEMP/routing-sqlite-runtime/fs" "$RUNNER_TEMP/routing-sqlite-publish" "$(id -u)" "$(id -g)" <<'PY'
+          import hashlib, json, os, stat, sys
+          root, destination = sys.argv[1:3]
+          uid, gid = map(int, sys.argv[3:])
+          total, missing, refused, members = 0, [], [], []
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          require(0 <= uid < 2147483648 and 0 <= gid < 2147483648, "invalid collector identity")
+          def regular(relative, limit):
+              descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split("/")
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  leaf = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                  try:
+                      before = os.fstat(leaf)
+                      require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit, "not bounded single-link regular output")
+                      chunks, size = [], 0
+                      while True:
+                          chunk = os.read(leaf, min(65536, limit + 1 - size))
+                          if not chunk:
+                              break
+                          chunks.append(chunk)
+                          size += len(chunk)
+                          require(size <= limit, "output exceeds member cap")
+                      after = os.fstat(leaf)
+                      require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1, "output is no longer single-link regular bytes")
+                      require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                              (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "output changed during collection")
+                      return b"".join(chunks)
+                  finally:
+                      os.close(leaf)
+              finally:
+                  os.close(descriptor)
+          def write(relative, raw):
+              descriptor = os.open(destination, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split("/")
+                  require(all(part not in ("", ".", "..") for part in parts), "invalid retained destination")
+                  for part in parts[:-1]:
+                      try:
+                          os.mkdir(part, 0o755, dir_fd=descriptor)
+                          os.chown(part, uid, gid, dir_fd=descriptor, follow_symlinks=False)
+                      except FileExistsError:
+                          pass
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  leaf = os.open(parts[-1], os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=descriptor)
+                  try:
+                      os.fchown(leaf, uid, gid)
+                      with os.fdopen(leaf, "wb", closefd=False) as output:
+                          output.write(raw)
+                  finally:
+                      os.close(leaf)
+              finally:
+                  os.close(descriptor)
+          expected = {
+              "control/sqlite_preparation.py": (131072, True), "control/native-context.json": (4096, True),
+              "control/source-snapshot.json": (16384, True), "work/evidence/result-normal.json": (1048576, True),
+              "work/evidence/result-optimized.json": (1048576, True), "work/evidence/modes-exit-status.json": (4096, True),
+          }
+          for mode in ("normal", "optimized"):
+              for name in ["cas-%02d.sqlite3" % number for number in range(1, 9)] + ["busy.sqlite3", "runtime.sqlite3"]:
+                  path = "work/fixtures/" + mode + "/" + name
+                  expected[path] = (16777216, True)
+                  expected[path + "-journal"] = (16777216, False)
+          directories = {"control", "work", "work/evidence", "work/fixtures", "work/fixtures/normal", "work/fixtures/optimized"}
+          def inventory(descriptor, relative):
+              names = os.listdir(descriptor)
+              require(len(names) <= 128, "directory entry bound")
+              for name in names:
+                  member = relative + "/" + name
+                  info = os.stat(name, dir_fd=descriptor, follow_symlinks=False)
+                  if stat.S_ISDIR(info.st_mode) and member in directories:
+                      child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      try:
+                          inventory(child, member)
+                      finally:
+                          os.close(child)
+                  elif member not in expected or not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                      refused.append({"path": member, "reason": "unexpected, special or multiply linked fixture entry"})
+          rootfd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          try:
+              for name in ("control", "work"):
+                  try:
+                      child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=rootfd)
+                  except FileNotFoundError:
+                      missing.append(name)
+                      continue
+                  try:
+                      inventory(child, name)
+                  finally:
+                      os.close(child)
+          finally:
+              os.close(rootfd)
+          for path, (limit, required) in sorted(expected.items()):
+              try:
+                  raw = regular(path, limit)
+                  total += len(raw)
+                  require(total <= 33554432, "aggregate fixture retention exceeds 32 MiB")
+                  retained = "original/" + path
+                  write(retained, raw)
+                  members.append({"path": retained, "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()})
+              except FileNotFoundError:
+                  if required:
+                      missing.append(path)
+              except (OSError, ValueError) as error:
+                  refused.append({"path": path, "reason": type(error).__name__})
+          raw = json.dumps({"schema_version": 1, "members": members, "bytes": total, "missing": missing,
+                            "refused": refused, "writer_disposal_required": True},
+                           sort_keys=True, separators=(",", ":")).encode() + b"\n"
+          require(total + len(raw) <= 33554432, "collection metadata exceeds aggregate fixture retention")
+          write("collection.json", raw)
+          require(not refused, "fixture collector refused an entry")
+          PY
+      - name: Strictly unmount the fixture filesystem
+        if: always()
+        run: |
+          set -euo pipefail
+          sudo umount "$RUNNER_TEMP/routing-sqlite-runtime/fs"
+          printf '%s\n' '{"schema_version":1,"fixture_unmounted":true}' > "$RUNNER_TEMP/routing-sqlite-publish/unmount.json"
+      - name: Join the actual runtime, checked source and original observations
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/routing-sqlite-publish" "$GITHUB_WORKSPACE" "$RUNNER_TEMP/routing-sqlite-runtime/fs" "$IMAGE" <<'PY'
+          import hashlib, json, os, re, stat, sys
+          root, workspace, fixture, image = sys.argv[1:]
+          total = 0
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          def regular(path, limit):
+              global total
+              descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = path.split("/")
+                  require(all(part not in ("", ".", "..") for part in parts), "unsafe receipt input")
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  leaf = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                  try:
+                      info = os.fstat(leaf)
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= limit, "receipt input is not bounded single-link regular bytes")
+                      raw = b""
+                      while True:
+                          chunk = os.read(leaf, min(65536, limit + 1 - len(raw)))
+                          if not chunk:
+                              break
+                          raw += chunk
+                          require(len(raw) <= limit, "receipt member exceeds cap")
+                      after = os.fstat(leaf)
+                      require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1, "receipt input is no longer single-link regular bytes")
+                      require((info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns) ==
+                              (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "receipt input changed")
+                      total += len(raw)
+                      require(total <= 50331648, "receipt read aggregate exceeds 48 MiB")
+                      return raw
+                  finally:
+                      os.close(leaf)
+              finally:
+                  os.close(descriptor)
+          def pairs(items):
+              result = {}
+              for key, value in items:
+                  require(key not in result, "duplicate JSON key")
+                  result[key] = value
+              return result
+          def load(path, limit=2097152):
+              return json.loads(regular(path, limit), object_pairs_hook=pairs,
+                                parse_constant=lambda value: (_ for _ in ()).throw(ValueError("nonfinite JSON")))
+          native = load("original/control/native-context.json", 4096)
+          require(set(native) == {"checked_commit", "repository", "run_id", "run_attempt"}, "native4 fields")
+          for key, path in (("checked_commit", "checked-commit.txt"), ("repository", "repository.txt"),
+                            ("run_id", "run-id.txt"), ("run_attempt", "run-attempt.txt")):
+              require(regular(path, 512) == (native[key] + "\n").encode("ascii"), "native context mismatch")
+          require(re.fullmatch("[0-9a-f]{40}", native["checked_commit"]) is not None and
+                  re.fullmatch("[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", native["repository"]) is not None and
+                  all(re.fullmatch("[1-9][0-9]*", native[key]) for key in ("run_id", "run_attempt")), "native context grammar")
+          collection = load("collection.json", 1048576)
+          require(collection["schema_version"] == 1 and collection["missing"] == [] and collection["refused"] == [] and
+                  collection["writer_disposal_required"] is True and collection["bytes"] <= 33554432, "incomplete fixture collection")
+          retained_inputs = {}
+          for member in collection["members"]:
+              path = member["path"]
+              require(path not in retained_inputs and path.startswith("original/"), "collection member identity")
+              raw = regular(path, 16777216)
+              require(len(raw) == member["bytes"] and hashlib.sha256(raw).hexdigest() == member["sha256"], "collected original hash mismatch")
+              retained_inputs[path] = {"bytes": len(raw), "sha256": member["sha256"]}
+          require(load("disposal.json", 4096) == {"schema_version": 1, "container_name": "routing-sqlite-preparation", "verified_absent": True},
+                  "writer disposal missing")
+          require(load("unmount.json", 4096) == {"schema_version": 1, "fixture_unmounted": True}, "strict unmount missing")
+          require(regular("container-exit-status.txt", 32) == b"0\n", "container execution failed")
+          require(load("original/work/evidence/modes-exit-status.json", 4096) == {"normal": 0, "optimized": 0}, "caller execution failed")
+          actual_image = load("runtime-image.json")
+          before, after = load("container-before.json"), load("container-after.json")
+          require(len(actual_image) == len(before) == len(after) == 1, "runtime inventory count")
+          actual_image, before, after = actual_image[0], before[0], after[0]
+          require(actual_image["Os"] == "linux" and actual_image["Architecture"] == "amd64" and
+                  any(value.split("@", 1)[-1] == image.split("@", 1)[-1] for value in actual_image["RepoDigests"]),
+                  "immutable image digest/platform mismatch")
+          require(before["Image"] == after["Image"] == actual_image["Id"] and
+                  before["Config"]["Image"] == after["Config"]["Image"] == image, "actual container image mismatch")
+          require(regular("container-id.txt", 128) == (before["Id"] + "\n").encode("ascii") and before["Id"] == after["Id"],
+                  "container identity mismatch")
+          require(before["State"]["Status"] == "created" and after["State"]["Status"] == "exited" and
+                  after["State"]["Running"] is False and after["State"]["ExitCode"] == 0 and after["State"]["OOMKilled"] is False,
+                  "actual container did not exit successfully")
+          config, host = after["Config"], after["HostConfig"]
+          require(config == before["Config"] and host == before["HostConfig"], "container configuration changed")
+          require(config["User"] == "65532:65532" and config["WorkingDir"] == "/work" and config["Entrypoint"] == ["/bin/sh"], "runtime identity/entrypoint")
+          expected_command = ["-c", r'''
+              python -I -B -S /control/sqlite_preparation.py normal
+              normal=$?
+              python -I -B -O -S /control/sqlite_preparation.py optimized
+              optimized=$?
+              printf "{\"normal\":%s,\"optimized\":%s}\n" "$normal" "$optimized" > /work/evidence/modes-exit-status.json
+              test "$normal" -eq 0 && test "$optimized" -eq 0
+            ''']
+          require(before["Config"]["Cmd"] == after["Config"]["Cmd"] == expected_command, "actual preparation command mismatch")
+          expected_environment = dict(item.split("=", 1) for item in actual_image["Config"]["Env"])
+          expected_environment["PYTHONDONTWRITEBYTECODE"] = "1"
+          observed_environment = dict(item.split("=", 1) for item in config["Env"])
+          require(len(observed_environment) == len(config["Env"]) and observed_environment == expected_environment, "runtime environment differs")
+          require(host["NetworkMode"] == "none" and host["ReadonlyRootfs"] is True and host["NanoCpus"] == 2000000000 and
+                  host["Memory"] == 1073741824 and host["PidsLimit"] == 128 and host["Privileged"] is False and
+                  host["CapDrop"] == ["ALL"] and host["CapAdd"] is None and host["SecurityOpt"] == ["no-new-privileges"] and
+                  host["LogConfig"]["Type"] == "none", "actual container restriction tuple")
+          require(host["Ulimits"] == [{"Name": "fsize", "Hard": 16777216, "Soft": 16777216}] and
+                  host["Tmpfs"] == {"/tmp": "rw,noexec,nosuid,nodev,size=64m"}, "actual byte/filesystem bounds")
+          mounts = after["Mounts"]
+          require(mounts == before["Mounts"] and len(mounts) == 3, "actual bind mount count changed")
+          wanted = {"/source": (workspace, False), "/control": (fixture + "/control", False), "/work": (fixture + "/work", True)}
+          actual = {}
+          for mount in mounts:
+              require(mount["Type"] == "bind" and mount["Destination"] not in actual, "unexpected actual mount")
+              actual[mount["Destination"]] = (mount["Source"], mount["RW"])
+          require(actual == wanted, "actual mount paths/access mismatch")
+          mount_record = load("fixture-mount.json")
+          require(len(mount_record["filesystems"]) == 1, "fixture mount count")
+          fixture_mount = mount_record["filesystems"][0]
+          require(fixture_mount["target"] == fixture and fixture_mount["fstype"] == "ext4" and
+                  all(flag in fixture_mount["options"].split(",") for flag in ("rw", "nodev", "nosuid", "noexec")), "host fixture mount restriction")
+          snapshot = load("original/control/source-snapshot.json", 16384)
+          require(snapshot["schema_version"] == 1 and snapshot["native_context"] == native and len(snapshot["sources"]) == 2, "source snapshot identity")
+          required_sources = {".github/workflows/routing-sqlite-runtime-preparation.yml": "source/workflow.yml",
+                              "docs/plans/2026-10-08-routing-sqlite-runtime-preparation.md": "source/plan.md"}
+          observed_sources = {}
+          for item in snapshot["sources"]:
+              raw = regular(item["retained_path"], 131072)
+              require(item["path"] not in observed_sources and item["retained_path"] == required_sources.get(item["path"]) and
+                      len(raw) == item["bytes"] and hashlib.sha256(raw).hexdigest() == item["sha256"], "checked source hash mismatch")
+              observed_sources[item["path"]] = item["retained_path"]
+          require(observed_sources == required_sources, "checked source inventory")
+          script = regular("original/control/sqlite_preparation.py", 131072)
+          script_identity = {"path": "/control/sqlite_preparation.py", "bytes": len(script), "sha256": hashlib.sha256(script).hexdigest()}
+          results = [load("original/work/evidence/result-" + mode + ".json", 1048576) for mode in ("normal", "optimized")]
+          settings = {"journal_mode": "delete", "synchronous": 3, "foreign_keys": 1, "trusted_schema": 0, "read_uncommitted": 0, "busy_timeout": 1000}
+          for mode, result in zip(("normal", "optimized"), results):
+              require(result["schema_version"] == 1 and result["scientific_effect"] == "NONE" and result["scientific_status_authority"] is False and
+                      result["custody"] == "unknown" and result["scope"] == "PUBLIC_SYNTHETIC_SQLITE_RUNTIME_PREPARATION" and
+                      result["broker_implementation"] == "NOT_RUN" and result["provider_calls"] == 0 and result["success"] is True and
+                      result["mode"] == mode and result["native_context"] == native and result["source_snapshot"] == snapshot and
+                      result["executed_script"] == script_identity, "runtime observation/source identity mismatch")
+              require(result["caller"] == {"optimize": 0 if mode == "normal" else 1, "isolated": 1, "no_site": 1, "dont_write_bytecode": True},
+                      "caller mode not verified")
+              require(result["runtime"]["python_version"] == [3, 11, 14] and result["runtime"]["connection_settings"] == settings and
+                      len(result["rounds"]) == 8, "runtime settings/round count")
+              for number, round_result in enumerate(result["rounds"], 1):
+                  require(round_result["round"] == number and round_result["success"] is True and round_result["contenders"] == 16 and round_result["winners"] == 1 and
+                          round_result["losers"] == 15 and round_result["settings_on_reopen"] == settings and round_result["integrity_check"] == "ok" and
+                          round_result["journal_after_commit"] is False and len(round_result["operations"]) == 16, "CAS round result")
+                  operations = round_result["operations"]
+                  require(all(value["phase"] == "result" and value["settings"] == settings and value["begin_immediate_calls"] == 1 and
+                              value["conditional_update_calls"] == 1 for value in operations), "CAS operation identity")
+                  require(all(type(value["pid"]) is int and value["pid"] > 0 and value["token"] == "TEST-%02d-%02d" % (number, index)
+                              for index, value in enumerate(operations)) and len({value["pid"] for value in operations}) == 16,
+                          "CAS independent process/token inventory")
+                  winners = [value for value in operations if value["outcome"] == "winner" and value["changed_rows"] == 1]
+                  losers = [value for value in operations if value["outcome"] == "loser" and value["changed_rows"] == 0]
+                  require(len(winners) == 1 and len(losers) == 15 and
+                          round_result["reopened_row"] == [1, "claimed", winners[0]["token"]], "CAS winner/loser/reopen mismatch")
+              busy = result["busy_refusal"]
+              require(busy["phase"] == "result" and busy["outcome"] == "SQLITE_BUSY" and type(busy["sqlite_errorcode"]) is int and
+                      (busy["sqlite_errorcode"] & 255) == 5 and busy["settings"] == busy["settings_on_reopen"] == settings and
+                      busy["begin_immediate_calls"] == 1 and busy["configured_busy_timeout_ms"] == 1000 and busy["retries"] == 0 and
+                      busy["in_transaction"] is False and 0.8 <= busy["elapsed_seconds"] <= 2.0 and
+                      busy["row_after_reopen"] == [1, "reserved", None] and type(busy["pid"]) is int and busy["pid"] > 0 and
+                      type(busy["holder_pid"]) is int and busy["holder_pid"] > 0 and busy["pid"] != busy["holder_pid"], "busy refusal observation")
+          require(results[0]["runtime"] == results[1]["runtime"] and results[0]["environment"] == results[1]["environment"], "caller runtime restrictions differ")
+          console = regular("container-console.log", 4194304)
+          require(console == b"PASS public synthetic SQLite preparation normal\nPASS public synthetic SQLite preparation optimized\n", "unexpected preparation console")
+          receipt = {"schema_version": 1, "kind": "SQLITE_RUNTIME_PREPARATION_RECEIPT", "scientific_effect": "NONE",
+                     "scientific_status_authority": False, "custody": "unknown", "native_context": native,
+                     "scope": "PUBLIC_SYNTHETIC_SQLITE_RUNTIME_PREPARATION", "provider_calls": 0,
+                     "image": {"declared": image, "actual_id": actual_image["Id"], "os": "linux", "architecture": "amd64"},
+                     "container": {"id": before["Id"], "configuration": config, "restrictions": host, "mounts": mounts},
+                     "source_snapshot": snapshot, "executed_script": script_identity, "runtime": results[0]["runtime"],
+                     "observed_environment": results[0]["environment"], "original_inputs": retained_inputs,
+                     "results": [{"mode": result["mode"], "cas_rounds": 8, "contenders_per_round": 16,
+                                  "winners_per_round": 1, "losers_per_round": 15, "commit_reopen_verified": True,
+                                  "busy_refusal": result["busy_refusal"]} for result in results],
+                     "writer_disposed": True, "fixture_unmounted": True, "broker_implementation": "NOT_RUN",
+                     "lease_enforcement": "NOT_RUN", "budget_enforcement": "NOT_RUN", "power_loss": "NOT_RUN",
+                     "organizational_independence": 0,
+                     "final_disposition": "REQUIRES_NATIVE_JOB_SUCCESS_AND_ORIGINAL_ARCHIVE_READBACK"}
+          raw = json.dumps(receipt, sort_keys=True, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode() + b"\n"
+          require(len(raw) <= 1048576, "receipt byte bound")
+          with open(os.path.join(root, "host-preparation-receipt.json"), "xb") as output:
+              output.write(raw)
+          PY
+      - name: Hash retained originals even after a failed preparation
+        id: retained
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/routing-sqlite-publish" <<'PY'
+          import hashlib, os, stat, sys
+          root = sys.argv[1]
+          total, entries = 0, []
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          def walk(descriptor, relative):
+              global total
+              names = sorted(os.listdir(descriptor))
+              require(len(names) <= 128, "archive directory entry bound")
+              for name in names:
+                  path = relative + name
+                  require("\n" not in path and "\r" not in path and "\\" not in path and name not in (".", ".."), "unsafe archive name")
+                  info = os.stat(name, dir_fd=descriptor, follow_symlinks=False)
+                  if stat.S_ISDIR(info.st_mode):
+                      require(path.count("/") <= 5, "archive path depth")
+                      child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      try:
+                          walk(child, path + "/")
+                      finally:
+                          os.close(child)
+                  else:
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= 16777216, "archive contains unbounded, special or multiply linked file")
+                      leaf = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                      try:
+                          before = os.fstat(leaf)
+                          require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= 16777216,
+                                  "archive member is not bounded single-link regular bytes")
+                          digest, count = hashlib.sha256(), 0
+                          while True:
+                              chunk = os.read(leaf, 65536)
+                              if not chunk:
+                                  break
+                              digest.update(chunk)
+                              count += len(chunk)
+                              require(count <= 16777216, "archive member grew")
+                          after = os.fstat(leaf)
+                          require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1, "archive member is no longer single-link regular bytes")
+                          require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                                  (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "archive member changed")
+                          total += count
+                          require(total <= 50331648 and len(entries) < 127, "archive aggregate/member bound")
+                          entries.append((path, digest.hexdigest()))
+                      finally:
+                          os.close(leaf)
+          descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          try:
+              walk(descriptor, "")
+              require(not any(path == "ARTIFACT_SHA256SUMS" for path, digest in entries), "existing archive manifest")
+              raw = "".join(digest + "  " + path + "\n" for path, digest in sorted(entries)).encode("ascii")
+              require(len(raw) <= 65536 and total + len(raw) <= 50331648, "archive manifest exceeds retained byte bound")
+              leaf = os.open("ARTIFACT_SHA256SUMS", os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=descriptor)
+              try:
+                  with os.fdopen(leaf, "wb", closefd=False) as output:
+                      output.write(raw)
+                      output.flush()
+                      os.fsync(output.fileno())
+              finally:
+                  os.close(leaf)
+          finally:
+              os.close(descriptor)
+          PY
+      - name: Retain the original narrow preparation evidence
+        if: always() && steps.retained.outcome == 'success'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: routing-sqlite-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/routing-sqlite-publish/
+          if-no-files-found: error
+          retention-days: 90
