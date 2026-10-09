@@ -1480,7 +1480,7 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
 
     def _storage_pressure(self, function, fixture, operation):
         # Transient public zero padding fills only the dedicated <=64 MiB mount.
-        # Coarse pressure is retained; no smaller-block draining forces a verdict.
+        # Retain coarse pressure, then calibrate bounded physical-block pressure.
         padding = _CHILD_BASE / "TEST-transient-capacity-pressure"
         baseline = _CHILD_BASE / "TEST-positive-small-allocation"
         probe = _CHILD_BASE / "TEST-pressure-small-allocation"
@@ -1579,6 +1579,36 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
             observe("padding-fsync", fsync_returned=padding_sync_errno is None,
                     errno=padding_sync_errno, written_total_bytes=total)
             self.assertIn(padding_sync_errno, (None, errno.ENOSPC))
+            # The retained diagnostic left 9–11 blocks after a 64 KiB refusal.
+            # At most 16 native 4 KiB allocations fit this measured remainder.
+            capacity = os.statvfs(_CHILD_BASE)
+            self.assertEqual(capacity.f_frsize, 4096)
+            fine_exhausted = False
+            for fine_sequence in range(16):
+                fine_write, fine_write_errno, fine_sync_errno = None, None, None
+                self.assertLessEqual(total + 4096, 64 * MIB)
+                try:
+                    fine_write = os.write(descriptors["padding"], b"\0" * 4096)
+                    total += fine_write
+                except OSError as error:
+                    fine_write_errno = error.errno
+                try:
+                    os.fsync(descriptors["padding"])
+                except OSError as error:
+                    fine_sync_errno = error.errno
+                observe("fine-padding-allocation", sequence=fine_sequence,
+                        requested_bytes=4096, written_bytes=fine_write,
+                        write_errno=fine_write_errno, fsync_errno=fine_sync_errno,
+                        fsync_returned=fine_sync_errno is None, written_total_bytes=total)
+                self.assertIn(fine_write_errno, (None, errno.ENOSPC))
+                self.assertIn(fine_sync_errno, (None, errno.ENOSPC))
+                if fine_write_errno == errno.ENOSPC or fine_sync_errno == errno.ENOSPC:
+                    fine_exhausted = True
+                    break
+                self.assertGreater(fine_write, 0)
+                self.assertLessEqual(fine_write, 4096)
+            self.assertTrue(fine_exhausted,
+                            "STORAGE_PRESSURE_NOT_CALIBRATED: bounded fine allocations still succeed")
             probe_write, probe_write_errno, probe_sync_errno = None, None, None
             try:
                 probe_write = os.write(descriptors["probe"], b"\0")

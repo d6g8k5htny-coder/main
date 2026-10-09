@@ -116,8 +116,8 @@ jobs:
                       os.close(descriptor)
                   os.close(root_fd)
           pins = {
-              'docs/plans/2026-10-08-tiered-routing-broker-contract.md': (89143, '923e31a6e5af2a51e87af102ffb3fcaafd36e19f1427cbb515812561b5d7c642'),
-              'tests/test_architecture_routing_broker.py': (120321, 'e4f88303a655dbbaa3965beba64ae5507e7315d050f2acf829f54badb8cf6554'),
+              'docs/plans/2026-10-08-tiered-routing-broker-contract.md': (92541, '4c309d8ff17d9a98d479f5b80b4615e686c7f0cdaa888dd21a6e104e90182948'),
+              'tests/test_architecture_routing_broker.py': (122068, '78e055ce7735a817a01f7e965f42ed0acbe6a95fc308cea095d17843b91f0978'),
           }
           bindings = []
           for path in [*pins, 'architecture/routing_broker.py', 'tools/architecture_routing_broker.py']:
@@ -785,8 +785,8 @@ jobs:
               source_inventory['source_sha256'] = hashlib.sha256(test_raw).hexdigest()
               source_inventory['observed_methods'] = sorted(re.findall(
                   r'^    def (test_[a-z_]+)\(self\):', test_raw.decode('utf-8'), re.MULTILINE))
-              require(source_inventory['source_bytes'] == 120321
-                      and source_inventory['source_sha256'] == 'e4f88303a655dbbaa3965beba64ae5507e7315d050f2acf829f54badb8cf6554'
+              require(source_inventory['source_bytes'] == 122068
+                      and source_inventory['source_sha256'] == '78e055ce7735a817a01f7e965f42ed0acbe6a95fc308cea095d17843b91f0978'
                       and source_inventory['observed_methods'] == expected_methods
                       and len(expected_methods) == len(set(expected_methods)) == 42,
                       'captured frozen source inventory mismatch')
