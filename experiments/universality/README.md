@@ -178,6 +178,24 @@ This restricted parameter path is C1 but not C2 at zero and its two-site
 observation law is singular; it supplies no generic two-parameter cusp,
 Gaussian jet-law admission, numerical coupling or spatial process.
 
+The [smooth two-control cusp population](two_parameter_cusp_population/PROOF.md)
+extends the explicit surgery to a full smooth control rectangle through the
+quartic contact. Uniform root and height guards give the complete critical
+list and actual global H0 merger. Almost every field has zero or one finite
+H0 bar, and the total probability of a bar is at most 1/5 for this rectangle.
+Its leading whole-field lifetime density is asymptotic to
+C_edge*ell^(-1/3), with cumulative count asymptotic to
+(3/2)*C_edge*t^(2/3); these short bars approach the ordinary fold edges.
+Restricted away from those edges, the quartic-tip density is exactly
+C_tip*ell^(1/4), and the count exactly (4/5)*C_tip*t^(5/4), below the
+stated cutoff. Contact sampling weight and stratum therefore both matter.
+The independent-whole-copy PRM limit retains latent control, sign and
+location marks; physical birth and cubic marks keep their shared-control
+correlation. Its [review](two_parameter_cusp_population/REVIEW.md) preserves
+original-source reviews and completed incorporated-source review. This is one
+specified stationary law, with no generic full A3, Gaussian contact, Hk,
+same-field spatial, numerical, formal or blind admission.
+
 These conventional analytic results discharge selected-bar counting and the
 leading near/far intensity composition for the stated ideal finite laws and
 admitted stationary Gaussian spectral/carrier laws. Further
