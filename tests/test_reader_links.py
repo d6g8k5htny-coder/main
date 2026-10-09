@@ -969,6 +969,28 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                             '652e66f8645eb1a34c28a85900b05405d424bb0e282b86a7d5597f10b8f9c8e3',
                             '52dc91e3bc68b8f023f11e9ec37b1423853d721dc9188046246e96b4131e205f',
                             'a6fb3d0397e622d8a1061ff6e83d05f66e99d53fbc2dd35c1b8ee82d076a4458')
+    PROSE_NUMBERS = ('8 314 326 8 0 326 0 329 23:58 0 0 7 318 324 326 0 0 0 1/3 2/3 5 1 1 526 0 326 8 2026 22:42 314 319 321 323 326 '
+                     '27,064 329 8 23:58 0 326 8 22:42 314 329 10,559 256 326 256 256 256 0 256 0 319 321 323 326 321 323 329 3 18:00 '
+                     '107 3 20:01 8 2026 256 99 99 103 103 4 00:18 8 2026 256 7 18:37 8 2026 00:58 193 18:45 7 18:46 4 7 18:37')
+    # Each quote keeps the source the page names for it.
+    ATTRIBUTIONS = ('In the suite guide’s words, the proof “constructs a Borel selector',
+                    'The review record says “The coefficient is positive and field-dependent”',
+                    'The proof says its pointwise law concerns “the particular finite Borel representative',
+                    'and “no O(1) near-term remainder is claimed”',
+                    'In the suite guide’s words, “The selected density is not asserted continuous”',
+                    'The review record says “Finite-family uniformity is not twenty empirical confirmations.”',
+                    'The proof says “No finite-word or quantized sampler',
+                    'In the review record’s words, “Positivity-boundary spectra',
+                    'the record says “All contributors/readers are source and route exposed OpenAI/Codex.”',
+                    'The proof’s own declaration: “No human, blind or provider-distinct acceptance',
+                    'The review record calls the proof “a conventional analytic theorem with explicit imports”',
+                    'The program says to “Keep the full objective open',
+                    'In the suite guide’s words, “The sampler and catalogue admissibility labels',
+                    'Its record states “H0 consumes C/CG/ET/FG”',
+                    'After the first correction the record says “Both actual-source mathematical verdicts',
+                    'In the suite guide’s words, its exploratory runner “generates explicitly exploratory fields”',
+                    'The program describes itself as “a research design and execution route',
+                    'which counts actual finite H0 bars for fixed finite Gaussian fields; it is not a universality theorem.')
     OTHER_PAGES_ROW = ('<dt>Words used on other pages</dt><dd>ACCEPT and AMEND / open are the proof index’s and STATUS.md’s wording at their pinned snapshots, shown on <a href="museum.html#claims">Source records</a> and the <a href="workspace.html#board">Library board</a>. PROVED_REVIEWED, AUTHOR_SIDE_CANDIDATE and the other gate classifications are the downstream gate’s states, shown on the <a href="dependencies.html">dated claim-dependency snapshot</a>. Each page quotes its own source; none of ACCEPT, AMEND, PROVED_REVIEWED or AUTHOR_SIDE_CANDIDATE appears in this page’s cuts.</dd>')
 
     class Tree(HTMLParser):
@@ -1045,6 +1067,9 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                 with self.subTest(source=key,quote=quote):
                     self.assertIn(quote,section)
                     self.assertIn(quote,flat)
+        for attribution in self.ATTRIBUTIONS:
+            with self.subTest(attribution=attribution):self.assertEqual(section.count(attribution),1)
+        self.assertNotIn(', and the record says “Both actual-source',section)
 
     def test_forbidden_words_and_later_source_details_are_absent(self):
         section=self.section()
@@ -1082,6 +1107,9 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                                    'E N_bar((0, t]) / V ~ (3/2) C_loc t^(2/3), as t decreases to zero'])
         self.assertIn('The density exponent is −1/3; the cumulative exponent is 2/3.',card)
         self.assertNotIn('t^(−1/3)',section);self.assertNotIn('ℓ^(2/3)',section)
+        # no second statement of either exponent anywhere in the cut, in either minus sign
+        self.assertEqual((section.count('exponent'),section.count('cumulative'),section.count('−1/3'),section.count('2/3')),(2,1,3,2))
+        self.assertNotIn('-1/3',section)
         plain=re.sub(r'<[^>]+>','',card)
         self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',plain),'no coefficient digits on the card')
         self.assertIsNone(re.search(r'C_loc\s*(?:[=≈≃<>]|\(?\d)',plain))
@@ -1094,6 +1122,15 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                 with self.subTest(sentence=sentence[:60]):self.assertNotRegex(sentence,r'\d')
         self.assertIn('the same local coefficient as in this line’s candidate-lifetime theorem.',card)
         self.assertNotIn('candidate-pair',section)
+        # The cut does not change once it lands: its prose numbers (outside code, display formulas and the time) are pinned in order.
+        numbers=re.sub(r'<time[^>]*>.*?</time>','',re.sub(r'<code>.*?</code>','',re.sub(r'<p class="display-formula">.*?</p>','',section)))
+        self.assertEqual(' '.join(re.findall(r'\d[\d,.:–−/]*\d|\d',re.sub(r'<[^>]+>','',numbers))),self.PROSE_NUMBERS)
+        # The #status-words rows that name this cut give no coefficient value either.
+        words=self.page().split('<details id="status-words"',1)[1].split('</details>',1)[0]
+        for row in re.findall(r'<dd>(.*?)</dd>',words,re.S):
+            if '9 October 2026 cut' not in row: continue
+            with self.subTest(row=row[:60]):
+                self.assertNotIn('C_loc',row);self.assertIsNone(re.search(r'\d[.,]\d|[=≈≃]',re.sub(r'<[^>]+>','',row)))
 
     def test_one_card_one_face_pin_three_status_rows_and_neutral_classes(self):
         section=self.section();tree=self.Tree(section)
@@ -1182,7 +1219,13 @@ class FiniteH0LifetimeReading(unittest.TestCase):
         css=(SITE/'home.css').read_text()
         self.assertIn('.reading-glossary dt, .latest-card .card-status dt { font-weight: 650; margin-top: 12px; }',css)
         rule=re.search(r'\.reading-glossary dd, \.latest-card \.card-status dd \{([^}]*)\}',css)
-        self.assertIsNotNone(rule);self.assertIn('font-family: inherit',rule.group(1))
+        self.assertIsNotNone(rule);self.assertIn('font-family: inherit',rule.group(1));self.assertIn('font-size: 15px',rule.group(1))
+        self.assertIn('.latest-card .card-status dd { max-width: 78ch; }',css)
+        self.assertIn('@media print { .latest-card:has(> .card-status) { break-inside: auto; } .latest-card .card-status, p.display-formula { break-inside: avoid; } }',css)
+        self.assertIn('.latest-identities code, .latest-card code { overflow-wrap: anywhere; }',css)
+        # agent paths in the card are breakable code, so they cannot push past the card at 320 px with WCAG 1.4.12 spacing
+        for name in ('/root/universality_review','/root/benchmark_formal_audit','/root/final_contract_review'):
+            with self.subTest(name=name):self.assertIn(f'<code>{name}</code>',self.card())
         for sheet in ('home.css','brand.css'):
             for selector,body in re.findall(r'([^{}]*card-status[^{}]*)\{([^}]*)\}',(SITE/sheet).read_text()):
                 with self.subTest(sheet=sheet,selector=selector.strip()):self.assertNotIn('monospace',body)

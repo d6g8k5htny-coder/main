@@ -280,6 +280,11 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         status_widths=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => el.getBoundingClientRect().width)")
         text_width=page.locator("#finite-h0-lifetimes > p:not(.card-kicker)").first.evaluate("el => el.getBoundingClientRect().width")
         require(all(width<=text_width+1 for width in status_widths),f"Card-status rows exceed the card text measure {text_width}: {status_widths}")
+        status_sizes=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => getComputedStyle(el).fontSize)")
+        card_text_size=page.locator("#finite-h0-lifetimes > p:not(.card-kicker)").first.evaluate("el => getComputedStyle(el).fontSize")
+        require(all(size==card_text_size for size in status_sizes),f"Card-status rows must use the card text size {card_text_size!r}: {status_sizes}")
+        overflowing=page.locator("#finite-h0-lifetimes p").evaluate_all("els => els.filter(el => el.scrollWidth > el.clientWidth + 1).map(el => el.textContent.slice(0, 40))")
+        require(not overflowing,f"9 October card paragraphs overflow their box: {overflowing}")
         result["card_status_font_family"]=status_fonts
         october_entry=page.get_by_role("link",name="7 October 18:37 UTC reading cut below",exact=True)
         october_entry.focus();page.keyboard.press("Enter")
@@ -432,7 +437,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
             require(fallback.evaluate("document.documentElement.scrollWidth <= innerWidth"),"JavaScript-off addendum overflow")
         finally:
             static.close()
-        result["steps"].append("9 October cut: focus, collapsed four-pin disclosure opened and closed by keyboard, card-status rows not monospace; 7 October cut reached by its link; C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
+        result["steps"].append("9 October cut: focus, collapsed four-pin disclosure opened and closed by keyboard, card-status rows in the card text face, size and measure, card paragraphs without overflow; 7 October cut reached by its link; C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
     finally:
         page.unroute("https://**/*",refuse_remote)
 
