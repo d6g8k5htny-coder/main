@@ -223,7 +223,7 @@ def classic_zip(entries, options=None, *, comment=b"", prefix=b"", trailing=b"",
 
 
 AUDIT_LAUNCHER = r'''
-import json, os, runpy, socket, sys
+import json, os, pkgutil, runpy, socket, sys
 cwd, archive, secret, report_path, cli = sys.argv[1:6]
 observer_port = int(sys.argv[6])
 arguments = sys.argv[7:]
@@ -417,7 +417,7 @@ class ArchitectureGraphArtifactReadbackContract(unittest.TestCase):
             flags.append("-" + "O" * sys.flags.optimize)
         command = [sys.executable, *flags, str(CLI), *arguments]
         if audit:
-            command = [sys.executable, *flags, "-c", AUDIT_LAUNCHER, str(self.cwd), str(path),
+            command = [sys.executable, *flags, "-I", "-c", AUDIT_LAUNCHER, str(self.cwd), str(path),
                        str(self.cwd / "TEST-private-secret"), str(self.cwd / "TEST-observer.json"), str(CLI),
                        str(observer_port), *arguments]
         environment = os.environ.copy()

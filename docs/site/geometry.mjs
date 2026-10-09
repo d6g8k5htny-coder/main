@@ -378,14 +378,18 @@ async function mountEC014(host) {
     const reset = element('button', 'Reset camera', { type: 'button' });
     reset.addEventListener('click', () => { yaw = -0.12; elevation = 0.82; render(); });
     const toggle = element('button', 'Show 2D diagram', { type: 'button' });
+    const status3D = '3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only.';
     toggle.addEventListener('click', () => {
       stage.hidden = !stage.hidden; fallback.hidden = !stage.hidden;
       toggle.textContent = stage.hidden ? 'Show 3D view' : 'Show 2D diagram';
+      status.textContent = stage.hidden
+        ? '2D coordinate diagram. All pin coordinates and six data labels remain visible.'
+        : status3D;
       if (!stage.hidden) resize();
     });
     controls.append(reset, toggle);
     stage.hidden = false; fallback.hidden = true;
-    status.textContent = '3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only.';
+    status.textContent = status3D;
     activeSceneCleanup = cleanup;
     if (globalThis.ResizeObserver) { observer = new ResizeObserver(resize); observer.observe(stage); }
     resize();
