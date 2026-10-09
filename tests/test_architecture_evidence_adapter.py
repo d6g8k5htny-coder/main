@@ -1032,5 +1032,100 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["applicability"], "unknown")
 
 
+    def test_explicit_successor_graph_review_clears_only_its_exact_regression_context(self):
+        for mutation in ("proof_body", "added_dependency", "graph_context"):
+            with self.subTest(mutation=mutation):
+                packet = copy.deepcopy(self.packet)
+                if mutation == "proof_body":
+                    self.change_source(packet, "new", ALPHA + PROOF.replace(b"old", b"new") + BETA)
+                elif mutation == "added_dependency":
+                    self.change_graph(packet, "new", lambda graph: graph["edges"].append({"from": "TEST.A", "to": "TEST.C", "required": False, "relation": "TEST successor context"}))
+                else:
+                    self.change_graph(packet, "new", lambda graph: graph.update({"object": "TEST successor context"}))
+                formal = self.formal(packet)
+                # Binding a new source/manifest alone does not record review of graph dependencies.
+                packet["formal_records"] = [formal]
+                legacy, _ = self.accepted(packet)
+                self.assertEqual(legacy["dimensions"]["TEST.A"]["alignment"]["applicability"], "stale")
+                self.assertEqual(legacy["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
+                self.update_alignment(formal, lambda review: review.update({"reviewed_graph": copy.deepcopy(packet["new"]["graph"]["ref"])}))
+                current, _ = self.accepted(packet)
+                self.assertEqual(current["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(current["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+                self.assertEqual(current["regression"]["affected_alignment_records"], [])
+                self.assertTrue(current["regression"]["changed_nodes"], "successor erased the original comparison")
+                self.assertEqual(current["formal_summary"][0]["retained_alignment"]["reviewed_graph"], packet["new"]["graph"]["ref"])
+                for context in (packet["old"]["graph"]["ref"], {**packet["new"]["graph"]["ref"], "sha256": "f" * 64}):
+                    historical = copy.deepcopy(packet)
+                    self.update_alignment(historical["formal_records"][0], lambda review, context=context: review.update({"reviewed_graph": context}))
+                    held, _ = self.accepted(historical)
+                    self.assertEqual(held["dimensions"]["TEST.A"]["alignment"]["applicability"], "stale")
+                    self.assertEqual(held["regression"]["affected_alignment_records"], [historical["formal_records"][0]["alignment"]["ref"]])
+                for malformed in ({**packet["new"]["graph"]["ref"], "bytes": True},
+                                  {**packet["new"]["graph"]["ref"], "extra": "TEST"},
+                                  {key: value for key, value in packet["new"]["graph"]["ref"].items() if key != "git_blob"}):
+                    broken = copy.deepcopy(packet)
+                    self.update_alignment(broken["formal_records"][0], lambda review, malformed=malformed: review.update({"reviewed_graph": malformed}))
+                    self.refused(broken)
+
+    def test_native_expected_context_changes_only_kernel_not_statement_alignment(self):
+        packet = self.with_formal()
+        for field, value in (("repository", "TEST-other/repository"), ("commit", "c" * 40),
+                             ("run-id", "124"), ("run-attempt", "2")):
+            with self.subTest(field=field):
+                report, _ = self.accepted(packet, expected={**self.expected, field: value})
+                kernel = report["dimensions"]["TEST.A"]["kernel"]
+                alignment = report["dimensions"]["TEST.A"]["alignment"]
+                self.assertEqual(kernel["applicability"], "stale")
+                self.assertIn("native_context_changed", kernel["reasons"])
+                self.assertEqual(alignment["applicability"], "current")
+                self.assertNotIn("native_context_changed", alignment["reasons"])
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+    def test_deleted_formal_mapping_retains_original_review_and_holds_surviving_shared_mapping(self):
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        formal["node_targets"].append({"node": "TEST.B", "target": TARGETS[1]})
+        def remove(graph):
+            del graph["nodes"]["TEST.A"]
+            graph["edges"] = []
+        self.change_graph(packet, "new", remove)
+        packet["new"]["bindings"] = [{"node": "TEST.B", "source": git_capture(SOURCE, "TEST/source.md"),
+                                      "statement_slice": slice_of(SOURCE, len(ALPHA) + len(PROOF), len(SOURCE)),
+                                      "proof_slice": None}]
+        report, _ = self.accepted(packet)
+        self.assertNotIn("TEST.A", report["dimensions"])
+        self.assertIn("TEST.A", report["regression"]["changed_nodes"])
+        self.assertNotIn("TEST.A", [item["node"] for item in report["regression"]["revalidation_required"]])
+        self.assertEqual(report["formal_summary"][0]["node_targets"], formal["node_targets"])
+        self.assertEqual(report["regression"]["affected_alignment_records"], [formal["alignment"]["ref"]])
+        self.assertEqual(report["dimensions"]["TEST.B"]["alignment"]["applicability"], "stale")
+        self.assertEqual(report["dimensions"]["TEST.B"]["kernel"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["record_state"], "unknown")
+        formal["node_targets"][0]["node"] = "TEST.NEVER_IN_EITHER_GRAPH"
+        self.refused(packet)
+
+    def test_elaborated_target_coverage_is_required_and_silent_checker_is_valid(self):
+        packet = self.with_formal()
+        self.replace_log(packet["formal_records"][0], "leanchecker.log", b"")
+        positive, _ = self.accepted(packet)
+        self.assertEqual(positive["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        complete = b"TEST.Formal.alpha : True\nTEST.Formal.beta : True\n"
+        for raw in (b"", b" \n\t", b"TEST.Formal.alpha : True\n", complete + b"TEST.Formal.alpha : True\n",
+                    complete + b"TEST.Formal.foreign : True\n", b"TEST.Formal.alphaSuffix : True\nTEST.Formal.beta : True\n",
+                    b"TEST.Formal.alpha\nTEST.Formal.beta\n"):
+            with self.subTest(raw=raw):
+                missing = copy.deepcopy(packet)
+                self.replace_log(missing["formal_records"][0], "elaborated-types.log", raw)
+                report, _ = self.accepted(missing)
+                self.assertNotEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        self.replace_log(packet["formal_records"][0], "elaborated-types.log",
+                         b"TEST.Formal.alpha (TEST_parameter : Nat)\n  : True\nTEST.Formal.beta :\n  True\n")
+        multiline, _ = self.accepted(packet)
+        self.assertEqual(multiline["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+
+
 if __name__ == "__main__":
     unittest.main()
