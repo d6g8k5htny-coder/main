@@ -28,10 +28,14 @@ python3 -B -m unittest tests.test_site_asset_release
 node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
+python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
+python3 -B -E -O -S tests/test_public_shop_check_identity_control.py -v
 python3 -B tools/public_shop_check.py
 ```
 
-These are the local steps of the required `public-shop` job. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+These are the local steps of the required `public-shop` job, including both W8b public source identity controls. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+
+On macOS, a local run can fail if the process temporary directory is a symlink alias: the site-asset fixture guards refuse symlink ancestors. That portability defect is owned in [#294](https://github.com/d6g8k5htny-coder/main/issues/294) and is not repaired here. For a trusted local invocation only, resolve the caller's existing physical temporary directory and export that path as `TMPDIR` when launching a fresh test process. Do not hard-code a workstation path, and do not treat that setup as a production-path or fixture change.
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
