@@ -190,7 +190,7 @@ jobs:
         run: |
           set -euo pipefail
           cat > "$RUNNER_TEMP/semantic-control/payload/compatibility.py" <<'PY'
-          import hashlib, json, math, os, pathlib, platform, sqlite3, struct, sys, time, urllib.error, urllib.request
+          import hashlib, json, math, os, pathlib, platform, sqlite3, stat, struct, sys, time, urllib.error, urllib.request
           root = pathlib.Path('/work/evidence')
           root.mkdir()
           def require(condition, message):
@@ -328,14 +328,48 @@ jobs:
               require(embeddings['prompt_eval_count'] > 0, 'actual embedding input count absent')
               blobs = [struct.pack('<4096f', *vector) for vector in vectors]
               rounded = [struct.unpack('<4096f', blob) for blob in blobs]
+              native_schema_sql = 'CREATE VIRTUAL TABLE native USING vec0(embedding float[4096] distance_metric=cosine, chunk_size=16)'
+              def stored_native_identity(db):
+                  schema = db.execute("select sql from sqlite_schema where type='table' and name='native'").fetchall()
+                  require(schema == [(native_schema_sql,)], 'stored native vector schema drift')
+                  stored = db.execute('select rowid, embedding from native order by rowid').fetchall()
+                  require(len(stored) == 2 and all(type(row[0]) is int for row in stored)
+                          and [row[0] for row in stored] == [1, 2]
+                          and all(type(row[1]) is bytes and row[1] == expected for row, expected in zip(stored, blobs)),
+                          'stored native float32 vector identity drift')
+                  return {'schema_sql': schema[0][0], 'stored_vectors': [
+                      {'rowid': row[0], 'bytes': len(row[1]), 'sha256': hashlib.sha256(row[1]).hexdigest()} for row in stored]}
+              def database_identity():
+                  descriptor = os.open(database, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                  with os.fdopen(descriptor, 'rb') as stream:
+                      before = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                              and 0 < before.st_size <= 4194304, 'native database is not a bounded regular file')
+                      digest, length = hashlib.sha256(), 0
+                      while part := stream.read(65536):
+                          length += len(part)
+                          require(length <= 4194304, 'native database grew beyond retained-member limit')
+                          digest.update(part)
+                      after = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                              and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                                  (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                              and length == before.st_size, 'native database changed while hashing')
+                  return {'bytes': length, 'sha256': digest.hexdigest()}
               with connect() as db:
-                  db.execute('create virtual table native using vec0(embedding float[4096] distance_metric=cosine)')
+                  db.execute(native_schema_sql)
                   db.executemany('insert into native(rowid, embedding) values (?, ?)', list(enumerate(blobs, start=1)))
+              committed_native = stored_native_identity(db)
               db.close()
+              committed_database = database_identity()
               with connect() as db:
+                  reopened_native = stored_native_identity(db)
+                  require(reopened_native == committed_native, 'native vector identities changed after reopen')
                   rows = db.execute('select rowid,distance from native where embedding match ? and k=2 order by distance', (blobs[0],)).fetchall()
                   rows.sort(key=lambda item: (item[1], item[0]))
               db.close()
+              reopened_database = database_identity()
+              require(reopened_database == committed_database, 'native database bytes changed after reopen/query')
               norm_query = math.sqrt(math.fsum(value * value for value in rounded[0]))
               oracle = []
               for identifier, vector in enumerate(rounded, start=1):
@@ -348,6 +382,9 @@ jobs:
               save('embedding-result.json', {'schema_version': 1, 'embedding_requests': 1, 'public_input_count': 2,
                    'model': model, 'manifest_sha256': manifest_digest, 'candidate': 'ADAPT_DEDICATED_ENCODER',
                    'dimensions': 4096, 'norms': norms, 'float32_cosine_rows': rows, 'exact_cosine_oracle': oracle,
+                   'native_storage': {'chunk_size': 16, 'database_limit_bytes': 4194304,
+                                      'committed_table': committed_native, 'reopened_table': reopened_native,
+                                      'committed_database': committed_database, 'reopened_database': reopened_database},
                    'truncate': False, 'native_statistics': {name: embeddings[name] for name in ('total_duration', 'load_duration', 'prompt_eval_count')},
                    'reopened': True, 'scientific_effect': 'NONE', 'scientific_status_authority': False})
           finally:
