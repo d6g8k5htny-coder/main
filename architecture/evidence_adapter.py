@@ -396,6 +396,33 @@ def _axiom_dump(raw: bytes, targets: set[str]) -> dict[str, list[str]]:
     return result
 
 
+def _main_control_rejected(raw: bytes, phase: str) -> bool:
+    """Match Main's retained rejection test without executing its producer."""
+    try:
+        decoded = raw.decode("utf-8")
+    except UnicodeError:
+        return False
+    if phase == "REJECTED_BY_LEAN":
+        return any(marker in decoded for marker in ("is false", "unsolved goals", "failed"))
+    matches = list(AXIOM_LINE.finditer(decoded))
+    if phase != "REJECTED_BY_AXIOM_GATE" or not matches:
+        return False
+    # Main audits only selected reports for its fixed `injected` target; Lean
+    # warnings around them are legitimate. Mirror that audit's rejection rules,
+    # including its acceptance of repeated allowed axioms within one report.
+    seen = set()
+    for match in matches:
+        target, listed = match.groups()
+        if target != "injected" or target in seen:
+            return True
+        axioms = [] if listed is None or not listed.strip() else [item.strip() for item in listed.split(",")]
+        if (any(NAME.fullmatch(axiom) is None for axiom in axioms)
+                or not set(axioms) <= ALLOWED_AXIOMS):
+            return True
+        seen.add(target)
+    return seen != {"injected"}
+
+
 def _strip_lean_comments(decoded: str) -> str | None:
     """Retain layout and quoted markers while removing nested native comments."""
     pieces = []
@@ -757,7 +784,10 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             phases.update(dict.fromkeys(("sorry", "custom_imported", "native"), "REJECTED_BY_AXIOM_GATE"))
             require(all(name not in controls or controls[name] == phase for name, phase in phases.items()),
                     "main native negative-control rejection mechanism contradiction")
-            complete = complete and set(phases) <= set(controls)
+            complete = (complete and set(phases) <= set(controls)
+                        and all(name + ".log" in logs
+                                and _main_control_rejected(logs[name + ".log"].raw, phase)
+                                for name, phase in phases.items()))
     alignment_capture = None if value["alignment"] is None else captures.git(value["alignment"], "formal alignment")
     alignment = None if alignment_capture is None else alignment_capture.document("formal alignment")
     reviewed_graph = (None if alignment is None or "reviewed_graph" not in alignment else
