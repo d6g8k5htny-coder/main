@@ -919,7 +919,7 @@ class FiniteH0LifetimeReading(unittest.TestCase):
         # status or acceptance words this cut never uses
         'ACCEPT','AMEND','PENDING','NOT_VERIFIED','PROVED_REVIEWED','AUTHOR_SIDE_CANDIDATE',
         'universality class','universal law','proves universality','accepted','established','independently',
-        'peer-review','validated','confirmed','admitted','kernel-checked','Lean-verified','machine-checked',
+        'peer-review','independent review','independent read','independent check','validated','confirmed','admitted','kernel-checked','Lean-verified','machine-checked',
         'almost sure','held-out test','ℓ^(1/3)','side24','SIDE24','continuous density','exponent 1/3',
         # stale counts and ordering from before main #329
         'seven proof sources','all seven','five merges','last of those proofs','latest proof','newest proof',
@@ -970,7 +970,7 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                             '52dc91e3bc68b8f023f11e9ec37b1423853d721dc9188046246e96b4131e205f',
                             'a6fb3d0397e622d8a1061ff6e83d05f66e99d53fbc2dd35c1b8ee82d076a4458')
     PROSE_NUMBERS = ('8 314 326 8 0 326 0 329 23:58 0 0 7 318 324 326 0 0 0 1/3 2/3 5 1 1 526 0 326 8 2026 22:42 314 319 321 323 326 '
-                     '27,064 329 8 23:58 0 326 8 22:42 314 329 10,559 256 326 256 256 256 0 256 0 319 321 323 326 321 323 329 3 18:00 '
+                     '27,064 329 8 23:58 0 326 8 22:42 314 329 10,559 256 326 256 256 256 0 256 0 321 323 326 319 321 323 329 3 18:00 '
                      '107 3 20:01 8 2026 256 99 99 103 103 4 00:18 8 2026 256 7 18:37 8 2026 00:58 193 18:45 7 18:46 4 7 18:37')
     # Each quote keeps the source the page names for it.
     ATTRIBUTIONS = ('In the suite guide’s words, the proof “constructs a Borel selector',
@@ -990,7 +990,7 @@ class FiniteH0LifetimeReading(unittest.TestCase):
                     'After the first correction the record says “Both actual-source mathematical verdicts',
                     'In the suite guide’s words, its exploratory runner “generates explicitly exploratory fields”',
                     'The program describes itself as “a research design and execution route',
-                    'which counts actual finite H0 bars for fixed finite Gaussian fields; it is not a universality theorem.')
+                    'which counts actual finite H0 bars for fixed ideal finite Gaussian laws; it is not a universality theorem.')
     OTHER_PAGES_ROW = ('<dt>Words used on other pages</dt><dd>ACCEPT and AMEND / open are the proof index’s and STATUS.md’s wording at their pinned snapshots, shown on <a href="museum.html#claims">Source records</a> and the <a href="workspace.html#board">Library board</a>. PROVED_REVIEWED, AUTHOR_SIDE_CANDIDATE and the other gate classifications are the downstream gate’s states, shown on the <a href="dependencies.html">dated claim-dependency snapshot</a>. Each page quotes its own source; none of ACCEPT, AMEND, PROVED_REVIEWED or AUTHOR_SIDE_CANDIDATE appears in this page’s cuts.</dd>')
 
     class Tree(HTMLParser):
