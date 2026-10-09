@@ -1,7 +1,7 @@
 // Bounded export of the CURRENT displayed Approach-points teaching diagram.
 // Pinned source identities are provenance, not proof acceptance or verification.
-import { pinModel } from './explore-models.mjs?site-release=05e781a3ffc6330db3d2460bb7eb11e90e9fa8f9ee06a1364997e6b209299238';
-import { serializeTeachingSVG } from './teaching-export.mjs?site-release=05e781a3ffc6330db3d2460bb7eb11e90e9fa8f9ee06a1364997e6b209299238';
+import { pinModel } from './explore-models.mjs?site-release=cf6e463f42d22e0345487437700a8c02ba28f73598d0e9b1761f8696565650cf';
+import { serializeTeachingSVG } from './teaching-export.mjs?site-release=cf6e463f42d22e0345487437700a8c02ba28f73598d0e9b1761f8696565650cf';
 
 const PUBLIC_EXPLORE='https://d6g8k5htny-coder.github.io/main/site/explore.html';
 const COMMIT='d6628da09384728992dcbe6e921cc28ba85aebb0';
@@ -20,8 +20,6 @@ const permalink=params=>`${PUBLIC_EXPLORE}?r=${params.r}&region=${params.region}
 export function pinFigureMetadata(params,generatedAt=new Date().toISOString()) {
   const current=parameters(params);
   if(typeof generatedAt!=='string' || !Number.isFinite(Date.parse(generatedAt)) || new Date(generatedAt).toISOString()!==generatedAt)throw new RangeError('Generation time must be a valid ISO timestamp');
-  // Integer decimal ticks keep the educational labels canonical. These numbers
-  // remain floating-point teaching data, not certified field calculations.
   const ticks=Math.round(current.r*100),gap=ticks**3/1000000;
   return {schema:'universal-law/pin-teaching-figure/v1',mode:'teaching_model',params:current,teaching_constants:{A:2,B:4,rho:3,L:24,b:1,k:1},pins:[[-ticks/200,0],[ticks/200,0]],annulus:[ticks/50,ticks/25],height_gap:gap,height_window:[(1000000-ticks**3)/1000000,1],generated_at:generatedAt,sources:SOURCES.map(source=>({...source})),permalink:permalink(current),verification:'not_performed',limits:LIMITS};
 }
@@ -32,8 +30,6 @@ export function pinFigureCitation(params) {
 const number=(value,places=2)=>value.toFixed(places).replace('-','−');
 export function pinExpectedNodes(params) {
   const current=parameters(params),model=pinModel({r:current.r}),remote=current.region==='remote';
-  // Use the same model arithmetic and native String conversion as drawPins;
-  // require every displayed primitive/label, including its source attributes.
   const node=(tag,attributes,text)=>({tag,attributes:Object.fromEntries(Object.entries(attributes).map(([key,value])=>[key,String(value)])),...(text!==undefined?{text}:{})});
   const text=(x,y,value,className='diagram-small',extra={})=>node('text',{x,y,class:className,...extra},value);
   const line=(x1,y1,x2,y2,className='diagram-axis')=>node('line',{x1,y1,x2,y2,class:className});
