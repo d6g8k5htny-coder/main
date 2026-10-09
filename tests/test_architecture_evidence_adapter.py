@@ -135,6 +135,17 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         scope = git_capture(b"TEST scope: two declared True targets; no elaboration or scientific claim\n", "TEST/formal/SCOPE.md")
         module = git_capture(b"namespace TEST.Formal\ntheorem alpha : True := by trivial\ntheorem beta : True := by trivial\n", "TEST/formal/Demo.lean")
         files = [local_copy, scope, module]
+        # Synthetic source-check floor; these bytes are never executed by the adapter.
+        files.extend(git_capture(raw, path) for path, raw in (
+            ("TEST/formal/lean-toolchain", b"leanprover/lean4:v4.34.1\n"),
+            ("TEST/formal/lakefile.toml", b'name = "TESTOnly"\nversion = "0.0.0"\n'),
+            ("TEST/formal/lake-manifest.json", b'{"packages": []}\n'),
+            ("TEST/formal/TEST.Formal.lean", b"import Demo\n"),
+            ("TEST/formal/GLOSSARY.md", b"TEST synthetic glossary; no semantic acceptance\n"),
+            ("TEST/formal/README.md", b"TEST synthetic package; no executed Lean evidence\n"),
+            ("tools/formal_gate_check.py", b"# TEST synthetic bound control; not executed\n"),
+            ("tests/test_formal_gate.py", b"# TEST synthetic bound tests; not executed\n"),
+        ))
         source_ref = source["ref"]
         manifest = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
@@ -165,6 +176,7 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             ("sorry.log", b"TEST/formal/sorry.lean:2:8: warning: declaration uses 'sorry'\n'injected' depends on axioms: [sorryAx]\n"),
             ("custom_imported.log", b"'injected' depends on axioms: [hiddenPremise]\n"),
             ("native.log", b"'injected' depends on axioms: [Lean.ofReduceBool]\n"),
+            ("version.log", b"Lean (version 4.34.1, TEST fixture only)\n"),
         )]
         receipt = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
@@ -206,6 +218,17 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         manifest["targets"] = TARGETS
         # Math native file keys are formal-root-relative; Git refs remain repo-relative.
         prefix = formal["manifest"]["ref"]["path"].rsplit("/", 1)[0] + "/"
+        # Preserve the prior Math fixture rather than borrowing Main-only control captures.
+        main_only = {"TEST/formal/lean-toolchain", "TEST/formal/lakefile.toml",
+                     "TEST/formal/lake-manifest.json", "TEST/formal/TEST.Formal.lean",
+                     "TEST/formal/GLOSSARY.md", "TEST/formal/README.md",
+                     "tools/formal_gate_check.py", "tests/test_formal_gate.py"}
+        formal["source_files"] = [capture for capture in formal["source_files"]
+                                  if capture["ref"]["path"] not in main_only]
+        manifest["files"] = {path: digest for path, digest in manifest["files"].items() if path not in main_only}
+        formal["logs"] = [capture for capture in formal["logs"]
+                          if not capture["ref"]["member_path"].endswith("/version.log")]
+        self.update_receipt(formal, lambda receipt: receipt["logs"].pop("version.log"))
         manifest["files"] = {path[len(prefix):]: digest for path, digest in manifest["files"].items()}
         for field in ("package", "package_root", "root_module", "scientific_status_authority",
                       "sources", "allowed_axioms", "lean_toolchain", "meaning", "coordination",
@@ -1414,6 +1437,392 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
         self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
         self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+
+    def _parity_rebind_manifest(self, formal, manifest):
+        formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+        digest = formal["manifest"]["ref"]["sha256"]
+        self.update_receipt(formal, lambda receipt: receipt.update({"manifest_sha256": digest}))
+        self.update_alignment(formal, lambda review: review.update({"manifest_sha256": digest}))
+
+    def _parity_replace_file(self, formal, path, raw):
+        manifest = document(formal["manifest"])
+        for index, capture in enumerate(formal["source_files"]):
+            if capture["ref"]["path"] == path:
+                formal["source_files"][index] = replace_git(capture, raw)
+                key = path if formal["format"] == "main-formal-gate/v1" else path.removeprefix("TEST/formal/")
+                manifest["files"][key] = sha(raw)
+                self._parity_rebind_manifest(formal, manifest)
+                return
+        self.fail("TEST parity source file not found: " + path)
+
+    def _parity_add_file(self, formal, path, raw):
+        self.assertNotIn(path, {capture["ref"]["path"] for capture in formal["source_files"]})
+        formal["source_files"].append(git_capture(raw, path))
+        manifest = document(formal["manifest"])
+        manifest["files"][path] = sha(raw)
+        self._parity_rebind_manifest(formal, manifest)
+
+    def _parity_omit_file(self, formal, path):
+        formal["source_files"] = [capture for capture in formal["source_files"] if capture["ref"]["path"] != path]
+        manifest = document(formal["manifest"])
+        manifest["files"].pop(path)
+        self._parity_rebind_manifest(formal, manifest)
+
+    def _parity_main_current(self, packet):
+        report, _ = self.accepted(packet)
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        return report
+
+    def _parity_main_refused(self, packet):
+        result = self.run_adapter(packet)
+        self.assertEqual(result.returncode, 1, "native source contradiction escaped: " + result.stdout + result.stderr)
+        self.assertEqual(result.stdout, "", "native source contradiction emitted a valid report")
+        self.assertTrue(result.stderr.startswith("architecture evidence adapter refused: "), result.stderr)
+
+    def _parity_two_modules(self):
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        self._parity_add_file(formal, "TEST/formal/Nested/Beta.lean",
+                             b"namespace TEST.Other\ntheorem gamma : True := by trivial\n")
+        self._parity_replace_file(formal, "TEST/formal/TEST.Formal.lean", b"import Demo\nimport Nested.Beta\n")
+        manifest = document(formal["manifest"])
+        manifest["source_modules"].append("Nested/Beta.lean")
+        row = copy.deepcopy(manifest["targets"][-1])
+        row.update({"name": "TEST.Other.gamma", "module": "Nested/Beta.lean"})
+        manifest["targets"].append(row)
+        self._parity_rebind_manifest(formal, manifest)
+        self.update_receipt(formal, lambda receipt: receipt["axioms"].update({"TEST.Other.gamma": []}))
+        self.replace_log(formal, "axioms.log",
+                         b"'TEST.Formal.alpha' does not depend on any axioms\n"
+                         b"'TEST.Formal.beta' does not depend on any axioms\n"
+                         b"'TEST.Other.gamma' does not depend on any axioms\n")
+        self.replace_log(formal, "elaborated-types.log",
+                         b"TEST.Formal.alpha : True\nTEST.Formal.beta : True\nTEST.Other.gamma : True\n")
+        self.update_alignment(formal, lambda review: review.update({"targets": TARGETS + ["TEST.Other.gamma"]}))
+        return packet
+
+    def test_main_original_version_log_is_required_and_matches_the_entire_trimmed_receipt_value(self):
+        version = "Lean (version 4.34.1, TEST fixture only)"
+        for case, raw, receipt_version in (
+                ("V01_exact", (version + "\n").encode("utf-8"), version),
+                ("V02_outer_whitespace", (" \t" + version + "\n\n ").encode("utf-8"), version),
+                ("V03_whole_multiline", ("TEST diagnostic\n" + version + "\n").encode("utf-8"),
+                 "TEST diagnostic\n" + version)):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "version.log", raw)
+                self.replace_log(formal, "leanchecker.log", b"")
+                self.update_receipt(formal, lambda receipt: receipt.update({"lean_version": receipt_version}))
+                self._parity_main_current(packet)
+        for case, raw in (("V04_missing", None), ("V05_empty", b""), ("V06_whitespace", b" \n\t")):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                if raw is None:
+                    formal["logs"] = [capture for capture in formal["logs"]
+                                      if not capture["ref"]["member_path"].endswith("/version.log")]
+                    self.update_receipt(formal, lambda receipt: receipt["logs"].pop("version.log"))
+                else:
+                    self.replace_log(formal, "version.log", raw)
+                report, _ = self.accepted(packet)
+                kernel = report["dimensions"]["TEST.A"]["kernel"]
+                self.assertEqual(kernel["record_state"], "recorded")
+                self.assertEqual(kernel["applicability"], "unknown")
+                self.assertIn("target_inventory_incomplete", kernel["reasons"])
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        for case, raw in (("V07_nonempty_different_vendor", b"Lean (version 4.34.1, TEST different vendor)\n"),
+                          ("V08_nonempty_different_version", b"Lean (version 4.34.2, TEST fixture only)\n")):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                self.replace_log(packet["formal_records"][0], "version.log", raw)
+                self._parity_main_refused(packet)
+
+    def test_main_bound_dependency_lock_matches_native_package_names_and_revisions(self):
+        valid = [{"name": "TEST_dep_a", "rev": "c" * 40}, {"name": "TEST_dep_b", "rev": "d" * 40}]
+        for case, packages in (("L01_empty", []), ("L02_native_ignored_metadata", [{**valid[0], "TEST_extra": True}]),
+                               ("L03_order_independent", list(reversed(valid)))):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self._parity_replace_file(formal, "TEST/formal/lake-manifest.json",
+                                          encoded({"packages": packages, "TEST_lock_metadata": "inert"}))
+                revisions = {package["name"]: package["rev"] for package in packages}
+                manifest = document(formal["manifest"])
+                manifest["dependency_revisions"] = revisions
+                self._parity_rebind_manifest(formal, manifest)
+                self.update_receipt(formal, lambda receipt: receipt.update({"dependency_revisions": revisions}))
+                self._parity_main_current(packet)
+        cases = (
+            ("L04_changed_locked_revision", [{**valid[0], "rev": "e" * 40}], {"TEST_dep_a": "c" * 40}),
+            ("L05_extra_locked_package", valid, {"TEST_dep_a": "c" * 40}),
+            ("L06_missing_locked_package", [valid[0]], {"TEST_dep_a": "c" * 40, "TEST_dep_b": "d" * 40}),
+            ("L07_duplicate_same_revision", [valid[0], valid[0]], {"TEST_dep_a": "c" * 40}),
+            ("L08_duplicate_different_revision", [valid[0], {**valid[0], "rev": "e" * 40}], {"TEST_dep_a": "e" * 40}),
+            ("L09_missing_capture", None, {}),
+            ("L10_nonlist_packages", {}, {}),
+            ("L11_nonobject_package", ["TEST malformed package"], {}),
+            ("L12_missing_revision_key", [{"name": "TEST_dep_a"}], {}),
+            ("L13_malformed_locked_revision", [{"name": "TEST_dep_a", "rev": "c" * 39}], {"TEST_dep_a": "c" * 40}),
+        )
+        for case, packages, revisions in cases:
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                if packages is None:
+                    self._parity_omit_file(formal, "TEST/formal/lake-manifest.json")
+                else:
+                    self._parity_replace_file(formal, "TEST/formal/lake-manifest.json", encoded({"packages": packages}))
+                manifest = document(formal["manifest"])
+                manifest["dependency_revisions"] = revisions
+                self._parity_rebind_manifest(formal, manifest)
+                self.update_receipt(formal, lambda receipt: receipt.update({"dependency_revisions": revisions}))
+                self._parity_main_refused(packet)
+
+    def test_main_prohibited_proof_constructs_follow_native_comment_and_word_boundary_rules(self):
+        base = b"namespace TEST.Formal\ntheorem alpha : True := by trivial\ntheorem beta : True := by trivial\n"
+        positives = (
+            ("P01_line_comments", b"-- sorry native_decide axiom TEST comment\n-- theorem ghost : False := by sorry\n" + base),
+            ("P02_nested_comments", b"/- sorry /- native_decide\nnamespace TEST.Ghost\ntheorem ghost : False -/ axiom ignored -/\n" + base),
+            ("P03_word_boundaries", base.replace(b"by trivial", b"by\n  let sorrySuffix := True\n  let native_decideSuffix := True\n  let axiomSuffix := True\n  trivial", 1)),
+        )
+        for case, raw in positives:
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                self._parity_replace_file(packet["formal_records"][0], "TEST/formal/Demo.lean", raw)
+                self._parity_main_current(packet)
+        for case, raw in (
+                ("P04_sorry", base.replace(b"by trivial", b"by sorry", 1)),
+                ("P05_native_decide", base.replace(b"by trivial", b"by native_decide", 1)),
+                ("P06_custom_axiom", base + b"axiom hiddenPremise : False\n"),
+                ("P07_indented_custom_axiom", base + b"  axiom hiddenPremise : False\n")):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                self._parity_replace_file(packet["formal_records"][0], "TEST/formal/Demo.lean", raw)
+                # Original declared axioms/types still look positive; actual retained source contradicts the gate.
+                self._parity_main_refused(packet)
+
+    def test_main_ordered_declarations_namespaces_and_root_imports_match_the_native_inventory(self):
+        base = b"namespace TEST.Formal\ntheorem alpha : True := by trivial\ntheorem beta : True := by trivial\n"
+        for case in ("D01_original", "D02_lemma", "D03_two_modules", "D04_comment_blank_root"):
+            with self.subTest(case=case):
+                packet = self._parity_two_modules() if case == "D03_two_modules" else self.with_formal()
+                formal = packet["formal_records"][0]
+                if case == "D02_lemma":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base.replace(b"theorem alpha", b"lemma alpha"))
+                elif case == "D04_comment_blank_root":
+                    self._parity_replace_file(formal, "TEST/formal/TEST.Formal.lean",
+                        b"-- TEST ignored root comment\n\nimport Demo\n/- TEST outer /- TEST inner -/ tail -/\n\n")
+                self._parity_main_current(packet)
+        cases = ("D05_missing_declaration", "D06_renamed_declaration", "D07_reordered_declarations",
+                 "D08_reordered_manifest_targets", "D09_missing_namespace", "D10_multiple_namespaces",
+                 "D11_different_namespace", "D12_missing_root", "D13_extra_import", "D14_duplicate_import",
+                 "D15_reordered_imports", "D16_root_declaration", "D17_indented_import",
+                 "D18_trailing_import_whitespace", "D19_reordered_modules")
+        for case in cases:
+            with self.subTest(case=case):
+                packet = self._parity_two_modules() if case in ("D15_reordered_imports", "D19_reordered_modules") else self.with_formal()
+                formal = packet["formal_records"][0]
+                if case == "D05_missing_declaration":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base.replace(b"theorem alpha : True := by trivial\n", b""))
+                elif case == "D06_renamed_declaration":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base.replace(b"theorem alpha", b"theorem absent"))
+                elif case == "D07_reordered_declarations":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean",
+                        b"namespace TEST.Formal\ntheorem beta : True := by trivial\ntheorem alpha : True := by trivial\n")
+                elif case == "D08_reordered_manifest_targets":
+                    manifest = document(formal["manifest"])
+                    manifest["targets"].reverse()
+                    self._parity_rebind_manifest(formal, manifest)
+                elif case == "D09_missing_namespace":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base.replace(b"namespace TEST.Formal\n", b""))
+                elif case == "D10_multiple_namespaces":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base + b"namespace TEST.Extra\n")
+                elif case == "D11_different_namespace":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean", base.replace(b"namespace TEST.Formal", b"namespace TEST.Other"))
+                elif case == "D12_missing_root":
+                    self._parity_omit_file(formal, "TEST/formal/TEST.Formal.lean")
+                elif case in ("D13_extra_import", "D14_duplicate_import", "D15_reordered_imports",
+                              "D16_root_declaration", "D17_indented_import", "D18_trailing_import_whitespace"):
+                    roots = {
+                        "D13_extra_import": b"import Demo\nimport TEST.Unregistered\n",
+                        "D14_duplicate_import": b"import Demo\nimport Demo\n",
+                        "D15_reordered_imports": b"import Nested.Beta\nimport Demo\n",
+                        "D16_root_declaration": b"import Demo\ntheorem rootExtra : True := by trivial\n",
+                        "D17_indented_import": b" import Demo\n",
+                        "D18_trailing_import_whitespace": b"import Demo \n",
+                    }
+                    self._parity_replace_file(formal, "TEST/formal/TEST.Formal.lean", roots[case])
+                else:
+                    manifest = document(formal["manifest"])
+                    manifest["source_modules"].reverse()
+                    self._parity_rebind_manifest(formal, manifest)
+                    self._parity_replace_file(formal, "TEST/formal/TEST.Formal.lean", b"import Nested.Beta\nimport Demo\n")
+                self._parity_main_refused(packet)
+
+    def test_math_source_and_version_records_keep_their_separate_historical_boundary(self):
+        for case in ("M01_original_schema", "M02_no_main_namespace"):
+            with self.subTest(case=case):
+                packet = copy.deepcopy(self.packet)
+                formal = self.math_formal(packet)
+                packet["formal_records"] = [formal]
+                if case == "M02_no_main_namespace":
+                    self._parity_replace_file(formal, "TEST/formal/Demo.lean",
+                        b"theorem alpha : True := by trivial\ntheorem beta : True := by trivial\n")
+                report, _ = self.accepted(packet)
+                retained = report["formal_summary"][0]
+                self.assertNotIn("root_module", retained["retained_manifest"])
+                self.assertNotIn("negative_controls", retained["retained_manifest"])
+                self.assertNotIn("tools/formal_gate_check.py", retained["retained_manifest"]["files"])
+                self.assertNotIn("version.log", retained["retained_receipt"]["logs"])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+
+    def test_main_required_control_file_floor_and_captured_toolchain_bytes_match_native_source_check(self):
+        required = ("TEST/formal/lean-toolchain", "TEST/formal/lakefile.toml", "TEST/formal/lake-manifest.json",
+                    "TEST/formal/TEST.Formal.lean", "TEST/formal/SCOPE.md", "TEST/formal/GLOSSARY.md",
+                    "TEST/formal/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py")
+        packet = self.with_formal()
+        self._parity_main_current(packet)
+        for path in required:
+            with self.subTest(case="F_missing_native_required_file", path=path):
+                changed = copy.deepcopy(packet)
+                self._parity_omit_file(changed["formal_records"][0], path)
+                self._parity_main_refused(changed)
+        for case, raw in (("F_wrong_toolchain", b"leanprover/lean4:v4.34.2\n"),
+                          ("F_blank_toolchain", b" \n\t")):
+            with self.subTest(case=case):
+                changed = copy.deepcopy(packet)
+                self._parity_replace_file(changed["formal_records"][0], "TEST/formal/lean-toolchain", raw)
+                self._parity_main_refused(changed)
+        with self.subTest(case="F_native_trimmed_toolchain_positive"):
+            self._parity_replace_file(packet["formal_records"][0], "TEST/formal/lean-toolchain",
+                                      b" \tleanprover/lean4:v4.34.1\n\n ")
+            self._parity_main_current(packet)
+
+    def test_main_registered_lean_suffix_and_visible_captured_lean_inventory_match_native_scope(self):
+        packet = self.with_formal()
+        self._parity_main_current(packet)
+        for case, path in (("R_native_build_tree_exclusion", "TEST/formal/.lake/Hidden.lean"),
+                           ("R_outside_package", "TEST/outside-package/Other.lean")):
+            with self.subTest(case=case):
+                changed = copy.deepcopy(packet)
+                self._parity_add_file(changed["formal_records"][0], path,
+                                      b"namespace TEST.Unrelated\ntheorem untouched : True := by trivial\n")
+                self._parity_main_current(changed)
+        for case in ("R_registered_nonlean_suffix", "R_bound_unregistered_lean", "R_unbound_declared_lean"):
+            with self.subTest(case=case):
+                changed = copy.deepcopy(packet)
+                formal = changed["formal_records"][0]
+                if case == "R_registered_nonlean_suffix":
+                    capture = next(capture for capture in formal["source_files"]
+                                   if capture["ref"]["path"] == "TEST/formal/Demo.lean")
+                    raw = raw_bytes(capture)
+                    self._parity_omit_file(formal, "TEST/formal/Demo.lean")
+                    self._parity_add_file(formal, "TEST/formal/Demo.txt", raw)
+                    manifest = document(formal["manifest"])
+                    manifest["source_modules"] = ["Demo.txt"]
+                    for target in manifest["targets"]:
+                        target["module"] = "Demo.txt"
+                    manifest["negative_controls"]["TEST_false_claim"]["module"] = "Demo.txt"
+                    self._parity_rebind_manifest(formal, manifest)
+                    self._parity_replace_file(formal, "TEST/formal/TEST.Formal.lean", b"import Dem\n")
+                elif case == "R_bound_unregistered_lean":
+                    self._parity_add_file(formal, "TEST/formal/Unregistered.lean",
+                                          b"namespace TEST.Unregistered\ntheorem extra : True := by trivial\n")
+                else:
+                    path = "TEST/formal/DeclaredUnbound.lean"
+                    formal["source_files"].append(git_capture(b"namespace TEST.Unregistered\n", path))
+                    manifest = document(formal["manifest"])
+                    manifest["unbound_files"].append(path)
+                    self._parity_rebind_manifest(formal, manifest)
+                # Captured contradictions are visible; this makes no assertion about uncaptured repository files.
+                self._parity_main_refused(changed)
+
+    def test_main_origin_repository_policy_and_selected_utf8_sources_match_native_reads(self):
+        def origin_packet(repository):
+            packet = copy.deepcopy(self.packet)
+            for label in ("old", "new"):
+                packet[label]["bindings"][0]["source"] = git_capture(SOURCE, "TEST/source.md", "c" * 40, repository)
+            packet["formal_records"] = [self.formal(packet)]
+            return packet
+        for repository in (REPO, "d6g8k5htny-coder/Math-", "d6g8k5htny-coder/query-",
+                           "d6g8k5htny-coder/meta-framework", "d6g8k5htny-coder/Universal-Law-Workspace"):
+            with self.subTest(case="O_native_public_origin", repository=repository):
+                self._parity_main_current(origin_packet(repository))
+        with self.subTest(case="O_syntactically_valid_nonpublic_origin"):
+            self._parity_main_refused(origin_packet("TEST-other/nonpublic-source"))
+        with self.subTest(case="O_invalid_utf8_pinned_source"):
+            packet = copy.deepcopy(self.packet)
+            for label, commit in (("old", BASE), ("new", HEAD)):
+                packet[label]["bindings"][0]["source"] = git_capture(SOURCE + b"\xff", "TEST/source.md", commit)
+            packet["formal_records"] = [self.formal(packet)]
+            self._parity_main_refused(packet)
+        for case, path in (("O_invalid_utf8_registered_module", "TEST/formal/Demo.lean"),
+                           ("O_invalid_utf8_root_module", "TEST/formal/TEST.Formal.lean")):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                capture = next(capture for capture in formal["source_files"] if capture["ref"]["path"] == path)
+                self._parity_replace_file(formal, path, raw_bytes(capture) + b"\xff")
+                self._parity_main_refused(packet)
+        with self.subTest(case="O_hash_only_binary_file_is_inert"):
+            packet = self.with_formal()
+            self._parity_add_file(packet["formal_records"][0], "TEST/formal/opaque.bin", b"\x00\xff\xfeTEST")
+            self._parity_main_current(packet)
+
+    def test_main_registered_mutation_source_preconditions_hold_before_builtin_overrides(self):
+        for case in ("N_original_multiple_occurrences", "N_native_ignored_metadata", "N_valid_builtin_override"):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                spec = manifest["negative_controls"]["TEST_false_claim"]
+                if case == "N_native_ignored_metadata":
+                    spec["TEST_metadata"] = "native producer ignores this inert annotation"
+                elif case == "N_valid_builtin_override":
+                    manifest["negative_controls"]["native"] = copy.deepcopy(spec)
+                self._parity_rebind_manifest(formal, manifest)
+                self._parity_main_current(packet)
+        cases = ("N_missing_module_capture", "N_missing_module_key", "N_missing_replace_key",
+                 "N_missing_with_key", "N_absent_replace_text", "N_nonstring_replace",
+                 "N_nonstring_with", "N_nonobject_spec", "N_overridden_builtin_bad_precondition",
+                 "N_nonstring_module")
+        for case in cases:
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                spec = manifest["negative_controls"]["TEST_false_claim"]
+                if case == "N_missing_module_capture":
+                    spec["module"] = "TEST.Missing.lean"
+                elif case == "N_missing_module_key":
+                    del spec["module"]
+                elif case == "N_missing_replace_key":
+                    del spec["replace"]
+                elif case == "N_missing_with_key":
+                    del spec["with"]
+                elif case == "N_absent_replace_text":
+                    spec["replace"] = "TEST_NEEDLE_ABSENT_FROM_CAPTURED_MODULE"
+                elif case == "N_nonstring_replace":
+                    spec["replace"] = 7
+                elif case == "N_nonstring_with":
+                    spec["with"] = False
+                elif case == "N_nonobject_spec":
+                    manifest["negative_controls"]["TEST_false_claim"] = "TEST malformed mutation"
+                elif case == "N_overridden_builtin_bad_precondition":
+                    manifest["negative_controls"]["native"] = {**spec, "replace": "TEST_NEEDLE_ABSENT_FROM_CAPTURED_MODULE"}
+                else:
+                    spec["module"] = ["Demo.lean"]
+                self._parity_rebind_manifest(formal, manifest)
+                # Plausible bound outcome/log labels do not bypass the actual generator's raw-source preconditions.
+                self._parity_main_refused(packet)
 
 
 if __name__ == "__main__":
