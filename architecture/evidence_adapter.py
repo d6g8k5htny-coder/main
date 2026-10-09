@@ -92,6 +92,19 @@ def positive_decimal(value: Any, label: str) -> str:
     return digest(value, DECIMAL, label)
 
 
+def _git_reference(value: Any, label: str) -> dict[str, Any]:
+    """Validate a declared closed GitRef without fetching or authenticating it."""
+    ref = keys(value, {"repository", "commit", "path", "git_blob", "sha256", "bytes"}, label)
+    repository(ref["repository"], label + " repository")
+    digest(ref["commit"], HEX40, label + " commit")
+    relative_path(ref["path"], label + " path")
+    digest(ref["git_blob"], HEX40, label + " blob")
+    digest(ref["sha256"], HEX64, label + " SHA256")
+    require(type(ref["bytes"]) is int and 0 <= ref["bytes"] <= MAX_CAPTURE_BYTES,
+            label + ": invalid byte count")
+    return ref
+
+
 def _depth_and_types(value: Any, depth: int = 0) -> None:
     require(depth <= MAX_DEPTH, "JSON nesting exceeds limit")
     if type(value) is dict:
@@ -377,6 +390,62 @@ def _axiom_dump(raw: bytes, targets: set[str]) -> dict[str, list[str]]:
     return result
 
 
+def _elaborated_targets_complete(raw: bytes, targets: set[str]) -> bool:
+    """Check declared #check coverage, not the truth or custody of type text."""
+    try:
+        decoded = raw.decode("utf-8")
+    except UnicodeError:
+        return False
+    blocks: dict[str, list[str]] = {}
+    current = None
+    for line in decoded.splitlines():
+        if not line.strip():
+            continue
+        if line[0].isspace():
+            if current is None:
+                return False
+            blocks[current].append(line)
+            continue
+        matched = NAME.match(line)
+        if matched is None:
+            return False
+        current = matched.group()
+        tail = line[matched.end():]
+        if (current not in targets or current in blocks
+                or (tail and not tail[0].isspace() and tail[0] not in ":({[")):
+            return False
+        blocks[current] = [tail]
+    if set(blocks) != targets:
+        return False
+    closing = {")": "(", "}": "{", "]": "["}
+    for lines in blocks.values():
+        body = "\n".join(lines)
+        stack: list[str] = []
+        quoted = escaped = False
+        declaration_colon = None
+        for offset, character in enumerate(body):
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == '"':
+                    quoted = False
+            elif character == '"':
+                quoted = True
+            elif character in "({[":
+                stack.append(character)
+            elif character in closing:
+                if not stack or stack.pop() != closing[character]:
+                    return False
+            elif character == ":" and not stack and declaration_colon is None:
+                # Parameter/binder colons cannot supply the declaration's type.
+                declaration_colon = offset
+        if stack or quoted or declaration_colon is None or not body[declaration_colon + 1:].strip():
+            return False
+    return True
+
+
 def _target_inventory(manifest: dict[str, Any], main: bool) -> tuple[list[str], dict[str, Any], dict[str, Any]]:
     targets = manifest.get("targets")
     require(type(targets) is list and bool(targets), "empty native target inventory")
@@ -619,7 +688,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         if dumped is not None:
             require(canonical(dumped) == canonical(receipt_axioms), "original axiom log contradicts receipt")
         complete = (dumped is not None and set(dumped) == target_set
-                    and {"build.log", "leanchecker.log", "elaborated-types.log"} <= set(logs))
+                    and {"build.log", "leanchecker.log", "elaborated-types.log"} <= set(logs)
+                    and _elaborated_targets_complete(logs["elaborated-types.log"].raw, target_set))
         controls = receipt.get("negative_controls")
         require(type(controls) is dict and all(type(name) is str and outcome in
                 ("REJECTED_BY_LEAN", "REJECTED_BY_AXIOM_GATE") for name, outcome in controls.items()),
@@ -635,6 +705,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             complete = complete and set(phases) <= set(controls)
     alignment_capture = None if value["alignment"] is None else captures.git(value["alignment"], "formal alignment")
     alignment = None if alignment_capture is None else alignment_capture.document("formal alignment")
+    reviewed_graph = (None if alignment is None or "reviewed_graph" not in alignment else
+                      _git_reference(alignment["reviewed_graph"], "alignment reviewed_graph"))
     alignment_reasons = _alignment_reasons(alignment, manifest_capture, scope, targets,
                                            main=main, source_author=manifest.get("author"))
     return {
@@ -643,6 +715,7 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         "targets": targets, "target_rows": target_rows, "source_rows": source_rows,
         "receipt": receipt, "complete": complete, "mappings": mappings,
         "alignment": alignment, "alignment_capture": alignment_capture, "alignment_reasons": alignment_reasons,
+        "reviewed_graph": reviewed_graph,
         "summary": {"id": identity, "format": value["format"], "manifest_targets": targets,
                     "node_targets": value["node_targets"], "retained_manifest": manifest,
                     "retained_receipt": receipt, "retained_alignment": alignment},
@@ -907,19 +980,34 @@ def _retrofit_projection(record: dict[str, Any], binding: dict[str, Any] | None)
     return _axis(record["state"], applicability, reasons=reasons, evidence=[record["id"]])
 
 
-def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: list[dict[str, Any]],
-                regression: dict[str, Any]) -> dict[str, Any]:
+def _alignment_holds(new: dict[str, Any], formals: list[dict[str, Any]],
+                     regression: dict[str, Any]) -> dict[str, set[str]]:
     regression_reasons = {proposal["node"]: proposal["reasons"]
                           for proposal in regression["revalidation_required"]}
-    alignment_holds: dict[str, set[str]] = {}
+    changed = set(regression["changed_nodes"])
+    groups: dict[str, list[dict[str, Any]]] = {}
     for formal in formals:
         capture = formal["alignment_capture"]
-        if capture is None:
-            continue
-        held_reasons = {code for mapping in formal["mappings"]
-                        for code in regression_reasons.get(mapping["node"], [])}
-        if held_reasons:
-            alignment_holds.setdefault(canonical(capture.ref), set()).update(held_reasons)
+        if capture is not None:
+            groups.setdefault(canonical(capture.ref), []).append(formal)
+    graph_ref = canonical(new["graph_capture"].ref)
+    holds = {}
+    for identity, records in groups.items():
+        reasons = {code for formal in records for mapping in formal["mappings"]
+                   for code in regression_reasons.get(mapping["node"],
+                       ["node_record_changed"] if mapping["node"] in changed else [])}
+        # A newer alignment commit alone is not graph-context revalidation.
+        # Every formal use of the original whole record must remain bound and
+        # explicitly review the same verified full new graph identity.
+        revalidated = all(not formal["alignment_reasons"] and formal["reviewed_graph"] is not None
+                          and canonical(formal["reviewed_graph"]) == graph_ref for formal in records)
+        if reasons and not revalidated:
+            holds[identity] = reasons
+    return holds
+
+
+def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: list[dict[str, Any]],
+                regression: dict[str, Any], alignment_holds: dict[str, set[str]]) -> dict[str, Any]:
     projected = {node: {axis: [] for axis in AXES} for node in new["graph"]["nodes"]}
     for node, original in new["graph"]["nodes"].items():
         binding = new["bindings"].get(node)
@@ -949,6 +1037,10 @@ def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: l
         held_reasons = set() if capture is None else alignment_holds.get(canonical(capture.ref), set())
         for mapping in formal["mappings"]:
             node, target = mapping["node"], mapping["target"]
+            if node not in projected:
+                # Historical explicit mappings remain in the original record,
+                # but removed nodes have no new-snapshot dimensions.
+                continue
             joined, join_reasons = _main_join(formal, node, target, new["bindings"])
             projected[node]["kernel"].append(_kernel(formal, joined, join_reasons))
             reasons = list(formal["alignment_reasons"])
@@ -956,16 +1048,13 @@ def _dimensions(new: dict[str, Any], formals: list[dict[str, Any]], retrofits: l
                 # The hold covers every explicit mapping of this original whole record.
                 reasons.extend(sorted(held_reasons))
                 reasons.append("alignment_record_revalidation_required")
-            if not formal["context_current"]:
-                reasons.append("native_context_changed")
             unresolved_join = formal["main"] and not joined
             if unresolved_join:
                 reasons.extend(join_reasons)
             if formal["alignment"] is None:
                 alignment = _axis(reasons=reasons, evidence=[formal["id"]])
             else:
-                contract_stale = (bool(formal["alignment_reasons"]) or not formal["context_current"]
-                                  or bool(held_reasons))
+                contract_stale = bool(formal["alignment_reasons"]) or bool(held_reasons)
                 application = "stale" if contract_stale else "unknown" if unresolved_join else "current"
                 alignment = _axis("recorded", application,
                                   reasons=reasons, evidence=[formal["id"]])
@@ -995,23 +1084,23 @@ def adapt_packet(packet: dict, expected_context: dict[str, str]) -> dict:
     nodes = set(new["graph"]["nodes"])
     require(type(packet["formal_records"]) is list and type(packet["retrofit_records"]) is list,
             "native record collections must be arrays")
-    formals = [_formal(value, captures, nodes, expected) for value in packet["formal_records"]]
+    formal_nodes = nodes | set(old["graph"]["nodes"])
+    formals = [_formal(value, captures, formal_nodes, expected) for value in packet["formal_records"]]
     retrofits = [_retrofit(value, captures, nodes) for value in packet["retrofit_records"]]
     identities = [record["id"] for record in formals + retrofits]
     require(len(identities) == len(set(identities)), "duplicate packet record id")
     regression = _regression(old, new, gate)
+    alignment_holds = _alignment_holds(new, formals, regression)
     affected = {}
-    impacted = set(regression["impacted_nodes"])
     for formal in formals:
         capture = formal["alignment_capture"]
         if capture is None:
             continue
-        mapped_impact = any(binding["node"] in impacted for binding in formal["mappings"])
-        stale_contract = bool(formal["alignment_reasons"]) or not formal["context_current"]
-        if mapped_impact or stale_contract:
+        identity = canonical(capture.ref)
+        if identity in alignment_holds or formal["alignment_reasons"]:
             affected[canonical(capture.ref)] = capture.ref
     regression["affected_alignment_records"] = [affected[identity] for identity in sorted(affected)]
     return {"schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
             "custody": "unknown", "original_packet": packet,
-            "dimensions": _dimensions(new, formals, retrofits, regression),
+            "dimensions": _dimensions(new, formals, retrofits, regression, alignment_holds),
             "formal_summary": [formal["summary"] for formal in formals], "regression": regression}

@@ -100,5 +100,8 @@ p.display-formula code { display: block; font-size: 15px; line-height: 1.6; padd
 .hero-cut { max-width: 78ch; font-size: 15px; margin: 22px 0 0; }
 .reading-glossary { margin-top: 26px; border-top: 1px solid var(--ul-border); padding-top: 12px; max-width: 78ch; }
 .reading-glossary summary { color: var(--ul-link); cursor: pointer; padding: 10px 0; }
-.reading-glossary dt { font-weight: 650; margin-top: 12px; }
-.reading-glossary dd { margin: 2px 0 0; font-family: inherit; font-size: 15px; color: var(--ul-muted); }
+.reading-glossary dt, .latest-card .card-status dt { font-weight: 650; margin-top: 12px; }
+.reading-glossary dd, .latest-card .card-status dd { margin: 2px 0 0; font-family: inherit; font-size: 15px; color: var(--ul-muted); }
+/* Card-status rows keep the card paragraphs’ 78ch measure; in print a card that carries them may break between its blocks. */
+.latest-card .card-status dd { max-width: 78ch; }
+@media print { .latest-card:has(> .card-status) { break-inside: auto; } .latest-card .card-status, p.display-formula { break-inside: avoid; } }
