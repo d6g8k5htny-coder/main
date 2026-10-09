@@ -2036,7 +2036,8 @@ def check_visitor_recovery(page, origin, expect, result):
         manifest=json.loads((ROOT/"docs/site/museum.json").read_text())
         # Packet cards keep manifest order: hold the first declared packet's RESULT.md until the second packet's
         # card (the article, not its "Verifying …" placeholder text) has rendered, then release it. This runs
-        # before the reader-intent flow so that the case screenshot shows that flow's reading position.
+        # before the reader-intent flow so that the case screenshot shows that flow's reading position. museum.mjs
+        # gives each source request 20 s, so a held packet that waits longer is refused, not reordered.
         packets=[packet["id"] for packet in manifest["packets"]];held=[]
         require(len(packets)>=2,"The packet-order guard needs at least two declared packets")
         page.route(manifest["packets"][0]["result"]["url"],lambda route:held.append(route))
@@ -2047,7 +2048,8 @@ def check_visitor_recovery(page, origin, expect, result):
         require(len(held)==1,"The first packet's RESULT.md was not intercepted")
         expect(page.locator(f"#packet-cards article#{packets[1]}")).to_be_attached(timeout=45000)
         during=page.eval_on_selector_all("#packet-cards article","nodes=>nodes.map(node=>node.id)")
-        require(packets[0] not in during and packets[1] in during,f"The second packet should have rendered while the first is held: {during}")
+        refused=page.eval_on_selector_all("#packet-cards article.refused","nodes=>nodes.map(node=>node.id)")
+        require(packets[0] not in during and packets[1] in during,f"The second packet should have rendered while the first is held: {during} (refused: {refused})")
         held[0].fulfill(response=held[0].fetch());page.unroute(manifest["packets"][0]["result"]["url"])
         expect(page.locator("#museum-state")).to_contain_text("displayed source bytes verified",timeout=45000)
         order=page.eval_on_selector_all("#packet-cards article","nodes=>nodes.map(node=>node.id)")

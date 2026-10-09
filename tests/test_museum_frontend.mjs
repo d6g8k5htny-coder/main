@@ -293,7 +293,8 @@ test('a coherent old browser cache cannot hide the newly pinned packet',{skip:!m
     return new Response(Buffer.from(fixtures[String(url)],'base64'));
   }});
   assert.equal(document.getElementById('packet-cards').children.length,2);
-  assert.match(document.getElementById('packet-cards').textContent,/side24-chart-claude-20260926/);
+  // Match rendered cards, not text: a Verifying placeholder or a refusal also names the packet.
+  assert.deepEqual(descendants(document.getElementById('packet-cards'),n=>n.tagName==='ARTICLE').map(n=>[n.id,/refused/.test(n.className)]),[['side24-identity-replay-20260926',false],['side24-chart-claude-20260926',false]]);
   assert.deepEqual(calls.slice(0,2),[{url:'config.json',cache:'no-store'},{url:'museum.json',cache:'no-store'}]);
   assert.ok(calls.slice(2).every(call=>call.cache===undefined),'Pinned remote source requests retain their cache policy');
 });
@@ -402,14 +403,17 @@ async function packetOrderPage({failFirst=false,failSecond=false}={}){
   await served;while(!descendants(host,n=>n.tagName==='ARTICLE'&&n.id===ids[1]).length&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,5));
   const article=child=>descendants(child,n=>n.tagName==='ARTICLE')[0]??(child.tagName==='ARTICLE'?child:undefined);
   const during=host.children.map(child=>child.textContent),duringIds=host.children.map(child=>article(child)?.id);
+  const flagged=n=>isLive(n)||(typeof n.getAttribute==='function'&&n.getAttribute('role')!==null);
+  const placeholder=[host.children[0],...host.children[0].children].map(n=>({tag:n.tagName,className:n.className??'',flagged:flagged(n)}));
   release();await loading;
   const slots=host.children.map(child=>article(child)??child);
-  return {state:document.getElementById('museum-state').textContent,settled:host.children.map(child=>child.children.length),leftover:/Verifying/.test(host.textContent),during,duringIds,ids,slots:slots.map(node=>/refused/.test(node.className)?'refused':node.id||node.textContent),refused:slots.filter(node=>/refused/.test(node.className))};
+  return {placeholder,state:document.getElementById('museum-state').textContent,settled:host.children.map(child=>child.children.length),leftover:/Verifying/.test(host.textContent),during,duringIds,ids,slots:slots.map(node=>/refused/.test(node.className)?'refused':node.id||node.textContent),refused:slots.filter(node=>/refused/.test(node.className))};
 }
 test('packet cards render in manifest order when the first packet arrives last',available,async()=>{
   const page=await packetOrderPage();
   assert.deepEqual(page.duringIds,[undefined,page.ids[1]],'the second packet rendered before the first was released');
   assert.match(page.during[0],/side24-identity-replay-20260926/,'the held packet keeps its first slot while it verifies');
+  assert.deepEqual(page.placeholder,[{tag:'DIV',className:'',flagged:false},{tag:'P',className:'',flagged:false}],'the placeholder is plain text: no card class, role or live region');
   assert.deepEqual(page.slots,page.ids);
 });
 test('a refused packet keeps its manifest slot when the other packet arrives later',available,async()=>{
@@ -426,6 +430,8 @@ test('every refused packet is counted in the museum status line',available,async
   assert.deepEqual(page.slots,['refused','refused']);
   assert.deepEqual(page.refused.map(node=>node.id),page.ids);
   assert.equal(page.state,countedViews(2));
+  assert.deepEqual(page.settled,[1,1],'each refusal replaces its Verifying placeholder');
+  assert.equal(page.leftover,false);
 });
 test('a rendered packet replaces its Verifying placeholder',available,async()=>{
   const page=await packetOrderPage();
