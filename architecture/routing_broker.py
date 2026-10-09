@@ -746,7 +746,6 @@ class Broker:
     def reserve(self, request):
         request, raw = snapshot(request, REQUEST_LIMIT)
         validate_request(request)
-        now = self._now()
         with self._transaction() as connection:
             original = connection.execute("SELECT * FROM tasks WHERE task_id=?", (request["task_id"],)).fetchone()
             if original is not None:
@@ -754,6 +753,7 @@ class Broker:
                 return original["original_reserve_receipt"]
             deployment, card, tokens = self._binding(request)
             require(connection.execute("SELECT count(*) FROM tasks").fetchone()[0] < LIMITS["max_tasks"])
+            now = self._now()
             reason, upper = self._admission(connection, request, deployment, card, tokens, now)
             selected = self._selected(connection, request, now)
             if selected is not None and selected != (request["budget_id"], request["deployment_id"]):
@@ -797,10 +797,10 @@ class Broker:
 
     @opaque
     def claim_dispatch(self, task_id, request_sha256):
-        now = self._now()
         with self._transaction() as connection:
             task = self._task(connection, task_id, request_sha256)
             require(task["state"] == "reserved" and task["attempt_id"] is None)
+            now = self._now()
             require(self._dispatch_check(connection, task, now) is None)
             attempt = uuid.uuid4().hex
             task["attempt_id"] = attempt
@@ -853,13 +853,13 @@ class Broker:
     @opaque
     def confirm_not_dispatched(self, task_id, request_sha256, reason):
         require(type(reason) is str and reason in DENIALS - {"INVALID_INPUT", "REQUEST_CONFLICT"})
-        now = self._now()
         with self._transaction() as connection:
             task = self._task(connection, task_id, request_sha256)
             if task["state"] == "confirmed_not_dispatched":
                 require(task["nondispatch_reason"] == reason)
                 return task["latest_receipt"]
             require(task["state"] == "reserved" and task["attempt_id"] is None)
+            now = self._now()
             require(self._nondispatch_denial(connection, task, now) == reason)
             self._release(connection, task)
             task["state"] = "confirmed_not_dispatched"
