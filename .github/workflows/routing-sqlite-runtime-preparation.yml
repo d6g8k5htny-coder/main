@@ -777,7 +777,16 @@ jobs:
                   after["State"]["Running"] is False and after["State"]["ExitCode"] == 0 and after["State"]["OOMKilled"] is False,
                   "actual container did not exit successfully")
           config, host = after["Config"], after["HostConfig"]
-          require(config == before["Config"] and host == before["HostConfig"], "container configuration changed")
+          require(config == before["Config"], "container configuration changed")
+          # Docker may replace the explicitly disabled create-time flag with
+          # an unset value after start; neither observation may enable it.
+          for observed_host in (before["HostConfig"], host):
+              require("OomKillDisable" in observed_host
+                      and (observed_host["OomKillDisable"] is False or observed_host["OomKillDisable"] is None),
+                      "OOM killer disablement must not be enabled")
+          require({key: value for key, value in host.items() if key != "OomKillDisable"}
+                  == {key: value for key, value in before["HostConfig"].items() if key != "OomKillDisable"},
+                  "container host configuration changed")
           require(config["User"] == "65532:65532" and config["WorkingDir"] == "/work" and config["Entrypoint"] == ["/bin/sh"], "runtime identity/entrypoint")
           expected_command = ["-c", r'''
               python -I -B -S /control/sqlite_preparation.py normal
