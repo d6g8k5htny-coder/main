@@ -161,6 +161,10 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             ("leanchecker.log", b"TEST synthetic checker text; not an executed checker\n"),
             ("axioms.log", b"'TEST.Formal.alpha' does not depend on any axioms\n'TEST.Formal.beta' does not depend on any axioms\n"),
             ("elaborated-types.log", b"TEST.Formal.alpha : True\nTEST.Formal.beta : True\n"),
+            ("TEST_false_claim.log", b"TEST/formal/Demo.lean:2:22: error: unsolved goals\n\xe2\x8a\xa2 False\n"),
+            ("sorry.log", b"TEST/formal/sorry.lean:2:8: warning: declaration uses 'sorry'\n'injected' depends on axioms: [sorryAx]\n"),
+            ("custom_imported.log", b"'injected' depends on axioms: [hiddenPremise]\n"),
+            ("native.log", b"'injected' depends on axioms: [Lean.ofReduceBool]\n"),
         )]
         receipt = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
@@ -1279,6 +1283,137 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                         self.assertTrue(first.stderr.startswith("architecture evidence adapter refused: "))
                         self.assertRegex(first.stderr, r"graph.*" + resource + r".*limit",
                                          "resource admission did not precede the pinned graph gate")
+
+
+    def test_main_negative_control_logs_must_be_present_under_exact_receipt_bound_names(self):
+        names = ("TEST_false_claim", "TEST_second_claim", "sorry", "custom_imported", "native")
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        manifest = document(formal["manifest"])
+        manifest["negative_controls"]["TEST_second_claim"] = copy.deepcopy(manifest["negative_controls"]["TEST_false_claim"])
+        formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+        extra = run_capture(b"TEST/formal/TEST_second_claim.lean:2:22: error: proposition is false\n",
+                            "TEST_second_claim.log")
+        formal["logs"].append(extra)
+        def additional_registered_control(receipt):
+            receipt["manifest_sha256"] = formal["manifest"]["ref"]["sha256"]
+            receipt["negative_controls"]["TEST_second_claim"] = "REJECTED_BY_LEAN"
+            receipt["logs"]["TEST_second_claim.log"] = extra["ref"]["sha256"]
+        self.update_receipt(formal, additional_registered_control)
+        self.update_alignment(formal, lambda review: review.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+        self.replace_log(formal, "leanchecker.log", b"")
+        positive, _ = self.accepted(packet)
+        self.assertEqual(positive["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        self.assertEqual(positive["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        for missing in tuple((name,) for name in names) + (names,):
+            with self.subTest(kind="coherent_missing_control_logs", missing=missing):
+                changed = copy.deepcopy(packet)
+                formal = changed["formal_records"][0]
+                filenames = {name + ".log" for name in missing}
+                formal["logs"] = [capture for capture in formal["logs"]
+                                  if capture["ref"]["member_path"].rsplit("/", 1)[1] not in filenames]
+                self.update_receipt(formal, lambda receipt: [receipt["logs"].pop(name) for name in filenames])
+                # Both inventories agree exactly: this is missing retained execution, not a bad hash.
+                self.assertEqual(set(document(formal["receipt"])["negative_controls"]), set(names))
+                report, _ = self.accepted(changed)
+                kernel = report["dimensions"]["TEST.A"]["kernel"]
+                self.assertEqual(kernel["record_state"], "recorded")
+                self.assertEqual(kernel["applicability"], "unknown")
+                self.assertIn("target_inventory_incomplete", kernel["reasons"])
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        for name in names:
+            with self.subTest(kind="coherent_wrong_control_basename", name=name):
+                changed = copy.deepcopy(packet)
+                formal = changed["formal_records"][0]
+                old_name, new_name = name + ".log", "TEST_other_" + name + ".log"
+                capture = next(capture for capture in formal["logs"]
+                               if capture["ref"]["member_path"].endswith("/" + old_name))
+                capture["ref"]["member_path"] = "formal-evidence/" + new_name
+                self.update_receipt(formal, lambda receipt: receipt["logs"].update(
+                    {new_name: receipt["logs"].pop(old_name)}))
+                report, _ = self.accepted(changed)
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        for name in names:
+            with self.subTest(kind="negative_control_receipt_hash_contradiction", name=name):
+                changed = copy.deepcopy(packet)
+                self.update_receipt(changed["formal_records"][0], lambda receipt: receipt["logs"].update(
+                    {name + ".log": "f" * 64}))
+                self.refused(changed)
+
+    def test_main_negative_control_logs_need_the_native_rejection_evidence(self):
+        names = ("TEST_false_claim", "sorry", "custom_imported", "native")
+        for raw in (b"", b" \n\t", b"TEST diagnostic without a proof rejection or axiom report\n"):
+            for name in names:
+                with self.subTest(kind="absent_rejection_body", name=name, raw=raw):
+                    packet = self.with_formal()
+                    formal = packet["formal_records"][0]
+                    self.replace_log(formal, name + ".log", raw)
+                    report, _ = self.accepted(packet)
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                    self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                    self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        for name, raw in (("TEST_false_claim", b"'injected' depends on axioms: [sorryAx]\n"),
+                          ("sorry", b"'injected' does not depend on any axioms\n"),
+                          ("custom_imported", b"'injected' depends on axioms: [Classical.choice]\n"),
+                          ("native", b"'injected' depends on axioms: [propext, Quot.sound]\n")):
+            with self.subTest(kind="body_does_not_establish_declared_rejection_phase", name=name):
+                packet = self.with_formal()
+                self.replace_log(packet["formal_records"][0], name + ".log", raw)
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        # Main accepts each of these actual producer diagnostics; a successful checker may be silent.
+        for raw in (b"TEST/formal/Demo.lean:2:22: error: unsolved goals\n\xe2\x8a\xa2 False\n",
+                    b"TEST/formal/Demo.lean:2:22: error: proposition is false\n",
+                    b"TEST/formal/Demo.lean:2:22: error: tactic 'trivial' failed\n"):
+            with self.subTest(kind="native_proof_failure_marker", raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.replace_log(formal, "leanchecker.log", b"")
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        # Built-ins overwrite same-named registered mutations in the native producer.
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        manifest = document(formal["manifest"])
+        manifest["negative_controls"]["sorry"] = copy.deepcopy(manifest["negative_controls"]["TEST_false_claim"])
+        formal["manifest"] = replace_git(formal["manifest"], encoded(manifest))
+        self.update_receipt(formal, lambda receipt: receipt.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+        self.update_alignment(formal, lambda review: review.update({"manifest_sha256": formal["manifest"]["ref"]["sha256"]}))
+        overwritten, _ = self.accepted(packet)
+        self.assertEqual(overwritten["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+
+    def test_math_negative_control_log_inventory_keeps_its_distinct_native_names(self):
+        packet = copy.deepcopy(self.packet)
+        formal = self.math_formal(packet)
+        packet["formal_records"] = [formal]
+        capture = next(capture for capture in formal["logs"]
+                       if capture["ref"]["member_path"].endswith("/TEST_false_claim.log"))
+        capture["ref"]["member_path"] = "formal-evidence/false_fold.log"
+        formal["logs"].append(run_capture(b"TEST/formal/false_power.lean:2:3: error: tactic 'norm_num' failed\n",
+                                          "false_power.log"))
+        def native_math_receipt(receipt):
+            receipt["logs"]["false_fold.log"] = receipt["logs"].pop("TEST_false_claim.log")
+            receipt["logs"]["false_power.log"] = formal["logs"][-1]["ref"]["sha256"]
+            receipt["negative_controls"] = {"false_fold": "REJECTED_BY_LEAN", "false_power": "REJECTED_BY_LEAN",
+                "sorry": "REJECTED_BY_AXIOM_GATE", "custom_imported": "REJECTED_BY_AXIOM_GATE",
+                "native": "REJECTED_BY_AXIOM_GATE"}
+        self.update_receipt(formal, native_math_receipt)
+        self.replace_log(formal, "leanchecker.log", b"")
+        report, _ = self.accepted(packet)
+        retained = report["formal_summary"][0]
+        self.assertNotIn("negative_controls", retained["retained_manifest"])
+        self.assertNotIn("TEST_false_claim", retained["retained_receipt"]["negative_controls"])
+        self.assertIn("false_fold.log", retained["retained_receipt"]["logs"])
+        self.assertIn("false_power.log", retained["retained_receipt"]["logs"])
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+        self.assertEqual(report["regression"]["affected_alignment_records"], [])
 
 
 if __name__ == "__main__":
