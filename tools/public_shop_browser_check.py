@@ -182,6 +182,9 @@ def check_latest_work_flow(page, origin, expect, result, output):
         expect(page.locator("#reading-cut-20261009 .card-status dt")).to_have_count(3)
         expect(page.locator("#finite-h0-lifetimes")).to_contain_text("Organizational-independence credit is zero")
         require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"9 October cut entry overflow")
+        newest_shot=output/f'{result["case"]}-newest-cut.png'
+        page.locator("#reading-cut-20261009").screenshot(path=str(newest_shot))
+        result["newest_cut_screenshot"]={"path":newest_shot.name,"sha256":sha256(newest_shot.read_bytes()).hexdigest()}
         october_entry=page.get_by_role("link",name="7 October 18:37 UTC reading cut below",exact=True)
         october_entry.focus();page.keyboard.press("Enter")
         expect(page.locator("#reading-cut-20261007")).to_be_focused()
@@ -246,7 +249,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
         require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
         result["latest-source-requests"]=remote_requests
-        result["steps"].extend(["Home keyboard route reaches the 9 October cut, then the 7 October cut, then C131/C132, then C124 and both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+        result["steps"].extend(["Home keyboard route reaches the 9 October cut (screenshotted), then the 7 October cut, then C131/C132, then C124 and both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
     finally:
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
@@ -271,6 +274,9 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         expect(newest_details.locator("a[data-source-kind=pinned]")).to_have_count(4)
         expect(newest_details.locator("a[data-source-kind=pinned]").first).to_be_visible()
         require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Expanded 9 October reading overflow")
+        newest_sources=output/f'{result["case"]}-newest-cut-sources.png'
+        newest_details.screenshot(path=str(newest_sources))
+        result["newest_cut_sources_screenshot"]={"path":newest_sources.name,"sha256":sha256(newest_sources.read_bytes()).hexdigest()}
         newest_summary.focus();page.keyboard.press("Enter")
         require(newest_details.get_attribute("open") is None,"9 October detail did not close")
         status_fonts=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => getComputedStyle(el).fontFamily)")
@@ -437,7 +443,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
             require(fallback.evaluate("document.documentElement.scrollWidth <= innerWidth"),"JavaScript-off addendum overflow")
         finally:
             static.close()
-        result["steps"].append("9 October cut: focus, collapsed four-pin disclosure opened and closed by keyboard, card-status rows in the card text face, size and measure, card paragraphs without overflow; 7 October cut reached by its link; C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
+        result["steps"].append("9 October cut: focus, collapsed four-pin disclosure opened (screenshotted) and closed by keyboard, card-status rows in the card text face, size and measure, card paragraphs without overflow; 7 October cut reached by its link; C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
     finally:
         page.unroute("https://**/*",refuse_remote)
 
