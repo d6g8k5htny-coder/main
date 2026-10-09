@@ -1,0 +1,658 @@
+name: Semantic runtime preparation
+'on':
+  pull_request:
+    paths:
+      - .github/workflows/semantic-runtime-preparation.yml
+      - docs/plans/2026-10-08-semantic-runtime-preparation.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: semantic-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  preparation:
+    name: semantic-runtime-preparation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      OLLAMA_IMAGE: ollama/ollama:0.35.1@sha256:17e945f1aa6e505707eeb621e3f36847d0a4a063d4778f7007645acccfb8bd4f
+      PYTHON_IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Admit actual capacity and create bounded disposable filesystems
+        run: |
+          set -euo pipefail
+          publish="$RUNNER_TEMP/semantic-publish/payload"
+          mkdir -p "$publish"
+          chmod 0700 "$publish"
+          git rev-parse HEAD > "$publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$publish/repository.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$publish/run-attempt.txt"
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/semantic-runtime-preparation.yml
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 -I -B -S - <<'PY'
+          import json, os, pathlib, shutil
+          memory = dict(line.split(':', 1) for line in pathlib.Path('/proc/meminfo').read_text().splitlines())
+          ram = int(memory['MemTotal'].split()[0]) * 1024
+          free = shutil.disk_usage(os.environ['RUNNER_TEMP']).free
+          observed = {'schema_version': 1, 'ram_bytes': ram, 'free_disk_bytes': free,
+                      'minimum_ram_bytes': 14 * 2**30, 'minimum_free_disk_bytes': 32 * 2**30,
+                      'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          path = pathlib.Path(os.environ['RUNNER_TEMP']) / 'semantic-publish/payload/capacity.json'
+          path.write_text(json.dumps(observed, sort_keys=True, indent=2) + '\n')
+          if ram < observed['minimum_ram_bytes'] or free < observed['minimum_free_disk_bytes']:
+              raise ValueError('actual hosted capacity is below preparation admission')
+          PY
+          # Evidence is bounded too; preserve the capacity/native records across its mount.
+          mv "$publish" "$RUNNER_TEMP/semantic-initial-evidence"
+          for specification in models:10240 work:512 control:64 publish:64; do
+            label="${specification%:*}"
+            size="${specification#*:}"
+            directory="$RUNNER_TEMP/semantic-$label"
+            mkdir -p "$directory"
+            truncate -s "${size}M" "$RUNNER_TEMP/semantic-$label.img"
+            mkfs.ext4 -F "$RUNNER_TEMP/semantic-$label.img" > "$RUNNER_TEMP/semantic-initial-evidence/filesystem-$label.log" 2>&1
+            options=loop,nodev,nosuid,noexec
+            if [ "$label" = control ]; then options=loop,nodev,nosuid; fi
+            sudo mount -o "$options" "$RUNNER_TEMP/semantic-$label.img" "$directory"
+            # Keep ext4 root metadata and lost+found untouched; only this new payload belongs to the runner.
+            sudo mkdir "$directory/payload"
+            sudo chmod 0755 "$directory/payload"
+            sudo chown "$(id -u):$(id -g)" "$directory/payload"
+          done
+          cp "$RUNNER_TEMP/semantic-initial-evidence/"* "$publish/"
+          chmod 0700 "$publish" "$RUNNER_TEMP/semantic-work/payload"
+          sudo chown 65532:65532 "$RUNNER_TEMP/semantic-work/payload"
+          mkdir -p "$RUNNER_TEMP/semantic-models/payload/blobs" "$RUNNER_TEMP/semantic-models/payload/manifests/registry.ollama.ai/library/qwen3" "$RUNNER_TEMP/semantic-control/payload/downloads"
+          cp .github/workflows/semantic-runtime-preparation.yml "$publish/checked-workflow.yml"
+          cp docs/plans/2026-10-08-semantic-runtime-preparation.md "$publish/checked-plan.md"
+      - name: Acquire only fixed public inputs and verify every byte pin
+        run: |
+          set -euo pipefail
+          publish="$RUNNER_TEMP/semantic-publish/payload"
+          trap 'status=$?; printf "%s\n" "$status" > "$publish/provision-exit-status.txt"' EXIT
+          models="$RUNNER_TEMP/semantic-models/payload"
+          control="$RUNNER_TEMP/semantic-control/payload"
+          fetch() {
+            # Registry-origin HTTPS delivery redirects are permitted; bytes are never trusted by URL alone.
+            curl --fail --silent --show-error --location --max-redirs 3 --proto '=https' --proto-redir '=https' \
+              --tlsv1.2 --connect-timeout 10 --max-time "$4" --max-filesize "$3" "$1" -o "$2"
+          }
+          fetch https://registry.ollama.ai/v2/library/qwen3/manifests/8b "$models/manifests/registry.ollama.ai/library/qwen3/8b" 16384 60
+          test "$(sha256sum "$models/manifests/registry.ollama.ai/library/qwen3/8b" | cut -d ' ' -f 1)" = 500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41
+          for pin in \
+            05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76:487 \
+            a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f:5225374496 \
+            ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4:1723 \
+            d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12:11338 \
+            cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb:120; do
+            digest="${pin%:*}"
+            size="${pin#*:}"
+            duration=60
+            if [ "$size" = 5225374496 ]; then duration=900; fi
+            fetch "https://registry.ollama.ai/v2/library/qwen3/blobs/sha256:$digest" "$models/blobs/sha256-$digest" "$size" "$duration"
+          done
+          fetch https://files.pythonhosted.org/packages/6f/ad/6afd073b0f817b3e03f9e37ad626ae341805891f23c74b5292818f49ac63/sqlite_vec-0.1.9-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux1_x86_64.whl "$control/downloads/sqlite-vec-0.1.9-linux-x64.whl" 163388 60
+          python3 -I -B -S - <<'PY'
+          import email.parser, hashlib, json, os, pathlib, stat, zipfile
+          base = pathlib.Path(os.environ['RUNNER_TEMP'])
+          models, control, publish = (base / ('semantic-' + name) / 'payload' for name in ('models', 'control', 'publish'))
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def unique(pairs):
+              result = {}
+              for key, value in pairs:
+                  require(key not in result, 'duplicate primary manifest key')
+                  result[key] = value
+              return result
+          def identity(path, expected_size, expected_hash):
+              info = path.lstat()
+              require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= expected_size, 'unsafe public input')
+              digest, length = hashlib.sha256(), 0
+              with path.open('rb') as stream:
+                  while part := stream.read(1048576):
+                      length += len(part)
+                      require(length <= expected_size, 'public input grew')
+                      digest.update(part)
+              row = {'path': path.relative_to(models).as_posix(), 'bytes': length, 'sha256': digest.hexdigest(),
+                     'expected_bytes': expected_size, 'expected_sha256': expected_hash,
+                     'archive_policy': 'ARCHIVE_ORIGINAL_SMALL_INPUT' if expected_size < 1048576 else 'NOT_ARCHIVED_FULL_WEIGHTS'}
+              require(length == expected_size and row['sha256'] == expected_hash, 'fixed public input pin mismatch')
+              return row
+          manifest_path = models / 'manifests/registry.ollama.ai/library/qwen3/8b'
+          raw = manifest_path.read_bytes()
+          require(hashlib.sha256(raw).hexdigest() == '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41', 'model manifest pin mismatch')
+          manifest = json.loads(raw, object_pairs_hook=unique)
+          pins = [('config', '05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76', 487),
+                  ('model', 'a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f', 5225374496),
+                  ('template', 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4', 1723),
+                  ('license', 'd18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12', 11338),
+                  ('params', 'cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb', 120)]
+          require(set(manifest) == {'schemaVersion', 'mediaType', 'config', 'layers'} and manifest['schemaVersion'] == 2
+                  and len(manifest['layers']) == 4, 'unexpected fixed model manifest topology')
+          actual = [manifest['config'], *manifest['layers']]
+          rows = [{'path': manifest_path.relative_to(models).as_posix(), 'bytes': len(raw),
+                   'sha256': hashlib.sha256(raw).hexdigest(), 'expected_bytes': len(raw),
+                   'expected_sha256': hashlib.sha256(raw).hexdigest(), 'archive_policy': 'ARCHIVE_ORIGINAL_SMALL_INPUT'}]
+          for item, (kind, digest, size) in zip(actual, pins):
+              require(item['digest'] == 'sha256:' + digest and type(item['size']) is int and item['size'] == size, 'model layer identity drift')
+              row = identity(models / ('blobs/sha256-' + digest), size, digest)
+              row['kind'] = kind
+              rows.append(row)
+          (publish / 'model-binding-before.json').write_text(json.dumps(rows, sort_keys=True, indent=2) + '\n')
+          wheel = control / 'downloads/sqlite-vec-0.1.9-linux-x64.whl'
+          wheel_raw = wheel.read_bytes()
+          require(len(wheel_raw) == 163388 and hashlib.sha256(wheel_raw).hexdigest() == '1515727990b49e79bcaf75fdee2ffc7d461f8b66905013231251f1c8938e7786', 'Linux wheel pin mismatch')
+          with zipfile.ZipFile(wheel) as archive:
+              expected = {'sqlite_vec/__init__.py', 'sqlite_vec/vec0.so', 'sqlite_vec-0.1.9.dist-info/METADATA',
+                          'sqlite_vec-0.1.9.dist-info/WHEEL', 'sqlite_vec-0.1.9.dist-info/top_level.txt', 'sqlite_vec-0.1.9.dist-info/RECORD'}
+              require(len(archive.infolist()) == 6 and set(archive.namelist()) == expected
+                      and sum(item.file_size for item in archive.infolist()) <= 1048576, 'unexpected pinned wheel membership')
+              library = archive.read('sqlite_vec/vec0.so')
+              require(hashlib.sha256(library).hexdigest() == '5923730861b86c707cca5602b5f91092f9e52a46706dbc6e269fd4bb9c4498e8', 'Linux extension binary pin mismatch')
+              metadata_raw = archive.read('sqlite_vec-0.1.9.dist-info/METADATA')
+              metadata = email.parser.BytesParser().parsebytes(metadata_raw)
+              require(metadata['Name'] == 'sqlite-vec' and metadata['Version'] == '0.1.9', 'wheel metadata identity mismatch')
+              (control / 'vec0.so').write_bytes(library)
+              (control / 'sqlite-vec-METADATA.txt').write_bytes(metadata_raw)
+          declared = {'schema_version': 1, 'model_declared_license': 'Apache-2.0', 'sqlite_vec_declared_license': metadata['License'],
+                      'wheel_license_file': 'ABSENT', 'legal_approval': 'NOT_ASSESSED', 'scientific_effect': 'NONE',
+                      'ollama_image_component_license_inventory': 'NOT_ASSESSED', 'python_image_component_license_inventory': 'NOT_ASSESSED',
+                      'scientific_status_authority': False, 'wheel_bytes': len(wheel_raw), 'wheel_sha256': hashlib.sha256(wheel_raw).hexdigest()}
+          (publish / 'declared-licenses.json').write_text(json.dumps(declared, sort_keys=True, indent=2) + '\n')
+          PY
+          for pair in "$OLLAMA_IMAGE:ollama" "$PYTHON_IMAGE:python"; do
+            image="${pair%:*}"
+            label="${pair##*:}"
+            (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 600s docker pull --platform linux/amd64 "$image") > "$publish/$label-image-pull.log" 2>&1
+            docker image inspect "$image" > "$publish/$label-image.json"
+          done
+          chmod -R a-w "$models"
+      - name: Write fixed public compatibility controls
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/semantic-control/payload/compatibility.py" <<'PY'
+          import hashlib, json, math, os, pathlib, platform, sqlite3, struct, sys, time, urllib.error, urllib.request
+          root = pathlib.Path('/work/evidence')
+          root.mkdir()
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def save(name, value):
+              raw = (json.dumps(value, ensure_ascii=True, allow_nan=False, sort_keys=True, indent=2) + '\n').encode()
+              require(len(raw) <= 16777216, 'compatibility evidence byte limit')
+              with (root / name).open('xb') as output:
+                  output.write(raw)
+          def unique(pairs):
+              result = {}
+              for key, value in pairs:
+                  require(key not in result, 'duplicate native response key')
+                  result[key] = value
+              return result
+          def invalid_number(value):
+              raise ValueError('nonfinite native JSON number')
+          require(sys.version_info[:3] == (3, 11, 14) and platform.system() == 'Linux' and platform.machine() == 'x86_64', 'actual client runtime drift')
+          extension = pathlib.Path('/control/vec0.so')
+          require(hashlib.sha256(extension.read_bytes()).hexdigest() == '5923730861b86c707cca5602b5f91092f9e52a46706dbc6e269fd4bb9c4498e8', 'loaded Linux extension pin mismatch')
+          database = root / 'compatibility.sqlite'
+          def connect():
+              db = sqlite3.connect(database)
+              db.enable_load_extension(True)
+              try:
+                  db.load_extension(str(extension))
+              finally:
+                  db.enable_load_extension(False)
+              require(db.execute('select vec_version()').fetchone()[0] in ('v0.1.9', '0.1.9'), 'actual loaded extension version drift')
+              db.execute('pragma journal_mode=DELETE')
+              db.execute('pragma synchronous=FULL')
+              return db
+          query = struct.pack('<3f', 1.0, 0.0, 0.0)
+          with connect() as db:
+              version = db.execute('select vec_version()').fetchone()[0]
+              compile_options = [row[0] for row in db.execute('pragma compile_options')]
+              db.execute('create virtual table tiny using vec0(embedding float[3] distance_metric=cosine)')
+              db.executemany('insert into tiny(rowid, embedding) values (?, ?)', [(1, query), (2, struct.pack('<3f', 0.0, 1.0, 0.0))])
+          db.close()
+          with connect() as db:
+              tiny_rows = db.execute('select rowid, distance from tiny where embedding match ? and k=2 order by distance', (query,)).fetchall()
+              tiny_rows.sort(key=lambda item: (item[1], item[0]))
+              require(len(tiny_rows) == 2 and [row[0] for row in tiny_rows] == [1, 2]
+                      and abs(tiny_rows[0][1]) <= 1e-6 and abs(tiny_rows[1][1] - 1) <= 1e-6, 'reopened tiny cosine query mismatch')
+          db.close()
+          save('extension-result.json', {'schema_version': 1, 'python': platform.python_version(), 'platform': platform.platform(),
+               'sqlite_version': sqlite3.sqlite_version, 'sqlite_compile_options': compile_options, 'vec_version': version,
+               'tiny_cosine_rows': tiny_rows, 'actual_loaded_extension': True, 'reopened': True,
+               'scientific_effect': 'NONE', 'scientific_status_authority': False})
+          # No proxy handler, redirect handler or endpoint input is admitted to this loopback-only client.
+          class DenyRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, request, fp, code, message, headers, url):
+                  raise ValueError('loopback API redirect refused')
+          client = urllib.request.build_opener(urllib.request.ProxyHandler({}), DenyRedirect())
+          def api(path, label, payload=None, timeout=30):
+              require(path in ('/api/version', '/api/tags', '/api/show', '/api/embed', '/api/ps'), 'unadmitted API path')
+              data = None if payload is None else json.dumps(payload, allow_nan=False, separators=(',', ':')).encode()
+              if data is not None:
+                  save(label + '-request.json', payload)
+              request = urllib.request.Request('http://127.0.0.1:11434' + path, data=data, headers={'Content-Type': 'application/json'})
+              try:
+                  response = client.open(request, timeout=timeout)
+              except urllib.error.HTTPError as error:
+                  response = error
+              with response:
+                  raw = response.read(16777217)
+                  require(len(raw) <= 16777216, 'native API response byte limit')
+                  with (root / (label + '-response.json')).open('xb') as output:
+                      output.write(raw)
+                  save(label + '-http.json', {'status': response.status, 'response_bytes': len(raw), 'path': path})
+                  require(response.status == 200, 'native API rejected compatibility request')
+              return json.loads(raw, object_pairs_hook=unique, parse_constant=invalid_number)
+          # Readiness waits precede the one embedding attempt; they cannot substitute a different model or endpoint.
+          readiness = []
+          for attempt in range(30):
+              try:
+                  version_raw = client.open('http://127.0.0.1:11434/api/version', timeout=2)
+                  with version_raw:
+                      raw = version_raw.read(16385)
+                      require(version_raw.status == 200 and len(raw) <= 16384, 'invalid readiness response')
+                  ready_version = json.loads(raw, object_pairs_hook=unique, parse_constant=invalid_number)
+                  require(ready_version == {'version': '0.35.1'}, 'actual Ollama version drift')
+                  readiness.append({'attempt': attempt + 1, 'outcome': 'ready'})
+                  break
+              except urllib.error.URLError as error:
+                  readiness.append({'attempt': attempt + 1, 'outcome': type(error).__name__})
+                  time.sleep(1)
+          else:
+              save('readiness.json', readiness)
+              raise ValueError('bounded Ollama startup did not become ready')
+          save('readiness.json', readiness)
+          model = 'qwen3:8b'
+          manifest_digest = '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41'
+          def model_identity(label):
+              require(api('/api/version', label + '-version') == {'version': '0.35.1'}, 'native version drift')
+              tags = api('/api/tags', label + '-tags')
+              require(type(tags) is dict and type(tags.get('models')) is list and len(tags['models']) == 1
+                      and tags['models'][0]['name'] == model and tags['models'][0]['digest'] == manifest_digest, 'actual served model manifest drift')
+              show = api('/api/show', label + '-show', {'model': model, 'verbose': True})
+              require(type(show) is dict and type(show.get('model_info')) is dict and type(show.get('template')) is str, 'native show identity unavailable')
+              require(hashlib.sha256(show['template'].encode()).hexdigest() == 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4', 'actual template byte drift')
+              require(show['model_info'].get('general.architecture') == 'qwen3'
+                      and type(show['model_info'].get('qwen3.embedding_length')) is int and show['model_info']['qwen3.embedding_length'] == 4096, 'model metadata identity drift')
+              return show
+          before = model_identity('before')
+          try:
+              request = {'model': model, 'input': ['TEST preparation: water boils.', 'TEST preparation: a square has four sides.'],
+                         'truncate': False, 'keep_alive': '60s', 'options': {'num_ctx': 4096, 'num_thread': 4, 'num_gpu': 0}}
+              embeddings = api('/api/embed', 'embedding', request, timeout=600)
+              require(type(embeddings) is dict and embeddings.get('model') == model
+                      and type(embeddings.get('embeddings')) is list and len(embeddings['embeddings']) == 2, 'actual embedding cardinality/model mismatch')
+              vectors = embeddings['embeddings']
+              norms = []
+              for vector in vectors:
+                  require(type(vector) is list and len(vector) == 4096
+                          and all(type(value) in (int, float) and math.isfinite(value) for value in vector), 'invalid actual embedding dimensions or values')
+                  norm = math.sqrt(math.fsum(value * value for value in vector))
+                  require(math.isfinite(norm) and norm > 0 and abs(norm - 1) <= 1e-3, 'actual embedding norm mismatch')
+                  norms.append(norm)
+              for name in ('total_duration', 'load_duration', 'prompt_eval_count'):
+                  require(type(embeddings.get(name)) is int and embeddings[name] >= 0, 'missing actual embedding statistics')
+              require(embeddings['prompt_eval_count'] > 0, 'actual embedding input count absent')
+              blobs = [struct.pack('<4096f', *vector) for vector in vectors]
+              rounded = [struct.unpack('<4096f', blob) for blob in blobs]
+              with connect() as db:
+                  db.execute('create virtual table native using vec0(embedding float[4096] distance_metric=cosine)')
+                  db.executemany('insert into native(rowid, embedding) values (?, ?)', list(enumerate(blobs, start=1)))
+              db.close()
+              with connect() as db:
+                  rows = db.execute('select rowid,distance from native where embedding match ? and k=2 order by distance', (blobs[0],)).fetchall()
+                  rows.sort(key=lambda item: (item[1], item[0]))
+              db.close()
+              norm_query = math.sqrt(math.fsum(value * value for value in rounded[0]))
+              oracle = []
+              for identifier, vector in enumerate(rounded, start=1):
+                  norm = math.sqrt(math.fsum(value * value for value in vector))
+                  distance = 1 - math.fsum(a * b for a, b in zip(rounded[0], vector)) / (norm_query * norm)
+                  oracle.append((identifier, distance))
+              oracle.sort(key=lambda item: (item[1], item[0]))
+              require(len(rows) == 2 and [row[0] for row in rows] == [row[0] for row in oracle]
+                      and all(abs(actual[1] - expected[1]) <= 1e-5 for actual, expected in zip(rows, oracle)), 'native float32 cosine/reopen mismatch')
+              save('embedding-result.json', {'schema_version': 1, 'embedding_requests': 1, 'public_input_count': 2,
+                   'dimensions': 4096, 'norms': norms, 'float32_cosine_rows': rows, 'exact_cosine_oracle': oracle,
+                   'truncate': False, 'native_statistics': {name: embeddings[name] for name in ('total_duration', 'load_duration', 'prompt_eval_count')},
+                   'reopened': True, 'scientific_effect': 'NONE', 'scientific_status_authority': False})
+          finally:
+              after = model_identity('after')
+              require(before == after, 'native model/tokenizer/template changed during compatibility attempt')
+              api('/api/ps', 'after-ps')
+          save('compatibility-result.json', {'schema_version': 1, 'scope': 'tiny-public-runtime-compatibility',
+               'actual_loaded_extension': True, 'actual_embedding_vectors': 2, 'native_identity_unchanged': True,
+               'full_prompt_tokenizer_parity': 'NOT_RUN', 'native_selected_model_info_parity': 'NOT_RUN',
+               'approximately_500_token_chunking': 'NOT_RUN', 'retrieval_quality': 'NOT_RUN', 'generation_quality': 'NOT_RUN',
+               'installed_entrypoints': 'NOT_TOUCHED', 'default_retrieval_switch': False,
+               'scientific_effect': 'NONE', 'scientific_status_authority': False})
+          PY
+          chmod -R a-w "$RUNNER_TEMP/semantic-control/payload"
+      - name: Exercise the fixed runtime with external networking denied
+        run: |
+          set -euo pipefail
+          publish="$RUNNER_TEMP/semantic-publish/payload"
+          # Native HOME is not assigned or repurposed. Only the fixed image's disposable /root or / case is supported.
+          docker create --name semantic-server --log-driver none --platform linux/amd64 --network none \
+            --read-only --user 65532:65532 --cpus 3.5 --memory 12g --pids-limit 192 --cap-drop ALL --security-opt no-new-privileges \
+            --ulimit fsize=16777216:16777216 --tmpfs /tmp:rw,noexec,nosuid,nodev,size=1g,uid=65532,gid=65532 \
+            --tmpfs /root:rw,noexec,nosuid,nodev,size=1m,uid=65532,gid=65532,mode=0700 \
+            --tmpfs /.ollama:rw,noexec,nosuid,nodev,size=1m,uid=65532,gid=65532,mode=0700 \
+            --env OLLAMA_HOST=127.0.0.1:11434 --env OLLAMA_MODELS=/models --env OLLAMA_NO_CLOUD=1 --env OLLAMA_NOPRUNE=1 \
+            --env OLLAMA_NUM_PARALLEL=1 --env OLLAMA_MAX_LOADED_MODELS=1 --env OLLAMA_MAX_QUEUE=1 \
+            --env OLLAMA_CONTEXT_LENGTH=4096 --env OLLAMA_LOAD_TIMEOUT=300s --env OLLAMA_VULKAN=false \
+            --env OLLAMA_DEBUG=false --env OLLAMA_DEBUG_LOG_REQUESTS=false \
+            --mount type=bind,source="$RUNNER_TEMP/semantic-models/payload",target=/models,readonly \
+            --entrypoint /bin/sh "$OLLAMA_IMAGE" -c 'case "${HOME-}" in /root|/) exec /bin/ollama serve ;; *) exit 78 ;; esac' > "$publish/server-container-id.txt"
+          docker inspect semantic-server > "$publish/server-container-before.json"
+          set +e
+          # Preserve the original startup console, including any newly generated public key printed upstream.
+          # Private key files and ephemeral home files are outside the closed collection payload.
+          (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 900s docker start --attach semantic-server) > "$publish/server-console.log" 2>&1 &
+          server_process=$!
+          set -e
+          # Wait only for the already-created sandbox to run; no inference request is retried.
+          for attempt in $(seq 1 20); do
+            docker inspect --format '{{.State.Status}}' semantic-server > "$publish/server-start-state.txt"
+            state="$(cat "$publish/server-start-state.txt")"
+            if [ "$state" = running ]; then break; fi
+            if [ "$state" = exited ] || [ "$state" = dead ]; then exit 1; fi
+            sleep 1
+          done
+          test "$state" = running
+          docker create --name semantic-client --log-driver none --platform linux/amd64 --network container:semantic-server \
+            --read-only --user 65532:65532 --cpus 0.5 --memory 512m --pids-limit 64 --cap-drop ALL --security-opt no-new-privileges \
+            --ulimit fsize=16777216:16777216 --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+            --mount type=bind,source="$RUNNER_TEMP/semantic-control/payload",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/semantic-work/payload",target=/work \
+            --entrypoint python3 "$PYTHON_IMAGE" -I -B -S /control/compatibility.py > "$publish/client-container-id.txt"
+          docker inspect semantic-client > "$publish/client-container-before.json"
+          set +e
+          (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 800s docker start --attach semantic-client) > "$publish/client-console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$publish/client-attach-exit-status.txt"
+          set -e
+          docker inspect semantic-client > "$publish/client-container-after.json"
+          if [ "$status" = 0 ]; then
+            test "$(docker inspect --format '{{.State.Status}}' semantic-client)" = exited
+            status="$(docker inspect --format '{{.State.ExitCode}}' semantic-client)"
+          fi
+          printf '%s\n' "$status" > "$publish/compatibility-exit-status.txt"
+          docker inspect semantic-server > "$publish/server-container-after.json"
+          docker stop --time 10 semantic-server > "$publish/server-stop.txt"
+          docker inspect semantic-server > "$publish/server-container-stopped.json"
+          set +e
+          wait "$server_process"
+          server_status=$?
+          printf '%s\n' "$server_status" > "$publish/server-attach-exit-status.txt"
+          set -e
+          exit "$status"
+      - name: Dispose both sandboxes before collecting their outputs
+        if: always()
+        run: |
+          set -euo pipefail
+          for name in semantic-client semantic-server; do
+            present="$(docker ps -aq --filter "name=^/$name$")"
+            if [ -n "$present" ]; then docker rm --force "$name"; fi
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
+          done
+      - name: Collect only bounded regular original evidence and rehash the model cache
+        if: always()
+        run: |
+          set -euo pipefail
+          for name in semantic-client semantic-server; do
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
+          done
+          # An interrupted setup can leave admission records staged before this payload is created.
+          sudo mkdir -p "$RUNNER_TEMP/semantic-publish/payload"
+          sudo chmod 0700 "$RUNNER_TEMP/semantic-publish/payload"
+          sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/semantic-publish/payload"
+          sudo python3 -I -B -S - "$RUNNER_TEMP" "$(id -u)" "$(id -g)" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          base = pathlib.Path(sys.argv[1])
+          destination = base / 'semantic-publish/payload'
+          host_uid, host_gid = map(int, sys.argv[2:])
+          total, missing, refused = 0, [], []
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          require(0 <= host_uid < 2147483648 and 0 <= host_gid < 2147483648, 'invalid trusted collector identity')
+          def anchored(root, relative):
+              descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split('/')
+                  require(all(part not in ('', '.', '..') for part in parts), 'unsafe collector path')
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  return os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+              finally:
+                  os.close(descriptor)
+          def write(name, raw):
+              require('/' not in name and name not in ('', '.', '..'), 'unsafe retained destination')
+              directory = os.open(destination, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  file = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=directory)
+                  try:
+                      os.fchown(file, host_uid, host_gid)
+                      with os.fdopen(file, 'wb', closefd=False) as stream:
+                          stream.write(raw)
+                  finally:
+                      os.close(file)
+              finally:
+                  os.close(directory)
+          def retain(root, source, name, limit):
+              global total
+              file = anchored(root, source)
+              with os.fdopen(file, 'rb') as stream:
+                  info = os.fstat(stream.fileno())
+                  require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= limit, 'unsafe retained original')
+                  raw = stream.read(limit + 1)
+              require(len(raw) <= limit, 'retained original grew')
+              total += len(raw)
+              require(total <= 48 * 2**20, 'retained payload total limit')
+              write(name, raw)
+          # An interrupted mount setup still retains the original admission/native records.
+          initial = base / 'semantic-initial-evidence'
+          for name in ('checked-commit.txt', 'repository.txt', 'run-id.txt', 'run-attempt.txt', 'capacity.json',
+                       'filesystem-models.log', 'filesystem-work.log', 'filesystem-control.log', 'filesystem-publish.log'):
+              if not (destination / name).exists():
+                  try:
+                      retain(initial, name, name, 65536)
+                  except FileNotFoundError:
+                      missing.append(name)
+                  except (OSError, ValueError):
+                      refused.append(name)
+          control = base / 'semantic-control/payload'
+          models = base / 'semantic-models/payload'
+          members = [(control, 'downloads/sqlite-vec-0.1.9-linux-x64.whl', 'sqlite-vec-0.1.9-linux-x64.whl', 163388),
+                     (control, 'vec0.so', 'vec0.so', 1048576), (control, 'sqlite-vec-METADATA.txt', 'sqlite-vec-METADATA.txt', 1048576),
+                     (control, 'compatibility.py', 'compatibility-control.py', 65536),
+                     (models, 'manifests/registry.ollama.ai/library/qwen3/8b', 'original-model-manifest.json', 16384)]
+          for name in ('config', 'template', 'license', 'params'):
+              digest = {'config': '05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76',
+                        'template': 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4',
+                        'license': 'd18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12',
+                        'params': 'cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb'}[name]
+              members.append((models, 'blobs/sha256-' + digest, 'original-model-' + name + '.txt', 16384))
+          fixed = ['extension-result.json', 'readiness.json', 'compatibility.sqlite', 'embedding-result.json', 'compatibility-result.json']
+          for prefix, paths in (('before', ('version', 'tags', 'show')), ('after', ('version', 'tags', 'show', 'ps')), ('embedding', ('',))):
+              for path in paths:
+                  label = prefix + ('-' + path if path else '')
+                  fixed.extend([label + '-response.json', label + '-http.json'])
+                  if path == 'show' or prefix == 'embedding':
+                      fixed.append(label + '-request.json')
+          for name in fixed:
+              members.append((base / 'semantic-work/payload', 'evidence/' + name, name, 16777216 if '-show-response' in name else 4194304))
+          for root, source, name, limit in members:
+              try:
+                  retain(root, source, name, limit)
+              except FileNotFoundError:
+                  missing.append(name)
+              except (OSError, ValueError):
+                  refused.append(name)
+          # The large immutable model is streamed only for an identity record; its bytes are not copied into evidence.
+          try:
+              before = json.loads((destination / 'model-binding-before.json').read_bytes())
+              after = []
+              for row in before:
+                  file = anchored(models, row['path'])
+                  digest, length = hashlib.sha256(), 0
+                  with os.fdopen(file, 'rb') as stream:
+                      info = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= row['expected_bytes'], 'unsafe final model input')
+                      while part := stream.read(1048576):
+                          length += len(part)
+                          require(length <= row['expected_bytes'], 'model input grew')
+                          digest.update(part)
+                  final = dict(row, bytes=length, sha256=digest.hexdigest())
+                  after.append(final)
+                  require(final == row, 'model cache changed during compatibility attempt')
+              write('model-binding-after.json', (json.dumps(after, sort_keys=True, indent=2) + '\n').encode())
+          except FileNotFoundError:
+              missing.append('model-binding-after.json')
+          except (OSError, ValueError, TypeError, KeyError):
+              refused.append('model-binding-after.json')
+          write('collection.json', (json.dumps({'schema_version': 1, 'missing': sorted(set(missing)), 'refused': sorted(set(refused)),
+                'retained_bytes': total, 'full_model_weights': 'NOT_ARCHIVED', 'full_image_layers': 'NOT_ARCHIVED',
+                'generated_private_key_files': 'NOT_ARCHIVED', 'ephemeral_home_files': 'NOT_ARCHIVED',
+                'generated_public_key_in_original_console': 'MAY_BE_PRESENT',
+                'scientific_effect': 'NONE', 'scientific_status_authority': False}, sort_keys=True, indent=2) + '\n').encode())
+          if refused:
+              raise ValueError('bounded original evidence collection refused members')
+          PY
+      - name: Verify original identities and emit a compatibility-only receipt
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'semantic-publish/payload'
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          require((root / 'provision-exit-status.txt').read_text() == '0\n'
+                  and (root / 'compatibility-exit-status.txt').read_text() == '0\n'
+                  and (root / 'client-attach-exit-status.txt').read_text() == '0\n'
+                  and (root / 'server-attach-exit-status.txt').read_text() == '0\n', 'actual preparation or attachment attempt failed')
+          collection = json.loads((root / 'collection.json').read_bytes())
+          require(collection['missing'] == [] and collection['refused'] == [], 'original preparation evidence incomplete')
+          for name, variable in (('checked-commit', 'GITHUB_SHA'), ('repository', 'GITHUB_REPOSITORY'),
+                                 ('run-id', 'GITHUB_RUN_ID'), ('run-attempt', 'GITHUB_RUN_ATTEMPT')):
+              require((root / (name + '.txt')).read_text() == os.environ[variable] + '\n', 'native preparation identity mismatch')
+          images, image_refs = {}, {}
+          for label, image, version, digest in (
+              ('ollama', 'ollama/ollama', '0.35.1', '17e945f1aa6e505707eeb621e3f36847d0a4a063d4778f7007645acccfb8bd4f'),
+              ('python', 'python', '3.11.14-slim-bookworm', '83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48')):
+              image_refs[label] = image + ':' + version + '@sha256:' + digest
+              observed = json.loads((root / (label + '-image.json')).read_bytes())
+              require(type(observed) is list and len(observed) == 1 and observed[0]['Os'] == 'linux'
+                      and observed[0]['Architecture'] == 'amd64' and image + '@sha256:' + digest in observed[0]['RepoDigests'], 'actual image identity drift')
+              require(os.environ[label.upper() + '_IMAGE'] == image_refs[label], 'fixed checked image reference drift')
+              images[label] = observed[0]
+          server = json.loads((root / 'server-container-before.json').read_bytes())[0]
+          client = json.loads((root / 'client-container-before.json').read_bytes())[0]
+          base = pathlib.Path(os.environ['RUNNER_TEMP'])
+          bind_sets = {
+              'ollama': {(str(base / 'semantic-models/payload'), '/models', False)},
+              'python': {(str(base / 'semantic-control/payload'), '/control', False),
+                         (str(base / 'semantic-work/payload'), '/work', True)}}
+          tmpfs_sets = {
+              'ollama': {'/tmp': 'rw,noexec,nosuid,nodev,size=1g,uid=65532,gid=65532',
+                         '/root': 'rw,noexec,nosuid,nodev,size=1m,uid=65532,gid=65532,mode=0700',
+                         '/.ollama': 'rw,noexec,nosuid,nodev,size=1m,uid=65532,gid=65532,mode=0700'},
+              'python': {'/tmp': 'rw,noexec,nosuid,nodev,size=64m'}}
+          def validate_container(container, label, cpu, memory, pids):
+              config = container['HostConfig']
+              require(container['Image'] == images[label]['Id'] and container['Config']['Image'] == image_refs[label],
+                      'actual container did not use the corresponding inspected fixed image')
+              require(container['Config']['User'] == '65532:65532' and config['ReadonlyRootfs'] is True
+                      and config['NanoCpus'] == cpu and config['Memory'] == memory and config['PidsLimit'] == pids
+                      and config['CapDrop'] == ['ALL'] and 'no-new-privileges' in config['SecurityOpt']
+                      and config['LogConfig']['Type'] == 'none' and config['PortBindings'] in (None, {}), 'actual sandbox restrictions drift')
+              require(config['Tmpfs'] == tmpfs_sets[label] and config['Binds'] in (None, [])
+                      and config['VolumesFrom'] in (None, []), 'actual temporary or inherited mount set drift')
+              mounts = container['Mounts']
+              require(type(mounts) is list and len(mounts) == len(bind_sets[label])
+                      and all(item['Type'] == 'bind' and type(item['RW']) is bool for item in mounts)
+                      and {(item['Source'], item['Destination'], item['RW']) for item in mounts} == bind_sets[label],
+                      'actual bind source/destination/permission set drift')
+              configured = config['Mounts']
+              require(type(configured) is list and len(configured) == len(bind_sets[label])
+                      and all(item['Type'] == 'bind' and type(item.get('ReadOnly', False)) is bool for item in configured)
+                      and {(item['Source'], item['Target'], not item.get('ReadOnly', False)) for item in configured} == bind_sets[label],
+                      'actual configured mount set drift')
+          validate_container(server, 'ollama', 3500000000, 12 * 2**30, 192)
+          validate_container(client, 'python', 500000000, 512 * 2**20, 64)
+          require(server['HostConfig']['NetworkMode'] == 'none'
+                  and client['HostConfig']['NetworkMode'] in ('container:' + server['Id'], 'container:semantic-server'), 'actual offline namespace drift')
+          final_client = json.loads((root / 'client-container-after.json').read_bytes())[0]
+          final_server = json.loads((root / 'server-container-stopped.json').read_bytes())[0]
+          validate_container(final_client, 'python', 500000000, 512 * 2**20, 64)
+          validate_container(final_server, 'ollama', 3500000000, 12 * 2**30, 192)
+          require(final_client['HostConfig']['NetworkMode'] == client['HostConfig']['NetworkMode']
+                  and final_server['HostConfig']['NetworkMode'] == 'none', 'final offline namespace drift')
+          require(final_client['Id'] == client['Id'] and final_client['State']['Status'] == 'exited'
+                  and final_client['State']['ExitCode'] == 0 and final_client['State']['OOMKilled'] is False,
+                  'actual compatibility process did not finish successfully')
+          require(final_server['Id'] == server['Id'] and final_server['State']['Status'] == 'exited'
+                  and final_server['State']['ExitCode'] == 0 and final_server['State']['OOMKilled'] is False,
+                  'actual server did not stop cleanly')
+          before = json.loads((root / 'model-binding-before.json').read_bytes())
+          require(before == json.loads((root / 'model-binding-after.json').read_bytes()), 'original model cache identity changed')
+          result = json.loads((root / 'compatibility-result.json').read_bytes())
+          require(result['actual_loaded_extension'] is True and result['actual_embedding_vectors'] == 2
+                  and result['native_identity_unchanged'] is True and result['default_retrieval_switch'] is False, 'tiny compatibility result incomplete')
+          require(hashlib.sha256((root / 'original-model-manifest.json').read_bytes()).hexdigest()
+                  == '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41', 'retained native manifest drift')
+          inventory = []
+          for path in sorted(root.iterdir()):
+              require(path.is_file() and not path.is_symlink(), 'unexpected trusted publication member')
+              raw = path.read_bytes()
+              inventory.append({'path': path.name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+          receipt = {'schema_version': 1, 'scope': 'semantic-runtime-tiny-public-compatibility',
+                     'repository': os.environ['GITHUB_REPOSITORY'], 'checked_commit': os.environ['GITHUB_SHA'],
+                     'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+                     'actual_private_inputs': False, 'installed_entrypoints': 'NOT_TOUCHED', 'full_weights': 'NOT_ARCHIVED', 'full_image_layers': 'NOT_ARCHIVED',
+                     'runtime_images': {label: {'reference': image_refs[label], 'image_id': images[label]['Id']} for label in sorted(images)},
+                     'feature_red_green': 'NOT_RUN', 'tokenizer_parity': 'NOT_RUN', 'retrieval_quality': 'NOT_RUN',
+                     'scientific_effect': 'NONE', 'scientific_status_authority': False, 'custody': 'unknown',
+                     'final_disposition': 'REQUIRES_NATIVE_JOB_SUCCESS_AND_ORIGINAL_ARCHIVE_READBACK', 'members': inventory}
+          (root / 'preparation-receipt.json').write_text(json.dumps(receipt, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Hash retained original members even after a failed attempt
+        if: always()
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/semantic-publish/payload"
+          find . -type f ! -name ARTIFACT_SHA256SUMS -print0 | sort -z | xargs -0 -r sha256sum > ARTIFACT_SHA256SUMS
+      - name: Retain original compatibility inputs and failure evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: semantic-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/semantic-publish/payload/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Release every mounted bounded filesystem strictly
+        if: always()
+        run: |
+          set -euo pipefail
+          status=0
+          for label in models work control publish; do
+            directory="$RUNNER_TEMP/semantic-$label"
+            if mountpoint -q "$directory"; then
+              if ! sudo umount "$directory"; then status=1; fi
+            fi
+          done
+          exit "$status"
