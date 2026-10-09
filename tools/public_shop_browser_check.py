@@ -176,6 +176,14 @@ def check_latest_work_flow(page, origin, expect, result, output):
         page.goto(origin+"index.html")
         entry=page.get_by_role("link",name="Read the latest public work →",exact=True)
         entry.focus();page.keyboard.press("Enter")
+        expect(page.locator("#reading-cut-20261009")).to_be_focused()
+        expect(page.locator("#reading-cut-20261009 time")).to_have_attribute("datetime","2026-10-09T00:05:00Z")
+        expect(page.locator("#reading-cut-20261009 .latest-card")).to_have_count(1)
+        expect(page.locator("#reading-cut-20261009 .card-status dt")).to_have_count(3)
+        expect(page.locator("#finite-h0-lifetimes")).to_contain_text("Organizational-independence credit is zero")
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"9 October cut entry overflow")
+        october_entry=page.get_by_role("link",name="7 October 18:37 UTC reading cut below",exact=True)
+        october_entry.focus();page.keyboard.press("Enter")
         expect(page.locator("#reading-cut-20261007")).to_be_focused()
         expect(page.locator("#reading-cut-20261007 time")).to_have_attribute("datetime","2026-10-07T18:37:14Z")
         expect(page.locator("#reading-cut-20261007 .latest-card")).to_have_count(3)
@@ -238,7 +246,7 @@ def check_latest_work_flow(page, origin, expect, result, output):
         require(urlsplit(page.url).fragment=="newer-work","Forward lost upstream anchor")
         require(not remote_requests,"Static latest-work reading route unexpectedly fetched a remote source")
         result["latest-source-requests"]=remote_requests
-        result["steps"].extend(["Home keyboard route reaches the 7 October cut, then C131/C132, then C124 and both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
+        result["steps"].extend(["Home keyboard route reaches the 9 October cut, then the 7 October cut, then C131/C132, then C124 and both dated historical reading anchors with focus", "landed source packets and issue-only scopes remain visible", "source identities repeatedly open/close without overflow", "upstream navigation and Back/Forward preserve anchors", "static reading path remains usable with remote source requests refused"])
     finally:
         page.unroute("https://raw.githubusercontent.com/**",refuse_remote)
 
@@ -253,6 +261,23 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
         page.goto(origin+"research.html")
         jump=page.get_by_role("link",name="Latest public work",exact=True)
         jump.focus();page.keyboard.press("Enter")
+        newest=page.locator("#reading-cut-20261009")
+        expect(newest).to_be_focused()
+        require(newest.evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"9 October fragment lacks visible focus")
+        newest_details=page.locator("#reading-cut-20261009-details");newest_summary=newest_details.locator("summary")
+        require(newest_details.get_attribute("open") is None,"9 October detail must start collapsed")
+        newest_summary.focus();page.keyboard.press("Enter")
+        expect(newest_details).to_have_attribute("open","")
+        expect(newest_details.locator("a[data-source-kind=pinned]")).to_have_count(4)
+        expect(newest_details.locator("a[data-source-kind=pinned]").first).to_be_visible()
+        require(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),"Expanded 9 October reading overflow")
+        newest_summary.focus();page.keyboard.press("Enter")
+        require(newest_details.get_attribute("open") is None,"9 October detail did not close")
+        status_fonts=page.locator("#finite-h0-lifetimes .card-status dd").evaluate_all("els => els.map(el => getComputedStyle(el).fontFamily)")
+        require(len(status_fonts)==3 and not any("monospace" in font for font in status_fonts),f"Card-status rows must not be monospace: {status_fonts}")
+        result["card_status_font_family"]=status_fonts
+        october_entry=page.get_by_role("link",name="7 October 18:37 UTC reading cut below",exact=True)
+        october_entry.focus();page.keyboard.press("Enter")
         october=page.locator("#reading-cut-20261007")
         expect(october).to_be_focused()
         require(october.evaluate('el => parseFloat(getComputedStyle(el).outlineWidth)>=3 && getComputedStyle(el).outlineStyle!=="none"'),"7 October fragment lacks visible focus")
@@ -402,7 +427,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
             require(fallback.evaluate("document.documentElement.scrollWidth <= innerWidth"),"JavaScript-off addendum overflow")
         finally:
             static.close()
-        result["steps"].append("C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
+        result["steps"].append("9 October cut: focus, collapsed four-pin disclosure opened and closed by keyboard, card-status rows not monospace; 7 October cut reached by its link; C131/C132 sampling scope, expectation/error/count conditions, three exact sources/bound hashes, keyboard disclosure and JavaScript-off access checked; C124 and both historical cuts preserved")
     finally:
         page.unroute("https://**/*",refuse_remote)
 
