@@ -1127,5 +1127,159 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         self.assertEqual(multiline["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
 
 
+    def test_elaborated_comment_only_types_are_incomplete_but_real_types_remain_current(self):
+        positive_logs = (
+            b"TEST.Formal.alpha : True -- TEST trailing comment\nTEST.Formal.beta : True -- TEST trailing comment\n",
+            b"TEST.Formal.alpha : True /- TEST outer /- TEST nested -/ TEST tail -/\nTEST.Formal.beta : True /- TEST comment -/\n",
+            b'TEST.Formal.alpha : ("TEST -- /- literal -/" = "TEST -- /- literal -/")\nTEST.Formal.beta : True\n',
+            b"TEST.Formal.alpha (TEST_parameter : Nat)\n  : True /- TEST outer\n    /- TEST nested -/ TEST tail -/\nTEST.Formal.beta :\n  True -- TEST multiline type\n",
+        )
+        for raw in positive_logs:
+            with self.subTest(kind="substantive_type", raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "leanchecker.log", b"")
+                self.replace_log(formal, "elaborated-types.log", raw)
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        comment_bodies = (
+            "-- TEST a comment is not a type",
+            "/- TEST outer /- TEST nested -/ TEST tail -/",
+            "\n  /- TEST outer\n    /- TEST nested -/\n    TEST tail -/",
+        )
+        for comment in comment_bodies:
+            for incomplete in (set(TARGETS), {TARGETS[0]}, {TARGETS[1]}):
+                with self.subTest(kind="comment_only_type", comment=comment, incomplete=sorted(incomplete)):
+                    raw = "".join(target + " : " + (comment if target in incomplete else "True") + "\n"
+                                  for target in TARGETS).encode("utf-8")
+                    packet = self.with_formal()
+                    formal = packet["formal_records"][0]
+                    self.replace_log(formal, "leanchecker.log", b"")
+                    self.replace_log(formal, "elaborated-types.log", raw)
+                    report, _ = self.accepted(packet)
+                    kernel = report["dimensions"]["TEST.A"]["kernel"]
+                    self.assertEqual(kernel["applicability"], "unknown")
+                    self.assertIn("target_inventory_incomplete", kernel["reasons"])
+                    self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                    self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+    def test_exact_successor_review_cannot_clear_shared_alignment_with_one_unresolved_main_join(self):
+        base = copy.deepcopy(self.packet)
+        for label, commit in (("old", BASE), ("new", HEAD)):
+            for node, start, end in (("TEST.D", len(ALPHA) + len(PROOF), len(SOURCE)),
+                                     ("TEST.E", 0, len(ALPHA))):
+                self.change_graph(base, label, lambda graph, node=node: graph["nodes"].update({
+                    node: {"classification": "PROVED_REVIEWED", "controlling": False}}))
+                base[label]["bindings"].append({"node": node, "source": git_capture(SOURCE, "TEST/source.md", commit),
+                                                "statement_slice": slice_of(SOURCE, start, end), "proof_slice": None})
+        for graph_changed in (False, True):
+            packet = copy.deepcopy(base)
+            if graph_changed:
+                self.change_graph(packet, "new", lambda graph: graph["nodes"]["TEST.A"].update({
+                    "notes": "TEST successor node record requires explicit graph review"}))
+            formal = self.formal(packet)
+            self.update_alignment(formal, lambda review: review.update({
+                "reviewed_graph": copy.deepcopy(packet["new"]["graph"]["ref"])}))
+            shared = copy.deepcopy(formal)
+            shared["id"] = "TEST-shared-survivor-formal"
+            shared["node_targets"] = [{"node": "TEST.D", "target": TARGETS[1]}]
+            separate = copy.deepcopy(formal)
+            separate["id"] = "TEST-disjoint-formal"
+            separate["node_targets"] = [{"node": "TEST.E", "target": TARGETS[0]}]
+            separate["alignment"] = git_capture(raw_bytes(separate["alignment"]), "TEST/disjoint-alignment.json")
+            packet["formal_records"] = [formal, shared, separate]
+            with self.subTest(kind="all_joins_present", graph_changed=graph_changed):
+                current, _ = self.accepted(packet)
+                for node in ("TEST.A", "TEST.D", "TEST.E"):
+                    self.assertEqual(current["dimensions"][node]["kernel"]["applicability"], "current")
+                    self.assertEqual(current["dimensions"][node]["alignment"]["applicability"], "current")
+                self.assertEqual(current["regression"]["affected_alignment_records"], [])
+                self.assertEqual(bool(current["regression"]["impacted_nodes"]), graph_changed)
+            if not graph_changed:
+                continue
+            for mutation in ("missing_source", "missing_statement", "different_origin"):
+                changed = copy.deepcopy(packet)
+                binding = changed["new"]["bindings"][0]
+                if mutation == "missing_source":
+                    binding["source"] = binding["statement_slice"] = binding["proof_slice"] = None
+                elif mutation == "missing_statement":
+                    binding["statement_slice"] = None
+                else:
+                    binding["source"] = git_capture(SOURCE, "TEST/unjoined-origin.md", "c" * 40, "TEST-other/origin")
+                report, _ = self.accepted(changed)
+                regression = report["regression"]
+                with self.subTest(mutation=mutation, check="independent_kernel_and_disjoint_review"):
+                    self.assertIn("TEST.A", regression["impacted_nodes"])
+                    self.assertNotIn("TEST.D", regression["impacted_nodes"])
+                    self.assertNotIn("TEST.E", regression["impacted_nodes"])
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                    self.assertEqual(report["dimensions"]["TEST.D"]["kernel"]["applicability"], "current")
+                    self.assertEqual(report["dimensions"]["TEST.E"]["kernel"]["applicability"], "current")
+                    self.assertEqual(report["dimensions"]["TEST.E"]["alignment"]["applicability"], "current")
+                    self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["applicability"], "unknown")
+                for node in ("TEST.A", "TEST.D"):
+                    with self.subTest(mutation=mutation, check="shared_whole_record_hold", node=node):
+                        alignment = report["dimensions"][node]["alignment"]
+                        self.assertEqual(alignment["record_state"], "recorded")
+                        self.assertEqual(alignment["applicability"], "stale")
+                        self.assertIn("alignment_record_revalidation_required", alignment["reasons"])
+                with self.subTest(mutation=mutation, check="original_identity_affected_once"):
+                    self.assertEqual(regression["affected_alignment_records"], [formal["alignment"]["ref"]])
+                    self.assertEqual(changed["formal_records"][0]["alignment"], changed["formal_records"][1]["alignment"])
+                    self.assertNotEqual(formal["alignment"]["ref"], separate["alignment"]["ref"])
+
+    def test_graph_node_and_edge_admission_limits_cover_both_snapshots_and_alias_captures(self):
+        def fixture(node_count, edge_count, *, label=None, aliases=False, invalid_classification=False):
+            packet = copy.deepcopy(self.packet)
+            graph = document(packet["new"]["graph"])
+            for index in range(3, node_count):
+                graph["nodes"]["TEST.LIMIT.%04d" % index] = {
+                    "classification": "AUTHOR_SIDE_CANDIDATE", "controlling": False}
+            graph["edges"] = [{"from": "TEST.A", "to": "TEST.B", "required": False,
+                               "relation": "TEST limit context %04d" % index} for index in range(edge_count)]
+            if invalid_classification:
+                # Only graph data changes: resource refusal must precede gate classification.
+                graph["nodes"]["TEST.A"]["classification"] = "TEST_UNSUPPORTED_CLASSIFICATION"
+            raw = (json.dumps(graph, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n").encode("utf-8")
+            self.assertEqual(len(graph["nodes"]), node_count)
+            self.assertEqual(len(graph["edges"]), edge_count)
+            self.assertEqual(len({(edge["from"], edge["to"], edge["relation"]) for edge in graph["edges"]}), edge_count)
+            self.assertLess(len(raw), 512 * 1024, "TEST limit fixture became a large timing probe")
+            for snapshot, commit in (("old", BASE), ("new", HEAD)):
+                if label is None or snapshot == label:
+                    packet[snapshot]["graph"] = git_capture(raw, "TEST/graph.json", commit)
+            if aliases:
+                packet["old"]["graph"] = copy.deepcopy(packet["new"]["graph"])
+                packet["old"]["bindings"][0]["source"] = copy.deepcopy(packet["new"]["bindings"][0]["source"])
+            self.assertLess(len(encoded(packet)), 2 * 1024 * 1024, "TEST packet exceeded its small resource-control scope")
+            return packet
+
+        for nodes, edges, aliases in ((256, 0, False), (3, 2048, False), (256, 2048, False), (256, 2048, True)):
+            with self.subTest(kind="exact_admitted_boundary", nodes=nodes, edges=edges, aliases=aliases):
+                packet = fixture(nodes, edges, aliases=aliases)
+                report, _ = self.accepted(packet)
+                self.assertEqual(len(report["dimensions"]), nodes)
+                self.assertEqual(report["regression"]["changed_nodes"], [])
+                self.assertEqual(report["regression"]["impacted_nodes"], [])
+        for nodes, edges, resource in ((257, 0, "node"), (3, 2049, "edge")):
+            for label, aliases in (("old", False), ("new", False), (None, True)):
+                for invalid_classification in (False, True):
+                    with self.subTest(kind="resource_refusal", nodes=nodes, edges=edges, label=label,
+                                      aliases=aliases, invalid_classification=invalid_classification):
+                        packet = fixture(nodes, edges, label=label, aliases=aliases,
+                                         invalid_classification=invalid_classification)
+                        first = self.run_adapter(packet)
+                        second = self.run_adapter(packet)
+                        self.assertEqual((first.returncode, first.stdout, first.stderr),
+                                         (second.returncode, second.stdout, second.stderr), "resource refusal was nondeterministic")
+                        self.assertEqual(first.returncode, 1, "graph beyond the declared resource ABI was admitted")
+                        self.assertEqual(first.stdout, "", "resource refusal emitted a valid report")
+                        self.assertTrue(first.stderr.startswith("architecture evidence adapter refused: "))
+                        self.assertRegex(first.stderr, r"graph.*" + resource + r".*limit",
+                                         "resource admission did not precede the pinned graph gate")
+
+
 if __name__ == "__main__":
     unittest.main()
