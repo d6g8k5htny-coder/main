@@ -99,12 +99,27 @@ jobs:
                       installed[item.filename] = {'bytes': len(member), 'sha256': hashlib.sha256(member).hexdigest()}
                   metadata = email.parser.BytesParser().parsebytes(archive.read(dist + '/METADATA'))
                   require(metadata['Name'] == package and metadata['Version'] == version, 'wheel metadata drift')
+                  if package == 'cffi':
+                      require(archive.read(dist + '/entry_points.txt') ==
+                              b'[console_scripts]\ncffi-gen-src = cffi._cffi_gen_src:run\n\n[distutils.setup_keywords]\ncffi_modules = cffi.setuptools_ext:cffi_modules\n',
+                              'fixed cffi entry point declaration drift')
+                  else:
+                      require(dist + '/entry_points.txt' not in installed, 'unexpected pinned wheel entry points')
                   license_files = metadata.get_all('License-File', [])
                   require(license_files and all('/' not in name and name not in ('', '.', '..') for name in license_files), 'missing bounded package licenses')
                   licenses.append({'package': package, 'version': version, 'expression': metadata.get('License-Expression'),
                                    'requires_dist': metadata.get_all('Requires-Dist', []),
                                    'members': [{'path': dist + '/licenses/' + name, **installed[dist + '/licenses/' + name]} for name in license_files]})
-          inventory = {'schema_version': 1, 'wheels': rows, 'wheel_files': installed,
+          # Exact pip24.0 vendored distlib template for the single pinned cffi console entry point.
+          wrapper = (b'#!/usr/local/bin/python3\n'
+                     b'# -*- coding: utf-8 -*-\nimport re\nimport sys\nfrom cffi._cffi_gen_src import run\n'
+                     b"if __name__ == '__main__':\n"
+                     b"    sys.argv[0] = re.sub(r'(-script\\.pyw|\\.exe)?$', '', sys.argv[0])\n"
+                     b'    sys.exit(run())\n')
+          console_wrappers = {'bin/cffi-gen-src': {'entry_point': 'cffi._cffi_gen_src:run', 'hex': wrapper.hex(),
+                              'bytes': len(wrapper), 'sha256': hashlib.sha256(wrapper).hexdigest()}}
+          inventory = {'schema_version': 1, 'wheels': rows, 'wheel_files': installed, 'console_wrappers': console_wrappers,
+                       'wrapper_generator': {'pip_version': '24.0', 'python_executable': '/usr/local/bin/python3'},
                        'legal_approval': 'NOT_ASSESSED', 'image_component_licenses': 'NOT_ASSESSED',
                        'licenses': licenses, 'scientific_effect': 'NONE', 'scientific_status_authority': False}
           (control / 'wheel-inventory.json').write_text(json.dumps(inventory, sort_keys=True, indent=2) + '\n')
@@ -123,6 +138,22 @@ jobs:
               if not condition:
                   raise ValueError(message)
           require(sys.version_info[:3] == (3, 11, 14) and platform.system() == 'Linux' and platform.machine() == 'x86_64', 'installer runtime drift')
+          version_command = [sys.executable, '-I', '-B', '-m', 'pip', '--isolated', '--disable-pip-version-check', '--version']
+          version_path = pathlib.Path('/work/installer-pip-version.txt')
+          with version_path.open('wb') as stream:
+              subprocess.run(version_command, stdout=stream, stderr=subprocess.STDOUT, check=True, timeout=15)
+          require(version_path.stat().st_size <= 4096, 'pip identity output bounds')
+          version_text = version_path.read_text(encoding='ascii')
+          identity = {'schema_version': 1, 'pip_version_command': version_command, 'pip_version_output': version_text,
+                      'pip_version': version_text.split(' ', 2)[1] if version_text.startswith('pip ') else None,
+                      'python_executable': sys.executable, 'python_executable_resolved': str(pathlib.Path(sys.executable).resolve()),
+                      'python': platform.python_version(), 'system': platform.system(), 'machine': platform.machine(),
+                      'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          pathlib.Path('/work/installer-runtime.json').write_text(json.dumps(identity, sort_keys=True, indent=2) + '\n')
+          require(version_text == 'pip 24.0 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)\n', 'actual pinned-image pip identity drift')
+          require(sys.executable == '/usr/local/bin/python3' and identity['python_executable_resolved'] == '/usr/local/bin/python3.11'
+                  and sys.executable.isascii() and ' ' not in sys.executable and len(sys.executable.encode('ascii')) + 3 <= 127,
+                  'actual installer executable/simple Linux shebang drift')
           root = pathlib.Path('/deps')
           require(list(root.iterdir()) == [], 'dependency payload must start empty')
           command = [sys.executable, '-I', '-B', '-m', 'pip', '--isolated', '--disable-pip-version-check', 'install',
@@ -130,30 +161,58 @@ jobs:
                      '--no-cache-dir', '--target=/deps', '--report=/work/pip-install-report.json', '-r', '/control/requirements.txt']
           subprocess.run(command, check=True, timeout=240)
           expected = json.loads(pathlib.Path('/control/wheel-inventory.json').read_bytes())
+          require(expected['wrapper_generator'] == {'pip_version': identity['pip_version'], 'python_executable': sys.executable}
+                  and set(expected['console_wrappers']) == {'bin/cffi-gen-src'}, 'fixed wrapper generator/declaration drift')
           generated = {package + '-' + version + '.dist-info/' + name
                        for package, version in (('cryptography', '50.0.2'), ('cffi', '2.1.1'), ('pycparser', '3.1'))
                        for name in ('INSTALLER', 'REQUESTED', 'direct_url.json')}
+          allowed = set(expected['wheel_files']) | generated | set(expected['console_wrappers'])
+          def member_require(condition, relative, predicate, info=None):
+              if not condition:
+                  detail = {'schema_version': 1, 'path': relative, 'predicate': predicate,
+                            'mode': stat.S_IFMT(info.st_mode) if info is not None else None,
+                            'links': info.st_nlink if info is not None else None,
+                            'bytes': info.st_size if info is not None else None}
+                  diagnostic = json.dumps(detail, ensure_ascii=True, sort_keys=True) + '\n'
+                  require(len(diagnostic.encode('ascii')) <= 65536, 'installer rejection diagnostic bounds')
+                  pathlib.Path('/work/installer-rejection.json').write_text(diagnostic, encoding='ascii')
+                  raise ValueError('installed member refused: ' + diagnostic.rstrip('\n'))
           rows, total = [], 0
           for path in sorted(root.rglob('*')):
               info = path.lstat()
-              require(not stat.S_ISLNK(info.st_mode), 'installed symlink refused')
+              relative = path.relative_to(root).as_posix()
+              member_require(not stat.S_ISLNK(info.st_mode), relative, 'no-symlink', info)
               if stat.S_ISDIR(info.st_mode):
                   continue
-              relative = path.relative_to(root).as_posix()
-              require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= 16 * 2**20
-                      and relative in set(expected['wheel_files']) | generated, 'unexpected installed member')
+              member_require(stat.S_ISREG(info.st_mode), relative, 'regular-file', info)
+              member_require(info.st_nlink == 1, relative, 'single-link', info)
+              member_require(info.st_size <= 16 * 2**20, relative, 'member-size-at-most-16MiB', info)
+              member_require(relative in allowed, relative, 'closed-admitted-path-set', info)
               raw = path.read_bytes()
               row = {'path': relative, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
               total += len(raw)
-              require(total <= 32 * 2**20 and len(rows) < 256, 'installed inventory bounds')
+              member_require(total <= 32 * 2**20 and len(rows) < 256, relative, 'total-at-most-32MiB-and-256-members', info)
               if relative in expected['wheel_files'] and not relative.endswith('.dist-info/RECORD'):
-                  require({key: row[key] for key in ('bytes', 'sha256')} == expected['wheel_files'][relative], 'installed wheel member drift')
+                  member_require({key: row[key] for key in ('bytes', 'sha256')} == expected['wheel_files'][relative],
+                                 relative, 'original-wheel-member-bytes-sha256', info)
+              if relative in expected['console_wrappers']:
+                  wrapper = expected['console_wrappers'][relative]
+                  member_require(raw == bytes.fromhex(wrapper['hex'])
+                                 and {key: row[key] for key in ('bytes', 'sha256')} == {key: wrapper[key] for key in ('bytes', 'sha256')},
+                                 relative, 'exact-pip24-cffi-wrapper-bytes', info)
+              if relative in generated and relative.endswith('/INSTALLER'):
+                  member_require(raw == b'pip\n', relative, 'exact-pip-INSTALLER-metadata', info)
+              if relative in generated and relative.endswith('/REQUESTED'):
+                  member_require(raw == b'', relative, 'empty-pip-REQUESTED-metadata', info)
               if relative.endswith('/direct_url.json'):
                   direct = json.loads(raw)
-                  require(direct.get('url') in {'file:///wheels/' + wheel['filename'] for wheel in expected['wheels']}, 'unadmitted installed direct URL')
+                  member_require(direct.get('url') in {'file:///wheels/' + wheel['filename'] for wheel in expected['wheels']},
+                                 relative, 'admitted-installed-direct-URL', info)
               rows.append(row)
-          require(set(expected['wheel_files']) <= {row['path'] for row in rows}, 'installed wheel files missing')
+          member_require(set(expected['wheel_files']) | set(expected['console_wrappers']) <= {row['path'] for row in rows},
+                         '<inventory>', 'all-original-wheel-files-and-exact-wrapper-present')
           result = {'schema_version': 1, 'files': rows, 'bytes': total, 'pip_command': command,
+                    'installer_runtime': identity, 'console_wrappers': expected['console_wrappers'], 'console_wrappers_executed': False,
                     'public_dependencies_only': True, 'scientific_effect': 'NONE', 'scientific_status_authority': False}
           pathlib.Path('/work/installed-before.json').write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
           with tarfile.open('/work/installed-deps.tar', 'w', format=tarfile.PAX_FORMAT) as archive:
@@ -343,7 +402,8 @@ jobs:
           if [ "$status" = 0 ]; then status="$(docker inspect --format '{{.State.ExitCode}}' lease-crypto-installer)"; fi
           printf '%s\n' "$status" > "$publish/installer-exit-status.txt"
           docker rm --force lease-crypto-installer
-          test -z "$(docker ps -aq --filter 'name=^/lease-crypto-installer$')"
+          remaining="$(docker ps -aq --filter 'name=^/lease-crypto-installer$')"
+          test -z "$remaining"
           if [ "$status" != 0 ]; then exit "$status"; fi
           sudo chmod -R a-w "$RUNNER_TEMP/lease-crypto-deps/payload"
       - name: Exercise ordinary Ed25519 with public fixtures in normal and optimized Python
@@ -376,14 +436,18 @@ jobs:
           for name in lease-crypto-installer lease-crypto-checker; do
             present="$(docker ps -aq --filter "name=^/$name$")"
             if [ -n "$present" ]; then docker rm --force "$name"; fi
-            test -z "$(docker ps -aq --filter "name=^/$name$")"
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
           done
       - name: Collect bounded originals and independently bind installed bytes
         if: always()
         run: |
           set -euo pipefail
           docker() { command docker --config "$RUNNER_TEMP/lease-crypto-docker-config" "$@"; }
-          for name in lease-crypto-installer lease-crypto-checker; do test -z "$(docker ps -aq --filter "name=^/$name$")"; done
+          for name in lease-crypto-installer lease-crypto-checker; do
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
+          done
           sudo mkdir -p "$RUNNER_TEMP/lease-crypto-publish/payload"
           sudo chmod 0700 "$RUNNER_TEMP/lease-crypto-publish/payload"
           sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/lease-crypto-publish/payload"
@@ -447,7 +511,7 @@ jobs:
           for filename in ('cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl',
                            'cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl', 'pycparser-3.1-py3-none-any.whl'):
               members.append((control, 'wheels/' + filename, filename, 8 * 2**20))
-          for name in ('pip-install-report.json', 'installed-before.json', 'child-exits.json', 'normal-runtime.json', 'optimized-runtime.json',
+          for name in ('installer-pip-version.txt', 'installer-runtime.json', 'pip-install-report.json', 'installed-before.json', 'child-exits.json', 'normal-runtime.json', 'optimized-runtime.json',
                        'normal-controls.jsonl', 'optimized-controls.jsonl', 'normal-result.json', 'optimized-result.json', 'installed-deps.tar'):
               members.append((work, name, name, 32 * 2**20 if name.endswith('.tar') else 2 * 2**20))
           for root, source, name, limit in members:
@@ -458,14 +522,23 @@ jobs:
               except (OSError, ValueError):
                   refused.append(name)
           try:
+              retain(work, 'installer-rejection.json', 'installer-rejection.json', 65536)
+          except FileNotFoundError:
+              pass
+          except (OSError, ValueError):
+              refused.append('installer-rejection.json')
+          installed_archived = False
+          try:
               before = json.loads((destination / 'installed-before.json').read_bytes())
               expected = json.loads((destination / 'wheel-inventory.json').read_bytes())
               rows = before['files']
               require(type(rows) is list and 0 < len(rows) <= 256 and len({row['path'] for row in rows}) == len(rows), 'installed inventory bounds')
               generated = {wheel['package'] + '-' + wheel['version'] + '.dist-info/' + name
                            for wheel in expected['wheels'] for name in ('INSTALLER', 'REQUESTED', 'direct_url.json')}
-              require(set(expected['wheel_files']) <= {row['path'] for row in rows}
-                      and {row['path'] for row in rows} <= set(expected['wheel_files']) | generated, 'unadmitted installed inventory paths')
+              require(set(expected['console_wrappers']) == {'bin/cffi-gen-src'}
+                      and set(expected['wheel_files']) | set(expected['console_wrappers']) <= {row['path'] for row in rows}
+                      and {row['path'] for row in rows} <= set(expected['wheel_files']) | generated | set(expected['console_wrappers']),
+                      'unadmitted installed inventory paths')
               observed = []
               for row in rows:
                   require(type(row['bytes']) is int and 0 <= row['bytes'] <= 16 * 2**20, 'installed member size bounds')
@@ -474,6 +547,8 @@ jobs:
                       require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size == row['bytes'], 'final installed member unsafe')
                       raw = stream.read(row['bytes'] + 1)
                   require(len(raw) == row['bytes'] and hashlib.sha256(raw).hexdigest() == row['sha256'], 'final installed bytes changed')
+                  if row['path'] in expected['console_wrappers']:
+                      require(raw == bytes.fromhex(expected['console_wrappers'][row['path']]['hex']), 'final exact cffi wrapper bytes drift')
                   observed.append(row)
               archive_rows = []
               with tarfile.open(destination / 'installed-deps.tar', 'r:') as archive:
@@ -486,6 +561,7 @@ jobs:
                       archive_rows.append({'path': member.name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
               require(archive_rows == rows, 'installed original archive differs from actual prepared tree')
               write('installed-after.json', (json.dumps({'schema_version': 1, 'files': observed}, sort_keys=True, indent=2) + '\n').encode())
+              installed_archived = True
           except FileNotFoundError:
               missing.append('installed-after.json')
           except (OSError, ValueError, TypeError, KeyError, tarfile.TarError):
@@ -504,7 +580,8 @@ jobs:
                 'publication_mount_observed': publication_mounted, 'actual_publication_filesystem': publication_identity,
                 'copy_subtotal_excludes': ['preexisting_publication_members', 'installed-after.json', 'collection.json',
                                           'preparation_receipt', 'artifact_hash_list'], 'missing': sorted(set(missing)),
-                'refused': sorted(set(refused)), 'installed_dependency_bytes': 'ARCHIVED_ORIGINAL_AFTER_OFFLINE_INSTALL',
+                'refused': sorted(set(refused)), 'installed_dependency_bytes':
+                    'ARCHIVED_ORIGINAL_AFTER_OFFLINE_INSTALL' if installed_archived else 'NOT_ARCHIVED',
                 'full_image_layers': 'NOT_ARCHIVED', 'production_keys': 'NOT_ACCESSED', 'scientific_effect': 'NONE',
                 'scientific_status_authority': False}, sort_keys=True, indent=2) + '\n').encode())
           if refused:
@@ -524,6 +601,14 @@ jobs:
               require((root / (name + '-exit-status.txt')).read_text() == '0\n', 'actual preparation attempt failed')
           collection = json.loads((root / 'collection.json').read_bytes())
           require(collection['missing'] == [] and collection['refused'] == [], 'original evidence incomplete')
+          require(collection['installed_dependency_bytes'] == 'ARCHIVED_ORIGINAL_AFTER_OFFLINE_INSTALL', 'installed original bytes were not validated and retained')
+          installer_runtime = json.loads((root / 'installer-runtime.json').read_bytes())
+          require(installer_runtime['pip_version'] == '24.0'
+                  and installer_runtime['pip_version_output'] == (root / 'installer-pip-version.txt').read_text() ==
+                      'pip 24.0 from /usr/local/lib/python3.11/site-packages/pip (python 3.11)\n'
+                  and installer_runtime['python_executable'] == '/usr/local/bin/python3'
+                  and installer_runtime['python_executable_resolved'] == '/usr/local/bin/python3.11',
+                  'retained actual installer pip/executable identity drift')
           require(collection['publication_mount_observed'] is True
                   and collection['configured_publication_filesystem_capacity_bytes'] == 64 * 2**20
                   and type(collection['actual_publication_filesystem']) is dict
@@ -577,7 +662,11 @@ jobs:
           expected += [kind + '_key_length_' + str(length) for length in (31, 33) for kind in ('private', 'public')]
           children = json.loads((root / 'child-exits.json').read_bytes())
           require([row['mode'] for row in children] == ['normal', 'optimized'] and all(row['exit_code'] == 0 for row in children), 'actual normal/optimized child failure')
-          before = json.loads((root / 'installed-before.json').read_bytes())['files']
+          installed = json.loads((root / 'installed-before.json').read_bytes())
+          require(installed['installer_runtime'] == installer_runtime and installed['console_wrappers_executed'] is False
+                  and installed['console_wrappers'] == json.loads((root / 'wheel-inventory.json').read_bytes())['console_wrappers'],
+                  'retained installer runtime/wrapper expectation drift')
+          before = installed['files']
           require(before == json.loads((root / 'installed-after.json').read_bytes())['files'], 'installed dependency identity drift')
           results = []
           for mode, optimization in (('normal', 0), ('optimized', 1)):
