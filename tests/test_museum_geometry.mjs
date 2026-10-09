@@ -151,3 +151,73 @@ test('EC014 retains complete two-dimensional content when WebGL is missing or CD
   assert.match(second.textContent, /2D/);
   delete globalThis.WebGLRenderingContext;
 });
+
+test('EC014 live status follows the visible view through 3D, 2D and back', async () => {
+  // Keep the real mount/event handlers; replace only the external graphics API.
+  // A separate module instance isolates this success path from the failed CDN
+  // promise deliberately cached by the fallback test above.
+  const { mountGeometry: mount } = await import(new URL(`${moduleURL.href}?status-cycle`));
+  class Resource { dispose() {} setFromPoints() { return this; } }
+  class Vector {
+    constructor(x, y, z) { Object.assign(this, { x, y, z }); }
+    clone() { return new Vector(this.x, this.y, this.z); }
+    project() { return this; }
+  }
+  class Object3D {
+    constructor() { this.position = { set() {} }; this.rotation = {}; }
+    lookAt() {} updateMatrixWorld() {} updateProjectionMatrix() {}
+  }
+  class Renderer {
+    setPixelRatio() {} setClearColor() {} setSize() {} render() {}
+    dispose() {} forceContextLoss() {}
+  }
+  const saved = {
+    document: globalThis.document,
+    THREE: globalThis.THREE,
+    WebGLRenderingContext: globalThis.WebGLRenderingContext
+  };
+  let mounted;
+  try {
+    globalThis.WebGLRenderingContext = class {};
+    globalThis.THREE = {
+      REVISION: '160', WebGLRenderer: Renderer, Scene: class { add() {} },
+      PerspectiveCamera: Object3D, Mesh: Object3D, Line: Object3D, Vector3: Vector,
+      PlaneGeometry: Resource, MeshBasicMaterial: Resource, BufferGeometry: Resource,
+      LineBasicMaterial: Resource, SphereGeometry: Resource, DoubleSide: 2
+    };
+    globalThis.document = {
+      ...saved.document,
+      head: { append(script) { queueMicrotask(() => script.onload()); } }
+    };
+    const host = new Element('div');
+    mounted = await mount(host, 'ec014', source('ec014'));
+    const stage = host.querySelectorAll('div').find(node => node.attributes.class === 'geometry-3d-stage');
+    const fallback = host.querySelectorAll('figure')[0];
+    const status = host.querySelectorAll('p').find(node => node.attributes.role === 'status');
+    const toggle = host.querySelectorAll('button').find(node => node.textContent === 'Show 2D diagram');
+    assert.equal(status.attributes['aria-live'], 'polite');
+    assert.equal(stage.hidden, false);
+    assert.equal(fallback.hidden, true);
+    assert.match(status.textContent, /^3D coordinate plane:/);
+    assert.ok(toggle, 'successful 3D setup must offer the 2D action');
+
+    toggle.listeners.click();
+    assert.equal(stage.hidden, true);
+    assert.equal(fallback.hidden, false);
+    assert.equal(toggle.textContent, 'Show 3D view');
+    assert.match(status.textContent, /^2D\b/, 'status must describe the visible 2D diagram');
+    assert.doesNotMatch(status.textContent, /fallback/i, 'a voluntary view switch is not a graphics failure');
+
+    toggle.listeners.click();
+    assert.equal(stage.hidden, false);
+    assert.equal(fallback.hidden, true);
+    assert.equal(toggle.textContent, 'Show 2D diagram');
+    assert.match(status.textContent, /^3D coordinate plane:/, 'status must return to the visible 3D view');
+  } finally {
+    mounted?.destroy();
+    for (const [key, value] of Object.entries(saved)) {
+      if (value === undefined) delete globalThis[key];
+      else globalThis[key] = value;
+    }
+  }
+});
