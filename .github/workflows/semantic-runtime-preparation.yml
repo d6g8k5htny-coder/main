@@ -4,6 +4,7 @@ name: Semantic runtime preparation
     paths:
       - .github/workflows/semantic-runtime-preparation.yml
       - docs/plans/2026-10-08-semantic-runtime-preparation.md
+      - docs/plans/2026-10-08-semantic-memory-experiment.md
   workflow_dispatch:
 permissions:
   contents: read
@@ -67,9 +68,10 @@ jobs:
           cp "$RUNNER_TEMP/semantic-initial-evidence/"* "$publish/"
           chmod 0700 "$publish" "$RUNNER_TEMP/semantic-work/payload"
           sudo chown 65532:65532 "$RUNNER_TEMP/semantic-work/payload"
-          mkdir -p "$RUNNER_TEMP/semantic-models/payload/blobs" "$RUNNER_TEMP/semantic-models/payload/manifests/registry.ollama.ai/library/qwen3" "$RUNNER_TEMP/semantic-control/payload/downloads"
+          mkdir -p "$RUNNER_TEMP/semantic-models/payload/blobs" "$RUNNER_TEMP/semantic-models/payload/manifests/registry.ollama.ai/library/qwen3-embedding" "$RUNNER_TEMP/semantic-control/payload/downloads"
           cp .github/workflows/semantic-runtime-preparation.yml "$publish/checked-workflow.yml"
           cp docs/plans/2026-10-08-semantic-runtime-preparation.md "$publish/checked-plan.md"
+          cp docs/plans/2026-10-08-semantic-memory-experiment.md "$publish/checked-experiment.md"
       - name: Acquire only fixed public inputs and verify every byte pin
         run: |
           set -euo pipefail
@@ -78,24 +80,23 @@ jobs:
           models="$RUNNER_TEMP/semantic-models/payload"
           control="$RUNNER_TEMP/semantic-control/payload"
           fetch() {
-            # Registry-origin HTTPS delivery redirects are permitted; bytes are never trusted by URL alone.
+            # Fixed public-input HTTPS delivery redirects are permitted; bytes are never trusted by URL alone.
             curl --fail --silent --show-error --location --max-redirs 3 --proto '=https' --proto-redir '=https' \
               --tlsv1.2 --connect-timeout 10 --max-time "$4" --max-filesize "$3" "$1" -o "$2"
           }
-          fetch https://registry.ollama.ai/v2/library/qwen3/manifests/8b "$models/manifests/registry.ollama.ai/library/qwen3/8b" 16384 60
-          test "$(sha256sum "$models/manifests/registry.ollama.ai/library/qwen3/8b" | cut -d ' ' -f 1)" = 500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41
+          fetch https://registry.ollama.ai/v2/library/qwen3-embedding/manifests/8b "$models/manifests/registry.ollama.ai/library/qwen3-embedding/8b" 531 60
+          test "$(sha256sum "$models/manifests/registry.ollama.ai/library/qwen3-embedding/8b" | cut -d ' ' -f 1)" = 64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b
           for pin in \
-            05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76:487 \
-            a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f:5225374496 \
-            ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4:1723 \
-            d18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12:11338 \
-            cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb:120; do
+            0a3d61b01340ca9dceb4a661e21b3dfe1418ed5206d91291ab933a3762f8bb89:265 \
+            3fcd3febec8b3fd64435204db75bf0dd73b91e8d0661e0331acfe7e7c3120b85:4676804928; do
             digest="${pin%:*}"
             size="${pin#*:}"
             duration=60
-            if [ "$size" = 5225374496 ]; then duration=900; fi
-            fetch "https://registry.ollama.ai/v2/library/qwen3/blobs/sha256:$digest" "$models/blobs/sha256-$digest" "$size" "$duration"
+            if [ "$size" = 4676804928 ]; then duration=900; fi
+            fetch "https://registry.ollama.ai/v2/library/qwen3-embedding/blobs/sha256:$digest" "$models/blobs/sha256-$digest" "$size" "$duration"
           done
+          # This immutable upstream license is separate public source metadata, not an encoder registry layer.
+          fetch https://huggingface.co/Qwen/Qwen3-Embedding-8B/raw/1d8ad4ca9b3dd8059ad90a75d4983776a23d44af/LICENSE "$control/downloads/upstream-encoder-LICENSE.txt" 11343 60
           fetch https://files.pythonhosted.org/packages/6f/ad/6afd073b0f817b3e03f9e37ad626ae341805891f23c74b5292818f49ac63/sqlite_vec-0.1.9-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux1_x86_64.whl "$control/downloads/sqlite-vec-0.1.9-linux-x64.whl" 163388 60
           python3 -I -B -S - <<'PY'
           import email.parser, hashlib, json, os, pathlib, stat, zipfile
@@ -124,26 +125,31 @@ jobs:
                      'archive_policy': 'ARCHIVE_ORIGINAL_SMALL_INPUT' if expected_size < 1048576 else 'NOT_ARCHIVED_FULL_WEIGHTS'}
               require(length == expected_size and row['sha256'] == expected_hash, 'fixed public input pin mismatch')
               return row
-          manifest_path = models / 'manifests/registry.ollama.ai/library/qwen3/8b'
+          manifest_path = models / 'manifests/registry.ollama.ai/library/qwen3-embedding/8b'
           raw = manifest_path.read_bytes()
-          require(hashlib.sha256(raw).hexdigest() == '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41', 'model manifest pin mismatch')
+          require(len(raw) == 531 and hashlib.sha256(raw).hexdigest() == '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b', 'encoder manifest pin mismatch')
           manifest = json.loads(raw, object_pairs_hook=unique)
-          pins = [('config', '05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76', 487),
-                  ('model', 'a3de86cd1c132c822487ededd47a324c50491393e6565cd14bafa40d0b8e686f', 5225374496),
-                  ('template', 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4', 1723),
-                  ('license', 'd18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12', 11338),
-                  ('params', 'cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb', 120)]
+          pins = [('config', '0a3d61b01340ca9dceb4a661e21b3dfe1418ed5206d91291ab933a3762f8bb89', 265),
+                  ('model', '3fcd3febec8b3fd64435204db75bf0dd73b91e8d0661e0331acfe7e7c3120b85', 4676804928)]
           require(set(manifest) == {'schemaVersion', 'mediaType', 'config', 'layers'} and manifest['schemaVersion'] == 2
-                  and len(manifest['layers']) == 4, 'unexpected fixed model manifest topology')
+                  and manifest['mediaType'] == 'application/vnd.docker.distribution.manifest.v2+json'
+                  and type(manifest['layers']) is list and len(manifest['layers']) == 1, 'unexpected fixed encoder manifest topology')
           actual = [manifest['config'], *manifest['layers']]
           rows = [{'path': manifest_path.relative_to(models).as_posix(), 'bytes': len(raw),
-                   'sha256': hashlib.sha256(raw).hexdigest(), 'expected_bytes': len(raw),
-                   'expected_sha256': hashlib.sha256(raw).hexdigest(), 'archive_policy': 'ARCHIVE_ORIGINAL_SMALL_INPUT'}]
+                   'sha256': hashlib.sha256(raw).hexdigest(), 'expected_bytes': 531,
+                   'expected_sha256': '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b', 'archive_policy': 'ARCHIVE_ORIGINAL_SMALL_INPUT'}]
           for item, (kind, digest, size) in zip(actual, pins):
               require(item['digest'] == 'sha256:' + digest and type(item['size']) is int and item['size'] == size, 'model layer identity drift')
+              require(item['mediaType'] == ('application/vnd.docker.container.image.v1+json' if kind == 'config'
+                                           else 'application/vnd.ollama.image.model'), 'encoder layer type drift')
               row = identity(models / ('blobs/sha256-' + digest), size, digest)
               row['kind'] = kind
               rows.append(row)
+          require(len(rows) == 3, 'encoder cache must contain manifest, config and model identities only')
+          config = json.loads((models / ('blobs/sha256-' + pins[0][1])).read_bytes(), object_pairs_hook=unique)
+          require(config == {'model_format': 'gguf', 'model_family': 'qwen3', 'model_families': ['qwen3'], 'model_type': '7.6B',
+                             'file_type': 'Q4_K_M', 'architecture': 'amd64', 'os': 'linux',
+                             'rootfs': {'type': 'layers', 'diff_ids': ['sha256:' + pins[1][1]]}}, 'encoder config drift')
           (publish / 'model-binding-before.json').write_text(json.dumps(rows, sort_keys=True, indent=2) + '\n')
           wheel = control / 'downloads/sqlite-vec-0.1.9-linux-x64.whl'
           wheel_raw = wheel.read_bytes()
@@ -160,7 +166,14 @@ jobs:
               require(metadata['Name'] == 'sqlite-vec' and metadata['Version'] == '0.1.9', 'wheel metadata identity mismatch')
               (control / 'vec0.so').write_bytes(library)
               (control / 'sqlite-vec-METADATA.txt').write_bytes(metadata_raw)
-          declared = {'schema_version': 1, 'model_declared_license': 'Apache-2.0', 'sqlite_vec_declared_license': metadata['License'],
+          license_raw = (control / 'downloads/upstream-encoder-LICENSE.txt').read_bytes()
+          require(len(license_raw) == 11343 and hashlib.sha256(license_raw).hexdigest() == '832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e', 'immutable upstream encoder license drift')
+          declared = {'schema_version': 1, 'model_declared_license': 'Apache-2.0',
+                      'model_upstream_source': 'https://huggingface.co/Qwen/Qwen3-Embedding-8B/tree/1d8ad4ca9b3dd8059ad90a75d4983776a23d44af',
+                      'model_upstream_license_url': 'https://huggingface.co/Qwen/Qwen3-Embedding-8B/raw/1d8ad4ca9b3dd8059ad90a75d4983776a23d44af/LICENSE',
+                      'model_upstream_license_bytes': len(license_raw), 'model_upstream_license_sha256': hashlib.sha256(license_raw).hexdigest(),
+                      'model_registry_license_layer': 'ABSENT', 'model_registry_template_layer': 'ABSENT', 'model_registry_params_layer': 'ABSENT',
+                      'gguf_conversion_lineage': 'NOT_INDEPENDENTLY_VERIFIED', 'sqlite_vec_declared_license': metadata['License'],
                       'wheel_license_file': 'ABSENT', 'legal_approval': 'NOT_ASSESSED', 'scientific_effect': 'NONE',
                       'ollama_image_component_license_inventory': 'NOT_ASSESSED', 'python_image_component_license_inventory': 'NOT_ASSESSED',
                       'scientific_status_authority': False, 'wheel_bytes': len(wheel_raw), 'wheel_sha256': hashlib.sha256(wheel_raw).hexdigest()}
@@ -270,8 +283,9 @@ jobs:
               save('readiness.json', readiness)
               raise ValueError('bounded Ollama startup did not become ready')
           save('readiness.json', readiness)
-          model = 'qwen3:8b'
-          manifest_digest = '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41'
+          # A distinct encoder candidate follows the retained generator HTTP501; this is not a retry of that candidate.
+          model = 'qwen3-embedding:8b'
+          manifest_digest = '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b'
           def model_identity(label):
               require(api('/api/version', label + '-version') == {'version': '0.35.1'}, 'native version drift')
               tags = api('/api/tags', label + '-tags')
@@ -279,9 +293,20 @@ jobs:
                       and tags['models'][0]['name'] == model and tags['models'][0]['digest'] == manifest_digest, 'actual served model manifest drift')
               show = api('/api/show', label + '-show', {'model': model, 'verbose': True})
               require(type(show) is dict and type(show.get('model_info')) is dict and type(show.get('template')) is str, 'native show identity unavailable')
-              require(hashlib.sha256(show['template'].encode()).hexdigest() == 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4', 'actual template byte drift')
-              require(show['model_info'].get('general.architecture') == 'qwen3'
-                      and type(show['model_info'].get('qwen3.embedding_length')) is int and show['model_info']['qwen3.embedding_length'] == 4096, 'model metadata identity drift')
+              require(type(show.get('details')) is dict and show['details'].get('format') == 'gguf'
+                      and show['details'].get('family') == 'qwen3' and show['details'].get('quantization_level') == 'Q4_K_M', 'encoder details drift')
+              require(type(show.get('capabilities')) is list and 'embedding' in show['capabilities'], 'encoder embedding capability metadata absent')
+              info = show['model_info']
+              require(info.get('general.architecture') == 'qwen3', 'encoder architecture drift')
+              for key, expected in (('qwen3.embedding_length', 4096), ('qwen3.context_length', 40960),
+                                    ('tokenizer.ggml.eos_token_id', 151643), ('tokenizer.ggml.eot_token_id', 151645)):
+                  require(type(info.get(key)) is int and info[key] == expected, 'encoder metadata integer drift: ' + key)
+              require(info.get('tokenizer.ggml.add_bos_token') is False and info.get('tokenizer.ggml.add_eos_token') is True,
+                      'encoder special-token flag drift')
+              require(type(info.get('tokenizer.ggml.tokens')) is list and len(info['tokenizer.ggml.tokens']) == 151665,
+                      'encoder vocabulary cardinality drift')
+              # No generator-template hash or unverified numeric pooling enum is applied to this encoder.
+              # The complete original show/template/pooling fields are retained and compared before/after.
               return show
           before = model_identity('before')
           try:
@@ -321,6 +346,7 @@ jobs:
               require(len(rows) == 2 and [row[0] for row in rows] == [row[0] for row in oracle]
                       and all(abs(actual[1] - expected[1]) <= 1e-5 for actual, expected in zip(rows, oracle)), 'native float32 cosine/reopen mismatch')
               save('embedding-result.json', {'schema_version': 1, 'embedding_requests': 1, 'public_input_count': 2,
+                   'model': model, 'manifest_sha256': manifest_digest, 'candidate': 'ADAPT_DEDICATED_ENCODER',
                    'dimensions': 4096, 'norms': norms, 'float32_cosine_rows': rows, 'exact_cosine_oracle': oracle,
                    'truncate': False, 'native_statistics': {name: embeddings[name] for name in ('total_duration', 'load_duration', 'prompt_eval_count')},
                    'reopened': True, 'scientific_effect': 'NONE', 'scientific_status_authority': False})
@@ -329,7 +355,9 @@ jobs:
               require(before == after, 'native model/tokenizer/template changed during compatibility attempt')
               api('/api/ps', 'after-ps')
           save('compatibility-result.json', {'schema_version': 1, 'scope': 'tiny-public-runtime-compatibility',
+               'candidate': 'ADAPT_DEDICATED_ENCODER', 'encoder_model': model, 'encoder_manifest_sha256': manifest_digest,
                'actual_loaded_extension': True, 'actual_embedding_vectors': 2, 'native_identity_unchanged': True,
+               'encoder_tokenizer_parity': 'NOT_RUN', 'encoder_pooling_numeric_enum_parity': 'NOT_RUN',
                'full_prompt_tokenizer_parity': 'NOT_RUN', 'native_selected_model_info_parity': 'NOT_RUN',
                'approximately_500_token_chunking': 'NOT_RUN', 'retrieval_quality': 'NOT_RUN', 'generation_quality': 'NOT_RUN',
                'installed_entrypoints': 'NOT_TOUCHED', 'default_retrieval_switch': False,
@@ -459,9 +487,13 @@ jobs:
                   info = os.fstat(stream.fileno())
                   require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= limit, 'unsafe retained original')
                   raw = stream.read(limit + 1)
+                  after = os.fstat(stream.fileno())
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns) ==
+                              (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), 'retained original changed')
               require(len(raw) <= limit, 'retained original grew')
               total += len(raw)
-              require(total <= 48 * 2**20, 'retained payload total limit')
+              require(total <= 48 * 2**20, 'collector copied-original subtotal limit')
               write(name, raw)
           # An interrupted mount setup still retains the original admission/native records.
           initial = base / 'semantic-initial-evidence'
@@ -479,13 +511,9 @@ jobs:
           members = [(control, 'downloads/sqlite-vec-0.1.9-linux-x64.whl', 'sqlite-vec-0.1.9-linux-x64.whl', 163388),
                      (control, 'vec0.so', 'vec0.so', 1048576), (control, 'sqlite-vec-METADATA.txt', 'sqlite-vec-METADATA.txt', 1048576),
                      (control, 'compatibility.py', 'compatibility-control.py', 65536),
-                     (models, 'manifests/registry.ollama.ai/library/qwen3/8b', 'original-model-manifest.json', 16384)]
-          for name in ('config', 'template', 'license', 'params'):
-              digest = {'config': '05a61d37b08453e59290add468e3bb2f688e23a01e967fecb0e2fa41218cea76',
-                        'template': 'ae370d884f108d16e7cc8fd5259ebc5773a0afa6e078b11f4ed7e39a27e0dfc4',
-                        'license': 'd18a5cc71b84bc4af394a31116bd3932b42241de70c77d2b76d69a314ec8aa12',
-                        'params': 'cff3f395ef3756ab63e58b0ad1b32bb6f802905cae1472e6a12034e4246fbbdb'}[name]
-              members.append((models, 'blobs/sha256-' + digest, 'original-model-' + name + '.txt', 16384))
+                     (control, 'downloads/upstream-encoder-LICENSE.txt', 'upstream-encoder-LICENSE.txt', 11343),
+                     (models, 'manifests/registry.ollama.ai/library/qwen3-embedding/8b', 'original-model-manifest.json', 531),
+                     (models, 'blobs/sha256-0a3d61b01340ca9dceb4a661e21b3dfe1418ed5206d91291ab933a3762f8bb89', 'original-model-config.json', 265)]
           fixed = ['extension-result.json', 'readiness.json', 'compatibility.sqlite', 'embedding-result.json', 'compatibility-result.json']
           for prefix, paths in (('before', ('version', 'tags', 'show')), ('after', ('version', 'tags', 'show', 'ps')), ('embedding', ('',))):
               for path in paths:
@@ -505,6 +533,10 @@ jobs:
           # The large immutable model is streamed only for an identity record; its bytes are not copied into evidence.
           try:
               before = json.loads((destination / 'model-binding-before.json').read_bytes())
+              require(type(before) is list and len(before) == 3
+                      and [row['path'] for row in before] == ['manifests/registry.ollama.ai/library/qwen3-embedding/8b',
+                          'blobs/sha256-0a3d61b01340ca9dceb4a661e21b3dfe1418ed5206d91291ab933a3762f8bb89',
+                          'blobs/sha256-3fcd3febec8b3fd64435204db75bf0dd73b91e8d0661e0331acfe7e7c3120b85'], 'encoder cache inventory drift')
               after = []
               for row in before:
                   file = anchored(models, row['path'])
@@ -516,6 +548,11 @@ jobs:
                           length += len(part)
                           require(length <= row['expected_bytes'], 'model input grew')
                           digest.update(part)
+                      observed = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(observed.st_mode) and observed.st_nlink == 1
+                              and (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns) ==
+                                  (observed.st_dev, observed.st_ino, observed.st_size, observed.st_mtime_ns, observed.st_ctime_ns),
+                              'final model input changed while hashing')
                   final = dict(row, bytes=length, sha256=digest.hexdigest())
                   after.append(final)
                   require(final == row, 'model cache changed during compatibility attempt')
@@ -524,8 +561,22 @@ jobs:
               missing.append('model-binding-after.json')
           except (OSError, ValueError, TypeError, KeyError):
               refused.append('model-binding-after.json')
+          publication_root = base / 'semantic-publish'
+          publication_mounted = os.path.ismount(publication_root)
+          publication_identity = None
+          if publication_mounted:
+              mount_info = os.stat(publication_root, follow_symlinks=False)
+              capacity = os.statvfs(publication_root)
+              require(stat.S_ISDIR(mount_info.st_mode), 'publication mount root is not a directory')
+              publication_identity = {'host_device': mount_info.st_dev,
+                                      'reported_total_bytes': capacity.f_frsize * capacity.f_blocks}
           write('collection.json', (json.dumps({'schema_version': 1, 'missing': sorted(set(missing)), 'refused': sorted(set(refused)),
-                'retained_bytes': total, 'full_model_weights': 'NOT_ARCHIVED', 'full_image_layers': 'NOT_ARCHIVED',
+                'collector_counted_copy_input_bytes': total, 'collector_copy_limit_bytes': 48 * 2**20,
+                'collector_counter_may_include_refused_copy_attempts': True,
+                'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                'publication_mount_observed': publication_mounted, 'actual_publication_filesystem': publication_identity,
+                'collector_subtotal_excludes_prior_originals_and_its_metadata': True,
+                'full_model_weights': 'NOT_ARCHIVED', 'full_image_layers': 'NOT_ARCHIVED',
                 'generated_private_key_files': 'NOT_ARCHIVED', 'ephemeral_home_files': 'NOT_ARCHIVED',
                 'generated_public_key_in_original_console': 'MAY_BE_PRESENT',
                 'scientific_effect': 'NONE', 'scientific_status_authority': False}, sort_keys=True, indent=2) + '\n').encode())
@@ -547,6 +598,13 @@ jobs:
                   and (root / 'server-attach-exit-status.txt').read_text() == '0\n', 'actual preparation or attachment attempt failed')
           collection = json.loads((root / 'collection.json').read_bytes())
           require(collection['missing'] == [] and collection['refused'] == [], 'original preparation evidence incomplete')
+          require(collection['publication_mount_observed'] is True
+                  and collection['configured_publication_filesystem_capacity_bytes'] == 64 * 2**20
+                  and type(collection['actual_publication_filesystem']) is dict
+                  and type(collection['actual_publication_filesystem']['host_device']) is int
+                  and type(collection['actual_publication_filesystem']['reported_total_bytes']) is int
+                  and 0 < collection['actual_publication_filesystem']['reported_total_bytes'] <= 64 * 2**20,
+                  'publication filesystem capacity was not actually observed')
           for name, variable in (('checked-commit', 'GITHUB_SHA'), ('repository', 'GITHUB_REPOSITORY'),
                                  ('run-id', 'GITHUB_RUN_ID'), ('run-attempt', 'GITHUB_RUN_ATTEMPT')):
               require((root / (name + '.txt')).read_text() == os.environ[variable] + '\n', 'native preparation identity mismatch')
@@ -612,15 +670,30 @@ jobs:
           require(before == json.loads((root / 'model-binding-after.json').read_bytes()), 'original model cache identity changed')
           result = json.loads((root / 'compatibility-result.json').read_bytes())
           require(result['actual_loaded_extension'] is True and result['actual_embedding_vectors'] == 2
-                  and result['native_identity_unchanged'] is True and result['default_retrieval_switch'] is False, 'tiny compatibility result incomplete')
+                  and result['native_identity_unchanged'] is True and result['default_retrieval_switch'] is False
+                  and result['candidate'] == 'ADAPT_DEDICATED_ENCODER' and result['encoder_model'] == 'qwen3-embedding:8b'
+                  and result['encoder_manifest_sha256'] == '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b', 'tiny encoder compatibility result incomplete')
           require(hashlib.sha256((root / 'original-model-manifest.json').read_bytes()).hexdigest()
-                  == '500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41', 'retained native manifest drift')
+                  == '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b', 'retained encoder manifest drift')
+          require(len((root / 'original-model-config.json').read_bytes()) == 265
+                  and hashlib.sha256((root / 'original-model-config.json').read_bytes()).hexdigest()
+                  == '0a3d61b01340ca9dceb4a661e21b3dfe1418ed5206d91291ab933a3762f8bb89', 'retained encoder config drift')
+          require(len((root / 'upstream-encoder-LICENSE.txt').read_bytes()) == 11343
+                  and hashlib.sha256((root / 'upstream-encoder-LICENSE.txt').read_bytes()).hexdigest()
+                  == '832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e', 'retained upstream encoder license drift')
           inventory = []
           for path in sorted(root.iterdir()):
               require(path.is_file() and not path.is_symlink(), 'unexpected trusted publication member')
               raw = path.read_bytes()
               inventory.append({'path': path.name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
           receipt = {'schema_version': 1, 'scope': 'semantic-runtime-tiny-public-compatibility',
+                     'candidate': 'ADAPT_DEDICATED_ENCODER', 'encoder_model': 'qwen3-embedding:8b',
+                     'encoder_manifest_sha256': '64b933495768fbd3b87c20583d379728a07471e0c66733a9df87cd1901b3c44b',
+                     'generator_installed_model': 'NOT_TOUCHED', 'encoder_tokenizer_parity': 'NOT_RUN',
+                     'collector_copy_limit_bytes': 48 * 2**20, 'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                     'publication_mount_observed': collection['publication_mount_observed'],
+                     'actual_publication_filesystem': collection['actual_publication_filesystem'],
+                     'collector_subtotal_is_not_whole_publication_bytes': True,
                      'repository': os.environ['GITHUB_REPOSITORY'], 'checked_commit': os.environ['GITHUB_SHA'],
                      'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
                      'actual_private_inputs': False, 'installed_entrypoints': 'NOT_TOUCHED', 'full_weights': 'NOT_ARCHIVED', 'full_image_layers': 'NOT_ARCHIVED',
