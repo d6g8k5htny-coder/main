@@ -1,3 +1,7 @@
+# Root custody correction: checked7f3e805/37981448013 retained29 payloads but
+# refused all766 worker records; no behavior RED credit, originals NOT_RETAINED.
+# Frozen447a9232 remains historical. Privileged anchored read preserves source
+# modes; only RUNNER_TEMP is preserved, new public evidence uses explicit022.
 name: Architecture routing TEST ledger controls
 # Source-prepared dedicated hosted control. Runtime NOT_RUN at source freeze.
 # The frozen tests' single transient ENOSPC padding file needs a 64 MiB FSIZE
@@ -644,8 +648,11 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          python3 -I -B -S - <<'PY'
+          sudo --preserve-env=RUNNER_TEMP -- python3 -I -B -S - <<'PY'
           import hashlib, json, os, pathlib, re, stat
+          # Read worker-owned 0700 originals without changing their permissions.
+          # New public fixture evidence remains readable by the host uploader.
+          os.umask(0o022)
           base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests'
           publish_root = base / 'publish'
           destination = publish_root / 'payload'
@@ -686,7 +693,7 @@ jobs:
                   os.close(current)
           require(original(base, 'disposal-status.txt', 64, False) == b'CONFIRMED_ABSENT\n',
                   'collection precedes confirmed disposal')
-          missing, refused, copied, total = [], [], [], 0
+          missing, refused, refusal_details, copied, total = [], [], [], [], 0
           specifications = [(base, name, name, limit) for name, limit in (
               ('repository.txt', 512), ('checked-commit.txt', 128), ('run-id.txt', 128), ('run-attempt.txt', 128),
               ('checked-tree-and-parents.txt', 512), ('inputs-filesystem.log', 65536),
@@ -754,8 +761,10 @@ jobs:
                   copied.append({'path': output, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
               except FileNotFoundError:
                   missing.append(output)
-              except (OSError, ValueError):
+              except (OSError, ValueError) as error:
                   refused.append(output)
+                  refusal_details.append({'path': output, 'exception_type': type(error).__name__,
+                                          'errno': getattr(error, 'errno', None)})
           # Source validation follows bounded retention. A source/control fault
           # records its actual refusal and cannot prevent those copies or admit
           # runtime/source completeness. Native and mount facts remain observed.
@@ -786,6 +795,8 @@ jobs:
               require(stat.S_ISDIR(info.st_mode), 'publication root type refusal')
               actual = {'host_device': info.st_dev, 'reported_total_bytes': capacity.f_frsize * capacity.f_blocks}
           record = {'schema_version': 1, 'missing': sorted(missing), 'refused': sorted(refused), 'copied': copied,
+                    'refusal_details': refusal_details, 'collector_effective_uid': os.geteuid(),
+                    'new_public_artifact_creation_umask': '022',
                     'source_inventory_observation': source_inventory,
                     'expected_absent_candidate_paths': sorted(expected_absent), 'collector_counted_copy_input_bytes': total,
                     'collector_copy_limit_bytes': 48 * 2**20, 'collector_counter_may_include_refused_copy_attempts': True,
