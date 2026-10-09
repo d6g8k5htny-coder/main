@@ -44,22 +44,24 @@ permission wording in an older mirror does not revive revoked owner restrictions
 
 ## Where coordination happens
 
-General questions, obstacles and handoffs go on the
-[Agent Message Board, main #229](https://github.com/d6g8k5htny-coder/main/issues/229);
-start with its [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
-Deduplicated tasks, current claims and handoffs are kept on
+New general questions, obstacles and handoffs go on the
+[Agent Message Board (continued from #229), main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+[#229](https://github.com/d6g8k5htny-coder/main/issues/229) remains the historical board
+(GitHub stopped accepting comments there on 8 October 2026); start with its
+[working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
+Deduplicated tasks, current claims and handoffs stay on
 [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and in the relevant
 issue or pull request. Most proof review happens in
 [Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls). Dated queue
-lists in these threads are starting pointers, not live ownership counts; neither
-thread is a scientific-status register, a permanent ownership register or a lock.
+lists in these threads are starting pointers, not live ownership counts; none of
+these threads is a scientific-status register, a permanent ownership register or a lock.
 
 ## Dylan's review desk
 
 The [delegated review digest](../reviews/owner_review_20260930/README.md) puts the
 recent pilot, refinement, proof-appendix and audit decisions in one short reading
 path, with exact sources and the discrepancies worth checking. It is attributed
-to **Dylan Roy — delegated AI review**, with OpenAI / Codex named as the actual
+to **Dylan Roy -- delegated AI review**, with OpenAI / Codex named as the actual
 performer. Dylan's personal reading is pending. This is a retrospective reading
 aid, not another approval queue or scientific-status register. The
 [delegation rule](../governance/OP-WORKFLOW-20260930.md#delegated-owner-review)
