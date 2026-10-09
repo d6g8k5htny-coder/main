@@ -35,7 +35,22 @@ python3 -B tools/public_shop_check.py
 
 These are the local steps of the required `public-shop` job, including both W8b public source identity controls. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
 
-On macOS, a local run can fail if the process temporary directory is a symlink alias: the site-asset fixture guards refuse symlink ancestors. That portability defect is owned in [#294](https://github.com/d6g8k5htny-coder/main/issues/294) and is not repaired here. For a trusted local invocation only, resolve the caller's existing physical temporary directory and export that path as `TMPDIR` when launching a fresh test process. Do not hard-code a workstation path, and do not treat that setup as a production-path or fixture change.
+On macOS, a symlink alias in the process temporary directory can make the site-asset fixtures compare a lexical temporary path with the canonical path returned by the release inventory. That portability defect is owned in [#294](https://github.com/d6g8k5htny-coder/main/issues/294) and is not repaired here. The example below is a trusted local invocation setup only: it uses the caller's existing writable temporary directory, resolves that directory to its physical path, rejects the checkout and its descendants, and exports `TMPDIR` before starting a new Python process. It creates nothing, hard-codes no workstation path, and is not a production-path or fixture change.
+
+```sh
+(
+  checkout_dir="$(pwd -P)" || exit 1
+  trusted_tmpdir="$(CDPATH= cd -P "${TMPDIR:?Set TMPDIR to an existing trusted temporary directory}" && pwd -P)" || exit 1
+  case "$trusted_tmpdir/" in "$checkout_dir/"*)
+      printf '%s\n' 'Choose an existing temporary directory outside this checkout.' >&2
+      exit 1
+      ;;
+  esac
+  test -w "$trusted_tmpdir" || exit 1
+  export TMPDIR="$trusted_tmpdir"
+  python3 -B -m unittest tests.test_site_asset_release
+)
+```
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
