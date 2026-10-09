@@ -382,13 +382,13 @@ import "./test_source_quote.mjs";
 
 // Packet cards keep manifest order whatever order their RESULT.md bytes arrive in: the first
 // declared packet is held until the second has rendered, and a refusal keeps its own slot.
-async function packetOrderPage({failSecond=false}={}){
+async function packetOrderPage({failFirst=false,failSecond=false}={}){
   const f=fixture(),ids=['side24-identity-replay-20260926','side24-chart-claude-20260926'],commits=['71400b94f6cb354a8cf7aba73ffede2138a64efa','a12c178c0f857a130cf434e9efd44233a038195b'];
   const text='Scientific effect: **NONE**\nReview status: **REVIEW_REQUIRED**\n';
   const source=(i,name)=>{const path=`incoming/${ids[i]}/${name}`;return {...pin(path,text,commits[i]),repository:'d6g8k5htny-coder/main',url:`https://raw.githubusercontent.com/d6g8k5htny-coder/main/${commits[i]}/${path}`,html_url:`https://github.com/d6g8k5htny-coder/main/blob/${commits[i]}/${path}`};};
   f.manifest.packets=ids.map((id,i)=>({id,issue:i?141:null,result:source(i,'RESULT.md'),identity:source(i,'IDENTITY.json'),output:source(i,'output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}));
   const raw=JSON.stringify(f.manifest),document=documentFromHTML();
-  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.'],[f.manifest.packets[0].result.url,text],[f.manifest.packets[1].result.url,failSecond?text+'changed':text]]);
+  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.'],[f.manifest.packets[0].result.url,failFirst?text+'changed':text],[f.manifest.packets[1].result.url,failSecond?text+'changed':text]]);
   let release,secondServed;const gate=new Promise(resolve=>release=resolve),served=new Promise(resolve=>secondServed=resolve);
   const loading=museum.startMuseum({document,search:'',fetcher:async url=>{
     url=String(url);
@@ -397,22 +397,38 @@ async function packetOrderPage({failSecond=false}={}){
     if(url===f.manifest.packets[1].result.url)secondServed();
     return response;
   }});
-  await served;await new Promise(resolve=>setTimeout(resolve,10));
-  const host=document.getElementById('packet-cards'),during=host.children.map(child=>child.textContent);
+  // Release the first packet only once the second packet's card (rendered or refused) is in the page.
+  const host=document.getElementById('packet-cards'),deadline=Date.now()+5000;
+  await served;while(!descendants(host,n=>n.tagName==='ARTICLE'&&n.id===ids[1]).length&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,5));
+  const article=child=>descendants(child,n=>n.tagName==='ARTICLE')[0]??(child.tagName==='ARTICLE'?child:undefined);
+  const during=host.children.map(child=>child.textContent),duringIds=host.children.map(child=>article(child)?.id);
   release();await loading;
-  const slots=host.children.map(child=>descendants(child,n=>n.tagName==='ARTICLE')[0]??child);
-  return {during,ids,slots:slots.map(node=>/refused/.test(node.className)?'refused':node.id||node.textContent),refused:slots.filter(node=>/refused/.test(node.className))};
+  const slots=host.children.map(child=>article(child)??child);
+  return {state:document.getElementById('museum-state').textContent,settled:host.children.map(child=>child.children.length),leftover:/Verifying/.test(host.textContent),during,duringIds,ids,slots:slots.map(node=>/refused/.test(node.className)?'refused':node.id||node.textContent),refused:slots.filter(node=>/refused/.test(node.className))};
 }
 test('packet cards render in manifest order when the first packet arrives last',available,async()=>{
   const page=await packetOrderPage();
-  assert.deepEqual(page.slots,page.ids);
+  assert.deepEqual(page.duringIds,[undefined,page.ids[1]],'the second packet rendered before the first was released');
   assert.match(page.during[0],/side24-identity-replay-20260926/,'the held packet keeps its first slot while it verifies');
+  assert.deepEqual(page.slots,page.ids);
 });
 test('a refused packet keeps its manifest slot when the other packet arrives later',available,async()=>{
   const page=await packetOrderPage({failSecond:true});
+  assert.deepEqual(page.duringIds,[undefined,page.ids[1]],'the second packet was refused before the first was released');
   assert.deepEqual(page.slots,[page.ids[0],'refused']);
   assert.deepEqual(page.refused.map(node=>node.id),[page.ids[1]],'the refused card carries its packet id');
   assert.equal(page.refused[0].children[0].textContent,'Packet source');
   assert.ok(page.refused[0].children.some(n=>n.tagName==='P'&&n.className==='error'&&/^Unavailable: .+\. No result inferred\.$/.test(n.textContent)));
   assert.ok(page.refused[0].children.some(n=>n.tagName==='P'&&n.textContent==='Packet ID: side24-chart-claude-20260926'),'the refused card names its packet');
+});
+test('every refused packet is counted in the museum status line',available,async()=>{
+  const page=await packetOrderPage({failFirst:true,failSecond:true});
+  assert.deepEqual(page.slots,['refused','refused']);
+  assert.deepEqual(page.refused.map(node=>node.id),page.ids);
+  assert.equal(page.state,countedViews(2));
+});
+test('a rendered packet replaces its Verifying placeholder',available,async()=>{
+  const page=await packetOrderPage();
+  assert.deepEqual(page.settled,[1,1]);
+  assert.equal(page.leftover,false);
 });

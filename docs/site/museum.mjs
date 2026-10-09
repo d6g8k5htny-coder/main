@@ -1,5 +1,5 @@
-import {renderSourceQuote} from './source-quote.mjs?site-release=f9946485f02c1994ebf2933fff8a7471a4b55ea22fb59b5b146e9da3c10ae32b';
-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=f9946485f02c1994ebf2933fff8a7471a4b55ea22fb59b5b146e9da3c10ae32b';
+import {renderSourceQuote} from './source-quote.mjs?site-release=126f4e0b68ae8ef1967d30950ce204527ae9469e9f76d3974cb60bfa31ea63f3';
+import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=126f4e0b68ae8ef1967d30950ce204527ae9469e9f76d3974cb60bfa31ea63f3';
 
 export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
 const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
@@ -264,7 +264,7 @@ function prepareClaimFragment(document,window,currentHash) {
     return true;
   };
 }
-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=f9946485f02c1994ebf2933fff8a7471a4b55ea22fb59b5b146e9da3c10ae32b'),currentHash=()=>globalThis.location?.hash||''}={}){
+export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=126f4e0b68ae8ef1967d30950ce204527ae9469e9f76d3974cb60bfa31ea63f3'),currentHash=()=>globalThis.location?.hash||''}={}){
   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
   const finishFragment=prepareClaimFragment(document,window,currentHash);
@@ -276,9 +276,11 @@ export async function startMuseum({document=globalThis.document,window=globalThi
     const jobs=manifest.claims.map(async(claim,i)=>{try{await verifyClaim(claim,cachedFetch);placeholders[i].replaceChildren(renderClaim(document,claim,REVIEWED_IDS.includes(claim.id)?manifest.index_source:manifest.status_source));}catch(error){const unavailable=refusal(document,claim.title,error);unavailable.id=claim.id;placeholders[i].replaceChildren(unavailable);return false;}return true;});
     jobs.push((async()=>{try{containers['lifetime-fixture'].replaceChildren(await renderLifetime(document,manifest.exhibits.lifetime,cachedFetch));return true;}catch(error){containers['lifetime-fixture'].replaceChildren(refusal(document,'D2 lifetime fixture',error));return false;}})());
     if(!manifest.packets.length)containers['packet-cards'].append(element(document,'p','No packet appears in this pinned projection.'));
-    // One host per packet, appended in manifest order before any fetch, as for the claim cards: a card fills its own slot whenever its bytes arrive, and a refusal names its packet.
+    // One host per packet, appended in manifest order before any packet fetch, as for
+    // the claim cards: a card fills its own slot whenever its bytes arrive, and a
+    // refusal names its packet.
     const packetHosts=manifest.packets.map(packet=>{const host=element(document,'div');host.append(element(document,'p',`Verifying ${packet.id}…`));containers['packet-cards'].append(host);return host;});
-    manifest.packets.forEach((packet,i)=>jobs.push((async()=>{try{packetHosts[i].replaceChildren(await renderPacket(document,packet,cachedFetch));return true;}catch(error){const unavailable=refusal(document,'Packet source',error);unavailable.id=packet.id;unavailable.append(element(document,'p',`Packet ID: ${packet.id}`));packetHosts[i].replaceChildren(unavailable);return false;}})()));
+    jobs.push(...manifest.packets.map(async(packet,i)=>{try{packetHosts[i].replaceChildren(await renderPacket(document,packet,cachedFetch));}catch(error){const unavailable=refusal(document,'Packet source',error);unavailable.id=packet.id;unavailable.append(element(document,'p',`Packet ID: ${packet.id}`));packetHosts[i].replaceChildren(unavailable);return false;}return true;}));
     const kind=new URLSearchParams(search).get('view');
     if(kind){
       if(!Object.hasOwn(EXHIBITS,kind)){containers['active-exhibit'].append(refusal(document,'Unknown exhibit',Error('Select one of the four declared source illustrations')));jobs.push(false);}
