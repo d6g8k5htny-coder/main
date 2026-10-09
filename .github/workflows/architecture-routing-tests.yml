@@ -64,8 +64,8 @@ jobs:
           mkdir "$base/inputs/payload/source" "$base/inputs/payload/control"
           sudo chown 65532:65532 "$base/work/payload"
           sudo chmod 0700 "$base/work/payload"
-          sudo chown 65532:65532 "$base/fixtures/payload"
-          sudo chmod 0700 "$base/fixtures/payload"
+          sudo chown 0:0 "$base/fixtures/payload"
+          sudo chmod 01777 "$base/fixtures/payload"
           python3 -I -B -S - <<'PY'
           import hashlib, json, os, pathlib, stat
           base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests'
@@ -116,8 +116,8 @@ jobs:
                       os.close(descriptor)
                   os.close(root_fd)
           pins = {
-              'docs/plans/2026-10-08-tiered-routing-broker-contract.md': (83085, 'a6b78b009b5361e90cd6735d5daa3dc5adf5a840ae66637db25750ab07df5835'),
-              'tests/test_architecture_routing_broker.py': (112531, '6b227d665c2d733470237bcae55a6638cd5dd6d25a0d8c36b08fd4af00654c7d'),
+              'docs/plans/2026-10-08-tiered-routing-broker-contract.md': (89143, '923e31a6e5af2a51e87af102ffb3fcaafd36e19f1427cbb515812561b5d7c642'),
+              'tests/test_architecture_routing_broker.py': (120321, 'e4f88303a655dbbaa3965beba64ae5507e7315d050f2acf829f54badb8cf6554'),
           }
           bindings = []
           for path in [*pins, 'architecture/routing_broker.py', 'tools/architecture_routing_broker.py']:
@@ -344,7 +344,13 @@ jobs:
                                   for key in os.environ), 'runtime network or service environment mismatch')
               require(resource.getrlimit(resource.RLIMIT_FSIZE) == (64 * MIB, 64 * MIB)
                       and resource.getrlimit(resource.RLIMIT_NOFILE) == (256, 256), 'runtime process limit mismatch')
+              fixture_parent = os.stat('/routing-fixtures', follow_symlinks=False)
+              parent_identity = {'uid': fixture_parent.st_uid, 'gid': fixture_parent.st_gid,
+                                 'mode': stat.S_IMODE(fixture_parent.st_mode)}
+              require(parent_identity == {'uid': 0, 'gid': 0, 'mode': 0o1777},
+                      'actual root-owned sticky fixture parent mismatch')
               return {'proc_status': status, 'cgroup': cgroup, 'mounts': mounts, 'filesystem_bytes': sizes,
+                      'fixture_parent': parent_identity,
                       'network_interfaces': ['lo'], 'network_routes': 0,
                       'rlimit_fsize': list(resource.getrlimit(resource.RLIMIT_FSIZE)),
                       'rlimit_nofile': list(resource.getrlimit(resource.RLIMIT_NOFILE))}
@@ -779,8 +785,8 @@ jobs:
               source_inventory['source_sha256'] = hashlib.sha256(test_raw).hexdigest()
               source_inventory['observed_methods'] = sorted(re.findall(
                   r'^    def (test_[a-z_]+)\(self\):', test_raw.decode('utf-8'), re.MULTILINE))
-              require(source_inventory['source_bytes'] == 112531
-                      and source_inventory['source_sha256'] == '6b227d665c2d733470237bcae55a6638cd5dd6d25a0d8c36b08fd4af00654c7d'
+              require(source_inventory['source_bytes'] == 120321
+                      and source_inventory['source_sha256'] == 'e4f88303a655dbbaa3965beba64ae5507e7315d050f2acf829f54badb8cf6554'
                       and source_inventory['observed_methods'] == expected_methods
                       and len(expected_methods) == len(set(expected_methods)) == 42,
                       'captured frozen source inventory mismatch')
@@ -913,6 +919,12 @@ jobs:
           environments = [load('environment-before.json'), load('environment-after.json')]
           require(environments[0] == environments[1], 'actual containment observation changed')
           environment = environments[0]
+          fixture_parent = os.stat(base / 'fixtures/payload', follow_symlinks=False)
+          require(environment['fixture_parent'] == {
+                      'uid': fixture_parent.st_uid, 'gid': fixture_parent.st_gid,
+                      'mode': stat.S_IMODE(fixture_parent.st_mode)}
+                  == {'uid': 0, 'gid': 0, 'mode': 0o1777},
+                  'inside/outside root-owned sticky fixture parent mismatch')
           require(environment['proc_status'] == {'CapEff': '0000000000000000', 'NoNewPrivs': '1'}
                   and environment['cgroup']['memory.max'] == '1073741824'
                   and environment['cgroup']['pids.max'] == '128'

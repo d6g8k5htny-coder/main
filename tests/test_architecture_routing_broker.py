@@ -56,6 +56,7 @@ _GUARD = threading.local()
 _COUNTS = {"network": 0, "process": 0, "sdk": 0, "fake_io": 0}
 _CALIBRATION = dict(_COUNTS)
 _FAKE_FILES = set()
+_STORAGE_DIAGNOSTICS = []
 
 VIEW_COLUMNS = {
     "test_broker_accounts": "budget_id account_id account_limit held spent admission_status invariant_status version".split(),
@@ -285,7 +286,14 @@ module._IN_CHILD = True
 module._CHILD_BASE = pathlib.Path(base)
 sys.addaudithook(module._audit)
 suite = unittest.TestSuite([module.ArchitectureRoutingBrokerContract(method)])
-result = unittest.TextTestRunner(stream=sys.stderr, verbosity=2).run(suite)
+class DiagnosticResult(unittest.TextTestResult):
+    def stopTest(self, test):
+        super().stopTest(test)
+        # The status line is complete; originals still precede the final summary.
+        for raw in module._STORAGE_DIAGNOSTICS:
+            self.stream.write("TEST_STORAGE_PRESSURE " + raw.decode("ascii"))
+        self.stream.flush()
+result = unittest.TextTestRunner(stream=sys.stderr, verbosity=2, resultclass=DiagnosticResult).run(suite)
 raise SystemExit(0 if result.wasSuccessful() else 1)
 '''
 
@@ -1470,27 +1478,148 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
                 f.refuse_fresh_reserve(f.request())
                 self.assertEqual(f.fake_records(), [])
 
-    def _storage_pressure(self, function):
+    def _storage_pressure(self, function, fixture, operation):
         # Transient public zero padding fills only the dedicated <=64 MiB mount.
-        # It is removed after the one refusal, never retained as fixture evidence.
+        # Coarse pressure is retained; no smaller-block draining forces a verdict.
         padding = _CHILD_BASE / "TEST-transient-capacity-pressure"
-        descriptor = os.open(padding, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        baseline = _CHILD_BASE / "TEST-positive-small-allocation"
+        probe = _CHILD_BASE / "TEST-pressure-small-allocation"
+        paths = {"padding": padding, "baseline": baseline, "probe": probe,
+                 "ledger": fixture.ledger, "database": fixture.ledger / "routing-broker.sqlite3"}
+        descriptors = {}
         total = 0
         exhausted = False
+        broker_invocations = 0
+        def observe(stage, **details):
+            capacity = os.statvfs(_CHILD_BASE)
+            native = {name: getattr(capacity, name) for name in (
+                "f_bsize", "f_frsize", "f_blocks", "f_bfree", "f_bavail",
+                "f_files", "f_ffree", "f_favail", "f_flag", "f_namemax")}
+            inodes = {}
+            for label, path in paths.items():
+                try:
+                    info = path.lstat()
+                    inodes[label] = {"device": info.st_dev, "inode": info.st_ino,
+                                     "uid": info.st_uid, "gid": info.st_gid,
+                                     "mode": stat.S_IMODE(info.st_mode), "links": info.st_nlink,
+                                     "bytes": info.st_size, "allocated_512_byte_blocks": info.st_blocks}
+                except OSError as error:
+                    inodes[label] = {"errno": error.errno}
+            connection = None
+            try:
+                connection = sqlite3.connect(paths["database"].as_uri() + "?mode=ro",
+                                             uri=True, timeout=0, isolation_level=None)
+                connection.execute("PRAGMA query_only=ON")
+                sql = {name: connection.execute("PRAGMA " + name).fetchone()[0]
+                       for name in ("query_only", "page_size", "page_count", "freelist_count")}
+                sql["task_rows"] = connection.execute("SELECT count(*) FROM test_broker_tasks").fetchone()[0]
+                sql["event_rows"] = connection.execute("SELECT count(*) FROM test_broker_events").fetchone()[0]
+                sql["account_held_spent"] = connection.execute(
+                    "SELECT held,spent FROM test_broker_accounts ORDER BY budget_id").fetchall()
+                sql["in_transaction"] = connection.in_transaction
+            except sqlite3.Error as error:
+                sql = {"exception_type": type(error).__name__,
+                       "sqlite_errorcode": getattr(error, "sqlite_errorcode", None),
+                       "sqlite_errorname": getattr(error, "sqlite_errorname", None)}
+            finally:
+                if connection is not None:
+                    connection.close()
+            record = {"schema_version": 1, "kind": "TEST_STORAGE_PRESSURE_OBSERVATION",
+                      "method": self._testMethodName, "operation": operation,
+                      "pid": os.getpid(), "uid": os.geteuid(), "optimize": sys.flags.optimize,
+                      "monotonic_ns": str(time.monotonic_ns()), "stage": stage,
+                      "broker_invocations": broker_invocations,
+                      "statvfs": native, "inodes": inodes, "sqlite_read_only": sql, **details}
+            raw = canonical(record)
+            self.assertLessEqual(len(raw), 16384)
+            self.assertLess(len(_STORAGE_DIAGNOSTICS), 64)
+            _STORAGE_DIAGNOSTICS.append(raw)
         try:
+            observe("before-padding")
+            for label in ("padding", "baseline", "probe"):
+                descriptors[label] = os.open(paths[label], os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            baseline_write, baseline_write_errno, baseline_sync_errno = None, None, None
+            try:
+                baseline_write = os.write(descriptors["baseline"], b"\0")
+            except OSError as error:
+                baseline_write_errno = error.errno
+            try:
+                os.fsync(descriptors["baseline"])
+            except OSError as error:
+                baseline_sync_errno = error.errno
+            baseline_info = os.fstat(descriptors["baseline"])
+            observe("positive-small-allocation", written_bytes=baseline_write,
+                    write_errno=baseline_write_errno, fsync_returned=baseline_sync_errno is None,
+                    fsync_errno=baseline_sync_errno, allocated_512_byte_blocks=baseline_info.st_blocks)
+            self.assertIsNone(baseline_write_errno)
+            self.assertIsNone(baseline_sync_errno)
+            self.assertEqual(baseline_write, 1)
+            self.assertGreater(baseline_info.st_blocks, 0)
+            self.assertEqual(baseline_info.st_dev, fixture.ledger.stat().st_dev)
+            probe_before = os.fstat(descriptors["probe"])
+            self.assertEqual((probe_before.st_size, probe_before.st_blocks), (0, 0))
+            self.assertEqual(probe_before.st_dev, baseline_info.st_dev)
             while total <= 64 * MIB:
                 try:
-                    amount = os.write(descriptor, b"\0" * 65536)
+                    amount = os.write(descriptors["padding"], b"\0" * 65536)
                     total += amount
+                    self.assertGreater(amount, 0)
                 except OSError as error:
+                    observe("coarse-write-refused", write_bytes=65536, written_total_bytes=total,
+                            errno=error.errno)
                     self.assertEqual(error.errno, errno.ENOSPC)
                     exhausted = True
                     break
             self.assertTrue(exhausted, "dedicated fixture mount must enforce its physical capacity")
-            function()
+            padding_sync_errno = None
+            try:
+                os.fsync(descriptors["padding"])
+            except OSError as error:
+                padding_sync_errno = error.errno
+            observe("padding-fsync", fsync_returned=padding_sync_errno is None,
+                    errno=padding_sync_errno, written_total_bytes=total)
+            self.assertIn(padding_sync_errno, (None, errno.ENOSPC))
+            probe_write, probe_write_errno, probe_sync_errno = None, None, None
+            try:
+                probe_write = os.write(descriptors["probe"], b"\0")
+            except OSError as error:
+                probe_write_errno = error.errno
+            try:
+                os.fsync(descriptors["probe"])
+            except OSError as error:
+                probe_sync_errno = error.errno
+            probe_after = os.fstat(descriptors["probe"])
+            observe("pressure-small-allocation", requested_bytes=1, written_bytes=probe_write,
+                    write_errno=probe_write_errno, fsync_returned=probe_sync_errno is None,
+                    fsync_errno=probe_sync_errno, allocated_512_byte_blocks=probe_after.st_blocks)
+            self.assertIn(probe_write_errno, (None, errno.ENOSPC))
+            self.assertIn(probe_sync_errno, (None, errno.ENOSPC))
+            if probe_write_errno is None and probe_sync_errno is None:
+                self.assertEqual(probe_write, 1)
+                self.assertGreater(probe_after.st_blocks, 0,
+                                   "STORAGE_PRESSURE_NOT_CALIBRATED: no successful allocation witness")
+                self.fail("STORAGE_PRESSURE_NOT_CALIBRATED: one-byte allocation and fsync still succeed")
+            self.assertTrue(probe_write_errno == errno.ENOSPC or probe_sync_errno == errno.ENOSPC)
+            observe("before-broker")
+            broker_invocations += 1
+            try:
+                function()
+            except BaseException as error:
+                observe("after-broker", callable_returned=False, exception_type=type(error).__name__)
+                raise
+            else:
+                observe("after-broker", callable_returned=True)
         finally:
-            os.close(descriptor)
-            padding.unlink()
+            try:
+                observe("before-cleanup")
+            finally:
+                # All allocated probe blocks remain held through the one broker call.
+                for descriptor in descriptors.values():
+                    os.close(descriptor)
+                for path in (probe, baseline, padding):
+                    if path.exists():
+                        path.unlink()
+                observe("after-cleanup")
 
     def test_storage_commit_failure(self):
         self._require_product()
@@ -1499,7 +1628,7 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
         with self.fixture() as f:
             request = f.request()
             before = f.snapshot()
-            self._storage_pressure(lambda: f.refuse("reserve", request))
+            self._storage_pressure(lambda: f.refuse("reserve", request), f, "reserve")
             self.assertEqual(f.snapshot(), before)
             self.assertEqual(f.fake_records(), [])
         with self.fixture() as f:
@@ -1509,7 +1638,7 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
             evidence = f.evidence(request, attempt, usage)
             f.admit(evidence)
             before = f.snapshot()
-            self._storage_pressure(lambda: f.refuse("settle", attempt, ident(50), usage, evidence))
+            self._storage_pressure(lambda: f.refuse("settle", attempt, ident(50), usage, evidence), f, "settle")
             self.assertEqual(f.snapshot(), before)
             self.assertEqual((f.account()["held"], f.account()["spent"]), (16, 0))
             self.assertEqual(len(f.fake_records()), 1)
@@ -2075,7 +2204,7 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
             evidence = f.evidence(request, attempt, usage)
             f.admit(evidence)
             before = f.snapshot()
-            self._storage_pressure(lambda: f.refuse("settle", attempt, ident(100), usage, evidence))
+            self._storage_pressure(lambda: f.refuse("settle", attempt, ident(100), usage, evidence), f, "settle")
             self.assertEqual(f.snapshot(), before)
             self.assertEqual((f.account()["held"], f.account()["spent"]), (16, 0))
 
