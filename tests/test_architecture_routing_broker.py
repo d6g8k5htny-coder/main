@@ -1228,6 +1228,165 @@ class ArchitectureRoutingBrokerContract(unittest.TestCase):
             self.assertEqual(f.fake_records(), [])
             fresh.close()
 
+        def locked_time_change(f, method, arguments):
+            # Only the external controller owns the clock and competing writer.
+            # A post-release clock sample independently probes the actual SQL
+            # write lock; an expiry refusal from SQLITE_BUSY gets no credit.
+            samples = []
+            sample_lock = threading.Lock()
+            sampled = threading.Event()
+            ready = threading.Event()
+            released = threading.Event()
+
+            def probe_writer():
+                probe = sqlite3.connect((f.ledger / "routing-broker.sqlite3").as_uri() + "?mode=rw",
+                                        uri=True, timeout=0, isolation_level=None)
+                try:
+                    try:
+                        probe.execute("BEGIN IMMEDIATE")
+                    except sqlite3.OperationalError as error:
+                        code = getattr(error, "sqlite_errorcode", None)
+                        return ("busy" if code == sqlite3.SQLITE_BUSY else "error", code)
+                    else:
+                        probe.rollback()
+                        return ("available", None)
+                finally:
+                    probe.close()
+
+            def observed_clock():
+                with sample_lock:
+                    value = f.clock[0]
+                    after_release = released.is_set()
+                # Before release, the controller owns the observed lock. After
+                # release, a busy probe establishes the broker's BEGIN succeeded.
+                observation = probe_writer() if after_release else None
+                with sample_lock:
+                    samples.append((value, after_release, observation))
+                    sampled.set()
+                return value
+
+            _guarded(f.broker.close)
+            f.broker = _guarded(f.api.Broker, f.ledger, f.reg, clock=observed_clock)
+            writer = sqlite3.connect((f.ledger / "routing-broker.sqlite3").as_uri() + "?mode=rw",
+                                     uri=True, timeout=0, isolation_level=None)
+            try:
+                writer.execute("BEGIN IMMEDIATE")
+                locked_at = time.monotonic()
+                self.assertEqual(probe_writer(), ("busy", sqlite3.SQLITE_BUSY))
+
+                def contender():
+                    ready.set()
+                    try:
+                        return ("returned", f.call(method, *arguments))
+                    except f.api.RoutingBrokerRefused:
+                        return ("refused", None)
+
+                with ThreadPoolExecutor(max_workers=1) as pool:
+                    pending = pool.submit(contender)
+                    try:
+                        self.assertTrue(ready.wait(timeout=0.25), "TEST contender must start within its cap")
+                        # Old code samples before BEGIN; corrected code samples
+                        # only after acquisition. Neither path needs an unbounded
+                        # handshake or a product failpoint to release this lock.
+                        sampled.wait(timeout=0.1)
+                        with sample_lock:
+                            f.clock[0] = NOW + 2
+                            writer.rollback()
+                            released.set()
+                        self.assertLess(time.monotonic() - locked_at, 0.75,
+                                        "TEST writer must release before the 1000 ms busy timeout")
+                    finally:
+                        writer.rollback()
+                        released.set()
+                    outcome = pending.result(timeout=3)
+            finally:
+                writer.close()
+            return outcome, samples
+
+        for boundary in ("deadline", "policy", "price"):
+            for method in ("reserve", "claim_dispatch", "confirm_not_dispatched"):
+                for valid_after_release in (False, True):
+                    with self.subTest(lock_expiry=boundary, transition=method,
+                                      valid_after_release=valid_after_release):
+                        reg = registry()
+                        end = NOW + (3 if valid_after_release else 1)
+                        if boundary == "policy":
+                            reg["policy"]["valid_until_unix_ms"] = end
+                        elif boundary == "price":
+                            replace_price(reg, valid_until_unix_ms=end)
+                        with self.fixture(reg) as f:
+                            changes = {"deadline_unix_ms": end} if boundary == "deadline" else {}
+                            request = f.request(**changes)
+                            identity = (request["task_id"], digest(canonical(request)))
+                            if method != "reserve":
+                                f.reserve(request)
+                            before = f.snapshot()
+                            arguments = ((request,) if method == "reserve" else
+                                         (*identity, "EXPIRED") if method == "confirm_not_dispatched" else identity)
+                            (kind, raw), samples = locked_time_change(f, method, arguments)
+
+                            if method == "reserve":
+                                self.assertEqual(kind, "returned")
+                                receipt = f.receipt(raw)
+                                if valid_after_release:
+                                    self.assertEqual(receipt["admission"]["status"], "ADMITTED")
+                                    self.assertEqual(receipt["delivery"]["state"], "reserved")
+                                    self.assertEqual((f.account()["held"], f.account()["spent"]), (16, 0))
+                                else:
+                                    self.assertEqual(receipt["admission"]["status"], "DENIED")
+                                    self.assertEqual(receipt["admission"]["reason"], "EXPIRED")
+                                    self.assertIsNone(receipt["delivery"]["state"])
+                                    self.assertEqual((f.account()["held"], f.account()["spent"]), (0, 0))
+                                tasks = f.rows("test_broker_tasks")
+                                self.assertEqual(len(tasks), 1)
+                                self.assertEqual(tasks[0]["canonical_request"], canonical(request))
+                                self.assertEqual(tasks[0]["latest_receipt"], raw)
+                                self.assertEqual(tasks[0]["state"], "reserved" if valid_after_release else None)
+                                self.assertEqual(tasks[0]["reservation_held"], int(valid_after_release))
+                                self.assertEqual([row["kind"] for row in f.rows("test_broker_events")],
+                                                 ["RESERVED" if valid_after_release else "RESERVATION_DENIED"])
+                                self.assertEqual(f.rows("test_broker_attempts"), [])
+                            elif method == "claim_dispatch":
+                                if valid_after_release:
+                                    self.assertEqual(kind, "returned")
+                                    receipt = f.receipt(raw)
+                                    self.assertEqual(receipt["delivery"]["state"], "dispatching")
+                                    attempts = f.rows("test_broker_attempts")
+                                    self.assertEqual(len(attempts), 1)
+                                    self.assertEqual(attempts[0]["attempt_id"], receipt["delivery"]["attempt_id"])
+                                    self.assertEqual(attempts[0]["capacity_slot_held"], 1)
+                                    self.assertEqual(f.rows("test_broker_tasks")[0]["latest_receipt"], raw)
+                                    self.assertEqual([row["kind"] for row in f.rows("test_broker_events")],
+                                                     ["RESERVED", "DISPATCH_CLAIMED"])
+                                else:
+                                    self.assertEqual(kind, "refused")
+                                    self.assertEqual(f.snapshot(), before)
+                                    self.assertEqual(f.rows("test_broker_attempts"), [])
+                                self.assertEqual((f.account()["held"], f.account()["spent"]), (16, 0))
+                            else:
+                                if valid_after_release:
+                                    # EXPIRED cannot release a still-valid request.
+                                    self.assertEqual(kind, "refused")
+                                    self.assertEqual(f.snapshot(), before)
+                                    self.assertEqual((f.account()["held"], f.account()["spent"]), (16, 0))
+                                else:
+                                    self.assertEqual(kind, "returned")
+                                    receipt = f.receipt(raw)
+                                    self.assertEqual(receipt["delivery"]["state"], "confirmed_not_dispatched")
+                                    self.assertEqual((f.account()["held"], f.account()["spent"]), (0, 0))
+                                    task = f.rows("test_broker_tasks")[0]
+                                    self.assertEqual((task["reservation_held"], task["reservation_released"]), (0, 1))
+                                    self.assertEqual(task["latest_receipt"], raw)
+                                    self.assertEqual([row["kind"] for row in f.rows("test_broker_events")],
+                                                     ["RESERVED", "NONDISPATCH_CONFIRMED"])
+                                self.assertEqual(f.rows("test_broker_attempts"), [])
+                            self.assertEqual(f.fake_records(), [])
+                            acquired = [sample for sample in samples if sample[1]]
+                            self.assertTrue(acquired, "TEST must observe a post-release clock sample")
+                            self.assertTrue(all(sample == (NOW + 2, True, ("busy", sqlite3.SQLITE_BUSY))
+                                                for sample in acquired),
+                                            "TEST must independently observe the broker's successful BEGIN after release")
+
     def test_unbounded_billable_components(self):
         self._require_product()
         if self._outer():
