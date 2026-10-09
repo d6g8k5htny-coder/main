@@ -1825,5 +1825,25 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 self._parity_main_refused(packet)
 
 
+    def test_main_positive_execution_log_basenames_cannot_be_reused_by_registered_negative_controls(self):
+        body = b"TEST/formal/Demo.lean:2:22: error: unsolved goals\nFalse is false\n"
+        for label in ("TEST_build_suffix", "TEST_leanchecker_suffix", "version", "build", "leanchecker", "axioms", "elaborated-types"):
+            with self.subTest(negative_label=label):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                manifest["negative_controls"][label] = copy.deepcopy(manifest["negative_controls"]["TEST_false_claim"])
+                self._parity_rebind_manifest(formal, manifest)
+                self.update_receipt(formal, lambda receipt: receipt["negative_controls"].update({label: "REJECTED_BY_LEAN"}))
+                if label.startswith("TEST_"):
+                    formal["logs"].append(run_capture(body, label + ".log"))
+                    self.update_receipt(formal, lambda receipt: receipt["logs"].update({label + ".log": sha(body)}))
+                    self._parity_main_current(packet)
+                else:
+                    # One basename cannot represent both positive and negative execution roles.
+                    self.replace_log(formal, label + ".log", body)
+                    self._parity_main_refused(packet)
+
+
 if __name__ == "__main__":
     unittest.main()
