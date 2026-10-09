@@ -22,6 +22,8 @@ from typing import Any
 MAX_PACKET_BYTES = 16 * 1024 * 1024
 MAX_CAPTURE_BYTES = 4 * 1024 * 1024
 MAX_DEPTH = 64
+MAX_GRAPH_NODES = 256
+MAX_GRAPH_EDGES = 2048
 TRUSTED_GATE_SHA256 = "a78f3e25f3b0cfe113e618a4c31a7a25d7f22af638c46dec1ecba221fa333ac8"
 ROOT = Path(__file__).resolve().parents[1]
 HEX40 = re.compile(r"[0-9a-f]{40}")
@@ -320,6 +322,10 @@ def _snapshot(value: Any, captures: Captures, gate: ModuleType, label: str) -> d
     keys(value, {"graph", "bindings"}, label)
     graph_capture = captures.git(value["graph"], label + " graph")
     graph = graph_capture.document(label + " graph")
+    require(type(graph.get("nodes")) is dict, label + ": graph nodes must be object")
+    require(len(graph["nodes"]) <= MAX_GRAPH_NODES, label + ": graph node limit exceeded")
+    require(type(graph.get("edges")) is list, label + ": graph edges must be array")
+    require(len(graph["edges"]) <= MAX_GRAPH_EDGES, label + ": graph edge limit exceeded")
     gate.validate_graph_fail_closed(graph)
     require(type(value["bindings"]) is list, label + ": bindings must be array")
     bindings = {}
@@ -390,11 +396,60 @@ def _axiom_dump(raw: bytes, targets: set[str]) -> dict[str, list[str]]:
     return result
 
 
+def _strip_lean_comments(decoded: str) -> str | None:
+    """Retain layout and quoted markers while removing nested native comments."""
+    pieces = []
+    start = index = 0
+    quoted = escaped = False
+    while index < len(decoded):
+        character = decoded[index]
+        if quoted:
+            if escaped:
+                escaped = False
+            elif character == "\\":
+                escaped = True
+            elif character == '"':
+                quoted = False
+        elif character == '"':
+            quoted = True
+        elif decoded.startswith("--", index) or decoded.startswith("/-", index):
+            pieces.append(decoded[start:index])
+            comment_start = index
+            if decoded.startswith("--", index):
+                newline = decoded.find("\n", index + 2)
+                index = len(decoded) if newline < 0 else newline
+            else:
+                index += 2
+                depth = 1
+                while index < len(decoded) and depth:
+                    if decoded.startswith("/-", index):
+                        depth += 1
+                        index += 2
+                    elif decoded.startswith("-/", index):
+                        depth -= 1
+                        index += 2
+                    else:
+                        index += 1
+                if depth:
+                    return None
+            pieces.append(re.sub(r"[^\r\n]", " ", decoded[comment_start:index]))
+            start = index
+            continue
+        index += 1
+    if quoted:
+        return None
+    pieces.append(decoded[start:])
+    return "".join(pieces)
+
+
 def _elaborated_targets_complete(raw: bytes, targets: set[str]) -> bool:
     """Check declared #check coverage, not the truth or custody of type text."""
     try:
         decoded = raw.decode("utf-8")
     except UnicodeError:
+        return False
+    decoded = _strip_lean_comments(decoded)
+    if decoded is None:
         return False
     blocks: dict[str, list[str]] = {}
     current = None
@@ -1000,7 +1055,11 @@ def _alignment_holds(new: dict[str, Any], formals: list[dict[str, Any]],
         # Every formal use of the original whole record must remain bound and
         # explicitly review the same verified full new graph identity.
         revalidated = all(not formal["alignment_reasons"] and formal["reviewed_graph"] is not None
-                          and canonical(formal["reviewed_graph"]) == graph_ref for formal in records)
+                          and canonical(formal["reviewed_graph"]) == graph_ref
+                          and (not formal["main"] or all(
+                              mapping["node"] in new["graph"]["nodes"]
+                              and _main_join(formal, mapping["node"], mapping["target"], new["bindings"])[0]
+                              for mapping in formal["mappings"])) for formal in records)
         if reasons and not revalidated:
             holds[identity] = reasons
     return holds
