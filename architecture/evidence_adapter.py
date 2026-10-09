@@ -38,6 +38,11 @@ AXIOM_LINE = re.compile(
 ALLOWED_AXIOMS = frozenset({"propext", "Classical.choice", "Quot.sound"})
 MAIN_TOOLCHAIN = "leanprover/lean4:v4.34.1"
 MAIN_VERSION = re.compile(r"\bversion 4\.34\.1(?=[,\s)])")
+MAIN_PUBLIC_REPOSITORIES = frozenset({
+    "d6g8k5htny-coder/main", "d6g8k5htny-coder/Math-", "d6g8k5htny-coder/query-",
+    "d6g8k5htny-coder/meta-framework", "d6g8k5htny-coder/Universal-Law-Workspace",
+})
+MAIN_EXECUTION_LOG_LABELS = frozenset({"version", "build", "leanchecker", "axioms", "elaborated-types"})
 STATES = frozenset({"recorded", "not_recorded", "unknown", "not_applicable"})
 AXES = ("source", "review", "kernel", "computation", "alignment")
 PLACEHOLDERS = frozenset({
@@ -567,6 +572,99 @@ def _target_inventory(manifest: dict[str, Any], main: bool) -> tuple[list[str], 
     return sorted(rows), rows, sources
 
 
+def _main_native_comments(decoded: str) -> str:
+    """Mirror Main's non-quote-aware source comment stripping, not elaboration."""
+    out, index, depth = [], 0, 0
+    while index < len(decoded):
+        two = decoded[index:index + 2]
+        if depth:
+            if two == "/-":
+                depth, index = depth + 1, index + 2
+            elif two == "-/":
+                depth, index = depth - 1, index + 2
+            else:
+                out.append("\n" if decoded[index] == "\n" else " ")
+                index += 1
+        elif two == "/-":
+            depth, index = 1, index + 2
+        elif two == "--":
+            end = decoded.find("\n", index)
+            index = len(decoded) if end < 0 else end
+        else:
+            out.append(decoded[index])
+            index += 1
+    return "".join(out)
+
+
+def _main_captured_source_check(manifest: dict[str, Any], sources: dict[str, Capture],
+                                paths: dict[str, str], package_root: str,
+                                source_rows: dict[str, Any]) -> None:
+    """Validate Main's finite retained-source predicates without executing Lean."""
+    root_module = text(manifest.get("root_module"), "main root module")
+    root_path = package_root + "/" + root_module + ".lean"
+    relative_path(root_path, "main root module path")
+    required = {package_root + "/" + name for name in (
+        "lean-toolchain", "lakefile.toml", "lake-manifest.json", root_module + ".lean",
+        "SCOPE.md", "GLOSSARY.md", "README.md",
+    )} | {"tools/formal_gate_check.py", "tests/test_formal_gate.py"}
+    require(required <= set(paths), "main native required-file floor is incomplete")
+    require(sources[package_root + "/lean-toolchain"].raw.decode("utf-8").strip() == MAIN_TOOLCHAIN,
+            "main captured toolchain differs from the native toolchain")
+    lock = sources[package_root + "/lake-manifest.json"].document("main dependency lock")
+    require(type(lock) is dict, "main dependency lock must be an object")
+    packages = lock.get("packages", [])
+    require(type(packages) is list, "main dependency packages must be an array")
+    actual = {}
+    for package in packages:
+        require(type(package) is dict and "name" in package and "rev" in package
+                and type(package["name"]) is str, "main dependency package is malformed")
+        name = package["name"]
+        require(name not in actual, "duplicate main dependency package")
+        actual[name] = digest(package["rev"], HEX40, "main locked dependency revision")
+    require(type(manifest.get("dependency_revisions")) is dict
+            and actual == manifest["dependency_revisions"], "main dependency lock differs from declaration")
+    modules = manifest["source_modules"]
+    require(all(module.endswith(".lean") for module in modules), "main registered module must be Lean")
+    expected_root = "".join("import " + module[:-5].replace("/", ".") + "\n" for module in modules)
+    root_text = _main_native_comments(sources[root_path].raw.decode("utf-8"))
+    require("".join(line + "\n" for line in root_text.splitlines() if line.strip()) == expected_root,
+            "main root imports differ from ordered registered modules")
+    names = []
+    for module in modules:
+        decoded = _main_native_comments(sources[package_root + "/" + module].raw.decode("utf-8"))
+        require(re.search(r"\bsorry\b", decoded) is None
+                and re.search(r"\bnative_decide\b", decoded) is None
+                and re.search(r"^\s*axiom\b", decoded, re.M) is None,
+                "main captured module contains a prohibited proof construct")
+        namespaces = re.findall(r"^namespace\s+(\S+)", decoded, re.M)
+        require(len(namespaces) == 1, "main module must open exactly one native namespace")
+        declarations = re.findall(r"^(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_.']*)", decoded, re.M)
+        names.extend(namespaces[0] + "." + name for name in declarations)
+    require(names == [row["name"] for row in manifest["targets"]],
+            "main ordered targets differ from native declarations")
+    prefix = package_root + "/"
+    visible_lean = {path[len(prefix):] for path in sources
+                    if path.startswith(prefix) and path.endswith(".lean")
+                    and ".lake" not in PurePosixPath(path[len(prefix):]).parts}
+    require(visible_lean == set(modules) | {root_module + ".lean"},
+            "main visible retained Lean inventory differs from native scope")
+    for row in source_rows.values():
+        require(row["repository"] in MAIN_PUBLIC_REPOSITORIES,
+                "main pinned origin is outside the native public-repository policy")
+        sources[row["local_copy"]].raw.decode("utf-8")
+    registered = manifest.get("negative_controls", {})
+    require(type(registered) is dict, "main negative controls must be an object")
+    for label, spec in registered.items():
+        require(type(label) is str and type(spec) is dict
+                and {"module", "replace", "with"} <= set(spec), "main registered mutation is malformed")
+        module = relative_path(spec["module"], "main mutation module")
+        path = package_root + "/" + module
+        require(path in sources and type(spec["replace"]) is str and type(spec["with"]) is str,
+                "main registered mutation source or replacement is missing")
+        require(spec["replace"] in sources[path].raw.decode("utf-8"),
+                "main registered mutation replacement text is absent")
+
+
 def _lineage(party: Any, *, normalized: bool) -> dict[str, str] | None:
     if type(party) is not dict:
         return None
@@ -707,6 +805,7 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             local = sources[source_rows[row["source"]]["local_copy"]]
             require(row["informal_anchor"].encode("utf-8") in local.raw,
                     "main target anchor absent from checked source")
+        _main_captured_source_check(manifest, sources, paths, package_root, source_rows)
     require(type(value["node_targets"]) is list, "node_targets must be array")
     mappings = []
     seen = set()
@@ -756,6 +855,13 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         if main:
             require(MAIN_VERSION.search(lean_version) is not None,
                     "unsupported main native Lean version")
+        version_complete = True
+        if main:
+            version_capture = logs.get("version.log")
+            version_text = "" if version_capture is None else version_capture.raw.decode("utf-8").strip()
+            version_complete = bool(version_text)
+            if version_complete:
+                require(version_text == lean_version, "original whole version log contradicts receipt")
         recorded_logs = receipt.get("logs")
         require(type(recorded_logs) is dict, "missing native receipt log inventory")
         for name, expected_hash in recorded_logs.items():
@@ -769,7 +875,7 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         dumped = None if "axioms.log" not in logs else _axiom_dump(logs["axioms.log"].raw, target_set)
         if dumped is not None:
             require(canonical(dumped) == canonical(receipt_axioms), "original axiom log contradicts receipt")
-        complete = (dumped is not None and set(dumped) == target_set
+        complete = (version_complete and dumped is not None and set(dumped) == target_set
                     and {"build.log", "leanchecker.log", "elaborated-types.log"} <= set(logs)
                     and _elaborated_targets_complete(logs["elaborated-types.log"].raw, target_set))
         controls = receipt.get("negative_controls")
@@ -779,6 +885,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         if main:
             registered = manifest.get("negative_controls")
             require(type(registered) is dict, "missing main negative-control declarations")
+            require(not MAIN_EXECUTION_LOG_LABELS.intersection(registered),
+                    "main negative control aliases a positive execution-log basename")
             phases = dict.fromkeys(registered, "REJECTED_BY_LEAN")
             # The native producer installs these axiom controls after mutations.
             phases.update(dict.fromkeys(("sorry", "custom_imported", "native"), "REJECTED_BY_AXIOM_GATE"))
