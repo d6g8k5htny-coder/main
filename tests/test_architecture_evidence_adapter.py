@@ -1845,5 +1845,21 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                     self._parity_main_refused(packet)
 
 
+    def test_main_manifest_package_requires_nonempty_native_text_even_when_receipt_matches(self):
+        for package, valid in (("TEST_relabelled_package", True), (" TEST \t ", True),
+                               ("", False), (" \t ", False)):
+            with self.subTest(package=package, native_valid=valid):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                manifest["package"] = package
+                self._parity_rebind_manifest(formal, manifest)
+                self.update_receipt(formal, lambda receipt: receipt.update({"package": package}))
+                if valid:
+                    self._parity_main_current(packet)
+                else:
+                    self._parity_main_refused(packet)
+
+
 if __name__ == "__main__":
     unittest.main()
