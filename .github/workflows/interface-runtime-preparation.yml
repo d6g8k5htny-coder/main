@@ -1,0 +1,603 @@
+name: Interface runtime preparation
+'on':
+  pull_request:
+    paths:
+      - interface/**
+      - .github/workflows/interface-runtime-preparation.yml
+      - docs/plans/2026-10-08-interface-runtime-preparation.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: interface-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  preparation:
+    name: interface-runtime-preparation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      IMAGE: node:24.21.0-bookworm-slim@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Parse workflow and prepare a bounded isolated filesystem
+        run: |
+          set -euo pipefail
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/interface-runtime-preparation.yml
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$RUNNER_TEMP/interface-runtime" "$RUNNER_TEMP/interface-preparation-publish"
+          chmod 0700 "$RUNNER_TEMP/interface-preparation-publish"
+          truncate -s 2048M "$RUNNER_TEMP/interface-runtime.img"
+          mkfs.ext4 -F "$RUNNER_TEMP/interface-runtime.img" > "$RUNNER_TEMP/interface-preparation-publish/filesystem.log" 2>&1
+          sudo mount -o loop,nodev,nosuid "$RUNNER_TEMP/interface-runtime.img" "$RUNNER_TEMP/interface-runtime"
+          sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/interface-runtime"
+          mkdir -p "$RUNNER_TEMP/interface-runtime/runtime" "$RUNNER_TEMP/interface-runtime/control" "$RUNNER_TEMP/interface-runtime/downloads" "$RUNNER_TEMP/interface-runtime/work"
+          chmod 0700 "$RUNNER_TEMP/interface-runtime/work"
+          sudo chown 65532:65532 "$RUNNER_TEMP/interface-runtime/work"
+          git rev-parse HEAD > "$RUNNER_TEMP/interface-preparation-publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$RUNNER_TEMP/interface-preparation-publish/repository.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/interface-preparation-publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/interface-preparation-publish/run-attempt.txt"
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, stat
+          expected = "b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce"
+          directory_flags = os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW
+          workspace = os.open(os.environ["GITHUB_WORKSPACE"], directory_flags)
+          try:
+              interface = os.open("interface", directory_flags, dir_fd=workspace)
+              try:
+                  descriptor = os.open("package-lock.json", os.O_RDONLY | os.O_NOFOLLOW, dir_fd=interface)
+                  with os.fdopen(descriptor, "rb") as stream:
+                      info = os.fstat(stream.fileno())
+                      if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or not 0 < info.st_size <= 16777216:
+                          raise ValueError("unsafe or oversized checked lock source")
+                      raw = stream.read(16777217)
+              finally:
+                  os.close(interface)
+          finally:
+              os.close(workspace)
+          if not 0 < len(raw) <= 16777216:
+              raise ValueError("checked lock source byte limit")
+          actual = hashlib.sha256(raw).hexdigest()
+          publish = pathlib.Path(os.environ["RUNNER_TEMP"]) / "interface-preparation-publish"
+          with (publish / "checked-package-lock.json").open("xb") as stream:
+              stream.write(raw)
+          identity = {"schema_version": 1, "path": "interface/package-lock.json",
+                      "expected_sha256": expected, "actual_sha256": actual, "bytes": len(raw)}
+          with (publish / "checked-lock-source.json").open("x") as stream:
+              stream.write(json.dumps(identity, sort_keys=True, indent=2) + "\n")
+          if actual != expected:
+              raise ValueError("checked committed lock pin mismatch")
+          PY
+      - name: Download fixed primary inputs without executing packages
+        run: |
+          set -euo pipefail
+          download="$RUNNER_TEMP/interface-runtime/downloads"
+          fetch() {
+            curl --fail --silent --show-error --proto '=https' --tlsv1.2 --connect-timeout 10 --max-time 120 --max-filesize "$3" "$1" -o "$download/$2"
+          }
+          fetch https://nodejs.org/dist/v24.21.0/SHASUMS256.txt node-SHASUMS256.txt 16384
+          fetch https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.gz node-v24.21.0-linux-x64.tar.gz 134217728
+          fetch https://registry.npmjs.org/npm/11.19.0 npm-metadata.json 1048576
+          fetch https://registry.npmjs.org/npm/-/npm-11.19.0.tgz npm-11.19.0.tgz 33554432
+          fetch https://registry.npmjs.org/astro/7.3.8 astro-metadata.json 1048576
+          fetch https://registry.npmjs.org/astro/-/astro-7.3.8.tgz astro-7.3.8.tgz 16777216
+          python3 -B -S - <<'PY'
+          import base64, hashlib, json, os, pathlib, re, tarfile
+          root = pathlib.Path(os.environ["RUNNER_TEMP"]) / "interface-runtime"
+          download, runtime = root / "downloads", root / "runtime"
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def unique(pairs):
+              result = {}
+              for key, value in pairs:
+                  require(key not in result, "duplicate primary metadata key")
+                  result[key] = value
+              return result
+          node_hash = "6e1db87ef58b8819e5d5402eff1536491b18edd8eb7bee5ef7897876e88dc5ff"
+          node_name = "node-v24.21.0-linux-x64.tar.gz"
+          node_raw = (download / node_name).read_bytes()
+          require(hashlib.sha256(node_raw).hexdigest() == node_hash, "Node archive pin mismatch")
+          require((node_hash + "  " + node_name) in (download / "node-SHASUMS256.txt").read_text().splitlines(),
+                  "primary Node hash record mismatch")
+          inputs = {}
+          for name, version, license_value, integrity in (
+              ("npm", "11.19.0", "Artistic-2.0", "sha512-SDd/hHg3KqHE5Ht2NHWxNYNtqCQ2pXAPLl6OtQhPyED5PHsRfrOtO199MZTIG2cQoQ1ZRI9t28shrD+2cr3AAw=="),
+              ("astro", "7.3.8", "MIT", "sha512-LHzDHSaV+YzZiR3EFndDYTLLeNeuMtP1qX1FLcCNUUHOCqTTIWPczy2UV3zpA5VqvJe5cWZolqM9Z8JFqR2i9w=="),
+          ):
+              metadata = json.loads((download / (name + "-metadata.json")).read_bytes(), object_pairs_hook=unique)
+              expected_url = "https://registry.npmjs.org/" + name + "/-/" + name + "-" + version + ".tgz"
+              require(metadata["name"] == name and metadata["version"] == version and metadata["license"] == license_value,
+                      "primary package identity or declared license mismatch")
+              require(metadata["dist"]["tarball"] == expected_url and metadata["dist"]["integrity"] == integrity,
+                      "primary package archive metadata mismatch")
+              raw = (download / (name + "-" + version + ".tgz")).read_bytes()
+              actual = "sha512-" + base64.b64encode(hashlib.sha512(raw).digest()).decode("ascii")
+              require(actual == integrity and hashlib.sha1(raw, usedforsecurity=False).hexdigest() == metadata["dist"]["shasum"],
+                      "original package archive integrity mismatch")
+              inputs[name] = {"version": version, "declared_license": license_value, "integrity": integrity,
+                              "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "engines": metadata["engines"]}
+          # Extract only pinned runtime bytes; neither archive nor metadata is imported.
+          node_dir = runtime / "node"
+          (node_dir / "bin").mkdir(parents=True)
+          with tarfile.open(download / node_name, mode="r:gz") as archive:
+              for member_name, output, limit in (
+                  ("node-v24.21.0-linux-x64/bin/node", node_dir / "bin/node", 268435456),
+                  ("node-v24.21.0-linux-x64/LICENSE", node_dir / "LICENSE", 4194304),
+              ):
+                  members = [member for member in archive if member.name == member_name]
+                  require(len(members) == 1 and members[0].isfile() and 0 < members[0].size <= limit,
+                          "unexpected Node runtime member")
+                  with archive.extractfile(members[0]) as source, output.open("wb") as destination:
+                      while part := source.read(65536):
+                          destination.write(part)
+                  output.chmod(0o555 if output.name == "node" else 0o444)
+          npm_dir = runtime / "npm"
+          npm_dir.mkdir()
+          with tarfile.open(download / "npm-11.19.0.tgz", mode="r:gz") as archive:
+              members = archive.getmembers()
+              require(len(members) <= 4096 and sum(member.size for member in members) <= 67108864,
+                      "npm expanded archive limit")
+              seen = set()
+              for member in members:
+                  name = member.name.rstrip("/")
+                  parts = name.split("/")
+                  require(name not in seen and parts[0] == "package" and all(part not in ("", ".", "..") for part in parts)
+                          and not any(ord(c) < 32 or c == "\\" for c in name)
+                          and (member.isdir() or member.isfile()) and member.size <= 16777216,
+                          "unsafe or duplicate npm runtime member")
+                  seen.add(name)
+              archive.extractall(npm_dir, members=members, filter="data")
+          inputs["node"] = {"version": "24.21.0", "sha256": node_hash, "bytes": len(node_raw),
+                            "binary_sha256": hashlib.sha256((node_dir / "bin/node").read_bytes()).hexdigest()}
+          (root / "control/primary-inputs.json").write_text(json.dumps(inputs, sort_keys=True, indent=2) + "\n")
+          PY
+          (ulimit -f 8192; timeout --signal=TERM --kill-after=10s 180s docker pull --platform linux/amd64 "$IMAGE") > "$RUNNER_TEMP/interface-preparation-publish/image-pull.log" 2>&1
+          docker image inspect "$IMAGE" > "$RUNNER_TEMP/interface-preparation-publish/runtime-image.json"
+      - name: Write fixed synthetic compatibility controls
+        run: |
+          set -euo pipefail
+          control="$RUNNER_TEMP/interface-runtime/control"
+          mkdir -p "$control/fixture/src/pages"
+          cat > "$control/fixture/astro.config.mjs" <<'JS'
+          import { defineConfig } from 'astro/config';
+          export default defineConfig({
+            site: 'https://d6g8k5htny-coder.github.io',
+            base: '/main/reader',
+            output: 'static',
+            build: { inlineStylesheets: 'never' },
+          });
+          JS
+          cat > "$control/fixture/src/pages/index.astro" <<'ASTRO'
+          ---
+          const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+          const canonical = new URL(base + '/', Astro.site);
+          ---
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <title>TEST runtime preparation</title>
+              <link rel="canonical" href={canonical} />
+            </head>
+            <body>
+              <h1>TEST runtime preparation</h1>
+              <p class="test-smoke">Synthetic compilation only. Scientific effect NONE.</p>
+              <a href={base + '/'}>TEST configured base</a>
+            </body>
+          </html>
+          <style>
+            .test-smoke { --test-preparation-marker: 7319; color: #123456; }
+          </style>
+          ASTRO
+          cat > "$control/provision.mjs" <<'JS'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const node = '/runtime/node/bin/node';
+          const npm = '/runtime/npm/package/bin/npm-cli.js';
+          assert.equal(process.versions.node, '24.21.0');
+          assert.equal(process.platform, 'linux');
+          assert.equal(process.arch, 'x64');
+          assert.equal(execFileSync(node, [npm, '--version'], { encoding: 'utf8' }).trim(), '11.19.0');
+          const original = fs.readFileSync('/source/package.json');
+          const lockSha256 = 'b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce';
+          const hash = raw => crypto.createHash('sha256').update(raw).digest('hex');
+          const raw = fs.readFileSync('/source/package-lock.json');
+          assert.ok(raw.length > 0 && raw.length <= 16777216, 'lockfile byte limit');
+          assert.equal(hash(raw), lockSha256, 'checked committed lock pin mismatch');
+          const expected = { name: 'research-interface', version: '0.0.0', private: true, type: 'module',
+            packageManager: 'npm@11.19.0', engines: { node: '24.21.0', npm: '11.19.0' },
+            scripts: { build: 'astro build' }, dependencies: { astro: '7.3.8' } };
+          assert.deepEqual(JSON.parse(original), expected, 'preparation package boundary changed');
+          fs.mkdirSync('/work/provision');
+          fs.mkdirSync('/work/evidence');
+          fs.writeFileSync('/work/provision/package.json', original);
+          fs.writeFileSync('/work/provision/package-lock.json', raw);
+          // Retain exact checked source bytes before validation or networked installation can fail.
+          fs.writeFileSync('/work/evidence/package.json', original);
+          fs.writeFileSync('/work/evidence/package-lock.json', raw);
+          fs.writeFileSync('/work/evidence/package-source.sha256', hash(original) + '\n');
+          fs.writeFileSync('/work/evidence/lock-source.sha256', lockSha256 + '\n');
+          const run = args => execFileSync(node, [npm, ...args, '--ignore-scripts', '--engine-strict', '--audit=false', '--fund=false',
+            '--registry=https://registry.npmjs.org', '--cache=/work/cache', '--loglevel=warn'],
+            { cwd: '/work/provision', stdio: 'inherit', timeout: 180000 });
+          const lock = JSON.parse(raw);
+          assert.equal(lock.lockfileVersion, 3);
+          assert.deepEqual(lock.packages[''].dependencies, expected.dependencies);
+          const packages = Object.entries(lock.packages).filter(([path]) => path !== '').sort(([a], [b]) => a.localeCompare(b, 'en'));
+          assert.ok(packages.length > 0 && packages.length <= 1024, 'lockfile closure limit');
+          for (const [path, item] of packages) {
+            assert.ok(path.startsWith('node_modules/') && !path.split('/').some(p => p === '..' || p === '.' || p === ''),
+                      'non-registry lock package path');
+            assert.match(item.version, /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/);
+            const url = new URL(item.resolved);
+            assert.equal(url.origin, 'https://registry.npmjs.org');
+            assert.ok(url.pathname.endsWith('.tgz') && !url.username && !url.password && !url.search && !url.hash);
+            assert.match(item.integrity, /^sha512-[A-Za-z0-9+/]{86}==$/);
+            assert.equal(Buffer.from(item.integrity.slice(7), 'base64').length, 64);
+          }
+          assert.equal(lock.packages['node_modules/astro'].version, '7.3.8');
+          assert.equal(lock.packages['node_modules/astro'].integrity,
+            'sha512-LHzDHSaV+YzZiR3EFndDYTLLeNeuMtP1qX1FLcCNUUHOCqTTIWPczy2UV3zpA5VqvJe5cWZolqM9Z8JFqR2i9w==');
+          const inventory = { schema_version: 1, scientific_effect: 'NONE', scientific_status_authority: false,
+            kind: 'declared-lock-license-inventory', legal_approval: 'NOT_ASSESSED',
+            lock_source: { path: 'interface/package-lock.json', sha256: lockSha256, bytes: raw.length },
+            runtime_inputs: JSON.parse(fs.readFileSync('/control/primary-inputs.json', 'utf8')),
+            packages: packages.map(([path, item]) => ({ path, version: item.version, resolved: item.resolved,
+              integrity: item.integrity, declared_license: item.license ?? 'UNKNOWN',
+              optional: item.optional === true, platform_installed: 'NOT_ASSERTED' })) };
+          fs.writeFileSync('/work/evidence/license-inventory.json', JSON.stringify(inventory, null, 2) + '\n');
+          // Provision only this committed frozen closure; no package-lock-only resolution occurs.
+          run(['ci']);
+          assert.equal(hash(fs.readFileSync('/work/provision/package-lock.json')), lockSha256, 'npm ci changed the frozen lock');
+          fs.rmSync('/work/provision/node_modules', { recursive: true });
+          JS
+          cat > "$control/offline.mjs" <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import crypto from 'node:crypto';
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const node = '/runtime/node/bin/node';
+          const npm = '/runtime/npm/package/bin/npm-cli.js';
+          const hash = raw => crypto.createHash('sha256').update(raw).digest('hex');
+          assert.equal(process.versions.node, '24.21.0');
+          assert.equal(process.platform, 'linux');
+          assert.equal(process.arch, 'x64');
+          assert.equal(execFileSync(node, [npm, '--version'], { encoding: 'utf8' }).trim(), '11.19.0');
+          assert.equal(hash(fs.readFileSync('/source/package.json')), fs.readFileSync('/work/evidence/package-source.sha256', 'utf8').trim());
+          const lockSha256 = 'b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce';
+          const lockRaw = fs.readFileSync('/source/package-lock.json');
+          assert.ok(lockRaw.length > 0 && lockRaw.length <= 16777216, 'lockfile byte limit');
+          assert.equal(hash(lockRaw), lockSha256, 'offline checked committed lock pin mismatch');
+          assert.deepEqual(fs.readFileSync('/work/evidence/package-lock.json'), lockRaw, 'retained lock differs from checked source');
+          assert.equal(fs.readFileSync('/work/evidence/lock-source.sha256', 'utf8'), lockSha256 + '\n');
+          const manifests = [];
+          for (const label of ['one', 'two']) {
+            const directory = '/work/build-' + label;
+            fs.cpSync('/control/fixture', directory, { recursive: true });
+            fs.copyFileSync('/source/package.json', directory + '/package.json');
+            fs.writeFileSync(directory + '/package-lock.json', lockRaw);
+            const log = fs.openSync('/work/evidence/build-' + label + '.log', 'wx');
+            try {
+              execFileSync(node, [npm, 'ci', '--offline', '--ignore-scripts', '--engine-strict', '--audit=false', '--fund=false',
+                '--cache=/work/cache', '--loglevel=warn'], { cwd: directory, stdio: ['ignore', log, log], timeout: 120000 });
+              assert.equal(hash(fs.readFileSync(directory + '/package-lock.json')), lockSha256, 'offline npm ci changed the frozen lock');
+              assert.equal(JSON.parse(fs.readFileSync(directory + '/node_modules/astro/package.json', 'utf8')).version, '7.3.8');
+              execFileSync(node, [npm, 'run', 'build', '--offline'], { cwd: directory,
+                stdio: ['ignore', log, log], timeout: 120000 });
+            } finally { fs.closeSync(log); }
+            const dist = directory + '/dist';
+            const files = [];
+            const walk = relative => {
+              for (const name of fs.readdirSync(path.join(dist, relative)).sort()) {
+                const member = path.posix.join(relative, name);
+                const absolute = path.join(dist, member);
+                const info = fs.lstatSync(absolute);
+                assert.ok(!info.isSymbolicLink(), 'symlink build output');
+                if (info.isDirectory()) walk(member);
+                else {
+                  assert.ok(info.isFile() && info.size <= 4194304, 'special or oversized build output');
+                  const raw = fs.readFileSync(absolute);
+                  files.push({ path: member, bytes: raw.length, sha256: hash(raw) });
+                }
+              }
+            };
+            walk('');
+            assert.ok(files.length > 1 && files.length <= 128 && files.reduce((n, f) => n + f.bytes, 0) <= 16777216);
+            const html = fs.readFileSync(dist + '/index.html', 'utf8');
+            assert.ok(html.includes('TEST runtime preparation') && html.includes('Scientific effect NONE.'));
+            assert.ok(html.includes('href="/main/reader/"'));
+            assert.ok(html.includes('href="https://d6g8k5htny-coder.github.io/main/reader/"'));
+            assert.ok(!/<style\b|\sstyle\s*=|<script\b/i.test(html), 'inline style/script in synthetic output');
+            const stylesheets = [...html.matchAll(/<link\b[^>]*href="([^"]+\.css)"[^>]*>/gi)].map(match => match[1]);
+            assert.ok(stylesheets.length > 0, 'no external compiled stylesheet');
+            for (const href of stylesheets) {
+              assert.ok(href.startsWith('/main/reader/_astro/') && !href.includes('..') && !href.includes('?') && !href.includes('#'));
+              const css = fs.readFileSync(path.join(dist, href.slice('/main/reader/'.length)), 'utf8');
+              assert.match(css, /--test-preparation-marker\s*:\s*7319/);
+            }
+            const manifest = { schema_version: 1, files };
+            manifests.push(manifest);
+            fs.writeFileSync('/work/evidence/build-' + label + '-manifest.json', JSON.stringify(manifest, null, 2) + '\n');
+            fs.cpSync(dist, '/work/evidence/build-' + label, { recursive: true });
+          }
+          assert.deepEqual(manifests[0], manifests[1], 'two clean synthetic builds differ in membership or bytes');
+          fs.writeFileSync('/work/evidence/offline-result.json', JSON.stringify({
+            schema_version: 1, scientific_effect: 'NONE', scientific_status_authority: false,
+            scope: 'two-clean-synthetic-Astro-builds', actual_reader_inputs: false, builds: ['one', 'two'],
+            identical_output_bytes: true, external_stylesheets: true, configured_base: '/main/reader',
+            lock_sha256: lockSha256,
+            node: process.versions.node, npm: '11.19.0', astro: '7.3.8',
+            platform: process.platform, architecture: process.arch,
+            glibc: process.report.getReport().header.glibcVersionRuntime ?? 'UNKNOWN'
+          }, null, 2) + '\n');
+          JS
+          chmod -R a-w "$control" "$RUNNER_TEMP/interface-runtime/runtime"
+      - name: Provision only registry dependencies in a bounded networked container
+        run: |
+          set -euo pipefail
+          set +e
+          (ulimit -f 8192; timeout --signal=TERM --kill-after=10s 420s docker run --rm --log-driver none --name interface-provision \
+            --platform linux/amd64 --network bridge --read-only --user 65532:65532 --cpus 2 --memory 2g --pids-limit 256 \
+            --ulimit fsize=134217728:134217728 --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+            --env PATH=/runtime/node/bin:/usr/local/bin:/usr/bin:/bin \
+            --env NPM_CONFIG_USERCONFIG=/dev/null --env ASTRO_TELEMETRY_DISABLED=1 \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package.json",target=/source/package.json,readonly \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package-lock.json",target=/source/package-lock.json,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/runtime",target=/runtime,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/control",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/work",target=/work \
+            --entrypoint /runtime/node/bin/node "$IMAGE" /control/provision.mjs) > "$RUNNER_TEMP/interface-preparation-publish/provision-console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$RUNNER_TEMP/interface-preparation-publish/provision-exit-status.txt"
+          exit "$status"
+      - name: Compile and compare two clean fixtures with network denied
+        run: |
+          set -euo pipefail
+          set +e
+          (ulimit -f 8192; timeout --signal=TERM --kill-after=10s 360s docker run --rm --log-driver none --name interface-offline \
+            --platform linux/amd64 --network none --read-only --user 65532:65532 --cpus 2 --memory 2g --pids-limit 256 \
+            --ulimit fsize=134217728:134217728 --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+            --env PATH=/runtime/node/bin:/usr/local/bin:/usr/bin:/bin \
+            --env NPM_CONFIG_USERCONFIG=/dev/null --env ASTRO_TELEMETRY_DISABLED=1 \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package.json",target=/source/package.json,readonly \
+            --mount type=bind,source="$GITHUB_WORKSPACE/interface/package-lock.json",target=/source/package-lock.json,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/runtime",target=/runtime,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/control",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/interface-runtime/work",target=/work \
+            --entrypoint /runtime/node/bin/node "$IMAGE" /control/offline.mjs) > "$RUNNER_TEMP/interface-preparation-publish/offline-console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$RUNNER_TEMP/interface-preparation-publish/offline-exit-status.txt"
+          exit "$status"
+      - name: Dispose both containers before collection
+        if: always()
+        run: |
+          set -euo pipefail
+          for name in interface-provision interface-offline; do
+            present="$(docker ps -aq --filter "name=^/$name$")"
+            if [ -n "$present" ]; then docker rm --force "$name"; fi
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
+          done
+      - name: Retain bounded original inputs and synthetic diagnostics
+        if: always()
+        run: |
+          set -euo pipefail
+          for name in interface-provision interface-offline; do
+            remaining="$(docker ps -aq --filter "name=^/$name$")"
+            test -z "$remaining"
+          done
+          # Privilege is limited to bounded anchored reads of disposed UID65532 output.
+          # Isolated Python cannot import modules or PYTHONPATH from the checked project.
+          sudo python3 -I -B -S - "$RUNNER_TEMP/interface-runtime" "$RUNNER_TEMP/interface-preparation-publish" "$(id -u)" "$(id -g)" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          root, destination = map(pathlib.Path, sys.argv[1:3])
+          host_uid, host_gid = map(int, sys.argv[3:5])
+          if not (0 <= host_uid < 2147483648 and 0 <= host_gid < 2147483648):
+              raise ValueError("invalid host collection identity")
+          os.umask(0o022)
+          total = 0
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def write_owned(relative, raw):
+              descriptor = os.open(destination, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split("/")
+                  require(all(part not in ("", ".", "..") for part in parts), "unsafe retained destination")
+                  for part in parts[:-1]:
+                      try:
+                          os.mkdir(part, 0o755, dir_fd=descriptor)
+                      except FileExistsError:
+                          pass
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  file = os.open(parts[-1], os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+                                 0o600, dir_fd=descriptor)
+                  try:
+                      os.fchown(file, host_uid, host_gid)
+                      with os.fdopen(file, "wb", closefd=False) as output:
+                          output.write(raw)
+                  finally:
+                      os.close(file)
+              finally:
+                  os.close(descriptor)
+          def regular(source, relative, limit):
+              global total
+              descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = source.split("/")
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  file = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+                  try:
+                      info = os.fstat(file)
+                      require(stat.S_ISREG(info.st_mode) and info.st_size <= limit, "unsafe or oversized retained member")
+                      parts = []
+                      remaining = limit + 1
+                      while remaining:
+                          part = os.read(file, min(remaining, 65536))
+                          if not part:
+                              break
+                          parts.append(part)
+                          remaining -= len(part)
+                      raw = b"".join(parts)
+                      require(len(raw) <= limit, "retained member grew")
+                  finally:
+                      os.close(file)
+              finally:
+                  os.close(descriptor)
+              total += len(raw)
+              require(total <= 201326592, "retained evidence byte limit")
+              write_owned(relative, raw)
+              return raw
+          expected = [
+              ("downloads/node-v24.21.0-linux-x64.tar.gz", "inputs/node-v24.21.0-linux-x64.tar.gz", 134217728),
+              ("downloads/npm-11.19.0.tgz", "inputs/npm-11.19.0.tgz", 33554432),
+              ("downloads/astro-7.3.8.tgz", "inputs/astro-7.3.8.tgz", 16777216),
+              ("downloads/node-SHASUMS256.txt", "inputs/node-SHASUMS256.txt", 16384),
+              ("downloads/npm-metadata.json", "inputs/npm-metadata.json", 1048576),
+              ("downloads/astro-metadata.json", "inputs/astro-metadata.json", 1048576),
+              ("runtime/node/LICENSE", "licenses/node-LICENSE", 4194304),
+              ("runtime/npm/package/LICENSE", "licenses/npm-LICENSE", 4194304),
+              ("control/primary-inputs.json", "primary-inputs.json", 1048576),
+              ("control/provision.mjs", "controls/provision.mjs", 65536),
+              ("control/offline.mjs", "controls/offline.mjs", 65536),
+              ("control/fixture/astro.config.mjs", "controls/astro.config.mjs", 65536),
+              ("control/fixture/src/pages/index.astro", "controls/index.astro", 65536),
+          ]
+          for name in ("package.json", "package-lock.json", "license-inventory.json", "package-source.sha256", "lock-source.sha256",
+                       "build-one.log", "build-two.log", "build-one-manifest.json", "build-two-manifest.json", "offline-result.json"):
+              expected.append(("work/evidence/" + name, name, 16777216 if name == "package-lock.json" else 4194304))
+          missing, refusals = [], []
+          for source, relative, limit in expected:
+              try:
+                  regular(source, relative, limit)
+              except FileNotFoundError:
+                  missing.append(relative)
+              except (OSError, ValueError):
+                  refusals.append(relative)
+          # Build membership comes from a bounded manifest; each file is independently opened without following links.
+          for label in ("one", "two"):
+              manifest_file = destination / ("build-" + label + "-manifest.json")
+              if not manifest_file.exists():
+                  continue
+              try:
+                  manifest = json.loads(manifest_file.read_bytes())
+                  require(type(manifest) is dict and set(manifest) == {"schema_version", "files"}
+                          and type(manifest["schema_version"]) is int and manifest["schema_version"] == 1
+                          and type(manifest["files"]) is list and 1 < len(manifest["files"]) <= 128,
+                          "invalid synthetic output manifest")
+                  seen, expanded = set(), 0
+                  for row in manifest["files"]:
+                      require(type(row) is dict and set(row) == {"path", "bytes", "sha256"}, "invalid output row")
+                      name = row["path"]
+                      require(type(name) is str and name not in seen and len(name) <= 1024
+                              and all(part not in ("", ".", "..") for part in name.split("/"))
+                              and "\\" not in name and not any(ord(c) < 32 for c in name), "unsafe output path")
+                      seen.add(name)
+                      require(type(row["bytes"]) is int and 0 <= row["bytes"] <= 4194304, "invalid output size")
+                      expanded += row["bytes"]
+                      require(expanded <= 16777216, "synthetic output total limit")
+                      relative = "build-" + label + "/" + name
+                      raw = regular("work/evidence/" + relative, relative, 4194304)
+                      require(len(raw) == row["bytes"] and hashlib.sha256(raw).hexdigest() == row["sha256"], "output identity mismatch")
+              except (OSError, ValueError, TypeError, KeyError):
+                  refusals.append("build-" + label)
+          write_owned("collection.json", (json.dumps({
+              "schema_version": 1, "missing": missing, "refused": sorted(set(refusals)), "retained_bytes": total,
+              "scientific_effect": "NONE", "scientific_status_authority": False
+          }, sort_keys=True, indent=2) + "\n").encode("utf-8"))
+          if refusals:
+              raise ValueError("bounded evidence collection refused members")
+          PY
+      - name: Check retained identities and produce a preparation-only receipt
+        run: |
+          set -euo pipefail
+          python3 -B -S - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path(os.environ["RUNNER_TEMP"]) / "interface-preparation-publish"
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          require((root / "provision-exit-status.txt").read_text() == "0\n"
+                  and (root / "offline-exit-status.txt").read_text() == "0\n", "preparation container failure")
+          collection = json.loads((root / "collection.json").read_bytes())
+          require(collection["missing"] == [] and collection["refused"] == [], "missing retained preparation evidence")
+          for file, variable in (("checked-commit.txt", "GITHUB_SHA"), ("repository.txt", "GITHUB_REPOSITORY"),
+                                 ("run-id.txt", "GITHUB_RUN_ID"), ("run-attempt.txt", "GITHUB_RUN_ATTEMPT")):
+              require((root / file).read_text() == os.environ[variable] + "\n", "native preparation identity mismatch")
+          image = json.loads((root / "runtime-image.json").read_bytes())
+          require(type(image) is list and len(image) == 1 and image[0]["Os"] == "linux" and image[0]["Architecture"] == "amd64"
+                  and "node@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd" in image[0]["RepoDigests"],
+                  "actual runtime image identity mismatch")
+          first = json.loads((root / "build-one-manifest.json").read_bytes())
+          second = json.loads((root / "build-two-manifest.json").read_bytes())
+          require(first == second, "retained build inventories differ")
+          result = json.loads((root / "offline-result.json").read_bytes())
+          require(result["builds"] == ["one", "two"] and result["identical_output_bytes"] is True
+                  and result["external_stylesheets"] is True and result["configured_base"] == "/main/reader"
+                  and result["node"] == "24.21.0" and result["npm"] == "11.19.0" and result["astro"] == "7.3.8"
+                  and result["actual_reader_inputs"] is False, "missing synthetic compatibility result")
+          source = pathlib.Path(os.environ["GITHUB_WORKSPACE"]) / "interface/package.json"
+          require((root / "package-source.sha256").read_text() == hashlib.sha256(source.read_bytes()).hexdigest() + "\n",
+                  "actual checked package source mismatch")
+          require((root / "package.json").read_bytes() == source.read_bytes(), "retained checked package bytes mismatch")
+          lock_source = pathlib.Path(os.environ["GITHUB_WORKSPACE"]) / "interface/package-lock.json"
+          lock_raw = lock_source.read_bytes()
+          lock_hash = "b8527a7156dfcc73c3a6265c2de7b1b3b2bb0aaed175cbaf9d7aa51d6e4b72ce"
+          require(0 < len(lock_raw) <= 16777216 and hashlib.sha256(lock_raw).hexdigest() == lock_hash,
+                  "actual checked committed lock pin mismatch")
+          require((root / "package-lock.json").read_bytes() == lock_raw
+                  and (root / "checked-package-lock.json").read_bytes() == lock_raw
+                  and (root / "lock-source.sha256").read_text() == lock_hash + "\n", "retained checked lock bytes mismatch")
+          checked_lock = {"schema_version": 1, "path": "interface/package-lock.json",
+                          "expected_sha256": lock_hash, "actual_sha256": lock_hash, "bytes": len(lock_raw)}
+          require(json.loads((root / "checked-lock-source.json").read_bytes()) == checked_lock, "trusted checked lock identity mismatch")
+          declared = json.loads((root / "license-inventory.json").read_bytes())
+          require(declared["lock_source"] == {"path": "interface/package-lock.json", "sha256": lock_hash, "bytes": len(lock_raw)}
+                  and result["lock_sha256"] == lock_hash, "provisioned or offline lock identity mismatch")
+          inventory = []
+          for path in sorted(root.rglob("*")):
+              if path.is_file():
+                  raw = path.read_bytes()
+                  inventory.append({"path": path.relative_to(root).as_posix(), "bytes": len(raw),
+                                    "sha256": hashlib.sha256(raw).hexdigest()})
+          receipt = {"schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
+              "custody": "unknown", "scope": "runtime-preparation-synthetic-compatibility",
+              "repository": os.environ["GITHUB_REPOSITORY"], "checked_commit": os.environ["GITHUB_SHA"],
+              "run_id": os.environ["GITHUB_RUN_ID"], "run_attempt": os.environ["GITHUB_RUN_ATTEMPT"],
+              "actual_reader_inputs": False, "feature_red_green": "NOT_RUN",
+              "committed_lock": {"path": "interface/package-lock.json", "sha256": lock_hash, "bytes": len(lock_raw)},
+              "final_disposition": "REQUIRES_NATIVE_JOB_SUCCESS_AND_ORIGINAL_ARCHIVE_READBACK",
+              "members": inventory}
+          (root / "preparation-receipt.json").write_text(json.dumps(receipt, sort_keys=True, indent=2) + "\n")
+          PY
+      - name: Hash retained members even when preparation failed
+        if: always()
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/interface-preparation-publish"
+          find . -type f ! -name ARTIFACT_SHA256SUMS -print0 | sort -z | xargs -0 -r sha256sum > ARTIFACT_SHA256SUMS
+      - name: Retain original runtime bytes, frozen lock and failure evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: interface-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/interface-preparation-publish/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Release the bounded filesystem strictly
+        if: always()
+        run: sudo umount "$RUNNER_TEMP/interface-runtime"
