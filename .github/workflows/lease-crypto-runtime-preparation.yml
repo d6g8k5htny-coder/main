@@ -1,0 +1,640 @@
+name: Lease crypto runtime preparation
+'on':
+  pull_request:
+    paths:
+      - .github/workflows/lease-crypto-runtime-preparation.yml
+      - docs/plans/2026-10-08-lease-crypto-runtime-preparation.md
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lease-crypto-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  preparation:
+    name: lease-crypto-runtime-preparation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Prepare only bounded disposable payload directories
+        run: |
+          set -euo pipefail
+          publish="$RUNNER_TEMP/lease-crypto-publish/payload"
+          mkdir -p "$publish" "$RUNNER_TEMP/lease-crypto-docker-config"
+          chmod 0700 "$publish" "$RUNNER_TEMP/lease-crypto-docker-config"
+          git rev-parse HEAD > "$publish/checked-commit.txt"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$publish/repository.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$publish/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$publish/run-attempt.txt"
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/lease-crypto-runtime-preparation.yml
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mv "$publish" "$RUNNER_TEMP/lease-crypto-initial-evidence"
+          for label in deps control work publish; do
+            directory="$RUNNER_TEMP/lease-crypto-$label"
+            mkdir -p "$directory"
+            truncate -s 64M "$RUNNER_TEMP/lease-crypto-$label.img"
+            mkfs.ext4 -F "$RUNNER_TEMP/lease-crypto-$label.img" > "$RUNNER_TEMP/lease-crypto-initial-evidence/filesystem-$label.log" 2>&1
+            options=loop,nodev,nosuid,noexec
+            if [ "$label" = deps ]; then options=loop,nodev,nosuid; fi
+            sudo mount -o "$options" "$RUNNER_TEMP/lease-crypto-$label.img" "$directory"
+            # Leave root-owned ext4 metadata/lost+found untouched.
+            sudo mkdir "$directory/payload"
+            sudo chmod 0755 "$directory/payload"
+            sudo chown "$(id -u):$(id -g)" "$directory/payload"
+          done
+          cp "$RUNNER_TEMP/lease-crypto-initial-evidence/"* "$publish/"
+          chmod 0700 "$publish" "$RUNNER_TEMP/lease-crypto-work/payload"
+          sudo chown 65532:65532 "$RUNNER_TEMP/lease-crypto-deps/payload" "$RUNNER_TEMP/lease-crypto-work/payload"
+          mkdir "$RUNNER_TEMP/lease-crypto-control/payload/wheels"
+          cp .github/workflows/lease-crypto-runtime-preparation.yml "$publish/checked-workflow.yml"
+          cp docs/plans/2026-10-08-lease-crypto-runtime-preparation.md "$publish/checked-plan.md"
+      - name: Acquire and verify exactly three public wheels without importing them
+        run: |
+          set -euo pipefail
+          publish="$RUNNER_TEMP/lease-crypto-publish/payload"
+          trap 'status=$?; printf "%s\n" "$status" > "$publish/acquisition-exit-status.txt"' EXIT
+          wheels="$RUNNER_TEMP/lease-crypto-control/payload/wheels"
+          fetch() {
+            curl --fail --silent --show-error --proto '=https' --tlsv1.2 --connect-timeout 10 --max-time 120 --max-filesize "$3" "$1" -o "$wheels/$2"
+          }
+          fetch https://files.pythonhosted.org/packages/21/69/64cef1f702bf6657e0cc186ed1a2891d50d29fb41586b254e1c07adea261/cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl 4719841
+          fetch https://files.pythonhosted.org/packages/f7/a4/4399daaf8f7dfee9d7c3327fdb0426ee041cc63edc358b93911ceb2bfc7a/cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl 217807
+          fetch https://files.pythonhosted.org/packages/99/ce/b3ae9ee0324d991c860187be2a6ee436d27a3d02397eaddbb101ec901f3d/pycparser-3.1-py3-none-any.whl pycparser-3.1-py3-none-any.whl 48709
+          python3 -I -B -S - <<'PY'
+          import email.parser, hashlib, json, os, pathlib, stat, zipfile
+          base = pathlib.Path(os.environ['RUNNER_TEMP'])
+          control, publish = (base / ('lease-crypto-' + name) / 'payload' for name in ('control', 'publish'))
+          pins = [('cryptography', '50.0.2', 'cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl', 4719841, '630ebfea3bf689d075f82316324ff7433dc447fe6bc1bfc76524b74b4a9567d2'),
+                  ('cffi', '2.1.1', 'cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl', 217807, '34e261f78cb6ceaaa36f42f2613f4380d94d9c759a9c73c769ee6e0247364632'),
+                  ('pycparser', '3.1', 'pycparser-3.1-py3-none-any.whl', 48709, 'f09d358c840bd147b79e55f2bc494f18ea869dc897f5852a8f5766b74f787882')]
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          rows, licenses, installed = [], [], {}
+          for package, version, filename, size, digest in pins:
+              path = control / 'wheels' / filename
+              info, raw = path.lstat(), path.read_bytes()
+              require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and len(raw) == size
+                      and hashlib.sha256(raw).hexdigest() == digest, 'fixed wheel byte pin mismatch')
+              rows.append({'package': package, 'version': version, 'filename': filename, 'bytes': size, 'sha256': digest})
+              dist = package + '-' + version + '.dist-info'
+              with zipfile.ZipFile(path) as archive:
+                  entries = archive.infolist()
+                  require(len(entries) <= 256 and len({item.filename for item in entries}) == len(entries)
+                          and sum(item.file_size for item in entries) <= 32 * 2**20, 'wheel member bounds')
+                  for item in entries:
+                      parts = pathlib.PurePosixPath(item.filename).parts
+                      require(parts and all(part not in ('', '.', '..') for part in parts)
+                              and not item.filename.startswith('/') and '\\' not in item.filename
+                              and item.filename.isascii() and not stat.S_ISLNK(item.external_attr >> 16), 'unsafe pinned wheel member')
+                      if item.is_dir():
+                          continue
+                      require(item.filename not in installed and item.file_size <= 16 * 2**20, 'wheel path collision or oversized member')
+                      member = archive.read(item)
+                      installed[item.filename] = {'bytes': len(member), 'sha256': hashlib.sha256(member).hexdigest()}
+                  metadata = email.parser.BytesParser().parsebytes(archive.read(dist + '/METADATA'))
+                  require(metadata['Name'] == package and metadata['Version'] == version, 'wheel metadata drift')
+                  license_files = metadata.get_all('License-File', [])
+                  require(license_files and all('/' not in name and name not in ('', '.', '..') for name in license_files), 'missing bounded package licenses')
+                  licenses.append({'package': package, 'version': version, 'expression': metadata.get('License-Expression'),
+                                   'requires_dist': metadata.get_all('Requires-Dist', []),
+                                   'members': [{'path': dist + '/licenses/' + name, **installed[dist + '/licenses/' + name]} for name in license_files]})
+          inventory = {'schema_version': 1, 'wheels': rows, 'wheel_files': installed,
+                       'legal_approval': 'NOT_ASSESSED', 'image_component_licenses': 'NOT_ASSESSED',
+                       'licenses': licenses, 'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          (control / 'wheel-inventory.json').write_text(json.dumps(inventory, sort_keys=True, indent=2) + '\n')
+          (publish / 'wheel-inventory.json').write_text(json.dumps(inventory, sort_keys=True, indent=2) + '\n')
+          (control / 'requirements.txt').write_text(''.join(package + '==' + version + ' --hash=sha256:' + digest + '\n' for package, version, _, _, digest in pins))
+          PY
+          (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 180s docker --config "$RUNNER_TEMP/lease-crypto-docker-config" pull --platform linux/amd64 "$IMAGE") > "$publish/image-pull.log" 2>&1
+          docker --config "$RUNNER_TEMP/lease-crypto-docker-config" image inspect "$IMAGE" > "$publish/runtime-image.json"
+      - name: Write fixed offline installation and public compatibility controls
+        run: |
+          set -euo pipefail
+          control="$RUNNER_TEMP/lease-crypto-control/payload"
+          cat > "$control/install.py" <<'PY'
+          import hashlib, json, pathlib, platform, stat, subprocess, sys, tarfile
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          require(sys.version_info[:3] == (3, 11, 14) and platform.system() == 'Linux' and platform.machine() == 'x86_64', 'installer runtime drift')
+          root = pathlib.Path('/deps')
+          require(list(root.iterdir()) == [], 'dependency payload must start empty')
+          command = [sys.executable, '-I', '-B', '-m', 'pip', '--isolated', '--disable-pip-version-check', 'install',
+                     '--no-index', '--find-links=/wheels', '--only-binary=:all:', '--require-hashes', '--no-compile',
+                     '--no-cache-dir', '--target=/deps', '--report=/work/pip-install-report.json', '-r', '/control/requirements.txt']
+          subprocess.run(command, check=True, timeout=240)
+          expected = json.loads(pathlib.Path('/control/wheel-inventory.json').read_bytes())
+          generated = {package + '-' + version + '.dist-info/' + name
+                       for package, version in (('cryptography', '50.0.2'), ('cffi', '2.1.1'), ('pycparser', '3.1'))
+                       for name in ('INSTALLER', 'REQUESTED', 'direct_url.json')}
+          rows, total = [], 0
+          for path in sorted(root.rglob('*')):
+              info = path.lstat()
+              require(not stat.S_ISLNK(info.st_mode), 'installed symlink refused')
+              if stat.S_ISDIR(info.st_mode):
+                  continue
+              relative = path.relative_to(root).as_posix()
+              require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= 16 * 2**20
+                      and relative in set(expected['wheel_files']) | generated, 'unexpected installed member')
+              raw = path.read_bytes()
+              row = {'path': relative, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+              total += len(raw)
+              require(total <= 32 * 2**20 and len(rows) < 256, 'installed inventory bounds')
+              if relative in expected['wheel_files'] and not relative.endswith('.dist-info/RECORD'):
+                  require({key: row[key] for key in ('bytes', 'sha256')} == expected['wheel_files'][relative], 'installed wheel member drift')
+              if relative.endswith('/direct_url.json'):
+                  direct = json.loads(raw)
+                  require(direct.get('url') in {'file:///wheels/' + wheel['filename'] for wheel in expected['wheels']}, 'unadmitted installed direct URL')
+              rows.append(row)
+          require(set(expected['wheel_files']) <= {row['path'] for row in rows}, 'installed wheel files missing')
+          result = {'schema_version': 1, 'files': rows, 'bytes': total, 'pip_command': command,
+                    'public_dependencies_only': True, 'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          pathlib.Path('/work/installed-before.json').write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
+          with tarfile.open('/work/installed-deps.tar', 'w', format=tarfile.PAX_FORMAT) as archive:
+              for row in rows:
+                  archive.add(root / row['path'], arcname=row['path'], recursive=False)
+          PY
+          cat > "$control/compatibility.py" <<'PY'
+          import base64, hashlib, json, pathlib, platform, re, sqlite3, ssl, stat, sys
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          mode = sys.argv[1]
+          require(mode in ('normal', 'optimized') and sys.flags.optimize == (0 if mode == 'normal' else 1)
+                  and sys.flags.isolated == 1 and sys.flags.no_site == 1 and sys.dont_write_bytecode, 'actual child interpreter flags drift')
+          require(sys.version_info[:3] == (3, 11, 14) and platform.system() == 'Linux' and platform.machine() == 'x86_64', 'compatibility runtime drift')
+          # -I/-S ignore working-directory and environment package injection; only this frozen readonly tree is admitted.
+          sys.path.insert(0, '/deps')
+          import cryptography, cffi, pycparser, _cffi_backend, importlib.metadata
+          from cryptography.exceptions import InvalidSignature
+          from cryptography.hazmat.backends.openssl.backend import backend
+          from cryptography.hazmat.bindings import _rust
+          from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey, Ed25519PublicKey
+          from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
+          # The fixed pycparser3.1 wheel exposes module.__version__ == '3.01'; record both exact identities.
+          for module, version in ((cryptography, '50.0.2'), (cffi, '2.1.1'), (pycparser, '3.01')):
+              require(module.__version__ == version and pathlib.Path(module.__file__).resolve().is_relative_to('/deps'), 'actual package version/path drift')
+          distribution_versions = {distribution.metadata['Name']: distribution.version for distribution in importlib.metadata.distributions(path=['/deps'])}
+          require(distribution_versions == {'cryptography': '50.0.2', 'cffi': '2.1.1', 'pycparser': '3.1'}, 'actual distribution set/version drift')
+          ed25519_supported = backend.ed25519_supported()
+          libraries = []
+          for module, digest in ((_rust, 'a9d379995757480a31a7eebbfb2228af93becdedd205e3af0f60ba9648650404'),
+                                 (_cffi_backend, '192828af4429c83d5cd92c40275ffd3c71459c3dc7a58e43cf4b5c346d78dc8e')):
+              path = pathlib.Path(module.__file__).resolve()
+              require(path.is_relative_to('/deps') and hashlib.sha256(path.read_bytes()).hexdigest() == digest, 'actual native library drift')
+              libraries.append({'path': str(path), 'bytes': path.stat().st_size, 'sha256': digest})
+          installed = json.loads(pathlib.Path('/work/installed-before.json').read_bytes())
+          observed = []
+          for path in sorted(pathlib.Path('/deps').rglob('*')):
+              info = path.lstat()
+              require(not stat.S_ISLNK(info.st_mode), 'runtime installed symlink')
+              if stat.S_ISDIR(info.st_mode):
+                  continue
+              require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= 16 * 2**20, 'runtime installed member bounds')
+              raw = path.read_bytes()
+              observed.append({'path': path.relative_to('/deps').as_posix(), 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+          require(observed == installed['files'], 'actual readonly installed tree changed')
+          root = pathlib.Path('/work')
+          runtime = {'schema_version': 1, 'mode': mode, 'optimize': sys.flags.optimize, 'python': platform.python_version(),
+                     'sqlite_version': sqlite3.sqlite_version, 'cryptography': cryptography.__version__, 'cffi': cffi.__version__,
+                     'pycparser': pycparser.__version__, 'distribution_versions': distribution_versions,
+                     'package_paths': {module.__name__: str(pathlib.Path(module.__file__).resolve()) for module in (cryptography, cffi, pycparser)},
+                     'crypto_openssl_text': backend.openssl_version_text(), 'crypto_openssl_number': backend.openssl_version_number(),
+                     'stdlib_ssl_openssl_text': ssl.OPENSSL_VERSION, 'native_libraries': libraries, 'ed25519_supported': ed25519_supported,
+                     'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          (root / (mode + '-runtime.json')).write_text(json.dumps(runtime, sort_keys=True, indent=2) + '\n')
+          require(ed25519_supported, 'actual backend does not support ordinary Ed25519')
+          progress = root / (mode + '-controls.jsonl')
+          completed = []
+          def run(identifier, operation):
+              try:
+                  operation()
+              except BaseException as error:
+                  with progress.open('a') as stream:
+                      stream.write(json.dumps({'id': identifier, 'outcome': 'FAIL', 'error_type': type(error).__name__}) + '\n')
+                  raise
+              completed.append(identifier)
+              with progress.open('a') as stream:
+                  stream.write(json.dumps({'id': identifier, 'outcome': 'PASS'}) + '\n')
+          def equal(actual, expected):
+              require(actual == expected, 'public expected-value mismatch')
+          def rejects(error_type, operation):
+              try:
+                  operation()
+              except error_type:
+                  return
+              raise ValueError('expected rejection did not occur')
+          # RFC8032 section7.1 TEST1/2/3: these private seeds are PUBLIC NONPRODUCTION FIXTURES.
+          vectors = [
+              ('empty', '9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60', 'd75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a', '',
+               'e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b'),
+              ('one_byte', '4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb', '3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c', '72',
+               '92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00'),
+              ('two_bytes', 'c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7', 'fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025', 'af82',
+               '6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a')]
+          for name, seed, public, message, signature in vectors:
+              private = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(seed))
+              key = Ed25519PublicKey.from_public_bytes(bytes.fromhex(public))
+              data, signed = bytes.fromhex(message), bytes.fromhex(signature)
+              run('rfc_' + name + '_public', lambda: equal(private.public_key().public_bytes(Encoding.Raw, PublicFormat.Raw), bytes.fromhex(public)))
+              run('rfc_' + name + '_sign', lambda: equal(private.sign(data), signed))
+              run('rfc_' + name + '_verify', lambda: equal(key.verify(signed, data), None))
+              run('rfc_' + name + '_tampered_message', lambda: rejects(InvalidSignature, lambda: key.verify(signed, data + b'\x00')))
+              damaged = bytes([signed[0] ^ 1]) + signed[1:]
+              run('rfc_' + name + '_tampered_signature', lambda: rejects(InvalidSignature, lambda: key.verify(damaged, data)))
+              other = Ed25519PublicKey.from_public_bytes(bytes.fromhex(vectors[1 if name == 'empty' else 0][2]))
+              run('rfc_' + name + '_wrong_key', lambda: rejects(InvalidSignature, lambda: other.verify(signed, data)))
+          # This preparation demonstration payload is NOT GrantPayload and has no lease authority.
+          payload = {'schema_version': 1, 'key_id': 'TEST-RFC8032-1', 'purpose': 'TEST-crypto-runtime-preparation',
+                     'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          canonical = json.dumps(payload, ensure_ascii=True, allow_nan=False, sort_keys=True, separators=(',', ':')).encode('ascii')
+          expected = b'{"key_id":"TEST-RFC8032-1","purpose":"TEST-crypto-runtime-preparation","schema_version":1,"scientific_effect":"NONE","scientific_status_authority":false}'
+          run('envelope_canonical_bytes', lambda: equal(canonical, expected))
+          prefix = b'research-lease/v1\x00'
+          private = Ed25519PrivateKey.from_private_bytes(bytes.fromhex(vectors[0][1]))
+          key = Ed25519PublicKey.from_public_bytes(bytes.fromhex(vectors[0][2]))
+          signature = private.sign(prefix + canonical)
+          encoded = base64.urlsafe_b64encode(signature).rstrip(b'=').decode('ascii')
+          run('envelope_signature_size', lambda: equal(len(signature), 64))
+          run('envelope_base64url', lambda: require(len(encoded) == 86 and re.fullmatch('[A-Za-z0-9_-]{86}', encoded) is not None
+              and base64.b64decode(encoded + '==', altchars=b'-_', validate=True) == signature, 'noncanonical fixture encoding'))
+          envelope = {'payload': payload, 'signature_base64url': encoded}
+          wire = json.dumps(envelope, ensure_ascii=True, allow_nan=False, sort_keys=True, separators=(',', ':')).encode('ascii')
+          run('envelope_roundtrip', lambda: equal(json.loads(wire), envelope))
+          run('envelope_verify', lambda: equal(key.verify(signature, prefix + canonical), None))
+          run('envelope_changed_payload', lambda: rejects(InvalidSignature, lambda: key.verify(signature, prefix + canonical.replace(b'preparation', b'changed'))))
+          run('envelope_wrong_domain', lambda: rejects(InvalidSignature, lambda: key.verify(signature, b'research-lease/v2\x00' + canonical)))
+          run('envelope_missing_domain', lambda: rejects(InvalidSignature, lambda: key.verify(signature, canonical)))
+          other = Ed25519PublicKey.from_public_bytes(bytes.fromhex(vectors[1][2]))
+          run('envelope_wrong_key', lambda: rejects(InvalidSignature, lambda: other.verify(signature, prefix + canonical)))
+          run('envelope_changed_signature', lambda: rejects(InvalidSignature, lambda: key.verify(bytes([signature[0] ^ 1]) + signature[1:], prefix + canonical)))
+          for length in (0, 1, 63, 65):
+              run('signature_length_' + str(length), lambda: rejects(InvalidSignature, lambda: key.verify(b'\x00' * length, prefix + canonical)))
+          run('signature_invalid_scalar', lambda: rejects(InvalidSignature, lambda: key.verify(signature[:32] + b'\xff' * 32, prefix + canonical)))
+          for length in (31, 33):
+              run('private_key_length_' + str(length), lambda: rejects(ValueError, lambda: Ed25519PrivateKey.from_private_bytes(b'\x00' * length)))
+              run('public_key_length_' + str(length), lambda: rejects(ValueError, lambda: Ed25519PublicKey.from_public_bytes(b'\x00' * length)))
+          mapped = []
+          paths = {line.split()[-1] for line in pathlib.Path('/proc/self/maps').read_text().splitlines()
+                   if line.split() and line.split()[-1].startswith('/') and '.so' in line.split()[-1]}
+          for name in sorted(paths):
+              path = pathlib.Path(name).resolve()
+              require(any(path.is_relative_to(directory) for directory in ('/deps', '/usr/lib', '/usr/local/lib'))
+                      and path.is_file() and path.stat().st_size <= 64 * 2**20, 'unexpected loaded shared library path/size')
+              digest = hashlib.sha256()
+              with path.open('rb') as stream:
+                  while chunk := stream.read(1048576):
+                      digest.update(chunk)
+              mapped.append({'path': str(path), 'bytes': path.stat().st_size, 'sha256': digest.hexdigest()})
+          result = {'schema_version': 1, 'mode': mode, 'optimize': sys.flags.optimize, 'python': platform.python_version(),
+                    'python_executable': str(pathlib.Path(sys.executable).resolve()), 'python_executable_sha256': hashlib.sha256(pathlib.Path(sys.executable).read_bytes()).hexdigest(),
+                    'sqlite_version': sqlite3.sqlite_version, 'sqlite_compile_options': [row[0] for row in sqlite3.connect(':memory:').execute('pragma compile_options')],
+                    'cryptography': cryptography.__version__, 'cffi': cffi.__version__, 'pycparser': pycparser.__version__,
+                    'distribution_versions': distribution_versions,
+                    'package_paths': {module.__name__: str(pathlib.Path(module.__file__).resolve()) for module in (cryptography, cffi, pycparser)},
+                    'crypto_openssl_text': backend.openssl_version_text(), 'crypto_openssl_number': backend.openssl_version_number(),
+                    'stdlib_ssl_openssl_text': ssl.OPENSSL_VERSION, 'native_libraries': libraries, 'mapped_shared_libraries': mapped,
+                    'installed_files': observed, 'controls': completed, 'canonical_hex': canonical.hex(), 'domain_message_hex': (prefix + canonical).hex(),
+                    'envelope': envelope, 'envelope_wire_hex': wire.hex(), 'public_rfc_fixture_keys_only': True,
+                    'lease_protocol': 'NOT_IMPLEMENTED', 'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          (root / (mode + '-result.json')).write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
+          PY
+          cat > "$control/launch.py" <<'PY'
+          import json, pathlib, subprocess, sys
+          rows = []
+          for mode in ('normal', 'optimized'):
+              command = [sys.executable, '-I', '-B', '-S'] + (['-O'] if mode == 'optimized' else []) + ['/control/compatibility.py', mode]
+              try:
+                  status = subprocess.run(command, timeout=120).returncode
+              except subprocess.TimeoutExpired:
+                  status = 124
+              rows.append({'mode': mode, 'command': command, 'exit_code': status})
+              pathlib.Path('/work/child-exits.json').write_text(json.dumps(rows, sort_keys=True, indent=2) + '\n')
+          if any(row['exit_code'] != 0 for row in rows):
+              raise SystemExit(1)
+          PY
+          chmod -R a-w "$control"
+      - name: Install verified wheels in an offline bounded sandbox
+        run: |
+          set -euo pipefail
+          docker() { command docker --config "$RUNNER_TEMP/lease-crypto-docker-config" "$@"; }
+          publish="$RUNNER_TEMP/lease-crypto-publish/payload"
+          docker create --name lease-crypto-installer --platform linux/amd64 --network none \
+            --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 --cap-drop ALL --security-opt no-new-privileges \
+            --log-driver none --ulimit fsize=16777216:16777216 --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-control/payload/wheels",target=/wheels,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-control/payload",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-deps/payload",target=/deps \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-work/payload",target=/work \
+            --entrypoint python3 "$IMAGE" -I -B /control/install.py > "$publish/installer-container-id.txt"
+          docker inspect lease-crypto-installer > "$publish/installer-container-before.json"
+          set +e
+          (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 300s docker --config "$RUNNER_TEMP/lease-crypto-docker-config" start --attach lease-crypto-installer) > "$publish/installer-console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$publish/installer-attach-exit-status.txt"
+          set -e
+          docker inspect lease-crypto-installer > "$publish/installer-container-after.json"
+          if [ "$status" = 0 ]; then status="$(docker inspect --format '{{.State.ExitCode}}' lease-crypto-installer)"; fi
+          printf '%s\n' "$status" > "$publish/installer-exit-status.txt"
+          docker rm --force lease-crypto-installer
+          test -z "$(docker ps -aq --filter 'name=^/lease-crypto-installer$')"
+          if [ "$status" != 0 ]; then exit "$status"; fi
+          sudo chmod -R a-w "$RUNNER_TEMP/lease-crypto-deps/payload"
+      - name: Exercise ordinary Ed25519 with public fixtures in normal and optimized Python
+        run: |
+          set -euo pipefail
+          docker() { command docker --config "$RUNNER_TEMP/lease-crypto-docker-config" "$@"; }
+          publish="$RUNNER_TEMP/lease-crypto-publish/payload"
+          docker create --name lease-crypto-checker --platform linux/amd64 --network none \
+            --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 --cap-drop ALL --security-opt no-new-privileges \
+            --log-driver none --ulimit fsize=16777216:16777216 --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-control/payload",target=/control,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-deps/payload",target=/deps,readonly \
+            --mount type=bind,source="$RUNNER_TEMP/lease-crypto-work/payload",target=/work \
+            --entrypoint python3 "$IMAGE" -I -B -S /control/launch.py > "$publish/checker-container-id.txt"
+          docker inspect lease-crypto-checker > "$publish/checker-container-before.json"
+          set +e
+          (ulimit -f 2048; timeout --signal=TERM --kill-after=10s 300s docker --config "$RUNNER_TEMP/lease-crypto-docker-config" start --attach lease-crypto-checker) > "$publish/checker-console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$publish/checker-attach-exit-status.txt"
+          set -e
+          docker inspect lease-crypto-checker > "$publish/checker-container-after.json"
+          if [ "$status" = 0 ]; then status="$(docker inspect --format '{{.State.ExitCode}}' lease-crypto-checker)"; fi
+          printf '%s\n' "$status" > "$publish/checker-exit-status.txt"
+          exit "$status"
+      - name: Dispose both sandboxes before collecting any outputs
+        if: always()
+        run: |
+          set -euo pipefail
+          docker() { command docker --config "$RUNNER_TEMP/lease-crypto-docker-config" "$@"; }
+          for name in lease-crypto-installer lease-crypto-checker; do
+            present="$(docker ps -aq --filter "name=^/$name$")"
+            if [ -n "$present" ]; then docker rm --force "$name"; fi
+            test -z "$(docker ps -aq --filter "name=^/$name$")"
+          done
+      - name: Collect bounded originals and independently bind installed bytes
+        if: always()
+        run: |
+          set -euo pipefail
+          docker() { command docker --config "$RUNNER_TEMP/lease-crypto-docker-config" "$@"; }
+          for name in lease-crypto-installer lease-crypto-checker; do test -z "$(docker ps -aq --filter "name=^/$name$")"; done
+          sudo mkdir -p "$RUNNER_TEMP/lease-crypto-publish/payload"
+          sudo chmod 0700 "$RUNNER_TEMP/lease-crypto-publish/payload"
+          sudo chown "$(id -u):$(id -g)" "$RUNNER_TEMP/lease-crypto-publish/payload"
+          sudo python3 -I -B -S - "$RUNNER_TEMP" "$(id -u)" "$(id -g)" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys, tarfile
+          base = pathlib.Path(sys.argv[1])
+          destination = base / 'lease-crypto-publish/payload'
+          uid, gid = map(int, sys.argv[2:])
+          copied_bytes, missing, refused = 0, [], []
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          require(0 <= uid < 2147483648 and 0 <= gid < 2147483648, 'collector owner bounds')
+          def anchored(root, relative):
+              descriptor = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  parts = relative.split('/')
+                  require(all(part not in ('', '.', '..') for part in parts), 'unsafe source path')
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=descriptor)
+                      os.close(descriptor)
+                      descriptor = child
+                  return os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=descriptor)
+              finally:
+                  os.close(descriptor)
+          def write(name, raw):
+              require('/' not in name and name not in ('', '.', '..'), 'unsafe destination')
+              directory = os.open(destination, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  file = os.open(name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=directory)
+                  try:
+                      os.fchown(file, uid, gid)
+                      with os.fdopen(file, 'wb', closefd=False) as stream:
+                          stream.write(raw)
+                  finally:
+                      os.close(file)
+              finally:
+                  os.close(directory)
+          def retain(root, source, name, limit):
+              global copied_bytes
+              file = anchored(root, source)
+              with os.fdopen(file, 'rb') as stream:
+                  info = os.fstat(stream.fileno())
+                  require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size <= limit, 'unsafe original member')
+                  raw = stream.read(limit + 1)
+              copied_bytes += len(raw)
+              require(len(raw) <= limit and copied_bytes <= 48 * 2**20, 'collector copy subtotal bounds')
+              write(name, raw)
+          initial = base / 'lease-crypto-initial-evidence'
+          for name in ('checked-commit.txt', 'repository.txt', 'run-id.txt', 'run-attempt.txt',
+                       'filesystem-deps.log', 'filesystem-control.log', 'filesystem-work.log', 'filesystem-publish.log'):
+              if not (destination / name).exists():
+                  try:
+                      retain(initial, name, name, 65536)
+                  except FileNotFoundError:
+                      missing.append(name)
+                  except (OSError, ValueError):
+                      refused.append(name)
+          control, work, deps = (base / ('lease-crypto-' + name) / 'payload' for name in ('control', 'work', 'deps'))
+          members = [(control, name, 'control-' + name, 65536) for name in ('requirements.txt', 'wheel-inventory.json', 'install.py', 'compatibility.py', 'launch.py')]
+          for filename in ('cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl',
+                           'cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl', 'pycparser-3.1-py3-none-any.whl'):
+              members.append((control, 'wheels/' + filename, filename, 8 * 2**20))
+          for name in ('pip-install-report.json', 'installed-before.json', 'child-exits.json', 'normal-runtime.json', 'optimized-runtime.json',
+                       'normal-controls.jsonl', 'optimized-controls.jsonl', 'normal-result.json', 'optimized-result.json', 'installed-deps.tar'):
+              members.append((work, name, name, 32 * 2**20 if name.endswith('.tar') else 2 * 2**20))
+          for root, source, name, limit in members:
+              try:
+                  retain(root, source, name, limit)
+              except FileNotFoundError:
+                  missing.append(name)
+              except (OSError, ValueError):
+                  refused.append(name)
+          try:
+              before = json.loads((destination / 'installed-before.json').read_bytes())
+              expected = json.loads((destination / 'wheel-inventory.json').read_bytes())
+              rows = before['files']
+              require(type(rows) is list and 0 < len(rows) <= 256 and len({row['path'] for row in rows}) == len(rows), 'installed inventory bounds')
+              generated = {wheel['package'] + '-' + wheel['version'] + '.dist-info/' + name
+                           for wheel in expected['wheels'] for name in ('INSTALLER', 'REQUESTED', 'direct_url.json')}
+              require(set(expected['wheel_files']) <= {row['path'] for row in rows}
+                      and {row['path'] for row in rows} <= set(expected['wheel_files']) | generated, 'unadmitted installed inventory paths')
+              observed = []
+              for row in rows:
+                  require(type(row['bytes']) is int and 0 <= row['bytes'] <= 16 * 2**20, 'installed member size bounds')
+                  with os.fdopen(anchored(deps, row['path']), 'rb') as stream:
+                      info = os.fstat(stream.fileno())
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and info.st_size == row['bytes'], 'final installed member unsafe')
+                      raw = stream.read(row['bytes'] + 1)
+                  require(len(raw) == row['bytes'] and hashlib.sha256(raw).hexdigest() == row['sha256'], 'final installed bytes changed')
+                  observed.append(row)
+              archive_rows = []
+              with tarfile.open(destination / 'installed-deps.tar', 'r:') as archive:
+                  for member in archive:
+                      require(member.isfile() and member.name in {row['path'] for row in rows} and 0 <= member.size <= 16 * 2**20
+                              and len(archive_rows) < 256, 'unadmitted installed archive member')
+                      with archive.extractfile(member) as stream:
+                          raw = stream.read(member.size + 1)
+                      require(len(raw) == member.size, 'installed archive member size drift')
+                      archive_rows.append({'path': member.name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+              require(archive_rows == rows, 'installed original archive differs from actual prepared tree')
+              write('installed-after.json', (json.dumps({'schema_version': 1, 'files': observed}, sort_keys=True, indent=2) + '\n').encode())
+          except FileNotFoundError:
+              missing.append('installed-after.json')
+          except (OSError, ValueError, TypeError, KeyError, tarfile.TarError):
+              refused.append('installed-after.json')
+          publication_root = base / 'lease-crypto-publish'
+          publication_mounted = os.path.ismount(publication_root)
+          publication_identity = None
+          if publication_mounted:
+              mount_info = os.stat(publication_root, follow_symlinks=False)
+              capacity = os.statvfs(publication_root)
+              require(stat.S_ISDIR(mount_info.st_mode), 'publication mount root is not a directory')
+              publication_identity = {'host_device': mount_info.st_dev,
+                                      'reported_total_bytes': capacity.f_frsize * capacity.f_blocks}
+          write('collection.json', (json.dumps({'schema_version': 1, 'collector_copied_bytes': copied_bytes,
+                'collector_copy_limit_bytes': 48 * 2**20, 'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                'publication_mount_observed': publication_mounted, 'actual_publication_filesystem': publication_identity,
+                'copy_subtotal_excludes': ['preexisting_publication_members', 'installed-after.json', 'collection.json',
+                                          'preparation_receipt', 'artifact_hash_list'], 'missing': sorted(set(missing)),
+                'refused': sorted(set(refused)), 'installed_dependency_bytes': 'ARCHIVED_ORIGINAL_AFTER_OFFLINE_INSTALL',
+                'full_image_layers': 'NOT_ARCHIVED', 'production_keys': 'NOT_ACCESSED', 'scientific_effect': 'NONE',
+                'scientific_status_authority': False}, sort_keys=True, indent=2) + '\n').encode())
+          if refused:
+              raise ValueError('strict original evidence collection refused members')
+          PY
+      - name: Verify exact native identities and compatibility-only results
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib
+          base = pathlib.Path(os.environ['RUNNER_TEMP'])
+          root = base / 'lease-crypto-publish/payload'
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          for name in ('acquisition', 'installer-attach', 'installer', 'checker-attach', 'checker'):
+              require((root / (name + '-exit-status.txt')).read_text() == '0\n', 'actual preparation attempt failed')
+          collection = json.loads((root / 'collection.json').read_bytes())
+          require(collection['missing'] == [] and collection['refused'] == [], 'original evidence incomplete')
+          require(collection['publication_mount_observed'] is True
+                  and collection['configured_publication_filesystem_capacity_bytes'] == 64 * 2**20
+                  and type(collection['actual_publication_filesystem']) is dict
+                  and type(collection['actual_publication_filesystem']['host_device']) is int
+                  and type(collection['actual_publication_filesystem']['reported_total_bytes']) is int
+                  and 0 < collection['actual_publication_filesystem']['reported_total_bytes'] <= 64 * 2**20,
+                  'publication filesystem capacity was not actually observed')
+          for name, variable in (('checked-commit', 'GITHUB_SHA'), ('repository', 'GITHUB_REPOSITORY'),
+                                 ('run-id', 'GITHUB_RUN_ID'), ('run-attempt', 'GITHUB_RUN_ATTEMPT')):
+              require((root / (name + '.txt')).read_text() == os.environ[variable] + '\n', 'native identity mismatch')
+          reference = 'python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48'
+          image = json.loads((root / 'runtime-image.json').read_bytes())
+          require(type(image) is list and len(image) == 1 and image[0]['Os'] == 'linux' and image[0]['Architecture'] == 'amd64'
+                  and 'python@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48' in image[0]['RepoDigests']
+                  and os.environ['IMAGE'] == reference, 'fixed native image identity drift')
+          image = image[0]
+          for label in ('installer', 'checker'):
+              command = ['-I', '-B', '/control/install.py'] if label == 'installer' else ['-I', '-B', '-S', '/control/launch.py']
+              binds = {(str(base / 'lease-crypto-control/payload'), '/control', False),
+                       (str(base / 'lease-crypto-deps/payload'), '/deps', label == 'installer'),
+                       (str(base / 'lease-crypto-work/payload'), '/work', True)}
+              if label == 'installer':
+                  binds.add((str(base / 'lease-crypto-control/payload/wheels'), '/wheels', False))
+              records = [json.loads((root / (label + '-container-' + phase + '.json')).read_bytes())[0] for phase in ('before', 'after')]
+              for container in records:
+                  config = container['HostConfig']
+                  require(container['Image'] == image['Id'] and container['Config']['Image'] == reference
+                          and container['Config']['User'] == '65532:65532' and container['Config']['Env'] == image['Config']['Env']
+                          and container['Config']['Entrypoint'] == ['python3'] and container['Config']['Cmd'] == command, 'actual image/user/environment/command drift')
+                  require(config['NetworkMode'] == 'none' and config['ReadonlyRootfs'] is True and config['NanoCpus'] == 2000000000
+                          and config['Memory'] == 2**30 and config['PidsLimit'] == 128 and config['CapDrop'] == ['ALL']
+                          and config['CapAdd'] in (None, []) and config['Privileged'] is False and 'no-new-privileges' in config['SecurityOpt']
+                          and config['LogConfig']['Type'] == 'none' and config['PortBindings'] in (None, {})
+                          and config.get('Devices') in (None, []) and config.get('DeviceRequests') in (None, []), 'actual sandbox restrictions drift')
+                  require(any(row['Name'] == 'fsize' and row['Soft'] == 16777216 and row['Hard'] == 16777216
+                              for row in config['Ulimits']), 'actual sandbox file size bound drift')
+                  require(config['Tmpfs'] == {'/tmp': 'rw,noexec,nosuid,nodev,size=64m'} and config['Binds'] in (None, [])
+                          and config['VolumesFrom'] in (None, []), 'actual tmpfs/inherited mount drift')
+                  require(len(container['Mounts']) == len(binds) and all(item['Type'] == 'bind' and type(item['RW']) is bool for item in container['Mounts'])
+                          and {(item['Source'], item['Destination'], item['RW']) for item in container['Mounts']} == binds, 'actual bind mount inventory drift')
+                  require(len(config['Mounts']) == len(binds) and all(item['Type'] == 'bind' and type(item.get('ReadOnly', False)) is bool for item in config['Mounts'])
+                          and {(item['Source'], item['Target'], not item.get('ReadOnly', False)) for item in config['Mounts']} == binds, 'actual configured bind inventory drift')
+              require(records[0]['Id'] == records[1]['Id'] and (root / (label + '-container-id.txt')).read_text() == records[0]['Id'] + '\n'
+                      and records[1]['State']['Status'] == 'exited' and records[1]['State']['ExitCode'] == 0
+                      and records[1]['State']['OOMKilled'] is False, 'actual sandbox identity/terminal failure')
+          expected = ['rfc_' + name + '_' + suffix for name in ('empty', 'one_byte', 'two_bytes')
+                      for suffix in ('public', 'sign', 'verify', 'tampered_message', 'tampered_signature', 'wrong_key')]
+          expected += ['envelope_canonical_bytes', 'envelope_signature_size', 'envelope_base64url', 'envelope_roundtrip', 'envelope_verify',
+                       'envelope_changed_payload', 'envelope_wrong_domain', 'envelope_missing_domain', 'envelope_wrong_key', 'envelope_changed_signature']
+          expected += ['signature_length_' + str(length) for length in (0, 1, 63, 65)] + ['signature_invalid_scalar']
+          expected += [kind + '_key_length_' + str(length) for length in (31, 33) for kind in ('private', 'public')]
+          children = json.loads((root / 'child-exits.json').read_bytes())
+          require([row['mode'] for row in children] == ['normal', 'optimized'] and all(row['exit_code'] == 0 for row in children), 'actual normal/optimized child failure')
+          before = json.loads((root / 'installed-before.json').read_bytes())['files']
+          require(before == json.loads((root / 'installed-after.json').read_bytes())['files'], 'installed dependency identity drift')
+          results = []
+          for mode, optimization in (('normal', 0), ('optimized', 1)):
+              result = json.loads((root / (mode + '-result.json')).read_bytes())
+              runtime = json.loads((root / (mode + '-runtime.json')).read_bytes())
+              progress = [json.loads(line) for line in (root / (mode + '-controls.jsonl')).read_text().splitlines()]
+              require(result['mode'] == mode and result['optimize'] == optimization and result['controls'] == expected
+                      and progress == [{'id': identifier, 'outcome': 'PASS'} for identifier in expected]
+                      and result['installed_files'] == before and result['public_rfc_fixture_keys_only'] is True
+                      and result['lease_protocol'] == 'NOT_IMPLEMENTED', 'actual exact compatibility inventory incomplete')
+              require(runtime['mode'] == mode and runtime['optimize'] == optimization and runtime['ed25519_supported'] is True
+                      and runtime['python'] == '3.11.14' and runtime['cryptography'] == '50.0.2' and runtime['cffi'] == '2.1.1'
+                      and runtime['pycparser'] == '3.01' and runtime['distribution_versions'] == {'cryptography': '50.0.2', 'cffi': '2.1.1', 'pycparser': '3.1'}
+                      and type(runtime['crypto_openssl_text']) is str and runtime['crypto_openssl_text']
+                      and type(runtime['crypto_openssl_number']) is int and runtime['crypto_openssl_number'] > 0
+                      and all(runtime[name] == result[name] for name in ('native_libraries', 'crypto_openssl_text', 'crypto_openssl_number',
+                              'package_paths', 'distribution_versions', 'sqlite_version')), 'actual backend identity incomplete or changed')
+              results.append(result)
+          require(all(results[0][name] == results[1][name] for name in ('canonical_hex', 'domain_message_hex', 'envelope', 'envelope_wire_hex',
+                  'native_libraries', 'crypto_openssl_text', 'crypto_openssl_number', 'package_paths', 'sqlite_version')), 'normal/optimized native or signing-byte drift')
+          members = []
+          for path in sorted(root.iterdir()):
+              require(path.is_file() and not path.is_symlink(), 'unexpected publication member')
+              raw = path.read_bytes()
+              members.append({'path': path.name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+          receipt = {'schema_version': 1, 'scope': 'public-ed25519-runtime-prerequisite', 'repository': os.environ['GITHUB_REPOSITORY'],
+                     'checked_commit': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+                     'image_reference': reference, 'image_id': image['Id'], 'controls_per_mode': len(expected), 'modes': ['normal', 'optimized'],
+                     'production_key_access': False, 'lease_protocol': 'NOT_IMPLEMENTED', 'lease_tests': 'NOT_RUN',
+                     'installed_entrypoints': 'NOT_TOUCHED', 'full_image_layers': 'NOT_ARCHIVED', 'custody': 'unknown',
+                     'scientific_effect': 'NONE', 'scientific_status_authority': False,
+                     'final_disposition': 'REQUIRES_NATIVE_JOB_SUCCESS_AND_ORIGINAL_ARCHIVE_READBACK', 'members': members}
+          (root / 'preparation-receipt.json').write_text(json.dumps(receipt, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Hash retained originals even after failure
+        if: always()
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/lease-crypto-publish/payload"
+          find . -type f ! -name ARTIFACT_SHA256SUMS -print0 | sort -z | xargs -0 -r sha256sum > ARTIFACT_SHA256SUMS
+      - name: Retain one original preparation or failure artifact
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: lease-crypto-runtime-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/lease-crypto-publish/payload/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Release original bounded mount roots strictly after upload
+        if: always()
+        run: |
+          set -euo pipefail
+          status=0
+          for label in deps control work publish; do
+            directory="$RUNNER_TEMP/lease-crypto-$label"
+            if mountpoint -q "$directory"; then
+              if ! sudo umount "$directory"; then status=1; fi
+            fi
+          done
+          exit "$status"
