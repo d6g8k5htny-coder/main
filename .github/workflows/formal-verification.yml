@@ -43,6 +43,9 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+      - name: Parse formal workflow with the hosted YAML parser
+        run: |
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false); puts "FORMAL_WORKFLOW_YAML_PARSED"' .github/workflows/formal-verification.yml
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.11'
@@ -65,6 +68,8 @@ jobs:
           python -B -O -S -m unittest discover -s tests -p test_formal_evidence_retention.py -v
       - name: Source-only identity gate (no Lean yet; fails closed before any download)
         run: python -B -S tools/formal_gate_check.py
+      - name: Separate preexisting evidence from this execution
+        run: python -B -S tools/formal_evidence_history.py prepare
       - name: Install elan (pinned release script, digest checked) and the pinned toolchain
         run: |
           set -euo pipefail
@@ -74,24 +79,44 @@ jobs:
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/elan" toolchain install "$(cat formal/lean-toolchain)"
       - name: Kernel lane — build, leanchecker, axiom audit, negative controls, receipt
+        id: initial
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python -B -S tools/formal_gate_check.py --run-lean | tee /tmp/run-lean.log
-      - name: Gate controls in both interpreter modes
-        run: |
-          python -B -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-normal.log
-          python -B -O -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-optimized.log
+      - name: Retain initial evidence before the normal execution
+        if: always()
+        env:
+          PHASE_OUTCOME: ${{ steps.initial.outcome }}
+        run: python -B -S tools/formal_evidence_history.py capture initial "$PHASE_OUTCOME"
+      - name: Gate controls in normal interpreter mode
+        id: normal
+        run: python -B -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-normal.log
+      - name: Retain normal evidence before the optimized execution
+        if: always()
+        env:
+          PHASE_OUTCOME: ${{ steps.normal.outcome }}
+        run: python -B -S tools/formal_evidence_history.py capture normal "$PHASE_OUTCOME"
+      - name: Gate controls in optimized interpreter mode
+        id: optimized
+        run: python -B -O -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-optimized.log
       - name: Bind current-run receipt to required check
         id: required-binding
         run: python3 -B -S tools/required_formal_check.py receipt
+      - name: Retain optimized evidence and the actual binding outcome
+        if: always()
+        env:
+          PHASE_OUTCOME: ${{ steps.optimized.outcome }}
+          BINDING_OUTCOME: ${{ steps.required-binding.outcome }}
+        run: python -B -S tools/formal_evidence_history.py capture optimized "$PHASE_OUTCOME" --binding-outcome "$BINDING_OUTCOME"
       - name: Collect evidence
         if: always()
         run: |
           mkdir -p formal-evidence
           git rev-parse HEAD > formal-evidence/commit.txt
           cp /tmp/run-lean.log /tmp/tests-normal.log /tmp/tests-optimized.log formal-evidence/ 2>/dev/null || true
-          if [ -d formal/.lake/formal-evidence ]; then cp -r formal/.lake/formal-evidence formal-evidence/receipt; fi
+          python -B -S tools/formal_evidence_history.py verify
+          if [ -d formal-evidence/phases/optimized/raw ]; then cp -r formal-evidence/phases/optimized/raw formal-evidence/receipt; fi
           ls -R formal-evidence
       - name: Describe coverage
         if: always()
@@ -107,5 +132,6 @@ jobs:
         with:
           name: formal-verification-${{ github.run_id }}
           path: formal-evidence
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
