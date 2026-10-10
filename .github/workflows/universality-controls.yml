@@ -34,6 +34,10 @@ jobs:
         run: |
           python3 -B -E -S -m unittest discover -s experiments/universality -p 'test_*.py' -v
           python3 -B -E -O -S -m unittest discover -s experiments/universality -p 'test_*.py' -v
+      - name: Exact population certificate controls in both modes
+        run: |
+          python3 -B -E -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v
+          python3 -B -E -O -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v
       - name: Execute and audit all fifty exploratory law candidates
         run: |
           set -euo pipefail
