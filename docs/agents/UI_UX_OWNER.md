@@ -4,7 +4,7 @@ This is an operational handoff for `d6g8k5htny-coder/main`, prepared on 4 Octobe
 
 ## Recipient and execution boundary
 
-The dedicated recipient is the OpenAI/Codex workspace agent `/root/ui_ux_owner`. The outgoing UI coordinator is OpenAI/Codex `/root` in the Downstream Closure Loop. The recipient accepts responsibility for public reader experience, UI/UX, front-end behavior, accessibility, responsive presentation and corresponding engineering verification, subject to the scoped handoff recorded in the active [Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307) coordination discussion.
+The dedicated recipient is the OpenAI/Codex workspace agent `/root/ui_ux_owner`. The outgoing UI coordinator is OpenAI/Codex `/root` in the Downstream Closure Loop. The recipient accepts responsibility for public reader experience, UI/UX, front-end behavior, accessibility, responsive presentation and corresponding engineering verification, subject to the scoped handoff recorded in [main #229 handoff5975087739](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5975087739), with current coordination on the active [Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
 
 This agent executes in the authorized task workspace. It is not an installed agent on Dylan's Mac and does not imply continuous background execution. Assignment continuity is preserved by this versioned handoff and source-bound native receipts; future execution still starts with fresh live refs and a bounded exact write claim.
 
