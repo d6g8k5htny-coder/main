@@ -1,5 +1,6 @@
 """Actual public HTML route checks, including deep links after the home split."""
 from html.parser import HTMLParser
+import html
 import json
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -790,12 +791,19 @@ class ShrinkingBinReading(unittest.TestCase):
         self.assertEqual(sha256(sampling.encode()).hexdigest(),
                          '6787bf96f0bbb12c5d465d05e4829bf3dbc628629cedd0d3dcb82fdd37ea47c0')
         cuts=text[text.index('<section id="pair-endpoint-rate"'):text.index('<section id="lifetimes"')]
-        # Only labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive inside the dated cuts; every original byte stays pinned.
+        # Only labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive inside the dated cuts; every original cut byte stays pinned.
         notes=LINEAGE_NOTE.findall(cuts)
         self.assertEqual(len(notes),4)
-        self.assertEqual(sha256(LINEAGE_NOTE.sub('',cuts).encode()).hexdigest(),
-                         'ab38d6b603d5ae22009cc13e1975aad61eabb36d29c63511091547afd8b67af2')
-        # The reading paths carry no lineage notes and are pinned whole; only the Further-reading landmark and the footer (navigation chrome) are outside both pins.
+        # The #newer-work aside is declared mutable navigation, not cut text (research.html hero); NewerWorkRoutes guards its contents.
+        # Its contents are cut out of this digest; its opening tag and its place as the last child of #latest-work stay pinned.
+        # Re-pinned once from ab38d6b6…af2: computed on the unchanged page, so the only change is excluding the aside's contents.
+        self.assertEqual(len(NEWER_WORK.findall(cuts)),1)
+        frozen=NEWER_WORK.sub(r'\1\2',LINEAGE_NOTE.sub('',cuts))
+        self.assertTrue(frozen.endswith('</div>\n<aside id="newer-work" class="latest-upstream" tabindex="-1"></aside>\n</section>\n'))
+        self.assertEqual(sha256(frozen.encode()).hexdigest(),
+                         'c8ee665e0f33922f1c14a78197fb233fbbb6c85def64c9c065cdba721c314da6')
+        # The reading paths carry no lineage notes and are pinned whole. Outside both pins: the contents of the #newer-work aside
+        # (maintained routes, guarded by NewerWorkRoutes), the Further-reading landmark and the footer (navigation chrome).
         paths=text[text.index('<section id="lifetimes"'):text.index('<section id="further-reading"')]
         self.assertEqual(LINEAGE_NOTE.findall(paths),[])
         self.assertEqual(sha256(paths.encode()).hexdigest(),
@@ -857,6 +865,156 @@ class ShrinkingBinReading(unittest.TestCase):
              {'page':ActualBoundaryPage(),'expect':StrictSingleExpectation})
 
 LINEAGE_NOTE = re.compile(r'<p class="lineage-note">.*?</p>', re.S)
+# The declared-mutable route list: group 1 is the pinned opening tag, group 2 the end tag; the contents between are maintained.
+NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabindex="-1">).*?(</aside>)', re.S)
+
+
+class NewerWorkRoutes(unittest.TestCase):
+    """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
+    ACTIVE_BOARD = 307   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
+    HISTORICAL_BOARD = 229
+    QUEUE = 275
+    ISSUES = SOURCE_ROOT+'main/issues/'
+    AS_READ = r'as read \d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d'
+    # The aside's routes in reading order, each with its exact name; a renamed or reordered route is a deliberate edit here.
+    ROUTES = (
+        ('main/pulls', 'open main proposals'),
+        ('main/tree/main/experiments/universality', 'universality suite (main branch)'),
+        ('main/blob/main/docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md', 'universality program (main branch)'),
+        ('main/blob/main/docs/RESEARCH_INDEX.md', 'research guide (main branch)'),
+        ('Math-/pulls', 'open Math proposals'),
+        ('Math-/tree/main', 'full Math source tree'),
+        ('Math-/tree/main/frontiers', 'proof packets'),
+        ('Math-/tree/main/reviews', 'reviews'),
+        ('Math-/tree/main/coefficients', 'coefficients'),
+        ('Math-/tree/main/companions', 'Lean companion packages'),
+        ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
+        ('main/issues/307', 'active coordination board, main #307'),
+        ('main/issues/275', 'task and claim queue, main #275'),
+        ('main/issues/229', 'historical board, main #229'),
+        ('main/blob/main/CONTRIBUTING.md', 'contribution guide'),
+        ('meta-framework/blob/main/registry.json', 'current curated catalog'),
+        ('query-', 'current query tool'),
+    )
+    # The two maintained sentences that name #229 as a route; everywhere else #229 is cited, never called the board in use.
+    ASIDE_229 = ('<a href="'+SOURCE_ROOT+'main/issues/229">historical board, main #229</a> (GitHub stopped accepting comments there '
+                 'at 2,500 on 8 October 2026; links to its earlier comments stay valid)')
+    CARD_229 = ('Start with the <a href="'+SOURCE_ROOT+'main/issues/229#issuecomment-6038554880">historical #229 working guidance</a>, then read',
+                'GitHub stopped accepting comments on main #229 at 2,500 on 8 October 2026, and it stays readable as the earlier record)')
+    STATUS_WORDS = ('accepted','proved','proven','verified','validated','confirmed','established','reviewed','pass','amend','latest','newest')
+
+    def aside(self):
+        matches=list(NEWER_WORK.finditer((SITE/'research.html').read_text()))
+        self.assertEqual(len(matches),1)
+        return matches[0].group(0)
+
+    def contribute_card(self):
+        return (SITE/'workspace.html').read_text().split('<section id="contribute"',1)[1].split('</article>',1)[0]
+
+    def anchors(self, text):
+        class Anchors(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=True);self.found=[];self.open=None
+            def handle_starttag(self,tag,attrs):
+                if tag=='a':self.open=[dict(attrs).get('href',''),'']
+            def handle_data(self,data):
+                if self.open is not None:self.open[1]+=data
+            def handle_endtag(self,tag):
+                if tag=='a' and self.open is not None:self.found.append(tuple(self.open));self.open=None
+        parser=Anchors();parser.feed(text);return parser.found
+
+    def is_historical_board(self, href):
+        u=urlsplit(href)
+        return u.netloc=='github.com' and u.path.rstrip('/')=='/d6g8k5htny-coder/main/issues/'+str(self.HISTORICAL_BOARD)
+
+    def test_routes_reach_both_repositories_and_the_board_in_use(self):
+        aside=self.aside()
+        self.assertEqual(self.anchors(aside),[(SOURCE_ROOT+href,name) for href,name in self.ROUTES])
+        for n in (self.ACTIVE_BOARD,self.QUEUE,self.HISTORICAL_BOARD):
+            with self.subTest(issue=n):self.assertIn(f'main/issues/{n}',[href for href,_ in self.ROUTES])
+        self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
+                                         '<p><strong>Mutable upstream navigation.</strong>'))
+        self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
+        self.assertRegex(aside,re.escape('">contribution guide</a> (')+self.AS_READ+re.escape(', it names the same board and queue)'))
+        self.assertIn(self.ASIDE_229,aside)
+        # #latest-work keeps one <time> (the 18:00 cut's); the browser check's '#latest-work time' locator is strict.
+        self.assertNotIn('<time',aside)
+        # mutable routes are never counted as pinned reading sources, and pinned cut content never moves in here
+        for token in ('data-source-kind','lineage-note','<article','<details','sha256','SHA-256'):
+            with self.subTest(token=token):self.assertNotIn(token,aside)
+        # the aside's boundaries now live here, since the cuts digest no longer covers its contents
+        for phrase in ('These links deliberately follow current branches, open proposals and coordination discussions.',
+                       'Their contents may be newer than every dated reading cut above, and no cut selects everything that landed;',
+                       'inspect each source’s date, assumptions and review before using it.',
+                       'Availability does not imply review, and review of one scope does not accept a larger theorem.',
+                       'No private workspace contents are included in this page.'):
+            with self.subTest(phrase=phrase):self.assertIn(phrase,aside)
+
+    def test_every_route_is_a_branch_listing_or_discussion_never_a_commit(self):
+        for href,name in self.anchors(self.aside()):
+            with self.subTest(href=href):
+                u=urlsplit(href)
+                self.assertEqual((u.scheme,u.netloc,u.query,u.fragment),('https','github.com','',''))
+                parts=u.path.split('/')[1:]
+                self.assertEqual(parts[0],'d6g8k5htny-coder')
+                self.assertTrue(len(parts)==2 or parts[2] in ('pulls','issues') or parts[2:4] in (['tree','main'],['blob','main']),href)
+
+    def test_historical_board_is_never_called_active_on_any_page(self):
+        aside=self.aside();card=self.contribute_card()
+        # Where #229 is offered as a route (the aside, the Join-the-work card), its sentence says it is history.
+        self.assertIn(self.ASIDE_229,aside)
+        for clause in self.CARD_229:
+            with self.subTest(clause=clause):self.assertIn(clause,card)
+        routes=[(href,name) for text in (aside,card) for href,name in self.anchors(text) if self.is_historical_board(href)]
+        self.assertEqual(len(routes),2)
+        for href,name in routes:
+            with self.subTest(route=name):self.assertIn('historical',name)
+        # Everywhere else, source citations to #229 comments stay as cited, and neither a link nor a sentence names
+        # #229 the active, current or live board.
+        for path in sorted(SITE.glob('*.html')):
+            text=path.read_text()
+            if path.name=='research.html':text=text.replace(aside,'')
+            if path.name=='workspace.html':text=text.replace(card,'')
+            for href,name in self.anchors(text):
+                if not self.is_historical_board(href):continue
+                with self.subTest(page=path.name,name=name):
+                    self.assertIsNone(re.search(r'(?i)\b(active|current|live)\b|agent message board|research discussion',name))
+            plain=html.unescape(re.sub(r'<[^>]+>',' ',text))
+            for segment in re.split(r'[.;·\n]',plain):
+                if f'#{self.HISTORICAL_BOARD}' not in segment:continue
+                with self.subTest(page=path.name,segment=segment.strip()[:80]):
+                    self.assertIsNone(re.search(r'(?i)\b(active|current|live)\b',segment))
+
+    def test_aside_names_routes_without_status_words(self):
+        plain=re.sub(r'<[^>]+>',' ',self.aside()).lower()
+        for word in self.STATUS_WORDS:
+            with self.subTest(word=word):self.assertIsNone(re.search(rf'\b{word}\b',plain))
+
+    def test_workspace_contribute_routes_match_the_aside(self):
+        card=self.contribute_card()
+        self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">active coordination board, main #{self.ACTIVE_BOARD}</a> ('+'as read',card)
+        self.assertRegex(card,re.escape(f'main #{self.ACTIVE_BOARD}</a> (')+self.AS_READ+';')
+        self.assertRegex(card,re.escape(f'main #{self.QUEUE}</a> (')+self.AS_READ+':')
+        self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
+        self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
+        self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #307 takes general coordination.
+        self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
+
+    def test_entry_wording_names_cuts_and_the_index_as_selections(self):
+        workspace=(SITE/'workspace.html').read_text();research=(SITE/'research.html').read_text();cite=(SITE/'cite.html').read_text()
+        self.assertRegex(workspace,r'For a curated selection of public work up to the [^<]+ reading cut \(not every landed packet\), use <a href="research\.html#reading-cut-\d{8}">Latest public work</a>')
+        self.assertNotIn('For packets landed up to',workspace)
+        self.assertIn('for current source routes, including work no cut selects, use <a href="research.html#newer-work">Check newer work</a>',workspace)
+        self.assertIn('start with the <a href="research.html#newer-work">current source routes</a>',workspace)
+        self.assertIn('the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md">selected proof index</a>',workspace)
+        hero=research.split('<nav class="cut-list"',1)[0]
+        self.assertIn('selected later results are in the dated cuts.',hero)
+        self.assertIn('only the “Check newer work” route list that closes it is maintained, with its own as-read date.',hero)
+        self.assertIn('Math-’s selected, dated proof index</a>',cite)
+        for route in ('<a href="research.html#cut-list-heading">dated reading cuts</a>','<a href="research.html#newer-work">current source routes</a>'):
+            with self.subTest(route=route):self.assertIn(route,cite)
+        self.assertNotIn('current proof index',cite)
 
 
 class October7Reading(unittest.TestCase):
