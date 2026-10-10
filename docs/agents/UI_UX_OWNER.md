@@ -10,7 +10,7 @@ This agent executes in the authorized task workspace. It is not an installed age
 
 Actual provider: OpenAI. Backend model identity: UNKNOWN. Same-provider reviews receive zero organizational-independence credit. The separate Lean/auditor role owns its own proof-coverage and alignment work; UI presentation does not establish that mathematical material has been transferred into Lean.
 
-The outgoing scope transfer is recorded in [main #229 handoff5975087739](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5975087739) and the active [Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307). The separate [Lean audit handoff](LEAN_AUDIT_OWNER.md) defines the other recipient's boundary. Neither role installation claims access to a Mac-local runtime.
+The outgoing scope transfer is recorded in [main #229 handoff5975087739](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5975087739). The separate [Lean audit handoff](LEAN_AUDIT_OWNER.md) defines the other recipient's boundary. Neither role installation claims access to a Mac-local runtime.
 
 ## Baseline and completed successors
 
