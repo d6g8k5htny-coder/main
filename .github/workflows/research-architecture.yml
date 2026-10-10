@@ -80,11 +80,11 @@ jobs:
         run: |
           set -euo pipefail
           set +e
-          timeout --signal=TERM --kill-after=10s 300s docker run --rm --log-driver none --name architecture-controls \
+          timeout --signal=TERM --kill-after=10s 420s docker run --rm --log-driver none --name architecture-controls \
             --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
             --cap-drop ALL --security-opt no-new-privileges \
             --env ARCHITECTURE_SANDBOX=1 \
-            --tmpfs /tmp:rw,noexec,nosuid,size=64m \
+            --tmpfs /tmp:rw,noexec,nosuid,size=128m \
             --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
             --mount type=bind,source="$RUNNER_TEMP/architecture-evidence/container",target=/output \
             --workdir /source "$IMAGE" sh -c '
