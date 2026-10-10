@@ -12,7 +12,7 @@ import {
   recordedContextRows,
   recordedReviewText,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=d7fbd5092f2ef4d3b9c9a4edf88a87001d492360f66de948061d94876f4e56c7';
+} from './dependency-model.mjs?site-release=76f61a1e04a75db930f63796bfe338fd6982853a0359ff2e7f1886b4113e7436';
 
 const byId = id => document.getElementById(id);
 
