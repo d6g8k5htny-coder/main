@@ -39,7 +39,8 @@ Check real desktop/mobile layouts, keyboard operation, light/dark appearance and
 ## Latest public work is a reading cut
 
 `research.html#latest-work` is static editorial navigation checked at its displayed
-UTC time. It links the landed soft-model chain at Math `07320089`, the separately
+UTC time, except its closing **Check newer work** route list (`#newer-work`), which
+carries its own "as read" date. It links the landed soft-model chain at Math `07320089`, the separately
 landed cap formalization at `0fda855b`, exact public C81–C84 issue-comment proofs and
 reviews (model and source-bound actual/contact scopes kept distinct), the finite numerical work at main `1e1c9a1c`, and the existing catalog and
 query sources. The named boundaries are part of each reading path. This is a
@@ -55,14 +56,19 @@ to this cut. Later dated cuts were added above it: `#reading-addendum` (3 Octobe
 link the newest cut. `#latest-work` keeps its 18:00 UTC heading, wording and pins; its
 later additions are a forward pointer to the 20:01 addendum and two labeled
 reviewer-lineage notes beside its 3 October review links, which the 7 October cut
-discloses. Two further labeled source-identity notes close the 20:01 and 00:18 cuts
+discloses, and the maintained contents of its closing `#newer-work` route list
+(below), which is navigation, not cut text. Two further labeled source-identity notes close the 20:01 and 00:18 cuts
 with the SHA-256 identities their pinned links lacked, and one dated
 `<p class="cut-pointer">` inside the 7 October cap card records that Math #193 was
 reopened eight minutes after that cut. The 9 October 2026 cut (`#reading-cut-20261009`) restates all five in its source disclosure, so none
 is the only record.
 
 Exact-commit citations preserve the reading cut. The **Check newer work** section
-intentionally follows mutable upstream branches and discussions. Comment links
+(`#newer-work`) intentionally follows mutable upstream branches and discussions. It is
+maintained navigation, not cut text: it carries an "as read" date, and when the
+coordination board or task queue moves, its routes and the matching Join-the-work card
+in `workspace.html` are updated in place without re-pinning any cut
+(`NewerWorkRoutes` in `tests/test_reader_links.py` checks them). Comment links
 identify the public record but comments remain editable; their reviews record the
 reviewed identity. A missing source is unavailable evidence. No browser fetch or
 execution of those sources is claimed. The Library, status and museum snapshots
@@ -77,10 +83,10 @@ check, not something established by a screenshot or link.
 
 ### Adding a dated reading cut
 
-Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelledby="…">` with its own `<time datetime="…Z">` immediately before the current newest cut. Never edit an earlier cut's text. In the same change:
+Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelledby="…">` with its own `<time datetime="…Z">` immediately before the current newest cut. Never edit an earlier cut's text; the closing **Check newer work** route list (`#newer-work`) is maintained navigation with its own as-read date. In the same change:
 
 1. Point Home's "Read the latest public work →", Research's hero "Latest public work" and the Library's latest-work links at the new id. Give the new cut one uniquely named link to the cut below it; exact link names must stay unique. Update the `<time datetime>` and visible date beside the Home and Library entry links to the new cut’s timestamp (`tests/test_reader_links.py` pins them). The Home About link line links Source records, Dependencies and Formal, and its disclosure links Measure; keep ‘dated’/‘synthetic’ in those labels. In the Research hero, add one row for the new cut at the top of the “Dated reading cuts” list (its question heading and the `<summary>` text of its source disclosure) and update the “Newest reading cut” `<time>`; if the cut introduces a status token not listed under `#status-words`, add a quoted-provenance row for it (where it is quoted from, never a definition).
-2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest. Four digests pin the page below the newest cut: the 7 October cut whole (cut-pointer included); `#shrinking-bin-sampling` whole; the cuts digest from `#pair-endpoint-rate` up to `#lifetimes`, with lineage notes stripped; and the paths digest from `#lifetimes` up to `#further-reading`. A cut that stops being newest gets its own byte-identity pin, as the 06:20 cut has. Only the Further-reading section and the footer stay outside the pins.
+2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest. Four digests pin the page below the newest cut: the 7 October cut whole (cut-pointer included); `#shrinking-bin-sampling` whole; the cuts digest from `#pair-endpoint-rate` up to `#lifetimes`, with lineage notes and the contents of the `#newer-work` aside stripped (its opening tag and its place as the last child of `#latest-work` stay pinned); and the paths digest from `#lifetimes` up to `#further-reading`. A cut that stops being newest gets its own byte-identity pin, as the 06:20 cut has. Outside the pins stay the contents of `#newer-work` (maintained routes, checked by `NewerWorkRoutes` in `tests/test_reader_links.py`), the Further-reading section and the footer.
 3. In `tools/public_shop_browser_check.py`, update `check_latest_work_flow` and `check_reading_addendum_flow`: entry focus, datetime, card and pinned-link counts.
 4. Keep `research.html` script-free, its IDs unique and every local fragment resolvable.
 5. Append the new cut, with its date and UTC time, to the list of later dated cuts earlier in this section, so this guide does not stop at an older cut.
