@@ -38,6 +38,8 @@ The controls include false fold and power inequalities, a `sorry` proof, an indi
 
 Use #95 and PR92 to claim work and avoid duplicate writers. The OpenAI implementation author does not supply independent review credit. Read the exact head before reviewing; changed source, scope or dependencies invalidate the prior alignment record.
 
+The [Lean verification specification](LEAN_VERIFICATION_SPECIFICATION.md) (2026-10-10) records, for every registered claim, which Lean statement exists and at which formal-progress label, together with the pinned environment and the exact gate commands; it adds no vocabulary to this guide, carries zero organizational-independence credit and moves no status.
+
 | Work offer | Required output | Boundary |
 |---|---|---|
 | Non-OpenAI statement/alignment reviewer | Source-pinned review of all 13 declarations, definitions and hypotheses; explicit lineage | Do not infer parent closure from scalar implications |
