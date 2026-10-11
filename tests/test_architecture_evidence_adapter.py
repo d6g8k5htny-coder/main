@@ -1879,5 +1879,493 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                     self._parity_main_refused(packet)
 
 
+
+
+    def _binding_context_payload(self, snapshot):
+        # Normative external packet context; this never imports the product.
+        bindings = {item["node"]: item for item in snapshot["bindings"]}
+        rows = []
+        for node in sorted(document(snapshot["graph"])["nodes"]):
+            original = bindings.get(node)
+            bound = None if original is None else {
+                "source": None if original["source"] is None else copy.deepcopy(original["source"]["ref"]),
+                "statement_slice": copy.deepcopy(original["statement_slice"]),
+                "proof_slice": copy.deepcopy(original["proof_slice"]),
+            }
+            rows.append({"node": node, "binding": bound})
+        return {"domain": "architecture-proof-binding-context/v1",
+                "graph": copy.deepcopy(snapshot["graph"]["ref"]), "bindings": rows}
+
+    def _binding_context_claim(self, packet, *, payload=None, indices=(0, 1)):
+        payload = self._binding_context_payload(packet["new"]) if payload is None else payload
+        raw = json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                         ensure_ascii=True, allow_nan=False).encode("ascii")
+        claim = {"schema_version": 1, "sha256": sha(raw)}
+        for index in indices:
+            self.update_alignment(packet["formal_records"][index],
+                                  lambda review: review.update({"reviewed_bindings": copy.deepcopy(claim)}))
+        return claim
+
+    def _binding_context_fixture(self, *, raw=SOURCE, unicode_null=False):
+        packet = copy.deepcopy(self.packet)
+        for label, commit in (("old", BASE), ("new", HEAD)):
+            self.change_source(packet, label, raw)
+            first = packet[label]["bindings"][0]
+            for node, start, end in (("TEST.B", raw.rfind(BETA), len(raw)),
+                                      ("TEST.D", 0, len(ALPHA)), ("TEST.E", 0, len(ALPHA))):
+                self.change_graph(packet, label, lambda graph, node=node: graph["nodes"].setdefault(
+                    node, {"classification": "PROVED_REVIEWED", "controlling": False}))
+                packet[label]["bindings"].append({
+                    "node": node, "source": copy.deepcopy(first["source"]),
+                    "statement_slice": slice_of(raw, start, end), "proof_slice": None})
+            if unicode_null:
+                self.change_graph(packet, label, lambda graph: graph["nodes"].update({
+                    "TEST.\u03bb": {"classification": "AUTHOR_SIDE_CANDIDATE", "controlling": False}}))
+                packet[label]["bindings"].append({
+                    "node": "TEST.\u03bb", "source": None, "statement_slice": None, "proof_slice": None})
+        formal = self.formal(packet)
+        formal["node_targets"] = [{"node": "TEST.A", "target": TARGETS[0]},
+                                  {"node": "TEST.D", "target": TARGETS[0]}]
+        self.update_alignment(formal, lambda review: review.update({
+            "reviewed_graph": copy.deepcopy(packet["new"]["graph"]["ref"])}))
+        shared = copy.deepcopy(formal)
+        shared["id"] = "TEST-shared-binding-review"
+        shared["node_targets"] = [{"node": "TEST.B", "target": TARGETS[1]}]
+        independent = copy.deepcopy(formal)
+        independent["id"] = "TEST-independent-binding-review"
+        independent["node_targets"] = [{"node": "TEST.E", "target": TARGETS[0]}]
+        independent["alignment"]["ref"]["path"] = "TEST/independent-binding-review.json"
+        packet["formal_records"] = [formal, shared, independent]
+        return packet
+
+    def _assert_binding_context_report(self, packet, *, proof_changed=False, held=True,
+                                       context_reason=None, affected=None, unknown_kernel=()):
+        report, _ = self.accepted(packet)
+        regression = report["regression"]
+        self.assertEqual(regression["changed_nodes"], ["TEST.A"])
+        self.assertEqual(regression["impacted_nodes"], ["TEST.A", "TEST.B", "TEST.C"])
+        self.assertEqual(regression["statement_changed"], [])
+        self.assertEqual(regression["proof_changed"], ["TEST.A"] if proof_changed else [])
+        self.assertEqual(regression["unscoped_source_changed"], [] if proof_changed else ["TEST.A"])
+        self.assertEqual(regression["traversal_edges"], [["TEST.B", "TEST.A"], ["TEST.C", "TEST.B"]])
+        code = "proof_body_changed" if proof_changed else "source_changed_unscoped"
+        self.assertEqual(regression["revalidation_required"], [
+            {"node": "TEST.A", "reasons": [code]},
+            {"node": "TEST.B", "reasons": ["dependency_changed"]},
+            {"node": "TEST.C", "reasons": ["dependency_changed"]}])
+        expected_refs = ([packet["formal_records"][0]["alignment"]["ref"]] if held else []) if affected is None else affected
+        self.assertEqual(regression["affected_alignment_records"], expected_refs)
+        for node in ("TEST.A", "TEST.B", "TEST.D", "TEST.E"):
+            kernel = report["dimensions"][node]["kernel"]
+            self.assertEqual(kernel["record_state"], "recorded")
+            self.assertEqual(kernel["applicability"], "unknown" if node in unknown_kernel else "current")
+            self.assertFalse({"proof_binding_context_missing", "proof_binding_context_changed"}
+                             & set(kernel["reasons"]))
+            if node in unknown_kernel:
+                self.assertIn("missing_target_source_binding", kernel["reasons"])
+            alignment = report["dimensions"][node]["alignment"]
+            self.assertEqual(alignment["applicability"], "stale" if held and node != "TEST.E" else "current")
+            if held and node != "TEST.E":
+                self.assertIn(code, alignment["reasons"])
+                self.assertIn("alignment_record_revalidation_required", alignment["reasons"])
+                if context_reason is not None:
+                    self.assertIn(context_reason, alignment["reasons"])
+        self.assertEqual(report["dimensions"]["TEST.C"]["alignment"]["applicability"], "unknown")
+        return report
+
+    def test_main_surplus_control_outcomes_refuse_but_missing_outcomes_remain_incomplete(self):
+        self._parity_main_current(self.with_formal())
+        body = b"TEST/formal/Demo.lean:2:22: error: proposition is false\n"
+        for registered in (False, True):
+            with self.subTest(case="extra_outcome", registered=registered):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                if registered:
+                    manifest = document(formal["manifest"])
+                    manifest["negative_controls"]["TEST_extra"] = copy.deepcopy(manifest["negative_controls"]["TEST_false_claim"])
+                    self._parity_rebind_manifest(formal, manifest)
+                formal["logs"].append(run_capture(body, "TEST_extra.log"))
+                self.update_receipt(formal, lambda receipt: (
+                    receipt["negative_controls"].update({"TEST_extra": "REJECTED_BY_LEAN"}),
+                    receipt["logs"].update({"TEST_extra.log": sha(body)})))
+                if registered:
+                    self._parity_main_current(packet)
+                else:
+                    self._parity_main_refused(packet)
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        manifest = document(formal["manifest"])
+        manifest["negative_controls"]["native"] = copy.deepcopy(manifest["negative_controls"]["TEST_false_claim"])
+        self._parity_rebind_manifest(formal, manifest)
+        self._parity_main_current(packet)
+        for missing in ("TEST_false_claim", "sorry", "custom_imported", "native"):
+            with self.subTest(case="missing_required_outcome", missing=missing):
+                packet = self.with_formal()
+                self.update_receipt(packet["formal_records"][0], lambda receipt: receipt["negative_controls"].pop(missing))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+                self.assertIn("target_inventory_incomplete", report["dimensions"]["TEST.A"]["kernel"]["reasons"])
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+
+    def test_main_receipt_log_alphabet_preserves_safe_extras_and_math_boundary(self):
+        for name in ("TEST-extra_1.log", "bad name.log", "bad.name.log"):
+            for native_format in ("main-formal-gate/v1", "math-formal-gate/v1"):
+                with self.subTest(log_name=name, native_format=native_format):
+                    packet = copy.deepcopy(self.packet)
+                    formal = self.formal(packet) if native_format == "main-formal-gate/v1" else self.math_formal(packet)
+                    packet["formal_records"] = [formal]
+                    extra = run_capture(b"TEST inert extra native log\n", name)
+                    formal["logs"].append(extra)
+                    self.update_receipt(formal, lambda receipt: receipt["logs"].update({name: extra["ref"]["sha256"]}))
+                    if native_format == "main-formal-gate/v1" and name != "TEST-extra_1.log":
+                        self._parity_main_refused(packet)
+                    elif native_format == "main-formal-gate/v1":
+                        self._parity_main_current(packet)
+                    else:
+                        report, _ = self.accepted(packet)
+                        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_known_package_captures_require_bound_or_unbound_component_membership(self):
+        for case, path in (("omitted", "TEST/formal/EXTRA.md"), ("declared", "TEST/formal/EXTRA.md"),
+                           ("bound", "TEST/formal/EXTRA.md"), ("outside", "TEST/outside/EXTRA.md"),
+                           ("build_excluded", "TEST/formal/.lake/EXTRA.md"),
+                           ("prefix_boundary", "TEST/formal-neighbor/EXTRA.md")):
+            with self.subTest(case=case):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                if case == "bound":
+                    self._parity_add_file(formal, path, b"TEST known inert member\n")
+                else:
+                    formal["source_files"].append(git_capture(b"TEST known inert member\n", path))
+                    if case == "declared":
+                        manifest = document(formal["manifest"])
+                        manifest["unbound_files"].append(path)
+                        self._parity_rebind_manifest(formal, manifest)
+                if case == "omitted":
+                    self._parity_main_refused(packet)
+                else:
+                    self._parity_main_current(packet)
+        for declared in (True, False):
+            with self.subTest(case="actual_manifest_inside_package", declared=declared):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                manifest = document(formal["manifest"])
+                manifest["package_root"] = "formal"
+                manifest["files"] = {path.replace("TEST/formal/", "formal/", 1): digest
+                                     for path, digest in manifest["files"].items()}
+                manifest["sources"][0]["local_copy"] = "formal/sources/source.md"
+                manifest["unbound_files"] = ["formal/ALIGNMENT.md"] + (["formal/manifest.json"] if declared else [])
+                for capture in formal["source_files"]:
+                    capture["ref"]["path"] = capture["ref"]["path"].replace("TEST/formal/", "formal/", 1)
+                formal["scope"]["ref"]["path"] = "formal/SCOPE.md"
+                self._parity_rebind_manifest(formal, manifest)
+                if declared:
+                    self._parity_main_current(packet)
+                else:
+                    self._parity_main_refused(packet)
+        packet = copy.deepcopy(self.packet)
+        for label in ("old", "new"):
+            packet[label]["bindings"][0]["source"] = git_capture(
+                SOURCE, "TEST/formal/Historical.md", "c" * 40, "d6g8k5htny-coder/Math-")
+        formal = self.formal(packet)
+        formal["alignment"]["ref"]["path"] = "TEST/formal/HistoricalReview.json"
+        packet["formal_records"] = [formal]
+        self._parity_main_current(packet)
+
+    def test_native_receipt_and_logs_share_parent_and_fixed_basename_with_null_receipt_preserved(self):
+        for native_format in ("main-formal-gate/v1", "math-formal-gate/v1"):
+            for case in ("original", "joint_relocation", "receipt_parent", "receipt_basename", "one_log_parent", "null_failed"):
+                with self.subTest(native_format=native_format, case=case):
+                    packet = copy.deepcopy(self.packet)
+                    formal = self.formal(packet) if native_format == "main-formal-gate/v1" else self.math_formal(packet)
+                    packet["formal_records"] = [formal]
+                    if case == "joint_relocation":
+                        for capture in [formal["receipt"], *formal["logs"]]:
+                            capture["ref"]["member_path"] = "TEST/new-parent/" + capture["ref"]["member_path"].rsplit("/", 1)[1]
+                    elif case == "receipt_parent":
+                        formal["receipt"]["ref"]["member_path"] = "a/receipt.json"
+                    elif case == "receipt_basename":
+                        formal["receipt"]["ref"]["member_path"] = "formal-evidence/TEST_receipt.json"
+                    elif case == "one_log_parent":
+                        formal["logs"][0]["ref"]["member_path"] = "b/build.log"
+                    elif case == "null_failed":
+                        formal["receipt"] = None
+                        formal["logs"] = formal["logs"][:1]
+                        formal["logs"][0]["ref"]["member_path"] = "a/build.log"
+                        formal["native_run"].update({"conclusion": "failure", "expected_conclusion": "failure"})
+                    if case in ("receipt_parent", "receipt_basename", "one_log_parent"):
+                        self._parity_main_refused(packet)
+                    else:
+                        report, _ = self.accepted(packet)
+                        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"],
+                                         "current" if native_format == "main-formal-gate/v1" and case != "null_failed" else "unknown")
+                        if case == "null_failed":
+                            self.assertIsNone(report["formal_summary"][0]["retained_receipt"])
+
+    def test_proof_selector_change_or_loss_requires_context_without_erasing_current_kernel(self):
+        base = self._binding_context_fixture()
+        positive, _ = self.accepted(base)
+        self.assertEqual(positive["regression"]["changed_nodes"], [])
+        for node in ("TEST.A", "TEST.B", "TEST.D", "TEST.E"):
+            self.assertEqual(positive["dimensions"][node]["alignment"]["applicability"], "current")
+        null_base = self._binding_context_fixture()
+        for label in ("old", "new"):
+            null_base[label]["bindings"][0]["proof_slice"] = None
+        null_report, _ = self.accepted(null_base)
+        self.assertEqual(null_report["regression"]["changed_nodes"], [])
+        self.assertEqual(null_report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        for selector in ("retarget", "loss", "addition"):
+            for context in ("missing", "old", "current"):
+                with self.subTest(selector=selector, context=context):
+                    packet = copy.deepcopy(null_base if selector == "addition" else base)
+                    prior = self._binding_context_payload(packet["new"])
+                    if selector == "retarget":
+                        packet["new"]["bindings"][0]["proof_slice"] = slice_of(SOURCE, len(ALPHA) + len(PROOF), len(SOURCE))
+                    elif selector == "loss":
+                        packet["new"]["bindings"][0]["proof_slice"] = None
+                    else:
+                        packet["new"]["bindings"][0]["proof_slice"] = slice_of(SOURCE, len(ALPHA), len(ALPHA) + len(PROOF))
+                    if context != "missing":
+                        self._binding_context_claim(packet, payload=prior if context == "old" else None)
+                    self._assert_binding_context_report(
+                        packet, proof_changed=selector == "retarget", held=context != "current",
+                        context_reason=None if context == "current" else
+                        "proof_binding_context_missing" if context == "missing" else "proof_binding_context_changed")
+
+    def test_equal_hash_proof_selector_offsets_still_require_binding_context(self):
+        raw = ALPHA + PROOF + PROOF + BETA
+        base = self._binding_context_fixture(raw=raw)
+        self._binding_context_claim(base)
+        unchanged, _ = self.accepted(base)
+        self.assertEqual(unchanged["regression"]["changed_nodes"], [])
+        for current_context in (False, True):
+            with self.subTest(current_context=current_context):
+                packet = copy.deepcopy(base)
+                before = copy.deepcopy(packet["new"]["bindings"][0]["proof_slice"])
+                packet["new"]["bindings"][0]["proof_slice"] = slice_of(raw, len(ALPHA) + len(PROOF), len(ALPHA) + 2 * len(PROOF))
+                self.assertEqual(before["sha256"], packet["new"]["bindings"][0]["proof_slice"]["sha256"])
+                self.assertNotEqual(before, packet["new"]["bindings"][0]["proof_slice"])
+                if current_context:
+                    self._binding_context_claim(packet)
+                self._assert_binding_context_report(packet, held=not current_context,
+                    context_reason=None if current_context else "proof_binding_context_changed")
+
+    def test_binding_context_digest_covers_graph_sources_slices_every_null_row_and_domain(self):
+        base = self._binding_context_fixture(unicode_null=True)
+        base["new"]["bindings"][0]["proof_slice"] = None
+        current = self._binding_context_payload(base["new"])
+        for case in ("current", "old_graph", "wrong_graph_sha", "graph_repository", "graph_path", "graph_git_blob",
+                     "graph_bytes", "wrong_source", "source_repository", "source_path", "source_git_blob",
+                     "source_sha256", "source_bytes", "statement_slice", "proof_slice",
+                     "dropped_null_row", "null_source_row", "mapped_subset", "wrong_domain", "reversed_rows", "utf8_json",
+                     "indented_json", "newline_json", "unsorted_keys",
+                     "review_graph_missing", "review_graph_old", "review_graph_wrong"):
+            with self.subTest(case=case):
+                packet = copy.deepcopy(base)
+                payload = copy.deepcopy(current)
+                if case == "old_graph":
+                    payload["graph"] = copy.deepcopy(packet["old"]["graph"]["ref"])
+                elif case == "wrong_graph_sha":
+                    payload["graph"]["sha256"] = "f" * 64
+                elif case.startswith("graph_"):
+                    field = case.removeprefix("graph_")
+                    payload["graph"][field] = {"repository": "TEST-other/graph", "path": "TEST/other-graph.json",
+                                               "git_blob": "c" * 40, "bytes": payload["graph"]["bytes"] + 1}[field]
+                elif case == "wrong_source":
+                    payload["bindings"][0]["binding"]["source"]["commit"] = "c" * 40
+                elif case.startswith("source_"):
+                    field = case.removeprefix("source_")
+                    source = payload["bindings"][0]["binding"]["source"]
+                    source[field] = {"repository": "TEST-other/source", "path": "TEST/other-source.md",
+                                     "git_blob": "c" * 40, "sha256": "f" * 64, "bytes": source["bytes"] + 1}[field]
+                elif case == "statement_slice":
+                    payload["bindings"][0]["binding"]["statement_slice"]["end_byte"] -= 1
+                elif case == "proof_slice":
+                    payload["bindings"][0]["binding"]["proof_slice"] = slice_of(SOURCE, len(ALPHA), len(ALPHA) + len(PROOF))
+                elif case == "dropped_null_row":
+                    payload["bindings"] = [row for row in payload["bindings"] if row["node"] != "TEST.C"]
+                elif case == "null_source_row":
+                    next(row for row in payload["bindings"] if row["node"] == "TEST.\u03bb")["binding"] = None
+                elif case == "mapped_subset":
+                    payload["bindings"] = [row for row in payload["bindings"] if row["node"] == "TEST.A"]
+                elif case == "wrong_domain":
+                    payload["domain"] = "TEST-other-context"
+                elif case == "reversed_rows":
+                    payload["bindings"].reverse()
+                elif case.startswith("review_graph_"):
+                    for formal in packet["formal_records"][:2]:
+                        def alter(review):
+                            if case == "review_graph_missing":
+                                review.pop("reviewed_graph")
+                            elif case == "review_graph_old":
+                                review["reviewed_graph"] = copy.deepcopy(packet["old"]["graph"]["ref"])
+                            else:
+                                review["reviewed_graph"]["sha256"] = "f" * 64
+                        self.update_alignment(formal, alter)
+                if case in ("utf8_json", "indented_json", "newline_json", "unsorted_keys"):
+                    alternative = json.dumps(payload, sort_keys=case != "unsorted_keys", separators=(",", ":"),
+                                             ensure_ascii=case != "utf8_json", allow_nan=False,
+                                             indent=2 if case == "indented_json" else None)
+                    digest = sha((alternative + ("\n" if case == "newline_json" else "")).encode("utf-8"))
+                    for formal in packet["formal_records"][:2]:
+                        self.update_alignment(formal, lambda review: review.update({
+                            "reviewed_bindings": {"schema_version": 1, "sha256": digest}}))
+                else:
+                    self._binding_context_claim(packet, payload=payload)
+                self._assert_binding_context_report(packet, held=case != "current",
+                    context_reason=None if case == "current" or case.startswith("review_graph_")
+                    else "proof_binding_context_changed")
+
+    def test_claimed_binding_context_has_closed_exact_schema_even_without_regression(self):
+        self.accepted(self._binding_context_fixture())
+        valid = self._binding_context_fixture()
+        self._binding_context_claim(valid)
+        self.accepted(valid)
+        untriggered = self._binding_context_fixture()
+        self._binding_context_claim(untriggered, payload=self._binding_context_payload(untriggered["old"]))
+        compatible, _ = self.accepted(untriggered)
+        self.assertEqual(compatible["regression"]["changed_nodes"], [])
+        for node in ("TEST.A", "TEST.B", "TEST.D", "TEST.E"):
+            self.assertEqual(compatible["dimensions"][node]["alignment"]["applicability"], "current")
+            self.assertEqual(compatible["dimensions"][node]["kernel"]["applicability"], "current")
+        for claim in (None, True, [], "TEST", {}, {"schema_version": 1}, {"sha256": "e" * 64},
+                      {"schema_version": True, "sha256": "e" * 64},
+                      {"schema_version": 1.0, "sha256": "e" * 64},
+                      {"schema_version": 2, "sha256": "e" * 64},
+                      {"schema_version": 1, "sha256": "E" * 64},
+                      {"schema_version": 1, "sha256": "e" * 63},
+                      {"schema_version": 1, "sha256": 1},
+                      {"schema_version": 1, "sha256": "e" * 64, "TEST_extra": True}):
+            with self.subTest(claim=claim):
+                packet = self._binding_context_fixture()
+                for formal in packet["formal_records"][:2]:
+                    self.update_alignment(formal, lambda review: review.update({"reviewed_bindings": copy.deepcopy(claim)}))
+                self._parity_main_refused(packet)
+
+    def test_binding_review_successor_does_not_clear_unreplaced_group_or_failed_main_join(self):
+        packet = self._binding_context_fixture()
+        prior = self._binding_context_payload(packet["new"])
+        packet["new"]["bindings"][0]["proof_slice"] = None
+        self._binding_context_claim(packet, payload=prior)
+        old_ref = copy.deepcopy(packet["formal_records"][1]["alignment"]["ref"])
+        self._binding_context_claim(packet, indices=(0,))
+        # Distinct successor commit avoids conflicting bytes for one immutable Git identity.
+        packet["formal_records"][0]["alignment"]["ref"]["commit"] = "e" * 40
+        report, _ = self.accepted(packet)
+        for node in ("TEST.A", "TEST.D", "TEST.E"):
+            self.assertEqual(report["dimensions"][node]["alignment"]["applicability"], "current")
+            self.assertEqual(report["dimensions"][node]["kernel"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.B"]["alignment"]["applicability"], "stale")
+        self.assertIn("proof_binding_context_changed", report["dimensions"]["TEST.B"]["alignment"]["reasons"])
+        self.assertEqual(report["regression"]["affected_alignment_records"], [old_ref])
+        self.assertEqual(report["regression"]["changed_nodes"], ["TEST.A"])
+        self.assertEqual(report["regression"]["impacted_nodes"], ["TEST.A", "TEST.B", "TEST.C"])
+        self.assertEqual(report["regression"]["statement_changed"], [])
+        self.assertEqual(report["regression"]["proof_changed"], [])
+        self.assertEqual(report["regression"]["unscoped_source_changed"], ["TEST.A"])
+        self.assertEqual(report["regression"]["traversal_edges"], [["TEST.B", "TEST.A"], ["TEST.C", "TEST.B"]])
+        self.assertEqual(report["regression"]["revalidation_required"], [
+            {"node": "TEST.A", "reasons": ["source_changed_unscoped"]},
+            {"node": "TEST.B", "reasons": ["dependency_changed"]},
+            {"node": "TEST.C", "reasons": ["dependency_changed"]}])
+        for failure in ("missing_source", "missing_statement", "different_origin"):
+            with self.subTest(failure=failure):
+                packet = self._binding_context_fixture()
+                packet["new"]["bindings"][0]["proof_slice"] = None
+                binding = next(item for item in packet["new"]["bindings"] if item["node"] == "TEST.B")
+                if failure == "missing_source":
+                    binding["source"] = binding["statement_slice"] = binding["proof_slice"] = None
+                elif failure == "missing_statement":
+                    binding["statement_slice"] = None
+                else:
+                    binding["source"] = git_capture(SOURCE, "TEST/unjoined-origin.md", "c" * 40, "TEST-other/origin")
+                self._binding_context_claim(packet)
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.B"]["kernel"]["applicability"], "unknown")
+                for node in ("TEST.A", "TEST.D"):
+                    self.assertEqual(report["dimensions"][node]["kernel"]["applicability"], "current")
+                for node in ("TEST.A", "TEST.B", "TEST.D"):
+                    self.assertEqual(report["dimensions"][node]["alignment"]["applicability"], "stale")
+                    self.assertIn("alignment_record_revalidation_required", report["dimensions"][node]["alignment"]["reasons"])
+                self.assertEqual(report["dimensions"]["TEST.E"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"],
+                                 [packet["formal_records"][0]["alignment"]["ref"]])
+                self.assertEqual(report["regression"]["changed_nodes"], ["TEST.A", "TEST.B"])
+                self.assertEqual(report["regression"]["unscoped_source_changed"], ["TEST.A", "TEST.B"])
+                self.assertEqual(report["regression"]["impacted_nodes"], ["TEST.A", "TEST.B", "TEST.C"])
+                self.assertEqual(report["regression"]["revalidation_required"], [
+                    {"node": "TEST.A", "reasons": ["source_changed_unscoped"]},
+                    {"node": "TEST.B", "reasons": ["source_changed_unscoped"]},
+                    {"node": "TEST.C", "reasons": ["dependency_changed"]}])
+        for loss in ("lost_binding", "lost_source"):
+            for claimed in (False, True):
+                with self.subTest(loss=loss, context_claimed=claimed):
+                    packet = self._binding_context_fixture()
+                    if loss == "lost_binding":
+                        packet["new"]["bindings"] = [item for item in packet["new"]["bindings"]
+                                                     if item["node"] != "TEST.A"]
+                    else:
+                        binding = packet["new"]["bindings"][0]
+                        binding["source"] = binding["statement_slice"] = binding["proof_slice"] = None
+                    if claimed:
+                        self._binding_context_claim(packet)
+                    self._assert_binding_context_report(packet, unknown_kernel=("TEST.A",),
+                        context_reason=None if claimed else "proof_binding_context_missing")
+
+    def test_actual_proof_byte_change_preserves_old_join_loss_and_fresh_origin_recovery(self):
+        changed_raw = SOURCE.replace(b"proof old", b"proof new")
+        for case in ("old_origin", "old_origin_new_context", "fresh_bare", "fresh_graph", "fresh_old_graph",
+                     "fresh_loss_missing", "fresh_loss_context"):
+            with self.subTest(case=case):
+                packet = copy.deepcopy(self.packet)
+                packet["formal_records"] = [self.formal(packet, source_snapshot="old")]
+                self.update_alignment(packet["formal_records"][0], lambda review: review.update({
+                    "reviewed_graph": copy.deepcopy(packet["new"]["graph"]["ref"])}))
+                self.change_source(packet, "new", changed_raw)
+                if case.startswith("fresh"):
+                    packet["formal_records"] = [self.formal(packet)]
+                    if case != "fresh_bare":
+                        self.update_alignment(packet["formal_records"][0], lambda review: review.update({
+                            "reviewed_graph": copy.deepcopy(packet["old" if case == "fresh_old_graph" else "new"]["graph"]["ref"])}))
+                if "loss" in case:
+                    packet["new"]["bindings"][0]["proof_slice"] = None
+                if case in ("old_origin_new_context", "fresh_loss_context"):
+                    self._binding_context_claim(packet, indices=(0,))
+                report, _ = self.accepted(packet)
+                kernel = report["dimensions"]["TEST.A"]["kernel"]
+                self.assertEqual(kernel["record_state"], "recorded")
+                self.assertEqual(kernel["applicability"], "unknown" if case.startswith("old_origin") else "current")
+                if case.startswith("old_origin"):
+                    self.assertIn("missing_target_source_binding", kernel["reasons"])
+                current = case in ("fresh_graph", "fresh_loss_context")
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current" if current else "stale")
+                self.assertEqual(report["regression"]["affected_alignment_records"],
+                                 [] if current else [packet["formal_records"][0]["alignment"]["ref"]])
+                self.assertEqual(report["regression"]["statement_changed"], [])
+                self.assertEqual(report["regression"]["changed_nodes"], ["TEST.A"])
+                self.assertEqual(report["regression"]["proof_changed"], [] if "loss" in case else ["TEST.A"])
+                self.assertEqual(report["regression"]["unscoped_source_changed"], ["TEST.A"] if "loss" in case else [])
+                self.assertEqual(report["regression"]["impacted_nodes"], ["TEST.A", "TEST.B", "TEST.C"])
+                self.assertEqual(report["regression"]["traversal_edges"], [["TEST.B", "TEST.A"], ["TEST.C", "TEST.B"]])
+                self.assertEqual(report["regression"]["revalidation_required"], [
+                    {"node": "TEST.A", "reasons": ["source_changed_unscoped" if "loss" in case else "proof_body_changed"]},
+                    {"node": "TEST.B", "reasons": ["dependency_changed"]},
+                    {"node": "TEST.C", "reasons": ["dependency_changed"]}])
+        # A non-paired origin commit change remains a regression, without invented proof-byte change.
+        packet = copy.deepcopy(self.packet)
+        for label, commit in (("old", "c" * 40), ("new", "d" * 40)):
+            packet[label]["bindings"][0]["source"] = git_capture(SOURCE, "TEST/origin.md", commit)
+        packet["formal_records"] = [self.formal(packet)]
+        self.update_alignment(packet["formal_records"][0], lambda review: review.update({
+            "reviewed_graph": copy.deepcopy(packet["new"]["graph"]["ref"])}))
+        report, _ = self.accepted(packet)
+        self.assertEqual(report["regression"]["unscoped_source_changed"], ["TEST.A"])
+        self.assertEqual(report["regression"]["proof_changed"], [])
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+
 if __name__ == "__main__":
     unittest.main()
