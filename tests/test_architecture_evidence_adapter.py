@@ -166,7 +166,7 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                          "does_not_claim": "actual Lean declaration existence or scientific acceptance"}
                         for target, anchor in zip(TARGETS, (ALPHA, BETA))],
         }
-        manifest_capture = git_capture(encoded(manifest), "TEST/formal/manifest.json")
+        manifest_capture = git_capture(encoded(manifest), "formal/manifest.json")
         logs = [run_capture(raw, name) for name, raw in (
             ("build.log", b"TEST synthetic build text; not an executed build\n"),
             ("leanchecker.log", b"TEST synthetic checker text; not an executed checker\n"),
@@ -214,6 +214,8 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
     def math_formal(self, packet):
         formal = self.formal(packet)
         formal["format"] = "math-formal-gate/v1"
+        # Keep Math's historical manifest parent and formal-root-relative file keys.
+        formal["manifest"]["ref"]["path"] = "TEST/formal/manifest.json"
         manifest = document(formal["manifest"])
         manifest["targets"] = TARGETS
         # Math native file keys are formal-root-relative; Git refs remain repo-relative.
@@ -1855,6 +1857,22 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 manifest["package"] = package
                 self._parity_rebind_manifest(formal, manifest)
                 self.update_receipt(formal, lambda receipt: receipt.update({"package": package}))
+                if valid:
+                    self._parity_main_current(packet)
+                else:
+                    self._parity_main_refused(packet)
+
+
+    def test_main_manifest_capture_path_is_the_fixed_native_workflow_default(self):
+        baseline = self.with_formal()
+        for path, valid in (("formal/manifest.json", True),
+                            ("TEST/formal/manifest.json", False),
+                            ("TEST/other-location/manifest.json", False),
+                            ("formal/Manifest.json", False)):
+            with self.subTest(manifest_path=path, native_default=valid):
+                packet = copy.deepcopy(baseline)
+                # Preserve every byte/hash/blob, receipt, alignment, log and native context.
+                packet["formal_records"][0]["manifest"]["ref"]["path"] = path
                 if valid:
                     self._parity_main_current(packet)
                 else:
