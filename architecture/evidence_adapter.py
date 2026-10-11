@@ -756,6 +756,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             and manifest.get("alignment_status") == "PENDING_INDEPENDENT_REVIEW",
             "native source metadata cannot award execution or review")
     if main:
+        require(manifest_capture.ref["path"] == "formal/manifest.json",
+                "main manifest must identify the native formal/manifest.json")
         text(manifest.get("package"), "main package")
         require(manifest.get("lean_toolchain") == MAIN_TOOLCHAIN,
                 "unsupported main native Lean toolchain")
