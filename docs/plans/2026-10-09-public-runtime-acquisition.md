@@ -1,7 +1,7 @@
 # Public runtime acquisition preparation contract
 
-Status: SOURCE_PREPARED; hosted acquisition, probes, recovery and archive custody
-NOT_RUN at this freeze. Scope is native issue 307 comment 6089311554: this new
+Status: SOURCE_PREPARED; the first hosted attempt is retained SETUP_BLOCKED;
+the corrected successor is NOT_RUN. Scope is native issue 307 comment 6089311554: this new
 contract and `.github/workflows/architecture-runtime-acquisition.yml` only.
 Neither an author inspection nor successful preparation changes an existing
 producer, receipt, product, test inventory or scientific status.
@@ -53,11 +53,12 @@ supports the immutable digest reference and explicit linux/amd64 selection.
 
 The frozen PR #325 generic-workflow candidate at `6d024e8b` is 183 lines, SHA-256
 `5ce726b9de40e9decc230c5429d224a5ca33dc64af458cea495334954b457652`.
-Separately, current native main at `ecedd604` has a 183-line, 10,730-byte generic
+Separately, the verified publication-base snapshot `ecedd604` has a 183-line, 10,730-byte generic
 workflow, SHA-256
 `75867d388dede2a9840c1efc455449bc5531a14a023b4edb2d07aab3541e2458`,
 with native `actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9`.
-Any future generic-workflow migration preserves that current main upload pin.
+Any future generic-workflow migration preserves that snapshot's upload pin,
+subject to fresh native source verification in its separately claimed scope.
 Its host receipt is `tools/architecture_run_receipt.py`, 354 lines, SHA-256
 `a4bb66325f64422398ff726bc1c448afb284498275e5894a7d1af6b25fba9890`;
 receipt controls are 695 lines, SHA-256
@@ -69,7 +70,7 @@ The current routing workflow is 1,343 lines, SHA-256
 `ec55402f53bbde7681e9f581356b558e61502b5c6c3f4ebbd1c23174b1334971`;
 lines 939–944 require the canonical RepoDigest and exact configured reference.
 The receipt and receipt controls are unchanged between that candidate and
-current main. This preparation edits none of those sources. Future generic,
+the verified publication-base snapshot. This preparation edits none of those sources. Future generic,
 routing, semantic or lease
 migration needs its own exact-path claim and complete source/control review.
 
@@ -102,6 +103,15 @@ organizationally independent or authenticated observation channel.
 | RP11 | Original daemon-file bytes, presence, UID/GID/mode or original absence are restored; one restoration restart and actual Docker mirror state agree with the original baseline. Changed ownership/configuration, unexpected active containers or any incomplete recovery prevents acceptance. |
 | RP12 | Closed regular-file originals, bounded unchanged reads, source before/after joins, all command/probe records, recovery, receipt and original byte hashes retained before upload. Missing, refused, incomplete or oversized expected originals prevent acceptance. Artifact/native raw-byte readback is required after the job, outside the workflow's acceptance claim. |
 
+RP09 retains complete raw mountinfo at most 65,536 UTF-8 bytes and at most 128
+parsed mounts. Each nonempty per-mount or superblock option token is at most
+256 characters, except the `lowerdir=` superblock token on the `/` overlay
+mount: that whole token is at most 4,096 characters, with a nonempty
+colon-separated list of absolute, nonempty paths containing no NUL. This is a
+typed read-field bound; no filesystem quota, writable-mount, device, permission,
+read-only or resource predicate changes. Raw and parsed records must still join
+exactly.
+
 The hosted semantic refusal controls operate on copied actual observations,
 leaving originals unchanged. They call the same acceptance predicate used by
 the receipt and preserve all unrelated observations. They are labeled TEST,
@@ -117,14 +127,19 @@ not runtime acquisition or independent scientific evidence. Required cases:
 7. RP07 changed native UID; RP07 missing OO container/probe.
 8. RP08 wrong SQLite version in all modes; RP08 wrong OO optimization;
    RP08 empty binary hash in all modes.
-9. RP09 wrong CPU quota in all modes.
+9. RP09 wrong CPU quota in all modes; RP09 oversized root-overlay `lowerdir`
+   in all modes, coherently changing raw mountinfo and parsed superblock options.
 10. RP10 unconfirmed disposal; RP11 wrong restored mirror state;
     RP11 different restored daemon bytes; RP12 missing original.
 
 The unmodified copied actual observation is a required positive control. Each
 listed negative must be refused; any unexpected acceptance fails preparation.
-All original 23 negative IDs remain selected, with the nested-credential case
-as the 24th negative. A separate early synthetic daemon-admission control also
+All original 23 negative IDs and the 24th nested-credential case remain selected;
+`RP09_oversized_overlay_lowerdir` is the 25th negative. It changes only the root
+overlay lowerdir token to 4,097 characters in each copied actual probe,
+preserving every other record and the raw/parsed join. It must fail the same
+typed-field predicate, rather than an earlier unrelated identity/coherence check.
+A separate early synthetic daemon-admission control also
 requires a typed public positive and nested `splunk-token` refusal before any
 daemon raw capture. It does not substitute for the copied-actual positive.
 Absent actual observations leave these controls NOT_RUN rather than inventing
@@ -227,3 +242,43 @@ former, retaining both. Parent IDs outside the namespace are not contradictions.
 An unreaped native command may still be mutating the daemon or creating a
 container. Further container/daemon recovery operations are refused in that uncertain
 state, retaining SETUP_BLOCKED and unobserved recovery rather than racing it.
+
+First hosted attempt retained on 11 October: PR #360 head
+`11ce037f343ed8296488f8dcd00daaf043dd790c`, tree
+`183ea07cf6a3dbbd1eff33b09817debad5360fda`, run 38152719055/attempt 1,
+job 114509298289. The checked PR merge was
+`db78bc898059f5553b6b8254bcecca29828769b6`, with parents
+`ecedd604391e14d2bfee8940524c20c061dd5120` and that exact PR head.
+The one canonical pull completed with code 0 in 4.344479860 seconds; native
+inspect retained the exact singleton python@83f339 digest and ImageID44d8.
+All 0/O/OO probes exited 0, non-OOM, and reported Python 3.11.14, SQLite 3.40.1
+and UID/GID65532. All three owned containers were confirmed absent; original
+daemon-file absence and actual null mirror state were restored. Acquisition
+origin and Docker Hub fallback remain USED_UNKNOWN.
+
+The run nevertheless ended SETUP_BLOCKED at `RP09 typed complete mountinfo
+fields`: each actual root overlay lowerdir token was 278 characters, comprising
+five native overlay2 paths, above the former uniform 256-character field bound.
+Each complete raw mountinfo was 3,271 bytes. All 24 copied-actual semantic
+controls were NOT_RUN; `preparation-observations.json` and
+`semantic-controls.json` are the exact two missing expected originals.
+This observed parser refusal does not establish accepted preparation or justify
+an unchanged rerun, producer migration, or a scientific effect.
+
+The retained original artifact is 11707247387, 194,846 physical ZIP bytes,
+SHA-256 `c5c1f995c02edab9d721ceb4c7b626d131d4d754403ffe59326398cea669b11d`.
+Root's complete native readback recorded 155 CRC-checked members, 154 manifest
+joins, 153 receipt joins, 152 collection-copy joins and all 151 controller
+available-original joins MATCH; logical member bytes were 621,679. The receipt's
+`original_bytes` subtotal was 584,045 across its 153 original members;
+the `receipt.json` member itself was 24,195 bytes.
+The original manifest response was HTTP/2 200, 1,752 bytes,
+application/vnd.oci.image.manifest.v1+json, exact docker-content-digest83f339,
+dated 15:47:11 GMT. The original configuration response was HTTP/2 200,
+5,499 bytes, application/octet-stream, dated 15:47:12 GMT. Both original bodies
+matched their exact pinned SHA-256. These are measured transport facts, not an
+assumption that blob transport MIME equals its OCI descriptor type.
+The 229-line contract and 1,294-line published workflow are preserved preimages.
+Only the declared root-overlay read-field correction, coherent 25th refusal
+control, this history and the contract pin form the successor; it remains
+source-only NOT_RUN pending complete distinct review and one hosted qualification.
