@@ -1,0 +1,1294 @@
+name: Public runtime acquisition preparation
+# Standalone preparation only. Existing producers, receipts and tests unchanged.
+'on':
+  pull_request:
+    paths:
+      - docs/plans/2026-10-09-public-runtime-acquisition.md
+      - .github/workflows/architecture-runtime-acquisition.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: public-runtime-acquisition-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  preparation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Write fixed trusted preparation sources
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -m 0700 "$base"
+          mkdir -m 0700 "$base/control" "$base/originals" "$base/client"
+          cat > "$base/control/probe.py" <<'PY'
+          import _sqlite3, hashlib, json, os, pathlib, platform, re, resource, sqlite3, stat, sys
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          mode = int(sys.argv[1])
+          require(mode in (0, 1, 2) and sys.flags.optimize == mode, 'actual optimization mismatch')
+          os.umask(0o077)
+          def binary(path):
+              target = pathlib.Path(path).resolve(strict=True)
+              fd = os.open(target, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  require(stat.S_ISREG(before.st_mode) and 0 < before.st_size <= 256 * 2**20,
+                          'bundled binary size/type mismatch')
+                  digest, count = hashlib.sha256(), 0
+                  while True:
+                      part = os.read(fd, 65536)
+                      if not part:
+                          break
+                      count += len(part)
+                      require(count <= 256 * 2**20, 'bundled binary growth')
+                      digest.update(part)
+                  after = os.fstat(fd)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'bundled binary changed')
+                  return {'requested_path': str(path), 'path': str(target), 'bytes': count,
+                          'sha256': digest.hexdigest()}
+              finally:
+                  os.close(fd)
+          libraries = {'sqlite': set(), 'python': set()}
+          for line in pathlib.Path('/proc/self/maps').read_text().splitlines():
+              fields = line.split(None, 5)
+              if len(fields) == 6 and fields[5].startswith('/'):
+                  if '/libsqlite3.so' in fields[5]:
+                      libraries['sqlite'].add(fields[5])
+                  if '/libpython3.11.so' in fields[5]:
+                      libraries['python'].add(fields[5])
+          require(all(len(paths) == 1 for paths in libraries.values()), 'loaded library inventory')
+          settings = {'journal_mode': 'delete', 'synchronous': 3, 'foreign_keys': 1,
+                      'trusted_schema': 0, 'read_uncommitted': 0, 'busy_timeout': 1000}
+          database = pathlib.Path('/tmp/preparation.sqlite3')
+          require(not database.exists(), 'probe database was not fresh')
+          connection = sqlite3.connect(database, timeout=1, isolation_level=None)
+          try:
+              for statement in ('PRAGMA journal_mode=DELETE', 'PRAGMA synchronous=EXTRA',
+                                'PRAGMA foreign_keys=ON', 'PRAGMA trusted_schema=OFF',
+                                'PRAGMA read_uncommitted=OFF', 'PRAGMA busy_timeout=1000'):
+                  connection.execute(statement).fetchone()
+              observed = {key: connection.execute('PRAGMA ' + key).fetchone()[0] for key in settings}
+              connection.execute('CREATE TABLE preparation (id INTEGER PRIMARY KEY) STRICT')
+              connection.execute('BEGIN IMMEDIATE')
+              connection.execute('INSERT INTO preparation VALUES (1)')
+              connection.rollback()
+              rollback = connection.execute('SELECT count(*) FROM preparation').fetchone() == (0,)
+              library_version = connection.execute('SELECT sqlite_version()').fetchone()[0]
+              options = sorted(row[0] for row in connection.execute('PRAGMA compile_options'))
+          finally:
+              connection.close()
+              database.unlink()
+          mountinfo = pathlib.Path('/proc/self/mountinfo').read_text()
+          require(len(mountinfo.encode()) <= 65536, 'full mountinfo bound')
+          def mount_path(value):
+              return re.sub(r'\\([0-7]{3})', lambda match: chr(int(match.group(1), 8)), value)
+          mounts = []
+          for line in mountinfo.splitlines():
+              left, right = line.split(' - ', 1)
+              fields, backing = left.split(), right.split()
+              mounts.append({'id': fields[0], 'parent': fields[1], 'device': fields[2], 'root': mount_path(fields[3]),
+                             'path': mount_path(fields[4]), 'options': fields[5].split(','), 'optional': fields[6:],
+                             'filesystem': backing[0], 'source': mount_path(backing[1]), 'super_options': backing[2].split(',')})
+          require(0 < len(mounts) <= 128, 'complete mount inventory bound')
+          require(len({item['id'] for item in mounts}) == len(mounts)
+                  and len({item['path'] for item in mounts}) == len(mounts), 'duplicate mount identity/path')
+          filesystem_facts = {}
+          for path in (item['path'] for item in mounts):
+              info, capacity = os.lstat(path), os.statvfs(path)
+              filesystem_facts[path] = {'uid': info.st_uid, 'gid': info.st_gid,
+                  'mode': stat.S_IMODE(info.st_mode), 'regular': stat.S_ISREG(info.st_mode),
+                  'directory': stat.S_ISDIR(info.st_mode), 'bytes': info.st_size,
+                  'character': stat.S_ISCHR(info.st_mode), 'device': info.st_dev, 'inode': info.st_ino,
+                  'symlink': stat.S_ISLNK(info.st_mode),
+                  'effective_writable': os.access(path, os.W_OK, effective_ids=True, follow_symlinks=False),
+                  'rdev_major': os.major(info.st_rdev), 'rdev_minor': os.minor(info.st_rdev),
+                  'capacity_bytes': capacity.f_frsize * capacity.f_blocks}
+          status = dict(line.split(':', 1) for line in pathlib.Path('/proc/self/status').read_text().splitlines()
+                        if line.startswith(('CapEff:', 'NoNewPrivs:')))
+          cgroup = {name: pathlib.Path('/sys/fs/cgroup', name).read_text().strip()
+                    for name in ('memory.max', 'pids.max', 'cpu.max')}
+          report = {
+              'mode': mode, 'python_version': list(sys.version_info[:3]), 'python': sys.version,
+              'sqlite_version': library_version, 'sqlite_version_info': list(sqlite3.sqlite_version_info),
+              'sqlite_module_version': sqlite3.version, 'sql_settings': observed,
+              'strict_table_created': True, 'rollback': rollback, 'compile_options': options,
+              'flags': {'isolated': sys.flags.isolated, 'no_site': sys.flags.no_site,
+                        'dont_write_bytecode': sys.dont_write_bytecode, 'optimize': sys.flags.optimize},
+              'platform': sys.platform, 'machine': platform.machine(), 'uid': os.getuid(), 'gid': os.getgid(),
+              'supplementary_groups': os.getgroups(),
+              'executable': sys.executable, 'binaries': {
+                  'python_executable': binary(sys.executable), 'sqlite_module': binary(sqlite3.__file__),
+                  'sqlite_extension': binary(_sqlite3.__file__),
+                  'loaded_sqlite_library': binary(next(iter(libraries['sqlite']))),
+                  'loaded_python_library': binary(next(iter(libraries['python'])))},
+              'proc_status': {key: value.strip() for key, value in status.items()}, 'cgroup': cgroup,
+              'mountinfo': mountinfo, 'mounts': mounts, 'filesystem_facts': filesystem_facts,
+              'tmpfs_bytes': os.statvfs('/tmp').f_frsize * os.statvfs('/tmp').f_blocks,
+              'network_interfaces': sorted(os.listdir('/sys/class/net')),
+              'network_route_lines': pathlib.Path('/proc/net/route').read_text().splitlines(),
+              'fsize': list(resource.getrlimit(resource.RLIMIT_FSIZE)),
+              'nofile': list(resource.getrlimit(resource.RLIMIT_NOFILE)),
+              'msgqueue': list(resource.getrlimit(resource.RLIMIT_MSGQUEUE)),
+              'publishing_environment_absent': not any(
+                  name.startswith(('GITHUB_', 'GH_', 'AWS_', 'AZURE_', 'OPENAI_', 'ANTHROPIC_', 'GOOGLE_'))
+                  for name in os.environ),
+          }
+          print(json.dumps(report, sort_keys=True, allow_nan=False))
+          PY
+          cat > "$base/control/controller.py" <<'PY'
+          import base64, copy, datetime, hashlib, json, math, os, pathlib, re
+          import selectors, signal, stat, subprocess, sys, tempfile, time
+          MIB = 2**20
+          IMAGE = 'python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48'
+          MANIFEST = '83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48'
+          CONFIG = '44d8f4434bcb025b8cb5c3151be689a906223e47cc3146971feccda936d2e82b'
+          DIGEST = 'python@sha256:' + MANIFEST
+          MIRROR = 'https://mirror.gcr.io'
+          SOURCES = ['docs/plans/2026-10-09-public-runtime-acquisition.md',
+                     '.github/workflows/architecture-runtime-acquisition.yml']
+          CONTRACT_PIN = (18800, '46eaaae0488e2910b7fcff14f7dfef645421ee60a0eef1a2260f9f0e13d5e49c')
+          SETTINGS = {'journal_mode': 'delete', 'synchronous': 3, 'foreign_keys': 1,
+                      'trusted_schema': 0, 'read_uncommitted': 0, 'busy_timeout': 1000}
+          BINARY_KEYS = {'python_executable', 'sqlite_module', 'sqlite_extension',
+                         'loaded_sqlite_library', 'loaded_python_library'}
+          SERVICE_ARGS = ['systemctl', 'show', 'docker', '--property=MainPID,ActiveState,SubState,Result,ExecMainCode,ExecMainStatus']
+          LAYERS = [
+              ('84a2afebaf4de2e8eb885634a69abd0087b79c947c53fa4f0481235d6dfadc6c', 28236279),
+              ('0ca4ca8e967fc50bfed3e6bc1475579b5b3d1b72b17330364f0b8bb59ee23653', 3517381),
+              ('4afda7e4a7673cf65d863abdb88d853796bf7fac06fabcd56f37de493f6b65e6', 15931402),
+              ('bb97a7af197171e22da5f49bb0438bcf85be410ef8d48d967d1adf18cb633e5c', 249)]
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def sha(raw):
+              return hashlib.sha256(raw).hexdigest()
+          def strict(raw):
+              def pairs(items):
+                  result = {}
+                  for key, value in items:
+                      require(key not in result, 'duplicate JSON key')
+                      result[key] = value
+                  return result
+              def reject(value):
+                  raise ValueError('non-finite JSON value')
+              def finite(value):
+                  number = float(value)
+                  require(math.isfinite(number), 'non-finite JSON number')
+                  return number
+              return json.loads(raw.decode('utf-8'), object_pairs_hook=pairs,
+                                parse_constant=reject, parse_float=finite)
+          def encoded(value):
+              return (json.dumps(value, sort_keys=True, indent=2, allow_nan=False) + '\n').encode('utf-8')
+          def regular(path, limit=MIB):
+              path = pathlib.Path(path)
+              require(path.is_absolute(), 'absolute original path required')
+              current = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              leaf = None
+              try:
+                  for part in path.parts[1:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  leaf = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(leaf)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'original regular byte admission')
+                  chunks, count = [], 0
+                  while True:
+                      part = os.read(leaf, min(65536, limit + 1 - count))
+                      if not part:
+                          break
+                      chunks.append(part)
+                      count += len(part)
+                      require(count <= limit, 'original growth admission')
+                  after = os.fstat(leaf)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and after.st_nlink == 1 and count == before.st_size, 'original changed while read')
+                  return b''.join(chunks), {
+                      'device': before.st_dev, 'inode': before.st_ino, 'bytes': count,
+                      'uid': before.st_uid, 'gid': before.st_gid, 'mode': stat.S_IMODE(before.st_mode),
+                      'sha256': sha(b''.join(chunks))}
+              finally:
+                  if leaf is not None:
+                      os.close(leaf)
+                  os.close(current)
+          def public(value):
+              forbidden = {'auth', 'auths', 'authorization', 'identitytoken', 'registrytoken', 'password',
+                           'secret', 'token', 'credential', 'credentials', 'proxies', 'httpproxy',
+                           'httpsproxy', 'http-proxy', 'https-proxy', 'proxy'}
+              if type(value) is dict:
+                  for key, item in value.items():
+                      require(str(key).lower() not in forbidden or item in (None, '', [], {}, False),
+                              'private credential/proxy setting is not admitted')
+                      public(item)
+              elif type(value) is list:
+                  for item in value:
+                      public(item)
+              elif type(value) is str:
+                  require(re.search(r'https?://[^/\s]*@', value, re.I) is None,
+                          'credential-bearing URL is not admitted')
+          def public_daemon(data):
+              require(type(data) is dict, 'daemon object required')
+              boolean = {'debug', 'live-restore', 'icc', 'iptables', 'ip6tables', 'ip-forward', 'ip-masq', 'userland-proxy'}
+              allowed = boolean | {'mtu', 'log-level', 'default-runtime', 'storage-driver', 'data-root',
+                                   'registry-mirrors', 'exec-opts', 'features', 'log-driver', 'log-opts'}
+              require(set(data) <= allowed, 'unsupported daemon key: metadata-only refusal')
+              public(data)
+              for key, value in data.items():
+                  if key in boolean:
+                      require(type(value) is bool, 'daemon boolean type')
+                  elif key == 'mtu':
+                      require(type(value) is int and 68 <= value <= 65535, 'daemon mtu type/bound')
+                  elif key == 'log-level':
+                      require(value in ('debug', 'info', 'warn', 'error', 'fatal'), 'daemon log-level')
+                  elif key == 'default-runtime':
+                      require(value == 'runc', 'daemon default-runtime')
+                  elif key == 'storage-driver':
+                      require(value in ('overlay2', 'overlayfs', 'vfs', 'btrfs', 'zfs'), 'daemon storage-driver')
+                  elif key == 'data-root':
+                      require(type(value) is str and re.fullmatch(r'/[A-Za-z0-9_./-]{1,255}', value), 'daemon public data-root')
+                  elif key == 'registry-mirrors':
+                      require(type(value) is list and len(value) <= 16 and all(type(item) is str and
+                              re.fullmatch(r'https://[A-Za-z0-9.-]+(?::[0-9]{1,5})?/?', item) for item in value),
+                              'daemon public mirror list')
+                  elif key == 'exec-opts':
+                      require(type(value) is list and len(value) <= 2 and all(
+                              item in ('native.cgroupdriver=systemd', 'native.cgroupdriver=cgroupfs') for item in value),
+                              'daemon closed exec options')
+                  elif key == 'features':
+                      require(type(value) is dict and set(value) <= {'buildkit', 'containerd-snapshotter'}
+                              and all(type(item) is bool for item in value.values()), 'daemon closed feature options')
+                  elif key == 'log-driver':
+                      require(value in ('local', 'json-file', 'none'), 'daemon public log driver')
+                  elif key == 'log-opts':
+                      require(type(value) is dict and set(value) <= {'max-size', 'max-file', 'compress', 'mode', 'max-buffer-size'},
+                              'unsupported nested daemon log option: metadata-only refusal')
+                      for option, item in value.items():
+                          require(type(item) is str, 'daemon log option string')
+                          if option in ('max-size', 'max-buffer-size'):
+                              require(re.fullmatch(r'[1-9][0-9]{0,8}[kKmMgG]?', item), 'daemon bounded log size')
+                          elif option == 'max-file':
+                              require(re.fullmatch(r'[1-9][0-9]{0,2}', item), 'daemon bounded log count')
+                          elif option == 'compress':
+                              require(item in ('true', 'false'), 'daemon log compression')
+                          else:
+                              require(item in ('blocking', 'non-blocking'), 'daemon log mode')
+              return data
+          def daemon_admission_controls():
+              positive = {'log-driver': 'local', 'log-opts': {'max-size': '10m', 'max-file': '3'}}
+              require(public_daemon(copy.deepcopy(positive)) == positive, 'synthetic public daemon positive')
+              try:
+                  public_daemon({'log-driver': 'local', 'log-opts': {'splunk-token': 'TEST_NOT_A_CREDENTIAL'}})
+              except ValueError:
+                  return {'origin': 'TEST_SYNTHETIC_DAEMON_ADMISSION', 'positive': 'PASS', 'nested_token': 'REFUSED'}
+              raise ValueError('nested synthetic daemon credential accepted')
+          def daemon():
+              path = pathlib.Path('/etc/docker/daemon.json')
+              try:
+                  raw, metadata = regular(path, 65536)
+              except FileNotFoundError:
+                  return {'presence': False, 'metadata': None, 'raw_b64': '', 'data': {}, 'private': False}
+              require(metadata['uid'] == 0 and metadata['mode'] & 0o022 == 0,
+                      'daemon file ownership/mode refusal')
+              try:
+                  data = strict(raw)
+                  require(type(data) is dict, 'daemon JSON must be an object')
+                  public_daemon(data)
+              except ValueError:
+                  return {'presence': True, 'metadata': metadata, 'raw_b64': None, 'data': None, 'private': True}
+              return {'presence': True, 'metadata': metadata, 'raw_b64': base64.b64encode(raw).decode('ascii'),
+                      'data': data, 'private': False}
+          def root_operation():
+              require(os.geteuid() == 0, 'privileged daemon operation requires root')
+              action = sys.argv[1]
+              if action == '--daemon-observe':
+                  require(len(sys.argv) == 2, 'unexpected daemon observation argument')
+                  print(json.dumps(daemon(), sort_keys=True, allow_nan=False))
+                  return
+              require(action in ('--daemon-set', '--daemon-restore') and len(sys.argv) == 3,
+                      'closed daemon operation refused')
+              target = pathlib.Path(sys.argv[2])
+              require(target == pathlib.Path(__file__).resolve().parent /
+                      ('set.json' if action == '--daemon-set' else 'restore.json'), 'daemon control path refusal')
+              request = strict(regular(target, MIB)[0])
+              current = daemon()
+              require(not current['private'] and current == request['expected'], 'daemon file changed before mutation')
+              desired = request['desired']
+              require(not desired['private'], 'private daemon content cannot be installed')
+              directory = os.open('/etc/docker', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              temporary = None
+              try:
+                  if desired['presence']:
+                      raw = base64.b64decode(desired['raw_b64'], validate=True)
+                      public_daemon(strict(raw))
+                      require(len(raw) <= 65536 and sha(raw) == desired['metadata']['sha256'],
+                              'daemon payload byte identity mismatch')
+                      descriptor, temporary = tempfile.mkstemp(prefix='.public-runtime-', dir='/etc/docker')
+                      with os.fdopen(descriptor, 'wb') as stream:
+                          stream.write(raw)
+                          stream.flush()
+                          os.fsync(stream.fileno())
+                          os.fchown(stream.fileno(), desired['metadata']['uid'], desired['metadata']['gid'])
+                          os.fchmod(stream.fileno(), desired['metadata']['mode'])
+                      os.replace(temporary, '/etc/docker/daemon.json')
+                      temporary = None
+                  else:
+                      require(action == '--daemon-restore' and current['presence'], 'absence restoration refusal')
+                      os.unlink('daemon.json', dir_fd=directory)
+                  os.fsync(directory)
+              finally:
+                  if temporary is not None:
+                      os.unlink(temporary)
+                  os.close(directory)
+              print(json.dumps(daemon(), sort_keys=True, allow_nan=False))
+          if len(sys.argv) > 1:
+              root_operation()
+              raise SystemExit(0)
+          ROOT = pathlib.Path(__file__).resolve().parents[1]
+          OUT, CONTROL, CLIENT = ROOT / 'originals', ROOT / 'control', ROOT / 'client'
+          context = {key: os.environ[name] for key, name in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          command_records, saved, refused, owned, disposed, disposal_attempted = {}, {}, [], {}, {}, set()
+          total = 0
+          facts, changed, temporary_daemon, baseline = {}, False, None, None
+          mutation_attempted, desired, attempted_containers = False, None, {}
+          phase_deadline = time.monotonic() + 720
+          physical_recovery = False
+          def save(name, raw, limit=MIB):
+              global total
+              require(re.fullmatch(r'[A-Za-z0-9_.-]+', name) and type(raw) is bytes, 'closed original name/type')
+              require(name not in saved and len(raw) <= limit and len(saved) < 256
+                      and total + len(raw) <= 30 * MIB, 'retained original inventory bound with seal reserve')
+              path = OUT / name
+              descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+              with os.fdopen(descriptor, 'wb') as stream:
+                  stream.write(raw)
+              saved[name] = {'bytes': len(raw), 'sha256': sha(raw)}
+              total += len(raw)
+          def public_stream(raw):
+              require(re.search(rb'https?://[^/\s]*@', raw, re.I) is None,
+                      'credential-bearing command output not admitted')
+              stripped = raw.strip()
+              if stripped.startswith((b'{', b'[')):
+                  try:
+                      document = strict(stripped)
+                  except ValueError:
+                      documents = [strict(line) for line in stripped.splitlines()]
+                      require(documents, 'empty JSON-lines observation')
+                      for document in documents:
+                          public(document)
+                  else:
+                      public(document)
+              if stripped.startswith(b'HTTP/'):
+                  header = stripped.partition(b'\r\n\r\n')[0]
+                  for line in header.split(b'\r\n')[1:]:
+                      key = line.partition(b':')[0].lower()
+                      require(key not in (b'location', b'set-cookie', b'authorization',
+                                          b'proxy-authorization', b'www-authenticate'),
+                              'private/redirect HTTP header is not admitted')
+          def command(name, argv, timeout=30, limit=MIB):
+              require(name not in command_records, 'command may be attempted only once')
+              requested_timeout = timeout
+              timeout = min(timeout, max(0, phase_deadline - time.monotonic()))
+              require(timeout > 0, 'reserved preparation/recovery time budget exhausted')
+              started = time.monotonic_ns()
+              buffers = {'stdout': bytearray(), 'stderr': bytearray()}
+              process, selector, error, complete, timed_out, code = None, selectors.DefaultSelector(), None, True, False, None
+              termination = {'term_attempted': False, 'kill_attempted': False, 'reaped': None, 'errors': []}
+              try:
+                  process = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                      stderr=subprocess.PIPE, start_new_session=True,
+                      env={'PATH': '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+                           'LANG': 'C.UTF-8', 'TZ': 'UTC', 'DOCKER_CONFIG': str(CLIENT)})
+                  for stream, label in ((process.stdout, 'stdout'), (process.stderr, 'stderr')):
+                      os.set_blocking(stream.fileno(), False)
+                      selector.register(stream, selectors.EVENT_READ, label)
+                  deadline = time.monotonic() + timeout
+                  while selector.get_map():
+                      remaining = deadline - time.monotonic()
+                      if remaining <= 0:
+                          timed_out = True
+                          raise TimeoutError('bounded native command timed out')
+                      for key, _ in selector.select(min(remaining, 0.2)):
+                          part = os.read(key.fileobj.fileno(), 65536)
+                          if not part:
+                              selector.unregister(key.fileobj)
+                              key.fileobj.close()
+                              continue
+                          room = limit - len(buffers[key.data])
+                          buffers[key.data].extend(part[:room])
+                          require(len(part) <= room, 'native original stream exceeded bound')
+                  code = process.wait(timeout=max(0.01, deadline - time.monotonic()))
+              except BaseException as exc:
+                  complete, error = False, type(exc).__name__
+                  timed_out = timed_out or isinstance(exc, (TimeoutError, subprocess.TimeoutExpired))
+              finally:
+                  try:
+                      if process is not None and process.poll() is None:
+                          termination['term_attempted'] = True
+                          try:
+                              os.killpg(process.pid, signal.SIGTERM)
+                          except ProcessLookupError:
+                              pass
+                          except BaseException as exc:
+                              termination['errors'].append('TERM:' + type(exc).__name__)
+                          try:
+                              process.wait(timeout=4)
+                          except subprocess.TimeoutExpired:
+                              termination['kill_attempted'] = True
+                              try:
+                                  os.killpg(process.pid, signal.SIGKILL)
+                              except ProcessLookupError:
+                                  pass
+                              except BaseException as exc:
+                                  termination['errors'].append('KILL:' + type(exc).__name__)
+                              try:
+                                  process.wait(timeout=1)
+                              except BaseException as exc:
+                                  termination['errors'].append('REAP:' + type(exc).__name__)
+                          except BaseException as exc:
+                              termination['errors'].append('WAIT:' + type(exc).__name__)
+                      termination['reaped'] = None if process is None else process.poll() is not None
+                  except BaseException as exc:
+                      termination['errors'].append('CLEANUP:' + type(exc).__name__)
+                      termination['reaped'] = False
+                  if process is not None:
+                      code = process.returncode
+                      for stream in (process.stdout, process.stderr):
+                          try:
+                              if stream is not None and not stream.closed:
+                                  stream.close()
+                          except BaseException as exc:
+                              termination['errors'].append('PIPE_CLOSE:' + type(exc).__name__)
+                  try:
+                      selector.close()
+                  except BaseException as exc:
+                      termination['errors'].append('SELECTOR_CLOSE:' + type(exc).__name__)
+                  if termination['reaped'] is not True or termination['errors']:
+                      complete = False
+                      error = error or 'TerminationOrCleanupUncertainty'
+              record = {'argv': argv, 'attempts': 1, 'code': code, 'complete': complete,
+                        'timed_out': timed_out, 'error_type': error, 'timeout_seconds': timeout,
+                        'declared_timeout_seconds': requested_timeout,
+                        'termination': termination, 'process_created': process is not None,
+                        'process_unreaped': process is not None and termination['reaped'] is not True,
+                        'stream_limit_bytes': limit, 'duration_ns': str(time.monotonic_ns() - started)}
+              command_records[name] = record
+              process_complete = complete and code == 0
+              for label, value in buffers.items():
+                  raw = bytes(value)
+                  try:
+                      public_stream(raw)
+                      save(name + '.' + label, raw, limit)
+                      record[label] = saved[name + '.' + label]
+                  except (OSError, ValueError) as exc:
+                      record[label] = None
+                      record[label + '_capture_error_type'] = type(exc).__name__
+                      record['complete'] = False
+                      refused.append(name + '.' + label)
+              try:
+                  save(name + '.status.json', encoded(record))
+              except (OSError, ValueError) as exc:
+                  record['complete'] = False
+                  record['status_capture_error_type'] = type(exc).__name__
+                  refused.append(name + '.status.json')
+              # Logging exhaustion cannot prevent an otherwise observed owned
+              # disposal/configuration recovery. It still forbids acceptance.
+              require(process_complete and (record['complete'] or physical_recovery),
+                      'native command failed: ' + name)
+              return bytes(buffers['stdout'])
+          def native_json(name, argv, timeout=30):
+              return strict(command(name, argv, timeout))
+          def mirrors(info):
+              value = info['RegistryConfig']['Mirrors']
+              if value is None:
+                  return None
+              require(type(value) is list and all(type(item) is str for item in value), 'native mirror list type')
+              return value
+          def service(name):
+              raw = command(name, SERVICE_ARGS)
+              fields = dict(line.split('=', 1) for line in raw.decode('utf-8').splitlines())
+              require(set(fields) == {'MainPID', 'ActiveState', 'SubState', 'Result', 'ExecMainCode', 'ExecMainStatus'}
+                      and fields['ActiveState'] == 'active' and fields['SubState'] == 'running'
+                      and fields['MainPID'].isdigit() and int(fields['MainPID']) > 0, 'actual Docker service state')
+              return fields
+          def source_records():
+              records = {}
+              for source, name in zip(SOURCES, ('contract.md', 'checked-workflow.yml')):
+                  raw, metadata = regular(pathlib.Path(os.environ['GITHUB_WORKSPACE']) / source)
+                  records[source] = {'bytes': len(raw), 'sha256': sha(raw)}
+              for name in ('controller.py', 'probe.py'):
+                  raw, metadata = regular(CONTROL / name)
+                  records[name] = {'bytes': len(raw), 'sha256': sha(raw)}
+              return records
+          def metadata(label, url, media, size, digest):
+              output = command('http-' + label, ['curl', '--disable', '--silent', '--show-error', '--fail',
+                  '--proto', '=https', '--connect-timeout', '10', '--max-time', '20', '--max-filesize', '65536',
+                  '--max-redirs', '0', '--dump-header', '-', '--header', 'Accept: ' + media, url], timeout=30)
+              header, separator, raw = output.partition(b'\r\n\r\n')
+              require(separator and re.fullmatch(rb'HTTP/[0-9.]+ 200[^\r\n]*', header.split(b'\r\n')[0]),
+                      'public metadata HTTP status/redirect refusal')
+              pairs = [line.split(b':', 1) for line in header.split(b'\r\n')[1:]]
+              require(all(len(pair) == 2 for pair in pairs), 'public metadata header framing')
+              headers = {}
+              for key, value in pairs:
+                  key, value = key.decode('ascii').lower(), value.strip().decode('ascii')
+                  require(key not in headers and key not in ('set-cookie', 'authorization', 'proxy-authorization'),
+                          'public metadata header admission')
+                  headers[key] = value
+              require(len(raw) == size and sha(raw) == digest and len(raw) <= 65536,
+                      'public metadata original bytes differ from immutable pin')
+              require(headers.get('content-length') == str(size), 'public metadata content length')
+              if label == 'manifest':
+                  require(headers.get('content-type', '').split(';')[0] == media
+                          and headers.get('docker-content-digest') == 'sha256:' + digest,
+                          'public manifest transport identity')
+              else:
+                  require(type(headers.get('content-type')) is str and headers['content-type'],
+                          'public config transport media type must be observed')
+              save(label + '.headers', header + separator, 65536)
+              save(label + '.json', raw, 65536)
+              return {'url': url, 'headers': headers, 'bytes': len(raw), 'sha256': sha(raw), 'data': strict(raw)}
+          def labels(mode):
+              return {'org.public-runtime.checked-commit': context['checked_commit'],
+                      'org.public-runtime.run-id': context['run_id'],
+                      'org.public-runtime.run-attempt': context['run_attempt'], 'org.public-runtime.mode': str(mode)}
+          def inspect_owned(mode, name):
+              records = native_json(name, ['docker', 'inspect', owned[mode]])
+              require(type(records) is list and len(records) == 1 and records[0]['Id'] == owned[mode]
+                      and records[0]['Image'] == 'sha256:' + CONFIG
+                      and records[0]['Config']['Labels'] == labels(mode), 'owned container native identity refusal')
+              return records[0]
+          def dispose(mode):
+              require(not any(record['process_unreaped'] is True for record in command_records.values()),
+                      'unreaped native command refuses racing owned disposal')
+              if mode in disposal_attempted:
+                  return
+              disposal_attempted.add(mode)
+              item = inspect_owned(mode, 'dispose-before-' + str(mode))
+              if item['State']['Running']:
+                  command('stop-' + str(mode), ['docker', 'stop', '--time', '2', owned[mode]])
+              command('rm-' + str(mode), ['docker', 'rm', owned[mode]])
+              absent = command('absent-' + str(mode),
+                               ['docker', 'ps', '--all', '--no-trunc', '--filter', 'id=' + owned[mode], '--format', '{{json .}}'])
+              require(absent == b'', 'owned container remains after disposal')
+              disposed[mode] = True
+          def validate_mounts(probe, host):
+              text = probe['mountinfo']
+              require(type(text) is str and 0 < len(text.encode('utf-8')) <= 65536,
+                      'RP09 complete raw mountinfo')
+              def path(value):
+                  return re.sub(r'\\([0-7]{3})', lambda match: chr(int(match.group(1), 8)), value)
+              records = []
+              for line in text.splitlines():
+                  left, right = line.split(' - ', 1)
+                  fields, backing = left.split(), right.split()
+                  require(len(fields) >= 6 and len(backing) == 3, 'RP09 mountinfo framing')
+                  require(re.fullmatch(r'[1-9][0-9]{0,9}', fields[0])
+                          and re.fullmatch(r'[0-9]{1,10}', fields[1])
+                          and re.fullmatch(r'[0-9]{1,10}:[0-9]{1,10}', fields[2])
+                          and path(fields[4]).startswith('/') and 0 < len(path(fields[4])) <= 4096
+                          and '\x00' not in path(fields[4]) and len(fields[6:]) <= 32
+                          and all(0 < len(value) <= 256 for value in fields[5].split(',') + backing[2].split(',')),
+                          'RP09 typed complete mountinfo fields')
+                  records.append({'id': fields[0], 'parent': fields[1], 'device': fields[2], 'root': path(fields[3]),
+                      'path': path(fields[4]), 'options': fields[5].split(','), 'optional': fields[6:],
+                      'filesystem': backing[0], 'source': path(backing[1]), 'super_options': backing[2].split(',')})
+              require(records == probe['mounts'] and 0 < len(records) <= 128
+                      and len({item['id'] for item in records}) == len(records)
+                      and len({item['path'] for item in records}) == len(records), 'RP09 exact complete parsed mounts')
+              mounted = {item['path']: item for item in records}
+              facts = probe['filesystem_facts']
+              required = {'/', '/control/probe.py', '/tmp', '/dev', '/dev/pts', '/dev/shm', '/dev/mqueue',
+                          '/proc', '/sys', '/sys/fs/cgroup', '/etc/hosts', '/etc/hostname', '/etc/resolv.conf'}
+              require(required <= set(mounted) and set(facts) == set(mounted), 'RP09 all mountpoint facts')
+              require('ro' in mounted['/']['options'] and mounted['/']['filesystem'] == 'overlay'
+                      and 'ro' in mounted['/control/probe.py']['options']
+                      and 'ro' in mounted['/sys']['options'] and mounted['/sys']['filesystem'] == 'sysfs'
+                      and 'ro' in mounted['/sys/fs/cgroup']['options']
+                      and mounted['/sys/fs/cgroup']['filesystem'] == 'cgroup2', 'RP09 read-only root/probe/sys/cgroup')
+              null_paths = {'/proc/kcore', '/proc/keys', '/proc/timer_list', '/proc/interrupts',
+                            '/proc/latency_stats', '/proc/sched_debug'}
+              special = {'/tmp': ('tmpfs', {'rw', 'nosuid', 'nodev', 'noexec'}),
+                         '/dev': ('tmpfs', {'rw', 'nosuid'}),
+                         '/dev/pts': ('devpts', {'rw', 'nosuid', 'noexec'}),
+                         '/dev/shm': ('tmpfs', {'rw', 'nosuid', 'nodev', 'noexec'}),
+                         '/dev/mqueue': ('mqueue', {'rw', 'nosuid', 'nodev', 'noexec'}),
+                         '/proc': ('proc', {'rw', 'nosuid', 'nodev', 'noexec'})}
+              network_files = {'/etc/hosts', '/etc/hostname', '/etc/resolv.conf'}
+              require(type(host['MaskedPaths']) is list and len(host['MaskedPaths']) <= 64,
+                      'RP09 native masked-path inventory')
+              for name, mount in mounted.items():
+                  info = facts[name]
+                  require(all(type(info[key]) is int and info[key] >= 0 for key in
+                              ('uid', 'gid', 'mode', 'bytes', 'device', 'inode', 'rdev_major', 'rdev_minor', 'capacity_bytes'))
+                          and all(type(info[key]) is bool for key in
+                                  ('regular', 'directory', 'character', 'symlink', 'effective_writable'))
+                          and info['symlink'] is False,
+                          'RP09 native mountpoint identity facts')
+                  require(mount['device'] == str(os.major(info['device'])) + ':' + str(os.minor(info['device']))
+                          and info['mode'] <= 0o7777, 'RP09 mountinfo/stat device and permissions join')
+                  options = set(mount['options'])
+                  require(('ro' in options) != ('rw' in options), 'RP09 mount access options')
+                  if name in special:
+                      filesystem, needed = special[name]
+                      require(mount['filesystem'] == filesystem and needed <= options and info['directory'],
+                              'RP09 declared kernel/work-area mount')
+                  elif name in network_files:
+                      require(mount['filesystem'] in ('ext4', 'xfs', 'overlay', 'tmpfs')
+                              and info['regular'] and info['uid'] == info['gid'] == 0
+                              and info['mode'] & 0o022 == 0 and info['bytes'] <= 65536
+                              and info['effective_writable'] is False,
+                              'RP09 Docker network-file type/permission/bound')
+                  elif 'rw' in options:
+                      require(name in null_paths and name in host['MaskedPaths']
+                              and mount['filesystem'] == 'tmpfs' and info['character']
+                              and (info['rdev_major'], info['rdev_minor']) == (1, 3),
+                              'RP09 undeclared writable mount refused')
+              require(facts['/tmp']['uid'] == facts['/tmp']['gid'] == 0 and facts['/tmp']['mode'] == 0o1777
+                      and 0 < facts['/tmp']['capacity_bytes'] == probe['tmpfs_bytes'] <= 64 * MIB
+                      and facts['/dev']['uid'] == facts['/dev']['gid'] == 0 and facts['/dev']['mode'] & 0o022 == 0
+                      and facts['/dev']['effective_writable'] is False
+                      and 0 < facts['/dev']['capacity_bytes'] <= 64 * MIB
+                      and facts['/dev/shm']['uid'] == facts['/dev/shm']['gid'] == 0
+                      and facts['/dev/shm']['mode'] == 0o1777 and 0 < facts['/dev/shm']['capacity_bytes'] <= MIB,
+                      'RP09 bounded writable application/device/shared-memory areas')
+          def validate(observation):
+              f = observation
+              require(f['context'] == context, 'RP01 native context')
+              require(f['source_before'] == f['source_after'] and
+                      (f['source_before'][SOURCES[0]]['bytes'], f['source_before'][SOURCES[0]]['sha256']) == CONTRACT_PIN,
+                      'RP01 frozen source stability')
+              require(set(f['source_before']) == set(SOURCES) | {'controller.py', 'probe.py'} and all(
+                      type(record['bytes']) is int and record['bytes'] > 0
+                      and re.fullmatch('[0-9a-f]{64}', record['sha256']) for record in f['source_before'].values()),
+                      'RP01 complete trusted sources')
+              require(f['head'] == context['checked_commit'] and re.fullmatch('[0-9a-f]{40}', f['tree'])
+                      and 1 <= len(f['parents']) <= 2 and
+                      all(re.fullmatch('[0-9a-f]{40}', parent) for parent in f['parents']), 'RP01 Git tree/parents')
+              require(f['containers_before_empty'] is True and f['cached_image_present'] is False, 'RP02 fresh host')
+              require(f['client_empty'] is True and f['client_mode'] == 0o700 and not f['daemon_before']['private'],
+                      'RP03 client/config admission')
+              old = dict(f['daemon_before']['data'])
+              public_daemon(old)
+              public_daemon(f['daemon_temporary']['data'])
+              public_daemon(f['daemon_after']['data'])
+              old['registry-mirrors'] = [MIRROR]
+              require(f['daemon_temporary']['data'] == old and f['configured_mirrors'] in ([MIRROR], [MIRROR + '/']),
+                      'RP03 preserved daemon config/actual mirror')
+              require(f['manifest']['sha256'] == MANIFEST and f['manifest']['bytes'] == 1752
+                      and f['configuration']['sha256'] == CONFIG and f['configuration']['bytes'] == 5499,
+                      'RP04 public original byte identities')
+              manifest, configuration = f['manifest']['data'], f['configuration']['data']
+              require(manifest['schemaVersion'] == 2 and
+                      manifest['mediaType'] == 'application/vnd.oci.image.manifest.v1+json'
+                      and manifest['config'] == {'mediaType': 'application/vnd.oci.image.config.v1+json',
+                                                'digest': 'sha256:' + CONFIG, 'size': 5499}
+                      and [(layer['digest'], layer['size'], layer['mediaType']) for layer in manifest['layers']] ==
+                          [('sha256:' + digest, size, 'application/vnd.oci.image.layer.v1.tar+gzip') for digest, size in LAYERS]
+                      and configuration['os'] == 'linux' and configuration['architecture'] == 'amd64'
+                      and configuration['rootfs']['type'] == 'layers'
+                      and len(configuration['rootfs']['diff_ids']) == 4
+                      and 'PYTHON_VERSION=3.11.14' in configuration['config']['Env'], 'RP04 OCI image/config identity')
+              require(f['pull']['attempts'] == 1 and f['pull']['code'] == 0 and f['pull']['complete'] is True
+                      and f['pull']['timed_out'] is False, 'RP05 complete canonical acquisition')
+              require(type(f['docker_version']) is dict and all(
+                      type(f['docker_version'].get(name)) is dict
+                      and type(f['docker_version'][name].get('Version')) is str
+                      and f['docker_version'][name]['Version'] for name in ('Client', 'Server')),
+                      'RP05 actual client/server versions')
+              image = f['image']
+              require(image['RepoDigests'] == [DIGEST] and image['Id'] == 'sha256:' + CONFIG
+                      and image['Os'] == 'linux' and image['Architecture'] == 'amd64'
+                      and image['RootFS']['Type'] == 'layers'
+                      and image['RootFS']['Layers'] == configuration['rootfs']['diff_ids']
+                      and image['Config']['Env'] == configuration['config']['Env'], 'RP06 unmodified native image')
+              require(set(f['probes']) == {'0', '1', '2'} and
+                      len({item['before']['Id'] for item in f['probes'].values()}) == 3, 'RP07 complete fresh modes')
+              binaries = None
+              for mode in range(3):
+                  item = f['probes'][str(mode)]
+                  before, after, probe = item['before'], item['after'], item['probe']
+                  config, host = before['Config'], before['HostConfig']
+                  expected_cmd = ['-I', '-B', '-S', *(['-' + 'O' * mode] if mode else []), '/control/probe.py', str(mode)]
+                  require(before['Id'] == after['Id'] and before['Image'] == after['Image'] == image['Id']
+                          and config == after['Config'] and config['Image'] == IMAGE and config['User'] == '65532:65532'
+                          and config['Entrypoint'] == ['/usr/local/bin/python'] and config['Cmd'] == expected_cmd
+                          and config['WorkingDir'] == '/' and config['Labels'] == labels(mode), 'RP07 native command/identity')
+                  expected_env = [entry for entry in image['Config']['Env']
+                                  if not entry.startswith(('LANG=', 'TZ=', 'PYTHONDONTWRITEBYTECODE='))]
+                  expected_env += ['LANG=C.UTF-8', 'TZ=UTC', 'PYTHONDONTWRITEBYTECODE=1']
+                  require(sorted(config['Env']) == sorted(expected_env) and config.get('Volumes') is None
+                          and config.get('ExposedPorts') in (None, {}), 'RP07 fixed container environment')
+                  for native in (before, after):
+                      mounts = native['Mounts']
+                      require(len(mounts) == 1 and mounts[0]['Type'] == 'bind' and mounts[0]['RW'] is False
+                              and mounts[0]['Source'] == str(CONTROL / 'probe.py')
+                              and mounts[0]['Destination'] == '/control/probe.py'
+                              and mounts[0]['Propagation'] == 'rprivate'
+                              and native['NetworkSettings']['Networks'] == {'none': native['NetworkSettings']['Networks']['none']},
+                              'RP07 trusted probe-only mount/network')
+                  later = dict(after['HostConfig'])
+                  earlier = dict(host)
+                  for native in (earlier, later):
+                      require(native.get('OomKillDisable') in (None, False), 'RP09 OOM policy')
+                      native.pop('OomKillDisable', None)
+                  require(earlier == later and host['ReadonlyRootfs'] is True and host['NetworkMode'] == 'none'
+                          and host['NanoCpus'] == 2000000000 and host['Memory'] == host['MemorySwap'] == 1073741824
+                          and host['PidsLimit'] == 128 and host['CapDrop'] == ['ALL'] and host['CapAdd'] is None
+                          and host['ShmSize'] == MIB
+                          and host['SecurityOpt'] == ['no-new-privileges'] and host['Privileged'] is False
+                          and host['LogConfig'] == {'Type': 'none', 'Config': {}}
+                          and host['Tmpfs'] == {'/tmp': 'rw,noexec,nosuid,nodev,size=64m,mode=1777'}
+                          and host['PortBindings'] == {} and host['PublishAllPorts'] is False
+                          and host['Devices'] == [] and host['DeviceRequests'] is None and host['VolumesFrom'] is None
+                          and host['PidMode'] == '' and host['IpcMode'] == 'private' and host['CgroupnsMode'] == 'private'
+                          and sorted(host['Ulimits'], key=lambda value: value['Name']) ==
+                              [{'Name': 'fsize', 'Soft': 67108864, 'Hard': 67108864},
+                               {'Name': 'msgqueue', 'Soft': 8192, 'Hard': 8192},
+                               {'Name': 'nofile', 'Soft': 256, 'Hard': 256}], 'RP09 native restrictions')
+                  require(probe['mode'] == mode and probe['python_version'] == [3, 11, 14]
+                          and probe['sqlite_version'] == '3.40.1' and probe['sqlite_version_info'] == [3, 40, 1]
+                          and probe['sql_settings'] == SETTINGS and probe['strict_table_created'] is True
+                          and probe['rollback'] is True and probe['flags'] ==
+                              {'isolated': 1, 'no_site': 1, 'dont_write_bytecode': True, 'optimize': mode}
+                          and probe['executable'] == '/usr/local/bin/python'
+                          and probe['platform'] == 'linux' and probe['machine'] == 'x86_64'
+                          and probe['uid'] == probe['gid'] == 65532
+                          and type(probe['supplementary_groups']) is list
+                          and all(type(group) is int and group == 65532 for group in probe['supplementary_groups'])
+                          and 0 < len(probe['compile_options']) <= 512
+                          and sorted(set(probe['compile_options'])) == probe['compile_options'], 'RP08 actual Python/SQLite')
+                  require(set(probe['binaries']) == BINARY_KEYS, 'RP08 five actual binaries')
+                  for binary in probe['binaries'].values():
+                      require(type(binary['bytes']) is int and 0 < binary['bytes'] <= 256 * MIB
+                              and re.fullmatch('[0-9a-f]{64}', binary['sha256'])
+                              and binary['path'].startswith('/'), 'RP08 binary observation')
+                  require(probe['binaries']['python_executable']['path'] == '/usr/local/bin/python3.11',
+                          'RP08 resolved Python path')
+                  if binaries is None:
+                      binaries = probe['binaries']
+                  require(probe['binaries'] == binaries, 'RP08 binaries differ across modes')
+                  quota, period = map(int, probe['cgroup']['cpu.max'].split())
+                  require(probe['proc_status'] == {'CapEff': '0000000000000000', 'NoNewPrivs': '1'}
+                          and probe['cgroup']['memory.max'] == '1073741824' and probe['cgroup']['pids.max'] == '128'
+                          and period > 0 and quota == 2 * period and probe['network_interfaces'] == ['lo']
+                          and len(probe['network_route_lines']) == 1 and probe['publishing_environment_absent'] is True
+                          and probe['fsize'] == [67108864, 67108864] and probe['nofile'] == [256, 256]
+                          and probe['msgqueue'] == [8192, 8192] and 0 < probe['tmpfs_bytes'] <= 64 * MIB,
+                          'RP09 actual kernel/resource/network')
+                  validate_mounts(probe, host)
+                  start = item['start']
+                  require(start['code'] == 0 and start['complete'] is True and start['timed_out'] is False
+                          and before['State']['Status'] == 'created' and after['State']['Status'] == 'exited'
+                          and after['State']['Running'] is False and after['State']['ExitCode'] == 0
+                          and after['State']['OOMKilled'] is False and after['State']['Error'] == ''
+                          and item['disposed'] is True, 'RP10 native terminal/disposal')
+                  began = datetime.datetime.fromisoformat(after['State']['StartedAt'].replace('Z', '+00:00'))
+                  ended = datetime.datetime.fromisoformat(after['State']['FinishedAt'].replace('Z', '+00:00'))
+                  require(0 < (ended - began).total_seconds() <= 65, 'RP10 actual probe wall time')
+              old, restored = f['daemon_before'], f['daemon_after']
+              require(f['containers_recovery_empty'] is True and f['containers_restored_empty'] is True
+                      and f['recovery_complete'] is True and f['restored_mirrors'] == f['original_mirrors']
+                      and old['presence'] == restored['presence'] and old['raw_b64'] == restored['raw_b64']
+                      and old['data'] == restored['data'] and not restored['private'], 'RP11 original daemon recovery')
+              if old['presence']:
+                  require(all(old['metadata'][key] == restored['metadata'][key]
+                              for key in ('bytes', 'sha256', 'uid', 'gid', 'mode')), 'RP11 daemon file identity policy')
+              require(f['expected_originals'] == f['actual_originals'] and f['refused'] == []
+                      and all(record['complete'] is True and record['code'] == 0
+                              for record in f['commands'].values()), 'RP12 complete original command inventory')
+          def refusal_controls(observation):
+              cases = []
+              def case(name, mutate):
+                  cases.append((name, mutate))
+              case('RP01_stale_run', lambda f: f['context'].update(run_id='0'))
+              case('RP01_changed_source', lambda f: f['source_after'][SOURCES[1]].update(sha256='0' * 64))
+              case('RP02_existing_container', lambda f: f.update(containers_before_empty=False))
+              case('RP02_cached_image', lambda f: f.update(cached_image_present=True))
+              case('RP03_missing_actual_mirror', lambda f: f.update(configured_mirrors=[]))
+              case('RP03_changed_preserved_setting', lambda f: f['daemon_temporary']['data'].update(TEST_unapproved=True))
+              case('RP04_manifest_substitution', lambda f: f['manifest'].update(sha256='0' * 64))
+              case('RP04_config_substitution', lambda f: f['configuration'].update(sha256='0' * 64))
+              case('RP05_pull_nonzero', lambda f: f['pull'].update(code=124))
+              case('RP05_pull_incomplete', lambda f: f['pull'].update(complete=False))
+              case('RP06_mirror_prefixed_digest', lambda f: f['image'].update(RepoDigests=['mirror.gcr.io/library/python@sha256:' + MANIFEST]))
+              case('RP06_extra_digest', lambda f: f['image'].update(RepoDigests=[DIGEST, 'mirror.gcr.io/library/python@sha256:' + MANIFEST]))
+              case('RP06_wrong_image_platform', lambda f: f['image'].update(Id='sha256:' + '0' * 64, Architecture='arm64'))
+              def root_observations(f):
+                  for item in f['probes'].values():
+                      item['before']['Config']['User'] = item['after']['Config']['User'] = '0:0'
+                      item['probe']['uid'] = item['probe']['gid'] = 0
+              case('RP07_native_root', root_observations)
+              case('RP07_missing_OO', lambda f: f['probes'].pop('2'))
+              case('RP08_wrong_sqlite_all_modes', lambda f: [item['probe'].update(sqlite_version='0.0.0') for item in f['probes'].values()])
+              case('RP08_wrong_OO_flag', lambda f: f['probes']['2']['probe']['flags'].update(optimize=1))
+              case('RP08_empty_binary_all_modes', lambda f: [item['probe']['binaries']['python_executable'].update(sha256='') for item in f['probes'].values()])
+              case('RP09_wrong_CPU_all_modes', lambda f: [item['probe']['cgroup'].update({'cpu.max': '100000 100000'}) for item in f['probes'].values()])
+              case('RP10_disposal_unconfirmed', lambda f: f['probes']['2'].update(disposed=False))
+              case('RP11_restored_mirror_wrong', lambda f: f.update(restored_mirrors=[MIRROR + '/TEST']))
+              case('RP11_restored_bytes_wrong', lambda f: f['daemon_after'].update(raw_b64='TEST'))
+              case('RP12_missing_original', lambda f: f['actual_originals'].pop())
+              def nested_credential(f):
+                  for name in ('daemon_before', 'daemon_temporary', 'daemon_after'):
+                      f[name]['data']['log-opts'] = {'splunk-token': 'TEST_NOT_A_CREDENTIAL'}
+              case('RP03_nested_synthetic_credential', nested_credential)
+              require(len(cases) == 24 and len({name for name, _ in cases}) == 24, 'closed refusal control selection')
+              validate(copy.deepcopy(observation))
+              records = [{'id': 'RP_positive_actual_copy', 'status': 'PASS'}]
+              for name, mutate in cases:
+                  changed_observation = copy.deepcopy(observation)
+                  mutate(changed_observation)
+                  try:
+                      validate(changed_observation)
+                  except (ValueError, KeyError, TypeError, IndexError):
+                      records.append({'id': name, 'status': 'REFUSED'})
+                  else:
+                      raise ValueError('negative semantic control was accepted: ' + name)
+              return records
+          status, error, controls = 'SETUP_BLOCKED', None, None
+          try:
+              require(re.fullmatch('[0-9a-f]{40}', context['checked_commit'])
+                      and re.fullmatch('[1-9][0-9]*', context['run_id'])
+                      and re.fullmatch('[1-9][0-9]*', context['run_attempt'])
+                      and re.fullmatch('[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', context['repository']), 'native context format')
+              save('context.json', encoded(context))
+              save('daemon-admission-controls.json', encoded(daemon_admission_controls()))
+              head = command('git-head', ['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
+              tree_lines = command('git-tree', ['git', 'show', '-s', '--format=%T%n%P', 'HEAD']).decode('ascii').splitlines()
+              require(len(tree_lines) == 2 and head == context['checked_commit'], 'native checked Git identity')
+              for source, name, command_name in zip(SOURCES, ('contract.md', 'checked-workflow.yml'),
+                                                     ('git-contract', 'git-workflow')):
+                  raw, _ = regular(pathlib.Path(os.environ['GITHUB_WORKSPACE']) / source)
+                  require(raw == command(command_name, ['git', 'show', context['checked_commit'] + ':' + source]),
+                          'worktree source differs from native commit')
+                  save(name, raw)
+              for name in ('controller.py', 'probe.py'):
+                  save(name, regular(CONTROL / name)[0])
+              source_before = source_records()
+              save('source-before.json', encoded(source_before))
+              require((source_before[SOURCES[0]]['bytes'], source_before[SOURCES[0]]['sha256']) == CONTRACT_PIN,
+                      'external preparation contract freeze mismatch')
+              client_info = os.stat(CLIENT, follow_symlinks=False)
+              require(stat.S_ISDIR(client_info.st_mode) and stat.S_IMODE(client_info.st_mode) == 0o700
+                      and os.listdir(CLIENT) == [], 'fresh empty client config required')
+              version = native_json('docker-version', ['docker', 'version', '--format', '{{json .}}'])
+              containers_before = command('containers-before', ['docker', 'ps', '--all', '--no-trunc', '--format', '{{json .}}'])
+              require(containers_before == b'', 'preexisting container refuses daemon mutation')
+              image_inventory = command('images-before', ['docker', 'image', 'ls', '--all', '--no-trunc', '--digests', '--format', '{{json .}}'])
+              image_rows = [strict(line) for line in image_inventory.splitlines()]
+              cached = any(row['ID'] == 'sha256:' + CONFIG or row['Digest'] == 'sha256:' + MANIFEST for row in image_rows)
+              require(not cached, 'preexisting exact image cannot earn fresh acquisition credit')
+              before_service = service('service-before')
+              baseline = native_json('daemon-file-before', ['sudo', '-n', 'python3', '-I', '-B', '-S', str(__file__), '--daemon-observe'])
+              require(not baseline['private'], 'unsafe/private daemon config refuses mutation')
+              before_info = native_json('docker-info-before', ['docker', 'info', '--format', '{{json .}}'])
+              original_raw = base64.b64decode(baseline['raw_b64'], validate=True)
+              save('daemon-original.bytes', original_raw, 65536)
+              temporary_data = dict(baseline['data'])
+              temporary_data['registry-mirrors'] = [MIRROR]
+              temporary_raw = encoded(temporary_data)
+              desired = {'presence': True, 'private': False, 'data': temporary_data,
+                         'raw_b64': base64.b64encode(temporary_raw).decode('ascii'),
+                         'metadata': {'uid': 0, 'gid': baseline['metadata']['gid'] if baseline['presence'] else 0,
+                                      'mode': baseline['metadata']['mode'] if baseline['presence'] else 0o644,
+                                      'sha256': sha(temporary_raw)}}
+              set_bytes = encoded({'expected': baseline, 'desired': desired})
+              (CONTROL / 'set.json').write_bytes(set_bytes)
+              (CONTROL / 'set.json').chmod(0o400)
+              save('set-request.json', set_bytes)
+              mutation_attempted = True
+              temporary_daemon = native_json('daemon-file-temporary',
+                  ['sudo', '-n', 'python3', '-I', '-B', '-S', str(__file__), '--daemon-set', str(CONTROL / 'set.json')])
+              changed = True
+              command('restart-configured', ['sudo', '-n', 'systemctl', 'restart', 'docker'], timeout=60)
+              configured_info = native_json('docker-info-configured', ['docker', 'info', '--format', '{{json .}}'])
+              configured_service = service('service-configured')
+              require(mirrors(configured_info) in ([MIRROR], [MIRROR + '/']), 'actual configured mirror absent')
+              manifest = metadata('manifest', 'https://mirror.gcr.io/v2/library/python/manifests/sha256:' + MANIFEST,
+                                  'application/vnd.oci.image.manifest.v1+json', 1752, MANIFEST)
+              configuration = metadata('configuration', 'https://mirror.gcr.io/v2/library/python/blobs/sha256:' + CONFIG,
+                                       'application/vnd.oci.image.config.v1+json', 5499, CONFIG)
+              command('pull', ['docker', 'pull', '--platform', 'linux/amd64', IMAGE], timeout=180, limit=4 * MIB)
+              images = native_json('image-inspect', ['docker', 'image', 'inspect', IMAGE])
+              require(type(images) is list and len(images) == 1, 'one native image required')
+              image = images[0]
+              require(image['Id'] == 'sha256:' + CONFIG and image['RepoDigests'] == [DIGEST],
+                      'unmodified native identity required before probes')
+              probes = {}
+              for mode in range(3):
+                  name = 'public-runtime-' + context['run_id'] + '-' + context['run_attempt'] + '-' + str(mode)
+                  argv = ['docker', 'create', '--pull=never', '--name', name, '--platform', 'linux/amd64',
+                          '--network', 'none', '--user', '65532:65532', '--ipc', 'private', '--cgroupns', 'private',
+                          '--read-only', '--cap-drop', 'ALL', '--security-opt', 'no-new-privileges', '--log-driver', 'none',
+                          '--cpus', '2', '--memory', '1g', '--memory-swap', '1g', '--pids-limit', '128',
+                          '--shm-size', '1m', '--ulimit', 'msgqueue=8192:8192',
+                          '--ulimit', 'fsize=67108864:67108864', '--ulimit', 'nofile=256:256',
+                          '--tmpfs', '/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777',
+                          '--mount', 'type=bind,src=' + str(CONTROL / 'probe.py') + ',dst=/control/probe.py,readonly',
+                          '--workdir', '/', '--env', 'LANG=C.UTF-8', '--env', 'TZ=UTC',
+                          '--env', 'PYTHONDONTWRITEBYTECODE=1', '--entrypoint', '/usr/local/bin/python']
+                  for key, value in labels(mode).items():
+                      argv += ['--label', key + '=' + value]
+                  argv += [IMAGE, '-I', '-B', '-S', *(['-' + 'O' * mode] if mode else []), '/control/probe.py', str(mode)]
+                  attempted_containers[mode] = name
+                  identity = command('create-' + str(mode), argv).decode('ascii').strip()
+                  require(re.fullmatch('[0-9a-f]{64}', identity), 'native created container ID format')
+                  owned[mode] = identity
+                  try:
+                      before = inspect_owned(mode, 'before-' + str(mode))
+                      output = command('start-' + str(mode), ['docker', 'start', '--attach', identity], timeout=60)
+                      after = inspect_owned(mode, 'after-' + str(mode))
+                      require(saved['start-' + str(mode) + '.stderr']['bytes'] == 0, 'probe stderr is not empty')
+                      probe = strict(output)
+                      probes[str(mode)] = {'before': before, 'after': after, 'probe': probe,
+                                           'start': command_records['start-' + str(mode)], 'disposed': False}
+                  finally:
+                      previous_deadline, previous_recovery = phase_deadline, physical_recovery
+                      phase_deadline, physical_recovery = max(phase_deadline, time.monotonic() + 120), True
+                      try:
+                          dispose(mode)
+                      finally:
+                          phase_deadline, physical_recovery = previous_deadline, previous_recovery
+                  probes[str(mode)]['disposed'] = disposed.get(mode) is True
+              facts = {'context': context, 'head': head, 'tree': tree_lines[0], 'parents': tree_lines[1].split(),
+                       'source_before': source_before, 'client_empty': True, 'client_mode': 0o700,
+                       'containers_before_empty': containers_before == b'', 'cached_image_present': cached,
+                       'docker_version': version, 'original_mirrors': mirrors(before_info),
+                       'daemon_before': baseline, 'daemon_temporary': temporary_daemon,
+                       'configured_mirrors': mirrors(configured_info), 'manifest': manifest,
+                       'configuration': configuration, 'pull': command_records['pull'], 'image': image, 'probes': probes,
+                       'acquisition_origin': 'USED_UNKNOWN', 'docker_hub_fallback': 'USED_UNKNOWN'}
+          except BaseException as exc:
+              error = {'type': type(exc).__name__, 'message': str(exc)[:2048]}
+          finally:
+              phase_deadline = time.monotonic() + 240
+              physical_recovery = True
+              recovery_error = None
+              try:
+                  require(not any(record['process_unreaped'] is True for record in command_records.values()),
+                          'unreaped native command refuses racing physical recovery')
+                  # A created container is recovered by its unique attempted
+                  # name only after actual image/label/ID ownership verification.
+                  # An unsuccessful creation never licenses removal of another.
+                  for mode, name in attempted_containers.items():
+                      if mode in owned:
+                          continue
+                      raw = command('discover-' + str(mode), ['docker', 'ps', '--all', '--no-trunc',
+                                    '--filter', 'name=^/' + name + '$', '--format', '{{json .}}'])
+                      rows = [strict(line) for line in raw.splitlines()]
+                      require(len(rows) <= 1, 'ambiguous attempted container discovery')
+                      if rows:
+                          records = native_json('adopt-' + str(mode), ['docker', 'inspect', rows[0]['ID']])
+                          require(type(records) is list and len(records) == 1
+                                  and re.fullmatch('[0-9a-f]{64}', records[0]['Id'])
+                                  and records[0]['Image'] == 'sha256:' + CONFIG
+                                  and records[0]['Config']['Labels'] == labels(mode),
+                                  'failed creation did not establish owned container')
+                          owned[mode] = records[0]['Id']
+                  for mode in owned:
+                      dispose(mode)
+                  absent = command('containers-recovery', ['docker', 'ps', '--all', '--no-trunc', '--format', '{{json .}}'])
+                  require(absent == b'' and all(disposed.get(mode) is True for mode in owned),
+                          'disposal is incomplete; refusing daemon restoration')
+                  if mutation_attempted and not changed:
+                      observed_daemon = native_json('daemon-file-failure-observation',
+                          ['sudo', '-n', 'python3', '-I', '-B', '-S', str(__file__), '--daemon-observe'])
+                      if observed_daemon != baseline:
+                          require(not observed_daemon['private']
+                                  and observed_daemon['raw_b64'] == desired['raw_b64']
+                                  and observed_daemon['data'] == desired['data']
+                                  and all(observed_daemon['metadata'][key] == desired['metadata'][key]
+                                          for key in ('uid', 'gid', 'mode', 'sha256')),
+                                  'interrupted daemon mutation did not establish owned temporary file')
+                          temporary_daemon, changed = observed_daemon, True
+                  if changed:
+                      restore_bytes = encoded({'expected': temporary_daemon, 'desired': baseline})
+                      (CONTROL / 'restore.json').write_bytes(restore_bytes)
+                      (CONTROL / 'restore.json').chmod(0o400)
+                      try:
+                          save('restore-request.json', restore_bytes)
+                      except (OSError, ValueError):
+                          refused.append('restore-request.json')
+                      restored = native_json('daemon-file-after',
+                          ['sudo', '-n', 'python3', '-I', '-B', '-S', str(__file__), '--daemon-restore', str(CONTROL / 'restore.json')])
+                      command('restart-restored', ['sudo', '-n', 'systemctl', 'restart', 'docker'], timeout=60)
+                      restored_info = native_json('docker-info-restored', ['docker', 'info', '--format', '{{json .}}'])
+                      restored_service = service('service-restored')
+                      restored_containers = command('containers-restored', ['docker', 'ps', '--all', '--no-trunc', '--format', '{{json .}}'])
+                      require(restored_containers == b'', 'container appeared during restoration')
+                      try:
+                          save('daemon-restored.bytes', base64.b64decode(restored['raw_b64'], validate=True), 65536)
+                      except (OSError, ValueError):
+                          refused.append('daemon-restored.bytes')
+                      facts.update(daemon_after=restored, restored_mirrors=mirrors(restored_info),
+                                   containers_recovery_empty=True, containers_restored_empty=True, recovery_complete=True)
+                  else:
+                      save('recovery-not-needed.json', encoded({'daemon_mutation_attempted': mutation_attempted,
+                                                               'daemon_change_observed': False,
+                                                               'owned_containers': len(owned)}))
+              except BaseException as exc:
+                  recovery_error = {'type': type(exc).__name__, 'message': str(exc)[:2048]}
+              try:
+                  after_sources = source_records()
+                  save('source-after.json', encoded(after_sources))
+                  facts['source_after'] = after_sources
+              except BaseException as exc:
+                  recovery_error = recovery_error or {'type': type(exc).__name__, 'message': 'source-after capture failed'}
+          try:
+              require(error is None and recovery_error is None, 'preparation/recovery did not complete')
+              required_commands = {
+                  'git-head', 'git-tree', 'git-contract', 'git-workflow', 'docker-version', 'docker-info-before',
+                  'containers-before', 'images-before', 'service-before', 'daemon-file-before', 'daemon-file-temporary',
+                  'restart-configured', 'docker-info-configured', 'service-configured', 'http-manifest', 'http-configuration',
+                  'pull', 'image-inspect', 'containers-recovery', 'daemon-file-after', 'restart-restored',
+                  'docker-info-restored', 'service-restored', 'containers-restored'}
+              required_commands |= {prefix + '-' + str(mode) for mode in range(3)
+                                    for prefix in ('create', 'before', 'start', 'after', 'dispose-before', 'rm', 'absent')}
+              expected = {'context.json', 'daemon-admission-controls.json', 'contract.md', 'checked-workflow.yml', 'controller.py', 'probe.py',
+                          'source-before.json', 'source-after.json', 'daemon-original.bytes', 'daemon-restored.bytes',
+                          'manifest.headers', 'manifest.json', 'configuration.headers', 'configuration.json',
+                          'set-request.json', 'restore-request.json'}
+              expected |= {name + suffix for name in required_commands for suffix in ('.stdout', '.stderr', '.status.json')}
+              facts.update(expected_originals=sorted(expected), actual_originals=sorted(saved), refused=refused,
+                           commands=command_records)
+              require(set(command_records) == required_commands, 'closed command inventory differs')
+              validate(facts)
+              controls = refusal_controls(facts)
+              save('preparation-observations.json', encoded(facts))
+              save('semantic-controls.json', encoded({
+                  'origin': 'TEST_SEMANTIC_MUTATIONS_OF_COPIED_ACTUAL_OBSERVATIONS',
+                  'source_and_test_exposed': True, 'organizational_independence': 0, 'controls': controls}))
+              status = 'ACCEPTED_PREPARATION'
+          except BaseException as exc:
+              error = error or {'type': type(exc).__name__, 'message': str(exc)[:2048]}
+          result = {'schema_version': 1, 'status': status, 'context': context,
+                    'preparation_error': error, 'recovery_error': recovery_error, 'controls': controls or 'NOT_RUN',
+                    'available_originals': saved, 'refused_originals': sorted(refused),
+                    'owned_container_ids': {str(mode): identity for mode, identity in owned.items()},
+                    'disposal_confirmed': {str(mode): disposed.get(mode) is True for mode in owned},
+                    'daemon_mutation_completed': changed, 'acquisition_origin': 'USED_UNKNOWN',
+                    'docker_hub_fallback': 'USED_UNKNOWN', 'source_and_test_exposed': True,
+                    'organizational_independence': 0, 'scientific_effect': 'NONE',
+                    'scientific_status_authority': False, 'custody_authentication': 'UNKNOWN',
+                    'hosted_archive_native_raw_byte_readback': 'REQUIRED_AFTER_JOB',
+                    'producer_migration': 'OUTSIDE_THIS_PREPARATION_SCOPE'}
+          save('preparation-result.json', encoded(result))
+          print(json.dumps({'status': status, 'available_originals': len(saved),
+                            'recovery_complete': recovery_error is None and changed}, sort_keys=True))
+          raise SystemExit(0 if status == 'ACCEPTED_PREPARATION' else 1)
+          PY
+          chmod 0444 "$base/control/controller.py" "$base/control/probe.py"
+      - name: Parse the standalone source and run the preparation once
+        run: |
+          set -euo pipefail
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/architecture-runtime-acquisition.yml
+          base="$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -I -B -S "$base/control/controller.py"
+      - name: Seal available originals on every conclusion
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -I -B -S - "$base" <<'PY'
+          import hashlib, json, os, pathlib, stat, subprocess, sys
+          MIB = 2**20
+          base = pathlib.Path(sys.argv[1])
+          root, destination = base / 'originals', base / 'publish'
+          destination.mkdir(mode=0o700, parents=True, exist_ok=False)
+          native = {key: os.environ[name] for key, name in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          core_commands = {
+              'git-head', 'git-tree', 'git-contract', 'git-workflow', 'docker-version', 'docker-info-before',
+              'containers-before', 'images-before', 'service-before', 'daemon-file-before', 'daemon-file-temporary',
+              'restart-configured', 'docker-info-configured', 'service-configured', 'http-manifest', 'http-configuration',
+              'pull', 'image-inspect', 'containers-recovery', 'daemon-file-after', 'restart-restored',
+              'docker-info-restored', 'service-restored', 'containers-restored'}
+          core_commands |= {prefix + '-' + str(mode) for mode in range(3)
+                            for prefix in ('create', 'before', 'start', 'after', 'dispose-before', 'rm', 'absent')}
+          optional_commands = {'daemon-file-failure-observation'} | {
+              prefix + '-' + str(mode) for mode in range(3) for prefix in ('stop', 'discover', 'adopt')}
+          fixed = {'context.json', 'daemon-admission-controls.json', 'contract.md', 'checked-workflow.yml', 'controller.py', 'probe.py',
+                   'source-before.json', 'source-after.json', 'daemon-original.bytes', 'daemon-restored.bytes',
+                   'manifest.headers', 'manifest.json', 'configuration.headers', 'configuration.json',
+                   'set-request.json', 'restore-request.json'}
+          required = fixed | {name + suffix for name in core_commands
+                              for suffix in ('.stdout', '.stderr', '.status.json')}
+          allowed = required | {name + suffix for name in optional_commands
+                               for suffix in ('.stdout', '.stderr', '.status.json')} | {
+              'recovery-not-needed.json', 'preparation-observations.json', 'semantic-controls.json', 'preparation-result.json'}
+          members, missing, refused, bytes_by_name, total = [], [], [], {}, 0
+          def read(path, limit):
+              current = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              leaf = None
+              try:
+                  for part in path.parts[1:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  leaf = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(leaf)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > limit:
+                      raise ValueError('original artifact type/size')
+                  raw = b''
+                  while True:
+                      part = os.read(leaf, min(65536, limit + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                      if len(raw) > limit:
+                          raise ValueError('original artifact growth')
+                  after = os.fstat(leaf)
+                  if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
+                      after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns
+                  ) or after.st_nlink != 1 or len(raw) != before.st_size:
+                      raise ValueError('original artifact changed')
+                  return raw
+              finally:
+                  if leaf is not None:
+                      os.close(leaf)
+                  os.close(current)
+          def retain(name, raw):
+              global total
+              if len(members) >= 250 or total + len(raw) > 31 * MIB:
+                  raise ValueError('seal original reserve')
+              with (destination / name).open('xb') as stream:
+                  stream.write(raw)
+              total += len(raw)
+              members.append({'path': name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+              bytes_by_name[name] = raw
+          if root.exists():
+              for path in root.iterdir():
+                  if path.name not in allowed:
+                      refused.append({'path': path.name[:128], 'reason': 'UNDECLARED_ORIGINAL_NAME'})
+          for name in sorted(allowed):
+              try:
+                  limit = 4 * MIB if name in ('pull.stdout', 'pull.stderr') else MIB
+                  if name in ('daemon-original.bytes', 'daemon-restored.bytes', 'manifest.headers',
+                              'manifest.json', 'configuration.headers', 'configuration.json'):
+                      limit = 65536
+                  retain(name, read(root / name, limit))
+              except FileNotFoundError:
+                  if name in required or name in ('preparation-observations.json', 'semantic-controls.json', 'preparation-result.json'):
+                      missing.append(name)
+              except (OSError, ValueError) as exc:
+                  refused.append({'path': name, 'reason': type(exc).__name__})
+          # Exact source/context fallbacks retain useful originals even when the
+          # hosted parser or controller never started. They cannot grant ACCEPT.
+          collector_sources = {}
+          for source, name in (
+              (pathlib.Path(os.environ['GITHUB_WORKSPACE']) / 'docs/plans/2026-10-09-public-runtime-acquisition.md', 'contract.md'),
+              (pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.github/workflows/architecture-runtime-acquisition.yml', 'checked-workflow.yml'),
+              (base / 'control/controller.py', 'controller.py'), (base / 'control/probe.py', 'probe.py')):
+              try:
+                  raw = read(source, MIB)
+                  collector_sources[name] = {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+                  if name in bytes_by_name and bytes_by_name[name] != raw:
+                      raise ValueError('source original changed before seal')
+                  if name not in bytes_by_name:
+                      retain(name, raw)
+              except (OSError, ValueError) as exc:
+                  refused.append({'path': name, 'reason': type(exc).__name__})
+          if 'context.json' not in bytes_by_name:
+              retain('context.json', (json.dumps(native, sort_keys=True, indent=2) + '\n').encode())
+          result = json.loads(bytes_by_name.get('preparation-result.json', b'{"status":"SETUP_BLOCKED"}'))
+          bound = result.get('available_originals', {})
+          original_members = {item['path']: {'bytes': item['bytes'], 'sha256': item['sha256']} for item in members}
+          status = result['status']
+          if (status != 'ACCEPTED_PREPARATION' or result.get('context') != native or missing or refused
+                  or set(original_members) != set(bound) | {'preparation-result.json'}
+                  or any(original_members.get(name) != record for name, record in bound.items())):
+              status = 'SETUP_BLOCKED'
+          collection = {
+              'schema_version': 1, 'native_context': native, 'status': status,
+              'required_originals': sorted(required | {'preparation-observations.json', 'semantic-controls.json', 'preparation-result.json'}),
+              'missing': sorted(missing), 'refused': refused, 'copied': members,
+              'source_observations_at_seal': collector_sources, 'admitted_original_bytes': total,
+              'closed_original_inventory': True, 'source_fallbacks_cannot_grant_preparation_acceptance': True}
+          collection_raw = (json.dumps(collection, sort_keys=True, indent=2) + '\n').encode()
+          if len(collection_raw) > MIB or total + len(collection_raw) > 32 * MIB:
+              raise ValueError('collection metadata/original total capacity')
+          with (destination / 'collection.json').open('xb') as stream:
+              stream.write(collection_raw)
+          members.append({'path': 'collection.json', 'bytes': len(collection_raw), 'sha256': hashlib.sha256(collection_raw).hexdigest()})
+          total += len(collection_raw)
+          receipt = {'schema_version': 1, 'status': status, 'native_context': native, 'originals': members,
+                     'original_bytes': total, 'original_count': len(members),
+                     'receipt_is_preparation_only': True, 'acquisition_origin': 'USED_UNKNOWN',
+                     'docker_hub_fallback': 'USED_UNKNOWN', 'scientific_effect': 'NONE',
+                     'scientific_status_authority': False, 'organizational_independence': 0,
+                     'custody_authentication': 'UNKNOWN',
+                     'native_job_archive_hash_and_original_copy_readback': 'REQUIRED_AFTER_JOB'}
+          raw = (json.dumps(receipt, sort_keys=True, indent=2) + '\n').encode()
+          if len(raw) > MIB:
+              raise ValueError('preparation receipt size')
+          with (destination / 'receipt.json').open('xb') as stream:
+              stream.write(raw)
+          rows = [item['sha256'] + '  ' + item['path'] + '\n' for item in sorted(members, key=lambda item: item['path'])]
+          rows.append(hashlib.sha256(raw).hexdigest() + '  receipt.json\n')
+          manifest = ''.join(rows).encode()
+          if len(manifest) > MIB or total + len(raw) + len(manifest) > 36 * MIB:
+              raise ValueError('whole upload capacity')
+          with (destination / 'ARTIFACT_SHA256SUMS').open('xb') as stream:
+              stream.write(manifest)
+          if status != 'ACCEPTED_PREPARATION':
+              raise SystemExit(1)
+          PY
+      - name: Retain bounded originals even after failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: public-runtime-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/public-runtime-${{ github.run_id }}-${{ github.run_attempt }}/publish/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Remove only owned preparation client and control files
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -I -B -S - "$base" <<'PY'
+          import os, pathlib, stat, sys
+          root = pathlib.Path(sys.argv[1])
+          count = 0
+          def remove(directory, depth=0):
+              global count
+              info = directory.lstat()
+              if depth > 8 or not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid():
+                  raise ValueError('owned cleanup directory admission')
+              for path in directory.iterdir():
+                  count += 1
+                  if count > 256:
+                      raise ValueError('owned cleanup inventory bound')
+                  info = path.lstat()
+                  if info.st_uid != os.getuid():
+                      raise ValueError('owned cleanup identity')
+                  if stat.S_ISDIR(info.st_mode):
+                      remove(path, depth + 1)
+                  elif stat.S_ISREG(info.st_mode) and info.st_nlink == 1:
+                      path.unlink()
+                  else:
+                      raise ValueError('owned cleanup file admission')
+              directory.rmdir()
+          for name in ('client', 'control'):
+              directory = root / name
+              if not directory.exists():
+                  continue
+              remove(directory)
+          PY
