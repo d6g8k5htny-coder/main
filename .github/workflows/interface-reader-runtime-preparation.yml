@@ -910,7 +910,7 @@ jobs:
                   require(not target.exists(),"DOWNLOAD_EXISTS")
                   headers=self.publish/("native/transports/"+name.replace("/","-")+".headers")
                   headers.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
-                  args=["curl","--disable","--no-netrc","--noproxy","*","--proxy=","--globoff",
+                  args=["curl","--disable","--no-netrc","--noproxy","*","--globoff",
                         "--proto","=https","--tlsv1.2","--request","GET","--retry","0","--connect-timeout","10",
                         "--max-time",str(seconds),"--max-filesize",str(cap),"--silent","--show-error",
                         "--header","Authorization:","--dump-header",str(headers),"--output",str(target),
@@ -1026,7 +1026,7 @@ jobs:
                   endpoint="https://mcr.microsoft.com/v2/playwright/python/blobs/"+BROWSER_ID
                   target=self.publish/"native/mcr-config-first-body.txt"
                   headers=self.publish/"native/mcr-config-first-headers.txt"
-                  args=["curl","--disable","--no-netrc","--noproxy","*","--proxy=","--globoff",
+                  args=["curl","--disable","--no-netrc","--noproxy","*","--globoff",
                         "--proto","=https","--tlsv1.2","--retry","0","--connect-timeout","10","--max-time","90",
                         "--max-filesize","65536","--silent","--show-error","--header","Authorization:",
                         "--dump-header",str(headers),"--output",str(target),"--write-out","%{http_code}\n%{url_effective}\n",endpoint]
