@@ -34,7 +34,6 @@ jobs:
       run:
         shell: bash
     env:
-      READER_TRUSTED_CONTROL: ${{ runner.temp }}/reader-preparation-trusted-control
       READER_PR_HEAD: ${{ github.event.pull_request.head.sha || '' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -44,6 +43,8 @@ jobs:
           persist-credentials: false
       - name: Write fixed reviewed public preparation controllers and fixtures
         id: controllers
+        env:
+          READER_TRUSTED_CONTROL: ${{ runner.temp }}/reader-preparation-trusted-control
         run: |
           set -euo pipefail
           umask 077
@@ -2258,6 +2259,8 @@ jobs:
         id: prepare
         if: steps.controllers.outcome == 'success'
         continue-on-error: true
+        env:
+          READER_TRUSTED_CONTROL: ${{ runner.temp }}/reader-preparation-trusted-control
         run: |
           set -euo pipefail
           python3 -I -B -S "$READER_TRUSTED_CONTROL/bootstrap.py"
@@ -2276,6 +2279,8 @@ jobs:
         id: release
         if: always() && steps.controllers.outcome == 'success'
         continue-on-error: true
+        env:
+          READER_TRUSTED_CONTROL: ${{ runner.temp }}/reader-preparation-trusted-control
         run: |
           set -euo pipefail
           state="$RUNNER_TEMP/reader-preparation/release-state.json"
@@ -2289,6 +2294,7 @@ jobs:
       - name: Require actual observation, upload and strict release completion
         if: always()
         env:
+          READER_TRUSTED_CONTROL: ${{ runner.temp }}/reader-preparation-trusted-control
           PREPARE_OUTCOME: ${{ steps.prepare.outcome }}
           UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
           RELEASE_OUTCOME: ${{ steps.release.outcome }}
