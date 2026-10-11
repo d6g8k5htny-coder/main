@@ -5,7 +5,7 @@ programme can be stated, and where possible checked, in Lean 4, with exact versi
 commands, gates and receipts. It is a specification and an inventory of formal *statements*. It is
 not a status register: no entry here is an acceptance, and no label here moves a Layer 0 verdict
 (`STATUS.md`, `PROOF_INDEX.md`, `claims/LANDING_CLAIMS.json`, the D0–D7 graph). Author: Anthropic /
-Claude (Claude Code cloud session `session_01Cz7WZybv8znP64SpPj6sWY`, 2026-10-10), same GitHub
+Claude (Claude Code cloud session `session_01Cz7WZybv8znP64SpPj6sWY`, 2026-10-10, updated 2026-10-11), same GitHub
 account as every other lane: organizational-independence credit **0**.
 
 Read first: [docs/FORMAL_VERIFICATION.md](FORMAL_VERIFICATION.md) (the lane contract),
@@ -48,6 +48,11 @@ Three things follow, and the claim table below is read with them in mind:
 3. **Nothing here is reviewed.** Every Lean object in this programme is author-side until a
    reviewer with a different provider, family and agent records an alignment through the
    existing validators (`tools/formal_gate_check.py --alignment`, Math- `formal/gate.py --alignment`).
+4. **A proved Prop is not an accepted claim.** The proof packet (§3.7) proves 51 of the 141 registered
+   Props exactly as stated, with a kernel receipt for 38 of its 52 theorems so far; each such theorem is L5
+   evidence for that Prop, for the formal objects it is stated about, and the claim beneath it stays
+   `specified` or `none` (the register admits no other claim-level label) until an independent alignment
+   review and the controlling acceptance machinery say otherwise.
 
 ## 2. Environment specification (exact versions)
 
@@ -123,7 +128,10 @@ Lake `*.setup.json` files (7.4 GB) and the generated C sources (0.4 GB) were del
 completion (1.8 GB of oleans, 0.3 GB of ileans), so a from-source build needs at least 16 GB free and the cache
 route about 6 GB. Elaborating the five statement-only modules against the built Mathlib
 (`lake env lean -DwarningAsError=true`) took 41 s for `Field` (cold), 10 s `Lifetime`, 9 s `Side24`, 10 s `RN`,
-9 s `P15`, each exiting 0 with zero warnings; the injected-type-error control exits 1.
+9 s `P15`, each exiting 0 with zero warnings; the injected-type-error control exits 1. The proof packet
+(§3.7) rebuilt its five P15 modules in 76 s after the change at `910809d6` (`lake build`, 8,936 jobs, the rest
+up to date); its `leanchecker` replay of the Mathlib-importing environment needs about 14 GB and was
+memcg-killed in this 15 GB sandbox, so that receipt comes from the hosted run only.
 The dependency-free main package needs no cache and runs its full gate in about 12 s.
 
 ### 2.4 Allowed hosts to request for a restricted sandbox
@@ -142,12 +150,13 @@ and writes a receipt. A receipt is evidence for exactly the targets it names at 
 
 | # | Package | Repository / path | Backend | Targets | Gate (source / execute) | Receipt |
 |---|---|---|---|---|---|---|
-| 3.1 | SIDE24 arithmetic skeleton + P15 exact arithmetic | main `formal/` | core Lean, no deps | 59 theorems (31 SIDE24 at origin/main `f6deeba7` + 28 P15 staged in this programme's uncommitted worktree, on no commit), by `decide` except one positivity conjunct by core `Nat.pow_pos` | `python3 tools/formal_gate_check.py` / `--run-lean` | `formal/.lake/formal-evidence/receipt.json`; bound to the required check `verify` by `tools/required_formal_check.py` |
+| 3.1 | SIDE24 arithmetic skeleton + P15 exact arithmetic | main `formal/` | core Lean, no deps | 59 theorems (31 SIDE24 at origin/main `f6deeba7` + 28 P15 at commit `91cffbb5` of main PR #358, not yet on main), by `decide` except one positivity conjunct by core `Nat.pow_pos` | `python3 tools/formal_gate_check.py` / `--run-lean` | `formal/.lake/formal-evidence/receipt.json`; bound to the required check `verify` by `tools/required_formal_check.py` |
 | 3.2 | GP-FOR-192 scalar companions + measure bridge + weighted law + moment tail + generality + perturbation + D2 Schur | Math- `formal/` | Lean + Mathlib | 63 theorems | `python3 formal/gate.py` / `--execute` | `formal/.lake/formal-evidence/receipt.json`; bound to `math-downstream-gates` |
 | 3.3 | D2 companions (moment bridge 16, atom integral 6, square Schur 4) | Math- `companions/d2_*_20261006/` | Lean + Mathlib, compiled against the hash-pinned core | 26 theorems | `bash companions/<packet>/replay.sh` | `.lake/d2-moment-evidence/`, `.lake/d2-atom-integral-evidence/`, `.lake/d2-square-schur-evidence/` (`receipt.json` in each) |
 | 3.4 | Cap first exit (D1 component III, topological global step) | Math- `frontiers/cap_first_exit_lean_20261002/` | Lean + Mathlib | 152 declarations (own gate) | `python3 gate.py` / `--execute` | `.lake/evidence/` |
 | 3.5 | W3 SIDE24 source proposal | Math- `reviews/w3_side24_source_proposal_20261008/W3Scratch/` | Lean + Mathlib | 101 declarations, **unregistered**, built by no workflow | none | none |
 | 3.6 | **Lean statement register** (this programme) | Math- `specifications/lean_statements_20261010/` | Lean + Mathlib, statement-only | 150 registered declarations (141 `def … : Prop`, 9 interface `structure`s; the modules' other 123 declarations are non-Prop definitions), 0 theorems | `python3 check.py` / `--execute` | `.lake/evidence/receipt.json` with `formalization_status: "specified"` — never `proved` |
+| 3.7 | **Lean statement proofs** (this programme) | Math- `specifications/lean_statement_proofs_20261011/` (PR #422, stacked on #419) | Lean + Mathlib, path dependency on 3.6 | 52 theorems whose types are exactly 51 registered Props of 3.6 (`P15Elementary` 17, `P15Structure` 13, `P15Hazard` 3, `P15Covers` 4, `P15Budget` 5, `Side24Elementary` 5, `RNProbability` 5); axioms exactly `propext`, `Classical.choice`, `Quot.sound` | `python3 check.py` / `--execute` | `.lake/evidence/receipt.json` with `formalization_status: "kernel-checked"` (source mode says `proved`); hosted run 38116277597 on `00d2ac6e` receipted the first 38 theorems, the 14 added at `910809d6` await the next run |
 
 The main-side gate in detail (`tools/formal_gate_check.py`): manifest shape and self-award refusal;
 SHA-256 of every bound file; toolchain and lock; the root module imports exactly the registered
@@ -167,6 +176,16 @@ versa), requires every anchor to be verbatim in the pinned bytes under `sources/
 register row or receipt that says `proved` or `kernel-checked`: a statement package cannot
 self-award a proof label.
 
+The proof-packet gate (3.7) requires every inventoried theorem's type to be exactly a registered Prop of 3.6
+applied to the theorem's own binders (a theorem with an extra hypothesis, an implication `P → P`, a narrowed
+argument or an unregistered type is refused, first by a source scan and then by a Lean-side audit of the
+elaborated `ConstantInfo`), refuses `sorry`, `axiom`, `native_decide`, `unsafe`, `opaque`, metaprogramming
+and `#` commands lexically, audits the transitive axioms of every constant the modules add, replays the
+build with `leanchecker`, runs negative controls (a `sorry` caught by the axiom audit, a custom axiom, an
+unregistered type, a smuggled hypothesis, a false arithmetic statement rejected by Lean) and writes the only
+record that may say `kernel-checked`. Helpers live in `Aux` namespaces and are audited but not inventoried;
+a module may import a sibling proof module of the packet.
+
 ## 4. The statement register
 
 `specifications/lean_statements_20261010/REGISTER.json` (Math-) lists every registered mathematical
@@ -175,21 +194,21 @@ SHA-256), the transcribed LANDING_CLAIMS disposition where one exists (never re-
 statement(s) that specify it, their formal-progress label, what is not established, and the next
 step toward a proof. The rendered table:
 
-Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path` of the byte-pinned source under `sources/` in the packet (SHA-256 and byte count are in `REGISTER.json` `sources[]`), followed by the heading the row anchors to; *not pinned* means the row has no pinned bytes in this packet and therefore no Lean statement. **Transcribed disposition**: verbatim from `LANDING_CLAIMS.json`, `—` where the source carries none; it is never re-derived. **Lean statement(s)**: `Module.Declaration` in namespace `UniversalLaw.Spec` of the packet, all at `specified`; `main:` prefixes a theorem of the `main` core-Lean package `formal/` listed beneath the claim with its own `proved` manifest label (an arithmetic skeleton, never the claim). **Formal progress**: the claim-level label; no claim is `proved` or `kernel-checked`. **Not established** and **Next step** are abridged here to their first sentence; the full fields in `REGISTER.json` and the packet's `SCOPE.md` are the authoritative text and are longer, not shorter, in what they exclude. Alignment of every statement with its anchor is `PENDING_INDEPENDENT_REVIEW`.
+Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path` of the byte-pinned source under `sources/` in the packet (SHA-256 and byte count are in `REGISTER.json` `sources[]`), followed by the heading the row anchors to; *not pinned* means the row has no pinned bytes in this packet and therefore no Lean statement. **Transcribed disposition**: verbatim from `LANDING_CLAIMS.json`, `—` where the source carries none; it is never re-derived. **Lean statement(s)**: `Module.Declaration` in namespace `UniversalLaw.Spec` of the packet, all at `specified`; `main:` prefixes a theorem of the `main` core-Lean package `formal/` listed beneath the claim with its own `proved` manifest label (an arithmetic skeleton, never the claim); `proof:` prefixes a theorem of the Math- proof packet `specifications/lean_statement_proofs_20261011` (PR #422) whose type is exactly one of the registered Props of the row, label `proved` (kernel-checked by the hosted run 38116277597 on commit `00d2ac6e`, or marked † when added at `910809d6` and awaiting the next hosted run); a proof-packet theorem is evidence about its Prop for the formal objects, never about the claim. **Formal progress**: the claim-level label; no claim is `proved` or `kernel-checked`. **Not established** and **Next step** are abridged here to their first sentence; the full fields in `REGISTER.json` and the packet's `SCOPE.md` are the authoritative text and are longer, not shorter, in what they exclude. Alignment of every statement with its anchor is `PENDING_INDEPENDENT_REVIEW`.
 
 #### 4.1 Landing claims (10: 8 `specified`, 2 `none`) — disposition transcribed verbatim from `claims/LANDING_CLAIMS.json`
 
 | Claim | Layer 0 source (commit:path) | Transcribed disposition | Lean statement(s) (module.declaration) | Formal progress | Not established | Next step |
 |---|---|---|---|---|---|---|
-| `side24-coefficient` | `760340e9:coefficients/side24_v1/PROOF.md` — Theorem | `REVIEWED_SCOPED` | 28 packet statements + 27 main theorems (`proved`): `Side24.ThetaSummable`, `Side24.IsUnitTuple`, `Side24.DerivativePairingBound`, … (+49 more) …, main:`Side24.cube_root_simplification` (proved), main:`Side24.pin_determinant_and_joint_dimension` (proved), main:`Side24.hessian_block_eigenvalues` (proved) | `specified` | Nothing here encloses the coefficient. | Formal lane (Math- Mathlib package, by the lane's admission rules): construct the conditional law A_u \| V_u = 0 and prove ConeMomentD1Identity / ConeMomentD2Identity for the reference law under … |
+| `side24-coefficient` | `760340e9:coefficients/side24_v1/PROOF.md` — Theorem | `REVIEWED_SCOPED` | 28 packet statements + 27 main theorems (`proved`) + 5 proof-packet theorems (`proved`): `Side24.ThetaSummable`, `Side24.IsUnitTuple`, `Side24.DerivativePairingBound`, … (+54 more) …, proof:`Side24Elementary.coneMomentD2Algebra` (proved), proof:`Side24Elementary.referenceCoefficientIdentity` (proved), proof:`Side24Elementary.elementaryConeIntegral` (proved) | `specified` | Nothing here encloses the coefficient. | Formal lane (Math- Mathlib package, by the lane's admission rules): construct the conditional law A_u \| V_u = 0 and prove ConeMomentD1Identity / ConeMomentD2Identity for the reference law under … |
 | `lifetime-remainder` | `760340e9:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md` — Theorem R | `REVIEWED_SCOPED` | `Lifetime.RemainderBoundedR1`, `Lifetime.IsUnrestrictedPair`, `Lifetime.IsUnrestrictedLeadingCoefficient`, `Lifetime.IsLifetimeDensityVersion` | `specified` | RemainderBoundedR1 states the shape of (R1) for versions of the densities under the interface structures; the result is not proved. | State (R19) (cumulative form) as a further Prop; transcribe the parent interfaces consumed (section 8 comparison, section 9 as replaced by v1.1, section 10, (14.1), (15.2)) as explicit hypotheses … |
-| `rn-count-interface` | `760340e9:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md` — Theorem N | `HOLD_WITH_DOMAIN` | `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.ConditionalMeanIdentityN3`, `RN.UniformCounterexampleN4`, `RN.ExponentialTailLayerCakeN5` | `none` | No Prop states Theorem N as a whole: (N1)-(N5) (Hoelder bound, its power-law consequence, the conditional-mean identity, the uniform counterexample, the exponential-tail layer cake) are stated as abstract probability-space Props … | State (N7) as an implication with the Kac-Rice numerator as an interface field (the integral of (N6) as a given quantity) and Z_r >= z_* r^2 as a hypothesis; then the claim would be `specified` … |
+| `rn-count-interface` | `760340e9:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md` — Theorem N | `HOLD_WITH_DOMAIN` | 5 packet statements + 5 proof-packet theorems (`proved`): `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.ConditionalMeanIdentityN3`, … (+4 more) …, proof:`RNProbability.holderConsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` | No Prop states Theorem N as a whole, so the claim-level label stays none: (N1)-(N5) (Hoelder bound, its power-law consequence, the conditional-mean identity, the uniform counterexample, the exponential-tail layer cake) are stated … | State (N7) as an implication with the Kac-Rice numerator as an interface field (the integral of (N6) as a given quantity) and Z_r >= z_* r^2 as a hypothesis; then the claim would be `specified`. The … |
 | `rn-fixed-remote-window` | `760340e9:frontiers/remote_window_20260924/PROOF.md` — Theorem A | `HOLD_WITH_DOMAIN` | `RN.PinnedLawInterface`, `RN.IsCriticalPoint`, `RN.HessianHasInertia`, `RN.FixedRemoteMeanMeasureA2`, `RN.FixedRemoteCountBoundA3` | `specified` | FixedRemoteMeanMeasureA2 and FixedRemoteCountBoundA3 state the shapes of displays (2) and (3) for any object satisfying PinnedLawInterface (the regression law Q_r, the weight W_r, the normalizer and the contact kernel Lambda_j … | State Section 6 ((15)-(16), separated m-tuples) as Props; record an inhabitant construction of PinnedLawInterface as a proof-lane target (Dirac mass at one admissible smooth path); independent … |
 | `rn-fixed-annulus-window` | `760340e9:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md` — Candidate theorem | `REVIEWED_SCOPED` | `RN.FixedAnnulusWindowCandidateA2` | `specified` | FixedAnnulusWindowCandidateA2 states the shape of (A2) (d = 2, fixed L, fixed scaled annulus, compact positive gaps, between-pin height window) over PinnedLawInterface; the result is not proved. | Pin TWO_SCALE_ADDENDUM.md and state (S3)-(S5) and (S20)-(S21); independent reviewer: alignment of FixedAnnulusWindowCandidateA2 with (A2), checking that the height window is strict and the constants … |
-| `p15-realized-covers` | `760340e9:frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md` — Theorem P | `HOLD_WITH_DOMAIN` | 27 packet statements: `P15.RealizedData`, `P15.IsRealizedFamily`, `P15.IsGood`, … (+21 more) …, `P15.Benchmark816MinimalForbiddenCounts`, `P15.Benchmark816Price`, `P15.Benchmark816UnionBound` | `specified` | MinimalForbiddenCharacterisation (Proposition P1), FullBlockCoverIff (Theorem P2, (P7)) and CoverCostHazardBound ((P8)) state the results for every realized family; none is proved here. | Proof lane: TriangleNeedsThree, Benchmark816IsRealized, LocalRestriction and LocalDecomposability are finite or elementary and are the first kernel targets; PaletteNumberAttained via the … |
-| `p15-price-boundary` | `760340e9:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md` — Counterexample | `EXACT_COUNTEREXAMPLE` | `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation`, `P15.LogOnePlusBelowIdentity` | `specified` | DemandOneRefutation states the refutation (the two-coordinate data form a realized family with K_H(d) = 1, obstruction {X}, admissible prices 2/3, mu_p(D) = 3/4, cover cost 4/9 > 1/3 > log(4/3)); it is not proved. | Math- Mathlib lane: prove the two logarithm inequalities (Real.log bounds) and the finite conjuncts of DemandOneRefutation; this is the smallest complete research statement in the packet that could … |
-| `p15-price-budget-restricted` | `760340e9:frontiers/price_budget_20260924/PROOF.md` — Theorem T1 | `HOLD_WITH_DOMAIN` | 8 packet statements: `P15.LogRatioBound`, `P15.RatioExponentBound`, `P15.RestrictedLocalBudget`, … (+2 more) …, `P15.CapTestAtTwoThirds`, `P15.Benchmark816TransformedRange`, `P15.Benchmark816RationalPrice` | `specified` | RestrictedTransformedPriceBudget states (T1) for every realized family with a_i >= 1, d_i >= 2, p_v <= 1/4, c_v <= phi(p_v); not proved. (T2), the exponent arithmetic of (T3), (T4), the per-block sufficient test (T5), the cap … | Math- Mathlib lane: LogRatioBound (-log(1-p) <= p/(1-p)) and RatioExponentBound are provable from Mathlib Real.log facts and are the first targets; independent reviewer: alignment of … |
-| `p15-full-price` | `760340e9:frontiers/full_price_20260924/PROOF.md` — Theorem F | `REVIEWED_SCOPED` | 20 packet statements: `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.RhoStarBelowSixSevenths`, … (+14 more) …, `P15.SharpnessOfRhoStar`, `P15.DemandOneBoundary`, `P15.SixSeventhsCertificate` | `specified` | FullTransformedPriceBudget states (F2), RhoStarEnclosure states (F3), SharpnessOfRhoStar states the attainment clause; none is proved. | Math- Mathlib lane: RhoStarBelowSixSevenths / SixSeventhsCertificate (Real.exp and Real.log bounds e < 31967/11760 < 87/32, 197/32 < exp(11/6)) are the next full-theorem target named in main … |
+| `p15-realized-covers` | `760340e9:frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md` — Theorem P | `HOLD_WITH_DOMAIN` | 27 packet statements + 12 main theorems (`proved`) + 20 proof-packet theorems (`proved`): `P15.RealizedData`, `P15.IsRealizedFamily`, `P15.IsGood`, … (+53 more) …, proof:`P15Covers.paletteNumberAttained`† (proved), proof:`P15Covers.benchmark816UnionBound`† (proved), proof:`P15Budget.coverCostHazardBound`† (proved) | `specified` | Props of this row with a theorem of exactly their type in the proof packet specifications/lean_statement_proofs_20261011: PaletteNumberAttained, MinimalForbiddenCharacterisation, LocalRestriction, LocalDecomposability … | Proof lane: every theorem-shaped Prop of this row has a theorem (the parametrised predicates IsRealizedFamily, IsGood, IsKDecomposable, IsGeneratorCover, IsPaletteFeasible, IsMinimalForbidden … |
+| `p15-price-boundary` | `760340e9:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md` — Counterexample | `EXACT_COUNTEREXAMPLE` | 3 packet statements + 6 main theorems (`proved`) + 3 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation`, `P15.LogOnePlusBelowIdentity`, … (+6 more) …, proof:`P15Elementary.twoCoordGeneratorPrices` (proved), proof:`P15Elementary.logOnePlusBelowIdentity` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | DemandOneRefutation states the refutation (the two-coordinate data form a realized family with K_H(d) = 1, obstruction {X}, admissible prices 2/3, mu_p(D) = 3/4, cover cost 4/9 > 1/3 > log(4/3)). | The hosted lean-specification-proofs.yml run 38116277597 on commit 00d2ac6e produced the first receipt (`kernel-checked` appears only there); later commits need their own run. |
+| `p15-price-budget-restricted` | `760340e9:frontiers/price_budget_20260924/PROOF.md` — Theorem T1 | `HOLD_WITH_DOMAIN` | 8 packet statements + 3 main theorems (`proved`) + 8 proof-packet theorems (`proved`): `P15.LogRatioBound`, `P15.RatioExponentBound`, `P15.RestrictedLocalBudget`, … (+13 more) …, proof:`P15Budget.rhoTestSufficient`† (proved), proof:`P15Budget.restrictedTransformedPriceBudget`† (proved), proof:`P15Budget.benchmark816TransformedRange`† (proved) | `specified` | RestrictedTransformedPriceBudget states (T1) for every realized family with a_i >= 1, d_i >= 2, p_v <= 1/4, c_v <= phi(p_v) and is proved as stated in the proof packet; that is evidence about the Prop (for the formal RealizedData … | Math- Mathlib lane: every theorem-shaped Prop of this row has a theorem; next hosted lean-specification-proofs.yml run for the theorems added after commit 00d2ac6e. |
+| `p15-full-price` | `760340e9:frontiers/full_price_20260924/PROOF.md` — Theorem F | `REVIEWED_SCOPED` | 20 packet statements + 7 main theorems (`proved`) + 11 proof-packet theorems (`proved`): `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.RhoStarBelowSixSevenths`, … (+32 more) …, proof:`P15Elementary.capacityHazardIsBinomial`† (proved), proof:`P15Elementary.sharpnessOfRhoStar`† (proved), proof:`P15Hazard.globalAssemblyHazard`† (proved) | `specified` | FullTransformedPriceBudget states (F2), not proved; RhoStarEnclosure states (F3), not proved; SharpnessOfRhoStar states the attainment clause and is proved as stated. | Math- Mathlib lane: FullTransformedPriceBudget, RhoStarEnclosure, CoordinatewiseConcavity, HazardProductBound, HazardPhiBound, FullGroundPriceBound, FullGroundBudgetIff, LocalPriceBoundFull remain … |
 | `downstream-hard-gate` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — DOWNSTREAM-HARD-GATE-20260925-v1 (GRAPH.json; the README statement_path … | `ENGINEERING_HOLD` | — | `none` | An engineering control, not a mathematical claim: there is no theorem to state in Lean and none is stated. | No Lean target. The control's semantics live in Math- frontiers/downstream_gate_20260925 and its workflow; the register only records that every GRAPH math.* node has a row here. |
 
 #### 4.2 Downstream graph nodes (33: 18 `specified`, 15 `none`) — every `math.*` node of `frontiers/downstream_gate_20260925/GRAPH.json`; classifications are source identity
@@ -203,20 +222,20 @@ Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path
 | `math.d1-component.reconciliation-record` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d1-component.reconciliation-record | — | — | `none` | A review/reading-rule record, not a mathematical statement: nothing to state in Lean beyond what its components say. | Add the embedding radius as an explicit hypothesis to ParentUniformSelectionA / PairLawInterface once the reading rule is pinned; no proof target. |
 | `math.lifetime-remainder` | `760340e9:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md` — Theorem R | — | `Lifetime.RemainderBoundedR1` | `specified` | See row lifetime-remainder: (R1) is stated, not proved; the imports of parent interfaces D1-A-E are not transcribed; Theorem A's cubic bound (1.1) is not consumed by R and is not a hypothesis here. | As for row lifetime-remainder. |
 | `math.side24-coefficient` | `760340e9:coefficients/side24_v1/PROOF.md` — Theorem | — | `Side24.PeriodicCoefficientInterface`, `Side24.CoefficientEnclosure`, `Side24.ReferenceComparison` | `specified` | See row side24-coefficient: the enclosure is stated for any object satisfying PeriodicCoefficientInterface and is not proved; the "evaluates_eq_15_2" edge to the parent is represented only by the interface field that takes (15.2) … | As for row side24-coefficient. |
-| `math.rn-count-interface` | `760340e9:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md` — Theorem N | — | `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.ConditionalMeanIdentityN3`, `RN.UniformCounterexampleN4`, `RN.ExponentialTailLayerCakeN5` | `none` | See row rn-count-interface: (N1)-(N5) stated, (N6)-(N7) not stated, so no Prop states the interface as a whole; nothing proved. | As for row rn-count-interface. |
+| `math.rn-count-interface` | `760340e9:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md` — Theorem N | — | 5 packet statements + 5 proof-packet theorems (`proved`): `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.ConditionalMeanIdentityN3`, … (+4 more) …, proof:`RNProbability.holderConsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` | See row rn-count-interface: (N1)-(N5) stated and each proved as a theorem of the proof packet (5 entries below, `proved`; kernel-checked by the hosted run 38116277597 on commit 00d2ac6e), (N6)-(N7) not stated, so no Prop states … | As for row rn-count-interface. |
 | `math.rn-fixed-remote-window` | `760340e9:frontiers/remote_window_20260924/PROOF.md` — Theorem A | — | `RN.PinnedLawInterface`, `RN.FixedRemoteMeanMeasureA2`, `RN.FixedRemoteCountBoundA3` | `specified` | See row rn-fixed-remote-window: displays (2)-(3) stated over PinnedLawInterface, not proved; Section 6 not stated; no inhabitant of the interface. | As for row rn-fixed-remote-window. |
 | `math.rn-region.fixed-remote` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.rn-region.fixed-remote | — | `RN.FixedRemoteMeanMeasureA2`, `RN.FixedRemoteCountBoundA3` | `specified` | The region's mathematical content is the fixed-remote Theorem A at exactly this scope, stated by A2/A3 and not proved. | As for row rn-fixed-remote-window; nothing region-specific to add. |
 | `math.rn-region.mesoscopic-scaled-annulus` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, row D5-d (C2) | — | `RN.D5dSummedPinNeighbourhoodC2`, `RN.AnnulusBridgeAllHeight2` | `specified` | D5dSummedPinNeighbourhoodC2 states the summed pin-neighbourhood bound (all heights, scaled ball of radius R minus the pins) and AnnulusBridgeAllHeight2 the all-height fixed-annulus bridge; neither is proved, and the "covers the … | Independent reviewer: alignment of D5dSummedPinNeighbourhoodC2 with row D5-d; proof lane: none yet (the composition D5-a + D5-c at eta = 1/4 is a proof, not a statement). |
 | `math.rn-region.pin-collision` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, rows D5-a (P2), D5-b (microdisk), D5-d (C2) | — | `RN.D5aPuncturedPinDisks`, `RN.D5bMicrodisk`, `RN.D5dSummedPinNeighbourhoodC2` | `specified` | The three row shapes are stated for any object satisfying PinnedLawInterface and are not proved; the P2 source (PUNCTURED_PIN_PROOF.md) is not pinned here, so the Props are anchored to the reconciliation's transcription of the … | Pin PUNCTURED_PIN_PROOF.md and COLLAR_PROOF.md (reviews/d5_local_collar_20260928) and re-anchor D5a/D5b/D5c to their own displays; independent reviewer: alignment of the three Props with rows D5-a … |
 | `math.rn-region.intermediate-r-to-rho` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, row D5-e (I3/I4) | — | `RN.D5eIntermediateShellsI3I4` | `specified` | D5eIntermediateShellsI3I4 states the window-only bound E N <= C r^3 (A_0^(-2) + rho^2) on {A_0 r <= \|X\| <= rho} with side conditions taken from dimension-lift (1.6); not proved. | Pin intermediate_window_20260928/PROOF.md and anchor the single-shell display there; independent reviewer: alignment of D5eIntermediateShellsI3I4 with row D5-e and with dimension-lift (1.6). |
 | `math.rn-mesoscopic-reduction` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.rn-mesoscopic-reduction | — | — | `none` | No Lean statement: the PR7 route's bytes (frontiers/rn_mesoscopic_20260925/PROOF.md) are not pinned here and its Lemma A (positive-definite covariance of the rows of (U_0, J_0(y)) on K_AB) is not stated. | Pin rn_mesoscopic_20260925/PROOF.md and state Lemma A (Matrix.PosDef lower bound on a compact annulus) if the route is ever revived; otherwise none. |
-| `math.p15-full-price` | `760340e9:frontiers/full_price_20260924/PROOF.md` — Theorem F | — | `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.SharpnessOfRhoStar` | `specified` | See row p15-full-price: (F2), (F3) and sharpness stated, not proved; the price-boundary refutation is a scope boundary (GRAPH edge boundary_counterexample_not_required_premise), not a hypothesis. | As for row p15-full-price. |
-| `math.p15-price-boundary` | `760340e9:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md` — Counterexample | — | `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation` | `specified` | See row p15-price-boundary: the refutation is stated, its two logarithm inequalities are not proved anywhere; REFUTED is the graph classification of the extension, transcribed as source identity. | As for row p15-price-boundary. |
+| `math.p15-full-price` | `760340e9:frontiers/full_price_20260924/PROOF.md` — Theorem F | — | 3 packet statements + 7 main theorems (`proved`) + 1 proof-packet theorems (`proved`): `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.SharpnessOfRhoStar`, … (+5 more) …, main:`P15.exp_eleven_sixths_taylor_certificate` (proved), main:`P15.h_star_rational_certificate_constants` (proved), proof:`P15Elementary.sharpnessOfRhoStar`† (proved) | `specified` | See row p15-full-price. | As for row p15-full-price. |
+| `math.p15-price-boundary` | `760340e9:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md` — Counterexample | — | 2 packet statements + 6 main theorems (`proved`) + 2 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation`, main:`P15.smallest_member_block_size` (proved), … (+4 more) …, main:`P15.minimum_generator_price_exceeds_third` (proved), proof:`P15Elementary.twoCoordGeneratorPrices` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | See row p15-price-boundary: TwoCoordGeneratorPrices and DemandOneRefutation (the two Props of this node) have theorems of exactly their type in the proof packet (listed as `proved`; kernel-checked by the hosted run 38116277597 on … | As for row p15-price-boundary. |
 | `math.rn-selector-region-crosswalk` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.rn-selector-region-crosswalk | — | — | `none` | An engineering inventory, not a mathematical claim; nothing to state in Lean and nothing stated. | No Lean target. |
 | `math.rn-fixed-annulus-window` | `760340e9:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md` — Candidate theorem | — | `RN.FixedAnnulusWindowCandidateA2` | `specified` | See row rn-fixed-annulus-window: (A2) stated, not proved; no global D5/RN/JETMOD, k -> 0, d >= 3, pin-neighbourhood, intermediate-scale, collision or elder-selection closure. | As for row rn-fixed-annulus-window. |
 | `math.rn-region.fixed-annulus-window` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.rn-region.fixed-annulus-window | — | `RN.FixedAnnulusWindowCandidateA2` | `specified` | The region's content is (A2) at its exact scope, stated and not proved; the coverage classification is graph bookkeeping, not a Lean statement; the superseded high-jet route (regional.fixed-annulus.high-jet-route … | As for row rn-fixed-annulus-window. |
 | `math.d5-pin-neighborhood-first-moment` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table D5-a to D5-f | — | `RN.D5aPuncturedPinDisks`, `RN.D5bMicrodisk`, `RN.D5cCollarC1`, `RN.D5dSummedPinNeighbourhoodC2`, `RN.D5eIntermediateShellsI3I4`, `RN.D5fGlobalWindowFirstMomentI5` | `specified` | The six row shapes are stated for any object satisfying PinnedLawInterface (sample space Omega, gated pin regime 0 < r < L) and are not proved. | Pin the three component proofs and re-anchor; independent reviewer: alignment of the six Props with the section 2 table (all-height versus window I_r per row, exclusion of M and S). |
-| `math.d5-component.punctured-pin-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, rows D5-a (P2) and D5-b (microdisk) | — | `RN.D5aPuncturedPinDisks`, `RN.D5bMicrodisk` | `specified` | The Props state rows D5-a and D5-b as the reconciliation transcribes P2, not P2 from its own bytes (not pinned); the slices P4, P9, P17, P20 and the continuum argument reviewed are not stated; nothing is proved. | Pin PUNCTURED_PIN_PROOF.md (SHA-256 f972e50b… (GRAPH.json `fingerprint`)) and anchor D5a/D5b to its own displays. |
+| `math.d5-component.punctured-pin-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, rows D5-a (P2) and D5-b (microdisk) | — | `RN.D5aPuncturedPinDisks`, `RN.D5bMicrodisk` | `specified` | The Props state rows D5-a and D5-b as the reconciliation transcribes P2, not P2 from its own bytes (not pinned); the slices P4, P9, P17, P20 and the continuum argument reviewed are not stated; nothing is proved. | Pin PUNCTURED_PIN_PROOF.md (SHA-256 f972e50b… (GRAPH.json fingerprint)) and anchor D5a/D5b to its own displays. |
 | `math.d5-component.punctured-pin-review-111` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.punctured-pin-review-111 | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
 | `math.d5-component.punctured-pin-continuum-review` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.punctured-pin-continuum-review | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
 | `math.d5-component.punctured-pin-continuum-check` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.punctured-pin-continuum-check | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
@@ -225,9 +244,9 @@ Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path
 | `math.d5-component.i5-review-xai` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.i5-review-xai | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
 | `math.d5-component.i5-review-claude` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.i5-review-claude | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
 | `math.d5-component.offpin-second-moment-review` | `6c020d6a:frontiers/downstream_gate_20260925/GRAPH.json` — nodes.math.d5-component.offpin-second-moment-review | — | — | `none` | A review record (or its checker) is not a mathematical statement; nothing to state in Lean and nothing stated. | No Lean target. The proof it reviews is specified under its proof-component row. |
-| `math.d5-component.collar-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, row D5-c (C1) | — | `RN.D5cCollarC1` | `specified` | D5cCollarC1 states row D5-c as the reconciliation transcribes C1, not C1 from its own bytes (not pinned); the normalizer (P14) it imports and the corollary C2 are not stated separately; nothing is proved. | Pin COLLAR_PROOF.md (SHA-256 794babe0… (GRAPH.json `fingerprint`)) and anchor D5cCollarC1 to display (C1). |
+| `math.d5-component.collar-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, row D5-c (C1) | — | `RN.D5cCollarC1` | `specified` | D5cCollarC1 states row D5-c as the reconciliation transcribes C1, not C1 from its own bytes (not pinned); the normalizer (P14) it imports and the corollary C2 are not stated separately; nothing is proved. | Pin COLLAR_PROOF.md (SHA-256 794babe0… (GRAPH.json fingerprint)) and anchor D5cCollarC1 to display (C1). |
 | `math.d5-component.annulus-proof` | `760340e9:frontiers/rn_annulus_bridge_20260925/PROOF.md` — Candidate theorem | — | `RN.AnnulusBridgeAllHeight2` | `specified` | AnnulusBridgeAllHeight2 states display (2) (d = 2, fixed L, compact birth, k_- > 0, 1 < A < B, all heights) over PinnedLawInterface; not proved. | State the R1-R7 interfaces as Props; independent reviewer: alignment of AnnulusBridgeAllHeight2 with display (2), checking "all heights" and the uniformity over E and j. |
-| `math.d5-component.intermediate-window-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, rows D5-e (I3/I4) and D5-f (I5) | — | `RN.D5eIntermediateShellsI3I4`, `RN.D5fGlobalWindowFirstMomentI5` | `specified` | The Props state rows D5-e and D5-f as the reconciliation transcribes I3/I4/I5, not from the proof's own bytes (not pinned); the tiling N1 of the Claude review and the planar F+ lower bound source are not stated; nothing is proved. | Pin intermediate_window_20260928/PROOF.md (SHA-256 b3eb9456… (GRAPH.json `fingerprint`)) and anchor the shell displays there. |
+| `math.d5-component.intermediate-window-proof` | `6c020d6a:reviews/d5_reconciliation_20260929/RECONCILIATION.md` — section 2 table, rows D5-e (I3/I4) and D5-f (I5) | — | `RN.D5eIntermediateShellsI3I4`, `RN.D5fGlobalWindowFirstMomentI5` | `specified` | The Props state rows D5-e and D5-f as the reconciliation transcribes I3/I4/I5, not from the proof's own bytes (not pinned); the tiling N1 of the Claude review and the planar F+ lower bound source are not stated; nothing is proved. | Pin intermediate_window_20260928/PROOF.md (SHA-256 b3eb9456… (GRAPH.json fingerprint)) and anchor the shell displays there. |
 | `math.d5-component.remote-window-proof` | `760340e9:frontiers/remote_window_20260924/PROOF.md` — Theorem A | — | `RN.FixedRemoteMeanMeasureA2`, `RN.FixedRemoteCountBoundA3` | `specified` | See rows rn-fixed-remote-window and math.rn-fixed-remote-window; the D5 consumption at rho = s_0 is a proof step, not stated. | As for row rn-fixed-remote-window. |
 
 #### 4.3 Open obligations (2: 1 `specified`, 1 `none`) — stated as targets where a Prop exists; nothing asserts they hold
@@ -343,7 +362,7 @@ Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path
 
 | Claim | Layer 0 source (commit:path) | Transcribed disposition | Lean statement(s) (module.declaration) | Formal progress | Not established | Next step |
 |---|---|---|---|---|---|---|
-| `lean:main-formal-UniversalLaw` | `760340e9:coefficients/side24_v1/ENCLOSURE.json` — ENCLOSURE.json (the four Endpoints targets anchor here; the other 55 … | — | main:`Side24.d2_endpoints_adjacent` (proved), main:`Side24.d3_endpoints_adjacent` (proved), main:`Side24.d3_below_d2` (proved), main:`Side24.endpoints_in_unit_tenth` (proved) | `none` | The package states no research claim as a Prop, so the claim-level label is none; its 31 theorems at origin/main f6deeba7 are finite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest … | Commit and push the P15 modules so the hosted formal-verification.yml run produces a trusted receipt, then list them here as `proved` statements citing the 40-hex commit and the run; obtain a … |
+| `lean:main-formal-UniversalLaw` | `760340e9:coefficients/side24_v1/ENCLOSURE.json` — ENCLOSURE.json (the four Endpoints targets anchor here; the other 55 … | — | main:`Side24.d2_endpoints_adjacent` (proved), main:`Side24.d3_endpoints_adjacent` (proved), main:`Side24.d3_below_d2` (proved), main:`Side24.endpoints_in_unit_tenth` (proved) | `none` | The package states no research claim as a Prop, so the claim-level label is none; its 31 theorems at origin/main f6deeba7 are finite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest … | PR #358 merge is the operator's decision; until then the 28 P15 targets are on a branch, not on main. |
 | `lean:math-formal-ResearchFormalCoreR1` | not pinned | — | — | `none` | The package states no research claim of this register as a Prop and none of its statements can be listed here: its bound sources (P02-LM-008 proof.md.export.txt at 22876eda, MOMENT_TAIL.md, WEIGHT_PERTURBATION.md, the D2 small-L … | Pin the Math- formal sources in a later packet revision and register the 63 targets as `proved` statements with anchors; obtain a fresh alignment record for the 63-target manifest from a lane … |
 | `lean:math-companion-d2_moment_bridge_20261006` | not pinned | — | — | `none` | States no research claim of this register; its sources (Math-#302 NOTE.md section 4 / C7, #326, #328, #343 comments) are not pinned here, so no statement can be anchored and listed. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provider, family and agent for alignment. |
 | `lean:math-companion-d2_square_schur_20261006` | not pinned | — | — | `none` | States no research claim of this register; its sources (Math-#302 NOTE.md section 4 / C7, #326, #328, #343 comments) are not pinned here, so no statement can be anchored and listed. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provider, family and agent for alignment. |
@@ -383,7 +402,7 @@ Column key. **Claim**: the register `claim_id`. **Layer 0 source**: `commit:path
 | `cert:main-periodic_h0-count_confidence1` | not pinned — experiments/periodic_h0/results/count_confidence1/CERTIFICATE.json … | — | — | `none` | L2 exact-arithmetic evidence (Python stdlib Fraction / integer) about one finite rounded object: a Python certificate is not a kernel proof and is not Lean. | Restate the finite inequality that the Python certificate checks in exact rational arithmetic (the bounds for the fixed object) as a Lean Prop over ℚ / ℕ and prove it in a proof package (norm_num / … |
 | `cert:main-universality-fold_controls` | not pinned — experiments/universality/fold_controls.py (bytes not pinned in this … | — | — | `none` | Exact Fraction toy control (L2 evidence), by its own words "no random-field admissibility or Lean claim": not a stationary random-field counterexample, not a formal kernel proof, not stated in Lean. | The exact pushforward exponent identities are elementary and could be stated and proved over ℚ in a proof package; low priority. |
 | `cert:math-side24_v1-coefficient.py` | `760340e9:coefficients/side24_v1/ENCLOSURE.json` — ENCLOSURE.json ("2": lower/upper, "3": lower/upper, … | — | — | `none` | L2 exact-arithmetic evidence: a Python outward-rounding procedure is not a kernel proof, and main's 31 Side24 theorems formalize only its integer arithmetic skeleton (not the interval arithmetic, not the Gamma / pi / exp … | A proof-producing enclosure pipeline (the numerical formalizer work offer of main docs/FORMAL_VERIFICATION.md): proof-producing Gamma(7/6), pi, exp and theta-sum enclosures in Mathlib, then … |
-| `cert:math-full_price-full_price.py` | `760340e9:frontiers/full_price_20260924/PROOF.md` — 0.84547981724898672067 < rho_star < 0.84547981724898672068 < 6/7. (F3) | — | — | `none` | L2 exact-arithmetic evidence (stdlib Fraction) for finite rational facts; not a kernel proof. | Prove RhoStarBelowSixSevenths / SixSeventhsCertificate in the Math- Mathlib lane (Real.exp / Real.log bounds); then RhoStarEnclosure via proof-producing exp/log enclosures. |
+| `cert:math-full_price-full_price.py` | `760340e9:frontiers/full_price_20260924/PROOF.md` — 0.84547981724898672067 < rho_star < 0.84547981724898672068 < 6/7. (F3) | — | — | `none` | L2 exact-arithmetic evidence (stdlib Fraction) for finite rational facts; not a kernel proof. | Prove RhoStarEnclosure in the Math- Mathlib lane via proof-producing exp/log enclosures (RhoStarBelowSixSevenths / SixSeventhsCertificate are already proved in … |
 
 ## 5. Coverage summary
 
@@ -393,11 +412,11 @@ exists yet; it is not a verdict on the mathematics, and a row at `specified` is 
 
 ### 5.1 Counts
 
-| Formal-progress label | Claims (171) | Statement entries (228) | Where the label may appear |
+| Formal-progress label | Claims (171) | Statement entries (329) | Where the label may appear |
 |---|---:|---:|---|
 | `none` | 138 | — | claim rows only |
 | `specified` | 33 | 197 | claim rows; every statement of the packet |
-| `proved` | 0 | 31 | statements of other packages (the `main` theorems listed beneath claims); no claim |
+| `proved` | 0 | 132 | statements of other packages (the 59 `main` arithmetic theorems, 72 entries, and the 52 proof-packet theorems, 60 entries, listed beneath claims); no claim |
 | `kernel-checked` | 0 | 0 | run receipts only, never in the register |
 
 By claim kind:
@@ -418,20 +437,33 @@ The 197 `specified` statement entries point at **150 distinct declarations** of 
 beneath every claim it serves, which is why there are more entries than declarations (`RN.FixedRemoteMeanMeasureA2`,
 for instance, sits beneath the landing claim, the graph node, the region and the D5 component that consume Theorem A).
 The modules' other 123 declarations are non-Prop definitions (`cRef`, `rhoStar`, `thetaSum`, `coverCost`, …) that the
-Props are stated about; they are not register entries. The 31 `proved` entries are the SIDE24 theorems of the `main`
-core-Lean package at origin/main `f6deeba7` (`Ledger` 17, `ConeMoments` 10, `Endpoints` 4). Their kernel evidence at
-that commit is the `formal / formal-evidence` job of `workspace-landing` run 38068951535 (push to `main`, 2026-10-10,
-conclusion success; the reusable `formal-verification.yml` runs inside that caller, so it does not appear under its own
-workflow's run list), whose artifact `formal-verification-38068951535` holds the receipt; the last stand-alone
-`formal-verification.yml` run is 36356485214 at `d0c0512f` (2026-09-27), and the 31 Lean texts are byte-identical
-between the two commits. The 28 P15 targets of the same package (`PriceBoundary` 6,
-`RealizedCovers` 12, `FullPrice` 10) exist only in this programme's uncommitted worktree, on no commit; their sole
-receipt is a local `--run-lean` whose `checked_commit` is the dirty tree's HEAD `f6deeba7`, which is not evidence about
-any commit, and the register therefore does NOT list them (a committed manifest says `proved`, DESIGN 0): they are to be
-listed beneath the four P15 landing claims, citing the 40-hex commit and the hosted run, once that commit exists.
-Each of the 31 (and of the 28 staged) is a finite integer or cross-multiplied rational identity (`decide`, one conjunct
-by core `Nat.pow_pos`), listed beneath a claim as its arithmetic skeleton; none states a research claim, which is why
-every claim they sit under stays `specified` or `none`.
+Props are stated about; they are not register entries. The 132 `proved` entries are theorems of two other packages, each listed beneath a claim and never as the claim.
+(a) 72 entries for the 59 theorems of the `main` core-Lean package `formal/`: 31 SIDE24 targets at origin/main
+`f6deeba7` (`Ledger` 17, `ConeMoments` 10, `Endpoints` 4), whose kernel evidence is the `formal / formal-evidence`
+job of `workspace-landing` run 38068951535 (push to `main`, 2026-10-10, conclusion success; the reusable
+`formal-verification.yml` runs inside that caller, so it does not appear under its own workflow's run list; artifact
+`formal-verification-38068951535`; the last stand-alone `formal-verification.yml` run is 36356485214 at `d0c0512f`,
+2026-09-27, and the 31 Lean texts are byte-identical between the two commits), and 28 P15 targets at commit
+`91cffbb5` of main PR #358 (`PriceBoundary` 6, `RealizedCovers` 12, `FullPrice` 10; kernel evidence the
+`formal / formal-evidence` job of `workspace-landing` run 38096827443, artifact `formal-verification-38096827443`;
+listed on every P15 row whose source they anchor to, hence 41 entries); each of the 59 is a finite integer or
+cross-multiplied rational identity (`decide`, one conjunct by core `Nat.pow_pos`), an arithmetic skeleton, so none
+states a research claim. (b) 60 entries for the 52 theorems of the Math- proof packet
+`specifications/lean_statement_proofs_20261011` (PR #422, head `910809d6`), each typed exactly as one of 51 registered
+Props (`TriangleNeedsThree` twice): 38 of them kernel-checked by the hosted `lean-specification-proofs` run 38116277597 on
+commit `00d2ac6e` (receipt `kernel-checked`, `leanchecker` PASS, axioms within the three allowed; artifact
+`lean-specification-proofs-38116277597-1`), the 14 added at `910809d6` (marked † in the table) awaiting the next hosted
+run. A proof-packet theorem is evidence about its Prop for the formal objects (the `RealizedData` record, the formal
+downset, `coverCost` as an `sInf`, `mu`): Proposition P1, both halves of Theorem P2 ((P7) and (P8)) for prices
+`c_v ≤ p_v`, the restricted budget (T1) with (T4)-(T5), the six-block union bound (P11) and transformed range, (F9),
+(F13), the sharpness clause of `ρ*`, `ρ* < 6/7` with its certificate, the (N1)-(N5) parts of Theorem N and five
+elementary SIDE24 identities are proved *as the Props state them*. Every claim they sit under stays `specified` or
+`none`: the register admits only those two labels at claim level, alignment of each Prop with its source paragraph
+is `PENDING_INDEPENDENT_REVIEW`, and the one claim-stating Prop with a theorem (`DemandOneRefutation`, row
+`p15-price-boundary`) is recorded for the operator and not relabelled. What has no theorem, and why, is tabulated
+per group in the proof packet's README (parametrised predicates; the hazard interpolation (F4)-(F8) with (F12) and
+(F2) behind it; the 20-digit enclosure (F3); the SIDE24 Fréchet-derivative, lattice-sum and interface Props; every
+RN Prop beyond (N1)-(N5) and every Lifetime and Field Prop).
 
 The **33 `specified` claims** are:
 
@@ -441,7 +473,7 @@ The **33 `specified` claims** are:
 - `proof_index_result` (6): `D1-THM-A`, `D1-THM-B`, `D1-THM-C`, `OA-ELDER-LOWER-DENSITY-GAP-20260928-v1`, `CL-D5-DIMENSION-LIFT-20260929-v1`, `CL-C6-PALM-20260929-v1`
 
 Existing Lean coverage outside the packet is inventoried as seven `existing_lean_package` rows, all `none` at
-claim level: `main formal/` (31 committed theorems listed, 28 staged P15 theorems not listed, as above), Math- `formal/ResearchFormalCoreR1` (63 theorems; four statement-alignment records exist for earlier
+claim level: `main formal/` (59 theorems, all listed as above), Math- `formal/ResearchFormalCoreR1` (63 theorems; four statement-alignment records exist for earlier
 heads of that package and all are stale for the current 63-target manifest `40cb6ffc…`: main
 `reviews/lean_probability_alignment_20261005` (xAI/Grok reviewer, 20 targets of Math- #272 at `27016790`, ACCEPTED),
 Math- `reviews/lean_probability_alignment_20261005/alignment.json` (xAI/Grok, 29 targets, manifest `d843ba7b…`,
@@ -490,8 +522,9 @@ only (F4) stated and under the hypothesis `G_2`; `OA-C6-RARE-CLUSTER-20260929-v1
 
 Ordered by how much of each proof already exists in the pinned Mathlib tree (`d13f23b7`; every identifier below
 was found by `grep` in `.lake/packages/mathlib/Mathlib/`, paths relative to that directory). The procedural frame
-is the same for every step: the proof is written in Math- `formal/` under the lane's admission rules (the statement
-packet's checker refuses `theorem`); the register then lists the theorem beneath its claim with the label `proved`;
+is the same for every step: the proof is written in a Math- Mathlib proof package (the sibling proof packet
+`specifications/lean_statement_proofs_20261011`, PR #422, whose gate requires each theorem's type to be exactly a
+registered Prop applied to its own binders; the statement packet's checker refuses `theorem`); the register then lists the theorem beneath its claim with the label `proved`;
 the claim's own label moves to `proved` only if the theorem proves the claim's display itself, not a sub-identity;
 `kernel-checked` is written only by a trusted run receipt; and an independent alignment review is a separate
 dimension that none of this produces. No step below changes a Layer 0 status.
@@ -511,7 +544,9 @@ and `Real.exp_bound` / `exp_approx_start` / `exp_1_approx_succ_eq` (Exponential.
 rationals of about 25 digits; the packaged decimal lemmas `exp_one_near_10` and `log_two_near_10`
 (ExponentialBounds.lean:23/71) stop at 10 digits. Effort: small for `6/7`, moderate arithmetic for (F3); the
 mathematics is elementary. Outcome if done: `P15.RhoStarBelowSixSevenths` becomes a `proved` statement; the landing
-claim `p15-full-price` stays `specified` because Theorem F itself ((F2)) is not touched.
+claim `p15-full-price` stays `specified` because Theorem F itself ((F2)) is not touched. *Status 2026-10-11:* `P15.RhoStarBelowSixSevenths` and `P15.SixSeventhsCertificate` are proved as stated in the proof
+packet (§3.7; kernel-checked by run 38116277597 at `00d2ac6e`), by exactly this route (`Real.exp_one_lt_d9`, the degree-5 Taylor
+lower bound of `Real.sum_le_exp_of_nonneg`); `RhoStarEnclosure` (F3) is open as described.
 
 **Step 2 — the finite P15 theorems** (`P15.TriangleNeedsThree`, `ElementaryPaletteFormula`, `TwoCoordGeneratorPrices`,
 `LocalRestriction`, `LocalDecomposability`, the `Benchmark816*` family, `MinimalForbiddenCharacterisation`,
@@ -530,7 +565,12 @@ Order/ConditionallyCompleteLattice/Basic.lean are needed; confirm each name by `
 `RatioExponentBound` is `pow` monotonicity and `norm_num`. *Mathlib lacks*: nothing essential. Outcome if done:
 `p15-price-boundary` (disposition `EXACT_COUNTEREXAMPLE`, transcribed) is the first claim whose own display
 (`DemandOneRefutation`) could carry `proved`; the register's next-step column already names it as the smallest
-complete research statement in the packet.
+complete research statement in the packet. *Status 2026-10-11:* done in the proof packet, and more: every Prop named here has a theorem of exactly its type (the
+816 benchmark through Proposition P1's counting lemmas, as predicted, without enumeration; `coverCost` through
+`csInf_le` / `le_csInf`), and so do (P4), (P5), (P8), (P11), (T1) with (T4)-(T5), (F9), (F13) and `SharpnessOfRhoStar`,
+which lie beyond this step's finite scope (modules `P15Hazard`, `P15Covers`, `P15Budget`). 38 of the 52 theorems are
+kernel-checked at `00d2ac6e`; the 14 added at `910809d6` await the next hosted run. `p15-price-boundary` stays `specified`: a
+claim-level move is the operator's, after the independent alignment read.
 
 **Step 3 — the abstract probability parts of Theorem N** (`RN.HolderCountBoundN1`, `HolderConsequenceN2`,
 `ConditionalMeanIdentityN3`, `ExponentialTailLayerCakeN5`, `UniformCounterexampleN4`). *Mathlib has*: Hölder for the
@@ -550,7 +590,8 @@ for the exponents of (N2); Markov and Chernoff if wanted, `mul_meas_ge_le_linteg
 *Mathlib lacks*: nothing structural; the work is measure-theoretic bookkeeping (indicators, `toReal`, integrability
 side conditions). Outcome if done: five `proved` statements, and `rn-count-interface` still at `none`, because
 (N6)–(N7) are not stated; stating (N7) with the Kac–Rice numerator as an interface field would make the claim
-`specified`, nothing more.
+`specified`, nothing more. *Status 2026-10-11:* done; the five theorems (`RNProbability`) are kernel-checked at `00d2ac6e`, by the Mathlib lemmas listed;
+`rn-count-interface` stays `none` as predicted.
 
 **Step 4 — from the `cRef` definition to an enclosure** (`Side24.cRef`, `Specifications/Side24.lean:96`;
 `ConeMomentD2Algebra`, `ElementaryConeIntegral`, `RayleighSquareLaw`, `TraceMoments`, `ConeMomentD1Identity` /
@@ -578,7 +619,9 @@ of a sum of squares of independent Gaussians as a theorem; `d`-dimensional latti
 `coefficient.py` does without proofs) is a project of its own; until it exists `side24-coefficient` stays
 `specified` over `PeriodicCoefficientInterface`, and `ENCLOSURE.json` stays L2 evidence. Intermediate outcomes are
 real: `ConeMomentD2Algebra` is `Real.sqrt` algebra and could be the first `proved` statement of this module;
-`ElementaryConeIntegral` is one application of the fundamental theorem of calculus.
+`ElementaryConeIntegral` is one application of the fundamental theorem of calculus. *Status 2026-10-11:* `ConeMomentD2Algebra`, `ElementaryConeIntegral` and `ReferenceCoefficientIdentity` are proved as
+stated and kernel-checked at `00d2ac6e` (the last as the identity between its two displayed expressions, not as the evaluation
+of (15.2) at the reference law); everything else in this step is open as described.
 
 **Step 5 — the analytic parents** (`Lifetime.ParentUniformSelectionA`, `ParentCompactWindowDensityB`,
 `ParentUnrestrictedLeadingDensityC`, `RemainderBoundedR1`, `PlanarElderLowerE2` / `E4` / `E11`; every `RN` Prop over
@@ -602,9 +645,23 @@ remark in the `PinnedLawInterface` docstring; a trigonometric Gaussian model for
 guard against vacuity and are not theorems about the research claims, and (b) the transcriptions the register's
 next-step column lists (displays (15.2), (14.1), (11.3), (R19), (N7), Section 6 of Theorem A, the R1–R7
 interfaces, the dimension-lift corollaries), each of which raises a `none` row to `specified` and nothing to
-`proved`. The claims stay `specified`.
+`proved`. The claims stay `specified`. *Status 2026-10-11:* unchanged; no Prop over an interface has a theorem, and none is expected from Mathlib alone.
 
-Independent of all five steps, and available now: the alignment review of the 150 declarations against their
+**Step 6 — Theorem F's hazard interpolation** (`P15.CoordinatewiseConcavity`, `HazardProductBound` (F6),
+`HazardPhiBound` (F7), `FullGroundPriceBound` (F8), `FullGroundBudgetIff`, then `LocalPriceBoundFull` (F12) and
+`FullTransformedPriceBudget` (F2)). With (F13) (`GlobalAssemblyHazard`) and the cover criterion (`FullBlockCoverIff`)
+proved, (F2) reduces to (F12), and (F12) to (F8) for each block's capacity family together with `H_(n,a) ≥ h_star`
+(`CapacityWorstCase`, proved) and `ρ* = 1/h_star`. (F8) and (F7) follow from (F6), and (F6) from the separate concavity of
+`t_i ↦ F_A(t) = -log μ_{p(t)}(A)` on `[0, 1]`, `p_i(t) = 1 - e^{-t_i}`, which the source derives from the derivative
+formulas (F4)-(F5) that it does not display and the register does not specify. *Mathlib has*: `ConcaveOn` with the
+second-derivative criterion `concaveOn_of_deriv2_nonpos` (Analysis/Convex/Deriv.lean:223), derivatives of `Real.exp`,
+`Real.log` and finite sums (`HasDerivAt.sum`, Analysis/Calculus/Deriv/Add.lean:222), `Real.log_prod`. *Mathlib lacks*:
+nothing structural; the work is the explicit second derivative of `-log` of a finite sum of products of `1 - e^{-t}` and
+`e^{-t}` factors and its sign, a page of calculus per coordinate, then the chain of inequalities. Effort: moderate.
+Outcome if done: (F2) proved as the Prop states it, for the formal objects; `p15-full-price` stays `specified`
+(claim-level vocabulary, alignment PENDING_INDEPENDENT_REVIEW).
+
+Independent of all six steps, and available now: the alignment review of the 150 declarations against their
 anchors by a reviewer of a different provider, family and agent (§8). It is the only action that changes the
 alignment dimension, and it is not a step this programme can take.
 
@@ -630,6 +687,12 @@ P=specifications/lean_statements_20261010
 python3 -B -S "$P/test_check.py" && python3 -B -O -S "$P/test_check.py"
 python3 -B -S "$P/check.py"
 (cd "$P" && lake exe cache get) && python3 -B -S "$P/check.py" --execute
+
+# Math- statement proofs (this programme; path dependency on the statement register, Mathlib cache as above)
+Q=specifications/lean_statement_proofs_20261011
+python3 -B -S "$Q/test_check.py" && python3 -B -O -S "$Q/test_check.py"
+python3 -B -S "$Q/check.py"                                   # source mode: identity, lexical scan, inventory = registered Props
+(cd "$Q" && lake exe cache get) && python3 -B -S "$Q/check.py" --execute   # fresh build, leanchecker (~14 GB), axiom audit, controls, receipt
 ```
 
 Quote a run (workflow run id or the local receipt's `checked_commit`) when citing any of these, not
