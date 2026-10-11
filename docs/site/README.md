@@ -28,10 +28,29 @@ python3 -B -m unittest tests.test_site_asset_release
 node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
+python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
+python3 -B -E -O -S tests/test_public_shop_check_identity_control.py -v
 python3 -B tools/public_shop_check.py
 ```
 
-These are the local steps of the required `public-shop` job. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+These are the local steps of the required `public-shop` job, including both W8b public source identity controls. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+
+On macOS, a symlink alias in the process temporary directory can make the site-asset fixtures compare a lexical temporary path with the canonical path returned by the release inventory. That portability defect is owned in [#294](https://github.com/d6g8k5htny-coder/main/issues/294) and is not repaired here. The example below is a trusted local invocation setup only: it uses the caller's existing writable temporary directory, resolves that directory to its physical path, rejects the checkout and its descendants, and exports `TMPDIR` before starting a new Python process. It creates nothing, hard-codes no workstation path, and is not a production-path or fixture change.
+
+```sh
+(
+  checkout_dir="$(pwd -P)" || exit 1
+  trusted_tmpdir="$(CDPATH= cd -P "${TMPDIR:?Set TMPDIR to an existing trusted temporary directory}" && pwd -P)" || exit 1
+  case "$trusted_tmpdir/" in "$checkout_dir/"*)
+      printf '%s\n' 'Choose an existing temporary directory outside this checkout.' >&2
+      exit 1
+      ;;
+  esac
+  test -w "$trusted_tmpdir" || exit 1
+  export TMPDIR="$trusted_tmpdir"
+  python3 -B -m unittest tests.test_site_asset_release
+)
+```
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
