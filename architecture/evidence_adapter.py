@@ -792,6 +792,13 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
     require(scope.ref["path"] in paths and paths[scope.ref["path"]] == scope.ref["sha256"],
             "native scope is not bound by manifest files")
     if main:
+        prefix = package_root + "/"
+        for capture in [manifest_capture, scope, *sources.values()]:
+            path = capture.ref["path"]
+            if (path.startswith(prefix) and ".lake" not in PurePosixPath(path[len(prefix):]).parts
+                    and path not in paths):
+                require(path in set(manifest.get("unbound_files", [])),
+                        "main known package member is neither bound nor declared unbound")
         for row in source_rows.values():
             local = sources.get(row["local_copy"])
             require(local is not None and row["local_copy"] in paths
@@ -833,6 +840,10 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
     receipt_capture = None if value["receipt"] is None else captures.run(value["receipt"], native, "formal receipt")
     receipt = None if receipt_capture is None else receipt_capture.document("formal receipt")
     if receipt_capture is not None:
+        receipt_member = PurePosixPath(receipt_capture.ref["member_path"])
+        require(receipt_member.name == "receipt.json", "native receipt must be named receipt.json")
+        require(all(PurePosixPath(capture.ref["member_path"]).parent == receipt_member.parent
+                    for capture in logs.values()), "native receipt/log parent contradiction")
         members.append(receipt_capture)
     require(len({capture.ref["artifact_id"] for capture in members}) <= 1,
             "native receipt/log artifact identity contradiction")
@@ -870,6 +881,9 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         for name, expected_hash in recorded_logs.items():
             relative_path(name, "receipt log name")
             require("/" not in name, "receipt log key must be native basename")
+            if main:
+                require(re.fullmatch(r"[A-Za-z0-9_-]+\.log", name) is not None,
+                        "invalid main native receipt log basename")
             digest(expected_hash, HEX64, "receipt log SHA256")
             require(name in logs and logs[name].ref["sha256"] == expected_hash,
                     "original receipt log hash contradiction")
@@ -893,6 +907,8 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             phases = dict.fromkeys(registered, "REJECTED_BY_LEAN")
             # The native producer installs these axiom controls after mutations.
             phases.update(dict.fromkeys(("sorry", "custom_imported", "native"), "REJECTED_BY_AXIOM_GATE"))
+            require(set(controls) <= set(phases),
+                    "main native negative-control outcome inventory contradiction")
             require(all(name not in controls or controls[name] == phase for name, phase in phases.items()),
                     "main native negative-control rejection mechanism contradiction")
             complete = (complete and set(phases) <= set(controls)
@@ -903,6 +919,13 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
     alignment = None if alignment_capture is None else alignment_capture.document("formal alignment")
     reviewed_graph = (None if alignment is None or "reviewed_graph" not in alignment else
                       _git_reference(alignment["reviewed_graph"], "alignment reviewed_graph"))
+    reviewed_bindings = None
+    if alignment is not None and "reviewed_bindings" in alignment:
+        reviewed_bindings = keys(alignment["reviewed_bindings"], {"schema_version", "sha256"},
+                                 "alignment reviewed_bindings")
+        require(type(reviewed_bindings["schema_version"]) is int and reviewed_bindings["schema_version"] == 1,
+                "alignment reviewed_bindings: unsupported schema")
+        digest(reviewed_bindings["sha256"], HEX64, "alignment reviewed_bindings SHA256")
     alignment_reasons = _alignment_reasons(alignment, manifest_capture, scope, targets,
                                            main=main, source_author=manifest.get("author"))
     return {
@@ -911,7 +934,7 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
         "targets": targets, "target_rows": target_rows, "source_rows": source_rows,
         "receipt": receipt, "complete": complete, "mappings": mappings,
         "alignment": alignment, "alignment_capture": alignment_capture, "alignment_reasons": alignment_reasons,
-        "reviewed_graph": reviewed_graph,
+        "reviewed_graph": reviewed_graph, "reviewed_bindings": reviewed_bindings,
         "summary": {"id": identity, "format": value["format"], "manifest_targets": targets,
                     "node_targets": value["node_targets"], "retained_manifest": manifest,
                     "retained_receipt": receipt, "retained_alignment": alignment},
@@ -1176,7 +1199,50 @@ def _retrofit_projection(record: dict[str, Any], binding: dict[str, Any] | None)
     return _axis(record["state"], applicability, reasons=reasons, evidence=[record["id"]])
 
 
-def _alignment_holds(new: dict[str, Any], formals: list[dict[str, Any]],
+def _proof_binding_context_sha256(new: dict[str, Any]) -> str:
+    """Bind the exact graph and every declared binding; no semantic or custody claim."""
+    rows = []
+    for node in sorted(new["graph"]["nodes"]):
+        original = new["bindings"].get(node)
+        binding = None if original is None else {
+            "source": None if original["source"] is None else original["source"].ref,
+            "statement_slice": original["statement_slice"], "proof_slice": original["proof_slice"],
+        }
+        rows.append({"node": node, "binding": binding})
+    payload = {"domain": "architecture-proof-binding-context/v1",
+               "graph": new["graph_capture"].ref, "bindings": rows}
+    return hashlib.sha256(canonical(payload).encode("ascii")).hexdigest()
+
+
+def _proof_binding_context_nodes(old: dict[str, Any], new: dict[str, Any],
+                                 regression: dict[str, Any]) -> set[str]:
+    """Require selector coverage for affected whole records, including downstream uses."""
+    affected = set()
+    for node in set(old["graph"]["nodes"]) | set(new["graph"]["nodes"]):
+        before, after = old["bindings"].get(node), new["bindings"].get(node)
+        first = None if before is None else before["proof_slice"]
+        last = None if after is None else after["proof_slice"]
+        if first is not None and (after is None or after["source"] is None or last is None):
+            affected.add(node)
+        elif (before is not None and after is not None
+              and before["source"] is not None and after["source"] is not None
+              and all(before["source"].ref[key] == after["source"].ref[key] for key in
+                      ("repository", "path", "git_blob", "sha256", "bytes"))
+              and canonical(first) != canonical(last)):
+            affected.add(node)
+    reverse: dict[str, set[str]] = {}
+    for child, dependency in regression["traversal_edges"]:
+        reverse.setdefault(dependency, set()).add(child)
+    queue = list(affected)
+    while queue:
+        for child in reverse.get(queue.pop(), ()):
+            if child not in affected:
+                affected.add(child)
+                queue.append(child)
+    return affected
+
+
+def _alignment_holds(old: dict[str, Any], new: dict[str, Any], formals: list[dict[str, Any]],
                      regression: dict[str, Any]) -> dict[str, set[str]]:
     regression_reasons = {proposal["node"]: proposal["reasons"]
                           for proposal in regression["revalidation_required"]}
@@ -1187,15 +1253,27 @@ def _alignment_holds(new: dict[str, Any], formals: list[dict[str, Any]],
         if capture is not None:
             groups.setdefault(canonical(capture.ref), []).append(formal)
     graph_ref = canonical(new["graph_capture"].ref)
+    context_nodes = _proof_binding_context_nodes(old, new, regression)
+    binding_digest = _proof_binding_context_sha256(new) if context_nodes else None
     holds = {}
     for identity, records in groups.items():
         reasons = {code for formal in records for mapping in formal["mappings"]
                    for code in regression_reasons.get(mapping["node"],
                        ["node_record_changed"] if mapping["node"] in changed else [])}
+        context_reasons = set()
+        if any(mapping["node"] in context_nodes for formal in records for mapping in formal["mappings"]):
+            for formal in records:
+                claim = formal["reviewed_bindings"]
+                if claim is None:
+                    context_reasons.add("proof_binding_context_missing")
+                elif claim["sha256"] != binding_digest:
+                    context_reasons.add("proof_binding_context_changed")
+        reasons.update(context_reasons)
         # A newer alignment commit alone is not graph-context revalidation.
         # Every formal use of the original whole record must remain bound and
         # explicitly review the same verified full new graph identity.
-        revalidated = all(not formal["alignment_reasons"] and formal["reviewed_graph"] is not None
+        revalidated = not context_reasons and all(
+                          not formal["alignment_reasons"] and formal["reviewed_graph"] is not None
                           and canonical(formal["reviewed_graph"]) == graph_ref
                           and (not formal["main"] or all(
                               mapping["node"] in new["graph"]["nodes"]
@@ -1290,7 +1368,7 @@ def adapt_packet(packet: dict, expected_context: dict[str, str]) -> dict:
     identities = [record["id"] for record in formals + retrofits]
     require(len(identities) == len(set(identities)), "duplicate packet record id")
     regression = _regression(old, new, gate)
-    alignment_holds = _alignment_holds(new, formals, regression)
+    alignment_holds = _alignment_holds(old, new, formals, regression)
     affected = {}
     for formal in formals:
         capture = formal["alignment_capture"]
