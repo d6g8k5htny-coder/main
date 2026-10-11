@@ -756,6 +756,7 @@ def _formal(value: Any, captures: Captures, nodes: set[str], expected: dict[str,
             and manifest.get("alignment_status") == "PENDING_INDEPENDENT_REVIEW",
             "native source metadata cannot award execution or review")
     if main:
+        text(manifest.get("package"), "main package")
         require(manifest.get("lean_toolchain") == MAIN_TOOLCHAIN,
                 "unsupported main native Lean toolchain")
     targets, target_rows, source_rows = _target_inventory(manifest, main)
