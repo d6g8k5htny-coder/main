@@ -54,7 +54,7 @@ jobs:
           cat > "$control/bootstrap.py" <<'READER_OUTER_PY'
           #!/usr/bin/env python3
           """Fixed public outer launcher; syntax/setup failures are never behavioral RED."""
-          import ast, base64, datetime, hashlib, json, os, pathlib, selectors, signal, stat
+          import ast, base64, copy, datetime, hashlib, json, os, pathlib, re, selectors, signal, stat
           import subprocess, sys, time
           META={"schema_version":1,"scientific_effect":"NONE","scientific_status_authority":False}
           def controlled_signal(signum,frame):
@@ -252,29 +252,202 @@ jobs:
               need((os.lstat(root).st_dev,os.lstat(root).st_ino)==(anchored.st_dev,anchored.st_ino),"OUTER_SEAL_ROOT_DRIFT")
               return sorted(files,key=lambda r:r["path"])
           def sealed_host_payload():
+              global known_seal
               need(not writer_uncertain and not journal_uncertain and not refused_writes,"OUTER_WRITER_OR_JOURNAL_UNCERTAIN")
               root=pathlib.Path(env["RUNNER_TEMP"])/"reader-preparation"
+              parent=os.lstat(root)
+              need(stat.S_ISDIR(parent.st_mode) and parent.st_uid==0 and parent.st_gid==os.getgid()
+                   and parent.st_mode&0o777==0o750,"NATIVE_SEALED_PARENT_READ_PERMISSION")
               seal_path=root/"publication-seal.json";st=os.lstat(seal_path)
               need(stat.S_ISREG(st.st_mode) and st.st_nlink==1 and st.st_uid==0 and st.st_mode&0o777==0o640,"NATIVE_ROOT_SEAL")
-              seal=json.loads(original(seal_path,2**20))
+              seal_original=original(seal_path,2**20);seal=json.loads(seal_original)
+              need(enc(seal)==seal_original,"CANONICAL_ROOT_SEAL_ORIGINAL")
               need(set(seal)==set(META)|{"status","publication","files","manifest_sha256","success","writer_uncertain"}
                    and all(seal[k]==v for k,v in META.items()) and seal["status"]=="SEALED"
                    and seal["writer_uncertain"] is False and type(seal["success"]) is bool,"CLOSED_HOST_SEAL")
               payload=pathlib.Path(seal["publication"])
               need(payload in (root/"initial",root/"publication"),"FIXED_SEALED_PUBLICATION")
-              actual=closed_inventory(payload);need(actual==seal["files"],"OUTER_COMPLETE_SEAL_READBACK")
-              manifest=original(payload/"ARTIFACT_SHA256SUMS",2**20)
-              need(sha(manifest)==seal["manifest_sha256"] and manifest==
+              actual=closed_inventory(payload);manifest=original(payload/"ARTIFACT_SHA256SUMS",2**20)
+              sealed_inventory(actual,seal["files"],manifest,seal["manifest_sha256"])
+              known_seal=seal_original
+              failure=None if seal["success"] else failed_host_collection(payload,parent,actual,seal["files"],manifest,seal["manifest_sha256"])
+              return payload,seal["success"],seal["files"],seal_original,failure
+          def literal_original(raw,row):
+              need(len(raw)==row["bytes"] and sha(raw)==row["sha256"],"FAILED_ORIGINAL_LITERAL_JOIN")
+          def sealed_inventory(actual,declared,manifest,digest):
+              need(actual==declared,"OUTER_COMPLETE_SEAL_READBACK")
+              need(sha(manifest)==digest and manifest==
                    b"".join((r["sha256"]+"  "+r["path"]+"\n").encode("ascii")
                             for r in actual if r["path"]!="ARTIFACT_SHA256SUMS"),"OUTER_SEAL_MANIFEST")
-              return payload,seal["success"]
+          FAILURE_JOURNALS=("native/command-originals.jsonl","native/admission-command-originals.jsonl")
+          def failed_collection_admission(raw,journal,journal_origin,starts,ends,source_raw,source_row,actual,declared,manifest,digest):
+              # The fixed predicates consume observed originals; control IDs select no predicate.
+              literal_original(source_raw,source_row);sealed_inventory(actual,declared,manifest,digest)
+              need(len(raw)<=16384,"CLOSED_HOST_FAILURE_DIAGNOSTIC");value=json.loads(raw)
+              need(enc(value)==raw and set(value)==set(META)|{"status","diagnostic_kind","original_member",
+                   "phase","reason_code","exception_class","command"} and all(value[k]==v for k,v in META.items())
+                   and value["status"]=="SETUP_BLOCKED" and value["diagnostic_kind"]=="BOUNDED_PRIMARY_HOST_FAILURE"
+                   and value["original_member"]=="native/host-failure.json","CLOSED_HOST_FAILURE_DIAGNOSTIC")
+              need(value["phase"] in ("INITIALIZE","EXECUTE","DISPOSAL","POLICY_RECOVERY","COLLECTION",
+                   "AFTER_IDENTITY","OBSERVATION_ADMISSION","FINAL_DISPOSAL","FINAL_STATUS",
+                   "FINAL_ORIGINAL_SEAL","PUBLICATION_PERMISSION")
+                   and re.fullmatch("[A-Z][A-Z0-9_]{0,95}",value["reason_code"])
+                   and re.fullmatch("[A-Za-z_][A-Za-z0-9_]{0,63}",value["exception_class"]),"FAILURE_REASON_SCHEMA")
+              need(len(starts)==1,"ACTUAL_HOST_COMMAND_SINGLETON")
+              need(len(ends)==1 and ends[0]["reaped"] is True and ends[0]["timed_out"] is False
+                   and ends[0]["overflow"] is False and type(ends[0]["exit_status"]) is int
+                   and ends[0]["exit_status"]!=0,"ACTUAL_FAILED_HOST_TERMINAL")
+              captured=base64.b64decode(ends[0]["stdout_base64"],validate=True)
+              need(len(captured)==ends[0]["stdout_bytes"] and sha(captured)==ends[0]["stdout_sha256"]
+                   and captured.splitlines(keepends=True).count(raw)==1,"ACTUAL_OUTER_FAILURE_CAPTURE_JOIN")
+              command=value["command"]
+              if command is None:need(journal_origin==FAILURE_JOURNALS[0] and journal==b"","FAILURE_WITHOUT_NATIVE_COMMAND")
+              else:
+                  need(set(command)=={"ticket","original_path","start","end","result","stdout","stderr"}
+                       and journal_origin in FAILURE_JOURNALS and command["original_path"]==journal_origin,"FAILURE_COMMAND_SCHEMA")
+                  pairs=[]
+                  for line in journal.splitlines(keepends=True):
+                      item=json.loads(line)
+                      if item["ticket"]==command["ticket"]:pairs.append((item,line))
+                  need(len(pairs)==2 and [r[0]["event"] for r in pairs]==["START","END"],"ACTUAL_FAILURE_COMMAND_PAIR")
+                  for name,(_,line) in zip(("start","end"),pairs):
+                      need(command[name]=={"bytes":len(line),"sha256":sha(line)},"FAILURE_EVENT_ORIGINAL_JOIN")
+                  terminal=pairs[1][0]
+                  need(terminal["stdout"]==journal_origin and terminal["stderr"]==journal_origin,"FAILURE_ACTUAL_JOURNAL_JOIN")
+                  keys=("exit_status","duration_ns","timed_out","overflow","term_status","kill_status","reaped")
+                  need(command["result"]=={k:terminal[k] for k in keys},"FAILURE_ACTUAL_RESULT_JOIN")
+                  for name in ("stdout","stderr"):
+                      stream=base64.b64decode(terminal[name+"_base64"],validate=True);prefix=stream[:1024]
+                      need(len(stream)==terminal[name+"_bytes"] and sha(stream)==terminal[name+"_sha256"]
+                           and command[name]=={"full_bytes":len(stream),"full_sha256":sha(stream),
+                             "prefix_bytes":len(prefix),"prefix_base64":base64.b64encode(prefix).decode("ascii"),
+                             "omitted_bytes":len(stream)-len(prefix)},"FAILURE_BOUNDED_PREFIX_JOIN")
+              return value
+          def failed_host_collection(payload,parent,actual,declared,manifest,digest):
+              raw=original(payload/"native/host-failure.json",16384)
+              selection=json.loads(raw);need(type(selection) is dict,"FAILURE_COMMAND_SCHEMA")
+              selected=selection.get("command")
+              need(selected is None or type(selected) is dict,"FAILURE_COMMAND_SCHEMA")
+              journal_origin=FAILURE_JOURNALS[0] if selected is None else selected.get("original_path")
+              need(journal_origin in FAILURE_JOURNALS,"FAILURE_COMMAND_SCHEMA")
+              journal=original(payload/journal_origin,4*2**20)
+              starts=[r for r in events if r["event"]=="START" and r["argv"][-2:]==[str(control/"host.py"),"--host"]]
+              need(len(starts)==1,"ACTUAL_HOST_COMMAND_SINGLETON")
+              ends=[r for r in events if r["event"]=="END" and r["ticket"]==starts[0]["ticket"]]
+              source_name="sources/"+sources[0];source_row=admitted[source_name]
+              source_raw=original(fallback/source_name,2**20)
+              base={"raw":raw,"journal":journal,"journal_origin":journal_origin,"starts":starts,"ends":ends,"source_raw":source_raw,
+                "source_row":source_row,"actual":actual,"declared":declared,"manifest":manifest,"digest":digest}
+              value=failed_collection_admission(**base)
+              # Calibrate on the unchanged actual failed seal before the five copied-data controls.
+              positive={**META,"control_id":"FC01_actual_failed_seal_collection","status":"FAILED_ORIGINALS_READ_BACK",
+                "preparation_status":"SETUP_BLOCKED","diagnostic":{"path":"native/host-failure.json","bytes":len(raw),"sha256":sha(raw)},
+                "parent_uid":parent.st_uid,"parent_gid":parent.st_gid,"parent_mode":parent.st_mode&0o777,
+                "ordinary_reader_uid":os.getuid(),"ordinary_reader_gid":os.getgid(),
+                "outer_ticket":starts[0]["ticket"],"native_ticket":None if value["command"] is None else value["command"]["ticket"],
+                "journal_origin":journal_origin,
+                "runtime_ready":False,"control_credit":"NONE","custody":"UNKNOWN"}
+              if value["command"] is None:
+                  # Preserve a safe pre-command failure without inventing a native pair or control result.
+                  skipped=[{"control_id":identifier,"status":"NOT_RUN","expected_reason":expected,
+                    "observed_reason":"NO_NATIVE_COMMAND_ORIGINAL","changed_originals":[]} for identifier,expected in
+                    (("FC02_changed_bounded_diagnostic","ACTUAL_OUTER_FAILURE_CAPTURE_JOIN"),
+                     ("FC03_changed_event_original","FAILURE_EVENT_ORIGINAL_JOIN"),
+                     ("FC04_changed_bounded_prefix","FAILURE_BOUNDED_PREFIX_JOIN"),
+                     ("FC05_changed_source_original","FAILED_ORIGINAL_LITERAL_JOIN"),
+                     ("FC06_changed_manifest_original","OUTER_SEAL_MANIFEST"))]
+                  return positive,skipped,{}
+              trials=[]
+              trial=copy.deepcopy(base);changed=copy.deepcopy(value)
+              changed["reason_code"]="CONTROL_CHANGED_REASON";trial["raw"]=enc(changed)
+              trials.append(("FC02_changed_bounded_diagnostic","ACTUAL_OUTER_FAILURE_CAPTURE_JOIN",trial,{"raw":trial["raw"]}))
+              trial=copy.deepcopy(base);lines=journal.splitlines(keepends=True)
+              position=[i for i,line in enumerate(lines) if json.loads(line)["ticket"]==value["command"]["ticket"]
+                        and json.loads(line)["event"]=="END"]
+              need(len(position)==1,"ACTUAL_CONTROL_END_SINGLETON");item=json.loads(lines[position[0]])
+              item["exit_status"]=0 if item["exit_status"]!=0 else 1;lines[position[0]]=enc(item)
+              trial["journal"]=b"".join(lines)
+              trials.append(("FC03_changed_event_original","FAILURE_EVENT_ORIGINAL_JOIN",trial,{"journal":trial["journal"]}))
+              trial=copy.deepcopy(base);changed=copy.deepcopy(value)
+              changed["command"]["stderr"]["prefix_bytes"]+=1;trial["raw"]=enc(changed)
+              captured=base64.b64decode(ends[0]["stdout_base64"],validate=True)
+              need(captured.splitlines(keepends=True).count(raw)==1,"ACTUAL_CONTROL_CAPTURE_CALIBRATION")
+              changed_capture=captured.replace(raw,trial["raw"],1);changed_end=copy.deepcopy(ends[0])
+              changed_end.update(stdout_base64=base64.b64encode(changed_capture).decode("ascii"),
+                stdout_bytes=len(changed_capture),stdout_sha256=sha(changed_capture))
+              trial["ends"]=[changed_end]
+              trials.append(("FC04_changed_bounded_prefix","FAILURE_BOUNDED_PREFIX_JOIN",trial,
+                {"raw":trial["raw"],"outer_end":enc(changed_end)}))
+              trial=copy.deepcopy(base);need(source_raw,"ACTUAL_SOURCE_CONTROL_NONEMPTY")
+              trial["source_raw"]=bytes([source_raw[0]^1])+source_raw[1:]
+              trials.append(("FC05_changed_source_original","FAILED_ORIGINAL_LITERAL_JOIN",trial,{"source_raw":trial["source_raw"]}))
+              trial=copy.deepcopy(base);need(manifest,"ACTUAL_MANIFEST_CONTROL_NONEMPTY")
+              trial["manifest"]=bytes([manifest[0]^1])+manifest[1:]
+              trials.append(("FC06_changed_manifest_original","OUTER_SEAL_MANIFEST",trial,{"manifest":trial["manifest"]}))
+              results=[];originals={}
+              for identifier,expected,trial,changes in trials:
+                  try:failed_collection_admission(**trial)
+                  except ValueError as exc:observed=str(exc)
+                  else:raise ValueError("FAILED_COLLECTION_NEGATIVE_ACCEPTED")
+                  need(observed==expected,"FAILED_COLLECTION_NEGATIVE_REASON_MISMATCH")
+                  rows=[]
+                  for key,changed_raw in sorted(changes.items()):
+                      name="controls/"+identifier+"/"+key+".original"
+                      need(len(changed_raw)<=4*2**20,"FAILED_CONTROL_ORIGINAL_BOUND");originals[name]=changed_raw
+                      rows.append({"input_key":key,"path":name,"bytes":len(changed_raw),"sha256":sha(changed_raw),
+                        **({"original_member":journal_origin} if key=="journal" else {})})
+                  results.append({"control_id":identifier,"status":"REFUSED","expected_reason":expected,
+                    "observed_reason":observed,"changed_originals":rows})
+              need(sum(len(raw) for raw in originals.values())<=8*2**20,"FAILED_CONTROL_AGGREGATE_BOUND")
+              return positive,results,originals
+          def failed_upload(candidate,inner,seal,failure):
+              # Each set has its own original manifest. Preserve both under fixed prefixes.
+              positive,negatives,control_originals=failure
+              outer=sorted(admitted.values(),key=lambda r:r["path"])
+              diagnostic={**positive["diagnostic"],"path":"inner/"+positive["diagnostic"]["path"]}
+              control_value={**positive,"diagnostic":diagnostic,"negative_controls":negatives,
+                "base_originals":{"diagnostic":"inner/native/host-failure.json","journal":"inner/"+positive["journal_origin"],
+                  "source":"outer/sources/"+sources[0],"manifest":"inner/ARTIFACT_SHA256SUMS",
+                  "outer_commands":"outer/native/outer-command-originals.jsonl"},
+                "inner":{"files":inner,"prefix":"inner/"},
+                "outer":{"files":outer,"prefix":"outer/"},
+                "root_seal":{"path":"native/root-publication-seal.original.json","bytes":len(seal),"sha256":sha(seal)}}
+              control_raw=enc(control_value);need(len(control_raw)<=2**20,"FAILED_COLLECTION_CONTROL_BOUND")
+              rows=[{**row,"path":prefix+row["path"]} for prefix,group in (("inner/",inner),("outer/",outer)) for row in group]
+              rows.extend({"path":name,"bytes":len(raw),"sha256":sha(raw)} for name,raw in sorted(control_originals.items()))
+              rows.extend(({"path":"native/root-publication-seal.original.json","bytes":len(seal),"sha256":sha(seal)},
+                {"path":"native/failure-collection-control.json","bytes":len(control_raw),"sha256":sha(control_raw)}))
+              manifest=b"".join((r["sha256"]+"  "+r["path"]+"\n").encode("ascii") for r in sorted(rows,key=lambda r:r["path"]))
+              need(len(rows)+1<=1024 and sum(r["bytes"] for r in rows)+len(manifest)<=512*2**20,
+                   "COMPLETE_FAILED_COLLECTION_BOUND")
+              closed=pathlib.Path(env["RUNNER_TEMP"])/"reader-preparation-failed-upload";closed.mkdir(mode=0o700)
+              def copy(name,raw,row):
+                  literal_original(raw,row)
+                  target=closed/name;target.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
+                  fd=os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+                  with os.fdopen(fd,"wb") as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+                  need(original(target,256*2**20)==raw,"FAILED_ORIGINAL_EXACT_COPY")
+              for prefix,root,group in (("inner/",candidate,inner),("outer/",fallback,outer)):
+                  for row in group:copy(prefix+row["path"],original(root/row["path"],256*2**20),row)
+              for name,raw in sorted(control_originals.items()):copy(name,raw,{"bytes":len(raw),"sha256":sha(raw)})
+              for name,raw in (("native/root-publication-seal.original.json",seal),
+                               ("native/failure-collection-control.json",control_raw),("ARTIFACT_SHA256SUMS",manifest)):
+                  copy(name,raw,{"bytes":len(raw),"sha256":sha(raw)})
+              expected=sorted([*rows,{"path":"ARTIFACT_SHA256SUMS","bytes":len(manifest),"sha256":sha(manifest)}],key=lambda r:r["path"])
+              need(closed_inventory(closed)==expected and original(closed/"ARTIFACT_SHA256SUMS",2**20)==manifest,
+                   "COMPLETE_FAILED_UPLOAD_SEAL")
+              print(enc({**positive,"diagnostic":diagnostic,"negative_controls":[{"control_id":r["control_id"],"status":r["status"],
+                "observed_reason":r["observed_reason"]} for r in negatives],"collection_control":{"path":"native/failure-collection-control.json",
+                "bytes":len(control_raw),"sha256":sha(control_raw)},"raw_members":len(expected),
+                "raw_bytes":sum(r["bytes"] for r in expected)}).decode(),end="",flush=True)
+              return closed
           controls=["bootstrap.py","host.py","browser.py","collect.py","node.mjs","reader-chrome-sandbox-v1.apparmor",
                     "fixture/astro.config.mjs","fixture/src/pages/index.astro"]
           sources=[".github/workflows/interface-reader-runtime-preparation.yml",
                    "docs/plans/2026-10-09-reader-runtime-preparation.md",
                    "docs/plans/2026-10-09-interface-reader-contract.md","tools/interface_browser_check.py",
                    "interface/package.json","interface/package-lock.json"]
-          before=[];missing=[];rows=[];setup="SETUP_BLOCKED";host_started=False;current_member=None
+          before=[];missing=[];rows=[];setup="SETUP_BLOCKED";host_started=False;current_member=None;known_seal=None
           try:
               for name in controls:
                   current_member="sources/controls/"+name
@@ -328,26 +501,45 @@ jobs:
               # closed root seal or a fresh closed fallback may reach upload-artifact.
               payload=""
               try:
-                  candidate,host_success=sealed_host_payload();payload=str(candidate)
-                  if not host_success:setup="SETUP_BLOCKED"
-              except BaseException:
+                  candidate,host_success,inner,seal,failure=sealed_host_payload()
+                  if host_success:payload=str(candidate)
+                  else:
+                      setup="SETUP_BLOCKED";payload=str(failed_upload(candidate,inner,seal,failure))
+              except BaseException as exc:
                   setup="SETUP_BLOCKED"
+                  reason=str(exc) if type(exc) is ValueError and re.fullmatch("[A-Z][A-Z0-9_]{0,95}",str(exc)) else "SEALED_COLLECTION_EXCEPTION"
+                  refusal={**META,"status":"SETUP_BLOCKED","phase":"SEALED_COLLECTION","reason_code":reason,
+                    "publication":"REFUSED","control_credit":"NONE","runtime_ready":False,"custody":"UNKNOWN",
+                    "root_seal":None if known_seal is None else {"path":"native/refused-root-seal.original.json",
+                      "bytes":len(known_seal),"sha256":sha(known_seal)}}
+                  print(enc(refusal).decode(),end="",flush=True)
                   try:
+                      refusal_raw=enc(refusal);need(len(refusal_raw)<=16384,"COLLECTION_REFUSAL_DIAGNOSTIC_BOUND")
+                      put("native/failure-collection-refusal.json",refusal_raw)
+                      if known_seal is not None:put("native/refused-root-seal.original.json",known_seal)
+                      need("native/setup-status.json" in admitted and "ARTIFACT_SHA256SUMS" in admitted,"FALLBACK_REQUIRED_ORIGINALS")
+                      renamed={**admitted["ARTIFACT_SHA256SUMS"],"path":"native/launcher-manifest.original.txt"}
+                      selected=[(name,name,row) for name,row in admitted.items() if name!="ARTIFACT_SHA256SUMS"]
+                      selected.append(("ARTIFACT_SHA256SUMS",renamed["path"],renamed))
+                      manifest=b"".join((r["sha256"]+"  "+r["path"]+"\n").encode("ascii")
+                        for r in sorted([r for _,_,r in selected],key=lambda r:r["path"]))
+                      need(len(selected)+1<=1024 and sum(r["bytes"] for _,_,r in selected)+len(manifest)<=512*2**20,
+                           "COMPLETE_FALLBACK_COLLECTION_BOUND")
                       closed=pathlib.Path(env["RUNNER_TEMP"])/"reader-preparation-setup-upload"
                       closed.mkdir(mode=0o700);sealed=[]
-                      for name,row in sorted(admitted.items()):
-                          raw=original(fallback/name,4*2**20)
+                      for source_name,name,row in sorted(selected,key=lambda r:r[1]):
+                          raw=original(fallback/source_name,4*2**20)
                           need(len(raw)==row["bytes"] and sha(raw)==row["sha256"],"FALLBACK_ADMITTED_ORIGINAL")
                           target=closed/name;target.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
                           fd=os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
                           with os.fdopen(fd,"wb") as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
                           need(original(target,4*2**20)==raw,"FALLBACK_EXACT_COPY")
                           sealed.append(row)
-                      need("native/setup-status.json" in admitted and "ARTIFACT_SHA256SUMS" in admitted
-                           and closed_inventory(closed)==sealed,"FALLBACK_CLOSED_SEAL")
-                      manifest=original(closed/"ARTIFACT_SHA256SUMS",2**20)
-                      need(manifest==b"".join((r["sha256"]+"  "+r["path"]+"\n").encode("ascii")
-                           for r in sealed if r["path"]!="ARTIFACT_SHA256SUMS"),"FALLBACK_CLOSED_MANIFEST")
+                      fd=os.open(closed/"ARTIFACT_SHA256SUMS",os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+                      with os.fdopen(fd,"wb") as stream:stream.write(manifest);stream.flush();os.fsync(stream.fileno())
+                      sealed.append({"path":"ARTIFACT_SHA256SUMS","bytes":len(manifest),"sha256":sha(manifest)})
+                      need(closed_inventory(closed)==sorted(sealed,key=lambda r:r["path"]),"FALLBACK_CLOSED_SEAL")
+                      need(original(closed/"ARTIFACT_SHA256SUMS",2**20)==manifest,"FALLBACK_CLOSED_MANIFEST")
                       payload=str(closed)
                   except BaseException:
                       print("SETUP_BLOCKED FALLBACK_SEAL_REFUSED NO_ARTIFACT_SELECTED",flush=True)
@@ -452,6 +644,29 @@ jobs:
               finally: os.close(fd)
               require(read(root,name,max(1,len(raw)))==raw,"COPY_READBACK")
           def record(name,raw):return {"path":name,"bytes":len(raw),"sha256":sha(raw)}
+          FAILURE_JOURNALS=("native/command-originals.jsonl","native/admission-command-originals.jsonl")
+          def failure_value(phase,reason,exception_class,command):
+              # Complete events remain in the journal. Only explicit bounded prefixes are echoed.
+              detail=None
+              if command is not None:
+                  start=enc(command["start"]);terminal=command["end"]
+                  require(command["journal_origin"] in FAILURE_JOURNALS,"FAILURE_COMMAND_JOURNAL_ORIGIN")
+                  detail={"ticket":command["start"]["ticket"],"original_path":command["journal_origin"],
+                    "start":{"bytes":len(start),"sha256":sha(start)},"end":None if terminal is None
+                    else {"bytes":len(enc(terminal)),"sha256":sha(enc(terminal))},
+                    "result":None if terminal is None else {k:terminal[k] for k in
+                      ("exit_status","duration_ns","timed_out","overflow","term_status","kill_status","reaped")}}
+                  for name in ("stdout","stderr"):
+                      raw=command[name];prefix=raw[:1024]
+                      detail[name]=None if terminal is None else {"full_bytes":len(raw),"full_sha256":sha(raw),"prefix_bytes":len(prefix),
+                        "prefix_base64":base64.b64encode(prefix).decode("ascii"),"omitted_bytes":len(raw)-len(prefix)}
+              value={**META,"status":"SETUP_BLOCKED","diagnostic_kind":"BOUNDED_PRIMARY_HOST_FAILURE",
+                "original_member":"native/host-failure.json","phase":phase,"reason_code":reason,
+                "exception_class":exception_class,"command":detail}
+              require(len(enc(value))<=16384,"BOUNDED_HOST_FAILURE_DIAGNOSTIC")
+              return value
+          def failure_reason(exc,fallback):
+              return str(exc) if type(exc) is ValueError and re.fullmatch("[A-Z][A-Z0-9_]{0,95}",str(exc)) else fallback
           def inv(root,cap=128*2**20,total=512*2**20,count=8192):
               rows=[]
               def walk(directory,prefix=""):
@@ -580,11 +795,11 @@ jobs:
                   self.runner_uid=runner.st_uid;self.runner_gid=runner.st_gid
                   os.chown(self.base,0,self.runner_gid);os.chmod(self.base,0o710)
                   self.initial=self.base/"initial";self.initial.mkdir(mode=0o700)
-                  self.publish=self.initial;self.control=pathlib.Path(os.environ["READER_TRUSTED_CONTROL"])
+                  self.publish=self.initial;self.control_root=pathlib.Path(os.environ["READER_TRUSTED_CONTROL"])
                   self.allowed=set();self.commands=[];self.containers=[];self.volumes=[];self.loaded=False
                   self.safe_collect=True;self.failures=[];self.success=False;self.probes=[];self.images={}
                   self.writer_uncertain=False;self.publication_sealed=False;self.sealed_files=[]
-                  self.active_commands=set();self.refused_originals=[]
+                  self.active_commands=set();self.refused_originals=[];self.last_command=None;self.primary_failure=None
                   self.context={};self.policy_before=None;self.settings_before=None;self.policy_remove_raw=b""
                   self.policy_attempted=False;self.policy_owner_proven=False
                   self.client=self.base/"docker-client";self.client.mkdir(mode=0o700)
@@ -626,6 +841,16 @@ jobs:
                       self.refused_originals.append({"path":name,"status":"WRITE_OR_READBACK_REFUSED"});raise
                   self.allowed.add(name);return record(name,raw)
               def json(self,name,value):return self.retain(name,enc(value))
+              def emit_failure(self,phase,exc=None,fallback="SETUP_EXCEPTION"):
+                  if self.primary_failure is not None:return
+                  reason=failure_reason(exc,fallback);kind="RecordedFailure" if exc is None else type(exc).__name__
+                  require(re.fullmatch("[A-Za-z_][A-Za-z0-9_]{0,63}",kind),"FAILURE_EXCEPTION_CLASS_BOUND")
+                  raw=enc(failure_value(phase,reason,kind,self.last_command));self.primary_failure=raw
+                  if not self.writer_uncertain and not self.journal_uncertain and not self.active_commands:
+                      try:self.retain("native/host-failure.json",raw,16384)
+                      except BaseException:self.failures.append("HOST_FAILURE_ORIGINAL_REFUSED")
+                  # Outer immutable capture preserves this record even if an inner seal is refused.
+                  print(raw.decode("ascii"),end="",flush=True)
               def run(self,label,argv,seconds=30,stdin=None,okay=False,cap=4*2**20):
                   require(not self.writer_uncertain and not self.journal_uncertain,"NATIVE_COMMAND_PREVIOUS_UNCERTAINTY")
                   if not self.in_cleanup:
@@ -639,6 +864,8 @@ jobs:
                   # Hard public ABI cap is unchanged. The effective capture reservation is
                   # smaller, and exhausting it is an explicit failed bounded observation.
                   capture_cap=min(cap,65536)
+                  journal_origin=str(self.command_path.relative_to(self.publish))
+                  require(journal_origin in FAILURE_JOURNALS,"COMMAND_JOURNAL_ORIGIN")
                   reserve=8192+4*((capture_cap+2)//3)
                   start={"event":"START","ticket":prefix,"argv":argv,"seconds":seconds,"stream_cap":cap,
                          "started_at":datetime.datetime.now(datetime.timezone.utc).isoformat()}
@@ -649,6 +876,7 @@ jobs:
                   except BaseException:
                       self.command_reserved-=reserve;raise
                   self.active_commands.add(prefix)
+                  self.last_command={"journal_origin":journal_origin,"start":start,"end":None,"stdout":b"","stderr":b""}
                   def monitor(raw):
                       if label=="attach-browser" and not getattr(self,"browser_monitored",False) and b"READER_PREPARATION_SANDBOX_READY\n" in raw:
                           self.browser_monitored=True;self.browser_monitor()
@@ -656,10 +884,11 @@ jobs:
                   if uncertain:
                       try:self.latch_writer_uncertainty(prefix)
                       except BaseException:self.failures.append("WRITER_UNCERTAINTY_PERSISTENCE_REFUSED")
-                  result.update(stdout=str(self.command_path.relative_to(self.publish)),stderr=str(self.command_path.relative_to(self.publish)))
+                  result.update(stdout=journal_origin,stderr=journal_origin)
                   terminal={"event":"END","ticket":prefix,**result,
                     "stdout_base64":base64.b64encode(out).decode("ascii"),"stdout_bytes":len(out),"stdout_sha256":sha(out),
                     "stderr_base64":base64.b64encode(err).decode("ascii"),"stderr_bytes":len(err),"stderr_sha256":sha(err)}
+                  self.last_command={"journal_origin":journal_origin,"start":start,"end":terminal,"stdout":out,"stderr":err}
                   self.commands.append({"label":label,"ticket":prefix,**result})
                   try:self.command_event(terminal,reserve)
                   finally:
@@ -754,12 +983,12 @@ jobs:
                   self.workflow_sha=next(x["sha256"] for x in self.source_before if x["path"]==WORKFLOW)
                   control_names=["bootstrap.py","host.py","node.mjs","browser.py","collect.py","reader-chrome-sandbox-v1.apparmor",
                                  "fixture/astro.config.mjs","fixture/src/pages/index.astro"]
-                  require([r["path"] for r in inv(self.control,2**20,8*2**20,16)]==sorted(control_names),"CLOSED_CONTROL_NAMES")
+                  require([r["path"] for r in inv(self.control_root,2**20,8*2**20,16)]==sorted(control_names),"CLOSED_CONTROL_NAMES")
                   for name in sorted(control_names):
-                      raw=read(self.control,name,2**20);self.retain("sources/controls/"+name,raw,2**20)
+                      raw=read(self.control_root,name,2**20);self.retain("sources/controls/"+name,raw,2**20)
                       self.source_before.append(record("controls/"+name,raw))
                   self.source_before.sort(key=lambda r:r["path"])
-                  self.control_before=inv(self.control,2**20,8*2**20,16)
+                  self.control_before=inv(self.control_root,2**20,8*2**20,16)
                   self.json("native/control-bindings.json",{**META,"files":self.control_before})
                   self.json("native/source-before.json",{**META,"files":self.source_before})
                   config=read(self.client,"config.json") if (self.client/"config.json").exists() else None
@@ -952,7 +1181,7 @@ jobs:
                        "packages":[{"lock_path":k,"version":v["version"],"declared_license":v.get("license","UNKNOWN"),
                                     "resolved":v["resolved"],"integrity":v["integrity"]} for k,v in entries]})
                   for name,url,size,digest in UPSTREAM:self.fetch(name,url,2**20,size,digest)
-                  raw=read(self.control,"reader-chrome-sandbox-v1.apparmor",2**20)
+                  raw=read(self.control_root,"reader-chrome-sandbox-v1.apparmor",2**20)
                   require(sha(raw)==APPARMOR_SHA,"APPARMOR_SOURCE")
                   self.retain("profiles/reader-chrome-sandbox-v1.apparmor",raw,2**20)
                   self.profiles=self.prepare/"profiles";self.profiles.mkdir(mode=0o700)
@@ -1146,10 +1375,10 @@ jobs:
                   readonly(self.source)
                   self.trusted=self.prepare/"control";self.trusted.mkdir(mode=0o700)
                   for name in ("node.mjs","browser.py","host.py","collect.py"):
-                      put(self.trusted,name,read(self.control,name,2**20),2**20)
+                      put(self.trusted,name,read(self.control_root,name,2**20),2**20)
                   fixture=self.trusted/"fixture";(fixture/"src/pages").mkdir(parents=True,mode=0o700)
                   for name in ("astro.config.mjs","src/pages/index.astro"):
-                      put(fixture,name,read(self.control/"fixture",name,2**20),2**20)
+                      put(fixture,name,read(self.control_root/"fixture",name,2**20),2**20)
                   put(self.trusted,"native-context.json",enc(self.context))
                   readonly(self.trusted)
                   self.trusted_before=inv(self.trusted,2**20,8*2**20,16)
@@ -1558,19 +1787,24 @@ jobs:
                   for row in self.containers:
                       if row.get("attempted",False) and row["remaining"]!=[]:
                           try:self.dispose(row)
-                          except Exception:self.safe_collect=False;self.failures.append("WRITER_ABSENCE_UNCONFIRMED")
+                          except Exception as exc:
+                              self.safe_collect=False;self.failures.append("WRITER_ABSENCE_UNCONFIRMED")
+                              self.emit_failure("DISPOSAL",exc,"WRITER_ABSENCE_UNCONFIRMED")
                   try:self.recovery()
-                  except Exception:self.safe_collect=False;self.failures.append("STRICT_POLICY_RECOVERY_FAILED")
+                  except Exception as exc:
+                      self.safe_collect=False;self.failures.append("STRICT_POLICY_RECOVERY_FAILED")
+                      self.emit_failure("POLICY_RECOVERY",exc,"STRICT_POLICY_RECOVERY_FAILED")
                   try:
                       if self.safe_collect:self.collect()
-                  except Exception:self.failures.append("COLLECTION_REFUSED")
+                  except Exception as exc:
+                      self.failures.append("COLLECTION_REFUSED");self.emit_failure("COLLECTION",exc,"COLLECTION_REFUSED")
                   # Independently observe original source/image/config bytes after every
                   # runtime child has been disposed. No source mutation can earn a receipt.
                   try:
-                      self.source_after=[record(r["path"],read(self.control,r["path"][9:],2**20)
+                      self.source_after=[record(r["path"],read(self.control_root,r["path"][9:],2**20)
                             if r["path"].startswith("controls/") else read(os.environ["GITHUB_WORKSPACE"],r["path"],2**20))
                             for r in self.source_before]
-                      control_after=inv(self.control,2**20,8*2**20,16)
+                      control_after=inv(self.control_root,2**20,8*2**20,16)
                       self.json("native/control-after.json",{**META,"files":control_after})
                       require(control_after==self.control_before,"CONTROL_AFTER")
                       if hasattr(self,"trusted"):
@@ -1590,19 +1824,25 @@ jobs:
                           self.retain("native/"+label+"-image-after.json",raw)
                           require(strict(raw)==[self.images[label]],"IMAGE_AFTER")
                       require(not list(self.client.iterdir()),"DOCKER_CLIENT_AFTER")
-                  except Exception:self.failures.append("AFTER_IDENTITY_REFUSED")
+                  except Exception as exc:
+                      self.failures.append("AFTER_IDENTITY_REFUSED");self.emit_failure("AFTER_IDENTITY",exc,"AFTER_IDENTITY_REFUSED")
                   if not self.failures:
                       try:
                           self.observations();self.in_cleanup=False;self.sensitivity();self.success=True
-                      except Exception:self.failures.append("OBSERVATION_ADMISSION_FAILED")
+                      except Exception as exc:
+                          self.failures.append("OBSERVATION_ADMISSION_FAILED")
+                          self.emit_failure("OBSERVATION_ADMISSION",exc,"OBSERVATION_ADMISSION_FAILED")
                   self.in_cleanup=True
                   # An admission-stage exception still receives one bounded owned disposal.
                   # Failed earlier stop/remove attempts are preserved and never retried.
                   for row in self.containers:
                       if row.get("attempted",False) and row["remaining"]!=[]:
                           try:self.dispose(row)
-                          except Exception:self.safe_collect=False;self.failures.append("FINAL_ADMISSION_WRITER_UNCONFIRMED")
-                  if self.failures:self.success=False
+                          except Exception as exc:
+                              self.safe_collect=False;self.failures.append("FINAL_ADMISSION_WRITER_UNCONFIRMED")
+                              self.emit_failure("FINAL_DISPOSAL",exc,"FINAL_ADMISSION_WRITER_UNCONFIRMED")
+                  if self.failures:
+                      self.success=False;self.emit_failure("FINAL_STATUS",fallback=self.failures[0])
                   if self.command_fd is not None:
                       os.fsync(self.command_fd);os.close(self.command_fd);self.command_fd=None
                   self.json("native/final-status.json",{**META,"status":"OBSERVATION_COMPLETE_NATIVE_CUSTODY_PENDING" if self.success else "SETUP_BLOCKED",
@@ -1642,6 +1882,17 @@ jobs:
                   put(self.base,"publication-seal.json",enc(seal))
                   os.chown(self.base/"publication-seal.json",0,self.runner_gid)
                   os.chmod(self.base/"publication-seal.json",0o640)
+                  # The ordinary reader needs parent read+traverse only after the closed seal.
+                  fd=os.open(self.base,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+                  try:
+                      before=os.fstat(fd)
+                      require(stat.S_ISDIR(before.st_mode) and before.st_uid==0 and before.st_gid==self.runner_gid
+                              and before.st_mode&0o777==0o710,"PRIVATE_PARENT_BEFORE_SEAL")
+                      os.fchmod(fd,0o750);after=os.fstat(fd)
+                      require((before.st_dev,before.st_ino)==(after.st_dev,after.st_ino)
+                              and after.st_uid==0 and after.st_gid==self.runner_gid and after.st_mode&0o777==0o750,
+                              "SEALED_PARENT_READ_PERMISSION")
+                  finally:os.close(fd)
               def state(self):
                   value={**META,"run_id":os.environ["GITHUB_RUN_ID"],"run_attempt":os.environ["GITHUB_RUN_ATTEMPT"],
                     "base":str(self.base),"publication":str(self.publish),"volumes":self.volumes,
@@ -1733,22 +1984,29 @@ jobs:
           def main():
               if sys.argv[1:]==["--release"]:return release()
               require(sys.argv[1:]==["--host"],"FIXED_ENTRY")
-              owner=Prep()
+              try:owner=Prep()
+              except BaseException as exc:
+                  reason=failure_reason(exc,"SETUP_EXCEPTION");kind=type(exc).__name__
+                  require(re.fullmatch("[A-Za-z_][A-Za-z0-9_]{0,63}",kind),"FAILURE_EXCEPTION_CLASS_BOUND")
+                  print(enc(failure_value("INITIALIZE",reason,kind,None)).decode("ascii"),end="",flush=True)
+                  return 1
               try:owner.execute()
               except BaseException as exc:
                   code=str(exc) if type(exc) is ValueError and re.fullmatch("[A-Z][A-Z0-9_]{0,95}",str(exc)) else "SETUP_EXCEPTION"
-                  owner.failures.append(code)
+                  owner.failures.append(code);owner.emit_failure("EXECUTE",exc,code)
               finally:
                   try:owner.finalize()
                   except BaseException as exc:
                       owner.failures.append("FINAL_ORIGINALS_REFUSED");owner.success=False
                       code=str(exc) if type(exc) is ValueError and re.fullmatch("[A-Z][A-Z0-9_]{0,95}",str(exc)) else "FINAL_SEAL_EXCEPTION"
+                      owner.emit_failure("FINAL_ORIGINAL_SEAL",exc,code)
                       print(enc({**META,"status":"SETUP_BLOCKED","phase":"FINAL_ORIGINAL_SEAL","reason":code,
                         "failures":sorted(set(owner.failures)),"refused_originals":owner.refused_originals,
                         "publication":"REFUSED"}).decode(),end="",flush=True)
                   try:owner.publication_read_permission()
-                  except BaseException:
+                  except BaseException as exc:
                       owner.failures.append("PUBLICATION_READ_PERMISSION_REFUSED");owner.success=False
+                      owner.emit_failure("PUBLICATION_PERMISSION",exc,"PUBLICATION_READ_PERMISSION_REFUSED")
                       print(enc({**META,"status":"SETUP_BLOCKED","phase":"PUBLICATION_PERMISSION","publication":"REFUSED",
                         "failures":sorted(set(owner.failures)),"refused_originals":owner.refused_originals}).decode(),end="",flush=True)
                   owner.state()
