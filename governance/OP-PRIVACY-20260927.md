@@ -71,7 +71,7 @@ This rule narrows what may be published. It does not reduce the autonomy granted
 
 Recorded 2026-10-11 from the owner's explicit instruction for this repair.
 For current and future public releases of the owner's GitHub mathematical
-research and UI projects, the existing email/private-relay address in commit
+research and UI projects, the owner's existing email/private-relay address in commit
 metadata and already-public source paths in catalogs are allowed. Do not ask
 for renewed approval, require no-reply metadata, hold publication, or redact or
 rewrite history solely for those already-authorized exposures.
