@@ -2457,5 +2457,88 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
                 self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
                 self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
 
+    def test_main_registered_control_explicit_quoted_diagnostics_remain_unknown(self):
+        messages = (b"unsolved goals", b"proposition is false", b"tactic 'trivial' failed")
+        for message in messages:
+            diagnostic = b"TEST/formal/Demo.lean:2:22: error: " + message + b"\n"
+            cases = (
+                ("blockquote", b"> " + diagnostic),
+                ("prose_prefix", b"Documentation example " + diagnostic),
+                ("comment_prefix", b"-- " + diagnostic),
+                ("backtick_fence", b"```lean\n" + diagnostic + b"```\n"),
+                ("tilde_fence", b"~~~~text\n" + diagnostic + b"~~~~\n"),
+                ("unclosed_fence", b"```lean\n" + diagnostic),
+                ("short_closing_fence", b"````lean\n```\n" + diagnostic + b"````\n"),
+                ("mixed_closing_fence", b"```lean\n~~~\n" + diagnostic + b"```\n"),
+            )
+            for kind, raw in cases:
+                with self.subTest(kind=kind, message=message):
+                    packet = self.with_formal()
+                    formal = packet["formal_records"][0]
+                    self.replace_log(formal, "TEST_false_claim.log", raw)
+                    self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                    report, _ = self.accepted(packet)
+                    self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                    self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_large_embedded_cr_diagnostic_remains_unknown(self):
+        # This bounded input also exercises the CLI helper's existing 20-second limit.
+        # Overlapping whitespace regex suffixes must not turn it into a quadratic scan.
+        raw = b"TEST/formal/Demo.lean:1:1: error: tactic 'foo' failed: " + b" " * (128 * 1024) + b"\rX\n"
+        packet = self.with_formal()
+        formal = packet["formal_records"][0]
+        self.replace_log(formal, "TEST_false_claim.log", raw)
+        self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+        report, _ = self.accepted(packet)
+        self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+        self.assertEqual(report["regression"]["affected_alignment_records"], [])
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+        self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_decide_body_cannot_consume_another_diagnostic(self):
+        for severity in (b"error", b"warning"):
+            raw = (b"TEST/formal/Demo.lean:1:1: error: Tactic `decide` proved that the proposition\n"
+                   b"  TEST/formal/Other.lean:2:3: " + severity + b": unrelated diagnostic\n"
+                   b"is false\n")
+            with self.subTest(severity=severity):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_native_diagnostic_crlf_remains_current(self):
+        cases = (
+            b"TEST/formal/Demo.lean:2:22: error: unsolved goals\n\xe2\x8a\xa2 False\n",
+            b"TEST/formal/Demo.lean:2:22: error: proposition is false\n",
+            b"TEST/formal/Demo.lean:2:22: error: tactic 'trivial' failed\n",
+            b"/home/runner/work/main/main/formal/.lake/formal-evidence/false_eigenvalue_third.lean:114:65: error: Tactic `decide` proved that the proposition\n"
+            b"  58 * 9 < 22 ^ 2\nis false\n",
+            b"TEST/formal/Demo.lean:1:1: warning: unused variable\n"
+            b"TEST/formal/Demo.lean:2:22: error: proposition is false\n",
+            b"```lean\nTEST/formal/Example.lean:1:1: error: unsolved goals\n```\n"
+            b"TEST/formal/Demo.lean:2:22: error: proposition is false\n",
+        )
+        for source in cases:
+            raw = source.replace(b"\n", b"\r\n")
+            with self.subTest(raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.replace_log(formal, "leanchecker.log", b"")
+                self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+
+
 if __name__ == "__main__":
     unittest.main()
