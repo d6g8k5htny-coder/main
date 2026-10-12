@@ -2367,5 +2367,81 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
         self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
         self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
 
+    def test_main_registered_control_summaries_do_not_establish_lean_rejection(self):
+        cases = (
+            ("failed", b"0 tests failed\n"),
+            ("unsolved goals", b"Summary: 0 unsolved goals\n"),
+            ("is false", b"Summary: the assertion that an error occurred is false\n"),
+        )
+        for marker, raw in cases:
+            with self.subTest(marker=marker, raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_warnings_do_not_establish_lean_rejection(self):
+        messages = (
+            ("failed", b"the previous attempt failed"),
+            ("unsolved goals", b"documentation mentions unsolved goals"),
+            ("is false", b"the unused assumption is false"),
+        )
+        for marker, message in messages:
+            raw = b"TEST/formal/Demo.lean:2:22: warning: " + message + b"\n"
+            with self.subTest(marker=marker, raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_quoted_diagnostics_do_not_establish_lean_rejection(self):
+        messages = (
+            ("failed", b"tactic 'trivial' failed"),
+            ("unsolved goals", b"unsolved goals"),
+            ("is false", b"proposition is false"),
+        )
+        for marker, message in messages:
+            diagnostic = b"TEST/formal/Demo.lean:2:22: error: " + message
+            for raw in (b'"' + diagnostic + b'"\n', b"Documentation example: " + diagnostic + b"\n"):
+                with self.subTest(marker=marker, raw=raw):
+                    packet = self.with_formal()
+                    formal = packet["formal_records"][0]
+                    self.replace_log(formal, "TEST_false_claim.log", raw)
+                    self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                    report, _ = self.accepted(packet)
+                    self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                    self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                    self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "unknown")
+
+    def test_main_registered_control_native_error_diagnostics_remain_current(self):
+        cases = (
+            ("failed", b"TEST/formal/Demo.lean:2:22: error: tactic 'trivial' failed\n"),
+            ("unsolved goals", b"TEST/formal/Demo.lean:2:22: error: unsolved goals\n\xe2\x8a\xa2 False\n"),
+            ("is false", b"TEST/formal/Demo.lean:2:22: error: proposition is false\n"),
+        )
+        for marker, raw in cases:
+            with self.subTest(marker=marker, raw=raw):
+                packet = self.with_formal()
+                formal = packet["formal_records"][0]
+                self.replace_log(formal, "TEST_false_claim.log", raw)
+                self.replace_log(formal, "leanchecker.log", b"")
+                self.assertEqual(document(formal["receipt"])["logs"]["TEST_false_claim.log"], sha(raw))
+                report, _ = self.accepted(packet)
+                self.assertEqual(report["dimensions"]["TEST.A"]["alignment"]["applicability"], "current")
+                self.assertEqual(report["regression"]["affected_alignment_records"], [])
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["record_state"], "recorded")
+                self.assertEqual(report["dimensions"]["TEST.A"]["kernel"]["applicability"], "current")
+
 if __name__ == "__main__":
     unittest.main()
