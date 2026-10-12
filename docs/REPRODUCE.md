@@ -11,9 +11,42 @@ needed for that example. The choices below are the deeper contributor routes.
 
 ## Choose the checkout
 
-The default main repository contains the home and navigation. Current mathematical packages live in Math-. The larger numerical research tree remains on its named hardening branch. A check of one is not a check of the others.
+The default `main` branch contains the public home, mathematical proofs and
+executable controls in the [universality suite](../experiments/universality/README.md),
+and the [periodic-H0 experiments](../experiments/periodic_h0/README.md).
+[Math-](https://github.com/d6g8k5htny-coder/Math-) contains additional proof,
+coefficient and formal packages. The larger numerical research tree remains on
+its named hardening branch. Choose the checkout that contains the exact source
+you intend to reproduce; checking one does not check the others.
 
-Both source repositories are public; these checkouts require no GitHub account. Choose new destination directories:
+### Current-main calculations
+
+Use a new destination directory for the default-main checkout:
+
+```sh
+git clone --single-branch --branch main https://github.com/d6g8k5htny-coder/main.git main-research
+cd main-research
+git rev-parse HEAD
+python3 --version
+python3 -B -S experiments/universality/fold_controls.py
+cd ..
+```
+
+That last Python command prints the exact rational toy fold/pushforward report
+using only the standard library. It neither samples a random field nor
+certifies a continuum theorem or Lean proof. The
+[universality suite guide](../experiments/universality/README.md) gives its
+control-test commands and separates the exploratory pilot from a blind,
+source-admitted comparison. The
+[periodic-H0 guide](../experiments/periodic_h0/README.md#reproduce-the-pilot)
+gives that experiment's Python 3.12 environment, pinned dependencies and
+new-output-directory requirement; its retained FFT pilot remains separate from
+a continuum certificate.
+
+### Math- packages and the hardening branch
+
+Both source repositories are public; these checkouts require no GitHub account.
+From the common parent directory, choose new destination directories:
 
 ```sh
 git clone --single-branch --branch main https://github.com/d6g8k5htny-coder/Math-.git Math-
@@ -40,7 +73,7 @@ git checkout --detach 2f7a5a9f10c9ed5f5b7792a8f2521318d9208532
 python -B -S engine/next_action.py --lane A5
 ```
 
-The historical complexity-framework README advertises a different package layout. The current research engine uses the named branch and paths above; its execution entry point is `engine/run.py`.
+The historical complexity-framework README advertises a different package layout. The research engine in the hardening-branch checkout uses the paths above; its execution entry point is `engine/run.py`.
 
 ## Mathematics
 
