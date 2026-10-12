@@ -36,7 +36,8 @@ jobs:
   graph:
     name: research-architecture
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    # Complete stage ceiling: 19 preparation + 11 tests + fourteen 1-minute stages.
+    timeout-minutes: 44
     outputs:
       checked_commit: ${{ steps.accepted.outputs.checked_commit }}
       repository: ${{ steps.accepted.outputs.repository }}
@@ -48,18 +49,252 @@ jobs:
       artifact_name: ${{ steps.accepted.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
         with:
           persist-credentials: false
+          fetch-depth: 0
       - name: Parse both workflow sources with the hosted YAML parser
+        timeout-minutes: 1
         run: |
           set -euo pipefail
           ruby -rpsych -e 'ARGV.each { |path| Psych.safe_load(File.read(path), aliases: false); puts "Parsed #{path}" }' .github/workflows/research-architecture.yml .github/workflows/workspace-landing.yml
+      - name: Extract whole-pinned qualified preparation sources
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def original(path, size, digest):
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == size,
+                          'qualified whole-source size/type mismatch')
+                  raw = b''
+                  while len(raw) <= size:
+                      part = os.read(descriptor, min(65536, size + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == size and hashlib.sha256(raw).hexdigest() == digest,
+                          'qualified whole-source changed or pin mismatch')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          temporary, workspace = map(pathlib.Path, sys.argv[1:3])
+          run_id, attempt = sys.argv[3:5]
+          require(run_id.isdecimal() and attempt.isdecimal(), 'native preparation path context')
+          workflow = original(workspace / '.github/workflows/architecture-runtime-acquisition.yml', 95714,
+              '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65')
+          original(workspace / 'docs/plans/2026-10-09-public-runtime-acquisition.md', 22516,
+              '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7')
+          destination = temporary / ('architecture-preparation-source-' + run_id + '-' + attempt)
+          destination.mkdir(mode=0o700, exist_ok=False)
+          lines = workflow.decode('ascii').splitlines()
+          selection = (
+              ('write-sources.sh', 'Write fixed trusted preparation sources'),
+              ('run-preparation.sh', 'Parse the standalone source and run the preparation once'),
+              ('seal.sh', 'Seal available originals on every conclusion'),
+              ('cleanup.sh', 'Remove only owned preparation client and control files'))
+          for filename, name in selection:
+              starts = [index for index, line in enumerate(lines) if line == '      - name: ' + name]
+              require(len(starts) == 1, 'ambiguous qualified step marker')
+              start = starts[0]
+              end = next((index for index in range(start + 1, len(lines))
+                          if lines[index].startswith('      - ')), len(lines))
+              block = lines[start:end]
+              markers = [index for index, line in enumerate(block) if line == '        run: |']
+              require(len(markers) == 1, 'ambiguous qualified literal run source')
+              body = block[markers[0] + 1:]
+              require(body and all(line.startswith('          ') for line in body),
+                      'qualified literal script indentation')
+              raw = ('\n'.join(line[10:] for line in body) + '\n').encode('ascii')
+              descriptor = os.open(destination / filename, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+              with os.fdopen(descriptor, 'wb') as stream:
+                  stream.write(raw)
+          print(json.dumps({'qualified_sources': 'PIN_MATCH', 'literal_scripts': len(selection)}))
+          PY
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/write-sources.sh"
+      - name: Qualify canonical acquisition and restore daemon before tests
+        id: preparation
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/run-preparation.sh"
+      - name: Seal separate preparation originals on every conclusion
+        id: preparation_seal
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seal.sh"
+      - name: Retain separate bounded preparation originals
+        id: preparation_retained
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: architecture-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/public-runtime-${{ github.run_id }}-${{ github.run_attempt }}/publish/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Remove only owned preparation and extraction files
+        id: preparation_cleanup
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          directory="$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          bash "$directory/cleanup.sh"
+          python3 -I -B -S - "$directory" <<'PY'
+          import os, pathlib, stat, sys
+          directory = pathlib.Path(sys.argv[1])
+          info = directory.lstat()
+          if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid() or stat.S_IMODE(info.st_mode) != 0o700:
+              raise ValueError('owned extraction directory identity')
+          names = {'write-sources.sh', 'run-preparation.sh', 'seal.sh', 'cleanup.sh'}
+          if {path.name for path in directory.iterdir()} != names:
+              raise ValueError('closed owned extraction inventory')
+          for name in sorted(names):
+              path = directory / name
+              info = path.lstat()
+              if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_uid != os.getuid() or info.st_size > 1024 * 1024:
+                  raise ValueError('owned extraction file identity/bound')
+              path.unlink()
+          directory.rmdir()
+          PY
+      - name: Require complete current-run preparation before architecture
+        timeout-minutes: 1
+        env:
+          PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
+          PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" <<'PY'
+          import hashlib, json, os, pathlib, re, stat, sys
+          MIB = 2**20
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def read(path, limit):
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'sealed preparation regular-file admission')
+                  raw = b''
+                  while len(raw) <= limit:
+                      part = os.read(descriptor, min(65536, limit + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == before.st_size <= limit, 'sealed preparation changed during read')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          root = pathlib.Path(sys.argv[1])
+          info = root.lstat()
+          require(stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid()
+                  and stat.S_IMODE(info.st_mode) == 0o700, 'owned sealed preparation directory')
+          native = {key: os.environ[name] for key, name in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          require(re.fullmatch(r'[1-9][0-9]*', os.environ['PREPARATION_ARTIFACT_ID'])
+                  and re.fullmatch(r'(?:sha256:)?[0-9a-f]{64}', os.environ['PREPARATION_ARTIFACT_DIGEST']),
+                  'native preparation upload identity unavailable')
+          manifest = {}
+          manifest_raw = read(root / 'ARTIFACT_SHA256SUMS', MIB)
+          for line in manifest_raw.decode('ascii').splitlines():
+              match = re.fullmatch(r'([0-9a-f]{64})  ([A-Za-z0-9_.-]+)', line)
+              require(match is not None and match[2] not in manifest, 'closed preparation hash manifest')
+              manifest[match[2]] = match[1]
+          require(0 < len(manifest) <= 256
+                  and {path.name for path in root.iterdir()} == set(manifest) | {'ARTIFACT_SHA256SUMS'},
+                  'exact sealed preparation inventory')
+          bodies, records, total = {}, {}, len(manifest_raw)
+          for name, digest in manifest.items():
+              limit = 4 * MIB if name in ('pull.stdout', 'pull.stderr') else MIB
+              raw = read(root / name, limit)
+              total += len(raw)
+              require(total <= 36 * MIB and hashlib.sha256(raw).hexdigest() == digest,
+                      'sealed preparation original hash/aggregate bound')
+              bodies[name] = raw
+              records[name] = {'bytes': len(raw), 'sha256': digest}
+          receipt = json.loads(bodies['receipt.json'])
+          collection = json.loads(bodies['collection.json'])
+          result = json.loads(bodies['preparation-result.json'])
+          observation = json.loads(bodies['preparation-observations.json'])
+          semantic = json.loads(bodies['semantic-controls.json'])
+          for record in (receipt, collection):
+              require(record['status'] == 'ACCEPTED_PREPARATION' and record['native_context'] == native,
+                      'current-run sealed preparation acceptance required')
+          require(result['status'] == 'ACCEPTED_PREPARATION' and result['context'] == native
+                  and observation['context'] == native and observation['head'] == native['checked_commit']
+                  and collection['missing'] == [] and collection['refused'] == []
+                  and result['preparation_error'] is None and result['recovery_error'] is None
+                  and result['refused_originals'] == [], 'complete current-run preparation required')
+          rows = receipt['originals']
+          joined = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in rows}
+          require(len(joined) == len(rows) == receipt['original_count']
+                  and set(joined) == set(records) - {'receipt.json'}
+                  and all(records[name] == record for name, record in joined.items())
+                  and receipt['original_bytes'] == sum(record['bytes'] for record in joined.values()),
+                  'receipt original copies/subtotal join')
+          copied = collection['copied']
+          copies = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in copied}
+          require(len(copies) == len(copied) and set(copies) == set(joined) - {'collection.json'}
+                  and all(records[name] == record for name, record in copies.items())
+                  and set(copies) == set(result['available_originals']) | {'preparation-result.json'}
+                  and all(copies[name] == record for name, record in result['available_originals'].items()),
+                  'collection/controller original copies join')
+          require(records['checked-workflow.yml'] == {'bytes': 95714, 'sha256':
+                  '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65'}
+                  and records['contract.md'] == {'bytes': 22516, 'sha256':
+                  '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7'}
+                  and observation['source_before'] == observation['source_after'],
+                  'qualified preparation whole sources stable')
+          negative_ids = (
+              'RP01_stale_run', 'RP01_changed_source', 'RP02_existing_container', 'RP02_cached_image',
+              'RP03_missing_actual_mirror', 'RP03_changed_preserved_setting', 'RP04_manifest_substitution',
+              'RP04_config_substitution', 'RP05_pull_nonzero', 'RP05_pull_incomplete',
+              'RP06_mirror_prefixed_digest', 'RP06_extra_digest', 'RP06_wrong_image_platform',
+              'RP07_native_root', 'RP07_missing_OO', 'RP08_wrong_sqlite_all_modes', 'RP08_wrong_OO_flag',
+              'RP08_empty_binary_all_modes', 'RP09_wrong_CPU_all_modes', 'RP10_disposal_unconfirmed',
+              'RP11_restored_mirror_wrong', 'RP11_restored_bytes_wrong', 'RP12_missing_original',
+              'RP03_nested_synthetic_credential', 'RP09_oversized_overlay_lowerdir')
+          expected = [{'id': 'RP_positive_actual_copy', 'status': 'PASS'}]
+          expected += [{'id': name, 'status': 'REFUSED'} for name in negative_ids]
+          require(result['controls'] == semantic['controls'] == expected
+                  and semantic['origin'] == 'TEST_SEMANTIC_MUTATIONS_OF_COPIED_ACTUAL_OBSERVATIONS',
+                  'all qualified actual-copy controls required')
+          require(observation['recovery_complete'] is True
+                  and observation['containers_recovery_empty'] is True
+                  and observation['containers_restored_empty'] is True
+                  and observation['restored_mirrors'] == observation['original_mirrors']
+                  and set(observation['probes']) == {'0', '1', '2'}
+                  and all(item['disposed'] is True for item in observation['probes'].values())
+                  and result['disposal_confirmed'] == {'0': True, '1': True, '2': True},
+                  'owned probe disposal and daemon recovery before architecture')
+          print(json.dumps({'status': 'ACCEPTED_PREPARATION', 'current_run': native['run_id'],
+                            'positive': 'PASS', 'negative_refusals': len(negative_ids)}))
+          PY
       - name: Prepare fixed runtime and separate output
+        id: architecture_output
+        timeout-minutes: 1
         env:
           IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
         run: |
           set -euo pipefail
-          docker pull "$IMAGE"
           mkdir -p "$RUNNER_TEMP/architecture-evidence" "$RUNNER_TEMP/architecture-publish"
           chmod 0700 "$RUNNER_TEMP/architecture-publish"
           truncate -s 64M "$RUNNER_TEMP/architecture-output.img"
@@ -75,12 +310,14 @@ jobs:
           printf '%s\n' "$GITHUB_RUN_ID" > "$RUNNER_TEMP/architecture-publish/run-id.txt"
           printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/architecture-publish/run-attempt.txt"
       - name: Run controls and export in ephemeral restricted container
+        id: architecture_controls
+        timeout-minutes: 11
         env:
           IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
         run: |
           set -euo pipefail
           set +e
-          timeout --signal=TERM --kill-after=10s 300s docker run --rm --log-driver none --name architecture-controls \
+          timeout --signal=TERM --kill-after=10s 600s docker run --pull=never --rm --log-driver none --name architecture-controls \
             --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
             --cap-drop ALL --security-opt no-new-privileges \
             --env ARCHITECTURE_SANDBOX=1 \
@@ -102,7 +339,8 @@ jobs:
           printf '%s\n' "$status" > "$RUNNER_TEMP/architecture-publish/container-exit-status.txt"
           exit "$status"
       - name: Dispose container even after timeout
-        if: always()
+        timeout-minutes: 1
+        if: ${{ always() && (steps.architecture_controls.outcome == 'success' || steps.architecture_controls.outcome == 'failure' || steps.architecture_controls.outcome == 'cancelled') }}
         run: |
           set -euo pipefail
           present="$(docker ps -aq --filter 'name=^/architecture-controls$')"
@@ -113,7 +351,8 @@ jobs:
             exit 1
           fi
       - name: Stage only bounded regular outputs after container disposal
-        if: always()
+        timeout-minutes: 1
+        if: ${{ always() && (steps.architecture_controls.outcome == 'success' || steps.architecture_controls.outcome == 'failure' || steps.architecture_controls.outcome == 'cancelled') }}
         run: |
           set -euo pipefail
           remaining="$(docker ps -aq --filter 'name=^/architecture-controls$')"
@@ -151,6 +390,7 @@ jobs:
           done
           printf '::%s::\n' "$marker"
       - name: Accept current-run controls and exact staged graph before upload
+        timeout-minutes: 1
         run: |
           set -euo pipefail
           destination="$RUNNER_TEMP/architecture-publish"
@@ -158,8 +398,9 @@ jobs:
           cd "$destination"
           sha256sum architecture-run-receipt.json >> ARTIFACT_SHA256SUMS
       - name: Retain original controls, identities and generated graph
+        timeout-minutes: 1
         id: retained
-        if: always()
+        if: ${{ always() && (steps.architecture_output.outcome == 'success' || steps.architecture_output.outcome == 'failure' || steps.architecture_output.outcome == 'cancelled') }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: research-architecture-${{ github.run_id }}-${{ github.run_attempt }}
@@ -167,9 +408,11 @@ jobs:
           if-no-files-found: error
           retention-days: 90
       - name: Release bounded output filesystem
-        if: always()
+        timeout-minutes: 1
+        if: ${{ always() && (steps.architecture_output.outcome == 'success' || steps.architecture_output.outcome == 'failure' || steps.architecture_output.outcome == 'cancelled') }}
         run: sudo umount "$RUNNER_TEMP/architecture-evidence"
       - name: Emit accepted identities only after upload and cleanup succeed
+        timeout-minutes: 1
         id: accepted
         env:
           NATIVE_ARTIFACT_ID: ${{ steps.retained.outputs.artifact-id }}
