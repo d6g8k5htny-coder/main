@@ -451,6 +451,19 @@ class FormalCoverage(unittest.TestCase):
         self.assertIn('Scientific effect: NONE',text)
         self.assertNotIn('<script',text)
 
+    def test_since_section_dates_specifications_read_and_keeps_its_boundary(self):
+        text = (SITE/'formal.html').read_text()
+        sec = text.split('<section id="formal-since"',1)[1].split('</section>',1)[0]
+        pin = 'b45512e95179f83284f40d3cd081d28968c3e01a'
+        self.assertIn('As read on 12 October 2026 at Math- <code>b45512e</code>',sec)
+        for path in ('lean_statements_20261010','lean_statement_proofs_20261011'):
+            self.assertIn(f'/Math-/blob/{pin}/specifications/{path}/README.md',sec)
+        self.assertIn('whose inventoried theorems are each typed as one of the registered statements',sec)
+        self.assertIn('evidence about its Lean statement only',sec)
+        self.assertIn('does not establish the parent theorems and carries zero organizational-independence credit',sec)
+        self.assertIn('alignment of each statement to its mathematical source is pending independent review',sec)
+        self.assertIn('https://github.com/d6g8k5htny-coder/Math-/tree/main/specifications',sec)
+
 class ReproductionGuide(unittest.TestCase):
     def test_technical_guide_keeps_exact_pins_and_rejects_substitution(self):
         sys.path.insert(0,str(ROOT/'tools'))
@@ -902,6 +915,7 @@ class NewerWorkRoutes(unittest.TestCase):
         ('main/pulls', 'open main proposals'),
         ('main/tree/main/experiments/universality', 'universality suite (main branch)'),
         ('main/blob/main/docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md', 'universality program (main branch)'),
+        ('main/tree/main/experiments/zeta_fold_exploration', 'zeta fold exploration packet (main branch)'),
         ('main/blob/main/docs/RESEARCH_INDEX.md', 'research guide (main branch)'),
         ('Math-/pulls', 'open Math proposals'),
         ('Math-/tree/main', 'full Math source tree'),
@@ -909,6 +923,7 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/reviews', 'reviews'),
         ('Math-/tree/main/coefficients', 'coefficients'),
         ('Math-/tree/main/companions', 'Lean companion packages'),
+        ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
         ('main/issues/307', 'active coordination board, main #307'),
         ('main/issues/275', 'task and claim queue, main #275'),

@@ -37,6 +37,21 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
+For an unresolved integration reservation, consult the case-specific prospective
+reassignment implemented in [#276’s amendment](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038812718)
+and [activation](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038906820).
+That precedent records the authority and exact future scope affected in the existing
+PR, identifies an eligible actual receiver and finite checkpoint, and activates only
+after the receiver’s personal acknowledgement and a fresh coordinator confirmation
+following reconciliation of current refs, claims, findings and reported in-flight
+work. The proposal alone permits no mutation. Preserve the predecessor’s actual
+work, attribution and own release as UNKNOWN wherever unresolved; age, silence or
+a shared alias proves neither expiry nor release. Crossed work, competing claims,
+explicit denials or unresolved findings stop the affected action for reconciliation.
+This pointer supplies no blanket reassignment, unseen-claim override, security or
+check waiver, or scientific acceptance; the existing source-preservation and
+protected-integration requirements still apply.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
@@ -146,6 +161,14 @@ one completion receipt. Derived summaries link these identities. Reference
 predecessor deliveries by immutable ID/hash; copy their payloads only when needed
 for a self-contained reproducibility package. Preserve exact source bytes,
 historical failures, review scope and required original execution receipts.
+
+Before publishing or registering a delivery, apply the
+[destination-audience preflight](../docs/RELEASE_OPERATIONS.md#destination-audience-preflight).
+Verify each receiving destination separately, including the register or message
+that receives metadata. A private archive does not establish a private register.
+Check outgoing fields against that destination's current audience and existing
+authorization. An unknown or unverifiable audience pauses only the affected
+write; continue unrelated work.
 
 Freeze the inventory after inputs stabilize and verify membership and bytes.
 Use [the reusable delivery builder](../tools/research_delivery.py) with an explicit

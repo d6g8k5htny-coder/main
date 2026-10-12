@@ -1,7 +1,7 @@
 // Bounded export of the CURRENT displayed Approach-points teaching diagram.
 // Pinned source identities are provenance, not proof acceptance or verification.
-import { pinModel } from './explore-models.mjs?site-release=b1fc35cd96e120ed0b93529e671891be1932bf4f77dc14f546291ab3b7178d05';
-import { serializeTeachingSVG } from './teaching-export.mjs?site-release=b1fc35cd96e120ed0b93529e671891be1932bf4f77dc14f546291ab3b7178d05';
+import { pinModel } from './explore-models.mjs?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e';
+import { serializeTeachingSVG } from './teaching-export.mjs?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e';
 
 const PUBLIC_EXPLORE='https://d6g8k5htny-coder.github.io/main/site/explore.html';
 const COMMIT='d6628da09384728992dcbe6e921cc28ba85aebb0';
