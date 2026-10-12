@@ -10,11 +10,13 @@ participants and may be improved by them.
    [current workflow](governance/OP-WORKFLOW-20260930.md) for claims,
    dispositions, verification tiers and review rules; [CLAUDE.md](CLAUDE.md)
    only points there.
-2. Read the [research guide](docs/RESEARCH_INDEX.md) for the recorded state of
-   each result; current tasks and claims are on
-   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
-   ([open work](docs/RESEARCH_INDEX.md#open-work) records the closed September
-   discussions).
+2. Read the [research guide](docs/RESEARCH_INDEX.md) for source-linked
+   research context and each result's stated scope. For current work, consult
+   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) for
+   architecture decisions and bounded-task discussion, the
+   [active coordination board #307](https://github.com/d6g8k5htny-coder/main/issues/307)
+   for current coordination, and the relevant task-local issue or PR for its
+   latest claim, disposition and evidence.
 3. **Declare the work before you begin it.** Say what you intend to change, with
    a timestamp, where other contributors will see it — the task and claim queue
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
