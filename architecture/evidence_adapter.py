@@ -408,7 +408,50 @@ def _main_control_rejected(raw: bytes, phase: str) -> bool:
     except UnicodeError:
         return False
     if phase == "REJECTED_BY_LEAN":
-        return any(marker in decoded for marker in ("is false", "unsolved goals", "failed"))
+        # Recognize this pinned POSIX producer's native-shaped diagnostics only;
+        # text shape cannot authenticate custody or a subprocess exit status.
+        location = re.compile(r"[A-Za-z0-9_./-]+\.lean:[0-9]+:[0-9]+")
+        tactic_failure = re.compile(r"[Tt]actic (?:'[^'\r\n]+'|`[^`\r\n]+`) failed(?::[^\r\n]*)?")
+        fence = None
+        awaiting_proposition = has_proposition = False
+        for raw_line in decoded.split("\n"):
+            line = raw_line.removesuffix("\r")
+            if "\r" in line:
+                awaiting_proposition = has_proposition = False
+                continue
+            stripped = line.lstrip(" \t")
+            if stripped.startswith(("```", "~~~")):
+                marker = stripped[0]
+                width = len(stripped) - len(stripped.lstrip(marker))
+                if fence is None:
+                    fence = (marker, width)
+                elif (marker == fence[0] and width >= fence[1]
+                      and not stripped[width:].strip(" \t")):
+                    fence = None
+                awaiting_proposition = has_proposition = False
+                continue
+            if fence is not None:
+                continue
+            if awaiting_proposition:
+                if line.startswith((" ", "\t")) and stripped:
+                    nested_location, separator, _ = stripped.partition(": ")
+                    if separator and location.fullmatch(nested_location):
+                        awaiting_proposition = has_proposition = False
+                    else:
+                        has_proposition = True
+                    continue
+                if has_proposition and line.rstrip(" \t") == "is false":
+                    return True
+                awaiting_proposition = has_proposition = False
+            source_location, separator, message = line.partition(": error: ")
+            if not separator or location.fullmatch(source_location) is None:
+                continue
+            message = message.rstrip(" \t")
+            if message in ("unsolved goals", "proposition is false") or tactic_failure.fullmatch(message):
+                return True
+            if message == "Tactic `decide` proved that the proposition":
+                awaiting_proposition = True
+        return False
     matches = list(AXIOM_LINE.finditer(decoded))
     if phase != "REJECTED_BY_AXIOM_GATE" or not matches:
         return False
