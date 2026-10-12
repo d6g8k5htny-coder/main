@@ -84,6 +84,11 @@ function metadataHref(field, value) {
   }
 }
 
+function reachText(count) {
+  if (!Number.isInteger(count)) return 'not computed';
+  return `${count} node${count === 1 ? '' : 's'} in this snapshot`;
+}
+
 export function metadataEntries(node) {
   const values = [
     ['Identifier', node.id],
@@ -91,7 +96,8 @@ export function metadataEntries(node) {
     ['Layer', node.layer],
     ['Kind', node.kind],
     ['Controlling', node.controlling === true ? 'yes' : node.controlling === false ? 'no' : 'not recorded'],
-    ['Recorded impact', `${node.impact} transitive dependent${node.impact === 1 ? '' : 's'}`],
+    ['All-edge reach (includes context)', reachText(node.impact)],
+    ['Required-dependency reach', reachText(node.requiredImpact)],
   ];
   const fields = [
     ['source', 'Source'],
@@ -159,14 +165,19 @@ export function validateGraph(graph) {
   return failures;
 }
 
-function transitiveImpact(nodes, startId) {
+// Distinct nodes that reach startId through recorded edges, excluding startId.
+// With requiredOnly, every step of the reverse path must be a required edge.
+function transitiveImpact(nodes, startId, requiredOnly = false) {
+  const next = id => nodes.get(id).dependents
+    .filter(edge => !requiredOnly || edge.required === true)
+    .map(edge => edge.id);
   const visited = new Set([startId]);
-  const queue = [...nodes.get(startId).dependents.map(edge => edge.id)];
+  const queue = next(startId);
   while (queue.length) {
     const id = queue.shift();
     if (visited.has(id)) continue;
     visited.add(id);
-    queue.push(...nodes.get(id).dependents.map(edge => edge.id));
+    queue.push(...next(id));
   }
   return visited.size - 1;
 }
@@ -182,6 +193,7 @@ export function buildGraphIndex(graph) {
     dependencies: [],
     dependents: [],
     impact: 0,
+    requiredImpact: 0,
     searchable: '',
   }]));
   for (const sourceEdge of graph.edges) {
@@ -202,6 +214,7 @@ export function buildGraphIndex(graph) {
     node.dependencies.sort((a, b) => a.id.localeCompare(b.id));
     node.dependents.sort((a, b) => a.id.localeCompare(b.id));
     node.impact = transitiveImpact(nodes, node.id);
+    node.requiredImpact = transitiveImpact(nodes, node.id, true);
     node.searchable = text([
       node.id,
       node.layer,
