@@ -52,6 +52,26 @@ This pointer supplies no blanket reassignment, unseen-claim override, security o
 check waiver, or scientific acceptance; the existing source-preservation and
 protected-integration requirements still apply.
 
+The same steps apply whenever a session stops with any role unfinished (author
+custody, a review pickup, a planning phase or an integration reservation), including
+an owner-directed account or model switch. The successor claim reuses the existing
+task and claim identifiers, names the actual successor session or invocation, and
+is cross-linked to the predecessor's claim with the predecessor's closeout kept
+UNKNOWN until its own release is found. A successor's checkpoint lists each
+artifact of the handoff as published with its identity, unavailable to the successor
+(a local-only file is unavailable, not presumed destroyed; the successor rebuilds it
+and records the old identity as an earlier candidate, not reused) or unknown.
+Capability is observed in a bounded write or read, never inferred from the account
+or model family, and is restated when it changes. Three situations are kept apart:
+a technically unavailable tool or platform (retry only when restored, and say so),
+an explicit denial (stop; only the owner's recorded decision resolves it; the same
+step is never routed to another executor, and a new session is not clearance), and a
+lane whose usage is exhausted (the coordinator reassigns; closeout UNKNOWN). Each
+successor's personal acknowledgement and activation stand alone; an unidentified
+second successor does not delay the first. Retained stops are carried by name.
+None of this adds a register, a scheduler, a permission gate, a forced release or
+independence credit.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
