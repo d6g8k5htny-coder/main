@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   public-shop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -31,6 +31,11 @@ jobs:
           python3 -B -m unittest discover -s tests -p test_museum_data.py
           python3 -B tools/museum_check.py
           node --test tests/test_museum_geometry.mjs
+      - name: W8b public source identity controls in both Python modes
+        run: |
+          set -e
+          python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
+          python3 -B -E -O -S tests/test_public_shop_check_identity_control.py -v
       - name: Pinned public source readback and interaction harness
         run: python3 -B tools/public_shop_check.py
   browser-smoke:
@@ -57,7 +62,7 @@ jobs:
         run: python -B tools/public_shop_browser_check.py --output browser-evidence
       - name: Preserve browser results including failures
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: public-shop-browser-${{ github.run_id }}
           path: browser-evidence

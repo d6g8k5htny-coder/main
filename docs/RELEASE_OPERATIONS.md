@@ -57,6 +57,23 @@ is not a passing check. Re-fetch the PR immediately before a merge and use
 stales its affected review scope. Unchanged scopes may retain their source-bound
 reviews after an explicit dependency comparison; fresh integration checks still
 bind the actual tested commit.
+
+For `workspace-landing` recovery after an infrastructure failure, the current
+execution owner first reconciles the current head/base, ownership and any explicit
+retry stop, then uses GitHub's
+[Re-run all jobs](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs)
+for the complete parent workflow when retry is permitted. Failed-jobs-only or
+single-job retries can reuse producer outputs from an earlier attempt; `verify`
+correctly rejects stale formal `run_attempt` evidence even when both dependencies
+report success. Architecture, landing, formal and aggregate jobs must execute in
+the same fresh attempt. A rerun retains the original event's SHA/ref; changed
+head/base requires the appropriate current merge checks. Preserve earlier failures
+and original evidence under their actual commit, run, attempt and artifact
+identities; never relabel receipts or weaken checks. If a full retry is unavailable
+or an explicit stop applies, report the blocker in the existing PR rather than
+substitute a partial retry. Manual diagnostic dispatch does not replace required
+PR checks.
+
 Do not bypass branch protection or simulate another account's approval. The owner
 may delegate engineering integration, but delegation does not create independent
 review or satisfy a mathematical premise. Record your actual provider/session and
@@ -100,3 +117,40 @@ Run `python3 -B -S tools/research_delivery.py --help` for the specification and
 bounds. Verification checks archive custody; it does not execute evidence or
 certify its scientific claims. Link original execution receipts and unchanged
 predecessor deliveries rather than duplicating their complete payloads by default.
+
+### Destination-audience preflight
+
+Archive verification establishes byte custody. Before any upload, registration
+or message carrying delivery metadata, separately establish who can receive
+that particular write and whether its complete contents are authorized there:
+
+1. Read current sharing evidence for the exact receiving file, folder or register,
+   or verify the message audience. Include applicable inherited and published
+   access. Check the archive destination and each metadata destination separately;
+   names, previous registrations and source readability are not audience evidence.
+   Do not change sharing to make the check pass.
+2. Bind the observation and its time to that destination and the proposed outgoing
+   fields in the existing appropriately private custody record. Recheck after a
+   destination, sharing or payload change, or a delay that makes the observation
+   stale. If the audience cannot be established, pause only that write and report
+   the missing evidence; continue unrelated work.
+3. Inspect every outgoing field, including notes, titles, embedded links and
+   formulas. For a public register, normally use reviewed public artifact/event
+   IDs, hashes, byte counts, scientific-effect labels and already-public source,
+   run or artifact links. Do not copy a private handoff wholesale. Keep private
+   locator IDs, URLs, paths and access-bearing links out unless their exact
+   publication to that audience is separately authorized under the applicable
+   rules. Preserve the existing
+   [owner-authorized metadata scope](../governance/OP-PRIVACY-20260927.md#current-owner-authorized-publication-scope).
+4. Keep the private locator mapping and raw permission details in a separately
+   verified, appropriately restricted custody record. Public records receive only
+   permitted references or a neutral private-custody marker; a marker does not
+   claim that readers can retrieve the private bundle.
+5. After writing, read back only the affected output or range, including its links
+   and notes, and compare with the screened outgoing contents. Preserve original
+   hashes, source identities, scientific labels and historical evidence. Do not
+   broaden the check into unrelated register rows or private files.
+
+This is a publication procedure, not installed runtime enforcement or a new
+permission grant. The offline delivery helper and register identity checks do
+not verify live sharing. A successful byte check cannot replace this preflight.

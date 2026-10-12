@@ -38,14 +38,17 @@ overlapping audit work after this handoff. Formalization authors retain their
 branches. The new auditor does not acquire Claude's or Sol's writer/integrator
 claims merely by accepting this role. Before any branch mutation, reconcile live
 claims and obtain a scoped handoff, release, or confirmed lease expiry followed
-by fresh refs and results. Record a precise bounded claim in the existing PR or
-[main #229](https://github.com/d6g8k5htny-coder/main/issues/229).
+by fresh refs and results. Record a precise bounded claim in the relevant PR or
+active [Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
 
 The auditor can review disjoint scope without changing the writer's branch.
 If it amends a proof, it becomes a contributor to that proof and cannot supply
 its own nonauthor acceptance. UI/navigation, scientific registers, prizes,
 `lemma_closed`, controlling graph verdicts and the active C127 research lane are
-outside this role's write scope.
+outside this role's write scope. Current coordination is kept on the active
+[Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307),
+while the historical [main #229](https://github.com/d6g8k5htny-coder/main/issues/229)
+remains preserved as the archival issue record.
 
 ## Snapshot and evidence vocabulary
 

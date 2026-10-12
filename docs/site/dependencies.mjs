@@ -10,8 +10,9 @@ import {
   normalizeSelection,
   parsePinnedGraph,
   recordedContextRows,
+  recordedReviewText,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=1bb7eaf181864e3c43c2ca1e170fcd91dabc70b8f46963758e900a8d947ea409';
+} from './dependency-model.mjs?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e';
 
 const byId = id => document.getElementById(id);
 
@@ -67,7 +68,7 @@ function buttonFor(node, choose) {
   const button = element('button', { className: `node-button ${classificationClass(node.classification)}` });
   button.type = 'button';
   const id = element('strong', { text: node.id });
-  const context = element('span', { text: `${node.classification} · ${node.layer} · ${node.kind}` });
+  const context = element('span', { text: `${node.classification} · ${node.layer} · ${node.kind} · ${recordedReviewText(node)}` });
   button.append(id, context);
   button.addEventListener('click', () => choose(node.id));
   return button;
@@ -266,8 +267,10 @@ function run({ index, provenance }) {
     const button = element('button', { text: target.id });
     button.type = 'button';
     button.addEventListener('click', () => choose(target.id));
-    content.append(button, element('small', { text: `${target.classification} · ${target.layer} · ${target.kind}` }));
-    const impact = element('span', { className: 'impact', text: `${target.impact} downstream` });
+    content.append(button, element('small', { text: `${target.classification} · ${target.layer} · ${target.kind} · ${recordedReviewText(target)}` }));
+    const impact = element('span', { className: 'impact' });
+    // A no-break space keeps each count beside its label when the badge wraps.
+    impact.append(element('span', { text: `All-edge reach (includes context)\u00a0${target.impact}` }), ' · ', element('span', { text: `Required-dependency reach\u00a0${target.requiredImpact}` }));
     item.append(content, impact);
     targetRoot.append(item);
   }
@@ -292,9 +295,12 @@ function run({ index, provenance }) {
       window.history.replaceState(null,'',url);
     }
   }
-  for(const value of classificationOptions(index)){
-    const option=element('option',{text:value});option.value=value;classification.append(option);
-  }
+  // The page ships the pinned snapshot's classifications as static options so
+  // the control reads without script; reconcile them against the verified graph
+  // (add missing, drop unknown, never duplicate) instead of appending.
+  const existingOptions=[...classification.children];
+  const optionFor=value=>existingOptions.find(option=>option.value===value) || Object.assign(element('option',{text:value || 'All recorded classifications'}),{value});
+  classification.replaceChildren(...['',...classificationOptions(index)].map(optionFor));
   function restoreFilters(){
     const filters=readFilters(index,window.location.search);
     search.value=filters.query;

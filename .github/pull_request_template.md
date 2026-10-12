@@ -9,6 +9,7 @@
 <!-- Keep this block current on material changes; link detailed records.
      Head and integration owner:
      Claim / handoff, if applicable:
+     Successor of <session> since <comment>; retained stops; unavailable artifacts:
      Completed review scopes and source identities:
      Unresolved finding IDs and next action:
      Use "none" where accurate; an offer is not an observed pickup or review. -->

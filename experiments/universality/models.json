@@ -1,0 +1,405 @@
+{
+  "schema_version": 1,
+  "purpose": "prospective_law_candidates_and_exploratory_software_pilot",
+  "scientific_status_authority": false,
+  "domain": {
+    "dimension": 2,
+    "space": "square flat torus",
+    "side": 24
+  },
+  "default_parameters": {
+    "cutoff": 3,
+    "grid": 16,
+    "fields_per_model": 2,
+    "quantization_scale": 65536
+  },
+  "normalization": "s=kx*kx+ky*ky; q(k)=w(k)/sum_{|kx|,|ky|<=K}w(k); retain k=0 and all symmetric modes",
+  "scope": [
+    "Fifty finite-cutoff laws: ten spectrum mechanisms times five circular coefficient distributions; no seeds, rotations or global amplitude rescalings counted as models",
+    "Gaussian candidates do not inherit M4 admissibility or the SIDE24 coefficient",
+    "Non-Gaussian models are stress candidates outside the existing Gaussian theorem",
+    "No infinite-field interpretation, truncation transfer, jet nondegeneracy, continuum asymptotic window or sampler coupling is established",
+    "Ideal stationarity follows the stated circular-vector contract; exact stationarity of the finite-word floating implementation is unverified"
+  ],
+  "spectra": {
+    "gaussian": {
+      "mechanism": "Gaussian radial spectrum",
+      "formula": "exp(-s)"
+    },
+    "super_gaussian": {
+      "mechanism": "Super-Gaussian radial spectrum",
+      "formula": "exp(-s*s)"
+    },
+    "polynomial4": {
+      "mechanism": "Polynomial spectral tail",
+      "formula": "(1+s)^(-4)"
+    },
+    "rational_quartic": {
+      "mechanism": "Rational quartic spectrum",
+      "formula": "(1+s*s)^(-2)"
+    },
+    "two_scale": {
+      "mechanism": "Two spectral scales",
+      "formula": "(3/4)*exp(-s)+(1/4)*exp(-s/16)"
+    },
+    "annulus": {
+      "mechanism": "Annular spectral concentration",
+      "formula": "exp(-(sqrt(s)-2)^2)"
+    },
+    "notch": {
+      "mechanism": "Suppressed intermediate shell",
+      "formula": "exp(-s)*(1-(9/10)*exp(-(s-4)^2))"
+    },
+    "angular": {
+      "mechanism": "Fourfold angular modulation",
+      "formula": "exp(-s)*(1+(kx^4+ky^4)/(1+s*s))"
+    },
+    "separable": {
+      "mechanism": "Separable absolute-frequency spectrum",
+      "formula": "exp(-abs(kx)-abs(ky))"
+    },
+    "axial": {
+      "mechanism": "Axial ridge mixture",
+      "formula": "exp(-s)*(1+3/(1+kx*kx)+3/(1+ky*ky))"
+    }
+  },
+  "coefficient_laws": {
+    "gaussian": {
+      "construction": "(Z1,Z2), independent standard normals",
+      "component_fourth_moment": "3",
+      "ideal_component_variance": "1",
+      "ideal_vector_symmetry": "circular",
+      "input_contract": "Independent ideal continuous uniforms; floating pseudorandom implementation is not a certified realization of this law"
+    },
+    "fixed_radius": {
+      "construction": "sqrt(2)*(cos(T),sin(T)), T uniform on [0,2*pi)",
+      "component_fourth_moment": "3/2",
+      "ideal_component_variance": "1",
+      "ideal_vector_symmetry": "circular",
+      "input_contract": "Independent ideal continuous uniforms; floating pseudorandom implementation is not a certified realization of this law"
+    },
+    "uniform_disk": {
+      "construction": "2*sqrt(U)*(cos(T),sin(T)), U uniform (0,1), T uniform [0,2*pi), independent",
+      "component_fourth_moment": "2",
+      "ideal_component_variance": "1",
+      "ideal_vector_symmetry": "circular",
+      "input_contract": "Independent ideal continuous uniforms; floating pseudorandom implementation is not a certified realization of this law"
+    },
+    "exponential_scale": {
+      "construction": "sqrt(V)*(Z1,Z2), V exponential mean 1, independent standard normals",
+      "component_fourth_moment": "6",
+      "ideal_component_variance": "1",
+      "ideal_vector_symmetry": "circular",
+      "input_contract": "Independent ideal continuous uniforms; floating pseudorandom implementation is not a certified realization of this law"
+    },
+    "student5": {
+      "construction": "sqrt(3/S)*(Z1,Z2), S chi-square(5), independent standard normals",
+      "component_fourth_moment": "9",
+      "ideal_component_variance": "1",
+      "ideal_vector_symmetry": "circular",
+      "input_contract": "Independent ideal continuous uniforms; floating pseudorandom implementation is not a certified realization of this law"
+    }
+  },
+  "models": [
+    {
+      "id": "gaussian__gaussian",
+      "spectrum_id": "gaussian",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "gaussian__fixed_radius",
+      "spectrum_id": "gaussian",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "gaussian__uniform_disk",
+      "spectrum_id": "gaussian",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "gaussian__exponential_scale",
+      "spectrum_id": "gaussian",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "gaussian__student5",
+      "spectrum_id": "gaussian",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "super_gaussian__gaussian",
+      "spectrum_id": "super_gaussian",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "super_gaussian__fixed_radius",
+      "spectrum_id": "super_gaussian",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "super_gaussian__uniform_disk",
+      "spectrum_id": "super_gaussian",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "super_gaussian__exponential_scale",
+      "spectrum_id": "super_gaussian",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "super_gaussian__student5",
+      "spectrum_id": "super_gaussian",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "polynomial4__gaussian",
+      "spectrum_id": "polynomial4",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "polynomial4__fixed_radius",
+      "spectrum_id": "polynomial4",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "polynomial4__uniform_disk",
+      "spectrum_id": "polynomial4",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "polynomial4__exponential_scale",
+      "spectrum_id": "polynomial4",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "polynomial4__student5",
+      "spectrum_id": "polynomial4",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "rational_quartic__gaussian",
+      "spectrum_id": "rational_quartic",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "rational_quartic__fixed_radius",
+      "spectrum_id": "rational_quartic",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "rational_quartic__uniform_disk",
+      "spectrum_id": "rational_quartic",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "rational_quartic__exponential_scale",
+      "spectrum_id": "rational_quartic",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "rational_quartic__student5",
+      "spectrum_id": "rational_quartic",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "two_scale__gaussian",
+      "spectrum_id": "two_scale",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "two_scale__fixed_radius",
+      "spectrum_id": "two_scale",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "two_scale__uniform_disk",
+      "spectrum_id": "two_scale",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "two_scale__exponential_scale",
+      "spectrum_id": "two_scale",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "two_scale__student5",
+      "spectrum_id": "two_scale",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "annulus__gaussian",
+      "spectrum_id": "annulus",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "annulus__fixed_radius",
+      "spectrum_id": "annulus",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "annulus__uniform_disk",
+      "spectrum_id": "annulus",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "annulus__exponential_scale",
+      "spectrum_id": "annulus",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "annulus__student5",
+      "spectrum_id": "annulus",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "notch__gaussian",
+      "spectrum_id": "notch",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "notch__fixed_radius",
+      "spectrum_id": "notch",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "notch__uniform_disk",
+      "spectrum_id": "notch",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "notch__exponential_scale",
+      "spectrum_id": "notch",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "notch__student5",
+      "spectrum_id": "notch",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "angular__gaussian",
+      "spectrum_id": "angular",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "angular__fixed_radius",
+      "spectrum_id": "angular",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "angular__uniform_disk",
+      "spectrum_id": "angular",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "angular__exponential_scale",
+      "spectrum_id": "angular",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "angular__student5",
+      "spectrum_id": "angular",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "separable__gaussian",
+      "spectrum_id": "separable",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "separable__fixed_radius",
+      "spectrum_id": "separable",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "separable__uniform_disk",
+      "spectrum_id": "separable",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "separable__exponential_scale",
+      "spectrum_id": "separable",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "separable__student5",
+      "spectrum_id": "separable",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "axial__gaussian",
+      "spectrum_id": "axial",
+      "coefficient_law_id": "gaussian",
+      "class": "gaussian_candidate"
+    },
+    {
+      "id": "axial__fixed_radius",
+      "spectrum_id": "axial",
+      "coefficient_law_id": "fixed_radius",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "axial__uniform_disk",
+      "spectrum_id": "axial",
+      "coefficient_law_id": "uniform_disk",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "axial__exponential_scale",
+      "spectrum_id": "axial",
+      "coefficient_law_id": "exponential_scale",
+      "class": "non_gaussian_stress_candidate"
+    },
+    {
+      "id": "axial__student5",
+      "spectrum_id": "axial",
+      "coefficient_law_id": "student5",
+      "class": "non_gaussian_stress_candidate"
+    }
+  ]
+}

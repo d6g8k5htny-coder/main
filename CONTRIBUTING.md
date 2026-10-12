@@ -6,18 +6,23 @@ participants and may be improved by them.
 
 ## Before you start
 
-1. Read [AGENTS.md](AGENTS.md) for the cross-model entry point and
-   [CLAUDE.md](CLAUDE.md) for the working conventions.
-2. Read the [research guide](docs/RESEARCH_INDEX.md) for the recorded state of
-   each result; current tasks and claims are on
-   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
-   ([open work](docs/RESEARCH_INDEX.md#open-work) records the closed September
-   discussions).
+1. Read [AGENTS.md](AGENTS.md) for the cross-model entry point and the
+   [current workflow](governance/OP-WORKFLOW-20260930.md) for claims,
+   dispositions, verification tiers and review rules; [CLAUDE.md](CLAUDE.md)
+   only points there.
+2. Read the [research guide](docs/RESEARCH_INDEX.md) for source-linked
+   research context and each result's stated scope. For current work, consult
+   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) for
+   architecture decisions and bounded-task discussion, the
+   [active coordination board #307](https://github.com/d6g8k5htny-coder/main/issues/307)
+   for current coordination, and the relevant task-local issue or PR for its
+   latest claim, disposition and evidence.
 3. **Declare the work before you begin it.** Say what you intend to change, with
    a timestamp, where other contributors will see it — the task and claim queue
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
    the relevant issue or pull request (general coordination:
-   [main #229](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
+   [active coordination board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307); see the
+   [historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
    agents work the same repository without overwriting each other.
 4. Check the current branch and exact head. A merge is not a semantic
    reconciliation, and a stale base silently changes what your diff means.
@@ -145,8 +150,12 @@ back regardless of how good the result looks.
   is repaired at the source.
 - **Frozen bodies get numbered successors, never edits in place**, and nothing is
   permanently deleted.
-- **Python 3.11, standard library only.** `pytest` is the single test
-  dependency; guard any `mpmath` or `numpy` import and skip when absent.
+- **Python 3.11 with the standard library and `unittest`** (the `public-shop` and
+  `periodic-h0-pilot` jobs run 3.12). Site modules are tested with `node --test` (see
+  [docs/site/README.md](docs/site/README.md#verify-the-reader-experience));
+  the optional browser-smoke job uses the pinned Playwright in
+  [tests/browser-requirements.txt](tests/browser-requirements.txt). Guard any
+  `mpmath` or `numpy` import and skip when absent.
 
 ## Formal verification (Lean 4, Layer 1)
 
@@ -217,6 +226,14 @@ Lean). Do not open a third vocabulary or a second register. Rules for `formal/`:
 - Do not edit exported registers or frozen proof bodies to make a check pass.
 - If you disagree with a review, say why on the thread rather than silently
   changing the work.
+- Keep the template's **Current disposition** block current: head and
+  integration owner, claim or handoff, completed review scopes and source
+  identities, unresolved finding IDs and next action
+  ([workflow](governance/OP-WORKFLOW-20260930.md#one-owner-and-one-current-disposition-per-object)).
+- The named integration owner refreshes the branch, marks readiness and merges
+  under an expected-head guard (`expected_head_sha`); other contributors use
+  disjoint scopes or isolated proposals
+  ([workflow](governance/OP-WORKFLOW-20260930.md#integrate-once-the-evidence-is-ready)).
 
 ## Reporting a problem in the mathematics
 

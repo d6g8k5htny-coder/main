@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {digest,pin,fixture,documentFromHTML} from './fixtures/museum_fixture.mjs';
+import {digest,pin,fixture,documentFromHTML,isLive} from './fixtures/museum_fixture.mjs';
 
 const moduleURL = new URL('../docs/site/museum.mjs', import.meta.url);
 test('museum exposes source-bound rendering rather than silently omitting the page', () => {
@@ -157,6 +157,12 @@ test('rendered claims use declared HTML containers, complete identities and lite
   for(const field of ['d2-lifetime-remainder','ACCEPT-scoped','d6g8k5htny-coder/Math-','proof.md','a'.repeat(40),digest('Pinned proof.')]) assert.ok(text.includes(field),field);
   assert.ok(text.includes('This canvas explains the pinned source. It is not a proof and does not change status.'));
   assert.match(document.getElementById('lifetime-fixture').textContent,/fixture absent/i);
+  if(f.manifest.claims.some(claim=>claim.id==='d2-lifetime-remainder')){
+    const link=descendants(document.getElementById('claim-cards'),n=>n.tagName==='A'&&n.textContent==='Dependency record for these exact bytes (Math 7858329): math.lifetime-remainder')[0];
+    assert.ok(link,'The d2 card links its dependency-graph record');
+    assert.equal(link.href,'dependencies.html?node=math.lifetime-remainder#node-detail');
+    assert.match(text,/Same path and SHA-256 as this card's proof\. The graph's classification is the gate's own register, not this card's label\./);
+  }
   assert.equal(document.getElementById('undeclared-id'),null);
   document.nodes.delete('claim-cards');
   await assert.rejects(()=>museum.startMuseum({document,search:'',fetcher:async()=>new Response(JSON.stringify(f.manifest))}),/Missing museum container/);
@@ -170,7 +176,105 @@ test('museum manifest must match the config byte count and SHA-256 before source
     await museum.startMuseum({document,fetcher:async url=>{requested.push(String(url));return new Response(url==='config.json'?JSON.stringify({museum_json:pin}):altered);}});
     assert.deepEqual(requested,['config.json','museum.json']);
     assert.match(document.getElementById('museum-state').textContent,/unavailable/i);
-    assert.equal(document.getElementById('claim-cards').children.length,0);
+    assert.equal(document.getElementById('museum-state').className,'error');
+    for(const id of ['claim-cards','packet-cards','lifetime-fixture']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/^Not shown: .*No result inferred\. Read the pinned Math proof index at d6628da and the STATUS snapshot at f2e432e directly\.$/);assert.deepEqual([isLive(document.getElementById(id)),isLive(children[0])],[false,false],`${id} and its Not shown note are not live`);}
+    assert.equal(document.getElementById('active-exhibit').children.length,0,'no exhibit was requested');
+  }
+  const exhibit=documentFromHTML();
+  await museum.startMuseum({document:exhibit,search:'?view=ec014',fetcher:async url=>new Response(url==='config.json'?JSON.stringify({museum_json:pin}):raw+' ')});
+  const hosts=['claim-cards','packet-cards','lifetime-fixture','active-exhibit'].map(id=>exhibit.getElementById(id).children);
+  assert.ok(hosts.every(children=>children.length===1&&/Not shown/.test(children[0].textContent)),'a requested exhibit host carries the same sentence');
+  const links=descendants(hosts[0][0],n=>n.tagName==='A').map(n=>[n.textContent,n.href]);
+  assert.deepEqual(links,[['Math proof index at d6628da','https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md'],['STATUS snapshot at f2e432e','https://github.com/d6g8k5htny-coder/main/blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md']]);
+});
+
+// #museum-state is the page's one static role="status" line for cards. A refused card is not a
+// second live region; each refused view is counted in that line's final text instead. The only
+// other static live region is the conditional route's status line; neither is hidden.
+test('museum.html declares exactly two live regions, #museum-state and #conditional-route-status, neither hidden',()=>{
+  const html=fs.readFileSync(new URL('../docs/site/museum.html',import.meta.url),'utf8');
+  const live=[...html.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
+  assert.deepEqual(live,['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
+  const state=documentFromHTML().getElementById('museum-state');
+  assert.deepEqual([state.getAttribute('role'),state.getAttribute('aria-live')],['status',null]);
+});
+// The route's status line stays visible, and only a line that has not refused is recoloured, so a
+// refusal keeps the error colour.
+test('brand.css keeps the route status line visible and in the error colour when it refuses',()=>{
+  const css=fs.readFileSync(new URL('../docs/site/brand.css',import.meta.url),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+  const rules=[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([,selector,body])=>[selector.trim(),body]);
+  const route=rules.filter(([selector])=>selector.includes('conditional-route-status'));
+  assert.ok(route.length>0,'the route status line is styled');
+  for(const [selector,body] of route){
+    assert.doesNotMatch(body,/display\s*:\s*none|visibility\s*:\s*(hidden|collapse)|\bclip\b|opacity\s*:\s*0(?![.\d]*[1-9])/,selector);
+    if(/(^|;)\s*color\s*:/.test(body))assert.equal(selector,'#conditional-route-status:not(.error)','only a line that has not refused is recoloured');
+  }
+  assert.ok(rules.some(([selector,body])=>selector.split(',').map(s=>s.trim()).includes('.conditional-route-refusal')&&/(^|;)\s*color\s*:\s*var\(--ul-error\)/.test(body)),'a refused line takes the error colour');
+});
+async function renderRefusals(search,{proofText='Pinned proof.',geometryLoader,packet=false}={}){
+  const f=fixture(),document=documentFromHTML();
+  if(packet){// A landed packet whose pinned result cannot be fetched.
+    const id='side24-identity-replay-20260926',commit='71400b94f6cb354a8cf7aba73ffede2138a64efa',at=`d6g8k5htny-coder/main/${commit}/incoming/${id}/`;
+    const source=name=>({...pin(`incoming/${id}/${name}`,'Unfetched packet bytes.',commit),repository:'d6g8k5htny-coder/main',url:`https://raw.githubusercontent.com/${at}${name}`,html_url:`https://github.com/${at.replace('/main/','/main/blob/')}${name}`});
+    f.manifest.packets=[{id,issue:null,result:source('RESULT.md'),identity:source('IDENTITY.json'),output:source('output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}];
+  }
+  const raw=JSON.stringify(f.manifest);
+  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,proofText],[f.manifest.claims[11].review.url,'Pinned reconciliation.']]);
+  await museum.startMuseum({document,search,...(geometryLoader?{geometryLoader}:{}),fetcher:async url=>new Response(mapping.get(String(url))??'',{status:mapping.has(String(url))?200:404})});
+  const views=['claim-cards','lifetime-fixture','packet-cards','active-exhibit'].map(id=>document.getElementById(id));
+  const refused=views.flatMap(view=>descendants(view,n=>n.className==='museum-card refused'));
+  const flagged=n=>isLive(n)||(typeof n.getAttribute==='function'&&n.getAttribute('role')!==null);
+  const roled=views.flatMap(view=>[...(flagged(view)?[view]:[]),...descendants(view,flagged)]);
+  const line=document.getElementById('museum-state');
+  return {state:line.textContent,stateLive:[line.getAttribute('role'),line.getAttribute('aria-live')],refused,roled};
+}
+const countedViews=n=>`Pinned source projections verified. ${n} source view(s) unavailable; no result inferred for those views.`;
+test('refused cards carry no role and are not live; the museum status line counts every one of them',available,async()=>{
+  const page=await renderRefusals('',{proofText:'Changed proof.',packet:true});
+  assert.ok(page.refused.length>2,'claim cards, the D2 fixture and the packet are refused');
+  assert.equal(page.refused.filter(n=>n.children[0].textContent==='Packet source').length,1,'the packet whose source fails is refused');
+  const packetCard=page.refused.find(n=>n.children[0].textContent==='Packet source');
+  assert.equal(packetCard.id,'side24-identity-replay-20260926','the refused packet card carries its packet id');
+  assert.ok(packetCard.children.some(n=>n.tagName==='P'&&n.textContent==='Packet ID: side24-identity-replay-20260926'),'the refused packet card names its packet');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'refused cards and their notes are not live regions');
+  for(const card of page.refused)assert.ok(card.children.some(n=>n.tagName==='P'&&n.className==='error'&&/^Unavailable: .+\. No result inferred\.$/.test(n.textContent)));
+  assert.equal(page.state,countedViews(page.refused.length));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+});
+test('an unknown exhibit is counted in the museum status line like any other unavailable view',available,async()=>{
+  const page=await renderRefusals('?view=unknown');
+  assert.deepEqual(page.refused.map(n=>n.children[0].textContent),['Unknown exhibit']);
+  assert.equal(page.state,countedViews(1));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'the refusal note is not a live region');
+});
+test('a declared exhibit that cannot be shown is counted in the museum status line',available,async()=>{
+  const page=await renderRefusals('?view=remote',{geometryLoader:()=>{throw Error('Graphics unavailable');}});
+  assert.deepEqual(page.refused.map(n=>n.children[0].textContent),['Source illustration']);
+  assert.equal(page.state,countedViews(1));
+  assert.deepEqual(page.stateLive,['status',null],'the counting line is still the static status line');
+  assert.deepEqual(page.roled.map(n=>n.textContent),[],'the refusal note is not a live region');
+});
+
+test('the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title',available,()=>{
+  const manifest=JSON.parse(fs.readFileSync(new URL('../docs/site/museum.json',import.meta.url),'utf8'));
+  const graph=JSON.parse(fs.readFileSync(new URL('../docs/site/dependency-source/GRAPH.json',import.meta.url),'utf8'));
+  const claims=new Map(manifest.claims.map(claim=>[claim.id,claim]));
+  const entries=Object.entries(museum.DEPENDENCY_RECORDS);
+  assert.equal(entries.length,6);assert.equal(entries.flatMap(([,ids])=>ids).length,7);
+  for(const [claimId,ids] of entries){
+    const claim=claims.get(claimId);assert.ok(claim,`unknown card ${claimId}`);
+    for(const id of ids){
+      const node=graph.nodes[id];assert.ok(node,`unknown node ${id}`);
+      assert.equal(node.source,claim.proof.path,id);
+      assert.equal(node.fingerprint,claim.proof.sha256,id);
+    }
+  }
+  // Path-only coincidences stay out of the map: the graph node's fingerprint is not this card's proof bytes.
+  for(const absent of ['d5-height-window-annulus','d6-p15-full-price']){
+    assert.ok(!Object.hasOwn(museum.DEPENDENCY_RECORDS,absent),absent);
+    const samePath=Object.values(graph.nodes).filter(node=>node.source===claims.get(absent).proof.path);
+    assert.ok(samePath.length>0&&samePath.every(node=>node.fingerprint!==claims.get(absent).proof.sha256),absent);
   }
 });
 
@@ -189,7 +293,8 @@ test('a coherent old browser cache cannot hide the newly pinned packet',{skip:!m
     return new Response(Buffer.from(fixtures[String(url)],'base64'));
   }});
   assert.equal(document.getElementById('packet-cards').children.length,2);
-  assert.match(document.getElementById('packet-cards').textContent,/side24-chart-claude-20260926/);
+  // Match rendered cards, not text: a Verifying placeholder or a refusal also names the packet.
+  assert.deepEqual(descendants(document.getElementById('packet-cards'),n=>n.tagName==='ARTICLE').map(n=>[n.id,/refused/.test(n.className)]),[['side24-identity-replay-20260926',false],['side24-chart-claude-20260926',false]]);
   assert.deepEqual(calls.slice(0,2),[{url:'config.json',cache:'no-store'},{url:'museum.json',cache:'no-store'}]);
   assert.ok(calls.slice(2).every(call=>call.cache===undefined),'Pinned remote source requests retain their cache policy');
 });
@@ -204,8 +309,7 @@ test('a mixed new config and stale museum manifest fails closed',{skip:!museum},
   }});
   assert.deepEqual(calls,['config.json','museum.json']);
   assert.match(document.getElementById('museum-state').textContent,/unavailable.*byte count|unavailable.*SHA-256/i);
-  assert.equal(document.getElementById('packet-cards').children.length,0);
-  assert.equal(document.getElementById('claim-cards').children.length,0);
+  for(const id of ['packet-cards','claim-cards']){const children=document.getElementById(id).children;assert.equal(children.length,1,id);assert.match(children[0].textContent,/Not shown/);assert.ok(!/Claim and scope|packet — not STATUS/.test(children[0].textContent),'no card content is drawn from unverified bytes');}
 });
 
 test('actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions',{skip:!museum||(!process.env.MUSEUM_MATH_ROOT&&!process.env.MUSEUM_FIXTURE)},async()=>{
@@ -276,3 +380,61 @@ test('readable presentation retains the exact original source quote in a disclos
 
 // The museum CI integration suite includes source-quote projection controls.
 import "./test_source_quote.mjs";
+
+// Packet cards keep manifest order whatever order their RESULT.md bytes arrive in: the first
+// declared packet is held until the second has rendered, and a refusal keeps its own slot.
+async function packetOrderPage({failFirst=false,failSecond=false}={}){
+  const f=fixture(),ids=['side24-identity-replay-20260926','side24-chart-claude-20260926'],commits=['71400b94f6cb354a8cf7aba73ffede2138a64efa','a12c178c0f857a130cf434e9efd44233a038195b'];
+  const text='Scientific effect: **NONE**\nReview status: **REVIEW_REQUIRED**\n';
+  const source=(i,name)=>{const path=`incoming/${ids[i]}/${name}`;return {...pin(path,text,commits[i]),repository:'d6g8k5htny-coder/main',url:`https://raw.githubusercontent.com/d6g8k5htny-coder/main/${commits[i]}/${path}`,html_url:`https://github.com/d6g8k5htny-coder/main/blob/${commits[i]}/${path}`};};
+  f.manifest.packets=ids.map((id,i)=>({id,issue:i?141:null,result:source(i,'RESULT.md'),identity:source(i,'IDENTITY.json'),output:source(i,'output.json'),scientific_effect:'NONE',review_status:'REVIEW_REQUIRED'}));
+  const raw=JSON.stringify(f.manifest),document=documentFromHTML();
+  const mapping=new Map([['config.json',JSON.stringify({museum_json:{url:'museum.json',bytes:Buffer.byteLength(raw),sha256:digest(raw)}})],['museum.json',raw],[f.manifest.index_source.url,f.index],[f.manifest.status_source.url,f.status],[f.manifest.claims[0].proof.url,'Pinned proof.'],[f.manifest.claims[11].review.url,'Pinned reconciliation.'],[f.manifest.packets[0].result.url,failFirst?text+'changed':text],[f.manifest.packets[1].result.url,failSecond?text+'changed':text]]);
+  let release,secondServed;const gate=new Promise(resolve=>release=resolve),served=new Promise(resolve=>secondServed=resolve);
+  const loading=museum.startMuseum({document,search:'',fetcher:async url=>{
+    url=String(url);
+    if(url===f.manifest.packets[0].result.url){await served;await new Promise(resolve=>setTimeout(resolve,0));await gate;}
+    const response=new Response(mapping.get(url)??'',{status:mapping.has(url)?200:404});
+    if(url===f.manifest.packets[1].result.url)secondServed();
+    return response;
+  }});
+  // Release the first packet only once the second packet's card (rendered or refused) is in the page.
+  const host=document.getElementById('packet-cards'),deadline=Date.now()+5000;
+  await served;while(!descendants(host,n=>n.tagName==='ARTICLE'&&n.id===ids[1]).length&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,5));
+  const article=child=>descendants(child,n=>n.tagName==='ARTICLE')[0]??(child.tagName==='ARTICLE'?child:undefined);
+  const during=host.children.map(child=>child.textContent),duringIds=host.children.map(child=>article(child)?.id);
+  const flagged=n=>isLive(n)||(typeof n.getAttribute==='function'&&n.getAttribute('role')!==null);
+  const placeholder=[host.children[0],...host.children[0].children].map(n=>({tag:n.tagName,className:n.className??'',flagged:flagged(n)}));
+  release();await loading;
+  const slots=host.children.map(child=>article(child)??child);
+  return {placeholder,state:document.getElementById('museum-state').textContent,settled:host.children.map(child=>child.children.length),leftover:/Verifying/.test(host.textContent),during,duringIds,ids,slots:slots.map(node=>/refused/.test(node.className)?'refused':node.id||node.textContent),refused:slots.filter(node=>/refused/.test(node.className))};
+}
+test('packet cards render in manifest order when the first packet arrives last',available,async()=>{
+  const page=await packetOrderPage();
+  assert.deepEqual(page.duringIds,[undefined,page.ids[1]],'the second packet rendered before the first was released');
+  assert.match(page.during[0],/side24-identity-replay-20260926/,'the held packet keeps its first slot while it verifies');
+  assert.deepEqual(page.placeholder,[{tag:'DIV',className:'',flagged:false},{tag:'P',className:'',flagged:false}],'the placeholder is plain text: no card class, role or live region');
+  assert.deepEqual(page.slots,page.ids);
+});
+test('a refused packet keeps its manifest slot when the other packet arrives later',available,async()=>{
+  const page=await packetOrderPage({failSecond:true});
+  assert.deepEqual(page.duringIds,[undefined,page.ids[1]],'the second packet was refused before the first was released');
+  assert.deepEqual(page.slots,[page.ids[0],'refused']);
+  assert.deepEqual(page.refused.map(node=>node.id),[page.ids[1]],'the refused card carries its packet id');
+  assert.equal(page.refused[0].children[0].textContent,'Packet source');
+  assert.ok(page.refused[0].children.some(n=>n.tagName==='P'&&n.className==='error'&&/^Unavailable: .+\. No result inferred\.$/.test(n.textContent)));
+  assert.ok(page.refused[0].children.some(n=>n.tagName==='P'&&n.textContent==='Packet ID: side24-chart-claude-20260926'),'the refused card names its packet');
+});
+test('every refused packet is counted in the museum status line',available,async()=>{
+  const page=await packetOrderPage({failFirst:true,failSecond:true});
+  assert.deepEqual(page.slots,['refused','refused']);
+  assert.deepEqual(page.refused.map(node=>node.id),page.ids);
+  assert.equal(page.state,countedViews(2));
+  assert.deepEqual(page.settled,[1,1],'each refusal replaces its Verifying placeholder');
+  assert.equal(page.leftover,false);
+});
+test('a rendered packet replaces its Verifying placeholder',available,async()=>{
+  const page=await packetOrderPage();
+  assert.deepEqual(page.settled,[1,1]);
+  assert.equal(page.leftover,false);
+});

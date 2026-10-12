@@ -1,4 +1,4 @@
-.command-block { padding: 22px; background: var(--ul-raised); border: 1px solid var(--ul-border); border-radius: 10px; white-space: pre-wrap; line-height: 1.7; overflow-wrap: anywhere; }
+.command-block { padding: 22px; background: var(--ul-raised); border: 1px solid var(--ul-border); border-radius: var(--ul-radius-m); white-space: pre-wrap; line-height: 1.7; overflow-wrap: anywhere; }
 .reference-fields { display: grid; gap: 20px; max-width: 800px; margin: 24px 0; }
 .reference-fields label { display: grid; gap: 8px; font-weight: 650; }
 .reference-fields input, .reference-fields select { width: 100%; padding: 12px; box-sizing: border-box; font: inherit; }
@@ -9,4 +9,12 @@
 .table-scroll:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 caption { text-align: left; color: var(--ul-muted); margin-bottom: 12px; }
 [hidden] { display: none !important; }
-.table-scroll td code { white-space: nowrap; }
+/* Phone legibility (W5 #2, W6d): exact endpoints stay unbroken and uncapped (style.css td:nth-child(2) 150px); the table grows to its content and the labelled region pans sideways. */
+.table-scroll table { width: max-content; min-width: 100%; }
+.table-scroll th, .table-scroll td { max-width: none; }
+.table-scroll td code { white-space: nowrap; overflow-wrap: normal; }
+.table-scroll tbody th { font: inherit; letter-spacing: 0; text-transform: none; background: transparent; color: var(--ul-text); font-weight: 650; border-bottom: 1px solid var(--ul-border); }
+#coefficient-exports .actions button { background: transparent; border-color: var(--ul-edge); color: var(--ul-link); }
+.reference-fields input, .reference-fields select { font-weight: 400; }
+#reference-commit, #reference-sha256 { font-family: ui-monospace, monospace; }
+@media print { .table-scroll table { width: 100%; } .table-scroll td code { white-space: normal; overflow-wrap: anywhere; } }
