@@ -2429,6 +2429,20 @@ class ArchitectureEvidenceAdapterContract(unittest.TestCase):
             ("failed", b"TEST/formal/Demo.lean:2:22: error: tactic 'trivial' failed\n"),
             ("unsolved goals", b"TEST/formal/Demo.lean:2:22: error: unsolved goals\n\xe2\x8a\xa2 False\n"),
             ("is false", b"TEST/formal/Demo.lean:2:22: error: proposition is false\n"),
+            # Exact Lean 4.34.1 log bytes retained in run 38247524043/1,
+            # artifact 11745963466, copied into this otherwise synthetic packet.
+            # receipt/false_eigenvalue_third.log SHA-256:
+            # 3d267da92c295b3e78e0ed4ab8753a94f5be814142b72509519e9f4473ba2ad9
+            ("retained_decide_false_eigenvalue",
+             b"/home/runner/work/main/main/formal/.lake/formal-evidence/false_eigenvalue_third.lean:114:65: error: Tactic `decide` proved that the proposition\n"
+             b"  58 * 9 < 22 ^ 2\n"
+             b"is false\n"),
+            # receipt/false_exponent_bound_d3.log SHA-256:
+            # 96582a758ed1b7b5f2e685814fed49a2d610d97dc974b6d995094659e52a9681
+            ("retained_decide_false_exponent",
+             b"/home/runner/work/main/main/formal/.lake/formal-evidence/false_exponent_bound_d3.lean:126:2: error: Tactic `decide` proved that the proposition\n"
+             b"  \xe2\x88\x80 (d : Nat), d \xe2\x88\x88 [2, 3] \xe2\x86\x92 sixA d + 2 * sixB d < 84 \xe2\x88\xa7 2 * sixA d + sixB d < 77\n"
+             b"is false\n"),
         )
         for marker, raw in cases:
             with self.subTest(marker=marker, raw=raw):
