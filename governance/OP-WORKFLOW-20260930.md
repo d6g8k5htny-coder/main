@@ -162,6 +162,14 @@ predecessor deliveries by immutable ID/hash; copy their payloads only when neede
 for a self-contained reproducibility package. Preserve exact source bytes,
 historical failures, review scope and required original execution receipts.
 
+Before publishing or registering a delivery, apply the
+[destination-audience preflight](../docs/RELEASE_OPERATIONS.md#destination-audience-preflight).
+Verify each receiving destination separately, including the register or message
+that receives metadata. A private archive does not establish a private register.
+Check outgoing fields against that destination's current audience and existing
+authorization. An unknown or unverifiable audience pauses only the affected
+write; continue unrelated work.
+
 Freeze the inventory after inputs stabilize and verify membership and bytes.
 Use [the reusable delivery builder](../tools/research_delivery.py) with an explicit
 file list and expected identities; its `build` and `verify` commands validate

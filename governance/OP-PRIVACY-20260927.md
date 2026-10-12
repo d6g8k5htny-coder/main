@@ -86,3 +86,20 @@ The [repair pickup](https://github.com/d6g8k5htny-coder/main/issues/307#issuecom
 records this exact scope; the earlier
 [email-only hold supersession](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6051694172)
 remains part of its provenance. Historical owner quotations above are unchanged.
+
+## Destination-specific publication checks
+
+Cloud storage is not inherently private. The historical Drive/Dropbox
+description above is not evidence of every object's current audience. Before an
+authorized upload, registration or message, check the exact receiving destination
+under the [release preflight](../docs/RELEASE_OPERATIONS.md#destination-audience-preflight).
+Checking an archive folder does not check a separate register receiving its
+metadata. This bounded read does not authorize unrelated Drive/Dropbox searches,
+cleanup or sharing changes.
+
+Withhold private file or folder identifiers, locator URLs, source paths and
+access-bearing links from public destinations unless their exact publication to
+that audience is separately authorized under the applicable rules. An unknown
+audience pauses only that write. The existing owner-authorized public metadata
+exceptions above remain valid; do not reopen them solely because of this check.
+Neither source readability nor this procedure grants new publication authority.
