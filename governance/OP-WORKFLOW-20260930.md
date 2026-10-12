@@ -37,6 +37,21 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
+For an unresolved integration reservation, consult the case-specific prospective
+reassignment implemented in [#276’s amendment](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038812718)
+and [activation](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038906820).
+That precedent records the authority and exact future scope affected in the existing
+PR, identifies an eligible actual receiver and finite checkpoint, and activates only
+after the receiver’s personal acknowledgement and a fresh coordinator confirmation
+following reconciliation of current refs, claims, findings and reported in-flight
+work. The proposal alone permits no mutation. Preserve the predecessor’s actual
+work, attribution and own release as UNKNOWN wherever unresolved; age, silence or
+a shared alias proves neither expiry nor release. Crossed work, competing claims,
+explicit denials or unresolved findings stop the affected action for reconciliation.
+This pointer supplies no blanket reassignment, unseen-claim override, security or
+check waiver, or scientific acceptance; the existing source-preservation and
+protected-integration requirements still apply.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
