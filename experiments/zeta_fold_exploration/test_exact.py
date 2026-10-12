@@ -12,8 +12,12 @@ Covered:
   * backward heat polynomials v_n satisfy d_tau v_n = -d_x^2 v_n exactly and are homogeneous;
   * kappa_r, kappa_ell, kappa_t and the midpoint drift 2B/A from exact power series in
     sigma = sqrt(tau) with rational A, B, C (and higher terms), for A > 0 and A < 0;
-  * density pushforward exponents (alpha+1)/3 - 1 = -2/3, -1/3, 0 for alpha = 0, 1, 2, and the
-    small-mark phase diagram including the log(1/ell) case.
+  * weighted lobes (README section 4 item 3): for smooth w, ell_w/(w(z0) ell) =
+    1 + [(12/5)(B/A) w'/w + (1/5) w''/w] tau + O(tau^2); for the C^1 weight 1 + |x|^(3/2) the
+    excess is (4/15) a^(3/2), not O(r^2);
+  * density pushforward exponents (alpha+1)/3 - 1 = -2/3, -1/3, 0 for alpha = 0, 1, 2, the
+    small-mark phase diagram including the log(1/ell) case, and a dependent-mark example
+    (k = r) where a finite marginal moment E[k^-1] still gives density exponent -1/4.
 """
 import unittest
 from fractions import Fraction as Fr
@@ -166,6 +170,28 @@ def fold_coefficients(A, B, C, extra=None):
     return R2over8, M, ell_ratio, t_ratio, J
 
 
+def weighted_lobe_ratio(A, B, C, extra, w):
+    """ell_w / (w(z0) ell) as a series in sigma, for the polynomial weight
+    w(z0 + x) = sum_j w[j] x^j / j! (so w[1] = w'(z0), w[2] = w''(z0)) and ell_w = |int w H|."""
+    c = {2: Fr(A), 3: Fr(B), 4: Fr(C)}
+    c.update(extra or {})
+    hc = h_series_coeffs(c)
+    yp = root_series(hc, SQRT2)
+    ym = root_series(hc, -SQRT2)
+    wy = [[Q2() for _ in range(NS + 1)] for _ in w]                  # w(sigma y): y^j has sigma^j
+    for j, wj in enumerate(w):
+        if j <= NS:
+            wy[j][j] = q2(Fr(wj) / factorial(j))
+    prod = [s_const(0) for _ in range(len(hc) + len(w) - 1)]
+    for i, hi in enumerate(hc):
+        for j, wj in enumerate(wy):
+            prod[i + j] = s_add(prod[i + j], s_mul(hi, wj))
+    lobe = lambda poly: s_sub(*(s_poly_eval([s_const(0)] + [s_scale(poly[j], Fr(1, j + 1))
+                                                            for j in range(len(poly))], y)
+                                for y in (yp, ym)))
+    return s_scale(s_mul(lobe(prod), s_inv(lobe(hc))), Fr(1) / Fr(w[0]))
+
+
 # ---------------------------------------------------------------------------------------------
 class FoldNormalForm(unittest.TestCase):
     def test_gap_is_r_cubed_over_six(self):
@@ -273,7 +299,43 @@ class FoldCoefficients(unittest.TestCase):
         self.assertEqual(2 * B / A, Fr(6, 10))
 
 
+class WeightedLobe(unittest.TestCase):
+    """README section 4 item 3 (review ZF-AD-01): C^{1,1} weights give 1 + O(r^2); C^1 does not."""
+
+    def test_smooth_weight_tau_coefficient(self):
+        # ell_w/(w(z0) ell) = 1 + [(12/5)(B/A) w'/w + (1/5) w''/w] tau + O(tau^2), even in sigma
+        for A, B, C, extra in FoldCoefficients.CASES:
+            for w in ((Fr(1), Fr(2), Fr(3), Fr(5)), (Fr(3, 2), Fr(-1, 3), Fr(7, 4)), (Fr(2),)):
+                ratio = weighted_lobe_ratio(A, B, C, extra, w)
+                w1 = w[1] if len(w) > 1 else 0
+                w2 = w[2] if len(w) > 2 else 0
+                kw = Fr(12, 5) * (B / A) * (w1 / w[0]) + Fr(1, 5) * w2 / w[0]
+                self.assertEqual(ratio[:4], [Q2(1), Q2(0), Q2(kw), Q2(0)], (A, B, C, w))
+
+    def test_c1_weight_counterexample(self):
+        # H = x^2 - a^2 (a = sqrt(2t)), w = 1 + |x|^(3/2) (C^1, not C^{1,1}). With a = u^2 and
+        # x = v^2: int_{-a}^{a} (a^2 - x^2)|x|^(3/2) dx = 4 int_0^u (a^2 v^4 - v^8) dv.
+        for u in (Fr(1, 2), Fr(1, 10), Fr(1, 1000)):
+            a = u * u
+            ell = Fr(4, 3) * a ** 3
+            extra = 4 * (a * a * u ** 5 / 5 - u ** 9 / 9)
+            excess = extra / ell                                          # ell_w/ell - 1
+            self.assertEqual(excess, Fr(4, 15) * u ** 3)                 # = (4/15) a^(3/2)
+            self.assertEqual(excess / (2 * a) ** 2, 1 / (15 * u))       # unbounded: not O(r^2)
+
+
 class DensityPushforward(unittest.TestCase):
+    def test_marginal_mark_moment_is_not_enough(self):
+        # r with density 3 r^2 on (0,1) (alpha = 2), k = r, ell = k r^3 = r^4 (review ZF-AD-02):
+        # E[k^-1] is finite, yet P(ell < x) = x^(3/4), i.e. density (3/4) x^(-1/4), not x^0.
+        integ = lambda c, n, top=Fr(1): c * top ** (n + 1) / (n + 1)    # int_0^top c r^n dr
+        self.assertEqual(integ(3, 2 - 1), Fr(3, 2))                        # E[k^-1] = E[r^-1]
+        for p in (Fr(1, 4), Fr(3, 10)):
+            cdf = lambda q: integ(3, 2, q)                                 # P(ell < q^4) = P(r < q)
+            self.assertEqual(cdf(2 * p) / cdf(p), 8)                       # ell -> 16 ell: factor 8
+        self.assertEqual(Fr(8) ** 4, Fr(16) ** 3)                          # 8 = 16^(3/4): CDF slope 3/4
+        self.assertEqual(Fr(3, 4) - 1, Fr(-1, 4))                          # product model: (2+1)/3 - 1 = 0
+
     def test_fixed_mark_exponents(self):
         # separation density (alpha+1) r^alpha on (0,1), ell = k r^3 with k fixed (k = 1):
         # P(ell < x) = x^((alpha+1)/3). Exact on cubes: P(ell < (p/q)^3) = (p/q)^(alpha+1).

@@ -80,10 +80,10 @@ def svg_plot(fname, title, subtitle, xlabel, ylabel, xlim, ylim, data, refs, xti
 centers = np.logspace(-3.75, -0.25, 15)
 bars = [(nm, lab, col, local_slopes(D[f"{nm}_L"], centers, 10 ** 0.25)) for nm, lab, col in SERIES]
 svg_plot("effective_exponent_bars.svg",
-         "Short-bar exponent of the antiderivative barcode",
+         "Local short-bar CDF slopes (finite windows; zeta via the Hardy-Z primitive)",
          "local slope of log ECDF(ell), half-decade windows; density ~ ell^(s-1); error bars: approx. Poisson SE",
          "bar length / median bar length", "local CDF slope s", (1e-4, 1), (0.3, 1.2),
-         bars, [(2 / 3, "s = 2/3: linear repulsion|(density ell^-1/3)"), (1.0, "s = 1: quadratic repulsion|(density ell^0)")],
+         bars, [(2 / 3, "s = 2/3: (D1) expectation,|linear repulsion (ell^-1/3)"), (1.0, "s = 1: (D1) expectation,|quadratic repulsion (ell^0)")],
          [1e-4, 1e-3, 1e-2, 1e-1, 1], [0.4, 0.6, 0.8, 1.0, 1.2])
 gc = np.logspace(np.log10(0.06), np.log10(0.8), 12)
 gaps = [(nm, lab, col, local_slopes(D[f"{nm}_r"], gc, 10 ** 0.1)) for nm, lab, col in SERIES]

@@ -1,6 +1,8 @@
-"""Section 5 checks: small-r expansion of the GUE pair correlation; the
-pushforward of a separation law r^beta dr under ell = k r^3, including the
-admission (integrability) condition on the mark k.
+"""Section 5 checks: small-r expansion of the bulk sine-process (N → ∞ GUE/CUE) pair
+correlation; the pushforward of a separation law r^beta dr under ell = k r^3 with the mark k
+independent of r (product model), including that model's admission (integrability) condition
+on k. For a mark correlated with r a finite marginal moment is not enough (test_exact.py;
+CLAIMS.md 5.4).
 
 Notation: in this script "beta" is the exponent of the separation law r^beta dr (the pair or
 gap exponent, written alpha in the README). The README reserves beta = (alpha+1)/m for the
@@ -21,8 +23,8 @@ R2 = lambda r: 1 - (mp.sin(mp.pi * r) / (mp.pi * r)) ** 2 if r != 0 else mp.mpf(
 c = mp.taylor(lambda r: 1 - mp.sinc(mp.pi * r) ** 2, 0, 6)
 rep("Taylor coefficients of 1-(sin pi r/(pi r))^2 at r=0:", [mp.nstr(x, 15) for x in c])
 rep("pi^2/3 =", mp.nstr(mp.pi**2 / 3, 15), "; -2 pi^4/45 =", mp.nstr(-2 * mp.pi**4 / 45, 15))
-# GUE nearest-neighbour spacing density p(s) also ~ (pi^2/3) s^2; Wigner surmise (32/pi^2) s^2 e^{-4 s^2/pi}
-rep("Wigner-surmise (beta=2) small-s coefficient 32/pi^2 =", mp.nstr(32 / mp.pi**2, 10), "(surmise only; exact GUE gap density has pi^2/3)")
+# Sine-process nearest-neighbour spacing density p(s) also ~ (pi^2/3) s^2 (a different observable); Wigner surmise (32/pi^2) s^2 e^{-4 s^2/pi}
+rep("Wigner-surmise (beta=2) small-s coefficient 32/pi^2 =", mp.nstr(32 / mp.pi**2, 10), "(surmise only; the bulk sine-process gap density has pi^2/3)")
 
 # exact pushforward: separation density c r^beta on (0, r_max), ell = k r^3, k fixed
 # => nu(ell) = (c/3) k^{-(beta+1)/3} ell^{(beta-2)/3}

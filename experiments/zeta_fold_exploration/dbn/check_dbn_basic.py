@@ -5,7 +5,10 @@ The zero ODE dz_j/dt = 2 sum_{k != j} 1/(z_j - z_k) does not converge absolutely
 summed symmetrically here, pairing each zero with its mirror -z_k:
     dz_j/dt = 2 [ 1/(2 z_j) + sum_{k != j} 2 z_j / (z_j^2 - z_k^2) ]  (positive zeros only),
 truncated at 300 zeros plus a tail estimate (truncation-limited at about 1.5e-4).
-The exact velocity is H_zz/H_z (see zero_velocity.py).
+This real-zero form holds in the all-real regime (t > Lambda, simple zeros); at t = 0 it
+presumes RH, so the comparison is a consistency/truncation check only, not evidence that
+omitted nonreal contributions vanish. The exact velocity at any simple zero is H_zz/H_z
+(see zero_velocity.py).
 Output: results/dbn/check_dbn_basic.out
 """
 import time

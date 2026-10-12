@@ -6,9 +6,11 @@ It makes no claim of progress toward the Riemann Hypothesis (RH), and no bound o
 de Bruijn–Newman constant Λ beyond known results. None should be read into it.
 
 - Author: Anthropic Claude (delegated AI work for the project owner, Dylan Roy).
-- Nonauthor review from a different provider: **PENDING**. Dylan's personal reading: **PENDING**.
-- Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v1 (v0 plus the same-provider review and check
-  passes, §10).
+- Nonauthor review from a different provider: slices A and D read, verdict **AMEND** (review
+  5486843735); slice B (citations) read, verdict **AMEND** (review 5486879914); both applied
+  here (§9, §10); slice C open. Dylan's personal reading: **PENDING**.
+- Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 (v1, which carried the same-provider passes,
+  plus the slice A, B and D amendments, §10).
 - Project sources read at main `8977619e` (the cited main files are unchanged from `03acb7be`
   through the current base `7588716d`) and Math- `79cb314d`.
 
@@ -22,26 +24,41 @@ project, and keeps the scripts and results so that anyone can re-run them.
 **What we found, in plain terms.**
 
 1. **Folds.** When two zeros of the de Bruijn–Newman heat flow H_t merge at a nondegenerate
-   double zero (H_zz ≠ 0), the antiderivative of H_t gains or loses exactly one persistence
-   bar, and that bar follows the same cubic fold law as in this project (bar length ∝ gap³).
-   This is ordinary fold geometry, not something special to zeta. We computed two actual
-   collisions to about 40 digits. Both are at negative time (t ≈ −1.878 and t ≈ −0.385), and
-   the fold law is accurate only close to the collision time. None of this says anything
-   about RH.
+   double zero (H_zz ≠ 0), the antiderivative of H_t, on a fixed surrounding interval and for
+   times close to the merger, gains or loses exactly one persistence bar. That bar follows the
+   same cubic fold law as in this project (bar length ∝ gap³, with gap² = 8τ(1 + O(τ)) at
+   time τ after the merger). This is ordinary fold geometry, not something special to zeta.
+   We computed two actual collisions to about 40 digits. Both are at negative time
+   (t ≈ −1.878 and t ≈ −0.385), and the fold law is accurate only close to the collision
+   time. None of this says anything about RH.
 2. **Theta functions.** The project's periodized Gaussian field is normalized by a Jacobi theta
    value, and zeta can be built from the same theta function. But zeta appears only after
    integrating over all torus sizes, while
    the project holds the torus size fixed. At the project's size the periodization is
    invisible locally (about 10⁻¹²⁵). This link is a footnote.
 3. **Statistics.** This is the useful part, and it is about the project's own question, not
-   about RH. Zeta zeros are conjectured (Montgomery; supported numerically by Odlyzko and by
-   our gap slopes ≈ 3) to repel each other quadratically at short range, like eigenvalues of
-   random unitary matrices (CUE), whereas the zeros in the project's Gaussian models repel
-   linearly. With the same cubic fold, that one change moves the short-bar density from
-   ℓ^(−1/3) to roughly ℓ⁰. Our numerics, at heights 10⁴–10⁶, are decisive against −1/3 for
-   zeta. They are consistent with 0 once the small finite-cutoff bias that the estimator also
-   shows on controls with known answers (0.02 to 0.07) is allowed for. The data were inspected
-   before any prediction was frozen, so this is exploration, not confirmation.
+   about RH. Eigenvalues of random unitary matrices (CUE) repel quadratically at short range,
+   whereas the zeros in the project's Gaussian models repel linearly. Under the hypotheses of
+   the project's transfer theorem (Math- equation (D1), §2), the same cubic fold with
+   quadratic repulsion gives short-bar density exponent 0 instead of −1/3. These two values
+   are theoretical expectations under stated conditions, not calibrated answers: for fixed-N
+   CUE the full bar law is the unproved target T-CUE (§6.1), and the Gaussian theorem's
+   hypotheses were not checked for our Gaussian primitive. Zeta zeros are conjectured to
+   behave like CUE (Montgomery; Odlyzko's numerics; our gap slopes ≈ 3), but pair correlation
+   is neither a nearest-neighbour law nor a law of persistence pairs (Montgomery states the
+   two-point and consecutive-spacing conjectures separately), so reaching bars needs further
+   assumptions. (D1) is a theorem about random models. Among its hypotheses 1–4 it needs a
+   finite negative mark moment under the limiting collision-mark measure (a finite ordinary
+   marginal moment is not enough; `CLAIMS.md` 5.4). For the deterministic ζ none of these
+   objects is defined or verified.
+   **Numerically**, for the specified *Hardy-Z primitive* (the antiderivative of
+   Z(t)/√(log(t/2π)) in the unfolded variable, endpoint-born bars dropped; §5.3), windows at
+   heights 10⁴–10⁶ and Hill estimator, the observed finite-tail estimates are substantially
+   above −1/3 and near 0. Sampling-only block-bootstrap intervals exclude −1/3 at the reported
+   cutoffs. This is exploratory evidence about that finite-window statistic. It does not
+   establish a limiting density exponent or a calibrated rejection accounting for all errors,
+   and it says nothing about the ξ-weighted primitive or the de Bruijn–Newman barcode. The data
+   were inspected before any prediction was frozen, so this is exploration, not confirmation.
 
 **What is worth doing next** (§6): a theorem for fixed-size CUE matrices (T-CUE), and a
 frozen, pre-registered comparison on fresh zeta windows. **What this packet does not claim or
@@ -51,7 +68,7 @@ pursue** is listed in §7.
 |---|---|---|
 | Fold ↔ de Bruijn–Newman zero collisions | Exact, but only near the collision time. Generic fold geometry; the persistence wording is standard Cerf birth–death and vineyards. | A clean deterministic fold family whose time-transversality is forced by a PDE (Proposition 1). Nothing about RH. |
 | Periodized-Gaussian normalizer ↔ Jacobi Θ ↔ ζ | Classical identities (Jacobi; Riemann 1859), exact. ζ appears only after a Mellin transform over the torus side L, a parameter the project holds fixed. | A footnote. At L = 24 the periodization changes local jets by about e^(−288). |
-| GUE/CUE pair statistics ↔ contact law | Decisive against −1/3 at the heights tested; consistent with ≈ 0 given the finite-cutoff estimator bias of order 0.02–0.07 seen in the controls. Intervals are sampling-only. GUE behaviour of zeta zeros is itself a conjecture. | A natural, non-Gaussian **altered pair-count tilt**: the same cubic fold with r² repulsion gives density exponent ≈ 0, not −1/3. |
+| GUE/CUE pair statistics ↔ contact law | For the specified Hardy-Z primitive, windows and estimator: finite-tail estimates substantially above −1/3 and near 0; sampling-only block-bootstrap intervals exclude −1/3 at the reported cutoffs. Exploratory evidence about that finite-window statistic, not a limiting exponent or a calibrated total-error rejection; not the ξ-weighted primitive or a de Bruijn–Newman barcode. GUE behaviour of zeta zeros is itself a conjecture, and pair correlation is not a nearest-neighbour or persistence-pair law. | A natural, non-Gaussian **altered pair-count tilt**: under the (D1) hypotheses, the same cubic fold with r² repulsion predicts density exponent 0, not −1/3 (a theorem target for CUE, T-CUE). |
 
 **Files.**
 
@@ -72,24 +89,33 @@ Every item below is classical. Items marked **[num]** were re-checked numericall
 mpmath 1.4.1 (high precision, not interval-certified). Citation tags: **[snippet]** means the
 bibliographic details were checked only against search-engine snippets (arXiv, journal and
 encyclopedia pages could not be fetched from this environment: proxy 403 / DNS);
-**[memory]** means recalled from memory and unchecked; **[via main#307 comment 6116121839]**
-means taken second-hand from that comment (§2) and not checked against the source. A full list
-is at the end of this section.
+**[memory]** means recalled from memory and unchecked. Where a nonauthor reviewer checked a primary
+passage or an author statement, or found only second-hand corroboration, one of three terms
+from review 5486879914 replaces the tag (originals the reviewer did not inspect keep theirs): **primary passage checked**
+[locator], written inline as **[primary, via review N]** (N = 5486843735, slices A/D, §10.1;
+N = 5486879914, slice B, §10.2); **author statement checked; full proof not audited**;
+**corroborated second-hand; original unchecked**. "Checked" means the passage supports the
+statement as used, within its hypotheses; no proof was reconstructed and no packet calculation
+was reproduced by these reviews. A summary is at the end of this section; locators and links
+are in `CLAIMS.md` (Citation provenance).
 
 ### 1.1 ξ, Ξ and the critical line
 
 ξ(s) = ½ s(s−1) π^(−s/2) Γ(s/2) ζ(s) is entire and satisfies ξ(s) = ξ(1−s). Define
 Ξ(x) = ξ(½ + ix), which is real and even for real x. RH says every zero of Ξ is real. The
 nontrivial zeros of ζ lie in 0 < Re s < 1; this follows from ζ(1+it) ≠ 0 (Hadamard;
-de la Vallée Poussin, 1896) together with the functional equation [Riemann 1859; Titchmarsh
-ch. II; memory].
+de la Vallée Poussin, 1896) together with the functional equation [Hadamard 1896, opening
+sections; Titchmarsh, 2nd ed., ch. III, §3.1 (zero-free line) and ch. II (continuation);
+Riemann 1859, pp. 2–3; primary, via review 5486879914; de la Vallée Poussin's original not
+inspected].
 
 ### 1.2 The de Bruijn–Newman flow
 
     Φ(u) = Σ_{n≥1} (2π² n⁴ e^{9u} − 3π n² e^{5u}) exp(−π n² e^{4u}),
     H_t(z) = ∫_0^∞ e^{t u²} Φ(u) cos(z u) du.
 
-These are the conventions of Rodgers–Tao and Polymath15 [snippet].
+These are the conventions of Rodgers–Tao (eqs. (1)–(4) [primary, via review 5486879914]) and
+Polymath15 [snippet].
 
 - **Normalization.** H_0(z) = Ξ(z/2)/8, so the zero ρ = ½ + iγ corresponds to z = 2γ.
   **[num]** Three independent implementations agree (§5.1): relative difference ≤ 7·10⁻⁴¹
@@ -104,48 +130,68 @@ These are the conventions of Rodgers–Tao and Polymath15 [snippet].
 - **Backward heat equation.** ∂_t H = −∂_z² H, by differentiating under the integral.
   **[num]** Finite-difference residual ≤ 4·10⁻²⁷ at three points, against terms of size
   10⁻⁴ to 10⁻¹⁰.
-- **Zero dynamics.** For a simple zero, H(t, z_j(t)) = 0 and the heat equation give the exact
-  velocity ż_j = −H_t/H_z = H_zz/H_z. Through the Hadamard product this becomes
-  dz_j/dt = 2 Σ_{k≠j} 1/(z_j − z_k) [Csordas–Smith–Varga 1994, snippet; used by Rodgers–Tao].
+- **Zero dynamics.** At any simple zero, H(t, z_j(t)) = 0 and the heat equation give the exact
+  velocity ż_j = −H_t/H_z = H_zz/H_z. In the all-real regime (t > Λ: all zeros real and
+  simple), the Hadamard product turns this into dz_j/dt = 2 Σ_{k≠j} 1/(z_j − z_k)
+  [Csordas–Smith–Varga 1994, whose Lemma 2.4, p. 115, works in this regime, primary, via review
+  5486879914; Rodgers–Tao pp. 4–5, eq. (5), and Polymath15 §9, which separates the general
+  simple-root velocity from this regime; primary, via review 5486843735].
   That sum is not absolutely convergent and must be summed symmetrically, for example over
-  positive zeros as ż_j = 2[1/(2z_j) + Σ_{k≠j} 2z_j/(z_j² − z_k²)]. Zeros therefore **repel as
-  t increases**. As t decreases, neighbours attract, can merge into a real double zero, and
-  then become a complex-conjugate pair.
+  positive zeros as ż_j = 2[1/(2z_j) + Σ_{k≠j} 2z_j/(z_j² − z_k²)]. At t = 0, at a simple
+  zero z_j, a sum over real zeros only (counted with multiplicity) is valid under RH (all zeros
+  of H_0 real); unconditionally the nonreal zeros would also enter. Simplicity of the zeros is
+  a separate conjecture, not part of RH. In the all-real regime zeros **repel as t
+  increases**. As t decreases, neighbours attract, can merge into a real double zero, and then
+  become a complex-conjugate pair (Proposition 1, locally).
   **[num]** At t = 0 the exact velocities H_zz/H_z are −0.5796306, −0.7549955 and −0.4654455
   for zeros #1, #2 and #5 (`dbn/zero_velocity.py`), matching finite differences. The
-  symmetric sum over 300 zeros plus a tail estimate gives −0.579717, −0.755108 and −0.465554,
-  which is truncation-limited at about 10⁻⁴.
-- **The constant Λ.** There is a Λ such that H_t has only real zeros exactly when t ≥ Λ
-  [de Bruijn 1950; Newman 1976; snippet]. RH ⇔ Λ ≤ 0. Rodgers–Tao (2020) proved Λ ≥ 0, so
-  RH ⇔ Λ = 0 [snippet].
-  - Upper bounds: Λ ≤ 0.22 [Polymath15 2019]; Λ ≤ 0.2 [Platt–Trudgian 2021]; [snippet].
-  - Lower bounds before Rodgers–Tao came from Lehmer pairs [CSV 1994;
-    Csordas–Odlyzko–Smith–Varga 1993; Odlyzko 2000; Saouter–Gourdon–Demichel 2011; snippet;
-    the 1988–1992 sequence of bounds, memory].
-  - For every t > 0, all but finitely many zeros of H_t are real and simple
-    [Ki–Kim–Lee 2009; snippet].
+  symmetric real-zero sum over the first 300 zeros plus a tail estimate gives −0.579717,
+  −0.755108 and −0.465554, agreeing to the truncation level of about 10⁻⁴. This is a
+  consistency and truncation check of the all-real formula, not evidence that omitted
+  nonreal contributions vanish.
+- **The constant Λ.** There is a Λ such that H_t has only real zeros exactly when t ≥ Λ.
+  De Bruijn's strip contraction (1950, Theorem 13, p. 205) gives real zeros for t ≥ 1/2 and
+  keeps them real as t increases; Newman (1976, Theorem 3, whose exponential parameter has the
+  opposite sign) shows that the threshold is finite [primary, via review 5486879914]. RH ⇔
+  Λ ≤ 0. Rodgers–Tao (2020, Theorem 1) proved Λ ≥ 0, so RH ⇔ Λ = 0 [primary, via review
+  5486879914].
+  - Upper bounds: Λ ≤ 0.22 [Polymath15 2019, Theorem 1.1]; Λ ≤ 0.2 [Platt–Trudgian 2021,
+    Corollary 2]; [primary, via review 5486879914].
+  - Lower bounds before Rodgers–Tao came from Lehmer pairs [CSV 1994, Theorem 1;
+    Csordas–Odlyzko–Smith–Varga 1993, Theorem 2.2; Odlyzko 2000; primary, via review
+    5486879914]. Saouter–Gourdon–Demichel 2011 and the 1988–1992 sequence of bounds are
+    corroborated second-hand only (Rodgers–Tao's table; CSV p. 108, eq. (1.5)); originals
+    unchecked.
+  - Λ < 1/2, and at each fixed t > 0 all but finitely many zeros of H_t are real and simple
+    [Ki–Kim–Lee 2009; author statement checked; full proof not audited].
   - De Bruijn's strip lemma: if all zeros of H_{t0} satisfy |Im z| ≤ y0, then Λ ≤ t0 + y0²/2
-    [de Bruijn 1950; snippet].
-  - Survey: Newman–Wu 2020 [snippet].
+    [de Bruijn 1950, Theorem 13, in this normalization; primary, via review 5486879914].
+  - Survey: Newman–Wu 2020 [a survey, not an additional original proof; primary, via review
+    5486879914].
   - The time variable rescales by 4 between the z and Ξ(x) conventions.
-  - **Which results are kernel-generic.** De Bruijn's lemma and Newman's monotonicity hold for
-    broad kernel classes [de Bruijn 1950; Newman 1976; snippet]. Ki–Kim–Lee and Rodgers–Tao
-    use ζ-specific zero information (arithmetic input, not theta structure): Rodgers–Tao use
-    pair-correlation estimates and zero counting, per their abstract [snippet]; Ki–Kim–Lee use
-    zero-distribution facts [memory]. The Rodgers–Tao energy argument is a technique for
-    proving the lower bound; it does not forbid any particular arrangement of zeros for t > 0.
+  - **What the cited results use.** De Bruijn's strip contraction and Newman's finite threshold
+    hold for kernels meeting their stated symmetry and decay conditions. Ki's 2022 report
+    presents the Ki–Kim–Lee theorems together with extensions to broader Dirichlet-series and
+    functional-equation settings [author statement checked; full proof not audited]. Rodgers–Tao
+    argue by contradiction: if Λ < 0, the zero dynamics would put the zeros of H_0 into local
+    equilibrium, contradicting known statistics of the zeros [introduction; primary, via review
+    5486879914]. This packet does not classify which of these inputs are arithmetic. The
+    Rodgers–Tao energy argument is a technique for proving the lower bound; it does not forbid
+    any particular arrangement of zeros for t > 0.
 
 ### 1.3 Theta, Mellin and Epstein
 
 Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
 
 - **Theta transformation.** Θ(u) = u^{−1/2} Θ(1/u) is classical (Jacobi; Poisson summation)
-  [memory]. Its use to prove ξ(s) = ξ(1−s) is Riemann 1859, the second proof [memory].
-  Mumford's *Tata Lectures on Theta I* is an expository source [memory].
-- **Mellin formula.** π^{−s/2} Γ(s/2) ζ(s) = ½ ∫_0^∞ (Θ(u) − 1) u^{s/2−1} du for Re s > 1.
-  **[num]** Checked at s = 2, 3, 4.5 and 2+3i to 18 digits. As u → 0 the integrand behaves
-  like u^{(s−3)/2}, so the integral diverges for Re s ≤ 1; continuation needs Riemann's split
-  at u = 1.
+  [Jacobi: corroborated second-hand, Riemann credits him; original unchecked]. Its use to prove
+  ξ(s) = ξ(1−s) is Riemann 1859, the second proof [pp. 2–3, Clay translation; primary, via
+  review 5486879914]. Mumford's *Tata Lectures on Theta I* is an expository source [memory].
+- **Mellin formula.** π^{−s/2} Γ(s/2) ζ(s) = ½ ∫_0^∞ (Θ(u) − 1) u^{s/2−1} du for Re s > 1, an
+  ordinary improper integral (Riemann writes it with ψ = (Θ−1)/2) [primary, via review
+  5486879914]. **[num]** Checked at s = 2, 3, 4.5 and 2+3i to 18 digits. As u → 0 the
+  integrand behaves like u^{(s−3)/2}, so the integral diverges for Re s ≤ 1; continuation needs
+  Riemann's split at u = 1.
 - **Higher dimensions.** For d ≥ 2 and Re w > d/2,
   ∫_0^∞ (Θ^d − 1) u^{w−1} du = π^{−w} Γ(w) Z_d(w), where Z_d(w) = Σ'_{n∈ℤ^d} |n|^{−2w} is the
   Epstein zeta function of ℤ^d, with Λ_d(w) = Λ_d(d/2 − w). Two cases:
@@ -155,42 +201,67 @@ Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
   an imprimitive, shifted product, and it shows that, for such a product, a theta functional
   equation is compatible with zeros off the symmetry line. Separately, Epstein zeta functions of
   positive-definite integral **binary** quadratic forms with class number > 1 have zeros in
-  Re s > 1 [Davenport–Heilbronn 1936; snippet]; that result does not apply directly to the
+  Re s > 1 [Davenport–Heilbronn 1936; corroborated second-hand by Titchmarsh §10.27 for binary
+  forms only; original unchecked]; that result does not apply directly to the
   project's ℤ^d forms. **[num]** The factorizations, the functional equations and the
   off-line zeros of Z_4 at γ_1 were checked.
 
 ### 1.4 Pair correlation
 
 - **Montgomery's theorem (assuming RH)** gives pair correlation only for test functions whose
-  Fourier support lies in (−1, 1) [Montgomery 1973; snippet].
-- **The conjecture.** The full GUE law R_2(r) = 1 − (sin πr / πr)² = (π²/3) r² − (2π⁴/45) r⁴ + …
-  is Montgomery's pair-correlation conjecture. Restricted-support extensions are
-  Rudnick–Sarnak 1996 [snippet].
-- **Evidence.** Odlyzko's computations support it numerically [Odlyzko 1987 and later; snippet].
-- **Small r.** The r → 0 law is not proved. The GUE nearest-neighbour spacing density has the
-  same leading term (π²/3) s²; the Wigner surmise gives 32/π² instead.
+  Fourier support lies in (−1, 1); full pair correlation and the stronger spacing and
+  higher-correlation statements are conjectural [Montgomery 1973, pp. 181–185; primary, via
+  review 5486879914].
+- **The conjecture.** R_2(r) = 1 − (sin πr / πr)² = (π²/3) r² − (2π⁴/45) r⁴ + … is the
+  unit-density bulk sine-process limit (GUE/CUE as N → ∞), not an exact finite-N GUE formula.
+  That ζ's zeros follow it is Montgomery's pair-correlation conjecture. Rudnick–Sarnak 1996,
+  Theorem 1.2, proves n-level correlations under RH with restricted support (Σ|ξ_j| < 2 for ζ);
+  not every result in that paper assumes RH [primary, via review 5486879914].
+- **Evidence.** Odlyzko's computations support it numerically; that is evidence, not a theorem
+  about the full statistics [Odlyzko 1987, primary, via review 5486879914; later computations,
+  snippet].
+- **Small r.** The r → 0 law is not proved. The nearest-neighbour spacing density of the sine
+  process has the same leading term (π²/3) s² but is a different observable [Odlyzko 1987,
+  eq. (2.23) and §6; primary, via review 5486879914]. The coefficient 32/π² belongs to the
+  Wigner surmise, not to the exact bulk law.
+- **Three different objects.** Pair correlation is a two-point law. It is not a
+  nearest-neighbour (consecutive-spacing) law, and Montgomery states the two conjectures
+  separately [Montgomery 1973, pp. 184–185; primary, via review 5486843735]. Neither is a law
+  of persistence pairs, which the elder rule selects (§3). The sine process has the stated
+  leading nearest-gap behaviour, but carrying it over to ζ, and then to bars, needs further
+  assumptions.
 
-**Citation provenance.**
+**Citation provenance** (locators and links: `CLAIMS.md`, Citation provenance).
 
-- *Checked against search snippets only:* de Bruijn 1950, Newman 1976, Csordas–Smith–Varga
-  1994, Csordas–Odlyzko–Smith–Varga 1993, Odlyzko 1987 and 2000, Saouter–Gourdon–Demichel 2011,
-  Ki–Kim–Lee 2009, Rodgers–Tao 2020, Polymath15 2019, Platt–Trudgian 2021 (Λ ≤ 0.2),
-  Montgomery 1973, Rudnick–Sarnak 1996, Davenport–Heilbronn 1936, Newman–Wu 2020, and the
-  historical table of Λ lower bounds including the −0.385 entry attributed to
-  Norfolk–Ruttan–Varga 1992.
-- *Second-hand, via main#307 comment 6116121839 (no snippet seen):* Lagarias–Montague
-  (arXiv:1106.4348, the integral of ξ; statement to be checked).
-- *From memory, unchecked:* Riemann 1859, Hadamard and de la Vallée Poussin 1896, Jacobi (theta
-  transformation), Sturm's zero-number property for the heat equation, Titchmarsh, Mumford,
-  Edwards 1974 (Riemann–Siegel coefficients, also validated numerically against
-  `mpmath.siegelz`), Cerf 1970, Cohen-Steiner–Edelsbrunner–Morozov 2006,
-  Hughes–Keating–O'Connell 2000 (and their arithmetic factor a(k)), Gonek 1989, Hejhal 1989,
-  Keating–Snaith 2000, Selberg's central limit theorem and Radziwiłł–Soundararajan 2017,
-  Bogomolny–Bohigas–Leboeuf–Monastra 2006 (effective N and its constant), Platt–Trudgian's
-  verification of RH to height 3·10¹², Csordas–Ruttan–Varga 1991, the 1988–1992 sequence of
-  lower bounds on Λ, and Mathlib's proof of ζ's functional equation through Jacobi theta.
+- *Primary passage checked by a nonauthor reviewer, not by the author.* Review 5486843735:
+  Rodgers–Tao eqs. (1)–(5), pp. 4–5; Montgomery 1973, pp. 184–185; Polymath15 Theorem 1.5
+  (pp. 9–10) and §9. Review 5486879914: Riemann 1859 (Clay translation, pp. 2–3); Hadamard
+  1896; Titchmarsh, 2nd ed., ch. II and ch. III §3.1; de Bruijn 1950, Theorem 13; Newman 1976,
+  Theorem 3; Csordas–Smith–Varga 1994, Theorem 1, Corollary 2, Lemma 2.4;
+  Csordas–Odlyzko–Smith–Varga 1993, Theorem 2.2; Odlyzko 2000; Rodgers–Tao eqs. (1)–(4),
+  Theorem 1 and introduction; Polymath15 Theorem 1.1 and its deformed coefficients;
+  Platt–Trudgian 2021, Theorem 1 and Corollary 2; Newman–Wu 2020 (a survey); Montgomery 1973,
+  pp. 181–185; Rudnick–Sarnak 1996, Theorem 1.2; Odlyzko 1987, eq. (2.23) and §6;
+  Lagarias–Montague, eqs. (1.2), (1.6), (1.9) and Theorem 2.1; Cohen-Steiner–Edelsbrunner–Morozov
+  2006, §§2, 4; Hughes–Keating–O'Connell 2000, Theorem 1.2, Remark 2.2 and Conjecture 1.3;
+  Keating–Snaith 2000, eqs. (8) and (92); Bogomolny–Bohigas–Leboeuf–Monastra 2006, eqs.
+  (19)–(20); Radziwiłł–Soundararajan 2017, Theorem 1; Mathlib's documentation (local version and
+  proofs not checked).
+- *Author statement checked; full proof not audited:* Ki–Kim–Lee 2009.
+- *Corroborated second-hand; original unchecked:* Saouter–Gourdon–Demichel 2011 (Rodgers–Tao's
+  table); Csordas–Norfolk–Varga 1988, te Riele 1991, Csordas–Ruttan–Varga 1991 and
+  Norfolk–Ruttan–Varga 1992 (CSV 1994, p. 108, eq. (1.5); identification with zeros 34/35
+  unconfirmed); Davenport–Heilbronn 1936 (Titchmarsh §10.27, binary forms only); Jacobi
+  (credited by Riemann); the hypotheses of Hejhal's central limit theorem (as quoted by HKO).
+- *Search snippets only:* Polymath15's kernel conventions; Odlyzko's later computations.
+- *From memory, unchecked:* de la Vallée Poussin 1896, Sturm's zero-number property for the heat
+  equation, Mumford, Cerf 1970 (exact passage not located), Gonek 1989, Hejhal 1989, Selberg's
+  original, and the CUE log|Z_U| variance of order ½ log N (§6.1). Edwards 1974 is identified
+  bibliographically only; its Riemann–Siegel coefficients and our implementation are left to
+  slice C (they were validated numerically against `mpmath.siegelz`).
 
-A nonauthor reviewer with working web access should confirm each of these.
+Only the items a reviewer reports as checked carry the stronger terms; every other item stays
+unverified (§9).
 
 ## 2. What the project states, and what it does not
 
@@ -254,7 +325,8 @@ Locations are in main `8977619e` unless marked Math- (Math- links are pinned to 
   The triple-collision example (§3 Remark 1), the gap-versus-bar countercontrol (§5.2) and
   the information-loss example (§7) are taken from that comment and re-checked by hand here
   in exact rational arithmetic. The density-transfer caveat (`CLAIMS.md` 5.4) and the
-  Lagarias–Montague pointer (§4 item 3) are also taken from it; the latter is unchecked. No
+  Lagarias–Montague pointer (§4 item 3) are also taken from it; the latter has since been
+  checked against the primary source by the slice-B reviewer (review 5486879914). No
   reproducible controls are built.
 
 ## 3. Proposition 1: the fold of a backward-heat solution (elementary)
@@ -279,8 +351,18 @@ Set B := ∂_z³ H/6 and C := ∂_z⁴ H/24, both at (t₀, z₀), and τ := t �
   g'(0) = κ_r := 4C/A − 2B²/A².
 - The midpoint is z₀ + 2(B/A) τ + O(τ²).
 
-**(c) Persistence.** Let F(t, z) = ∫_{z*}^{z} H(t, u) du for any base point z*, restricted to any
-closed interval I ⊇ W̄. Then for 0 < τ < ε' (some ε' ≤ ε):
+**Barcode convention** (used throughout the packet). Barcodes are degree-0 persistence of the
+superlevel sets {F ≥ λ} of a continuous function on a compact interval with finitely many
+critical points, with coefficients in a field (any field gives the same degree-0 barcode). A
+component born at a local-maximum value b that merges into an elder component (one born at a
+higher value) at λ = d is the finite bar (d, b]: it exists for λ ∈ (d, b], and its length is
+ℓ = b − d. The global maximum gives the essential bar.
+
+**(c) Persistence.** Assume also that H is defined, real-analytic and a solution on
+(t₀ − ε₁, t₀ + ε₁) × U for an open interval U ⊃ W̄ (for H_t, U = ℝ). Fix a compact interval I
+with W̄ ⊂ I ⊂ U and a base point z* ∈ I, and let F(t, z) = ∫_{z*}^{z} H(t, u) du on I. Since
+H(t, ·) ≢ 0 is analytic, F(t, ·) has finitely many critical points on I, so its barcode is
+defined. Then for 0 < τ < ε' (some ε' ≤ ε):
 - The two critical points z± of F(t, ·) form a pair in the superlevel H0 barcode of
   F(t, ·)|_I. The one that is a local maximum is born at its value and dies at the value of
   the other.
@@ -293,7 +375,17 @@ closed interval I ⊇ W̄. Then for 0 < τ < ε' (some ε' ≤ ε):
   with κ_ℓ = 6B²/A² − 48C/(5A) and κ_t = κ_ℓ + (3/2) κ_r = 3B²/A² − 18C/(5A).
 - For τ < 0, F(t, ·) has no critical point in W.
 
-**Proof.** Replacing H by −H preserves the equation, so assume A > 0.
+Part (c) gives the local bar for small τ on a fixed surrounding interval. It says nothing
+about arbitrary close pairs, or about the pairing at t = 0 (§5.2).
+
+**Proof.** For (a) and (b), replacing H by −H preserves the equation and the zeros, so assume
+A > 0. For (c), replacing H by −H alone would swap superlevel and sublevel persistence.
+Instead use the simultaneous reflection H̃(t, z) = −H(t, 2z₀ − z), F̃(t, z) = F(t, 2z₀ − z)
+(base point 2z₀ − z*, interval 2z₀ − I). Both sides of the equation change sign, so H̃ is a
+solution; F̃ = ∫_{2z₀−z*}^{z} H̃; and the superlevel sets of F̃ are the reflections of those of
+F, so the barcodes agree. The reflection maps (A, B, C) to (−A, B, −C), which leaves r, ℓ,
+κ_r, κ_ℓ and κ_t unchanged and reflects the midpoint drift. So A > 0 may be assumed in (c)
+too.
 
 *(a), via a minimum argument.*
 1. Choose δ and ε₀ so that |∂_z² H − 2A| < A on [t₀ − ε₀, t₀ + ε₀] × W̄. Then each H(t, ·) is
@@ -333,10 +425,10 @@ closed interval I ⊇ W̄. Then for 0 < τ < ε' (some ε' ≤ ε):
 2. Since ∂_z² H ≥ A on W, ∫_{z₊}^{z₀+δ} H ≥ (A/6)(z₀ + δ − z₊)³ ≥ Aδ³/48 for small τ.
    Meanwhile M − m₀ = −∫_{z₋}^{z₊} H = O(τ^{3/2}). Hence F(z₀ + δ) > M, and symmetrically
    F(z₀ − δ) < m₀.
-3. For λ ∈ (m₀, M], the component of {F ≥ λ} through z₋ is an interval inside W containing no
+3. For λ ∈ (m₀, M], the component of {F|_I ≥ λ} through z₋ is an interval inside W containing no
    other critical point.
 4. At λ = m₀ it merges with the component through z₊. That component contains z₀ + δ, where
-   F > M, so it was born earlier. By the elder rule the bar of z₋ is [m₀, M].
+   F > M, so it was born earlier. By the elder rule the bar of z₋ is (m₀, M].
 
 *The value of ℓ.*
 1. Write ℓ = σ³ |J(σ)| with J(σ) = ∫_{y₋(σ)}^{y₊(σ)} h(y, σ) dy. The symmetry gives
@@ -380,15 +472,23 @@ closed interval I ⊇ W̄. Then for 0 < τ < ε' (some ε' ≤ ε):
    zeros r apart, and is not covered (example taken from main#307 comment 6116121839, §2).
 2. *What the heat equation adds.* First, transversality is automatic: ∂_t H = −2A ≠ 0 at the
    double zero, so the discriminant is crossed transversally and the pair always opens in
-   forward time. Second, the opening law r² = 8τ has no free constant.
+   forward time. Second, the opening law r² = 8τ(1 + O(τ)), i.e. r² ~ 8τ, has no free
+   constant in its leading term. The correction κ_r is generally nonzero, so r² = 8τ exactly
+   is false in general.
 3. *Consequence for H_t.* Folds of H_t occur only at t₀ ≤ Λ, since for t > Λ all zeros are
-   simple [CSV 1994; snippet]. **Under RH, fold events occur only at t ≤ 0** (t = 0 only if Ξ
-   has a multiple zero). Heuristically (the Lehmer-pair mechanism), collision times approach
-   0 from below as height grows; this is a heuristic, not a theorem of Rodgers–Tao or anyone
-   else. So under RH a vineyard of F_t = ∫ H_t over t > 0 has no births or deaths inside a
-   window; the only changes are pairing switches and zeros crossing the window ends.
+   simple [CSV 1994, Corollary 2, p. 114; primary, via review 5486879914]. Conversely, if
+   Λ > 0 then H_Λ has a multiple real zero at finite height. That is a deduction from
+   Polymath15 Theorem 1.5(i), not from the fold, and the zero need not be a nondegenerate double
+   zero (`CLAIMS.md` 6.2). It is not an RH result.
+   **Under RH, fold events occur only at t ≤ 0** (t = 0 only if Ξ has a multiple zero).
+   Heuristically (the Lehmer-pair mechanism), collision times approach 0 from below as height
+   grows; this is a heuristic, not a theorem of Rodgers–Tao or anyone else. So under RH a
+   vineyard of F_t = ∫ H_t over t > 0 has no births or deaths inside a window; the only
+   changes are pairing switches and zeros crossing the window ends.
 4. *Persistence language is not new.* Describing this as one birth in a vineyard is standard
-   Cerf theory [Cerf 1970; Cohen-Steiner–Edelsbrunner–Morozov 2006; memory].
+   Cerf theory [Cerf 1970, memory, exact passage not located; Cohen-Steiner–Edelsbrunner–Morozov
+   2006, §§2, 4, stability and vineyards, primary, via review 5486879914, which does not prove
+   this packet's fold coefficients].
 
 ## 4. Elementary restatements in the project's variables (novelty not claimed; no literature search)
 
@@ -417,16 +517,43 @@ were checked numerically. No literature search was done, and no novelty is claim
    - with Ξ's actual sign, 0 pairs are shared, because superlevel and sublevel roles swap;
    - with a mild weight e^{0.01t}, 112/113 and 104/106 are shared.
 
-   Short bars from close pairs are robust: for C¹ weights and a close pair with midpoint x₀,
-   ℓ_w = w(x₀) ℓ (1 + O(r²)) (the O(r) term vanishes by symmetry about the midpoint). So the
-   short-bar **exponent** is unchanged, while the coefficient picks up a w^{−β}-weighted
-   average, β = (α+1)/m: w^{−1} for GUE-type repulsion (α = 2) and w^{−2/3} for the Gaussian
-   case (α = 1).
+   **Weighted short bars need C^{1,1}.** Take a close pair z₋ < z₊ near a nondegenerate fold
+   at z₀ (Proposition 1), with gap r and midpoint m, and let ℓ_w = |∫_{z₋}^{z₊} w H|. Write
+   H = (u − z₋)(u − z₊) q(u). Near the fold q is bounded away from 0 and q' is bounded: this
+   is the controlled asymmetry, which must be assumed for close pairs away from a fold. Let
+   w > 0 have bounded w'' (w ∈ C^{1,1}) on a fixed neighbourhood of z₀. Then
 
-   Prior work on the same antiderivative (up to scaling): Lagarias–Montague, arXiv:1106.4348,
-   on the zeros of the integral of ξ [via main#307 comment 6116121839; statement to be
-   checked]. Its zeros are not the critical points of F used here, so the barcode question is
-   distinct.
+       ℓ_w = w(x₀) ℓ (1 + O(r²)),   with x₀ = z₀ or x₀ = m.
+
+   With s = u − m and kernel r²/4 − s², the linear part of w contributes the relative term
+   (w'/w)(z₀)[(m − z₀) + ∫(r²/4 − s²) q s ds / ∫(r²/4 − s²) q ds]. Both pieces are O(r²): the
+   midpoint offset is 2(B/A)τ + O(τ²), and the asymmetry of q makes the second piece
+   (B/A) r²/20 + O(r⁴), not 0. The relative Taylor remainder is at most
+   sup|w''| (r/2 + |m − z₀|)²/(2w(z₀)).
+   For smooth w the ratio is even in √τ, and ℓ_w/(w(z₀)ℓ) = 1 + [(12/5)(B/A)(w'/w) +
+   (1/5)(w''/w)](z₀) τ + O(τ²) (exact series in `test_exact.py`).
+
+   For a merely C¹ weight only 1 + o(1) holds (in fact 1 + o(r), from the modulus of
+   continuity of w'), not O(r²). *Counterexample* (review 5486843735; `test_exact.py`): for
+   H = x² − 2t, a = √(2t), r = 2a and the fixed positive C¹ weight w = 1 + |x|^{1+η} with
+   0 < η < 1, ℓ = 4a³/3 and ℓ_w/ℓ = 1 + 3a^{1+η}/((2+η)(4+η)). For η = ½ this is
+   1 + (4/15)a^{3/2}. On a fixed interval containing the window, both are actual bars for
+   small a.
+
+   A pointwise formula is not a transfer statement. Keeping the exponent, or a coefficient
+   reweighted by w^{−β} (β = (α+1)/m: w^{−1} for α = 2, w^{−2/3} for α = 1), across a
+   height-dependent ensemble also needs weights bounded above and below by positive constants
+   uniformly, C^{1,1} and asymmetry constants uniform over the bars, and the marked-measure
+   hypotheses of (D1) for the reweighted marks.
+
+   Prior work on the same antiderivative (up to scaling and an additive constant):
+   Lagarias–Montague, arXiv:1106.4348, eqs. (1.2), (1.6), (1.9) and Theorem 2.1 [primary, via
+   review 5486879914; pointer from main#307 comment 6116121839]. In their notation
+   H_t(z) = Ξ_{t/4}(z/2)/8 and, normalized by F_t(0) = 0, F_t(z) = Ξ^{(−1)}_{t/4}(z/2)/4. Their
+   Theorem 2.1 gives, for each real parameter, finitely many real and infinitely many nonreal
+   zeros of that primitive (for parameter ≤ 0 its only real zero is 0). These are zeros of the
+   primitive, not the zeros of its derivative that give the critical points of F used here, and
+   adding a constant changes the zero set. No persistence or novelty conclusion follows.
 4. **The lobe area as a weighted integral of ∂_tH.** For consecutive zeros a < c of H_t,
    ∫_a^c H_t = ½ ∫_a^c (x − a)(c − x) ∂_t H_t dx. This is the integration-by-parts identity
    used in the proof of Proposition 1, combined with the heat equation. **[num]** Both sides
@@ -536,8 +663,9 @@ finite bar in the window, with length 1.04454·10⁻¹⁸. The exact lobe area i
 - The fold law describes H_t only near the collision time. At t = 0 the low zeta zeros are far
   from that regime.
 - t* = −0.38456 for the (34/35) pair numerically coincides with the reported historical lower
-  bound ≈ −0.385 (attributed in search snippets to Norfolk–Ruttan–Varga 1992). The pair used
-  there is not confirmed. From memory, the 1991 Csordas–Ruttan–Varga bound −0.0991 is
+  bound ≈ −0.385 attributed to Norfolk–Ruttan–Varga 1992. That value, with −50, −5 and −0.0991,
+  is recorded in CSV 1994, p. 108, eq. (1.5) [corroborated second-hand; originals unchecked].
+  The pair used there is not confirmed. The 1991 Csordas–Ruttan–Varga value −0.0991 is
   stronger than that 1992 entry, so the conventions or pairs in that table need checking.
 - These collisions only give bounds Λ ≥ t* that Rodgers–Tao's Λ ≥ 0 supersedes.
 
@@ -552,8 +680,8 @@ finite bar in the window, with length 1.04454·10⁻¹⁸. The exact lobe area i
 - Intervals are 95% cluster-bootstrap percentile intervals, B = 400 (sampling-only). A cluster
   is one Gaussian torus, one CUE matrix, or a block of 2000 consecutive zeta lobes. Analysis
   RNG seed 424242.
-- Barcode: superlevel H0 of the antiderivative on the alternating sequence of critical values,
-  by the elder rule. The infinite bar and bars born at path endpoints are dropped
+- Barcode: superlevel H0 of the antiderivative (convention of §3) on the alternating sequence of
+  critical values, by the elder rule. The infinite bar and bars born at path endpoints are dropped
   (`stats/analyze.py`). `stats/barcode_bruteforce.py` checks this against a brute-force
   elder-rule computation on 400 random multi-path cases and an analytic test function: 0
   mismatches, maximum difference 4·10⁻¹⁶. Note that `dbn/pers1d.py`, used on the sampled
@@ -579,6 +707,9 @@ finite bar in the window, with length 1.04454·10⁻¹⁸. The exact lobe area i
     worst-conditioned lobe (a pair 0.003 apart at t ≈ 663318.508).
   - Scale: t is unfolded by the smooth counting function θ(t)/π + 1, and the integrand is
     Z(t)/√(log(t/2π)). Raw Z gives the same exponents.
+  - We call this antiderivative, with endpoint-born bars dropped from its barcode, the
+    **Hardy-Z primitive**. It is neither the ξ-weighted primitive of §4 item 3 nor a barcode
+    of the de Bruijn–Newman F_t (§3), and every ζ statistic below is about it alone.
 - **Gaussian.** The 1D case of the project's covariance, applied to H = F'
   (`stats/gauss_proc.py`).
   - Fourier weights q_n ∝ exp(−ω² n²/2) with ω = 1/M, M = 1000 (L = 2π·1000), so the
@@ -617,9 +748,13 @@ finite bar in the window, with length 1.04454·10⁻¹⁸. The exact lobe area i
 | ζ, t ∈ [10⁴, 10⁵] | 127,926 / 63,962 | 1.002 [0.977, 1.029] | 1.049 [0.968, 1.145] | 1.001 [0.873, 1.147] | 1.034 [0.921, 1.173] |
 | ζ, t ∈ [10⁵, 10⁶] | 1,609,076 / 804,536 | 0.947 [0.941, 0.953] | 0.980 [0.959, 1.001] | 0.972 [0.938, 1.009] | 0.978 [0.950, 1.007] |
 
-**Density exponent at cut 0.01, next to the controls with known answers.**
+**Finite-tail estimates of the density exponent at cut 0.01, next to the controls and their
+theoretical expectations.** The values −1/3 and 0 are what theory predicts under stated
+conditions. They are not calibrated answers for these finite controls: the fixed-N CUE full bar
+law is the unproved T-CUE target (§6.1), and the Gaussian 1D theorem's hypotheses were not
+checked for this primitive (below).
 
-| Sample | Density exponent s − 1 (sampling CI) | Expected | Interval contains it? | Estimate − expected |
+| Sample | Hill estimate of s − 1 at cut 0.01 (sampling-only CI) | Theoretical expectation | Interval contains it? | Estimate − expectation |
 |---|---|---|---|---|
 | Gaussian | −0.350 [−0.359, −0.341] | −1/3 | **no** | −0.017 (−0.018 with the 5 hidden pairs) |
 | CUE N=12 | −0.020 [−0.046, +0.007] | 0 | yes | −0.020 |
@@ -627,13 +762,19 @@ finite bar in the window, with length 1.04454·10⁻¹⁸. The exact lobe area i
 | ζ, t ∈ [10⁵, 10⁶] | −0.020 [−0.041, +0.001] | — | lower end 0.29 above −1/3; the upper end only just reaches 0 | — |
 | ζ, t ∈ [10⁴, 10⁵] | +0.049 [−0.032, +0.145] | — | — | — |
 
-**Reading of these numbers.** The ζ data are **decisive against −1/3** (the point estimate is
-0.31 above −1/3, far larger than any error source). They are **consistent with ≈ 0** given the
-cut-0.01 bias of about −0.02 seen in the Gaussian and CUE N=12 controls (and −0.065 in CUE
-N=128). The value −0.020 [−0.041, +0.001] is not a measurement of 0: the intervals are
-sampling-only, and these data cannot separate ℓ⁰ from a mark-driven ℓ^q with |q| ≲ 0.04. At
-cut 0.003 the
-Gaussian interval contains 2/3, and its local slopes on [10⁻⁴, 10^−3.5] and [10^−3.5, 10⁻³]
+**Reading of these numbers.** For the Hardy-Z primitive, windows and Hill estimator specified
+above, the observed finite-tail estimates are substantially above −1/3 (the cut-0.01 point
+estimate for t ∈ [10⁵, 10⁶] is 0.31 above it) and near 0. The sampling-only block-bootstrap
+intervals exclude −1/3 at every reported cutoff in both windows (and, for t ∈ [10⁵, 10⁶], at
+all three block sizes below). That is all they show. They do not bound finite-cutoff bias,
+dependence in this deterministic sequence, estimator misspecification, post-inspection
+selection or the joint gap/mark behaviour, and no limiting measure is shown to exist. So this
+is exploratory evidence about a finite-window statistic, not a limiting density exponent and
+not a calibrated rejection of −1/3 that accounts for all errors. The controls do not calibrate
+those errors either: at cut 0.01 their estimates sit −0.017 to −0.065 from their theoretical
+expectations. The value −0.020 [−0.041, +0.001] is not a measurement of 0, and these data
+cannot separate ℓ⁰ from a mark-driven ℓ^q with |q| ≲ 0.04. At cut 0.003 the Gaussian interval
+contains 2/3, and its local slopes on [10⁻⁴, 10^−3.5] and [10^−3.5, 10⁻³]
 are 0.678 and 0.681. Finite-ℓ corrections are expected: the 1D theorem has a C₁ ℓ^{1/4} term,
 whose sign and size for this F have not been computed, and the hypotheses of the 1D theorem
 were not checked verbatim for an antiderivative with a zero mode.
@@ -674,12 +815,18 @@ gap shape is significantly off GUE and off CUE N=12. Gap Hill slope at cut 0.4: 
 3.05 [2.98, 3.13]; ζ [10⁵, 10⁶] 2.896 [2.876, 2.916]; GUE two-term 2.836; CUE N=12 2.859
 [2.837, 2.880]. An independent CUE simulation at cut 0.4 (`stats/cue_gap_shape.py`) gives
 N=2: 2.924, N=3: 2.872, N=4: 2.864, N=6: 2.851, N=12: 2.855, so ζ [10⁵, 10⁶] lies between N=2
-and N=3. This matches the finite-height effective dimension for spacing statistics of
-Bogomolny–Bohigas–Leboeuf–Monastra 2006, N_eff = log(T/2π)/√(12Λ₀) ≈ 2.2–2.8 here, where Λ₀ ≈ 1.57
-is an arithmetic constant unrelated to the de Bruijn–Newman Λ [formula and constant from
-memory, pending check]. Keating–Snaith's N ≈ log(T/2π) is the matching for value
-distribution and moments [memory]. The gap part and the amplitude part of a short-bar
-coefficient therefore match CUE at very different N, so any coefficient-level comparison
+and N=3. This is in line with, though not a test of, the finite-height spacing model of
+Bogomolny–Bohigas–Leboeuf–Monastra 2006 (eqs. (19)–(20)), which suggests an effective dimension
+N_eff = log(T/2π)/√(12Λ₀), Λ₀ ≈ 1.57314 (an arithmetic constant unrelated to the de
+Bruijn–Newman Λ), together with an additional spacing rescaling [primary, via review
+5486879914]; our evaluation gives N_eff ≈ 2.2–2.8 on [10⁵, 10⁶]. Our CUE gaps are unfolded to
+mean 1 only, without that rescaling. Their extension from the two-point calculation to all
+correlations and nearest neighbours is conjectural, and nothing establishes the same matching
+for barcode marks. Keating–Snaith (eqs. (8) and (92)) use N = log(T/2π) as a mean-density
+matching rule in their model for value distribution and moments, with arithmetic corrections in
+the moment conjecture; that is not a proved equality of finite-height ζ and CUE laws [primary,
+via review 5486879914]. So in these models the gap part and the amplitude part of a short-bar
+coefficient would be matched to CUE at very different N, and any coefficient-level comparison
 needs a matching rule declared in advance. Exponents are unaffected.
 
 **Fold check.** For gaps r < 0.35, the slope of log(lobe area) on log(gap) is 3.000
@@ -715,13 +862,18 @@ detects mark effects only of size |Δs| ≳ 0.02 at q ≥ 0.001. It cannot verif
 condition and cannot exclude ℓ^q with small negative q. The slower convergence of CUE N=128
 is consistent with small-amplitude marks; that reading was made after seeing the data.
 
-**Reading.** The same cubic fold, with quadratic rather than linear pair repulsion, moves the
-density exponent from −1/3 to ≈ 0. This is **consistent with the equation (D1) prediction for
-α = 2, m = 3 (β = 1): heuristic for ζ, theorem target for CUE (T-CUE, §6).** (D1) is a
-theorem about intensity measures of random models under its hypotheses 1–4; for the
-deterministic ζ none of these objects is defined or verified. The analogue of the mark
-condition here concerns how small |Z''| can be at close pairs in the chosen normalization;
-it is not proved for ζ. Fits over moderate lengths give misleading intermediate exponents:
+**Reading.** With the same cubic fold, the samples whose small gaps repel quadratically (CUE,
+and ζ, with gap slopes ≈ 3, through the Hardy-Z primitive) give finite-window estimates near
+0, while the Gaussian sample with linear repulsion gives estimates near −1/3. This is
+**consistent with the equation (D1) prediction for α = 2, m = 3 (β = 1): heuristic for ζ,
+theorem target for CUE (T-CUE, §6).** It does not establish a limiting exponent for any of
+them. (D1) is a theorem about intensity
+measures of random models under its hypotheses 1–4, including a negative mark moment under the
+limiting collision-mark measure (`CLAIMS.md` 5.4); for the deterministic ζ none of these
+objects is defined or verified. Pair correlation, the nearest-neighbour gaps measured here and
+the elder-rule pairs are three different objects (§1.4). The analogue of the mark condition
+here concerns how small |Z''| can be at close pairs in the chosen normalization; it is not
+proved for ζ. Fits over moderate lengths give misleading intermediate exponents:
 for example CUE N=128 below 0.1 × median gives density ≈ −0.21. The heights 10⁴–10⁶ are modest.
 
 ### 5.4 Small Hardy-Z windows
@@ -746,16 +898,17 @@ not by any relevance to RH. These are labelled targets, not results.
 - **Question.** Let U be Haar on U(N), N ≥ 2, Z_U(θ) = Π_j 2 sin((θ − θ_j)/2), and
   F_U = ∫ Z_U on the deterministic arc [0, 2π) (cut at angle 0), with bars born at the arc
   ends dropped (N even if a periodic Z_U is wanted). Does the expected short-bar density
-  satisfy ν_N(ℓ) → c_N ∈ (0, ∞) as ℓ ↓ 0, with
+  satisfy ν_N(ℓ) → c_N ∈ (0, ∞) as ℓ ↓ 0, and is c_N the local marked-pair value
 
       c_N = (1/3) ∫ b₀ κ^{−1} dλ
 
-  in the notation of equation (D1) with α = 2, m = 3, β = 1? What is c_N explicitly (N = 2 in
-  closed form), and what is the next-order term?
+  in the notation of equation (D1) with α = 2, m = 3, β = 1, or do other strata add to it
+  (see Feasibility)? What is c_N explicitly (N = 2 in closed form), and what is the
+  next-order term?
 - **Why it matters.** To our knowledge (main `8977619e`, Math- `79cb314d`; open drafts not
   checked), it would be the first natural non-Gaussian law in which the project's transfer
   theorem is discharged with α ≠ 1. The fold is the same (m = 3); the contact law is
-  different (r² from the Vandermonde |Δ|²); the exponent becomes 0. This is exactly the
+  different (r² from the Vandermonde |Δ|²); the predicted exponent becomes 0. This is exactly the
   altered pair-count tilt boundary prediction in
   [`experiments/universality/PROTOCOL.md`](../universality/PROTOCOL.md) lines 53–64. It would
   show that CONTACT (pair intensity ∝ r) is a necessary admission input, not a consequence of
@@ -766,7 +919,12 @@ not by any relevance to RH. These are labelled targets, not results.
   ∝ |θ₃ − θ₀|⁴ and κ ∝ |θ₃ − θ₀|, so P(κ < ε) ≍ ε⁵ (q = 4 in subsection §D2) and E[κ^{−1}] < ∞.
   Elder selection near contact works as in Proposition 1(c). The main work is **all four (D1)
   hypotheses 1–4**, including domination (1–2); hypothesis 4 (fixed-constant comparison) is
-  the one most likely to fail near triple coincidences. Do N = 2 exactly first.
+  the one most likely to fail near triple coincidences. (D1) is a local marked-pair theorem.
+  At β = 1 even a merely bounded density of short bars from other strata (nonadjacent
+  pairings, deaths decided by distant critical values, near-triple coincidences) contributes
+  at the same order as c_N. So the proof target must also exclude or control those strata and
+  the global elder-rule selection; (D1) hypotheses 1–4 alone do not identify the full bar
+  coefficient. Do N = 2 exactly first.
 - **Fallback.** If uniformity fails, the cumulative theorem of
   `CUMULATIVE_TRANSFER_CORRECTION.md` still applies under its hypotheses: κ > 0; an envelope
   0 ≤ B ≤ G with B → B₀ and ∫ G κ^{−β} dλ < ∞; h continuous and strictly increasing with
@@ -779,59 +937,86 @@ not by any relevance to RH. These are labelled targets, not results.
   convention, or derive c_N for the cut-at-θ₁ convention used in `stats/cue.py` (§5.3: about a
   10% shift at N = 12).
 - **Risk.** Uniformity may fail near triple coincidences. The N → ∞ (sine-kernel) limit needs
-  amplitude normalization (Keating–Snaith log-normal spread of order ½ log N; memory). It
-  says nothing about ζ without further conjectures.
+  amplitude normalization (log|Z_U| at a fixed angle has variance of order ½ log N, after
+  Keating–Snaith [memory]; like Selberg's theorem in §6.2, that is not a law for the selected
+  local amplitudes). It says nothing about ζ without further conjectures.
 - **Numerical grounding** (cut 0.01; cut 0.003 in parentheses): CUE N=12 s = 0.980
   [0.954, 1.007] (1.019 [0.973, 1.070]); CUE N=128 0.935 [0.920, 0.951] (0.971 [0.942, 1.001]).
   Gap CDF slopes 2.99–3.00; fold slope 3.03.
 
 ### 6.2 A frozen zeta short-bar comparison (second)
 
-**Conjecture Z** (exploratory; conditional on GUE behaviour of small zero gaps and on a
-small-mark condition for the amplitude-normalized contact coefficient; stated so that it is
-well posed).
-- *Object.* For height T and window length H = H(T) (with H log T → ∞ and H/T → 0), let F be
-  the antiderivative of Z(t)/√(log(t/2π)) in the unfolded variable θ(t)/π + 1 on [T, T+H].
-  Define **amplitude-normalized bars** ℓ̃ = ℓ/σ_loc, where σ_loc is the local amplitude
-  (median lobe peak over the 12 nearest lobes), rescaled by the window's median. Let μ_{T,H}
-  be the **empirical bar measure normalized per zero**:
-  μ_{T,H}(E) = #{bars of F on [T, T+H] with ℓ̃ ∈ E} / #{zeros in [T, T+H]}.
-- *Order of limits.* On any fixed window μ_{T,H}((0, ℓ]) = 0 below the shortest bar, so
-  ℓ → 0 alone is vacuous. The statement takes **T → ∞ first**, then ℓ in a range
-  [ℓ_min(T), ℓ₀] with ℓ_min(T) → 0.
-- *Exponent form (the main statement).* log μ_{T,H}((0, ℓ]) / log ℓ → 1 in that order of
-  limits, i.e. short-bar density exponent 0, against C₀ ℓ^{−1/3} for smooth stationary Gaussian
-  processes (Math- d1 theorems).
-- *Coefficient form (only with a caveat).* If μ_{T,H}((0, ℓ]) ~ c(T) ℓ, the comparison of c(T)
-  with a CUE reference must expect an arithmetic correction, as in the analogous moment
-  conjectures (the Hughes–Keating–O'Connell factor a(k); memory), and must fix in advance
-  which N defines the CUE reference: gap statistics match N_eff ≈ 2–3 at these heights,
-  moments match N ≈ log(T/2π) (§5.3). Without that, a "fail" on unnormalized bars would be
-  uninterpretable. The unnormalized coefficient need not converge: local amplitudes have
-  log-normal spread of variance ~ ½ log log T (Selberg; memory), and by analogy with negative
-  discrete moments of ζ'(ρ) [Gonek 1989; Hejhal 1989; Hughes–Keating–O'Connell 2000; memory],
-  where the first pole at k = −3/2 comes from the same r² repulsion, c(T) may drift slowly.
+**Conjecture Z** (exploratory; motivated by GUE behaviour of small zero gaps and by a
+small-mark condition for the amplitude-normalized contact coefficient, neither of which is
+proved; the limit and the observable are stated explicitly below, and existence of the limit
+is part of the conjecture).
+- *Primitive and window.* For height T the window length is fixed as H = H(T) = √T (so
+  H log T → ∞ and H/T → 0). Let g = Z(t)/√(log(t/2π)) in the unfolded variable θ(t)/π + 1,
+  and let F = ∫ g on the path from the first to the last zero of g in [T, T+H]. Bars are the
+  finite superlevel H0 bars of F (§3 convention); the essential bar and bars born at the two
+  path endpoints are dropped, as in `stats/analyze.py`.
+- *Local amplitude of a bar.* A lobe is the interval between consecutive zeros of g, and its
+  peak is max |g| there; every peak is positive. A bar born at the critical point z_b, adjacent
+  to its death point or not, gets σ_b = the median peak of the 12 lobes nearest z_b, six on
+  each side. Lobes outside the window are read from g on ℝ, so σ_b > 0 is always defined.
+- *Normalized bars.* ℓ̃_b = (ℓ_b/σ_b)/M_{T,H}, where M_{T,H} > 0 is the median of ℓ_b/σ_b over
+  the window's bars: the median of the normalized bar lengths, not the amplitude median. Let
+  μ_{T,H}(E) = #{bars with ℓ̃_b ∈ E} / #{zeros in [T, T+H]}. Section 5.3 measures ordinary
+  bars and amplitude-normalized *lobes* separately, so neither is a measurement of μ_{T,H}.
+- *Statement (iterated limit).* (i) There is ℓ₀ > 0 such that for every ℓ ∈ (0, ℓ₀] the
+  limit G(ℓ) := lim_{T→∞} μ_{T,√T}((0, ℓ]), over all real T, exists and is positive.
+  (ii) log G(ℓ)/log ℓ → 1 as ℓ ↓ 0. The conjecture is for this one window choice, H(T) = √T;
+  whether the limit exists, or is the same, for other window lengths H(·) is not part of it.
+  On a fixed window, ℓ → 0 alone is vacuous, which is why T → ∞ comes first. The Gaussian
+  comparison is C₀ ℓ^{−1/3}, i.e. cumulative exponent 2/3 (Math- d1 theorems).
+- *What (ii) does and does not say.* (ii) is a cumulative scaling exponent, G(ℓ) = ℓ^{1+o(1)}.
+  It is not a density statement. The probability measure with mass 2^{−n} at each 2^{−n}
+  (n ≥ 1) has ℓ < G(ℓ) ≤ 2ℓ for ℓ ≤ 1/2, hence exponent 1, but no Lebesgue density.
+  "Density exponent 0" needs extra regularity or transfer assumptions on the limit.
+- *Coefficient form (not part of the conjecture; only with a caveat).* If μ_{T,H}((0, ℓ]) ~
+  c(T) ℓ at finite T, a comparison of c(T) with a CUE reference must allow for an arithmetic
+  correction of unknown size. In the analogous moment conjectures the arithmetic factor (the
+  Hughes–Keating–O'Connell a(k)) is part of the moment model, not a derived correction for
+  this barcode observable. The comparison must also fix in advance which N defines the CUE
+  reference: the BBLM finite-height spacing model suggests N_eff ≈ 2.2–2.8 for gaps on
+  [10⁵, 10⁶] (our evaluation of their formula, §5.3), while Keating–Snaith match moments with
+  N = log(T/2π), a rule in their model (§5.3). Without that, a "fail" on unnormalized bars
+  would be uninterpretable. The unnormalized coefficient may fail to converge, but that
+  expectation is heuristic. Selberg's central limit theorem describes log|ζ| at uniformly
+  sampled heights (Radziwiłł–Soundararajan, Theorem 1: log|ζ(½+it)| for t uniform in [T, 2T],
+  normalized by √(½ log log T)) [primary, via review 5486879914]. An analogous law for these
+  selected local amplitudes, or slow drift of the bar coefficient, is heuristic and is not
+  supplied by that theorem. Likewise, the CUE derivative-moment model has a −3/2 boundary
+  (Hughes–Keating–O'Connell, Theorem 1.2 and Remark 2.2), and HKO conjecture a zeta analogue
+  (Conjecture 1.3, under RH; negative moments also need simple zeros) [primary, via review
+  5486879914]. This motivates an analogy, but proves neither the required negative moment of
+  our collision mark nor coefficient drift. (The original Gonek 1989 and Hejhal 1989 proofs
+  were not audited; the Hejhal central limit theorem that HKO quote assumes RH and a
+  quantitative small-gap hypothesis.)
 
 **Protocol.** Follow `PROTOCOL.md` lines 53–64: before generating new data, freeze the windows
 (for example t ∈ [10⁶, 10⁷] with the existing Riemann–Siegel pipeline, about 1.9·10⁷ zeros, or
 published zero tables at large height), the cutoffs, the estimator, the block size (20000
-lobes or more for coefficient intervals), the control-calibrated bias allowance at each cutoff,
-the CUE reference and its matching rule (separate N for gaps and amplitudes, or a
-zeta-calibrated reference), and the decision rule. The current windows were inspected, so
-they stay exploratory. **What counts as a result:** a frozen prediction file plus a run giving
-pass/fail/indeterminate on "exponent 0" at the stated heights. It is not a theorem and not RH
-evidence.
+lobes or more for coefficient intervals), a bias allowance at each cutoff (informed by the
+controls, which are not certified calibrators, §5.3), the CUE reference and its matching rule
+(separate N for gaps and amplitudes, or a zeta-calibrated reference), and the decision rule.
+The current windows were inspected, so they stay exploratory. **What counts as a result:** a
+frozen prediction file plus a run giving pass/fail/indeterminate on the finite-window analogue
+of (ii) (cumulative exponent 1) at the stated heights. It is not a theorem, not a limiting
+exponent and not RH evidence.
 
 ### 6.3 Lower priority
 
-- **Proposition 1 and the vineyard birth law** (§3): essentially done; needs only a nonauthor
-  read. Novelty is essentially nil, and it must not be presented as new or as related to RH.
+- **Proposition 1 and the vineyard birth law** (§3): essentially done; slice A was read
+  (review 5486843735, AMEND), and the applied amendments await its delta readback. Novelty is essentially nil, and it must not be presented as new or as related to RH.
   Follow-up question: in the project's own scale or heat-flow families, does a PDE likewise
   force folds to be transversal? Deterministic polynomial heat-flow fold controls with
   finite-interval H0 are the scope of the open proposal in main#307 comment 6116121839 (§2),
   which this packet does not take.
-- **Sensitivity of the barcode to normalization and marks** (§4 item 3): a short deterministic lemma
-  (ℓ_w = w(x₀)ℓ(1 + O(r²)), coefficient w^{−β}-weighted) and the existing table. It is the
+- **Sensitivity of the barcode to normalization and marks** (§4 item 3): a short deterministic
+  lemma (ℓ_w = w(x₀)ℓ(1 + O(r²)) for C^{1,1} weights on a fold neighbourhood, only 1 + o(1) for
+  C¹; any w^{−β}-weighted coefficient transfer also needs uniform positive-weight and
+  marked-measure hypotheses) and the existing table. It is the
   deterministic counterpart of the amplitude counterexample and of the subsection §D2
   small-mark boundary, and informs how `PROTOCOL.md` observables are normalized. Low value if
   it stays a remark.
@@ -845,22 +1030,34 @@ evidence.
 ## 7. What this packet does not claim or pursue
 
 - **Any RH program.** The note's proposed route ends at showing that H_t has no real-zero
-  merger for t > 0. RH (Λ ≤ 0) implies that statement, and it is equivalent to RH if a positive
-  Λ forces a real collision (`CLAIMS.md` 6.2); it is not merely tied to RH. No packet content
-  is progress toward RH, support for RH, or a bound on Λ beyond known results.
-- **That −1/3 has any bearing on where ζ's zeros lie.** It has none. Nor does −1/3 describe
-  ζ's short bars: the zeta short-bar density exponent is about 0.
+  merger for t > 0. RH (Λ ≤ 0) implies that statement. Conversely, a positive Λ forces a
+  multiple real zero of H_Λ at finite height, by a deduction from Polymath15 Theorem 1.5(i)
+  recorded in `CLAIMS.md` 6.2. So, read as "no multiple real zero of any multiplicity for
+  t > 0", the statement is equivalent to RH, not a route to it. Read as "no nondegenerate fold
+  for t > 0", it is not shown equivalent: the zero at Λ may have higher multiplicity. No
+  compact bound is available at Λ = 0. No packet content is progress toward RH, support for
+  RH, or a bound on Λ beyond known results.
+- **That −1/3 has any bearing on where ζ's zeros lie.** It has none. Nor does this packet
+  settle ζ's short-bar exponent. For the specified Hardy-Z primitive, windows and Hill
+  estimator, the finite-tail estimates are substantially above −1/3 and near 0, and
+  sampling-only intervals exclude −1/3 at the reported cutoffs. That is exploratory evidence
+  about a finite-window statistic, not a limiting exponent, and nothing is claimed for the
+  ξ-weighted primitive or the de Bruijn–Newman barcode.
 - **New lower bounds on Λ from collisions.** Every collision we found (lowest 46 zeros) is at
   t < 0; for example t* ≈ −0.3846 numerically coincides with the reported −0.385 bound (pair
   used not confirmed). Rodgers–Tao's Λ ≥ 0 supersedes all such bounds.
 - **Numerical searches for positive-time folds.** Such a search is an RH counterexample search.
-  RH has already been verified numerically to large height (3·10¹², Platt–Trudgian; memory).
+  RH has already been verified numerically to large height (3,000,175,332,800, Platt–Trudgian
+  Theorem 1; primary, via review 5486879914). That verification does not certify this packet's
+  `nzeros` calls.
 - **The theta/modular route.** At L = 24 the periodization is invisible (about 10⁻¹²⁵ in the
   jets); ζ needs a Mellin transform over L, which the project disclaims; some Epstein zetas
   (Z_4; binary forms with class number > 1) have zeros off their symmetry line, so theta
   structure plus a functional equation selects nothing; and a formal
-  theta bridge in Lean would add nothing (from memory, Mathlib already proves ζ's functional
-  equation via Jacobi theta and Mellin, and the Math- Side24 Lean scratch already uses
+  theta bridge in Lean would add nothing (Mathlib's official documentation for
+  `RiemannZeta`, `AbstractFuncEq` and `JacobiTheta.TwoVariable` shows ζ's functional equation
+  and the theta/Mellin infrastructure [primary, via review 5486879914; the local Mathlib
+  version and proofs were not checked], and the Math- Side24 Lean scratch already uses
   Mathlib's Poisson/theta lemmas).
 - **Looking for new theta-derived restrictions on the zeros of H_t.** Restrictions of the kind
   the note proposes exist already (de Bruijn's strip lemma, Newman, Ki–Kim–Lee, Rodgers–Tao;
@@ -977,23 +1174,66 @@ order), with identical counts, so byte-identity is expected only with thread pin
 
 ## 9. Review status
 
-A nonauthor read from a non-Anthropic provider is requested, in four slices:
+A nonauthor read from a non-Anthropic provider was requested, in four slices:
 
-- **A.** Proposition 1 and the κ coefficients.
+- **A.** Proposition 1 and the κ coefficients. **Read: AMEND** (review 5486843735; the local
+  normal form and all three κ coefficients check; findings applied, §10.1).
 - **B.** `CLAIMS.md` and the citations, ideally by a lane with working arXiv/journal access,
   confirming every item marked [snippet] or [memory], and the statement of Lagarias–Montague
-  (arXiv:1106.4348), which this packet has only second-hand via main#307 comment 6116121839.
+  (arXiv:1106.4348). **Read: AMEND** (review 5486879914; the core classical claims are
+  supported, citation scopes amended and provenance retagged, §10.2). The originals it did not
+  read or audit stay unverified: Saouter–Gourdon–Demichel 2011, the 1988–1992 lower-bound
+  papers, Davenport–Heilbronn 1936, de la Vallée Poussin 1896, Jacobi, Mumford, Cerf, Gonek,
+  Hejhal and the 2009 Ki–Kim–Lee full proof; Edwards 1974 was identified bibliographically
+  only, its coefficients being left to slice C.
 - **C.** The numerics, re-run independently, with zero counts checked against `nzeros` and a
-  different seed or an independent Riemann–Siegel check.
-- **D.** A wording audit of the non-claims.
+  different seed or an independent Riemann–Siegel check. **Open.**
+- **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1).
 
-The review passes and checks already applied (§10) were all Anthropic Claude reading Anthropic
-Claude work. They earn no organizational-independence credit.
+The slice A/D read is OpenAI dot / Codex (`/root/review_zeta_fold_mathematics`), delegated AI
+review for Dylan Roy: nonauthor and source-exposed, not blind, with organizational-independence
+credit 0. It is static inspection plus independent symbolic arithmetic. It is not a numerical
+reproduction, a citation-wide audit or an acceptance, and the amendments here await its delta
+readback. The slice B read is OpenAI dot / Codex (`/root/verify_zeta_packet_citations`),
+delegated AI review for Dylan Roy, likewise nonauthor and source-exposed, not blind, with
+organizational-independence credit 0. It inspected public primary papers, author manuscripts
+and official documentation (two scanned papers by local text/OCR inspection), and ran no
+repository program, test, numerical pipeline or Lean proof. It is a
+bounded citation comment, not approval, readiness, numerical reproduction, a full literature
+search, a novelty determination or theorem-wide acceptance. "Supported" there means that a
+source supports the stated claim within its hypotheses, not that its proof was reconstructed.
+Its amendments here likewise await its readback. The same-provider passes (§10.3) were
+Anthropic Claude reading Anthropic Claude work and earn no organizational-independence
+credit.
 
-## 10. Review findings applied in this version
+## 10. Review findings applied
 
-Two same-provider review passes (mathematics; numerics) read draft v0. Every finding is
-applied here:
+### 10.1 Nonauthor review 5486843735, slices A and D (applied in v2)
+
+| # | Finding | Where applied |
+|---|---|---|
+| ZF-AD-01 | A C¹ weight does not give ℓ_w = w(x₀)ℓ(1 + O(r²)); counterexample w = 1 + \|x\|^{1+η} | §4 item 3: C^{1,1} with controlled asymmetry, exact τ-coefficient, only 1 + o(1) for C¹, the counterexample, uniform weight and marked-measure hypotheses for any transfer; §6.3; `test_exact.py` |
+| ZF-AD-02 | Finite-window estimates stated as a settled exponent and a calibrated total-error result | In brief item 3; bottom-line table; §1.4; §5.3 (Hardy-Z primitive named, controls as theoretical expectations, both readings); §6.1; §7; `CLAIMS.md` 5.4 (limiting collision-mark measure; r⁴ example in `test_exact.py`); `stats/check_gue_transfer.py` docstring (product model); `results/stats/effective_exponent_bars.svg` labels (finite windows, (D1) expectations) |
+| ZF-AD-03 | Proposition 1(c) domain, conventions, A < 0 and scope; exact r² = 8τ | §3: compact I in the analytic domain with z* ∈ I, barcode convention, simultaneous reflection, local-bar scope, Remark 2 r² = 8τ(1 + O(τ)); In brief item 1; `CLAIMS.md` 3.13 |
+| ZF-AD-04 | Real-zero ODE asserted at t = 0 without hypotheses | §1.2 and `CLAIMS.md` 3.4: simple-zero velocity in general, real-zero sum for t > Λ, RH at t = 0 (simplicity of z_j stated separately, not as part of RH), the 300-zero comparison a consistency check; docstrings of `dbn/check_dbn_basic.py` and `dbn/zero_velocity.py` |
+| ZF-AD-05 | Conjecture Z's limit and observable; log-CDF versus density; T-CUE strata | §6.2: iterated limit over all T with the window fixed as H(T) = √T, amplitude of every bar, boundary, positivity, which median, the 2^{−n} example, "well posed" withdrawn; §6.1: nonlocal strata and global selection; `CLAIMS.md` "What is kept" |
+| Info | Λ > 0 forces a finite multiple real zero (Polymath15 Theorem 1.5(i)) | `CLAIMS.md` 6.1, 6.2 and error 5; §3 Remark 3; §7 |
+
+### 10.2 Nonauthor review 5486879914, slice B (applied in v2)
+
+| # | Finding | Where applied |
+|---|---|---|
+| ZF-B-01 | Selberg's CLT (log\|ζ\| at uniformly sampled heights) does not give the selected local-amplitude law or coefficient drift | §6.2 coefficient form (Radziwiłł–Soundararajan Theorem 1; the amplitude law and drift stated as heuristic); §6.1 risk; `CLAIMS.md` provenance |
+| ZF-B-02 | HKO Theorem 1.2 (CUE, boundary Re k > −3/2) is distinct from their ζ Conjecture 1.3 (RH; simple zeros for negative moments); a(k) is part of the moment model | §6.2 (analogy only; proves neither our mark's negative moment nor drift; Gonek and Hejhal originals not audited); `CLAIMS.md` provenance |
+| ZF-B-03 | "The heat flow destroys the Euler product" is broader than the evidence | `CLAIMS.md` 4.6: b_{mn}^t/(b_m^t b_n^t) = exp((t/2) log m log n) ≠ 1 for the deformed series of Polymath15's approximation; not a theorem about every Euler product of H_t |
+| ZF-B-04 | Ki–Kim–Lee's conclusions are supported, but the "ζ-specific arithmetic input" classification of Ki–Kim–Lee and Rodgers–Tao is not | §1.2 (classification removed; Rodgers–Tao's contradiction via local equilibrium and known zero statistics; Ki's report and its extensions); `CLAIMS.md` 3.6, 3.8, 7(b), provenance (2009 full proof not audited) |
+| ZF-B-05 | Statistical sources need explicit scopes | §1.4 (Montgomery under RH; Rudnick–Sarnak Theorem 1.2, Σ\|ξ_j\| < 2; bulk sine-process limit; nearest-neighbour density a different observable; 32/π² the Wigner surmise); §5.3 and §6.2 (BBLM model "suggests" N_eff; Keating–Snaith a matching rule in their model); `CLAIMS.md` 5.1, 5.3, provenance |
+| Provenance | Supported source checks 1–9 and residual originals | Three-term vocabulary (§1, `CLAIMS.md` top); locators and links per item in `CLAIMS.md`; Lagarias–Montague scaling and primitive-zeros scope (§4 item 3, `CLAIMS.md` 5.6); Titchmarsh ch. III §3.1; CSV's sufficient condition (`CLAIMS.md` 3.10); Platt–Trudgian not certifying `nzeros` (§7, `CLAIMS.md` 6.3); residual originals left unverified (§9) |
+
+### 10.3 Same-provider passes (applied in v1)
+
+Two same-provider review passes (mathematics; numerics) read draft v0. Every finding was
+applied:
 
 | # | Finding (severity) | Where applied |
 |---|---|---|
@@ -1006,7 +1246,7 @@ applied here:
 | M7 | "Under RH every fold is at t < 0, accumulating at 0⁻" (medium) | §3 Remark 3 |
 | M8 | Conjecture Z ill-posed (medium) | §6.2 restated |
 | M9 | ζ result called "exactly" the transfer theorem (medium) | §5.3 reading |
-| M10 | Kernel-generic vs ζ-specific literature (low) | §1.2 |
+| M10 | Kernel-generic vs ζ-specific literature (low) | §1.2 (the ζ-specific classification was later withdrawn, ZF-B-04) |
 | M11 | "Reproduced" collisions; −0.385 match (low) | "computed", §5.1–5.2, §7 |
 | M12 | Φ positivity wording (low) | §1.2 |
 | M13 | Zero ODE summation; exact velocities (low) | §1.2, `dbn/zero_velocity.py` |
