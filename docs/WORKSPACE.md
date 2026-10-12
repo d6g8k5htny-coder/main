@@ -9,10 +9,16 @@ ownership, review reuse, testing and delivery.
 
 ## Current working locations
 
-As of 7 October 2026, new work lands through pull requests to this repository's
-`main`, for example the periodic-H0 experiments in
-[`experiments/periodic_h0/`](../experiments/periodic_h0/README.md), and to
-[Math-](https://github.com/d6g8k5htny-coder/Math-). Two older branches remain
+As of 12 October 2026, new work lands through pull requests to this repository's
+`main` and to [Math-](https://github.com/d6g8k5htny-coder/Math-). The
+`experiments/` directory on `main` holds
+[`experiments/periodic_h0/`](../experiments/periodic_h0/README.md),
+[`experiments/universality/`](../experiments/universality/README.md) and
+[`experiments/zeta_fold_exploration/`](../experiments/zeta_fold_exploration/README.md),
+the last an exploratory packet whose scientific effect is NONE, which makes no
+claim of progress toward the Riemann Hypothesis and whose independent numerical
+reproduction (review slice C) is open. None of the three reports a held-out
+confirmation run; each README states its own scope. Two older branches remain
 readable context. The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
 holds the earlier research software and evidence; its last merge was on
 27 September 2026 (`a01c72f1`). The
@@ -31,8 +37,10 @@ Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
 [Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
 execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
 describes the research-side commands; read it in the checkout actually being used;
-it describes the hardening branch. The periodic-H0 experiments on `main` are
-described in [experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md).
+it describes the hardening branch. The experiments on `main` are described in
+[experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md),
+[experiments/universality/README.md](../experiments/universality/README.md) and
+[experiments/zeta_fold_exploration/README.md](../experiments/zeta_fold_exploration/README.md).
 
 The [Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8)
 and [coupled research registers](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no)
@@ -111,11 +119,25 @@ installation or routing routine permission back to Dylan.
 
 ## Local navigation check
 
-The landing workflow's `landing-checks` job checks declared local documentation
-links, exact custody of the two relocated historical files, the delivery-archive
-controls (added by main#274, 7 October 2026), the required-check integration
-controls and its own test cases. Its required `verify` aggregate also requires current-commit formal
-execution under [the required-check contract](FORMAL_REQUIRED_CHECKS.md).
+The landing workflow's `landing-checks` job first requires that the same run's
+`architecture` job (the reusable `research-architecture.yml` workflow) succeeded
+and reported the current commit, repository, run ID, run attempt and an archive
+name bound to that run and attempt (added by main#320, 8 October 2026); that
+binding step checks those identity strings and the format of the reported archive
+ID and digests, not the archive bytes or receipt contents. The job then checks the
+required-check integration controls, the delivery-archive controls (added to
+this job by main#274, 7 October 2026), its own test cases, declared local
+documentation links, exact custody of the two relocated historical files, and the
+W8b formal and intake controls (added to this job by main#304, 8 October 2026),
+which test formal-receipt binding in `tools/required_formal_check.py` and
+artifact byte-count and SHA-256 identity in `tools/public_intake_check.py`. The
+required-check, delivery-archive and W8b controls each run in normal and
+optimized (`-O`) Python; the landing checker's own tests run once, in normal
+mode. Last, the job confirms that the checked-out commit is the tested commit.
+Its step summary records that research branches and mathematical claims were
+not verified by this job. Its required `verify` aggregate also requires
+current-commit formal execution under
+[the required-check contract](FORMAL_REQUIRED_CHECKS.md).
 The local navigation commands use Python's standard library:
 
 ```sh
