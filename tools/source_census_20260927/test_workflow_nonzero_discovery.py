@@ -7,6 +7,7 @@ scientific-status claim follows from these checks.
 """
 
 import hashlib
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -114,6 +115,21 @@ def run_recipe(script, fixture):
                  if (run_temp / 'source-census-optimized.log').exists() else b''))
 
 
+def emit_observation(kind, source_name, code, stream, normal, optimized):
+    """Retain bounded original subprocess outputs, not projected PASS tokens."""
+    def lines(value):
+        return value.decode('utf-8', 'replace').splitlines()
+    print('SC369_EXECUTED ' + json.dumps({
+        'python': sys.version.split()[0],
+        'fixture': kind,
+        'workflow': source_name,
+        'shell_exit': code,
+        'shell_stream': lines(stream),
+        'normal_capture': lines(normal),
+        'optimized_capture': lines(optimized),
+    }, sort_keys=True), flush=True)
+
+
 class SourceCensusNonzeroDiscoveryTests(unittest.TestCase):
     def test_original_and_candidate_git_blob_authentication(self):
         original, current = source_blocks()
@@ -131,7 +147,8 @@ class SourceCensusNonzeroDiscoveryTests(unittest.TestCase):
             for source_name, script in (('original', original), ('candidate', candidate)):
                 with self.subTest(fixture=kind, source=source_name):
                     code, stream, normal, optimized = run_recipe(script, kind)
-                    self.assertEqual(code == 0, expected == 0,
+                    emit_observation(kind, source_name, code, stream, normal, optimized)
+                    self.assertEqual(code, expected,
                                      (source_name, kind, code, stream[-400:]))
                     self.assertIn(b'Ran 1 test in ', stream)
                     if expected == 0:
@@ -154,7 +171,8 @@ class SourceCensusNonzeroDiscoveryTests(unittest.TestCase):
             for source_name, script in (('original', original), ('candidate', candidate)):
                 with self.subTest(fixture=kind, source=source_name):
                     code, stream, normal, optimized = run_recipe(script, kind)
-                    self.assertEqual(code == 0, source_name == 'original',
+                    emit_observation(kind, source_name, code, stream, normal, optimized)
+                    self.assertEqual(code, 0 if source_name == 'original' else 1,
                                      (source_name, kind, code, stream[-450:]))
                     self.assertIn(b'Ran 0 tests in ', stream)
                     if source_name == 'candidate':
