@@ -13,7 +13,9 @@ needed for that example. The choices below are the deeper contributor routes.
 
 The default `main` branch contains the public home, mathematical proofs and
 executable controls in the [universality suite](../experiments/universality/README.md),
-and the [periodic-H0 experiments](../experiments/periodic_h0/README.md).
+the [periodic-H0 experiments](../experiments/periodic_h0/README.md), and the
+[zeta fold exploration packet](../experiments/zeta_fold_exploration/README.md)
+(exploratory; scientific effect NONE).
 [Math-](https://github.com/d6g8k5htny-coder/Math-) contains additional proof,
 coefficient and formal packages. The larger numerical research tree remains on
 its named hardening branch. Choose the checkout that contains the exact source
@@ -42,6 +44,32 @@ source-admitted comparison. The
 gives that experiment's Python 3.12 environment, pinned dependencies and
 new-output-directory requirement; its retained FFT pilot remains separate from
 a continuum certificate.
+
+The zeta fold exploration packet's exact tests also need only the standard
+library. From the directory that contains `main-research` (where the block above
+ends):
+
+```sh
+cd main-research/experiments/zeta_fold_exploration
+python3 -B -S -m unittest test_exact
+cd ../../..
+```
+
+At main `3e589ae0` that module contains 14 tests. They use exact arithmetic
+(rationals and Q(√2)) to check algebraic identities used in the packet: the cubic
+fold normal form, bar length and lobe moments; the backward heat polynomials; the
+fold-expansion coefficients and midpoint drift for three sample sets of rational
+coefficients; the weighted-lobe correction and its C¹ counterexample; and the
+density pushforward exponents, small-mark phase diagram and a dependent-mark
+example. They evaluate no zeta zero and no Ξ or H_t value, so they do not
+reproduce the packet's computed collisions or its zeta, CUE and one-dimensional
+Gaussian-process short-bar statistics. Those runs need the pinned
+`requirements.txt` (numpy and mpmath) and the script commands in
+[the packet's §8](../experiments/zeta_fold_exploration/README.md#8-reproduce);
+`test_numeric` (six numeric smoke tests) skips without those modules. The packet
+makes no claim of progress toward the Riemann Hypothesis, and its §9 lists
+independent numerical reproduction (review slice C) as open; the packet records
+no slice C result.
 
 ### Math- packages and the hardening branch
 
