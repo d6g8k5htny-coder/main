@@ -8,11 +8,19 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
 - Author: Anthropic Claude (delegated AI work for the project owner, Dylan Roy).
 - Nonauthor review from a different provider: slices A and D read, verdict **AMEND** (review
   5486843735); slice B (citations) read, verdict **AMEND** (review 5486879914); both applied
-  here (§9, §10); slice C open. Dylan's personal reading: **PENDING**.
-- Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 (v1, which carried the same-provider passes,
-  plus the slice A, B and D amendments, §10).
+  here (§10). Delta readbacks at `0969b327`: slices A/D **PASS (scoped)** (review 5487707101);
+  slice B **PASS (scoped)** (review 5487692150). Integrated into main as `3e589ae0` on
+  12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
+  review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): **NOT_PERFORMED;
+  still open** (§9). Dylan's personal reading: **PENDING**.
+- Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
+  `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
+  B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
+  coefficient wording (A/D delta note, §10.1), review-status currency (this block, §6.3, §9)
+  and Markdown escapes that fix GitHub rendering in §1.3 and §4.
 - Project sources read at main `8977619e` (the cited main files are unchanged from `03acb7be`
-  through the current base `7588716d`) and Math- `79cb314d`.
+  through `7588716d`, the base recorded in `MANIFEST.json`, and through `3e589ae0`) and Math-
+  `79cb314d`.
 
 ## In brief
 
@@ -193,7 +201,7 @@ Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
   integrand behaves like u^{(s−3)/2}, so the integral diverges for Re s ≤ 1; continuation needs
   Riemann's split at u = 1.
 - **Higher dimensions.** For d ≥ 2 and Re w > d/2,
-  ∫_0^∞ (Θ^d − 1) u^{w−1} du = π^{−w} Γ(w) Z_d(w), where Z_d(w) = Σ'_{n∈ℤ^d} |n|^{−2w} is the
+  ∫_0^∞ (Θ^d − 1) u^{w−1} du = π^{−w} Γ(w) Z_d(w), where Z_d(w) = Σ'\_{n∈ℤ^d} |n|^{−2w} is the
   Epstein zeta function of ℤ^d, with Λ_d(w) = Λ_d(d/2 − w). Two cases:
   Z_2 = 4 ζ(w) L(w, χ_{−4}) and Z_4 = 8 (1 − 4^{1−w}) ζ(w) ζ(w−1).
 - **Theta structure plus a symmetry does not place zeros on the symmetry line.** Z_4 has zeros
@@ -530,8 +538,8 @@ were checked numerically. No literature search was done, and no novelty is claim
    midpoint offset is 2(B/A)τ + O(τ²), and the asymmetry of q makes the second piece
    (B/A) r²/20 + O(r⁴), not 0. The relative Taylor remainder is at most
    sup|w''| (r/2 + |m − z₀|)²/(2w(z₀)).
-   For smooth w the ratio is even in √τ, and ℓ_w/(w(z₀)ℓ) = 1 + [(12/5)(B/A)(w'/w) +
-   (1/5)(w''/w)](z₀) τ + O(τ²) (exact series in `test_exact.py`).
+   For smooth w the ratio is even in √τ, and ℓ_w/(w(z₀)ℓ) = 1 + \[(12/5)(B/A)(w'/w) +
+   (1/5)(w''/w)\](z₀) τ + O(τ²) (exact series in `test_exact.py`).
 
    For a merely C¹ weight only 1 + o(1) holds (in fact 1 + o(r), from the modulus of
    continuity of w'), not O(r²). *Counterexample* (review 5486843735; `test_exact.py`): for
@@ -973,9 +981,14 @@ is part of the conjecture).
   It is not a density statement. The probability measure with mass 2^{−n} at each 2^{−n}
   (n ≥ 1) has ℓ < G(ℓ) ≤ 2ℓ for ℓ ≤ 1/2, hence exponent 1, but no Lebesgue density.
   "Density exponent 0" needs extra regularity or transfer assumptions on the limit.
-- *Coefficient form (not part of the conjecture; only with a caveat).* If μ_{T,H}((0, ℓ]) ~
-  c(T) ℓ at finite T, a comparison of c(T) with a CUE reference must allow for an arithmetic
-  correction of unknown size. In the analogous moment conjectures the arithmetic factor (the
+- *Coefficient form (not part of the conjecture; only with a caveat).* At finite T, μ_{T,H} is
+  a finite empirical measure: μ_{T,H}((0, ℓ]) = 0 below the window's shortest normalized bar,
+  so it has no positive ℓ → 0 asymptotic c(T) ℓ. A finite-T coefficient c(T) can only be a
+  finite-tail approximation μ_{T,H}((0, ℓ]) ≈ c(T) ℓ fitted on a declared range
+  [ℓ_lo(T), ℓ_hi(T)] (fixed cutoffs, frozen in advance as in the protocol below, not the ℓ₀
+  of (i)); it lies outside Conjecture Z. A comparison of such a c(T) with a CUE reference
+  must allow for an arithmetic correction of unknown size. In the analogous moment
+  conjectures the arithmetic factor (the
   Hughes–Keating–O'Connell a(k)) is part of the moment model, not a derived correction for
   this barcode observable. The comparison must also fix in advance which N defines the CUE
   reference: the BBLM finite-height spacing model suggests N_eff ≈ 2.2–2.8 for gaps on
@@ -1008,7 +1021,9 @@ exponent and not RH evidence.
 ### 6.3 Lower priority
 
 - **Proposition 1 and the vineyard birth law** (§3): essentially done; slice A was read
-  (review 5486843735, AMEND), and the applied amendments await its delta readback. Novelty is essentially nil, and it must not be presented as new or as related to RH.
+  (review 5486843735, AMEND), and the delta readback of the applied amendments returned
+  PASS (scoped) (review 5487707101 at `0969b327`). Novelty is essentially nil, and it must not
+  be presented as new or as related to RH.
   Follow-up question: in the project's own scale or heat-flow families, does a PDE likewise
   force folds to be transversal? Deterministic polynomial heat-flow fold controls with
   finite-interval H0 are the scope of the open proposal in main#307 comment 6116121839 (§2),
@@ -1177,7 +1192,8 @@ order), with identical counts, so byte-identity is expected only with thread pin
 A nonauthor read from a non-Anthropic provider was requested, in four slices:
 
 - **A.** Proposition 1 and the κ coefficients. **Read: AMEND** (review 5486843735; the local
-  normal form and all three κ coefficients check; findings applied, §10.1).
+  normal form and all three κ coefficients check; findings applied, §10.1). **Delta readback:
+  PASS (scoped)** (review 5487707101 at `0969b327`).
 - **B.** `CLAIMS.md` and the citations, ideally by a lane with working arXiv/journal access,
   confirming every item marked [snippet] or [memory], and the statement of Lagarias–Montague
   (arXiv:1106.4348). **Read: AMEND** (review 5486879914; the core classical claims are
@@ -1185,16 +1201,22 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   read or audit stay unverified: Saouter–Gourdon–Demichel 2011, the 1988–1992 lower-bound
   papers, Davenport–Heilbronn 1936, de la Vallée Poussin 1896, Jacobi, Mumford, Cerf, Gonek,
   Hejhal and the 2009 Ki–Kim–Lee full proof; Edwards 1974 was identified bibliographically
-  only, its coefficients being left to slice C.
+  only, its coefficients being left to slice C. **Delta readback: PASS (scoped)** (review
+  5487692150 at `0969b327`).
 - **C.** The numerics, re-run independently, with zero counts checked against `nzeros` and a
-  different seed or an independent Riemann–Siegel check. **Open.**
-- **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1).
+  different seed or an independent Riemann–Siegel check. **NOT_PERFORMED; still open** (offered to
+  GROK-H01 in main#373 comment 6118393130 and again after landing in main#307 comment
+  6123501853; not picked up as of 12 October 2026), so no read from a different provider has
+  reproduced the numerics.
+- **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
+  readback: PASS (scoped)** (review 5487707101, with slice A).
 
 The slice A/D read is OpenAI dot / Codex (`/root/review_zeta_fold_mathematics`), delegated AI
 review for Dylan Roy: nonauthor and source-exposed, not blind, with organizational-independence
 credit 0. It is static inspection plus independent symbolic arithmetic. It is not a numerical
-reproduction, a citation-wide audit or an acceptance, and the amendments here await its delta
-readback. The slice B read is OpenAI dot / Codex (`/root/verify_zeta_packet_citations`),
+reproduction, a citation-wide audit or an acceptance. Its delta readback of the applied
+amendments, review 5487707101 at `0969b327`, is PASS (scoped), with one non-blocking note
+(§10.1). The slice B read is OpenAI dot / Codex (`/root/verify_zeta_packet_citations`),
 delegated AI review for Dylan Roy, likewise nonauthor and source-exposed, not blind, with
 organizational-independence credit 0. It inspected public primary papers, author manuscripts
 and official documentation (two scanned papers by local text/OCR inspection), and ran no
@@ -1202,9 +1224,15 @@ repository program, test, numerical pipeline or Lean proof. It is a
 bounded citation comment, not approval, readiness, numerical reproduction, a full literature
 search, a novelty determination or theorem-wide acceptance. "Supported" there means that a
 source supports the stated claim within its hypotheses, not that its proof was reconstructed.
-Its amendments here likewise await its readback. The same-provider passes (§10.3) were
+Its delta readback, review 5487692150 at `0969b327`, is PASS (scoped). Neither delta readback
+is an acceptance or a numerical reproduction. The same-provider passes (§10.3) were
 Anthropic Claude reading Anthropic Claude work and earn no organizational-independence
 credit.
+
+The packet was integrated into main as `3e589ae0` on 12 October 2026 by a third OpenAI dot /
+Codex lane (`/root/integrate_zeta_exploration_packet`), distinct from both reviewer lanes. The
+automatic Codex review did not run (NOT_RUN, quota), and slice C has not been performed.
+Integration changes no scientific status: the scientific effect stays NONE.
 
 ## 10. Review findings applied
 
@@ -1218,6 +1246,7 @@ credit.
 | ZF-AD-04 | Real-zero ODE asserted at t = 0 without hypotheses | §1.2 and `CLAIMS.md` 3.4: simple-zero velocity in general, real-zero sum for t > Λ, RH at t = 0 (simplicity of z_j stated separately, not as part of RH), the 300-zero comparison a consistency check; docstrings of `dbn/check_dbn_basic.py` and `dbn/zero_velocity.py` |
 | ZF-AD-05 | Conjecture Z's limit and observable; log-CDF versus density; T-CUE strata | §6.2: iterated limit over all T with the window fixed as H(T) = √T, amplitude of every bar, boundary, positivity, which median, the 2^{−n} example, "well posed" withdrawn; §6.1: nonlocal strata and global selection; `CLAIMS.md` "What is kept" |
 | Info | Λ > 0 forces a finite multiple real zero (Polymath15 Theorem 1.5(i)) | `CLAIMS.md` 6.1, 6.2 and error 5; §3 Remark 3; §7 |
+| Delta note | Non-blocking note in the delta readback (review 5487707101): §6.2 stated μ((0, ℓ]) ~ c(T) ℓ at finite T, but a finite empirical measure has no positive ℓ → 0 asymptotic below its shortest bar | §6.2 coefficient form: a finite-tail approximation fitted on a declared range [ℓ_lo(T), ℓ_hi(T)] of fixed cutoffs (not the ℓ₀ of Conjecture Z (i)), outside Conjecture Z (applied after integration; not read back) |
 
 ### 10.2 Nonauthor review 5486879914, slice B (applied in v2)
 
