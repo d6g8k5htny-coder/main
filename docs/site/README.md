@@ -28,10 +28,29 @@ python3 -B -m unittest tests.test_site_asset_release
 node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
+python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
+python3 -B -E -O -S tests/test_public_shop_check_identity_control.py -v
 python3 -B tools/public_shop_check.py
 ```
 
-These are the local steps of the required `public-shop` job. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+These are the local steps of the required `public-shop` job, including both W8b public source identity controls. In the node list, two museum tests report SKIP without `MUSEUM_FIXTURE`; `tools/museum_check.py` reruns them with that fixture. The Run locally and museum blocks below are subsets of this list.
+
+On macOS, a symlink alias in the process temporary directory can make the site-asset fixtures compare a lexical temporary path with the canonical path returned by the release inventory. That portability defect is owned in [#294](https://github.com/d6g8k5htny-coder/main/issues/294) and is not repaired here. The example below is a trusted local invocation setup only: it uses the caller's existing writable temporary directory, resolves that directory to its physical path, rejects the checkout and its descendants, and exports `TMPDIR` before starting a new Python process. It creates nothing, hard-codes no workstation path, and is not a production-path or fixture change.
+
+```sh
+(
+  checkout_dir="$(pwd -P)" || exit 1
+  trusted_tmpdir="$(CDPATH= cd -P "${TMPDIR:?Set TMPDIR to an existing trusted temporary directory}" && pwd -P)" || exit 1
+  case "$trusted_tmpdir/" in "$checkout_dir/"*)
+      printf '%s\n' 'Choose an existing temporary directory outside this checkout.' >&2
+      exit 1
+      ;;
+  esac
+  test -w "$trusted_tmpdir" || exit 1
+  export TMPDIR="$trusted_tmpdir"
+  python3 -B -m unittest tests.test_site_asset_release
+)
+```
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
@@ -52,7 +71,7 @@ added the conditional actual-bar cards `#actual-bars` and `#strict-bar-coefficie
 to this cut. Later dated cuts were added above it: `#reading-addendum` (3 October 2026,
 20:01 UTC), `#pair-endpoint-rate` (4 October, 00:18 UTC), `#shrinking-bin-sampling`
 (4 October, 06:20 UTC, [PR266](https://github.com/d6g8k5htny-coder/main/pull/266)),
-`#reading-cut-20261007` (7 October, 18:37 UTC) and `#reading-cut-20261009` (9 October, 00:05 UTC; the landed finite Gaussian H0 lifetime source and its program, read at main `0be54aa2`). Home, the Research hero and the Library
+`#reading-cut-20261007` (7 October, 18:37 UTC), `#reading-cut-20261009` (9 October, 00:05 UTC; the landed finite Gaussian H0 lifetime source and its program, read at main `0be54aa2`) and `#reading-cut-20261010` (10 October, 20:24 UTC; main #329's regular-fold structural theorem, exact periodized Gaussian H0 adapter and marked short-bar process theorem, read at main `6e11abfb`). Home, the Research hero and the Library
 link the newest cut. `#latest-work` keeps its 18:00 UTC heading, wording and pins; its
 later additions are a forward pointer to the 20:01 addendum and two labeled
 reviewer-lineage notes beside its 3 October review links, which the 7 October cut
@@ -86,7 +105,7 @@ check, not something established by a screenshot or link.
 Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelledby="…">` with its own `<time datetime="…Z">` immediately before the current newest cut. Never edit an earlier cut's text; the closing **Check newer work** route list (`#newer-work`) is maintained navigation with its own as-read date. In the same change:
 
 1. Point Home's "Read the latest public work →", Research's hero "Latest public work" and the Library's latest-work links at the new id. Give the new cut one uniquely named link to the cut below it; exact link names must stay unique. Update the `<time datetime>` and visible date beside the Home and Library entry links to the new cut’s timestamp (`tests/test_reader_links.py` pins them). The Home About link line links Source records, Dependencies and Formal, and its disclosure links Measure; keep ‘dated’/‘synthetic’ in those labels. In the Research hero, add one row for the new cut at the top of the “Dated reading cuts” list (its question heading and the `<summary>` text of its source disclosure) and update the “Newest reading cut” `<time>`; if the cut introduces a status token not listed under `#status-words`, add a quoted-provenance row for it (where it is quoted from, never a definition).
-2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest. Four digests pin the page below the newest cut: the 7 October cut whole (cut-pointer included); `#shrinking-bin-sampling` whole; the cuts digest from `#pair-endpoint-rate` up to `#lifetimes`, with lineage notes and the contents of the `#newer-work` aside stripped (its opening tag and its place as the last child of `#latest-work` stay pinned); and the paths digest from `#lifetimes` up to `#further-reading`. A cut that stops being newest gets its own byte-identity pin, as the 06:20 cut has. Outside the pins stay the contents of `#newer-work` (maintained routes, checked by `NewerWorkRoutes` in `tests/test_reader_links.py`), the Further-reading section and the footer.
+2. In `tests/test_reader_links.py`, update the entry fragments, add the cut's pins to `EXPECTED_READING_URLS` and `EXPECTED_HASH_BINDINGS` (the parser joins the text of all `<code>` elements in an `<li>` into one string and binds that string to each pinned link in that `<li>`, so keep an item's `<code>` text equal to its intended digest), update the pinned-link total and the `p.latest-boundary` count, and add a byte-identity pin for the cut that is no longer newest. Five digests pin the page below the newest cut: the 9 October cut whole; the 7 October cut whole (cut-pointer included); `#shrinking-bin-sampling` whole; the cuts digest from `#pair-endpoint-rate` up to `#lifetimes`, with lineage notes and the contents of the `#newer-work` aside stripped (its opening tag and its place as the last child of `#latest-work` stay pinned); and the paths digest from `#lifetimes` up to `#further-reading`. A cut that stops being newest gets its own byte-identity pin, as the 06:20 cut has. Outside the pins stay the contents of `#newer-work` (maintained routes, checked by `NewerWorkRoutes` in `tests/test_reader_links.py`), the Further-reading section and the footer.
 3. In `tools/public_shop_browser_check.py`, update `check_latest_work_flow` and `check_reading_addendum_flow`: entry focus, datetime, card and pinned-link counts.
 4. Keep `research.html` script-free, its IDs unique and every local fragment resolvable.
 5. Append the new cut, with its date and UTC time, to the list of later dated cuts earlier in this section, so this guide does not stop at an older cut.

@@ -13,11 +13,11 @@ repository of this account and in the shared Google Drive, and it does not expir
 1. **Personal information never enters a place others can see.** That covers
    dates of birth, family members' names and other private individuals, licence,
    ID, account or policy numbers and ID-document details, personal email addresses
-   other than the owner's Gmail address, phone numbers, street addresses and
+   outside the owner-authorized exceptions below, phone numbers, street addresses and
    precise locations, social media handles and profiles, health, finances,
    employment history and private correspondence. The owner's name in any form
    and the owner's Gmail address are not personal information under this rule
-   (see the clarification below). Places others can see include every GitHub repository,
+   (see the clarifications below). Places others can see include every GitHub repository,
    branch, pull request, issue and comment, and the shared Drive folders that
    models read. Share links that carry access keys (for example Dropbox `rlkey=`
    or Google `resourcekey=`) are treated the same way.
@@ -54,8 +54,8 @@ Operational meaning:
 - Do not redact, purge or rewrite history for the owner's name in any form (with
   or without a middle initial or middle name) or for the owner's Gmail address.
   Neither is a reason to hold a file back from publication.
-- Everything else in item 1 still applies, including other email addresses of
-  the owner, and so do items 2 to 5.
+- Everything else in item 1 and items 2 to 5 still apply, subject to the
+  current owner-authorized publication scope below.
 - A file held back only for the owner's name or Gmail address may be published
   once it passes the screen in item 5.
 
@@ -66,3 +66,23 @@ privacy reasons, and keep privacy checks proportionate.
 
 This rule narrows what may be published. It does not reduce the autonomy granted in
 [OP-AUTONOMY-20260923-v2.1](OP-AUTONOMY-20260923-v2.1.md) for project work.
+
+## Current owner-authorized publication scope
+
+Recorded 2026-10-11 from the owner's explicit instruction for this repair.
+For current and future public releases of the owner's GitHub mathematical
+research and UI projects, the owner's existing email/private-relay address in commit
+metadata and already-public source paths in catalogs are allowed. Do not ask
+for renewed approval, require no-reply metadata, hold publication, or redact or
+rewrite history solely for those already-authorized exposures.
+
+These scoped exceptions supersede the older non-Gmail exclusion only in those
+contexts. They do not authorize publishing new private source paths,
+credentials, access-key links, private correspondence, unrelated material or
+other protected data. Correctness checks and the remaining protections in
+items 1 to 5 still apply.
+
+The [repair pickup](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6111957741)
+records this exact scope; the earlier
+[email-only hold supersession](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6051694172)
+remains part of its provenance. Historical owner quotations above are unchanged.

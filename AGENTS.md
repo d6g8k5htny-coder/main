@@ -43,6 +43,7 @@ reviewer lineage and exposure; shared accounts or same-provider reviews do not
 create organizational independence.
 
 Follow the [privacy rule](governance/OP-PRIVACY-20260927.md): keep personal or
-unrelated material off GitHub and private workspace material private. Dylan's
-name and Gmail address are allowed by that rule. Do not change visibility or
-sharing merely because a source is readable.
+unrelated material off GitHub and private workspace material private. Apply its
+[current publication clarification](governance/OP-PRIVACY-20260927.md#current-owner-authorized-publication-scope)
+rather than reopening already-authorized metadata-only holds. Do not change
+visibility or sharing merely because a source is readable.
