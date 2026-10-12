@@ -57,6 +57,23 @@ is not a passing check. Re-fetch the PR immediately before a merge and use
 stales its affected review scope. Unchanged scopes may retain their source-bound
 reviews after an explicit dependency comparison; fresh integration checks still
 bind the actual tested commit.
+
+For `workspace-landing` recovery after an infrastructure failure, the current
+execution owner first reconciles the current head/base, ownership and any explicit
+retry stop, then uses GitHub's
+[Re-run all jobs](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/re-run-workflows-and-jobs)
+for the complete parent workflow when retry is permitted. Failed-jobs-only or
+single-job retries can reuse producer outputs from an earlier attempt; `verify`
+correctly rejects stale formal `run_attempt` evidence even when both dependencies
+report success. Architecture, landing, formal and aggregate jobs must execute in
+the same fresh attempt. A rerun retains the original event's SHA/ref; changed
+head/base requires the appropriate current merge checks. Preserve earlier failures
+and original evidence under their actual commit, run, attempt and artifact
+identities; never relabel receipts or weaken checks. If a full retry is unavailable
+or an explicit stop applies, report the blocker in the existing PR rather than
+substitute a partial retry. Manual diagnostic dispatch does not replace required
+PR checks.
+
 Do not bypass branch protection or simulate another account's approval. The owner
 may delegate engineering integration, but delegation does not create independent
 review or satisfy a mathematical premise. Record your actual provider/session and
