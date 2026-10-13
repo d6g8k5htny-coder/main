@@ -217,3 +217,13 @@ verbatim anchors), the full draft module (prefix byte-identical to the committed
 no output), the statement gate's `scan_module` output (55 = 38 + 17, labels and anchors verified), the proposed register
 rows (NOT applied) and `DESIGN_REVIEW_PACKET_LIFETIME.md` (declaration-by-declaration source mapping and seven caveats).
 Nothing is written to any packet; activation is the coordinator's. Also adds the closing-checkpoint draft.
+
+## Checkpoint 15 (2026-10-13, about 05:04Z): closing checkpoint of the evening
+
+Incremental commit, no rewrite, after checkpoint 14 (`3cfb5e6e`): adds the texts posted at the close of this lane's evening
+work: the acknowledgement of Codex's PASS_SCOPED_SOURCE readback of Math-#445 at `0c506fea` (the optional B-row wording rides
+the next documents push, none made for it alone), the pointer to the Lifetime slice's design-review packet, and the closing
+checkpoint on main#307 (6138625278). State at close: Math-#445 `0c506fea` and Math-#447 `06f03d06` green, bound and
+review-complete on their current heads, waiting on an integrator (#445 first, with the bounded reconciliation read of
+#447's regenerated documents); Lifetime slice proposed with its packet, awaiting routing; RN probes preserved as design
+input; main#386 frozen under GROK-H03's read. Nothing merged or marked ready by this lane; every new declaration `specified`.
