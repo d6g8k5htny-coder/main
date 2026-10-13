@@ -2,7 +2,12 @@
 
 Standard invocation (from repository root):
 python3 -B -S experiments/universality/two_parameter_cusp_population/run_population_certificate.py
+
+Use --performer and --exposure to disclose the actual invocation's executor
+and source/reviewer exposure. Omitted disclosures are recorded as UNSPECIFIED.
+These are caller reports, not authenticated identity or independence evidence.
 """
+import argparse
 from datetime import datetime, timezone
 from fractions import Fraction as Q
 import hashlib
@@ -309,7 +314,15 @@ def render_report(certificate):
     return '\n'.join(lines).encode()
 
 
-def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
+def _disclosure(value):
+    _require(type(value) is str and bool(value.strip()),
+             'Attribution disclosure must be a nonblank string')
+    return value
+
+
+def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900, *,
+        performer='UNSPECIFIED', exposure='UNSPECIFIED'):
+    performer, exposure = _disclosure(performer), _disclosure(exposure)
     _require(type(max_evaluations) is int and 0 <= max_evaluations <= 80000,
              'Evaluation budget may only be reduced')
     _require(type(time_budget) is int and 0 <= time_budget <= 900,
@@ -357,8 +370,8 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
                   'final_runtime_budget_gate': 'PASS',
                   'exit_code': exit_code, 'status': certificate['status'],
                   'sources_before': before, 'sources_after': after, 'source_drift': drift,
-                  'performer': 'OpenAI/Codex population certificate runner',
-                  'exposure': 'Source-exposed same provider/team',
+                  'performer': performer,
+                  'exposure': exposure,
                   'organizational_independence_credit': 0,
                   'python': sys.version, 'full_declared_campaign':
                   full_declared_campaign(certificate, max_evaluations, time_budget, drift),
@@ -400,12 +413,22 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
     return run_record
 
 
-if __name__ == '__main__':
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--performer', type=_disclosure, default='UNSPECIFIED',
+                        help='Self-reported actual executor/provider/session')
+    parser.add_argument('--exposure', type=_disclosure, default='UNSPECIFIED',
+                        help='Self-reported source/reviewer exposure; no credit inferred')
+    arguments = parser.parse_args(argv)
     try:
-        result = run()
+        result = run(performer=arguments.performer, exposure=arguments.exposure)
         print(result['status'] + '; direct evaluations=' + str(result['actual_route_evaluations'])
               + '; runtime_seconds=' + result['runtime_seconds'])
-        raise SystemExit(result['exit_code'])
+        return result['exit_code']
     except FileExistsError as exc:
         print('REFUSED_EXISTING_ATTEMPT: ' + str(exc), file=sys.stderr)
-        raise SystemExit(3)
+        return 3
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

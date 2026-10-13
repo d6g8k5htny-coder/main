@@ -6,6 +6,8 @@ No full eight-row integration campaign is performed by this test file.
 from fractions import Fraction as Q
 from pathlib import Path
 import importlib.util
+import subprocess
+import sys
 import tempfile
 import time
 import types
@@ -602,6 +604,83 @@ class MassControlRouteTests(unittest.TestCase):
         self.assertTrue(pc.rectangle_mass_control((Q(199, 1000), Q(201, 1000))))
         self.assertFalse(pc.rectangle_mass_control((Q(99, 1000), Q(101, 1000))))
         self.assertFalse(pc.rectangle_mass_control((Q(999, 1000), Q(1))))
+
+
+class RunnerAttributionTests(unittest.TestCase):
+    # Disclosure strings below are test fixtures, not executor attestations.
+    # Actual test execution and its source-exposed performer belong in the log.
+    def test_omitted_disclosures_do_not_claim_a_provider(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'attempt'
+            runner.run(output_dir=output, max_evaluations=0)
+            record = runner.load_json(output / 'RUN.json')
+            self.assertEqual(record['performer'], 'UNSPECIFIED')
+            self.assertEqual(record['exposure'], 'UNSPECIFIED')
+            self.assertEqual(record['organizational_independence_credit'], 0)
+
+    def test_caller_disclosures_reach_the_retained_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'attempt'
+            runner.run(output_dir=output, max_evaluations=0,
+                       performer='Anthropic/Claude fixture; session fixture-451',
+                       exposure='Source-exposed fixture; shared principal')
+            record = runner.load_json(output / 'RUN.json')
+            self.assertEqual(record['performer'],
+                             'Anthropic/Claude fixture; session fixture-451')
+            self.assertEqual(record['exposure'],
+                             'Source-exposed fixture; shared principal')
+            self.assertEqual(record['organizational_independence_credit'], 0)
+            self.assertFalse(record['full_declared_campaign'])
+            self.assertEqual(record['actual_route_evaluations'], 0)
+
+    def test_invalid_disclosure_is_refused_before_creating_an_attempt(self):
+        for field in ('performer', 'exposure'):
+            for value in ('', ' \t\n', None, 42, False):
+                with self.subTest(field=field, value=value), tempfile.TemporaryDirectory() as temporary:
+                    output = Path(temporary) / 'attempt'
+                    with self.assertRaises(ValueError):
+                        runner.run(output_dir=output, max_evaluations=0,
+                                   **{field: value})
+                    self.assertFalse(output.exists())
+
+    def test_disclosures_do_not_change_certificate_or_report_bytes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            runner.run(output_dir=base / 'undisclosed', max_evaluations=0)
+            runner.run(output_dir=base / 'disclosed', max_evaluations=0,
+                       performer='Non-OpenAI fixture', exposure='Source-exposed fixture')
+            for name in ('CERTIFICATE.json', 'RESULTS.md'):
+                self.assertEqual((base / 'undisclosed' / name).read_bytes(),
+                                 (base / 'disclosed' / name).read_bytes())
+
+    def test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt(self):
+        cases = [([], 'UNSPECIFIED', 'UNSPECIFIED'),
+                 (['--performer', 'Anthropic/Claude CLI fixture',
+                   '--exposure', 'Source-exposed CLI fixture'],
+                  'Anthropic/Claude CLI fixture', 'Source-exposed CLI fixture')]
+        for arguments, performer, exposure in cases:
+            with self.subTest(arguments=arguments), tempfile.TemporaryDirectory() as temporary:
+                base = Path(temporary)
+                for source in runner.SOURCE_PATHS:
+                    target = base / source.relative_to(runner.REPOSITORY)
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(source.read_bytes())
+                # Refuse this real copied source before numerical evaluation.
+                # The CLI still has to retain the supplied attribution correctly.
+                contract = base / 'experiments/universality/two_parameter_cusp_population/CONTROLLED_FALSIFICATION.md'
+                contract.write_bytes(contract.read_bytes() + b'\n')
+                script = base / runner.POPULATION.relative_to(runner.REPOSITORY) / 'run_population_certificate.py'
+                mode = ['-O'] if sys.flags.optimize else []
+                completed = subprocess.run([sys.executable, '-B', '-E', '-S'] + mode
+                                           + [str(script)] + arguments,
+                                           capture_output=True, text=True, timeout=10)
+                self.assertEqual(completed.returncode, 2, completed.stderr)
+                record = runner.load_json(base / 'experiments/universality/results/exact_population_1/RUN.json')
+                self.assertEqual(record['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+                self.assertEqual(record['performer'], performer)
+                self.assertEqual(record['exposure'], exposure)
+                self.assertEqual(record['organizational_independence_credit'], 0)
+                self.assertEqual(record['actual_route_evaluations'], 0)
 
 
 if __name__ == '__main__':
