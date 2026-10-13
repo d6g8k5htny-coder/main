@@ -103,3 +103,17 @@ NOT applied); the posted hold acknowledgement. Also added: the round-7 pickup an
 as posted, the statement-gate test runner copy `stmt_test_check.py`, and the checkpoint-3 texts. Everything stays a
 draft: `specified` throughout, no theorem, no inhabitant, no label move, no acceptance; the review and the routing
 are the coordinator's.
+
+## Checkpoint 5 (2026-10-13, about 03:25Z): the corrected round-7 design packet
+
+Incremental commit, no rewrite: 3 files added and 7 changed since `52eb485f` (none removed); now 4,655 files,
+86,407,828 bytes. The coordinator's bounded design read of checkpoint 4 (main#307 6137276515) found the slice eligible
+in principle after five corrections and a stacked placement on Math-#445; the corrections are applied to the draft in
+`scratch/lvs/r7/hold/` (Dirac-fallback wording; `ReferenceComparison2` anchored to the quantitative display (4) line
+with its tag; the angular-measure remark restricted to the inequalities; the pre-existing inventory stated as 26 Props,
+2 structures, 38 auxiliaries; the frontier-row correction noted for the stacked docs), and the corrected draft module
+re-elaborates at the pin with exit 0 (`elab_draft.log`) and passes the gate's `scan_module` again (`scan_draft.txt`);
+`DESIGN_REVIEW_PACKET.md` gains a "Corrections applied" section. `confirm_placement.md` is the pre-post draft of the
+author's confirmation (its two placeholders, this checkpoint's commit and the elaboration line, were filled at posting
+time); the checkpoint-4 texts are added. Still a draft under hold: no Math- ref, packet, register, gate or docs change
+exists anywhere; activation is the coordinator's.

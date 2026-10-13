@@ -17,7 +17,8 @@ What the successor does NOT pin (recorded for the design review): `sphereMeasure
 constrained only by its support and total area, so `c24` is determined by the fields only up to that
 choice; frame invariance of `coneMomentOf` under transverse-frame changes (the parent asserts it) is
 not a field, so the frame-quantified `coneMoment_def` is a consistency burden on the interface rather
-than a theorem here. -/
+than a theorem here. The uniform-in-`u` bounds of the source would make the sphere-measure choice immaterial to
+the two successor inequalities, not to the value of `c24`. -/
 
 /-- Transverse coordinates of the frame: the indices `i ≠ 0` (the axial direction is `u = R 0`), the
 `m = d - 1` directions of `u`-perp.
@@ -138,7 +139,9 @@ structure PeriodicCoefficientInterface2 extends PeriodicCoefficientInterface whe
   pinCov_posDef : ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →
     (pinCov d (K24 d) (R ⟨0, hd⟩) R).PosDef
   /-- The same clause for the conditional transverse block: positive definite, so the law in
-  `coneMomentOf` is a nondegenerate Gaussian and not the Dirac case of `multivariateGaussian`. -/
+  `coneMomentOf` is a nondegenerate Gaussian (`multivariateGaussian` is the Dirac mass at `0` only when the
+  covariance is not positive semidefinite, and a degenerate Gaussian on a singular positive-semidefinite one;
+  the inherited `coneMoment_pos` with `coneMoment_def` already excludes the Dirac case, whose cone moment is `0`). -/
   condHessianCov_posDef : ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →
     (condHessianCov d (K24 d) (R ⟨0, hd⟩) R).PosDef
   /-- Parent (15.1): `D_u` is the Gaussian cone expectation under the conditional law of the
@@ -163,8 +166,8 @@ def CoefficientEnclosure2 (I : PeriodicCoefficientInterface2) : Prop :=
 `PeriodicCoefficientInterface2`.
 
 Source: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769
-Anchor: "The exact periodic constant is NOT claimed equal to the reference constant."
-Interface: `I : PeriodicCoefficientInterface2` is given; `c_{d,ref}` is the explicit `cRef`; the cone moment is pinned by `coneMoment_def` and the sphere measure only by support and total area (the source's bounds are uniform in `u`, which is what would make the choice immaterial; not shown here).
+Anchor: "|c_d,24/c_d,ref -1| < 10^(-106), d=2,3.               (4)"
+Interface: `I : PeriodicCoefficientInterface2` is given; `c_{d,ref}` is the explicit `cRef`; the cone moment is pinned by `coneMoment_def` and the sphere measure only by support and total area (the source's bounds are uniform in `u`, which is what would make that choice immaterial to this inequality, though not to the value of `c24`; not shown here).
 Does not claim: the bound (statement only; a theorem would need the Section 4 comparison of the Gaussian cone expectation under the ordered covariances, the Section 3 passage of (3) to the conditional covariance, and the frame-uniform integrand ratio, over the proof packet's `CovarianceOrdering`, `ReferenceCovarianceLowerBound`, `DensityComparison` and `IntegrandRatioBounds`); equality of the periodic and reference constants (the source says it is NOT claimed); anything about `ReferenceComparison`, which is unchanged; nothing here encloses the coefficient. -/
 def ReferenceComparison2 (I : PeriodicCoefficientInterface2) : Prop :=
   ReferenceComparison I.toPeriodicCoefficientInterface

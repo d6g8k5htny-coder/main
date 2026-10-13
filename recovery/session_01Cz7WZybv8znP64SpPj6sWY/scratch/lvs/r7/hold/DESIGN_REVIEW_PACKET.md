@@ -57,9 +57,9 @@ Sources are the packet's registered pins: `side24-proof` = Math- `760340e9…` `
 | `coneMomentOf d K u R` | aux | lifetime-parent:454 "(15.1) D_u=E[(det A_u)^2 1{A_u<0} \| V_u=0]" | `∫ v, coneIntegrandTrans d v ∂(multivariateGaussian 0 (condHessianCov d K u R))` | identity (b): the conditional law of a centred Gaussian vector given `V = 0` is the centred Gaussian with the conditional covariance. Mathlib's `multivariateGaussian μ S` is the Dirac mass at `μ` when `S` is not positive semidefinite (`multivariateGaussian_of_not_posSemidef` at the pin), hence the field `condHessianCov_posDef` |
 | `PeriodicCoefficientInterface2` | structure | lifetime-parent:456 "Here A_u conditional on V_u=0 is an actual centered nondegenerate Gaussian symmetric matrix" | `extends PeriodicCoefficientInterface` + `pinCov_posDef`, `condHessianCov_posDef`, `coneMoment_def` (all quantified over `d ∈ {2,3}`, orthonormal frames `R`, `u = R 0`, as `pV0_def` and `tau_sq` already are) | the parent's clause as two positivity hypotheses and its (15.1) as a definition field; the predecessor is unchanged and stays registered |
 | `CoefficientEnclosure2 I` | def_prop | side24-proof:25-26 (headline) | `CoefficientEnclosure I.toPeriodicCoefficientInterface` | same display, over the successor |
-| `ReferenceComparison2 I` | def_prop | side24-proof:173, 175 (display (4); "NOT claimed equal") | `ReferenceComparison I.toPeriodicCoefficientInterface` | same display, over the successor |
+| `ReferenceComparison2 I` | def_prop | side24-proof:173 (display (4), quantitative, with its tag; anchor distinct from the predecessor's by the tag) | `ReferenceComparison I.toPeriodicCoefficientInterface` | same display, over the successor |
 
-The 24 existing Side24 Props, the two existing structures and all 38 existing auxiliaries are byte-identical; the
+The 26 existing Side24 Props (24 theorem-shaped, 2 vocabulary), the two existing structures and all 38 existing auxiliaries are byte-identical; the
 successor Props reuse the predecessors' bodies through the structure projection, so no display is re-typed.
 
 Why the successor removes the known blocker: the round-4 probe showed `(∀ I, CoefficientEnclosure I) → IsEmpty
@@ -74,9 +74,9 @@ truth of either display.
    sphere) and `sphereMeasure_area` (total `2π`, `4π`). So the successor interface determines `c24` from its fields
    only *up to that choice*. My proposal [6136729408](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136729408)
    said "determined"; that was overstated and is corrected here. For the source's argument the choice is immaterial
-   because its integrand bounds are uniform in `u` (Section 4, "Angular integration preserves these multiplicative
-   bounds because every reference integrand is positive"), but that uniformity is a theorem about the formal objects,
-   not a given. Design option for the reviewer: a further field pinning `sphereMeasure d` to Mathlib's surface measure.
+   for the two successor *inequalities* because its integrand bounds are uniform in `u` (Section 4, "Angular
+   integration preserves these multiplicative bounds because every reference integrand is positive"); it is not
+   immaterial to the exact value of `c24`, and the uniformity is a theorem about the formal objects, not a given. Design option for the reviewer: a further field pinning `sphereMeasure d` to Mathlib's surface measure.
    At the pin, `MeasureTheory.Measure.toSphere` (`Mathlib/MeasureTheory/Constructions/HaarToSphere.lean:51`) gives a
    measure on the subtype `sphere (0:E) 1` with `toSphere_apply_univ : μ.toSphere univ = dim E * μ (ball 0 1)`, so
    `(volume.toSphere).map Subtype.val` on `E d` has total mass `d · vol(ball)` = `2π` (d=2), `4π` (d=3), consistent with
@@ -89,8 +89,11 @@ truth of either display.
    `tau_sq` already have the same shape, so this is not new to the successor, but it should be seen.
 3. **Nondegeneracy** is carried as `pinCov_posDef` and `condHessianCov_posDef` (the parent's "nondegenerate"). Without
    the first, the Schur complement is not the conditional covariance (Mathlib's inverse of a singular matrix is `0`);
-   without the second, `multivariateGaussian` is a Dirac mass and the "cone moment" would be `0` (the indicator at
-   `v = 0` is `0` since `-0` is not positive definite). Both are hypotheses on the formal `K24` matrices; nothing here
+   without the second, a non-positive-semidefinite formal covariance would make `multivariateGaussian` the Dirac
+   mass at `0` and the "cone moment" `0` (the indicator at `v = 0` is `0` since `-0` is not positive definite), while a
+   singular positive-semidefinite covariance gives a degenerate Gaussian, not a Dirac mass; the absence of a PosDef
+   field would not by itself make the covariance singular, and the inherited `coneMoment_pos` together with
+   `coneMoment_def` already excludes the Dirac (zero-moment) case. Both are hypotheses on the formal `K24` matrices; nothing here
    proves them (the source derives them from (3) and the reference values; `ReferenceCovarianceLowerBound` and
    `CovarianceOrdering` in the proof packet are the ingredients a proof would use).
 4. **Integrability** of the cone integrand is not stated; Mathlib's Bochner integral is `0` for a non-integrable
@@ -101,8 +104,9 @@ truth of either display.
    determinant the source means. The reviewer should check this inverse pairing; a sign or scaling slip here would be a
    mis-transcription that no gate detects.
 6. **Anchors.** Each new registered-kind declaration quotes a verbatim line (≥ 16 chars) of its named pin; the two
-   successor Props deliberately use anchors distinct from their predecessors' (the docs renderer matches proof-packet
-   theorems to Props by anchor equality, so shared anchors would be ambiguous later). The structure's anchor is the
+   successor Props use the quantitative headline displays (the `d = 3` enclosure line; display (4) with its tag `(4)`),
+   distinct as strings from their predecessors' anchors (the docs renderer matches proof-packet theorems to Props by
+   anchor equality, so shared anchors would be ambiguous later). The structure's anchor is the
    parent's Section 15 sentence, i.e. the successor is anchored to the parent, not to the SIDE24 note.
 
 ## Verification performed (local, author, not a receipt)
@@ -125,3 +129,26 @@ inhabitant of either interface; it does not show the formal matrices are covaria
 frame invariance, nondegeneracy or integrability for `K24`; it does not change, promote or reclassify any claim,
 premise, obligation or label; it is not a review and it is not evidence of acceptance. Alignment of every statement
 remains PENDING_INDEPENDENT_REVIEW; same-account author, credit 0.
+
+## Corrections applied (coordinator design read, main#307 6137276515, 03:04Z)
+
+1. Caveat 3 reworded: only a non-positive-semidefinite covariance triggers Mathlib's Dirac fallback; a singular
+   positive-semidefinite one gives a degenerate Gaussian; the absence of a PosDef field does not establish singularity;
+   `coneMoment_def` with the inherited `coneMoment_pos` already excludes the zero-moment Dirac case. The field
+   docstring of `condHessianCov_posDef` says the same.
+2. `ReferenceComparison2` is anchored to the quantitative display (4) line including its tag `(4)` (verbatim,
+   side24-proof:173), in the docstring and in the proposed register row; the "NOT claimed equal" sentence is no longer
+   its anchor.
+3. The angular-measure remark is restricted: uniform directional bounds would make the choice of `sphereMeasure`
+   immaterial to the two successor inequalities, not to the exact value of `c24` (module header, `ReferenceComparison2`
+   docstring, caveat 1).
+4. The count of the pre-existing Side24 inventory reads 26 Props (24 theorem-shaped, 2 vocabulary), 2 structures,
+   38 auxiliaries, as the register and the scan have it.
+5. For the stacked docs successor: the frontier row of `Side24.CoefficientEnclosure` in Math-#445 says "the conditional
+   law of the Hessian block given the gradient under `K24`"; the round-7 docs will say "the transverse Hessian block
+   conditioned on the pin `V_u = H_f u = 0`". Math-#445's own branch is frozen and is not edited.
+
+Placement to be confirmed by the author on main#307: round 7 as an explicitly stacked draft on Math-#445 (head
+`9fb0a4a0`, base branch `claude/lean-statements-frontier-20261013`), #445 integrated first, no simultaneous edit to
+#445's frozen branch, exact four-file scope (`Specifications/Side24.lean` append only, `REGISTER.json` rows,
+`README.md`, `SCOPE.md` re-rendered), no gate, import, proof or toolchain change. Activation is the coordinator's.
