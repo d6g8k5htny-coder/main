@@ -184,6 +184,27 @@ the actual barcode, the population projection and disposition.
 `select_h0` or trusting its PASS flags. It returns named check results and
 rejects a changed root multiplicity, omitted component or swapped elder edge.
 
+A standalone `verify_h0` status of `PASS` certifies **algebraic/incidence
+replay only**, not the acceptance of a fixture or the complete experiment.
+`run_attempt` separately requires selection `CERTIFIED` before verification.
+Its expectation consumer requires selection and actual-barcode `CERTIFIED`,
+verification `PASS`, and **every derived soundness gate** `PASS` before
+reading the fixed expected values. In particular `critical_completeness`
+requires a root-set status of `CERTIFIED` as well as successful root/height
+replay. Changing just a selection, barcode or root-set status string can
+leave standalone algebraic replay at `PASS`; those status values are
+independent acceptance obligations, not replay evidence.
+
+A real selector withdrawal also changes the population-projection status,
+which the raw verifier checks against its recomputed projection if replay
+reaches that check. Driver-wide source-drift/deadline withdrawal retains
+computed bars and records `computed_status_before_withdrawal`, but changes
+current acceptance statuses to an inconclusive value. Historical computed
+statuses never reauthorize acceptance, even if older algebraic replay was
+`PASS`. The driver's normalized output wraps raw boolean/null predicates;
+without an explicit forensic decoding contract it is **not** a raw
+`Fraction`/boolean certificate to pass back into `verify_h0`.
+
 Neither new executable module imports `population_certificate`, its runner,
 `critical_fixture`, a population CDF, or a lifetime/gap oracle. The driver may
 read literal comparison expectations only after a complete selection and
