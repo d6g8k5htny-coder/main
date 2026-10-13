@@ -1,0 +1,40 @@
+pinObsCov : (d : ℕ) → [NeZero d] → ℝ → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → Matrix (PinIdx d) (PinIdx d) ℝ
+typedWeight : (d : ℕ) → [NeZero d] → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → (E d → ℝ) → ℝ
+@PinnedLawInterface2.Q_regression : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {Ω : Type} [inst_1 : MeasurableSpace Ω]
+  (self : PinnedLawInterface2 d L Ω) (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)),
+  0 < r →
+    r < L →
+      ∀ (m : ℕ) (x : Fin m → E d),
+        Measure.map (fun ω => WithLp.toLp 2 fun i => self.F ω (x i)) (self.Q r b k R) =
+          ProbabilityTheory.multivariateGaussian (WithLp.toLp 2 fun i => regMean d L r b k R (x i))
+            (Matrix.of fun i j => regCov d L r R (x i) (x j))
+@PinnedLawInterface2.W_det : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {Ω : Type} [inst_1 : MeasurableSpace Ω]
+  (self : PinnedLawInterface2 d L Ω) (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)) (ω : Ω),
+  self.W r b k R ω = typedWeight d r R (self.F ω)
+@PinnedLawInterface2.Z_floor : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {Ω : Type} [inst_1 : MeasurableSpace Ω]
+  (self : PinnedLawInterface2 d L Ω) (bLo bHi kLo kHi : ℝ),
+  0 < kLo →
+    kLo ≤ kHi →
+      bLo ≤ bHi →
+        ∃ zStar,
+          0 < zStar ∧
+            ∃ rStar,
+              0 < rStar ∧
+                rStar < L ∧
+                  ∀ (r : ℝ),
+                    0 < r →
+                      r ≤ rStar →
+                        ∀ b ∈ Set.Icc bLo bHi,
+                          ∀ k ∈ Set.Icc kLo kHi,
+                            ∀ (R : OrthonormalBasis (Fin d) ℝ (E d)),
+                              zStar * r ^ 2 ≤ ∫ (ω : Ω), self.W r b k R ω ∂self.Q r b k R
+FixedRemoteCountBoundA3v2 : (d : ℕ) →
+  [inst : NeZero d] →
+    (L : ℝ) → (Ω : Type) → [inst_1 : MeasurableSpace Ω] → PinnedLawInterface2 d L Ω → ℝ → ℝ → ℝ → ℝ → ℝ → Prop
+AnnulusBridgeAllHeight2v2 : (L : ℝ) →
+  (Ω : Type) → [inst : MeasurableSpace Ω] → PinnedLawInterface2 2 L Ω → ℝ → ℝ → ℝ → ℝ → ℝ → ℝ → Prop
+
+real	0m13.231s
+user	0m7.229s
+sys	0m6.297s
+exit 0

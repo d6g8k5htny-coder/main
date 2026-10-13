@@ -173,3 +173,16 @@ downloaded), the generalized collector and text generator, the binding as placed
 main#307. The tested merge `15e8fa2f` (= `refs/pull/447/merge`, parents `9fb0a4a0` and `215726a2`) has exactly the head's
 tree `f98bbf51`, verified locally. A green run is a record of a computation about the formal objects; nothing here is a
 review, an alignment, an acceptance or a label move.
+
+## Checkpoint 11 (2026-10-13, about 04:17Z): the RN successor-interface feasibility probe
+
+Incremental commit, no rewrite, after checkpoint 10 (`06b5784f`): adds `scratch/lvs/r7/probes/RN2_probe.lean` with its
+elaboration output (exit 0 at Lean 4.34.1 / Mathlib `d13f23b7`, `#check`s only, no theorem, no `sorry`): a scratch probe,
+not a packet file, of the design note's §1 successor `PinnedLawInterface2` for the 19 interface-blocked RN Props, fields
+1–4 and 6 (the kernel `K_L` defined locally as Lifetime.lean has it, the `2(d+1)` pin observations and their jet
+covariances, regression mean and Schur-complement covariance, positive definiteness of the observation covariance, the
+Gaussian regression characterisation of the given law `Q`, the given weight `W` tied to the typed determinant weight, the
+normalizer floor of [LP] (5.5) on compact windows as an assumption, a.s. finiteness of the critical set and measurability
+of the counts), with two illustrative successor Props by structure projection. Field 5 (Kac-Rice identities and the
+defined contact kernel) is left to a second probe. Input for a later proposal only; nothing is proposed, claimed or
+written to any packet by this checkpoint.
