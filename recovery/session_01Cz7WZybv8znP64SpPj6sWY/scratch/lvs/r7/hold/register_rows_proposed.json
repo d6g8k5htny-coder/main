@@ -1,0 +1,41 @@
+{
+  "claim_id": "side24-coefficient",
+  "insert_after_declaration": "UniversalLaw.Spec.Side24.ReferenceComparison",
+  "rows": [
+    {
+      "package": "specifications/lean_statements_20261010",
+      "module": "Specifications/Side24.lean",
+      "declaration": "UniversalLaw.Spec.Side24.PeriodicCoefficientInterface2",
+      "kind": "structure",
+      "formal_progress": "specified",
+      "anchor": "Here A_u conditional on V_u=0 is an actual centered nondegenerate Gaussian symmetric matrix",
+      "does_not_claim": "existence of an object satisfying this interface; that the formal Schur complement and `multivariateGaussian` are the conditional law of any field (no field is constructed); that `c24` is the finite-bar asymptotic constant (conditional on the parent's results, which are not touched); frame invariance; anything about the predecessor interface, which is unchanged."
+    },
+    {
+      "package": "specifications/lean_statements_20261010",
+      "module": "Specifications/Side24.lean",
+      "declaration": "UniversalLaw.Spec.Side24.CoefficientEnclosure2",
+      "kind": "def_prop",
+      "formal_progress": "specified",
+      "anchor": "0.04177593184059834334 < c_3,24 < 0.04177593184059834335.",
+      "does_not_claim": "the enclosures (statement only: nothing here encloses the coefficient; a theorem would need a proof-producing interval pipeline for `Gamma(7/6)`, `pi`, `exp`, the theta sums and the Gaussian cone integral); existence of an inhabitant; that the formal objects are the source's; anything about `CoefficientEnclosure`, which is unchanged; nonauthor review or acceptance."
+    },
+    {
+      "package": "specifications/lean_statements_20261010",
+      "module": "Specifications/Side24.lean",
+      "declaration": "UniversalLaw.Spec.Side24.ReferenceComparison2",
+      "kind": "def_prop",
+      "formal_progress": "specified",
+      "anchor": "The exact periodic constant is NOT claimed equal to the reference constant.",
+      "does_not_claim": "the bound (statement only; a theorem would need the Section 4 comparison of the Gaussian cone expectation under the ordered covariances, the Section 3 passage of (3) to the conditional covariance, and the frame-uniform integrand ratio, over the proof packet's `CovarianceOrdering`, `ReferenceCovarianceLowerBound`, `DensityComparison` and `IntegrandRatioBounds`); equality of the periodic and reference constants (the source says it is NOT claimed); anything about `ReferenceComparison`, which is unchanged; nothing here encloses the coefficient."
+    }
+  ],
+  "claim_row_text_edits_proposed": {
+    "not_established_append_after": "Theorem-shaped Props of this row still `specified` with no theorem: CoefficientEnclosure, ReferenceComparison;",
+    "not_established_insert": " round 7 (2026-10-13, DRAFT UNDER HOLD, not committed) adds, appended to Side24.lean with every earlier declaration byte-identical, the successor interface PeriodicCoefficientInterface2 (every field of PeriodicCoefficientInterface plus pinCov_posDef, condHessianCov_posDef and coneMoment_def, which pins coneMoment d (R 0) to the Gaussian cone expectation coneMomentOf d (K24 d) (R 0) R, the integral of det(A)^2 1{A<0} against multivariateGaussian 0 (condHessianCov d (K24 d) (R 0) R) with condHessianCov the Schur complement transCov - transPinCov pinCov^(-1) transPinCov^T of the derivative-rule blocks) and the successor Props CoefficientEnclosure2, ReferenceComparison2 over it, all `specified`; the successor excludes the doubling inhabitant but still leaves sphereMeasure free beyond support and total area and does not state frame invariance of coneMomentOf; no inhabitant is constructed, no theorem of either successor Prop exists, the original Props and interface are unchanged, and nothing here encloses the coefficient;",
+    "next_step_append_after": "CoefficientEnclosure BLOCKED_INTERFACE (probe-level: universal closure implies IsEmpty PeriodicCoefficientInterface); ReferenceComparison BLOCKED_INTERFACE (probe-level: universal closure implies IsEmpty PeriodicCoefficientInterface);",
+    "next_step_insert": " CoefficientEnclosure2, ReferenceComparison2 (round-7 successors over PeriodicCoefficientInterface2, `specified`) are the targets of this row once the successor lands: ReferenceComparison2 needs the Section 3 passage of (3) to the Schur complement, the Section 4 Gaussian comparison of the cone expectation under ordered covariances and the frame-uniform integrand ratio over the packet's CovarianceOrdering, ReferenceCovarianceLowerBound, DensityComparison and IntegrandRatioBounds (estimate weeks); CoefficientEnclosure2 needs in addition the proof-producing interval pipeline (months);"
+  },
+  "status": "PROPOSED, NOT APPLIED: the register is unchanged everywhere; this file is the exact object offered to the routed design review (coordination correction main#307 6136949323).",
+  "scientific_effect": "NONE"
+}

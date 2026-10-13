@@ -82,3 +82,24 @@ Incremental commit, no rewrite: 8 files added and 2 changed since `097d9450` (no
 86,192,343 bytes. Adds the round-7 feasibility probe `scratch/lvs/r7/probes/Side24B_probe.lean` (4,724 B, sha256
 `f630a7d1…`, no theorem, no `sorry`) with its elaboration output (exit 0 at Lean 4.34.1 / Mathlib `d13f23b7`), the
 round-7 first-slice proposal and its addendum as posted on main#307, and the recovery texts of checkpoint 2.
+
+## Checkpoint 4 (2026-10-13, about 02:50Z): the round-7 design-review packet, under HOLD
+
+Incremental commit, no rewrite: 15 files added and 2 changed (`MANIFEST.json`, `EXCLUDED.json`) since `e8349bed`
+(none removed); now 4,652 files, 86,391,390 bytes. The coordinator's correction on main#307 (6136949323) put the
+round-7 first slice on HOLD before anything was pushed to Math-: no packet, register, gate or docs change exists
+anywhere. What is preserved instead is the exact object offered to the routed nonauthor design read,
+`scratch/lvs/r7/hold/`: `DESIGN_REVIEW_PACKET.md` (the declaration-by-declaration mapping of the draft to the pinned
+sources and the caveats found: `sphereMeasure` still free beyond support and area, frame invariance a consistency
+burden not a field, nondegeneracy carried as two positivity fields, Mathlib's `multivariateGaussian` degenerating to
+a Dirac mass off positive semidefinite covariances); `Side24_append.lean` (the draft block: 9 auxiliary definitions,
+the successor structure `PeriodicCoefficientInterface2`, the successor Props `CoefficientEnclosure2`,
+`ReferenceComparison2`, four-label docstrings with verbatim anchors); `Side24_draft.lean` (the full draft module,
+prefix byte-identical to Side24.lean at Math- `8acc4856`; `lake env lean` at Lean 4.34.1 / Mathlib `d13f23b7` exit 0,
+no output, `elab_draft.log`); `scan_draft.txt` (the statement gate's own `scan_module` on the draft: 78 declarations =
+the committed 66 + 12 new, every new registered-kind declaration with the four labels and a verbatim anchor);
+`register_rows_proposed.json` (the three statement rows and the proposed `not_established`/`next_step` sentences,
+NOT applied); the posted hold acknowledgement. Also added: the round-7 pickup and scope-correction texts and payloads
+as posted, the statement-gate test runner copy `stmt_test_check.py`, and the checkpoint-3 texts. Everything stays a
+draft: `specified` throughout, no theorem, no inhabitant, no label move, no acceptance; the review and the routing
+are the coordinator's.
