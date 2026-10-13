@@ -130,3 +130,13 @@ with its summary, the exact commit as a patch (`round7_077a168b_on_9fb0a4a0.patc
 dirty and on the committed CLEAN worktree, exit 0), the test logs (97 OK in both modes), the PR body as posted and the
 create payload, the activation report posted on main#307. The hosted runs on `077a168b` were in progress at this
 checkpoint; no hosted outcome is recorded here. Still: every new declaration `specified`; no theorem; no label move.
+
+## Checkpoint 7 (2026-10-13, about 03:50Z): the hosted runs of Math-#447 bound
+
+Incremental commit, no rewrite, after checkpoint 6 (`1259ee34`): adds the read-only run records for Math-#447 head
+`077a168b` (`scratch/lvs/r7/runs447.json`: runs 38342494931 statements, 38342494925 proofs, 38342495166 downstream
+replay, all pull_request attempt 1, all `success`; artifact names, ids, sizes and GitHub digests; bytes not downloaded),
+the collector and text generator, the binding sentence as placed in the PR body (`pr_body_round7_bound.md`) and the
+binding post on main#307, and the fetched PR records. The actual tested merge `9ad2639c` (= `refs/pull/447/merge`,
+parents `9fb0a4a0` and `077a168b`) has exactly the head's tree `7534b393`, verified locally. A green run is a record of a
+computation about the formal objects; nothing here is a review, an alignment, an acceptance or a label move.
