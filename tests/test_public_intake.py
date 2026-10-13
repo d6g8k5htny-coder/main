@@ -15,6 +15,7 @@ import unicodedata
 import unittest
 import zipfile
 import zlib
+import urllib.error
 
 spec = importlib.util.spec_from_file_location('intake', Path(__file__).resolve().parents[1] / 'tools/public_intake_check.py')
 intake = importlib.util.module_from_spec(spec)
@@ -447,6 +448,37 @@ class IntakeTests(unittest.TestCase):
         self.assertEqual(self.run_check()['verified_sources'], 1)
         self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
         self.assertFalse(any('page=2' in c for c in self.api.calls))  # a short page ends the enumeration
+
+    def test_orphan_branch_404_does_not_vouch_and_scan_continues(self):
+        # An unrelated-history branch listed before the vouching branch: GitHub's compare answers
+        # 404 "No common ancestor". That branch does not vouch; the scan must reach the next branch.
+        raw = b'public numbers on a research branch\n'
+        orphan, branch = 'claude/recovery-orphan', 'claude/recovery-real'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan, branch), reachable_from=(branch,))
+        no_common = urllib.error.HTTPError('https://api.github.com', 404, 'Not Found', None, None)
+        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = no_common
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
+
+    def test_orphan_branch_404_alone_is_not_reachability(self):
+        # Negative control: a 404 is "does not vouch", never "vouches"; with no other branch the source is refused.
+        raw = b'public numbers on a research branch\n'
+        orphan = 'claude/recovery-orphan'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan), reachable_from=())
+        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = urllib.error.HTTPError('u', 404, 'Not Found', None, None)
+        self.reject('not reachable from any branch')
+
+    def test_compare_non_404_http_error_still_rejects(self):
+        # Negative control: only 404 means "this branch does not vouch"; a 403 or 500 is not evidence and rejects.
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for code in (403, 500, 502):
+            with self.subTest(code=code):
+                self.api.routes[route] = urllib.error.HTTPError('u', code, 'error', None, None)
+                self.reject(f'HTTP Error {code}')
 
     def test_reachable_default_branch_costs_one_compare_call(self):
         self.assertEqual(self.run_check()['verified_sources'], 1)
