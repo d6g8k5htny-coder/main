@@ -1,0 +1,1041 @@
+{
+  "schema_version": 1,
+  "object": "DOWNSTREAM-HARD-GATE-20260925-v1",
+  "campaign": {
+    "main_issues": [
+      86,
+      90
+    ],
+    "disposition": "research-integrity control; scientific effect NONE"
+  },
+  "terminal_classifications": [
+    "PROVED_REVIEWED",
+    "SUPERSEDED_NONBLOCKING",
+    "REFUTED",
+    "BLOCKED_ABSENT"
+  ],
+  "non_discharge_tokens": [
+    "GREEN_CI",
+    "HASH_MATCH",
+    "ARCHITECTURAL_ADMISSION",
+    "NUMERICAL_EXPERIMENT",
+    "SAME_AUTHOR_REVIEW",
+    "NAVIGATION_SUCCESS",
+    "AUTHOR_SELF_CHECK"
+  ],
+  "nodes": {
+    "hist.rnu_env.py": {
+      "layer": "D0",
+      "kind": "carrier",
+      "classification": "BLOCKED_ABSENT",
+      "controlling": false,
+      "fingerprint": "ABSENT",
+      "notes": "Historical D3 carrier; no successor claims byte identity"
+    },
+    "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip": {
+      "layer": "D0",
+      "kind": "carrier",
+      "classification": "BLOCKED_ABSENT",
+      "controlling": false,
+      "fingerprint": "ABSENT",
+      "notes": "Historical archive absent"
+    },
+    "hist.allcell_fdz_enclosures.json": {
+      "layer": "D0",
+      "kind": "carrier",
+      "classification": "BLOCKED_ABSENT",
+      "controlling": false,
+      "fingerprint": "ABSENT",
+      "notes": "Historical cell carrier absent"
+    },
+    "hist.ENV-RESCOV": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_HISTORICAL",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-ordered-wall-1",
+      "notes": "OPEN for historical D3; qualitatively rederived on newer routes where proved"
+    },
+    "hist.ALLCELL-FDZ-Q4": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_HISTORICAL",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-ordered-wall-2",
+      "notes": "Not a dependency of the fixed-remote theorem"
+    },
+    "hist.LOGQ-TAIL": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_HISTORICAL",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-ordered-wall-3",
+      "notes": "Replaced only inside named successors"
+    },
+    "hist.SYM-Fw-jet": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_HISTORICAL",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-ordered-wall-4",
+      "notes": "Analogous interface rederived; no historical certificate identity"
+    },
+    "hist.CH-LIFT": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_ACTIVE",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-ch-lift",
+      "notes": "Still mathematically relevant for shrinking charts"
+    },
+    "hist.Piece-2-annulus": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_ACTIVE",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-piece-2",
+      "notes": "Active mathematical blocker for shrinking/pin-collision regions"
+    },
+    "hist.OBL-H5-JETMOD": {
+      "layer": "D0",
+      "kind": "predicate",
+      "classification": "OPEN_HISTORICAL",
+      "controlling": false,
+      "fingerprint": "status-rn-unif-jetmod",
+      "notes": "No 2026-09-24 proof claims certified 24-jet enclosure"
+    },
+    "hist.lemma_closed": {
+      "layer": "D0",
+      "kind": "register",
+      "classification": "FALSE",
+      "controlling": false,
+      "fingerprint": "lemma_closed=false",
+      "notes": "Scientific effect NONE; this gate never flips the register"
+    },
+    "math.uniform-matrix-cap-lifetime": {
+      "layer": "D1",
+      "kind": "candidate",
+      "author_provider": "OpenAI",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "review_issue": 63,
+      "fingerprint": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+      "source": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "notes": "Parent Gaussian selection / Kac-Rice / elder chain. Theorems A, B, C accepted at existential scope, read with the four required reading-rule component nodes (congruence erratum, section 9 replacement v1.1, cap sections 1-5, reconciliation record with W1 and the embedding radius).",
+      "review_source": "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+      "review_disposition": "ACCEPT_AT_EXISTENTIAL_SCOPE",
+      "review_providers": [
+        "xAI/Grok via Cursor (D1-A-E, section 9 v1.1, partial slices)",
+        "Anthropic/Claude (A1-A7, cap, section 9 v1.1, sections 11-12)"
+      ],
+      "scope": "fixed d>=2 and L; compact births and positive gap marks for Theorems A and B, with B and K of positive length for Theorem B (singleton intervals give zero mark-window intensity); embedding radius r < L/(4 sqrt 2); all frames; Theorem C leading term only; no numerical C, r_*, z_* or coefficient; no d>=3 lower bound; no RN/24-jet",
+      "reading_rule": [
+        "math.d1-component.congruence-erratum",
+        "math.d1-component.section9-replacement-v1_1",
+        "math.d1-component.marked-cylinder-cap",
+        "math.d1-component.reconciliation-record"
+      ]
+    },
+    "math.d1-component.congruence-erratum": {
+      "layer": "D1",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.uniform-matrix-cap-lifetime",
+      "component_role": "amendment",
+      "author_provider": "OpenAI",
+      "fingerprint": "bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028",
+      "source": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "ledger_items": [
+        "A3-E1"
+      ],
+      "review_basis": [
+        {
+          "review": "C1",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        },
+        {
+          "review": "G3",
+          "provider": "xAI",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        }
+      ],
+      "review_source": "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+      "scope": "congruence factor D_r = diag(r^-1/2, I) in parent section 5; replaces the displayed factor"
+    },
+    "math.d1-component.section9-replacement-v1_1": {
+      "layer": "D1",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.uniform-matrix-cap-lifetime",
+      "component_role": "amendment",
+      "author_provider": "OpenAI",
+      "fingerprint": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+      "source": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+      "ledger_items": [
+        "D1-B-E2"
+      ],
+      "review_basis": [
+        {
+          "review": "C1",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        },
+        {
+          "review": "G2",
+          "provider": "xAI",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        }
+      ],
+      "review_source": "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+      "scope": "replaces parent section 9 (Borel elder mark in weighted pair Kac-Rice), C1-C6"
+    },
+    "math.d1-component.marked-cylinder-cap": {
+      "layer": "D1",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.uniform-matrix-cap-lifetime",
+      "component_role": "deterministic_support",
+      "author_provider": "OpenAI",
+      "fingerprint": "0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc",
+      "source": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+      "ledger_items": [
+        "CAP"
+      ],
+      "review_basis": [
+        {
+          "review": "C1",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        },
+        {
+          "review": "G3",
+          "provider": "xAI",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        }
+      ],
+      "review_source": "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+      "scope": "deterministic separating cap, sections 1-5 (lines 1-168) only; sections 6-8 are not consumed"
+    },
+    "math.d1-component.reconciliation-record": {
+      "layer": "D1",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.uniform-matrix-cap-lifetime",
+      "component_role": "reading_rule_record",
+      "author_provider": "Anthropic",
+      "source": "reviews/d1_chain_reconciliation_20260928/",
+      "ledger_items": [
+        "S11",
+        "S12",
+        "R-W1",
+        "R-embedding-radius"
+      ],
+      "review_basis": [
+        {
+          "review": "C2",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT",
+          "depth": "full",
+          "item": "S11, S12 (record section 6)"
+        },
+        {
+          "item": "R-W1",
+          "raised_in": "C1",
+          "raised_by_provider": "Anthropic",
+          "discharged_in": "RECONCILIATION.md section 5"
+        },
+        {
+          "item": "R-embedding-radius",
+          "raised_in": "G3",
+          "raised_by_provider": "xAI",
+          "discharged_in": "RECONCILIATION.md section 5"
+        }
+      ],
+      "technical_checks_non_discharge": [
+        {
+          "review": "https://github.com/d6g8k5htny-coder/Math-/pull/126#pullrequestreview-5345687857",
+          "provider": "OpenAI",
+          "role": "author provider of the parent; A4, section 12 and register binding; never discharge"
+        }
+      ],
+      "review_source": "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+      "scope": "nonauthor record binding the reading rule (E1, E2, W1, r < L/(4 sqrt 2)) and the interface-to-review ledger; the whole directory is bound"
+    },
+    "math.lifetime-remainder": {
+      "layer": "D2",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "review_issue": 67,
+      "fingerprint": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a",
+      "source": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+      "notes": "Imports named #63 interfaces (D1-A-E); not parent collapse; does not consume Theorem A (1.1)",
+      "review_disposition": "ACCEPT",
+      "review_provider": "xAI/Grok via Cursor",
+      "review_source": "https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206",
+      "scope": "Theorem R at its stated existential O(1)-remainder scope; no numerical constants or radii"
+    },
+    "math.side24-coefficient": {
+      "layer": "D3",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "review_issue": 65,
+      "fingerprint": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+      "source": "coefficients/side24_v1/PROOF.md",
+      "notes": "Evaluates parent Eq15.2; parent reconciled in reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+      "review_disposition": "ACCEPT",
+      "review_provider": "xAI/Grok via Cursor",
+      "review_source": "https://github.com/d6g8k5htny-coder/main/issues/65#issuecomment-5841269490",
+      "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band"
+    },
+    "math.rn-count-interface": {
+      "layer": "D4",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "review_issue": 67,
+      "fingerprint": "aa993f5217bd70e6d1060402d121ab659f6582a098e29042c67585a345a8e3ab",
+      "source": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+      "notes": "Probability-to-count interface; not an expected-count rate"
+    },
+    "math.rn-fixed-remote-window": {
+      "layer": "D4",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "review_issue": 76,
+      "fingerprint": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7",
+      "source": "frontiers/remote_window_20260924/PROOF.md",
+      "notes": "Cubic mean on fixed spatial exclusion and between-pin height window"
+    },
+    "math.rn-region.fixed-remote": {
+      "layer": "D4",
+      "kind": "region",
+      "classification": "COVERED_BY_CANDIDATE",
+      "controlling": false,
+      "fingerprint": "dist>=rho and between-pin height",
+      "notes": "Covered by rn-fixed-remote-window candidate only",
+      "coverage_source": "math.rn-fixed-remote-window"
+    },
+    "math.rn-region.mesoscopic-scaled-annulus": {
+      "layer": "D5",
+      "kind": "region",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "fingerprint": "x=r y with A<=|y|<=B away from pins",
+      "notes": "Reviewed only at D5-d with R >= B (covers the reviewed fixed annulus); see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure.",
+      "scope": "D5-d with R >= B (covers the reviewed fixed annulus)",
+      "review_source": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "review_disposition": "ACCEPT_AT_STATED_SCOPE",
+      "reading_rule": [
+        "math.d5-component.punctured-pin-proof",
+        "math.d5-component.punctured-pin-review-111",
+        "math.d5-component.punctured-pin-continuum-review",
+        "math.d5-component.punctured-pin-continuum-check",
+        "math.d5-component.collar-proof",
+        "math.d5-component.collar-review",
+        "math.d5-component.annulus-proof",
+        "math.d5-component.annulus-review"
+      ]
+    },
+    "math.rn-region.pin-collision": {
+      "layer": "D5",
+      "kind": "region",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "fingerprint": "near +-e1/2 scaled pin sites",
+      "notes": "Reviewed only at D5-a, D5-b, D5-d; see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure.",
+      "scope": "D5-a, D5-b, D5-d",
+      "review_source": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "review_disposition": "ACCEPT_AT_STATED_SCOPE",
+      "reading_rule": [
+        "math.d5-component.punctured-pin-proof",
+        "math.d5-component.punctured-pin-review-111",
+        "math.d5-component.punctured-pin-continuum-review",
+        "math.d5-component.punctured-pin-continuum-check",
+        "math.d5-component.collar-proof",
+        "math.d5-component.collar-review"
+      ]
+    },
+    "math.rn-region.intermediate-r-to-rho": {
+      "layer": "D5",
+      "kind": "region",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "fingerprint": "r<<|x|<<rho",
+      "notes": "Reviewed only at D5-e (I3/I4, window I_r); see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure.",
+      "scope": "D5-e (I3/I4, window I_r)",
+      "review_source": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "review_disposition": "ACCEPT_AT_STATED_SCOPE",
+      "reading_rule": [
+        "math.d5-component.intermediate-window-proof",
+        "math.d5-component.i5-review-xai",
+        "math.d5-component.i5-review-claude"
+      ]
+    },
+    "math.rn-region.witness-collision": {
+      "layer": "D5",
+      "kind": "region",
+      "classification": "OPEN_ACTIVE",
+      "controlling": false,
+      "fingerprint": "eta->0 mutual witness separation",
+      "notes": "Off-pin fixed-separation second-moment evidence is reviewed and sharp global order is reviewed and merged through Math-#145, but the regional shrinking pin/witness-collision mechanism and its source-bound graph fold remain open.",
+      "scope": "catalog C6",
+      "review_source": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "review_disposition": "OPEN",
+      "reading_rule": [
+        "math.d5-component.offpin-second-moment-review"
+      ]
+    },
+    "math.rn-mesoscopic-reduction": {
+      "layer": "D5",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_REDUCTION",
+      "controlling": false,
+      "fingerprint": "Math-PR7-draft",
+      "source": "external:Math-PR7",
+      "notes": "Legacy author-side PR7 route. Regionally superseded/nonblocking for the reviewed fixed-annulus between-pin height-window subregion; still unresolved for scopes outside that theorem."
+    },
+    "math.p15-full-price": {
+      "layer": "D6",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "review_issue": 74,
+      "fingerprint": "full-price-20260924",
+      "source": "frontiers/full_price_20260924/PROOF.md",
+      "notes": "Full probability cube under demand>=2; review open. Price-boundary refutation is a scope boundary, not a required premise."
+    },
+    "math.p15-price-boundary": {
+      "layer": "D6",
+      "kind": "candidate",
+      "classification": "REFUTED",
+      "controlling": false,
+      "fingerprint": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b",
+      "source": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+      "notes": "Unrestricted same-palette transformed-price extension is false"
+    },
+    "eng.hard-gate": {
+      "layer": "D7",
+      "kind": "integrity_control",
+      "classification": "ENGINEERING_CONTROL",
+      "controlling": false,
+      "fingerprint": "downstream-hard-gate-20260925-v1",
+      "source": "frontiers/downstream_gate_20260925/",
+      "notes": "This package; never mathematical discharge"
+    },
+    "eng.main-pr87-crosswalk": {
+      "layer": "D0",
+      "kind": "engineering",
+      "classification": "HOLD",
+      "controlling": false,
+      "fingerprint": "main-PR87-3d4969ab-ci-unexpected-file",
+      "source": "https://github.com/d6g8k5htny-coder/main/pull/87",
+      "notes": "Human D0 crosswalk exists; math_status_check rejects unlisted file until allowlist patch lands"
+    },
+    "eng.d0-packet-allowlist-fix": {
+      "layer": "D7",
+      "kind": "engineering",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "fingerprint": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a",
+      "source": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+      "notes": "Portable fix verified locally; Cursor cannot push to main (403); awaiting agent/owner with write"
+    },
+    "math.rn-selector-region-crosswalk": {
+      "layer": "D4",
+      "kind": "inventory",
+      "classification": "ENGINEERING_CONTROL",
+      "controlling": false,
+      "fingerprint": "rn-selector-region-crosswalk-20260925-v1",
+      "source": "frontiers/downstream_gate_20260925/SELECTOR_REGION.json",
+      "notes": "Maps historical selectors onto fixed-remote vs open complements"
+    },
+    "math.rn-fixed-annulus-window": {
+      "layer": "D5",
+      "kind": "candidate",
+      "classification": "AUTHOR_SIDE_CANDIDATE",
+      "controlling": false,
+      "fingerprint": "081abc13c5e66342c13df2af2bd6b114f320486f",
+      "source": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+      "review_source": "reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md",
+      "scope": "d=2; fixed L; fixed scaled annulus 1<A0<=|y|<=B0<infinity; compact positive gaps k_->0; all frames; between-pin height window",
+      "notes": "Source-bound xAI/Grok technical ACCEPT at exact scoped theorem only. No global D5/RN/JETMOD, k->0, d>=3, pin-neighborhood, intermediate-scale, collision, or elder-selection closure.",
+      "review_disposition": "ACCEPT",
+      "review_provider": "xAI/Grok via Cursor",
+      "scientific_status_unchanged": true
+    },
+    "math.rn-region.fixed-annulus-window": {
+      "layer": "D5",
+      "kind": "region",
+      "classification": "COVERED_BY_CANDIDATE",
+      "controlling": false,
+      "fingerprint": "fixed-d2-annulus-between-pin-window-reviewed",
+      "notes": "Covered by math.rn-fixed-annulus-window only at its exact declared scope.",
+      "review_disposition": "ACCEPT_AT_SCOPED_SOURCE",
+      "coverage_source": "math.rn-fixed-annulus-window"
+    },
+    "regional.fixed-annulus.high-jet-route": {
+      "layer": "D0",
+      "kind": "regional_supersession",
+      "classification": "SUPERSEDED_NONBLOCKING",
+      "controlling": false,
+      "fingerprint": "regional-bypass-fixed-annulus-window-v1",
+      "scope": "fixed d=2 scaled annulus; compact positive gaps; between-pin height window",
+      "notes": "For this scope only, the reviewed analytic route bypasses CH-LIFT / Piece-2 / OBL-H5-JETMOD. Historical predicates remain OPEN/ABSENT in their original replay scopes."
+    },
+    "math.d5-pin-neighborhood-first-moment": {
+      "layer": "D5",
+      "kind": "candidate",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "scope": "D5-a..D5-f of RECONCILIATION.md section 2; existential constants; fixed T; compact marks with k >= k_- > 0; d = 2",
+      "source": "reviews/d5_reconciliation_20260929/RECONCILIATION.md"
+    },
+    "math.d5-component.punctured-pin-proof": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "proof",
+      "author_provider": "OpenAI",
+      "fingerprint": "f972e50bc07674ebce9d971d1a1bd4dba2f8036dde37ecb57d8a44a35650f76a",
+      "source": "reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md",
+      "review_basis": [
+        {
+          "review": "#111",
+          "provider": "xAI",
+          "verdict": "ACCEPT algebra; continuum HOLD",
+          "depth": "algebraic"
+        },
+        {
+          "review": "d5_punctured_pin_continuum_claude_20260929",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT existential",
+          "depth": "full"
+        }
+      ]
+    },
+    "math.d5-component.punctured-pin-review-111": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "xAI",
+      "fingerprint": "668d74825f156c929177bc1a3481cf421de4dd7874e7b25b2aece6c10aa7dc0e",
+      "source": "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md"
+    },
+    "math.d5-component.punctured-pin-continuum-review": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "Anthropic",
+      "fingerprint": "124c472cc064ba24021cb4bb8da1002836a4ce26c8df506228f5c20609f6575a",
+      "source": "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md"
+    },
+    "math.d5-component.punctured-pin-continuum-check": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_checker",
+      "author_provider": "Anthropic",
+      "fingerprint": "57bc87d11271b47ebccec6ea73abf823fa90e3a8c3c7d7cd2165bdc6f7e4175c",
+      "source": "reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py"
+    },
+    "math.d5-component.collar-proof": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "proof",
+      "author_provider": "OpenAI",
+      "fingerprint": "794babe0fd039c3a93c401c0b8978316331af009fad45f953e63fbe7e1e31aab",
+      "source": "reviews/d5_local_collar_20260928/COLLAR_PROOF.md",
+      "review_basis": [
+        {
+          "review": "d5_collar_count_20260928",
+          "provider": "not named in record",
+          "verdict": "ACCEPT existential",
+          "depth": "full"
+        },
+        {
+          "review": "Math-#105 comment 5872932723 (external)",
+          "provider": "Anthropic",
+          "verdict": "CONFIRMED",
+          "depth": "full"
+        }
+      ]
+    },
+    "math.d5-component.collar-review": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "not named in record",
+      "fingerprint": "8c8c30cc3b19601a7421341d5da8cb6c982fbc1fcc5ae4791acafa11cc81ee4e",
+      "source": "reviews/d5_collar_count_20260928/REVIEW.md"
+    },
+    "math.d5-component.annulus-proof": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "proof",
+      "author_provider": "OpenAI",
+      "fingerprint": "d55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05",
+      "source": "frontiers/rn_annulus_bridge_20260925/PROOF.md",
+      "review_basis": [
+        {
+          "review": "pr28_annulus_bridge_nonauthor_20260925",
+          "provider": "xAI",
+          "verdict": "ACCEPT R1-R7",
+          "depth": "full"
+        }
+      ]
+    },
+    "math.d5-component.annulus-review": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "xAI",
+      "fingerprint": "69ea7a479a9e8a5150cbe07b373772ab22413a1d81194d5a6a78adf6ada5f03f",
+      "source": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md"
+    },
+    "math.d5-component.intermediate-window-proof": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "proof",
+      "author_provider": "OpenAI",
+      "fingerprint": "b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf",
+      "source": "frontiers/intermediate_window_20260928/PROOF.md",
+      "review_basis": [
+        {
+          "review": "d5_i5_planar_f_20260928",
+          "provider": "xAI",
+          "verdict": "ACCEPT existential",
+          "depth": "full"
+        },
+        {
+          "review": "d5_intermediate_window_claude_20260928",
+          "provider": "Anthropic",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        }
+      ]
+    },
+    "math.d5-component.i5-review-xai": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "xAI",
+      "fingerprint": "527d66e72b079ef7c854987f7e9d44f2252b81aa0e8d9e7ef3b45deb02388659",
+      "source": "reviews/d5_i5_planar_f_20260928/REVIEW.md"
+    },
+    "math.d5-component.i5-review-claude": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "review_record",
+      "author_provider": "Anthropic",
+      "fingerprint": "fb3207802bf2d92ad138bc338a36f39bcd3a94440669b9aba9558e566f767976",
+      "source": "reviews/d5_intermediate_window_claude_20260928/REVIEW.md"
+    },
+    "math.d5-component.remote-window-proof": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.d5-pin-neighborhood-first-moment",
+      "component_role": "proof",
+      "author_provider": "OpenAI",
+      "fingerprint": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7",
+      "source": "frontiers/remote_window_20260924/PROOF.md",
+      "review_basis": [
+        {
+          "review": "STATUS D4 (main#76, external)",
+          "provider": "nonauthor",
+          "verdict": "ACCEPT",
+          "depth": "full"
+        }
+      ]
+    },
+    "math.d5-component.offpin-second-moment-review": {
+      "layer": "D5",
+      "kind": "reading_rule_component",
+      "classification": "PROVED_REVIEWED",
+      "controlling": false,
+      "component_of": "math.rn-region.witness-collision",
+      "component_role": "review_record",
+      "author_provider": "nonauthor",
+      "fingerprint": "43beb4ef7da5bf71e15164d5c4bc1862db387d83f906aebdf9831625b1ca6369",
+      "source": "reviews/d5_offpin_second_moment_20260928/REVIEW.md"
+    }
+  },
+  "edges": [
+    {
+      "from": "math.lifetime-remainder",
+      "to": "math.uniform-matrix-cap-lifetime",
+      "required": true,
+      "relation": "imports_named_interfaces"
+    },
+    {
+      "from": "math.side24-coefficient",
+      "to": "math.uniform-matrix-cap-lifetime",
+      "required": true,
+      "relation": "evaluates_eq_15_2"
+    },
+    {
+      "from": "math.uniform-matrix-cap-lifetime",
+      "to": "math.d1-component.congruence-erratum",
+      "required": true,
+      "relation": "reads_with_congruence_erratum"
+    },
+    {
+      "from": "math.uniform-matrix-cap-lifetime",
+      "to": "math.d1-component.section9-replacement-v1_1",
+      "required": true,
+      "relation": "reads_section9_as_replaced_v1_1"
+    },
+    {
+      "from": "math.uniform-matrix-cap-lifetime",
+      "to": "math.d1-component.marked-cylinder-cap",
+      "required": true,
+      "relation": "consumes_cap_sections_1_5"
+    },
+    {
+      "from": "math.uniform-matrix-cap-lifetime",
+      "to": "math.d1-component.reconciliation-record",
+      "required": true,
+      "relation": "reads_with_reconciled_rule_W1_radius"
+    },
+    {
+      "from": "math.rn-fixed-remote-window",
+      "to": "math.rn-count-interface",
+      "required": true,
+      "relation": "supplies_numerator_on_restricted_region"
+    },
+    {
+      "from": "math.rn-fixed-remote-window",
+      "to": "math.rn-region.fixed-remote",
+      "required": false,
+      "relation": "covers_region"
+    },
+    {
+      "from": "math.rn-mesoscopic-reduction",
+      "to": "math.rn-fixed-remote-window",
+      "required": true,
+      "relation": "successor_scale_after_fixed_remote"
+    },
+    {
+      "from": "math.rn-mesoscopic-reduction",
+      "to": "math.rn-region.mesoscopic-scaled-annulus",
+      "required": false,
+      "relation": "targets_region"
+    },
+    {
+      "from": "math.rn-mesoscopic-reduction",
+      "to": "hist.CH-LIFT",
+      "required": false,
+      "relation": "reopens_scaled_chart_problem"
+    },
+    {
+      "from": "math.rn-mesoscopic-reduction",
+      "to": "hist.Piece-2-annulus",
+      "required": false,
+      "relation": "addresses_partial_piece"
+    },
+    {
+      "from": "math.p15-full-price",
+      "to": "math.p15-price-boundary",
+      "required": false,
+      "relation": "boundary_counterexample_not_required_premise"
+    },
+    {
+      "from": "hist.ENV-RESCOV",
+      "to": "hist.rnu_env.py",
+      "required": true,
+      "relation": "historical_certificate_carrier"
+    },
+    {
+      "from": "hist.ALLCELL-FDZ-Q4",
+      "to": "hist.allcell_fdz_enclosures.json",
+      "required": true,
+      "relation": "historical_certificate_carrier"
+    },
+    {
+      "from": "hist.SYM-Fw-jet",
+      "to": "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+      "required": false,
+      "relation": "historical_bundle_identity"
+    },
+    {
+      "from": "eng.main-pr87-crosswalk",
+      "to": "eng.d0-packet-allowlist-fix",
+      "required": true,
+      "relation": "ci_unblock_depends_on_allowlist_patch"
+    },
+    {
+      "from": "math.rn-selector-region-crosswalk",
+      "to": "math.rn-fixed-remote-window",
+      "required": false,
+      "relation": "inventories_covered_region"
+    },
+    {
+      "from": "math.rn-selector-region-crosswalk",
+      "to": "math.rn-count-interface",
+      "required": false,
+      "relation": "inherits_no_markov_reversal"
+    },
+    {
+      "from": "math.rn-fixed-annulus-window",
+      "to": "math.rn-count-interface",
+      "required": true,
+      "relation": "supplies_expected_count_on_reviewed_scoped_region"
+    },
+    {
+      "from": "math.rn-fixed-annulus-window",
+      "to": "math.rn-region.fixed-annulus-window",
+      "required": false,
+      "relation": "covers_reviewed_subregion"
+    },
+    {
+      "from": "math.rn-fixed-annulus-window",
+      "to": "regional.fixed-annulus.high-jet-route",
+      "required": false,
+      "relation": "regionally_supersedes_historical_high_jet_route"
+    },
+    {
+      "from": "regional.fixed-annulus.high-jet-route",
+      "to": "hist.CH-LIFT",
+      "required": false,
+      "relation": "regional_bypass_only"
+    },
+    {
+      "from": "regional.fixed-annulus.high-jet-route",
+      "to": "hist.Piece-2-annulus",
+      "required": false,
+      "relation": "regional_bypass_only"
+    },
+    {
+      "from": "regional.fixed-annulus.high-jet-route",
+      "to": "hist.OBL-H5-JETMOD",
+      "required": false,
+      "relation": "regional_bypass_only"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.punctured-pin-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.punctured-pin-review-111",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.punctured-pin-continuum-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.punctured-pin-continuum-check",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.collar-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.collar-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.annulus-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.annulus-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.intermediate-window-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.i5-review-xai",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.i5-review-claude",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.d5-pin-neighborhood-first-moment",
+      "to": "math.d5-component.remote-window-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.punctured-pin-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.punctured-pin-review-111",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.punctured-pin-continuum-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.punctured-pin-continuum-check",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.collar-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.pin-collision",
+      "to": "math.d5-component.collar-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.punctured-pin-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.punctured-pin-review-111",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.punctured-pin-continuum-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.punctured-pin-continuum-check",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.collar-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.collar-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.annulus-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.mesoscopic-scaled-annulus",
+      "to": "math.d5-component.annulus-review",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.intermediate-r-to-rho",
+      "to": "math.d5-component.intermediate-window-proof",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.intermediate-r-to-rho",
+      "to": "math.d5-component.i5-review-xai",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.intermediate-r-to-rho",
+      "to": "math.d5-component.i5-review-claude",
+      "required": true,
+      "relation": "requires_evidence"
+    },
+    {
+      "from": "math.rn-region.witness-collision",
+      "to": "math.d5-component.offpin-second-moment-review",
+      "required": true,
+      "relation": "requires_evidence"
+    }
+  ]
+}

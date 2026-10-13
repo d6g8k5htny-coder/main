@@ -66,3 +66,12 @@ regenerated, never rewrites of history. The directory was moved here from `sandb
 (commit `037436b4`, whose README carried the sandbox wording "wipeable, never to be linked from a permanent record");
 that wording is withdrawn for this material and this move is the reconciliation. The payload bytes and `MANIFEST.json`
 are unchanged by the move; only this README differs from `037436b4`.
+
+## Checkpoint 2 (2026-10-13, after 02:00Z)
+
+Incremental commit, no rewrite: 39 files added and 1 changed since `ee7491ba` (none removed), bringing the
+copy to 4,629 files, 86,169,223 bytes. New area `recovery_tooling` (`scratch/recovery/`: the recovery build script, its
+profile, the posted delivery texts and the index-packet drafts); `scratch/lvs/r7/` gains the frontier round's design note,
+notice, checkpoint and PR texts. `MANIFEST.json` and `EXCLUDED.json` are regenerated over the whole copy (same scheme,
+published and as-run digests per file; the scrub now also replaces the owner's relay local part by a placeholder). Changed
+files are files this session kept editing after the first copy; their earlier bytes remain in `037436b4` / `ee7491ba`.
