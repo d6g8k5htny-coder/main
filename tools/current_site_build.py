@@ -20,6 +20,7 @@ from urllib.parse import quote, urlsplit
 
 from current_site_data import parse_json, public_inventory_path, safe_path
 from site_asset_release import transform, without_release
+from current_site_history import choose_archive, preflight_capacity, MAX_FILE_BYTES, MAX_HISTORY_BYTES
 
 REPOSITORIES = {"d6g8k5htny-coder/main", "d6g8k5htny-coder/Math-"}
 MATH = "d6g8k5htny-coder/Math-"
@@ -91,10 +92,12 @@ def validate_payload(data):
             raise ValueError("duplicate source inventory identity")
         identities.add(key)
     references = data.get("references")
-    if not isinstance(references, list):
+    if not isinstance(references, list) or len(references) > 16:
         raise ValueError("missing source references")
     for reference in references:
         source_identity(reference, True, True)
+        if "label" in reference and (not isinstance(reference["label"], str) or len(reference["label"]) > 256):
+            raise ValueError("source reference label exceeds its public bound")
     reference_keys = {(r["repository"], r["path"]) for r in references}
     if not {("d6g8k5htny-coder/main", "STATUS.md"),
             ("d6g8k5htny-coder/main", "docs/RESEARCH_INDEX.md"),
@@ -152,6 +155,8 @@ def validate_payload(data):
         safe_path(equation.get("path"))
         if not public_inventory_path(equation["path"]):
             raise ValueError("private or operational equation ingress refused")
+        if hashlib.sha256(equation["text"].encode("utf-8")).hexdigest() != equation["sha256"]:
+            raise ValueError("equation text digest mismatch")
     return data
 
 
@@ -161,7 +166,7 @@ def source_list(sources):
 
 
 def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False):
-    snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta["sha256"]}/'
+    snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta.get("archive", meta["sha256"])}/'
     node_index = snapshot_prefix + "nodes/index.html"
     pins = " · ".join(f'<a href="https://github.com/{escape(repo["repository"])}/tree/{repo["commit"]}">{escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
@@ -340,6 +345,45 @@ def admit_existing_archive(directory, expected):
             raise ValueError(f"immutable snapshot content conflict: {name}")
 
 
+def ensure_render_budget(data, meta):
+    """Conservative pre-render bound for both static copies, without joining them.
+
+    Repeated source disclosures, escaped metadata, indentation, edge rows and
+    the complete inventory are counted before large per-node HTML allocation.
+    """
+    repeated = len(current_section(data, meta, prefix="../../../", search=False,
+                                   snapshot_prefix="../", archived=True).encode()) + 6000
+    graph = data["graph"]["data"]
+    edge_cost = {node: 0 for node in graph["nodes"]}
+    for edge in graph["edges"]:
+        cost = 1500 + 16 * len(edge["relation"].encode())
+        edge_cost[edge["from"]] += cost
+        edge_cost[edge["to"]] += cost
+    total_nodes = 0
+    index_nodes = 0
+    for node_id, node in graph["nodes"].items():
+        stack = [(node, 0)]; values = 0
+        while stack:
+            value, depth = stack.pop(); values += 1
+            if depth > 32:
+                raise ValueError("pre-render metadata depth capacity exceeded")
+            if isinstance(value, dict): stack.extend((v, depth + 1) for v in value.values())
+            elif isinstance(value, list): stack.extend((v, depth + 1) for v in value)
+        compact = len(json.dumps(node, ensure_ascii=False, separators=(",", ":")).encode())
+        cost = repeated + 16 * compact + 64 * values + edge_cost[node_id]
+        if cost > MAX_FILE_BYTES:
+            raise ValueError("pre-render per-page capacity exceeded")
+        total_nodes += cost
+        index_nodes += 500 + 16 * (len(node_id.encode()) + len(str(node.get("kind", "")).encode())
+                                  + len(str(node.get("classification", "")).encode()))
+    inventory = sum(256 + len(escape(source_url(s)).encode()) + len(escape(s["path"]).encode())
+                    for s in data["sources"])
+    index = repeated + inventory + index_nodes
+    if index > MAX_FILE_BYTES or 2 * (total_nodes + index + meta["bytes"] + 1024) > MAX_HISTORY_BYTES:
+        raise ValueError("pre-render public history capacity exceeded")
+    return 2 * (total_nodes + index + meta["bytes"] + 1024)
+
+
 def build(site, payload):
     site = site.resolve()
     if not site.is_dir():
@@ -348,7 +392,12 @@ def build(site, payload):
         raise ValueError("current payload exceeds its admitted byte bound")
     raw = payload.read_bytes()
     data = validate_payload(parse_json(raw))
-    meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
+    archived_meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
+    chosen = choose_archive(site, data)
+    archive_id = chosen["id"] if chosen else archived_meta["sha256"]
+    meta = {**archived_meta, "archive": archive_id}
+    if not chosen:
+        ensure_render_budget(data, archived_meta)
     outputs = {"current.json": raw,
                "current-meta.json": (json.dumps(meta, sort_keys=True, indent=2) + "\n").encode("utf-8")}
     pages = sorted(site.glob("*.html"))
@@ -366,10 +415,15 @@ def build(site, payload):
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
         section = current_section(data, meta, search=not script_free).encode("utf-8")
         outputs[page.name] = original[:start] + b"\n" + section + b"\n" + original[end:]
-    outputs.update(render_nodes(data, meta))
-    archive_relative = f'snapshots/{meta["sha256"]}'
-    archive = {"current.json": raw, "current-meta.json": outputs["current-meta.json"],
-               **render_nodes(data, meta, archived=True)}
+    aliases = ({name[len("aliases/"):]: content for name, content in chosen["members"].items()
+                if name.startswith("aliases/")} if chosen else render_nodes(data, archived_meta))
+    outputs.update(aliases)
+    archive_relative = f'snapshots/{archive_id}'
+    archive = ({name: content for name, content in chosen["members"].items() if not name.startswith("aliases/")}
+               if chosen else {"current.json": raw, "current-meta.json": (json.dumps(archived_meta, sort_keys=True, indent=2) + "\n").encode(),
+                               **render_nodes(data, archived_meta, archived=True)})
+    if not chosen:
+        preflight_capacity(site, archive, aliases)
     archive_outputs = {f"{archive_relative}/{name}": content for name, content in archive.items()}
     outputs.update(archive_outputs)
     for name in outputs:
@@ -380,7 +434,8 @@ def build(site, payload):
         if target.is_symlink() or any(parent.is_symlink() for parent in target.parents if parent != site and parent.is_relative_to(site)):
             raise ValueError("symlinked generated target refused")
     if (site / archive_relative).exists():
-        admit_existing_archive(site / archive_relative, archive)
+        if not chosen:
+            admit_existing_archive(site / archive_relative, archive)
         for name in archive_outputs:
             del outputs[name]
     # Disappeared or renamed node convenience routes retain their last recorded

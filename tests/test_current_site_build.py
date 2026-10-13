@@ -1,6 +1,7 @@
 """Offline reader build controls: real payloads, files and parsed HTML."""
 import copy
 import hashlib
+import importlib.util
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -11,6 +12,7 @@ import unittest
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
 TOOL = ROOT / "tools/current_site_build.py"
 MAIN = "d6g8k5htny-coder/main"
 MATH = "d6g8k5htny-coder/Math-"
@@ -230,6 +232,42 @@ class CurrentSiteBuildTests(unittest.TestCase):
             before = self.snapshot(site)
             result = self.run_build(site, payload)
             self.assertNotEqual(result.returncode, 0)
+            self.assertEqual(self.snapshot(site), before)
+
+    def test_equation_digest_binds_the_exact_text_instead_of_only_digest_format(self):
+        # A forged well-formed digest must not allow altered source equations into publication.
+        with TemporaryDirectory() as tmp:
+            data = fixture()
+            data["equations"] = [{"id": "equation-1", "repository": MAIN, "commit": COMMIT,
+                                  "path": "proof/PROOF.md", "text": "x = 1\n", "line_start": 1,
+                                  "line_end": 1, "sha256": "f" * 64}]
+            site, payload = self.prepare(Path(tmp), data)
+            before = self.snapshot(site)
+            refused = self.run_build(site, payload)
+            self.assertNotEqual(refused.returncode, 0)
+            self.assertIn("equation text digest", refused.stderr)
+            self.assertEqual(self.snapshot(site), before)
+            data["equations"][0]["sha256"] = hashlib.sha256(b"x = 1\n").hexdigest()
+            payload.write_text(json.dumps(data))
+            self.assertEqual(self.run_build(site, payload).returncode, 0)
+
+    def test_repeated_large_source_references_are_refused_before_static_rendering(self):
+        # A small source payload must not expand into gigabytes of repeated reference HTML.
+        spec = importlib.util.spec_from_file_location("build_budget", TOOL)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        self.assertTrue(callable(getattr(module, "ensure_render_budget", None)), "pre-render output budget is missing")
+        data = fixture()
+        data["references"] += [{**identity(MAIN, f"proof-{i}/" + "長" * 4000 + ".md"), "sha256": "f" * 64} for i in range(13)]
+        data["graph"]["data"]["nodes"].update({f"large-{i}": {"kind": "predicate", "classification": "OPEN"} for i in range(1000)})
+        meta = {"sha256": "f" * 64, "bytes": 123, "observed_at": data["observed_at"]}
+        with self.assertRaisesRegex(ValueError, "pre-render.*capacity"):
+            module.ensure_render_budget(data, meta)
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp), data)
+            before = self.snapshot(site)
+            refused = self.run_build(site, payload)
+            self.assertNotEqual(refused.returncode, 0)
+            self.assertIn("pre-render", refused.stderr)
             self.assertEqual(self.snapshot(site), before)
 
     def test_removed_and_renamed_nodes_keep_their_snapshot_and_source_bound_aliases(self):

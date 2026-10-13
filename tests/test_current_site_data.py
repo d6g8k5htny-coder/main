@@ -19,8 +19,8 @@ PROOFS = [f"experiments/universality/{name}/PROOF.md" for name in (
 NOW = "2026-10-13T18:00:00Z"
 FORMULA = b"# Source proof\n\n    nu(ell) ~ C ell^(-1/3),\n      ell down to 0.\n\nScope remains conditional.\n"
 GRAPH = {"schema_version": 1, "object": "fixture-only", "nodes": {
-    "a": {"classification": "OPEN_ACTIVE"},
-    "b": {"classification": "BLOCKED_ABSENT", "fingerprint": "ABSENT"}},
+    "a": {"classification": "OPEN_ACTIVE", "kind": "candidate", "layer": "D1"},
+    "b": {"classification": "BLOCKED_ABSENT", "fingerprint": "ABSENT", "kind": "predicate", "layer": "D0"}},
     "edges": [{"from": "a", "to": "b", "required": True, "relation": "imports"},
               {"from": "b", "to": "a", "required": False, "relation": "context"}],
     "non_discharge_tokens": ["TEST_PASS"]}
@@ -123,6 +123,14 @@ class CurrentSiteDataTests(unittest.TestCase):
 
     def replace_math(self, files):
         self.reader = FixtureReader([self.fixtures[0], git_fixture(MATH, files)])
+
+    def test_missing_typed_node_metadata_refuses_current_export(self):
+        for field in ("classification", "kind", "layer"):
+            graph = copy.deepcopy(GRAPH)
+            graph["nodes"]["a"].pop(field, None)
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                self.module.validate_graph(graph)
+
 
     def test_complete_observation_preserves_graph_and_exact_equation_lines(self):
         data = self.generate()

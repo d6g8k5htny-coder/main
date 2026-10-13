@@ -9,6 +9,7 @@ name: Current research site
       - 'docs/site/**'
       - 'tools/current_site_data.py'
       - 'tools/current_site_build.py'
+      - 'tools/current_site_history.py'
       - 'tests/test_current_site*'
       - '.github/workflows/current-site.yml'
   schedule:
@@ -51,6 +52,8 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+      - name: Restore and admit all previously published public history
+        run: python3 -B -S tools/current_site_history.py restore --site docs/site
       - name: Verify the checkout and acquire one immutable public source observation
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -60,15 +63,20 @@ jobs:
       - name: First offline render and asset identity
         run: |
           python3 -B -S tools/current_site_build.py --payload "$RUNNER_TEMP/current.json" --site docs/site
+          python3 -B -S tools/current_site_history.py publish --site docs/site
+          rm -f docs/site/.current-site-restored-history.json
           git add -A -- docs/site docs/public-math
           python3 -B -S tools/site_asset_release.py
+          python3 -B -S tools/current_site_history.py publish --site docs/site
           python3 -B -S tools/site_asset_release.py --check
           cp -a docs "$RUNNER_TEMP/current-site-first"
       - name: Second offline render must equal the first complete docs artifact
         run: |
           python3 -B -S tools/current_site_build.py --payload "$RUNNER_TEMP/current.json" --site docs/site
+          python3 -B -S tools/current_site_history.py publish --site docs/site
           git add -A -- docs/site docs/public-math
           python3 -B -S tools/site_asset_release.py
+          python3 -B -S tools/current_site_history.py publish --site docs/site
           python3 -B -S tools/site_asset_release.py --check
           diff -qr "$RUNNER_TEMP/current-site-first" docs
       - name: Verify the generated reader routes and existing evidence controls
@@ -83,9 +91,66 @@ jobs:
           root = Path('docs')
           if any(path.is_symlink() for path in root.rglob('*')):
               raise SystemExit('Pages artifact refused: symlinked public content')
+          if sum(path.stat().st_size for path in root.rglob('*') if path.is_file()) > 1024 * 1024 * 1024:
+              raise SystemExit('Pages artifact refused: complete docs exceeds 1 GiB capacity')
+          if (root / 'site/.current-site-restored-history.json').exists():
+              raise SystemExit('Pages artifact refused: operational restored-history ledger')
           PY
           cp -a docs "$RUNNER_TEMP/current-site-pages"
           diff -qr "$RUNNER_TEMP/current-site-first" "$RUNNER_TEMP/current-site-pages"
+      - name: Record the assembled browser input before optional setup
+        run: |
+          python3 -B -S - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          artifact = Path(os.environ['RUNNER_TEMP']) / 'current-site-pages'
+          output = Path(os.environ['RUNNER_TEMP']) / 'current-site-browser'
+          output.mkdir(parents=True, exist_ok=True)
+          pending = {'scientific_effect': 'NONE', 'cases': [],
+                     'error': 'Generated-artifact Chromium check has not completed; inspect setup and run logs.'}
+          (output / 'report.json').write_text(json.dumps(pending, indent=2) + '\n')
+          raw = (artifact / 'site/current.json').read_bytes()
+          if raw != Path('docs/site/current.json').read_bytes():
+              raise SystemExit('Browser input differs from the assembled Pages payload')
+          files = sorted((p for p in artifact.rglob('*') if p.is_file()),
+                         key=lambda p: p.relative_to(artifact).as_posix())
+          tree = hashlib.sha256(b'current-site-generated-browser-input-v1\0')
+          total = 0
+          for path in files:
+              name = path.relative_to(artifact).as_posix().encode('utf-8')
+              size = path.stat().st_size
+              tree.update(len(name).to_bytes(8, 'big')); tree.update(name)
+              tree.update(size.to_bytes(8, 'big')); total += size
+              with path.open('rb') as source:
+                  while chunk := source.read(1024 * 1024):
+                      tree.update(chunk)
+          record = {'scientific_effect': 'NONE',
+                    'checked_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+                    'source_payload_sha256': hashlib.sha256(raw).hexdigest(),
+                    'source_repositories': json.loads(raw)['repositories'],
+                    'assembled_docs_sha256': tree.hexdigest(),
+                    'assembled_docs_files': len(files), 'assembled_docs_bytes': total}
+          (output / 'artifact-input.json').write_text(json.dumps(record, indent=2) + '\n')
+          (output / 'report.json').write_text(json.dumps({**record, **pending}, indent=2) + '\n')
+          PY
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Install pinned optional browser tooling
+        run: python -m pip install -r tests/browser-requirements.txt
+      - name: Admit the generated Pages artifact in packaged Chromium
+        run: |
+          diff -qr docs "$RUNNER_TEMP/current-site-pages"
+          python -B tools/current_site_browser_check.py --output "$RUNNER_TEMP/current-site-browser"
+          diff -qr docs "$RUNNER_TEMP/current-site-pages"
+      - name: Preserve generated-artifact browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: current-site-generated-browser-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/current-site-browser
+          if-no-files-found: error
+          retention-days: 30
       # Official action refs resolved and interfaces read on 2026-10-13.
       - name: Upload the verified Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

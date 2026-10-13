@@ -227,6 +227,10 @@ def validate_graph(graph):
             or not all(isinstance(key, str) and key and isinstance(value, dict)
                        for key, value in nodes.items())):
         raise ValueError("invalid graph nodes")
+    for node in nodes.values():
+        for field in ("classification", "kind", "layer"):
+            if not isinstance(node.get(field), str) or not node[field]:
+                raise ValueError("missing typed graph node metadata: " + field)
     if not isinstance(edges, list) or len(edges) > MAX_GRAPH_EDGES:
         raise ValueError("invalid graph edges")
     indegrees = dict.fromkeys(nodes, 0)
